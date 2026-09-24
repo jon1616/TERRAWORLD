@@ -41,7 +41,8 @@ L'utente: «questo non è Terraria! Lo stile grafico è identico a Terraria». T
 Linfa» con terreno dai contorni morbidi**. Prova su un ramo Git a parte, poi approvata («schiarisci le grotte e migliora
 le celle dei minerali, poi uniscilo»). Doppia griglia per il terreno, tavolozze nuove, decorazioni vive e luminose,
 alberi-lanterna, cielo con le radici del cosmo, spore nell'aria, occhi d'ambra, barra rapida e menu nello stesso stile,
-chiarore minimo nelle grotte, minerali a noduli. Da rifare nello stile più avanti: icone degli oggetti e torcia.
+chiarore minimo nelle grotte, minerali a noduli. Da rifare nello stile più avanti: la torcia nel mondo (le icone degli
+oggetti sono state rifatte nella voce 3).
 
 ## 3. [x] Contenuti come dati (M) — fatto il 24 set 2026
 Tabelle per tessere, oggetti, ricette, stazioni di fabbricazione, creature, bottino, biomi. Uno script di verifica
@@ -52,7 +53,8 @@ piccone richiesta (la progressione rame → ferro → oro → cristalli), cosa l
 Icone di tutti gli oggetti rifatte nello stile «Radici e Linfa». Il gioco usa già i dati: la barra rapida legge
 `ItemsData` e lo scavo controlla la forza del piccone (il rame non stacca l'oro) e ne scala la velocità.
 `tools/verifica_dati.gd`: 0 errori; 2 avvisi voluti (cristallo di Linfa e fungo luminoso non servono ancora a nessuna
-ricetta: li useranno le voci 5b e 8). Biomi e strati: nella voce 5b. Prove automatiche rese robuste (niente attese su
+ricetta: li useranno le voci 5b e 8). Biomi e strati: nella voce 5b. Nomi poi sostituiti con quelli dell'universo
+(radicite, legnoferro, ambra; Ceppo, Baccello ardente, Maglio; grumi) su appunto dell'utente. Prove automatiche rese robuste (niente attese su
 `frame_post_draw`, grotta con torcia cercata tra più candidati).
 
 ## 4. [x] Il giocatore (L) — fatto il 24 set 2026
@@ -107,7 +109,8 @@ Un personaggio con camminata, salto, colpo e un'armatura. Prompt pronti, griglia
 importazione con riduzione a tavolozza comune. Esito: si decide come fare tutte le animazioni.
 
 ## 8. [ ] Il primo anello di gioco (L)
-Rame → ferro, banco da lavoro, fornace, incudine; 10-15 oggetti per grado; un boss che sblocca il grado successivo.
+Radicite → legnoferro → ambra fossile con Ceppo, Baccello ardente e Maglio; 10-15 oggetti per grado; il primo
+Guardiano (da sconfiggere o curare) che sblocca il grado successivo; usi per cristalli di Linfa e funghi luminosi.
 Primo portale verso un secondo mondo (anche solo come prova).
 
 Ordine di lavoro (deciso il 24 set 2026): 3 → 4 → 5 → 5b → 6 → 7 → 8.
