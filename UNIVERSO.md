@@ -99,8 +99,14 @@ che viene dal Giardino dei Semi.
   fonde i minerali), **Maglio dei Seminatori** (un loro attrezzo ritrovato: forgia attrezzi e armature).
 - Oggetti: **Torcia di resina**, **Passerella di radice**, **Pozione di rugiada** (cura), **Gelatina di muschio**, **Fungo di brace**.
 - Il Germogliato: la **Vita** sono foglie che appassiscono, la **Linfa** sono gocce turchesi, la difesa è la **Scorza**.
-- Creature: i **grumi** — gocce di muschio, resina o spore che si sono animate e saltellano.
-- Terreno: **Humus**, **Ardesia**, **Muschio**; legno degli **alberi-lanterna**.
+- Creature: i **grumi** — gocce di muschio, resina o spore che si sono animate e saltellano; la **falena di brace**
+  (le sue ali lasciano **polvere di brace**), la **strisciaradice** (una radice che ha imparato a strisciare), lo
+  **scarabeo d'ardesia** (guscio di roccia, lascia **scaglie d'ardesia**), lo **sputaspore** (pianta ferma che sputa
+  spore, lascia **sacche di spore**), il **Vagavuoto** (occhio di vuotite del Fondo, lascia **schegge del Vuoto**).
+- Terreno: **Humus**, **Ardesia**, **Muschio**; legno degli **alberi-lanterna**; **Radice antica**, **Scisto di Linfa**,
+  **Vuotite**.
+- Strati di profondità: **Superficie**, **Sottobosco di radici**, **Caverne d'ardesia**, **Profondità della Linfa**,
+  **il Fondo** (dove il mondo confina con il Vuoto).
 
 ## Da collezionare
 

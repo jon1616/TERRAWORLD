@@ -133,8 +133,10 @@ static func material(id: String, p: Array[Color], sd: int) -> PackedColorArray:
 		for x in TEX:
 			var i := y * TEX + x
 			var v := 0.55 * n8[i] + 0.3 * n16[i] + rng.randf_range(-0.08, 0.08)
-			if id == "ardesia":
+			if id == "ardesia" or id == "scisto":
 				v += 0.12 * sin((y + n8[i] * 10.0) * TAU * 3.0 / TEX)
+			elif id == "radice":
+				v += 0.22 * sin((y + n8[i] * 14.0) * TAU * 5.0 / TEX)   # venatura del legno, lungo la radice
 			v = clampf((v - 0.15) / 0.7, 0.0, 0.999)
 			var n := p.size() - 1 if id == "cristallo" else p.size()
 			col[i] = p[mini(int(v * n), p.size() - 1)]
@@ -146,11 +148,26 @@ static func material(id: String, p: Array[Color], sd: int) -> PackedColorArray:
 			_fibers(col, rng, [Px.sh(p[0], 0.8)], 3, 14)
 		"muschio":
 			_specks(col, rng, p[4], 90)
+		"radice":
+			_fibers(col, rng, [p[0]], 5, 20)
+			_specks(col, rng, _linfa(p), 6)          # qualche goccia di Linfa nel legno
+		"scisto":
+			_fibers(col, rng, [_linfa(p)], 3, 16)    # vene di Linfa nella roccia
+		"vuotite":
+			_fibers(col, rng, [p[0]], 4, 16)
+			_specks(col, rng, Color("#d8b0ff"), 14)   # scintille, come stelle del Vuoto
 		"radicite", "legnoferro", "ambra":
 			_nuggets(col, rng, p)
 		"cristallo":
 			_facets(col, rng, p)
 	return col
+
+
+## Il turchese della Linfa, chiaro quanto il tono più chiaro della tavolozza: vivo sulle tessere, spento sulle pareti
+## (che nascono da una tavolozza scurita).
+static func _linfa(p: Array[Color]) -> Color:
+	var v := p[p.size() - 1].v
+	return Color(0.3 * v, 1.05 * v, 0.95 * v).lerp(Color("#5ce0d0"), 0.4 * v)
 
 
 ## Fibre di radice: camminate casuali sottili che si richiudono sui bordi.

@@ -5,7 +5,7 @@ extends GenPass
 ## - le regioni: un rumore molto lento alterna zone compatte e zone traforate;
 ## - le grandi caverne, rare, solo nel profondo.
 
-const DEEP := 250
+const DEEP := 180                      # le grandi caverne: dentro le Caverne d'ardesia (vedi `StrataData`)
 
 
 func title() -> String:

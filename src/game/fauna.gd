@@ -92,7 +92,7 @@ func try_spawn() -> Creature:
 	var c := pc + Vector2i(roundi(cos(ang) * dist), roundi(sin(ang) * dist * 0.6))
 	if not world.inside(c.x, c.y) or c.y < 2:
 		return null
-	var stratum := CreaturesData.stratum_of(world.depth(c.x, c.y))
+	var stratum := StrataData.at(world, c.x, c.y)
 	var choices := CreaturesData.of_stratum(stratum)
 	if choices.is_empty():
 		return null
@@ -104,7 +104,9 @@ func try_spawn() -> Creature:
 		if _free(c.x, y) and (fly or world.solid(c.x, y + 1)):
 			if world.torch_near(Vector2i(c.x, y), 8.0):
 				return null                # la luce delle torce tiene lontane le creature
-			return add(id, Vector2(c.x * S + 8, (y + 1) * S - CreaturesData.CREATURES[id]["half"][1] - 0.1))
+			var cr := add(id, Vector2(c.x * S + 8, (y + 1) * S - CreaturesData.CREATURES[id]["half"][1] - 0.1))
+			cr.strengthen(float(StrataData.STRATA[stratum]["danger"]))
+			return cr
 		if fly:
 			break
 	return null

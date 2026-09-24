@@ -92,6 +92,13 @@ func setup(cid: String, w: World, tgt: Node2D, sd: int) -> void:
 	add_child(_bar)
 
 
+## Più forte negli strati profondi: Vita e danno moltiplicati.
+func strengthen(mult: float) -> void:
+	hp_max = int(round(hp_max * mult))
+	hp = hp_max
+	damage = int(round(damage * mult))
+
+
 func rect() -> Rect2:
 	return Rect2(position - half, half * 2.0)
 

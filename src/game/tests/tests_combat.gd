@@ -98,7 +98,7 @@ func run() -> void:
 		for k in 300:
 			var c := fauna.try_spawn()
 			if c:
-				var sname := CreaturesData.stratum_of(world.depth(int(c.position.x / S), int(c.position.y / S)))
+				var sname := StrataData.at(world, int(c.position.x / S), int(c.position.y / S))
 				seen["%s (strato %d)" % [c.id, sname]] = true
 			if fauna.list.size() >= 12:
 				break

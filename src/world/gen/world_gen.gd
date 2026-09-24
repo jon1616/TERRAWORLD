@@ -12,6 +12,8 @@ static func passes() -> Array[GenPass]:
 		PassTerreno.new(),
 		PassStrati.new(),
 		PassGrotte.new(),
+		PassVuoti.new(),
+		PassRadici.new(),
 		PassIngressi.new(),
 		PassMinerali.new(),
 		PassCristalli.new(),

@@ -9,8 +9,9 @@ extends RefCounted
 ##   p          parametri dei comportamenti (salto, carica, spara…)
 ##   loot       tabella di `LootData`
 ##   art        forma per `CreatureArt.frames` (con la variante di colore)
-##   strata     strati in cui compare: 0 superficie, 1 sottobosco di radici, 2 caverne d'ardesia, 3 profondità della
-##              Linfa, 4 il Fondo (voce 5b); weight = quanto spesso, rispetto alle altre dello stesso strato
+##   strata     strati in cui compare (indici di `StrataData.STRATA`): 0 superficie, 1 sottobosco di radici, 2 caverne
+##              d'ardesia, 3 profondità della Linfa, 4 il Fondo; weight = quanto spesso, rispetto alle altre dello strato.
+##              Vita e danno si moltiplicano per il `danger` dello strato in cui la creatura compare.
 ##   glow       brilla nel buio
 
 const CREATURES := {
@@ -36,12 +37,17 @@ const CREATURES := {
 	"scarabeo_ardesia": {"name": "Scarabeo d'ardesia", "hp": 45, "damage": 14, "defense": 6, "knock": 0.6,
 		"half": [9, 6], "speed": 40, "behaviors": ["cammina", "carica"],
 		"p": {"sight": 20, "charge": 230.0, "charge_range": 10, "charge_time": 0.8, "charge_cool": 3.0},
-		"loot": "scarabeo", "art": ["scarabeo", 0], "strata": [2, 3], "weight": 4},
+		"loot": "scarabeo", "art": ["scarabeo", 0], "strata": [2, 3, 4], "weight": 4},
 	# sputaspore: una pianta ferma che sputa spore a chi si avvicina
 	"sputaspore": {"name": "Sputaspore", "hp": 28, "damage": 6, "defense": 2, "knock": 1.0, "half": [6, 7],
 		"speed": 0, "behaviors": ["fermo", "spara"],
 		"p": {"sight": 18, "rate": 2.4, "shot_speed": 190.0, "shot_grav": 180.0, "shot_damage": 12},
 		"loot": "sputaspore", "art": ["sputaspore", 0], "strata": [3, 4], "weight": 4, "glow": true},
+	# vagavuoto: un occhio di vuotite che fluttua nel Fondo e scaglia schegge
+	"vagavuoto": {"name": "Vagavuoto", "hp": 40, "damage": 14, "defense": 4, "knock": 0.3, "half": [8, 7],
+		"speed": 55, "fly": true, "behaviors": ["vola", "spara"],
+		"p": {"sight": 24, "wobble": 40.0, "rate": 3.0, "shot_speed": 210.0, "shot_grav": 60.0, "shot_damage": 16},
+		"loot": "vagavuoto", "art": ["vagavuoto", 0], "strata": [4], "weight": 6, "glow": true},
 }
 
 ## Quante creature al massimo attorno al giocatore, e ogni quanto si prova a farne comparire una.
@@ -51,19 +57,6 @@ const SPAWN_EVERY := 2.0
 const SPAWN_MIN := 30
 const SPAWN_MAX := 50
 const DESPAWN := 90
-
-
-## Lo strato di una profondità (provvisorio: la voce 5b lo prende dalla tabella degli strati).
-static func stratum_of(depth: int) -> int:
-	if depth < 20:
-		return 0
-	if depth < 120:
-		return 1
-	if depth < 350:
-		return 2
-	if depth < 600:
-		return 3
-	return 4
 
 
 ## Le creature che possono comparire in uno strato, con il loro peso: [[id, peso], …].

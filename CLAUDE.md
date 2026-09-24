@@ -65,9 +65,14 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 
 - `src/core/` — attrezzi generici: `Px` (primitive di pixel art, contorno automatico), `Fx` (sfumature, polvere di scavo).
 - `src/data/` — **solo dati** (voce 3):
+  - `StrataData` — i 5 strati di profondità (Superficie, Sottobosco di radici, Caverne d'ardesia, Profondità della
+    Linfa, il Fondo): dove cominciano, roccia, sacche, parete, chiarore, pericolo delle creature, scritta d'ingresso.
+    Il confine ondeggia (`offset(x, seme)`); `at(world, x, y)` / `index(x, profondità, seme)` = strato di una cella.
   - `TileDefs` — tipi di tessera, durezza (`HARD`, secondi col rame), forza di piccone richiesta (`POWER`: il ferro vuole
     radicite 35, l'ambra legnoferro 45, i cristalli ambra 55), cosa lasciano (`DROP`, `DECOR_DROP`), vene (`ORES`,
-    lette da `PassMinerali`), strati del terreno, tavolozze, luce, decorazioni.
+    lette da `PassMinerali`, ognuna con i suoi strati e le sue rocce), strati del terreno, tavolozze, luce, decorazioni.
+    Rocce degli strati: radice antica (`RADICE`), scisto di Linfa (`SCISTO`), vuotite (`VUOTITE`, vuole il legnoferro);
+    pareti `WALL_*` (5, righe dell'atlante di `DecorPainter`).
   - `ItemsData` — tutti gli oggetti (campi descritti in cima al file). Le famiglie di metallo (piccone, ascia, spada,
     elmo, corazza, gambali × radicite, legnoferro, ambra) nascono da `METALS` × `GEAR` in `all()`: un metallo = una riga.
     `use_of(id)` = cosa fa il clic (scava, abbatti, colpo, torcia, semina, bevi). Ogni uso che tiene un attrezzo in mano
@@ -95,9 +100,11 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
     germogli con il tempo che manca, stazioni per angolo in alto a sinistra, passerelle in un array a parte `plats`).
     `tree_at(c)`/`tree_fits(c)` per gli alberi, `station_at(c)`/`station_fits(id, o)` per le stazioni, `plat(x, y)`.
   - `gen/` — il generatore: `WorldGen.passes()` elenca le passate in ordine, `GenContext` (seme, rumori per nome,
-    parametri, appunti tra passate), `GenPass` (base). Passate in `gen/passes/`: Terreno, Strati, Grotte (profondità,
-    regioni, grandi caverne), Ingressi, Minerali, Cristalli, Erba, Alberi, Decorazioni, Torce (prova, provvisoria), Partenza.
-    Un mondo 3000×1000 si genera in ~5,5 s (in un thread, con schermata d'attesa).
+    parametri, appunti tra passate), `GenPass` (base). Passate in `gen/passes/`: Terreno, Strati (roccia, sacche e
+    pareti di ogni strato di `StrataData`, confini sfrangiati), Grotte (profondità, regioni, grandi caverne), Vuoti (i
+    grandi vuoti del Fondo e il suo pavimento di vuotite), Radici (radici giganti del Sottobosco, anche attraverso le
+    grotte), Ingressi, Minerali (per strato e roccia), Cristalli, Erba, Alberi, Decorazioni (per strato), Torce (prova,
+    provvisoria), Partenza. Un mondo 3000×1000 si genera in ~8,5 s (in un thread, con schermata d'attesa).
   - `WorldView` — disegno a blocchi da 32×32: solo i blocchi vicini alla visuale esistono come nodi (1 costruito per
     fotogramma, liberati oltre 2 blocchi di margine); ogni blocco ha pareti (z -10) e decorazioni (z 1) sulla griglia
     normale, i 7 strati del terreno sulla doppia griglia (z 0, spostati di -8,-8), bagliore di cristalli e decorazioni
@@ -106,8 +113,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   - `LightMap` — luce in una finestra di 128×96 tessere attorno alla visuale, calcolata in un thread
     (`WorkerThreadPool`) su copie dei dati; ricentrata quando la visuale si sposta di 6 tessere, ricalcolata quando il
     giocatore cambia cella o `dirty` è vero. Immagine stesa sul mondo in moltiplicazione (`overlay` in main, z 20).
-    `AMBIENT` = chiarore minimo freddo (le grotte si leggono anche lontano dalle torce); luce delle decorazioni in
-    `TileDefs.DECOR_LIGHT`.
+    `ambient` = chiarore minimo (le grotte si leggono anche lontano dalle torce), del colore dello strato in cui si trova
+    il giocatore (lo sfuma `DepthWatch`); luce delle decorazioni in `TileDefs.DECOR_LIGHT`.
 - `src/save/` — salvataggi: `SavePaths` (cartelle, scrittura sicura: file temporaneo → il vecchio diventa `.bak` →
   il nuovo prende il suo posto; lettura con ripiego sulla copia di sicurezza), `WorldSave` (mondo intero compresso ZSTD
   in `mondo.bin` ~0,5 MB, salvataggio ~15 ms, caricamento ~17 ms; `mondo.json` con nome, seme, date, tempo di gioco,
@@ -137,6 +144,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 - `src/game/combat.gd` (`Combat`) — colpi in mischia a ogni giro dell'arma (`Player.swing_period` = 1/velocità),
   arco (`Player.aim`, dardi dalla Bisaccia; `auto_aim`/`auto_fire` per le prove), ferite al contatto e dalle spore con
   invulnerabilità, spinta e lampeggio.
+- `src/game/depth_watch.gd` (`DepthWatch`) — in che strato è il giocatore (con un margine sul confine): sfuma il
+  chiarore della luce e mostra la scritta dello strato (`StratumBanner` in `src/ui/`).
 - `src/game/crafting.gd` (`Crafting`) — regole della fabbricazione: stazioni a portata (5 tessere), ricette usabili,
   materiali bastano?, fabbrica; `describe` per il suggerimento.
 - `src/game/bisaccia.gd` (`Bisaccia`) — l'inventario: 40 caselle (prime 10 = barra rapida), `add`/`remove`/`count`/
@@ -192,6 +201,10 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 - Gli alberi hanno 8 forme disegnate una volta sola e riusate (disegnarne uno per albero costava secondi).
 - Dopo molti `snap_to` di fila (e con vsync spento) la foto della finestra può arrivare in ritardo anche di un secondo:
   prima delle foto importanti si aspetta in secondi (`kit.seconds`), non in fotogrammi.
+- I chiarori degli strati non devono mai scendere sotto quello della superficie (0,14 0,16 0,21, già approvato):
+  la prima versione più scura rendeva le Caverne quasi nere.
+- Le trame delle pareti nascono dalla tavolozza scurita: i colori fissi (vene, scintille) vanno ricavati dalla
+  tavolozza, altrimenti sulle pareti si vede la ripetizione ogni 64 pixel.
 - Le prove che mettono qualcosa «a N tessere» devono usare `world.surface[x]` di quella colonna: il terreno piano
   vicino alla partenza è corto e il bersaglio finiva dentro la terra.
 

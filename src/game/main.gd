@@ -23,6 +23,7 @@ var life: Life
 var fauna: Fauna
 var shots: Projectiles
 var combat: Combat
+var depth_watch: DepthWatch
 var _spores: CPUParticles2D
 var built := false
 var gen_times: Array = []
@@ -164,6 +165,9 @@ func _build() -> void:
 	add_child(combat)
 	combat.setup(self)
 	shots.hit = combat.on_shot
+	depth_watch = DepthWatch.new()
+	add_child(depth_watch)
+	depth_watch.setup(self)
 	hud.select(character.hotbar)
 	var start := world.spawn
 	var pos: Array = (world_meta.get("giocatori", {}) as Dictionary).get(character.id, [])

@@ -24,6 +24,8 @@ static func frames(shape: String, variant: int) -> Dictionary:
 			return _pair(func(f: int) -> Array: return _scarabeo(f))
 		"sputaspore":
 			return _pair(func(f: int) -> Array: return _sputaspore(f))
+		"vagavuoto":
+			return _pair(func(f: int) -> Array: return _vagavuoto(f))
 	return {"frames": [Px.img(8, 8)], "glow": [Px.img(8, 8)]}
 
 
@@ -178,5 +180,36 @@ static func _sputaspore(f: int) -> Array:
 			var c := vi[4] if (x + y) % 3 != 0 else vi[3]
 			Px.put(gm, x, y, c)
 			Px.put(im, x, y, c)
+	Px.outline(im, OUT)
+	return [im, gm]
+
+
+## Vagavuoto: un occhio di vuotite che fluttua, circondato da frange che ondeggiano (due fotogrammi), la pupilla viola
+## accesa. Viene dal Fondo, dove il mondo confina con il Vuoto.
+static func _vagavuoto(f: int) -> Array:
+	var im := Px.img(20, 20)
+	var gm := Px.img(20, 20)
+	var vp := Px.pal(TileDefs.P_VUOTITE)
+	# frange sotto il corpo
+	for k in 5:
+		var bx := 4.5 + k * 2.8
+		var sway := (1.0 if (k + f) % 2 == 0 else -1.0)
+		Px.curve(im, Vector2(bx, 12.0), Vector2(bx + sway * 1.5, 15.5), Vector2(bx - sway, 19.0), 1, vp[1 + k % 2])
+	for y in 16:
+		for x in 20:
+			var d := Vector2((x + 0.5 - 10.0) / 7.0, (y + 0.5 - 8.5) / 6.5)
+			if d.length() <= 1.0:
+				Px.put(im, x, y, vp[clampi(int((0.75 - d.x * 0.3 - d.y * 0.45) * 5.0), 0, 4)])
+	# l'occhio: bianco violaceo, pupilla accesa che guarda avanti
+	for y in range(6, 12):
+		for x in range(9, 17):
+			var e := Vector2((x + 0.5 - 13.0) / 3.6, (y + 0.5 - 9.0) / 2.6)
+			if e.length() <= 1.0:
+				var c := Color("#e8d8ff") if e.length() > 0.55 else Color("#c060ff")
+				Px.put(im, x, y, c)
+				if e.length() <= 0.55:
+					Px.put(gm, x, y, c)
+	Px.put(im, 14, 8, Color.WHITE)
+	Px.put(gm, 14, 8, Color.WHITE)
 	Px.outline(im, OUT)
 	return [im, gm]

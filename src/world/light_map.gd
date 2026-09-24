@@ -3,8 +3,8 @@ extends RefCounted
 ## Luce a tessere alla Terraria, calcolata solo in una finestra attorno alla visuale e in un thread a parte.
 ## Ogni cella ha un colore di luce che si propaga ai vicini perdendo forza (poco nell'aria, molto nei blocchi).
 ## Il risultato è un'immagine di un pixel per tessera, stesa sul mondo ingrandita e sfumata, che moltiplica i colori.
-## Dove non arriva luce resta un filo di chiarore freddo (AMBIENT): le grotte si leggono anche lontano dalle torce
-## (richiesta dell'utente del 24 set 2026: «schiarisci le grotte»).
+## Dove non arriva luce resta un filo di chiarore (`ambient`): le grotte si leggono anche lontano dalle torce
+## (richiesta dell'utente del 24 set 2026: «schiarisci le grotte»). Il suo colore cambia con lo strato (`DepthWatch`).
 
 const AMBIENT := Color(0.14, 0.16, 0.21)
 const AIR_DECAY := 0.93
@@ -21,6 +21,7 @@ var world: World
 var image: Image
 var tex: ImageTexture
 var origin := Vector2i.ZERO           # cella del mondo nell'angolo in alto a sinistra dell'immagine mostrata
+var ambient := AMBIENT                # chiarore minimo, secondo lo strato in cui si trova il giocatore
 var dirty := true                     # il mondo è cambiato (scavo, torcia): va ricalcolata
 var _center := Vector2i(-9999, -9999)
 var _player := Vector2i(-9999, -9999)
@@ -72,7 +73,7 @@ func _start(center: Vector2i, player_cell: Vector2i) -> void:
 	var job := {
 		"origin": o, "tiles": world.tiles, "walls": world.walls, "decor": world.decor, "w": world.w, "h": world.h,
 		"torches": world.torches_in(Rect2i(o, Vector2i(LW, LH))), "player": player_cell,
-		"decor_light": _decor_light(), "lights": _station_lights(Rect2i(o, Vector2i(LW, LH))),
+		"decor_light": _decor_light(), "lights": _station_lights(Rect2i(o, Vector2i(LW, LH))), "ambient": ambient,
 	}
 	_job = job
 	_task = WorkerThreadPool.add_task(_solve.bind(job), false, "luce")
@@ -108,6 +109,7 @@ static func _solve(job: Dictionary) -> void:
 	var decor: PackedByteArray = job["decor"]
 	var ww: int = job["w"]
 	var wh: int = job["h"]
+	var amb: Color = job["ambient"]
 	var n := LW * LH
 	var r := PackedFloat32Array()
 	var g := PackedFloat32Array()
@@ -241,8 +243,8 @@ static func _solve(job: Dictionary) -> void:
 						vr = maxf(vr, r[k] * 0.92)
 						vg = maxf(vg, g[k] * 0.92)
 						vb = maxf(vb, b[k] * 0.92)
-			vr = maxf(vr, AMBIENT.r)
-			vg = maxf(vg, AMBIENT.g)
-			vb = maxf(vb, AMBIENT.b)
+			vr = maxf(vr, amb.r)
+			vg = maxf(vg, amb.g)
+			vb = maxf(vb, amb.b)
 			img.set_pixel(x, y, Color(pow(minf(vr, 1.0), 0.7), pow(minf(vg, 1.0), 0.7), pow(minf(vb, 1.0), 0.7)).linear_to_srgb())
 	job["image"] = img

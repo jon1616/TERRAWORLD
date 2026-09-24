@@ -4,14 +4,20 @@ extends RefCounted
 ## pezzi (come il terreno), così la griglia non si vede. Le decorazioni hanno anche una versione luminosa (punte delle
 ## radici, campanule, funghi, spore) disegnata sopra il buio.
 ##
-## Atlante: riga 0 pareti di terra (16 varianti), riga 1 pareti di roccia, riga 2 decorazioni (id - 1),
-## riga 3 passerelle di radice (4 varianti).
+## Atlante: righe 0-4 pareti (terra, ardesia, radici, scisto, vuotite: 16 varianti ciascuna), riga 5 decorazioni
+## (id - 1, fino a 32), riga 6 passerelle di radice (4 varianti).
 
 const S := 16
-const DECOR_ROW := 2
-const PLAT_ROW := 3
-const COLS := 16
-const ROWS := 4
+const DECOR_ROW := TileDefs.WALLS
+const PLAT_ROW := TileDefs.WALLS + 1
+const COLS := 32
+const ROWS := TileDefs.WALLS + 2
+## Parete di fondo: materiale e tavolozza da cui nasce (scurita e raffreddata).
+const WALL_SRC := {
+	TileDefs.WALL_DIRT: ["humus", TileDefs.P_DIRT], TileDefs.WALL_STONE: ["ardesia", TileDefs.P_STONE],
+	TileDefs.WALL_ROOT: ["radice", TileDefs.P_RADICE], TileDefs.WALL_SCISTO: ["scisto", TileDefs.P_SCISTO],
+	TileDefs.WALL_VOID: ["vuotite", TileDefs.P_VUOTITE],
+}
 
 
 static func wall_coords(kind: int, x: int, y: int) -> Vector2i:
@@ -29,13 +35,13 @@ static func plat_coords(x: int) -> Vector2i:
 static func build() -> Dictionary:
 	var img := Px.img(COLS * S, ROWS * S)
 	var glow := Px.img(COLS * S, ROWS * S)
-	for kind in [TileDefs.WALL_DIRT, TileDefs.WALL_STONE]:
-		var src := TileDefs.P_DIRT if kind == TileDefs.WALL_DIRT else TileDefs.P_STONE
+	for kind in WALL_SRC:
+		var src: Array = WALL_SRC[kind]
 		var dark: Array[Color] = []
-		for c in Px.pal(src):
+		for c in Px.pal(src[1]):
 			var d := Px.sh(c, 0.46)
 			dark.append(d.lerp(Color(d.v * 0.8, d.v * 0.9, d.v * 1.1), 0.35))
-		var tex := TerrainPainter.material("humus" if kind == TileDefs.WALL_DIRT else "ardesia", dark, 300 + kind)
+		var tex := TerrainPainter.material(String(src[0]), dark, 300 + kind)
 		for v in TerrainPainter.VARIANTS:
 			var vx := v % TerrainPainter.REP
 			var vy := v / TerrainPainter.REP
@@ -188,6 +194,33 @@ static func decor(id: int) -> Dictionary:
 				r *= 0.93
 			Px.put(im, 7, 11, moss[3])
 			Px.put(im, 9, 10, moss[3])
+		16:
+			# scheggia del Vuoto: tre punte di vuotite che si aprono a ventaglio, il cuore viola acceso
+			var vp := Px.pal(TileDefs.P_VUOTITE)
+			for sh in [[8.0, 4.0, 2.2], [5.0, 8.0, 1.6], [11.5, 7.0, 1.7]]:
+				var top := Vector2(sh[0], sh[1])
+				for y in range(int(sh[1]), 16):
+					var t: float = (y - sh[1]) / (16.0 - sh[1])
+					var hw: float = sh[2] * t + 0.3
+					for x in range(int(top.x - hw), int(top.x + hw) + 1):
+						var c := vp[4] if x < top.x else vp[2]
+						if absf(x - top.x) < 0.8 and t < 0.7:
+							c = Color("#d8b0ff")
+							Px.put(gm, x, y, c)
+						Px.put(im, x, y, c)
+		17:
+			# goccia di Linfa che pende da un filo di radice
+			outline = false
+			var lx := int(rng.randf_range(5.0, 11.0))
+			for y in 7:
+				Px.put(im, lx, y, root[1] if y % 2 == 0 else root[2])
+			var lp := Px.pal(TileDefs.P_CRYSTAL)
+			for y in range(7, 12):
+				var hw := 0 if y == 7 else (1 if y < 11 else 0)
+				for x in range(lx - hw, lx + hw + 1):
+					var c := lp[4] if x < lx or y == 8 else lp[3]
+					Px.put(im, x, y, c)
+					Px.put(gm, x, y, c)
 	if outline:
 		Px.outline(im, Color(0.04, 0.05, 0.08, 0.9))
 	return {"img": im, "glow": gm}

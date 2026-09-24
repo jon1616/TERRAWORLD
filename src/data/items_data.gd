@@ -23,6 +23,9 @@ const ITEMS := {
 	"legno": {"name": "Legno di lanterna", "kind": "materiale", "icon": ["tronco", "legno"], "desc": "Dagli alberi-lanterna. Leggero, fibroso, utile a tutto."},
 	"humus": {"name": "Humus", "kind": "blocco", "icon": ["zolla", "humus"], "place": TileDefs.DIRT, "desc": "Terra scura intrecciata di radici."},
 	"ardesia": {"name": "Ardesia", "kind": "blocco", "icon": ["zolla", "ardesia"], "place": TileDefs.STONE, "desc": "Roccia blu a strati."},
+	"radice_antica": {"name": "Radice antica", "kind": "blocco", "icon": ["zolla", "radice"], "place": TileDefs.RADICE, "desc": "Un pezzo delle radici enormi del Sottobosco. Legno duro, venato di Linfa."},
+	"scisto": {"name": "Scisto di Linfa", "kind": "blocco", "icon": ["zolla", "scisto"], "place": TileDefs.SCISTO, "desc": "La roccia delle Profondità della Linfa, attraversata da vene che brillano."},
+	"vuotite": {"name": "Vuotite", "kind": "blocco", "icon": ["zolla", "vuotite"], "place": TileDefs.VUOTITE, "desc": "Roccia del Fondo, scura come il Vuoto e punteggiata di scintille. Serve un piccone di legnoferro."},
 	"minerale_radicite": {"name": "Radicite grezza", "kind": "materiale", "icon": ["minerale", "radicite"], "desc": "Il metallo che le radici succhiano dalla roccia vicino alla superficie."},
 	"minerale_legnoferro": {"name": "Legnoferro grezzo", "kind": "materiale", "icon": ["minerale", "legnoferro"], "desc": "Radici antiche diventate metallo. Serve un piccone di radicite."},
 	"minerale_ambra": {"name": "Ambra fossile", "kind": "materiale", "icon": ["minerale", "ambra"], "desc": "Linfa di ere lontane, dura come metallo. Serve un piccone di legnoferro."},
@@ -32,6 +35,7 @@ const ITEMS := {
 	"fungo_luminoso": {"name": "Fungo luminoso", "kind": "materiale", "icon": ["fungo", "cristallo"], "desc": "Brilla nel profondo."},
 	"polvere_brace": {"name": "Polvere di brace", "kind": "materiale", "icon": ["polvere", "brace"], "desc": "Scintille cadute dalle ali delle falene: non si spengono mai del tutto."},
 	"scaglia_ardesia": {"name": "Scaglia d'ardesia", "kind": "materiale", "icon": ["scaglia", "ardesia"], "desc": "Un pezzo del guscio di uno scarabeo: dura come la roccia."},
+	"scheggia_vuoto": {"name": "Scheggia del Vuoto", "kind": "materiale", "icon": ["cristallo", "vuotite"], "desc": "Spunta dai pavimenti del Fondo. Fredda al tatto, brilla di viola."},
 	"sacca_spore": {"name": "Sacca di spore", "kind": "materiale", "icon": ["sacca", "muschio"], "desc": "Una sacca che pulsa di luce viola."},
 	"seme_lanterna": {"name": "Seme d'albero-lanterna", "kind": "seme", "icon": ["seme", "brace"], "stack": 99, "desc": "Piantalo sul muschio: in pochi minuti diventa un albero."},
 	# lingotti (il baccello ardente fonde i minerali)
