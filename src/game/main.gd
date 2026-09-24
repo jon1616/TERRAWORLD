@@ -19,9 +19,8 @@ var overlay: Sprite2D
 var fx: Node2D
 var drops: Drops
 var vitals: Vitals
-var _dead := false
-const FALL_SAFE := 12.0                # tessere di caduta senza ferite
-const FALL_HURT := 6                   # punti di Vita per ogni tessera in più
+var life: Life
+var _spores: CPUParticles2D
 var built := false
 var gen_times: Array = []
 var _gen_task := -1
@@ -85,7 +84,7 @@ func _build() -> void:
 		var rng := RandomNumberGenerator.new()
 		rng.seed = world.world_seed
 		PassPartenza.place_creatures(world, rng)
-	_make_environment()
+	add_child(Ambience.environment())
 	background = Background.new()
 	add_child(background)
 	background.setup(world)
@@ -131,14 +130,13 @@ func _build() -> void:
 	cam.limit_bottom = world.h * S
 	add_child(cam)
 	cam.make_current()
-	_make_spores()
+	_spores = Ambience.spores()
+	add_child(_spores)
 	vitals = Vitals.new()
 	vitals.hp = character.hp
 	vitals.linfa = character.linfa
 	vitals.scorza = character.bisaccia.scorza()
-	vitals.died.connect(_on_died)
 	player.set_look(character.bisaccia.equip)
-	player.landed.connect(_on_landed)
 	character.bisaccia.changed.connect(func() -> void:
 		vitals.scorza = character.bisaccia.scorza()
 		if str(character.bisaccia.equip) != player._look_key_source:
@@ -158,6 +156,9 @@ func _build() -> void:
 	add_child(actions)
 	actions.setup(world, view, light, player, hud, drops, fx)
 	actions.vitals = vitals
+	life = Life.new()
+	add_child(life)
+	life.setup(self)
 	hud.select(character.hotbar)
 	var start := world.spawn
 	var pos: Array = (world_meta.get("giocatori", {}) as Dictionary).get(character.id, [])
@@ -177,53 +178,6 @@ func _build() -> void:
 		var pr := AutoTests.new()
 		add_child(pr)
 		pr.run(self)
-
-
-func _make_environment() -> void:
-	var env := Environment.new()
-	env.background_mode = Environment.BG_CANVAS
-	env.glow_enabled = true
-	env.glow_intensity = 0.7
-	env.glow_strength = 1.0
-	env.glow_bloom = 0.0
-	env.glow_hdr_threshold = 1.0
-	env.glow_blend_mode = Environment.GLOW_BLEND_MODE_ADDITIVE
-	for k in 7:
-		env.set_glow_level(k, 1.0 if k >= 1 and k <= 4 else 0.0)
-	var we := WorldEnvironment.new()
-	we.environment = env
-	add_child(we)
-
-
-## Spore luminose che fluttuano nell'aria attorno alla visuale, in superficie e nelle grotte.
-var _spores: CPUParticles2D
-
-
-func _make_spores() -> void:
-	_spores = CPUParticles2D.new()
-	_spores.z_index = 26
-	_spores.amount = 70
-	_spores.lifetime = 7.0
-	_spores.preprocess = 7.0
-	_spores.local_coords = false
-	_spores.emission_shape = CPUParticles2D.EMISSION_SHAPE_RECTANGLE
-	_spores.emission_rect_extents = Vector2(460, 270)
-	_spores.direction = Vector2(0.3, -1)
-	_spores.spread = 60.0
-	_spores.gravity = Vector2(0, -2)
-	_spores.initial_velocity_min = 2.0
-	_spores.initial_velocity_max = 8.0
-	_spores.scale_amount_min = 1.0
-	_spores.scale_amount_max = 1.6
-	var g := Gradient.new()
-	g.offsets = PackedFloat32Array([0.0, 0.5, 1.0])
-	g.colors = PackedColorArray([Color(0.6, 1.4, 1.3), Color(1.6, 1.2, 0.6), Color(0.9, 0.7, 1.6)])
-	_spores.color_initial_ramp = g
-	var fade := Gradient.new()
-	fade.offsets = PackedFloat32Array([0.0, 0.2, 0.8, 1.0])
-	fade.colors = PackedColorArray([Color(1, 1, 1, 0), Color(1, 1, 1, 0.8), Color(1, 1, 1, 0.8), Color(1, 1, 1, 0)])
-	_spores.color_ramp = fade
-	add_child(_spores)
 
 
 func cell_to_feet(c: Vector2i) -> Vector2:
@@ -284,68 +238,9 @@ func _process(dt: float) -> void:
 		hud.toast("Salvataggio automatico")
 
 
-# ---------------------------------------------------------------- vita
-
-func _on_landed(tiles: float) -> void:
-	if tiles > FALL_SAFE and not _dead:
-		var lost := vitals.hurt(int((tiles - FALL_SAFE) * FALL_HURT))
-		hud.toast("Caduta: -%d Vita" % lost)
-		_flash(Color(1.0, 0.4, 0.3, 0.35))
-
-
-## Il Germogliato appassisce: si ferma, lo schermo si scurisce, e dopo un momento rinasce alla partenza.
-func _on_died() -> void:
-	if _dead:
-		return
-	_dead = true
-	var had_control := player.control
-	player.control = false
-	actions.enabled = false
-	player.modulate = Color(0.5, 0.4, 0.3)
-	hud.toast("Il Germogliato appassisce…")
-	_flash(Color(0.0, 0.0, 0.0, 0.6), 2.5)
-	await get_tree().create_timer(3.0).timeout
-	player.modulate = Color.WHITE
-	vitals.refill()
-	snap_to(world.spawn)
-	player.control = had_control
-	actions.enabled = true
-	_dead = false
-	hud.toast("Rinasci alla partenza")
-
-
-func _flash(c: Color, secs := 0.4) -> void:
-	var r := ColorRect.new()
-	r.color = c
-	r.set_anchors_preset(Control.PRESET_FULL_RECT)
-	r.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	hud.add_child(r)
-	var tw := create_tween()
-	tw.tween_property(r, "modulate:a", 0.0, secs)
-	tw.tween_callback(r.queue_free)
-
-
-## I germogli crescono col tempo che passa (anche fuori dalla visuale); quando è il momento, se c'è spazio diventano
-## alberi, altrimenti riprovano più tardi.
+## I germogli crescono col tempo (vedi `Growth`); pubblica perché le prove la chiamano con tempi lunghi.
 func grow_saplings(dt: float) -> void:
-	var rng := RandomNumberGenerator.new()
-	for c in world.saplings.keys():
-		if world.decor_at(c.x, c.y) != TileDefs.DECOR_SPROUT:
-			world.saplings.erase(c)
-			continue
-		world.saplings[c] = float(world.saplings[c]) - dt
-		if float(world.saplings[c]) > 0.0:
-			continue
-		if not world.tree_fits(c):
-			world.saplings[c] = 30.0
-			continue
-		world.saplings.erase(c)
-		world.set_decor(c.x, c.y, 0)
-		var t := Vector3i(c.x, c.y, rng.randi_range(0, PassAlberi.VARIANTS - 1))
-		world.add_tree(Vector2i(t.x, t.y), t.z)
-		view.refresh_around(c)
-		view.grow_tree(t)
-		light.dirty = true
+	Growth.tick(world, view, light, dt)
 
 
 # ---------------------------------------------------------------- salvataggi
