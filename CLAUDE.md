@@ -43,7 +43,8 @@ Godot_console.exe --headless --path . --check-only --script res://src/world/worl
 # scavalcare) e dei fotogrammi durante una corsa in superficie (obiettivo: 60 fps, fotogramma peggiore < 25 ms)
 # Le prove usano user://prove_salvataggi (personaggio «prova» con il corredo iniziale, mondo «mondo_prova» rigenerato
 # ogni volta); controllano raccolta e piazzamento di un blocco, salvano dal gioco e ricaricano (mondo e Bisaccia
-# «identici») e fotografano la Bisaccia aperta (07_bisaccia).
+# «identici»), abbattono un albero (08_albero_cade), raccolgono il legno, piantano un seme e lo fanno crescere
+# (09_albero_ricresciuto), e fotografano la Bisaccia aperta (07_bisaccia).
 Godot_console.exe --path . -- --prove            # --carica riapre il mondo di prova salvato invece di rigenerarlo;
                                                  # --senza-luce per vedere i colori senza il buio
 # foto delle schermate del menu in prove/ (menu_titolo, menu_personaggi, menu_nuovo_mondo)
@@ -67,6 +68,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   - `ItemsData` — tutti gli oggetti (campi descritti in cima al file). Le famiglie di metallo (piccone, ascia, spada,
     elmo, corazza, gambali × radicite, legnoferro, ambra) nascono da `METALS` × `GEAR` in `all()`: un metallo = una riga.
     `DEMO_HOTBAR` = barra di prova finché non c'è l'inventario; `use_of(id)` = cosa fa il clic.
+  - `FloraData` — alberi e germogli: robustezza (100; ogni colpo toglie la forza dell'ascia), legno e semi che
+    lasciano, tempo di crescita dei germogli, spazio richiesto.
   - `RecipesData` (ricette, più quelle generate delle famiglie di metallo), `StationsData` (ceppo, baccello ardente,
     maglio), `CreaturesData` (i grumi: statistiche, comportamenti, bottino, strati), `LootData` (tabelle e `roll`).
 - `src/art/` — grafica generata dal codice:
@@ -83,7 +86,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   - `CharacterArt` (personaggio a pose, restituisce anche mano e occhio), `CreatureArt`, `NatureArt`
     (`tree_linfa` con parte luminosa, `root_arches`, `lantern_forest`, colline, torcia, sole).
 - `src/world/` — il mondo:
-  - `World` — solo lo stato (tessere, pareti, decorazioni, superficie, torce con indice a celle da 16, alberi per blocco).
+  - `World` — solo lo stato (tessere, pareti, decorazioni, superficie, torce con indice a celle da 16, alberi per blocco,
+    germogli con il tempo che manca). `tree_at(c)` trova l'albero che occupa una cella, `tree_fits(c)` dice se un albero
+    può nascere lì.
   - `gen/` — il generatore: `WorldGen.passes()` elenca le passate in ordine, `GenContext` (seme, rumori per nome,
     parametri, appunti tra passate), `GenPass` (base). Passate in `gen/passes/`: Terreno, Strati, Grotte (profondità,
     regioni, grandi caverne), Ingressi, Minerali, Cristalli, Erba, Alberi, Decorazioni, Torce (prova, provvisoria), Partenza.
@@ -91,7 +96,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   - `WorldView` — disegno a blocchi da 32×32: solo i blocchi vicini alla visuale esistono come nodi (1 costruito per
     fotogramma, liberati oltre 2 blocchi di margine); ogni blocco ha pareti (z -10) e decorazioni (z 1) sulla griglia
     normale, i 7 strati del terreno sulla doppia griglia (z 0, spostati di -8,-8), bagliore di cristalli e decorazioni
-    (z 25), alberi (z -5, baccelli luminosi in z 26), torce e scintille. `refresh_around(c)` dopo uno scavo.
+    (z 25), alberi (z -5, un nodo con il perno alla base: `shake_tree`, `fell_tree`, `grow_tree`; baccelli luminosi in
+    z 26), torce e scintille. `refresh_around(c)` dopo uno scavo.
   - `LightMap` — luce in una finestra di 128×96 tessere attorno alla visuale, calcolata in un thread
     (`WorkerThreadPool`) su copie dei dati; ricentrata quando la visuale si sposta di 6 tessere, ricalcolata quando il
     giocatore cambia cella o `dirty` è vero. Immagine stesa sul mondo in moltiplicazione (`overlay` in main, z 20).
@@ -119,8 +125,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   Bisaccia aperta Esc la chiude soltanto),
   salvataggio alla chiusura della finestra), `Background`
   (cielo, radici del cosmo, colline e foreste che seguono la superficie sotto la visuale), `PlayerActions` (secondo
-  l'oggetto in mano: scavo con controllo della forza, raccolta di decorazioni e torce, piazzamento di blocchi e torce
-  dalla Bisaccia),
+  l'oggetto in mano: scavo con controllo della forza, raccolta di decorazioni e torce, abbattimento degli alberi con
+  l'ascia a ritmo di colpi, semina, piazzamento di blocchi e torce dalla Bisaccia), `grow_saplings` in main (ogni
+  secondo i germogli si avvicinano all'albero; il tempo corre anche fuori dalla visuale),
   `AutoTests` (prove automatiche).
 - `tools/` — strumenti da riga di comando (`mappe.gd`, `prova_salvataggi.gd`, `verifica_dati.gd`).
 

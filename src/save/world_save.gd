@@ -25,9 +25,12 @@ static func save(w: World, id: String, meta: Dictionary) -> Error:
 	for k in w.trees:
 		for t in w.trees[k]:
 			trees.append_array([t.x, t.y, t.z])
+	var saplings := PackedInt32Array()
+	for c in w.saplings:
+		saplings.append_array([c.x, c.y, int(ceil(float(w.saplings[c])))])
 	var data := {
 		"w": w.w, "h": w.h, "tiles": w.tiles, "walls": w.walls, "decor": w.decor, "surface": w.surface,
-		"torches": torches, "trees": trees,
+		"torches": torches, "trees": trees, "saplings": saplings,
 	}
 	var raw := var_to_bytes(data)
 	var out := MAGIC.to_ascii_buffer()
@@ -80,6 +83,9 @@ static func _decode(bytes: PackedByteArray) -> World:
 	var trees: PackedInt32Array = data["trees"]
 	for i in range(0, trees.size(), 3):
 		w.add_tree(Vector2i(trees[i], trees[i + 1]), trees[i + 2])
+	var saplings: PackedInt32Array = data.get("saplings", PackedInt32Array())
+	for i in range(0, saplings.size(), 3):
+		w.saplings[Vector2i(saplings[i], saplings[i + 1])] = float(saplings[i + 2])
 	if w.tiles.size() != w.w * w.h or w.surface.size() != w.w:
 		return null
 	return w

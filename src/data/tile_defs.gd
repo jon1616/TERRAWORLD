@@ -26,13 +26,15 @@ const DECOR_GLOW := 10                 # fungo luminoso
 const DECOR_ROOTS := [11, 12]          # radici pendenti dal soffitto, con la punta accesa
 const DECOR_SPORE := 13                # sacca di spore
 const DECOR_FERN := 14                 # felce arricciata
-const DECOR_COUNT := 14
+const DECOR_SPROUT := 15               # germoglio d'albero-lanterna piantato: diventerà un albero
+const DECOR_COUNT := 15
 const DECOR_CEILING := [11, 12]        # queste pendono dal blocco sopra
 
 ## Luce emessa dalle decorazioni (indice = id della decorazione).
 const DECOR_LIGHT := {
 	4: Color(0.2, 0.55, 0.6), 5: Color(0.6, 0.4, 0.12), 6: Color(0.4, 0.2, 0.6),
 	10: Color(0.3, 0.8, 1.15), 11: Color(0.55, 0.34, 0.1), 12: Color(0.45, 0.28, 0.08), 13: Color(0.45, 0.25, 0.75),
+	15: Color(0.35, 0.2, 0.06),
 }
 
 ## Secondi di scavo con il piccone di radicite.
@@ -43,7 +45,7 @@ const POWER := {DIRT: 0, GRASS: 0, STONE: 0, RADICITE: 0, LEGNOFERRO: 35, AMBRA:
 ## Oggetto che si ottiene rompendo la tessera o raccogliendo la decorazione.
 const DROP := {DIRT: "humus", GRASS: "humus", STONE: "ardesia", RADICITE: "minerale_radicite", LEGNOFERRO: "minerale_legnoferro",
 	AMBRA: "minerale_ambra", CRYSTAL: "cristallo_linfa"}
-const DECOR_DROP := {9: "fungo_brace", 10: "fungo_luminoso"}
+const DECOR_DROP := {9: "fungo_brace", 10: "fungo_luminoso", 15: "seme_lanterna"}
 
 ## Vene di minerale (lette da `PassMinerali`): tessera, profondità minima, dove può comparire, frequenza e soglia del
 ## rumore (soglia più alta = vene più rare).

@@ -149,24 +149,77 @@ func _build_chunk(k: Vector2i) -> void:
 			_paint_dual(Vector2i(x, y), terrain, glow_t)
 			if x < world.w and y < world.h:
 				_paint_grid(Vector2i(x, y), walls, decor, glow_d)
+	node.set_meta("trees", trees)
 	for t in world.trees.get(k, []):
-		var tex: Dictionary = tex_trees[t.z]
-		var img: Texture2D = tex["img"]
-		var pos := Vector2(t.x * S + 8 - img.get_width() / 2, (t.y + 1) * S - img.get_height() + 3)
-		var sp := Sprite2D.new()
-		sp.texture = img
-		sp.centered = false
-		sp.position = pos
-		trees.add_child(sp)
-		var gl := Sprite2D.new()
-		gl.texture = tex["glow"]
-		gl.centered = false
-		gl.position = pos
-		gl.modulate = Color(1.6, 1.5, 1.3)
-		fx.add_child(gl)
+		_tree_node(node, t)
 	for c in world.torches_in(Rect2i(x0, y0, World.CHUNK, World.CHUNK)):
 		_torch_nodes(node, c)
 	_sparkles(node, k)
+
+
+## Un albero: un nodo con il perno alla base (serve per scuoterlo e farlo cadere), l'immagine e i baccelli luminosi.
+func _tree_node(chunk: Node2D, t: Vector3i) -> void:
+	var tex: Dictionary = tex_trees[t.z]
+	var img: Texture2D = tex["img"]
+	var pivot := Node2D.new()
+	pivot.position = Vector2(t.x * S + 8, (t.y + 1) * S + 3)
+	(chunk.get_meta("trees") as Node2D).add_child(pivot)
+	var sp := Sprite2D.new()
+	sp.texture = img
+	sp.centered = false
+	sp.position = Vector2(-img.get_width() / 2, -img.get_height())
+	pivot.add_child(sp)
+	var gl := Sprite2D.new()
+	gl.texture = tex["glow"]
+	gl.centered = false
+	gl.position = sp.position
+	gl.modulate = Color(1.6, 1.5, 1.3)
+	gl.z_as_relative = false
+	gl.z_index = 26
+	pivot.add_child(gl)
+	var by_base: Dictionary = chunk.get_meta("tree_nodes", {})
+	by_base[Vector2i(t.x, t.y)] = pivot
+	chunk.set_meta("tree_nodes", by_base)
+
+
+func _tree_pivot(base: Vector2i) -> Node2D:
+	var chunk: Node2D = chunks.get(World.chunk_of(base))
+	if chunk == null:
+		return null
+	return (chunk.get_meta("tree_nodes", {}) as Dictionary).get(base)
+
+
+## Scuote un albero colpito dall'ascia.
+func shake_tree(base: Vector2i) -> void:
+	var p := _tree_pivot(base)
+	if p:
+		var tw := create_tween()
+		tw.tween_property(p, "rotation", 0.05, 0.05)
+		tw.tween_property(p, "rotation", -0.035, 0.07)
+		tw.tween_property(p, "rotation", 0.0, 0.06)
+
+
+## L'albero cade verso `dir` (-1 sinistra, 1 destra) e sparisce.
+func fell_tree(base: Vector2i, dir: int) -> void:
+	var chunk: Node2D = chunks.get(World.chunk_of(base))
+	var p := _tree_pivot(base)
+	if p == null:
+		return
+	(chunk.get_meta("tree_nodes", {}) as Dictionary).erase(base)
+	var tw := create_tween()
+	tw.tween_property(p, "rotation", 1.45 * dir, 0.8).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	tw.tween_property(p, "modulate:a", 0.0, 0.25)
+	tw.tween_callback(p.queue_free)
+
+
+## Un albero nuovo (germoglio cresciuto), se il suo blocco è caricato.
+func grow_tree(t: Vector3i) -> void:
+	var chunk: Node2D = chunks.get(World.chunk_of(Vector2i(t.x, t.y)))
+	if chunk:
+		_tree_node(chunk, t)
+		var p := _tree_pivot(Vector2i(t.x, t.y))
+		p.scale = Vector2(0.2, 0.2)
+		create_tween().tween_property(p, "scale", Vector2.ONE, 0.9).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 
 func _free_chunk(k: Vector2i) -> void:

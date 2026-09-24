@@ -1,7 +1,8 @@
 class_name PlayerActions
 extends Node
 ## Quello che il giocatore fa con il mouse, secondo l'oggetto in mano: scavare col piccone (il blocco cade a terra e si
-## raccoglie), raccogliere funghi e decorazioni, piazzare blocchi e torce dalla Bisaccia, colpire (per ora solo il gesto).
+## raccoglie), raccogliere funghi e decorazioni, abbattere alberi con l'ascia, seminare, piazzare blocchi e torce dalla
+## Bisaccia, colpire (per ora solo il gesto).
 ## Con la Bisaccia aperta il mouse serve all'interfaccia e qui non succede nulla.
 
 const S := 16
@@ -19,6 +20,9 @@ var fx_parent: Node2D
 var enabled := true
 var _cell := Vector2i(-9999, -9999)
 var _t := 0.0
+var _chop_t := 0.0
+var _tree_hp := {}                     # base dell'albero -> robustezza che resta (non si salva)
+var _rng := RandomNumberGenerator.new()
 
 
 func setup(w: World, v: WorldView, l: LightMap, p: Player, h: Hud, d: Drops, fx: Node2D) -> void:
@@ -67,6 +71,8 @@ func _unhandled_input(e: InputEvent) -> void:
 			place_torch(mouse_cell())
 		elif kind == "blocco":
 			place_block(mouse_cell(), item["id"])
+		elif kind == "seme":
+			plant(mouse_cell(), item["id"])
 
 
 func _process(dt: float) -> void:
@@ -80,7 +86,7 @@ func _process(dt: float) -> void:
 	var use: String = item["use"]
 	var kind := String(ItemsData.get_item(item["id"]).get("kind", ""))
 	var down := Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
-	player.swinging = down and (use == "scava" or use == "colpo")
+	player.swinging = down and (use == "scava" or use == "colpo" or use == "abbatti")
 	if player.swinging:
 		player.facing = 1 if fx_parent.get_global_mouse_position().x >= player.position.x else -1
 	var prog := 0.0
@@ -88,8 +94,13 @@ func _process(dt: float) -> void:
 		prog = _dig(c, item, dt)
 	else:
 		_t = 0.0
-	var show := reach and (world.solid(c.x, c.y) or kind in ["torcia", "blocco"] or world.decor_at(c.x, c.y) != 0 \
-			or world.torches.has(c))
+	if down and use == "abbatti" and reach:
+		_chop(c, item, dt)
+	else:
+		_chop_t = 0.0
+	var tree := world.tree_at(c).x >= 0
+	var show := reach and (world.solid(c.x, c.y) or kind in ["torcia", "blocco", "seme"] or world.decor_at(c.x, c.y) != 0 \
+			or world.torches.has(c) or (use == "abbatti" and tree))
 	cursor.set_state(c, show, prog)
 
 
@@ -113,6 +124,12 @@ func _dig(c: Vector2i, item: Dictionary, dt: float) -> float:
 			_t = 0.0
 		return 0.0
 	var t := world.tile(c.x, c.y)
+	var over := world.tree_at(c + Vector2i(0, -1))
+	if over.x == c.x and over.y == c.y - 1:
+		if _t == 0.0:
+			hud.toast("Prima abbatti l'albero")
+		_t = -1.0
+		return 0.0
 	var power := int(ItemsData.get_item(item["id"]).get("power", 0))
 	if power < int(TileDefs.POWER.get(t, 0)):
 		# troppo duro per questo piccone: il blocco non cede
@@ -155,11 +172,70 @@ func pick_decor(c: Vector2i) -> void:
 	if d == 0:
 		return
 	world.set_decor(c.x, c.y, 0)
+	world.saplings.erase(c)
 	view.refresh_around(c)
 	if TileDefs.DECOR_LIGHT.has(d):
 		light.dirty = true
 	if TileDefs.DECOR_DROP.has(d):
 		drops.spawn(String(TileDefs.DECOR_DROP[d]), 1, Vector2(c) * S + Vector2(8, 8))
+
+
+## Colpi d'ascia a ritmo del gesto: ogni colpo toglie la forza dell'ascia; a zero l'albero cade, lontano dal
+## giocatore, e lascia legno e a volte semi.
+func _chop(c: Vector2i, item: Dictionary, dt: float) -> void:
+	var t := world.tree_at(c)
+	if t.x < 0:
+		_chop_t = 0.0
+		return
+	_chop_t -= dt
+	if _chop_t > 0.0:
+		return
+	_chop_t = 0.32
+	var base := Vector2i(t.x, t.y)
+	var power := int(ItemsData.get_item(item["id"]).get("power", 0))
+	var hp: int = _tree_hp.get(base, FloraData.TREE_HP) - power
+	var hit_at := fx_parent.get_global_mouse_position()
+	Fx.dust(fx_parent, hit_at, Px.pal(["#241624", "#362234", "#4c3246", "#62c4a4"]))
+	if hp > 0:
+		_tree_hp[base] = hp
+		view.shake_tree(base)
+		return
+	_tree_hp.erase(base)
+	fell_tree(t)
+
+
+func fell_tree(t: Vector3i) -> void:
+	var base := Vector2i(t.x, t.y)
+	var dir := 1 if player.position.x < base.x * S + 8 else -1
+	world.remove_tree(t)
+	view.fell_tree(base, dir)
+	var foot := Vector2(base.x * S + 8, (base.y + 1) * S - 6)
+	var wood := _rng.randi_range(FloraData.WOOD[0], FloraData.WOOD[1])
+	for k in wood:
+		drops.spawn("legno", 1, foot + Vector2(dir * (6 + k * 5), -_rng.randf_range(4.0, 20.0)))
+	if _rng.randf() < FloraData.SEED_CHANCE:
+		drops.spawn("seme_lanterna", _rng.randi_range(FloraData.SEEDS[0], FloraData.SEEDS[1]), foot + Vector2(dir * 24, -30))
+
+
+## Pianta un seme d'albero-lanterna: nasce un germoglio che col tempo diventerà albero.
+func plant(c: Vector2i, id: String) -> bool:
+	if not in_reach(c) or not world.inside(c.x, c.y) or world.solid(c.x, c.y) or world.torches.has(c):
+		return false
+	var d := world.decor_at(c.x, c.y)
+	if d != 0 and not (d in TileDefs.DECOR_GRASS or d == TileDefs.DECOR_FERN or d in TileDefs.DECOR_FLOWERS):
+		return false
+	if not world.tree_fits(c):
+		hud.toast("Serve muschio sotto e spazio libero sopra")
+		return false
+	var slot := hud.sel
+	if bisaccia.id_at(slot) != id:
+		return false
+	world.set_decor(c.x, c.y, TileDefs.DECOR_SPROUT)
+	world.saplings[c] = _rng.randf_range(FloraData.GROW[0], FloraData.GROW[1])
+	bisaccia.take_one(slot)
+	view.refresh_around(c)
+	light.dirty = true
+	return true
 
 
 ## Piazza un blocco dalla casella in mano: serve un appoggio (un blocco accanto o una parete dietro) e che non si

@@ -6,7 +6,7 @@ extends SceneTree
 ## (oggetto che non si può ottenere, materiale che non serve a nulla…).
 
 const KINDS := ["materiale", "blocco", "piccone", "ascia", "spada", "arco", "munizione", "torcia", "stazione",
-	"piattaforma", "elmo", "corazza", "gambali", "consumabile"]
+	"piattaforma", "elmo", "corazza", "gambali", "consumabile", "seme"]
 
 var errors := 0
 var warnings := 0

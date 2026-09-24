@@ -18,6 +18,7 @@ var creatures: Array[Dictionary] = []
 var torches := {}                      # Vector2i -> true
 var _torch_buckets := {}               # Vector2i(bx, by) -> Array[Vector2i]
 var trees := {}                        # blocco Vector2i -> Array[Vector3i(x, y, variante)]
+var saplings := {}                     # cella del germoglio Vector2i -> secondi che mancano per diventare albero
 
 
 func setup(width: int, height: int) -> void:
@@ -33,6 +34,7 @@ func setup(width: int, height: int) -> void:
 	torches.clear()
 	_torch_buckets.clear()
 	trees.clear()
+	saplings.clear()
 	creatures.clear()
 
 
@@ -124,3 +126,32 @@ func add_tree(base: Vector2i, variant: int) -> void:
 	if not trees.has(k):
 		trees[k] = []
 	(trees[k] as Array).append(Vector3i(base.x, base.y, variant))
+
+
+## L'albero che occupa la cella c (colonne base-1..base+1, righe base-HEIGHT..base), oppure (-1, -1, -1).
+func tree_at(c: Vector2i) -> Vector3i:
+	for dx in range(-1, 2):
+		for dy in range(0, FloraData.HEIGHT + 1):
+			var base := c + Vector2i(dx, dy)
+			for t in trees.get(chunk_of(base), []):
+				if t.x == base.x and t.y == base.y:
+					return t
+	return Vector3i(-1, -1, -1)
+
+
+func remove_tree(t: Vector3i) -> void:
+	var list: Array = trees.get(chunk_of(Vector2i(t.x, t.y)), [])
+	list.erase(t)
+
+
+## Un albero può nascere qui? Muschio sotto, spazio libero sopra, nessun altro albero troppo vicino.
+func tree_fits(base: Vector2i) -> bool:
+	if tile(base.x, base.y + 1) != TileDefs.GRASS:
+		return false
+	for k in range(0, FloraData.ROOM):
+		if solid(base.x, base.y - k):
+			return false
+	for dx in range(-3, 4):
+		if tree_at(Vector2i(base.x + dx, base.y)).x >= 0:
+			return false
+	return true

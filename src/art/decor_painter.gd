@@ -139,6 +139,18 @@ static func decor(id: int) -> Dictionary:
 						if d < 0.35:
 							Px.put(gm, x, y, c)
 			Px.put(im, 6, 7, Color(1, 1, 1, 0.9))
+		15:
+			# germoglio d'albero-lanterna: fusticino contorto, due foglie, una gemma d'ambra
+			outline = false
+			var bark := Px.pal(["#241624", "#362234", "#4c3246"])
+			Px.line(im, Vector2(8, 15), Vector2(8, 8), 1, bark[2])
+			Px.put(im, 7, 11, bark[1])
+			for q in [Vector2i(6, 8), Vector2i(5, 7), Vector2i(10, 7), Vector2i(11, 6)]:
+				Px.put(im, q.x, q.y, moss[3])
+			Px.put(im, 7, 8, moss[2])
+			Px.put(im, 9, 7, moss[2])
+			Px.put(im, 8, 6, Color(TileDefs.P_BRACE[3]))
+			Px.put(gm, 8, 6, Color(TileDefs.P_BRACE[3]))
 		14:
 			# felce arricciata (pastorale)
 			outline = false

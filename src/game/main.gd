@@ -27,6 +27,7 @@ var world_id := ""
 var world_meta := {}
 var character: Character
 var _session_time := 0.0              # secondi giocati dall'ultimo salvataggio
+var _grow_tick := 1.0
 var _autosave := AUTOSAVE
 
 
@@ -250,11 +251,38 @@ func _process(dt: float) -> void:
 	background.follow(cam.get_screen_center_position(), get_viewport_rect().size / cam.zoom, dt)
 	_spores.position = cam.get_screen_center_position()
 	_session_time += dt
+	_grow_tick -= dt
+	if _grow_tick <= 0.0:
+		_grow_tick = 1.0
+		grow_saplings(1.0)
 	_autosave -= dt
 	if _autosave <= 0.0:
 		_autosave = AUTOSAVE
 		save_game()
 		hud.toast("Salvataggio automatico")
+
+
+## I germogli crescono col tempo che passa (anche fuori dalla visuale); quando è il momento, se c'è spazio diventano
+## alberi, altrimenti riprovano più tardi.
+func grow_saplings(dt: float) -> void:
+	var rng := RandomNumberGenerator.new()
+	for c in world.saplings.keys():
+		if world.decor_at(c.x, c.y) != TileDefs.DECOR_SPROUT:
+			world.saplings.erase(c)
+			continue
+		world.saplings[c] = float(world.saplings[c]) - dt
+		if float(world.saplings[c]) > 0.0:
+			continue
+		if not world.tree_fits(c):
+			world.saplings[c] = 30.0
+			continue
+		world.saplings.erase(c)
+		world.set_decor(c.x, c.y, 0)
+		var t := Vector3i(c.x, c.y, rng.randi_range(0, PassAlberi.VARIANTS - 1))
+		world.add_tree(Vector2i(t.x, t.y), t.z)
+		view.refresh_around(c)
+		view.grow_tree(t)
+		light.dirty = true
 
 
 # ---------------------------------------------------------------- salvataggi

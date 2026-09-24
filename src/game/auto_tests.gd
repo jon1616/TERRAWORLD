@@ -60,6 +60,7 @@ func run(main: Node2D) -> void:
 			m.snap_to(f2)
 			await _frames(20)
 			await _save("03_cristalli")
+	await _trees(world)
 	await _movement(world)
 	# corsa lungo la superficie: misura i fotogrammi mentre blocchi e luce si aggiornano
 	m.snap_to(world.spawn)
@@ -97,6 +98,60 @@ func run(main: Node2D) -> void:
 	await _save("07_bisaccia")
 	m.hud.panel.toggle()
 	get_tree().quit()
+
+
+## Alberi: si abbatte con l'ascia l'albero più vicino alla partenza, si raccoglie il legno, si pianta un seme dove
+## c'era e lo si fa crescere subito.
+func _trees(world: World) -> void:
+	var best := Vector3i(-1, -1, -1)
+	var bd := 1e12
+	for k in world.trees:
+		for t in world.trees[k]:
+			var d := Vector2(t.x - world.spawn.x, t.y - world.spawn.y).length_squared()
+			if d < bd:
+				bd = d
+				best = t
+	if best.x < 0:
+		print("ATTENZIONE: nessun albero vicino alla partenza")
+		return
+	var b: Bisaccia = m.character.bisaccia
+	var base := Vector2i(best.x, best.y)
+	m.snap_to(base + Vector2i(-2, 0))
+	await _frames(10)
+	var axe := -1
+	for i in Bisaccia.HOTBAR:
+		if String(ItemsData.get_item(b.id_at(i)).get("kind", "")) == "ascia":
+			axe = i
+	m.hud.select(axe)
+	var wood_before := b.count("legno")
+	var hits := 0
+	while world.tree_at(base).x >= 0 and hits < 10:
+		m.actions._chop(base + Vector2i(0, -3), m.hud.current(), 1.0)
+		hits += 1
+		await _frames(3)
+	await _frames(10)
+	await _save("08_albero_cade")
+	for k in 120:
+		await get_tree().process_frame
+		if b.count("legno") >= wood_before + FloraData.WOOD[0]:
+			break
+	print("albero: abbattuto in %d colpi, legno raccolto %d" % [hits, b.count("legno") - wood_before])
+	# un seme dove c'era l'albero, fatto crescere subito
+	if b.count("seme_lanterna") == 0:
+		b.add("seme_lanterna", 1)
+	var slot := -1
+	for i in Bisaccia.HOTBAR:
+		if b.id_at(i) == "seme_lanterna":
+			slot = i
+	if slot < 0:
+		print("ATTENZIONE: il seme non è nella barra rapida")
+		return
+	m.hud.select(slot)
+	var planted: bool = m.actions.plant(base, "seme_lanterna")
+	m.grow_saplings(99999.0)
+	await _frames(70)
+	print("germoglio: %s" % ("piantato e cresciuto" if planted and world.tree_at(base).x >= 0 else "NON cresciuto"))
+	await _save("09_albero_ricresciuto")
 
 
 ## Movimento sulla zona piana della partenza: velocità massima, altezza del salto pieno, e un muro di 3 blocchi da

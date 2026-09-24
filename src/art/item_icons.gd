@@ -204,6 +204,17 @@ static func make(shape: String, material: String) -> Image:
 			Px.line(im, Vector2(6.0, 8.0), Vector2(10.0, 8.0), 2, p[1])
 			Px.line(im, Vector2(4.0, 12.5), Vector2(12.0, 12.5), 2, p[1])
 			Px.line(im, Vector2(3.0, 5.5), Vector2(13.0, 5.5), 1, p[3])
+		"seme":
+			# seme a mandorla con la sua linea e un germoglio che spunta
+			for y in S:
+				for x in S:
+					var d := Vector2((x + 0.5 - 8.0) / 4.2, (y + 0.5 - 10.0) / 5.2)
+					if d.length() <= 1.0:
+						Px.put(im, x, y, p[clampi(int((0.6 - d.x * 0.3 - d.y * 0.3) * 4.0), 0, 3)])
+			Px.line(im, Vector2(8.0, 6.0), Vector2(8.0, 14.0), 1, p[0])
+			Px.line(im, Vector2(8.0, 5.0), Vector2(9.0, 2.0), 1, Color(LEAF[1]))
+			Px.put(im, 10, 1, Color(LEAF[2]))
+			Px.put(im, 7, 2, Color(LEAF[2]))
 		"piattaforma":
 			Px.line(im, Vector2(1.0, 7.5), Vector2(15.0, 7.5), 2, p[3])
 			Px.put(im, 4, 9, p[1])

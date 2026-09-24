@@ -7,7 +7,7 @@ extends RefCounted
 ## Campi di un oggetto:
 ##   name   nome visibile
 ##   kind   materiale · blocco · piccone · ascia · spada · arco · munizione · torcia · stazione · piattaforma ·
-##          elmo · corazza · gambali · consumabile
+##          elmo · corazza · gambali · consumabile · seme
 ##   icon   [forma, materiale] per `ItemIcons.make`
 ##   stack  quanti per casella (predefinito: 999 per materiali e blocchi, 1 per attrezzi e armature)
 ##   tier   grado: 0 radice/pietra, 1 radicite, 2 legnoferro, 3 ambra
@@ -30,6 +30,7 @@ const ITEMS := {
 	"gelatina": {"name": "Gelatina di muschio", "kind": "materiale", "icon": ["gel", "muschio"], "desc": "Appiccicosa, brucia bene."},
 	"fungo_brace": {"name": "Fungo di brace", "kind": "materiale", "icon": ["fungo", "brace"], "desc": "Cresce nelle grotte vicine alla superficie."},
 	"fungo_luminoso": {"name": "Fungo luminoso", "kind": "materiale", "icon": ["fungo", "cristallo"], "desc": "Brilla nel profondo."},
+	"seme_lanterna": {"name": "Seme d'albero-lanterna", "kind": "seme", "icon": ["seme", "brace"], "stack": 99, "desc": "Piantalo sul muschio: in pochi minuti diventa un albero."},
 	# lingotti (il baccello ardente fonde i minerali)
 	"lingotto_radicite": {"name": "Lingotto di radicite", "kind": "materiale", "icon": ["lingotto", "radicite"], "tier": 1},
 	"lingotto_legnoferro": {"name": "Lingotto di legnoferro", "kind": "materiale", "icon": ["lingotto", "legnoferro"], "tier": 2},
@@ -66,7 +67,7 @@ const GEAR := {
 }
 
 ## Oggetti che nascono da qualcosa che non è una tabella (es. alberi abbattuti, voce 4).
-const OTHER_SOURCES := {"legno": "alberi"}
+const OTHER_SOURCES := {"legno": "alberi", "seme_lanterna": "alberi"}
 
 static var _all := {}
 
@@ -121,8 +122,12 @@ static func use_of(id: String) -> String:
 	match String(get_item(id).get("kind", "")):
 		"piccone":
 			return "scava"
-		"ascia", "spada":
+		"ascia":
+			return "abbatti"
+		"spada":
 			return "colpo"
+		"seme":
+			return "semina"
 		"torcia":
 			return "torcia"
 	return ""
