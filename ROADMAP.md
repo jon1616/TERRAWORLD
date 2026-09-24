@@ -60,6 +60,14 @@ disegnato per la fluidità); le prove automatiche misurano velocità, salto e il
 Un sistema unico a comportamenti combinabili (cammina, salta, vola, scava, spara, carica, evoca, fasi). Danno,
 contraccolpo, invulnerabilità breve, bottino. Prime 4-5 creature. Armi da mischia e a distanza.
 
+## 5b. [ ] Strati di profondità (L) — aggiunta il 24 set 2026
+Il mondo cambia scendendo: cinque strati con identità propria — **Superficie** (muschio, alberi-lanterna),
+**Sottobosco di radici** (terra intrecciata di radici enormi, ambra), **Caverne d'ardesia** (grandi vuoti, ferro, primi
+pericoli seri), **Profondità della Linfa** (cristalli, funghi luminosi, oro, creature luminose), **Il Fondo** (vicino al
+Vuoto, rocce strane, il Cuore del mondo e il suo Guardiano). Per ogni strato: materiali, pareti, decorazioni, luce,
+minerali, creature e difficoltà crescente, tutto in una tabella di dati. Viene dopo contenuti come dati (3) e creature
+(5) perché ne ha bisogno, e prima del primo anello di gioco (8) perché l'anello si svolge dentro gli strati.
+
 ## 6. [ ] Rete a 2 (L)
 Host autoritativo. All'ingresso l'host manda il mondo compresso (~0,5 MB, lo stesso formato del salvataggio: niente
 dipendenza dalla versione del generatore), poi solo le tessere che cambiano. Movimento reattivo per chi non è host. Prova con due istanze vere del gioco (come la prova di rete di Inkblood).
@@ -72,5 +80,9 @@ importazione con riduzione a tavolozza comune. Esito: si decide come fare tutte 
 Rame → ferro, banco da lavoro, fornace, incudine; 10-15 oggetti per grado; un boss che sblocca il grado successivo.
 Primo portale verso un secondo mondo (anche solo come prova).
 
-Dopo la Roadmap 1: biomi, strutture e dungeon, mondi a portale veri con temi e difficoltà, NPC, eventi, bottino con
-modificatori, altri boss — a Roadmap successive.
+Ordine di lavoro (deciso il 24 set 2026): 3 → 4 → 5 → 5b → 6 → 7 → 8.
+
+**Roadmap 2 «Il mondo vivo»** (prevista): biomi di superficie e sotterranei (foresta-lanterna, paludi di spore, distese
+d'ambra, giardini di cristallo…), strutture e rovine dei Seminatori, l'Avvizzimento che si espande, e i **Semi che
+decidono il mondo** (specie = quali biomi, vigore = difficoltà, tratti = particolarità). Poi: mondi a portale veri,
+NPC, eventi, bottino con modificatori, altri boss — a Roadmap successive.
