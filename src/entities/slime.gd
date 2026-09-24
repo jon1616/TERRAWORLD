@@ -25,7 +25,7 @@ func setup(wd: World, kind: int, tgt: Node2D, s: int) -> void:
 	rng.seed = s
 	var k: Array = KINDS[kind]
 	spr = Sprite2D.new()
-	spr.texture = ImageTexture.create_from_image(Art.slime(Color(k[0]), Color(k[1]), Color(k[2])))
+	spr.texture = ImageTexture.create_from_image(CreatureArt.slime(Color(k[0]), Color(k[1]), Color(k[2])))
 	spr.offset = Vector2(0, -7)
 	spr.position = Vector2(0, HALF.y)
 	add_child(spr)

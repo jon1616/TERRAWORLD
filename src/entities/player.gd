@@ -84,15 +84,15 @@ func _animate(dt: float) -> void:
 	var pose: Dictionary
 	if not on_floor and coyote <= 0.0:
 		key = "jump" if vel.y < 0.0 else "fall"
-		pose = Art.pose_jump() if vel.y < 0.0 else Art.pose_fall()
+		pose = CharacterArt.pose_jump() if vel.y < 0.0 else CharacterArt.pose_fall()
 	elif absf(vel.x) > 12.0:
 		anim_t += dt * absf(vel.x) / RUN * 13.0
 		var k := int(anim_t) % 8
 		key = "run%d" % k
-		pose = Art.pose_run(k)
+		pose = CharacterArt.pose_run(k)
 	else:
 		anim_t = 0.0
-		pose = Art.pose_idle()
+		pose = CharacterArt.pose_idle()
 	var a := 0.0
 	var sw := swinging or force_swing
 	if sw:
@@ -106,7 +106,7 @@ func _animate(dt: float) -> void:
 	else:
 		swing_t = 0.0
 	if not _cache.has(key):
-		var d := Art.character(pose)
+		var d := CharacterArt.character(pose)
 		_cache[key] = {"tex": ImageTexture.create_from_image(d["img"]), "hand": d["hand"]}
 	var entry: Dictionary = _cache[key]
 	spr.texture = entry["tex"]

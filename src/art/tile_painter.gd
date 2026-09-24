@@ -1,55 +1,27 @@
-class_name Tiles
+class_name TilePainter
 extends RefCounted
-## Le tessere del mondo, disegnate interamente dal codice: tavolozze, trame, bordi arrotondati, erba, minerali,
-## cristalli, pareti di fondo e piccole decorazioni. Tutto finisce in un'unica immagine (atlante) più una seconda
-## immagine con le sole parti luminose (cristalli, funghi), disegnata sopra il buio.
+## Disegna le tessere del mondo nel codice: trame, bordi arrotondati, erba, minerali, cristalli, pareti di fondo e
+## decorazioni. Tutto finisce in un atlante più una seconda immagine con le sole parti luminose (cristalli, funghi),
+## disegnata sopra il buio. I dati (tipi, tavolozze) stanno in `TileDefs`.
 
-const AIR := 0
-const DIRT := 1
-const GRASS := 2
-const STONE := 3
-const COPPER := 4
-const IRON := 5
-const GOLD := 6
-const CRYSTAL := 7
-const TYPES := 7
 const VARIANTS := 3
 const COLS := 48            # 16 combinazioni di bordi × 3 varianti
 const WALL_ROW := 7
 const DECOR_ROW := 8
 const ROWS := 9
 
-const WALL_DIRT := 1
-const WALL_STONE := 2
 
-# decorazioni (0 = nessuna): 1-3 erba alta, 4-6 fiori, 7-8 sassi, 9 fungo, 10 fungo luminoso
-const DECOR_GLOW := 10
-
-const HARD := {DIRT: 0.22, GRASS: 0.22, STONE: 0.38, COPPER: 0.5, IRON: 0.6, GOLD: 0.7, CRYSTAL: 0.8}
-const NAMES := {DIRT: "Terra", GRASS: "Erba", STONE: "Pietra", COPPER: "Rame", IRON: "Ferro", GOLD: "Oro", CRYSTAL: "Cristallo"}
-
-const P_DIRT := ["#56341f", "#6e4429", "#875636", "#a06a44", "#bb8458"]
-const P_STONE := ["#454a57", "#596070", "#6f7788", "#8890a2", "#a6aebf"]
-const P_GRASS := ["#1f4a1c", "#2f6a28", "#3f8733", "#56a53f", "#7cc452"]
-const P_COPPER := ["#6e3818", "#a0542a", "#cf7a3e", "#f0a868"]
-const P_IRON := ["#4a4b55", "#7d7e8a", "#b0b1bc", "#e4e5ee"]
-const P_GOLD := ["#7a5a0c", "#b68a18", "#e6bd34", "#fff08a"]
-const P_CRYSTAL := ["#2e1a5c", "#6a44d0", "#9a74ff", "#cdb4ff", "#f6f0ff"]
+## Coordinate nell'atlante di una tessera con i suoi bordi.
+static func tile_coords(type: int, mask: int, variant: int) -> Vector2i:
+	return Vector2i(mask * VARIANTS + variant, type - 1)
 
 
-static func palette_of(type: int) -> Array[Color]:
-	match type:
-		DIRT, GRASS:
-			return Px.pal(P_DIRT)
-		COPPER:
-			return Px.pal(P_COPPER)
-		IRON:
-			return Px.pal(P_IRON)
-		GOLD:
-			return Px.pal(P_GOLD)
-		CRYSTAL:
-			return Px.pal(P_CRYSTAL)
-	return Px.pal(P_STONE)
+static func wall_coords(kind: int, variant: int) -> Vector2i:
+	return Vector2i((kind - 1) * VARIANTS + variant, WALL_ROW)
+
+
+static func decor_coords(id: int) -> Vector2i:
+	return Vector2i(id - 1, DECOR_ROW)
 
 
 static func _grid(rng: RandomNumberGenerator, n: int) -> PackedFloat32Array:
@@ -89,11 +61,11 @@ static func base(type: int, variant: int) -> Dictionary:
 	glow.resize(256)
 	var g4 := _grid(rng, 4)
 	var g8 := _grid(rng, 8)
-	var stone := Px.pal(P_STONE)
+	var stone := Px.pal(TileDefs.P_STONE)
 	var p: Array[Color] = stone
-	if type == DIRT or type == GRASS:
-		p = Px.pal(P_DIRT)
-	elif type == CRYSTAL:
+	if type == TileDefs.DIRT or type == TileDefs.GRASS:
+		p = Px.pal(TileDefs.P_DIRT)
+	elif type == TileDefs.CRYSTAL:
 		var dark: Array[Color] = []
 		for c in stone:
 			dark.append(Px.sh(c, 0.72))
@@ -103,7 +75,7 @@ static func base(type: int, variant: int) -> Dictionary:
 			var v := 0.5 * _samp(g4, 4, x, y) + 0.5 * _samp(g8, 8, x, y) + rng.randf_range(-0.1, 0.1)
 			v = clampf((v - 0.2) / 0.6, 0.0, 0.999)
 			col[y * 16 + x] = p[int(v * p.size())]
-	if type == DIRT or type == GRASS:
+	if type == TileDefs.DIRT or type == TileDefs.GRASS:
 		# sassolini e puntini scuri
 		for k in 3:
 			var px := rng.randi_range(1, 13)
@@ -128,8 +100,8 @@ static func base(type: int, variant: int) -> Dictionary:
 					col[(cy + 1) * 16 + cx] = p[mini(3, p.size() - 1)]
 				cx += rng.randi_range(-1, 1)
 				cy += 1 if rng.randf() < 0.6 else 0
-	if type == COPPER or type == IRON or type == GOLD:
-		var op := palette_of(type)
+	if type == TileDefs.COPPER or type == TileDefs.IRON or type == TileDefs.GOLD:
+		var op := TileDefs.palette_of(type)
 		var nuggets: Array[Vector3] = []
 		for k in rng.randi_range(3, 4):
 			nuggets.append(Vector3(rng.randf_range(3.0, 13.0), rng.randf_range(3.0, 13.0), rng.randf_range(1.5, 2.4)))
@@ -145,8 +117,8 @@ static func base(type: int, variant: int) -> Dictionary:
 						elif pass_n == 1 and d <= n.z:
 							var t := 0.55 + (-dx - dy) / (2.5 * n.z)
 							col[y * 16 + x] = op[clampi(int(t * op.size()), 0, op.size() - 1)]
-	if type == CRYSTAL:
-		var cp := Px.pal(P_CRYSTAL)
+	if type == TileDefs.CRYSTAL:
+		var cp := Px.pal(TileDefs.P_CRYSTAL)
 		var shards: Array[Array] = []
 		for k in rng.randi_range(2, 3):
 			var b := Vector2(rng.randf_range(3.0, 13.0), rng.randf_range(7.0, 14.0))
@@ -188,7 +160,7 @@ static func paint(img: Image, glow_img: Image, ox: int, oy: int, type: int, vari
 	var right := (mask & 2) != 0
 	var down := (mask & 4) != 0
 	var left := (mask & 8) != 0
-	var gp := Px.pal(P_GRASS)
+	var gp := Px.pal(TileDefs.P_GRASS)
 	var rng := RandomNumberGenerator.new()
 	rng.seed = variant * 31 + mask * 7 + 99
 	var gdepth := PackedInt32Array()
@@ -218,7 +190,7 @@ static func paint(img: Image, glow_img: Image, ox: int, oy: int, type: int, vari
 			var i := y * 16 + x
 			var c: Color = col[i]
 			var grass := false
-			if type == GRASS:
+			if type == TileDefs.GRASS:
 				if up and y < gdepth[x]:
 					grass = true
 					c = gp[clampi(4 - y + ((x + variant) % 2), 1, 4)]
@@ -242,7 +214,7 @@ static func paint(img: Image, glow_img: Image, ox: int, oy: int, type: int, vari
 static func paint_wall(img: Image, ox: int, oy: int, kind: int, variant: int) -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = kind * 555 + variant * 77 + 3
-	var src := Px.pal(P_DIRT) if kind == WALL_DIRT else Px.pal(P_STONE)
+	var src := Px.pal(TileDefs.P_DIRT) if kind == TileDefs.WALL_DIRT else Px.pal(TileDefs.P_STONE)
 	var p: Array[Color] = []
 	for c in src:
 		p.append(Px.sh(c, 0.5))
@@ -253,7 +225,7 @@ static func paint_wall(img: Image, ox: int, oy: int, kind: int, variant: int) ->
 			var v := 0.45 * _samp(g4, 4, x, y) + 0.55 * _samp(g8, 8, x, y) + rng.randf_range(-0.08, 0.08)
 			v = clampf((v - 0.2) / 0.6, 0.0, 0.999)
 			img.set_pixel(ox + x, oy + y, p[int(v * (p.size() - 1))])
-	if kind == WALL_STONE:
+	if kind == TileDefs.WALL_STONE:
 		# fessure tra le lastre di roccia
 		var yy := rng.randi_range(5, 10)
 		for x in 16:
@@ -268,7 +240,7 @@ static func paint_decor(img: Image, glow_img: Image, ox: int, oy: int, id: int) 
 	rng.seed = id * 1013 + 5
 	var im := Px.img(16, 16)
 	var gm := Px.img(16, 16)
-	var gp := Px.pal(P_GRASS)
+	var gp := Px.pal(TileDefs.P_GRASS)
 	var outl := true
 	if id >= 1 and id <= 6:
 		# ciuffi d'erba (anche sotto i fiori)
@@ -295,7 +267,7 @@ static func paint_decor(img: Image, glow_img: Image, ox: int, oy: int, id: int) 
 		Px.put(im, fx, 6, fp[2])
 		outl = false
 	elif id == 7 or id == 8:
-		var sp := Px.pal(P_STONE)
+		var sp := Px.pal(TileDefs.P_STONE)
 		var rx := 4.0 if id == 7 else 2.6
 		var cx := 8.0 if id == 7 else 6.0
 		for y in range(10, 16):
@@ -332,21 +304,14 @@ static func paint_decor(img: Image, glow_img: Image, ox: int, oy: int, id: int) 
 static func build() -> Dictionary:
 	var img := Px.img(COLS * 16, ROWS * 16)
 	var glow := Px.img(COLS * 16, ROWS * 16)
-	for t in range(1, TYPES + 1):
+	for t in range(1, TileDefs.TYPES + 1):
 		for v in VARIANTS:
 			var b := base(t, v)
 			for m in 16:
 				paint(img, glow, (m * VARIANTS + v) * 16, (t - 1) * 16, t, v, m, b)
-	for k in [WALL_DIRT, WALL_STONE]:
+	for k in [TileDefs.WALL_DIRT, TileDefs.WALL_STONE]:
 		for v in VARIANTS:
 			paint_wall(img, ((k - 1) * VARIANTS + v) * 16, WALL_ROW * 16, k, v)
-	for d in range(1, 11):
+	for d in range(1, TileDefs.DECOR_COUNT + 1):
 		paint_decor(img, glow, (d - 1) * 16, DECOR_ROW * 16, d)
 	return {"img": img, "glow": glow}
-
-
-static func dust_colors(type: int) -> Array[Color]:
-	var p := palette_of(type)
-	if type == GRASS:
-		p = Px.pal(P_GRASS)
-	return p

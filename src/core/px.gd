@@ -2,6 +2,8 @@ class_name Px
 extends RefCounted
 ## Attrezzi per disegnare pixel art nel codice: immagini vuote, linee spesse, dischi, contorno automatico.
 
+const OUTLINE := Color(0.1, 0.08, 0.13, 1.0)
+
 
 static func img(w: int, h: int) -> Image:
 	var i := Image.create_empty(w, h, false, Image.FORMAT_RGBA8)

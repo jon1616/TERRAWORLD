@@ -1,3 +1,4 @@
+class_name MiningCursor
 extends Node2D
 ## Riquadro della tessera puntata e crepe mentre la si scava.
 
