@@ -108,13 +108,13 @@ func crafting() -> void:
 		var put := false
 		for dx in [-2, -3, 2, 3, -1, 1]:
 			var cand: Vector2i = here + Vector2i(dx, 0)
-			if world.station_at(cand).is_empty() and kit.m.actions.place_plat(cand, "passerella"):
+			if world.station_at(cand).is_empty() and kit.m.actions.build.place_plat(cand, "passerella"):
 				pc = cand
 				put = true
 				break
 		var before := b.count("passerella")
 		if put:
-			kit.m.actions.take_plat(pc)
+			kit.m.actions.build.take_plat(pc)
 		for k in 60:
 			await kit.node.get_tree().process_frame
 			if b.count("passerella") > before:

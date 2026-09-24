@@ -15,13 +15,15 @@ var last_world := ""
 var bisaccia: Bisaccia
 var hp := Vitals.HP_MAX
 var linfa := Vitals.LINFA_MAX
+var vita_extra := 0                    # Vita massima in più, per sempre (doni dei Guardiani curati)
+var guardiani_curati: Array = []       # mondi in cui ha curato il Guardiano (il dono vale una volta per mondo)
 
 
 func to_dict() -> Dictionary:
 	return {"formato": FORMAT, "nome": name, "creato": created, "ultimo_salvataggio": last_save,
 		"tempo_di_gioco": play_time, "barra": hotbar, "ultimo_mondo": last_world,
 		"bisaccia": bisaccia.to_array() if bisaccia else [], "equipaggiamento": bisaccia.equip if bisaccia else {},
-		"vita": hp, "linfa": linfa}
+		"vita": hp, "linfa": linfa, "vita_extra": vita_extra, "guardiani_curati": guardiani_curati}
 
 
 static func from_dict(cid: String, d: Dictionary) -> Character:
@@ -39,7 +41,9 @@ static func from_dict(cid: String, d: Dictionary) -> Character:
 	for k in eq:
 		if k in Bisaccia.EQUIP_SLOTS and ItemsData.has(String(eq[k])):
 			c.bisaccia.equip[k] = String(eq[k])
-	c.hp = clampi(int(d.get("vita", Vitals.HP_MAX)), 1, Vitals.HP_MAX)
+	c.vita_extra = int(d.get("vita_extra", 0))
+	c.guardiani_curati = d.get("guardiani_curati", [])
+	c.hp = clampi(int(d.get("vita", Vitals.HP_MAX)), 1, Vitals.HP_MAX + c.vita_extra)
 	c.linfa = clampi(int(d.get("linfa", Vitals.LINFA_MAX)), 0, Vitals.LINFA_MAX)
 	return c
 

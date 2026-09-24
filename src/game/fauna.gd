@@ -42,10 +42,13 @@ func add(id: String, pos: Vector2, sd: int = -1) -> Creature:
 	return c
 
 
-func clear() -> void:
-	for c in list:
+## Toglie tutte le creature (le prove; `keep_boss` lascia il Guardiano).
+func clear(keep_boss := false) -> void:
+	for c in list.duplicate():
+		if keep_boss and c.boss:
+			continue
 		c.queue_free()
-	list.clear()
+		list.erase(c)
 
 
 ## La creatura muore: sbuffo, bottino a terra, via dalla scena.
@@ -54,6 +57,8 @@ func kill(c: Creature) -> void:
 		return
 	list.erase(c)
 	kills += 1
+	if is_instance_valid(c.master):
+		c.master.minions -= 1
 	var loot := LootData.roll(String(c.data["loot"]), _rng)
 	for id in loot:
 		drops.spawn(id, int(loot[id]), c.position)
@@ -62,14 +67,29 @@ func kill(c: Creature) -> void:
 	c.queue_free()
 
 
+## Toglie una creatura senza bottino (il Guardiano che torna a dormire o che se ne va guarito).
+func kill_quietly(c: Creature) -> void:
+	if list.has(c):
+		list.erase(c)
+		Fx.puff(self, c.position, Color(0.8, 1.6, 1.5))
+		c.queue_free()
+
+
 func _process(dt: float) -> void:
-	for c in list:
-		if not c.fire.is_empty():
-			var f := c.fire
+	for c in list.duplicate():
+		for f in c.fire:
 			shots.fire(f["from"], f["vel"], f["grav"], f["damage"], false)
-			c.fire = {}
+		c.fire.clear()
+		for id in c.summons:
+			var mn := add(id, c.position + Vector2(_rng.randf_range(-30, 30), c.half.y))
+			mn.master = c
+			c.minions += 1
+			Fx.puff(self, mn.position, Color(1.4, 0.9, 1.8))
+		c.summons.clear()
 	for i in range(list.size() - 1, -1, -1):
 		var c := list[i]
+		if c.boss:
+			continue                           # i Guardiani non spariscono
 		if c.position.distance_to(player.position) > CreaturesData.DESPAWN * S or c.position.y > world.h * S:
 			c.queue_free()
 			list.remove_at(i)

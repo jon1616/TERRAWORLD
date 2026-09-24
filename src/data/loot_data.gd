@@ -25,6 +25,11 @@ const TABLES := {
 		{"item": "scaglia_ardesia", "min": 1, "max": 3, "chance": 1.0},
 		{"item": "minerale_legnoferro", "min": 1, "max": 2, "chance": 0.3},
 	],
+	"guardiano": [
+		{"item": "frammento_nodo", "min": 30, "max": 30, "chance": 1.0},
+		{"item": "scheggia_vuoto", "min": 8, "max": 12, "chance": 1.0},
+		{"item": "minerale_ambra", "min": 10, "max": 16, "chance": 1.0},
+	],
 	"vagavuoto": [
 		{"item": "scheggia_vuoto", "min": 1, "max": 3, "chance": 1.0},
 		{"item": "minerale_ambra", "min": 1, "max": 2, "chance": 0.25},

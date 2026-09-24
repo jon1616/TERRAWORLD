@@ -131,10 +131,32 @@ dipendenza dalla versione del generatore), poi solo le tessere che cambiano. Mov
 Un personaggio con camminata, salto, colpo e un'armatura. Prompt pronti, griglia fissa su magenta, script di
 importazione con riduzione a tavolozza comune. Esito: si decide come fare tutte le animazioni.
 
-## 8. [ ] Il primo anello di gioco (L)
+## 8. [x] Il primo anello di gioco (L) — fatto il 24 set 2026
 Radicite → legnoferro → ambra fossile con Ceppo, Baccello ardente e Maglio; 10-15 oggetti per grado; il primo
 Guardiano (da sconfiggere o curare) che sblocca il grado successivo; usi per cristalli di Linfa e funghi luminosi.
 Primo portale verso un secondo mondo (anche solo come prova).
+**Fatto il 24 set 2026**:
+- **Gradi**: radicite → legnoferro → ambra → **Linfa** (il quarto grado, aperto dal Guardiano): per ogni metallo
+  piccone, ascia, spada, **arco**, elmo, corazza, gambali (28 oggetti di metallo). Il lingotto di Linfa ha due ricette:
+  cristalli di Linfa + **Frammento del Nodo** (Guardiano sconfitto) oppure + **Linfa del Guardiano** (Guardiano curato).
+- **Oggetti nuovi**: Pozione di bagliore (funghi luminosi, gelatina, sacca di spore: il Germogliato brilla 3 minuti),
+  Pozione di scorza (+8 Scorza), Lanterna di Linfa (luce turchese in mano), Dardi di vuotite (l'arco li preferisce),
+  **Rugiada di Linfa** (cura i nodi avvizziti), Seme di mondo. Ora ogni materiale serve a qualcosa: 0 avvisi.
+- **Il Cuore del mondo**: una cupola nel Fondo, lontana dalla partenza, con il nido di radici, passerelle, due gallerie
+  d'ingresso, quattro **nodi avvizziti** sul soffitto e il Cuore malato al centro. Nel Fondo un «battito» dice da che
+  parte andare.
+- **Il primo Guardiano, il Nodo Avvizzito**: si sveglia entrando nella cupola; vola ondeggiando, scaglia ventagli di
+  spore, ogni tanto trema e scatta addosso; sotto metà Vita diventa rosso, più rapido e chiama grumi in aiuto. Barra
+  della Vita in alto.
+- **Due strade** (decisione dell'utente): **sconfitto** → 30 Frammenti del Nodo, schegge, ambra; **curato** (Rugiada
+  su tutti e quattro i nodi, anche durante la lotta) → il Guardiano si calma e torna radice viva, lascia 30 Linfa del
+  Guardiano e dona **+20 Vita massima per sempre** (una foglia in più). Ognuna ha la sua pagina di storia. In entrambi
+  i casi il Cuore torna vivo e dona un **Seme di mondo**.
+- **Il portale**: il Seme si pianta sul terreno e cresce un arco di radici con un vortice di Linfa; clic destro = si
+  salva e si passa al mondo nato da quel seme (generato la prima volta, poi sempre lo stesso). Per ora il mondo nuovo
+  è uguale per difficoltà e non c'è un portale di ritorno (si torna dal menu).
+Prove: risveglio, seconda fase con grumi evocati, sconfitta (Cuore vivo), cura (4 nodi, Vita massima 120), lingotto
+di Linfa dalle due strade, bagliore e lanterna, portale piantato (foto 21-25).
 
 Ordine di lavoro (deciso il 24 set 2026): 3 → 4 → 5 → 5b → 6 → 7 → 8.
 

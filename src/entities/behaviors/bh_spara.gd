@@ -22,4 +22,4 @@ func tick(c: Creature, dt: float) -> void:
 	var v := to / maxf(flight, 0.05)
 	v.y -= 0.5 * grav * flight
 	c.facing = 1 if to.x > 0.0 else -1
-	c.fire = {"from": from, "vel": v, "grav": grav, "damage": int(c.p.get("shot_damage", 10))}
+	c.fire.append({"from": from, "vel": v, "grav": grav, "damage": int(c.p.get("shot_damage", 10))})

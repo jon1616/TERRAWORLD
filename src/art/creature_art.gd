@@ -26,6 +26,8 @@ static func frames(shape: String, variant: int) -> Dictionary:
 			return _pair(func(f: int) -> Array: return _sputaspore(f))
 		"vagavuoto":
 			return _pair(func(f: int) -> Array: return _vagavuoto(f))
+		"guardiano":
+			return _pair(func(f: int) -> Array: return _guardiano(f, variant == 1))
 	return {"frames": [Px.img(8, 8)], "glow": [Px.img(8, 8)]}
 
 
@@ -211,5 +213,60 @@ static func _vagavuoto(f: int) -> Array:
 					Px.put(gm, x, y, c)
 	Px.put(im, 14, 8, Color.WHITE)
 	Px.put(gm, 14, 8, Color.WHITE)
+	Px.outline(im, OUT)
+	return [im, gm]
+
+
+## Il Nodo Avvizzito, primo Guardiano: un gomitolo di radici grosse attorno a un occhio-cuore, con tentacoli di radice
+## che ondeggiano sotto. Malato (0) è grigio-muffa con l'occhio d'ambra malata; guarito (1) torna radice viva con il
+## cuore di Linfa turchese.
+static func _guardiano(f: int, healed: bool) -> Array:
+	var sz := 48
+	var im := Px.img(sz, sz)
+	var gm := Px.img(sz, sz)
+	var bark := Px.pal(TileDefs.P_RADICE if healed else TileDefs.P_NODO)
+	var rot := Color("#6a6a3a") if not healed else Color("#3aa08a")
+	var eye := Px.pal(TileDefs.P_CRYSTAL) if healed else Px.pal(["#3a1a08", "#7a3a10", "#c07020", "#f0b040", "#fff0b0"])
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 404
+	var c := Vector2(24.0, 21.0)
+	# tentacoli sotto, che ondeggiano (due fotogrammi)
+	for k in 6:
+		var bx := 9.0 + k * 6.0
+		var sway := 3.0 if (k + f) % 2 == 0 else -3.0
+		Px.curve(im, Vector2(bx, 30.0), Vector2(bx + sway, 38.0), Vector2(bx - sway * 0.6, 47.0), 2, bark[1])
+		Px.curve(im, Vector2(bx, 30.0), Vector2(bx + sway, 38.0), Vector2(bx - sway * 0.6, 47.0), 1, bark[2])
+	# il gomitolo: tante radici curve attorno al centro
+	for y in sz:
+		for x in sz:
+			var d := Vector2((x + 0.5 - c.x) / 19.0, (y + 0.5 - c.y) / 16.0)
+			if d.length() <= 1.0:
+				Px.put(im, x, y, bark[clampi(int((0.75 - d.x * 0.3 - d.y * 0.4) * 5.0), 0, 4)])
+	for k in 14:
+		var a0 := rng.randf_range(0.0, TAU)
+		var r0 := rng.randf_range(8.0, 17.0)
+		var from := c + Vector2(cos(a0) * r0, sin(a0) * r0 * 0.8)
+		var a1 := a0 + rng.randf_range(0.8, 1.6)
+		var to := c + Vector2(cos(a1) * r0, sin(a1) * r0 * 0.8)
+		var mid := c + (from + to - c * 2.0) * 0.75
+		Px.curve(im, from, mid, to, 1, bark[0] if k % 2 == 0 else bark[3])
+	# muffa dell'Avvizzimento (o foglie, se guarito)
+	for k in 22:
+		var q := c + Vector2(rng.randf_range(-17, 17), rng.randf_range(-13, 13))
+		if Vector2((q.x - c.x) / 19.0, (q.y - c.y) / 16.0).length() < 0.95:
+			Px.put(im, int(q.x), int(q.y), rot)
+	# l'occhio-cuore al centro
+	for y in range(int(c.y) - 7, int(c.y) + 8):
+		for x in range(int(c.x) - 9, int(c.x) + 10):
+			var e := Vector2((x + 0.5 - c.x) / 8.5, (y + 0.5 - c.y) / 6.5)
+			if e.length() <= 1.0:
+				var col := eye[clampi(int((1.0 - e.length()) * 4.5), 0, 4)]
+				Px.put(im, x, y, col)
+				Px.put(gm, x, y, col)
+	var pupil := Color("#1a0a04") if not healed else Color("#e8ffff")
+	for y in range(int(c.y) - 3, int(c.y) + 4):
+		Px.put(im, int(c.x) + 2, y, pupil)
+		if healed:
+			Px.put(gm, int(c.x) + 2, y, pupil)
 	Px.outline(im, OUT)
 	return [im, gm]

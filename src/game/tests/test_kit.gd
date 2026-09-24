@@ -136,6 +136,6 @@ func place_station_near(item: String, c: Vector2i) -> bool:
 		for dy in range(-3, 4):
 			var cell: Vector2i = c + Vector2i(dx, dy)
 			var o := cell - Vector2i(int(size[0]) / 2, int(size[1]) - 1)
-			if m.actions.in_reach(cell) and world.station_fits(sid, o) and m.actions.place_station(cell, item):
+			if m.actions.in_reach(cell) and world.station_fits(sid, o) and m.actions.build.place_station(cell, item):
 				return true
 	return false

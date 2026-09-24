@@ -65,6 +65,7 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 
 - `src/core/` — attrezzi generici: `Px` (primitive di pixel art, contorno automatico), `Fx` (sfumature, polvere di scavo).
 - `src/data/` — **solo dati** (voce 3):
+  - `LoreData` — le pagine di storia (Cuore trovato, Guardiano sconfitto o curato, portale), mostrate da `LorePanel`.
   - `StrataData` — i 5 strati di profondità (Superficie, Sottobosco di radici, Caverne d'ardesia, Profondità della
     Linfa, il Fondo): dove cominciano, roccia, sacche, parete, chiarore, pericolo delle creature, scritta d'ingresso.
     Il confine ondeggia (`offset(x, seme)`); `at(world, x, y)` / `index(x, profondità, seme)` = strato di una cella.
@@ -103,7 +104,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
     parametri, appunti tra passate), `GenPass` (base). Passate in `gen/passes/`: Terreno, Strati (roccia, sacche e
     pareti di ogni strato di `StrataData`, confini sfrangiati), Grotte (profondità, regioni, grandi caverne), Vuoti (i
     grandi vuoti del Fondo e il suo pavimento di vuotite), Radici (radici giganti del Sottobosco, anche attraverso le
-    grotte), Ingressi, Minerali (per strato e roccia), Cristalli, Erba, Alberi, Decorazioni (per strato), Torce (prova,
+    grotte), Ingressi, Minerali (per strato e roccia), Cristalli, Erba, Alberi, Decorazioni (per strato), Cuore (la
+    cupola del Cuore del mondo nel Fondo, con i 4 nodi avvizziti e la stazione `cuore_mondo`), Torce (prova,
     provvisoria), Partenza. Un mondo 3000×1000 si genera in ~8,5 s (in un thread, con schermata d'attesa).
   - `WorldView` — disegno a blocchi da 32×32: solo i blocchi vicini alla visuale esistono come nodi (1 costruito per
     fotogramma, liberati oltre 2 blocchi di margine); ogni blocco ha pareti (z -10) e decorazioni (z 1) sulla griglia
@@ -144,6 +146,17 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 - `src/game/combat.gd` (`Combat`) — colpi in mischia a ogni giro dell'arma (`Player.swing_period` = 1/velocità),
   arco (`Player.aim`, dardi dalla Bisaccia; `auto_aim`/`auto_fire` per le prove), ferite al contatto e dalle spore con
   invulnerabilità, spinta e lampeggio.
+- `src/game/guardian.gd` (`Guardian`) — il primo Guardiano (voce 8): si sveglia entrando nella cupola del Cuore;
+  sconfitto (frammenti) o curato con la Rugiada sui 4 nodi (`cure_at`: Linfa del Guardiano e +20 Vita massima, una
+  volta per mondo); poi il Cuore diventa `cuore_vivo` e dona il Seme di mondo. Stato in `world_meta["guardiano"]`.
+  Nel Fondo un «battito» dice da che parte è il Cuore. `BossBar` e `LorePanel` in `src/ui/`.
+- `src/game/portal.gd` (`Portal`) — Seme di mondo piantato = stazione `portale`; clic destro = salva e passa al
+  mondo nato da quel seme (`destination()`, id in `world_meta["portale_mondo"]`). Collega anche `use_hook`/`touch_hook`
+  di `PlayerActions` (usi nuovi senza gonfiare quel file).
+- `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
+  (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
+- `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni
+  `fixed` (Cuore, portale) non si riprendono.
 - `src/game/depth_watch.gd` (`DepthWatch`) — in che strato è il giocatore (con un margine sul confine): sfuma il
   chiarore della luce e mostra la scritta dello strato (`StratumBanner` in `src/ui/`).
 - `src/game/crafting.gd` (`Crafting`) — regole della fabbricazione: stazioni a portata (5 tessere), ricette usabili,
@@ -201,6 +214,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 - Gli alberi hanno 8 forme disegnate una volta sola e riusate (disegnarne uno per albero costava secondi).
 - Dopo molti `snap_to` di fila (e con vsync spento) la foto della finestra può arrivare in ritardo anche di un secondo:
   prima delle foto importanti si aspetta in secondi (`kit.seconds`), non in fotogrammi.
+- Una funzione anonima collegata a un timer non deve trattenere un nodo che può sparire prima: si usa `weakref`
+  (altrimenti «Lambda capture was freed»). E nei file del gioco i tipi dedotti da un Variant sono errori: `var x: T =`.
 - I chiarori degli strati non devono mai scendere sotto quello della superficie (0,14 0,16 0,21, già approvato):
   la prima versione più scura rendeva le Caverne quasi nere.
 - Le trame delle pareti nascono dalla tavolozza scurita: i colori fissi (vene, scintille) vanno ricavati dalla

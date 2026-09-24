@@ -17,6 +17,7 @@ const MATERIALS := {
 	"ardesia": ["#2a3650", "#3a4966", "#4c5e80", "#62779c", "#8298bc"],
 	"muschio": ["#0f3a3a", "#16574f", "#23776a", "#3aa08a", "#72d4b0"],
 	"linfa": ["#5a1024", "#a02040", "#e04a60", "#ff9aa8"],
+	"nodo": ["#3a3832", "#54524a", "#6e6c60", "#8a887a", "#a8a694"],
 	"radice": ["#4a2c22", "#6a3e2c", "#8a5638", "#a8704a", "#c89066"],
 	"scisto": ["#263a40", "#34505a", "#446872", "#58848c", "#7aa6aa"],
 	"vuotite": ["#261c38", "#34264c", "#463464", "#5c4682", "#9c7ad0"],
@@ -245,6 +246,25 @@ static func make(shape: String, material: String) -> Image:
 			Px.line(im, Vector2(8.0, 5.0), Vector2(9.0, 2.0), 1, Color(LEAF[1]))
 			Px.put(im, 10, 1, Color(LEAF[2]))
 			Px.put(im, 7, 2, Color(LEAF[2]))
+		"lanterna":
+			# lanterna di radice intrecciata con un cristallo di Linfa dentro
+			var wood: Array[Color] = pal("legno")
+			Px.line(im, Vector2(8.0, 1.0), Vector2(8.0, 3.0), 1, wood[3])
+			for y in range(3, 15):
+				for x in range(3, 13):
+					var d := Vector2((x + 0.5 - 8.0) / 5.0, (y + 0.5 - 9.0) / 6.0)
+					if d.length() <= 1.0:
+						Px.put(im, x, y, wood[2] if (x + y) % 4 == 0 or d.length() > 0.8 else p[2])
+			Px.disc(im, 8.0, 9.0, 1.8, p[3])
+			Px.put(im, 7, 8, Color.WHITE)
+		"goccia":
+			for y in range(2, 15):
+				for x in S:
+					var t := (y - 2.0) / 12.0
+					var r := 5.2 * sqrt(clampf(t * 1.25, 0.0, 1.0)) if t < 0.8 else 5.2 * sqrt(maxf(1.0 - (t - 0.8) * 5.0, 0.0) * 0.99 + 0.01)
+					if absf(x + 0.5 - 8.0) <= r * (1.0 if t < 0.8 else 1.0):
+						Px.put(im, x, y, p[clampi(int((0.7 - (x - 8.0) / 10.0 - t * 0.3) * p.size()), 0, p.size() - 1)])
+			Px.put(im, 6, 9, Color.WHITE)
 		"piattaforma":
 			Px.line(im, Vector2(1.0, 7.5), Vector2(15.0, 7.5), 2, p[3])
 			Px.put(im, 4, 9, p[1])

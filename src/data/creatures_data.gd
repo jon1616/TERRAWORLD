@@ -13,6 +13,7 @@ extends RefCounted
 ##              d'ardesia, 3 profondità della Linfa, 4 il Fondo; weight = quanto spesso, rispetto alle altre dello strato.
 ##              Vita e danno si moltiplicano per il `danger` dello strato in cui la creatura compare.
 ##   glow       brilla nel buio
+##   boss       un Guardiano: non compare da solo, non sparisce lontano, ha la barra in alto
 
 const CREATURES := {
 	# i grumi: gocce di muschio, resina o spore che si sono animate e saltellano
@@ -43,6 +44,14 @@ const CREATURES := {
 		"speed": 0, "behaviors": ["fermo", "spara"],
 		"p": {"sight": 18, "rate": 2.4, "shot_speed": 190.0, "shot_grav": 180.0, "shot_damage": 12},
 		"loot": "sputaspore", "art": ["sputaspore", 0], "strata": [3, 4], "weight": 4, "glow": true},
+	# il primo Guardiano: un nodo di radici enorme attorno al Cuore del mondo, ammalato dall'Avvizzimento.
+	# Fase 1: ondeggia e scaglia ventagli di spore, ogni tanto scatta addosso. Fase 2 (metà Vita): più veloce, evoca grumi.
+	"guardiano_nodo": {"name": "Il Nodo Avvizzito", "hp": 900, "damage": 20, "defense": 8, "knock": 1.0, "half": [20, 20],
+		"speed": 60, "fly": true, "behaviors": ["vola", "ventaglio", "scatto", "evoca"],
+		"p": {"sight": 70, "wobble": 25.0, "leash": 26, "fan_rate": 2.8, "fan_n": 5, "fan_spread": 0.8,
+			"shot_speed": 170.0, "shot_grav": 40.0, "shot_damage": 16, "dash_every": 6.0, "dash_speed": 300.0,
+			"dash_time": 0.55, "summon_every": 8.0, "summon": "grumo_spore", "summon_max": 3, "phase2": 0.5},
+		"loot": "guardiano", "art": ["guardiano", 0], "strata": [], "weight": 0, "glow": true, "boss": true},
 	# vagavuoto: un occhio di vuotite che fluttua nel Fondo e scaglia schegge
 	"vagavuoto": {"name": "Vagavuoto", "hp": 40, "damage": 14, "defense": 4, "knock": 0.3, "half": [8, 7],
 		"speed": 55, "fly": true, "behaviors": ["vola", "spara"],

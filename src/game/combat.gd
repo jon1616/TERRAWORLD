@@ -9,6 +9,7 @@ const INVULN := 0.7                    # secondi senza ferite dopo un colpo subi
 const DART_SPEED := 380.0
 const DART_GRAV := 260.0
 const DIG_PERIOD := 0.3                # il gesto di piccone e ascia
+const AMMO := ["dardo_vuoto", "dardo"]  # l'arco usa i dardi migliori che ci sono nella Bisaccia
 
 var m: Node2D                          # la scena di gioco
 var player: Player
@@ -22,6 +23,7 @@ var _cycle := -1
 var _bow_t := 0.0
 var auto_aim := Vector2.INF            # per le prove: punto verso cui tirare senza mouse
 var auto_fire := false
+var god := false                       # per le prove: il Germogliato non si ferisce
 
 
 func setup(main: Node2D) -> void:
@@ -102,13 +104,18 @@ func _bow(it: Dictionary, use: String, active: bool, dt: float) -> void:
 	player.aim = atan2(absf(d.x), d.y)
 	if _bow_t > 0.0:
 		return
-	if bisaccia.count("dardo") <= 0:
+	var ammo := ""
+	for a in AMMO:
+		if bisaccia.count(a) > 0:
+			ammo = a
+			break
+	if ammo == "":
 		m.hud.toast("Niente dardi")
 		_bow_t = 1.0
 		return
 	_bow_t = 1.0 / float(it.get("speed", 1.5))
-	bisaccia.remove("dardo", 1)
-	var dmg := int(it.get("damage", 0)) + int(ItemsData.get_item("dardo").get("damage", 0))
+	bisaccia.remove(ammo, 1)
+	var dmg := int(it.get("damage", 0)) + int(ItemsData.get_item(ammo).get("damage", 0))
 	# un po' di anticipo sulla caduta, così il dardo va dove si mira anche lontano
 	var flight := d.length() / DART_SPEED
 	var v := d.normalized() * DART_SPEED
@@ -134,7 +141,7 @@ func _contact() -> void:
 
 ## Ferita del Germogliato da una creatura o da un colpo: meno Vita, spinta indietro, lampeggio, numero rosso.
 func hurt_player(dmg: int, from_x: float) -> void:
-	if invuln > 0.0 or m.life.dead:
+	if invuln > 0.0 or m.life.dead or god:
 		return
 	invuln = INVULN
 	var lost := vitals.hurt(dmg)

@@ -6,7 +6,9 @@ extends SceneTree
 ## (oggetto che non si può ottenere, materiale che non serve a nulla…).
 
 const KINDS := ["materiale", "blocco", "piccone", "ascia", "spada", "arco", "munizione", "torcia", "stazione",
-	"piattaforma", "elmo", "corazza", "gambali", "consumabile", "seme"]
+	"piattaforma", "elmo", "corazza", "gambali", "consumabile", "seme", "lanterna", "cura", "seme_mondo"]
+## Forza di piccone oltre cui una tessera è voluta indistruttibile (i nodi avvizziti: si curano, non si scavano).
+const UNBREAKABLE := 999
 
 var errors := 0
 var warnings := 0
@@ -43,6 +45,8 @@ func _init() -> void:
 	# 3. stazioni
 	for s in StationsData.STATIONS:
 		var st: Dictionary = StationsData.STATIONS[s]
+		if st.get("fixed", false):
+			continue                           # Cuore e portale: nascono dal mondo, non da una ricetta
 		_err(items.has(String(st["item"])), "stazione %s: oggetto inesistente %s" % [s, st["item"]])
 		_warn(made.has(String(st["item"])), "stazione %s: nessuna ricetta la costruisce" % s)
 	# 4. tessere, decorazioni, creature, bottino
@@ -79,6 +83,8 @@ func _init() -> void:
 			best_power[id] = int(items[id]["power"])
 	for t in TileDefs.POWER:
 		var need := int(TileDefs.POWER[t])
+		if need >= UNBREAKABLE:
+			continue
 		var any := false
 		for id in best_power:
 			if best_power[id] >= need:

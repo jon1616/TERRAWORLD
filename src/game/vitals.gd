@@ -15,8 +15,10 @@ const LINFA_REGEN := 1.5              # punti di Linfa al secondo
 const POTION_COOLDOWN := 30.0
 
 var hp := HP_MAX
+var hp_max := HP_MAX                   # HP_MAX più i doni duraturi (il Guardiano curato: +20)
 var linfa := LINFA_MAX
 var scorza := 0
+var scorza_bonus := 0                  # dalle pozioni (vedi `Boons`)
 var potion_wait := 0.0
 var _since_hit := 99.0
 var _acc := 0.0
@@ -27,7 +29,7 @@ var _lacc := 0.0
 func hurt(amount: int) -> int:
 	if hp <= 0:
 		return 0
-	var real := maxi(amount - scorza / 2, 1)
+	var real := maxi(amount - (scorza + scorza_bonus) / 2, 1)
 	hp = maxi(hp - real, 0)
 	_since_hit = 0.0
 	changed.emit()
@@ -37,12 +39,12 @@ func hurt(amount: int) -> int:
 
 
 func heal(amount: int) -> void:
-	hp = mini(hp + amount, HP_MAX)
+	hp = mini(hp + amount, hp_max)
 	changed.emit()
 
 
 func refill() -> void:
-	hp = HP_MAX
+	hp = hp_max
 	linfa = LINFA_MAX
 	_since_hit = 99.0
 	changed.emit()
@@ -54,11 +56,11 @@ func tick(dt: float) -> void:
 	var before := [hp, linfa]
 	_since_hit += dt
 	potion_wait = maxf(potion_wait - dt, 0.0)
-	if _since_hit >= REGEN_DELAY and hp < HP_MAX:
+	if _since_hit >= REGEN_DELAY and hp < hp_max:
 		_acc += REGEN * dt
 		var k := int(_acc)
 		_acc -= k
-		hp = mini(hp + k, HP_MAX)
+		hp = mini(hp + k, hp_max)
 	if linfa < LINFA_MAX:
 		_lacc += LINFA_REGEN * dt
 		var k2 := int(_lacc)

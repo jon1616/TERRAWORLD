@@ -15,7 +15,8 @@ const CRYSTAL := 7
 const RADICE := 8                      # radice gigante del Sottobosco (voce 5b)
 const SCISTO := 9                      # scisto di Linfa, la roccia delle Profondità della Linfa
 const VUOTITE := 10                    # la roccia del Fondo, vicino al Vuoto
-const TYPES := 10
+const NODO := 11                       # nodo avvizzito attorno al Cuore del mondo: non si scava, si cura (voce 8)
+const TYPES := 11
 
 const WALL_DIRT := 1
 const WALL_STONE := 2
@@ -48,15 +49,16 @@ const DECOR_LIGHT := {
 
 ## Secondi di scavo con il piccone di radicite.
 const HARD := {DIRT: 0.22, GRASS: 0.22, STONE: 0.38, RADICITE: 0.5, LEGNOFERRO: 0.6, AMBRA: 0.7, CRYSTAL: 0.8,
-	RADICE: 0.45, SCISTO: 0.5, VUOTITE: 0.75}
+	RADICE: 0.45, SCISTO: 0.5, VUOTITE: 0.75, NODO: 9.0}
 ## Forza di piccone minima (vedi `ItemsData.METALS`): radicite 35, legnoferro 45, ambra 55. L'ambra vuole il piccone
 ## di legnoferro, i cristalli di Linfa quello d'ambra: è il filo della progressione.
 ## Il Fondo (vuotite) vuole il piccone di legnoferro: non ci si arriva col primo corredo.
 const POWER := {DIRT: 0, GRASS: 0, STONE: 0, RADICITE: 0, LEGNOFERRO: 35, AMBRA: 45, CRYSTAL: 55, RADICE: 0, SCISTO: 0,
-	VUOTITE: 45}
+	VUOTITE: 45, NODO: 999}
 ## Oggetto che si ottiene rompendo la tessera o raccogliendo la decorazione.
 const DROP := {DIRT: "humus", GRASS: "humus", STONE: "ardesia", RADICITE: "minerale_radicite", LEGNOFERRO: "minerale_legnoferro",
-	AMBRA: "minerale_ambra", CRYSTAL: "cristallo_linfa", RADICE: "radice_antica", SCISTO: "scisto", VUOTITE: "vuotite"}
+	AMBRA: "minerale_ambra", CRYSTAL: "cristallo_linfa", RADICE: "radice_antica", SCISTO: "scisto", VUOTITE: "vuotite",
+	NODO: "radice_antica"}
 const DECOR_DROP := {9: "fungo_brace", 10: "fungo_luminoso", 15: "seme_lanterna", 16: "scheggia_vuoto"}
 
 ## Vene di minerale (lette da `PassMinerali`): tessera, profondità minima, strati in cui compare (vedi `StrataData`),
@@ -67,7 +69,7 @@ const ORES := [
 	{"type": AMBRA, "min_depth": 200, "strata": [2, 3, 4], "in": [STONE, SCISTO, VUOTITE], "freq": 0.13, "threshold": 0.54},
 ]
 const NAMES := {DIRT: "Humus", GRASS: "Muschio", STONE: "Ardesia", RADICITE: "Radicite", LEGNOFERRO: "Legnoferro", AMBRA: "Ambra fossile", CRYSTAL: "Cristallo di Linfa",
-	RADICE: "Radice antica", SCISTO: "Scisto di Linfa", VUOTITE: "Vuotite"}
+	RADICE: "Radice antica", SCISTO: "Scisto di Linfa", VUOTITE: "Vuotite", NODO: "Nodo avvizzito"}
 
 ## Luce emessa dai blocchi.
 const LIGHT_CRYSTAL := Color(0.55, 0.9, 1.25)
@@ -84,18 +86,20 @@ const P_CRYSTAL := ["#0a2a36", "#12566a", "#1f8a9a", "#5cc8cc", "#b8f4f0"]
 const P_ROOT := ["#2a1810", "#4a2c1a", "#6e4426", "#9a6636"]
 const P_RADICE := ["#4a2c22", "#6a3e2c", "#8a5638", "#a8704a", "#c89066"]
 const P_SCISTO := ["#263a40", "#34505a", "#446872", "#58848c", "#7aa6aa"]
+const P_NODO := ["#3a3832", "#54524a", "#6e6c60", "#8a887a", "#a8a694"]
 const P_VUOTITE := ["#34284a", "#463662", "#5a467c", "#745c9c", "#967cc4"]
 
 ## Strati del terreno dai contorni morbidi, dal basso verso l'alto: ogni strato disegna la forma morbida delle celle
 ## dei tipi elencati. Il primo è la sagoma di tutto il terreno.
 const TERRAIN_LAYERS := [
-	{"id": "ardesia", "types": [DIRT, GRASS, STONE, RADICITE, LEGNOFERRO, AMBRA, CRYSTAL, RADICE, SCISTO, VUOTITE],
+	{"id": "ardesia", "types": [DIRT, GRASS, STONE, RADICITE, LEGNOFERRO, AMBRA, CRYSTAL, RADICE, SCISTO, VUOTITE, NODO],
 		"pal": P_STONE},
 	{"id": "humus", "types": [DIRT, GRASS], "pal": P_DIRT},
 	{"id": "muschio", "types": [GRASS], "pal": P_GRASS},
 	{"id": "radice", "types": [RADICE], "pal": P_RADICE},
 	{"id": "scisto", "types": [SCISTO], "pal": P_SCISTO},
 	{"id": "vuotite", "types": [VUOTITE], "pal": P_VUOTITE},
+	{"id": "nodo", "types": [NODO], "pal": P_NODO},
 	{"id": "radicite", "types": [RADICITE], "pal": P_RADICITE},
 	{"id": "legnoferro", "types": [LEGNOFERRO], "pal": P_LEGNOFERRO},
 	{"id": "ambra", "types": [AMBRA], "pal": P_AMBRA},
@@ -104,7 +108,7 @@ const TERRAIN_LAYERS := [
 
 ## Colore sulla mappa (strumenti e, in futuro, minimappa).
 const MAP_COLOR := {DIRT: "#50343c", GRASS: "#3aa08a", STONE: "#434f6c", RADICITE: "#d4783a", LEGNOFERRO: "#a2b0c2", AMBRA: "#eec04a", CRYSTAL: "#3ac0c8",
-	RADICE: "#8a5638", SCISTO: "#32687c", VUOTITE: "#463464"}
+	RADICE: "#8a5638", SCISTO: "#32687c", VUOTITE: "#463464", NODO: "#ff40a0"}
 
 
 static func palette_of(type: int) -> Array[Color]:
@@ -127,6 +131,8 @@ static func palette_of(type: int) -> Array[Color]:
 			return Px.pal(P_SCISTO)
 		VUOTITE:
 			return Px.pal(P_VUOTITE)
+		NODO:
+			return Px.pal(P_NODO)
 	return Px.pal(P_STONE)
 
 

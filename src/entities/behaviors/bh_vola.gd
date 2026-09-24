@@ -11,8 +11,13 @@ func tick(c: Creature, dt: float) -> void:
 	t += dt
 	if home == Vector2.INF:
 		home = c.position
+	if c.busy:
+		return
 	var goal: Vector2
-	if Behavior.sees(c, float(c.p.get("sight", 24))):
+	var leash: float = float(c.p.get("leash", 0)) * 16.0
+	if leash > 0.0 and c.position.distance_to(home) > leash:
+		goal = home                        # un Guardiano non si allontana dal suo Cuore
+	elif Behavior.sees(c, float(c.p.get("sight", 24))):
 		goal = c.target.position + Vector2(0, -10)
 	else:
 		if drift == Vector2.ZERO or c.rng.randf() < dt * 0.3:

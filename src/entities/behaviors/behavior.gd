@@ -2,7 +2,8 @@ class_name Behavior
 extends RefCounted
 ## Un comportamento di creatura. Le creature ne combinano più d'uno (es. «cammina» + «carica»): a ogni passo ognuno
 ## guarda la creatura e il bersaglio e decide cosa vuole fare, scrivendo nelle intenzioni della creatura
-## (`want_x`, `want_fly`, `vel` per i salti, `fire` per gli spari). La fisica la applica poi la creatura.
+## (`want_x`, `want_fly`, `vel` per i salti, `fire` per gli spari, `summons` per chiamare aiuto). La fisica la
+## applica poi la creatura.
 ## Un comportamento nuovo = un file in `behaviors/` + una riga in `make`.
 
 
@@ -22,6 +23,12 @@ static func make(id: String) -> Behavior:
 			return BhCarica.new()
 		"spara":
 			return BhSpara.new()
+		"ventaglio":
+			return BhVentaglio.new()
+		"scatto":
+			return BhScatto.new()
+		"evoca":
+			return BhEvoca.new()
 		"fermo":
 			return Behavior.new()
 	push_error("comportamento sconosciuto: %s" % id)

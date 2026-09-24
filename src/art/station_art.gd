@@ -4,6 +4,9 @@ extends RefCounted
 ##   ceppo             ceppo d'albero-lanterna intagliato in piano, anelli, radici, un germoglio e un coltellino
 ##   baccello_ardente  baccello di pietra ardesia con la bocca di brace accesa e crepe che brillano
 ##   maglio            blocco di legnoferro con il maglio appoggiato e rune dei Seminatori turchesi
+##   cuore_mondo       il Cuore del mondo malato: un nodo grigio di radici con il cuore spento
+##   cuore_vivo        lo stesso Cuore guarito: radici vive e un cuore di Linfa che brilla
+##   portale           un arco di radici con un vortice di Linfa dentro
 ## Restituisce {img, glow} della misura della stazione (16 px per tessera).
 
 const S := 16
@@ -23,6 +26,12 @@ static func make(id: String) -> Dictionary:
 			_baccello(im, gm, w, h)
 		"maglio":
 			_maglio(im, gm, w, h)
+		"cuore_mondo":
+			_cuore(im, gm, w, h, false)
+		"cuore_vivo":
+			_cuore(im, gm, w, h, true)
+		"portale":
+			_portale(im, gm, w, h)
 	Px.outline(im, OUT)
 	return {"img": im, "glow": gm}
 
@@ -107,3 +116,58 @@ static func _maglio(im: Image, gm: Image, w: int, h: int) -> void:
 	for y in range(0, 8):
 		for x in range(int(cx + 6), int(cx + 14)):
 			Px.put(im, x, y, fe[3] if y < 2 else fe[2])
+
+
+## Il Cuore del mondo: un groviglio di radici attorno a un cuore. Malato è grigio e spento; vivo brilla di Linfa.
+static func _cuore(im: Image, gm: Image, w: int, h: int, alive: bool) -> void:
+	var root := Px.pal(TileDefs.P_RADICE if alive else TileDefs.P_NODO)
+	var core := Px.pal(TileDefs.P_CRYSTAL) if alive else Px.pal(["#2a2a26", "#4a4840", "#6a6656", "#8a8470", "#a8a08a"])
+	var cx := w / 2.0
+	var cy := h / 2.0 + 2.0
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 77
+	# il cuore: due lobi e una punta
+	for y in h:
+		for x in w:
+			var u := (x + 0.5 - cx) / 11.0
+			var v := (y + 0.5 - cy) / 10.0
+			var a := u * u + pow(-v - sqrt(absf(u)) * 0.8, 2.0)
+			if a <= 1.0:
+				var c := core[clampi(int((0.8 - u * 0.3 + v * 0.3) * 4.0), 0, 4)]
+				Px.put(im, x, y, c)
+				if alive or a < 0.25:
+					Px.put(gm, x, y, c if alive else core[3])
+	# le radici che lo avvolgono e scendono a terra
+	for k in 7:
+		var a0 := rng.randf_range(0.0, TAU)
+		var from := Vector2(cx, cy) + Vector2(cos(a0), sin(a0)) * 9.0
+		var to := Vector2(rng.randf_range(2.0, w - 2.0), h - 1.0) if k < 4 else Vector2(cx, cy) + Vector2(cos(a0 + 2.2), sin(a0 + 2.2)) * 11.0
+		var mid := (from + to) * 0.5 + Vector2(rng.randf_range(-6, 6), rng.randf_range(-6, 6))
+		Px.curve(im, from, mid, to, 2, root[1])
+		Px.curve(im, from, mid, to, 1, root[3])
+
+
+## Portale di radici: due radici che si piegano ad arco, dentro un vortice di Linfa che gira.
+static func _portale(im: Image, gm: Image, w: int, h: int) -> void:
+	var root := Px.pal(TileDefs.P_RADICE)
+	var lin := Px.pal(TileDefs.P_CRYSTAL)
+	var cx := w / 2.0
+	var cy := h * 0.45
+	for y in h:
+		for x in w:
+			var d := Vector2((x + 0.5 - cx) / (w * 0.36), (y + 0.5 - cy) / (h * 0.36))
+			var r := d.length()
+			if r <= 1.0:
+				var ang := atan2(d.y, d.x) + r * 5.0
+				var t := 0.5 + 0.5 * sin(ang * 3.0)
+				var c := lin[clampi(int((1.0 - r) * 3.0 + t * 1.5), 0, 4)]
+				Px.put(im, x, y, c)
+				Px.put(gm, x, y, c)
+	for side in [-1.0, 1.0]:
+		var base := Vector2(cx + side * (w * 0.42), h - 1.0)
+		var top := Vector2(cx + side * 3.0, 1.0)
+		var mid := Vector2(cx + side * (w * 0.55), h * 0.3)
+		Px.curve(im, base, mid, top, 3, root[1])
+		Px.curve(im, base, mid, top, 1, root[3])
+	for x in range(2, w - 2):
+		Px.put(im, x, h - 1, root[0])

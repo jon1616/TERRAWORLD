@@ -21,6 +21,7 @@ var world: World
 var image: Image
 var tex: ImageTexture
 var origin := Vector2i.ZERO           # cella del mondo nell'angolo in alto a sinistra dell'immagine mostrata
+var player_light := PLAYER            # la luce attorno al giocatore (più forte con la lanterna o il bagliore)
 var ambient := AMBIENT                # chiarore minimo, secondo lo strato in cui si trova il giocatore
 var dirty := true                     # il mondo è cambiato (scavo, torcia): va ricalcolata
 var _center := Vector2i(-9999, -9999)
@@ -72,7 +73,7 @@ func _start(center: Vector2i, player_cell: Vector2i) -> void:
 	o.y = clampi(o.y, -LH / 4, maxi(world.h - LH, 0))
 	var job := {
 		"origin": o, "tiles": world.tiles, "walls": world.walls, "decor": world.decor, "w": world.w, "h": world.h,
-		"torches": world.torches_in(Rect2i(o, Vector2i(LW, LH))), "player": player_cell,
+		"torches": world.torches_in(Rect2i(o, Vector2i(LW, LH))), "player": player_cell, "player_light": player_light,
 		"decor_light": _decor_light(), "lights": _station_lights(Rect2i(o, Vector2i(LW, LH))), "ambient": ambient,
 	}
 	_job = job
@@ -88,7 +89,7 @@ func _station_lights(r: Rect2i) -> Array:
 			var size: Array = st["size"]
 			var c: Vector2i = o + Vector2i(size[0] / 2, size[1] - 1)
 			if r.has_point(c):
-				out.append([c, STATION])
+				out.append([c, st.get("light_color", STATION)])
 	return out
 
 
@@ -172,9 +173,10 @@ static func _solve(job: Dictionary) -> void:
 	var pc: Vector2i = job["player"] - o
 	if pc.x >= 0 and pc.y >= 0 and pc.x < LW and pc.y < LH:
 		var i := pc.y * LW + pc.x
-		r[i] = maxf(r[i], PLAYER.r)
-		g[i] = maxf(g[i], PLAYER.g)
-		b[i] = maxf(b[i], PLAYER.b)
+		var pl: Color = job["player_light"]
+		r[i] = maxf(r[i], pl.r)
+		g[i] = maxf(g[i], pl.g)
+		b[i] = maxf(b[i], pl.b)
 	# propagazione: quattro passaggi (→ ← ↓ ↑), ripetuti due volte per girare gli angoli
 	for it in 2:
 		for y in LH:

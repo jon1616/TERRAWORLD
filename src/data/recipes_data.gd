@@ -18,6 +18,15 @@ const RECIPES := [
 	{"out": "lingotto_ambra", "qty": 1, "in": {"minerale_ambra": 4}, "station": "baccello_ardente"},
 	{"out": "maglio", "qty": 1, "in": {"lingotto_legnoferro": 5}, "station": "ceppo"},
 	{"out": "pozione_rugiada", "qty": 1, "in": {"gelatina": 2, "fungo_brace": 1}, "station": "ceppo"},
+	# il primo anello (voce 8)
+	{"out": "pozione_bagliore", "qty": 1, "in": {"fungo_luminoso": 2, "gelatina": 1, "sacca_spore": 1}, "station": "ceppo"},
+	{"out": "pozione_scorza", "qty": 1, "in": {"scaglia_ardesia": 3, "fungo_brace": 1}, "station": "ceppo"},
+	{"out": "dardo_vuoto", "qty": 20, "in": {"scheggia_vuoto": 1, "legno": 1}, "station": "ceppo"},
+	{"out": "lanterna_linfa", "qty": 1, "in": {"cristallo_linfa": 5, "lingotto_ambra": 2}, "station": "maglio"},
+	{"out": "rugiada_linfa", "qty": 1, "in": {"cristallo_linfa": 2, "fungo_luminoso": 1, "pozione_rugiada": 1}, "station": "ceppo"},
+	# il grado della Linfa si apre solo dopo il Guardiano: sconfitto o curato, due strade per lo stesso lingotto
+	{"out": "lingotto_linfa", "qty": 2, "in": {"cristallo_linfa": 4, "frammento_nodo": 1}, "station": "baccello_ardente"},
+	{"out": "lingotto_linfa", "qty": 2, "in": {"cristallo_linfa": 4, "linfa_guardiano": 1}, "station": "baccello_ardente"},
 ]
 
 static var _all: Array = []

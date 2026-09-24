@@ -28,7 +28,13 @@ var busy := false                      # un comportamento ha il controllo (es. l
 var crouch := 0.0                      # 0-1: si schiaccia prima di saltare
 var shake := 0.0                       # trema (rincorsa)
 var mouth := false                     # bocca aperta (sputaspore)
-var fire := {}                         # colpo da sparare: lo raccoglie la fauna
+var fire: Array[Dictionary] = []       # colpi da sparare: li raccoglie la fauna
+var summons: Array[String] = []        # creature chiamate in aiuto: le fa nascere la fauna
+var minions := 0                       # quante di quelle chiamate sono ancora vive
+var master: Creature                   # chi l'ha chiamata in aiuto (se qualcuno l'ha fatto)
+var boss := false                      # un Guardiano (vedi `CreaturesData`)
+var enraged := false                   # seconda fase: sotto `p.phase2` della Vita
+var calm := false                      # guarito: non attacca più, non fa danno
 var stun := 0.0
 var behaviors: Array[Behavior] = []
 var _spr: Sprite2D
@@ -57,21 +63,11 @@ func setup(cid: String, w: World, tgt: Node2D, sd: int) -> void:
 	half = Vector2(data["half"][0], data["half"][1])
 	speed = float(data.get("speed", 60))
 	fly = bool(data.get("fly", false))
+	boss = bool(data.get("boss", false))
 	for b in data["behaviors"]:
 		behaviors.append(Behavior.make(b))
 	var art: Array = data["art"]
-	var key := "%s_%d" % [art[0], art[1]]
-	if not _art_cache.has(key):
-		var fr := CreatureArt.frames(art[0], art[1])
-		var t_fr := []
-		var t_gl := []
-		for im in fr["frames"]:
-			t_fr.append(ImageTexture.create_from_image(im))
-		for im in fr["glow"]:
-			t_gl.append(ImageTexture.create_from_image(im))
-		_art_cache[key] = [t_fr, t_gl]
-	_frames = _art_cache[key][0]
-	_glows = _art_cache[key][1]
+	_load_art(String(art[0]), int(art[1]))
 	_spr = Sprite2D.new()
 	_spr.texture = _frames[0]
 	var h: int = (_frames[0] as Texture2D).get_height()
@@ -90,6 +86,33 @@ func setup(cid: String, w: World, tgt: Node2D, sd: int) -> void:
 	_bar = HpBar.new()
 	_bar.position = Vector2(0, -half.y - 8)
 	add_child(_bar)
+
+
+## Fotogrammi di una forma e variante (messi da parte la prima volta: tutte le creature uguali li condividono).
+func _load_art(shape: String, variant: int) -> void:
+	var key := "%s_%d" % [shape, variant]
+	if not _art_cache.has(key):
+		var fr := CreatureArt.frames(shape, variant)
+		var t_fr := []
+		var t_gl := []
+		for im in fr["frames"]:
+			t_fr.append(ImageTexture.create_from_image(im))
+		for im in fr["glow"]:
+			t_gl.append(ImageTexture.create_from_image(im))
+		_art_cache[key] = [t_fr, t_gl]
+	_frames = _art_cache[key][0]
+	_glows = _art_cache[key][1]
+
+
+## Il Guardiano guarito: smette di attaccare, cambia aspetto (variante 1) e sale piano verso il Cuore.
+func make_calm() -> void:
+	calm = true
+	damage = 0
+	busy = false
+	shake = 0.0
+	var art: Array = data["art"]
+	_load_art(String(art[0]), 1)
+	_bar.visible = false
 
 
 ## Più forte negli strati profondi: Vita e danno moltiplicati.
@@ -120,11 +143,14 @@ func wall_ahead(dir: int) -> bool:
 func _process(dt: float) -> void:
 	dt = minf(dt, 1.0 / 30.0)
 	stun = maxf(stun - dt, 0.0)
-	if stun <= 0.0:
+	enraged = boss and hp < hp_max * float(p.get("phase2", 0.0))
+	if calm:
+		want_fly = Vector2(sin(_anim) * 10.0, -6.0)
+	elif stun <= 0.0 or boss:
 		for b in behaviors:
 			b.tick(self, dt)
 	if fly:
-		vel = vel.move_toward(want_fly if stun <= 0.0 else Vector2.ZERO, 360.0 * dt)
+		vel = vel.move_toward(want_fly if stun <= 0.0 or boss else Vector2.ZERO, (900.0 if busy else 360.0) * dt)
 	else:
 		vel.y = minf(vel.y + 900.0 * dt, 520.0)
 		if on_floor and not busy:
@@ -165,7 +191,7 @@ func _animate(dt: float) -> void:
 		_glow.scale = _spr.scale
 	_spr.position.x = randf_range(-1.0, 1.0) if shake > 0.0 else 0.0
 	_flash = maxf(_flash - dt, 0.0)
-	_spr.modulate = Color(3, 3, 3) if _flash > 0.0 else Color.WHITE
+	_spr.modulate = Color(3, 3, 3) if _flash > 0.0 else (Color(1.35, 0.8, 0.8) if enraged and not calm else Color.WHITE)
 
 
 ## Colpo subito: toglie Vita (meno metà della difesa), spinge via, fa lampeggiare. True se la creatura muore.
@@ -178,6 +204,8 @@ func take_hit(dmg: int, from_x: float, force: float) -> bool:
 	if dir == 0.0:
 		dir = 1.0
 	var k := (1.0 - knock) * force
+	if boss:
+		_bar.visible = false               # la Vita di un Guardiano sta nella barra in alto
 	vel = Vector2(dir * 70.0 * k, -150.0 * k if not fly else -60.0 * k)
 	on_floor = false
 	_bar.set_value(float(hp) / float(hp_max))

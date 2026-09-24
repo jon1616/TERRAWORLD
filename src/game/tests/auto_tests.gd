@@ -15,6 +15,7 @@ func run(main: Node2D) -> void:
 	var p := TestsPlayer.new(kit)
 	var c := TestsCombat.new(kit)
 	var st := TestsStrata.new(kit)
+	var gd := TestsGuardian.new(kit)
 	await w.places()
 	await p.trees()
 	await p.crafting()
@@ -22,6 +23,7 @@ func run(main: Node2D) -> void:
 	await p.movement()
 	await c.run()
 	await st.run()
+	await gd.run()
 	await w.run_and_save()
 	# la Bisaccia aperta
 	main.hud.panel.toggle()

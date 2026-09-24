@@ -24,6 +24,9 @@ var fauna: Fauna
 var shots: Projectiles
 var combat: Combat
 var depth_watch: DepthWatch
+var boons: Boons
+var guardian: Guardian
+var portal: Portal
 var _spores: CPUParticles2D
 var built := false
 var gen_times: Array = []
@@ -129,6 +132,7 @@ func _build() -> void:
 	_spores = Ambience.spores()
 	add_child(_spores)
 	vitals = Vitals.new()
+	vitals.hp_max = Vitals.HP_MAX + character.vita_extra
 	vitals.hp = character.hp
 	vitals.linfa = character.linfa
 	vitals.scorza = character.bisaccia.scorza()
@@ -168,6 +172,15 @@ func _build() -> void:
 	depth_watch = DepthWatch.new()
 	add_child(depth_watch)
 	depth_watch.setup(self)
+	boons = Boons.new()
+	add_child(boons)
+	boons.setup(self)
+	guardian = Guardian.new()
+	add_child(guardian)
+	guardian.setup(self)
+	portal = Portal.new()
+	add_child(portal)
+	portal.setup(self)
 	hud.select(character.hotbar)
 	var start := world.spawn
 	var pos: Array = (world_meta.get("giocatori", {}) as Dictionary).get(character.id, [])

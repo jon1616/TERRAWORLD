@@ -19,6 +19,12 @@ var bisaccia: Bisaccia
 var cursor: MiningCursor
 var fx_parent: Node2D
 var enabled := true
+## Hook per gli usi che non stanno qui (curare un nodo, piantare un Seme di mondo, toccare il Cuore o il portale):
+## `use_hook.call(tipo, id, cella)` e `touch_hook.call(cella)` restituiscono true se hanno fatto qualcosa.
+var use_hook: Callable
+var build: Building                    # stazioni e passerelle
+var touch_hook: Callable
+signal boon(name: String, secs: float)
 var _cell := Vector2i(-9999, -9999)
 var _t := 0.0
 var _chop_t := 0.0
@@ -38,6 +44,7 @@ func setup(w: World, v: WorldView, l: LightMap, p: Player, h: Hud, d: Drops, fx:
 	cursor = MiningCursor.new()
 	cursor.z_index = 27
 	fx.add_child(cursor)
+	build = Building.new(self)
 	h.selected.connect(_on_selected)
 	_on_selected(h.current())
 
@@ -66,6 +73,8 @@ func _unhandled_input(e: InputEvent) -> void:
 	var item := hud.current()
 	var kind := String(ItemsData.get_item(item["id"]).get("kind", ""))
 	if e.button_index == MOUSE_BUTTON_RIGHT:
+		if touch_hook.is_valid() and touch_hook.call(mouse_cell()):
+			return
 		place_torch(mouse_cell())
 	elif e.button_index == MOUSE_BUTTON_LEFT:
 		if kind == "torcia":
@@ -75,11 +84,13 @@ func _unhandled_input(e: InputEvent) -> void:
 		elif kind == "seme":
 			plant(mouse_cell(), item["id"])
 		elif kind == "stazione":
-			place_station(mouse_cell(), item["id"])
+			build.place_station(mouse_cell(), item["id"])
 		elif kind == "piattaforma":
-			place_plat(mouse_cell(), item["id"])
+			build.place_plat(mouse_cell(), item["id"])
 		elif kind == "consumabile":
 			drink(item["id"])
+		elif use_hook.is_valid():
+			use_hook.call(kind, String(item["id"]), mouse_cell())
 
 
 func _process(dt: float) -> void:
@@ -119,13 +130,15 @@ func _dig(c: Vector2i, item: Dictionary, dt: float) -> float:
 		_t = 0.0
 	if not world.solid(c.x, c.y):
 		var st := world.station_at(c)
+		if not st.is_empty() and StationsData.STATIONS[st["id"]].get("fixed", false):
+			return 0.0                         # Cuore e portale non si riprendono
 		if not st.is_empty() or world.plat(c.x, c.y):
 			_t += dt
 			if _t >= 0.3:
 				if not st.is_empty():
-					take_station(st["origin"])
+					build.take_station(st["origin"])
 				else:
-					take_plat(c)
+					build.take_plat(c)
 				_t = 0.0
 			return _t / 0.3
 		if world.torches.has(c):
@@ -281,72 +294,23 @@ func place_block(c: Vector2i, id: String) -> bool:
 	return true
 
 
-## Piazza una stazione con il mouse sul bordo in basso, al centro.
-func place_station(c: Vector2i, id: String) -> bool:
-	var sid := String(ItemsData.get_item(id)["place"])
-	var size: Array = StationsData.STATIONS[sid]["size"]
-	var o := c - Vector2i(int(size[0]) / 2, int(size[1]) - 1)
-	if not in_reach(c) or not world.station_fits(sid, o):
-		hud.toast("Serve spazio libero e un pavimento sotto")
-		return false
-	var slot := hud.sel
-	if bisaccia.id_at(slot) != id:
-		return false
-	for dy in size[1]:
-		for dx in size[0]:
-			if world.decor_at(o.x + dx, o.y + dy) != 0:
-				pick_decor(o + Vector2i(dx, dy))
-	world.stations[o] = sid
-	bisaccia.take_one(slot)
-	view.add_station(o)
-	light.dirty = true
-	return true
-
-
-func take_station(o: Vector2i) -> void:
-	var sid: String = world.stations[o]
-	var size: Array = StationsData.STATIONS[sid]["size"]
-	world.stations.erase(o)
-	view.remove_station(o)
-	light.dirty = true
-	drops.spawn(String(StationsData.STATIONS[sid]["item"]), 1, Vector2(o) * S + Vector2(size[0], size[1]) * S * 0.5)
-
-
-## Passerella di radice: su una cella d'aria accanto a un blocco o a un'altra passerella.
-func place_plat(c: Vector2i, id: String) -> bool:
-	if not in_reach(c) or not world.inside(c.x, c.y) or world.solid(c.x, c.y) or world.plat(c.x, c.y) \
-			or world.torches.has(c) or not world.station_at(c).is_empty():
-		return false
-	var touches := world.solid(c.x - 1, c.y) or world.solid(c.x + 1, c.y) or world.plat(c.x - 1, c.y) \
-			or world.plat(c.x + 1, c.y) or world.solid(c.x, c.y + 1) or world.wall(c.x, c.y) != 0
-	if not touches:
-		return false
-	var slot := hud.sel
-	if bisaccia.id_at(slot) != id:
-		return false
-	if world.decor_at(c.x, c.y) != 0:
-		pick_decor(c)
-	world.set_plat(c.x, c.y, true)
-	bisaccia.take_one(slot)
-	view.refresh_around(c)
-	return true
-
-
-func take_plat(c: Vector2i) -> void:
-	world.set_plat(c.x, c.y, false)
-	view.refresh_around(c)
-	drops.spawn("passerella", 1, Vector2(c) * S + Vector2(8, 8))
-
-
 ## Beve una pozione dalla mano: cura, poi bisogna aspettare prima della prossima.
 func drink(id: String) -> bool:
-	var heal := int(ItemsData.get_item(id).get("heal", 0))
-	if heal <= 0 or vitals == null:
+	var it := ItemsData.get_item(id)
+	var heal := int(it.get("heal", 0))
+	if vitals == null or (heal <= 0 and not it.has("boon")):
 		return false
+	if it.has("boon"):
+		var slot0 := hud.sel
+		if bisaccia.id_at(slot0) != id:
+			return false
+		bisaccia.take_one(slot0)
+		boon.emit(String(it["boon"][0]), float(it["boon"][1]))
+		return true
 	if vitals.potion_wait > 0.0:
 		hud.toast("Ancora %d secondi prima di un'altra pozione" % ceili(vitals.potion_wait))
 		return false
-	if vitals.hp >= Vitals.HP_MAX:
+	if heal > 0 and vitals.hp >= vitals.hp_max:
 		hud.toast("Le foglie sono già tutte verdi")
 		return false
 	var slot := hud.sel

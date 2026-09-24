@@ -7,12 +7,13 @@ extends RefCounted
 ## Campi di un oggetto:
 ##   name   nome visibile
 ##   kind   materiale · blocco · piccone · ascia · spada · arco · munizione · torcia · stazione · piattaforma ·
-##          elmo · corazza · gambali · consumabile · seme
+##          elmo · corazza · gambali · consumabile · seme · lanterna · cura · seme_mondo
 ##   icon   [forma, materiale] per `ItemIcons.make`
 ##   stack  quanti per casella (predefinito: 999 per materiali e blocchi, 1 per attrezzi e armature)
 ##   tier   grado: 0 radice/pietra, 1 radicite, 2 legnoferro, 3 ambra
 ##   power  forza del piccone o dell'ascia (vedi `TileDefs.POWER`)
 ##   damage, speed (colpi al secondo), knockback, defense, heal
+##   boon   effetto a tempo di una pozione (vedi `Boons`): [nome, secondi]
 ##   place  tessera (id di `TileDefs`) o stazione (id di `StationsData`) che l'oggetto piazza
 ##   desc   descrizione breve
 ##
@@ -42,6 +43,7 @@ const ITEMS := {
 	"lingotto_radicite": {"name": "Lingotto di radicite", "kind": "materiale", "icon": ["lingotto", "radicite"], "tier": 1},
 	"lingotto_legnoferro": {"name": "Lingotto di legnoferro", "kind": "materiale", "icon": ["lingotto", "legnoferro"], "tier": 2},
 	"lingotto_ambra": {"name": "Lingotto d'ambra", "kind": "materiale", "icon": ["lingotto", "ambra"], "tier": 3},
+	"lingotto_linfa": {"name": "Lingotto di Linfa", "kind": "materiale", "icon": ["lingotto", "cristallo"], "tier": 4, "desc": "Cristallo di Linfa legato con ciò che resta del Guardiano: il metallo più vivo del mondo."},
 	# oggetti da piazzare
 	"torcia": {"name": "Torcia di resina", "kind": "torcia", "icon": ["torcia", "legno"], "stack": 999, "desc": "Luce calda per le grotte."},
 	"passerella": {"name": "Passerella di radice", "kind": "piattaforma", "icon": ["piattaforma", "legno"], "desc": "Ci si sale saltando da sotto."},
@@ -51,10 +53,19 @@ const ITEMS := {
 	# radice: il primo equipaggiamento
 	"arco_radice": {"name": "Arco di radice", "kind": "arco", "icon": ["arco", "legno"], "tier": 0, "damage": 5, "speed": 1.6, "knockback": 1.0},
 	"dardo": {"name": "Dardo di spina", "kind": "munizione", "icon": ["freccia", "ardesia"], "damage": 4, "stack": 999},
+	"dardo_vuoto": {"name": "Dardo di vuotite", "kind": "munizione", "icon": ["freccia", "vuotite"], "damage": 9, "stack": 999, "desc": "Punta di scheggia del Vuoto. L'arco lo preferisce ai dardi di spina."},
 	"spada_radice": {"name": "Spada di radice", "kind": "spada", "icon": ["spada", "legno"], "tier": 0, "damage": 6, "speed": 2.4, "knockback": 3.0},
 	"corazza_scaglie": {"name": "Corazza di scaglie", "kind": "corazza", "icon": ["corazza", "ardesia"], "tier": 1, "defense": 3, "desc": "Scaglie di scarabeo legate con radici."},
 	# consumabili
 	"pozione_rugiada": {"name": "Pozione di rugiada", "kind": "consumabile", "icon": ["pozione", "linfa"], "heal": 50, "stack": 30, "desc": "Rugiada raccolta all'alba: fa ricrescere 5 foglie di Vita."},
+	"pozione_bagliore": {"name": "Pozione di bagliore", "kind": "consumabile", "icon": ["pozione", "cristallo"], "boon": ["bagliore", 180.0], "stack": 30, "desc": "Il Germogliato brilla come un fungo del profondo per tre minuti."},
+	"pozione_scorza": {"name": "Pozione di scorza", "kind": "consumabile", "icon": ["pozione", "ambra"], "boon": ["scorza", 180.0], "stack": 30, "desc": "La pelle si fa corteccia: +8 Scorza per tre minuti."},
+	# il primo anello (voce 8)
+	"lanterna_linfa": {"name": "Lanterna di Linfa", "kind": "lanterna", "icon": ["lanterna", "cristallo"], "desc": "Tenuta in mano, illumina attorno di luce turchese."},
+	"rugiada_linfa": {"name": "Rugiada di Linfa", "kind": "cura", "icon": ["goccia", "muschio"], "stack": 20, "desc": "Linfa pura raccolta in una goccia. Versata su un nodo avvizzito, lo guarisce."},
+	"frammento_nodo": {"name": "Frammento del Nodo", "kind": "materiale", "icon": ["scaglia", "nodo"], "desc": "Un pezzo del Guardiano sconfitto: legno duro come pietra, ancora caldo."},
+	"linfa_guardiano": {"name": "Linfa del Guardiano", "kind": "materiale", "icon": ["goccia", "cristallo"], "desc": "Il Guardiano guarito l'ha lasciata cadere per te: Linfa antica, luminosa."},
+	"seme_mondo": {"name": "Seme di mondo", "kind": "seme_mondo", "icon": ["seme", "cristallo"], "stack": 9, "desc": "Il Cuore del mondo ti ha donato un seme. Piantalo sul terreno: crescerà un portale verso un mondo nuovo."},
 }
 
 ## Metalli: grado, forza di piccone e ascia, danno della spada, difesa dell'armatura (elmo, corazza, gambali).
@@ -62,6 +73,7 @@ const METALS := {
 	"radicite": {"label": "di radicite", "tier": 1, "power": 35, "damage": 9, "speed": 2.2, "defense": [1, 2, 1]},
 	"legnoferro": {"label": "di legnoferro", "tier": 2, "power": 45, "damage": 12, "speed": 2.3, "defense": [2, 3, 2]},
 	"ambra": {"label": "d'ambra", "tier": 3, "power": 55, "damage": 16, "speed": 2.4, "defense": [3, 4, 3]},
+	"linfa": {"label": "di Linfa", "tier": 4, "power": 65, "damage": 21, "speed": 2.6, "defense": [4, 6, 4], "icon": "cristallo"},
 }
 
 ## Modelli delle famiglie di metallo: tipo, costo in lingotti (+ legno).
@@ -72,10 +84,12 @@ const GEAR := {
 	"elmo": {"name": "Elmo", "bars": 15, "wood": 0},
 	"corazza": {"name": "Corazza", "bars": 25, "wood": 0},
 	"gambali": {"name": "Gambali", "bars": 20, "wood": 0},
+	"arco": {"name": "Arco", "bars": 10, "wood": 3},
 }
 
 ## Oggetti che nascono da qualcosa che non è una tabella (es. alberi abbattuti, voce 4).
-const OTHER_SOURCES := {"legno": "alberi", "seme_lanterna": "alberi"}
+const OTHER_SOURCES := {"legno": "alberi", "seme_lanterna": "alberi", "frammento_nodo": "Guardiano sconfitto",
+	"linfa_guardiano": "Guardiano curato", "seme_mondo": "Cuore del mondo"}
 
 static var _all := {}
 
@@ -89,7 +103,7 @@ static func all() -> Dictionary:
 		var md: Dictionary = METALS[m]
 		for g in GEAR:
 			var gd: Dictionary = GEAR[g]
-			var it := {"name": "%s %s" % [gd["name"], md["label"]], "kind": g, "icon": [g, m], "tier": md["tier"]}
+			var it := {"name": "%s %s" % [gd["name"], md["label"]], "kind": g, "icon": [g, md.get("icon", m)], "tier": md["tier"]}
 			match g:
 				"piccone", "ascia":
 					it["power"] = md["power"]
@@ -105,6 +119,10 @@ static func all() -> Dictionary:
 					it["defense"] = md["defense"][1]
 				"gambali":
 					it["defense"] = md["defense"][2]
+				"arco":
+					it["damage"] = int(md["damage"] * 0.55)
+					it["speed"] = 1.6 + 0.15 * float(md["tier"])
+					it["knockback"] = 1.2
 			out["%s_%s" % [g, m]] = it
 	_all = out
 	return _all
@@ -142,4 +160,8 @@ static func use_of(id: String) -> String:
 			return "bevi"
 		"torcia":
 			return "torcia"
+		"cura":
+			return "cura"
+		"seme_mondo":
+			return "portale"
 	return ""

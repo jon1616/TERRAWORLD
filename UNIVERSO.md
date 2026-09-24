@@ -105,6 +105,12 @@ che viene dal Giardino dei Semi.
   spore, lascia **sacche di spore**), il **Vagavuoto** (occhio di vuotite del Fondo, lascia **schegge del Vuoto**).
 - Terreno: **Humus**, **Ardesia**, **Muschio**; legno degli **alberi-lanterna**; **Radice antica**, **Scisto di Linfa**,
   **Vuotite**.
+- Il primo Guardiano: **il Nodo Avvizzito**, un gomitolo di radici attorno al **Cuore del mondo**, ammalato
+  dall'Avvizzimento; i quattro **nodi avvizziti** del soffitto si guariscono con la **Rugiada di Linfa**. Sconfitto
+  lascia i **Frammenti del Nodo**, curato la **Linfa del Guardiano**. Il Cuore guarito dona un **Seme di mondo**, che
+  cresce in un **Portale di radici**.
+- Oggetti del primo anello: **Lingotto di Linfa**, **Lanterna di Linfa**, **Pozione di bagliore**, **Pozione di
+  scorza**, **Dardo di vuotite**.
 - Strati di profondità: **Superficie**, **Sottobosco di radici**, **Caverne d'ardesia**, **Profondità della Linfa**,
   **il Fondo** (dove il mondo confina con il Vuoto).
 
