@@ -125,6 +125,7 @@ func _build() -> void:
 	cam.limit_bottom = world.h * S
 	add_child(cam)
 	cam.make_current()
+	_make_spores()
 	hud = Hud.new()
 	add_child(hud)
 	actions = PlayerActions.new()
@@ -165,6 +166,37 @@ func _make_environment() -> void:
 	var we := WorldEnvironment.new()
 	we.environment = env
 	add_child(we)
+
+
+## Spore luminose che fluttuano nell'aria attorno alla visuale, in superficie e nelle grotte.
+var _spores: CPUParticles2D
+
+
+func _make_spores() -> void:
+	_spores = CPUParticles2D.new()
+	_spores.z_index = 26
+	_spores.amount = 70
+	_spores.lifetime = 7.0
+	_spores.preprocess = 7.0
+	_spores.local_coords = false
+	_spores.emission_shape = CPUParticles2D.EMISSION_SHAPE_RECTANGLE
+	_spores.emission_rect_extents = Vector2(460, 270)
+	_spores.direction = Vector2(0.3, -1)
+	_spores.spread = 60.0
+	_spores.gravity = Vector2(0, -2)
+	_spores.initial_velocity_min = 2.0
+	_spores.initial_velocity_max = 8.0
+	_spores.scale_amount_min = 1.0
+	_spores.scale_amount_max = 1.6
+	var g := Gradient.new()
+	g.offsets = PackedFloat32Array([0.0, 0.5, 1.0])
+	g.colors = PackedColorArray([Color(0.6, 1.4, 1.3), Color(1.6, 1.2, 0.6), Color(0.9, 0.7, 1.6)])
+	_spores.color_initial_ramp = g
+	var fade := Gradient.new()
+	fade.offsets = PackedFloat32Array([0.0, 0.2, 0.8, 1.0])
+	fade.colors = PackedColorArray([Color(1, 1, 1, 0), Color(1, 1, 1, 0.8), Color(1, 1, 1, 0.8), Color(1, 1, 1, 0)])
+	_spores.color_ramp = fade
+	add_child(_spores)
 
 
 func cell_to_feet(c: Vector2i) -> Vector2:
@@ -211,6 +243,7 @@ func _process(dt: float) -> void:
 	if light.update(pc, pc):
 		overlay.position = Vector2(light.origin) * S
 	background.follow(cam.get_screen_center_position(), get_viewport_rect().size / cam.zoom, dt)
+	_spores.position = cam.get_screen_center_position()
 	_session_time += dt
 	_autosave -= dt
 	if _autosave <= 0.0:

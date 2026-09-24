@@ -29,6 +29,7 @@ var tool_tex: Texture2D
 var rig: Node2D
 var spr: Sprite2D
 var tool: Sprite2D
+var eye: Sprite2D                      # l'occhio d'ambra, disegnato sopra il buio: brilla nelle grotte
 var anim_t := 0.0
 var swing_t := 0.0
 var coyote := 0.0
@@ -49,6 +50,14 @@ func setup(wd: World) -> void:
 	spr.position = Vector2(0, -3)
 	rig.add_child(spr)
 	rig.move_child(tool, 1)
+	var ei := Image.create_empty(1, 2, false, Image.FORMAT_RGBA8)
+	ei.fill(CharacterArt.EYE)
+	eye = Sprite2D.new()
+	eye.texture = ImageTexture.create_from_image(ei)
+	eye.modulate = Color(2.4, 1.6, 0.7)
+	eye.z_as_relative = false
+	eye.z_index = 27
+	rig.add_child(eye)
 
 
 func _unhandled_input(e: InputEvent) -> void:
@@ -136,10 +145,11 @@ func _animate(dt: float) -> void:
 		swing_t = 0.0
 	if not _cache.has(key):
 		var d := CharacterArt.character(pose)
-		_cache[key] = {"tex": ImageTexture.create_from_image(d["img"]), "hand": d["hand"]}
+		_cache[key] = {"tex": ImageTexture.create_from_image(d["img"]), "hand": d["hand"], "eye": d["eye"]}
 	var entry: Dictionary = _cache[key]
 	spr.texture = entry["tex"]
 	spr.position = Vector2(0, -3 + step_vis)
+	eye.position = spr.position + (entry["eye"] as Vector2) - Vector2(12, 16)
 	rig.scale.x = facing
 	tool.visible = sw and tool_tex != null
 	if tool.visible:

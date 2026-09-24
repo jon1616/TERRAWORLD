@@ -3,19 +3,23 @@ extends RefCounted
 ## Il personaggio disegnato dal codice: i fotogrammi non sono fatti a mano, nascono da una posa (angoli di braccia e
 ## gambe). In futuro verrà sostituito o affiancato dalle immagini generate con l'IA grafica.
 
-const SKIN := Color("#f2c49b")
-const SKIN_D := Color("#cf9670")
-const HAIR := Color("#7a3f1c")
-const HAIR_L := Color("#9a5528")
-const SHIRT := Color("#3d78b8")
-const SHIRT_L := Color("#5592d2")
-const SHIRT_D := Color("#2b5a8c")
-const PANTS := Color("#4b4a5e")
-const PANTS_D := Color("#35344a")
-const BOOT := Color("#6b4526")
-const BOOT_D := Color("#4a2e18")
-const BELT := Color("#3a2614")
-const BUCKLE := Color("#e6bd34")
+# Il Germogliato: pelle calda con una venatura, capelli di foglie, occhi d'ambra, tunica ocra che risalta sul mondo turchese.
+const SKIN := Color("#dcb48a")
+const SKIN_D := Color("#b08862")
+const VEIN := Color("#5aa878")
+const HAIR := Color("#1f7a5a")
+const HAIR_L := Color("#5cc890")
+const HAIR_D := Color("#125040")
+const EYE := Color("#ffb040")
+const SHIRT := Color("#b8742e")
+const SHIRT_L := Color("#d8944a")
+const SHIRT_D := Color("#8a5220")
+const PANTS := Color("#3a3048")
+const PANTS_D := Color("#282034")
+const BOOT := Color("#4a2e24")
+const BOOT_D := Color("#321e18")
+const BELT := Color("#24160e")
+const BUCKLE := Color("#3ac0c8")
 
 
 static func pose_idle() -> Dictionary:
@@ -90,20 +94,29 @@ static func character(pose: Dictionary) -> Dictionary:
 	for y in range(3 + bob, 11 + bob):
 		for x in range(8, 16):
 			Px.put(im, x, y, SKIN_D if x == 15 or y == 10 + bob else SKIN)
+	# capelli di foglie: una calotta, foglie che si alzano all'indietro e ciocche che pendono sulla nuca
 	for x in range(7, 16):
 		Px.put(im, x, 2 + bob, HAIR)
 		Px.put(im, x, 3 + bob, HAIR_L if x % 3 == 0 else HAIR)
-	for x in range(7, 14):
-		Px.put(im, x, 4 + bob, HAIR)
-	for y in range(4 + bob, 10 + bob):
-		Px.put(im, 7, y, HAIR)
-		Px.put(im, 8, y, HAIR)
+	for x in range(7, 13):
+		Px.put(im, x, 4 + bob, HAIR_D if x < 9 else HAIR)
+	for leaf in [[Vector2(9, 2), Vector2(5, 0), HAIR], [Vector2(11, 2), Vector2(9, 0), HAIR_L], [Vector2(7, 3), Vector2(3, 2), HAIR]]:
+		Px.line(im, Vector2(leaf[0].x, leaf[0].y + bob), Vector2(leaf[1].x, leaf[1].y + bob), 1, leaf[2])
+	Px.put(im, 13, 1 + bob, HAIR_L)
+	Px.put(im, 14, 0 + bob, HAIR_L)
+	for y in range(4 + bob, 11 + bob):
+		Px.put(im, 7, y, HAIR if y < 9 + bob else HAIR_D)
+		Px.put(im, 8, y, HAIR_D)
+	Px.put(im, 6, 6 + bob, HAIR)
+	Px.put(im, 6, 8 + bob, HAIR_D)
 	Px.put(im, 9, 5 + bob, HAIR)
-	Px.put(im, 15, 4 + bob, HAIR)
+	Px.put(im, 15, 4 + bob, HAIR_L)
 	Px.put(im, 10, 7 + bob, SKIN_D)
-	Px.put(im, 13, 6 + bob, Px.OUTLINE)
-	Px.put(im, 13, 7 + bob, Px.OUTLINE)
+	Px.put(im, 13, 6 + bob, EYE)
+	Px.put(im, 13, 7 + bob, EYE)
+	Px.put(im, 12, 8 + bob, VEIN)
+	Px.put(im, 11, 9 + bob, VEIN)
 	Px.put(im, 14, 9 + bob, SKIN_D)
 	var hand := _limb(im, sh_f, pose["fa_u"], pose["fa_l"], 4.0, 4.0, 2, SHIRT_L, SKIN)
 	Px.outline(im, Px.OUTLINE)
-	return {"img": im, "hand": hand}
+	return {"img": im, "hand": hand, "eye": Vector2(13.5, 7.0 + bob)}

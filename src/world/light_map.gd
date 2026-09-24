@@ -7,9 +7,9 @@ extends RefCounted
 
 const AIR_DECAY := 0.915
 const SOLID_DECAY := 0.62
-const SKY := Color(1.0, 0.9, 0.78)
+const SKY := Color(0.92, 0.95, 1.0)
 const TORCH := Color(2.3, 1.6, 0.95)
-const PLAYER := Color(0.85, 0.72, 0.56)
+const PLAYER := Color(1.0, 0.85, 0.62)
 const LW := 128                       # finestra in tessere (la visuale è circa 50×28)
 const LH := 96
 const RECENTER := 6                   # ricentra quando la visuale si sposta di tante tessere
@@ -69,9 +69,19 @@ func _start(center: Vector2i, player_cell: Vector2i) -> void:
 	var job := {
 		"origin": o, "tiles": world.tiles, "walls": world.walls, "decor": world.decor, "w": world.w, "h": world.h,
 		"torches": world.torches_in(Rect2i(o, Vector2i(LW, LH))), "player": player_cell,
+		"decor_light": _decor_light(),
 	}
 	_job = job
 	_task = WorkerThreadPool.add_task(_solve.bind(job), false, "luce")
+
+
+## Luce di ogni decorazione (indice = id), nera se non ne emette.
+static func _decor_light() -> PackedColorArray:
+	var out := PackedColorArray()
+	out.resize(TileDefs.DECOR_COUNT + 1)
+	for id in TileDefs.DECOR_LIGHT:
+		out[id] = TileDefs.DECOR_LIGHT[id]
+	return out
 
 
 ## Il calcolo vero, nel thread: legge copie dei dati del mondo e scrive l'immagine nel lavoro.
@@ -94,7 +104,7 @@ static func _solve(job: Dictionary) -> void:
 	d.resize(n)
 	solid.resize(n)
 	var cr := TileDefs.LIGHT_CRYSTAL
-	var cg := TileDefs.LIGHT_GLOW_DECOR
+	var dlight: PackedColorArray = job["decor_light"]
 	for y in LH:
 		var wy := o.y + y
 		for x in LW:
@@ -123,7 +133,8 @@ static func _solve(job: Dictionary) -> void:
 					r[i] = SKY.r
 					g[i] = SKY.g
 					b[i] = SKY.b
-				if dc == TileDefs.DECOR_GLOW:
+				if dc != 0:
+					var cg := dlight[dc]
 					r[i] = maxf(r[i], cg.r)
 					g[i] = maxf(g[i], cg.g)
 					b[i] = maxf(b[i], cg.b)

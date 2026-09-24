@@ -1,22 +1,23 @@
 class_name Background
 extends Node2D
-## Cielo al tramonto, sole, nuvole e tre file di montagne a parallasse. Le montagne seguono con calma l'altezza della
-## superficie sotto la visuale, così restano all'orizzonte sia sulle colline sia nelle valli.
+## Cielo di «Radici e Linfa»: turchese profondo che scende al corallo, un sole pallido, le radici del cosmo che fanno
+## archi nel cielo, colline lontane e due file di alberi-lanterna a parallasse. Tutto segue con calma l'altezza della
+## superficie sotto la visuale, così resta all'orizzonte sia sulle colline sia nelle valli.
 
 const S := 16
+const IMG_H := 420
 const LAYERS := [
-	# parallasse, spostamento, larghezza, base, ampiezza, frequenza, colore alto, colore basso, neve, pini
-	[0.1, -20.0, 512, 150.0, 80.0, 0.012, "#c4b4e0", "#d4c0dc", true, ""],
-	[0.22, 20.0, 512, 150.0, 55.0, 0.016, "#8e84c0", "#7a76ac", false, ""],
-	[0.42, 60.0, 512, 150.0, 35.0, 0.02, "#4f6090", "#3e4e78", false, "#34466e"],
+	# parallasse, spostamento verticale, larghezza, tipo
+	[0.05, -170.0, 1024, "radici"],
+	[0.14, -20.0, 512, "colline"],
+	[0.28, 30.0, 640, "foresta_lontana"],
+	[0.5, 70.0, 640, "foresta_vicina"],
 ]
 
 var world: World
 var _layers: Array[Dictionary] = []
-var _clouds: Array[Sprite2D] = []
 var _sun: Sprite2D
 var _horizon := 0.0
-var _t := 0.0
 
 
 func setup(w: World) -> void:
@@ -26,31 +27,34 @@ func setup(w: World) -> void:
 	_make_sky()
 	_sun = Sprite2D.new()
 	_sun.texture = ImageTexture.create_from_image(NatureArt.sun())
-	_sun.modulate = Color(2.6, 2.2, 1.6)
+	_sun.modulate = Color(2.2, 2.1, 1.8)
 	add_child(_sun)
-	for k in 6:
-		var cl := Sprite2D.new()
-		cl.texture = ImageTexture.create_from_image(NatureArt.cloud(w.world_seed + k * 31))
-		cl.set_meta("x", k * 260.0 + (k % 2) * 90.0)
-		cl.set_meta("y", -150.0 - (k % 3) * 40.0)
-		cl.modulate = Color(1, 1, 1, 0.92)
-		add_child(cl)
-		_clouds.append(cl)
 	for k in LAYERS.size():
 		var d: Array = LAYERS[k]
-		var pines := Color(d[9]) if d[9] != "" else Color(0, 0, 0, 0)
-		var im := NatureArt.mountains(d[2], 420, w.world_seed + 50 + k, d[3], d[4], d[5], Color(d[6]), Color(d[7]), d[8], pines)
+		var width: int = d[2]
+		var im := _layer_image(String(d[3]), width, w.world_seed + 50 + k)
 		var tex := ImageTexture.create_from_image(im)
 		var node := Node2D.new()
 		add_child(node)
 		var sprites: Array[Sprite2D] = []
-		for n in 4:
+		for n in 1 + ceili(1400.0 / width):
 			var sp := Sprite2D.new()
 			sp.texture = tex
 			sp.centered = false
 			node.add_child(sp)
 			sprites.append(sp)
-		_layers.append({"node": node, "f": d[0], "off": d[1], "w": float(d[2]), "sprites": sprites})
+		_layers.append({"node": node, "f": d[0], "off": d[1], "w": float(width), "sprites": sprites})
+
+
+func _layer_image(kind: String, width: int, sd: int) -> Image:
+	match kind:
+		"radici":
+			return NatureArt.root_arches(width, IMG_H, sd, Color("#5a92a4"), Color("#86bcc4"))
+		"colline":
+			return NatureArt.mountains(width, IMG_H, sd, 190.0, 45.0, 0.012, Color("#4f8a98"), Color("#427888"), false, Color(0, 0, 0, 0))
+		"foresta_lontana":
+			return NatureArt.lantern_forest(width, IMG_H, sd, Color("#2e6474"), Color("#ffd49a"))
+	return NatureArt.lantern_forest(width, IMG_H, sd, Color("#1a4252"), Color("#ffc070"))
 
 
 func _make_sky() -> void:
@@ -60,8 +64,8 @@ func _make_sky() -> void:
 	var tr := TextureRect.new()
 	var gt := GradientTexture2D.new()
 	var gr := Gradient.new()
-	gr.offsets = PackedFloat32Array([0.0, 0.42, 0.74, 1.0])
-	gr.colors = PackedColorArray([Color("#4a60a8"), Color("#8a94d0"), Color("#f0a890"), Color("#ffdca8")])
+	gr.offsets = PackedFloat32Array([0.0, 0.4, 0.72, 1.0])
+	gr.colors = PackedColorArray([Color("#1d5670"), Color("#4a9aa6"), Color("#f0ae88"), Color("#ffe2b4")])
 	gt.gradient = gr
 	gt.fill_from = Vector2(0, 0)
 	gt.fill_to = Vector2(0, 1)
@@ -76,23 +80,16 @@ func _make_sky() -> void:
 
 ## `cp` = centro della visuale in pixel del mondo, `view` = dimensione della visuale in pixel del mondo.
 func follow(cp: Vector2, view: Vector2, dt: float, snap := false) -> void:
-	_t += dt
 	var cx := clampi(int(cp.x / S), 0, world.w - 1)
 	var target := float(world.surface[cx] * S)
 	_horizon = target if snap else lerpf(_horizon, target, clampf(dt * 1.5, 0.0, 1.0))
-	_sun.position = Vector2(cp.x * 0.97 + view.x * 0.22, cp.y * 0.95 + (_horizon - 200.0) * 0.05)
-	for cl in _clouds:
-		var bx: float = cl.get_meta("x")
-		var by: float = cl.get_meta("y")
-		var wrap := 1560.0
-		var x := fposmod(bx + _t * 6.0 - cp.x * 0.05, wrap) - wrap * 0.5
-		cl.position = Vector2(cp.x + x, cp.y * 0.93 + _horizon * 0.07 + by)
+	_sun.position = Vector2(cp.x * 0.98 + view.x * 0.18, cp.y * 0.96 + (_horizon - 240.0) * 0.04)
 	for L in _layers:
 		var f: float = L["f"]
 		var node: Node2D = L["node"]
 		var iw: float = L["w"]
 		var off: float = L["off"]
-		node.position = Vector2(cp.x * (1.0 - f), _horizon - 150.0 + off + (cp.y - _horizon) * (1.0 - f))
+		node.position = Vector2(cp.x * (1.0 - f), _horizon - 190.0 + off + (cp.y - _horizon) * (1.0 - f))
 		var k0 := floorf((cp.x - view.x * 0.5 - node.position.x) / iw)
 		var sprites: Array = L["sprites"]
 		for i in sprites.size():

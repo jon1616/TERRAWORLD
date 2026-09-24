@@ -82,8 +82,13 @@ func _process(dt: float) -> void:
 func break_tile(c: Vector2i) -> void:
 	var t := world.tile(c.x, c.y)
 	world.set_tile(c.x, c.y, TileDefs.AIR)
-	if world.decor_at(c.x, c.y - 1) != 0:
+	# ciò che poggiava sopra, o pendeva sotto, cade insieme al blocco
+	var up := world.decor_at(c.x, c.y - 1)
+	if up != 0 and not (up in TileDefs.DECOR_CEILING):
 		world.set_decor(c.x, c.y - 1, 0)
+	var down := world.decor_at(c.x, c.y + 1)
+	if down in TileDefs.DECOR_CEILING:
+		world.set_decor(c.x, c.y + 1, 0)
 	view.refresh_around(c)
 	light.dirty = true
 	Fx.dust(fx_parent, Vector2(c) * S + Vector2(8, 8), TileDefs.dust_colors(t))

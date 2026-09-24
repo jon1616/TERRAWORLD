@@ -3,9 +3,10 @@ extends Control
 ## Con `-- --prove` salta tutto e avvia le prove automatiche su un mondo fisso, in una cartella di salvataggi a parte.
 
 const GAME_SCENE := "res://src/game/main.tscn"
-const GOLD := Color("#f2cc5a")
-const TEXT := Color("#fff4dc")
-const DIM := Color("#b8b0cc")
+const GOLD := Color("#ffb84a")
+const TEXT := Color("#eafff6")
+const DIM := Color("#9fc8c0")
+const TEAL := Color("#2f7a70")
 
 var _box: VBoxContainer
 var _title: Label
@@ -23,14 +24,14 @@ func _ready() -> void:
 	_title.size = Vector2(800, 90)
 	_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	add_child(_title)
-	var sub := _label("Il Giardino dei Semi", 24, Color("#cfe8a0"))
+	var sub := _label("Il Giardino dei Semi", 24, Color("#8ef0d0"))
 	sub.set_anchors_preset(Control.PRESET_CENTER_TOP)
 	sub.position = Vector2(-400, 180)
 	sub.size = Vector2(800, 40)
 	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	add_child(sub)
 	var panel := PanelContainer.new()
-	panel.add_theme_stylebox_override("panel", _style(Color(0.08, 0.07, 0.14, 0.82), Color(0.36, 0.42, 0.72), 12))
+	panel.add_theme_stylebox_override("panel", _style(Color(0.02, 0.08, 0.1, 0.85), TEAL, 18))
 	panel.set_anchors_preset(Control.PRESET_CENTER)
 	panel.position = Vector2(-280, -160)
 	panel.custom_minimum_size = Vector2(560, 0)
@@ -152,7 +153,7 @@ func _make_backdrop() -> void:
 	var gt := GradientTexture2D.new()
 	var gr := Gradient.new()
 	gr.offsets = PackedFloat32Array([0.0, 0.5, 0.8, 1.0])
-	gr.colors = PackedColorArray([Color("#1c2350"), Color("#5a64b0"), Color("#e89a86"), Color("#ffd49a")])
+	gr.colors = PackedColorArray([Color("#123e52"), Color("#3f8a98"), Color("#f0ae88"), Color("#ffe2b4")])
 	gt.gradient = gr
 	gt.fill_to = Vector2(0, 1)
 	gt.width = 4
@@ -162,12 +163,14 @@ func _make_backdrop() -> void:
 	sky.stretch_mode = TextureRect.STRETCH_SCALE
 	sky.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(sky)
-	var cols := [["#8e84c0", "#7a76ac", ""], ["#3e4e78", "#2c3a58", "#2a3858"], ["#1c2238", "#141a2c", "#161c30"]]
-	for k in cols.size():
-		var c: Array = cols[k]
-		var pines := Color(c[2]) if c[2] != "" else Color(0, 0, 0, 0)
-		var im := NatureArt.mountains(400, 260, 9000 + k, 150.0 + k * 40, 80.0 - k * 20, 0.015 + k * 0.006, Color(c[0]), Color(c[1]), k == 0, pines)
-		im.resize(800, 520, Image.INTERPOLATE_NEAREST)
+	var imgs := [
+		NatureArt.root_arches(512, 260, 9001, Color("#5a92a4"), Color("#86bcc4")),
+		NatureArt.lantern_forest(400, 260, 9002, Color("#2e6474"), Color("#ffd49a")),
+		NatureArt.lantern_forest(400, 260, 9003, Color("#10303e"), Color("#ffc070")),
+	]
+	for k in imgs.size():
+		var im: Image = imgs[k]
+		im.resize(im.get_width() * 2, 520, Image.INTERPOLATE_NEAREST)
 		var tr := TextureRect.new()
 		tr.texture = ImageTexture.create_from_image(im)
 		tr.stretch_mode = TextureRect.STRETCH_TILE
@@ -187,7 +190,7 @@ func _label(text: String, size: int, col: Color) -> Label:
 	l.text = text
 	l.add_theme_font_size_override("font_size", size)
 	l.add_theme_color_override("font_color", col)
-	l.add_theme_color_override("font_outline_color", Color(0.05, 0.04, 0.1))
+	l.add_theme_color_override("font_outline_color", Color(0.02, 0.06, 0.08))
 	l.add_theme_constant_override("outline_size", 8)
 	return l
 
@@ -224,10 +227,10 @@ func _button(text: String, action: Callable, col := TEXT) -> Button:
 	b.add_theme_font_size_override("font_size", 20)
 	b.add_theme_color_override("font_color", col)
 	b.add_theme_color_override("font_hover_color", GOLD)
-	b.add_theme_stylebox_override("normal", _style(Color(0.14, 0.14, 0.28, 0.9), Color(0.3, 0.34, 0.6), 8))
-	b.add_theme_stylebox_override("hover", _style(Color(0.22, 0.2, 0.38, 0.95), GOLD, 8))
-	b.add_theme_stylebox_override("pressed", _style(Color(0.3, 0.26, 0.46, 1.0), GOLD, 8))
-	b.add_theme_stylebox_override("focus", _style(Color(0, 0, 0, 0), GOLD, 8))
+	b.add_theme_stylebox_override("normal", _style(Color(0.04, 0.14, 0.16, 0.9), TEAL, 20))
+	b.add_theme_stylebox_override("hover", _style(Color(0.08, 0.22, 0.24, 0.95), GOLD, 20))
+	b.add_theme_stylebox_override("pressed", _style(Color(0.12, 0.3, 0.3, 1.0), GOLD, 20))
+	b.add_theme_stylebox_override("focus", _style(Color(0, 0, 0, 0), GOLD, 20))
 	b.pressed.connect(action)
 	_box.add_child(b)
 	return b
@@ -239,8 +242,8 @@ func _field(placeholder: String, text: String) -> LineEdit:
 	e.text = text
 	e.custom_minimum_size = Vector2(0, 44)
 	e.add_theme_font_size_override("font_size", 20)
-	e.add_theme_stylebox_override("normal", _style(Color(0.05, 0.05, 0.1, 0.9), Color(0.3, 0.34, 0.6), 8))
-	e.add_theme_stylebox_override("focus", _style(Color(0.05, 0.05, 0.1, 0.9), GOLD, 8))
+	e.add_theme_stylebox_override("normal", _style(Color(0.01, 0.05, 0.06, 0.9), TEAL, 12))
+	e.add_theme_stylebox_override("focus", _style(Color(0.01, 0.05, 0.06, 0.9), GOLD, 12))
 	_box.add_child(e)
 	return e
 

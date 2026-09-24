@@ -4,8 +4,8 @@ extends Node2D
 
 const HALF := Vector2(6, 5)
 const KINDS := [
-	["#3fa83a", "#8ee070", "#22641f"],
-	["#3a7ad8", "#8ac0ff", "#1f3f86"],
+	["#2fa89a", "#8ef0d8", "#145a54"],
+	["#d88a30", "#ffd08a", "#7a4210"],
 	["#9a4ad8", "#d8a0ff", "#4f1f86"],
 ]
 

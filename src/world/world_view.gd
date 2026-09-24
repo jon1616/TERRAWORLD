@@ -1,17 +1,21 @@
 class_name WorldView
 extends Node2D
 ## Disegna il mondo a blocchi: solo i blocchi vicini alla visuale esistono come nodi, gli altri vengono creati
-## quando servono (pochi per fotogramma) e liberati quando ci si allontana. Ogni blocco ha i suoi livelli di tessere,
-## i suoi alberi e le sue torce.
+## quando servono (pochi per fotogramma) e liberati quando ci si allontana. Ogni blocco ha pareti e decorazioni sulla
+## griglia normale, il terreno dai contorni morbidi sulla «doppia griglia» (vedi `TerrainPainter`), i suoi alberi e le
+## sue torce.
 
 const S := 16
-const BUILD_PER_FRAME := 2
+const BUILD_PER_FRAME := 1
 const KEEP_MARGIN := 2                # blocchi tenuti oltre la visuale prima di liberarli
+const HALF := Vector2(-8, -8)         # spostamento della doppia griglia
 
 var world: World
-var ts_main: TileSet
-var ts_glow: TileSet
-var tex_trees: Array[Texture2D] = []
+var ts_terrain: TileSet
+var ts_terrain_glow: TileSet
+var ts_misc: TileSet
+var ts_misc_glow: TileSet
+var tex_trees: Array[Dictionary] = []
 var tex_flame: Texture2D
 var tex_stick: Texture2D
 var tex_halo: Texture2D
@@ -20,15 +24,30 @@ var _queue: Array[Vector2i] = []
 var _want := Rect2i()
 var _flames: Array[Sprite2D] = []
 var _t := 0.0
+var _member: Array[PackedByteArray] = []   # per ogni strato del terreno: 1 se il tipo di tessera ne fa parte
+var _glow_layer := -1                 # strato del terreno che ha anche la versione luminosa
 
 
 func setup(w: World) -> void:
 	world = w
-	var atlas := TilePainter.build()
-	ts_main = _tileset(ImageTexture.create_from_image(atlas["img"]))
-	ts_glow = _tileset(ImageTexture.create_from_image(atlas["glow"]))
+	var terrain := TerrainPainter.build()
+	ts_terrain = _tileset(ImageTexture.create_from_image(terrain["img"]), 16 * TerrainPainter.VARIANTS, TileDefs.TERRAIN_LAYERS.size())
+	ts_terrain_glow = _tileset(ImageTexture.create_from_image(terrain["glow"]), 16 * TerrainPainter.VARIANTS, TileDefs.TERRAIN_LAYERS.size())
+	var misc := DecorPainter.build()
+	ts_misc = _tileset(ImageTexture.create_from_image(misc["img"]), DecorPainter.COLS, DecorPainter.ROWS)
+	ts_misc_glow = _tileset(ImageTexture.create_from_image(misc["glow"]), DecorPainter.COLS, DecorPainter.ROWS)
+	for li in TileDefs.TERRAIN_LAYERS.size():
+		var L: Dictionary = TileDefs.TERRAIN_LAYERS[li]
+		var m := PackedByteArray()
+		m.resize(TileDefs.TYPES + 1)
+		for t in L["types"]:
+			m[t] = 1
+		_member.append(m)
+		if L.get("glow", false):
+			_glow_layer = li
 	for v in PassAlberi.VARIANTS:
-		tex_trees.append(ImageTexture.create_from_image(NatureArt.tree(w.world_seed * 7 + v * 131)))
+		var tr := NatureArt.tree_linfa(w.world_seed * 7 + v * 131)
+		tex_trees.append({"img": ImageTexture.create_from_image(tr["img"]), "glow": ImageTexture.create_from_image(tr["glow"])})
 	tex_flame = ImageTexture.create_from_image(NatureArt.flame())
 	tex_stick = ImageTexture.create_from_image(NatureArt.torch_stick())
 	var hg := GradientTexture2D.new()
@@ -44,14 +63,14 @@ func setup(w: World) -> void:
 	tex_halo = hg
 
 
-func _tileset(tex: Texture2D) -> TileSet:
+func _tileset(tex: Texture2D, cols: int, rows: int) -> TileSet:
 	var ts := TileSet.new()
 	ts.tile_size = Vector2i(S, S)
 	var src := TileSetAtlasSource.new()
 	src.texture = tex
 	src.texture_region_size = Vector2i(S, S)
-	for r in TilePainter.ROWS:
-		for c in TilePainter.COLS:
+	for r in rows:
+		for c in cols:
 			src.create_tile(Vector2i(c, r))
 	ts.add_source(src, 0)
 	return ts
@@ -103,32 +122,48 @@ func _build_chunk(k: Vector2i) -> void:
 	var node := Node2D.new()
 	node.name = "blocco_%d_%d" % [k.x, k.y]
 	add_child(node)
-	var walls := _layer(node, ts_main, -10)
+	var walls := _layer(node, ts_misc, -10, Vector2.ZERO)
 	var trees := Node2D.new()
 	trees.z_index = -5
 	node.add_child(trees)
-	var tiles := _layer(node, ts_main, 0)
-	var decor := _layer(node, ts_main, 1)
-	var glow := _layer(node, ts_glow, 25)
-	glow.modulate = Color(1.25, 1.25, 1.25)
+	var terrain: Array[TileMapLayer] = []
+	for li in TileDefs.TERRAIN_LAYERS.size():
+		terrain.append(_layer(node, ts_terrain, 0, HALF))
+	var decor := _layer(node, ts_misc, 1, Vector2.ZERO)
+	var glow_t := _layer(node, ts_terrain_glow, 25, HALF)
+	glow_t.modulate = Color(1.0, 1.0, 1.0)
+	var glow_d := _layer(node, ts_misc_glow, 25, Vector2.ZERO)
+	glow_d.modulate = Color(1.5, 1.5, 1.5)
 	var fx := Node2D.new()
 	fx.z_index = 26
 	node.add_child(fx)
-	node.set_meta("layers", [walls, tiles, decor, glow])
+	node.set_meta("terrain", terrain)
+	node.set_meta("grid", [walls, decor, glow_d])
+	node.set_meta("glow_t", glow_t)
 	node.set_meta("fx", fx)
 	chunks[k] = node
 	var x0 := k.x * World.CHUNK
 	var y0 := k.y * World.CHUNK
-	for y in range(y0, mini(y0 + World.CHUNK, world.h)):
-		for x in range(x0, mini(x0 + World.CHUNK, world.w)):
-			_paint_cell(Vector2i(x, y), walls, tiles, decor, glow)
+	for y in range(y0, mini(y0 + World.CHUNK, world.h + 1)):
+		for x in range(x0, mini(x0 + World.CHUNK, world.w + 1)):
+			_paint_dual(Vector2i(x, y), terrain, glow_t)
+			if x < world.w and y < world.h:
+				_paint_grid(Vector2i(x, y), walls, decor, glow_d)
 	for t in world.trees.get(k, []):
-		var tex: Texture2D = tex_trees[t.z]
+		var tex: Dictionary = tex_trees[t.z]
+		var img: Texture2D = tex["img"]
+		var pos := Vector2(t.x * S + 8 - img.get_width() / 2, (t.y + 1) * S - img.get_height() + 3)
 		var sp := Sprite2D.new()
-		sp.texture = tex
+		sp.texture = img
 		sp.centered = false
-		sp.position = Vector2(t.x * S + 8 - tex.get_width() / 2, (t.y + 1) * S - tex.get_height() + 2)
+		sp.position = pos
 		trees.add_child(sp)
+		var gl := Sprite2D.new()
+		gl.texture = tex["glow"]
+		gl.centered = false
+		gl.position = pos
+		gl.modulate = Color(1.6, 1.5, 1.3)
+		fx.add_child(gl)
 	for c in world.torches_in(Rect2i(x0, y0, World.CHUNK, World.CHUNK)):
 		_torch_nodes(node, c)
 	_sparkles(node, k)
@@ -142,18 +177,79 @@ func _free_chunk(k: Vector2i) -> void:
 	node.queue_free()
 
 
-func _layer(parent: Node, ts: TileSet, z: int) -> TileMapLayer:
+func _layer(parent: Node, ts: TileSet, z: int, offset: Vector2) -> TileMapLayer:
 	var l := TileMapLayer.new()
 	l.tile_set = ts
 	l.z_index = z
+	l.position = offset
 	parent.add_child(l)
 	return l
 
 
-func _variant(c: Vector2i) -> int:
-	return absi((c.x * 73856093) ^ (c.y * 19349663)) % TilePainter.VARIANTS
+## Cella della doppia griglia (X, Y): tocca i centri delle tessere (X-1, Y-1), (X, Y-1), (X-1, Y), (X, Y).
+func _paint_dual(c: Vector2i, terrain: Array[TileMapLayer], glow: TileMapLayer) -> void:
+	var t0 := world.tile(c.x - 1, c.y - 1)
+	var t1 := world.tile(c.x, c.y - 1)
+	var t2 := world.tile(c.x - 1, c.y)
+	var t3 := world.tile(c.x, c.y)
+	var v := TerrainPainter.variant_of(c.x, c.y)
+	for li in terrain.size():
+		var m := _member[li]
+		var k := m[t0] | (m[t1] << 1) | (m[t2] << 2) | (m[t3] << 3)
+		if k == 0:
+			terrain[li].erase_cell(c)
+		else:
+			terrain[li].set_cell(c, 0, TerrainPainter.coords(li, v, k))
+		if li == _glow_layer:
+			if k == 0:
+				glow.erase_cell(c)
+			else:
+				glow.set_cell(c, 0, TerrainPainter.coords(li, v, k))
 
 
+func _paint_grid(c: Vector2i, walls: TileMapLayer, decor: TileMapLayer, glow: TileMapLayer) -> void:
+	# la parete si mette anche dietro i blocchi: i bordi morbidi del terreno lasciano scoperti gli angoli
+	var wl := world.wall(c.x, c.y)
+	if wl > 0:
+		walls.set_cell(c, 0, DecorPainter.wall_coords(wl, c.x, c.y))
+	else:
+		walls.erase_cell(c)
+	var d := world.decor_at(c.x, c.y)
+	if d > 0:
+		decor.set_cell(c, 0, DecorPainter.decor_coords(d))
+		if TileDefs.DECOR_LIGHT.has(d):
+			glow.set_cell(c, 0, DecorPainter.decor_coords(d))
+		else:
+			glow.erase_cell(c)
+	else:
+		decor.erase_cell(c)
+		glow.erase_cell(c)
+
+
+## Ridisegna ciò che dipende dalla tessera c (dopo uno scavo o un piazzamento), nei blocchi caricati.
+func refresh_around(c: Vector2i) -> void:
+	for d in [Vector2i(0, 0), Vector2i(1, 0), Vector2i(0, 1), Vector2i(1, 1)]:
+		var q: Vector2i = c + d
+		var node: Node2D = chunks.get(World.chunk_of(q))
+		if node:
+			_paint_dual(q, node.get_meta("terrain"), node.get_meta("glow_t"))
+	for dy in range(-1, 2):
+		var q := c + Vector2i(0, dy)
+		if not world.inside(q.x, q.y):
+			continue
+		var node: Node2D = chunks.get(World.chunk_of(q))
+		if node:
+			var g: Array = node.get_meta("grid")
+			_paint_grid(q, g[0], g[1], g[2])
+
+
+func add_torch(c: Vector2i) -> void:
+	var node: Node2D = chunks.get(World.chunk_of(c))
+	if node:
+		_torch_nodes(node, c)
+
+
+## Combinazione di bordi di una tessera (per le prove: 0 = circondata da blocchi).
 func mask(c: Vector2i) -> int:
 	var m := 0
 	if not world.solid(c.x, c.y - 1):
@@ -165,50 +261,6 @@ func mask(c: Vector2i) -> int:
 	if not world.solid(c.x - 1, c.y):
 		m |= 8
 	return m
-
-
-func _paint_cell(c: Vector2i, walls: TileMapLayer, tiles: TileMapLayer, decor: TileMapLayer, glow: TileMapLayer) -> void:
-	var t := world.tile(c.x, c.y)
-	var v := _variant(c)
-	if t == TileDefs.AIR:
-		tiles.erase_cell(c)
-	else:
-		tiles.set_cell(c, 0, TilePainter.tile_coords(t, mask(c), v))
-	var wl := world.wall(c.x, c.y)
-	if wl > 0:
-		walls.set_cell(c, 0, TilePainter.wall_coords(wl, v))
-	else:
-		walls.erase_cell(c)
-	var d := world.decor_at(c.x, c.y)
-	if d > 0:
-		decor.set_cell(c, 0, TilePainter.decor_coords(d))
-	else:
-		decor.erase_cell(c)
-	if t == TileDefs.CRYSTAL:
-		glow.set_cell(c, 0, TilePainter.tile_coords(t, mask(c), v))
-	elif d == TileDefs.DECOR_GLOW:
-		glow.set_cell(c, 0, TilePainter.decor_coords(d))
-	else:
-		glow.erase_cell(c)
-
-
-## Ridisegna una cella e le sue vicine (dopo uno scavo o un piazzamento), se il loro blocco è caricato.
-func refresh_around(c: Vector2i) -> void:
-	for dy in range(-1, 2):
-		for dx in range(-1, 2):
-			var q := c + Vector2i(dx, dy)
-			if not world.inside(q.x, q.y):
-				continue
-			var node: Node2D = chunks.get(World.chunk_of(q))
-			if node:
-				var ls: Array = node.get_meta("layers")
-				_paint_cell(q, ls[0], ls[1], ls[2], ls[3])
-
-
-func add_torch(c: Vector2i) -> void:
-	var node: Node2D = chunks.get(World.chunk_of(c))
-	if node:
-		_torch_nodes(node, c)
 
 
 # ---------------------------------------------------------------- torce e scintille
@@ -270,5 +322,5 @@ func _sparkles(node: Node2D, k: Vector2i) -> void:
 			p.gravity = Vector2(0, -6)
 			p.initial_velocity_min = 0.0
 			p.initial_velocity_max = 3.0
-			p.color_ramp = Fx.fade(Color(2.0, 1.6, 3.2))
+			p.color_ramp = Fx.fade(Color(1.4, 2.6, 3.0))
 			fx.add_child(p)
