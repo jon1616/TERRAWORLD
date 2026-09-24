@@ -73,8 +73,14 @@ Oltre ai normali gradi dei materiali, armi e armature si possono **innestare**: 
 creature o Guardiani (una spada che avvelena, un'armatura che fa ricrescere la vita alla luce del sole). Innesti limitati
 per oggetto, da scegliere bene: è la profondità di equipaggiamento.
 
-Materiali (bozza): legno, rame, ferro, argento, oro come base; poi materiali propri dell'universo — **Ambra** (linfa
-fossile), **Legnoferro**, **Cristallo di Linfa**, **Radice Stellare**, e i materiali dell'Avvizzimento.
+Materiali, dal più comune al più prezioso (24 set 2026):
+1. **Radicite** — il metallo rossiccio che le radici succhiano dalla roccia vicino alla superficie.
+2. **Legnoferro** — radici antichissime diventate metallo, azzurro acciaio.
+3. **Ambra fossile** — Linfa di ere lontane, dorata e dura come metallo.
+4. **Cristallo di Linfa** — Linfa dell'Albero-Madre indurita nel profondo, turchese e luminosa.
+5. Poi **Radice Stellare** e i materiali dell'Avvizzimento.
+
+Il primo equipaggiamento è di **radice** (spada di radice, arco di radice, dardi di spina).
 
 ## Gli abitanti del Giardino (NPC, bozza)
 
@@ -84,6 +90,16 @@ Arrivano attraverso i portali quando il Giardino cresce:
 - **L'Innestatrice** — innesti su semi ed equipaggiamento.
 - **L'Erborista** — pozioni e il catalogo di piante e creature.
 - **Il Cartografo dei Seminatori** — decifra le scritte antiche, porta avanti la storia.
+
+## Nomi delle cose
+
+Regola (utente, 24 set 2026): **le funzioni possono somigliare a quelle di Terraria, i nomi no**. Ogni cosa ha un nome
+che viene dal Giardino dei Semi.
+- Stazioni: **Ceppo del Giardiniere** (si lavora il legno), **Baccello ardente** (un baccello di pietra che cova la brace:
+  fonde i minerali), **Maglio dei Seminatori** (un loro attrezzo ritrovato: forgia attrezzi e armature).
+- Oggetti: **Torcia di resina**, **Passerella di radice**, **Pozione di Linfa**, **Gelatina di muschio**, **Fungo di brace**.
+- Creature: i **grumi** — gocce di muschio, resina o spore che si sono animate e saltellano.
+- Terreno: **Humus**, **Ardesia**, **Muschio**; legno degli **alberi-lanterna**.
 
 ## Da collezionare
 

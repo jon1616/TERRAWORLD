@@ -69,7 +69,7 @@ static func decor(id: int) -> Dictionary:
 						Px.put(im, int(x) + (1 if s % 4 == 1 else -1), 15 - s, moss[2])
 		4, 5, 6:
 			# campanule luminose: stelo ad arco e corolla che pende
-			var heads := [TileDefs.P_CRYSTAL, TileDefs.P_COPPER, ["#3a1a5a", "#6a3aa8", "#a878f0", "#e0c8ff"]]
+			var heads := [TileDefs.P_CRYSTAL, TileDefs.P_BRACE, ["#3a1a5a", "#6a3aa8", "#a878f0", "#e0c8ff"]]
 			var hp := Px.pal(heads[id - 4])
 			Px.curve(im, Vector2(8, 15), Vector2(7, 6), Vector2(11, 6), 1, moss[2])
 			Px.put(im, 6, 12, moss[3])
@@ -94,7 +94,7 @@ static func decor(id: int) -> Dictionary:
 						Px.put(im, x, y, sp[clampi(int((0.5 - dx * 0.35 - dy * 0.5) * 5.0), 1, 4)])
 		9, 10:
 			var stem := Color("#d8c8b0") if id == 9 else Color("#9ad8e8")
-			var cap := Px.pal(TileDefs.P_COPPER) if id == 9 else Px.pal(["#0a6a9a", "#28c0ff", "#b0f4ff", "#e8ffff"])
+			var cap := Px.pal(TileDefs.P_BRACE) if id == 9 else Px.pal(["#0a6a9a", "#28c0ff", "#b0f4ff", "#e8ffff"])
 			Px.line(im, Vector2(8, 15), Vector2(8, 11), 2, stem)
 			for y in range(6, 11):
 				for x in S:
@@ -111,7 +111,7 @@ static func decor(id: int) -> Dictionary:
 		11, 12:
 			# radici pendenti dal soffitto, con la punta accesa di Linfa
 			outline = false
-			var amber := Px.pal(TileDefs.P_COPPER)
+			var amber := Px.pal(TileDefs.P_BRACE)
 			for k in (3 if id == 11 else 2):
 				var x := rng.randf_range(3.0, 12.0)
 				var length := rng.randi_range(10, 15) if id == 11 else rng.randi_range(6, 9)

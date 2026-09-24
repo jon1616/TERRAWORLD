@@ -2,14 +2,15 @@ class_name ItemIcons
 extends RefCounted
 ## Icone degli oggetti (16×16) nello stile «Radici e Linfa»: manici di legno di radice fasciati di foglia, lame a forma
 ## di foglia, lingotti a forma di seme, perle d'ambra. Ogni forma è una funzione; il materiale sceglie la tavolozza,
-## così la stessa funzione fa la spada di rame, di ferro, d'oro… `make(forma, materiale)`, oppure `of(id)` da `ItemsData`.
+## così la stessa funzione fa la spada di radicite, di legnoferro, d'ambra… `make(forma, materiale)`, oppure `of(id)` da `ItemsData`.
 
 const S := 16
 const OUT := Color("#050c10")
 const MATERIALS := {
-	"rame": ["#5a2a14", "#9a4a22", "#d4783a", "#ffb070"],
-	"ferro": ["#3a4250", "#6a7688", "#a2b0c2", "#dce6f2"],
-	"oro": ["#6a4a0c", "#b0861c", "#eec04a", "#fff2a8"],
+	"radicite": ["#5a2414", "#963a22", "#cc6034", "#f8a070"],
+	"legnoferro": ["#3a4250", "#6a7688", "#a2b0c2", "#dce6f2"],
+	"ambra": ["#6a4a0c", "#b0861c", "#eec04a", "#fff2a8"],
+	"brace": ["#5a2a14", "#9a4a22", "#d4783a", "#ffb070"],
 	"cristallo": ["#0a2a36", "#1f8a9a", "#5cc8cc", "#b8f4f0"],
 	"legno": ["#1c1016", "#2e1c26", "#46303a", "#644652", "#86606e"],
 	"humus": ["#34202a", "#4a2e3c", "#62404e", "#7c5262", "#9a6a7a"],

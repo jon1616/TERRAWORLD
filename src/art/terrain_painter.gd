@@ -146,7 +146,7 @@ static func material(id: String, p: Array[Color], sd: int) -> PackedColorArray:
 			_fibers(col, rng, [Px.sh(p[0], 0.8)], 3, 14)
 		"muschio":
 			_specks(col, rng, p[4], 90)
-		"rame", "ferro", "oro":
+		"radicite", "legnoferro", "ambra":
 			_nuggets(col, rng, p)
 		"cristallo":
 			_facets(col, rng, p)

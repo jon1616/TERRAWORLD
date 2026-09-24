@@ -20,8 +20,8 @@ func _init() -> void:
 		for t in times:
 			totals[t[0]] = int(totals.get(t[0], 0)) + int(t[1])
 		var counts := _counts(w)
-		print("seme %d: %d ms · aria sotto terra %d%% · rame %d · ferro %d · oro %d · cristalli %d · torce %d · alberi %d" % [
-			sd, ms, counts["cave"], counts[TileDefs.COPPER], counts[TileDefs.IRON], counts[TileDefs.GOLD],
+		print("seme %d: %d ms · aria sotto terra %d%% · radicite %d · legnoferro %d · ambra %d · cristalli %d · torce %d · alberi %d" % [
+			sd, ms, counts["cave"], counts[TileDefs.RADICITE], counts[TileDefs.LEGNOFERRO], counts[TileDefs.AMBRA],
 			counts[TileDefs.CRYSTAL], w.torches.size(), counts["trees"]])
 		_save_map(w, "res://mappe/mondo_%d.png" % sd, full)
 	var line := "media per passata:"
@@ -37,7 +37,7 @@ func _arg(args: PackedStringArray, key: String, def: String) -> String:
 
 
 func _counts(w: World) -> Dictionary:
-	var c := {TileDefs.COPPER: 0, TileDefs.IRON: 0, TileDefs.GOLD: 0, TileDefs.CRYSTAL: 0, "cave": 0, "trees": 0}
+	var c := {TileDefs.RADICITE: 0, TileDefs.LEGNOFERRO: 0, TileDefs.AMBRA: 0, TileDefs.CRYSTAL: 0, "cave": 0, "trees": 0}
 	var under := 0
 	var air := 0
 	for y in w.h:

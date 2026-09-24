@@ -14,7 +14,7 @@ var walls := PackedByteArray()
 var decor := PackedByteArray()
 var surface := PackedInt32Array()      # prima riga di terreno di ogni colonna (prima delle grotte)
 var spawn := Vector2i.ZERO
-var slimes: Array[Dictionary] = []
+var creatures: Array[Dictionary] = []
 var torches := {}                      # Vector2i -> true
 var _torch_buckets := {}               # Vector2i(bx, by) -> Array[Vector2i]
 var trees := {}                        # blocco Vector2i -> Array[Vector3i(x, y, variante)]
@@ -33,7 +33,7 @@ func setup(width: int, height: int) -> void:
 	torches.clear()
 	_torch_buckets.clear()
 	trees.clear()
-	slimes.clear()
+	creatures.clear()
 
 
 func tile(x: int, y: int) -> int:

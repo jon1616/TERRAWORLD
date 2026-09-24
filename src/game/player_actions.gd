@@ -78,7 +78,7 @@ func _process(dt: float) -> void:
 			if _t < 0.0:
 				_t = 0.0
 			_t += dt
-			# più forza = più veloce (il rame, forza 35, è il riferimento di TileDefs.HARD)
+			# più forza = più veloce (la radicite, forza 35, è il riferimento di TileDefs.HARD)
 			var hard: float = float(TileDefs.HARD[t]) * 35.0 / float(maxi(power, 1))
 			prog = _t / hard
 			if _t >= hard:

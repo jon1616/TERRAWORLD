@@ -2,7 +2,7 @@ class_name CreatureArt
 extends RefCounted
 ## Creature semplici disegnate dal codice.
 
-static func slime(body: Color, light: Color, dark: Color) -> Image:
+static func grumo(body: Color, light: Color, dark: Color) -> Image:
 	var im := Px.img(16, 14)
 	for y in 13:
 		for x in 16:

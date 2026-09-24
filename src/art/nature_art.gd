@@ -16,7 +16,7 @@ static func tree_linfa(sd: int) -> Dictionary:
 	var gm := Px.img(W, H)
 	var bark := Px.pal(["#140c14", "#241624", "#362234", "#4c3246"])
 	var frond := Px.pal(["#0b2e30", "#134a48", "#1f6a60", "#339280", "#62c4a4"])
-	var pod := Px.pal(TileDefs.P_COPPER)
+	var pod := Px.pal(TileDefs.P_BRACE)
 	var cx := W / 2.0
 	var top := rng.randi_range(40, 56)
 	var phase := rng.randf() * TAU

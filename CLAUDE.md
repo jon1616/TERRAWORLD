@@ -20,6 +20,10 @@ Documenti: `UNIVERSO.md` (ambientazione «Il Giardino dei Semi»), `ROADMAP.md` 
   accenti; alberi-lanterna a salice con baccelli luminosi; cielo turchese-corallo attraversato dalle radici del cosmo;
   il Germogliato con capelli di foglie, tunica ocra e occhi d'ambra che brillano al buio. **Mai tornare a tessere quadrate
   con contorno, terra marrone + erba verde, chiome tonde: sono la firma di Terraria.**
+- **Nomi tutti nostri**: le funzioni possono somigliare a Terraria, i nomi no (appunto dell'utente, 24 set 2026). Metalli
+  radicite → legnoferro → ambra fossile → cristallo di Linfa; stazioni Ceppo del Giardiniere, Baccello ardente, Maglio
+  dei Seminatori; creature «grumi». Elenco in `UNIVERSO.md`, sezione «Nomi delle cose». Ogni contenuto nuovo nasce con
+  un nome dell'universo.
 - **Ordine del codice fin dall'inizio** (richiesta dell'utente: in Inkblood `main.gd` era arrivato a 17.000 righe) e **Git**
   dal primo giorno. Vedi «Ordine del codice» qui sotto.
 
@@ -57,13 +61,13 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 - `src/core/` — attrezzi generici: `Px` (primitive di pixel art, contorno automatico), `Fx` (sfumature, polvere di scavo).
 - `src/data/` — **solo dati** (voce 3):
   - `TileDefs` — tipi di tessera, durezza (`HARD`, secondi col rame), forza di piccone richiesta (`POWER`: il ferro vuole
-    rame 35, l'oro ferro 45, i cristalli oro 55), cosa lasciano (`DROP`, `DECOR_DROP`), vene di minerale (`ORES`,
+    radicite 35, l'ambra legnoferro 45, i cristalli ambra 55), cosa lasciano (`DROP`, `DECOR_DROP`), vene (`ORES`,
     lette da `PassMinerali`), strati del terreno, tavolozze, luce, decorazioni.
   - `ItemsData` — tutti gli oggetti (campi descritti in cima al file). Le famiglie di metallo (piccone, ascia, spada,
-    elmo, corazza, gambali × rame, ferro, oro) nascono da `METALS` × `GEAR` in `all()`: un metallo nuovo = una riga.
+    elmo, corazza, gambali × radicite, legnoferro, ambra) nascono da `METALS` × `GEAR` in `all()`: un metallo = una riga.
     `DEMO_HOTBAR` = barra di prova finché non c'è l'inventario; `use_of(id)` = cosa fa il clic.
-  - `RecipesData` (ricette, più quelle generate delle famiglie di metallo), `StationsData` (banco da lavoro, fornace,
-    incudine), `CreaturesData` (statistiche, comportamenti, bottino, strati), `LootData` (tabelle e `roll`).
+  - `RecipesData` (ricette, più quelle generate delle famiglie di metallo), `StationsData` (ceppo, baccello ardente,
+    maglio), `CreaturesData` (i grumi: statistiche, comportamenti, bottino, strati), `LootData` (tabelle e `roll`).
 - `src/art/` — grafica generata dal codice:
   - `TerrainPainter` — terreno dai contorni morbidi con la **doppia griglia**: si disegna una griglia spostata di mezza
     tessera; ogni cella tocca i centri di 4 tessere e, secondo quali sono piene (16 combinazioni), traccia una forma
@@ -98,9 +102,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   partenza, posizione di ogni personaggio), `Character` (personaggio separato dai mondi, `personaggi/<id>.json`).
   Cartella: `%APPDATA%\Godot\app_userdata\TERRAWORLD\salvataggi\`. Le creature non si salvano: si rimettono con
   `PassPartenza.place_creatures`.
-- `src/entities/` — `TileBody` (movimento contro la griglia, gradino automatico), `Player` (movimento a ogni fotogramma
+- `src/entities/` — `TileBody` (movimento contro la griglia, gradino automatico), `Grumo` (creatura che saltella), `Player` (movimento a ogni fotogramma
   disegnato, a passi di al massimo 1/30 s; valori di base in cima al file: corsa 95 px/s, salto pieno ~3,3 tessere;
-  `auto_dir`/`auto_jump` per le prove e i futuri bot), `Slime`.
+  `auto_dir`/`auto_jump` per le prove e i futuri bot).
 - `src/ui/` — `menu.tscn`/`menu.gd` (scena iniziale: titolo, personaggi, mondi, creazione), `Hud` (barra rapida,
   segnale `selected`, `toast` per i messaggi brevi; barra in basso al centro), `MiningCursor`.
 - `src/game/` — `session.gd` (autoload `Session`: personaggio e mondo scelti nel menu; non esiste negli script headless

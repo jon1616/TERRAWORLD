@@ -75,7 +75,7 @@ func _build() -> void:
 		push_error("mondo %s illeggibile" % world_id)
 		get_tree().change_scene_to_file(MENU_SCENE)
 		return
-	if world.slimes.is_empty():
+	if world.creatures.is_empty():
 		var rng := RandomNumberGenerator.new()
 		rng.seed = world.world_seed
 		PassPartenza.place_creatures(world, rng)
@@ -94,9 +94,9 @@ func _build() -> void:
 	player.z_index = 4
 	player.position = cell_to_feet(world.spawn)
 	add_child(player)
-	for k in world.slimes.size():
-		var sd: Dictionary = world.slimes[k]
-		var sl := Slime.new()
+	for k in world.creatures.size():
+		var sd: Dictionary = world.creatures[k]
+		var sl := Grumo.new()
 		var sc: Vector2i = sd["cell"]
 		sl.position = Vector2(sc.x * S + 8, sc.y * S)
 		sl.z_index = 3

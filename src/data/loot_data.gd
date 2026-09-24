@@ -3,15 +3,15 @@ extends RefCounted
 ## Tabelle di bottino: ogni voce = oggetto, quantità minima e massima, probabilità (0-1).
 
 const TABLES := {
-	"slime": [
-		{"item": "gel", "min": 1, "max": 2, "chance": 1.0},
+	"grumo": [
+		{"item": "gelatina", "min": 1, "max": 2, "chance": 1.0},
 	],
-	"slime_ambra": [
-		{"item": "gel", "min": 2, "max": 3, "chance": 1.0},
-		{"item": "fungo", "min": 1, "max": 1, "chance": 0.15},
+	"grumo_resina": [
+		{"item": "gelatina", "min": 2, "max": 3, "chance": 1.0},
+		{"item": "fungo_brace", "min": 1, "max": 1, "chance": 0.15},
 	],
-	"slime_spore": [
-		{"item": "gel", "min": 2, "max": 4, "chance": 1.0},
+	"grumo_spore": [
+		{"item": "gelatina", "min": 2, "max": 4, "chance": 1.0},
 		{"item": "fungo_luminoso", "min": 1, "max": 2, "chance": 0.25},
 	],
 }
