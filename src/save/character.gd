@@ -1,7 +1,7 @@
 class_name Character
 extends RefCounted
-## Un personaggio, separato dai mondi come in Terraria: può entrare in qualunque mondo. Per ora conserva poco;
-## inventario, equipaggiamento, vita e Linfa arriveranno con la voce 4 della Roadmap.
+## Un personaggio, separato dai mondi: può entrare in qualunque mondo portando con sé la sua Bisaccia.
+## Equipaggiamento, vita e Linfa arrivano con la voce 4d della Roadmap.
 
 const FORMAT := 1
 
@@ -12,11 +12,13 @@ var last_save := ""
 var play_time := 0.0                   # secondi
 var hotbar := 0                        # casella scelta nella barra rapida
 var last_world := ""
+var bisaccia: Bisaccia
 
 
 func to_dict() -> Dictionary:
 	return {"formato": FORMAT, "nome": name, "creato": created, "ultimo_salvataggio": last_save,
-		"tempo_di_gioco": play_time, "barra": hotbar, "ultimo_mondo": last_world}
+		"tempo_di_gioco": play_time, "barra": hotbar, "ultimo_mondo": last_world,
+		"bisaccia": bisaccia.to_array() if bisaccia else []}
 
 
 static func from_dict(cid: String, d: Dictionary) -> Character:
@@ -28,6 +30,8 @@ static func from_dict(cid: String, d: Dictionary) -> Character:
 	c.play_time = float(d.get("tempo_di_gioco", 0.0))
 	c.hotbar = int(d.get("barra", 0))
 	c.last_world = String(d.get("ultimo_mondo", ""))
+	# i personaggi salvati prima della Bisaccia ricevono il corredo iniziale
+	c.bisaccia = Bisaccia.from_array(d["bisaccia"]) if d.has("bisaccia") else Bisaccia.starter()
 	return c
 
 
@@ -36,6 +40,7 @@ static func create(char_name: String) -> Character:
 	c.name = char_name
 	c.id = SavePaths.new_id(char_name)
 	c.created = SavePaths.now_text()
+	c.bisaccia = Bisaccia.starter()
 	return c
 
 

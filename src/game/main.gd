@@ -17,6 +17,7 @@ var hud: Hud
 var actions: PlayerActions
 var overlay: Sprite2D
 var fx: Node2D
+var drops: Drops
 var built := false
 var gen_times: Array = []
 var _gen_task := -1
@@ -126,11 +127,15 @@ func _build() -> void:
 	add_child(cam)
 	cam.make_current()
 	_make_spores()
+	drops = Drops.new()
+	add_child(drops)
+	drops.setup(world, player, character.bisaccia)
 	hud = Hud.new()
+	hud.bisaccia = character.bisaccia
 	add_child(hud)
 	actions = PlayerActions.new()
 	add_child(actions)
-	actions.setup(world, view, light, player, hud, fx)
+	actions.setup(world, view, light, player, hud, drops, fx)
 	hud.select(character.hotbar)
 	var start := world.spawn
 	var pos: Array = (world_meta.get("giocatori", {}) as Dictionary).get(character.id, [])

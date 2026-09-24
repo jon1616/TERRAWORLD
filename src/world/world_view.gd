@@ -265,6 +265,20 @@ func mask(c: Vector2i) -> int:
 
 # ---------------------------------------------------------------- torce e scintille
 
+## Toglie i nodi di una torcia (fiamma, bastone, alone, scintille) dal suo blocco, se è caricato.
+func remove_torch(c: Vector2i) -> void:
+	var node: Node2D = chunks.get(World.chunk_of(c))
+	if node == null:
+		return
+	var by_cell: Dictionary = node.get_meta("torch_nodes", {})
+	for n in by_cell.get(c, []):
+		if n is Sprite2D:
+			_flames.erase(n)
+			(node.get_meta("flames", []) as Array).erase(n)
+		(n as Node).queue_free()
+	by_cell.erase(c)
+
+
 func _torch_nodes(node: Node2D, c: Vector2i) -> void:
 	var fx: Node2D = node.get_meta("fx")
 	var base := Vector2(c.x * S + 8, (c.y + 1) * S)
@@ -303,6 +317,9 @@ func _torch_nodes(node: Node2D, c: Vector2i) -> void:
 	p.initial_velocity_max = 20.0
 	p.color_ramp = Fx.fade(Color(2.4, 1.3, 0.5))
 	fx.add_child(p)
+	var by_cell: Dictionary = node.get_meta("torch_nodes", {})
+	by_cell[c] = [st, fl, halo, p]
+	node.set_meta("torch_nodes", by_cell)
 
 
 func _sparkles(node: Node2D, k: Vector2i) -> void:

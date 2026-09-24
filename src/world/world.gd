@@ -90,6 +90,14 @@ func add_torch(c: Vector2i) -> void:
 	(_torch_buckets[b] as Array).append(c)
 
 
+func remove_torch(c: Vector2i) -> void:
+	if not torches.has(c):
+		return
+	torches.erase(c)
+	var b := Vector2i(c.x / BUCKET, c.y / BUCKET)
+	(_torch_buckets.get(b, []) as Array).erase(c)
+
+
 func torches_in(r: Rect2i) -> Array[Vector2i]:
 	var out: Array[Vector2i] = []
 	for by in range(floori(r.position.y / float(BUCKET)), floori((r.end.y - 1) / float(BUCKET)) + 1):

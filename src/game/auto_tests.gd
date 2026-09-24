@@ -36,11 +36,17 @@ func run(main: Node2D) -> void:
 			if world.solid(target.x, target.y):
 				break
 			target.x += 1
+		var mined := ""
+		var had := 0
 		if world.solid(target.x, target.y):
+			mined = String(TileDefs.DROP[world.tile(target.x, target.y)])
+			had = (m.character.bisaccia as Bisaccia).count(mined)
 			m.actions.break_tile(target)
 		await _frames(6)
 		await _save("04_scavo")
 		m.player.force_swing = false
+		if mined != "":
+			await _pickup_and_place(world, mined, target, had)
 	# cristalli: il più vicino alla partenza che tocca l'aria
 	var crystals: Array = []
 	for y in range(world.surface[world.spawn.x] + 340, mini(world.surface[world.spawn.x] + 520, world.h)):
@@ -82,6 +88,14 @@ func run(main: Node2D) -> void:
 	var t_load := Time.get_ticks_msec() - t1
 	var same: bool = l != null and l.tiles == world.tiles and l.walls == world.walls and l.decor == world.decor and l.torches.size() == world.torches.size()
 	print("salvataggio dal gioco %d ms, ricaricamento %d ms: %s" % [t_save, t_load, "identico" if same else "DIVERSO"])
+	var saved := Character.load_id(m.character.id)
+	var bis_ok: bool = saved != null and saved.bisaccia.to_array() == m.character.bisaccia.to_array()
+	print("Bisaccia salvata e ricaricata: %s" % ("identica" if bis_ok else "DIVERSA"))
+	# la Bisaccia aperta
+	m.hud.panel.toggle()
+	await _frames(12)
+	await _save("07_bisaccia")
+	m.hud.panel.toggle()
 	get_tree().quit()
 
 
@@ -137,6 +151,26 @@ func _movement(world: World) -> void:
 	m.light.dirty = true
 
 
+## Ciò che si scava cade, viene raccolto nella Bisaccia, e con il blocco in mano lo si rimette dov'era.
+func _pickup_and_place(world: World, id: String, cell: Vector2i, before: int) -> void:
+	var b: Bisaccia = m.character.bisaccia
+	for k in 90:
+		await get_tree().process_frame
+		if b.count(id) > before:
+			break
+	print("raccolta: %s %s" % [id, "nella Bisaccia" if b.count(id) > before else "NON raccolto"])
+	var slot := -1
+	for i in Bisaccia.HOTBAR:
+		if b.id_at(i) == id:
+			slot = i
+	if slot < 0 or String(ItemsData.get_item(id).get("kind", "")) != "blocco":
+		return
+	m.hud.select(slot)
+	var ok: bool = m.actions.place_block(cell, id)
+	print("piazzamento: %s" % ("blocco rimesso" if ok and world.solid(cell.x, cell.y) else "NON riuscito"))
+	await _frames(5)
+
+
 func _frames(n: int) -> void:
 	for k in n:
 		await get_tree().process_frame
@@ -145,8 +179,8 @@ func _frames(n: int) -> void:
 ## Foto della finestra. Si aspettano due fotogrammi normali: `frame_post_draw` a volte non arriva e bloccava la prova
 ## (succedeva anche in Inkblood).
 func _save(name: String) -> void:
-	await get_tree().process_frame
-	await get_tree().process_frame
+	for k in 4:
+		await get_tree().process_frame
 	var img := get_viewport().get_texture().get_image()
 	img.save_png(ProjectSettings.globalize_path("res://prove/%s.png" % name))
 	print("salvato ", name)

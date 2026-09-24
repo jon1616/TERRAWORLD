@@ -41,8 +41,9 @@ Godot_console.exe --headless --path . --check-only --script res://src/world/worl
 # prove automatiche con finestra (~25 s): screenshot in prove/ (01_superficie, 02_grotta_torcia, 03_cristalli, 04_scavo,
 # 05_dopo_la_corsa, 06_muro_3_blocchi), misura del movimento (velocità, salto pieno in tessere, muro di 3 blocchi da
 # scavalcare) e dei fotogrammi durante una corsa in superficie (obiettivo: 60 fps, fotogramma peggiore < 25 ms)
-# Le prove usano user://prove_salvataggi (personaggio «prova», mondo «mondo_prova» rigenerato ogni volta) e alla fine
-# salvano dal gioco e ricaricano: il mondo su disco deve risultare «identico».
+# Le prove usano user://prove_salvataggi (personaggio «prova» con il corredo iniziale, mondo «mondo_prova» rigenerato
+# ogni volta); controllano raccolta e piazzamento di un blocco, salvano dal gioco e ricaricano (mondo e Bisaccia
+# «identici») e fotografano la Bisaccia aperta (07_bisaccia).
 Godot_console.exe --path . -- --prove            # --carica riapre il mondo di prova salvato invece di rigenerarlo;
                                                  # --senza-luce per vedere i colori senza il buio
 # foto delle schermate del menu in prove/ (menu_titolo, menu_personaggi, menu_nuovo_mondo)
@@ -104,14 +105,22 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   `PassPartenza.place_creatures`.
 - `src/entities/` — `TileBody` (movimento contro la griglia, gradino automatico), `Grumo` (creatura che saltella), `Player` (movimento a ogni fotogramma
   disegnato, a passi di al massimo 1/30 s; valori di base in cima al file: corsa 95 px/s, salto pieno ~3,3 tessere;
-  `auto_dir`/`auto_jump` per le prove e i futuri bot).
-- `src/ui/` — `menu.tscn`/`menu.gd` (scena iniziale: titolo, personaggi, mondi, creazione), `Hud` (barra rapida,
-  segnale `selected`, `toast` per i messaggi brevi; barra in basso al centro), `MiningCursor`.
+  `auto_dir`/`auto_jump` per le prove e i futuri bot), `Drops` (oggetti caduti a terra: cadono, vengono attirati entro
+  5 tessere, entrano nella Bisaccia se c'è posto; non si salvano).
+- `src/ui/` — `menu.tscn`/`menu.gd` (scena iniziale: titolo, personaggi, mondi, creazione), `Hud` (barra rapida = le
+  prime 10 caselle della Bisaccia, in basso al centro; `current()` = oggetto in mano; segnale `selected`; `toast`; tasto
+  E/Tab apre la Bisaccia), `BisacciaPanel` (le altre 30 caselle; clic prende/posa/scambia, clic destro metà pila),
+  `SlotView` (casella riusabile con icona e quantità), `MiningCursor`.
+- `src/game/bisaccia.gd` (`Bisaccia`) — l'inventario: 40 caselle (prime 10 = barra rapida), `add`/`remove`/`count`/
+  `room_for`/`take_one`/`swap_with`, corredo iniziale (`STARTER`), si salva con il personaggio.
 - `src/game/` — `session.gd` (autoload `Session`: personaggio e mondo scelti nel menu; non esiste negli script headless
   né in `--check-only`, dove «Identifier not found: Session» è normale), `main.gd` (solo montaggio: caricamento o
-  generazione in un thread, nodi, camera, salvataggio automatico ogni 5 minuti, Esc = salva e torna al menu,
+  generazione in un thread, nodi, camera, salvataggio automatico ogni 5 minuti, Esc = salva e torna al menu (con la
+  Bisaccia aperta Esc la chiude soltanto),
   salvataggio alla chiusura della finestra), `Background`
-  (cielo, sole, nuvole, montagne che seguono la superficie sotto la visuale), `PlayerActions` (scavo, torce),
+  (cielo, radici del cosmo, colline e foreste che seguono la superficie sotto la visuale), `PlayerActions` (secondo
+  l'oggetto in mano: scavo con controllo della forza, raccolta di decorazioni e torce, piazzamento di blocchi e torce
+  dalla Bisaccia),
   `AutoTests` (prove automatiche).
 - `tools/` — strumenti da riga di comando (`mappe.gd`, `prova_salvataggi.gd`, `verifica_dati.gd`).
 
@@ -142,7 +151,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 - Contorni morbidi senza cambiare la logica: la «doppia griglia» (16 forme per strato) tiene scavo e collisioni sulle
   tessere quadrate. Le collisioni restano squadrate: i bordi disegnati coincidono con i lati delle tessere a metà strada.
 - Nelle prove con finestra non aspettare `RenderingServer.frame_post_draw`: a volte non arriva e la prova resta ferma
-  (successo anche in Inkblood). Bastano due `process_frame` prima di leggere l'immagine della finestra.
+  (successo anche in Inkblood). Si aspettano 4 `process_frame` prima di leggere l'immagine della finestra: con 2 a
+  volte l'immagine era di qualche fotogramma prima (la Bisaccia appena aperta non compariva).
 - Il generatore usa un solo `rng` per tutte le passate: cambiare una passata sposta anche ciò che viene dopo (torce,
   decorazioni). Le prove non devono dipendere da un punto preciso del mondo: cercano il primo candidato valido.
 - Gli alberi hanno 8 forme disegnate una volta sola e riusate (disegnarne uno per albero costava secondi).

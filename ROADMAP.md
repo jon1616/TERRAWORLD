@@ -55,7 +55,7 @@ Icone di tutti gli oggetti rifatte nello stile «Radici e Linfa». Il gioco usa 
 ricetta: li useranno le voci 5b e 8). Biomi e strati: nella voce 5b. Prove automatiche rese robuste (niente attese su
 `frame_post_draw`, grotta con torcia cercata tra più candidati).
 
-## 4. [ ] Il giocatore (L)
+## 4. [~] Il giocatore (L) — iniziato il 24 set 2026
 Inventario, barra rapida, equipaggiamento (armatura in 3 pezzi, accessori), vita e mana, fabbricazione vicino alle
 stazioni, raccolta degli oggetti a terra. Passata sulla sensazione dei controlli **con le prove dell'utente**.
 **Alberi** (aggiunti il 24 set 2026 su richiesta dell'utente): si abbattono con l'ascia, il tronco cade a pezzi, si
@@ -63,6 +63,11 @@ raccoglie il legno — la prima risorsa, serve per il banco da lavoro e le prime
 24 set 2026, anticipato su richiesta dell'utente: valori di base del movimento (corsa da 150 a 95 px/s, accelerazione e
 frenata più morbide, salto pieno 3,3 tessere che basta per un muro di 3 blocchi, movimento calcolato a ogni fotogramma
 disegnato per la fluidità); le prove automatiche misurano velocità, salto e il muro di 3 blocchi.
+Divisa in 4a Bisaccia e raccolta · 4b alberi · 4c stazioni e fabbricazione · 4d equipaggiamento, vita e Linfa.
+**4a fatta il 24 set 2026**: la **Bisaccia** (40 caselle, le prime 10 sono la barra rapida; si apre con E; si salva con
+il personaggio; corredo iniziale piccone e ascia di radicite, spada di radice, 10 torce). Ciò che si scava cade a terra
+e viene attirato nella Bisaccia; funghi e torce si raccolgono; i blocchi si piazzano dalla mano; le torce si consumano.
+Prove: raccolta, piazzamento, Bisaccia salvata e ricaricata identica, foto della Bisaccia aperta.
 
 ## 5. [ ] Creature e combattimento (L)
 Un sistema unico a comportamenti combinabili (cammina, salta, vola, scava, spara, carica, evoca, fasi). Danno,

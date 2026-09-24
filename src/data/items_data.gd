@@ -65,10 +65,6 @@ const GEAR := {
 	"gambali": {"name": "Gambali", "bars": 20, "wood": 0},
 }
 
-## Barra rapida di prova (finché non c'è l'inventario, voce 4).
-const DEMO_HOTBAR := ["piccone_radicite", "piccone_ambra", "ascia_radicite", "spada_radicite", "spada_ambra", "arco_radice",
-	"torcia", "lingotto_radicite", "elmo_legnoferro", "pozione_linfa"]
-
 ## Oggetti che nascono da qualcosa che non è una tabella (es. alberi abbattuti, voce 4).
 const OTHER_SOURCES := {"legno": "alberi"}
 
