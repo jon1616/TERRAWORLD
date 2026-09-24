@@ -15,7 +15,7 @@ const RECIPES := [
 	{"out": "lingotto_legnoferro", "qty": 1, "in": {"minerale_legnoferro": 3}, "station": "baccello_ardente"},
 	{"out": "lingotto_ambra", "qty": 1, "in": {"minerale_ambra": 4}, "station": "baccello_ardente"},
 	{"out": "maglio", "qty": 1, "in": {"lingotto_legnoferro": 5}, "station": "ceppo"},
-	{"out": "pozione_linfa", "qty": 1, "in": {"gelatina": 2, "fungo_brace": 1}, "station": "ceppo"},
+	{"out": "pozione_rugiada", "qty": 1, "in": {"gelatina": 2, "fungo_brace": 1}, "station": "ceppo"},
 ]
 
 static var _all: Array = []

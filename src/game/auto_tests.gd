@@ -62,6 +62,7 @@ func run(main: Node2D) -> void:
 			await _save("03_cristalli")
 	await _trees(world)
 	await _crafting(world)
+	await _vitals(world)
 	await _movement(world)
 	# corsa lungo la superficie: misura i fotogrammi mentre blocchi e luce si aggiornano
 	m.snap_to(world.spawn)
@@ -227,6 +228,52 @@ func _flat_spot(world: World, c: Vector2i, width: int) -> Vector2i:
 	return Vector2i(-1, -1)
 
 
+## Equipaggiamento, Scorza, caduta, pozione, appassire e rinascere.
+func _vitals(world: World) -> void:
+	var b: Bisaccia = m.character.bisaccia
+	var v: Vitals = m.vitals
+	for piece in [["elmo", "elmo_ambra"], ["corazza", "corazza_legnoferro"], ["gambali", "gambali_radicite"]]:
+		b.wear(piece[0], {"id": piece[1], "n": 1})
+	await _frames(5)
+	print("equipaggiamento: Scorza %d (attesa 7), Vitals.scorza %d" % [b.scorza(), v.scorza])
+	var spot := _flat_spot(world, m.player_cell(), 3)
+	if spot.x >= 0:
+		m.snap_to(spot)
+	m.hud.panel.toggle()
+	await _frames(12)
+	await _save("12_equipaggiamento")
+	m.hud.panel.toggle()
+	# caduta da 20 tessere
+	v.refill()
+	m.player.position.y -= 20 * S
+	m.player.vel = Vector2.ZERO
+	m.player._was_floor = false
+	m.player._air_top = m.player.position.y
+	for k in 240:
+		await get_tree().process_frame
+		if m.player.on_floor:
+			break
+	await _frames(3)
+	print("caduta da 20 tessere: Vita %d (persi %d)" % [v.hp, Vitals.HP_MAX - v.hp])
+	# pozione
+	b.add("pozione_rugiada", 1)
+	var ps := _slot_of(b, "pozione_rugiada")
+	var before := v.hp
+	if ps >= 0:
+		m.hud.select(ps)
+		m.actions.drink("pozione_rugiada")
+	print("pozione di rugiada: Vita da %d a %d" % [before, v.hp])
+	await _save("13_vita_e_linfa")
+	# appassire e rinascere
+	v.hurt(999)
+	await _frames(10)
+	await _save("14_appassito")
+	await get_tree().create_timer(3.4).timeout
+	await _frames(5)
+	var back: bool = v.hp == Vitals.HP_MAX and absi(m.player_cell().x - world.spawn.x) <= 1
+	print("appassito e rinato: %s" % ("sì, alla partenza con tutte le foglie" if back else "NO"))
+
+
 func _craft(id: String) -> bool:
 	for r in RecipesData.making(id):
 		if Crafting.craft(r, m.character.bisaccia):
@@ -261,6 +308,17 @@ func _place_station_near(world: World, item: String, c: Vector2i) -> bool:
 ## Movimento sulla zona piana della partenza: velocità massima, altezza del salto pieno, e un muro di 3 blocchi da
 ## scavalcare correndo e saltando (il salto di base deve bastare, richiesta dell'utente del 24 set 2026).
 func _movement(world: World) -> void:
+	# lo stesso giro a 60 e a 144 fotogrammi al secondo: il salto non deve dipendere dallo schermo
+	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+	for fps in [60, 144]:
+		Engine.max_fps = fps
+		print("— a %d fotogrammi al secondo" % fps)
+		await _movement_at(world)
+	Engine.max_fps = 0
+	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
+
+
+func _movement_at(world: World) -> void:
 	var p: Player = m.player
 	var s := world.spawn
 	m.snap_to(s + Vector2i(-6, 0))
@@ -297,7 +355,8 @@ func _movement(world: World) -> void:
 	await _frames(5)
 	p.auto_dir = 1.0
 	p.auto_jump = true
-	for k in 150:
+	var t_wall := Time.get_ticks_msec()
+	while Time.get_ticks_msec() - t_wall < 2500:
 		await get_tree().process_frame
 	await _save("06_muro_3_blocchi")
 	p.auto_dir = 0.0

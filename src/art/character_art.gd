@@ -66,30 +66,39 @@ static func _leg(im: Image, hip: Vector2, t: float, s: float, col: Color, boot: 
 	Px.stamp(im, foot.x + 1.5, foot.y + 0.5, 2, boot)
 
 
-## Un fotogramma del personaggio (24×32, rivolto a destra) a partire da una posa. Restituisce l'immagine
-## e la posizione della mano davanti, dove si aggancia l'attrezzo.
-static func character(pose: Dictionary) -> Dictionary:
+## Un fotogramma del personaggio (24×32, rivolto a destra) a partire da una posa. `look` = armatura indossata
+## {"elmo"/"corazza"/"gambali": metallo}. Restituisce l'immagine, la mano davanti (dove si aggancia l'attrezzo) e
+## l'occhio (che brilla al buio).
+static func character(pose: Dictionary, look: Dictionary = {}) -> Dictionary:
 	var im := Px.img(24, 32)
+	var shirt := [SHIRT, SHIRT_L, SHIRT_D]
+	var pants := [PANTS, PANTS_D]
+	if look.has("corazza"):
+		var mp := ItemIcons.pal(look["corazza"])
+		shirt = [mp[1], mp[2], mp[0]]
+	if look.has("gambali"):
+		var mp2 := ItemIcons.pal(look["gambali"])
+		pants = [mp2[1], mp2[0]]
 	var bob: int = pose["bob"]
 	var hip := Vector2(12.0, 19.5 + bob)
 	var sh_f := Vector2(12.5, 12.5 + bob)
 	var sh_b := Vector2(11.0, 12.5 + bob)
-	_limb(im, sh_b, pose["ba_u"], pose["ba_l"], 4.0, 4.0, 2, SHIRT_D, SKIN_D)
-	_leg(im, hip + Vector2(-1.0, 0.0), pose["bl_t"], pose["bl_s"], PANTS_D, BOOT_D)
+	_limb(im, sh_b, pose["ba_u"], pose["ba_l"], 4.0, 4.0, 2, shirt[2], SKIN_D)
+	_leg(im, hip + Vector2(-1.0, 0.0), pose["bl_t"], pose["bl_s"], pants[1], BOOT_D)
 	# busto
 	for y in range(11 + bob, 20 + bob):
 		for x in range(9, 15):
-			var c := SHIRT
+			var c: Color = shirt[0]
 			if x == 14:
-				c = SHIRT_D
+				c = shirt[2]
 			elif x == 9 and y > 11 + bob:
-				c = SHIRT_L
+				c = shirt[1]
 			if y == 18 + bob:
 				c = BUCKLE if x == 13 else BELT
 			if y == 19 + bob:
-				c = PANTS
+				c = pants[0]
 			Px.put(im, x, y, c)
-	_leg(im, hip + Vector2(1.0, 0.0), pose["fl_t"], pose["fl_s"], PANTS, BOOT)
+	_leg(im, hip + Vector2(1.0, 0.0), pose["fl_t"], pose["fl_s"], pants[0], BOOT)
 	# testa
 	for y in range(3 + bob, 11 + bob):
 		for x in range(8, 16):
@@ -117,6 +126,16 @@ static func character(pose: Dictionary) -> Dictionary:
 	Px.put(im, 12, 8 + bob, VEIN)
 	Px.put(im, 11, 9 + bob, VEIN)
 	Px.put(im, 14, 9 + bob, SKIN_D)
-	var hand := _limb(im, sh_f, pose["fa_u"], pose["fa_l"], 4.0, 4.0, 2, SHIRT_L, SKIN)
+	if look.has("elmo"):
+		# elmo: una calotta di metallo sopra le foglie, con il bordo chiaro; qualche foglia spunta dietro
+		var hp := ItemIcons.pal(look["elmo"])
+		for y in range(1 + bob, 5 + bob):
+			for x in range(7, 16):
+				if y == 1 + bob and (x < 9 or x > 14):
+					continue
+				Px.put(im, x, y, hp[2] if x < 13 else hp[1])
+		for x in range(7, 16):
+			Px.put(im, x, 5 + bob, hp[3])
+	var hand := _limb(im, sh_f, pose["fa_u"], pose["fa_l"], 4.0, 4.0, 2, shirt[1], SKIN)
 	Px.outline(im, Px.OUTLINE)
 	return {"img": im, "hand": hand, "eye": Vector2(13.5, 7.0 + bob)}

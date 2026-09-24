@@ -10,7 +10,7 @@ const ACCEL_GROUND := 750.0            # accelerazione a terra: ~0,13 s per arri
 const DECEL_GROUND := 950.0            # frenata a terra quando si lasciano i tasti
 const ACCEL_AIR := 520.0               # controllo in aria, un po' più morbido
 const GRAV := 820.0
-const JUMP := 288.0                    # salto pieno ~3,3 tessere: si sale su un gradino di 3 blocchi
+const JUMP := 297.0                    # salto pieno 3,36 tessere (h = v²/2g, uguale a ogni frequenza): basta per 3 blocchi
 const JUMP_CUT := 1.6                  # gravità in più in salita se si lascia il tasto (salto corto)
 const MAX_FALL := 520.0
 const MAX_DT := 1.0 / 30.0             # oltre questo passo il movimento si divide in più passi
@@ -30,6 +30,13 @@ var rig: Node2D
 var spr: Sprite2D
 var tool: Sprite2D
 var eye: Sprite2D                      # l'occhio d'ambra, disegnato sopra il buio: brilla nelle grotte
+var look := {}                         # armatura indossata: posto -> metallo (vedi `set_look`)
+var _look_key_source := ""             # l'equipaggiamento da cui è stato calcolato `look`
+var _look_key := ""
+## Caduta: altezza massima raggiunta in aria, per le ferite da caduta (segnale `landed` con le tessere di caduta).
+var _air_top := 0.0
+var _was_floor := true
+signal landed(tiles: float)
 var anim_t := 0.0
 var swing_t := 0.0
 var coyote := 0.0
@@ -95,27 +102,53 @@ func _process(delta: float) -> void:
 	_animate(delta)
 
 
+## Cambia l'armatura disegnata (da {posto: id} dell'equipaggiamento).
+func set_look(equip: Dictionary) -> void:
+	var l := {}
+	for k in equip:
+		var ic: Array = ItemsData.get_item(equip[k]).get("icon", [])
+		if ic.size() == 2:
+			l[k] = String(ic[1])
+	look = l
+	_look_key = str(l)
+	_cache.clear()
+
+
+## Un passo di movimento. Lo spostamento usa la velocità media del passo (prima e dopo la gravità): è il calcolo
+## esatto per un'accelerazione costante, così il salto è alto uguale a 60 come a 144 fotogrammi al secondo.
 func _step(dt: float, dir: float, held: bool) -> void:
 	var target := dir * RUN
 	var accel := ACCEL_AIR
 	if on_floor:
 		accel = ACCEL_GROUND if dir != 0.0 and signf(dir) == signf(vel.x if vel.x != 0.0 else dir) else DECEL_GROUND
+	var vx0 := vel.x
 	vel.x = move_toward(vel.x, target, accel * dt)
-	vel.y = minf(vel.y + GRAV * dt, MAX_FALL)
-	if vel.y < 0.0 and not held:
-		vel.y += GRAV * (JUMP_CUT - 1.0) * dt
 	jump_buf -= dt
 	if jump_buf > 0.0 and coyote > 0.0:
 		vel.y = -JUMP
 		jump_buf = 0.0
 		coyote = 0.0
+	var vy0 := vel.y
+	vel.y = minf(vel.y + GRAV * dt, MAX_FALL)
+	if vel.y < 0.0 and not held:
+		vel.y += GRAV * (JUMP_CUT - 1.0) * dt
 	var through := control and (Input.is_key_pressed(KEY_S) or Input.is_key_pressed(KEY_DOWN))
-	var r := TileBody.move(world, position, HALF, vel, dt, on_floor, through)
+	var avg := Vector2((vx0 + vel.x) * 0.5, (vy0 + vel.y) * 0.5)
+	var r := TileBody.move(world, position, HALF, avg, dt, on_floor, through)
 	position = r["pos"]
-	vel = r["vel"]
+	var rv: Vector2 = r["vel"]
+	if rv.x == 0.0 and avg.x != 0.0:
+		vel.x = 0.0
+	if rv.y == 0.0 and avg.y != 0.0:
+		vel.y = 0.0
 	on_floor = r["floor"]
 	step_vis += r["stepped"]
 	coyote = 0.1 if on_floor else coyote - dt
+	if not on_floor:
+		_air_top = position.y if _was_floor else minf(_air_top, position.y)
+	elif not _was_floor:
+		landed.emit((position.y - _air_top) / 16.0)
+	_was_floor = on_floor
 
 
 func _animate(dt: float) -> void:
@@ -145,7 +178,7 @@ func _animate(dt: float) -> void:
 	else:
 		swing_t = 0.0
 	if not _cache.has(key):
-		var d := CharacterArt.character(pose)
+		var d := CharacterArt.character(pose, look)
 		_cache[key] = {"tex": ImageTexture.create_from_image(d["img"]), "hand": d["hand"], "eye": d["eye"]}
 	var entry: Dictionary = _cache[key]
 	spr.texture = entry["tex"]

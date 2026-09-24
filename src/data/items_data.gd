@@ -46,7 +46,7 @@ const ITEMS := {
 	"dardo": {"name": "Dardo di spina", "kind": "munizione", "icon": ["freccia", "ardesia"], "damage": 4, "stack": 999},
 	"spada_radice": {"name": "Spada di radice", "kind": "spada", "icon": ["spada", "legno"], "tier": 0, "damage": 6, "speed": 2.4, "knockback": 3.0},
 	# consumabili
-	"pozione_linfa": {"name": "Pozione di Linfa", "kind": "consumabile", "icon": ["pozione", "linfa"], "heal": 50, "stack": 30, "desc": "Cura 50 punti vita."},
+	"pozione_rugiada": {"name": "Pozione di rugiada", "kind": "consumabile", "icon": ["pozione", "linfa"], "heal": 50, "stack": 30, "desc": "Rugiada raccolta all'alba: fa ricrescere 5 foglie di Vita."},
 }
 
 ## Metalli: grado, forza di piccone e ascia, danno della spada, difesa dell'armatura (elmo, corazza, gambali).
@@ -128,6 +128,8 @@ static func use_of(id: String) -> String:
 			return "colpo"
 		"seme":
 			return "semina"
+		"consumabile":
+			return "bevi"
 		"torcia":
 			return "torcia"
 	return ""

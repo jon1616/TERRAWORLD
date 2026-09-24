@@ -10,6 +10,8 @@ const GAP := 6
 var bisaccia: Bisaccia
 var stations_near: Callable            # () -> stazioni a portata del giocatore, per la colonna «Creare»
 var crafting: CraftingPanel
+var _equip: Dictionary = {}            # posto -> SlotView
+var _scorza: Label
 var held := {}                        # pila «in mano» mentre la Bisaccia è aperta
 var _slots: Array[SlotView] = []
 var _held_icon: SlotView
@@ -23,6 +25,7 @@ func _ready() -> void:
 	var y0 := Hud.HOTBAR_Y - 16 - ROWS * (SlotView.SIZE + GAP)
 	var frame := Panel.new()
 	var sb := StyleBoxFlat.new()
+	# (la stessa cornice serve anche alla colonna dell'equipaggiamento)
 	sb.bg_color = Color(0.01, 0.05, 0.06, 0.82)
 	sb.border_color = Color("#2f7a70")
 	sb.set_border_width_all(2)
@@ -48,6 +51,42 @@ func _ready() -> void:
 			s.clicked.connect(click_slot)
 			add_child(s)
 			_slots.append(s)
+	# equipaggiamento: una colonna a sinistra, con il nome dei posti e la Scorza totale
+	var ex := frame.position.x - 16 - SlotView.SIZE - 24
+	var eframe := Panel.new()
+	eframe.add_theme_stylebox_override("panel", sb)
+	eframe.position = Vector2(ex - 12, frame.position.y)
+	eframe.size = Vector2(SlotView.SIZE + 48, frame.size.y)
+	eframe.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(eframe)
+	for k in Bisaccia.EQUIP_SLOTS.size():
+		var slot: String = Bisaccia.EQUIP_SLOTS[k]
+		var s := SlotView.new()
+		s.position = Vector2(ex + 12, frame.position.y + 40 + k * (SlotView.SIZE + 22))
+		s.clicked.connect(func(_i: int, button: int) -> void:
+			if button == MOUSE_BUTTON_LEFT:
+				held = bisaccia.wear(slot, held)
+				_refresh())
+		add_child(s)
+		var tag := Label.new()
+		tag.text = slot.capitalize()
+		tag.position = s.position + Vector2(-6, SlotView.SIZE - 2)
+		tag.size = Vector2(SlotView.SIZE + 12, 18)
+		tag.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		tag.add_theme_font_size_override("font_size", 12)
+		tag.add_theme_color_override("font_color", Color("#9fc8c0"))
+		add_child(tag)
+		_equip[slot] = s
+	_scorza = Label.new()
+	_scorza.position = Vector2(ex - 6, frame.position.y + 8)
+	_scorza.size = Vector2(SlotView.SIZE + 36, 24)
+	_scorza.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_scorza.add_theme_font_size_override("font_size", 16)
+	_scorza.add_theme_color_override("font_color", Color("#ffb84a"))
+	_scorza.add_theme_color_override("font_outline_color", Color(0.02, 0.05, 0.07))
+	_scorza.add_theme_constant_override("outline_size", 5)
+	_scorza.tooltip_text = "Scorza: toglie metà del suo valore a ogni ferita"
+	add_child(_scorza)
 	crafting = CraftingPanel.new()
 	add_child(crafting)
 	crafting.setup(bisaccia, stations_near, Vector2(frame.position.x + frame.size.x + 16, frame.position.y), frame.size.y)
@@ -85,6 +124,10 @@ func click_slot(i: int, button: int) -> void:
 func _refresh() -> void:
 	for s in _slots:
 		s.set_item(bisaccia.id_at(s.index), bisaccia.count_at(s.index))
+	for slot in _equip:
+		(_equip[slot] as SlotView).set_item(String(bisaccia.equip.get(slot, "")), 1)
+	if _scorza:
+		_scorza.text = "Scorza %d" % bisaccia.scorza()
 	_held_icon.visible = not held.is_empty()
 	if not held.is_empty():
 		_held_icon.set_item(held["id"], held["n"])

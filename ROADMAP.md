@@ -55,7 +55,7 @@ Icone di tutti gli oggetti rifatte nello stile «Radici e Linfa». Il gioco usa 
 ricetta: li useranno le voci 5b e 8). Biomi e strati: nella voce 5b. Prove automatiche rese robuste (niente attese su
 `frame_post_draw`, grotta con torcia cercata tra più candidati).
 
-## 4. [~] Il giocatore (L) — iniziato il 24 set 2026
+## 4. [x] Il giocatore (L) — fatto il 24 set 2026
 Inventario, barra rapida, equipaggiamento (armatura in 3 pezzi, accessori), vita e mana, fabbricazione vicino alle
 stazioni, raccolta degli oggetti a terra. Passata sulla sensazione dei controlli **con le prove dell'utente**.
 **Alberi** (aggiunti il 24 set 2026 su richiesta dell'utente): si abbattono con l'ascia, il tronco cade a pezzi, si
@@ -78,6 +78,13 @@ disegnate nello stile, piazzate e riprese, salvate nel mondo; colonna **«Creare
 ricette delle stazioni vicine (possibili in cima, le altre attenuate, suggerimento con i materiali che servono e quanti
 se ne hanno); **passerelle di radice** (una tessera a parte: si sale saltando da sotto, si scende tenendo S).
 Prove: giro completo legno → ceppo → passerelle e torce → baccello ardente, passerella piazzata e ripresa.
+**4d fatta il 24 set 2026**: **Vita** come 10 foglie che appassiscono, **Linfa** come gocce turchesi, **Scorza** (la
+difesa dell'equipaggiamento, metà del suo valore tolta a ogni ferita); equipaggiamento (elmo, corazza, gambali) in una
+colonna accanto alla Bisaccia e **disegnato sul personaggio**; ferite da caduta oltre 12 tessere; **Pozione di rugiada**
+(la cura, rinominata per non confonderla con la Linfa); il Germogliato che appassisce rinasce alla partenza; Vita e
+Linfa salvate. Trovato e corretto: il salto dipendeva dalla frequenza dello schermo (a 144 Hz non si superava il muro di
+3 blocchi); ora è identico a 60 e a 144 fps.
+Resta aperta, con le prove dell'utente, la passata sulla sensazione dei controlli.
 
 ## 5. [ ] Creature e combattimento (L)
 Un sistema unico a comportamenti combinabili (cammina, salta, vola, scava, spara, carica, evoca, fasi). Danno,

@@ -1,7 +1,8 @@
 class_name Bisaccia
 extends RefCounted
 ## La Bisaccia del Germogliato: l'inventario. 40 caselle, le prime 10 sono la barra rapida. Ogni casella è vuota ({}) o
-## {"id": oggetto, "n": quantità}. Solo dati e regole (aggiungere, togliere, contare): nessun disegno.
+## {"id": oggetto, "n": quantità}. Più l'equipaggiamento indossato (`equip`: elmo, corazza, gambali → id).
+## Solo dati e regole (aggiungere, togliere, contare, indossare): nessun disegno.
 
 signal changed
 
@@ -10,7 +11,10 @@ const HOTBAR := 10
 ## Corredo iniziale del Germogliato.
 const STARTER := [["piccone_radicite", 1], ["ascia_radicite", 1], ["spada_radice", 1], ["torcia", 10]]
 
+const EQUIP_SLOTS := ["elmo", "corazza", "gambali"]
+
 var slots: Array[Dictionary] = []
+var equip := {}                        # "elmo"/"corazza"/"gambali" -> id dell'oggetto indossato
 
 
 func _init() -> void:
@@ -115,6 +119,33 @@ func swap_with(i: int, held: Dictionary) -> Dictionary:
 	slots[i] = held
 	changed.emit()
 	return out
+
+
+## Scorza totale dell'equipaggiamento indossato.
+func scorza() -> int:
+	var d := 0
+	for k in equip:
+		d += int(ItemsData.get_item(equip[k]).get("defense", 0))
+	return d
+
+
+## Indossa ciò che si tiene in mano nel posto giusto; restituisce ciò che torna in mano (il pezzo tolto, o la pila se
+## non va lì).
+func wear(slot: String, held: Dictionary) -> Dictionary:
+	if held.is_empty():
+		if equip.has(slot):
+			var off := {"id": equip[slot], "n": 1}
+			equip.erase(slot)
+			changed.emit()
+			return off
+		return {}
+	var id := String(held["id"])
+	if String(ItemsData.get_item(id).get("kind", "")) != slot or int(held["n"]) != 1:
+		return held
+	var back := {"id": equip[slot], "n": 1} if equip.has(slot) else {}
+	equip[slot] = id
+	changed.emit()
+	return back
 
 
 func to_array() -> Array:

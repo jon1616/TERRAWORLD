@@ -18,6 +18,10 @@ var actions: PlayerActions
 var overlay: Sprite2D
 var fx: Node2D
 var drops: Drops
+var vitals: Vitals
+var _dead := false
+const FALL_SAFE := 12.0                # tessere di caduta senza ferite
+const FALL_HURT := 6                   # punti di Vita per ogni tessera in più
 var built := false
 var gen_times: Array = []
 var _gen_task := -1
@@ -128,6 +132,18 @@ func _build() -> void:
 	add_child(cam)
 	cam.make_current()
 	_make_spores()
+	vitals = Vitals.new()
+	vitals.hp = character.hp
+	vitals.linfa = character.linfa
+	vitals.scorza = character.bisaccia.scorza()
+	vitals.died.connect(_on_died)
+	player.set_look(character.bisaccia.equip)
+	player.landed.connect(_on_landed)
+	character.bisaccia.changed.connect(func() -> void:
+		vitals.scorza = character.bisaccia.scorza()
+		if str(character.bisaccia.equip) != player._look_key_source:
+			player._look_key_source = str(character.bisaccia.equip)
+			player.set_look(character.bisaccia.equip))
 	drops = Drops.new()
 	add_child(drops)
 	drops.setup(world, player, character.bisaccia)
@@ -135,9 +151,13 @@ func _build() -> void:
 	hud.bisaccia = character.bisaccia
 	hud.stations_near = func() -> Dictionary: return Crafting.stations_near(world, player_cell())
 	add_child(hud)
+	var vv := VitalsView.new()
+	hud.add_child(vv)
+	vv.setup(vitals)
 	actions = PlayerActions.new()
 	add_child(actions)
 	actions.setup(world, view, light, player, hud, drops, fx)
+	actions.vitals = vitals
 	hud.select(character.hotbar)
 	var start := world.spawn
 	var pos: Array = (world_meta.get("giocatori", {}) as Dictionary).get(character.id, [])
@@ -252,6 +272,7 @@ func _process(dt: float) -> void:
 	background.follow(cam.get_screen_center_position(), get_viewport_rect().size / cam.zoom, dt)
 	_spores.position = cam.get_screen_center_position()
 	_session_time += dt
+	vitals.tick(dt)
 	_grow_tick -= dt
 	if _grow_tick <= 0.0:
 		_grow_tick = 1.0
@@ -261,6 +282,47 @@ func _process(dt: float) -> void:
 		_autosave = AUTOSAVE
 		save_game()
 		hud.toast("Salvataggio automatico")
+
+
+# ---------------------------------------------------------------- vita
+
+func _on_landed(tiles: float) -> void:
+	if tiles > FALL_SAFE and not _dead:
+		var lost := vitals.hurt(int((tiles - FALL_SAFE) * FALL_HURT))
+		hud.toast("Caduta: -%d Vita" % lost)
+		_flash(Color(1.0, 0.4, 0.3, 0.35))
+
+
+## Il Germogliato appassisce: si ferma, lo schermo si scurisce, e dopo un momento rinasce alla partenza.
+func _on_died() -> void:
+	if _dead:
+		return
+	_dead = true
+	var had_control := player.control
+	player.control = false
+	actions.enabled = false
+	player.modulate = Color(0.5, 0.4, 0.3)
+	hud.toast("Il Germogliato appassisce…")
+	_flash(Color(0.0, 0.0, 0.0, 0.6), 2.5)
+	await get_tree().create_timer(3.0).timeout
+	player.modulate = Color.WHITE
+	vitals.refill()
+	snap_to(world.spawn)
+	player.control = had_control
+	actions.enabled = true
+	_dead = false
+	hud.toast("Rinasci alla partenza")
+
+
+func _flash(c: Color, secs := 0.4) -> void:
+	var r := ColorRect.new()
+	r.color = c
+	r.set_anchors_preset(Control.PRESET_FULL_RECT)
+	r.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hud.add_child(r)
+	var tw := create_tween()
+	tw.tween_property(r, "modulate:a", 0.0, secs)
+	tw.tween_callback(r.queue_free)
 
 
 ## I germogli crescono col tempo che passa (anche fuori dalla visuale); quando è il momento, se c'è spazio diventano
@@ -305,6 +367,8 @@ func save_game() -> void:
 		hud.toast("Salvataggio NON riuscito")
 	character.hotbar = hud.sel
 	character.last_world = world_id
+	character.hp = maxi(vitals.hp, 1)
+	character.linfa = vitals.linfa
 	character.save()
 
 

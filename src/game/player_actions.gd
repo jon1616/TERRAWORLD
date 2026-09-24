@@ -14,6 +14,7 @@ var light: LightMap
 var player: Player
 var hud: Hud
 var drops: Drops
+var vitals: Vitals
 var bisaccia: Bisaccia
 var cursor: MiningCursor
 var fx_parent: Node2D
@@ -77,6 +78,8 @@ func _unhandled_input(e: InputEvent) -> void:
 			place_station(mouse_cell(), item["id"])
 		elif kind == "piattaforma":
 			place_plat(mouse_cell(), item["id"])
+		elif kind == "consumabile":
+			drink(item["id"])
 
 
 func _process(dt: float) -> void:
@@ -333,6 +336,26 @@ func take_plat(c: Vector2i) -> void:
 	world.set_plat(c.x, c.y, false)
 	view.refresh_around(c)
 	drops.spawn("passerella", 1, Vector2(c) * S + Vector2(8, 8))
+
+
+## Beve una pozione dalla mano: cura, poi bisogna aspettare prima della prossima.
+func drink(id: String) -> bool:
+	var heal := int(ItemsData.get_item(id).get("heal", 0))
+	if heal <= 0 or vitals == null:
+		return false
+	if vitals.potion_wait > 0.0:
+		hud.toast("Ancora %d secondi prima di un'altra pozione" % ceili(vitals.potion_wait))
+		return false
+	if vitals.hp >= Vitals.HP_MAX:
+		hud.toast("Le foglie sono già tutte verdi")
+		return false
+	var slot := hud.sel
+	if bisaccia.id_at(slot) != id:
+		return false
+	bisaccia.take_one(slot)
+	vitals.heal(heal)
+	vitals.potion_wait = Vitals.POTION_COOLDOWN
+	return true
 
 
 ## Riprende una torcia piazzata: torna a terra come oggetto da raccogliere.

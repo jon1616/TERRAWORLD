@@ -13,12 +13,15 @@ var play_time := 0.0                   # secondi
 var hotbar := 0                        # casella scelta nella barra rapida
 var last_world := ""
 var bisaccia: Bisaccia
+var hp := Vitals.HP_MAX
+var linfa := Vitals.LINFA_MAX
 
 
 func to_dict() -> Dictionary:
 	return {"formato": FORMAT, "nome": name, "creato": created, "ultimo_salvataggio": last_save,
 		"tempo_di_gioco": play_time, "barra": hotbar, "ultimo_mondo": last_world,
-		"bisaccia": bisaccia.to_array() if bisaccia else []}
+		"bisaccia": bisaccia.to_array() if bisaccia else [], "equipaggiamento": bisaccia.equip if bisaccia else {},
+		"vita": hp, "linfa": linfa}
 
 
 static func from_dict(cid: String, d: Dictionary) -> Character:
@@ -32,6 +35,12 @@ static func from_dict(cid: String, d: Dictionary) -> Character:
 	c.last_world = String(d.get("ultimo_mondo", ""))
 	# i personaggi salvati prima della Bisaccia ricevono il corredo iniziale
 	c.bisaccia = Bisaccia.from_array(d["bisaccia"]) if d.has("bisaccia") else Bisaccia.starter()
+	var eq: Dictionary = d.get("equipaggiamento", {})
+	for k in eq:
+		if k in Bisaccia.EQUIP_SLOTS and ItemsData.has(String(eq[k])):
+			c.bisaccia.equip[k] = String(eq[k])
+	c.hp = clampi(int(d.get("vita", Vitals.HP_MAX)), 1, Vitals.HP_MAX)
+	c.linfa = clampi(int(d.get("linfa", Vitals.LINFA_MAX)), 0, Vitals.LINFA_MAX)
 	return c
 
 

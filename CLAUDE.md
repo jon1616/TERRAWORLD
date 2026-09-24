@@ -45,7 +45,9 @@ Godot_console.exe --headless --path . --check-only --script res://src/world/worl
 # ogni volta); controllano raccolta e piazzamento di un blocco, salvano dal gioco e ricaricano (mondo e Bisaccia
 # «identici»), abbattono un albero (08_albero_cade), raccolgono il legno, piantano un seme e lo fanno crescere
 # (09_albero_ricresciuto), fabbricano ceppo, passerelle, torce e baccello ardente, li piazzano (10_creare,
-# 11_baccello_ardente) e fotografano la Bisaccia aperta (07_bisaccia).
+# 11_baccello_ardente), indossano un'armatura (12_equipaggiamento), cadono da 20 tessere, bevono una pozione
+# (13_vita_e_linfa), appassiscono e rinascono (14_appassito), misurano salto e muro a 60 e a 144 fotogrammi al secondo,
+# e fotografano la Bisaccia aperta (07_bisaccia).
 Godot_console.exe --path . -- --prove            # --carica riapre il mondo di prova salvato invece di rigenerarlo;
                                                  # --senza-luce per vedere i colori senza il buio
 # foto delle schermate del menu in prove/ (menu_titolo, menu_personaggi, menu_nuovo_mondo)
@@ -113,18 +115,24 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   `PassPartenza.place_creatures`.
 - `src/entities/` — `TileBody` (movimento contro la griglia, gradino automatico, passerelle che reggono solo chi scende
   e si attraversano tenendo S), `Grumo` (creatura che saltella), `Player` (movimento a ogni fotogramma
-  disegnato, a passi di al massimo 1/30 s; valori di base in cima al file: corsa 95 px/s, salto pieno ~3,3 tessere;
-  `auto_dir`/`auto_jump` per le prove e i futuri bot), `Drops` (oggetti caduti a terra: cadono, vengono attirati entro
+  disegnato, a passi di al massimo 1/30 s, spostamento con la velocità media del passo = salto identico a ogni
+  frequenza; valori di base in cima al file: corsa 95 px/s, salto pieno 3,36 tessere; armatura disegnata (`set_look`);
+  segnale `landed` con le tessere di caduta; `auto_dir`/`auto_jump` per le prove e i futuri bot), `Drops` (oggetti caduti a terra: cadono, vengono attirati entro
   5 tessere, entrano nella Bisaccia se c'è posto; non si salvano).
 - `src/ui/` — `menu.tscn`/`menu.gd` (scena iniziale: titolo, personaggi, mondi, creazione), `Hud` (barra rapida = le
   prime 10 caselle della Bisaccia, in basso al centro; `current()` = oggetto in mano; segnale `selected`; `toast`; tasto
   E/Tab apre la Bisaccia), `BisacciaPanel` (le altre 30 caselle; clic prende/posa/scambia, clic destro metà pila),
-  `SlotView` (casella riusabile con icona e quantità), `CraftingPanel` (colonna «Creare» a destra della Bisaccia: ricette
+  `SlotView` (casella riusabile con icona e quantità), `VitalsView` (foglie e gocce in alto a destra), colonna
+  dell'equipaggiamento a sinistra della Bisaccia (elmo, corazza, gambali, Scorza totale), `CraftingPanel` (colonna «Creare» a destra della Bisaccia: ricette
   delle stazioni a portata, prima quelle possibili; passando sopra si vede cosa serve), `MiningCursor`.
+- `src/game/vitals.gd` (`Vitals`) — Vita (100, foglie da 10) e Linfa (20, gocce da 2), Scorza (metà del suo valore
+  tolta a ogni ferita), ricrescita della Vita dopo 6 s senza ferite, attesa di 30 s tra due pozioni; segnali `changed` e
+  `died`. In main: ferite da caduta oltre 12 tessere (6 punti per tessera in più), appassire e rinascere alla partenza.
 - `src/game/crafting.gd` (`Crafting`) — regole della fabbricazione: stazioni a portata (5 tessere), ricette usabili,
   materiali bastano?, fabbrica; `describe` per il suggerimento.
 - `src/game/bisaccia.gd` (`Bisaccia`) — l'inventario: 40 caselle (prime 10 = barra rapida), `add`/`remove`/`count`/
-  `room_for`/`take_one`/`swap_with`, corredo iniziale (`STARTER`), si salva con il personaggio.
+  `room_for`/`take_one`/`swap_with`, equipaggiamento `equip` con `wear`/`scorza`, corredo iniziale (`STARTER`); si salva
+  con il personaggio insieme a Vita e Linfa.
 - `src/game/` — `session.gd` (autoload `Session`: personaggio e mondo scelti nel menu; non esiste negli script headless
   né in `--check-only`, dove «Identifier not found: Session» è normale), `main.gd` (solo montaggio: caricamento o
   generazione in un thread, nodi, camera, salvataggio automatico ogni 5 minuti, Esc = salva e torna al menu (con la
@@ -169,6 +177,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   volte l'immagine era di qualche fotogramma prima (la Bisaccia appena aperta non compariva).
 - Il generatore usa un solo `rng` per tutte le passate: cambiare una passata sposta anche ciò che viene dopo (torce,
   decorazioni). Le prove non devono dipendere da un punto preciso del mondo: cercano il primo candidato valido.
+- Il movimento calcolato a ogni fotogramma deve dare lo stesso risultato a ogni frequenza: con il semplice «velocità
+  per tempo» il salto era 3,31 tessere a 60 fps e 3,22 a 144 (il muro di 3 blocchi non si superava più). Si usa la
+  velocità media del passo; le prove misurano a 60 e a 144 fps, e contano il tempo in secondi, non in fotogrammi.
 - Gli alberi hanno 8 forme disegnate una volta sola e riusate (disegnarne uno per albero costava secondi).
 
 ## Convenzioni
