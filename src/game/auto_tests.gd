@@ -16,25 +16,31 @@ func run(main: Node2D) -> void:
 	m.actions.enabled = false
 	await _frames(30)
 	await _save("01_superficie")
-	# grotta con torcia: la torcia più vicina alla partenza tra quelle non troppo profonde
-	var best := _nearest(world.torches.keys(), world.spawn, func(c: Vector2i) -> bool: return world.depth(c.x, c.y) in range(14, 60))
-	if best.x >= 0:
-		var f := _floor_near(world, best, 6)
+	# grotta con torcia: la torcia più vicina alla partenza, non troppo profonda, con un pavimento accanto
+	var f := Vector2i(-1, -1)
+	var cands: Array = world.torches.keys().filter(func(c: Vector2i) -> bool: return world.depth(c.x, c.y) in range(14, 80))
+	cands.sort_custom(func(a: Vector2i, b: Vector2i) -> bool: return Vector2(a - world.spawn).length_squared() < Vector2(b - world.spawn).length_squared())
+	for c in cands:
+		f = _floor_near(world, c, 6)
 		if f.x >= 0:
-			m.snap_to(f)
-			await _frames(20)
-			await _save("02_grotta_torcia")
-			m.player.force_swing = true
-			var target := f + Vector2i(1, 0)
-			for k in 3:
-				if world.solid(target.x, target.y):
-					break
-				target.x += 1
+			break
+	if f.x < 0:
+		print("ATTENZIONE: nessuna grotta con torcia e pavimento vicino alla partenza")
+	else:
+		m.snap_to(f)
+		await _frames(20)
+		await _save("02_grotta_torcia")
+		m.player.force_swing = true
+		var target := f + Vector2i(1, 0)
+		for k in 3:
 			if world.solid(target.x, target.y):
-				m.actions.break_tile(target)
-			await _frames(6)
-			await _save("04_scavo")
-			m.player.force_swing = false
+				break
+			target.x += 1
+		if world.solid(target.x, target.y):
+			m.actions.break_tile(target)
+		await _frames(6)
+		await _save("04_scavo")
+		m.player.force_swing = false
 	# cristalli: il più vicino alla partenza che tocca l'aria
 	var crystals: Array = []
 	for y in range(world.surface[world.spawn.x] + 340, mini(world.surface[world.spawn.x] + 520, world.h)):
@@ -136,8 +142,11 @@ func _frames(n: int) -> void:
 		await get_tree().process_frame
 
 
+## Foto della finestra. Si aspettano due fotogrammi normali: `frame_post_draw` a volte non arriva e bloccava la prova
+## (succedeva anche in Inkblood).
 func _save(name: String) -> void:
-	await RenderingServer.frame_post_draw
+	await get_tree().process_frame
+	await get_tree().process_frame
 	var img := get_viewport().get_texture().get_image()
 	img.save_png(ProjectSettings.globalize_path("res://prove/%s.png" % name))
 	print("salvato ", name)

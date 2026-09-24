@@ -37,6 +37,21 @@ const DECOR_LIGHT := {
 
 ## Secondi di scavo con il piccone di rame.
 const HARD := {DIRT: 0.22, GRASS: 0.22, STONE: 0.38, COPPER: 0.5, IRON: 0.6, GOLD: 0.7, CRYSTAL: 0.8}
+## Forza di piccone minima (vedi `ItemsData.METALS`): rame 35, ferro 45, oro 55. L'oro vuole il piccone di ferro, i
+## cristalli di Linfa quello d'oro: è il filo della progressione.
+const POWER := {DIRT: 0, GRASS: 0, STONE: 0, COPPER: 0, IRON: 35, GOLD: 45, CRYSTAL: 55}
+## Oggetto che si ottiene rompendo la tessera o raccogliendo la decorazione.
+const DROP := {DIRT: "humus", GRASS: "humus", STONE: "ardesia", COPPER: "minerale_rame", IRON: "minerale_ferro",
+	GOLD: "minerale_oro", CRYSTAL: "cristallo_linfa"}
+const DECOR_DROP := {9: "fungo", 10: "fungo_luminoso"}
+
+## Vene di minerale (lette da `PassMinerali`): tessera, profondità minima, dove può comparire, frequenza e soglia del
+## rumore (soglia più alta = vene più rare).
+const ORES := [
+	{"type": COPPER, "min_depth": 4, "in": [DIRT, STONE], "freq": 0.11, "threshold": 0.5},
+	{"type": IRON, "min_depth": 60, "in": [STONE], "freq": 0.12, "threshold": 0.52},
+	{"type": GOLD, "min_depth": 180, "in": [STONE], "freq": 0.13, "threshold": 0.55},
+]
 const NAMES := {DIRT: "Humus", GRASS: "Muschio", STONE: "Ardesia", COPPER: "Rame", IRON: "Ferro", GOLD: "Oro", CRYSTAL: "Cristallo di Linfa"}
 
 ## Luce emessa dai blocchi.

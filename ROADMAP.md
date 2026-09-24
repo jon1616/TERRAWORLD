@@ -43,9 +43,17 @@ le celle dei minerali, poi uniscilo»). Doppia griglia per il terreno, tavolozze
 alberi-lanterna, cielo con le radici del cosmo, spore nell'aria, occhi d'ambra, barra rapida e menu nello stesso stile,
 chiarore minimo nelle grotte, minerali a noduli. Da rifare nello stile più avanti: icone degli oggetti e torcia.
 
-## 3. [ ] Contenuti come dati (M)
+## 3. [x] Contenuti come dati (M) — fatto il 24 set 2026
 Tabelle per tessere, oggetti, ricette, stazioni di fabbricazione, creature, bottino, biomi. Uno script di verifica
 controlla i riferimenti (ricette con oggetti inesistenti, creature senza bottino, ecc.), come `verifica_dati` di Inkblood.
+**Fatto**: `ItemsData` (40 oggetti, famiglie di metallo generate da metalli × modelli), `RecipesData` (30 ricette),
+`StationsData` (banco da lavoro, fornace, incudine), `CreaturesData` (3 slime), `LootData`; in `TileDefs` forza di
+piccone richiesta (la progressione rame → ferro → oro → cristalli), cosa lascia ogni tessera, vene di minerale come dati.
+Icone di tutti gli oggetti rifatte nello stile «Radici e Linfa». Il gioco usa già i dati: la barra rapida legge
+`ItemsData` e lo scavo controlla la forza del piccone (il rame non stacca l'oro) e ne scala la velocità.
+`tools/verifica_dati.gd`: 0 errori; 2 avvisi voluti (cristallo di Linfa e fungo luminoso non servono ancora a nessuna
+ricetta: li useranno le voci 5b e 8). Biomi e strati: nella voce 5b. Prove automatiche rese robuste (niente attese su
+`frame_post_draw`, grotta con torcia cercata tra più candidati).
 
 ## 4. [ ] Il giocatore (L)
 Inventario, barra rapida, equipaggiamento (armatura in 3 pezzi, accessori), vita e mana, fabbricazione vicino alle

@@ -1,10 +1,6 @@
 class_name PassMinerali
 extends GenPass
-## Vene di minerale nella roccia e nella terra: più preziose più si scende.
-
-const COPPER_DEPTH := 4
-const IRON_DEPTH := 60
-const GOLD_DEPTH := 180
+## Vene di minerale nella roccia e nella terra, più preziose più si scende. I parametri stanno in `TileDefs.ORES`.
 
 
 func title() -> String:
@@ -12,21 +8,27 @@ func title() -> String:
 
 
 func run(w: World, c: GenContext) -> void:
-	var n_cu := c.noise("rame", 0.11, 2)
-	var n_fe := c.noise("ferro", 0.12, 2)
-	var n_au := c.noise("oro", 0.13, 2)
+	var ores: Array = TileDefs.ORES
+	var noises: Array[FastNoiseLite] = []
+	var hosts: Array[PackedByteArray] = []
+	for o in ores:
+		noises.append(c.noise("minerale_%d" % o["type"], o["freq"], 2))
+		var h := PackedByteArray()
+		h.resize(TileDefs.TYPES + 1)
+		for t in o["in"]:
+			h[t] = 1
+		hosts.append(h)
 	var tiles := w.tiles
 	for y in w.h:
 		var row := y * w.w
 		for x in w.w:
 			var t := tiles[row + x]
-			if t != TileDefs.STONE and t != TileDefs.DIRT:
+			if t == TileDefs.AIR:
 				continue
 			var dep := y - w.surface[x]
-			if dep > COPPER_DEPTH and n_cu.get_noise_2d(x, y) > 0.5:
-				tiles[row + x] = TileDefs.COPPER
-			elif t == TileDefs.STONE and dep > IRON_DEPTH and n_fe.get_noise_2d(x, y) > 0.52:
-				tiles[row + x] = TileDefs.IRON
-			elif t == TileDefs.STONE and dep > GOLD_DEPTH and n_au.get_noise_2d(x, y) > 0.55:
-				tiles[row + x] = TileDefs.GOLD
+			for k in ores.size():
+				var o: Dictionary = ores[k]
+				if hosts[k][t] == 1 and dep > int(o["min_depth"]) and noises[k].get_noise_2d(x, y) > float(o["threshold"]):
+					tiles[row + x] = o["type"]
+					break
 	w.tiles = tiles

@@ -1,7 +1,7 @@
 class_name Hud
 extends CanvasLayer
 ## Barra rapida degli oggetti (in basso al centro, stile «Radici e Linfa»), nome dell'oggetto scelto, aiuto sui comandi.
-## Gli oggetti vengono da `ItemDefs.HOTBAR`.
+## Per ora la barra mostra `ItemsData.DEMO_HOTBAR` (l'inventario vero arriva con la voce 4).
 
 const SLOT := 56
 const GAP := 6
@@ -21,13 +21,14 @@ var _toast: Label
 func _ready() -> void:
 	layer = 10
 	var row := HBoxContainer.new()
-	var n := ItemDefs.HOTBAR.size()
+	var n := ItemsData.DEMO_HOTBAR.size()
 	row.position = Vector2((1600 - (n * SLOT + (n - 1) * GAP)) / 2.0, 900 - SLOT - 18)
 	row.add_theme_constant_override("separation", GAP)
 	add_child(row)
-	for k in ItemDefs.HOTBAR.size():
-		var it: Dictionary = (ItemDefs.HOTBAR[k] as Dictionary).duplicate()
-		it["tex"] = ImageTexture.create_from_image(ItemDefs.icon(it))
+	for k in n:
+		var id: String = ItemsData.DEMO_HOTBAR[k]
+		var it := {"id": id, "name": ItemsData.get_item(id)["name"], "use": ItemsData.use_of(id),
+			"tex": ImageTexture.create_from_image(ItemIcons.of(id))}
 		items.append(it)
 		var pn := Panel.new()
 		pn.custom_minimum_size = Vector2(SLOT, SLOT)

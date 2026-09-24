@@ -3,7 +3,7 @@ extends RefCounted
 ## Ambiente disegnato dal codice, stile «Radici e Linfa»: alberi-lanterna, torcia, colline e foreste ripetibili,
 ## le radici del cosmo nel cielo, il sole.
 
-const WOOD := ItemIcons.WOOD
+const WOOD := ["#3e2614", "#5e3a1e", "#7e5230", "#a0703f"]
 
 ## Albero-lanterna: tronco contorto, chioma a salice di fronde turchesi che pendono, baccelli d'ambra luminosi.
 ## Restituisce l'immagine e la sua parte luminosa (i baccelli), che va disegnata sopra il buio.

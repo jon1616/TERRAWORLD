@@ -58,7 +58,6 @@ func _photos() -> void:
 		(s[1] as Callable).call()
 		for k in 10:
 			await get_tree().process_frame
-		await RenderingServer.frame_post_draw
 		get_viewport().get_texture().get_image().save_png(ProjectSettings.globalize_path("res://prove/%s.png" % s[0]))
 	get_tree().quit()
 

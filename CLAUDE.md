@@ -45,6 +45,9 @@ Godot_console.exe --path . -- --prove            # --carica riapre il mondo di p
 Godot_console.exe --path . -- --foto-menu
 # prova dei salvataggi senza finestra: salva, ricarica, confronta, rovina il file e recupera dalla copia di sicurezza
 Godot_console.exe --headless --path . --script res://tools/prova_salvataggi.gd
+# verifica dei contenuti (tabelle di src/data/): riferimenti, ricette, bottino, progressione dei picconi, oggetti che
+# non si possono ottenere; salva il foglio di tutte le icone in prove/oggetti.png. Obiettivo: «0 errori».
+Godot_console.exe --headless --path . --script res://tools/verifica_dati.gd
 # mappe dei mondi: mappe/mondo_<seme>.png a metà grandezza (--intera per 1:1), tempi per passata, conteggi per seme
 Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20 --da 1
 ```
@@ -52,8 +55,15 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 ## Struttura
 
 - `src/core/` — attrezzi generici: `Px` (primitive di pixel art, contorno automatico), `Fx` (sfumature, polvere di scavo).
-- `src/data/` — **solo dati**: `TileDefs` (tipi di tessera, durezza, tavolozze, luce, colori della mappa), `ItemDefs`
-  (oggetti della barra rapida; inventario e ricette con la voce 3).
+- `src/data/` — **solo dati** (voce 3):
+  - `TileDefs` — tipi di tessera, durezza (`HARD`, secondi col rame), forza di piccone richiesta (`POWER`: il ferro vuole
+    rame 35, l'oro ferro 45, i cristalli oro 55), cosa lasciano (`DROP`, `DECOR_DROP`), vene di minerale (`ORES`,
+    lette da `PassMinerali`), strati del terreno, tavolozze, luce, decorazioni.
+  - `ItemsData` — tutti gli oggetti (campi descritti in cima al file). Le famiglie di metallo (piccone, ascia, spada,
+    elmo, corazza, gambali × rame, ferro, oro) nascono da `METALS` × `GEAR` in `all()`: un metallo nuovo = una riga.
+    `DEMO_HOTBAR` = barra di prova finché non c'è l'inventario; `use_of(id)` = cosa fa il clic.
+  - `RecipesData` (ricette, più quelle generate delle famiglie di metallo), `StationsData` (banco da lavoro, fornace,
+    incudine), `CreaturesData` (statistiche, comportamenti, bottino, strati), `LootData` (tabelle e `roll`).
 - `src/art/` — grafica generata dal codice:
   - `TerrainPainter` — terreno dai contorni morbidi con la **doppia griglia**: si disegna una griglia spostata di mezza
     tessera; ogni cella tocca i centri di 4 tessere e, secondo quali sono piene (16 combinazioni), traccia una forma
@@ -63,7 +73,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
     continua da una cella all'altra. Minerali: solo noduli (trama bucata, alfa 0.9 = niente bordo di strato), si vede
     la roccia che li contiene. Atlante 4096×112.
   - `DecorPainter` — pareti (stesse trame da 64, più scure e fredde) e 14 decorazioni con la loro parte luminosa.
-  - `CharacterArt` (personaggio a pose, restituisce anche mano e occhio), `ItemIcons`, `CreatureArt`, `NatureArt`
+  - `ItemIcons` — icone 16×16 nello stile (manici di radice fasciati di foglia, lame a foglia, lingotti a seme, perle
+    d'ambra): `make(forma, materiale)` o `of(id)`; il materiale sceglie la tavolozza.
+  - `CharacterArt` (personaggio a pose, restituisce anche mano e occhio), `CreatureArt`, `NatureArt`
     (`tree_linfa` con parte luminosa, `root_arches`, `lantern_forest`, colline, torcia, sole).
 - `src/world/` — il mondo:
   - `World` — solo lo stato (tessere, pareti, decorazioni, superficie, torce con indice a celle da 16, alberi per blocco).
@@ -97,12 +109,13 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   salvataggio alla chiusura della finestra), `Background`
   (cielo, sole, nuvole, montagne che seguono la superficie sotto la visuale), `PlayerActions` (scavo, torce),
   `AutoTests` (prove automatiche).
-- `tools/` — strumenti da riga di comando (`mappe.gd`, `prova_salvataggi.gd`).
+- `tools/` — strumenti da riga di comando (`mappe.gd`, `prova_salvataggi.gd`, `verifica_dati.gd`).
 
 ## Ordine del codice
 
 - **Un file, una responsabilità.** Sopra le ~400 righe un file va diviso; `main.gd` fa solo montaggio.
 - **Dati separati dal codice**: contenuti (tessere, oggetti, creature, ricette, biomi…) in `src/data/`, mai sparsi nella logica.
+  Dopo ogni contenuto nuovo: `tools/verifica_dati.gd` deve dire «0 errori» (gli avvisi vanno letti e capiti).
 - **Il generatore cresce a passate**: una cosa nuova nel mondo = un file nuovo in `gen/passes/` + una riga in `WorldGen.passes()`.
 - `class_name` per ogni script riusato; cartelle per argomento, non per tipo di nodo.
 - Commenti in italiano che spiegano il perché; nomi del codice brevi e chiari.
@@ -124,6 +137,10 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   che cambierà spesso, e caricare (17 ms) è molto più rapido che rigenerare (5,5 s).
 - Contorni morbidi senza cambiare la logica: la «doppia griglia» (16 forme per strato) tiene scavo e collisioni sulle
   tessere quadrate. Le collisioni restano squadrate: i bordi disegnati coincidono con i lati delle tessere a metà strada.
+- Nelle prove con finestra non aspettare `RenderingServer.frame_post_draw`: a volte non arriva e la prova resta ferma
+  (successo anche in Inkblood). Bastano due `process_frame` prima di leggere l'immagine della finestra.
+- Il generatore usa un solo `rng` per tutte le passate: cambiare una passata sposta anche ciò che viene dopo (torce,
+  decorazioni). Le prove non devono dipendere da un punto preciso del mondo: cercano il primo candidato valido.
 - Gli alberi hanno 8 forme disegnate una volta sola e riusate (disegnarne uno per albero costava secondi).
 
 ## Convenzioni

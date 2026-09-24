@@ -67,13 +67,24 @@ func _process(dt: float) -> void:
 		if c != _cell:
 			_cell = c
 			_t = 0.0
-		_t += dt
-		var hard: float = TileDefs.HARD[world.tile(c.x, c.y)]
-		prog = _t / hard
-		if _t >= hard:
-			break_tile(c)
-			_t = 0.0
-			prog = 0.0
+		var t := world.tile(c.x, c.y)
+		var power := int(ItemsData.get_item(hud.current()["id"]).get("power", 0))
+		if power < int(TileDefs.POWER.get(t, 0)):
+			# troppo duro per questo piccone: il blocco non cede
+			if _t == 0.0:
+				hud.toast("Serve un piccone più forte")
+			_t = -1.0
+		else:
+			if _t < 0.0:
+				_t = 0.0
+			_t += dt
+			# più forza = più veloce (il rame, forza 35, è il riferimento di TileDefs.HARD)
+			var hard: float = float(TileDefs.HARD[t]) * 35.0 / float(maxi(power, 1))
+			prog = _t / hard
+			if _t >= hard:
+				break_tile(c)
+				_t = 0.0
+				prog = 0.0
 	else:
 		_t = 0.0
 	cursor.set_state(c, reach and (world.solid(c.x, c.y) or use == "torcia"), prog)
