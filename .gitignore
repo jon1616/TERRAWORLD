@@ -1,0 +1,9 @@
+# cache e importazioni di Godot (si rigenerano da sole)
+.godot/
+# uscite delle prove automatiche e degli strumenti
+prove/
+mappe/
+tools/risultati/
+# esportazioni
+build/
+*.tmp
