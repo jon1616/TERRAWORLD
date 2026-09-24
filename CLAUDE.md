@@ -22,7 +22,7 @@ Documenti: `UNIVERSO.md` (ambientazione «Il Giardino dei Semi»), `ROADMAP.md` 
 Godot: `C:\Users\Principale\Desktop\GODOT\Godot_v4.6.1-stable_win64_console.exe` (`_console` per vedere stdout).
 
 ```bash
-# avvio (anche con doppio clic su «Avvia prova.bat»)
+# avvio (anche con doppio clic su «Avvia prova.bat»): menu → personaggio → mondo → gioco
 Godot_console.exe --path .
 # reimporta il progetto (dopo aver aggiunto file con class_name nuovi)
 Godot_console.exe --headless --path . --import
@@ -30,7 +30,14 @@ Godot_console.exe --headless --path . --import
 Godot_console.exe --headless --path . --check-only --script res://src/world/world.gd
 # prove automatiche con finestra (~25 s): screenshot in prove/ (01_superficie, 02_grotta_torcia, 03_cristalli, 04_scavo,
 # 05_dopo_la_corsa) e misura dei fotogrammi durante una corsa in superficie (obiettivo: 60 fps, fotogramma peggiore < 25 ms)
-Godot_console.exe --path . -- --prove            # aggiungere --senza-luce per vedere i colori senza il buio
+# Le prove usano user://prove_salvataggi (personaggio «prova», mondo «mondo_prova» rigenerato ogni volta) e alla fine
+# salvano dal gioco e ricaricano: il mondo su disco deve risultare «identico».
+Godot_console.exe --path . -- --prove            # --carica riapre il mondo di prova salvato invece di rigenerarlo;
+                                                 # --senza-luce per vedere i colori senza il buio
+# foto delle schermate del menu in prove/ (menu_titolo, menu_personaggi, menu_nuovo_mondo)
+Godot_console.exe --path . -- --foto-menu
+# prova dei salvataggi senza finestra: salva, ricarica, confronta, rovina il file e recupera dalla copia di sicurezza
+Godot_console.exe --headless --path . --script res://tools/prova_salvataggi.gd
 # mappe dei mondi: mappe/mondo_<seme>.png a metà grandezza (--intera per 1:1), tempi per passata, conteggi per seme
 Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20 --da 1
 ```
@@ -55,12 +62,22 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   - `LightMap` — luce in una finestra di 128×96 tessere attorno alla visuale, calcolata in un thread
     (`WorkerThreadPool`) su copie dei dati; ricentrata quando la visuale si sposta di 6 tessere, ricalcolata quando il
     giocatore cambia cella o `dirty` è vero. Immagine stesa sul mondo in moltiplicazione (`overlay` in main, z 20).
+- `src/save/` — salvataggi: `SavePaths` (cartelle, scrittura sicura: file temporaneo → il vecchio diventa `.bak` →
+  il nuovo prende il suo posto; lettura con ripiego sulla copia di sicurezza), `WorldSave` (mondo intero compresso ZSTD
+  in `mondo.bin` ~0,5 MB, salvataggio ~15 ms, caricamento ~17 ms; `mondo.json` con nome, seme, date, tempo di gioco,
+  partenza, posizione di ogni personaggio), `Character` (personaggio separato dai mondi, `personaggi/<id>.json`).
+  Cartella: `%APPDATA%\Godot\app_userdata\TERRAWORLD\salvataggi\`. Le creature non si salvano: si rimettono con
+  `PassPartenza.place_creatures`.
 - `src/entities/` — `TileBody` (movimento contro la griglia, gradino automatico), `Player`, `Slime`.
-- `src/ui/` — `Hud` (barra rapida, segnale `selected`), `MiningCursor`.
-- `src/game/` — `main.gd` (solo montaggio: generazione, nodi, camera, aggiornamenti per fotogramma), `Background`
+- `src/ui/` — `menu.tscn`/`menu.gd` (scena iniziale: titolo, personaggi, mondi, creazione), `Hud` (barra rapida,
+  segnale `selected`, `toast` per i messaggi brevi), `MiningCursor`.
+- `src/game/` — `session.gd` (autoload `Session`: personaggio e mondo scelti nel menu; non esiste negli script headless
+  né in `--check-only`, dove «Identifier not found: Session» è normale), `main.gd` (solo montaggio: caricamento o
+  generazione in un thread, nodi, camera, salvataggio automatico ogni 5 minuti, Esc = salva e torna al menu,
+  salvataggio alla chiusura della finestra), `Background`
   (cielo, sole, nuvole, montagne che seguono la superficie sotto la visuale), `PlayerActions` (scavo, torce),
   `AutoTests` (prove automatiche).
-- `tools/` — strumenti da riga di comando (`mappe.gd`).
+- `tools/` — strumenti da riga di comando (`mappe.gd`, `prova_salvataggi.gd`).
 
 ## Ordine del codice
 
@@ -83,6 +100,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 - In un .bat, `"%~dp0"` finisce con `\` e rompe le virgolette: usare `cd /d "%~dp0"` e poi `--path .`.
 - GDScript regge bene i cicli grandi (3 milioni di letture di rumore in ~0,45 s), ma le chiamate di funzione nei cicli
   interni costano: nel calcolo della luce i passaggi sono scritti in linea su array locali.
+- Salvare il mondo intero compresso (0,5 MB) è meglio di seme + modifiche: non dipende dalla versione del generatore,
+  che cambierà spesso, e caricare (17 ms) è molto più rapido che rigenerare (5,5 s).
 - Gli alberi hanno 8 forme disegnate una volta sola e riusate (disegnarne uno per albero costava secondi).
 
 ## Convenzioni

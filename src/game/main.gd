@@ -1,11 +1,11 @@
 extends Node2D
-## TERRAWORLD — scena di gioco: genera il mondo (in un thread, con una schermata d'attesa), poi mette insieme vista a
-## blocchi, luce, sfondo, giocatore, creature, barra degli oggetti e azioni. Qui c'è solo il montaggio: ogni parte
-## vive nel suo file.
+## TERRAWORLD — scena di gioco: carica o genera il mondo scelto nel menu (in un thread, con una schermata d'attesa),
+## poi mette insieme vista a blocchi, luce, sfondo, giocatore, creature, barra degli oggetti e azioni, e salva.
+## Qui c'è solo il montaggio: ogni parte vive nel suo file.
 
 const S := 16
-
-static var next_seed := 20260924
+const MENU_SCENE := "res://src/ui/menu.tscn"
+const AUTOSAVE := 300.0                # secondi tra un salvataggio automatico e l'altro
 
 var world: World
 var view: WorldView
@@ -22,15 +22,35 @@ var gen_times: Array = []
 var _gen_task := -1
 var _loading: CanvasLayer
 var _view_key := Rect2i()
+var world_id := ""
+var world_meta := {}
+var character: Character
+var _session_time := 0.0              # secondi giocati dall'ultimo salvataggio
+var _autosave := AUTOSAVE
 
 
 func _ready() -> void:
-	_show_loading()
-	world = World.new()
-	_gen_task = WorkerThreadPool.add_task(func() -> void: gen_times = WorldGen.generate(world, next_seed), false, "genera mondo")
+	if Session.character == null:
+		get_tree().change_scene_to_file.call_deferred(MENU_SCENE)
+		return
+	get_tree().set_auto_accept_quit(false)
+	character = Session.character
+	if Session.world_id != "":
+		world_id = Session.world_id
+		world_meta = WorldSave.read_meta(world_id)
+		_show_loading("Il mondo si risveglia…")
+		_gen_task = WorkerThreadPool.add_task(func() -> void: world = WorldSave.load_world(world_id), false, "carica mondo")
+	else:
+		var nw: Dictionary = Session.new_world
+		world_id = nw["id"]
+		world_meta = {"nome": nw["nome"], "creato": SavePaths.now_text(), "tempo_di_gioco": 0.0, "giocatori": {}}
+		_show_loading("Il seme germoglia…\ngenerazione del mondo")
+		world = World.new()
+		var sd: int = nw["seme"]
+		_gen_task = WorkerThreadPool.add_task(func() -> void: gen_times = WorldGen.generate(world, sd), false, "genera mondo")
 
 
-func _show_loading() -> void:
+func _show_loading(text: String) -> void:
 	_loading = CanvasLayer.new()
 	_loading.layer = 50
 	add_child(_loading)
@@ -39,7 +59,7 @@ func _show_loading() -> void:
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_loading.add_child(bg)
 	var l := Label.new()
-	l.text = "Il seme germoglia…\ngenerazione del mondo"
+	l.text = text
 	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	l.add_theme_font_size_override("font_size", 30)
 	l.add_theme_color_override("font_color", Color("#cfe8a0"))
@@ -51,6 +71,14 @@ func _show_loading() -> void:
 
 func _build() -> void:
 	var t0 := Time.get_ticks_msec()
+	if world == null:
+		push_error("mondo %s illeggibile" % world_id)
+		get_tree().change_scene_to_file(MENU_SCENE)
+		return
+	if world.slimes.is_empty():
+		var rng := RandomNumberGenerator.new()
+		rng.seed = world.world_seed
+		PassPartenza.place_creatures(world, rng)
 	_make_environment()
 	background = Background.new()
 	add_child(background)
@@ -102,10 +130,18 @@ func _build() -> void:
 	actions = PlayerActions.new()
 	add_child(actions)
 	actions.setup(world, view, light, player, hud, fx)
-	snap_to(world.spawn)
+	hud.select(character.hotbar)
+	var start := world.spawn
+	var pos: Array = (world_meta.get("giocatori", {}) as Dictionary).get(character.id, [])
+	if pos.size() == 2:
+		start = Vector2i(int(pos[0]), int(pos[1]))
+	snap_to(start)
 	_loading.queue_free()
 	built = true
-	var line := "mondo %d×%d, seme %d ·" % [world.w, world.h, world.world_seed]
+	if Session.world_id == "":
+		save_game()          # un mondo appena nato si salva subito
+		Session.start_saved_world(world_id)
+	var line := "mondo «%s» %d×%d, seme %d ·" % [world_meta.get("nome", world_id), world.w, world.h, world.world_seed]
 	for t in gen_times:
 		line += " %s %d ms ·" % [t[0], t[1]]
 	print(line, " montaggio %d ms" % (Time.get_ticks_msec() - t0))
@@ -175,9 +211,43 @@ func _process(dt: float) -> void:
 	if light.update(pc, pc):
 		overlay.position = Vector2(light.origin) * S
 	background.follow(cam.get_screen_center_position(), get_viewport_rect().size / cam.zoom, dt)
+	_session_time += dt
+	_autosave -= dt
+	if _autosave <= 0.0:
+		_autosave = AUTOSAVE
+		save_game()
+		hud.toast("Salvataggio automatico")
+
+
+# ---------------------------------------------------------------- salvataggi
+
+## Salva mondo e personaggio (mondo ~15 ms, file ~0,5 MB).
+func save_game() -> void:
+	if not built or world == null:
+		return
+	world_meta["tempo_di_gioco"] = float(world_meta.get("tempo_di_gioco", 0.0)) + _session_time
+	character.play_time += _session_time
+	_session_time = 0.0
+	var players: Dictionary = world_meta.get("giocatori", {})
+	var pc := player_cell()
+	players[character.id] = [pc.x, pc.y]
+	world_meta["giocatori"] = players
+	var err := WorldSave.save(world, world_id, world_meta)
+	if err != OK:
+		push_error("salvataggio del mondo non riuscito: %s" % error_string(err))
+		hud.toast("Salvataggio NON riuscito")
+	character.hotbar = hud.sel
+	character.last_world = world_id
+	character.save()
 
 
 func _unhandled_input(e: InputEvent) -> void:
-	if e is InputEventKey and e.pressed and not e.echo and e.keycode == KEY_R and built:
-		next_seed += 1
-		get_tree().reload_current_scene()
+	if e is InputEventKey and e.pressed and not e.echo and e.keycode == KEY_ESCAPE and built:
+		save_game()
+		get_tree().change_scene_to_file(MENU_SCENE)
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		save_game()
+		get_tree().quit()

@@ -9,6 +9,7 @@ var sel := 0
 var _slots: Array[Panel] = []
 var _name: Label
 var _info: Label
+var _toast: Label
 
 
 func _ready() -> void:
@@ -37,7 +38,9 @@ func _ready() -> void:
 		_slots.append(pn)
 	_name = _label(self, Vector2(22, 8), 20)
 	_info = _label(self, Vector2(20, 820), 16)
-	_info.text = "A/D muovi · Spazio salta · clic sinistro usa (scava col piccone) · clic destro torcia · 1-0 / rotella oggetti · R mondo nuovo\nTutto ciò che vedi è generato dal codice: nessuna immagine esterna."
+	_toast = _label(self, Vector2(1300, 40), 18)
+	_toast.modulate.a = 0.0
+	_info.text = "A/D muovi · Spazio salta · clic sinistro usa (scava col piccone) · clic destro torcia · 1-0 / rotella oggetti · Esc salva ed esce\nTutto ciò che vedi è generato dal codice: nessuna immagine esterna."
 	select(0)
 
 
@@ -50,6 +53,13 @@ func _label(parent: Node, pos: Vector2, size: int) -> Label:
 	l.add_theme_constant_override("outline_size", 6)
 	parent.add_child(l)
 	return l
+
+
+## Messaggio breve in alto a destra che svanisce da solo.
+func toast(text: String) -> void:
+	_toast.text = text
+	_toast.modulate.a = 1.0
+	create_tween().tween_property(_toast, "modulate:a", 0.0, 1.2).set_delay(1.5)
 
 
 func current() -> Dictionary:

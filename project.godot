@@ -5,8 +5,12 @@ config_version=5
 [application]
 
 config/name="TERRAWORLD"
-run/main_scene="res://src/game/main.tscn"
+run/main_scene="res://src/ui/menu.tscn"
 config/features=PackedStringArray("4.6", "Forward Plus")
+
+[autoload]
+
+Session="*res://src/game/session.gd"
 
 [display]
 

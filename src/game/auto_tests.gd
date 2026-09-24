@@ -66,6 +66,15 @@ func run(main: Node2D) -> void:
 		frames, ms, frames * 1000.0 / ms, worst, m.view.chunks.size()])
 	await _frames(10)
 	await _save("05_dopo_la_corsa")
+	# salvataggio dal gioco e ricaricamento: il mondo su disco deve essere identico a quello in memoria
+	var t1 := Time.get_ticks_msec()
+	m.save_game()
+	var t_save := Time.get_ticks_msec() - t1
+	t1 = Time.get_ticks_msec()
+	var l := WorldSave.load_world(m.world_id)
+	var t_load := Time.get_ticks_msec() - t1
+	var same: bool = l != null and l.tiles == world.tiles and l.walls == world.walls and l.decor == world.decor and l.torches.size() == world.torches.size()
+	print("salvataggio dal gioco %d ms, ricaricamento %d ms: %s" % [t_save, t_load, "identico" if same else "DIVERSO"])
 	get_tree().quit()
 
 
