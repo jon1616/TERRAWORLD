@@ -44,7 +44,7 @@ func setup(w: World, v: WorldView, l: LightMap, p: Player, h: Hud, d: Drops, fx:
 
 func _on_selected(item: Dictionary) -> void:
 	var use: String = item["use"]
-	player.tool_tex = item["tex"] if use == "scava" or use == "colpo" else null
+	player.tool_tex = item["tex"] if use in ["scava", "colpo", "abbatti"] else null
 
 
 func mouse_cell() -> Vector2i:

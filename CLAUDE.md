@@ -70,7 +70,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
     lette da `PassMinerali`), strati del terreno, tavolozze, luce, decorazioni.
   - `ItemsData` — tutti gli oggetti (campi descritti in cima al file). Le famiglie di metallo (piccone, ascia, spada,
     elmo, corazza, gambali × radicite, legnoferro, ambra) nascono da `METALS` × `GEAR` in `all()`: un metallo = una riga.
-    `DEMO_HOTBAR` = barra di prova finché non c'è l'inventario; `use_of(id)` = cosa fa il clic.
+    `use_of(id)` = cosa fa il clic (scava, abbatti, colpo, torcia, semina, bevi). Ogni uso che tiene un attrezzo in mano
+    va aggiunto anche in `PlayerActions._on_selected`, o l'attrezzo non si disegna (successo con l'ascia).
   - `FloraData` — alberi e germogli: robustezza (100; ogni colpo toglie la forza dell'ascia), legno e semi che
     lasciano, tempo di crescita dei germogli, spazio richiesto.
   - `RecipesData` (ricette, più quelle generate delle famiglie di metallo), `StationsData` (ceppo, baccello ardente,

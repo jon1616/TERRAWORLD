@@ -127,6 +127,11 @@ func _trees(world: World) -> void:
 	m.hud.select(axe)
 	var wood_before := b.count("legno")
 	var hits := 0
+	m.player.force_swing = true
+	await _frames(8)
+	var axe_seen: bool = m.player.tool.visible and m.player.tool.texture != null
+	print("ascia in mano durante il colpo: %s" % ("visibile" if axe_seen else "NON visibile"))
+	m.player.force_swing = false
 	while world.tree_at(base).x >= 0 and hits < 10:
 		m.actions._chop(base + Vector2i(0, -3), m.hud.current(), 1.0)
 		hits += 1
