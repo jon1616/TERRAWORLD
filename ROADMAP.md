@@ -49,8 +49,8 @@ Un sistema unico a comportamenti combinabili (cammina, salta, vola, scava, spara
 contraccolpo, invulnerabilità breve, bottino. Prime 4-5 creature. Armi da mischia e a distanza.
 
 ## 6. [ ] Rete a 2 (L)
-Host autoritativo. Il mondo non viaggia: ogni PC lo genera dal seme e riceve solo le tessere modificate. Movimento
-reattivo per chi non è host. Prova con due istanze vere del gioco (come la prova di rete di Inkblood).
+Host autoritativo. All'ingresso l'host manda il mondo compresso (~0,5 MB, lo stesso formato del salvataggio: niente
+dipendenza dalla versione del generatore), poi solo le tessere che cambiano. Movimento reattivo per chi non è host. Prova con due istanze vere del gioco (come la prova di rete di Inkblood).
 
 ## 7. [ ] Prova con Nano Banana (M) — insieme all'utente
 Un personaggio con camminata, salto, colpo e un'armatura. Prompt pronti, griglia fissa su magenta, script di
