@@ -48,6 +48,7 @@ func run(main: Node2D) -> void:
 			m.snap_to(f2)
 			await _frames(20)
 			await _save("03_cristalli")
+	await _movement(world)
 	# corsa lungo la superficie: misura i fotogrammi mentre blocchi e luce si aggiornano
 	m.snap_to(world.spawn)
 	await _frames(10)
@@ -76,6 +77,58 @@ func run(main: Node2D) -> void:
 	var same: bool = l != null and l.tiles == world.tiles and l.walls == world.walls and l.decor == world.decor and l.torches.size() == world.torches.size()
 	print("salvataggio dal gioco %d ms, ricaricamento %d ms: %s" % [t_save, t_load, "identico" if same else "DIVERSO"])
 	get_tree().quit()
+
+
+## Movimento sulla zona piana della partenza: velocità massima, altezza del salto pieno, e un muro di 3 blocchi da
+## scavalcare correndo e saltando (il salto di base deve bastare, richiesta dell'utente del 24 set 2026).
+func _movement(world: World) -> void:
+	var p: Player = m.player
+	var s := world.spawn
+	m.snap_to(s + Vector2i(-6, 0))
+	await _frames(5)
+	p.auto_dir = 1.0
+	var t0 := Time.get_ticks_msec()
+	var top := 0.0
+	var reach_ms := -1
+	while Time.get_ticks_msec() - t0 < 700:
+		await get_tree().process_frame
+		top = maxf(top, absf(p.vel.x))
+		if reach_ms < 0 and absf(p.vel.x) >= Player.RUN - 0.5:
+			reach_ms = Time.get_ticks_msec() - t0
+	p.auto_dir = 0.0
+	await _frames(40)
+	var ground := p.position.y
+	p.auto_jump = true
+	var high := ground
+	for k in 90:
+		await get_tree().process_frame
+		high = minf(high, p.position.y)
+		if k > 10 and p.on_floor:
+			break
+	p.auto_jump = false
+	print("movimento: corsa %.0f px/s (%.1f tessere/s), velocità piena in %d ms, salto pieno %.2f tessere" % [
+		top, top / S, reach_ms, (ground - high) / S])
+	# muro di 3 blocchi davanti alla partenza
+	var wx := s.x + 3
+	for dy in range(1, 4):
+		world.set_tile(wx, s.y + 1 - dy, TileDefs.STONE)
+		m.view.refresh_around(Vector2i(wx, s.y + 1 - dy))
+	m.light.dirty = true
+	m.snap_to(s + Vector2i(-2, 0))
+	await _frames(5)
+	p.auto_dir = 1.0
+	p.auto_jump = true
+	for k in 150:
+		await get_tree().process_frame
+	await _save("06_muro_3_blocchi")
+	p.auto_dir = 0.0
+	p.auto_jump = false
+	var over := p.position.x > (wx + 1) * S
+	print("muro di 3 blocchi: %s" % ("scavalcato" if over else "NON scavalcato"))
+	for dy in range(1, 4):
+		world.set_tile(wx, s.y + 1 - dy, TileDefs.AIR)
+		m.view.refresh_around(Vector2i(wx, s.y + 1 - dy))
+	m.light.dirty = true
 
 
 func _frames(n: int) -> void:

@@ -29,7 +29,8 @@ Godot_console.exe --headless --path . --import
 # controllo sintattico di uno script
 Godot_console.exe --headless --path . --check-only --script res://src/world/world.gd
 # prove automatiche con finestra (~25 s): screenshot in prove/ (01_superficie, 02_grotta_torcia, 03_cristalli, 04_scavo,
-# 05_dopo_la_corsa) e misura dei fotogrammi durante una corsa in superficie (obiettivo: 60 fps, fotogramma peggiore < 25 ms)
+# 05_dopo_la_corsa, 06_muro_3_blocchi), misura del movimento (velocità, salto pieno in tessere, muro di 3 blocchi da
+# scavalcare) e dei fotogrammi durante una corsa in superficie (obiettivo: 60 fps, fotogramma peggiore < 25 ms)
 # Le prove usano user://prove_salvataggi (personaggio «prova», mondo «mondo_prova» rigenerato ogni volta) e alla fine
 # salvano dal gioco e ricaricano: il mondo su disco deve risultare «identico».
 Godot_console.exe --path . -- --prove            # --carica riapre il mondo di prova salvato invece di rigenerarlo;
@@ -68,7 +69,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   partenza, posizione di ogni personaggio), `Character` (personaggio separato dai mondi, `personaggi/<id>.json`).
   Cartella: `%APPDATA%\Godot\app_userdata\TERRAWORLD\salvataggi\`. Le creature non si salvano: si rimettono con
   `PassPartenza.place_creatures`.
-- `src/entities/` — `TileBody` (movimento contro la griglia, gradino automatico), `Player`, `Slime`.
+- `src/entities/` — `TileBody` (movimento contro la griglia, gradino automatico), `Player` (movimento a ogni fotogramma
+  disegnato, a passi di al massimo 1/30 s; valori di base in cima al file: corsa 95 px/s, salto pieno ~3,3 tessere;
+  `auto_dir`/`auto_jump` per le prove e i futuri bot), `Slime`.
 - `src/ui/` — `menu.tscn`/`menu.gd` (scena iniziale: titolo, personaggi, mondi, creazione), `Hud` (barra rapida,
   segnale `selected`, `toast` per i messaggi brevi), `MiningCursor`.
 - `src/game/` — `session.gd` (autoload `Session`: personaggio e mondo scelti nel menu; non esiste negli script headless

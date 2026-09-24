@@ -4,12 +4,21 @@ extends Node2D
 ## (angoli di braccia e gambe) e vengono messi da parte la prima volta che servono.
 
 const HALF := Vector2(5, 13)
-const GRAV := 950.0
-const RUN := 150.0
-const JUMP := 345.0
-const MAX_FALL := 560.0
+# Valori di base, senza modificatori (24 set 2026, richiesta dell'utente: più lento, salto di 3 blocchi, più fluido).
+const RUN := 95.0                      # velocità massima di corsa, px/s (~6 tessere al secondo)
+const ACCEL_GROUND := 750.0            # accelerazione a terra: ~0,13 s per arrivare alla velocità piena
+const DECEL_GROUND := 950.0            # frenata a terra quando si lasciano i tasti
+const ACCEL_AIR := 520.0               # controllo in aria, un po' più morbido
+const GRAV := 820.0
+const JUMP := 288.0                    # salto pieno ~3,3 tessere: si sale su un gradino di 3 blocchi
+const JUMP_CUT := 1.6                  # gravità in più in salita se si lascia il tasto (salto corto)
+const MAX_FALL := 520.0
+const MAX_DT := 1.0 / 30.0             # oltre questo passo il movimento si divide in più passi
 
 var world: World
+## Comandi simulati quando `control` è falso (prove automatiche, in futuro i bot): direzione -1/0/1 e salto tenuto.
+var auto_dir := 0.0
+var auto_jump := false
 var vel := Vector2.ZERO
 var on_floor := false
 var facing := 1
@@ -49,19 +58,43 @@ func _unhandled_input(e: InputEvent) -> void:
 		jump_buf = 0.14
 
 
-func _physics_process(dt: float) -> void:
-	var dir := 0.0
+func _ready() -> void:
+	process_priority = -1              # si muove prima che la scena sposti la camera: niente scatti di un fotogramma
+
+
+## Il movimento gira a ogni fotogramma disegnato (non a 60 passi fissi): fluido anche sugli schermi a 120/144 Hz.
+func _process(delta: float) -> void:
+	var dir := auto_dir
+	var held := auto_jump
 	if control:
+		dir = 0.0
 		if Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT):
 			dir -= 1.0
 		if Input.is_key_pressed(KEY_D) or Input.is_key_pressed(KEY_RIGHT):
 			dir += 1.0
-	var accel := 1400.0 if on_floor else 800.0
-	vel.x = move_toward(vel.x, dir * RUN, accel * dt)
+		held = Input.is_key_pressed(KEY_SPACE) or Input.is_key_pressed(KEY_W) or Input.is_key_pressed(KEY_UP)
+	elif auto_jump and on_floor:
+		jump_buf = 0.14
+	var left := delta
+	while left > 0.0:
+		var dt := minf(left, MAX_DT)
+		left -= dt
+		_step(dt, dir, held)
+	step_vis = move_toward(step_vis, 0.0, 120.0 * delta)
+	if dir != 0.0 and not swinging:
+		facing = 1 if dir > 0.0 else -1
+	_animate(delta)
+
+
+func _step(dt: float, dir: float, held: bool) -> void:
+	var target := dir * RUN
+	var accel := ACCEL_AIR
+	if on_floor:
+		accel = ACCEL_GROUND if dir != 0.0 and signf(dir) == signf(vel.x if vel.x != 0.0 else dir) else DECEL_GROUND
+	vel.x = move_toward(vel.x, target, accel * dt)
 	vel.y = minf(vel.y + GRAV * dt, MAX_FALL)
-	var held := control and (Input.is_key_pressed(KEY_SPACE) or Input.is_key_pressed(KEY_W) or Input.is_key_pressed(KEY_UP))
 	if vel.y < 0.0 and not held:
-		vel.y += GRAV * 1.3 * dt
+		vel.y += GRAV * (JUMP_CUT - 1.0) * dt
 	jump_buf -= dt
 	if jump_buf > 0.0 and coyote > 0.0:
 		vel.y = -JUMP
@@ -72,11 +105,7 @@ func _physics_process(dt: float) -> void:
 	vel = r["vel"]
 	on_floor = r["floor"]
 	step_vis += r["stepped"]
-	step_vis = move_toward(step_vis, 0.0, 160.0 * dt)
 	coyote = 0.1 if on_floor else coyote - dt
-	if dir != 0.0 and not swinging:
-		facing = 1 if dir > 0.0 else -1
-	_animate(dt)
 
 
 func _animate(dt: float) -> void:
@@ -86,7 +115,7 @@ func _animate(dt: float) -> void:
 		key = "jump" if vel.y < 0.0 else "fall"
 		pose = CharacterArt.pose_jump() if vel.y < 0.0 else CharacterArt.pose_fall()
 	elif absf(vel.x) > 12.0:
-		anim_t += dt * absf(vel.x) / RUN * 13.0
+		anim_t += dt * absf(vel.x) / RUN * 20.0
 		var k := int(anim_t) % 8
 		key = "run%d" % k
 		pose = CharacterArt.pose_run(k)

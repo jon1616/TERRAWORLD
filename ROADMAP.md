@@ -43,6 +43,9 @@ controlla i riferimenti (ricette con oggetti inesistenti, creature senza bottino
 ## 4. [ ] Il giocatore (L)
 Inventario, barra rapida, equipaggiamento (armatura in 3 pezzi, accessori), vita e mana, fabbricazione vicino alle
 stazioni, raccolta degli oggetti a terra. Passata sulla sensazione dei controlli **con le prove dell'utente**.
+24 set 2026, anticipato su richiesta dell'utente: valori di base del movimento (corsa da 150 a 95 px/s, accelerazione e
+frenata più morbide, salto pieno 3,3 tessere che basta per un muro di 3 blocchi, movimento calcolato a ogni fotogramma
+disegnato per la fluidità); le prove automatiche misurano velocità, salto e il muro di 3 blocchi.
 
 ## 5. [ ] Creature e combattimento (L)
 Un sistema unico a comportamenti combinabili (cammina, salta, vola, scava, spara, carica, evoca, fasi). Danno,
