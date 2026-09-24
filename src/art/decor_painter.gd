@@ -4,12 +4,14 @@ extends RefCounted
 ## pezzi (come il terreno), così la griglia non si vede. Le decorazioni hanno anche una versione luminosa (punte delle
 ## radici, campanule, funghi, spore) disegnata sopra il buio.
 ##
-## Atlante: riga 0 pareti di terra (16 varianti), riga 1 pareti di roccia, riga 2 decorazioni (id - 1).
+## Atlante: riga 0 pareti di terra (16 varianti), riga 1 pareti di roccia, riga 2 decorazioni (id - 1),
+## riga 3 passerelle di radice (4 varianti).
 
 const S := 16
 const DECOR_ROW := 2
+const PLAT_ROW := 3
 const COLS := 16
-const ROWS := 3
+const ROWS := 4
 
 
 static func wall_coords(kind: int, x: int, y: int) -> Vector2i:
@@ -18,6 +20,10 @@ static func wall_coords(kind: int, x: int, y: int) -> Vector2i:
 
 static func decor_coords(id: int) -> Vector2i:
 	return Vector2i(id - 1, DECOR_ROW)
+
+
+static func plat_coords(x: int) -> Vector2i:
+	return Vector2i(posmod(x, 4), PLAT_ROW)
 
 
 static func build() -> Dictionary:
@@ -40,7 +46,25 @@ static func build() -> Dictionary:
 		var r := decor(d)
 		img.blit_rect(r["img"], Rect2i(0, 0, S, S), Vector2i((d - 1) * S, DECOR_ROW * S))
 		glow.blit_rect(r["glow"], Rect2i(0, 0, S, S), Vector2i((d - 1) * S, DECOR_ROW * S))
+	for v in 4:
+		img.blit_rect(plank(v), Rect2i(0, 0, S, S), Vector2i(v * S, PLAT_ROW * S))
 	return {"img": img, "glow": glow}
+
+
+## Passerella di radice: un'asse di legno di lanterna legata con radici, spessa 5 pixel in cima alla cella.
+static func plank(v: int) -> Image:
+	var im := Px.img(S, S)
+	var wood := Px.pal(["#2e1c26", "#46303a", "#644652", "#86606e"])
+	for y in range(1, 5):
+		for x in S:
+			var c := wood[3] if y == 1 else (wood[2] if y < 4 else wood[1])
+			if (x + v * 5) % 7 == 0 and y > 1:
+				c = wood[0]
+			im.set_pixel(x, y, c)
+	var lash := (v * 5 + 6) % 12 + 2
+	for y in range(0, 6):
+		im.set_pixel(lash, y, Color("#3aa08a") if y % 2 == 0 else Color("#16574f"))
+	return im
 
 
 ## Una decorazione 16×16 e la sua parte luminosa.

@@ -18,7 +18,23 @@ static func collides(world: World, c: Vector2, half: Vector2) -> bool:
 	return false
 
 
-static func move(world: World, pos: Vector2, half: Vector2, vel: Vector2, dt: float, was_on_floor: bool) -> Dictionary:
+## Passerelle: reggono solo chi scende e aveva i piedi sopra la passerella prima del passo (`through` = ci si lascia
+## cadere attraverso).
+static func _plat_below(world: World, pos: Vector2, ny: float, half: Vector2) -> float:
+	var feet0 := pos.y + half.y
+	var feet1 := ny + half.y
+	var row := int(floorf(feet1 / S))
+	if feet0 > row * S + 0.5:
+		return -1.0
+	var x0 := int(floorf((pos.x - half.x) / S))
+	var x1 := int(floorf((pos.x + half.x - 0.001) / S))
+	for x in range(x0, x1 + 1):
+		if world.plat(x, row):
+			return row * S - half.y - 0.01
+	return -1.0
+
+
+static func move(world: World, pos: Vector2, half: Vector2, vel: Vector2, dt: float, was_on_floor: bool, through := false) -> Dictionary:
 	var stepped := 0.0
 	var nx := pos.x + vel.x * dt
 	if collides(world, Vector2(nx, pos.y), half):
@@ -44,5 +60,11 @@ static func move(world: World, pos: Vector2, half: Vector2, vel: Vector2, dt: fl
 		else:
 			ny = (floorf((ny - half.y) / S) + 1.0) * S + half.y + 0.01
 		vel.y = 0.0
+	elif vel.y > 0.0 and not through:
+		var top := _plat_below(world, pos, ny, half)
+		if top >= 0.0:
+			ny = top
+			vel.y = 0.0
+			on_floor = true
 	pos.y = ny
 	return {"pos": pos, "vel": vel, "floor": on_floor, "stepped": stepped}

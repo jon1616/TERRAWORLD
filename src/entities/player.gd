@@ -109,7 +109,8 @@ func _step(dt: float, dir: float, held: bool) -> void:
 		vel.y = -JUMP
 		jump_buf = 0.0
 		coyote = 0.0
-	var r := TileBody.move(world, position, HALF, vel, dt, on_floor)
+	var through := control and (Input.is_key_pressed(KEY_S) or Input.is_key_pressed(KEY_DOWN))
+	var r := TileBody.move(world, position, HALF, vel, dt, on_floor, through)
 	position = r["pos"]
 	vel = r["vel"]
 	on_floor = r["floor"]

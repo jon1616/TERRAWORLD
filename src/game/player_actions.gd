@@ -73,6 +73,10 @@ func _unhandled_input(e: InputEvent) -> void:
 			place_block(mouse_cell(), item["id"])
 		elif kind == "seme":
 			plant(mouse_cell(), item["id"])
+		elif kind == "stazione":
+			place_station(mouse_cell(), item["id"])
+		elif kind == "piattaforma":
+			place_plat(mouse_cell(), item["id"])
 
 
 func _process(dt: float) -> void:
@@ -99,8 +103,9 @@ func _process(dt: float) -> void:
 	else:
 		_chop_t = 0.0
 	var tree := world.tree_at(c).x >= 0
-	var show := reach and (world.solid(c.x, c.y) or kind in ["torcia", "blocco", "seme"] or world.decor_at(c.x, c.y) != 0 \
-			or world.torches.has(c) or (use == "abbatti" and tree))
+	var show := reach and (world.solid(c.x, c.y) or kind in ["torcia", "blocco", "seme", "stazione", "piattaforma"] \
+			or world.decor_at(c.x, c.y) != 0 or world.torches.has(c) or world.plat(c.x, c.y) \
+			or not world.station_at(c).is_empty() or (use == "abbatti" and tree))
 	cursor.set_state(c, show, prog)
 
 
@@ -110,6 +115,16 @@ func _dig(c: Vector2i, item: Dictionary, dt: float) -> float:
 		_cell = c
 		_t = 0.0
 	if not world.solid(c.x, c.y):
+		var st := world.station_at(c)
+		if not st.is_empty() or world.plat(c.x, c.y):
+			_t += dt
+			if _t >= 0.3:
+				if not st.is_empty():
+					take_station(st["origin"])
+				else:
+					take_plat(c)
+				_t = 0.0
+			return _t / 0.3
 		if world.torches.has(c):
 			_t += dt
 			if _t >= 0.15:
@@ -261,6 +276,63 @@ func place_block(c: Vector2i, id: String) -> bool:
 	view.refresh_around(c)
 	light.dirty = true
 	return true
+
+
+## Piazza una stazione con il mouse sul bordo in basso, al centro.
+func place_station(c: Vector2i, id: String) -> bool:
+	var sid := String(ItemsData.get_item(id)["place"])
+	var size: Array = StationsData.STATIONS[sid]["size"]
+	var o := c - Vector2i(int(size[0]) / 2, int(size[1]) - 1)
+	if not in_reach(c) or not world.station_fits(sid, o):
+		hud.toast("Serve spazio libero e un pavimento sotto")
+		return false
+	var slot := hud.sel
+	if bisaccia.id_at(slot) != id:
+		return false
+	for dy in size[1]:
+		for dx in size[0]:
+			if world.decor_at(o.x + dx, o.y + dy) != 0:
+				pick_decor(o + Vector2i(dx, dy))
+	world.stations[o] = sid
+	bisaccia.take_one(slot)
+	view.add_station(o)
+	light.dirty = true
+	return true
+
+
+func take_station(o: Vector2i) -> void:
+	var sid: String = world.stations[o]
+	var size: Array = StationsData.STATIONS[sid]["size"]
+	world.stations.erase(o)
+	view.remove_station(o)
+	light.dirty = true
+	drops.spawn(String(StationsData.STATIONS[sid]["item"]), 1, Vector2(o) * S + Vector2(size[0], size[1]) * S * 0.5)
+
+
+## Passerella di radice: su una cella d'aria accanto a un blocco o a un'altra passerella.
+func place_plat(c: Vector2i, id: String) -> bool:
+	if not in_reach(c) or not world.inside(c.x, c.y) or world.solid(c.x, c.y) or world.plat(c.x, c.y) \
+			or world.torches.has(c) or not world.station_at(c).is_empty():
+		return false
+	var touches := world.solid(c.x - 1, c.y) or world.solid(c.x + 1, c.y) or world.plat(c.x - 1, c.y) \
+			or world.plat(c.x + 1, c.y) or world.solid(c.x, c.y + 1) or world.wall(c.x, c.y) != 0
+	if not touches:
+		return false
+	var slot := hud.sel
+	if bisaccia.id_at(slot) != id:
+		return false
+	if world.decor_at(c.x, c.y) != 0:
+		pick_decor(c)
+	world.set_plat(c.x, c.y, true)
+	bisaccia.take_one(slot)
+	view.refresh_around(c)
+	return true
+
+
+func take_plat(c: Vector2i) -> void:
+	world.set_plat(c.x, c.y, false)
+	view.refresh_around(c)
+	drops.spawn("passerella", 1, Vector2(c) * S + Vector2(8, 8))
 
 
 ## Riprende una torcia piazzata: torna a terra come oggetto da raccogliere.

@@ -44,7 +44,8 @@ Godot_console.exe --headless --path . --check-only --script res://src/world/worl
 # Le prove usano user://prove_salvataggi (personaggio «prova» con il corredo iniziale, mondo «mondo_prova» rigenerato
 # ogni volta); controllano raccolta e piazzamento di un blocco, salvano dal gioco e ricaricano (mondo e Bisaccia
 # «identici»), abbattono un albero (08_albero_cade), raccolgono il legno, piantano un seme e lo fanno crescere
-# (09_albero_ricresciuto), e fotografano la Bisaccia aperta (07_bisaccia).
+# (09_albero_ricresciuto), fabbricano ceppo, passerelle, torce e baccello ardente, li piazzano (10_creare,
+# 11_baccello_ardente) e fotografano la Bisaccia aperta (07_bisaccia).
 Godot_console.exe --path . -- --prove            # --carica riapre il mondo di prova salvato invece di rigenerarlo;
                                                  # --senza-luce per vedere i colori senza il buio
 # foto delle schermate del menu in prove/ (menu_titolo, menu_personaggi, menu_nuovo_mondo)
@@ -83,12 +84,13 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   - `DecorPainter` — pareti (stesse trame da 64, più scure e fredde) e 14 decorazioni con la loro parte luminosa.
   - `ItemIcons` — icone 16×16 nello stile (manici di radice fasciati di foglia, lame a foglia, lingotti a seme, perle
     d'ambra): `make(forma, materiale)` o `of(id)`; il materiale sceglie la tavolozza.
+  - `StationArt` — Ceppo del Giardiniere, Baccello ardente (bocca di brace luminosa), Maglio dei Seminatori (rune).
   - `CharacterArt` (personaggio a pose, restituisce anche mano e occhio), `CreatureArt`, `NatureArt`
     (`tree_linfa` con parte luminosa, `root_arches`, `lantern_forest`, colline, torcia, sole).
 - `src/world/` — il mondo:
   - `World` — solo lo stato (tessere, pareti, decorazioni, superficie, torce con indice a celle da 16, alberi per blocco,
-    germogli con il tempo che manca). `tree_at(c)` trova l'albero che occupa una cella, `tree_fits(c)` dice se un albero
-    può nascere lì.
+    germogli con il tempo che manca, stazioni per angolo in alto a sinistra, passerelle in un array a parte `plats`).
+    `tree_at(c)`/`tree_fits(c)` per gli alberi, `station_at(c)`/`station_fits(id, o)` per le stazioni, `plat(x, y)`.
   - `gen/` — il generatore: `WorldGen.passes()` elenca le passate in ordine, `GenContext` (seme, rumori per nome,
     parametri, appunti tra passate), `GenPass` (base). Passate in `gen/passes/`: Terreno, Strati, Grotte (profondità,
     regioni, grandi caverne), Ingressi, Minerali, Cristalli, Erba, Alberi, Decorazioni, Torce (prova, provvisoria), Partenza.
@@ -109,14 +111,18 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   partenza, posizione di ogni personaggio), `Character` (personaggio separato dai mondi, `personaggi/<id>.json`).
   Cartella: `%APPDATA%\Godot\app_userdata\TERRAWORLD\salvataggi\`. Le creature non si salvano: si rimettono con
   `PassPartenza.place_creatures`.
-- `src/entities/` — `TileBody` (movimento contro la griglia, gradino automatico), `Grumo` (creatura che saltella), `Player` (movimento a ogni fotogramma
+- `src/entities/` — `TileBody` (movimento contro la griglia, gradino automatico, passerelle che reggono solo chi scende
+  e si attraversano tenendo S), `Grumo` (creatura che saltella), `Player` (movimento a ogni fotogramma
   disegnato, a passi di al massimo 1/30 s; valori di base in cima al file: corsa 95 px/s, salto pieno ~3,3 tessere;
   `auto_dir`/`auto_jump` per le prove e i futuri bot), `Drops` (oggetti caduti a terra: cadono, vengono attirati entro
   5 tessere, entrano nella Bisaccia se c'è posto; non si salvano).
 - `src/ui/` — `menu.tscn`/`menu.gd` (scena iniziale: titolo, personaggi, mondi, creazione), `Hud` (barra rapida = le
   prime 10 caselle della Bisaccia, in basso al centro; `current()` = oggetto in mano; segnale `selected`; `toast`; tasto
   E/Tab apre la Bisaccia), `BisacciaPanel` (le altre 30 caselle; clic prende/posa/scambia, clic destro metà pila),
-  `SlotView` (casella riusabile con icona e quantità), `MiningCursor`.
+  `SlotView` (casella riusabile con icona e quantità), `CraftingPanel` (colonna «Creare» a destra della Bisaccia: ricette
+  delle stazioni a portata, prima quelle possibili; passando sopra si vede cosa serve), `MiningCursor`.
+- `src/game/crafting.gd` (`Crafting`) — regole della fabbricazione: stazioni a portata (5 tessere), ricette usabili,
+  materiali bastano?, fabbrica; `describe` per il suggerimento.
 - `src/game/bisaccia.gd` (`Bisaccia`) — l'inventario: 40 caselle (prime 10 = barra rapida), `add`/`remove`/`count`/
   `room_for`/`take_one`/`swap_with`, corredo iniziale (`STARTER`), si salva con il personaggio.
 - `src/game/` — `session.gd` (autoload `Session`: personaggio e mondo scelti nel menu; non esiste negli script headless
@@ -127,7 +133,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   (cielo, radici del cosmo, colline e foreste che seguono la superficie sotto la visuale), `PlayerActions` (secondo
   l'oggetto in mano: scavo con controllo della forza, raccolta di decorazioni e torce, abbattimento degli alberi con
   l'ascia a ritmo di colpi, semina, piazzamento di blocchi e torce dalla Bisaccia), `grow_saplings` in main (ogni
-  secondo i germogli si avvicinano all'albero; il tempo corre anche fuori dalla visuale),
+  secondo i germogli si avvicinano all'albero; il tempo corre anche fuori dalla visuale); piazzare e riprendere
+  stazioni (mouse sul bordo in basso al centro) e passerelle,
   `AutoTests` (prove automatiche).
 - `tools/` — strumenti da riga di comando (`mappe.gd`, `prova_salvataggi.gd`, `verifica_dati.gd`).
 

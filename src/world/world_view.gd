@@ -16,6 +16,7 @@ var ts_terrain_glow: TileSet
 var ts_misc: TileSet
 var ts_misc_glow: TileSet
 var tex_trees: Array[Dictionary] = []
+var tex_stations := {}                # id -> {img, glow}
 var tex_flame: Texture2D
 var tex_stick: Texture2D
 var tex_halo: Texture2D
@@ -48,6 +49,9 @@ func setup(w: World) -> void:
 	for v in PassAlberi.VARIANTS:
 		var tr := NatureArt.tree_linfa(w.world_seed * 7 + v * 131)
 		tex_trees.append({"img": ImageTexture.create_from_image(tr["img"]), "glow": ImageTexture.create_from_image(tr["glow"])})
+	for id in StationsData.STATIONS:
+		var st := StationArt.make(id)
+		tex_stations[id] = {"img": ImageTexture.create_from_image(st["img"]), "glow": ImageTexture.create_from_image(st["glow"])}
 	tex_flame = ImageTexture.create_from_image(NatureArt.flame())
 	tex_stick = ImageTexture.create_from_image(NatureArt.torch_stick())
 	var hg := GradientTexture2D.new()
@@ -130,6 +134,7 @@ func _build_chunk(k: Vector2i) -> void:
 	for li in TileDefs.TERRAIN_LAYERS.size():
 		terrain.append(_layer(node, ts_terrain, 0, HALF))
 	var decor := _layer(node, ts_misc, 1, Vector2.ZERO)
+	var plats := _layer(node, ts_misc, 1, Vector2.ZERO)
 	var glow_t := _layer(node, ts_terrain_glow, 25, HALF)
 	glow_t.modulate = Color(1.0, 1.0, 1.0)
 	var glow_d := _layer(node, ts_misc_glow, 25, Vector2.ZERO)
@@ -138,7 +143,7 @@ func _build_chunk(k: Vector2i) -> void:
 	fx.z_index = 26
 	node.add_child(fx)
 	node.set_meta("terrain", terrain)
-	node.set_meta("grid", [walls, decor, glow_d])
+	node.set_meta("grid", [walls, decor, glow_d, plats])
 	node.set_meta("glow_t", glow_t)
 	node.set_meta("fx", fx)
 	chunks[k] = node
@@ -148,12 +153,15 @@ func _build_chunk(k: Vector2i) -> void:
 		for x in range(x0, mini(x0 + World.CHUNK, world.w + 1)):
 			_paint_dual(Vector2i(x, y), terrain, glow_t)
 			if x < world.w and y < world.h:
-				_paint_grid(Vector2i(x, y), walls, decor, glow_d)
+				_paint_grid(Vector2i(x, y), walls, decor, glow_d, plats)
 	node.set_meta("trees", trees)
 	for t in world.trees.get(k, []):
 		_tree_node(node, t)
 	for c in world.torches_in(Rect2i(x0, y0, World.CHUNK, World.CHUNK)):
 		_torch_nodes(node, c)
+	for o in world.stations:
+		if World.chunk_of(o) == k:
+			_station_node(node, o, world.stations[o])
 	_sparkles(node, k)
 
 
@@ -260,7 +268,11 @@ func _paint_dual(c: Vector2i, terrain: Array[TileMapLayer], glow: TileMapLayer) 
 				glow.set_cell(c, 0, TerrainPainter.coords(li, v, k))
 
 
-func _paint_grid(c: Vector2i, walls: TileMapLayer, decor: TileMapLayer, glow: TileMapLayer) -> void:
+func _paint_grid(c: Vector2i, walls: TileMapLayer, decor: TileMapLayer, glow: TileMapLayer, plats: TileMapLayer) -> void:
+	if world.plat(c.x, c.y):
+		plats.set_cell(c, 0, DecorPainter.plat_coords(c.x))
+	else:
+		plats.erase_cell(c)
 	# la parete si mette anche dietro i blocchi: i bordi morbidi del terreno lasciano scoperti gli angoli
 	var wl := world.wall(c.x, c.y)
 	if wl > 0:
@@ -293,7 +305,47 @@ func refresh_around(c: Vector2i) -> void:
 		var node: Node2D = chunks.get(World.chunk_of(q))
 		if node:
 			var g: Array = node.get_meta("grid")
-			_paint_grid(q, g[0], g[1], g[2])
+			_paint_grid(q, g[0], g[1], g[2], g[3])
+
+
+# ---------------------------------------------------------------- stazioni
+
+func _station_node(chunk: Node2D, o: Vector2i, id: String) -> void:
+	var tex: Dictionary = tex_stations[id]
+	var holder := Node2D.new()
+	holder.position = Vector2(o) * S
+	holder.z_index = 1
+	chunk.add_child(holder)
+	var sp := Sprite2D.new()
+	sp.texture = tex["img"]
+	sp.centered = false
+	holder.add_child(sp)
+	var gl := Sprite2D.new()
+	gl.texture = tex["glow"]
+	gl.centered = false
+	gl.modulate = Color(1.8, 1.5, 1.2)
+	gl.z_as_relative = false
+	gl.z_index = 26
+	holder.add_child(gl)
+	var by_origin: Dictionary = chunk.get_meta("station_nodes", {})
+	by_origin[o] = holder
+	chunk.set_meta("station_nodes", by_origin)
+
+
+func add_station(o: Vector2i) -> void:
+	var chunk: Node2D = chunks.get(World.chunk_of(o))
+	if chunk:
+		_station_node(chunk, o, world.stations[o])
+
+
+func remove_station(o: Vector2i) -> void:
+	var chunk: Node2D = chunks.get(World.chunk_of(o))
+	if chunk == null:
+		return
+	var by_origin: Dictionary = chunk.get_meta("station_nodes", {})
+	if by_origin.has(o):
+		(by_origin[o] as Node).queue_free()
+		by_origin.erase(o)
 
 
 func add_torch(c: Vector2i) -> void:

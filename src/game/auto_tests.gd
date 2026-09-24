@@ -61,6 +61,7 @@ func run(main: Node2D) -> void:
 			await _frames(20)
 			await _save("03_cristalli")
 	await _trees(world)
+	await _crafting(world)
 	await _movement(world)
 	# corsa lungo la superficie: misura i fotogrammi mentre blocchi e luce si aggiornano
 	m.snap_to(world.spawn)
@@ -152,6 +153,109 @@ func _trees(world: World) -> void:
 	await _frames(70)
 	print("germoglio: %s" % ("piantato e cresciuto" if planted and world.tree_at(base).x >= 0 else "NON cresciuto"))
 	await _save("09_albero_ricresciuto")
+
+
+## Fabbricazione: a mano il Ceppo del Giardiniere, lo si piazza, al ceppo si fanno passerelle e il Baccello ardente,
+## si piazzano, e si fotografa la colonna «Creare».
+func _crafting(world: World) -> void:
+	var b: Bisaccia = m.character.bisaccia
+	if b.count("legno") < 20:
+		b.add("legno", 20 - b.count("legno"))
+	b.add("ardesia", 25)
+	b.add("gelatina", 3)
+	var ok_ceppo := _craft("ceppo")
+	var here: Vector2i = m.player_cell()
+	var placed := _place_station_near(world, "ceppo", here)
+	var near := Crafting.stations_near(world, m.player_cell())
+	var ok_pass := _craft("passerella") and _craft("torcia")
+	var ok_bacc := _craft("baccello_ardente")
+	# il baccello va su un tratto di muschio piano e libero, cercato vicino
+	var spot := _flat_spot(world, here, 6)
+	if spot.x >= 0:
+		m.snap_to(spot + Vector2i(-3, 0))
+		await _frames(5)
+		ok_bacc = ok_bacc and _place_station_near(world, "baccello_ardente", spot)
+		await _frames(15)
+		await _save("11_baccello_ardente")
+		m.snap_to(here)
+		await _frames(5)
+	else:
+		ok_bacc = false
+	print("creare: ceppo %s, piazzato %s, ceppo vicino %s, passerelle e torce %s, baccello ardente %s" % [
+		ok_ceppo, placed, near.has("ceppo"), ok_pass, ok_bacc])
+	# una passerella piazzata e ripresa
+	var pslot := _slot_of(b, "passerella")
+	if pslot >= 0:
+		m.hud.select(pslot)
+		var pc := Vector2i(-1, -1)
+		var put := false
+		for dx in [-2, -3, 2, 3, -1, 1]:
+			var cand: Vector2i = here + Vector2i(dx, 0)
+			if world.station_at(cand).is_empty() and m.actions.place_plat(cand, "passerella"):
+				pc = cand
+				put = true
+				break
+		var before := b.count("passerella")
+		if put:
+			m.actions.take_plat(pc)
+		for k in 60:
+			await get_tree().process_frame
+			if b.count("passerella") > before:
+				break
+		print("passerella: %s" % ("piazzata e ripresa" if put and b.count("passerella") > before else "NON riuscita"))
+	await _frames(20)
+	m.hud.panel.toggle()
+	await _frames(12)
+	await _save("10_creare")
+	m.hud.panel.toggle()
+
+
+## Una cella d'aria su terreno piano e libero per `width` tessere (niente alberi, stazioni, torce), vicina a c.
+func _flat_spot(world: World, c: Vector2i, width: int) -> Vector2i:
+	for r in range(4, 200):
+		for side in [1, -1]:
+			var x: int = c.x + side * r
+			var gy := world.surface[clampi(x, 0, world.w - 1)]
+			var ok := true
+			for dx in width:
+				var cell := Vector2i(x + dx, gy - 1)
+				if world.surface[clampi(x + dx, 0, world.w - 1)] != gy or world.solid(cell.x, cell.y) or not world.solid(cell.x, gy) 						or world.tree_at(cell).x >= 0 or not world.station_at(cell).is_empty():
+					ok = false
+					break
+			if ok:
+				return Vector2i(x + width / 2, gy - 1)
+	return Vector2i(-1, -1)
+
+
+func _craft(id: String) -> bool:
+	for r in RecipesData.making(id):
+		if Crafting.craft(r, m.character.bisaccia):
+			return true
+	return false
+
+
+func _slot_of(b: Bisaccia, id: String) -> int:
+	for i in Bisaccia.HOTBAR:
+		if b.id_at(i) == id:
+			return i
+	return -1
+
+
+func _place_station_near(world: World, item: String, c: Vector2i) -> bool:
+	var b: Bisaccia = m.character.bisaccia
+	var slot := _slot_of(b, item)
+	if slot < 0:
+		return false
+	m.hud.select(slot)
+	var sid := String(ItemsData.get_item(item)["place"])
+	var size: Array = StationsData.STATIONS[sid]["size"]
+	for dx in [2, -2, 3, -3, 4, -4, 5, -5, 1, -1, 0]:
+		for dy in range(-3, 4):
+			var cell: Vector2i = c + Vector2i(dx, dy)
+			var o := cell - Vector2i(int(size[0]) / 2, int(size[1]) - 1)
+			if m.actions.in_reach(cell) and world.station_fits(sid, o) and m.actions.place_station(cell, item):
+				return true
+	return false
 
 
 ## Movimento sulla zona piana della partenza: velocità massima, altezza del salto pieno, e un muro di 3 blocchi da

@@ -9,6 +9,7 @@ const AMBER := Color("#ffb84a")
 const HOTBAR_Y := 900 - SlotView.SIZE - 18
 
 var bisaccia: Bisaccia                 # da impostare prima di aggiungere il nodo alla scena
+var stations_near: Callable            # idem: () -> stazioni a portata (per la colonna «Creare»)
 var sel := 0
 var panel: BisacciaPanel
 var _slots: Array[SlotView] = []
@@ -22,6 +23,7 @@ func _ready() -> void:
 	# la Bisaccia per prima: la sua cornice sta sotto la barra rapida, che resta in primo piano
 	panel = BisacciaPanel.new()
 	panel.bisaccia = bisaccia
+	panel.stations_near = stations_near
 	panel.visible = false
 	add_child(panel)
 	var n := Bisaccia.HOTBAR

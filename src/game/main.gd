@@ -133,6 +133,7 @@ func _build() -> void:
 	drops.setup(world, player, character.bisaccia)
 	hud = Hud.new()
 	hud.bisaccia = character.bisaccia
+	hud.stations_near = func() -> Dictionary: return Crafting.stations_near(world, player_cell())
 	add_child(hud)
 	actions = PlayerActions.new()
 	add_child(actions)

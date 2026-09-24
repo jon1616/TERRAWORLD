@@ -11,6 +11,7 @@ const AIR_DECAY := 0.93
 const SOLID_DECAY := 0.62
 const SKY := Color(0.92, 0.95, 1.0)
 const TORCH := Color(2.5, 1.75, 1.05)
+const STATION := Color(1.7, 1.0, 0.45)      # la brace del Baccello ardente
 const PLAYER := Color(1.15, 0.98, 0.72)
 const LW := 128                       # finestra in tessere (la visuale è circa 50×28)
 const LH := 96
@@ -71,10 +72,23 @@ func _start(center: Vector2i, player_cell: Vector2i) -> void:
 	var job := {
 		"origin": o, "tiles": world.tiles, "walls": world.walls, "decor": world.decor, "w": world.w, "h": world.h,
 		"torches": world.torches_in(Rect2i(o, Vector2i(LW, LH))), "player": player_cell,
-		"decor_light": _decor_light(),
+		"decor_light": _decor_light(), "lights": _station_lights(Rect2i(o, Vector2i(LW, LH))),
 	}
 	_job = job
 	_task = WorkerThreadPool.add_task(_solve.bind(job), false, "luce")
+
+
+## Stazioni che fanno luce nella finestra: [cella, colore].
+func _station_lights(r: Rect2i) -> Array:
+	var out := []
+	for o in world.stations:
+		var st: Dictionary = StationsData.STATIONS[world.stations[o]]
+		if st.get("light", false):
+			var size: Array = st["size"]
+			var c: Vector2i = o + Vector2i(size[0] / 2, size[1] - 1)
+			if r.has_point(c):
+				out.append([c, STATION])
+	return out
 
 
 ## Luce di ogni decorazione (indice = id), nera se non ne emette.
@@ -146,6 +160,13 @@ static func _solve(job: Dictionary) -> void:
 		r[i] = maxf(r[i], TORCH.r)
 		g[i] = maxf(g[i], TORCH.g)
 		b[i] = maxf(b[i], TORCH.b)
+	for lt in job["lights"]:
+		var lc: Vector2i = lt[0]
+		var col: Color = lt[1]
+		var li: int = (lc.y - o.y) * LW + (lc.x - o.x)
+		r[li] = maxf(r[li], col.r)
+		g[li] = maxf(g[li], col.g)
+		b[li] = maxf(b[li], col.b)
 	var pc: Vector2i = job["player"] - o
 	if pc.x >= 0 and pc.y >= 0 and pc.x < LW and pc.y < LH:
 		var i := pc.y * LW + pc.x

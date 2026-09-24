@@ -1,13 +1,15 @@
 class_name BisacciaPanel
 extends Control
 ## La Bisaccia aperta: le 30 caselle sopra la barra rapida. Un clic prende la pila (resta «in mano», segue il mouse),
-## un altro clic la posa o la scambia; il clic destro prende metà pila. La fabbricazione arriva con la voce 4c.
+## un altro clic la posa o la scambia; il clic destro prende metà pila. A destra la colonna «Creare» (`CraftingPanel`).
 
 const COLS := 10
 const ROWS := 3
 const GAP := 6
 
 var bisaccia: Bisaccia
+var stations_near: Callable            # () -> stazioni a portata del giocatore, per la colonna «Creare»
+var crafting: CraftingPanel
 var held := {}                        # pila «in mano» mentre la Bisaccia è aperta
 var _slots: Array[SlotView] = []
 var _held_icon: SlotView
@@ -46,6 +48,9 @@ func _ready() -> void:
 			s.clicked.connect(click_slot)
 			add_child(s)
 			_slots.append(s)
+	crafting = CraftingPanel.new()
+	add_child(crafting)
+	crafting.setup(bisaccia, stations_near, Vector2(frame.position.x + frame.size.x + 16, frame.position.y), frame.size.y)
 	_held_icon = SlotView.new()
 	_held_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_held_icon.modulate = Color(1, 1, 1, 0.9)
@@ -57,6 +62,8 @@ func _ready() -> void:
 
 func toggle() -> void:
 	visible = not visible
+	if visible:
+		crafting.refresh()
 	if not visible and not held.is_empty():
 		# richiudendo, ciò che è in mano torna nella Bisaccia
 		bisaccia.add(held["id"], held["n"])

@@ -19,6 +19,8 @@ var torches := {}                      # Vector2i -> true
 var _torch_buckets := {}               # Vector2i(bx, by) -> Array[Vector2i]
 var trees := {}                        # blocco Vector2i -> Array[Vector3i(x, y, variante)]
 var saplings := {}                     # cella del germoglio Vector2i -> secondi che mancano per diventare albero
+var stations := {}                     # angolo in alto a sinistra Vector2i -> id di `StationsData`
+var plats := PackedByteArray()         # passerelle: 1 dove c'è una passerella (cella d'aria, si attraversa da sotto)
 
 
 func setup(width: int, height: int) -> void:
@@ -30,11 +32,14 @@ func setup(width: int, height: int) -> void:
 	walls.fill(0)
 	decor.resize(w * h)
 	decor.fill(0)
+	plats.resize(w * h)
+	plats.fill(0)
 	surface.resize(w)
 	torches.clear()
 	_torch_buckets.clear()
 	trees.clear()
 	saplings.clear()
+	stations.clear()
 	creatures.clear()
 
 
@@ -76,6 +81,41 @@ func set_tile(x: int, y: int, t: int) -> void:
 
 func set_decor(x: int, y: int, d: int) -> void:
 	decor[y * w + x] = d
+
+
+func plat(x: int, y: int) -> bool:
+	return inside(x, y) and plats[y * w + x] == 1
+
+
+func set_plat(x: int, y: int, on: bool) -> void:
+	plats[y * w + x] = 1 if on else 0
+
+
+# ---------------------------------------------------------------- stazioni
+
+## La stazione che occupa la cella c: {"origin": angolo, "id": id} oppure {}.
+func station_at(c: Vector2i) -> Dictionary:
+	for o in stations:
+		var size: Array = StationsData.STATIONS[stations[o]]["size"]
+		if Rect2i(o, Vector2i(size[0], size[1])).has_point(c):
+			return {"origin": o, "id": stations[o]}
+	return {}
+
+
+## Si può mettere la stazione con l'angolo in o? Celle libere (aria, niente torce né passerelle) e pavimento sotto.
+func station_fits(id: String, o: Vector2i) -> bool:
+	var size: Array = StationsData.STATIONS[id]["size"]
+	for dy in size[1]:
+		for dx in size[0]:
+			var c := o + Vector2i(dx, dy)
+			if not inside(c.x, c.y) or solid(c.x, c.y) or torches.has(c) or plat(c.x, c.y) or not station_at(c).is_empty():
+				return false
+			if tree_at(c).x >= 0:
+				return false
+	for dx in size[0]:
+		if not solid(o.x + dx, o.y + size[1]):
+			return false
+	return true
 
 
 static func chunk_of(c: Vector2i) -> Vector2i:
