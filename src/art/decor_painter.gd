@@ -27,7 +27,8 @@ static func build() -> Dictionary:
 		var src := TileDefs.P_DIRT if kind == TileDefs.WALL_DIRT else TileDefs.P_STONE
 		var dark: Array[Color] = []
 		for c in Px.pal(src):
-			dark.append(Px.sh(c, 0.5))
+			var d := Px.sh(c, 0.46)
+			dark.append(d.lerp(Color(d.v * 0.8, d.v * 0.9, d.v * 1.1), 0.35))
 		var tex := TerrainPainter.material("humus" if kind == TileDefs.WALL_DIRT else "ardesia", dark, 300 + kind)
 		for v in TerrainPainter.VARIANTS:
 			var vx := v % TerrainPainter.REP

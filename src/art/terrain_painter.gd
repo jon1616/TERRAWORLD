@@ -72,6 +72,12 @@ static func _shape(img: Image, glow: Image, ox: int, oy: int, vx: int, vy: int, 
 			var g := sqrt(gx * gx + gy * gy)
 			var d := 99.0 if g < 0.0001 else (val - thr) / g
 			var c: Color = tex[ty * TEX + tx]
+			if c.a < 0.5:
+				continue                   # trama bucata (minerali): si vede la roccia sotto
+			if c.a < 0.99:
+				c.a = 1.0                  # pixel del minerale che non vuole bordi
+				img.set_pixel(ox + px, oy + py, c)
+				continue
 			if d < 1.0:
 				c = Px.sh(c, 0.4 if silhouette else 0.72)
 			elif d < 2.6:
@@ -164,24 +170,44 @@ static func _fibers(col: PackedColorArray, rng: RandomNumberGenerator, cols: Arr
 				dx = -dx
 
 
-## Minerale: roccia con tanti noduli di metallo, così la vena si legge come «roccia che contiene metallo».
+## Minerale: solo noduli di metallo sparsi (il resto è trasparente), ognuno con il suo contorno scuro, un lato in luce
+## e un punto che luccica. Dentro la forma morbida della vena si vede la roccia (o la terra) che li contiene.
+## Alfa 0.9 = pixel del minerale senza bordo di strato (vedi `_shape`).
 static func _nuggets(col: PackedColorArray, rng: RandomNumberGenerator, p: Array[Color]) -> void:
-	var stone := Px.pal(TileDefs.P_STONE)
 	for i in col.size():
-		col[i] = stone[1] if (i * 7 + i / TEX * 3) % 5 != 0 else stone[2]
-	for k in 26:
-		var cx := rng.randf() * TEX
-		var cy := rng.randf() * TEX
-		var r := rng.randf_range(1.6, 3.2)
-		for dy in range(-4, 5):
-			for dx in range(-4, 5):
-				var d := Vector2(dx, dy).length()
-				var i := posmod(int(cy) + dy, TEX) * TEX + posmod(int(cx) + dx, TEX)
-				if d <= r:
-					var t := 0.55 + (-dx - dy) / (2.5 * r)
-					col[i] = p[clampi(int(t * p.size()), 0, p.size() - 1)]
-				elif d <= r + 0.9:
-					col[i] = stone[0]
+		col[i] = Color(0, 0, 0, 0)
+	var edge := Color(0.03, 0.03, 0.05, 0.9)
+	var placed: Array[Vector3] = []
+	var tries := 0
+	while placed.size() < 34 and tries < 600:
+		tries += 1
+		var n := Vector3(rng.randf() * TEX, rng.randf() * TEX, rng.randf_range(1.5, 3.0))
+		var ok := true
+		for q in placed:
+			var dx := absf(n.x - q.x)
+			var dy := absf(n.y - q.y)
+			dx = minf(dx, TEX - dx)
+			dy = minf(dy, TEX - dy)
+			if Vector2(dx, dy).length() < n.z + q.z + 1.2:
+				ok = false
+				break
+		if ok:
+			placed.append(n)
+	for n in placed:
+		for dy in range(-5, 6):
+			for dx in range(-5, 6):
+				var d := Vector2(dx + 0.5, dy + 0.5).length()
+				var i := posmod(int(n.y) + dy, TEX) * TEX + posmod(int(n.x) + dx, TEX)
+				if d <= n.z:
+					var t := 0.5 + (-dx - dy) / (2.4 * n.z)
+					var c := p[clampi(int(t * p.size()), 0, p.size() - 1)]
+					c.a = 0.9
+					col[i] = c
+				elif d <= n.z + 1.0 and col[i].a < 0.5:
+					col[i] = edge
+		var gl := p[p.size() - 1]
+		gl.a = 0.9
+		col[posmod(int(n.y) - 1, TEX) * TEX + posmod(int(n.x) - 1, TEX)] = gl
 
 
 static func _specks(col: PackedColorArray, rng: RandomNumberGenerator, c: Color, count: int) -> void:

@@ -2,14 +2,16 @@ class_name LightMap
 extends RefCounted
 ## Luce a tessere alla Terraria, calcolata solo in una finestra attorno alla visuale e in un thread a parte.
 ## Ogni cella ha un colore di luce che si propaga ai vicini perdendo forza (poco nell'aria, molto nei blocchi).
-## Il risultato è un'immagine di un pixel per tessera, stesa sul mondo ingrandita e sfumata, che moltiplica i colori:
-## dove non arriva luce è buio pieno.
+## Il risultato è un'immagine di un pixel per tessera, stesa sul mondo ingrandita e sfumata, che moltiplica i colori.
+## Dove non arriva luce resta un filo di chiarore freddo (AMBIENT): le grotte si leggono anche lontano dalle torce
+## (richiesta dell'utente del 24 set 2026: «schiarisci le grotte»).
 
-const AIR_DECAY := 0.915
+const AMBIENT := Color(0.14, 0.16, 0.21)
+const AIR_DECAY := 0.93
 const SOLID_DECAY := 0.62
 const SKY := Color(0.92, 0.95, 1.0)
-const TORCH := Color(2.3, 1.6, 0.95)
-const PLAYER := Color(1.0, 0.85, 0.62)
+const TORCH := Color(2.5, 1.75, 1.05)
+const PLAYER := Color(1.15, 0.98, 0.72)
 const LW := 128                       # finestra in tessere (la visuale è circa 50×28)
 const LH := 96
 const RECENTER := 6                   # ricentra quando la visuale si sposta di tante tessere
@@ -218,5 +220,8 @@ static func _solve(job: Dictionary) -> void:
 						vr = maxf(vr, r[k] * 0.92)
 						vg = maxf(vg, g[k] * 0.92)
 						vb = maxf(vb, b[k] * 0.92)
+			vr = maxf(vr, AMBIENT.r)
+			vg = maxf(vg, AMBIENT.g)
+			vb = maxf(vb, AMBIENT.b)
 			img.set_pixel(x, y, Color(pow(minf(vr, 1.0), 0.7), pow(minf(vg, 1.0), 0.7), pow(minf(vb, 1.0), 0.7)).linear_to_srgb())
 	job["image"] = img

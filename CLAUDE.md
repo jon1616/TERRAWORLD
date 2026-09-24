@@ -14,6 +14,12 @@ Documenti: `UNIVERSO.md` (ambientazione «Il Giardino dei Semi»), `ROADMAP.md` 
 - **Grafica**: la base è generata dal codice (tessere, luce, effetti, icone in serie, creature semplici); personaggio con tutte
   le animazioni, alcuni mostri e boss arriveranno da immagini generate dall'utente con un'IA grafica (Nano Banana),
   importate con script come in Inkblood (sfondo magenta, griglia fissa, riduzione a una tavolozza comune).
+- **Stile grafico tutto nostro: «Radici e Linfa» con terreno dai contorni morbidi** (scelto e approvato dall'utente il
+  24 set 2026, dopo il suo appunto: «questo non è Terraria, lo stile era identico»). Mondo scuro e profondo dove la luce
+  viene dalle cose vive; terra prugna intrecciata di radici, ardesia blu, muschio turchese, ambra e Linfa turchese come
+  accenti; alberi-lanterna a salice con baccelli luminosi; cielo turchese-corallo attraversato dalle radici del cosmo;
+  il Germogliato con capelli di foglie, tunica ocra e occhi d'ambra che brillano al buio. **Mai tornare a tessere quadrate
+  con contorno, terra marrone + erba verde, chiome tonde: sono la firma di Terraria.**
 - **Ordine del codice fin dall'inizio** (richiesta dell'utente: in Inkblood `main.gd` era arrivato a 17.000 righe) e **Git**
   dal primo giorno. Vedi «Ordine del codice» qui sotto.
 
@@ -48,21 +54,32 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 - `src/core/` — attrezzi generici: `Px` (primitive di pixel art, contorno automatico), `Fx` (sfumature, polvere di scavo).
 - `src/data/` — **solo dati**: `TileDefs` (tipi di tessera, durezza, tavolozze, luce, colori della mappa), `ItemDefs`
   (oggetti della barra rapida; inventario e ricette con la voce 3).
-- `src/art/` — grafica generata dal codice: `TilePainter` (atlante delle tessere: 7 tipi × 16 bordi × 3 varianti, pareti,
-  10 decorazioni, immagine delle parti luminose), `CharacterArt` (personaggio a pose), `ItemIcons`, `CreatureArt`,
-  `NatureArt` (alberi, torcia, montagne ripetibili, nuvole, sole).
+- `src/art/` — grafica generata dal codice:
+  - `TerrainPainter` — terreno dai contorni morbidi con la **doppia griglia**: si disegna una griglia spostata di mezza
+    tessera; ogni cella tocca i centri di 4 tessere e, secondo quali sono piene (16 combinazioni), traccia una forma
+    curva (interpolazione morbida degli angoli + soglia con rumore = bordo irregolare). Uno strato per ogni voce di
+    `TileDefs.TERRAIN_LAYERS` (ardesia = sagoma di tutto il terreno, humus, muschio, rame, ferro, oro, cristallo),
+    disegnati uno sopra l'altro. Trame da 64×64 senza cuciture divise in 16 varianti (`variant_of`), così la trama
+    continua da una cella all'altra. Minerali: solo noduli (trama bucata, alfa 0.9 = niente bordo di strato), si vede
+    la roccia che li contiene. Atlante 4096×112.
+  - `DecorPainter` — pareti (stesse trame da 64, più scure e fredde) e 14 decorazioni con la loro parte luminosa.
+  - `CharacterArt` (personaggio a pose, restituisce anche mano e occhio), `ItemIcons`, `CreatureArt`, `NatureArt`
+    (`tree_linfa` con parte luminosa, `root_arches`, `lantern_forest`, colline, torcia, sole).
 - `src/world/` — il mondo:
   - `World` — solo lo stato (tessere, pareti, decorazioni, superficie, torce con indice a celle da 16, alberi per blocco).
   - `gen/` — il generatore: `WorldGen.passes()` elenca le passate in ordine, `GenContext` (seme, rumori per nome,
     parametri, appunti tra passate), `GenPass` (base). Passate in `gen/passes/`: Terreno, Strati, Grotte (profondità,
     regioni, grandi caverne), Ingressi, Minerali, Cristalli, Erba, Alberi, Decorazioni, Torce (prova, provvisoria), Partenza.
     Un mondo 3000×1000 si genera in ~5,5 s (in un thread, con schermata d'attesa).
-  - `WorldView` — disegno a blocchi da 32×32: solo i blocchi vicini alla visuale esistono come nodi (2 costruiti per
-    fotogramma, liberati oltre 2 blocchi di margine); ogni blocco ha i suoi livelli (pareti z -10, alberi -5, tessere 0,
-    decorazioni 1, bagliore 25, effetti 26), torce e scintille. `refresh_around(c)` dopo uno scavo.
+  - `WorldView` — disegno a blocchi da 32×32: solo i blocchi vicini alla visuale esistono come nodi (1 costruito per
+    fotogramma, liberati oltre 2 blocchi di margine); ogni blocco ha pareti (z -10) e decorazioni (z 1) sulla griglia
+    normale, i 7 strati del terreno sulla doppia griglia (z 0, spostati di -8,-8), bagliore di cristalli e decorazioni
+    (z 25), alberi (z -5, baccelli luminosi in z 26), torce e scintille. `refresh_around(c)` dopo uno scavo.
   - `LightMap` — luce in una finestra di 128×96 tessere attorno alla visuale, calcolata in un thread
     (`WorkerThreadPool`) su copie dei dati; ricentrata quando la visuale si sposta di 6 tessere, ricalcolata quando il
     giocatore cambia cella o `dirty` è vero. Immagine stesa sul mondo in moltiplicazione (`overlay` in main, z 20).
+    `AMBIENT` = chiarore minimo freddo (le grotte si leggono anche lontano dalle torce); luce delle decorazioni in
+    `TileDefs.DECOR_LIGHT`.
 - `src/save/` — salvataggi: `SavePaths` (cartelle, scrittura sicura: file temporaneo → il vecchio diventa `.bak` →
   il nuovo prende il suo posto; lettura con ripiego sulla copia di sicurezza), `WorldSave` (mondo intero compresso ZSTD
   in `mondo.bin` ~0,5 MB, salvataggio ~15 ms, caricamento ~17 ms; `mondo.json` con nome, seme, date, tempo di gioco,
@@ -73,7 +90,7 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   disegnato, a passi di al massimo 1/30 s; valori di base in cima al file: corsa 95 px/s, salto pieno ~3,3 tessere;
   `auto_dir`/`auto_jump` per le prove e i futuri bot), `Slime`.
 - `src/ui/` — `menu.tscn`/`menu.gd` (scena iniziale: titolo, personaggi, mondi, creazione), `Hud` (barra rapida,
-  segnale `selected`, `toast` per i messaggi brevi), `MiningCursor`.
+  segnale `selected`, `toast` per i messaggi brevi; barra in basso al centro), `MiningCursor`.
 - `src/game/` — `session.gd` (autoload `Session`: personaggio e mondo scelti nel menu; non esiste negli script headless
   né in `--check-only`, dove «Identifier not found: Session» è normale), `main.gd` (solo montaggio: caricamento o
   generazione in un thread, nodi, camera, salvataggio automatico ogni 5 minuti, Esc = salva e torna al menu,
@@ -105,6 +122,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   interni costano: nel calcolo della luce i passaggi sono scritti in linea su array locali.
 - Salvare il mondo intero compresso (0,5 MB) è meglio di seme + modifiche: non dipende dalla versione del generatore,
   che cambierà spesso, e caricare (17 ms) è molto più rapido che rigenerare (5,5 s).
+- Contorni morbidi senza cambiare la logica: la «doppia griglia» (16 forme per strato) tiene scavo e collisioni sulle
+  tessere quadrate. Le collisioni restano squadrate: i bordi disegnati coincidono con i lati delle tessere a metà strada.
 - Gli alberi hanno 8 forme disegnate una volta sola e riusate (disegnarne uno per albero costava secondi).
 
 ## Convenzioni
