@@ -204,6 +204,33 @@ static func make(shape: String, material: String) -> Image:
 			Px.line(im, Vector2(6.0, 8.0), Vector2(10.0, 8.0), 2, p[1])
 			Px.line(im, Vector2(4.0, 12.5), Vector2(12.0, 12.5), 2, p[1])
 			Px.line(im, Vector2(3.0, 5.5), Vector2(13.0, 5.5), 1, p[3])
+		"polvere":
+			# mucchietto di polvere di brace con qualche scintilla
+			for y in range(8, 15):
+				for x in range(2, 14):
+					var d := Vector2((x + 0.5 - 8.0) / 6.0, (y + 0.5 - 14.5) / 6.0)
+					if d.length() <= 1.0:
+						Px.put(im, x, y, p[clampi(int((1.0 - d.length()) * 4.0), 0, 3)])
+			for q in [Vector2i(5, 5), Vector2i(9, 3), Vector2i(12, 6), Vector2i(7, 7)]:
+				Px.put(im, q.x, q.y, p[3])
+		"scaglia":
+			# scaglia di guscio: una lama curva con le venature
+			for y in S:
+				for x in S:
+					var d := Vector2((x + 0.5 - 8.0) / 6.5, (y + 0.5 - 9.0) / 5.0)
+					var inner := Vector2((x + 0.5 - 8.0) / 5.0, (y + 0.5 - 12.0) / 4.0)
+					if d.length() <= 1.0 and inner.length() > 1.0:
+						Px.put(im, x, y, p[3] if y < 7 else p[2])
+			Px.line(im, Vector2(4.0, 7.0), Vector2(12.0, 7.0), 1, p[4])
+			Px.put(im, 8, 5, Color(AMBER[1]))
+		"sacca":
+			for y in range(4, 15):
+				for x in S:
+					var d := Vector2((x + 0.5 - 8.0) / 5.0, (y + 0.5 - 10.0) / 5.0)
+					if d.length() <= 1.0:
+						Px.put(im, x, y, Color("#b890ff") if d.length() < 0.45 else Color(0.42, 0.26, 0.7, 0.95))
+			Px.line(im, Vector2(8.0, 4.0), Vector2(8.0, 1.0), 1, p[2])
+			Px.put(im, 6, 8, Color.WHITE)
 		"seme":
 			# seme a mandorla con la sua linea e un germoglio che spunta
 			for y in S:

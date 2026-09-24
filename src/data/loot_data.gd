@@ -14,6 +14,21 @@ const TABLES := {
 		{"item": "gelatina", "min": 2, "max": 4, "chance": 1.0},
 		{"item": "fungo_luminoso", "min": 1, "max": 2, "chance": 0.25},
 	],
+	"falena": [
+		{"item": "polvere_brace", "min": 1, "max": 2, "chance": 0.8},
+	],
+	"strisciaradice": [
+		{"item": "legno", "min": 1, "max": 3, "chance": 1.0},
+		{"item": "seme_lanterna", "min": 1, "max": 1, "chance": 0.1},
+	],
+	"scarabeo": [
+		{"item": "scaglia_ardesia", "min": 1, "max": 3, "chance": 1.0},
+		{"item": "minerale_legnoferro", "min": 1, "max": 2, "chance": 0.3},
+	],
+	"sputaspore": [
+		{"item": "sacca_spore", "min": 1, "max": 2, "chance": 1.0},
+		{"item": "fungo_luminoso", "min": 1, "max": 1, "chance": 0.3},
+	],
 }
 
 

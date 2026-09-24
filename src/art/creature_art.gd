@@ -1,6 +1,41 @@
 class_name CreatureArt
 extends RefCounted
-## Creature semplici disegnate dal codice.
+## Le creature disegnate dal codice, nello stile «Radici e Linfa». `frames(forma, variante)` restituisce i fotogrammi
+## dell'animazione (rivolti a destra) e, per ognuno, la parte luminosa da disegnare sopra il buio.
+
+const OUT := Color("#050c10")
+const GRUMI := [
+	["#2fa89a", "#8ef0d8", "#145a54"],
+	["#d88a30", "#ffd08a", "#7a4210"],
+	["#9a4ad8", "#d8a0ff", "#4f1f86"],
+]
+
+
+static func frames(shape: String, variant: int) -> Dictionary:
+	match shape:
+		"grumo":
+			var k: Array = GRUMI[variant % GRUMI.size()]
+			return {"frames": [grumo(Color(k[0]), Color(k[1]), Color(k[2]))], "glow": [Px.img(16, 14)]}
+		"falena":
+			return _pair(func(f: int) -> Array: return _falena(f))
+		"strisciaradice":
+			return _pair(func(f: int) -> Array: return _strisciaradice(f))
+		"scarabeo":
+			return _pair(func(f: int) -> Array: return _scarabeo(f))
+		"sputaspore":
+			return _pair(func(f: int) -> Array: return _sputaspore(f))
+	return {"frames": [Px.img(8, 8)], "glow": [Px.img(8, 8)]}
+
+
+static func _pair(draw: Callable) -> Dictionary:
+	var fr := []
+	var gl := []
+	for f in 2:
+		var r: Array = draw.call(f)
+		fr.append(r[0])
+		gl.append(r[1])
+	return {"frames": fr, "glow": gl}
+
 
 static func grumo(body: Color, light: Color, dark: Color) -> Image:
 	var im := Px.img(16, 14)
@@ -21,3 +56,127 @@ static func grumo(body: Color, light: Color, dark: Color) -> Image:
 	Px.put(im, 12, 9, Px.OUTLINE)
 	Px.outline(im, Px.sh(dark, 0.45))
 	return im
+
+
+## Falena di brace: corpo acceso, ali che battono (fotogramma 0 su, 1 giù) con due occhi finti.
+static func _falena(f: int) -> Array:
+	var im := Px.img(20, 16)
+	var gm := Px.img(20, 16)
+	var wing := Px.pal(["#3a1a10", "#6a3218", "#a0552a", "#d88a4a"])
+	var body := Px.pal(TileDefs.P_BRACE)
+	var up := f == 0
+	for side in [-1, 1]:
+		for y in 16:
+			for x in 20:
+				var dx: float = (x + 0.5 - 10.0) * side
+				if dx < 1.0:
+					continue
+				var cy := 5.0 if up else 10.0
+				var d := Vector2((dx - 4.5) / 4.6, (y + 0.5 - cy) / (4.0 if up else 3.2))
+				if d.length() <= 1.0:
+					var c := wing[1] if d.length() > 0.7 else wing[2]
+					if d.length() < 0.3:
+						c = wing[3]
+					Px.put(im, x, y, c)
+		var spot := Vector2i(10 + side * 5, 5 if up else 10)
+		Px.put(im, spot.x, spot.y, body[3])
+		Px.put(gm, spot.x, spot.y, body[3])
+	for y in range(5, 12):
+		for x in range(9, 11):
+			var c := body[3] if y < 8 else body[2]
+			Px.put(im, x, y, c)
+			Px.put(gm, x, y, c)
+	Px.put(im, 8, 4, wing[0])
+	Px.put(im, 11, 4, wing[0])
+	Px.outline(im, OUT)
+	return [im, gm]
+
+
+## Strisciaradice: cinque segmenti di legno con foglie sul dorso e zampette-radice che si alternano, occhio d'ambra.
+static func _strisciaradice(f: int) -> Array:
+	var im := Px.img(24, 12)
+	var gm := Px.img(24, 12)
+	var bark := Px.pal(["#3a2430", "#5a3a48", "#7a5462", "#9a7080"])
+	var leaf := Px.pal(TileDefs.P_GRASS)
+	for s in 5:
+		var cx := 4.0 + s * 4.0
+		var cy := 7.0 + (0.6 if (s + f) % 2 == 0 else -0.3)
+		var r := 3.2 if s < 4 else 3.8
+		for y in 12:
+			for x in 24:
+				var d := Vector2(x + 0.5 - cx, y + 0.5 - cy)
+				if d.length() <= r:
+					Px.put(im, x, y, bark[3] if d.y < -1.0 else (bark[2] if d.x < 1.0 else bark[1]))
+		var leg := 1 if (s + f) % 2 == 0 else -1
+		Px.line(im, Vector2(cx, cy + 2.5), Vector2(cx + leg, 11.0), 1, bark[1])
+		if s < 4 and s % 2 == 0:
+			Px.put(im, int(cx), int(cy) - 4, leaf[3])
+			Px.put(im, int(cx) + 1, int(cy) - 5, leaf[4])
+		elif s < 4:
+			# nodi di Linfa lungo il dorso: si vede anche al buio
+			Px.put(im, int(cx), int(cy) - 2, Color("#6ff0d8"))
+			Px.put(gm, int(cx), int(cy) - 2, Color("#6ff0d8"))
+	Px.put(im, 21, 6, Color("#ffb040"))
+	Px.put(gm, 21, 6, Color("#ffb040"))
+	Px.outline(im, OUT)
+	return [im, gm]
+
+
+## Scarabeo d'ardesia: guscio di roccia a cupola con le giunture d'ambra che brillano, corno, zampe alternate.
+static func _scarabeo(f: int) -> Array:
+	var im := Px.img(24, 16)
+	var gm := Px.img(24, 16)
+	var st := Px.pal(TileDefs.P_STONE)
+	var amber := Px.pal(TileDefs.P_BRACE)
+	for k in 3:
+		var lx := 6.0 + k * 5.0
+		var dx := 1.5 if (k + f) % 2 == 0 else -1.5
+		Px.line(im, Vector2(lx, 11.0), Vector2(lx + dx, 15.0), 1, st[0])
+	for y in 16:
+		for x in 24:
+			var d := Vector2((x + 0.5 - 11.0) / 9.5, (y + 0.5 - 11.5) / 8.0)
+			if d.length() <= 1.0 and y < 13:
+				var c := st[clampi(int((0.65 - d.x * 0.3 - d.y * 0.5) * 5.0), 0, 4)]
+				Px.put(im, x, y, c)
+	for x in range(5, 18):
+		Px.put(im, x, 8, amber[2])
+		Px.put(gm, x, 8, amber[2])
+	Px.line(im, Vector2(11.0, 4.0), Vector2(11.0, 12.0), 1, amber[1])
+	Px.line(gm, Vector2(11.0, 4.0), Vector2(11.0, 12.0), 1, amber[1])
+	# testa e corno
+	for y in range(8, 13):
+		for x in range(19, 23):
+			Px.put(im, x, y, st[1])
+	Px.line(im, Vector2(21.0, 8.0), Vector2(23.0, 4.0), 1, st[3])
+	Px.put(im, 21, 10, amber[3])
+	Px.put(gm, 21, 10, amber[3])
+	Px.outline(im, OUT)
+	return [im, gm]
+
+
+## Sputaspore: un bulbo viola su un piede di radici, con la bocca chiusa (0) o aperta (1) e il cuore luminoso.
+static func _sputaspore(f: int) -> Array:
+	var im := Px.img(16, 18)
+	var gm := Px.img(16, 18)
+	var vi := Px.pal(["#2a1040", "#4f2280", "#7a44b8", "#b890ff", "#f0e0ff"])
+	var root := Px.pal(TileDefs.P_ROOT)
+	Px.line(im, Vector2(8.0, 17.0), Vector2(8.0, 12.0), 2, root[1])
+	Px.line(im, Vector2(8.0, 17.0), Vector2(4.0, 17.0), 1, root[1])
+	Px.line(im, Vector2(8.0, 17.0), Vector2(12.0, 17.0), 1, root[1])
+	for y in 14:
+		for x in 16:
+			var d := Vector2((x + 0.5 - 8.0) / 6.0, (y + 0.5 - 7.5) / 6.5)
+			if d.length() <= 1.0:
+				Px.put(im, x, y, vi[clampi(int((0.7 - d.x * 0.3 - d.y * 0.4) * 4.0), 0, 3)])
+	# bocca in cima, aperta nel secondo fotogramma
+	var open := 2 if f == 1 else 1
+	for y in range(1, 1 + open + 1):
+		for x in range(6, 10):
+			Px.put(im, x, y, vi[0])
+	for y in range(6, 10):
+		for x in range(6, 10):
+			var c := vi[4] if (x + y) % 3 != 0 else vi[3]
+			Px.put(gm, x, y, c)
+			Px.put(im, x, y, c)
+	Px.outline(im, OUT)
+	return [im, gm]

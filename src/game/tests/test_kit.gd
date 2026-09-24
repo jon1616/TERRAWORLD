@@ -105,8 +105,21 @@ func slot_of(id: String) -> int:
 func hold(id: String) -> int:
 	var s := slot_of(id)
 	if s < 0:
-		bisaccia().add(id, 1)
+		var b := bisaccia()
+		if b.count(id) == 0:
+			b.add(id, 1)
 		s = slot_of(id)
+		if s < 0:
+			# è finito oltre la barra rapida (piena): lo si scambia con l'ultima casella della barra
+			for i in b.slots.size():
+				if b.id_at(i) == id:
+					var last := Bisaccia.HOTBAR - 1
+					var tmp := b.slots[last]
+					b.slots[last] = b.slots[i]
+					b.slots[i] = tmp
+					b.changed.emit()
+					s = last
+					break
 	if s >= 0:
 		m.hud.select(s)
 	return s

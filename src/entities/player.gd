@@ -25,6 +25,8 @@ var facing := 1
 var control := true
 var swinging := false
 var force_swing := false
+var swing_period := 0.3               # secondi per un giro dell'attrezzo (le armi lo cambiano, vedi `Combat`)
+var aim := NAN                         # angolo del braccio che mira con l'arco (NAN = non mira)
 var tool_tex: Texture2D
 var rig: Node2D
 var spr: Sprite2D
@@ -169,7 +171,7 @@ func _animate(dt: float) -> void:
 	var sw := swinging or force_swing
 	if sw:
 		swing_t += dt
-		var ph := fmod(swing_t, 0.3) / 0.3
+		var ph := fmod(swing_t, swing_period) / swing_period
 		var step := int(ph * 7.0)
 		a = lerpf(3.3, 0.35, step / 6.0)
 		pose["fa_u"] = a
@@ -177,6 +179,13 @@ func _animate(dt: float) -> void:
 		key += "_s%d" % step
 	else:
 		swing_t = 0.0
+		if not is_nan(aim):
+			# mira: il braccio punta verso il bersaglio (angolo a scatti, così le pose restano poche)
+			var q := roundi(aim / PI * 12.0)
+			a = q * PI / 12.0
+			pose["fa_u"] = a
+			pose["fa_l"] = a
+			key += "_a%d" % q
 	if not _cache.has(key):
 		var d := CharacterArt.character(pose, look)
 		_cache[key] = {"tex": ImageTexture.create_from_image(d["img"]), "hand": d["hand"], "eye": d["eye"]}
@@ -185,7 +194,7 @@ func _animate(dt: float) -> void:
 	spr.position = Vector2(0, -3 + step_vis)
 	eye.position = spr.position + (entry["eye"] as Vector2) - Vector2(12, 16)
 	rig.scale.x = facing
-	tool.visible = sw and tool_tex != null
+	tool.visible = (sw or not is_nan(aim)) and tool_tex != null
 	if tool.visible:
 		tool.texture = tool_tex
 		var hand: Vector2 = entry["hand"]

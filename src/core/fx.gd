@@ -37,3 +37,48 @@ static func dust(parent: Node, pos: Vector2, cols: Array[Color]) -> void:
 	parent.add_child(p)
 	p.emitting = true
 	p.finished.connect(p.queue_free)
+
+
+## Numero (o parola) che sale e svanisce sopra un punto: danni inflitti e subiti. Sopra il buio.
+static func float_text(parent: Node, pos: Vector2, text: String, col: Color) -> void:
+	if parent == null:
+		return
+	var l := Label.new()
+	l.text = text
+	l.position = pos - Vector2(20, 10)
+	l.size = Vector2(40, 16)
+	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	l.add_theme_font_size_override("font_size", 10)
+	l.add_theme_color_override("font_color", col)
+	l.add_theme_color_override("font_outline_color", Color(0.02, 0.03, 0.05))
+	l.add_theme_constant_override("outline_size", 4)
+	l.z_as_relative = false
+	l.z_index = 30
+	parent.add_child(l)
+	var tw := l.create_tween()
+	tw.set_parallel(true)
+	tw.tween_property(l, "position:y", l.position.y - 18.0, 0.8).set_ease(Tween.EASE_OUT)
+	tw.tween_property(l, "modulate:a", 0.0, 0.8).set_delay(0.3)
+	tw.chain().tween_callback(l.queue_free)
+
+
+## Sbuffo di particelle quando una creatura muore.
+static func puff(parent: Node, pos: Vector2, col: Color) -> void:
+	var p := CPUParticles2D.new()
+	p.position = pos
+	p.one_shot = true
+	p.explosiveness = 1.0
+	p.amount = 18
+	p.lifetime = 0.6
+	p.direction = Vector2(0, -1)
+	p.spread = 180.0
+	p.gravity = Vector2(0, 60)
+	p.initial_velocity_min = 20.0
+	p.initial_velocity_max = 70.0
+	p.scale_amount_min = 1.0
+	p.scale_amount_max = 2.5
+	p.color_ramp = fade(col)
+	p.z_index = 26
+	parent.add_child(p)
+	p.emitting = true
+	p.finished.connect(p.queue_free)

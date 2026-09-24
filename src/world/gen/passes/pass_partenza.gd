@@ -20,7 +20,7 @@ static func place_creatures(w: World, rng: RandomNumberGenerator, cave_ends: Arr
 		var y := w.surface[x] - 2
 		while y > 0 and w.solid(x, y):
 			y -= 1
-		w.creatures.append({"cell": Vector2i(x, y), "kind": rng.randi_range(0, 1)})
+		w.creatures.append({"cell": Vector2i(x, y), "id": ["grumo_muschio", "grumo_resina"][rng.randi_range(0, 1)]})
 	if cave_ends.size() > 0:
 		var e: Vector2i = cave_ends[0]
-		w.creatures.append({"cell": e + Vector2i(2, -1), "kind": 2})
+		w.creatures.append({"cell": e + Vector2i(2, -1), "id": "grumo_spore"})

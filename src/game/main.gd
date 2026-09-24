@@ -20,6 +20,9 @@ var fx: Node2D
 var drops: Drops
 var vitals: Vitals
 var life: Life
+var fauna: Fauna
+var shots: Projectiles
+var combat: Combat
 var _spores: CPUParticles2D
 var built := false
 var gen_times: Array = []
@@ -99,14 +102,6 @@ func _build() -> void:
 	player.z_index = 4
 	player.position = cell_to_feet(world.spawn)
 	add_child(player)
-	for k in world.creatures.size():
-		var sd: Dictionary = world.creatures[k]
-		var sl := Grumo.new()
-		var sc: Vector2i = sd["cell"]
-		sl.position = Vector2(sc.x * S + 8, sc.y * S)
-		sl.z_index = 3
-		sl.setup(world, sd["kind"], player, world.world_seed + k)
-		add_child(sl)
 	light = LightMap.new()
 	light.setup(world)
 	overlay = Sprite2D.new()
@@ -145,6 +140,12 @@ func _build() -> void:
 	drops = Drops.new()
 	add_child(drops)
 	drops.setup(world, player, character.bisaccia)
+	shots = Projectiles.new()
+	add_child(shots)
+	shots.setup(world, Callable())       # chi viene colpito lo decide `Combat`, collegato più sotto
+	fauna = Fauna.new()
+	add_child(fauna)
+	fauna.setup(world, player, drops, shots)
 	hud = Hud.new()
 	hud.bisaccia = character.bisaccia
 	hud.stations_near = func() -> Dictionary: return Crafting.stations_near(world, player_cell())
@@ -159,6 +160,10 @@ func _build() -> void:
 	life = Life.new()
 	add_child(life)
 	life.setup(self)
+	combat = Combat.new()
+	add_child(combat)
+	combat.setup(self)
+	shots.hit = combat.on_shot
 	hud.select(character.hotbar)
 	var start := world.spawn
 	var pos: Array = (world_meta.get("giocatori", {}) as Dictionary).get(character.id, [])

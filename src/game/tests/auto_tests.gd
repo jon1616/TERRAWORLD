@@ -8,14 +8,18 @@ func run(main: Node2D) -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path("res://prove"))
 	main.player.control = false
 	main.actions.enabled = false
+	main.fauna.enabled = false            # le creature a caso disturberebbero le misure
+	main.fauna.clear()
 	var kit := TestKit.new(self, main)
 	var w := TestsWorld.new(kit)
 	var p := TestsPlayer.new(kit)
+	var c := TestsCombat.new(kit)
 	await w.places()
 	await p.trees()
 	await p.crafting()
 	await p.vitals()
 	await p.movement()
+	await c.run()
 	await w.run_and_save()
 	# la Bisaccia aperta
 	main.hud.panel.toggle()

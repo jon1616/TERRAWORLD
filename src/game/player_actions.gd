@@ -2,7 +2,7 @@ class_name PlayerActions
 extends Node
 ## Quello che il giocatore fa con il mouse, secondo l'oggetto in mano: scavare col piccone (il blocco cade a terra e si
 ## raccoglie), raccogliere funghi e decorazioni, abbattere alberi con l'ascia, seminare, piazzare blocchi e torce dalla
-## Bisaccia, colpire (per ora solo il gesto).
+## Bisaccia. I colpi alle creature e l'arco stanno in `Combat`.
 ## Con la Bisaccia aperta il mouse serve all'interfaccia e qui non succede nulla.
 
 const S := 16
@@ -44,7 +44,7 @@ func setup(w: World, v: WorldView, l: LightMap, p: Player, h: Hud, d: Drops, fx:
 
 func _on_selected(item: Dictionary) -> void:
 	var use: String = item["use"]
-	player.tool_tex = item["tex"] if use in ["scava", "colpo", "abbatti"] else null
+	player.tool_tex = item["tex"] if use in ["scava", "colpo", "abbatti", "tira"] else null
 
 
 func mouse_cell() -> Vector2i:

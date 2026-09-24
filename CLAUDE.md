@@ -75,7 +75,7 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   - `FloraData` — alberi e germogli: robustezza (100; ogni colpo toglie la forza dell'ascia), legno e semi che
     lasciano, tempo di crescita dei germogli, spazio richiesto.
   - `RecipesData` (ricette, più quelle generate delle famiglie di metallo), `StationsData` (ceppo, baccello ardente,
-    maglio), `CreaturesData` (i grumi: statistiche, comportamenti, bottino, strati), `LootData` (tabelle e `roll`).
+    maglio), `CreaturesData` (creature: statistiche, comportamenti con i parametri `p`, bottino, strati, peso di comparsa), `LootData` (tabelle e `roll`).
 - `src/art/` — grafica generata dal codice:
   - `TerrainPainter` — terreno dai contorni morbidi con la **doppia griglia**: si disegna una griglia spostata di mezza
     tessera; ogni cella tocca i centri di 4 tessere e, secondo quali sono piene (16 combinazioni), traccia una forma
@@ -115,7 +115,10 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   Cartella: `%APPDATA%\Godot\app_userdata\TERRAWORLD\salvataggi\`. Le creature non si salvano: si rimettono con
   `PassPartenza.place_creatures`.
 - `src/entities/` — `TileBody` (movimento contro la griglia, gradino automatico, passerelle che reggono solo chi scende
-  e si attraversano tenendo S), `Grumo` (creatura che saltella), `Player` (movimento a ogni fotogramma
+  e si attraversano tenendo S), `Creature` (una sola classe per tutte le creature: dati da `CreaturesData`, fisica a
+  terra o in volo, fotogrammi, `take_hit` con spinta e lampo, `HpBar`), `behaviors/` (`Behavior.make(id)`: un
+  comportamento per file, scrivono le intenzioni della creatura `want_x`, `want_fly`, `vel`, `fire`, `busy`),
+  `Projectiles` (dardi e spore in volo; chi colpiscono lo decide `Combat.on_shot`), `Player` (movimento a ogni fotogramma
   disegnato, a passi di al massimo 1/30 s, spostamento con la velocità media del passo = salto identico a ogni
   frequenza; valori di base in cima al file: corsa 95 px/s, salto pieno 3,36 tessere; armatura disegnata (`set_look`);
   segnale `landed` con le tessere di caduta; `auto_dir`/`auto_jump` per le prove e i futuri bot), `Drops` (oggetti caduti a terra: cadono, vengono attirati entro
@@ -129,6 +132,11 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 - `src/game/vitals.gd` (`Vitals`) — Vita (100, foglie da 10) e Linfa (20, gocce da 2), Scorza (metà del suo valore
   tolta a ogni ferita), ricrescita della Vita dopo 6 s senza ferite, attesa di 30 s tra due pozioni; segnali `changed` e
   `died`. In main: ferite da caduta oltre 12 tessere (6 punti per tessera in più), appassire e rinascere alla partenza.
+- `src/game/fauna.gd` (`Fauna`) — creature vive: comparsa per strato fuori dalla visuale (`try_spawn`, mai vicino alle
+  torce), sparizione lontano, spari raccolti da `c.fire`, `kill` con bottino. `enabled` = falso nelle prove.
+- `src/game/combat.gd` (`Combat`) — colpi in mischia a ogni giro dell'arma (`Player.swing_period` = 1/velocità),
+  arco (`Player.aim`, dardi dalla Bisaccia; `auto_aim`/`auto_fire` per le prove), ferite al contatto e dalle spore con
+  invulnerabilità, spinta e lampeggio.
 - `src/game/crafting.gd` (`Crafting`) — regole della fabbricazione: stazioni a portata (5 tessere), ricette usabili,
   materiali bastano?, fabbrica; `describe` per il suggerimento.
 - `src/game/bisaccia.gd` (`Bisaccia`) — l'inventario: 40 caselle (prime 10 = barra rapida), `add`/`remove`/`count`/
@@ -182,6 +190,10 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   per tempo» il salto era 3,31 tessere a 60 fps e 3,22 a 144 (il muro di 3 blocchi non si superava più). Si usa la
   velocità media del passo; le prove misurano a 60 e a 144 fps, e contano il tempo in secondi, non in fotogrammi.
 - Gli alberi hanno 8 forme disegnate una volta sola e riusate (disegnarne uno per albero costava secondi).
+- Dopo molti `snap_to` di fila (e con vsync spento) la foto della finestra può arrivare in ritardo anche di un secondo:
+  prima delle foto importanti si aspetta in secondi (`kit.seconds`), non in fotogrammi.
+- Le prove che mettono qualcosa «a N tessere» devono usare `world.surface[x]` di quella colonna: il terreno piano
+  vicino alla partenza è corto e il bersaglio finiva dentro la terra.
 
 ## Convenzioni
 

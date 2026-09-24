@@ -30,6 +30,9 @@ const ITEMS := {
 	"gelatina": {"name": "Gelatina di muschio", "kind": "materiale", "icon": ["gel", "muschio"], "desc": "Appiccicosa, brucia bene."},
 	"fungo_brace": {"name": "Fungo di brace", "kind": "materiale", "icon": ["fungo", "brace"], "desc": "Cresce nelle grotte vicine alla superficie."},
 	"fungo_luminoso": {"name": "Fungo luminoso", "kind": "materiale", "icon": ["fungo", "cristallo"], "desc": "Brilla nel profondo."},
+	"polvere_brace": {"name": "Polvere di brace", "kind": "materiale", "icon": ["polvere", "brace"], "desc": "Scintille cadute dalle ali delle falene: non si spengono mai del tutto."},
+	"scaglia_ardesia": {"name": "Scaglia d'ardesia", "kind": "materiale", "icon": ["scaglia", "ardesia"], "desc": "Un pezzo del guscio di uno scarabeo: dura come la roccia."},
+	"sacca_spore": {"name": "Sacca di spore", "kind": "materiale", "icon": ["sacca", "muschio"], "desc": "Una sacca che pulsa di luce viola."},
 	"seme_lanterna": {"name": "Seme d'albero-lanterna", "kind": "seme", "icon": ["seme", "brace"], "stack": 99, "desc": "Piantalo sul muschio: in pochi minuti diventa un albero."},
 	# lingotti (il baccello ardente fonde i minerali)
 	"lingotto_radicite": {"name": "Lingotto di radicite", "kind": "materiale", "icon": ["lingotto", "radicite"], "tier": 1},
@@ -45,6 +48,7 @@ const ITEMS := {
 	"arco_radice": {"name": "Arco di radice", "kind": "arco", "icon": ["arco", "legno"], "tier": 0, "damage": 5, "speed": 1.6, "knockback": 1.0},
 	"dardo": {"name": "Dardo di spina", "kind": "munizione", "icon": ["freccia", "ardesia"], "damage": 4, "stack": 999},
 	"spada_radice": {"name": "Spada di radice", "kind": "spada", "icon": ["spada", "legno"], "tier": 0, "damage": 6, "speed": 2.4, "knockback": 3.0},
+	"corazza_scaglie": {"name": "Corazza di scaglie", "kind": "corazza", "icon": ["corazza", "ardesia"], "tier": 1, "defense": 3, "desc": "Scaglie di scarabeo legate con radici."},
 	# consumabili
 	"pozione_rugiada": {"name": "Pozione di rugiada", "kind": "consumabile", "icon": ["pozione", "linfa"], "heal": 50, "stack": 30, "desc": "Rugiada raccolta all'alba: fa ricrescere 5 foglie di Vita."},
 }
@@ -126,6 +130,8 @@ static func use_of(id: String) -> String:
 			return "abbatti"
 		"spada":
 			return "colpo"
+		"arco":
+			return "tira"
 		"seme":
 			return "semina"
 		"consumabile":
