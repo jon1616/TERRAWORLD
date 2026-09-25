@@ -11,6 +11,7 @@ var player: Player
 var drops: Drops
 var shots: Projectiles
 var enabled := true                    # le prove lo spengono per non essere disturbate
+var night := false                     # lo aggiorna `DayCycle`: di notte più creature in superficie
 var list: Array[Creature] = []
 var kills := 0
 var _t := 0.0
@@ -99,7 +100,8 @@ func _process(dt: float) -> void:
 	if _t > 0.0:
 		return
 	_t = CreaturesData.SPAWN_EVERY
-	if list.size() < CreaturesData.MAX_ALIVE:
+	var surface: bool = player.position.y < (world.surface[clampi(int(player.position.x / S), 0, world.w - 1)] + 10) * S
+	if list.size() < CreaturesData.MAX_ALIVE + (CreaturesData.NIGHT_EXTRA if night and surface else 0):
 		try_spawn()
 
 
@@ -113,7 +115,7 @@ func try_spawn() -> Creature:
 	if not world.inside(c.x, c.y) or c.y < 2:
 		return null
 	var stratum := StrataData.at(world, c.x, c.y)
-	var choices := CreaturesData.of_stratum(stratum)
+	var choices := CreaturesData.of_stratum(stratum, night)
 	if choices.is_empty():
 		return null
 	var id := _pick(choices)

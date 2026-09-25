@@ -25,6 +25,11 @@ const TABLES := {
 		{"item": "scaglia_ardesia", "min": 1, "max": 3, "chance": 1.0},
 		{"item": "minerale_legnoferro", "min": 1, "max": 2, "chance": 0.3},
 	],
+	"avvizzito": [
+		{"item": "legno", "min": 1, "max": 2, "chance": 1.0},
+		{"item": "fungo_brace", "min": 1, "max": 1, "chance": 0.3},
+		{"item": "seme_lanterna", "min": 1, "max": 1, "chance": 0.12},
+	],
 	"guardiano": [
 		{"item": "frammento_nodo", "min": 30, "max": 30, "chance": 1.0},
 		{"item": "scheggia_vuoto", "min": 8, "max": 12, "chance": 1.0},

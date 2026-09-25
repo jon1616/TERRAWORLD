@@ -10,12 +10,16 @@ func run(main: Node2D) -> void:
 	main.actions.enabled = false
 	main.fauna.enabled = false            # le creature a caso disturberebbero le misure
 	main.fauna.clear()
+	main.day.paused = true                # mezzogiorno fisso: le foto restano confrontabili
+	main.day.time = 0.5
+	main.day.apply(true)
 	var kit := TestKit.new(self, main)
 	var w := TestsWorld.new(kit)
 	var p := TestsPlayer.new(kit)
 	var c := TestsCombat.new(kit)
 	var st := TestsStrata.new(kit)
 	var gd := TestsGuardian.new(kit)
+	var dn := TestsDay.new(kit)
 	await w.places()
 	await p.trees()
 	await p.crafting()
@@ -24,6 +28,7 @@ func run(main: Node2D) -> void:
 	await c.run()
 	await st.run()
 	await gd.run()
+	await dn.run()
 	await w.run_and_save()
 	# la Bisaccia aperta
 	main.hud.panel.toggle()

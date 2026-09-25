@@ -173,9 +173,15 @@ ricca (obiettivi per esplorare, ritmo del giorno, orientarsi), poi i mondi a por
 viene dopo perché va provata con due giocatori veri, e la **voce 7** si fa insieme all'utente.
 Ogni ciclo: dati → codice → prove automatiche e foto → ROADMAP/CLAUDE.md → commit.
 
-## 9. [ ] Giorno e notte (M)
+## 9. [x] Giorno e notte (M) — fatto il 25 set 2026
 Il tempo scorre sempre (UNIVERSO.md): giorno di 20 minuti, alba e tramonto; di notte il cielo si spegne, la luce del sole
 cala, in superficie compaiono più creature (e una della notte). Ora del giorno salvata nel mondo, orologio nell'HUD.
+**Fatto il 25 set 2026**: `DayCycle` (giorno di 20 minuti, un mondo nuovo comincia alle 7), sole che fa l'arco, luna e
+stelle di notte, cielo e colline rosati al tramonto e blu di notte; la luce del cielo cala fino alla luce della luna
+(la superficie di notte è scura, le torce contano anche lì). Di notte in superficie fino a 4 creature in più e
+l'**Avvizzito errante** (guscio di radici malate con gli occhi d'ambra, solo di notte). Orologio «Giorno N · hh:mm» in
+alto a sinistra; ora e giorno salvati nel mondo. Prove: luce del cielo a mezzogiorno, tramonto e mezzanotte, creature
+della notte solo di notte, foto 26_tramonto e 27_notte (le altre prove girano a mezzogiorno fisso).
 
 ## 10. [ ] Rovine e scrigni dei Seminatori (L)
 Piccole rovine sparse negli strati, con uno **scrigno** dal bottino secondo lo strato (oggetti che non si fabbricano:

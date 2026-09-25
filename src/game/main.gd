@@ -27,6 +27,7 @@ var depth_watch: DepthWatch
 var boons: Boons
 var guardian: Guardian
 var portal: Portal
+var day: DayCycle
 var _spores: CPUParticles2D
 var built := false
 var gen_times: Array = []
@@ -181,6 +182,9 @@ func _build() -> void:
 	portal = Portal.new()
 	add_child(portal)
 	portal.setup(self)
+	day = DayCycle.new()
+	add_child(day)
+	day.setup(self)
 	hud.select(character.hotbar)
 	var start := world.spawn
 	var pos: Array = (world_meta.get("giocatori", {}) as Dictionary).get(character.id, [])

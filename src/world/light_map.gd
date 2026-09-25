@@ -28,6 +28,7 @@ var world: World
 var image: Image
 var tex: ImageTexture
 var origin := Vector2i.ZERO           # cella del mondo nell'angolo in alto a sinistra dell'immagine mostrata
+var sky := SKY                        # luce del cielo aperto, secondo l'ora (vedi `DayCycle`)
 var player_light := PLAYER            # la luce attorno al giocatore (più forte con la lanterna o il bagliore)
 var ambient := AMBIENT                # chiarore minimo, secondo lo strato in cui si trova il giocatore
 var dirty := true                     # il mondo è cambiato (scavo, torcia): va ricalcolata
@@ -90,7 +91,7 @@ func _start(center: Vector2i, player_cell: Vector2i) -> void:
 	o.y = clampi(o.y, -LH / 4, maxi(world.h - LH, 0))
 	var job := {
 		"origin": o, "tiles": world.tiles, "walls": world.walls, "decor": world.decor, "w": world.w, "h": world.h,
-		"torches": world.torches_in(Rect2i(o, Vector2i(LW, LH))), "player": player_cell, "player_light": player_light,
+		"torches": world.torches_in(Rect2i(o, Vector2i(LW, LH))), "player": player_cell, "player_light": player_light, "sky": sky,
 		"decor_light": _decor_light(), "lights": _station_lights(Rect2i(o, Vector2i(LW, LH))), "ambient": ambient,
 	}
 	_job = job
@@ -128,6 +129,7 @@ static func _solve(job: Dictionary) -> void:
 	var ww: int = job["w"]
 	var wh: int = job["h"]
 	var amb: Color = job["ambient"]
+	var sk: Color = job["sky"]
 	var n := LW * LH
 	var r := PackedFloat32Array()
 	var g := PackedFloat32Array()
@@ -166,9 +168,9 @@ static func _solve(job: Dictionary) -> void:
 			else:
 				d[i] = AIR_DECAY
 				if wl == 0:
-					r[i] = SKY.r
-					g[i] = SKY.g
-					b[i] = SKY.b
+					r[i] = sk.r
+					g[i] = sk.g
+					b[i] = sk.b
 				if dc != 0:
 					var cg := dlight[dc]
 					r[i] = maxf(r[i], cg.r)

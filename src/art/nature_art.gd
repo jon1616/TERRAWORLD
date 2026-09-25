@@ -238,3 +238,31 @@ static func sun() -> Image:
 	Px.disc(im, 20, 20, 13, Color("#ffe8cc"))
 	Px.disc(im, 20, 20, 11, Color("#fffaf0"))
 	return im
+
+
+## La luna del Giardino: un disco pallido turchese con le ombre di radici lontane.
+static func moon() -> Image:
+	var im := Px.img(32, 32)
+	Px.disc(im, 16, 16, 13, Color(0.7, 0.95, 1.0, 0.2))
+	Px.disc(im, 16, 16, 10, Color("#cfeeee"))
+	Px.disc(im, 13, 13, 3, Color("#a8d4d8"))
+	Px.disc(im, 19, 18, 2, Color("#a8d4d8"))
+	Px.line(im, Vector2(9, 20), Vector2(15, 24), 1, Color("#9ac4c8"))
+	return im
+
+
+## Stelle sparse per il cielo di notte (alcune turchesi, alcune ambra, come la Linfa e le braci).
+static func stars(w: int, h: int, sd: int) -> Image:
+	var im := Px.img(w, h)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = sd + 7
+	for k in 260:
+		var x := rng.randi_range(0, w - 1)
+		var y := rng.randi_range(0, int(h * 0.75))
+		var r := rng.randf()
+		var c := Color(0.85, 0.95, 1.0) if r < 0.7 else (Color("#8ef0d8") if r < 0.85 else Color("#ffd08a"))
+		c.a = rng.randf_range(0.4, 1.0)
+		im.set_pixel(x, y, c)
+		if rng.randf() < 0.08 and x + 1 < w:
+			im.set_pixel(x + 1, y, c)
+	return im

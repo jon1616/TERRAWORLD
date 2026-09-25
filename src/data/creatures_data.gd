@@ -13,6 +13,7 @@ extends RefCounted
 ##              d'ardesia, 3 profondità della Linfa, 4 il Fondo; weight = quanto spesso, rispetto alle altre dello strato.
 ##              Vita e danno si moltiplicano per il `danger` dello strato in cui la creatura compare.
 ##   glow       brilla nel buio
+##   night      compare solo di notte (vedi `DayCycle`)
 ##   boss       un Guardiano: non compare da solo, non sparisce lontano, ha la barra in alto
 
 const CREATURES := {
@@ -52,6 +53,10 @@ const CREATURES := {
 			"shot_speed": 170.0, "shot_grav": 40.0, "shot_damage": 16, "dash_every": 6.0, "dash_speed": 300.0,
 			"dash_time": 0.55, "summon_every": 8.0, "summon": "grumo_spore", "summon_max": 3, "phase2": 0.5},
 		"loot": "guardiano", "art": ["guardiano", 0], "strata": [], "weight": 0, "glow": true, "boss": true},
+	# avvizzito errante: un guscio di radici svuotato dall'Avvizzimento; cammina in superficie, solo di notte
+	"avvizzito_errante": {"name": "Avvizzito errante", "hp": 32, "damage": 11, "defense": 2, "knock": 0.3, "half": [5, 11],
+		"speed": 42, "behaviors": ["cammina"], "p": {"sight": 30}, "loot": "avvizzito", "art": ["avvizzito", 0],
+		"strata": [0], "weight": 12, "night": true, "glow": true},
 	# vagavuoto: un occhio di vuotite che fluttua nel Fondo e scaglia schegge
 	"vagavuoto": {"name": "Vagavuoto", "hp": 40, "damage": 14, "defense": 4, "knock": 0.3, "half": [8, 7],
 		"speed": 55, "fly": true, "behaviors": ["vola", "spara"],
@@ -61,6 +66,7 @@ const CREATURES := {
 
 ## Quante creature al massimo attorno al giocatore, e ogni quanto si prova a farne comparire una.
 const MAX_ALIVE := 7
+const NIGHT_EXTRA := 4                 # di notte, in superficie, qualche creatura in più
 const SPAWN_EVERY := 2.0
 ## Distanza in tessere: compaiono fuori dalla visuale ma non troppo lontano; spariscono se ci si allontana molto.
 const SPAWN_MIN := 30
@@ -68,11 +74,11 @@ const SPAWN_MAX := 50
 const DESPAWN := 90
 
 
-## Le creature che possono comparire in uno strato, con il loro peso: [[id, peso], …].
-static func of_stratum(s: int) -> Array:
+## Le creature che possono comparire in uno strato, con il loro peso: [[id, peso], …]. Quelle della notte solo di notte.
+static func of_stratum(s: int, night := false) -> Array:
 	var out := []
 	for id in CREATURES:
 		var c: Dictionary = CREATURES[id]
-		if s in c["strata"]:
+		if s in c["strata"] and (night or not c.get("night", false)):
 			out.append([id, int(c["weight"])])
 	return out

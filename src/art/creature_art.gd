@@ -26,6 +26,8 @@ static func frames(shape: String, variant: int) -> Dictionary:
 			return _pair(func(f: int) -> Array: return _sputaspore(f))
 		"vagavuoto":
 			return _pair(func(f: int) -> Array: return _vagavuoto(f))
+		"avvizzito":
+			return _pair(func(f: int) -> Array: return _avvizzito(f))
 		"guardiano":
 			return _pair(func(f: int) -> Array: return _guardiano(f, variant == 1))
 	return {"frames": [Px.img(8, 8)], "glow": [Px.img(8, 8)]}
@@ -268,5 +270,39 @@ static func _guardiano(f: int, healed: bool) -> Array:
 		Px.put(im, int(c.x) + 2, y, pupil)
 		if healed:
 			Px.put(gm, int(c.x) + 2, y, pupil)
+	Px.outline(im, OUT)
+	return [im, gm]
+
+
+## Avvizzito errante: una figura curva fatta di radici grigie e secche, braccia lunghe che pendono, due occhi d'ambra
+## malata che brillano nel buio. Due fotogrammi di passo.
+static func _avvizzito(f: int) -> Array:
+	var im := Px.img(14, 24)
+	var gm := Px.img(14, 24)
+	var bark := Px.pal(TileDefs.P_NODO)
+	var rot := Color("#6a6a3a")
+	# gambe che si alternano
+	var st := 1.5 if f == 0 else -1.5
+	Px.line(im, Vector2(6.0, 15.0), Vector2(5.0 - st, 23.0), 1, bark[1])
+	Px.line(im, Vector2(8.0, 15.0), Vector2(9.0 + st, 23.0), 1, bark[2])
+	# il corpo curvo, intrecciato
+	for y in range(5, 17):
+		var cx := 7.0 + (y - 11) * 0.12
+		var hw := 2.6 if y > 8 else 2.0
+		for x in 14:
+			if absf(x + 0.5 - cx) <= hw:
+				Px.put(im, x, y, bark[2] if (x + y) % 3 != 0 else bark[1])
+	# la testa, un nodo
+	Px.disc(im, 8.0, 4.0, 3.2, bark[3])
+	Px.put(im, 6, 5, rot)
+	Px.put(im, 10, 3, rot)
+	# braccia lunghe che pendono
+	var sw := 1.0 if f == 0 else -1.0
+	Px.line(im, Vector2(5.0, 7.0), Vector2(3.0 + sw, 16.0), 1, bark[1])
+	Px.line(im, Vector2(10.0, 7.0), Vector2(11.5 - sw, 16.0), 1, bark[1])
+	# occhi d'ambra malata
+	for q in [Vector2i(7, 4), Vector2i(10, 4)]:
+		Px.put(im, q.x, q.y, Color("#f0b040"))
+		Px.put(gm, q.x, q.y, Color("#f0b040"))
 	Px.outline(im, OUT)
 	return [im, gm]

@@ -158,6 +158,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni
   `fixed` (Cuore, portale) non si riprendono.
+- `src/game/day_cycle.gd` (`DayCycle`) — giorno e notte: `time` 0-1 (giorno di 20 min), `daylight()`, `is_night()`;
+  imposta `LightMap.sky`, i colori dello sfondo (`Background.set_time`: sole, luna, stelle) e `Fauna.night`. `paused`
+  nelle prove (mezzogiorno fisso).
 - `src/game/depth_watch.gd` (`DepthWatch`) — in che strato è il giocatore (con un margine sul confine): sfuma il
   chiarore della luce e mostra la scritta dello strato (`StratumBanner` in `src/ui/`).
 - `src/game/crafting.gd` (`Crafting`) — regole della fabbricazione: stazioni a portata (5 tessere), ricette usabili,
@@ -215,6 +218,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 - Gli alberi hanno 8 forme disegnate una volta sola e riusate (disegnarne uno per albero costava secondi).
 - Dopo molti `snap_to` di fila (e con vsync spento) la foto della finestra può arrivare in ritardo anche di un secondo:
   prima delle foto importanti si aspetta in secondi (`kit.seconds`), non in fotogrammi.
+- L'immagine della luce (moltiplicazione) scurisce anche lo sfondo: il colore del cielo va diviso per la luce che
+  gli cade sopra (`DayCycle.apply`), altrimenti al tramonto il cielo diventa nero.
 - Una funzione anonima collegata a un timer non deve trattenere un nodo che può sparire prima: si usa `weakref`
   (altrimenti «Lambda capture was freed»). E nei file del gioco i tipi dedotti da un Variant sono errori: `var x: T =`.
 - Il buio (deciso dall'utente il 25 set 2026: «il buio non c'è, le torce non servono», poi con un'immagine di
