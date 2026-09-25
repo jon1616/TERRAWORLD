@@ -40,6 +40,8 @@ const ITEMS := {
 	"polvere_brace": {"name": "Polvere di brace", "kind": "materiale", "icon": ["polvere", "brace"], "desc": "Scintille cadute dalle ali delle falene: non si spengono mai del tutto."},
 	"scaglia_ardesia": {"name": "Scaglia d'ardesia", "kind": "materiale", "icon": ["scaglia", "ardesia"], "desc": "Un pezzo del guscio di uno scarabeo: dura come la roccia."},
 	"scheggia_vuoto": {"name": "Scheggia del Vuoto", "kind": "materiale", "icon": ["cristallo", "vuotite"], "desc": "Spunta dai pavimenti del Fondo. Fredda al tatto, brilla di viola."},
+	"cenere_avvizzita": {"name": "Cenere avvizzita", "kind": "materiale", "icon": ["polvere", "nodo"], "desc": "Ciò che resta della terra malata. Brucia di una forza cattiva."},
+	"seme_muschio": {"name": "Seme di muschio", "kind": "purifica", "icon": ["seme", "muschio"], "stack": 99, "desc": "Gettato su una zona avvizzita, la fa rifiorire (un cerchio di qualche tessera)."},
 	"sacca_spore": {"name": "Sacca di spore", "kind": "materiale", "icon": ["sacca", "muschio"], "desc": "Una sacca che pulsa di luce viola."},
 	"seme_lanterna": {"name": "Seme d'albero-lanterna", "kind": "seme", "icon": ["seme", "brace"], "stack": 99, "desc": "Piantalo sul muschio: in pochi minuti diventa un albero."},
 	# lingotti (il baccello ardente fonde i minerali)
@@ -71,6 +73,7 @@ const ITEMS := {
 	# consumabili
 	"pozione_rugiada": {"name": "Pozione di rugiada", "kind": "consumabile", "icon": ["pozione", "linfa"], "heal": 50, "stack": 30, "desc": "Rugiada raccolta all'alba: fa ricrescere 5 foglie di Vita."},
 	"pozione_bagliore": {"name": "Pozione di bagliore", "kind": "consumabile", "icon": ["pozione", "cristallo"], "boon": ["bagliore", 180.0], "stack": 30, "desc": "Il Germogliato brilla come un fungo del profondo per tre minuti."},
+	"pozione_vigore": {"name": "Pozione di vigore", "kind": "consumabile", "icon": ["pozione", "brace"], "boon": ["vigore", 180.0], "stack": 30, "desc": "Cenere e brace: +20% danno per tre minuti."},
 	"pozione_scorza": {"name": "Pozione di scorza", "kind": "consumabile", "icon": ["pozione", "ambra"], "boon": ["scorza", 180.0], "stack": 30, "desc": "La pelle si fa corteccia: +8 Scorza per tre minuti."},
 	# il primo anello (voce 8)
 	"lanterna_linfa": {"name": "Lanterna di Linfa", "kind": "lanterna", "icon": ["lanterna", "cristallo"], "desc": "Tenuta in mano, illumina attorno di luce turchese."},
@@ -178,4 +181,6 @@ static func use_of(id: String) -> String:
 			return "cura"
 		"seme_mondo":
 			return "portale"
+		"purifica":
+			return "purifica"
 	return ""

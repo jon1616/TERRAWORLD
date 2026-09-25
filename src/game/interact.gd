@@ -21,7 +21,19 @@ func setup(main: Node2D) -> void:
 func _use(kind: String, id: String, c: Vector2i) -> bool:
 	match kind:
 		"cura":
+			if m.world.tile(c.x, c.y) == TileDefs.NODO:
+				return m.guardian.cure_at(c)
+			# la Rugiada di Linfa purifica anche un grande cerchio di terra avvizzita
+			if m.actions.in_reach(c) and m.blight._near_blight(c, Blight.DEW_R) and m.character.bisaccia.remove(id, 1):
+				m.hud.toast("La Linfa scorre nella terra malata: %d tessere guarite" % m.blight.purify(c, Blight.DEW_R))
+				m.objectives.bump("purificate")
+				return true
 			return m.guardian.cure_at(c)
+		"purifica":
+			if m.blight.use_seed(c):
+				m.objectives.bump("purificate")
+				return true
+			return false
 		"seme_mondo":
 			return m.portal.plant(c, id)
 	return false

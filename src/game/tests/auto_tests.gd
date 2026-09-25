@@ -14,6 +14,7 @@ func run(main: Node2D) -> void:
 	main.day.time = 0.5
 	main.day.apply(true)
 	main.objectives.paused = true
+	main.blight.paused = true             # l'Avvizzimento non si allarga sotto le misure delle altre prove
 	var kit := TestKit.new(self, main)
 	if "--prova-portale" in OS.get_cmdline_user_args():
 		await TestsPortalTrip.new(kit).run()
@@ -30,6 +31,7 @@ func run(main: Node2D) -> void:
 	var eb := TestsErbario.new(kit)
 	var tt := TestsTraits.new(kit)
 	var ob := TestsObjectives.new(kit)
+	var bl := TestsBlight.new(kit)
 	await w.places()
 	await p.trees()
 	await p.crafting()
@@ -44,6 +46,7 @@ func run(main: Node2D) -> void:
 	await mp.run()
 	await eb.run()
 	await tt.run()
+	await bl.run()
 	await ob.run()
 	await w.run_and_save()
 	# la Bisaccia aperta

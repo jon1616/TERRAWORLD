@@ -34,6 +34,7 @@ var map_reveal: MapReveal
 var erbario: Erbario
 var objectives: Objectives
 var sfx: Sfx
+var blight: Blight
 var _spores: CPUParticles2D
 var built := false
 var gen_times: Array = []
@@ -202,6 +203,7 @@ func _build() -> void:
 	ep.setup(self, erbario)
 	hud.overlays.append(ep)
 	objectives = _mount(Objectives.new())
+	blight = _mount(Blight.new())
 	hud.select(character.hotbar)
 	var start := world.spawn
 	var pos: Array = (world_meta.get("giocatori", {}) as Dictionary).get(character.id, [])

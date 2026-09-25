@@ -82,6 +82,7 @@ static func of_stratum(s: int, night := false, biome := "") -> Array:
 		var c: Dictionary = CREATURES[id]
 		if s == 0 and c.has("biomes") and not biome in c["biomes"]:
 			continue
-		if s in c["strata"] and (night or not c.get("night", false)):
+		# nelle terre avvizzite gli Avvizziti erranti camminano anche di giorno
+		if s in c["strata"] and (night or not c.get("night", false) or biome == "avvizzito"):
 			out.append([id, int(c["weight"])])
 	return out

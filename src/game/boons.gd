@@ -9,7 +9,8 @@ extends Node
 const SCORZA := 8
 const LIGHT_BAGLIORE := Color(1.9, 1.7, 1.3)
 const LIGHT_LANTERNA := Color(1.0, 2.0, 1.9)
-const NAMES := {"bagliore": "Bagliore", "scorza": "Scorza di corteccia"}
+const NAMES := {"bagliore": "Bagliore", "scorza": "Scorza di corteccia", "vigore": "Vigore"}
+const VIGORE := 1.2                    # danno ×1,2 con la Pozione di vigore
 
 var m: Node2D
 var active := {}                       # nome -> secondi che restano

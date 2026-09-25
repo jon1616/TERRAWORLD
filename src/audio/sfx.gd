@@ -20,15 +20,20 @@ var _amb_streams := {}
 var _amb_tasks := {}
 var _amb_now := -1
 var _amb_cur := 0
+var _task := -1
 
 
 func setup(main: Node2D) -> void:
 	m = main
 	Settings.load_once()
-	var k := 1
-	for id in SoundsData.SOUNDS:
-		streams[id] = SfxSynth.make(SoundsData.SOUNDS[id], k)
-		k += 1
+	# i suoni si generano in un thread (circa un secondo): fino ad allora `play` tace
+	var made := {}
+	_task = WorkerThreadPool.add_task(func() -> void:
+		var k := 1
+		for id in SoundsData.SOUNDS:
+			made[id] = SfxSynth.make(SoundsData.SOUNDS[id], k)
+			k += 1
+		streams = made, false, "suoni")
 	for i in VOICES:
 		var p := AudioStreamPlayer.new()
 		add_child(p)
@@ -42,6 +47,11 @@ func setup(main: Node2D) -> void:
 
 ## Suona un effetto; `at` = punto del mondo da cui viene (INF = dal Germogliato stesso).
 func play(id: String, at := Vector2.INF) -> void:
+	if _task >= 0:
+		if not WorkerThreadPool.is_task_completed(_task):
+			return
+		WorkerThreadPool.wait_for_task_completion(_task)
+		_task = -1
 	if not streams.has(id):
 		return
 	var r: Dictionary = SoundsData.SOUNDS[id]

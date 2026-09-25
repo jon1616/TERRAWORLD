@@ -5,6 +5,7 @@ extends Node
 
 const MARGIN := 4                      # tessere oltre il confine prima di cambiare strato
 const FADE := 1.5                      # velocità della sfumatura del chiarore
+const BLIGHT := 99                     # «bioma» delle terre avvizzite (non sta in BiomesData: si allarga e si ritira)
 
 var m: Node2D
 var stratum := -1
@@ -32,6 +33,11 @@ func _stratum_at(margin: int) -> int:
 	return k
 
 
+## Il bioma di superficie di una colonna, o BLIGHT se lì la superficie è avvizzita.
+func _biome_at(x: int) -> int:
+	return BLIGHT if Blight.surface_blighted(m.world, x) else BiomesData.at(m.world, x)
+
+
 func _process(dt: float) -> void:
 	if not m.built:
 		return
@@ -45,13 +51,16 @@ func _process(dt: float) -> void:
 	# in superficie: la scritta del bioma quando se ne attraversa il confine (con un margine di qualche colonna)
 	if stratum == 0:
 		var x: int = m.player_cell().x
-		var b := BiomesData.at(m.world, x)
-		if b != biome and BiomesData.at(m.world, x - 6) == b and BiomesData.at(m.world, x + 6) == b:
+		var b := _biome_at(x)
+		if b != biome and _biome_at(x - 6) == b and _biome_at(x + 6) == b:
 			var first := biome < 0
 			biome = b
 			if not first:
-				var bd: Dictionary = BiomesData.BIOMES[b]
-				banner.show_stratum(String(bd["name"]), String(bd["desc"]), Color(bd["color"]))
+				if b == BLIGHT:
+					banner.show_stratum("Terre avvizzite", "L'Avvizzimento si mangia la terra: il Guardiano dorme ancora", Color("#a8a694"))
+				else:
+					var bd: Dictionary = BiomesData.BIOMES[b]
+					banner.show_stratum(String(bd["name"]), String(bd["desc"]), Color(bd["color"]))
 	var goal: Color = StrataData.STRATA[stratum]["ambient"]
 	var a: Color = m.light.ambient
 	if absf(a.r - goal.r) + absf(a.g - goal.g) + absf(a.b - goal.b) > 0.003:

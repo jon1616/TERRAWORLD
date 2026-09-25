@@ -27,6 +27,8 @@ const LIST := [
 		"reward": {"torcia": 10}},
 	{"id": "notte", "text": "Supera la tua prima notte", "check": {"stat": "notti", "n": 1},
 		"reward": {"pozione_bagliore": 1}},
+	{"id": "purifica", "text": "Purifica una zona avvizzita con un Seme di muschio", "check": {"stat": "purificate", "n": 1},
+		"reward": {"seme_muschio": 5}},
 	{"id": "baccello", "text": "Costruisci il Baccello ardente", "check": {"station": "baccello_ardente"},
 		"reward": {"minerale_radicite": 6}},
 	{"id": "lingotto", "text": "Fondi un lingotto di radicite", "check": {"item": "lingotto_radicite", "n": 1},

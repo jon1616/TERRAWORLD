@@ -268,6 +268,16 @@ durata, picco e volume medio. Nel menu **Impostazioni**: volume degli effetti e 
 `Settings`). Trovata e corretta una regressione delle prove: dal cambio del buio la prova di scavo,
 raccolta e posa veniva saltata senza avviso.
 
+## 18. [x] L'Avvizzimento (L) — fatto il 25 set 2026
+Primo pezzo della Roadmap 2 («l'Avvizzimento che si espande»), legato alla scelta del Guardiano: due macchie per mondo
+in superficie (passata Avvizzimento), con **terra, muschio e ardesia avvizziti** grigi e marci. `Blight` le allarga
+piano (contagio sul bordo ogni 1,5 s) **finché il Guardiano dorme**; sconfitto il Guardiano si fermano, **curato si
+ritirano** un poco alla volta. Purificare a mano: **Seme di muschio** (5 da un seme d'albero-lanterna e 2 gelatine,
+cerchio di 4 tessere) e Rugiada di Linfa (cerchio di 7). Le zone avvizzite danno **cenere avvizzita** → **Pozione di
+vigore** (+20% danno per 3 minuti); scritta «Terre avvizzite», cielo grigio, Avvizziti erranti anche di giorno;
+obiettivo «Purifica una zona avvizzita». I suoni ora si generano in un thread. Prove: zone, contagio, ritiro,
+purificazione (foto 35_avvizzimento, 36_purificato).
+
 **Roadmap 2 «Il mondo vivo»** (prevista): biomi di superficie e sotterranei (foresta-lanterna, paludi di spore, distese
 d'ambra, giardini di cristallo…), strutture e rovine dei Seminatori, l'Avvizzimento che si espande, e i **Semi che
 decidono il mondo** (specie = quali biomi, vigore = difficoltà, tratti = particolarità). Poi: mondi a portale veri,

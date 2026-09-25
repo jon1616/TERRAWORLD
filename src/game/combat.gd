@@ -71,7 +71,7 @@ func _process(dt: float) -> void:
 ## Colpi in mischia: ogni giro dell'attrezzo colpisce una volta ogni creatura nell'area davanti.
 func _melee(it: Dictionary, use: String, tr := "") -> void:
 	var sw: bool = player.swinging or player.force_swing
-	var dmg := roundi(int(it.get("damage", 0)) * TraitsData.effect(tr, "damage"))
+	var dmg := roundi(int(it.get("damage", 0)) * TraitsData.effect(tr, "damage") * _boon())
 	if not sw or dmg <= 0 or not use in ["colpo", "scava", "abbatti"]:
 		_cycle = -1
 		return
@@ -119,13 +119,18 @@ func _bow(it: Dictionary, use: String, active: bool, dt: float, tr := "") -> voi
 	_bow_t = 1.0 / (float(it.get("speed", 1.5)) * TraitsData.effect(tr, "speed"))
 	bisaccia.remove(ammo, 1)
 	m.sfx.play("tira")
-	var dmg := roundi(int(it.get("damage", 0)) * TraitsData.effect(tr, "damage")) + int(ItemsData.get_item(ammo).get("damage", 0))
+	var dmg := roundi((int(it.get("damage", 0)) * TraitsData.effect(tr, "damage") + int(ItemsData.get_item(ammo).get("damage", 0))) * _boon())
 	# un po' di anticipo sulla caduta, così il dardo va dove si mira anche lontano
 	var flight := d.length() / DART_SPEED
 	var v := d.normalized() * DART_SPEED
 	v.y -= 0.5 * DART_GRAV * minf(flight, 0.8)
 	shots.fire(from + d.normalized() * 8.0, v, DART_GRAV, dmg, true,
 			float(it.get("knockback", 1.0)) * TraitsData.effect(tr, "knock") / 3.0)
+
+
+## Danno ×1,2 con la Pozione di vigore attiva.
+func _boon() -> float:
+	return Boons.VIGORE if m.boons.active.has("vigore") else 1.0
 
 
 func _strike(c: Creature, dmg: int, from_x: float, force: float) -> void:

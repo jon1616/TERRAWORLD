@@ -119,7 +119,7 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
     forma del terreno di ciascuno), Strati (roccia, sacche e
     pareti di ogni strato di `StrataData`, confini sfrangiati), Grotte (profondità, regioni, grandi caverne), Vuoti (i
     grandi vuoti del Fondo e il suo pavimento di vuotite), Radici (radici giganti del Sottobosco, anche attraverso le
-    grotte), Ingressi, Minerali (per strato e roccia), Cristalli, Erba, Alberi, Decorazioni (per strato), Cuore (la
+    grotte), Ingressi, Minerali (per strato e roccia), Cristalli, Erba, Alberi, Decorazioni (per strato), Avvizzimento (due macchie malate in superficie), Cuore (la
     cupola del Cuore del mondo nel Fondo, con i 4 nodi avvizziti e la stazione `cuore_mondo`), Rovine (44 stanze dei
     Seminatori con uno scrigno pieno secondo lo strato), Partenza (le torce
     già accese della vecchia passata provvisoria sono state tolte il 25 set 2026: le torce le mette il giocatore). Un mondo 3000×1000 si genera in ~8,5 s (in un thread, con schermata d'attesa).
@@ -191,6 +191,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 - `src/game/objectives.gd` (`Objectives`) — obiettivi di `ObjectivesData` controllati ogni secondo, ricompense,
   i prossimi tre in alto a sinistra; `bump(stat)` per i conteggi del personaggio (`Character.stats`); `paused` nelle
   prove. In `main.gd` i moduli si montano con `_mount(nodo)` (una riga per modulo).
+- `src/game/blight.gd` (`Blight`) — l'Avvizzimento: elenco delle tessere malate (cercato in un thread), contagio se il
+  Guardiano dorme, ritiro se è curato, `purify(centro, raggio)`, `use_seed`; `surface_blighted(world, x)` per scritta,
+  cielo e creature. `paused` nelle prove.
 - `src/game/depth_watch.gd` (`DepthWatch`) — in che strato è il giocatore (con un margine sul confine): sfuma il
   chiarore della luce e mostra la scritta dello strato (`StratumBanner` in `src/ui/`).
 - `src/game/crafting.gd` (`Crafting`) — regole della fabbricazione: stazioni a portata (5 tessere), ricette usabili,

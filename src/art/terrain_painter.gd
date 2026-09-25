@@ -156,6 +156,13 @@ static func material(id: String, p: Array[Color], sd: int) -> PackedColorArray:
 		"pietra_sem":
 			_bricks(col, p)
 			_specks(col, rng, _linfa(p), 10)          # le rune: puntini di Linfa nella pietra lavorata
+		"terra_avv":
+			_fibers(col, rng, [p[0], Color("#3a2e3a")], 9, 24)   # radici morte, grigie
+			_specks(col, rng, Color("#6a6a3a"), 30)              # muffa
+		"muschio_avv":
+			_specks(col, rng, Color("#8a8a50"), 60)
+		"pietra_avv":
+			_fibers(col, rng, [p[0], Color("#23242a")], 6, 18)   # crepe
 		"nodo":
 			_fibers(col, rng, [p[0], Color("#5a4a30")], 8, 24)   # radici marce, piene di muffa
 			_specks(col, rng, Color("#8a8a50"), 40)

@@ -118,6 +118,9 @@ che viene dal Giardino dei Semi.
 - Di notte: l'**Avvizzito errante**, guscio di radici svuotato dall'Avvizzimento.
 - Biomi di superficie: **Foresta-lanterna**, **Paludi di spore** (**muschio di spore** viola), **Distese d'ambra**
   (**erba d'ambra** dorata).
+- L'**Avvizzimento** nei mondi: **terra avvizzita**, **muschio avvizzito**, **ardesia avvizzita**, **cenere
+  avvizzita**; si allarga finché il Guardiano dorme, si ferma se è sconfitto, si ritira se è curato. Lo curano il **Seme
+  di muschio** e la Rugiada di Linfa. Dalla cenere, la **Pozione di vigore**.
 - Strati di profondità: **Superficie**, **Sottobosco di radici**, **Caverne d'ardesia**, **Profondità della Linfa**,
   **il Fondo** (dove il mondo confina con il Vuoto).
 

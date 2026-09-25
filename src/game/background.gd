@@ -117,7 +117,7 @@ func set_time(t: float, tint: Color, night: float, star_gain := Color.WHITE) -> 
 func follow(cp: Vector2, view: Vector2, dt: float, snap := false) -> void:
 	var cx := clampi(int(cp.x / S), 0, world.w - 1)
 	var target := float(world.surface[cx] * S)
-	_biome_goal = BiomesData.BIOMES[world.biomes[cx]]["tint"]
+	_biome_goal = Color(0.7, 0.7, 0.66) if Blight.surface_blighted(world, cx) else BiomesData.BIOMES[world.biomes[cx]]["tint"]
 	biome_tint = _biome_goal if snap else biome_tint.lerp(_biome_goal, clampf(dt * 0.8, 0.0, 1.0))
 	_horizon = target if snap else lerpf(_horizon, target, clampf(dt * 1.5, 0.0, 1.0))
 	# sole e luna fanno un arco da sinistra a destra: il sole di giorno (0,2-0,8), la luna di notte
