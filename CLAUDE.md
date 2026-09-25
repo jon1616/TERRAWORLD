@@ -105,6 +105,7 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
     lasciano, tempo di crescita dei germogli, spazio richiesto.
   - `SpellsData` — gli incantesimi dei bastoni di Linfa (aspetto, velocità, ventaglio, quante creature attraversa,
     quanto insegue, se passa la roccia, luce).
+  - `BeastItemsData` — materiali delle creature della voce 22 e ciò che se ne fa; uniti in `ItemsData.all()`.
   - `RecipesData` (ricette, più quelle generate delle famiglie di metallo), `StationsData` (ceppo, baccello ardente,
     maglio), `CreaturesData` (creature: statistiche, comportamenti con i parametri `p`, bottino, strati, peso di comparsa), `LootData` (tabelle e `roll`).
 - `src/art/` — grafica generata dal codice:
@@ -121,6 +122,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
     d'ambra): `make(forma, materiale)` o `of(id)`; il materiale sceglie la tavolozza.
   - `StationArt` — Ceppo del Giardiniere, Baccello ardente (bocca di brace luminosa), Maglio dei Seminatori (rune).
   - `BossArt` — i tre Guardiani (Nodo, Regina, Colosso), malati o guariti, chiamati da `CreatureArt.frames`.
+  - `BeastArt` (creature della voce 22 di superficie e Sottobosco, `spider` per i ragni) e `DeepBeastArt` (quelle del
+    profondo), chiamate da `CreatureArt.frames` (2 fotogrammi, 3 per guscio e travestimento).
   - `CharacterArt` (personaggio a pose, restituisce anche mano e occhio), `CreatureArt`, `NatureArt`
     (`tree_linfa` con parte luminosa, `root_arches`, `lantern_forest`, colline, torcia, sole).
 - `src/audio/` — `SfxSynth` (ricette di `SoundsData` → campioni PCM, limitatore, anelli senza cuciture per i
@@ -159,7 +162,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 - `src/entities/` — `TileBody` (movimento contro la griglia, gradino automatico, passerelle che reggono solo chi scende
   e si attraversano tenendo S), `Creature` (una sola classe per tutte le creature: dati da `CreaturesData`, fisica a
   terra o in volo, fotogrammi, `take_hit` con spinta e lampo, `HpBar`), `behaviors/` (`Behavior.make(id)`: un
-  comportamento per file, scrivono le intenzioni della creatura `want_x`, `want_fly`, `vel`, `fire`, `busy`),
+  comportamento per file, scrivono le intenzioni della creatura `want_x`, `want_fly`, `vel`, `fire`, `busy`; dalla
+  voce 22 anche `anchored` (ferma, senza fisica), `upside` (appesa), `ghost`/`buried` (nella terra), `shell`),
   `Projectiles` (dardi e spore in volo; chi colpiscono lo decide `Combat.on_shot`), `Player` (movimento a ogni fotogramma
   disegnato, a passi di al massimo 1/30 s, spostamento con la velocità media del passo = salto identico a ogni
   frequenza; valori di base in cima al file: corsa 95 px/s, salto pieno 3,36 tessere; armatura disegnata (`set_look`);

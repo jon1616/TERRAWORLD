@@ -337,9 +337,23 @@ Linfa** (senza attesa). Vita e Linfa: foglie in righe da 10 (oltre le 20 ognuna 
 Prove con `--solo=doni` (nuovo filtro delle prove): doni nel mondo, assorbire e tetto, pozione, scheggia su 3 creature
 in fila, sfera che insegue alle spalle (foto 43_bastoni, 44_bocciolo).
 
-## 22. [ ] Il bestiario si allarga (L)
-Molte creature nuove, almeno due o tre per strato, con comportamenti nuovi (agguato dal soffitto, sciami, scavatori,
-creature che fuggono, che si teletrasportano, che rimbalzano) e materiali propri.
+## 22. [x] Il bestiario si allarga (L) — fatto il 25 set 2026
+**15 creature nuove** (da 12 a 27), almeno due per strato, ognuna con il suo modo di essere pericolosa e un materiale
+proprio. Superficie: **Corvo di corteccia** (vola alto e si getta in picchiata), **Spinoriccio** (si appallottola e
+carica rotolando), di notte gli sciami di **Lucciole voraci**. Sottobosco: **Tessiradice** (appeso al soffitto, ti
+cade addosso e tira ragnatele che invischiano: corsa a metà), **Talpone di humus** (nuota nella terra, si vede solo la
+polvere, salta fuori a mordere), **Saltafungo**. Caverne: **Ala d'ardesia** (svolazza sopra la testa e scatta),
+**Chiocciola di cristallo** (colpita si chiude nel guscio: un quarto del danno), **Geomimo** (un mucchio di rocce con
+i cristalli che si sveglia quando gli sei addosso). Profondità della Linfa: **Serpe di Linfa**, **Campanula errante**
+(fluttua alta e fa piovere polline), **Guizzalinfa** (sparisce e ti ricompare accanto). Il Fondo: **Mietivuoto**
+(scatta rasoterra con le falci), **Tessivuoto**, **Sciame di schegge**. Sei comportamenti nuovi (agguato, scava,
+teletrasporto, guscio, bombarda, mimo), sciami (`group`: le compagne non contano nel tetto), `hover` per chi vola alto.
+14 materiali e 18 oggetti nuovi (`BeastItemsData`): Dardi piumati e d'aculeo, Mantello di penne (planata), Collana
+d'aculei (spine), Benda di seta (cura il veleno), Guanti del talpone (scavo +35%), Pozione di rigoglio, Ali di
+membrana, Scudo di guscio, Anello del geode (fortuna), Stivali della serpe (corsa +40%), **Specchio del guizzo**
+(riporta alla partenza), Falce del Vuoto, Velo d'ombra; l'Anello di lucciola ora si fabbrica. `verifica_dati` salva
+anche il foglio di tutte le creature (prove/creature.png). Prove `--solo=bestiario`: ogni comportamento, gli
+accessori, lo specchio (foto 45_bestiario, 46_agguato).
 
 ## 23. [ ] Rarità nuove e trofei (M)
 Oltre ad antiche e ancestrali: **Iridate** (rarissime, colori cangianti, fuggono) e **Capibranco** (guidano un

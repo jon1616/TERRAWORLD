@@ -7,7 +7,7 @@ extends SceneTree
 
 const KINDS := ["materiale", "blocco", "piccone", "ascia", "spada", "arco", "munizione", "torcia", "stazione",
 	"piattaforma", "elmo", "corazza", "gambali", "consumabile", "seme", "lanterna", "cura", "seme_mondo", "accessorio",
-	"purifica", "essenza", "bastone", "dono"]
+	"purifica", "essenza", "bastone", "dono", "specchio"]
 ## Forza di piccone oltre cui una tessera è voluta indistruttibile (i nodi avvizziti: si curano, non si scavano).
 const UNBREAKABLE := 999
 
@@ -105,6 +105,7 @@ func _init() -> void:
 		for r in o["reward"]:
 			_err(items.has(String(r)), "obiettivo %s: ricompensa sconosciuta %s" % [o["id"], r])
 	_icon_sheet(items)
+	_creature_sheet()
 	print("oggetti %d · ricette %d · stazioni %d · creature %d · tabelle di bottino %d" % [items.size(), recipes.size(),
 		StationsData.STATIONS.size(), CreaturesData.CREATURES.size(), LootData.TABLES.size()])
 	print("ESITO: %d errori, %d avvisi" % [errors, warnings])
@@ -128,6 +129,28 @@ func _icon_sheet(items: Dictionary) -> void:
 	for i in ids.size():
 		order += ("\n" if i % cols == 0 else " · ") + String(ids[i])
 	print("foglio delle icone in prove/oggetti.png, in ordine:", order)
+
+
+## Il foglio di tutte le creature (ogni fotogramma, ingrandito ×3, con la parte luminosa sopra) in prove/creature.png.
+func _creature_sheet() -> void:
+	var cell := Vector2i(160, 90)
+	var ids := CreaturesData.CREATURES.keys()
+	var cols := 6
+	var sheet := Image.create_empty(cols * cell.x, ceili(ids.size() / float(cols)) * cell.y, false, Image.FORMAT_RGBA8)
+	sheet.fill(Color("#2a4a50"))
+	for i in ids.size():
+		var art: Array = CreaturesData.CREATURES[ids[i]]["art"]
+		var fr := CreatureArt.frames(String(art[0]), int(art[1]))
+		var x := (i % cols) * cell.x + 4
+		for k in (fr["frames"] as Array).size():
+			var im: Image = (fr["frames"][k] as Image).duplicate()
+			im.blend_rect(fr["glow"][k], Rect2i(Vector2i.ZERO, im.get_size()), Vector2i.ZERO)
+			var sc := 3 if im.get_width() <= 26 else 1
+			im.resize(im.get_width() * sc, im.get_height() * sc, Image.INTERPOLATE_NEAREST)
+			if x + im.get_width() < (i % cols + 1) * cell.x:
+				sheet.blend_rect(im, Rect2i(Vector2i.ZERO, im.get_size()), Vector2i(x, (i / cols) * cell.y + 4))
+			x += im.get_width() + 2
+	sheet.save_png(ProjectSettings.globalize_path("res://prove/creature.png"))
 
 
 func _err(ok: bool, msg: String) -> void:

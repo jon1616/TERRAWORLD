@@ -118,7 +118,15 @@ che viene dal Giardino dei Semi.
   Seminatori**. Il contenitore da fabbricare è la **Cesta di radici**.
 - Accessori: **Stivali di radice svelta**, **Foglia planante**, **Amuleto di corteccia**, **Anello di lucciola**,
   **Cuore di muschio**, **Pappo di seme**.
-- Di notte: l'**Avvizzito errante**, guscio di radici svuotato dall'Avvizzimento.
+- Di notte: l'**Avvizzito errante**, guscio di radici svuotato dall'Avvizzimento, e gli sciami di **Lucciole voraci**.
+- Il bestiario della voce 22: **Corvo di corteccia** (lascia **penne di corteccia**), **Spinoriccio** (**aculei
+  d'ambra**), **Tessiradice** (**seta di radice**), **Talpone di humus** (**artigli**), **Saltafungo** (**lamelle**),
+  **Ala d'ardesia** (**membrana d'ardesia**), **Chiocciola di cristallo** (**guscio di cristallo**), **Geomimo**
+  (**cuore di geode**), **Serpe di Linfa** (**scaglie di serpe**), **Campanula errante** (**polline luminoso**),
+  **Guizzalinfa** (**occhio di guizzo**), **Mietivuoto** (**lama del Mietivuoto**), **Tessivuoto** (**seta del
+  Vuoto**), **Sciame di schegge**. Con loro: Mantello di penne, Collana d'aculei, Benda di seta, Guanti del talpone,
+  Pozione di rigoglio, Ali di membrana, Scudo di guscio, Anello del geode, Stivali della serpe, **Specchio del
+  guizzo** (riporta alla partenza), Falce del Vuoto, Velo d'ombra.
 - Biomi di superficie: **Foresta-lanterna**, **Paludi di spore** (**muschio di spore** viola), **Distese d'ambra**
   (**erba d'ambra** dorata).
 - L'**Avvizzimento** nei mondi: **terra avvizzita**, **muschio avvizzito**, **ardesia avvizzita**, **cenere

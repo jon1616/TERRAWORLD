@@ -38,6 +38,14 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 			return m.portal.plant(c, id)
 		"dono":
 			return Gifts.absorb(m, id)
+		"specchio":
+			# lo Specchio del guizzo: si torna al punto di partenza del mondo
+			Fx.puff(m.fx, m.player.position, Color(0.8, 1.6, 1.7))
+			m.snap_to(m.world.spawn)
+			m.sfx.play("portale")
+			Fx.puff(m.fx, m.player.position, Color(0.8, 1.6, 1.7))
+			m.hud.toast("Lo specchio ti riporta alla partenza")
+			return true
 	return false
 
 

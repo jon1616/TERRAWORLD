@@ -28,6 +28,37 @@ static func frames(shape: String, variant: int) -> Dictionary:
 			return _pair(func(f: int) -> Array: return _vagavuoto(f))
 		"avvizzito":
 			return _pair(func(f: int) -> Array: return _avvizzito(f))
+		# voce 22
+		"corvo":
+			return _pair(func(f: int) -> Array: return BeastArt.corvo(f))
+		"spinoriccio":
+			return _pair(func(f: int) -> Array: return BeastArt.spinoriccio(f))
+		"lucciola":
+			return _pair(func(f: int) -> Array: return BeastArt.lucciola(f))
+		"tessiradice":
+			return _pair(func(f: int) -> Array: return BeastArt.tessiradice(f))
+		"talpone":
+			return _pair(func(f: int) -> Array: return BeastArt.talpone(f))
+		"saltafungo":
+			return _pair(func(f: int) -> Array: return BeastArt.saltafungo(f))
+		"ala_ardesia":
+			return _pair(func(f: int) -> Array: return DeepBeastArt.ala_ardesia(f))
+		"chiocciola":
+			return _pair(func(f: int) -> Array: return DeepBeastArt.chiocciola(f), 3)
+		"geomimo":
+			return _pair(func(f: int) -> Array: return DeepBeastArt.geomimo(f), 3)
+		"serpe":
+			return _pair(func(f: int) -> Array: return DeepBeastArt.serpe(f))
+		"campanula":
+			return _pair(func(f: int) -> Array: return DeepBeastArt.campanula(f))
+		"guizzalinfa":
+			return _pair(func(f: int) -> Array: return DeepBeastArt.guizzalinfa(f))
+		"mietivuoto":
+			return _pair(func(f: int) -> Array: return DeepBeastArt.mietivuoto(f))
+		"tessivuoto":
+			return _pair(func(f: int) -> Array: return DeepBeastArt.tessivuoto(f))
+		"sciame":
+			return _pair(func(f: int) -> Array: return DeepBeastArt.sciame(f))
 		"guardiano":
 			return _pair(func(f: int) -> Array: return BossArt.guardiano(f, variant == 1))
 		"regina":
@@ -37,10 +68,11 @@ static func frames(shape: String, variant: int) -> Dictionary:
 	return {"frames": [Px.img(8, 8)], "glow": [Px.img(8, 8)]}
 
 
-static func _pair(draw: Callable) -> Dictionary:
+## I fotogrammi di una creatura (di solito due; tre per chi ha un guscio o un travestimento).
+static func _pair(draw: Callable, n := 2) -> Dictionary:
 	var fr := []
 	var gl := []
-	for f in 2:
+	for f in n:
 		var r: Array = draw.call(f)
 		fr.append(r[0])
 		gl.append(r[1])

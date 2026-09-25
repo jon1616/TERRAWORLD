@@ -16,6 +16,12 @@ extends RefCounted
 ##   night      compare solo di notte (vedi `DayCycle`)
 ##   biomes     in superficie compare solo in questi biomi (`BiomesData`); sotto terra non conta
 ##   boss       un Guardiano: non compare da solo, non sparisce lontano, ha la barra in alto
+##   group      [min, max]: nasce in sciame (le compagne non contano nel tetto delle creature)
+##   roll       rotola quando carica (il disegno gira su sé stesso)
+##   disguise   il primo fotogramma è un travestimento (va con il comportamento «mimo»)
+## Comportamenti della voce 22: agguato (appesa al soffitto, cade addosso), scava (nuota nella terra), teletrasporto,
+## guscio (colpita si chiude), bombarda (lascia cadere colpi dall'alto), mimo (travestita finché non ti avvicini).
+## Parametri nuovi: hover (quanto vola alta sopra il bersaglio), slow e shot_look (ragnatele che invischiano).
 
 const CREATURES := {
 	# i grumi: gocce di muschio, resina o spore che si sono animate e saltellano
@@ -78,6 +84,74 @@ const CREATURES := {
 		"speed": 55, "fly": true, "behaviors": ["vola", "spara"],
 		"p": {"sight": 24, "wobble": 40.0, "rate": 3.0, "shot_speed": 210.0, "shot_grav": 60.0, "shot_damage": 16},
 		"loot": "vagavuoto", "art": ["vagavuoto", 0], "strata": [4], "weight": 6, "glow": true},
+	# --- voce 22: il bestiario si allarga ---
+	# superficie: il corvo di corteccia vola alto e si getta in picchiata
+	"corvo_corteccia": {"name": "Corvo di corteccia", "hp": 18, "damage": 8, "defense": 0, "knock": 0.0, "half": [8, 6],
+		"speed": 90, "fly": true, "behaviors": ["vola", "scatto"],
+		"p": {"sight": 26, "hover": 70.0, "wobble": 25.0, "dash_every": 3.5, "dash_speed": 260.0, "dash_time": 0.45},
+		"loot": "corvo", "art": ["corvo", 0], "strata": [0], "weight": 6, "biomes": ["foresta", "ambra"]},
+	# lo spinoriccio cammina, poi si appallottola e carica rotolando
+	"spinoriccio": {"name": "Spinoriccio", "hp": 26, "damage": 10, "defense": 3, "knock": 0.3, "half": [7, 6],
+		"speed": 40, "behaviors": ["cammina", "carica"], "roll": true,
+		"p": {"sight": 18, "charge": 210.0, "charge_range": 9, "charge_time": 1.1, "charge_cool": 3.5},
+		"loot": "spinoriccio", "art": ["spinoriccio", 0], "strata": [0, 1], "weight": 5, "biomes": ["ambra", "foresta"]},
+	# di notte: sciami di lucciole voraci
+	"lucciola_vorace": {"name": "Lucciola vorace", "hp": 7, "damage": 5, "defense": 0, "knock": 0.0, "half": [4, 3],
+		"speed": 85, "fly": true, "behaviors": ["vola"], "p": {"sight": 30, "wobble": 45.0}, "group": [3, 5],
+		"loot": "lucciola", "art": ["lucciola", 0], "strata": [0], "weight": 8, "night": true, "glow": true},
+	# sottobosco: il tessiradice aspetta appeso al soffitto, cade addosso e tira ragnatele che invischiano
+	"tessiradice": {"name": "Tessiradice", "hp": 30, "damage": 11, "defense": 2, "knock": 0.3, "half": [8, 5],
+		"speed": 60, "behaviors": ["agguato", "cammina", "spara"],
+		"p": {"sight": 20, "drop_x": 3, "rate": 3.0, "shot_speed": 200.0, "shot_grav": 150.0, "shot_damage": 4,
+			"slow": 2.5, "shot_look": "ragnatela"},
+		"loot": "tessiradice", "art": ["tessiradice", 0], "strata": [1, 2], "weight": 6, "glow": true},
+	# il talpone nuota nella terra e salta fuori a mordere
+	"talpone": {"name": "Talpone di humus", "hp": 34, "damage": 12, "defense": 3, "knock": 0.6, "half": [8, 6],
+		"speed": 110, "behaviors": ["scava"], "p": {"sight": 22},
+		"loot": "talpone", "art": ["talpone", 0], "strata": [1, 2], "weight": 4},
+	"saltafungo": {"name": "Saltafungo", "hp": 24, "damage": 9, "defense": 1, "knock": 0.1, "half": [6, 7],
+		"speed": 70, "behaviors": ["salta_verso"], "p": {"jump": 250.0, "sight": 18},
+		"loot": "saltafungo", "art": ["saltafungo", 0], "strata": [1, 2], "weight": 6, "glow": true},
+	# caverne: l'ala d'ardesia svolazza sopra la testa e scatta
+	"ala_ardesia": {"name": "Ala d'ardesia", "hp": 28, "damage": 12, "defense": 2, "knock": 0.1, "half": [7, 5],
+		"speed": 95, "fly": true, "behaviors": ["vola", "scatto"],
+		"p": {"sight": 26, "hover": 40.0, "wobble": 55.0, "dash_every": 3.0, "dash_speed": 280.0, "dash_time": 0.4},
+		"loot": "ala_ardesia", "art": ["ala_ardesia", 0], "strata": [2, 3], "weight": 6, "glow": true},
+	# la chiocciola di cristallo si chiude nel guscio quando la colpisci
+	"chiocciola_cristallo": {"name": "Chiocciola di cristallo", "hp": 60, "damage": 12, "defense": 8, "knock": 0.7,
+		"half": [8, 6], "speed": 22, "behaviors": ["cammina", "guscio"], "p": {"sight": 16, "shell_time": 2.5},
+		"loot": "chiocciola", "art": ["chiocciola", 0], "strata": [2, 3], "weight": 4, "glow": true},
+	# il geomimo sembra un mucchio di rocce con i cristalli; si sveglia quando gli sei addosso
+	"geomimo": {"name": "Geomimo", "hp": 70, "damage": 18, "defense": 6, "knock": 0.6, "half": [7, 7],
+		"speed": 90, "behaviors": ["mimo", "salta_verso"], "disguise": true, "p": {"wake": 3.5, "jump": 300.0, "sight": 24},
+		"loot": "geomimo", "art": ["geomimo", 0], "strata": [2, 3, 4], "weight": 3, "glow": true},
+	# profondità della Linfa: la serpe nuota nell'aria e scatta
+	"serpe_linfa": {"name": "Serpe di Linfa", "hp": 45, "damage": 16, "defense": 3, "knock": 0.3, "half": [9, 4],
+		"speed": 110, "fly": true, "behaviors": ["vola", "scatto"],
+		"p": {"sight": 30, "wobble": 60.0, "dash_every": 2.6, "dash_speed": 320.0, "dash_time": 0.4},
+		"loot": "serpe", "art": ["serpe", 0], "strata": [3], "weight": 6, "glow": true},
+	# la campanula errante fluttua alta e fa piovere polline che scotta
+	"campanula_errante": {"name": "Campanula errante", "hp": 40, "damage": 10, "defense": 2, "knock": 0.2,
+		"half": [7, 8], "speed": 55, "fly": true, "behaviors": ["vola", "bombarda"],
+		"p": {"sight": 28, "hover": 80.0, "wobble": 20.0, "rate": 1.8, "shot_damage": 18, "shot_look": "polline"},
+		"loot": "campanula", "art": ["campanula", 0], "strata": [3, 4], "weight": 5, "glow": true},
+	# il guizzalinfa sparisce e ti ricompare accanto
+	"guizzalinfa": {"name": "Guizzalinfa", "hp": 35, "damage": 15, "defense": 2, "knock": 0.2, "half": [5, 6],
+		"speed": 80, "behaviors": ["cammina", "teletrasporto"], "p": {"sight": 28, "blink_every": 3.0},
+		"loot": "guizzalinfa", "art": ["guizzalinfa", 0], "strata": [3, 4], "weight": 5, "glow": true},
+	# il Fondo: il mietivuoto scatta rasoterra con le falci
+	"mietivuoto": {"name": "Mietivuoto", "hp": 60, "damage": 22, "defense": 5, "knock": 0.5, "half": [6, 10],
+		"speed": 75, "behaviors": ["cammina", "scatto"],
+		"p": {"sight": 26, "dash_every": 3.0, "dash_speed": 340.0, "dash_time": 0.35},
+		"loot": "mietivuoto", "art": ["mietivuoto", 0], "strata": [4], "weight": 5, "glow": true},
+	"tessivuoto": {"name": "Tessivuoto", "hp": 55, "damage": 18, "defense": 5, "knock": 0.4, "half": [9, 6],
+		"speed": 70, "behaviors": ["agguato", "cammina", "spara"],
+		"p": {"sight": 22, "drop_x": 3, "rate": 2.6, "shot_speed": 220.0, "shot_grav": 150.0, "shot_damage": 8,
+			"slow": 3.0, "shot_look": "ragnatela"},
+		"loot": "tessivuoto", "art": ["tessivuoto", 0], "strata": [4], "weight": 4, "glow": true},
+	"sciame_schegge": {"name": "Sciame di schegge", "hp": 12, "damage": 10, "defense": 2, "knock": 0.0, "half": [4, 4],
+		"speed": 100, "fly": true, "behaviors": ["vola"], "p": {"sight": 28, "wobble": 50.0}, "group": [3, 5],
+		"loot": "sciame", "art": ["sciame", 0], "strata": [4], "weight": 4, "glow": true},
 }
 
 ## Tetto di creature, ritmo e distanza delle nascite: vedi `DangerData` (voce 20).

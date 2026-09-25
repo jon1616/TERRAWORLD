@@ -7,6 +7,8 @@ extends Node
 ##   fall_safe  niente ferite da caduta (`Life.fall_safe`)
 ##   halo       alone del Germogliato più ampio (`Boons.halo_mult`)
 ##   regen      la Vita ricresce più in fretta (`Vitals.regen_mult`)
+##   thorns     danno a chi tocca il Germogliato (`Combat.thorns`); luck: fortuna nel bottino (`Fauna.luck`)
+##   dig        scavo e taglio più rapidi (`PlayerActions.dig_mult`); stealth: le creature vedono meno lontano
 ## La Scorza degli accessori (campo `defense`) la somma già `Bisaccia.scorza`.
 
 var m: Node2D
@@ -28,6 +30,7 @@ func refresh() -> void:
 	var luck := 0.0
 	var thorns := 0
 	var stealth := 1.0
+	var dig := 1.0
 	var b: Bisaccia = m.character.bisaccia
 	for slot in b.equip:
 		var acc: Dictionary = ItemsData.get_item(String(b.equip[slot])).get("acc", {})
@@ -37,6 +40,10 @@ func refresh() -> void:
 		safe = safe or bool(acc.get("fall_safe", false))
 		halo *= float(acc.get("halo", 1.0))
 		regen *= float(acc.get("regen", 1.0))
+		thorns += int(acc.get("thorns", 0))
+		luck += float(acc.get("luck", 0.0))
+		dig *= float(acc.get("dig", 1.0))
+		stealth *= float(acc.get("stealth", 1.0))
 		var tr := String(b.equip_traits.get(slot, ""))
 		run *= TraitsData.effect(tr, "run")
 		halo *= TraitsData.effect(tr, "halo")
@@ -53,3 +60,4 @@ func refresh() -> void:
 	m.fauna.luck = luck
 	m.combat.thorns = thorns
 	Behavior.stealth = stealth
+	m.actions.dig_mult = dig

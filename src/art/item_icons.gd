@@ -22,6 +22,9 @@ const MATERIALS := {
 	"radice": ["#4a2c22", "#6a3e2c", "#8a5638", "#a8704a", "#c89066"],
 	"scisto": ["#263a40", "#34505a", "#446872", "#58848c", "#7aa6aa"],
 	"vuotite": ["#261c38", "#34264c", "#463464", "#5c4682", "#9c7ad0"],
+	"lucciola": ["#3a4a10", "#8aa020", "#d8ff70", "#f8ffd0"],
+	"seta": ["#6a6a5e", "#9a9a8a", "#cacabc", "#f4f4ea"],
+	"fungo": ["#6a2a3a", "#a0405a", "#d86a7a", "#ffb0b8"],
 }
 const LEAF := ["#16574f", "#3aa08a", "#72d4b0"]
 const AMBER := ["#9a4a22", "#ffb040", "#ffe0a0"]
@@ -226,7 +229,7 @@ static func make(shape: String, material: String) -> Image:
 					var inner := Vector2((x + 0.5 - 8.0) / 5.0, (y + 0.5 - 12.0) / 4.0)
 					if d.length() <= 1.0 and inner.length() > 1.0:
 						Px.put(im, x, y, p[3] if y < 7 else p[2])
-			Px.line(im, Vector2(4.0, 7.0), Vector2(12.0, 7.0), 1, p[4])
+			Px.line(im, Vector2(4.0, 7.0), Vector2(12.0, 7.0), 1, p[p.size() - 1])
 			Px.put(im, 8, 5, Color(AMBER[1]))
 		"sacca":
 			for y in range(4, 15):

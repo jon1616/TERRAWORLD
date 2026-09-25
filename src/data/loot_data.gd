@@ -94,6 +94,45 @@ const TABLES := {
 		{"item": "sacca_spore", "min": 1, "max": 2, "chance": 1.0},
 		{"item": "fungo_luminoso", "min": 1, "max": 1, "chance": 0.3},
 	],
+	# voce 22
+	"corvo": [
+		{"item": "penna_corteccia", "min": 1, "max": 3, "chance": 1.0},
+		{"item": "legno", "min": 1, "max": 1, "chance": 0.3},
+	],
+	"spinoriccio": [{"item": "aculeo", "min": 2, "max": 4, "chance": 1.0}],
+	"lucciola": [{"item": "polvere_lucciola", "min": 1, "max": 1, "chance": 0.7}],
+	"tessiradice": [{"item": "seta_radice", "min": 2, "max": 4, "chance": 1.0}],
+	"talpone": [
+		{"item": "artiglio_talpone", "min": 1, "max": 1, "chance": 0.6},
+		{"item": "humus", "min": 2, "max": 4, "chance": 1.0},
+		{"item": "minerale_radicite", "min": 1, "max": 2, "chance": 0.3},
+	],
+	"saltafungo": [
+		{"item": "lamella_fungo", "min": 1, "max": 3, "chance": 1.0},
+		{"item": "fungo_brace", "min": 1, "max": 1, "chance": 0.3},
+	],
+	"ala_ardesia": [{"item": "membrana_ardesia", "min": 1, "max": 2, "chance": 1.0}],
+	"chiocciola": [
+		{"item": "guscio_cristallo", "min": 1, "max": 2, "chance": 1.0},
+		{"item": "cristallo_linfa", "min": 1, "max": 1, "chance": 0.3},
+	],
+	"geomimo": [
+		{"item": "cuore_geode", "min": 1, "max": 1, "chance": 1.0},
+		{"item": "minerale_ambra", "min": 2, "max": 4, "chance": 0.6},
+		{"item": "cristallo_linfa", "min": 1, "max": 3, "chance": 0.5},
+	],
+	"serpe": [{"item": "scaglia_linfa", "min": 1, "max": 3, "chance": 1.0}],
+	"campanula": [{"item": "polline_luminoso", "min": 1, "max": 3, "chance": 1.0}],
+	"guizzalinfa": [
+		{"item": "occhio_guizzo", "min": 1, "max": 1, "chance": 0.5},
+		{"item": "cristallo_linfa", "min": 1, "max": 2, "chance": 0.5},
+	],
+	"mietivuoto": [
+		{"item": "lama_vuoto", "min": 1, "max": 1, "chance": 0.5},
+		{"item": "scheggia_vuoto", "min": 1, "max": 3, "chance": 1.0},
+	],
+	"tessivuoto": [{"item": "seta_vuoto", "min": 2, "max": 3, "chance": 1.0}],
+	"sciame": [{"item": "scheggia_vuoto", "min": 1, "max": 1, "chance": 0.8}],
 }
 
 

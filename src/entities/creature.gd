@@ -258,6 +258,8 @@ func take_hit(dmg: int, from_x: float, force: float) -> bool:
 	var real := maxi(dmg - defense / 2, 1)
 	if shell > 0.0:
 		real = maxi(real / 4, 1)               # chiusa nel guscio
+	elif "guscio" in data["behaviors"]:
+		shell = float(p.get("shell_time", 2.5))   # si chiude dopo il primo colpo (lo tiene aperto `BhGuscio`)
 	just_hit = true
 	hp -= real
 	_flash = 0.12

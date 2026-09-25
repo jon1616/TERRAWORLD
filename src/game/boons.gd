@@ -9,7 +9,8 @@ extends Node
 const SCORZA := 8
 const LIGHT_BAGLIORE := Color(1.9, 1.7, 1.3)
 const LIGHT_LANTERNA := Color(1.0, 2.0, 1.9)
-const NAMES := {"bagliore": "Bagliore", "scorza": "Scorza di corteccia", "vigore": "Vigore"}
+const NAMES := {"bagliore": "Bagliore", "scorza": "Scorza di corteccia", "vigore": "Vigore", "rigoglio": "Rigoglio"}
+const RIGOGLIO := 3.0                  # la Vita ricresce tre volte più in fretta (Pozione di rigoglio)
 const VIGORE := 1.2                    # danno ×1,2 con la Pozione di vigore
 
 var m: Node2D
@@ -35,7 +36,8 @@ func setup(main: Node2D) -> void:
 
 func add(boon_name: String, secs: float) -> void:
 	active[boon_name] = maxf(float(active.get(boon_name, 0.0)), secs)
-	m.hud.toast("%s per %d minuti" % [NAMES.get(boon_name, boon_name), roundi(secs / 60.0)])
+	var span := "%d minuti" % roundi(secs / 60.0) if secs >= 90.0 else "%d secondi" % roundi(secs)
+	m.hud.toast("%s per %s" % [NAMES.get(boon_name, boon_name), span])
 
 
 func _process(dt: float) -> void:
@@ -51,6 +53,7 @@ func _process(dt: float) -> void:
 		text += "%s %d:%02d   " % [NAMES.get(k, k), t / 60, t % 60]
 	_label.text = text
 	m.vitals.scorza_bonus = SCORZA if active.has("scorza") else 0
+	m.vitals.boon_regen = RIGOGLIO if active.has("rigoglio") else 1.0
 	var l: Color = LightMap.PLAYER * halo_mult
 	if active.has("bagliore"):
 		l = LIGHT_BAGLIORE

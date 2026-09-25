@@ -21,6 +21,7 @@ var linfa_max := LINFA_MAX             # LINFA_MAX più le Stille perenni assorb
 var scorza := 0
 var scorza_bonus := 0
 var regen_mult := 1.0
+var boon_regen := 1.0                  # Pozione di rigoglio (vedi `Boons`)
 var poison_t := 0.0                    # avvelenato da una creatura Velenosa: perde Vita per qualche secondo
 var _pacc := 0.0
 const POISON_DPS := 3.0                  # accessori: la Vita ricresce più in fretta (e l'attesa si accorcia)                  # dalle pozioni (vedi `Boons`)
@@ -73,8 +74,8 @@ func tick(dt: float) -> void:
 				return
 	_since_hit += dt
 	potion_wait = maxf(potion_wait - dt, 0.0)
-	if _since_hit >= REGEN_DELAY / regen_mult and hp < hp_max:
-		_acc += REGEN * regen_mult * dt
+	if _since_hit >= REGEN_DELAY / (regen_mult * boon_regen) and hp < hp_max:
+		_acc += REGEN * regen_mult * boon_regen * dt
 		var k := int(_acc)
 		_acc -= k
 		hp = mini(hp + k, hp_max)

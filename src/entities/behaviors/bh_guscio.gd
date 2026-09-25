@@ -5,10 +5,7 @@ extends Behavior
 
 
 func tick(c: Creature, dt: float) -> void:
-	if c.just_hit:
-		c.just_hit = false
-		if c.shell <= 0.0:
-			c.shell = float(c.p.get("shell_time", 2.5))
+	# il guscio si chiude in `Creature.take_hit` (anche mentre è stordita dal colpo); qui passa il tempo
 	if c.shell > 0.0:
 		c.shell -= dt
 		c.want_x = 0.0

@@ -8,9 +8,13 @@ extends RefCounted
 ##   name   nome visibile
 ##   kind   materiale · blocco · piccone · ascia · spada · arco · munizione · torcia · stazione · piattaforma ·
 ##          elmo · corazza · gambali · accessorio · essenza · consumabile · seme · lanterna · cura · seme_mondo ·
-##          bastone (tira incantesimi con la Linfa) · dono (si assorbe: Vita o Linfa massima per sempre)
+##          bastone (tira incantesimi con la Linfa) · dono (si assorbe: Vita o Linfa massima per sempre) ·
+##          specchio (riporta al punto di partenza)
+## Oggetti del bestiario della voce 22 in `BeastItemsData` (uniti qui in `all()`).
 ##   acc    effetti di un accessorio (vedi `GearEffects`): run (corsa ×), jump (salto ×), glide (planare tenendo
-##          Spazio), fall_safe (niente ferite da caduta), halo (alone ×), regen (ricrescita della Vita ×)
+##          Spazio), fall_safe (niente ferite da caduta), halo (alone ×), regen (ricrescita della Vita ×),
+##          thorns (danno a chi tocca), dig (scavo e taglio ×), luck (fortuna nel bottino), stealth (visto più tardi ×)
+##   cure   per le bende: tolgono il veleno
 ##   icon   [forma, materiale] per `ItemIcons.make`
 ##   stack  quanti per casella (predefinito: 999 per materiali e blocchi, 1 per attrezzi e armature)
 ##   tier   grado: 0 radice/pietra, 1 radicite, 2 legnoferro, 3 ambra
@@ -159,6 +163,7 @@ static func all() -> Dictionary:
 	if not _all.is_empty():
 		return _all
 	var out := ITEMS.duplicate(true)
+	out.merge(BeastItemsData.ITEMS.duplicate(true))
 	for m in METALS:
 		var md: Dictionary = METALS[m]
 		for g in GEAR:
@@ -230,4 +235,6 @@ static func use_of(id: String) -> String:
 			return "incanta"
 		"dono":
 			return "dono"
+		"specchio":
+			return "ritorna"
 	return ""
