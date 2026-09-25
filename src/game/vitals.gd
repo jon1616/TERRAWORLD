@@ -17,6 +17,7 @@ const POTION_COOLDOWN := 30.0
 var hp := HP_MAX
 var hp_max := HP_MAX                   # HP_MAX più i doni duraturi (il Guardiano curato: +20)
 var linfa := LINFA_MAX
+var linfa_max := LINFA_MAX             # LINFA_MAX più le Stille perenni assorbite (voce 21)
 var scorza := 0
 var scorza_bonus := 0
 var regen_mult := 1.0
@@ -49,7 +50,7 @@ func heal(amount: int) -> void:
 
 func refill() -> void:
 	hp = hp_max
-	linfa = LINFA_MAX
+	linfa = linfa_max
 	_since_hit = 99.0
 	changed.emit()
 
@@ -77,10 +78,10 @@ func tick(dt: float) -> void:
 		var k := int(_acc)
 		_acc -= k
 		hp = mini(hp + k, hp_max)
-	if linfa < LINFA_MAX:
+	if linfa < linfa_max:
 		_lacc += LINFA_REGEN * dt
 		var k2 := int(_lacc)
 		_lacc -= k2
-		linfa = mini(linfa + k2, LINFA_MAX)
+		linfa = mini(linfa + k2, linfa_max)
 	if before != [hp, linfa]:
 		changed.emit()

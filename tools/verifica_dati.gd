@@ -7,7 +7,7 @@ extends SceneTree
 
 const KINDS := ["materiale", "blocco", "piccone", "ascia", "spada", "arco", "munizione", "torcia", "stazione",
 	"piattaforma", "elmo", "corazza", "gambali", "consumabile", "seme", "lanterna", "cura", "seme_mondo", "accessorio",
-	"purifica", "essenza"]
+	"purifica", "essenza", "bastone", "dono"]
 ## Forza di piccone oltre cui una tessera è voluta indistruttibile (i nodi avvizziti: si curano, non si scavano).
 const UNBREAKABLE := 999
 
@@ -30,6 +30,10 @@ func _init() -> void:
 			_err(it.get("place", -1) is int and int(it["place"]) > 0 and int(it["place"]) <= TileDefs.TYPES, "%s: blocco senza tessera valida" % id)
 		if it.get("kind") == "stazione":
 			_err(StationsData.STATIONS.has(String(it.get("place", ""))), "%s: stazione sconosciuta" % id)
+		if it.get("kind") == "bastone":
+			_err(SpellsData.SPELLS.has(String(it.get("spell", ""))) and int(it.get("linfa", 0)) > 0, "%s: bastone senza incantesimo o costo" % id)
+		if it.get("kind") == "dono":
+			_err(it.has("gift") and int(it.get("gift_max", 0)) > 0, "%s: dono senza effetto" % id)
 		if it.get("kind") in ["piccone", "ascia"]:
 			_err(int(it.get("power", 0)) > 0, "%s: attrezzo senza forza" % id)
 	# 2. ricette

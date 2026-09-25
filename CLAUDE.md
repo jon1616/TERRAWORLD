@@ -53,6 +53,9 @@ Godot_console.exe --path . -- --prove            # --carica riapre il mondo di p
                                                  # --senza-luce per vedere i colori senza il buio
 # viaggio vero attraverso il portale (voce 12): pianta un Seme, va nel mondo nuovo (vigore 2, portale di ritorno), torna
 Godot_console.exe --path . -- --prove --prova-portale
+# solo alcuni gruppi di prove (per provare in fretta una voce nuova): doni, antiche, pericoli, combattimento, tratti,
+# obiettivi, guardiani, rovine (elenco in `AutoTests._group`)
+Godot_console.exe --path . -- --prove --solo=doni,antiche
 # suoni generati: prove/suoni/*.wav da ascoltare, con durata, picco e volume medio (segnala muti e distorti)
 Godot_console.exe --headless --path . --script res://tools/suoni.gd
 # foto delle schermate del menu in prove/ (menu_titolo, menu_personaggi, menu_nuovo_mondo)
@@ -100,6 +103,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
     si indossa.
   - `FloraData` — alberi e germogli: robustezza (100; ogni colpo toglie la forza dell'ascia), legno e semi che
     lasciano, tempo di crescita dei germogli, spazio richiesto.
+  - `SpellsData` — gli incantesimi dei bastoni di Linfa (aspetto, velocità, ventaglio, quante creature attraversa,
+    quanto insegue, se passa la roccia, luce).
   - `RecipesData` (ricette, più quelle generate delle famiglie di metallo), `StationsData` (ceppo, baccello ardente,
     maglio), `CreaturesData` (creature: statistiche, comportamenti con i parametri `p`, bottino, strati, peso di comparsa), `LootData` (tabelle e `roll`).
 - `src/art/` — grafica generata dal codice:
@@ -111,6 +116,7 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
     continua da una cella all'altra. Minerali: solo noduli (trama bucata, alfa 0.9 = niente bordo di strato), si vede
     la roccia che li contiene. Atlante 4096×112.
   - `DecorPainter` — pareti (stesse trame da 64, più scure e fredde) e 14 decorazioni con la loro parte luminosa.
+  - `IconShapes` — le forme d'icona nuove (dalla voce 21), chiamate da `ItemIcons` quando la forma non è sua.
   - `ItemIcons` — icone 16×16 nello stile (manici di radice fasciati di foglia, lame a foglia, lingotti a seme, perle
     d'ambra): `make(forma, materiale)` o `of(id)`; il materiale sceglie la tavolozza.
   - `StationArt` — Ceppo del Giardiniere, Baccello ardente (bocca di brace luminosa), Maglio dei Seminatori (rune).
@@ -131,7 +137,7 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
     grandi vuoti del Fondo e il suo pavimento di vuotite), Radici (radici giganti del Sottobosco, anche attraverso le
     grotte), Ingressi, Minerali (per strato e roccia), Cristalli, Erba, Alberi, Decorazioni (per strato), Avvizzimento (due macchie malate in superficie), Cuore (la
     cupola del Cuore del mondo nel Fondo, con i 4 nodi avvizziti e la stazione `cuore_mondo`), Rovine (44 stanze dei
-    Seminatori con uno scrigno pieno secondo lo strato), Pericoli (rovi spinosi e rune trappola, vedi `Hazards`), Partenza (le torce
+    Seminatori con uno scrigno pieno secondo lo strato), Pericoli (rovi spinosi e rune trappola, vedi `Hazards`), Pericoli (rovi e rune trappola), Doni (Boccioli del cuore e Stille perenni), Partenza (le torce
     già accese della vecchia passata provvisoria sono state tolte il 25 set 2026: le torce le mette il giocatore). Un mondo 3000×1000 si genera in ~8,5 s (in un thread, con schermata d'attesa).
   - `WorldView` — disegno a blocchi da 32×32: solo i blocchi vicini alla visuale esistono come nodi (1 costruito per
     fotogramma, liberati oltre 2 blocchi di margine); ogni blocco ha pareti (z -10) e decorazioni (z 1) sulla griglia
@@ -183,6 +189,11 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   mondo nato da quel seme con un vigore in più (`destination(o)`, `world_meta["portali"]` per ogni portale,
   `place_return` nel mondo nuovo, `vigor_mult`: +35% alle creature per punto di vigore). Il vigore arriva al generatore
   in `GenContext.params` (`WorldGen.generate(…, params)`), vene più grandi in `PassMinerali`.
+- `src/game/spells.gd` (`Spells`) — i bastoni di Linfa: tenendo premuto tirano l'incantesimo verso il mouse spendendo
+  Linfa (`auto_aim`/`auto_fire` per le prove); `nearest` per i colpi che inseguono (`Projectiles.seek`). I colpi con
+  `pierce` attraversano più creature (`Combat.on_shot` tiene l'elenco di chi hanno già preso).
+- `src/game/gifts.gd` (`Gifts`) — i doni da assorbire (Cuore di bocciolo, Stilla perenne): Vita o Linfa massima per
+  sempre fino a `gift_max`; conteggi in `Character.stats["doni_<id>"]`, `Character.linfa_extra`.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

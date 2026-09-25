@@ -24,6 +24,12 @@ const RECIPES := [
 	{"out": "seme_muschio", "qty": 5, "in": {"seme_lanterna": 1, "gelatina": 2}, "station": "ceppo"},
 	{"out": "pozione_vigore", "qty": 1, "in": {"cenere_avvizzita": 3, "fungo_brace": 1, "gelatina": 1}, "station": "ceppo"},
 	{"out": "pozione_scorza", "qty": 1, "in": {"scaglia_ardesia": 3, "fungo_brace": 1}, "station": "ceppo"},
+	# voce 21: Linfa e bastoni
+	{"out": "pozione_linfa", "qty": 2, "in": {"fungo_luminoso": 1, "gelatina": 2}, "station": "ceppo"},
+	{"out": "bastone_brace", "qty": 1, "in": {"legno": 8, "polvere_brace": 10, "fungo_brace": 3}, "station": "ceppo"},
+	{"out": "bastone_spore", "qty": 1, "in": {"lingotto_legnoferro": 6, "sacca_spore": 8, "legno": 4}, "station": "maglio"},
+	{"out": "bastone_cristallo", "qty": 1, "in": {"lingotto_ambra": 6, "cristallo_linfa": 10}, "station": "maglio"},
+	{"out": "bastone_vuoto", "qty": 1, "in": {"lingotto_linfa": 6, "scheggia_vuoto": 12}, "station": "maglio"},
 	{"out": "dardo_vuoto", "qty": 20, "in": {"scheggia_vuoto": 1, "legno": 1}, "station": "ceppo"},
 	{"out": "lanterna_linfa", "qty": 1, "in": {"cristallo_linfa": 5, "lingotto_ambra": 2}, "station": "maglio"},
 	{"out": "rugiada_linfa", "qty": 1, "in": {"cristallo_linfa": 2, "fungo_luminoso": 1, "pozione_rugiada": 1}, "station": "ceppo"},

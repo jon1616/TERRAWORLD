@@ -39,6 +39,14 @@ var stun := 0.0
 var ancient: Ancient                   # creatura antica o ancestrale (voce 20b); null per le comuni
 var regen_acc := 0.0
 var poison_t := 0.0                    # avvelenata da un'arma con il tratto Veleno: perde Vita per qualche secondo
+# voce 22: i comportamenti nuovi
+var anchored := false                  # ferma dov'è, senza fisica (appesa al soffitto, travestita da roccia)
+var upside := false                    # disegnata a testa in giù (appesa al soffitto)
+var ghost := false                     # attraversa la terra (chi scava)
+var buried := false                    # non si vede (dentro la terra)
+var shell := 0.0                       # chiusa nel guscio: ferma, un quarto del danno
+var just_hit := false                  # appena colpita (lo legge il guscio)
+var extra := false                     # parte di uno sciame o di un branco: non conta nel tetto delle creature
 var _poison_acc := 0.0
 var behaviors: Array[Behavior] = []
 var _spr: Sprite2D
@@ -48,6 +56,7 @@ var _glows: Array = []
 var _anim := 0.0
 var _flash := 0.0
 var _bar: HpBar
+var _base_y := 0.0
 
 static var _art_cache := {}
 const POISON_DPS := 4.0
@@ -78,6 +87,11 @@ func setup(cid: String, w: World, tgt: Node2D, sd: int) -> void:
 	var h: int = (_frames[0] as Texture2D).get_height()
 	_spr.offset = Vector2(0, -h / 2.0)
 	_spr.position = Vector2(0, half.y)
+	if data.get("roll", false):
+		# chi rotola gira attorno al proprio centro, non ai piedi
+		_spr.offset = Vector2.ZERO
+		_spr.position = Vector2(0, half.y - h / 2.0)
+	_base_y = _spr.position.y
 	add_child(_spr)
 	if data.get("glow", false):
 		_glow = Sprite2D.new()
@@ -154,19 +168,31 @@ func _process(dt: float) -> void:
 	elif stun <= 0.0 or boss:
 		for b in behaviors:
 			b.tick(self, dt)
-	if fly:
-		vel = vel.move_toward(want_fly if stun <= 0.0 or boss else Vector2.ZERO, (900.0 if busy else 360.0) * dt)
+	if anchored:
+		vel = Vector2.ZERO
+	elif ghost:
+		# dentro la terra nuota verso dove vuole; fuori vola con il suo slancio e ricade
+		if world.solid(floori(position.x / 16.0), floori(position.y / 16.0)):
+			vel = vel.move_toward(want_fly if stun <= 0.0 else Vector2.ZERO, 500.0 * dt)
+		else:
+			vel.y = minf(vel.y + 900.0 * dt, 520.0)
+		position += vel * dt
+		position.y = minf(position.y, world.h * 16.0 - 24.0)
+		on_floor = false
 	else:
-		vel.y = minf(vel.y + 900.0 * dt, 520.0)
-		if on_floor and not busy:
-			vel.x = move_toward(vel.x, want_x * speed if stun <= 0.0 else 0.0, 700.0 * dt)
-	var was := on_floor
-	var r := TileBody.move(world, position, half, vel, dt, on_floor and not fly)
-	position = r["pos"]
-	vel = r["vel"]
-	on_floor = r["floor"]
-	if on_floor and not was:
-		crouch = -0.6                  # si schiaccia atterrando
+		if fly:
+			vel = vel.move_toward(want_fly if stun <= 0.0 or boss else Vector2.ZERO, (900.0 if busy else 360.0) * dt)
+		else:
+			vel.y = minf(vel.y + 900.0 * dt, 520.0)
+			if on_floor and not busy:
+				vel.x = move_toward(vel.x, want_x * speed if stun <= 0.0 else 0.0, 700.0 * dt)
+		var was := on_floor
+		var r := TileBody.move(world, position, half, vel, dt, on_floor and not fly)
+		position = r["pos"]
+		vel = r["vel"]
+		on_floor = r["floor"]
+		if on_floor and not was:
+			crouch = -0.6                  # si schiaccia atterrando
 	_animate(dt)
 	if ancient:
 		ancient.tick(self, dt)
@@ -186,10 +212,16 @@ func _process(dt: float) -> void:
 func _animate(dt: float) -> void:
 	_anim += dt
 	var f := 0
-	if _frames.size() > 1:
+	var moving := fly or absf(vel.x) > 5.0
+	if data.get("disguise", false):
+		# il primo fotogramma è il travestimento (una roccia); sveglia cammina con gli altri due
+		f = 0 if anchored else 1 + (int(_anim * 7.0) % 2 if moving else 0)
+	elif shell > 0.0 and _frames.size() > 2:
+		f = 2
+	elif _frames.size() > 1:
 		if mouth:
 			f = 1
-		elif fly or absf(vel.x) > 5.0:
+		elif moving:
 			f = int(_anim * (12.0 if fly else 7.0)) % 2
 	_spr.texture = _frames[f]
 	if _glow:
@@ -204,9 +236,18 @@ func _animate(dt: float) -> void:
 			sq = Vector2(1.0 + c * 0.3, 1.0 - c * 0.3)
 			if crouch < 0.0:
 				crouch = move_toward(crouch, 0.0, dt * 4.0)
-	_spr.scale = Vector2(sx * sq.x, sq.y)
+	_spr.scale = Vector2(sx * sq.x, sq.y * (-1.0 if upside and anchored else 1.0))
+	_spr.position.y = -half.y if upside and anchored else _base_y
+	if data.get("roll", false) and busy and absf(vel.x) > 20.0:
+		_spr.rotation += vel.x * dt / maxf(half.x, 1.0)
+	elif _spr.rotation != 0.0 and not busy:
+		_spr.rotation = 0.0
+	_spr.visible = not buried
 	if _glow:
 		_glow.scale = _spr.scale
+		_glow.position = _spr.position
+		_glow.rotation = _spr.rotation
+		_glow.visible = not buried
 	_spr.position.x = randf_range(-1.0, 1.0) if shake > 0.0 else 0.0
 	_flash = maxf(_flash - dt, 0.0)
 	_spr.modulate = Color(3, 3, 3) if _flash > 0.0 else (Color(1.35, 0.8, 0.8) if enraged and not calm else Color.WHITE)
@@ -215,6 +256,9 @@ func _animate(dt: float) -> void:
 ## Colpo subito: toglie Vita (meno metà della difesa), spinge via, fa lampeggiare. True se la creatura muore.
 func take_hit(dmg: int, from_x: float, force: float) -> bool:
 	var real := maxi(dmg - defense / 2, 1)
+	if shell > 0.0:
+		real = maxi(real / 4, 1)               # chiusa nel guscio
+	just_hit = true
 	hp -= real
 	_flash = 0.12
 	stun = 0.22

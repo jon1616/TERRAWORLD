@@ -20,6 +20,13 @@ func run(main: Node2D) -> void:
 	if "--prova-portale" in OS.get_cmdline_user_args():
 		await TestsPortalTrip.new(kit).run()
 		return
+	# `--solo=doni,antiche`: solo alcuni gruppi di prove (per provare in fretta una voce nuova)
+	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with("--solo="):
+			for g in arg.trim_prefix("--solo=").split(","):
+				await _group(kit, g)
+			get_tree().quit()
+			return
 	var w := TestsWorld.new(kit)
 	var p := TestsPlayer.new(kit)
 	var c := TestsCombat.new(kit)
@@ -54,6 +61,7 @@ func run(main: Node2D) -> void:
 	await bl.run()
 	await an.run()
 	await hz.run()
+	await TestsGifts.new(kit).run()
 	await ob.run()
 	await w.run_and_save()
 	# la Bisaccia aperta
@@ -86,3 +94,26 @@ func run(main: Node2D) -> void:
 	var silent := SoundsData.SOUNDS.keys().filter(func(k: String) -> bool: return not heard.has(k))
 	print("suoni suonati durante le prove: %d tipi su %d; mai sentiti: %s" % [heard.size(), SoundsData.SOUNDS.size(), silent])
 	get_tree().quit()
+
+
+## Un gruppo di prove per nome (per `--solo=`).
+func _group(kit: TestKit, g: String) -> void:
+	match g:
+		"doni":
+			await TestsGifts.new(kit).run()
+		"antiche":
+			await TestsAncient.new(kit).run()
+		"pericoli":
+			await TestsHazards.new(kit).run()
+		"combattimento":
+			await TestsCombat.new(kit).run()
+		"tratti":
+			await TestsTraits.new(kit).run()
+		"obiettivi":
+			await TestsObjectives.new(kit).run()
+		"guardiani":
+			await TestsGuardians.new(kit).run()
+		"rovine":
+			await TestsRuins.new(kit).run()
+		_:
+			print("ATTENZIONE: gruppo di prove sconosciuto «%s»" % g)

@@ -29,6 +29,18 @@ static func make(id: String) -> Behavior:
 			return BhScatto.new()
 		"evoca":
 			return BhEvoca.new()
+		"agguato":
+			return BhAgguato.new()
+		"scava":
+			return BhScava.new()
+		"teletrasporto":
+			return BhTeletrasporto.new()
+		"guscio":
+			return BhGuscio.new()
+		"bombarda":
+			return BhBombarda.new()
+		"mimo":
+			return BhMimo.new()
 		"fermo":
 			return Behavior.new()
 	push_error("comportamento sconosciuto: %s" % id)

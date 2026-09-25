@@ -36,6 +36,8 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 			return false
 		"seme_mondo":
 			return m.portal.plant(c, id)
+		"dono":
+			return Gifts.absorb(m, id)
 	return false
 
 

@@ -340,7 +340,8 @@ static func make(shape: String, material: String) -> Image:
 			Px.put(im, 4, 9, p[1])
 			Px.put(im, 11, 9, p[1])
 		_:
-			Px.disc(im, 8.0, 8.0, 5.0, Color("#ff2080"))
+			if not IconShapes.draw(shape, im, p):
+				Px.disc(im, 8.0, 8.0, 5.0, Color("#ff2080"))
 	Px.outline(im, OUT)
 	return im
 

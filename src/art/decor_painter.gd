@@ -230,6 +230,37 @@ static func decor(id: int) -> Dictionary:
 					Vector2i(10, 14), Vector2i(11, 13), Vector2i(7, 12), Vector2i(8, 12)]:
 				Px.put(im, q.x, q.y, tc)
 				Px.put(gm, q.x, q.y, tc * Color(1, 1, 1, 0.5))
+		21:
+			# Bocciolo del cuore: un bulbo corallo a forma di cuore chiuso tra due foglie, che pulsa di luce rosa
+			Px.line(im, Vector2(8, 15), Vector2(8, 10), 1, moss[2])
+			Px.curve(im, Vector2(8, 14), Vector2(5, 13), Vector2(3, 10), 1, moss[3])
+			Px.curve(im, Vector2(8, 13), Vector2(11, 12), Vector2(13, 9), 1, moss[3])
+			var co := Px.pal(["#5a1024", "#a02040", "#e04a60", "#ff9aa8", "#ffe0e6"])
+			for y in range(2, 11):
+				for x in S:
+					var u := (x + 0.5 - 8.0) / 4.2
+					var v := (y + 0.5 - 6.2) / 4.0
+					if u * u + pow(-v - sqrt(absf(u)) * 0.6, 2.0) <= 1.0:
+						var c := co[3] if u < -0.2 else co[2]
+						if u * u + v * v < 0.18:
+							c = co[4]
+						Px.put(im, x, y, c)
+						Px.put(gm, x, y, c * Color(1, 1, 1, 0.8))
+		22:
+			# Stilla perenne: una goccia d'oro e di Linfa appesa a un filo di radice, che non cade mai
+			outline = false
+			for y in 6:
+				Px.put(im, 8, y, root[1] if y % 2 == 0 else root[2])
+			var sp := Px.pal(["#12566a", "#5cc8cc", "#b8f4f0", "#fff2a8"])
+			for y in range(6, 15):
+				var t := (y - 6.0) / 8.0
+				var hw := 3.2 * sqrt(t) * (1.0 - maxf(t - 0.7, 0.0) * 3.0)
+				for x in S:
+					var dx := x + 0.5 - 8.0
+					if absf(dx) <= hw:
+						var c := sp[3] if dx < -0.8 else (sp[2] if dx < 0.8 else sp[1])
+						Px.put(im, x, y, c)
+						Px.put(gm, x, y, c)
 		18:
 			# runa dei Seminatori: un segno inciso che brilla di Linfa, sospeso davanti alla parete
 			outline = false

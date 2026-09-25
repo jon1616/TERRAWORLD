@@ -36,6 +36,7 @@ var objectives: Objectives
 var sfx: Sfx
 var blight: Blight
 var hazards: Hazards
+var spells: Spells
 var _spores: CPUParticles2D
 var built := false
 var gen_times: Array = []
@@ -144,6 +145,7 @@ func _build() -> void:
 	add_child(_spores)
 	vitals = Vitals.new()
 	vitals.hp_max = Vitals.HP_MAX + character.vita_extra
+	vitals.linfa_max = Vitals.LINFA_MAX + character.linfa_extra
 	vitals.hp = character.hp
 	vitals.linfa = character.linfa
 	vitals.scorza = character.bisaccia.scorza()
@@ -216,6 +218,7 @@ func _build() -> void:
 			objectives.bump("antiche" if c.ancient.rarity == "antica" else "ancestrali"))
 	blight = _mount(Blight.new())
 	hazards = _mount(Hazards.new())
+	spells = _mount(Spells.new())
 	hud.select(character.hotbar)
 	var start := world.spawn
 	var pos: Array = (world_meta.get("giocatori", {}) as Dictionary).get(character.id, [])

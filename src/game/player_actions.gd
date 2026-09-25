@@ -53,7 +53,7 @@ func setup(w: World, v: WorldView, l: LightMap, p: Player, h: Hud, d: Drops, fx:
 
 func _on_selected(item: Dictionary) -> void:
 	var use: String = item["use"]
-	player.tool_tex = item["tex"] if use in ["scava", "colpo", "abbatti", "tira"] else null
+	player.tool_tex = item["tex"] if use in ["scava", "colpo", "abbatti", "tira", "incanta"] else null
 
 
 func mouse_cell() -> Vector2i:
@@ -314,8 +314,21 @@ func place_block(c: Vector2i, id: String) -> bool:
 func drink(id: String) -> bool:
 	var it := ItemsData.get_item(id)
 	var heal := int(it.get("heal", 0))
-	if vitals == null or (heal <= 0 and not it.has("boon")):
+	if vitals == null or (heal <= 0 and not it.has("boon") and not it.has("linfa")):
 		return false
+	if it.has("linfa"):
+		# la Linfa non ha attesa tra una pozione e l'altra: serve nel mezzo di una lotta
+		if vitals.linfa >= vitals.linfa_max:
+			hud.toast("La Linfa è già piena")
+			return false
+		if bisaccia.id_at(hud.sel) != id:
+			return false
+		bisaccia.take_one(hud.sel)
+		if sfx:
+			sfx.play("pozione")
+		vitals.linfa = mini(vitals.linfa + int(it["linfa"]), vitals.linfa_max)
+		vitals.changed.emit()
+		return true
 	if it.has("boon"):
 		var slot0 := hud.sel
 		if bisaccia.id_at(slot0) != id:

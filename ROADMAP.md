@@ -326,10 +326,16 @@ avvincente con ricompense adeguate; molti più oggetti ed equipaggiamento, **set
 con bottino proprio** (non solo di più), molti più **tipi di mostri**, interfaccia chiara e pulita, più meccaniche,
 **cose da trovare**, **obiettivi e boss intermedi**, altri **banchi da lavoro** e **minerali**. Carta bianca.
 
-## 21. [ ] Doni da trovare e armi di Linfa (M)
-Boccioli del cuore nelle grotte (+10 Vita massima per sempre), Stille perenni nelle Profondità (+Linfa massima); la
-Linfa finalmente serve: **bastoni** che la consumano (brace, spore, cristallo, Vuoto) con colpi propri (perforanti, a
-ventaglio, che inseguono). Pozione di Linfa. Foglie della Vita su più righe.
+## 21. [x] Doni da trovare e armi di Linfa (M) — fatto il 25 set 2026
+Passata **Doni**: 60 **Boccioli del cuore** sui pavimenti delle grotte dal Sottobosco in giù (lasciano il **Cuore di
+bocciolo**: +10 Vita massima per sempre, fino a 15) e 36 **Stille perenni** appese ai soffitti dalle Profondità della
+Linfa in giù (+4 Linfa massima, fino a 10), lontani tra loro e più fitti scendendo; brillano nel buio. La Linfa ora
+serve: quattro **bastoni** (`SpellsData`, modulo `Spells`) che tenendo premuto tirano incantesimi verso il mouse
+spendendo Linfa: **brace** (faville che fanno luce), **spore** (ventaglio di tre ad arco), **cristallo** (scheggia che
+attraversa quattro creature), **Vuoto** (sfera che attraversa la roccia e insegue la creatura più vicina). **Pozione di
+Linfa** (senza attesa). Vita e Linfa: foglie in righe da 10 (oltre le 20 ognuna vale di più), numeri «attuale/massimo».
+Prove con `--solo=doni` (nuovo filtro delle prove): doni nel mondo, assorbire e tetto, pozione, scheggia su 3 creature
+in fila, sfera che insegue alle spalle (foto 43_bastoni, 44_bocciolo).
 
 ## 22. [ ] Il bestiario si allarga (L)
 Molte creature nuove, almeno due o tre per strato, con comportamenti nuovi (agguato dal soffitto, sciami, scavatori,

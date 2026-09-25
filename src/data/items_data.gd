@@ -7,7 +7,8 @@ extends RefCounted
 ## Campi di un oggetto:
 ##   name   nome visibile
 ##   kind   materiale · blocco · piccone · ascia · spada · arco · munizione · torcia · stazione · piattaforma ·
-##          elmo · corazza · gambali · accessorio · essenza · consumabile · seme · lanterna · cura · seme_mondo
+##          elmo · corazza · gambali · accessorio · essenza · consumabile · seme · lanterna · cura · seme_mondo ·
+##          bastone (tira incantesimi con la Linfa) · dono (si assorbe: Vita o Linfa massima per sempre)
 ##   acc    effetti di un accessorio (vedi `GearEffects`): run (corsa ×), jump (salto ×), glide (planare tenendo
 ##          Spazio), fall_safe (niente ferite da caduta), halo (alone ×), regen (ricrescita della Vita ×)
 ##   icon   [forma, materiale] per `ItemIcons.make`
@@ -16,6 +17,9 @@ extends RefCounted
 ##   power  forza del piccone o dell'ascia (vedi `TileDefs.POWER`)
 ##   damage, speed (colpi al secondo), knockback, defense, heal
 ##   boon   effetto a tempo di una pozione (vedi `Boons`): [nome, secondi]
+##   spell  per i bastoni: l'incantesimo (di `SpellsData`); linfa = quanta Linfa costa un colpo
+##   gift   per i doni: [che cosa, quanto] ("vita" o "linfa"); gift_max = quanti se ne possono assorbire in tutto
+##   linfa  per le pozioni: Linfa che ridanno
 ##   graft  per le essenze: il tratto (di `TraitsData`) che danno innestate al Maglio
 ##   place  tessera (id di `TileDefs`) o stazione (id di `StationsData`) che l'oggetto piazza
 ##   desc   descrizione breve
@@ -100,6 +104,21 @@ const ITEMS := {
 	"essenza_luce": {"name": "Essenza di luce", "kind": "essenza", "icon": ["essenza", "ambra"], "stack": 99, "graft": "lucciola_viva", "desc": "Lasciata da una creatura antica. Al Maglio dei Seminatori si innesta su un'arma o un'armatura."},
 	"essenza_scoppio": {"name": "Essenza di scoppio", "kind": "essenza", "icon": ["essenza", "brace"], "stack": 99, "graft": "scoppio", "desc": "Lasciata da una creatura antica. Al Maglio dei Seminatori si innesta su un'arma o un'armatura."},
 	"essenza_ombra": {"name": "Essenza d'ombra", "kind": "essenza", "icon": ["essenza", "vuotite"], "stack": 99, "graft": "ombra", "desc": "Lasciata da una creatura antica. Al Maglio dei Seminatori si innesta su un'arma o un'armatura."},
+	# doni da trovare (voce 21): si assorbono con il clic, per sempre
+	"cuore_bocciolo": {"name": "Cuore di bocciolo", "kind": "dono", "icon": ["cuore", "linfa"], "stack": 20,
+		"gift": ["vita", 10], "gift_max": 15, "desc": "Il cuore di un bocciolo delle grotte, che batte ancora. Assorbilo: una foglia di Vita in più, per sempre (fino a 15)."},
+	"stilla_perenne": {"name": "Stilla perenne", "kind": "dono", "icon": ["goccia", "cristallo"], "stack": 20,
+		"gift": ["linfa", 4], "gift_max": 10, "desc": "Una goccia che pendeva dai soffitti profondi senza mai cadere. Assorbila: +4 Linfa massima, per sempre (fino a 10)."},
+	"pozione_linfa": {"name": "Pozione di Linfa", "kind": "consumabile", "icon": ["pozione", "cristallo"], "linfa": 30, "stack": 30, "desc": "Ridà 30 Linfa, subito."},
+	# bastoni di Linfa (voce 21): tenendo premuto tirano incantesimi verso il mouse, consumando Linfa
+	"bastone_brace": {"name": "Bastone di brace", "kind": "bastone", "icon": ["bastone", "brace"], "tier": 1, "damage": 11, "speed": 2.6, "knockback": 1.0,
+		"spell": "brace", "linfa": 3, "desc": "Tira faville di brace che fanno luce mentre volano."},
+	"bastone_spore": {"name": "Bastone di spore", "kind": "bastone", "icon": ["bastone", "muschio"], "tier": 2, "damage": 10, "speed": 2.0, "knockback": 1.5,
+		"spell": "spore", "linfa": 5, "desc": "Un ventaglio di tre spore buone che ricadono ad arco."},
+	"bastone_cristallo": {"name": "Bastone di cristallo", "kind": "bastone", "icon": ["bastone", "cristallo"], "tier": 3, "damage": 24, "speed": 2.2, "knockback": 1.2,
+		"spell": "cristallo", "linfa": 6, "desc": "Una scheggia di cristallo che attraversa fino a quattro creature."},
+	"bastone_vuoto": {"name": "Bastone del Vuoto", "kind": "bastone", "icon": ["bastone", "vuotite"], "tier": 4, "damage": 34, "speed": 1.8, "knockback": 2.0,
+		"spell": "vuoto", "linfa": 8, "desc": "Una sfera di Vuoto che attraversa la roccia e insegue la creatura più vicina."},
 	"seme_mondo": {"name": "Seme di mondo", "kind": "seme_mondo", "icon": ["seme", "cristallo"], "stack": 9, "desc": "Il Cuore del mondo ti ha donato un seme. Piantalo sul terreno: crescerà un portale verso un mondo nuovo."},
 }
 
@@ -207,4 +226,8 @@ static func use_of(id: String) -> String:
 			return "portale"
 		"purifica":
 			return "purifica"
+		"bastone":
+			return "incanta"
+		"dono":
+			return "dono"
 	return ""

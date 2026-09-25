@@ -6,7 +6,7 @@ extends RefCounted
 ## suggerimento.
 
 const STATS := [["damage", "Danno"], ["speed", "Colpi al secondo"], ["defense", "Scorza"], ["power", "Forza"],
-	["heal", "Cura"]]
+	["heal", "Cura"], ["linfa", "Linfa"]]
 
 
 ## Testo con i colori (BBCode) per un RichTextLabel.

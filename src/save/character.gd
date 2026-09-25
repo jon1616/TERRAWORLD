@@ -15,7 +15,8 @@ var last_world := ""
 var bisaccia: Bisaccia
 var hp := Vitals.HP_MAX
 var linfa := Vitals.LINFA_MAX
-var vita_extra := 0                    # Vita massima in più, per sempre (doni dei Guardiani curati)
+var vita_extra := 0                    # Vita massima in più, per sempre (Guardiani curati, Cuori di bocciolo)
+var linfa_extra := 0                   # Linfa massima in più, per sempre (Stille perenni)
 var stats := {}                        # conteggi per gli obiettivi (vedi `Objectives`): notti, scrigni, viaggi, strato_max, cuore
 var obiettivi: Array = []              # obiettivi raggiunti (id di `ObjectivesData`)
 var erbario := {}                      # scoperte (vedi `Erbario`): creature sconfitte, oggetti, pagine di storia
@@ -27,7 +28,7 @@ func to_dict() -> Dictionary:
 		"tempo_di_gioco": play_time, "barra": hotbar, "ultimo_mondo": last_world,
 		"bisaccia": bisaccia.to_array() if bisaccia else [], "equipaggiamento": bisaccia.equip if bisaccia else {},
 		"tratti_equip": bisaccia.equip_traits if bisaccia else {},
-		"vita": hp, "linfa": linfa, "vita_extra": vita_extra, "guardiani_curati": guardiani_curati,
+		"vita": hp, "linfa": linfa, "vita_extra": vita_extra, "linfa_extra": linfa_extra, "guardiani_curati": guardiani_curati,
 		"erbario": erbario, "stats": stats, "obiettivi": obiettivi}
 
 
@@ -51,6 +52,7 @@ static func from_dict(cid: String, d: Dictionary) -> Character:
 		if c.bisaccia.equip.has(k) and TraitsData.TRAITS.has(String(et[k])):
 			c.bisaccia.equip_traits[k] = String(et[k])
 	c.vita_extra = int(d.get("vita_extra", 0))
+	c.linfa_extra = int(d.get("linfa_extra", 0))
 	c.guardiani_curati = d.get("guardiani_curati", [])
 	# il JSON rilegge i numeri come decimali: nell'Erbario sono conteggi interi
 	var eb: Dictionary = d.get("erbario", {})
@@ -65,7 +67,7 @@ static func from_dict(cid: String, d: Dictionary) -> Character:
 	c.stats = st
 	c.obiettivi = d.get("obiettivi", [])
 	c.hp = clampi(int(d.get("vita", Vitals.HP_MAX)), 1, Vitals.HP_MAX + c.vita_extra)
-	c.linfa = clampi(int(d.get("linfa", Vitals.LINFA_MAX)), 0, Vitals.LINFA_MAX)
+	c.linfa = clampi(int(d.get("linfa", Vitals.LINFA_MAX)), 0, Vitals.LINFA_MAX + c.linfa_extra)
 	return c
 
 

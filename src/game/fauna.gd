@@ -103,7 +103,8 @@ func _process(dt: float) -> void:
 			kill(c)                            # avvelenata a morte (tratto Veleno)
 			continue
 		for f in c.fire:
-			shots.fire(f["from"], f["vel"], f["grav"], f["damage"], false)
+			shots.fire(f["from"], f["vel"], f["grav"], f["damage"], false, 1.0,
+				{"look": f.get("look", "spora"), "slow": f.get("slow", 0.0)})
 			if sfx:
 				sfx.play("spora", f["from"])
 		c.fire.clear()
@@ -146,7 +147,7 @@ func _process(dt: float) -> void:
 func _alive() -> int:
 	var n := 0
 	for c in list:
-		if not c.boss and c.master == null:
+		if not c.boss and c.master == null and not c.extra:
 			n += 1
 	return n
 
@@ -181,10 +182,26 @@ func try_spawn() -> Creature:
 			var rarity := AncientData.roll_rarity(DangerData.at(world, Vector2i(c.x, y), night, vigor), _rng)
 			if rarity != "":
 				make_ancient(cr, rarity)
+			_group(cr, id, mult)
 			return cr
 		if fly:
 			break
 	return null
+
+
+## Gli sciami (campo `group` in `CreaturesData`): con la prima nascono le compagne, che non contano nel tetto.
+func _group(first: Creature, id: String, mult: float) -> void:
+	var g: Array = CreaturesData.CREATURES[id].get("group", [])
+	if g.is_empty():
+		return
+	for k in _rng.randi_range(int(g[0]), int(g[1])) - 1:
+		var o := first.position + Vector2(_rng.randf_range(-24, 24), _rng.randf_range(-16, 0))
+		var q := Vector2i(floori(o.x / S), floori(o.y / S))
+		if world.solid(q.x, q.y):
+			continue
+		var mb := add(id, o)
+		mb.strengthen(mult, mult * DangerData.DAMAGE)
+		mb.extra = true
 
 
 ## Rende rara una creatura (e la annuncia se ancestrale e vicina).

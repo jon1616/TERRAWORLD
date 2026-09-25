@@ -82,6 +82,13 @@ const SOUNDS := {
 	"portale": {"gain": -8.0, "var": 0.0, "layers": [
 		{"wave": "sine", "f0": 180, "f1": 720, "dur": 1.2, "att": 0.2, "dec": 2.5, "vol": 0.6, "vib": [7.0, 0.04]},
 		{"wave": "noise", "f0": 600, "f1": 3000, "dur": 1.0, "att": 0.3, "dec": 3.0, "vol": 0.4}]},
+	"incanto": {"gain": -12.0, "var": 0.1, "layers": [
+		{"wave": "sine", "f0": 520, "f1": 1040, "dur": 0.14, "att": 0.005, "dec": 18.0, "vol": 0.5, "vib": [18.0, 0.04]},
+		{"wave": "noise", "f0": 5000, "f1": 3000, "dur": 0.12, "att": 0.01, "dec": 20.0, "vol": 0.3}]},
+	"dono": {"gain": -8.0, "var": 0.0, "layers": [
+		{"wave": "sine", "f0": 392, "f1": 392, "dur": 0.35, "att": 0.01, "dec": 6.0, "vol": 0.5},
+		{"wave": "sine", "f0": 523, "f1": 523, "dur": 0.35, "att": 0.01, "dec": 6.0, "vol": 0.5, "delay": 0.12},
+		{"wave": "sine", "f0": 784, "f1": 784, "dur": 0.6, "att": 0.01, "dec": 4.0, "vol": 0.5, "delay": 0.24, "vib": [5.0, 0.01]}]},
 	"presenza": {"gain": -8.0, "var": 0.0, "layers": [
 		{"wave": "sine", "f0": 110, "f1": 82, "dur": 1.6, "att": 0.4, "dec": 1.6, "vol": 0.7, "vib": [3.0, 0.03]},
 		{"wave": "sine", "f0": 165, "f1": 123, "dur": 1.6, "att": 0.5, "dec": 1.8, "vol": 0.4},

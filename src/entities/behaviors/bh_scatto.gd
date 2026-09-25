@@ -26,10 +26,15 @@ func tick(c: Creature, dt: float) -> void:
 				phase = 2
 				timer = float(c.p.get("dash_time", 0.5))
 				dir = (c.target.position - c.position).normalized()
+				if not c.fly:
+					dir = Vector2(1.0 if dir.x >= 0.0 else -1.0, 0.0)   # chi cammina scatta rasoterra
 				c.facing = 1 if dir.x >= 0.0 else -1
 		2:
 			c.shake = 0.0
-			c.vel = dir * float(c.p.get("dash_speed", 280.0))
+			if c.fly:
+				c.vel = dir * float(c.p.get("dash_speed", 280.0))
+			else:
+				c.vel.x = dir.x * float(c.p.get("dash_speed", 280.0))
 			c.want_fly = c.vel
 			timer -= dt
 			if timer <= 0.0:

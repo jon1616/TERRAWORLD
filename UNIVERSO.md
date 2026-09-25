@@ -128,6 +128,10 @@ che viene dal Giardino dei Semi.
   Corazzata, Rapida, Gigante, Velenosa, Spinosa, Rigenerante, Evocatrice, Luminosa, Esplosiva, Evanescente). Lasciano
   **Essenze** che al Maglio dei Seminatori si **innestano** sull'equipaggiamento.
 - Il **Fagotto del Germogliato**: dove si appassisce resta la Bisaccia, avvolta nelle foglie.
+- Doni da trovare: il **Bocciolo del cuore** (nelle grotte; il suo **Cuore di bocciolo** fa crescere una foglia di Vita
+  in più) e la **Stilla perenne** (una goccia che pende dai soffitti profondi senza mai cadere: più Linfa).
+- I **bastoni di Linfa** (di brace, di spore, di cristallo, del Vuoto): la Linfa del Germogliato diventa qualcosa che
+  vola. La **Pozione di Linfa** la ridà.
 - Strati di profondità: **Superficie**, **Sottobosco di radici**, **Caverne d'ardesia**, **Profondità della Linfa**,
   **il Fondo** (dove il mondo confina con il Vuoto).
 

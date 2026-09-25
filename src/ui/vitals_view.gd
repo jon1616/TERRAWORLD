@@ -1,7 +1,8 @@
 class_name VitalsView
 extends Control
-## Vita e Linfa in alto a destra: 10 foglie (10 punti di Vita l'una) che appassiscono quando si è feriti, e 10 gocce
-## turchesi di Linfa (2 punti l'una). Accanto il numero, piccolo.
+## Vita e Linfa in alto a destra: foglie (10 punti di Vita l'una, in righe da 10; oltre le 20 foglie ognuna vale di
+## più) che appassiscono quando si è feriti, e 10 gocce turchesi di Linfa (ognuna un decimo della Linfa massima).
+## Accanto il numero, piccolo.
 
 const LEAF := 20                       # lato di una foglia sullo schermo (disegnata a 10 px e ingrandita ×2)
 const GAP := 3
@@ -22,12 +23,12 @@ func setup(v: Vitals) -> void:
 	_leaf_dry = _tex(_leaf(Px.pal(["#1c1410", "#3a2a1c", "#4e3a26", "#6a5236"]), 1.0))
 	_drop_full = _tex(_drop(Px.pal(["#0a3a4a", "#1f8a9a", "#5cc8cc", "#dcffff"])))
 	_drop_empty = _tex(_drop(Px.pal(["#0a1a20", "#12303a", "#1a3c46", "#24505a"])))
-	var w := 12 * (LEAF + GAP)            # spazio anche per le foglie in più dei doni
+	var w := 10 * (LEAF + GAP)
 	position = Vector2(1600 - w - 20, 14)
-	size = Vector2(w, 2 * LEAF + 12)
+	size = Vector2(w, 3 * LEAF + 16)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_label = Label.new()
-	_label.position = Vector2(w - 10 * (LEAF + GAP) - 120, 0)
+	_label.position = Vector2(-124, 0)
 	_label.size = Vector2(112, 50)
 	_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_label.add_theme_font_size_override("font_size", 14)
@@ -82,15 +83,21 @@ static func _drop(p: Array[Color]) -> Image:
 func _draw() -> void:
 	if vitals == null:
 		return
-	# le foglie si allineano a destra: con i doni ne compaiono di nuove a sinistra
-	var leaves := ceili(vitals.hp_max / 10.0)
-	var x0 := size.x - leaves * (LEAF + GAP)
+	# le foglie in righe da 10 allineate a destra; oltre le 20 foglie ognuna vale di più (restano due righe)
+	var per := maxf(10.0, vitals.hp_max / 20.0)
+	var leaves := ceili(vitals.hp_max / per)
+	var rows := ceili(leaves / 10.0)
 	for i in leaves:
-		var leaf_hp := vitals.hp - i * 10
-		var t := _leaf_full if leaf_hp >= 10 else (_leaf_half if leaf_hp >= 5 else _leaf_dry)
-		draw_texture_rect(t, Rect2(Vector2(x0 + i * (LEAF + GAP), 0), Vector2(LEAF, LEAF)), false)
+		var leaf_hp := vitals.hp - i * per
+		var t := _leaf_full if leaf_hp >= per else (_leaf_half if leaf_hp >= per * 0.5 else _leaf_dry)
+		var row := i / 10
+		var in_row := mini(leaves - row * 10, 10)
+		var x := size.x - (in_row - i % 10) * (LEAF + GAP)
+		draw_texture_rect(t, Rect2(Vector2(x, row * (LEAF + 3)), Vector2(LEAF, LEAF)), false)
+	var dy := rows * (LEAF + 3) + 3
 	var d0 := size.x - 10 * (LEAF + GAP)
+	var per_drop := vitals.linfa_max / 10.0
 	for i in 10:
-		var d := _drop_full if vitals.linfa - i * 2 >= 1 else _drop_empty
-		draw_texture_rect(d, Rect2(Vector2(d0 + i * (LEAF + GAP) + 3, LEAF + 6), Vector2(LEAF - 6, LEAF - 6)), false)
-	_label.text = "Vita %d\nLinfa %d" % [vitals.hp, vitals.linfa]
+		var d := _drop_full if vitals.linfa - i * per_drop >= per_drop * 0.5 else _drop_empty
+		draw_texture_rect(d, Rect2(Vector2(d0 + i * (LEAF + GAP) + 3, dy), Vector2(LEAF - 6, LEAF - 6)), false)
+	_label.text = "Vita %d/%d\nLinfa %d/%d" % [vitals.hp, vitals.hp_max, vitals.linfa, vitals.linfa_max]

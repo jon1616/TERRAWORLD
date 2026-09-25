@@ -40,12 +40,21 @@ func setup(main: Node2D) -> void:
 func on_shot(s: Dictionary) -> bool:
 	var pos: Vector2 = (s["node"] as Node2D).position
 	if s["player"]:
-		for c in fauna.list:
-			if c.rect().grow(2.0).has_point(pos):
+		var hits: Dictionary = s["hits"]
+		for c in fauna.list.duplicate():
+			if not hits.has(c) and c.rect().grow(2.0).has_point(pos):
+				hits[c] = true
 				_strike(c, int(s["damage"]), pos.x - signf(s["vel"].x) * 10.0, float(s["knock"]))
-				return true
+				if int(s["pierce"]) <= 0:
+					return true
+				s["pierce"] = int(s["pierce"]) - 1
+				return false
 		return false
 	if Rect2(player.position - Player.HALF, Player.HALF * 2.0).has_point(pos):
+		if float(s.get("slow", 0.0)) > 0.0 and not god:
+			if player.slow_t <= 0.0:
+				m.hud.toast("Invischiato nella ragnatela!")
+			player.slow_t = maxf(player.slow_t, float(s["slow"]))
 		hurt_player(int(s["damage"]), pos.x)
 		return true
 	return false
