@@ -21,6 +21,7 @@ var trees := {}                        # blocco Vector2i -> Array[Vector3i(x, y,
 var saplings := {}                     # cella del germoglio Vector2i -> secondi che mancano per diventare albero
 var stations := {}                     # angolo in alto a sinistra Vector2i -> id di `StationsData`
 var chests := {}                       # angolo di una stazione con `slots` (cesta, scrigno) -> Bisaccia del contenuto
+var biomes := PackedByteArray()        # bioma di superficie di ogni colonna (indice di `BiomesData.BIOMES`)
 var explored := PackedByteArray()      # mappa: 1 dove il Germogliato ha già visto (vedi `MapReveal`)
 var plats := PackedByteArray()         # passerelle: 1 dove c'è una passerella (cella d'aria, si attraversa da sotto)
 
@@ -38,6 +39,8 @@ func setup(width: int, height: int) -> void:
 	plats.fill(0)
 	explored.resize(w * h)
 	explored.fill(0)
+	biomes.resize(w)
+	biomes.fill(0)
 	surface.resize(w)
 	torches.clear()
 	_torch_buckets.clear()
@@ -191,7 +194,7 @@ func remove_tree(t: Vector3i) -> void:
 
 ## Un albero può nascere qui? Muschio sotto, spazio libero sopra, nessun altro albero troppo vicino.
 func tree_fits(base: Vector2i) -> bool:
-	if tile(base.x, base.y + 1) != TileDefs.GRASS:
+	if not TileDefs.is_grass(tile(base.x, base.y + 1)):
 		return false
 	for k in range(0, FloraData.ROOM):
 		if solid(base.x, base.y - k):

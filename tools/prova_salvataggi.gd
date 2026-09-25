@@ -58,6 +58,7 @@ func _same(a: World, b: World) -> void:
 	_check(a.surface == b.surface, "superficie identica")
 	_check(a.torches.size() == b.torches.size(), "torce (%d)" % a.torches.size())
 	_check(a.explored == b.explored, "mappa esplorata")
+	_check(a.biomes == b.biomes, "biomi")
 	_check(a.stations == b.stations, "stazioni (%d)" % a.stations.size())
 	_check(a.chests_key() == b.chests_key(), "scrigni e ceste (%d)" % a.chests.size())
 	_check(a.spawn == b.spawn and a.world_seed == b.world_seed, "partenza e seme")

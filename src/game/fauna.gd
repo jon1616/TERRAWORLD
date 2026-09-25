@@ -116,7 +116,7 @@ func try_spawn() -> Creature:
 	if not world.inside(c.x, c.y) or c.y < 2:
 		return null
 	var stratum := StrataData.at(world, c.x, c.y)
-	var choices := CreaturesData.of_stratum(stratum, night)
+	var choices := CreaturesData.of_stratum(stratum, night, String(BiomesData.BIOMES[BiomesData.at(world, c.x)]["id"]))
 	if choices.is_empty():
 		return null
 	var id := _pick(choices)

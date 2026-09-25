@@ -219,9 +219,16 @@ portale ricorda la sua destinazione (`world_meta["portali"]`), il menu mostra il
 vero con i cambi di scena (`-- --prove --prova-portale`): andata, controlli nel mondo nuovo, ritorno (foto
 30_mondo_oltre_il_portale).
 
-## 13. [ ] Biomi di superficie (L)
+## 13. [x] Biomi di superficie (L) — fatto il 25 set 2026
 Prime zone diverse in superficie (foresta-lanterna, paludi di spore, distese d'ambra), dati in una tabella, una passata
 del generatore, creature e decorazioni proprie.
+**Fatto il 25 set 2026**: `BiomesData` e la passata Biomi (subito dopo il Terreno): la superficie è divisa in tratti di
+220-440 colonne, mai due uguali di fila, foresta attorno alla partenza. **Foresta-lanterna** (com'era), **Paludi di
+spore** (terreno basso e piatto, muschio di spore viola, sacche di spore e funghi luminosi, sputaspore e grumi di
+spore in superficie) e **Distese d'ambra** (erba d'ambra dorata, colline alte e valli profonde, pochi alberi, sassi e
+campanule d'ambra, scarabei d'ardesia in superficie). Passaggio morbido del terreno tra i biomi, cielo tinto dal
+bioma, scritta con il nome entrando. Bioma di ogni colonna salvato con il mondo; germogli e alberi crescono su tutte le
+erbe. Prove: colonne per bioma, visita e creature di paludi e ambra (foto 31_paludi, 32_ambra).
 
 ## 14. [ ] Erbario (M)
 Il catalogo di ciò che si è scoperto (creature, oggetti, pagine di storia), con la percentuale di completamento.

@@ -13,9 +13,10 @@ func run(w: World, c: GenContext) -> void:
 	var last := -99
 	for x in range(3, w.w - 3):
 		var gy := w.surface[x]
-		if w.tile(x, gy) != TileDefs.GRASS or w.surface[x - 1] != gy or w.surface[x + 1] != gy:
+		if not TileDefs.is_grass(w.tile(x, gy)) or w.surface[x - 1] != gy or w.surface[x + 1] != gy:
 			continue
-		if x - last < 5 or absi(x - w.spawn.x) < 4 or c.rng.randf() > 0.4:
+		var chance: float = BiomesData.BIOMES[w.biomes[x]]["trees"]
+		if x - last < 5 or absi(x - w.spawn.x) < 4 or c.rng.randf() > chance:
 			continue
 		var clear := true
 		for k in range(1, 7):

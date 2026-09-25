@@ -116,6 +116,8 @@ che viene dal Giardino dei Semi.
 - Accessori: **Stivali di radice svelta**, **Foglia planante**, **Amuleto di corteccia**, **Anello di lucciola**,
   **Cuore di muschio**, **Pappo di seme**.
 - Di notte: l'**Avvizzito errante**, guscio di radici svuotato dall'Avvizzimento.
+- Biomi di superficie: **Foresta-lanterna**, **Paludi di spore** (**muschio di spore** viola), **Distese d'ambra**
+  (**erba d'ambra** dorata).
 - Strati di profondità: **Superficie**, **Sottobosco di radici**, **Caverne d'ardesia**, **Profondità della Linfa**,
   **il Fondo** (dove il mondo confina con il Vuoto).
 

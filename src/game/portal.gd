@@ -64,14 +64,26 @@ func _add_station(o: Vector2i) -> void:
 ## Nel mondo appena nato dal portale: un portale di ritorno accanto alla partenza, verso il mondo d'origine.
 func place_return(back_id: String) -> Vector2i:
 	var sp: Vector2i = m.world.spawn
-	for dx in [4, -6, 7, -9, 10, -12, 13, -15]:
-		var x: int = sp.x + dx
-		var o := Vector2i(x - 1, m.world.surface[x] - 4)
-		if m.world.station_fits("portale", o):
-			_add_station(o)
-			_portals()[_key(o)] = {"mondo": back_id, "seme": 0, "ritorno": true}
-			return o
-	return Vector2i(-1, -1)
+	var o := Vector2i(-1, -1)
+	for r in range(4, 80):
+		for side in [1, -1]:
+			var x: int = sp.x + side * r
+			var q := Vector2i(x - 1, m.world.surface[x] - 4)
+			if o.x < 0 and m.world.station_fits("portale", q):
+				o = q
+	if o.x < 0:
+		# nessun posto libero: si ricava uno spiazzo accanto alla partenza (aria sopra, terra sotto)
+		var x0 := sp.x + 4
+		var gy: int = m.world.surface[x0]
+		for dx in 3:
+			for dy in range(1, 5):
+				m.world.set_tile(x0 - 1 + dx, gy - dy, TileDefs.AIR)
+			m.world.set_tile(x0 - 1 + dx, gy, TileDefs.GRASS)
+			m.view.refresh_around(Vector2i(x0 - 1 + dx, gy - 2))
+		o = Vector2i(x0 - 1, gy - 4)
+	_add_station(o)
+	_portals()[_key(o)] = {"mondo": back_id, "seme": 0, "ritorno": true}
+	return o
 
 
 ## Dove porta il portale con l'angolo in o: [id, nome, seme, vigore]; l'id è vuoto se il mondo va ancora creato.

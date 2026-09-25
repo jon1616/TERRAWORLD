@@ -8,6 +8,7 @@ const FADE := 1.5                      # velocità della sfumatura del chiarore
 
 var m: Node2D
 var stratum := -1
+var biome := -1                        # bioma di superficie sotto il giocatore (solo in superficie)
 var banner: StratumBanner
 
 
@@ -39,6 +40,16 @@ func _process(dt: float) -> void:
 		stratum = k
 		var st: Dictionary = StrataData.STRATA[k]
 		banner.show_stratum(String(st["name"]), String(st["desc"]), Color(st["color"]))
+	# in superficie: la scritta del bioma quando se ne attraversa il confine (con un margine di qualche colonna)
+	if stratum == 0:
+		var x: int = m.player_cell().x
+		var b := BiomesData.at(m.world, x)
+		if b != biome and BiomesData.at(m.world, x - 6) == b and BiomesData.at(m.world, x + 6) == b:
+			var first := biome < 0
+			biome = b
+			if not first:
+				var bd: Dictionary = BiomesData.BIOMES[b]
+				banner.show_stratum(String(bd["name"]), String(bd["desc"]), Color(bd["color"]))
 	var goal: Color = StrataData.STRATA[stratum]["ambient"]
 	var a: Color = m.light.ambient
 	if absf(a.r - goal.r) + absf(a.g - goal.g) + absf(a.b - goal.b) > 0.003:

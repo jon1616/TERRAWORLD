@@ -23,6 +23,8 @@ var _moon: Sprite2D
 var _sky_rect: TextureRect
 var _stars: TextureRect
 var _time := 0.3
+var biome_tint := Color.WHITE          # colore del bioma di superficie sotto la visuale (sfumato)
+var _biome_goal := Color.WHITE
 var _horizon := 0.0
 
 
@@ -101,6 +103,7 @@ func _make_sky() -> void:
 ## `star_gain` compensa la luce che moltiplica anche lo sfondo (vedi `DayCycle.apply`).
 func set_time(t: float, tint: Color, night: float, star_gain := Color.WHITE) -> void:
 	_time = t
+	tint *= biome_tint
 	_sky_rect.modulate = tint
 	_stars.modulate = Color(minf(star_gain.r, 6.0), minf(star_gain.g, 6.0), minf(star_gain.b, 6.0), night)
 	_moon.modulate = Color(0.95, 1.05, 1.1) * Color(minf(star_gain.r, 2.5), minf(star_gain.g, 2.5), minf(star_gain.b, 2.5))
@@ -114,6 +117,8 @@ func set_time(t: float, tint: Color, night: float, star_gain := Color.WHITE) -> 
 func follow(cp: Vector2, view: Vector2, dt: float, snap := false) -> void:
 	var cx := clampi(int(cp.x / S), 0, world.w - 1)
 	var target := float(world.surface[cx] * S)
+	_biome_goal = BiomesData.BIOMES[world.biomes[cx]]["tint"]
+	biome_tint = _biome_goal if snap else biome_tint.lerp(_biome_goal, clampf(dt * 0.8, 0.0, 1.0))
 	_horizon = target if snap else lerpf(_horizon, target, clampf(dt * 1.5, 0.0, 1.0))
 	# sole e luna fanno un arco da sinistra a destra: il sole di giorno (0,2-0,8), la luna di notte
 	_sun.position = _arc(cp, view, (_time - 0.2) / 0.6)

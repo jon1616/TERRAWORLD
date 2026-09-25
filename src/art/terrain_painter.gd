@@ -146,7 +146,7 @@ static func material(id: String, p: Array[Color], sd: int) -> PackedColorArray:
 			_specks(col, rng, p[0], 40)
 		"ardesia":
 			_fibers(col, rng, [Px.sh(p[0], 0.8)], 3, 14)
-		"muschio":
+		"muschio", "muschio_spore", "erba_ambra":
 			_specks(col, rng, p[4], 90)
 		"radice":
 			_fibers(col, rng, [p[0]], 5, 20)

@@ -69,6 +69,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 - `src/core/` — attrezzi generici: `Px` (primitive di pixel art, contorno automatico), `Fx` (sfumature, polvere di scavo).
 - `src/data/` — **solo dati** (voce 3):
   - `LoreData` — le pagine di storia (Cuore trovato, Guardiano sconfitto o curato, portale), mostrate da `LorePanel`.
+  - `BiomesData` — i biomi di superficie (foresta-lanterna, paludi di spore, distese d'ambra): erba, alberi, colline,
+    altezza, tinta del cielo; `World.biomes` = un bioma per colonna (salvato). Creature con `biomes` compaiono in
+    superficie solo lì.
   - `StrataData` — i 5 strati di profondità (Superficie, Sottobosco di radici, Caverne d'ardesia, Profondità della
     Linfa, il Fondo): dove cominciano, roccia, sacche, parete, chiarore, pericolo delle creature, scritta d'ingresso.
     Il confine ondeggia (`offset(x, seme)`); `at(world, x, y)` / `index(x, profondità, seme)` = strato di una cella.
@@ -104,7 +107,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
     germogli con il tempo che manca, stazioni per angolo in alto a sinistra, passerelle in un array a parte `plats`).
     `tree_at(c)`/`tree_fits(c)` per gli alberi, `station_at(c)`/`station_fits(id, o)` per le stazioni, `plat(x, y)`.
   - `gen/` — il generatore: `WorldGen.passes()` elenca le passate in ordine, `GenContext` (seme, rumori per nome,
-    parametri, appunti tra passate), `GenPass` (base). Passate in `gen/passes/`: Terreno, Strati (roccia, sacche e
+    parametri, appunti tra passate), `GenPass` (base). Passate in `gen/passes/`: Terreno, Biomi (tratti di bioma e
+    forma del terreno di ciascuno), Strati (roccia, sacche e
     pareti di ogni strato di `StrataData`, confini sfrangiati), Grotte (profondità, regioni, grandi caverne), Vuoti (i
     grandi vuoti del Fondo e il suo pavimento di vuotite), Radici (radici giganti del Sottobosco, anche attraverso le
     grotte), Ingressi, Minerali (per strato e roccia), Cristalli, Erba, Alberi, Decorazioni (per strato), Cuore (la

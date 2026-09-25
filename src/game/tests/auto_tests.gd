@@ -25,6 +25,7 @@ func run(main: Node2D) -> void:
 	var dn := TestsDay.new(kit)
 	var rv := TestsRuins.new(kit)
 	var mp := TestsMap.new(kit)
+	var bi := TestsBiomes.new(kit)
 	await w.places()
 	await p.trees()
 	await p.crafting()
@@ -35,6 +36,7 @@ func run(main: Node2D) -> void:
 	await gd.run()
 	await dn.run()
 	await rv.run()
+	await bi.run()
 	await mp.run()
 	await w.run_and_save()
 	# la Bisaccia aperta

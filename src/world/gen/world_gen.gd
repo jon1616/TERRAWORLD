@@ -10,6 +10,7 @@ const HEIGHT := 1000
 static func passes() -> Array[GenPass]:
 	return [
 		PassTerreno.new(),
+		PassBiomi.new(),
 		PassStrati.new(),
 		PassGrotte.new(),
 		PassVuoti.new(),

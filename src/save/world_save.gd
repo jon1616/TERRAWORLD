@@ -37,7 +37,7 @@ static func save(w: World, id: String, meta: Dictionary) -> Error:
 	var data := {
 		"w": w.w, "h": w.h, "tiles": w.tiles, "walls": w.walls, "decor": w.decor, "surface": w.surface,
 		"torches": torches, "trees": trees, "saplings": saplings, "stations": stations, "plats": w.plats,
-		"chests": chests, "explored": w.explored,
+		"chests": chests, "explored": w.explored, "biomes": w.biomes,
 	}
 	var raw := var_to_bytes(data)
 	var out := MAGIC.to_ascii_buffer()
@@ -97,6 +97,8 @@ static func _decode(bytes: PackedByteArray) -> World:
 		var o := Vector2i(int(ch[0]), int(ch[1]))
 		if w.stations.has(o):
 			w.chests[o] = Bisaccia.from_array(ch[2], int(StationsData.STATIONS[w.stations[o]].get("slots", 20)))
+	if data.has("biomes") and (data["biomes"] as PackedByteArray).size() == w.w:
+		w.biomes = data["biomes"]
 	if data.has("explored") and (data["explored"] as PackedByteArray).size() == w.w * w.h:
 		w.explored = data["explored"]
 	if data.has("plats") and (data["plats"] as PackedByteArray).size() == w.w * w.h:

@@ -14,6 +14,7 @@ extends RefCounted
 ##              Vita e danno si moltiplicano per il `danger` dello strato in cui la creatura compare.
 ##   glow       brilla nel buio
 ##   night      compare solo di notte (vedi `DayCycle`)
+##   biomes     in superficie compare solo in questi biomi (`BiomesData`); sotto terra non conta
 ##   boss       un Guardiano: non compare da solo, non sparisce lontano, ha la barra in alto
 
 const CREATURES := {
@@ -26,7 +27,7 @@ const CREATURES := {
 		"loot": "grumo_resina", "art": ["grumo", 1], "strata": [1, 2], "weight": 8},
 	"grumo_spore": {"name": "Grumo di spore", "hp": 30, "damage": 11, "defense": 2, "knock": 0.2, "half": [6, 5],
 		"speed": 95, "behaviors": ["salta_verso"], "p": {"jump": 300.0, "sight": 24},
-		"loot": "grumo_spore", "art": ["grumo", 2], "strata": [2, 3], "weight": 6},
+		"loot": "grumo_spore", "art": ["grumo", 2], "strata": [0, 2, 3], "weight": 6, "biomes": ["palude"]},
 	# falena di brace: vola ondeggiando verso la luce (e verso di te), le ali lasciano scintille
 	"falena_brace": {"name": "Falena di brace", "hp": 12, "damage": 8, "defense": 0, "knock": 0.0, "half": [6, 5],
 		"speed": 70, "fly": true, "behaviors": ["vola"], "p": {"sight": 26, "wobble": 30.0},
@@ -39,12 +40,12 @@ const CREATURES := {
 	"scarabeo_ardesia": {"name": "Scarabeo d'ardesia", "hp": 45, "damage": 14, "defense": 6, "knock": 0.6,
 		"half": [9, 6], "speed": 40, "behaviors": ["cammina", "carica"],
 		"p": {"sight": 20, "charge": 230.0, "charge_range": 10, "charge_time": 0.8, "charge_cool": 3.0},
-		"loot": "scarabeo", "art": ["scarabeo", 0], "strata": [2, 3, 4], "weight": 4},
+		"loot": "scarabeo", "art": ["scarabeo", 0], "strata": [0, 2, 3, 4], "weight": 4, "biomes": ["ambra"]},
 	# sputaspore: una pianta ferma che sputa spore a chi si avvicina
 	"sputaspore": {"name": "Sputaspore", "hp": 28, "damage": 6, "defense": 2, "knock": 1.0, "half": [6, 7],
 		"speed": 0, "behaviors": ["fermo", "spara"],
 		"p": {"sight": 18, "rate": 2.4, "shot_speed": 190.0, "shot_grav": 180.0, "shot_damage": 12},
-		"loot": "sputaspore", "art": ["sputaspore", 0], "strata": [3, 4], "weight": 4, "glow": true},
+		"loot": "sputaspore", "art": ["sputaspore", 0], "strata": [0, 3, 4], "weight": 4, "glow": true, "biomes": ["palude"]},
 	# il primo Guardiano: un nodo di radici enorme attorno al Cuore del mondo, ammalato dall'Avvizzimento.
 	# Fase 1: ondeggia e scaglia ventagli di spore, ogni tanto scatta addosso. Fase 2 (metà Vita): più veloce, evoca grumi.
 	"guardiano_nodo": {"name": "Il Nodo Avvizzito", "hp": 900, "damage": 20, "defense": 8, "knock": 1.0, "half": [20, 20],
@@ -75,10 +76,12 @@ const DESPAWN := 90
 
 
 ## Le creature che possono comparire in uno strato, con il loro peso: [[id, peso], …]. Quelle della notte solo di notte.
-static func of_stratum(s: int, night := false) -> Array:
+static func of_stratum(s: int, night := false, biome := "") -> Array:
 	var out := []
 	for id in CREATURES:
 		var c: Dictionary = CREATURES[id]
+		if s == 0 and c.has("biomes") and not biome in c["biomes"]:
+			continue
 		if s in c["strata"] and (night or not c.get("night", false)):
 			out.append([id, int(c["weight"])])
 	return out

@@ -29,6 +29,8 @@ func setup(main: Node2D) -> void:
 	for t in range(1, TileDefs.TYPES + 1):
 		_tile_col[t] = TileDefs.palette_of(t)[2]
 	_tile_col[TileDefs.GRASS] = Color(TileDefs.P_GRASS[3])
+	_tile_col[TileDefs.GRASS_SPORE] = Color(TileDefs.P_GRASS_SPORE[3])
+	_tile_col[TileDefs.GRASS_AMBRA] = Color(TileDefs.P_GRASS_AMBRA[3])
 	_wall_col.resize(TileDefs.WALLS + 1)
 	for k in range(1, TileDefs.WALLS + 1):
 		var src: Array = DecorPainter.WALL_SRC[k]
