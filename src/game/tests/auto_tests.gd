@@ -55,6 +55,15 @@ func run(main: Node2D) -> void:
 	main.hud.panel.toggle()
 	await kit.frames(12)
 	await kit.save("07_bisaccia")
+	# la casella «Esamina»: si posa un oggetto e compare a cosa serve
+	var ex: ExaminePanel = main.hud.panel.examine
+	main.hud.panel.held = {"id": "gelatina", "n": 1}
+	ex._click(0, MOUSE_BUTTON_LEFT)
+	await kit.seconds(5.0)                # dopo il giro lungo le foto arrivano in ritardo
+	print("Esamina: gelatina posata %s, ricette che la usano %d" % ["sì" if not ex.held.is_empty() else "NO",
+		ItemInfo.uses_of("gelatina").size()])
+	await kit.save("40_esamina")
+
 	# un suggerimento: il mouse sopra una casella della barra rapida, poi si aspetta che compaia
 	var slot: Control = main.hud._slots[0]
 	var at := slot.get_global_rect().get_center()

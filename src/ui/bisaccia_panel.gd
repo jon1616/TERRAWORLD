@@ -10,6 +10,7 @@ const GAP := 6
 var bisaccia: Bisaccia
 var stations_near: Callable            # () -> stazioni a portata del giocatore, per la colonna «Creare»
 var crafting: CraftingPanel
+var examine: ExaminePanel               # la casella «Esamina» in alto a sinistra
 var _equip: Dictionary = {}            # posto -> SlotView
 var _scorza: Label
 var held := {}                        # pila «in mano» mentre la Bisaccia è aperta
@@ -95,6 +96,9 @@ func _ready() -> void:
 	crafting = CraftingPanel.new()
 	add_child(crafting)
 	crafting.setup(bisaccia, stations_near, Vector2(frame.position.x + frame.size.x + 16, frame.position.y), frame.size.y)
+	examine = ExaminePanel.new()
+	add_child(examine)
+	examine.setup(self, Vector2(20, frame.position.y - 16 - ExaminePanel.H))
 	_held_icon = SlotView.new()
 	_held_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_held_icon.modulate = Color(1, 1, 1, 0.9)
@@ -108,6 +112,8 @@ func toggle() -> void:
 	visible = not visible
 	if visible:
 		crafting.refresh()
+	if not visible:
+		examine.give_back()
 	if not visible and not held.is_empty():
 		# richiudendo, ciò che è in mano torna nella Bisaccia
 		bisaccia.add_stack(held)

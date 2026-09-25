@@ -155,7 +155,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 - `src/ui/` — `menu.tscn`/`menu.gd` (scena iniziale: titolo, personaggi, mondi, creazione), `Hud` (barra rapida = le
   prime 10 caselle della Bisaccia, in basso al centro; `current()` = oggetto in mano; segnale `selected`; `toast`; tasto
   E/Tab apre la Bisaccia), `BisacciaPanel` (le altre 30 caselle; clic prende/posa/scambia, clic destro metà pila),
-  `SlotView` (casella riusabile con icona e quantità), `VitalsView` (foglie e gocce in alto a destra), colonna
+  `SlotView` (casella riusabile con icona e quantità), `ExaminePanel` (casella «Esamina» in alto a sinistra della
+  Bisaccia aperta: ci si posa un oggetto e compare la sua scheda di `ItemInfo` — a cosa serve, in quali ricette, come
+  si ottiene; l'utente la vuole in uno spazio apposito, non nel suggerimento), `VitalsView` (foglie e gocce in alto a destra), colonna
   dell'equipaggiamento a sinistra della Bisaccia (elmo, corazza, gambali, Scorza totale), `CraftingPanel` (colonna «Creare» a destra della Bisaccia: ricette
   delle stazioni a portata, prima quelle possibili; passando sopra si vede cosa serve), `MiningCursor`.
 - `src/game/vitals.gd` (`Vitals`) — Vita (100, foglie da 10) e Linfa (20, gocce da 2), Scorza (metà del suo valore
