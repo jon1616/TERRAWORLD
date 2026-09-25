@@ -24,6 +24,8 @@ var _bow_t := 0.0
 var auto_aim := Vector2.INF            # per le prove: punto verso cui tirare senza mouse
 var auto_fire := false
 var god := false
+var dmg_mult := 1.0                    # accessori: danno × (vedi `GearEffects`)
+var spd_mult := 1.0                    # accessori: colpi più rapidi
 var thorns := 0                        # tratto Spine dell'equipaggiamento: danno a chi ti tocca                       # per le prove: il Germogliato non si ferisce
 
 
@@ -44,6 +46,8 @@ func on_shot(s: Dictionary) -> bool:
 		for c in fauna.list.duplicate():
 			if not hits.has(c) and c.rect().grow(2.0).has_point(pos):
 				hits[c] = true
+				if float(s["chill"]) > 0.0:
+					c.chill_t = maxf(c.chill_t, float(s["chill"]))   # onda di lagunite: rallenta
 				_strike(c, int(s["damage"]), pos.x - signf(s["vel"].x) * 10.0, float(s["knock"]))
 				if int(s["pierce"]) <= 0:
 					return true
@@ -72,7 +76,7 @@ func _process(dt: float) -> void:
 	var active: bool = m.actions.enabled and not m.hud.is_open()
 	# il ritmo del gesto: le armi secondo la loro velocità, gli attrezzi da scavo sempre uguali
 	var tr := String(item.get("tratto", ""))
-	var spd := float(it.get("speed", 0.0)) * TraitsData.effect(tr, "speed")
+	var spd := float(it.get("speed", 0.0)) * TraitsData.effect(tr, "speed") * spd_mult
 	player.swing_period = 1.0 / spd if use == "colpo" and spd > 0.0 else DIG_PERIOD
 	_melee(it, use, tr)
 	_bow(it, use, active, dt, tr)
@@ -126,7 +130,7 @@ func _bow(it: Dictionary, use: String, active: bool, dt: float, tr := "") -> voi
 		m.hud.toast("Niente dardi")
 		_bow_t = 1.0
 		return
-	_bow_t = 1.0 / (float(it.get("speed", 1.5)) * TraitsData.effect(tr, "speed"))
+	_bow_t = 1.0 / (float(it.get("speed", 1.5)) * TraitsData.effect(tr, "speed") * spd_mult)
 	bisaccia.remove(ammo, 1)
 	m.sfx.play("tira")
 	var dmg := roundi((int(it.get("damage", 0)) * TraitsData.effect(tr, "damage") + int(ItemsData.get_item(ammo).get("damage", 0))) * _boon())
@@ -134,19 +138,21 @@ func _bow(it: Dictionary, use: String, active: bool, dt: float, tr := "") -> voi
 	var flight := d.length() / DART_SPEED
 	var v := d.normalized() * DART_SPEED
 	v.y -= 0.5 * DART_GRAV * minf(flight, 0.8)
-	shots.fire(from + d.normalized() * 8.0, v, DART_GRAV, dmg, true,
-			float(it.get("knockback", 1.0)) * TraitsData.effect(tr, "knock") / 3.0)
+	var n := int(it.get("multishot", 1))       # l'Arco iridato tira più dardi a ventaglio con un dardo solo
+	for k in n:
+		shots.fire(from + d.normalized() * 8.0, v.rotated((k - (n - 1) / 2.0) * 0.12), DART_GRAV, dmg, true,
+				float(it.get("knockback", 1.0)) * TraitsData.effect(tr, "knock") / 3.0)
 
 
-## Danno ×1,2 con la Pozione di vigore attiva.
+## Danno ×1,2 con la Pozione di vigore attiva, e il danno in più degli accessori.
 func _boon() -> float:
-	return Boons.VIGORE if m.boons.active.has("vigore") else 1.0
+	return (Boons.VIGORE if m.boons.active.has("vigore") else 1.0) * dmg_mult
 
 
 func _strike(c: Creature, dmg: int, from_x: float, force: float) -> void:
 	m.sfx.play("colpito", c.position)
 	var tr := String(m.hud.current().get("tratto", ""))
-	if TraitsData.effect(tr, "poison") > 0.0:
+	if TraitsData.effect(tr, "poison") > 0.0 or ItemsData.get_item(String(m.hud.current()["id"])).get("poison", false):
 		c.poison_t = 4.0
 	# creatura Spinosa: colpirla da vicino ferisce anche il Germogliato
 	if c.ancient and c.ancient.has("spinosa") and player.position.distance_to(c.position) < 48.0:

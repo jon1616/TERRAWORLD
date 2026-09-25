@@ -25,6 +25,13 @@ const MATERIALS := {
 	"lucciola": ["#3a4a10", "#8aa020", "#d8ff70", "#f8ffd0"],
 	"seta": ["#6a6a5e", "#9a9a8a", "#cacabc", "#f4f4ea"],
 	"fungo": ["#6a2a3a", "#a0405a", "#d86a7a", "#ffb0b8"],
+	"iride": ["#5a3a8a", "#3aa0c8", "#f0c050", "#ffe0f0"],
+	"pallidite": ["#4e4e66", "#8a8aa6", "#c4c4dc", "#f4f4ff"],
+	"tizzonite": ["#4a1010", "#9a2a1a", "#e0582a", "#ffc070"],
+	"brillaluce": ["#2a3a08", "#6a8a10", "#b8e020", "#e8ff70", "#fbffd8"],
+	"sanguinella": ["#3a0810", "#7a1424", "#c8283c", "#ff6a78", "#ffd0d4"],
+	"lagunite": ["#081a3a", "#12408a", "#2a7ad8", "#78c0ff", "#d8f0ff"],
+	"nottilite": ["#1c0a30", "#40186a", "#7a38c0", "#b880ff", "#ecd8ff"],
 }
 const LEAF := ["#16574f", "#3aa08a", "#72d4b0"]
 const AMBER := ["#9a4a22", "#ffb040", "#ffe0a0"]

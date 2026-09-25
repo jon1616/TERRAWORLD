@@ -57,8 +57,10 @@ func _process(dt: float) -> void:
 	var l: Color = LightMap.PLAYER * halo_mult
 	if active.has("bagliore"):
 		l = LIGHT_BAGLIORE
-	if String(ItemsData.get_item(m.hud.current()["id"]).get("kind", "")) == "lanterna":
-		l = Color(maxf(l.r, LIGHT_LANTERNA.r), maxf(l.g, LIGHT_LANTERNA.g), maxf(l.b, LIGHT_LANTERNA.b))
+	var held := ItemsData.get_item(m.hud.current()["id"])
+	if String(held.get("kind", "")) == "lanterna":
+		var ll: Color = held.get("light", LIGHT_LANTERNA)
+		l = Color(maxf(l.r, ll.r), maxf(l.g, ll.g), maxf(l.b, ll.b))
 	if l != _last_light:
 		_last_light = l
 		m.light.player_light = l

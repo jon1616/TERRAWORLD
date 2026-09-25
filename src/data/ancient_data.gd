@@ -7,13 +7,22 @@ extends RefCounted
 ## Richiesta dell'utente (25 set 2026): le creature rare e forti come parte fondamentale del gioco.
 
 ## Rarità: probabilità = base + per_danger × pericolo; quanti tratti; moltiplicatori; colore dell'aura; bottino tirato
-## più volte.
+## più volte; trophy = probabilità del **trofeo** della specie (voce 23, `TrophyItemsData`).
+## Voce 23: il **capobranco** guida un branco della sua specie (`pack` compagne); l'**iridata** ha i colori che
+## cambiano, non attacca e fugge, e svanisce dopo `life` secondi: lascia la Polvere iridata.
 const RARITIES := {
 	"antica": {"label": "Creatura antica", "short": "Antica", "base": 0.02, "per_danger": 0.018, "traits": [1, 1], "hp": 3.0,
-		"damage": 1.4, "scale": 1.25, "aura": Color(1.6, 1.1, 0.4), "loot_rolls": 2},
+		"damage": 1.4, "scale": 1.25, "aura": Color(1.6, 1.1, 0.4), "loot_rolls": 2, "trophy": 0.35},
 	"ancestrale": {"label": "Creatura ancestrale", "short": "Ancestrale", "base": 0.0, "per_danger": 0.003, "traits": [2, 3], "hp": 7.0,
-		"damage": 1.8, "scale": 1.5, "aura": Color(1.3, 0.6, 2.0), "loot_rolls": 4},
+		"damage": 1.8, "scale": 1.5, "aura": Color(1.3, 0.6, 2.0), "loot_rolls": 4, "trophy": 1.0},
+	"capobranco": {"label": "Capobranco", "short": "Capobranco", "base": 0.01, "per_danger": 0.006, "traits": [0, 1], "hp": 2.5,
+		"damage": 1.3, "scale": 1.3, "aura": Color(0.45, 1.15, 0.5), "loot_rolls": 2, "trophy": 1.0, "pack": [2, 4]},
+	"iridata": {"label": "Creatura iridata", "short": "Iridata", "base": 0.003, "per_danger": 0.0012, "traits": [0, 0], "hp": 2.0,
+		"damage": 0.0, "scale": 1.1, "aura": Color(1.7, 1.7, 1.7), "loot_rolls": 3, "trophy": 1.0, "iride": true,
+		"life": 75.0, "dust": [2, 4]},
 }
+## L'ordine in cui si tirano (la più rara per prima).
+const ORDER := ["ancestrale", "iridata", "capobranco", "antica"]
 
 ## Tratti delle creature (aggettivi al femminile: si legge «Creatura antica · Furiosa, Corazzata»). Ognuno lascia la sua
 ## Essenza. Campi: name, desc, essence (oggetto), weight, e gli effetti letti da `Creature.make_ancient` e da `Combat`.
@@ -39,15 +48,18 @@ const TRAITS := {
 const ANNOUNCE := 60
 
 
-## Che rarità ha una creatura che nasce con questo pericolo ("" = comune).
-static func roll_rarity(danger: float, rng: RandomNumberGenerator) -> String:
+## Che rarità ha una creatura che nasce con questo pericolo ("" = comune). `grouped` = la specie nasce già in sciame
+## (niente capobranco).
+static func roll_rarity(danger: float, rng: RandomNumberGenerator, grouped := false) -> String:
 	var r := rng.randf()
-	var a: Dictionary = RARITIES["ancestrale"]
-	if r < float(a["base"]) + float(a["per_danger"]) * danger:
-		return "ancestrale"
-	var b: Dictionary = RARITIES["antica"]
-	if r < float(b["base"]) + float(b["per_danger"]) * danger:
-		return "antica"
+	var acc := 0.0
+	for k in ORDER:
+		var d: Dictionary = RARITIES[k]
+		if k == "capobranco" and grouped:
+			continue
+		acc += float(d["base"]) + float(d["per_danger"]) * danger
+		if r < acc:
+			return k
 	return ""
 
 

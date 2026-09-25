@@ -209,13 +209,18 @@ func _build() -> void:
 	objectives = _mount(Objectives.new())
 	hud.panel.crafting.grafted.connect(func(_id: String) -> void: objectives.bump("innesti"))
 	fauna.rare_spawned.connect(func(c: Creature) -> void:
-		hud.toast("Una presenza ancestrale si risveglia qui vicino: %s" % c.data["name"])
+		if c.ancient.rarity == "iridata":
+			hud.toast("Una creatura iridata qui vicino: %s. Prendila prima che svanisca!" % c.data["name"])
+		else:
+			hud.toast("Una presenza ancestrale si risveglia qui vicino: %s" % c.data["name"])
 		sfx.play("presenza"))
+	fauna.vanished.connect(func(c: Creature) -> void: hud.toast("%s iridata è svanita nel nulla" % c.data["name"]))
 	fauna.killed.connect(func(c: Creature) -> void:
 		if c.ancient:
 			var n: Dictionary = erbario.data["antiche"]
 			n[c.id] = int(n.get(c.id, 0)) + 1
-			objectives.bump("antiche" if c.ancient.rarity == "antica" else "ancestrali"))
+			objectives.bump({"antica": "antiche", "ancestrale": "ancestrali", "capobranco": "capibranco",
+				"iridata": "iridate"}[c.ancient.rarity]))
 	blight = _mount(Blight.new())
 	hazards = _mount(Hazards.new())
 	spells = _mount(Spells.new())

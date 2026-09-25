@@ -169,7 +169,7 @@ static func material(id: String, p: Array[Color], sd: int) -> PackedColorArray:
 		"vuotite":
 			_fibers(col, rng, [p[0]], 4, 16)
 			_specks(col, rng, Color("#d8b0ff"), 14)   # scintille, come stelle del Vuoto
-		"radicite", "legnoferro", "ambra":
+		"radicite", "legnoferro", "ambra", "pallidite", "tizzonite":
 			_nuggets(col, rng, p)
 		"cristallo":
 			_facets(col, rng, p)

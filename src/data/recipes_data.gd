@@ -17,6 +17,17 @@ const RECIPES := [
 	{"out": "lingotto_radicite", "qty": 1, "in": {"minerale_radicite": 3}, "station": "baccello_ardente"},
 	{"out": "lingotto_legnoferro", "qty": 1, "in": {"minerale_legnoferro": 3}, "station": "baccello_ardente"},
 	{"out": "lingotto_ambra", "qty": 1, "in": {"minerale_ambra": 4}, "station": "baccello_ardente"},
+	{"out": "lingotto_pallidite", "qty": 1, "in": {"minerale_pallidite": 3}, "station": "baccello_ardente"},
+	{"out": "lingotto_tizzonite", "qty": 1, "in": {"minerale_tizzonite": 4}, "station": "baccello_ardente"},
+	# voce 24: le gemme
+	{"out": "anello_brillaluce", "qty": 1, "in": {"brillaluce": 5, "lingotto_pallidite": 3}, "station": "maglio"},
+	{"out": "anello_sanguinella", "qty": 1, "in": {"sanguinella": 5, "lingotto_radicite": 3}, "station": "maglio"},
+	{"out": "anello_lagunite", "qty": 1, "in": {"lagunite": 5, "lingotto_ambra": 3}, "station": "maglio"},
+	{"out": "anello_nottilite", "qty": 1, "in": {"nottilite": 5, "lingotto_tizzonite": 3}, "station": "maglio"},
+	{"out": "bastone_sanguinella", "qty": 1, "in": {"sanguinella": 8, "legno": 8}, "station": "maglio"},
+	{"out": "bastone_lagunite", "qty": 1, "in": {"lagunite": 8, "lingotto_ambra": 4}, "station": "maglio"},
+	{"out": "lanterna_brillaluce", "qty": 1, "in": {"brillaluce": 6, "lingotto_pallidite": 4}, "station": "maglio"},
+	{"out": "lama_nottilite", "qty": 1, "in": {"nottilite": 10, "lingotto_tizzonite": 6}, "station": "maglio"},
 	{"out": "maglio", "qty": 1, "in": {"lingotto_legnoferro": 5}, "station": "ceppo"},
 	{"out": "pozione_rugiada", "qty": 1, "in": {"gelatina": 2, "fungo_brace": 1}, "station": "ceppo"},
 	# il primo anello (voce 8)
@@ -69,6 +80,7 @@ static func all() -> Array:
 	if not _all.is_empty():
 		return _all
 	var out := RECIPES.duplicate(true)
+	out.append_array(TrophyItemsData.RECIPES.duplicate(true))
 	for m in ItemsData.METALS:
 		for g in ItemsData.GEAR:
 			var gd: Dictionary = ItemsData.GEAR[g]

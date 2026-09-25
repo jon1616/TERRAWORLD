@@ -9,7 +9,7 @@ extends RefCounted
 ##   kind   materiale · blocco · piccone · ascia · spada · arco · munizione · torcia · stazione · piattaforma ·
 ##          elmo · corazza · gambali · accessorio · essenza · consumabile · seme · lanterna · cura · seme_mondo ·
 ##          bastone (tira incantesimi con la Linfa) · dono (si assorbe: Vita o Linfa massima per sempre) ·
-##          specchio (riporta al punto di partenza)
+##          specchio (riporta al punto di partenza) · trofeo (lo lasciano solo le creature rare, `TrophyItemsData`)
 ## Oggetti del bestiario della voce 22 in `BeastItemsData` (uniti qui in `all()`).
 ##   acc    effetti di un accessorio (vedi `GearEffects`): run (corsa ×), jump (salto ×), glide (planare tenendo
 ##          Spazio), fall_safe (niente ferite da caduta), halo (alone ×), regen (ricrescita della Vita ×),
@@ -57,6 +57,23 @@ const ITEMS := {
 	"lingotto_radicite": {"name": "Lingotto di radicite", "kind": "materiale", "icon": ["lingotto", "radicite"], "tier": 1},
 	"lingotto_legnoferro": {"name": "Lingotto di legnoferro", "kind": "materiale", "icon": ["lingotto", "legnoferro"], "tier": 2},
 	"lingotto_ambra": {"name": "Lingotto d'ambra", "kind": "materiale", "icon": ["lingotto", "ambra"], "tier": 3},
+	"minerale_pallidite": {"name": "Pallidite grezza", "kind": "materiale", "icon": ["minerale", "pallidite"], "desc": "Un metallo pallido come la luna, nelle radici del Sottobosco e nelle Caverne. Leggero: le armi di pallidite colpiscono in fretta."},
+	"lingotto_pallidite": {"name": "Lingotto di pallidite", "kind": "materiale", "icon": ["lingotto", "pallidite"], "tier": 2},
+	"minerale_tizzonite": {"name": "Tizzonite grezza", "kind": "materiale", "icon": ["minerale", "tizzonite"], "desc": "Brace diventata pietra nelle Profondità: ancora calda. Serve un piccone d'ambra."},
+	"lingotto_tizzonite": {"name": "Lingotto di tizzonite", "kind": "materiale", "icon": ["lingotto", "tizzonite"], "tier": 3},
+	# gemme a grappolo nelle grotte (voce 24)
+	"brillaluce": {"name": "Brillaluce", "kind": "materiale", "icon": ["gemma", "brillaluce"], "desc": "Gemma verde-oro delle Caverne d'ardesia: tiene la luce che la tocca."},
+	"sanguinella": {"name": "Sanguinella", "kind": "materiale", "icon": ["gemma", "sanguinella"], "desc": "Gemma rossa del Sottobosco, calda come un cuore che batte."},
+	"lagunite": {"name": "Lagunite", "kind": "materiale", "icon": ["gemma", "lagunite"], "desc": "Gemma azzurra delle Profondità della Linfa: fredda, e raffredda."},
+	"nottilite": {"name": "Nottilite", "kind": "materiale", "icon": ["gemma", "nottilite"], "desc": "Gemma viola del Fondo: dentro ha il buio del Vuoto."},
+	"anello_brillaluce": {"name": "Anello di brillaluce", "kind": "accessorio", "icon": ["anello", "brillaluce"], "acc": {"halo": 1.4, "linfa_regen": 1.2}, "desc": "Alone più ampio, Linfa un poco più svelta."},
+	"anello_sanguinella": {"name": "Anello di sanguinella", "kind": "accessorio", "icon": ["anello", "sanguinella"], "acc": {"damage": 1.08}, "desc": "+8% danno."},
+	"anello_lagunite": {"name": "Anello di lagunite", "kind": "accessorio", "icon": ["anello", "lagunite"], "acc": {"linfa_regen": 1.7}, "desc": "La Linfa ricresce il 70% più in fretta."},
+	"anello_nottilite": {"name": "Anello di nottilite", "kind": "accessorio", "icon": ["anello", "nottilite"], "acc": {"stealth": 0.75, "luck": 0.15}, "desc": "Visto più tardi, un po' più fortunato."},
+	"bastone_sanguinella": {"name": "Bastone di sanguinella", "kind": "bastone", "icon": ["bastone", "sanguinella"], "tier": 2, "damage": 17, "speed": 3.0, "knockback": 1.0, "spell": "brace", "linfa": 3, "desc": "Faville di brace, più forti e più svelte."},
+	"bastone_lagunite": {"name": "Bastone di lagunite", "kind": "bastone", "icon": ["bastone", "lagunite"], "tier": 3, "damage": 20, "speed": 2.4, "knockback": 0.8, "spell": "gelo", "linfa": 5, "desc": "Un'onda fredda che attraversa due creature e le rallenta per qualche secondo."},
+	"lanterna_brillaluce": {"name": "Lanterna di brillaluce", "kind": "lanterna", "icon": ["lanterna", "brillaluce"], "light": Color(1.9, 2.1, 0.8), "desc": "Tenuta in mano, fa una luce verde-oro più ampia di quella di Linfa."},
+	"lama_nottilite": {"name": "Lama di nottilite", "kind": "spada", "icon": ["lama", "nottilite"], "tier": 4, "damage": 25, "speed": 3.2, "knockback": 2.0, "desc": "Leggera come il buio: colpisce in fretta."},
 	"lingotto_linfa": {"name": "Lingotto di Linfa", "kind": "materiale", "icon": ["lingotto", "cristallo"], "tier": 4, "desc": "Cristallo di Linfa legato con ciò che resta del Guardiano: il metallo più vivo del mondo."},
 	# oggetti da piazzare
 	"torcia": {"name": "Torcia di resina", "kind": "torcia", "icon": ["torcia", "legno"], "stack": 999, "desc": "Luce calda per le grotte."},
@@ -133,6 +150,9 @@ const METALS := {
 	"ambra": {"label": "d'ambra", "tier": 3, "power": 55, "damage": 16, "speed": 2.4, "defense": [3, 4, 3]},
 	"linfa": {"label": "di Linfa", "tier": 4, "power": 65, "damage": 21, "speed": 2.6, "defense": [4, 6, 4], "icon": "cristallo"},
 	"vuoto": {"label": "di vuotite forgiata", "tier": 5, "power": 75, "damage": 27, "speed": 2.7, "defense": [5, 8, 5], "icon": "vuotite"},
+	# voce 24: metalli laterali, per chi vuole una strada diversa (più veloce, o più forte prima della Linfa)
+	"pallidite": {"label": "di pallidite", "tier": 2, "power": 42, "damage": 11, "speed": 2.7, "defense": [2, 2, 2]},
+	"tizzonite": {"label": "di tizzonite", "tier": 3, "power": 60, "damage": 18, "speed": 2.4, "defense": [3, 5, 3]},
 	"stellare": {"label": "stellare", "label_pl": "stellari", "tier": 6, "power": 85, "damage": 34, "speed": 2.8, "defense": [6, 10, 6], "icon": "ambra"},
 }
 
@@ -164,6 +184,7 @@ static func all() -> Dictionary:
 		return _all
 	var out := ITEMS.duplicate(true)
 	out.merge(BeastItemsData.ITEMS.duplicate(true))
+	out.merge(TrophyItemsData.ITEMS.duplicate(true))
 	for m in METALS:
 		var md: Dictionary = METALS[m]
 		for g in GEAR:

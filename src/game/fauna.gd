@@ -29,6 +29,7 @@ var _t := 0.0
 var _rng := RandomNumberGenerator.new()
 
 signal killed(c: Creature)
+signal vanished(c: Creature)
 
 
 func setup(w: World, p: Player, d: Drops, pr: Projectiles) -> void:
@@ -84,6 +85,13 @@ func kill(c: Creature) -> void:
 	if c.ancient:
 		for t in c.ancient.traits:
 			drops.spawn(String(AncientData.TRAITS[t]["essence"]), 1, c.position + Vector2(_rng.randf_range(-8, 8), -6))
+		# il trofeo della specie: bottino che lasciano solo le rare (voce 23)
+		var rd: Dictionary = AncientData.RARITIES[c.ancient.rarity]
+		var trophy := String(TrophyItemsData.TROPHY_OF.get(c.id, ""))
+		if trophy != "" and _rng.randf() < float(rd.get("trophy", 0.0)):
+			drops.spawn(trophy, 1, c.position + Vector2(0, -10))
+		if rd.has("dust"):
+			drops.spawn("polvere_iridata", _rng.randi_range(int(rd["dust"][0]), int(rd["dust"][1])), c.position)
 	Fx.puff(self, c.position, Color(1.3, 1.2, 1.0))
 	killed.emit(c)
 	c.queue_free()
@@ -101,6 +109,10 @@ func _process(dt: float) -> void:
 	for c in list.duplicate():
 		if c.hp <= 0:
 			kill(c)                            # avvelenata a morte (tratto Veleno)
+			continue
+		if c.ancient and c.ancient.gone:
+			kill_quietly(c)                    # un'iridata che nessuno ha preso in tempo
+			vanished.emit(c)
 			continue
 		for f in c.fire:
 			shots.fire(f["from"], f["vel"], f["grav"], f["damage"], false, 1.0,
@@ -179,9 +191,12 @@ func try_spawn() -> Creature:
 			var cr := add(id, Vector2(c.x * S + 8, (y + 1) * S - CreaturesData.CREATURES[id]["half"][1] - 0.1))
 			var mult := float(StrataData.STRATA[stratum]["danger"]) * vigor_mult
 			cr.strengthen(mult, mult * DangerData.DAMAGE)
-			var rarity := AncientData.roll_rarity(DangerData.at(world, Vector2i(c.x, y), night, vigor), _rng)
+			var grouped: bool = CreaturesData.CREATURES[id].has("group")
+			var rarity := AncientData.roll_rarity(DangerData.at(world, Vector2i(c.x, y), night, vigor), _rng, grouped)
 			if rarity != "":
 				make_ancient(cr, rarity)
+			if rarity == "capobranco":
+				pack(cr, id, mult)
 			_group(cr, id, mult)
 			return cr
 		if fly:
@@ -204,11 +219,30 @@ func _group(first: Creature, id: String, mult: float) -> void:
 		mb.extra = true
 
 
-## Rende rara una creatura (e la annuncia se ancestrale e vicina).
+## Il branco di un capobranco: compagne della stessa specie attorno a lui (non contano nel tetto).
+func pack(leader: Creature, id: String, mult: float) -> void:
+	var span: Array = AncientData.RARITIES["capobranco"]["pack"]
+	for k in _rng.randi_range(int(span[0]), int(span[1])):
+		var o := leader.position + Vector2(_rng.randf_range(-40, 40), -4)
+		if world.solid(floori(o.x / S), floori(o.y / S)):
+			o = leader.position
+		var mb := add(id, o)
+		mb.strengthen(mult, mult * DangerData.DAMAGE)
+		mb.extra = true
+
+
+## Rende rara una creatura (e la annuncia se ancestrale o iridata e vicina).
 func make_ancient(cr: Creature, rarity: String, traits: Array = []) -> void:
 	cr.ancient = Ancient.new()
-	cr.ancient.apply(cr, rarity, traits if not traits.is_empty() else AncientData.roll_traits(rarity, _rng))
-	if rarity == "ancestrale" and cr.position.distance_to(player.position) < AncientData.ANNOUNCE * S:
+	var rd: Dictionary = AncientData.RARITIES[rarity]
+	cr.ancient.apply(cr, rarity, traits if not traits.is_empty() or rd["traits"][1] == 0 else AncientData.roll_traits(rarity, _rng))
+	if rd.get("iride", false):
+		# non attacca e scappa: gli altri comportamenti non servono più
+		var fl := BhFugge.new()
+		cr.behaviors.clear()
+		cr.behaviors.append(fl)
+		cr.damage = 0
+	if rarity in ["ancestrale", "iridata"] and cr.position.distance_to(player.position) < AncientData.ANNOUNCE * S:
 		rare_spawned.emit(cr)
 
 

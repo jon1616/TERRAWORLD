@@ -136,6 +136,59 @@ static func draw(shape: String, im: Image, p: Array[Color]) -> bool:
 						var c := p[2] if (x + y) % 3 else p[3]
 						c.a = 0.85
 						Px.put(im, x, y, c)
+		"corona":
+			# corona di rami intrecciati con tre gemme dei colori del materiale
+			var w := ItemIcons.pal("legno")
+			for x in range(2, 14):
+				Px.put(im, x, 12, w[3])
+				Px.put(im, x, 13, w[2])
+			for k in 3:
+				var bx := 3.0 + k * 5.0
+				Px.line(im, Vector2(bx, 12.0), Vector2(bx + 1.0, 5.0 - (k % 2) * 2.0), 1, w[3])
+				Px.disc(im, bx + 1.0, 4.5 - (k % 2) * 2.0, 1.6, p[k + 1])
+			Px.put(im, 8, 10, p[p.size() - 1])
+		"gemma":
+			# gemma tagliata: corona a faccette, padiglione a punta, un lampo di luce
+			for y in range(3, 14):
+				var hw := 6.0 if y < 7 else 6.0 * (13.0 - y) / 6.0
+				if y == 3:
+					hw = 4.0
+				for x in S:
+					var dx := x + 0.5 - 8.0
+					if absf(dx) <= hw:
+						var c := p[3] if y < 7 else (p[2] if dx < 0.0 else p[1])
+						if y == 6 or (y < 7 and int(absf(dx)) % 3 == 2):
+							c = p[2]
+						Px.put(im, x, y, c)
+			Px.put(im, 6, 4, p[p.size() - 1])
+			Px.put(im, 5, 5, p[p.size() - 1])
+		"alambicco":
+			var w := ItemIcons.pal("legno")
+			Px.line(im, Vector2(3.0, 15.0), Vector2(8.0, 10.0), 1, w[3])
+			Px.line(im, Vector2(13.0, 15.0), Vector2(8.0, 10.0), 1, w[3])
+			Px.disc(im, 7.0, 8.5, 4.0, Color(0.72, 0.95, 0.98, 0.7))
+			Px.disc(im, 7.0, 9.5, 2.8, p[2])
+			Px.line(im, Vector2(7.0, 4.0), Vector2(7.0, 1.0), 1, Color(0.72, 0.95, 0.98, 0.8))
+			Px.curve(im, Vector2(7.0, 1.0), Vector2(12.0, 0.0), Vector2(13.0, 6.0), 1, Color(0.72, 0.95, 0.98, 0.8))
+			Px.put(im, 6, 8, Color.WHITE)
+		"telaio":
+			var w2 := ItemIcons.pal("legno")
+			Px.line(im, Vector2(2.0, 15.0), Vector2(2.0, 2.0), 1, w2[3])
+			Px.line(im, Vector2(13.0, 15.0), Vector2(13.0, 2.0), 1, w2[3])
+			Px.line(im, Vector2(2.0, 3.0), Vector2(13.0, 3.0), 1, w2[4])
+			for x in range(4, 12, 2):
+				Px.line(im, Vector2(x, 4.0), Vector2(x, 8.0), 1, p[2])
+			for y in range(9, 13):
+				for x in range(3, 13):
+					Px.put(im, x, y, Color(ItemIcons.LEAF[1]) if y % 2 == 0 else p[3])
+		"mola":
+			var w3 := ItemIcons.pal("legno")
+			Px.line(im, Vector2(2.0, 15.0), Vector2(6.0, 9.0), 1, w3[3])
+			Px.line(im, Vector2(14.0, 15.0), Vector2(10.0, 9.0), 1, w3[3])
+			Px.disc(im, 8.0, 7.0, 5.5, p[2])
+			Px.disc(im, 8.0, 7.0, 4.0, p[1])
+			Px.disc(im, 8.0, 7.0, 1.2, w3[3])
+			Px.put(im, 13, 14, Color("#c8283c"))
 		_:
 			return false
 	return true

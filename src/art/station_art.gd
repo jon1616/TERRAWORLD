@@ -38,6 +38,8 @@ static func make(id: String) -> Dictionary:
 			_fagotto(im, gm, w, h)
 		"scrigno":
 			_scrigno(im, gm, w, h)
+		_:
+			WorkshopArt.draw(id, im, gm, w, h)
 	Px.outline(im, OUT)
 	return {"img": im, "glow": gm}
 

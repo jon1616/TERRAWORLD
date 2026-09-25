@@ -10,6 +10,7 @@ extends RefCounted
 ##   pierce   quante creature attraversa prima di fermarsi (0 = la prima lo ferma)
 ##   homing   quanto segue la creatura più vicina (0 = dritto)
 ##   through  attraversa la roccia
+##   chill    rallenta le creature colpite per tanti secondi (voce 24)
 ##   light    luce che porta con sé (nel buio vero un colpo di brace illumina la grotta)
 
 const SPELLS := {
@@ -19,6 +20,12 @@ const SPELLS := {
 		"light": Color(0.5, 0.3, 0.8)},
 	"cristallo": {"look": "scheggia", "speed": 480.0, "grav": 0.0, "n": 1, "spread": 0.0, "pierce": 3, "homing": 0.0,
 		"light": Color(0.4, 1.0, 1.1)},
+	"polline": {"look": "polline", "speed": 280.0, "grav": 420.0, "n": 5, "spread": 0.2, "pierce": 0, "homing": 0.0,
+		"light": Color(1.0, 0.8, 0.3)},
+	"iride": {"look": "iride", "speed": 360.0, "grav": 0.0, "n": 1, "spread": 0.0, "pierce": 2, "homing": 3.0,
+		"light": Color(1.1, 0.9, 1.3)},
+	"gelo": {"look": "gelo", "speed": 380.0, "grav": 0.0, "n": 1, "spread": 0.0, "pierce": 1, "homing": 0.0,
+		"chill": 3.0, "light": Color(0.5, 0.9, 1.3)},
 	"vuoto": {"look": "orbita", "speed": 230.0, "grav": 0.0, "n": 1, "spread": 0.0, "pierce": 1, "homing": 5.0,
 		"through": true, "light": Color(0.8, 0.4, 1.3)},
 }

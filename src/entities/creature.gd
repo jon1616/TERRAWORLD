@@ -46,6 +46,7 @@ var ghost := false                     # attraversa la terra (chi scava)
 var buried := false                    # non si vede (dentro la terra)
 var shell := 0.0                       # chiusa nel guscio: ferma, un quarto del danno
 var just_hit := false                  # appena colpita (lo legge il guscio)
+var chill_t := 0.0                     # rallentata dal freddo (Bastone di lagunite): metà velocità
 var extra := false                     # parte di uno sciame o di un branco: non conta nel tetto delle creature
 var _poison_acc := 0.0
 var behaviors: Array[Behavior] = []
@@ -168,6 +169,10 @@ func _process(dt: float) -> void:
 	elif stun <= 0.0 or boss:
 		for b in behaviors:
 			b.tick(self, dt)
+	if chill_t > 0.0:
+		chill_t -= dt
+		want_x *= 0.45
+		want_fly *= 0.45
 	if anchored:
 		vel = Vector2.ZERO
 	elif ghost:
@@ -205,7 +210,9 @@ func _process(dt: float) -> void:
 			hp -= k                        # se arriva a zero la fauna se ne accorge e la toglie con il bottino
 			_bar.set_value(float(hp) / hp_max)
 			modulate = Color(0.7, 1.4, 0.6)
-	elif modulate.g > 1.0:
+	elif chill_t > 0.0:
+		modulate = Color(0.7, 0.95, 1.5)
+	elif modulate.g > 1.0 or modulate.b > 1.0:
 		modulate = Color.WHITE
 
 

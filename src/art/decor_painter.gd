@@ -11,6 +11,13 @@ const S := 16
 const DECOR_ROW := TileDefs.WALLS
 const PLAT_ROW := TileDefs.WALLS + 1
 const COLS := 32
+## Tavolozze delle gemme a grappolo (decorazioni 23-26), le stesse delle loro icone.
+const GEM_PAL := [
+	["#2a3a08", "#6a8a10", "#b8e020", "#e8ff70", "#fbffd8"],
+	["#3a0810", "#7a1424", "#c8283c", "#ff6a78", "#ffd0d4"],
+	["#081a3a", "#12408a", "#2a7ad8", "#78c0ff", "#d8f0ff"],
+	["#1c0a30", "#40186a", "#7a38c0", "#b880ff", "#ecd8ff"],
+]
 const ROWS := TileDefs.WALLS + 2
 ## Parete di fondo: materiale e tavolozza da cui nasce (scurita e raffreddata).
 const WALL_SRC := {
@@ -261,6 +268,20 @@ static func decor(id: int) -> Dictionary:
 						var c := sp[3] if dx < -0.8 else (sp[2] if dx < 0.8 else sp[1])
 						Px.put(im, x, y, c)
 						Px.put(gm, x, y, c)
+		23, 24, 25, 26:
+			# gemme a grappolo (voce 24): tre cristalli sfaccettati che spuntano dal pavimento e brillano del loro colore
+			var gp := Px.pal(GEM_PAL[id - 23])
+			for sh in [[8.0, 5.0, 2.4], [4.5, 9.0, 1.7], [11.5, 8.0, 1.9]]:
+				for y in range(int(sh[1]), 16):
+					var t: float = (y - sh[1]) / (16.0 - sh[1])
+					var hw: float = sh[2] * minf(t * 2.2, 1.0) + 0.3
+					for x in range(int(sh[0] - hw), int(sh[0] + hw) + 1):
+						var c := gp[3] if x < sh[0] else gp[2]
+						if x == int(sh[0]) and t < 0.6:
+							c = gp[4]
+						Px.put(im, x, y, c)
+						if t < 0.5 or x == int(sh[0]):
+							Px.put(gm, x, y, c)
 		18:
 			# runa dei Seminatori: un segno inciso che brilla di Linfa, sospeso davanti alla parete
 			outline = false

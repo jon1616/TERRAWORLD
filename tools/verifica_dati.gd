@@ -7,7 +7,7 @@ extends SceneTree
 
 const KINDS := ["materiale", "blocco", "piccone", "ascia", "spada", "arco", "munizione", "torcia", "stazione",
 	"piattaforma", "elmo", "corazza", "gambali", "consumabile", "seme", "lanterna", "cura", "seme_mondo", "accessorio",
-	"purifica", "essenza", "bastone", "dono", "specchio"]
+	"purifica", "essenza", "bastone", "dono", "specchio", "trofeo"]
 ## Forza di piccone oltre cui una tessera è voluta indistruttibile (i nodi avvizziti: si curano, non si scavano).
 const UNBREAKABLE := 999
 
@@ -76,6 +76,20 @@ func _init() -> void:
 			_err(float(e["chance"]) > 0.0 and float(e["chance"]) <= 1.0, "bottino %s: probabilità fuori da 0-1" % tb)
 			_err(int(e["min"]) <= int(e["max"]), "bottino %s: min maggiore di max" % tb)
 			dropped[e["item"]] = true
+	# trofei (voce 23): ogni creatura non Guardiano ne ha uno, esiste e serve a qualcosa
+	for cid in CreaturesData.CREATURES:
+		if not CreaturesData.CREATURES[cid].get("boss", false):
+			_warn(TrophyItemsData.TROPHY_OF.has(cid), "la creatura %s non ha un trofeo" % cid)
+	for cid in TrophyItemsData.TROPHY_OF:
+		var tid := String(TrophyItemsData.TROPHY_OF[cid])
+		_err(CreaturesData.CREATURES.has(cid), "trofeo di una creatura inesistente: %s" % cid)
+		_err(items.has(tid), "trofeo inesistente: %s" % tid)
+		_warn(not RecipesData.using(tid).is_empty(), "il trofeo %s non serve a nessuna ricetta" % tid)
+		dropped[tid] = true
+	dropped["polvere_iridata"] = true
+	for id in items:
+		if items[id].has("spell"):
+			_err(SpellsData.SPELLS.has(String(items[id]["spell"])), "%s: incantesimo sconosciuto" % id)
 	# 5. ogni oggetto si può ottenere; ogni materiale serve a qualcosa
 	for id in items:
 		var ok: bool = made.has(id) or dropped.has(id) or ItemsData.OTHER_SOURCES.has(id)

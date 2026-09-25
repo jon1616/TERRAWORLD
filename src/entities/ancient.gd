@@ -9,6 +9,9 @@ var rarity := ""
 var traits: Array = []
 var size := 1.0
 var _summon_t := 6.0
+var life := -1.0                       # le iridate svaniscono quando arriva a zero
+var gone := false                      # svanita: la fauna la toglie senza bottino
+var _hue := 0.0
 var _label: Label
 var _aura: Sprite2D
 
@@ -51,7 +54,8 @@ func apply(c: Creature, r: String, tr: Array) -> void:
 	var names := []
 	for t in traits:
 		names.append(String(AncientData.TRAITS[t]["name"]))
-	_label.text = "%s · %s" % [String(rd["short"]), ", ".join(names)]
+	_label.text = String(rd["short"]) if names.is_empty() else "%s · %s" % [String(rd["short"]), ", ".join(names)]
+	life = float(rd.get("life", -1.0))
 	_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_label.size = Vector2(160, 12)
 	_label.position = Vector2(-80, -c.half.y - 24)
@@ -117,6 +121,15 @@ func tick(c: Creature, dt: float) -> void:
 	_aura.texture = ring(c._spr.texture)
 	_aura.scale = c._spr.scale
 	_aura.position = c._spr.position
+	# iridata: i colori cambiano di continuo; se non la si prende in tempo svanisce
+	if life > 0.0:
+		life -= dt
+		_hue = fmod(_hue + dt * 0.35, 1.0)
+		var col := Color.from_hsv(_hue, 0.5, 1.0)
+		c._spr.self_modulate = col * 1.35
+		_aura.modulate = Color.from_hsv(fmod(_hue + 0.5, 1.0), 0.6, 1.0) * 1.8
+		if life <= 0.0:
+			gone = true
 	# rigenerante: la Vita ricresce se non la si finisce
 	if has("rigenerante") and c.hp < c.hp_max:
 		c.regen_acc += c.hp_max * value("regen") * dt

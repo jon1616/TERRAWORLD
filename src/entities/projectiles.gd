@@ -29,6 +29,8 @@ func setup(w: World, on_hit: Callable) -> void:
 	_tex["scheggia"] = ImageTexture.create_from_image(_shard())
 	_tex["orbita"] = ImageTexture.create_from_image(_spore(Color("#f0d8ff"), Color("#7a44c8")))
 	_tex["ragnatela"] = ImageTexture.create_from_image(_web())
+	_tex["iride"] = ImageTexture.create_from_image(_spore(Color("#ffffff"), Color("#f080d0")))
+	_tex["gelo"] = ImageTexture.create_from_image(_spore(Color("#e8f8ff"), Color("#2a7ad8")))
 	_tex["polline"] = ImageTexture.create_from_image(_spore(Color("#fff2a8"), Color("#e0a030")))
 	_tex["scheggia_nera"] = ImageTexture.create_from_image(_spore(Color("#e0c8ff"), Color("#463464")))
 
@@ -51,7 +53,7 @@ func fire(from: Vector2, vel: Vector2, grav: float, damage: int, from_player: bo
 	_shots.append({"node": sp, "vel": vel, "grav": grav, "damage": damage, "player": from_player, "t": 0.0,
 		"knock": knock, "pierce": int(opts.get("pierce", 0)), "homing": float(opts.get("homing", 0.0)),
 		"through": bool(opts.get("through", false)), "glow": opts.get("light", Color.BLACK), "hits": {},
-		"slow": float(opts.get("slow", 0.0))})
+		"slow": float(opts.get("slow", 0.0)), "chill": float(opts.get("chill", 0.0))})
 
 
 func count() -> int:

@@ -103,6 +103,9 @@ che viene dal Giardino dei Semi.
   (le sue ali lasciano **polvere di brace**), la **strisciaradice** (una radice che ha imparato a strisciare), lo
   **scarabeo d'ardesia** (guscio di roccia, lascia **scaglie d'ardesia**), lo **sputaspore** (pianta ferma che sputa
   spore, lascia **sacche di spore**), il **Vagavuoto** (occhio di vuotite del Fondo, lascia **schegge del Vuoto**).
+- Metalli laterali (voce 24): la **pallidite** (pallida come la luna, nelle radici del Sottobosco) e la **tizzonite**
+  (brace diventata pietra nelle Profondità). Gemme a grappolo: **sanguinella** (rossa), **brillaluce** (verde-oro),
+  **lagunite** (azzurra, fredda: il suo bastone rallenta), **nottilite** (viola, dal Fondo).
 - Terreno: **Humus**, **Ardesia**, **Muschio**; legno degli **alberi-lanterna**; **Radice antica**, **Scisto di Linfa**,
   **Vuotite**.
 - Il primo Guardiano: **il Nodo Avvizzito**, un gomitolo di radici attorno al **Cuore del mondo**, ammalato
@@ -135,6 +138,11 @@ che viene dal Giardino dei Semi.
 - Le **creature antiche** e **ancestrali**: creature del Giardino vissute troppo a lungo, con tratti propri (Furiosa,
   Corazzata, Rapida, Gigante, Velenosa, Spinosa, Rigenerante, Evocatrice, Luminosa, Esplosiva, Evanescente). Lasciano
   **Essenze** che al Maglio dei Seminatori si **innestano** sull'equipaggiamento.
+- Altre creature rare: il **Capobranco** (guida un branco della sua specie) e la **creatura iridata** (colori che
+  cambiano, fugge e svanisce; lascia la **Polvere iridata**). Ogni specie ha un **trofeo** che lasciano solo le sue
+  rare (Nucleo di grumo, Ala intatta di falena, Corno di scarabeo, Becco di corvo, Aculeo maestro, Filiera di
+  tessiradice, Occhio di geode, Dente di serpe, Pistillo d'oro, Falce maestra…), da cui nascono oggetti unici; con la
+  Polvere iridata la **Corona del Giardino**, l'**Arco iridato**, il **Bastone iridato**, il **Mantello iridato**.
 - Il **Fagotto del Germogliato**: dove si appassisce resta la Bisaccia, avvolta nelle foglie.
 - Doni da trovare: il **Bocciolo del cuore** (nelle grotte; il suo **Cuore di bocciolo** fa crescere una foglia di Vita
   in più) e la **Stilla perenne** (una goccia che pende dai soffitti profondi senza mai cadere: più Linfa).

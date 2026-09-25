@@ -68,6 +68,11 @@ static func how_to_get(id: String) -> String:
 		for e in LootData.TABLES.get(String(CreaturesData.CREATURES[cid]["loot"]), []):
 			if e["item"] == id:
 				from.append(String(CreaturesData.CREATURES[cid]["name"]))
+	for cid in TrophyItemsData.TROPHY_OF:
+		if TrophyItemsData.TROPHY_OF[cid] == id:
+			from.append("solo le rare: %s" % CreaturesData.CREATURES[cid]["name"])
+	if id == "polvere_iridata":
+		from.append("solo le creature iridate")
 	var chests := false
 	for tb in LootData.TABLES:
 		if String(tb).begins_with("rovina_"):

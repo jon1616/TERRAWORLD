@@ -355,12 +355,31 @@ membrana, Scudo di guscio, Anello del geode (fortuna), Stivali della serpe (cors
 anche il foglio di tutte le creature (prove/creature.png). Prove `--solo=bestiario`: ogni comportamento, gli
 accessori, lo specchio (foto 45_bestiario, 46_agguato).
 
-## 23. [ ] Rarità nuove e trofei (M)
-Oltre ad antiche e ancestrali: **Iridate** (rarissime, colori cangianti, fuggono) e **Capibranco** (guidano un
-branco). Ogni specie ha un **trofeo** che lasciano solo le sue rare: bottino proprio, che serve a ricette uniche.
+## 23. [x] Rarità nuove e trofei (M) — fatto il 25 set 2026
+Due rarità nuove oltre ad antiche e ancestrali (`AncientData`, tirate in ordine dalla più rara): il **Capobranco**
+(dall'1,7% in superficie al 4,3% nel Fondo; contorno verde, 0-1 tratti, guida un branco di 2-4 compagne della sua
+specie; mai per chi nasce già in sciame) e la **Creatura iridata** (dallo 0,4% allo 0,9%; colori che cambiano di
+continuo, non attacca, **fugge** e se non la prendi in 75 secondi **svanisce**; si annuncia come le ancestrali).
+Il bottino delle rare non è solo «di più»: ogni specie ha un **trofeo** proprio (24, `TrophyItemsData`) che lasciano
+**solo le sue rare** (antiche 35%, le altre sempre), e ogni trofeo apre un **oggetto unico** legato a quella creatura
+(24 al Maglio: Cuore di grumo, Pelle di resina, Sacca d'aria, Lume di falena, Corno di carica, Bastone sputaspore,
+Amuleto dell'errante, Pugnale di becco, Guscio di riccio, Guanti di seta, Muso del talpone, Ali d'ardesia, Guscio a
+spirale, Pietra del mimo, **Zanna di serpe** che avvelena, **Bastone di polline**, **Mietitrice**, Rete del Vuoto,
+Schegge orbitanti…). Le iridate lasciano la **Polvere iridata** per i quattro oggetti più rari: **Corona del
+Giardino**, **Arco iridato** (tre dardi a tiro), **Bastone iridato** (luce che attraversa e insegue), **Mantello
+iridato**. Effetti nuovi degli accessori: danno, colpi più rapidi, Linfa che ricresce. Oggetti: 146 → 199. Prove
+`--solo=rarita`: probabilità, branco, trofeo, fuga e svanire, polvere, accessori, arco (foto 47_rarita).
 
-## 24. [ ] Minerali e gemme (M)
-Nuovi minerali per gli strati (metalli laterali e gemme luminose) con oggetti, accessori e armi propri.
+## 24. [x] Minerali e gemme (M) — fatto il 25 set 2026
+Due **metalli laterali** con la famiglia completa (piccone, ascia, spada, arco, elmo, corazza, gambali: 14 oggetti
+nati da due righe di `METALS`): la **pallidite** (Sottobosco e Caverne, nella roccia e nelle radici giganti; si
+scava con la radicite; armi più veloci del legnoferro) e la **tizzonite** (Profondità della Linfa e Fondo; vuole il
+piccone d'ambra; la strada forte prima della Linfa). Quattro **gemme a grappolo** che brillano sui pavimenti delle
+grotte (passata **Gemme**, ~110 grappoli ciascuna): **sanguinella** (Sottobosco e Caverne), **brillaluce** (Caverne),
+**lagunite** (Profondità), **nottilite** (Fondo). Con le gemme: quattro anelli (danno, Linfa, alone, fortuna e
+ombra), il **Bastone di sanguinella**, il **Bastone di lagunite** (un'onda fredda che **rallenta** le creature: meccanica
+nuova), la **Lanterna di brillaluce**, la **Lama di nottilite**. Oggetti: 199 → 229. Prove `--solo=gemme`: quantità
+per strato, forza di piccone, rallentamento, lanterna (foto 48_gemme).
 
 ## 25. [ ] Nuovi banchi da lavoro (M)
 Alambicco di Linfa (pozioni), Telaio di foglie (vesti e borse), Mola del gemmaio (gemme, anelli, bastoni), Altare dei
