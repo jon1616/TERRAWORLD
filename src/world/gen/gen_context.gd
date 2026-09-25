@@ -8,6 +8,7 @@ var rng := RandomNumberGenerator.new()
 var params := {
 	"surface_base": 0.27,       # altezza media della superficie, in frazione dell'altezza del mondo
 	"hills": 55.0,              # ampiezza delle colline grandi, in tessere
+	"vigore": 1,                # dal Seme (voce 12): più vigore = minerali più ricchi (vedi `PassMinerali`)
 }
 ## Appunti che una passata lascia alle successive (es. le uscite delle gallerie d'ingresso).
 var notes := {}

@@ -121,7 +121,8 @@ func _show_worlds() -> void:
 		_note("Nessun mondo: piantane uno.")
 	for m in list:
 		var id: String = m["id"]
-		_button("%s   ·   seme %s   ·   %s di gioco" % [m.get("nome", id), m.get("seme", "?"), _hours(float(m.get("tempo_di_gioco", 0.0)))], func() -> void:
+		var vig := int(m.get("vigore", 1))
+		_button("%s   ·   %sseme %s   ·   %s di gioco" % [m.get("nome", id), ("vigore %d   ·   " % vig) if vig > 1 else "", m.get("seme", "?"), _hours(float(m.get("tempo_di_gioco", 0.0)))], func() -> void:
 			Session.start_saved_world(id)
 			get_tree().change_scene_to_file(GAME_SCENE))
 	_button("＋ Nuovo mondo", _show_new_world, GOLD)

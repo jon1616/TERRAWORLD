@@ -14,6 +14,9 @@ func run(main: Node2D) -> void:
 	main.day.time = 0.5
 	main.day.apply(true)
 	var kit := TestKit.new(self, main)
+	if "--prova-portale" in OS.get_cmdline_user_args():
+		await TestsPortalTrip.new(kit).run()
+		return
 	var w := TestsWorld.new(kit)
 	var p := TestsPlayer.new(kit)
 	var c := TestsCombat.new(kit)

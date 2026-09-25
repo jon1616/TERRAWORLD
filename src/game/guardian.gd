@@ -73,6 +73,7 @@ func _process(dt: float) -> void:
 
 func wake() -> void:
 	boss = m.fauna.add("guardiano_nodo", heart_pos() + Vector2(0, -8 * S))
+	boss.strengthen(m.fauna.vigor_mult)
 	bar.follow(boss)
 	m.depth_watch.banner.show_stratum("Il Nodo Avvizzito", "Il Guardiano del Cuore si risveglia", Color("#d8b070"))
 

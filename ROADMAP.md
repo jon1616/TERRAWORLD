@@ -209,9 +209,15 @@ ingrandire (5 livelli), trascinare per spostarsi, segni per il Germogliato, la p
 ceste e gli scrigni già visti. Aperta la mappa, il mouse non scava. Prove: celle viste, foto 29_mappa, mappa uguale
 dopo salvataggio e ricaricamento.
 
-## 12. [ ] Mondi a portale veri (M)
+## 12. [x] Mondi a portale veri (M) — fatto il 25 set 2026
 Il Seme di mondo porta a un mondo più vigoroso (creature più forti, minerali più ricchi) e nel mondo nuovo nasce un
 portale di ritorno accanto alla partenza.
+**Fatto il 25 set 2026**: ogni mondo ha un **vigore** (il primo 1); il portale porta a un mondo con un vigore in più
+(«Nome, vigore 2»): creature e Guardiano +35% di Vita e danno per ogni punto, vene di minerale più grandi. Nel mondo
+nuovo nasce un **portale di ritorno** accanto alla partenza, con la scritta del mondo e del vigore all'arrivo. Ogni
+portale ricorda la sua destinazione (`world_meta["portali"]`), il menu mostra il vigore dei mondi. Prova del viaggio
+vero con i cambi di scena (`-- --prove --prova-portale`): andata, controlli nel mondo nuovo, ritorno (foto
+30_mondo_oltre_il_portale).
 
 ## 13. [ ] Biomi di superficie (L)
 Prime zone diverse in superficie (foresta-lanterna, paludi di spore, distese d'ambra), dati in una tabella, una passata

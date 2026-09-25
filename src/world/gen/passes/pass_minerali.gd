@@ -10,6 +10,7 @@ func title() -> String:
 
 func run(w: World, c: GenContext) -> void:
 	var ores: Array = TileDefs.ORES
+	var richer := 0.025 * (int(c.params.get("vigore", 1)) - 1)   # vene più grandi nei mondi più vigorosi
 	var noises: Array[FastNoiseLite] = []
 	var hosts: Array[PackedByteArray] = []
 	var in_stratum: Array[PackedByteArray] = []
@@ -47,7 +48,7 @@ func run(w: World, c: GenContext) -> void:
 			for k in ores.size():
 				var o: Dictionary = ores[k]
 				if hosts[k][t] == 1 and in_stratum[k][sk] == 1 and dep > int(o["min_depth"]) \
-						and noises[k].get_noise_2d(x, y) > float(o["threshold"]):
+						and noises[k].get_noise_2d(x, y) > float(o["threshold"]) - richer:
 					tiles[row + x] = o["type"]
 					break
 	w.tiles = tiles

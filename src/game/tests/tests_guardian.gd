@@ -108,8 +108,12 @@ func run() -> void:
 	b.add("seme_mondo", 1)
 	kit.hold("seme_mondo")
 	var planted: bool = m.portal.plant(spot, "seme_mondo")
-	var dest: Array = m.portal.destination()
-	print("portale: piantato %s, mondo di destinazione «%s» seme %d" % ["sì" if planted else "NO", dest[1], dest[2]])
+	var dest: Array = m.portal.destination(spot - Vector2i(1, 3))
+	var back: Vector2i = m.portal.place_return("mondo_di_ritorno")
+	var back_dest: Array = m.portal.destination(back)
+	print("portale: piantato %s, mondo di destinazione «%s» seme %d vigore %d; portale di ritorno %s verso «%s»" % [
+		"sì" if planted else "NO", dest[1], dest[2], dest[3], "piazzato" if back.x >= 0 else "NON piazzato",
+		String(back_dest[0]) if String(back_dest[0]) != "" else "(mondo inesistente, come previsto)"])
 	await kit.seconds(1.0)
 	_close_lore()
 	await kit.seconds(1.0)

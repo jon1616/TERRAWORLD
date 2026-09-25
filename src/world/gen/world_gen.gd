@@ -27,8 +27,9 @@ static func passes() -> Array[GenPass]:
 
 
 ## Genera un mondo dal seme. Restituisce i tempi di ogni passata: [[titolo, ms], …].
-static func generate(w: World, sd: int, width: int = WIDTH, height: int = HEIGHT) -> Array:
+static func generate(w: World, sd: int, width: int = WIDTH, height: int = HEIGHT, params := {}) -> Array:
 	var c := GenContext.new(sd)
+	c.params.merge(params, true)
 	w.setup(width, height)
 	w.world_seed = sd
 	var times := []

@@ -11,7 +11,8 @@ var player: Player
 var drops: Drops
 var shots: Projectiles
 var enabled := true                    # le prove lo spengono per non essere disturbate
-var night := false                     # lo aggiorna `DayCycle`: di notte più creature in superficie
+var night := false
+var vigor_mult := 1.0                  # vigore del mondo (voce 12): creature più forti nei mondi oltre i portali                     # lo aggiorna `DayCycle`: di notte più creature in superficie
 var list: Array[Creature] = []
 var kills := 0
 var _t := 0.0
@@ -127,7 +128,7 @@ func try_spawn() -> Creature:
 			if world.torch_near(Vector2i(c.x, y), 8.0):
 				return null                # la luce delle torce tiene lontane le creature
 			var cr := add(id, Vector2(c.x * S + 8, (y + 1) * S - CreaturesData.CREATURES[id]["half"][1] - 0.1))
-			cr.strengthen(float(StrataData.STRATA[stratum]["danger"]))
+			cr.strengthen(float(StrataData.STRATA[stratum]["danger"]) * vigor_mult)
 			return cr
 		if fly:
 			break

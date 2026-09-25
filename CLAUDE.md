@@ -51,6 +51,8 @@ Godot_console.exe --headless --path . --check-only --script res://src/world/worl
 # e fotografano la Bisaccia aperta (07_bisaccia).
 Godot_console.exe --path . -- --prove            # --carica riapre il mondo di prova salvato invece di rigenerarlo;
                                                  # --senza-luce per vedere i colori senza il buio
+# viaggio vero attraverso il portale (voce 12): pianta un Seme, va nel mondo nuovo (vigore 2, portale di ritorno), torna
+Godot_console.exe --path . -- --prove --prova-portale
 # foto delle schermate del menu in prove/ (menu_titolo, menu_personaggi, menu_nuovo_mondo)
 Godot_console.exe --path . -- --foto-menu
 # prova dei salvataggi senza finestra: salva, ricarica, confronta, rovina il file e recupera dalla copia di sicurezza
@@ -153,8 +155,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   volta per mondo); poi il Cuore diventa `cuore_vivo` e dona il Seme di mondo. Stato in `world_meta["guardiano"]`.
   Nel Fondo un «battito» dice da che parte è il Cuore. `BossBar` e `LorePanel` in `src/ui/`.
 - `src/game/portal.gd` (`Portal`) — Seme di mondo piantato = stazione `portale`; clic destro = salva e passa al
-  mondo nato da quel seme (`destination()`, id in `world_meta["portale_mondo"]`). Collega anche `use_hook`/`touch_hook`
-  di `PlayerActions` (usi nuovi senza gonfiare quel file).
+  mondo nato da quel seme con un vigore in più (`destination(o)`, `world_meta["portali"]` per ogni portale,
+  `place_return` nel mondo nuovo, `vigor_mult`: +35% alle creature per punto di vigore). Il vigore arriva al generatore
+  in `GenContext.params` (`WorldGen.generate(…, params)`), vene più grandi in `PassMinerali`.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

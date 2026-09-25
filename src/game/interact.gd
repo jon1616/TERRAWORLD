@@ -39,7 +39,7 @@ func touch(c: Vector2i) -> bool:
 		return true
 	match id:
 		"portale":
-			m.portal.travel()
+			m.portal.travel(o)
 			return true
 		"cuore_mondo":
 			m.hud.toast("Il Cuore batte piano, malato. %d nodi avvizziti sul soffitto" % m.guardian.nodes_left())

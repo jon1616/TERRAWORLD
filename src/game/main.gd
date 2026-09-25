@@ -59,11 +59,13 @@ func _ready() -> void:
 	else:
 		var nw: Dictionary = Session.new_world
 		world_id = nw["id"]
-		world_meta = {"nome": nw["nome"], "creato": SavePaths.now_text(), "tempo_di_gioco": 0.0, "giocatori": {}}
+		world_meta = {"nome": nw["nome"], "creato": SavePaths.now_text(), "tempo_di_gioco": 0.0, "giocatori": {},
+			"vigore": int(nw.get("vigore", 1))}
 		_show_loading("Il seme germoglia…\ngenerazione del mondo")
 		world = World.new()
 		var sd: int = nw["seme"]
-		_gen_task = WorkerThreadPool.add_task(func() -> void: gen_times = WorldGen.generate(world, sd), false, "genera mondo")
+		var params := {"vigore": int(nw.get("vigore", 1))}
+		_gen_task = WorkerThreadPool.add_task(func() -> void: gen_times = WorldGen.generate(world, sd, WorldGen.WIDTH, WorldGen.HEIGHT, params), false, "genera mondo")
 
 
 func _show_loading(text: String) -> void:
@@ -209,7 +211,11 @@ func _build() -> void:
 	snap_to(start)
 	_loading.queue_free()
 	built = true
+	fauna.vigor_mult = Portal.vigor_mult(portal.vigor())
 	if Session.world_id == "":
+		if Session.new_world.has("ritorno"):
+			portal.place_return(String(Session.new_world["ritorno"]))
+			depth_watch.banner.show_stratum(String(world_meta["nome"]), "Vigore %d: creature più forti, minerali più ricchi" % portal.vigor(), Color("#8ef0d8"))
 		save_game()          # un mondo appena nato si salva subito
 		Session.start_saved_world(world_id)
 	var line := "mondo «%s» %d×%d, seme %d ·" % [world_meta.get("nome", world_id), world.w, world.h, world.world_seed]
