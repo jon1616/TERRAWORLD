@@ -52,6 +52,7 @@ func plant(c: Vector2i, id: String) -> bool:
 	_add_station(o)
 	_portals()[_key(o)] = {"mondo": "", "seme": hash([m.world.world_seed, "portale", o.x, o.y]) & 0x7fffffff, "ritorno": false}
 	m.guardian.lore.show_page("portale")
+	m.sfx.play("portale", Vector2(o) * 16.0)
 	return true
 
 

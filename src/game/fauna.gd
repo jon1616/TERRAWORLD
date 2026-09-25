@@ -12,6 +12,7 @@ var drops: Drops
 var shots: Projectiles
 var enabled := true                    # le prove lo spengono per non essere disturbate
 var night := false
+var sfx: Sfx
 var vigor_mult := 1.0                  # vigore del mondo (voce 12): creature più forti nei mondi oltre i portali                     # lo aggiorna `DayCycle`: di notte più creature in superficie
 var list: Array[Creature] = []
 var kills := 0
@@ -81,6 +82,8 @@ func _process(dt: float) -> void:
 	for c in list.duplicate():
 		for f in c.fire:
 			shots.fire(f["from"], f["vel"], f["grav"], f["damage"], false)
+			if sfx:
+				sfx.play("spora", f["from"])
 		c.fire.clear()
 		for id in c.summons:
 			var mn := add(id, c.position + Vector2(_rng.randf_range(-30, 30), c.half.y))

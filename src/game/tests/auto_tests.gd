@@ -51,4 +51,7 @@ func run(main: Node2D) -> void:
 	await kit.frames(12)
 	await kit.save("07_bisaccia")
 	main.hud.panel.toggle()
+	var heard: Dictionary = main.sfx.played
+	var silent := SoundsData.SOUNDS.keys().filter(func(k: String) -> bool: return not heard.has(k))
+	print("suoni suonati durante le prove: %d tipi su %d; mai sentiti: %s" % [heard.size(), SoundsData.SOUNDS.size(), silent])
 	get_tree().quit()

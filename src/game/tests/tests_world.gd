@@ -36,8 +36,9 @@ func places() -> void:
 		await kit.seconds(1.0)
 		await kit.save("02_grotta_torcia")
 		kit.m.player.force_swing = true
-		var target := f + Vector2i(1, 0)
-		for k in 3:
+		# si scava nel pavimento accanto (la grotta scelta ha aria a destra per la misura del buio)
+		var target := f + Vector2i(2, 1)
+		for k in 4:
 			if world.solid(target.x, target.y):
 				break
 			target.x += 1
@@ -52,6 +53,8 @@ func places() -> void:
 		kit.m.player.force_swing = false
 		if mined != "":
 			await pickup_and_place(mined, target, had)
+		else:
+			print("ATTENZIONE: nessun blocco da scavare accanto alla grotta di prova")
 	# cristalli: il più vicino alla partenza che tocca l'aria
 	var crystals: Array = []
 	for y in range(world.surface[world.spawn.x] + 340, mini(world.surface[world.spawn.x] + 520, world.h)):

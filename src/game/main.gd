@@ -33,6 +33,7 @@ var interact: Interact
 var map_reveal: MapReveal
 var erbario: Erbario
 var objectives: Objectives
+var sfx: Sfx
 var _spores: CPUParticles2D
 var built := false
 var gen_times: Array = []
@@ -174,6 +175,16 @@ func _build() -> void:
 	combat = _mount(Combat.new())
 	shots.hit = combat.on_shot
 	depth_watch = _mount(DepthWatch.new())
+	sfx = _mount(Sfx.new())
+	actions.sfx = sfx
+	fauna.sfx = sfx
+	player.jumped.connect(func() -> void: sfx.play("salto"))
+	player.landed.connect(func(tiles: float) -> void:
+		if tiles > 1.5:
+			sfx.play("atterra"))
+	drops.picked.connect(func(_id: String, _n: int) -> void: sfx.play("raccogli"))
+	fauna.killed.connect(func(c: Creature) -> void: sfx.play("morte", c.position))
+	hud.panel.crafting.crafted.connect(func(_id: String, _n: int) -> void: sfx.play("crea"))
 	boons = _mount(Boons.new())
 	guardian = _mount(Guardian.new())
 	portal = _mount(Portal.new())

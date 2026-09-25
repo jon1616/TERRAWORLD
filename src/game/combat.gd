@@ -79,6 +79,8 @@ func _melee(it: Dictionary, use: String, tr := "") -> void:
 	if cyc != _cycle:
 		_cycle = cyc
 		_hit_set.clear()
+		if use == "colpo":
+			m.sfx.play("colpo")
 	var ph := fmod(player.swing_t, player.swing_period) / player.swing_period
 	if ph < 0.15:
 		return                             # l'attrezzo è ancora alzato
@@ -116,6 +118,7 @@ func _bow(it: Dictionary, use: String, active: bool, dt: float, tr := "") -> voi
 		return
 	_bow_t = 1.0 / (float(it.get("speed", 1.5)) * TraitsData.effect(tr, "speed"))
 	bisaccia.remove(ammo, 1)
+	m.sfx.play("tira")
 	var dmg := roundi(int(it.get("damage", 0)) * TraitsData.effect(tr, "damage")) + int(ItemsData.get_item(ammo).get("damage", 0))
 	# un po' di anticipo sulla caduta, così il dardo va dove si mira anche lontano
 	var flight := d.length() / DART_SPEED
@@ -126,6 +129,7 @@ func _bow(it: Dictionary, use: String, active: bool, dt: float, tr := "") -> voi
 
 
 func _strike(c: Creature, dmg: int, from_x: float, force: float) -> void:
+	m.sfx.play("colpito", c.position)
 	if c.take_hit(dmg, from_x, maxf(force, 0.3)):
 		fauna.kill(c)
 
@@ -146,6 +150,7 @@ func hurt_player(dmg: int, from_x: float) -> void:
 	if invuln > 0.0 or m.life.dead or god:
 		return
 	invuln = INVULN
+	m.sfx.play("ferita")
 	var lost := vitals.hurt(dmg)
 	var dir := signf(player.position.x - from_x)
 	if dir == 0.0:

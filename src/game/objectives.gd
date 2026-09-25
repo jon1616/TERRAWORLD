@@ -79,6 +79,7 @@ func _complete(o: Dictionary) -> void:
 			m.drops.spawn(id, rest, m.player.position)
 		got.append("%d %s" % [q, ItemsData.get_item(id)["name"]])
 	m.hud.toast("Obiettivo raggiunto: %s — ricevi %s" % [o["text"], ", ".join(got)])
+	m.sfx.play("obiettivo")
 
 
 func _met(c: Dictionary) -> bool:

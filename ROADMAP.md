@@ -256,6 +256,17 @@ sono sempre in alto a sinistra con il conteggio; ogni traguardo dà una piccola 
 Rugiada…) e un avviso. Salvati con il personaggio insieme ai conteggi (notti, scrigni aperti, viaggi, strato più
 profondo, Cuore trovato). Avvisi spostati al centro (erano sopra la Vita), aiuto in alto su due righe.
 
+## 17. [x] Suoni generati dal codice (M) — fatto il 25 set 2026
+Prima non c'era nessun suono. Come la grafica, anche i suoni nascono dal codice: ricette in `SoundsData` (toni, rumore
+filtrato, scivolamenti, vibrato, inviluppi) trasformate in campioni da `SfxSynth`, suonate da `Sfx` con un filo di
+variazione di tono e più piano da lontano. 22 effetti: scavo (terra o roccia), rottura, posa, colpi d'ascia, albero
+che cade, torcia, colpo, creatura colpita, morte, ferita, arco, spora, salto, atterraggio, raccolta, fabbricazione,
+scrigno, pozione, obiettivo, portale, risveglio del Guardiano. Un **sottofondo per strato** (vento in superficie,
+calore nel Sottobosco, freddo nelle Caverne, luccichio nella Linfa, rombo nel Fondo) in anelli senza cuciture, sfumati
+cambiando strato. Limitatore contro la distorsione. Strumento `tools/suoni.gd`: salva tutto in prove/suoni/*.wav con
+durata, picco e volume medio. Trovata e corretta una regressione delle prove: dal cambio del buio la prova di scavo,
+raccolta e posa veniva saltata senza avviso.
+
 **Roadmap 2 «Il mondo vivo»** (prevista): biomi di superficie e sotterranei (foresta-lanterna, paludi di spore, distese
 d'ambra, giardini di cristallo…), strutture e rovine dei Seminatori, l'Avvizzimento che si espande, e i **Semi che
 decidono il mondo** (specie = quali biomi, vigore = difficoltà, tratti = particolarità). Poi: mondi a portale veri,

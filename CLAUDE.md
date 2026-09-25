@@ -53,6 +53,8 @@ Godot_console.exe --path . -- --prove            # --carica riapre il mondo di p
                                                  # --senza-luce per vedere i colori senza il buio
 # viaggio vero attraverso il portale (voce 12): pianta un Seme, va nel mondo nuovo (vigore 2, portale di ritorno), torna
 Godot_console.exe --path . -- --prove --prova-portale
+# suoni generati: prove/suoni/*.wav da ascoltare, con durata, picco e volume medio (segnala muti e distorti)
+Godot_console.exe --headless --path . --script res://tools/suoni.gd
 # foto delle schermate del menu in prove/ (menu_titolo, menu_personaggi, menu_nuovo_mondo)
 Godot_console.exe --path . -- --foto-menu
 # prova dei salvataggi senza finestra: salva, ricarica, confronta, rovina il file e recupera dalla copia di sicurezza
@@ -105,6 +107,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   - `StationArt` — Ceppo del Giardiniere, Baccello ardente (bocca di brace luminosa), Maglio dei Seminatori (rune).
   - `CharacterArt` (personaggio a pose, restituisce anche mano e occhio), `CreatureArt`, `NatureArt`
     (`tree_linfa` con parte luminosa, `root_arches`, `lantern_forest`, colline, torcia, sole).
+- `src/audio/` — `SfxSynth` (ricette di `SoundsData` → campioni PCM, limitatore, anelli senza cuciture per i
+  sottofondi) e `Sfx` (modulo della scena: `play(id, punto)`, sottofondo dello strato generato in un thread e sfumato;
+  `played` conta i suoni per le prove). I moduli lo chiamano con `m.sfx.play(...)`, `PlayerActions` con `sfx`.
 - `src/world/` — il mondo:
   - `World` — solo lo stato (contenitori: `chests` angolo → `Bisaccia` del contenuto, `chest_at(o)`; tessere, pareti, decorazioni, superficie, torce con indice a celle da 16, alberi per blocco,
     germogli con il tempo che manca, stazioni per angolo in alto a sinistra, passerelle in un array a parte `plats`).
@@ -260,6 +265,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   nell'albero: la misura va presa da `get_viewport_rect()` quando si mostrano (scritta degli strati, mappa).
 - Il JSON rilegge i numeri come decimali e riordina le chiavi: dopo il caricamento si riconvertono gli interi, e
   i dizionari si confrontano con `==` (non con `str()`).
+- Una prova che cerca un posto adatto deve dire ad alta voce quando non lo trova («ATTENZIONE: …»): cambiando la
+  grotta di prova per il buio, la prova di scavo è stata saltata in silenzio per diversi cicli.
 - Le prove che mettono qualcosa «a N tessere» devono usare `world.surface[x]` di quella colonna: il terreno piano
   vicino alla partenza è corto e il bersaglio finiva dentro la terra.
 

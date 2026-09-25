@@ -23,6 +23,8 @@ var enabled := true
 ## `use_hook.call(tipo, id, cella)` e `touch_hook.call(cella)` restituiscono true se hanno fatto qualcosa.
 var use_hook: Callable
 var build: Building                    # stazioni e passerelle
+var sfx: Sfx                           # i suoni (può mancare nelle prove senza scena)
+var _dig_snd := 0.0
 var touch_hook: Callable
 signal boon(name: String, secs: float)
 var _cell := Vector2i(-9999, -9999)
@@ -171,6 +173,10 @@ func _dig(c: Vector2i, item: Dictionary, dt: float) -> float:
 	if _t < 0.0:
 		_t = 0.0
 	_t += dt
+	_dig_snd -= dt
+	if _dig_snd <= 0.0 and sfx:
+		_dig_snd = 0.25
+		sfx.play("scavo_terra" if t in [TileDefs.DIRT, TileDefs.GRASS, TileDefs.GRASS_SPORE, TileDefs.GRASS_AMBRA, TileDefs.RADICE] else "scavo_roccia")
 	# più forza = più veloce (la radicite, forza 35, è il riferimento di TileDefs.HARD)
 	var hard: float = float(TileDefs.HARD[t]) * 35.0 / float(maxi(power, 1))
 	hard /= TraitsData.effect(String(item.get("tratto", "")), "dig")
@@ -196,6 +202,8 @@ func break_tile(c: Vector2i) -> void:
 	var center := Vector2(c) * S + Vector2(8, 8)
 	Fx.dust(fx_parent, center, TileDefs.dust_colors(t))
 	drops.spawn(String(TileDefs.DROP.get(t, "")), 1, center)
+	if sfx:
+		sfx.play("rompi", center)
 
 
 ## Toglie una decorazione e fa cadere ciò che lascia (funghi…).
@@ -229,6 +237,8 @@ func _chop(c: Vector2i, item: Dictionary, dt: float) -> void:
 	var hp: int = _tree_hp.get(base, FloraData.TREE_HP) - power
 	var hit_at := fx_parent.get_global_mouse_position()
 	Fx.dust(fx_parent, hit_at, Px.pal(["#241624", "#362234", "#4c3246", "#62c4a4"]))
+	if sfx:
+		sfx.play("legno", hit_at)
 	if hp > 0:
 		_tree_hp[base] = hp
 		view.shake_tree(base)
@@ -242,6 +252,8 @@ func fell_tree(t: Vector3i) -> void:
 	var dir := 1 if player.position.x < base.x * S + 8 else -1
 	world.remove_tree(t)
 	view.fell_tree(base, dir)
+	if sfx:
+		sfx.play("albero_cade", Vector2(base) * S)
 	var foot := Vector2(base.x * S + 8, (base.y + 1) * S - 6)
 	var wood := _rng.randi_range(FloraData.WOOD[0], FloraData.WOOD[1])
 	for k in wood:
@@ -293,6 +305,8 @@ func place_block(c: Vector2i, id: String) -> bool:
 	bisaccia.take_one(slot)
 	view.refresh_around(c)
 	light.dirty = true
+	if sfx:
+		sfx.play("posa", Vector2(c) * S)
 	return true
 
 
@@ -307,6 +321,8 @@ func drink(id: String) -> bool:
 		if bisaccia.id_at(slot0) != id:
 			return false
 		bisaccia.take_one(slot0)
+		if sfx:
+			sfx.play("pozione")
 		boon.emit(String(it["boon"][0]), float(it["boon"][1]))
 		return true
 	if vitals.potion_wait > 0.0:
@@ -319,6 +335,8 @@ func drink(id: String) -> bool:
 	if bisaccia.id_at(slot) != id:
 		return false
 	bisaccia.take_one(slot)
+	if sfx:
+		sfx.play("pozione")
 	vitals.heal(heal)
 	vitals.potion_wait = Vitals.POTION_COOLDOWN
 	return true
@@ -341,6 +359,8 @@ func place_torch(c: Vector2i) -> void:
 		hud.toast("Nessuna torcia nella Bisaccia")
 		return
 	world.add_torch(c)
+	if sfx:
+		sfx.play("torcia", Vector2(c) * S)
 	if world.decor_at(c.x, c.y) != 0:
 		pick_decor(c)
 	view.refresh_around(c)

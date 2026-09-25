@@ -43,6 +43,7 @@ var _look_key := ""
 var _air_top := 0.0
 var _was_floor := true
 signal landed(tiles: float)
+signal jumped
 var anim_t := 0.0
 var swing_t := 0.0
 var coyote := 0.0
@@ -132,6 +133,7 @@ func _step(dt: float, dir: float, held: bool) -> void:
 	jump_buf -= dt
 	if jump_buf > 0.0 and coyote > 0.0:
 		vel.y = -JUMP * sqrt(jump_mult)       # l'altezza cresce col quadrato della velocità: ×jump in altezza
+		jumped.emit()
 		jump_buf = 0.0
 		coyote = 0.0
 	var vy0 := vel.y
