@@ -162,6 +162,8 @@ di Linfa dalle due strade, bagliore e lanterna, portale piantato (foto 21-25).
 ~1300 torce già accese della passata provvisoria; chiarore di fondo quasi nero tinto dallo strato; la luce perde il 12%
 per tessera d'aria; il Germogliato ha un piccolo alone suo; decorazioni luminose come piccole pozze di luce. Prova:
 misura della luce in una grotta buia e dopo una torcia (02_grotta_buia, 02_grotta_torcia).
+Poi, con un'immagine di riferimento dell'utente: nero pieno dove la luce non arriva (chiarore di fondo a zero e soglia
+di taglio della luce, confine netto tra luce e buio), radici accese più rare e più deboli.
 
 Ordine di lavoro (deciso il 24 set 2026): 3 → 4 → 5 → 5b → 6 → 7 → 8.
 

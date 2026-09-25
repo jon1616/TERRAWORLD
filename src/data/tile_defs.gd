@@ -44,7 +44,7 @@ const DECOR_CEILING := [11, 12, 17]        # queste pendono dal blocco sopra
 ## (con il buio vero del 25 set 2026 una luce di 0,3 si vede per ~6 tessere).
 const DECOR_LIGHT := {
 	4: Color(0.15, 0.4, 0.45), 5: Color(0.45, 0.3, 0.1), 6: Color(0.3, 0.15, 0.45),
-	10: Color(0.25, 0.6, 0.85), 11: Color(0.32, 0.2, 0.06), 12: Color(0.26, 0.16, 0.05), 13: Color(0.3, 0.17, 0.5),
+	10: Color(0.25, 0.6, 0.85), 11: Color(0.2, 0.13, 0.04), 12: Color(0.17, 0.11, 0.03), 13: Color(0.3, 0.17, 0.5),
 	15: Color(0.25, 0.14, 0.04), 16: Color(0.4, 0.18, 0.7), 17: Color(0.15, 0.5, 0.55),
 }
 

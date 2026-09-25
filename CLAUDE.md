@@ -217,8 +217,10 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   prima delle foto importanti si aspetta in secondi (`kit.seconds`), non in fotogrammi.
 - Una funzione anonima collegata a un timer non deve trattenere un nodo che può sparire prima: si usa `weakref`
   (altrimenti «Lambda capture was freed»). E nei file del gioco i tipi dedotti da un Variant sono errori: `var x: T =`.
-- Il buio (deciso dall'utente il 25 set 2026: «il buio non c'è, le torce non servono»): chiarore di fondo quasi nero
-  (~0,03-0,06, tinto dallo strato), luce che perde il 12% per tessera d'aria, alone del giocatore piccolo, nessuna
+- Il buio (deciso dall'utente il 25 set 2026: «il buio non c'è, le torce non servono», poi con un'immagine di
+  riferimento: «dove la luce non arriva deve essere completamente buio»): chiarore di fondo nero pieno e soglia di
+  taglio `LightMap.CUT` (0,1): la luce cala a ogni tessera ma non arriva mai a zero, e senza soglia la sua coda lunga
+  lasciava vedere tutto per 20-30 tessere. Luce che perde il 12% per tessera d'aria, alone del giocatore piccolo, nessuna
   torcia già accesa nel mondo. Il 24 set le grotte erano state schiarite perché i colori di base erano troppo scuri:
   quello resta vero (tavolozze di tono medio), ma la leggibilità viene dalle luci, non dal chiarore di fondo.
   La curva finale della luce è `pow(v, 0.85)`: con 0,7 il buio veniva sollevato al 25-35%.

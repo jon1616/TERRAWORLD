@@ -39,7 +39,7 @@ func run(w: World, c: GenContext) -> void:
 				if above != TileDefs.AIR and dep > 3 and w.walls[y * w.w + x] != 0:
 					if sk == 3 and r < 0.1:
 						d = TileDefs.DECOR_LINFA
-					elif r < (0.28 if sk == 1 else 0.12) and sk < 4:
+					elif r < (0.12 if sk == 1 else 0.06) and sk < 4:
 						d = TileDefs.DECOR_ROOTS[0] if rng.randf() < 0.5 else TileDefs.DECOR_ROOTS[1]
 			elif below == TileDefs.GRASS:
 				if r < 0.45:

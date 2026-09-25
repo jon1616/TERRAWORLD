@@ -8,26 +8,26 @@ extends RefCounted
 ##   top          profondità dove comincia (il confine ondeggia: vedi `offset`)
 ##   rock         la roccia dello strato (id di `TileDefs`); pocket = le sacche dentro la roccia
 ##   wall         la parete di fondo dello strato
-##   ambient      chiarore minimo dove non arriva luce (`LightMap`): quasi nero, ma con il colore dello strato
+##   ambient      chiarore minimo dove non arriva luce (`LightMap`): nero pieno, come deciso il 25 set 2026
 ##   danger       moltiplicatore di Vita e danno delle creature che compaiono qui
 ##   color        colore della scritta d'ingresso
 
 const STRATA := [
 	{"id": "superficie", "name": "Superficie", "desc": "Muschio, alberi-lanterna e cielo aperto",
 		"top": 0, "rock": TileDefs.STONE, "pocket": TileDefs.DIRT, "wall": TileDefs.WALL_DIRT,
-		"ambient": Color(0.03, 0.035, 0.05), "danger": 1.0, "color": "#8ef0d8"},
+		"ambient": Color(0, 0, 0), "danger": 1.0, "color": "#8ef0d8"},
 	{"id": "sottobosco", "name": "Sottobosco di radici", "desc": "La terra è intrecciata di radici enormi",
 		"top": 22, "rock": TileDefs.STONE, "pocket": TileDefs.DIRT, "wall": TileDefs.WALL_ROOT,
-		"ambient": Color(0.045, 0.032, 0.025), "danger": 1.15, "color": "#ffb070"},
+		"ambient": Color(0, 0, 0), "danger": 1.15, "color": "#ffb070"},
 	{"id": "caverne", "name": "Caverne d'ardesia", "desc": "Grandi vuoti di roccia blu: qui si fa sul serio",
 		"top": 140, "rock": TileDefs.STONE, "pocket": TileDefs.DIRT, "wall": TileDefs.WALL_STONE,
-		"ambient": Color(0.028, 0.035, 0.06), "danger": 1.4, "color": "#8298bc"},
+		"ambient": Color(0, 0, 0), "danger": 1.4, "color": "#8298bc"},
 	{"id": "linfa", "name": "Profondità della Linfa", "desc": "La roccia trasuda Linfa: cristalli e funghi che brillano",
 		"top": 340, "rock": TileDefs.SCISTO, "pocket": TileDefs.STONE, "wall": TileDefs.WALL_SCISTO,
-		"ambient": Color(0.018, 0.05, 0.055), "danger": 1.8, "color": "#5cc8cc"},
+		"ambient": Color(0, 0, 0), "danger": 1.8, "color": "#5cc8cc"},
 	{"id": "fondo", "name": "Il Fondo", "desc": "Qui il mondo finisce e comincia il Vuoto",
 		"top": 560, "rock": TileDefs.VUOTITE, "pocket": TileDefs.SCISTO, "wall": TileDefs.WALL_VOID,
-		"ambient": Color(0.045, 0.025, 0.065), "danger": 2.3, "color": "#c08aff"},
+		"ambient": Color(0, 0, 0), "danger": 2.3, "color": "#c08aff"},
 ]
 
 

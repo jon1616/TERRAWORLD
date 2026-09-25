@@ -3,8 +3,8 @@ extends RefCounted
 ## Luce a tessere alla Terraria, calcolata solo in una finestra attorno alla visuale e in un thread a parte.
 ## Ogni cella ha un colore di luce che si propaga ai vicini perdendo forza (poco nell'aria, molto nei blocchi).
 ## Il risultato è un'immagine di un pixel per tessera, stesa sul mondo ingrandita e sfumata, che moltiplica i colori.
-## Buio vero (richiesta dell'utente del 25 set 2026: «il buio non c'è, le torce non servono»): lontano dalle luci resta
-## solo un filo di sagoma (`ambient`, del colore dello strato, vedi `DepthWatch`). Il Germogliato porta un piccolo alone
+## Buio vero (richiesta dell'utente del 25 set 2026: «il buio non c'è, le torce non servono»): lontano dalle luci è nero
+## pieno (`ambient` è nero in tutti gli strati; resta per effetti futuri, per esempio una pozione per vedere al buio). Il Germogliato porta un piccolo alone
 ## suo; per vedere lontano servono torce, Lanterna di Linfa o Pozione di bagliore. Le luci perdono forza in fretta:
 ## con AIR_DECAY 0,88 una torcia illumina in pieno ~6 tessere e sfuma fino a ~20, l'alone del giocatore ~8.
 
@@ -16,6 +16,10 @@ const TORCH := Color(2.2, 1.55, 0.9)
 const STATION := Color(1.7, 1.0, 0.45)      # la brace del Baccello ardente
 const PLAYER := Color(0.62, 0.52, 0.38)       # l'alone del Germogliato: vede solo attorno a sé
 const CURVE := 0.85                     # < 1 schiarisce un poco i toni medi senza sollevare il buio
+## Soglia di taglio: la luce cala a ogni tessera ma non arriva mai a zero, e la sua coda lunga lasciava vedere tutto
+## (appunto dell'utente del 25 set 2026, con un'immagine di riferimento: dove la luce non arriva deve essere nero pieno).
+## Sotto CUT è nero, sopra si riscala: il confine tra luce e buio diventa netto.
+const CUT := 0.1
 const LW := 128                       # finestra in tessere (la visuale è circa 50×28)
 const LH := 96
 const RECENTER := 6                   # ricentra quando la visuale si sposta di tante tessere
@@ -261,5 +265,8 @@ static func _solve(job: Dictionary) -> void:
 			vr = maxf(vr, amb.r)
 			vg = maxf(vg, amb.g)
 			vb = maxf(vb, amb.b)
-			img.set_pixel(x, y, Color(pow(minf(vr, 1.0), CURVE), pow(minf(vg, 1.0), CURVE), pow(minf(vb, 1.0), CURVE)).linear_to_srgb())
+			vr = maxf(minf(vr, 1.0) - CUT, 0.0) / (1.0 - CUT)
+			vg = maxf(minf(vg, 1.0) - CUT, 0.0) / (1.0 - CUT)
+			vb = maxf(minf(vb, 1.0) - CUT, 0.0) / (1.0 - CUT)
+			img.set_pixel(x, y, Color(pow(vr, CURVE), pow(vg, CURVE), pow(vb, CURVE)).linear_to_srgb())
 	job["image"] = img
