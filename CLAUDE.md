@@ -273,6 +273,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   tavolozza, altrimenti sulle pareti si vede la ripetizione ogni 64 pixel.
 - I Control figli di un CanvasLayer (HUD) non prendono la misura dalle ancore se vengono creati prima di entrare
   nell'albero: la misura va presa da `get_viewport_rect()` quando si mostrano (scritta degli strati, mappa).
+- I suggerimenti (tooltip) compaiono in una finestrella a sé che non eredita il tema della finestra principale:
+  il loro stile si scrive nel tema predefinito del motore (`GameTheme.apply`, chiamato da `Session._ready`).
+  Nelle prove un suggerimento compare solo con un evento di movimento del mouse (`Input.parse_input_event`).
 - Il JSON rilegge i numeri come decimali e riordina le chiavi: dopo il caricamento si riconvertono gli interi, e
   i dizionari si confrontano con `==` (non con `str()`).
 - Una prova che cerca un posto adatto deve dire ad alta voce quando non lo trova («ATTENZIONE: …»): cambiando la

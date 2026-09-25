@@ -12,6 +12,11 @@ var test_mode := false
 var test_hops := 0
 
 
+func _ready() -> void:
+	# il tema del gioco per tutta la finestra: i suggerimenti con il fondo scuro (vedi `GameTheme`)
+	GameTheme.apply()
+
+
 ## `extra`: dati in più per il mondo nuovo (dal portale: "vigore" e "ritorno" = id del mondo d'origine).
 func start_new_world(world_name: String, sd: int, id := "", extra := {}) -> void:
 	world_id = ""

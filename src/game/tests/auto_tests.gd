@@ -55,6 +55,18 @@ func run(main: Node2D) -> void:
 	main.hud.panel.toggle()
 	await kit.frames(12)
 	await kit.save("07_bisaccia")
+	# un suggerimento: il mouse sopra una casella della barra rapida, poi si aspetta che compaia
+	var slot: Control = main.hud._slots[0]
+	var at := slot.get_global_rect().get_center()
+	get_viewport().warp_mouse(at)
+	for k in 3:
+		var mv := InputEventMouseMotion.new()
+		mv.position = at + Vector2(k, 0)
+		mv.global_position = mv.position
+		Input.parse_input_event(mv)
+		await kit.frames(2)
+	await kit.seconds(1.5)
+	await kit.save("39_suggerimento")
 	main.hud.panel.toggle()
 	var heard: Dictionary = main.sfx.played
 	var silent := SoundsData.SOUNDS.keys().filter(func(k: String) -> bool: return not heard.has(k))
