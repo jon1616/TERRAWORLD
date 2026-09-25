@@ -57,7 +57,7 @@ func _on_selected(item: Dictionary) -> void:
 	var use: String = item["use"]
 	var kind := String(ItemsData.get_item(String(item["id"])).get("kind", ""))
 	# torce e lanterne si tengono in mano e si vedono sempre; la torcia ha la sua fiamma
-	player.carry = kind in ["torcia", "lanterna"]
+	player.carry = kind in ["torcia", "lanterna", "rampino"]
 	player.carry_glow = Color(2.2, 1.6, 0.9) if kind == "torcia" else Color.BLACK
 	player.tool_tex = item["tex"] if use in ["scava", "colpo", "abbatti", "tira", "incanta"] or player.carry else null
 

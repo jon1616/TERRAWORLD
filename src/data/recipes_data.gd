@@ -44,6 +44,12 @@ const RECIPES := [
 	{"out": "dardo_vuoto", "qty": 20, "in": {"scheggia_vuoto": 1, "legno": 1}, "station": "ceppo"},
 	{"out": "lanterna_linfa", "qty": 1, "in": {"cristallo_linfa": 5, "lingotto_ambra": 2}, "station": "maglio"},
 	{"out": "rugiada_linfa", "qty": 1, "in": {"cristallo_linfa": 2, "fungo_luminoso": 1, "pozione_rugiada": 1}, "station": "alambicco"},
+	# voce 31: muoversi meglio
+	{"out": "radice_uncino", "qty": 1, "in": {"legno": 12, "seta_radice": 6, "lingotto_radicite": 4}, "station": "ceppo"},
+	{"out": "uncino_cristallo", "qty": 1, "in": {"cristallo_linfa": 8, "lingotto_ambra": 5, "seta_radice": 6}, "station": "maglio"},
+	{"out": "baccello_vento", "qty": 1, "in": {"penna_corteccia": 10, "polvere_lucciola": 8, "gelatina": 5}, "station": "telaio"},
+	{"out": "seme_tempesta", "qty": 1, "in": {"baccello_vento": 1, "membrana_ardesia": 10, "lagunite": 4}, "station": "mola"},
+	{"out": "artigli_corteccia", "qty": 1, "in": {"artiglio_talpone": 3, "legno": 10, "lingotto_legnoferro": 3}, "station": "maglio"},
 	# voce 25: i banchi nuovi e ciò che vi si fa
 	{"out": "alambicco", "qty": 1, "in": {"ardesia": 12, "gelatina": 8, "legno": 6}, "station": "ceppo"},
 	{"out": "telaio", "qty": 1, "in": {"legno": 20, "seta_radice": 10}, "station": "ceppo"},

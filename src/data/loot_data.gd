@@ -42,6 +42,7 @@ const TABLES := {
 		{"item": "pappo_seme", "min": 1, "max": 1, "chance": 0.12},
 	],
 	"rovina_2": [
+		{"item": "baccello_vento", "min": 1, "max": 1, "chance": 0.12},
 		{"item": "mappa_seminatori", "min": 1, "max": 1, "chance": 0.25},
 		{"item": "torcia", "min": 8, "max": 15, "chance": 0.5},
 		{"item": "lingotto_legnoferro", "min": 3, "max": 6, "chance": 0.45},
@@ -54,6 +55,8 @@ const TABLES := {
 		{"item": "cuore_muschio", "min": 1, "max": 1, "chance": 0.1},
 	],
 	"rovina_3": [
+		{"item": "baccello_vento", "min": 1, "max": 1, "chance": 0.1},
+		{"item": "artigli_corteccia", "min": 1, "max": 1, "chance": 0.08},
 		{"item": "mappa_seminatori", "min": 1, "max": 1, "chance": 0.25},
 		{"item": "lingotto_ambra", "min": 3, "max": 6, "chance": 0.45},
 		{"item": "pozione_bagliore", "min": 1, "max": 2, "chance": 0.45},

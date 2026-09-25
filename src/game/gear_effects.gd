@@ -12,6 +12,7 @@ extends Node
 ##   dig        scavo e taglio più rapidi (`PlayerActions.dig_mult`); stealth: le creature vedono meno lontano
 ##   damage     danno × (`Combat.dmg_mult`); atk_speed: colpi più rapidi (`Combat.spd_mult`); linfa_regen: Linfa ×
 ##   magic      incantesimi dei bastoni più forti (`Combat.magic_mult`)
+##   air_jumps  salti in aria (`Player.air_jumps`); wall: scivolare e saltare sulle pareti (`Player.wall_climb`)
 ##   defense    (solo nei bonus dei set) Scorza in più (`Vitals.set_scorza`); quella dei pezzi la somma
 ##              `Bisaccia.scorza`
 
@@ -36,6 +37,8 @@ func refresh() -> void:
 	e["thorns"] = 0.0
 	e["defense"] = 0.0
 	e["glide"] = false
+	e["air_jumps"] = 0.0
+	e["wall"] = false
 	e["fall_safe"] = false
 	var b: Bisaccia = m.character.bisaccia
 	for slot in b.equip:
@@ -55,6 +58,8 @@ func refresh() -> void:
 	m.player.run_mult = e["run"]
 	m.player.jump_mult = e["jump"]
 	m.player.glide = e["glide"]
+	m.player.air_jumps = int(e["air_jumps"])
+	m.player.wall_climb = e["wall"]
 	m.life.fall_safe = e["fall_safe"]
 	m.boons.halo_mult = e["halo"]
 	m.vitals.regen_mult = e["regen"]
@@ -74,7 +79,7 @@ static func _add(e: Dictionary, acc: Dictionary) -> void:
 	for k in acc:
 		if k in MULT:
 			e[k] = float(e[k]) * float(acc[k])
-		elif k in ["luck", "thorns", "defense"]:
+		elif k in ["luck", "thorns", "defense", "air_jumps"]:
 			e[k] = float(e[k]) + float(acc[k])
-		elif k in ["glide", "fall_safe"]:
+		elif k in ["glide", "fall_safe", "wall"]:
 			e[k] = bool(e[k]) or bool(acc[k])

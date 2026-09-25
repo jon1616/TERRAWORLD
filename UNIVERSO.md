@@ -155,6 +155,8 @@ che viene dal Giardino dei Semi.
   Annaffiatoio, Sementiera dei Seminatori), i **Canti** (Tavolette dell'alba, del giorno, del tramonto, della notte) e
   i **Semi perduti** (Semi antichi d'ambra, di cristallo, di brace, del Vuoto). La **Mappa dei Seminatori** li indica.
   I **geodi**: sfere cave di cristallo chiuse nella roccia.
+- Per muoversi: la **Radice uncino** e l'**Uncino di cristallo** (rampini), il **Baccello di vento** e il **Seme di
+  tempesta** (salti in aria), gli **Artigli di corteccia** (pareti).
 - Il **Fagotto del Germogliato**: dove si appassisce resta la Bisaccia, avvolta nelle foglie.
 - Doni da trovare: il **Bocciolo del cuore** (nelle grotte; il suo **Cuore di bocciolo** fa crescere una foglia di Vita
   in più) e la **Stilla perenne** (una goccia che pende dai soffitti profondi senza mai cadere: più Linfa).

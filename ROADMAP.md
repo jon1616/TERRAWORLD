@@ -477,9 +477,16 @@ Richiesta dell'utente: dieci cicli consecutivi di migliorie ed espansioni, «vog
 nelle meccaniche e nei contenuti, senza il suo intervento. Scelte di Claude, dalla meccanica che cambia di più il
 modo di giocare a quella che allarga di più i mondi.
 
-## 31. [ ] Muoversi meglio (M)
-Rampino (Radice uncino, Uncino di cristallo), doppio salto (Baccello di vento, Seme di tempesta), artigli per
-scivolare e saltare sulle pareti.
+## 31. [x] Muoversi meglio (M) — fatto il 26 set 2026
+Il **rampino** (modulo `Grapple`): la **Radice uncino** (Ceppo, portata 11 tessere) e l'**Uncino di cristallo**
+(Maglio, 18 tessere, più svelto). Con il rampino in mano il clic lancia la radice verso il mouse: se tocca la roccia
+si aggancia e tira il Germogliato fino al punto, dove resta appeso senza cadere; il salto lo sgancia con un balzo, e
+così S, allontanarsi troppo o scavare via la tessera d'aggancio. **Doppio salto**: il **Baccello di vento** (un salto
+in aria, con uno sbuffo e un soffio; negli scrigni delle rovine o al Telaio) e il **Seme di tempesta** (due salti in
+aria). **Artigli di corteccia**: in aria, spingendo contro una parete, si scivola piano (senza ferite da caduta) e il
+salto stacca verso l'alto e lontano dal muro. Effetti nuovi degli accessori `air_jumps` e `wall`. Prove
+`--solo=mobilita`: salto 3,3 → 6,1 tessere con il Baccello, rampino che sale di 7 tessere e si sgancia, scivolata a
+70 px/s invece di 520 (foto 59_rampino).
 
 ## 32. [ ] Esplosivi e armi da lancio (M)
 Baccelli esplosivi che rompono la roccia (non quella dura), semi ricurvi che tornano in mano, giavellotti.

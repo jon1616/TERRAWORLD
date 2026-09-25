@@ -10,7 +10,8 @@ extends RefCounted
 ##          elmo · corazza · gambali · accessorio · essenza · consumabile · seme · lanterna · cura · seme_mondo ·
 ##          bastone (tira incantesimi con la Linfa) · dono (si assorbe: Vita o Linfa massima per sempre) ·
 ##          specchio (riporta al punto di partenza) · richiamo (risveglia un Custode all'Altare) · reliquia (da
-##          collezionare, `RelicsData`) · mappa (indica il reliquiario più vicino) · trofeo (lo lasciano solo le creature rare, `TrophyItemsData`)
+##          collezionare, `RelicsData`) · mappa (indica il reliquiario più vicino) · trofeo ·
+##          rampino (`hook`: {range in tessere, speed}; si aggancia alla roccia e tira il Germogliato) (lo lasciano solo le creature rare, `TrophyItemsData`)
 ## Oggetti del bestiario della voce 22 in `BeastItemsData` (uniti qui in `all()`).
 ##   acc    effetti di un accessorio (vedi `GearEffects`): run (corsa ×), jump (salto ×), glide (planare tenendo
 ##          Spazio), fall_safe (niente ferite da caduta), halo (alone ×), regen (ricrescita della Vita ×),
@@ -156,6 +157,12 @@ const ITEMS := {
 		"spell": "cristallo", "linfa": 6, "desc": "Una scheggia di cristallo che attraversa fino a quattro creature."},
 	"bastone_vuoto": {"name": "Bastone del Vuoto", "kind": "bastone", "icon": ["bastone", "vuotite"], "tier": 4, "damage": 34, "speed": 1.8, "knockback": 2.0,
 		"spell": "vuoto", "linfa": 8, "desc": "Una sfera di Vuoto che attraversa la roccia e insegue la creatura più vicina."},
+	# voce 31: muoversi meglio
+	"radice_uncino": {"name": "Radice uncino", "kind": "rampino", "icon": ["uncino", "legno"], "hook": {"range": 11, "speed": 330.0}, "desc": "Clic: la radice vola verso il mouse, si aggancia alla roccia e ti tira su. Salto per sganciarti."},
+	"uncino_cristallo": {"name": "Uncino di cristallo", "kind": "rampino", "icon": ["uncino", "cristallo"], "hook": {"range": 18, "speed": 480.0}, "desc": "Un rampino più lungo e più svelto, con la punta di cristallo."},
+	"baccello_vento": {"name": "Baccello di vento", "kind": "accessorio", "icon": ["sacca", "cristallo"], "acc": {"air_jumps": 1}, "desc": "Un secondo salto in aria: il baccello sbuffa un colpo di vento sotto i piedi."},
+	"seme_tempesta": {"name": "Seme di tempesta", "kind": "accessorio", "icon": ["seme", "lagunite"], "acc": {"air_jumps": 2, "jump": 1.05}, "desc": "Due salti in aria e un salto un po' più alto."},
+	"artigli_corteccia": {"name": "Artigli di corteccia", "kind": "accessorio", "icon": ["artiglio", "radice"], "acc": {"wall": true}, "desc": "Spingendo contro una parete in aria si scivola piano; con il salto ci si stacca verso l'alto."},
 	"seme_mondo": {"name": "Seme di mondo", "kind": "seme_mondo", "icon": ["seme", "cristallo"], "stack": 9, "desc": "Il Cuore del mondo ti ha donato un seme. Piantalo sul terreno: crescerà un portale verso un mondo nuovo."},
 }
 
@@ -280,4 +287,6 @@ static func use_of(id: String) -> String:
 			return "richiama"
 		"mappa":
 			return "mappa"
+		"rampino":
+			return "aggancia"
 	return ""

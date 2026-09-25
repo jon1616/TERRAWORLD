@@ -222,6 +222,19 @@ static func draw(shape: String, im: Image, p: Array[Color]) -> bool:
 			Px.put(im, 11, 8, Color("#ffd24a"))
 			Px.put(im, 9, 8, Color("#ffd24a"))
 			Px.put(im, 10, 9, Color("#ffd24a"))
+		"uncino":
+			# una radice arrotolata a spirale con l'uncino in punta del materiale
+			var w := ItemIcons.pal("legno")
+			var ang := 0.0
+			var r := 5.5
+			for k in 30:
+				var q := Vector2(6.0, 10.0) + Vector2(cos(ang), sin(ang)) * r
+				Px.put(im, int(q.x), int(q.y), w[3] if k % 3 else w[2])
+				ang += 0.42
+				r *= 0.95
+			Px.line(im, Vector2(9.0, 7.0), Vector2(12.5, 2.5), 1, w[3])
+			Px.curve(im, Vector2(12.5, 2.5), Vector2(15.0, 4.0), Vector2(13.0, 7.0), 1, p[2])
+			Px.put(im, 13, 7, p[p.size() - 1])
 		_:
 			return false
 	return true

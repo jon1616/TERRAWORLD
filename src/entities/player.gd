@@ -32,6 +32,14 @@ var boon_run := 1.0                    # Pozione del passo lungo (vedi `Boons`)
 var slow_t := 0.0                      # invischiato in una ragnatela (voce 22): corre a metà per qualche secondo
 var jump_mult := 1.0
 var glide := false
+# voce 31: muoversi meglio
+var air_jumps := 0                     # salti in aria concessi dagli accessori (Baccello di vento, Seme di tempesta)
+var wall_climb := false                # Artigli di corteccia: scivolare lungo le pareti e saltarci via
+var hook := Vector2.INF                # punto a cui è agganciato il rampino (INF = sganciato)
+var hook_speed := 330.0
+var _air_left := 0
+var _wall := 0                         # -1/1: parete toccata a sinistra/destra mentre si scivola
+signal air_jumped
 var aim := NAN                         # angolo del braccio che mira con l'arco (NAN = non mira)
 var tool_tex: Texture2D
 var carry := false                     # tiene in mano una torcia o una lanterna: si vede sempre, a braccio avanti
@@ -152,6 +160,11 @@ func reset_fall() -> void:
 ## esatto per un'accelerazione costante, così il salto è alto uguale a 60 come a 144 fotogrammi al secondo.
 func _step(dt: float, dir: float, held: bool) -> void:
 	slow_t = maxf(slow_t - dt, 0.0)
+	if hook != Vector2.INF:
+		_hook_step(dt)
+		return
+	if on_floor:
+		_air_left = air_jumps
 	var target := dir * RUN * run_mult * boon_run * (0.45 if slow_t > 0.0 else 1.0)
 	var accel := ACCEL_AIR
 	if on_floor:
@@ -164,6 +177,18 @@ func _step(dt: float, dir: float, held: bool) -> void:
 		jumped.emit()
 		jump_buf = 0.0
 		coyote = 0.0
+	elif jump_buf > 0.0 and _wall != 0:
+		# salto dalla parete: via dal muro e in su
+		vel = Vector2(-_wall * 210.0, -JUMP * 0.95 * sqrt(jump_mult))
+		jumped.emit()
+		jump_buf = 0.0
+		_wall = 0
+	elif jump_buf > 0.0 and _air_left > 0:
+		# salto in aria: un soffio di vento sotto i piedi
+		_air_left -= 1
+		vel.y = -JUMP * 0.9 * sqrt(jump_mult)
+		air_jumped.emit()
+		jump_buf = 0.0
 	var vy0 := vel.y
 	vel.y = minf(vel.y + GRAV * dt, GLIDE_FALL if glide and held and vel.y > 0.0 else MAX_FALL)
 	if vel.y < 0.0 and not held:
@@ -180,11 +205,39 @@ func _step(dt: float, dir: float, held: bool) -> void:
 	on_floor = r["floor"]
 	step_vis += r["stepped"]
 	coyote = 0.1 if on_floor else coyote - dt
+	# artigli: in aria, spingendo contro una parete, si scivola piano e ci si può saltare via
+	_wall = 0
+	if wall_climb and not on_floor and dir != 0.0:
+		var wx := floori((position.x + dir * (HALF.x + 1.5)) / 16.0)
+		if world.solid(wx, floori(position.y / 16.0)) and world.solid(wx, floori((position.y - 8.0) / 16.0)):
+			_wall = int(dir)
+			vel.y = minf(vel.y, 70.0)
+			_air_top = position.y              # scivolando non ci si fa male
+			_air_left = air_jumps
 	if not on_floor:
 		_air_top = position.y if _was_floor else minf(_air_top, position.y)
 	elif not _was_floor:
 		landed.emit((position.y - _air_top) / 16.0)
 	_was_floor = on_floor
+
+
+## Appeso al rampino: tirato verso il punto d'aggancio, senza gravità; arrivato resta appeso. Il salto sgancia.
+func _hook_step(dt: float) -> void:
+	jump_buf -= dt
+	if jump_buf > 0.0:
+		hook = Vector2.INF
+		jump_buf = 0.0
+		vel.y = -JUMP * 0.8
+		jumped.emit()
+		return
+	var to := hook - (position + Vector2(0, -6))
+	vel = to.normalized() * hook_speed if to.length() > 12.0 else Vector2.ZERO
+	var r := TileBody.move(world, position, HALF, vel, dt, false, false)
+	position = r["pos"]
+	on_floor = r["floor"]
+	_air_top = position.y                  # tirati dal rampino non si cade
+	_was_floor = on_floor
+	_air_left = air_jumps
 
 
 func _animate(dt: float) -> void:
