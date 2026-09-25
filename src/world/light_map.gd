@@ -20,6 +20,7 @@ const CURVE := 0.85                     # < 1 schiarisce un poco i toni medi sen
 ## (appunto dell'utente del 25 set 2026, con un'immagine di riferimento: dove la luce non arriva deve essere nero pieno).
 ## Sotto CUT è nero, sopra si riscala: il confine tra luce e buio diventa netto.
 const CUT := 0.1
+const FLICKER := 0.12                   # quanto tremola la luce delle torce piantate (vedi `flicker_time`)
 const LW := 128                       # finestra in tessere (la visuale è circa 50×28)
 const LH := 96
 const RECENTER := 6                   # ricentra quando la visuale si sposta di tante tessere
@@ -33,6 +34,7 @@ var sky := SKY                        # luce del cielo aperto, secondo l'ora (ve
 var player_light := PLAYER            # la luce attorno al giocatore (più forte con la lanterna o il bagliore)
 var ambient := AMBIENT                # chiarore minimo, secondo lo strato in cui si trova il giocatore
 var dirty := true                     # il mondo è cambiato (scavo, torcia): va ricalcolata
+var flicker_time := 0.0               # orologio del tremolio delle torce piantate (lo manda avanti `Boons`)
 var _center := Vector2i(-9999, -9999)
 var _player := Vector2i(-9999, -9999)
 var _task := -1
@@ -94,7 +96,7 @@ func _start(center: Vector2i, player_cell: Vector2i) -> void:
 		"origin": o, "tiles": world.tiles, "walls": world.walls, "decor": world.decor, "w": world.w, "h": world.h,
 		"torches": world.torches_in(Rect2i(o, Vector2i(LW, LH))), "player": player_cell, "player_light": player_light, "sky": sky,
 		"decor_light": _decor_light(), "lights": _station_lights(Rect2i(o, Vector2i(LW, LH))) + _extra(Rect2i(o, Vector2i(LW, LH))),
-		"ambient": ambient,
+		"ambient": ambient, "time": flicker_time,
 	}
 	_job = job
 	_task = WorkerThreadPool.add_task(_solve.bind(job), false, "luce")
@@ -195,11 +197,15 @@ static func _solve(job: Dictionary) -> void:
 					g[i] = maxf(g[i], cg.g)
 					b[i] = maxf(b[i], cg.b)
 	var sources: Array = job["torches"]
+	var ft: float = job["time"]
 	for tc in sources:
 		var i: int = (tc.y - o.y) * LW + (tc.x - o.x)
-		r[i] = maxf(r[i], TORCH.r)
-		g[i] = maxf(g[i], TORCH.g)
-		b[i] = maxf(b[i], TORCH.b)
+		# ogni torcia tremola per conto suo: la fase nasce dalla sua cella, così non pulsano tutte insieme
+		var ph: float = fposmod(tc.x * 12.9898 + tc.y * 78.233, 1.0) * TAU
+		var f := 1.0 + FLICKER * (0.55 * sin(ft * 7.3 + ph) + 0.3 * sin(ft * 17.1 + ph * 1.7))
+		r[i] = maxf(r[i], TORCH.r * f)
+		g[i] = maxf(g[i], TORCH.g * f)
+		b[i] = maxf(b[i], TORCH.b * f)
 	for lt in job["lights"]:
 		var lc: Vector2i = lt[0]
 		var col: Color = lt[1]

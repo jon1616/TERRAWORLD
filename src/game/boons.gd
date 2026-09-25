@@ -27,6 +27,7 @@ var _last_light := Color.BLACK
 var _flick_t := 0.0
 var _flick_clock := 0.0
 var _flick := 1.0
+var _torch_t := 0.0
 
 
 func setup(main: Node2D) -> void:
@@ -90,6 +91,14 @@ func _process(dt: float) -> void:
 		if hk == "torcia":
 			ll = ll * _flicker(dt)
 		l = Color(maxf(l.r, ll.r), maxf(l.g, ll.g), maxf(l.b, ll.b))
+	# le torce piantate tremolano anch'esse: si ricalcola la luce a piccoli passi, solo se ce n'è qualcuna vicina
+	_torch_t -= dt
+	if _torch_t <= 0.0:
+		_torch_t = FLICKER_STEP
+		var win := Rect2i(m.light.origin, Vector2i(LightMap.LW, LightMap.LH))
+		if not m.world.torches_in(win).is_empty():
+			m.light.flicker_time += FLICKER_STEP
+			m.light.dirty = true
 	if l != _last_light:
 		_last_light = l
 		m.light.player_light = l

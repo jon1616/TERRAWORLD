@@ -56,6 +56,26 @@ func run() -> void:
 		seen[snappedf(m.light.player_light.r, 0.01)] = true
 	print("luce che tremola: %d intensità diverse in 2 s, %d fotogrammi (peggiore %d ms)" % [seen.size(), frames, int(worst)])
 	await kit.save("57_torcia_in_mano")
+	# torce piantate attorno: la loro luce tremola, ognuna per conto suo, senza perdere fotogrammi
+	for dx in [-6, -3, 3, 6]:
+		m.actions.place_torch(c + Vector2i(dx, 0))
+	kit.hold("piccone_radicite")
+	await kit.seconds(0.5)
+	var vals := {}
+	var worst2 := 0.0
+	var t1 := Time.get_ticks_msec()
+	var last2 := t1
+	var n2 := 0
+	while Time.get_ticks_msec() - t1 < 2000:
+		await kit.frames(1)
+		var now2 := Time.get_ticks_msec()
+		worst2 = maxf(worst2, now2 - last2)
+		last2 = now2
+		n2 += 1
+		vals[snappedf(m.light.value_at(c + Vector2i(-6, -1)), 0.005)] = true
+	print("torce piantate che tremolano: %d valori di luce diversi in 2 s, %d fotogrammi (peggiore %d ms)" % [vals.size(), n2, int(worst2)])
+	kit.hold("torcia")
+	await kit.seconds(0.3)
 	m.cam.zoom *= 2.5
 	await kit.seconds(0.5)
 	await kit.save("58_torcia_vicino")
