@@ -34,6 +34,8 @@ static func make(id: String) -> Dictionary:
 			_portale(im, gm, w, h)
 		"cesta":
 			_cesta(im, w, h)
+		"fagotto":
+			_fagotto(im, gm, w, h)
 		"scrigno":
 			_scrigno(im, gm, w, h)
 	Px.outline(im, OUT)
@@ -207,3 +209,18 @@ static func _scrigno(im: Image, gm: Image, w: int, h: int) -> void:
 			Vector2i(w / 2 - 2, 7), Vector2i(w / 2 + 2, 7), Vector2i(w / 2, 8)]:
 		Px.put(im, q.x, q.y, rune)
 		Px.put(gm, q.x, q.y, rune)
+
+
+## Fagotto del Germogliato: un fagotto di foglie legato con una radice, con un filo di luce d'ambra (si ritrova al buio).
+static func _fagotto(im: Image, gm: Image, w: int, h: int) -> void:
+	var leaf := Px.pal(TileDefs.P_GRASS)
+	for y in range(5, h):
+		for x in range(2, w - 2):
+			var d := Vector2((x + 0.5 - w / 2.0) / 6.0, (y + 0.5 - 11.0) / 5.5)
+			if d.length() <= 1.0:
+				Px.put(im, x, y, leaf[3] if d.y < 0.0 else leaf[2])
+	Px.line(im, Vector2(3.0, 10.0), Vector2(13.0, 10.0), 1, Color(TileDefs.P_ROOT[2]))
+	Px.line(im, Vector2(8.0, 4.0), Vector2(8.0, 7.0), 1, Color(TileDefs.P_ROOT[2]))
+	Px.put(im, 8, 3, Color("#ffb040"))
+	Px.put(gm, 8, 3, Color("#ffb040"))
+	Px.put(gm, 8, 10, Color("#ffb040"))

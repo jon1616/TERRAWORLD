@@ -78,6 +78,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   - `BiomesData` — i biomi di superficie (foresta-lanterna, paludi di spore, distese d'ambra): erba, alberi, colline,
     altezza, tinta del cielo; `World.biomes` = un bioma per colonna (salvato). Creature con `biomes` compaiono in
     superficie solo lì.
+  - `DangerData` — il pericolo di una zona (strato, notte, Avvizzimento, vigore) → tetto di creature, ritmo delle
+    nascite, soglia di buio per nascere sotto terra, moltiplicatore del danno. Qui si regola la difficoltà.
   - `StrataData` — i 5 strati di profondità (Superficie, Sottobosco di radici, Caverne d'ardesia, Profondità della
     Linfa, il Fondo): dove cominciano, roccia, sacche, parete, chiarore, pericolo delle creature, scritta d'ingresso.
     Il confine ondeggia (`offset(x, seme)`); `at(world, x, y)` / `index(x, profondità, seme)` = strato di una cella.

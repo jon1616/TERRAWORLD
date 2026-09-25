@@ -8,7 +8,8 @@ const FALL_HURT := 6                   # punti di Vita per ogni tessera in più
 
 var m: Node2D                          # la scena di gioco
 var dead := false
-var fall_safe := false                 # un accessorio (Foglia planante) toglie le ferite da caduta
+var fall_safe := false
+var bundle := Vector2i(-1, -1)         # dove è rimasto l'ultimo fagotto (per le prove)                 # un accessorio (Foglia planante) toglie le ferite da caduta
 
 
 func setup(main: Node2D) -> void:
@@ -34,6 +35,7 @@ func _on_died() -> void:
 	m.actions.enabled = false
 	m.player.modulate = Color(0.5, 0.4, 0.3)
 	m.hud.toast("Il Germogliato appassisce…")
+	_drop_bundle()
 	flash(Color(0.0, 0.0, 0.0, 0.6), 2.5)
 	await get_tree().create_timer(3.0).timeout
 	m.player.modulate = Color.WHITE
@@ -42,7 +44,42 @@ func _on_died() -> void:
 	m.player.control = had_control
 	m.actions.enabled = true
 	dead = false
-	m.hud.toast("Rinasci alla partenza")
+	m.hud.toast("Rinasci alla partenza. La tua Bisaccia è rimasta in un fagotto dove sei appassito (è sulla mappa)" if bundle.x >= 0 and m.world.stations.has(bundle) else "Rinasci alla partenza")
+
+
+## Appassire costa (voce 20): la parte grande della Bisaccia (non la barra rapida, non ciò che si indossa) resta in
+## un fagotto di foglie dove si è caduti, segnato sulla mappa; bisogna tornare a prenderla.
+func _drop_bundle() -> void:
+	var b: Bisaccia = m.character.bisaccia
+	var any := false
+	for i in range(Bisaccia.HOTBAR, b.slots.size()):
+		if not b.slots[i].is_empty():
+			any = true
+	if not any:
+		return
+	var c: Vector2i = m.player_cell()
+	var w: World = m.world
+	# una cella libera vicina (niente stazioni, niente roccia)
+	for r in 6:
+		var found := false
+		for dy in range(-r, r + 1):
+			for dx in range(-r, r + 1):
+				var q := c + Vector2i(dx, dy)
+				if not found and w.inside(q.x, q.y) and not w.solid(q.x, q.y) and w.station_at(q).is_empty():
+					c = q
+					found = true
+		if found:
+			break
+	w.stations[c] = "fagotto"
+	var bag := w.chest_at(c)
+	for i in range(Bisaccia.HOTBAR, b.slots.size()):
+		if not b.slots[i].is_empty():
+			bag.add_stack(b.slots[i])
+			b.slots[i] = {}
+	b.changed.emit()
+	m.view.add_station(c)
+	m.light.dirty = true
+	bundle = c
 
 
 ## Un lampo colorato su tutto lo schermo che svanisce.

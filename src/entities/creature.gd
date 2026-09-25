@@ -116,10 +116,10 @@ func make_calm() -> void:
 
 
 ## Più forte negli strati profondi: Vita e danno moltiplicati.
-func strengthen(mult: float) -> void:
+func strengthen(mult: float, dmg_mult := -1.0) -> void:
 	hp_max = int(round(hp_max * mult))
 	hp = hp_max
-	damage = int(round(damage * mult))
+	damage = int(round(damage * (mult if dmg_mult < 0.0 else dmg_mult)))
 
 
 func rect() -> Rect2:

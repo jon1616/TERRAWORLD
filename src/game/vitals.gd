@@ -9,8 +9,8 @@ signal died
 
 const HP_MAX := 100
 const LINFA_MAX := 20
-const REGEN_DELAY := 6.0              # secondi senza ferite prima che la Vita ricresca
-const REGEN := 2.0                    # punti di Vita al secondo, dopo l'attesa
+const REGEN_DELAY := 10.0             # secondi senza ferite prima che la Vita ricresca (voce 20: prima 6, troppo facile)
+const REGEN := 1.2                    # punti di Vita al secondo, dopo l'attesa (prima 2)
 const LINFA_REGEN := 1.5              # punti di Linfa al secondo
 const POTION_COOLDOWN := 30.0
 

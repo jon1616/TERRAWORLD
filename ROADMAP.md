@@ -288,6 +288,17 @@ lascia **Nucleo del Colosso** o **Pietra che batte** → **Lingotto stellare** e
 storia nuove. Il Guardiano sveglio fa luce attorno a sé (nel buio vero la lotta non si vedeva). Prove: risveglio con il
 vigore 2 e 3, sconfitta e bottino, lingotti dalle due strade (foto 37_regina_spore, 38_colosso_ardesia).
 
+## 20. [~] Pericolo e creature antiche (L) — iniziata il 25 set 2026
+Dopo la prima partita dell'utente («troppo facile, non c'è molto rischio ad esplorare»), con la richiesta: niente
+decine di mostri in superficie, pericoli adeguati alla zona; le creature rare e forti come parte fondamentale del gioco.
+**20a fatta il 25 set 2026 — pericolo per zona**: `DangerData` calcola il pericolo dove si trova il Germogliato (strato
+1 / 2,5 / 3,5 / 4,5 / 5,5; +1,5 di notte in superficie; +1,5 nelle terre avvizzite; +1 per punto di vigore) e da lì il
+tetto di creature (superficie di giorno 2, di notte 4, Fondo 8) e il ritmo delle nascite (7 s / pericolo). Sotto terra
+le creature nascono **solo al buio** (le torce sono un riparo), appena fuori dalla visuale (28-44 tessere). Danno delle
+creature ×1,35, Vita che ricresce dopo 10 s (prima 6) e più piano. **Appassire costa**: la parte grande della Bisaccia
+(non la barra rapida né ciò che si indossa) resta in un **Fagotto del Germogliato** dove si è caduti, segnato sulla
+mappa; svuotato sparisce. Prove: tabella del pericolo per zona, fagotto lasciato e recuperato.
+
 **Roadmap 2 «Il mondo vivo»** (prevista): biomi di superficie e sotterranei (foresta-lanterna, paludi di spore, distese
 d'ambra, giardini di cristallo…), strutture e rovine dei Seminatori, l'Avvizzimento che si espande, e i **Semi che
 decidono il mondo** (specie = quali biomi, vigore = difficoltà, tratti = particolarità). Poi: mondi a portale veri,

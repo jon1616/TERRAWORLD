@@ -163,7 +163,9 @@ func vitals() -> void:
 		kit.m.actions.drink("pozione_rugiada")
 	print("pozione di rugiada: Vita da %d a %d" % [before, v.hp])
 	await kit.save("13_vita_e_linfa")
-	# appassire e rinascere
+	# appassire e rinascere; appassire costa: prima si mette qualcosa nella parte grande della Bisaccia
+	b.slots[Bisaccia.HOTBAR + 5] = {"id": "legno", "n": 9}
+	b.changed.emit()
 	v.hurt(999)
 	await kit.frames(10)
 	await kit.save("14_appassito")
@@ -171,6 +173,19 @@ func vitals() -> void:
 	await kit.frames(5)
 	var back: bool = v.hp == Vitals.HP_MAX and absi(kit.m.player_cell().x - world.spawn.x) <= 1
 	print("appassito e rinato: %s" % ("sì, alla partenza con tutte le foglie" if back else "NO"))
+	# il fagotto: c'è, contiene il legno, e svuotato sparisce
+	var o: Vector2i = kit.m.life.bundle
+	var has_bundle: bool = o.x >= 0 and world.stations.get(o, "") == "fagotto"
+	var inside: int = world.chest_at(o).count("legno") if has_bundle else 0
+	if has_bundle:
+		kit.m.snap_to(o + Vector2i(1, 0))
+		await kit.frames(5)
+		kit.m.interact.touch(o)
+		kit.m.interact.chest_panel.take_all()
+		await kit.frames(5)
+		kit.m.hud.panel.visible = false
+	print("fagotto: lasciato %s con %d legni dentro, recuperato %s" % ["sì" if has_bundle else "NO", inside,
+		"sì" if has_bundle and not world.stations.has(o) else "NO"])
 
 
 ## Movimento sulla zona piana della partenza: velocità massima, altezza del salto pieno, e un muro di 3 blocchi da

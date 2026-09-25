@@ -213,6 +213,8 @@ func _build() -> void:
 	_loading.queue_free()
 	built = true
 	fauna.vigor_mult = Portal.vigor_mult(portal.vigor())
+	fauna.vigor = portal.vigor()
+	fauna.light = light
 	if Session.world_id == "":
 		if Session.new_world.has("ritorno"):
 			portal.place_return(String(Session.new_world["ritorno"]))

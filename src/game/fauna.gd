@@ -1,7 +1,9 @@
 class_name Fauna
 extends Node2D
-## Le creature vive attorno al Germogliato: le fa comparire secondo lo strato (fuori dalla visuale, non troppo
-## lontano), le toglie quando ci si allontana molto, raccoglie i loro spari e, quando muoiono, lascia il bottino.
+## Le creature vive attorno al Germogliato: le fa comparire secondo il **pericolo** della zona (`DangerData`: strato,
+## notte, Avvizzimento, vigore) con un tetto di creature e un ritmo che crescono con il pericolo; sotto terra solo nel
+## buio (le torce sono un riparo). Le toglie quando ci si allontana molto, raccoglie i loro spari e, quando muoiono,
+## lascia il bottino.
 ## Chi colpisce chi lo decide `Combat`; qui c'è solo la popolazione.
 
 const S := 16
@@ -11,9 +13,12 @@ var player: Player
 var drops: Drops
 var shots: Projectiles
 var enabled := true                    # le prove lo spengono per non essere disturbate
-var night := false
+var night := false                     # lo aggiorna `DayCycle`: di notte la superficie è più pericolosa
 var sfx: Sfx
-var vigor_mult := 1.0                  # vigore del mondo (voce 12): creature più forti nei mondi oltre i portali                     # lo aggiorna `DayCycle`: di notte più creature in superficie
+var light: LightMap                    # per nascere solo al buio
+var vigor := 1                         # vigore del mondo (voce 12)
+var vigor_mult := 1.0                  # creature più forti nei mondi oltre i portali
+var danger := 1.0                      # pericolo attorno al giocatore, aggiornato a ogni tentativo
 var list: Array[Creature] = []
 var kills := 0
 var _t := 0.0
@@ -103,10 +108,21 @@ func _process(dt: float) -> void:
 	_t -= dt
 	if _t > 0.0:
 		return
-	_t = CreaturesData.SPAWN_EVERY
-	var surface: bool = player.position.y < (world.surface[clampi(int(player.position.x / S), 0, world.w - 1)] + 10) * S
-	if list.size() < CreaturesData.MAX_ALIVE + (CreaturesData.NIGHT_EXTRA if night and surface else 0):
+	# pericolo dove si trova il giocatore: decide il tetto di creature e il ritmo delle nascite
+	var pc := Vector2i(floori(player.position.x / S), floori(player.position.y / S))
+	danger = DangerData.at(world, pc, night, vigor)
+	_t = DangerData.SPAWN_EVERY / maxf(danger, 0.5)
+	if _alive() < DangerData.cap(danger):
 		try_spawn()
+
+
+## Le creature che contano per il tetto (non i Guardiani e non quelle chiamate in aiuto).
+func _alive() -> int:
+	var n := 0
+	for c in list:
+		if not c.boss and c.master == null:
+			n += 1
+	return n
 
 
 ## Prova a far nascere una creatura in un punto a caso attorno al giocatore (fuori dalla visuale). Restituisce la
@@ -114,7 +130,7 @@ func _process(dt: float) -> void:
 func try_spawn() -> Creature:
 	var pc := Vector2i(floori(player.position.x / S), floori(player.position.y / S))
 	var ang := _rng.randf() * TAU
-	var dist := _rng.randf_range(CreaturesData.SPAWN_MIN, CreaturesData.SPAWN_MAX)
+	var dist := _rng.randf_range(DangerData.SPAWN_MIN, DangerData.SPAWN_MAX)
 	var c := pc + Vector2i(roundi(cos(ang) * dist), roundi(sin(ang) * dist * 0.6))
 	if not world.inside(c.x, c.y) or c.y < 2:
 		return null
@@ -131,12 +147,23 @@ func try_spawn() -> Creature:
 		if _free(c.x, y) and (fly or world.solid(c.x, y + 1)):
 			if world.torch_near(Vector2i(c.x, y), 8.0):
 				return null                # la luce delle torce tiene lontane le creature
+			if stratum > 0 and not _dark(Vector2i(c.x, y)):
+				return null                # sotto terra si nasce solo al buio
 			var cr := add(id, Vector2(c.x * S + 8, (y + 1) * S - CreaturesData.CREATURES[id]["half"][1] - 0.1))
-			cr.strengthen(float(StrataData.STRATA[stratum]["danger"]) * vigor_mult)
+			var mult := float(StrataData.STRATA[stratum]["danger"]) * vigor_mult
+			cr.strengthen(mult, mult * DangerData.DAMAGE)
 			return cr
 		if fly:
 			break
 	return null
+
+
+## Una cella è al buio? Fuori dalla finestra della luce si considera buia (è lontana da ogni torcia vista).
+func _dark(c: Vector2i) -> bool:
+	if light == null:
+		return true
+	var v := light.value_at(c)
+	return v < 0.0 or v < DangerData.DARK
 
 
 func _free(x: int, y: int) -> bool:

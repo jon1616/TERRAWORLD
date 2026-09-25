@@ -80,13 +80,8 @@ const CREATURES := {
 		"loot": "vagavuoto", "art": ["vagavuoto", 0], "strata": [4], "weight": 6, "glow": true},
 }
 
-## Quante creature al massimo attorno al giocatore, e ogni quanto si prova a farne comparire una.
-const MAX_ALIVE := 7
-const NIGHT_EXTRA := 4                 # di notte, in superficie, qualche creatura in più
-const SPAWN_EVERY := 2.0
-## Distanza in tessere: compaiono fuori dalla visuale ma non troppo lontano; spariscono se ci si allontana molto.
-const SPAWN_MIN := 30
-const SPAWN_MAX := 50
+## Tetto di creature, ritmo e distanza delle nascite: vedi `DangerData` (voce 20).
+## Distanza (tessere) oltre cui una creatura sparisce.
 const DESPAWN := 90
 
 

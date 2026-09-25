@@ -70,6 +70,16 @@ func touch(c: Vector2i) -> bool:
 
 
 func _process(_dt: float) -> void:
+	# il fagotto svuotato sparisce: la Bisaccia è recuperata
+	if chest_panel.visible and m.world.stations.get(chest_panel.origin, "") == "fagotto" 			and m.world.chest_at(chest_panel.origin).is_empty():
+		var o := chest_panel.origin
+		chest_panel.close()
+		m.world.stations.erase(o)
+		m.world.chests.erase(o)
+		m.view.remove_station(o)
+		m.light.dirty = true
+		m.hud.toast("Bisaccia recuperata")
+		return
 	# allontanandosi dalla cesta aperta, si chiude
 	if chest_panel.visible:
 		var o := chest_panel.origin

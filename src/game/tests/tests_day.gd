@@ -47,4 +47,15 @@ func run() -> void:
 			seen_day = true
 	m.fauna.clear()
 	print("creature della notte: di notte %s, di giorno %s" % ["sì" if seen_night else "NO", "sì (ERRORE)" if seen_day else "no"])
+	# pericolo per zona (voce 20): tetto di creature e ritmo delle nascite
+	var line := "pericolo:"
+	var sx: int = kit.world.spawn.x
+	for row in [["superficie di giorno", 0, false], ["superficie di notte", 0, true]]:
+		var d := DangerData.at(kit.world, Vector2i(sx, kit.world.surface[sx] - 1), bool(row[2]), 1)
+		line += " %s %.1f (tetto %d, una ogni %.1f s) ·" % [row[0], d, DangerData.cap(d), DangerData.SPAWN_EVERY / d]
+	for k in range(1, StrataData.STRATA.size()):
+		var y: int = kit.world.surface[sx] + StrataData.top(k) + 20
+		var d2 := DangerData.at(kit.world, Vector2i(sx, mini(y, kit.world.h - 10)), false, 1)
+		line += " %s %.1f (tetto %d) ·" % [StrataData.STRATA[k]["name"], d2, DangerData.cap(d2)]
+	print(line)
 	_sky_at(0.5)

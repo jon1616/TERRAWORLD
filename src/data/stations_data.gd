@@ -19,6 +19,9 @@ const STATIONS := {
 	"cesta": {"name": "Cesta di radici", "size": [2, 2], "item": "cesta", "slots": 20},
 	"scrigno": {"name": "Scrigno dei Seminatori", "size": [2, 2], "item": "scrigno", "slots": 20, "light": true,
 		"light_color": Color(0.2, 0.6, 0.55)},
+	# il fagotto di foglie dove il Germogliato è appassito, con la sua Bisaccia (voce 20): sparisce svuotato
+	"fagotto": {"name": "Fagotto del Germogliato", "size": [1, 1], "item": "", "fixed": true, "slots": 30, "light": true,
+		"light_color": Color(0.9, 0.7, 0.35)},
 	"cuore_mondo": {"name": "Cuore del mondo", "size": [3, 3], "item": "", "fixed": true, "light": true,
 		"light_color": Color(1.3, 0.85, 0.4)},
 	"cuore_vivo": {"name": "Cuore del mondo", "size": [3, 3], "item": "", "fixed": true, "light": true,
