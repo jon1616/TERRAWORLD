@@ -9,6 +9,7 @@ extends Node
 const SCORZA := 8
 const LIGHT_BAGLIORE := Color(1.9, 1.7, 1.3)
 const LIGHT_LANTERNA := Color(1.0, 2.0, 1.9)
+const LIGHT_TORCIA := Color(1.9, 1.35, 0.75)   # la torcia tenuta in mano: luce calda come quella piantata
 const NAMES := {"bagliore": "Bagliore", "scorza": "Scorza di corteccia", "vigore": "Vigore", "rigoglio": "Rigoglio",
 	"passo": "Passo lungo", "scavo": "Minatore", "spine": "Spine", "esca": "Esca", "fortuna": "Fortuna"}
 const RIGOGLIO := 3.0                  # la Vita ricresce tre volte più in fretta (Pozione di rigoglio)
@@ -65,8 +66,9 @@ func _process(dt: float) -> void:
 	if active.has("bagliore"):
 		l = LIGHT_BAGLIORE
 	var held := ItemsData.get_item(m.hud.current()["id"])
-	if String(held.get("kind", "")) == "lanterna":
-		var ll: Color = held.get("light", LIGHT_LANTERNA)
+	var hk := String(held.get("kind", ""))
+	if hk == "lanterna" or hk == "torcia":
+		var ll: Color = held.get("light", LIGHT_LANTERNA if hk == "lanterna" else LIGHT_TORCIA)
 		l = Color(maxf(l.r, ll.r), maxf(l.g, ll.g), maxf(l.b, ll.b))
 	if l != _last_light:
 		_last_light = l

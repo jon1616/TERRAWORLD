@@ -461,3 +461,9 @@ una conferma («Sei sicuro?»): il primo bottone, con il fuoco, è «No, torna i
 Si cancellano anche le copie di sicurezza (`SavePaths.delete_file`/`delete_dir`, `Character.delete`,
 `WorldSave.delete`); un portale che portava a un mondo cancellato lo farà rinascere dal suo seme. Provato in
 `prova_salvataggi.gd` (personaggio e mondo spariscono dagli elenchi) e nelle foto del menu (menu_mondi, menu_conferma).
+
+## Extra. [x] La torcia in mano — fatto il 25 set 2026
+Richiesta dell'utente: con la torcia (o una lanterna) nella casella scelta il Germogliato la tiene in mano, a braccio
+avanti, e si vede sempre; la torcia ha in cima una fiamma che guizza sopra il buio e fa una luce calda attorno a lui
+(`Boons.LIGHT_TORCIA`, come una torcia piantata). `Player.carry` e `carry_glow`, impostati da
+`PlayerActions._on_selected`. Prova `--solo=torcia` (foto 57_torcia_in_mano, 58_torcia_vicino).

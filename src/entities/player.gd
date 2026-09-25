@@ -34,6 +34,10 @@ var jump_mult := 1.0
 var glide := false
 var aim := NAN                         # angolo del braccio che mira con l'arco (NAN = non mira)
 var tool_tex: Texture2D
+var carry := false                     # tiene in mano una torcia o una lanterna: si vede sempre, a braccio avanti
+var carry_glow := Color.BLACK          # colore della fiamma in cima (nero = niente fiamma)
+var flame: Sprite2D
+var _flicker := 0.0
 var rig: Node2D
 var spr: Sprite2D
 var tool: Sprite2D
@@ -66,6 +70,17 @@ func setup(wd: World) -> void:
 	spr.position = Vector2(0, -3)
 	rig.add_child(spr)
 	rig.move_child(tool, 1)
+	# la fiamma della torcia in mano: un punto acceso sopra il buio (la luce vera la dà `Boons`)
+	var fi := Image.create_empty(5, 6, false, Image.FORMAT_RGBA8)
+	for q in [[2, 0, "#ffe8b0"], [1, 1, "#ffc060"], [2, 1, "#fff4d0"], [3, 1, "#ffc060"], [1, 2, "#ff9a30"],
+			[2, 2, "#ffe0a0"], [3, 2, "#ff9a30"], [2, 3, "#ffb040"], [1, 3, "#e06a20"], [3, 3, "#e06a20"]]:
+		fi.set_pixel(int(q[0]), int(q[1]), Color(String(q[2])))
+	flame = Sprite2D.new()
+	flame.texture = ImageTexture.create_from_image(fi)
+	flame.z_as_relative = false
+	flame.z_index = 26
+	flame.visible = false
+	rig.add_child(flame)
 	var ei := Image.create_empty(1, 2, false, Image.FORMAT_RGBA8)
 	ei.fill(CharacterArt.EYE)
 	eye = Sprite2D.new()
@@ -205,6 +220,12 @@ func _animate(dt: float) -> void:
 			pose["fa_u"] = a
 			pose["fa_l"] = a
 			key += "_a%d" % q
+		elif carry:
+			# torcia o lanterna in mano: il braccio avanti, un po' alzato
+			a = 2.0
+			pose["fa_u"] = a
+			pose["fa_l"] = a + 0.3
+			key += "_c"
 	if not _cache.has(key):
 		var d := CharacterArt.character(pose, look)
 		_cache[key] = {"tex": ImageTexture.create_from_image(d["img"]), "hand": d["hand"], "eye": d["eye"]}
@@ -213,9 +234,23 @@ func _animate(dt: float) -> void:
 	spr.position = Vector2(0, -3 + step_vis)
 	eye.position = spr.position + (entry["eye"] as Vector2) - Vector2(12, 16)
 	rig.scale.x = facing
-	tool.visible = (sw or not is_nan(aim)) and tool_tex != null
+	var holding := carry and not sw and is_nan(aim)
+	tool.visible = (sw or not is_nan(aim) or carry) and tool_tex != null
 	if tool.visible:
 		tool.texture = tool_tex
 		var hand: Vector2 = entry["hand"]
 		tool.position = spr.position + hand - Vector2(12, 16)
-		tool.rotation = atan2(cos(a), sin(a)) + PI * 0.25
+		if holding:
+			# tenuta dritta, il manico nella mano
+			tool.offset = Vector2(0, -5)
+			tool.rotation = 0.15
+		else:
+			tool.offset = Vector2(4.5, -4.5)
+			tool.rotation = atan2(cos(a), sin(a)) + PI * 0.25
+	flame.visible = holding and tool.visible and carry_glow != Color.BLACK
+	if flame.visible:
+		_flicker += dt
+		flame.position = tool.position + Vector2(0, -9).rotated(tool.rotation) + Vector2(-0.5, 0)
+		var f := 1.0 + 0.18 * sin(_flicker * 17.0) + 0.1 * sin(_flicker * 29.0)
+		flame.modulate = carry_glow * f
+		flame.scale = Vector2(1.0, 0.9 + 0.15 * sin(_flicker * 13.0))
