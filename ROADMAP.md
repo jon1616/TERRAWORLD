@@ -520,8 +520,16 @@ premio (cenere, semi di muschio, pozioni, a volte Cuori di bocciolo, Stille, Ess
 (15% dei giorni): creature rare ×2 e semi selvatici ×3. Prove `--solo=eventi` (foto 62_pioggia_stelle); nelle prove
 gli eventi sono spenti (`Events.paused`).
 
-## 35. [ ] Costruire (M)
-Blocchi da costruzione (mattoni, assi, vetro di cristallo), pareti da piazzare, porte, lampade e arredi.
+## 35. [x] Costruire (M) — fatto il 26 set 2026
+Tre **blocchi da costruzione** con i bordi **squadrati** (nuovo modo di disegno `_square` in `TerrainPainter`: le
+costruzioni hanno spigoli dritti, il terreno naturale resta morbido): **Assi di lanterna**, **Mattoni d'ardesia** e
+**Vetro di resina** (solido, ma la luce ci passa attraverso). **Pareti di fondo** da piazzare con il clic (assi,
+mattoni, pietra dei Seminatori) e da togliere tenendo premuto con il **Martello di radice** (modulo `Masonry`; le
+pareti costruite tornano nella Bisaccia). La **Porta di lanterna** (vano alto 3): clic destro la apre e la chiude, e
+chiusa è fatta di tessere solide che fermano anche le creature; non si chiude addosso a qualcuno. Arredi: **Lampada
+di lanterna** (luce calda), **Tavolo** e **Sedia di radice**, e il **Letto di foglie**: clic destro e da allora si
+rinasce lì invece che alla partenza (`world_meta["letti"]`). Prove `--solo=casa`: una casetta costruita come la farebbe
+il giocatore (foto 63_casa); `TestKit.flatten` ora abbatte anche gli alberi.
 
 ## 36. [ ] Abitanti e commercio (L)
 Una moneta (i Lumini), viandanti che si fermano al Focolare, un mercante e altri abitanti con le loro merci.

@@ -25,6 +25,7 @@ const WALL_SRC := {
 	TileDefs.WALL_ROOT: ["radice", TileDefs.P_RADICE], TileDefs.WALL_SCISTO: ["scisto", TileDefs.P_SCISTO],
 	TileDefs.WALL_VOID: ["vuotite", TileDefs.P_VUOTITE],
 	TileDefs.WALL_SEM: ["pietra_sem", TileDefs.P_SEM],
+	TileDefs.WALL_ASSI: ["assi", TileDefs.P_ASSI], TileDefs.WALL_MATTONI: ["mattoni", TileDefs.P_MATTONI],
 }
 
 

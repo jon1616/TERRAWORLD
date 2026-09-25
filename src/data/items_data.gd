@@ -14,7 +14,8 @@ extends RefCounted
 ##          rampino (`hook`: {range in tessere, speed}; si aggancia alla roccia e tira il Germogliato) ·
 ##          esplosivo (`blast`: {radius, power, damage, fuse}) · ricurvo (`throw`: {range, speed}; torna in mano) ·
 ##          giavellotto (si lancia e si consuma; `pierce`). Li lancia `Throwing`.
-##          coltura (seme da giardino, `CropsData`) · annaffiatoio (dimezza il tempo di crescita di una coltura) (lo lasciano solo le creature rare, `TrophyItemsData`)
+##          coltura (seme da giardino, `CropsData`) · annaffiatoio (dimezza il tempo di crescita di una coltura) ·
+##          parete (`wall`: la parete di fondo che piazza) · martello (toglie le pareti, tenendo premuto) (lo lasciano solo le creature rare, `TrophyItemsData`)
 ## Oggetti del bestiario della voce 22 in `BeastItemsData` (uniti qui in `all()`).
 ##   acc    effetti di un accessorio (vedi `GearEffects`): run (corsa ×), jump (salto ×), glide (planare tenendo
 ##          Spazio), fall_safe (niente ferite da caduta), halo (alone ×), regen (ricrescita della Vita ×),
@@ -195,6 +196,19 @@ const ITEMS := {
 	"stellina": {"name": "Stellina caduta", "kind": "materiale", "icon": ["stella", "ambra"], "desc": "Cade nelle notti della Pioggia di stelle. Tiepida, e brilla ancora."},
 	"pendente_stelle": {"name": "Pendente di stelle", "kind": "accessorio", "icon": ["amuleto", "ambra"], "acc": {"linfa_regen": 1.5, "halo": 1.2, "magic": 1.05}, "desc": "Linfa +50%, alone più ampio, incantesimi +5%."},
 	"bastone_stellare_caduto": {"name": "Bastone delle stelle cadute", "kind": "bastone", "icon": ["bastone", "ambra"], "tier": 4, "damage": 28, "speed": 2.2, "knockback": 1.2, "spell": "stelle", "linfa": 6, "desc": "Tre piccole stelle che cercano le creature."},
+	# voce 35: costruire
+	"assi_lanterna": {"name": "Assi di lanterna", "kind": "blocco", "icon": ["mattoni", "legno"], "place": TileDefs.ASSI, "desc": "Legno piallato: un blocco dai bordi dritti, per costruire."},
+	"mattoni_ardesia": {"name": "Mattoni d'ardesia", "kind": "blocco", "icon": ["mattoni", "ardesia"], "place": TileDefs.MATTONI, "desc": "Ardesia squadrata e cotta nel Baccello."},
+	"vetro_resina": {"name": "Vetro di resina", "kind": "blocco", "icon": ["vetro", "cristallo"], "place": TileDefs.VETRO, "desc": "Solido come un blocco, ma la luce ci passa attraverso."},
+	"parete_assi": {"name": "Parete di assi", "kind": "parete", "icon": ["parete", "legno"], "wall": TileDefs.WALL_ASSI, "desc": "Clic: una parete di fondo di assi. Il Martello la toglie."},
+	"parete_mattoni": {"name": "Parete di mattoni", "kind": "parete", "icon": ["parete", "ardesia"], "wall": TileDefs.WALL_MATTONI, "desc": "Clic: una parete di fondo di mattoni. Il Martello la toglie."},
+	"parete_sem": {"name": "Parete dei Seminatori", "kind": "parete", "icon": ["parete", "sem"], "wall": TileDefs.WALL_SEM, "desc": "Clic: una parete di pietra lavorata, come quelle delle rovine."},
+	"martello_radice": {"name": "Martello di radice", "kind": "martello", "icon": ["martello", "legno"], "desc": "Tenendo premuto su una parete di fondo la si stacca (le pareti costruite tornano nella Bisaccia)."},
+	"porta_lanterna": {"name": "Porta di lanterna", "kind": "stazione", "icon": ["porta", "legno"], "place": "porta", "stack": 99, "desc": "Si piazza in un vano alto 3 tessere. Clic destro: si apre e si chiude. Chiusa ferma anche le creature."},
+	"lampada_lanterna": {"name": "Lampada di lanterna", "kind": "stazione", "icon": ["lampada", "brace"], "place": "lampada", "stack": 99, "desc": "Una luce calda da tenere in casa."},
+	"tavolo_radice": {"name": "Tavolo di radice", "kind": "stazione", "icon": ["tavolo", "legno"], "place": "tavolo", "stack": 99, "desc": "Un tavolo, per una casa vera."},
+	"sedia_radice": {"name": "Sedia di radice", "kind": "stazione", "icon": ["sedia", "legno"], "place": "sedia", "stack": 99, "desc": "Una sedia accanto al tavolo."},
+	"letto_foglie": {"name": "Letto di foglie", "kind": "stazione", "icon": ["letto", "muschio"], "place": "letto", "stack": 99, "desc": "Clic destro: da ora rinasci qui invece che alla partenza del mondo."},
 	"seme_mondo": {"name": "Seme di mondo", "kind": "seme_mondo", "icon": ["seme", "cristallo"], "stack": 9, "desc": "Il Cuore del mondo ti ha donato un seme. Piantalo sul terreno: crescerà un portale verso un mondo nuovo."},
 }
 
@@ -325,6 +339,10 @@ static func use_of(id: String) -> String:
 			return "lancia"
 		"coltura":
 			return "coltiva"
+		"parete":
+			return "mura"
+		"martello":
+			return "smura"
 		"annaffiatoio":
 			return "annaffia"
 	return ""

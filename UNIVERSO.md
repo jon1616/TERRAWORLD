@@ -163,6 +163,9 @@ che viene dal Giardino dei Semi.
   l'**Annaffiatoio di zucca**; il **Paiolo di radice** e i suoi piatti (zuppa di funghi, pane di tubero, insalata di
   lume, stufato regale) che lasciano **sazi**; la **Pozione di radice** e la **Pozione di notte**.
 - Eventi: la **Pioggia di stelle** (lascia le **Stelline cadute**), la **Notte dell'Avvizzimento**, la **Fioritura**.
+- Costruire: **Assi di lanterna**, **Mattoni d'ardesia**, **Vetro di resina**, le pareti di assi, di mattoni e dei
+  Seminatori, il **Martello di radice**, la **Porta di lanterna**, la **Lampada di lanterna**, **Tavolo** e **Sedia di
+  radice**, il **Letto di foglie** (dove si rinasce).
 - Il **Fagotto del Germogliato**: dove si appassisce resta la Bisaccia, avvolta nelle foglie.
 - Doni da trovare: il **Bocciolo del cuore** (nelle grotte; il suo **Cuore di bocciolo** fa crescere una foglia di Vita
   in più) e la **Stilla perenne** (una goccia che pende dai soffitti profondi senza mai cadere: più Linfa).

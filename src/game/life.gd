@@ -40,7 +40,7 @@ func _on_died() -> void:
 	await get_tree().create_timer(3.0).timeout
 	m.player.modulate = Color.WHITE
 	m.vitals.refill()
-	m.snap_to(m.world.spawn)
+	m.snap_to(m.masonry.respawn_point())
 	m.player.control = had_control
 	m.actions.enabled = true
 	dead = false

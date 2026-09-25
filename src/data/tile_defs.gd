@@ -24,7 +24,13 @@ const AVV_MUSCHIO := 16                # …il muschio (e le altre erbe)…
 const AVV_PIETRA := 17                 # …e l'ardesia
 const PALLIDITE := 18                  # metallo pallido del Sottobosco e delle Caverne (voce 24)
 const TIZZONITE := 19                  # metallo di brace del profondo: vuole il piccone d'ambra
-const TYPES := 19
+# voce 35: costruire. Blocchi dai bordi squadrati (non entrano nella sagoma morbida del terreno naturale)
+const ASSI := 20                       # assi di legno di lanterna
+const MATTONI := 21                    # mattoni d'ardesia
+const VETRO := 22                      # vetro di resina: solido ma lascia passare la luce
+const PORTA := 23                      # una porta chiusa: solida, non disegnata (la disegna la stazione)
+const TYPES := 23
+const BUILT := [ASSI, MATTONI, VETRO]
 const BLIGHTED := [AVV_TERRA, AVV_MUSCHIO, AVV_PIETRA]
 const GRASSES := [GRASS, GRASS_SPORE, GRASS_AMBRA]
 
@@ -34,7 +40,9 @@ const WALL_ROOT := 3
 const WALL_SCISTO := 4
 const WALL_VOID := 5
 const WALL_SEM := 6                    # parete delle rovine dei Seminatori
-const WALLS := 6
+const WALL_ASSI := 7                   # pareti da costruire (voce 35)
+const WALL_MATTONI := 8
+const WALLS := 8
 
 # decorazioni (0 = nessuna): stanno su una cella d'aria, appoggiate al blocco sotto oppure appese a quello sopra
 const DECOR_GRASS := [1, 2, 3]         # fronde di muschio
@@ -73,19 +81,20 @@ const DECOR_LIGHT := {
 const HARD := {DIRT: 0.22, GRASS: 0.22, STONE: 0.38, RADICITE: 0.5, LEGNOFERRO: 0.6, AMBRA: 0.7, CRYSTAL: 0.8,
 	RADICE: 0.45, SCISTO: 0.5, VUOTITE: 0.75, NODO: 9.0, PIETRA_SEM: 0.8,
 	GRASS_SPORE: 0.22, GRASS_AMBRA: 0.22, AVV_TERRA: 0.25, AVV_MUSCHIO: 0.25, AVV_PIETRA: 0.42,
-	PALLIDITE: 0.55, TIZZONITE: 0.8}
+	PALLIDITE: 0.55, TIZZONITE: 0.8, ASSI: 0.3, MATTONI: 0.45, VETRO: 0.3, PORTA: 1.0}
 ## Forza di piccone minima (vedi `ItemsData.METALS`): radicite 35, legnoferro 45, ambra 55. L'ambra vuole il piccone
 ## di legnoferro, i cristalli di Linfa quello d'ambra: è il filo della progressione.
 ## Il Fondo (vuotite) vuole il piccone di legnoferro: non ci si arriva col primo corredo.
 const POWER := {DIRT: 0, GRASS: 0, STONE: 0, RADICITE: 0, LEGNOFERRO: 35, AMBRA: 45, CRYSTAL: 55, RADICE: 0, SCISTO: 0,
 	VUOTITE: 45, NODO: 999, PIETRA_SEM: 0, GRASS_SPORE: 0, GRASS_AMBRA: 0,
-	AVV_TERRA: 0, AVV_MUSCHIO: 0, AVV_PIETRA: 0, PALLIDITE: 35, TIZZONITE: 55}
+	AVV_TERRA: 0, AVV_MUSCHIO: 0, AVV_PIETRA: 0, PALLIDITE: 35, TIZZONITE: 55, ASSI: 0, MATTONI: 0, VETRO: 0, PORTA: 999}
 ## Oggetto che si ottiene rompendo la tessera o raccogliendo la decorazione.
 const DROP := {DIRT: "humus", GRASS: "humus", STONE: "ardesia", RADICITE: "minerale_radicite", LEGNOFERRO: "minerale_legnoferro",
 	AMBRA: "minerale_ambra", CRYSTAL: "cristallo_linfa", RADICE: "radice_antica", SCISTO: "scisto", VUOTITE: "vuotite",
 	NODO: "radice_antica", PIETRA_SEM: "pietra_seminatori", GRASS_SPORE: "humus", GRASS_AMBRA: "humus",
 	AVV_TERRA: "cenere_avvizzita", AVV_MUSCHIO: "cenere_avvizzita", AVV_PIETRA: "ardesia",
-	PALLIDITE: "minerale_pallidite", TIZZONITE: "minerale_tizzonite"}
+	PALLIDITE: "minerale_pallidite", TIZZONITE: "minerale_tizzonite", ASSI: "assi_lanterna", MATTONI: "mattoni_ardesia",
+	VETRO: "vetro_resina", PORTA: "porta_lanterna"}
 const DECOR_DROP := {9: "fungo_brace", 10: "fungo_luminoso", 15: "seme_lanterna", 16: "scheggia_vuoto",
 	21: "cuore_bocciolo", 22: "stilla_perenne", 23: "brillaluce", 24: "sanguinella", 25: "lagunite", 26: "nottilite"}
 
@@ -102,7 +111,8 @@ const NAMES := {DIRT: "Humus", GRASS: "Muschio", STONE: "Ardesia", RADICITE: "Ra
 	RADICE: "Radice antica", SCISTO: "Scisto di Linfa", VUOTITE: "Vuotite", NODO: "Nodo avvizzito",
 	PIETRA_SEM: "Pietra dei Seminatori", GRASS_SPORE: "Muschio di spore", GRASS_AMBRA: "Erba d'ambra",
 	AVV_TERRA: "Terra avvizzita", AVV_MUSCHIO: "Muschio avvizzito", AVV_PIETRA: "Ardesia avvizzita",
-	PALLIDITE: "Pallidite", TIZZONITE: "Tizzonite"}
+	PALLIDITE: "Pallidite", TIZZONITE: "Tizzonite", ASSI: "Assi di lanterna", MATTONI: "Mattoni d'ardesia",
+	VETRO: "Vetro di resina", PORTA: "Porta"}
 
 ## Luce emessa dai blocchi.
 const LIGHT_CRYSTAL := Color(0.55, 0.9, 1.25)
@@ -117,6 +127,9 @@ const P_LEGNOFERRO := ["#3a4250", "#6a7688", "#a2b0c2", "#dce6f2"]
 const P_AMBRA := ["#6a4a0c", "#b0861c", "#eec04a", "#fff2a8"]
 const P_PALLIDITE := ["#4e4e66", "#8a8aa6", "#c4c4dc", "#f4f4ff"]
 const P_TIZZONITE := ["#4a1010", "#9a2a1a", "#e0582a", "#ffc070"]
+const P_ASSI := ["#3a2430", "#5a3a48", "#7a5462", "#9a7080"]
+const P_MATTONI := ["#2a3650", "#4c5e80", "#62779c", "#8298bc"]
+const P_VETRO := ["#6a8a70", "#a8c8a0", "#d8f0c8", "#ffffff"]
 const P_CRYSTAL := ["#0a2a36", "#12566a", "#1f8a9a", "#5cc8cc", "#b8f4f0"]
 const P_ROOT := ["#2a1810", "#4a2c1a", "#6e4426", "#9a6636"]
 const P_RADICE := ["#4a2c22", "#6a3e2c", "#8a5638", "#a8704a", "#c89066"]
@@ -153,6 +166,9 @@ const TERRAIN_LAYERS := [
 	{"id": "ambra", "types": [AMBRA], "pal": P_AMBRA},
 	{"id": "pallidite", "types": [PALLIDITE], "pal": P_PALLIDITE},
 	{"id": "tizzonite", "types": [TIZZONITE], "pal": P_TIZZONITE},
+	{"id": "assi", "types": [ASSI], "pal": P_ASSI, "square": true},
+	{"id": "mattoni", "types": [MATTONI], "pal": P_MATTONI, "square": true},
+	{"id": "vetro", "types": [VETRO], "pal": P_VETRO, "square": true},
 	{"id": "cristallo", "types": [CRYSTAL], "pal": P_CRYSTAL, "glow": true},
 ]
 
@@ -160,7 +176,8 @@ const TERRAIN_LAYERS := [
 const MAP_COLOR := {DIRT: "#50343c", GRASS: "#3aa08a", STONE: "#434f6c", RADICITE: "#d4783a", LEGNOFERRO: "#a2b0c2", AMBRA: "#eec04a", CRYSTAL: "#3ac0c8",
 	RADICE: "#8a5638", SCISTO: "#32687c", VUOTITE: "#463464", NODO: "#ff40a0",
 	PIETRA_SEM: "#e8fff8", GRASS_SPORE: "#8a58b4", GRASS_AMBRA: "#c89a3a",
-	AVV_TERRA: "#5a534b", AVV_MUSCHIO: "#72704f", AVV_PIETRA: "#51555c", PALLIDITE: "#c4c4dc", TIZZONITE: "#e0582a"}
+	AVV_TERRA: "#5a534b", AVV_MUSCHIO: "#72704f", AVV_PIETRA: "#51555c", PALLIDITE: "#c4c4dc", TIZZONITE: "#e0582a",
+	ASSI: "#7a5462", MATTONI: "#62779c", VETRO: "#d8f0c8", PORTA: "#9a7080"}
 
 
 static func palette_of(type: int) -> Array[Color]:
@@ -201,6 +218,12 @@ static func palette_of(type: int) -> Array[Color]:
 			return Px.pal(P_PALLIDITE)
 		TIZZONITE:
 			return Px.pal(P_TIZZONITE)
+		ASSI, PORTA:
+			return Px.pal(P_ASSI)
+		MATTONI:
+			return Px.pal(P_MATTONI)
+		VETRO:
+			return Px.pal(P_VETRO)
 	return Px.pal(P_STONE)
 
 

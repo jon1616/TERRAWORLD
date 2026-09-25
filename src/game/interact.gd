@@ -48,6 +48,8 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 			return m.garden.plant(c, id)
 		"annaffiatoio":
 			return m.garden.water(c)
+		"parete":
+			return m.masonry.place_wall(c, id)
 		"esplosivo", "ricurvo", "giavellotto":
 			return m.throwing.throw(id, m.fx.get_global_mouse_position())
 		"specchio":
@@ -114,6 +116,10 @@ func touch(c: Vector2i) -> bool:
 				m.objectives.bump("scrigni")
 		return true
 	match id:
+		"porta", "porta_aperta":
+			return m.masonry.toggle_door(o)
+		"letto":
+			return m.masonry.use_bed(o)
 		"portale":
 			m.portal.travel(o)
 			return true

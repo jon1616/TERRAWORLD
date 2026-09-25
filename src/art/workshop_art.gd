@@ -28,7 +28,7 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 			if id.begins_with("bozzolo_"):
 				KeeperArt.bozzolo(im, gm, w, h, StationsData.STATIONS[id]["light_color"] * 1.4, false)
 			else:
-				return false
+				return FurnitureArt.draw(id, im, gm, w, h)
 	return true
 
 

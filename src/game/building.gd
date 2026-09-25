@@ -29,6 +29,9 @@ func place_station(c: Vector2i, id: String) -> bool:
 				a.pick_decor(o + Vector2i(dx, dy))
 	a.world.stations[o] = sid
 	a.bisaccia.take_one(slot)
+	if sid == "porta":
+		for dy in 3:
+			a.world.set_tile(o.x, o.y + dy, TileDefs.PORTA)   # chiusa: ferma chi passa (vedi `Masonry`)
 	a.view.add_station(o)
 	a.light.dirty = true
 	return true
@@ -42,6 +45,9 @@ func take_station(o: Vector2i) -> void:
 			return
 		a.world.chests.erase(o)
 	var size: Array = StationsData.STATIONS[sid]["size"]
+	if sid == "porta" or sid == "porta_aperta":
+		for dy in 3:
+			a.world.set_tile(o.x, o.y + dy, TileDefs.AIR)
 	a.world.stations.erase(o)
 	a.view.remove_station(o)
 	a.light.dirty = true

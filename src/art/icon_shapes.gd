@@ -311,6 +311,67 @@ static func draw(shape: String, im: Image, p: Array[Color]) -> bool:
 				Px.line(im, Vector2(8.0, 8.5), q, 1, p[2])
 			Px.disc(im, 8.0, 8.5, 2.6, p[p.size() - 1])
 			Px.put(im, 8, 8, Color.WHITE)
+		"mattoni":
+			for y in range(3, 14):
+				for x in range(2, 14):
+					var row := (y - 3) / 3
+					var j := (x + (3 if row % 2 else 0)) % 6 == 0
+					Px.put(im, x, y, p[0] if (y - 3) % 3 == 0 or j else (p[3] if (y - 3) % 3 == 1 else p[2]))
+		"vetro":
+			for y in range(3, 14):
+				for x in range(2, 14):
+					var c := p[2]
+					c.a = 0.5
+					if x == 2 or x == 13 or y == 3 or y == 13:
+						c = p[0]
+					elif (x + y) % 7 < 2:
+						c = p[p.size() - 1]
+					Px.put(im, x, y, c)
+		"parete":
+			for y in range(2, 15):
+				for x in range(2, 14):
+					var row2 := (y - 2) / 4
+					var j2 := (x + (3 if row2 % 2 else 0)) % 6 == 0
+					Px.put(im, x, y, Px.sh(p[1], 0.7) if (y - 2) % 4 == 0 or j2 else Px.sh(p[2], 0.75))
+		"martello":
+			var w7 := ItemIcons.pal("legno")
+			Px.line(im, Vector2(3.0, 14.0), Vector2(10.0, 6.0), 2, w7[3])
+			for y in range(1, 7):
+				for x in range(8, 15):
+					Px.put(im, x, y, Color(ItemIcons.MATERIALS["ardesia"][3]) if y < 3 else Color(ItemIcons.MATERIALS["ardesia"][2]))
+		"porta":
+			for y in range(1, 16):
+				for x in range(4, 12):
+					Px.put(im, x, y, p[3] if (x - 4) % 3 else p[1])
+			Px.put(im, 10, 8, Color(ItemIcons.LEAF[2]))
+		"lampada":
+			var w8 := ItemIcons.pal("legno")
+			Px.line(im, Vector2(8.0, 15.0), Vector2(8.0, 8.0), 1, w8[3])
+			for y in range(2, 8):
+				var hw3 := 1.5 + (y - 2) * 0.7
+				for x in S:
+					if absf(x + 0.5 - 8.0) <= hw3:
+						Px.put(im, x, y, Color("#ffc060") if y > 4 else Color("#e89a40"))
+		"tavolo":
+			for x in range(1, 15):
+				Px.put(im, x, 6, p[p.size() - 1])
+				Px.put(im, x, 7, p[3])
+			Px.line(im, Vector2(3.0, 8.0), Vector2(3.0, 14.0), 1, p[2])
+			Px.line(im, Vector2(12.0, 8.0), Vector2(12.0, 14.0), 1, p[2])
+		"sedia":
+			Px.line(im, Vector2(5.0, 1.0), Vector2(5.0, 14.0), 1, p[3])
+			for x in range(5, 12):
+				Px.put(im, x, 8, p[p.size() - 1])
+			Px.line(im, Vector2(11.0, 9.0), Vector2(11.0, 14.0), 1, p[2])
+		"letto":
+			var w9 := ItemIcons.pal("legno")
+			for x in range(1, 15):
+				Px.put(im, x, 11, w9[3])
+			Px.line(im, Vector2(1.0, 11.0), Vector2(1.0, 5.0), 1, w9[3])
+			for k in 4:
+				Px.disc(im, 4.0 + k * 3.0, 9.0, 2.2, p[2 + k % 2])
+			Px.line(im, Vector2(2.0, 12.0), Vector2(2.0, 14.0), 1, w9[2])
+			Px.line(im, Vector2(13.0, 12.0), Vector2(13.0, 14.0), 1, w9[2])
 		_:
 			return false
 	return true

@@ -34,7 +34,10 @@ static func build() -> Dictionary:
 		var gl: Image = glow if L.get("glow", false) else null
 		for v in VARIANTS:
 			for k in range(1, 16):
-				_shape(img, gl, (v * 16 + k) * S, li * S, v % REP, v / REP, k, tex, jitter, li == 0)
+				if L.get("square", false):
+					_square(img, (v * 16 + k) * S, li * S, v % REP, v / REP, k, tex)
+				else:
+					_shape(img, gl, (v * 16 + k) * S, li * S, v % REP, v / REP, k, tex, jitter, li == 0)
 	return {"img": img, "glow": glow}
 
 
@@ -52,6 +55,36 @@ static func _val(k: int, u: float, v: float) -> float:
 	u = u * u * (3.0 - 2.0 * u)
 	v = v * v * (3.0 - 2.0 * v)
 	return lerpf(lerpf(a, b, u), lerpf(c, d, u), v)
+
+
+## Le costruzioni (voce 35) hanno i bordi squadrati: ogni quarto della cella è pieno se la sua tessera c'è, i bordi
+## (dove un quarto pieno tocca uno vuoto) hanno una riga scura e sopra un filo di luce. Il vetro tiene la sua
+## trasparenza.
+static func _square(img: Image, ox: int, oy: int, vx: int, vy: int, k: int, tex: PackedColorArray) -> void:
+	for py in S:
+		for px in S:
+			var q := (1 if px >= 8 else 0) + (2 if py >= 8 else 0)
+			var bit: int = [1, 2, 4, 8][q]
+			if k & bit == 0:
+				continue
+			var tx := posmod(vx * S - 8 + px, TEX)
+			var ty := posmod(vy * S - 8 + py, TEX)
+			var c: Color = tex[ty * TEX + tx]
+			# bordo: il pixel accanto (dentro la cella) cade in un quarto vuoto
+			var edge := false
+			var top := false
+			for o in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
+				var nx: int = px + o.x
+				var ny: int = py + o.y
+				if nx < 0 or ny < 0 or nx >= S or ny >= S:
+					continue
+				var nq := (1 if nx >= 8 else 0) + (2 if ny >= 8 else 0)
+				if k & int([1, 2, 4, 8][nq]) == 0:
+					edge = true
+					top = top or o.y == -1
+			if edge:
+				c = Color(Px.sh(c, 0.5), c.a) if not top else Color(c.lightened(0.25), c.a)
+			img.set_pixel(ox + px, oy + py, c)
 
 
 static func _shape(img: Image, glow: Image, ox: int, oy: int, vx: int, vy: int, k: int,
@@ -171,6 +204,12 @@ static func material(id: String, p: Array[Color], sd: int) -> PackedColorArray:
 			_specks(col, rng, Color("#d8b0ff"), 14)   # scintille, come stelle del Vuoto
 		"radicite", "legnoferro", "ambra", "pallidite", "tizzonite":
 			_nuggets(col, rng, p)
+		"mattoni":
+			_bricks(col, p)
+		"assi":
+			_planks(col, p)
+		"vetro":
+			_glass(col, p)
 		"cristallo":
 			_facets(col, rng, p)
 	return col
@@ -187,6 +226,37 @@ static func _bricks(col: PackedColorArray, p: Array[Color]) -> void:
 				col[i] = p[0]
 			elif y % 8 == 1 or bx == 1:
 				col[i] = p[mini(3, p.size() - 1)]
+
+
+## Assi di legno: file orizzontali alte 4 pixel con le giunture sfalsate e un nodo ogni tanto.
+static func _planks(col: PackedColorArray, p: Array[Color]) -> void:
+	for y in TEX:
+		for x in TEX:
+			var row := y / 4
+			var i := y * TEX + x
+			var joint := (x + row * 11) % 24 == 0
+			if y % 4 == 0 or joint:
+				col[i] = p[0]
+			elif y % 4 == 1:
+				col[i] = p[3]
+			elif (x * 7 + row * 5) % 29 == 0:
+				col[i] = p[1]
+
+
+## Vetro di resina: chiaro, quasi trasparente, con un riflesso diagonale e il telaio sottile.
+static func _glass(col: PackedColorArray, p: Array[Color]) -> void:
+	for y in TEX:
+		for x in TEX:
+			var i := y * TEX + x
+			var c := p[2]
+			c.a = 0.28
+			if (x + y) % 16 < 2:
+				c = p[3]
+				c.a = 0.55
+			if x % 16 == 0 or y % 16 == 0:
+				c = p[0]
+				c.a = 0.9
+			col[i] = c
 
 
 ## Il turchese della Linfa, chiaro quanto il tono più chiaro della tavolozza: vivo sulle tessere, spento sulle pareti

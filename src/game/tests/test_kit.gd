@@ -104,6 +104,12 @@ func _flat_spot(c: Vector2i, width: int, tol: int) -> Vector2i:
 ## Spiana il terreno attorno a c (per piazzare stazioni anche dove le prove precedenti hanno lasciato pendii e
 ## costruzioni): un pavimento d'ardesia sotto e quattro tessere d'aria sopra, per `half` tessere a destra e a sinistra.
 func flatten(c: Vector2i, half: int) -> void:
+	# prima gli alberi: altrimenti restano «piantati» nell'aria e le stazioni non ci stanno
+	for x in range(c.x - half - 3, c.x + half + 4):
+		for y in range(c.y - 12, c.y + 2):
+			var t := world.tree_at(Vector2i(x, y))
+			if t.x >= 0:
+				m.actions.fell_tree(t)
 	for x in range(c.x - half, c.x + half + 1):
 		world.set_tile(x, c.y + 1, TileDefs.STONE)
 		for y in range(c.y - 4, c.y + 1):
