@@ -20,6 +20,8 @@ var vigor := 1                         # vigore del mondo (voce 12)
 var vigor_mult := 1.0                  # creature più forti nei mondi oltre i portali
 var danger := 1.0                      # pericolo attorno al giocatore, aggiornato a ogni tentativo
 var luck := 0.0                        # tratto Fortuna dell'equipaggiamento: probabilità di un giro di bottino in più
+var boon_luck := 0.0                   # Pozione di fortuna
+var rare_mult := 1.0                   # Pozione dell'esca: creature rare più frequenti
 var _light_t := 0.0
 
 signal rare_spawned(c: Creature)
@@ -76,7 +78,7 @@ func kill(c: Creature) -> void:
 	var rolls := 1
 	if c.ancient:
 		rolls = int(AncientData.RARITIES[c.ancient.rarity]["loot_rolls"])
-	if _rng.randf() < luck * 0.5:
+	if _rng.randf() < (luck + boon_luck) * 0.5:
 		rolls += 1
 	for r in rolls:
 		var loot := LootData.roll(String(c.data["loot"]), _rng)
@@ -192,7 +194,7 @@ func try_spawn() -> Creature:
 			var mult := float(StrataData.STRATA[stratum]["danger"]) * vigor_mult
 			cr.strengthen(mult, mult * DangerData.DAMAGE)
 			var grouped: bool = CreaturesData.CREATURES[id].has("group")
-			var rarity := AncientData.roll_rarity(DangerData.at(world, Vector2i(c.x, y), night, vigor), _rng, grouped)
+			var rarity := AncientData.roll_rarity(DangerData.at(world, Vector2i(c.x, y), night, vigor), _rng, grouped, rare_mult)
 			if rarity != "":
 				make_ancient(cr, rarity)
 			if rarity == "capobranco":

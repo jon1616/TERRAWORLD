@@ -108,6 +108,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   - `BeastItemsData` — materiali delle creature della voce 22 e ciò che se ne fa; uniti in `ItemsData.all()`.
   - `TrophyItemsData` — i trofei di ogni specie (`TROPHY_OF`: li lasciano solo le rare), gli oggetti unici che ne
     nascono, la Polvere iridata e gli oggetti iridati, con le loro ricette (unite in `RecipesData.all()`).
+  - `SetsData` — i set di equipaggiamento: `METAL_BONUS` (un set per metallo, pezzi generati), vesti e coppie di
+    accessori; `complete(equip)`, `worn`, `of_item`.
   - `RecipesData` (ricette, più quelle generate delle famiglie di metallo), `StationsData` (ceppo, baccello ardente,
     maglio), `CreaturesData` (creature: statistiche, comportamenti con i parametri `p`, bottino, strati, peso di comparsa), `LootData` (tabelle e `roll`).
 - `src/art/` — grafica generata dal codice:
@@ -122,7 +124,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   - `IconShapes` — le forme d'icona nuove (dalla voce 21), chiamate da `ItemIcons` quando la forma non è sua.
   - `ItemIcons` — icone 16×16 nello stile (manici di radice fasciati di foglia, lame a foglia, lingotti a seme, perle
     d'ambra): `make(forma, materiale)` o `of(id)`; il materiale sceglie la tavolozza.
-  - `StationArt` — Ceppo del Giardiniere, Baccello ardente (bocca di brace luminosa), Maglio dei Seminatori (rune).
+  - `StationArt` — Ceppo del Giardiniere, Baccello ardente (bocca di brace luminosa), Maglio dei Seminatori (rune);
+    i banchi della voce 25 (Alambicco, Telaio, Mola) in `WorkshopArt`. Foglio di tutte le stazioni in prove/stazioni.png.
   - `BossArt` — i tre Guardiani (Nodo, Regina, Colosso), malati o guariti, chiamati da `CreatureArt.frames`.
   - `BeastArt` (creature della voce 22 di superficie e Sottobosco, `spider` per i ragni) e `DeepBeastArt` (quelle del
     profondo), chiamate da `CreatureArt.frames` (2 fotogrammi, 3 per guscio e travestimento).
@@ -210,8 +213,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 - `src/game/interact.gd` (`Interact`) — smista i clic che `PlayerActions` non conosce (`use_hook`/`touch_hook`):
   Rugiada → `Guardian.cure_at`, Seme di mondo → `Portal.plant`; clic destro su portale, Cuore, ceste e scrigni
   (apre `ChestPanel` in `src/ui/`, che condivide la pila in mano con `BisacciaPanel`; Maiusc+clic con `quick_target`).
-- `src/game/gear_effects.gd` (`GearEffects`) — effetti degli accessori (`acc` in `ItemsData`): `Player.run_mult`,
-  `jump_mult`, `glide`, `Life.fall_safe`, `Boons.halo_mult`, `Vitals.regen_mult`; ricalcolati a ogni cambio della Bisaccia.
+- `src/game/gear_effects.gd` (`GearEffects`) — effetti di ciò che si indossa (`acc` in `ItemsData`, anche sulle
+  armature), dei tratti e dei set completi (`sets`), sommati da `_add`: corsa, salto, planata, cadute, alone, Vita,
+  Linfa, spine, fortuna, scavo, ombra, danno, colpi, incantesimi, Scorza dei set; ricalcolati a ogni cambio della Bisaccia.
 - `src/game/map_reveal.gd` (`MapReveal`) — mappa esplorata: segna viste le celle illuminate (`World.explored`) e le
   dipinge in un'immagine 1 pixel = 1 tessera; `MapPanel` in `src/ui/` (tasto M, rotella, trascinare, segni).
 - `src/game/erbario.gd` (`Erbario`) — le scoperte del personaggio (`Character.erbario`: creature sconfitte con il

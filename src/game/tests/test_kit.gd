@@ -71,22 +71,33 @@ func floor_near(c: Vector2i, radius: int) -> Vector2i:
 	return best
 
 
-## Una cella d'aria su terreno piano e libero per `width` tessere (niente alberi, stazioni), vicina a c.
+## Una cella d'aria su terreno piano e libero per `width` tessere (niente alberi, stazioni), vicina a c. Se non c'è
+## terreno perfettamente piano (vicino alla partenza le prove precedenti costruiscono stazioni sull'unico tratto
+## piano) si accetta un dislivello di una tessera, poi di due.
 func flat_spot(c: Vector2i, width: int) -> Vector2i:
+	for tol in 3:
+		var q := _flat_spot(c, width, tol)
+		if q.x >= 0:
+			return q
+	return Vector2i(-1, -1)
+
+
+func _flat_spot(c: Vector2i, width: int, tol: int) -> Vector2i:
 	for r in range(4, 200):
 		for side in [1, -1]:
 			var x: int = c.x + side * r
 			var gy := world.surface[clampi(x, 0, world.w - 1)]
 			var ok := true
 			for dx in width:
-				var cell := Vector2i(x + dx, gy - 1)
-				var flat := world.surface[clampi(x + dx, 0, world.w - 1)] == gy
-				if not flat or world.solid(cell.x, cell.y) or not world.solid(cell.x, gy) \
+				var sy := world.surface[clampi(x + dx, 0, world.w - 1)]
+				var cell := Vector2i(x + dx, sy - 1)
+				if absi(sy - gy) > tol or world.solid(cell.x, cell.y) or not world.solid(cell.x, sy) \
 						or world.tree_at(cell).x >= 0 or not world.station_at(cell).is_empty():
 					ok = false
 					break
 			if ok:
-				return Vector2i(x + width / 2, gy - 1)
+				var xm := x + width / 2
+				return Vector2i(xm, world.surface[xm] - 1)
 	return Vector2i(-1, -1)
 
 

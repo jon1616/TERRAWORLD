@@ -26,6 +26,8 @@ var auto_fire := false
 var god := false
 var dmg_mult := 1.0                    # accessori: danno × (vedi `GearEffects`)
 var spd_mult := 1.0                    # accessori: colpi più rapidi
+var magic_mult := 1.0                  # vesti di seta: incantesimi più forti
+var boon_thorns := 0                   # Pozione di spine
 var thorns := 0                        # tratto Spine dell'equipaggiamento: danno a chi ti tocca                       # per le prove: il Germogliato non si ferisce
 
 
@@ -197,7 +199,7 @@ func _contact() -> void:
 				vitals.poison_t = maxf(vitals.poison_t, c.ancient.value("poison"))
 				m.hud.toast("Avvelenato!")
 			# tratto Spine dell'equipaggiamento: chi tocca il Germogliato si ferisce
-			if thorns > 0 and c.take_hit(thorns, player.position.x, 0.4):
+			if thorns + boon_thorns > 0 and c.take_hit(thorns + boon_thorns, player.position.x, 0.4):
 				fauna.kill(c)
 			return
 

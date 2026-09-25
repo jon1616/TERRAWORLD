@@ -381,13 +381,30 @@ ombra), il **Bastone di sanguinella**, il **Bastone di lagunite** (un'onda fredd
 nuova), la **Lanterna di brillaluce**, la **Lama di nottilite**. Oggetti: 199 → 229. Prove `--solo=gemme`: quantità
 per strato, forza di piccone, rallentamento, lanterna (foto 48_gemme).
 
-## 25. [ ] Nuovi banchi da lavoro (M)
-Alambicco di Linfa (pozioni), Telaio di foglie (vesti e borse), Mola del gemmaio (gemme, anelli, bastoni), Altare dei
-Seminatori (richiami dei boss intermedi).
+## 25. [x] Nuovi banchi da lavoro (M) — fatto il 25 set 2026
+Tre banchi nuovi, fabbricati al Ceppo, ognuno con il suo mestiere (disegni in `WorkshopArt`): l'**Alambicco di Linfa**
+(tutte le pozioni avanzate e la Rugiada di Linfa, più cinque pozioni nuove: **passo lungo** corsa +30%, **minatore**
+scavo +50%, **spine**, **esca** creature rare ×2 per cinque minuti, **fortuna**), il **Telaio di foglie** (mantello,
+collana, bende, velo e le **vesti di seta**: cappuccio, veste e calzari di seta di radice e del Vuoto, poca Scorza ma
+incantesimi più forti e Linfa più svelta: la strada del Germogliato che usa i bastoni) e la **Mola del gemmaio**
+(anelli, bastoni, lanterna e lama di gemma). Anche le armature possono avere effetti (`acc`); effetto nuovo `magic`.
+L'Altare dei Seminatori per richiamare i boss arriva con la voce 27. Corretto un difetto vero trovato dalle prove:
+spostato di colpo mentre era in aria (specchio, rinascita), all'atterraggio il Germogliato contava tutto il viaggio
+come una caduta e appassiva (`Player.reset_fall`). `verifica_dati` salva anche il foglio delle stazioni
+(prove/stazioni.png). Prove `--solo=banchi` (foto 49_banchi).
 
-## 26. [ ] Set di equipaggiamento (M)
-Bonus per chi indossa un set completo: tutti i metalli e set speciali da trofei e materiali rari. Il bonus si vede
-nella colonna dell'equipaggiamento e nella casella Esamina.
+## 26. [x] Set di equipaggiamento (M) — fatto il 25 set 2026
+**15 set** (`SetsData`): chi indossa tutti i pezzi riceve un bonus in più degli effetti dei singoli pezzi. Otto set di
+metallo (elmo, corazza e gambali dello stesso metallo, generati da `METALS`): Radici salde (radicite), Corteccia di
+ferro (legnoferro), Passo di luna (pallidite: corsa e colpi), Luce fossile (ambra), Brace viva (tizzonite: danno e
+spine), Linfa che scorre, Ombra del Vuoto, Stella del Giardino. Due set di vesti (Tessitore di Linfa e del Vuoto:
+incantesimi e Linfa) e cinque coppie di accessori che stanno bene insieme (Guscio di scarabeo, Occhi della notte,
+Fuoco e gelo, Riccio e resina, Ali del cielo). `GearEffects` riscritto: somma in un solo modo gli effetti dei pezzi,
+dei tratti e dei set (anche la Scorza dei set, `Vitals.set_scorza`). Nella colonna dell'equipaggiamento sotto gli
+accessori compare il set più avanti con i pezzi indossati (dorato se completo, il bonus nel suggerimento) e la Scorza
+conta anche quella dei set; la casella Esamina dice di che set fa parte un pezzo, con chi e il bonus. Le prove non
+trovavano più terreno piano vicino alla partenza (le prove precedenti ci costruiscono sopra): `TestKit.flat_spot` ora
+accetta un dislivello di una o due tessere. Prove `--solo=set` (foto 50_set).
 
 ## 27. [ ] Boss intermedi (L)
 I Custodi degli strati: uno per strato, nella loro tana generata nel mondo o richiamati all'Altare, con bottino proprio

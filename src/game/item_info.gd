@@ -25,6 +25,13 @@ static func bbcode(id: String, tratto := "") -> String:
 			stats.append("%s %s" % [s[1], it[s[0]]])
 	if not stats.is_empty():
 		t += "[color=#9fc8c0]%s[/color]\n" % " · ".join(stats)
+	for sid in SetsData.of_item(id):
+		var sd: Dictionary = SetsData.all()[sid]
+		var names := []
+		for p in sd["pieces"]:
+			names.append(String(ItemsData.get_item(String(p))["name"]))
+		t += "[color=#ffd08a]Set «%s»:[/color] [color=#9fc8c0]%s[/color]\n[color=#6a8a84]con %s[/color]\n" % [sd["name"],
+			sd["desc"], ", ".join(names)]
 	var uses := uses_of(id)
 	t += "\n[color=#8ef0d8]Serve per:[/color]\n"
 	if uses.is_empty():

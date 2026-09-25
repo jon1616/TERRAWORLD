@@ -13,6 +13,7 @@ var crafting: CraftingPanel
 var examine: ExaminePanel               # la casella «Esamina» in alto a sinistra
 var _equip: Dictionary = {}            # posto -> SlotView
 var _scorza: Label
+var _sets: Label
 var held := {}                        # pila «in mano» mentre la Bisaccia è aperta
 ## Maiusc+clic su una casella: se è aperta una cesta (`ChestPanel`), la pila ci va dentro subito.
 var quick_target: Callable
@@ -93,6 +94,17 @@ func _ready() -> void:
 	_scorza.add_theme_constant_override("outline_size", 5)
 	_scorza.tooltip_text = "Scorza: toglie metà del suo valore a ogni ferita"
 	add_child(_scorza)
+	# i set (voce 26): sotto gli accessori, quanti pezzi si indossano e, completo, il bonus
+	_sets = Label.new()
+	_sets.position = Vector2(ex + 12 + SlotView.SIZE + 4, frame.position.y + 40 + 2 * (SlotView.SIZE + 22) - 4)
+	_sets.size = Vector2(SlotView.SIZE + 40, SlotView.SIZE + 26)
+	_sets.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_sets.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_sets.add_theme_font_size_override("font_size", 11)
+	_sets.add_theme_color_override("font_outline_color", Color(0.02, 0.05, 0.07))
+	_sets.add_theme_constant_override("outline_size", 4)
+	_sets.mouse_filter = Control.MOUSE_FILTER_STOP
+	add_child(_sets)
 	crafting = CraftingPanel.new()
 	add_child(crafting)
 	crafting.setup(bisaccia, stations_near, Vector2(frame.position.x + frame.size.x + 16, frame.position.y), frame.size.y)
@@ -145,10 +157,41 @@ func _refresh() -> void:
 	for slot in _equip:
 		(_equip[slot] as SlotView).set_item(String(bisaccia.equip.get(slot, "")), 1, String(bisaccia.equip_traits.get(slot, "")))
 	if _scorza:
-		_scorza.text = "Scorza %d" % bisaccia.scorza()
+		var done := SetsData.complete(bisaccia.equip)
+		var extra := 0
+		for s in done:
+			extra += int((SetsData.all()[s]["bonus"] as Dictionary).get("defense", 0))
+		_scorza.text = "Scorza %d" % (bisaccia.scorza() + extra)
+		_show_sets(done)
 	_held_icon.visible = not held.is_empty()
 	if not held.is_empty():
 		_held_icon.set_item(held["id"], held["n"], String(held.get("tratto", "")))
+
+
+## Il set più avanti tra quelli di cui si indossa qualcosa: nome e pezzi (dorato se completo); il bonus nel
+## suggerimento.
+func _show_sets(done: Array) -> void:
+	var best := ""
+	var best_n := 0
+	for s in SetsData.all():
+		var n := SetsData.worn(s, bisaccia.equip)
+		if n > best_n or (s in done and not best in done):
+			best = s
+			best_n = n
+	if best == "" or best_n < 1:
+		_sets.text = ""
+		_sets.tooltip_text = ""
+		return
+	var sd: Dictionary = SetsData.all()[best]
+	var tot := (sd["pieces"] as Array).size()
+	_sets.text = "Set %s · %d/%d" % [sd["name"], best_n, tot]
+	_sets.add_theme_color_override("font_color", Color("#ffd08a") if best in done else Color("#6a8a84"))
+	var tip := ""
+	for s in done:
+		tip += "%s (completo): %s\n" % [SetsData.all()[s]["name"], SetsData.all()[s]["desc"]]
+	if not best in done:
+		tip += "%s: %d pezzi su %d. Completo: %s" % [sd["name"], best_n, tot, sd["desc"]]
+	_sets.tooltip_text = tip.strip_edges()
 
 
 func _process(_dt: float) -> void:

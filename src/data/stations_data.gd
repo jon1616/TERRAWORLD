@@ -10,12 +10,19 @@ extends RefCounted
 ##   portale           il portale di radici che cresce da un Seme di mondo
 ##   cesta             Cesta di radici: tiene oggetti (`slots`)
 ##   scrigno           Scrigno dei Seminatori: nelle rovine, pieno di bottino; vuoto si porta via
+##   alambicco         Alambicco di Linfa (voce 25): le pozioni
+##   telaio            Telaio di foglie: vesti di seta, mantelli, bende
+##   mola              Mola del gemmaio: anelli, bastoni e lame di gemma
 ## fixed = non si riprende col piccone; light_color = colore della luce (altrimenti brace); slots = contenitore
 
 const STATIONS := {
 	"ceppo": {"name": "Ceppo del Giardiniere", "size": [3, 2], "item": "ceppo"},
 	"baccello_ardente": {"name": "Baccello ardente", "size": [3, 2], "item": "baccello_ardente", "light": true},
 	"maglio": {"name": "Maglio dei Seminatori", "size": [2, 2], "item": "maglio"},
+	"alambicco": {"name": "Alambicco di Linfa", "size": [2, 2], "item": "alambicco", "light": true,
+		"light_color": Color(0.3, 0.9, 0.9)},
+	"telaio": {"name": "Telaio di foglie", "size": [3, 2], "item": "telaio"},
+	"mola": {"name": "Mola del gemmaio", "size": [2, 2], "item": "mola"},
 	"cesta": {"name": "Cesta di radici", "size": [2, 2], "item": "cesta", "slots": 20},
 	"scrigno": {"name": "Scrigno dei Seminatori", "size": [2, 2], "item": "scrigno", "slots": 20, "light": true,
 		"light_color": Color(0.2, 0.6, 0.55)},

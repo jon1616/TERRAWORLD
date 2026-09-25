@@ -28,6 +28,7 @@ var swinging := false
 var force_swing := false
 var swing_period := 0.3               # secondi per un giro dell'attrezzo (le armi lo cambiano, vedi `Combat`)
 var run_mult := 1.0                    # accessori (vedi `GearEffects`)
+var boon_run := 1.0                    # Pozione del passo lungo (vedi `Boons`)
 var slow_t := 0.0                      # invischiato in una ragnatela (voce 22): corre a metà per qualche secondo
 var jump_mult := 1.0
 var glide := false
@@ -122,11 +123,17 @@ func set_look(equip: Dictionary) -> void:
 	_cache.clear()
 
 
+## Spostato di colpo (specchio, portale, rinascita, prove): la caduta ricomincia da qui, altrimenti atterrando dopo
+## un salto in aria contava tutta la distanza del viaggio come una caduta (e il Germogliato appassiva).
+func reset_fall() -> void:
+	_air_top = position.y
+
+
 ## Un passo di movimento. Lo spostamento usa la velocità media del passo (prima e dopo la gravità): è il calcolo
 ## esatto per un'accelerazione costante, così il salto è alto uguale a 60 come a 144 fotogrammi al secondo.
 func _step(dt: float, dir: float, held: bool) -> void:
 	slow_t = maxf(slow_t - dt, 0.0)
-	var target := dir * RUN * run_mult * (0.45 if slow_t > 0.0 else 1.0)
+	var target := dir * RUN * run_mult * boon_run * (0.45 if slow_t > 0.0 else 1.0)
 	var accel := ACCEL_AIR
 	if on_floor:
 		accel = ACCEL_GROUND if dir != 0.0 and signf(dir) == signf(vel.x if vel.x != 0.0 else dir) else DECEL_GROUND

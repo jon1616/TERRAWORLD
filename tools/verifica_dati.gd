@@ -120,6 +120,7 @@ func _init() -> void:
 			_err(items.has(String(r)), "obiettivo %s: ricompensa sconosciuta %s" % [o["id"], r])
 	_icon_sheet(items)
 	_creature_sheet()
+	_station_sheet()
 	print("oggetti %d · ricette %d · stazioni %d · creature %d · tabelle di bottino %d" % [items.size(), recipes.size(),
 		StationsData.STATIONS.size(), CreaturesData.CREATURES.size(), LootData.TABLES.size()])
 	print("ESITO: %d errori, %d avvisi" % [errors, warnings])
@@ -165,6 +166,23 @@ func _creature_sheet() -> void:
 				sheet.blend_rect(im, Rect2i(Vector2i.ZERO, im.get_size()), Vector2i(x, (i / cols) * cell.y + 4))
 			x += im.get_width() + 2
 	sheet.save_png(ProjectSettings.globalize_path("res://prove/creature.png"))
+
+
+## Il foglio di tutte le stazioni (ingrandite ×3, con la parte luminosa sopra) in prove/stazioni.png.
+func _station_sheet() -> void:
+	var ids := StationsData.STATIONS.keys()
+	var cell := Vector2i(160, 110)
+	var cols := 6
+	var sheet := Image.create_empty(cols * cell.x, ceili(ids.size() / float(cols)) * cell.y, false, Image.FORMAT_RGBA8)
+	sheet.fill(Color("#2a4a50"))
+	for i in ids.size():
+		var r := StationArt.make(String(ids[i]))
+		var im: Image = r["img"]
+		im.blend_rect(r["glow"], Rect2i(Vector2i.ZERO, im.get_size()), Vector2i.ZERO)
+		var sc := mini(3, mini((cell.x - 8) / im.get_width(), (cell.y - 8) / im.get_height()))
+		im.resize(im.get_width() * sc, im.get_height() * sc, Image.INTERPOLATE_NEAREST)
+		sheet.blend_rect(im, Rect2i(Vector2i.ZERO, im.get_size()), Vector2i((i % cols) * cell.x + 4, (i / cols) * cell.y + 4))
+	sheet.save_png(ProjectSettings.globalize_path("res://prove/stazioni.png"))
 
 
 func _err(ok: bool, msg: String) -> void:

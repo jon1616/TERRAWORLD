@@ -276,6 +276,7 @@ func view_cells() -> Rect2i:
 func snap_to(c: Vector2i) -> void:
 	player.position = cell_to_feet(c)
 	player.vel = Vector2.ZERO
+	player.reset_fall()
 	cam.position = player.position + Vector2(0, -12)
 	cam.reset_smoothing()
 	cam.force_update_scroll()

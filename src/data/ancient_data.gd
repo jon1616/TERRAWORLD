@@ -50,14 +50,14 @@ const ANNOUNCE := 60
 
 ## Che rarità ha una creatura che nasce con questo pericolo ("" = comune). `grouped` = la specie nasce già in sciame
 ## (niente capobranco).
-static func roll_rarity(danger: float, rng: RandomNumberGenerator, grouped := false) -> String:
+static func roll_rarity(danger: float, rng: RandomNumberGenerator, grouped := false, mult := 1.0) -> String:
 	var r := rng.randf()
 	var acc := 0.0
 	for k in ORDER:
 		var d: Dictionary = RARITIES[k]
 		if k == "capobranco" and grouped:
 			continue
-		acc += float(d["base"]) + float(d["per_danger"]) * danger
+		acc += (float(d["base"]) + float(d["per_danger"]) * danger) * mult
 		if r < acc:
 			return k
 	return ""

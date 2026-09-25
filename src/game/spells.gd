@@ -51,7 +51,7 @@ func _process(dt: float) -> void:
 	m.vitals.changed.emit()
 	_t = 1.0 / (float(it["speed"]) * TraitsData.effect(tr, "speed") * m.combat.spd_mult)
 	var sd: Dictionary = SpellsData.SPELLS[it["spell"]]
-	var dmg := roundi(int(it["damage"]) * TraitsData.effect(tr, "damage") * m.combat._boon())
+	var dmg := roundi(int(it["damage"]) * TraitsData.effect(tr, "damage") * m.combat._boon() * m.combat.magic_mult)
 	var knock := float(it.get("knockback", 1.0)) * TraitsData.effect(tr, "knock") / 3.0
 	var n := int(sd["n"])
 	for k in n:

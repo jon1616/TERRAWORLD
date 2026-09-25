@@ -65,6 +65,8 @@ func run(main: Node2D) -> void:
 	await TestsBestiary.new(kit).run()
 	await TestsRarity.new(kit).run()
 	await TestsGems.new(kit).run()
+	await TestsWorkshop.new(kit).run()
+	await TestsSets.new(kit).run()
 	await ob.run()
 	await w.run_and_save()
 	# la Bisaccia aperta
@@ -110,6 +112,10 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsRarity.new(kit).run()
 		"gemme":
 			await TestsGems.new(kit).run()
+		"banchi":
+			await TestsWorkshop.new(kit).run()
+		"set":
+			await TestsSets.new(kit).run()
 		"antiche":
 			await TestsAncient.new(kit).run()
 		"pericoli":

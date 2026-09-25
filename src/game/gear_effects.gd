@@ -1,6 +1,7 @@
 class_name GearEffects
 extends Node
-## Gli effetti degli accessori indossati (campo `acc` in `ItemsData`), ricalcolati ogni volta che cambia la Bisaccia:
+## Gli effetti di ciò che si indossa (campo `acc` in `ItemsData`, anche su elmi, corazze e gambali), dei tratti e dei
+## **set completi** (voce 26, `SetsData`), ricalcolati ogni volta che cambia la Bisaccia:
 ##   run        corsa più veloce (moltiplica `Player.run_mult`)
 ##   jump       salto più alto (`Player.jump_mult`)
 ##   glide      tenendo Spazio in caduta si plana (`Player.glide`)
@@ -10,9 +11,14 @@ extends Node
 ##   thorns     danno a chi tocca il Germogliato (`Combat.thorns`); luck: fortuna nel bottino (`Fauna.luck`)
 ##   dig        scavo e taglio più rapidi (`PlayerActions.dig_mult`); stealth: le creature vedono meno lontano
 ##   damage     danno × (`Combat.dmg_mult`); atk_speed: colpi più rapidi (`Combat.spd_mult`); linfa_regen: Linfa ×
-## La Scorza degli accessori (campo `defense`) la somma già `Bisaccia.scorza`.
+##   magic      incantesimi dei bastoni più forti (`Combat.magic_mult`)
+##   defense    (solo nei bonus dei set) Scorza in più (`Vitals.set_scorza`); quella dei pezzi la somma
+##              `Bisaccia.scorza`
+
+const MULT := ["run", "jump", "halo", "regen", "dig", "stealth", "damage", "atk_speed", "linfa_regen", "magic"]
 
 var m: Node2D
+var sets: Array = []                   # i set completi indossati (per l'interfaccia)
 
 
 func setup(main: Node2D) -> void:
@@ -22,52 +28,48 @@ func setup(main: Node2D) -> void:
 
 
 func refresh() -> void:
-	var run := 1.0
-	var jump := 1.0
-	var glide := false
-	var safe := false
-	var halo := 1.0
-	var regen := 1.0
-	var luck := 0.0
-	var thorns := 0
-	var stealth := 1.0
-	var dig := 1.0
-	var dmg := 1.0
-	var spd := 1.0
-	var lreg := 1.0
+	var e := {}
+	for k in MULT:
+		e[k] = 1.0
+	e["luck"] = 0.0
+	e["thorns"] = 0.0
+	e["defense"] = 0.0
+	e["glide"] = false
+	e["fall_safe"] = false
 	var b: Bisaccia = m.character.bisaccia
 	for slot in b.equip:
-		var acc: Dictionary = ItemsData.get_item(String(b.equip[slot])).get("acc", {})
-		run *= float(acc.get("run", 1.0))
-		jump *= float(acc.get("jump", 1.0))
-		glide = glide or bool(acc.get("glide", false))
-		safe = safe or bool(acc.get("fall_safe", false))
-		halo *= float(acc.get("halo", 1.0))
-		regen *= float(acc.get("regen", 1.0))
-		thorns += int(acc.get("thorns", 0))
-		luck += float(acc.get("luck", 0.0))
-		dig *= float(acc.get("dig", 1.0))
-		stealth *= float(acc.get("stealth", 1.0))
-		dmg *= float(acc.get("damage", 1.0))
-		spd *= float(acc.get("atk_speed", 1.0))
-		lreg *= float(acc.get("linfa_regen", 1.0))
+		_add(e, ItemsData.get_item(String(b.equip[slot])).get("acc", {}))
 		var tr := String(b.equip_traits.get(slot, ""))
-		run *= TraitsData.effect(tr, "run")
-		halo *= TraitsData.effect(tr, "halo")
-		regen *= TraitsData.effect(tr, "regen")
-		luck += TraitsData.effect(tr, "luck")
-		thorns += int(TraitsData.effect(tr, "thorns"))
-		stealth *= TraitsData.effect(tr, "stealth")
-	m.player.run_mult = run
-	m.player.jump_mult = jump
-	m.player.glide = glide
-	m.life.fall_safe = safe
-	m.boons.halo_mult = halo
-	m.vitals.regen_mult = regen
-	m.fauna.luck = luck
-	m.combat.thorns = thorns
-	Behavior.stealth = stealth
-	m.actions.dig_mult = dig
-	m.combat.dmg_mult = dmg
-	m.combat.spd_mult = spd
-	m.vitals.linfa_regen_mult = lreg
+		for k in ["run", "halo", "regen", "stealth"]:
+			e[k] = float(e[k]) * TraitsData.effect(tr, k)
+		e["luck"] = float(e["luck"]) + TraitsData.effect(tr, "luck")
+		e["thorns"] = float(e["thorns"]) + TraitsData.effect(tr, "thorns")
+	sets = SetsData.complete(b.equip)
+	for s in sets:
+		_add(e, SetsData.all()[s]["bonus"])
+	m.player.run_mult = e["run"]
+	m.player.jump_mult = e["jump"]
+	m.player.glide = e["glide"]
+	m.life.fall_safe = e["fall_safe"]
+	m.boons.halo_mult = e["halo"]
+	m.vitals.regen_mult = e["regen"]
+	m.fauna.luck = e["luck"]
+	m.combat.thorns = int(e["thorns"])
+	Behavior.stealth = e["stealth"]
+	m.actions.dig_mult = e["dig"]
+	m.combat.dmg_mult = e["damage"]
+	m.combat.spd_mult = e["atk_speed"]
+	m.vitals.linfa_regen_mult = e["linfa_regen"]
+	m.combat.magic_mult = e["magic"]
+	m.vitals.set_scorza = int(e["defense"])
+
+
+## Somma un gruppo di effetti (di un pezzo o di un set) a quelli raccolti.
+static func _add(e: Dictionary, acc: Dictionary) -> void:
+	for k in acc:
+		if k in MULT:
+			e[k] = float(e[k]) * float(acc[k])
+		elif k in ["luck", "thorns", "defense"]:
+			e[k] = float(e[k]) + float(acc[k])
+		elif k in ["glide", "fall_safe"]:
+			e[k] = bool(e[k]) or bool(acc[k])

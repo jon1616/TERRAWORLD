@@ -82,6 +82,9 @@ const ITEMS := {
 	"baccello_ardente": {"name": "Baccello ardente", "kind": "stazione", "icon": ["fornace", "ardesia"], "place": "baccello_ardente", "stack": 99, "desc": "Un baccello di pietra che cova la brace: fonde i minerali."},
 	"cesta": {"name": "Cesta di radici", "kind": "stazione", "icon": ["cesta", "legno"], "place": "cesta", "stack": 99, "desc": "Una cesta intrecciata con il coperchio: tiene 20 pile di oggetti."},
 	"scrigno": {"name": "Scrigno dei Seminatori", "kind": "stazione", "icon": ["scrigno", "sem"], "place": "scrigno", "stack": 99, "desc": "Si trova nelle rovine. Vuoto, si può portare via e usare come cesta."},
+	"alambicco": {"name": "Alambicco di Linfa", "kind": "stazione", "icon": ["alambicco", "cristallo"], "place": "alambicco", "stack": 99, "desc": "Qui la Linfa bolle con le erbe: si fanno le pozioni."},
+	"telaio": {"name": "Telaio di foglie", "kind": "stazione", "icon": ["telaio", "seta"], "place": "telaio", "stack": 99, "desc": "Si tesse la seta: vesti, mantelli, bende."},
+	"mola": {"name": "Mola del gemmaio", "kind": "stazione", "icon": ["mola", "ardesia"], "place": "mola", "stack": 99, "desc": "Una ruota d'ardesia che taglia e lucida le gemme."},
 	"maglio": {"name": "Maglio dei Seminatori", "kind": "stazione", "icon": ["incudine", "legnoferro"], "place": "maglio", "stack": 99, "desc": "Un attrezzo dei Seminatori ritrovato: forgia attrezzi e armature."},
 	# radice: il primo equipaggiamento
 	"arco_radice": {"name": "Arco di radice", "kind": "arco", "icon": ["arco", "legno"], "tier": 0, "damage": 5, "speed": 1.6, "knockback": 1.0},
@@ -96,7 +99,19 @@ const ITEMS := {
 	"anello_lucciola": {"name": "Anello di lucciola", "kind": "accessorio", "icon": ["anello", "cristallo"], "acc": {"halo": 1.6}, "desc": "L'alone del Germogliato si allarga."},
 	"cuore_muschio": {"name": "Cuore di muschio", "kind": "accessorio", "icon": ["cuore", "muschio"], "acc": {"regen": 2.0}, "desc": "La Vita ricresce due volte più in fretta."},
 	"pappo_seme": {"name": "Pappo di seme", "kind": "accessorio", "icon": ["pappo", "muschio"], "acc": {"jump": 1.18}, "desc": "Leggero come un seme nel vento: salto più alto."},
-	# consumabili
+	# consumabili (le pozioni nuove della voce 25 si fanno all'Alambicco di Linfa)
+	"pozione_passo": {"name": "Pozione del passo lungo", "kind": "consumabile", "icon": ["pozione", "fungo"], "boon": ["passo", 180.0], "stack": 30, "desc": "Si corre il 30% più veloci per tre minuti."},
+	"pozione_minatore": {"name": "Pozione del minatore", "kind": "consumabile", "icon": ["pozione", "brillaluce"], "boon": ["scavo", 240.0], "stack": 30, "desc": "Si scava e si abbatte il 50% più in fretta per quattro minuti."},
+	"pozione_spine": {"name": "Pozione di spine", "kind": "consumabile", "icon": ["pozione", "radicite"], "boon": ["spine", 180.0], "stack": 30, "desc": "Chi ti tocca si punge (15 danni) per tre minuti."},
+	"pozione_esca": {"name": "Pozione dell'esca", "kind": "consumabile", "icon": ["pozione", "sanguinella"], "boon": ["esca", 300.0], "stack": 30, "desc": "Per cinque minuti le creature rare nascono due volte più spesso attorno a te."},
+	"pozione_fortuna": {"name": "Pozione di fortuna", "kind": "consumabile", "icon": ["pozione", "nottilite"], "boon": ["fortuna", 300.0], "stack": 30, "desc": "Per cinque minuti le creature lasciano più spesso un giro di bottino in più."},
+	# vesti di seta al Telaio (voce 25): poca Scorza, ma incantesimi più forti e Linfa più svelta
+	"cappuccio_seta": {"name": "Cappuccio di seta", "kind": "elmo", "icon": ["elmo", "seta"], "tier": 2, "defense": 1, "acc": {"linfa_regen": 1.25}, "desc": "La Linfa ricresce più in fretta."},
+	"veste_seta": {"name": "Veste di seta", "kind": "corazza", "icon": ["corazza", "seta"], "tier": 2, "defense": 2, "acc": {"magic": 1.12}, "desc": "Incantesimi dei bastoni +12%."},
+	"calzari_seta": {"name": "Calzari di seta", "kind": "gambali", "icon": ["gambali", "seta"], "tier": 2, "defense": 1, "acc": {"run": 1.06, "magic": 1.05}, "desc": "Passo leggero, incantesimi +5%."},
+	"cappuccio_vuoto": {"name": "Cappuccio del Vuoto", "kind": "elmo", "icon": ["elmo", "vuotite"], "tier": 5, "defense": 3, "acc": {"linfa_regen": 1.4, "magic": 1.08}, "desc": "Linfa molto più svelta, incantesimi +8%."},
+	"veste_vuoto": {"name": "Veste del Vuoto", "kind": "corazza", "icon": ["corazza", "vuotite"], "tier": 5, "defense": 5, "acc": {"magic": 1.18}, "desc": "Incantesimi dei bastoni +18%."},
+	"calzari_vuoto": {"name": "Calzari del Vuoto", "kind": "gambali", "icon": ["gambali", "vuotite"], "tier": 5, "defense": 3, "acc": {"run": 1.08, "magic": 1.07}, "desc": "Passo leggero, incantesimi +7%."},
 	"pozione_rugiada": {"name": "Pozione di rugiada", "kind": "consumabile", "icon": ["pozione", "linfa"], "heal": 50, "stack": 30, "desc": "Rugiada raccolta all'alba: fa ricrescere 5 foglie di Vita."},
 	"pozione_bagliore": {"name": "Pozione di bagliore", "kind": "consumabile", "icon": ["pozione", "cristallo"], "boon": ["bagliore", 180.0], "stack": 30, "desc": "Il Germogliato brilla come un fungo del profondo per tre minuti."},
 	"pozione_vigore": {"name": "Pozione di vigore", "kind": "consumabile", "icon": ["pozione", "brace"], "boon": ["vigore", 180.0], "stack": 30, "desc": "Cenere e brace: +20% danno per tre minuti."},

@@ -96,7 +96,10 @@ Arrivano attraverso i portali quando il Giardino cresce:
 Regola (utente, 24 set 2026): **le funzioni possono somigliare a quelle di Terraria, i nomi no**. Ogni cosa ha un nome
 che viene dal Giardino dei Semi.
 - Stazioni: **Ceppo del Giardiniere** (si lavora il legno), **Baccello ardente** (un baccello di pietra che cova la brace:
-  fonde i minerali), **Maglio dei Seminatori** (un loro attrezzo ritrovato: forgia attrezzi e armature).
+  fonde i minerali), **Maglio dei Seminatori** (un loro attrezzo ritrovato: forgia attrezzi e armature), **Alambicco di
+  Linfa** (le pozioni), **Telaio di foglie** (la seta: vesti, mantelli, bende), **Mola del gemmaio** (le gemme).
+- Pozioni dell'Alambicco: del **passo lungo**, del **minatore**, di **spine**, dell'**esca** (attira le creature rare),
+  di **fortuna**. Vesti di seta: **cappuccio**, **veste** e **calzari** di seta di radice e del Vuoto.
 - Oggetti: **Torcia di resina**, **Passerella di radice**, **Pozione di rugiada** (cura), **Gelatina di muschio**, **Fungo di brace**.
 - Il Germogliato: la **Vita** sono foglie che appassiscono, la **Linfa** sono gocce turchesi, la difesa è la **Scorza**.
 - Creature: i **grumi** — gocce di muschio, resina o spore che si sono animate e saltellano; la **falena di brace**

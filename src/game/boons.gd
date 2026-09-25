@@ -9,7 +9,8 @@ extends Node
 const SCORZA := 8
 const LIGHT_BAGLIORE := Color(1.9, 1.7, 1.3)
 const LIGHT_LANTERNA := Color(1.0, 2.0, 1.9)
-const NAMES := {"bagliore": "Bagliore", "scorza": "Scorza di corteccia", "vigore": "Vigore", "rigoglio": "Rigoglio"}
+const NAMES := {"bagliore": "Bagliore", "scorza": "Scorza di corteccia", "vigore": "Vigore", "rigoglio": "Rigoglio",
+	"passo": "Passo lungo", "scavo": "Minatore", "spine": "Spine", "esca": "Esca", "fortuna": "Fortuna"}
 const RIGOGLIO := 3.0                  # la Vita ricresce tre volte più in fretta (Pozione di rigoglio)
 const VIGORE := 1.2                    # danno ×1,2 con la Pozione di vigore
 
@@ -54,6 +55,12 @@ func _process(dt: float) -> void:
 	_label.text = text
 	m.vitals.scorza_bonus = SCORZA if active.has("scorza") else 0
 	m.vitals.boon_regen = RIGOGLIO if active.has("rigoglio") else 1.0
+	# le pozioni dell'Alambicco (voce 25)
+	m.player.boon_run = 1.3 if active.has("passo") else 1.0
+	m.actions.boon_dig = 1.5 if active.has("scavo") else 1.0
+	m.combat.boon_thorns = 15 if active.has("spine") else 0
+	m.fauna.rare_mult = 2.0 if active.has("esca") else 1.0
+	m.fauna.boon_luck = 0.5 if active.has("fortuna") else 0.0
 	var l: Color = LightMap.PLAYER * halo_mult
 	if active.has("bagliore"):
 		l = LIGHT_BAGLIORE

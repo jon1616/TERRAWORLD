@@ -20,6 +20,7 @@ var linfa := LINFA_MAX
 var linfa_max := LINFA_MAX             # LINFA_MAX più le Stille perenni assorbite (voce 21)
 var scorza := 0
 var scorza_bonus := 0
+var set_scorza := 0                    # Scorza in più dei set completi (vedi `GearEffects`)
 var regen_mult := 1.0
 var boon_regen := 1.0                  # Pozione di rigoglio (vedi `Boons`)
 var linfa_regen_mult := 1.0            # accessori: la Linfa ricresce più in fretta
@@ -36,7 +37,7 @@ var _lacc := 0.0
 func hurt(amount: int) -> int:
 	if hp <= 0:
 		return 0
-	var real := maxi(amount - (scorza + scorza_bonus) / 2, 1)
+	var real := maxi(amount - (scorza + scorza_bonus + set_scorza) / 2, 1)
 	hp = maxi(hp - real, 0)
 	_since_hit = 0.0
 	changed.emit()
