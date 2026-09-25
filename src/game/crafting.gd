@@ -57,6 +57,18 @@ static func reforge(b: Bisaccia, i: int) -> String:
 	return t
 
 
+## Innesta un'Essenza (di una creatura antica) sull'oggetto nella casella i: il suo tratto speciale prende il posto di
+## quello che c'era. Restituisce il tratto nuovo, o "" se non si può.
+static func graft(b: Bisaccia, i: int, essence: String) -> String:
+	var id := b.id_at(i)
+	if id == "" or not Bisaccia.is_gear(id) or not TraitsData.can_graft(essence, id) or not b.remove(essence, 1):
+		return ""
+	var t := String(ItemsData.get_item(essence)["graft"])
+	b.slots[i]["tratto"] = t
+	b.changed.emit()
+	return t
+
+
 ## «Serve: 10 Legno di lanterna, 1 Gelatina di muschio — al Ceppo del Giardiniere»
 static func describe(r: Dictionary, b: Bisaccia) -> String:
 	var parts := []

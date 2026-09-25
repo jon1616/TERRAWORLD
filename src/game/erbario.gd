@@ -16,7 +16,7 @@ signal discovered(section: String, id: String)
 func setup(main: Node2D) -> void:
 	m = main
 	data = m.character.erbario
-	for k in ["creature", "oggetti", "pagine"]:
+	for k in ["creature", "oggetti", "pagine", "antiche"]:
 		if not data.has(k):
 			data[k] = {}
 	m.fauna.killed.connect(func(c: Creature) -> void: add("creature", c.id))

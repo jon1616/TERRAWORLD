@@ -29,6 +29,24 @@ const TRAITS := {
 	"fiore": {"name": "Fiore", "desc": "+1 Scorza", "for": ["accessorio"], "weight": 10, "scorza": 1},
 	"brezza": {"name": "Brezza", "desc": "+4% corsa", "for": ["accessorio"], "weight": 10, "run": 1.04},
 	"lucciola": {"name": "Lucciola", "desc": "+15% alone", "for": ["accessorio"], "weight": 8, "halo": 1.15},
+	# tratti che non escono mai a caso: si innestano al Maglio con le Essenze delle creature antiche (voce 20b)
+	"furia": {"name": "Furia", "desc": "+25% danno", "for": ["arma", "attrezzo"], "weight": 0, "essence": true, "damage": 1.25},
+	"guscio": {"name": "Guscio", "desc": "+3 Scorza", "for": ["armatura", "accessorio"], "weight": 0, "essence": true, "scorza": 3},
+	"fulmine": {"name": "Fulmine", "desc": "+22% velocità del colpo", "for": ["arma", "attrezzo"], "weight": 0, "essence": true, "speed": 1.22},
+	"vastita": {"name": "Vastità", "desc": "+60% spinta, +10% danno", "for": ["arma"], "weight": 0, "essence": true,
+		"knock": 1.6, "damage": 1.1},
+	"veleno": {"name": "Veleno", "desc": "i colpi avvelenano le creature", "for": ["arma"], "weight": 0, "essence": true, "poison": 1.0},
+	"spine": {"name": "Spine", "desc": "chi ti tocca si ferisce (8 per colpo)", "for": ["armatura"], "weight": 0, "essence": true, "thorns": 8},
+	"linfa_lenta": {"name": "Linfa lenta", "desc": "la Vita ricresce il 40% più in fretta", "for": ["armatura", "accessorio"],
+		"weight": 0, "essence": true, "regen": 1.4},
+	"fortuna": {"name": "Fortuna", "desc": "le creature lasciano più bottino", "for": ["accessorio", "armatura"], "weight": 0,
+		"essence": true, "luck": 1.0},
+	"lucciola_viva": {"name": "Lucciola viva", "desc": "+40% alone", "for": ["accessorio", "armatura"], "weight": 0,
+		"essence": true, "halo": 1.4},
+	"scoppio": {"name": "Scoppio", "desc": "le creature abbattute scoppiano e feriscono quelle vicine", "for": ["arma"],
+		"weight": 0, "essence": true, "burst": 0.5},
+	"ombra": {"name": "Ombra", "desc": "le creature ti notano più tardi", "for": ["armatura", "accessorio"], "weight": 0,
+		"essence": true, "stealth": 0.7},
 }
 
 ## Peso del «nessun tratto» in ogni tiro.
@@ -58,7 +76,7 @@ static func roll(id: String, rng: RandomNumberGenerator = null, avoid := "") -> 
 		return ""
 	var pool := [["", NONE_WEIGHT]]
 	for t in TRAITS:
-		if cat in TRAITS[t]["for"] and t != avoid:
+		if cat in TRAITS[t]["for"] and t != avoid and int(TRAITS[t]["weight"]) > 0:
 			pool.append([t, int(TRAITS[t]["weight"])])
 	if avoid != "":
 		pool.remove_at(0)                      # rinnovando si vuole sempre un tratto
@@ -73,10 +91,20 @@ static func roll(id: String, rng: RandomNumberGenerator = null, avoid := "") -> 
 	return ""
 
 
-## Moltiplicatore (o somma, per «scorza») di un effetto per un tratto.
+## Moltiplicatore (o somma, per «scorza», «thorns», «poison», «luck», «burst») di un effetto per un tratto.
 static func effect(tratto: String, key: String) -> float:
 	var t: Dictionary = TRAITS.get(tratto, {})
-	return float(t.get(key, 0.0 if key == "scorza" else 1.0))
+	return float(t.get(key, 0.0 if key in ADDITIVE else 1.0))
+
+
+## Gli effetti che si sommano (partono da zero) invece di moltiplicare.
+const ADDITIVE := ["scorza", "thorns", "poison", "luck", "burst"]
+
+
+## Si può innestare questa essenza su questo oggetto? (il tratto che dà deve valere per la sua categoria)
+static func can_graft(essence: String, id: String) -> bool:
+	var tr := String(ItemsData.get_item(essence).get("graft", ""))
+	return tr != "" and TRAITS.has(tr) and category_of(id) in TRAITS[tr]["for"]
 
 
 ## «Spada di radice [Spina]»

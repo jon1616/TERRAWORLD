@@ -153,6 +153,10 @@ func _show_detail() -> void:
 			t += "Dove vive: %s%s\n" % [", ".join(where) if not where.is_empty() else "attorno al Cuore del mondo",
 				" (solo di notte)" if c.get("night", false) else ""]
 			t += "Sconfitte: %d" % int(erbario.data["creature"][selected])
+			var anc := int((erbario.data["antiche"] as Dictionary).get(selected, 0))
+			if anc > 0:
+				t += "
+[color=#ffd08a]Antiche o ancestrali sconfitte: %d[/color]" % anc
 		"oggetti":
 			var it := ItemsData.get_item(selected)
 			t += String(it.get("desc", "")) + "\n\n"

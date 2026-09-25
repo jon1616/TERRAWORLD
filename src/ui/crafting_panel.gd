@@ -17,6 +17,7 @@ var _near_key := ""
 var _t := 0.0
 
 signal crafted(id: String, n: int)
+signal grafted(id: String)
 
 
 func setup(b: Bisaccia, near: Callable, pos: Vector2, height: float) -> void:
@@ -81,7 +82,16 @@ func refresh() -> void:
 	var ok := recipes.filter(func(r: Dictionary) -> bool: return Crafting.can_craft(r, bisaccia))
 	var no := recipes.filter(func(r: Dictionary) -> bool: return not Crafting.can_craft(r, bisaccia))
 	if near.has("maglio") and held_slot.is_valid():
-		_list.add_child(_reforge_row(int(held_slot.call())))
+		var hs := int(held_slot.call())
+		_list.add_child(_reforge_row(hs))
+		# innesti: una riga per ogni Essenza nella Bisaccia che va bene per l'oggetto in mano
+		var seen := {}
+		for s in bisaccia.slots:
+			var e := String(s.get("id", ""))
+			if e != "" and not seen.has(e) and String(ItemsData.get_item(e).get("kind", "")) == "essenza":
+				seen[e] = true
+				if TraitsData.can_graft(e, bisaccia.id_at(hs)):
+					_list.add_child(_graft_row(hs, e))
 	for r in ok + no:
 		_list.add_child(_row(r, Crafting.can_craft(r, bisaccia)))
 	if recipes.is_empty():
@@ -109,6 +119,23 @@ Costa %s." % cost
 		var t := Crafting.reforge(bisaccia, i)
 		if t != "":
 			crafted.emit(id, 1)
+		refresh())
+	return b
+
+
+## La riga dell'innesto: «Innesta Essenza di furia → Spada di legnoferro [Furia]».
+func _graft_row(i: int, essence: String) -> Button:
+	var id := bisaccia.id_at(i)
+	var t := String(ItemsData.get_item(essence)["graft"])
+	var b := _row({"out": essence, "qty": 1}, true)
+	b.text = "Innesta: %s [%s]" % [ItemsData.get_item(id)["name"], TraitsData.TRAITS[t]["name"]]
+	b.tooltip_text = "%s: %s" % [ItemsData.get_item(essence)["name"], TraitsData.TRAITS[t]["desc"]]
+	for c in b.pressed.get_connections():
+		b.pressed.disconnect(c["callable"])
+	b.pressed.connect(func() -> void:
+		if Crafting.graft(bisaccia, i, essence) != "":
+			crafted.emit(id, 1)
+			grafted.emit(id)
 		refresh())
 	return b
 

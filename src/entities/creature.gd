@@ -36,6 +36,10 @@ var boss := false                      # un Guardiano (vedi `CreaturesData`)
 var enraged := false                   # seconda fase: sotto `p.phase2` della Vita
 var calm := false                      # guarito: non attacca più, non fa danno
 var stun := 0.0
+var ancient: Ancient                   # creatura antica o ancestrale (voce 20b); null per le comuni
+var regen_acc := 0.0
+var poison_t := 0.0                    # avvelenata da un'arma con il tratto Veleno: perde Vita per qualche secondo
+var _poison_acc := 0.0
 var behaviors: Array[Behavior] = []
 var _spr: Sprite2D
 var _glow: Sprite2D
@@ -46,6 +50,7 @@ var _flash := 0.0
 var _bar: HpBar
 
 static var _art_cache := {}
+const POISON_DPS := 4.0
 
 
 func setup(cid: String, w: World, tgt: Node2D, sd: int) -> void:
@@ -163,6 +168,19 @@ func _process(dt: float) -> void:
 	if on_floor and not was:
 		crouch = -0.6                  # si schiaccia atterrando
 	_animate(dt)
+	if ancient:
+		ancient.tick(self, dt)
+	if poison_t > 0.0:
+		poison_t -= dt
+		_poison_acc += POISON_DPS * dt
+		var k := int(_poison_acc)
+		if k > 0:
+			_poison_acc -= k
+			hp -= k                        # se arriva a zero la fauna se ne accorge e la toglie con il bottino
+			_bar.set_value(float(hp) / hp_max)
+			modulate = Color(0.7, 1.4, 0.6)
+	elif modulate.g > 1.0:
+		modulate = Color.WHITE
 
 
 func _animate(dt: float) -> void:

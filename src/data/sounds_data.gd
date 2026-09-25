@@ -82,6 +82,10 @@ const SOUNDS := {
 	"portale": {"gain": -8.0, "var": 0.0, "layers": [
 		{"wave": "sine", "f0": 180, "f1": 720, "dur": 1.2, "att": 0.2, "dec": 2.5, "vol": 0.6, "vib": [7.0, 0.04]},
 		{"wave": "noise", "f0": 600, "f1": 3000, "dur": 1.0, "att": 0.3, "dec": 3.0, "vol": 0.4}]},
+	"presenza": {"gain": -8.0, "var": 0.0, "layers": [
+		{"wave": "sine", "f0": 110, "f1": 82, "dur": 1.6, "att": 0.4, "dec": 1.6, "vol": 0.7, "vib": [3.0, 0.03]},
+		{"wave": "sine", "f0": 165, "f1": 123, "dur": 1.6, "att": 0.5, "dec": 1.8, "vol": 0.4},
+		{"wave": "noise", "f0": 300, "f1": 200, "dur": 1.4, "att": 0.4, "dec": 2.0, "vol": 0.3}]},
 	"guardiano": {"gain": -5.0, "var": 0.0, "layers": [
 		{"wave": "noise", "f0": 350, "f1": 180, "dur": 1.4, "att": 0.15, "dec": 2.2, "vol": 0.9},
 		{"wave": "sine", "f0": 80, "f1": 55, "dur": 1.4, "att": 0.1, "dec": 2.0, "vol": 0.8, "vib": [5.0, 0.08]}]},

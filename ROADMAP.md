@@ -298,6 +298,16 @@ le creature nascono **solo al buio** (le torce sono un riparo), appena fuori dal
 creature ×1,35, Vita che ricresce dopo 10 s (prima 6) e più piano. **Appassire costa**: la parte grande della Bisaccia
 (non la barra rapida né ciò che si indossa) resta in un **Fagotto del Germogliato** dove si è caduti, segnato sulla
 mappa; svuotato sparisce. Prove: tabella del pericolo per zona, fagotto lasciato e recuperato.
+**20b fatta il 25 set 2026 — creature antiche**: ogni creatura che nasce può essere **antica** (1 tratto, Vita ×3,
+danno ×1,4, più grande; dal 3% in superficie al 10% nel Fondo) o **ancestrale** (2-3 tratti, Vita ×7, danno ×1,8; dallo
+0,3% all'1,7%, annunciata da un avviso e da un suono). 11 tratti (`AncientData`): Furiosa, Corazzata, Rapida, Gigante,
+Velenosa (avvelena il Germogliato), Spinosa (ferisce chi la colpisce da vicino), Rigenerante, Evocatrice, Luminosa (fa
+luce), Esplosiva (scoppia morendo), Evanescente (quasi invisibile finché non è vicina). Si riconoscono da un contorno
+acceso (arancio le antiche, viola le ancestrali, visibile anche al buio), dalla scritta con i tratti e dalla Vita sempre
+in vista. Bottino doppio o quadruplo e un'**Essenza** per ogni tratto: al **Maglio** si **innesta** su un'arma,
+un'armatura o un accessorio e dà un tratto che non esce mai a caso (Furia, Guscio, Fulmine, Vastità, Veleno, Spine,
+Linfa lenta, Fortuna, Lucciola viva, Scoppio, Ombra). Nell'Erbario le rare sconfitte; tre obiettivi nuovi (antica,
+innesto, ancestrale). Prove: probabilità per zona, statistiche, veleno, spine, Essenze, innesto, foto 41_antiche.
 
 **Roadmap 2 «Il mondo vivo»** (prevista): biomi di superficie e sotterranei (foresta-lanterna, paludi di spore, distese
 d'ambra, giardini di cristallo…), strutture e rovine dei Seminatori, l'Avvizzimento che si espande, e i **Semi che

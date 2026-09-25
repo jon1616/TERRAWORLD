@@ -7,7 +7,7 @@ extends RefCounted
 ## Campi di un oggetto:
 ##   name   nome visibile
 ##   kind   materiale · blocco · piccone · ascia · spada · arco · munizione · torcia · stazione · piattaforma ·
-##          elmo · corazza · gambali · accessorio · consumabile · seme · lanterna · cura · seme_mondo
+##          elmo · corazza · gambali · accessorio · essenza · consumabile · seme · lanterna · cura · seme_mondo
 ##   acc    effetti di un accessorio (vedi `GearEffects`): run (corsa ×), jump (salto ×), glide (planare tenendo
 ##          Spazio), fall_safe (niente ferite da caduta), halo (alone ×), regen (ricrescita della Vita ×)
 ##   icon   [forma, materiale] per `ItemIcons.make`
@@ -16,6 +16,7 @@ extends RefCounted
 ##   power  forza del piccone o dell'ascia (vedi `TileDefs.POWER`)
 ##   damage, speed (colpi al secondo), knockback, defense, heal
 ##   boon   effetto a tempo di una pozione (vedi `Boons`): [nome, secondi]
+##   graft  per le essenze: il tratto (di `TraitsData`) che danno innestate al Maglio
 ##   place  tessera (id di `TileDefs`) o stazione (id di `StationsData`) che l'oggetto piazza
 ##   desc   descrizione breve
 ##
@@ -87,6 +88,18 @@ const ITEMS := {
 	"pietra_battente": {"name": "Pietra che batte", "kind": "materiale", "icon": ["cuore", "ardesia"], "desc": "Il Colosso guarito ha lasciato una pietra che pulsa piano, come un cuore."},
 	"lingotto_vuoto": {"name": "Lingotto di vuotite forgiata", "kind": "materiale", "icon": ["lingotto", "vuotite"], "tier": 5, "desc": "Vuotite legata dal velo o dal polline della Regina."},
 	"lingotto_stellare": {"name": "Lingotto stellare", "kind": "materiale", "icon": ["lingotto", "ambra"], "tier": 6, "desc": "Schegge del Vuoto fuse con il cuore del Colosso: brilla come le stelle del Giardino."},
+	# essenze delle creature antiche (voce 20b): si innestano al Maglio e danno un tratto speciale all'equipaggiamento
+	"essenza_furia": {"name": "Essenza di furia", "kind": "essenza", "icon": ["essenza", "brace"], "stack": 99, "graft": "furia", "desc": "Lasciata da una creatura antica. Al Maglio dei Seminatori si innesta su un'arma o un'armatura."},
+	"essenza_guscio": {"name": "Essenza di guscio", "kind": "essenza", "icon": ["essenza", "ardesia"], "stack": 99, "graft": "guscio", "desc": "Lasciata da una creatura antica. Al Maglio dei Seminatori si innesta su un'arma o un'armatura."},
+	"essenza_fulmine": {"name": "Essenza di fulmine", "kind": "essenza", "icon": ["essenza", "cristallo"], "stack": 99, "graft": "fulmine", "desc": "Lasciata da una creatura antica. Al Maglio dei Seminatori si innesta su un'arma o un'armatura."},
+	"essenza_vastita": {"name": "Essenza di vastità", "kind": "essenza", "icon": ["essenza", "radice"], "stack": 99, "graft": "vastita", "desc": "Lasciata da una creatura antica. Al Maglio dei Seminatori si innesta su un'arma o un'armatura."},
+	"essenza_veleno": {"name": "Essenza di veleno", "kind": "essenza", "icon": ["essenza", "muschio"], "stack": 99, "graft": "veleno", "desc": "Lasciata da una creatura antica. Al Maglio dei Seminatori si innesta su un'arma o un'armatura."},
+	"essenza_spine": {"name": "Essenza di spine", "kind": "essenza", "icon": ["essenza", "nodo"], "stack": 99, "graft": "spine", "desc": "Lasciata da una creatura antica. Al Maglio dei Seminatori si innesta su un'arma o un'armatura."},
+	"essenza_linfa": {"name": "Essenza di linfa lenta", "kind": "essenza", "icon": ["essenza", "cristallo"], "stack": 99, "graft": "linfa_lenta", "desc": "Lasciata da una creatura antica. Al Maglio dei Seminatori si innesta su un'arma o un'armatura."},
+	"essenza_richiamo": {"name": "Essenza di richiamo", "kind": "essenza", "icon": ["essenza", "sem"], "stack": 99, "graft": "fortuna", "desc": "Lasciata da una creatura antica. Al Maglio dei Seminatori si innesta su un'arma o un'armatura."},
+	"essenza_luce": {"name": "Essenza di luce", "kind": "essenza", "icon": ["essenza", "ambra"], "stack": 99, "graft": "lucciola_viva", "desc": "Lasciata da una creatura antica. Al Maglio dei Seminatori si innesta su un'arma o un'armatura."},
+	"essenza_scoppio": {"name": "Essenza di scoppio", "kind": "essenza", "icon": ["essenza", "brace"], "stack": 99, "graft": "scoppio", "desc": "Lasciata da una creatura antica. Al Maglio dei Seminatori si innesta su un'arma o un'armatura."},
+	"essenza_ombra": {"name": "Essenza d'ombra", "kind": "essenza", "icon": ["essenza", "vuotite"], "stack": 99, "graft": "ombra", "desc": "Lasciata da una creatura antica. Al Maglio dei Seminatori si innesta su un'arma o un'armatura."},
 	"seme_mondo": {"name": "Seme di mondo", "kind": "seme_mondo", "icon": ["seme", "cristallo"], "stack": 9, "desc": "Il Cuore del mondo ti ha donato un seme. Piantalo sul terreno: crescerà un portale verso un mondo nuovo."},
 }
 
@@ -116,7 +129,8 @@ const OTHER_SOURCES := {"legno": "alberi", "seme_lanterna": "alberi", "frammento
 	"linfa_guardiano": "Guardiano curato", "seme_mondo": "Cuore del mondo", "velo_spora": "Regina sconfitta",
 	"polline_regina": "Regina curata", "nucleo_colosso": "Colosso sconfitto", "pietra_battente": "Colosso curato", "scrigno": "rovine",
 	"stivali_radice": "scrigni", "foglia_planante": "scrigni", "amuleto_corteccia": "scrigni", "anello_lucciola": "scrigni",
-	"cuore_muschio": "scrigni", "pappo_seme": "scrigni"}
+	"cuore_muschio": "scrigni", "pappo_seme": "scrigni",
+	"essenza_furia": "creature antiche", "essenza_guscio": "creature antiche", "essenza_fulmine": "creature antiche", "essenza_vastita": "creature antiche", "essenza_veleno": "creature antiche", "essenza_spine": "creature antiche", "essenza_linfa": "creature antiche", "essenza_richiamo": "creature antiche", "essenza_luce": "creature antiche", "essenza_scoppio": "creature antiche", "essenza_ombra": "creature antiche"}
 
 static var _all := {}
 

@@ -28,7 +28,7 @@ var world: World
 var image: Image
 var tex: ImageTexture
 var origin := Vector2i.ZERO           # cella del mondo nell'angolo in alto a sinistra dell'immagine mostrata
-var extra_lights: Array = []          # luci in movimento: [[cella, colore], …] (un Guardiano sveglio)
+var extra := {}                        # luci in movimento per fonte: {"guardiano": [[cella, colore], …], "antiche": …}
 var sky := SKY                        # luce del cielo aperto, secondo l'ora (vedi `DayCycle`)
 var player_light := PLAYER            # la luce attorno al giocatore (più forte con la lanterna o il bagliore)
 var ambient := AMBIENT                # chiarore minimo, secondo lo strato in cui si trova il giocatore
@@ -101,7 +101,19 @@ func _start(center: Vector2i, player_cell: Vector2i) -> void:
 
 
 func _extra(r: Rect2i) -> Array:
-	return extra_lights.filter(func(l: Array) -> bool: return r.has_point(l[0]))
+	var out := []
+	for k in extra:
+		for l in extra[k]:
+			if r.has_point(l[0]):
+				out.append(l)
+	return out
+
+
+## Aggiorna le luci in movimento di una fonte; ricalcola la luce solo se sono cambiate.
+func set_extra(source: String, lights: Array) -> void:
+	if extra.get(source, []) != lights:
+		extra[source] = lights
+		dirty = true
 
 
 ## Stazioni che fanno luce nella finestra: [cella, colore].

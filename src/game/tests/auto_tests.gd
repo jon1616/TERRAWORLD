@@ -33,6 +33,7 @@ func run(main: Node2D) -> void:
 	var tt := TestsTraits.new(kit)
 	var ob := TestsObjectives.new(kit)
 	var bl := TestsBlight.new(kit)
+	var an := TestsAncient.new(kit)
 	await w.places()
 	await p.trees()
 	await p.crafting()
@@ -49,6 +50,7 @@ func run(main: Node2D) -> void:
 	await eb.run()
 	await tt.run()
 	await bl.run()
+	await an.run()
 	await ob.run()
 	await w.run_and_save()
 	# la Bisaccia aperta

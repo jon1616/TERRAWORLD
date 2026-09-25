@@ -19,7 +19,10 @@ var hp_max := HP_MAX                   # HP_MAX più i doni duraturi (il Guardia
 var linfa := LINFA_MAX
 var scorza := 0
 var scorza_bonus := 0
-var regen_mult := 1.0                  # accessori: la Vita ricresce più in fretta (e l'attesa si accorcia)                  # dalle pozioni (vedi `Boons`)
+var regen_mult := 1.0
+var poison_t := 0.0                    # avvelenato da una creatura Velenosa: perde Vita per qualche secondo
+var _pacc := 0.0
+const POISON_DPS := 3.0                  # accessori: la Vita ricresce più in fretta (e l'attesa si accorcia)                  # dalle pozioni (vedi `Boons`)
 var potion_wait := 0.0
 var _since_hit := 99.0
 var _acc := 0.0
@@ -55,6 +58,18 @@ func tick(dt: float) -> void:
 	if hp <= 0:
 		return
 	var before := [hp, linfa]
+	if poison_t > 0.0:
+		poison_t -= dt
+		_pacc += POISON_DPS * dt
+		var pk := int(_pacc)
+		if pk > 0:
+			_pacc -= pk
+			hp = maxi(hp - pk, 0)
+			_since_hit = 0.0
+			if hp == 0:
+				changed.emit()
+				died.emit()
+				return
 	_since_hit += dt
 	potion_wait = maxf(potion_wait - dt, 0.0)
 	if _since_hit >= REGEN_DELAY / regen_mult and hp < hp_max:

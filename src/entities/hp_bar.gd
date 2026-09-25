@@ -4,6 +4,7 @@ extends Node2D
 ## grotte), verde-turchese che scende verso l'ambra.
 
 var value := 1.0
+var always := false                    # sempre in vista (creature antiche), anche a Vita piena
 
 
 func _init() -> void:
@@ -14,7 +15,7 @@ func _init() -> void:
 
 func set_value(v: float) -> void:
 	value = clampf(v, 0.0, 1.0)
-	visible = value < 1.0
+	visible = always or value < 1.0
 	queue_redraw()
 
 

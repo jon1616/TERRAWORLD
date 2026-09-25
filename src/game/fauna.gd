@@ -19,6 +19,10 @@ var light: LightMap                    # per nascere solo al buio
 var vigor := 1                         # vigore del mondo (voce 12)
 var vigor_mult := 1.0                  # creature più forti nei mondi oltre i portali
 var danger := 1.0                      # pericolo attorno al giocatore, aggiornato a ogni tentativo
+var luck := 0.0                        # tratto Fortuna dell'equipaggiamento: probabilità di un giro di bottino in più
+var _light_t := 0.0
+
+signal rare_spawned(c: Creature)
 var list: Array[Creature] = []
 var kills := 0
 var _t := 0.0
@@ -67,9 +71,19 @@ func kill(c: Creature) -> void:
 	kills += 1
 	if is_instance_valid(c.master):
 		c.master.minions -= 1
-	var loot := LootData.roll(String(c.data["loot"]), _rng)
-	for id in loot:
-		drops.spawn(id, int(loot[id]), c.position)
+	# bottino: più giri per le rare e con la Fortuna, e un'Essenza per ogni tratto di una creatura antica
+	var rolls := 1
+	if c.ancient:
+		rolls = int(AncientData.RARITIES[c.ancient.rarity]["loot_rolls"])
+	if _rng.randf() < luck * 0.5:
+		rolls += 1
+	for r in rolls:
+		var loot := LootData.roll(String(c.data["loot"]), _rng)
+		for id in loot:
+			drops.spawn(id, int(loot[id]), c.position)
+	if c.ancient:
+		for t in c.ancient.traits:
+			drops.spawn(String(AncientData.TRAITS[t]["essence"]), 1, c.position + Vector2(_rng.randf_range(-8, 8), -6))
 	Fx.puff(self, c.position, Color(1.3, 1.2, 1.0))
 	killed.emit(c)
 	c.queue_free()
@@ -85,6 +99,9 @@ func kill_quietly(c: Creature) -> void:
 
 func _process(dt: float) -> void:
 	for c in list.duplicate():
+		if c.hp <= 0:
+			kill(c)                            # avvelenata a morte (tratto Veleno)
+			continue
 		for f in c.fire:
 			shots.fire(f["from"], f["vel"], f["grav"], f["damage"], false)
 			if sfx:
@@ -103,6 +120,15 @@ func _process(dt: float) -> void:
 		if c.position.distance_to(player.position) > CreaturesData.DESPAWN * S or c.position.y > world.h * S:
 			c.queue_free()
 			list.remove_at(i)
+	# le creature Luminose fanno luce attorno a sé
+	_light_t -= dt
+	if _light_t <= 0.0 and light:
+		_light_t = 0.25
+		var ls := []
+		for c in list:
+			if c.ancient and c.ancient.has("luminosa"):
+				ls.append([Vector2i(floori(c.position.x / S), floori(c.position.y / S)), Color(1.4, 1.2, 0.7)])
+		light.set_extra("antiche", ls)
 	if not enabled:
 		return
 	_t -= dt
@@ -152,10 +178,21 @@ func try_spawn() -> Creature:
 			var cr := add(id, Vector2(c.x * S + 8, (y + 1) * S - CreaturesData.CREATURES[id]["half"][1] - 0.1))
 			var mult := float(StrataData.STRATA[stratum]["danger"]) * vigor_mult
 			cr.strengthen(mult, mult * DangerData.DAMAGE)
+			var rarity := AncientData.roll_rarity(DangerData.at(world, Vector2i(c.x, y), night, vigor), _rng)
+			if rarity != "":
+				make_ancient(cr, rarity)
 			return cr
 		if fly:
 			break
 	return null
+
+
+## Rende rara una creatura (e la annuncia se ancestrale e vicina).
+func make_ancient(cr: Creature, rarity: String, traits: Array = []) -> void:
+	cr.ancient = Ancient.new()
+	cr.ancient.apply(cr, rarity, traits if not traits.is_empty() else AncientData.roll_traits(rarity, _rng))
+	if rarity == "ancestrale" and cr.position.distance_to(player.position) < AncientData.ANNOUNCE * S:
+		rare_spawned.emit(cr)
 
 
 ## Una cella è al buio? Fuori dalla finestra della luce si considera buia (è lontana da ogni torcia vista).

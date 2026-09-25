@@ -23,7 +23,8 @@ var _cycle := -1
 var _bow_t := 0.0
 var auto_aim := Vector2.INF            # per le prove: punto verso cui tirare senza mouse
 var auto_fire := false
-var god := false                       # per le prove: il Germogliato non si ferisce
+var god := false
+var thorns := 0                        # tratto Spine dell'equipaggiamento: danno a chi ti tocca                       # per le prove: il Germogliato non si ferisce
 
 
 func setup(main: Node2D) -> void:
@@ -135,8 +136,38 @@ func _boon() -> float:
 
 func _strike(c: Creature, dmg: int, from_x: float, force: float) -> void:
 	m.sfx.play("colpito", c.position)
+	var tr := String(m.hud.current().get("tratto", ""))
+	if TraitsData.effect(tr, "poison") > 0.0:
+		c.poison_t = 4.0
+	# creatura Spinosa: colpirla da vicino ferisce anche il Germogliato
+	if c.ancient and c.ancient.has("spinosa") and player.position.distance_to(c.position) < 48.0:
+		_self_hurt(maxi(int(dmg * c.ancient.value("thorns")), 1))
 	if c.take_hit(dmg, from_x, maxf(force, 0.3)):
+		var burst := TraitsData.effect(tr, "burst")
 		fauna.kill(c)
+		if burst > 0.0:
+			# tratto Scoppio: la creatura abbattuta ferisce quelle vicine
+			Fx.puff(m.fx, c.position, Color(2.0, 1.2, 0.6))
+			for o in fauna.list.duplicate():
+				if o.position.distance_to(c.position) < 48.0 and o.take_hit(int(dmg * burst), c.position.x, 0.5):
+					fauna.kill(o)
+
+
+## Ferita piccola che non dà invulnerabilità (spine, scoppi): numero rosso e basta.
+func _self_hurt(dmg: int) -> void:
+	if god or m.life.dead:
+		return
+	var lost := vitals.hurt(dmg)
+	Fx.float_text(m.fx, player.position + Vector2(0, -20), "-%d" % lost, Color("#ff9a7a"))
+
+
+## Una creatura Esplosiva muore: scoppia, e se il Germogliato è vicino si ferisce.
+func on_killed(c: Creature) -> void:
+	if c.ancient and c.ancient.has("esplosiva"):
+		Fx.puff(m.fx, c.position, Color(2.4, 1.2, 0.5))
+		m.sfx.play("rompi", c.position)
+		if player.position.distance_to(c.position) < 3.5 * 16.0:
+			hurt_player(int(c.ancient.value("explode")), c.position.x)
 
 
 ## Le creature che toccano il Germogliato lo feriscono.
@@ -147,6 +178,12 @@ func _contact() -> void:
 	for c in fauna.list:
 		if c.damage > 0 and pr.intersects(c.rect().grow(-1.0)):
 			hurt_player(c.damage, c.position.x)
+			if c.ancient and c.ancient.has("velenosa"):
+				vitals.poison_t = maxf(vitals.poison_t, c.ancient.value("poison"))
+				m.hud.toast("Avvelenato!")
+			# tratto Spine dell'equipaggiamento: chi tocca il Germogliato si ferisce
+			if thorns > 0 and c.take_hit(thorns, player.position.x, 0.4):
+				fauna.kill(c)
 			return
 
 

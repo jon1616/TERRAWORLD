@@ -80,6 +80,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
     superficie solo lì.
   - `DangerData` — il pericolo di una zona (strato, notte, Avvizzimento, vigore) → tetto di creature, ritmo delle
     nascite, soglia di buio per nascere sotto terra, moltiplicatore del danno. Qui si regola la difficoltà.
+  - `AncientData` — creature antiche e ancestrali: rarità (probabilità secondo il pericolo, moltiplicatori, aura),
+    11 tratti di creatura con l'Essenza che lasciano. `Ancient` (in `src/entities/`) li applica a una `Creature`
+    (contorno acceso con `Ancient.ring`, scritta, effetti); `Fauna.make_ancient`; innesto con `Crafting.graft`.
   - `StrataData` — i 5 strati di profondità (Superficie, Sottobosco di radici, Caverne d'ardesia, Profondità della
     Linfa, il Fondo): dove cominciano, roccia, sacche, parete, chiarore, pericolo delle creature, scritta d'ingresso.
     Il confine ondeggia (`offset(x, seme)`); `at(world, x, y)` / `index(x, profondità, seme)` = strato di una cella.

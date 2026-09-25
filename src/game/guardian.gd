@@ -68,12 +68,9 @@ func _process(dt: float) -> void:
 	# un Guardiano sveglio fa luce attorno a sé: nel buio vero la lotta deve leggersi
 	if boss != null and is_instance_valid(boss):
 		var bc := Vector2i(floori(boss.position.x / S), floori(boss.position.y / S))
-		if m.light.extra_lights.is_empty() or m.light.extra_lights[0][0] != bc:
-			m.light.extra_lights = [[bc, Color(1.3, 1.1, 0.9)]]
-			m.light.dirty = true
-	elif not m.light.extra_lights.is_empty():
-		m.light.extra_lights = []
-		m.light.dirty = true
+		m.light.set_extra("guardiano", [[bc, Color(1.3, 1.1, 0.9)]])
+	else:
+		m.light.set_extra("guardiano", [])
 	# se il Germogliato appassisce, il Guardiano torna a dormire (e guarisce)
 	if boss != null and m.life.dead and state == "dorme":
 		m.fauna.kill_quietly(boss)

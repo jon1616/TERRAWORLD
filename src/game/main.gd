@@ -174,6 +174,7 @@ func _build() -> void:
 	actions.vitals = vitals
 	life = _mount(Life.new())
 	combat = _mount(Combat.new())
+	fauna.killed.connect(combat.on_killed)
 	shots.hit = combat.on_shot
 	depth_watch = _mount(DepthWatch.new())
 	sfx = _mount(Sfx.new())
@@ -203,6 +204,15 @@ func _build() -> void:
 	ep.setup(self, erbario)
 	hud.overlays.append(ep)
 	objectives = _mount(Objectives.new())
+	hud.panel.crafting.grafted.connect(func(_id: String) -> void: objectives.bump("innesti"))
+	fauna.rare_spawned.connect(func(c: Creature) -> void:
+		hud.toast("Una presenza ancestrale si risveglia qui vicino: %s" % c.data["name"])
+		sfx.play("presenza"))
+	fauna.killed.connect(func(c: Creature) -> void:
+		if c.ancient:
+			var n: Dictionary = erbario.data["antiche"]
+			n[c.id] = int(n.get(c.id, 0)) + 1
+			objectives.bump("antiche" if c.ancient.rarity == "antica" else "ancestrali"))
 	blight = _mount(Blight.new())
 	hud.select(character.hotbar)
 	var start := world.spawn

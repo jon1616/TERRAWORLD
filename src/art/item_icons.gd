@@ -307,6 +307,15 @@ static func make(shape: String, material: String) -> Image:
 			for k in 9:
 				var a3 := PI + k / 8.0 * PI
 				Px.line(im, Vector2(8.0, 8.0), Vector2(8.0, 8.0) + Vector2(cos(a3), sin(a3)) * 6.0, 1, Color(0.9, 0.97, 0.95, 0.9))
+		"essenza":
+			# una goccia di luce che gira su sé stessa, con il suo alone
+			Px.disc(im, 8.0, 8.5, 5.5, Color(p[1].r, p[1].g, p[1].b, 0.45))
+			Px.disc(im, 8.0, 8.5, 3.8, p[2])
+			Px.disc(im, 7.2, 7.6, 2.0, p[p.size() - 1])
+			Px.put(im, 6, 6, Color.WHITE)
+			for k in 4:
+				var a := k * PI / 2.0 + 0.4
+				Px.put(im, int(8.0 + cos(a) * 6.5), int(8.5 + sin(a) * 6.5), p[p.size() - 1])
 		"lanterna":
 			# lanterna di radice intrecciata con un cristallo di Linfa dentro
 			var wood: Array[Color] = pal("legno")

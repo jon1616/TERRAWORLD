@@ -25,6 +25,9 @@ func refresh() -> void:
 	var safe := false
 	var halo := 1.0
 	var regen := 1.0
+	var luck := 0.0
+	var thorns := 0
+	var stealth := 1.0
 	var b: Bisaccia = m.character.bisaccia
 	for slot in b.equip:
 		var acc: Dictionary = ItemsData.get_item(String(b.equip[slot])).get("acc", {})
@@ -37,9 +40,16 @@ func refresh() -> void:
 		var tr := String(b.equip_traits.get(slot, ""))
 		run *= TraitsData.effect(tr, "run")
 		halo *= TraitsData.effect(tr, "halo")
+		regen *= TraitsData.effect(tr, "regen")
+		luck += TraitsData.effect(tr, "luck")
+		thorns += int(TraitsData.effect(tr, "thorns"))
+		stealth *= TraitsData.effect(tr, "stealth")
 	m.player.run_mult = run
 	m.player.jump_mult = jump
 	m.player.glide = glide
 	m.life.fall_safe = safe
 	m.boons.halo_mult = halo
 	m.vitals.regen_mult = regen
+	m.fauna.luck = luck
+	m.combat.thorns = thorns
+	Behavior.stealth = stealth

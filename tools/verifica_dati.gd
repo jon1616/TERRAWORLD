@@ -7,7 +7,7 @@ extends SceneTree
 
 const KINDS := ["materiale", "blocco", "piccone", "ascia", "spada", "arco", "munizione", "torcia", "stazione",
 	"piattaforma", "elmo", "corazza", "gambali", "consumabile", "seme", "lanterna", "cura", "seme_mondo", "accessorio",
-	"purifica"]
+	"purifica", "essenza"]
 ## Forza di piccone oltre cui una tessera è voluta indistruttibile (i nodi avvizziti: si curano, non si scavano).
 const UNBREAKABLE := 999
 

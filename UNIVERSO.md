@@ -124,6 +124,10 @@ che viene dal Giardino dei Semi.
 - L'**Avvizzimento** nei mondi: **terra avvizzita**, **muschio avvizzito**, **ardesia avvizzita**, **cenere
   avvizzita**; si allarga finché il Guardiano dorme, si ferma se è sconfitto, si ritira se è curato. Lo curano il **Seme
   di muschio** e la Rugiada di Linfa. Dalla cenere, la **Pozione di vigore**.
+- Le **creature antiche** e **ancestrali**: creature del Giardino vissute troppo a lungo, con tratti propri (Furiosa,
+  Corazzata, Rapida, Gigante, Velenosa, Spinosa, Rigenerante, Evocatrice, Luminosa, Esplosiva, Evanescente). Lasciano
+  **Essenze** che al Maglio dei Seminatori si **innestano** sull'equipaggiamento.
+- Il **Fagotto del Germogliato**: dove si appassisce resta la Bisaccia, avvolta nelle foglie.
 - Strati di profondità: **Superficie**, **Sottobosco di radici**, **Caverne d'ardesia**, **Profondità della Linfa**,
   **il Fondo** (dove il mondo confina con il Vuoto).
 
