@@ -117,5 +117,6 @@ func travel(o: Vector2i) -> void:
 		var nid := SavePaths.new_id(String(dest[1]))
 		e["mondo"] = nid
 		Session.start_new_world(String(dest[1]), int(dest[2]), nid, {"vigore": int(dest[3]), "ritorno": m.world_id})
+	m.objectives.bump("viaggi")
 	m.save_game()
 	get_tree().change_scene_to_file(GAME_SCENE)

@@ -248,6 +248,14 @@ mostra il tratto («Spada di legnoferro [Spina]»), il suggerimento dice l'effet
 Tratti salvati nella Bisaccia, nell'equipaggiamento indossato e nelle ceste; il corredo iniziale non ne ha. Prove:
 distribuzione, effetto sul danno, Scorza e corsa indossando, rinnovo, salvataggio.
 
+## 16. [x] Obiettivi del Germogliato (M) — fatto il 25 set 2026
+Aggiunta dai cicli autonomi per «avere sempre obiettivi da raggiungere» (priorità dell'utente): 21 traguardi in ordine
+(`ObjectivesData`), dal primo albero al Ceppo, alle torce, ai cinque strati, alla prima notte, agli scrigni, agli
+accessori, al Maglio e al legnoferro, ai cristalli, al Cuore, al Guardiano, al portale e a metà Erbario. I prossimi tre
+sono sempre in alto a sinistra con il conteggio; ogni traguardo dà una piccola ricompensa (pozioni, torce, lingotti,
+Rugiada…) e un avviso. Salvati con il personaggio insieme ai conteggi (notti, scrigni aperti, viaggi, strato più
+profondo, Cuore trovato). Avvisi spostati al centro (erano sopra la Vita), aiuto in alto su due righe.
+
 **Roadmap 2 «Il mondo vivo»** (prevista): biomi di superficie e sotterranei (foresta-lanterna, paludi di spore, distese
 d'ambra, giardini di cristallo…), strutture e rovine dei Seminatori, l'Avvizzimento che si espande, e i **Semi che
 decidono il mondo** (specie = quali biomi, vigore = difficoltà, tratti = particolarità). Poi: mondi a portale veri,

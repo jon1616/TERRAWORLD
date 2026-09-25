@@ -16,6 +16,8 @@ var bisaccia: Bisaccia
 var hp := Vitals.HP_MAX
 var linfa := Vitals.LINFA_MAX
 var vita_extra := 0                    # Vita massima in più, per sempre (doni dei Guardiani curati)
+var stats := {}                        # conteggi per gli obiettivi (vedi `Objectives`): notti, scrigni, viaggi, strato_max, cuore
+var obiettivi: Array = []              # obiettivi raggiunti (id di `ObjectivesData`)
 var erbario := {}                      # scoperte (vedi `Erbario`): creature sconfitte, oggetti, pagine di storia
 var guardiani_curati: Array = []       # mondi in cui ha curato il Guardiano (il dono vale una volta per mondo)
 
@@ -26,7 +28,7 @@ func to_dict() -> Dictionary:
 		"bisaccia": bisaccia.to_array() if bisaccia else [], "equipaggiamento": bisaccia.equip if bisaccia else {},
 		"tratti_equip": bisaccia.equip_traits if bisaccia else {},
 		"vita": hp, "linfa": linfa, "vita_extra": vita_extra, "guardiani_curati": guardiani_curati,
-		"erbario": erbario}
+		"erbario": erbario, "stats": stats, "obiettivi": obiettivi}
 
 
 static func from_dict(cid: String, d: Dictionary) -> Character:
@@ -57,6 +59,11 @@ static func from_dict(cid: String, d: Dictionary) -> Character:
 		for k in part:
 			part[k] = int(part[k])
 	c.erbario = eb
+	var st: Dictionary = d.get("stats", {})
+	for k in st:
+		st[k] = int(st[k])
+	c.stats = st
+	c.obiettivi = d.get("obiettivi", [])
 	c.hp = clampi(int(d.get("vita", Vitals.HP_MAX)), 1, Vitals.HP_MAX + c.vita_extra)
 	c.linfa = clampi(int(d.get("linfa", Vitals.LINFA_MAX)), 0, Vitals.LINFA_MAX)
 	return c

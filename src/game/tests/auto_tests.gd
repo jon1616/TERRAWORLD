@@ -13,6 +13,7 @@ func run(main: Node2D) -> void:
 	main.day.paused = true                # mezzogiorno fisso: le foto restano confrontabili
 	main.day.time = 0.5
 	main.day.apply(true)
+	main.objectives.paused = true
 	var kit := TestKit.new(self, main)
 	if "--prova-portale" in OS.get_cmdline_user_args():
 		await TestsPortalTrip.new(kit).run()
@@ -28,6 +29,7 @@ func run(main: Node2D) -> void:
 	var bi := TestsBiomes.new(kit)
 	var eb := TestsErbario.new(kit)
 	var tt := TestsTraits.new(kit)
+	var ob := TestsObjectives.new(kit)
 	await w.places()
 	await p.trees()
 	await p.crafting()
@@ -42,6 +44,7 @@ func run(main: Node2D) -> void:
 	await mp.run()
 	await eb.run()
 	await tt.run()
+	await ob.run()
 	await w.run_and_save()
 	# la Bisaccia aperta
 	main.hud.panel.toggle()

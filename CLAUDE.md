@@ -182,6 +182,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 - `src/game/erbario.gd` (`Erbario`) — le scoperte del personaggio (`Character.erbario`: creature sconfitte con il
   conteggio, oggetti, pagine lette), `percent()`; `ErbarioPanel` in `src/ui/` (tasto L). Pannelli a schermo intero
   come questo vanno in `Hud.overlays` (così il mouse non scava mentre sono aperti).
+- `src/game/objectives.gd` (`Objectives`) — obiettivi di `ObjectivesData` controllati ogni secondo, ricompense,
+  i prossimi tre in alto a sinistra; `bump(stat)` per i conteggi del personaggio (`Character.stats`); `paused` nelle
+  prove. In `main.gd` i moduli si montano con `_mount(nodo)` (una riga per modulo).
 - `src/game/depth_watch.gd` (`DepthWatch`) — in che strato è il giocatore (con un margine sul confine): sfuma il
   chiarore della luce e mostra la scritta dello strato (`StratumBanner` in `src/ui/`).
 - `src/game/crafting.gd` (`Crafting`) — regole della fabbricazione: stazioni a portata (5 tessere), ricette usabili,

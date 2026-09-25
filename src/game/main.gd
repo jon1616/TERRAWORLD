@@ -32,6 +32,7 @@ var gear: GearEffects
 var interact: Interact
 var map_reveal: MapReveal
 var erbario: Erbario
+var objectives: Objectives
 var _spores: CPUParticles2D
 var built := false
 var gen_times: Array = []
@@ -169,48 +170,27 @@ func _build() -> void:
 	add_child(actions)
 	actions.setup(world, view, light, player, hud, drops, fx)
 	actions.vitals = vitals
-	life = Life.new()
-	add_child(life)
-	life.setup(self)
-	combat = Combat.new()
-	add_child(combat)
-	combat.setup(self)
+	life = _mount(Life.new())
+	combat = _mount(Combat.new())
 	shots.hit = combat.on_shot
-	depth_watch = DepthWatch.new()
-	add_child(depth_watch)
-	depth_watch.setup(self)
-	boons = Boons.new()
-	add_child(boons)
-	boons.setup(self)
-	guardian = Guardian.new()
-	add_child(guardian)
-	guardian.setup(self)
-	portal = Portal.new()
-	add_child(portal)
-	portal.setup(self)
-	day = DayCycle.new()
-	add_child(day)
-	day.setup(self)
-	gear = GearEffects.new()
-	add_child(gear)
-	gear.setup(self)
-	interact = Interact.new()
-	add_child(interact)
-	interact.setup(self)
-	map_reveal = MapReveal.new()
-	add_child(map_reveal)
-	map_reveal.setup(self)
+	depth_watch = _mount(DepthWatch.new())
+	boons = _mount(Boons.new())
+	guardian = _mount(Guardian.new())
+	portal = _mount(Portal.new())
+	day = _mount(DayCycle.new())
+	gear = _mount(GearEffects.new())
+	interact = _mount(Interact.new())
+	map_reveal = _mount(MapReveal.new())
 	var mp := MapPanel.new()
 	hud.add_child(mp)
 	mp.setup(self, map_reveal)
 	hud.map = mp
-	erbario = Erbario.new()
-	add_child(erbario)
-	erbario.setup(self)
+	erbario = _mount(Erbario.new())
 	var ep := ErbarioPanel.new()
 	hud.add_child(ep)
 	ep.setup(self, erbario)
 	hud.overlays.append(ep)
+	objectives = _mount(Objectives.new())
 	hud.select(character.hotbar)
 	var start := world.spawn
 	var pos: Array = (world_meta.get("giocatori", {}) as Dictionary).get(character.id, [])
@@ -234,6 +214,13 @@ func _build() -> void:
 		var pr := AutoTests.new()
 		add_child(pr)
 		pr.run(self)
+
+
+## Aggiunge un modulo di gioco (un nodo con `setup(main)`) e lo prepara: il montaggio resta una riga per modulo.
+func _mount(n: Node) -> Node:
+	add_child(n)
+	n.setup(self)
+	return n
 
 
 func cell_to_feet(c: Vector2i) -> Vector2:

@@ -36,6 +36,12 @@ func touch(c: Vector2i) -> bool:
 	var o: Vector2i = st["origin"]
 	if StationsData.STATIONS[id].has("slots"):
 		chest_panel.open(o, m.world.chest_at(o), String(StationsData.STATIONS[id]["name"]))
+		if id == "scrigno":
+			var opened: Array = m.world_meta.get("scrigni_aperti", [])
+			if not "%d,%d" % [o.x, o.y] in opened:
+				opened.append("%d,%d" % [o.x, o.y])
+				m.world_meta["scrigni_aperti"] = opened
+				m.objectives.bump("scrigni")
 		return true
 	match id:
 		"portale":

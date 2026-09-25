@@ -49,6 +49,7 @@ func _process(dt: float) -> void:
 	var d: float = m.player.position.distance_to(heart_pos()) / S
 	if not _seen and d < WAKE:
 		_seen = true
+		m.objectives.bump("cuore")
 		if state == "dorme":
 			lore.show_page("cuore_trovato")
 	if state == "dorme" and boss == null and d < WAKE and not m.life.dead:

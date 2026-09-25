@@ -91,6 +91,14 @@ func _init() -> void:
 			if best_power[id] >= need:
 				any = true
 		_err(any, "nessun piccone riesce a scavare la tessera %d (serve forza %d)" % [t, need])
+	# 7. obiettivi: oggetti, stazioni e creature citati esistono, le ricompense pure
+	for o in ObjectivesData.LIST:
+		var c: Dictionary = o["check"]
+		_err(not c.has("item") or items.has(String(c["item"])), "obiettivo %s: oggetto sconosciuto" % o["id"])
+		_err(not c.has("station") or StationsData.STATIONS.has(String(c["station"])), "obiettivo %s: stazione sconosciuta" % o["id"])
+		_err(not c.has("kill") or CreaturesData.CREATURES.has(String(c["kill"])), "obiettivo %s: creatura sconosciuta" % o["id"])
+		for r in o["reward"]:
+			_err(items.has(String(r)), "obiettivo %s: ricompensa sconosciuta %s" % [o["id"], r])
 	_icon_sheet(items)
 	print("oggetti %d · ricette %d · stazioni %d · creature %d · tabelle di bottino %d" % [items.size(), recipes.size(),
 		StationsData.STATIONS.size(), CreaturesData.CREATURES.size(), LootData.TABLES.size()])

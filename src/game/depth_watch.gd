@@ -38,6 +38,8 @@ func _process(dt: float) -> void:
 	var k := _stratum_at(MARGIN)
 	if k != stratum:
 		stratum = k
+		var stats: Dictionary = m.character.stats
+		stats["strato_max"] = maxi(int(stats.get("strato_max", 0)), k)
 		var st: Dictionary = StrataData.STRATA[k]
 		banner.show_stratum(String(st["name"]), String(st["desc"]), Color(st["color"]))
 	# in superficie: la scritta del bioma quando se ne attraversa il confine (con un margine di qualche colonna)

@@ -48,13 +48,15 @@ func _ready() -> void:
 	_name.size = Vector2(1600, 28)
 	_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_name.add_theme_color_override("font_color", AMBER)
-	_info = _label(self, Vector2(16, 10), 14)
+	_info = _label(self, Vector2(16, 6), 13)
+	_info.add_theme_constant_override("line_spacing", -2)
 	_info.add_theme_color_override("font_color", Color("#9fc8c0"))
 	_info.text = "A/D muovi · Spazio salta · S scendi dalle passerelle · clic sinistro usa · clic destro torcia o tocca (ceste, Cuore, portali)
 1-0 / rotella oggetti · E Bisaccia · M mappa · L Erbario · Esc salva ed esce"
-	_toast = _label(self, Vector2(1200, 12), 18)
-	_toast.size = Vector2(380, 30)
-	_toast.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	# gli avvisi al centro, sotto la scritta degli strati: possono essere lunghi (obiettivi, Erbario)
+	_toast = _label(self, Vector2(0, 236), 18)
+	_toast.size = Vector2(1600, 30)
+	_toast.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_toast.modulate.a = 0.0
 	bisaccia.changed.connect(_refresh)
 	_refresh()
@@ -73,7 +75,7 @@ func _label(parent: Node, pos: Vector2, size: int) -> Label:
 	return l
 
 
-## Messaggio breve in alto a destra che svanisce da solo.
+## Messaggio breve in alto al centro che svanisce da solo.
 func toast(text: String) -> void:
 	_toast.text = text
 	_toast.modulate.a = 1.0
