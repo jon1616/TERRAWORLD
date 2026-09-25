@@ -44,6 +44,7 @@ var garden: Garden
 var events: Events
 var masonry: Masonry
 var villagers: Villagers
+var companions: Companions
 var _spores: CPUParticles2D
 var built := false
 var gen_times: Array = []
@@ -226,6 +227,7 @@ func _build() -> void:
 	events = _mount(Events.new())
 	masonry = _mount(Masonry.new())
 	villagers = _mount(Villagers.new())
+	companions = _mount(Companions.new())
 	_mount(Chronicle.new())                # avvisi, Erbario e conteggi degli obiettivi dagli eventi del gioco
 	hud.select(character.hotbar)
 	var start := world.spawn

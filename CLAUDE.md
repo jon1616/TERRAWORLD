@@ -227,6 +227,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 - `src/game/villagers.gd` (`Villagers`) — gli abitanti: `check` (arrivi: Focolare, letti liberi, condizioni di
   `NpcData`), `npc_at`, `open_trade`; `Npc` in `src/entities/` (passeggia, si gira verso il giocatore), `NpcArt`,
   `TradePanel` in `src/ui/`. Prezzi e valori in `ValueData` (`value`, `sell_price`, `buy_price`).
+- `src/game/companions.gd` (`Companions`) — compagni (`toggle_pet`, doni su `Drops.magnet_mult` e
+  `Vitals.pet_linfa`, luce) e alleati dei bastoni evocatori (`summon`, `MAX_ALLIES` + `GearEffects.allies`); dati in
+  `CompanionsData`, entità `Ally` in `src/entities/` (segue, sceglie un bersaglio, colpisce con `Combat._strike`).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

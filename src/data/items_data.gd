@@ -212,6 +212,14 @@ const ITEMS := {
 	"sedia_radice": {"name": "Sedia di radice", "kind": "stazione", "icon": ["sedia", "legno"], "place": "sedia", "stack": 99, "desc": "Una sedia accanto al tavolo."},
 	"letto_foglie": {"name": "Letto di foglie", "kind": "stazione", "icon": ["letto", "muschio"], "place": "letto", "stack": 99, "desc": "Clic destro: da ora rinasci qui invece che alla partenza del mondo."},
 	# voce 36: abitanti e commercio
+	# voce 37: i compagni (`pet` = id di `CompanionsData.PETS`) e i bastoni evocatori (`ally` = id di `ALLIES`)
+	"vasetto_lucciolina": {"name": "Vasetto della Lucciolina", "kind": "compagno", "icon": ["vasetto", "lucciola"], "pet": "lucciolina", "desc": "Clic: la Lucciolina esce e ti segue, facendo luce attorno a te. Clic di nuovo: torna nel vasetto."},
+	"gelatina_viva": {"name": "Gelatina viva", "kind": "compagno", "icon": ["vasetto", "muschio"], "pet": "grumetto", "desc": "Clic: il Grumetto ti segue saltellando; gli oggetti a terra vengono attirati da più del doppio della distanza."},
+	"goccia_spiritello": {"name": "Goccia dello Spiritello", "kind": "compagno", "icon": ["vasetto", "cristallo"], "pet": "spiritello", "desc": "Clic: lo Spiritello di Linfa ti segue; la tua Linfa ricresce il 30% più in fretta."},
+	"bastone_grumi_amici": {"name": "Bastone dei grumi amici", "kind": "evocatore", "icon": ["evocatore", "muschio"], "ally": "grumo_amico", "desc": "Clic (10 Linfa): richiama un Grumo amico che salta addosso alle creature vicine. Due alla volta."},
+	"bastone_falena_amica": {"name": "Bastone della falena amica", "kind": "evocatore", "icon": ["evocatore", "brace"], "ally": "falena_amica", "desc": "Clic (10 Linfa): richiama una Falena amica, svelta, che vola contro le creature vicine."},
+	"bastone_vagavuoto": {"name": "Bastone del Vagavuoto domato", "kind": "evocatore", "icon": ["evocatore", "vuotite"], "ally": "vagavuoto_amico", "desc": "Clic (10 Linfa): un Vagavuoto domato ti segue in volo e tira sfere di Vuoto alle creature."},
+	"fischietto_branco": {"name": "Fischietto del branco", "kind": "accessorio", "icon": ["amuleto", "seta"], "acc": {"allies": 1, "magic": 1.05}, "desc": "Un alleato in più insieme; incantesimi e alleati +5%."},
 	"lumino": {"name": "Lumino", "kind": "moneta", "icon": ["lumino", "ambra"], "stack": 9999, "desc": "Una goccia di luce solida: la moneta degli abitanti. La lasciano le creature sconfitte e gli scrigni."},
 	"focolare": {"name": "Focolare del Giardino", "kind": "stazione", "icon": ["focolare", "brace"], "place": "focolare", "stack": 99, "desc": "Un fuoco acceso che si vede da lontano. Con un Letto di foglie libero lì vicino, un viandante si ferma ad abitare (uno per letto)."},
 	"seme_mondo": {"name": "Seme di mondo", "kind": "seme_mondo", "icon": ["seme", "cristallo"], "stack": 9, "desc": "Il Cuore del mondo ti ha donato un seme. Piantalo sul terreno: crescerà un portale verso un mondo nuovo."},
@@ -350,4 +358,8 @@ static func use_of(id: String) -> String:
 			return "smura"
 		"annaffiatoio":
 			return "annaffia"
+		"compagno":
+			return "chiama"
+		"evocatore":
+			return "evoca"
 	return ""

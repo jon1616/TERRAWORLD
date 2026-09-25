@@ -544,8 +544,15 @@ sopra la Bisaccia come le ceste): clic su una merce per comprarla (il doppio del
 della Bisaccia o «Vendi ciò che hai in mano» per vendere (un terzo). Salvati con il mondo (`world_meta["abitanti"]`).
 Prove `--solo=abitanti` (foto 64_abitanti, 65_commercio).
 
-## 37. [ ] Compagni (M)
-Un compagno di luce che segue il Germogliato, bastoni che richiamano creature alleate che combattono per lui.
+## 37. [x] Compagni (M) — fatto il 26 set 2026
+**Compagni** che seguono il Germogliato (`CompanionsData.PETS`, modulo `Companions`, entità `Ally`): uno alla volta,
+si chiamano e si congedano con il clic sul loro oggetto, restano con il personaggio. La **Lucciolina** (vasetto: polvere
+di lucciola e vetro, al Ceppo) fa luce attorno; il **Grumetto** (Gelatina viva: gelatina regale, all'Alambicco) attira
+gli oggetti da più del doppio della distanza; lo **Spiritello di Linfa** (occhi di guizzo e cristalli, all'Alambicco)
+fa ricrescere la Linfa il 30% più in fretta. **Bastoni evocatori** (10 Linfa a richiamo, due alleati insieme, il più
+vecchio lascia il posto): Grumo amico (Ceppo), Falena amica (Telaio), Vagavuoto domato che tira sfere (Maglio). Gli
+alleati vedono le creature entro 14 tessere, ci vanno addosso e tornano; il danno cresce con gli incantesimi; il
+**Fischietto del branco** (accessorio, Maglio) ne aggiunge uno. Prove `--solo=compagni` (foto 66_compagni).
 
 ## 38. [ ] Viaggio rapido e minimappa (M)
 Radici viandanti da collegare tra loro; una minimappa nell'angolo dello schermo.

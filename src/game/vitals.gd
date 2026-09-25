@@ -24,6 +24,7 @@ var set_scorza := 0                    # Scorza in più dei set completi (vedi `
 var regen_mult := 1.0
 var boon_regen := 1.0                  # Pozione di rigoglio (vedi `Boons`)
 var linfa_regen_mult := 1.0            # accessori: la Linfa ricresce più in fretta
+var pet_linfa := 1.0                   # lo Spiritello di Linfa (voce 37)
 var poison_t := 0.0                    # avvelenato da una creatura Velenosa: perde Vita per qualche secondo
 var _pacc := 0.0
 const POISON_DPS := 3.0                  # accessori: la Vita ricresce più in fretta (e l'attesa si accorcia)                  # dalle pozioni (vedi `Boons`)
@@ -82,7 +83,7 @@ func tick(dt: float) -> void:
 		_acc -= k
 		hp = mini(hp + k, hp_max)
 	if linfa < linfa_max:
-		_lacc += LINFA_REGEN * linfa_regen_mult * dt
+		_lacc += LINFA_REGEN * linfa_regen_mult * pet_linfa * dt
 		var k2 := int(_lacc)
 		_lacc -= k2
 		linfa = mini(linfa + k2, linfa_max)

@@ -83,6 +83,14 @@ const RECIPES := [
 	{"out": "giavellotto_aculeo", "qty": 10, "in": {"aculeo": 2, "legno": 1}, "station": "ceppo"},
 	{"out": "giavellotto_cristallo", "qty": 10, "in": {"cristallo_linfa": 1, "legno": 1}, "station": "maglio"},
 	# voce 31: muoversi meglio
+	# voce 37: compagni ed evocatori
+	{"out": "vasetto_lucciolina", "qty": 1, "in": {"polvere_lucciola": 10, "vetro_resina": 3}, "station": "ceppo"},
+	{"out": "gelatina_viva", "qty": 1, "in": {"gelatina_regale": 2, "gelatina": 20}, "station": "alambicco"},
+	{"out": "goccia_spiritello", "qty": 1, "in": {"occhio_guizzo": 2, "cristallo_linfa": 8}, "station": "alambicco"},
+	{"out": "bastone_grumi_amici", "qty": 1, "in": {"gelatina": 25, "legno": 10, "lingotto_radicite": 4}, "station": "ceppo"},
+	{"out": "bastone_falena_amica", "qty": 1, "in": {"polvere_brace": 14, "seta_radice": 6, "lingotto_legnoferro": 6}, "station": "telaio"},
+	{"out": "bastone_vagavuoto", "qty": 1, "in": {"scheggia_vuoto": 24, "seta_vuoto": 6, "cristallo_linfa": 6}, "station": "maglio"},
+	{"out": "fischietto_branco", "qty": 1, "in": {"gelatina_regale": 3, "seta_regale": 3, "lingotto_legnoferro": 4}, "station": "maglio"},
 	{"out": "radice_uncino", "qty": 1, "in": {"legno": 12, "seta_radice": 6, "lingotto_radicite": 4}, "station": "ceppo"},
 	{"out": "uncino_cristallo", "qty": 1, "in": {"cristallo_linfa": 8, "lingotto_ambra": 5, "seta_radice": 6}, "station": "maglio"},
 	{"out": "baccello_vento", "qty": 1, "in": {"penna_corteccia": 10, "polvere_lucciola": 8, "gelatina": 5}, "station": "telaio"},

@@ -389,6 +389,35 @@ static func draw(shape: String, im: Image, p: Array[Color]) -> bool:
 			Px.disc(im, 8.0, 9.0, 3.2, p[2])
 			Px.disc(im, 8.0, 8.0, 1.8, p[p.size() - 1])
 			Px.put(im, 8, 4, p[2])
+		"vasetto":
+			# vasetto di vetro con tappo di corteccia: dentro, un piccolo compagno luminoso del materiale
+			var w10 := ItemIcons.pal("legno")
+			var gl := Color(0.75, 0.95, 1.0, 0.35)
+			for y in range(5, 15):
+				for x in range(3, 13):
+					Px.put(im, x, y, gl)
+			Px.line(im, Vector2(3.0, 5.0), Vector2(3.0, 14.5), 1, Color(0.8, 1.0, 1.0, 0.8))
+			Px.line(im, Vector2(12.5, 5.0), Vector2(12.5, 14.5), 1, Color(0.5, 0.7, 0.8, 0.8))
+			Px.line(im, Vector2(3.0, 14.5), Vector2(12.5, 14.5), 1, Color(0.5, 0.7, 0.8, 0.8))
+			Px.line(im, Vector2(4.0, 3.5), Vector2(11.5, 3.5), 2, w10[3])
+			Px.put(im, 7, 1, Color(ItemIcons.LEAF[2]))
+			Px.put(im, 8, 2, Color(ItemIcons.LEAF[1]))
+			Px.disc(im, 8.0, 10.0, 3.4, Color(p[2].r, p[2].g, p[2].b, 0.5))
+			Px.disc(im, 8.0, 10.0, 2.2, p[2])
+			Px.put(im, 7, 9, p[p.size() - 1])
+			Px.put(im, 9, 9, p[p.size() - 1])
+		"evocatore":
+			# bastone che si arriccia in cima attorno a un cuore di foglia del materiale
+			var w11 := ItemIcons.pal("legno")
+			Px.line(im, Vector2(3.0, 15.0), Vector2(8.5, 6.0), 2, w11[3])
+			Px.line(im, Vector2(3.5, 15.0), Vector2(9.0, 6.0), 1, w11[2])
+			Px.curve(im, Vector2(8.5, 6.0), Vector2(8.0, 0.5), Vector2(14.0, 3.5), 1, w11[2])
+			Px.curve(im, Vector2(14.0, 3.5), Vector2(14.5, 9.0), Vector2(10.0, 8.5), 1, w11[2])
+			Px.disc(im, 11.3, 5.0, 2.4, p[1])
+			Px.disc(im, 11.0, 4.6, 1.5, p[2])
+			Px.put(im, 11, 4, p[p.size() - 1])
+			Px.put(im, 5, 11, Color(ItemIcons.LEAF[1]))
+			Px.put(im, 4, 11, Color(ItemIcons.LEAF[2]))
 		_:
 			return false
 	return true

@@ -46,6 +46,10 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 			return m.grapple.fire(id, m.fx.get_global_mouse_position())
 		"coltura":
 			return m.garden.plant(c, id)
+		"compagno":
+			return m.companions.toggle_pet(id)
+		"evocatore":
+			return m.companions.summon(id)
 		"annaffiatoio":
 			return m.garden.water(c)
 		"parete":

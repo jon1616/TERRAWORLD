@@ -5,6 +5,7 @@ extends Node2D
 
 const HALF := Vector2(4, 4)
 const MAGNET := 16.0 * 5.0            # raggio in cui gli oggetti vengono attirati
+var magnet_mult := 1.0                 # il Grumetto (voce 37) li attira da più lontano
 const PICK := 12.0                    # distanza a cui entrano nella Bisaccia
 const LIFE := 600.0                   # secondi prima di sparire, se nessuno li raccoglie
 
@@ -56,7 +57,7 @@ func _process(dt: float) -> void:
 		var vel: Vector2 = d["vel"]
 		var dist := sp.position.distance_to(target)
 		var room := bisaccia.room_for(d["id"]) > 0
-		if room and dist < MAGNET:
+		if room and dist < MAGNET * magnet_mult:
 			# attratto: vola verso il giocatore, senza badare ai blocchi
 			vel = vel.move_toward((target - sp.position).normalized() * 220.0, 900.0 * dt)
 			sp.position += vel * dt

@@ -12,6 +12,7 @@ extends Node
 ##   dig        scavo e taglio più rapidi (`PlayerActions.dig_mult`); stealth: le creature vedono meno lontano
 ##   damage     danno × (`Combat.dmg_mult`); atk_speed: colpi più rapidi (`Combat.spd_mult`); linfa_regen: Linfa ×
 ##   magic      incantesimi dei bastoni più forti (`Combat.magic_mult`)
+##   allies     alleati in più dai bastoni evocatori (`GearEffects.allies`)
 ##   air_jumps  salti in aria (`Player.air_jumps`); wall: scivolare e saltare sulle pareti (`Player.wall_climb`)
 ##   defense    (solo nei bonus dei set) Scorza in più (`Vitals.set_scorza`); quella dei pezzi la somma
 ##              `Bisaccia.scorza`
@@ -21,6 +22,7 @@ const MULT := ["run", "jump", "halo", "regen", "dig", "stealth", "damage", "atk_
 var m: Node2D
 var sets: Array = []                   # i set completi indossati (per l'interfaccia)
 var relics: Array = []                 # le collezioni di reliquie complete
+var allies := 0                        # alleati in più insieme (voce 37, letto da `Companions`)
 
 
 func setup(main: Node2D) -> void:
@@ -38,6 +40,7 @@ func refresh() -> void:
 	e["defense"] = 0.0
 	e["glide"] = false
 	e["air_jumps"] = 0.0
+	e["allies"] = 0.0
 	e["wall"] = false
 	e["fall_safe"] = false
 	var b: Bisaccia = m.character.bisaccia
@@ -59,6 +62,7 @@ func refresh() -> void:
 	m.player.jump_mult = e["jump"]
 	m.player.glide = e["glide"]
 	m.player.air_jumps = int(e["air_jumps"])
+	allies = int(e["allies"])
 	m.player.wall_climb = e["wall"]
 	m.life.fall_safe = e["fall_safe"]
 	m.boons.halo_mult = e["halo"]
@@ -79,7 +83,7 @@ static func _add(e: Dictionary, acc: Dictionary) -> void:
 	for k in acc:
 		if k in MULT:
 			e[k] = float(e[k]) * float(acc[k])
-		elif k in ["luck", "thorns", "defense", "air_jumps"]:
+		elif k in ["luck", "thorns", "defense", "air_jumps", "allies"]:
 			e[k] = float(e[k]) + float(acc[k])
 		elif k in ["glide", "fall_safe", "wall"]:
 			e[k] = bool(e[k]) or bool(acc[k])

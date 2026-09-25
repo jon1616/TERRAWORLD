@@ -168,6 +168,8 @@ che viene dal Giardino dei Semi.
   radice**, il **Letto di foglie** (dove si rinasce).
 - La moneta: i **Lumini** (gocce di luce solida). Il **Focolare del Giardino** attira gli abitanti: la **Viandante**,
   l'**Erborista**, il **Forgiatore**.
+- I compagni: la **Lucciolina**, il **Grumetto**, lo **Spiritello di Linfa**; gli alleati dei bastoni evocatori (Grumo
+  amico, Falena amica, Vagavuoto domato) e il **Fischietto del branco**.
 - Il **Fagotto del Germogliato**: dove si appassisce resta la Bisaccia, avvolta nelle foglie.
 - Doni da trovare: il **Bocciolo del cuore** (nelle grotte; il suo **Cuore di bocciolo** fa crescere una foglia di Vita
   in più) e la **Stilla perenne** (una goccia che pende dai soffitti profondi senza mai cadere: più Linfa).
