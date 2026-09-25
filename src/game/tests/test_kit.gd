@@ -31,6 +31,9 @@ func seconds(s: float) -> void:
 ## e con 2 fotogrammi a volte l'immagine era di qualche istante prima.
 func save(name: String) -> void:
 	await frames(4)
+	# si obbliga il motore a disegnare ora: nel giro lungo di prove l'immagine della finestra arrivava in ritardo
+	# anche di secondi (la foto mostrava la scena di prima)
+	RenderingServer.force_draw(false)
 	var img := node.get_viewport().get_texture().get_image()
 	img.save_png(ProjectSettings.globalize_path("res://prove/%s.png" % name))
 	print("salvato ", name)

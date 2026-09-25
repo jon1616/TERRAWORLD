@@ -35,6 +35,7 @@ var erbario: Erbario
 var objectives: Objectives
 var sfx: Sfx
 var blight: Blight
+var hazards: Hazards
 var _spores: CPUParticles2D
 var built := false
 var gen_times: Array = []
@@ -214,6 +215,7 @@ func _build() -> void:
 			n[c.id] = int(n.get(c.id, 0)) + 1
 			objectives.bump("antiche" if c.ancient.rarity == "antica" else "ancestrali"))
 	blight = _mount(Blight.new())
+	hazards = _mount(Hazards.new())
 	hud.select(character.hotbar)
 	var start := world.spawn
 	var pos: Array = (world_meta.get("giocatori", {}) as Dictionary).get(character.id, [])

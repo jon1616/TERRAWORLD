@@ -47,7 +47,9 @@ const DECOR_SPROUT := 15               # germoglio d'albero-lanterna piantato: d
 const DECOR_SHARD := 16                # scheggia del Vuoto: spunta dal pavimento del Fondo e brilla viola
 const DECOR_LINFA := 17                # goccia di Linfa che pende dai soffitti delle Profondità della Linfa
 const DECOR_RUNE := 18                 # runa dei Seminatori accesa, nelle rovine
-const DECOR_COUNT := 18
+const DECOR_ROVO := 19                 # rovo spinoso: punge chi lo tocca (voce 20c)
+const DECOR_TRAP := 20                 # runa trappola sul pavimento delle rovine: una scarica di spore, poi si spegne
+const DECOR_COUNT := 20
 const DECOR_CEILING := [11, 12, 17]        # queste pendono dal blocco sopra
 
 ## Luce emessa dalle decorazioni (indice = id della decorazione): piccole pozze di luce nel buio, non lampioni
@@ -56,7 +58,7 @@ const DECOR_LIGHT := {
 	4: Color(0.15, 0.4, 0.45), 5: Color(0.45, 0.3, 0.1), 6: Color(0.3, 0.15, 0.45),
 	10: Color(0.25, 0.6, 0.85), 11: Color(0.2, 0.13, 0.04), 12: Color(0.17, 0.11, 0.03), 13: Color(0.3, 0.17, 0.5),
 	15: Color(0.25, 0.14, 0.04), 16: Color(0.4, 0.18, 0.7), 17: Color(0.15, 0.5, 0.55),
-	18: Color(0.2, 0.62, 0.6),
+	18: Color(0.2, 0.62, 0.6), 20: Color(0.14, 0.2, 0.1),
 }
 
 ## Secondi di scavo con il piccone di radicite.

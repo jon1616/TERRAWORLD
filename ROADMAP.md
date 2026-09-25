@@ -288,7 +288,7 @@ lascia **Nucleo del Colosso** o **Pietra che batte** → **Lingotto stellare** e
 storia nuove. Il Guardiano sveglio fa luce attorno a sé (nel buio vero la lotta non si vedeva). Prove: risveglio con il
 vigore 2 e 3, sconfitta e bottino, lingotti dalle due strade (foto 37_regina_spore, 38_colosso_ardesia).
 
-## 20. [~] Pericolo e creature antiche (L) — iniziata il 25 set 2026
+## 20. [x] Pericolo e creature antiche (L) — fatta il 25 set 2026
 Dopo la prima partita dell'utente («troppo facile, non c'è molto rischio ad esplorare»), con la richiesta: niente
 decine di mostri in superficie, pericoli adeguati alla zona; le creature rare e forti come parte fondamentale del gioco.
 **20a fatta il 25 set 2026 — pericolo per zona**: `DangerData` calcola il pericolo dove si trova il Germogliato (strato
@@ -308,6 +308,11 @@ in vista. Bottino doppio o quadruplo e un'**Essenza** per ogni tratto: al **Magl
 un'armatura o un accessorio e dà un tratto che non esce mai a caso (Furia, Guscio, Fulmine, Vastità, Veleno, Spine,
 Linfa lenta, Fortuna, Lucciola viva, Scoppio, Ombra). Nell'Erbario le rare sconfitte; tre obiettivi nuovi (antica,
 innesto, ancestrale). Prove: probabilità per zona, statistiche, veleno, spine, Essenze, innesto, foto 41_antiche.
+**20c fatta il 25 set 2026 — pericoli dell'ambiente** (passata Pericoli, modulo `Hazards`): **rovi spinosi** sui
+pavimenti delle grotte dalle Caverne in giù (4-8% dei pavimenti, più fitti scendendo) e nelle terre avvizzite: pungono
+(6 + 4 per strato), le punte brillano appena per vederli al buio, si tagliano come ogni decorazione; **rune trappola**
+sui pavimenti delle rovine (2 per rovina): una scarica di spore (ferita e veleno), poi si spengono. Prove: rovo che
+punge, runa che scatta e si spegne (foto 42_rovi). Corretto anche il ritardo delle foto nelle prove.
 
 **Roadmap 2 «Il mondo vivo»** (prevista): biomi di superficie e sotterranei (foresta-lanterna, paludi di spore, distese
 d'ambra, giardini di cristallo…), strutture e rovine dei Seminatori, l'Avvizzimento che si espande, e i **Semi che

@@ -131,7 +131,7 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
     grandi vuoti del Fondo e il suo pavimento di vuotite), Radici (radici giganti del Sottobosco, anche attraverso le
     grotte), Ingressi, Minerali (per strato e roccia), Cristalli, Erba, Alberi, Decorazioni (per strato), Avvizzimento (due macchie malate in superficie), Cuore (la
     cupola del Cuore del mondo nel Fondo, con i 4 nodi avvizziti e la stazione `cuore_mondo`), Rovine (44 stanze dei
-    Seminatori con uno scrigno pieno secondo lo strato), Partenza (le torce
+    Seminatori con uno scrigno pieno secondo lo strato), Pericoli (rovi spinosi e rune trappola, vedi `Hazards`), Partenza (le torce
     già accese della vecchia passata provvisoria sono state tolte il 25 set 2026: le torce le mette il giocatore). Un mondo 3000×1000 si genera in ~8,5 s (in un thread, con schermata d'attesa).
   - `WorldView` — disegno a blocchi da 32×32: solo i blocchi vicini alla visuale esistono come nodi (1 costruito per
     fotogramma, liberati oltre 2 blocchi di margine); ogni blocco ha pareti (z -10) e decorazioni (z 1) sulla griglia
@@ -262,8 +262,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   per tempo» il salto era 3,31 tessere a 60 fps e 3,22 a 144 (il muro di 3 blocchi non si superava più). Si usa la
   velocità media del passo; le prove misurano a 60 e a 144 fps, e contano il tempo in secondi, non in fotogrammi.
 - Gli alberi hanno 8 forme disegnate una volta sola e riusate (disegnarne uno per albero costava secondi).
-- Dopo molti `snap_to` di fila (e con vsync spento) la foto della finestra può arrivare in ritardo anche di un secondo:
-  prima delle foto importanti si aspetta in secondi (`kit.seconds`), non in fotogrammi.
+- Dopo molti `snap_to` di fila (e con vsync spento) la foto della finestra arrivava in ritardo anche di secondi (mostrava
+  la scena di prima): `TestKit.save` ora chiama `RenderingServer.force_draw(false)` prima di leggere l'immagine.
 - L'immagine della luce (moltiplicazione) scurisce anche lo sfondo: il colore del cielo va diviso per la luce che
   gli cade sopra (`DayCycle.apply`), altrimenti al tramonto il cielo diventa nero.
 - Ogni modulo che lancia un lavoro in `WorkerThreadPool` e poi ne legge o scrive i risultati nel proprio nodo deve

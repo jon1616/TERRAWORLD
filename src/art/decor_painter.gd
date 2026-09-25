@@ -209,6 +209,27 @@ static func decor(id: int) -> Dictionary:
 							c = Color("#d8b0ff")
 							Px.put(gm, x, y, c)
 						Px.put(im, x, y, c)
+		19:
+			# rovo spinoso: steli neri intrecciati con le spine rosse
+			outline = false
+			var thorn := Color("#c83a3a")
+			for k in 4:
+				var bx := 2.0 + k * 3.5
+				var top := Vector2(bx + rng.randf_range(-2.0, 2.0), rng.randf_range(4.0, 8.0))
+				Px.curve(im, Vector2(bx, 15.0), Vector2(bx + rng.randf_range(-3.0, 3.0), 10.0), top, 1, Color("#2a1a22"))
+				for s in 3:
+					var q := Vector2(bx, 15.0).lerp(top, (s + 1) / 4.0)
+					Px.put(im, int(q.x) + (1 if s % 2 == 0 else -1), int(q.y), thorn)
+					# le punte brillano appena: un pericolo si deve vedere anche al buio
+					Px.put(gm, int(q.x) + (1 if s % 2 == 0 else -1), int(q.y), thorn * Color(1, 1, 1, 0.7))
+		20:
+			# runa trappola: un segno inciso sul pavimento, appena acceso di verde malato
+			outline = false
+			var tc := Color("#6a8a4a")
+			for q in [Vector2i(4, 14), Vector2i(5, 13), Vector2i(6, 14), Vector2i(7, 13), Vector2i(8, 14), Vector2i(9, 13),
+					Vector2i(10, 14), Vector2i(11, 13), Vector2i(7, 12), Vector2i(8, 12)]:
+				Px.put(im, q.x, q.y, tc)
+				Px.put(gm, q.x, q.y, tc * Color(1, 1, 1, 0.5))
 		18:
 			# runa dei Seminatori: un segno inciso che brilla di Linfa, sospeso davanti alla parete
 			outline = false
