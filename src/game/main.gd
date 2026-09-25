@@ -30,6 +30,7 @@ var portal: Portal
 var day: DayCycle
 var gear: GearEffects
 var interact: Interact
+var map_reveal: MapReveal
 var _spores: CPUParticles2D
 var built := false
 var gen_times: Array = []
@@ -193,6 +194,13 @@ func _build() -> void:
 	interact = Interact.new()
 	add_child(interact)
 	interact.setup(self)
+	map_reveal = MapReveal.new()
+	add_child(map_reveal)
+	map_reveal.setup(self)
+	var mp := MapPanel.new()
+	hud.add_child(mp)
+	mp.setup(self, map_reveal)
+	hud.map = mp
 	hud.select(character.hotbar)
 	var start := world.spawn
 	var pos: Array = (world_meta.get("giocatori", {}) as Dictionary).get(character.id, [])

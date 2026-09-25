@@ -167,6 +167,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   (apre `ChestPanel` in `src/ui/`, che condivide la pila in mano con `BisacciaPanel`; Maiusc+clic con `quick_target`).
 - `src/game/gear_effects.gd` (`GearEffects`) — effetti degli accessori (`acc` in `ItemsData`): `Player.run_mult`,
   `jump_mult`, `glide`, `Life.fall_safe`, `Boons.halo_mult`, `Vitals.regen_mult`; ricalcolati a ogni cambio della Bisaccia.
+- `src/game/map_reveal.gd` (`MapReveal`) — mappa esplorata: segna viste le celle illuminate (`World.explored`) e le
+  dipinge in un'immagine 1 pixel = 1 tessera; `MapPanel` in `src/ui/` (tasto M, rotella, trascinare, segni).
 - `src/game/depth_watch.gd` (`DepthWatch`) — in che strato è il giocatore (con un margine sul confine): sfuma il
   chiarore della luce e mostra la scritta dello strato (`StratumBanner` in `src/ui/`).
 - `src/game/crafting.gd` (`Crafting`) — regole della fabbricazione: stazioni a portata (5 tessere), ricette usabili,
@@ -238,6 +240,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   La curva finale della luce è `pow(v, 0.85)`: con 0,7 il buio veniva sollevato al 25-35%.
 - Le trame delle pareti nascono dalla tavolozza scurita: i colori fissi (vene, scintille) vanno ricavati dalla
   tavolozza, altrimenti sulle pareti si vede la ripetizione ogni 64 pixel.
+- I Control figli di un CanvasLayer (HUD) non prendono la misura dalle ancore se vengono creati prima di entrare
+  nell'albero: la misura va presa da `get_viewport_rect()` quando si mostrano (scritta degli strati, mappa).
 - Le prove che mettono qualcosa «a N tessere» devono usare `world.surface[x]` di quella colonna: il terreno piano
   vicino alla partenza è corto e il bersaglio finiva dentro la terra.
 

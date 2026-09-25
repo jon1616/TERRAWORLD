@@ -12,6 +12,7 @@ var bisaccia: Bisaccia                 # da impostare prima di aggiungere il nod
 var stations_near: Callable            # idem: () -> stazioni a portata (per la colonna «Creare»)
 var sel := 0
 var panel: BisacciaPanel
+var map: Control                       # la mappa (MapPanel): aperta, il mouse serve a lei
 var _slots: Array[SlotView] = []
 var _name: Label
 var _info: Label
@@ -44,7 +45,7 @@ func _ready() -> void:
 	_name.add_theme_color_override("font_color", AMBER)
 	_info = _label(self, Vector2(16, 10), 14)
 	_info.add_theme_color_override("font_color", Color("#9fc8c0"))
-	_info.text = "A/D muovi · Spazio salta · clic sinistro usa (scava, abbatti, colpisci, tira, piazza) · clic destro torcia o tocca (Cuore, portale) · 1-0 / rotella oggetti · E Bisaccia · Esc salva ed esce\nTutto ciò che vedi è generato dal codice: nessuna immagine esterna."
+	_info.text = "A/D muovi · Spazio salta · clic sinistro usa (scava, abbatti, colpisci, tira, piazza) · clic destro torcia o tocca (Cuore, portale) · 1-0 / rotella oggetti · E Bisaccia · M mappa · Esc salva ed esce\nTutto ciò che vedi è generato dal codice: nessuna immagine esterna."
 	_toast = _label(self, Vector2(1200, 12), 18)
 	_toast.size = Vector2(380, 30)
 	_toast.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
@@ -90,7 +91,7 @@ func select(k: int) -> void:
 
 
 func is_open() -> bool:
-	return panel.visible
+	return panel.visible or (map != null and map.visible)
 
 
 func _refresh() -> void:

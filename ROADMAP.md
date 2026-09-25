@@ -199,9 +199,15 @@ corteccia (+4 Scorza), Anello di lucciola (alone ×1,6), Cuore di muschio (Vita 
 ×1,18). Prove: scrigni per strato, apertura, Prendi tutto, scrigno portato via, effetti degli accessori, cesta piena
 salvata e ricaricata identica (foto 28_rovina_scrigno).
 
-## 11. [ ] Mappa del mondo esplorato (M)
+## 11. [x] Mappa del mondo esplorato (M) — fatto il 25 set 2026
 Tasto M: la mappa di ciò che il Germogliato ha visto (nebbia sul resto), con la partenza, il Cuore se trovato, i
 portali. Esplorato salvato con il mondo.
+**Fatto il 25 set 2026**: ciò che la luce tocca attorno al Germogliato diventa «visto» (`World.explored`, salvato con
+il mondo compresso: pochi byte in più); `MapReveal` dipinge un pixel per tessera con i colori delle rocce e delle
+pareti (in un thread all'avvio, poi a pezzi mentre si gioca). Tasto **M**: mappa a schermo intero, rotella per
+ingrandire (5 livelli), trascinare per spostarsi, segni per il Germogliato, la partenza, il Cuore, i portali, le
+ceste e gli scrigni già visti. Aperta la mappa, il mouse non scava. Prove: celle viste, foto 29_mappa, mappa uguale
+dopo salvataggio e ricaricamento.
 
 ## 12. [ ] Mondi a portale veri (M)
 Il Seme di mondo porta a un mondo più vigoroso (creature più forti, minerali più ricchi) e nel mondo nuovo nasce un

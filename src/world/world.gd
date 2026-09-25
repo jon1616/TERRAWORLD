@@ -21,6 +21,7 @@ var trees := {}                        # blocco Vector2i -> Array[Vector3i(x, y,
 var saplings := {}                     # cella del germoglio Vector2i -> secondi che mancano per diventare albero
 var stations := {}                     # angolo in alto a sinistra Vector2i -> id di `StationsData`
 var chests := {}                       # angolo di una stazione con `slots` (cesta, scrigno) -> Bisaccia del contenuto
+var explored := PackedByteArray()      # mappa: 1 dove il Germogliato ha già visto (vedi `MapReveal`)
 var plats := PackedByteArray()         # passerelle: 1 dove c'è una passerella (cella d'aria, si attraversa da sotto)
 
 
@@ -35,6 +36,8 @@ func setup(width: int, height: int) -> void:
 	decor.fill(0)
 	plats.resize(w * h)
 	plats.fill(0)
+	explored.resize(w * h)
+	explored.fill(0)
 	surface.resize(w)
 	torches.clear()
 	_torch_buckets.clear()
