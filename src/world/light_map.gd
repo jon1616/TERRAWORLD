@@ -3,16 +3,19 @@ extends RefCounted
 ## Luce a tessere alla Terraria, calcolata solo in una finestra attorno alla visuale e in un thread a parte.
 ## Ogni cella ha un colore di luce che si propaga ai vicini perdendo forza (poco nell'aria, molto nei blocchi).
 ## Il risultato è un'immagine di un pixel per tessera, stesa sul mondo ingrandita e sfumata, che moltiplica i colori.
-## Dove non arriva luce resta un filo di chiarore (`ambient`): le grotte si leggono anche lontano dalle torce
-## (richiesta dell'utente del 24 set 2026: «schiarisci le grotte»). Il suo colore cambia con lo strato (`DepthWatch`).
+## Buio vero (richiesta dell'utente del 25 set 2026: «il buio non c'è, le torce non servono»): lontano dalle luci resta
+## solo un filo di sagoma (`ambient`, del colore dello strato, vedi `DepthWatch`). Il Germogliato porta un piccolo alone
+## suo; per vedere lontano servono torce, Lanterna di Linfa o Pozione di bagliore. Le luci perdono forza in fretta:
+## con AIR_DECAY 0,88 una torcia illumina in pieno ~6 tessere e sfuma fino a ~20, l'alone del giocatore ~8.
 
 const AMBIENT := Color(0.14, 0.16, 0.21)
-const AIR_DECAY := 0.93
-const SOLID_DECAY := 0.62
+const AIR_DECAY := 0.88
+const SOLID_DECAY := 0.5
 const SKY := Color(0.92, 0.95, 1.0)
-const TORCH := Color(2.5, 1.75, 1.05)
+const TORCH := Color(2.2, 1.55, 0.9)
 const STATION := Color(1.7, 1.0, 0.45)      # la brace del Baccello ardente
-const PLAYER := Color(1.15, 0.98, 0.72)
+const PLAYER := Color(0.62, 0.52, 0.38)       # l'alone del Germogliato: vede solo attorno a sé
+const CURVE := 0.85                     # < 1 schiarisce un poco i toni medi senza sollevare il buio
 const LW := 128                       # finestra in tessere (la visuale è circa 50×28)
 const LH := 96
 const RECENTER := 6                   # ricentra quando la visuale si sposta di tante tessere
@@ -43,7 +46,8 @@ func update(view_center: Vector2i, player_cell: Vector2i) -> bool:
 		WorkerThreadPool.wait_for_task_completion(_task)
 		_task = -1
 		origin = _job["origin"]
-		tex.update(_job["image"])
+		image = _job["image"]
+		tex.update(image)
 		ready = true
 	if _task < 0:
 		var moved := absi(view_center.x - _center.x) >= RECENTER or absi(view_center.y - _center.y) >= RECENTER
@@ -61,7 +65,16 @@ func compute_now(view_center: Vector2i, player_cell: Vector2i) -> void:
 	WorkerThreadPool.wait_for_task_completion(_task)
 	_task = -1
 	origin = _job["origin"]
-	tex.update(_job["image"])
+	image = _job["image"]
+	tex.update(image)
+
+
+## Luminosità (0-1, come si vede) di una cella nell'ultima immagine calcolata; -1 se è fuori dalla finestra.
+func value_at(c: Vector2i) -> float:
+	var p := c - origin
+	if p.x < 0 or p.y < 0 or p.x >= LW or p.y >= LH:
+		return -1.0
+	return image.get_pixelv(p).srgb_to_linear().get_luminance()
 
 
 func _start(center: Vector2i, player_cell: Vector2i) -> void:
@@ -248,5 +261,5 @@ static func _solve(job: Dictionary) -> void:
 			vr = maxf(vr, amb.r)
 			vg = maxf(vg, amb.g)
 			vb = maxf(vb, amb.b)
-			img.set_pixel(x, y, Color(pow(minf(vr, 1.0), 0.7), pow(minf(vg, 1.0), 0.7), pow(minf(vb, 1.0), 0.7)).linear_to_srgb())
+			img.set_pixel(x, y, Color(pow(minf(vr, 1.0), CURVE), pow(minf(vg, 1.0), CURVE), pow(minf(vb, 1.0), CURVE)).linear_to_srgb())
 	job["image"] = img

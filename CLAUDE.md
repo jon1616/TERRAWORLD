@@ -38,7 +38,8 @@ Godot_console.exe --path .
 Godot_console.exe --headless --path . --import
 # controllo sintattico di uno script
 Godot_console.exe --headless --path . --check-only --script res://src/world/world.gd
-# prove automatiche con finestra (~25 s): screenshot in prove/ (01_superficie, 02_grotta_torcia, 03_cristalli, 04_scavo,
+# prove automatiche con finestra (~25 s): screenshot in prove/ (01_superficie, 02_grotta_buia e 02_grotta_torcia con la
+# misura del buio, 03_cristalli, 04_scavo,
 # 05_dopo_la_corsa, 06_muro_3_blocchi), misura del movimento (velocità, salto pieno in tessere, muro di 3 blocchi da
 # scavalcare) e dei fotogrammi durante una corsa in superficie (obiettivo: 60 fps, fotogramma peggiore < 25 ms)
 # Le prove usano user://prove_salvataggi (personaggio «prova» con il corredo iniziale, mondo «mondo_prova» rigenerato
@@ -105,8 +106,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
     pareti di ogni strato di `StrataData`, confini sfrangiati), Grotte (profondità, regioni, grandi caverne), Vuoti (i
     grandi vuoti del Fondo e il suo pavimento di vuotite), Radici (radici giganti del Sottobosco, anche attraverso le
     grotte), Ingressi, Minerali (per strato e roccia), Cristalli, Erba, Alberi, Decorazioni (per strato), Cuore (la
-    cupola del Cuore del mondo nel Fondo, con i 4 nodi avvizziti e la stazione `cuore_mondo`), Torce (prova,
-    provvisoria), Partenza. Un mondo 3000×1000 si genera in ~8,5 s (in un thread, con schermata d'attesa).
+    cupola del Cuore del mondo nel Fondo, con i 4 nodi avvizziti e la stazione `cuore_mondo`), Partenza (le torce
+    già accese della vecchia passata provvisoria sono state tolte il 25 set 2026: le torce le mette il giocatore). Un mondo 3000×1000 si genera in ~8,5 s (in un thread, con schermata d'attesa).
   - `WorldView` — disegno a blocchi da 32×32: solo i blocchi vicini alla visuale esistono come nodi (1 costruito per
     fotogramma, liberati oltre 2 blocchi di margine); ogni blocco ha pareti (z -10) e decorazioni (z 1) sulla griglia
     normale, i 7 strati del terreno sulla doppia griglia (z 0, spostati di -8,-8), bagliore di cristalli e decorazioni
@@ -216,8 +217,11 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   prima delle foto importanti si aspetta in secondi (`kit.seconds`), non in fotogrammi.
 - Una funzione anonima collegata a un timer non deve trattenere un nodo che può sparire prima: si usa `weakref`
   (altrimenti «Lambda capture was freed»). E nei file del gioco i tipi dedotti da un Variant sono errori: `var x: T =`.
-- I chiarori degli strati non devono mai scendere sotto quello della superficie (0,14 0,16 0,21, già approvato):
-  la prima versione più scura rendeva le Caverne quasi nere.
+- Il buio (deciso dall'utente il 25 set 2026: «il buio non c'è, le torce non servono»): chiarore di fondo quasi nero
+  (~0,03-0,06, tinto dallo strato), luce che perde il 12% per tessera d'aria, alone del giocatore piccolo, nessuna
+  torcia già accesa nel mondo. Il 24 set le grotte erano state schiarite perché i colori di base erano troppo scuri:
+  quello resta vero (tavolozze di tono medio), ma la leggibilità viene dalle luci, non dal chiarore di fondo.
+  La curva finale della luce è `pow(v, 0.85)`: con 0,7 il buio veniva sollevato al 25-35%.
 - Le trame delle pareti nascono dalla tavolozza scurita: i colori fissi (vene, scintille) vanno ricavati dalla
   tavolozza, altrimenti sulle pareti si vede la ripetizione ogni 64 pixel.
 - Le prove che mettono qualcosa «a N tessere» devono usare `world.surface[x]` di quella colonna: il terreno piano

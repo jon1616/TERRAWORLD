@@ -18,19 +18,22 @@ func _init(tk: TestKit) -> void:
 func places() -> void:
 	await kit.frames(30)
 	await kit.save("01_superficie")
-	# grotta con torcia: la torcia più vicina alla partenza, non troppo profonda, con un pavimento accanto
-	var f := Vector2i(-1, -1)
-	var cands: Array = world.torches.keys().filter(func(c: Vector2i) -> bool: return world.depth(c.x, c.y) in range(14, 80))
-	cands.sort_custom(func(a: Vector2i, b: Vector2i) -> bool: return Vector2(a - world.spawn).length_squared() < Vector2(b - world.spawn).length_squared())
-	for c in cands:
-		f = kit.floor_near(c, 6)
-		if f.x >= 0:
-			break
+	# grotta buia e poi con una torcia: una grotta aperta vicino alla partenza, non troppo profonda
+	var f := _open_cave()
 	if f.x < 0:
-		print("ATTENZIONE: nessuna grotta con torcia e pavimento vicino alla partenza")
+		print("ATTENZIONE: nessuna grotta aperta vicino alla partenza")
 	else:
 		kit.m.snap_to(f)
-		await kit.frames(20)
+		await kit.seconds(1.0)
+		await kit.save("02_grotta_buia")
+		var far := f + Vector2i(8, 0)
+		var near_dark: float = kit.m.light.value_at(f)
+		var far_dark: float = kit.m.light.value_at(far)
+		kit.m.actions.place_torch(f + Vector2i(1, 0))
+		kit.m.light.compute_now(kit.m.player_cell(), kit.m.player_cell())
+		var far_lit: float = kit.m.light.value_at(far)
+		print("buio: attorno al Germogliato %.2f, a 8 tessere %.2f; con una torcia a 8 tessere %.2f" % [near_dark, far_dark, far_lit])
+		await kit.seconds(1.0)
 		await kit.save("02_grotta_torcia")
 		kit.m.player.force_swing = true
 		var target := f + Vector2i(1, 0)
@@ -62,6 +65,24 @@ func places() -> void:
 			kit.m.snap_to(f2)
 			await kit.frames(20)
 			await kit.save("03_cristalli")
+
+
+## Una cella di pavimento in una grotta aperta (aria per 9 tessere a destra), tra 20 e 80 tessere di profondità,
+## la più vicina alla partenza.
+func _open_cave() -> Vector2i:
+	for r in range(0, 600):
+		for side in [1, -1]:
+			var x: int = world.spawn.x + side * r
+			for dep in range(20, 80):
+				var y := world.surface[x] + dep
+				var ok := world.solid(x, y + 1) and world.wall(x, y) != 0
+				for dx in range(0, 10):
+					if not ok:
+						break
+					ok = not world.solid(x + dx, y) and not world.solid(x + dx, y - 1)
+				if ok:
+					return Vector2i(x, y)
+	return Vector2i(-1, -1)
 
 
 ## Corsa in superficie (fotogrammi), salvataggio e ricaricamento di mondo e Bisaccia.

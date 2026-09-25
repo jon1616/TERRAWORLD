@@ -40,11 +40,12 @@ const DECOR_LINFA := 17                # goccia di Linfa che pende dai soffitti 
 const DECOR_COUNT := 17
 const DECOR_CEILING := [11, 12, 17]        # queste pendono dal blocco sopra
 
-## Luce emessa dalle decorazioni (indice = id della decorazione).
+## Luce emessa dalle decorazioni (indice = id della decorazione): piccole pozze di luce nel buio, non lampioni
+## (con il buio vero del 25 set 2026 una luce di 0,3 si vede per ~6 tessere).
 const DECOR_LIGHT := {
-	4: Color(0.2, 0.55, 0.6), 5: Color(0.6, 0.4, 0.12), 6: Color(0.4, 0.2, 0.6),
-	10: Color(0.3, 0.8, 1.15), 11: Color(0.55, 0.34, 0.1), 12: Color(0.45, 0.28, 0.08), 13: Color(0.45, 0.25, 0.75),
-	15: Color(0.35, 0.2, 0.06), 16: Color(0.5, 0.22, 0.85), 17: Color(0.2, 0.7, 0.75),
+	4: Color(0.15, 0.4, 0.45), 5: Color(0.45, 0.3, 0.1), 6: Color(0.3, 0.15, 0.45),
+	10: Color(0.25, 0.6, 0.85), 11: Color(0.32, 0.2, 0.06), 12: Color(0.26, 0.16, 0.05), 13: Color(0.3, 0.17, 0.5),
+	15: Color(0.25, 0.14, 0.04), 16: Color(0.4, 0.18, 0.7), 17: Color(0.15, 0.5, 0.55),
 }
 
 ## Secondi di scavo con il piccone di radicite.

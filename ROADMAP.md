@@ -158,6 +158,11 @@ Primo portale verso un secondo mondo (anche solo come prova).
 Prove: risveglio, seconda fase con grumi evocati, sconfitta (Cuore vivo), cura (4 nodi, Vita massima 120), lingotto
 di Linfa dalle due strade, bagliore e lanterna, portale piantato (foto 21-25).
 
+**Buio vero** (25 set 2026, dopo la prima partita dell'utente: «il buio non c'è, le torce non servono»): tolte le
+~1300 torce già accese della passata provvisoria; chiarore di fondo quasi nero tinto dallo strato; la luce perde il 12%
+per tessera d'aria; il Germogliato ha un piccolo alone suo; decorazioni luminose come piccole pozze di luce. Prova:
+misura della luce in una grotta buia e dopo una torcia (02_grotta_buia, 02_grotta_torcia).
+
 Ordine di lavoro (deciso il 24 set 2026): 3 → 4 → 5 → 5b → 6 → 7 → 8.
 
 **Roadmap 2 «Il mondo vivo»** (prevista): biomi di superficie e sotterranei (foresta-lanterna, paludi di spore, distese

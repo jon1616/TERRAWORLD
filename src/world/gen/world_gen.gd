@@ -21,7 +21,6 @@ static func passes() -> Array[GenPass]:
 		PassAlberi.new(),
 		PassDecorazioni.new(),
 		PassCuore.new(),
-		PassTorceProva.new(),
 		PassPartenza.new(),
 	]
 
