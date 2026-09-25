@@ -17,7 +17,8 @@ extends RefCounted
 ##   {"collezione": N}             N collezioni di reliquie complete (voce 28)
 ##   {"any": [id, …]}              avere (o indossare) almeno uno di questi oggetti
 ## Voce 30: la catena si è allungata con i Boccioli, i bastoni, i banchi nuovi, i Custodi, le creature rare, i trofei,
-## i set, le gemme e le reliquie, così c'è sempre un obiettivo intermedio a portata.
+## i set, le gemme e le reliquie, così c'è sempre un obiettivo intermedio a portata. Voce 38: anche il giardino, gli
+## abitanti, le radici viandanti, gli eventi, i compagni e gli alleati.
 
 const LIST := [
 	{"id": "legno", "text": "Abbatti un albero-lanterna e raccogli 10 legni", "check": {"item": "legno", "n": 10},
@@ -42,10 +43,16 @@ const LIST := [
 		"reward": {"pozione_linfa": 3}},
 	{"id": "lingotto", "text": "Fondi un lingotto di radicite", "check": {"item": "lingotto_radicite", "n": 1},
 		"reward": {"dardo": 30}},
+	{"id": "raccolto", "text": "Semina una coltura e raccoglila (i semi vengono dalle piante selvatiche)", "check": {"stat": "raccolti", "n": 1},
+		"reward": {"annaffiatoio": 1}},
+	{"id": "abitante", "text": "Accendi un Focolare con un Letto di foglie: qualcuno si fermerà", "check": {"stat": "abitanti", "n": 1},
+		"reward": {"lumino": 30}},
 	{"id": "scrigno", "text": "Trova e apri uno Scrigno dei Seminatori", "check": {"stat": "scrigni", "n": 1},
 		"reward": {"pozione_scorza": 1}},
 	{"id": "alambicco", "text": "Costruisci l'Alambicco di Linfa", "check": {"station": "alambicco"},
 		"reward": {"gelatina": 10}},
+	{"id": "radice", "text": "Pianta due Radici viandanti lontane e viaggia dall'una all'altra", "check": {"stat": "radici_viaggi", "n": 1},
+		"reward": {"lumino": 40}},
 	{"id": "capobranco", "text": "Sconfiggi un capobranco (l'aura verde) e prendi il suo trofeo", "check": {"stat": "capibranco", "n": 1},
 		"reward": {"pozione_esca": 1}},
 	{"id": "oggetto_trofeo", "text": "Fabbrica al Maglio un oggetto nato da un trofeo", "check": {"stat": "oggetti_trofeo", "n": 1},
@@ -58,10 +65,16 @@ const LIST := [
 		"reward": {"polvere_brace": 5}},
 	{"id": "maglio", "text": "Costruisci il Maglio dei Seminatori", "check": {"station": "maglio"},
 		"reward": {"lingotto_legnoferro": 3}},
+	{"id": "evento", "text": "Resisti a una Notte dell'Avvizzimento fino all'alba", "check": {"stat": "eventi_vinti", "n": 1},
+		"reward": {"pozione_scorza": 2}},
+	{"id": "compagno", "text": "Fatti seguire da un compagno (Lucciolina, Grumetto o Spiritello)", "check": {"any": ["vasetto_lucciolina", "gelatina_viva", "goccia_spiritello"]},
+		"reward": {"polvere_lucciola": 6}},
 	{"id": "altare", "text": "Costruisci l'Altare dei Seminatori (pietre delle rovine)", "check": {"station": "altare"},
 		"reward": {"mappa_seminatori": 1}},
 	{"id": "custode", "text": "Sconfiggi un Custode degli strati (la sua tana è sulla mappa quando la vedi)", "check": {"stat": "custodi", "n": 1},
 		"reward": {"cuore_bocciolo": 1}},
+	{"id": "alleato", "text": "Richiama un alleato con un bastone evocatore", "check": {"stat": "alleati", "n": 1},
+		"reward": {"pozione_linfa": 3}},
 	{"id": "telaio", "text": "Costruisci il Telaio di foglie", "check": {"station": "telaio"},
 		"reward": {"seta_radice": 10}},
 	{"id": "mola", "text": "Costruisci la Mola del gemmaio", "check": {"station": "mola"},

@@ -27,7 +27,7 @@ func setup(main: Node2D) -> void:
 	_rng.randomize()
 	_night = m.day.is_night()
 	_label = Label.new()
-	_label.position = Vector2(1600 - 420, 108)
+	_label.position = Vector2(1600 - 420, 214)           # sotto la minimappa
 	_label.size = Vector2(400, 24)
 	_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_label.add_theme_font_size_override("font_size", 14)

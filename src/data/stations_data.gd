@@ -32,6 +32,8 @@ const STATIONS := {
 	"tavolo": {"name": "Tavolo di radice", "size": [3, 2], "item": "tavolo_radice"},
 	"sedia": {"name": "Sedia di radice", "size": [1, 2], "item": "sedia_radice"},
 	"letto": {"name": "Letto di foglie", "size": [3, 2], "item": "letto_foglie"},
+	"radice_viandante": {"name": "Radice viandante", "size": [2, 3], "item": "radice_viandante", "light": true,
+		"light_color": Color(0.6, 1.4, 1.3)},
 	"focolare": {"name": "Focolare del Giardino", "size": [2, 2], "item": "focolare", "light": true,
 		"light_color": Color(1.8, 1.0, 0.5)},
 	# voce 27: l'Altare dei Seminatori (richiama i Custodi) e i bozzoli delle tane dei Custodi

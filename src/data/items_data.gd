@@ -220,6 +220,8 @@ const ITEMS := {
 	"bastone_falena_amica": {"name": "Bastone della falena amica", "kind": "evocatore", "icon": ["evocatore", "brace"], "ally": "falena_amica", "desc": "Clic (10 Linfa): richiama una Falena amica, svelta, che vola contro le creature vicine."},
 	"bastone_vagavuoto": {"name": "Bastone del Vagavuoto domato", "kind": "evocatore", "icon": ["evocatore", "vuotite"], "ally": "vagavuoto_amico", "desc": "Clic (10 Linfa): un Vagavuoto domato ti segue in volo e tira sfere di Vuoto alle creature."},
 	"fischietto_branco": {"name": "Fischietto del branco", "kind": "accessorio", "icon": ["amuleto", "seta"], "acc": {"allies": 1, "magic": 1.05}, "desc": "Un alleato in più insieme; incantesimi e alleati +5%."},
+	# voce 38: viaggio rapido
+	"radice_viandante": {"name": "Radice viandante", "kind": "stazione", "icon": ["radice_viaggio", "linfa"], "place": "radice_viandante", "stack": 99, "desc": "Piantala dove vuoi tornare. Clic destro su una radice: la mappa mostra tutte le altre radici del mondo, un clic e ci arrivi."},
 	"lumino": {"name": "Lumino", "kind": "moneta", "icon": ["lumino", "ambra"], "stack": 9999, "desc": "Una goccia di luce solida: la moneta degli abitanti. La lasciano le creature sconfitte e gli scrigni."},
 	"focolare": {"name": "Focolare del Giardino", "kind": "stazione", "icon": ["focolare", "brace"], "place": "focolare", "stack": 99, "desc": "Un fuoco acceso che si vede da lontano. Con un Letto di foglie libero lì vicino, un viandante si ferma ad abitare (uno per letto)."},
 	"seme_mondo": {"name": "Seme di mondo", "kind": "seme_mondo", "icon": ["seme", "cristallo"], "stack": 9, "desc": "Il Cuore del mondo ti ha donato un seme. Piantalo sul terreno: crescerà un portale verso un mondo nuovo."},

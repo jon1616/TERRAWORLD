@@ -127,6 +127,8 @@ func touch(c: Vector2i) -> bool:
 			return m.masonry.toggle_door(o)
 		"letto":
 			return m.masonry.use_bed(o)
+		"radice_viandante":
+			return m.travel.open_from(o)
 		"portale":
 			m.portal.travel(o)
 			return true

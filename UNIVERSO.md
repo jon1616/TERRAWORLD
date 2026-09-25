@@ -170,6 +170,7 @@ che viene dal Giardino dei Semi.
   l'**Erborista**, il **Forgiatore**.
 - I compagni: la **Lucciolina**, il **Grumetto**, lo **Spiritello di Linfa**; gli alleati dei bastoni evocatori (Grumo
   amico, Falena amica, Vagavuoto domato) e il **Fischietto del branco**.
+- Le **Radici viandanti**: radici piantate dal Germogliato che si parlano sotto terra e lo portano dall'una all'altra.
 - Il **Fagotto del Germogliato**: dove si appassisce resta la Bisaccia, avvolta nelle foglie.
 - Doni da trovare: il **Bocciolo del cuore** (nelle grotte; il suo **Cuore di bocciolo** fa crescere una foglia di Vita
   in più) e la **Stilla perenne** (una goccia che pende dai soffitti profondi senza mai cadere: più Linfa).

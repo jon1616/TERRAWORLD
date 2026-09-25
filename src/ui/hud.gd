@@ -59,7 +59,7 @@ func _ready() -> void:
 	_help_hint.add_theme_color_override("font_color", Color("#6a8a84"))
 	_help_hint.visible = not help
 	_info.text = "A/D muovi · Spazio salta · S scendi dalle passerelle · clic sinistro usa · clic destro torcia o tocca (ceste, Cuore, portali)
-1-0 / rotella oggetti · E Bisaccia · M mappa · L Erbario · Esc salva ed esce"
+1-0 / rotella oggetti · E Bisaccia · M mappa · N minimappa · L Erbario · Esc salva ed esce"
 	# gli avvisi al centro, sotto la scritta degli strati: possono essere lunghi (obiettivi, Erbario)
 	_toast = _label(self, Vector2(0, 236), 18)
 	_toast.size = Vector2(1600, 30)

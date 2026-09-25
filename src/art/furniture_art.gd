@@ -5,6 +5,7 @@ extends RefCounted
 ##   lampada                un paralume a campanula su uno stelo di radice, acceso d'ambra
 ##   tavolo, sedia          legno di lanterna con le venature e le giunture di radice
 ##   letto                  un giaciglio di foglie grandi su un'intelaiatura di radici
+##   radice_viandante       (voce 38) un arco di radici con un nodo di Linfa acceso
 
 const WOOD := ["#241624", "#362234", "#4c3246", "#644652", "#86606e"]
 
@@ -72,6 +73,23 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 						if d.length() <= 1.0:
 							Px.put(im, x, y, leaf[3] if d.y < 0.0 else leaf[2])
 			Px.disc(im, 7.0, h - 11.0, 3.0, Color("#d8944a"))
+		"radice_viandante":
+			# un arco di radici intrecciate piantato nella terra; al centro un nodo di Linfa che pulsa (parte luminosa)
+			var rt := Px.pal(["#2a1a2c", "#3e2840", "#58384e", "#744c5e"])
+			for side in [-1.0, 1.0]:
+				for k in 3:
+					var x0: float = w / 2.0 + side * (w / 2.0 - 3.0 - k)
+					Px.curve(im, Vector2(x0, h - 1.0), Vector2(x0 + side * 2.0, 6.0), Vector2(w / 2.0, 3.0 + k), 2 if k == 0 else 1, rt[3 - k])
+			for k in 5:
+				Px.put(im, 4 + k * 6, h - 2, Color("#3aa08a"))
+			var lf := Px.pal(["#1c6a60", "#3aa08a", "#8ef0d8", "#e0fff8"])
+			for y in range(h / 2 - 6, h / 2 + 7):
+				for x in w:
+					var d := Vector2((x + 0.5 - w / 2.0) / 5.0, (y + 0.5 - h / 2.0) / 6.5).length()
+					if d <= 1.0:
+						var c := lf[3] if d < 0.3 else (lf[2] if d < 0.65 else lf[1])
+						Px.put(im, x, y, c)
+						Px.put(gm, x, y, c)
 		"focolare":
 			# un cerchio di pietre con il fuoco acceso e le braci
 			var st := Px.pal(TileDefs.P_STONE)

@@ -45,6 +45,8 @@ var events: Events
 var masonry: Masonry
 var villagers: Villagers
 var companions: Companions
+var travel: Travel
+var minimap: Minimap
 var _spores: CPUParticles2D
 var built := false
 var gen_times: Array = []
@@ -228,6 +230,10 @@ func _build() -> void:
 	masonry = _mount(Masonry.new())
 	villagers = _mount(Villagers.new())
 	companions = _mount(Companions.new())
+	travel = _mount(Travel.new())
+	minimap = Minimap.new()
+	hud.add_child(minimap)
+	minimap.setup(self, map_reveal)
 	_mount(Chronicle.new())                # avvisi, Erbario e conteggi degli obiettivi dagli eventi del gioco
 	hud.select(character.hotbar)
 	var start := world.spawn

@@ -389,6 +389,17 @@ static func draw(shape: String, im: Image, p: Array[Color]) -> bool:
 			Px.disc(im, 8.0, 9.0, 3.2, p[2])
 			Px.disc(im, 8.0, 8.0, 1.8, p[p.size() - 1])
 			Px.put(im, 8, 4, p[2])
+		"radice_viaggio":
+			# un arco di radice piantato nella terra, con un nodo di Linfa acceso al centro
+			var w12 := ItemIcons.pal("legno")
+			Px.curve(im, Vector2(2.5, 15.0), Vector2(1.0, 1.0), Vector2(8.0, 2.5), 2, w12[3])
+			Px.curve(im, Vector2(8.0, 2.5), Vector2(15.0, 1.0), Vector2(13.5, 15.0), 2, w12[3])
+			Px.curve(im, Vector2(3.0, 15.0), Vector2(2.0, 2.0), Vector2(8.0, 3.0), 1, w12[2])
+			Px.disc(im, 8.0, 9.0, 3.0, Color(p[2].r, p[2].g, p[2].b, 0.45))
+			Px.disc(im, 8.0, 9.0, 1.8, p[2])
+			Px.put(im, 8, 8, p[p.size() - 1])
+			Px.put(im, 5, 5, Color(ItemIcons.LEAF[1]))
+			Px.put(im, 11, 5, Color(ItemIcons.LEAF[2]))
 		"vasetto":
 			# vasetto di vetro con tappo di corteccia: dentro, un piccolo compagno luminoso del materiale
 			var w10 := ItemIcons.pal("legno")

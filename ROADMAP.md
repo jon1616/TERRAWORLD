@@ -554,8 +554,15 @@ vecchio lascia il posto): Grumo amico (Ceppo), Falena amica (Telaio), Vagavuoto 
 alleati vedono le creature entro 14 tessere, ci vanno addosso e tornano; il danno cresce con gli incantesimi; il
 **Fischietto del branco** (accessorio, Maglio) ne aggiunge uno. Prove `--solo=compagni` (foto 66_compagni).
 
-## 38. [ ] Viaggio rapido e minimappa (M)
-Radici viandanti da collegare tra loro; una minimappa nell'angolo dello schermo.
+## 38. [x] Viaggio rapido e minimappa (M) — fatto il 26 set 2026
+Le **Radici viandanti** (stazione 2×3 con un nodo di Linfa acceso; legno, gelatina e radicite al Ceppo): tutte le
+radici di un mondo sono collegate. Clic destro su una radice = la mappa si apre in **modo viaggio** (inquadra tutte
+le radici, sempre segnate anche dove la mappa è nera): clic su un'altra radice e ci si arriva (`Travel`,
+`MapPanel.open_travel`/`pick_root`). Da sola una radice «non trova compagne». La **minimappa** in alto a destra
+(`Minimap`): un ritaglio di 110×64 tessere della mappa esplorata attorno al Germogliato, con i segni di radici,
+portali, Focolare e fagotto; tasto N per nasconderla, sparisce con i pannelli aperti (la scritta degli eventi è scesa
+sotto di lei). Sei obiettivi nuovi per i sistemi della Roadmap 4: raccolto, abitante, radici, notte dell'Avvizzimento,
+compagno, alleato. Prove `--solo=viaggio` (foto 67_viaggio_mappa, 68_minimappa).
 
 ## 39. [ ] Semi con specie e tratti (L)
 Ogni Seme di mondo ha una specie (quali biomi) e dei tratti (notti lunghe, gemme ricche, iridate frequenti…):

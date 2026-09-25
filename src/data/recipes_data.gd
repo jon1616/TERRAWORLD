@@ -83,6 +83,8 @@ const RECIPES := [
 	{"out": "giavellotto_aculeo", "qty": 10, "in": {"aculeo": 2, "legno": 1}, "station": "ceppo"},
 	{"out": "giavellotto_cristallo", "qty": 10, "in": {"cristallo_linfa": 1, "legno": 1}, "station": "maglio"},
 	# voce 31: muoversi meglio
+	# voce 38: viaggio rapido
+	{"out": "radice_viandante", "qty": 1, "in": {"legno": 20, "gelatina": 6, "lingotto_radicite": 3}, "station": "ceppo"},
 	# voce 37: compagni ed evocatori
 	{"out": "vasetto_lucciolina", "qty": 1, "in": {"polvere_lucciola": 10, "vetro_resina": 3}, "station": "ceppo"},
 	{"out": "gelatina_viva", "qty": 1, "in": {"gelatina_regale": 2, "gelatina": 20}, "station": "alambicco"},
