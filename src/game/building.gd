@@ -36,6 +36,11 @@ func place_station(c: Vector2i, id: String) -> bool:
 
 func take_station(o: Vector2i) -> void:
 	var sid: String = a.world.stations[o]
+	if a.world.chests.has(o):
+		if not (a.world.chests[o] as Bisaccia).is_empty():
+			a.hud.toast("Prima svuota la cesta")
+			return
+		a.world.chests.erase(o)
 	var size: Array = StationsData.STATIONS[sid]["size"]
 	a.world.stations.erase(o)
 	a.view.remove_station(o)

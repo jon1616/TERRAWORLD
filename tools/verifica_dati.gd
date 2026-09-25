@@ -6,7 +6,7 @@ extends SceneTree
 ## (oggetto che non si può ottenere, materiale che non serve a nulla…).
 
 const KINDS := ["materiale", "blocco", "piccone", "ascia", "spada", "arco", "munizione", "torcia", "stazione",
-	"piattaforma", "elmo", "corazza", "gambali", "consumabile", "seme", "lanterna", "cura", "seme_mondo"]
+	"piattaforma", "elmo", "corazza", "gambali", "consumabile", "seme", "lanterna", "cura", "seme_mondo", "accessorio"]
 ## Forza di piccone oltre cui una tessera è voluta indistruttibile (i nodi avvizziti: si curano, non si scavano).
 const UNBREAKABLE := 999
 
@@ -48,7 +48,8 @@ func _init() -> void:
 		if st.get("fixed", false):
 			continue                           # Cuore e portale: nascono dal mondo, non da una ricetta
 		_err(items.has(String(st["item"])), "stazione %s: oggetto inesistente %s" % [s, st["item"]])
-		_warn(made.has(String(st["item"])), "stazione %s: nessuna ricetta la costruisce" % s)
+		_warn(made.has(String(st["item"])) or ItemsData.OTHER_SOURCES.has(String(st["item"])),
+			"stazione %s: nessuna ricetta la costruisce" % s)
 	# 4. tessere, decorazioni, creature, bottino
 	var dropped := {}
 	for t in TileDefs.DROP:

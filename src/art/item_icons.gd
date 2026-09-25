@@ -17,6 +17,7 @@ const MATERIALS := {
 	"ardesia": ["#2a3650", "#3a4966", "#4c5e80", "#62779c", "#8298bc"],
 	"muschio": ["#0f3a3a", "#16574f", "#23776a", "#3aa08a", "#72d4b0"],
 	"linfa": ["#5a1024", "#a02040", "#e04a60", "#ff9aa8"],
+	"sem": ["#2c3a3a", "#405656", "#587270", "#74908c", "#9cb6b0"],
 	"nodo": ["#3a3832", "#54524a", "#6e6c60", "#8a887a", "#a8a694"],
 	"radice": ["#4a2c22", "#6a3e2c", "#8a5638", "#a8704a", "#c89066"],
 	"scisto": ["#263a40", "#34505a", "#446872", "#58848c", "#7aa6aa"],
@@ -246,6 +247,66 @@ static func make(shape: String, material: String) -> Image:
 			Px.line(im, Vector2(8.0, 5.0), Vector2(9.0, 2.0), 1, Color(LEAF[1]))
 			Px.put(im, 10, 1, Color(LEAF[2]))
 			Px.put(im, 7, 2, Color(LEAF[2]))
+		"cesta":
+			# cesta intrecciata con il coperchio
+			var w: Array[Color] = pal("legno")
+			for y in range(5, 15):
+				for x in range(2, 14):
+					Px.put(im, x, y, w[3] if (x + (y / 2)) % 3 == 0 else w[2])
+			Px.line(im, Vector2(1.5, 5.0), Vector2(14.5, 5.0), 2, w[4])
+			Px.put(im, 8, 3, Color(LEAF[2]))
+		"scrigno":
+			# scrigno di pietra dei Seminatori con la runa accesa
+			for y in range(4, 15):
+				for x in range(2, 14):
+					Px.put(im, x, y, p[3] if y < 8 else p[2])
+			Px.line(im, Vector2(2.0, 8.0), Vector2(13.0, 8.0), 1, p[0])
+			Px.line(im, Vector2(8.0, 9.0), Vector2(8.0, 12.0), 1, Color("#6ff0d8"))
+			Px.put(im, 7, 10, Color("#6ff0d8"))
+			Px.put(im, 9, 10, Color("#6ff0d8"))
+		"stivali":
+			var w2: Array[Color] = pal("legno")
+			for y in range(4, 13):
+				for x in range(4, 9):
+					Px.put(im, x, y, w2[3] if x == 4 else w2[2])
+			for x in range(4, 13):
+				Px.put(im, x, 13, w2[3])
+				Px.put(im, x, 14, w2[1])
+			Px.line(im, Vector2(4.0, 6.0), Vector2(8.0, 6.0), 1, Color(LEAF[1]))
+			Px.put(im, 10, 3, Color(LEAF[2]))
+			Px.put(im, 9, 4, Color(LEAF[1]))
+		"foglia":
+			for y in S:
+				for x in S:
+					var d := Vector2((x + 0.5 - 8.0) / 6.5, (y + 0.5 - 8.0) / 3.2).rotated(-0.6)
+					if d.length() <= 1.0:
+						Px.put(im, x, y, p[3] if d.y < 0.0 else p[2])
+			Px.line(im, Vector2(3.0, 12.0), Vector2(13.0, 4.0), 1, p[1])
+		"amuleto":
+			Px.line(im, Vector2(3.0, 2.0), Vector2(8.0, 8.0), 1, Color(MATERIALS["legno"][3]))
+			Px.line(im, Vector2(13.0, 2.0), Vector2(8.0, 8.0), 1, Color(MATERIALS["legno"][3]))
+			Px.disc(im, 8.0, 10.5, 3.6, p[2])
+			Px.disc(im, 7.5, 10.0, 1.6, p[3])
+		"anello":
+			for k in 24:
+				var a2 := k / 24.0 * TAU
+				Px.put(im, int(8.0 + cos(a2) * 4.5), int(10.0 + sin(a2) * 3.5), Color(MATERIALS["ambra"][2]))
+			Px.disc(im, 8.0, 5.0, 2.4, p[2])
+			Px.put(im, 7, 4, Color.WHITE)
+		"cuore":
+			for y in S:
+				for x in S:
+					var u := (x + 0.5 - 8.0) / 6.0
+					var v := (y + 0.5 - 8.5) / 5.5
+					if u * u + pow(-v - sqrt(absf(u)) * 0.8, 2.0) <= 1.0:
+						Px.put(im, x, y, p[3] if u < 0.0 else p[2])
+			Px.put(im, 5, 6, Color(LEAF[2]))
+		"pappo":
+			Px.line(im, Vector2(8.0, 14.0), Vector2(8.0, 8.0), 1, Color(MATERIALS["legno"][3]))
+			Px.disc(im, 8.0, 14.0, 1.2, Color(MATERIALS["ambra"][1]))
+			for k in 9:
+				var a3 := PI + k / 8.0 * PI
+				Px.line(im, Vector2(8.0, 8.0), Vector2(8.0, 8.0) + Vector2(cos(a3), sin(a3)) * 6.0, 1, Color(0.9, 0.97, 0.95, 0.9))
 		"lanterna":
 			# lanterna di radice intrecciata con un cristallo di Linfa dentro
 			var wood: Array[Color] = pal("legno")

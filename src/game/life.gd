@@ -8,6 +8,7 @@ const FALL_HURT := 6                   # punti di Vita per ogni tessera in più
 
 var m: Node2D                          # la scena di gioco
 var dead := false
+var fall_safe := false                 # un accessorio (Foglia planante) toglie le ferite da caduta
 
 
 func setup(main: Node2D) -> void:
@@ -17,7 +18,7 @@ func setup(main: Node2D) -> void:
 
 
 func _on_landed(tiles: float) -> void:
-	if tiles > FALL_SAFE and not dead:
+	if tiles > FALL_SAFE and not dead and not fall_safe:
 		var lost: int = m.vitals.hurt(int((tiles - FALL_SAFE) * FALL_HURT))
 		m.hud.toast("Caduta: -%d Vita" % lost)
 		flash(Color(1.0, 0.4, 0.3, 0.35))

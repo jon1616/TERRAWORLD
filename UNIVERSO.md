@@ -111,6 +111,11 @@ che viene dal Giardino dei Semi.
   cresce in un **Portale di radici**.
 - Oggetti del primo anello: **Lingotto di Linfa**, **Lanterna di Linfa**, **Pozione di bagliore**, **Pozione di
   scorza**, **Dardo di vuotite**.
+- Le **rovine dei Seminatori**: stanze di **Pietra dei Seminatori** con le **rune** ancora accese e uno **Scrigno dei
+  Seminatori**. Il contenitore da fabbricare è la **Cesta di radici**.
+- Accessori: **Stivali di radice svelta**, **Foglia planante**, **Amuleto di corteccia**, **Anello di lucciola**,
+  **Cuore di muschio**, **Pappo di seme**.
+- Di notte: l'**Avvizzito errante**, guscio di radici svuotato dall'Avvizzimento.
 - Strati di profondità: **Superficie**, **Sottobosco di radici**, **Caverne d'ardesia**, **Profondità della Linfa**,
   **il Fondo** (dove il mondo confina con il Vuoto).
 

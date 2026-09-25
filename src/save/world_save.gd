@@ -31,9 +31,13 @@ static func save(w: World, id: String, meta: Dictionary) -> Error:
 	var stations := []
 	for o in w.stations:
 		stations.append([o.x, o.y, w.stations[o]])
+	var chests := []
+	for o in w.chests:
+		chests.append([o.x, o.y, (w.chests[o] as Bisaccia).to_array()])
 	var data := {
 		"w": w.w, "h": w.h, "tiles": w.tiles, "walls": w.walls, "decor": w.decor, "surface": w.surface,
 		"torches": torches, "trees": trees, "saplings": saplings, "stations": stations, "plats": w.plats,
+		"chests": chests,
 	}
 	var raw := var_to_bytes(data)
 	var out := MAGIC.to_ascii_buffer()
@@ -89,6 +93,10 @@ static func _decode(bytes: PackedByteArray) -> World:
 	for s in data.get("stations", []):
 		if StationsData.STATIONS.has(String(s[2])):
 			w.stations[Vector2i(int(s[0]), int(s[1]))] = String(s[2])
+	for ch in data.get("chests", []):
+		var o := Vector2i(int(ch[0]), int(ch[1]))
+		if w.stations.has(o):
+			w.chests[o] = Bisaccia.from_array(ch[2], int(StationsData.STATIONS[w.stations[o]].get("slots", 20)))
 	if data.has("plats") and (data["plats"] as PackedByteArray).size() == w.w * w.h:
 		w.plats = data["plats"]
 	var saplings: PackedInt32Array = data.get("saplings", PackedInt32Array())

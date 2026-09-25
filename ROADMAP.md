@@ -183,9 +183,21 @@ l'**Avvizzito errante** (guscio di radici malate con gli occhi d'ambra, solo di 
 alto a sinistra; ora e giorno salvati nel mondo. Prove: luce del cielo a mezzogiorno, tramonto e mezzanotte, creature
 della notte solo di notte, foto 26_tramonto e 27_notte (le altre prove girano a mezzogiorno fisso).
 
-## 10. [ ] Rovine e scrigni dei Seminatori (L)
+## 10. [x] Rovine e scrigni dei Seminatori (L) — fatto il 25 set 2026
 Piccole rovine sparse negli strati, con uno **scrigno** dal bottino secondo lo strato (oggetti che non si fabbricano:
 accessori, semi, pozioni, lingotti). Lo scrigno si apre con il clic destro e ha le sue caselle. Obiettivi per esplorare.
+**Fatto il 25 set 2026**: 44 rovine per mondo (12 nel Sottobosco, 11-12 nelle Caverne e nelle Profondità della
+Linfa, 9 nel Fondo): stanze di **Pietra dei Seminatori** (mattoni con rune, un po' crollate, un'apertura su un lato),
+parete lavorata, **rune accese** al soffitto e uno **Scrigno dei Seminatori** con il bottino dello strato (tabelle
+«rovina_1-4»: lingotti, pozioni, dardi, cristalli, Rugiada di Linfa nel Fondo, e **accessori**). Pannello dei
+contenitori sopra la Bisaccia: clic prende/posa, clic destro metà pila, **Maiusc+clic** sposta subito dall'altra
+parte, **Prendi tutto**; si chiude chiudendo la Bisaccia o allontanandosi. Lo scrigno vuoto si porta via; la **Cesta
+di radici** (8 legni al Ceppo) è il contenitore da fabbricare. Contenuti salvati con il mondo.
+**Accessori** (nuova profondità dell'equipaggiamento, 2 caselle accanto all'armatura, due uguali non si sommano):
+Stivali di radice svelta (corsa ×1,25), Foglia planante (plana tenendo Spazio, niente ferite da caduta), Amuleto di
+corteccia (+4 Scorza), Anello di lucciola (alone ×1,6), Cuore di muschio (Vita che ricresce ×2), Pappo di seme (salto
+×1,18). Prove: scrigni per strato, apertura, Prendi tutto, scrigno portato via, effetti degli accessori, cesta piena
+salvata e ricaricata identica (foto 28_rovina_scrigno).
 
 ## 11. [ ] Mappa del mondo esplorato (M)
 Tasto M: la mappa di ciò che il Germogliato ha visto (nebbia sul resto), con la partenza, il Cuore se trovato, i

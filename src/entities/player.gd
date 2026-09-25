@@ -13,6 +13,7 @@ const GRAV := 820.0
 const JUMP := 297.0                    # salto pieno 3,36 tessere (h = v²/2g, uguale a ogni frequenza): basta per 3 blocchi
 const JUMP_CUT := 1.6                  # gravità in più in salita se si lascia il tasto (salto corto)
 const MAX_FALL := 520.0
+const GLIDE_FALL := 75.0               # caduta massima planando (Foglia planante, tenendo Spazio)
 const MAX_DT := 1.0 / 30.0             # oltre questo passo il movimento si divide in più passi
 
 var world: World
@@ -26,6 +27,9 @@ var control := true
 var swinging := false
 var force_swing := false
 var swing_period := 0.3               # secondi per un giro dell'attrezzo (le armi lo cambiano, vedi `Combat`)
+var run_mult := 1.0                    # accessori (vedi `GearEffects`)
+var jump_mult := 1.0
+var glide := false
 var aim := NAN                         # angolo del braccio che mira con l'arco (NAN = non mira)
 var tool_tex: Texture2D
 var rig: Node2D
@@ -119,7 +123,7 @@ func set_look(equip: Dictionary) -> void:
 ## Un passo di movimento. Lo spostamento usa la velocità media del passo (prima e dopo la gravità): è il calcolo
 ## esatto per un'accelerazione costante, così il salto è alto uguale a 60 come a 144 fotogrammi al secondo.
 func _step(dt: float, dir: float, held: bool) -> void:
-	var target := dir * RUN
+	var target := dir * RUN * run_mult
 	var accel := ACCEL_AIR
 	if on_floor:
 		accel = ACCEL_GROUND if dir != 0.0 and signf(dir) == signf(vel.x if vel.x != 0.0 else dir) else DECEL_GROUND
@@ -127,11 +131,11 @@ func _step(dt: float, dir: float, held: bool) -> void:
 	vel.x = move_toward(vel.x, target, accel * dt)
 	jump_buf -= dt
 	if jump_buf > 0.0 and coyote > 0.0:
-		vel.y = -JUMP
+		vel.y = -JUMP * sqrt(jump_mult)       # l'altezza cresce col quadrato della velocità: ×jump in altezza
 		jump_buf = 0.0
 		coyote = 0.0
 	var vy0 := vel.y
-	vel.y = minf(vel.y + GRAV * dt, MAX_FALL)
+	vel.y = minf(vel.y + GRAV * dt, GLIDE_FALL if glide and held and vel.y > 0.0 else MAX_FALL)
 	if vel.y < 0.0 and not held:
 		vel.y += GRAV * (JUMP_CUT - 1.0) * dt
 	var through := control and (Input.is_key_pressed(KEY_S) or Input.is_key_pressed(KEY_DOWN))

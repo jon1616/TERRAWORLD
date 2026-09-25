@@ -1,7 +1,7 @@
 class_name Portal
 extends Node
-## Il Seme di mondo e il portale (voce 8, «anche solo come prova»). Il seme si pianta sul terreno: cresce un arco di
-## radici con un vortice di Linfa. Toccandolo (clic destro) si salva e si passa al mondo nato da quel seme: la prima
+## Il Seme di mondo e il portale (voce 8, «anche solo come prova»); i clic li smista `Interact`. Il seme si pianta sul
+## terreno: cresce un arco di radici con un vortice di Linfa. Toccandolo (clic destro) si salva e si passa al mondo nato da quel seme: la prima
 ## volta viene generato, poi si torna sempre allo stesso (`world_meta["portale_mondo"]`).
 ## Il seme del mondo nuovo nasce dal seme di questo mondo: stesso portale, stesso mondo, su ogni computer.
 ## Più avanti (Roadmap 2) i semi avranno specie, vigore e tratti, e si pianteranno nelle Aiuole del Giardino.
@@ -13,36 +13,6 @@ var m: Node2D
 
 func setup(main: Node2D) -> void:
 	m = main
-	m.actions.use_hook = _use
-	m.actions.touch_hook = _touch
-
-
-## Clic sinistro con in mano qualcosa che PlayerActions non conosce.
-func _use(kind: String, id: String, c: Vector2i) -> bool:
-	match kind:
-		"cura":
-			return m.guardian.cure_at(c)
-		"seme_mondo":
-			return plant(c, id)
-	return false
-
-
-## Clic destro: il portale porta via, il Cuore dice come sta.
-func _touch(c: Vector2i) -> bool:
-	var st: Dictionary = m.world.station_at(c)
-	if st.is_empty() or not m.actions.in_reach(c):
-		return false
-	match String(st["id"]):
-		"portale":
-			travel()
-			return true
-		"cuore_mondo":
-			m.hud.toast("Il Cuore batte piano, malato. %d nodi avvizziti sul soffitto" % m.guardian.nodes_left())
-			return true
-		"cuore_vivo":
-			m.hud.toast("Il Cuore batte forte: il mondo è salvo")
-			return true
-	return false
 
 
 ## Pianta il Seme di mondo con il mouse sul punto più basso al centro dell'arco (3×4 tessere, pavimento sotto).

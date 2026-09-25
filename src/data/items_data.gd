@@ -7,7 +7,9 @@ extends RefCounted
 ## Campi di un oggetto:
 ##   name   nome visibile
 ##   kind   materiale · blocco · piccone · ascia · spada · arco · munizione · torcia · stazione · piattaforma ·
-##          elmo · corazza · gambali · consumabile · seme · lanterna · cura · seme_mondo
+##          elmo · corazza · gambali · accessorio · consumabile · seme · lanterna · cura · seme_mondo
+##   acc    effetti di un accessorio (vedi `GearEffects`): run (corsa ×), jump (salto ×), glide (planare tenendo
+##          Spazio), fall_safe (niente ferite da caduta), halo (alone ×), regen (ricrescita della Vita ×)
 ##   icon   [forma, materiale] per `ItemIcons.make`
 ##   stack  quanti per casella (predefinito: 999 per materiali e blocchi, 1 per attrezzi e armature)
 ##   tier   grado: 0 radice/pietra, 1 radicite, 2 legnoferro, 3 ambra
@@ -26,6 +28,7 @@ const ITEMS := {
 	"ardesia": {"name": "Ardesia", "kind": "blocco", "icon": ["zolla", "ardesia"], "place": TileDefs.STONE, "desc": "Roccia blu a strati."},
 	"radice_antica": {"name": "Radice antica", "kind": "blocco", "icon": ["zolla", "radice"], "place": TileDefs.RADICE, "desc": "Un pezzo delle radici enormi del Sottobosco. Legno duro, venato di Linfa."},
 	"scisto": {"name": "Scisto di Linfa", "kind": "blocco", "icon": ["zolla", "scisto"], "place": TileDefs.SCISTO, "desc": "La roccia delle Profondità della Linfa, attraversata da vene che brillano."},
+	"pietra_seminatori": {"name": "Pietra dei Seminatori", "kind": "blocco", "icon": ["zolla", "sem"], "place": TileDefs.PIETRA_SEM, "desc": "Mattoni lavorati dai Seminatori, con le rune ancora accese."},
 	"vuotite": {"name": "Vuotite", "kind": "blocco", "icon": ["zolla", "vuotite"], "place": TileDefs.VUOTITE, "desc": "Roccia del Fondo, scura come il Vuoto e punteggiata di scintille. Serve un piccone di legnoferro."},
 	"minerale_radicite": {"name": "Radicite grezza", "kind": "materiale", "icon": ["minerale", "radicite"], "desc": "Il metallo che le radici succhiano dalla roccia vicino alla superficie."},
 	"minerale_legnoferro": {"name": "Legnoferro grezzo", "kind": "materiale", "icon": ["minerale", "legnoferro"], "desc": "Radici antiche diventate metallo. Serve un piccone di radicite."},
@@ -49,6 +52,8 @@ const ITEMS := {
 	"passerella": {"name": "Passerella di radice", "kind": "piattaforma", "icon": ["piattaforma", "legno"], "desc": "Ci si sale saltando da sotto."},
 	"ceppo": {"name": "Ceppo del Giardiniere", "kind": "stazione", "icon": ["banco", "legno"], "place": "ceppo", "stack": 99, "desc": "Un ceppo intagliato: qui si lavora il legno."},
 	"baccello_ardente": {"name": "Baccello ardente", "kind": "stazione", "icon": ["fornace", "ardesia"], "place": "baccello_ardente", "stack": 99, "desc": "Un baccello di pietra che cova la brace: fonde i minerali."},
+	"cesta": {"name": "Cesta di radici", "kind": "stazione", "icon": ["cesta", "legno"], "place": "cesta", "stack": 99, "desc": "Una cesta intrecciata con il coperchio: tiene 20 pile di oggetti."},
+	"scrigno": {"name": "Scrigno dei Seminatori", "kind": "stazione", "icon": ["scrigno", "sem"], "place": "scrigno", "stack": 99, "desc": "Si trova nelle rovine. Vuoto, si può portare via e usare come cesta."},
 	"maglio": {"name": "Maglio dei Seminatori", "kind": "stazione", "icon": ["incudine", "legnoferro"], "place": "maglio", "stack": 99, "desc": "Un attrezzo dei Seminatori ritrovato: forgia attrezzi e armature."},
 	# radice: il primo equipaggiamento
 	"arco_radice": {"name": "Arco di radice", "kind": "arco", "icon": ["arco", "legno"], "tier": 0, "damage": 5, "speed": 1.6, "knockback": 1.0},
@@ -56,6 +61,13 @@ const ITEMS := {
 	"dardo_vuoto": {"name": "Dardo di vuotite", "kind": "munizione", "icon": ["freccia", "vuotite"], "damage": 9, "stack": 999, "desc": "Punta di scheggia del Vuoto. L'arco lo preferisce ai dardi di spina."},
 	"spada_radice": {"name": "Spada di radice", "kind": "spada", "icon": ["spada", "legno"], "tier": 0, "damage": 6, "speed": 2.4, "knockback": 3.0},
 	"corazza_scaglie": {"name": "Corazza di scaglie", "kind": "corazza", "icon": ["corazza", "ardesia"], "tier": 1, "defense": 3, "desc": "Scaglie di scarabeo legate con radici."},
+	# accessori: si trovano solo negli scrigni delle rovine (voce 10)
+	"stivali_radice": {"name": "Stivali di radice svelta", "kind": "accessorio", "icon": ["stivali", "legno"], "acc": {"run": 1.25}, "desc": "Si corre un quarto più veloci."},
+	"foglia_planante": {"name": "Foglia planante", "kind": "accessorio", "icon": ["foglia", "muschio"], "acc": {"glide": true, "fall_safe": true}, "desc": "Tenendo Spazio in caduta si plana; nessuna ferita da caduta."},
+	"amuleto_corteccia": {"name": "Amuleto di corteccia", "kind": "accessorio", "icon": ["amuleto", "ambra"], "defense": 4, "desc": "+4 Scorza."},
+	"anello_lucciola": {"name": "Anello di lucciola", "kind": "accessorio", "icon": ["anello", "cristallo"], "acc": {"halo": 1.6}, "desc": "L'alone del Germogliato si allarga."},
+	"cuore_muschio": {"name": "Cuore di muschio", "kind": "accessorio", "icon": ["cuore", "muschio"], "acc": {"regen": 2.0}, "desc": "La Vita ricresce due volte più in fretta."},
+	"pappo_seme": {"name": "Pappo di seme", "kind": "accessorio", "icon": ["pappo", "muschio"], "acc": {"jump": 1.18}, "desc": "Leggero come un seme nel vento: salto più alto."},
 	# consumabili
 	"pozione_rugiada": {"name": "Pozione di rugiada", "kind": "consumabile", "icon": ["pozione", "linfa"], "heal": 50, "stack": 30, "desc": "Rugiada raccolta all'alba: fa ricrescere 5 foglie di Vita."},
 	"pozione_bagliore": {"name": "Pozione di bagliore", "kind": "consumabile", "icon": ["pozione", "cristallo"], "boon": ["bagliore", 180.0], "stack": 30, "desc": "Il Germogliato brilla come un fungo del profondo per tre minuti."},
@@ -89,7 +101,9 @@ const GEAR := {
 
 ## Oggetti che nascono da qualcosa che non è una tabella (es. alberi abbattuti, voce 4).
 const OTHER_SOURCES := {"legno": "alberi", "seme_lanterna": "alberi", "frammento_nodo": "Guardiano sconfitto",
-	"linfa_guardiano": "Guardiano curato", "seme_mondo": "Cuore del mondo"}
+	"linfa_guardiano": "Guardiano curato", "seme_mondo": "Cuore del mondo", "scrigno": "rovine",
+	"stivali_radice": "scrigni", "foglia_planante": "scrigni", "amuleto_corteccia": "scrigni", "anello_lucciola": "scrigni",
+	"cuore_muschio": "scrigni", "pappo_seme": "scrigni"}
 
 static var _all := {}
 

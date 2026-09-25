@@ -4,8 +4,8 @@ extends RefCounted
 ## pezzi (come il terreno), così la griglia non si vede. Le decorazioni hanno anche una versione luminosa (punte delle
 ## radici, campanule, funghi, spore) disegnata sopra il buio.
 ##
-## Atlante: righe 0-4 pareti (terra, ardesia, radici, scisto, vuotite: 16 varianti ciascuna), riga 5 decorazioni
-## (id - 1, fino a 32), riga 6 passerelle di radice (4 varianti).
+## Atlante: una riga di pareti per ogni `TileDefs.WALL_*` (16 varianti ciascuna), poi la riga delle decorazioni
+## (id - 1, fino a 32) e quella delle passerelle di radice (4 varianti).
 
 const S := 16
 const DECOR_ROW := TileDefs.WALLS
@@ -17,6 +17,7 @@ const WALL_SRC := {
 	TileDefs.WALL_DIRT: ["humus", TileDefs.P_DIRT], TileDefs.WALL_STONE: ["ardesia", TileDefs.P_STONE],
 	TileDefs.WALL_ROOT: ["radice", TileDefs.P_RADICE], TileDefs.WALL_SCISTO: ["scisto", TileDefs.P_SCISTO],
 	TileDefs.WALL_VOID: ["vuotite", TileDefs.P_VUOTITE],
+	TileDefs.WALL_SEM: ["pietra_sem", TileDefs.P_SEM],
 }
 
 
@@ -208,6 +209,15 @@ static func decor(id: int) -> Dictionary:
 							c = Color("#d8b0ff")
 							Px.put(gm, x, y, c)
 						Px.put(im, x, y, c)
+		18:
+			# runa dei Seminatori: un segno inciso che brilla di Linfa, sospeso davanti alla parete
+			outline = false
+			var rc := Color("#6ff0d8")
+			for q in [Vector2i(8, 4), Vector2i(8, 5), Vector2i(8, 6), Vector2i(8, 7), Vector2i(8, 8), Vector2i(8, 9),
+					Vector2i(8, 10), Vector2i(7, 5), Vector2i(6, 6), Vector2i(9, 7), Vector2i(10, 8), Vector2i(7, 10),
+					Vector2i(9, 10), Vector2i(6, 11), Vector2i(10, 11)]:
+				Px.put(im, q.x, q.y, rc)
+				Px.put(gm, q.x, q.y, rc)
 		17:
 			# goccia di Linfa che pende da un filo di radice
 			outline = false

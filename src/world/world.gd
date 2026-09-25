@@ -20,6 +20,7 @@ var _torch_buckets := {}               # Vector2i(bx, by) -> Array[Vector2i]
 var trees := {}                        # blocco Vector2i -> Array[Vector3i(x, y, variante)]
 var saplings := {}                     # cella del germoglio Vector2i -> secondi che mancano per diventare albero
 var stations := {}                     # angolo in alto a sinistra Vector2i -> id di `StationsData`
+var chests := {}                       # angolo di una stazione con `slots` (cesta, scrigno) -> Bisaccia del contenuto
 var plats := PackedByteArray()         # passerelle: 1 dove c'è una passerella (cella d'aria, si attraversa da sotto)
 
 
@@ -40,6 +41,7 @@ func setup(width: int, height: int) -> void:
 	trees.clear()
 	saplings.clear()
 	stations.clear()
+	chests.clear()
 	creatures.clear()
 
 
@@ -195,3 +197,20 @@ func tree_fits(base: Vector2i) -> bool:
 		if tree_at(Vector2i(base.x + dx, base.y)).x >= 0:
 			return false
 	return true
+
+
+## Il contenuto di un contenitore (cesta, scrigno) con l'angolo in o; lo crea vuoto la prima volta.
+func chest_at(o: Vector2i) -> Bisaccia:
+	if not chests.has(o):
+		chests[o] = Bisaccia.new(int(StationsData.STATIONS[stations[o]].get("slots", 20)))
+	return chests[o]
+
+
+## Stringa confrontabile di tutti i contenitori (prove di salvataggio).
+func chests_key() -> String:
+	var keys := chests.keys()
+	keys.sort()
+	var out := ""
+	for o in keys:
+		out += "%s:%s;" % [o, (chests[o] as Bisaccia).to_array()]
+	return out

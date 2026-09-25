@@ -11,16 +11,29 @@ const HOTBAR := 10
 ## Corredo iniziale del Germogliato.
 const STARTER := [["piccone_radicite", 1], ["ascia_radicite", 1], ["spada_radice", 1], ["torcia", 10]]
 
-const EQUIP_SLOTS := ["elmo", "corazza", "gambali"]
+const EQUIP_SLOTS := ["elmo", "corazza", "gambali", "accessorio_1", "accessorio_2"]
 
 var slots: Array[Dictionary] = []
 var equip := {}                        # "elmo"/"corazza"/"gambali" -> id dell'oggetto indossato
 
 
-func _init() -> void:
-	slots.resize(SIZE)
-	for i in SIZE:
+## `size`: 40 per la Bisaccia; le ceste e gli scrigni usano la stessa classe con meno caselle.
+func _init(size := SIZE) -> void:
+	slots.resize(size)
+	for i in size:
 		slots[i] = {}
+
+
+## Che tipo di oggetto va in un posto dell'equipaggiamento («accessorio_1» e «accessorio_2» prendono gli accessori).
+static func kind_of_slot(slot: String) -> String:
+	return "accessorio" if slot.begins_with("accessorio") else slot
+
+
+func is_empty() -> bool:
+	for s in slots:
+		if not s.is_empty():
+			return false
+	return true
 
 
 static func starter() -> Bisaccia:
@@ -41,14 +54,14 @@ func count_at(i: int) -> int:
 ## Aggiunge: prima riempie le pile uguali, poi le caselle vuote (barra rapida per prima). Restituisce ciò che non entra.
 func add(id: String, n: int) -> int:
 	var cap := ItemsData.stack_of(id)
-	for i in SIZE:
+	for i in slots.size():
 		if n <= 0:
 			break
 		if id_at(i) == id and count_at(i) < cap:
 			var k := mini(cap - count_at(i), n)
 			slots[i]["n"] = count_at(i) + k
 			n -= k
-	for i in SIZE:
+	for i in slots.size():
 		if n <= 0:
 			break
 		if slots[i].is_empty():
@@ -63,7 +76,7 @@ func add(id: String, n: int) -> int:
 func room_for(id: String) -> int:
 	var cap := ItemsData.stack_of(id)
 	var r := 0
-	for i in SIZE:
+	for i in slots.size():
 		if slots[i].is_empty():
 			r += cap
 		elif id_at(i) == id:
@@ -73,7 +86,7 @@ func room_for(id: String) -> int:
 
 func count(id: String) -> int:
 	var c := 0
-	for i in SIZE:
+	for i in slots.size():
 		if id_at(i) == id:
 			c += count_at(i)
 	return c
@@ -83,7 +96,7 @@ func count(id: String) -> int:
 func remove(id: String, n: int) -> bool:
 	if count(id) < n:
 		return false
-	for i in range(SIZE - 1, -1, -1):
+	for i in range(slots.size() - 1, -1, -1):
 		if n <= 0:
 			break
 		if id_at(i) == id:
@@ -140,8 +153,11 @@ func wear(slot: String, held: Dictionary) -> Dictionary:
 			return off
 		return {}
 	var id := String(held["id"])
-	if String(ItemsData.get_item(id).get("kind", "")) != slot or int(held["n"]) != 1:
+	if String(ItemsData.get_item(id).get("kind", "")) != kind_of_slot(slot) or int(held["n"]) != 1:
 		return held
+	for other in equip:
+		if other != slot and equip[other] == id and kind_of_slot(other) == "accessorio":
+			return held                        # due accessori uguali non sommano gli effetti
 	var back := {"id": equip[slot], "n": 1} if equip.has(slot) else {}
 	equip[slot] = id
 	changed.emit()
@@ -155,9 +171,9 @@ func to_array() -> Array:
 	return out
 
 
-static func from_array(a: Array) -> Bisaccia:
-	var b := Bisaccia.new()
-	for i in mini(a.size(), SIZE):
+static func from_array(a: Array, size := SIZE) -> Bisaccia:
+	var b := Bisaccia.new(size)
+	for i in mini(a.size(), size):
 		var e: Array = a[i]
 		if e.size() == 2 and ItemsData.has(String(e[0])) and int(e[1]) > 0:
 			b.slots[i] = {"id": String(e[0]), "n": int(e[1])}

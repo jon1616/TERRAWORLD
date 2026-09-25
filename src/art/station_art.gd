@@ -32,6 +32,10 @@ static func make(id: String) -> Dictionary:
 			_cuore(im, gm, w, h, true)
 		"portale":
 			_portale(im, gm, w, h)
+		"cesta":
+			_cesta(im, w, h)
+		"scrigno":
+			_scrigno(im, gm, w, h)
 	Px.outline(im, OUT)
 	return {"img": im, "glow": gm}
 
@@ -171,3 +175,35 @@ static func _portale(im: Image, gm: Image, w: int, h: int) -> void:
 		Px.curve(im, base, mid, top, 1, root[3])
 	for x in range(2, w - 2):
 		Px.put(im, x, h - 1, root[0])
+
+
+## Cesta di radici: intreccio di legno di lanterna, coperchio con una foglia.
+static func _cesta(im: Image, w: int, h: int) -> void:
+	var wood := Px.pal(["#3a2430", "#5a3a48", "#7a5462", "#9a7080"])
+	for y in range(8, h):
+		for x in range(2, w - 2):
+			Px.put(im, x, y, wood[2] if (x + y / 2) % 4 < 2 else wood[1])
+	for x in range(1, w - 1):
+		Px.put(im, x, 6, wood[3])
+		Px.put(im, x, 7, wood[2])
+	Px.put(im, w / 2, 5, Color(TileDefs.P_GRASS[3]))
+	Px.put(im, w / 2 + 1, 4, Color(TileDefs.P_GRASS[4]))
+
+
+## Scrigno dei Seminatori: pietra lavorata con il coperchio a cupola e una runa di Linfa accesa.
+static func _scrigno(im: Image, gm: Image, w: int, h: int) -> void:
+	var st := Px.pal(TileDefs.P_SEM)
+	for y in range(4, h):
+		for x in range(1, w - 1):
+			var lid := y < 12
+			var c := st[3] if lid else st[2]
+			if y == 12 or x == 1 or x == w - 2:
+				c = st[1]
+			Px.put(im, x, y, c)
+	for x in range(3, w - 3):
+		Px.put(im, x, 3, st[4])
+	var rune := Color("#6ff0d8")
+	for q in [Vector2i(w / 2, 14), Vector2i(w / 2, 15), Vector2i(w / 2, 16), Vector2i(w / 2 - 1, 15), Vector2i(w / 2 + 1, 15),
+			Vector2i(w / 2 - 2, 7), Vector2i(w / 2 + 2, 7), Vector2i(w / 2, 8)]:
+		Px.put(im, q.x, q.y, rune)
+		Px.put(gm, q.x, q.y, rune)

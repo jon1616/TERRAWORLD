@@ -13,6 +13,8 @@ var crafting: CraftingPanel
 var _equip: Dictionary = {}            # posto -> SlotView
 var _scorza: Label
 var held := {}                        # pila «in mano» mentre la Bisaccia è aperta
+## Maiusc+clic su una casella: se è aperta una cesta (`ChestPanel`), la pila ci va dentro subito.
+var quick_target: Callable
 var _slots: Array[SlotView] = []
 var _held_icon: SlotView
 
@@ -52,24 +54,27 @@ func _ready() -> void:
 			add_child(s)
 			_slots.append(s)
 	# equipaggiamento: una colonna a sinistra, con il nome dei posti e la Scorza totale
-	var ex := frame.position.x - 16 - SlotView.SIZE - 24
+	# due colonne: armatura (elmo, corazza, gambali) e accessori
+	var ex := frame.position.x - 16 - 2 * SlotView.SIZE - 40
 	var eframe := Panel.new()
 	eframe.add_theme_stylebox_override("panel", sb)
 	eframe.position = Vector2(ex - 12, frame.position.y)
-	eframe.size = Vector2(SlotView.SIZE + 48, frame.size.y)
+	eframe.size = Vector2(2 * SlotView.SIZE + 64, frame.size.y)
 	eframe.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(eframe)
 	for k in Bisaccia.EQUIP_SLOTS.size():
 		var slot: String = Bisaccia.EQUIP_SLOTS[k]
 		var s := SlotView.new()
-		s.position = Vector2(ex + 12, frame.position.y + 40 + k * (SlotView.SIZE + 22))
+		var col := 0 if k < 3 else 1
+		var row := k if k < 3 else k - 3
+		s.position = Vector2(ex + 12 + col * (SlotView.SIZE + 16), frame.position.y + 40 + row * (SlotView.SIZE + 22))
 		s.clicked.connect(func(_i: int, button: int) -> void:
 			if button == MOUSE_BUTTON_LEFT:
 				held = bisaccia.wear(slot, held)
 				_refresh())
 		add_child(s)
 		var tag := Label.new()
-		tag.text = slot.capitalize()
+		tag.text = "Accessorio" if Bisaccia.kind_of_slot(slot) == "accessorio" else slot.capitalize()
 		tag.position = s.position + Vector2(-6, SlotView.SIZE - 2)
 		tag.size = Vector2(SlotView.SIZE + 12, 18)
 		tag.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -79,7 +84,7 @@ func _ready() -> void:
 		_equip[slot] = s
 	_scorza = Label.new()
 	_scorza.position = Vector2(ex - 6, frame.position.y + 8)
-	_scorza.size = Vector2(SlotView.SIZE + 36, 24)
+	_scorza.size = Vector2(2 * SlotView.SIZE + 52, 24)
 	_scorza.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_scorza.add_theme_font_size_override("font_size", 16)
 	_scorza.add_theme_color_override("font_color", Color("#ffb84a"))
@@ -111,13 +116,20 @@ func toggle() -> void:
 
 
 func click_slot(i: int, button: int) -> void:
-	if button == MOUSE_BUTTON_RIGHT and held.is_empty() and bisaccia.count_at(i) > 1:
+	if button == MOUSE_BUTTON_LEFT and Input.is_key_pressed(KEY_SHIFT) and quick_target.is_valid():
+		quick_target.call(i)
+	elif button == MOUSE_BUTTON_RIGHT and held.is_empty() and bisaccia.count_at(i) > 1:
 		var half := bisaccia.count_at(i) / 2
 		held = {"id": bisaccia.id_at(i), "n": half}
 		bisaccia.slots[i]["n"] = bisaccia.count_at(i) - half
 		bisaccia.changed.emit()
 	elif button == MOUSE_BUTTON_LEFT:
 		held = bisaccia.swap_with(i, held)
+	_refresh()
+
+
+## Dopo che un altro pannello ha cambiato la pila in mano.
+func refresh_held() -> void:
 	_refresh()
 
 

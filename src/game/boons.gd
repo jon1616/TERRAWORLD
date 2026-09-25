@@ -13,6 +13,7 @@ const NAMES := {"bagliore": "Bagliore", "scorza": "Scorza di corteccia"}
 
 var m: Node2D
 var active := {}                       # nome -> secondi che restano
+var halo_mult := 1.0                   # accessori: alone più ampio (Anello di lucciola)
 var _label: Label
 var _last_light := Color.BLACK
 
@@ -49,7 +50,7 @@ func _process(dt: float) -> void:
 		text += "%s %d:%02d   " % [NAMES.get(k, k), t / 60, t % 60]
 	_label.text = text
 	m.vitals.scorza_bonus = SCORZA if active.has("scorza") else 0
-	var l: Color = LightMap.PLAYER
+	var l: Color = LightMap.PLAYER * halo_mult
 	if active.has("bagliore"):
 		l = LIGHT_BAGLIORE
 	if String(ItemsData.get_item(m.hud.current()["id"]).get("kind", "")) == "lanterna":

@@ -9,6 +9,7 @@ const RECIPES := [
 	{"out": "torcia", "qty": 4, "in": {"legno": 1, "polvere_brace": 1}, "station": ""},
 	{"out": "corazza_scaglie", "qty": 1, "in": {"scaglia_ardesia": 12, "legno": 4}, "station": "ceppo"},
 	{"out": "passerella", "qty": 2, "in": {"legno": 1}, "station": "ceppo"},
+	{"out": "cesta", "qty": 1, "in": {"legno": 8}, "station": "ceppo"},
 	{"out": "spada_radice", "qty": 1, "in": {"legno": 7}, "station": "ceppo"},
 	{"out": "arco_radice", "qty": 1, "in": {"legno": 10}, "station": "ceppo"},
 	{"out": "dardo", "qty": 25, "in": {"legno": 1, "ardesia": 1}, "station": "ceppo"},

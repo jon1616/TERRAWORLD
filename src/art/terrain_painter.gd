@@ -153,6 +153,9 @@ static func material(id: String, p: Array[Color], sd: int) -> PackedColorArray:
 			_specks(col, rng, _linfa(p), 6)          # qualche goccia di Linfa nel legno
 		"scisto":
 			_fibers(col, rng, [_linfa(p)], 3, 16)    # vene di Linfa nella roccia
+		"pietra_sem":
+			_bricks(col, p)
+			_specks(col, rng, _linfa(p), 10)          # le rune: puntini di Linfa nella pietra lavorata
 		"nodo":
 			_fibers(col, rng, [p[0], Color("#5a4a30")], 8, 24)   # radici marce, piene di muffa
 			_specks(col, rng, Color("#8a8a50"), 40)
@@ -164,6 +167,19 @@ static func material(id: String, p: Array[Color], sd: int) -> PackedColorArray:
 		"cristallo":
 			_facets(col, rng, p)
 	return col
+
+
+## Pietra lavorata: blocchi sfalsati con i giunti scuri e lo spigolo alto chiaro (le rovine dei Seminatori).
+static func _bricks(col: PackedColorArray, p: Array[Color]) -> void:
+	for y in TEX:
+		for x in TEX:
+			var row := y / 8
+			var bx := (x + (4 if row % 2 == 1 else 0) * 2) % 16
+			var i := y * TEX + x
+			if y % 8 == 0 or bx == 0:
+				col[i] = p[0]
+			elif y % 8 == 1 or bx == 1:
+				col[i] = p[mini(3, p.size() - 1)]
 
 
 ## Il turchese della Linfa, chiaro quanto il tono più chiaro della tavolozza: vivo sulle tessere, spento sulle pareti

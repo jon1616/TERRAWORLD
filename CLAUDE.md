@@ -98,7 +98,7 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   - `CharacterArt` (personaggio a pose, restituisce anche mano e occhio), `CreatureArt`, `NatureArt`
     (`tree_linfa` con parte luminosa, `root_arches`, `lantern_forest`, colline, torcia, sole).
 - `src/world/` — il mondo:
-  - `World` — solo lo stato (tessere, pareti, decorazioni, superficie, torce con indice a celle da 16, alberi per blocco,
+  - `World` — solo lo stato (contenitori: `chests` angolo → `Bisaccia` del contenuto, `chest_at(o)`; tessere, pareti, decorazioni, superficie, torce con indice a celle da 16, alberi per blocco,
     germogli con il tempo che manca, stazioni per angolo in alto a sinistra, passerelle in un array a parte `plats`).
     `tree_at(c)`/`tree_fits(c)` per gli alberi, `station_at(c)`/`station_fits(id, o)` per le stazioni, `plat(x, y)`.
   - `gen/` — il generatore: `WorldGen.passes()` elenca le passate in ordine, `GenContext` (seme, rumori per nome,
@@ -106,7 +106,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
     pareti di ogni strato di `StrataData`, confini sfrangiati), Grotte (profondità, regioni, grandi caverne), Vuoti (i
     grandi vuoti del Fondo e il suo pavimento di vuotite), Radici (radici giganti del Sottobosco, anche attraverso le
     grotte), Ingressi, Minerali (per strato e roccia), Cristalli, Erba, Alberi, Decorazioni (per strato), Cuore (la
-    cupola del Cuore del mondo nel Fondo, con i 4 nodi avvizziti e la stazione `cuore_mondo`), Partenza (le torce
+    cupola del Cuore del mondo nel Fondo, con i 4 nodi avvizziti e la stazione `cuore_mondo`), Rovine (44 stanze dei
+    Seminatori con uno scrigno pieno secondo lo strato), Partenza (le torce
     già accese della vecchia passata provvisoria sono state tolte il 25 set 2026: le torce le mette il giocatore). Un mondo 3000×1000 si genera in ~8,5 s (in un thread, con schermata d'attesa).
   - `WorldView` — disegno a blocchi da 32×32: solo i blocchi vicini alla visuale esistono come nodi (1 costruito per
     fotogramma, liberati oltre 2 blocchi di margine); ogni blocco ha pareti (z -10) e decorazioni (z 1) sulla griglia
@@ -161,12 +162,18 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 - `src/game/day_cycle.gd` (`DayCycle`) — giorno e notte: `time` 0-1 (giorno di 20 min), `daylight()`, `is_night()`;
   imposta `LightMap.sky`, i colori dello sfondo (`Background.set_time`: sole, luna, stelle) e `Fauna.night`. `paused`
   nelle prove (mezzogiorno fisso).
+- `src/game/interact.gd` (`Interact`) — smista i clic che `PlayerActions` non conosce (`use_hook`/`touch_hook`):
+  Rugiada → `Guardian.cure_at`, Seme di mondo → `Portal.plant`; clic destro su portale, Cuore, ceste e scrigni
+  (apre `ChestPanel` in `src/ui/`, che condivide la pila in mano con `BisacciaPanel`; Maiusc+clic con `quick_target`).
+- `src/game/gear_effects.gd` (`GearEffects`) — effetti degli accessori (`acc` in `ItemsData`): `Player.run_mult`,
+  `jump_mult`, `glide`, `Life.fall_safe`, `Boons.halo_mult`, `Vitals.regen_mult`; ricalcolati a ogni cambio della Bisaccia.
 - `src/game/depth_watch.gd` (`DepthWatch`) — in che strato è il giocatore (con un margine sul confine): sfuma il
   chiarore della luce e mostra la scritta dello strato (`StratumBanner` in `src/ui/`).
 - `src/game/crafting.gd` (`Crafting`) — regole della fabbricazione: stazioni a portata (5 tessere), ricette usabili,
   materiali bastano?, fabbrica; `describe` per il suggerimento.
 - `src/game/bisaccia.gd` (`Bisaccia`) — l'inventario: 40 caselle (prime 10 = barra rapida), `add`/`remove`/`count`/
-  `room_for`/`take_one`/`swap_with`, equipaggiamento `equip` con `wear`/`scorza`, corredo iniziale (`STARTER`); si salva
+  `room_for`/`take_one`/`swap_with`, equipaggiamento `equip` con `wear`/`scorza` (5 posti: elmo, corazza, gambali,
+  `accessorio_1`, `accessorio_2`; `kind_of_slot`); la stessa classe con meno caselle fa da contenuto di ceste e scrigni, corredo iniziale (`STARTER`); si salva
   con il personaggio insieme a Vita e Linfa.
 - `src/game/` — `session.gd` (autoload `Session`: personaggio e mondo scelti nel menu; non esiste negli script headless
   né in `--check-only`, dove «Identifier not found: Session» è normale), `main.gd` (solo montaggio: caricamento o

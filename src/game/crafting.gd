@@ -9,7 +9,10 @@ static func stations_near(world: World, c: Vector2i) -> Dictionary:
 	var out := {}
 	for o in world.stations:
 		var id: String = world.stations[o]
-		var size: Array = StationsData.STATIONS[id]["size"]
+		var sd: Dictionary = StationsData.STATIONS[id]
+		if sd.has("slots") or sd.get("fixed", false):
+			continue                           # ceste, scrigni, Cuore e portale non sono stazioni di lavoro
+		var size: Array = sd["size"]
 		var r := Rect2i(o, Vector2i(size[0], size[1])).grow(StationsData.REACH)
 		if r.has_point(c):
 			out[id] = true

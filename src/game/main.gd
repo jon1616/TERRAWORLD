@@ -28,6 +28,8 @@ var boons: Boons
 var guardian: Guardian
 var portal: Portal
 var day: DayCycle
+var gear: GearEffects
+var interact: Interact
 var _spores: CPUParticles2D
 var built := false
 var gen_times: Array = []
@@ -185,6 +187,12 @@ func _build() -> void:
 	day = DayCycle.new()
 	add_child(day)
 	day.setup(self)
+	gear = GearEffects.new()
+	add_child(gear)
+	gear.setup(self)
+	interact = Interact.new()
+	add_child(interact)
+	interact.setup(self)
 	hud.select(character.hotbar)
 	var start := world.spawn
 	var pos: Array = (world_meta.get("giocatori", {}) as Dictionary).get(character.id, [])
