@@ -18,6 +18,7 @@ const TABLES := {
 		{"item": "polvere_brace", "min": 1, "max": 2, "chance": 0.8},
 	],
 	"strisciaradice": [
+		{"item": "occhio_tubero", "min": 1, "max": 1, "chance": 0.08},
 		{"item": "legno", "min": 1, "max": 3, "chance": 1.0},
 		{"item": "seme_lanterna", "min": 1, "max": 1, "chance": 0.1},
 	],
@@ -32,6 +33,8 @@ const TABLES := {
 	],
 	# scrigni delle rovine dei Seminatori, per strato (1 Sottobosco … 4 il Fondo); `roll_chest` tira più volte
 	"rovina_1": [
+		{"item": "seme_rugiada", "min": 2, "max": 4, "chance": 0.3},
+		{"item": "occhio_tubero", "min": 1, "max": 2, "chance": 0.15},
 		{"item": "torcia", "min": 6, "max": 12, "chance": 0.7},
 		{"item": "pozione_rugiada", "min": 1, "max": 2, "chance": 0.5},
 		{"item": "dardo", "min": 20, "max": 40, "chance": 0.4},
@@ -42,6 +45,8 @@ const TABLES := {
 		{"item": "pappo_seme", "min": 1, "max": 1, "chance": 0.12},
 	],
 	"rovina_2": [
+		{"item": "spore_luminose", "min": 2, "max": 3, "chance": 0.2},
+		{"item": "seme_campanula", "min": 1, "max": 2, "chance": 0.15},
 		{"item": "baccello_vento", "min": 1, "max": 1, "chance": 0.12},
 		{"item": "mappa_seminatori", "min": 1, "max": 1, "chance": 0.25},
 		{"item": "torcia", "min": 8, "max": 15, "chance": 0.5},
@@ -113,6 +118,7 @@ const TABLES := {
 		{"item": "minerale_radicite", "min": 1, "max": 2, "chance": 0.3},
 	],
 	"saltafungo": [
+		{"item": "spore_brace", "min": 1, "max": 2, "chance": 0.3},
 		{"item": "lamella_fungo", "min": 1, "max": 3, "chance": 1.0},
 		{"item": "fungo_brace", "min": 1, "max": 1, "chance": 0.3},
 	],

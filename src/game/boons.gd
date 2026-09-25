@@ -15,7 +15,10 @@ const LIGHT_TORCIA := Color(1.9, 1.35, 0.75)   # la torcia tenuta in mano: luce 
 const FLICKER_STEP := 0.09
 const FLICKER := 0.14
 const NAMES := {"bagliore": "Bagliore", "scorza": "Scorza di corteccia", "vigore": "Vigore", "rigoglio": "Rigoglio",
-	"passo": "Passo lungo", "scavo": "Minatore", "spine": "Spine", "esca": "Esca", "fortuna": "Fortuna"}
+	"passo": "Passo lungo", "scavo": "Minatore", "spine": "Spine", "esca": "Esca", "fortuna": "Fortuna",
+	"sazio": "Sazio", "vista": "Occhi della notte"}
+const SAZIO := 1.05                    # sazio (voce 33): colpi e corsa un poco più forti, Vita un po' più svelta
+const VISTA := Color(0.12, 0.12, 0.15)  # Pozione di notte: un chiarore minimo anche dove la luce non arriva
 const RIGOGLIO := 3.0                  # la Vita ricresce tre volte più in fretta (Pozione di rigoglio)
 const VIGORE := 1.2                    # danno ×1,2 con la Pozione di vigore
 
@@ -74,9 +77,10 @@ func _process(dt: float) -> void:
 		text += "%s %d:%02d   " % [NAMES.get(k, k), t / 60, t % 60]
 	_label.text = text
 	m.vitals.scorza_bonus = SCORZA if active.has("scorza") else 0
-	m.vitals.boon_regen = RIGOGLIO if active.has("rigoglio") else 1.0
+	m.vitals.boon_regen = (RIGOGLIO if active.has("rigoglio") else 1.0) * (1.25 if active.has("sazio") else 1.0)
+	m.light.ambient_boost = VISTA if active.has("vista") else Color.BLACK
 	# le pozioni dell'Alambicco (voce 25)
-	m.player.boon_run = 1.3 if active.has("passo") else 1.0
+	m.player.boon_run = (1.3 if active.has("passo") else 1.0) * (SAZIO if active.has("sazio") else 1.0)
 	m.actions.boon_dig = 1.5 if active.has("scavo") else 1.0
 	m.combat.boon_thorns = 15 if active.has("spine") else 0
 	m.fauna.rare_mult = 2.0 if active.has("esca") else 1.0

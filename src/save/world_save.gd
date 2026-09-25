@@ -28,6 +28,10 @@ static func save(w: World, id: String, meta: Dictionary) -> Error:
 	var saplings := PackedInt32Array()
 	for c in w.saplings:
 		saplings.append_array([c.x, c.y, int(ceil(float(w.saplings[c])))])
+	var crops := []
+	for c in w.crops:
+		var e: Array = w.crops[c]
+		crops.append([c.x, c.y, String(e[0]), int(ceil(float(e[1]))), bool(e[2])])
 	var stations := []
 	for o in w.stations:
 		stations.append([o.x, o.y, w.stations[o]])
@@ -37,7 +41,7 @@ static func save(w: World, id: String, meta: Dictionary) -> Error:
 	var data := {
 		"w": w.w, "h": w.h, "tiles": w.tiles, "walls": w.walls, "decor": w.decor, "surface": w.surface,
 		"torches": torches, "trees": trees, "saplings": saplings, "stations": stations, "plats": w.plats,
-		"chests": chests, "explored": w.explored, "biomes": w.biomes,
+		"chests": chests, "explored": w.explored, "biomes": w.biomes, "crops": crops,
 	}
 	var raw := var_to_bytes(data)
 	var out := MAGIC.to_ascii_buffer()
@@ -106,6 +110,9 @@ static func _decode(bytes: PackedByteArray) -> World:
 	var saplings: PackedInt32Array = data.get("saplings", PackedInt32Array())
 	for i in range(0, saplings.size(), 3):
 		w.saplings[Vector2i(saplings[i], saplings[i + 1])] = float(saplings[i + 2])
+	for e in data.get("crops", []):
+		if CropsData.CROPS.has(String(e[2])):
+			w.crops[Vector2i(int(e[0]), int(e[1]))] = [String(e[2]), float(e[3]), bool(e[4])]
 	if w.tiles.size() != w.w * w.h or w.surface.size() != w.w:
 		return null
 	return w

@@ -29,6 +29,7 @@ var sfx: Sfx                           # i suoni (può mancare nelle prove senza
 var _dig_snd := 0.0
 var touch_hook: Callable
 signal boon(name: String, secs: float)
+signal decor_picked(c: Vector2i, d: int)   # una decorazione tolta (il giardino vi aggiunge raccolto e semi)
 var _cell := Vector2i(-9999, -9999)
 var _t := 0.0
 var _chop_t := 0.0
@@ -224,6 +225,7 @@ func pick_decor(c: Vector2i) -> void:
 		light.dirty = true
 	if TileDefs.DECOR_DROP.has(d):
 		drops.spawn(String(TileDefs.DECOR_DROP[d]), 1, Vector2(c) * S + Vector2(8, 8))
+	decor_picked.emit(c, d)
 
 
 ## Colpi d'ascia a ritmo del gesto: ogni colpo toglie la forza dell'ascia; a zero l'albero cade, lontano dal

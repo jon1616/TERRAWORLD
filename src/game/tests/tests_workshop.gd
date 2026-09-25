@@ -16,6 +16,7 @@ func _init(tk: TestKit) -> void:
 
 func run() -> void:
 	var b: Bisaccia = m.character.bisaccia
+	kit.make_room()
 	var spot := kit.flat_spot(world.spawn + Vector2i(30, 0), 12)
 	if spot.x < 0:
 		spot = kit.flat_spot(world.spawn, 8)

@@ -18,6 +18,7 @@ var creatures: Array[Dictionary] = []
 var torches := {}                      # Vector2i -> true
 var _torch_buckets := {}               # Vector2i(bx, by) -> Array[Vector2i]
 var trees := {}                        # blocco Vector2i -> Array[Vector3i(x, y, variante)]
+var crops := {}                        # il giardino (voce 33): cella -> [coltura, secondi che mancano, annaffiata]
 var saplings := {}                     # cella del germoglio Vector2i -> secondi che mancano per diventare albero
 var stations := {}                     # angolo in alto a sinistra Vector2i -> id di `StationsData`
 var chests := {}                       # angolo di una stazione con `slots` (cesta, scrigno) -> Bisaccia del contenuto
@@ -46,6 +47,7 @@ func setup(width: int, height: int) -> void:
 	_torch_buckets.clear()
 	trees.clear()
 	saplings.clear()
+	crops.clear()
 	stations.clear()
 	chests.clear()
 	creatures.clear()

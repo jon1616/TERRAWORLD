@@ -44,6 +44,10 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 			return _map_hint(id)
 		"rampino":
 			return m.grapple.fire(id, m.fx.get_global_mouse_position())
+		"coltura":
+			return m.garden.plant(c, id)
+		"annaffiatoio":
+			return m.garden.water(c)
 		"esplosivo", "ricurvo", "giavellotto":
 			return m.throwing.throw(id, m.fx.get_global_mouse_position())
 		"specchio":
@@ -86,6 +90,8 @@ func _map_hint(id: String) -> bool:
 
 ## Clic destro su una cella: se c'è una stazione a portata, fa ciò che le spetta. True se ha fatto qualcosa.
 func touch(c: Vector2i) -> bool:
+	if m.garden.harvest(c):
+		return true
 	var st: Dictionary = m.world.station_at(c)
 	if st.is_empty() or not m.actions.in_reach(c):
 		return false

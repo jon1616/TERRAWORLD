@@ -18,6 +18,8 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 			_mola(im, gm, w, h)
 		"altare":
 			_altare(im, gm, w, h)
+		"paiolo":
+			_paiolo(im, gm, w, h)
 		"reliquiario":
 			_reliquiario(im, gm, w, h)
 		"bozzolo_rotto":
@@ -122,6 +124,26 @@ static func _reliquiario(im: Image, gm: Image, w: int, h: int) -> void:
 		Px.put(im, q.x, q.y, Color("#6ff0d8"))
 		Px.put(gm, q.x, q.y, Color("#6ff0d8"))
 	Px.put(gm, w / 2, 4, amb[3])
+
+
+## Il paiolo: una pentola d'ardesia su tre pietre, la brace sotto e il vapore sopra.
+static func _paiolo(im: Image, gm: Image, w: int, h: int) -> void:
+	var st := Px.pal(TileDefs.P_STONE)
+	var brace := Px.pal(TileDefs.P_BRACE)
+	for x in [6, w / 2, w - 7]:
+		Px.disc(im, x, h - 3.0, 2.5, st[1])
+	for q in [Vector2i(w / 2 - 4, h - 5), Vector2i(w / 2 + 3, h - 5), Vector2i(w / 2, h - 4)]:
+		Px.put(im, q.x, q.y, brace[3])
+		Px.put(gm, q.x, q.y, brace[3])
+	for y in range(9, h - 5):
+		var hw := 12.0 - absf(y - 16.0) * 0.35
+		for x in w:
+			if absf(x + 0.5 - w / 2.0) <= hw:
+				Px.put(im, x, y, st[3] if y < 11 else (st[2] if x < w / 2 else st[1]))
+	for x in range(6, w - 6):
+		Px.put(im, x, 9, Color("#a8704a"))
+	for k in 3:
+		Px.curve(im, Vector2(10.0 + k * 6.0, 7.0), Vector2(8.0 + k * 6.0, 3.0), Vector2(11.0 + k * 6.0, 0.0), 1, Color(0.85, 0.9, 0.9, 0.5))
 
 
 static func _mola(im: Image, gm: Image, w: int, h: int) -> void:

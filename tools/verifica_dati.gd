@@ -8,7 +8,7 @@ extends SceneTree
 const KINDS := ["materiale", "blocco", "piccone", "ascia", "spada", "arco", "munizione", "torcia", "stazione",
 	"piattaforma", "elmo", "corazza", "gambali", "consumabile", "seme", "lanterna", "cura", "seme_mondo", "accessorio",
 	"purifica", "essenza", "bastone", "dono", "specchio", "trofeo", "richiamo", "reliquia", "mappa", "rampino", "esplosivo", "ricurvo",
-	"giavellotto"]
+	"giavellotto", "coltura", "annaffiatoio"]
 ## Forza di piccone oltre cui una tessera è voluta indistruttibile (i nodi avvizziti: si curano, non si scavano).
 const UNBREAKABLE := 999
 
@@ -84,6 +84,15 @@ func _init() -> void:
 		_err(items.has(String(kd["summon"])), "Custode %s: richiamo inesistente" % k)
 		_err(LoreData.PAGES.has(String(kd["page"])), "Custode %s: pagina di storia inesistente" % k)
 		_err(StationsData.STATIONS.has("bozzolo_" + k), "Custode %s: bozzolo inesistente" % k)
+	# giardino (voce 33): semi e raccolti esistono
+	for k in CropsData.CROPS:
+		var cd: Dictionary = CropsData.CROPS[k]
+		_err(items.has(String(cd["seed"])), "coltura %s: seme inesistente" % k)
+		for h in cd["harvest"]:
+			_err(items.has(String(h)), "coltura %s: raccolto inesistente %s" % [k, h])
+			dropped[h] = true
+	for wd in CropsData.WILD:
+		dropped[wd[1]] = true
 	# trofei (voce 23): ogni creatura non Guardiano ne ha uno, esiste e serve a qualcosa
 	for cid in CreaturesData.CREATURES:
 		if not CreaturesData.CREATURES[cid].get("boss", false):

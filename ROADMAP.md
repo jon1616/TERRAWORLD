@@ -497,8 +497,18 @@ ricurvi** (di legno al Ceppo, d'ambra e del Vuoto al Maglio) volano avanti, feri
 tornano in mano. I **giavellotti** (d'aculeo, di cristallo) si consumano come i dardi e attraversano due o tre
 creature. I bastoni di Linfa ora ricevono i tratti come le altre armi. Prove `--solo=lanci` (foto 60_scoppio).
 
-## 33. [ ] Il giardino del Germogliato (M)
-Coltivare: semi di erbe e funghi da piantare su humus e muschio, crescita a stadi, raccolto; pozioni nuove dalle erbe.
+## 33. [x] Il giardino del Germogliato (M) — fatto il 26 set 2026
+Il Germogliato coltiva (`CropsData`, modulo `Garden`): cinque colture, **erba di rugiada**, **funghi di brace**,
+**funghi luminosi** (solo sotto terra, al buio), **campanula lume** (fa luce) e **tubero di Linfa**. Il seme si pianta
+con il clic su un terreno adatto (muschio ed erbe; i funghi anche su terra e roccia): nasce un germoglio che dopo 3-7
+minuti diventa la pianta matura, e il tempo corre anche lontano. Clic destro sulla pianta matura (o scavarla) = il
+raccolto e i semi per ripiantare; l'**Annaffiatoio di zucca** dimezza il tempo che manca, una volta per pianta. I semi
+si trovano raccogliendo fronde, campanule e funghi selvatici, negli scrigni delle rovine e da Saltafunghi e
+Strisciaradici. Colture salvate con il mondo (`World.crops`). Dal raccolto: la Pozione di rugiada coltivabile, la
+**Pozione di radice** (grande cura), la **Pozione di notte** (per cinque minuti un chiarore anche dove non arriva la
+luce) e al nuovo **Paiolo di radice** i piatti (zuppa di funghi, pane di tubero, insalata di lume, stufato regale):
+**Sazio** per dieci-trenta minuti, con Vita un po' più svelta e colpi e corsa +5%. Prove `--solo=giardino` (foto
+61_giardino).
 
 ## 34. [ ] Eventi del mondo (M)
 Pioggia di stelle nelle notti serene, Notte dell'Avvizzimento (ondate e ricompensa), Fioritura (giorno di creature

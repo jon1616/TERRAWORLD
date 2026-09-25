@@ -148,7 +148,7 @@ func _bow(it: Dictionary, use: String, active: bool, dt: float, tr := "") -> voi
 
 ## Danno ×1,2 con la Pozione di vigore attiva, e il danno in più degli accessori.
 func _boon() -> float:
-	return (Boons.VIGORE if m.boons.active.has("vigore") else 1.0) * dmg_mult
+	return (Boons.VIGORE if m.boons.active.has("vigore") else 1.0) * dmg_mult * (Boons.SAZIO if m.boons.active.has("sazio") else 1.0)
 
 
 func _strike(c: Creature, dmg: int, from_x: float, force: float) -> void:

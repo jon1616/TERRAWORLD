@@ -34,7 +34,8 @@ var sky := SKY                        # luce del cielo aperto, secondo l'ora (ve
 var player_light := PLAYER            # la luce attorno al giocatore (più forte con la lanterna o il bagliore)
 var ambient := AMBIENT                # chiarore minimo, secondo lo strato in cui si trova il giocatore
 var dirty := true                     # il mondo è cambiato (scavo, torcia): va ricalcolata
-var flicker_time := 0.0               # orologio del tremolio delle torce piantate (lo manda avanti `Boons`)
+var flicker_time := 0.0
+var ambient_boost := Color.BLACK      # Pozione di notte (voce 33): chiarore in più ovunque               # orologio del tremolio delle torce piantate (lo manda avanti `Boons`)
 var _center := Vector2i(-9999, -9999)
 var _player := Vector2i(-9999, -9999)
 var _task := -1
@@ -96,7 +97,7 @@ func _start(center: Vector2i, player_cell: Vector2i) -> void:
 		"origin": o, "tiles": world.tiles, "walls": world.walls, "decor": world.decor, "w": world.w, "h": world.h,
 		"torches": world.torches_in(Rect2i(o, Vector2i(LW, LH))), "player": player_cell, "player_light": player_light, "sky": sky,
 		"decor_light": _decor_light(), "lights": _station_lights(Rect2i(o, Vector2i(LW, LH))) + _extra(Rect2i(o, Vector2i(LW, LH))),
-		"ambient": ambient, "time": flicker_time,
+		"ambient": ambient + ambient_boost, "time": flicker_time,
 	}
 	_job = job
 	_task = WorkerThreadPool.add_task(_solve.bind(job), false, "luce")

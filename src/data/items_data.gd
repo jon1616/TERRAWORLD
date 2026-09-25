@@ -13,7 +13,8 @@ extends RefCounted
 ##          collezionare, `RelicsData`) · mappa (indica il reliquiario più vicino) · trofeo ·
 ##          rampino (`hook`: {range in tessere, speed}; si aggancia alla roccia e tira il Germogliato) ·
 ##          esplosivo (`blast`: {radius, power, damage, fuse}) · ricurvo (`throw`: {range, speed}; torna in mano) ·
-##          giavellotto (si lancia e si consuma; `pierce`). Li lancia `Throwing`. (lo lasciano solo le creature rare, `TrophyItemsData`)
+##          giavellotto (si lancia e si consuma; `pierce`). Li lancia `Throwing`.
+##          coltura (seme da giardino, `CropsData`) · annaffiatoio (dimezza il tempo di crescita di una coltura) (lo lasciano solo le creature rare, `TrophyItemsData`)
 ## Oggetti del bestiario della voce 22 in `BeastItemsData` (uniti qui in `all()`).
 ##   acc    effetti di un accessorio (vedi `GearEffects`): run (corsa ×), jump (salto ×), glide (planare tenendo
 ##          Spazio), fall_safe (niente ferite da caduta), halo (alone ×), regen (ricrescita della Vita ×),
@@ -173,6 +174,23 @@ const ITEMS := {
 	"seme_ricurvo_vuoto": {"name": "Seme ricurvo del Vuoto", "kind": "ricurvo", "icon": ["ricurvo", "vuotite"], "tier": 5, "damage": 32, "knockback": 2.0, "throw": {"range": 15, "speed": 420.0}, "desc": "Tagliente come le schegge del Fondo."},
 	"giavellotto_aculeo": {"name": "Giavellotto d'aculeo", "kind": "giavellotto", "icon": ["giavellotto", "ambra"], "stack": 999, "damage": 14, "pierce": 1, "desc": "Si lancia con il clic e attraversa due creature. Si consuma."},
 	"giavellotto_cristallo": {"name": "Giavellotto di cristallo", "kind": "giavellotto", "icon": ["giavellotto", "cristallo"], "stack": 999, "damage": 26, "pierce": 2, "desc": "Attraversa tre creature."},
+	# voce 33: il giardino
+	"seme_rugiada": {"name": "Semi d'erba di rugiada", "kind": "coltura", "icon": ["seme", "muschio"], "stack": 99, "desc": "Piantali sul muschio o sull'erba: in tre minuti un ciuffo di foglie di rugiada."},
+	"spore_brace": {"name": "Spore di brace", "kind": "coltura", "icon": ["polvere", "brace"], "stack": 99, "desc": "Piantale sulla terra o sulla roccia: crescono funghi di brace."},
+	"spore_luminose": {"name": "Spore luminose", "kind": "coltura", "icon": ["polvere", "cristallo"], "stack": 99, "desc": "Crescono solo sotto terra, al buio: funghi luminosi."},
+	"seme_campanula": {"name": "Seme di campanula lume", "kind": "coltura", "icon": ["seme", "fungo"], "stack": 99, "desc": "Sul muschio o sull'erba nasce una campanula che fa luce."},
+	"occhio_tubero": {"name": "Occhio di tubero", "kind": "coltura", "icon": ["seme", "cristallo"], "stack": 99, "desc": "Un pezzo di tubero di Linfa con il suo occhio: piantalo sul muschio."},
+	"foglia_rugiada": {"name": "Foglia di rugiada", "kind": "materiale", "icon": ["foglia", "muschio"], "desc": "Coperta di gocce che non asciugano mai."},
+	"petali_lume": {"name": "Petali di lume", "kind": "materiale", "icon": ["foglia", "fungo"], "desc": "Rosa, tiepidi, fanno una luce debole anche staccati."},
+	"tubero_linfa": {"name": "Tubero di Linfa", "kind": "materiale", "icon": ["tubero", "cristallo"], "desc": "Una radice gonfia di Linfa: nutriente."},
+	"annaffiatoio": {"name": "Annaffiatoio di zucca", "kind": "annaffiatoio", "icon": ["annaffiatoio", "legno"], "desc": "Clic su una coltura che cresce: da lì in poi cresce il doppio più in fretta (una volta per pianta)."},
+	"paiolo": {"name": "Paiolo di radice", "kind": "stazione", "icon": ["paiolo", "ardesia"], "place": "paiolo", "stack": 99, "desc": "Un paiolo d'ardesia sulla brace: si cucina."},
+	"zuppa_funghi": {"name": "Zuppa di funghi", "kind": "consumabile", "icon": ["ciotola", "brace"], "boon": ["sazio", 600.0], "stack": 30, "desc": "Sazio per dieci minuti: la Vita ricresce un po' più in fretta, colpi e corsa un po' più forti."},
+	"pane_tubero": {"name": "Pane di tubero", "kind": "consumabile", "icon": ["ciotola", "ambra"], "boon": ["sazio", 900.0], "stack": 30, "desc": "Sazio per quindici minuti."},
+	"insalata_lume": {"name": "Insalata di lume", "kind": "consumabile", "icon": ["ciotola", "muschio"], "boon": ["sazio", 900.0], "stack": 30, "desc": "Sazio per quindici minuti."},
+	"stufato_regale": {"name": "Stufato regale", "kind": "consumabile", "icon": ["ciotola", "linfa"], "boon": ["sazio", 1800.0], "stack": 30, "desc": "Sazio per mezz'ora."},
+	"pozione_notte": {"name": "Pozione di notte", "kind": "consumabile", "icon": ["pozione", "fungo"], "boon": ["vista", 300.0], "stack": 30, "desc": "Per cinque minuti gli occhi vedono qualcosa anche dove non arriva la luce."},
+	"pozione_radice": {"name": "Pozione di radice", "kind": "consumabile", "icon": ["pozione", "radice"], "heal": 90, "stack": 30, "desc": "Fa ricrescere 9 foglie di Vita."},
 	"seme_mondo": {"name": "Seme di mondo", "kind": "seme_mondo", "icon": ["seme", "cristallo"], "stack": 9, "desc": "Il Cuore del mondo ti ha donato un seme. Piantalo sul terreno: crescerà un portale verso un mondo nuovo."},
 }
 
@@ -301,4 +319,8 @@ static func use_of(id: String) -> String:
 			return "aggancia"
 		"esplosivo", "ricurvo", "giavellotto":
 			return "lancia"
+		"coltura":
+			return "coltiva"
+		"annaffiatoio":
+			return "annaffia"
 	return ""

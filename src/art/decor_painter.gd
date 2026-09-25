@@ -282,6 +282,65 @@ static func decor(id: int) -> Dictionary:
 						Px.put(im, x, y, c)
 						if t < 0.5 or x == int(sh[0]):
 							Px.put(gm, x, y, c)
+		27:
+			# germoglio di coltura: due foglioline tenere su un gambo corto, un po' di terra smossa
+			outline = false
+			Px.line(im, Vector2(8, 15), Vector2(8, 11), 1, moss[2])
+			Px.put(im, 6, 10, moss[3])
+			Px.put(im, 7, 10, moss[4])
+			Px.put(im, 9, 10, moss[4])
+			Px.put(im, 10, 9, moss[3])
+			for x in range(5, 12):
+				Px.put(im, x, 15, Color(TileDefs.P_DIRT[3]))
+		28:
+			# erba di rugiada matura: ciuffo largo con le gocce che brillano
+			outline = false
+			for k in 7:
+				var bx := 3.0 + k * 1.7
+				var top := Vector2(bx + rng.randf_range(-1.5, 1.5), rng.randf_range(4.0, 8.0))
+				Px.curve(im, Vector2(bx, 15.0), Vector2(bx, 10.0), top, 1, moss[2 + k % 3])
+				if k % 2 == 0:
+					Px.put(im, int(top.x), int(top.y) - 1, Color("#c8fff4"))
+					Px.put(gm, int(top.x), int(top.y) - 1, Color("#c8fff4"))
+		29, 30:
+			# funghi coltivati: tre cappelli di brace, o luminosi turchesi
+			var cap := Px.pal(TileDefs.P_BRACE) if id == 29 else Px.pal(["#0a6a9a", "#28c0ff", "#b0f4ff", "#e8ffff"])
+			for f in [[4.0, 9.0, 3.2], [9.5, 7.0, 3.8], [12.5, 11.0, 2.4]]:
+				Px.line(im, Vector2(f[0], 15.0), Vector2(f[0], f[1] + 1.0), 1, Color("#d8c8b0"))
+				for y in range(int(f[1] - f[2]), int(f[1]) + 2):
+					for x in S:
+						var dx: float = (x + 0.5 - f[0]) / f[2]
+						var dy: float = (y + 0.5 - f[1] - 1.0) / (f[2] * 0.9)
+						if dx * dx + dy * dy <= 1.0 and y <= f[1] + 1.0:
+							var c: Color = cap[2] if dx < 0.0 else cap[1]
+							Px.put(im, x, y, c)
+							if id == 30:
+								Px.put(gm, x, y, c)
+		31:
+			# campanula lume: una grande corolla rosa che pende e fa luce
+			Px.curve(im, Vector2(6, 15), Vector2(5, 5), Vector2(10, 4), 1, moss[2])
+			Px.put(im, 5, 11, moss[3])
+			Px.put(im, 7, 9, moss[3])
+			var pk := Px.pal(["#6a1a4a", "#c04a88", "#ff8ac8", "#ffd8ee"])
+			for y in range(4, 11):
+				var hw := 1 if y < 6 else (2 if y < 9 else 3)
+				for x in range(10 - hw, 10 + hw + 1):
+					Px.put(im, x, y, pk[2] if x < 10 else pk[1])
+					Px.put(gm, x, y, pk[2] if x < 10 else pk[1])
+			Px.put(im, 10, 11, pk[3])
+			Px.put(gm, 10, 11, pk[3])
+		32:
+			# tubero di Linfa: foglie larghe sopra e il tubero turchese che spunta dalla terra
+			var lp := Px.pal(TileDefs.P_CRYSTAL)
+			for y in range(11, 16):
+				for x in range(4, 13):
+					var d := Vector2((x + 0.5 - 8.0) / 4.2, (y + 0.5 - 14.0) / 3.0)
+					if d.length() <= 1.0:
+						Px.put(im, x, y, lp[3] if d.x < 0.0 else lp[2])
+						if d.length() < 0.5:
+							Px.put(gm, x, y, lp[3])
+			for k in 3:
+				Px.curve(im, Vector2(8.0, 11.0), Vector2(4.0 + k * 4.0, 6.0), Vector2(2.0 + k * 6.0, 4.0), 1, moss[3])
 		18:
 			# runa dei Seminatori: un segno inciso che brilla di Linfa, sospeso davanti alla parete
 			outline = false

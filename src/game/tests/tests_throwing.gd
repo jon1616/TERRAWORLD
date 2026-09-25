@@ -28,6 +28,7 @@ func _solid_count(c: Vector2i, r: int) -> int:
 func run() -> void:
 	var b: Bisaccia = m.character.bisaccia
 	var th: Throwing = m.throwing
+	kit.make_room()
 	m.combat.god = true
 	var spot := kit.flat_spot(world.spawn, 6)
 	if spot.x < 0:

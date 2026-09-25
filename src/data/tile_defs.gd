@@ -54,7 +54,8 @@ const DECOR_TRAP := 20                 # runa trappola sul pavimento delle rovin
 const DECOR_BOCCIOLO := 21             # Bocciolo del cuore: sui pavimenti delle grotte, dà +10 Vita massima (voce 21)
 const DECOR_STILLA := 22               # Stilla perenne: pende dai soffitti profondi, dà Linfa massima
 const DECOR_GEMS := [23, 24, 25, 26]   # gemme a grappolo (voce 24): brillaluce, sanguinella, lagunite, nottilite
-const DECOR_COUNT := 26
+const DECOR_CROPS := [27, 28, 29, 30, 31, 32]   # il giardino (voce 33): germoglio di coltura e piante mature
+const DECOR_COUNT := 32
 const DECOR_CEILING := [11, 12, 17, 22]        # queste pendono dal blocco sopra
 
 ## Luce emessa dalle decorazioni (indice = id della decorazione): piccole pozze di luce nel buio, non lampioni
@@ -64,6 +65,7 @@ const DECOR_LIGHT := {
 	10: Color(0.25, 0.6, 0.85), 11: Color(0.2, 0.13, 0.04), 12: Color(0.17, 0.11, 0.03), 13: Color(0.3, 0.17, 0.5),
 	15: Color(0.25, 0.14, 0.04), 16: Color(0.4, 0.18, 0.7), 17: Color(0.15, 0.5, 0.55),
 	18: Color(0.2, 0.62, 0.6), 20: Color(0.14, 0.2, 0.1), 21: Color(0.75, 0.25, 0.3), 22: Color(0.3, 0.75, 0.8),
+	28: Color(0.1, 0.3, 0.3), 30: Color(0.2, 0.5, 0.75), 31: Color(0.6, 0.25, 0.45), 32: Color(0.12, 0.45, 0.45),
 	23: Color(0.45, 0.55, 0.15), 24: Color(0.55, 0.12, 0.12), 25: Color(0.12, 0.3, 0.6), 26: Color(0.35, 0.15, 0.55),
 }
 

@@ -23,6 +23,7 @@ const STATIONS := {
 		"light_color": Color(0.3, 0.9, 0.9)},
 	"telaio": {"name": "Telaio di foglie", "size": [3, 2], "item": "telaio"},
 	"mola": {"name": "Mola del gemmaio", "size": [2, 2], "item": "mola"},
+	"paiolo": {"name": "Paiolo di radice", "size": [2, 2], "item": "paiolo", "light": true},
 	# voce 27: l'Altare dei Seminatori (richiama i Custodi) e i bozzoli delle tane dei Custodi
 	"altare": {"name": "Altare dei Seminatori", "size": [3, 2], "item": "altare", "light": true,
 		"light_color": Color(0.2, 0.6, 0.55)},

@@ -115,6 +115,15 @@ func flatten(c: Vector2i, half: int) -> void:
 	m.view.refresh_around(Vector2i(c.x + half, c.y))
 
 
+## Svuota la parte grande della Bisaccia (non la barra rapida): nel giro lungo le prove la riempiono, e gli oggetti
+## aggiunti dopo non entravano più (le prove fallivano senza motivo vero).
+func make_room() -> void:
+	var b := bisaccia()
+	for i in range(Bisaccia.HOTBAR, b.slots.size()):
+		b.slots[i] = {}
+	b.changed.emit()
+
+
 func craft(id: String) -> bool:
 	for r in RecipesData.making(id):
 		if Crafting.craft(r, bisaccia()):

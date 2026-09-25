@@ -263,6 +263,45 @@ static func draw(shape: String, im: Image, p: Array[Color]) -> bool:
 			Px.put(im, 14, 1, p[p.size() - 1])
 			Px.put(im, 2, 13, Color(ItemIcons.LEAF[1]))
 			Px.put(im, 3, 14, Color(ItemIcons.LEAF[2]))
+		"tubero":
+			for y in range(6, 15):
+				for x in range(2, 14):
+					var d := Vector2((x + 0.5 - 8.0) / 5.5, (y + 0.5 - 10.5) / 4.0)
+					if d.length() <= 1.0:
+						Px.put(im, x, y, p[2] if d.x < -0.1 else p[1])
+			Px.put(im, 6, 9, p[p.size() - 1])
+			Px.put(im, 10, 12, p[0])
+			Px.line(im, Vector2(8.0, 6.0), Vector2(6.0, 1.0), 1, Color(ItemIcons.LEAF[1]))
+			Px.line(im, Vector2(8.0, 6.0), Vector2(11.0, 2.0), 1, Color(ItemIcons.LEAF[2]))
+		"ciotola":
+			# una ciotola di legno piena, il vapore sopra
+			var w5 := ItemIcons.pal("legno")
+			for y in range(8, 15):
+				var hw := 7.0 - (y - 8) * 0.6
+				for x in S:
+					if absf(x + 0.5 - 8.0) <= hw:
+						Px.put(im, x, y, w5[3] if y > 9 else p[2])
+			for x in range(2, 14):
+				Px.put(im, x, 8, p[p.size() - 1] if x % 3 == 0 else p[2])
+			Px.put(im, 6, 5, Color(0.9, 0.9, 0.9, 0.6))
+			Px.put(im, 9, 4, Color(0.9, 0.9, 0.9, 0.6))
+		"annaffiatoio":
+			var w6 := ItemIcons.pal("legno")
+			for y in range(6, 14):
+				for x in range(3, 11):
+					Px.put(im, x, y, w6[3] if x > 3 else w6[4])
+			Px.line(im, Vector2(10.0, 11.0), Vector2(14.0, 6.0), 1, w6[3])
+			Px.put(im, 14, 5, Color("#6ff0d8"))
+			Px.curve(im, Vector2(4.0, 6.0), Vector2(7.0, 1.0), Vector2(10.0, 6.0), 1, w6[2])
+		"paiolo":
+			for y in range(5, 13):
+				var hw2 := 6.0 - absf(y - 9.0) * 0.4
+				for x in S:
+					if absf(x + 0.5 - 8.0) <= hw2:
+						Px.put(im, x, y, p[3] if y < 7 else p[2])
+			Px.put(im, 6, 14, Color("#ffb040"))
+			Px.put(im, 9, 14, Color("#ff7a30"))
+			Px.put(im, 7, 3, Color(0.9, 0.9, 0.9, 0.6))
 		_:
 			return false
 	return true

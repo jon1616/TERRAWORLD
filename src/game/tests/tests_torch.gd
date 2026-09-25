@@ -32,6 +32,7 @@ func run() -> void:
 		print("ATTENZIONE: nessuna grotta buia per la prova della torcia")
 		return
 	m.snap_to(c)
+	kit.make_room()
 	kit.hold("piccone_radicite")
 	await kit.seconds(1.0)
 	var dark: float = m.light.value_at(c + Vector2i(0, -3))

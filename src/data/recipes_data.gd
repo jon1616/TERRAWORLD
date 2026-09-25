@@ -44,6 +44,17 @@ const RECIPES := [
 	{"out": "dardo_vuoto", "qty": 20, "in": {"scheggia_vuoto": 1, "legno": 1}, "station": "ceppo"},
 	{"out": "lanterna_linfa", "qty": 1, "in": {"cristallo_linfa": 5, "lingotto_ambra": 2}, "station": "maglio"},
 	{"out": "rugiada_linfa", "qty": 1, "in": {"cristallo_linfa": 2, "fungo_luminoso": 1, "pozione_rugiada": 1}, "station": "alambicco"},
+	# voce 33: il giardino
+	{"out": "annaffiatoio", "qty": 1, "in": {"legno": 8, "gelatina": 4}, "station": "ceppo"},
+	{"out": "paiolo", "qty": 1, "in": {"ardesia": 10, "legno": 6, "lingotto_radicite": 2}, "station": "ceppo"},
+	{"out": "pozione_rugiada", "qty": 1, "in": {"foglia_rugiada": 2, "gelatina": 1}, "station": "ceppo"},
+	{"out": "zuppa_funghi", "qty": 1, "in": {"fungo_brace": 2, "fungo_luminoso": 1}, "station": "paiolo"},
+	{"out": "pane_tubero", "qty": 1, "in": {"tubero_linfa": 2, "foglia_rugiada": 1}, "station": "paiolo"},
+	{"out": "insalata_lume", "qty": 1, "in": {"foglia_rugiada": 2, "petali_lume": 2}, "station": "paiolo"},
+	{"out": "stufato_regale", "qty": 1, "in": {"tubero_linfa": 2, "fungo_brace": 2, "gelatina_regale": 1}, "station": "paiolo"},
+	{"out": "pozione_notte", "qty": 1, "in": {"petali_lume": 2, "fungo_luminoso": 1}, "station": "alambicco"},
+	{"out": "pozione_radice", "qty": 1, "in": {"tubero_linfa": 2, "foglia_rugiada": 2, "gelatina": 1}, "station": "alambicco"},
+	{"out": "pozione_linfa", "qty": 2, "in": {"tubero_linfa": 1, "petali_lume": 1}, "station": "alambicco"},
 	# voce 32: esplosivi e armi da lancio
 	{"out": "baccello_esplosivo", "qty": 3, "in": {"polvere_brace": 3, "gelatina": 2, "ardesia": 2}, "station": "baccello_ardente"},
 	{"out": "baccello_tonante", "qty": 2, "in": {"baccello_esplosivo": 2, "lingotto_tizzonite": 1, "polvere_brace": 4}, "station": "baccello_ardente"},
