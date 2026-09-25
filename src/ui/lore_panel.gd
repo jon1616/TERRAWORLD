@@ -9,6 +9,8 @@ var _title: Label
 var _text: Label
 var _box: PanelContainer
 
+signal page_shown(id: String)
+
 
 func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -49,6 +51,7 @@ func show_page(id: String) -> void:
 	var pg: Dictionary = LoreData.PAGES.get(id, {})
 	if pg.is_empty():
 		return
+	page_shown.emit(id)
 	_title.text = String(pg["title"])
 	_text.text = String(pg["text"])
 	visible = true

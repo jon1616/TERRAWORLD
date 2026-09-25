@@ -176,6 +176,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   `jump_mult`, `glide`, `Life.fall_safe`, `Boons.halo_mult`, `Vitals.regen_mult`; ricalcolati a ogni cambio della Bisaccia.
 - `src/game/map_reveal.gd` (`MapReveal`) — mappa esplorata: segna viste le celle illuminate (`World.explored`) e le
   dipinge in un'immagine 1 pixel = 1 tessera; `MapPanel` in `src/ui/` (tasto M, rotella, trascinare, segni).
+- `src/game/erbario.gd` (`Erbario`) — le scoperte del personaggio (`Character.erbario`: creature sconfitte con il
+  conteggio, oggetti, pagine lette), `percent()`; `ErbarioPanel` in `src/ui/` (tasto L). Pannelli a schermo intero
+  come questo vanno in `Hud.overlays` (così il mouse non scava mentre sono aperti).
 - `src/game/depth_watch.gd` (`DepthWatch`) — in che strato è il giocatore (con un margine sul confine): sfuma il
   chiarore della luce e mostra la scritta dello strato (`StratumBanner` in `src/ui/`).
 - `src/game/crafting.gd` (`Crafting`) — regole della fabbricazione: stazioni a portata (5 tessere), ricette usabili,
@@ -249,6 +252,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   tavolozza, altrimenti sulle pareti si vede la ripetizione ogni 64 pixel.
 - I Control figli di un CanvasLayer (HUD) non prendono la misura dalle ancore se vengono creati prima di entrare
   nell'albero: la misura va presa da `get_viewport_rect()` quando si mostrano (scritta degli strati, mappa).
+- Il JSON rilegge i numeri come decimali e riordina le chiavi: dopo il caricamento si riconvertono gli interi, e
+  i dizionari si confrontano con `==` (non con `str()`).
 - Le prove che mettono qualcosa «a N tessere» devono usare `world.surface[x]` di quella colonna: il terreno piano
   vicino alla partenza è corto e il bersaglio finiva dentro la terra.
 

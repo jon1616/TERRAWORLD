@@ -31,6 +31,7 @@ var day: DayCycle
 var gear: GearEffects
 var interact: Interact
 var map_reveal: MapReveal
+var erbario: Erbario
 var _spores: CPUParticles2D
 var built := false
 var gen_times: Array = []
@@ -203,6 +204,13 @@ func _build() -> void:
 	hud.add_child(mp)
 	mp.setup(self, map_reveal)
 	hud.map = mp
+	erbario = Erbario.new()
+	add_child(erbario)
+	erbario.setup(self)
+	var ep := ErbarioPanel.new()
+	hud.add_child(ep)
+	ep.setup(self, erbario)
+	hud.overlays.append(ep)
 	hud.select(character.hotbar)
 	var start := world.spawn
 	var pos: Array = (world_meta.get("giocatori", {}) as Dictionary).get(character.id, [])

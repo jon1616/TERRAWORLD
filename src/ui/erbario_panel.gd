@@ -1,0 +1,164 @@
+class_name ErbarioPanel
+extends Control
+## L'Erbario aperto (tasto L): tre schede (Creature, Oggetti, Pagine di storia), una griglia di caselle — scoperte con
+## l'icona, le altre con un punto di domanda — e a destra la scheda della voce scelta. In alto la percentuale.
+
+const COLS := 10
+const CELL := 56
+const GAP := 6
+
+var m: Node2D
+var erbario: Erbario
+var section := "creature"
+var selected := ""
+var _grid: Control
+var _title: Label
+var _detail: RichTextLabel
+var _tabs: Array[Button] = []
+var _creature_tex := {}
+
+
+func setup(main: Node2D, e: Erbario) -> void:
+	m = main
+	erbario = e
+	visible = false
+	mouse_filter = Control.MOUSE_FILTER_STOP
+	var bg := ColorRect.new()
+	bg.color = Color(0.01, 0.03, 0.04)
+	bg.size = Vector2(1600, 900)
+	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(bg)
+	_title = Label.new()
+	_title.position = Vector2(120, 40)
+	_title.add_theme_font_size_override("font_size", 30)
+	_title.add_theme_color_override("font_color", Color("#8ef0d8"))
+	add_child(_title)
+	var x := 120.0
+	for sec in [["creature", "Creature"], ["oggetti", "Oggetti"], ["pagine", "Pagine di storia"]]:
+		var b := Button.new()
+		b.text = sec[1]
+		b.position = Vector2(x, 96)
+		b.size = Vector2(170, 34)
+		_frame(b, Color("#2f7a70"))
+		var id: String = sec[0]
+		b.pressed.connect(func() -> void:
+			section = id
+			selected = ""
+			_refresh())
+		add_child(b)
+		_tabs.append(b)
+		x += 180.0
+	_grid = Control.new()
+	_grid.position = Vector2(120, 150)
+	add_child(_grid)
+	_detail = RichTextLabel.new()
+	_detail.bbcode_enabled = true
+	_detail.position = Vector2(780, 150)
+	_detail.size = Vector2(680, 640)
+	_detail.add_theme_font_size_override("normal_font_size", 16)
+	add_child(_detail)
+	var hint := Label.new()
+	hint.text = "L o Esc per chiudere · clic su una voce per leggerla"
+	hint.position = Vector2(120, 850)
+	hint.add_theme_color_override("font_color", Color("#6a8a84"))
+	add_child(hint)
+
+
+func toggle() -> void:
+	visible = not visible
+	if visible:
+		_refresh()
+
+
+func _unhandled_input(e: InputEvent) -> void:
+	if e is InputEventKey and e.pressed and not e.echo:
+		if e.keycode == KEY_L and not m.hud.panel.visible:
+			toggle()
+			get_viewport().set_input_as_handled()
+		elif e.keycode == KEY_ESCAPE and visible:
+			toggle()
+			get_viewport().set_input_as_handled()
+
+
+func _icon(id: String) -> Texture2D:
+	match section:
+		"creature":
+			if not _creature_tex.has(id):
+				var art: Array = CreaturesData.CREATURES[id]["art"]
+				var fr: Array = CreatureArt.frames(String(art[0]), int(art[1]))["frames"]
+				_creature_tex[id] = ImageTexture.create_from_image(fr[0])
+			return _creature_tex[id]
+		"oggetti":
+			return SlotView.icon(id)
+	return SlotView.icon("seme_mondo") if section == "pagine" else null
+
+
+## Cornice nello stile della Bisaccia (fondo scuro, bordo turchese, angoli tondi) per un bottone.
+static func _frame(b: Button, border: Color) -> void:
+	for state in ["normal", "hover", "pressed", "focus"]:
+		var sb := StyleBoxFlat.new()
+		sb.bg_color = Color(0.03, 0.08, 0.09) if state != "hover" else Color(0.06, 0.14, 0.15)
+		sb.border_color = border
+		sb.set_border_width_all(2)
+		sb.set_corner_radius_all(10)
+		sb.set_content_margin_all(6)
+		b.add_theme_stylebox_override(state, sb)
+
+
+func _refresh() -> void:
+	for k in _tabs.size():
+		_frame(_tabs[k], Color("#ffb84a") if ["creature", "oggetti", "pagine"][k] == section else Color("#2f7a70"))
+	_title.text = "Erbario — %d%% scoperto  (creature %d%% · oggetti %d%% · pagine %d%%)" % [roundi(erbario.percent()),
+		roundi(erbario.percent("creature")), roundi(erbario.percent("oggetti")), roundi(erbario.percent("pagine"))]
+	for c in _grid.get_children():
+		c.queue_free()
+	var list := Erbario.entries(section)
+	for k in list.size():
+		var id: String = list[k]
+		var known := erbario.known(section, id)
+		var cell := Button.new()
+		cell.position = Vector2((k % COLS) * (CELL + GAP), (k / COLS) * (CELL + GAP))
+		cell.size = Vector2(CELL, CELL)
+		cell.tooltip_text = Erbario.title_of(section, id) if known else "???"
+		if known:
+			cell.icon = _icon(id)
+			cell.expand_icon = true
+		else:
+			cell.text = "?"
+		_frame(cell, Color("#ffb84a") if id == selected else Color("#2f7a70"))
+		cell.add_theme_font_size_override("font_size", 22)
+		cell.modulate = Color.WHITE if known else Color(0.45, 0.5, 0.5)
+		cell.pressed.connect(func() -> void:
+			selected = id
+			_refresh())
+		_grid.add_child(cell)
+	_show_detail()
+
+
+func _show_detail() -> void:
+	if selected == "":
+		_detail.text = "[color=#6a8a84]Scegli una voce.[/color]"
+		return
+	if not erbario.known(section, selected):
+		_detail.text = "[color=#6a8a84]Non l'hai ancora scoperta.[/color]"
+		return
+	var t := "[font_size=24][color=#ffd08a]%s[/color][/font_size]\n\n" % Erbario.title_of(section, selected)
+	match section:
+		"creature":
+			var c: Dictionary = CreaturesData.CREATURES[selected]
+			var where := []
+			for s in c["strata"]:
+				where.append(String(StrataData.STRATA[s]["name"]))
+			t += "Vita %d · danno %d · difesa %d\n" % [int(c["hp"]), int(c["damage"]), int(c.get("defense", 0))]
+			t += "Dove vive: %s%s\n" % [", ".join(where) if not where.is_empty() else "attorno al Cuore del mondo",
+				" (solo di notte)" if c.get("night", false) else ""]
+			t += "Sconfitte: %d" % int(erbario.data["creature"][selected])
+		"oggetti":
+			var it := ItemsData.get_item(selected)
+			t += String(it.get("desc", "")) + "\n\n"
+			for f in [["damage", "Danno"], ["defense", "Scorza"], ["power", "Forza"], ["heal", "Cura"]]:
+				if it.has(f[0]):
+					t += "%s %s\n" % [f[1], it[f[0]]]
+		"pagine":
+			t += String(LoreData.PAGES[selected]["text"])
+	_detail.text = t

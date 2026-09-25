@@ -230,8 +230,13 @@ campanule d'ambra, scarabei d'ardesia in superficie). Passaggio morbido del terr
 bioma, scritta con il nome entrando. Bioma di ogni colonna salvato con il mondo; germogli e alberi crescono su tutte le
 erbe. Prove: colonne per bioma, visita e creature di paludi e ambra (foto 31_paludi, 32_ambra).
 
-## 14. [ ] Erbario (M)
+## 14. [x] Erbario (M) — fatto il 25 set 2026
 Il catalogo di ciò che si è scoperto (creature, oggetti, pagine di storia), con la percentuale di completamento.
+**Fatto il 25 set 2026**: tasto **L**. Tre schede: **Creature** (contano quelle sconfitte, con quante volte, Vita,
+danno, dove vivono), **Oggetti** (ogni oggetto entrato nella Bisaccia o indossato, con la descrizione) e **Pagine di
+storia** (quelle lette, rileggibili). Voci non scoperte con il punto di domanda; percentuale in alto, per sezione e
+totale; avviso «Erbario: nuova voce». Salvato con il personaggio, quindi vale in tutti i mondi. Prove: percentuali,
+foto 33_erbario, Erbario uguale dopo il salvataggio.
 
 **Roadmap 2 «Il mondo vivo»** (prevista): biomi di superficie e sotterranei (foresta-lanterna, paludi di spore, distese
 d'ambra, giardini di cristallo…), strutture e rovine dei Seminatori, l'Avvizzimento che si espande, e i **Semi che
