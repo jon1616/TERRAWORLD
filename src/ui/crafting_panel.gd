@@ -10,6 +10,7 @@ const TEAL := Color("#2f7a70")
 
 var bisaccia: Bisaccia
 var stations_near: Callable            # () -> Dictionary delle stazioni a portata
+var held_slot: Callable                # () -> casella dell'oggetto in mano (per rinnovarne il tratto al Maglio)
 var _list: VBoxContainer
 var _title: Label
 var _near_key := ""
@@ -79,12 +80,37 @@ func refresh() -> void:
 	var recipes := Crafting.available(near)
 	var ok := recipes.filter(func(r: Dictionary) -> bool: return Crafting.can_craft(r, bisaccia))
 	var no := recipes.filter(func(r: Dictionary) -> bool: return not Crafting.can_craft(r, bisaccia))
+	if near.has("maglio") and held_slot.is_valid():
+		_list.add_child(_reforge_row(int(held_slot.call())))
 	for r in ok + no:
 		_list.add_child(_row(r, Crafting.can_craft(r, bisaccia)))
 	if recipes.is_empty():
 		var l := Label.new()
 		l.text = "Nulla da creare qui."
 		_list.add_child(l)
+
+
+## La riga del Maglio: rinnova il tratto dell'oggetto in mano, per un po' di polvere di brace.
+func _reforge_row(i: int) -> Button:
+	var id := bisaccia.id_at(i)
+	var cost := ""
+	var can := id != "" and Bisaccia.is_gear(id)
+	for k in TraitsData.REFORGE_COST:
+		cost += "%d %s" % [TraitsData.REFORGE_COST[k], ItemsData.get_item(k)["name"]]
+		can = can and bisaccia.count(k) >= int(TraitsData.REFORGE_COST[k])
+	var r := {"out": id if id != "" else "maglio", "qty": 1}
+	var b := _row(r, can)
+	b.text = "Rinnova il tratto: %s" % (TraitsData.full_name(id, bisaccia.trait_at(i)) if Bisaccia.is_gear(id) else "(prendi in mano un'arma o un'armatura)")
+	b.tooltip_text = "Al Maglio dei Seminatori: un tratto nuovo, sempre diverso dal vecchio.
+Costa %s." % cost
+	for c in b.pressed.get_connections():
+		b.pressed.disconnect(c["callable"])
+	b.pressed.connect(func() -> void:
+		var t := Crafting.reforge(bisaccia, i)
+		if t != "":
+			crafted.emit(id, 1)
+		refresh())
+	return b
 
 
 func _row(r: Dictionary, can: bool) -> Button:

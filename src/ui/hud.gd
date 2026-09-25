@@ -28,6 +28,10 @@ func _ready() -> void:
 	panel.stations_near = stations_near
 	panel.visible = false
 	add_child(panel)
+	panel.crafting.held_slot = func() -> int: return sel
+	selected.connect(func(_it: Dictionary) -> void:
+		if panel.visible:
+			panel.crafting.refresh())
 	var n := Bisaccia.HOTBAR
 	var x0 := (1600 - (n * SlotView.SIZE + (n - 1) * 6)) / 2.0
 	for k in n:
@@ -46,7 +50,8 @@ func _ready() -> void:
 	_name.add_theme_color_override("font_color", AMBER)
 	_info = _label(self, Vector2(16, 10), 14)
 	_info.add_theme_color_override("font_color", Color("#9fc8c0"))
-	_info.text = "A/D muovi · Spazio salta · clic sinistro usa (scava, abbatti, colpisci, tira, piazza) · clic destro torcia o tocca (Cuore, portale) · 1-0 / rotella oggetti · E Bisaccia · M mappa · L Erbario · Esc salva ed esce\nTutto ciò che vedi è generato dal codice: nessuna immagine esterna."
+	_info.text = "A/D muovi · Spazio salta · S scendi dalle passerelle · clic sinistro usa · clic destro torcia o tocca (ceste, Cuore, portali)
+1-0 / rotella oggetti · E Bisaccia · M mappa · L Erbario · Esc salva ed esce"
 	_toast = _label(self, Vector2(1200, 12), 18)
 	_toast.size = Vector2(380, 30)
 	_toast.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
@@ -79,8 +84,10 @@ func toast(text: String) -> void:
 func current() -> Dictionary:
 	var id := bisaccia.id_at(sel)
 	if id == "":
-		return {"id": "", "name": "", "use": "", "tex": null}
-	return {"id": id, "name": ItemsData.get_item(id)["name"], "use": ItemsData.use_of(id), "tex": SlotView.icon(id)}
+		return {"id": "", "name": "", "use": "", "tex": null, "tratto": ""}
+	var tr := bisaccia.trait_at(sel)
+	return {"id": id, "name": TraitsData.full_name(id, tr), "use": ItemsData.use_of(id), "tex": SlotView.icon(id),
+		"tratto": tr}
 
 
 func select(k: int) -> void:
@@ -102,7 +109,7 @@ func is_open() -> bool:
 
 func _refresh() -> void:
 	for i in _slots.size():
-		_slots[i].set_item(bisaccia.id_at(i), bisaccia.count_at(i))
+		_slots[i].set_item(bisaccia.id_at(i), bisaccia.count_at(i), bisaccia.trait_at(i))
 	_update_name()
 	selected.emit(current())
 

@@ -40,6 +40,23 @@ static func craft(r: Dictionary, b: Bisaccia) -> bool:
 	return true
 
 
+## Rinnova il tratto dell'oggetto nella casella i (al Maglio): costa `TraitsData.REFORGE_COST`, il tratto nuovo è
+## sempre diverso dal vecchio. Restituisce il tratto nuovo, o "" se non si può.
+static func reforge(b: Bisaccia, i: int) -> String:
+	var id := b.id_at(i)
+	if id == "" or not Bisaccia.is_gear(id):
+		return ""
+	for k in TraitsData.REFORGE_COST:
+		if b.count(k) < int(TraitsData.REFORGE_COST[k]):
+			return ""
+	for k in TraitsData.REFORGE_COST:
+		b.remove(k, int(TraitsData.REFORGE_COST[k]))
+	var t := TraitsData.roll(id, null, b.trait_at(i) if b.trait_at(i) != "" else "-")
+	b.slots[i]["tratto"] = t
+	b.changed.emit()
+	return t
+
+
 ## «Serve: 10 Legno di lanterna, 1 Gelatina di muschio — al Ceppo del Giardiniere»
 static func describe(r: Dictionary, b: Bisaccia) -> String:
 	var parts := []

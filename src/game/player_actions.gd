@@ -173,6 +173,7 @@ func _dig(c: Vector2i, item: Dictionary, dt: float) -> float:
 	_t += dt
 	# più forza = più veloce (la radicite, forza 35, è il riferimento di TileDefs.HARD)
 	var hard: float = float(TileDefs.HARD[t]) * 35.0 / float(maxi(power, 1))
+	hard /= TraitsData.effect(String(item.get("tratto", "")), "dig")
 	if _t >= hard:
 		break_tile(c)
 		_t = 0.0
@@ -224,6 +225,7 @@ func _chop(c: Vector2i, item: Dictionary, dt: float) -> void:
 	_chop_t = 0.32
 	var base := Vector2i(t.x, t.y)
 	var power := int(ItemsData.get_item(item["id"]).get("power", 0))
+	power = roundi(power * TraitsData.effect(String(item.get("tratto", "")), "dig"))
 	var hp: int = _tree_hp.get(base, FloraData.TREE_HP) - power
 	var hit_at := fx_parent.get_global_mouse_position()
 	Fx.dust(fx_parent, hit_at, Px.pal(["#241624", "#362234", "#4c3246", "#62c4a4"]))

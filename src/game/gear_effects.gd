@@ -34,6 +34,9 @@ func refresh() -> void:
 		safe = safe or bool(acc.get("fall_safe", false))
 		halo *= float(acc.get("halo", 1.0))
 		regen *= float(acc.get("regen", 1.0))
+		var tr := String(b.equip_traits.get(slot, ""))
+		run *= TraitsData.effect(tr, "run")
+		halo *= TraitsData.effect(tr, "halo")
 	m.player.run_mult = run
 	m.player.jump_mult = jump
 	m.player.glide = glide

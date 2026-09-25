@@ -115,7 +115,7 @@ func run_and_save() -> void:
 	var same: bool = l != null and l.tiles == world.tiles and l.walls == world.walls and l.decor == world.decor and l.torches.size() == world.torches.size() 			and l.chests_key() == world.chests_key() and l.stations == world.stations and l.explored == world.explored
 	print("salvataggio dal gioco %d ms, ricaricamento %d ms: %s" % [t_save, t_load, "identico" if same else "DIVERSO"])
 	var saved := Character.load_id(kit.m.character.id)
-	var bis_ok: bool = saved != null and saved.bisaccia.to_array() == kit.m.character.bisaccia.to_array()
+	var bis_ok: bool = saved != null and saved.bisaccia.to_array() == kit.m.character.bisaccia.to_array() 			and saved.bisaccia.equip == kit.m.character.bisaccia.equip 			and saved.bisaccia.equip_traits == kit.m.character.bisaccia.equip_traits
 	print("Bisaccia salvata e ricaricata: %s" % ("identica" if bis_ok else "DIVERSA"))
 
 

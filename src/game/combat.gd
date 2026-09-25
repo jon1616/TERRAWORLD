@@ -61,16 +61,17 @@ func _process(dt: float) -> void:
 	var use: String = item["use"]
 	var active: bool = m.actions.enabled and not m.hud.is_open()
 	# il ritmo del gesto: le armi secondo la loro velocità, gli attrezzi da scavo sempre uguali
-	var spd := float(it.get("speed", 0.0))
+	var tr := String(item.get("tratto", ""))
+	var spd := float(it.get("speed", 0.0)) * TraitsData.effect(tr, "speed")
 	player.swing_period = 1.0 / spd if use == "colpo" and spd > 0.0 else DIG_PERIOD
-	_melee(it, use)
-	_bow(it, use, active, dt)
+	_melee(it, use, tr)
+	_bow(it, use, active, dt, tr)
 
 
 ## Colpi in mischia: ogni giro dell'attrezzo colpisce una volta ogni creatura nell'area davanti.
-func _melee(it: Dictionary, use: String) -> void:
+func _melee(it: Dictionary, use: String, tr := "") -> void:
 	var sw: bool = player.swinging or player.force_swing
-	var dmg := int(it.get("damage", 0))
+	var dmg := roundi(int(it.get("damage", 0)) * TraitsData.effect(tr, "damage"))
 	if not sw or dmg <= 0 or not use in ["colpo", "scava", "abbatti"]:
 		_cycle = -1
 		return
@@ -87,11 +88,11 @@ func _melee(it: Dictionary, use: String) -> void:
 	for c in fauna.list.duplicate():
 		if not _hit_set.has(c) and area.intersects(c.rect()):
 			_hit_set[c] = true
-			_strike(c, dmg, player.position.x, float(it.get("knockback", 1.5)) / 3.0)
+			_strike(c, dmg, player.position.x, float(it.get("knockback", 1.5)) * TraitsData.effect(tr, "knock") / 3.0)
 
 
 ## Arco: tenendo premuto tira un dardo a ogni giro (secondo la velocità dell'arco), finché ci sono dardi.
-func _bow(it: Dictionary, use: String, active: bool, dt: float) -> void:
+func _bow(it: Dictionary, use: String, active: bool, dt: float, tr := "") -> void:
 	_bow_t = maxf(_bow_t - dt, 0.0)
 	var aiming := use == "tira" and (auto_fire or (active and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)))
 	if not aiming:
@@ -113,14 +114,15 @@ func _bow(it: Dictionary, use: String, active: bool, dt: float) -> void:
 		m.hud.toast("Niente dardi")
 		_bow_t = 1.0
 		return
-	_bow_t = 1.0 / float(it.get("speed", 1.5))
+	_bow_t = 1.0 / (float(it.get("speed", 1.5)) * TraitsData.effect(tr, "speed"))
 	bisaccia.remove(ammo, 1)
-	var dmg := int(it.get("damage", 0)) + int(ItemsData.get_item(ammo).get("damage", 0))
+	var dmg := roundi(int(it.get("damage", 0)) * TraitsData.effect(tr, "damage")) + int(ItemsData.get_item(ammo).get("damage", 0))
 	# un po' di anticipo sulla caduta, così il dardo va dove si mira anche lontano
 	var flight := d.length() / DART_SPEED
 	var v := d.normalized() * DART_SPEED
 	v.y -= 0.5 * DART_GRAV * minf(flight, 0.8)
-	shots.fire(from + d.normalized() * 8.0, v, DART_GRAV, dmg, true, float(it.get("knockback", 1.0)) / 3.0)
+	shots.fire(from + d.normalized() * 8.0, v, DART_GRAV, dmg, true,
+			float(it.get("knockback", 1.0)) * TraitsData.effect(tr, "knock") / 3.0)
 
 
 func _strike(c: Creature, dmg: int, from_x: float, force: float) -> void:

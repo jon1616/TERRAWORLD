@@ -24,6 +24,7 @@ func to_dict() -> Dictionary:
 	return {"formato": FORMAT, "nome": name, "creato": created, "ultimo_salvataggio": last_save,
 		"tempo_di_gioco": play_time, "barra": hotbar, "ultimo_mondo": last_world,
 		"bisaccia": bisaccia.to_array() if bisaccia else [], "equipaggiamento": bisaccia.equip if bisaccia else {},
+		"tratti_equip": bisaccia.equip_traits if bisaccia else {},
 		"vita": hp, "linfa": linfa, "vita_extra": vita_extra, "guardiani_curati": guardiani_curati,
 		"erbario": erbario}
 
@@ -43,6 +44,10 @@ static func from_dict(cid: String, d: Dictionary) -> Character:
 	for k in eq:
 		if k in Bisaccia.EQUIP_SLOTS and ItemsData.has(String(eq[k])):
 			c.bisaccia.equip[k] = String(eq[k])
+	var et: Dictionary = d.get("tratti_equip", {})
+	for k in et:
+		if c.bisaccia.equip.has(k) and TraitsData.TRAITS.has(String(et[k])):
+			c.bisaccia.equip_traits[k] = String(et[k])
 	c.vita_extra = int(d.get("vita_extra", 0))
 	c.guardiani_curati = d.get("guardiani_curati", [])
 	# il JSON rilegge i numeri come decimali: nell'Erbario sono conteggi interi

@@ -27,6 +27,7 @@ func run(main: Node2D) -> void:
 	var mp := TestsMap.new(kit)
 	var bi := TestsBiomes.new(kit)
 	var eb := TestsErbario.new(kit)
+	var tt := TestsTraits.new(kit)
 	await w.places()
 	await p.trees()
 	await p.crafting()
@@ -40,6 +41,7 @@ func run(main: Node2D) -> void:
 	await bi.run()
 	await mp.run()
 	await eb.run()
+	await tt.run()
 	await w.run_and_save()
 	# la Bisaccia aperta
 	main.hud.panel.toggle()

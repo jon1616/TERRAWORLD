@@ -238,6 +238,16 @@ storia** (quelle lette, rileggibili). Voci non scoperte con il punto di domanda;
 totale; avviso «Erbario: nuova voce». Salvato con il personaggio, quindi vale in tutti i mondi. Prove: percentuali,
 foto 33_erbario, Erbario uguale dopo il salvataggio.
 
+## 15. [x] Tratti dell'equipaggiamento (M) — fatto il 25 set 2026
+Aggiunta dai cicli autonomi per l'«equipaggiamento profondo» chiesto dall'utente: ogni arma, attrezzo, armatura e
+accessorio nasce con un **tratto** a caso o nessuno (`TraitsData`): Spina (+15% danno), Vento (+12% velocità), Radice
+profonda (+40% spinta), Linfa viva, Tenacia (+25% scavo e taglio), Seccume e Crepa (peggiori); per le armature
+Corteccia, Muschio fitto (+1/+2 Scorza), Piuma (+5% corsa), Tarlo; per gli accessori Fiore, Brezza, Lucciola. Il nome
+mostra il tratto («Spada di legnoferro [Spina]»), il suggerimento dice l'effetto, le caselle hanno una stellina. Al
+**Maglio** una riga «Rinnova il tratto» cambia il tratto dell'oggetto in mano per 3 Polvere di brace (sempre diverso).
+Tratti salvati nella Bisaccia, nell'equipaggiamento indossato e nelle ceste; il corredo iniziale non ne ha. Prove:
+distribuzione, effetto sul danno, Scorza e corsa indossando, rinnovo, salvataggio.
+
 **Roadmap 2 «Il mondo vivo»** (prevista): biomi di superficie e sotterranei (foresta-lanterna, paludi di spore, distese
 d'ambra, giardini di cristallo…), strutture e rovine dei Seminatori, l'Avvizzimento che si espande, e i **Semi che
 decidono il mondo** (specie = quali biomi, vigore = difficoltà, tratti = particolarità). Poi: mondi a portale veri,

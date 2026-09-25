@@ -110,7 +110,7 @@ func toggle() -> void:
 		crafting.refresh()
 	if not visible and not held.is_empty():
 		# richiudendo, ciò che è in mano torna nella Bisaccia
-		bisaccia.add(held["id"], held["n"])
+		bisaccia.add_stack(held)
 		held = {}
 		_refresh()
 
@@ -135,14 +135,14 @@ func refresh_held() -> void:
 
 func _refresh() -> void:
 	for s in _slots:
-		s.set_item(bisaccia.id_at(s.index), bisaccia.count_at(s.index))
+		s.set_item(bisaccia.id_at(s.index), bisaccia.count_at(s.index), bisaccia.trait_at(s.index))
 	for slot in _equip:
-		(_equip[slot] as SlotView).set_item(String(bisaccia.equip.get(slot, "")), 1)
+		(_equip[slot] as SlotView).set_item(String(bisaccia.equip.get(slot, "")), 1, String(bisaccia.equip_traits.get(slot, "")))
 	if _scorza:
 		_scorza.text = "Scorza %d" % bisaccia.scorza()
 	_held_icon.visible = not held.is_empty()
 	if not held.is_empty():
-		_held_icon.set_item(held["id"], held["n"])
+		_held_icon.set_item(held["id"], held["n"], String(held.get("tratto", "")))
 
 
 func _process(_dt: float) -> void:

@@ -86,8 +86,11 @@ func take_all() -> void:
 	for i in chest.slots.size():
 		if chest.slots[i].is_empty():
 			continue
-		var rest := panel.bisaccia.add(chest.id_at(i), chest.count_at(i))
-		chest.slots[i] = {} if rest <= 0 else {"id": chest.id_at(i), "n": rest}
+		var rest := panel.bisaccia.add_stack(chest.slots[i])
+		if rest <= 0:
+			chest.slots[i] = {}
+		else:
+			chest.slots[i]["n"] = rest
 	chest.changed.emit()
 
 
@@ -96,8 +99,11 @@ func _from_bag(i: int) -> void:
 	var b := panel.bisaccia
 	if b.slots[i].is_empty():
 		return
-	var rest := chest.add(b.id_at(i), b.count_at(i))
-	b.slots[i] = {} if rest <= 0 else {"id": b.id_at(i), "n": rest}
+	var rest := chest.add_stack(b.slots[i])
+	if rest <= 0:
+		b.slots[i] = {}
+	else:
+		b.slots[i]["n"] = rest
 	b.changed.emit()
 
 
@@ -106,8 +112,11 @@ func _click(i: int, button: int) -> void:
 		return
 	if button == MOUSE_BUTTON_LEFT and Input.is_key_pressed(KEY_SHIFT):
 		if not chest.slots[i].is_empty():
-			var rest := panel.bisaccia.add(chest.id_at(i), chest.count_at(i))
-			chest.slots[i] = {} if rest <= 0 else {"id": chest.id_at(i), "n": rest}
+			var rest := panel.bisaccia.add_stack(chest.slots[i])
+			if rest <= 0:
+				chest.slots[i] = {}
+			else:
+				chest.slots[i]["n"] = rest
 			chest.changed.emit()
 	elif button == MOUSE_BUTTON_RIGHT and panel.held.is_empty() and chest.count_at(i) > 1:
 		var half := chest.count_at(i) / 2
@@ -125,7 +134,7 @@ func _refresh() -> void:
 	for s in _slots:
 		s.visible = s.index < chest.slots.size()
 		if s.visible:
-			s.set_item(chest.id_at(s.index), chest.count_at(s.index))
+			s.set_item(chest.id_at(s.index), chest.count_at(s.index), chest.trait_at(s.index))
 
 
 func _process(_dt: float) -> void:

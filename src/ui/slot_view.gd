@@ -48,10 +48,14 @@ func _init() -> void:
 	_restyle()
 
 
-func set_item(id: String, n: int) -> void:
+func set_item(id: String, n: int, tratto := "") -> void:
 	_icon.texture = icon(id) if id != "" else null
 	_count.text = str(n) if n > 1 else ""
-	tooltip_text = String(ItemsData.get_item(id).get("name", "")) if id != "" else ""
+	tooltip_text = TraitsData.tooltip(id, tratto) if id != "" else ""
+	# un filo dorato sotto l'icona se c'è un tratto
+	_count.add_theme_color_override("font_color", Color("#ffd08a") if tratto != "" else Color.WHITE)
+	if tratto != "" and n <= 1:
+		_count.text = "✦"
 
 
 func set_selected(on: bool) -> void:
