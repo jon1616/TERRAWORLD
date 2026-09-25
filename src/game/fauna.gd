@@ -84,6 +84,13 @@ func kill(c: Creature) -> void:
 		rolls = int(AncientData.RARITIES[c.ancient.rarity]["loot_rolls"])
 	if _rng.randf() < (luck + boon_luck) * 0.5:
 		rolls += 1
+	# i Lumini (voce 36): quanti secondo quanto era forte, di più per le rare e i boss
+	var lum := maxi(1, roundi(c.hp_max / 18.0))
+	if c.ancient:
+		lum *= {"antica": 3, "ancestrale": 10, "capobranco": 3, "iridata": 8}[c.ancient.rarity]
+	if c.boss:
+		lum = maxi(lum, roundi(c.hp_max / 6.0))
+	drops.spawn("lumino", lum, c.position + Vector2(_rng.randf_range(-6, 6), -4))
 	for r in rolls:
 		var loot := LootData.roll(String(c.data["loot"]), _rng)
 		for id in loot:

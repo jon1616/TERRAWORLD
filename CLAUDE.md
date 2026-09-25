@@ -224,6 +224,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 - `src/game/masonry.gd` (`Masonry`) — costruire: `place_wall`/`remove_wall` (Martello), porte (`toggle_door`,
   tessere `PORTA` quando è chiusa; `Building` le mette e le toglie piazzando e riprendendo), letto (`use_bed`,
   `respawn_point` usato da `Life`). Arredi e porte disegnati in `FurnitureArt`.
+- `src/game/villagers.gd` (`Villagers`) — gli abitanti: `check` (arrivi: Focolare, letti liberi, condizioni di
+  `NpcData`), `npc_at`, `open_trade`; `Npc` in `src/entities/` (passeggia, si gira verso il giocatore), `NpcArt`,
+  `TradePanel` in `src/ui/`. Prezzi e valori in `ValueData` (`value`, `sell_price`, `buy_price`).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

@@ -372,6 +372,23 @@ static func draw(shape: String, im: Image, p: Array[Color]) -> bool:
 				Px.disc(im, 4.0 + k * 3.0, 9.0, 2.2, p[2 + k % 2])
 			Px.line(im, Vector2(2.0, 12.0), Vector2(2.0, 14.0), 1, w9[2])
 			Px.line(im, Vector2(13.0, 12.0), Vector2(13.0, 14.0), 1, w9[2])
+		"lumino":
+			# una goccia di luce solida con il suo alone
+			Px.disc(im, 8.0, 9.0, 5.0, Color(p[1].r, p[1].g, p[1].b, 0.4))
+			for y in range(3, 14):
+				var t2 := (y - 3.0) / 10.0
+				var hw4 := 3.8 * sqrt(t2) * (1.0 - maxf(t2 - 0.7, 0.0) * 2.5)
+				for x in S:
+					if absf(x + 0.5 - 8.0) <= hw4:
+						Px.put(im, x, y, p[p.size() - 1] if x < 8 else p[2])
+			Px.put(im, 7, 8, Color.WHITE)
+		"focolare":
+			var st2 := ItemIcons.pal("ardesia")
+			for k in 4:
+				Px.disc(im, 3.0 + k * 3.3, 13.0, 1.8, st2[2])
+			Px.disc(im, 8.0, 9.0, 3.2, p[2])
+			Px.disc(im, 8.0, 8.0, 1.8, p[p.size() - 1])
+			Px.put(im, 8, 4, p[2])
 		_:
 			return false
 	return true

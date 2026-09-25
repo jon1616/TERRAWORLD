@@ -16,7 +16,8 @@ func run(main: Node2D) -> void:
 	main.objectives.paused = true
 	main.blight.paused = true
 	main.hazards.paused = true
-	main.events.paused = true              # niente eventi a caso sotto le misure             # l'Avvizzimento non si allarga sotto le misure delle altre prove
+	main.events.paused = true              # niente eventi a caso sotto le misure
+	main.villagers.paused = true           # gli abitanti arrivano solo quando lo chiede la prova             # l'Avvizzimento non si allarga sotto le misure delle altre prove
 	var kit := TestKit.new(self, main)
 	if "--prova-portale" in OS.get_cmdline_user_args():
 		await TestsPortalTrip.new(kit).run()
@@ -77,6 +78,7 @@ func run(main: Node2D) -> void:
 	await TestsGarden.new(kit).run()
 	await TestsEvents.new(kit).run()
 	await TestsBuilding.new(kit).run()
+	await TestsVillagers.new(kit).run()
 	await ob.run()
 	await w.run_and_save()
 	# la Bisaccia aperta
@@ -144,6 +146,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsEvents.new(kit).run()
 		"casa":
 			await TestsBuilding.new(kit).run()
+		"abitanti":
+			await TestsVillagers.new(kit).run()
 		"antiche":
 			await TestsAncient.new(kit).run()
 		"pericoli":

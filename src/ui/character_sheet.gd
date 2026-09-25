@@ -46,8 +46,9 @@ static func bbcode(m: Node2D) -> String:
 	var st: Dictionary = m.character.stats
 	var gifts := int(st.get("doni_cuore_bocciolo", 0))
 	var drops := int(st.get("doni_stilla_perenne", 0))
-	t += "[color=#6a8a84]Cuori di bocciolo %d/15 · Stille perenni %d/10 · Erbario %d%%[/color]" % [gifts, drops,
+	t += "[color=#6a8a84]Cuori di bocciolo %d/15 · Stille perenni %d/10 · Erbario %d%%[/color]\n" % [gifts, drops,
 		roundi(m.erbario.percent())]
+	t += "[color=#ffd08a]Lumini %d[/color]" % m.character.bisaccia.count("lumino")
 	return t
 
 

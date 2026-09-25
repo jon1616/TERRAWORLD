@@ -44,6 +44,8 @@ const RECIPES := [
 	{"out": "dardo_vuoto", "qty": 20, "in": {"scheggia_vuoto": 1, "legno": 1}, "station": "ceppo"},
 	{"out": "lanterna_linfa", "qty": 1, "in": {"cristallo_linfa": 5, "lingotto_ambra": 2}, "station": "maglio"},
 	{"out": "rugiada_linfa", "qty": 1, "in": {"cristallo_linfa": 2, "fungo_luminoso": 1, "pozione_rugiada": 1}, "station": "alambicco"},
+	# voce 36: abitanti e commercio
+	{"out": "focolare", "qty": 1, "in": {"ardesia": 12, "legno": 6, "torcia": 2}, "station": "ceppo"},
 	# voce 35: costruire
 	{"out": "assi_lanterna", "qty": 2, "in": {"legno": 1}, "station": "ceppo"},
 	{"out": "mattoni_ardesia", "qty": 2, "in": {"ardesia": 2}, "station": "baccello_ardente"},

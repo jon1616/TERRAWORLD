@@ -92,6 +92,9 @@ func _map_hint(id: String) -> bool:
 
 ## Clic destro su una cella: se c'è una stazione a portata, fa ciò che le spetta. True se ha fatto qualcosa.
 func touch(c: Vector2i) -> bool:
+	var npc: Npc = m.villagers.npc_at(Vector2(c) * S + Vector2(8, 8))
+	if npc != null:
+		return m.villagers.open_trade(npc)
 	if m.garden.harvest(c):
 		return true
 	var st: Dictionary = m.world.station_at(c)

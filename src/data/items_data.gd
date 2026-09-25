@@ -15,7 +15,9 @@ extends RefCounted
 ##          esplosivo (`blast`: {radius, power, damage, fuse}) · ricurvo (`throw`: {range, speed}; torna in mano) ·
 ##          giavellotto (si lancia e si consuma; `pierce`). Li lancia `Throwing`.
 ##          coltura (seme da giardino, `CropsData`) · annaffiatoio (dimezza il tempo di crescita di una coltura) ·
-##          parete (`wall`: la parete di fondo che piazza) · martello (toglie le pareti, tenendo premuto) (lo lasciano solo le creature rare, `TrophyItemsData`)
+##          parete (`wall`: la parete di fondo che piazza) · martello (toglie le pareti, tenendo premuto) ·
+##          moneta (i Lumini, vedi `ValueData`)
+##   value  valore in Lumini, se non va bene quello calcolato da `ValueData` (lo lasciano solo le creature rare, `TrophyItemsData`)
 ## Oggetti del bestiario della voce 22 in `BeastItemsData` (uniti qui in `all()`).
 ##   acc    effetti di un accessorio (vedi `GearEffects`): run (corsa ×), jump (salto ×), glide (planare tenendo
 ##          Spazio), fall_safe (niente ferite da caduta), halo (alone ×), regen (ricrescita della Vita ×),
@@ -209,6 +211,9 @@ const ITEMS := {
 	"tavolo_radice": {"name": "Tavolo di radice", "kind": "stazione", "icon": ["tavolo", "legno"], "place": "tavolo", "stack": 99, "desc": "Un tavolo, per una casa vera."},
 	"sedia_radice": {"name": "Sedia di radice", "kind": "stazione", "icon": ["sedia", "legno"], "place": "sedia", "stack": 99, "desc": "Una sedia accanto al tavolo."},
 	"letto_foglie": {"name": "Letto di foglie", "kind": "stazione", "icon": ["letto", "muschio"], "place": "letto", "stack": 99, "desc": "Clic destro: da ora rinasci qui invece che alla partenza del mondo."},
+	# voce 36: abitanti e commercio
+	"lumino": {"name": "Lumino", "kind": "moneta", "icon": ["lumino", "ambra"], "stack": 9999, "desc": "Una goccia di luce solida: la moneta degli abitanti. La lasciano le creature sconfitte e gli scrigni."},
+	"focolare": {"name": "Focolare del Giardino", "kind": "stazione", "icon": ["focolare", "brace"], "place": "focolare", "stack": 99, "desc": "Un fuoco acceso che si vede da lontano. Con un Letto di foglie libero lì vicino, un viandante si ferma ad abitare (uno per letto)."},
 	"seme_mondo": {"name": "Seme di mondo", "kind": "seme_mondo", "icon": ["seme", "cristallo"], "stack": 9, "desc": "Il Cuore del mondo ti ha donato un seme. Piantalo sul terreno: crescerà un portale verso un mondo nuovo."},
 }
 

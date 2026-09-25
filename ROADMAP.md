@@ -531,8 +531,18 @@ di lanterna** (luce calda), **Tavolo** e **Sedia di radice**, e il **Letto di fo
 rinasce lì invece che alla partenza (`world_meta["letti"]`). Prove `--solo=casa`: una casetta costruita come la farebbe
 il giocatore (foto 63_casa); `TestKit.flatten` ora abbatte anche gli alberi.
 
-## 36. [ ] Abitanti e commercio (L)
-Una moneta (i Lumini), viandanti che si fermano al Focolare, un mercante e altri abitanti con le loro merci.
+## 36. [x] Abitanti e commercio (L) — fatto il 26 set 2026
+Una moneta, i **Lumini**: cadono da ogni creatura sconfitta (quanti secondo la sua forza; ×3 le antiche e i
+capibranco, ×8 le iridate, ×10 le ancestrali, molti dai boss) e dagli scrigni delle rovine. Il valore di ogni oggetto
+lo calcola `ValueData` (materiali grezzi scritti, il resto dagli ingredienti della ricetta più un quarto). Il
+**Focolare del Giardino** (Ceppo) attira gli **abitanti** (`NpcData`, modulo `Villagers`): uno per ogni Letto di foglie
+libero entro 25 tessere, ognuno quando il mondo è pronto per lui: la **Viandante** (torce, pozioni, dardi, semi,
+baccelli, mappe, rampino, ceste), l'**Erborista** (dopo l'Alambicco: pozioni e semi rari) e il **Forgiatore** (dopo il
+primo Custode: lingotti, polvere di brace, baccelli tonanti, uncino di cristallo, dardi di vuotite). Passeggiano
+attorno al Focolare con il loro nome sopra e si girano verso il Germogliato; clic destro = il **commercio** (`TradePanel`,
+sopra la Bisaccia come le ceste): clic su una merce per comprarla (il doppio del valore), Maiusc+clic su una casella
+della Bisaccia o «Vendi ciò che hai in mano» per vendere (un terzo). Salvati con il mondo (`world_meta["abitanti"]`).
+Prove `--solo=abitanti` (foto 64_abitanti, 65_commercio).
 
 ## 37. [ ] Compagni (M)
 Un compagno di luce che segue il Germogliato, bastoni che richiamano creature alleate che combattono per lui.

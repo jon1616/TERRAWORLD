@@ -8,7 +8,7 @@ extends SceneTree
 const KINDS := ["materiale", "blocco", "piccone", "ascia", "spada", "arco", "munizione", "torcia", "stazione",
 	"piattaforma", "elmo", "corazza", "gambali", "consumabile", "seme", "lanterna", "cura", "seme_mondo", "accessorio",
 	"purifica", "essenza", "bastone", "dono", "specchio", "trofeo", "richiamo", "reliquia", "mappa", "rampino", "esplosivo", "ricurvo",
-	"giavellotto", "coltura", "annaffiatoio", "parete", "martello"]
+	"giavellotto", "coltura", "annaffiatoio", "parete", "martello", "moneta"]
 ## Forza di piccone oltre cui una tessera è voluta indistruttibile (i nodi avvizziti: si curano, non si scavano).
 const UNBREAKABLE := 999
 
@@ -93,6 +93,10 @@ func _init() -> void:
 			dropped[h] = true
 	for wd in CropsData.WILD:
 		dropped[wd[1]] = true
+	# abitanti (voce 36): le merci esistono e hanno un prezzo
+	for nid in NpcData.NPCS:
+		for g in NpcData.NPCS[nid]["goods"]:
+			_err(items.has(String(g[0])), "abitante %s: merce inesistente %s" % [nid, g[0]])
 	# trofei (voce 23): ogni creatura non Guardiano ne ha uno, esiste e serve a qualcosa
 	for cid in CreaturesData.CREATURES:
 		if not CreaturesData.CREATURES[cid].get("boss", false):

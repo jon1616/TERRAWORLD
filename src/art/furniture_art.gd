@@ -72,6 +72,21 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 						if d.length() <= 1.0:
 							Px.put(im, x, y, leaf[3] if d.y < 0.0 else leaf[2])
 			Px.disc(im, 7.0, h - 11.0, 3.0, Color("#d8944a"))
+		"focolare":
+			# un cerchio di pietre con il fuoco acceso e le braci
+			var st := Px.pal(TileDefs.P_STONE)
+			for k in 6:
+				Px.disc(im, 4.0 + k * 4.8, h - 3.0, 2.6, st[1 + k % 3])
+			var fire := Px.pal(["#9a2a1a", "#e0582a", "#ffb040", "#fff2a8"])
+			for y in range(8, h - 4):
+				var t := (y - 8.0) / (h - 12.0)
+				var hw := 1.0 + t * 7.0
+				for x in w:
+					var dx := absf(x + 0.5 - w / 2.0 + sin(y * 0.9) * 1.2)
+					if dx <= hw:
+						var c := fire[3] if dx < hw * 0.3 else (fire[2] if dx < hw * 0.6 else fire[1])
+						Px.put(im, x, y, c)
+						Px.put(gm, x, y, c)
 		_:
 			return false
 	return true
