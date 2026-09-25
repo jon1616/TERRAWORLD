@@ -107,6 +107,7 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   - `ItemIcons` — icone 16×16 nello stile (manici di radice fasciati di foglia, lame a foglia, lingotti a seme, perle
     d'ambra): `make(forma, materiale)` o `of(id)`; il materiale sceglie la tavolozza.
   - `StationArt` — Ceppo del Giardiniere, Baccello ardente (bocca di brace luminosa), Maglio dei Seminatori (rune).
+  - `BossArt` — i tre Guardiani (Nodo, Regina, Colosso), malati o guariti, chiamati da `CreatureArt.frames`.
   - `CharacterArt` (personaggio a pose, restituisce anche mano e occhio), `CreatureArt`, `NatureArt`
     (`tree_linfa` con parte luminosa, `root_arches`, `lantern_forest`, colline, torcia, sole).
 - `src/audio/` — `SfxSynth` (ricette di `SoundsData` → campioni PCM, limitatore, anelli senza cuciture per i
