@@ -45,6 +45,13 @@ func _init() -> void:
 	_check(c.save() == OK, "salvataggio personaggio")
 	var c2 := Character.load_id(c.id)
 	_check(c2 != null and c2.name == c.name and c2.hotbar == 4 and is_equal_approx(c2.play_time, 123.5), "personaggio identico")
+	# cancellare: il personaggio (con la sua copia di sicurezza) e il mondo spariscono dagli elenchi
+	c.save()
+	Character.delete(c.id)
+	var still := Character.list().any(func(x: Character) -> bool: return x.id == c.id)
+	_check(not still and not FileAccess.file_exists(SavePaths.characters_dir() + "/" + c.id + ".json.bak"), "personaggio cancellato")
+	WorldSave.delete(id)
+	_check(WorldSave.read_meta(id).is_empty() and not DirAccess.dir_exists_absolute(ProjectSettings.globalize_path(WorldSave.dir_of(id))), "mondo cancellato")
 	print("generazione %d ms · salvataggio %d ms · caricamento %d ms · file %.2f MB" % [t_gen, t_save, t_load, size / 1048576.0])
 	print("ESITO: %s" % ("tutto a posto" if errors == 0 else "%d errori" % errors))
 	quit()

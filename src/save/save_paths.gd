@@ -52,6 +52,26 @@ static func write_atomic(path: String, bytes: PackedByteArray) -> Error:
 	return DirAccess.rename_absolute(tmp, abs_path)
 
 
+## Cancella un file salvato insieme alla sua copia di sicurezza e all'eventuale temporaneo rimasto.
+static func delete_file(path: String) -> void:
+	var abs_path := ProjectSettings.globalize_path(path)
+	for p in [abs_path, abs_path + ".bak", abs_path + ".tmp"]:
+		if FileAccess.file_exists(p):
+			DirAccess.remove_absolute(p)
+
+
+## Cancella una cartella con tutto ciò che contiene.
+static func delete_dir(path: String) -> void:
+	var abs_path := ProjectSettings.globalize_path(path)
+	if not DirAccess.dir_exists_absolute(abs_path):
+		return
+	for f in DirAccess.get_files_at(abs_path):
+		DirAccess.remove_absolute(abs_path + "/" + f)
+	for d in DirAccess.get_directories_at(abs_path):
+		delete_dir(path + "/" + d)
+	DirAccess.remove_absolute(abs_path)
+
+
 ## Legge un file; se manca o è vuoto prova la copia di sicurezza.
 static func read(path: String) -> PackedByteArray:
 	var bytes := FileAccess.get_file_as_bytes(path)

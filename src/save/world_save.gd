@@ -111,6 +111,12 @@ static func _decode(bytes: PackedByteArray) -> World:
 	return w
 
 
+## Cancella per sempre un mondo (dal menu, dopo la conferma). I portali di altri mondi che portavano qui, al prossimo
+## passaggio, faranno nascere di nuovo il mondo dal suo seme (vedi `Portal`).
+static func delete(id: String) -> void:
+	SavePaths.delete_dir(dir_of(id))
+
+
 static func read_meta(id: String) -> Dictionary:
 	return SavePaths.read_json(dir_of(id) + "/mondo.json")
 

@@ -86,6 +86,11 @@ func save() -> Error:
 	return SavePaths.write_json(SavePaths.characters_dir() + "/" + id + ".json", to_dict())
 
 
+## Cancella per sempre un personaggio (dal menu, dopo la conferma).
+static func delete(cid: String) -> void:
+	SavePaths.delete_file(SavePaths.characters_dir() + "/" + cid + ".json")
+
+
 static func load_id(cid: String) -> Character:
 	var d := SavePaths.read_json(SavePaths.characters_dir() + "/" + cid + ".json")
 	return null if d.is_empty() else from_dict(cid, d)

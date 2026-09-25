@@ -454,3 +454,10 @@ primo Custode (poi due, poi tutti e quattro), Telaio e Mola, la pallidite, il pr
 tizzonite, cinque Cuori di bocciolo, la prima iridata, la prima collezione di reliquie (poi tutte e tre), un oggetto
 iridato. Condizioni nuove: `set`, `collezione`, `any`; conteggio nuovo `oggetti_trofeo`. Ricompense legate al
 traguardo (pozioni dell'esca e di fortuna, mappe dei Seminatori, Cuori di bocciolo, Stille perenni…).
+
+## Extra. [x] Eliminare personaggi e mondi — fatto il 25 set 2026
+Richiesta dell'utente. Nel menu, accanto a ogni personaggio e a ogni mondo, un bottone rosso **Elimina** che porta a
+una conferma («Sei sicuro?»): il primo bottone, con il fuoco, è «No, torna indietro», così Invio non cancella nulla.
+Si cancellano anche le copie di sicurezza (`SavePaths.delete_file`/`delete_dir`, `Character.delete`,
+`WorldSave.delete`); un portale che portava a un mondo cancellato lo farà rinascere dal suo seme. Provato in
+`prova_salvataggi.gd` (personaggio e mondo spariscono dagli elenchi) e nelle foto del menu (menu_mondi, menu_conferma).

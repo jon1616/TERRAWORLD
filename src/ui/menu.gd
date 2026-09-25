@@ -7,6 +7,7 @@ const GOLD := Color("#ffb84a")
 const TEXT := Color("#eafff6")
 const DIM := Color("#9fc8c0")
 const TEAL := Color("#2f7a70")
+const DANGER := Color("#ff6a5a")       # il rosso dei bottoni che cancellano
 
 var _box: VBoxContainer
 var _title: Label
@@ -51,7 +52,10 @@ func _ready() -> void:
 ## Foto delle schermate del menu in prove/ (menu_titolo, menu_personaggi, menu_mondi), poi esce.
 func _photos() -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path("res://prove"))
-	var shots := [["menu_titolo", _show_title], ["menu_personaggi", _show_characters], ["menu_nuovo_mondo", _show_new_world], ["menu_impostazioni", _show_settings]]
+	var shots := [["menu_titolo", _show_title], ["menu_personaggi", _show_characters], ["menu_nuovo_mondo", _show_new_world], ["menu_impostazioni", _show_settings],
+		["menu_mondi", _show_worlds], ["menu_conferma", func() -> void:
+			_confirm("Eliminare per sempre il mondo «Esempio»?\nTutto ciò che hai costruito e scavato lì andrà perso.\nI personaggi restano.",
+				_show_title, _show_title)]]
 	if Session.character == null:
 		Session.character = Character.create("Esempio")
 	for s in shots:
@@ -115,9 +119,15 @@ func _show_characters() -> void:
 	if list.is_empty():
 		_note("Nessun personaggio: creane uno.")
 	for c in list:
-		_button("%s   ·   %s di gioco" % [c.name, _hours(c.play_time)], func() -> void:
+		var b := _button("%s   ·   %s di gioco" % [c.name, _hours(c.play_time)], func() -> void:
 			Session.character = c
 			_show_worlds())
+		_with_delete(b, func() -> void:
+			_confirm("Eliminare per sempre il personaggio «%s»?\nLa sua Bisaccia, l'Erbario e i progressi andranno persi." % c.name,
+				func() -> void:
+					Character.delete(c.id)
+					_show_characters(),
+				_show_characters))
 	_button("＋ Nuovo personaggio", _show_new_character, GOLD)
 	_button("Indietro", _show_title, DIM)
 
@@ -147,9 +157,16 @@ func _show_worlds() -> void:
 	for m in list:
 		var id: String = m["id"]
 		var vig := int(m.get("vigore", 1))
-		_button("%s   ·   %sseme %s   ·   %s di gioco" % [m.get("nome", id), ("vigore %d   ·   " % vig) if vig > 1 else "", m.get("seme", "?"), _hours(float(m.get("tempo_di_gioco", 0.0)))], func() -> void:
+		var b := _button("%s   ·   %sseme %s   ·   %s di gioco" % [m.get("nome", id), ("vigore %d   ·   " % vig) if vig > 1 else "", m.get("seme", "?"), _hours(float(m.get("tempo_di_gioco", 0.0)))], func() -> void:
 			Session.start_saved_world(id)
 			get_tree().change_scene_to_file(GAME_SCENE))
+		var wname := String(m.get("nome", id))
+		_with_delete(b, func() -> void:
+			_confirm("Eliminare per sempre il mondo «%s»?\nTutto ciò che hai costruito e scavato lì andrà perso.\nI personaggi restano." % wname,
+				func() -> void:
+					WorldSave.delete(id)
+					_show_worlds(),
+				_show_worlds))
 	_button("＋ Nuovo mondo", _show_new_world, GOLD)
 	_button("Indietro", _show_characters, DIM)
 
@@ -169,6 +186,44 @@ func _show_new_world() -> void:
 		get_tree().change_scene_to_file(GAME_SCENE), GOLD)
 	_button("Indietro", _show_worlds, DIM)
 	name_edit.grab_focus()
+
+
+## Mette accanto a un bottone della lista un piccolo «Elimina» (rosso), che chiede sempre conferma.
+func _with_delete(b: Button, on_delete: Callable) -> void:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
+	var i := b.get_index()
+	_box.remove_child(b)
+	b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(b)
+	var d := Button.new()
+	d.text = "Elimina"
+	d.tooltip_text = "Elimina per sempre (chiede conferma)"
+	d.custom_minimum_size = Vector2(110, 46)
+	d.add_theme_font_size_override("font_size", 16)
+	d.add_theme_color_override("font_color", DANGER)
+	d.add_theme_color_override("font_hover_color", Color("#ffb0a0"))
+	d.add_theme_stylebox_override("normal", _style(Color(0.1, 0.04, 0.04, 0.9), DANGER.darkened(0.3), 20))
+	d.add_theme_stylebox_override("hover", _style(Color(0.2, 0.06, 0.05, 0.95), DANGER, 20))
+	d.add_theme_stylebox_override("pressed", _style(Color(0.28, 0.08, 0.06, 1.0), DANGER, 20))
+	d.add_theme_stylebox_override("focus", _style(Color(0, 0, 0, 0), DANGER, 20))
+	d.pressed.connect(on_delete)
+	row.add_child(d)
+	_box.add_child(row)
+	_box.move_child(row, i)
+
+
+## La conferma prima di cancellare: la domanda e due bottoni. «No» è il primo (e ha il fuoco): Invio non cancella.
+func _confirm(question: String, on_yes: Callable, on_no: Callable) -> void:
+	_clear()
+	_heading("Sei sicuro?")
+	var l := _label(question, 20, TEXT)
+	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_box.add_child(l)
+	var no := _button("No, torna indietro", on_no, GOLD)
+	_button("Sì, elimina per sempre", on_yes, DANGER)
+	no.grab_focus.call_deferred()
 
 
 # ---------------------------------------------------------------- mattoni dell'interfaccia
