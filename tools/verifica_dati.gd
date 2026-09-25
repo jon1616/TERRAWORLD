@@ -104,6 +104,12 @@ func _init() -> void:
 		_warn(not RecipesData.using(tid).is_empty(), "il trofeo %s non serve a nessuna ricetta" % tid)
 		dropped[tid] = true
 	dropped["polvere_iridata"] = true
+	dropped["stellina"] = true                  # cade dal cielo durante la Pioggia di stelle (voce 34)
+	for k in EventsData.EVENTS:
+		var ev: Dictionary = EventsData.EVENTS[k]
+		_err(not ev.has("reward") or LootData.TABLES.has(String(ev["reward"])), "evento %s: bottino inesistente" % k)
+		for cid in ev.get("pool", []):
+			_err(CreaturesData.CREATURES.has(String(cid)), "evento %s: creatura inesistente %s" % [k, cid])
 	for c in RelicsData.COLLECTIONS:
 		for p in RelicsData.COLLECTIONS[c]["pieces"]:
 			_err(items.has(String(p)), "reliquia inesistente: %s" % p)

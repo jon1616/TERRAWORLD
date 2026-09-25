@@ -22,6 +22,10 @@ var danger := 1.0                      # pericolo attorno al giocatore, aggiorna
 var luck := 0.0                        # tratto Fortuna dell'equipaggiamento: probabilità di un giro di bottino in più
 var boon_luck := 0.0                   # Pozione di fortuna
 var rare_mult := 1.0                   # Pozione dell'esca: creature rare più frequenti
+# eventi del mondo (voce 34, vedi `Events`)
+var event_danger := 0.0
+var event_rare := 1.0
+var event_pool: Array = []
 var _light_t := 0.0
 
 signal rare_spawned(c: Creature)
@@ -151,7 +155,7 @@ func _process(dt: float) -> void:
 		return
 	# pericolo dove si trova il giocatore: decide il tetto di creature e il ritmo delle nascite
 	var pc := Vector2i(floori(player.position.x / S), floori(player.position.y / S))
-	danger = DangerData.at(world, pc, night, vigor)
+	danger = DangerData.at(world, pc, night, vigor) + event_danger
 	_t = DangerData.SPAWN_EVERY / maxf(danger, 0.5)
 	if _alive() < DangerData.cap(danger):
 		try_spawn()
@@ -181,6 +185,8 @@ func try_spawn() -> Creature:
 	if choices.is_empty():
 		return null
 	var id := _pick(choices)
+	if not event_pool.is_empty() and _rng.randf() < 0.6:
+		id = String(event_pool[_rng.randi_range(0, event_pool.size() - 1)])   # l'evento sceglie le sue creature
 	var fly: bool = CreaturesData.CREATURES[id].get("fly", false)
 	# uno spazio d'aria di 2×2; chi non vola ha bisogno anche del terreno sotto (lo si cerca scendendo un poco)
 	for k in 12:
@@ -194,7 +200,8 @@ func try_spawn() -> Creature:
 			var mult := float(StrataData.STRATA[stratum]["danger"]) * vigor_mult
 			cr.strengthen(mult, mult * DangerData.DAMAGE)
 			var grouped: bool = CreaturesData.CREATURES[id].has("group")
-			var rarity := AncientData.roll_rarity(DangerData.at(world, Vector2i(c.x, y), night, vigor), _rng, grouped, rare_mult)
+			var rarity := AncientData.roll_rarity(DangerData.at(world, Vector2i(c.x, y), night, vigor) + event_danger, _rng,
+				grouped, rare_mult * event_rare)
 			if rarity != "":
 				make_ancient(cr, rarity)
 			if rarity == "capobranco":

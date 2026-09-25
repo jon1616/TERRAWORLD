@@ -219,6 +219,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   Germogliato vicino), semi ricurvi (uno alla volta, tornano in mano) e giavellotti (con `Projectiles`).
 - `src/game/garden.gd` (`Garden`) — il giardino: `plant`, `grow` (ogni secondo, `paused` nelle prove), `water`,
   `harvest` (clic destro, da `Interact.touch`), raccolto e semi selvatici dal segnale `PlayerActions.decor_picked`.
+- `src/game/events.gd` (`Events`) — eventi del mondo: `start`/`stop`, effetti su `Fauna` (`event_danger`,
+  `event_rare`, `event_pool`) e `Garden.wild_mult`, stelle cadenti (`fall_star`), conteggio verso il premio.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

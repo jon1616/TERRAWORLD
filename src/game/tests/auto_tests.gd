@@ -15,7 +15,8 @@ func run(main: Node2D) -> void:
 	main.day.apply(true)
 	main.objectives.paused = true
 	main.blight.paused = true
-	main.hazards.paused = true             # l'Avvizzimento non si allarga sotto le misure delle altre prove
+	main.hazards.paused = true
+	main.events.paused = true              # niente eventi a caso sotto le misure             # l'Avvizzimento non si allarga sotto le misure delle altre prove
 	var kit := TestKit.new(self, main)
 	if "--prova-portale" in OS.get_cmdline_user_args():
 		await TestsPortalTrip.new(kit).run()
@@ -74,6 +75,7 @@ func run(main: Node2D) -> void:
 	await TestsMobility.new(kit).run()
 	await TestsThrowing.new(kit).run()
 	await TestsGarden.new(kit).run()
+	await TestsEvents.new(kit).run()
 	await ob.run()
 	await w.run_and_save()
 	# la Bisaccia aperta
@@ -137,6 +139,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsThrowing.new(kit).run()
 		"giardino":
 			await TestsGarden.new(kit).run()
+		"eventi":
+			await TestsEvents.new(kit).run()
 		"antiche":
 			await TestsAncient.new(kit).run()
 		"pericoli":

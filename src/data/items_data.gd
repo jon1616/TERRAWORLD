@@ -191,6 +191,10 @@ const ITEMS := {
 	"stufato_regale": {"name": "Stufato regale", "kind": "consumabile", "icon": ["ciotola", "linfa"], "boon": ["sazio", 1800.0], "stack": 30, "desc": "Sazio per mezz'ora."},
 	"pozione_notte": {"name": "Pozione di notte", "kind": "consumabile", "icon": ["pozione", "fungo"], "boon": ["vista", 300.0], "stack": 30, "desc": "Per cinque minuti gli occhi vedono qualcosa anche dove non arriva la luce."},
 	"pozione_radice": {"name": "Pozione di radice", "kind": "consumabile", "icon": ["pozione", "radice"], "heal": 90, "stack": 30, "desc": "Fa ricrescere 9 foglie di Vita."},
+	# voce 34: eventi del mondo
+	"stellina": {"name": "Stellina caduta", "kind": "materiale", "icon": ["stella", "ambra"], "desc": "Cade nelle notti della Pioggia di stelle. Tiepida, e brilla ancora."},
+	"pendente_stelle": {"name": "Pendente di stelle", "kind": "accessorio", "icon": ["amuleto", "ambra"], "acc": {"linfa_regen": 1.5, "halo": 1.2, "magic": 1.05}, "desc": "Linfa +50%, alone più ampio, incantesimi +5%."},
+	"bastone_stellare_caduto": {"name": "Bastone delle stelle cadute", "kind": "bastone", "icon": ["bastone", "ambra"], "tier": 4, "damage": 28, "speed": 2.2, "knockback": 1.2, "spell": "stelle", "linfa": 6, "desc": "Tre piccole stelle che cercano le creature."},
 	"seme_mondo": {"name": "Seme di mondo", "kind": "seme_mondo", "icon": ["seme", "cristallo"], "stack": 9, "desc": "Il Cuore del mondo ti ha donato un seme. Piantalo sul terreno: crescerà un portale verso un mondo nuovo."},
 }
 

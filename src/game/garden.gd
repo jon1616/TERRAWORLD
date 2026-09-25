@@ -10,6 +10,7 @@ var m: Node2D
 var _t := 1.0
 var _rng := RandomNumberGenerator.new()
 var paused := false                    # le prove fanno crescere a comando (`grow`)
+var wild_mult := 1.0                   # la Fioritura (voce 34) fa trovare più semi selvatici
 
 
 func setup(main: Node2D) -> void:
@@ -109,5 +110,5 @@ func _on_picked(c: Vector2i, d: int) -> void:
 		m.sfx.play("raccogli", at)
 		return
 	for wd in CropsData.WILD:
-		if d in wd[0] and _rng.randf() < float(wd[2]):
+		if d in wd[0] and _rng.randf() < float(wd[2]) * wild_mult:
 			m.drops.spawn(String(wd[1]), 1, at)

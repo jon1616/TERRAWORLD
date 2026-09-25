@@ -97,6 +97,9 @@ const SOUNDS := {
 	"scoppio": {"gain": -5.0, "var": 0.08, "layers": [
 		{"wave": "noise", "f0": 900, "f1": 120, "dur": 0.7, "att": 0.003, "dec": 5.0, "vol": 1.0},
 		{"wave": "sine", "f0": 80, "f1": 35, "dur": 0.6, "att": 0.003, "dec": 5.5, "vol": 0.9}]},
+	"stella": {"gain": -10.0, "var": 0.05, "layers": [
+		{"wave": "sine", "f0": 1800, "f1": 700, "dur": 1.0, "att": 0.02, "dec": 3.0, "vol": 0.4, "vib": [9.0, 0.02]},
+		{"wave": "noise", "f0": 6000, "f1": 2000, "dur": 0.9, "att": 0.05, "dec": 3.5, "vol": 0.25}]},
 	"presenza": {"gain": -8.0, "var": 0.0, "layers": [
 		{"wave": "sine", "f0": 110, "f1": 82, "dur": 1.6, "att": 0.4, "dec": 1.6, "vol": 0.7, "vib": [3.0, 0.03]},
 		{"wave": "sine", "f0": 165, "f1": 123, "dur": 1.6, "att": 0.5, "dec": 1.8, "vol": 0.4},

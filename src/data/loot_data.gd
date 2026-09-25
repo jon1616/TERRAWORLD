@@ -104,6 +104,17 @@ const TABLES := {
 		{"item": "sacca_spore", "min": 1, "max": 2, "chance": 1.0},
 		{"item": "fungo_luminoso", "min": 1, "max": 1, "chance": 0.3},
 	],
+	# voce 34: la ricompensa della Notte dell'Avvizzimento vinta
+	"alba": [
+		{"item": "cenere_avvizzita", "min": 5, "max": 10, "chance": 1.0},
+		{"item": "seme_muschio", "min": 3, "max": 5, "chance": 0.6},
+		{"item": "pozione_rigoglio", "min": 1, "max": 2, "chance": 0.7},
+		{"item": "cuore_bocciolo", "min": 1, "max": 1, "chance": 0.25},
+		{"item": "stilla_perenne", "min": 1, "max": 1, "chance": 0.15},
+		{"item": "essenza_furia", "min": 1, "max": 1, "chance": 0.2},
+		{"item": "essenza_guscio", "min": 1, "max": 1, "chance": 0.2},
+		{"item": "polvere_iridata", "min": 1, "max": 2, "chance": 0.1},
+	],
 	# voce 22
 	"corvo": [
 		{"item": "penna_corteccia", "min": 1, "max": 3, "chance": 1.0},

@@ -302,6 +302,15 @@ static func draw(shape: String, im: Image, p: Array[Color]) -> bool:
 			Px.put(im, 6, 14, Color("#ffb040"))
 			Px.put(im, 9, 14, Color("#ff7a30"))
 			Px.put(im, 7, 3, Color(0.9, 0.9, 0.9, 0.6))
+		"stella":
+			# una stellina a cinque punte, calda al centro
+			for k in 10:
+				var ang := -PI / 2.0 + k * PI / 5.0
+				var r := 7.0 if k % 2 == 0 else 3.0
+				var q := Vector2(8.0, 8.5) + Vector2(cos(ang), sin(ang)) * r
+				Px.line(im, Vector2(8.0, 8.5), q, 1, p[2])
+			Px.disc(im, 8.0, 8.5, 2.6, p[p.size() - 1])
+			Px.put(im, 8, 8, Color.WHITE)
 		_:
 			return false
 	return true

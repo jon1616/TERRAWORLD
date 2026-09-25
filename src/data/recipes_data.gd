@@ -44,6 +44,10 @@ const RECIPES := [
 	{"out": "dardo_vuoto", "qty": 20, "in": {"scheggia_vuoto": 1, "legno": 1}, "station": "ceppo"},
 	{"out": "lanterna_linfa", "qty": 1, "in": {"cristallo_linfa": 5, "lingotto_ambra": 2}, "station": "maglio"},
 	{"out": "rugiada_linfa", "qty": 1, "in": {"cristallo_linfa": 2, "fungo_luminoso": 1, "pozione_rugiada": 1}, "station": "alambicco"},
+	# voce 34: eventi del mondo
+	{"out": "pozione_linfa", "qty": 3, "in": {"stellina": 1, "gelatina": 1}, "station": "alambicco"},
+	{"out": "pendente_stelle", "qty": 1, "in": {"stellina": 8, "lingotto_pallidite": 3}, "station": "mola"},
+	{"out": "bastone_stellare_caduto", "qty": 1, "in": {"stellina": 12, "lingotto_linfa": 6}, "station": "maglio"},
 	# voce 33: il giardino
 	{"out": "annaffiatoio", "qty": 1, "in": {"legno": 8, "gelatina": 4}, "station": "ceppo"},
 	{"out": "paiolo", "qty": 1, "in": {"ardesia": 10, "legno": 6, "lingotto_radicite": 2}, "station": "ceppo"},

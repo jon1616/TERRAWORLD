@@ -28,6 +28,8 @@ const SPELLS := {
 		"chill": 3.0, "light": Color(0.5, 0.9, 1.3)},
 	"serpe": {"look": "gelo", "speed": 260.0, "grav": 0.0, "n": 3, "spread": 0.35, "pierce": 0, "homing": 4.0,
 		"light": Color(0.3, 0.9, 1.0)},
+	"stelle": {"look": "polline", "speed": 320.0, "grav": 0.0, "n": 3, "spread": 0.25, "pierce": 1, "homing": 3.5,
+		"light": Color(1.3, 1.2, 0.7)},
 	"vuoto": {"look": "orbita", "speed": 230.0, "grav": 0.0, "n": 1, "spread": 0.0, "pierce": 1, "homing": 5.0,
 		"through": true, "light": Color(0.8, 0.4, 1.3)},
 }

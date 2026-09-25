@@ -510,9 +510,15 @@ luce) e al nuovo **Paiolo di radice** i piatti (zuppa di funghi, pane di tubero,
 **Sazio** per dieci-trenta minuti, con Vita un po' più svelta e colpi e corsa +5%. Prove `--solo=giardino` (foto
 61_giardino).
 
-## 34. [ ] Eventi del mondo (M)
-Pioggia di stelle nelle notti serene, Notte dell'Avvizzimento (ondate e ricompensa), Fioritura (giorno di creature
-rare); scritte, suoni, obiettivi.
+## 34. [x] Eventi del mondo (M) — fatto il 26 set 2026
+Modulo `Events`, dati in `EventsData`: al calar della notte e al sorgere del giorno si tira se comincia un evento, con
+la sua scritta, un suono e il nome in alto a destra; dura fino al cambio successivo. **Pioggia di stelle** (30% delle
+notti): ogni 8-18 secondi una stella cade con una scia dal cielo vicino al Germogliato e resta a terra una **Stellina
+caduta** (Pozione di Linfa, **Pendente di stelle**, **Bastone delle stelle cadute**). **Notte dell'Avvizzimento** (12%
+delle notti): pericolo +2, sei nascite su dieci sono Avvizziti, e sconfiggendo 40 creature prima dell'alba si vince un
+premio (cenere, semi di muschio, pozioni, a volte Cuori di bocciolo, Stille, Essenze, Polvere iridata). **Fioritura**
+(15% dei giorni): creature rare ×2 e semi selvatici ×3. Prove `--solo=eventi` (foto 62_pioggia_stelle); nelle prove
+gli eventi sono spenti (`Events.paused`).
 
 ## 35. [ ] Costruire (M)
 Blocchi da costruzione (mattoni, assi, vetro di cristallo), pareti da piazzare, porte, lampade e arredi.
