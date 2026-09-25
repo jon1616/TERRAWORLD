@@ -62,6 +62,8 @@ Godot_console.exe --headless --path . --script res://tools/prova_salvataggi.gd
 # verifica dei contenuti (tabelle di src/data/): riferimenti, ricette, bottino, progressione dei picconi, oggetti che
 # non si possono ottenere; salva il foglio di tutte le icone in prove/oggetti.png. Obiettivo: «0 errori».
 Godot_console.exe --headless --path . --script res://tools/verifica_dati.gd
+# elenco di tutto ciò che c'è nel gioco, per categorie (oggetti, creature, stazioni, tessere, tratti…)
+Godot_console.exe --headless --path . --script res://tools/elenco.gd
 # mappe dei mondi: mappe/mondo_<seme>.png a metà grandezza (--intera per 1:1), tempi per passata, conteggi per seme
 Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20 --da 1
 ```

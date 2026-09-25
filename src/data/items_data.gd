@@ -97,7 +97,7 @@ const METALS := {
 	"ambra": {"label": "d'ambra", "tier": 3, "power": 55, "damage": 16, "speed": 2.4, "defense": [3, 4, 3]},
 	"linfa": {"label": "di Linfa", "tier": 4, "power": 65, "damage": 21, "speed": 2.6, "defense": [4, 6, 4], "icon": "cristallo"},
 	"vuoto": {"label": "di vuotite forgiata", "tier": 5, "power": 75, "damage": 27, "speed": 2.7, "defense": [5, 8, 5], "icon": "vuotite"},
-	"stellare": {"label": "stellare", "tier": 6, "power": 85, "damage": 34, "speed": 2.8, "defense": [6, 10, 6], "icon": "ambra"},
+	"stellare": {"label": "stellare", "label_pl": "stellari", "tier": 6, "power": 85, "damage": 34, "speed": 2.8, "defense": [6, 10, 6], "icon": "ambra"},
 }
 
 ## Modelli delle famiglie di metallo: tipo, costo in lingotti (+ legno).
@@ -107,7 +107,7 @@ const GEAR := {
 	"spada": {"name": "Spada", "bars": 8, "wood": 0},
 	"elmo": {"name": "Elmo", "bars": 15, "wood": 0},
 	"corazza": {"name": "Corazza", "bars": 25, "wood": 0},
-	"gambali": {"name": "Gambali", "bars": 20, "wood": 0},
+	"gambali": {"name": "Gambali", "bars": 20, "wood": 0, "plural": true},
 	"arco": {"name": "Arco", "bars": 10, "wood": 3},
 }
 
@@ -130,7 +130,7 @@ static func all() -> Dictionary:
 		var md: Dictionary = METALS[m]
 		for g in GEAR:
 			var gd: Dictionary = GEAR[g]
-			var it := {"name": "%s %s" % [gd["name"], md["label"]], "kind": g, "icon": [g, md.get("icon", m)], "tier": md["tier"]}
+			var it := {"name": "%s %s" % [gd["name"], md.get("label_pl", md["label"]) if gd.get("plural", false) else md["label"]], "kind": g, "icon": [g, md.get("icon", m)], "tier": md["tier"]}
 			match g:
 				"piccone", "ascia":
 					it["power"] = md["power"]
