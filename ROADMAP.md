@@ -264,7 +264,8 @@ che cade, torcia, colpo, creatura colpita, morte, ferita, arco, spora, salto, at
 scrigno, pozione, obiettivo, portale, risveglio del Guardiano. Un **sottofondo per strato** (vento in superficie,
 calore nel Sottobosco, freddo nelle Caverne, luccichio nella Linfa, rombo nel Fondo) in anelli senza cuciture, sfumati
 cambiando strato. Limitatore contro la distorsione. Strumento `tools/suoni.gd`: salva tutto in prove/suoni/*.wav con
-durata, picco e volume medio. Trovata e corretta una regressione delle prove: dal cambio del buio la prova di scavo,
+durata, picco e volume medio. Nel menu **Impostazioni**: volume degli effetti e del sottofondo (salvati sul computer,
+`Settings`). Trovata e corretta una regressione delle prove: dal cambio del buio la prova di scavo,
 raccolta e posa veniva saltata senza avviso.
 
 **Roadmap 2 «Il mondo vivo»** (prevista): biomi di superficie e sotterranei (foresta-lanterna, paludi di spore, distese

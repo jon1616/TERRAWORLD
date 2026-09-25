@@ -24,6 +24,7 @@ var _amb_cur := 0
 
 func setup(main: Node2D) -> void:
 	m = main
+	Settings.load_once()
 	var k := 1
 	for id in SoundsData.SOUNDS:
 		streams[id] = SfxSynth.make(SoundsData.SOUNDS[id], k)
@@ -44,7 +45,9 @@ func play(id: String, at := Vector2.INF) -> void:
 	if not streams.has(id):
 		return
 	var r: Dictionary = SoundsData.SOUNDS[id]
-	var gain := float(r.get("gain", -10.0)) + volume_db
+	var gain := float(r.get("gain", -10.0)) + volume_db + Settings.db(Settings.sfx)
+	if Settings.sfx <= 0.001:
+		return
 	if at != Vector2.INF and m.player != null:
 		var dist: float = at.distance_to(m.player.position)
 		if dist > HEAR:
@@ -80,7 +83,7 @@ func _process(dt: float) -> void:
 			_switch_ambient(s)
 	# sfumatura tra i due lettori del sottofondo
 	if _amb_now >= 0:
-		var goal := float(SoundsData.AMBIENT[_amb_now]["gain"]) + volume_db
+		var goal := float(SoundsData.AMBIENT[_amb_now]["gain"]) + volume_db + Settings.db(Settings.ambient)
 		var cur := _amb[_amb_cur]
 		var old := _amb[1 - _amb_cur]
 		cur.volume_db = move_toward(cur.volume_db, goal, dt * 60.0 / FADE)

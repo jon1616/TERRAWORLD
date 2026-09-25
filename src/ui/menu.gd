@@ -51,7 +51,7 @@ func _ready() -> void:
 ## Foto delle schermate del menu in prove/ (menu_titolo, menu_personaggi, menu_mondi), poi esce.
 func _photos() -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path("res://prove"))
-	var shots := [["menu_titolo", _show_title], ["menu_personaggi", _show_characters], ["menu_nuovo_mondo", _show_new_world]]
+	var shots := [["menu_titolo", _show_title], ["menu_personaggi", _show_characters], ["menu_nuovo_mondo", _show_new_world], ["menu_impostazioni", _show_settings]]
 	if Session.character == null:
 		Session.character = Character.create("Esempio")
 	for s in shots:
@@ -80,7 +80,32 @@ func _start_tests() -> void:
 func _show_title() -> void:
 	_clear()
 	_button("Gioca", _show_characters)
+	_button("Impostazioni", _show_settings, DIM)
 	_button("Esci", get_tree().quit)
+
+
+## Volume degli effetti e del sottofondo (salvati sul computer, vedi `Settings`).
+func _show_settings() -> void:
+	Settings.load_once()
+	_clear()
+	_heading("Impostazioni")
+	for row in [["Volume degli effetti", "sfx"], ["Volume del sottofondo", "ambient"]]:
+		_note(row[0])
+		var sl := HSlider.new()
+		sl.min_value = 0.0
+		sl.max_value = 1.0
+		sl.step = 0.05
+		sl.value = Settings.sfx if row[1] == "sfx" else Settings.ambient
+		sl.custom_minimum_size = Vector2(0, 32)
+		var key: String = row[1]
+		sl.value_changed.connect(func(v: float) -> void:
+			if key == "sfx":
+				Settings.sfx = v
+			else:
+				Settings.ambient = v
+			Settings.save())
+		_box.add_child(sl)
+	_button("Indietro", _show_title, DIM)
 
 
 func _show_characters() -> void:
