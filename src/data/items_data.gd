@@ -80,6 +80,13 @@ const ITEMS := {
 	"rugiada_linfa": {"name": "Rugiada di Linfa", "kind": "cura", "icon": ["goccia", "muschio"], "stack": 20, "desc": "Linfa pura raccolta in una goccia. Versata su un nodo avvizzito, lo guarisce."},
 	"frammento_nodo": {"name": "Frammento del Nodo", "kind": "materiale", "icon": ["scaglia", "nodo"], "desc": "Un pezzo del Guardiano sconfitto: legno duro come pietra, ancora caldo."},
 	"linfa_guardiano": {"name": "Linfa del Guardiano", "kind": "materiale", "icon": ["goccia", "cristallo"], "desc": "Il Guardiano guarito l'ha lasciata cadere per te: Linfa antica, luminosa."},
+	# i materiali dei Guardiani dei mondi oltre i portali (voce 19): sconfitti o curati, aprono lo stesso grado
+	"velo_spora": {"name": "Velo di spora", "kind": "materiale", "icon": ["foglia", "sem"], "desc": "Un lembo della Regina delle Spore sconfitta: leggero, e non si strappa."},
+	"polline_regina": {"name": "Polline della Regina", "kind": "materiale", "icon": ["polvere", "cristallo"], "desc": "La Regina guarita l'ha scosso per te: spore buone, che fanno crescere."},
+	"nucleo_colosso": {"name": "Nucleo del Colosso", "kind": "materiale", "icon": ["cristallo", "ardesia"], "desc": "Il cuore di pietra del Colosso sconfitto: pesa come una montagna."},
+	"pietra_battente": {"name": "Pietra che batte", "kind": "materiale", "icon": ["cuore", "ardesia"], "desc": "Il Colosso guarito ha lasciato una pietra che pulsa piano, come un cuore."},
+	"lingotto_vuoto": {"name": "Lingotto di vuotite forgiata", "kind": "materiale", "icon": ["lingotto", "vuotite"], "tier": 5, "desc": "Vuotite legata dal velo o dal polline della Regina."},
+	"lingotto_stellare": {"name": "Lingotto stellare", "kind": "materiale", "icon": ["lingotto", "ambra"], "tier": 6, "desc": "Schegge del Vuoto fuse con il cuore del Colosso: brilla come le stelle del Giardino."},
 	"seme_mondo": {"name": "Seme di mondo", "kind": "seme_mondo", "icon": ["seme", "cristallo"], "stack": 9, "desc": "Il Cuore del mondo ti ha donato un seme. Piantalo sul terreno: crescerà un portale verso un mondo nuovo."},
 }
 
@@ -89,6 +96,8 @@ const METALS := {
 	"legnoferro": {"label": "di legnoferro", "tier": 2, "power": 45, "damage": 12, "speed": 2.3, "defense": [2, 3, 2]},
 	"ambra": {"label": "d'ambra", "tier": 3, "power": 55, "damage": 16, "speed": 2.4, "defense": [3, 4, 3]},
 	"linfa": {"label": "di Linfa", "tier": 4, "power": 65, "damage": 21, "speed": 2.6, "defense": [4, 6, 4], "icon": "cristallo"},
+	"vuoto": {"label": "di vuotite forgiata", "tier": 5, "power": 75, "damage": 27, "speed": 2.7, "defense": [5, 8, 5], "icon": "vuotite"},
+	"stellare": {"label": "stellare", "tier": 6, "power": 85, "damage": 34, "speed": 2.8, "defense": [6, 10, 6], "icon": "ambra"},
 }
 
 ## Modelli delle famiglie di metallo: tipo, costo in lingotti (+ legno).
@@ -104,7 +113,8 @@ const GEAR := {
 
 ## Oggetti che nascono da qualcosa che non è una tabella (es. alberi abbattuti, voce 4).
 const OTHER_SOURCES := {"legno": "alberi", "seme_lanterna": "alberi", "frammento_nodo": "Guardiano sconfitto",
-	"linfa_guardiano": "Guardiano curato", "seme_mondo": "Cuore del mondo", "scrigno": "rovine",
+	"linfa_guardiano": "Guardiano curato", "seme_mondo": "Cuore del mondo", "velo_spora": "Regina sconfitta",
+	"polline_regina": "Regina curata", "nucleo_colosso": "Colosso sconfitto", "pietra_battente": "Colosso curato", "scrigno": "rovine",
 	"stivali_radice": "scrigni", "foglia_planante": "scrigni", "amuleto_corteccia": "scrigni", "anello_lucciola": "scrigni",
 	"cuore_muschio": "scrigni", "pappo_seme": "scrigni"}
 

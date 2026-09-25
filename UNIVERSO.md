@@ -109,6 +109,9 @@ che viene dal Giardino dei Semi.
   dall'Avvizzimento; i quattro **nodi avvizziti** del soffitto si guariscono con la **Rugiada di Linfa**. Sconfitto
   lascia i **Frammenti del Nodo**, curato la **Linfa del Guardiano**. Il Cuore guarito dona un **Seme di mondo**, che
   cresce in un **Portale di radici**.
+- I Guardiani dei mondi più lontani: la **Regina delle Spore** (lascia il **Velo di spora**, o curata il **Polline
+  della Regina**) e il **Colosso d'Ardesia** (il **Nucleo del Colosso**, o curato la **Pietra che batte**). Da loro i
+  gradi **di vuotite forgiata** e **stellare**.
 - Oggetti del primo anello: **Lingotto di Linfa**, **Lanterna di Linfa**, **Pozione di bagliore**, **Pozione di
   scorza**, **Dardo di vuotite**.
 - Le **rovine dei Seminatori**: stanze di **Pietra dei Seminatori** con le **rune** ancora accese e uno **Scrigno dei

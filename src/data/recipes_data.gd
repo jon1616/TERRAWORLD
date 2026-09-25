@@ -30,6 +30,11 @@ const RECIPES := [
 	# il grado della Linfa si apre solo dopo il Guardiano: sconfitto o curato, due strade per lo stesso lingotto
 	{"out": "lingotto_linfa", "qty": 2, "in": {"cristallo_linfa": 4, "frammento_nodo": 1}, "station": "baccello_ardente"},
 	{"out": "lingotto_linfa", "qty": 2, "in": {"cristallo_linfa": 4, "linfa_guardiano": 1}, "station": "baccello_ardente"},
+	# i gradi dei mondi oltre i portali (voce 19): la Regina delle Spore e il Colosso d'Ardesia
+	{"out": "lingotto_vuoto", "qty": 2, "in": {"vuotite": 6, "velo_spora": 1}, "station": "baccello_ardente"},
+	{"out": "lingotto_vuoto", "qty": 2, "in": {"vuotite": 6, "polline_regina": 1}, "station": "baccello_ardente"},
+	{"out": "lingotto_stellare", "qty": 2, "in": {"scheggia_vuoto": 4, "cristallo_linfa": 2, "nucleo_colosso": 1}, "station": "baccello_ardente"},
+	{"out": "lingotto_stellare", "qty": 2, "in": {"scheggia_vuoto": 4, "cristallo_linfa": 2, "pietra_battente": 1}, "station": "baccello_ardente"},
 ]
 
 static var _all: Array = []

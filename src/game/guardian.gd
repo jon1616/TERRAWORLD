@@ -1,10 +1,10 @@
 class_name Guardian
 extends Node
-## Il primo Guardiano e il Cuore del mondo (voce 8). Il Guardiano dorme finché il Germogliato non entra nella cupola
-## del Cuore; poi combatte. Due strade, scelte dal giocatore:
-##   sconfitto  il Nodo muore: lascia i suoi frammenti (il grado della Linfa), il Cuore si libera;
+## Il Guardiano del Cuore del mondo (voci 8 e 19; quale Guardiano lo dice `GuardiansData` secondo il vigore del mondo).
+## Dorme finché il Germogliato non entra nella cupola del Cuore; poi combatte. Due strade, scelte dal giocatore:
+##   sconfitto  il Guardiano muore: lascia il suo materiale (il grado d'equipaggiamento successivo), il Cuore si libera;
 ##   curato     il giocatore versa la Rugiada di Linfa sui quattro nodi avvizziti del soffitto: il Guardiano guarisce,
-##              lascia la sua Linfa (lo stesso grado, per un'altra strada) e dona +20 Vita massima, per sempre.
+##              lascia l'altro materiale (lo stesso grado, per un'altra strada) e dona +20 Vita massima, per sempre.
 ## In entrambi i casi il Cuore torna vivo e dona un Seme di mondo (il portale, vedi `Portal`).
 ## Stato nel mondo salvato: `world_meta["guardiano"]` = "dorme" · "sconfitto" · "curato".
 
@@ -65,6 +65,15 @@ func _process(dt: float) -> void:
 			if absf(dx) < 20 * S:
 				where = "proprio qui"
 			m.hud.toast("Un battito lontano… %s%s" % [where, ", più in basso" if dy > 6 * S else ""])
+	# un Guardiano sveglio fa luce attorno a sé: nel buio vero la lotta deve leggersi
+	if boss != null and is_instance_valid(boss):
+		var bc := Vector2i(floori(boss.position.x / S), floori(boss.position.y / S))
+		if m.light.extra_lights.is_empty() or m.light.extra_lights[0][0] != bc:
+			m.light.extra_lights = [[bc, Color(1.3, 1.1, 0.9)]]
+			m.light.dirty = true
+	elif not m.light.extra_lights.is_empty():
+		m.light.extra_lights = []
+		m.light.dirty = true
 	# se il Germogliato appassisce, il Guardiano torna a dormire (e guarisce)
 	if boss != null and m.life.dead and state == "dorme":
 		m.fauna.kill_quietly(boss)
@@ -72,12 +81,23 @@ func _process(dt: float) -> void:
 		bar.follow(null)
 
 
+## Il Guardiano di questo mondo, secondo il vigore (`GuardiansData`).
+func info() -> Dictionary:
+	return GuardiansData.for_vigor(int(m.world_meta.get("vigore", 1)))
+
+
 func wake() -> void:
-	boss = m.fauna.add("guardiano_nodo", heart_pos() + Vector2(0, -8 * S))
+	var g := info()
+	var cid := String(g["creature"])
+	var fly: bool = CreaturesData.CREATURES[cid].get("fly", false)
+	# chi vola nasce sopra il Cuore, chi cammina sul pavimento accanto
+	var at := heart_pos() + (Vector2(0, -8 * S) if fly else Vector2(-6 * S, 0))
+	boss = m.fauna.add(cid, at)
+	# oltre il terzo mondo i Guardiani tornano, ma più forti (il vigore lo sa già `Fauna.vigor_mult`)
 	boss.strengthen(m.fauna.vigor_mult)
 	m.sfx.play("guardiano")
 	bar.follow(boss)
-	m.depth_watch.banner.show_stratum("Il Nodo Avvizzito", "Il Guardiano del Cuore si risveglia", Color("#d8b070"))
+	m.depth_watch.banner.show_stratum(String(CreaturesData.CREATURES[cid]["name"]), String(g["wake"]), Color(g["color"]))
 
 
 func _on_killed(c: Creature) -> void:
@@ -149,15 +169,17 @@ func _resolve(how: String) -> void:
 				if cb != null:
 					m.fauna.kill_quietly(cb))
 		boss = null
-		m.drops.spawn("linfa_guardiano", 30, heart_pos() + Vector2(0, -2 * S))
+		var cure: Dictionary = info()["cure"]
+		for id in cure:
+			m.drops.spawn(id, int(cure[id]), heart_pos() + Vector2(0, -2 * S))
 		if not m.world_id in ch.guardiani_curati:
 			ch.guardiani_curati.append(m.world_id)
 			ch.vita_extra += HP_GIFT
 			m.vitals.hp_max += HP_GIFT
 			m.vitals.refill()
-		lore.show_page("guardiano_curato")
+		lore.show_page(String(info()["pages"]["curato"]))
 	else:
-		lore.show_page("guardiano_sconfitto")
+		lore.show_page(String(info()["pages"]["sconfitto"]))
 	bar.follow(null)
 	# il Cuore torna vivo e dona il Seme di mondo
 	m.world.stations[cuore] = "cuore_vivo"

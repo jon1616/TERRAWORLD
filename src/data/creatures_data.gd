@@ -54,6 +54,21 @@ const CREATURES := {
 			"shot_speed": 170.0, "shot_grav": 40.0, "shot_damage": 16, "dash_every": 6.0, "dash_speed": 300.0,
 			"dash_time": 0.55, "summon_every": 8.0, "summon": "grumo_spore", "summon_max": 3, "phase2": 0.5},
 		"loot": "guardiano", "art": ["guardiano", 0], "strata": [], "weight": 0, "glow": true, "boss": true},
+	# la Regina delle Spore, Guardiana dei mondi di vigore 2: una medusa di spore enorme che vola, scaglia ventagli
+	# larghi, scatta e chiama sputaspore e grumi di spore
+	"regina_spore": {"name": "La Regina delle Spore", "hp": 1300, "damage": 24, "defense": 10, "knock": 1.0,
+		"half": [22, 20], "speed": 75, "fly": true, "behaviors": ["vola", "ventaglio", "scatto", "evoca"],
+		"p": {"sight": 70, "wobble": 40.0, "leash": 26, "fan_rate": 2.2, "fan_n": 7, "fan_spread": 1.3,
+			"shot_speed": 160.0, "shot_grav": 30.0, "shot_damage": 20, "dash_every": 5.0, "dash_speed": 330.0,
+			"dash_time": 0.5, "summon_every": 7.0, "summon": "grumo_spore", "summon_max": 4, "phase2": 0.5},
+		"loot": "regina", "art": ["regina", 0], "strata": [], "weight": 0, "glow": true, "boss": true},
+	# il Colosso d'Ardesia, Guardiano dei mondi di vigore 3: una montagna di scaglie che cammina, carica e scaglia rocce
+	"colosso_ardesia": {"name": "Il Colosso d'Ardesia", "hp": 2200, "damage": 32, "defense": 16, "knock": 1.0,
+		"half": [24, 22], "speed": 45, "behaviors": ["cammina", "carica", "spara", "evoca"],
+		"p": {"sight": 70, "charge": 280.0, "charge_range": 20, "charge_time": 1.0, "charge_cool": 4.0, "rate": 2.6,
+			"shot_speed": 230.0, "shot_grav": 420.0, "shot_damage": 26, "summon_every": 9.0,
+			"summon": "scarabeo_ardesia", "summon_max": 2, "phase2": 0.5},
+		"loot": "colosso", "art": ["colosso", 0], "strata": [], "weight": 0, "glow": true, "boss": true},
 	# avvizzito errante: un guscio di radici svuotato dall'Avvizzimento; cammina in superficie, solo di notte
 	"avvizzito_errante": {"name": "Avvizzito errante", "hp": 32, "damage": 11, "defense": 2, "knock": 0.3, "half": [5, 11],
 		"speed": 42, "behaviors": ["cammina"], "p": {"sight": 30}, "loot": "avvizzito", "art": ["avvizzito", 0],

@@ -278,6 +278,16 @@ vigore** (+20% danno per 3 minuti); scritta «Terre avvizzite», cielo grigio, A
 obiettivo «Purifica una zona avvizzita». I suoni ora si generano in un thread. Prove: zone, contagio, ritiro,
 purificazione (foto 35_avvizzimento, 36_purificato).
 
+## 19. [x] I Guardiani dei mondi oltre i portali (L) — fatto il 25 set 2026
+Per la longevità dei mondi a portale: ogni vigore ha il suo Guardiano (`GuardiansData`). Vigore 1 il Nodo Avvizzito,
+vigore 2 la **Regina delle Spore** (medusa di spore volante: ventagli larghi, scatti, evoca grumi di spore; 1300 Vita),
+vigore 3 il **Colosso d'Ardesia** (montagna di scaglie che cammina, carica, scaglia rocce ed evoca scarabei; 2200
+Vita); poi si ricomincia, più forti. Ognuno con le sue due strade: la Regina lascia **Velo di spora** (sconfitta) o
+**Polline della Regina** (curata) → **Lingotto di vuotite forgiata** e il grado 5 «di vuotite forgiata»; il Colosso
+lascia **Nucleo del Colosso** o **Pietra che batte** → **Lingotto stellare** e il grado 6 «stellare». Quattro pagine di
+storia nuove. Il Guardiano sveglio fa luce attorno a sé (nel buio vero la lotta non si vedeva). Prove: risveglio con il
+vigore 2 e 3, sconfitta e bottino, lingotti dalle due strade (foto 37_regina_spore, 38_colosso_ardesia).
+
 **Roadmap 2 «Il mondo vivo»** (prevista): biomi di superficie e sotterranei (foresta-lanterna, paludi di spore, distese
 d'ambra, giardini di cristallo…), strutture e rovine dei Seminatori, l'Avvizzimento che si espande, e i **Semi che
 decidono il mondo** (specie = quali biomi, vigore = difficoltà, tratti = particolarità). Poi: mondi a portale veri,

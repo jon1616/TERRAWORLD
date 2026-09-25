@@ -28,6 +28,7 @@ var world: World
 var image: Image
 var tex: ImageTexture
 var origin := Vector2i.ZERO           # cella del mondo nell'angolo in alto a sinistra dell'immagine mostrata
+var extra_lights: Array = []          # luci in movimento: [[cella, colore], …] (un Guardiano sveglio)
 var sky := SKY                        # luce del cielo aperto, secondo l'ora (vedi `DayCycle`)
 var player_light := PLAYER            # la luce attorno al giocatore (più forte con la lanterna o il bagliore)
 var ambient := AMBIENT                # chiarore minimo, secondo lo strato in cui si trova il giocatore
@@ -92,10 +93,15 @@ func _start(center: Vector2i, player_cell: Vector2i) -> void:
 	var job := {
 		"origin": o, "tiles": world.tiles, "walls": world.walls, "decor": world.decor, "w": world.w, "h": world.h,
 		"torches": world.torches_in(Rect2i(o, Vector2i(LW, LH))), "player": player_cell, "player_light": player_light, "sky": sky,
-		"decor_light": _decor_light(), "lights": _station_lights(Rect2i(o, Vector2i(LW, LH))), "ambient": ambient,
+		"decor_light": _decor_light(), "lights": _station_lights(Rect2i(o, Vector2i(LW, LH))) + _extra(Rect2i(o, Vector2i(LW, LH))),
+		"ambient": ambient,
 	}
 	_job = job
 	_task = WorkerThreadPool.add_task(_solve.bind(job), false, "luce")
+
+
+func _extra(r: Rect2i) -> Array:
+	return extra_lights.filter(func(l: Array) -> bool: return r.has_point(l[0]))
 
 
 ## Stazioni che fanno luce nella finestra: [cella, colore].

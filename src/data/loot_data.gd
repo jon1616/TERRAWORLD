@@ -76,6 +76,16 @@ const TABLES := {
 		{"item": "scheggia_vuoto", "min": 8, "max": 12, "chance": 1.0},
 		{"item": "minerale_ambra", "min": 10, "max": 16, "chance": 1.0},
 	],
+	"regina": [
+		{"item": "velo_spora", "min": 30, "max": 30, "chance": 1.0},
+		{"item": "sacca_spore", "min": 10, "max": 15, "chance": 1.0},
+		{"item": "cristallo_linfa", "min": 8, "max": 12, "chance": 1.0},
+	],
+	"colosso": [
+		{"item": "nucleo_colosso", "min": 30, "max": 30, "chance": 1.0},
+		{"item": "scaglia_ardesia", "min": 20, "max": 30, "chance": 1.0},
+		{"item": "scheggia_vuoto", "min": 10, "max": 16, "chance": 1.0},
+	],
 	"vagavuoto": [
 		{"item": "scheggia_vuoto", "min": 1, "max": 3, "chance": 1.0},
 		{"item": "minerale_ambra", "min": 1, "max": 2, "chance": 0.25},

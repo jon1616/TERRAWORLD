@@ -70,6 +70,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 
 - `src/core/` — attrezzi generici: `Px` (primitive di pixel art, contorno automatico), `Fx` (sfumature, polvere di scavo).
 - `src/data/` — **solo dati** (voce 3):
+  - `GuardiansData` — il Guardiano di ogni vigore (Nodo Avvizzito, Regina delle Spore, Colosso d'Ardesia, poi da capo),
+    con la creatura, ciò che lascia curato e le sue pagine di storia.
   - `LoreData` — le pagine di storia (Cuore trovato, Guardiano sconfitto o curato, portale), mostrate da `LorePanel`.
   - `BiomesData` — i biomi di superficie (foresta-lanterna, paludi di spore, distese d'ambra): erba, alberi, colline,
     altezza, tinta del cielo; `World.biomes` = un bioma per colonna (salvato). Creature con `biomes` compaiono in
