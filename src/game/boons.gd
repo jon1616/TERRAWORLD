@@ -10,6 +10,10 @@ const SCORZA := 8
 const LIGHT_BAGLIORE := Color(1.9, 1.7, 1.3)
 const LIGHT_LANTERNA := Color(1.0, 2.0, 1.9)
 const LIGHT_TORCIA := Color(1.9, 1.35, 0.75)   # la torcia tenuta in mano: luce calda come quella piantata
+## La luce della torcia in mano tremola come una fiamma: ogni FLICKER_STEP secondi cambia un poco d'intensità (due
+## onde lente sommate e un soffio a caso). Non più spesso: ogni cambio ricalcola la luce nel suo thread.
+const FLICKER_STEP := 0.09
+const FLICKER := 0.14
 const NAMES := {"bagliore": "Bagliore", "scorza": "Scorza di corteccia", "vigore": "Vigore", "rigoglio": "Rigoglio",
 	"passo": "Passo lungo", "scavo": "Minatore", "spine": "Spine", "esca": "Esca", "fortuna": "Fortuna"}
 const RIGOGLIO := 3.0                  # la Vita ricresce tre volte più in fretta (Pozione di rigoglio)
@@ -20,6 +24,9 @@ var active := {}                       # nome -> secondi che restano
 var halo_mult := 1.0                   # accessori: alone più ampio (Anello di lucciola)
 var _label: Label
 var _last_light := Color.BLACK
+var _flick_t := 0.0
+var _flick_clock := 0.0
+var _flick := 1.0
 
 
 func setup(main: Node2D) -> void:
@@ -40,6 +47,17 @@ func add(boon_name: String, secs: float) -> void:
 	active[boon_name] = maxf(float(active.get(boon_name, 0.0)), secs)
 	var span := "%d minuti" % roundi(secs / 60.0) if secs >= 90.0 else "%d secondi" % roundi(secs)
 	m.hud.toast("%s per %s" % [NAMES.get(boon_name, boon_name), span])
+
+
+## Intensità della fiamma in mano (attorno a 1): aggiornata a piccoli passi, altrimenti ferma.
+func _flicker(dt: float) -> float:
+	_flick_clock += dt
+	_flick_t -= dt
+	if _flick_t <= 0.0:
+		_flick_t = FLICKER_STEP
+		var wave := 0.55 * sin(_flick_clock * 7.3) + 0.3 * sin(_flick_clock * 17.1)
+		_flick = 1.0 + FLICKER * (wave + randf_range(-0.35, 0.35))
+	return _flick
 
 
 func _process(dt: float) -> void:
@@ -69,6 +87,8 @@ func _process(dt: float) -> void:
 	var hk := String(held.get("kind", ""))
 	if hk == "lanterna" or hk == "torcia":
 		var ll: Color = held.get("light", LIGHT_LANTERNA if hk == "lanterna" else LIGHT_TORCIA)
+		if hk == "torcia":
+			ll = ll * _flicker(dt)
 		l = Color(maxf(l.r, ll.r), maxf(l.g, ll.g), maxf(l.b, ll.b))
 	if l != _last_light:
 		_last_light = l

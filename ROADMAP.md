@@ -466,4 +466,5 @@ Si cancellano anche le copie di sicurezza (`SavePaths.delete_file`/`delete_dir`,
 Richiesta dell'utente: con la torcia (o una lanterna) nella casella scelta il Germogliato la tiene in mano, a braccio
 avanti, e si vede sempre; la torcia ha in cima una fiamma che guizza sopra il buio e fa una luce calda attorno a lui
 (`Boons.LIGHT_TORCIA`, come una torcia piantata). `Player.carry` e `carry_glow`, impostati da
-`PlayerActions._on_selected`. Prova `--solo=torcia` (foto 57_torcia_in_mano, 58_torcia_vicino).
+`PlayerActions._on_selected`. Prova `--solo=torcia` (foto 57_torcia_in_mano, 58_torcia_vicino). Poi, su richiesta, la luce della torcia in mano **tremola**
+come una fiamma (`Boons._flicker`: cambia un poco d'intensità ogni 0,09 s; 60 fps confermati dalla prova).

@@ -41,6 +41,20 @@ func run() -> void:
 	var lit: float = m.light.value_at(c + Vector2i(0, -3))
 	print("torcia in mano: si vede %s, fiamma %s, luce 3 tessere sopra la testa da %.2f a %.2f" % [
 		"sì" if m.player.tool.visible else "NO", "sì" if m.player.flame.visible else "NO", dark, lit])
+	# la luce tremola: valori diversi nel giro di due secondi, senza perdere fotogrammi
+	var seen := {}
+	var worst := 0.0
+	var t0 := Time.get_ticks_msec()
+	var last := t0
+	var frames := 0
+	while Time.get_ticks_msec() - t0 < 2000:
+		await kit.frames(1)
+		var now := Time.get_ticks_msec()
+		worst = maxf(worst, now - last)
+		last = now
+		frames += 1
+		seen[snappedf(m.light.player_light.r, 0.01)] = true
+	print("luce che tremola: %d intensità diverse in 2 s, %d fotogrammi (peggiore %d ms)" % [seen.size(), frames, int(worst)])
 	await kit.save("57_torcia_in_mano")
 	m.cam.zoom *= 2.5
 	await kit.seconds(0.5)
