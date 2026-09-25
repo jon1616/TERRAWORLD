@@ -167,6 +167,35 @@ di taglio della luce, confine netto tra luce e buio), radici accese più rare e 
 
 Ordine di lavoro (deciso il 24 set 2026): 3 → 4 → 5 → 5b → 6 → 7 → 8.
 
+## Cicli autonomi (dal 25 set 2026) — l'utente al lavoro, Claude decide ordine e tecnica
+L'utente prova il gioco la sera e dà il suo parere. Scelta dell'ordine: prima ciò che rende la prova di stasera più
+ricca (obiettivi per esplorare, ritmo del giorno, orientarsi), poi i mondi a portale veri; la **rete a 2 (voce 6)**
+viene dopo perché va provata con due giocatori veri, e la **voce 7** si fa insieme all'utente.
+Ogni ciclo: dati → codice → prove automatiche e foto → ROADMAP/CLAUDE.md → commit.
+
+## 9. [ ] Giorno e notte (M)
+Il tempo scorre sempre (UNIVERSO.md): giorno di 20 minuti, alba e tramonto; di notte il cielo si spegne, la luce del sole
+cala, in superficie compaiono più creature (e una della notte). Ora del giorno salvata nel mondo, orologio nell'HUD.
+
+## 10. [ ] Rovine e scrigni dei Seminatori (L)
+Piccole rovine sparse negli strati, con uno **scrigno** dal bottino secondo lo strato (oggetti che non si fabbricano:
+accessori, semi, pozioni, lingotti). Lo scrigno si apre con il clic destro e ha le sue caselle. Obiettivi per esplorare.
+
+## 11. [ ] Mappa del mondo esplorato (M)
+Tasto M: la mappa di ciò che il Germogliato ha visto (nebbia sul resto), con la partenza, il Cuore se trovato, i
+portali. Esplorato salvato con il mondo.
+
+## 12. [ ] Mondi a portale veri (M)
+Il Seme di mondo porta a un mondo più vigoroso (creature più forti, minerali più ricchi) e nel mondo nuovo nasce un
+portale di ritorno accanto alla partenza.
+
+## 13. [ ] Biomi di superficie (L)
+Prime zone diverse in superficie (foresta-lanterna, paludi di spore, distese d'ambra), dati in una tabella, una passata
+del generatore, creature e decorazioni proprie.
+
+## 14. [ ] Erbario (M)
+Il catalogo di ciò che si è scoperto (creature, oggetti, pagine di storia), con la percentuale di completamento.
+
 **Roadmap 2 «Il mondo vivo»** (prevista): biomi di superficie e sotterranei (foresta-lanterna, paludi di spore, distese
 d'ambra, giardini di cristallo…), strutture e rovine dei Seminatori, l'Avvizzimento che si espande, e i **Semi che
 decidono il mondo** (specie = quali biomi, vigore = difficoltà, tratti = particolarità). Poi: mondi a portale veri,
