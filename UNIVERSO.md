@@ -146,6 +146,15 @@ che viene dal Giardino dei Semi.
   rare (Nucleo di grumo, Ala intatta di falena, Corno di scarabeo, Becco di corvo, Aculeo maestro, Filiera di
   tessiradice, Occhio di geode, Dente di serpe, Pistillo d'oro, Falce maestra…), da cui nascono oggetti unici; con la
   Polvere iridata la **Corona del Giardino**, l'**Arco iridato**, il **Bastone iridato**, il **Mantello iridato**.
+- I **Custodi degli strati**, che dormono in bozzoli di radici nelle loro tane: la **Madre dei grumi** (i grumi sono le
+  sue gocce; lascia la **Gelatina regale**), la **Tessitrice delle radici** (cuce le radici dell'Albero-Madre alla
+  roccia; **Seta regale**), la **Serpe madre** (da lei nascono le Serpi di Linfa; **Scaglie della Serpe madre**), il
+  **Mietitore cavo** (mandato dal Vuoto a mietere; **Nucleo cavo**). L'**Altare dei Seminatori** li richiama con la
+  **Goccia di richiamo**, il **Filo di richiamo**, la **Scaglia di richiamo**, l'**Eco del Vuoto**.
+- Le **reliquie dei Seminatori**, nei **Reliquiari** di stanze murate senza porta: gli **Attrezzi** (Zappa, Falcetto,
+  Annaffiatoio, Sementiera dei Seminatori), i **Canti** (Tavolette dell'alba, del giorno, del tramonto, della notte) e
+  i **Semi perduti** (Semi antichi d'ambra, di cristallo, di brace, del Vuoto). La **Mappa dei Seminatori** li indica.
+  I **geodi**: sfere cave di cristallo chiuse nella roccia.
 - Il **Fagotto del Germogliato**: dove si appassisce resta la Bisaccia, avvolta nelle foglie.
 - Doni da trovare: il **Bocciolo del cuore** (nelle grotte; il suo **Cuore di bocciolo** fa crescere una foglia di Vita
   in più) e la **Stilla perenne** (una goccia che pende dai soffitti profondi senza mai cadere: più Linfa).

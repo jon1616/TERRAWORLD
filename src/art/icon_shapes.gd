@@ -189,6 +189,39 @@ static func draw(shape: String, im: Image, p: Array[Color]) -> bool:
 			Px.disc(im, 8.0, 7.0, 4.0, p[1])
 			Px.disc(im, 8.0, 7.0, 1.2, w3[3])
 			Px.put(im, 13, 14, Color("#c8283c"))
+		"altare":
+			# una lastra di pietra lavorata su due colonne, la runa accesa sopra
+			for x in [3, 12]:
+				for y in range(8, 15):
+					Px.put(im, x, y, p[2])
+					Px.put(im, x + 1, y, p[1])
+			for y in range(5, 8):
+				for x in range(1, 15):
+					Px.put(im, x, y, p[3] if y == 5 else p[2])
+			Px.line(im, Vector2(5.0, 3.0), Vector2(10.0, 3.0), 1, Color("#6ff0d8"))
+			Px.put(im, 8, 2, Color.WHITE)
+		"tavoletta":
+			# tavoletta di pietra dei Seminatori con un canto inciso, i segni del colore del materiale
+			var sem := ItemIcons.pal("sem")
+			for y in range(2, 15):
+				for x in range(3, 13):
+					Px.put(im, x, y, sem[3] if x < 5 or y < 4 else sem[2])
+			for k in 4:
+				Px.line(im, Vector2(5.0, 5.0 + k * 2.5), Vector2(10.0 + (k % 2), 5.0 + k * 2.5), 1, p[2])
+			Px.put(im, 8, 13, p[p.size() - 1])
+		"mappa":
+			# una lastra sottile arrotolata ai lati, con un sentiero e una croce accesa
+			var sem2 := ItemIcons.pal("sem")
+			for y in range(3, 13):
+				for x in range(2, 14):
+					Px.put(im, x, y, sem2[3] if (x + y) % 5 else sem2[2])
+			Px.line(im, Vector2(2.0, 3.0), Vector2(2.0, 12.0), 1, sem2[1])
+			Px.line(im, Vector2(13.0, 3.0), Vector2(13.0, 12.0), 1, sem2[1])
+			Px.curve(im, Vector2(4.0, 11.0), Vector2(7.0, 4.0), Vector2(10.0, 8.0), 1, Color(ItemIcons.MATERIALS["legno"][2]))
+			Px.put(im, 10, 7, Color("#ffd24a"))
+			Px.put(im, 11, 8, Color("#ffd24a"))
+			Px.put(im, 9, 8, Color("#ffd24a"))
+			Px.put(im, 10, 9, Color("#ffd24a"))
 		_:
 			return false
 	return true

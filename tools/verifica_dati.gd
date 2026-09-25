@@ -7,7 +7,7 @@ extends SceneTree
 
 const KINDS := ["materiale", "blocco", "piccone", "ascia", "spada", "arco", "munizione", "torcia", "stazione",
 	"piattaforma", "elmo", "corazza", "gambali", "consumabile", "seme", "lanterna", "cura", "seme_mondo", "accessorio",
-	"purifica", "essenza", "bastone", "dono", "specchio", "trofeo"]
+	"purifica", "essenza", "bastone", "dono", "specchio", "trofeo", "richiamo", "reliquia", "mappa"]
 ## Forza di piccone oltre cui una tessera è voluta indistruttibile (i nodi avvizziti: si curano, non si scavano).
 const UNBREAKABLE := 999
 
@@ -76,6 +76,13 @@ func _init() -> void:
 			_err(float(e["chance"]) > 0.0 and float(e["chance"]) <= 1.0, "bottino %s: probabilità fuori da 0-1" % tb)
 			_err(int(e["min"]) <= int(e["max"]), "bottino %s: min maggiore di max" % tb)
 			dropped[e["item"]] = true
+	# Custodi (voce 27): creatura, richiamo e pagina esistono
+	for k in KeepersData.KEEPERS:
+		var kd: Dictionary = KeepersData.KEEPERS[k]
+		_err(CreaturesData.CREATURES.has(String(kd["creature"])), "Custode %s: creatura inesistente" % k)
+		_err(items.has(String(kd["summon"])), "Custode %s: richiamo inesistente" % k)
+		_err(LoreData.PAGES.has(String(kd["page"])), "Custode %s: pagina di storia inesistente" % k)
+		_err(StationsData.STATIONS.has("bozzolo_" + k), "Custode %s: bozzolo inesistente" % k)
 	# trofei (voce 23): ogni creatura non Guardiano ne ha uno, esiste e serve a qualcosa
 	for cid in CreaturesData.CREATURES:
 		if not CreaturesData.CREATURES[cid].get("boss", false):
@@ -87,6 +94,10 @@ func _init() -> void:
 		_warn(not RecipesData.using(tid).is_empty(), "il trofeo %s non serve a nessuna ricetta" % tid)
 		dropped[tid] = true
 	dropped["polvere_iridata"] = true
+	for c in RelicsData.COLLECTIONS:
+		for p in RelicsData.COLLECTIONS[c]["pieces"]:
+			_err(items.has(String(p)), "reliquia inesistente: %s" % p)
+			dropped[p] = true
 	for id in items:
 		if items[id].has("spell"):
 			_err(SpellsData.SPELLS.has(String(items[id]["spell"])), "%s: incantesimo sconosciuto" % id)
@@ -116,6 +127,8 @@ func _init() -> void:
 		_err(not c.has("item") or items.has(String(c["item"])), "obiettivo %s: oggetto sconosciuto" % o["id"])
 		_err(not c.has("station") or StationsData.STATIONS.has(String(c["station"])), "obiettivo %s: stazione sconosciuta" % o["id"])
 		_err(not c.has("kill") or CreaturesData.CREATURES.has(String(c["kill"])), "obiettivo %s: creatura sconosciuta" % o["id"])
+		for a in c.get("any", []):
+			_err(items.has(String(a)), "obiettivo %s: oggetto sconosciuto %s" % [o["id"], a])
 		for r in o["reward"]:
 			_err(items.has(String(r)), "obiettivo %s: ricompensa sconosciuta %s" % [o["id"], r])
 	_icon_sheet(items)

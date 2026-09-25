@@ -105,6 +105,16 @@ func _ready() -> void:
 	_sets.add_theme_constant_override("outline_size", 4)
 	_sets.mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(_sets)
+	# Riordina: in alto a destra nella cornice della Bisaccia
+	var sort := Button.new()
+	sort.text = "Riordina"
+	sort.focus_mode = Control.FOCUS_NONE
+	sort.position = Vector2(frame.position.x + frame.size.x - 112, frame.position.y + 8)
+	sort.size = Vector2(98, 28)
+	sort.add_theme_font_size_override("font_size", 13)
+	sort.tooltip_text = "Mette in ordine la Bisaccia (non la barra rapida): per tipo e per nome, unendo le pile"
+	sort.pressed.connect(func() -> void: bisaccia.sort_bag())
+	add_child(sort)
 	crafting = CraftingPanel.new()
 	add_child(crafting)
 	crafting.setup(bisaccia, stations_near, Vector2(frame.position.x + frame.size.x + 16, frame.position.y), frame.size.y)
@@ -124,6 +134,9 @@ func toggle() -> void:
 	visible = not visible
 	if visible:
 		crafting.refresh()
+		examine.refresh()
+	else:
+		crafting.release_search()
 	if not visible:
 		examine.give_back()
 	if not visible and not held.is_empty():

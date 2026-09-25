@@ -110,6 +110,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
     nascono, la Polvere iridata e gli oggetti iridati, con le loro ricette (unite in `RecipesData.all()`).
   - `SetsData` — i set di equipaggiamento: `METAL_BONUS` (un set per metallo, pezzi generati), vesti e coppie di
     accessori; `complete(equip)`, `worn`, `of_item`.
+  - `KeepersData` — i Custodi degli strati (creatura, strato della tana, richiamo, pagina); `KeeperItemsData` i loro
+    oggetti, i richiami e l'Altare dei Seminatori.
+  - `RelicsData` — le reliquie dei Seminatori, le tre collezioni e il loro bonus per sempre, la Mappa dei Seminatori.
   - `RecipesData` (ricette, più quelle generate delle famiglie di metallo), `StationsData` (ceppo, baccello ardente,
     maglio), `CreaturesData` (creature: statistiche, comportamenti con i parametri `p`, bottino, strati, peso di comparsa), `LootData` (tabelle e `roll`).
 - `src/art/` — grafica generata dal codice:
@@ -145,7 +148,7 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
     grandi vuoti del Fondo e il suo pavimento di vuotite), Radici (radici giganti del Sottobosco, anche attraverso le
     grotte), Ingressi, Minerali (per strato e roccia), Cristalli, Erba, Alberi, Decorazioni (per strato), Avvizzimento (due macchie malate in superficie), Cuore (la
     cupola del Cuore del mondo nel Fondo, con i 4 nodi avvizziti e la stazione `cuore_mondo`), Rovine (44 stanze dei
-    Seminatori con uno scrigno pieno secondo lo strato), Pericoli (rovi spinosi e rune trappola, vedi `Hazards`), Pericoli (rovi e rune trappola), Doni (Boccioli del cuore e Stille perenni), Gemme (grappoli nelle grotte, per strato), Partenza (le torce
+    Seminatori con uno scrigno pieno secondo lo strato), Pericoli (rovi spinosi e rune trappola, vedi `Hazards`), Pericoli (rovi e rune trappola), Doni (Boccioli del cuore e Stille perenni), Gemme (grappoli nelle grotte, per strato), Tane (dei Custodi), Nascondigli (reliquiari murati), Geodi, Partenza (le torce
     già accese della vecchia passata provvisoria sono state tolte il 25 set 2026: le torce le mette il giocatore). Un mondo 3000×1000 si genera in ~8,5 s (in un thread, con schermata d'attesa).
   - `WorldView` — disegno a blocchi da 32×32: solo i blocchi vicini alla visuale esistono come nodi (1 costruito per
     fotogramma, liberati oltre 2 blocchi di margine); ogni blocco ha pareti (z -10) e decorazioni (z 1) sulla griglia
@@ -174,6 +177,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   frequenza; valori di base in cima al file: corsa 95 px/s, salto pieno 3,36 tessere; armatura disegnata (`set_look`);
   segnale `landed` con le tessere di caduta; `auto_dir`/`auto_jump` per le prove e i futuri bot), `Drops` (oggetti caduti a terra: cadono, vengono attirati entro
   5 tessere, entrano nella Bisaccia se c'è posto; non si salvano).
+- `src/game/chronicle.gd` (`Chronicle`) — collega gli eventi (creature rare, rare sconfitte, innesti, oggetti dei
+  trofei, reliquie) agli avvisi, all'Erbario e ai conteggi degli obiettivi: `main.gd` resta solo montaggio.
+- `src/ui/character_sheet.gd` (`CharacterSheet`) — la scheda del Germogliato nella casella Esamina vuota.
 - `src/ui/` — `menu.tscn`/`menu.gd` (scena iniziale: titolo, personaggi, mondi, creazione), `Hud` (barra rapida = le
   prime 10 caselle della Bisaccia, in basso al centro; `current()` = oggetto in mano; segnale `selected`; `toast`; tasto
   E/Tab apre la Bisaccia), `BisacciaPanel` (le altre 30 caselle; clic prende/posa/scambia, clic destro metà pila),
@@ -203,6 +209,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   `pierce` attraversano più creature (`Combat.on_shot` tiene l'elenco di chi hanno già preso).
 - `src/game/gifts.gd` (`Gifts`) — i doni da assorbire (Cuore di bocciolo, Stilla perenne): Vita o Linfa massima per
   sempre fino a `gift_max`; conteggi in `Character.stats["doni_<id>"]`, `Character.linfa_extra`.
+- `src/game/keepers.gd` (`Keepers`) — i Custodi: `dens` (bozzoli ancora pieni), `hatch` avvicinandosi, `summon`
+  all'Altare (solo se già sconfitto), `world_meta["custodi"]`; il bozzolo sconfitto diventa `bozzolo_rotto`.
+  Disegni in `KeeperArt` (Custodi e bozzoli).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni
@@ -312,6 +321,18 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   grotta di prova per il buio, la prova di scavo è stata saltata in silenzio per diversi cicli.
 - Le prove che mettono qualcosa «a N tessere» devono usare `world.surface[x]` di quella colonna: il terreno piano
   vicino alla partenza è corto e il bersaglio finiva dentro la terra.
+- Il tratto piano vicino alla partenza le prove precedenti lo occupano con le stazioni: `TestKit.flat_spot` accetta un
+  dislivello di una o due tessere, e chi deve piazzare stazioni spiana prima il terreno (`TestKit.flatten`). Con la
+  barra rapida piena un oggetto va portato in mano con `TestKit.hold`, non cercato solo nella barra.
+- Chi viene spostato di colpo (specchio, rinascita, prove) mentre è in aria atterrava contando tutto il viaggio come
+  una caduta e appassiva: ogni spostamento passa da `main.snap_to`, che chiama `Player.reset_fall`.
+- Non chiamare una proprietà di un nodo `hidden` (è un segnale di CanvasItem: «Cannot assign a new value to a
+  constant»): per le creature nella terra si usa `buried`.
+- Dopo ogni file nuovo con `class_name` va rifatto `--import`, anche prima di `--prove`: altrimenti «Identifier not
+  declared» e le prove partono a metà.
+- Nelle patch Python scritte dentro un heredoc del Bash tool i `\\n` diventano a capo veri dentro le stringhe
+  GDScript: le patch si scrivono su file con Write. Per scovare stringhe spezzate: righe con un numero dispari di
+  virgolette.
 
 ## Convenzioni
 

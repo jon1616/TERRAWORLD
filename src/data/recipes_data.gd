@@ -96,6 +96,8 @@ static func all() -> Array:
 		return _all
 	var out := RECIPES.duplicate(true)
 	out.append_array(TrophyItemsData.RECIPES.duplicate(true))
+	out.append_array(KeeperItemsData.RECIPES.duplicate(true))
+	out.append_array(RelicsData.RECIPES.duplicate(true))
 	for m in ItemsData.METALS:
 		for g in ItemsData.GEAR:
 			var gd: Dictionary = ItemsData.GEAR[g]

@@ -17,6 +17,8 @@ var overlays: Array[Control] = []      # altri pannelli a schermo intero (Erbari
 var _slots: Array[SlotView] = []
 var _name: Label
 var _info: Label
+var _help_hint: Label
+var help := true                      # l'aiuto dei tasti in alto a sinistra (F1); spento per chi gioca da un po'
 var _toast: Label
 
 
@@ -51,6 +53,11 @@ func _ready() -> void:
 	_info = _label(self, Vector2(16, 6), 13)
 	_info.add_theme_constant_override("line_spacing", -2)
 	_info.add_theme_color_override("font_color", Color("#9fc8c0"))
+	_info.visible = help
+	_help_hint = _label(self, Vector2(16, 6), 12)
+	_help_hint.text = "F1 aiuto"
+	_help_hint.add_theme_color_override("font_color", Color("#6a8a84"))
+	_help_hint.visible = not help
 	_info.text = "A/D muovi · Spazio salta · S scendi dalle passerelle · clic sinistro usa · clic destro torcia o tocca (ceste, Cuore, portali)
 1-0 / rotella oggetti · E Bisaccia · M mappa · L Erbario · Esc salva ed esce"
 	# gli avvisi al centro, sotto la scritta degli strati: possono essere lunghi (obiettivi, Erbario)
@@ -131,6 +138,10 @@ func _unhandled_input(e: InputEvent) -> void:
 	if e is InputEventKey and e.pressed and not e.echo:
 		if e.keycode >= KEY_0 and e.keycode <= KEY_9:
 			select((e.keycode - KEY_0 + 9) % 10)
+		elif e.keycode == KEY_F1:
+			help = not help
+			_info.visible = help
+			_help_hint.visible = not help
 		elif e.keycode == KEY_E or e.keycode == KEY_TAB:
 			panel.toggle()
 			get_viewport().set_input_as_handled()

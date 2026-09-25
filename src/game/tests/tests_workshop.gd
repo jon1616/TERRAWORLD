@@ -22,6 +22,7 @@ func run() -> void:
 	if spot.x < 0:
 		print("ATTENZIONE: nessun terreno piano per i banchi")
 		return
+	kit.flatten(spot, 12)
 	m.snap_to(spot)
 	await kit.frames(3)
 	for id in ["alambicco", "telaio", "mola"]:

@@ -107,6 +107,15 @@ func _met(c: Dictionary) -> bool:
 		return String(m.world_meta.get("guardiano", "")) in ["sconfitto", "curato"]
 	if c.has("erbario"):
 		return m.erbario.percent() >= float(c["erbario"])
+	if c.has("set"):
+		return not m.gear.sets.is_empty()
+	if c.has("collezione"):
+		return m.gear.relics.size() >= int(c["collezione"])
+	if c.has("any"):
+		for id in c["any"]:
+			if b.count(String(id)) > 0 or String(id) in b.equip.values():
+				return true
+		return false
 	return false
 
 

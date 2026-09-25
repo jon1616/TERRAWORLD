@@ -32,6 +32,10 @@ static func bbcode(id: String, tratto := "") -> String:
 			names.append(String(ItemsData.get_item(String(p))["name"]))
 		t += "[color=#ffd08a]Set «%s»:[/color] [color=#9fc8c0]%s[/color]\n[color=#6a8a84]con %s[/color]\n" % [sd["name"],
 			sd["desc"], ", ".join(names)]
+	var col := RelicsData.collection_of(id)
+	if col != "":
+		var cd: Dictionary = RelicsData.COLLECTIONS[col]
+		t += "[color=#ffd24a]Collezione «%s»:[/color] [color=#9fc8c0]completa, per sempre: %s[/color]\n" % [cd["name"], cd["desc"]]
 	var uses := uses_of(id)
 	t += "\n[color=#8ef0d8]Serve per:[/color]\n"
 	if uses.is_empty():
@@ -78,6 +82,8 @@ static func how_to_get(id: String) -> String:
 	for cid in TrophyItemsData.TROPHY_OF:
 		if TrophyItemsData.TROPHY_OF[cid] == id:
 			from.append("solo le rare: %s" % CreaturesData.CREATURES[cid]["name"])
+	if RelicsData.collection_of(id) != "":
+		from.append("in un reliquiario murato dei Seminatori, nel profondo")
 	if id == "polvere_iridata":
 		from.append("solo le creature iridate")
 	var chests := false

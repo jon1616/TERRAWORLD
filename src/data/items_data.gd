@@ -9,7 +9,8 @@ extends RefCounted
 ##   kind   materiale · blocco · piccone · ascia · spada · arco · munizione · torcia · stazione · piattaforma ·
 ##          elmo · corazza · gambali · accessorio · essenza · consumabile · seme · lanterna · cura · seme_mondo ·
 ##          bastone (tira incantesimi con la Linfa) · dono (si assorbe: Vita o Linfa massima per sempre) ·
-##          specchio (riporta al punto di partenza) · trofeo (lo lasciano solo le creature rare, `TrophyItemsData`)
+##          specchio (riporta al punto di partenza) · richiamo (risveglia un Custode all'Altare) · reliquia (da
+##          collezionare, `RelicsData`) · mappa (indica il reliquiario più vicino) · trofeo (lo lasciano solo le creature rare, `TrophyItemsData`)
 ## Oggetti del bestiario della voce 22 in `BeastItemsData` (uniti qui in `all()`).
 ##   acc    effetti di un accessorio (vedi `GearEffects`): run (corsa ×), jump (salto ×), glide (planare tenendo
 ##          Spazio), fall_safe (niente ferite da caduta), halo (alone ×), regen (ricrescita della Vita ×),
@@ -200,6 +201,8 @@ static func all() -> Dictionary:
 	var out := ITEMS.duplicate(true)
 	out.merge(BeastItemsData.ITEMS.duplicate(true))
 	out.merge(TrophyItemsData.ITEMS.duplicate(true))
+	out.merge(KeeperItemsData.ITEMS.duplicate(true))
+	out.merge(RelicsData.ITEMS.duplicate(true))
 	for m in METALS:
 		var md: Dictionary = METALS[m]
 		for g in GEAR:
@@ -273,4 +276,8 @@ static func use_of(id: String) -> String:
 			return "dono"
 		"specchio":
 			return "ritorna"
+		"richiamo":
+			return "richiama"
+		"mappa":
+			return "mappa"
 	return ""

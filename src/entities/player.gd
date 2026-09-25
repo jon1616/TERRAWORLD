@@ -91,13 +91,17 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	var dir := auto_dir
 	var held := auto_jump
-	if control:
+	var typing := get_viewport().gui_get_focus_owner() is LineEdit   # si scrive nella ricerca delle ricette
+	if control and not typing:
 		dir = 0.0
 		if Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT):
 			dir -= 1.0
 		if Input.is_key_pressed(KEY_D) or Input.is_key_pressed(KEY_RIGHT):
 			dir += 1.0
 		held = Input.is_key_pressed(KEY_SPACE) or Input.is_key_pressed(KEY_W) or Input.is_key_pressed(KEY_UP)
+	elif control and typing:
+		dir = 0.0
+		held = false
 	elif auto_jump and on_floor:
 		jump_buf = 0.14
 	var left := delta

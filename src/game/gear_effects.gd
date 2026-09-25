@@ -19,6 +19,7 @@ const MULT := ["run", "jump", "halo", "regen", "dig", "stealth", "damage", "atk_
 
 var m: Node2D
 var sets: Array = []                   # i set completi indossati (per l'interfaccia)
+var relics: Array = []                 # le collezioni di reliquie complete
 
 
 func setup(main: Node2D) -> void:
@@ -47,6 +48,10 @@ func refresh() -> void:
 	sets = SetsData.complete(b.equip)
 	for s in sets:
 		_add(e, SetsData.all()[s]["bonus"])
+	# le collezioni di reliquie complete (voce 28): per sempre, trovate una volta
+	relics = RelicsData.complete(m.character.erbario.get("oggetti", {}))
+	for c in relics:
+		_add(e, RelicsData.COLLECTIONS[c]["bonus"])
 	m.player.run_mult = e["run"]
 	m.player.jump_mult = e["jump"]
 	m.player.glide = e["glide"]

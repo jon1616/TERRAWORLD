@@ -38,6 +38,10 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 			return m.portal.plant(c, id)
 		"dono":
 			return Gifts.absorb(m, id)
+		"richiamo":
+			return m.keepers.summon(id)
+		"mappa":
+			return _map_hint(id)
 		"specchio":
 			# lo Specchio del guizzo: si torna al punto di partenza del mondo
 			Fx.puff(m.fx, m.player.position, Color(0.8, 1.6, 1.7))
@@ -47,6 +51,33 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 			m.hud.toast("Lo specchio ti riporta alla partenza")
 			return true
 	return false
+
+
+## La Mappa dei Seminatori: indica il reliquiario più vicino non ancora aperto e lo rivela sulla mappa.
+func _map_hint(id: String) -> bool:
+	var seen: Array = m.world_meta.get("reliquiari_aperti", [])
+	var best := Vector2i(-1, -1)
+	var bd := 1e18
+	for o in m.world.stations:
+		if m.world.stations[o] != "reliquiario" or "%d,%d" % [o.x, o.y] in seen:
+			continue
+		var d: float = (Vector2(o) * S).distance_squared_to(m.player.position)
+		if d < bd:
+			bd = d
+			best = o
+	if best.x < 0:
+		m.hud.toast("La mappa non indica più nulla: li hai aperti tutti")
+		return false
+	if not m.character.bisaccia.remove(id, 1):
+		return false
+	var dx: float = best.x * S - m.player.position.x
+	var dy: float = best.y * S - m.player.position.y
+	var where := "a destra" if dx > 0.0 else "a sinistra"
+	var depth := "più in basso" if dy > 3 * S else ("più in alto" if dy < -3 * S else "alla stessa altezza")
+	m.hud.toast("Un reliquiario a %d tessere %s, %s. L'ho segnato sulla mappa (M)" % [int(sqrt(bd) / S), where, depth])
+	m.map_reveal.reveal_area(best + Vector2i(1, 1), 7)
+	m.sfx.play("apri")
+	return true
 
 
 ## Clic destro su una cella: se c'è una stazione a portata, fa ciò che le spetta. True se ha fatto qualcosa.
@@ -59,6 +90,12 @@ func touch(c: Vector2i) -> bool:
 	if StationsData.STATIONS[id].has("slots"):
 		chest_panel.open(o, m.world.chest_at(o), String(StationsData.STATIONS[id]["name"]))
 		m.sfx.play("apri", Vector2(o) * 16.0)
+		if id == "reliquiario":
+			var seen: Array = m.world_meta.get("reliquiari_aperti", [])
+			if not "%d,%d" % [o.x, o.y] in seen:
+				seen.append("%d,%d" % [o.x, o.y])
+				m.world_meta["reliquiari_aperti"] = seen
+				m.objectives.bump("reliquiari")
 		if id == "scrigno":
 			var opened: Array = m.world_meta.get("scrigni_aperti", [])
 			if not "%d,%d" % [o.x, o.y] in opened:

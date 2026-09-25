@@ -167,6 +167,40 @@ func swap_with(i: int, held: Dictionary) -> Dictionary:
 
 
 ## Scorza totale dell'equipaggiamento indossato.
+## Riordina la parte grande della Bisaccia (non la barra rapida): unisce le pile uguali e mette in fila per tipo
+## (attrezzi, armature, accessori, pozioni, materiali…) e poi per nome. I tratti restano ai loro oggetti.
+const SORT_KINDS := ["piccone", "ascia", "spada", "arco", "bastone", "munizione", "elmo", "corazza", "gambali",
+	"accessorio", "consumabile", "cura", "dono", "purifica", "lanterna", "specchio", "mappa", "richiamo", "stazione",
+	"torcia", "piattaforma", "seme", "seme_mondo", "blocco", "materiale", "essenza", "trofeo", "reliquia"]
+
+
+func sort_bag() -> void:
+	var items: Array = []
+	for i in range(HOTBAR, slots.size()):
+		if not slots[i].is_empty():
+			items.append(slots[i])
+		slots[i] = {}
+	items.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		var ka := SORT_KINDS.find(String(ItemsData.get_item(String(a["id"])).get("kind", "")))
+		var kb := SORT_KINDS.find(String(ItemsData.get_item(String(b["id"])).get("kind", "")))
+		if ka != kb:
+			return ka < kb
+		return String(ItemsData.get_item(String(a["id"])).get("name", "")) < String(ItemsData.get_item(String(b["id"])).get("name", "")))
+	var k := HOTBAR
+	for it in items:
+		# le pile uguali (senza tratto) si uniscono finché c'è posto
+		if k > HOTBAR and slots[k - 1].get("id", "") == it["id"] and not it.has("tratto") and not slots[k - 1].has("tratto"):
+			var room := ItemsData.stack_of(String(it["id"])) - int(slots[k - 1]["n"])
+			var moved := mini(room, int(it["n"]))
+			slots[k - 1]["n"] = int(slots[k - 1]["n"]) + moved
+			it["n"] = int(it["n"]) - moved
+			if int(it["n"]) <= 0:
+				continue
+		slots[k] = it
+		k += 1
+	changed.emit()
+
+
 func scorza() -> int:
 	var d := 0
 	for k in equip:

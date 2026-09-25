@@ -36,4 +36,20 @@ const PAGES := {
 		"title": "Il Seme di mondo",
 		"text": "Il seme germoglia in un arco di radici. Dentro, la Linfa gira come un vortice: dall'altra parte c'è un mondo che non esisteva un attimo fa.\nI Seminatori piantavano i mondi così. Ora tocca a te.",
 	},
+	"custode_madre": {
+		"title": "La Madre dei grumi",
+		"text": "Si scioglie in una pozza di muschio che trema ancora. I grumi del Sottobosco non erano creature: erano le sue gocce, sparse a cercare cibo per lei.\nNel bozzolo vuoto resta il suo cuore di gelatina. I Seminatori sapevano chiamarla: sull'Altare, una goccia della sua gelatina la risveglia.",
+	},
+	"custode_tessitrice": {
+		"title": "La Tessitrice delle radici",
+		"text": "Cade, e i suoi fili si allentano in tutte le Caverne. Per secoli ha cucito le radici dell'Albero-Madre alla roccia, perché non franassero.\nChi indossa la sua seta d'oro non si perde nel buio. Sull'Altare, un filo teso la richiama.",
+	},
+	"custode_serpe": {
+		"title": "La Serpe madre",
+		"text": "La Linfa che la teneva insieme torna a scorrere nella roccia. Ogni Serpe di Linfa delle Profondità è nata da lei.\nLe sue scaglie sono ancora calde. Una scaglia di serpe, posata sull'Altare, la fa risalire dal profondo.",
+	},
+	"custode_mietitore": {
+		"title": "Il Mietitore cavo",
+		"text": "Il mantello si affloscia: dentro non c'era nessuno. Il Vuoto lo aveva mandato a mietere ciò che il mondo lascia cadere nel Fondo.\nResta un nucleo cavo, freddo. L'eco del Vuoto, sull'Altare, lo chiama indietro: il Vuoto non manda mai un Mietitore una volta sola.",
+	},
 }

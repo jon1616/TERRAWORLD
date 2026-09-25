@@ -42,6 +42,7 @@ const TABLES := {
 		{"item": "pappo_seme", "min": 1, "max": 1, "chance": 0.12},
 	],
 	"rovina_2": [
+		{"item": "mappa_seminatori", "min": 1, "max": 1, "chance": 0.25},
 		{"item": "torcia", "min": 8, "max": 15, "chance": 0.5},
 		{"item": "lingotto_legnoferro", "min": 3, "max": 6, "chance": 0.45},
 		{"item": "pozione_scorza", "min": 1, "max": 2, "chance": 0.4},
@@ -53,6 +54,7 @@ const TABLES := {
 		{"item": "cuore_muschio", "min": 1, "max": 1, "chance": 0.1},
 	],
 	"rovina_3": [
+		{"item": "mappa_seminatori", "min": 1, "max": 1, "chance": 0.25},
 		{"item": "lingotto_ambra", "min": 3, "max": 6, "chance": 0.45},
 		{"item": "pozione_bagliore", "min": 1, "max": 2, "chance": 0.45},
 		{"item": "cristallo_linfa", "min": 2, "max": 5, "chance": 0.4},
@@ -133,6 +135,31 @@ const TABLES := {
 	],
 	"tessivuoto": [{"item": "seta_vuoto", "min": 2, "max": 3, "chance": 1.0}],
 	"sciame": [{"item": "scheggia_vuoto", "min": 1, "max": 1, "chance": 0.8}],
+	# voce 27: i Custodi degli strati (sempre il loro materiale regale e un dono)
+	"madre_grumi": [
+		{"item": "gelatina_regale", "min": 5, "max": 7, "chance": 1.0},
+		{"item": "gelatina", "min": 15, "max": 25, "chance": 1.0},
+		{"item": "cuore_bocciolo", "min": 1, "max": 1, "chance": 1.0},
+		{"item": "nucleo_muschio", "min": 1, "max": 1, "chance": 0.5},
+	],
+	"tessitrice": [
+		{"item": "seta_regale", "min": 5, "max": 7, "chance": 1.0},
+		{"item": "seta_radice", "min": 15, "max": 25, "chance": 1.0},
+		{"item": "cuore_bocciolo", "min": 1, "max": 1, "chance": 1.0},
+		{"item": "filiera_radice", "min": 1, "max": 1, "chance": 0.5},
+	],
+	"serpe_madre": [
+		{"item": "scaglia_madre", "min": 5, "max": 7, "chance": 1.0},
+		{"item": "scaglia_linfa", "min": 8, "max": 14, "chance": 1.0},
+		{"item": "stilla_perenne", "min": 1, "max": 1, "chance": 1.0},
+		{"item": "dente_serpe", "min": 1, "max": 1, "chance": 0.5},
+	],
+	"mietitore": [
+		{"item": "nucleo_cavo", "min": 5, "max": 7, "chance": 1.0},
+		{"item": "scheggia_vuoto", "min": 10, "max": 20, "chance": 1.0},
+		{"item": "stilla_perenne", "min": 1, "max": 1, "chance": 1.0},
+		{"item": "falce_maestra", "min": 1, "max": 1, "chance": 0.5},
+	],
 }
 
 

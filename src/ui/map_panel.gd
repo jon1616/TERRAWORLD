@@ -6,7 +6,8 @@ extends Control
 
 const ZOOMS := [0.5, 1.0, 2.0, 4.0, 8.0]
 const MARK := {"player": Color("#ffb84a"), "spawn": Color("#8ef0d8"), "cuore": Color("#ff7a8a"),
-	"portale": Color("#6ff0d8"), "scrigno": Color("#e8fff8"), "fagotto": Color("#ff5a4a")}
+	"portale": Color("#6ff0d8"), "scrigno": Color("#e8fff8"), "fagotto": Color("#ff5a4a"),
+	"reliquiario": Color("#ffd24a"), "tana": Color("#c060ff"), "altare": Color("#5cc8cc")}
 
 var m: Node2D
 var reveal: MapReveal
@@ -30,7 +31,7 @@ func setup(main: Node2D, r: MapReveal) -> void:
 	_legend.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_legend.add_theme_font_size_override("normal_font_size", 14)
 	var t := "[color=#cfeee4]Mappa · rotella: ingrandisci · trascina: spostati · M o Esc: chiudi[/color]     "
-	for k in [["player", "tu"], ["spawn", "partenza"], ["cuore", "Cuore del mondo"], ["portale", "portale"], ["scrigno", "scrigni e ceste"], ["fagotto", "il tuo fagotto"]]:
+	for k in [["player", "tu"], ["spawn", "partenza"], ["cuore", "Cuore del mondo"], ["portale", "portale"], ["scrigno", "scrigni e ceste"], ["fagotto", "il tuo fagotto"], ["reliquiario", "reliquiari"], ["tana", "tane dei Custodi"], ["altare", "altari"]]:
 		t += "[color=#%s]●[/color] [color=#cfeee4]%s[/color]   " % [(MARK[k[0]] as Color).to_html(false), k[1]]
 	_legend.text = t
 	add_child(_legend)
@@ -96,6 +97,12 @@ func _draw() -> void:
 			key = "scrigno"
 		elif id == "fagotto":
 			key = "fagotto"
+		elif id == "reliquiario":
+			key = "reliquiario"
+		elif id.begins_with("bozzolo") and id != "bozzolo_rotto":
+			key = "tana"
+		elif id == "altare":
+			key = "altare"
 		if key != "" and w.explored[o.y * w.w + o.x] != 0:
 			_mark(Vector2(o) + Vector2(1, 1), MARK[key], 5.0)
 	_mark(Vector2(w.spawn), MARK["spawn"], 6.0)

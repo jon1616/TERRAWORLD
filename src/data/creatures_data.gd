@@ -152,6 +152,32 @@ const CREATURES := {
 	"sciame_schegge": {"name": "Sciame di schegge", "hp": 12, "damage": 10, "defense": 2, "knock": 0.0, "half": [4, 4],
 		"speed": 100, "fly": true, "behaviors": ["vola"], "p": {"sight": 28, "wobble": 50.0}, "group": [3, 5],
 		"loot": "sciame", "art": ["sciame", 0], "strata": [4], "weight": 4, "glow": true},
+	# --- voce 27: i Custodi degli strati (boss intermedi, nelle tane o richiamati all'Altare; vedi `KeepersData`) ---
+	# la Madre dei grumi: salti enormi, e nella seconda fase chiama i suoi piccoli
+	"madre_grumi": {"name": "La Madre dei grumi", "hp": 450, "damage": 14, "defense": 2, "knock": 1.0, "half": [22, 17],
+		"speed": 95, "behaviors": ["salta_verso", "evoca"],
+		"p": {"jump": 430.0, "sight": 40, "summon_every": 5.0, "summon": "grumo_muschio", "summon_max": 5, "phase2": 0.5},
+		"loot": "madre_grumi", "art": ["madre_grumi", 0], "strata": [], "weight": 0, "glow": true, "boss": true},
+	# la Tessitrice delle radici: cammina, carica e ricopre tutto di ragnatele; poi chiama i Tessiradice
+	"tessitrice_radici": {"name": "La Tessitrice delle radici", "hp": 650, "damage": 18, "defense": 5, "knock": 1.0,
+		"half": [26, 12], "speed": 75, "behaviors": ["cammina", "carica", "spara", "evoca"],
+		"p": {"sight": 40, "charge": 260.0, "charge_range": 14, "charge_time": 0.9, "charge_cool": 4.0, "rate": 1.4,
+			"shot_speed": 240.0, "shot_grav": 120.0, "shot_damage": 10, "slow": 3.0, "shot_look": "ragnatela",
+			"summon_every": 7.0, "summon": "tessiradice", "summon_max": 3, "phase2": 0.5},
+		"loot": "tessitrice", "art": ["tessitrice", 0], "strata": [], "weight": 0, "glow": true, "boss": true},
+	# la Serpe madre: nuota nell'aria delle Profondità, scatta e scaglia ventagli di Linfa
+	"serpe_madre": {"name": "La Serpe madre", "hp": 800, "damage": 22, "defense": 5, "knock": 1.0, "half": [30, 9],
+		"speed": 125, "fly": true, "behaviors": ["vola", "scatto", "ventaglio", "evoca"],
+		"p": {"sight": 45, "wobble": 50.0, "dash_every": 3.5, "dash_speed": 360.0, "dash_time": 0.5, "fan_rate": 2.4,
+			"fan_n": 5, "fan_spread": 0.9, "shot_speed": 200.0, "shot_grav": 30.0, "shot_damage": 18,
+			"summon_every": 9.0, "summon": "serpe_linfa", "summon_max": 2, "phase2": 0.5},
+		"loot": "serpe_madre", "art": ["serpe_madre", 0], "strata": [], "weight": 0, "glow": true, "boss": true},
+	# il Mietitore cavo: sparisce e ricompare, scatta con la falce, chiama sciami di schegge
+	"mietitore_cavo": {"name": "Il Mietitore cavo", "hp": 850, "damage": 26, "defense": 9, "knock": 1.0, "half": [12, 21],
+		"speed": 95, "behaviors": ["cammina", "scatto", "teletrasporto", "evoca"],
+		"p": {"sight": 40, "dash_every": 2.8, "dash_speed": 380.0, "dash_time": 0.4, "blink_every": 4.0,
+			"summon_every": 8.0, "summon": "sciame_schegge", "summon_max": 4, "phase2": 0.5},
+		"loot": "mietitore", "art": ["mietitore", 0], "strata": [], "weight": 0, "glow": true, "boss": true},
 }
 
 ## Tetto di creature, ritmo e distanza delle nascite: vedi `DangerData` (voce 20).

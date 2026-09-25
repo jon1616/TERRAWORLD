@@ -11,6 +11,7 @@ var panel: BisacciaPanel
 var held := {}                         # l'oggetto posato nella casella
 var _slot: SlotView
 var _text: RichTextLabel
+var sheet: Callable                    # () -> testo della scheda del Germogliato (voce 29), quando la casella è vuota
 
 
 func setup(p: BisacciaPanel, pos: Vector2) -> void:
@@ -66,7 +67,10 @@ func show_item(id: String, tratto := "") -> void:
 func refresh() -> void:
 	if held.is_empty():
 		_slot.set_item("", 0)
-		_text.text = "[color=#6a8a84]Posa qui un oggetto con il clic per sapere a cosa serve, in quali ricette si usa e come si ottiene.[/color]"
+		if sheet.is_valid():
+			_text.text = sheet.call()
+		else:
+			_text.text = "[color=#6a8a84]Posa qui un oggetto con il clic per sapere a cosa serve, in quali ricette si usa e come si ottiene.[/color]"
 		return
 	_slot.set_item(String(held["id"]), int(held["n"]), String(held.get("tratto", "")))
 	show_item(String(held["id"]), String(held.get("tratto", "")))

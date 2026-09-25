@@ -37,6 +37,7 @@ var sfx: Sfx
 var blight: Blight
 var hazards: Hazards
 var spells: Spells
+var keepers: Keepers
 var _spores: CPUParticles2D
 var built := false
 var gen_times: Array = []
@@ -166,6 +167,7 @@ func _build() -> void:
 	fauna.setup(world, player, drops, shots)
 	hud = Hud.new()
 	hud.bisaccia = character.bisaccia
+	hud.help = character.play_time < 1200.0     # dopo venti minuti di gioco l'aiuto dei tasti parte nascosto (F1)
 	hud.stations_near = func() -> Dictionary: return Crafting.stations_near(world, player_cell())
 	add_child(hud)
 	var vv := VitalsView.new()
@@ -202,28 +204,17 @@ func _build() -> void:
 	mp.setup(self, map_reveal)
 	hud.map = mp
 	erbario = _mount(Erbario.new())
+	hud.panel.examine.sheet = func() -> String: return CharacterSheet.bbcode(self)
 	var ep := ErbarioPanel.new()
 	hud.add_child(ep)
 	ep.setup(self, erbario)
 	hud.overlays.append(ep)
 	objectives = _mount(Objectives.new())
-	hud.panel.crafting.grafted.connect(func(_id: String) -> void: objectives.bump("innesti"))
-	fauna.rare_spawned.connect(func(c: Creature) -> void:
-		if c.ancient.rarity == "iridata":
-			hud.toast("Una creatura iridata qui vicino: %s. Prendila prima che svanisca!" % c.data["name"])
-		else:
-			hud.toast("Una presenza ancestrale si risveglia qui vicino: %s" % c.data["name"])
-		sfx.play("presenza"))
-	fauna.vanished.connect(func(c: Creature) -> void: hud.toast("%s iridata è svanita nel nulla" % c.data["name"]))
-	fauna.killed.connect(func(c: Creature) -> void:
-		if c.ancient:
-			var n: Dictionary = erbario.data["antiche"]
-			n[c.id] = int(n.get(c.id, 0)) + 1
-			objectives.bump({"antica": "antiche", "ancestrale": "ancestrali", "capobranco": "capibranco",
-				"iridata": "iridate"}[c.ancient.rarity]))
 	blight = _mount(Blight.new())
 	hazards = _mount(Hazards.new())
 	spells = _mount(Spells.new())
+	keepers = _mount(Keepers.new())
+	_mount(Chronicle.new())                # avvisi, Erbario e conteggi degli obiettivi dagli eventi del gioco
 	hud.select(character.hotbar)
 	var start := world.spawn
 	var pos: Array = (world_meta.get("giocatori", {}) as Dictionary).get(character.id, [])

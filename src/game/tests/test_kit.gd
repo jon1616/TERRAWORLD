@@ -101,6 +101,20 @@ func _flat_spot(c: Vector2i, width: int, tol: int) -> Vector2i:
 	return Vector2i(-1, -1)
 
 
+## Spiana il terreno attorno a c (per piazzare stazioni anche dove le prove precedenti hanno lasciato pendii e
+## costruzioni): un pavimento d'ardesia sotto e quattro tessere d'aria sopra, per `half` tessere a destra e a sinistra.
+func flatten(c: Vector2i, half: int) -> void:
+	for x in range(c.x - half, c.x + half + 1):
+		world.set_tile(x, c.y + 1, TileDefs.STONE)
+		for y in range(c.y - 4, c.y + 1):
+			if world.station_at(Vector2i(x, y)).is_empty():
+				world.set_tile(x, y, TileDefs.AIR)
+				world.set_decor(x, y, 0)
+	for x in range(c.x - half, c.x + half + 1, 8):
+		m.view.refresh_around(Vector2i(x, c.y))
+	m.view.refresh_around(Vector2i(c.x + half, c.y))
+
+
 func craft(id: String) -> bool:
 	for r in RecipesData.making(id):
 		if Crafting.craft(r, bisaccia()):
@@ -140,10 +154,11 @@ func hold(id: String) -> int:
 
 
 func place_station_near(item: String, c: Vector2i) -> bool:
-	var slot := slot_of(item)
+	if bisaccia().count(item) == 0:
+		return false
+	var slot := hold(item)                  # con la barra rapida piena, `hold` la porta in mano comunque
 	if slot < 0:
 		return false
-	m.hud.select(slot)
 	var sid := String(ItemsData.get_item(item)["place"])
 	var size: Array = StationsData.STATIONS[sid]["size"]
 	for dx in [2, -2, 3, -3, 4, -4, 5, -5, 1, -1, 0]:

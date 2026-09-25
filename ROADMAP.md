@@ -406,15 +406,51 @@ conta anche quella dei set; la casella Esamina dice di che set fa parte un pezzo
 trovavano più terreno piano vicino alla partenza (le prove precedenti ci costruiscono sopra): `TestKit.flat_spot` ora
 accetta un dislivello di una o due tessere. Prove `--solo=set` (foto 50_set).
 
-## 27. [ ] Boss intermedi (L)
-I Custodi degli strati: uno per strato, nella loro tana generata nel mondo o richiamati all'Altare, con bottino proprio
-e obiettivi.
+## 27. [x] Boss intermedi (L) — fatto il 25 set 2026
+I **Custodi degli strati** (`KeepersData`, modulo `Keepers`), quattro boss intermedi tra l'inizio e il Guardiano, uno
+per strato: la **Madre dei grumi** (Sottobosco: salti enormi, poi chiama i suoi piccoli), la **Tessitrice delle
+radici** (Caverne: carica, ricopre tutto di ragnatele, chiama i Tessiradice), la **Serpe madre** (Profondità: nuota
+nell'aria, scatta, ventagli di Linfa) e il **Mietitore cavo** (Fondo: sparisce e ricompare, scatta con la falce,
+chiama sciami di schegge). Passata **Tane**: per ognuno una grande caverna ovale nel suo strato, lontana dal resto, con
+le decorazioni del suo stile e un **bozzolo** di radici con il cuore acceso del suo colore. Avvicinandosi il Custode si
+schiude (barra in alto, scritta, luce attorno); se il Germogliato appassisce o si allontana torna a dormire.
+Sconfitto, lascia sempre il suo **materiale regale**, un dono (Cuore di bocciolo o Stilla perenne), metà delle volte
+il trofeo della sua specie, e la prima volta una pagina di storia; il bozzolo resta vuoto. All'**Altare dei
+Seminatori** (nuovo banco: pietre delle rovine) si fabbricano i **richiami** e si risveglia un Custode già sconfitto,
+per tornare a cercare il suo bottino. Oggetti dei Custodi: Corona gelatinosa, Sacca dei grumi, Manto della
+Tessitrice, Arco di seta regale (due dardi), Anello e Bastone della Serpe madre (tre serpi che cercano), Falce del
+Mietitore, Cuore cavo. Prove `--solo=custodi`: tane per strato, schiusa, sconfitta, richiamo rifiutato e accettato
+(foto 51_custode, 52_tessitrice).
 
-## 28. [ ] Segreti del mondo (M)
-Reliquie dei Seminatori da collezionare (con un bonus per ogni collezione completa), geodi, nascondigli murati, nidi.
+## 28. [x] Segreti del mondo (M) — fatto il 25 set 2026
+Passata **Nascondigli**: dodici stanze murate di Pietra dei Seminatori **senza porta**, chiuse nella roccia del
+profondo, ognuna con un **Reliquiario** che custodisce una **reliquia** (e un po' di bottino). Le reliquie formano tre
+**collezioni** (`RelicsData`): **Attrezzi dei Seminatori** (zappa, falcetto, annaffiatoio, sementiera; Sottobosco e
+Caverne), **Canti dei Seminatori** (quattro tavolette: alba, giorno, tramonto, notte; Caverne e Profondità) e **Semi
+perduti** (quattro semi antichi; Profondità e Fondo). Trovata l'ultima reliquia di una collezione (basta averla
+avuta una volta: la ricorda l'Erbario) il Germogliato riceve il bonus **per sempre** (scavo e fortuna; Linfa e
+incantesimi; Vita e Scorza). La **Mappa dei Seminatori** (all'Altare, o negli scrigni delle rovine) indica a parole il
+reliquiario più vicino non ancora aperto e lo rivela sulla mappa. Passata **Geodi**: trenta sfere cave chiuse nella
+roccia delle Caverne e delle Profondità, con un guscio di cristalli di Linfa e gemme dentro. Sulla mappa (M) ora si
+vedono anche reliquiari, tane dei Custodi e altari. Prove `--solo=reliquie` (foto 53_nascondiglio, 54_geode); le prove
+dei banchi spianano il terreno prima di piazzarli (`TestKit.flatten`).
 
-## 29. [ ] Interfaccia chiara (M)
-Ripasso di HUD, Bisaccia, colonna Creare (categorie, ricerca), avvisi; foto di controllo.
+## 29. [x] Interfaccia chiara (M) — fatto il 25 set 2026
+Con più di 170 ricette la colonna **Creare** si è riorganizzata: otto **categorie** (Tutto, Armi, Armature, Accessori,
+Pozioni, Materiali, Banchi, Altro), una **ricerca** per nome (mentre si scrive il Germogliato non si muove e i tasti
+del gioco tacciono), e in ogni riga, sotto il nome, gli **ingredienti con la loro icona** e quanti ne servono (in rosso
+quelli che mancano); nel titolo quante ricette sono possibili e quanti banchi sono vicini (i nomi nel suggerimento).
+La casella **Esamina**, vuota, mostra la **scheda del Germogliato** (`CharacterSheet`): Vita, Linfa, Scorza, tutti i
+moltiplicatori attivi (danno, colpi, incantesimi, corsa, salto, scavo, ricrescita, alone, ombra, fortuna, spine,
+planata), set completi e collezioni di reliquie, doni assorbiti, Erbario. Nella Bisaccia il bottone **Riordina** (per
+tipo e per nome, unendo le pile; la barra rapida resta com'è). L'aiuto dei tasti in alto a sinistra si mostra e si
+nasconde con **F1** (parte nascosto dopo venti minuti di gioco). Prove `--solo=interfaccia` (foto 55_creare,
+56_creare_armi); `TestKit.place_station_near` ora porta in mano la stazione anche con la barra rapida piena.
 
-## 30. [ ] Obiettivi intermedi (S)
-Nuova catena di obiettivi legata a tutto ciò che è nato in questa Roadmap.
+## 30. [x] Obiettivi intermedi (S) — fatto il 25 set 2026
+La catena degli obiettivi passa da 25 a **45**, con traguardi intermedi intrecciati a quelli di prima: il primo
+Bocciolo del cuore, il Bastone di brace, l'Alambicco, il primo capobranco e il primo oggetto da un trofeo, l'Altare, il
+primo Custode (poi due, poi tutti e quattro), Telaio e Mola, la pallidite, il primo reliquiario, un set completo, la
+tizzonite, cinque Cuori di bocciolo, la prima iridata, la prima collezione di reliquie (poi tutte e tre), un oggetto
+iridato. Condizioni nuove: `set`, `collezione`, `any`; conteggio nuovo `oggetti_trofeo`. Ricompense legate al
+traguardo (pozioni dell'esca e di fortuna, mappe dei Seminatori, Cuori di bocciolo, Stille perenni…).

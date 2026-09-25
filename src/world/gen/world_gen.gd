@@ -27,6 +27,9 @@ static func passes() -> Array[GenPass]:
 		PassPericoli.new(),
 		PassDoni.new(),
 		PassGemme.new(),
+		PassTane.new(),
+		PassNascondigli.new(),
+		PassGeodi.new(),
 		PassPartenza.new(),
 	]
 

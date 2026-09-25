@@ -102,6 +102,17 @@ func reveal(all := false) -> int:
 	return n
 
 
+## Rivela un cerchio di celle attorno a una (la Mappa dei Seminatori), anche se non è mai stato illuminato.
+func reveal_area(c: Vector2i, r: int) -> void:
+	for y in range(c.y - r, c.y + r + 1):
+		for x in range(c.x - r, c.x + r + 1):
+			if world.inside(x, y) and Vector2(x - c.x, y - c.y).length() <= r:
+				var i := y * world.w + x
+				world.explored[i] = 1
+				image.set_pixel(x, y, color_at(i))
+	refresh_texture()
+
+
 ## Quante celle sono state viste (per le prove).
 func explored_count() -> int:
 	return world.explored.count(1)
