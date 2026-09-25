@@ -470,3 +470,42 @@ avanti, e si vede sempre; la torcia ha in cima una fiamma che guizza sopra il bu
 come una fiamma (`Boons._flicker`: cambia un poco d'intensità ogni 0,09 s; 60 fps confermati dalla prova). Tremolano anche le **torce piantate**, ognuna con la sua
 fase (nasce dalla cella: non pulsano tutte insieme; `LightMap.FLICKER`, `flicker_time` mandato avanti da `Boons` solo
 se c'è una torcia nella finestra della luce). Prova: 11 valori diversi in 2 s, nessun fotogramma perso.
+
+# Roadmap 4 «Un mondo da abitare» (26 set 2026)
+
+Richiesta dell'utente: dieci cicli consecutivi di migliorie ed espansioni, «voglio sostanza», un gioco molto più vasto
+nelle meccaniche e nei contenuti, senza il suo intervento. Scelte di Claude, dalla meccanica che cambia di più il
+modo di giocare a quella che allarga di più i mondi.
+
+## 31. [ ] Muoversi meglio (M)
+Rampino (Radice uncino, Uncino di cristallo), doppio salto (Baccello di vento, Seme di tempesta), artigli per
+scivolare e saltare sulle pareti.
+
+## 32. [ ] Esplosivi e armi da lancio (M)
+Baccelli esplosivi che rompono la roccia (non quella dura), semi ricurvi che tornano in mano, giavellotti.
+
+## 33. [ ] Il giardino del Germogliato (M)
+Coltivare: semi di erbe e funghi da piantare su humus e muschio, crescita a stadi, raccolto; pozioni nuove dalle erbe.
+
+## 34. [ ] Eventi del mondo (M)
+Pioggia di stelle nelle notti serene, Notte dell'Avvizzimento (ondate e ricompensa), Fioritura (giorno di creature
+rare); scritte, suoni, obiettivi.
+
+## 35. [ ] Costruire (M)
+Blocchi da costruzione (mattoni, assi, vetro di cristallo), pareti da piazzare, porte, lampade e arredi.
+
+## 36. [ ] Abitanti e commercio (L)
+Una moneta (i Lumini), viandanti che si fermano al Focolare, un mercante e altri abitanti con le loro merci.
+
+## 37. [ ] Compagni (M)
+Un compagno di luce che segue il Germogliato, bastoni che richiamano creature alleate che combattono per lui.
+
+## 38. [ ] Viaggio rapido e minimappa (M)
+Radici viandanti da collegare tra loro; una minimappa nell'angolo dello schermo.
+
+## 39. [ ] Semi con specie e tratti (L)
+Ogni Seme di mondo ha una specie (quali biomi) e dei tratti (notti lunghe, gemme ricche, iridate frequenti…):
+i mondi oltre i portali diventano davvero diversi.
+
+## 40. [ ] Biomi nuovi (L)
+Nuovi biomi di superficie e del sottosuolo con creature e materiali propri, legati alle specie dei Semi.
