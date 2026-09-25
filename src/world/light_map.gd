@@ -272,3 +272,10 @@ static func _solve(job: Dictionary) -> void:
 			vb = maxf(minf(vb, 1.0) - CUT, 0.0) / (1.0 - CUT)
 			img.set_pixel(x, y, Color(pow(vr, CURVE), pow(vg, CURVE), pow(vb, CURVE)).linear_to_srgb())
 	job["image"] = img
+
+
+## Aspetta il calcolo in corso (uscendo dalla scena: il thread non deve restare a metà).
+func finish() -> void:
+	if _task >= 0:
+		WorkerThreadPool.wait_for_task_completion(_task)
+		_task = -1

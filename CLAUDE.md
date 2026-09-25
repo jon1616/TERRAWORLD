@@ -254,6 +254,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   prima delle foto importanti si aspetta in secondi (`kit.seconds`), non in fotogrammi.
 - L'immagine della luce (moltiplicazione) scurisce anche lo sfondo: il colore del cielo va diviso per la luce che
   gli cade sopra (`DayCycle.apply`), altrimenti al tramonto il cielo diventa nero.
+- Ogni modulo che lancia un lavoro in `WorkerThreadPool` e poi ne legge o scrive i risultati nel proprio nodo deve
+  aspettarlo in `_exit_tree()`: uscendo subito dopo un caricamento (menu, portale, chiusura) il nodo spariva con il
+  thread ancora al lavoro e il gioco si chiudeva con un errore di memoria (trovato dalla prova del viaggio).
 - Una funzione anonima collegata a un timer non deve trattenere un nodo che può sparire prima: si usa `weakref`
   (altrimenti «Lambda capture was freed»). E nei file del gioco i tipi dedotti da un Variant sono errori: `var x: T =`.
 - Il buio (deciso dall'utente il 25 set 2026: «il buio non c'è, le torce non servono», poi con un'immagine di

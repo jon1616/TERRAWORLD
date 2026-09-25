@@ -156,3 +156,11 @@ static func surface_blighted(w: World, x: int) -> bool:
 		if w.tile(xx, y) == TileDefs.AVV_MUSCHIO:
 			return true
 	return false
+
+
+## Uscendo (menu, portale, chiusura) si aspetta il thread che cerca le tessere malate: scrive in questo nodo, e se
+## il nodo sparisse prima il gioco si chiuderebbe con un errore di memoria (successo nella prova del viaggio).
+func _exit_tree() -> void:
+	if _task >= 0:
+		WorkerThreadPool.wait_for_task_completion(_task)
+		_task = -1

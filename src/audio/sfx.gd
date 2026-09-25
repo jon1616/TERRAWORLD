@@ -109,3 +109,14 @@ func _switch_ambient(s: int) -> void:
 	p.stream = _amb_streams[s][0]
 	p.volume_db = -60.0
 	p.play()
+
+
+## Uscendo si aspettano i thread che generano i suoni e i sottofondi (vedi `Blight._exit_tree`).
+func _exit_tree() -> void:
+	if _task >= 0:
+		WorkerThreadPool.wait_for_task_completion(_task)
+		_task = -1
+	for s in _amb_tasks:
+		if int(_amb_tasks[s]) >= 0:
+			WorkerThreadPool.wait_for_task_completion(_amb_tasks[s])
+			_amb_tasks[s] = -1

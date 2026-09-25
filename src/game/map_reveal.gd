@@ -110,3 +110,10 @@ func explored_count() -> int:
 func refresh_texture() -> void:
 	if ready_img:
 		tex.update(image)
+
+
+## Uscendo si aspetta il thread che dipinge la mappa (vedi `Blight._exit_tree`).
+func _exit_tree() -> void:
+	if _task >= 0:
+		WorkerThreadPool.wait_for_task_completion(_task)
+		_task = -1

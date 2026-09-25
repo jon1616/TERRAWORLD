@@ -329,6 +329,15 @@ func _unhandled_input(e: InputEvent) -> void:
 		get_tree().change_scene_to_file(MENU_SCENE)
 
 
+## Uscendo dalla scena (menu, portale, chiusura) nessun thread deve restare a lavorare su nodi che spariscono.
+func _exit_tree() -> void:
+	if _gen_task >= 0:
+		WorkerThreadPool.wait_for_task_completion(_gen_task)
+		_gen_task = -1
+	if light:
+		light.finish()
+
+
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		save_game()
