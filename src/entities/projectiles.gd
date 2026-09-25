@@ -31,6 +31,7 @@ func setup(w: World, on_hit: Callable) -> void:
 	_tex["ragnatela"] = ImageTexture.create_from_image(_web())
 	_tex["iride"] = ImageTexture.create_from_image(_spore(Color("#ffffff"), Color("#f080d0")))
 	_tex["gelo"] = ImageTexture.create_from_image(_spore(Color("#e8f8ff"), Color("#2a7ad8")))
+	_tex["giavellotto"] = ImageTexture.create_from_image(_javelin())
 	_tex["polline"] = ImageTexture.create_from_image(_spore(Color("#fff2a8"), Color("#e0a030")))
 	_tex["scheggia_nera"] = ImageTexture.create_from_image(_spore(Color("#e0c8ff"), Color("#463464")))
 
@@ -42,7 +43,9 @@ func fire(from: Vector2, vel: Vector2, grav: float, damage: int, from_player: bo
 	var look := String(opts.get("look", "dardo" if from_player else "spora"))
 	sp.texture = _tex[look]
 	sp.position = from
-	if look == "ragnatela":
+	if look == "giavellotto":
+		pass
+	elif look == "ragnatela":
 		sp.z_as_relative = false
 		sp.z_index = 26
 	elif look != "dardo":
@@ -122,6 +125,20 @@ static func _spore(core: Color, rim: Color) -> Image:
 				im.set_pixel(x, y, core if d < 1.2 else rim)
 			elif d < 3.0:
 				im.set_pixel(x, y, Color(rim.r, rim.g, rim.b, 0.5))
+	return im
+
+
+## Giavellotto: un'asta di legno con la punta d'aculeo.
+static func _javelin() -> Image:
+	var im := Image.create_empty(16, 3, false, Image.FORMAT_RGBA8)
+	for x in 12:
+		im.set_pixel(x, 1, Color("#8a5a3a") if x % 3 else Color("#6a4028"))
+	for x in range(12, 16):
+		im.set_pixel(x, 1, Color("#fff2a8") if x > 13 else Color("#eec04a"))
+	im.set_pixel(13, 0, Color("#b0861c"))
+	im.set_pixel(13, 2, Color("#b0861c"))
+	im.set_pixel(0, 0, Color("#3aa08a"))
+	im.set_pixel(0, 2, Color("#3aa08a"))
 	return im
 
 

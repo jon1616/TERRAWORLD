@@ -58,7 +58,7 @@ const REFORGE_COST := {"polvere_brace": 3}
 ## La categoria di un oggetto per i tratti ("" = niente tratti: materiali, blocchi, consumabili…).
 static func category_of(id: String) -> String:
 	match String(ItemsData.get_item(id).get("kind", "")):
-		"spada", "arco":
+		"spada", "arco", "bastone":
 			return "arma"
 		"piccone", "ascia":
 			return "attrezzo"

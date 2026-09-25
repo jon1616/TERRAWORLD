@@ -44,6 +44,14 @@ const RECIPES := [
 	{"out": "dardo_vuoto", "qty": 20, "in": {"scheggia_vuoto": 1, "legno": 1}, "station": "ceppo"},
 	{"out": "lanterna_linfa", "qty": 1, "in": {"cristallo_linfa": 5, "lingotto_ambra": 2}, "station": "maglio"},
 	{"out": "rugiada_linfa", "qty": 1, "in": {"cristallo_linfa": 2, "fungo_luminoso": 1, "pozione_rugiada": 1}, "station": "alambicco"},
+	# voce 32: esplosivi e armi da lancio
+	{"out": "baccello_esplosivo", "qty": 3, "in": {"polvere_brace": 3, "gelatina": 2, "ardesia": 2}, "station": "baccello_ardente"},
+	{"out": "baccello_tonante", "qty": 2, "in": {"baccello_esplosivo": 2, "lingotto_tizzonite": 1, "polvere_brace": 4}, "station": "baccello_ardente"},
+	{"out": "seme_ricurvo", "qty": 1, "in": {"legno": 10, "seme_lanterna": 1}, "station": "ceppo"},
+	{"out": "seme_ricurvo_ambra", "qty": 1, "in": {"lingotto_ambra": 6, "legno": 5}, "station": "maglio"},
+	{"out": "seme_ricurvo_vuoto", "qty": 1, "in": {"scheggia_vuoto": 10, "lingotto_linfa": 5}, "station": "maglio"},
+	{"out": "giavellotto_aculeo", "qty": 10, "in": {"aculeo": 2, "legno": 1}, "station": "ceppo"},
+	{"out": "giavellotto_cristallo", "qty": 10, "in": {"cristallo_linfa": 1, "legno": 1}, "station": "maglio"},
 	# voce 31: muoversi meglio
 	{"out": "radice_uncino", "qty": 1, "in": {"legno": 12, "seta_radice": 6, "lingotto_radicite": 4}, "station": "ceppo"},
 	{"out": "uncino_cristallo", "qty": 1, "in": {"cristallo_linfa": 8, "lingotto_ambra": 5, "seta_radice": 6}, "station": "maglio"},

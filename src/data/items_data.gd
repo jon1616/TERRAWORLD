@@ -11,7 +11,9 @@ extends RefCounted
 ##          bastone (tira incantesimi con la Linfa) · dono (si assorbe: Vita o Linfa massima per sempre) ·
 ##          specchio (riporta al punto di partenza) · richiamo (risveglia un Custode all'Altare) · reliquia (da
 ##          collezionare, `RelicsData`) · mappa (indica il reliquiario più vicino) · trofeo ·
-##          rampino (`hook`: {range in tessere, speed}; si aggancia alla roccia e tira il Germogliato) (lo lasciano solo le creature rare, `TrophyItemsData`)
+##          rampino (`hook`: {range in tessere, speed}; si aggancia alla roccia e tira il Germogliato) ·
+##          esplosivo (`blast`: {radius, power, damage, fuse}) · ricurvo (`throw`: {range, speed}; torna in mano) ·
+##          giavellotto (si lancia e si consuma; `pierce`). Li lancia `Throwing`. (lo lasciano solo le creature rare, `TrophyItemsData`)
 ## Oggetti del bestiario della voce 22 in `BeastItemsData` (uniti qui in `all()`).
 ##   acc    effetti di un accessorio (vedi `GearEffects`): run (corsa ×), jump (salto ×), glide (planare tenendo
 ##          Spazio), fall_safe (niente ferite da caduta), halo (alone ×), regen (ricrescita della Vita ×),
@@ -163,6 +165,14 @@ const ITEMS := {
 	"baccello_vento": {"name": "Baccello di vento", "kind": "accessorio", "icon": ["sacca", "cristallo"], "acc": {"air_jumps": 1}, "desc": "Un secondo salto in aria: il baccello sbuffa un colpo di vento sotto i piedi."},
 	"seme_tempesta": {"name": "Seme di tempesta", "kind": "accessorio", "icon": ["seme", "lagunite"], "acc": {"air_jumps": 2, "jump": 1.05}, "desc": "Due salti in aria e un salto un po' più alto."},
 	"artigli_corteccia": {"name": "Artigli di corteccia", "kind": "accessorio", "icon": ["artiglio", "radice"], "acc": {"wall": true}, "desc": "Spingendo contro una parete in aria si scivola piano; con il salto ci si stacca verso l'alto."},
+	# voce 32: esplosivi e armi da lancio
+	"baccello_esplosivo": {"name": "Baccello esplosivo", "kind": "esplosivo", "icon": ["bomba", "brace"], "stack": 99, "blast": {"radius": 2.6, "power": 40, "damage": 45, "fuse": 1.4}, "desc": "Lancialo: rimbalza e dopo un attimo scoppia. Rompe terra e roccia attorno (non l'ambra né i cristalli). Stai lontano!"},
+	"baccello_tonante": {"name": "Baccello tonante", "kind": "esplosivo", "icon": ["bomba", "tizzonite"], "stack": 99, "blast": {"radius": 4.0, "power": 55, "damage": 90, "fuse": 1.6}, "desc": "Uno scoppio molto più grande, che rompe anche l'ambra fossile."},
+	"seme_ricurvo": {"name": "Seme ricurvo", "kind": "ricurvo", "icon": ["ricurvo", "legno"], "tier": 0, "damage": 9, "knockback": 1.5, "throw": {"range": 9, "speed": 300.0}, "desc": "Lancialo: vola avanti, ferisce ciò che attraversa e torna in mano."},
+	"seme_ricurvo_ambra": {"name": "Seme ricurvo d'ambra", "kind": "ricurvo", "icon": ["ricurvo", "ambra"], "tier": 3, "damage": 20, "knockback": 1.8, "throw": {"range": 12, "speed": 360.0}, "desc": "Più lontano e più forte."},
+	"seme_ricurvo_vuoto": {"name": "Seme ricurvo del Vuoto", "kind": "ricurvo", "icon": ["ricurvo", "vuotite"], "tier": 5, "damage": 32, "knockback": 2.0, "throw": {"range": 15, "speed": 420.0}, "desc": "Tagliente come le schegge del Fondo."},
+	"giavellotto_aculeo": {"name": "Giavellotto d'aculeo", "kind": "giavellotto", "icon": ["giavellotto", "ambra"], "stack": 999, "damage": 14, "pierce": 1, "desc": "Si lancia con il clic e attraversa due creature. Si consuma."},
+	"giavellotto_cristallo": {"name": "Giavellotto di cristallo", "kind": "giavellotto", "icon": ["giavellotto", "cristallo"], "stack": 999, "damage": 26, "pierce": 2, "desc": "Attraversa tre creature."},
 	"seme_mondo": {"name": "Seme di mondo", "kind": "seme_mondo", "icon": ["seme", "cristallo"], "stack": 9, "desc": "Il Cuore del mondo ti ha donato un seme. Piantalo sul terreno: crescerà un portale verso un mondo nuovo."},
 }
 
@@ -289,4 +299,6 @@ static func use_of(id: String) -> String:
 			return "mappa"
 		"rampino":
 			return "aggancia"
+		"esplosivo", "ricurvo", "giavellotto":
+			return "lancia"
 	return ""

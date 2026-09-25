@@ -235,6 +235,34 @@ static func draw(shape: String, im: Image, p: Array[Color]) -> bool:
 			Px.line(im, Vector2(9.0, 7.0), Vector2(12.5, 2.5), 1, w[3])
 			Px.curve(im, Vector2(12.5, 2.5), Vector2(15.0, 4.0), Vector2(13.0, 7.0), 1, p[2])
 			Px.put(im, 13, 7, p[p.size() - 1])
+		"bomba":
+			# un baccello gonfio con la miccia accesa
+			for y in range(4, 16):
+				for x in S:
+					var d := Vector2((x + 0.5 - 8.0) / 5.5, (y + 0.5 - 10.0) / 5.5)
+					if d.length() <= 1.0:
+						Px.put(im, x, y, p[2] if d.x < -0.1 else p[1])
+			for k in 3:
+				Px.line(im, Vector2(5.0 + k * 3.0, 6.0), Vector2(5.5 + k * 3.0, 14.0), 1, p[0])
+			Px.line(im, Vector2(8.0, 4.0), Vector2(10.0, 1.0), 1, Color(ItemIcons.MATERIALS["legno"][3]))
+			Px.put(im, 10, 0, Color("#ffe8b0"))
+			Px.put(im, 11, 1, Color("#ffb040"))
+		"ricurvo":
+			# un seme a mezzaluna con le venature
+			for y in S:
+				for x in S:
+					var d := Vector2(x + 0.5 - 7.0, y + 0.5 - 8.0)
+					var e := Vector2(x + 0.5 - 10.0, y + 0.5 - 8.0)
+					if d.length() <= 6.5 and e.length() > 5.0:
+						Px.put(im, x, y, p[2] if y < 8 else p[1])
+			Px.put(im, 3, 6, p[p.size() - 1])
+			Px.put(im, 3, 10, p[p.size() - 1])
+		"giavellotto":
+			Px.line(im, Vector2(2.0, 14.0), Vector2(11.0, 5.0), 1, Color(ItemIcons.MATERIALS["legno"][3]))
+			Px.line(im, Vector2(11.0, 5.0), Vector2(14.0, 2.0), 2, p[2])
+			Px.put(im, 14, 1, p[p.size() - 1])
+			Px.put(im, 2, 13, Color(ItemIcons.LEAF[1]))
+			Px.put(im, 3, 14, Color(ItemIcons.LEAF[2]))
 		_:
 			return false
 	return true

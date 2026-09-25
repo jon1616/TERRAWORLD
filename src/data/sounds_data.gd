@@ -94,6 +94,9 @@ const SOUNDS := {
 		{"wave": "tri", "f0": 260, "f1": 520, "dur": 0.1, "att": 0.005, "dec": 22.0, "vol": 0.5}]},
 	"soffio": {"gain": -12.0, "var": 0.1, "layers": [
 		{"wave": "noise", "f0": 1600, "f1": 500, "dur": 0.22, "att": 0.02, "dec": 9.0, "vol": 0.7}]},
+	"scoppio": {"gain": -5.0, "var": 0.08, "layers": [
+		{"wave": "noise", "f0": 900, "f1": 120, "dur": 0.7, "att": 0.003, "dec": 5.0, "vol": 1.0},
+		{"wave": "sine", "f0": 80, "f1": 35, "dur": 0.6, "att": 0.003, "dec": 5.5, "vol": 0.9}]},
 	"presenza": {"gain": -8.0, "var": 0.0, "layers": [
 		{"wave": "sine", "f0": 110, "f1": 82, "dur": 1.6, "att": 0.4, "dec": 1.6, "vol": 0.7, "vib": [3.0, 0.03]},
 		{"wave": "sine", "f0": 165, "f1": 123, "dur": 1.6, "att": 0.5, "dec": 1.8, "vol": 0.4},

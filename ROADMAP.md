@@ -488,8 +488,14 @@ salto stacca verso l'alto e lontano dal muro. Effetti nuovi degli accessori `air
 `--solo=mobilita`: salto 3,3 → 6,1 tessere con il Baccello, rampino che sale di 7 tessere e si sgancia, scivolata a
 70 px/s invece di 520 (foto 59_rampino).
 
-## 32. [ ] Esplosivi e armi da lancio (M)
-Baccelli esplosivi che rompono la roccia (non quella dura), semi ricurvi che tornano in mano, giavellotti.
+## 32. [x] Esplosivi e armi da lancio (M) — fatto il 26 set 2026
+Modulo `Throwing`, tutto con il clic verso il mouse. Il **Baccello esplosivo** (Baccello ardente, tre per volta) vola ad
+arco, rimbalza, lampeggia sempre più in fretta e scoppia: rompe terra e roccia attorno (forza 40: non l'ambra, non la
+vuotite, non i cristalli; ciò che rompe cade a terra come scavato), ferisce le creature e anche il Germogliato se è
+troppo vicino, con un lampo di luce e un boato. Il **Baccello tonante** è più grande e rompe anche l'ambra. I **semi
+ricurvi** (di legno al Ceppo, d'ambra e del Vuoto al Maglio) volano avanti, feriscono ogni creatura che attraversano e
+tornano in mano. I **giavellotti** (d'aculeo, di cristallo) si consumano come i dardi e attraversano due o tre
+creature. I bastoni di Linfa ora ricevono i tratti come le altre armi. Prove `--solo=lanci` (foto 60_scoppio).
 
 ## 33. [ ] Il giardino del Germogliato (M)
 Coltivare: semi di erbe e funghi da piantare su humus e muschio, crescita a stadi, raccolto; pozioni nuove dalle erbe.

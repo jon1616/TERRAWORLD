@@ -215,6 +215,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 - `src/game/grapple.gd` (`Grapple`) — il rampino: `fire(oggetto, punto)` cerca la roccia lungo la linea entro la
   portata e aggancia `Player.hook`; il Player è tirato in `_hook_step`; sgancio con salto, S, distanza o tessera scavata.
   Doppio salto (`Player.air_jumps`) e pareti (`Player.wall_climb`) sono effetti degli accessori.
+- `src/game/throwing.gd` (`Throwing`) — esplosivi (`explode(punto, blast)`: roccia fino alla forza, creature,
+  Germogliato vicino), semi ricurvi (uno alla volta, tornano in mano) e giavellotti (con `Projectiles`).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

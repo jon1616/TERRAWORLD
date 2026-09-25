@@ -44,6 +44,8 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 			return _map_hint(id)
 		"rampino":
 			return m.grapple.fire(id, m.fx.get_global_mouse_position())
+		"esplosivo", "ricurvo", "giavellotto":
+			return m.throwing.throw(id, m.fx.get_global_mouse_position())
 		"specchio":
 			# lo Specchio del guizzo: si torna al punto di partenza del mondo
 			Fx.puff(m.fx, m.player.position, Color(0.8, 1.6, 1.7))

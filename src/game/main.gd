@@ -39,6 +39,7 @@ var hazards: Hazards
 var spells: Spells
 var keepers: Keepers
 var grapple: Grapple
+var throwing: Throwing
 var _spores: CPUParticles2D
 var built := false
 var gen_times: Array = []
@@ -216,6 +217,7 @@ func _build() -> void:
 	spells = _mount(Spells.new())
 	keepers = _mount(Keepers.new())
 	grapple = _mount(Grapple.new())
+	throwing = _mount(Throwing.new())
 	_mount(Chronicle.new())                # avvisi, Erbario e conteggi degli obiettivi dagli eventi del gioco
 	hud.select(character.hotbar)
 	var start := world.spawn

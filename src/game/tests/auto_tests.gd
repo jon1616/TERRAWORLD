@@ -72,6 +72,7 @@ func run(main: Node2D) -> void:
 	await TestsInterface.new(kit).run()
 	await TestsTorch.new(kit).run()
 	await TestsMobility.new(kit).run()
+	await TestsThrowing.new(kit).run()
 	await ob.run()
 	await w.run_and_save()
 	# la Bisaccia aperta
@@ -131,6 +132,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsTorch.new(kit).run()
 		"mobilita":
 			await TestsMobility.new(kit).run()
+		"lanci":
+			await TestsThrowing.new(kit).run()
 		"antiche":
 			await TestsAncient.new(kit).run()
 		"pericoli":
