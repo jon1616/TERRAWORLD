@@ -318,3 +318,47 @@ punge, runa che scatta e si spegne (foto 42_rovi). Corretto anche il ritardo del
 d'ambra, giardini di cristallo…), strutture e rovine dei Seminatori, l'Avvizzimento che si espande, e i **Semi che
 decidono il mondo** (specie = quali biomi, vigore = difficoltà, tratti = particolarità). Poi: mondi a portale veri,
 NPC, eventi, bottino con modificatori, altri boss — a Roadmap successive.
+
+# Roadmap 3 «Esplorare, trovare, crescere» (25 set 2026)
+
+Richiesta dell'utente prima di uscire: «siamo circa al 5% dei contenuti e delle meccaniche». Esplorazione pericolosa ma
+avvincente con ricompense adeguate; molti più oggetti ed equipaggiamento, **set con bonus**, altre **rarità di mostri
+con bottino proprio** (non solo di più), molti più **tipi di mostri**, interfaccia chiara e pulita, più meccaniche,
+**cose da trovare**, **obiettivi e boss intermedi**, altri **banchi da lavoro** e **minerali**. Carta bianca.
+
+## 21. [ ] Doni da trovare e armi di Linfa (M)
+Boccioli del cuore nelle grotte (+10 Vita massima per sempre), Stille perenni nelle Profondità (+Linfa massima); la
+Linfa finalmente serve: **bastoni** che la consumano (brace, spore, cristallo, Vuoto) con colpi propri (perforanti, a
+ventaglio, che inseguono). Pozione di Linfa. Foglie della Vita su più righe.
+
+## 22. [ ] Il bestiario si allarga (L)
+Molte creature nuove, almeno due o tre per strato, con comportamenti nuovi (agguato dal soffitto, sciami, scavatori,
+creature che fuggono, che si teletrasportano, che rimbalzano) e materiali propri.
+
+## 23. [ ] Rarità nuove e trofei (M)
+Oltre ad antiche e ancestrali: **Iridate** (rarissime, colori cangianti, fuggono) e **Capibranco** (guidano un
+branco). Ogni specie ha un **trofeo** che lasciano solo le sue rare: bottino proprio, che serve a ricette uniche.
+
+## 24. [ ] Minerali e gemme (M)
+Nuovi minerali per gli strati (metalli laterali e gemme luminose) con oggetti, accessori e armi propri.
+
+## 25. [ ] Nuovi banchi da lavoro (M)
+Alambicco di Linfa (pozioni), Telaio di foglie (vesti e borse), Mola del gemmaio (gemme, anelli, bastoni), Altare dei
+Seminatori (richiami dei boss intermedi).
+
+## 26. [ ] Set di equipaggiamento (M)
+Bonus per chi indossa un set completo: tutti i metalli e set speciali da trofei e materiali rari. Il bonus si vede
+nella colonna dell'equipaggiamento e nella casella Esamina.
+
+## 27. [ ] Boss intermedi (L)
+I Custodi degli strati: uno per strato, nella loro tana generata nel mondo o richiamati all'Altare, con bottino proprio
+e obiettivi.
+
+## 28. [ ] Segreti del mondo (M)
+Reliquie dei Seminatori da collezionare (con un bonus per ogni collezione completa), geodi, nascondigli murati, nidi.
+
+## 29. [ ] Interfaccia chiara (M)
+Ripasso di HUD, Bisaccia, colonna Creare (categorie, ricerca), avvisi; foto di controllo.
+
+## 30. [ ] Obiettivi intermedi (S)
+Nuova catena di obiettivi legata a tutto ciò che è nato in questa Roadmap.
