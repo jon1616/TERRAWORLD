@@ -33,6 +33,8 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 			_tavolo(im, gm, w, h)
 		"sedia":
 			_sedia(im, w, h)
+		"bacheca":
+			_bacheca(im, gm, w, h)
 		"cesta":
 			_cesta(im, w, h)
 		"scrigno":
@@ -246,3 +248,19 @@ static func _reliquiario(im: Image, gm: Image, w: int, h: int) -> void:
 		Px.put(im, q.x, q.y, Color("#6ff0d8"))
 		Px.put(gm, q.x, q.y, Color("#6ff0d8"))
 	Px.put(gm, w / 2, 2, amb[3])
+
+
+## Voce 67, la Bacheca dei Giardinieri: una tavola su due pali, con i fogli appesi e una puntina di Linfa accesa.
+static func _bacheca(im: Image, gm: Image, w: int, h: int) -> void:
+	var wd := _wood()
+	for px in [4, w - 5]:
+		Px.line(im, Vector2(px, 4), Vector2(px, h - 1), 2, wd[2])
+	for y in range(3, 20):
+		for x in range(3, w - 3):
+			Px.put(im, x, y, wd[3] if (x + y * 2) % 7 else wd[2])
+	for q in [Vector2i(8, 6), Vector2i(20, 7), Vector2i(32, 5)]:
+		for y in range(q.y, q.y + 9):
+			for x in range(q.x, q.x + 8):
+				Px.put(im, x, y, Color("#e8dcc0") if (y - q.y) % 3 else Color("#b8a888"))
+		Px.put(im, q.x + 3, q.y, Color("#6ff0d8"))
+		Px.put(gm, q.x + 3, q.y, Color("#6ff0d8"))

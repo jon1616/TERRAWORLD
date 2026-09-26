@@ -93,6 +93,8 @@ const STATIONS := {
 		"light_color": Color(0.6, 1.0, 0.8)},
 	"albero_madre_4": {"name": "Albero-Madre", "size": [9, 13], "item": "", "fixed": true, "light": true,
 		"light_color": Color(1.0, 1.0, 0.8)},
+	# voce 67: la Bacheca dei Giardinieri (richieste senza fine)
+	"bacheca": {"name": "Bacheca dei Giardinieri", "size": [3, 2], "item": "bacheca"},
 	# voce 47: il Banco dell'Innestatrice (clic destro: `InnestoPanel`)
 	"banco_innesti": {"name": "Banco dell'Innestatrice", "size": [3, 1], "item": "banco_innesti", "light": true,
 		"light_color": Color(0.5, 1.1, 0.9)},

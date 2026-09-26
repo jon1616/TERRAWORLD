@@ -20,6 +20,7 @@ var obiettivi: Array = []              # obiettivi raggiunti (id di `ObjectivesD
 var erbario := {}                      # scoperte (vedi `Erbario`): creature sconfitte, oggetti, pagine di storia
 var guardiani_curati: Array = []       # mondi in cui ha curato il Guardiano (il dono vale una volta per mondo)
 var mandria: Array = []                # voce 59: le schede delle creature addomesticate (vedi `Herd`)
+var bacheca := {}                      # voce 67: le richieste aperte della Bacheca dei Giardinieri e quante fatte
 var albero := {}                       # voce 63: stadio dell'Albero-Madre e offerte già date (vedi `AlberoMadre`)
 var genario := {}                      # voce 42: geni conosciuti, gene → 1 visto (in un mondo), 2 imparato (voce 46)
 
@@ -31,7 +32,7 @@ func to_dict() -> Dictionary:
 		"tratti_equip": bisaccia.equip_traits if bisaccia else {}, "dati_equip": bisaccia.equip_data if bisaccia else {},
 		"vita": hp, "linfa": linfa, "vita_extra": vita_extra, "linfa_extra": linfa_extra, "guardiani_curati": guardiani_curati,
 		"erbario": erbario, "stats": stats, "obiettivi": obiettivi, "genario": genario, "mandria": mandria,
-		"albero": albero}
+		"albero": albero, "bacheca": bacheca}
 
 
 ## Null se i dati vengono da una versione più nuova del gioco (vedi `SaveMigrations`).
@@ -86,6 +87,9 @@ static func from_dict(cid: String, d: Dictionary) -> Character:
 			for k in ["uid", "lvl", "xp"]:
 				r[k] = int(r.get(k, 0))
 			c.mandria.append(r)
+	var bc: Dictionary = d.get("bacheca", {})
+	if not bc.is_empty():
+		c.bacheca = SaveMigrations.ints(bc)
 	var al: Dictionary = d.get("albero", {})
 	if not al.is_empty():
 		var off := {}

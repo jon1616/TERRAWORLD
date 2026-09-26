@@ -23,6 +23,7 @@ func run() -> void:
 	await stages()
 	await powers()
 	await villagers()
+	await board()
 
 
 func garden() -> void:
@@ -230,3 +231,44 @@ func villagers() -> void:
 		"sì" if bought else "NO"])
 	if first != "vecchia_radice" or not "mercante_semi" in came or not "cartografo" in came or p1 >= p0 or not ok:
 		print("ATTENZIONE: gli abitanti dell'Albero-Madre non funzionano come dovrebbero")
+
+
+## Voce 67: la Bacheca dei Giardinieri: sempre quattro richieste sensate; una fornitura consegnata con il premio, una
+## cambiata; tanti giri a vuoto per vedere che le richieste restano fattibili; foto 108_bacheca.
+func board() -> void:
+	var bd: Board = m.board
+	var has_station := false
+	for o in world.stations:
+		if world.stations[o] == "bacheca":
+			has_station = true
+	bd.open()
+	await kit.frames(4)
+	await kit.save("108_bacheca")
+	var types := []
+	for r in bd.open_list():
+		types.append(r["tipo"])
+	# una fornitura: si portano gli oggetti e si consegna
+	var b := kit.bisaccia()
+	kit.make_room()
+	var i := -1
+	for k in bd.open_list().size():
+		if String(bd.open_list()[k]["tipo"]) in ["fornitura", "gene", "prodotto"]:
+			i = k
+	var delivered := false
+	var lum0 := b.count("lumino")
+	if i >= 0:
+		var r: Dictionary = bd.open_list()[i]
+		b.add(String(r["cosa"]), int(r["n"]))
+		delivered = bd.deliver(i)
+	bd.swap(0)
+	# tante richieste nuove: sono sempre di tipi che il personaggio può fare
+	var kinds := {}
+	for k in 60:
+		var r := bd.make()
+		kinds[r["tipo"]] = int(kinds.get(r["tipo"], 0)) + 1
+	bd.panel.visible = false
+	print("Bacheca: nel Giardino %s; aperte %d (%s); consegnata una %s (Lumini %d → %d), dopo ancora %d aperte; 60 richieste nuove: %s" % [
+		"sì" if has_station else "NO", bd.open_list().size(), types, "sì" if delivered else "NO (nessuna fornitura)", lum0,
+		b.count("lumino"), bd.open_list().size(), kinds])
+	if not has_station or bd.open_list().size() < Board.OPEN or (i >= 0 and not delivered) or kinds.size() < 4:
+		print("ATTENZIONE: la Bacheca non funziona come dovrebbe")

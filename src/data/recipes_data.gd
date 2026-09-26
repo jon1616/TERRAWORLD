@@ -86,6 +86,7 @@ const RECIPES := [
 	# voce 39: dare una specie al Seme di mondo
 	{"out": "banco_innesti", "qty": 1, "in": {"lingotto_legnoferro": 6, "linfa_antica": 2, "vetro_resina": 4, "seme_lanterna": 5}, "station": "maglio"},
 	{"out": "provetta", "qty": 3, "in": {"vetro_resina": 1, "gelatina": 2}, "station": "alambicco"},
+	{"out": "bacheca", "qty": 1, "in": {"legno": 20, "seta_radice": 2}, "station": "ceppo"},
 	{"out": "aiuola", "qty": 1, "in": {"humus": 25, "legno": 12, "seme_lanterna": 3}, "station": "ceppo"},
 	{"out": "seme_mondo_lanterna", "qty": 1, "in": {"seme_mondo": 1, "seme_lanterna": 10, "legno": 30}, "station": "altare"},
 	{"out": "seme_mondo_sporangio", "qty": 1, "in": {"seme_mondo": 1, "sacca_spore": 10, "fungo_luminoso": 6}, "station": "altare"},

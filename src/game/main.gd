@@ -58,6 +58,7 @@ var giardino: Giardino
 var albero: AlberoMadre
 var powers: Powers
 var seasons: Seasons
+var board: Board
 var storage: Storage
 var herd: Herd
 var taming: Taming
@@ -278,6 +279,7 @@ func _build() -> void:
 	albero = _mount(AlberoMadre.new())     # voce 63: gli stadi dell'Albero-Madre, il motivo della partita
 	powers = _mount(Powers.new())          # voce 64: i poteri del Germogliato (Sigilli, Vista, ponte…)
 	seasons = _mount(Seasons.new())        # voce 66: le stagioni di ogni mondo
+	board = _mount(Board.new())            # voce 67: la Bacheca dei Giardinieri
 	hud.panel.quick_stack = storage.quick_stack
 	hud.panel._toast = hud.toast
 	interact.chest_panel.storage = storage

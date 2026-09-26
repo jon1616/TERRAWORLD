@@ -30,8 +30,8 @@ func _init() -> void:
 		print("BIOMA|%s" % b["name"])
 	for t in TraitsData.TRAITS:
 		print("TRATTO|%s|%s|%s" % [TraitsData.TRAITS[t]["name"], TraitsData.TRAITS[t]["desc"], ",".join(TraitsData.TRAITS[t]["for"])])
-	for m in ItemsData.METALS:
-		print("METALLO|%s|%d" % [ItemsData.METALS[m]["label"], int(ItemsData.METALS[m]["tier"])])
+	for m in MaterialsData.MATERIALS:
+		print("METALLO|%s|%d" % [MaterialsData.MATERIALS[m]["label"], int(MaterialsData.MATERIALS[m]["tier"])])
 	print("RICETTE|%d" % RecipesData.all().size())
 	print("OBIETTIVI|%d" % ObjectivesData.LIST.size())
 	print("PAGINE|%s" % "; ".join(LoreData.PAGES.keys().map(func(k): return LoreData.PAGES[k]["title"])))

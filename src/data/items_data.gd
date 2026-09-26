@@ -232,6 +232,8 @@ const ITEMS := {
 	"focolare": {"name": "Focolare del Giardino", "kind": "stazione", "icon": ["focolare", "brace"], "place": "focolare", "stack": 99, "desc": "Un fuoco acceso che si vede da lontano. Con un Letto di foglie libero lì vicino, un viandante si ferma ad abitare (uno per letto)."},
 	"banco_innesti": {"name": "Banco dell'Innestatrice", "kind": "stazione", "place": "banco_innesti", "icon": ["banco", "linfa"], "stack": 9,
 		"desc": "Un banco di legnoferro con il coltello da innesto e una campana di vetro piena di Linfa. Clic destro: si uniscono due Semi di mondo in un Seme nuovo, con le Fiale per fissare i geni che vuoi."},
+	"bacheca": {"name": "Bacheca dei Giardinieri", "kind": "stazione", "place": "bacheca", "icon": ["tavoletta", "legno"],
+		"stack": 9, "desc": "Clic destro: richieste sempre nuove, costruite da ciò che conosci, con premi (Semi con geni rari, Fiale, Linfa antica). Nel Giardino ce n'è già una."},
 	"aiuola": {"name": "Aiuola del Giardino", "kind": "stazione", "place": "aiuola", "icon": ["vasetto", "humus"], "stack": 9,
 		"desc": "Un letto di terra buona cerchiato di radici. Si mette solo nel Giardino, il tuo mondo di partenza (tre Aiuole al massimo): con un Seme di mondo in mano, clic sull'Aiuola e cresce un portale."},
 	"seme_mondo_mosaico": {"name": "Seme a mosaico", "kind": "seme_mondo", "icon": ["seme", "iride"], "species": "mosaico", "stack": 1,

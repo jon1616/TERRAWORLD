@@ -38,6 +38,8 @@ func run(w: World, c: GenContext) -> void:
 	var ai := Vector2i(cx + 11, top - int(StationsData.STATIONS["aiuola"]["size"][1]))
 	w.stations[ai] = "aiuola"
 	w.spawn = Vector2i(cx - 12, top - 1)
+	# voce 67: la Bacheca dei Giardinieri, a sinistra della partenza
+	w.stations[Vector2i(cx - 20, top - int(StationsData.STATIONS["bacheca"]["size"][1]))] = "bacheca"
 	c.notes["albero"] = o
 	c.notes["isola"] = [cx - HALF, cx + HALF, lowest]
 

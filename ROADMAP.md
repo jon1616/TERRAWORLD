@@ -1165,12 +1165,22 @@ Germoglio eterno, Rigoglio lungo, Raccolto d'oro, Gelo perenne) fermano un mondo
 Provetta toccando cielo o tempo in quella stagione o dalla sua creatura, e si innestano nei Semi. Obiettivi «stagione» e «stagioni_4».
 Prove `--solo=stagioni` (foto 107_stagione).
 
-## 67. [ ] La bacheca delle richieste (M)
+## 67. [x] La bacheca delle richieste (M) — fatto il 26 set 2026
 Richieste generate senza fine, costruite dal registro dei geni e dei mondi: «portami tre Palchi di brina da un mondo
 con notti lunghe», «trova la firma di un mondo con grotte ad alveare», «alleva una salamandra bianca». Ricompense:
 Semi rari, Fiale di gene, Linfa antica, oggetti unici. Le richieste puntano sempre a qualcosa che il giocatore **può**
 fare con ciò che ha già imparato (o quasi).
 **Pronto quando**: in qualunque momento della partita ci sono almeno tre richieste sensate aperte.
+**Fatto il 26 set 2026**: la **Bacheca dei Giardinieri** (stazione 3×2, già piazzata nel Giardino accanto alla
+partenza; se ne fa un'altra al Ceppo con legno e seta di radice). Clic destro: ci sono sempre **quattro richieste**
+aperte (`Board`, stato in `Character.bacheca`: seguono il personaggio in ogni mondo), costruite da ciò che il
+personaggio **conosce già**, così sono sempre fattibili: fornitura (un materiale già trovato: il filo che non si spezza
+mai), materiale dei geni (da un mondo con un gene visto), caccia (una famiglia incontrata), mandria e prodotto (famiglie
+addomesticabili), firma, viaggio, Sigillo (se si ha un potere che li apre). Più si scopre, più le richieste sono varie.
+Premi: Semi di mondo con un **gene raro** in più (il premio più ambito), Fiale, Linfa antica, Provette, Polvere
+iridata, Lumini. «Cambia» sostituisce una richiesta che non piace. Il pannello (`BoardPanel`) mostra per ogni foglio il
+tipo con il suo colore, l'icona, la barra di avanzamento e i premi; gli oggetti si consegnano anche dalle casse vicine.
+Obiettivi «bacheca» e «bacheca_20». Prova nel Giardino (`--prova-giardino`, foto 108_bacheca).
 
 # Roadmap 9 «Il mistero dei Seminatori» — il racconto sopra il motore
 

@@ -210,6 +210,8 @@ func touch(c: Vector2i) -> bool:
 			return true
 		"albero_madre_0", "albero_madre_1", "albero_madre_2", "albero_madre_3", "albero_madre_4":
 			return m.giardino.touch_tree(o)                # voce 62
+		"bacheca":
+			return m.board.open()                          # voce 67
 		"cuore_mondo":
 			m.hud.toast("Il Cuore batte piano, malato. %d nodi avvizziti sul soffitto" % m.guardian.nodes_left())
 			return true
