@@ -157,6 +157,7 @@ func _resolve(how: String) -> void:
 	state = how
 	m.world_meta["guardiano"] = how
 	var ch: Character = m.character
+	m.objectives.bump("guardiani")                 # voce 63: l'Albero-Madre conta i Guardiani risolti
 	if how == "curato":
 		if boss != null:
 			boss.make_calm()

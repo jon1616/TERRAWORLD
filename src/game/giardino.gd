@@ -32,6 +32,7 @@ func setup(main: Node2D) -> void:
 	_lowest = int(m.world_meta.get("isola_fondo", m.world.h - 40))
 	m.fauna.enabled = false
 	m.fauna.clear()
+	m.character.stats["giardino"] = 1        # il personaggio ha un Giardino: l'Albero-Madre guida la sua partita
 	m.background.set_void()
 
 

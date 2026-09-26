@@ -55,6 +55,7 @@ var innesto: InnestoPanel
 var gene_mats: GeneMaterials
 var ecology: Ecology
 var giardino: Giardino
+var albero: AlberoMadre
 var storage: Storage
 var herd: Herd
 var taming: Taming
@@ -271,7 +272,8 @@ func _build() -> void:
 	gene_mats = _mount(GeneMaterials.new())
 	ecology = _mount(Ecology.new())
 	storage = _mount(Storage.new())
-	giardino = _mount(Giardino.new())      # voce 62: il Giardino sospeso nel Vuoto        # casse: ingredienti per la creazione, impostazioni, pulsanti
+	giardino = _mount(Giardino.new())      # voce 62: il Giardino sospeso nel Vuoto
+	albero = _mount(AlberoMadre.new())     # voce 63: gli stadi dell'Albero-Madre, il motivo della partita        # casse: ingredienti per la creazione, impostazioni, pulsanti
 	hud.panel.quick_stack = storage.quick_stack
 	hud.panel._toast = hud.toast
 	interact.chest_panel.storage = storage

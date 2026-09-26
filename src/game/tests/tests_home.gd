@@ -20,6 +20,7 @@ func _init(tk: TestKit) -> void:
 
 func run() -> void:
 	await garden()
+	await stages()
 
 
 func garden() -> void:
@@ -79,3 +80,59 @@ func _trees() -> int:
 	for k in world.trees:
 		n += (world.trees[k] as Array).size()
 	return n
+
+
+## Voce 63: gli stadi dell'Albero-Madre. Il primo stadio con le offerte vere (legno e humus dalla Bisaccia, il primo
+## viaggio), il pannello (foto 102_albero), poi tutti gli altri stadi fino al risveglio (foto 103_albero_sveglio):
+## Aiuole, disegno dell'Albero, poteri, abitanti e categorie d'innesto crescono con gli stadi.
+func stages() -> void:
+	var am: AlberoMadre = m.albero
+	var b := kit.bisaccia()
+	kit.make_room()
+	var ai0: int = m.aiuole.max_aiuole()
+	var line0 := String(am._label.text)
+	am.open()
+	await kit.frames(4)
+	await kit.save("102_albero")
+	am.panel.visible = false
+	var ready0 := am.ready_to_wake()
+	b.add("legno", 20)
+	var given1 := am.offer()
+	b.add("legno", 15)
+	b.add("humus", 30)
+	var given2 := am.offer()
+	var ready1 := am.ready_to_wake()
+	m.character.stats["viaggi"] = 1
+	var woke := am.awaken()
+	await kit.frames(3)
+	var ph1: String = world.stations.get(m.giardino.tree_o, "")
+	print("Albero-Madre: all'inizio pronto %s; offerti %d poi %d (pronto senza il viaggio: %s); dopo il viaggio si sveglia %s → stadio %d, Aiuole %d → %d, disegno %s; la riga dice «%s»" % [
+		"sì (sbagliato)" if ready0 else "no", given1, given2, "sì (sbagliato)" if ready1 else "no", "sì" if woke else "NO",
+		am.stage(), ai0, m.aiuole.max_aiuole(), ph1, line0])
+	m.guardian.lore.visible = false
+	# gli altri stadi: si danno le offerte e i traguardi richiesti
+	var grafts0: Array = am.graftable()
+	while not am.done():
+		var st: Dictionary = am.current()
+		for o in st["offers"]:
+			if o.has("item"):
+				b.add(String(o["item"]), int(o["n"]))
+			else:
+				m.character.stats[String(o["stat"])] = maxi(int(m.character.stats.get(String(o["stat"]), 0)), int(o["n"]))
+		am.offer()
+		if not am.awaken():
+			print("ATTENZIONE: lo stadio «%s» non si sveglia" % st["name"])
+			break
+		m.guardian.lore.visible = false
+		kit.make_room()
+	await kit.frames(3)
+	m.snap_to(m.giardino.tree_o + Vector2i(-4, 12))
+	m.boons.add("bagliore", 4.0)
+	await kit.seconds(0.8)
+	await kit.save("103_albero_sveglio")
+	print("risveglio: stadio %d, disegno %s, Aiuole %d, poteri %s, abitanti %s, categorie d'innesto %d → %d" % [am.stage(),
+		world.stations.get(m.giardino.tree_o, ""), m.aiuole.max_aiuole(), MotherTreeData.gifts(am.stage(), "power"),
+		MotherTreeData.gifts(am.stage(), "npc"), grafts0.size(), am.graftable().size()])
+	if ready0 or not woke or am.stage() != MotherTreeData.STAGES.size() or ph1 != "albero_madre_1" \
+			or m.aiuole.max_aiuole() != 1 + MotherTreeData.aiuole(am.stage()) or am.graftable().size() != GenesData.CATEGORIES.size():
+		print("ATTENZIONE: gli stadi dell'Albero-Madre non funzionano come dovrebbero")

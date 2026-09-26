@@ -4,6 +4,22 @@ extends RefCounted
 ## Ogni frammento andrà anche nell'Erbario (vedi UNIVERSO.md, «Da collezionare»).
 
 const PAGES := {
+	"albero_primo_respiro": {
+		"title": "Il primo respiro",
+		"text": "La corteccia si scalda sotto la mano. Una fronda turchese si apre, piano, come chi si stira al mattino.\nL'Albero non parla ancora, ma una radice si sposta e lascia spazio per un'altra Aiuola. Qualcuno, laggiù ai margini del Giardino, ha sentito il respiro e si incammina.",
+	},
+	"albero_linfa": {
+		"title": "La Linfa antica",
+		"text": "La Linfa dei Cuori scende nel legno e lo illumina da dentro. Ora le vene dell'Albero brillano come quelle dei mondi.\nOgni Cuore guarito è un mondo che torna a respirare, e l'Albero lo sente. Sotto la corteccia, qualcosa si ricorda come si fa a innestare un seme.",
+	},
+	"albero_memoria": {
+		"title": "Ambra e memoria",
+		"text": "I Seminatori piantarono l'Albero quando il Vuoto era ancora giovane. Poi se ne andarono, e l'Albero si addormentò ad aspettare.\nLe reliquie gli ricordano le loro mani. Tra le radici si apre un passaggio che prima non c'era: il Vuoto, per te, non è più un muro.",
+	},
+	"albero_sveglio": {
+		"title": "Il risveglio",
+		"text": "L'Albero-Madre apre gli occhi. Sono d'ambra, come i tuoi.\nTi riconosce: sei il suo germoglio, quello che è andato a cercare. Il Giardino si riempie di luce, e ogni Seme che l'Albero lascerà cadere porterà un mondo più vivo. Ma lontano, oltre il Vuoto, un altro seme aspetta: nero, e sveglio da molto più tempo.",
+	},
 	"albero_addormentato": {
 		"title": "L'Albero-Madre",
 		"text": "Il Giardino galleggia nel Vuoto, e al centro dorme l'Albero-Madre: la corteccia è grigia, le fronde quasi tutte cadute. Eppure, quando lo tocchi, qualcosa si muove nel legno, come un respiro lento.\nUn seme cade ai tuoi piedi. Ogni mondo nasce così: da un seme che l'Albero lascia andare. Piantalo nell'Aiuola, e raccogli ciò che serve a svegliarlo.",

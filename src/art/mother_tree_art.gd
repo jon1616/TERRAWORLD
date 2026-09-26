@@ -51,7 +51,7 @@ static func draw(stage: int, im: Image, gm: Image, w: int, h: int) -> void:
 	for b in 5:
 		var ang := -PI / 2.0 + (b - 2) * 0.42 + rng.randf_range(-0.1, 0.1)
 		var from := Vector2(cx, trunk_top + 6)
-		var length := h * rng.randf_range(0.2, 0.3)
+		var length := h * rng.randf_range(0.2, 0.3) * (1.0 - 0.45 * life)   # sveglio: i rami restano dentro la chioma
 		var to := from + Vector2(cos(ang), sin(ang)) * length
 		Px.curve(im, from, (from + to) * 0.5 + Vector2(rng.randf_range(-5, 5), 0), to, 4 if b == 2 else 3, bk[2])
 		tips.append(to)

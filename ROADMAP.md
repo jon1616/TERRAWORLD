@@ -1099,11 +1099,22 @@ quelli di sempre. Corretto un difetto vecchio: i mondi dei portali non venivano 
 guardava "ritorno", mai scritto): ora `Aiuole.is_home` guarda "casa". Prove `-- --prove --prova-giardino`
 (`TestsHome`), foto 101_giardino.
 
-## 63. [ ] Gli stadi dell'Albero-Madre (L)
+## 63. [x] Gli stadi dell'Albero-Madre (L) — fatto il 26 set 2026
 10-15 stadi di crescita; ognuno chiede **offerte** (Linfa antica dei Cuori, geni, creature, reliquie, materiali di
 mondi con certi geni) e sblocca: Aiuole, stazioni, categorie di geni innestabili, abitanti, poteri. L'Albero si vede
 crescere nel Giardino (disegno a stadi).
 **Pronto quando**: dal primo all'ultimo stadio c'è sempre una richiesta chiara e un modo per capire dove cercare.
+**Fatto il 26 set 2026**: 12 stadi (`MotherTreeData`): Il primo respiro, Radici che bevono, La prima Linfa antica,
+Fronde nuove, Il Seme che ricorda, Ambra e memoria, Il canto della mandria, Il fuoco sotto la cenere, Le stirpi, Oltre
+il Vuoto, La chioma d'ambra, Il risveglio. Ognuno chiede **offerte** — oggetti (legno, lingotti, Linfa antica dei
+Cuori, seta, squame, vuotite, cristalli, Frammenti dell'Albero…) che si portano anche a più riprese, prendendoli dalla
+Bisaccia e dalle casse vicine, e **traguardi** (mondi visitati, geni imparati, firme, creature addomesticate, uova
+allevate, Custodi, Guardiani risolti, manti rari) — ognuno con un **indizio di dove cercare**. Quando c'è tutto,
+«Risveglia» lo fa crescere (`AlberoMadre`, stato nel personaggio): cinque fasi di disegno, **Aiuole** in più (si parte
+da una sola), i **poteri** (voce 64), gli **abitanti** (voce 65), le **categorie di geni** che il Banco
+dell'Innestatrice sa innestare (all'inizio superficie, forma e fauna), quattro pagine di storia. Pannello
+`AlberoPanel` (clic destro sull'Albero); in ogni mondo una riga sotto gli obiettivi ricorda che cosa chiede adesso
+l'Albero (il filo da seguire). Tre obiettivi nuovi. Foto 102_albero e 103_albero_sveglio.
 
 ## 64. [ ] I poteri del Germogliato (M)
 Poteri permanenti dagli stadi dell'Albero (vista della Linfa per vedere vene e geni nascosti, respiro nell'acqua,

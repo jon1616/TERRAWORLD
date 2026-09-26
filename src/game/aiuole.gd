@@ -29,6 +29,9 @@ func is_home() -> bool:
 
 
 func max_aiuole() -> int:
+	# voce 63: chi ha un Giardino comincia con una sola Aiuola, le altre le dona l'Albero-Madre (`bonus`)
+	if int(m.character.stats.get("giardino", 0)) == 1:
+		return 1 + bonus
 	return BASE_MAX + bonus
 
 

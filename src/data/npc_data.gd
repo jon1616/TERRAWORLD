@@ -12,6 +12,11 @@ extends RefCounted
 const HOME_RANGE := 25
 const WANDER := 8
 
+## Il nome di un abitante (anche di quelli che non sono ancora nei dati).
+static func name_of(id: String) -> String:
+	return String(NPCS.get(id, {}).get("name", id.capitalize()))
+
+
 const NPCS := {
 	"viandante": {"name": "La Viandante", "greet": "Ho camminato per tre mondi. Guarda cosa ho nella bisaccia.",
 		"requires": {}, "look": {"cloak": "#2f7a70", "trim": "#8ef0d8", "skin": "#c8a07a", "extra": "#d8944a"},

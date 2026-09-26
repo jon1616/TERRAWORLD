@@ -135,6 +135,10 @@ func _toggle_vial(id: String) -> void:
 	elif vials.size() < MAX_VIALS:
 		# una Fiala per categoria: la nuova prende il posto di quella della stessa categoria
 		var cat := GenesData.cat_of(GenesData.gene_of_vial(id))
+		# voce 63: le categorie si aprono con gli stadi dell'Albero-Madre
+		if not cat in m.albero.graftable():
+			m.hud.toast("L'Albero-Madre non sa ancora innestare i geni di %s: crescerà" % cat)
+			return
 		for v in vials.duplicate():
 			if GenesData.cat_of(GenesData.gene_of_vial(v)) == cat:
 				vials.erase(v)
