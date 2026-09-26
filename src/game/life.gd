@@ -22,6 +22,7 @@ func _on_landed(tiles: float) -> void:
 	if tiles > FALL_SAFE and not dead and not fall_safe:
 		var lost: int = m.vitals.hurt(int((tiles - FALL_SAFE) * FALL_HURT))
 		m.hud.toast("Caduta: -%d Vita" % lost)
+		m.player.hurt_t = HeroSprites.HURT_TIME
 		flash(Color(1.0, 0.4, 0.3, 0.35))
 
 
@@ -33,12 +34,16 @@ func _on_died() -> void:
 	var had_control: bool = m.player.control
 	m.player.control = false
 	m.actions.enabled = false
-	m.player.modulate = Color(0.5, 0.4, 0.3)
+	# le pose dell'appassire (vedi `HeroAnimator.hurt`); il colore si spegne solo un poco, la posa dice già tutto
+	m.player.wilting = true
+	m.player.wilt_t = 0.0
+	m.player.modulate = Color(0.8, 0.72, 0.62)
 	m.hud.toast("Il Germogliato appassisce…")
 	_drop_bundle()
 	flash(Color(0.0, 0.0, 0.0, 0.6), 2.5)
 	await get_tree().create_timer(3.0).timeout
 	m.player.modulate = Color.WHITE
+	m.player.wilting = false
 	m.vitals.refill()
 	m.snap_to(m.masonry.respawn_point())
 	m.player.control = had_control

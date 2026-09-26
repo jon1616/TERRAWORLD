@@ -5,7 +5,8 @@ extends RefCounted
 ## con il corpo alto 30 pixel passa ancora in un cunicolo alto 2 blocchi; al buio l'occhio brilla. Foto
 ## 71_germogliato_fermo, 72_germogliato_corsa, 73_germogliato_cunicolo, 74_germogliato_salto, 75_germogliato_colpo, 76_germogliato_mira, 77_germogliato_torcia; nel salto si vedono spinta, salita, cima, caduta
 ## e atterraggio, nel colpo le 6 pose con il piccone nel pugno, nella mira una posa per direzione con l'arco, con la
-## torcia in mano la posa ferma e quelle di corsa con la fiamma accesa.
+## torcia in mano la posa ferma e quelle di corsa con la fiamma accesa; ferito le due pose della ferita, appassito le
+## quattro dell'appassire e poi di nuovo in piedi (foto 78_germogliato_appassito).
 
 const S := 16
 
@@ -151,6 +152,36 @@ func run() -> void:
 	print("torcia: da fermo posa %d, di corsa posa %d, fiamma accesa %s" % [still, running, "sì" if lit and p.flame.visible else "NO"])
 	kit.hold("piccone_radicite")
 	await kit.frames(2)
+	# una ferita (due pose per un attimo) e l'appassire (quattro pose, poi si rinasce)
+	var colpito: Array = HeroSprites.data()["colpito"]["tex"]
+	var hurt_seen := {}
+	m.combat.invuln = 0.0
+	var was_god: bool = m.combat.god
+	m.combat.god = false
+	m.combat.hurt_player(5, p.position.x + 30.0)
+	var t3 := Time.get_ticks_msec()
+	while Time.get_ticks_msec() - t3 < 500:
+		await kit.frames(1)
+		var j := colpito.find(p.spr.texture)
+		if j >= 0:
+			hurt_seen[j] = true
+	var wilt_seen := {}
+	m.vitals.hurt(m.vitals.hp + 50)
+	var t4 := Time.get_ticks_msec()
+	var lying_shot := false
+	while Time.get_ticks_msec() - t4 < 2600:
+		await kit.frames(1)
+		var j := colpito.find(p.spr.texture)
+		if j >= 2:
+			wilt_seen[j] = true
+		if j == 5 and not lying_shot:
+			lying_shot = true
+			await kit.save("78_germogliato_appassito")
+	await kit.seconds(1.2)
+	m.combat.god = was_god
+	print("ferita: pose %s; appassire: pose %s; rinato in piedi %s" % [hurt_seen.keys(), wilt_seen.keys(),
+		"sì" if not m.life.dead and colpito.find(p.spr.texture) < 0 else "NO"])
+	kit.make_room()
 	# un cunicolo alto 2 blocchi: soffitto di pietra a 2 tessere dal pavimento, per 8 tessere
 	var x0 := spot.x + 2
 	for x in range(x0, x0 + 8):

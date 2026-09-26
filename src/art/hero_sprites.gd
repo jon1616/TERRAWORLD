@@ -6,7 +6,8 @@ extends RefCounted
 ## `colpo.json` = dove sta il pugno e l'angolo del braccio in ogni posa, per l'attrezzo che il gioco ci disegna), mira
 ## (6: il braccio teso dal dritto in alto al basso davanti, per archi, bastoni e rampino) e torcia (9: in piedi e le 8
 ## pose di corsa con il pugno alto davanti al petto) e speciali (6: parete, la seconda non usata; planata a due pose;
-## rampino tirato e appeso), anche loro con il loro .json. Il disegno del codice
+## rampino tirato e appeso), anche loro con il loro .json, e colpito (6: due pose della ferita, quattro
+## dell'appassire, dall'ultima si rinasce). Il disegno del codice
 ## (`CharacterArt`) resta solo di riserva, se mancano i file.
 ## Da ogni fotogramma si ricavano da soli:
 ##   eye     il pixel dell'occhio d'oro (per il bagliore al buio; niente quando l'occhio è chiuso)
@@ -15,7 +16,9 @@ extends RefCounted
 ##           più stretta non sposta il personaggio
 
 const DIR := "res://arte/germogliato/"
-const ANIMS := {"corsa": 8, "fermo": 4, "salto": 6, "colpo": 6, "mira": 6, "torcia": 9, "speciali": 6}
+const ANIMS := {"corsa": 8, "fermo": 4, "salto": 6, "colpo": 6, "mira": 6, "torcia": 9, "speciali": 6, "colpito": 6}
+const HURT_TIME := 0.25                # secondi delle pose della ferita
+const WILT_STEP := 0.35                # secondi per ogni posa dell'appassire (poi resta nell'ultima)
 ## Le pose della tavola degli speciali (07_speciali.png). La seconda posa della parete è una camminata disegnata per
 ## sbaglio da Nano Banana: non si usa.
 enum Speciali { PARETE, PARETE_NO, PLANA_A, PLANA_B, TIRATO, APPESO }

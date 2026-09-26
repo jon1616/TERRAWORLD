@@ -216,5 +216,7 @@ func hurt_player(dmg: int, from_x: float) -> void:
 		dir = -float(player.facing)
 	player.vel = Vector2(dir * 170.0, -170.0)
 	player.on_floor = false
+	player.facing = int(-dir)                   # guarda chi l'ha colpito: la posa della ferita scatta all'indietro
+	player.hurt_t = HeroSprites.HURT_TIME
 	Fx.float_text(m.fx, player.position + Vector2(0, -20), "-%d" % lost, Color("#ff7a5a"))
 	m.life.flash(Color(1.0, 0.25, 0.2, 0.18), 0.25)

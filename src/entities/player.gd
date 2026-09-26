@@ -36,6 +36,9 @@ var slow_t := 0.0                      # invischiato in una ragnatela (voce 22):
 var jump_mult := 1.0
 var glide := false
 var gliding := false                   # sta planando adesso (per la posa)
+var hurt_t := 0.0                      # appena ferito: le pose della ferita (vedi `HeroAnimator.hurt`)
+var wilting := false                   # appassito (Vita finita): le pose dell'appassire finché non rinasce
+var wilt_t := 0.0
 var hand_world := Vector2.INF          # il pugno nel mondo, se la posa lo ha (la corda del rampino parte da qui)
 # voce 31: muoversi meglio
 var air_jumps := 0                     # salti in aria concessi dagli accessori (Baccello di vento, Seme di tempesta)
@@ -273,6 +276,9 @@ func _animate(dt: float) -> void:
 	_takeoff_t -= dt
 	_land_t -= dt
 	hand_world = Vector2.INF
+	hurt_t -= dt
+	if hero.hurt(dt):
+		return
 	# le mosse degli accessori vincono su ciò che si tiene in mano (il rampino stesso è «in mano»)
 	if not sw and is_nan(aim) and hero.special(dt):
 		return

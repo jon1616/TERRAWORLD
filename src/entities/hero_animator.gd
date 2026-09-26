@@ -179,3 +179,23 @@ func special(dt: float) -> bool:
 		p.hand_world = p.position + p.rig.position + Vector2(_fist(d, k, top_left).x * p.rig.scale.x,
 			_fist(d, k, top_left).y)
 	return true
+
+
+## Ferito (due pose per un attimo) o appassito (quattro pose lente, poi resta nell'ultima finché non rinasce):
+## vincono su tutto il resto. Falso se non è il caso o se manca la tavola.
+func hurt(dt: float) -> bool:
+	var hero := HeroSprites.data()
+	if not hero.has("colpito"):
+		return false
+	var k := -1
+	if p.wilting:
+		p.wilt_t += dt
+		k = 2 + mini(int(p.wilt_t / HeroSprites.WILT_STEP), 3)
+	elif p.hurt_t > 0.0:
+		k = 0 if p.hurt_t > HeroSprites.HURT_TIME * 0.5 else 1
+	if k < 0:
+		return false
+	_show(hero["colpito"], k)
+	p.tool.visible = false
+	p.flame.visible = false
+	return true

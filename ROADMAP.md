@@ -593,6 +593,17 @@ nell'Avvizzimento), le sue decorazioni, il suo cielo, due creature, i materiali,
 Il sottosuolo resta per la prossima Roadmap. Oggetti e ricette in `BiomeItemsData`, disegni in `BiomeBeastArt`.
 Prove `--solo=biomi_nuovi` (foto 69_boschi_brina, 70_cenerarie).
 
+# Il Germogliato di Nano Banana (26 set 2026, lavoro guidato dall'utente)
+
+- [x] Riferimento `00_profilo_fermo_v4` (forme grandi pensate per 36 pixel, germoglio piccolo, occhio d'oro unico nella
+  figura); misura 36 pixel e cunicoli da 2 blocchi (scelta dell'utente), corpo 10×30.
+- [x] Strumenti: `tools/pixela.py` (pixel art da disegno grande), `tools/importa_tavola.py` (tavole: pulizia,
+  allineamento, misura sulla testa, correzione dei colori, pugno per gli attrezzi), `tools/respiro.py`.
+- [x] Tavole: corsa, fermo (respiro dallo script), salto, colpo, mira, torcia, speciali (parete, planata, rampino),
+  colpito e appassire. In gioco con `HeroSprites` e `HeroAnimator`; `CharacterArt` resta di riserva.
+- [ ] L'armatura sugli sprite nuovi (colori scambiati della tunica e dei pantaloni; l'elmo?).
+- [ ] Colpo in corsa (oggi colpendo le gambe restano ferme per un terzo di secondo), se in prova non piace.
+
 # Roadmap 5 — proposte (da decidere con l'utente)
 - **Il Germogliato vero**: importare le tavole di Nano Banana (48 px, braccio davanti separato, armature a colori
   scambiati) con lo script di Inkblood; tutte le pose del movimento.

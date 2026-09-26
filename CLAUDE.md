@@ -161,10 +161,12 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   In gioco li carica `HeroSprites` (`src/art/`: occhio e centro del corpo ricavati da ogni posa, pugno e angolo del
   braccio dai .json di `--mano`) e li disegna `HeroAnimator` (`src/entities/`, chiamato da `Player._animate`): fermo
   (respiro), corsa, salto (posa dalla velocità verticale), colpo (attrezzo nel pugno, segue `swing_period`), mira (la
-  posa più vicina alla direzione, l'arma con l'angolo vero), torcia (ferma e di corsa, con la fiamma). `CharacterArt`
+  posa più vicina alla direzione, l'arma con l'angolo vero), torcia (ferma e di corsa, con la fiamma), speciali
+  (parete di spalle al muro, planata, rampino tirato/appeso con la corda dal pugno `Player.hand_world`), colpito
+  (`Player.hurt_t` a ogni ferita, `Player.wilting` quando appassisce: vince su tutto). `CharacterArt`
   resta di riserva se mancano i file. Corpo 10×30 (sprite 36: passa nei cunicoli da 2). Tavole in
   `arte_ia/germogliato/`: 01_corsa_v2, 02_fermo (non usata: respiro dallo script), 03_salto, 04_colpo, 05_mira,
-  06_torcia; il comando di importazione di ognuna è nel messaggio del suo commit.
+  06_torcia, 07_speciali, 08_colpito; il comando di importazione di ognuna è nel messaggio del suo commit.
 - `src/audio/` — `SfxSynth` (ricette di `SoundsData` → campioni PCM, limitatore, anelli senza cuciture per i
   sottofondi) e `Sfx` (modulo della scena: `play(id, punto)`, sottofondo dello strato generato in un thread e sfumato;
   `played` conta i suoni per le prove). I moduli lo chiamano con `m.sfx.play(...)`, `PlayerActions` con `sfx`.
