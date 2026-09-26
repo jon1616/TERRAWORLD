@@ -13,12 +13,18 @@
 - **Fatta la Roadmap 5 «Il Seme e i suoi geni»** (voci 41-48, 26 set 2026): resoconto in fondo alla Roadmap 5.
 - **Fatta la Roadmap 6 «La materia viva»** (voci 49-54, 26 set 2026): resoconto in fondo alla Roadmap 6.
 - **Fatta la Roadmap 7 «L'ecologia»** (voci 55-61, 26 set 2026): resoconto in fondo alla voce 61.
-- **Prossimo passo**: Roadmap 8 «Il risveglio dell'Albero-Madre» (voce 62). L'utente dà la direzione e lascia a
-  Claude ordine e tecnica; chiede sempre un resoconto alla fine di un lavoro lungo.
+- **Fatti i ritocchi chiesti dall'utente dopo la Roadmap 7** (26 set 2026): sezione «Ritocchi dopo la Roadmap 7»
+  prima della Roadmap 8 (barre di Vita e Linfa, misure di banchi, mobili, casse e porte, casse per la creazione e
+  pulsanti di comodità, pannello Creare rifatto, alberi e vegetazione di ogni bioma).
+- **Salvataggi**: in pieno sviluppo le partite sono solo prove (scelta dell'utente): niente migrazioni per ora.
+- **Prossimo passo**: Roadmap 8 «Il risveglio dell'Albero-Madre» (voce 62, serve una decisione dell'utente su che
+  cosa diventa il mondo di partenza di oggi). L'utente dà la direzione e lascia a Claude ordine e tecnica; chiede
+  sempre un resoconto alla fine di un lavoro lungo.
 - **Contenuti oggi**: 1243 oggetti (768 sono armi, attrezzi e armature generati da 48 materiali × 16 forme; 54 le
   Fiale dei geni), 1022 ricette, 39 stazioni, 47 creature in 36 famiglie (84 varianti per specie; 25 famiglie si
   addomesticano, 10 manti), 6 elementi e 4 reazioni, 5 biomi di superficie e 5 del sottosuolo, 5 strati,
-  10 Guardiani/Custodi, 57 geni in 13 categorie, 12 firme dei mondi; `tools/verifica_dati.gd` dà 0 errori e 0 avvisi.
+  10 Guardiani/Custodi, 57 geni in 13 categorie, 12 firme dei mondi, 5 specie d'albero in 4 grandezze, 45
+  decorazioni (13 di vegetazione dei biomi), 3 abitanti; `tools/verifica_dati.gd` dà 0 errori e 0 avvisi.
   (`tools/elenco.gd` non compila più dalla Roadmap 6: `ItemsData.METALS` è passato a `MaterialsData`.)
 
 # Roadmap 1: «Le fondamenta» (dal 24 set 2026)
@@ -1034,6 +1040,45 @@ che scappano e brucano, popolazioni per zona, nidi e migrazioni; poi la parte pi
 **addomesticare** (25 famiglie, tre modi, mandria che segue, combatte, cresce e aiuta, cinque cavalcature, recinti
 che producono anche mentre sei via, Vasetti, Incubatrice) e **allevare** (doti, coppie, uova, sei manti rari e il
 gigante solo allevando, anteprima dei figli). L'Erbario racconta tutto e dice cosa manca.
+
+# Ritocchi dopo la Roadmap 7 (26 set 2026) — chiesti dall'utente provando il gioco
+
+## R1. [x] Barre di Vita e Linfa (S) — fatto il 26 set 2026
+Erano dieci foglie e dieci gocce piccole, quasi invisibili e coperte dalla minimappa. Ora due barre grandi su un
+riquadro scuro, con il numero dentro; la Vita cambia colore (muschio, ambra, rosso), la parte appena persa si svuota
+piano, sotto un quarto pulsa. La minimappa comincia sotto (`VitalsView.BOTTOM`).
+
+## R2. [x] Banchi, mobili, casse e porte della misura giusta (M) — fatto il 26 set 2026
+Erano alti quasi quanto il Germogliato. Alti una tessera: Ceppo, Maglio, Alambicco, Mola, Paiolo, Banco
+dell'Innestatrice, Incubatrice, tavolo, sedia, letto, Focolare, Cesta, Scrigno, Reliquiario (Baccello ardente e Telaio
+2×2); disegni fatti per la misura nuova (`CompactArt`). Porte alte due tessere, quanto il Germogliato; la prova della
+casa controlla che la porta chiusa lo fermi e aperta lo lasci passare, e che il letto resti il punto di rinascita. Il
+generatore appoggia le casse al pavimento secondo la loro altezza. Restano grandi di proposito: Altare, Radice
+viandante, Recinto, portale, Aiuola, Cuore, bozzoli e nidi.
+
+## R3. [x] Casse: creazione dalle casse vicine, impostazioni, pulsanti (M) — fatto il 26 set 2026
+La creazione prende gli ingredienti anche dalle casse entro 10 tessere con «usa per creare» (`Crafting.pool`,
+`have`, `take`: vale anche per rinnovo, fasce e innesti). Ogni cassa ha un nome (scritto sopra la cassa), «usa per
+creare» e che cosa raccoglie (`StorageData`: minerali, materiali, costruzione, equipaggiamento, pozioni, semi,
+mandria, tesori, niente). Pulsanti: Prendi tutto, Deposita tutto, Deposita simili, Rifornisci, Riordina; nella
+Bisaccia «Nelle casse vicine». La barra rapida non si svuota mai da sola. Modulo `Storage`, prove `--solo=casse`.
+
+## R4. [x] Il pannello Creare rifatto (M) — fatto il 26 set 2026
+Alto tutta la destra dello schermo (basso con una cassa aperta); banchi vicini con le icone; nove categorie colorate
+(`CraftCatsData`: armi, attrezzi, armature, accessori, pozioni e cibo, materiali, costruzione, giardino e mandria,
+altro) che tingono righe, bottoni e intestazioni; ricerca per nome o ingrediente; «Solo possibili»; in «Tutto» gruppi
+per tipo con quante ricette sono possibili; ogni riga con il banco e «ne hai/ne servono»; Maiusc+clic crea cinque
+volte. Le righe sono un nodo solo che si disegna da sé: rifare l'elenco costa 7 ms, la prima apertura 42 ms.
+
+## R5. [x] Alberi e vegetazione di ogni bioma (M) — fatto il 26 set 2026
+Prima: otto forme dello stesso albero-lanterna, tutte alte uguali, in ogni bioma. Ora una specie per bioma
+(`TreesData`, disegni in `TreeArt`): albero-lanterna, fungo-albero, acacia d'ambra, abete di brina, tizzone, in
+quattro grandezze (piccolo, medio, grande, antico raro) e tre forme; i grandi reggono più colpi e danno più legno, un
+seme cresce nell'albero del bioma dove lo si pianta. Tredici piante nuove (`BiomeDecorArt`): cespugli di
+bacche-lanterna; erba di spore, canne, funghetti a grappolo; erba dorata, cardi, fiori di resina; muschio gelato,
+cristalli e cespugli di brina; ciuffi bruciati, braci, stecchi carbonizzati. L'erba di ogni bioma resta bassissima
+(4-5 pixel, richiesta dell'utente). Le piante si pascolano, ci si semina sopra, alcune lasciano semi selvatici.
+Foglio con `tools/alberi.gd`, prove `--solo=alberi` (una foto per bioma).
 
 # Roadmap 8 «Il risveglio dell'Albero-Madre» — il motivo
 
