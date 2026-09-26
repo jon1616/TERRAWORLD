@@ -55,9 +55,12 @@ func _process(dt: float) -> void:
 	var dmg := roundi(float(st["damage"]) * m.combat._boon() * m.combat.magic_mult)
 	var knock := float(st["knockback"]) / 3.0
 	var n := int(sd["n"])
+	var opts := sd.duplicate()
+	if not opts.has("elem"):
+		opts["elem"] = String(st["elem"])        # la saetta delle verghe: l'elemento del metallo (voce 51)
 	for k in n:
 		var dir := d.normalized().rotated((k - (n - 1) / 2.0) * float(sd["spread"]))
-		m.shots.fire(from + dir * 8.0, dir * float(sd["speed"]), float(sd["grav"]), dmg, true, knock, sd)
+		m.shots.fire(from + dir * 8.0, dir * float(sd["speed"]), float(sd["grav"]), dmg, true, knock, opts)
 	m.sfx.play("incanto")
 	casts += 1
 

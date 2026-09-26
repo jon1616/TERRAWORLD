@@ -66,7 +66,7 @@ static func from_dict(cid: String, d: Dictionary) -> Character:
 	for sec in eb:
 		var part: Dictionary = eb[sec]
 		for k in part:
-			part[k] = int(part[k])
+			part[k] = SaveMigrations.ints(part[k]) if part[k] is Dictionary else int(part[k])
 	c.erbario = eb
 	var st: Dictionary = d.get("stats", {})
 	for k in st:

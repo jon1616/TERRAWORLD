@@ -3,7 +3,7 @@ extends RefCounted
 ## Prove della Roadmap 6 «La materia viva». Voce 50: ogni forma colpisce nella sua area (la lancia a tre tessere dove
 ## il pugnale non arriva, la falce anche dietro), la balestra trafigge, la verga tira saette con la Linfa, la trivella
 ## scava più in fretta, la fascia del Telaio cambia i valori e resta salvando; il foglio di tutte le forme in tutti i
-## materiali (prove/89_forme.png).
+## materiali (prove/89_forme.png). Voce 51: gli elementi (debolezze, stati, reazioni).
 
 const S := 16
 
@@ -20,6 +20,7 @@ func _init(tk: TestKit) -> void:
 
 func run() -> void:
 	await forms()
+	await elements()
 
 
 func _feet(c: Vector2i, id: String) -> Vector2:
@@ -112,3 +113,59 @@ func forms() -> void:
 	sheet.save_png(ProjectSettings.globalize_path("res://prove/89_forme.png"))
 	print("salvato 89_forme (%d forme × %d materiali = %d oggetti)" % [FormsData.FORMS.size(), mats.size(),
 		FormsData.FORMS.size() * mats.size()])
+
+
+## Voce 51: debolezze e resistenze cambiano il danno (e l'Erbario le ricorda), la brace brucia nel tempo, il gelo sul
+## segno della brace fa il Vapore; quante creature hanno una debolezza.
+func elements() -> void:
+	var spot := kit.flat_spot(world.spawn + Vector2i(-24, 0), 8)
+	if spot.x < 0:
+		print("ATTENZIONE: nessun posto per la prova degli elementi")
+		return
+	m.snap_to(spot)
+	m.fauna.clear()
+	await kit.frames(3)
+	var at := _feet(spot + Vector2i(3, 0), "grumo_muschio")
+	# lo stesso colpo senza elemento, con la brace (debolezza) e con la spora (resistenza)
+	var g0: Creature = m.fauna.add("grumo_muschio", at)
+	var hp0 := g0.hp
+	m.combat._strike(g0, 10, m.player.position.x, 0.1, "")
+	var plain := hp0 - g0.hp
+	var g1: Creature = m.fauna.add("grumo_muschio", at + Vector2(20, 0))
+	hp0 = g1.hp
+	m.combat._strike(g1, 10, m.player.position.x, 0.1, "brace")
+	var fire := hp0 - g1.hp
+	var burn_on := g1.burn_t > 0.0
+	var g2: Creature = m.fauna.add("grumo_muschio", at + Vector2(40, 0))
+	hp0 = g2.hp
+	m.combat._strike(g2, 10, m.player.position.x, 0.1, "spora")
+	var spore := hp0 - g2.hp
+	# la brace continua a bruciare
+	var before_burn := g1.hp
+	await kit.seconds(1.5)
+	var burned: int = before_burn - g1.hp if is_instance_valid(g1) else before_burn
+	var known: Dictionary = m.character.erbario.get("elementi", {}).get("grumo_muschio", {})
+	print("elementi sul grumo di muschio: colpo 10 senza elemento %d, di brace %d (debole), di spora %d (resiste); brucia %s (%d in 1,5 s); Erbario: %s" % [
+		plain, fire, spore, "sì" if burn_on else "NO", burned, known])
+	m.fauna.clear()
+	# una reazione: il segno del gelo, poi la brace → Vapore
+	var t: Creature = m.fauna.add("strisciaradice", _feet(spot + Vector2i(3, 0), "strisciaradice"))
+	t.hp = 500
+	t.hp_max = 500
+	m.combat._strike(t, 10, m.player.position.x, 0.1, "gelo")
+	var mark := t.elem
+	hp0 = t.hp
+	var reactions := int(m.character.stats.get("reazioni", 0))
+	m.combat._strike(t, 10, m.player.position.x, 0.1, "brace")
+	print("reazione: segno «%s», poi brace → danno %d (colpo da 10), stordita %.1f s, reazioni %d → %d" % [mark, hp0 - t.hp,
+		t.stun, reactions, int(m.character.stats.get("reazioni", 0))])
+	m.fauna.clear()
+	var weak := 0
+	for cid in CreaturesData.CREATURES:
+		if not (ElementsData.AFFINITY.get(cid, {}).get("weak", []) as Array).is_empty():
+			weak += 1
+	print("creature con una debolezza: %d su %d; armi con un elemento: %s" % [weak, CreaturesData.CREATURES.size(),
+		", ".join(MaterialsData.all().keys().filter(func(k: String) -> bool: return String(MaterialsData.get_mat(k)["elemento"]) != "").map(
+			func(k: String) -> String: return "%s %s" % [k, MaterialsData.get_mat(k)["elemento"]]))])
+	if fire <= plain or spore >= plain or not burn_on or hp0 - t.hp < 14:
+		print("ATTENZIONE: gli elementi non cambiano il danno come dovrebbero")

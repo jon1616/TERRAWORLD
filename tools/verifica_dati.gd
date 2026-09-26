@@ -316,6 +316,19 @@ func _check_materials() -> void:
 		_err(im.get_pixel(8, 8) != Color("#ff2080"), "forma %s: nessuna icona" % f)
 		for m in MaterialsData.all():
 			_err(ItemsData.has(FormsData.item_id(f, m)), "manca %s" % FormsData.item_id(f, m))
+	# voce 51: elementi validi, ogni creatura con debolezze e resistenze scritte
+	for m in MaterialsData.all():
+		var e := String(MaterialsData.get_mat(m)["elemento"])
+		_err(e == "" or ElementsData.ELEMENTS.has(e), "materiale %s: elemento sconosciuto «%s»" % [m, e])
+	for s in SpellsData.SPELLS:
+		_err(not SpellsData.SPELLS[s].has("elem") or ElementsData.ELEMENTS.has(String(SpellsData.SPELLS[s]["elem"])), "incantesimo %s: elemento sconosciuto" % s)
+	for cid in CreaturesData.CREATURES:
+		_err(ElementsData.AFFINITY.has(cid), "creatura %s senza debolezze e resistenze (ElementsData.AFFINITY)" % cid)
+	for cid in ElementsData.AFFINITY:
+		_err(CreaturesData.CREATURES.has(cid), "debolezze di una creatura inesistente: %s" % cid)
+		for k in ["weak", "resist"]:
+			for e in ElementsData.AFFINITY[cid][k]:
+				_err(ElementsData.ELEMENTS.has(String(e)), "creatura %s: elemento sconosciuto «%s»" % [cid, e])
 	for fa in FormsData.FASCE:
 		_err(ItemsData.has(String(FormsData.FASCE[fa]["item"])), "fascia %s: materiale inesistente" % fa)
 	print("materiali %d × forme %d; scarto massimo dai valori di prima %d%%" % [MaterialsData.all().size(),

@@ -837,12 +837,20 @@ usato da `Combat`, `Spells`, `PlayerActions` ed Esamina; l'armatura indossata ti
 Deciso da Claude: la fascia al posto di «materiale del manico» nella ricetta (sarebbero state 5 ricette per oggetto:
 righe a centinaia). 128 × 5 fasce = 640 varianti. Prove `--solo=forme`, foglio delle icone prove/89_forme.png.
 
-## 51. [ ] Elementi e reazioni (M)
+## 51. [x] Elementi e reazioni (M) — fatto il 26 set 2026
 Sei elementi (brace, gelo, spora, Linfa, Vuoto, luce) portati dai materiali e dalle Essenze: stati sulle creature
 (brucia, rallenta, avvelena, prosciuga, acceca…), debolezze e resistenze delle famiglie di creature, **reazioni** tra
 elementi (gelo + brace = vapore che stordisce, spora + brace = scoppio…).
 **Pronto quando**: scegliere l'elemento giusto cambia davvero lo scontro con almeno metà delle creature; l'Erbario
 mostra le debolezze scoperte.
+**Fatto il 26 set 2026** (`ElementsData`, `Elements`): sei elementi con il loro stato — brace (brucia nel tempo),
+gelo (rallenta), spora (avvelena), Linfa (ti cura di un decimo del danno), Vuoto (vulnerabile: +30% a ogni colpo),
+luce (acceca e ferma). Li portano i metalli (ambra e stellare luce, Linfa, Vuoto, pallidite gelo, tizzonite brace)
+e gli incantesimi; valgono per mischia, dardi e saette. **Tutte** le 35 creature hanno una debolezza (danno ×1,6) e
+molte una resistenza (×0,5); l'Erbario le ricorda quando le scopri. Ogni colpo lascia un **segno** per 3 secondi:
+un colpo d'altro elemento sulla creatura segnata fa una **reazione** — Vapore (gelo + brace: stordisce, ×1,5),
+Fiammata (spora + brace: ferisce chi sta attorno), Cristallo (gelo + Linfa: ferma a lungo), Squarcio (Vuoto + luce:
+×2,5). Obiettivo «Fai reagire due elementi». Prova: brace 16 e spora 5 contro 10 sul grumo di muschio; Vapore 23.
 
 ## 52. [ ] Leghe (M)
 Al Baccello ardente due metalli si fondono in una **lega** con proprietà miste (e a volte una proprietà che nessuno dei

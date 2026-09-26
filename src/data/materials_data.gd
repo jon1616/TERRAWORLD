@@ -24,18 +24,18 @@ const MATERIALS := {
 	"legnoferro": {"label": "di legnoferro", "tier": 2, "durezza": 45, "filo": 12, "peso": 17.5, "tenacia": 2.0, "conduzione": 3,
 		"elemento": "", "risonanza": 0, "bar": "lingotto_legnoferro"},
 	"ambra": {"label": "d'ambra", "tier": 3, "durezza": 55, "filo": 16, "peso": 15.0, "tenacia": 2.8, "conduzione": 8,
-		"elemento": "", "risonanza": 1, "bar": "lingotto_ambra"},
+		"elemento": "luce", "risonanza": 1, "bar": "lingotto_ambra"},
 	"linfa": {"label": "di Linfa", "tier": 4, "durezza": 65, "filo": 21, "peso": 10.0, "tenacia": 3.8, "conduzione": 14,
-		"elemento": "", "risonanza": 1, "bar": "lingotto_linfa", "icon": "cristallo"},
+		"elemento": "linfa", "risonanza": 1, "bar": "lingotto_linfa", "icon": "cristallo"},
 	"vuoto": {"label": "di vuotite forgiata", "tier": 5, "durezza": 75, "filo": 27, "peso": 7.5, "tenacia": 5.0, "conduzione": 10,
-		"elemento": "", "risonanza": 1, "bar": "lingotto_vuoto", "icon": "vuotite"},
+		"elemento": "vuoto", "risonanza": 1, "bar": "lingotto_vuoto", "icon": "vuotite"},
 	# voce 24: metalli laterali, per chi vuole una strada diversa (più veloce, o più forte prima della Linfa)
 	"pallidite": {"label": "di pallidite", "tier": 2, "durezza": 42, "filo": 11, "peso": 7.5, "tenacia": 1.6, "conduzione": 6,
-		"elemento": "", "risonanza": 0, "bar": "lingotto_pallidite"},
+		"elemento": "gelo", "risonanza": 0, "bar": "lingotto_pallidite"},
 	"tizzonite": {"label": "di tizzonite", "tier": 3, "durezza": 60, "filo": 18, "peso": 15.0, "tenacia": 3.1, "conduzione": 5,
-		"elemento": "", "risonanza": 0, "bar": "lingotto_tizzonite"},
+		"elemento": "brace", "risonanza": 0, "bar": "lingotto_tizzonite"},
 	"stellare": {"label": "stellare", "label_pl": "stellari", "tier": 6, "durezza": 85, "filo": 34, "peso": 5.0, "tenacia": 6.0,
-		"conduzione": 16, "elemento": "", "risonanza": 2, "bar": "lingotto_stellare", "icon": "ambra"},
+		"conduzione": 16, "elemento": "luce", "risonanza": 2, "bar": "lingotto_stellare", "icon": "ambra"},
 }
 
 ## Le proprietà numeriche (per le leghe e per le schede).

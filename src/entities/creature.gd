@@ -47,6 +47,12 @@ var buried := false                    # non si vede (dentro la terra)
 var shell := 0.0                       # chiusa nel guscio: ferma, un quarto del danno
 var just_hit := false                  # appena colpita (lo legge il guscio)
 var chill_t := 0.0                     # rallentata dal freddo (Bastone di lagunite): metà velocità
+var burn_t := 0.0                      # voce 51: brucia (elemento brace), perde `burn_dps` al secondo
+var burn_dps := 0.0
+var weak_t := 0.0                      # voce 51: vulnerabile (elemento vuoto), ogni colpo fa di più
+var elem := ""                         # voce 51: il segno dell'ultimo elemento, che aspetta una reazione
+var elem_t := 0.0
+var _burn_acc := 0.0
 var extra := false                     # parte di uno sciame o di un branco: non conta nel tetto delle creature
 var _poison_acc := 0.0
 var behaviors: Array[Behavior] = []
@@ -201,6 +207,17 @@ func _process(dt: float) -> void:
 	_animate(dt)
 	if ancient:
 		ancient.tick(self, dt)
+	elem_t = maxf(elem_t - dt, 0.0)
+	weak_t = maxf(weak_t - dt, 0.0)
+	if burn_t > 0.0:
+		burn_t -= dt
+		_burn_acc += burn_dps * dt
+		var kb := int(_burn_acc)
+		if kb > 0:
+			_burn_acc -= kb
+			hp -= kb
+			_bar.set_value(float(hp) / hp_max)
+			modulate = Color(1.6, 0.9, 0.5)
 	if poison_t > 0.0:
 		poison_t -= dt
 		_poison_acc += POISON_DPS * dt
@@ -212,7 +229,9 @@ func _process(dt: float) -> void:
 			modulate = Color(0.7, 1.4, 0.6)
 	elif chill_t > 0.0:
 		modulate = Color(0.7, 0.95, 1.5)
-	elif modulate.g > 1.0 or modulate.b > 1.0:
+	elif burn_t > 0.0:
+		pass
+	elif modulate.g > 1.0 or modulate.b > 1.0 or modulate.r > 1.0:
 		modulate = Color.WHITE
 
 
@@ -262,6 +281,8 @@ func _animate(dt: float) -> void:
 
 ## Colpo subito: toglie Vita (meno metà della difesa), spinge via, fa lampeggiare. True se la creatura muore.
 func take_hit(dmg: int, from_x: float, force: float) -> bool:
+	if weak_t > 0.0:
+		dmg = roundi(dmg * ElementsData.VULNERABLE)
 	var real := maxi(dmg - defense / 2, 1)
 	if shell > 0.0:
 		real = maxi(real / 4, 1)               # chiusa nel guscio
@@ -270,7 +291,7 @@ func take_hit(dmg: int, from_x: float, force: float) -> bool:
 	just_hit = true
 	hp -= real
 	_flash = 0.12
-	stun = 0.22
+	stun = maxf(stun, 0.22)                 # non accorcia uno stordimento più lungo (reazioni, voce 51)
 	var dir := signf(position.x - from_x)
 	if dir == 0.0:
 		dir = 1.0

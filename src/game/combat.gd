@@ -50,7 +50,7 @@ func on_shot(s: Dictionary) -> bool:
 				hits[c] = true
 				if float(s["chill"]) > 0.0:
 					c.chill_t = maxf(c.chill_t, float(s["chill"]))   # onda di lagunite: rallenta
-				_strike(c, int(s["damage"]), pos.x - signf(s["vel"].x) * 10.0, float(s["knock"]))
+				_strike(c, int(s["damage"]), pos.x - signf(s["vel"].x) * 10.0, float(s["knock"]), String(s.get("elem", "")))
 				if int(s["pierce"]) <= 0:
 					return true
 				s["pierce"] = int(s["pierce"]) - 1
@@ -106,7 +106,7 @@ func _melee(st: Dictionary, use: String, tr := "") -> void:
 	for c in fauna.list.duplicate():
 		if not _hit_set.has(c) and area.intersects(c.rect()):
 			_hit_set[c] = true
-			_strike(c, dmg, player.position.x, float(st["knockback"]) / 3.0)
+			_strike(c, dmg, player.position.x, float(st["knockback"]) / 3.0, String(st["elem"]))
 
 
 ## L'area del colpo in mischia di una forma, attorno al Germogliato.
@@ -154,7 +154,7 @@ func _bow(it: Dictionary, st: Dictionary, use: String, active: bool, dt: float, 
 	var n := int(it.get("multishot", 1))       # l'Arco iridato tira più dardi a ventaglio con un dardo solo
 	for k in n:
 		shots.fire(from + d.normalized() * 8.0, v.rotated((k - (n - 1) / 2.0) * 0.12), DART_GRAV, dmg, true,
-				float(st["knockback"]) / 3.0, {"pierce": int(st["pierce"])})
+				float(st["knockback"]) / 3.0, {"pierce": int(st["pierce"]), "elem": String(st["elem"])})
 
 
 ## Danno ×1,2 con la Pozione di vigore attiva, e il danno in più degli accessori.
@@ -162,8 +162,12 @@ func _boon() -> float:
 	return (Boons.VIGORE if m.boons.active.has("vigore") else 1.0) * dmg_mult * (Boons.SAZIO if m.boons.active.has("sazio") else 1.0)
 
 
-func _strike(c: Creature, dmg: int, from_x: float, force: float) -> void:
+func _strike(c: Creature, dmg: int, from_x: float, force: float, elem := "") -> void:
 	m.sfx.play("colpito", c.position)
+	if elem != "":
+		dmg = Elements.hit(self, c, elem, dmg)     # voce 51: debolezze, stati e reazioni
+		if not is_instance_valid(c) or not fauna.list.has(c):
+			return
 	var tr := String(m.hud.current().get("tratto", ""))
 	if TraitsData.effect(tr, "poison") > 0.0 or ItemsData.get_item(String(m.hud.current()["id"])).get("poison", false):
 		c.poison_t = 4.0

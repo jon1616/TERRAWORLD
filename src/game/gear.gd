@@ -17,7 +17,9 @@ static func stats(slot: Dictionary) -> Dictionary:
 	var out := {"damage": float(it.get("damage", 0)), "speed": float(it.get("speed", 0.0)),
 		"knockback": float(it.get("knockback", 1.5)), "power": int(it.get("power", 0)), "defense": float(it.get("defense", 0)),
 		"pierce": int(it.get("pierce", 0)), "dig": float(it.get("dig", 1.0)), "form": String(it.get("form", "")),
-		"mat": String(it.get("mat", ""))}
+		"mat": String(it.get("mat", "")), "elem": String(it.get("elem", ""))}
+	if out["elem"] == "" and out["mat"] != "":
+		out["elem"] = String(MaterialsData.get_mat(String(out["mat"])).get("elemento", ""))   # voce 51
 	var tr := String(slot.get("tratto", ""))
 	var dati: Dictionary = slot.get("dati", {})
 	var mods: Array[Dictionary] = []
@@ -60,4 +62,6 @@ static func line(slot: Dictionary) -> String:
 		parts.append("Scorza %d" % roundi(float(st["defense"])))
 	if int(st["pierce"]) > 0:
 		parts.append("Trafigge %d" % int(st["pierce"]))
+	if String(st["elem"]) != "":
+		parts.append("Elemento %s" % ElementsData.tag(String(st["elem"])))
 	return " · ".join(parts)

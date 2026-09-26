@@ -12,27 +12,28 @@ extends RefCounted
 ##   through  attraversa la roccia
 ##   chill    rallenta le creature colpite per tanti secondi (voce 24)
 ##   light    luce che porta con sé (nel buio vero un colpo di brace illumina la grotta)
+##   elem     l'elemento dei colpi (voce 51, `ElementsData`); la saetta delle verghe prende quello del metallo
 
 const SPELLS := {
 	# voce 50: la saetta delle verghe di metallo (il danno viene dalla conduzione del metallo)
 	"saetta": {"look": "scheggia", "speed": 440.0, "grav": 0.0, "n": 1, "spread": 0.0, "pierce": 0, "homing": 0.0,
 		"light": Color(0.5, 1.2, 1.1)},
-	"brace": {"look": "brace", "speed": 330.0, "grav": 0.0, "n": 1, "spread": 0.0, "pierce": 0, "homing": 0.0,
+	"brace": {"elem": "brace", "look": "brace", "speed": 330.0, "grav": 0.0, "n": 1, "spread": 0.0, "pierce": 0, "homing": 0.0,
 		"light": Color(1.4, 0.8, 0.35)},
-	"spore": {"look": "spora_amica", "speed": 250.0, "grav": 140.0, "n": 3, "spread": 0.32, "pierce": 0, "homing": 0.0,
+	"spore": {"elem": "spora", "look": "spora_amica", "speed": 250.0, "grav": 140.0, "n": 3, "spread": 0.32, "pierce": 0, "homing": 0.0,
 		"light": Color(0.5, 0.3, 0.8)},
-	"cristallo": {"look": "scheggia", "speed": 480.0, "grav": 0.0, "n": 1, "spread": 0.0, "pierce": 3, "homing": 0.0,
+	"cristallo": {"elem": "linfa", "look": "scheggia", "speed": 480.0, "grav": 0.0, "n": 1, "spread": 0.0, "pierce": 3, "homing": 0.0,
 		"light": Color(0.4, 1.0, 1.1)},
-	"polline": {"look": "polline", "speed": 280.0, "grav": 420.0, "n": 5, "spread": 0.2, "pierce": 0, "homing": 0.0,
+	"polline": {"elem": "spora", "look": "polline", "speed": 280.0, "grav": 420.0, "n": 5, "spread": 0.2, "pierce": 0, "homing": 0.0,
 		"light": Color(1.0, 0.8, 0.3)},
-	"iride": {"look": "iride", "speed": 360.0, "grav": 0.0, "n": 1, "spread": 0.0, "pierce": 2, "homing": 3.0,
+	"iride": {"elem": "luce", "look": "iride", "speed": 360.0, "grav": 0.0, "n": 1, "spread": 0.0, "pierce": 2, "homing": 3.0,
 		"light": Color(1.1, 0.9, 1.3)},
-	"gelo": {"look": "gelo", "speed": 380.0, "grav": 0.0, "n": 1, "spread": 0.0, "pierce": 1, "homing": 0.0,
+	"gelo": {"elem": "gelo", "look": "gelo", "speed": 380.0, "grav": 0.0, "n": 1, "spread": 0.0, "pierce": 1, "homing": 0.0,
 		"chill": 3.0, "light": Color(0.5, 0.9, 1.3)},
-	"serpe": {"look": "gelo", "speed": 260.0, "grav": 0.0, "n": 3, "spread": 0.35, "pierce": 0, "homing": 4.0,
+	"serpe": {"elem": "gelo", "look": "gelo", "speed": 260.0, "grav": 0.0, "n": 3, "spread": 0.35, "pierce": 0, "homing": 4.0,
 		"light": Color(0.3, 0.9, 1.0)},
-	"stelle": {"look": "polline", "speed": 320.0, "grav": 0.0, "n": 3, "spread": 0.25, "pierce": 1, "homing": 3.5,
+	"stelle": {"elem": "luce", "look": "polline", "speed": 320.0, "grav": 0.0, "n": 3, "spread": 0.25, "pierce": 1, "homing": 3.5,
 		"light": Color(1.3, 1.2, 0.7)},
-	"vuoto": {"look": "orbita", "speed": 230.0, "grav": 0.0, "n": 1, "spread": 0.0, "pierce": 1, "homing": 5.0,
+	"vuoto": {"elem": "vuoto", "look": "orbita", "speed": 230.0, "grav": 0.0, "n": 1, "spread": 0.0, "pierce": 1, "homing": 5.0,
 		"through": true, "light": Color(0.8, 0.4, 1.3)},
 }

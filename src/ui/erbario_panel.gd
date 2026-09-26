@@ -153,6 +153,14 @@ func _show_detail() -> void:
 			t += "Dove vive: %s%s\n" % [", ".join(where) if not where.is_empty() else "attorno al Cuore del mondo",
 				" (solo di notte)" if c.get("night", false) else ""]
 			t += "Sconfitte: %d" % int(erbario.data["creature"][selected])
+			# voce 51: debolezze e resistenze scoperte colpendola
+			var el: Dictionary = (m.character.erbario.get("elementi", {}) as Dictionary).get(selected, {})
+			var weak := []
+			var res := []
+			for e in el:
+				(weak if int(el[e]) > 0 else res).append(ElementsData.tag(String(e)))
+			t += "\nDebole a: %s · Resiste a: %s" % [", ".join(weak) if not weak.is_empty() else "[color=#6a8a84]?[/color]",
+				", ".join(res) if not res.is_empty() else "[color=#6a8a84]?[/color]"]
 			var anc := int((erbario.data["antiche"] as Dictionary).get(selected, 0))
 			if anc > 0:
 				t += "
