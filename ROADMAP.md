@@ -1,4 +1,17 @@
-# TERRAWORLD — Roadmap 1: «Le fondamenta» (dal 24 set 2026)
+# TERRAWORLD — Roadmap
+
+## Dove siamo (aggiornato il 26 set 2026)
+- **Fatte**: Roadmap 1 «Le fondamenta» (voci 0-16, tranne la 6), Roadmap 2 (17-20), Roadmap 3 «Esplorare, trovare,
+  crescere» (21-30 + extra), Roadmap 4 «Un mondo da abitare» (31-40), il fotogramma lento del giro lungo (pannelli che
+  si ridisegnavano a ogni raccolta, vedi CLAUDE.md), la musica (autoload `Musica`, file in `musica/`) e il Germogliato
+  di Nano Banana (sezione in fondo: tutte le tavole importate e in gioco).
+- **Aperte**: voce 6 «Rete a 2» (mai cominciata); dal Germogliato: armatura sugli sprite nuovi, colpo in corsa.
+- **Prossimo passo**: da decidere con l'utente tra le proposte della Roadmap 5 (in fondo) e le voci aperte. L'utente dà
+  la direzione e lascia a Claude ordine e tecnica; chiede sempre un resoconto alla fine di un lavoro lungo.
+- **Contenuti oggi**: 355 oggetti, 239 ricette, 28 stazioni, 35 creature, 5 biomi di superficie, 5 strati, 8
+  Guardiani/Custodi, 5 specie di Seme e 10 tratti di mondo; `tools/verifica_dati.gd` dà 0 errori e 0 avvisi.
+
+# Roadmap 1: «Le fondamenta» (dal 24 set 2026)
 
 Obiettivo: passare dal prototipo a una base che regga anni di aggiunte (meccaniche, creature, oggetti, generatore di mondi)
 senza riscritture. Alla fine della Roadmap: un mondo medio generato, salvabile, esplorabile in due in rete, con il primo
@@ -127,9 +140,11 @@ strato. Creature più forti scendendo (Vita e danno × pericolo: da 1 a 2,3) e u
 Host autoritativo. All'ingresso l'host manda il mondo compresso (~0,5 MB, lo stesso formato del salvataggio: niente
 dipendenza dalla versione del generatore), poi solo le tessere che cambiano. Movimento reattivo per chi non è host. Prova con due istanze vere del gioco (come la prova di rete di Inkblood).
 
-## 7. [ ] Prova con Nano Banana (M) — insieme all'utente
+## 7. [x] Prova con Nano Banana (M) — insieme all'utente, fatto il 26 set 2026
 Un personaggio con camminata, salto, colpo e un'armatura. Prompt pronti, griglia fissa su magenta, script di
 importazione con riduzione a tavolozza comune. Esito: si decide come fare tutte le animazioni.
+**Fatto il 26 set 2026** (vedi la sezione «Il Germogliato di Nano Banana» in fondo): tutte le animazioni del
+personaggio, tranne l'armatura (aperta).
 
 ## 8. [x] Il primo anello di gioco (L) — fatto il 24 set 2026
 Radicite → legnoferro → ambra fossile con Ceppo, Baccello ardente e Maglio; 10-15 oggetti per grado; il primo
@@ -604,9 +619,15 @@ Prove `--solo=biomi_nuovi` (foto 69_boschi_brina, 70_cenerarie).
 - [ ] L'armatura sugli sprite nuovi (colori scambiati della tunica e dei pantaloni; l'elmo?).
 - [ ] Colpo in corsa (oggi colpendo le gambe restano ferme per un terzo di secondo), se in prova non piace.
 
+Come si è lavorato (per le prossime tavole, per esempio mostri e boss): prompt in inglese ultra dettagliati scritti da
+Claude, l'utente genera con Gemini e salva in `arte_ia/<soggetto>/` con il nome dato da Claude, poi `importa_tavola.py`
+e prova in gioco. Le lezioni (cosa Nano Banana sa e non sa fare) sono in CLAUDE.md, «Lezioni già imparate».
+
 # Roadmap 5 — proposte (da decidere con l'utente)
-- **Il Germogliato vero**: importare le tavole di Nano Banana (48 px, braccio davanti separato, armature a colori
-  scambiati) con lo script di Inkblood; tutte le pose del movimento.
+- **Armatura sul Germogliato**: tunica e pantaloni con i colori del metallo indossato (colori scambiati nella tavolozza
+  degli sprite), l'elmo come calotta sui capelli di foglie.
+- **Mostri e boss con Nano Banana**: lo stesso metodo del Germogliato per i Guardiani e i Custodi (tavole di attacco,
+  ferita, sconfitta) e per le creature più importanti.
 - **Biomi del sottosuolo**: fungaie giganti nel Sottobosco, geodi di brina, fiumi di brace nel profondo, ognuno con le
   sue creature e i suoi materiali (lo spazio nei dati c'è già: specie e strati).
 - **Un Custode per bioma**: il Grande Cervo di brina e la Madre delle salamandre, con le loro tane in superficie.

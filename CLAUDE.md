@@ -3,7 +3,20 @@
 Gioco d'esplorazione e costruzione a tessere ispirato a Terraria, in Godot 4.6.1. Stesso metodo di lavoro di Inkblood Arena
 (`Desktop\CLAUDE\AUTOBATTLE GODOT`): contenuti come dati, strumenti di verifica, screenshot automatici, Roadmap a voci piccole.
 Solo PC, solo italiano. Obiettivo: profondità e longevità altissime (esplorazione, equipaggiamento profondo, obiettivi sempre nuovi).
-Documenti: `UNIVERSO.md` (ambientazione «Il Giardino dei Semi»), `ROADMAP.md` (lavori in corso e fatti).
+Documenti: `UNIVERSO.md` (ambientazione «Il Giardino dei Semi»), `ROADMAP.md` (lavori in corso e fatti; in cima «Dove
+siamo»).
+
+## Come si lavora (per riprendere dopo una pausa o una compattazione)
+- **Lo stato** è in cima a `ROADMAP.md` («Dove siamo»); le scelte dell'utente qui sotto; le lezioni in fondo.
+- **L'utente**: dà la direzione e lascia a Claude ordine e tecnica; vuole sostanza, spiegazioni in italiano semplice e
+  un resoconto alla fine; per la grafica collabora generando le immagini con Gemini/Nano Banana su prompt di Claude.
+  **Niente push** su un repository remoto finché non lo chiede (per ora «non ancora»).
+- **Ogni passo**: si scrive (le modifiche lunghe con script Python scritti con Write, non con heredoc), controllo di
+  sintassi di tutti i .gd cambiati, `--import` se ci sono `class_name` nuovi, prove del gruppo (`--solo=...`), poi il
+  **giro completo** in sottofondo con un tempo massimo (`timeout 1200 ... -- --prove > log`, dura ~5 minuti) e un
+  controllo che avvisi se si ferma; foto controllate a occhio; commit in italiano con la riga Co-Authored-By.
+- **Controllo di sintassi** dei file cambiati: `for f in $(git diff --name-only | grep .gd$); do Godot_console.exe
+  --headless --path . --check-only --script res://$f; done` («Identifier not found: Session/Musica» è normale).
 
 ## Decisioni di base (24 set 2026, scelte dall'utente)
 
@@ -38,7 +51,7 @@ Godot_console.exe --path .
 Godot_console.exe --headless --path . --import
 # controllo sintattico di uno script
 Godot_console.exe --headless --path . --check-only --script res://src/world/world.gd
-# prove automatiche con finestra (~25 s): screenshot in prove/ (01_superficie, 02_grotta_buia e 02_grotta_torcia con la
+# prove automatiche con finestra (il giro completo dura ~5 minuti; nelle prime Roadmap erano ~25 s): screenshot in prove/ (01_superficie, 02_grotta_buia e 02_grotta_torcia con la
 # misura del buio, 03_cristalli, 04_scavo,
 # 05_dopo_la_corsa, 06_muro_3_blocchi), misura del movimento (velocità, salto pieno in tessere, muro di 3 blocchi da
 # scavalcare) e dei fotogrammi durante una corsa in superficie (obiettivo: 60 fps, fotogramma peggiore < 25 ms)
@@ -55,7 +68,7 @@ Godot_console.exe --path . -- --prove            # --carica riapre il mondo di p
 Godot_console.exe --path . -- --prove --prova-portale
 # solo alcuni gruppi di prove (per provare in fretta una voce nuova): doni, antiche, pericoli, combattimento, tratti,
 # obiettivi, guardiani, rovine, mobilita, lanci, giardino, eventi, casa, abitanti, compagni, viaggio, semi,
-# biomi, biomi_nuovi, luoghi, corsa, raccolta, musica (elenco in `AutoTests._group`)
+# biomi, biomi_nuovi, luoghi, corsa, raccolta, musica, germogliato, interfaccia (elenco in `AutoTests._group`)
 Godot_console.exe --path . -- --prove --solo=doni,antiche
 # suoni generati: prove/suoni/*.wav da ascoltare, con durata, picco e volume medio (segnala muti e distorti)
 Godot_console.exe --headless --path . --script res://tools/suoni.gd
@@ -83,7 +96,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   - `GuardiansData` — il Guardiano di ogni vigore (Nodo Avvizzito, Regina delle Spore, Colosso d'Ardesia, poi da capo),
     con la creatura, ciò che lascia curato e le sue pagine di storia.
   - `LoreData` — le pagine di storia (Cuore trovato, Guardiano sconfitto o curato, portale), mostrate da `LorePanel`.
-  - `BiomesData` — i biomi di superficie (foresta-lanterna, paludi di spore, distese d'ambra): erba, alberi, colline,
+  - `BiomesData` — i biomi di superficie (foresta-lanterna, paludi di spore, distese d'ambra, boschi di brina,
+    cenerarie): erba, alberi, colline,
     altezza, tinta del cielo; `World.biomes` = un bioma per colonna (salvato). Creature con `biomes` compaiono in
     superficie solo lì.
   - `DangerData` — il pericolo di una zona (strato, notte, Avvizzimento, vigore) → tetto di creature, ritmo delle
@@ -181,7 +195,7 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
     grandi vuoti del Fondo e il suo pavimento di vuotite), Radici (radici giganti del Sottobosco, anche attraverso le
     grotte), Ingressi, Minerali (per strato e roccia), Cristalli, Erba, Alberi, Decorazioni (per strato), Avvizzimento (due macchie malate in superficie), Cuore (la
     cupola del Cuore del mondo nel Fondo, con i 4 nodi avvizziti e la stazione `cuore_mondo`), Rovine (44 stanze dei
-    Seminatori con uno scrigno pieno secondo lo strato), Pericoli (rovi spinosi e rune trappola, vedi `Hazards`), Pericoli (rovi e rune trappola), Doni (Boccioli del cuore e Stille perenni), Gemme (grappoli nelle grotte, per strato), Tane (dei Custodi), Nascondigli (reliquiari murati), Geodi, Partenza (le torce
+    Seminatori con uno scrigno pieno secondo lo strato), Pericoli (rovi spinosi e rune trappola, vedi `Hazards`), Doni (Boccioli del cuore e Stille perenni), Gemme (grappoli nelle grotte, per strato), Tane (dei Custodi), Nascondigli (reliquiari murati), Geodi, Partenza (le torce
     già accese della vecchia passata provvisoria sono state tolte il 25 set 2026: le torce le mette il giocatore). Un mondo 3000×1000 si genera in ~8,5 s (in un thread, con schermata d'attesa).
   - `WorldView` — disegno a blocchi da 32×32: solo i blocchi vicini alla visuale esistono come nodi (1 costruito per
     fotogramma, liberati oltre 2 blocchi di margine); ogni blocco ha pareti (z -10) e decorazioni (z 1) sulla griglia
