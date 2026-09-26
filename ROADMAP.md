@@ -1148,10 +1148,22 @@ livello e un regalo ai livelli 2 e 4. Ogni abitante ha **tre richieste** in fila
 nel pannello del commercio con «Consegna la richiesta» e «Dona ciò che hai in mano». Obiettivi «richiesta» e
 «richieste_10». Prove nel Giardino (`--prova-giardino`, foto 105_abitanti).
 
-## 66. [ ] Le stagioni (M)
+## 66. [x] Le stagioni (M) — fatto il 26 set 2026
 Le stagioni in ogni mondo (durata da provare): cambiano creature, colture, eventi, migrazioni; geni, creature e boss
 che esistono solo in una stagione.
 **Pronto quando**: tornare in un mondo in un'altra stagione dà cose nuove da trovare.
+**Fatto il 26 set 2026**: ogni mondo ha quattro **stagioni** (`SeasonsData`, regole in `Seasons`) di tre giorni
+l'una, spostate dal seme del mondo (due mondi vicini non sono nella stessa stagione): **Germoglio** (erbivori e colonie
+ovunque, le colture crescono in fretta), **Rigoglio** (i volanti riempiono il cielo, notti brevi), **Raccolto** (i
+predatori cacciano, i branchi migrano, più eventi), **Gelo** (tutto rallenta, pochi erbivori, scendono cervi e gufi
+del gelo). Ogni stagione cambia chi nasce (ruoli e famiglie), la crescita del giardino, gli eventi e la tinta del
+cielo; è scritta nell'orologio e al cambio compare la scritta come per gli strati. Ogni stagione ha la sua
+**creatura** (Lepre del germoglio, Libellula del rigoglio, Volpe del raccolto, Cervo del gelo: varianti di specie che ci
+sono già, generate da `SeasonsData.make`) con il suo **materiale**, da cui nascono quattro **accessori** (Corona del
+germoglio, Ali del rigoglio, Mantello del raccolto, Cuore del gelo). Quattro **geni di stagione** (`only: "stagione"`:
+Germoglio eterno, Rigoglio lungo, Raccolto d'oro, Gelo perenne) fermano un mondo in una stagione: si prendono con la
+Provetta toccando cielo o tempo in quella stagione o dalla sua creatura, e si innestano nei Semi. Obiettivi «stagione» e «stagioni_4».
+Prove `--solo=stagioni` (foto 107_stagione).
 
 ## 67. [ ] La bacheca delle richieste (M)
 Richieste generate senza fine, costruite dal registro dei geni e dei mondi: «portami tre Palchi di brina da un mondo

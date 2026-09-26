@@ -71,6 +71,8 @@ static func _how(d: Dictionary) -> String:
 			return " Non nasce in nessun Seme trovato: solo per mutazione, innestando"
 		"firma":
 			return " Solo dalla firma di certi mondi"
+		"stagione":
+			return " Con la Provetta, toccando cielo o tempo nella sua stagione, o dalla creatura di quella stagione"
 	if d.has("combo"):
 		return " Nasce per mutazione, più spesso quando i genitori portano due geni precisi"
 	if int(d.get("vmin", 0)) > 1:

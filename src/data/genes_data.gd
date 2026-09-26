@@ -56,7 +56,7 @@ const DEFAULTS := {
 		"big": 0.0, "comb": false, "shafts": 0.0, "under": [], "roots": 1.0, "shallow": 1.0, "ore_boost": {},
 		"geodes": 1.0, "crystal": 0.0, "rich": 0.0, "trees": 1.0, "blight_zones": 0.0, "mosaic": false, "islands": 0.0,
 		"city": false},
-	"run": {"danger": 0.0, "lumini": 1.0, "rare": 1.0, "grow": 1.0, "night": 0.0, "events": 1.0, "blight": 1.0,
+	"run": {"danger": 0.0, "lumini": 1.0, "rare": 1.0, "grow": 1.0, "night": 0.0, "events": 1.0, "blight": 1.0, "season": 0.0,
 		"aurora": 0.0, "roles": {}},
 }
 const MUL := ["ruins", "gems", "lumini", "rare", "grow", "events", "blight", "hills", "worm", "roots", "shallow", "geodes",
@@ -79,6 +79,15 @@ const GENES := {
 	"cenere": {"cat": "superficie", "name": "Cenere", "rar": 1, "dom": 2, "good": true,
 		"desc": "pianure di cenere e braci", "item": "seme_mondo_cenere",
 		"gen": {"biomes": {"cenere": 6, "ambra": 2, "palude": 1}}},
+	# voce 66: i geni delle stagioni (si prendono solo con la Provetta, nell'aria della superficie, nella loro stagione)
+	"germoglio_eterno": {"cat": "tempo", "name": "Germoglio eterno", "rar": 2, "dom": 2, "good": true, "only": "stagione",
+		"desc": "il mondo resta per sempre nella stagione del Germoglio", "run": {"season": 1}},
+	"rigoglio_lungo": {"cat": "tempo", "name": "Rigoglio lungo", "rar": 2, "dom": 2, "good": true, "only": "stagione",
+		"desc": "il mondo resta per sempre nel Rigoglio", "run": {"season": 2}},
+	"raccolto_doro": {"cat": "tempo", "name": "Raccolto d'oro", "rar": 2, "dom": 2, "good": true, "only": "stagione",
+		"desc": "il mondo resta per sempre nel Raccolto", "run": {"season": 3}},
+	"gelo_perenne": {"cat": "tempo", "name": "Gelo perenne", "rar": 2, "dom": 2, "good": true, "only": "stagione",
+		"desc": "il mondo resta per sempre nel Gelo", "run": {"season": 4}},
 	# --- i tratti della voce 39, ora geni della loro categoria ----------------------------------------------------
 	"vene_ricche": {"cat": "minerali", "name": "Vene ricche", "rar": 0, "dom": 3, "good": true,
 		"desc": "minerali più abbondanti", "gen": {"ore": 0.035}},

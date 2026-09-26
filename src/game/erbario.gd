@@ -83,7 +83,7 @@ static func entries(section: String) -> Array:
 static func title_of(section: String, id: String) -> String:
 	match section:
 		"creature":
-			return String(CreaturesData.CREATURES[id]["name"])
+			return String(CreaturesData.get_data(id)["name"])     # (anche le creature delle stagioni)
 		"oggetti":
 			return String(ItemsData.get_item(id).get("name", id))
 		"pagine":

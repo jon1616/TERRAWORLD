@@ -13,8 +13,10 @@ extends Node
 const S := 16
 const WILD_SEED := 0.3                 # probabilità che una pianta-seme dia un Seme selvatico invece di una Fiala
 const DROP_FAUNA := 0.04               # Fiala di fauna da una creatura sconfitta
+const DROP_SEASON := 0.2               # voce 66: Fiala del gene di stagione dalla creatura di quella stagione
 const DROP_STIRPI := 0.3               # Fiala delle stirpi da una creatura rara
 
+const SEASON_CHANCE := 0.4           # voce 66: quante Provette nell'aria prendono il gene della stagione
 var m: Node2D
 var _rng := RandomNumberGenerator.new()
 
@@ -78,6 +80,9 @@ func use_vial(id: String, c: Vector2i) -> bool:
 		g = String(SignaturesData.SIGNATURES.get(String(m.signature.info().get("id", "")), {}).get("gene", ""))
 		if g == "" or not GenesData.GENES.has(g):
 			cat = "rovine"
+	# voce 66: nell'aria della superficie, a volte, l'aria della stagione (se il mondo non ne ha una fissa)
+	if g == "" and cat in ["cielo", "tempo"] and m.seasons.fixed == 0 and _rng.randf() < SEASON_CHANCE:
+		g = String(SeasonsData.SEASONS[m.seasons.current]["gene"])
 	if g == "":
 		g = gene_of(cat)
 	if g == "":
@@ -138,6 +143,11 @@ func _on_kill(c: Creature) -> void:
 	var g := gene_of("fauna")
 	if g != "" and _rng.randf() < DROP_FAUNA:
 		m.drops.spawn(GenesData.vial_of(g), 1, c.position)
+	# voce 66: la creatura di una stagione porta il gene che la ferma
+	if c.data.has("season") and _rng.randf() < DROP_SEASON:
+		for sd in SeasonsData.SEASONS:
+			if sd["id"] == c.data["season"]:
+				m.drops.spawn(GenesData.vial_of(String(sd["gene"])), 1, c.position)
 	var s := gene_of("stirpi")
 	if s != "" and c.ancient and _rng.randf() < DROP_STIRPI:
 		m.drops.spawn(GenesData.vial_of(s), 1, c.position)

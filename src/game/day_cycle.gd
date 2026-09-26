@@ -62,7 +62,8 @@ func _seen(v: float) -> float:
 
 func clock_text() -> String:
 	var minutes := int(time * 24.0 * 60.0)
-	return "Giorno %d · %02d:%02d%s" % [day, minutes / 60, (minutes / 5 * 5) % 60, "  (notte)" if is_night() else ""]
+	var season := ("  ·  %s" % m.seasons.title()) if "seasons" in m and m.seasons != null and m.seasons.current >= 0 else ""
+	return "Giorno %d · %02d:%02d%s%s" % [day, minutes / 60, (minutes / 5 * 5) % 60, "  (notte)" if is_night() else "", season]
 
 
 func _process(dt: float) -> void:

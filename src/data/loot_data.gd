@@ -237,7 +237,7 @@ static func roll_chest(table: String, rng: RandomNumberGenerator, rolls := 2) ->
 ## Tira il bottino di una tabella: {oggetto: quantità}.
 static func roll(table: String, rng: RandomNumberGenerator) -> Dictionary:
 	var out := {}
-	for e in TABLES.get(table, []):
+	for e in TABLES.get(table, SeasonsData.LOOT.get(table, [])):       # voce 66: il bottino delle creature delle stagioni
 		if rng.randf() <= float(e["chance"]):
 			out[e["item"]] = int(out.get(e["item"], 0)) + rng.randi_range(int(e["min"]), int(e["max"]))
 	return out

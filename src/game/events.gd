@@ -13,6 +13,7 @@ var kills := 0
 var won := false
 var paused := false                    # le prove lo comandano a mano
 var chance_mult := 1.0                 # tratto «Stellato» del mondo (voce 39)
+var season_mult := 1.0                 # voce 66: la stagione
 var stars := 0                         # stelle cadute (per le prove)
 var _night := false
 var _star_t := 5.0
@@ -47,7 +48,7 @@ func _process(dt: float) -> void:
 		stop()
 		var pool := EventsData.for_time("notte" if night else "giorno")
 		for id in pool:
-			if _rng.randf() < float(EventsData.EVENTS[id]["chance"]) * chance_mult:
+			if _rng.randf() < float(EventsData.EVENTS[id]["chance"]) * chance_mult * season_mult:
 				start(String(id))
 				break
 	if active == "":

@@ -97,7 +97,7 @@ static func mutate(g: Dictionary, rng: RandomNumberGenerator, chance: float, for
 		var pool := []
 		for k in GenesData.GENES:
 			var d: Dictionary = GenesData.GENES[k]
-			if String(d.get("only", "")) == "firma" or k in genes(g) or String(d["cat"]) in locked:
+			if String(d.get("only", "")) in ["firma", "stagione"] or k in genes(g) or String(d["cat"]) in locked:
 				continue
 			var wgt: int = int(GenesData.RARITY[int(d["rar"])]["weight"]) * (ONLY_BOOST if d.has("only") or d.has("combo") else 1)
 			pool.append([k, wgt])

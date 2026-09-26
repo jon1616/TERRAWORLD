@@ -42,6 +42,10 @@ signal hunted(prey: Creature, predator: Creature)      # voce 57: una preda pres
 signal grazed(c: Creature, cell: Vector2i)           # voce 57: erba o coltura mangiata
 ## voce 57: quanto una famiglia nasce in un punto (popolazioni per zona, `Ecology.factor`): (x in px, famiglia) -> float
 var pop_factor: Callable
+## voce 66: la stagione (`Seasons`): pesi dei ruoli e delle famiglie, la creatura che c'è solo adesso
+var season_roles := {}
+var season_families := {}
+var season_creature := ""
 ## voce 58: (cella del Germogliato) -> [specie, cella del nido] o []: le nascite dai nidi (`Ecology.nest_spawn`)
 var nest_hook: Callable
 var migration := {}                    # voce 58: famiglia -> direzione (-1/1) mentre migra
@@ -85,7 +89,9 @@ func weight_of(id: String, x := -1.0) -> float:
 	var f := FamiliesData.family_of(id)
 	if f == "":
 		return 1.0
-	var w := float(family_mult.get(f, 1.0)) * float(role_mult.get(String(FamiliesData.FAMILIES[f].get("role", "")), 1.0))
+	var role := String(FamiliesData.FAMILIES[f].get("role", ""))
+	var w := float(family_mult.get(f, 1.0)) * float(role_mult.get(role, 1.0)) * float(season_roles.get(role, 1.0)) \
+		* float(season_families.get(f, 1.0))
 	if x >= 0.0 and pop_factor.is_valid():
 		w *= float(pop_factor.call(x, f))
 	return w
@@ -291,6 +297,8 @@ func try_spawn() -> Creature:
 	if choices.is_empty():
 		return null
 	var id := _pick(choices)
+	if stratum == 0 and season_creature != "" and _rng.randf() < SeasonsData.SEASONAL_CHANCE:
+		id = season_creature                           # voce 66: la creatura della stagione
 	if not event_pool.is_empty() and _rng.randf() < 0.6:
 		id = String(event_pool[_rng.randi_range(0, event_pool.size() - 1)])   # l'evento sceglie le sue creature
 	# voce 55: una variante della specie (taglia, elemento e indole), con l'elemento del luogo più probabile
