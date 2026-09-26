@@ -16,6 +16,8 @@ siamo»).
   sintassi di tutti i .gd cambiati, `--import` se ci sono `class_name` nuovi, prove del gruppo (`--solo=...`), poi il
   **giro completo** in sottofondo con un tempo massimo (`timeout 1200 ... -- --prove > log`, dura ~5 minuti) e un
   controllo che avvisi se si ferma; foto controllate a occhio; commit in italiano con la riga Co-Authored-By.
+  Per i **ritocchi piccoli e isolati** basta la prova dedicata (scelta dell'utente, 26 set 2026): il giro completo
+  alla fine di una voce o quando si toccano sistemi condivisi (movimento, generatore, salvataggi, Bisaccia, main, luce).
 - **Controllo di sintassi** dei file cambiati: `for f in $(git diff --name-only | grep .gd$); do Godot_console.exe
   --headless --path . --check-only --script res://$f; done` («Identifier not found: Session/Musica» è normale).
 
