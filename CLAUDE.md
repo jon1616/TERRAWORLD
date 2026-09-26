@@ -101,9 +101,12 @@ Godot_console.exe --path . -- --prove            # --carica riapre il mondo di p
                                                  # --senza-luce per vedere i colori senza il buio
 # viaggio vero attraverso il portale (voce 12): pianta un Seme, va nel mondo nuovo (vigore 2, portale di ritorno), torna
 Godot_console.exe --path . -- --prove --prova-portale
+# Roadmap 8: un Giardino nuovo («giardino_prova»): Albero-Madre, stadi, poteri, abitanti, Bacheca (foto 101-108)
+Godot_console.exe --path . -- --prove --prova-giardino
 # solo alcuni gruppi di prove (per provare in fretta una voce nuova): doni, antiche, pericoli, combattimento, tratti,
 # obiettivi, guardiani, rovine, mobilita, lanci, giardino, eventi, casa, abitanti, compagni, viaggio, semi,
-# biomi, biomi_nuovi, luoghi, corsa, raccolta, musica, germogliato, interfaccia, geni, forme, ecologia, mandria, casse, alberi
+# biomi, biomi_nuovi, luoghi, corsa, raccolta, musica, germogliato, interfaccia, geni, forme, ecologia, mandria, casse, alberi,
+# sigilli, stagioni
 # (elenco in `AutoTests._group`)
 Godot_console.exe --path . -- --prove --solo=doni,antiche
 # suoni generati: prove/suoni/*.wav da ascoltare, con durata, picco e volume medio (segnala muti e distorti)
@@ -384,6 +387,23 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     coppie che fanno uova), `HerdInfo` (testi), `HerdPanel` (tasto G), `BhMandria` (la creatura della mandria in
     scena: `Creature.tame`). Allevamento: `BreedData` (doti, manti) e `Breeding` (`child`, `odds`, `preview`).
   - `BestiaryInfo` — l'Erbario vivo: la scheda Famiglie, con indizi per ciò che manca e dove cercare.
+- **Roadmap 8 «Il risveglio dell'Albero-Madre»** (il motivo della partita; una partita nuova comincia nel Giardino):
+  - Il **Giardino** — un'isola di 480×240 sospesa nel Vuoto (`WorldGen.garden_passes()`: `PassGiardino`,
+    `PassGiardinoRifinitura`), con l'Albero-Madre (stazione `albero_madre_<fase>`, disegno `MotherTreeArt`), una
+    prima Aiuola e la Bacheca. `Giardino` (`src/game/`): caduta nel Vuoto, primo tocco dell'Albero = primo Seme,
+    `world_meta["giardino"]`. Il vecchio mondo di partenza è ora il primo mondo nato da un Seme.
+  - `MotherTreeData` (12 stadi con le offerte e i doni: Aiuole, poteri, abitanti, fasi, categorie d'innesto, pagine) e
+    `AlberoMadre` (`Character.albero`, `offer`, `awaken`, riga nell'HUD), `AlberoPanel`. Le categorie di Fiala
+    innestabili si aprono con gli stadi (`graftable`).
+  - `PowersData` e `Powers` — sei poteri (Vista V, Canto, Passo, Brace, Salto, Radici-ponte F) e i **Sigilli**:
+    `PassSigilli` (14 stanze sigillate + 2 nidi alti per mondo, tessere `SIG_*` che il piccone non scalfisce,
+    `TileDefs.SEALS`), `open_seal`, `world_meta["sigilli"]`; dentro, i Frammenti dell'Albero che gli stadi chiedono.
+  - `NpcBonds` — affetto (doni, richieste, livelli con sconti e regali) e le tre richieste di ogni abitante, nel
+    `TradePanel`; 9 abitanti in `NpcData` (i nuovi arrivano con gli stadi; la Vecchia Radice vive accanto all'Albero).
+  - `SeasonsData` e `Seasons` — quattro stagioni di 3 giorni per mondo (chi nasce, crescita, eventi, cielo,
+    creatura e materiale di stagione, geni `only: "stagione"` che le fermano).
+  - `Board` e `BoardPanel` — la Bacheca dei Giardinieri: sempre 4 richieste costruite da ciò che il personaggio
+    conosce (`Character.bacheca`), premi fino a Semi con un gene raro.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

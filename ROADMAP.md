@@ -17,15 +17,17 @@
   prima della Roadmap 8 (barre di Vita e Linfa, misure di banchi, mobili, casse e porte, casse per la creazione e
   pulsanti di comodità, pannello Creare rifatto, alberi e vegetazione di ogni bioma).
 - **Salvataggi**: in pieno sviluppo le partite sono solo prove (scelta dell'utente): niente migrazioni per ora.
-- **Prossimo passo**: Roadmap 8 «Il risveglio dell'Albero-Madre» (voce 62, serve una decisione dell'utente su che
-  cosa diventa il mondo di partenza di oggi). L'utente dà la direzione e lascia a Claude ordine e tecnica; chiede
-  sempre un resoconto alla fine di un lavoro lungo.
-- **Contenuti oggi**: 1243 oggetti (768 sono armi, attrezzi e armature generati da 48 materiali × 16 forme; 54 le
-  Fiale dei geni), 1022 ricette, 39 stazioni, 47 creature in 36 famiglie (84 varianti per specie; 25 famiglie si
+- **Fatta la Roadmap 8 «Il risveglio dell'Albero-Madre»** (voci 62-67, 26 set 2026): resoconto dopo la voce 67.
+  Decisione di Claude (l'utente l'ha lasciata a lui): una partita nuova comincia nel **Giardino** sospeso nel Vuoto;
+  il mondo di partenza di prima è diventato il primo mondo nato da un Seme (vigore 1).
+- **Prossimo passo**: Roadmap 9 «Il mistero dei Seminatori» (voce 68, la lingua dei Seminatori). L'utente dà la
+  direzione e lascia a Claude ordine e tecnica; chiede sempre un resoconto alla fine di un lavoro lungo.
+- **Contenuti oggi**: 1259 oggetti (768 sono armi, attrezzi e armature generati da 48 materiali × 16 forme; 58 le
+  Fiale dei geni), 1027 ricette, 45 stazioni, 47 creature (più 4 di stagione) in 36 famiglie (84 varianti per specie; 25 famiglie si
   addomesticano, 10 manti), 6 elementi e 4 reazioni, 5 biomi di superficie e 5 del sottosuolo, 5 strati,
-  10 Guardiani/Custodi, 57 geni in 13 categorie, 12 firme dei mondi, 5 specie d'albero in 4 grandezze, 45
-  decorazioni (13 di vegetazione dei biomi), 3 abitanti; `tools/verifica_dati.gd` dà 0 errori e 0 avvisi.
-  (`tools/elenco.gd` non compila più dalla Roadmap 6: `ItemsData.METALS` è passato a `MaterialsData`.)
+  10 Guardiani/Custodi, 61 geni in 13 categorie, 12 firme dei mondi, 5 specie d'albero in 4 grandezze, 45
+  decorazioni (13 di vegetazione dei biomi), 9 abitanti, 12 stadi dell'Albero-Madre, 6 poteri, 4 Sigilli, 4
+  stagioni, 78 obiettivi; `tools/verifica_dati.gd` dà 0 errori e 0 avvisi (`tools/elenco.gd` di nuovo a posto).
 
 # Roadmap 1: «Le fondamenta» (dal 24 set 2026)
 
@@ -1181,6 +1183,18 @@ Premi: Semi di mondo con un **gene raro** in più (il premio più ambito), Fiale
 iridata, Lumini. «Cambia» sostituisce una richiesta che non piace. Il pannello (`BoardPanel`) mostra per ogni foglio il
 tipo con il suo colore, l'icona, la barra di avanzamento e i premi; gli oggetti si consegnano anche dalle casse vicine.
 Obiettivi «bacheca» e «bacheca_20». Prova nel Giardino (`--prova-giardino`, foto 108_bacheca).
+
+### Resoconto della Roadmap 8 (26 set 2026)
+La partita ha un motivo: si comincia nel **Giardino**, un'isola sospesa nel Vuoto con l'**Albero-Madre**
+addormentato. Il primo tocco dà il primo Seme; da lì in poi l'Albero chiede offerte (materiali, geni, creature,
+Frammenti) per **12 stadi**, e ogni stadio dona qualcosa che cambia il modo di giocare: Aiuole in più, categorie di
+Fiale da innestare, abitanti nuovi, e **sei poteri** che aprono i **Sigilli** dei mondi (dentro ci sono i Frammenti che
+servono agli stadi dopo: il giro si chiude su se stesso). Gli **abitanti** hanno un mestiere, un affetto che cresce con
+doni e richieste, e tre richieste ciascuno; le **stagioni** cambiano ogni mondo ogni tre giorni e portano creature,
+materiali e geni loro; la **Bacheca** dà sempre quattro richieste fattibili, costruite da ciò che si conosce. In ogni
+momento c'è un filo da seguire: la riga dell'Albero nell'HUD, la Vecchia Radice che suggerisce, gli abitanti, la
+Bacheca. Prove: `--prova-giardino` (foto 101-108), gruppi `sigilli` e `stagioni`; giro completo pulito, fotogramma
+peggiore sotto i 25 ms.
 
 # Roadmap 9 «Il mistero dei Seminatori» — il racconto sopra il motore
 
