@@ -134,6 +134,9 @@ func touch(c: Vector2i) -> bool:
 		"pianta_seme":
 			m.sampling.harvest(o)
 			return true
+		"banco_innesti":
+			m.innesto.open()
+			return true
 		"portale":
 			m.portal.touch(o)
 			return true

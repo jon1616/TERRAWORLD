@@ -42,6 +42,8 @@ static func make(id: String) -> Dictionary:
 			_aiuola(im, gm, w, h)
 		"pianta_seme":
 			_pianta_seme(im, gm, w, h)
+		"banco_innesti":
+			_banco_innesti(im, gm, w, h)
 		_:
 			WorkshopArt.draw(id, im, gm, w, h)
 	Px.outline(im, OUT)
@@ -210,6 +212,29 @@ static func _aiuola(im: Image, gm: Image, w: int, h: int) -> void:
 		Px.put(im, sx - 1, top - 5 + (k % 2), sprout[3])
 		Px.put(im, sx + 1, top - 6 + (k % 2), sprout[4])
 		Px.put(gm, sx + 1, top - 6 + (k % 2), sprout[4])
+
+
+## Banco dell'Innestatrice (voce 47): un piano di legnoferro su due gambe, una campana di vetro con la Linfa che
+## brilla, due Semi in attesa e il coltello da innesto.
+static func _banco_innesti(im: Image, gm: Image, w: int, h: int) -> void:
+	var iron := Px.pal(TileDefs.P_LEGNOFERRO)
+	var glass := Px.pal(TileDefs.P_VETRO)
+	var lin := Px.pal(TileDefs.P_CRYSTAL)
+	var amber := Px.pal(TileDefs.P_AMBRA)
+	for x in range(2, w - 2):                       # il piano
+		Px.put(im, x, 14, iron[2])
+		Px.put(im, x, 15, iron[1])
+	for y in range(16, h):                          # le gambe
+		for x in [4, 5, w - 6, w - 5]:
+			Px.put(im, x, y, iron[1])
+	Px.disc(im, 12.0, 9.0, 5.5, glass[1])           # la campana
+	Px.disc(im, 12.0, 9.0, 4.5, lin[2])
+	Px.disc(gm, 12.0, 9.0, 4.5, lin[3])
+	Px.disc(im, 11.0, 8.0, 1.5, lin[4])
+	for k in 2:                                     # due Semi
+		Px.disc(im, 26.0 + k * 6, 12.0, 2.0, amber[1 + k])
+		Px.disc(gm, 26.0 + k * 6, 11.5, 0.9, amber[3])
+	Px.line(im, Vector2(38, 13), Vector2(44, 9), 1, iron[3])     # il coltello
 
 
 ## Pianta-seme (voce 46): uno stelo ricurvo con due foglie e in cima un baccello d'ambra che brilla.

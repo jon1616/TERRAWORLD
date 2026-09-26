@@ -38,7 +38,7 @@ const SIGNATURES := {
 ## I ricordi: oggetti da collezione, uno per firma (uniti in `ItemsData.all()`), e la Linfa antica degli innesti.
 const ITEMS := {
 	"linfa_antica": {"name": "Linfa antica", "kind": "materiale", "icon": ["goccia", "linfa"], "stack": 99,
-		"desc": "Linfa dei primi giorni del mondo, densa e dorata. Serve agli innesti dei Semi di mondo."},
+		"desc": "Linfa dei primi giorni del mondo, densa e dorata. Serve agli innesti dei Semi di mondo (una per innesto, al Banco dell'Innestatrice)."},
 	"ricordo_albero": {"name": "Foglia dell'Albero colossale", "kind": "ricordo", "icon": ["foglia", "linfa"], "stack": 1,
 		"desc": "Una foglia grande come uno scudo, caduta dall'Albero colossale. Esiste solo in un mondo."},
 	"ricordo_cratere": {"name": "Scheggia di stella", "kind": "ricordo", "icon": ["gemma", "brillaluce"], "stack": 1,

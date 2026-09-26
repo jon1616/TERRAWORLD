@@ -51,6 +51,7 @@ var world_traits: WorldTraits
 var signature: Signature
 var aiuole: Aiuole
 var sampling: Sampling
+var innesto: InnestoPanel
 var _spores: CPUParticles2D
 var built := false
 var gen_times: Array = []
@@ -248,6 +249,10 @@ func _build() -> void:
 	sp.genario_view = Genario.view
 	hud.overlays.append(sp)
 	sampling = _mount(Sampling.new())
+	innesto = InnestoPanel.new()
+	hud.add_child(innesto)
+	innesto.setup(self)
+	hud.overlays.append(innesto)
 	minimap = Minimap.new()
 	hud.add_child(minimap)
 	minimap.setup(self, map_reveal)

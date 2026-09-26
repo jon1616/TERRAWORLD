@@ -756,7 +756,7 @@ Il **Genario** è la seconda scheda del Semenzaio (mai visto «?», visto, impar
 Obiettivi: prelevare un gene, impararne 10 e 25. Deciso da Claude: il Genario sta nel Semenzaio (non nell'Erbario),
 vicino ai mondi da cui vengono i geni. Foto 85_genario.
 
-## 47. [ ] L'innesto dei semi (L)
+## 47. [x] L'innesto dei semi (L) — fatto il 26 set 2026
 Al **Banco dell'Innestatrice** (stazione nuova) si uniscono due Semi, più eventuali Fiale di gene: nasce un Seme
 figlio. Regole: per ogni categoria si eredita da uno dei due genitori secondo la dominanza; una Fiala fissa quel gene;
 il vigore è quello del genitore più forte più uno; costa Linfa antica (dai Cuori). **Mutazioni**: una piccola
@@ -764,6 +764,17 @@ probabilità (più alta con certi geni e certe Essenze) di un gene che nessuno d
 trova in nessun altro modo. Prima di innestare si vedono le probabilità, ma solo per i geni già imparati.
 **Pronto quando**: si può progettare un mondo («voglio grotte ad alveare e fiumi di brace») e ottenerlo con gli
 innesti; le mutazioni si vedono e finiscono nel Genario.
+**Fatto il 26 set 2026**: il **Banco dell'Innestatrice** (stazione 3×2 al Maglio: legnoferro, 2 Linfa antica, vetro,
+semi di lanterna) e il suo pannello (`InnestoPanel`): si scelgono due Semi e fino a due Fiale (una per categoria) e si
+vedono le probabilità del figlio categoria per categoria (`Genome.odds`): geni diversi → uno dei due secondo la
+dominanza (90% in tutto, 10% nessuno), gene di un solo genitore → 65%, la superficie sempre; una Fiala **fissa** il suo
+gene (100%, e la mutazione non tocca quella categoria). Le percentuali si leggono solo per i geni imparati; dei geni
+visti si legge il nome. Il vigore del figlio è quello del genitore più forte (deciso da Claude: niente «+1» negli
+innesti, sennò si salirebbe di vigore senza esplorare). Costo: una Linfa antica (scrigni delle firme, obiettivi, e ora
+anche 2 da ogni Cuore guarito o sconfitto). **Mutazione** 8% (`Genome.mutate`): un gene che nessuno dei genitori aveva,
+con i geni «solo per mutazione» tre volte più probabili; scritta nel Seme («Mutato»). Prova: 2000 innesti rispettano le
+probabilità promesse (Sporangio 0,60 atteso 0,60; Cavo 0,69 atteso 0,68; mutati 8,8%). Obiettivo «Innesta due Semi».
+Foto 86_innesto, 87_innesto_nato.
 
 ## 48. [ ] Geni rari e mutazioni (M)
 Il secondo giro di geni (fino a ~45): geni antichi e stellari, geni che si ottengono **solo** per mutazione o solo

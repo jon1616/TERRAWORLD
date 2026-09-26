@@ -127,6 +127,8 @@ const LIST := [
 		"reward": {"stilla_perenne": 2}},
 	{"id": "erbario", "text": "Completa metà dell'Erbario", "check": {"erbario": 50},
 		"reward": {"pozione_bagliore": 3}},
+	{"id": "innesto", "text": "Innesta due Semi di mondo al Banco dell'Innestatrice", "check": {"stat": "innesti", "n": 1},
+		"reward": {"linfa_antica": 2}},
 	{"id": "geni_10", "text": "Impara 10 geni (Genario, tasto K)", "check": {"stat": "geni_imparati", "n": 10},
 		"reward": {"linfa_antica": 2}},
 	{"id": "geni_25", "text": "Impara 25 geni", "check": {"stat": "geni_imparati", "n": 25},

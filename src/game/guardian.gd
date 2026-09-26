@@ -184,5 +184,6 @@ func _resolve(how: String) -> void:
 	m.view.add_station(cuore)
 	m.light.dirty = true
 	m.drops.spawn("seme_mondo", 1, heart_pos())
+	m.drops.spawn("linfa_antica", 2, heart_pos() + Vector2(0, -S))       # voce 47: per gli innesti dei Semi
 	m.save_game()
 	resolved.emit(how)

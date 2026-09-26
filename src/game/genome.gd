@@ -19,6 +19,12 @@ const WILD_MUTATION := 0.08
 const MUTATION := 0.08
 ## Peso in più, nelle mutazioni, dei geni che nascono solo così.
 const ONLY_BOOST := 3
+## Innesto (voce 47): quando i due genitori hanno geni diversi nella stessa categoria il figlio ne eredita uno (secondo
+## la dominanza) con `INHERIT_BOTH`, altrimenti nessuno; se ce l'ha un solo genitore, lo eredita con `INHERIT_ONE`.
+const INHERIT_BOTH := 0.9
+const INHERIT_ONE := 0.65
+## Voce 48: se i genitori portano insieme i due geni di una combinazione, la mutazione è più probabile e dà quel gene.
+const COMBO_CHANCE := 0.35
 
 
 ## Un genoma a caso per un Seme trovato: la superficie data (o a caso), sempre un gene che cambia la forma del mondo
@@ -110,6 +116,80 @@ static func mutate(g: Dictionary, rng: RandomNumberGenerator, chance: float, for
 	out["geni"] = sort(kept)
 	out["mutato"] = x
 	return out
+
+
+static func _in_cat(gs: Array, cat: String) -> String:
+	for g in gs:
+		if GenesData.cat_of(String(g)) == cat:
+			return String(g)
+	return ""
+
+
+## Le probabilità dell'innesto di a e b, con le Fiale `fixed` (geni): per ogni categoria che può avere un gene,
+## [[gene o "" (nessuno), probabilità], …], che sommano a 1. La mutazione si aggiunge dopo (`mutation_chance`).
+static func odds(a: Dictionary, b: Dictionary, fixed: Array) -> Dictionary:
+	var out := {}
+	var fix := {}
+	for v in fixed:
+		fix[GenesData.cat_of(String(v))] = String(v)
+	for cat in GenesData.CATEGORIES:
+		if fix.has(cat):
+			out[cat] = [[fix[cat], 1.0]]
+			continue
+		var ga := _in_cat(genes(a), cat)
+		var gb := _in_cat(genes(b), cat)
+		if ga == "" and gb == "":
+			continue
+		if ga == gb:
+			out[cat] = [[ga, 1.0]]
+		elif ga != "" and gb != "":
+			var da := float(GenesData.GENES[ga]["dom"])
+			var db := float(GenesData.GENES[gb]["dom"])
+			var keep := 1.0 if cat == "superficie" else INHERIT_BOTH
+			out[cat] = [[ga, keep * da / (da + db)], [gb, keep * db / (da + db)]]
+			if keep < 1.0:
+				out[cat].append(["", 1.0 - keep])
+		else:
+			var one := ga if ga != "" else gb
+			out[cat] = [[one, 1.0]] if cat == "superficie" else [[one, INHERIT_ONE], ["", 1.0 - INHERIT_ONE]]
+	return out
+
+
+## [probabilità di mutazione, gene della combinazione dei genitori o ""].
+static func mutation_chance(a: Dictionary, b: Dictionary) -> Array:
+	var both := genes(a) + genes(b)
+	for g in GenesData.GENES:
+		var combo: Array = GenesData.GENES[g].get("combo", [])
+		if combo.size() == 2 and combo[0] in both and combo[1] in both and not g in both:
+			return [COMBO_CHANCE, g]
+	return [MUTATION, ""]
+
+
+## Il vigore del figlio: quello del genitore più forte (i Semi senza vigore fissato valgono quello di qui).
+static func child_vigor(a: Dictionary, b: Dictionary) -> int:
+	var va := vigor(a) if vigor(a) > 0 else local_vigor
+	var vb := vigor(b) if vigor(b) > 0 else local_vigor
+	return maxi(va, vb)
+
+
+## L'innesto: il Seme figlio di a e b (con le Fiale `fixed`), forse mutato.
+static func cross(a: Dictionary, b: Dictionary, fixed: Array, rng: RandomNumberGenerator) -> Dictionary:
+	var od := odds(a, b, fixed)
+	var out := []
+	for cat in od:
+		var r := rng.randf()
+		for e in od[cat]:
+			r -= float(e[1])
+			if r < 0.0:
+				if String(e[0]) != "":
+					out.append(String(e[0]))
+				break
+	var child := {"geni": sort(out), "vigore": child_vigor(a, b)}
+	var mc := mutation_chance(a, b)
+	if rng.randf() < float(mc[0]):
+		var locked := fixed.map(func(v: String) -> String: return GenesData.cat_of(v))
+		child = mutate(child, rng, 1.0, String(mc[1]), locked)
+	return child
 
 
 ## I geni in ordine di categoria (la superficie per prima): due genomi uguali si confrontano con ==.

@@ -63,6 +63,9 @@ const STATIONS := {
 		"light_color": Color(0.6, 1.6, 1.5)},
 	"portale": {"name": "Portale di radici", "size": [3, 4], "item": "seme_mondo", "fixed": true, "light": true,
 		"light_color": Color(0.5, 1.3, 1.4)},
+	# voce 47: il Banco dell'Innestatrice (clic destro: `InnestoPanel`)
+	"banco_innesti": {"name": "Banco dell'Innestatrice", "size": [3, 2], "item": "banco_innesti", "light": true,
+		"light_color": Color(0.5, 1.1, 0.9)},
 	# voce 46: la pianta-seme selvatica (clic destro: una Fiala di gene o un Seme selvatico, vedi `Sampling`)
 	"pianta_seme": {"name": "Pianta-seme", "size": [1, 2], "item": "", "fixed": true, "light": true,
 		"light_color": Color(0.9, 0.8, 0.35)},

@@ -27,6 +27,7 @@ func run() -> void:
 	await signatures()
 	await aiuole()
 	await genes_found()
+	await grafting()
 
 
 func _census(w: World) -> Dictionary:
@@ -345,3 +346,74 @@ func genes_found() -> void:
 	wt.genes = old
 	wt.apply()
 	await kit.seconds(1.0)
+
+
+## Voce 47: le probabilità dell'innesto sommano a 1 in ogni categoria, una Fiala fissa il suo gene, i figli nascono
+## con le frequenze promesse (2000 innesti), il vigore è quello del genitore più forte; l'innesto al banco consuma
+## genitori, Fiala e Linfa antica e dà il figlio (foto 86_innesto).
+func grafting() -> void:
+	var a := {"geni": ["sporangio", "cavo", "gemme_ricche", "stellato"], "vigore": 3}
+	var b := {"geni": ["brina", "alveare", "fertile", "stellato"], "vigore": 5}
+	var od := Genome.odds(a, b, ["fungaie"])
+	var sums_ok := true
+	for cat in od:
+		var tot := 0.0
+		for e in od[cat]:
+			tot += float(e[1])
+		sums_ok = sums_ok and absf(tot - 1.0) < 0.001
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 4747
+	var n := 2000
+	var seen := {}
+	var fixed_ok := true
+	var vig_ok := true
+	var mutated := 0
+	for k in n:
+		var ch := Genome.cross(a, b, ["fungaie"], rng)
+		fixed_ok = fixed_ok and "fungaie" in Genome.genes(ch)
+		vig_ok = vig_ok and Genome.vigor(ch) == 5
+		if ch.has("mutato"):
+			mutated += 1
+			continue
+		for g in Genome.genes(ch):
+			seen[g] = int(seen.get(g, 0)) + 1
+	var clean := n - mutated
+	var want_sp := float(od["superficie"][0][1])
+	var got_sp := float(seen.get("sporangio", 0)) / clean
+	var want_cavo := float(od["grotte"][0][1])
+	var got_cavo := float(seen.get("cavo", 0)) / clean
+	var freq_ok := absf(got_sp - want_sp) < 0.04 and absf(got_cavo - want_cavo) < 0.04 and int(seen.get("stellato", 0)) == clean
+	print("innesto: probabilità che sommano a 1 %s; Fiala che fissa il gene %s; vigore del più forte %s; Sporangio %.2f (atteso %.2f), Cavo %.2f (atteso %.2f), Stellato sempre %s; mutati %d su %d (%.1f%%, atteso %.0f%%)" % [
+		"sì" if sums_ok else "NO", "sì" if fixed_ok else "NO", "sì" if vig_ok else "NO", got_sp, want_sp, got_cavo, want_cavo,
+		"sì" if int(seen.get("stellato", 0)) == clean else "NO", mutated, n, 100.0 * mutated / n, Genome.MUTATION * 100.0])
+	if not (sums_ok and fixed_ok and vig_ok and freq_ok):
+		print("ATTENZIONE: l'innesto non rispetta le sue regole")
+	# al banco
+	var bag: Bisaccia = m.character.bisaccia
+	kit.make_room()
+	bag.add_stack({"id": "seme_mondo_sporangio", "n": 1, "dati": a.duplicate(true)})
+	bag.add_stack({"id": "seme_mondo_brina", "n": 1, "dati": b.duplicate(true)})
+	bag.add(GenesData.vial_of("fungaie"), 1)
+	bag.add("linfa_antica", 2)
+	var ip: InnestoPanel = m.innesto
+	ip.open()
+	for i in bag.slots.size():
+		if String(ItemsData.get_item(bag.id_at(i)).get("kind", "")) == "seme_mondo" and Genome.genes(bag.data_at(i)) in [a["geni"], b["geni"]]:
+			ip._toggle_parent(i)
+	ip._toggle_vial(GenesData.vial_of("fungaie"))
+	await kit.frames(4)
+	await kit.save("86_innesto")
+	var seeds0 := 0
+	for i in bag.slots.size():
+		if String(ItemsData.get_item(bag.id_at(i)).get("kind", "")) == "seme_mondo":
+			seeds0 += 1
+	var ok: bool = ip.graft()
+	var seeds1 := 0
+	for i in bag.slots.size():
+		if String(ItemsData.get_item(bag.id_at(i)).get("kind", "")) == "seme_mondo":
+			seeds1 += 1
+	print("al banco: innesto %s, Semi %d → %d, Linfa antica rimasta %d, Fiala usata %s, figlio %s" % ["sì" if ok else "NO", seeds0, seeds1,
+		bag.count("linfa_antica"), "sì" if bag.count(GenesData.vial_of("fungaie")) == 0 else "NO", Genome.genes(ip.last_child)])
+	await kit.frames(4)
+	await kit.save("87_innesto_nato")
+	ip.visible = false
