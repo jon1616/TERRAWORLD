@@ -151,6 +151,8 @@ func read(o: Vector2i) -> bool:
 		if int(x["x"]) == o.x and int(x["y"]) == o.y:
 			e = x
 	if e.is_empty():
+		if m.places != null and m.places.read(o):              # voce 70: il leggio di un luogo
+			return true
 		m.language.panel.show_text("Leggio dei Seminatori", "[color=#6a8a84]Il leggio è vuoto: chi scriveva qui non ha lasciato parole.[/color]")
 		return true
 	var id := String(e["catena"])

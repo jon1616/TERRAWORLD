@@ -18,4 +18,8 @@ Il [url=cat:glossario]glossario[/url] raccoglie le parole che conosci."""},
 • Le [b]catene brevi[/b]: nascono dai geni che hai già visto, due alla volta, e non finiscono mai. Premi: Semi con geni rari, Linfa antica, tavolette, Polvere iridata, Lumini.
 Le catene aperte sono nel [b]Taccuino[/b], la terza scheda del [url=cap:semenzaio]Semenzaio[/url] ({k_semenzaio}): per ogni tappa i geni che servono e se li conosci già. La scheda di un Seme (mouse sopra) dice se porta a una cripta.
 Per costruire il Seme giusto: [url=cap:innesto]l'innesto[/url], con le Fiale dei geni imparati."""},
+	{"id": "luoghi", "group": "Il mistero dei Seminatori", "name": "I luoghi dei Seminatori", "text":
+"""Oltre alle rovine, i Seminatori costruirono [b]luoghi[/b] speciali, uno per ogni loro arte. Ognuno si trova solo nei mondi con i [url=cap:geni]geni[/url] giusti, nel suo strato: trovarne uno è un evento (una scritta, il segno sulla mappa). Dentro: un [b]leggio[/b] con un pezzo della loro storia, uno [b]scrigno[/b] ricco con un [b]oggetto unico[/b] del luogo, tavolette e Linfa antica. La stanza del tesoro è chiusa da una [b]porta dei Seminatori[/b], che si apre risolvendo l'enigma del luogo.
+Anche le stele possono indicarli («pietra seminatori veglia…»).
+{cat_luoghi}"""},
 ]

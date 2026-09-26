@@ -128,6 +128,17 @@ static func inline(key: String) -> String:
 			for i in MotherTreeData.STAGES.size():
 				var st: Dictionary = MotherTreeData.STAGES[i]
 				rows.append(_b("%d. %s" % [i + 1, st["name"]], "«%s»" % st["say"]))
+		"cat_luoghi":
+			for id in PlacesData.PLACES:
+				var pd: Dictionary = PlacesData.PLACES[id]
+				var seen: bool = EncyPages.show_all or (EncyPages.ch != null and EncyPages.ch.stats.has("luogo_" + String(id)))
+				if not seen:
+					rows.append("• [color=%s]un luogo che non hai ancora trovato[/color]" % D)
+					continue
+				var gn := (pd["genes"] as Array).map(func(g: String) -> String: return String(GenesData.GENES[g]["name"]))
+				rows.append(_b(String(pd["name"]), "%s · nei mondi con %s · %s" % [pd["banner"], " o ".join(gn),
+					"in superficie" if pd.get("surface", false) else "nello strato «%s»" % StrataData.STRATA[int(pd["strata"][0])]["name"]],
+					String(pd["color"])))
 		"cat_poteri":
 			for p in PowersData.POWERS:
 				var pd: Dictionary = PowersData.POWERS[p]

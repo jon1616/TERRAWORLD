@@ -62,6 +62,7 @@ var game_options: GameOptions
 var encyclopedia: Encyclopedia
 var language: Language
 var chains: Chains
+var places: Places
 var board: Board
 var storage: Storage
 var herd: Herd
@@ -293,6 +294,7 @@ func _build() -> void:
 	board = _mount(Board.new())            # voce 67: la Bacheca dei Giardinieri
 	language = _mount(Language.new())      # voce 68: la lingua dei Seminatori, le stele e le tavolette
 	chains = _mount(Chains.new())          # voce 69: le catene di ricerca tra i mondi (cripte, Taccuino)
+	places = _mount(Places.new())          # voce 70: i luoghi scritti a mano
 	hud.panel.quick_stack = storage.quick_stack
 	hud.panel._toast = hud.toast
 	interact.chest_panel.storage = storage

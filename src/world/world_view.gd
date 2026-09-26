@@ -207,6 +207,14 @@ func refresh_around(c: Vector2i) -> void:
 			_paint_grid(q, g[0], g[1], g[2], g[3])
 
 
+## Ridisegna da capo i blocchi che toccano un rettangolo di celle (luoghi costruiti, porte dei Seminatori): si
+## liberano, e la vista li ricostruisce nei fotogrammi dopo.
+func refresh_rect(r: Rect2i) -> void:
+	for k in chunks.keys():
+		if Rect2i(k * World.CHUNK, Vector2i(World.CHUNK, World.CHUNK)).intersects(r.grow(2)):
+			_free_chunk(k)
+
+
 ## Combinazione di bordi di una tessera (per le prove: 0 = circondata da blocchi).
 func mask(c: Vector2i) -> int:
 	var m := 0

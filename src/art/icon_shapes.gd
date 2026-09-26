@@ -147,6 +147,14 @@ static func draw(shape: String, im: Image, p: Array[Color]) -> bool:
 				Px.line(im, Vector2(bx, 12.0), Vector2(bx + 1.0, 5.0 - (k % 2) * 2.0), 1, w[3])
 				Px.disc(im, bx + 1.0, 4.5 - (k % 2) * 2.0, 1.6, p[k + 1])
 			Px.put(im, 8, 10, p[p.size() - 1])
+		"chiave":
+			# voce 70: la chiave dei Seminatori, un anello di pietra con i denti a radice
+			Px.disc(im, 5.0, 5.0, 3.6, p[2])
+			Px.disc(im, 5.0, 5.0, 1.6, Color(0, 0, 0, 0))
+			Px.line(im, Vector2(7.0, 7.0), Vector2(13.0, 13.0), 2, p[2])
+			Px.line(im, Vector2(11.0, 11.0), Vector2(13.0, 9.0), 1, p[3])
+			Px.line(im, Vector2(12.5, 12.5), Vector2(14.5, 10.5), 1, p[3])
+			Px.put(im, 4, 3, Color("#6ff0b8"))
 		"gemma":
 			# gemma tagliata: corona a faccette, padiglione a punta, un lampo di luce
 			for y in range(3, 14):

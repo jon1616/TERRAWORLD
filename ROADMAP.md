@@ -1306,11 +1306,25 @@ Il **Taccuino delle catene** è la terza scheda del Semenzaio (K): indizio, geni
 Seme (mouse sopra) dice se porta a una cripta. Obiettivi «catena» e «catene_10»; capitolo nell'Enciclopedia; la verifica
 dei dati controlla geni e premi delle catene. Prove `--solo=catene` (foto 129_leggio, 130_taccuino).
 
-## 70. [ ] Luoghi scritti a mano (L)
+## 70. [x] Luoghi scritti a mano (L) — fatto il 26 set 2026
 Luoghi progettati come modelli (tempio sommerso, città sepolta, biblioteca di radici, serra dei Seminatori,
 osservatorio, alveare colossale…) che il generatore piazza solo nei mondi con i geni giusti, adattandoli al terreno.
 Sono la parte «a mano» che dà sapore a quella generata. Almeno 8 per cominciare.
 **Pronto quando**: trovare un luogo scritto a mano è un evento; ognuno ha un premio e un pezzo di storia.
+**Fatto il 27 set 2026**: otto luoghi scritti a mano (`PlacesData`: disegni a caratteri, uno per fila di tessere, con
+pietre, vetro, radici, ambra, cristalli, vuotite, stazioni e i posti della porta e dei meccanismi della voce 71): la
+**Biblioteca di radici** (stele), la **Serra dei Seminatori** (piante-seme, vetro), l'**Osservatorio** (cupola di vetro in
+superficie), l'**Alveare colossale** (celle d'ambra), la **Forgia antica** (un Maglio), la **Cripta di brina** (pareti di
+cristallo), il **Santuario del Vuoto** (vuotite, chiuso a chiave: la chiave è in uno scrigno delle rovine dello stesso
+mondo) e il **Tempio della Linfa**. `PassLuoghi` li mette **solo nei mondi con i geni giusti** (ne basta uno di quelli
+del luogo), al più tre per mondo, nel loro strato o sulla superficie, lontano da partenza, Cuore e costruzioni, e li
+scava nel terreno con le rune sul soffitto. Entrando in un luogo lo si **trova** (`Places`): scritta come per gli strati,
+segno sulla mappa, conteggi. Il **leggio** racconta un pezzo della storia dei Seminatori e del seme caduto dal Vuoto;
+lo **scrigno** ha bottino ricco, tavolette, Linfa antica e l'**oggetto unico** del luogo (otto accessori nuovi: Occhiali
+dei Seminatori, Guanti del giardiniere, Lente stellare, Pettorale di cera, Anello del mantice, Cuore di brina eterna,
+Frammento di Vuoto domato, Goccia della Linfa madre). Le stele possono indicare anche un luogo. `WorldView.refresh_rect`
+ridisegna una zona cambiata. Obiettivi «luogo» e «luoghi_tutti»; capitolo nell'Enciclopedia (i luoghi non trovati
+restano nascosti). Prove `--solo=luoghi_scritti` (foto 131_luogo, 132_luoghi).
 
 ## 71. [ ] Enigmi e meccanismi (M)
 Meccanismi dei Seminatori (leve di radice, specchi che portano la luce, canali di Linfa da aprire, piastre, porte a

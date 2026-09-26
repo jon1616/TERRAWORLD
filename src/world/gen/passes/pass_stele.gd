@@ -66,6 +66,8 @@ func _targets(c: GenContext) -> Array:
 		t.append(["firma", Vector2i(int(f["x"]), int(f["y"])), "La firma del mondo", ""])
 	if c.notes.has("cuore"):
 		t.append(["cuore", c.notes["cuore"], "Il Cuore del mondo", ""])
+	for lg in c.notes.get("luoghi", []):                    # voce 70: i luoghi scritti a mano
+		t.append(["luogo", Vector2i(int(lg["x"]) + int(lg["w"]) / 2, int(lg["y"]) + int(lg["h"]) / 2), "Un luogo dei Seminatori", ""])
 	var dens: Dictionary = c.notes.get("tane", {})
 	for k in dens:
 		t.append(["tana", dens[k], "Tana di un Custode", ""])

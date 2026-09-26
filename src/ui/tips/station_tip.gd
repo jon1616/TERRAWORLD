@@ -30,7 +30,12 @@ static func card(m: Node2D, o: Vector2i, id: String) -> TipCard:
 			if int(e["x"]) == o.x and int(e["y"]) == o.y and m.chains.is_open(String(e["catena"]), int(e["tappa"])):
 				open = true
 				c.sub("la cripta di «%s»" % m.chains.title_of(String(e["catena"])), TipCard.GOLD)
-		c.line("Una tappa della catena: storia, premio e l'indizio dopo" if open else "Già letto", TipCard.TEXT if open else TipCard.DIM)
+		var pl: Dictionary = m.places.at(o) if m.places != null else {}
+		if not open and not pl.is_empty():
+			c.sub(String(PlacesData.PLACES[String(pl["id"])]["name"]), TipCard.GOLD)
+			c.line("La storia di questo luogo", TipCard.TEXT)
+		else:
+			c.line("Una tappa della catena: storia, premio e l'indizio dopo" if open else "Già letto", TipCard.TEXT if open else TipCard.DIM)
 		c.hint("Clic destro: leggi")
 		return c
 	if id == "stele":

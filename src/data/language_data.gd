@@ -34,6 +34,7 @@ const HINTS := {
 	"firma": [["segno", "mondo", "veglia", "{deep}", "{dir}", "{dist}"], "La firma del mondo"],
 	"cuore": [["cuore", "mondo", "dorme", "fondo", "guardiano", "veglia"], "Il Cuore del mondo"],
 	"tana": [["custode", "dorme", "{deep}", "{dir}", "{dist}"], "Tana di un Custode"],
+	"luogo": [["pietra", "seminatori", "veglia", "{deep}", "{dir}", "{dist}"], "Un luogo dei Seminatori"],
 }
 
 ## Le frasi della storia (non indicano luoghi): il filo che porta al Seme Nero (voce 72).
