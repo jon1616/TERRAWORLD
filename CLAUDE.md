@@ -54,6 +54,8 @@ in `ROADMAP.md` (Roadmap 5-11). Queste regole valgono per **ogni** voce, anche f
 - **Mondi a portale**: un mondo casa più una serie infinita di mondi generati, finiti, con tema e difficoltà crescenti.
   Nell'universo: ogni mondo nasce da un Seme piantato nel Giardino (specie, vigore, tratti = parametri del generatore).
 - **Mondi medi**: 3000×1000 tessere da 16 px.
+- **Solo uso personale** (26 set 2026): il gioco non sarà mai venduto né pubblicato, lo useranno l'utente e 2-3 amici.
+  Le licenze degli asset di terzi non contano: le grafiche si scelgono solo per stile e prospettiva (vista di lato).
 - **Rete a 2 giocatori** (single player giocabile con un amico in collegamento diretto), host autoritativo come in Inkblood.
   **Rimandata** il 26 set 2026 (scelta dell'utente: «per ora non è una priorità»).
 - **Grafica**: la base è generata dal codice (tessere, luce, effetti, icone in serie, creature semplici); personaggio con tutte
