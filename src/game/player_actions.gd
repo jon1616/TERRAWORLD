@@ -248,7 +248,7 @@ func _chop(c: Vector2i, item: Dictionary, dt: float) -> void:
 	var base := Vector2i(t.x, t.y)
 	var power := int(ItemsData.get_item(item["id"]).get("power", 0))
 	power = roundi(power * float(Gear.stats(item)["dig"]) * dig_mult * boon_dig)
-	var hp: int = _tree_hp.get(base, FloraData.TREE_HP) - power
+	var hp: int = _tree_hp.get(base, int(TreesData.size_of(t.z)["hp"])) - power     # i grandi reggono più colpi
 	var hit_at := fx_parent.get_global_mouse_position()
 	Fx.dust(fx_parent, hit_at, Px.pal(["#241624", "#362234", "#4c3246", "#62c4a4"]))
 	if sfx:
@@ -269,7 +269,8 @@ func fell_tree(t: Vector3i) -> void:
 	if sfx:
 		sfx.play("albero_cade", Vector2(base) * S)
 	var foot := Vector2(base.x * S + 8, (base.y + 1) * S - 6)
-	var wood := _rng.randi_range(FloraData.WOOD[0], FloraData.WOOD[1])
+	var wr: Array = TreesData.size_of(t.z)["wood"]                   # più legno dai grandi
+	var wood := _rng.randi_range(int(wr[0]), int(wr[1]))
 	for k in wood:
 		drops.spawn("legno", 1, foot + Vector2(dir * (6 + k * 5), -_rng.randf_range(4.0, 20.0)))
 	if _rng.randf() < FloraData.SEED_CHANCE:

@@ -1,7 +1,8 @@
 class_name Growth
 extends RefCounted
-## Ciò che cresce da solo nel mondo col passare del tempo (anche fuori dalla visuale). Per ora i germogli
-## d'albero-lanterna: quando è il momento, se c'è spazio diventano alberi, altrimenti riprovano più tardi.
+## Ciò che cresce da solo nel mondo col passare del tempo (anche fuori dalla visuale). Per ora i germogli: quando è
+## il momento, se c'è spazio diventano l'albero del bioma dove sono piantati, grande quanto lo spazio permette
+## (`TreesData.roll`); altrimenti riprovano più tardi.
 
 
 static func tick(world: World, view: WorldView, light: LightMap, dt: float) -> void:
@@ -18,7 +19,8 @@ static func tick(world: World, view: WorldView, light: LightMap, dt: float) -> v
 			continue
 		world.saplings.erase(c)
 		world.set_decor(c.x, c.y, 0)
-		var t := Vector3i(c.x, c.y, rng.randi_range(0, PassAlberi.VARIANTS - 1))
+		rng.randomize()
+		var t := Vector3i(c.x, c.y, TreesData.roll(rng, world.biomes[c.x], world.free_above(c, FloraData.HEIGHT)))
 		world.add_tree(Vector2i(t.x, t.y), t.z)
 		view.refresh_around(c)
 		view.grow_tree(t)

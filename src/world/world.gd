@@ -208,6 +208,14 @@ func tree_fits(base: Vector2i) -> bool:
 	return true
 
 
+## Quante tessere libere ci sono sopra una base, fino a `most` (per scegliere quanto può essere grande un albero).
+func free_above(base: Vector2i, most: int) -> int:
+	for k in most:
+		if solid(base.x, base.y - k):
+			return k
+	return most
+
+
 ## Il contenuto di un contenitore (cesta, scrigno) con l'angolo in o; lo crea vuoto la prima volta.
 func chest_at(o: Vector2i) -> Bisaccia:
 	if not chests.has(o):

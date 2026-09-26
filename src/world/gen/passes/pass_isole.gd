@@ -45,7 +45,8 @@ func _island(w: World, c: GenContext, p: Vector2i, half: int, chest: bool) -> vo
 			w.set_decor(p.x + dx, p.y - 1, TileDefs.DECOR_GRASS[c.rng.randi_range(0, 2)])
 	for dx in [-half / 2, half / 2]:
 		if c.rng.randf() < 0.7 and w.tree_fits(Vector2i(p.x + dx, p.y - 1)):
-			w.add_tree(Vector2i(p.x + dx, p.y - 1), c.rng.randi_range(0, PassAlberi.VARIANTS - 1))
+			w.add_tree(Vector2i(p.x + dx, p.y - 1), TreesData.roll(c.rng, w.biomes[clampi(p.x + dx, 0, w.w - 1)],
+				w.free_above(Vector2i(p.x + dx, p.y - 1), FloraData.HEIGHT)))
 	if chest:
 		var o := Vector2i(p.x - 1, p.y - int(StationsData.STATIONS["scrigno"]["size"][1]))
 		for dy in 2:

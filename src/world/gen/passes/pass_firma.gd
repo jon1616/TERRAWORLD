@@ -229,7 +229,8 @@ func _isola_sospesa(w: World, c: GenContext, ctr: Vector2i) -> Vector2i:
 			w.set_decor(ctr.x + dx, top + depth + 1, TileDefs.DECOR_ROOTS[c.rng.randi_range(0, 1)] if c.rng.randf() < 0.5 else 0)
 	for dx in [-12, 11]:
 		if w.tree_fits(Vector2i(ctr.x + dx, top - 1)):
-			w.add_tree(Vector2i(ctr.x + dx, top - 1), c.rng.randi_range(0, PassAlberi.VARIANTS - 1))
+			w.add_tree(Vector2i(ctr.x + dx, top - 1), TreesData.roll(c.rng, w.biomes[clampi(ctr.x + dx, 0, w.w - 1)],
+				w.free_above(Vector2i(ctr.x + dx, top - 1), FloraData.HEIGHT)))
 	return _chest_at(w, Vector2i(ctr.x - 1, top - 2))
 
 

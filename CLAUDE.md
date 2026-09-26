@@ -103,7 +103,7 @@ Godot_console.exe --path . -- --prove            # --carica riapre il mondo di p
 Godot_console.exe --path . -- --prove --prova-portale
 # solo alcuni gruppi di prove (per provare in fretta una voce nuova): doni, antiche, pericoli, combattimento, tratti,
 # obiettivi, guardiani, rovine, mobilita, lanci, giardino, eventi, casa, abitanti, compagni, viaggio, semi,
-# biomi, biomi_nuovi, luoghi, corsa, raccolta, musica, germogliato, interfaccia, geni, forme, ecologia, mandria, casse
+# biomi, biomi_nuovi, luoghi, corsa, raccolta, musica, germogliato, interfaccia, geni, forme, ecologia, mandria, casse, alberi
 # (elenco in `AutoTests._group`)
 Godot_console.exe --path . -- --prove --solo=doni,antiche
 # suoni generati: prove/suoni/*.wav da ascoltare, con durata, picco e volume medio (segnala muti e distorti)
@@ -158,8 +158,12 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   - `TraitsData` — i tratti dell'equipaggiamento (`roll`, `effect`, `full_name`, costo del rinnovo al Maglio). Le
     caselle della Bisaccia hanno "tratto"; `add_stack` sposta una casella senza perderlo, `equip_traits` per ciò che
     si indossa.
-  - `FloraData` — alberi e germogli: robustezza (100; ogni colpo toglie la forza dell'ascia), legno e semi che
-    lasciano, tempo di crescita dei germogli, spazio richiesto.
+  - `FloraData` — germogli e semi: tempo di crescita, spazio richiesto, altezza massima di un albero (`HEIGHT`).
+  - `TreesData` — gli alberi (26 set 2026): una **specie per bioma** (albero-lanterna, fungo-albero, acacia d'ambra,
+    abete di brina, tizzone) e quattro **grandezze** (piccolo, medio, grande, antico: altezza, robustezza, legno);
+    la variante salvata per ogni albero è specie × grandezza × forma in un intero (`encode`/`decode`), `roll` ne
+    sceglie una per un bioma e lo spazio libero. Disegni in `TreeArt` (`src/art/`); foglio con
+    `tools/alberi.gd` → prove/alberi.png; prove `--solo=alberi` (foto 100_alberi_<bioma>).
   - `SpellsData` — gli incantesimi dei bastoni di Linfa (aspetto, velocità, ventaglio, quante creature attraversa,
     quanto insegue, se passa la roccia, luce).
   - `BeastItemsData` — materiali delle creature della voce 22 e ciò che se ne fa; uniti in `ItemsData.all()`.
@@ -209,7 +213,7 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     quattro creature dei biomi della voce 40. Una tessera d'erba nuova: `TileDefs` (costante, `GRASSES`, tabelle,
     tavolozza, strato del terreno), `MapReveal`, suono di scavo in `PlayerActions`, `PassDecorazioni`.
   - `CharacterArt` (personaggio a pose, restituisce anche mano e occhio), `CreatureArt`, `NatureArt`
-    (`tree_linfa` con parte luminosa, `root_arches`, `lantern_forest`, colline, torcia, sole).
+    (`root_arches`, `lantern_forest`, colline, torcia, sole), `TreeArt` (gli alberi dei biomi).
 - `musica/` — le musiche fatte dall'utente con Gemini («crea musica»): `esplorazione` (sottofondo) e `guardiano`
   (scontri con i boss), .mp3/.ogg/.wav; per cambiarne una si sostituisce il file con lo stesso nome (poi `--import`).
   Le suona l'autoload `Musica` (`src/audio/music.gd`): già nel menu e senza interruzioni nel mondo; brano del boss
@@ -466,7 +470,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   un oggetto che vola nella Bisaccia): a volte il gioco gira senza sincronia verticale (130-540 fotogrammi al secondo)
   e le attese a fotogrammi finivano troppo presto (26 set 2026). Si prova con `--disable-vsync`. Le attese a
   fotogrammi vanno bene solo per lasciar disegnare lo schermo.
-- Gli alberi hanno 8 forme disegnate una volta sola e riusate (disegnarne uno per albero costava secondi).
+- Gli alberi si disegnano una volta per combinazione (specie × grandezza × forma, solo le specie dei biomi del mondo,
+  all'avvio: ~15 ms l'uno) e si riusano (disegnarne uno per albero costava secondi).
 - Dopo molti `snap_to` di fila (e con vsync spento) la foto della finestra arrivava in ritardo anche di secondi (mostrava
   la scena di prima): `TestKit.save` ora chiama `RenderingServer.force_draw(false)` prima di leggere l'immagine.
 - L'immagine della luce (moltiplicazione) scurisce anche lo sfondo: il colore del cielo va diviso per la luce che

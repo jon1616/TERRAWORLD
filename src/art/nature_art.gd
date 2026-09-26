@@ -1,77 +1,9 @@
 class_name NatureArt
 extends RefCounted
-## Ambiente disegnato dal codice, stile «Radici e Linfa»: alberi-lanterna, torcia, colline e foreste ripetibili,
+## Ambiente disegnato dal codice, stile «Radici e Linfa» (gli alberi sono in `TreeArt`): torcia, colline e foreste ripetibili,
 ## le radici del cosmo nel cielo, il sole.
 
 const WOOD := ["#3e2614", "#5e3a1e", "#7e5230", "#a0703f"]
-
-## Albero-lanterna: tronco contorto, chioma a salice di fronde turchesi che pendono, baccelli d'ambra luminosi.
-## Restituisce l'immagine e la sua parte luminosa (i baccelli), che va disegnata sopra il buio.
-static func tree_linfa(sd: int) -> Dictionary:
-	var rng := RandomNumberGenerator.new()
-	rng.seed = sd
-	var W := 64
-	var H := 124
-	var im := Px.img(W, H)
-	var gm := Px.img(W, H)
-	var bark := Px.pal(["#140c14", "#241624", "#362234", "#4c3246"])
-	var frond := Px.pal(["#0b2e30", "#134a48", "#1f6a60", "#339280", "#62c4a4"])
-	var pod := Px.pal(TileDefs.P_BRACE)
-	var cx := W / 2.0
-	var top := rng.randi_range(40, 56)
-	var phase := rng.randf() * TAU
-	var amp := rng.randf_range(2.0, 5.0)
-	var trunk_x := PackedFloat32Array()
-	trunk_x.resize(H)
-	for y in range(top, H):
-		var t := float(H - 1 - y) / float(H - 1 - top)
-		var x := cx + sin(t * 3.2 + phase) * amp * t
-		trunk_x[y] = x
-		var hw := lerpf(3.6, 1.4, t)
-		for xx in range(int(x - hw), int(x + hw) + 1):
-			var k := (xx - (x - hw)) / (2.0 * hw)
-			var c := bark[2] if k < 0.35 else (bark[1] if k < 0.8 else bark[0])
-			if (y * 5 + xx * 3) % 9 == 0:
-				c = bark[3]
-			Px.put(im, xx, y, c)
-	for r in 4:
-		var dir := -1.0 if r % 2 == 0 else 1.0
-		Px.line(im, Vector2(cx, H - 4), Vector2(cx + dir * rng.randf_range(4.0, 10.0), H - 1), 2, bark[1])
-	var cy := float(top)
-	var rx := rng.randf_range(15.0, 20.0)
-	var ry := rng.randf_range(9.0, 12.0)
-	for y in range(int(cy - ry) - 1, int(cy + ry * 0.6)):
-		for x in W:
-			var dx := (x + 0.5 - cx) / rx
-			var dy := (y + 0.5 - cy) / ry
-			if dx * dx + dy * dy <= 1.0:
-				var t := 0.62 - dx * 0.25 - dy * 0.45 + rng.randf_range(-0.1, 0.1)
-				Px.put(im, x, y, frond[clampi(int(t * 5.0), 0, 4)])
-	var strands: Array[Vector2] = []
-	for s in 30:
-		var a := rng.randf_range(-1.0, 1.0)
-		var sx := cx + a * rx * 0.95
-		var sy := cy + sqrt(maxf(1.0 - a * a, 0.0)) * ry * 0.45
-		var length := int(rng.randf_range(12.0, 36.0) * (1.0 - absf(a) * 0.35))
-		for i in length:
-			var x := sx + a * i * 0.22 + sin(i * 0.3 + s) * 0.8
-			var y := sy + i
-			var c := frond[3] if i < length * 0.4 else (frond[2] if i < length * 0.8 else frond[1])
-			Px.put(im, int(x), int(y), c)
-			if i % 3 == 1:
-				Px.put(im, int(x) + (1 if s % 2 == 0 else -1), int(y), frond[4] if i < length * 0.3 else frond[2])
-			if i == length / 2:
-				strands.append(Vector2(x, y))
-	Px.outline(im, Color("#05090c"))
-	for k in mini(7, strands.size()):
-		var q: Vector2 = strands[rng.randi_range(0, strands.size() - 1)]
-		for dy in 3:
-			for dx in 2:
-				var c := pod[3] if dy == 0 else pod[2]
-				Px.put(im, int(q.x) + dx, int(q.y) + dy, c)
-				Px.put(gm, int(q.x) + dx, int(q.y) + dy, c)
-	return {"img": im, "glow": gm}
-
 
 static func torch_stick() -> Image:
 	var w := Px.pal(WOOD)

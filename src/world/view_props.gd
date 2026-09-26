@@ -8,7 +8,7 @@ const S := 16
 
 var view: WorldView
 var world: World
-var tex_trees: Array[Dictionary] = []
+var tex_trees := {}                    # variante (`TreesData`) -> {img, glow}: ogni combinazione si disegna una volta
 var tex_stations := {}                # id -> {img, glow}
 var tex_flame: Texture2D
 var tex_stick: Texture2D
@@ -20,9 +20,15 @@ var _t := 0.0
 func setup(v: WorldView, w: World) -> void:
 	view = v
 	world = w
-	for k in PassAlberi.VARIANTS:
-		var tr := NatureArt.tree_linfa(w.world_seed * 7 + k * 131)
-		tex_trees.append({"img": ImageTexture.create_from_image(tr["img"]), "glow": ImageTexture.create_from_image(tr["glow"])})
+	# gli alberi delle specie dei biomi di questo mondo, in ogni grandezza e forma (subito: disegnarli mentre si
+	# cammina faceva uno scatto la prima volta che se ne vedeva uno)
+	var species := {}
+	for b in w.biomes:
+		species[TreesData.species_of_biome(b)] = true
+	for sp in species:
+		for size in TreesData.SIZES.size():
+			for f in TreesData.FORMS:
+				_tree_tex(TreesData.encode(int(sp), size, f))
 	for id in StationsData.STATIONS:
 		var st := StationArt.make(id)
 		tex_stations[id] = {"img": ImageTexture.create_from_image(st["img"]), "glow": ImageTexture.create_from_image(st["glow"])}
@@ -71,7 +77,7 @@ func animate(dt: float) -> void:
 
 ## Un albero: un nodo con il perno alla base (serve per scuoterlo e farlo cadere), l'immagine e i baccelli luminosi.
 func tree_node(chunk: Node2D, t: Vector3i) -> void:
-	var tex: Dictionary = tex_trees[t.z]
+	var tex: Dictionary = _tree_tex(t.z)
 	var img: Texture2D = tex["img"]
 	var pivot := Node2D.new()
 	pivot.position = Vector2(t.x * S + 8, (t.y + 1) * S + 3)
@@ -85,13 +91,23 @@ func tree_node(chunk: Node2D, t: Vector3i) -> void:
 	gl.texture = tex["glow"]
 	gl.centered = false
 	gl.position = sp.position
-	gl.modulate = Color(1.6, 1.5, 1.3)
+	gl.modulate = TreesData.SPECIES[TreesData.decode(t.z)[0]]["glow"]
 	gl.z_as_relative = false
 	gl.z_index = 26
 	pivot.add_child(gl)
 	var by_base: Dictionary = chunk.get_meta("tree_nodes", {})
 	by_base[Vector2i(t.x, t.y)] = pivot
 	chunk.set_meta("tree_nodes", by_base)
+
+
+## Il disegno di una variante d'albero (fatto la prima volta che serve, poi riusato).
+func _tree_tex(v: int) -> Dictionary:
+	if not tex_trees.has(v):
+		var d := TreesData.decode(v)
+		var sp: Dictionary = TreesData.SPECIES[d[0]]
+		var tr := TreeArt.make(String(sp["id"]), int(TreesData.SIZES[d[1]]["h"]), world.world_seed * 7 + v * 131)
+		tex_trees[v] = {"img": ImageTexture.create_from_image(tr["img"]), "glow": ImageTexture.create_from_image(tr["glow"])}
+	return tex_trees[v]
 
 
 func _tree_pivot(base: Vector2i) -> Node2D:
