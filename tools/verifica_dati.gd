@@ -69,7 +69,7 @@ func _init() -> void:
 		_err(items.has(String(TileDefs.DECOR_DROP[d])), "la decorazione %d lascia un oggetto inesistente" % d)
 		dropped[TileDefs.DECOR_DROP[d]] = true
 	for t in range(1, TileDefs.TYPES + 1):
-		_err(TileDefs.DROP.has(t), "la tessera %d non lascia nulla" % t)
+		_err(TileDefs.DROP.has(t) or TileDefs.SEAL_KIND.has(t), "la tessera %d non lascia nulla" % t)   # (i Sigilli si aprono, non si scavano)
 		_err(TileDefs.POWER.has(t) and TileDefs.HARD.has(t), "la tessera %d non ha durezza o forza richiesta" % t)
 	for c in CreaturesData.CREATURES:
 		var cr: Dictionary = CreaturesData.CREATURES[c]
@@ -130,7 +130,7 @@ func _init() -> void:
 		var ok: bool = made.has(id) or dropped.has(id) or ItemsData.OTHER_SOURCES.has(id) or items[id].has("source")
 		_warn(ok, "%s non si può ottenere (né ricetta, né scavo, né bottino)" % id)
 		if items[id].get("kind") == "materiale":
-			_warn(not RecipesData.using(id).is_empty(), "il materiale %s non serve a nessuna ricetta" % id)
+			_warn(not RecipesData.using(id).is_empty() or _offered(id), "il materiale %s non serve a nessuna ricetta" % id)
 	# 6. progressione: ogni minerale si stacca con un piccone che si può fabbricare con minerali più facili
 	var best_power := {}
 	for id in items:
@@ -389,3 +389,12 @@ func _warn(ok: bool, msg: String) -> void:
 	if not ok:
 		warnings += 1
 		print("AVVISO: ", msg)
+
+
+## Voce 63: un oggetto che l'Albero-Madre chiede in offerta serve a qualcosa anche senza ricette.
+func _offered(id: String) -> bool:
+	for st in MotherTreeData.STAGES:
+		for o in st["offers"]:
+			if String(o.get("item", "")) == id:
+				return true
+	return false

@@ -56,6 +56,7 @@ var gene_mats: GeneMaterials
 var ecology: Ecology
 var giardino: Giardino
 var albero: AlberoMadre
+var powers: Powers
 var storage: Storage
 var herd: Herd
 var taming: Taming
@@ -273,7 +274,8 @@ func _build() -> void:
 	ecology = _mount(Ecology.new())
 	storage = _mount(Storage.new())
 	giardino = _mount(Giardino.new())      # voce 62: il Giardino sospeso nel Vuoto
-	albero = _mount(AlberoMadre.new())     # voce 63: gli stadi dell'Albero-Madre, il motivo della partita        # casse: ingredienti per la creazione, impostazioni, pulsanti
+	albero = _mount(AlberoMadre.new())     # voce 63: gli stadi dell'Albero-Madre, il motivo della partita
+	powers = _mount(Powers.new())          # voce 64: i poteri del Germogliato (Sigilli, Vista, ponte…)        # casse: ingredienti per la creazione, impostazioni, pulsanti
 	hud.panel.quick_stack = storage.quick_stack
 	hud.panel._toast = hud.toast
 	interact.chest_panel.storage = storage

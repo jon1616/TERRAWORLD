@@ -21,6 +21,7 @@ func _init(tk: TestKit) -> void:
 func run() -> void:
 	await garden()
 	await stages()
+	await powers()
 
 
 func garden() -> void:
@@ -136,3 +137,42 @@ func stages() -> void:
 	if ready0 or not woke or am.stage() != MotherTreeData.STAGES.size() or ph1 != "albero_madre_1" \
 			or m.aiuole.max_aiuole() != 1 + MotherTreeData.aiuole(am.stage()) or am.graftable().size() != GenesData.CATEGORIES.size():
 		print("ATTENZIONE: gli stadi dell'Albero-Madre non funzionano come dovrebbero")
+
+
+## Voce 64: i poteri (dopo il risveglio li ha tutti e sei). Un Sigillo di radice costruito sull'isola si apre solo con
+## il Canto delle radici; la Vista mostra le vene; la passerella di radici; il salto in più; foto 104_sigillo.
+func powers() -> void:
+	var pw: Powers = m.powers
+	var owned := pw.owned.duplicate()
+	# un luogo sigillato di prova sul bordo dell'isola
+	var x := world.spawn.x - 40
+	var y := world.surface[x] + 4
+	var ps := PassSigilli.new()
+	ps._vault(world, x, y, TileDefs.SIG_RADICE, "radice", 1, RandomNumberGenerator.new())
+	for dx in range(-1, PassSigilli.W + 2, 3):
+		m.view.refresh_around(Vector2i(x + dx, y))
+	m.snap_to(Vector2i(x - 3, world.surface[x - 3] - 1))
+	var seal := Vector2i(x - 1, y + 1)
+	pw.extra = []
+	var had := pw.has("canto")
+	pw.owned.erase("canto")
+	var closed := pw.open_seal(seal) and world.tile(seal.x, seal.y) == TileDefs.SIG_RADICE
+	pw.owned.append("canto")
+	var opened := pw.open_seal(seal) and world.tile(seal.x, seal.y) == TileDefs.AIR
+	var left := 0
+	for yy in range(y - 1, y + PassSigilli.H + 1):
+		for xx in range(x - 1, x + PassSigilli.W + 1):
+			if world.tile(xx, yy) == TileDefs.SIG_RADICE:
+				left += 1
+	var chest_o := Vector2i(x + PassSigilli.W / 2 - 1, y + PassSigilli.H - int(StationsData.STATIONS["scrigno"]["size"][1]))
+	var frag := world.chest_at(chest_o).count("frammento_albero") if world.stations.get(chest_o, "") == "scrigno" else 0
+	m.snap_to(Vector2i(x + 2, y + PassSigilli.H - 1))
+	m.boons.add("bagliore", 4.0)
+	await kit.seconds(0.6)
+	await kit.save("104_sigillo")
+	var v: Dictionary = pw.vista()
+	var bridge := pw.bridge(m.player.position + Vector2(10 * S, -3 * S))
+	print("poteri: %s; Sigillo di radice senza Canto chiuso %s, con il Canto aperto %s (resta %d), Frammento nello scrigno %d; Vista %s; passerella %d tessere; salti in aria %d" % [
+		owned, "sì" if closed else "NO", "sì" if opened else "NO", left, frag, v, bridge, m.player.air_jumps])
+	if owned.size() != 6 or not had or not closed or not opened or left > 0 or frag < 1 or bridge < 5 or m.player.air_jumps < 1:
+		print("ATTENZIONE: i poteri non funzionano come dovrebbero")

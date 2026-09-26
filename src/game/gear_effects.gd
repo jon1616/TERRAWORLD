@@ -58,6 +58,10 @@ func refresh() -> void:
 	relics = RelicsData.complete(m.character.erbario.get("oggetti", {}))
 	for c in relics:
 		_add(e, RelicsData.COLLECTIONS[c]["bonus"])
+	# voce 64: i poteri dell'Albero-Madre
+	if m.powers != null:
+		for pb in m.powers.bonuses():
+			_add(e, pb)
 	# voce 59: i doni della mandria (chi ti segue, chi cavalchi)
 	if m.herd != null:
 		for hb in m.herd.bonuses():

@@ -143,6 +143,8 @@ const LIST := [
 		"reward": {"linfa_antica": 2}},
 	{"id": "albero_12", "text": "Sveglia l'Albero-Madre", "check": {"stat": "albero", "n": 12},
 		"reward": {"polvere_iridata": 5}},
+	{"id": "sigillo", "text": "Apri un Sigillo con un potere dell'Albero-Madre (clic destro sul Sigillo)",
+		"check": {"stat": "sigilli", "n": 1}, "reward": {"linfa_antica": 1}},
 	{"id": "reazione", "text": "Fai reagire due elementi su una creatura (per esempio gelo, poi brace)", "check": {"stat": "reazioni", "n": 1},
 		"reward": {"pozione_vigore": 2}},
 	{"id": "firma", "text": "Trova la firma di un mondo: il luogo che esiste solo lì", "check": {"stat": "firme", "n": 1},

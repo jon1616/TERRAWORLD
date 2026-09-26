@@ -41,7 +41,8 @@ func _process(_dt: float) -> void:
 		return
 	if m.player.position.y > (_lowest + FALL) * S:
 		m.snap_to(m.world.spawn)
-		m.vitals.hp = maxi(1, m.vitals.hp - roundi(m.vitals.hp_max * FALL_HURT))
+		if not m.powers.has("passo"):                    # voce 64: con il Passo nel Vuoto non ferisce più
+			m.vitals.hp = maxi(1, m.vitals.hp - roundi(m.vitals.hp_max * FALL_HURT))
 		m.vitals.changed.emit()
 		Fx.puff(m.fx, m.player.position, Color(0.8, 1.6, 1.5))
 		m.hud.toast("Il Vuoto ti respinge verso l'Albero-Madre")

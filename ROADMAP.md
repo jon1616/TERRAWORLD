@@ -1116,11 +1116,22 @@ dell'Innestatrice sa innestare (all'inizio superficie, forma e fauna), quattro p
 `AlberoPanel` (clic destro sull'Albero); in ogni mondo una riga sotto gli obiettivi ricorda che cosa chiede adesso
 l'Albero (il filo da seguire). Tre obiettivi nuovi. Foto 102_albero e 103_albero_sveglio.
 
-## 64. [ ] I poteri del Germogliato (M)
+## 64. [x] I poteri del Germogliato (M) — fatto il 26 set 2026
 Poteri permanenti dagli stadi dell'Albero (vista della Linfa per vedere vene e geni nascosti, respiro nell'acqua,
 radici-ponte, salto delle spore, passo nel Vuoto…). Certi luoghi e certi geni si raggiungono solo con un potere:
 l'esplorazione si apre a strati, come in un metroidvania.
 **Pronto quando**: almeno 6 poteri, ognuno apre luoghi che prima non si potevano raggiungere.
+**Fatto il 26 set 2026**: sei poteri, doni degli stadi 2, 4, 6, 8, 10 e 11 dell'Albero (`PowersData`, regole in
+`Powers`): **Vista della Linfa** (tasto V: per 8 secondi brillano le vene, i Sigilli e gli scrigni attorno),
+**Canto delle radici**, **Passo nel Vuoto**, **Pelle di brace** (aprono ognuno i suoi Sigilli; in più scavo +25%, il
+Vuoto del Giardino non ferisce, +3 Scorza), **Salto delle spore** (un salto in aria in più, salti più alti),
+**Radici-ponte** (tasto F: una passerella di radici verso il mouse, 12 tessere, un minuto). Ogni mondo ha 14 **luoghi
+sigillati** (`PassSigilli`): stanze chiuse da un **Sigillo** (quattro tessere nuove che il piccone non scalfisce: il
+velato sembra ardesia e lo mostra la Vista; radice, Vuoto e brace sono pietra lavorata con le rune accese) nel loro
+strato, e due **nidi alti** nel cielo (Salto e Ponte). Clic destro su un Sigillo con il potere giusto: si dissolve
+tutto. Dentro, uno scrigno con il bottino e un **Frammento dell'Albero**, che gli stadi 6, 8, 10 e 12 chiedono: i
+poteri aprono i frammenti, i frammenti gli stadi, gli stadi i poteri dopo. Prove `--solo=sigilli` (foto
+106_sigillo_chiuso) e nel Giardino (foto 104_sigillo).
 
 ## 65. [ ] Abitanti con i mestieri (L)
 Gli abitanti dell'universo: la **Vecchia Radice** (guida, racconta), il **Mercante di Semi**, l'**Innestatrice**,

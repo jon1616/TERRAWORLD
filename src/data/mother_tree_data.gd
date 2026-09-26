@@ -52,6 +52,7 @@ const STAGES := [
 		"offers": [
 			{"item": "lingotto_ambra", "n": 8, "hint": "ambra fossile delle Caverne profonde, con il piccone di legnoferro"},
 			{"stat": "reliquiari", "n": 1, "text": "Apri un reliquiario dei Seminatori", "hint": "murati nella roccia: la Mappa dei Seminatori li indica"},
+			{"item": "frammento_albero", "n": 1, "hint": "le stanze chiuse da un Sigillo velato (Caverne d'ardesia, la Vista della Linfa le mostra) o di radice (Sottobosco)"},
 		],
 		"gives": {"aiuola": 1, "power": "passo", "phase": 3, "lore": "albero_memoria"}},
 	{"name": "Il canto della mandria", "say": "Sento le tue creature. Falle crescere: voglio sentire un uovo schiudersi.",
@@ -66,6 +67,7 @@ const STAGES := [
 			{"item": "squama_brace", "n": 6, "hint": "dalle salamandre di brace (Cenerarie, mondi con geni caldi)"},
 			{"item": "minerale_tizzonite", "n": 12, "hint": "nel profondo, con il piccone d'ambra"},
 			{"stat": "custodi", "n": 1, "text": "Sconfiggi un Custode", "hint": "dai bozzoli dei Custodi negli strati (e nei biomi)"},
+			{"item": "frammento_albero", "n": 2, "hint": "dietro i Veli del Vuoto, nel Fondo (Passo nel Vuoto)"},
 		],
 		"gives": {"power": "brace", "phase": 3}},
 	{"name": "Le stirpi", "say": "Quanti Cuori hai guarito? Ognuno mi fa più forte.",
@@ -79,6 +81,7 @@ const STAGES := [
 			{"item": "vuotite", "n": 40, "hint": "il pavimento del Fondo, con il piccone di legnoferro"},
 			{"item": "cristallo_linfa", "n": 20, "hint": "cristalli nelle grotte profonde, con il piccone d'ambra"},
 			{"stat": "viaggi", "n": 6, "text": "Viaggia in sei mondi", "hint": "pianta nuovi Semi nelle Aiuole"},
+			{"item": "frammento_albero", "n": 3, "hint": "dietro i Muri di brace delle Profondità della Linfa (Pelle di brace)"},
 		],
 		"gives": {"power": "salto", "phase": 4}},
 	{"name": "La chioma d'ambra", "say": "Sono quasi sveglio. Mostrami la varietà dei mondi e delle stirpi.",
@@ -93,6 +96,7 @@ const STAGES := [
 			{"item": "linfa_antica", "n": 6, "hint": "dai Cuori dei mondi di vigore alto"},
 			{"stat": "custodi", "n": 3, "text": "Sconfiggi tre Custodi", "hint": "richiamali all'Altare dei Seminatori, o trova i loro bozzoli"},
 			{"stat": "guardiani", "n": 5, "text": "Risolvi i Guardiani di cinque mondi", "hint": "il Fondo di ogni mondo"},
+			{"item": "frammento_albero", "n": 4, "hint": "nei nidi alti nel cielo dei mondi (Salto delle spore e Radici-ponte) e dietro ogni Sigillo"},
 		],
 		"gives": {"aiuola": 1, "phase": 4, "lore": "albero_sveglio"}},
 ]

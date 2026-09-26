@@ -166,7 +166,7 @@ static func material(id: String, p: Array[Color], sd: int) -> PackedColorArray:
 		for x in TEX:
 			var i := y * TEX + x
 			var v := 0.55 * n8[i] + 0.3 * n16[i] + rng.randf_range(-0.08, 0.08)
-			if id == "ardesia" or id == "scisto":
+			if id == "ardesia" or id == "scisto" or id == "sig_velato":
 				v += 0.12 * sin((y + n8[i] * 10.0) * TAU * 3.0 / TEX)
 			elif id == "radice":
 				v += 0.22 * sin((y + n8[i] * 14.0) * TAU * 5.0 / TEX)   # venatura del legno, lungo la radice
@@ -177,8 +177,11 @@ static func material(id: String, p: Array[Color], sd: int) -> PackedColorArray:
 		"humus":
 			_fibers(col, rng, Px.pal(TileDefs.P_ROOT), 7, 28)
 			_specks(col, rng, p[0], 40)
-		"ardesia":
-			_fibers(col, rng, [Px.sh(p[0], 0.8)], 3, 14)
+		"ardesia", "sig_velato":
+			_fibers(col, rng, [Px.sh(p[0], 0.8)], 3, 14)        # (il Sigillo velato è identico: lo mostra la Vista)
+		"sig_radice", "sig_vuoto", "sig_brace":
+			_bricks(col, p)                                      # voce 64: pietra lavorata con le rune accese
+			_specks(col, rng, Color("#8ef0d8") if id != "sig_brace" else Color("#ffd060"), 26)
 		"muschio", "muschio_spore", "erba_ambra":
 			_specks(col, rng, p[4], 90)
 		"radice":

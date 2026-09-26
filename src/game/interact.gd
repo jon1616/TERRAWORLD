@@ -109,6 +109,8 @@ func _map_hint(id: String) -> bool:
 func touch(c: Vector2i) -> bool:
 	if m.taming.touch(m.fx.get_global_mouse_position()):
 		return true                                      # voce 59: nutrire o accarezzare una creatura
+	if TileDefs.SEAL_KIND.has(m.world.tile(c.x, c.y)) and m.actions.in_reach(c):
+		return m.powers.open_seal(c)                     # voce 64: i Sigilli
 	var npc: Npc = m.villagers.npc_at(Vector2(c) * S + Vector2(8, 8))
 	if npc != null:
 		return m.villagers.open_trade(npc)
