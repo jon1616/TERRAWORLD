@@ -3,8 +3,9 @@ extends RefCounted
 ## Prove degli sprite nuovi del Germogliato (Nano Banana, 26 set 2026; vedi `HeroSprites`): i fotogrammi si caricano e
 ## in ognuno si trova l'occhio (tranne nel battito di ciglia); da fermo e di corsa il Germogliato usa gli sprite nuovi;
 ## con il corpo alto 30 pixel passa ancora in un cunicolo alto 2 blocchi; al buio l'occhio brilla. Foto
-## 71_germogliato_fermo, 72_germogliato_corsa, 73_germogliato_cunicolo, 74_germogliato_salto, 75_germogliato_colpo; nel salto si
-## vedono spinta, salita, cima, caduta e atterraggio, nel colpo le 6 pose con il piccone nel pugno.
+## 71_germogliato_fermo, 72_germogliato_corsa, 73_germogliato_cunicolo, 74_germogliato_salto, 75_germogliato_colpo, 76_germogliato_mira, 77_germogliato_torcia; nel salto si vedono spinta, salita, cima, caduta
+## e atterraggio, nel colpo le 6 pose con il piccone nel pugno, nella mira una posa per direzione con l'arco, con la
+## torcia in mano la posa ferma e quelle di corsa con la fiamma accesa.
 
 const S := 16
 
@@ -112,6 +113,44 @@ func run() -> void:
 	await kit.frames(2)
 	print("colpo: pose viste %d su %d, piccone nel pugno %s, di nuovo fermo dopo %s" % [hits.size(), colpo.size(),
 		"sì" if tool_ok and not hits.is_empty() else "NO", "sì" if _uses("fermo") else "NO"])
+	# la mira: 6 direzioni, dall'alto al basso davanti; l'arco nel pugno
+	var mira: Array = HeroSprites.data()["mira"]["tex"]
+	kit.hold("arco_radice")
+	var poses := []
+	var bow_ok := true
+	# la mira la calcola il combattimento dal mouse: nelle prove da un bersaglio finto (`auto_aim`)
+	m.combat.auto_fire = true
+	for g in [0.0, 30.0, 60.0, 90.0, 120.0, 160.0]:
+		var dirv := Vector2(sin(deg_to_rad(g)), -cos(deg_to_rad(g)))
+		m.combat.auto_aim = p.position + Vector2(0, -6) + dirv * 120.0
+		await kit.frames(3)
+		poses.append(mira.find(p.spr.texture))
+		bow_ok = bow_ok and p.tool.visible
+		if g == 60.0:
+			await kit.save("76_germogliato_mira")
+	m.combat.auto_fire = false
+	m.combat.auto_aim = Vector2.INF
+	await kit.frames(2)
+	var distinct := {}
+	for q in poses:
+		distinct[q] = true
+	print("mira: pose per 0°, 30°, 60°, 90°, 120°, 160° %s (%d diverse), arco nel pugno %s" % [poses, distinct.size(),
+		"sì" if bow_ok else "NO"])
+	# la torcia in mano: da fermo e di corsa, con la fiamma
+	var torcia: Array = HeroSprites.data()["torcia"]["tex"]
+	kit.hold("torcia")
+	await kit.frames(3)
+	var still := torcia.find(p.spr.texture)
+	var lit := p.flame.visible
+	p.auto_dir = -1.0
+	await kit.seconds(0.4)
+	var running := torcia.find(p.spr.texture)
+	await kit.save("77_germogliato_torcia")
+	p.auto_dir = 0.0
+	await kit.seconds(0.3)
+	print("torcia: da fermo posa %d, di corsa posa %d, fiamma accesa %s" % [still, running, "sì" if lit and p.flame.visible else "NO"])
+	kit.hold("piccone_radicite")
+	await kit.frames(2)
 	# un cunicolo alto 2 blocchi: soffitto di pietra a 2 tessere dal pavimento, per 8 tessere
 	var x0 := spot.x + 2
 	for x in range(x0, x0 + 8):

@@ -1,8 +1,8 @@
 class_name Player
 extends Node2D
-## Il personaggio: movimento, salto e animazione. Fermo e corsa usano gli sprite di Nano Banana (`HeroSprites`); le
-## altre pose (salto, colpo, mira, torcia) sono ancora disegnate dal codice: nascono da una posa
-## (angoli di braccia e gambe) e vengono messi da parte la prima volta che servono.
+## Il personaggio: movimento, salto e animazione. Le pose le disegna `HeroAnimator` con gli sprite di Nano Banana
+## (fermo, corsa, salto, colpo, mira, torcia); se mancano i file, il disegno del codice (`CharacterArt`): pose fatte di
+## angoli di braccia e gambe, messe da parte la prima volta che servono.
 
 ## Il corpo che urta i blocchi: 10 x 30 pixel. Lo sprite è alto 36 (Nano Banana, 26 set 2026) ma il corpo resta sotto
 ## i 32 dei cunicoli alti 2 blocchi (scelta dell'utente): il germoglio e la punta dei capelli sporgono sopra.
@@ -67,14 +67,14 @@ var coyote := 0.0
 var jump_buf := 0.0
 var step_vis := 0.0
 var _cache := {}
-var _run_t := 0.0                      # posa della corsa degli sprite nuovi (vedi `HeroSprites`)
-var _idle_t := 0.0                     # tempo del respiro
+var hero: HeroAnimator                 # gli sprite nuovi del Germogliato (vedi `HeroAnimator`)
 var _takeoff_t := 0.0                  # la posa della spinta, appena staccati da terra
 var _land_t := 0.0                     # la posa dell'atterraggio, appena toccato terra
 
 
 func setup(wd: World) -> void:
 	world = wd
+	hero = HeroAnimator.new(self)
 	rig = Node2D.new()
 	add_child(rig)
 	tool = Sprite2D.new()
@@ -269,10 +269,14 @@ func _animate(dt: float) -> void:
 	# gli sprite nuovi (fermo, corsa, salto) quando le mani sono libere; il resto lo disegna ancora `CharacterArt`
 	_takeoff_t -= dt
 	_land_t -= dt
-	if sw and _hero_swing(dt):
+	if sw and hero.swing(dt):
+		return
+	if not sw and not is_nan(aim) and hero.aim_pose():
+		return
+	if not sw and is_nan(aim) and carry and hero.carry_pose(key, dt):
 		return
 	if key in ["idle", "jump", "fall"] or key.begins_with("run"):
-		if not sw and is_nan(aim) and not carry and _hero(key, dt):
+		if not sw and is_nan(aim) and not carry and hero.ground(key, dt):
 			return
 	var a := 0.0
 	if sw:
@@ -321,89 +325,14 @@ func _animate(dt: float) -> void:
 			tool.offset = Vector2(4.5, -4.5)
 			tool.rotation = atan2(cos(a), sin(a)) + PI * 0.25
 	flame.visible = holding and tool.visible and carry_glow != Color.BLACK
+	_flame(dt)
+
+
+## La fiamma della torcia in mano, in cima all'attrezzo: tremola.
+func _flame(dt: float) -> void:
 	if flame.visible:
 		_flicker += dt
 		flame.position = tool.position + Vector2(0, -9).rotated(tool.rotation) + Vector2(-0.5, 0)
 		var f := 1.0 + 0.18 * sin(_flicker * 17.0) + 0.1 * sin(_flicker * 29.0)
 		flame.modulate = carry_glow * f
 		flame.scale = Vector2(1.0, 0.9 + 0.15 * sin(_flicker * 13.0))
-
-
-## Fermo, corsa e salto con gli sprite nuovi del Germogliato (vedi `HeroSprites`). Falso se mancano i file.
-func _hero(key: String, dt: float) -> bool:
-	var hero := HeroSprites.data()
-	var air := key == "jump" or key == "fall"
-	var anim := "salto" if air or (_land_t > 0.0 and hero.has("salto")) else "fermo" if key == "idle" else "corsa"
-	if not hero.has(anim):
-		return false
-	var d: Dictionary = hero[anim]
-	var k := 0
-	swing_t = 0.0                          # il prossimo colpo ricomincia dall'inizio
-	if anim == "salto":
-		# la posa dalla velocità verticale: spinta appena staccati, poi salita, cima e caduta; a terra l'atterraggio
-		if not air:
-			k = HeroSprites.Salto.ATTERRA
-		elif _takeoff_t > 0.0:
-			k = HeroSprites.Salto.SPINTA
-		elif vel.y < HeroSprites.SALTO_SU:
-			k = HeroSprites.Salto.SALITA
-		elif vel.y < -HeroSprites.SALTO_SU:
-			k = HeroSprites.Salto.CIMA
-		else:
-			k = HeroSprites.Salto.CADUTA
-	elif anim == "corsa":
-		_idle_t = 0.0
-		# 12 pose al secondo a piena corsa, più lente se si va piano
-		_run_t += dt * absf(vel.x) / RUN * 12.0
-		k = int(_run_t) % 8
-	else:
-		_run_t = 0.0
-		_idle_t += dt
-		k = HeroSprites.breath_frame(_idle_t)
-	var sz: Vector2i = d["size"]
-	spr.texture = d["tex"][k]
-	# i piedi sul fondo del corpo, il centro della sagoma sul centro del corpo
-	var top_left := Vector2(-roundf(float(d["anchor"])), HALF.y - sz.y + step_vis)
-	spr.position = top_left + Vector2(sz) * 0.5
-	var e: Vector2 = d["eye"][k]
-	eye.visible = e != Vector2.INF
-	if eye.visible:
-		eye.position = top_left + e + Vector2(0.5, 1.0)        # l'occhio è alto 2 pixel: il bagliore al centro
-	rig.scale.x = facing
-	tool.visible = false
-	flame.visible = false
-	return true
-
-
-## Il colpo (scavare, abbattere, colpire) con gli sprite nuovi: la posa segue il giro dell'attrezzo (`swing_period`),
-## l'attrezzo sta nel pugno trovato dall'importatore e ruota con il braccio. Falso se manca la tavola.
-func _hero_swing(dt: float) -> bool:
-	var hero := HeroSprites.data()
-	if not hero.has("colpo") or not hero["colpo"].has("hands"):
-		return false
-	var d: Dictionary = hero["colpo"]
-	swing_t += dt
-	var n: int = (d["tex"] as Array).size()
-	var k := mini(int(fmod(swing_t, swing_period) / swing_period * n), n - 1)
-	var sz: Vector2i = d["size"]
-	spr.texture = d["tex"][k]
-	var top_left := Vector2(-roundf(float(d["anchor"])), HALF.y - sz.y + step_vis)
-	spr.position = top_left + Vector2(sz) * 0.5
-	var e: Vector2 = d["eye"][k]
-	eye.visible = e != Vector2.INF
-	if eye.visible:
-		eye.position = top_left + e + Vector2(0.5, 1.0)
-	rig.scale.x = facing
-	flame.visible = false
-	tool.visible = tool_tex != null
-	if tool.visible:
-		var hand: Dictionary = d["hands"][k]
-		var hp: Array = hand["mano"]
-		tool.texture = tool_tex
-		tool.position = top_left + Vector2(float(hp[0]), float(hp[1]))
-		# l'angolo del braccio dall'importatore (gradi dall'alto, in senso orario) nella convenzione di `CharacterArt`
-		# (0 = giù, PI/2 = avanti), poi lo stesso orientamento dell'attrezzo del disegno del codice
-		var a := PI - deg_to_rad(float(hand["gradi"]))
-		tool.offset = Vector2(4.5, -4.5)
-		tool.rotation = atan2(cos(a), sin(a)) + PI * 0.25
-	return true

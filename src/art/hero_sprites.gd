@@ -3,8 +3,10 @@ extends RefCounted
 ## Gli sprite del Germogliato fatti con Nano Banana e ridotti a 36 pixel dagli script di `tools/` (26 set 2026):
 ## `arte/germogliato/<animazione>_<n>.png`: corsa (8 pose), fermo (4, il respiro), salto (6: preparazione, spinta,
 ## salita, cima, caduta, atterraggio), colpo (6: il pugno che gira dall'alto dietro la testa al basso davanti, con
-## `colpo.json` = dove sta il pugno e l'angolo del braccio in ogni posa, per l'attrezzo che il gioco ci disegna). Le
-## pose che mancano (mira con l'arco, torcia in mano) le disegna ancora `CharacterArt`.
+## `colpo.json` = dove sta il pugno e l'angolo del braccio in ogni posa, per l'attrezzo che il gioco ci disegna), mira
+## (6: il braccio teso dal dritto in alto al basso davanti, per archi, bastoni e rampino) e torcia (9: in piedi e le 8
+## pose di corsa con il pugno alto davanti al petto), anche loro con il loro .json. Il disegno del codice
+## (`CharacterArt`) resta solo di riserva, se mancano i file.
 ## Da ogni fotogramma si ricavano da soli:
 ##   eye     il pixel dell'occhio d'oro (per il bagliore al buio; niente quando l'occhio è chiuso)
 ##   anchor  il centro del corpo in x (la media della sagoma di tutta l'animazione; nel colpo la media dei piedi, perché
@@ -12,8 +14,8 @@ extends RefCounted
 ##           più stretta non sposta il personaggio
 
 const DIR := "res://arte/germogliato/"
-const ANIMS := {"corsa": 8, "fermo": 4, "salto": 6, "colpo": 6}
-const ANCHOR_FEET := ["colpo"]          # animazioni centrate sui piedi (vedi sopra)
+const ANIMS := {"corsa": 8, "fermo": 4, "salto": 6, "colpo": 6, "mira": 6, "torcia": 9}
+const ANCHOR_FEET := ["colpo", "mira"]  # animazioni centrate sui piedi (vedi sopra)
 ## Le pose del salto (vedi `Player._hero`).
 enum Salto { PREPARA, SPINTA, SALITA, CIMA, CADUTA, ATTERRA }
 const SALTO_SU := -110.0               # sopra questa velocità verticale (px/s, in su) si sale; tra le due, la cima
