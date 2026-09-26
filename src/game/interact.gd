@@ -36,6 +36,8 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 			return false
 		"seme_mondo":
 			return m.portal.plant(c, id)
+		"provetta":
+			return m.sampling.use_vial(id, c)
 		"dono":
 			return Gifts.absorb(m, id)
 		"richiamo":
@@ -129,6 +131,9 @@ func touch(c: Vector2i) -> bool:
 			return m.masonry.use_bed(o)
 		"radice_viandante":
 			return m.travel.open_from(o)
+		"pianta_seme":
+			m.sampling.harvest(o)
+			return true
 		"portale":
 			m.portal.touch(o)
 			return true

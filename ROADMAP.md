@@ -737,12 +737,24 @@ di un mondo nuovo nasce dal conto dei Semi piantati nel Giardino (una stessa Aiu
 sceglie il **Seme del Giardino** (tutti i biomi o uno dei cinque). Deciso da Claude: niente più portali piantati a terra
 (quelli di prima restano), così il Giardino è davvero il centro. Foto 84_semenzaio.
 
-## 46. [ ] Trovare semi e geni (M)
+## 46. [x] Trovare semi e geni (M) — fatto il 26 set 2026
 Da dove vengono i geni: Cuori e Guardiani (Semi interi), scrigni delle rovine, **piante-seme** selvatiche rare in ogni
 mondo (portano un gene del mondo in cui crescono), e i **campioni**: con la **Provetta di Linfa** si preleva un gene
 da un bioma, una roccia, una creatura sconfitta o la firma. Il gene prelevato si **impara** (collezione dei geni:
 nuova pagina dell'Erbario, il **Genario**, con la percentuale) e diventa una Fiala di gene da usare negli innesti.
 **Pronto quando**: in un mondo si possono trovare tutti i suoi geni per almeno due strade; il Genario li conta.
+**Fatto il 26 set 2026** (`Sampling`, `Genario`): la **Provetta di Linfa** (3 all'Alambicco con vetro e gelatina):
+clic su ciò che porta un gene — erba della superficie, terra vicino alla superficie (forma), aria delle grotte, rocce
+profonde (sottosuolo), vene, cristalli e gemme, pietra dei Seminatori, alberi, cielo aperto (cielo o tempo), terra
+avvizzita — dà la **Fiala** del gene del mondo in quella categoria; se il mondo non ne ha, la Provetta non si consuma
+e una scritta dice cosa cercavi. Le **Fiale** (una per gene, generate da `GenesData.items()`) nella Bisaccia fanno
+**imparare** il gene. **Piante-seme** selvatiche (`PassPianteSeme`: 8 in superficie e 10 nelle grotte; stazione con il
+baccello d'ambra): clic destro = una Fiala di un gene del mondo o (30%) un **Seme selvatico** figlio del mondo (ogni
+gene del mondo resta col 70%, 8% di mutazione). Le creature sconfitte lasciano a volte la Fiala del gene di fauna, le
+rare quella delle stirpi; un quarto degli scrigni delle rovine ha la Fiala di un gene qualunque (anche di altri mondi).
+Il **Genario** è la seconda scheda del Semenzaio (mai visto «?», visto, imparato; dove si preleva, come nasce).
+Obiettivi: prelevare un gene, impararne 10 e 25. Deciso da Claude: il Genario sta nel Semenzaio (non nell'Erbario),
+vicino ai mondi da cui vengono i geni. Foto 85_genario.
 
 ## 47. [ ] L'innesto dei semi (L)
 Al **Banco dell'Innestatrice** (stazione nuova) si uniscono due Semi, più eventuali Fiale di gene: nasce un Seme

@@ -63,6 +63,9 @@ const STATIONS := {
 		"light_color": Color(0.6, 1.6, 1.5)},
 	"portale": {"name": "Portale di radici", "size": [3, 4], "item": "seme_mondo", "fixed": true, "light": true,
 		"light_color": Color(0.5, 1.3, 1.4)},
+	# voce 46: la pianta-seme selvatica (clic destro: una Fiala di gene o un Seme selvatico, vedi `Sampling`)
+	"pianta_seme": {"name": "Pianta-seme", "size": [1, 2], "item": "", "fixed": true, "light": true,
+		"light_color": Color(0.9, 0.8, 0.35)},
 	# voce 45: l'Aiuola del Giardino, dove si piantano i Semi di mondo (diventa un portale della stessa misura)
 	"aiuola": {"name": "Aiuola del Giardino", "size": [3, 4], "item": "aiuola", "light": true,
 		"light_color": Color(0.35, 0.8, 0.7)},

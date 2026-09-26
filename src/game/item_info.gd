@@ -69,6 +69,8 @@ static func uses_of(id: String) -> Array:
 
 ## Come si ottiene, in breve: fabbricato (dove), scavando, dalle creature, dagli scrigni o da altro.
 static func how_to_get(id: String) -> String:
+	if ItemsData.get_item(id).has("source"):
+		return String(ItemsData.get_item(id)["source"])
 	var rs := RecipesData.making(id)
 	if not rs.is_empty():
 		var st := String(rs[0]["station"])

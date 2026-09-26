@@ -8,7 +8,7 @@ extends SceneTree
 const KINDS := ["materiale", "blocco", "piccone", "ascia", "spada", "arco", "munizione", "torcia", "stazione",
 	"piattaforma", "elmo", "corazza", "gambali", "consumabile", "seme", "lanterna", "cura", "seme_mondo", "accessorio",
 	"purifica", "essenza", "bastone", "dono", "specchio", "trofeo", "richiamo", "reliquia", "mappa", "rampino", "esplosivo", "ricurvo",
-	"giavellotto", "coltura", "annaffiatoio", "parete", "martello", "moneta", "compagno", "evocatore", "ricordo"]
+	"giavellotto", "coltura", "annaffiatoio", "parete", "martello", "moneta", "compagno", "evocatore", "ricordo", "provetta", "fiala"]
 ## Forza di piccone oltre cui una tessera è voluta indistruttibile (i nodi avvizziti: si curano, non si scavano).
 const UNBREAKABLE := 999
 
@@ -127,7 +127,7 @@ func _init() -> void:
 			_err(SpellsData.SPELLS.has(String(items[id]["spell"])), "%s: incantesimo sconosciuto" % id)
 	# 5. ogni oggetto si può ottenere; ogni materiale serve a qualcosa
 	for id in items:
-		var ok: bool = made.has(id) or dropped.has(id) or ItemsData.OTHER_SOURCES.has(id)
+		var ok: bool = made.has(id) or dropped.has(id) or ItemsData.OTHER_SOURCES.has(id) or items[id].has("source")
 		_warn(ok, "%s non si può ottenere (né ricetta, né scavo, né bottino)" % id)
 		if items[id].get("kind") == "materiale":
 			_warn(not RecipesData.using(id).is_empty(), "il materiale %s non serve a nessuna ricetta" % id)

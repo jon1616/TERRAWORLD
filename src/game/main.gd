@@ -50,6 +50,7 @@ var minimap: Minimap
 var world_traits: WorldTraits
 var signature: Signature
 var aiuole: Aiuole
+var sampling: Sampling
 var _spores: CPUParticles2D
 var built := false
 var gen_times: Array = []
@@ -244,7 +245,9 @@ func _build() -> void:
 	var sp := SemenzaioPanel.new()
 	hud.add_child(sp)
 	sp.setup(self)
+	sp.genario_view = Genario.view
 	hud.overlays.append(sp)
+	sampling = _mount(Sampling.new())
 	minimap = Minimap.new()
 	hud.add_child(minimap)
 	minimap.setup(self, map_reveal)

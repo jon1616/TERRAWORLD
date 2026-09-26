@@ -40,6 +40,8 @@ static func make(id: String) -> Dictionary:
 			_scrigno(im, gm, w, h)
 		"aiuola":
 			_aiuola(im, gm, w, h)
+		"pianta_seme":
+			_pianta_seme(im, gm, w, h)
 		_:
 			WorkshopArt.draw(id, im, gm, w, h)
 	Px.outline(im, OUT)
@@ -208,6 +210,20 @@ static func _aiuola(im: Image, gm: Image, w: int, h: int) -> void:
 		Px.put(im, sx - 1, top - 5 + (k % 2), sprout[3])
 		Px.put(im, sx + 1, top - 6 + (k % 2), sprout[4])
 		Px.put(gm, sx + 1, top - 6 + (k % 2), sprout[4])
+
+
+## Pianta-seme (voce 46): uno stelo ricurvo con due foglie e in cima un baccello d'ambra che brilla.
+static func _pianta_seme(im: Image, gm: Image, w: int, h: int) -> void:
+	var leaf := Px.pal(TileDefs.P_GRASS)
+	var pod := Px.pal(TileDefs.P_AMBRA)
+	Px.curve(im, Vector2(w / 2.0, h - 1), Vector2(w / 2.0 + 4, h * 0.55), Vector2(w / 2.0 - 1, 10), 1, leaf[2])
+	Px.disc(im, 4.5, h * 0.6, 2.4, leaf[3])
+	Px.disc(im, w - 5.0, h * 0.72, 2.4, leaf[2])
+	Px.disc(im, w / 2.0 - 1, 7.0, 4.2, pod[1])
+	Px.disc(im, w / 2.0 - 1, 6.5, 3.0, pod[2])
+	Px.disc(im, w / 2.0 - 2, 5.5, 1.4, pod[3])
+	Px.disc(gm, w / 2.0 - 1, 7.0, 4.2, pod[2])
+	Px.disc(gm, w / 2.0 - 2, 5.5, 1.6, pod[3])
 
 
 ## Cesta di radici: intreccio di legno di lanterna, coperchio con una foglia.

@@ -84,6 +84,7 @@ const RECIPES := [
 	{"out": "giavellotto_cristallo", "qty": 10, "in": {"cristallo_linfa": 1, "legno": 1}, "station": "maglio"},
 	# voce 31: muoversi meglio
 	# voce 39: dare una specie al Seme di mondo
+	{"out": "provetta", "qty": 3, "in": {"vetro_resina": 1, "gelatina": 2}, "station": "alambicco"},
 	{"out": "aiuola", "qty": 1, "in": {"humus": 25, "legno": 12, "seme_lanterna": 3}, "station": "ceppo"},
 	{"out": "seme_mondo_lanterna", "qty": 1, "in": {"seme_mondo": 1, "seme_lanterna": 10, "legno": 30}, "station": "altare"},
 	{"out": "seme_mondo_sporangio", "qty": 1, "in": {"seme_mondo": 1, "sacca_spore": 10, "fungo_luminoso": 6}, "station": "altare"},

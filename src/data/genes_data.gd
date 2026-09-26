@@ -167,6 +167,42 @@ const GENES := {
 		"desc": "nessuna macchia di Avvizzimento", "gen": {"blight_zones": -9.0}, "run": {"blight": 0.0}},
 }
 
+## Voce 46: le Fiale, una per gene (oggetti generati da `items()`, uniti in `ItemsData.all()`), con il colore della
+## categoria nell'icona; e la Provetta di Linfa che le riempie (`Sampling`).
+const VIAL_MAT := {"superficie": "muschio", "forma": "humus", "grotte": "ardesia", "sottosuolo": "fungo",
+	"minerali": "radicite", "gemme": "brillaluce", "rovine": "sem", "fauna": "brace", "stirpi": "iride", "flora": "linfa",
+	"cielo": "lagunite", "tempo": "nottilite", "ombra": "nodo"}
+const VIAL_PREFIX := "fiala_"
+static var _items := {}
+
+
+static func vial_of(g: String) -> String:
+	return VIAL_PREFIX + g
+
+
+## Il gene di una Fiala ("" se l'oggetto non è una Fiala).
+static func gene_of_vial(id: String) -> String:
+	if not id.begins_with(VIAL_PREFIX):
+		return ""
+	var g := id.trim_prefix(VIAL_PREFIX)
+	return g if GENES.has(g) else ""
+
+
+static func items() -> Dictionary:
+	if not _items.is_empty():
+		return _items
+	_items["provetta"] = {"name": "Provetta di Linfa", "kind": "provetta", "icon": ["pozione", "cristallo"], "stack": 30,
+		"desc": "Una provetta di vetro con una goccia di Linfa sul fondo. Con il clic su ciò che porta un gene del mondo (l'erba, l'aria delle grotte, una vena, la pietra dei Seminatori, un albero, il cielo…) si riempie: diventa la Fiala di quel gene, e il gene lo impari."}
+	for g in GENES:
+		var d: Dictionary = GENES[g]
+		_items[vial_of(g)] = {"name": "Fiala di %s" % String(d["name"]).to_lower() if d["cat"] != "superficie" else "Fiala di %s" % d["name"],
+			"kind": "fiala", "icon": ["pozione", VIAL_MAT[d["cat"]]], "stack": 20, "value": 30 + 40 * int(d["rar"]),
+			"source": "con la Provetta di Linfa in un mondo che ha questo gene, dalle piante-seme, dalle creature e negli scrigni",
+			"desc": "Il gene «%s» (%s, %s): %s. Averla fa imparare il gene; all'innesto dei Semi fissa questo gene nel Seme figlio." % [
+				d["name"], String(CAT_INFO[d["cat"]]["name"]).to_lower(), RARITY[int(d["rar"])]["name"], d["desc"]]}
+	return _items
+
+
 ## Quanti geni oltre la superficie ha un Seme trovato: uno, più uno ogni due punti di vigore, fino a `MAX_EXTRA`.
 const MAX_EXTRA := 4
 

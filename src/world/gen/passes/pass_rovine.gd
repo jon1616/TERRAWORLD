@@ -83,3 +83,7 @@ func _build(w: World, rng: RandomNumberGenerator, p: Vector2i, s: int, rich := 0
 	var loot := LootData.roll_chest("rovina_%d" % clampi(s, 1, 4), rng, 2 + s / 2 + rich)
 	for id in loot:
 		chest.add(id, int(loot[id]))
+	if rng.randf() < 0.25:                    # voce 46: una Fiala di un gene qualunque, anche di altri mondi
+		var g := Genome.random_gene(rng, 2 + s)
+		if g != "":
+			chest.add(GenesData.vial_of(g), 1)

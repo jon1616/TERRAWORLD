@@ -14,6 +14,11 @@ static var local_vigor := 2
 static var known := {}
 ## Le categorie che cambiano la forma del mondo: un Seme trovato ne ha sempre una.
 const SHAPE_CATS := ["forma", "grotte", "sottosuolo"]
+## Probabilità di mutazione: di un Seme selvatico (da una pianta-seme) e di un innesto (voce 47).
+const WILD_MUTATION := 0.08
+const MUTATION := 0.08
+## Peso in più, nelle mutazioni, dei geni che nascono solo così.
+const ONLY_BOOST := 3
 
 
 ## Un genoma a caso per un Seme trovato: la superficie data (o a caso), sempre un gene che cambia la forma del mondo
@@ -59,6 +64,52 @@ static func _pick(rng: RandomNumberGenerator, pool: Array, vigor: int) -> String
 		if v <= 0:
 			return String(g)
 	return String(ok[-1])
+
+
+## Un gene a caso fuori dalla superficie, tra quelli che si trovano (per gli scrigni delle rovine).
+static func random_gene(rng: RandomNumberGenerator, vigor_v: int) -> String:
+	var pool := []
+	for g in GenesData.GENES:
+		if GenesData.cat_of(g) != "superficie":
+			pool.append(g)
+	return _pick(rng, pool, vigor_v)
+
+
+## Forse una mutazione (con probabilità `chance`): un gene che nessuno dei genitori aveva prende il posto di quello
+## della sua categoria. I geni che nascono solo per mutazione pesano `ONLY_BOOST` volte di più; quelli della firma no.
+## Il gene mutato resta scritto nel Seme ("mutato") per la scheda. Voce 48: le combinazioni segrete.
+## `locked`: categorie che non si toccano (quelle fissate da una Fiala nell'innesto).
+static func mutate(g: Dictionary, rng: RandomNumberGenerator, chance: float, forced := "", locked := []) -> Dictionary:
+	var out := g.duplicate(true)
+	var x := forced
+	if x != "" and GenesData.cat_of(x) in locked:
+		x = ""
+	if x == "":
+		if rng.randf() >= chance:
+			return out
+		var tot := 0
+		var pool := []
+		for k in GenesData.GENES:
+			var d: Dictionary = GenesData.GENES[k]
+			if String(d.get("only", "")) == "firma" or k in genes(g) or String(d["cat"]) in locked:
+				continue
+			var wgt: int = int(GenesData.RARITY[int(d["rar"])]["weight"]) * (ONLY_BOOST if d.has("only") or d.has("combo") else 1)
+			pool.append([k, wgt])
+			tot += wgt
+		if pool.is_empty():
+			return out
+		var v := rng.randi_range(1, tot)
+		for p in pool:
+			v -= int(p[1])
+			if v <= 0:
+				x = String(p[0])
+				break
+	var cat := GenesData.cat_of(x)
+	var kept := genes(g).filter(func(k: String) -> bool: return GenesData.cat_of(k) != cat)
+	kept.append(x)
+	out["geni"] = sort(kept)
+	out["mutato"] = x
+	return out
 
 
 ## I geni in ordine di categoria (la superficie per prima): due genomi uguali si confrontano con ==.
@@ -163,6 +214,8 @@ static func sheet(g: Dictionary) -> String:
 	var t := ""
 	if g.has("mondo"):
 		t += "[color=#ffd24a]Seme dormiente: ripiantato, riapre «%s»[/color]\n" % g.get("nome", "il suo mondo")
+	if g.has("mutato"):
+		t += "[color=#d890ff]Mutato: porta un gene che i genitori non avevano (%s)[/color]\n" % GenesData.tag(String(g["mutato"]))
 	t += "[color=#8ef0d8]Genoma[/color] · [color=#9fc8c0]%s[/color]\n" % (("vigore %d" % v) if v > 0
 		else "vigore del mondo dove lo pianti, più uno")
 	for x in genes(g):

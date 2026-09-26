@@ -26,6 +26,7 @@ func run() -> void:
 	await generator()
 	await signatures()
 	await aiuole()
+	await genes_found()
 
 
 func _census(w: World) -> Dictionary:
@@ -262,3 +263,85 @@ func aiuole() -> void:
 		"sì" if closed else "NO", "sì" if world.stations.get(o, "") == "aiuola" else "NO", "sì" if back else "NO", before,
 		m.character.bisaccia.count(Genome.item_of(g))])
 	m.hud.toast("")
+
+
+## Voce 46: la Provetta preleva il gene del mondo secondo ciò che tocca (e non si consuma dove il mondo non ne ha), la
+## Fiala fa imparare il gene; le piante-seme del mondo di prova; una pianta-seme raccolta; il Seme selvatico figlio del
+## mondo; le Fiale negli scrigni delle rovine; il Genario (foto 85_genario).
+func genes_found() -> void:
+	var wt: WorldTraits = m.world_traits
+	var old: Array = wt.genes
+	var sam: Sampling = m.sampling
+	kit.make_room()
+	var plants: int = world.stations.values().count("pianta_seme")
+	var spot := kit.flat_spot(world.spawn + Vector2i(30, 0), 6)
+	if spot.x < 0:
+		print("ATTENZIONE: nessun posto per la prova della Provetta")
+		return
+	kit.flatten(spot, 6)
+	m.snap_to(spot)
+	await kit.frames(3)
+	# che cosa si tocca → quale categoria
+	var sky := spot + Vector2i(1, -3)
+	world.set_tile(spot.x + 2, spot.y + 1, TileDefs.GRASS)
+	var cats := {"erba": sam.category_at(Vector2i(spot.x + 2, spot.y + 1)), "cielo": sam.category_at(sky)}
+	var probe := Vector2i(spot.x + 3, spot.y + 1)
+	for t in [[TileDefs.RADICITE, "vena"], [TileDefs.PIETRA_SEM, "pietra dei Seminatori"], [TileDefs.AVV_TERRA, "terra avvizzita"],
+			[TileDefs.CRYSTAL, "cristallo"]]:
+		world.set_tile(probe.x, probe.y, int(t[0]))
+		cats[t[1]] = sam.category_at(probe)
+	world.set_tile(probe.x, probe.y, TileDefs.STONE)
+	print("la Provetta preleva: %s" % [cats])
+	# un mondo senza geni: la Provetta non si consuma
+	wt.genes = []
+	var b: Bisaccia = m.character.bisaccia
+	b.add("provetta", 3)
+	kit.hold("provetta")
+	var none: bool = sam.use_vial("provetta", sky)
+	var left := b.count("provetta")
+	# un mondo con i suoi geni
+	wt.genes = ["sporangio", "stellato", "notti_lunghe", "cavo", "vene_ricche"]
+	var before := int(m.character.stats.get("geni_imparati", 0))
+	var got_sky: bool = sam.use_vial("provetta", sky)
+	var got_grass: bool = sam.use_vial("provetta", Vector2i(spot.x + 2, spot.y + 1))
+	await kit.frames(2)
+	var learned := Genome.state("sporangio") == 2 and (Genome.state("stellato") == 2 or Genome.state("notti_lunghe") == 2)
+	print("Provetta: in un mondo senza geni %s (Provette %d su 3), dal cielo %s, dall'erba %s (Fiala di Sporangio %d); geni imparati %s, conteggio %d → %d" % [
+		"non si consuma" if not none else "CONSUMATA (NO)", left, "sì" if got_sky else "NO", "sì" if got_grass else "NO",
+		b.count(GenesData.vial_of("sporangio")), "sì" if learned else "NO", before, int(m.character.stats.get("geni_imparati", 0))])
+	# una pianta-seme raccolta: una Fiala o un Seme selvatico
+	var o := spot + Vector2i(-2, -1)
+	world.stations[o] = "pianta_seme"
+	m.view.add_station(o)
+	var drops0: int = m.drops.count()
+	sam.harvest(o)
+	var dropped: bool = m.drops.count() > drops0 or b.count(GenesData.vial_of("sporangio")) > 1
+	var wild := sam.wild_seed()
+	print("piante-seme nel mondo di prova %d; raccolta: %s (sparita %s); Seme selvatico: superficie %s, vigore %d, geni %s" % [plants,
+		"qualcosa è caduto" if dropped else "NULLA (NO)", "sì" if not world.stations.has(o) else "NO",
+		Genome.surface_of(Genome.genes(wild)), Genome.vigor(wild), Genome.genes(wild)])
+	if plants < 12:
+		print("ATTENZIONE: poche piante-seme nel mondo di prova")
+	# le Fiale negli scrigni delle rovine
+	var vials := 0
+	for c in world.chests:
+		for i in (world.chests[c] as Bisaccia).slots.size():
+			if GenesData.gene_of_vial((world.chests[c] as Bisaccia).id_at(i)) != "":
+				vials += 1
+	print("Fiale negli scrigni del mondo: %d; Genario %d%% (%d geni imparati)" % [vials, roundi(Genario.percent()), Genario.learned()])
+	# il Genario nel Semenzaio
+	var sp: SemenzaioPanel = null
+	for c in m.hud.overlays:
+		if c is SemenzaioPanel:
+			sp = c
+	sp.tab = "genario"
+	sp.selected = "sporangio"
+	sp.toggle()
+	await kit.frames(6)
+	await kit.save("85_genario")
+	sp.toggle()
+	sp.tab = "mondi"
+	sp.selected = ""
+	wt.genes = old
+	wt.apply()
+	await kit.seconds(1.0)
