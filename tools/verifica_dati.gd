@@ -24,6 +24,10 @@ func _init() -> void:
 		var it: Dictionary = items[id]
 		_err(String(it.get("name", "")) != "", "%s senza nome" % id)
 		_err(String(it.get("kind", "")) in KINDS, "%s: tipo sconosciuto «%s»" % [id, it.get("kind", "")])
+		# voci 37 e 39: compagni, alleati e specie dei Semi devono esistere nelle loro tabelle
+		_err(not it.has("pet") or CompanionsData.PETS.has(it["pet"]), "%s: compagno sconosciuto «%s»" % [id, it.get("pet", "")])
+		_err(not it.has("ally") or CompanionsData.ALLIES.has(it["ally"]), "%s: alleato sconosciuto «%s»" % [id, it.get("ally", "")])
+		_err(not it.has("species") or SpeciesData.SPECIES.has(it["species"]), "%s: specie sconosciuta «%s»" % [id, it.get("species", "")])
 		_err(it.has("icon") and (it["icon"] as Array).size() == 2, "%s: icona non indicata" % id)
 		if it.has("icon"):
 			_err(ItemIcons.MATERIALS.has(String(it["icon"][1])), "%s: materiale dell'icona sconosciuto «%s»" % [id, it["icon"][1]])
@@ -156,6 +160,7 @@ func _init() -> void:
 	_station_sheet()
 	print("oggetti %d · ricette %d · stazioni %d · creature %d · tabelle di bottino %d" % [items.size(), recipes.size(),
 		StationsData.STATIONS.size(), CreaturesData.CREATURES.size(), LootData.TABLES.size()])
+	_check_species()
 	print("ESITO: %d errori, %d avvisi" % [errors, warnings])
 	quit()
 
@@ -216,6 +221,14 @@ func _station_sheet() -> void:
 		im.resize(im.get_width() * sc, im.get_height() * sc, Image.INTERPOLATE_NEAREST)
 		sheet.blend_rect(im, Rect2i(Vector2i.ZERO, im.get_size()), Vector2i((i % cols) * cell.x + 4, (i / cols) * cell.y + 4))
 	sheet.save_png(ProjectSettings.globalize_path("res://prove/stazioni.png"))
+
+
+## Ogni specie di Seme cresce solo biomi che esistono.
+func _check_species() -> void:
+	for sp in SpeciesData.SPECIES:
+		for b in SpeciesData.SPECIES[sp]["biomes"]:
+			_err(BiomesData.index_of(String(b)) >= 0 and BiomesData.BIOMES[BiomesData.index_of(String(b))]["id"] == b,
+				"specie %s: bioma sconosciuto «%s»" % [sp, b])
 
 
 func _err(ok: bool, msg: String) -> void:

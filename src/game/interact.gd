@@ -130,7 +130,7 @@ func touch(c: Vector2i) -> bool:
 		"radice_viandante":
 			return m.travel.open_from(o)
 		"portale":
-			m.portal.travel(o)
+			m.portal.touch(o)
 			return true
 		"cuore_mondo":
 			m.hud.toast("Il Cuore batte piano, malato. %d nodi avvizziti sul soffitto" % m.guardian.nodes_left())

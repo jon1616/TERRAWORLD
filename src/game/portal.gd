@@ -8,12 +8,17 @@ extends Node
 ## Ogni portale ha la sua destinazione in `world_meta["portali"]`: "x,y" → {"mondo": id ("" = da creare),
 ## "seme": int, "ritorno": bool}. Il seme del mondo nuovo nasce dal seme di questo mondo e dall'angolo del portale:
 ## stesso portale, stesso mondo, su ogni computer.
-## Più avanti (Roadmap 2) i semi avranno specie e tratti, e si pianteranno nelle Aiuole del Giardino.
+## Voce 39: ogni portale ha anche la **specie** del suo Seme (quali biomi) e i **tratti** del mondo che nascerà
+## (`SpeciesData`), scelti quando il Seme si pianta. Il primo clic destro sul portale li dice, il secondo parte.
 
 const GAME_SCENE := "res://src/game/main.tscn"
 const VIGOR_STEP := 0.35               # ogni punto di vigore in più: +35% a Vita e danno delle creature
 
 var m: Node2D
+var _armed := Vector2i(-1, -1)         # il portale toccato una volta (il secondo tocco entro ARM secondi parte)
+var _armed_t := 0.0
+
+const ARM := 6.0
 
 
 func setup(main: Node2D) -> void:
@@ -50,7 +55,9 @@ func plant(c: Vector2i, id: String) -> bool:
 	if not b.remove(id, 1):
 		return false
 	_add_station(o)
-	_portals()[_key(o)] = {"mondo": "", "seme": hash([m.world.world_seed, "portale", o.x, o.y]) & 0x7fffffff, "ritorno": false}
+	var sd := hash([m.world.world_seed, "portale", o.x, o.y]) & 0x7fffffff
+	_portals()[_key(o)] = {"mondo": "", "seme": sd, "ritorno": false}
+	_roll(_portals()[_key(o)], String(ItemsData.get_item(id).get("species", "")))
 	m.guardian.lore.show_page("portale")
 	m.sfx.play("portale", Vector2(o) * 16.0)
 	return true
@@ -60,6 +67,35 @@ func _add_station(o: Vector2i) -> void:
 	m.world.stations[o] = "portale"
 	m.view.add_station(o)
 	m.light.dirty = true
+
+
+## Specie e tratti del mondo dietro un portale (nati dal suo seme: stesso portale, stessi tratti).
+func _roll(e: Dictionary, species: String) -> void:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = int(e["seme"]) ^ 0x5EED
+	e["specie"] = species if SpeciesData.SPECIES.has(species) else SpeciesData.random_species(rng)
+	e["tratti"] = SpeciesData.roll_traits(rng, vigor() + 1)
+
+
+## Primo clic destro: dice dove porta; il secondo (entro `ARM` secondi) parte.
+func touch(o: Vector2i) -> void:
+	var now := Time.get_ticks_msec() / 1000.0
+	if _armed == o and now - _armed_t < ARM:
+		_armed = Vector2i(-1, -1)
+		travel(o)
+		return
+	_armed = o
+	_armed_t = now
+	m.hud.toast(describe(o) + " — clic destro di nuovo per partire")
+
+
+## «Verso «Radura, vigore 3» · Seme di sporangio · Vene ricche, Notti lunghe».
+func describe(o: Vector2i) -> String:
+	var dest := destination(o)
+	var e: Dictionary = _portals()[_key(o)]
+	if e.get("ritorno", false):
+		return "Ritorno a «%s»" % dest[1]
+	return "Verso «%s» · %s" % [dest[1], SpeciesData.describe(String(e.get("specie", "")), e.get("tratti", []))]
 
 
 ## Nel mondo appena nato dal portale: un portale di ritorno accanto alla partenza, verso il mondo d'origine.
@@ -95,6 +131,8 @@ func destination(o: Vector2i) -> Array:
 		e = {"mondo": String(m.world_meta.get("portale_mondo", "")), "seme": hash([m.world.world_seed, "portale"]) & 0x7fffffff,
 			"ritorno": false}
 		_portals()[_key(o)] = e
+	if not e.get("ritorno", false) and not e.has("specie"):
+		_roll(e, "")                           # portale piantato prima della voce 39
 	var id := String(e["mondo"])
 	if id != "" and WorldSave.read_meta(id).is_empty():
 		id = ""                                # il mondo è stato cancellato
@@ -117,7 +155,8 @@ func travel(o: Vector2i) -> void:
 	else:
 		var nid := SavePaths.new_id(String(dest[1]))
 		e["mondo"] = nid
-		Session.start_new_world(String(dest[1]), int(dest[2]), nid, {"vigore": int(dest[3]), "ritorno": m.world_id})
+		Session.start_new_world(String(dest[1]), int(dest[2]), nid, {"vigore": int(dest[3]), "ritorno": m.world_id,
+			"specie": String(e.get("specie", "")), "tratti": e.get("tratti", [])})
 	m.objectives.bump("viaggi")
 	m.save_game()
 	get_tree().change_scene_to_file(GAME_SCENE)

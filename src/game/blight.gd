@@ -14,6 +14,7 @@ const DEW_R := 7                       # raggio della Rugiada di Linfa
 var m: Node2D
 var cells: Array[Vector2i] = []
 var paused := false                    # le prove lo fermano quando serve un mondo immobile
+var spread_mult := 1.0                 # tratto «Avvizzito» del mondo (voce 39)
 var _t := EVERY
 var _rng := RandomNumberGenerator.new()
 var _task := -1
@@ -48,7 +49,7 @@ func _process(dt: float) -> void:
 	_t = EVERY
 	match String(m.world_meta.get("guardiano", "dorme")):
 		"dorme":
-			spread(PER_TICK)
+			spread(roundi(PER_TICK * spread_mult))
 		"curato":
 			recede(PER_TICK)
 

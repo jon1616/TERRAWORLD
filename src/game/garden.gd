@@ -11,6 +11,7 @@ var _t := 1.0
 var _rng := RandomNumberGenerator.new()
 var paused := false                    # le prove fanno crescere a comando (`grow`)
 var wild_mult := 1.0                   # la Fioritura (voce 34) fa trovare più semi selvatici
+var grow_mult := 1.0                   # tratto «Fertile» del mondo (voce 39)
 
 
 func setup(main: Node2D) -> void:
@@ -25,7 +26,7 @@ func _process(dt: float) -> void:
 	_t -= dt
 	if _t <= 0.0:
 		_t = 1.0
-		grow(1.0)
+		grow(grow_mult)
 
 
 ## Fa passare il tempo per tutte le colture: le mature cambiano aspetto.

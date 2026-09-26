@@ -232,6 +232,10 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   `CompanionsData`, entità `Ally` in `src/entities/` (segue, sceglie un bersaglio, colpisce con `Combat._strike`).
 - `src/game/travel.gd` (`Travel`) — radici viandanti: `roots`, `open_from` (mappa in modo viaggio), `go`, `describe`.
   `Minimap` in `src/ui/` (ritaglio della mappa esplorata, tasto N).
+- `src/game/world_traits.gd` (`WorldTraits`) — specie e tratti del mondo (`world_meta["specie"]`, `["tratti"]`, dati in
+  `SpeciesData`): `apply` imposta le leve `Fauna.world_danger/world_lumini/world_rare`, `Garden.grow_mult`,
+  `DayCycle.night_extra`, `Events.chance_mult`, `Blight.spread_mult`. Nel generatore: `params["specie"]` (PassBiomi) e
+  `params["tratti"]` (Minerali, Rovine, Gemme). `Portal.touch`: primo tocco = descrizione, secondo = viaggio.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

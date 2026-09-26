@@ -24,6 +24,9 @@ var boon_luck := 0.0                   # Pozione di fortuna
 var rare_mult := 1.0                   # Pozione dell'esca: creature rare più frequenti
 # eventi del mondo (voce 34, vedi `Events`)
 var event_danger := 0.0
+var world_danger := 0.0                # tratti del mondo (voce 39, `WorldTraits`)
+var world_lumini := 1.0
+var world_rare := 1.0
 var event_rare := 1.0
 var event_pool: Array = []
 var _light_t := 0.0
@@ -90,6 +93,7 @@ func kill(c: Creature) -> void:
 		lum *= {"antica": 3, "ancestrale": 10, "capobranco": 3, "iridata": 8}[c.ancient.rarity]
 	if c.boss:
 		lum = maxi(lum, roundi(c.hp_max / 6.0))
+	lum = maxi(1, roundi(lum * world_lumini))
 	drops.spawn("lumino", lum, c.position + Vector2(_rng.randf_range(-6, 6), -4))
 	for r in rolls:
 		var loot := LootData.roll(String(c.data["loot"]), _rng)
@@ -162,7 +166,7 @@ func _process(dt: float) -> void:
 		return
 	# pericolo dove si trova il giocatore: decide il tetto di creature e il ritmo delle nascite
 	var pc := Vector2i(floori(player.position.x / S), floori(player.position.y / S))
-	danger = DangerData.at(world, pc, night, vigor) + event_danger
+	danger = maxf(DangerData.at(world, pc, night, vigor) + event_danger + world_danger, 0.3)
 	_t = DangerData.SPAWN_EVERY / maxf(danger, 0.5)
 	if _alive() < DangerData.cap(danger):
 		try_spawn()
@@ -208,7 +212,7 @@ func try_spawn() -> Creature:
 			cr.strengthen(mult, mult * DangerData.DAMAGE)
 			var grouped: bool = CreaturesData.CREATURES[id].has("group")
 			var rarity := AncientData.roll_rarity(DangerData.at(world, Vector2i(c.x, y), night, vigor) + event_danger, _rng,
-				grouped, rare_mult * event_rare)
+				grouped, rare_mult * event_rare * world_rare)
 			if rarity != "":
 				make_ancient(cr, rarity)
 			if rarity == "capobranco":

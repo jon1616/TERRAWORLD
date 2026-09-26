@@ -47,6 +47,7 @@ var villagers: Villagers
 var companions: Companions
 var travel: Travel
 var minimap: Minimap
+var world_traits: WorldTraits
 var _spores: CPUParticles2D
 var built := false
 var gen_times: Array = []
@@ -76,11 +77,11 @@ func _ready() -> void:
 		var nw: Dictionary = Session.new_world
 		world_id = nw["id"]
 		world_meta = {"nome": nw["nome"], "creato": SavePaths.now_text(), "tempo_di_gioco": 0.0, "giocatori": {},
-			"vigore": int(nw.get("vigore", 1))}
+			"vigore": int(nw.get("vigore", 1)), "specie": String(nw.get("specie", "")), "tratti": nw.get("tratti", [])}
 		_show_loading("Il seme germoglia…\ngenerazione del mondo")
 		world = World.new()
 		var sd: int = nw["seme"]
-		var params := {"vigore": int(nw.get("vigore", 1))}
+		var params := {"vigore": int(nw.get("vigore", 1)), "specie": String(nw.get("specie", "")), "tratti": nw.get("tratti", [])}
 		_gen_task = WorkerThreadPool.add_task(func() -> void: gen_times = WorldGen.generate(world, sd, WorldGen.WIDTH, WorldGen.HEIGHT, params), false, "genera mondo")
 
 
@@ -231,6 +232,7 @@ func _build() -> void:
 	villagers = _mount(Villagers.new())
 	companions = _mount(Companions.new())
 	travel = _mount(Travel.new())
+	world_traits = _mount(WorldTraits.new())
 	minimap = Minimap.new()
 	hud.add_child(minimap)
 	minimap.setup(self, map_reveal)

@@ -17,7 +17,7 @@ func run(w: World, c: GenContext) -> void:
 	var placed: Array[Vector2i] = []
 	var cuore: Vector2i = c.notes.get("cuore", Vector2i(-9999, -9999))
 	for s in PER_STRATUM.size():
-		var want: int = PER_STRATUM[s]
+		var want: int = roundi(PER_STRATUM[s] * float(SpeciesData.effects(c.params.get("tratti", []), "gen")["ruins"]))
 		var tries := 0
 		var done := 0
 		while done < want and tries < want * 40:

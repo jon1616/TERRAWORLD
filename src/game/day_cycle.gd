@@ -17,6 +17,7 @@ var m: Node2D
 var time := START
 var day := 1
 var paused := false                    # le prove fermano l'ora per avere foto confrontabili
+var night_extra := 0.0                 # tratto «Notti lunghe» (voce 39): l'alba viene dopo, il tramonto prima
 var _last_sky := Color.BLACK
 var _label: Label
 
@@ -37,7 +38,8 @@ func setup(main: Node2D) -> void:
 
 ## Quanto è giorno: 0 di notte, 1 in pieno giorno, sfumato tra alba (0,2-0,3) e tramonto (0,7-0,8).
 func daylight() -> float:
-	return smoothstep(0.2, 0.3, time) * (1.0 - smoothstep(0.7, 0.8, time))
+	var n := night_extra
+	return smoothstep(0.2 + n, 0.3 + n, time) * (1.0 - smoothstep(0.7 - n, 0.8 - n, time))
 
 
 func is_night() -> bool:

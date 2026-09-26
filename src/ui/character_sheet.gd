@@ -39,6 +39,8 @@ static func bbcode(m: Node2D) -> String:
 	var extra := []
 	for s in m.gear.sets:
 		extra.append("[color=#ffd08a]Set %s[/color]" % SetsData.all()[s]["name"])
+	if m.world_traits != null and m.world_traits.sheet_line() != "":
+		extra.append(m.world_traits.sheet_line())
 	for c in m.gear.relics:
 		extra.append("[color=#ffd24a]Reliquie: %s[/color]" % RelicsData.COLLECTIONS[c]["name"])
 	if not extra.is_empty():

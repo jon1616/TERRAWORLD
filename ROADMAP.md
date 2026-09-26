@@ -564,9 +564,18 @@ portali, Focolare e fagotto; tasto N per nasconderla, sparisce con i pannelli ap
 sotto di lei). Sei obiettivi nuovi per i sistemi della Roadmap 4: raccolto, abitante, radici, notte dell'Avvizzimento,
 compagno, alleato. Prove `--solo=viaggio` (foto 67_viaggio_mappa, 68_minimappa).
 
-## 39. [ ] Semi con specie e tratti (L)
-Ogni Seme di mondo ha una specie (quali biomi) e dei tratti (notti lunghe, gemme ricche, iridate frequenti…):
-i mondi oltre i portali diventano davvero diversi.
+## 39. [x] Semi con specie e tratti (L) — fatto il 26 set 2026
+Ogni portale ha la **specie** del suo Seme e i **tratti** del mondo che nascerà (`SpeciesData`), scelti quando il Seme
+si pianta (dal seme del portale: stesso portale, stesso mondo). La specie decide i biomi di superficie e quello della
+partenza (salice-lanterna → foreste, sporangio → paludi, resina → distese d'ambra; con una specie lo stesso bioma può
+tornare di fila, così domina davvero: 59% di paludi contro 26%). All'**Altare** si dà una specie al Seme di mondo con i
+materiali del suo bioma; il Seme del Cuore ne ha una a caso. **Tratti** (uno, più uno ogni due punti di vigore, fino a
+quattro): Vene ricche, Rovine fitte, Gemme ricche (nel generatore: +28% di minerali, 70 scrigni invece di 44, il doppio
+delle gemme), Iridescente, Fertile, Stellato, Quieto (doni) e Brulicante (più pericolo ma il doppio dei Lumini), Notti
+lunghe, Avvizzito (prove); gli effetti mentre si gioca li mette `WorldTraits` (pericolo, Lumini, rarità, colture,
+durata della notte, eventi, Avvizzimento). Il **primo clic destro sul portale** dice dove porta («Verso "…, vigore 3" ·
+Seme di sporangio · Vene ricche, Notti lunghe»), il secondo parte. Entrando la prima volta una scritta presenta il
+mondo; la scheda del personaggio lo ricorda. Prove `--solo=semi`.
 
 ## 40. [ ] Biomi nuovi (L)
 Nuovi biomi di superficie e del sottosuolo con creature e materiali propri, legati alle specie dei Semi.

@@ -83,6 +83,10 @@ const RECIPES := [
 	{"out": "giavellotto_aculeo", "qty": 10, "in": {"aculeo": 2, "legno": 1}, "station": "ceppo"},
 	{"out": "giavellotto_cristallo", "qty": 10, "in": {"cristallo_linfa": 1, "legno": 1}, "station": "maglio"},
 	# voce 31: muoversi meglio
+	# voce 39: dare una specie al Seme di mondo
+	{"out": "seme_mondo_lanterna", "qty": 1, "in": {"seme_mondo": 1, "seme_lanterna": 10, "legno": 30}, "station": "altare"},
+	{"out": "seme_mondo_sporangio", "qty": 1, "in": {"seme_mondo": 1, "sacca_spore": 10, "fungo_luminoso": 6}, "station": "altare"},
+	{"out": "seme_mondo_resina", "qty": 1, "in": {"seme_mondo": 1, "minerale_ambra": 12, "scaglia_ardesia": 10}, "station": "altare"},
 	# voce 38: viaggio rapido
 	{"out": "radice_viandante", "qty": 1, "in": {"legno": 20, "gelatina": 6, "lingotto_radicite": 3}, "station": "ceppo"},
 	# voce 37: compagni ed evocatori
