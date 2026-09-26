@@ -23,8 +23,9 @@ from PIL import Image
 OUTLINE = (26, 16, 32)          # #1A1020, il contorno del gioco
 ACCENT_SHARE = 0.12             # quota di un riquadro oltre cui un colore d'accento prende il pixel
 ACCENT_NEAR = 40.0              # distanza di colore (RGB) entro cui un pixel appartiene a un accento
-# gli accenti del Germogliato: l'occhio d'ambra, la perlina turchese e il verde del germoglio (presi dal disegno)
-ACCENTI = ["#f0c060", "#1898a0", "#84b45c"]
+# gli accenti del Germogliato (dal riferimento 00_profilo_fermo_v4): l'occhio d'oro, la perlina turchese, la foglia
+# sulla guancia
+ACCENTI = ["#f0d048", "#0c90a8", "#609c6c"]
 
 
 def togli_magenta(im: Image.Image) -> np.ndarray:
@@ -148,7 +149,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("file")
     ap.add_argument("--alto", type=int, default=46)
-    ap.add_argument("--colori", type=int, default=16)
+    ap.add_argument("--colori", type=int, default=20)
     ap.add_argument("--tavolozza", default=None, help="PNG i cui colori sono la tavolozza da usare")
     ap.add_argument("--anteprima", action="store_true")
     ap.add_argument("--accenti", default=",".join(ACCENTI), help="colori d'accento separati da virgole (#rrggbb)")
