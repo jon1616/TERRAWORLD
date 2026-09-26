@@ -58,6 +58,10 @@ func refresh() -> void:
 	relics = RelicsData.complete(m.character.erbario.get("oggetti", {}))
 	for c in relics:
 		_add(e, RelicsData.COLLECTIONS[c]["bonus"])
+	# voce 59: i doni della mandria (chi ti segue, chi cavalchi)
+	if m.herd != null:
+		for hb in m.herd.bonuses():
+			_add(e, hb)
 	m.player.run_mult = e["run"]
 	m.player.jump_mult = e["jump"]
 	m.player.glide = e["glide"]

@@ -19,6 +19,7 @@ var stats := {}                        # conteggi per gli obiettivi (vedi `Objec
 var obiettivi: Array = []              # obiettivi raggiunti (id di `ObjectivesData`)
 var erbario := {}                      # scoperte (vedi `Erbario`): creature sconfitte, oggetti, pagine di storia
 var guardiani_curati: Array = []       # mondi in cui ha curato il Guardiano (il dono vale una volta per mondo)
+var mandria: Array = []                # voce 59: le schede delle creature addomesticate (vedi `Herd`)
 var genario := {}                      # voce 42: geni conosciuti, gene → 1 visto (in un mondo), 2 imparato (voce 46)
 
 
@@ -28,7 +29,7 @@ func to_dict() -> Dictionary:
 		"bisaccia": bisaccia.to_array() if bisaccia else [], "equipaggiamento": bisaccia.equip if bisaccia else {},
 		"tratti_equip": bisaccia.equip_traits if bisaccia else {}, "dati_equip": bisaccia.equip_data if bisaccia else {},
 		"vita": hp, "linfa": linfa, "vita_extra": vita_extra, "linfa_extra": linfa_extra, "guardiani_curati": guardiani_curati,
-		"erbario": erbario, "stats": stats, "obiettivi": obiettivi, "genario": genario}
+		"erbario": erbario, "stats": stats, "obiettivi": obiettivi, "genario": genario, "mandria": mandria}
 
 
 ## Null se i dati vengono da una versione più nuova del gioco (vedi `SaveMigrations`).
@@ -77,6 +78,12 @@ static func from_dict(cid: String, d: Dictionary) -> Character:
 	for k in gn:
 		if GenesData.GENES.has(k):
 			c.genario[k] = int(gn[k])
+	for r in d.get("mandria", []):
+		# il JSON rilegge i numeri come decimali; una specie che non esiste più si lascia fuori
+		if r is Dictionary and CreaturesData.CREATURES.has(CreaturesData.base_of(String(r.get("specie", "")))):
+			for k in ["uid", "lvl", "xp"]:
+				r[k] = int(r.get(k, 0))
+			c.mandria.append(r)
 	c.hp = clampi(int(d.get("vita", Vitals.HP_MAX)), 1, Vitals.HP_MAX + c.vita_extra)
 	c.linfa = clampi(int(d.get("linfa", Vitals.LINFA_MAX)), 0, Vitals.LINFA_MAX + c.linfa_extra)
 	return c

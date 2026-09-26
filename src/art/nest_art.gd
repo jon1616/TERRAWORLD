@@ -51,6 +51,33 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 						Px.put(im, x, y, rs[2] if (x * 7 + y * 3) % 11 == 0 else s[2 if d.y > -0.5 else 3])
 			for q in [Vector2i(w / 2, 3), Vector2i(w / 2 - 6, h - 5), Vector2i(w / 2 + 7, h - 4)]:
 				Px.put(im, q.x, q.y, Color("#0a060a"))
+		"recinto":
+			# voce 59: due pali di radice, due radici intrecciate come staccionata, la mangiatoia a conca in mezzo
+			var r := Px.pal(TileDefs.P_RADICE)
+			var g := Px.pal(TileDefs.P_GRASS)
+			for px in [2, w - 3]:
+				Px.line(im, Vector2(px, 4), Vector2(px, h - 1), 2, r[2])
+				Px.put(im, px, 3, r[3])
+			for k in 2:
+				var y0 := 8.0 + k * 8.0
+				Px.curve(im, Vector2(2, y0), Vector2(w / 2.0, y0 + 3.0), Vector2(w - 3, y0), 1, r[3 - k])
+			for y in range(h - 8, h - 2):
+				for x in range(w / 2 - 9, w / 2 + 10):
+					var d := Vector2((x + 0.5 - w / 2.0) / 9.5, (y + 0.5 - (h - 8.0)) / 6.0)
+					if d.length() <= 1.0 and d.y >= 0.0:
+						Px.put(im, x, y, r[1] if d.length() > 0.75 else g[2])
+		"incubatrice":
+			# voce 59: un cuscino di muschio con tre uova tiepide che brillano appena
+			var g := Px.pal(TileDefs.P_GRASS)
+			for y in range(h / 2, h):
+				for x in w:
+					var d := Vector2((x + 0.5 - w / 2.0) / (w * 0.5), (y + 0.5 - h) / (h * 0.5))
+					if d.length() <= 1.0:
+						Px.put(im, x, y, g[1] if (x + y) % 4 else g[2])
+			for q in [Vector2(w / 2.0 - 7, h - 11.0), Vector2(w / 2.0, h - 13.0), Vector2(w / 2.0 + 7, h - 11.0)]:
+				Px.disc(im, q.x, q.y, 3.4, Color("#e8e0c8"))
+				Px.put(im, int(q.x) - 1, int(q.y) - 1, Color("#fff8e0"))
+				Px.disc(gm, q.x, q.y, 2.0, Color(0.5, 0.9, 0.7))
 		_:
 			return false
 	return true

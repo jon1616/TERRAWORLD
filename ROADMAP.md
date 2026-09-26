@@ -970,11 +970,29 @@ creature nella zona), oppure, con piccone o ascia, lo **distruggi** (la zona si 
 Ogni nido rifà un uovo ogni 4 minuti, fino a tre. All'alba e al tramonto i branchi di 5 famiglie **migrano**, tutti
 dalla stessa parte, per 50 secondi. Obiettivo «Prendi un uovo». Foto 93_nido.
 
-## 59. [ ] Addomesticare (L)
+## 59. [x] Addomesticare (L) — fatto il 26 set 2026
 Calmare una creatura (cibo giusto, stordirla senza ucciderla, Essenze) e portarla nel Giardino in un **Vasetto**:
 recinti e stalle, creature che producono materiali (seta, gelatina, latte di Linfa, piume), compagni e cavalcature da
 qualunque famiglia adatta. I compagni e gli alleati di oggi entrano nel sistema; livelli dei compagni.
 **Pronto quando**: si possono tenere almeno 10 famiglie diverse nel Giardino, ognuna utile a qualcosa.
+**Fatto il 26 set 2026** (l'utente l'ha chiesta ampia): **25 famiglie** si addomesticano (`HerdData.TAME`: cibo,
+difficoltà da 1 a 5, prodotto del recinto, dono a chi seguono, cavalcatura). Tre modi (`Taming`): il **cibo** giusto
+con il clic destro, quando la creatura si fida (le docili sempre, le altre se hanno fame, sono stordite o indebolite:
+ogni pasto dà affetto, di più alle docili, meno alle feroci); il **Laccio di seta** su una creatura stremata (sotto il
+40% della Vita: più è debole più riesce, le feroci si liberano più spesso); le **uova** dei nidi nell'**Incubatrice
+di muschio** (si schiudono in due minuti e mezzo, anche lontano). Il cibo sbagliato non va: la dieta si scopre
+provando o dopo tre sconfitte. La **mandria** sta nel personaggio (`Character.mandria`, una scheda per creatura con
+nome, livello fino a 20, fame, umore, Vita) e viaggia da un mondo all'altro (`Herd`): fino a 3 ti **seguono**, con
+la fogliolina turchese, combattono le creature che ti minacciano (con l'elemento della loro variante), si feriscono
+e, stremate, tornano a riposare nel Giardino; crescono di livello combattendo, mangiando e producendo; ognuna porta il
+suo **dono** (Scorza, corsa, luce, fortuna, scavo, spine, rigenerazione, incantesimi…). Tasto **R**: in **sella**
+a cornoradici, cervi, linci, salamandre o talponi (corsa fino a +65%, salto, niente ferite da caduta, scavo doppio).
+Il **Recinto di radici** (4 creature, ed è anche la mangiatoia): mangiano da sole, producono lana, seta, miele,
+resina, latte di Linfa, humus, piume, aculei… più in fretta se felici, di livello alto e con compagne della stessa
+famiglia; il tempo passa anche mentre sei via (al più due ore). Il **Vasetto di radice** porta una creatura come
+oggetto (la scheda nei dati). Pannello della **mandria** (tasto G): elenco, scheda, Segui, Riposa, Al recinto, Nel
+vasetto, Libera, nome da cambiare. 6 obiettivi nuovi. Foto 95_mandria (in sella) e 96_recinto; prove `--solo=mandria`.
+I compagni e gli alleati dei bastoni di prima restano com'erano (una cosa diversa: non mangiano e non crescono).
 
 ## 60. [ ] Allevamento (M)
 Due creature addomesticate danno un piccolo con i geni di entrambe (**lo stesso motore della voce 47**): colori,

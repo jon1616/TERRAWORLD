@@ -54,6 +54,9 @@ var sampling: Sampling
 var innesto: InnestoPanel
 var gene_mats: GeneMaterials
 var ecology: Ecology
+var herd: Herd
+var taming: Taming
+var pens: Pens
 var _spores: CPUParticles2D
 var built := false
 var gen_times: Array = []
@@ -257,6 +260,13 @@ func _build() -> void:
 	sampling = _mount(Sampling.new())
 	gene_mats = _mount(GeneMaterials.new())
 	ecology = _mount(Ecology.new())
+	herd = _mount(Herd.new())              # voce 59: la mandria, come si addomestica, recinti e Incubatrice
+	taming = _mount(Taming.new())
+	pens = _mount(Pens.new())
+	var hpn := HerdPanel.new()
+	hud.add_child(hpn)
+	hpn.setup(self)
+	hud.overlays.append(hpn)
 	innesto = InnestoPanel.new()
 	hud.add_child(innesto)
 	innesto.setup(self)

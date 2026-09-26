@@ -73,6 +73,10 @@ const STATIONS := {
 	"nido_alveare": {"name": "Alveare di lume", "size": [2, 2], "item": "", "fixed": true, "light": true,
 		"light_color": Color(1.0, 0.7, 0.2)},
 	"nido_formicaio": {"name": "Formicaio di resina", "size": [3, 2], "item": "", "fixed": true},
+	# voce 59: il Recinto (anche mangiatoia: le caselle) e l'Incubatrice
+	"recinto": {"name": "Recinto di radici", "size": [3, 2], "item": "recinto", "slots": 12},
+	"incubatrice": {"name": "Incubatrice di muschio", "size": [2, 2], "item": "incubatrice", "slots": 4, "light": true,
+		"light_color": Color(0.4, 0.9, 0.7)},
 	# voce 47: il Banco dell'Innestatrice (clic destro: `InnestoPanel`)
 	"banco_innesti": {"name": "Banco dell'Innestatrice", "size": [3, 2], "item": "banco_innesti", "light": true,
 		"light_color": Color(0.5, 1.1, 0.9)},

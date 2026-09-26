@@ -18,6 +18,10 @@ static func bbcode(id: String, tratto := "", dati := {}) -> String:
 	var t := "[font_size=20][color=#ffd08a]%s[/color][/font_size]\n" % Gear.full_name(slot)
 	if dati.has("geni"):
 		t += Genome.sheet(dati)
+	if id == "creatura" and dati.has("specie"):
+		t += HerdInfo.sheet(dati)                  # voce 59
+	if id == "uovo" and dati.has("specie"):
+		t += "[color=#9fc8c0]Nell'Incubatrice si schiude in %d secondi (anche se sei lontano): nasce già tua.[/color]\n" % int(HerdData.HATCH)
 	if tratto != "":
 		t += "[color=#ffd08a]Tratto %s:[/color] %s\n" % [TraitsData.TRAITS[tratto]["name"], TraitsData.TRAITS[tratto]["desc"]]
 	if String(it.get("desc", "")) != "":

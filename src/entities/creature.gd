@@ -12,6 +12,8 @@ var hunger := 0.0                      # voce 57: fame (caccia e pascolo), 0 = s
 var hunt: Creature                     # voce 57: la preda che sta cacciando
 var family := ""                       # voce 58: la famiglia (per le migrazioni)
 var provoked := false
+var tame: BhMandria                    # voce 59: della mandria (segue, recinto, cavalcata); null = selvatica
+var affection := 0.0                   # voce 59: affetto dal cibo (100 = addomesticata)
 var _docile_dmg := 0
 var _wander_t := 0.0
 var _wander_dir := 0.0
@@ -200,7 +202,12 @@ func _process(dt: float) -> void:
 	dt = minf(dt, 1.0 / 30.0)
 	stun = maxf(stun - dt, 0.0)
 	enraged = boss and hp < hp_max * float(p.get("phase2", 0.0))
-	if calm:
+	if tame != null:
+		tame.tick(self, dt)                    # voce 59: della mandria, niente comportamenti selvatici
+		if tame.mode == "cavalcata":
+			_animate(dt)
+			return
+	elif calm:
 		want_fly = Vector2(sin(_anim) * 10.0, -6.0)
 	elif docile and not provoked:
 		_wander(dt)                            # docile: gironzola finché qualcuno non la colpisce

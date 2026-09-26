@@ -50,6 +50,15 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 			return m.garden.plant(c, id)
 		"compagno":
 			return m.companions.toggle_pet(id)
+		"laccio":
+			return m.taming.lasso(id, m.fx.get_global_mouse_position())      # voce 59
+		"vasetto":
+			return m.taming.jar(m.fx.get_global_mouse_position())
+		"creatura":
+			return m.taming.release()
+		"uovo":
+			m.hud.toast("Un uovo si schiude nell'Incubatrice: posalo lì con il clic destro")
+			return false
 		"evocatore":
 			return m.companions.summon(id)
 		"annaffiatoio":
@@ -98,6 +107,8 @@ func _map_hint(id: String) -> bool:
 
 ## Clic destro su una cella: se c'è una stazione a portata, fa ciò che le spetta. True se ha fatto qualcosa.
 func touch(c: Vector2i) -> bool:
+	if m.taming.touch(m.fx.get_global_mouse_position()):
+		return true                                      # voce 59: nutrire o accarezzare una creatura
 	var npc: Npc = m.villagers.npc_at(Vector2(c) * S + Vector2(8, 8))
 	if npc != null:
 		return m.villagers.open_trade(npc)

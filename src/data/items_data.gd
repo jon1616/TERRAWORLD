@@ -269,6 +269,7 @@ static func all() -> Dictionary:
 	out.merge(GenesData.items().duplicate(true))
 	out.merge(MaterialsData.items().duplicate(true))
 	out.merge(FaunaItemsData.ITEMS.duplicate(true))
+	out.merge(HerdData.ITEMS.duplicate(true))              # voce 59
 	# le famiglie di equipaggiamento: forma × materiale (voce 49, `FormsData` e `MaterialsData`)
 	for m in MaterialsData.all():
 		for f in FormsData.FORMS:
