@@ -53,6 +53,9 @@ const FASCE := {
 const WRAPPABLE := ["piccone", "ascia", "spada", "pugnale", "spadone", "lancia", "martello", "falcione", "frusta", "trivella",
 	"verga", "arco", "balestra"]
 
+## Le forme che c'erano prima della voce 50 (i loro oggetti di metallo contano nell'Erbario).
+const BASE := ["piccone", "ascia", "spada", "elmo", "corazza", "gambali", "arco"]
+
 ## La Scorza di un pezzo d'armatura = tenacia del materiale × questo.
 const ARMOR := {"elmo": 1.0, "corazza": 1.6, "gambali": 1.0}
 ## Velocità dei colpi di una spada = SPEED_BASE − SPEED_PESO × peso (più pesante = più lenta).
@@ -137,6 +140,8 @@ static func item(form: String, mat: String) -> Dictionary:
 		"tier": md["tier"], "form": form, "mat": mat}
 	if fd.has("desc"):
 		it["desc"] = "%s %s: %s." % [fd["name"], label, fd["desc"]]
+	if not form in BASE or md.has("alloy"):
+		it["gen"] = true                     # l'Erbario non li conta (sono centinaia): vedi `Erbario.entries`
 	it.merge(stats(form, mat))
 	return it
 

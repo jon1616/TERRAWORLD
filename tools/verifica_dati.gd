@@ -30,7 +30,7 @@ func _init() -> void:
 		_err(not it.has("species") or GenesData.cat_of(String(it["species"])) == "superficie", "%s: gene di superficie sconosciuto «%s»" % [id, it.get("species", "")])
 		_err(it.has("icon") and (it["icon"] as Array).size() == 2, "%s: icona non indicata" % id)
 		if it.has("icon"):
-			_err(ItemIcons.MATERIALS.has(String(it["icon"][1])), "%s: materiale dell'icona sconosciuto «%s»" % [id, it["icon"][1]])
+			_err(ItemIcons.has_palette(String(it["icon"][1])), "%s: materiale dell'icona sconosciuto «%s»" % [id, it["icon"][1]])
 		if it.get("kind") == "blocco":
 			_err(it.get("place", -1) is int and int(it["place"]) > 0 and int(it["place"]) <= TileDefs.TYPES, "%s: blocco senza tessera valida" % id)
 		if it.get("kind") == "stazione":
@@ -308,7 +308,7 @@ func _check_materials() -> void:
 	for m in MaterialsData.all():
 		var md: Dictionary = MaterialsData.all()[m]
 		_err(ItemsData.has(String(md["bar"])), "materiale %s: lingotto inesistente «%s»" % [m, md["bar"]])
-		_err(ItemIcons.MATERIALS.has(MaterialsData.icon_of(m)), "materiale %s: tavolozza dell'icona sconosciuta" % m)
+		_err(ItemIcons.has_palette(MaterialsData.icon_of(m)), "materiale %s: tavolozza dell'icona sconosciuta" % m)
 		for p in MaterialsData.PROPS:
 			_err(md.has(p), "materiale %s senza la proprietà %s" % [m, p])
 	for f in FormsData.FORMS:
@@ -319,7 +319,8 @@ func _check_materials() -> void:
 	# voce 51: elementi validi, ogni creatura con debolezze e resistenze scritte
 	for m in MaterialsData.all():
 		var e := String(MaterialsData.get_mat(m)["elemento"])
-		_err(e == "" or ElementsData.ELEMENTS.has(e), "materiale %s: elemento sconosciuto «%s»" % [m, e])
+		for part in e.split("+"):            # le leghe con due elementi (voce 52)
+			_err(part == "" or ElementsData.ELEMENTS.has(part), "materiale %s: elemento sconosciuto «%s»" % [m, part])
 	for s in SpellsData.SPELLS:
 		_err(not SpellsData.SPELLS[s].has("elem") or ElementsData.ELEMENTS.has(String(SpellsData.SPELLS[s]["elem"])), "incantesimo %s: elemento sconosciuto" % s)
 	for cid in CreaturesData.CREATURES:
@@ -329,6 +330,24 @@ func _check_materials() -> void:
 		for k in ["weak", "resist"]:
 			for e in ElementsData.AFFINITY[cid][k]:
 				_err(ElementsData.ELEMENTS.has(String(e)), "creatura %s: elemento sconosciuto «%s»" % [cid, e])
+	# voce 52: 28 leghe, ognuna con lingotto, ricetta e famiglia; nessuna lega è la migliore in tutte le proprietà
+	var alloys := 0
+	var best_all := 0
+	for m in MaterialsData.all():
+		var md: Dictionary = MaterialsData.get_mat(m)
+		if not md.has("alloy"):
+			continue
+		alloys += 1
+		_err(ItemsData.has(String(md["bar"])) and not RecipesData.making(String(md["bar"])).is_empty(), "lega %s senza lingotto o ricetta" % m)
+		var beats := true
+		for other in MaterialsData.MATERIALS:
+			for p in ["durezza", "filo", "tenacia", "conduzione"]:
+				if float(md[p]) < float(MaterialsData.MATERIALS[other][p]):
+					beats = false
+		if beats:
+			best_all += 1
+	_err(alloys == 28, "leghe: %d invece di 28" % alloys)
+	_err(best_all == 0, "%d leghe battono tutti i metalli in tutto" % best_all)
 	for fa in FormsData.FASCE:
 		_err(ItemsData.has(String(FormsData.FASCE[fa]["item"])), "fascia %s: materiale inesistente" % fa)
 	print("materiali %d × forme %d; scarto massimo dai valori di prima %d%%" % [MaterialsData.all().size(),

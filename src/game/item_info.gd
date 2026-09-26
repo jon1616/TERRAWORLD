@@ -34,6 +34,9 @@ static func bbcode(id: String, tratto := "", dati := {}) -> String:
 	if it.has("mat"):
 		# voce 49: di che materiale è fatto, e le proprietà da cui nascono i suoi valori
 		t += "[color=#8ef0d8]Materiale:[/color] [color=#9fc8c0]%s[/color]\n" % MaterialsData.describe(String(it["mat"]))
+		var md := MaterialsData.get_mat(String(it["mat"]))
+		if md.has("alloy"):
+			t += "[color=#9fc8c0]Lega di %s e %s, risonanza %d.[/color]\n" % [md["alloy"][0], md["alloy"][1], int(md["risonanza"])]
 	var fascia := String(dati.get("fascia", ""))
 	if FormsData.FASCE.has(fascia):
 		t += "[color=#ffd08a]Fascia di %s:[/color] %s\n" % [FormsData.FASCE[fascia]["name"], FormsData.FASCE[fascia]["desc"]]

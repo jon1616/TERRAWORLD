@@ -163,6 +163,7 @@ static func all() -> Array:
 	for m in MaterialsData.all():
 		for f in FormsData.FORMS:
 			out.append(FormsData.recipe(f, m))
+	out.append_array(MaterialsData.recipes())
 	_all = out
 	return _all
 

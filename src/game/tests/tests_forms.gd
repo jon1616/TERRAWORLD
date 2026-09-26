@@ -21,6 +21,7 @@ func _init(tk: TestKit) -> void:
 func run() -> void:
 	await forms()
 	await elements()
+	await alloys()
 
 
 func _feet(c: Vector2i, id: String) -> Vector2:
@@ -165,7 +166,54 @@ func elements() -> void:
 		if not (ElementsData.AFFINITY.get(cid, {}).get("weak", []) as Array).is_empty():
 			weak += 1
 	print("creature con una debolezza: %d su %d; armi con un elemento: %s" % [weak, CreaturesData.CREATURES.size(),
-		", ".join(MaterialsData.all().keys().filter(func(k: String) -> bool: return String(MaterialsData.get_mat(k)["elemento"]) != "").map(
+		", ".join(MaterialsData.MATERIALS.keys().filter(func(k: String) -> bool: return String(MaterialsData.get_mat(k)["elemento"]) != "").map(
 			func(k: String) -> String: return "%s %s" % [k, MaterialsData.get_mat(k)["elemento"]]))])
 	if fire <= plain or spore >= plain or not burn_on or hp0 - t.hp < 14:
 		print("ATTENZIONE: gli elementi non cambiano il danno come dovrebbero")
+
+
+## Voce 52: le leghe. Due lingotti diversi al Baccello danno due lingotti di lega; le armi della lega compaiono tra le
+## ricette solo dopo averne avuto il lingotto; la vaporite (pallidite e tizzonite) alterna gelo e brace e fa il Vapore
+## da sola; il foglio delle spade delle 28 leghe (prove/90_leghe.png).
+func alloys() -> void:
+	var b := kit.bisaccia()
+	kit.make_room()
+	var near := {"baccello_ardente": true, "maglio": true}
+	var bar := "lingotto_lega_pallidite_tizzonite"
+	var sword := FormsData.item_id("spada", "lega_pallidite_tizzonite")
+	Crafting.known.erase(bar)
+	var hidden := not Crafting.available(near).any(func(r: Dictionary) -> bool: return r["out"] == sword)
+	b.add("lingotto_pallidite", 1)
+	b.add("lingotto_tizzonite", 1)
+	var r: Dictionary = RecipesData.making(bar)[0]
+	var made := Crafting.craft(r, b)
+	await kit.frames(3)
+	var shown := Crafting.available(near).any(func(x: Dictionary) -> bool: return x["out"] == sword)
+	var md := MaterialsData.get_mat("lega_pallidite_tizzonite")
+	print("lega: «%s» fusa %s (%d lingotti), le sue armi nascoste prima %s e visibili dopo %s; proprietà %s, elemento %s, risonanza %d" % [
+		md["short"], "sì" if made else "NO", b.count(bar), "sì" if hidden else "NO", "sì" if shown else "NO", MaterialsData.describe("lega_pallidite_tizzonite"),
+		md["elemento"], int(md["risonanza"])])
+	# la vaporite fa il Vapore da sola: due colpi, gelo poi brace
+	m.fauna.clear()
+	var spot := kit.flat_spot(world.spawn + Vector2i(-24, 0), 8)
+	m.snap_to(spot)
+	var t: Creature = m.fauna.add("strisciaradice", _feet(spot + Vector2i(3, 0), "strisciaradice"))
+	t.hp = 500
+	t.hp_max = 500
+	var n0 := int(m.character.stats.get("reazioni", 0))
+	var st := Gear.stats({"id": sword})
+	m.combat._strike(t, 10, m.player.position.x, 0.1, String(st["elem"]))
+	m.combat._strike(t, 10, m.player.position.x, 0.1, String(st["elem"]))
+	print("spada di vaporite (elemento «%s»): due colpi, reazioni %d → %d" % [st["elem"], n0, int(m.character.stats.get("reazioni", 0))])
+	m.fauna.clear()
+	# il foglio delle leghe
+	var ids := MaterialsData.all().keys().filter(func(k: String) -> bool: return MaterialsData.get_mat(k).has("alloy"))
+	var sheet := Image.create_empty(7 * 72 + 4, 4 * 36 + 4, false, Image.FORMAT_RGBA8)
+	sheet.fill(Color("#141820"))
+	for k in ids.size():
+		for j in 2:
+			var ic := ItemIcons.of(FormsData.item_id("spada", String(ids[k])) if j == 0 else String(MaterialsData.get_mat(String(ids[k]))["bar"]))
+			ic.resize(32, 32, Image.INTERPOLATE_NEAREST)
+			sheet.blend_rect(ic, Rect2i(0, 0, 32, 32), Vector2i(4 + (k % 7) * 72 + j * 34, 4 + (k / 7) * 36))
+	sheet.save_png(ProjectSettings.globalize_path("res://prove/90_leghe.png"))
+	print("salvato 90_leghe (%d leghe, %d oggetti in tutto)" % [ids.size(), ItemsData.all().size()])

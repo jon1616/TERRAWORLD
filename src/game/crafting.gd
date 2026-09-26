@@ -19,9 +19,28 @@ static func stations_near(world: World, c: Vector2i) -> Dictionary:
 	return out
 
 
+## Gli oggetti che il personaggio ha già scoperto (`Character.erbario["oggetti"]`, lo imposta `main`): le ricette delle
+## leghe (voce 52) si vedono solo quando se ne conoscono i metalli, e le armi di una lega quando se ne è avuto il
+## lingotto (sono centinaia: così l'elenco cresce con le scoperte).
+static var known := {}
+
+
 ## Ricette usabili con queste stazioni (quelle «a mano» sempre).
 static func available(near: Dictionary) -> Array:
-	return RecipesData.all().filter(func(r: Dictionary) -> bool: return String(r["station"]) == "" or near.has(String(r["station"])))
+	return RecipesData.all().filter(func(r: Dictionary) -> bool:
+		return (String(r["station"]) == "" or near.has(String(r["station"]))) and _discovered(r))
+
+
+static func _discovered(r: Dictionary) -> bool:
+	var it := ItemsData.get_item(String(r["out"]))
+	var mat := String(it.get("mat", ""))
+	if mat != "" and MaterialsData.get_mat(mat).has("alloy"):
+		return known.has(String(MaterialsData.get_mat(mat)["bar"]))
+	if String(r["out"]).begins_with("lingotto_lega_"):
+		for k in r["in"]:
+			if not known.has(k):
+				return false
+	return true
 
 
 static func can_craft(r: Dictionary, b: Bisaccia) -> bool:

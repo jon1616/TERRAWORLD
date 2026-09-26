@@ -852,11 +852,19 @@ un colpo d'altro elemento sulla creatura segnata fa una **reazione** — Vapore 
 Fiammata (spora + brace: ferisce chi sta attorno), Cristallo (gelo + Linfa: ferma a lungo), Squarcio (Vuoto + luce:
 ×2,5). Obiettivo «Fai reagire due elementi». Prova: brace 16 e spora 5 contro 10 sul grumo di muschio; Vapore 23.
 
-## 52. [ ] Leghe (M)
+## 52. [x] Leghe (M) — fatto il 26 set 2026
 Al Baccello ardente due metalli si fondono in una **lega** con proprietà miste (e a volte una proprietà che nessuno dei
 due aveva): i metalli di N mondi danno N×N leghe. Nomi delle leghe generati, pochi nomi speciali scritti a mano per le
 combinazioni migliori.
 **Pronto quando**: esistono leghe migliori dei loro metalli per certi usi, e nessuna è la migliore in tutto.
+**Fatto il 26 set 2026**: 28 leghe (ogni coppia degli 8 metalli, con un nome scritto a mano: ferrobruno, ferrambra,
+linfastella, stellanera, vaporite…). Al Baccello ardente un lingotto per metallo ne dà due di lega. Proprietà: durezza
+quasi quella del più duro (×0,95), filo e tenacia della media +10%, il peso del più leggero, risonanza +1; se i due
+metalli hanno elementi diversi la lega li porta tutti e due, **alternati** colpo dopo colpo (la vaporite, pallidite e
+tizzonite, fa il Vapore da sola ogni due colpi). Ogni lega ha tutte le 16 forme (448 oggetti) e l'icona con i colori a
+metà tra i due metalli. Per non riempire l'elenco Creare, le leghe si **scoprono**: la ricetta del lingotto compare
+quando conosci i due metalli, le armi quando hai avuto il lingotto (`Crafting.known`); l'Erbario non conta gli oggetti
+generati (`gen`) né le Fiale. `verifica_dati`: nessuna lega batte tutti i metalli in tutto. Foto prove/90_leghe.png.
 
 ## 53. [ ] Materiali dai geni (M)
 Ogni gene di minerale e di fauna porta **materiali propri** con proprietà scritte nei dati (non generate a caso): con la

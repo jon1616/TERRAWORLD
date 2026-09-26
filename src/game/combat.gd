@@ -24,6 +24,7 @@ var _bow_t := 0.0
 var auto_aim := Vector2.INF            # per le prove: punto verso cui tirare senza mouse
 var auto_fire := false
 var god := false
+var _alt := 0                          # voce 52: l'elemento del prossimo colpo di una lega con due elementi
 var dmg_mult := 1.0                    # accessori: danno × (vedi `GearEffects`)
 var spd_mult := 1.0                    # accessori: colpi più rapidi
 var magic_mult := 1.0                  # vesti di seta: incantesimi più forti
@@ -164,6 +165,10 @@ func _boon() -> float:
 
 func _strike(c: Creature, dmg: int, from_x: float, force: float, elem := "") -> void:
 	m.sfx.play("colpito", c.position)
+	if elem.contains("+"):
+		# una lega con due elementi (voce 52): uno per colpo, alternati
+		_alt += 1
+		elem = elem.get_slice("+", _alt % 2)
 	if elem != "":
 		dmg = Elements.hit(self, c, elem, dmg)     # voce 51: debolezze, stati e reazioni
 		if not is_instance_valid(c) or not fauna.list.has(c):

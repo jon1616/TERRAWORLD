@@ -47,7 +47,24 @@ static func of(id: String) -> Image:
 	return make(String(ic[0]), String(ic[1]))
 
 
+## C'è una tavolozza per questo materiale? (anche «lega:a:b», voce 52)
+static func has_palette(material: String) -> bool:
+	if material.begins_with("lega:"):
+		var parts := material.split(":")
+		return parts.size() == 3 and MATERIALS.has(parts[1]) and MATERIALS.has(parts[2])
+	return MATERIALS.has(material)
+
+
 static func pal(material: String) -> Array[Color]:
+	if material.begins_with("lega:"):
+		# voce 52: una lega ha la tavolozza a metà tra quelle dei suoi due metalli
+		var parts := material.split(":")
+		var a := pal(parts[1])
+		var b := pal(parts[2])
+		var out: Array[Color] = []
+		for i in mini(a.size(), b.size()):
+			out.append(a[i].lerp(b[i], 0.5))
+		return out
 	return Px.pal(MATERIALS.get(material, MATERIALS["ardesia"]))
 
 

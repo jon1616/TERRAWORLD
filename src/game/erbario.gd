@@ -52,7 +52,10 @@ static func entries(section: String) -> Array:
 		"creature":
 			return CreaturesData.CREATURES.keys()
 		"oggetti":
-			return ItemsData.all().keys()
+			# gli oggetti generati a centinaia (forme nuove, leghe) e le Fiale (che conta il Genario) restano fuori
+			return ItemsData.all().keys().filter(func(k: String) -> bool:
+				var it := ItemsData.get_item(k)
+				return not it.get("gen", false) and String(it.get("kind", "")) != "fiala")
 		"pagine":
 			return LoreData.PAGES.keys()
 	return []

@@ -62,6 +62,9 @@ static func line(slot: Dictionary) -> String:
 		parts.append("Scorza %d" % roundi(float(st["defense"])))
 	if int(st["pierce"]) > 0:
 		parts.append("Trafigge %d" % int(st["pierce"]))
-	if String(st["elem"]) != "":
+	if String(st["elem"]).contains("+"):
+		parts.append("Elementi %s e %s, alternati" % [ElementsData.tag(String(st["elem"]).get_slice("+", 0)),
+			ElementsData.tag(String(st["elem"]).get_slice("+", 1))])
+	elif String(st["elem"]) != "":
 		parts.append("Elemento %s" % ElementsData.tag(String(st["elem"])))
 	return " · ".join(parts)

@@ -74,6 +74,9 @@ func _ready() -> void:
 	Musica.attach(self)                    # la musica guarda se c'è un boss vicino e in che strato si è
 	character = Session.character
 	Genome.known = character.genario           # i geni che il personaggio conosce (schede dei Semi)
+	if not character.erbario.has("oggetti"):
+		character.erbario["oggetti"] = {}
+	Crafting.known = character.erbario["oggetti"]   # le ricette delle leghe si scoprono (voce 52)
 	if Session.world_id != "":
 		world_id = Session.world_id
 		world_meta = WorldSave.read_meta(world_id)
