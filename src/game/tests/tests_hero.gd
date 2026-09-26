@@ -3,7 +3,8 @@ extends RefCounted
 ## Prove degli sprite nuovi del Germogliato (Nano Banana, 26 set 2026; vedi `HeroSprites`): i fotogrammi si caricano e
 ## in ognuno si trova l'occhio (tranne nel battito di ciglia); da fermo e di corsa il Germogliato usa gli sprite nuovi;
 ## con il corpo alto 30 pixel passa ancora in un cunicolo alto 2 blocchi; al buio l'occhio brilla. Foto
-## 71_germogliato_fermo, 72_germogliato_corsa, 73_germogliato_cunicolo.
+## 71_germogliato_fermo, 72_germogliato_corsa, 73_germogliato_cunicolo, 74_germogliato_salto; nel salto si vedono
+## spinta, salita, cima, caduta e atterraggio.
 
 const S := 16
 
@@ -60,6 +61,31 @@ func run() -> void:
 	p.auto_dir = 0.0
 	await kit.seconds(0.6)
 	print("Germogliato: da fermo sprite nuovi %s, di corsa sprite nuovi %s" % ["sì" if idle else "NO", "sì" if run else "NO"])
+	# un salto: quali pose si vedono dalla spinta all'atterraggio
+	var salto: Array = HeroSprites.data()["salto"]["tex"]
+	var seen := {}
+	p.auto_jump = true
+	var t1 := Time.get_ticks_msec()
+	var shot := false
+	while Time.get_ticks_msec() - t1 < 1600:
+		await kit.frames(1)
+		var i := salto.find(p.spr.texture)
+		if i >= 0:
+			seen[i] = true
+		if i == HeroSprites.Salto.CIMA and not shot:
+			shot = true
+			await kit.save("74_germogliato_salto")
+		if Time.get_ticks_msec() - t1 > 200:
+			p.auto_jump = false
+	p.auto_jump = false
+	var names := ["preparazione", "spinta", "salita", "cima", "caduta", "atterraggio"]
+	var got := []
+	for i in seen.keys():
+		got.append(names[i])
+	print("salto: pose viste %s" % [got])
+	if not (seen.has(HeroSprites.Salto.SALITA) and seen.has(HeroSprites.Salto.CIMA) and seen.has(HeroSprites.Salto.CADUTA)
+			and seen.has(HeroSprites.Salto.ATTERRA)):
+		print("ATTENZIONE: nel salto mancano delle pose")
 	# un cunicolo alto 2 blocchi: soffitto di pietra a 2 tessere dal pavimento, per 8 tessere
 	var x0 := spot.x + 2
 	for x in range(x0, x0 + 8):

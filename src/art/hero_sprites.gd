@@ -1,15 +1,19 @@
 class_name HeroSprites
 extends RefCounted
 ## Gli sprite del Germogliato fatti con Nano Banana e ridotti a 36 pixel dagli script di `tools/` (26 set 2026):
-## `arte/germogliato/<animazione>_<n>.png`. Per ora corsa (8 pose) e fermo (4, il respiro); le pose che mancano
-## (salto, colpo, mira, torcia in mano) le disegna ancora `CharacterArt` finché non arrivano le loro tavole.
+## `arte/germogliato/<animazione>_<n>.png`: corsa (8 pose), fermo (4, il respiro), salto (6: preparazione, spinta,
+## salita, cima, caduta, atterraggio). Le pose che mancano (colpo, mira, torcia in mano) le disegna ancora
+## `CharacterArt` finché non arrivano le loro tavole.
 ## Da ogni fotogramma si ricavano da soli:
 ##   eye     il pixel dell'occhio d'oro (per il bagliore al buio; niente quando l'occhio è chiuso)
 ##   anchor  il centro del corpo in x (la media della sagoma di tutta l'animazione), che va sul centro del
 ##           Germogliato: così un'animazione più larga o più stretta non sposta il personaggio
 
 const DIR := "res://arte/germogliato/"
-const ANIMS := {"corsa": 8, "fermo": 4}
+const ANIMS := {"corsa": 8, "fermo": 4, "salto": 6}
+## Le pose del salto (vedi `Player._hero`).
+enum Salto { PREPARA, SPINTA, SALITA, CIMA, CADUTA, ATTERRA }
+const SALTO_SU := -110.0               # sopra questa velocità verticale (px/s, in su) si sale; tra le due, la cima
 const GOLD := Color("#f0d048")          # l'occhio (vedi `ACCENTI` in tools/pixela.py)
 
 ## Durata di ogni posa del respiro (in quarti di secondo): il fotogramma neutro dura di più, il battito di ciglia poco.

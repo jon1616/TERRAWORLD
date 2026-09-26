@@ -69,6 +69,8 @@ var step_vis := 0.0
 var _cache := {}
 var _run_t := 0.0                      # posa della corsa degli sprite nuovi (vedi `HeroSprites`)
 var _idle_t := 0.0                     # tempo del respiro
+var _takeoff_t := 0.0                  # la posa della spinta, appena staccati da terra
+var _land_t := 0.0                     # la posa dell'atterraggio, appena toccato terra
 
 
 func setup(wd: World) -> void:
@@ -179,6 +181,7 @@ func _step(dt: float, dir: float, held: bool) -> void:
 	jump_buf -= dt
 	if jump_buf > 0.0 and coyote > 0.0:
 		vel.y = -JUMP * sqrt(jump_mult)       # l'altezza cresce col quadrato della velocità: ×jump in altezza
+		_takeoff_t = 0.1
 		jumped.emit()
 		jump_buf = 0.0
 		coyote = 0.0
@@ -192,6 +195,7 @@ func _step(dt: float, dir: float, held: bool) -> void:
 		# salto in aria: un soffio di vento sotto i piedi
 		_air_left -= 1
 		vel.y = -JUMP * 0.9 * sqrt(jump_mult)
+		_takeoff_t = 0.1
 		air_jumped.emit()
 		jump_buf = 0.0
 	var vy0 := vel.y
@@ -222,6 +226,8 @@ func _step(dt: float, dir: float, held: bool) -> void:
 	if not on_floor:
 		_air_top = position.y if _was_floor else minf(_air_top, position.y)
 	elif not _was_floor:
+		# l'atterraggio si vede di più dopo una caduta vera
+		_land_t = 0.14 if position.y - _air_top > 24.0 else 0.07
 		landed.emit((position.y - _air_top) / 16.0)
 	_was_floor = on_floor
 
@@ -260,9 +266,12 @@ func _animate(dt: float) -> void:
 		anim_t = 0.0
 		pose = CharacterArt.pose_idle()
 	var sw := swinging or force_swing
-	# gli sprite nuovi (fermo e corsa) quando le mani sono libere; il resto lo disegna ancora `CharacterArt`
-	if (key == "idle" or key.begins_with("run")) and not sw and is_nan(aim) and not carry and _hero(key, dt):
-		return
+	# gli sprite nuovi (fermo, corsa, salto) quando le mani sono libere; il resto lo disegna ancora `CharacterArt`
+	_takeoff_t -= dt
+	_land_t -= dt
+	if key in ["idle", "jump", "fall"] or key.begins_with("run"):
+		if not sw and is_nan(aim) and not carry and _hero(key, dt):
+			return
 	var a := 0.0
 	if sw:
 		swing_t += dt
@@ -318,15 +327,28 @@ func _animate(dt: float) -> void:
 		flame.scale = Vector2(1.0, 0.9 + 0.15 * sin(_flicker * 13.0))
 
 
-## Fermo o corsa con gli sprite nuovi del Germogliato (vedi `HeroSprites`). Falso se mancano i file.
+## Fermo, corsa e salto con gli sprite nuovi del Germogliato (vedi `HeroSprites`). Falso se mancano i file.
 func _hero(key: String, dt: float) -> bool:
 	var hero := HeroSprites.data()
-	var anim := "fermo" if key == "idle" else "corsa"
+	var air := key == "jump" or key == "fall"
+	var anim := "salto" if air or (_land_t > 0.0 and hero.has("salto")) else "fermo" if key == "idle" else "corsa"
 	if not hero.has(anim):
 		return false
 	var d: Dictionary = hero[anim]
 	var k := 0
-	if anim == "corsa":
+	if anim == "salto":
+		# la posa dalla velocità verticale: spinta appena staccati, poi salita, cima e caduta; a terra l'atterraggio
+		if not air:
+			k = HeroSprites.Salto.ATTERRA
+		elif _takeoff_t > 0.0:
+			k = HeroSprites.Salto.SPINTA
+		elif vel.y < HeroSprites.SALTO_SU:
+			k = HeroSprites.Salto.SALITA
+		elif vel.y < -HeroSprites.SALTO_SU:
+			k = HeroSprites.Salto.CIMA
+		else:
+			k = HeroSprites.Salto.CADUTA
+	elif anim == "corsa":
 		_idle_t = 0.0
 		# 12 pose al secondo a piena corsa, più lente se si va piano
 		_run_t += dt * absf(vel.x) / RUN * 12.0

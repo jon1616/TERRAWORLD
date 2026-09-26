@@ -8,15 +8,21 @@ un'ombra sotto i piedi e non tiene i piedi alla stessa altezza da una riga all'a
  2. taglia le celle e in ognuna tiene solo la figura: il pezzo più grande e ciò che lo tocca; le scritte e le ombre
     sotto i piedi sono pezzi staccati più in basso della figura e vengono buttati;
  3. allinea i fotogrammi: i piedi di ogni riga sulla stessa linea (la più bassa della riga, cioè il piede che
-    appoggia), la testa alla stessa x (il corpo resta fermo e le gambe si muovono attorno);
+    appoggia), la testa alla stessa x (il corpo resta fermo e le gambe si muovono attorno); con `--aria` le pose
+    indicate (in aria, come nel salto) si allineano invece con la cima della testa all'altezza di un personaggio in
+    piedi, e le altre ciascuna con i propri piedi sul suolo;
+ 3b. la grandezza viene dalla LARGHEZZA DELLA TESTA (la parte alta dei capelli), che non cambia con la posa: una figura
+    raccolta o accucciata è più bassa ma non va ingrandita; la testa del riferimento ridotto a 36 pixel dà la misura,
+    così il Germogliato è grande uguale in tutte le tavole (per la corsa l'altezza dava 8,5 e la testa 8,7);
  4. ritaglia tutte le celle con la stessa finestra e le riduce con lo stesso fattore e la stessa tavolozza (quella del
     riferimento, `--riferimento`): i pixel piccoli cadono sulla stessa griglia in ogni fotogramma e i colori sono
     identici, così l'animazione non trema;
  5. scrive arte/germogliato/<nome>_<n>.png (misura del gioco) e le anteprime in prove/: la striscia ingrandita e la
     GIF animata.
 
-Uso:  python tools/importa_tavola.py arte_ia/germogliato/01_corsa.png --griglia 4x2 --nome corsa [--alto 35]
-      --alto = altezza in pixel del gioco della posa mediana della tavola (lo sprite fermo è alto 36).
+Uso:  python tools/importa_tavola.py arte_ia/germogliato/01_corsa_v2.png --griglia 4x2 --nome corsa
+      python tools/importa_tavola.py arte_ia/germogliato/03_salto.png --griglia 3x2 --nome salto --aria 2,3,4
+      --alto N = invece della testa, la posa mediana alta N pixel (come la prima importazione della corsa).
 """
 import argparse
 import os
@@ -34,7 +40,16 @@ RADICE = os.path.join(QUI, "..")
 DST = os.path.join(RADICE, "arte", "germogliato")
 PROVE = os.path.join(RADICE, "prove")
 RIFERIMENTO = os.path.join(RADICE, "arte_ia", "germogliato", "00_profilo_fermo_v4.png")
-TESTA = 0.3          # la parte alta della figura usata per allineare in orizzontale
+TESTA = 0.3          # la parte alta della figura usata per allineare in orizzontale e per misurare la testa
+ALTO = 36            # lo sprite in piedi, in pixel del gioco
+
+
+def larghezza_testa(a: np.ndarray) -> int:
+    """La riga più piena nella parte alta della figura: i capelli, larghi uguale in ogni posa."""
+    m = a[:, :, 3] > 0.5
+    ys = np.where(m.any(axis=1))[0]
+    top, bottom = ys.min(), ys.max()
+    return int(max(r.sum() for r in m[top:top + max(1, int((bottom - top) * TESTA))]))
 
 
 def togli_griglia(a: np.ndarray) -> None:
@@ -75,7 +90,8 @@ def main() -> None:
     ap.add_argument("file")
     ap.add_argument("--griglia", default="4x2")
     ap.add_argument("--nome", required=True)
-    ap.add_argument("--alto", type=int, default=35)
+    ap.add_argument("--alto", type=int, default=0)
+    ap.add_argument("--aria", default="", help="pose in aria (indici da 0, separati da virgole)")
     ap.add_argument("--riferimento", default=RIFERIMENTO)
     ap.add_argument("--fps", type=int, default=12)
     args = ap.parse_args()
@@ -99,10 +115,19 @@ def main() -> None:
     base = {r: max(b[1] for b in boxes if b[5] == r) for r in range(rows)}
     goal_base = max(base.values())
     goal_hx = float(np.mean([b[4] for b in boxes]))
+    aria = {int(v) for v in args.aria.split(",") if v.strip() != ""}
+    # con pose in aria: ognuna a terra con i suoi piedi sul suolo; quelle in aria con la testa all'altezza della
+    # posa a terra più alta (le gambe si raccolgono sotto il corpo, il corpo non sale nel disegno)
+    stand = max((b[1] - b[0] + 1) for i, b in enumerate(boxes) if i not in aria) if aria else 0
     shifted = []
     pad = 40
-    for cell, b in zip(cells, boxes):
-        dy = goal_base - base[b[5]]
+    for i, (cell, b) in enumerate(zip(cells, boxes)):
+        if not aria:
+            dy = goal_base - base[b[5]]
+        elif i in aria:
+            dy = (goal_base - stand + 1) - b[0]
+        else:
+            dy = goal_base - b[1]
         dx = int(round(goal_hx - b[4]))
         big = np.zeros((ch + 2 * pad, cw + 2 * pad, 4), dtype=np.float32)
         big[pad + dy:pad + dy + ch, pad + dx:pad + dx + cw] = cell
@@ -114,10 +139,14 @@ def main() -> None:
     ys, xs = np.where(union)
     win = (ys.min(), ys.max() + 1, xs.min(), xs.max() + 1)
     frames_hi = [s[win[0]:win[1], win[2]:win[3]] for s in shifted]
-    heights = [b[1] - b[0] + 1 for b in boxes]
-    f = float(np.median(heights)) / (args.alto - 2)
     ref = pixela.ritaglia(pixela.togli_magenta(Image.open(args.riferimento)))
     pal, n_base = pixela.tavolozza([ref], 20, pixela.ACCENTI)
+    if args.alto:
+        heights = [b[1] - b[0] + 1 for b in boxes]
+        f = float(np.median(heights)) / (args.alto - 2)
+    else:
+        testa = larghezza_testa(ref) / (ref.shape[0] / (ALTO - 2))    # la testa del riferimento, in pixel del gioco
+        f = float(np.median([larghezza_testa(c) for c in cells])) / testa
     os.makedirs(DST, exist_ok=True)
     out = []
     for i, fr in enumerate(frames_hi):
