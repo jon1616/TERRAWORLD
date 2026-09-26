@@ -80,8 +80,9 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 			for k in 6:
 				Px.disc(im, 4.0 + k * 4.8, h - 3.0, 2.6, st[1 + k % 3])
 			var fire := Px.pal(["#9a2a1a", "#e0582a", "#ffb040", "#fff2a8"])
-			for y in range(8, h - 4):
-				var t := (y - 8.0) / (h - 12.0)
+			var top := 8 if h > 16 else 1              # il focolare basso (una tessera): la fiamma parte più in alto
+			for y in range(top, h - 4):
+				var t := (y - float(top)) / (h - 4.0 - top)
 				var hw := 1.0 + t * 7.0
 				for x in w:
 					var dx := absf(x + 0.5 - w / 2.0 + sin(y * 0.9) * 1.2)

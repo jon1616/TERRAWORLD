@@ -115,7 +115,8 @@ func toggle_door(o: Vector2i) -> bool:
 ## Clic destro sul letto: da ora il Germogliato rinasce qui (in questo mondo).
 func use_bed(o: Vector2i) -> bool:
 	var beds: Dictionary = m.world_meta.get("letti", {})
-	beds[m.character.id] = [o.x + 1, o.y + 1]
+	# il punto dove si rinasce: al centro del letto, sulla sua riga più bassa (il letto è alto una tessera)
+	beds[m.character.id] = [o.x + 1, o.y + int(StationsData.STATIONS["letto"]["size"][1]) - 1]
 	m.world_meta["letti"] = beds
 	m.hud.toast("Da ora rinasci qui, al tuo letto di foglie")
 	m.sfx.play("dono")

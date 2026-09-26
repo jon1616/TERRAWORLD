@@ -119,8 +119,11 @@ func run() -> void:
 	b.add("parete_assi", 1)
 	ms.place_wall(Vector2i(spot.x, fy - 3), "parete_assi")
 	# il letto
-	ms.use_bed(Vector2i(x1 - 4, fy - 2))
+	var bed_o := Vector2i(x1 - 4, fy - int(StationsData.STATIONS["letto"]["size"][1]))
+	ms.use_bed(bed_o)
 	print("letto: si rinasce a %s (partenza %s)" % [ms.respawn_point(), world.spawn])
+	if ms.respawn_point() == world.spawn or world.stations.get(bed_o, "") != "letto":
+		print("ATTENZIONE: il letto non fa da punto di rinascita")
 	# la luce: il vetro la lascia passare, i mattoni no
 	m.day.time = 0.95
 	m.day.apply(true)
