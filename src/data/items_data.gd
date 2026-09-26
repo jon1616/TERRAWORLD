@@ -36,7 +36,8 @@ extends RefCounted
 ##   place  tessera (id di `TileDefs`) o stazione (id di `StationsData`) che l'oggetto piazza
 ##   desc   descrizione breve
 ##
-## Le famiglie di metallo sono generate da `METALS` × `GEAR` in `all()`: un metallo nuovo = una riga in `METALS`.
+## Le famiglie di equipaggiamento sono generate da forma × materiale in `all()` (voce 49: `FormsData`,
+## `MaterialsData`): un materiale nuovo = una riga in `MaterialsData`, una forma nuova = una riga in `FormsData`.
 
 const ITEMS := {
 	# materiali grezzi
@@ -239,29 +240,6 @@ const ITEMS := {
 }
 
 ## Metalli: grado, forza di piccone e ascia, danno della spada, difesa dell'armatura (elmo, corazza, gambali).
-const METALS := {
-	"radicite": {"label": "di radicite", "tier": 1, "power": 35, "damage": 9, "speed": 2.2, "defense": [1, 2, 1]},
-	"legnoferro": {"label": "di legnoferro", "tier": 2, "power": 45, "damage": 12, "speed": 2.3, "defense": [2, 3, 2]},
-	"ambra": {"label": "d'ambra", "tier": 3, "power": 55, "damage": 16, "speed": 2.4, "defense": [3, 4, 3]},
-	"linfa": {"label": "di Linfa", "tier": 4, "power": 65, "damage": 21, "speed": 2.6, "defense": [4, 6, 4], "icon": "cristallo"},
-	"vuoto": {"label": "di vuotite forgiata", "tier": 5, "power": 75, "damage": 27, "speed": 2.7, "defense": [5, 8, 5], "icon": "vuotite"},
-	# voce 24: metalli laterali, per chi vuole una strada diversa (più veloce, o più forte prima della Linfa)
-	"pallidite": {"label": "di pallidite", "tier": 2, "power": 42, "damage": 11, "speed": 2.7, "defense": [2, 2, 2]},
-	"tizzonite": {"label": "di tizzonite", "tier": 3, "power": 60, "damage": 18, "speed": 2.4, "defense": [3, 5, 3]},
-	"stellare": {"label": "stellare", "label_pl": "stellari", "tier": 6, "power": 85, "damage": 34, "speed": 2.8, "defense": [6, 10, 6], "icon": "ambra"},
-}
-
-## Modelli delle famiglie di metallo: tipo, costo in lingotti (+ legno).
-const GEAR := {
-	"piccone": {"name": "Piccone", "bars": 12, "wood": 4},
-	"ascia": {"name": "Ascia", "bars": 9, "wood": 3},
-	"spada": {"name": "Spada", "bars": 8, "wood": 0},
-	"elmo": {"name": "Elmo", "bars": 15, "wood": 0},
-	"corazza": {"name": "Corazza", "bars": 25, "wood": 0},
-	"gambali": {"name": "Gambali", "bars": 20, "wood": 0, "plural": true},
-	"arco": {"name": "Arco", "bars": 10, "wood": 3},
-}
-
 ## Oggetti che nascono da qualcosa che non è una tabella (es. alberi abbattuti, voce 4).
 const OTHER_SOURCES := {"legno": "alberi", "seme_lanterna": "alberi", "frammento_nodo": "Guardiano sconfitto",
 	"linfa_guardiano": "Guardiano curato", "seme_mondo": "Cuore del mondo", "seme_mondo_mosaico": "innesti (per mutazione)", "linfa_antica": "scrigni delle firme dei mondi e Cuori dei mondi",
@@ -289,31 +267,10 @@ static func all() -> Dictionary:
 	out.merge(BiomeItemsData.ITEMS.duplicate(true))
 	out.merge(SignaturesData.ITEMS.duplicate(true))
 	out.merge(GenesData.items().duplicate(true))
-	for m in METALS:
-		var md: Dictionary = METALS[m]
-		for g in GEAR:
-			var gd: Dictionary = GEAR[g]
-			var it := {"name": "%s %s" % [gd["name"], md.get("label_pl", md["label"]) if gd.get("plural", false) else md["label"]], "kind": g, "icon": [g, md.get("icon", m)], "tier": md["tier"]}
-			match g:
-				"piccone", "ascia":
-					it["power"] = md["power"]
-					it["damage"] = int(md["damage"] * 0.6)
-					it["speed"] = 2.6
-				"spada":
-					it["damage"] = md["damage"]
-					it["speed"] = md["speed"]
-					it["knockback"] = 4.0
-				"elmo":
-					it["defense"] = md["defense"][0]
-				"corazza":
-					it["defense"] = md["defense"][1]
-				"gambali":
-					it["defense"] = md["defense"][2]
-				"arco":
-					it["damage"] = int(md["damage"] * 0.55)
-					it["speed"] = 1.6 + 0.15 * float(md["tier"])
-					it["knockback"] = 1.2
-			out["%s_%s" % [g, m]] = it
+	# le famiglie di equipaggiamento: forma × materiale (voce 49, `FormsData` e `MaterialsData`)
+	for m in MaterialsData.all():
+		for f in FormsData.FORMS:
+			out[FormsData.item_id(f, m)] = FormsData.item(f, m)
 	_all = out
 	return _all
 

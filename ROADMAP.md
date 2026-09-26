@@ -804,12 +804,18 @@ funziona dalla parte del giocatore; manca chi *chiede* (Albero-Madre e abitanti:
 
 # Roadmap 6 «La materia viva» — l'equipaggiamento che si genera
 
-## 49. [ ] Proprietà dei materiali (L)
+## 49. [x] Proprietà dei materiali (L) — fatto il 26 set 2026
 `MaterialsData`: ogni materiale (metalli, legni, gemme, parti di creatura) ha le sue proprietà — durezza, peso,
 conduzione della Linfa, elemento, risonanza, grado. I metalli di oggi (famiglie `METALS` × `GEAR`) migrano qui: le loro
 statistiche escono dalle proprietà invece che da tabelle scritte a mano, con valori vicini a quelli di oggi.
 **Pronto quando**: tutti gli attrezzi di metallo di oggi nascono dalle proprietà, con statistiche entro il 10% di
 quelle attuali; `verifica_dati` controlla la progressione.
+**Fatto il 26 set 2026**: `MaterialsData` (8 metalli con durezza, filo, peso, tenacia, conduzione, elemento,
+risonanza, grado, lingotto) e `FormsData` (le forme con le formule: forza = durezza, danno = filo pesato dalla forma,
+colpi al secondo = 3 − 0,04 × peso, Scorza = tenacia × 1 o × 1,6 per la corazza). `ItemsData.all()` e le ricette del
+Maglio nascono da forma × materiale (`METALS` e `GEAR` tolti). `verifica_dati` confronta ogni valore con la tabella di
+prima: tutto uguale tranne la corazza di pallidite (3 invece di 2, entro un punto). In Esamina il materiale e le sue
+proprietà.
 
 ## 50. [ ] Forme e fabbricazione componibile (L)
 `FormsData`: le forme (lama corta, lama lunga, lancia, martello, falce, frusta, arco, balestra, bastone, piccone,

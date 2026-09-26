@@ -2,13 +2,13 @@ class_name SetsData
 extends RefCounted
 ## I set di equipaggiamento (voce 26): chi indossa tutti i pezzi di un set riceve il suo bonus, in più degli effetti
 ## dei singoli pezzi. Le armature di metallo formano un set per metallo (elmo, corazza e gambali dello stesso metallo,
-## generati da `ItemsData.METALS` in `all()`); poi le vesti di seta e alcune coppie di accessori che stanno bene
+## generati da `MaterialsData` in `all()`); poi le vesti di seta e alcune coppie di accessori che stanno bene
 ## insieme. Solo dati; li applica `GearEffects`, li mostrano la colonna dell'equipaggiamento e la casella Esamina.
 ##
 ## Campi: name (nome del bonus), pieces (oggetti da indossare tutti), bonus (stessi effetti degli accessori, vedi
 ## `GearEffects`, più `defense` = Scorza in più), desc (il bonus a parole).
 
-## Il bonus di ogni set di metallo (i pezzi vengono da `ItemsData.METALS`).
+## Il bonus di ogni set di metallo (i pezzi vengono da `MaterialsData`).
 const METAL_BONUS := {
 	"radicite": {"name": "Radici salde", "bonus": {"defense": 2, "regen": 1.2}, "desc": "+2 Scorza, la Vita ricresce il 20% più in fretta"},
 	"legnoferro": {"name": "Corteccia di ferro", "bonus": {"defense": 3, "damage": 1.05}, "desc": "+3 Scorza, +5% danno"},

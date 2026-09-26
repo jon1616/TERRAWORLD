@@ -160,13 +160,9 @@ static func all() -> Array:
 	out.append_array(KeeperItemsData.RECIPES.duplicate(true))
 	out.append_array(RelicsData.RECIPES.duplicate(true))
 	out.append_array(BiomeItemsData.RECIPES.duplicate(true))
-	for m in ItemsData.METALS:
-		for g in ItemsData.GEAR:
-			var gd: Dictionary = ItemsData.GEAR[g]
-			var needs := {"lingotto_" + m: gd["bars"]}
-			if int(gd["wood"]) > 0:
-				needs["legno"] = gd["wood"]
-			out.append({"out": "%s_%s" % [g, m], "qty": 1, "in": needs, "station": "maglio"})
+	for m in MaterialsData.all():
+		for f in FormsData.FORMS:
+			out.append(FormsData.recipe(f, m))
 	_all = out
 	return _all
 

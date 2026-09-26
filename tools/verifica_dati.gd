@@ -161,6 +161,7 @@ func _init() -> void:
 	print("oggetti %d · ricette %d · stazioni %d · creature %d · tabelle di bottino %d" % [items.size(), recipes.size(),
 		StationsData.STATIONS.size(), CreaturesData.CREATURES.size(), LootData.TABLES.size()])
 	_check_species()
+	_check_materials()
 	print("ESITO: %d errori, %d avvisi" % [errors, warnings])
 	quit()
 
@@ -276,6 +277,42 @@ func _check_species() -> void:
 			_err(NamesData.LANDS.has(g), "nomi dei mondi: nessun paesaggio per «%s»" % g)
 		elif GenesData.cat_of(g) in Genome.SHAPE_CATS:
 			_warn(NamesData.ADJ.has(g), "nomi dei mondi: nessun aggettivo per «%s»" % g)
+
+
+## Voce 49: gli oggetti di metallo, ora nati dalle proprietà dei materiali, devono valere come prima (i valori della
+## tabella scritta a mano fino alla voce 48): entro il 10%, o di un punto sui numeri piccoli.
+const OLD_METALS := {
+	"radicite": [35, 9, 2.2, [1, 2, 1]], "legnoferro": [45, 12, 2.3, [2, 3, 2]], "ambra": [55, 16, 2.4, [3, 4, 3]],
+	"linfa": [65, 21, 2.6, [4, 6, 4]], "vuoto": [75, 27, 2.7, [5, 8, 5]], "pallidite": [42, 11, 2.7, [2, 2, 2]],
+	"tizzonite": [60, 18, 2.4, [3, 5, 3]], "stellare": [85, 34, 2.8, [6, 10, 6]],
+}
+
+
+func _check_materials() -> void:
+	var worst := 0.0
+	for m in OLD_METALS:
+		var o: Array = OLD_METALS[m]
+		_err(MaterialsData.all().has(m), "materiale %s sparito" % m)
+		if not MaterialsData.all().has(m):
+			continue
+		var pairs := [[ItemsData.get_item("piccone_" + m)["power"], o[0]], [ItemsData.get_item("spada_" + m)["damage"], o[1]],
+			[ItemsData.get_item("spada_" + m)["speed"], o[2]], [ItemsData.get_item("piccone_" + m)["damage"], int(o[1] * 0.6)],
+			[ItemsData.get_item("arco_" + m)["damage"], int(o[1] * 0.55)], [ItemsData.get_item("elmo_" + m)["defense"], o[3][0]],
+			[ItemsData.get_item("corazza_" + m)["defense"], o[3][1]], [ItemsData.get_item("gambali_" + m)["defense"], o[3][2]]]
+		for p in pairs:
+			var a := float(p[0])
+			var b := float(p[1])
+			var diff := absf(a - b)
+			worst = maxf(worst, diff / maxf(b, 0.001))
+			_err(diff <= maxf(b * 0.1, 1.0), "%s: valore %s invece di %s (prima della voce 49)" % [m, a, b])
+	for m in MaterialsData.all():
+		var md: Dictionary = MaterialsData.all()[m]
+		_err(ItemsData.has(String(md["bar"])), "materiale %s: lingotto inesistente «%s»" % [m, md["bar"]])
+		_err(ItemIcons.MATERIALS.has(MaterialsData.icon_of(m)), "materiale %s: tavolozza dell'icona sconosciuta" % m)
+		for p in MaterialsData.PROPS:
+			_err(md.has(p), "materiale %s senza la proprietà %s" % [m, p])
+	print("materiali %d × forme %d; scarto massimo dai valori di prima %d%%" % [MaterialsData.all().size(),
+		FormsData.FORMS.size(), roundi(worst * 100.0)])
 
 
 func _err(ok: bool, msg: String) -> void:
