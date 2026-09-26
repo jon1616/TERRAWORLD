@@ -146,7 +146,7 @@ func _refresh() -> void:
 			var n := int(goods[k][1])
 			var price := _price(id, n)
 			_slots[k].set_item(id, n)
-			_slots[k].tooltip_text = "%s ×%d — %d Lumini" % [ItemsData.get_item(id)["name"], n, price]
+			_slots[k].tip_extra = {"price": "buy", "cost": price}
 			_prices[k].text = "%d L" % price
 			_prices[k].add_theme_color_override("font_color", Color("#ffd08a") if lumini() >= price else Color("#8a6a5a"))
 

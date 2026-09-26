@@ -10,11 +10,15 @@ const AMBER := Color("#ffb84a")
 const TEAL := Color("#2f7a70")
 
 static var _icons := {}
+## Per le schede degli oggetti: () -> {"bag", "hand", "price"?} della partita in corso (lo imposta `TipsHook`).
+static var context := Callable()
 
 var index := 0
 var _icon: TextureRect
 var _count: Label
 var _selected := false
+var slot_data := {}                    # l'oggetto intero della casella: {"id", "n", "tratto", "dati"}
+var tip_extra := {}                    # per questa casella: {"price": "buy", "cost": N} o {"equipped": true}
 
 
 static func icon(id: String) -> Texture2D:
@@ -46,12 +50,22 @@ func _init() -> void:
 	_count.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_count)
 	_restyle()
+	Tips.attach(self, _tip)
 
 
-func set_item(id: String, n: int, tratto := "") -> void:
+## La scheda dell'oggetto nella casella (26 set 2026: suggerimenti ricchi, ricette e provenienza in Esamina).
+func _tip() -> Variant:
+	if slot_data.is_empty():
+		return null
+	var ctx: Dictionary = (context.call() as Dictionary).duplicate() if context.is_valid() else {}
+	ctx.merge(tip_extra, true)
+	return ItemTip.card(slot_data, ctx)
+
+
+func set_item(id: String, n: int, tratto := "", dati := {}) -> void:
 	_icon.texture = icon(id) if id != "" else null
 	_count.text = str(n) if n > 1 else ""
-	tooltip_text = TraitsData.tooltip(id, tratto) if id != "" else ""
+	slot_data = {"id": id, "n": n, "tratto": tratto, "dati": dati} if id != "" else {}
 	# un filo dorato sotto l'icona se c'è un tratto
 	_count.add_theme_color_override("font_color", Color("#ffd08a") if tratto != "" else Color.WHITE)
 	if tratto != "" and n <= 1:

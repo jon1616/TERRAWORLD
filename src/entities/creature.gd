@@ -361,6 +361,11 @@ func provoke() -> void:
 		damage = _docile_dmg
 
 
+## Il primo fotogramma (l'icona nelle schede dei suggerimenti).
+func icon() -> Texture2D:
+	return _frames[0] if not _frames.is_empty() else null
+
+
 func take_hit(dmg: int, from_x: float, force: float) -> bool:
 	provoke()
 	if weak_t > 0.0:

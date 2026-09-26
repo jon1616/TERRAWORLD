@@ -119,7 +119,7 @@ func is_open() -> bool:
 
 func _refresh() -> void:
 	for i in _slots.size():
-		_slots[i].set_item(bisaccia.id_at(i), bisaccia.count_at(i), bisaccia.trait_at(i))
+		_slots[i].set_item(bisaccia.id_at(i), bisaccia.count_at(i), bisaccia.trait_at(i), bisaccia.data_at(i))
 	_update_name()
 	selected.emit(current())
 

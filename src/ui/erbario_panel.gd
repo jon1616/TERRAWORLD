@@ -112,6 +112,34 @@ static func _frame(b: Button, border: Color) -> void:
 		b.add_theme_stylebox_override(state, sb)
 
 
+## Il suggerimento di una cella (26 set 2026): la scheda di un oggetto come nelle caselle, di una creatura quante ne hai
+## sconfitte; il resto nel riquadro accanto, al clic.
+func _cell_tip(sec: String, id: String, known: bool) -> Variant:
+	var c: TipCard
+	if not known:
+		c = TipCard.new()
+		c.title("Non ancora scoperto", TipCard.DIM)
+		c.hint("Clic: che cosa se ne sa")
+		return c
+	match sec:
+		"oggetti":
+			c = ItemTip.card({"id": id, "n": 1}, {"no_compare": true})
+		"creature":
+			c = TipCard.new()
+			c.title(Erbario.title_of(sec, id), Color("#e4f6ee"), _icon(id))
+			var fam := FamiliesData.family_of(id)
+			if fam != "":
+				c.sub("famiglia dei %s" % String(FamiliesData.FAMILIES[fam]["name"]).to_lower())
+			c.line("Sconfitte: %d" % int((erbario.data.get("creature", {}) as Dictionary).get(id, 0)), TipCard.SOFT)
+		_:
+			c = TipCard.simple(Erbario.title_of(sec, id))
+	if c != null:
+		if not c.blocks.is_empty() and String(c.blocks[-1]["t"]) == "hint":
+			c.blocks.pop_back()
+		c.hint("Clic: la scheda completa accanto")
+	return c
+
+
 func _refresh() -> void:
 	for k in _tabs.size():
 		_frame(_tabs[k], Color("#ffb84a") if ["creature", "famiglie", "oggetti", "pagine"][k] == section else Color("#2f7a70"))
@@ -127,7 +155,8 @@ func _refresh() -> void:
 		var cell := Button.new()
 		cell.position = Vector2((k % COLS) * (CELL + GAP), (k / COLS) * (CELL + GAP))
 		cell.size = Vector2(CELL, CELL)
-		cell.tooltip_text = Erbario.title_of(section, id) if known else "???"
+		var sec := section
+		Tips.attach(cell, func() -> Variant: return _cell_tip(sec, id, known))
 		if known:
 			cell.icon = _icon(id)
 			cell.expand_icon = true

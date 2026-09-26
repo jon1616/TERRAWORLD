@@ -1,7 +1,7 @@
 class_name PortalInfo
 ## La scheda di un portale (richiesta dell'utente, 26 set 2026): che mondo c'è dall'altra parte. Nome, vigore e cosa
 ## significa, Guardiano del Cuore, stagione, geni (quelli mai visti restano «?»), e per un mondo già visitato quanto
-## se n'è esplorato, il tempo passato, la firma e il Guardiano. La mostra `PortalTip` con il mouse sopra il portale.
+## se n'è esplorato, il tempo passato, la firma e il Guardiano. La mostra `StationTip.portal` con il mouse sopra il portale.
 
 const GUARD_STATE := {"dorme": "dorme ancora", "sconfitto": "sconfitto", "curato": "curato"}
 

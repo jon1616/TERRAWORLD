@@ -79,13 +79,11 @@ func run() -> void:
 		"sì" if e.get("geni", []) == Genome.genes(g) and Genome.surface_of(e.get("geni", [])) == "resina" else "NO",
 		m.portal.describe(o)])
 	# la scheda del mondo con il mouse sopra il portale
-	m.portal.tip.show_for(o)
-	m.portal.tip.position = Vector2(560, 120)
+	Tips.show_at(StationTip.portal(m, o), Vector2(560, 120))
 	await kit.frames(4)
 	await kit.save("109_scheda_portale")
 	var tip_text: String = PortalInfo.text(m.portal, o)
-	m.portal.tip.visible = false
-	m.portal.tip.pinned = false
+	Tips.unpin()
 	print("scheda del portale: vigore %s, Guardiano %s, stagione %s, mai visitato %s, genoma %s" % [
 		"sì" if tip_text.contains("Vigore") else "NO", "sì" if tip_text.contains("Guardiano del Cuore") else "NO",
 		"sì" if tip_text.contains("Stagione") else "NO", "sì" if tip_text.contains("mai visitato") else "NO",

@@ -224,15 +224,3 @@ static func wrap(b: Bisaccia, i: int, fascia: String) -> bool:
 	b.changed.emit()
 	return true
 
-
-## «Serve: 10 Legno di lanterna, 1 Gelatina di muschio — al Ceppo del Giardiniere»
-static func describe(r: Dictionary, b: Bisaccia) -> String:
-	var parts := []
-	for k in r["in"]:
-		var mine := b.count(k)
-		var there := in_pool(k)
-		var need := int(r["in"][k])
-		parts.append("%d %s (%d%s)" % [need, ItemsData.get_item(k)["name"], mine, (" + %d nelle casse" % there) if there > 0 else ""])
-	var where := "a mano, ovunque" if String(r["station"]) == "" else "vicino a: " + String(StationsData.STATIONS[r["station"]]["name"])
-	var desc := String(ItemsData.get_item(r["out"]).get("desc", ""))
-	return "Serve: %s\n%s%s" % [", ".join(parts), where, ("\n" + desc) if desc != "" else ""]

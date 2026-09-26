@@ -73,7 +73,7 @@ func refresh() -> void:
 		else:
 			_text.text = "[color=#6a8a84]Posa qui un oggetto con il clic per sapere a cosa serve, in quali ricette si usa e come si ottiene.[/color]"
 		return
-	_slot.set_item(String(held["id"]), int(held["n"]), String(held.get("tratto", "")))
+	_slot.set_item(String(held["id"]), int(held["n"]), String(held.get("tratto", "")), held.get("dati", {}))
 	if not held.has("dati"):
 		var fresh := Genome.fresh_for_item(String(held["id"]))   # un Seme salvato prima dei genomi
 		if not fresh.is_empty():

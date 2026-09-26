@@ -55,9 +55,16 @@ func run() -> void:
 	b.add("provetta", 12)
 	var gene := String(SeasonsData.SEASONS[gelo]["gene"])
 	var got := 0
+	# una cella di cielo a portata (sopra un albero o una pianta la Provetta prenderebbe la flora)
+	var sky: Vector2i = m.player_cell() + Vector2i(1, -2)
+	for dx in range(-3, 4):
+		for dy in range(-4, -1):
+			var q: Vector2i = m.player_cell() + Vector2i(dx, dy)
+			if m.sampling.category_at(q) in ["cielo", "tempo"] and m.actions.in_reach(q):
+				sky = q
 	for k in 12:
 		kit.hold("provetta")
-		m.sampling.use_vial("provetta", m.player_cell() + Vector2i(1, -2))
+		m.sampling.use_vial("provetta", sky)
 		got = b.count(GenesData.vial_of(gene))
 		if got > 0:
 			break

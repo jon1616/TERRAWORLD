@@ -42,7 +42,7 @@ func setup(recipe: Dictionary, b: Bisaccia) -> void:
 	var n := int(r["qty"])
 	color = CraftCatsData.color_of(out)
 	custom_minimum_size = Vector2(0, HEIGHT)
-	tooltip_text = " "                     # non vuoto: così il motore chiede il suggerimento a `_get_tooltip`
+	Tips.attach(self, _tip)                # la scheda di ciò che nasce, con gli ingredienti (26 set 2026)
 	focus_mode = Control.FOCUS_NONE
 	style(self, true, color)
 	modulate = Color(1, 1, 1, 0.55)
@@ -97,9 +97,30 @@ func _text(at: Vector2, t: String, fs: int, col: Color, max_w: float) -> void:
 	draw_string(_font, at, t, HORIZONTAL_ALIGNMENT_LEFT, max_w, fs, col)
 
 
-## Il suggerimento solo quando serve (scriverlo per tutte le righe a ogni aggiornamento costava).
-func _get_tooltip(_at: Vector2) -> String:
-	return Crafting.describe(r, bag) + "\n(clic: crea · Maiusc+clic: crea 5)"
+## La scheda della ricetta, solo quando il mouse ci passa sopra: l'oggetto che nasce (come in una casella), poi gli
+## ingredienti con quanti ne hai (anche nelle casse vicine), il banco e i comandi.
+func _tip() -> Variant:
+	var ctx: Dictionary = (SlotView.context.call() as Dictionary).duplicate() if SlotView.context.is_valid() else {}
+	var c := ItemTip.card({"id": String(r["out"]), "n": int(r.get("qty", 1))}, ctx)
+	if c == null:
+		return null
+	if not c.blocks.is_empty() and String(c.blocks[-1]["t"]) == "hint":
+		c.blocks.pop_back()
+	c.sep()
+	var rows := []
+	for k in r["in"]:
+		var need := int(r["in"][k])
+		var have := Crafting.have(bag, String(k))
+		var there := Crafting.in_pool(String(k))
+		rows.append([String(ItemsData.get_item(String(k)).get("name", k)), "%d / %d%s" % [mini(have, need), need,
+			("  (%d nelle casse)" % there) if there > 0 else ""], TipCard.GOOD if have >= need else TipCard.BAD])
+	c.line("Serve", TipCard.GOLD)
+	c.stats(rows)
+	var st := String(r.get("station", ""))
+	c.line("Banco: %s" % (String(StationsData.STATIONS[st]["name"]) if StationsData.STATIONS.has(st) else "a mano, ovunque"),
+		TipCard.SOFT)
+	c.hint("Clic: crea · Maiusc+clic: crea 5")
+	return c
 
 
 ## Lo stile di una riga dell'elenco (anche di quelle semplici del pannello): chiara se si può fare, attenuata se no.

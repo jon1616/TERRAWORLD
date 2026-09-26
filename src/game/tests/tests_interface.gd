@@ -55,7 +55,8 @@ func run() -> void:
 	var tip := ""
 	for c in cp._list.get_children():
 		if c is RecipeRow and (c as Control).visible:
-			tip = (c as Control).get_tooltip(Vector2(5, 5))
+			var tc := Tips.card_of(c as Control)
+			tip = tc.plain() if tc != null else ""
 			break
 	print("Creare, suggerimento della prima ricetta: %s" % ("sì" if tip.strip_edges().length() > 3 else "NO"))
 	# un clic su una riga possibile fabbrica davvero (e suona)

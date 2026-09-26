@@ -16,6 +16,8 @@
 - **Fatti i ritocchi chiesti dall'utente dopo la Roadmap 7** (26 set 2026): sezione «Ritocchi dopo la Roadmap 7»
   prima della Roadmap 8 (barre di Vita e Linfa, misure di banchi, mobili, casse e porte, casse per la creazione e
   pulsanti di comodità, pannello Creare rifatto, alberi e vegetazione di ogni bioma).
+- **Fatti i ritocchi dopo la Roadmap 8** (26-27 set 2026): scheda dei portali e il **sistema dei suggerimenti**
+  (sezione «Ritocchi dopo la Roadmap 8», prima della Roadmap 9).
 - **Salvataggi**: in pieno sviluppo le partite sono solo prove (scelta dell'utente): niente migrazioni per ora.
 - **Fatta la Roadmap 8 «Il risveglio dell'Albero-Madre»** (voci 62-67, 26 set 2026): resoconto dopo la voce 67.
   Decisione di Claude (l'utente l'ha lasciata a lui): una partita nuova comincia nel **Giardino** sospeso nel Vuoto;
@@ -1195,6 +1197,40 @@ materiali e geni loro; la **Bacheca** dà sempre quattro richieste fattibili, co
 momento c'è un filo da seguire: la riga dell'Albero nell'HUD, la Vecchia Radice che suggerisce, gli abitanti, la
 Bacheca. Prove: `--prova-giardino` (foto 101-108), gruppi `sigilli` e `stagioni`; giro completo pulito, fotogramma
 peggiore sotto i 25 ms.
+
+# Ritocchi dopo la Roadmap 8 (26-27 set 2026) — chiesti dall'utente provando il gioco
+
+## R6. [x] La scheda del mondo sopra i portali (S) — fatto il 26 set 2026
+Con il mouse sopra un portale: nome del mondo, vigore spiegato, Guardiano del Cuore, stagione, visitato o no (quanto
+esplorato, tempo, firma), genoma con i geni mai visti come «?» (`PortalInfo`). Ora è una scheda del sistema R7.
+
+## R7. [x] Il sistema dei suggerimenti (L) — fatto il 27 set 2026
+Richiesta dell'utente: «un sistema di tooltips generale del gioco vasto, completo e bello». Scelte dell'utente:
+suggerimenti ricchi sugli oggetti (ricette e provenienza restano in Esamina) e anche nel mondo, su tutto.
+Un motore solo (`Tips`, autoload `TipsLayer`, in `src/ui/tips/`) sostituisce i suggerimenti di Godot (spenti in
+project.godot): schede composte con `TipCard` (nome con icona, che cos'è, valori in colonna, righe con i colori, barre,
+righe sottili, comandi in fondo) e disegnate da `TipView` (riquadro scuro, bordo e filo del colore della scheda, ombra,
+comparsa morbida); accanto al mouse, sopra il mouse vicino al bordo in basso; nel mondo dopo un attimo di mouse fermo,
+nell'interfaccia quasi subito, la successiva senza attesa; si aggiornano da sole (Vita di una creatura, crescita).
+- **Oggetti** (`ItemTip`, in ogni casella: Bisaccia, barra rapida, equipaggiamento, casse, mercante, Esamina, pila in
+  mano, righe di Creare): nome del colore della qualità o del tipo, tipo, grado e qualità, valori veri (danno, colpi al
+  secondo, forza e che cosa scava, Scorza, trafigge, cure, Linfa, portata, esplosione), elemento, tratti e innesti
+  (rossi quelli che peggiorano), posti d'innesto liberi, fascia, effetti da indossato, set con i pezzi che hai,
+  effetto delle pozioni, doni, geni di un Seme uno per riga, creature nel vasetto, uova, descrizione, valore o prezzo
+  del mercante; **Maiusc** confronta con l'armatura indossata o con l'arma e l'attrezzo in mano (+/− colorati).
+- **Creare**: la scheda dell'oggetto che nasce, gli ingredienti con quanti ne hai (e quanti nelle casse), il banco.
+- **Mondo** (`WorldTip`, `StationTip`; solo dove hai già visto): creature (Vita, danno, Scorza, debolezze e
+  resistenze agli elementi, tratti delle antiche, stati, se si addomestica e con che cosa, affetto, quante ne hai
+  sconfitte e che cosa lasciano), abitanti (affetto, sconto, che cosa gli piace, richiesta), oggetti a terra, banchi
+  (ricette, se sei abbastanza vicino), casse e scrigni (nome, caselle, contenuto), portali, Albero-Madre (offerte con le
+  barre), Bacheca, nidi, bozzoli, alberi (specie, grandezza, legno), colture (crescita, annaffiata), minerali e rocce
+  (forza richiesta contro il tuo piccone, che cosa lasciano), Sigilli (con che potere si aprono; il velato resta
+  nascosto finché non usi la Vista), piante da raccogliere.
+- **Interfaccia** (`HudTips`): Vita e Linfa (Scorza, ricrescite, doni, attesa delle pozioni), orologio (notte,
+  stagione e quando cambia), obiettivi (premi e barre), riga dell'Albero, effetti attivi, minimappa; celle
+  dell'Erbario; i vecchi `tooltip_text` di bottoni e pannelli diventano schede da soli.
+Costo: 0,6 ms per comporre una scheda, 3 ms per disegnarla (solo quando cambia). Prove `--solo=suggerimenti` (foto
+110-120).
 
 # Roadmap 9 «Il mistero dei Seminatori» — il racconto sopra il motore
 

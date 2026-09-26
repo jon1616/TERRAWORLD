@@ -298,6 +298,7 @@ func _build() -> void:
 	hud.add_child(minimap)
 	minimap.setup(self, map_reveal)
 	_mount(Chronicle.new())                # avvisi, Erbario e conteggi degli obiettivi dagli eventi del gioco
+	_mount(TipsHook.new())                 # i suggerimenti: schede degli oggetti e delle cose del mondo
 	hud.select(character.hotbar)
 	var start := world.spawn
 	var pos: Array = (world_meta.get("giocatori", {}) as Dictionary).get(character.id, [])

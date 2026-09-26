@@ -108,7 +108,7 @@ Godot_console.exe --path . -- --prove --prova-giardino
 # solo alcuni gruppi di prove (per provare in fretta una voce nuova): doni, antiche, pericoli, combattimento, tratti,
 # obiettivi, guardiani, rovine, mobilita, lanci, giardino, eventi, casa, abitanti, compagni, viaggio, semi,
 # biomi, biomi_nuovi, luoghi, corsa, raccolta, musica, germogliato, interfaccia, geni, forme, ecologia, mandria, casse, alberi,
-# sigilli, stagioni
+# sigilli, stagioni, suggerimenti
 # (elenco in `AutoTests._group`)
 Godot_console.exe --path . -- --prove --solo=doni,antiche
 # suoni generati: prove/suoni/*.wav da ascoltare, con durata, picco e volume medio (segnala muti e distorti)
@@ -322,7 +322,7 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   mondo nato da quel seme con il vigore del Seme (`destination(o)`, `world_meta["portali"]` per ogni portale,
   `place_return` nel mondo nuovo, `vigor_mult`: +35% alle creature per punto di vigore). Il vigore arriva al generatore
   in `GenContext.params` (`WorldGen.generate(…, params)`), vene più grandi in `PassMinerali`.
-  Con il mouse sopra un portale compare la scheda del mondo (`PortalTip` in `src/ui/`, testo di `PortalInfo`: vigore,
+  Con il mouse sopra un portale compare la scheda del mondo (`StationTip.portal`, testo di `PortalInfo`: vigore,
   Guardiano, stagione, visitato o no, firma, genoma); prova nel gruppo `semi` (foto 109_scheda_portale).
 - `src/game/spells.gd` (`Spells`) — i bastoni di Linfa: tenendo premuto tirano l'incantesimo verso il mouse spendendo
   Linfa (`auto_aim`/`auto_fire` per le prove); `nearest` per i colpi che inseguono (`Projectiles.seek`). I colpi con
@@ -408,6 +408,18 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     creatura e materiale di stagione, geni `only: "stagione"` che le fermano).
   - `Board` e `BoardPanel` — la Bacheca dei Giardinieri: sempre 4 richieste costruite da ciò che il personaggio
     conosce (`Character.bacheca`), premi fino a Semi con un gene raro.
+- **I suggerimenti** (`src/ui/tips/`, 27 set 2026, richiesta dell'utente): un motore solo per tutto il gioco.
+  `Tips` (autoload `TipsLayer`: sceglie la scheda per il Control sotto il mouse o per la cosa del mondo, ritardo,
+  posizione, aggiornamento; `Tips.attach(control, funzione)`, `Tips.set_world`, `Tips.shift`, `show_at`/`unpin` per
+  le prove), `TipCard` (il contenuto: title, sub, stats, text, line, pair, bar, sep, hint; `plain()` per le prove),
+  `TipView` (il disegno). Le schede: `ItemTip` (oggetti, con il confronto di Maiusc), `WorldTip` (creature, abitanti,
+  oggetti a terra, alberi, colture, tessere, Sigilli, piante, nidi), `StationTip` (stazioni, casse, portali,
+  Albero-Madre, Bacheca), `HudTips` (Vita e Linfa, orologio, obiettivi, riga dell'Albero, effetti, minimappa); parole e
+  colori in `TipWordsData`. `TipsHook` (`src/game/`) collega la partita: `SlotView.context` (Bisaccia, oggetto in
+  mano, prezzi del mercante) e la cosa sotto il mouse, solo dove la mappa è esplorata. I suggerimenti di Godot sono
+  spenti (`gui/timers/tooltip_delay_sec` enorme): un `tooltip_text` qualunque diventa una scheda di sole parole.
+  **Ricette e provenienza non vanno nei suggerimenti** (scelta dell'utente): stanno in Esamina.
+  Ogni contenuto nuovo: se ha un campo che il giocatore deve capire, va letto anche nella sua scheda.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni
@@ -435,7 +447,7 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
 - `src/game/depth_watch.gd` (`DepthWatch`) — in che strato è il giocatore (con un margine sul confine): sfuma il
   chiarore della luce e mostra la scritta dello strato (`StratumBanner` in `src/ui/`).
 - `src/game/crafting.gd` (`Crafting`) — regole della fabbricazione: stazioni a portata (5 tessere), ricette usabili,
-  materiali bastano?, fabbrica; `describe` per il suggerimento. Gli ingredienti vengono dalla Bisaccia e dalle casse
+  materiali bastano?, fabbrica. Gli ingredienti vengono dalla Bisaccia e dalle casse
   vicine (`pool`, `have`, `take`): ogni nuovo costo va contato con `have` e tolto con `take`, non con `Bisaccia.count`.
 - `src/game/storage.gd` (`Storage`, dati in `StorageData`) — le casse (26 set 2026, richiesta dell'utente): le casse
   entro 10 tessere con «usa per creare» danno gli ingredienti (`Crafting.pool`); impostazioni per cassa in
@@ -591,6 +603,11 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   tornava a 0,2 s): i valori «almeno tanto» si scrivono con `maxf`.
 - Nelle patch Python dentro un heredoc del Bash tool le tabulazioni e le barre rovesciate non arrivano sempre uguali:
   le patch con codice GDScript si scrivono con Write, sempre (anche le piccole).
+
+- Una prova che usa il mouse vero sul mondo (suggerimenti) lascia prima andare i tasti: nel giro lungo un tasto
+  restava «premuto» da una prova di prima, e con un tasto premuto le schede del mondo non compaiono (27 set 2026).
+- Una prova che tocca una cella per il suo tipo (Provetta: cielo, flora…) la cerca con `category_at`, non la
+  indovina con uno scarto fisso: sopra un albero la prova delle stagioni falliva una volta ogni tanto.
 
 ## Convenzioni
 

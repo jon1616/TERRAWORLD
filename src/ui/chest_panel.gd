@@ -242,7 +242,7 @@ func _refresh() -> void:
 	for s in _slots:
 		s.visible = s.index < chest.slots.size()
 		if s.visible:
-			s.set_item(chest.id_at(s.index), chest.count_at(s.index), chest.trait_at(s.index))
+			s.set_item(chest.id_at(s.index), chest.count_at(s.index), chest.trait_at(s.index), chest.data_at(s.index))
 			if chest.id_at(s.index) != "":
 				used += 1
 	var tags := ["%d/%d caselle" % [used, chest.slots.size()]]

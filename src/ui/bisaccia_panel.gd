@@ -187,9 +187,12 @@ func refresh_held() -> void:
 func _refresh() -> void:
 	_dirty = false
 	for s in _slots:
-		s.set_item(bisaccia.id_at(s.index), bisaccia.count_at(s.index), bisaccia.trait_at(s.index))
+		s.set_item(bisaccia.id_at(s.index), bisaccia.count_at(s.index), bisaccia.trait_at(s.index), bisaccia.data_at(s.index))
 	for slot in _equip:
-		(_equip[slot] as SlotView).set_item(String(bisaccia.equip.get(slot, "")), 1, String(bisaccia.equip_traits.get(slot, "")))
+		var ev := _equip[slot] as SlotView
+		ev.set_item(String(bisaccia.equip.get(slot, "")), 1, String(bisaccia.equip_traits.get(slot, "")),
+			bisaccia.equip_data.get(slot, {}))
+		ev.tip_extra = {"equipped": true}
 	if _scorza:
 		var done := SetsData.complete(bisaccia.equip)
 		var extra := 0
@@ -199,7 +202,7 @@ func _refresh() -> void:
 		_show_sets(done)
 	_held_icon.visible = not held.is_empty()
 	if not held.is_empty():
-		_held_icon.set_item(held["id"], held["n"], String(held.get("tratto", "")))
+		_held_icon.set_item(held["id"], held["n"], String(held.get("tratto", "")), held.get("dati", {}))
 
 
 ## Il set più avanti tra quelli di cui si indossa qualcosa: nome e pezzi (dorato se completo); il bonus nel

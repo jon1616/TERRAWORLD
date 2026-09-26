@@ -127,9 +127,3 @@ static func full_name(id: String, tratto: String) -> String:
 	var n := String(ItemsData.get_item(id).get("name", id))
 	return n if tratto == "" else "%s [%s]" % [n, TRAITS[tratto]["name"]]
 
-
-## Suggerimento di una casella: nome, e il tratto con il suo effetto.
-static func tooltip(id: String, tratto: String) -> String:
-	if tratto == "":
-		return String(ItemsData.get_item(id).get("name", ""))
-	return "%s\nTratto %s: %s" % [ItemsData.get_item(id).get("name", id), TRAITS[tratto]["name"], TRAITS[tratto]["desc"]]

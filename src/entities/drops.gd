@@ -47,6 +47,20 @@ func spawn(id: String, n: int, pos: Vector2, dati := {}) -> void:
 		_items[-1]["dati"] = dati.duplicate(true)
 
 
+## L'oggetto a terra più vicino a un punto, entro `r` pixel (per i suggerimenti): {"id", "n", "dati", "key"} o {}.
+func at(p: Vector2, r: float) -> Dictionary:
+	var best := {}
+	var bd := r
+	for e in _items:
+		var d := (e["node"] as Node2D).position.distance_to(p)
+		if d < bd:
+			bd = d
+			best = e
+	if best.is_empty():
+		return {}
+	return {"id": best["id"], "n": best["n"], "dati": best.get("dati", {}), "key": best["node"]}
+
+
 func count() -> int:
 	return _items.size()
 
