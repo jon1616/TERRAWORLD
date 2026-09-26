@@ -18,8 +18,11 @@ var _sets: Label
 var held := {}                        # pila «in mano» mentre la Bisaccia è aperta
 ## Maiusc+clic su una casella: se è aperta una cesta (`ChestPanel`), la pila ci va dentro subito.
 var quick_target: Callable
+## «Nelle casse vicine» (lo collega `main` a `Storage.quick_stack`): () -> {n, casse}.
+var quick_stack: Callable
 var _slots: Array[SlotView] = []
 var _held_icon: SlotView
+var _toast: Callable = func(_t: String) -> void: pass
 
 
 func _ready() -> void:
@@ -116,6 +119,18 @@ func _ready() -> void:
 	sort.tooltip_text = "Mette in ordine la Bisaccia (non la barra rapida): per tipo e per nome, unendo le pile"
 	sort.pressed.connect(func() -> void: bisaccia.sort_bag())
 	add_child(sort)
+	var qs := Button.new()
+	qs.text = "Nelle casse vicine"
+	qs.focus_mode = Control.FOCUS_NONE
+	qs.position = sort.position - Vector2(162, 0)
+	qs.size = Vector2(154, 28)
+	qs.add_theme_font_size_override("font_size", 13)
+	qs.tooltip_text = "Ogni oggetto della Bisaccia (non la barra rapida) va nella cassa vicina che lo contiene già o che raccoglie il suo tipo"
+	qs.pressed.connect(func() -> void:
+		if quick_stack.is_valid():
+			var r: Dictionary = quick_stack.call()
+			_toast.call("Messi via %d oggetti in %d casse" % [int(r["n"]), int(r["casse"])] if int(r["n"]) > 0 else "Nessuna cassa vicina li vuole: scegli il tipo di una cassa, o mettici un oggetto uguale"))
+	add_child(qs)
 	crafting = CraftingPanel.new()
 	add_child(crafting)
 	crafting.setup(bisaccia, stations_near, Vector2(frame.position.x + frame.size.x + 16, frame.position.y), frame.size.y)

@@ -2,6 +2,45 @@ class_name Crafting
 extends RefCounted
 ## Regole della fabbricazione (nessun disegno): quali stazioni sono vicine, quali ricette si possono usare, se bastano
 ## i materiali, e il fabbricare vero e proprio sulla Bisaccia.
+## Gli ingredienti si prendono dalla Bisaccia e poi dalle casse vicine con «usa per creare» (`pool`, lo aggiorna
+## `Storage`): `have` conta, `take` toglie. Ciò che si fabbrica va sempre nella Bisaccia.
+
+
+## Le casse vicine da cui la creazione prende gli ingredienti (Bisaccia), dalla più vicina.
+static var pool: Array = []
+
+
+## Quanti ne hai, contando anche le casse vicine.
+static func have(b: Bisaccia, id: String) -> int:
+	var n := b.count(id)
+	for c in pool:
+		n += (c as Bisaccia).count(id)
+	return n
+
+
+static func in_pool(id: String) -> int:
+	var n := 0
+	for c in pool:
+		n += (c as Bisaccia).count(id)
+	return n
+
+
+## Toglie n oggetti: prima dalla Bisaccia, poi dalle casse. False (e niente tolto) se non bastano.
+static func take(b: Bisaccia, id: String, n: int) -> bool:
+	if have(b, id) < n:
+		return false
+	var from_bag := mini(b.count(id), n)
+	if from_bag > 0:
+		b.remove(id, from_bag)
+	n -= from_bag
+	for c in pool:
+		if n <= 0:
+			break
+		var k := mini((c as Bisaccia).count(id), n)
+		if k > 0:
+			(c as Bisaccia).remove(id, k)
+			n -= k
+	return true
 
 
 ## Stazioni a portata della cella c: {id: true}.
@@ -49,7 +88,7 @@ static func _discovered(r: Dictionary) -> bool:
 
 static func can_craft(r: Dictionary, b: Bisaccia) -> bool:
 	for k in r["in"]:
-		if b.count(k) < int(r["in"][k]):
+		if have(b, k) < int(r["in"][k]):
 			return false
 	return b.room_for(String(r["out"])) >= int(r["qty"])
 
@@ -58,7 +97,7 @@ static func craft(r: Dictionary, b: Bisaccia, luck := 0.0) -> bool:
 	if not can_craft(r, b):
 		return false
 	for k in r["in"]:
-		b.remove(k, int(r["in"][k]))
+		take(b, k, int(r["in"][k]))
 	var out := String(r["out"])
 	if Bisaccia.is_gear(out) and int(r["qty"]) == 1:
 		# voce 54: l'equipaggiamento fabbricato nasce con una qualità (e il suo tratto, come sempre)
@@ -97,10 +136,10 @@ static func reforge(b: Bisaccia, i: int) -> String:
 	if id == "" or not Bisaccia.is_gear(id):
 		return ""
 	for k in TraitsData.REFORGE_COST:
-		if b.count(k) < int(TraitsData.REFORGE_COST[k]):
+		if have(b, k) < int(TraitsData.REFORGE_COST[k]):
 			return ""
 	for k in TraitsData.REFORGE_COST:
-		b.remove(k, int(TraitsData.REFORGE_COST[k]))
+		take(b, k, int(TraitsData.REFORGE_COST[k]))
 	var t := TraitsData.roll(id, null, b.trait_at(i) if b.trait_at(i) != "" else "-")
 	b.slots[i]["tratto"] = t
 	b.changed.emit()
@@ -138,10 +177,10 @@ static func ungraft(b: Bisaccia, i: int, t: String) -> bool:
 	if not t in inn:
 		return false
 	for k in TraitsData.UNGRAFT_COST:
-		if b.count(k) < int(TraitsData.UNGRAFT_COST[k]):
+		if have(b, k) < int(TraitsData.UNGRAFT_COST[k]):
 			return false
 	for k in TraitsData.UNGRAFT_COST:
-		b.remove(k, int(TraitsData.UNGRAFT_COST[k]))
+		take(b, k, int(TraitsData.UNGRAFT_COST[k]))
 	inn.erase(t)
 	dati["innesti"] = inn
 	b.slots[i]["dati"] = dati
@@ -154,9 +193,9 @@ static func ungraft(b: Bisaccia, i: int, t: String) -> bool:
 static func wrap(b: Bisaccia, i: int, fascia: String) -> bool:
 	var it := ItemsData.get_item(b.id_at(i))
 	var fd: Dictionary = FormsData.FASCE.get(fascia, {})
-	if fd.is_empty() or not String(it.get("form", "")) in FormsData.WRAPPABLE or b.count(String(fd["item"])) < int(fd["n"]):
+	if fd.is_empty() or not String(it.get("form", "")) in FormsData.WRAPPABLE or have(b, String(fd["item"])) < int(fd["n"]):
 		return false
-	b.remove(String(fd["item"]), int(fd["n"]))
+	take(b, String(fd["item"]), int(fd["n"]))
 	var dati: Dictionary = b.slots[i].get("dati", {}).duplicate(true)
 	dati["fascia"] = fascia
 	b.slots[i]["dati"] = dati
@@ -168,9 +207,10 @@ static func wrap(b: Bisaccia, i: int, fascia: String) -> bool:
 static func describe(r: Dictionary, b: Bisaccia) -> String:
 	var parts := []
 	for k in r["in"]:
-		var have := b.count(k)
+		var mine := b.count(k)
+		var there := in_pool(k)
 		var need := int(r["in"][k])
-		parts.append("%d %s (%d)" % [need, ItemsData.get_item(k)["name"], have])
+		parts.append("%d %s (%d%s)" % [need, ItemsData.get_item(k)["name"], mine, (" + %d nelle casse" % there) if there > 0 else ""])
 	var where := "a mano, ovunque" if String(r["station"]) == "" else "vicino a: " + String(StationsData.STATIONS[r["station"]]["name"])
 	var desc := String(ItemsData.get_item(r["out"]).get("desc", ""))
 	return "Serve: %s\n%s%s" % [", ".join(parts), where, ("\n" + desc) if desc != "" else ""]

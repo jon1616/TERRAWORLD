@@ -111,6 +111,11 @@ func setup(b: Bisaccia, near: Callable, pos: Vector2, height: float) -> void:
 
 
 ## Quante righe si vedono nell'elenco (per le prove: le righe nascoste restano pronte per dopo).
+## Da ridisegnare (lo chiama anche `Storage` quando cambia una cassa vicina che dà gli ingredienti).
+func mark_dirty() -> void:
+	_dirty = true
+
+
 func shown_rows() -> int:
 	var n := 0
 	for c in _list.get_children():
@@ -262,7 +267,7 @@ func _reforge_row(i: int) -> Button:
 	var can := id != "" and Bisaccia.is_gear(id)
 	for k in TraitsData.REFORGE_COST:
 		cost += "%d %s" % [TraitsData.REFORGE_COST[k], ItemsData.get_item(k)["name"]]
-		can = can and bisaccia.count(k) >= int(TraitsData.REFORGE_COST[k])
+		can = can and Crafting.have(bisaccia, k) >= int(TraitsData.REFORGE_COST[k])
 	var b := _plain_row(id if id != "" else "maglio", can)
 	b.text = "Rinnova il tratto: %s" % (TraitsData.full_name(id, bisaccia.trait_at(i)) if Bisaccia.is_gear(id) else "(prendi in mano un'arma o un'armatura)")
 	b.tooltip_text = "Al Maglio dei Seminatori: un tratto nuovo, sempre diverso dal vecchio.\nCosta %s." % cost
@@ -294,7 +299,7 @@ func _graft_row(i: int, essence: String) -> Button:
 ## La riga del Telaio: «Fascia di seta: Lancia di legnoferro (+8% velocità del colpo) — 3 Seta di radice».
 func _wrap_row(i: int, fascia: String) -> Button:
 	var fd: Dictionary = FormsData.FASCE[fascia]
-	var can := bisaccia.count(String(fd["item"])) >= int(fd["n"])
+	var can := Crafting.have(bisaccia, String(fd["item"])) >= int(fd["n"])
 	var b := _plain_row(String(fd["item"]), can)
 	b.text = "Fascia di %s: %s (%s)" % [fd["name"], ItemsData.get_item(bisaccia.id_at(i))["name"], fd["desc"]]
 	b.tooltip_text = "Al Telaio di foglie: si avvolge sul manico, e prende il posto della fascia di prima.\nCosta %d %s." % [
@@ -313,7 +318,7 @@ func _ungraft_row(i: int, t: String) -> Button:
 	var can := true
 	for k in TraitsData.UNGRAFT_COST:
 		cost += "%d %s" % [TraitsData.UNGRAFT_COST[k], ItemsData.get_item(k)["name"]]
-		can = can and bisaccia.count(k) >= int(TraitsData.UNGRAFT_COST[k])
+		can = can and Crafting.have(bisaccia, k) >= int(TraitsData.UNGRAFT_COST[k])
 	var b := _plain_row("maglio", can)
 	b.text = "Togli l'innesto %s (%s; l'Essenza si perde)" % [TraitsData.TRAITS[t]["name"], cost]
 	b.pressed.connect(func() -> void:

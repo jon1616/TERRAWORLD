@@ -76,7 +76,7 @@ func refresh(possible: bool) -> void:
 		_name.add_theme_color_override("font_color", TEXT if can else TEXT_OFF)
 	var i := 0
 	for k in r["in"]:
-		var enough := 1 if bag.count(k) >= int(r["in"][k]) else 0
+		var enough := 1 if Crafting.have(bag, k) >= int(r["in"][k]) else 0   # anche dalle casse vicine
 		if enough != _enough[i]:               # si ricolora solo ciò che è cambiato
 			_enough[i] = enough
 			_need[i].add_theme_color_override("font_color", HAVE if enough == 1 else MISSING)

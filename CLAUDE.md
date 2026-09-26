@@ -102,7 +102,7 @@ Godot_console.exe --path . -- --prove            # --carica riapre il mondo di p
 Godot_console.exe --path . -- --prove --prova-portale
 # solo alcuni gruppi di prove (per provare in fretta una voce nuova): doni, antiche, pericoli, combattimento, tratti,
 # obiettivi, guardiani, rovine, mobilita, lanci, giardino, eventi, casa, abitanti, compagni, viaggio, semi,
-# biomi, biomi_nuovi, luoghi, corsa, raccolta, musica, germogliato, interfaccia, geni, forme, ecologia, mandria
+# biomi, biomi_nuovi, luoghi, corsa, raccolta, musica, germogliato, interfaccia, geni, forme, ecologia, mandria, casse
 # (elenco in `AutoTests._group`)
 Godot_console.exe --path . -- --prove --solo=doni,antiche
 # suoni generati: prove/suoni/*.wav da ascoltare, con durata, picco e volume medio (segnala muti e distorti)
@@ -400,7 +400,13 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
 - `src/game/depth_watch.gd` (`DepthWatch`) — in che strato è il giocatore (con un margine sul confine): sfuma il
   chiarore della luce e mostra la scritta dello strato (`StratumBanner` in `src/ui/`).
 - `src/game/crafting.gd` (`Crafting`) — regole della fabbricazione: stazioni a portata (5 tessere), ricette usabili,
-  materiali bastano?, fabbrica; `describe` per il suggerimento.
+  materiali bastano?, fabbrica; `describe` per il suggerimento. Gli ingredienti vengono dalla Bisaccia e dalle casse
+  vicine (`pool`, `have`, `take`): ogni nuovo costo va contato con `have` e tolto con `take`, non con `Bisaccia.count`.
+- `src/game/storage.gd` (`Storage`, dati in `StorageData`) — le casse (26 set 2026, richiesta dell'utente): le casse
+  entro 10 tessere con «usa per creare» danno gli ingredienti (`Crafting.pool`); impostazioni per cassa in
+  `world_meta["casse"]` (nome scritto sopra la cassa, usa per creare, tipo che raccoglie); Deposita tutto/simili,
+  Rifornisci, Riordina (in `ChestPanel`) e «Nelle casse vicine» (nella Bisaccia). I pulsanti non toccano mai la barra
+  rapida (tranne Rifornisci, che completa le pile). Prove `--solo=casse`, foto 99_casse.
 - `src/game/bisaccia.gd` (`Bisaccia`) — l'inventario: 40 caselle (prime 10 = barra rapida), `add`/`remove`/`count`/
   `room_for`/`take_one`/`swap_with`, equipaggiamento `equip` con `wear`/`scorza` (5 posti: elmo, corazza, gambali,
   `accessorio_1`, `accessorio_2`; `kind_of_slot`); la stessa classe con meno caselle fa da contenuto di ceste e scrigni, corredo iniziale (`STARTER`); si salva

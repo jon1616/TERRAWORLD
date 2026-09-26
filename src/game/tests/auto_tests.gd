@@ -90,6 +90,7 @@ func run(main: Node2D) -> void:
 	await TestsForms.new(kit).run()
 	await TestsEcology.new(kit).run()
 	await TestsHerd.new(kit).run()
+	await TestsStorage.new(kit).run()
 	await ob.run()
 	await w.run_and_save()
 	# la Bisaccia aperta
@@ -201,5 +202,7 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsEcology.new(kit).run()
 		"mandria":
 			await TestsHerd.new(kit).run()
+		"casse":
+			await TestsStorage.new(kit).run()
 		_:
 			print("ATTENZIONE: gruppo di prove sconosciuto «%s»" % g)

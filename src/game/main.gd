@@ -54,6 +54,7 @@ var sampling: Sampling
 var innesto: InnestoPanel
 var gene_mats: GeneMaterials
 var ecology: Ecology
+var storage: Storage
 var herd: Herd
 var taming: Taming
 var pens: Pens
@@ -260,6 +261,10 @@ func _build() -> void:
 	sampling = _mount(Sampling.new())
 	gene_mats = _mount(GeneMaterials.new())
 	ecology = _mount(Ecology.new())
+	storage = _mount(Storage.new())        # casse: ingredienti per la creazione, impostazioni, pulsanti
+	hud.panel.quick_stack = storage.quick_stack
+	hud.panel._toast = hud.toast
+	interact.chest_panel.storage = storage
 	herd = _mount(Herd.new())              # voce 59: la mandria, come si addomestica, recinti e Incubatrice
 	taming = _mount(Taming.new())
 	pens = _mount(Pens.new())

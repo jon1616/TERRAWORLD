@@ -190,9 +190,9 @@ const SORT_KINDS := ["piccone", "ascia", "spada", "arco", "bastone", "munizione"
 	"torcia", "piattaforma", "seme", "seme_mondo", "blocco", "materiale", "essenza", "trofeo", "reliquia", "ricordo", "provetta", "fiala", "uovo", "creatura", "vasetto", "laccio"]
 
 
-func sort_bag() -> void:
+func sort_bag(from := HOTBAR) -> void:
 	var items: Array = []
-	for i in range(HOTBAR, slots.size()):
+	for i in range(from, slots.size()):
 		if not slots[i].is_empty():
 			items.append(slots[i])
 		slots[i] = {}
@@ -202,10 +202,10 @@ func sort_bag() -> void:
 		if ka != kb:
 			return ka < kb
 		return String(ItemsData.get_item(String(a["id"])).get("name", "")) < String(ItemsData.get_item(String(b["id"])).get("name", "")))
-	var k := HOTBAR
+	var k := from
 	for it in items:
 		# le pile uguali (senza tratto né dati) si uniscono finché c'è posto
-		if k > HOTBAR and slots[k - 1].get("id", "") == it["id"] and not it.has("tratto") and not slots[k - 1].has("tratto") \
+		if k > from and slots[k - 1].get("id", "") == it["id"] and not it.has("tratto") and not slots[k - 1].has("tratto") \
 				and not it.has("dati") and not slots[k - 1].has("dati"):
 			var room := ItemsData.stack_of(String(it["id"])) - int(slots[k - 1]["n"])
 			var moved := mini(room, int(it["n"]))
