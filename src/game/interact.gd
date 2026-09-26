@@ -42,6 +42,8 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 			return Gifts.absorb(m, id)
 		"richiamo":
 			return m.keepers.summon(id)
+		"tavoletta":
+			return m.language.use_tablet(id)           # voce 68
 		"mappa":
 			if id == "mappa_sigilli":
 				return _seal_hint(id)                  # voce 65
@@ -212,6 +214,8 @@ func touch(c: Vector2i) -> bool:
 			return m.giardino.touch_tree(o)                # voce 62
 		"bacheca":
 			return m.board.open()                          # voce 67
+		"stele":
+			return m.language.read(o)                      # voce 68
 		"cuore_mondo":
 			m.hud.toast("Il Cuore batte piano, malato. %d nodi avvizziti sul soffitto" % m.guardian.nodes_left())
 			return true

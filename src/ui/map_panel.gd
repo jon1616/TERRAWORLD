@@ -157,6 +157,14 @@ func _draw() -> void:
 	# la firma del mondo, una volta trovata (voce 44)
 	if m.signature != null and m.signature.found():
 		_mark(Vector2(m.signature.center()), MARK["firma"], 9.0)
+	# i segni delle stele e delle catene (voce 68): si vedono anche dove la mappa è ancora nera, con il nome
+	for sg in m.world_meta.get("segni", []):
+		var sc := to_screen(Vector2(float(sg[0]), float(sg[1])))
+		var col := Color(String(sg[3]))
+		draw_colored_polygon(PackedVector2Array([sc + Vector2(0, -9), sc + Vector2(8, 0), sc + Vector2(0, 9), sc + Vector2(-8, 0)]),
+			Color(0.02, 0.03, 0.05))
+		draw_colored_polygon(PackedVector2Array([sc + Vector2(0, -7), sc + Vector2(6, 0), sc + Vector2(0, 7), sc + Vector2(-6, 0)]), col)
+		draw_string(ThemeDB.fallback_font, sc + Vector2(11, 5), String(sg[2]), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, col)
 	_mark(Vector2(w.spawn), MARK["spawn"], 6.0)
 	_mark(m.player.position / 16.0, MARK["player"], 7.0)
 

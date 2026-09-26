@@ -15,6 +15,7 @@ const KINDS := {
 	"moneta": "Moneta", "ricordo": "Ricordo di un mondo", "evocatore": "Bastone evocatore", "compagno": "Compagno",
 	"vasetto": "Vasetto", "uovo": "Uovo", "purifica": "Purifica l'Avvizzimento", "provetta": "Provetta",
 	"laccio": "Laccio", "fiala": "Fiala di un gene", "creatura": "Creatura della mandria",
+	"tavoletta": "Tavoletta da leggere",
 }
 
 ## Colore del nome secondo il tipo (le armi e le armature prendono quello della qualità).

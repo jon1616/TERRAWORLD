@@ -33,6 +33,10 @@ func open(addr := "") -> void:
 	panel.open(addr)
 
 
+func _process(_dt: float) -> void:
+	_btn.visible = not m.hud.is_open()          # sopra la mappa e i pannelli coprirebbe le loro scritte
+
+
 func _unhandled_input(e: InputEvent) -> void:
 	if Keys.pressed(e, "enciclopedia"):
 		if panel.visible:

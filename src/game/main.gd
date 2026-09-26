@@ -60,6 +60,7 @@ var powers: Powers
 var seasons: Seasons
 var game_options: GameOptions
 var encyclopedia: Encyclopedia
+var language: Language
 var board: Board
 var storage: Storage
 var herd: Herd
@@ -288,6 +289,7 @@ func _build() -> void:
 	powers = _mount(Powers.new())          # voce 64: i poteri del Germogliato (Sigilli, Vista, ponte…)
 	seasons = _mount(Seasons.new())        # voce 66: le stagioni di ogni mondo
 	board = _mount(Board.new())            # voce 67: la Bacheca dei Giardinieri
+	language = _mount(Language.new())      # voce 68: la lingua dei Seminatori, le stele e le tavolette
 	hud.panel.quick_stack = storage.quick_stack
 	hud.panel._toast = hud.toast
 	interact.chest_panel.storage = storage

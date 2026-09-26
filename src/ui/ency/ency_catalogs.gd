@@ -214,6 +214,17 @@ static func catalog(id: String) -> Array:
 					continue
 				t += _b(String(sd["name"]), String(TipWordsData.STATION_USE.get(sid, ItemsData.get_item(String(sd.get("item", ""))).get("desc", "")))) + "\n"
 			return ["Banchi e stazioni", t, ""]
+		"glossario":
+			var ws := LanguageData.WORDS.keys()
+			ws.sort_custom(func(a: String, b: String) -> bool: return LanguageData.sem(a) < LanguageData.sem(b))
+			var n := 0
+			for w in ws:
+				var k: bool = EncyPages.show_all or (EncyPages.ch != null and EncyPages.ch.lingua.has(w))
+				if k:
+					n += 1
+					t += "• [color=#6ff0b8]%s[/color] — %s\n" % [LanguageData.sem(String(w)), LanguageData.it(String(w))]
+			t = "[color=%s]%d parole su %d.[/color]\n\n" % [D, n, ws.size()] + t
+			return ["Glossario dei Seminatori", t, ""]
 		"obiettivi_elenco":
 			for o in ObjectivesData.LIST:
 				var done: bool = EncyPages.ch != null and String(o["id"]) in EncyPages.ch.obiettivi

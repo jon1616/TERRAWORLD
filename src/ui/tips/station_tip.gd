@@ -24,6 +24,19 @@ static func card(m: Node2D, o: Vector2i, id: String) -> TipCard:
 	c.title(String(sd.get("name", id)), Color("#e0b878"), item if ItemsData.get_item(item).has("name") else null)
 	if id in CHESTS:
 		return _chest(m, c, o, id)
+	if id == "stele":
+		var e: Dictionary = m.language.stele().get(Language._key(o), {})
+		if not e.is_empty():
+			var words: Array = e["words"]
+			c.sub("una frase nella lingua dei Seminatori")
+			c.text("[color=#6ff0b8]%s[/color]" % Language.line_sem(words))
+			c.text(m.language.line_it(words))
+			c.bar("Capisci %d parole su %d" % [m.language.understood(e), words.size()], float(m.language.understood(e)) / maxf(words.size(), 1),
+				Color("#6ff0b8"))
+			if not (e.get("hint", []) as Array).is_empty():
+				c.line("Indica un luogo di questo mondo" if not e.get("segnata", false) else "Il luogo che indica è sulla mappa", TipCard.GOLD)
+		c.hint("Clic destro: leggi")
+		return c
 	if id.begins_with("bozzolo_") and id != "bozzolo_rotto":
 		c.sub("tana di un Custode")
 		c.line("Dentro dorme un Custode: si sveglia quando ti avvicini", Color("#ff8a6a"))

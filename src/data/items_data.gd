@@ -274,6 +274,7 @@ static func all() -> Dictionary:
 	out.merge(HerdData.ITEMS.duplicate(true))              # voce 59
 	out.merge(PowersData.ITEMS.duplicate(true))            # voce 64
 	out.merge(SeasonsData.ITEMS.duplicate(true))           # voce 66
+	out.merge(LanguageData.ITEMS.duplicate(true))          # voce 68
 	# le famiglie di equipaggiamento: forma × materiale (voce 49, `FormsData` e `MaterialsData`)
 	for m in MaterialsData.all():
 		for f in FormsData.FORMS:
@@ -342,6 +343,8 @@ static func use_of(id: String) -> String:
 			return "smura"
 		"annaffiatoio":
 			return "annaffia"
+		"tavoletta":
+			return "leggi"
 		"compagno":
 			return "chiama"
 		"evocatore":

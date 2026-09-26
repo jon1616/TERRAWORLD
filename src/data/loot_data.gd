@@ -33,6 +33,7 @@ const TABLES := {
 	],
 	# scrigni delle rovine dei Seminatori, per strato (1 Sottobosco … 4 il Fondo); `roll_chest` tira più volte
 	"rovina_1": [
+		{"item": "tavoletta_seminatori", "min": 1, "max": 1, "chance": 0.35},
 		{"item": "lumino", "min": 5, "max": 15, "chance": 1.0},
 		{"item": "seme_rugiada", "min": 2, "max": 4, "chance": 0.3},
 		{"item": "occhio_tubero", "min": 1, "max": 2, "chance": 0.15},
@@ -46,6 +47,7 @@ const TABLES := {
 		{"item": "pappo_seme", "min": 1, "max": 1, "chance": 0.12},
 	],
 	"rovina_2": [
+		{"item": "tavoletta_seminatori", "min": 1, "max": 1, "chance": 0.4},
 		{"item": "lumino", "min": 10, "max": 30, "chance": 1.0},
 		{"item": "spore_luminose", "min": 2, "max": 3, "chance": 0.2},
 		{"item": "seme_campanula", "min": 1, "max": 2, "chance": 0.15},
@@ -62,6 +64,7 @@ const TABLES := {
 		{"item": "cuore_muschio", "min": 1, "max": 1, "chance": 0.1},
 	],
 	"rovina_3": [
+		{"item": "tavoletta_seminatori", "min": 1, "max": 2, "chance": 0.45},
 		{"item": "lumino", "min": 20, "max": 50, "chance": 1.0},
 		{"item": "baccello_vento", "min": 1, "max": 1, "chance": 0.1},
 		{"item": "artigli_corteccia", "min": 1, "max": 1, "chance": 0.08},
@@ -76,6 +79,7 @@ const TABLES := {
 		{"item": "foglia_planante", "min": 1, "max": 1, "chance": 0.12},
 	],
 	"rovina_4": [
+		{"item": "tavoletta_seminatori", "min": 1, "max": 2, "chance": 0.5},
 		{"item": "lumino", "min": 40, "max": 90, "chance": 1.0},
 		{"item": "lingotto_ambra", "min": 4, "max": 8, "chance": 0.5},
 		{"item": "rugiada_linfa", "min": 1, "max": 2, "chance": 0.45},

@@ -119,6 +119,10 @@ func world_tips() -> void:
 	var at := Vector2(620, 160)
 	var spot := kit.flat_spot(world.spawn + Vector2i(30, 0), 10)
 	if spot.x < 0:
+		spot = kit.flat_spot(world.spawn + Vector2i(-40, 0), 6)   # le prove di prima occupano il tratto piano
+	if spot.x < 0:
+		spot = kit.floor_near(world.spawn + Vector2i(30, 0), 40)
+	if spot.x < 0:
 		print("ATTENZIONE: nessun posto per le prove delle schede del mondo")
 		return
 	kit.flatten(spot, 8)

@@ -100,7 +100,7 @@ const NPCS := {
 	"cartografo": {"name": "Il Cartografo dei Seminatori", "greet": "I Seminatori segnavano tutto. Io ritrovo i loro segni.",
 		"requires": {"albero": 7, "giardino": true},
 		"look": {"cloak": "#26364a", "trim": "#e8e0c8", "skin": "#c8a07a", "extra": "#d8c8a0"},
-		"goods": [["mappa_seminatori", 1], ["mappa_sigilli", 1], ["mappa_firma", 1], ["passerella", 20], ["torcia", 20]],
+		"goods": [["mappa_seminatori", 1], ["mappa_sigilli", 1], ["mappa_firma", 1], ["tavoletta_seminatori", 1], ["passerella", 20], ["torcia", 20]],
 		"likes": ["penna_corteccia", "piuma_gelo", "vetro_resina", "scaglia_ardesia"],
 		"gifts": {2: ["mappa_sigilli", 2], 4: ["mappa_firma", 2]},
 		"quests": [

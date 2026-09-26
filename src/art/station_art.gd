@@ -21,6 +21,9 @@ static func make(id: String) -> Dictionary:
 	if id.begins_with("albero_madre_"):              # voce 62: l'Albero-Madre, in cinque fasi
 		MotherTreeArt.draw(int(id.get_slice("_", 2)), im, gm, w, h)
 		return {"img": im, "glow": gm}
+	if SeminatoriArt.draw(id, im, gm, w, h):       # Roadmap 9: stele, meccanismi e luoghi dei Seminatori
+		Px.outline(im, OUT)
+		return {"img": im, "glow": gm}
 	if CompactArt.draw(id, im, gm, w, h):          # banchi e mobili rimpiccioliti
 		Px.outline(im, OUT)
 		return {"img": im, "glow": gm}

@@ -1271,10 +1271,22 @@ Le prove controllano ogni pagina (niente segnaposti rimasti) e ogni collegamento
 
 # Roadmap 9 «Il mistero dei Seminatori» — il racconto sopra il motore
 
-## 68. [ ] La lingua dei Seminatori (M)
+## 68. [x] La lingua dei Seminatori (M) — fatto il 26 set 2026
 Le scritte dei Seminatori sono glifi: ogni tavoletta trovata insegna parole, il Cartografo aiuta a decifrare. Le
 scritte sui muri delle rovine si leggono a poco a poco: una progressione di **conoscenza**, non di equipaggiamento.
 **Pronto quando**: una stessa scritta, riletta più avanti nella partita, dice di più (e indica qualcosa da cercare).
+**Fatto il 27 set 2026**: la lingua dei Seminatori è una lingua vera, con 50 parole sue (`LanguageData`: «vehl» =
+radice, «dun» = sigillo, «ost» = verso l'alba…). In ogni mondo le **stele** (`PassStele`: una in ogni rovina dove c'è
+posto, due in superficie vicino alla partenza, una nel Giardino) portano una frase: quasi tutte indicano un **luogo vero**
+di quel mondo rispetto alla stele (un Sigillo con il suo tipo, un reliquiario, la firma, il Cuore, la tana di un
+Custode: «sigillo di brace dorme sotto, verso l'alba, lontano»), le altre raccontano la storia dei Seminatori e del Seme
+Nero. Leggendo (clic destro, `ReadPanel`) le parole conosciute sono in italiano, le altre restano nella loro lingua; la
+prima lettura insegna una parola dal contesto; le **tavolette dei Seminatori** (scrigni delle rovine, Cartografo)
+insegnano tre parole, prima quelle delle stele del mondo dove sei. Quando una frase è tutta compresa il luogo si
+**segna sulla mappa** (`world_meta["segni"]`, un rombo con il nome, anche dove la mappa è nera): la stessa stele,
+riletta più avanti, dice di più. Le parole valgono in tutti i mondi (`Character.lingua`). La scheda di una stele (mouse
+sopra) mostra la frase e quante parole capisci. Obiettivi «stele», «parole» (15), «parole_tutte». Enciclopedia: capitolo
+«La lingua dei Seminatori» e il **Glossario**. Prove `--solo=lingua` (foto 127_stele, 128_segno_sulla_mappa).
 
 ## 69. [ ] Le catene di ricerca tra i mondi (L)
 Catene generate e scritte: un indizio in un mondo indica un gene o una combinazione di geni; il mondo che ne nasce ha

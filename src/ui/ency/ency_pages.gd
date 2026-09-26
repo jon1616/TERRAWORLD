@@ -10,7 +10,7 @@ extends RefCounted
 const ALIAS := {"erbario": "obiettivi"}
 const CATALOGS := [["oggetti", "Oggetti"], ["creature", "Creature"], ["famiglie", "Famiglie"], ["geni", "Geni"],
 	["materiali", "Materiali"], ["forme", "Forme"], ["tratti", "Tratti"], ["stazioni", "Banchi e stazioni"],
-	["obiettivi_elenco", "Obiettivi"]]
+	["obiettivi_elenco", "Obiettivi"], ["glossario", "Glossario dei Seminatori"]]
 
 static var ch: Character                 # il personaggio (null nel menu: tutto da scoprire)
 static var show_all := false
@@ -22,6 +22,7 @@ static func chapters() -> Array:
 	out.append_array(EncyGuideData.CHAPTERS)
 	out.append_array(EncyCraftData.CHAPTERS)
 	out.append_array(EncySeedsData.CHAPTERS)
+	out.append_array(EncyStoryData.CHAPTERS)
 	return out
 
 
@@ -80,7 +81,8 @@ static func numbers() -> Dictionary:
 		"bag": 40, "day_min": roundi(DayCycle.DAY / 60.0), "season_days": SeasonsData.DAYS, "chest_reach": 10,
 		"craft_reach": 5, "max_slots": TraitsData.MAX_SLOTS, "weak": ItemTip.num(ElementsData.WEAK, 1),
 		"resist": ItemTip.num(ElementsData.RESIST, 1), "vigor_pct": roundi(Portal.VIGOR_STEP * 100.0),
-		"stages": MotherTreeData.STAGES.size(), "n_obiettivi": ObjectivesData.LIST.size()}
+		"stages": MotherTreeData.STAGES.size(), "n_obiettivi": ObjectivesData.LIST.size(),
+		"n_parole": LanguageData.WORDS.size(), "parole_note": ch.lingua.size() if ch != null else 0}
 
 
 ## Il personaggio conosce già questa cosa? (senza personaggio, nel menu: no)
