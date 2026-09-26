@@ -215,6 +215,14 @@ func swap(i: int) -> void:
 
 ## Un Seme di mondo con un gene raro in più: il premio più ambito della bacheca.
 func _rare_seed() -> void:
+	var g := _rare_seed_genome()
+	var item := Genome.item_of(g)
+	if m.character.bisaccia.add_stack({"id": item, "n": 1, "dati": g}) > 0:
+		m.drops.spawn(item, 1, m.player.position, g)
+
+
+## Il genoma di un Seme con un gene raro in più (anche le catene brevi lo danno in premio, voce 69).
+func _rare_seed_genome() -> Dictionary:
 	var v := maxi(int(m.world_meta.get("vigore", 1)), 1) + 1
 	var g := Genome.roll(_rng, v)
 	var rares := []
@@ -226,9 +234,7 @@ func _rare_seed() -> void:
 	if not rares.is_empty():
 		(g["geni"] as Array).append(rares[_rng.randi_range(0, rares.size() - 1)])
 		g["geni"] = Genome.sort(g["geni"])
-	var item := Genome.item_of(g)
-	if m.character.bisaccia.add_stack({"id": item, "n": 1, "dati": g}) > 0:
-		m.drops.spawn(item, 1, m.player.position, g)
+	return g
 
 
 func open() -> bool:

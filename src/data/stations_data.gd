@@ -95,6 +95,8 @@ const STATIONS := {
 		"light_color": Color(1.0, 1.0, 0.8)},
 	# voce 68: la stele dei Seminatori (una frase nella loro lingua)
 	"stele": {"name": "Stele dei Seminatori", "size": [2, 3], "fixed": true},
+	# voce 69: il leggio delle cripte delle catene
+	"leggio": {"name": "Leggio dei Seminatori", "size": [2, 2], "fixed": true, "light": true},
 	# voce 67: la Bacheca dei Giardinieri (richieste senza fine)
 	"bacheca": {"name": "Bacheca dei Giardinieri", "size": [3, 2], "item": "bacheca"},
 	# voce 47: il Banco dell'Innestatrice (clic destro: `InnestoPanel`)

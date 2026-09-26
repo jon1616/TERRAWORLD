@@ -24,6 +24,15 @@ static func card(m: Node2D, o: Vector2i, id: String) -> TipCard:
 	c.title(String(sd.get("name", id)), Color("#e0b878"), item if ItemsData.get_item(item).has("name") else null)
 	if id in CHESTS:
 		return _chest(m, c, o, id)
+	if id == "leggio":
+		var open := false
+		for e in m.world_meta.get("cripte", []):
+			if int(e["x"]) == o.x and int(e["y"]) == o.y and m.chains.is_open(String(e["catena"]), int(e["tappa"])):
+				open = true
+				c.sub("la cripta di «%s»" % m.chains.title_of(String(e["catena"])), TipCard.GOLD)
+		c.line("Una tappa della catena: storia, premio e l'indizio dopo" if open else "Già letto", TipCard.TEXT if open else TipCard.DIM)
+		c.hint("Clic destro: leggi")
+		return c
 	if id == "stele":
 		var e: Dictionary = m.language.stele().get(Language._key(o), {})
 		if not e.is_empty():

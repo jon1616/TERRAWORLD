@@ -18,6 +18,7 @@ var _tabs: Array[Button] = []
 var _worlds: Array[Dictionary] = []
 ## Il contenuto della scheda del Genario, se c'è (voce 46): () -> [righe dell'elenco, testo a destra].
 var genario_view: Callable
+var chains_view: Callable                  # voce 69: il Taccuino delle catene
 
 
 func setup(main: Node2D) -> void:
@@ -35,7 +36,7 @@ func setup(main: Node2D) -> void:
 	_title.add_theme_color_override("font_color", Color("#8ef0d8"))
 	add_child(_title)
 	var x := 120.0
-	for t in [["mondi", "Mondi"], ["genario", "Genario"]]:
+	for t in [["mondi", "Mondi"], ["genario", "Genario"], ["catene", "Catene"]]:
 		var b := Button.new()
 		b.text = t[1]
 		b.position = Vector2(x, 96)
@@ -94,12 +95,12 @@ func _unhandled_input(e: InputEvent) -> void:
 
 func refresh() -> void:
 	for k in _tabs.size():
-		ErbarioPanel._frame(_tabs[k], Color("#ffb84a") if ["mondi", "genario"][k] == tab else Color("#2f7a70"))
+		ErbarioPanel._frame(_tabs[k], Color("#ffb84a") if ["mondi", "genario", "catene"][k] == tab else Color("#2f7a70"))
 	for c in _list.get_children():
 		c.queue_free()
 	_close.visible = false
-	if tab == "genario" and genario_view.is_valid():
-		var view: Array = genario_view.call(selected)
+	if (tab == "genario" and genario_view.is_valid()) or (tab == "catene" and chains_view.is_valid()):
+		var view: Array = (genario_view if tab == "genario" else chains_view).call(selected)
 		_title.text = String(view[0])
 		for row in view[1]:
 			_row(String(row[0]), String(row[1]), Color(String(row[2])))

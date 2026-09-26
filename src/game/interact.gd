@@ -216,6 +216,8 @@ func touch(c: Vector2i) -> bool:
 			return m.board.open()                          # voce 67
 		"stele":
 			return m.language.read(o)                      # voce 68
+		"leggio":
+			return m.chains.read(o)                        # voce 69
 		"cuore_mondo":
 			m.hud.toast("Il Cuore batte piano, malato. %d nodi avvizziti sul soffitto" % m.guardian.nodes_left())
 			return true

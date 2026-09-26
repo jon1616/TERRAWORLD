@@ -125,6 +125,17 @@ func _init() -> void:
 	for id in items:
 		if items[id].has("spell"):
 			_err(SpellsData.SPELLS.has(String(items[id]["spell"])), "%s: incantesimo sconosciuto" % id)
+	# voce 69: le catene chiedono geni veri e danno oggetti veri
+	var steps: Array = ChainsData.LONG["steps"]
+	for st in steps:
+		for g in st["need"].get("geni", []):
+			_err(GenesData.GENES.has(String(g)), "catena: gene inesistente %s" % g)
+		for k in st["reward"]:
+			_err(items.has(String(k)) or String(k) in ["seme_nero", "seme_raro"], "catena: premio inesistente %s" % k)
+			dropped[String(k)] = true
+	for r in ChainsData.SHORT_REWARDS:
+		for k in r:
+			_err(items.has(String(k)) or String(k) == "seme_raro", "catena breve: premio inesistente %s" % k)
 	# 5. ogni oggetto si può ottenere; ogni materiale serve a qualcosa
 	for id in items:
 		var ok: bool = made.has(id) or dropped.has(id) or ItemsData.OTHER_SOURCES.has(id) or items[id].has("source")

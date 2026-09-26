@@ -37,7 +37,7 @@ static func card(slot: Dictionary, ctx := {}) -> TipCard:
 		what.append("%d nella pila" % n)
 	c.sub(" · ".join(what))
 	_values(c, slot, it, kind)
-	_specials(c, slot, it, kind, dati)
+	_specials(c, slot, it, kind, dati, ctx)
 	_traits(c, slot, gear, dati)
 	_effects(c, it)
 	_sets(c, id, ctx)
@@ -96,7 +96,7 @@ static func _values(c: TipCard, slot: Dictionary, it: Dictionary, kind: String) 
 
 
 ## Ciò che solo certi oggetti hanno: pozioni, doni, Semi di mondo, creature nel vasetto, uova, incantesimi.
-static func _specials(c: TipCard, slot: Dictionary, it: Dictionary, kind: String, dati: Dictionary) -> void:
+static func _specials(c: TipCard, slot: Dictionary, it: Dictionary, kind: String, dati: Dictionary, ctx := {}) -> void:
 	if it.has("boon"):
 		var b: Array = it["boon"]
 		c.pair("Effetto", "%s per %s" % [Boons.NAMES.get(String(b[0]), String(b[0]).capitalize()), _time(float(b[1]))],
@@ -108,6 +108,10 @@ static func _specials(c: TipCard, slot: Dictionary, it: Dictionary, kind: String
 		var t := String(it["graft"])
 		if TraitsData.TRAITS.has(t):
 			c.pair("Innestata dà", "%s — %s" % [TraitsData.TRAITS[t]["name"], TraitsData.TRAITS[t]["desc"]], Color("#d890ff"))
+	if dati.has("geni") and ctx.has("ch"):
+		var chain := Chains.matches(ctx["ch"], dati)       # voce 69: questo Seme porta a una cripta
+		if chain != "":
+			c.pair("Porta a una cripta", chain, Color("#ffd24a"))
 	if dati.has("geni"):
 		var v := Genome.vigor(dati)
 		c.pair("Vigore", str(v) if v > 0 else "quello del mondo dove lo pianti, più uno", Color("#6ff0d0"))

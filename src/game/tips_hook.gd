@@ -20,7 +20,7 @@ func setup(main: Node2D) -> void:
 
 
 func _context() -> Dictionary:
-	var ctx := {"bag": m.character.bisaccia, "hand": m.hud.current()}
+	var ctx := {"bag": m.character.bisaccia, "hand": m.hud.current(), "ch": m.character}
 	if m.villagers != null and m.villagers.panel != null and m.villagers.panel.visible:
 		ctx["price"] = "sell"                  # con il mercante aperto, le caselle dicono quanto ti dà
 	return ctx

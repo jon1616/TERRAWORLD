@@ -1288,11 +1288,23 @@ riletta più avanti, dice di più. Le parole valgono in tutti i mondi (`Characte
 sopra) mostra la frase e quante parole capisci. Obiettivi «stele», «parole» (15), «parole_tutte». Enciclopedia: capitolo
 «La lingua dei Seminatori» e il **Glossario**. Prove `--solo=lingua` (foto 127_stele, 128_segno_sulla_mappa).
 
-## 69. [ ] Le catene di ricerca tra i mondi (L)
+## 69. [x] Le catene di ricerca tra i mondi (L) — fatto il 26 set 2026
 Catene generate e scritte: un indizio in un mondo indica un gene o una combinazione di geni; il mondo che ne nasce ha
 una rovina sigillata; dentro c'è la chiave o la mappa per la tappa dopo. Alcune catene lunghe scritte a mano (la
 storia), molte brevi generate (i segreti).
 **Pronto quando**: esiste la prima catena lunga completa (5+ tappe in mondi diversi) e le brevi non finiscono mai.
+**Fatto il 27 set 2026**: le catene di ricerca (`ChainsData`, regole in `Chains`). Ogni tappa dice **di che geni
+deve essere fatto un mondo**: quando si pianta un Seme con quei geni, il generatore (`PassCatene`, con le tappe aperte in
+`params["catene"]`) mette nel mondo nuovo una **cripta dei Seminatori** con il **leggio**; entrando nel mondo la cripta
+si segna sulla mappa. Sul leggio (clic destro) il pezzo di storia, il premio e l'indizio della tappa dopo.
+- **La via del Seme Nero**, scritta a mano, cinque tappe in cinque mondi (Radici giganti → Avvizzito di vigore 2 →
+  Stellato → Brina con Fungaie → Cuore nero), comincia dopo il primo viaggio e finisce con il **Seme Nero** (voce 72).
+  Il gene Cuore nero ha ora una combinazione segreta (Avvizzito + Notti lunghe) che la catena insegna.
+- **Catene brevi**, due alla volta e senza fine, dai geni già visti (due categorie diverse), con premi a caso (Semi con
+  un gene raro, Linfa antica, tavolette, Polvere iridata, Lumini, Rugiada, Provette).
+Il **Taccuino delle catene** è la terza scheda del Semenzaio (K): indizio, geni necessari e se li conosci. La scheda di un
+Seme (mouse sopra) dice se porta a una cripta. Obiettivi «catena» e «catene_10»; capitolo nell'Enciclopedia; la verifica
+dei dati controlla geni e premi delle catene. Prove `--solo=catene` (foto 129_leggio, 130_taccuino).
 
 ## 70. [ ] Luoghi scritti a mano (L)
 Luoghi progettati come modelli (tempio sommerso, città sepolta, biblioteca di radici, serra dei Seminatori,

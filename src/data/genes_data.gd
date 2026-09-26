@@ -196,6 +196,7 @@ const GENES := {
 	"aurora": {"cat": "tempo", "name": "Aurora", "rar": 3, "dom": 1, "good": true, "only": "mutazione",
 		"desc": "le notti sono chiare: la luce non scende mai del tutto", "run": {"aurora": 0.35}},
 	"cuore_nero": {"cat": "ombra", "name": "Cuore nero", "rar": 2, "dom": 4, "good": false, "only": "mutazione",
+		"combo": ["avvizzito", "notti_lunghe"],       # voce 69: la via del Seme Nero lo insegna
 		"desc": "l'Avvizzimento ovunque e creature rare e feroci, con molti Lumini", "gen": {"blight_zones": 5.0},
 		"run": {"blight": 2.5, "danger": 0.8, "rare": 2.0, "lumini": 1.5}},
 	# combinazioni segrete: nascono per mutazione, molto più spesso se i genitori portano i due geni indicati

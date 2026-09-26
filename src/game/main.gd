@@ -61,6 +61,7 @@ var seasons: Seasons
 var game_options: GameOptions
 var encyclopedia: Encyclopedia
 var language: Language
+var chains: Chains
 var board: Board
 var storage: Storage
 var herd: Herd
@@ -112,7 +113,8 @@ func _ready() -> void:
 		_show_loading("Il seme germoglia…\ngenerazione del mondo")
 		world = World.new()
 		var sd: int = nw["seme"]
-		var params := {"vigore": int(nw.get("vigore", 1)), "geni": nw.get("geni", []), "giardino": nw.get("giardino", false)}
+		var params := {"vigore": int(nw.get("vigore", 1)), "geni": nw.get("geni", []), "giardino": nw.get("giardino", false),
+			"catene": Chains.pending(character)}   # voce 69: le cripte delle tappe aperte
 		var gw := WorldGen.GARDEN_W if params["giardino"] else WorldGen.WIDTH
 		var gh := WorldGen.GARDEN_H if params["giardino"] else WorldGen.HEIGHT
 		_gen_task = WorkerThreadPool.add_task(func() -> void: gen_times = WorldGen.generate(world, sd, gw, gh, params), false, "genera mondo")
@@ -290,6 +292,7 @@ func _build() -> void:
 	seasons = _mount(Seasons.new())        # voce 66: le stagioni di ogni mondo
 	board = _mount(Board.new())            # voce 67: la Bacheca dei Giardinieri
 	language = _mount(Language.new())      # voce 68: la lingua dei Seminatori, le stele e le tavolette
+	chains = _mount(Chains.new())          # voce 69: le catene di ricerca tra i mondi (cripte, Taccuino)
 	hud.panel.quick_stack = storage.quick_stack
 	hud.panel._toast = hud.toast
 	interact.chest_panel.storage = storage

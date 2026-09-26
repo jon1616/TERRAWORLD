@@ -8,6 +8,8 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 	match id:
 		"stele":
 			_stele(im, gm, w, h)
+		"leggio":
+			_leggio(im, gm, w, h)
 		_:
 			return false
 	return true
@@ -43,3 +45,31 @@ static func _stele(im: Image, gm: Image, w: int, h: int) -> void:
 				Px.put(gm, x + len - 1, y + 1, glyph)
 			x += len + 2
 			k += 1
+
+
+## Il leggio delle cripte (voce 69): una colonnina di pietra dei Seminatori con un libro di foglie aperto che brilla.
+static func _leggio(im: Image, gm: Image, w: int, h: int) -> void:
+	var p := Px.pal(TileDefs.P_SEM)
+	var cx := w / 2
+	for y in range(h - 3, h):
+		for x in range(cx - 7, cx + 7):
+			Px.put(im, x, y, p[1] if y == h - 1 else p[2])
+	for y in range(12, h - 3):
+		for x in range(cx - 3, cx + 3):
+			Px.put(im, x, y, p[2] if x > cx - 3 else p[1])
+	# il piano inclinato e il libro
+	for i in 22:
+		var x := cx - 11 + i
+		var y := 12 - i / 5
+		Px.put(im, x, y, p[3])
+		Px.put(im, x, y + 1, p[1])
+	var page := Color("#e8f4d8")
+	var glow := Color("#ffd24a")
+	for i in 16:
+		var x := cx - 8 + i
+		var y := 9 - i / 5
+		Px.put(im, x, y, page)
+		Px.put(im, x, y - 1, page if i != 8 else Color("#8a7a5a"))
+		if i % 3 == 1:
+			Px.put(im, x, y - 1, glow)
+			Px.put(gm, x, y - 1, glow)
