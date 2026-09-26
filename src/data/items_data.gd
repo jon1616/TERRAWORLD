@@ -258,7 +258,11 @@ const GEAR := {
 
 ## Oggetti che nascono da qualcosa che non è una tabella (es. alberi abbattuti, voce 4).
 const OTHER_SOURCES := {"legno": "alberi", "seme_lanterna": "alberi", "frammento_nodo": "Guardiano sconfitto",
-	"linfa_guardiano": "Guardiano curato", "seme_mondo": "Cuore del mondo", "velo_spora": "Regina sconfitta",
+	"linfa_guardiano": "Guardiano curato", "seme_mondo": "Cuore del mondo", "linfa_antica": "scrigni delle firme dei mondi",
+	"ricordo_albero": "la firma di un mondo", "ricordo_cratere": "la firma di un mondo", "ricordo_foresta": "la firma di un mondo",
+	"ricordo_pozzo": "la firma di un mondo", "ricordo_arco": "la firma di un mondo", "ricordo_isola": "la firma di un mondo",
+	"ricordo_lucciole": "la firma di un mondo", "ricordo_nodo": "la firma di un mondo", "ricordo_serra": "la firma di un mondo",
+	"ricordo_colonne": "la firma di un mondo", "ricordo_alveare": "la firma di un mondo", "ricordo_bolla": "la firma di un mondo", "velo_spora": "Regina sconfitta",
 	"polline_regina": "Regina curata", "nucleo_colosso": "Colosso sconfitto", "pietra_battente": "Colosso curato", "scrigno": "rovine",
 	"stivali_radice": "scrigni", "foglia_planante": "scrigni", "amuleto_corteccia": "scrigni", "anello_lucciola": "scrigni",
 	"cuore_muschio": "scrigni", "pappo_seme": "scrigni",
@@ -277,6 +281,7 @@ static func all() -> Dictionary:
 	out.merge(KeeperItemsData.ITEMS.duplicate(true))
 	out.merge(RelicsData.ITEMS.duplicate(true))
 	out.merge(BiomeItemsData.ITEMS.duplicate(true))
+	out.merge(SignaturesData.ITEMS.duplicate(true))
 	for m in METALS:
 		var md: Dictionary = METALS[m]
 		for g in GEAR:

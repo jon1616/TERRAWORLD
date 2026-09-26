@@ -111,7 +111,7 @@ func describe(o: Vector2i) -> String:
 	var e: Dictionary = _portals()[_key(o)]
 	if e.get("ritorno", false):
 		return "Ritorno a «%s»" % dest[1]
-	return "Verso «%s» · %s" % [dest[1], Genome.describe({"geni": e.get("geni", [])})]
+	return "Verso «%s», vigore %d · %s" % [dest[1], int(dest[3]), Genome.describe({"geni": e.get("geni", [])})]
 
 
 ## Nel mondo appena nato dal portale: un portale di ritorno accanto alla partenza, verso il mondo d'origine.
@@ -155,9 +155,8 @@ func destination(o: Vector2i) -> Array:
 	if e.get("ritorno", false):
 		var back := WorldSave.read_meta(id)
 		return [id, String(back.get("nome", "")), 0, int(back.get("vigore", 1))]
-	# «Radura, vigore 2», poi «Radura, vigore 3»…: il nome del primo mondo resta, cresce il vigore
-	var base := String(m.world_meta.get("nome", "Mondo")).get_slice(", vigore", 0)
-	return [id, "%s, vigore %d" % [base, _dest_vigor(e)], int(e["seme"]), _dest_vigor(e)]
+	# voce 44: il mondo nuovo ha un nome suo, nato dai geni e dal seme («Paludi cave di Osrarim»)
+	return [id, NamesData.world_name(e.get("geni", []), int(e["seme"])), int(e["seme"]), _dest_vigor(e)]
 
 
 func travel(o: Vector2i) -> void:

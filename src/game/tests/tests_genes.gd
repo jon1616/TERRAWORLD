@@ -4,7 +4,9 @@ extends RefCounted
 ## (tre mondi piccoli dallo stesso seme: semplice, «cavo» e «compatto» con altri geni a confronto), un Seme trovato ha
 ## sempre un gene di forma, grotte o sottosuolo; una fungaia e un fiume di brace copiati nel mondo di prova e
 ## fotografati (80_fungaia, 81_fiume_brace).
-
+## Voce 44: le dodici firme costruite in mondi piccoli (ognuna con il suo scrigno, la Linfa antica e il ricordo),
+## due fotografate (82_firma_albero, 83_firma_bolla); la firma del mondo di prova si trova avvicinandosi; i nomi dei
+## mondi nuovi.
 
 const S := 16
 const W := 1400                        # mondi piccoli: la prova resta svelta
@@ -22,6 +24,7 @@ func _init(tk: TestKit) -> void:
 
 func run() -> void:
 	await generator()
+	await signatures()
 
 
 func _census(w: World) -> Dictionary:
@@ -124,3 +127,84 @@ func _photo(src: World, what: String, photo: String, shift: Vector2i) -> void:
 	m.boons.active.erase("bagliore")
 	m.boons.active.erase("vista")
 
+
+func signatures() -> void:
+	var ok := 0
+	var fails := []
+	var keep := {}
+	for id in SignaturesData.SIGNATURES:
+		var w := World.new()
+		WorldGen.generate(w, 777, 900, WorldGen.HEIGHT, {"vigore": 3, "firma": id})
+		var f: Dictionary = w.gen_notes.get("firma", {})
+		var good := false
+		if not f.is_empty() and f["id"] == id:
+			var chest: Bisaccia = w.chests.get(f["scrigno"])
+			good = chest != null and chest.count(String(SignaturesData.SIGNATURES[id]["ricordo"])) == 1 				and chest.count("linfa_antica") == 3
+		if good:
+			ok += 1
+			if id in ["albero_colossale", "bolla_vuoto"]:
+				keep[id] = w
+		else:
+			fails.append(id)
+	print("firme costruite con scrigno, ricordo e Linfa antica: %d su %d%s" % [ok, SignaturesData.SIGNATURES.size(),
+		"" if fails.is_empty() else " (mancano %s)" % [fails]])
+	if not fails.is_empty():
+		print("ATTENZIONE: alcune firme non si costruiscono")
+	if keep.has("albero_colossale"):
+		await _photo_at(keep["albero_colossale"], "82_firma_albero", Vector2i(-700, 0), Vector2i(0, -30))
+	if keep.has("bolla_vuoto"):
+		await _photo_at(keep["bolla_vuoto"], "83_firma_bolla", Vector2i(700, 0), Vector2i(0, 0))
+	# la firma del mondo di prova: si trova avvicinandosi
+	var sig: Signature = m.signature
+	var had := sig.found()
+	var ctr := sig.center()
+	if ctr.x >= 0 and not had:
+		var before := int(m.character.stats.get("firme", 0))
+		m.snap_to(kit.floor_near(ctr, 30))
+		sig._t = 0.0
+		await kit.seconds(1.0)
+		print("firma del mondo di prova «%s» trovata avvicinandosi: %s, conteggio firme %d → %d, riga della scheda «%s»" % [
+			sig.info()["id"], "sì" if sig.found() else "NO", before, int(m.character.stats.get("firme", 0)), sig.sheet_line()])
+		m.depth_watch.banner.visible = false
+	else:
+		print("ATTENZIONE: il mondo di prova non ha una firma da trovare")
+	# i nomi dei mondi nuovi: dai geni e dal seme
+	var names := []
+	for k in 4:
+		var rng := RandomNumberGenerator.new()
+		rng.seed = 300 + k
+		names.append(NamesData.world_name(Genome.genes(Genome.roll(rng, 4)), 1000 + k))
+	print("nomi di mondi nuovi: %s; stesso Seme, stesso nome: %s" % [", ".join(names),
+		"sì" if NamesData.world_name(["sporangio", "cavo"], 5) == NamesData.world_name(["sporangio", "cavo"], 5) else "NO"])
+
+
+## Copia la firma di un mondo generato nel mondo di prova e la fotografa (`look`: dove guardare, dal centro).
+func _photo_at(src: World, photo: String, shift: Vector2i, look: Vector2i) -> void:
+	var f: Dictionary = src.gen_notes["firma"]
+	var p := Vector2i(int(f["x"]), int(f["y"]))
+	var dep: int = p.y - src.surface[p.x]
+	var to := Vector2i(world.spawn.x + shift.x, 0)
+	to.y = world.surface[to.x] + dep
+	var half := Vector2i(46, 40)
+	for dy in range(-half.y, half.y + 1):
+		for dx in range(-half.x, half.x + 1):
+			var s := p + Vector2i(dx, dy)
+			var d := to + Vector2i(dx, dy)
+			if not src.inside(s.x, s.y) or not world.inside(d.x, d.y):
+				continue
+			var si := s.y * src.w + s.x
+			var di := d.y * world.w + d.x
+			world.tiles[di] = src.tiles[si]
+			world.walls[di] = src.walls[si]
+			world.decor[di] = src.decor[si]
+	for dy in range(-half.y, half.y + 1, 8):
+		for dx in range(-half.x, half.x + 1, 8):
+			m.view.refresh_around(to + Vector2i(dx, dy))
+	m.snap_to(kit.floor_near(to + look, 20))
+	m.boons.add("bagliore", 6.0)
+	m.boons.add("vista", 6.0)
+	m.light.dirty = true
+	await kit.seconds(1.2)
+	await kit.save(photo)
+	m.boons.active.erase("bagliore")
+	m.boons.active.erase("vista")

@@ -115,6 +115,8 @@ const LIST := [
 		"reward": {"cuore_bocciolo": 1}},
 	{"id": "portale", "text": "Pianta il Seme di mondo e attraversa il portale", "check": {"stat": "viaggi", "n": 1},
 		"reward": {"torcia": 20}},
+	{"id": "firma", "text": "Trova la firma di un mondo: il luogo che esiste solo lì", "check": {"stat": "firme", "n": 1},
+		"reward": {"pozione_fortuna": 2}},
 	{"id": "ancestrale", "text": "Sconfiggi una creatura ancestrale", "check": {"stat": "ancestrali", "n": 1},
 		"reward": {"lingotto_ambra": 5}},
 	{"id": "iridato", "text": "Fabbrica un oggetto iridato con la Polvere iridata", "check": {"any": ["corona_giardino", "arco_iridato", "bastone_iridato", "mantello_iridato"]},
@@ -123,6 +125,8 @@ const LIST := [
 		"reward": {"stilla_perenne": 2}},
 	{"id": "erbario", "text": "Completa metà dell'Erbario", "check": {"erbario": 50},
 		"reward": {"pozione_bagliore": 3}},
+	{"id": "firme_5", "text": "Trova le firme di cinque mondi", "check": {"stat": "firme", "n": 5},
+		"reward": {"linfa_antica": 3}},
 ]
 
 ## Quanti obiettivi si vedono insieme.

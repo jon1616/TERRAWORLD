@@ -702,12 +702,22 @@ media 5,0 e minima 2,2 contro un rumore di 0,74 dello stesso genoma con un seme 
 più simile deve stare ad almeno il doppio del rumore. Gli appunti del generatore restano nel mondo appena nato
 (`World.gen_notes`). Prove `--solo=geni` (foto 80_fungaia, 81_fiume_brace).
 
-## 44. [ ] La firma di ogni mondo (M)
+## 44. [x] La firma di ogni mondo (M) — fatto il 26 set 2026
 **Regola d'oro del piano**: ogni mondo ha almeno una cosa che si trova **solo lì**, scelta dal genoma e dal seme:
 un luogo speciale (albero colossale, lago di Linfa, cratere di stelle, foresta pietrificata…), una variante di
 creatura, una vena unica. Il mondo riceve un **nome** generato dal genoma («Paludi cristalline di Vel-Arim»), una
 descrizione e la firma, mostrati sul portale e nel registro. Almeno 12 firme diverse per cominciare, scritte come dati.
 **Pronto quando**: ogni mondo generato ha nome e firma, e la firma si trova davvero (prova: la cerca e la raggiunge).
+**Fatto il 26 set 2026**: 12 firme (`SignaturesData`, costruite da `PassFirma` con le tessere che ci sono già):
+Albero colossale, Cratere delle stelle, Foresta pietrificata, Pozzo senza fondo (fino al Fondo), Arco di radici,
+Isola sospesa, Grotta delle lucciole, Nodo delle radici, Serra sepolta, Sala delle colonne d'ambra, Alveare di
+cristallo, Bolla del Vuoto. Scelta dal seme e dai geni (i geni «graditi» la rendono 4 volte più probabile), lontano
+dalla partenza e dal Cuore; dentro lo **scrigno della firma**: bottino del profondo, 3 Linfa antica (per gli innesti
+della voce 47) e il **ricordo** del luogo (12 oggetti da collezione, tipo «ricordo»). Il modulo `Signature` segue il
+ritrovamento (entro 26 tessere: scritta, conteggio «firme», stella sulla mappa, riga nella scheda); i mondi salvati
+prima ricevono la loro firma al primo ingresso. **Nomi dei mondi** (`NamesData`): paesaggio dal gene di superficie,
+aggettivo da un gene di forma, nome proprio dal seme («Foreste gelide di Caleren», «Paludi cave di Velmè»). Obiettivi
+«Trova la firma di un mondo» e «Trova le firme di cinque mondi». Foto 82_firma_albero, 83_firma_bolla.
 
 ## 45. [ ] Le Aiuole e il registro dei mondi (M)
 I portali si piantano nelle **Aiuole** (stazione del Giardino, con un numero limitato che crescerà con l'Albero-Madre):

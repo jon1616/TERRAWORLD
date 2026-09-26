@@ -8,7 +8,7 @@ extends SceneTree
 const KINDS := ["materiale", "blocco", "piccone", "ascia", "spada", "arco", "munizione", "torcia", "stazione",
 	"piattaforma", "elmo", "corazza", "gambali", "consumabile", "seme", "lanterna", "cura", "seme_mondo", "accessorio",
 	"purifica", "essenza", "bastone", "dono", "specchio", "trofeo", "richiamo", "reliquia", "mappa", "rampino", "esplosivo", "ricurvo",
-	"giavellotto", "coltura", "annaffiatoio", "parete", "martello", "moneta", "compagno", "evocatore"]
+	"giavellotto", "coltura", "annaffiatoio", "parete", "martello", "moneta", "compagno", "evocatore", "ricordo"]
 ## Forza di piccone oltre cui una tessera è voluta indistruttibile (i nodi avvizziti: si curano, non si scavano).
 const UNBREAKABLE := 999
 
@@ -250,6 +250,21 @@ func _check_species() -> void:
 					"gene %s: bioma sconosciuto «%s»" % [g, b])
 	for cat in GenesData.CATEGORIES:
 		_err(GenesData.CAT_INFO.has(cat), "categoria di geni %s senza nome" % cat)
+	# voce 44: le firme (ricordo esistente, geni graditi esistenti), i nomi dei mondi (un paesaggio per ogni gene di
+	# superficie, aggettivi per geni che esistono, e un aggettivo per ogni gene di forma, grotte e sottosuolo)
+	for id in SignaturesData.SIGNATURES:
+		var sd: Dictionary = SignaturesData.SIGNATURES[id]
+		_err(ItemsData.has(String(sd["ricordo"])), "firma %s: ricordo inesistente" % id)
+		_err(PassFirma.new().has_method("_" + id), "firma %s: nessun costruttore in PassFirma" % id)
+		for g in sd["likes"]:
+			_err(GenesData.GENES.has(g), "firma %s: gene gradito inesistente «%s»" % [id, g])
+	for g in NamesData.ADJ:
+		_err(GenesData.GENES.has(g), "nomi dei mondi: aggettivo per un gene inesistente «%s»" % g)
+	for g in GenesData.GENES:
+		if GenesData.cat_of(g) == "superficie":
+			_err(NamesData.LANDS.has(g), "nomi dei mondi: nessun paesaggio per «%s»" % g)
+		elif GenesData.cat_of(g) in Genome.SHAPE_CATS:
+			_warn(NamesData.ADJ.has(g), "nomi dei mondi: nessun aggettivo per «%s»" % g)
 
 
 func _err(ok: bool, msg: String) -> void:

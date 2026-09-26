@@ -48,6 +48,7 @@ var companions: Companions
 var travel: Travel
 var minimap: Minimap
 var world_traits: WorldTraits
+var signature: Signature
 var _spores: CPUParticles2D
 var built := false
 var gen_times: Array = []
@@ -235,6 +236,7 @@ func _build() -> void:
 	companions = _mount(Companions.new())
 	travel = _mount(Travel.new())
 	world_traits = _mount(WorldTraits.new())
+	signature = _mount(Signature.new())
 	minimap = Minimap.new()
 	hud.add_child(minimap)
 	minimap.setup(self, map_reveal)

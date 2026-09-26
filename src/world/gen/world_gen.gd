@@ -31,6 +31,7 @@ static func passes() -> Array[GenPass]:
 		PassTane.new(),
 		PassNascondigli.new(),
 		PassGeodi.new(),
+		PassFirma.new(),
 		PassPartenza.new(),
 	]
 
