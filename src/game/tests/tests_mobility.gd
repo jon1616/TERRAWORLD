@@ -83,6 +83,10 @@ func run() -> void:
 		await kit.seconds(1.0)
 		print("rampino: agganciato %s, salito di %.1f tessere, appeso %s" % ["sì" if ok else "NO", (y0 - p.position.y) / S,
 			"sì" if p.hook != Vector2.INF else "NO"])
+		# la posa del Germogliato appeso (tavola degli speciali) e la corda che parte dal pugno
+		var rope_from: Vector2 = m.grapple.rope.points[0] if m.grapple.rope.points.size() > 0 else Vector2.INF
+		print("rampino: posa %s, corda dal pugno %s" % [_special_name(), "sì" if p.hand_world != Vector2.INF
+			and rope_from.distance_to(p.hand_world) < 1.0 else "NO"])
 		m.boons.add("bagliore", 20.0)
 		await kit.seconds(0.6)
 		await kit.save("59_rampino")
@@ -111,11 +115,36 @@ func run() -> void:
 			await kit.frames(1)
 			vmax = maxf(vmax, p.vel.y)
 		p.auto_dir = 0.0
-		print("artigli: scivolando contro la parete la caduta resta a %.0f px/s (senza sarebbe fino a %.0f)" % [p.vel.y,
-			Player.MAX_FALL])
+		print("artigli: scivolando contro la parete la caduta resta a %.0f px/s (senza sarebbe fino a %.0f), posa %s, di spalle al muro %s" % [
+			p.vel.y, Player.MAX_FALL, _special_name(), "sì" if p.rig.scale.x == -1 else "NO"])
+	b.wear("accessorio_1", {})
+	# planata: con il Mantello di penne, tenendo il salto mentre si cade
+	b.wear("accessorio_1", {"id": "mantello_penne", "n": 1})
+	await kit.frames(2)
+	var gs := kit.flat_spot(world.spawn + Vector2i(40, 0), 4)
+	if gs.x >= 0:
+		m.snap_to(gs + Vector2i(0, -12))
+		p.auto_jump = true
+		var seen := {}
+		var t0 := Time.get_ticks_msec()
+		while Time.get_ticks_msec() - t0 < 1000:
+			await kit.frames(1)
+			seen[_special_name()] = true
+		p.auto_jump = false
+		print("planata: pose %s, caduta lenta %s (%.0f px/s)" % [seen.keys(), "sì" if p.vel.y <= Player.GLIDE_FALL + 1.0
+			else "NO", p.vel.y])
 	b.wear("accessorio_1", {})
 	# com'era prima: rimettere il controllo alla tastiera bloccava le prove successive, che muovono il Germogliato
 	# con i comandi simulati (nessuno premeva i tasti e restava fermo)
 	p.control = had_control
 	m.snap_to(world.spawn)
 	await kit.frames(3)
+
+
+## Il nome della posa degli speciali che il Germogliato mostra ("" se non è una di quelle).
+func _special_name() -> String:
+	var d: Dictionary = HeroSprites.data().get("speciali", {})
+	if d.is_empty():
+		return ""
+	var k: int = (d["tex"] as Array).find(m.player.spr.texture)
+	return ["parete", "parete (non usata)", "planata A", "planata B", "tirato", "appeso"][k] if k >= 0 else ""

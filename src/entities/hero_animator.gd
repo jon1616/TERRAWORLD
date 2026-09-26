@@ -150,3 +150,32 @@ func carry_pose(key: String, dt: float) -> bool:
 	p.flame.visible = p.tool.visible and p.carry_glow != Color.BLACK
 	p._flame(dt)
 	return true
+
+
+## Le mosse degli accessori: appeso al rampino (tirato o fermo al punto d'aggancio), scivolando lungo una parete
+## (di spalle al muro, con le mani ad artiglio) e planando (due pose che oscillano piano). Falso se non è il caso.
+func special(dt: float) -> bool:
+	var hero := HeroSprites.data()
+	if not hero.has("speciali"):
+		return false
+	var d: Dictionary = hero["speciali"]
+	var k := -1
+	if p.hook != Vector2.INF:
+		k = HeroSprites.Speciali.TIRATO if p.vel.length() > 20.0 else HeroSprites.Speciali.APPESO
+		p.facing = 1 if p.hook.x >= p.position.x else -1
+	elif p._wall != 0 and not p.on_floor:
+		k = HeroSprites.Speciali.PARETE
+	elif p.gliding:
+		idle_t += dt
+		k = HeroSprites.Speciali.PLANA_A if int(idle_t * 3.0) % 2 == 0 else HeroSprites.Speciali.PLANA_B
+	if k < 0:
+		return false
+	var top_left := _show(d, k)
+	if k == HeroSprites.Speciali.PARETE:
+		p.rig.scale.x = -p._wall                     # di spalle al muro
+	p.tool.visible = false
+	p.flame.visible = false
+	if d.has("hands"):
+		p.hand_world = p.position + p.rig.position + Vector2(_fist(d, k, top_left).x * p.rig.scale.x,
+			_fist(d, k, top_left).y)
+	return true

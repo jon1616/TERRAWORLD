@@ -69,5 +69,7 @@ func _process(_dt: float) -> void:
 		p.hook = Vector2.INF
 		rope.visible = false
 		return
-	rope.points = PackedVector2Array([p.position + Vector2(p.facing * 4, -6), p.hook])
+	# dal pugno, se la posa del Germogliato lo ha (la tavola degli speciali), altrimenti dalla spalla
+	var from: Vector2 = p.hand_world if p.hand_world != Vector2.INF else p.position + Vector2(p.facing * 4, -6)
+	rope.points = PackedVector2Array([from, p.hook])
 	rope.visible = true

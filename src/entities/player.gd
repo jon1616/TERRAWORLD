@@ -35,6 +35,8 @@ var boon_run := 1.0                    # Pozione del passo lungo (vedi `Boons`)
 var slow_t := 0.0                      # invischiato in una ragnatela (voce 22): corre a metà per qualche secondo
 var jump_mult := 1.0
 var glide := false
+var gliding := false                   # sta planando adesso (per la posa)
+var hand_world := Vector2.INF          # il pugno nel mondo, se la posa lo ha (la corda del rampino parte da qui)
 # voce 31: muoversi meglio
 var air_jumps := 0                     # salti in aria concessi dagli accessori (Baccello di vento, Seme di tempesta)
 var wall_climb := false                # Artigli di corteccia: scivolare lungo le pareti e saltarci via
@@ -199,7 +201,8 @@ func _step(dt: float, dir: float, held: bool) -> void:
 		air_jumped.emit()
 		jump_buf = 0.0
 	var vy0 := vel.y
-	vel.y = minf(vel.y + GRAV * dt, GLIDE_FALL if glide and held and vel.y > 0.0 else MAX_FALL)
+	gliding = glide and held and vel.y > 0.0 and not on_floor
+	vel.y = minf(vel.y + GRAV * dt, GLIDE_FALL if gliding else MAX_FALL)
 	if vel.y < 0.0 and not held:
 		vel.y += GRAV * (JUMP_CUT - 1.0) * dt
 	var through := control and (Input.is_key_pressed(KEY_S) or Input.is_key_pressed(KEY_DOWN))
@@ -269,6 +272,10 @@ func _animate(dt: float) -> void:
 	# gli sprite nuovi (fermo, corsa, salto) quando le mani sono libere; il resto lo disegna ancora `CharacterArt`
 	_takeoff_t -= dt
 	_land_t -= dt
+	hand_world = Vector2.INF
+	# le mosse degli accessori vincono su ciò che si tiene in mano (il rampino stesso è «in mano»)
+	if not sw and is_nan(aim) and hero.special(dt):
+		return
 	if sw and hero.swing(dt):
 		return
 	if not sw and not is_nan(aim) and hero.aim_pose():

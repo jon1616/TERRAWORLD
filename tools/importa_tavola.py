@@ -204,17 +204,22 @@ def main() -> None:
     aria = {int(v) for v in args.aria.split(",") if v.strip() != ""}
     # con pose in aria: ognuna a terra con i suoi piedi sul suolo; quelle in aria con la testa all'altezza della
     # posa a terra più alta (le gambe si raccolgono sotto il corpo, il corpo non sale nel disegno)
-    stand = max((b[1] - b[0] + 1) for i, b in enumerate(boxes) if i not in aria) if aria else 0
-    shifted = []
-    pad = 40
-    for i, (cell, b) in enumerate(zip(cells, boxes)):
+    ground = [(b[1] - b[0] + 1) for i, b in enumerate(boxes) if i not in aria]
+    # tutte in aria (parete, planata, rampino): la misura è la mediana delle pose
+    stand = (max(ground) if ground else int(np.median([b[1] - b[0] + 1 for b in boxes]))) if aria else 0
+    moves = []
+    for i, b in enumerate(boxes):
         if not aria:
             dy = goal_base - base[b[5]]
         elif i in aria:
             dy = (goal_base - stand + 1) - b[0]
         else:
             dy = goal_base - b[1]
-        dx = int(round(goal_hx - b[4]))
+        moves.append((int(dy), int(round(goal_hx - b[4]))))
+    # il margine attorno alle celle: quanto serve agli spostamenti più grandi
+    pad = max(max(abs(dy), abs(dx)) for dy, dx in moves) + 10
+    shifted = []
+    for cell, (dy, dx) in zip(cells, moves):
         big = np.zeros((ch + 2 * pad, cw + 2 * pad, 4), dtype=np.float32)
         big[pad + dy:pad + dy + ch, pad + dx:pad + dx + cw] = cell
         shifted.append(big)
