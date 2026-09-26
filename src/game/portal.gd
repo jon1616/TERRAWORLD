@@ -22,8 +22,14 @@ var _armed_t := 0.0
 const ARM := 6.0
 
 
+var tip: PortalTip                     # la scheda del mondo con il mouse sopra il portale
+
+
 func setup(main: Node2D) -> void:
 	m = main
+	tip = PortalTip.new()
+	m.hud.add_child(tip)
+	tip.setup(m)
 
 
 ## Il vigore di questo mondo (1 = il primo).

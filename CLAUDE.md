@@ -320,6 +320,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   mondo nato da quel seme con il vigore del Seme (`destination(o)`, `world_meta["portali"]` per ogni portale,
   `place_return` nel mondo nuovo, `vigor_mult`: +35% alle creature per punto di vigore). Il vigore arriva al generatore
   in `GenContext.params` (`WorldGen.generate(…, params)`), vene più grandi in `PassMinerali`.
+  Con il mouse sopra un portale compare la scheda del mondo (`PortalTip` in `src/ui/`, testo di `PortalInfo`: vigore,
+  Guardiano, stagione, visitato o no, firma, genoma); prova nel gruppo `semi` (foto 109_scheda_portale).
 - `src/game/spells.gd` (`Spells`) — i bastoni di Linfa: tenendo premuto tirano l'incantesimo verso il mouse spendendo
   Linfa (`auto_aim`/`auto_fire` per le prove); `nearest` per i colpi che inseguono (`Projectiles.seek`). I colpi con
   `pierce` attraversano più creature (`Combat.on_shot` tiene l'elenco di chi hanno già preso).

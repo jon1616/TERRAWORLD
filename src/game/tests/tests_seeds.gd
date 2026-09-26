@@ -78,6 +78,20 @@ func run() -> void:
 		Genome.genes(g), Genome.vigor(g), "sì" if planted else "NO", e.get("geni", []),
 		"sì" if e.get("geni", []) == Genome.genes(g) and Genome.surface_of(e.get("geni", [])) == "resina" else "NO",
 		m.portal.describe(o)])
+	# la scheda del mondo con il mouse sopra il portale
+	m.portal.tip.show_for(o)
+	m.portal.tip.position = Vector2(560, 120)
+	await kit.frames(4)
+	await kit.save("109_scheda_portale")
+	var tip_text: String = PortalInfo.text(m.portal, o)
+	m.portal.tip.visible = false
+	m.portal.tip.pinned = false
+	print("scheda del portale: vigore %s, Guardiano %s, stagione %s, mai visitato %s, genoma %s" % [
+		"sì" if tip_text.contains("Vigore") else "NO", "sì" if tip_text.contains("Guardiano del Cuore") else "NO",
+		"sì" if tip_text.contains("Stagione") else "NO", "sì" if tip_text.contains("mai visitato") else "NO",
+		"sì" if tip_text.contains("Genoma") else "NO"])
+	if not (tip_text.contains("Vigore") and tip_text.contains("Genoma")):
+		print("ATTENZIONE: la scheda del portale è incompleta")
 	# la scheda del Seme in Esamina: il genoma, con i geni mai visti come «?»
 	var sheet := ItemInfo.bbcode("seme_mondo_resina", "", g)
 	print("scheda del Seme: genoma %s, vigore %s" % ["sì" if sheet.contains("Genoma") else "NO",
