@@ -55,7 +55,7 @@ Godot_console.exe --path . -- --prove            # --carica riapre il mondo di p
 Godot_console.exe --path . -- --prove --prova-portale
 # solo alcuni gruppi di prove (per provare in fretta una voce nuova): doni, antiche, pericoli, combattimento, tratti,
 # obiettivi, guardiani, rovine, mobilita, lanci, giardino, eventi, casa, abitanti, compagni, viaggio, semi,
-# biomi, biomi_nuovi, luoghi, corsa, raccolta (elenco in `AutoTests._group`)
+# biomi, biomi_nuovi, luoghi, corsa, raccolta, musica (elenco in `AutoTests._group`)
 Godot_console.exe --path . -- --prove --solo=doni,antiche
 # suoni generati: prove/suoni/*.wav da ascoltare, con durata, picco e volume medio (segnala muti e distorti)
 Godot_console.exe --headless --path . --script res://tools/suoni.gd
@@ -140,6 +140,12 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
     tavolozza, strato del terreno), `MapReveal`, suono di scavo in `PlayerActions`, `PassDecorazioni`.
   - `CharacterArt` (personaggio a pose, restituisce anche mano e occhio), `CreatureArt`, `NatureArt`
     (`tree_linfa` con parte luminosa, `root_arches`, `lantern_forest`, colline, torcia, sole).
+- `musica/` — le musiche fatte dall'utente con Gemini («crea musica»): `esplorazione` (sottofondo) e `guardiano`
+  (scontri con i boss), .mp3/.ogg/.wav; per cambiarne una si sostituisce il file con lo stesso nome (poi `--import`).
+  Le suona l'autoload `Musica` (`src/audio/music.gd`): già nel menu e senza interruzioni nel mondo; brano del boss
+  quando c'è una creatura `boss` non curata entro 45 tessere (sottofondo in pausa, riprende da dov'era), ritorno dopo
+  3 s di calma, dissolvenza di 4 s quando un brano ricomincia, più piano sotto terra. Volume `Settings.music`.
+  `main.gd` si presenta con `Musica.attach(self)`. Prove `--solo=musica`.
 - `src/audio/` — `SfxSynth` (ricette di `SoundsData` → campioni PCM, limitatore, anelli senza cuciture per i
   sottofondi) e `Sfx` (modulo della scena: `play(id, punto)`, sottofondo dello strato generato in un thread e sfumato;
   `played` conta i suoni per le prove). I moduli lo chiamano con `m.sfx.play(...)`, `PlayerActions` con `sfx`.
@@ -170,7 +176,7 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   il nuovo prende il suo posto; lettura con ripiego sulla copia di sicurezza), `WorldSave` (mondo intero compresso ZSTD
   in `mondo.bin` ~0,5 MB, salvataggio ~15 ms, caricamento ~17 ms; `mondo.json` con nome, seme, date, tempo di gioco,
   partenza, posizione di ogni personaggio), `Character` (personaggio separato dai mondi, `personaggi/<id>.json`), `Settings` (impostazioni del giocatore in
-  `user://impostazioni.json`: volumi).
+  `user://impostazioni.json`: volumi di effetti, sottofondo e musica).
   Cartella: `%APPDATA%\Godot\app_userdata\TERRAWORLD\salvataggi\`. Le creature non si salvano: si rimettono con
   `PassPartenza.place_creatures`.
 - `src/entities/` — `TileBody` (movimento contro la griglia, gradino automatico, passerelle che reggono solo chi scende

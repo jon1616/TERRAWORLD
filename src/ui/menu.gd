@@ -88,23 +88,25 @@ func _show_title() -> void:
 	_button("Esci", get_tree().quit)
 
 
-## Volume degli effetti e del sottofondo (salvati sul computer, vedi `Settings`).
+## Volume degli effetti, del sottofondo e della musica (salvati sul computer, vedi `Settings`).
 func _show_settings() -> void:
 	Settings.load_once()
 	_clear()
 	_heading("Impostazioni")
-	for row in [["Volume degli effetti", "sfx"], ["Volume del sottofondo", "ambient"]]:
+	for row in [["Volume della musica", "music"], ["Volume degli effetti", "sfx"], ["Volume dell'ambiente (vento e grotte)", "ambient"]]:
 		_note(row[0])
 		var sl := HSlider.new()
 		sl.min_value = 0.0
 		sl.max_value = 1.0
 		sl.step = 0.05
-		sl.value = Settings.sfx if row[1] == "sfx" else Settings.ambient
+		sl.value = {"sfx": Settings.sfx, "ambient": Settings.ambient, "music": Settings.music}[row[1]]
 		sl.custom_minimum_size = Vector2(0, 32)
 		var key: String = row[1]
 		sl.value_changed.connect(func(v: float) -> void:
 			if key == "sfx":
 				Settings.sfx = v
+			elif key == "music":
+				Settings.music = v
 			else:
 				Settings.ambient = v
 			Settings.save())

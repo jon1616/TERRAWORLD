@@ -1,0 +1,7 @@
+Le musiche del gioco (fatte con Gemini, «crea musica»).
+
+  esplorazione.mp3   la musica di sottofondo, mentre si esplora e si costruisce
+  guardiano.mp3      la musica degli scontri con i boss (Guardiani e Custodi)
+
+Vanno bene anche .ogg o .wav con lo stesso nome: il gioco prende quella che trova.
+Per cambiare una musica basta sostituire il file tenendo lo stesso nome.

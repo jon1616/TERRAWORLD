@@ -67,6 +67,7 @@ func _ready() -> void:
 		get_tree().change_scene_to_file.call_deferred(MENU_SCENE)
 		return
 	get_tree().set_auto_accept_quit(false)
+	Musica.attach(self)                    # la musica guarda se c'è un boss vicino e in che strato si è
 	character = Session.character
 	if Session.world_id != "":
 		world_id = Session.world_id
@@ -367,6 +368,7 @@ func _unhandled_input(e: InputEvent) -> void:
 
 ## Uscendo dalla scena (menu, portale, chiusura) nessun thread deve restare a lavorare su nodi che spariscono.
 func _exit_tree() -> void:
+	Musica.detach(self)
 	if _gen_task >= 0:
 		WorkerThreadPool.wait_for_task_completion(_gen_task)
 		_gen_task = -1
