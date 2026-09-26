@@ -22,6 +22,7 @@ func run() -> void:
 	await garden()
 	await stages()
 	await powers()
+	await villagers()
 
 
 func garden() -> void:
@@ -176,3 +177,56 @@ func powers() -> void:
 		owned, "sì" if closed else "NO", "sì" if opened else "NO", left, frag, v, bridge, m.player.air_jumps])
 	if owned.size() != 6 or not had or not closed or not opened or left > 0 or frag < 1 or bridge < 5 or m.player.air_jumps < 1:
 		print("ATTENZIONE: i poteri non funzionano come dovrebbero")
+
+
+## Voce 65: gli abitanti dell'Albero-Madre. La Vecchia Radice arriva accanto all'Albero senza letto; con un Focolare e
+## i letti arrivano gli altri; affetto con un dono che piace, sconto, una richiesta consegnata con la ricompensa;
+## foto 105_abitanti con il commercio del Mercante di Semi.
+func villagers() -> void:
+	var vl: Villagers = m.villagers
+	var first := vl.check()
+	# un Focolare e sei letti sull'isola, a sinistra della partenza
+	var base := world.spawn + Vector2i(-26, 0)
+	kit.flatten(base, 16)
+	world.stations[base + Vector2i(0, -int(StationsData.STATIONS["focolare"]["size"][1]) + 1)] = "focolare"
+	for k in 6:
+		var o := base + Vector2i(-14 + k * 4 + (5 if k >= 3 else 0), -int(StationsData.STATIONS["letto"]["size"][1]) + 1)
+		world.stations[o] = "letto"
+	for o in world.stations:
+		m.view.add_station(o)
+	var came := [first]
+	for k in 8:
+		var n := vl.check()
+		if n == "":
+			break
+		came.append(n)
+	var ch: Character = m.character
+	var tp: TradePanel = vl.panel
+	var b := kit.bisaccia()
+	kit.make_room()
+	b.add("lumino", 2000)
+	tp.open("mercante_semi")
+	var p0 := tp._price("seme_mondo_brina", 1)
+	# un dono che piace, tre volte
+	for k in 3:
+		b.add("fungo_luminoso", 3)
+		var i := kit.slot_of("fungo_luminoso") if kit.slot_of("fungo_luminoso") >= 0 else Bisaccia.HOTBAR
+		m.hud.panel.held = b.slots[i]
+		b.slots[i] = {}
+		tp.gift_held()
+	var p1 := tp._price("seme_mondo_brina", 1)
+	var lv := NpcBonds.level(ch, "mercante_semi")
+	b.add("fungo_luminoso", 10)
+	var q0: String = NpcBonds.quest(ch, "mercante_semi").get("text", "")
+	var mos0 := b.count("seme_mondo_mosaico")
+	var ok := tp.deliver()
+	var bought := tp.buy(0)
+	await kit.frames(4)
+	await kit.save("105_abitanti")
+	tp.close()
+	m.hud.panel.toggle()
+	print("abitanti: arrivati %s; Mercante di Semi: affetto %d (livello %d), prezzo %d → %d; richiesta «%s» consegnata %s (Seme mosaico %d → %d); comprato %s" % [
+		came, NpcBonds.affetto(ch, "mercante_semi"), lv, p0, p1, q0, "sì" if ok else "NO", mos0, b.count("seme_mondo_mosaico"),
+		"sì" if bought else "NO"])
+	if first != "vecchia_radice" or not "mercante_semi" in came or not "cartografo" in came or p1 >= p0 or not ok:
+		print("ATTENZIONE: gli abitanti dell'Albero-Madre non funzionano come dovrebbero")

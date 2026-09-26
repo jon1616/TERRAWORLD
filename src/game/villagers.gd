@@ -20,6 +20,7 @@ func setup(main: Node2D) -> void:
 	panel = TradePanel.new()
 	m.hud.add_child(panel)
 	panel.setup(m.hud.panel)
+	panel.m = m                               # voce 65: affetto, richieste e consigli (vedi `NpcBonds`)
 	var saved: Dictionary = m.world_meta.get("abitanti", {})
 	for nid in saved:
 		if NpcData.NPCS.has(nid):
@@ -43,6 +44,19 @@ func present() -> Array:
 
 ## Fa arrivare il primo abitante che può: restituisce il suo id o "".
 func check() -> String:
+	# voce 65: chi vive accanto all'Albero-Madre ("free") non vuole Focolare né letto
+	if m.giardino.active and m.giardino.tree_o.x >= 0:
+		for nid in NpcData.NPCS:
+			if NpcData.NPCS[nid].get("free", false) and not nid in present() and _ready_for(String(nid)):
+				var at: Vector2i = m.giardino.tree_o + Vector2i(-3, int(StationsData.STATIONS["albero_madre_0"]["size"][1]) - 1)
+				_spawn(String(nid), at)
+				var sv: Dictionary = m.world_meta.get("abitanti", {})
+				sv[nid] = [at.x, at.y]
+				m.world_meta["abitanti"] = sv
+				m.hud.toast("%s è arrivata accanto all'Albero-Madre" % NpcData.NPCS[nid]["name"])
+				m.sfx.play("dono")
+				m.objectives.bump("abitanti")
+				return String(nid)
 	var hearth := _hearth()
 	if hearth.x < 0:
 		return ""
@@ -53,7 +67,7 @@ func check() -> String:
 	if beds <= list.size():
 		return ""
 	for nid in NpcData.NPCS:
-		if nid in present() or not _ready_for(String(nid)):
+		if nid in present() or not _ready_for(String(nid)) or NpcData.NPCS[nid].get("free", false):
 			continue
 		_spawn(String(nid), hearth)
 		var saved: Dictionary = m.world_meta.get("abitanti", {})
@@ -79,6 +93,10 @@ func _ready_for(nid: String) -> bool:
 	if req.has("station") and not String(req["station"]) in m.world.stations.values():
 		return false
 	if req.has("custodi") and (m.world_meta.get("custodi", {}) as Dictionary).size() < int(req["custodi"]):
+		return false
+	if req.has("albero") and m.albero.stage() < int(req["albero"]):
+		return false
+	if req.get("giardino", false) and not m.giardino.active:
 		return false
 	return true
 

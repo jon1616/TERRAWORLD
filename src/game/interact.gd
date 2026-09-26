@@ -43,6 +43,10 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 		"richiamo":
 			return m.keepers.summon(id)
 		"mappa":
+			if id == "mappa_sigilli":
+				return _seal_hint(id)                  # voce 65
+			if id == "mappa_firma":
+				return _firma_hint(id)
 			return _map_hint(id)
 		"rampino":
 			return m.grapple.fire(id, m.fx.get_global_mouse_position())
@@ -76,6 +80,55 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 			m.hud.toast("Lo specchio ti riporta alla partenza")
 			return true
 	return false
+
+
+## Voce 65, Mappa dei Sigilli: il luogo sigillato più vicino ancora chiuso, e il potere che lo apre.
+func _seal_hint(id: String) -> bool:
+	var best := Vector2i(-1, -1)
+	var kind := ""
+	var bd := 1e18
+	for e in m.world_meta.get("sigilli", []):
+		var c := Vector2i(int(e[1]), int(e[2]))
+		var shell := c + Vector2i(-PassSigilli.W / 2 - 1, 0)
+		if String(e[0]) != "alto" and not TileDefs.SEAL_KIND.has(m.world.tile(shell.x, shell.y)):
+			continue                               # già aperto
+		var d: float = (Vector2(c) * S).distance_squared_to(m.player.position)
+		if d < bd:
+			bd = d
+			best = c
+			kind = String(e[0])
+	if best.x < 0 or not m.character.bisaccia.remove(id, 1):
+		m.hud.toast("La mappa non indica niente in questo mondo")
+		return false
+	var power := "Salto delle spore e Radici-ponte"
+	for p in PowersData.POWERS:
+		if String(PowersData.POWERS[p]["seal"]) == kind:
+			power = String(PowersData.POWERS[p]["name"])
+	m.map_reveal.reveal_area(best, 6)
+	m.hud.toast("Un luogo sigillato a %d tessere (%s): lo apre «%s». L'ho segnato sulla mappa (M)" % [int(sqrt(bd) / S),
+		"in alto nel cielo" if kind == "alto" else _dir(best), power])
+	m.sfx.play("apri")
+	return true
+
+
+## Voce 65, Mappa della firma: dove si trova la firma di questo mondo.
+func _firma_hint(id: String) -> bool:
+	var f: Dictionary = m.signature.info()
+	if f.is_empty() or f.get("trovata", false) or not m.character.bisaccia.remove(id, 1):
+		m.hud.toast("La firma di questo mondo l'hai già trovata" if f.get("trovata", false) else "Questo mondo non ha una firma")
+		return false
+	var c := Vector2i(int(f["x"]), int(f["y"]))
+	m.map_reveal.reveal_area(c, 8)
+	m.hud.toast("La firma di questo mondo è a %d tessere, %s. L'ho segnata sulla mappa (M)" % [
+		int((Vector2(c) * S).distance_to(m.player.position) / S), _dir(c)])
+	m.sfx.play("apri")
+	return true
+
+
+func _dir(c: Vector2i) -> String:
+	var dx: float = c.x * S - m.player.position.x
+	var dy: float = c.y * S - m.player.position.y
+	return "%s, %s" % ["a destra" if dx > 0.0 else "a sinistra", "più in basso" if dy > 3 * S else ("più in alto" if dy < -3 * S else "alla stessa altezza")]
 
 
 ## La Mappa dei Seminatori: indica il reliquiario più vicino non ancora aperto e lo rivela sulla mappa.

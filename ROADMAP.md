@@ -1133,11 +1133,20 @@ tutto. Dentro, uno scrigno con il bottino e un **Frammento dell'Albero**, che gl
 poteri aprono i frammenti, i frammenti gli stadi, gli stadi i poteri dopo. Prove `--solo=sigilli` (foto
 106_sigillo_chiuso) e nel Giardino (foto 104_sigillo).
 
-## 65. [ ] Abitanti con i mestieri (L)
+## 65. [x] Abitanti con i mestieri (L) — fatto il 26 set 2026
 Gli abitanti dell'universo: la **Vecchia Radice** (guida, racconta), il **Mercante di Semi**, l'**Innestatrice**,
 il **Cartografo dei Seminatori**, il **Mandriano** (creature), più quelli di oggi. Arrivano con gli stadi
 dell'Albero; affetto (sconti, doni), una casa per ciascuno, richieste personali.
 **Pronto quando**: ogni abitante ha un motivo per esserci e almeno una catena di richieste.
+**Fatto il 26 set 2026**: cinque abitanti nuovi con un mestiere, che arrivano man mano che l'Albero-Madre cresce:
+la **Vecchia Radice** (vive accanto all'Albero dal primo stadio, senza casa: suggerisce l'offerta che manca), il
+**Mercante di Semi** (Semi di mondo già pronti, Fiale), il **Mandriano** (esche, recinti, prodotti), l'**Innestatrice**
+(Fiale e Linfa antica) e il **Cartografo** (la Mappa dei Sigilli e la Mappa della firma: dicono da che parte è il
+Sigillo o la firma più vicina). **Affetto** (`NpcBonds`): i doni che un abitante ama valgono 5 per oggetto, gli altri
+1 (al più 20 per dono), una richiesta compiuta 30; ogni 25 punti un livello (cuori nel titolo), il 5% di sconto per
+livello e un regalo ai livelli 2 e 4. Ogni abitante ha **tre richieste** in fila (portare, trovare, sconfiggere), mostrate
+nel pannello del commercio con «Consegna la richiesta» e «Dona ciò che hai in mano». Obiettivi «richiesta» e
+«richieste_10». Prove nel Giardino (`--prova-giardino`, foto 105_abitanti).
 
 ## 66. [ ] Le stagioni (M)
 Le stagioni in ogni mondo (durata da provare): cambiano creature, colture, eventi, migrazioni; geni, creature e boss

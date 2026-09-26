@@ -8,6 +8,13 @@ extends RefCounted
 
 ## Il Frammento dell'Albero: sta negli scrigni dei luoghi sigillati; gli stadi più alti dell'Albero-Madre lo chiedono.
 const ITEMS := {
+	# voce 65: le mappe del Cartografo dei Seminatori
+	"mappa_sigilli": {"name": "Mappa dei Sigilli", "kind": "mappa", "icon": ["mappa", "linfa"], "stack": 10,
+		"source": "dal Cartografo dei Seminatori (Giardino)",
+		"desc": "Usala: indica il luogo sigillato più vicino ancora chiuso, e dice quale potere lo apre."},
+	"mappa_firma": {"name": "Mappa della firma", "kind": "mappa", "icon": ["mappa", "ambra"], "stack": 10,
+		"source": "dal Cartografo dei Seminatori (Giardino)",
+		"desc": "Usala: indica dove si trova la firma di questo mondo, il luogo che c'è solo qui."},
 	"frammento_albero": {"name": "Frammento dell'Albero", "kind": "materiale", "icon": ["seme", "ambra"], "stack": 20,
 		"source": "negli scrigni dei luoghi sigillati (Sigilli) e dei nidi alti",
 		"desc": "Un pezzo di corteccia dell'Albero-Madre, portato via dai Seminatori e chiuso dietro un Sigillo. L'Albero lo rivuole."},
