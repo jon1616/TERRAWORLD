@@ -269,6 +269,8 @@ func _animate(dt: float) -> void:
 	# gli sprite nuovi (fermo, corsa, salto) quando le mani sono libere; il resto lo disegna ancora `CharacterArt`
 	_takeoff_t -= dt
 	_land_t -= dt
+	if sw and _hero_swing(dt):
+		return
 	if key in ["idle", "jump", "fall"] or key.begins_with("run"):
 		if not sw and is_nan(aim) and not carry and _hero(key, dt):
 			return
@@ -336,6 +338,7 @@ func _hero(key: String, dt: float) -> bool:
 		return false
 	var d: Dictionary = hero[anim]
 	var k := 0
+	swing_t = 0.0                          # il prossimo colpo ricomincia dall'inizio
 	if anim == "salto":
 		# la posa dalla velocità verticale: spinta appena staccati, poi salita, cima e caduta; a terra l'atterraggio
 		if not air:
@@ -369,4 +372,38 @@ func _hero(key: String, dt: float) -> bool:
 	rig.scale.x = facing
 	tool.visible = false
 	flame.visible = false
+	return true
+
+
+## Il colpo (scavare, abbattere, colpire) con gli sprite nuovi: la posa segue il giro dell'attrezzo (`swing_period`),
+## l'attrezzo sta nel pugno trovato dall'importatore e ruota con il braccio. Falso se manca la tavola.
+func _hero_swing(dt: float) -> bool:
+	var hero := HeroSprites.data()
+	if not hero.has("colpo") or not hero["colpo"].has("hands"):
+		return false
+	var d: Dictionary = hero["colpo"]
+	swing_t += dt
+	var n: int = (d["tex"] as Array).size()
+	var k := mini(int(fmod(swing_t, swing_period) / swing_period * n), n - 1)
+	var sz: Vector2i = d["size"]
+	spr.texture = d["tex"][k]
+	var top_left := Vector2(-roundf(float(d["anchor"])), HALF.y - sz.y + step_vis)
+	spr.position = top_left + Vector2(sz) * 0.5
+	var e: Vector2 = d["eye"][k]
+	eye.visible = e != Vector2.INF
+	if eye.visible:
+		eye.position = top_left + e + Vector2(0.5, 1.0)
+	rig.scale.x = facing
+	flame.visible = false
+	tool.visible = tool_tex != null
+	if tool.visible:
+		var hand: Dictionary = d["hands"][k]
+		var hp: Array = hand["mano"]
+		tool.texture = tool_tex
+		tool.position = top_left + Vector2(float(hp[0]), float(hp[1]))
+		# l'angolo del braccio dall'importatore (gradi dall'alto, in senso orario) nella convenzione di `CharacterArt`
+		# (0 = giù, PI/2 = avanti), poi lo stesso orientamento dell'attrezzo del disegno del codice
+		var a := PI - deg_to_rad(float(hand["gradi"]))
+		tool.offset = Vector2(4.5, -4.5)
+		tool.rotation = atan2(cos(a), sin(a)) + PI * 0.25
 	return true

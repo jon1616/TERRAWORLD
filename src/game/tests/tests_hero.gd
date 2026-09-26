@@ -3,8 +3,8 @@ extends RefCounted
 ## Prove degli sprite nuovi del Germogliato (Nano Banana, 26 set 2026; vedi `HeroSprites`): i fotogrammi si caricano e
 ## in ognuno si trova l'occhio (tranne nel battito di ciglia); da fermo e di corsa il Germogliato usa gli sprite nuovi;
 ## con il corpo alto 30 pixel passa ancora in un cunicolo alto 2 blocchi; al buio l'occhio brilla. Foto
-## 71_germogliato_fermo, 72_germogliato_corsa, 73_germogliato_cunicolo, 74_germogliato_salto; nel salto si vedono
-## spinta, salita, cima, caduta e atterraggio.
+## 71_germogliato_fermo, 72_germogliato_corsa, 73_germogliato_cunicolo, 74_germogliato_salto, 75_germogliato_colpo; nel salto si
+## vedono spinta, salita, cima, caduta e atterraggio, nel colpo le 6 pose con il piccone nel pugno.
 
 const S := 16
 
@@ -86,6 +86,27 @@ func run() -> void:
 	if not (seen.has(HeroSprites.Salto.SALITA) and seen.has(HeroSprites.Salto.CIMA) and seen.has(HeroSprites.Salto.CADUTA)
 			and seen.has(HeroSprites.Salto.ATTERRA)):
 		print("ATTENZIONE: nel salto mancano delle pose")
+	# un colpo di piccone: le pose del colpo, con il piccone nel pugno
+	var colpo: Array = HeroSprites.data()["colpo"]["tex"]
+	var hits := {}
+	var tool_ok := true
+	var snapped := false
+	kit.hold("piccone_radicite")
+	p.force_swing = true
+	var t2 := Time.get_ticks_msec()
+	while Time.get_ticks_msec() - t2 < 1200:
+		await kit.frames(1)
+		var j := colpo.find(p.spr.texture)
+		if j >= 0:
+			hits[j] = true
+			tool_ok = tool_ok and p.tool.visible
+			if j == 3 and not snapped:
+				snapped = true
+				await kit.save("75_germogliato_colpo")
+	p.force_swing = false
+	await kit.frames(2)
+	print("colpo: pose viste %d su %d, piccone nel pugno %s, di nuovo fermo dopo %s" % [hits.size(), colpo.size(),
+		"sì" if tool_ok and not hits.is_empty() else "NO", "sì" if _uses("fermo") else "NO"])
 	# un cunicolo alto 2 blocchi: soffitto di pietra a 2 tessere dal pavimento, per 8 tessere
 	var x0 := spot.x + 2
 	for x in range(x0, x0 + 8):

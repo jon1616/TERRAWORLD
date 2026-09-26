@@ -11,20 +11,32 @@ un'ombra sotto i piedi e non tiene i piedi alla stessa altezza da una riga all'a
     appoggia), la testa alla stessa x (il corpo resta fermo e le gambe si muovono attorno); con `--aria` le pose
     indicate (in aria, come nel salto) si allineano invece con la cima della testa all'altezza di un personaggio in
     piedi, e le altre ciascuna con i propri piedi sul suolo;
- 3b. la grandezza viene dalla LARGHEZZA DELLA TESTA (la parte alta dei capelli), che non cambia con la posa: una figura
+ 2b. i colori della tavola si correggono perché la pelle abbia il colore del riferimento (luce diversa per tavola);
+ 3b. la grandezza viene dalla TESTA (l'altezza del ciuffo verde dei capelli), che non cambia con la posa: una figura
     raccolta o accucciata è più bassa ma non va ingrandita; la testa del riferimento ridotto a 36 pixel dà la misura,
-    così il Germogliato è grande uguale in tutte le tavole (per la corsa l'altezza dava 8,5 e la testa 8,7);
+    così il Germogliato è grande uguale in tutte le tavole;
  4. ritaglia tutte le celle con la stessa finestra e le riduce con lo stesso fattore e la stessa tavolozza (quella del
     riferimento, `--riferimento`): i pixel piccoli cadono sulla stessa griglia in ogni fotogramma e i colori sono
     identici, così l'animazione non trema;
  5. scrive arte/germogliato/<nome>_<n>.png (misura del gioco) e le anteprime in prove/: la striscia ingrandita e la
     GIF animata.
 
+Pose con il pugno che tiene un attrezzo (il colpo): `--mano` dà la direzione del pugno di ogni posa sull'orologio
+(gradi dall'alto in senso orario, il Germogliato guarda a destra); dalla spalla si cerca il pixel di pelle più lontano
+in quella direzione (in cima al braccio teso c'è il pugno) e si scrive arte/germogliato/<nome>.json con la mano e
+l'angolo del braccio di ogni posa, per l'attrezzo che il gioco disegna nel pugno. `--togli-grigi` toglie ciò che è
+grigio chiaro (Nano Banana disegna attrezzi e scie anche se vietati) e le linee sottili staccate dal corpo;
+`--piedi` allinea in orizzontale sui piedi (fermi nel colpo) invece che sulla testa (il pugno alzato la sposterebbe).
+
 Uso:  python tools/importa_tavola.py arte_ia/germogliato/01_corsa_v2.png --griglia 4x2 --nome corsa
+      python tools/importa_tavola.py arte_ia/germogliato/04_colpo.png --griglia 3x2 --nome colpo --piedi \
+          --togli-grigi --mano=-30,0,45,90,135,165
       python tools/importa_tavola.py arte_ia/germogliato/03_salto.png --griglia 3x2 --nome salto --aria 2,3,4
       --alto N = invece della testa, la posa mediana alta N pixel (come la prima importazione della corsa).
 """
 import argparse
+import json
+import math
 import os
 import sys
 
@@ -44,12 +56,70 @@ TESTA = 0.3          # la parte alta della figura usata per allineare in orizzon
 ALTO = 36            # lo sprite in piedi, in pixel del gioco
 
 
+def capelli(a: np.ndarray) -> np.ndarray:
+    """I pixel verdi dei capelli (il verde supera il rosso; il germoglio giallo-verde no)."""
+    r, g, b = a[:, :, 0], a[:, :, 1], a[:, :, 2]
+    return (a[:, :, 3] > 0.5) & (g > r + 20) & (g >= b)
+
+
 def larghezza_testa(a: np.ndarray) -> int:
-    """La riga più piena nella parte alta della figura: i capelli, larghi uguale in ogni posa."""
+    """La misura della testa: l'altezza del ciuffo verde dei capelli, dalla cima al fondo. È la misura più stabile tra
+    le pose (la larghezza cambia con i capelli al vento nel salto, la parte alta della figura con un pugno alzato):
+    corsa ~158, salto ~167, colpo ~155 pixel del disegno."""
+    rows = np.where(capelli(a).any(axis=1))[0]
+    return int(rows.max() - rows.min() + 1) if len(rows) else 0
+
+
+def pelle(a: np.ndarray) -> np.ndarray:
+    """I pixel della pelle: caldi ma meno saturi dell'ocra della tunica."""
+    r, g, b = a[:, :, 0], a[:, :, 1], a[:, :, 2]
+    # r - g > 20: il germoglio giallo-verde ha rosso e verde quasi uguali, la pelle no
+    return (a[:, :, 3] > 0.5) & (r > 150) & (r - g > 20) & (g >= b) & (r - b > 55) & (r - b < 125) & (g - b > 25)
+
+
+def tunica(a: np.ndarray) -> np.ndarray:
+    r, g, b = a[:, :, 0], a[:, :, 1], a[:, :, 2]
+    return (a[:, :, 3] > 0.5) & (r > 150) & (r > g) & (g > b) & (r - b >= 125)
+
+
+def trova_pugno(a: np.ndarray, gradi: float) -> tuple[float, float, float]:
+    """Il pugno nella direzione `gradi` (dall'alto, in senso orario) dalla spalla: (x, y, angolo misurato)."""
+    # la spalla dalla geometria: al 40% tra la cima dei capelli e i piedi, al centro del busto a quell'altezza
+    # (l'ocra della tunica cambia da una tavola all'altra e non basta a trovarla)
+    hy = np.where(capelli(a).any(axis=1))[0]
+    ty = np.where((a[:, :, 3] > 0.5).any(axis=1))[0]
+    top = hy.min() if len(hy) else ty.min()
+    sy0 = top + (ty.max() - top) * 0.40
+    band = a[int(sy0) - 3:int(sy0) + 4, :, 3] > 0.5
+    bx = np.where(band.any(axis=0))[0]
+    # il busto: la mediana dei pixel pieni della fascia (il braccio teso è una striscia sottile e sposta poco)
+    sh = np.array([float(np.median(bx)), float(sy0)])
+    sy, sx = np.where(pelle(a))
+    v = np.stack([sx - sh[0], sy - sh[1]], axis=1).astype(np.float32)
+    th = math.radians(gradi)
+    d = np.array([math.sin(th), -math.cos(th)], dtype=np.float32)
+    proj = v @ d
+    perp = np.abs(v[:, 0] * d[1] - v[:, 1] * d[0])
+    ok = (proj > 0) & (perp < proj * 0.7)                    # entro ~35 gradi dalla direzione attesa
+    if not ok.any():
+        return float(sh[0]), float(sh[1]), gradi
+    best = proj[ok].max()
+    fist = ok & (proj > best - (ty.max() - top) * 0.12)
+    hx, hy = float(sx[fist].mean()), float(sy[fist].mean())
+    misurato = math.degrees(math.atan2(hx - sh[0], -(hy - sh[1])))
+    return hx, hy, misurato
+
+
+def togli_grigi(a: np.ndarray) -> None:
+    """Via gli attrezzi e le scie che Nano Banana disegna anche se vietati: il grigio chiaro (il Germogliato non ne ha)
+    e le linee sottili rimaste staccate dal corpo (il contorno della lama, le scie)."""
+    rgb = a[:, :, :3]
+    sat = rgb.max(axis=2) - rgb.min(axis=2)
+    lum = rgb @ np.array([0.3, 0.59, 0.11])
+    a[(sat < 40) & (lum > 90), 3] = 0.0
     m = a[:, :, 3] > 0.5
-    ys = np.where(m.any(axis=1))[0]
-    top, bottom = ys.min(), ys.max()
-    return int(max(r.sum() for r in m[top:top + max(1, int((bottom - top) * TESTA))]))
+    spesso = ndimage.binary_dilation(ndimage.binary_opening(m, iterations=3), iterations=4)
+    a[m & ~spesso, 3] = 0.0
 
 
 def togli_griglia(a: np.ndarray) -> None:
@@ -94,10 +164,22 @@ def main() -> None:
     ap.add_argument("--aria", default="", help="pose in aria (indici da 0, separati da virgole)")
     ap.add_argument("--riferimento", default=RIFERIMENTO)
     ap.add_argument("--fps", type=int, default=12)
+    ap.add_argument("--testa-da", default="", help="pose su cui misurare la testa (indici; di solito una posa a terra "
+                    "composta: in aria i capelli si alzano e si abbassano)")
+    ap.add_argument("--piedi", action="store_true", help="allinea in orizzontale sui piedi invece che sulla testa")
+    ap.add_argument("--togli-grigi", action="store_true")
+    ap.add_argument("--mano", default="", help="direzione del pugno di ogni posa, gradi dall'alto in senso orario")
     args = ap.parse_args()
     cols, rows = (int(v) for v in args.griglia.lower().split("x"))
     a = pixela.togli_magenta(Image.open(args.file))
+    ref = pixela.ritaglia(pixela.togli_magenta(Image.open(args.riferimento)))
+    # ogni tavola di Nano Banana ha una luce un po' diversa (la pelle del colpo era #C79D66, quella del riferimento
+    # #E1AB73): i colori di tutta la tavola si correggono perché la pelle abbia il colore del riferimento
+    gain = np.clip(np.median(ref[:, :, :3][pelle(ref)], axis=0) / np.median(a[:, :, :3][pelle(a)], axis=0), 0.8, 1.25)
+    a[:, :, :3] = np.clip(a[:, :, :3] * gain, 0, 255)
     togli_griglia(a)
+    if args.togli_grigi:
+        togli_grigi(a)
     H, W = a.shape[:2]
     ch, cw = H // rows, W // cols
     cells, boxes = [], []
@@ -107,8 +189,12 @@ def main() -> None:
             m = cell[:, :, 3] > 0.5
             ys, xs = np.where(m)
             top = ys.min()
-            head = m[top:top + int((ys.max() - top) * TESTA)]
-            hx = np.where(head.any(axis=0))[0].mean()
+            if args.piedi:
+                feet = m[ys.max() - int((ys.max() - top) * 0.12):ys.max() + 1]
+                hx = np.where(feet.any(axis=0))[0].mean()
+            else:
+                head = m[top:top + int((ys.max() - top) * TESTA)]
+                hx = np.where(head.any(axis=0))[0].mean()
             cells.append(cell)
             boxes.append((top, ys.max(), xs.min(), xs.max(), hx, r))
     # piedi: in ogni riga sulla linea più bassa della riga; testa: tutte alla x media
@@ -139,15 +225,25 @@ def main() -> None:
     ys, xs = np.where(union)
     win = (ys.min(), ys.max() + 1, xs.min(), xs.max() + 1)
     frames_hi = [s[win[0]:win[1], win[2]:win[3]] for s in shifted]
-    ref = pixela.ritaglia(pixela.togli_magenta(Image.open(args.riferimento)))
     pal, n_base = pixela.tavolozza([ref], 20, pixela.ACCENTI)
     if args.alto:
         heights = [b[1] - b[0] + 1 for b in boxes]
         f = float(np.median(heights)) / (args.alto - 2)
     else:
         testa = larghezza_testa(ref) / (ref.shape[0] / (ALTO - 2))    # la testa del riferimento, in pixel del gioco
-        f = float(np.median([larghezza_testa(c) for c in cells])) / testa
+        scelte = [int(v) for v in args.testa_da.split(",") if v.strip() != ""] or list(range(len(cells)))
+        f = float(np.median([larghezza_testa(cells[i]) for i in scelte])) / testa
     os.makedirs(DST, exist_ok=True)
+    # il pugno di ogni posa, in pixel dello sprite del gioco (+1: il contorno aggiunto dalla riduzione)
+    mani = [float(v) for v in args.mano.split(",") if v.strip() != ""]
+    if mani:
+        info = []
+        for fr, gradi in zip(frames_hi, mani):
+            hx, hy, mis = trova_pugno(fr, gradi)
+            info.append({"mano": [round(hx / f + 1, 1), round(hy / f + 1, 1)], "gradi": round(mis, 1)})
+        with open(os.path.join(DST, "%s.json" % args.nome), "w", encoding="utf-8") as fh:
+            json.dump(info, fh, indent=1)
+        print("pugno: " + ", ".join("(%.0f, %.0f) %.0f°" % (i["mano"][0], i["mano"][1], i["gradi"]) for i in info))
     out = []
     for i, fr in enumerate(frames_hi):
         im = Image.fromarray(pixela.riduci(fr, f, pal, n_base), "RGBA")
