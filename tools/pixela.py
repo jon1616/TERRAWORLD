@@ -107,6 +107,22 @@ def pixela(path: str, alto: int, colori: int, tavolozza: str | None, accenti: li
                 best = n_base + int(share.argmax())
             out[y, x, :3] = pal[best].astype(np.uint8)
             out[y, x, 3] = 255
+    # pulizia: un pixel che non somiglia a nessuno dei 4 vicini è rumore della riduzione (le sfumature del disegno
+    # grande), prende il colore più comune attorno. Gli accenti restano: sono piccoli apposta.
+    acc_set = {tuple(c.astype(np.uint8)) for c in acc}
+    for _ in range(2):
+        src = out.copy()
+        for y in range(h_in):
+            for x in range(w_in):
+                if src[y, x, 3] == 0 or tuple(src[y, x, :3]) in acc_set:
+                    continue
+                near = [tuple(src[yy, xx, :3]) for yy, xx in ((y - 1, x), (y + 1, x), (y, x - 1), (y, x + 1))
+                        if 0 <= yy < h_in and 0 <= xx < w_in and src[yy, xx, 3] > 0]
+                me = tuple(src[y, x, :3])
+                if len(near) >= 3 and me not in near:
+                    best = max(set(near), key=near.count)
+                    if near.count(best) >= 2:
+                        out[y, x, :3] = best
     # il contorno: attorno alla sagoma, 1 pixel
     big = np.zeros((alto, w_in + 2, 4), dtype=np.uint8)
     big[1:-1, 1:-1] = out
