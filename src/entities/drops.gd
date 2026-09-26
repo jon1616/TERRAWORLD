@@ -56,17 +56,23 @@ func _process(dt: float) -> void:
 		d["t"] = float(d["t"]) + dt
 		var vel: Vector2 = d["vel"]
 		var dist := sp.position.distance_to(target)
-		var room := bisaccia.room_for(d["id"]) > 0
-		if room and dist < MAGNET * magnet_mult:
+		# il posto nella Bisaccia (40 caselle da guardare) si chiede solo per chi è abbastanza vicino da essere attirato:
+		# con centinaia di oggetti a terra lo si chiedeva per tutti a ogni fotogramma
+		var room := dist < MAGNET * magnet_mult and bisaccia.room_for(d["id"]) > 0
+		if room:
 			# attratto: vola verso il giocatore, senza badare ai blocchi
 			vel = vel.move_toward((target - sp.position).normalized() * 220.0, 900.0 * dt)
 			sp.position += vel * dt
+			d["rest"] = false
+		elif d.get("rest", false) and world.solid(floori(sp.position.x / 16.0), floori((sp.position.y + HALF.y + 1.0) / 16.0)):
+			pass                                 # fermo sul pavimento: dorme finché il pavimento resta
 		else:
 			vel.y = minf(vel.y + 700.0 * dt, 400.0)
 			vel.x = move_toward(vel.x, 0.0, 200.0 * dt)
 			var r := TileBody.move(world, sp.position, HALF, vel, dt, false)
 			sp.position = r["pos"]
 			vel = r["vel"]
+			d["rest"] = bool(r["floor"]) and absf(vel.x) < 1.0
 		d["vel"] = vel
 		sp.offset.y = sin(float(d["t"]) * 3.0) * 1.0
 		if room and dist < PICK:

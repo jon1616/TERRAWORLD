@@ -9,6 +9,7 @@ const GAP := 6
 
 var bisaccia: Bisaccia
 var stations_near: Callable            # () -> stazioni a portata del giocatore, per la colonna «Creare»
+var _dirty := false                    # la Bisaccia è cambiata da quando le caselle sono state disegnate
 var crafting: CraftingPanel
 var examine: ExaminePanel               # la casella «Esamina» in alto a sinistra
 var _equip: Dictionary = {}            # posto -> SlotView
@@ -126,13 +127,17 @@ func _ready() -> void:
 	_held_icon.modulate = Color(1, 1, 1, 0.9)
 	_held_icon.visible = false
 	add_child(_held_icon)
-	bisaccia.changed.connect(_refresh)
+	# ogni oggetto raccolto cambia la Bisaccia: ridisegnare subito 40 caselle a ogni cambio (anche a pannello chiuso)
+	# faceva un fotogramma da 60 ms quando se ne raccoglievano molti insieme. Si segna e si ridisegna in `_process`,
+	# una volta per fotogramma e solo a pannello aperto.
+	bisaccia.changed.connect(func() -> void: _dirty = true)
 	_refresh()
 
 
 func toggle() -> void:
 	visible = not visible
 	if visible:
+		_refresh()
 		crafting.refresh()
 		examine.refresh()
 	else:
@@ -165,6 +170,7 @@ func refresh_held() -> void:
 
 
 func _refresh() -> void:
+	_dirty = false
 	for s in _slots:
 		s.set_item(bisaccia.id_at(s.index), bisaccia.count_at(s.index), bisaccia.trait_at(s.index))
 	for slot in _equip:
@@ -208,5 +214,7 @@ func _show_sets(done: Array) -> void:
 
 
 func _process(_dt: float) -> void:
+	if _dirty and visible:
+		_refresh()
 	if _held_icon.visible:
 		_held_icon.position = get_viewport().get_mouse_position() + Vector2(8, 8)

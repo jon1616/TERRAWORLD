@@ -55,7 +55,7 @@ Godot_console.exe --path . -- --prove            # --carica riapre il mondo di p
 Godot_console.exe --path . -- --prove --prova-portale
 # solo alcuni gruppi di prove (per provare in fretta una voce nuova): doni, antiche, pericoli, combattimento, tratti,
 # obiettivi, guardiani, rovine, mobilita, lanci, giardino, eventi, casa, abitanti, compagni, viaggio, semi,
-# biomi, biomi_nuovi, luoghi, corsa (elenco in `AutoTests._group`)
+# biomi, biomi_nuovi, luoghi, corsa, raccolta (elenco in `AutoTests._group`)
 Godot_console.exe --path . -- --prove --solo=doni,antiche
 # suoni generati: prove/suoni/*.wav da ascoltare, con durata, picco e volume medio (segnala muti e distorti)
 Godot_console.exe --headless --path . --script res://tools/suoni.gd
@@ -367,8 +367,14 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 - Un bioma in più cambia la forma di tutto il mondo di prova: nel giro lungo tre prove sono cadute (casa, seme ricurvo,
   scavo) perché il loro posto era occupato o diverso. Le prove sgomberano e spianano il loro posto prima di usarlo;
   un mondo senza specie ha sempre tutti i biomi (`PassBiomi._ensure_all`), altrimenti il mondo di prova perde un bioma.
-- Nel giro lungo (dopo ~12 minuti di prove) la corsa ha a volte un fotogramma da 75-120 ms che le prove singole non
-  mostrano (né il salvataggio automatico né il portale né le prove della casa lo causano): punto aperto (26 set 2026).
+- Il fotogramma lento del giro lungo (75-120 ms, 26 set 2026): ogni oggetto raccolto cambia la Bisaccia, e il pannello
+  Creare, **anche chiuso**, rifaceva a ogni cambio l'elenco delle ricette dei banchi a portata. Alla partenza le prove
+  avevano piazzato tutti i banchi: una raccolta costava 103 ms (0,4 ms ora). I pannelli ascoltano `Bisaccia.changed`
+  segnando soltanto «da ridisegnare» e si ridisegnano in `_process`, una volta per fotogramma e solo se si vedono.
+  Trovato con `FrameProbe` (in `src/game/tests/`): una sonda dopo ogni figlio della scena di gioco dice quanto ha
+  preso ogni modulo nel fotogramma peggiore della corsa; `--solo=raccolta` rifà il caso (mucchio di 20 oggetti con
+  tutti i banchi attorno). Nello stesso giro: gli oggetti fermi a terra non rifanno la fisica e non chiedono posto
+  alla Bisaccia se sono lontani (300 oggetti: da 6,6 a 0,85 ms per fotogramma).
 
 ## Convenzioni
 

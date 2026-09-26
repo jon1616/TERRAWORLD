@@ -108,19 +108,32 @@ func run_and_save() -> void:
 	var frames := 0
 	var worst := 0.0
 	var worst_at := 0
+	var worst_split := []
+	var worst_engine := ""
+	# la sonda dice quale modulo ha preso il tempo del fotogramma peggiore
+	var probe := FrameProbe.new()
+	probe.attach(kit.m)
+	await kit.node.get_tree().process_frame
 	for k in 180:
 		kit.m.player.position.x += 9.0
 		kit.m.player.position.y = (world.surface[clampi(int(kit.m.player.position.x / S), 0, world.w - 1)] - 1) * S
 		var f0 := Time.get_ticks_usec()
+		probe.mark()
 		await kit.node.get_tree().process_frame
 		var dt := (Time.get_ticks_usec() - f0) / 1000.0
+		var split := probe.split()
 		if dt > worst:
 			worst = dt
 			worst_at = k
+			worst_split = split
+			worst_engine = probe.engine()          # riferiti all'ultimo giro completo del motore: questo
 		frames += 1
+	probe.detach()
 	var ms := Time.get_ticks_msec() - t0
 	print("corsa: %d fotogrammi in %d ms (%.1f fps), fotogramma peggiore %.1f ms (il %d°), blocchi caricati %d" % [
 		frames, ms, frames * 1000.0 / ms, worst, worst_at, kit.m.view.chunks.size()])
+	print("  il fotogramma peggiore: %s" % ", ".join(worst_split.map(func(e: Array) -> String: return "%s %.1f ms" % [e[0], e[1]])))
+	print("  motore: %s" % worst_engine)
 	await kit.frames(10)
 	await kit.save("05_dopo_la_corsa")
 	# salvataggio dal gioco e ricaricamento: il mondo su disco deve essere identico a quello in memoria

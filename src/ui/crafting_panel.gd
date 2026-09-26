@@ -31,6 +31,7 @@ var _search: LineEdit
 var _cat_buttons: Array[Button] = []
 var _near_key := ""
 var _t := 0.0
+var _dirty := false                    # la Bisaccia è cambiata da quando l'elenco è stato fatto
 
 signal crafted(id: String, n: int)
 signal grafted(id: String)
@@ -91,7 +92,8 @@ func setup(b: Bisaccia, near: Callable, pos: Vector2, height: float) -> void:
 	_list.custom_minimum_size = Vector2(W - 40, 0)
 	_list.add_theme_constant_override("separation", 4)
 	scroll.add_child(_list)
-	bisaccia.changed.connect(refresh)
+	# come la Bisaccia: a ogni cambio si segna soltanto, si rifà l'elenco una volta per fotogramma e solo se si vede
+	bisaccia.changed.connect(func() -> void: _dirty = true)
 	refresh()
 
 
@@ -121,6 +123,8 @@ func _style_chip(b: Button) -> void:
 func _process(dt: float) -> void:
 	if not is_visible_in_tree():
 		return
+	if _dirty:
+		refresh()
 	_t -= dt
 	if _t <= 0.0:
 		_t = 0.5
@@ -146,6 +150,7 @@ func _passes(r: Dictionary) -> bool:
 
 
 func refresh() -> void:
+	_dirty = false
 	if _list == null:
 		return
 	for k in _cat_buttons.size():
