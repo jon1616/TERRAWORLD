@@ -58,8 +58,8 @@ func run() -> void:
 		for x in range(x0 + 1, x1):
 			if m.actions.in_reach(Vector2i(x, y)) and ms.place_wall(Vector2i(x, y), "parete_assi"):
 				walls += 1
-	# la porta nel muro di sinistra: tolti tre mattoni, un vano alto 3
-	for y in range(fy - 3, fy):
+	# la porta nel muro di sinistra: tolti due mattoni, un vano alto quanto la porta (2, quanto il Germogliato)
+	for y in range(fy - Masonry.door_h(), fy):
 		world.set_tile(x0, y, TileDefs.AIR)
 	m.view.refresh_around(Vector2i(x0, fy - 2))
 	var placed := {}
@@ -76,13 +76,35 @@ func run() -> void:
 		if not placed[pair[0]]:
 			print("ATTENZIONE: ", pair[0], " non piazzato; ci sta ", world.station_fits(sid, o), " reach ", m.actions.in_reach(pair[1]), " sel ", m.character.bisaccia.id_at(m.hud.sel))
 	print("casa: pareti piazzate %d, arredi %s" % [walls, placed])
-	var door := Vector2i(x0, fy - 3)
-	var closed := world.solid(door.x, door.y + 1)
+	var door := Vector2i(x0, fy - Masonry.door_h())
+	var closed := world.solid(door.x, door.y) and world.solid(door.x, door.y + 1)
+	# chiusa, il Germogliato che cammina verso fuori si ferma contro la porta
+	var inside := Vector2i(x0 + 2, fy - 1)
+	var ctl: bool = m.player.control
+	m.player.control = false
+	m.snap_to(inside)
+	m.player.auto_dir = -1.0
+	await kit.seconds(1.2)
+	var stopped: bool = m.player.position.x > (x0 + 1) * S
+	m.player.auto_dir = 0.0
 	ms.toggle_door(door)
-	var opened := not world.solid(door.x, door.y + 1)
+	var opened := not world.solid(door.x, door.y) and not world.solid(door.x, door.y + 1)
+	# aperta, ci passa camminando (il vano è alto due tessere: il Germogliato ci sta giusto)
+	m.snap_to(inside)
+	m.player.auto_dir = -1.0
+	await kit.seconds(1.5)
+	var through: bool = m.player.position.x < x0 * S
+	m.player.auto_dir = 0.0
+	m.player.control = ctl
+	await kit.save("63b_porta")
+	m.snap_to(inside)
+	await kit.frames(2)
 	ms.toggle_door(door)
-	print("porta: chiusa ferma %s, aperta lascia passare %s, richiusa %s" % ["sì" if closed else "NO",
-		"sì" if opened else "NO", "sì" if world.solid(door.x, door.y + 1) else "NO"])
+	print("porta (alta %d): chiusa ferma %s (il Germogliato si ferma %s), aperta lascia passare %s (ci passa camminando %s), richiusa %s" % [
+		Masonry.door_h(), "sì" if closed else "NO", "sì" if stopped else "NO", "sì" if opened else "NO",
+		"sì" if through else "NO", "sì" if world.solid(door.x, door.y + 1) else "NO"])
+	if not (closed and stopped and opened and through):
+		print("ATTENZIONE: la porta non funziona come dovrebbe")
 	# il martello
 	m.snap_to(spot)
 	var w0 := b.count("parete_assi")

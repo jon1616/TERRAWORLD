@@ -31,8 +31,8 @@ const STATIONS := {
 	"mola": {"name": "Mola del gemmaio", "size": [2, 1], "item": "mola"},
 	"paiolo": {"name": "Paiolo di radice", "size": [2, 1], "item": "paiolo", "light": true},
 	# voce 35: porte e arredi (la porta chiusa riempie le sue celle di tessere `PORTA`, vedi `Masonry`)
-	"porta": {"name": "Porta", "size": [1, 3], "item": "porta_lanterna"},
-	"porta_aperta": {"name": "Porta aperta", "size": [1, 3], "item": "porta_lanterna"},
+	"porta": {"name": "Porta", "size": [1, 2], "item": "porta_lanterna"},
+	"porta_aperta": {"name": "Porta aperta", "size": [1, 2], "item": "porta_lanterna"},
 	"lampada": {"name": "Lampada di lanterna", "size": [1, 2], "item": "lampada_lanterna", "light": true,
 		"light_color": Color(1.5, 1.1, 0.6)},
 	"tavolo": {"name": "Tavolo di radice", "size": [3, 1], "item": "tavolo_radice"},

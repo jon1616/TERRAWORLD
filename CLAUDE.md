@@ -48,6 +48,7 @@ in `ROADMAP.md` (Roadmap 5-11). Queste regole valgono per **ogni** voce, anche f
   abitanti, bacheca, Genario, Erbario che dice cosa manca e dove cercarlo a grandi linee).
 - **I salvataggi di oggi restano giocabili**: il piano cambia la forma di molte cose, quindi ogni cambio di formato
   passa da una migrazione (voce 41).
+  **Sospesa per ora** (26 set 2026, l'utente): in pieno sviluppo le partite sono solo prove, non serve preservarle.
 
 ## Decisioni di base (24 set 2026, scelte dall'utente)
 

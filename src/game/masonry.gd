@@ -77,10 +77,15 @@ func remove_wall(c: Vector2i) -> void:
 
 ## Una porta appena piazzata o ripresa: chiusa, le sue celle diventano tessere `PORTA` (solide); ripresa, tornano aria.
 func door_placed(o: Vector2i, placed: bool) -> void:
-	for dy in 3:
+	for dy in door_h():
 		m.world.set_tile(o.x, o.y + dy, TileDefs.PORTA if placed else TileDefs.AIR)
 		m.view.refresh_around(o + Vector2i(0, dy))
 	m.light.dirty = true
+
+
+## Quante tessere è alta una porta (26 set 2026: due, quanto il Germogliato; erano tre).
+static func door_h() -> int:
+	return int(StationsData.STATIONS["porta"]["size"][1])
 
 
 ## Clic destro su una porta: si apre o si chiude (non si chiude addosso a qualcuno).
@@ -89,7 +94,7 @@ func toggle_door(o: Vector2i) -> bool:
 	if not w.stations.has(o):
 		return false
 	var id := String(w.stations[o])
-	var cells := Rect2(Vector2(o) * S, Vector2(1, 3) * S)
+	var cells := Rect2(Vector2(o) * S, Vector2(1, door_h()) * S)
 	if id == "porta_aperta":
 		if cells.intersects(Rect2(m.player.position - Player.HALF, Player.HALF * 2.0)):
 			return false
@@ -97,7 +102,7 @@ func toggle_door(o: Vector2i) -> bool:
 			if cells.intersects(c.rect()):
 				return false
 	w.stations[o] = "porta" if id == "porta_aperta" else "porta_aperta"
-	for dy in 3:
+	for dy in door_h():
 		w.set_tile(o.x, o.y + dy, TileDefs.PORTA if id == "porta_aperta" else TileDefs.AIR)
 		m.view.refresh_around(o + Vector2i(0, dy))
 	m.view.remove_station(o)
