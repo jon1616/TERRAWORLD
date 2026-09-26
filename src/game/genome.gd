@@ -160,7 +160,10 @@ static func describe(g: Dictionary, colored := false) -> String:
 ## La scheda di un genoma per la casella Esamina: vigore e una riga per gene (categoria, nome, cosa fa).
 static func sheet(g: Dictionary) -> String:
 	var v := vigor(g)
-	var t := "[color=#8ef0d8]Genoma[/color] · [color=#9fc8c0]%s[/color]\n" % (("vigore %d" % v) if v > 0
+	var t := ""
+	if g.has("mondo"):
+		t += "[color=#ffd24a]Seme dormiente: ripiantato, riapre «%s»[/color]\n" % g.get("nome", "il suo mondo")
+	t += "[color=#8ef0d8]Genoma[/color] · [color=#9fc8c0]%s[/color]\n" % (("vigore %d" % v) if v > 0
 		else "vigore del mondo dove lo pianti, più uno")
 	for x in genes(g):
 		var d := GenesData.info(String(x))

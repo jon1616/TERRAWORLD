@@ -25,6 +25,7 @@ func _init(tk: TestKit) -> void:
 func run() -> void:
 	await generator()
 	await signatures()
+	await aiuole()
 
 
 func _census(w: World) -> Dictionary:
@@ -208,3 +209,56 @@ func _photo_at(src: World, photo: String, shift: Vector2i, look: Vector2i) -> vo
 	await kit.save(photo)
 	m.boons.active.erase("bagliore")
 	m.boons.active.erase("vista")
+
+
+## Voce 45: le Aiuole (solo nel Giardino, al più tre), il Seme piantato nell'Aiuola diventa un portale, a terra no;
+## il Semenzaio elenca la rete (foto 84_semenzaio); chiudere un mondo ridà il Seme dormiente con lo stesso genoma.
+func aiuole() -> void:
+	var ai: Aiuole = m.aiuole
+	kit.make_room()
+	var spot := kit.flat_spot(world.spawn + Vector2i(-60, 0), 8)
+	if spot.x < 0:
+		print("ATTENZIONE: nessun posto per l'Aiuola")
+		return
+	m.snap_to(spot + Vector2i(-3, 0))
+	await kit.frames(3)
+	# a terra non si pianta più
+	kit.flatten(spot, 6)
+	var hs: int = kit.hold("seme_mondo_brina")
+	var g: Dictionary = m.character.bisaccia.data_at(hs).duplicate(true)
+	var on_ground: bool = m.portal.plant(spot, "seme_mondo_brina")
+	# le regole delle Aiuole
+	ai.bonus = -99
+	var full: String = ai._can_place("aiuola")
+	ai.bonus = 0
+	var ok_home: String = ai._can_place("aiuola")
+	kit.aiuola(spot)
+	var planted: bool = m.portal.plant(spot, "seme_mondo_brina")
+	var o := spot - Vector2i(1, 3)
+	var e: Dictionary = m.world_meta.get("portali", {}).get("%d,%d" % [o.x, o.y], {})
+	m.guardian.lore.visible = false
+	print("Aiuole: nel Giardino %s, piene «%s», a terra %s, nell'Aiuola %s (portale d'Aiuola %s, geni %s), Aiuole contate %d" % [
+		"sì" if ai.is_home() and ok_home == "" else "NO", full, "rifiutato" if not on_ground else "PIANTATO (NO)",
+		"sì" if planted else "NO", "sì" if e.get("aiuola", false) else "NO", e.get("geni", []), ai.count()])
+	# il Semenzaio
+	var sp: SemenzaioPanel = null
+	for c in m.hud.overlays:
+		if c is SemenzaioPanel:
+			sp = c
+	sp.toggle()
+	await kit.frames(6)
+	await kit.save("84_semenzaio")
+	print("Semenzaio: mondi nella rete %d, titolo «%s»" % [ai.network().size(), sp._title.text])
+	sp.toggle()
+	# chiudere il mondo dell'Aiuola: torna Aiuola, il Seme dormiente torna con lo stesso genoma
+	var before: int = m.character.bisaccia.count(Genome.item_of(g))
+	var closed: bool = ai.close(o)
+	var back := false
+	for i in m.character.bisaccia.slots.size():
+		var d: Dictionary = m.character.bisaccia.data_at(i)
+		if Genome.genes(d) == Genome.genes(g) and m.character.bisaccia.id_at(i) == Genome.item_of(g):
+			back = true
+	print("mondo chiuso %s: di nuovo Aiuola %s, Seme dormiente con lo stesso genoma %s (Semi %d → %d)" % [
+		"sì" if closed else "NO", "sì" if world.stations.get(o, "") == "aiuola" else "NO", "sì" if back else "NO", before,
+		m.character.bisaccia.count(Genome.item_of(g))])
+	m.hud.toast("")

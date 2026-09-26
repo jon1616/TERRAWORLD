@@ -38,6 +38,8 @@ static func make(id: String) -> Dictionary:
 			_fagotto(im, gm, w, h)
 		"scrigno":
 			_scrigno(im, gm, w, h)
+		"aiuola":
+			_aiuola(im, gm, w, h)
 		_:
 			WorkshopArt.draw(id, im, gm, w, h)
 	Px.outline(im, OUT)
@@ -179,6 +181,33 @@ static func _portale(im: Image, gm: Image, w: int, h: int) -> void:
 		Px.curve(im, base, mid, top, 1, root[3])
 	for x in range(2, w - 2):
 		Px.put(im, x, h - 1, root[0])
+
+
+## Aiuola del Giardino (voce 45): un letto di terra scura cerchiato di radici, con tre germogli e rune di Linfa accese
+## sul bordo. Sopra resta vuota: lì crescerà il portale.
+static func _aiuola(im: Image, gm: Image, w: int, h: int) -> void:
+	var soil := Px.pal(TileDefs.P_DIRT)
+	var root := Px.pal(TileDefs.P_RADICE)
+	var sprout := Px.pal(TileDefs.P_GRASS)
+	var lin := Px.pal(TileDefs.P_CRYSTAL)
+	var top := h - 11
+	for y in range(top, h):
+		for x in range(2, w - 2):
+			var edge := y == top or x < 4 or x > w - 5
+			var c := root[2] if edge else (soil[2] if (x * 3 + y) % 5 else soil[3])
+			if y == h - 1:
+				c = root[1]
+			Px.put(im, x, y, c)
+	for x in range(3, w - 3, 6):                   # le rune del bordo
+		Px.put(im, x, top + 1, lin[3])
+		Px.put(gm, x, top + 1, lin[3])
+	for k in 3:                                    # tre germogli che aspettano il Seme
+		var sx := 12 + k * 12
+		for y in range(top - 5 + (k % 2), top):
+			Px.put(im, sx, y, sprout[2])
+		Px.put(im, sx - 1, top - 5 + (k % 2), sprout[3])
+		Px.put(im, sx + 1, top - 6 + (k % 2), sprout[4])
+		Px.put(gm, sx + 1, top - 6 + (k % 2), sprout[4])
 
 
 ## Cesta di radici: intreccio di legno di lanterna, coperchio con una foglia.

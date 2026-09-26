@@ -65,6 +65,7 @@ func run() -> void:
 		return
 	kit.flatten(spot, 8)
 	m.snap_to(spot + Vector2i(-3, 0))
+	kit.aiuola(spot)
 	var hs: int = kit.hold("seme_mondo_resina")
 	var g: Dictionary = m.character.bisaccia.data_at(hs).duplicate(true)
 	var planted: bool = m.portal.plant(spot, "seme_mondo_resina")

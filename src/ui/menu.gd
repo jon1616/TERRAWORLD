@@ -178,13 +178,26 @@ func _show_new_world() -> void:
 	_heading("Nuovo mondo")
 	var name_edit := _field("Nome del mondo", "")
 	var seed_edit := _field("Seme (vuoto = a caso)", "")
+	# voce 45: il Seme del Giardino sceglie i biomi del mondo di partenza (a ogni clic il successivo)
+	var kinds := [""] + GenesData.of_cat("superficie")
+	var pick := [0]
+	var kind_btn := _button("", Callable(), TEXT)
+	var show_kind := func() -> void:
+		var g := String(kinds[pick[0]])
+		kind_btn.text = "Seme del Giardino: %s" % ("tutti i biomi" if g == "" else "%s (%s)" % [GenesData.GENES[g]["name"],
+			GenesData.GENES[g]["desc"]])
+	show_kind.call()
+	kind_btn.pressed.connect(func() -> void:
+		pick[0] = (pick[0] + 1) % kinds.size()
+		show_kind.call())
 	_button("Pianta il seme", func() -> void:
 		var n := name_edit.text.strip_edges()
 		if n == "":
 			n = "Mondo senza nome"
 		var s := seed_edit.text.strip_edges()
 		var sd := int(s) if s.is_valid_int() else (s.hash() & 0x7fffffff if s != "" else randi() & 0x7fffffff)
-		Session.start_new_world(n, sd)
+		var g := String(kinds[pick[0]])
+		Session.start_new_world(n, sd, "", {} if g == "" else {"geni": [g]})
 		get_tree().change_scene_to_file(GAME_SCENE), GOLD)
 	_button("Indietro", _show_worlds, DIM)
 	name_edit.grab_focus()
@@ -313,7 +326,8 @@ func _button(text: String, action: Callable, col := TEXT) -> Button:
 	b.add_theme_stylebox_override("hover", _style(Color(0.08, 0.22, 0.24, 0.95), GOLD, 20))
 	b.add_theme_stylebox_override("pressed", _style(Color(0.12, 0.3, 0.3, 1.0), GOLD, 20))
 	b.add_theme_stylebox_override("focus", _style(Color(0, 0, 0, 0), GOLD, 20))
-	b.pressed.connect(action)
+	if action.is_valid():
+		b.pressed.connect(action)
 	_box.add_child(b)
 	return b
 

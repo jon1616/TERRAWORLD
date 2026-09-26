@@ -23,6 +23,11 @@ func place_station(c: Vector2i, id: String) -> bool:
 	var slot := a.hud.sel
 	if a.bisaccia.id_at(slot) != id:
 		return false
+	if a.station_check.is_valid():
+		var why: String = a.station_check.call(sid)
+		if why != "":
+			a.hud.toast(why)
+			return false
 	for dy in size[1]:
 		for dx in size[0]:
 			if a.world.decor_at(o.x + dx, o.y + dy) != 0:

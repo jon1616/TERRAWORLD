@@ -107,6 +107,7 @@ func run() -> void:
 	await kit.frames(5)
 	b.add("seme_mondo", 1)
 	kit.hold("seme_mondo")
+	kit.aiuola(spot)
 	var planted: bool = m.portal.plant(spot, "seme_mondo")
 	var dest: Array = m.portal.destination(spot - Vector2i(1, 3))
 	var back: Vector2i = m.portal.place_return("mondo_di_ritorno")

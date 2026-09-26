@@ -229,7 +229,9 @@ const ITEMS := {
 	"radice_viandante": {"name": "Radice viandante", "kind": "stazione", "icon": ["radice_viaggio", "linfa"], "place": "radice_viandante", "stack": 99, "desc": "Piantala dove vuoi tornare. Clic destro su una radice: la mappa mostra tutte le altre radici del mondo, un clic e ci arrivi."},
 	"lumino": {"name": "Lumino", "kind": "moneta", "icon": ["lumino", "ambra"], "stack": 9999, "desc": "Una goccia di luce solida: la moneta degli abitanti. La lasciano le creature sconfitte e gli scrigni."},
 	"focolare": {"name": "Focolare del Giardino", "kind": "stazione", "icon": ["focolare", "brace"], "place": "focolare", "stack": 99, "desc": "Un fuoco acceso che si vede da lontano. Con un Letto di foglie libero lì vicino, un viandante si ferma ad abitare (uno per letto)."},
-	"seme_mondo": {"name": "Seme di mondo", "kind": "seme_mondo", "icon": ["seme", "cristallo"], "stack": 1, "desc": "Il Cuore del mondo ti ha donato un seme. Piantalo sul terreno: crescerà un portale verso un mondo nuovo. Ogni Seme porta i suoi geni: posalo in Esamina per leggerli."},
+	"aiuola": {"name": "Aiuola del Giardino", "kind": "stazione", "place": "aiuola", "icon": ["vasetto", "humus"], "stack": 9,
+		"desc": "Un letto di terra buona cerchiato di radici. Si mette solo nel Giardino, il tuo mondo di partenza (tre Aiuole al massimo): con un Seme di mondo in mano, clic sull'Aiuola e cresce un portale."},
+	"seme_mondo": {"name": "Seme di mondo", "kind": "seme_mondo", "icon": ["seme", "cristallo"], "stack": 1, "desc": "Il Cuore del mondo ti ha donato un seme. Piantalo in un'Aiuola del Giardino: crescerà un portale verso un mondo nuovo. Ogni Seme porta i suoi geni: posalo in Esamina per leggerli."},
 }
 
 ## Metalli: grado, forza di piccone e ascia, danno della spada, difesa dell'armatura (elmo, corazza, gambali).

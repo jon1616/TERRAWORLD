@@ -28,6 +28,8 @@ var build: Building                    # stazioni e passerelle
 var sfx: Sfx                           # i suoni (può mancare nelle prove senza scena)
 var _dig_snd := 0.0
 var touch_hook: Callable
+## `station_check.call(id_stazione)` → "" se si può piazzare, altrimenti il perché (voce 45, `Aiuole`).
+var station_check: Callable
 signal boon(name: String, secs: float)
 signal decor_picked(c: Vector2i, d: int)   # una decorazione tolta (il giardino vi aggiunge raccolto e semi)
 var _cell := Vector2i(-9999, -9999)

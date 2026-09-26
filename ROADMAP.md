@@ -719,13 +719,23 @@ prima ricevono la loro firma al primo ingresso. **Nomi dei mondi** (`NamesData`)
 aggettivo da un gene di forma, nome proprio dal seme («Foreste gelide di Caleren», «Paludi cave di Velmè»). Obiettivi
 «Trova la firma di un mondo» e «Trova le firme di cinque mondi». Foto 82_firma_albero, 83_firma_bolla.
 
-## 45. [ ] Le Aiuole e il registro dei mondi (M)
+## 45. [x] Le Aiuole e il registro dei mondi (M) — fatto il 26 set 2026
 I portali si piantano nelle **Aiuole** (stazione del Giardino, con un numero limitato che crescerà con l'Albero-Madre):
 il mondo casa diventa il centro della rete. Il **Semenzaio** (pannello, tasto dedicato) elenca i mondi aperti: nome,
 genoma, vigore, firma (trovata o no), quanto è esplorato, Cuore e Guardiano. Si può chiudere un mondo per liberare
 un'Aiuola (il mondo resta salvato e si può riaprire con il suo Seme). Scegliere il Seme di partenza dal menu.
 **Pronto quando**: si hanno più mondi aperti insieme, si passa dall'uno all'altro dal Giardino, il Semenzaio li
 descrive tutti.
+**Fatto il 26 set 2026**: il mondo creato dal menu è il **Giardino** (`Aiuole.is_home`: senza "ritorno"); i Semi di
+mondo si piantano solo nelle **Aiuole** (stazione 3×4 del Ceppo: humus, legno, semi di lanterna), che si mettono solo
+nel Giardino e al più tre (`Aiuole.max_aiuole`, `bonus` per l'Albero-Madre della Roadmap 8; controllo con
+`PlayerActions.station_check`): l'Aiuola diventa il portale, i mondi nuovi ricordano il loro Giardino
+(`world_meta["casa"]`; quelli di prima lo ritrovano seguendo i portali di ritorno). Il **Semenzaio** (tasto K,
+`SemenzaioPanel`): i mondi della rete con genoma, firma, Cuore, esplorato e tempo di gioco; dal Giardino si **chiude**
+un mondo (l'Aiuola torna libera, resta il **Seme dormiente** con "mondo" nel genoma, che ripiantato lo riapre). Il seme
+di un mondo nuovo nasce dal conto dei Semi piantati nel Giardino (una stessa Aiuola ospita molti Semi). Nel menu si
+sceglie il **Seme del Giardino** (tutti i biomi o uno dei cinque). Deciso da Claude: niente più portali piantati a terra
+(quelli di prima restano), così il Giardino è davvero il centro. Foto 84_semenzaio.
 
 ## 46. [ ] Trovare semi e geni (M)
 Da dove vengono i geni: Cuori e Guardiani (Semi interi), scrigni delle rovine, **piante-seme** selvatiche rare in ogni

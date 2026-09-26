@@ -25,6 +25,7 @@ func run() -> void:
 			await kit.frames(5)
 			m.character.bisaccia.add("seme_mondo", 1)
 			kit.hold("seme_mondo")
+			kit.aiuola(spot)
 			var ok: bool = m.portal.plant(spot, "seme_mondo")
 			m.guardian.lore.visible = false
 			print("viaggio, tappa 0: portale piantato %s, si parte" % ("sì" if ok else "NO"))

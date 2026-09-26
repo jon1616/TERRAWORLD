@@ -49,6 +49,7 @@ var travel: Travel
 var minimap: Minimap
 var world_traits: WorldTraits
 var signature: Signature
+var aiuole: Aiuole
 var _spores: CPUParticles2D
 var built := false
 var gen_times: Array = []
@@ -81,6 +82,8 @@ func _ready() -> void:
 		world_id = nw["id"]
 		world_meta = {"nome": nw["nome"], "creato": SavePaths.now_text(), "tempo_di_gioco": 0.0, "giocatori": {},
 			"vigore": int(nw.get("vigore", 1)), "geni": nw.get("geni", []), "formato": SaveMigrations.WORLD}
+		if nw.has("casa"):
+			world_meta["casa"] = nw["casa"]
 		_show_loading("Il seme germoglia…\ngenerazione del mondo")
 		world = World.new()
 		var sd: int = nw["seme"]
@@ -237,6 +240,11 @@ func _build() -> void:
 	travel = _mount(Travel.new())
 	world_traits = _mount(WorldTraits.new())
 	signature = _mount(Signature.new())
+	aiuole = _mount(Aiuole.new())
+	var sp := SemenzaioPanel.new()
+	hud.add_child(sp)
+	sp.setup(self)
+	hud.overlays.append(sp)
 	minimap = Minimap.new()
 	hud.add_child(minimap)
 	minimap.setup(self, map_reveal)
@@ -352,6 +360,9 @@ func save_game() -> void:
 	var pc := player_cell()
 	players[character.id] = [pc.x, pc.y]
 	world_meta["giocatori"] = players
+	world_meta["esplorato"] = aiuole.explored_percent()
+	if aiuole.is_home():
+		world_meta["aiuole"] = aiuole.count()
 	var err := WorldSave.save(world, world_id, world_meta)
 	if err != OK:
 		push_error("salvataggio del mondo non riuscito: %s" % error_string(err))

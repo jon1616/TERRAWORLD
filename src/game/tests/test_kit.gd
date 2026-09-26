@@ -121,6 +121,18 @@ func flatten(c: Vector2i, half: int) -> void:
 	m.view.refresh_around(Vector2i(c.x + half, c.y))
 
 
+## Un'Aiuola del Giardino con il bordo in basso al centro in c (voce 45): si spiana e la si mette come la metterebbe il
+## giocatore. Restituisce c, la cella dove cliccare con il Seme di mondo in mano.
+func aiuola(c: Vector2i) -> Vector2i:
+	flatten(c, 3)
+	var o := c - Vector2i(1, 3)
+	if not world.station_fits("aiuola", o):
+		print("ATTENZIONE: nessuno spazio per l'Aiuola in %s" % c)
+	world.stations[o] = "aiuola"
+	m.view.add_station(o)
+	return c
+
+
 ## Svuota la parte grande della Bisaccia (non la barra rapida): nel giro lungo le prove la riempiono, e gli oggetti
 ## aggiunti dopo non entravano più (le prove fallivano senza motivo vero).
 func make_room() -> void:

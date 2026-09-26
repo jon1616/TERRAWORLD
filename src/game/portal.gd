@@ -46,23 +46,32 @@ func _portals() -> Dictionary:
 	return m.world_meta["portali"]
 
 
-## Pianta il Seme di mondo con il mouse sul punto più basso al centro dell'arco (3×4 tessere, pavimento sotto).
+## Pianta il Seme di mondo in un'Aiuola del Giardino (voce 45: il mouse su una qualunque cella dell'Aiuola): l'Aiuola
+## diventa un portale. Un Seme dormiente (con "mondo" nel genoma) riapre il suo mondo.
 func plant(c: Vector2i, id: String) -> bool:
-	var o := c - Vector2i(1, 3)
-	if not m.actions.in_reach(c) or not m.world.station_fits("portale", o):
-		m.hud.toast("Serve spazio libero (3×4) e un pavimento sotto")
+	var o: Vector2i = m.aiuole.aiuola_at(c)
+	if o.x < 0:
+		m.hud.toast("I Semi di mondo si piantano in un'Aiuola del Giardino" if m.aiuole.is_home()
+			else "I Semi di mondo si piantano nelle Aiuole del Giardino, il tuo mondo di partenza")
+		return false
+	if not m.actions.in_reach(c):
+		m.hud.toast("Avvicinati all'Aiuola")
 		return false
 	var b: Bisaccia = m.character.bisaccia
 	var i: int = m.hud.sel if b.id_at(m.hud.sel) == id else _slot_of(b, id)
 	if i < 0:
 		return false
-	var g := b.data_at(i)
+	var g := b.data_at(i).duplicate(true)
 	b.take_one(i)
+	m.view.remove_station(o)
 	_add_station(o)
-	var sd := hash([m.world.world_seed, "portale", o.x, o.y]) & 0x7fffffff
+	# il seme del mondo nuovo: dal mondo, dall'Aiuola e da quanti Semi vi sono stati piantati (la stessa Aiuola ne ospita
+	# molti, uno dopo l'altro); scritto nel portale, resta quello
+	m.world_meta["semi_piantati"] = int(m.world_meta.get("semi_piantati", 0)) + 1
+	var sd := hash([m.world.world_seed, "portale", o.x, o.y, int(m.world_meta["semi_piantati"])]) & 0x7fffffff
 	var v := Genome.vigor(g)
-	_portals()[_key(o)] = {"mondo": "", "seme": sd, "ritorno": false, "geni": Genome.genes(g),
-		"vigore": v if v > 0 else vigor() + 1}
+	_portals()[_key(o)] = {"mondo": String(g.get("mondo", "")), "seme": sd, "ritorno": false, "geni": Genome.genes(g),
+		"vigore": v if v > 0 else vigor() + 1, "aiuola": true}
 	m.guardian.lore.show_page("portale")
 	m.sfx.play("portale", Vector2(o) * 16.0)
 	return true
@@ -171,7 +180,7 @@ func travel(o: Vector2i) -> void:
 		var nid := SavePaths.new_id(String(dest[1]))
 		e["mondo"] = nid
 		Session.start_new_world(String(dest[1]), int(dest[2]), nid, {"vigore": int(dest[3]), "ritorno": m.world_id,
-			"geni": e.get("geni", [])})
+			"geni": e.get("geni", []), "casa": m.aiuole.home_id()})
 	m.objectives.bump("viaggi")
 	m.save_game()
 	get_tree().change_scene_to_file(GAME_SCENE)
