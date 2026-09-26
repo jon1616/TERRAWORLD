@@ -414,6 +414,14 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 - Una cartella con immagini che il gioco non usa va segnata con `.gdignore`, altrimenti Godot le importa e finiscono
   nel gioco esportato (succedeva con `prove/` e con i disegni grandi di `arte_ia/`).
 
+- Una prova che cambia uno stato condiviso (il controllo del Germogliato, un accessorio, la velocità del gioco) deve
+  rimetterlo com'era, non a un valore fisso: la prova dei movimenti rimetteva il controllo alla tastiera e tutte le
+  prove dopo, che muovono il personaggio con i comandi simulati, lo trovavano fermo (26 set 2026).
+- Prima di lanciare il giro lungo, sempre il controllo di sintassi: una prova che non compila ferma il giro a metà
+  senza chiudere il gioco (26 set 2026: fermo 13 minuti). Il giro si lancia con `timeout`.
+- La musica: se il brano da suonare è fermo del tutto riparte (`Musica._process`); un blocco di qualche secondo
+  (generazione di un mondo) poteva farlo finire senza che il ricominciare lo vedesse.
+
 ## Convenzioni
 
 - Tutto il testo visibile in italiano con accenti veri (à è ì ò ù).

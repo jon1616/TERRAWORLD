@@ -126,6 +126,13 @@ func _process(dt: float) -> void:
 		if t["stream"] == null:
 			continue
 		t["level"] = move_toward(float(t["level"]), 1.0 if id == mode else 0.0, dt / SWITCH_FADE)
+		# il brano che deve suonare è fermo del tutto (è finito durante un blocco di qualche secondo, per esempio la
+		# generazione di un mondo, senza che `_loop` lo vedesse arrivare in fondo): riparte dall'inizio
+		if id == mode and not (t["players"] as Array).any(func(p: AudioStreamPlayer) -> bool: return p.playing):
+			var cur: AudioStreamPlayer = player_of(id)
+			cur.stream = t["stream"]
+			_fade[cur] = 1.0
+			cur.play()
 		_loop(t, dt)
 		var base: float = float(BASE_DB[id]) + Settings.db(Settings.music) + (under if id == "esplorazione" else 0.0)
 		for p: AudioStreamPlayer in t["players"]:

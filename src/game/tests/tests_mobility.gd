@@ -60,6 +60,7 @@ func _jump_height(presses: int) -> float:
 func run() -> void:
 	var p: Player = m.player
 	var b: Bisaccia = m.character.bisaccia
+	var had_control := p.control
 	p.control = false
 	# doppio salto
 	var single := await _jump_height(1)
@@ -113,6 +114,8 @@ func run() -> void:
 		print("artigli: scivolando contro la parete la caduta resta a %.0f px/s (senza sarebbe fino a %.0f)" % [p.vel.y,
 			Player.MAX_FALL])
 	b.wear("accessorio_1", {})
-	p.control = true
+	# com'era prima: rimettere il controllo alla tastiera bloccava le prove successive, che muovono il Germogliato
+	# con i comandi simulati (nessuno premeva i tasti e restava fermo)
+	p.control = had_control
 	m.snap_to(world.spawn)
 	await kit.frames(3)

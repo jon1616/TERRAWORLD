@@ -56,6 +56,11 @@ func run() -> void:
 	p.auto_dir = 1.0
 	await kit.seconds(0.5)
 	var run := _uses("corsa")
+	if not run:
+		var c: Vector2i = m.player_cell()
+		print("ATTENZIONE: il Germogliato non corre: posto %s, cella %s, vel %s, a terra %s, davanti solido %s/%s, stazioni vicine %s" % [
+			spot, c, p.vel, p.on_floor, world.solid(c.x + 1, c.y), world.solid(c.x + 1, c.y - 1),
+			Crafting.stations_near(world, c).keys()])
 	await kit.save("72_germogliato_corsa")
 	await kit.seconds(0.4)
 	p.auto_dir = 0.0
