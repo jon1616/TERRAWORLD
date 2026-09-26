@@ -30,6 +30,12 @@ const WILD := [
 	[[4, 5, 6], "seme_campanula", 0.12],   # campanule luminose
 	[[9], "spore_brace", 0.25],            # funghi di brace
 	[[10], "spore_luminose", 0.25],        # funghi luminosi
+	# la vegetazione dei biomi (26 set 2026)
+	[[33], "seme_lanterna", 0.1],          # cespuglio di bacche-lanterna
+	[[35, 36], "spore_luminose", 0.15],    # canne e funghetti delle paludi
+	[[38, 39], "seme_campanula", 0.1],     # cardo e fiore di resina
+	[[42], "seme_rugiada", 0.15],          # cespuglio di brina
+	[[44, 45], "spore_brace", 0.12],       # braci e stecchi delle cenerarie
 ]
 
 

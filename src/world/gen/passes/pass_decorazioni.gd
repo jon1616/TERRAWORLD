@@ -1,7 +1,7 @@
 class_name PassDecorazioni
 extends GenPass
 ## Decorazioni secondo lo strato (`StrataData`):
-## - Superficie: fronde di muschio, felci e campanule luminose;
+## - Superficie: la vegetazione del bioma (erba bassissima, piante e cespugli: `BiomeDecorArt`), campanule, sassi;
 ## - Sottobosco di radici: tante radici con la punta accesa che pendono, funghi di brace;
 ## - Caverne d'ardesia: sassi, funghi di brace, sacche di spore;
 ## - Profondità della Linfa: funghi luminosi, sacche di spore, gocce di Linfa che pendono dai soffitti;
@@ -42,46 +42,65 @@ func run(w: World, c: GenContext) -> void:
 					elif r < (0.12 if sk == 1 else 0.06) and sk < 4:
 						d = TileDefs.DECOR_ROOTS[0] if rng.randf() < 0.5 else TileDefs.DECOR_ROOTS[1]
 			elif below == TileDefs.GRASS_SPORE:
-				# paludi di spore: sacche di spore, funghi luminosi, qualche felce
-				if r < 0.2:
-					d = TileDefs.DECOR_SPORE
-				elif r < 0.32:
-					d = TileDefs.DECOR_GLOW
-				elif r < 0.42:
-					d = TileDefs.DECOR_FERN
+				# paludi di spore: erba di spore bassa, canne, funghetti, sacche di spore, funghi luminosi
+				if r < 0.28:
+					d = 34
+				elif r < 0.36:
+					d = 35
+				elif r < 0.44:
+					d = 36
 				elif r < 0.5:
+					d = TileDefs.DECOR_SPORE
+				elif r < 0.55:
+					d = TileDefs.DECOR_GLOW
+				elif r < 0.6:
 					d = TileDefs.DECOR_FLOWERS[2]
 			elif below == TileDefs.GRASS_BRINA:
-				# boschi di brina: ciuffi gelati, sassi, qualche campanula turchese
-				if r < 0.3:
-					d = TileDefs.DECOR_GRASS[rng.randi_range(0, 2)]
-				elif r < 0.38:
+				# boschi di brina: muschio gelato, cristalli di brina, cespugli di bacche gelate, sassi
+				if r < 0.35:
+					d = 40
+				elif r < 0.42:
+					d = 41
+				elif r < 0.49:
+					d = 42
+				elif r < 0.53:
 					d = TileDefs.DECOR_ROCKS[rng.randi_range(0, 1)]
-				elif r < 0.45:
+				elif r < 0.56:
 					d = TileDefs.DECOR_FLOWERS[0]
 			elif below == TileDefs.GRASS_CENERE:
-				# cenerarie: sassi, funghi di brace, pochi ciuffi bruciati
-				if r < 0.14:
-					d = TileDefs.DECOR_ROCKS[rng.randi_range(0, 1)]
-				elif r < 0.24:
-					d = TileDefs.DECOR_MUSHROOM
-				elif r < 0.29:
-					d = TileDefs.DECOR_GRASS[0]
-			elif below == TileDefs.GRASS_AMBRA:
-				# distese d'ambra: ciuffi, campanule d'ambra, sassi caldi
+				# cenerarie: ciuffi bruciati, braci nella cenere, stecchi carbonizzati, sassi, funghi di brace
 				if r < 0.3:
-					d = TileDefs.DECOR_GRASS[rng.randi_range(0, 2)]
-				elif r < 0.4:
-					d = TileDefs.DECOR_FLOWERS[1]
+					d = 43
+				elif r < 0.36:
+					d = 44
+				elif r < 0.43:
+					d = 45
 				elif r < 0.5:
 					d = TileDefs.DECOR_ROCKS[rng.randi_range(0, 1)]
+				elif r < 0.54:
+					d = TileDefs.DECOR_MUSHROOM
+			elif below == TileDefs.GRASS_AMBRA:
+				# distese d'ambra: erba dorata, cardi, fiori di resina, sassi caldi, campanule d'ambra
+				if r < 0.35:
+					d = 37
+				elif r < 0.43:
+					d = 38
+				elif r < 0.5:
+					d = 39
+				elif r < 0.56:
+					d = TileDefs.DECOR_ROCKS[rng.randi_range(0, 1)]
+				elif r < 0.6:
+					d = TileDefs.DECOR_FLOWERS[1]
 			elif below == TileDefs.GRASS:
+				# foresta-lanterna: muschio basso, felci, campanule, cespugli di bacche-lanterna
 				if r < 0.45:
 					d = TileDefs.DECOR_GRASS[rng.randi_range(0, 2)]
-				elif r < 0.55:
+				elif r < 0.52:
 					d = TileDefs.DECOR_FERN
-				elif r < 0.64:
+				elif r < 0.6:
 					d = TileDefs.DECOR_FLOWERS[rng.randi_range(0, 2)]
+				elif r < 0.66:
+					d = 33
 			else:
 				match sk:
 					0, 1:

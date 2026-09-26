@@ -50,7 +50,7 @@ func plant(c: Vector2i, item: String) -> bool:
 	if crop == "" or not m.actions.in_reach(c) or not w.inside(c.x, c.y) or w.solid(c.x, c.y) or w.crops.has(c):
 		return false
 	var d := w.decor_at(c.x, c.y)
-	if d != 0 and not (d in TileDefs.DECOR_GRASS or d == TileDefs.DECOR_FERN or d in TileDefs.DECOR_FLOWERS):
+	if d != 0 and not TileDefs.is_soft_decor(d):
 		return false
 	if not CropsData.soil_ok(crop, w.tile(c.x, c.y + 1)):
 		m.hud.toast("%s vuole %s" % [CropsData.CROPS[crop]["name"], "muschio o erba" if CropsData.CROPS[crop]["soil"] == "erba" else "terra o roccia"])

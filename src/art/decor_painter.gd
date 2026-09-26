@@ -10,7 +10,7 @@ extends RefCounted
 const S := 16
 const DECOR_ROW := TileDefs.WALLS
 const PLAT_ROW := TileDefs.WALLS + 1
-const COLS := 32
+const COLS := 48
 ## Tavolozze delle gemme a grappolo (decorazioni 23-26), le stesse delle loro icone.
 const GEM_PAL := [
 	["#2a3a08", "#6a8a10", "#b8e020", "#e8ff70", "#fbffd8"],
@@ -91,14 +91,21 @@ static func decor(id: int) -> Dictionary:
 	var moss := Px.pal(TileDefs.P_GRASS)
 	var root := Px.pal(TileDefs.P_ROOT)
 	var outline := true
+	# la vegetazione dei biomi (26 set 2026) sta in un file suo
+	var bd: Variant = BiomeDecorArt.draw(id, im, gm, rng)
+	if bd != null:
+		if bool(bd):
+			Px.outline(im, Color(0.04, 0.05, 0.08, 0.9))
+		return {"img": im, "glow": gm}
 	match id:
 		1, 2, 3:
 			# fronde di muschio: steli che si piegano con foglioline alterne
 			outline = false
-			for k in 3 + id:
-				var bx := rng.randf_range(2.0, 13.0)
-				var hgt := rng.randf_range(4.0, 6.0 + id * 2.0)
-				var bend := rng.randf_range(-3.0, 3.0)
+			# bassissime (26 set 2026, l'utente: «l'erba sempre molto bassa»): prima arrivavano a 12 pixel
+			for k in 5 + id:
+				var bx := rng.randf_range(1.0, 14.0)
+				var hgt := rng.randf_range(2.0, 3.0 + id * 0.8)
+				var bend := rng.randf_range(-1.5, 1.5)
 				for s in int(hgt):
 					var t := s / hgt
 					var x := bx + bend * t * t
@@ -193,16 +200,16 @@ static func decor(id: int) -> Dictionary:
 		14:
 			# felce arricciata (pastorale)
 			outline = false
-			Px.line(im, Vector2(8, 15), Vector2(8, 8), 1, moss[2])
+			Px.line(im, Vector2(8, 15), Vector2(8, 11), 1, moss[2])
 			var a := 0.0
-			var r := 3.2
-			for s in 26:
-				var p := Vector2(8.0 + 2.8, 7.0) + Vector2(cos(a + PI), sin(a + PI)) * r
+			var r := 2.4
+			for s in 22:
+				var p := Vector2(8.0 + 2.1, 10.0) + Vector2(cos(a + PI), sin(a + PI)) * r
 				Px.put(im, int(p.x), int(p.y), moss[3])
 				a += 0.35
 				r *= 0.93
-			Px.put(im, 7, 11, moss[3])
-			Px.put(im, 9, 10, moss[3])
+			Px.put(im, 7, 13, moss[3])
+			Px.put(im, 9, 12, moss[3])
 		16:
 			# scheggia del Vuoto: tre punte di vuotite che si aprono a ventaglio, il cuore viola acceso
 			var vp := Px.pal(TileDefs.P_VUOTITE)

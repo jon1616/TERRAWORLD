@@ -282,7 +282,7 @@ func plant(c: Vector2i, id: String) -> bool:
 	if not in_reach(c) or not world.inside(c.x, c.y) or world.solid(c.x, c.y) or world.torches.has(c):
 		return false
 	var d := world.decor_at(c.x, c.y)
-	if d != 0 and not (d in TileDefs.DECOR_GRASS or d == TileDefs.DECOR_FERN or d in TileDefs.DECOR_FLOWERS):
+	if d != 0 and not TileDefs.is_soft_decor(d):
 		return false
 	if not world.tree_fits(c):
 		hud.toast("Serve muschio sotto e spazio libero sopra")

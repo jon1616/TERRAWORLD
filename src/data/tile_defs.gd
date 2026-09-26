@@ -65,7 +65,10 @@ const DECOR_BOCCIOLO := 21             # Bocciolo del cuore: sui pavimenti delle
 const DECOR_STILLA := 22               # Stilla perenne: pende dai soffitti profondi, dà Linfa massima
 const DECOR_GEMS := [23, 24, 25, 26]   # gemme a grappolo (voce 24): brillaluce, sanguinella, lagunite, nottilite
 const DECOR_CROPS := [27, 28, 29, 30, 31, 32]   # il giardino (voce 33): germoglio di coltura e piante mature
-const DECOR_COUNT := 32
+## La vegetazione dei biomi (26 set 2026, disegni in `BiomeDecorArt`): erbe bassissime e piante di ogni bioma.
+const DECOR_BIOME_GRASS := [34, 37, 40, 43]     # erba di spore, erba dorata, muschio gelato, ciuffi bruciati
+const DECOR_BIOME_PLANTS := [33, 35, 36, 38, 39, 42, 45]   # cespugli, canne, funghetti, cardo, fiore, stecchi
+const DECOR_COUNT := 45
 const DECOR_CEILING := [11, 12, 17, 22]        # queste pendono dal blocco sopra
 
 ## Luce emessa dalle decorazioni (indice = id della decorazione): piccole pozze di luce nel buio, non lampioni
@@ -77,7 +80,16 @@ const DECOR_LIGHT := {
 	18: Color(0.2, 0.62, 0.6), 20: Color(0.14, 0.2, 0.1), 21: Color(0.75, 0.25, 0.3), 22: Color(0.3, 0.75, 0.8),
 	28: Color(0.1, 0.3, 0.3), 30: Color(0.2, 0.5, 0.75), 31: Color(0.6, 0.25, 0.45), 32: Color(0.12, 0.45, 0.45),
 	23: Color(0.45, 0.55, 0.15), 24: Color(0.55, 0.12, 0.12), 25: Color(0.12, 0.3, 0.6), 26: Color(0.35, 0.15, 0.55),
+	33: Color(0.18, 0.11, 0.03), 35: Color(0.18, 0.1, 0.28), 36: Color(0.22, 0.1, 0.32), 38: Color(0.25, 0.17, 0.04),
+	39: Color(0.22, 0.12, 0.02), 41: Color(0.12, 0.3, 0.42), 42: Color(0.1, 0.16, 0.2), 44: Color(0.42, 0.16, 0.04),
+	45: Color(0.18, 0.07, 0.02),
 }
+
+
+## Una decorazione «morbida» del pavimento (erba, fiori, felci, piante dei biomi): ci si può seminare sopra e le
+## bestie che pascolano la mangiano.
+static func is_soft_decor(d: int) -> bool:
+	return d in DECOR_GRASS or d in DECOR_FLOWERS or d == DECOR_FERN or d in DECOR_BIOME_GRASS or d in DECOR_BIOME_PLANTS
 
 ## Secondi di scavo con il piccone di radicite.
 const HARD := {DIRT: 0.22, GRASS: 0.22, STONE: 0.38, RADICITE: 0.5, LEGNOFERRO: 0.6, AMBRA: 0.7, CRYSTAL: 0.8,

@@ -74,6 +74,6 @@ func _find(c: Creature) -> Vector2i:
 				if pest and w.crops.has(q):
 					return q
 				var d := w.decor_at(q.x, q.y)
-				if d in TileDefs.DECOR_GRASS or d in TileDefs.DECOR_FLOWERS or d == TileDefs.DECOR_FERN:
+				if TileDefs.is_soft_decor(d) and d != 45:     # (gli stecchi carbonizzati no)
 					return q
 	return Vector2i(-1, -1)

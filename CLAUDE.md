@@ -197,7 +197,10 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     disegnati uno sopra l'altro. Trame da 64×64 senza cuciture divise in 16 varianti (`variant_of`), così la trama
     continua da una cella all'altra. Minerali: solo noduli (trama bucata, alfa 0.9 = niente bordo di strato), si vede
     la roccia che li contiene. Atlante 4096×112.
-  - `DecorPainter` — pareti (stesse trame da 64, più scure e fredde) e 14 decorazioni con la loro parte luminosa.
+  - `DecorPainter` — pareti (stesse trame da 64, più scure e fredde) e le decorazioni con la loro parte luminosa
+    (atlante largo 48 celle); la vegetazione dei biomi (26 set 2026: erba bassissima, cespugli, canne, cardi,
+    cristalli di brina, braci…) in `BiomeDecorArt`, id 33-45 in `TileDefs` (`DECOR_BIOME_GRASS/PLANTS`,
+    `is_soft_decor`), piazzata per bioma da `PassDecorazioni`.
   - `IconShapes` — le forme d'icona nuove (dalla voce 21), chiamate da `ItemIcons` quando la forma non è sua.
   - `ItemIcons` — icone 16×16 nello stile (manici di radice fasciati di foglia, lame a foglia, lingotti a seme, perle
     d'ambra): `make(forma, materiale)` o `of(id)`; il materiale sceglie la tavolozza.
