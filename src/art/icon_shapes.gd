@@ -430,7 +430,7 @@ static func draw(shape: String, im: Image, p: Array[Color]) -> bool:
 			Px.put(im, 5, 11, Color(ItemIcons.LEAF[1]))
 			Px.put(im, 4, 11, Color(ItemIcons.LEAF[2]))
 		_:
-			return false
+			return WeaponShapes.draw(shape, im, p)              # le forme della voce 50
 	return true
 
 

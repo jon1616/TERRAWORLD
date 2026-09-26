@@ -69,6 +69,21 @@ static func graft(b: Bisaccia, i: int, essence: String) -> String:
 	return t
 
 
+## Avvolge una fascia (`FormsData.FASCE`) sul manico dell'oggetto nella casella i (al Telaio, voce 50): consuma il
+## materiale, la fascia nuova prende il posto della vecchia. Vero se è riuscito.
+static func wrap(b: Bisaccia, i: int, fascia: String) -> bool:
+	var it := ItemsData.get_item(b.id_at(i))
+	var fd: Dictionary = FormsData.FASCE.get(fascia, {})
+	if fd.is_empty() or not String(it.get("form", "")) in FormsData.WRAPPABLE or b.count(String(fd["item"])) < int(fd["n"]):
+		return false
+	b.remove(String(fd["item"]), int(fd["n"]))
+	var dati: Dictionary = b.slots[i].get("dati", {}).duplicate(true)
+	dati["fascia"] = fascia
+	b.slots[i]["dati"] = dati
+	b.changed.emit()
+	return true
+
+
 ## «Serve: 10 Legno di lanterna, 1 Gelatina di muschio — al Ceppo del Giardiniere»
 static func describe(r: Dictionary, b: Bisaccia) -> String:
 	var parts := []

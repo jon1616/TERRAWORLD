@@ -19,6 +19,7 @@ const EQUIP_SLOTS := ["elmo", "corazza", "gambali", "accessorio_1", "accessorio_
 var slots: Array[Dictionary] = []
 var equip := {}                        # "elmo"/"corazza"/"gambali"/"accessorio_N" -> id dell'oggetto indossato
 var equip_traits := {}                 # posto -> tratto del pezzo indossato ("" o assente = nessuno)
+var equip_data := {}                   # posto -> "dati" del pezzo indossato (voce 50)
 
 
 ## `size`: 40 per la Bisaccia; le ceste e gli scrigni usano la stessa classe con meno caselle.
@@ -233,6 +234,7 @@ func wear(slot: String, held: Dictionary) -> Dictionary:
 			var off := _worn(slot)
 			equip.erase(slot)
 			equip_traits.erase(slot)
+			equip_data.erase(slot)
 			changed.emit()
 			return off
 		return {}
@@ -248,6 +250,10 @@ func wear(slot: String, held: Dictionary) -> Dictionary:
 		equip_traits[slot] = String(held["tratto"])
 	else:
 		equip_traits.erase(slot)
+	if held.has("dati"):
+		equip_data[slot] = held["dati"]
+	else:
+		equip_data.erase(slot)
 	changed.emit()
 	return back
 
@@ -257,6 +263,8 @@ func _worn(slot: String) -> Dictionary:
 	var d := {"id": equip[slot], "n": 1}
 	if String(equip_traits.get(slot, "")) != "":
 		d["tratto"] = equip_traits[slot]
+	if equip_data.has(slot):
+		d["dati"] = equip_data[slot]
 	return d
 
 

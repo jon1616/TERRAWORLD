@@ -14,7 +14,8 @@ static func bbcode(id: String, tratto := "", dati := {}) -> String:
 	var it := ItemsData.get_item(id)
 	if it.is_empty():
 		return ""
-	var t := "[font_size=20][color=#ffd08a]%s[/color][/font_size]\n" % TraitsData.full_name(id, tratto)
+	var slot := {"id": id, "tratto": tratto, "dati": dati}
+	var t := "[font_size=20][color=#ffd08a]%s[/color][/font_size]\n" % Gear.full_name(slot)
 	if dati.has("geni"):
 		t += Genome.sheet(dati)
 	if tratto != "":
@@ -23,10 +24,19 @@ static func bbcode(id: String, tratto := "", dati := {}) -> String:
 		t += "[color=#cfeee4]%s[/color]\n" % it["desc"]
 	var stats := []
 	for s in STATS:
-		if it.has(s[0]):
+		if it.has(s[0]) and not s[0] in ["damage", "speed", "defense", "power"]:
 			stats.append("%s %s" % [s[1], it[s[0]]])
+	var gl := Gear.line(slot)                  # voce 50: i valori veri, con tratto e fascia
+	if gl != "":
+		stats.push_front(gl)
 	if not stats.is_empty():
 		t += "[color=#9fc8c0]%s[/color]\n" % " · ".join(stats)
+	if it.has("mat"):
+		# voce 49: di che materiale è fatto, e le proprietà da cui nascono i suoi valori
+		t += "[color=#8ef0d8]Materiale:[/color] [color=#9fc8c0]%s[/color]\n" % MaterialsData.describe(String(it["mat"]))
+	var fascia := String(dati.get("fascia", ""))
+	if FormsData.FASCE.has(fascia):
+		t += "[color=#ffd08a]Fascia di %s:[/color] %s\n" % [FormsData.FASCE[fascia]["name"], FormsData.FASCE[fascia]["desc"]]
 	for sid in SetsData.of_item(id):
 		var sd: Dictionary = SetsData.all()[sid]
 		var names := []

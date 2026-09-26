@@ -78,16 +78,18 @@ func _process(dt: float) -> void:
 	var active: bool = m.actions.enabled and not m.hud.is_open()
 	# il ritmo del gesto: le armi secondo la loro velocità, gli attrezzi da scavo sempre uguali
 	var tr := String(item.get("tratto", ""))
-	var spd := float(it.get("speed", 0.0)) * TraitsData.effect(tr, "speed") * spd_mult
+	var st := Gear.stats(item)                  # voce 50: forma, materiale, tratto e fascia
+	var spd := float(st["speed"]) * spd_mult
 	player.swing_period = 1.0 / spd if use == "colpo" and spd > 0.0 else DIG_PERIOD
-	_melee(it, use, tr)
-	_bow(it, use, active, dt, tr)
+	_melee(st, use, tr)
+	_bow(it, st, use, active, dt, tr)
 
 
-## Colpi in mischia: ogni giro dell'attrezzo colpisce una volta ogni creatura nell'area davanti.
-func _melee(it: Dictionary, use: String, tr := "") -> void:
+## Colpi in mischia: ogni giro dell'attrezzo colpisce una volta ogni creatura nell'area del colpo (voce 50: l'area
+## dipende dalla forma, `FormsData.AREA`: la lancia e la frusta lontano in linea, la falce anche dietro).
+func _melee(st: Dictionary, use: String, tr := "") -> void:
 	var sw: bool = player.swinging or player.force_swing
-	var dmg := roundi(int(it.get("damage", 0)) * TraitsData.effect(tr, "damage") * _boon())
+	var dmg := roundi(float(st["damage"]) * _boon())
 	if not sw or dmg <= 0 or not use in ["colpo", "scava", "abbatti"]:
 		_cycle = -1
 		return
@@ -100,17 +102,26 @@ func _melee(it: Dictionary, use: String, tr := "") -> void:
 	var ph := fmod(player.swing_t, player.swing_period) / player.swing_period
 	if ph < 0.15:
 		return                             # l'attrezzo è ancora alzato
-	var area := Rect2(player.position + Vector2(player.facing * MELEE_REACH.x * 0.5 - MELEE_REACH.x * 0.5, -22),
-			MELEE_REACH)
-	area.position.x += player.facing * 6
+	var area := melee_area(String(st["form"]) if use == "colpo" else "")
 	for c in fauna.list.duplicate():
 		if not _hit_set.has(c) and area.intersects(c.rect()):
 			_hit_set[c] = true
-			_strike(c, dmg, player.position.x, float(it.get("knockback", 1.5)) * TraitsData.effect(tr, "knock") / 3.0)
+			_strike(c, dmg, player.position.x, float(st["knockback"]) / 3.0)
+
+
+## L'area del colpo in mischia di una forma, attorno al Germogliato.
+func melee_area(form: String) -> Rect2:
+	var a: Array = FormsData.AREA.get(form, [MELEE_REACH.x, MELEE_REACH.y, 6, false])
+	var size := Vector2(float(a[0]), float(a[1]))
+	var top := 12.0 - size.y                     # il fondo dell'area resta all'altezza dei piedi
+	if bool(a[3]):
+		return Rect2(player.position + Vector2(-size.x * 0.5, top), size)       # davanti e dietro
+	var x := player.position.x + (float(a[2]) if player.facing > 0 else -float(a[2]) - size.x)
+	return Rect2(Vector2(x, player.position.y + top), size)
 
 
 ## Arco: tenendo premuto tira un dardo a ogni giro (secondo la velocità dell'arco), finché ci sono dardi.
-func _bow(it: Dictionary, use: String, active: bool, dt: float, tr := "") -> void:
+func _bow(it: Dictionary, st: Dictionary, use: String, active: bool, dt: float, tr := "") -> void:
 	_bow_t = maxf(_bow_t - dt, 0.0)
 	var aiming := use == "tira" and (auto_fire or (active and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)))
 	if not aiming:
@@ -132,10 +143,10 @@ func _bow(it: Dictionary, use: String, active: bool, dt: float, tr := "") -> voi
 		m.hud.toast("Niente dardi")
 		_bow_t = 1.0
 		return
-	_bow_t = 1.0 / (float(it.get("speed", 1.5)) * TraitsData.effect(tr, "speed") * spd_mult)
+	_bow_t = 1.0 / (maxf(float(st["speed"]), 0.1) * spd_mult)
 	bisaccia.remove(ammo, 1)
 	m.sfx.play("tira")
-	var dmg := roundi((int(it.get("damage", 0)) * TraitsData.effect(tr, "damage") + int(ItemsData.get_item(ammo).get("damage", 0))) * _boon())
+	var dmg := roundi((float(st["damage"]) + int(ItemsData.get_item(ammo).get("damage", 0))) * _boon())
 	# un po' di anticipo sulla caduta, così il dardo va dove si mira anche lontano
 	var flight := d.length() / DART_SPEED
 	var v := d.normalized() * DART_SPEED
@@ -143,7 +154,7 @@ func _bow(it: Dictionary, use: String, active: bool, dt: float, tr := "") -> voi
 	var n := int(it.get("multishot", 1))       # l'Arco iridato tira più dardi a ventaglio con un dardo solo
 	for k in n:
 		shots.fire(from + d.normalized() * 8.0, v.rotated((k - (n - 1) / 2.0) * 0.12), DART_GRAV, dmg, true,
-				float(it.get("knockback", 1.0)) * TraitsData.effect(tr, "knock") / 3.0)
+				float(st["knockback"]) / 3.0, {"pierce": int(st["pierce"])})
 
 
 ## Danno ×1,2 con la Pozione di vigore attiva, e il danno in più degli accessori.

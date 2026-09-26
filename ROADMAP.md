@@ -817,7 +817,7 @@ Maglio nascono da forma × materiale (`METALS` e `GEAR` tolti). `verifica_dati` 
 prima: tutto uguale tranne la corazza di pallidite (3 invece di 2, entro un punto). In Esamina il materiale e le sue
 proprietà.
 
-## 50. [ ] Forme e fabbricazione componibile (L)
+## 50. [x] Forme e fabbricazione componibile (L) — fatto il 26 set 2026
 `FormsData`: le forme (lama corta, lama lunga, lancia, martello, falce, frusta, arco, balestra, bastone, piccone,
 ascia, trivella, elmo, corazza…) con il loro modo di colpire e come pesano le proprietà del materiale. Un attrezzo =
 forma × materiale principale × materiale del manico/della fascia: statistiche, nome («Falce di legnoferro con fascia
@@ -825,6 +825,17 @@ di seta») e icona (`ItemIcons.make` con forma e tavolozza) nascono da soli. Le 
 Le forme nuove richiedono nuovi modi di colpire in `Combat` (affondo della lancia, giro del martello, frusta).
 **Pronto quando**: con 8 materiali e 14 forme il gioco offre centinaia di attrezzi diversi e confrontabili, tutti con
 nome, icona e scheda in Esamina.
+**Fatto il 26 set 2026**: 16 forme (le 7 di prima più Pugnale, Spadone, Lancia, Martello, Falce, Frusta, Balestra,
+Trivella, Verga), 128 oggetti di metallo con icone nuove (`WeaponShapes`). Ogni forma pesa il materiale a modo suo
+(lo spadone e il martello fanno danno anche col peso, il pugnale è rapidissimo) e colpisce nella sua area
+(`FormsData.AREA`, `Combat.melee_area`): la lancia e la frusta lontano in linea, la falce davanti e dietro; la
+balestra trafigge due creature; la trivella scava 1,6 volte più in fretta; la verga tira saette con la Linfa (danno
+dalla conduzione del metallo). Il secondo materiale è la **fascia** del manico (seta, membrana, scaglie di serpe,
+penne, gelatina regale): si avvolge al **Telaio** sull'oggetto in mano (`Crafting.wrap`) e sta nei "dati" della
+casella. Tutto passa da `Gear` (`src/game/gear.gd`: i valori veri di un oggetto con tratto e fascia, il nome completo),
+usato da `Combat`, `Spells`, `PlayerActions` ed Esamina; l'armatura indossata tiene i suoi dati (`Bisaccia.equip_data`).
+Deciso da Claude: la fascia al posto di «materiale del manico» nella ricetta (sarebbero state 5 ricette per oggetto:
+righe a centinaia). 128 × 5 fasce = 640 varianti. Prove `--solo=forme`, foglio delle icone prove/89_forme.png.
 
 ## 51. [ ] Elementi e reazioni (M)
 Sei elementi (brace, gelo, spora, Linfa, Vuoto, luce) portati dai materiali e dalle Essenze: stati sulle creature

@@ -26,7 +26,7 @@ func to_dict() -> Dictionary:
 	return {"formato": SaveMigrations.CHARACTER, "nome": name, "creato": created, "ultimo_salvataggio": last_save,
 		"tempo_di_gioco": play_time, "barra": hotbar, "ultimo_mondo": last_world,
 		"bisaccia": bisaccia.to_array() if bisaccia else [], "equipaggiamento": bisaccia.equip if bisaccia else {},
-		"tratti_equip": bisaccia.equip_traits if bisaccia else {},
+		"tratti_equip": bisaccia.equip_traits if bisaccia else {}, "dati_equip": bisaccia.equip_data if bisaccia else {},
 		"vita": hp, "linfa": linfa, "vita_extra": vita_extra, "linfa_extra": linfa_extra, "guardiani_curati": guardiani_curati,
 		"erbario": erbario, "stats": stats, "obiettivi": obiettivi, "genario": genario}
 
@@ -54,6 +54,10 @@ static func from_dict(cid: String, d: Dictionary) -> Character:
 	for k in et:
 		if c.bisaccia.equip.has(k) and TraitsData.TRAITS.has(String(et[k])):
 			c.bisaccia.equip_traits[k] = String(et[k])
+	var ed: Dictionary = d.get("dati_equip", {})
+	for k in ed:
+		if c.bisaccia.equip.has(k) and ed[k] is Dictionary:
+			c.bisaccia.equip_data[k] = SaveMigrations.ints(ed[k])
 	c.vita_extra = int(d.get("vita_extra", 0))
 	c.linfa_extra = int(d.get("linfa_extra", 0))
 	c.guardiani_curati = d.get("guardiani_curati", [])

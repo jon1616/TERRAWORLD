@@ -14,6 +14,9 @@ extends RefCounted
 ##   light    luce che porta con sé (nel buio vero un colpo di brace illumina la grotta)
 
 const SPELLS := {
+	# voce 50: la saetta delle verghe di metallo (il danno viene dalla conduzione del metallo)
+	"saetta": {"look": "scheggia", "speed": 440.0, "grav": 0.0, "n": 1, "spread": 0.0, "pierce": 0, "homing": 0.0,
+		"light": Color(0.5, 1.2, 1.1)},
 	"brace": {"look": "brace", "speed": 330.0, "grav": 0.0, "n": 1, "spread": 0.0, "pierce": 0, "homing": 0.0,
 		"light": Color(1.4, 0.8, 0.35)},
 	"spore": {"look": "spora_amica", "speed": 250.0, "grav": 140.0, "n": 3, "spread": 0.32, "pierce": 0, "homing": 0.0,

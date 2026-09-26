@@ -95,8 +95,9 @@ func current() -> Dictionary:
 	if id == "":
 		return {"id": "", "name": "", "use": "", "tex": null, "tratto": ""}
 	var tr := bisaccia.trait_at(sel)
-	return {"id": id, "name": TraitsData.full_name(id, tr), "use": ItemsData.use_of(id), "tex": SlotView.icon(id),
-		"tratto": tr}
+	var dati: Dictionary = bisaccia.slots[sel].get("dati", {})
+	return {"id": id, "name": Gear.full_name({"id": id, "tratto": tr, "dati": dati}), "use": ItemsData.use_of(id),
+		"tex": SlotView.icon(id), "tratto": tr, "dati": dati}
 
 
 func select(k: int) -> void:

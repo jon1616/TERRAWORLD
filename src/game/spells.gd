@@ -49,10 +49,11 @@ func _process(dt: float) -> void:
 		return
 	m.vitals.linfa -= cost
 	m.vitals.changed.emit()
-	_t = 1.0 / (float(it["speed"]) * TraitsData.effect(tr, "speed") * m.combat.spd_mult)
+	var st := Gear.stats(item)                  # voce 50: tratto e fascia (le verghe: la conduzione del metallo)
+	_t = 1.0 / (maxf(float(st["speed"]), 0.1) * m.combat.spd_mult)
 	var sd: Dictionary = SpellsData.SPELLS[it["spell"]]
-	var dmg := roundi(int(it["damage"]) * TraitsData.effect(tr, "damage") * m.combat._boon() * m.combat.magic_mult)
-	var knock := float(it.get("knockback", 1.0)) * TraitsData.effect(tr, "knock") / 3.0
+	var dmg := roundi(float(st["damage"]) * m.combat._boon() * m.combat.magic_mult)
+	var knock := float(st["knockback"]) / 3.0
 	var n := int(sd["n"])
 	for k in n:
 		var dir := d.normalized().rotated((k - (n - 1) / 2.0) * float(sd["spread"]))

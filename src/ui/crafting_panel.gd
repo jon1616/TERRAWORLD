@@ -216,6 +216,12 @@ func refresh() -> void:
 				seen[e] = true
 				if TraitsData.can_graft(e, bisaccia.id_at(hs)):
 					_special.append(_graft_row(hs, e))
+	# voce 50: al Telaio, le fasce per il manico dell'oggetto in mano
+	if near.has("telaio") and held_slot.is_valid() and cat == 0:
+		var ws := int(held_slot.call())
+		if String(ItemsData.get_item(bisaccia.id_at(ws)).get("form", "")) in FormsData.WRAPPABLE:
+			for f in FormsData.FASCE:
+				_special.append(_wrap_row(ws, f))
 	# l'ordine: prima le righe del Maglio, poi le ricette possibili, poi le altre; le righe fuori dai filtri si
 	# nascondono (restano pronte per dopo)
 	var order: Array[Control] = []
@@ -275,6 +281,22 @@ func _graft_row(i: int, essence: String) -> Button:
 		if Crafting.graft(bisaccia, i, essence) != "":
 			crafted.emit(id, 1)
 			grafted.emit(id)
+		refresh())
+	return b
+
+
+## La riga del Telaio: «Fascia di seta: Lancia di legnoferro (+8% velocità del colpo) — 3 Seta di radice».
+func _wrap_row(i: int, fascia: String) -> Button:
+	var fd: Dictionary = FormsData.FASCE[fascia]
+	var can := bisaccia.count(String(fd["item"])) >= int(fd["n"])
+	var b := _plain_row(String(fd["item"]), can)
+	b.text = "Fascia di %s: %s (%s)" % [fd["name"], ItemsData.get_item(bisaccia.id_at(i))["name"], fd["desc"]]
+	b.tooltip_text = "Al Telaio di foglie: si avvolge sul manico, e prende il posto della fascia di prima.\nCosta %d %s." % [
+		int(fd["n"]), ItemsData.get_item(String(fd["item"]))["name"]]
+	b.pressed.connect(func() -> void:
+		var id := bisaccia.id_at(i)
+		if Crafting.wrap(bisaccia, i, fascia):
+			crafted.emit(id, 1)
 		refresh())
 	return b
 

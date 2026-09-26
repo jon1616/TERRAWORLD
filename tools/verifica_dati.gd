@@ -311,6 +311,13 @@ func _check_materials() -> void:
 		_err(ItemIcons.MATERIALS.has(MaterialsData.icon_of(m)), "materiale %s: tavolozza dell'icona sconosciuta" % m)
 		for p in MaterialsData.PROPS:
 			_err(md.has(p), "materiale %s senza la proprietà %s" % [m, p])
+	for f in FormsData.FORMS:
+		var im := ItemIcons.make(f, "radicite")
+		_err(im.get_pixel(8, 8) != Color("#ff2080"), "forma %s: nessuna icona" % f)
+		for m in MaterialsData.all():
+			_err(ItemsData.has(FormsData.item_id(f, m)), "manca %s" % FormsData.item_id(f, m))
+	for fa in FormsData.FASCE:
+		_err(ItemsData.has(String(FormsData.FASCE[fa]["item"])), "fascia %s: materiale inesistente" % fa)
 	print("materiali %d × forme %d; scarto massimo dai valori di prima %d%%" % [MaterialsData.all().size(),
 		FormsData.FORMS.size(), roundi(worst * 100.0)])
 
