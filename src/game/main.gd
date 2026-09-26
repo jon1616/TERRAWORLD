@@ -52,6 +52,7 @@ var signature: Signature
 var aiuole: Aiuole
 var sampling: Sampling
 var innesto: InnestoPanel
+var gene_mats: GeneMaterials
 var _spores: CPUParticles2D
 var built := false
 var gen_times: Array = []
@@ -252,6 +253,7 @@ func _build() -> void:
 	sp.genario_view = Genario.view
 	hud.overlays.append(sp)
 	sampling = _mount(Sampling.new())
+	gene_mats = _mount(GeneMaterials.new())
 	innesto = InnestoPanel.new()
 	hud.add_child(innesto)
 	innesto.setup(self)

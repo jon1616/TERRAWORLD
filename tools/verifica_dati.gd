@@ -347,6 +347,13 @@ func _check_materials() -> void:
 		if beats:
 			best_all += 1
 	_err(alloys == 28, "leghe: %d invece di 28" % alloys)
+	# voce 53: i materiali dei geni hanno geni esistenti e un grezzo che si fonde
+	for g in MaterialsData.GENE_MATERIALS:
+		var gd: Dictionary = MaterialsData.GENE_MATERIALS[g]
+		for x in gd["genes"]:
+			_err(GenesData.GENES.has(x), "materiale %s: gene inesistente «%s»" % [g, x])
+		_err(ItemsData.has(String(gd["raw"]["id"])) and not RecipesData.making("lingotto_" + g).is_empty(), "materiale %s senza grezzo o lingotto" % g)
+		_err(gd["raw"].has("tiles") or gd["raw"].has("kill"), "materiale %s: da dove viene?" % g)
 	_err(best_all == 0, "%d leghe battono tutti i metalli in tutto" % best_all)
 	for fa in FormsData.FASCE:
 		_err(ItemsData.has(String(FormsData.FASCE[fa]["item"])), "fascia %s: materiale inesistente" % fa)

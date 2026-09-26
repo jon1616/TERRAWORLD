@@ -20,8 +20,8 @@ static func stations_near(world: World, c: Vector2i) -> Dictionary:
 
 
 ## Gli oggetti che il personaggio ha già scoperto (`Character.erbario["oggetti"]`, lo imposta `main`): le ricette delle
-## leghe (voce 52) si vedono solo quando se ne conoscono i metalli, e le armi di una lega quando se ne è avuto il
-## lingotto (sono centinaia: così l'elenco cresce con le scoperte).
+## leghe (voce 52) e dei materiali dei geni (voce 53) si vedono solo quando se ne conoscono gli ingredienti, e le loro
+## armi quando se ne è avuto il lingotto (sono centinaia: così l'elenco cresce con le scoperte).
 static var known := {}
 
 
@@ -34,12 +34,16 @@ static func available(near: Dictionary) -> Array:
 static func _discovered(r: Dictionary) -> bool:
 	var it := ItemsData.get_item(String(r["out"]))
 	var mat := String(it.get("mat", ""))
-	if mat != "" and MaterialsData.get_mat(mat).has("alloy"):
-		return known.has(String(MaterialsData.get_mat(mat)["bar"]))
-	if String(r["out"]).begins_with("lingotto_lega_"):
-		for k in r["in"]:
-			if not known.has(k):
-				return false
+	var md := MaterialsData.get_mat(mat)
+	if mat != "" and (md.has("alloy") or md.has("gene")):
+		return known.has(String(md["bar"]))       # le armi di una lega o di un materiale dei geni (voci 52-53)
+	var out := String(r["out"])
+	if out.begins_with("lingotto_") and MaterialsData.all().has(out.trim_prefix("lingotto_")):
+		var bm := MaterialsData.get_mat(out.trim_prefix("lingotto_"))
+		if bm.has("alloy") or bm.has("gene"):
+			for k in r["in"]:
+				if not known.has(k):
+					return false
 	return true
 
 

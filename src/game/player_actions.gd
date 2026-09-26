@@ -30,6 +30,8 @@ var _dig_snd := 0.0
 var touch_hook: Callable
 ## `station_check.call(id_stazione)` → "" se si può piazzare, altrimenti il perché (voce 45, `Aiuole`).
 var station_check: Callable
+## `dig_hook.call(tessera, cella)` dopo ogni tessera rotta (voce 53: i materiali dei geni).
+var dig_hook: Callable
 signal boon(name: String, secs: float)
 signal decor_picked(c: Vector2i, d: int)   # una decorazione tolta (il giardino vi aggiunge raccolto e semi)
 var _cell := Vector2i(-9999, -9999)
@@ -211,6 +213,8 @@ func break_tile(c: Vector2i) -> void:
 	var center := Vector2(c) * S + Vector2(8, 8)
 	Fx.dust(fx_parent, center, TileDefs.dust_colors(t))
 	drops.spawn(String(TileDefs.DROP.get(t, "")), 1, center)
+	if dig_hook.is_valid():
+		dig_hook.call(t, c)
 	if sfx:
 		sfx.play("rompi", center)
 

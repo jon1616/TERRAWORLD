@@ -22,6 +22,7 @@ func run() -> void:
 	await forms()
 	await elements()
 	await alloys()
+	await gene_materials()
 
 
 func _feet(c: Vector2i, id: String) -> Vector2:
@@ -217,3 +218,49 @@ func alloys() -> void:
 			sheet.blend_rect(ic, Rect2i(0, 0, 32, 32), Vector2i(4 + (k % 7) * 72 + j * 34, 4 + (k / 7) * 36))
 	sheet.save_png(ProjectSettings.globalize_path("res://prove/90_leghe.png"))
 	print("salvato 90_leghe (%d leghe, %d oggetti in tutto)" % [ids.size(), ItemsData.all().size()])
+
+
+## Voce 53: i materiali dei geni. In un mondo con il gene delle fungaie, scavando le spore profonde cade a volte il
+## micelio duro (e mai in superficie, né senza il gene); si fonde e se ne fa un pugnale leggerissimo; dalle creature la
+## chitina nei mondi brulicanti. Quanti materiali ci sono in tutto.
+func gene_materials() -> void:
+	var gm: GeneMaterials = m.gene_mats
+	var wt: WorldTraits = m.world_traits
+	var old: Array = wt.genes
+	var probe := Vector2i(world.spawn.x + 200, world.surface[world.spawn.x + 200] + 40)
+	wt.genes = []
+	gm.refresh()
+	var n0 := gm.found
+	for k in 200:
+		gm.on_dig(TileDefs.GRASS_SPORE, probe)
+	var without := gm.found - n0
+	wt.genes = ["sporangio", "fungaie", "brulicante"]
+	gm.refresh()
+	n0 = gm.found
+	for k in 200:
+		gm.on_dig(TileDefs.GRASS_SPORE, probe)
+	var deep := gm.found - n0
+	n0 = gm.found
+	for k in 200:
+		gm.on_dig(TileDefs.GRASS_SPORE, Vector2i(probe.x, world.surface[probe.x]))
+	var shallow := gm.found - n0
+	var b := kit.bisaccia()
+	kit.make_room()
+	Crafting.known.erase("micelio")
+	var hidden := not Crafting.available({"baccello_ardente": true}).any(func(x: Dictionary) -> bool: return x["out"] == "lingotto_micelio_duro")
+	b.add("micelio", 3)
+	Crafting.known["micelio"] = 1
+	var shown := Crafting.available({"baccello_ardente": true}).any(func(x: Dictionary) -> bool: return x["out"] == "lingotto_micelio_duro")
+	print("ricetta del lingotto di micelio: nascosta prima %s, visibile dopo averne trovato %s" % ["sì" if hidden else "NO", "sì" if shown else "NO"])
+	var ok := Crafting.craft(RecipesData.making("lingotto_micelio_duro")[0], b)
+	var dg := Gear.stats({"id": "pugnale_micelio_duro"})
+	print("materiali dei geni: micelio duro dalle spore profonde senza il gene %d, con il gene %d su 200, in superficie %d; fuso %s; pugnale di micelio %d danno a %.2f colpi/s, elemento %s" % [
+		without, deep, shallow, "sì" if ok else "NO", roundi(float(dg["damage"])), float(dg["speed"]), dg["elem"]])
+	if without > 0 or deep == 0 or shallow > 0 or not ok:
+		print("ATTENZIONE: i materiali dei geni non cadono come dovrebbero")
+	wt.genes = old
+	gm.refresh()
+	var base := MaterialsData.MATERIALS.size()
+	var genes := MaterialsData.GENE_MATERIALS.size()
+	print("materiali in tutto %d (%d metalli, %d leghe, %d dei geni); oggetti %d" % [MaterialsData.all().size(), base,
+		MaterialsData.all().size() - base - genes, genes, ItemsData.all().size()])

@@ -140,7 +140,7 @@ static func item(form: String, mat: String) -> Dictionary:
 		"tier": md["tier"], "form": form, "mat": mat}
 	if fd.has("desc"):
 		it["desc"] = "%s %s: %s." % [fd["name"], label, fd["desc"]]
-	if not form in BASE or md.has("alloy"):
+	if not form in BASE or md.has("alloy") or md.has("gene"):
 		it["gen"] = true                     # l'Erbario non li conta (sono centinaia): vedi `Erbario.entries`
 	it.merge(stats(form, mat))
 	return it

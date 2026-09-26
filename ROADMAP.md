@@ -866,11 +866,19 @@ metà tra i due metalli. Per non riempire l'elenco Creare, le leghe si **scopron
 quando conosci i due metalli, le armi quando hai avuto il lingotto (`Crafting.known`); l'Erbario non conta gli oggetti
 generati (`gen`) né le Fiale. `verifica_dati`: nessuna lega batte tutti i metalli in tutto. Foto prove/90_leghe.png.
 
-## 53. [ ] Materiali dai geni (M)
+## 53. [x] Materiali dai geni (M) — fatto il 26 set 2026
 Ogni gene di minerale e di fauna porta **materiali propri** con proprietà scritte nei dati (non generate a caso): con la
 Roadmap 5 i materiali passano da una decina a 30-40. Grazie alle forme ognuno dà subito tutta la sua serie di attrezzi.
 **Pronto quando**: un materiale nuovo si aggiunge con una riga di dati e compare con tutti i suoi attrezzi, le ricette
 e le icone.
+**Fatto il 26 set 2026**: 12 materiali dei geni (`MaterialsData.GENE_MATERIALS`, una riga ciascuno): ferro di brina
+(geodi di brina), ossidiana di brace (fiumi di brace), micelio duro (fungaie), linfite (laghi di Linfa: la migliore
+conduzione), radicite pura, ambra dorata (metalli nobili), ferro stellato (vene stellari), vuoto cavo (cuore cavo),
+sospesite (isole sospese: leggerissima, risonanza 3), nerume (Avvizzimento), chitina (creature dei mondi brulicanti),
+osso antico (creature rare dei mondi ancestrali). Il grezzo cade scavando le tessere giuste solo nei mondi con il gene
+(`GeneMaterials`, `PlayerActions.dig_hook`) o dalle creature; tre fanno un lingotto al Baccello; poi tutte le 16 forme.
+Materiali in tutto: 48 (8 metalli, 28 leghe, 12 dei geni), oggetti 1190. Anche le loro ricette si scoprono (la colonna
+Creare resta sotto le 300 righe).
 
 ## 54. [ ] Innesti e qualità (M)
 Gli innesti dell'universo: posti d'innesto per attrezzo secondo la qualità di fabbricazione (che dipende dalla stazione,

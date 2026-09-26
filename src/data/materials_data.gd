@@ -56,6 +56,51 @@ const ALLOY_NAMES := {
 	"vuoto+stellare": "stellanera", "pallidite+tizzonite": "vaporite", "pallidite+stellare": "stellalba",
 	"tizzonite+stellare": "stellardente",
 }
+## Voce 53: i **materiali dei geni**. Ognuno si trova solo nei mondi con il suo gene (`genes`): scavando certe tessere
+## (`raw.tiles`, sotto `min_depth` tessere dalla superficie, o in cielo con `sky`) o dalle creature (`raw.kill`: "any"
+## o "ancient"), con probabilità `chance`. Il grezzo si fonde al Baccello ardente (3 per lingotto); poi tutta la
+## famiglia di oggetti, come ogni metallo. Niente leghe con questi (sarebbero migliaia di oggetti in più).
+const GENE_MATERIALS := {
+	"ferro_brina": {"label": "di ferro di brina", "short": "ferro di brina", "tier": 3, "durezza": 52, "filo": 15, "peso": 9.0,
+		"tenacia": 2.6, "conduzione": 7, "elemento": "gelo", "risonanza": 1, "icon": "brina", "genes": ["geodi_brina", "brina"],
+		"raw": {"id": "scaglie_brina", "name": "Scaglie di ferro di brina", "shape": "scaglia", "tiles": [TileDefs.GRASS_BRINA],
+			"min_depth": 30, "chance": 0.3}},
+	"ossidiana_brace": {"label": "d'ossidiana di brace", "short": "ossidiana di brace", "tier": 4, "durezza": 62, "filo": 22,
+		"peso": 14.0, "tenacia": 3.0, "conduzione": 4, "elemento": "brace", "risonanza": 0, "icon": "sanguinella", "genes": ["fiumi_brace"],
+		"raw": {"id": "ossidiana", "name": "Ossidiana di brace", "shape": "gemma", "tiles": [TileDefs.GRASS_CENERE], "min_depth": 60, "chance": 0.35}},
+	"micelio_duro": {"label": "di micelio duro", "short": "micelio duro", "tier": 2, "durezza": 38, "filo": 10, "peso": 4.0,
+		"tenacia": 2.2, "conduzione": 9, "elemento": "spora", "risonanza": 1, "icon": "fungo", "genes": ["fungaie", "radice_madre"],
+		"raw": {"id": "micelio", "name": "Micelio duro", "shape": "fungo", "tiles": [TileDefs.GRASS_SPORE], "min_depth": 25, "chance": 0.3}},
+	"linfite": {"label": "di linfite", "short": "linfite", "tier": 5, "durezza": 70, "filo": 20, "peso": 6.0, "tenacia": 3.5,
+		"conduzione": 22, "elemento": "linfa", "risonanza": 2, "icon": "lagunite", "genes": ["laghi_linfa", "radice_madre"],
+		"raw": {"id": "linfite_grezza", "name": "Linfite grezza", "shape": "cristallo", "tiles": [TileDefs.CRYSTAL], "min_depth": 300, "chance": 0.2}},
+	"radicite_pura": {"label": "di radicite pura", "short": "radicite pura", "tier": 2, "durezza": 44, "filo": 13, "peso": 18.0,
+		"tenacia": 2.2, "conduzione": 5, "elemento": "", "risonanza": 1, "icon": "brace", "genes": ["radicite_diffusa"],
+		"raw": {"id": "radicite_grezza_pura", "name": "Radicite pura", "shape": "minerale", "tiles": [TileDefs.RADICITE], "min_depth": 0, "chance": 0.12}},
+	"ambra_dorata": {"label": "d'ambra dorata", "short": "ambra dorata", "tier": 4, "durezza": 64, "filo": 20, "peso": 12.0,
+		"tenacia": 3.4, "conduzione": 12, "elemento": "luce", "risonanza": 1, "icon": "brillaluce", "genes": ["metalli_nobili"],
+		"raw": {"id": "ambra_dorata_grezza", "name": "Ambra dorata", "shape": "gemma", "tiles": [TileDefs.AMBRA], "min_depth": 0, "chance": 0.12}},
+	"ferro_stellato": {"label": "di ferro stellato", "short": "ferro stellato", "tier": 6, "durezza": 88, "filo": 30, "peso": 4.0,
+		"tenacia": 5.5, "conduzione": 20, "elemento": "luce", "risonanza": 2, "icon": "iride", "genes": ["vene_stellari"],
+		"raw": {"id": "frammento_stellato", "name": "Frammento stellato", "shape": "stella",
+			"tiles": [TileDefs.RADICITE, TileDefs.LEGNOFERRO, TileDefs.AMBRA, TileDefs.PALLIDITE, TileDefs.TIZZONITE], "min_depth": 0, "chance": 0.04}},
+	"vuoto_cavo": {"label": "di vuoto cavo", "short": "vuoto cavo", "tier": 6, "durezza": 80, "filo": 31, "peso": 3.0, "tenacia": 4.5,
+		"conduzione": 18, "elemento": "vuoto", "risonanza": 2, "icon": "nottilite", "genes": ["cuore_cavo"],
+		"raw": {"id": "vuoto_cavo_grezzo", "name": "Scheggia di vuoto cavo", "shape": "cristallo", "tiles": [TileDefs.VUOTITE], "min_depth": 0, "chance": 0.1}},
+	"sospesite": {"label": "di sospesite", "short": "sospesite", "tier": 4, "durezza": 40, "filo": 12, "peso": 1.0, "tenacia": 2.0,
+		"conduzione": 10, "elemento": "luce", "risonanza": 3, "icon": "muschio", "genes": ["isole_sospese"],
+		"raw": {"id": "zolla_sospesa", "name": "Zolla sospesa", "shape": "zolla", "tiles": [TileDefs.GRASS, TileDefs.DIRT], "sky": true, "chance": 0.25}},
+	"nerume": {"label": "di nerume", "short": "nerume", "tier": 5, "durezza": 68, "filo": 26, "peso": 11.0, "tenacia": 3.2,
+		"conduzione": 6, "elemento": "vuoto", "risonanza": 1, "icon": "nodo", "genes": ["cuore_nero", "avvizzito"],
+		"raw": {"id": "nerume_grezzo", "name": "Nerume", "shape": "polvere", "tiles": [TileDefs.AVV_TERRA, TileDefs.AVV_MUSCHIO, TileDefs.AVV_PIETRA],
+			"min_depth": 0, "chance": 0.15}},
+	"chitina": {"label": "di chitina", "short": "chitina", "tier": 3, "durezza": 40, "filo": 14, "peso": 6.0, "tenacia": 4.2,
+		"conduzione": 2, "elemento": "", "risonanza": 0, "icon": "cenere", "genes": ["brulicante"],
+		"raw": {"id": "chitina_grezza", "name": "Lastra di chitina", "shape": "scaglia", "kill": "any", "chance": 0.1}},
+	"osso_antico": {"label": "d'osso antico", "short": "osso antico", "tier": 5, "durezza": 60, "filo": 25, "peso": 16.0, "tenacia": 4.0,
+		"conduzione": 8, "elemento": "", "risonanza": 2, "icon": "seta", "genes": ["ancestrale"],
+		"raw": {"id": "osso_antico_grezzo", "name": "Osso antico", "shape": "aculeo", "kill": "ancient", "chance": 0.5}},
+}
 static var _all := {}
 static var _items := {}
 
@@ -77,6 +122,11 @@ static func all() -> Dictionary:
 			var a := String(keys[i])
 			var b := String(keys[j])
 			_all[alloy_id(a, b)] = _alloy(a, b)
+	for g in GENE_MATERIALS:
+		var md: Dictionary = GENE_MATERIALS[g].duplicate(true)
+		md["bar"] = "lingotto_" + g
+		md["gene"] = true
+		_all[g] = md
 	return _all
 
 
@@ -111,6 +161,16 @@ static func _alloy(a: String, b: String) -> Dictionary:
 static func items() -> Dictionary:
 	if not _items.is_empty():
 		return _items
+	for g in GENE_MATERIALS:
+		var gd: Dictionary = GENE_MATERIALS[g]
+		var raw: Dictionary = gd["raw"]
+		var genes := ", ".join((gd["genes"] as Array).map(func(x: String) -> String: return String(GenesData.GENES[x]["name"])))
+		var where := "dalle creature" if raw.has("kill") else "scavando"
+		_items[String(raw["id"])] = {"name": raw["name"], "kind": "materiale", "icon": [raw["shape"], gd["icon"]],
+			"value": 6 * int(gd["tier"]), "source": "%s, nei mondi con il gene %s" % [where, genes],
+			"desc": "Un materiale che esiste solo nei mondi con il gene %s. Al Baccello ardente, tre ne fanno un lingotto di %s." % [genes, gd["short"]]}
+		_items["lingotto_" + g] = {"name": "Lingotto di %s" % gd["short"], "kind": "materiale", "icon": ["lingotto", gd["icon"]],
+			"desc": "%s. %s." % [String(gd["short"]).substr(0, 1).to_upper() + String(gd["short"]).substr(1), describe(g)]}
 	for id in all():
 		var md: Dictionary = all()[id]
 		if md.has("alloy"):
@@ -124,6 +184,8 @@ static func items() -> Dictionary:
 ## Le ricette dei lingotti delle leghe (un lingotto per metallo, due di lega), al Baccello ardente.
 static func recipes() -> Array:
 	var out := []
+	for g in GENE_MATERIALS:
+		out.append({"out": "lingotto_" + g, "qty": 1, "in": {String(GENE_MATERIALS[g]["raw"]["id"]): 3}, "station": "baccello_ardente"})
 	for id in all():
 		var md: Dictionary = all()[id]
 		if md.has("alloy"):
