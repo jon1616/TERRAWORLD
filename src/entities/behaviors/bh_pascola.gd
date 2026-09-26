@@ -14,6 +14,7 @@ var _goal := Vector2i(-1, -1)
 var _eat := 0.0
 var _scan := 0.0
 var _run := 0.0
+var _tired := 0.0                      # stanca dopo una fuga: per un po' non può scappare
 
 
 func tick(c: Creature, dt: float) -> void:
@@ -21,8 +22,12 @@ func tick(c: Creature, dt: float) -> void:
 	var fauna := c.get_parent()
 	# via dai predatori, finché ha fiato
 	_run = maxf(_run - dt * 0.6, 0.0)
+	_tired = maxf(_tired - dt, 0.0)
+	if _run >= STAMINA:
+		_run = 0.0
+		_tired = 2.5
 	for o in fauna.list:
-		if _run >= STAMINA:
+		if _tired > 0.0:
 			break
 		if o != c and is_instance_valid(o) and o.hunt == c and o.position.distance_to(c.position) < FLEE * 16.0:
 			var away := signf(c.position.x - o.position.x)

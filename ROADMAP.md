@@ -938,12 +938,22 @@ con Cacciatori. Due **Custodi dei biomi** con tana appena sotto la superficie de
 brina** e la **Madre delle salamandre** (disegni ingranditi e tinti, pagine di storia, richiami all'Altare, un
 accessorio ciascuno). Foto 92_famiglie. Le famiglie acquatiche aspettano l'acqua (Roadmap 10).
 
-## 57. [ ] La catena alimentare (L)
+## 57. [x] La catena alimentare (L) — fatto il 26 set 2026
 Le creature hanno bisogni: predatori che cacciano prede, erbivori che brucano piante e colture, spazzini che mangiano ciò
 che resta, creature che si combattono tra loro. Popolazioni per zona (che calano se le si caccia troppo e crescono se
 le si lascia), comportamenti visibili (fuga, branco, agguato).
 **Pronto quando**: fermandosi a guardare si vede un mondo che vive anche senza il giocatore; le prove misurano che le
 popolazioni restano in equilibrio.
+**Fatto il 26 set 2026**: i **predatori** (8 famiglie con le loro prede in `FamiliesData.prey`) hanno fame e, quando
+ce l'hanno, cacciano la preda più vicina (`BhCaccia`: corsa più svelta, morso che la prende: niente bottino, la
+popolazione della preda cala). Gli **erbivori** (`BhPascola`) scappano dai predatori che li cacciano, con il fiato
+che finisce (poi si fermano a riprenderlo: la volpe li raggiunge), e quando hanno fame brucano erba, fiori e felci
+del pavimento (l'erba sparisce davvero); lepri e bruchi (`pest`) mangiano anche le colture del giardino.
+**Popolazioni per zona** (`Ecology`, zone di 200 colonne, salvate nel mondo): ogni famiglia ha un fattore 0,15-1,8
+che cambia quante ne nascono lì; cacciare una famiglia la fa calare, lasciarla stare la fa tornare, predatori e
+prede si inseguono (più prede → più predatori → meno prede). La prova: 400 passi (mezz'ora di gioco) restano tra
+0,19 e 1,05. Nel giro lungo, un Germogliato arrivato alla prova con poca Vita appassiva e rinasceva al letto:
+la prova ora parte con la Vita piena e annota chi toglie le creature; e `snap_to` stacca la corda del rampino.
 
 ## 58. [ ] Nidi, tane e migrazioni (M)
 Nidi e tane da trovare (da cui nascono le creature di una zona: distruggerli la svuota, proteggerli la arricchisce),

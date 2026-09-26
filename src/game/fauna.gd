@@ -38,6 +38,10 @@ var _t := 0.0
 var _rng := RandomNumberGenerator.new()
 
 signal killed(c: Creature)
+signal hunted(prey: Creature, predator: Creature)      # voce 57: una preda presa da un predatore (niente bottino)
+signal grazed(c: Creature, cell: Vector2i)           # voce 57: erba o coltura mangiata
+## voce 57: quanto una famiglia nasce in un punto (popolazioni per zona, `Ecology.factor`): (x in px, famiglia) -> float
+var pop_factor: Callable
 signal vanished(c: Creature)
 
 
@@ -72,12 +76,31 @@ static func family_weights(sd: int) -> Dictionary:
 	return out
 
 
-## Il peso di una specie in questo mondo (famiglia favorita o assente, ruolo reso più frequente dai geni).
-func weight_of(id: String) -> float:
+## Il peso di una specie in questo mondo (famiglia favorita o assente, ruolo reso più frequente dai geni) e, se si sa
+## dove (x in px), la popolazione della sua famiglia in quella zona (voce 57).
+func weight_of(id: String, x := -1.0) -> float:
 	var f := FamiliesData.family_of(id)
 	if f == "":
 		return 1.0
-	return float(family_mult.get(f, 1.0)) * float(role_mult.get(String(FamiliesData.FAMILIES[f].get("role", "")), 1.0))
+	var w := float(family_mult.get(f, 1.0)) * float(role_mult.get(String(FamiliesData.FAMILIES[f].get("role", "")), 1.0))
+	if x >= 0.0 and pop_factor.is_valid():
+		w *= float(pop_factor.call(x, f))
+	return w
+
+
+## Una preda presa da un predatore (voce 57): sparisce senza bottino.
+func kill_by_predator(prey: Creature, predator: Creature) -> void:
+	if not list.has(prey):
+		return
+	list.erase(prey)
+	Fx.puff(self, prey.position, Color(1.1, 0.7, 0.6))
+	hunted.emit(prey, predator)
+	prey.queue_free()
+
+
+## Un erbivoro ha mangiato l'erba (o una coltura) di una cella (voce 57).
+func graze(c: Creature, cell: Vector2i) -> void:
+	grazed.emit(c, cell)
 
 
 func setup(w: World, p: Player, d: Drops, pr: Projectiles) -> void:
@@ -234,7 +257,7 @@ func try_spawn() -> Creature:
 	var choices := CreaturesData.of_stratum(stratum, night, biome)
 	var weighted := []
 	for e in choices:
-		var wgt := int(round(float(e[1]) * weight_of(String(e[0])) * 10.0))
+		var wgt := int(round(float(e[1]) * weight_of(String(e[0]), c.x * S) * 10.0))
 		if wgt > 0:
 			weighted.append([e[0], wgt])
 	choices = weighted if not weighted.is_empty() else choices

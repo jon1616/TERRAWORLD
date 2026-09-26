@@ -18,8 +18,15 @@ func _init(tk: TestKit) -> void:
 
 
 func run() -> void:
+	# il Germogliato deve stare fermo quando nessuno lo comanda (nel giro lungo, a volte, se ne andava da solo)
+	var q0: Vector2 = m.player.position
+	await kit.seconds(1.0)
+	if m.player.position.distance_to(q0) > 40.0:
+		print("ATTENZIONE: il Germogliato si muove da solo: %s → %s, velocità %s, a terra %s, rampino %s, comandi %s %s, controllo %s" % [
+			q0, m.player.position, m.player.vel, m.player.on_floor, m.player.hook, m.player.auto_dir, m.player.auto_jump, m.player.control])
 	await variants()
 	await new_families()
+	await food_chain()
 
 
 func _feet(c: Vector2i, id: String) -> Vector2:
@@ -140,3 +147,97 @@ func new_families() -> void:
 		shares[0], shares[1]])
 	if a == b or shares[0] <= shares[1] or dens.size() < 2:
 		print("ATTENZIONE: la fauna non cambia con il mondo come dovrebbe")
+
+
+## Voce 57: una volpe affamata caccia una lepre (con il Germogliato lontano); una pecora affamata bruca l'erba vicina;
+## il modello delle popolazioni: cacciando le pecore calano, lasciate stare tornano verso l'equilibrio, e nessun valore
+## esce dai limiti (400 passi, circa mezz'ora di gioco).
+func food_chain() -> void:
+	var eco: Ecology = m.ecology
+	var spot := kit.flat_spot(world.spawn + Vector2i(-80, 0), 6)
+	if spot.x < 0:
+		print("ATTENZIONE: nessun posto per la catena alimentare")
+		return
+	# spianato fin dove guarda il Germogliato (nel giro lungo, arrivato con poca Vita, appassiva su un pericolo lì
+	# accanto e rinasceva al letto, lontano: le creature della prova sparivano)
+	kit.flatten(spot, 28)
+	m.fauna.clear()
+	m.vitals.hp = m.vitals.hp_max
+	m.vitals.changed.emit()
+	m.snap_to(spot + Vector2i(24, 0))                 # il Germogliato guarda da lontano
+	await kit.frames(3)
+	var h0 := eco.hunts
+	# la fuga: una lepre accanto a una volpe che la caccia si allontana
+	var fox: Creature = m.fauna.add("volpe_ambra", _feet(spot + Vector2i(-4, 0), "volpe_ambra"))
+	var hare: Creature = m.fauna.add("lepre_linfa", _feet(spot + Vector2i(1, 0), "lepre_linfa"))
+	fox.hunger = 1.0
+	fox.set_process(false)
+	fox.hunt = hare
+	var d0 := hare.position.distance_to(fox.position)
+	# nel giro lungo una volta la lepre è sparita durante la fuga: si annota chi l'ha tolta
+	var why := {"cosa": ""}
+	var on_kill := func(c: Creature) -> void:
+		if c == hare or c == fox:
+			why["cosa"] = "uccisa (%s, Vita %d)" % [c.id, c.hp]
+	m.fauna.killed.connect(on_kill)
+	var on_died := func() -> void: why["cosa"] = "il Germogliato è appassito (Vita %d)" % m.vitals.hp
+	m.vitals.died.connect(on_died)
+	var last := hare.position
+	var t1 := Time.get_ticks_msec()
+	while Time.get_ticks_msec() - t1 < 1000:
+		await kit.frames(1)
+		if not is_instance_valid(hare) or not is_instance_valid(fox):
+			break
+		last = hare.position
+	m.fauna.killed.disconnect(on_kill)
+	m.vitals.died.disconnect(on_died)
+	if not is_instance_valid(hare) or not is_instance_valid(fox):
+		print("ATTENZIONE: nella prova della caccia una creatura è sparita: %s; lepre vista l'ultima volta a %s (Germogliato a %s, fondo del mondo %d)" % [
+			why["cosa"] if why["cosa"] != "" else "tolta senza morire (lontana, caduta o ripulita)", last, m.player.position, world.h * S])
+		m.fauna.clear()
+		return
+	var fled := hare.position.distance_to(fox.position) - d0
+	# la caccia: la stessa volpe, una lepre che non scappa (la caccia non deve dipendere dal terreno attorno)
+	hare.set_process(false)
+	hare.position = _feet(spot + Vector2i(3, 0), "lepre_linfa")
+	fox.set_process(true)
+	var t0 := Time.get_ticks_msec()
+	while Time.get_ticks_msec() - t0 < 10000 and eco.hunts == h0:
+		await kit.frames(1)
+	print("caccia: la lepre scappa di %.0f px in un secondo; la volpe la prende %s (in %.1f s)" % [fled, "sì" if eco.hunts > h0 else "NO",
+		(Time.get_ticks_msec() - t0) / 1000.0])
+	m.fauna.clear()
+	# il pascolo: erba attorno, una pecora affamata
+	for dx in range(-6, 7):
+		world.set_decor(spot.x + dx, spot.y, TileDefs.DECOR_GRASS[0])
+	m.view.refresh_around(spot)
+	var g0 := eco.grazed
+	var sheep: Creature = m.fauna.add("pecora_muschio", _feet(spot, "pecora_muschio"))
+	sheep.hunger = 1.0
+	t0 = Time.get_ticks_msec()
+	while Time.get_ticks_msec() - t0 < 12000 and eco.grazed == g0:
+		await kit.frames(1)
+	print("pascolo: la pecora bruca %s (in %.1f s)" % ["sì" if eco.grazed > g0 else "NO", (Time.get_ticks_msec() - t0) / 1000.0])
+	if eco.grazed == g0:
+		print("  (pecora %s, fame %.2f, erba sotto i piedi %s, dal Germogliato %.0f px)" % [sheep.position if is_instance_valid(sheep) else "sparita",
+			sheep.hunger if is_instance_valid(sheep) else -1.0, world.decor_at(spot.x, spot.y),
+			sheep.position.distance_to(m.player.position) if is_instance_valid(sheep) else -1.0])
+	m.fauna.clear()
+	# il modello delle popolazioni
+	var p := {0: {"pecore": 1.0, "lepri": 1.0, "volpi": 1.0, "grumi": 1.0}}
+	var lo := 9.0
+	var hi := 0.0
+	for k in 60:
+		p[0]["pecore"] = maxf(float(p[0]["pecore"]) - 0.08, Ecology.MIN)      # si caccia forte
+		Ecology.step(p)
+	var hunted_low := float(p[0]["pecore"])
+	var fox_mid := float(p[0]["volpi"])
+	for k in 400:
+		Ecology.step(p)
+		for f in p[0]:
+			lo = minf(lo, float(p[0][f]))
+			hi = maxf(hi, float(p[0][f]))
+	print("popolazioni: pecore cacciate %.2f (volpi %.2f), dopo 400 passi pecore %.2f, volpi %.2f; tra %.2f e %.2f" % [hunted_low,
+		fox_mid, float(p[0]["pecore"]), float(p[0]["volpi"]), lo, hi])
+	if eco.hunts == h0 or fled < 8.0 or eco.grazed == g0 or float(p[0]["pecore"]) < 0.8 or lo < Ecology.MIN or hi > Ecology.MAX:
+		print("ATTENZIONE: la catena alimentare non funziona come dovrebbe")

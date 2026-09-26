@@ -371,6 +371,8 @@ func _check_materials() -> void:
 		_warn(cd.get("boss", false) or FamiliesData.family_of(cid) != "", "creatura %s senza famiglia" % cid)
 	for f in FamiliesData.FAMILIES:
 		_err(String(FamiliesData.FAMILIES[f].get("role", "")) in FamiliesData.ROLES, "famiglia %s: ruolo sconosciuto" % f)
+		for pf in FamiliesData.FAMILIES[f].get("prey", []):
+			_err(FamiliesData.FAMILIES.has(pf), "famiglia %s: preda inesistente %s" % [f, pf])
 	for fa in FormsData.FASCE:
 		_err(ItemsData.has(String(FormsData.FASCE[fa]["item"])), "fascia %s: materiale inesistente" % fa)
 	print("materiali %d × forme %d; scarto massimo dai valori di prima %d%%" % [MaterialsData.all().size(),

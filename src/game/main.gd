@@ -53,6 +53,7 @@ var aiuole: Aiuole
 var sampling: Sampling
 var innesto: InnestoPanel
 var gene_mats: GeneMaterials
+var ecology: Ecology
 var _spores: CPUParticles2D
 var built := false
 var gen_times: Array = []
@@ -255,6 +256,7 @@ func _build() -> void:
 	hud.overlays.append(sp)
 	sampling = _mount(Sampling.new())
 	gene_mats = _mount(GeneMaterials.new())
+	ecology = _mount(Ecology.new())
 	innesto = InnestoPanel.new()
 	hud.add_child(innesto)
 	innesto.setup(self)
@@ -315,6 +317,7 @@ func view_cells() -> Rect2i:
 func snap_to(c: Vector2i) -> void:
 	player.position = cell_to_feet(c)
 	player.vel = Vector2.ZERO
+	player.hook = Vector2.INF              # spostato di colpo la corda si stacca (restava agganciata e lo tirava indietro)
 	player.reset_fall()
 	cam.position = player.position + Vector2(0, -12)
 	cam.reset_smoothing()

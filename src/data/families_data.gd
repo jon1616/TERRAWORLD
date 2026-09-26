@@ -8,7 +8,8 @@ extends RefCounted
 ##
 ## Campi di una famiglia: name (il nome della famiglia, per l'Erbario), members (le specie), fem (nome femminile: per
 ## gli aggettivi), role (voce 56: erbivoro · predatore · colonia · volante · scavatore · neutro: i geni di fauna ne
-## cambiano la frequenza), e dalle voci dopo: prey (57), nest (58), diet, tame, produce, mount (59).
+## cambiano la frequenza), prey (voce 57: le famiglie che un predatore caccia), pest (mangia anche le colture), e dalle
+## voci dopo: nest (58), diet, tame, produce, mount (59).
 
 const FAMILIES := {
 	"grumi": {"name": "Grumi", "members": ["grumo_muschio", "grumo_resina", "grumo_spore"], "fem": false, "role": "neutro"},
@@ -21,33 +22,33 @@ const FAMILIES := {
 	"corvi": {"name": "Corvi di corteccia", "members": ["corvo_corteccia"], "fem": false, "role": "volante"},
 	"spinoricci": {"name": "Spinoricci", "members": ["spinoriccio"], "fem": false, "role": "neutro"},
 	"lucciole": {"name": "Lucciole voraci", "members": ["lucciola_vorace"], "fem": true, "role": "volante"},
-	"tessiradici": {"name": "Tessiradici", "members": ["tessiradice"], "fem": true, "role": "predatore"},
+	"tessiradici": {"name": "Tessiradici", "members": ["tessiradice"], "fem": true, "role": "predatore", "prey": ["falene", "lucciole", "api", "libellule"]},
 	"talponi": {"name": "Talponi di humus", "members": ["talpone"], "fem": false, "role": "scavatore"},
 	"saltafunghi": {"name": "Saltafunghi", "members": ["saltafungo"], "fem": false, "role": "neutro"},
 	"ali_ardesia": {"name": "Ali d'ardesia", "members": ["ala_ardesia"], "fem": true, "role": "volante"},
 	"chiocciole": {"name": "Chiocciole di cristallo", "members": ["chiocciola_cristallo"], "fem": true, "role": "erbivoro"},
 	"geomimi": {"name": "Geomimi", "members": ["geomimo"], "fem": false, "role": "neutro"},
-	"serpi": {"name": "Serpi di Linfa", "members": ["serpe_linfa"], "fem": true, "role": "predatore"},
+	"serpi": {"name": "Serpi di Linfa", "members": ["serpe_linfa"], "fem": true, "role": "predatore", "prey": ["guizzalinfe", "saltafunghi", "talponi"]},
 	"campanule": {"name": "Campanule erranti", "members": ["campanula_errante"], "fem": true, "role": "neutro"},
 	"guizzalinfe": {"name": "Guizzalinfe", "members": ["guizzalinfa"], "fem": false, "role": "neutro"},
-	"mietivuoti": {"name": "Mietivuoti", "members": ["mietivuoto"], "fem": false, "role": "predatore"},
-	"tessivuoti": {"name": "Tessivuoti", "members": ["tessivuoto"], "fem": false, "role": "predatore"},
+	"mietivuoti": {"name": "Mietivuoti", "members": ["mietivuoto"], "fem": false, "role": "predatore", "prey": ["sciami", "vagavuoti"]},
+	"tessivuoti": {"name": "Tessivuoti", "members": ["tessivuoto"], "fem": false, "role": "predatore", "prey": ["sciami", "pipistrelli"]},
 	"sciami": {"name": "Sciami di schegge", "members": ["sciame_schegge"], "fem": false, "role": "colonia"},
 	"cervi": {"name": "Cervi di brina", "members": ["cervo_brina"], "fem": false, "role": "erbivoro"},
-	"gufi": {"name": "Gufi del gelo", "members": ["gufo_gelo"], "fem": false, "role": "predatore"},
-	"salamandre": {"name": "Salamandre di brace", "members": ["salamandra_brace"], "fem": true, "role": "predatore"},
+	"gufi": {"name": "Gufi del gelo", "members": ["gufo_gelo"], "fem": false, "role": "predatore", "prey": ["lepri", "pipistrelli", "falene", "libellule"]},
+	"salamandre": {"name": "Salamandre di brace", "members": ["salamandra_brace"], "fem": true, "role": "predatore", "prey": ["bruchi", "formiche", "lepri"]},
 	"fatui": {"name": "Fatui di cenere", "members": ["fatuo_cenere"], "fem": false, "role": "neutro"},
 	# voce 56: le famiglie nuove
 	"pecore": {"name": "Pecore di muschio", "members": ["pecora_muschio"], "fem": true, "role": "erbivoro"},
 	"cornoradici": {"name": "Cornoradici", "members": ["cornoradice"], "fem": false, "role": "erbivoro"},
-	"lepri": {"name": "Lepri di Linfa", "members": ["lepre_linfa"], "fem": true, "role": "erbivoro"},
-	"bruchi": {"name": "Bruchi di lanterna", "members": ["bruco_lanterna"], "fem": false, "role": "erbivoro"},
+	"lepri": {"name": "Lepri di Linfa", "members": ["lepre_linfa"], "fem": true, "role": "erbivoro", "pest": true},
+	"bruchi": {"name": "Bruchi di lanterna", "members": ["bruco_lanterna"], "fem": false, "role": "erbivoro", "pest": true},
 	"api": {"name": "Api di lume", "members": ["ape_lume"], "fem": true, "role": "colonia"},
 	"formiche": {"name": "Formiche di resina", "members": ["formica_resina"], "fem": true, "role": "colonia"},
 	"pipistrelli": {"name": "Pipistrelli di corteccia", "members": ["pipistrello_corteccia"], "fem": false, "role": "volante"},
 	"libellule": {"name": "Libellule di brina", "members": ["libellula_brina"], "fem": true, "role": "volante"},
-	"volpi": {"name": "Volpi d'ambra", "members": ["volpe_ambra"], "fem": true, "role": "predatore"},
-	"linci": {"name": "Linci d'ardesia", "members": ["lince_ardesia"], "fem": true, "role": "predatore"},
+	"volpi": {"name": "Volpi d'ambra", "members": ["volpe_ambra"], "fem": true, "role": "predatore", "prey": ["lepri", "pecore", "bruchi", "formiche"]},
+	"linci": {"name": "Linci d'ardesia", "members": ["lince_ardesia"], "fem": true, "role": "predatore", "prey": ["talponi", "saltafunghi", "grumi", "formiche", "pipistrelli"]},
 }
 const ROLES := ["erbivoro", "predatore", "colonia", "volante", "scavatore", "neutro"]
 

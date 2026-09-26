@@ -8,6 +8,8 @@ var id := ""
 var base := ""                         # la specie (per una variante, voce 55: quella da cui nasce)
 var data: Dictionary
 var docile := false                    # voce 55: non attacca finché non la colpisci
+var hunger := 0.0                      # voce 57: fame (caccia e pascolo), 0 = sazia
+var hunt: Creature                     # voce 57: la preda che sta cacciando
 var provoked := false
 var _docile_dmg := 0
 var _wander_t := 0.0
@@ -94,6 +96,18 @@ func setup(cid: String, w: World, tgt: Node2D, sd: int) -> void:
 	boss = bool(data.get("boss", false))
 	for b in data["behaviors"]:
 		behaviors.append(Behavior.make(b))
+	# voce 57: i predatori cacciano, gli erbivori brucano (per ultimi: le loro intenzioni vincono)
+	var fd: Dictionary = FamiliesData.FAMILIES.get(FamiliesData.family_of(cid), {})
+	if not boss and fd.has("prey"):
+		var bc := BhCaccia.new()
+		bc.prey = fd["prey"]
+		behaviors.append(bc)
+		hunger = rng.randf_range(0.0, 0.6)
+	elif not boss and String(fd.get("role", "")) == "erbivoro":
+		var bp := BhPascola.new()
+		bp.pest = fd.get("pest", false)
+		behaviors.append(bp)
+		hunger = rng.randf_range(0.0, 0.6)
 	if data.get("docile", false):
 		docile = true
 		_docile_dmg = damage
@@ -188,6 +202,9 @@ func _process(dt: float) -> void:
 		want_fly = Vector2(sin(_anim) * 10.0, -6.0)
 	elif docile and not provoked:
 		_wander(dt)                            # docile: gironzola finché qualcuno non la colpisce
+		for b in behaviors:
+			if b is BhPascola:
+				b.tick(self, dt)               # ma bruca e scappa dai predatori (voce 57)
 	elif stun <= 0.0 or boss:
 		for b in behaviors:
 			b.tick(self, dt)
