@@ -37,6 +37,15 @@ static func bbcode(id: String, tratto := "", dati := {}) -> String:
 		var md := MaterialsData.get_mat(String(it["mat"]))
 		if md.has("alloy"):
 			t += "[color=#9fc8c0]Lega di %s e %s, risonanza %d.[/color]\n" % [md["alloy"][0], md["alloy"][1], int(md["risonanza"])]
+	if Bisaccia.is_gear(id):
+		# voce 54: qualità e posti d'innesto
+		var q := Gear.quality(slot)
+		var qd: Dictionary = TraitsData.QUALITY[q]
+		var inn := []
+		for x in (dati.get("innesti", []) as Array):
+			inn.append("%s (%s)" % [TraitsData.TRAITS[x]["name"], TraitsData.TRAITS[x]["desc"]])
+		t += "[color=%s]Qualità %s[/color] · [color=#9fc8c0]posti d'innesto %d su %d%s[/color]\n" % [qd["color"], qd["name"],
+			Gear.traits(slot).size(), Gear.slots(slot), (": " + ", ".join(inn)) if not inn.is_empty() else ""]
 	var fascia := String(dati.get("fascia", ""))
 	if FormsData.FASCE.has(fascia):
 		t += "[color=#ffd08a]Fascia di %s:[/color] %s\n" % [FormsData.FASCE[fascia]["name"], FormsData.FASCE[fascia]["desc"]]

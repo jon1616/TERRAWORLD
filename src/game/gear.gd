@@ -20,14 +20,18 @@ static func stats(slot: Dictionary) -> Dictionary:
 		"mat": String(it.get("mat", "")), "elem": String(it.get("elem", ""))}
 	if out["elem"] == "" and out["mat"] != "":
 		out["elem"] = String(MaterialsData.get_mat(String(out["mat"])).get("elemento", ""))   # voce 51
-	var tr := String(slot.get("tratto", ""))
 	var dati: Dictionary = slot.get("dati", {})
 	var mods: Array[Dictionary] = []
-	if tr != "":
-		mods.append(TraitsData.TRAITS.get(tr, {}))
+	for t in traits(slot):
+		mods.append(TraitsData.TRAITS.get(t, {}))
 	var fascia := String(dati.get("fascia", ""))
 	if FormsData.FASCE.has(fascia):
 		mods.append(FormsData.FASCE[fascia])
+	# voce 54: la qualità
+	var qd: Dictionary = TraitsData.QUALITY[quality(slot)]
+	out["damage"] = float(out["damage"]) * float(qd["mult"])
+	out["defense"] = float(out["defense"]) * float(qd["mult"])
+	out["speed"] = float(out["speed"]) * float(qd["speed"])
 	for md in mods:
 		for k in MULT:
 			out[k] = float(out[k]) * float(md.get(MULT[k], 1.0))
@@ -35,16 +39,59 @@ static func stats(slot: Dictionary) -> Dictionary:
 	return out
 
 
+## I tratti dell'oggetto: quello con cui è nato ("tratto") e gli innesti delle Essenze ("dati.innesti", voce 54).
+static func traits(slot: Dictionary) -> Array:
+	var out := []
+	if String(slot.get("tratto", "")) != "":
+		out.append(String(slot["tratto"]))
+	var dati: Dictionary = slot.get("dati", {})
+	for t in dati.get("innesti", []):
+		if TraitsData.TRAITS.has(String(t)):
+			out.append(String(t))
+	return out
+
+
+## Un effetto di tutti i tratti insieme (somma per quelli additivi, prodotto per gli altri: vedi `TraitsData.ADDITIVE`).
+static func effect(slot: Dictionary, key: String) -> float:
+	var add := key in TraitsData.ADDITIVE
+	var v := 0.0 if add else 1.0
+	for t in traits(slot):
+		var e := TraitsData.effect(t, key)
+		v = v + e if add else v * e
+	return v
+
+
+## La qualità (0-3; «buono» se l'oggetto non è stato fabbricato).
+static func quality(slot: Dictionary) -> int:
+	var dati: Dictionary = slot.get("dati", {})
+	return clampi(int(dati.get("q", 1)), 0, TraitsData.QUALITY.size() - 1)
+
+
+## Quanti posti d'innesto ha l'oggetto (il tratto di nascita ne occupa uno).
+static func slots(slot: Dictionary) -> int:
+	var it := ItemsData.get_item(String(slot.get("id", "")))
+	var res := int(MaterialsData.get_mat(String(it.get("mat", ""))).get("risonanza", 0)) if it.has("mat") else 0
+	return mini(1 + maxi(quality(slot) - 1, 0) + res, TraitsData.MAX_SLOTS)
+
+
+## Posti ancora liberi per un innesto.
+static func free_slots(slot: Dictionary) -> int:
+	return slots(slot) - traits(slot).size()
+
+
 ## Il nome completo: «Lancia di legnoferro con fascia di seta [Spina]».
 static func full_name(slot: Dictionary) -> String:
 	var id := String(slot.get("id", ""))
 	var n := String(ItemsData.get_item(id).get("name", id))
 	var dati: Dictionary = slot.get("dati", {})
+	var q := quality(slot)
+	if q != 1 and dati.has("q"):
+		n += " " + String(TraitsData.QUALITY[q]["name"])
 	var fascia := String(dati.get("fascia", ""))
 	if FormsData.FASCE.has(fascia):
 		n += " con fascia di %s" % FormsData.FASCE[fascia]["name"]
-	var tr := String(slot.get("tratto", ""))
-	return n if tr == "" else "%s [%s]" % [n, TraitsData.TRAITS[tr]["name"]]
+	var ts := traits(slot).map(func(t: String) -> String: return String(TraitsData.TRAITS[t]["name"]))
+	return n if ts.is_empty() else "%s [%s]" % [n, ", ".join(ts)]
 
 
 ## Una riga con i valori, per la scheda in Esamina.

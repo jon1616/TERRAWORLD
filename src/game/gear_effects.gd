@@ -46,11 +46,11 @@ func refresh() -> void:
 	var b: Bisaccia = m.character.bisaccia
 	for slot in b.equip:
 		_add(e, ItemsData.get_item(String(b.equip[slot])).get("acc", {}))
-		var tr := String(b.equip_traits.get(slot, ""))
+		var worn := b._worn(slot)                  # voce 54: il tratto e gli innesti del pezzo
 		for k in ["run", "halo", "regen", "stealth"]:
-			e[k] = float(e[k]) * TraitsData.effect(tr, k)
-		e["luck"] = float(e["luck"]) + TraitsData.effect(tr, "luck")
-		e["thorns"] = float(e["thorns"]) + TraitsData.effect(tr, "thorns")
+			e[k] = float(e[k]) * Gear.effect(worn, k)
+		e["luck"] = float(e["luck"]) + Gear.effect(worn, "luck")
+		e["thorns"] = float(e["thorns"]) + Gear.effect(worn, "thorns")
 	sets = SetsData.complete(b.equip)
 	for s in sets:
 		_add(e, SetsData.all()[s]["bonus"])

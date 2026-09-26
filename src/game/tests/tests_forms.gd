@@ -23,6 +23,7 @@ func run() -> void:
 	await elements()
 	await alloys()
 	await gene_materials()
+	await quality()
 
 
 func _feet(c: Vector2i, id: String) -> Vector2:
@@ -102,7 +103,7 @@ func forms() -> void:
 	print("fascia di seta al Telaio: %s, velocità %.2f → %.2f, nome «%s», salvata e ricaricata %s" % ["sì" if wrapped else "NO",
 		float(before["speed"]), float(after["speed"]), Gear.full_name(b.slots[ws]), "sì" if kept else "NO"])
 	# il foglio delle forme: una riga per forma, una colonna per materiale
-	var mats := MaterialsData.all().keys()
+	var mats := MaterialsData.all().keys().filter(func(k: String) -> bool: return not MaterialsData.get_mat(k).has("alloy"))
 	var sheet := Image.create_empty(mats.size() * 36 + 4, FormsData.FORMS.size() * 36 + 4, false, Image.FORMAT_RGBA8)
 	sheet.fill(Color("#141820"))
 	var r := 0
@@ -264,3 +265,49 @@ func gene_materials() -> void:
 	var genes := MaterialsData.GENE_MATERIALS.size()
 	print("materiali in tutto %d (%d metalli, %d leghe, %d dei geni); oggetti %d" % [MaterialsData.all().size(), base,
 		MaterialsData.all().size() - base - genes, genes, ItemsData.all().size()])
+
+
+## Voce 54: la qualità di fabbricazione (100 spade al Maglio), i posti d'innesto (qualità e risonanza), tre Essenze
+## sulla stessa spada, togliere un innesto, tutto salvato; due spade «uguali» a confronto.
+func quality() -> void:
+	var b := kit.bisaccia()
+	kit.make_room()
+	for i in range(Bisaccia.HOTBAR, b.slots.size()):
+		b.slots[i] = {}
+	var r: Dictionary = RecipesData.making("spada_radicite")[0]
+	var counts := [0, 0, 0, 0]
+	for k in 100:
+		b.add("lingotto_radicite", 8)
+		Crafting.craft(r, b)
+		for i in b.slots.size():
+			if b.id_at(i) == "spada_radicite":
+				counts[Gear.quality(b.slots[i])] += 1
+				b.slots[i] = {}
+	print("qualità di 100 spade al Maglio: grezze %d, buone %d, fini %d, capolavori %d" % counts)
+	# una spada d'ambra capolavoro (risonanza 1): 4 posti; tre Essenze
+	var s := {"id": "spada_ambra", "n": 1, "dati": {"q": 3}}
+	b.add_stack(s)
+	var i := -1
+	for k in b.slots.size():
+		if b.id_at(k) == "spada_ambra":
+			i = k
+	for e in ["essenza_furia", "essenza_fulmine", "essenza_vastita"]:
+		b.add(e, 1)
+	var plain := Gear.stats({"id": "spada_ambra"})
+	for e in ["essenza_furia", "essenza_fulmine", "essenza_vastita"]:
+		Crafting.graft(b, i, e)
+	var full := Gear.stats(b.slots[i])
+	var name := Gear.full_name(b.slots[i])
+	b.add("polvere_brace", 5)
+	var removed := Crafting.ungraft(b, i, "fulmine")
+	m.character.save()
+	var again := Character.load_id(m.character.id)
+	var kept := again != null and (again.bisaccia.data_at(i).get("innesti", []) as Array).size() == 2
+	print("spada d'ambra capolavoro: posti %d, innesti %s; danno %d → %d, colpi/s %.2f → %.2f; «%s»; tolto Fulmine %s, salvata con 2 innesti %s" % [
+		Gear.slots({"id": "spada_ambra", "dati": {"q": 3}}), b.data_at(i).get("innesti", []), roundi(float(plain["damage"])),
+		roundi(float(full["damage"])), float(plain["speed"]), float(full["speed"]), name, "sì" if removed else "NO", "sì" if kept else "NO"])
+	var worst := Gear.stats({"id": "spada_ambra", "dati": {"q": 0}, "tratto": "seccume"})
+	print("due spade d'ambra: la peggiore %d danno, la migliore %d (×%.1f)" % [roundi(float(worst["damage"])), roundi(float(full["damage"])),
+		float(full["damage"]) / maxf(float(worst["damage"]), 1.0)])
+	if counts[3] == 0 or counts[0] == 0 or not removed or not kept or float(full["damage"]) <= float(plain["damage"]):
+		print("ATTENZIONE: qualità e innesti non funzionano come dovrebbero")

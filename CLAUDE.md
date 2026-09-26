@@ -102,7 +102,7 @@ Godot_console.exe --path . -- --prove            # --carica riapre il mondo di p
 Godot_console.exe --path . -- --prove --prova-portale
 # solo alcuni gruppi di prove (per provare in fretta una voce nuova): doni, antiche, pericoli, combattimento, tratti,
 # obiettivi, guardiani, rovine, mobilita, lanci, giardino, eventi, casa, abitanti, compagni, viaggio, semi,
-# biomi, biomi_nuovi, luoghi, corsa, raccolta, musica, germogliato, interfaccia, geni (elenco in `AutoTests._group`)
+# biomi, biomi_nuovi, luoghi, corsa, raccolta, musica, germogliato, interfaccia, geni, forme (elenco in `AutoTests._group`)
 Godot_console.exe --path . -- --prove --solo=doni,antiche
 # suoni generati: prove/suoni/*.wav da ascoltare, con durata, picco e volume medio (segnala muti e distorti)
 Godot_console.exe --headless --path . --script res://tools/suoni.gd
@@ -168,6 +168,11 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     effetti `gen` (generatore) e `run` (in gioco, chiavi in `DEFAULTS`), `vmin`, `only` ("mutazione", "firma"), `combo`;
     le Fiale (`items()`, una per gene) e la Provetta. Le regole stanno in `Genome` (`src/game/`).
   - `SignaturesData` (firme dei mondi, ricordi, Linfa antica) e `NamesData` (nomi dei mondi nati dai Semi).
+  - Roadmap 6 «La materia viva»: `MaterialsData` (materiali con proprietà: 8 metalli, 28 leghe generate, 12 materiali
+    dei geni), `FormsData` (16 forme: formule dei valori, aree dei colpi `AREA`, fasce del Telaio `FASCE`, ricette),
+    `ElementsData` (6 elementi, debolezze e resistenze di ogni creatura, reazioni). Gli oggetti forma × materiale sono
+    generati in `ItemsData.all()` (id «forma_materiale», campo `gen` per quelli che l'Erbario non conta). In
+    `TraitsData` la qualità di fabbricazione (`QUALITY`) e i posti d'innesto.
   - `CompanionsData` (voce 37: compagni e alleati), `NpcData` e `ValueData` (voce 36: abitanti, merci, prezzi).
   - `TrophyItemsData` — i trofei di ogni specie (`TROPHY_OF`: li lasciano solo le rare), gli oggetti unici che ne
     nascono, la Polvere iridata e gli oggetti iridati, con le loro ricette (unite in `RecipesData.all()`).
@@ -342,6 +347,16 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   - `Sampling` — trovare i geni: Provetta di Linfa (`category_at`: cosa si tocca → categoria), piante-seme
     (`harvest`, `wild_seed`), Fiale dalle creature; le Fiale nella Bisaccia fanno imparare il gene. `Genario` (vista).
   - `InnestoPanel` (`src/ui/`) — il Banco dell'Innestatrice: due Semi + Fiale + Linfa antica → Seme figlio.
+- **Roadmap 6 «La materia viva»**:
+  - `Gear` (`src/game/gear.gd`) — i valori veri di **un** oggetto (casella con "tratto" e "dati"): base forma ×
+    materiale, qualità ("q"), fascia, tratto di nascita e innesti ("innesti"), elemento; `full_name`, `line`,
+    `effect` (somma dei tratti), `slots`/`free_slots`. Lo usano `Combat`, `Spells`, `PlayerActions`, `GearEffects`,
+    `Bisaccia.scorza` ed Esamina. Ogni nuovo modo di cambiare un oggetto passa di qui.
+  - `Combat.melee_area(forma)` (aree dei colpi), `_strike(…, elem)` → `Elements.hit` (debolezze, stati, reazioni;
+    `Creature` ha `burn_t`, `weak_t`, `elem`/`elem_t`); le leghe con due elementi li alternano.
+  - `Crafting`: `craft` dà la qualità (`roll_quality`, la fortuna aiuta), `wrap` (fascia al Telaio), `graft`/`ungraft`
+    (innesti al Maglio), `known` (le ricette delle leghe si scoprono). `GeneMaterials` — i materiali dei geni che
+    cadono scavando (`PlayerActions.dig_hook`) o dalle creature. Icone delle forme nuove in `WeaponShapes`.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni
@@ -508,6 +523,12 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   sottosuolo sono stati ingranditi finché si vedevano sulla mappa. Soglia: la coppia di mondi più simile ad almeno il
   doppio del rumore (`tools/mappe.gd -- --caso`).
 - Le prove che piantano un Seme di mondo mettono prima un'Aiuola (`TestKit.aiuola`): a terra non si pianta più.
+- Un nome di forma d'icona già usato da un altro oggetto dà a tutta la famiglia la vecchia icona (il martello nuovo
+  usciva uguale in tutti i metalli): le forme nuove guardano il foglio prove/89_forme.png, e `FormsData` ha `icon`.
+- Un effetto applicato prima di `take_hit` può essere cancellato da `take_hit` stesso (lo stordimento del Vapore
+  tornava a 0,2 s): i valori «almeno tanto» si scrivono con `maxf`.
+- Nelle patch Python dentro un heredoc del Bash tool le tabulazioni e le barre rovesciate non arrivano sempre uguali:
+  le patch con codice GDScript si scrivono con Write, sempre (anche le piccole).
 
 ## Convenzioni
 

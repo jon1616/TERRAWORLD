@@ -54,13 +54,40 @@ static func can_craft(r: Dictionary, b: Bisaccia) -> bool:
 	return b.room_for(String(r["out"])) >= int(r["qty"])
 
 
-static func craft(r: Dictionary, b: Bisaccia) -> bool:
+static func craft(r: Dictionary, b: Bisaccia, luck := 0.0) -> bool:
 	if not can_craft(r, b):
 		return false
 	for k in r["in"]:
 		b.remove(k, int(r["in"][k]))
-	b.add(String(r["out"]), int(r["qty"]))
+	var out := String(r["out"])
+	if Bisaccia.is_gear(out) and int(r["qty"]) == 1:
+		# voce 54: l'equipaggiamento fabbricato nasce con una qualità (e il suo tratto, come sempre)
+		var s := {"id": out, "n": 1, "dati": {"q": roll_quality(String(r["station"]), luck)}}
+		var t := TraitsData.roll(out)
+		if t != "":
+			s["tratto"] = t
+		if b.add_stack(s) == 0:
+			return true
+	b.add(out, int(r["qty"]))
 	return true
+
+
+## La qualità di un oggetto fabbricato a una stazione (0 grezzo … 3 capolavoro); la fortuna sposta il tiro in alto.
+static func roll_quality(station: String, luck := 0.0) -> int:
+	var w: Array = TraitsData.QUALITY_WEIGHTS.get(station, TraitsData.QUALITY_WEIGHTS[""])
+	var tot := 0
+	for x in w:
+		tot += int(x)
+	var v := randi_range(1, tot)
+	var q := 0
+	for k in w.size():
+		v -= int(w[k])
+		if v <= 0:
+			q = k
+			break
+	if luck > 0.0 and randf() < luck and q < w.size() - 1:
+		q += 1
+	return q
 
 
 ## Rinnova il tratto dell'oggetto nella casella i (al Maglio): costa `TraitsData.REFORGE_COST`, il tratto nuovo è
@@ -82,14 +109,44 @@ static func reforge(b: Bisaccia, i: int) -> String:
 
 ## Innesta un'Essenza (di una creatura antica) sull'oggetto nella casella i: il suo tratto speciale prende il posto di
 ## quello che c'era. Restituisce il tratto nuovo, o "" se non si può.
+## Voce 54: se l'oggetto ha un posto libero l'innesto si aggiunge ("dati.innesti"); altrimenti prende il posto del
+## tratto di nascita, come prima. Lo stesso tratto non si innesta due volte.
 static func graft(b: Bisaccia, i: int, essence: String) -> String:
 	var id := b.id_at(i)
-	if id == "" or not Bisaccia.is_gear(id) or not TraitsData.can_graft(essence, id) or not b.remove(essence, 1):
+	if id == "" or not Bisaccia.is_gear(id) or not TraitsData.can_graft(essence, id):
 		return ""
 	var t := String(ItemsData.get_item(essence)["graft"])
-	b.slots[i]["tratto"] = t
+	if t in Gear.traits(b.slots[i]) or not b.remove(essence, 1):
+		return ""
+	if Gear.free_slots(b.slots[i]) > 0:
+		var dati: Dictionary = b.slots[i].get("dati", {}).duplicate(true)
+		var inn: Array = dati.get("innesti", [])
+		inn.append(t)
+		dati["innesti"] = inn
+		b.slots[i]["dati"] = dati
+	else:
+		b.slots[i]["tratto"] = t
 	b.changed.emit()
 	return t
+
+
+## Toglie l'innesto `t` dall'oggetto nella casella i (al Maglio): costa `TraitsData.UNGRAFT_COST`, l'Essenza si perde e
+## il posto torna libero. Vero se è riuscito.
+static func ungraft(b: Bisaccia, i: int, t: String) -> bool:
+	var dati: Dictionary = b.slots[i].get("dati", {}).duplicate(true)
+	var inn: Array = dati.get("innesti", [])
+	if not t in inn:
+		return false
+	for k in TraitsData.UNGRAFT_COST:
+		if b.count(k) < int(TraitsData.UNGRAFT_COST[k]):
+			return false
+	for k in TraitsData.UNGRAFT_COST:
+		b.remove(k, int(TraitsData.UNGRAFT_COST[k]))
+	inn.erase(t)
+	dati["innesti"] = inn
+	b.slots[i]["dati"] = dati
+	b.changed.emit()
+	return true
 
 
 ## Avvolge una fascia (`FormsData.FASCE`) sul manico dell'oggetto nella casella i (al Telaio, voce 50): consuma il

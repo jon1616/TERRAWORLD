@@ -173,14 +173,14 @@ func _strike(c: Creature, dmg: int, from_x: float, force: float, elem := "") -> 
 		dmg = Elements.hit(self, c, elem, dmg)     # voce 51: debolezze, stati e reazioni
 		if not is_instance_valid(c) or not fauna.list.has(c):
 			return
-	var tr := String(m.hud.current().get("tratto", ""))
-	if TraitsData.effect(tr, "poison") > 0.0 or ItemsData.get_item(String(m.hud.current()["id"])).get("poison", false):
+	var held: Dictionary = m.hud.current()
+	if Gear.effect(held, "poison") > 0.0 or ItemsData.get_item(String(held["id"])).get("poison", false):
 		c.poison_t = 4.0
 	# creatura Spinosa: colpirla da vicino ferisce anche il Germogliato
 	if c.ancient and c.ancient.has("spinosa") and player.position.distance_to(c.position) < 48.0:
 		_self_hurt(maxi(int(dmg * c.ancient.value("thorns")), 1))
 	if c.take_hit(dmg, from_x, maxf(force, 0.3)):
-		var burst := TraitsData.effect(tr, "burst")
+		var burst := Gear.effect(held, "burst")
 		fauna.kill(c)
 		if burst > 0.0:
 			# tratto Scoppio: la creatura abbattuta ferisce quelle vicine

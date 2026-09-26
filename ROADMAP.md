@@ -11,10 +11,12 @@
 - **Rimandate** (scelta dell'utente): voce 6 «Rete a 2»; dal Germogliato: armatura sugli sprite nuovi, colpo in corsa;
   mostri e boss con Nano Banana.
 - **Fatta la Roadmap 5 «Il Seme e i suoi geni»** (voci 41-48, 26 set 2026): resoconto in fondo alla Roadmap 5.
-- **Prossimo passo**: Roadmap 6 «La materia viva» (voce 49). L'utente dà la direzione e lascia a Claude ordine e
-  tecnica; chiede sempre un resoconto alla fine di un lavoro lungo.
-- **Contenuti oggi**: 426 oggetti (54 sono le Fiale dei geni), 242 ricette, 31 stazioni, 35 creature, 5 biomi di
-  superficie e 5 del sottosuolo, 5 strati, 8 Guardiani/Custodi, **54 geni** in 13 categorie, 12 firme dei mondi;
+- **Fatta la Roadmap 6 «La materia viva»** (voci 49-54, 26 set 2026): resoconto in fondo alla Roadmap 6.
+- **Prossimo passo**: Roadmap 7 «L'ecologia» (voce 55). L'utente dà la direzione e lascia a Claude ordine e tecnica;
+  chiede sempre un resoconto alla fine di un lavoro lungo.
+- **Contenuti oggi**: 1190 oggetti (768 sono armi, attrezzi e armature generati da 48 materiali × 16 forme; 54 le
+  Fiale dei geni), 994 ricette, 31 stazioni, 35 creature (tutte con debolezze), 6 elementi e 4 reazioni, 5 biomi di
+  superficie e 5 del sottosuolo, 5 strati, 8 Guardiani/Custodi, 54 geni in 13 categorie, 12 firme dei mondi;
   `tools/verifica_dati.gd` dà 0 errori e 0 avvisi.
 
 # Roadmap 1: «Le fondamenta» (dal 24 set 2026)
@@ -880,12 +882,27 @@ osso antico (creature rare dei mondi ancestrali). Il grezzo cade scavando le tes
 Materiali in tutto: 48 (8 metalli, 28 leghe, 12 dei geni), oggetti 1190. Anche le loro ricette si scoprono (la colonna
 Creare resta sotto le 300 righe).
 
-## 54. [ ] Innesti e qualità (M)
+## 54. [x] Innesti e qualità (M) — fatto il 26 set 2026
 Gli innesti dell'universo: posti d'innesto per attrezzo secondo la qualità di fabbricazione (che dipende dalla stazione,
 dai materiali e da un po' di fortuna); Essenze e parti di creatura come innesti; togliere un innesto costa. I tratti
 di oggi diventano innesti.
 **Pronto quando**: due attrezzi uguali possono essere molto diversi, e inseguire l'attrezzo perfetto è un obiettivo
 lungo.
+**Fatto il 26 set 2026**: ogni pezzo fabbricato nasce con una **qualità** (grezzo, buono, fine, capolavoro: danno e
+Scorza ×0,9-1,18, colpi un poco più svelti; il Maglio lavora meglio del Ceppo, la fortuna alza il tiro). I **posti
+d'innesto** sono 1 + i gradi oltre «buono» + la risonanza del materiale (al più 4): le Essenze si aggiungono nei posti
+liberi ("dati.innesti"), il tratto di nascita occupa il primo; al Maglio un innesto si toglie (5 polvere di brace,
+l'Essenza si perde). Tutti i tratti si sommano (`Gear.effect`) in combattimento, nell'armatura e nella Scorza. Il
+nome dice tutto: «Spada d'ambra capolavoro [Furia, Fulmine, Vastità]». Prova: tra due spade d'ambra la peggiore fa 12,
+la migliore 26. Deciso da Claude: la «qualità della stazione» vale per il Maglio contro gli altri banchi (le stazioni
+migliori arriveranno con l'Albero-Madre).
+
+# Roadmap 6 — resoconto (26 set 2026)
+Gli oggetti ora si **generano**: 48 materiali con proprietà (8 metalli, 28 leghe, 12 materiali che esistono solo nei
+mondi con il loro gene) × 16 forme, ognuna con il suo modo di colpire, 6 elementi con debolezze e reazioni, fasce,
+qualità e innesti. Da 426 a 1190 oggetti, e ogni singolo pezzo può essere diverso da un altro uguale. La moltiplicazione
+chiesta dalla filosofia: un gene nuovo porta un materiale, e il materiale porta 16 attrezzi. Prossima: Roadmap 7
+«L'ecologia».
 
 # Roadmap 7 «L'ecologia» — la fauna che vive
 

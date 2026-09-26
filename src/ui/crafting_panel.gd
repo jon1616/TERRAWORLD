@@ -25,6 +25,7 @@ const CATS := [
 
 var bisaccia: Bisaccia
 var stations_near: Callable            # () -> Dictionary delle stazioni a portata
+var luck: Callable                    # () -> float: la fortuna che alza la qualità dei pezzi fabbricati (voce 54)
 var held_slot: Callable                # () -> casella dell'oggetto in mano (per rinnovarne il tratto al Maglio)
 var cat := 0
 var _list: VBoxContainer
@@ -216,6 +217,9 @@ func refresh() -> void:
 				seen[e] = true
 				if TraitsData.can_graft(e, bisaccia.id_at(hs)):
 					_special.append(_graft_row(hs, e))
+		# voce 54: togliere un innesto
+		for t in (bisaccia.slots[hs].get("dati", {}) as Dictionary).get("innesti", []):
+			_special.append(_ungraft_row(hs, String(t)))
 	# voce 50: al Telaio, le fasce per il manico dell'oggetto in mano
 	if near.has("telaio") and held_slot.is_valid() and cat == 0:
 		var ws := int(held_slot.call())
@@ -275,7 +279,9 @@ func _graft_row(i: int, essence: String) -> Button:
 	var id := bisaccia.id_at(i)
 	var t := String(ItemsData.get_item(essence)["graft"])
 	var b := _plain_row(essence, true)
-	b.text = "Innesta: %s [%s]" % [ItemsData.get_item(id)["name"], TraitsData.TRAITS[t]["name"]]
+	var free := Gear.free_slots(bisaccia.slots[i])
+	b.text = "Innesta: %s [%s] — %s" % [ItemsData.get_item(id)["name"], TraitsData.TRAITS[t]["name"],
+		("posti liberi %d" % free) if free > 0 else "prende il posto del tratto"]
 	b.tooltip_text = "%s: %s" % [ItemsData.get_item(essence)["name"], TraitsData.TRAITS[t]["desc"]]
 	b.pressed.connect(func() -> void:
 		if Crafting.graft(bisaccia, i, essence) != "":
@@ -301,6 +307,23 @@ func _wrap_row(i: int, fascia: String) -> Button:
 	return b
 
 
+## La riga per togliere un innesto (voce 54): «Togli l'innesto Furia (5 Polvere di brace; l'Essenza si perde)».
+func _ungraft_row(i: int, t: String) -> Button:
+	var cost := ""
+	var can := true
+	for k in TraitsData.UNGRAFT_COST:
+		cost += "%d %s" % [TraitsData.UNGRAFT_COST[k], ItemsData.get_item(k)["name"]]
+		can = can and bisaccia.count(k) >= int(TraitsData.UNGRAFT_COST[k])
+	var b := _plain_row("maglio", can)
+	b.text = "Togli l'innesto %s (%s; l'Essenza si perde)" % [TraitsData.TRAITS[t]["name"], cost]
+	b.pressed.connect(func() -> void:
+		var id := bisaccia.id_at(i)
+		if Crafting.ungraft(bisaccia, i, t):
+			crafted.emit(id, 1)
+		refresh())
+	return b
+
+
 ## Una riga semplice (icona e testo) con lo stile della colonna.
 func _plain_row(icon_id: String, can: bool) -> Button:
 	var b := Button.new()
@@ -319,6 +342,6 @@ func _row(r: Dictionary) -> RecipeRow:
 	var b := RecipeRow.new()
 	b.setup(r, bisaccia)
 	b.pressed.connect(func() -> void:
-		if Crafting.craft(r, bisaccia):
+		if Crafting.craft(r, bisaccia, luck.call() if luck.is_valid() else 0.0):
 			crafted.emit(String(r["out"]), int(r["qty"])))
 	return b

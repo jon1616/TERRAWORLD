@@ -219,11 +219,10 @@ func sort_bag() -> void:
 
 
 func scorza() -> int:
-	var d := 0
+	var d := 0.0
 	for k in equip:
-		d += int(ItemsData.get_item(equip[k]).get("defense", 0))
-		d += int(TraitsData.effect(String(equip_traits.get(k, "")), "scorza"))
-	return d
+		d += float(Gear.stats(_worn(k))["defense"])   # voce 54: qualità, tratto e innesti del pezzo
+	return roundi(d)
 
 
 ## Indossa ciò che si tiene in mano nel posto giusto; restituisce ciò che torna in mano (il pezzo tolto, o la pila se

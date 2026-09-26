@@ -49,6 +49,21 @@ const TRAITS := {
 		"essence": true, "stealth": 0.7},
 }
 
+## Voce 54: la **qualità** di fabbricazione (nei "dati" della casella, "q"): moltiplica danno, Scorza e (poco) la
+## velocità, e dà i **posti d'innesto**: 1, più uno per ogni grado oltre «buono», più la risonanza del materiale
+## (`MaterialsData`), al più `MAX_SLOTS`. Gli oggetti non fabbricati (bottino, doni) valgono «buono».
+## Pesi del tiro secondo la stazione (il Maglio lavora meglio del Ceppo); la fortuna li sposta verso l'alto.
+const QUALITY := [
+	{"name": "grezzo", "color": "#9a8a80", "mult": 0.9, "speed": 0.97},
+	{"name": "buono", "color": "#cfeee4", "mult": 1.0, "speed": 1.0},
+	{"name": "fine", "color": "#8ef0d8", "mult": 1.08, "speed": 1.03},
+	{"name": "capolavoro", "color": "#ffd24a", "mult": 1.18, "speed": 1.06},
+]
+const QUALITY_WEIGHTS := {"maglio": [25, 45, 23, 7], "": [40, 45, 13, 2]}
+const MAX_SLOTS := 4
+## Togliere un innesto (al Maglio) costa questo: l'Essenza si perde.
+const UNGRAFT_COST := {"polvere_brace": 5}
+
 ## Peso del «nessun tratto» in ogni tiro.
 const NONE_WEIGHT := 18
 ## Rinnovare il tratto al Maglio costa questo.
