@@ -41,7 +41,7 @@ func _process(dt: float) -> void:
 	if _t > 0.0:
 		return
 	_t = EVERY
-	position = Vector2(get_viewport_rect().size.x - size.x - 16.0, 64.0)
+	position = Vector2(get_viewport_rect().size.x - size.x - 16.0, VitalsView.BOTTOM + 10.0)   # sotto Vita e Linfa
 	var w: World = m.world
 	var pc := Vector2i(floori(m.player.position.x / 16.0), floori(m.player.position.y / 16.0))
 	_origin = Vector2i(clampi(pc.x - TW / 2, 0, w.w - TW), clampi(pc.y - TH / 2, 0, w.h - TH))
