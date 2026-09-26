@@ -213,6 +213,7 @@ func incubate(o: Vector2i) -> void:
 		chest.changed.emit()
 		hatched += 1
 		m.objectives.bump("schiuse")
+		m.erbario.note_tamed(Herd.family_of(rec))                # voce 61
 		m.objectives.bump("addomesticate")
 		if (Vector2(o) * S).distance_to(m.player.position) < 30.0 * S:
 			Fx.puff(m.fx, Vector2(o) * S + Vector2(16, 8), Herd.HEARTS)

@@ -34,7 +34,7 @@ func setup(main: Node2D, e: Erbario) -> void:
 	_title.add_theme_color_override("font_color", Color("#8ef0d8"))
 	add_child(_title)
 	var x := 120.0
-	for sec in [["creature", "Creature"], ["oggetti", "Oggetti"], ["pagine", "Pagine di storia"]]:
+	for sec in [["creature", "Creature"], ["famiglie", "Famiglie"], ["oggetti", "Oggetti"], ["pagine", "Pagine di storia"]]:
 		var b := Button.new()
 		b.text = sec[1]
 		b.position = Vector2(x, 96)
@@ -81,7 +81,14 @@ func _unhandled_input(e: InputEvent) -> void:
 
 
 func _icon(id: String) -> Texture2D:
+	if section == "famiglie":
+		id = String(FamiliesData.FAMILIES[id]["members"][0])     # voce 61: la prima specie della famiglia
 	match section:
+		"famiglie":
+			if not _creature_tex.has(id):
+				var art0: Array = CreaturesData.CREATURES[id]["art"]
+				_creature_tex[id] = ImageTexture.create_from_image(CreatureArt.frames(String(art0[0]), int(art0[1]))["frames"][0])
+			return _creature_tex[id]
 		"creature":
 			if not _creature_tex.has(id):
 				var art: Array = CreaturesData.CREATURES[id]["art"]
@@ -107,9 +114,10 @@ static func _frame(b: Button, border: Color) -> void:
 
 func _refresh() -> void:
 	for k in _tabs.size():
-		_frame(_tabs[k], Color("#ffb84a") if ["creature", "oggetti", "pagine"][k] == section else Color("#2f7a70"))
-	_title.text = "Erbario — %d%% scoperto  (creature %d%% · oggetti %d%% · pagine %d%%)" % [roundi(erbario.percent()),
-		roundi(erbario.percent("creature")), roundi(erbario.percent("oggetti")), roundi(erbario.percent("pagine"))]
+		_frame(_tabs[k], Color("#ffb84a") if ["creature", "famiglie", "oggetti", "pagine"][k] == section else Color("#2f7a70"))
+	_title.text = "Erbario — %d%% scoperto  (creature %d%% · famiglie %d%% · oggetti %d%% · pagine %d%%)" % [roundi(erbario.percent()),
+		roundi(erbario.percent("creature")), roundi(erbario.percent("famiglie")), roundi(erbario.percent("oggetti")),
+		roundi(erbario.percent("pagine"))]
 	for c in _grid.get_children():
 		c.queue_free()
 	var list := Erbario.entries(section)
@@ -140,7 +148,8 @@ func _show_detail() -> void:
 		_detail.text = "[color=#6a8a84]Scegli una voce.[/color]"
 		return
 	if not erbario.known(section, selected):
-		_detail.text = "[color=#6a8a84]Non l'hai ancora scoperta.[/color]"
+		# voce 61: una famiglia mai incontrata dice dove cercarla
+		_detail.text = BestiaryInfo.hint(selected) if section == "famiglie" else "[color=#6a8a84]Non l'hai ancora scoperta.[/color]"
 		return
 	var t := "[font_size=24][color=#ffd08a]%s[/color][/font_size]\n\n" % Erbario.title_of(section, selected)
 	match section:
@@ -161,6 +170,7 @@ func _show_detail() -> void:
 				(weak if int(el[e]) > 0 else res).append(ElementsData.tag(String(e)))
 			t += "\nDebole a: %s · Resiste a: %s" % [", ".join(weak) if not weak.is_empty() else "[color=#6a8a84]?[/color]",
 				", ".join(res) if not res.is_empty() else "[color=#6a8a84]?[/color]"]
+			t += BestiaryInfo.creature_extra(m.character, selected)     # voce 61
 			var anc := int((erbario.data["antiche"] as Dictionary).get(selected, 0))
 			if anc > 0:
 				t += "
@@ -173,4 +183,6 @@ func _show_detail() -> void:
 					t += "%s %s\n" % [f[1], it[f[0]]]
 		"pagine":
 			t += String(LoreData.PAGES[selected]["text"])
+		"famiglie":
+			t += BestiaryInfo.family(m.character, selected) + "\n" + BestiaryInfo.coats_line(m.character)
 	_detail.text = t

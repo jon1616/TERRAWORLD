@@ -46,6 +46,11 @@ func done(id: String) -> bool:
 func _process(dt: float) -> void:
 	if not m.built:
 		return
+	# sotto i pannelli a schermo intero (Erbario, mandria, Semenzaio, mappa) la lista si nasconde: ci finiva sopra
+	var cover: bool = m.hud.map != null and m.hud.map.visible
+	for o in m.hud.overlays:
+		cover = cover or o.visible
+	_label.visible = not cover
 	# una notte superata: il contatore dei giorni è andato avanti mentre si giocava
 	if m.day.day != _last_day:
 		_last_day = m.day.day

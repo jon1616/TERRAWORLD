@@ -176,6 +176,7 @@ func touch_nest(o: Vector2i) -> bool:
 	if m.character.bisaccia.add_stack(egg) > 0:
 		m.drops.spawn("uovo", 1, Vector2(o) * 16.0, egg["dati"])
 	m.objectives.bump("uova")
+	m.erbario.note_nest(fam)                                      # voce 61
 	m.hud.toast("Un uovo di %s (%d nel nido)" % [fname, int(n["eggs"])])
 	return true
 

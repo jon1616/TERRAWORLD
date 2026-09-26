@@ -146,6 +146,7 @@ func tame(c: Creature, how: String) -> Dictionary:
 	m.sfx.play("incanto", pos)
 	h.add_record(rec)
 	m.objectives.bump("addomesticate")
+	m.erbario.note_tamed(FamiliesData.family_of(c.base))       # voce 61
 	var b := h.spawn(rec, "segue" if rec["stato"] == "segue" else "")
 	if b != null:
 		b.position = pos

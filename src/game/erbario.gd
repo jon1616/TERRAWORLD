@@ -16,11 +16,18 @@ signal discovered(section: String, id: String)
 func setup(main: Node2D) -> void:
 	m = main
 	data = m.character.erbario
-	for k in ["creature", "oggetti", "pagine", "antiche"]:
+	for k in ["creature", "oggetti", "pagine", "antiche", "famiglie"]:
 		if not data.has(k):
 			data[k] = {}
+	# voce 61: le famiglie delle creature già sconfitte (personaggi di prima)
+	for s in data["creature"]:
+		var f0 := FamiliesData.family_of(String(s))
+		if f0 != "":
+			data["famiglie"][f0] = 1
 	m.fauna.killed.connect(func(c: Creature) -> void:
 		add("creature", c.base)
+		if FamiliesData.family_of(c.base) != "":
+			add("famiglie", FamiliesData.family_of(c.base))
 		if c.id != c.base:
 			add_variant(c.id))
 	m.character.bisaccia.changed.connect(_scan)
@@ -68,6 +75,8 @@ static func entries(section: String) -> Array:
 				return not it.get("gen", false) and String(it.get("kind", "")) != "fiala")
 		"pagine":
 			return LoreData.PAGES.keys()
+		"famiglie":
+			return FamiliesData.FAMILIES.keys()          # voce 61
 	return []
 
 
@@ -79,6 +88,8 @@ static func title_of(section: String, id: String) -> String:
 			return String(ItemsData.get_item(id).get("name", id))
 		"pagine":
 			return String(LoreData.PAGES[id]["title"])
+		"famiglie":
+			return String(FamiliesData.FAMILIES[id]["name"])
 	return id
 
 
@@ -90,9 +101,23 @@ func known(section: String, id: String) -> bool:
 func percent(section := "") -> float:
 	var tot := 0
 	var got := 0
-	for sec in (["creature", "oggetti", "pagine"] if section == "" else [section]):
+	for sec in (["creature", "oggetti", "pagine", "famiglie"] if section == "" else [section]):
 		for id in entries(sec):
 			tot += 1
 			if known(sec, id):
 				got += 1
 	return 100.0 * got / maxi(tot, 1)
+
+
+## Voce 61: una creatura della famiglia addomesticata (o nata nell'Incubatrice), e un uovo preso da un suo nido.
+func note_tamed(fam: String) -> void:
+	add("famiglie", fam)
+	if not data.has("addomesticate"):
+		data["addomesticate"] = {}
+	data["addomesticate"][fam] = int(data["addomesticate"].get(fam, 0)) + 1
+
+
+func note_nest(fam: String) -> void:
+	if not data.has("nidi"):
+		data["nidi"] = {}
+	data["nidi"][fam] = 1

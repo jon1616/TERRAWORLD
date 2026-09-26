@@ -12,12 +12,14 @@
   mostri e boss con Nano Banana.
 - **Fatta la Roadmap 5 «Il Seme e i suoi geni»** (voci 41-48, 26 set 2026): resoconto in fondo alla Roadmap 5.
 - **Fatta la Roadmap 6 «La materia viva»** (voci 49-54, 26 set 2026): resoconto in fondo alla Roadmap 6.
-- **Prossimo passo**: Roadmap 7 «L'ecologia» (voce 55). L'utente dà la direzione e lascia a Claude ordine e tecnica;
-  chiede sempre un resoconto alla fine di un lavoro lungo.
-- **Contenuti oggi**: 1190 oggetti (768 sono armi, attrezzi e armature generati da 48 materiali × 16 forme; 54 le
-  Fiale dei geni), 994 ricette, 31 stazioni, 35 creature (tutte con debolezze), 6 elementi e 4 reazioni, 5 biomi di
-  superficie e 5 del sottosuolo, 5 strati, 8 Guardiani/Custodi, 54 geni in 13 categorie, 12 firme dei mondi;
-  `tools/verifica_dati.gd` dà 0 errori e 0 avvisi.
+- **Fatta la Roadmap 7 «L'ecologia»** (voci 55-61, 26 set 2026): resoconto in fondo alla voce 61.
+- **Prossimo passo**: Roadmap 8 «Il risveglio dell'Albero-Madre» (voce 62). L'utente dà la direzione e lascia a
+  Claude ordine e tecnica; chiede sempre un resoconto alla fine di un lavoro lungo.
+- **Contenuti oggi**: 1243 oggetti (768 sono armi, attrezzi e armature generati da 48 materiali × 16 forme; 54 le
+  Fiale dei geni), 1022 ricette, 39 stazioni, 47 creature in 36 famiglie (84 varianti per specie; 25 famiglie si
+  addomesticano, 10 manti), 6 elementi e 4 reazioni, 5 biomi di superficie e 5 del sottosuolo, 5 strati,
+  10 Guardiani/Custodi, 57 geni in 13 categorie, 12 firme dei mondi; `tools/verifica_dati.gd` dà 0 errori e 0 avvisi.
+  (`tools/elenco.gd` non compila più dalla Roadmap 6: `ItemsData.METALS` è passato a `MaterialsData`.)
 
 # Roadmap 1: «Le fondamenta» (dal 24 set 2026)
 
@@ -1012,10 +1014,26 @@ genitore raro passa il suo manto a metà dei figli. Prima di decidere, il pannel
 una coppia (400 figli di prova: intervalli dei numeri, manti con la percentuale, specie). Lo stesso modo di pensare
 del motore dei Semi (dominanza del raro, rarità, mutazioni), con le sue tabelle. 3 obiettivi. Foto 97_manti.
 
-## 61. [ ] L'Erbario vivo (S)
+## 61. [x] L'Erbario vivo (S) — fatto il 26 set 2026
 Ogni famiglia con le sue varianti, dove vive, cosa mangia, debolezze, nidi, prodotti, vista/sconfitta/addomesticata/
 allevata; percentuali per famiglia e totale.
 **Pronto quando**: l'Erbario dice sempre cosa manca e dove cercarlo (a grandi linee: «nei mondi con il gene…»).
+**Fatto il 26 set 2026**: l'Erbario ha la scheda **Famiglie** (36): per ognuna quello che il Germogliato ha
+scoperto giocando (`BestiaryInfo`) — che vita fa, le specie, le varianti viste (su 84 per specie), dove vive e la
+catena alimentare (dopo 3 sconfitte), i nidi (dopo averne trovato uno), se si addomestica e quanto è difficile, cosa
+mangia (dandole il cibo o dopo 3 sconfitte), cosa dà nel recinto, il dono e la cavalcatura (dopo averne addomesticata
+una), i manti visti nascere. Al posto di ogni riga che manca c'è un **indizio** di come scoprirla, e una famiglia mai
+incontrata dice **dove cercarla** a grandi linee (strati, biomi, di notte, «più comune nei mondi con il gene
+Pascoli/Cacciatori/Alveari», «se qui non c'è prova un altro Seme»). Le famiglie entrano nella percentuale
+dell'Erbario; sotto ogni creatura, la famiglia e le varianti viste. La lista degli obiettivi si nasconde sotto i
+pannelli a schermo intero (ci finiva sopra). Foto 98_erbario_famiglie.
+
+**Resoconto della Roadmap 7** (voci 55-61, 26 set 2026): la fauna è diventata un sistema che vive. Famiglie e
+varianti (36 famiglie × 84 varianti per specie), una fauna diversa per ogni mondo, predatori che cacciano ed erbivori
+che scappano e brucano, popolazioni per zona, nidi e migrazioni; poi la parte più grande, chiesta dall'utente:
+**addomesticare** (25 famiglie, tre modi, mandria che segue, combatte, cresce e aiuta, cinque cavalcature, recinti
+che producono anche mentre sei via, Vasetti, Incubatrice) e **allevare** (doti, coppie, uova, sei manti rari e il
+gigante solo allevando, anteprima dei figli). L'Erbario racconta tutto e dice cosa manca.
 
 # Roadmap 8 «Il risveglio dell'Albero-Madre» — il motivo
 

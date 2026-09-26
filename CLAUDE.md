@@ -102,7 +102,8 @@ Godot_console.exe --path . -- --prove            # --carica riapre il mondo di p
 Godot_console.exe --path . -- --prove --prova-portale
 # solo alcuni gruppi di prove (per provare in fretta una voce nuova): doni, antiche, pericoli, combattimento, tratti,
 # obiettivi, guardiani, rovine, mobilita, lanci, giardino, eventi, casa, abitanti, compagni, viaggio, semi,
-# biomi, biomi_nuovi, luoghi, corsa, raccolta, musica, germogliato, interfaccia, geni, forme (elenco in `AutoTests._group`)
+# biomi, biomi_nuovi, luoghi, corsa, raccolta, musica, germogliato, interfaccia, geni, forme, ecologia, mandria
+# (elenco in `AutoTests._group`)
 Godot_console.exe --path . -- --prove --solo=doni,antiche
 # suoni generati: prove/suoni/*.wav da ascoltare, con durata, picco e volume medio (segnala muti e distorti)
 Godot_console.exe --headless --path . --script res://tools/suoni.gd
@@ -357,6 +358,17 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   - `Crafting`: `craft` dà la qualità (`roll_quality`, la fortuna aiuta), `wrap` (fascia al Telaio), `graft`/`ungraft`
     (innesti al Maglio), `known` (le ricette delle leghe si scoprono). `GeneMaterials` — i materiali dei geni che
     cadono scavando (`PlayerActions.dig_hook`) o dalle creature. Icone delle forme nuove in `WeaponShapes`.
+- **Roadmap 7 «L'ecologia»**:
+  - `FamiliesData` (36 famiglie: ruolo, prede, nidi, migrazioni) e le varianti «specie~taglia~elemento~indole»
+    (`CreaturesData.get_data`, disegno in `VariantArt`); `Fauna.set_world` (famiglie favorite e assenti del mondo).
+  - `Ecology` — popolazioni per zona (`world_meta["popolazioni"]`), caccia (`BhCaccia`) e pascolo (`BhPascola`),
+    nidi (`world_meta["nidi"]`, `PassNidi`, `NestArt`, `touch_nest`: uovo, nutrire, distruggere) e migrazioni.
+  - La mandria: `HerdData` (chi si addomestica, cibo, prodotti, doni, cavalcature, oggetti), `Herd` (schede in
+    `Character.mandria`, stati segue/recinto/riposo, livelli, `bonuses()` per `GearEffects`, tasto R in sella),
+    `Taming` (cibo, Laccio, Vasetto), `Pens` (Recinto-mangiatoia, Incubatrice, tempo passato altrove con l'orologio,
+    coppie che fanno uova), `HerdInfo` (testi), `HerdPanel` (tasto G), `BhMandria` (la creatura della mandria in
+    scena: `Creature.tame`). Allevamento: `BreedData` (doti, manti) e `Breeding` (`child`, `odds`, `preview`).
+  - `BestiaryInfo` — l'Erbario vivo: la scheda Famiglie, con indizi per ciò che manca e dove cercare.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni
@@ -512,6 +524,10 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   prove dopo, che muovono il personaggio con i comandi simulati, lo trovavano fermo (26 set 2026).
 - Prima di lanciare il giro lungo, sempre il controllo di sintassi: una prova che non compila ferma il giro a metà
   senza chiudere il gioco (26 set 2026: fermo 13 minuti). Il giro si lancia con `timeout`.
+- Un test che finisce «sparito» senza una morte vista: chiedersi se il Germogliato è appassito ed è rinato al letto
+  (26 set 2026: la caccia falliva nel giro lungo perché arrivava con poca Vita). Le prove che durano partono con la
+  Vita piena, e annotano chi toglie le creature (`Fauna.killed`, `Vitals.died`).
+- Un nodo aggiunto con `add_child` riprende a lavorare: `set_process(false)` va chiamato **dopo** `add_child`.
 - La musica: se il brano da suonare è fermo del tutto riparte (`Musica._process`); un blocco di qualche secondo
   (generazione di un mondo) poteva farlo finire senza che il ricominciare lo vedesse.
 

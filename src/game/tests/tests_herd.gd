@@ -37,6 +37,7 @@ func run() -> void:
 	await pens(spot, h)
 	await jars_and_saves(h)
 	await breeding(spot, h)
+	await bestiary()
 	# si rimette la mandria com'era
 	h.ride(false)
 	for uid in h.beasts.keys():
@@ -314,3 +315,30 @@ func breeding(spot: Vector2i, h: Herd) -> void:
 	ps._scan()
 	if too_young == "" or paired != "" or egg.is_empty() or rare[1] <= rare[0] or float(p1["doti"]["resa"]) < 1.3:
 		print("ATTENZIONE: l'allevamento non funziona come dovrebbe")
+
+
+## Voce 61: l'Erbario vivo — la scheda Famiglie con quello che si è scoperto giocando (foto 98_erbario_famiglie).
+func bestiary() -> void:
+	var ep: ErbarioPanel = null
+	for o in m.hud.overlays:
+		if o is ErbarioPanel:
+			ep = o
+	var fams := 0
+	for f in FamiliesData.FAMILIES:
+		if m.erbario.known("famiglie", f):
+			fams += 1
+	var txt := BestiaryInfo.family(m.character, "pecore")
+	var plain := RegEx.create_from_string("\\[[^\\]]*\\]").sub(txt, "", true).strip_edges().replace("\n", " | ")
+	print("Erbario vivo: famiglie conosciute %d su %d (%.0f%%); pecore: %s" % [fams, FamiliesData.FAMILIES.size(),
+		m.erbario.percent("famiglie"), plain])
+	var lynx := RegEx.create_from_string("\\[[^\\]]*\\]").sub(BestiaryInfo.family(m.character, "linci"), "", true)
+	print("  linci (mai addomesticate): %s" % lynx.strip_edges().replace("\n", " | "))
+	if ep != null:
+		ep.section = "famiglie"
+		ep.selected = "pecore"
+		ep.toggle()
+		await kit.frames(4)
+		await kit.save("98_erbario_famiglie")
+		ep.toggle()
+	if fams == 0 or not txt.contains("Mangia:") or not txt.contains("Nel recinto"):
+		print("ATTENZIONE: l'Erbario non racconta le famiglie come dovrebbe")
