@@ -15,22 +15,28 @@ extends RefCounted
 ##   mola              Mola del gemmaio: anelli, bastoni e lame di gemma
 ## fixed = non si riprende col piccone; light_color = colore della luce (altrimenti brace); slots = contenitore
 
+## Il 26 set 2026 i banchi da lavoro, il tavolo e la sedia sono stati rimpiccioliti (erano alti quasi quanto il
+## Germogliato): `OLD_SIZE` sono le misure di prima, per spostare quelli già piazzati nei mondi salvati (`WorldSave`).
+const OLD_SIZE := {"ceppo": [3, 2], "baccello_ardente": [3, 2], "maglio": [2, 2], "telaio": [3, 2], "mola": [2, 2],
+	"paiolo": [2, 2], "tavolo": [3, 2], "sedia": [1, 2], "banco_innesti": [3, 2], "incubatrice": [2, 2],
+	"alambicco": [2, 2], "cesta": [2, 2], "scrigno": [2, 2], "reliquiario": [2, 2]}
+
 const STATIONS := {
-	"ceppo": {"name": "Ceppo del Giardiniere", "size": [3, 2], "item": "ceppo"},
-	"baccello_ardente": {"name": "Baccello ardente", "size": [3, 2], "item": "baccello_ardente", "light": true},
-	"maglio": {"name": "Maglio dei Seminatori", "size": [2, 2], "item": "maglio"},
-	"alambicco": {"name": "Alambicco di Linfa", "size": [2, 2], "item": "alambicco", "light": true,
+	"ceppo": {"name": "Ceppo del Giardiniere", "size": [2, 1], "item": "ceppo"},
+	"baccello_ardente": {"name": "Baccello ardente", "size": [2, 2], "item": "baccello_ardente", "light": true},
+	"maglio": {"name": "Maglio dei Seminatori", "size": [2, 1], "item": "maglio"},
+	"alambicco": {"name": "Alambicco di Linfa", "size": [2, 1], "item": "alambicco", "light": true,
 		"light_color": Color(0.3, 0.9, 0.9)},
-	"telaio": {"name": "Telaio di foglie", "size": [3, 2], "item": "telaio"},
-	"mola": {"name": "Mola del gemmaio", "size": [2, 2], "item": "mola"},
-	"paiolo": {"name": "Paiolo di radice", "size": [2, 2], "item": "paiolo", "light": true},
+	"telaio": {"name": "Telaio di foglie", "size": [2, 2], "item": "telaio"},
+	"mola": {"name": "Mola del gemmaio", "size": [2, 1], "item": "mola"},
+	"paiolo": {"name": "Paiolo di radice", "size": [2, 1], "item": "paiolo", "light": true},
 	# voce 35: porte e arredi (la porta chiusa riempie le sue celle di tessere `PORTA`, vedi `Masonry`)
 	"porta": {"name": "Porta", "size": [1, 3], "item": "porta_lanterna"},
 	"porta_aperta": {"name": "Porta aperta", "size": [1, 3], "item": "porta_lanterna"},
 	"lampada": {"name": "Lampada di lanterna", "size": [1, 2], "item": "lampada_lanterna", "light": true,
 		"light_color": Color(1.5, 1.1, 0.6)},
-	"tavolo": {"name": "Tavolo di radice", "size": [3, 2], "item": "tavolo_radice"},
-	"sedia": {"name": "Sedia di radice", "size": [1, 2], "item": "sedia_radice"},
+	"tavolo": {"name": "Tavolo di radice", "size": [3, 1], "item": "tavolo_radice"},
+	"sedia": {"name": "Sedia di radice", "size": [1, 1], "item": "sedia_radice"},
 	"letto": {"name": "Letto di foglie", "size": [3, 2], "item": "letto_foglie"},
 	"radice_viandante": {"name": "Radice viandante", "size": [2, 3], "item": "radice_viandante", "light": true,
 		"light_color": Color(0.6, 1.4, 1.3)},
@@ -53,10 +59,10 @@ const STATIONS := {
 		"light": true, "light_color": Color(1.2, 0.6, 0.3)},
 	"bozzolo_rotto": {"name": "Bozzolo vuoto", "size": [3, 3], "item": "", "fixed": true},
 	# voce 28: il reliquiario dei nascondigli murati, con una reliquia dentro
-	"reliquiario": {"name": "Reliquiario dei Seminatori", "size": [2, 2], "item": "", "fixed": true, "slots": 10,
+	"reliquiario": {"name": "Reliquiario dei Seminatori", "size": [2, 1], "item": "", "fixed": true, "slots": 10,
 		"light": true, "light_color": Color(0.9, 0.75, 0.35)},
-	"cesta": {"name": "Cesta di radici", "size": [2, 2], "item": "cesta", "slots": 20},
-	"scrigno": {"name": "Scrigno dei Seminatori", "size": [2, 2], "item": "scrigno", "slots": 20, "light": true,
+	"cesta": {"name": "Cesta di radici", "size": [2, 1], "item": "cesta", "slots": 20},
+	"scrigno": {"name": "Scrigno dei Seminatori", "size": [2, 1], "item": "scrigno", "slots": 20, "light": true,
 		"light_color": Color(0.2, 0.6, 0.55)},
 	# il fagotto di foglie dove il Germogliato è appassito, con la sua Bisaccia (voce 20): sparisce svuotato
 	"fagotto": {"name": "Fagotto del Germogliato", "size": [1, 1], "item": "", "fixed": true, "slots": 30, "light": true,
@@ -75,10 +81,10 @@ const STATIONS := {
 	"nido_formicaio": {"name": "Formicaio di resina", "size": [3, 2], "item": "", "fixed": true},
 	# voce 59: il Recinto (anche mangiatoia: le caselle) e l'Incubatrice
 	"recinto": {"name": "Recinto di radici", "size": [3, 2], "item": "recinto", "slots": 12},
-	"incubatrice": {"name": "Incubatrice di muschio", "size": [2, 2], "item": "incubatrice", "slots": 4, "light": true,
+	"incubatrice": {"name": "Incubatrice di muschio", "size": [2, 1], "item": "incubatrice", "slots": 4, "light": true,
 		"light_color": Color(0.4, 0.9, 0.7)},
 	# voce 47: il Banco dell'Innestatrice (clic destro: `InnestoPanel`)
-	"banco_innesti": {"name": "Banco dell'Innestatrice", "size": [3, 2], "item": "banco_innesti", "light": true,
+	"banco_innesti": {"name": "Banco dell'Innestatrice", "size": [3, 1], "item": "banco_innesti", "light": true,
 		"light_color": Color(0.5, 1.1, 0.9)},
 	# voce 46: la pianta-seme selvatica (clic destro: una Fiala di gene o un Seme selvatico, vedi `Sampling`)
 	"pianta_seme": {"name": "Pianta-seme", "size": [1, 2], "item": "", "fixed": true, "light": true,

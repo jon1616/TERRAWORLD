@@ -40,22 +40,6 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 						Px.put(im, x, y, c)
 						Px.put(gm, x, y, c)
 			Px.put(im, w / 2, 2, Color("#3aa08a"))
-		"tavolo":
-			for x in range(1, w - 1):
-				Px.put(im, x, 6, wd[4])
-				Px.put(im, x, 7, wd[3])
-				Px.put(im, x, 8, wd[2])
-			for lx in [4, w - 5]:
-				Px.line(im, Vector2(lx, 9.0), Vector2(lx + (1 if lx < w / 2 else -1), h - 1.0), 2, wd[2])
-			Px.put(im, w / 2, 5, Color("#ffb040"))
-			Px.put(gm, w / 2, 5, Color("#ffb040"))
-		"sedia":
-			Px.line(im, Vector2(4.0, 2.0), Vector2(4.0, h - 1.0), 2, wd[3])
-			for x in range(4, w - 2):
-				Px.put(im, x, h - 12, wd[4])
-				Px.put(im, x, h - 11, wd[2])
-			Px.line(im, Vector2(w - 4.0, h - 11.0), Vector2(w - 4.0, h - 1.0), 1, wd[2])
-			Px.put(im, 5, 4, Color("#3aa08a"))
 		"letto":
 			for x in range(1, w - 1):
 				Px.put(im, x, h - 6, wd[3])

@@ -58,8 +58,9 @@ func _chest_at(w: World, o: Vector2i) -> Vector2i:
 			w.set_decor(o.x + dx, o.y + dy, 0)
 		if not w.solid(o.x + dy, o.y + 2):
 			w.set_tile(o.x + dy, o.y + 2, TileDefs.PIETRA_SEM)
-	w.stations[o] = "scrigno"
-	return o
+	var so := o + Vector2i(0, 2 - int(StationsData.STATIONS["scrigno"]["size"][1]))          # appoggiato al pavimento (le casse sono basse)
+	w.stations[so] = "scrigno"
+	return so
 
 
 func _fill_chest(w: World, c: GenContext, o: Vector2i, id: String) -> void:

@@ -47,7 +47,7 @@ func _island(w: World, c: GenContext, p: Vector2i, half: int, chest: bool) -> vo
 		if c.rng.randf() < 0.7 and w.tree_fits(Vector2i(p.x + dx, p.y - 1)):
 			w.add_tree(Vector2i(p.x + dx, p.y - 1), c.rng.randi_range(0, PassAlberi.VARIANTS - 1))
 	if chest:
-		var o := Vector2i(p.x - 1, p.y - 2)
+		var o := Vector2i(p.x - 1, p.y - int(StationsData.STATIONS["scrigno"]["size"][1]))
 		for dy in 2:
 			for dx in 2:
 				w.set_decor(o.x + dx, o.y + dy, 0)

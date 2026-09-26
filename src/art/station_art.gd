@@ -1,9 +1,8 @@
 class_name StationArt
 extends RefCounted
 ## Le stazioni di fabbricazione disegnate dal codice, nello stile «Radici e Linfa», con la loro parte luminosa:
-##   ceppo             ceppo d'albero-lanterna intagliato in piano, anelli, radici, un germoglio e un coltellino
+##   (ceppo, maglio e banco dell'Innestatrice: in `CompactArt`)
 ##   baccello_ardente  baccello di pietra ardesia con la bocca di brace accesa e crepe che brillano
-##   maglio            blocco di legnoferro con il maglio appoggiato e rune dei Seminatori turchesi
 ##   cuore_mondo       il Cuore del mondo malato: un nodo grigio di radici con il cuore spento
 ##   cuore_vivo        lo stesso Cuore guarito: radici vive e un cuore di Linfa che brilla
 ##   portale           un arco di radici con un vortice di Linfa dentro
@@ -19,64 +18,28 @@ static func make(id: String) -> Dictionary:
 	var h: int = size[1] * S
 	var im := Px.img(w, h)
 	var gm := Px.img(w, h)
+	if CompactArt.draw(id, im, gm, w, h):          # banchi e mobili rimpiccioliti
+		Px.outline(im, OUT)
+		return {"img": im, "glow": gm}
 	match id:
-		"ceppo":
-			_ceppo(im, w, h)
 		"baccello_ardente":
 			_baccello(im, gm, w, h)
-		"maglio":
-			_maglio(im, gm, w, h)
 		"cuore_mondo":
 			_cuore(im, gm, w, h, false)
 		"cuore_vivo":
 			_cuore(im, gm, w, h, true)
 		"portale":
 			_portale(im, gm, w, h)
-		"cesta":
-			_cesta(im, w, h)
 		"fagotto":
 			_fagotto(im, gm, w, h)
-		"scrigno":
-			_scrigno(im, gm, w, h)
 		"aiuola":
 			_aiuola(im, gm, w, h)
 		"pianta_seme":
 			_pianta_seme(im, gm, w, h)
-		"banco_innesti":
-			_banco_innesti(im, gm, w, h)
 		_:
 			WorkshopArt.draw(id, im, gm, w, h)
 	Px.outline(im, OUT)
 	return {"img": im, "glow": gm}
-
-
-static func _ceppo(im: Image, w: int, h: int) -> void:
-	var bark := Px.pal(["#140c14", "#241624", "#362234", "#4c3246", "#62405a"])
-	var ring := Px.pal(["#6a4a3a", "#9a7258", "#c49a74", "#e2c09a"])
-	var cx := w / 2.0
-	# tronco: un po' più largo alla base, corteccia a righe verticali
-	for y in range(8, h - 1):
-		var hw := 15.0 + (y - 8) * 0.25
-		for x in range(int(cx - hw), int(cx + hw)):
-			var k := (x - (cx - hw)) / (2.0 * hw)
-			var c := bark[3] if k < 0.3 else (bark[2] if k < 0.75 else bark[1])
-			if (x * 5 + y) % 7 == 0:
-				c = bark[4]
-			Px.put(im, x, y, c)
-	# radici che escono ai lati
-	for side in [-1.0, 1.0]:
-		Px.line(im, Vector2(cx + side * 13.0, h - 5.0), Vector2(cx + side * 22.0, h - 1.0), 2, bark[2])
-	# piano di lavoro: la sezione con gli anelli
-	for y in range(3, 10):
-		for x in range(int(cx - 16), int(cx + 16)):
-			var d := Vector2((x + 0.5 - cx) / 16.0, (y + 0.5 - 6.5) / 3.6)
-			if d.length() <= 1.0:
-				Px.put(im, x, y, ring[3 - clampi(int(d.length() * 4.0), 0, 3)] if int(d.length() * 8.0) % 2 == 0 else ring[1])
-	# un germoglio sul bordo e un coltellino piantato
-	for q in [Vector2i(int(cx) + 12, 2), Vector2i(int(cx) + 13, 1), Vector2i(int(cx) + 11, 1)]:
-		Px.put(im, q.x, q.y, Color("#3aa08a"))
-	Px.line(im, Vector2(cx - 8.0, 6.0), Vector2(cx - 5.0, 1.0), 1, Color("#dce6f2"))
-	Px.put(im, int(cx) - 9, 7, bark[4])
 
 
 static func _baccello(im: Image, gm: Image, w: int, h: int) -> void:
@@ -106,30 +69,6 @@ static func _baccello(im: Image, gm: Image, w: int, h: int) -> void:
 	for crack in [[Vector2(cx - 10.0, 10.0), Vector2(cx - 6.0, 16.0)], [Vector2(cx + 9.0, 8.0), Vector2(cx + 12.0, 15.0)]]:
 		Px.line(im, crack[0], crack[1], 1, brace[2])
 		Px.line(gm, crack[0], crack[1], 1, brace[2])
-
-
-static func _maglio(im: Image, gm: Image, w: int, h: int) -> void:
-	var fe := Px.pal(TileDefs.P_LEGNOFERRO)
-	var bark := Px.pal(["#241624", "#362234", "#4c3246"])
-	var cx := w / 2.0
-	# blocco di legnoferro: largo sopra, stretto al centro, piede largo
-	for y in range(10, h - 1):
-		var hw := 14.0 if y < 15 else (8.0 if y < h - 6 else 12.0)
-		for x in range(int(cx - hw), int(cx + hw)):
-			var c := fe[2] if x < cx else fe[1]
-			if y == 10:
-				c = fe[3]
-			Px.put(im, x, y, c)
-	# rune dei Seminatori
-	var rune := Color("#5cc8cc")
-	for q in [Vector2i(int(cx) - 4, 18), Vector2i(int(cx) - 3, 19), Vector2i(int(cx) - 4, 20), Vector2i(int(cx) + 2, 18), Vector2i(int(cx) + 3, 20), Vector2i(int(cx) + 2, 21)]:
-		Px.put(im, q.x, q.y, rune)
-		Px.put(gm, q.x, q.y, rune)
-	# il maglio appoggiato: manico di radice e testa di legnoferro
-	Px.line(im, Vector2(cx - 12.0, 9.0), Vector2(cx + 8.0, 2.0), 2, bark[2])
-	for y in range(0, 8):
-		for x in range(int(cx + 6), int(cx + 14)):
-			Px.put(im, x, y, fe[3] if y < 2 else fe[2])
 
 
 ## Il Cuore del mondo: un groviglio di radici attorno a un cuore. Malato è grigio e spento; vivo brilla di Linfa.
@@ -214,29 +153,6 @@ static func _aiuola(im: Image, gm: Image, w: int, h: int) -> void:
 		Px.put(gm, sx + 1, top - 6 + (k % 2), sprout[4])
 
 
-## Banco dell'Innestatrice (voce 47): un piano di legnoferro su due gambe, una campana di vetro con la Linfa che
-## brilla, due Semi in attesa e il coltello da innesto.
-static func _banco_innesti(im: Image, gm: Image, w: int, h: int) -> void:
-	var iron := Px.pal(TileDefs.P_LEGNOFERRO)
-	var glass := Px.pal(TileDefs.P_VETRO)
-	var lin := Px.pal(TileDefs.P_CRYSTAL)
-	var amber := Px.pal(TileDefs.P_AMBRA)
-	for x in range(2, w - 2):                       # il piano
-		Px.put(im, x, 14, iron[2])
-		Px.put(im, x, 15, iron[1])
-	for y in range(16, h):                          # le gambe
-		for x in [4, 5, w - 6, w - 5]:
-			Px.put(im, x, y, iron[1])
-	Px.disc(im, 12.0, 9.0, 5.5, glass[1])           # la campana
-	Px.disc(im, 12.0, 9.0, 4.5, lin[2])
-	Px.disc(gm, 12.0, 9.0, 4.5, lin[3])
-	Px.disc(im, 11.0, 8.0, 1.5, lin[4])
-	for k in 2:                                     # due Semi
-		Px.disc(im, 26.0 + k * 6, 12.0, 2.0, amber[1 + k])
-		Px.disc(gm, 26.0 + k * 6, 11.5, 0.9, amber[3])
-	Px.line(im, Vector2(38, 13), Vector2(44, 9), 1, iron[3])     # il coltello
-
-
 ## Pianta-seme (voce 46): uno stelo ricurvo con due foglie e in cima un baccello d'ambra che brilla.
 static func _pianta_seme(im: Image, gm: Image, w: int, h: int) -> void:
 	var leaf := Px.pal(TileDefs.P_GRASS)
@@ -252,37 +168,6 @@ static func _pianta_seme(im: Image, gm: Image, w: int, h: int) -> void:
 
 
 ## Cesta di radici: intreccio di legno di lanterna, coperchio con una foglia.
-static func _cesta(im: Image, w: int, h: int) -> void:
-	var wood := Px.pal(["#3a2430", "#5a3a48", "#7a5462", "#9a7080"])
-	for y in range(8, h):
-		for x in range(2, w - 2):
-			Px.put(im, x, y, wood[2] if (x + y / 2) % 4 < 2 else wood[1])
-	for x in range(1, w - 1):
-		Px.put(im, x, 6, wood[3])
-		Px.put(im, x, 7, wood[2])
-	Px.put(im, w / 2, 5, Color(TileDefs.P_GRASS[3]))
-	Px.put(im, w / 2 + 1, 4, Color(TileDefs.P_GRASS[4]))
-
-
-## Scrigno dei Seminatori: pietra lavorata con il coperchio a cupola e una runa di Linfa accesa.
-static func _scrigno(im: Image, gm: Image, w: int, h: int) -> void:
-	var st := Px.pal(TileDefs.P_SEM)
-	for y in range(4, h):
-		for x in range(1, w - 1):
-			var lid := y < 12
-			var c := st[3] if lid else st[2]
-			if y == 12 or x == 1 or x == w - 2:
-				c = st[1]
-			Px.put(im, x, y, c)
-	for x in range(3, w - 3):
-		Px.put(im, x, 3, st[4])
-	var rune := Color("#6ff0d8")
-	for q in [Vector2i(w / 2, 14), Vector2i(w / 2, 15), Vector2i(w / 2, 16), Vector2i(w / 2 - 1, 15), Vector2i(w / 2 + 1, 15),
-			Vector2i(w / 2 - 2, 7), Vector2i(w / 2 + 2, 7), Vector2i(w / 2, 8)]:
-		Px.put(im, q.x, q.y, rune)
-		Px.put(gm, q.x, q.y, rune)
-
-
 ## Fagotto del Germogliato: un fagotto di foglie legato con una radice, con un filo di luce d'ambra (si ritrova al buio).
 static func _fagotto(im: Image, gm: Image, w: int, h: int) -> void:
 	var leaf := Px.pal(TileDefs.P_GRASS)

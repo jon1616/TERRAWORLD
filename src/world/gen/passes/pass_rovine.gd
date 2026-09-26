@@ -75,7 +75,7 @@ func _build(w: World, rng: RandomNumberGenerator, p: Vector2i, s: int, rich := 0
 	for x in range(p.x + 1, p.x + rw - 1, 4):
 		w.set_decor(x, p.y - rh, TileDefs.DECOR_RUNE)
 	# lo scrigno al centro del pavimento, con il bottino dello strato
-	var o := Vector2i(p.x + rw / 2 - 1, p.y - 1)
+	var o := Vector2i(p.x + rw / 2 - 1, p.y - int(StationsData.STATIONS["scrigno"]["size"][1]) + 1)
 	w.set_decor(o.x, o.y, 0)
 	w.set_decor(o.x + 1, o.y, 0)
 	w.set_decor(o.x, o.y + 1, 0)

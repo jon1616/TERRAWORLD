@@ -61,7 +61,7 @@ func _build(w: World, p: Vector2i, st: int, relic: String, rng: RandomNumberGene
 			w.decor[i] = 0
 	for x in range(p.x + 1, p.x + RW - 1, 3):
 		w.set_decor(x, p.y, TileDefs.DECOR_RUNE)
-	var o := Vector2i(p.x + RW / 2 - 1, p.y + RH - 2)
+	var o := Vector2i(p.x + RW / 2 - 1, p.y + RH - int(StationsData.STATIONS["reliquiario"]["size"][1]))
 	w.set_decor(o.x, o.y, 0)
 	w.set_decor(o.x + 1, o.y, 0)
 	w.stations[o] = "reliquiario"
