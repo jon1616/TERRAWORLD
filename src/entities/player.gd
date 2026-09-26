@@ -1,9 +1,12 @@
 class_name Player
 extends Node2D
-## Il personaggio: movimento, salto e animazione. I fotogrammi non sono disegnati a mano: nascono da una posa
+## Il personaggio: movimento, salto e animazione. Fermo e corsa usano gli sprite di Nano Banana (`HeroSprites`); le
+## altre pose (salto, colpo, mira, torcia) sono ancora disegnate dal codice: nascono da una posa
 ## (angoli di braccia e gambe) e vengono messi da parte la prima volta che servono.
 
-const HALF := Vector2(5, 13)
+## Il corpo che urta i blocchi: 10 x 30 pixel. Lo sprite è alto 36 (Nano Banana, 26 set 2026) ma il corpo resta sotto
+## i 32 dei cunicoli alti 2 blocchi (scelta dell'utente): il germoglio e la punta dei capelli sporgono sopra.
+const HALF := Vector2(5, 15)
 # Valori di base, senza modificatori (24 set 2026, richiesta dell'utente: più lento, salto di 3 blocchi, più fluido).
 const RUN := 95.0                      # velocità massima di corsa, px/s (~6 tessere al secondo)
 const ACCEL_GROUND := 750.0            # accelerazione a terra: ~0,13 s per arrivare alla velocità piena
@@ -64,6 +67,8 @@ var coyote := 0.0
 var jump_buf := 0.0
 var step_vis := 0.0
 var _cache := {}
+var _run_t := 0.0                      # posa della corsa degli sprite nuovi (vedi `HeroSprites`)
+var _idle_t := 0.0                     # tempo del respiro
 
 
 func setup(wd: World) -> void:
@@ -254,8 +259,11 @@ func _animate(dt: float) -> void:
 	else:
 		anim_t = 0.0
 		pose = CharacterArt.pose_idle()
-	var a := 0.0
 	var sw := swinging or force_swing
+	# gli sprite nuovi (fermo e corsa) quando le mani sono libere; il resto lo disegna ancora `CharacterArt`
+	if (key == "idle" or key.begins_with("run")) and not sw and is_nan(aim) and not carry and _hero(key, dt):
+		return
+	var a := 0.0
 	if sw:
 		swing_t += dt
 		var ph := fmod(swing_t, swing_period) / swing_period
@@ -284,8 +292,9 @@ func _animate(dt: float) -> void:
 		_cache[key] = {"tex": ImageTexture.create_from_image(d["img"]), "hand": d["hand"], "eye": d["eye"]}
 	var entry: Dictionary = _cache[key]
 	spr.texture = entry["tex"]
-	spr.position = Vector2(0, -3 + step_vis)
+	spr.position = Vector2(0, HALF.y - 16.0 + step_vis)     # il disegno del codice è 24 x 32, i piedi in fondo
 	eye.position = spr.position + (entry["eye"] as Vector2) - Vector2(12, 16)
+	eye.visible = true
 	rig.scale.x = facing
 	var holding := carry and not sw and is_nan(aim)
 	tool.visible = (sw or not is_nan(aim) or carry) and tool_tex != null
@@ -307,3 +316,35 @@ func _animate(dt: float) -> void:
 		var f := 1.0 + 0.18 * sin(_flicker * 17.0) + 0.1 * sin(_flicker * 29.0)
 		flame.modulate = carry_glow * f
 		flame.scale = Vector2(1.0, 0.9 + 0.15 * sin(_flicker * 13.0))
+
+
+## Fermo o corsa con gli sprite nuovi del Germogliato (vedi `HeroSprites`). Falso se mancano i file.
+func _hero(key: String, dt: float) -> bool:
+	var hero := HeroSprites.data()
+	var anim := "fermo" if key == "idle" else "corsa"
+	if not hero.has(anim):
+		return false
+	var d: Dictionary = hero[anim]
+	var k := 0
+	if anim == "corsa":
+		_idle_t = 0.0
+		# 12 pose al secondo a piena corsa, più lente se si va piano
+		_run_t += dt * absf(vel.x) / RUN * 12.0
+		k = int(_run_t) % 8
+	else:
+		_run_t = 0.0
+		_idle_t += dt
+		k = HeroSprites.breath_frame(_idle_t)
+	var sz: Vector2i = d["size"]
+	spr.texture = d["tex"][k]
+	# i piedi sul fondo del corpo, il centro della sagoma sul centro del corpo
+	var top_left := Vector2(-roundf(float(d["anchor"])), HALF.y - sz.y + step_vis)
+	spr.position = top_left + Vector2(sz) * 0.5
+	var e: Vector2 = d["eye"][k]
+	eye.visible = e != Vector2.INF
+	if eye.visible:
+		eye.position = top_left + e + Vector2(0.5, 1.0)        # l'occhio è alto 2 pixel: il bagliore al centro
+	rig.scale.x = facing
+	tool.visible = false
+	flame.visible = false
+	return true

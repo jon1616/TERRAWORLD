@@ -68,6 +68,10 @@ Godot_console.exe --headless --path . --script res://tools/prova_salvataggi.gd
 Godot_console.exe --headless --path . --script res://tools/verifica_dati.gd
 # elenco di tutto ciò che c'è nel gioco, per categorie (oggetti, creature, stazioni, tessere, tratti…)
 Godot_console.exe --headless --path . --script res://tools/elenco.gd
+# grafica del Germogliato da Nano Banana (Python): riferimento, tavole delle animazioni, respiro (vedi «Struttura»)
+python tools/pixela.py arte_ia/germogliato/00_profilo_fermo_v4.png --alto 36 --anteprima
+python tools/importa_tavola.py arte_ia/germogliato/01_corsa_v2.png --griglia 4x2 --nome corsa --alto 35
+python tools/respiro.py
 # mappe dei mondi: mappe/mondo_<seme>.png a metà grandezza (--intera per 1:1), tempi per passata, conteggi per seme
 Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20 --da 1
 ```
@@ -146,6 +150,16 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   quando c'è una creatura `boss` non curata entro 45 tessere (sottofondo in pausa, riprende da dov'era), ritorno dopo
   3 s di calma, dissolvenza di 4 s quando un brano ricomincia, più piano sotto terra. Volume `Settings.music`.
   `main.gd` si presenta con `Musica.attach(self)`. Prove `--solo=musica`.
+- `arte_ia/germogliato/` — i disegni del personaggio fatti dall'utente con Nano Banana (grandi, su magenta), con i nomi
+  dati da Claude (`00_profilo_fermo_v4.png` = riferimento, `01_corsa_v2.png`…). La cartella ha `.gdignore`: Godot non
+  la importa (come `prove/` e `mappe/`). Gli sprite del gioco nascono da qui con gli script Python di `tools/`:
+  `pixela.py` (da disegno grande a pixel art di 36 px come un pixel artist: tavolozza, moda per pixel, accenti fissi
+  per occhio d'oro, perlina e foglia, pulizia, contorno), `importa_tavola.py` (taglia una tavola nelle pose, toglie
+  scritte, linee e ombre che Nano Banana aggiunge sempre, allinea piedi e testa, stessa finestra, fattore e tavolozza
+  per tutte le pose) e `respiro.py` (il fermo che respira, fatto dal riferimento spostando pochi pixel). Risultato in
+  `arte/germogliato/<animazione>_<n>.png` + `tavolozza.png`, anteprime in `prove/germogliato_*.png/.gif`.
+  In gioco li carica `HeroSprites` (`src/art/`, occhio e centro del corpo ricavati da ogni posa); `Player._hero` li usa
+  da fermo e di corsa, le altre pose sono ancora di `CharacterArt`. Corpo 10×30 (sprite 36: passa nei cunicoli da 2).
 - `src/audio/` — `SfxSynth` (ricette di `SoundsData` → campioni PCM, limitatore, anelli senza cuciture per i
   sottofondi) e `Sfx` (modulo della scena: `play(id, punto)`, sottofondo dello strato generato in un thread e sfumato;
   `played` conta i suoni per le prove). I moduli lo chiamano con `m.sfx.play(...)`, `PlayerActions` con `sfx`.
@@ -390,6 +404,15 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   preso ogni modulo nel fotogramma peggiore della corsa; `--solo=raccolta` rifà il caso (mucchio di 20 oggetti con
   tutti i banchi attorno). Nello stesso giro: gli oggetti fermi a terra non rifanno la fisica e non chiedono posto
   alla Bisaccia se sono lontani (300 oggetti: da 6,6 a 0,85 ms per fotogramma).
+
+- Grafica con Nano Banana (26 set 2026): non sa disegnare a pixel grossi e, se gli si chiede di rimpicciolire
+  un'immagine data, restituisce la stessa. Si fa disegnare in grande (forme grandi, viso scoperto, occhio grande:
+  progettato per essere piccolo) e pixela lo script, uguale per tutte le pose. Le modifiche mirate riescono se piccole
+  (germoglio più piccolo, colore dell'occhio), non le girate del corpo. Le animazioni sottili (respiro) non si chiedono
+  a Nano Banana: le sue pose differiscono più di un pixel e tremolano. Un colore d'accento deve essere unico nella
+  figura (l'occhio oro #F0D848), altrimenti lo script lo confonde con la tunica.
+- Una cartella con immagini che il gioco non usa va segnata con `.gdignore`, altrimenti Godot le importa e finiscono
+  nel gioco esportato (succedeva con `prove/` e con i disegni grandi di `arte_ia/`).
 
 ## Convenzioni
 

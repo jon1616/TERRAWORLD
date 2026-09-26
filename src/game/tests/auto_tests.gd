@@ -85,6 +85,7 @@ func run(main: Node2D) -> void:
 	await TestsNewBiomes.new(kit).run()
 	await TestsBagCost.new(kit).run()
 	await TestsMusic.new(kit).run()
+	await TestsHero.new(kit).run()
 	await ob.run()
 	await w.run_and_save()
 	# la Bisaccia aperta
@@ -154,6 +155,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsBiomes.new(kit).run()
 		"luoghi":
 			await TestsWorld.new(kit).places()
+		"germogliato":
+			await TestsHero.new(kit).run()
 		"musica":
 			await TestsMusic.new(kit).run()
 		"raccolta":
