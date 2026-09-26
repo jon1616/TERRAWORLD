@@ -47,8 +47,15 @@ func run() -> void:
 		cp.cat = k
 		cp.refresh()
 		await kit.frames(1)
-		counts.append("%s %d" % [CraftingPanel.CATS[k][0], cp._list.get_child_count()])
+		counts.append("%s %d" % [CraftingPanel.CATS[k][0], cp.shown_rows()])
 	print("Creare, righe per categoria: %s" % ", ".join(counts))
+	# il suggerimento di una riga (le righe si riusano e lo scrivono solo quando il mouse ci passa sopra)
+	var tip := ""
+	for c in cp._list.get_children():
+		if c is CraftingPanel.RecipeRow and (c as Control).visible:
+			tip = (c as Control).get_tooltip(Vector2(5, 5))
+			break
+	print("Creare, suggerimento della prima ricetta: %s" % ("sì" if tip.strip_edges().length() > 3 else "NO"))
 	cp.cat = 0
 	cp.refresh()
 	await kit.seconds(1.0)
@@ -57,7 +64,7 @@ func run() -> void:
 	cp._search.text = "bastone"
 	cp.refresh()
 	await kit.frames(3)
-	print("Creare, Armi con la ricerca «bastone»: %d righe" % cp._list.get_child_count())
+	print("Creare, Armi con la ricerca «bastone»: %d righe" % cp.shown_rows())
 	await kit.seconds(0.5)
 	await kit.save("56_creare_armi")
 	cp._search.text = ""

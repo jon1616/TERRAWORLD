@@ -371,6 +371,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   Creare, **anche chiuso**, rifaceva a ogni cambio l'elenco delle ricette dei banchi a portata. Alla partenza le prove
   avevano piazzato tutti i banchi: una raccolta costava 103 ms (0,4 ms ora). I pannelli ascoltano `Bisaccia.changed`
   segnando soltanto «da ridisegnare» e si ridisegnano in `_process`, una volta per fotogramma e solo se si vedono.
+  L'elenco Creare **riusa le sue righe** (`RecipeRow`, una per ricetta, preparate poche per fotogramma a Bisaccia
+  chiusa; stili condivisi; suggerimento scritto solo al passaggio del mouse): rifarlo costa 9 ms invece di 106, e la
+  prima apertura 43 ms invece di 206.
   Trovato con `FrameProbe` (in `src/game/tests/`): una sonda dopo ogni figlio della scena di gioco dice quanto ha
   preso ogni modulo nel fotogramma peggiore della corsa; `--solo=raccolta` rifà il caso (mucchio di 20 oggetti con
   tutti i banchi attorno). Nello stesso giro: gli oggetti fermi a terra non rifanno la fisica e non chiedono posto
