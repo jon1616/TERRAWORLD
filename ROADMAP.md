@@ -906,12 +906,20 @@ chiesta dalla filosofia: un gene nuovo porta un materiale, e il materiale porta 
 
 # Roadmap 7 «L'ecologia» — la fauna che vive
 
-## 55. [ ] Creature componibili (L)
+## 55. [x] Creature componibili (L) — fatto il 26 set 2026
 `FamiliesData`: una **famiglia** (corpo, disegno di base, modo di muoversi) × **elemento** × **indole**
 (comportamento) × **taglia** × varianti di colore = molte creature da una famiglia. Il disegno varia con tavolozza,
 misura e piccoli pezzi aggiunti dal codice (corna, spine, bagliore). Le 27 creature di oggi diventano famiglie e
 varianti.
 **Pronto quando**: una famiglia nuova si scrive una volta e dà almeno 6 creature diverse nei mondi giusti.
+**Fatto il 26 set 2026**: `FamiliesData` (26 famiglie dalle specie di prima: i tre grumi sono una famiglia) e le
+**varianti** «specie~taglia~elemento~indole» (`CreaturesData.get_data`, `base_of`): taglia piccola o grande (Vita,
+danno, velocità, misura), sei elementi (colori dell'elemento, resiste al suo e teme l'opposto, brace/luce/Linfa
+brillano), tre indoli — **docile** (gironzola e non ferisce finché non la colpisci: la base dell'addomesticamento),
+**feroce** (più forte e svelta, punte sul dorso), **timida** (scappa). Disegno in `VariantArt` (nessun disegno nuovo:
+colori, misura e segni sul disegno della specie). Ogni famiglia dà 84 combinazioni (`verifica_dati` ne vuole almeno 6
+con nomi diversi). Nascono a caso secondo il pericolo, con l'elemento del luogo più probabile (`Fauna.elem_bias`).
+L'Erbario conta le specie e ricorda le varianti sconfitte. Foto 91_varianti. Prove `--solo=ecologia`.
 
 ## 56. [ ] Famiglie per gene (M)
 I geni di fauna decidono quali famiglie e quali varianti vivono in un mondo; 10-12 famiglie nuove (acquatiche pronte

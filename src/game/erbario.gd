@@ -19,7 +19,10 @@ func setup(main: Node2D) -> void:
 	for k in ["creature", "oggetti", "pagine", "antiche"]:
 		if not data.has(k):
 			data[k] = {}
-	m.fauna.killed.connect(func(c: Creature) -> void: add("creature", c.id))
+	m.fauna.killed.connect(func(c: Creature) -> void:
+		add("creature", c.base)
+		if c.id != c.base:
+			add_variant(c.id))
 	m.character.bisaccia.changed.connect(_scan)
 	m.guardian.lore.page_shown.connect(func(id: String) -> void: add("pagine", id))
 	_scan()
@@ -47,6 +50,13 @@ func _scan() -> void:
 
 
 ## Tutte le voci di una sezione, nell'ordine dei dati.
+## Una variante sconfitta (voce 55): `data["varianti"][id] = quante`.
+func add_variant(id: String) -> void:
+	if not data.has("varianti"):
+		data["varianti"] = {}
+	data["varianti"][id] = int(data["varianti"].get(id, 0)) + 1
+
+
 static func entries(section: String) -> Array:
 	match section:
 		"creature":

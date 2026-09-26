@@ -199,6 +199,24 @@ const CREATURES := {
 		"loot": "mietitore", "art": ["mietitore", 0], "strata": [], "weight": 0, "glow": true, "boss": true},
 }
 
+static var _variants := {}
+
+
+## I dati di una creatura: di una specie, o di una sua variante («specie~taglia~elemento~indole», voce 55, costruita
+## da `FamiliesData.make` e messa da parte).
+static func get_data(id: String) -> Dictionary:
+	if CREATURES.has(id):
+		return CREATURES[id]
+	if not _variants.has(id):
+		_variants[id] = FamiliesData.make(id)
+	return _variants[id]
+
+
+## La specie di una creatura (di una variante: la specie da cui nasce).
+static func base_of(id: String) -> String:
+	return id.get_slice("~", 0)
+
+
 ## Tetto di creature, ritmo e distanza delle nascite: vedi `DangerData` (voce 20).
 ## Distanza (tessere) oltre cui una creatura sparisce.
 const DESPAWN := 90

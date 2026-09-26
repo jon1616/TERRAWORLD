@@ -35,7 +35,7 @@ func _on_killed(c: Creature) -> void:
 	if not c.ancient:
 		return
 	var n: Dictionary = m.erbario.data["antiche"]
-	n[c.id] = int(n.get(c.id, 0)) + 1
+	n[c.base] = int(n.get(c.base, 0)) + 1
 	m.objectives.bump({"antica": "antiche", "ancestrale": "ancestrali", "capobranco": "capibranco",
 		"iridata": "iridate"}[c.ancient.rarity])
 

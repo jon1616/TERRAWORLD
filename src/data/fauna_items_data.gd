@@ -1,0 +1,79 @@
+class_name FaunaItemsData
+extends RefCounted
+## Gli oggetti delle famiglie della voce 56: i materiali che lasciano (e che producono nei recinti, voce 59), i trofei
+## delle rare e ciò che se ne fa. Uniti in `ItemsData.all()` e `RecipesData.all()`.
+
+const ITEMS := {
+	# materiali
+	"lana_muschio": {"name": "Lana di muschio", "kind": "materiale", "icon": ["seta", "muschio"], "desc": "Il vello turchese delle pecore di muschio: caldo, e profuma di bosco bagnato."},
+	"corno_radice": {"name": "Corno di radice", "kind": "materiale", "icon": ["aculeo", "radice"], "desc": "Un corno del cornoradice: legno vivo, duro come l'osso."},
+	"pelo_lepre": {"name": "Pelo di lepre", "kind": "materiale", "icon": ["seta", "seta"], "desc": "Soffice e leggero, con la punta che brilla di Linfa."},
+	"seta_bruco": {"name": "Seta di bruco", "kind": "materiale", "icon": ["seta", "ambra"], "desc": "Il filo dorato dei bruchi di lanterna. Al Telaio diventa seta di radice."},
+	"miele_lume": {"name": "Miele di lume", "kind": "materiale", "icon": ["goccia", "ambra"], "desc": "Il miele delle api di lume: fa luce anche nel vasetto."},
+	"resina_dolce": {"name": "Resina dolce", "kind": "materiale", "icon": ["gel", "brace"], "desc": "La resina che le formiche portano al formicaio: brucia a lungo."},
+	"ala_pipistrello": {"name": "Ala di pipistrello", "kind": "materiale", "icon": ["membrana", "radice"], "desc": "Una membrana sottile, che sente i suoni."},
+	"ala_libellula": {"name": "Ala di libellula", "kind": "materiale", "icon": ["membrana", "brina"], "desc": "Vetro di brina che vibra: leggerissima."},
+	"pelliccia_volpe": {"name": "Pelliccia di volpe", "kind": "materiale", "icon": ["seta", "ambra"], "desc": "Pelo d'ambra fitto e caldo."},
+	"zanna_lince": {"name": "Zanna di lince", "kind": "materiale", "icon": ["aculeo", "ardesia"], "desc": "Una zanna d'ardesia affilata come una lama."},
+	"boccone": {"name": "Boccone", "kind": "materiale", "icon": ["tubero", "sanguinella"], "desc": "Un boccone di carne tenera. I predatori addomesticati ne vanno matti."},
+	# trofei (solo le rare)
+	"vello_oro": {"name": "Vello d'oro", "kind": "trofeo", "icon": ["seta", "brillaluce"], "desc": "Il vello di una pecora di muschio rara: splende come il sole."},
+	"corno_maestro": {"name": "Corno maestro", "kind": "trofeo", "icon": ["aculeo", "ambra"], "desc": "Il corno di un cornoradice antico, con gli anelli di mille anni."},
+	"zampa_linfa": {"name": "Zampa di Linfa", "kind": "trofeo", "icon": ["artiglio", "cristallo"], "desc": "Porta fortuna a chi corre."},
+	"bozzolo_ambra": {"name": "Bozzolo d'ambra", "kind": "trofeo", "icon": ["gemma", "ambra"], "desc": "Un bozzolo che non si è mai aperto, e brilla."},
+	"ape_regina": {"name": "Ape regina di lume", "kind": "trofeo", "icon": ["goccia", "brillaluce"], "desc": "La regina di un alveare di lume, grande come un pugno."},
+	"formica_regina": {"name": "Formica regina", "kind": "trofeo", "icon": ["gel", "tizzonite"], "desc": "La regina di un formicaio di resina."},
+	"orecchio_eco": {"name": "Orecchio dell'eco", "kind": "trofeo", "icon": ["membrana", "nottilite"], "desc": "Sente anche i passi di chi non vuole farsi sentire."},
+	"ala_cristallo": {"name": "Ala di cristallo", "kind": "trofeo", "icon": ["membrana", "cristallo"], "desc": "L'ala di una libellula rara, trasparente come il ghiaccio."},
+	"coda_oro": {"name": "Coda di volpe d'oro", "kind": "trofeo", "icon": ["seta", "brillaluce"], "desc": "La coda di una volpe d'ambra antica."},
+	"occhio_lince": {"name": "Occhio di lince", "kind": "trofeo", "icon": ["occhio", "cristallo"], "desc": "Vede nel buio più fondo."},
+	# ciò che se ne fa
+	"veste_lana": {"name": "Veste di lana di muschio", "kind": "corazza", "icon": ["corazza", "muschio"], "defense": 3, "acc": {"regen": 1.1}, "desc": "Calda e morbida: la Vita ricresce un poco più in fretta."},
+	"elmo_corno": {"name": "Elmo di corno", "kind": "elmo", "icon": ["elmo", "radice"], "defense": 3, "desc": "Un elmo intagliato in un corno di radice."},
+	"stivali_lepre": {"name": "Stivali di pelo di lepre", "kind": "accessorio", "icon": ["stivali", "seta"], "acc": {"run": 1.1}, "desc": "Corsa +10%."},
+	"pozione_miele": {"name": "Pozione di miele", "kind": "cura", "icon": ["pozione", "ambra"], "heal": 60, "stack": 30, "desc": "Cura 60 di Vita."},
+	"cappuccio_volpe": {"name": "Cappuccio di volpe", "kind": "elmo", "icon": ["elmo", "ambra"], "defense": 2, "acc": {"run": 1.05}, "desc": "Caldo e leggero: corsa +5%."},
+	"collana_zanne": {"name": "Collana di zanne di lince", "kind": "accessorio", "icon": ["collana", "ardesia"], "acc": {"damage": 1.08}, "desc": "Danno +8%."},
+	"dardo_libellula": {"name": "Dardo di libellula", "kind": "munizione", "icon": ["freccia", "brina"], "damage": 5, "desc": "Leggero e dritto."},
+	"spiedino": {"name": "Spiedino di boccone", "kind": "consumabile", "icon": ["tubero", "brace"], "boon": ["sazio", 300.0], "stack": 30, "desc": "Sazio per cinque minuti: colpi, corsa e Vita un poco meglio."},
+	"mantello_vello": {"name": "Mantello di vello d'oro", "kind": "accessorio", "icon": ["mantello", "brillaluce"], "acc": {"regen": 1.2, "halo": 1.1}, "desc": "La Vita ricresce il 20% più in fretta, alone più ampio."},
+	"corno_mandriano": {"name": "Corno del mandriano", "kind": "accessorio", "icon": ["aculeo", "ambra"], "acc": {"luck": 0.15}, "desc": "Più fortuna nel bottino; le creature del Giardino lo riconoscono."},
+	"amuleto_lepre": {"name": "Amuleto della lepre", "kind": "accessorio", "icon": ["amuleto", "cristallo"], "acc": {"run": 1.15}, "desc": "Corsa +15%."},
+	"lanterna_bozzolo": {"name": "Lanterna di bozzolo", "kind": "accessorio", "icon": ["lanterna", "ambra"], "acc": {"halo": 1.3}, "desc": "Alone +30%."},
+	"corona_cera": {"name": "Corona di cera di lume", "kind": "accessorio", "icon": ["corona", "ambra"], "acc": {"regen": 1.25}, "desc": "La Vita ricresce il 25% più in fretta."},
+	"guanti_resina": {"name": "Guanti di resina", "kind": "accessorio", "icon": ["guanti", "brace"], "acc": {"dig": 1.2}, "desc": "Scavo e taglio +20%."},
+	"cappuccio_eco": {"name": "Cappuccio dell'eco", "kind": "accessorio", "icon": ["velo", "nottilite"], "acc": {"stealth": 0.75}, "desc": "Le creature ti notano più tardi."},
+	"ali_libellula": {"name": "Ali di libellula", "kind": "accessorio", "icon": ["ali", "cristallo"], "acc": {"jump": 1.15}, "desc": "Salto +15%."},
+	"stola_volpe": {"name": "Stola di volpe d'oro", "kind": "accessorio", "icon": ["mantello", "ambra"], "acc": {"run": 1.08, "damage": 1.05}, "desc": "Corsa +8%, danno +5%."},
+	"monocolo_lince": {"name": "Monocolo di lince", "kind": "accessorio", "icon": ["occhio", "ardesia"], "acc": {"luck": 0.2}, "desc": "Più fortuna nel bottino."},
+}
+
+const RECIPES := [
+	{"out": "veste_lana", "qty": 1, "in": {"lana_muschio": 14, "seta_radice": 4}, "station": "telaio"},
+	{"out": "elmo_corno", "qty": 1, "in": {"corno_radice": 4, "legno": 6}, "station": "ceppo"},
+	{"out": "stivali_lepre", "qty": 1, "in": {"pelo_lepre": 10, "seta_radice": 3}, "station": "telaio"},
+	{"out": "seta_radice", "qty": 3, "in": {"seta_bruco": 2}, "station": "telaio"},
+	{"out": "pozione_miele", "qty": 1, "in": {"miele_lume": 2, "gelatina": 1}, "station": "alambicco"},
+	{"out": "torcia", "qty": 8, "in": {"resina_dolce": 1, "legno": 2}, "station": ""},
+	{"out": "pozione_notte", "qty": 1, "in": {"ala_pipistrello": 2, "fungo_luminoso": 1}, "station": "alambicco"},
+	{"out": "dardo_libellula", "qty": 25, "in": {"ala_libellula": 1, "legno": 3}, "station": "ceppo"},
+	{"out": "cappuccio_volpe", "qty": 1, "in": {"pelliccia_volpe": 6, "seta_radice": 2}, "station": "telaio"},
+	{"out": "collana_zanne", "qty": 1, "in": {"zanna_lince": 6, "seta_radice": 3}, "station": "mola"},
+	{"out": "spiedino", "qty": 2, "in": {"boccone": 2, "fungo_brace": 1}, "station": "paiolo"},
+	{"out": "mantello_vello", "qty": 1, "in": {"vello_oro": 1, "lana_muschio": 10}, "station": "telaio"},
+	{"out": "corno_mandriano", "qty": 1, "in": {"corno_maestro": 1, "lingotto_ambra": 3}, "station": "maglio"},
+	{"out": "amuleto_lepre", "qty": 1, "in": {"zampa_linfa": 1, "cristallo_linfa": 4}, "station": "mola"},
+	{"out": "lanterna_bozzolo", "qty": 1, "in": {"bozzolo_ambra": 1, "seta_bruco": 6}, "station": "telaio"},
+	{"out": "corona_cera", "qty": 1, "in": {"ape_regina": 1, "miele_lume": 8}, "station": "alambicco"},
+	{"out": "guanti_resina", "qty": 1, "in": {"formica_regina": 1, "resina_dolce": 10}, "station": "telaio"},
+	{"out": "cappuccio_eco", "qty": 1, "in": {"orecchio_eco": 1, "ala_pipistrello": 6}, "station": "telaio"},
+	{"out": "ali_libellula", "qty": 1, "in": {"ala_cristallo": 1, "ala_libellula": 6}, "station": "telaio"},
+	{"out": "stola_volpe", "qty": 1, "in": {"coda_oro": 1, "pelliccia_volpe": 6}, "station": "telaio"},
+	{"out": "monocolo_lince", "qty": 1, "in": {"occhio_lince": 1, "vetro_resina": 2}, "station": "mola"},
+]
+
+## I trofei delle specie nuove (uniti in `TrophyItemsData.TROPHY_OF` da chi lo legge: vedi `trophy_of`).
+const TROPHY_OF := {"pecora_muschio": "vello_oro", "cornoradice": "corno_maestro", "lepre_linfa": "zampa_linfa",
+	"bruco_lanterna": "bozzolo_ambra", "ape_lume": "ape_regina", "formica_resina": "formica_regina",
+	"pipistrello_corteccia": "orecchio_eco", "libellula_brina": "ala_cristallo", "volpe_ambra": "coda_oro",
+	"lince_ardesia": "occhio_lince"}

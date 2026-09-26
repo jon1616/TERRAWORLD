@@ -5,7 +5,13 @@ extends Node2D
 ## subiti (danno, contraccolpo, lampo bianco) e la barra della vita.
 
 var id := ""
+var base := ""                         # la specie (per una variante, voce 55: quella da cui nasce)
 var data: Dictionary
+var docile := false                    # voce 55: non attacca finché non la colpisci
+var provoked := false
+var _docile_dmg := 0
+var _wander_t := 0.0
+var _wander_dir := 0.0
 var p: Dictionary                      # parametri dei comportamenti
 var world: World
 var target: Node2D
@@ -71,7 +77,8 @@ const POISON_DPS := 4.0
 
 func setup(cid: String, w: World, tgt: Node2D, sd: int) -> void:
 	id = cid
-	data = CreaturesData.CREATURES[cid]
+	base = CreaturesData.base_of(cid)
+	data = CreaturesData.get_data(cid)
 	p = data.get("p", {})
 	world = w
 	target = tgt
@@ -87,6 +94,10 @@ func setup(cid: String, w: World, tgt: Node2D, sd: int) -> void:
 	boss = bool(data.get("boss", false))
 	for b in data["behaviors"]:
 		behaviors.append(Behavior.make(b))
+	if data.get("docile", false):
+		docile = true
+		_docile_dmg = damage
+		damage = 0
 	var art: Array = data["art"]
 	_load_art(String(art[0]), int(art[1]))
 	_spr = Sprite2D.new()
@@ -116,9 +127,12 @@ func setup(cid: String, w: World, tgt: Node2D, sd: int) -> void:
 
 ## Fotogrammi di una forma e variante (messi da parte la prima volta: tutte le creature uguali li condividono).
 func _load_art(shape: String, variant: int) -> void:
-	var key := "%s_%d" % [shape, variant]
+	var mods: Dictionary = data.get("art_mods", {})
+	var key := "%s_%d_%s" % [shape, variant, str(mods)]
 	if not _art_cache.has(key):
 		var fr := CreatureArt.frames(shape, variant)
+		if not mods.is_empty():
+			fr = VariantArt.apply(fr, mods)            # voce 55: colori, misura e segni della variante
 		var t_fr := []
 		var t_gl := []
 		for im in fr["frames"]:
@@ -172,6 +186,8 @@ func _process(dt: float) -> void:
 	enraged = boss and hp < hp_max * float(p.get("phase2", 0.0))
 	if calm:
 		want_fly = Vector2(sin(_anim) * 10.0, -6.0)
+	elif docile and not provoked:
+		_wander(dt)                            # docile: gironzola finché qualcuno non la colpisce
 	elif stun <= 0.0 or boss:
 		for b in behaviors:
 			b.tick(self, dt)
@@ -280,7 +296,31 @@ func _animate(dt: float) -> void:
 
 
 ## Colpo subito: toglie Vita (meno metà della difesa), spinge via, fa lampeggiare. True se la creatura muore.
+## Gironzola senza badare a nessuno (le docili non provocate, voce 55).
+func _wander(dt: float) -> void:
+	_wander_t -= dt
+	if _wander_t <= 0.0:
+		_wander_t = rng.randf_range(1.5, 4.0)
+		_wander_dir = [-1.0, 0.0, 1.0][rng.randi_range(0, 2)]
+	if fly:
+		want_fly = Vector2(_wander_dir * speed * 0.4, sin(_anim * 1.3) * 12.0)
+		return
+	if on_floor and _wander_dir != 0.0 and not ground_ahead(int(_wander_dir)):
+		_wander_dir = -_wander_dir
+	want_x = _wander_dir * 0.5
+	if _wander_dir != 0.0:
+		facing = int(_wander_dir)
+
+
+## Una docile colpita si arrabbia: attacca e fa danno come le altre.
+func provoke() -> void:
+	if docile and not provoked:
+		provoked = true
+		damage = _docile_dmg
+
+
 func take_hit(dmg: int, from_x: float, force: float) -> bool:
+	provoke()
 	if weak_t > 0.0:
 		dmg = roundi(dmg * ElementsData.VULNERABLE)
 	var real := maxi(dmg - defense / 2, 1)

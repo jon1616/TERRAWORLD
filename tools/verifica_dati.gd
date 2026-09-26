@@ -355,6 +355,20 @@ func _check_materials() -> void:
 		_err(ItemsData.has(String(gd["raw"]["id"])) and not RecipesData.making("lingotto_" + g).is_empty(), "materiale %s senza grezzo o lingotto" % g)
 		_err(gd["raw"].has("tiles") or gd["raw"].has("kill"), "materiale %s: da dove viene?" % g)
 	_err(best_all == 0, "%d leghe battono tutti i metalli in tutto" % best_all)
+	# voce 55: le famiglie
+	for f in FamiliesData.FAMILIES:
+		for s in FamiliesData.FAMILIES[f]["members"]:
+			_err(CreaturesData.CREATURES.has(s), "famiglia %s: specie inesistente %s" % [f, s])
+		var s0 := String(FamiliesData.FAMILIES[f]["members"][0])
+		var names := {}
+		for sz in ["", "piccolo", "grande"]:
+			for el in [""] + FamiliesData.ELEM_ADJ.keys():
+				for tp in ["", "docile", "feroce"]:
+					names[String(CreaturesData.get_data(FamiliesData.variant_id(s0, sz, el, tp))["name"])] = true
+		_err(names.size() >= 6, "famiglia %s: solo %d varianti" % [f, names.size()])
+	for cid in CreaturesData.CREATURES:
+		var cd: Dictionary = CreaturesData.CREATURES[cid]
+		_warn(cd.get("boss", false) or FamiliesData.family_of(cid) != "", "creatura %s senza famiglia" % cid)
 	for fa in FormsData.FASCE:
 		_err(ItemsData.has(String(FormsData.FASCE[fa]["item"])), "fascia %s: materiale inesistente" % fa)
 	print("materiali %d × forme %d; scarto massimo dai valori di prima %d%%" % [MaterialsData.all().size(),

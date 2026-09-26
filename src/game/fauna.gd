@@ -104,7 +104,7 @@ func kill(c: Creature) -> void:
 			drops.spawn(String(AncientData.TRAITS[t]["essence"]), 1, c.position + Vector2(_rng.randf_range(-8, 8), -6))
 		# il trofeo della specie: bottino che lasciano solo le rare (voce 23)
 		var rd: Dictionary = AncientData.RARITIES[c.ancient.rarity]
-		var trophy := String(TrophyItemsData.TROPHY_OF.get(c.id, ""))
+		var trophy := String(TrophyItemsData.TROPHY_OF.get(c.base, ""))
 		if trophy != "" and _rng.randf() < float(rd.get("trophy", 0.0)):
 			drops.spawn(trophy, 1, c.position + Vector2(0, -10))
 		if rd.has("dust"):
@@ -198,7 +198,9 @@ func try_spawn() -> Creature:
 	var id := _pick(choices)
 	if not event_pool.is_empty() and _rng.randf() < 0.6:
 		id = String(event_pool[_rng.randi_range(0, event_pool.size() - 1)])   # l'evento sceglie le sue creature
-	var fly: bool = CreaturesData.CREATURES[id].get("fly", false)
+	# voce 55: una variante della specie (taglia, elemento e indole), con l'elemento del luogo più probabile
+	id = FamiliesData.roll_variant(id, _rng, elem_bias(stratum, biome), danger)
+	var fly: bool = CreaturesData.get_data(id).get("fly", false)
 	# uno spazio d'aria di 2×2; chi non vola ha bisogno anche del terreno sotto (lo si cerca scendendo un poco)
 	for k in 12:
 		var y := c.y + (k if not fly else 0)
@@ -207,10 +209,10 @@ func try_spawn() -> Creature:
 				return null                # la luce delle torce tiene lontane le creature
 			if stratum > 0 and not _dark(Vector2i(c.x, y)):
 				return null                # sotto terra si nasce solo al buio
-			var cr := add(id, Vector2(c.x * S + 8, (y + 1) * S - CreaturesData.CREATURES[id]["half"][1] - 0.1))
+			var cr := add(id, Vector2(c.x * S + 8, (y + 1) * S - CreaturesData.get_data(id)["half"][1] - 0.1))
 			var mult := float(StrataData.STRATA[stratum]["danger"]) * vigor_mult
 			cr.strengthen(mult, mult * DangerData.DAMAGE)
-			var grouped: bool = CreaturesData.CREATURES[id].has("group")
+			var grouped: bool = CreaturesData.get_data(id).has("group")
 			var rarity := AncientData.roll_rarity(DangerData.at(world, Vector2i(c.x, y), night, vigor) + event_danger, _rng,
 				grouped, rare_mult * event_rare * world_rare)
 			if rarity != "":
@@ -226,7 +228,7 @@ func try_spawn() -> Creature:
 
 ## Gli sciami (campo `group` in `CreaturesData`): con la prima nascono le compagne, che non contano nel tetto.
 func _group(first: Creature, id: String, mult: float) -> void:
-	var g: Array = CreaturesData.CREATURES[id].get("group", [])
+	var g: Array = CreaturesData.get_data(id).get("group", [])
 	if g.is_empty():
 		return
 	for k in _rng.randi_range(int(g[0]), int(g[1])) - 1:
@@ -264,6 +266,13 @@ func make_ancient(cr: Creature, rarity: String, traits: Array = []) -> void:
 		cr.damage = 0
 	if rarity in ["ancestrale", "iridata"] and cr.position.distance_to(player.position) < AncientData.ANNOUNCE * S:
 		rare_spawned.emit(cr)
+
+
+## L'elemento più probabile delle varianti in un luogo (voce 55): dal bioma in superficie, dallo strato sotto terra.
+func elem_bias(stratum: int, biome: String) -> String:
+	if stratum == 0:
+		return {"brina": "gelo", "cenere": "brace", "palude": "spora", "ambra": "luce", "foresta": "linfa"}.get(biome, "")
+	return ["", "spora", "gelo", "linfa", "vuoto"][clampi(stratum, 0, 4)]
 
 
 ## Una cella è al buio? Fuori dalla finestra della luce si considera buia (è lontana da ogni torcia vista).

@@ -10,9 +10,9 @@ static func hit(combat: Combat, c: Creature, elem: String, dmg: int) -> int:
 	if not ElementsData.ELEMENTS.has(elem):
 		return dmg
 	var m: Node2D = combat.m
-	var aff := ElementsData.affinity(c.id, elem)
-	if aff != 1.0:
-		_remember(m, c.id, elem, 1 if aff > 1.0 else -1)
+	var aff := affinity(c, elem)
+	if aff != 1.0 and not c.data.has("variant"):
+		_remember(m, c.base, elem, 1 if aff > 1.0 else -1)
 	var out := float(dmg) * aff
 	var r := ElementsData.reaction(c.elem, elem) if c.elem != "" and c.elem != elem and c.elem_t > 0.0 else {}
 	if not r.is_empty():
@@ -52,6 +52,16 @@ static func hit(combat: Combat, c: Creature, elem: String, dmg: int) -> int:
 	c.elem = elem
 	c.elem_t = ElementsData.MARK_TIME
 	return maxi(roundi(out), 1)
+
+
+## Debolezza o resistenza di una creatura: prima quelle della sua variante (voce 55: un grumo gelido resiste al gelo
+## e teme la brace), poi quelle della specie.
+static func affinity(c: Creature, elem: String) -> float:
+	if elem in c.data.get("weak", []):
+		return ElementsData.WEAK
+	if elem in c.data.get("resist", []):
+		return ElementsData.RESIST
+	return ElementsData.affinity(c.base, elem)
 
 
 ## L'Erbario ricorda debolezze (1) e resistenze (-1) scoperte: `erbario["elementi"][creatura][elemento]`.
