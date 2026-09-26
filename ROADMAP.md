@@ -5,9 +5,13 @@
   crescere» (21-30 + extra), Roadmap 4 «Un mondo da abitare» (31-40), il fotogramma lento del giro lungo (pannelli che
   si ridisegnavano a ogni raccolta, vedi CLAUDE.md), la musica (autoload `Musica`, file in `musica/`) e il Germogliato
   di Nano Banana (sezione in fondo: tutte le tavole importate e in gioco).
-- **Aperte**: voce 6 «Rete a 2» (mai cominciata); dal Germogliato: armatura sugli sprite nuovi, colpo in corsa.
-- **Prossimo passo**: da decidere con l'utente tra le proposte della Roadmap 5 (in fondo) e le voci aperte. L'utente dà
-  la direzione e lascia a Claude ordine e tecnica; chiede sempre un resoconto alla fine di un lavoro lungo.
+- **La direzione (decisa con l'utente il 26 set 2026)**: «Il Giardiniere dei mondi», il piano delle Roadmap 5-11 in
+  fondo a questo file; la filosofia che lo regge è in CLAUDE.md («La filosofia del gioco»). Priorità dell'utente:
+  vastità, profondità, avventura e ricerca; grafica, rifinitura del movimento, armatura sugli sprite e rete **dopo**.
+- **Rimandate** (scelta dell'utente): voce 6 «Rete a 2»; dal Germogliato: armatura sugli sprite nuovi, colpo in corsa;
+  mostri e boss con Nano Banana.
+- **Prossimo passo**: voce 41 (versione dei salvataggi), poi la Roadmap 5 in ordine. L'utente dà la direzione e lascia
+  a Claude ordine e tecnica; chiede sempre un resoconto alla fine di un lavoro lungo.
 - **Contenuti oggi**: 355 oggetti, 239 ricette, 28 stazioni, 35 creature, 5 biomi di superficie, 5 strati, 8
   Guardiani/Custodi, 5 specie di Seme e 10 tratti di mondo; `tools/verifica_dati.gd` dà 0 errori e 0 avvisi.
 
@@ -623,15 +627,305 @@ Come si è lavorato (per le prossime tavole, per esempio mostri e boss): prompt 
 Claude, l'utente genera con Gemini e salva in `arte_ia/<soggetto>/` con il nome dato da Claude, poi `importa_tavola.py`
 e prova in gioco. Le lezioni (cosa Nano Banana sa e non sa fare) sono in CLAUDE.md, «Lezioni già imparate».
 
-# Roadmap 5 — proposte (da decidere con l'utente)
-- **Armatura sul Germogliato**: tunica e pantaloni con i colori del metallo indossato (colori scambiati nella tavolozza
-  degli sprite), l'elmo come calotta sui capelli di foglie.
-- **Mostri e boss con Nano Banana**: lo stesso metodo del Germogliato per i Guardiani e i Custodi (tavole di attacco,
-  ferita, sconfitta) e per le creature più importanti.
-- **Biomi del sottosuolo**: fungaie giganti nel Sottobosco, geodi di brina, fiumi di brace nel profondo, ognuno con le
-  sue creature e i suoi materiali (lo spazio nei dati c'è già: specie e strati).
-- **Un Custode per bioma**: il Grande Cervo di brina e la Madre delle salamandre, con le loro tane in superficie.
-- **Abitanti che crescono**: missioni degli abitanti, affetto (sconti), una casa per ciascuno, altri abitanti (il
-  Cartografo che vende mappe dei mondi, la Tessitrice di semi che cambia i tratti di un Seme di mondo).
-- **Alleati che crescono**: livelli dei compagni, bastoni evocatori più forti per ogni strato, ordini semplici.
-- **Scegliere la specie di un mondo nuovo dal menu** (oggi la sceglie solo l'Altare).
+# Il piano «Il Giardiniere dei mondi» (Roadmap 5-11, deciso il 26 set 2026)
+
+Richiesta dell'utente: un gioco «molto più vasto, vario e profondo di Terraria», pressoché infinito, con sempre cose da
+fare, cercare ed esplorare **e un motivo per farlo**; grafica e rifinitura dopo. La filosofia è in CLAUDE.md.
+
+**Il giro che si ripete all'infinito**: l'Albero-Madre (e gli abitanti) chiedono qualcosa → serve un gene, un
+materiale o una creatura che non si ha → si **innestano due Semi** per ottenere un mondo che probabilmente lo contiene →
+lo si esplora → si trova ciò che si cercava **e** l'imprevisto (geni nuovi, mutazioni, tracce dei Seminatori) → si
+torna → l'Albero cresce e chiede altro.
+
+**Un solo motore, riusato ovunque**: la genetica (geni con dominanza e rarità, eredità, mutazioni) nasce per i Semi
+(Roadmap 5) e si riusa per le creature allevate (Roadmap 7) e i Guardiani generati (Roadmap 11). I materiali con
+proprietà (Roadmap 6) fanno sì che ogni gene di minerale porti subito decine di attrezzi.
+
+Ordine: prima il motore (5), poi ciò che il motore moltiplica (6 materia, 7 fauna), poi il motivo (8 Albero-Madre),
+poi il racconto sopra il motore (9 Seminatori), poi le meccaniche fisiche nuove come geni rari (10), poi il fine gioco
+senza fine (11). Ogni Roadmap lascia il gioco completo e giocabile; ogni voce ha il suo «pronto quando».
+Dimensioni: S piccola, M media, L grande.
+
+# Roadmap 5 «Il Seme e i suoi geni» — il motore dell'infinito
+
+## 41. [ ] Versione dei salvataggi e migrazioni (S)
+Il piano cambia la forma di oggetti, Semi e creature: ogni salvataggio (mondo, `mondo.json`, personaggio) riceve un
+numero di versione e una catena di migrazioni (`SaveMigrations`: da 1 a 2, da 2 a 3…), così i mondi e i personaggi di
+oggi restano giocabili fino alla fine del piano. Le caselle della Bisaccia diventano capaci di portare dati propri
+(oggi il solo «tratto»): un campo `dati` generico, che servirà al genoma dei Semi e ai componenti degli attrezzi.
+**Pronto quando**: un salvataggio di oggi si apre, migra e risalva identico; `tools/prova_salvataggi.gd` prova anche
+la migrazione.
+
+## 42. [ ] Il genoma del Seme (L)
+`GenesData`: i geni, in **categorie** che corrispondono alle parti del generatore — clima e biomi di superficie,
+suolo e strati, grotte, minerali e gemme, flora, fauna, strutture, cielo ed eventi, «leggi» (dalla Roadmap 10).
+Ogni gene: nome dell'universo, rarità (comune, robusto, antico, stellare), dominanza, geni con cui non va d'accordo,
+cosa fa. Un Seme di mondo porta un **genoma** (pochi geni, uno o due per categoria, più il vigore) nei `dati` della
+casella. Le 5 specie e i 10 tratti di oggi diventano geni (migrazione dei portali esistenti). Scheda del Seme in
+Esamina: geni noti in chiaro, quelli mai visti come «?».
+**Pronto quando**: ogni Seme ha un genoma leggibile, i portali di oggi lo hanno ricevuto, `verifica_dati` controlla i
+geni (riferimenti, incompatibilità, ogni gene ottenibile).
+
+## 43. [ ] Il generatore guidato dai geni (L)
+Ogni categoria di geni entra nella sua passata: biomi (peso e forma), strati (rocce e sacche diverse per gene), grotte
+(«Cavo», «Compatto», «Alveare»…), minerali (quali vene e dove), flora, fauna (quali famiglie compaiono), strutture.
+Sottosuolo con i biomi propri come geni (fungaie giganti nel Sottobosco, geodi di brina, fiumi di brace nel
+profondo), primi 20-25 geni in tutto. `tools/mappe.gd` stampa il genoma sotto ogni mappa e una **misura della
+varietà** (quanto due mondi differiscono: biomi, rocce, grotte, fauna).
+**Pronto quando**: 20 Semi a caso danno 20 mappe riconoscibili a occhio; la misura della varietà non scende sotto una
+soglia scelta insieme.
+
+## 44. [ ] La firma di ogni mondo (M)
+**Regola d'oro del piano**: ogni mondo ha almeno una cosa che si trova **solo lì**, scelta dal genoma e dal seme:
+un luogo speciale (albero colossale, lago di Linfa, cratere di stelle, foresta pietrificata…), una variante di
+creatura, una vena unica. Il mondo riceve un **nome** generato dal genoma («Paludi cristalline di Vel-Arim»), una
+descrizione e la firma, mostrati sul portale e nel registro. Almeno 12 firme diverse per cominciare, scritte come dati.
+**Pronto quando**: ogni mondo generato ha nome e firma, e la firma si trova davvero (prova: la cerca e la raggiunge).
+
+## 45. [ ] Le Aiuole e il registro dei mondi (M)
+I portali si piantano nelle **Aiuole** (stazione del Giardino, con un numero limitato che crescerà con l'Albero-Madre):
+il mondo casa diventa il centro della rete. Il **Semenzaio** (pannello, tasto dedicato) elenca i mondi aperti: nome,
+genoma, vigore, firma (trovata o no), quanto è esplorato, Cuore e Guardiano. Si può chiudere un mondo per liberare
+un'Aiuola (il mondo resta salvato e si può riaprire con il suo Seme). Scegliere il Seme di partenza dal menu.
+**Pronto quando**: si hanno più mondi aperti insieme, si passa dall'uno all'altro dal Giardino, il Semenzaio li
+descrive tutti.
+
+## 46. [ ] Trovare semi e geni (M)
+Da dove vengono i geni: Cuori e Guardiani (Semi interi), scrigni delle rovine, **piante-seme** selvatiche rare in ogni
+mondo (portano un gene del mondo in cui crescono), e i **campioni**: con la **Provetta di Linfa** si preleva un gene
+da un bioma, una roccia, una creatura sconfitta o la firma. Il gene prelevato si **impara** (collezione dei geni:
+nuova pagina dell'Erbario, il **Genario**, con la percentuale) e diventa una Fiala di gene da usare negli innesti.
+**Pronto quando**: in un mondo si possono trovare tutti i suoi geni per almeno due strade; il Genario li conta.
+
+## 47. [ ] L'innesto dei semi (L)
+Al **Banco dell'Innestatrice** (stazione nuova) si uniscono due Semi, più eventuali Fiale di gene: nasce un Seme
+figlio. Regole: per ogni categoria si eredita da uno dei due genitori secondo la dominanza; una Fiala fissa quel gene;
+il vigore è quello del genitore più forte più uno; costa Linfa antica (dai Cuori). **Mutazioni**: una piccola
+probabilità (più alta con certi geni e certe Essenze) di un gene che nessuno dei genitori aveva, anche uno che non si
+trova in nessun altro modo. Prima di innestare si vedono le probabilità, ma solo per i geni già imparati.
+**Pronto quando**: si può progettare un mondo («voglio grotte ad alveare e fiumi di brace») e ottenerlo con gli
+innesti; le mutazioni si vedono e finiscono nel Genario.
+
+## 48. [ ] Geni rari e mutazioni (M)
+Il secondo giro di geni (fino a ~45): geni antichi e stellari, geni che si ottengono **solo** per mutazione o solo
+incrociando due geni precisi (combinazioni segrete, scoperte giocando e poi scritte nel Genario), geni «malati»
+dell'Avvizzimento (mondi più duri, materiali unici). Semi selvatici che mutano da soli nel giardino se lasciati a
+lungo.
+**Pronto quando**: completare il Genario richiede incroci pensati; almeno 8 geni si ottengono solo per mutazione o
+combinazione.
+
+# Roadmap 6 «La materia viva» — l'equipaggiamento che si genera
+
+## 49. [ ] Proprietà dei materiali (L)
+`MaterialsData`: ogni materiale (metalli, legni, gemme, parti di creatura) ha le sue proprietà — durezza, peso,
+conduzione della Linfa, elemento, risonanza, grado. I metalli di oggi (famiglie `METALS` × `GEAR`) migrano qui: le loro
+statistiche escono dalle proprietà invece che da tabelle scritte a mano, con valori vicini a quelli di oggi.
+**Pronto quando**: tutti gli attrezzi di metallo di oggi nascono dalle proprietà, con statistiche entro il 10% di
+quelle attuali; `verifica_dati` controlla la progressione.
+
+## 50. [ ] Forme e fabbricazione componibile (L)
+`FormsData`: le forme (lama corta, lama lunga, lancia, martello, falce, frusta, arco, balestra, bastone, piccone,
+ascia, trivella, elmo, corazza…) con il loro modo di colpire e come pesano le proprietà del materiale. Un attrezzo =
+forma × materiale principale × materiale del manico/della fascia: statistiche, nome («Falce di legnoferro con fascia
+di seta») e icona (`ItemIcons.make` con forma e tavolozza) nascono da soli. Le istanze portano i componenti nei `dati`.
+Le forme nuove richiedono nuovi modi di colpire in `Combat` (affondo della lancia, giro del martello, frusta).
+**Pronto quando**: con 8 materiali e 14 forme il gioco offre centinaia di attrezzi diversi e confrontabili, tutti con
+nome, icona e scheda in Esamina.
+
+## 51. [ ] Elementi e reazioni (M)
+Sei elementi (brace, gelo, spora, Linfa, Vuoto, luce) portati dai materiali e dalle Essenze: stati sulle creature
+(brucia, rallenta, avvelena, prosciuga, acceca…), debolezze e resistenze delle famiglie di creature, **reazioni** tra
+elementi (gelo + brace = vapore che stordisce, spora + brace = scoppio…).
+**Pronto quando**: scegliere l'elemento giusto cambia davvero lo scontro con almeno metà delle creature; l'Erbario
+mostra le debolezze scoperte.
+
+## 52. [ ] Leghe (M)
+Al Baccello ardente due metalli si fondono in una **lega** con proprietà miste (e a volte una proprietà che nessuno dei
+due aveva): i metalli di N mondi danno N×N leghe. Nomi delle leghe generati, pochi nomi speciali scritti a mano per le
+combinazioni migliori.
+**Pronto quando**: esistono leghe migliori dei loro metalli per certi usi, e nessuna è la migliore in tutto.
+
+## 53. [ ] Materiali dai geni (M)
+Ogni gene di minerale e di fauna porta **materiali propri** con proprietà scritte nei dati (non generate a caso): con la
+Roadmap 5 i materiali passano da una decina a 30-40. Grazie alle forme ognuno dà subito tutta la sua serie di attrezzi.
+**Pronto quando**: un materiale nuovo si aggiunge con una riga di dati e compare con tutti i suoi attrezzi, le ricette
+e le icone.
+
+## 54. [ ] Innesti e qualità (M)
+Gli innesti dell'universo: posti d'innesto per attrezzo secondo la qualità di fabbricazione (che dipende dalla stazione,
+dai materiali e da un po' di fortuna); Essenze e parti di creatura come innesti; togliere un innesto costa. I tratti
+di oggi diventano innesti.
+**Pronto quando**: due attrezzi uguali possono essere molto diversi, e inseguire l'attrezzo perfetto è un obiettivo
+lungo.
+
+# Roadmap 7 «L'ecologia» — la fauna che vive
+
+## 55. [ ] Creature componibili (L)
+`FamiliesData`: una **famiglia** (corpo, disegno di base, modo di muoversi) × **elemento** × **indole**
+(comportamento) × **taglia** × varianti di colore = molte creature da una famiglia. Il disegno varia con tavolozza,
+misura e piccoli pezzi aggiunti dal codice (corna, spine, bagliore). Le 27 creature di oggi diventano famiglie e
+varianti.
+**Pronto quando**: una famiglia nuova si scrive una volta e dà almeno 6 creature diverse nei mondi giusti.
+
+## 56. [ ] Famiglie per gene (M)
+I geni di fauna decidono quali famiglie e quali varianti vivono in un mondo; 10-12 famiglie nuove (acquatiche pronte
+per la Roadmap 10, volanti, scavatrici, colonie). Un **Custode per bioma** (Grande Cervo di brina, Madre delle
+salamandre…) con la sua tana.
+**Pronto quando**: due mondi con geni di fauna diversi hanno faune diverse per davvero.
+
+## 57. [ ] La catena alimentare (L)
+Le creature hanno bisogni: predatori che cacciano prede, erbivori che brucano piante e colture, spazzini che mangiano ciò
+che resta, creature che si combattono tra loro. Popolazioni per zona (che calano se le si caccia troppo e crescono se
+le si lascia), comportamenti visibili (fuga, branco, agguato).
+**Pronto quando**: fermandosi a guardare si vede un mondo che vive anche senza il giocatore; le prove misurano che le
+popolazioni restano in equilibrio.
+
+## 58. [ ] Nidi, tane e migrazioni (M)
+Nidi e tane da trovare (da cui nascono le creature di una zona: distruggerli la svuota, proteggerli la arricchisce),
+migrazioni di branchi al cambio del giorno e (con la voce 66) delle stagioni.
+**Pronto quando**: le creature non compaiono più «dal nulla» fuori dalla visuale ma dai loro nidi (dove il gene lo
+prevede).
+
+## 59. [ ] Addomesticare (L)
+Calmare una creatura (cibo giusto, stordirla senza ucciderla, Essenze) e portarla nel Giardino in un **Vasetto**:
+recinti e stalle, creature che producono materiali (seta, gelatina, latte di Linfa, piume), compagni e cavalcature da
+qualunque famiglia adatta. I compagni e gli alleati di oggi entrano nel sistema; livelli dei compagni.
+**Pronto quando**: si possono tenere almeno 10 famiglie diverse nel Giardino, ognuna utile a qualcosa.
+
+## 60. [ ] Allevamento (M)
+Due creature addomesticate danno un piccolo con i geni di entrambe (**lo stesso motore della voce 47**): colori,
+taglia, elemento, doni. Varianti rare che si ottengono solo allevando.
+**Pronto quando**: allevare è una seconda collezione lunga, con almeno 6 varianti ottenibili solo così.
+
+## 61. [ ] L'Erbario vivo (S)
+Ogni famiglia con le sue varianti, dove vive, cosa mangia, debolezze, nidi, prodotti, vista/sconfitta/addomesticata/
+allevata; percentuali per famiglia e totale.
+**Pronto quando**: l'Erbario dice sempre cosa manca e dove cercarlo (a grandi linee: «nei mondi con il gene…»).
+
+# Roadmap 8 «Il risveglio dell'Albero-Madre» — il motivo
+
+## 62. [ ] Il Giardino vero (L)
+Il mondo casa diventa **il Giardino**: un mondo più piccolo sospeso nel Vuoto attorno all'Albero-Madre addormentato,
+con le Aiuole, lo spazio per la base, i recinti e la serra. I personaggi e i mondi di oggi migrano: il mondo di partenza
+diventa il primo mondo nato da Seme (da decidere con l'utente quando si arriva qui).
+**Pronto quando**: una partita nuova comincia nel Giardino, e il primo Seme porta al primo mondo.
+
+## 63. [ ] Gli stadi dell'Albero-Madre (L)
+10-15 stadi di crescita; ognuno chiede **offerte** (Linfa antica dei Cuori, geni, creature, reliquie, materiali di
+mondi con certi geni) e sblocca: Aiuole, stazioni, categorie di geni innestabili, abitanti, poteri. L'Albero si vede
+crescere nel Giardino (disegno a stadi).
+**Pronto quando**: dal primo all'ultimo stadio c'è sempre una richiesta chiara e un modo per capire dove cercare.
+
+## 64. [ ] I poteri del Germogliato (M)
+Poteri permanenti dagli stadi dell'Albero (vista della Linfa per vedere vene e geni nascosti, respiro nell'acqua,
+radici-ponte, salto delle spore, passo nel Vuoto…). Certi luoghi e certi geni si raggiungono solo con un potere:
+l'esplorazione si apre a strati, come in un metroidvania.
+**Pronto quando**: almeno 6 poteri, ognuno apre luoghi che prima non si potevano raggiungere.
+
+## 65. [ ] Abitanti con i mestieri (L)
+Gli abitanti dell'universo: la **Vecchia Radice** (guida, racconta), il **Mercante di Semi**, l'**Innestatrice**,
+il **Cartografo dei Seminatori**, il **Mandriano** (creature), più quelli di oggi. Arrivano con gli stadi
+dell'Albero; affetto (sconti, doni), una casa per ciascuno, richieste personali.
+**Pronto quando**: ogni abitante ha un motivo per esserci e almeno una catena di richieste.
+
+## 66. [ ] Le stagioni (M)
+Le stagioni in ogni mondo (durata da provare): cambiano creature, colture, eventi, migrazioni; geni, creature e boss
+che esistono solo in una stagione.
+**Pronto quando**: tornare in un mondo in un'altra stagione dà cose nuove da trovare.
+
+## 67. [ ] La bacheca delle richieste (M)
+Richieste generate senza fine, costruite dal registro dei geni e dei mondi: «portami tre Palchi di brina da un mondo
+con notti lunghe», «trova la firma di un mondo con grotte ad alveare», «alleva una salamandra bianca». Ricompense:
+Semi rari, Fiale di gene, Linfa antica, oggetti unici. Le richieste puntano sempre a qualcosa che il giocatore **può**
+fare con ciò che ha già imparato (o quasi).
+**Pronto quando**: in qualunque momento della partita ci sono almeno tre richieste sensate aperte.
+
+# Roadmap 9 «Il mistero dei Seminatori» — il racconto sopra il motore
+
+## 68. [ ] La lingua dei Seminatori (M)
+Le scritte dei Seminatori sono glifi: ogni tavoletta trovata insegna parole, il Cartografo aiuta a decifrare. Le
+scritte sui muri delle rovine si leggono a poco a poco: una progressione di **conoscenza**, non di equipaggiamento.
+**Pronto quando**: una stessa scritta, riletta più avanti nella partita, dice di più (e indica qualcosa da cercare).
+
+## 69. [ ] Le catene di ricerca tra i mondi (L)
+Catene generate e scritte: un indizio in un mondo indica un gene o una combinazione di geni; il mondo che ne nasce ha
+una rovina sigillata; dentro c'è la chiave o la mappa per la tappa dopo. Alcune catene lunghe scritte a mano (la
+storia), molte brevi generate (i segreti).
+**Pronto quando**: esiste la prima catena lunga completa (5+ tappe in mondi diversi) e le brevi non finiscono mai.
+
+## 70. [ ] Luoghi scritti a mano (L)
+Luoghi progettati come modelli (tempio sommerso, città sepolta, biblioteca di radici, serra dei Seminatori,
+osservatorio, alveare colossale…) che il generatore piazza solo nei mondi con i geni giusti, adattandoli al terreno.
+Sono la parte «a mano» che dà sapore a quella generata. Almeno 8 per cominciare.
+**Pronto quando**: trovare un luogo scritto a mano è un evento; ognuno ha un premio e un pezzo di storia.
+
+## 71. [ ] Enigmi e meccanismi (M)
+Meccanismi dei Seminatori (leve di radice, specchi che portano la luce, canali di Linfa da aprire, piastre, porte a
+glifi) nei luoghi della voce 70 e nelle rovine sigillate.
+**Pronto quando**: almeno 6 tipi di meccanismo combinabili; i luoghi grandi hanno un enigma ciascuno.
+
+## 72. [ ] Il Seme Nero (L)
+L'origine dell'Avvizzimento e il grande arco del racconto: indizi in tutte le catene, geni malati, un luogo finale e un
+Guardiano che si può sconfiggere o curare, come tutti. Non chiude il gioco: apre il fine gioco (Roadmap 11).
+**Pronto quando**: la storia principale si può giocare dall'inizio alla fine.
+
+# Roadmap 10 «Le leggi dei mondi» — meccaniche fisiche come geni
+
+Ogni legge è un **gene** (raro, spesso di vigore alto): i mondi non diventano solo più forti ma **diversi da giocare**.
+
+## 73. [ ] L'acqua (L)
+Liquidi che scorrono a tessere (simulazione a blocchi, solo vicino alla visuale), nuoto, respiro, creature acquatiche
+(famiglie della voce 56), laghi e grotte allagate; gene «Sommerso» (mondi quasi tutti d'acqua).
+**Pronto quando**: un mondo sommerso si gioca in modo diverso da tutti gli altri, e resta a 60 fotogrammi al secondo.
+
+## 74. [ ] Linfa e brace liquide (M)
+Due liquidi in più con lo stesso sistema: la Linfa liquida (cura, fa crescere, luminosa) e la brace liquida
+(brucia, indurisce a contatto con l'acqua in una roccia nuova). Reazioni tra liquidi.
+**Pronto quando**: i liquidi si mescolano con regole chiare e utili (costruire, difendersi, coltivare).
+
+## 75. [ ] Vento e tempo atmosferico (M)
+Vento che spinge il Germogliato, le planate, i dardi e le spore; piogge, nebbie, tempeste di cenere, bufere di brina,
+secondo i geni del cielo e la stagione.
+**Pronto quando**: il tempo atmosferico cambia il modo di muoversi e combattere, non solo il colore del cielo.
+
+## 76. [ ] Gravità e mondi strani (M)
+Geni di forma del mondo: gravità leggera, isole sospese nel Vuoto, mondi cavi (superficie dentro), mondi capovolti
+in certe zone.
+**Pronto quando**: almeno 3 forme di mondo diverse, tutte giocabili dall'inizio al Cuore.
+
+## 77. [ ] Terra viva (M)
+Radici che ricrescono e chiudono i cunicoli, terreno che si sposta, cristalli che crescono nel tempo: mondi che
+cambiano mentre li si esplora.
+**Pronto quando**: tornare in un mondo con questi geni dopo qualche giorno lo trova cambiato.
+
+## 78. [ ] Il tempo dei mondi (S)
+Geni del tempo: giorni lunghissimi o brevissimi, eclissi, notti eterne, mondi senza sole con luce solo dalle cose vive.
+**Pronto quando**: i geni del tempo cambiano davvero cosa si può fare e quando.
+
+# Roadmap 11 «Senza fine» — il fine gioco che non finisce
+
+## 79. [ ] Vigore senza tetto (M)
+La scala del vigore continua per sempre: a gradini regolari arrivano un grado nuovo di materiali (dai geni), creature
+più forti con indoli nuove, nuovi posti d'innesto; il vigore non è solo «numeri più alti».
+**Pronto quando**: un mondo di vigore 20 ha cose che un mondo di vigore 10 non ha.
+
+## 80. [ ] Guardiani generati (L)
+Guardiani composti dai geni (corpo di famiglia, taglia gigante, attacchi scelti da una libreria di schemi, fasi
+secondo l'elemento), accanto a quelli scritti a mano. Ognuno si sconfigge o si cura, e lascia materiali propri.
+**Pronto quando**: ogni mondo senza un Guardiano scritto a mano ne ha uno generato diverso e credibile.
+
+## 81. [ ] Semi leggendari e il Seme Primo (L)
+Semi leggendari (combinazioni rarissime di geni stellari, catene lunghe) e l'obiettivo finale: il **Seme Primo**,
+che si ottiene solo completando gran parte del Genario e dell'Albero-Madre.
+**Pronto quando**: esiste un traguardo finale lontano e chiaro, e dopo di esso il gioco continua.
+
+## 82. [ ] Sfide dei Semi (M)
+Semi con prove (senza torce, a tempo, Avvizzimento che avanza, creature solo antiche…) e premi propri; record
+personali nel Semenzaio.
+**Pronto quando**: ci sono sempre sfide nuove da tentare anche per chi ha tutto.
+
+# Fuori piano (rimandato dall'utente il 26 set 2026)
+- Voce 6 «Rete a 2».
+- Grafica: armatura sugli sprite nuovi (tunica e pantaloni con i colori del metallo, l'elmo come calotta sui capelli di
+  foglie), colpo in corsa, mostri e boss con Nano Banana (stesso metodo del Germogliato).
+- Rifinitura del movimento e del combattimento (all'utente sembrano già validi).

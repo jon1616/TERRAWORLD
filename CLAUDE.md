@@ -7,7 +7,8 @@ Documenti: `UNIVERSO.md` (ambientazione «Il Giardino dei Semi»), `ROADMAP.md` 
 siamo»).
 
 ## Come si lavora (per riprendere dopo una pausa o una compattazione)
-- **Lo stato** è in cima a `ROADMAP.md` («Dove siamo»); le scelte dell'utente qui sotto; le lezioni in fondo.
+- **Lo stato** è in cima a `ROADMAP.md` («Dove siamo»); la direzione in «La filosofia del gioco» qui sotto; le
+  scelte dell'utente dopo; le lezioni in fondo.
 - **L'utente**: dà la direzione e lascia a Claude ordine e tecnica; vuole sostanza, spiegazioni in italiano semplice e
   un resoconto alla fine; per la grafica collabora generando le immagini con Gemini/Nano Banana su prompt di Claude.
   **Niente push** su un repository remoto finché non lo chiede (per ora «non ancora»).
@@ -18,12 +19,43 @@ siamo»).
 - **Controllo di sintassi** dei file cambiati: `for f in $(git diff --name-only | grep .gd$); do Godot_console.exe
   --headless --path . --check-only --script res://$f; done` («Identifier not found: Session/Musica» è normale).
 
+## La filosofia del gioco: «Il Giardiniere dei mondi» (26 set 2026, approvata dall'utente)
+
+L'obiettivo dell'utente: un gioco **molto più vasto, vario e profondo di Terraria**, pressoché infinito, con sempre
+qualcosa da fare, cercare o esplorare **e un motivo per farlo**. Grafica, rete e rifinitura vengono dopo. Il piano è
+in `ROADMAP.md` (Roadmap 5-11). Queste regole valgono per **ogni** voce, anche fuori dal piano:
+
+- **La vastità a caso annoia.** Il giocatore esplora solo se sa *cosa* cerca, *perché* gli serve, e ogni tanto trova
+  ciò che *non si aspettava*. Ogni contenuto nuovo deve rispondere ad almeno una di queste tre domande.
+- **Il giro che si ripete**: l'Albero-Madre e gli abitanti chiedono → serve un gene, un materiale o una creatura →
+  si innestano i Semi per ottenere il mondo giusto → lo si esplora → si trova ciò che si cercava e l'imprevisto → si
+  torna e il Giardino cresce. Il giocatore **progetta** i suoi mondi: è ciò che Terraria non ha.
+- **Moltiplicare, non sommare.** Un sistema nuovo deve moltiplicare quelli che ci sono: un gene nuovo porta creature,
+  materiali, attrezzi, strutture e ricerche insieme. Prima di scrivere una voce ci si chiede «quanti altri sistemi
+  rende più ricchi?». Contenuti scritti uno per uno solo dove devono essere speciali (trofei, reliquie, boss, luoghi).
+- **Un solo motore genetico**, riusato: geni con dominanza e rarità, eredità, mutazioni per i Semi, le creature
+  allevate e i Guardiani generati. Stesso codice, non tre copie.
+- **Tutto è componibile e scritto come dati**: geni, materiali con proprietà, forme degli attrezzi, famiglie di
+  creature, firme, luoghi. Aggiungere una cosa = aggiungere una riga (o un file) di dati, non codice nuovo.
+- **Ogni mondo ha una firma**: almeno una cosa che si trova solo lì. Due mondi non devono mai sembrare lo stesso mondo
+  con numeri diversi; `tools/mappe.gd` misura la varietà.
+- **Generato + scritto a mano**: il generatore dà la quantità, i pezzi a mano (luoghi, catene della storia, boss,
+  oggetti unici) danno il sapore e vengono piazzati dal generatore nei mondi giusti.
+- **Salire di vigore porta cose diverse, non solo numeri più alti**: meccaniche, indoli, materiali, leggi fisiche.
+- **Il racconto è una meccanica** (regola dell'universo): la lingua dei Seminatori, le catene tra i mondi e il Seme
+  Nero sono progressioni di gioco, non testo da leggere.
+- **Sempre un filo da seguire**: in ogni momento della partita devono esserci richieste chiare e raggiungibili (Albero,
+  abitanti, bacheca, Genario, Erbario che dice cosa manca e dove cercarlo a grandi linee).
+- **I salvataggi di oggi restano giocabili**: il piano cambia la forma di molte cose, quindi ogni cambio di formato
+  passa da una migrazione (voce 41).
+
 ## Decisioni di base (24 set 2026, scelte dall'utente)
 
 - **Mondi a portale**: un mondo casa più una serie infinita di mondi generati, finiti, con tema e difficoltà crescenti.
   Nell'universo: ogni mondo nasce da un Seme piantato nel Giardino (specie, vigore, tratti = parametri del generatore).
 - **Mondi medi**: 3000×1000 tessere da 16 px.
 - **Rete a 2 giocatori** (single player giocabile con un amico in collegamento diretto), host autoritativo come in Inkblood.
+  **Rimandata** il 26 set 2026 (scelta dell'utente: «per ora non è una priorità»).
 - **Grafica**: la base è generata dal codice (tessere, luce, effetti, icone in serie, creature semplici); personaggio con tutte
   le animazioni, alcuni mostri e boss arriveranno da immagini generate dall'utente con un'IA grafica (Nano Banana),
   importate con script come in Inkblood (sfondo magenta, griglia fissa, riduzione a una tavolozza comune).

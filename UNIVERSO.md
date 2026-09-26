@@ -38,6 +38,8 @@ Si pianta un seme in un'Aiuola → cresce un portale → oltre il portale c'è i
   (un bosco di cristallo, un deserto sommerso). Profondità quasi infinita: collezionare, incrociare, cercare combinazioni rare.
 
 I semi si trovano esplorando: nel cuore dei mondi, negli scrigni dei Seminatori, dai boss, dagli NPC, per innesto.
+Dal 26 set 2026 l'innesto dei semi è il cuore del piano «Il Giardiniere dei mondi» (`ROADMAP.md`, Roadmap 5-11): specie
+e tratti diventano **geni** (con rarità, dominanza e mutazioni) raccolti nel **Genario**.
 
 ## I mondi
 
