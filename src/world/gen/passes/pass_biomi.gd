@@ -13,12 +13,14 @@ func run(w: World, c: GenContext) -> void:
 	var rng := c.rng
 	var B: Array = BiomesData.BIOMES
 	# i tratti: da sinistra a destra, mai due uguali di fila; la partenza sempre nella foresta
-	# la specie del Seme (voce 39) sceglie i pesi dei biomi e quello della partenza
-	var weights := _weights(String(c.params.get("specie", "")))
+	# il gene di superficie del Seme (voce 42, erano le specie della voce 39) sceglie i pesi dei biomi e quello della
+	# partenza
+	var sg := c.surface_gene()
+	var weights := _weights(sg)
 	var home := 0
-	var home_set := SpeciesData.SPECIES.has(String(c.params.get("specie", "")))
+	var home_set := sg != ""
 	if home_set:
-		home = BiomesData.index_of(String((SpeciesData.SPECIES[c.params["specie"]]["biomes"] as Dictionary).keys()[0]))
+		home = BiomesData.index_of(String((GenesData.GENES[sg]["gen"]["biomes"] as Dictionary).keys()[0]))
 	var x := 0
 	var prev := -1
 	var segs := []                          # [inizio, fine, bioma] di ogni tratto
@@ -80,13 +82,13 @@ func _ensure_all(w: World, segs: Array, weights: Array, rng: RandomNumberGenerat
 			w.biomes[xx] = k
 
 
-## Il peso di ogni bioma: quelli della specie, o quelli di `BiomesData` se il mondo non ne ha una.
-func _weights(species: String) -> Array:
+## Il peso di ogni bioma: quelli del gene di superficie, o quelli di `BiomesData` se il mondo non ne ha uno.
+func _weights(sg: String) -> Array:
 	var out := []
 	for k in BiomesData.BIOMES.size():
 		var bid := String(BiomesData.BIOMES[k]["id"])
-		if SpeciesData.SPECIES.has(species):
-			out.append(int((SpeciesData.SPECIES[species]["biomes"] as Dictionary).get(bid, 0)))
+		if sg != "":
+			out.append(int((GenesData.GENES[sg]["gen"]["biomes"] as Dictionary).get(bid, 0)))
 		else:
 			out.append(int(BiomesData.BIOMES[k]["weight"]))
 	return out

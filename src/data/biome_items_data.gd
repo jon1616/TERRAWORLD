@@ -34,8 +34,8 @@ const ITEMS := {
 	"frusta_brace": {"name": "Frusta di coda", "kind": "spada", "icon": ["lama", "brace"], "tier": 4, "damage": 23, "speed": 3.2, "knockback": 1.5, "poison": true, "desc": "Una coda di salamandra che schiocca: ogni colpo brucia (avvelena)."},
 	"lanterna_fatua": {"name": "Lanterna fatua", "kind": "accessorio", "icon": ["lanterna", "brace"], "acc": {"halo": 1.6, "magic": 1.1}, "desc": "Alone molto più ampio, incantesimi +10%."},
 	# le due specie nuove dei Semi di mondo
-	"seme_mondo_brina": {"name": "Seme di brina", "kind": "seme_mondo", "icon": ["seme", "brina"], "species": "brina", "stack": 9, "desc": "Un Seme di mondo nutrito di brina: dietro il suo portale, boschi gelati e cieli chiari."},
-	"seme_mondo_cenere": {"name": "Seme di cenere", "kind": "seme_mondo", "icon": ["seme", "cenere"], "species": "cenere", "stack": 9, "desc": "Un Seme di mondo nutrito di cenere viva: dietro il suo portale, pianure di cenere e braci."},
+	"seme_mondo_brina": {"name": "Seme di brina", "kind": "seme_mondo", "icon": ["seme", "brina"], "species": "brina", "stack": 1, "desc": "Un Seme di mondo nutrito di brina: dietro il suo portale, boschi gelati e cieli chiari."},
+	"seme_mondo_cenere": {"name": "Seme di cenere", "kind": "seme_mondo", "icon": ["seme", "cenere"], "species": "cenere", "stack": 1, "desc": "Un Seme di mondo nutrito di cenere viva: dietro il suo portale, pianure di cenere e braci."},
 }
 
 const RECIPES := [

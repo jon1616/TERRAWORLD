@@ -3,6 +3,8 @@ extends RefCounted
 ## La Bisaccia del Germogliato: l'inventario. 40 caselle, le prime 10 sono la barra rapida. Ogni casella è vuota ({}) o
 ## {"id": oggetto, "n": quantità}, più "tratto" per l'equipaggiamento (voce 15, vedi `TraitsData`): un pezzo che entra
 ## senza tratto (fabbricato, trovato) ne tira uno a caso. Più l'equipaggiamento indossato (`equip`: elmo, corazza, gambali → id).
+## Voce 41: una casella può portare anche "dati", un dizionario tutto suo (il genoma di un Seme di mondo, più avanti i
+## componenti di un attrezzo). Una casella con dati è un oggetto unico: non si unisce mai a un'altra pila.
 ## Solo dati e regole (aggiungere, togliere, contare, indossare): nessun disegno.
 
 signal changed
@@ -51,6 +53,15 @@ func trait_at(i: int) -> String:
 	return String(slots[i].get("tratto", ""))
 
 
+## I dati propri della casella i ({} se non ne ha). Un Seme di mondo salvato prima dei genomi ne riceve uno adesso.
+func data_at(i: int) -> Dictionary:
+	if not slots[i].has("dati") and not slots[i].is_empty():
+		var fresh := Genome.fresh_for_item(id_at(i))
+		if not fresh.is_empty():
+			slots[i]["dati"] = fresh
+	return slots[i].get("dati", {})
+
+
 ## Un pezzo d'equipaggiamento (una casella a sé, con il suo tratto)?
 static func is_gear(id: String) -> bool:
 	return TraitsData.category_of(id) != "" and ItemsData.stack_of(id) == 1
@@ -70,7 +81,7 @@ func add(id: String, n: int) -> int:
 	for i in slots.size():
 		if n <= 0:
 			break
-		if id_at(i) == id and count_at(i) < cap:
+		if id_at(i) == id and count_at(i) < cap and not slots[i].has("dati"):
 			var k := mini(cap - count_at(i), n)
 			slots[i]["n"] = count_at(i) + k
 			n -= k
@@ -80,6 +91,9 @@ func add(id: String, n: int) -> int:
 		if slots[i].is_empty():
 			var k := mini(cap, n)
 			slots[i] = {"id": id, "n": k}
+			var fresh := Genome.fresh_for_item(id)     # un Seme di mondo nasce con il suo genoma (voce 42)
+			if not fresh.is_empty():
+				slots[i]["dati"] = fresh
 			if is_gear(id):
 				var t := TraitsData.roll(id)
 				if t != "":
@@ -94,7 +108,7 @@ func add(id: String, n: int) -> int:
 func add_stack(s: Dictionary) -> int:
 	if s.is_empty():
 		return 0
-	if not s.has("tratto") and not is_gear(String(s["id"])):
+	if not s.has("tratto") and not s.has("dati") and not is_gear(String(s["id"])):
 		return add(String(s["id"]), int(s["n"]))
 	for i in slots.size():
 		if slots[i].is_empty():
@@ -111,7 +125,7 @@ func room_for(id: String) -> int:
 	for i in slots.size():
 		if slots[i].is_empty():
 			r += cap
-		elif id_at(i) == id:
+		elif id_at(i) == id and not slots[i].has("dati"):
 			r += cap - count_at(i)
 	return r
 
@@ -153,7 +167,8 @@ func take_one(i: int) -> void:
 
 ## Scambia il contenuto di una casella con quello «in mano» (il cursore); unisce le pile uguali.
 func swap_with(i: int, held: Dictionary) -> Dictionary:
-	if not held.is_empty() and id_at(i) == String(held["id"]) and ItemsData.stack_of(id_at(i)) > 1:
+	if not held.is_empty() and id_at(i) == String(held["id"]) and ItemsData.stack_of(id_at(i)) > 1 \
+			and not held.has("dati") and not slots[i].has("dati"):
 		var cap := ItemsData.stack_of(id_at(i))
 		var k := mini(cap - count_at(i), int(held["n"]))
 		slots[i]["n"] = count_at(i) + k
@@ -188,8 +203,9 @@ func sort_bag() -> void:
 		return String(ItemsData.get_item(String(a["id"])).get("name", "")) < String(ItemsData.get_item(String(b["id"])).get("name", "")))
 	var k := HOTBAR
 	for it in items:
-		# le pile uguali (senza tratto) si uniscono finché c'è posto
-		if k > HOTBAR and slots[k - 1].get("id", "") == it["id"] and not it.has("tratto") and not slots[k - 1].has("tratto"):
+		# le pile uguali (senza tratto né dati) si uniscono finché c'è posto
+		if k > HOTBAR and slots[k - 1].get("id", "") == it["id"] and not it.has("tratto") and not slots[k - 1].has("tratto") \
+				and not it.has("dati") and not slots[k - 1].has("dati"):
 			var room := ItemsData.stack_of(String(it["id"])) - int(slots[k - 1]["n"])
 			var moved := mini(room, int(it["n"]))
 			slots[k - 1]["n"] = int(slots[k - 1]["n"]) + moved
@@ -249,6 +265,8 @@ func to_array() -> Array:
 	for s in slots:
 		if s.is_empty():
 			out.append([])
+		elif s.has("dati"):
+			out.append([s["id"], s["n"], String(s.get("tratto", "")), s["dati"]])
 		elif s.has("tratto"):
 			out.append([s["id"], s["n"], s["tratto"]])
 		else:
@@ -264,4 +282,6 @@ static func from_array(a: Array, size := SIZE) -> Bisaccia:
 			b.slots[i] = {"id": String(e[0]), "n": int(e[1])}
 			if e.size() >= 3 and TraitsData.TRAITS.has(String(e[2])):
 				b.slots[i]["tratto"] = String(e[2])
+			if e.size() >= 4 and e[3] is Dictionary and not (e[3] as Dictionary).is_empty():
+				b.slots[i]["dati"] = SaveMigrations.ints(e[3])
 	return b

@@ -11,7 +11,7 @@ func title() -> String:
 func run(w: World, c: GenContext) -> void:
 	var ores: Array = TileDefs.ORES
 	var richer := 0.025 * (int(c.params.get("vigore", 1)) - 1)   # vene più grandi nei mondi più vigorosi
-	richer += float(SpeciesData.effects(c.params.get("tratti", []), "gen")["ore"])   # tratto «Vene ricche»
+	richer += float(c.genes()["ore"])                               # gene «Vene ricche»
 	var noises: Array[FastNoiseLite] = []
 	var hosts: Array[PackedByteArray] = []
 	var in_stratum: Array[PackedByteArray] = []

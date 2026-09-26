@@ -27,7 +27,7 @@ func _init() -> void:
 		# voci 37 e 39: compagni, alleati e specie dei Semi devono esistere nelle loro tabelle
 		_err(not it.has("pet") or CompanionsData.PETS.has(it["pet"]), "%s: compagno sconosciuto «%s»" % [id, it.get("pet", "")])
 		_err(not it.has("ally") or CompanionsData.ALLIES.has(it["ally"]), "%s: alleato sconosciuto «%s»" % [id, it.get("ally", "")])
-		_err(not it.has("species") or SpeciesData.SPECIES.has(it["species"]), "%s: specie sconosciuta «%s»" % [id, it.get("species", "")])
+		_err(not it.has("species") or GenesData.cat_of(String(it["species"])) == "superficie", "%s: gene di superficie sconosciuto «%s»" % [id, it.get("species", "")])
 		_err(it.has("icon") and (it["icon"] as Array).size() == 2, "%s: icona non indicata" % id)
 		if it.has("icon"):
 			_err(ItemIcons.MATERIALS.has(String(it["icon"][1])), "%s: materiale dell'icona sconosciuto «%s»" % [id, it["icon"][1]])
@@ -223,12 +223,29 @@ func _station_sheet() -> void:
 	sheet.save_png(ProjectSettings.globalize_path("res://prove/stazioni.png"))
 
 
-## Ogni specie di Seme cresce solo biomi che esistono.
+## I geni (voce 42): categoria, rarità, dominanza e campi giusti; ogni gene di superficie cresce solo biomi che
+## esistono e ha il suo oggetto Seme; ogni gene si può ottenere (a caso, per mutazione, per combinazione o dalla firma).
 func _check_species() -> void:
-	for sp in SpeciesData.SPECIES:
-		for b in SpeciesData.SPECIES[sp]["biomes"]:
-			_err(BiomesData.index_of(String(b)) >= 0 and BiomesData.BIOMES[BiomesData.index_of(String(b))]["id"] == b,
-				"specie %s: bioma sconosciuto «%s»" % [sp, b])
+	var run_keys: Dictionary = GenesData.DEFAULTS["run"]
+	for g in GenesData.GENES:
+		var d: Dictionary = GenesData.GENES[g]
+		_err(String(d.get("cat", "")) in GenesData.CATEGORIES, "gene %s: categoria sconosciuta «%s»" % [g, d.get("cat", "")])
+		_err(int(d.get("rar", -1)) >= 0 and int(d.get("rar", -1)) < GenesData.RARITY.size(), "gene %s: rarità sbagliata" % g)
+		_err(int(d.get("dom", 0)) >= 1 and int(d.get("dom", 0)) <= 5, "gene %s: dominanza fuori da 1-5" % g)
+		_err(String(d.get("name", "")) != "" and String(d.get("desc", "")) != "", "gene %s senza nome o descrizione" % g)
+		_err(d.has("gen") or d.has("run"), "gene %s: non fa nulla" % g)
+		for k in d.get("run", {}):
+			_err(run_keys.has(k), "gene %s: effetto in gioco sconosciuto «%s»" % [g, k])
+		_err(not d.has("only") or String(d["only"]) in ["mutazione", "firma"], "gene %s: «only» sconosciuto" % g)
+		for x in d.get("combo", []):
+			_err(GenesData.GENES.has(x), "gene %s: combinazione con un gene inesistente «%s»" % [g, x])
+		if d.get("cat") == "superficie":
+			_err(ItemsData.has(String(d.get("item", ""))), "gene %s: oggetto Seme inesistente «%s»" % [g, d.get("item", "")])
+			for b in d["gen"]["biomes"]:
+				_err(BiomesData.index_of(String(b)) >= 0 and BiomesData.BIOMES[BiomesData.index_of(String(b))]["id"] == b,
+					"gene %s: bioma sconosciuto «%s»" % [g, b])
+	for cat in GenesData.CATEGORIES:
+		_err(GenesData.CAT_INFO.has(cat), "categoria di geni %s senza nome" % cat)
 
 
 func _err(ok: bool, msg: String) -> void:

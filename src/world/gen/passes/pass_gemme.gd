@@ -21,7 +21,7 @@ func title() -> String:
 func run(w: World, c: GenContext) -> void:
 	var placed: Array[Vector2i] = []
 	var got := []
-	var mult := float(SpeciesData.effects(c.params.get("tratti", []), "gen")["gems"])   # tratto «Gemme ricche»
+	var mult := float(c.genes()["gems"])                           # gene «Gemme ricche»
 	for g in GEMS:
 		got.append(_scatter(w, c, int(g[0]), g[1], roundi(int(g[2]) * mult), placed))
 	c.notes["gemme"] = got

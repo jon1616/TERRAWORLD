@@ -59,9 +59,10 @@ func _click(_i: int, button: int) -> void:
 	refresh()
 
 
-## Mostra un oggetto senza toglierlo dalla Bisaccia (prove, e in futuro altri usi).
-func show_item(id: String, tratto := "") -> void:
-	_text.text = ItemInfo.bbcode(id, tratto)
+## Mostra un oggetto senza toglierlo dalla Bisaccia (prove, e in futuro altri usi). `dati`: quelli propri della
+## casella (il genoma di un Seme, voce 42).
+func show_item(id: String, tratto := "", dati := {}) -> void:
+	_text.text = ItemInfo.bbcode(id, tratto, dati)
 
 
 func refresh() -> void:
@@ -73,7 +74,11 @@ func refresh() -> void:
 			_text.text = "[color=#6a8a84]Posa qui un oggetto con il clic per sapere a cosa serve, in quali ricette si usa e come si ottiene.[/color]"
 		return
 	_slot.set_item(String(held["id"]), int(held["n"]), String(held.get("tratto", "")))
-	show_item(String(held["id"]), String(held.get("tratto", "")))
+	if not held.has("dati"):
+		var fresh := Genome.fresh_for_item(String(held["id"]))   # un Seme salvato prima dei genomi
+		if not fresh.is_empty():
+			held["dati"] = fresh
+	show_item(String(held["id"]), String(held.get("tratto", "")), held.get("dati", {}))
 
 
 ## La Bisaccia si chiude: l'oggetto esaminato torna dentro.

@@ -220,15 +220,16 @@ const ITEMS := {
 	"bastone_falena_amica": {"name": "Bastone della falena amica", "kind": "evocatore", "icon": ["evocatore", "brace"], "ally": "falena_amica", "desc": "Clic (10 Linfa): richiama una Falena amica, svelta, che vola contro le creature vicine."},
 	"bastone_vagavuoto": {"name": "Bastone del Vagavuoto domato", "kind": "evocatore", "icon": ["evocatore", "vuotite"], "ally": "vagavuoto_amico", "desc": "Clic (10 Linfa): un Vagavuoto domato ti segue in volo e tira sfere di Vuoto alle creature."},
 	"fischietto_branco": {"name": "Fischietto del branco", "kind": "accessorio", "icon": ["amuleto", "seta"], "acc": {"allies": 1, "magic": 1.05}, "desc": "Un alleato in più insieme; incantesimi e alleati +5%."},
-	# voce 39: Semi di mondo con la specie scelta (`species` = id di `SpeciesData.SPECIES`)
-	"seme_mondo_lanterna": {"name": "Seme di salice-lanterna", "kind": "seme_mondo", "icon": ["seme", "linfa"], "species": "lanterna", "stack": 9, "desc": "Un Seme di mondo nutrito di semi-lanterna: dietro il suo portale, foreste di alberi-lanterna a perdita d'occhio."},
-	"seme_mondo_sporangio": {"name": "Seme di sporangio", "kind": "seme_mondo", "icon": ["seme", "fungo"], "species": "sporangio", "stack": 9, "desc": "Un Seme di mondo nutrito di spore: dietro il suo portale, paludi di spore quasi ovunque."},
-	"seme_mondo_resina": {"name": "Seme di resina", "kind": "seme_mondo", "icon": ["seme", "ambra"], "species": "resina", "stack": 9, "desc": "Un Seme di mondo nutrito d'ambra: dietro il suo portale, distese d'ambra calde e aperte."},
+	# voce 39: Semi di mondo con la specie scelta (`species` = gene di superficie di `GenesData`; voce 42: ogni Seme
+	# ha il suo genoma nei dati della casella, e non si impila)
+	"seme_mondo_lanterna": {"name": "Seme di salice-lanterna", "kind": "seme_mondo", "icon": ["seme", "linfa"], "species": "lanterna", "stack": 1, "desc": "Un Seme di mondo nutrito di semi-lanterna: dietro il suo portale, foreste di alberi-lanterna a perdita d'occhio."},
+	"seme_mondo_sporangio": {"name": "Seme di sporangio", "kind": "seme_mondo", "icon": ["seme", "fungo"], "species": "sporangio", "stack": 1, "desc": "Un Seme di mondo nutrito di spore: dietro il suo portale, paludi di spore quasi ovunque."},
+	"seme_mondo_resina": {"name": "Seme di resina", "kind": "seme_mondo", "icon": ["seme", "ambra"], "species": "resina", "stack": 1, "desc": "Un Seme di mondo nutrito d'ambra: dietro il suo portale, distese d'ambra calde e aperte."},
 	# voce 38: viaggio rapido
 	"radice_viandante": {"name": "Radice viandante", "kind": "stazione", "icon": ["radice_viaggio", "linfa"], "place": "radice_viandante", "stack": 99, "desc": "Piantala dove vuoi tornare. Clic destro su una radice: la mappa mostra tutte le altre radici del mondo, un clic e ci arrivi."},
 	"lumino": {"name": "Lumino", "kind": "moneta", "icon": ["lumino", "ambra"], "stack": 9999, "desc": "Una goccia di luce solida: la moneta degli abitanti. La lasciano le creature sconfitte e gli scrigni."},
 	"focolare": {"name": "Focolare del Giardino", "kind": "stazione", "icon": ["focolare", "brace"], "place": "focolare", "stack": 99, "desc": "Un fuoco acceso che si vede da lontano. Con un Letto di foglie libero lì vicino, un viandante si ferma ad abitare (uno per letto)."},
-	"seme_mondo": {"name": "Seme di mondo", "kind": "seme_mondo", "icon": ["seme", "cristallo"], "stack": 9, "desc": "Il Cuore del mondo ti ha donato un seme. Piantalo sul terreno: crescerà un portale verso un mondo nuovo."},
+	"seme_mondo": {"name": "Seme di mondo", "kind": "seme_mondo", "icon": ["seme", "cristallo"], "stack": 1, "desc": "Il Cuore del mondo ti ha donato un seme. Piantalo sul terreno: crescerà un portale verso un mondo nuovo. Ogni Seme porta i suoi geni: posalo in Esamina per leggerli."},
 }
 
 ## Metalli: grado, forza di piccone e ascia, danno della spada, difesa dell'armatura (elmo, corazza, gambali).

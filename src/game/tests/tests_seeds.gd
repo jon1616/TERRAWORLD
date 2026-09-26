@@ -1,8 +1,9 @@
 class_name TestsSeeds
 extends RefCounted
-## Prove della voce 39: quanti tratti secondo il vigore; due mondi dallo stesso seme, uno semplice e uno di sporangio
+## Prove delle voci 39 e 42: quanti geni secondo il vigore; due mondi dallo stesso seme, uno semplice e uno di sporangio
 ## con Rovine fitte, Gemme ricche e Vene ricche (paludi, scrigni, gemme, minerali a confronto); il Seme di resina
-## piantato dà un portale con specie e tratti, che il primo tocco racconta; gli effetti dei tratti mentre si gioca.
+## nella Bisaccia ha il suo genoma, piantato dà un portale con gli stessi geni, che il primo tocco racconta; gli
+## effetti dei geni mentre si gioca.
 
 const S := 16
 const GEMS := [23, 24, 25, 26]
@@ -40,14 +41,14 @@ func run() -> void:
 	rng.seed = 7
 	var counts := []
 	for v in [2, 3, 5, 9]:
-		counts.append(SpeciesData.roll_traits(rng, v).size())
-	print("tratti per vigore 2, 3, 5, 9: %s" % [counts])
+		counts.append(Genome.genes(Genome.roll(rng, v)).size() - 1)
+	print("geni oltre la superficie per vigore 2, 3, 5, 9: %s" % [counts])
 	# due mondi dallo stesso seme
 	var plain := World.new()
 	WorldGen.generate(plain, 4242, WorldGen.WIDTH, WorldGen.HEIGHT, {"vigore": 2})
 	var rich := World.new()
 	WorldGen.generate(rich, 4242, WorldGen.WIDTH, WorldGen.HEIGHT,
-		{"vigore": 2, "specie": "sporangio", "tratti": ["rovine_fitte", "gemme_ricche", "vene_ricche"]})
+		{"vigore": 2, "geni": ["sporangio", "rovine_fitte", "gemme_ricche", "vene_ricche"]})
 	var a := _census(plain)
 	var b := _census(rich)
 	print("mondo semplice %s · mondo di sporangio ricco %s; partenza nella palude %s" % [a, b,
@@ -64,28 +65,33 @@ func run() -> void:
 		return
 	kit.flatten(spot, 8)
 	m.snap_to(spot + Vector2i(-3, 0))
-	kit.hold("seme_mondo_resina")
+	var hs: int = kit.hold("seme_mondo_resina")
+	var g: Dictionary = m.character.bisaccia.data_at(hs).duplicate(true)
 	var planted: bool = m.portal.plant(spot, "seme_mondo_resina")
 	var o := spot - Vector2i(1, 3)
 	var e: Dictionary = m.world_meta.get("portali", {}).get("%d,%d" % [o.x, o.y], {})
 	await kit.frames(2)
 	m.guardian.lore.visible = false          # la pagina del portale
 	m.portal.touch(o)
-	print("Seme di resina piantato %s: specie «%s», tratti %s; primo tocco: «%s»" % ["sì" if planted else "NO",
-		e.get("specie", ""), e.get("tratti", []), m.portal.describe(o)])
+	print("Seme di resina con il suo genoma %s (vigore %d), piantato %s: geni del portale %s, uguali %s; primo tocco: «%s»" % [
+		Genome.genes(g), Genome.vigor(g), "sì" if planted else "NO", e.get("geni", []),
+		"sì" if e.get("geni", []) == Genome.genes(g) and Genome.surface_of(e.get("geni", [])) == "resina" else "NO",
+		m.portal.describe(o)])
+	# la scheda del Seme in Esamina: il genoma, con i geni mai visti come «?»
+	var sheet := ItemInfo.bbcode("seme_mondo_resina", "", g)
+	print("scheda del Seme: genoma %s, vigore %s" % ["sì" if sheet.contains("Genoma") else "NO",
+		"sì" if sheet.contains("vigore %d" % Genome.vigor(g)) else "NO"])
 	# gli effetti dei tratti mentre si gioca
 	var wt: WorldTraits = m.world_traits
 	m.day.time = 0.26
 	var dawn0: float = m.day.daylight()
-	wt.traits = ["brulicante", "notti_lunghe", "fertile", "stellato", "avvizzito"]
-	wt.species = "sporangio"
+	wt.genes = ["sporangio", "brulicante", "notti_lunghe", "fertile", "stellato", "avvizzito"]
 	wt.apply()
 	var dawn1: float = m.day.daylight()
 	print("tratti in gioco: pericolo %+.1f, Lumini ×%.1f, colture ×%.1f, eventi ×%.1f, Avvizzimento ×%.1f; luce all'alba %.2f → %.2f; scheda: %s" % [
 		m.fauna.world_danger, m.fauna.world_lumini, m.garden.grow_mult, m.events.chance_mult, m.blight.spread_mult,
 		dawn0, dawn1, "sì" if CharacterSheet.bbcode(m).contains("Questo mondo") else "NO"])
-	wt.traits = []
-	wt.species = ""
+	wt.genes = []
 	wt.apply()
 	m.day.time = 0.5
 	m.day.apply(true)

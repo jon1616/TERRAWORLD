@@ -43,7 +43,7 @@ func _totals() -> Dictionary:
 func run() -> void:
 	# un mondo nato da un Seme di cenere
 	var ash := World.new()
-	WorldGen.generate(ash, 777, WorldGen.WIDTH, WorldGen.HEIGHT, {"vigore": 2, "specie": "cenere", "tratti": []})
+	WorldGen.generate(ash, 777, WorldGen.WIDTH, WorldGen.HEIGHT, {"vigore": 2, "geni": ["cenere"]})
 	var n := 0
 	for x in ash.w:
 		if int(ash.biomes[x]) == BiomesData.index_of("cenere"):

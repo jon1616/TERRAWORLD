@@ -4,10 +4,10 @@ extends RefCounted
 ## sviluppo e i mondi salvati non devono dipendere dalla sua versione). Caricare è molto più rapido che rigenerare.
 ##
 ## mondo.bin = "TWM1" + dimensione dei dati (4 byte) + dati compressi ZSTD (var_to_bytes di un dizionario di array)
-## mondo.json = nome, seme, dimensioni, date, tempo di gioco, partenza, posizione di ogni personaggio
+## mondo.json = nome, seme, dimensioni, date, tempo di gioco, partenza, posizione di ogni personaggio; "formato" è la
+## versione (`SaveMigrations.WORLD`): alla lettura `read_meta` lo porta alla forma di oggi
 
 const MAGIC := "TWM1"
-const FORMAT := 1
 
 
 static func dir_of(id: String) -> String:
@@ -51,7 +51,7 @@ static func save(w: World, id: String, meta: Dictionary) -> Error:
 	var err := SavePaths.write_atomic(dir + "/mondo.bin", out)
 	if err != OK:
 		return err
-	meta["formato"] = FORMAT
+	meta["formato"] = SaveMigrations.WORLD
 	meta["seme"] = w.world_seed
 	meta["dimensioni"] = [w.w, w.h]
 	meta["partenza"] = [w.spawn.x, w.spawn.y]
@@ -62,6 +62,9 @@ static func save(w: World, id: String, meta: Dictionary) -> Error:
 ## Carica un mondo salvato; null se i file mancano o sono rovinati (anche la copia di sicurezza).
 static func load_world(id: String) -> World:
 	var meta := read_meta(id)
+	if meta.has(SaveMigrations.TOO_NEW):
+		push_error("il mondo %s viene da una versione più nuova del gioco" % id)
+		return null
 	var bytes := SavePaths.read(dir_of(id) + "/mondo.bin")
 	var w := _decode(bytes)
 	if w == null:
@@ -124,8 +127,11 @@ static func delete(id: String) -> void:
 	SavePaths.delete_dir(dir_of(id))
 
 
+## I dati leggibili di un mondo, già portati alla forma di oggi (vedi `SaveMigrations`).
 static func read_meta(id: String) -> Dictionary:
-	return SavePaths.read_json(dir_of(id) + "/mondo.json")
+	var m := SavePaths.read_json(dir_of(id) + "/mondo.json")
+	SaveMigrations.world_meta(m)
+	return m
 
 
 ## Tutti i mondi salvati, dal più recente.

@@ -10,11 +10,13 @@ const STATS := [["damage", "Danno"], ["speed", "Colpi al secondo"], ["defense", 
 
 
 ## Testo con i colori (BBCode) per un RichTextLabel.
-static func bbcode(id: String, tratto := "") -> String:
+static func bbcode(id: String, tratto := "", dati := {}) -> String:
 	var it := ItemsData.get_item(id)
 	if it.is_empty():
 		return ""
 	var t := "[font_size=20][color=#ffd08a]%s[/color][/font_size]\n" % TraitsData.full_name(id, tratto)
+	if dati.has("geni"):
+		t += Genome.sheet(dati)
 	if tratto != "":
 		t += "[color=#ffd08a]Tratto %s:[/color] %s\n" % [TraitsData.TRAITS[tratto]["name"], TraitsData.TRAITS[tratto]["desc"]]
 	if String(it.get("desc", "")) != "":

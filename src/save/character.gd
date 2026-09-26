@@ -3,8 +3,6 @@ extends RefCounted
 ## Un personaggio, separato dai mondi: può entrare in qualunque mondo portando con sé la sua Bisaccia.
 ## Equipaggiamento, vita e Linfa arrivano con la voce 4d della Roadmap.
 
-const FORMAT := 1
-
 var id := ""
 var name := ""
 var created := ""
@@ -21,18 +19,23 @@ var stats := {}                        # conteggi per gli obiettivi (vedi `Objec
 var obiettivi: Array = []              # obiettivi raggiunti (id di `ObjectivesData`)
 var erbario := {}                      # scoperte (vedi `Erbario`): creature sconfitte, oggetti, pagine di storia
 var guardiani_curati: Array = []       # mondi in cui ha curato il Guardiano (il dono vale una volta per mondo)
+var genario := {}                      # voce 42: geni conosciuti, gene → 1 visto (in un mondo), 2 imparato (voce 46)
 
 
 func to_dict() -> Dictionary:
-	return {"formato": FORMAT, "nome": name, "creato": created, "ultimo_salvataggio": last_save,
+	return {"formato": SaveMigrations.CHARACTER, "nome": name, "creato": created, "ultimo_salvataggio": last_save,
 		"tempo_di_gioco": play_time, "barra": hotbar, "ultimo_mondo": last_world,
 		"bisaccia": bisaccia.to_array() if bisaccia else [], "equipaggiamento": bisaccia.equip if bisaccia else {},
 		"tratti_equip": bisaccia.equip_traits if bisaccia else {},
 		"vita": hp, "linfa": linfa, "vita_extra": vita_extra, "linfa_extra": linfa_extra, "guardiani_curati": guardiani_curati,
-		"erbario": erbario, "stats": stats, "obiettivi": obiettivi}
+		"erbario": erbario, "stats": stats, "obiettivi": obiettivi, "genario": genario}
 
 
+## Null se i dati vengono da una versione più nuova del gioco (vedi `SaveMigrations`).
 static func from_dict(cid: String, d: Dictionary) -> Character:
+	if not SaveMigrations.character(d):
+		push_error("il personaggio %s viene da una versione più nuova del gioco" % cid)
+		return null
 	var c := Character.new()
 	c.id = cid
 	c.name = String(d.get("nome", cid))
@@ -66,6 +69,10 @@ static func from_dict(cid: String, d: Dictionary) -> Character:
 		st[k] = int(st[k])
 	c.stats = st
 	c.obiettivi = d.get("obiettivi", [])
+	var gn: Dictionary = d.get("genario", {})
+	for k in gn:
+		if GenesData.GENES.has(k):
+			c.genario[k] = int(gn[k])
 	c.hp = clampi(int(d.get("vita", Vitals.HP_MAX)), 1, Vitals.HP_MAX + c.vita_extra)
 	c.linfa = clampi(int(d.get("linfa", Vitals.LINFA_MAX)), 0, Vitals.LINFA_MAX + c.linfa_extra)
 	return c

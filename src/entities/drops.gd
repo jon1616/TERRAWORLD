@@ -26,12 +26,13 @@ func setup(w: World, p: Player, b: Bisaccia) -> void:
 	z_index = 5
 
 
-## Fa cadere n oggetti in un punto, con una piccola spinta a caso verso l'alto.
-func spawn(id: String, n: int, pos: Vector2) -> void:
+## Fa cadere n oggetti in un punto, con una piccola spinta a caso verso l'alto. `dati`: quelli propri di un oggetto
+## unico (un Seme con il suo genoma, voce 41), che arrivano nella Bisaccia così come sono.
+func spawn(id: String, n: int, pos: Vector2, dati := {}) -> void:
 	if n <= 0 or not ItemsData.has(id):
 		return
 	for d in _items:
-		if d["id"] == id and (d["node"] as Sprite2D).position.distance_to(pos) < 12.0:
+		if dati.is_empty() and not d.has("dati") and d["id"] == id and (d["node"] as Sprite2D).position.distance_to(pos) < 12.0:
 			d["n"] = int(d["n"]) + n
 			return
 	if not _icons.has(id):
@@ -42,6 +43,8 @@ func spawn(id: String, n: int, pos: Vector2) -> void:
 	sp.position = pos
 	add_child(sp)
 	_items.append({"node": sp, "id": id, "n": n, "vel": Vector2(_rng.randf_range(-40, 40), -_rng.randf_range(60, 120)), "t": 0.0})
+	if not dati.is_empty():
+		_items[-1]["dati"] = dati.duplicate(true)
 
 
 func count() -> int:
@@ -77,7 +80,7 @@ func _process(dt: float) -> void:
 		sp.offset.y = sin(float(d["t"]) * 3.0) * 1.0
 		if room and dist < PICK:
 			var n: int = d["n"]
-			var left := bisaccia.add(d["id"], n)
+			var left := bisaccia.add_stack({"id": d["id"], "n": n, "dati": d["dati"]}) if d.has("dati") else bisaccia.add(d["id"], n)
 			picked.emit(d["id"], n - left)
 			if left <= 0:
 				sp.queue_free()

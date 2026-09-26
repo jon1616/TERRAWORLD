@@ -69,6 +69,7 @@ func _ready() -> void:
 	get_tree().set_auto_accept_quit(false)
 	Musica.attach(self)                    # la musica guarda se c'è un boss vicino e in che strato si è
 	character = Session.character
+	Genome.known = character.genario           # i geni che il personaggio conosce (schede dei Semi)
 	if Session.world_id != "":
 		world_id = Session.world_id
 		world_meta = WorldSave.read_meta(world_id)
@@ -78,11 +79,11 @@ func _ready() -> void:
 		var nw: Dictionary = Session.new_world
 		world_id = nw["id"]
 		world_meta = {"nome": nw["nome"], "creato": SavePaths.now_text(), "tempo_di_gioco": 0.0, "giocatori": {},
-			"vigore": int(nw.get("vigore", 1)), "specie": String(nw.get("specie", "")), "tratti": nw.get("tratti", [])}
+			"vigore": int(nw.get("vigore", 1)), "geni": nw.get("geni", []), "formato": SaveMigrations.WORLD}
 		_show_loading("Il seme germoglia…\ngenerazione del mondo")
 		world = World.new()
 		var sd: int = nw["seme"]
-		var params := {"vigore": int(nw.get("vigore", 1)), "specie": String(nw.get("specie", "")), "tratti": nw.get("tratti", [])}
+		var params := {"vigore": int(nw.get("vigore", 1)), "geni": nw.get("geni", [])}
 		_gen_task = WorkerThreadPool.add_task(func() -> void: gen_times = WorldGen.generate(world, sd, WorldGen.WIDTH, WorldGen.HEIGHT, params), false, "genera mondo")
 
 

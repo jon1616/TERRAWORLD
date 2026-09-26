@@ -45,6 +45,59 @@ func _init() -> void:
 	_check(c.save() == OK, "salvataggio personaggio")
 	var c2 := Character.load_id(c.id)
 	_check(c2 != null and c2.name == c.name and c2.hotbar == 4 and is_equal_approx(c2.play_time, 123.5), "personaggio identico")
+	# voce 41: una casella con i suoi dati (numeri interi annidati) torna identica, e non si unisce ad altre pile
+	var dati := {"geni": ["cavo", "vene_ricche"], "vigore": 3, "note": {"n": [1, 2]}}
+	c.bisaccia.slots[20] = {"id": "legno", "n": 1, "dati": dati}
+	c.bisaccia.add("legno", 5)
+	c.save()
+	var c3 := Character.load_id(c.id)
+	_check(c3 != null and c3.bisaccia.data_at(20) == dati and typeof(c3.bisaccia.data_at(20)["vigore"]) == TYPE_INT
+		and c3.bisaccia.count_at(20) == 1, "casella con i suoi dati identica")
+	c3.bisaccia.sort_bag()
+	var kept := false
+	for i in c3.bisaccia.slots.size():
+		kept = kept or c3.bisaccia.data_at(i) == dati
+	_check(kept, "riordinando la Bisaccia i dati restano alla loro casella")
+	# un salvataggio di una versione più nuova non si apre (né personaggio né mondo)
+	var future := c.to_dict()
+	future["formato"] = SaveMigrations.CHARACTER + 1
+	_check(Character.from_dict("futuro", future) == null, "personaggio di una versione più nuova rifiutato")
+	WorldSave.save(w, id, {"nome": "Prova"})
+	var meta := SavePaths.read_json(WorldSave.dir_of(id) + "/mondo.json")
+	meta["formato"] = SaveMigrations.WORLD + 1
+	SavePaths.write_json(WorldSave.dir_of(id) + "/mondo.json", meta)
+	_check(WorldSave.load_world(id) == null, "mondo di una versione più nuova rifiutato")
+	meta["formato"] = SaveMigrations.WORLD
+	SavePaths.write_json(WorldSave.dir_of(id) + "/mondo.json", meta)
+	# voce 42: un mondo salvato con il formato 1 (specie e tratti della voce 39) migra ai geni, anche nei portali
+	meta["formato"] = 1
+	meta["specie"] = "sporangio"
+	meta["tratti"] = ["vene_ricche", "brulicante", "quieto"]
+	meta["portali"] = {"10,20": {"mondo": "", "seme": 5, "ritorno": false, "specie": "brina", "tratti": ["stellato"]},
+		"30,20": {"mondo": "x", "seme": 0, "ritorno": true}}
+	SavePaths.write_json(WorldSave.dir_of(id) + "/mondo.json", meta)
+	var mig := WorldSave.read_meta(id)
+	_check(mig.get("geni", []) == ["sporangio", "vene_ricche", "brulicante"] and not mig.has("specie")
+		and int(mig["formato"]) == SaveMigrations.WORLD, "mondo del formato 1 migrato ai geni: %s" % [mig.get("geni", [])])
+	_check(mig["portali"]["10,20"].get("geni", []) == ["brina", "stellato"] and not mig["portali"]["30,20"].has("geni"),
+		"portali migrati ai geni")
+	_check(WorldSave.load_world(id) != null, "mondo migrato si apre")
+	WorldSave.save(w, id, mig)
+	_check(WorldSave.read_meta(id).get("geni", []) == mig["geni"], "mondo migrato risalvato identico")
+	# un Seme di mondo nella Bisaccia ha il suo genoma, che resta identico salvando e ricaricando
+	var c4 := Character.create("Seme")
+	c4.bisaccia.add("seme_mondo_brina", 2)
+	var gk := -1
+	for i in c4.bisaccia.slots.size():
+		if c4.bisaccia.id_at(i) == "seme_mondo_brina":
+			gk = i
+			break
+	var g0 := c4.bisaccia.data_at(gk).duplicate(true)
+	c4.save()
+	var c5 := Character.load_id(c4.id)
+	_check(c4.bisaccia.count("seme_mondo_brina") == 2 and c4.bisaccia.count_at(gk) == 1, "due Semi, due caselle")
+	_check(Genome.surface_of(Genome.genes(g0)) == "brina" and c5.bisaccia.data_at(gk) == g0, "genoma del Seme salvato identico: %s" % [g0])
+	Character.delete(c4.id)
 	# cancellare: il personaggio (con la sua copia di sicurezza) e il mondo spariscono dagli elenchi
 	c.save()
 	Character.delete(c.id)

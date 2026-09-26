@@ -1,26 +1,29 @@
 class_name WorldTraits
 extends Node
-## Gli effetti dei tratti del mondo mentre si gioca (voce 39, dati in `SpeciesData`): la specie e i tratti stanno in
-## `world_meta` ("specie", "tratti"), scritti quando il mondo nasce da un portale; il mondo casa non ne ha. Entrando
-## la prima volta in un mondo con dei tratti, una scritta li presenta.
+## Gli effetti dei geni del mondo mentre si gioca (voce 39, geni dalla voce 42: dati in `GenesData`, la parte `run`).
+## I geni stanno in `world_meta["geni"]`, scritti quando il mondo nasce da un portale; il mondo casa non ne ha.
+## Entrando in un mondo il personaggio **vede** i suoi geni (`Character.genario`: poi le schede dei Semi li mostrano
+## per nome); la prima volta una scritta li presenta.
 
 var m: Node2D
-var species := ""
-var traits: Array = []
+var genes: Array = []
 
 
 func setup(main: Node2D) -> void:
 	m = main
-	species = String(m.world_meta.get("specie", ""))
-	traits = m.world_meta.get("tratti", [])
+	genes = m.world_meta.get("geni", [])
+	Genome.local_vigor = int(m.world_meta.get("vigore", 1)) + 1   # i Semi raccolti qui portano al mondo dopo
+	for g in genes:
+		if Genome.state(String(g)) == 0:
+			Genome.known[String(g)] = 1
 	apply()
-	if (species != "" or not traits.is_empty()) and not m.world_meta.get("tratti_visti", false):
+	if not genes.is_empty() and not m.world_meta.get("tratti_visti", false):
 		m.world_meta["tratti_visti"] = true
-		m.depth_watch.banner.show_stratum(SpeciesData.describe(species, []), _names(), Color("#8ef0d8"))
+		m.depth_watch.banner.show_stratum(_surface_name(), _names(), Color("#8ef0d8"))
 
 
 func apply() -> void:
-	var e := SpeciesData.effects(traits, "run")
+	var e := Genome.effects(genes, "run")
 	m.fauna.world_danger = float(e["danger"])
 	m.fauna.world_lumini = float(e["lumini"])
 	m.fauna.world_rare = float(e["rare"])
@@ -30,16 +33,22 @@ func apply() -> void:
 	m.blight.spread_mult = float(e["blight"])
 
 
+func _surface_name() -> String:
+	var sg := Genome.surface_of(genes)
+	return "Seme di " + String(GenesData.info(sg).get("name", "")).to_lower() if sg != "" else "Seme del Giardino"
+
+
 func _names() -> String:
 	var out := []
-	for t in traits:
-		if SpeciesData.TRAITS.has(String(t)):
-			out.append("%s: %s" % [SpeciesData.TRAITS[t]["name"], SpeciesData.TRAITS[t]["desc"]])
-	return " · ".join(out) if not out.is_empty() else "nessun tratto"
+	for g in genes:
+		var d := GenesData.info(String(g))
+		if not d.is_empty() and d["cat"] != "superficie":
+			out.append("%s: %s" % [d["name"], d["desc"]])
+	return " · ".join(out) if not out.is_empty() else "nessun gene particolare"
 
 
 ## Una riga per la scheda del personaggio.
 func sheet_line() -> String:
-	if species == "" and traits.is_empty():
+	if genes.is_empty():
 		return ""
-	return "Questo mondo: " + SpeciesData.describe(species, traits, true)
+	return "Questo mondo: " + Genome.describe({"geni": genes}, true)

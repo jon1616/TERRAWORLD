@@ -648,15 +648,20 @@ Dimensioni: S piccola, M media, L grande.
 
 # Roadmap 5 «Il Seme e i suoi geni» — il motore dell'infinito
 
-## 41. [ ] Versione dei salvataggi e migrazioni (S)
+## 41. [x] Versione dei salvataggi e migrazioni (S) — fatto il 26 set 2026
 Il piano cambia la forma di oggetti, Semi e creature: ogni salvataggio (mondo, `mondo.json`, personaggio) riceve un
 numero di versione e una catena di migrazioni (`SaveMigrations`: da 1 a 2, da 2 a 3…), così i mondi e i personaggi di
 oggi restano giocabili fino alla fine del piano. Le caselle della Bisaccia diventano capaci di portare dati propri
 (oggi il solo «tratto»): un campo `dati` generico, che servirà al genoma dei Semi e ai componenti degli attrezzi.
 **Pronto quando**: un salvataggio di oggi si apre, migra e risalva identico; `tools/prova_salvataggi.gd` prova anche
 la migrazione.
+**Fatto il 26 set 2026**: `SaveMigrations` (`src/save/`): "formato" in ogni personaggio e mondo, catena di passi alla
+lettura (`WorldSave.read_meta` e `Character.from_dict` restituiscono sempre la forma di oggi), un file di una versione
+più nuova non si apre. Le caselle della Bisaccia (e di ceste, scrigni, oggetti a terra con `Drops.spawn(…, dati)`)
+portano "dati" propri: una casella con dati non si unisce mai a un'altra pila, i numeri tornano interi dopo il JSON
+(`SaveMigrations.ints`). La prova dei salvataggi controlla dati, riordino, versioni più nuove e la migrazione 1 → 2.
 
-## 42. [ ] Il genoma del Seme (L)
+## 42. [x] Il genoma del Seme (L) — fatto il 26 set 2026
 `GenesData`: i geni, in **categorie** che corrispondono alle parti del generatore — clima e biomi di superficie,
 suolo e strati, grotte, minerali e gemme, flora, fauna, strutture, cielo ed eventi, «leggi» (dalla Roadmap 10).
 Ogni gene: nome dell'universo, rarità (comune, robusto, antico, stellare), dominanza, geni con cui non va d'accordo,
@@ -665,6 +670,15 @@ casella. Le 5 specie e i 10 tratti di oggi diventano geni (migrazione dei portal
 Esamina: geni noti in chiaro, quelli mai visti come «?».
 **Pronto quando**: ogni Seme ha un genoma leggibile, i portali di oggi lo hanno ricevuto, `verifica_dati` controlla i
 geni (riferimenti, incompatibilità, ogni gene ottenibile).
+**Fatto il 26 set 2026**: `GenesData` (13 categorie: superficie, forma, grotte, sottosuolo, minerali, gemme, rovine,
+fauna, stirpi, flora, cielo, tempo, ombra; 4 rarità; dominanza) e `Genome` (`src/game/`: genoma a caso secondo il
+vigore, effetti sommati, descrizione e scheda). Le 5 specie e i 10 tratti della voce 39 sono diventati 15 geni
+(`SpeciesData` tolto); le categorie rendono incompatibili da sole i geni opposti (brulicante/quieto). Ogni Seme di mondo
+nella Bisaccia ha il suo genoma (non si impila più; il vigore è quello del mondo dove lo si raccoglie più uno,
+`Genome.local_vigor`), piantato lo passa al portale ("geni", "vigore"), il mondo nato lo porta in `world_meta["geni"]`
+e il generatore in `GenContext.params["geni"]` (`c.genes()`, `c.surface_gene()`). Migrazione del mondo 1 → 2 (specie
+e tratti → geni, anche nei portali). Entrando in un mondo i suoi geni diventano «visti» (`Character.genario`); in
+Esamina il Seme mostra il genoma, i geni mai visti come «?».
 
 ## 43. [ ] Il generatore guidato dai geni (L)
 Ogni categoria di geni entra nella sua passata: biomi (peso e forma), strati (rocce e sacche diverse per gene), grotte
