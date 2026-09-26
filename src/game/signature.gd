@@ -15,6 +15,8 @@ var _t := 0.0
 
 func setup(main: Node2D) -> void:
 	m = main
+	if m.world_meta.get("giardino", false):
+		m.world_meta["firma"] = {}            # voce 62: il Giardino non ha una firma: è la casa
 	if not m.world_meta.has("firma"):
 		var notes: Dictionary = m.world.gen_notes.get("firma", {})
 		if notes.is_empty() and not m.world.gen_notes.has("firma"):

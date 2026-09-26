@@ -4,6 +4,10 @@ extends RefCounted
 ## Ogni frammento andrà anche nell'Erbario (vedi UNIVERSO.md, «Da collezionare»).
 
 const PAGES := {
+	"albero_addormentato": {
+		"title": "L'Albero-Madre",
+		"text": "Il Giardino galleggia nel Vuoto, e al centro dorme l'Albero-Madre: la corteccia è grigia, le fronde quasi tutte cadute. Eppure, quando lo tocchi, qualcosa si muove nel legno, come un respiro lento.\nUn seme cade ai tuoi piedi. Ogni mondo nasce così: da un seme che l'Albero lascia andare. Piantalo nell'Aiuola, e raccogli ciò che serve a svegliarlo.",
+	},
 	"cuore_trovato": {
 		"title": "Il Cuore del mondo",
 		"text": "Batte piano, grigio come cenere bagnata. Le radici che lo avvolgono sono marce di muffa: l'Avvizzimento è arrivato fin quaggiù.\nQuattro nodi, sul soffitto della cupola, pulsano insieme al Cuore. Qualcosa si muove tra le radici.",

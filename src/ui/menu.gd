@@ -75,7 +75,10 @@ func _start_tests() -> void:
 	if "--carica" in OS.get_cmdline_user_args() and not WorldSave.read_meta("mondo_prova").is_empty():
 		Session.start_saved_world("mondo_prova")
 	else:
-		Session.start_new_world("Mondo di prova", 20260924, "mondo_prova")
+		if "--prova-giardino" in OS.get_cmdline_user_args():
+			Session.start_new_world("Giardino di prova", 20260924, "giardino_prova", {"giardino": true, "geni": ["brina"]})
+		else:
+			Session.start_new_world("Mondo di prova", 20260924, "mondo_prova")
 	get_tree().change_scene_to_file(GAME_SCENE)
 
 
@@ -175,16 +178,17 @@ func _show_worlds() -> void:
 
 func _show_new_world() -> void:
 	_clear()
-	_heading("Nuovo mondo")
-	var name_edit := _field("Nome del mondo", "")
+	_heading("Nuovo Giardino")
+	var name_edit := _field("Nome del Giardino", "")
 	var seed_edit := _field("Seme (vuoto = a caso)", "")
-	# voce 45: il Seme del Giardino sceglie i biomi del mondo di partenza (a ogni clic il successivo)
+	# voce 62: la partita comincia nel Giardino; questo gene va nel primo Seme che l'Albero-Madre lascia cadere, e
+	# sceglie i biomi del primo mondo (a ogni clic il successivo)
 	var kinds := [""] + GenesData.of_cat("superficie")
 	var pick := [0]
 	var kind_btn := _button("", Callable(), TEXT)
 	var show_kind := func() -> void:
 		var g := String(kinds[pick[0]])
-		kind_btn.text = "Seme del Giardino: %s" % ("tutti i biomi" if g == "" else "%s (%s)" % [GenesData.GENES[g]["name"],
+		kind_btn.text = "Primo Seme: %s" % ("tutti i biomi" if g == "" else "%s (%s)" % [GenesData.GENES[g]["name"],
 			GenesData.GENES[g]["desc"]])
 	show_kind.call()
 	kind_btn.pressed.connect(func() -> void:
@@ -193,11 +197,11 @@ func _show_new_world() -> void:
 	_button("Pianta il seme", func() -> void:
 		var n := name_edit.text.strip_edges()
 		if n == "":
-			n = "Mondo senza nome"
+			n = "Giardino senza nome"
 		var s := seed_edit.text.strip_edges()
 		var sd := int(s) if s.is_valid_int() else (s.hash() & 0x7fffffff if s != "" else randi() & 0x7fffffff)
 		var g := String(kinds[pick[0]])
-		Session.start_new_world(n, sd, "", {} if g == "" else {"geni": [g]})
+		Session.start_new_world(n, sd, "", {"giardino": true} if g == "" else {"giardino": true, "geni": [g]})
 		get_tree().change_scene_to_file(GAME_SCENE), GOLD)
 	_button("Indietro", _show_worlds, DIM)
 	name_edit.grab_focus()

@@ -22,6 +22,10 @@ func run(main: Node2D) -> void:
 	if "--prova-portale" in OS.get_cmdline_user_args():
 		await TestsPortalTrip.new(kit).run()
 		return
+	if "--prova-giardino" in OS.get_cmdline_user_args():
+		await TestsHome.new(kit).run()             # Roadmap 8: il Giardino vero, l'Albero-Madre e ciò che ne nasce
+		get_tree().quit()
+		return
 	# `--solo=doni,antiche`: solo alcuni gruppi di prove (per provare in fretta una voce nuova)
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--solo="):

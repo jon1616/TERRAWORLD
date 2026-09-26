@@ -83,6 +83,16 @@ const STATIONS := {
 	"recinto": {"name": "Recinto di radici", "size": [3, 2], "item": "recinto", "slots": 12},
 	"incubatrice": {"name": "Incubatrice di muschio", "size": [2, 1], "item": "incubatrice", "slots": 4, "light": true,
 		"light_color": Color(0.4, 0.9, 0.7)},
+	# voce 62: l'Albero-Madre del Giardino, in cinque fasi di crescita (il disegno in `MotherTreeArt`)
+	"albero_madre_0": {"name": "Albero-Madre", "size": [9, 13], "item": "", "fixed": true},
+	"albero_madre_1": {"name": "Albero-Madre", "size": [9, 13], "item": "", "fixed": true, "light": true,
+		"light_color": Color(0.3, 0.8, 0.7)},
+	"albero_madre_2": {"name": "Albero-Madre", "size": [9, 13], "item": "", "fixed": true, "light": true,
+		"light_color": Color(0.4, 0.9, 0.8)},
+	"albero_madre_3": {"name": "Albero-Madre", "size": [9, 13], "item": "", "fixed": true, "light": true,
+		"light_color": Color(0.6, 1.0, 0.8)},
+	"albero_madre_4": {"name": "Albero-Madre", "size": [9, 13], "item": "", "fixed": true, "light": true,
+		"light_color": Color(1.0, 1.0, 0.8)},
 	# voce 47: il Banco dell'Innestatrice (clic destro: `InnestoPanel`)
 	"banco_innesti": {"name": "Banco dell'Innestatrice", "size": [3, 1], "item": "banco_innesti", "light": true,
 		"light_color": Color(0.5, 1.1, 0.9)},

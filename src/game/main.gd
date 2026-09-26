@@ -54,6 +54,7 @@ var sampling: Sampling
 var innesto: InnestoPanel
 var gene_mats: GeneMaterials
 var ecology: Ecology
+var giardino: Giardino
 var storage: Storage
 var herd: Herd
 var taming: Taming
@@ -95,11 +96,19 @@ func _ready() -> void:
 			"vigore": int(nw.get("vigore", 1)), "geni": nw.get("geni", []), "formato": SaveMigrations.WORLD}
 		if nw.has("casa"):
 			world_meta["casa"] = nw["casa"]
+		if nw.get("giardino", false):
+			# voce 62: il Giardino, la casa della partita (il gene del menu andrà nel primo Seme)
+			world_meta["giardino"] = true
+			world_meta["vigore"] = 0
+			world_meta["geni"] = []
+			world_meta["primo_geni"] = nw.get("geni", [])
 		_show_loading("Il seme germoglia…\ngenerazione del mondo")
 		world = World.new()
 		var sd: int = nw["seme"]
-		var params := {"vigore": int(nw.get("vigore", 1)), "geni": nw.get("geni", [])}
-		_gen_task = WorkerThreadPool.add_task(func() -> void: gen_times = WorldGen.generate(world, sd, WorldGen.WIDTH, WorldGen.HEIGHT, params), false, "genera mondo")
+		var params := {"vigore": int(nw.get("vigore", 1)), "geni": nw.get("geni", []), "giardino": nw.get("giardino", false)}
+		var gw := WorldGen.GARDEN_W if params["giardino"] else WorldGen.WIDTH
+		var gh := WorldGen.GARDEN_H if params["giardino"] else WorldGen.HEIGHT
+		_gen_task = WorkerThreadPool.add_task(func() -> void: gen_times = WorldGen.generate(world, sd, gw, gh, params), false, "genera mondo")
 
 
 func _show_loading(text: String) -> void:
@@ -261,7 +270,8 @@ func _build() -> void:
 	sampling = _mount(Sampling.new())
 	gene_mats = _mount(GeneMaterials.new())
 	ecology = _mount(Ecology.new())
-	storage = _mount(Storage.new())        # casse: ingredienti per la creazione, impostazioni, pulsanti
+	storage = _mount(Storage.new())
+	giardino = _mount(Giardino.new())      # voce 62: il Giardino sospeso nel Vuoto        # casse: ingredienti per la creazione, impostazioni, pulsanti
 	hud.panel.quick_stack = storage.quick_stack
 	hud.panel._toast = hud.toast
 	interact.chest_panel.storage = storage

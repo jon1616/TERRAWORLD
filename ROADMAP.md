@@ -1082,11 +1082,22 @@ Foglio con `tools/alberi.gd`, prove `--solo=alberi` (una foto per bioma).
 
 # Roadmap 8 «Il risveglio dell'Albero-Madre» — il motivo
 
-## 62. [ ] Il Giardino vero (L)
+## 62. [x] Il Giardino vero (L) — fatto il 26 set 2026
 Il mondo casa diventa **il Giardino**: un mondo più piccolo sospeso nel Vuoto attorno all'Albero-Madre addormentato,
 con le Aiuole, lo spazio per la base, i recinti e la serra. I personaggi e i mondi di oggi migrano: il mondo di partenza
 diventa il primo mondo nato da Seme (da decidere con l'utente quando si arriva qui).
 **Pronto quando**: una partita nuova comincia nel Giardino, e il primo Seme porta al primo mondo.
+**Fatto il 26 set 2026** (il mondo di partenza lo ha deciso Claude, su delega dell'utente): una partita nuova (menu «Nuovo
+Giardino») comincia nel **Giardino**, un mondo piccolo (480×240) sospeso nel Vuoto (`PassGiardino`): un'isola di
+muschio e terra con il cuore di pietra e un po' di radicite, le radici che pendono sotto, due isolotti vicini, alberi e
+piante della foresta; al centro l'**Albero-Madre** addormentato (grande, spoglio, gli occhi chiusi nel legno:
+`MotherTreeArt`, cinque fasi di crescita), accanto la prima **Aiuola**. Solo cielo, stelle e radici del cosmo dietro
+(`Background.set_void`); niente creature, Avvizzimento, firma né Cuore; chi cade nel Vuoto è respinto all'Albero.
+Il **mondo di partenza di prima diventa il primo mondo nato da Seme**: toccando l'Albero la prima volta, lui lascia
+cadere il primo Seme (con il gene scelto nel menu, vigore 1); piantato nell'Aiuola apre il portale verso un mondo come
+quelli di sempre. Corretto un difetto vecchio: i mondi dei portali non venivano riconosciuti come «non casa» (si
+guardava "ritorno", mai scritto): ora `Aiuole.is_home` guarda "casa". Prove `-- --prove --prova-giardino`
+(`TestsHome`), foto 101_giardino.
 
 ## 63. [ ] Gli stadi dell'Albero-Madre (L)
 10-15 stadi di crescita; ognuno chiede **offerte** (Linfa antica dei Cuori, geni, creature, reliquie, materiali di

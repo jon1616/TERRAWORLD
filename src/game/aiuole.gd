@@ -23,7 +23,9 @@ func setup(main: Node2D) -> void:
 
 ## Siamo nel Giardino?
 func is_home() -> bool:
-	return not m.world_meta.has("ritorno")
+	# i mondi nati da un Seme ricevono sempre "casa" dal portale (voce 62: prima si guardava "ritorno", che però non
+	# arrivava mai nei dati del mondo, e le Aiuole si potevano piazzare ovunque)
+	return not m.world_meta.has("casa")
 
 
 func max_aiuole() -> int:

@@ -26,6 +26,7 @@ var _time := 0.3
 var biome_tint := Color.WHITE          # colore del bioma di superficie sotto la visuale (sfumato)
 var _biome_goal := Color.WHITE
 var _horizon := 0.0
+var void_mode := false                 # voce 62: il Giardino sospeso nel Vuoto (niente colline né foreste, sempre le stelle)
 
 
 func setup(w: World) -> void:
@@ -105,7 +106,8 @@ func set_time(t: float, tint: Color, night: float, star_gain := Color.WHITE) -> 
 	_time = t
 	tint *= biome_tint
 	_sky_rect.modulate = tint
-	_stars.modulate = Color(minf(star_gain.r, 6.0), minf(star_gain.g, 6.0), minf(star_gain.b, 6.0), night)
+	_stars.modulate = Color(minf(star_gain.r, 6.0), minf(star_gain.g, 6.0), minf(star_gain.b, 6.0),
+		maxf(night, 0.55) if void_mode else night)
 	_moon.modulate = Color(0.95, 1.05, 1.1) * Color(minf(star_gain.r, 2.5), minf(star_gain.g, 2.5), minf(star_gain.b, 2.5))
 	for L in _layers:
 		(L["node"] as Node2D).modulate = tint.lerp(Color.WHITE, 0.15)
@@ -140,3 +142,11 @@ func _arc(cp: Vector2, view: Vector2, p: float) -> Vector2:
 	var x := cp.x + (p - 0.5) * view.x * 1.05
 	var y := cp.y - view.y * 0.12 - sin(clampf(p, 0.0, 1.0) * PI) * view.y * 0.34
 	return Vector2(x, y + (_horizon - cp.y) * 0.04)
+
+
+## Il Giardino (voce 62): galleggia nel Vuoto, quindi niente colline né foreste all'orizzonte (solo le radici del
+## cosmo) e le stelle si vedono anche di giorno.
+func set_void() -> void:
+	void_mode = true
+	for k in range(1, _layers.size()):
+		(_layers[k]["node"] as Node2D).visible = false
