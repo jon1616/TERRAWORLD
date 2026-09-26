@@ -18,6 +18,28 @@ static func have(b: Bisaccia, id: String) -> int:
 	return n
 
 
+## Tutto ciò che si ha (Bisaccia e casse vicine), contato una volta: id -> quanti. Per l'elenco Creare, che altrimenti
+## contava gli stessi oggetti per ogni ingrediente di ogni ricetta.
+static func counts(b: Bisaccia) -> Dictionary:
+	var out := {}
+	for s in b.slots:
+		if not s.is_empty():
+			out[s["id"]] = int(out.get(s["id"], 0)) + int(s["n"])
+	for c in pool:
+		for s in (c as Bisaccia).slots:
+			if not s.is_empty():
+				out[s["id"]] = int(out.get(s["id"], 0)) + int(s["n"])
+	return out
+
+
+## Come `can_craft`, con i conteggi già fatti (`counts`).
+static func can_craft_with(r: Dictionary, b: Bisaccia, have_n: Dictionary) -> bool:
+	for k in r["in"]:
+		if int(have_n.get(k, 0)) < int(r["in"][k]):
+			return false
+	return b.room_for(String(r["out"])) >= int(r["qty"])
+
+
 static func in_pool(id: String) -> int:
 	var n := 0
 	for c in pool:

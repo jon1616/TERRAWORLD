@@ -287,10 +287,13 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   `SlotView` (casella riusabile con icona e quantità), `ExaminePanel` (casella «Esamina» in alto a sinistra della
   Bisaccia aperta: ci si posa un oggetto e compare la sua scheda di `ItemInfo` — a cosa serve, in quali ricette, come
   si ottiene; l'utente la vuole in uno spazio apposito, non nel suggerimento), `VitalsView` (foglie e gocce in alto a destra), colonna
-  dell'equipaggiamento a sinistra della Bisaccia (elmo, corazza, gambali, Scorza totale), `CraftingPanel` (colonna «Creare» a destra della Bisaccia: ricette
-  delle stazioni a portata, prima quelle possibili; passando sopra si vede cosa serve; filtri, ordine e righe del
-  Maglio) con le righe in `RecipeRow` (una per ricetta, costruita una volta e riusata: `setup`, `refresh(possibile)`,
-  stili condivisi con `RecipeRow.style`), `MiningCursor`.
+  dell'equipaggiamento a sinistra della Bisaccia (elmo, corazza, gambali, Scorza totale), `CraftingPanel` (colonna «Creare», rifatta il 26 set 2026:
+  alta tutta la destra dello schermo, bassa con una cassa aperta (`set_tall`); banchi vicini con le icone, dieci
+  categorie colorate (`CraftCatsData`: nome, colore, tipi), ricerca per nome o ingrediente, «Solo possibili»; in
+  «Tutto» gruppi per tipo con l'intestazione; lavorazioni del Maglio e del Telaio in cima; Maiusc+clic crea 5) con le
+  righe in `RecipeRow` (una per ricetta, **un nodo solo che si disegna da sé** in `_draw`: con una decina di nodi per
+  riga la prima apertura costava 90 ms; `refresh(possibile, conteggi)` con i conteggi di `Crafting.counts` fatti una
+  volta per tutte le righe), `MiningCursor`.
 - `src/game/vitals.gd` (`Vitals`) — Vita (100, foglie da 10) e Linfa (20, gocce da 2), Scorza (metà del suo valore
   tolta a ogni ferita), ricrescita della Vita dopo 6 s senza ferite, attesa di 30 s tra due pozioni; segnali `changed` e
   `died`. In main: ferite da caduta oltre 12 tessere (6 punti per tessera in più), appassire e rinascere alla partenza.

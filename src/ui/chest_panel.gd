@@ -146,6 +146,7 @@ func open(o: Vector2i, contents: Bisaccia, title: String) -> void:
 	if not panel.visible:
 		panel.toggle()
 	panel.quick_target = _from_bag
+	panel.crafting.set_tall(false)             # la colonna Creare torna bassa: qui ci sono i pulsanti della cassa
 	var st: Dictionary = storage.settings(o) if storage != null else {}
 	_settings.visible = storage != null
 	if storage != null:
@@ -164,6 +165,7 @@ func close() -> void:
 		_name.release_focus()
 	visible = false
 	panel.quick_target = Callable()
+	panel.crafting.set_tall(true)
 	if chest != null and chest.changed.is_connected(_refresh):
 		chest.changed.disconnect(_refresh)
 	chest = null

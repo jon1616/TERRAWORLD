@@ -50,6 +50,8 @@ func run() -> void:
 		counts.append("%s %d" % [CraftingPanel.CATS[k][0], cp.shown_rows()])
 	print("Creare, righe per categoria: %s" % ", ".join(counts))
 	# il suggerimento di una riga (le righe si riusano e lo scrivono solo quando il mouse ci passa sopra)
+	cp.cat = 0
+	cp.refresh()
 	var tip := ""
 	for c in cp._list.get_children():
 		if c is RecipeRow and (c as Control).visible:
