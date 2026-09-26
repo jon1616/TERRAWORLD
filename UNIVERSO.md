@@ -39,7 +39,10 @@ Si pianta un seme in un'Aiuola → cresce un portale → oltre il portale c'è i
 
 I semi si trovano esplorando: nel cuore dei mondi, negli scrigni dei Seminatori, dai boss, dagli NPC, per innesto.
 Dal 26 set 2026 l'innesto dei semi è il cuore del piano «Il Giardiniere dei mondi» (`ROADMAP.md`, Roadmap 5-11): specie
-e tratti diventano **geni** (con rarità, dominanza e mutazioni) raccolti nel **Genario**.
+e tratti diventano **geni** (con rarità, dominanza e mutazioni) raccolti nel **Genario**. In gioco dalla Roadmap 5: le
+**Aiuole** del Giardino (il mondo di partenza), la **Provetta di Linfa** e le **piante-seme** per prelevare i geni, il
+**Banco dell'Innestatrice** (l'Innestatrice verrà come abitante nella Roadmap 8), la **firma** di ogni mondo (un luogo
+che esiste solo lì) e i nomi dei mondi nati dai Semi («Paludi cave di Velmè»).
 
 ## I mondi
 

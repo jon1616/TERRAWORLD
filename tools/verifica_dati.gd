@@ -239,7 +239,7 @@ func _check_species() -> void:
 		for k in d.get("gen", {}):
 			_err((GenesData.DEFAULTS["gen"] as Dictionary).has(k) or k == "biomes", "gene %s: effetto sul generatore sconosciuto «%s»" % [g, k])
 		for f in d.get("gen", {}).get("under", []):
-			_err(f in ["fungaie", "geodi_brina", "fiumi_brace", "laghi_linfa"], "gene %s: bioma del sottosuolo sconosciuto «%s»" % [g, f])
+			_err(f in ["fungaie", "geodi_brina", "fiumi_brace", "laghi_linfa", "cuore_cavo"], "gene %s: bioma del sottosuolo sconosciuto «%s»" % [g, f])
 		_err(not d.has("only") or String(d["only"]) in ["mutazione", "firma"], "gene %s: «only» sconosciuto" % g)
 		for x in d.get("combo", []):
 			_err(GenesData.GENES.has(x), "gene %s: combinazione con un gene inesistente «%s»" % [g, x])
@@ -250,11 +250,22 @@ func _check_species() -> void:
 					"gene %s: bioma sconosciuto «%s»" % [g, b])
 	for cat in GenesData.CATEGORIES:
 		_err(GenesData.CAT_INFO.has(cat), "categoria di geni %s senza nome" % cat)
+	# voce 48: ogni gene della firma è davvero dato da una firma; i geni solo per mutazione o combinazione sono almeno 8
+	var only_mut := 0
+	for g in GenesData.GENES:
+		var d: Dictionary = GenesData.GENES[g]
+		if String(d.get("only", "")) == "firma":
+			_err(SignaturesData.SIGNATURES.values().any(func(s: Dictionary) -> bool: return s.get("gene", "") == g),
+				"gene %s: nessuna firma lo dà" % g)
+		if String(d.get("only", "")) == "mutazione":
+			only_mut += 1
+	_err(only_mut >= 8, "geni solo per mutazione o combinazione: %d (ne servono almeno 8)" % only_mut)
 	# voce 44: le firme (ricordo esistente, geni graditi esistenti), i nomi dei mondi (un paesaggio per ogni gene di
 	# superficie, aggettivi per geni che esistono, e un aggettivo per ogni gene di forma, grotte e sottosuolo)
 	for id in SignaturesData.SIGNATURES:
 		var sd: Dictionary = SignaturesData.SIGNATURES[id]
 		_err(ItemsData.has(String(sd["ricordo"])), "firma %s: ricordo inesistente" % id)
+		_err(String(GenesData.GENES.get(String(sd.get("gene", "")), {}).get("only", "")) == "firma", "firma %s: il suo gene non è un gene della firma" % id)
 		_err(PassFirma.new().has_method("_" + id), "firma %s: nessun costruttore in PassFirma" % id)
 		for g in sd["likes"]:
 			_err(GenesData.GENES.has(g), "firma %s: gene gradito inesistente «%s»" % [id, g])

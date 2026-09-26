@@ -100,7 +100,7 @@ Godot_console.exe --path . -- --prove            # --carica riapre il mondo di p
 Godot_console.exe --path . -- --prove --prova-portale
 # solo alcuni gruppi di prove (per provare in fretta una voce nuova): doni, antiche, pericoli, combattimento, tratti,
 # obiettivi, guardiani, rovine, mobilita, lanci, giardino, eventi, casa, abitanti, compagni, viaggio, semi,
-# biomi, biomi_nuovi, luoghi, corsa, raccolta, musica, germogliato, interfaccia (elenco in `AutoTests._group`)
+# biomi, biomi_nuovi, luoghi, corsa, raccolta, musica, germogliato, interfaccia, geni (elenco in `AutoTests._group`)
 Godot_console.exe --path . -- --prove --solo=doni,antiche
 # suoni generati: prove/suoni/*.wav da ascoltare, con durata, picco e volume medio (segnala muti e distorti)
 Godot_console.exe --headless --path . --script res://tools/suoni.gd
@@ -119,6 +119,8 @@ python tools/importa_tavola.py arte_ia/germogliato/01_corsa_v2.png --griglia 4x2
 python tools/respiro.py
 # mappe dei mondi: mappe/mondo_<seme>.png a metà grandezza (--intera per 1:1), tempi per passata, conteggi per seme
 Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20 --da 1
+# voce 43: genomi a caso (`--caso --vigore 7`) o fissi (`--geni cavo,fungaie`), con la misura della varietà in fondo
+Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12 --caso --vigore 7
 ```
 
 ## Struttura
@@ -158,7 +160,12 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
     quanto insegue, se passa la roccia, luce).
   - `BeastItemsData` — materiali delle creature della voce 22 e ciò che se ne fa; uniti in `ItemsData.all()`.
   - `BiomeItemsData` — voce 40: materiali, set, armi, trofei e Semi dei Boschi di brina e delle Cenerarie (oggetti e
-    ricette, uniti in `all()`). `SpeciesData` (voce 39): specie e tratti dei Semi di mondo.
+    ricette, uniti in `all()`).
+  - `GenesData` (Roadmap 5, piano «Il Giardiniere dei mondi») — i **geni** dei Semi di mondo in 13 categorie (superficie,
+    forma, grotte, sottosuolo, minerali, gemme, rovine, fauna, stirpi, flora, cielo, tempo, ombra): rarità, dominanza,
+    effetti `gen` (generatore) e `run` (in gioco, chiavi in `DEFAULTS`), `vmin`, `only` ("mutazione", "firma"), `combo`;
+    le Fiale (`items()`, una per gene) e la Provetta. Le regole stanno in `Genome` (`src/game/`).
+  - `SignaturesData` (firme dei mondi, ricordi, Linfa antica) e `NamesData` (nomi dei mondi nati dai Semi).
   - `CompanionsData` (voce 37: compagni e alleati), `NpcData` e `ValueData` (voce 36: abitanti, merci, prezzi).
   - `TrophyItemsData` — i trofei di ogni specie (`TROPHY_OF`: li lasciano solo le rare), gli oggetti unici che ne
     nascono, la Polvere iridata e gli oggetti iridati, con le loro ricette (unite in `RecipesData.all()`).
@@ -225,9 +232,11 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
     forma del terreno di ciascuno), Strati (roccia, sacche e
     pareti di ogni strato di `StrataData`, confini sfrangiati), Grotte (profondità, regioni, grandi caverne), Vuoti (i
     grandi vuoti del Fondo e il suo pavimento di vuotite), Radici (radici giganti del Sottobosco, anche attraverso le
-    grotte), Ingressi, Minerali (per strato e roccia), Cristalli, Erba, Alberi, Decorazioni (per strato), Avvizzimento (due macchie malate in superficie), Cuore (la
+    grotte), Ingressi, Minerali (per strato e roccia), Cristalli, Sottosuolo (fungaie, geodi di brina, fiumi di brace,
+    laghi di Linfa, cuore cavo: `PassSottosuolo`, secondo i geni), Erba, Alberi, Decorazioni (per strato), Avvizzimento (due macchie malate in superficie), Cuore (la
     cupola del Cuore del mondo nel Fondo, con i 4 nodi avvizziti e la stazione `cuore_mondo`), Rovine (44 stanze dei
-    Seminatori con uno scrigno pieno secondo lo strato), Pericoli (rovi spinosi e rune trappola, vedi `Hazards`), Doni (Boccioli del cuore e Stille perenni), Gemme (grappoli nelle grotte, per strato), Tane (dei Custodi), Nascondigli (reliquiari murati), Geodi, Partenza (le torce
+    Seminatori con uno scrigno pieno secondo lo strato), Pericoli (rovi spinosi e rune trappola, vedi `Hazards`), Doni (Boccioli del cuore e Stille perenni), Gemme (grappoli nelle grotte, per strato), Tane (dei Custodi), Nascondigli (reliquiari murati), Geodi, Isole (sospese, gene raro), Firma (il
+    luogo unico del mondo, `PassFirma`), Piante-seme, Partenza (le torce
     già accese della vecchia passata provvisoria sono state tolte il 25 set 2026: le torce le mette il giocatore). Un mondo 3000×1000 si genera in ~8,5 s (in un thread, con schermata d'attesa).
   - `WorldView` — disegno a blocchi da 32×32: solo i blocchi vicini alla visuale esistono come nodi (1 costruito per
     fotogramma, liberati oltre 2 blocchi di margine); ogni blocco ha pareti (z -10) e decorazioni (z 1) sulla griglia
@@ -281,8 +290,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   sconfitto (frammenti) o curato con la Rugiada sui 4 nodi (`cure_at`: Linfa del Guardiano e +20 Vita massima, una
   volta per mondo); poi il Cuore diventa `cuore_vivo` e dona il Seme di mondo. Stato in `world_meta["guardiano"]`.
   Nel Fondo un «battito» dice da che parte è il Cuore. `BossBar` e `LorePanel` in `src/ui/`.
-- `src/game/portal.gd` (`Portal`) — Seme di mondo piantato = stazione `portale`; clic destro = salva e passa al
-  mondo nato da quel seme con un vigore in più (`destination(o)`, `world_meta["portali"]` per ogni portale,
+- `src/game/portal.gd` (`Portal`) — Seme di mondo piantato in un'Aiuola (voce 45) = stazione `portale`; clic destro = salva e passa al
+  mondo nato da quel seme con il vigore del Seme (`destination(o)`, `world_meta["portali"]` per ogni portale,
   `place_return` nel mondo nuovo, `vigor_mult`: +35% alle creature per punto di vigore). Il vigore arriva al generatore
   in `GenContext.params` (`WorldGen.generate(…, params)`), vene più grandi in `PassMinerali`.
 - `src/game/spells.gd` (`Spells`) — i bastoni di Linfa: tenendo premuto tirano l'incantesimo verso il mouse spendendo
@@ -313,10 +322,24 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   `CompanionsData`, entità `Ally` in `src/entities/` (segue, sceglie un bersaglio, colpisce con `Combat._strike`).
 - `src/game/travel.gd` (`Travel`) — radici viandanti: `roots`, `open_from` (mappa in modo viaggio), `go`, `describe`.
   `Minimap` in `src/ui/` (ritaglio della mappa esplorata, tasto N).
-- `src/game/world_traits.gd` (`WorldTraits`) — specie e tratti del mondo (`world_meta["specie"]`, `["tratti"]`, dati in
-  `SpeciesData`): `apply` imposta le leve `Fauna.world_danger/world_lumini/world_rare`, `Garden.grow_mult`,
-  `DayCycle.night_extra`, `Events.chance_mult`, `Blight.spread_mult`. Nel generatore: `params["specie"]` (PassBiomi) e
-  `params["tratti"]` (Minerali, Rovine, Gemme). `Portal.touch`: primo tocco = descrizione, secondo = viaggio.
+- `src/game/world_traits.gd` (`WorldTraits`) — i geni del mondo mentre si gioca (`world_meta["geni"]`, parte `run` di
+  `GenesData`): `apply` imposta le leve `Fauna.world_danger/world_lumini/world_rare`, `Garden.grow_mult`,
+  `DayCycle.night_extra/night_floor`, `Events.chance_mult`, `Blight.spread_mult`; entrando, i geni del mondo diventano
+  «visti». Nel generatore i geni arrivano in `params["geni"]` (`GenContext.genes()`, `surface_gene()`).
+  `Portal.touch`: primo tocco = descrizione, secondo = viaggio.
+- **Il piano «Il Giardiniere dei mondi» (Roadmap 5)**:
+  - `Genome` (`src/game/genome.gd`) — il motore genetico, uno solo per tutto il piano: genoma {"geni", "vigore"} nei
+    "dati" della casella del Seme (`Bisaccia.data_at`), `roll` (sempre un gene di forma, grotte o sottosuolo),
+    `effects`, `describe`/`sheet` (geni mai visti = «?»), `odds`/`cross` (innesto), `mutate`, `mutation_chance`
+    (combinazioni segrete); `local_vigor` = vigore dei Semi raccolti in questo mondo, `known` = `Character.genario`.
+  - `SaveMigrations` (`src/save/`) — versioni di personaggi e mondi e i passi di migrazione; `Bisaccia` con caselle che
+    portano "dati" (non si impilano).
+  - `Signature` — la firma del mondo (ritrovamento, stella sulla mappa; i mondi vecchi la ricevono al primo ingresso).
+  - `Aiuole` — il Giardino (mondo di partenza) e le sue Aiuole (al più 3 + `bonus`), la rete dei mondi (`network`,
+    `home_id`, `world_meta["casa"]`), `close` (Seme dormiente). `SemenzaioPanel` (tasto K: Mondi e Genario).
+  - `Sampling` — trovare i geni: Provetta di Linfa (`category_at`: cosa si tocca → categoria), piante-seme
+    (`harvest`, `wild_seed`), Fiale dalle creature; le Fiale nella Bisaccia fanno imparare il gene. `Genario` (vista).
+  - `InnestoPanel` (`src/ui/`) — il Banco dell'Innestatrice: due Semi + Fiale + Linfa antica → Seme figlio.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni
@@ -474,6 +497,15 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   senza chiudere il gioco (26 set 2026: fermo 13 minuti). Il giro si lancia con `timeout`.
 - La musica: se il brano da suonare è fermo del tutto riparte (`Musica._process`); un blocco di qualche secondo
   (generazione di un mondo) poteva farlo finire senza che il ricominciare lo vedesse.
+
+- Due voci che toccano gli stessi file non si scrivono insieme prima del commit della prima: la 41 e la 42 sono finite
+  in un commit solo (26 set 2026). Il lavoro della voce dopo si prepara in file nuovi o in patch tenute da parte, e si
+  applica dopo il commit.
+- La varietà dei mondi si misura, non si indovina: un Seme con soli geni «in gioco» (fauna, cielo…) dava la stessa mappa
+  di un altro (distanza sotto il rumore). Ogni Seme trovato ha un gene di forma, grotte o sottosuolo, e i biomi del
+  sottosuolo sono stati ingranditi finché si vedevano sulla mappa. Soglia: la coppia di mondi più simile ad almeno il
+  doppio del rumore (`tools/mappe.gd -- --caso`).
+- Le prove che piantano un Seme di mondo mettono prima un'Aiuola (`TestKit.aiuola`): a terra non si pianta più.
 
 ## Convenzioni
 

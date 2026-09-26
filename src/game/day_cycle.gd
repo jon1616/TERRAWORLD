@@ -18,6 +18,7 @@ var time := START
 var day := 1
 var paused := false                    # le prove fermano l'ora per avere foto confrontabili
 var night_extra := 0.0                 # tratto «Notti lunghe» (voce 39): l'alba viene dopo, il tramonto prima
+var night_floor := 0.0                 # gene «Aurora» (voce 48): la luce del cielo non scende sotto questo valore
 var _last_sky := Color.BLACK
 var _label: Label
 
@@ -79,7 +80,7 @@ func _process(dt: float) -> void:
 
 ## Porta sole, cielo e luce all'ora attuale (`force` = subito, senza aspettare che cambi abbastanza).
 func apply(force := false) -> void:
-	var d := daylight()
+	var d := maxf(daylight(), night_floor)
 	var sky: Color = NIGHT_SKY.lerp(LightMap.SKY, d)
 	if force or absf(sky.r - _last_sky.r) + absf(sky.b - _last_sky.b) > 0.02:
 		_last_sky = sky

@@ -26,6 +26,8 @@ func run(w: World, c: GenContext) -> void:
 	var segs := []                          # [inizio, fine, bioma] di ogni tratto
 	while x < w.w:
 		var len := rng.randi_range(BiomesData.SEG_MIN, BiomesData.SEG_MAX)
+		if bool(c.genes()["mosaic"]):
+			len /= 4                         # gene «Mosaico» (voce 48): tratti brevi, tutti i biomi
 		# con una specie lo stesso bioma può tornare di fila (così domina davvero); senza, mai due uguali
 		var b := _pick(rng, -1 if home_set else prev, weights)
 		for k in range(x, mini(x + len, w.w)):

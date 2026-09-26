@@ -10,10 +10,12 @@
   vastità, profondità, avventura e ricerca; grafica, rifinitura del movimento, armatura sugli sprite e rete **dopo**.
 - **Rimandate** (scelta dell'utente): voce 6 «Rete a 2»; dal Germogliato: armatura sugli sprite nuovi, colpo in corsa;
   mostri e boss con Nano Banana.
-- **Prossimo passo**: voce 41 (versione dei salvataggi), poi la Roadmap 5 in ordine. L'utente dà la direzione e lascia
-  a Claude ordine e tecnica; chiede sempre un resoconto alla fine di un lavoro lungo.
-- **Contenuti oggi**: 355 oggetti, 239 ricette, 28 stazioni, 35 creature, 5 biomi di superficie, 5 strati, 8
-  Guardiani/Custodi, 5 specie di Seme e 10 tratti di mondo; `tools/verifica_dati.gd` dà 0 errori e 0 avvisi.
+- **Fatta la Roadmap 5 «Il Seme e i suoi geni»** (voci 41-48, 26 set 2026): resoconto in fondo alla Roadmap 5.
+- **Prossimo passo**: Roadmap 6 «La materia viva» (voce 49). L'utente dà la direzione e lascia a Claude ordine e
+  tecnica; chiede sempre un resoconto alla fine di un lavoro lungo.
+- **Contenuti oggi**: 426 oggetti (54 sono le Fiale dei geni), 242 ricette, 31 stazioni, 35 creature, 5 biomi di
+  superficie e 5 del sottosuolo, 5 strati, 8 Guardiani/Custodi, **54 geni** in 13 categorie, 12 firme dei mondi;
+  `tools/verifica_dati.gd` dà 0 errori e 0 avvisi.
 
 # Roadmap 1: «Le fondamenta» (dal 24 set 2026)
 
@@ -776,13 +778,29 @@ con i geni «solo per mutazione» tre volte più probabili; scritta nel Seme («
 probabilità promesse (Sporangio 0,60 atteso 0,60; Cavo 0,69 atteso 0,68; mutati 8,8%). Obiettivo «Innesta due Semi».
 Foto 86_innesto, 87_innesto_nato.
 
-## 48. [ ] Geni rari e mutazioni (M)
+## 48. [x] Geni rari e mutazioni (M) — fatto il 26 set 2026
 Il secondo giro di geni (fino a ~45): geni antichi e stellari, geni che si ottengono **solo** per mutazione o solo
 incrociando due geni precisi (combinazioni segrete, scoperte giocando e poi scritte nel Genario), geni «malati»
 dell'Avvizzimento (mondi più duri, materiali unici). Semi selvatici che mutano da soli nel giardino se lasciati a
 lungo.
 **Pronto quando**: completare il Genario richiede incroci pensati; almeno 8 geni si ottengono solo per mutazione o
 combinazione.
+**Fatto il 26 set 2026**: 12 geni nuovi (54 in tutto). **Solo per mutazione** (6): Mosaico (tutti i biomi a tratti
+brevi, con il suo Seme a mosaico), Isole sospese (`PassIsole`: nove isole di terra con alberi e radici pendenti, una su
+tre con uno scrigno), Cuore cavo (una caverna immensa nel Fondo), Città sepolta (4×3 stanze dei Seminatori collegate,
+12 scrigni), Aurora (di notte la luce non scende sotto il 35%: `DayCycle.night_floor`; per le creature resta notte),
+Cuore nero (Avvizzimento ovunque, creature rare e feroci). **Combinazioni segrete** (2): Vene stellari (Vene ricche +
+Stellato) e Fioritura eterna (Fertile + Rigoglioso): con i due geni nei genitori la mutazione sale dal 8% al 35% e dà
+quel gene (prova: 361 su 1000). **Della firma** (3): Eco dei Seminatori, Cuore stellare, Radice madre (fungaie e laghi
+di Linfa insieme): li preleva la Provetta vicino alla firma, e solo lì. Eclissi (vigore 4 o più). I Semi selvatici
+delle piante-seme mutano da soli (8%): è così che «mutano nel giardino» (deciso da Claude, al posto di Semi che mutano
+col tempo). Nessun Seme trovato porta geni «solo mutazione» o «della firma» (0 su 400). Foto 88_isole_sospese.
+
+# Roadmap 5 — resoconto (26 set 2026)
+Il motore c'è: 54 geni in 13 categorie, Semi con il loro genoma, generatore guidato dai geni (con la misura della
+varietà), una firma e un nome per ogni mondo, il Giardino con le Aiuole e il Semenzaio, Provetta, Fiale, piante-seme e
+Genario, l'innesto con mutazioni e combinazioni segrete. Il giro «il Giardino chiede → innesto → esploro → trovo»
+funziona dalla parte del giocatore; manca chi *chiede* (Albero-Madre e abitanti: Roadmap 8). Prossima: Roadmap 6.
 
 # Roadmap 6 «La materia viva» — l'equipaggiamento che si genera
 

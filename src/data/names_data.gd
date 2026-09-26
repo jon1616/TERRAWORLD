@@ -11,6 +11,7 @@ const LANDS := {
 	"resina": [["Distese", true], ["Dune", true], ["Piani", false]],
 	"brina": [["Nevai", false], ["Brume", true], ["Ghiacciai", false]],
 	"cenere": [["Cenerarie", true], ["Lande", true], ["Roghi", false]],
+	"mosaico": [["Mosaici", false], ["Arazzi", false], ["Contrade variegate", true]],
 	"": [["Terre", true], ["Contrade", true], ["Giardini", false]],
 }
 
@@ -29,6 +30,10 @@ const ADJ := {
 	"quieto": ["quieti", "quiete"], "fertile": ["fertili", "fertili"], "rigoglioso": ["rigogliosi", "rigogliose"],
 	"spoglio": ["spogli", "spoglie"], "stellato": ["stellati", "stellate"], "notti_lunghe": ["notturni", "notturne"],
 	"giorni_lunghi": ["solari", "solari"], "avvizzito": ["malati", "malate"], "sano": ["puri", "pure"],
+	"isole_sospese": ["sospesi", "sospese"], "cuore_cavo": ["cavernosi", "cavernose"], "citta_sepolta": ["murati", "murate"],
+	"aurora": ["aurorali", "aurorali"], "cuore_nero": ["neri", "nere"], "vene_stellari": ["stellari", "stellari"],
+	"fioritura_eterna": ["fioriti", "fiorite"], "eclissi": ["oscurati", "oscurate"], "eco_seminatori": ["antichissimi", "antichissime"],
+	"cuore_stellare": ["stellanti", "stellanti"], "radice_madre": ["primigeni", "primigenie"],
 }
 
 const SYL_A := ["Vel", "Ar", "Os", "Ta", "Lu", "Mir", "Sel", "Dor", "An", "Ei", "Ul", "Tor", "Fa", "Ny", "Ka", "Ren",

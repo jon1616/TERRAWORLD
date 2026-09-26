@@ -31,6 +31,7 @@ func apply() -> void:
 	m.day.night_extra = float(e["night"])
 	m.events.chance_mult = float(e["events"])
 	m.blight.spread_mult = float(e["blight"])
+	m.day.night_floor = float(e["aurora"])
 
 
 func _surface_name() -> String:

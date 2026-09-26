@@ -45,6 +45,8 @@ func run(w: World, c: GenContext) -> void:
 			placed.append(p)
 			done += 1
 	c.notes["rovine"] = placed
+	if bool(c.genes()["city"]):
+		c.notes["citta"] = _city(w, c)
 
 
 ## Una stanza: guscio di pietra dei Seminatori (con qualche mattone crollato), dentro aria e parete lavorata,
@@ -87,3 +89,36 @@ func _build(w: World, rng: RandomNumberGenerator, p: Vector2i, s: int, rich := 0
 		var g := Genome.random_gene(rng, 2 + s)
 		if g != "":
 			chest.add(GenesData.vial_of(g), 1)
+
+
+## La Città sepolta (voce 48, gene «Città sepolta»): una griglia di 4×3 stanze dei Seminatori nelle Caverne d'ardesia,
+## muro contro muro, con le porte tra una stanza e l'altra e uno scrigno in ognuna. Restituisce l'angolo in basso a
+## sinistra della prima stanza.
+func _city(w: World, c: GenContext) -> Vector2i:
+	var rng := c.rng
+	var rw := 14
+	var rh := 7
+	for tries in 40:
+		var x := rng.randi_range(200, w.w - 200 - 4 * (rw + 1))
+		if absi(x - w.spawn.x) < 150:
+			continue
+		var y0 := w.surface[x] + StrataData.top(2) + 40
+		if y0 + 3 * (rh + 3) > w.h - 30:
+			continue
+		for row in 3:
+			for col in 4:
+				var p := Vector2i(x + col * (rw + 1), y0 + row * (rh + 3))
+				_build(w, rng, p, 3, 1)
+		# le porte tra le stanze, orizzontali e verticali
+		for row in 3:
+			for col in 4:
+				var p := Vector2i(x + col * (rw + 1), y0 + row * (rh + 3))
+				if col < 3:
+					for dy in range(-2, 1):
+						w.set_tile(p.x + rw, p.y + dy, TileDefs.AIR)
+				if row < 2:
+					for dx in range(2, 5):
+						w.set_tile(p.x + dx, p.y + 1, TileDefs.AIR)
+						w.set_tile(p.x + dx, p.y + 2, TileDefs.AIR)
+		return Vector2i(x, y0)
+	return Vector2i(-1, -1)

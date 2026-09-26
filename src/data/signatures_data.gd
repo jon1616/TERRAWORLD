@@ -3,6 +3,7 @@ extends RefCounted
 ## Le firme dei mondi (voce 44, regola d'oro del piano: ogni mondo ha almeno una cosa che si trova solo lì). Solo
 ## dati; il luogo lo costruisce `PassFirma`, il ritrovamento lo segue `Signature`.
 ## Ogni mondo ne ha una, scelta dal suo seme e dai suoi geni (`likes`: i geni che la rendono più probabile, ×4).
+## Voce 48: `gene` = il gene raro che la Provetta preleva vicino alla firma (si ottiene solo lì).
 ## Dentro c'è uno **scrigno della firma** con un bottino ricco, la Linfa antica per gli innesti e il **ricordo** del
 ## luogo (un oggetto da collezione che esiste solo lì).
 ##   where   "superficie", "cielo" o uno strato (1-4)
@@ -10,29 +11,29 @@ extends RefCounted
 
 const SIGNATURES := {
 	"albero_colossale": {"name": "l'Albero colossale", "where": "superficie", "likes": ["rigoglioso", "lanterna"],
-		"desc": "un albero-lanterna alto come una montagna, con uno scrigno tra i rami", "ricordo": "ricordo_albero"},
+		"desc": "un albero-lanterna alto come una montagna, con uno scrigno tra i rami", "ricordo": "ricordo_albero", "gene": "radice_madre"},
 	"cratere_stelle": {"name": "il Cratere delle stelle", "where": "superficie", "likes": ["stellato", "pianure"],
-		"desc": "il cratere lasciato da una stella caduta, che ancora brilla", "ricordo": "ricordo_cratere"},
+		"desc": "il cratere lasciato da una stella caduta, che ancora brilla", "ricordo": "ricordo_cratere", "gene": "cuore_stellare"},
 	"foresta_pietrificata": {"name": "la Foresta pietrificata", "where": "superficie", "likes": ["spoglio", "cenere", "resina"],
-		"desc": "un bosco di alberi diventati pietra", "ricordo": "ricordo_foresta"},
+		"desc": "un bosco di alberi diventati pietra", "ricordo": "ricordo_foresta", "gene": "eco_seminatori"},
 	"pozzo_senza_fondo": {"name": "il Pozzo senza fondo", "where": "superficie", "likes": ["voragini", "altopiano"],
-		"desc": "un pozzo dei Seminatori che scende dritto fino al Fondo", "ricordo": "ricordo_pozzo"},
+		"desc": "un pozzo dei Seminatori che scende dritto fino al Fondo", "ricordo": "ricordo_pozzo", "gene": "eco_seminatori"},
 	"arco_radici": {"name": "l'Arco di radici", "where": "cielo", "likes": ["radici_giganti", "montagne"],
-		"desc": "una radice del cosmo che si inarca sopra il mondo", "ricordo": "ricordo_arco"},
+		"desc": "una radice del cosmo che si inarca sopra il mondo", "ricordo": "ricordo_arco", "gene": "radice_madre"},
 	"isola_sospesa": {"name": "l'Isola sospesa", "where": "cielo", "likes": ["conca", "brina"],
-		"desc": "un'isola di terra e alberi che galleggia nel cielo", "ricordo": "ricordo_isola"},
+		"desc": "un'isola di terra e alberi che galleggia nel cielo", "ricordo": "ricordo_isola", "gene": "cuore_stellare"},
 	"grotta_lucciole": {"name": "la Grotta delle lucciole", "where": 1, "likes": ["fungaie", "sporangio"],
-		"desc": "una grotta illuminata da migliaia di funghi e campanule", "ricordo": "ricordo_lucciole"},
+		"desc": "una grotta illuminata da migliaia di funghi e campanule", "ricordo": "ricordo_lucciole", "gene": "radice_madre"},
 	"cuore_radice": {"name": "il Nodo delle radici", "where": 1, "likes": ["radici_giganti", "compatto"],
-		"desc": "un groviglio enorme di radici antiche, cavo nel mezzo", "ricordo": "ricordo_nodo"},
+		"desc": "un groviglio enorme di radici antiche, cavo nel mezzo", "ricordo": "ricordo_nodo", "gene": "radice_madre"},
 	"serra_sepolta": {"name": "la Serra sepolta", "where": 2, "likes": ["rovine_fitte", "rovine_sepolte", "fertile"],
-		"desc": "la serra dei Seminatori, sepolta e intatta", "ricordo": "ricordo_serra"},
+		"desc": "la serra dei Seminatori, sepolta e intatta", "ricordo": "ricordo_serra", "gene": "eco_seminatori"},
 	"colonne_ambra": {"name": "la Sala delle colonne d'ambra", "where": 2, "likes": ["resina", "metalli_nobili"],
-		"desc": "una caverna sorretta da colonne d'ambra fossile", "ricordo": "ricordo_colonne"},
+		"desc": "una caverna sorretta da colonne d'ambra fossile", "ricordo": "ricordo_colonne", "gene": "eco_seminatori"},
 	"alveare_cristallo": {"name": "l'Alveare di cristallo", "where": 3, "likes": ["alveare", "cristalli_giganti", "laghi_linfa"],
-		"desc": "celle di cristallo di Linfa, una dentro l'altra", "ricordo": "ricordo_alveare"},
+		"desc": "celle di cristallo di Linfa, una dentro l'altra", "ricordo": "ricordo_alveare", "gene": "cuore_stellare"},
 	"bolla_vuoto": {"name": "la Bolla del Vuoto", "where": 4, "likes": ["abissale", "notti_lunghe"],
-		"desc": "una bolla perfettamente tonda nel Fondo, dove il Vuoto trattiene il respiro", "ricordo": "ricordo_bolla"},
+		"desc": "una bolla perfettamente tonda nel Fondo, dove il Vuoto trattiene il respiro", "ricordo": "ricordo_bolla", "gene": "cuore_stellare"},
 }
 
 ## I ricordi: oggetti da collezione, uno per firma (uniti in `ItemsData.all()`), e la Linfa antica degli innesti.

@@ -233,6 +233,8 @@ const ITEMS := {
 		"desc": "Un banco di legnoferro con il coltello da innesto e una campana di vetro piena di Linfa. Clic destro: si uniscono due Semi di mondo in un Seme nuovo, con le Fiale per fissare i geni che vuoi."},
 	"aiuola": {"name": "Aiuola del Giardino", "kind": "stazione", "place": "aiuola", "icon": ["vasetto", "humus"], "stack": 9,
 		"desc": "Un letto di terra buona cerchiato di radici. Si mette solo nel Giardino, il tuo mondo di partenza (tre Aiuole al massimo): con un Seme di mondo in mano, clic sull'Aiuola e cresce un portale."},
+	"seme_mondo_mosaico": {"name": "Seme a mosaico", "kind": "seme_mondo", "icon": ["seme", "iride"], "species": "mosaico", "stack": 1,
+		"desc": "Un Seme nato da una mutazione, screziato di tutti i colori: dietro il suo portale, tutti i biomi a tratti brevi."},
 	"seme_mondo": {"name": "Seme di mondo", "kind": "seme_mondo", "icon": ["seme", "cristallo"], "stack": 1, "desc": "Il Cuore del mondo ti ha donato un seme. Piantalo in un'Aiuola del Giardino: crescerà un portale verso un mondo nuovo. Ogni Seme porta i suoi geni: posalo in Esamina per leggerli."},
 }
 
@@ -262,7 +264,7 @@ const GEAR := {
 
 ## Oggetti che nascono da qualcosa che non è una tabella (es. alberi abbattuti, voce 4).
 const OTHER_SOURCES := {"legno": "alberi", "seme_lanterna": "alberi", "frammento_nodo": "Guardiano sconfitto",
-	"linfa_guardiano": "Guardiano curato", "seme_mondo": "Cuore del mondo", "linfa_antica": "scrigni delle firme dei mondi e Cuori dei mondi",
+	"linfa_guardiano": "Guardiano curato", "seme_mondo": "Cuore del mondo", "seme_mondo_mosaico": "innesti (per mutazione)", "linfa_antica": "scrigni delle firme dei mondi e Cuori dei mondi",
 	"ricordo_albero": "la firma di un mondo", "ricordo_cratere": "la firma di un mondo", "ricordo_foresta": "la firma di un mondo",
 	"ricordo_pozzo": "la firma di un mondo", "ricordo_arco": "la firma di un mondo", "ricordo_isola": "la firma di un mondo",
 	"ricordo_lucciole": "la firma di un mondo", "ricordo_nodo": "la firma di un mondo", "ricordo_serra": "la firma di un mondo",

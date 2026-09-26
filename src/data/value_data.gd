@@ -11,7 +11,7 @@ const BASE := {
 	"minerale_radicite": 3, "minerale_legnoferro": 5, "minerale_pallidite": 4, "minerale_ambra": 8,
 	"minerale_tizzonite": 10, "cristallo_linfa": 12, "gelatina": 1, "fungo_brace": 2, "fungo_luminoso": 4,
 	"polvere_brace": 3, "scaglia_ardesia": 4, "scheggia_vuoto": 8, "cenere_avvizzita": 2, "sacca_spore": 4,
-	"seme_lanterna": 2, "stellina": 10, "linfa_antica": 120,
+	"seme_lanterna": 2, "stellina": 10, "linfa_antica": 120, "seme_mondo_mosaico": 900,
 	"ricordo_albero": 400, "ricordo_cratere": 400, "ricordo_foresta": 400, "ricordo_pozzo": 400, "ricordo_arco": 400,
 	"ricordo_isola": 400, "ricordo_lucciole": 400, "ricordo_nodo": 400, "ricordo_serra": 400, "ricordo_colonne": 400,
 	"ricordo_alveare": 400, "ricordo_bolla": 400, "polvere_iridata": 80, "gelatina_regale": 50, "seta_regale": 50,

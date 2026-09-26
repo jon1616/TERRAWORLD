@@ -6,7 +6,8 @@ extends GenPass
 ## - **geodi di brina**: grotte tonde nelle Caverne d'ardesia, guscio di cristallo e dentro muschio di brina;
 ## - **fiumi di brace**: lunghe gallerie serpeggianti nelle Profondità della Linfa, pavimento di cenere viva e vene di
 ##   tizzonite nelle pareti;
-## - **laghi di Linfa**: caverne larghe nel profondo con un lago di cristallo di Linfa rappreso sul fondo.
+## - **laghi di Linfa**: caverne larghe nel profondo con un lago di cristallo di Linfa rappreso sul fondo;
+## - **cuore cavo** (voce 48): una caverna immensa nel Fondo, pavimento di cristallo e schegge del Vuoto.
 ## Viene prima delle Decorazioni, che vestono da sole i pavimenti di spore, brina e cenere (vedi `PassDecorazioni`).
 
 const SPAWN_FREE := 80                 # colonne libere attorno alla partenza
@@ -30,6 +31,8 @@ func run(w: World, c: GenContext) -> void:
 				made[f] = _many(w, c, 6, _fiume_brace, f)
 			"laghi_linfa":
 				made[f] = _many(w, c, 7, _lago_linfa, f)
+			"cuore_cavo":
+				made[f] = _many(w, c, 1, _cuore_cavo, f)
 	c.notes["sottosuolo"] = made
 
 
@@ -201,5 +204,23 @@ func _lago_linfa(w: World, c: GenContext) -> Vector2i:
 	var level := ctr.y + ry / 3
 	for cell in air:
 		if cell.y >= level:
+			w.set_tile(cell.x, cell.y, TileDefs.CRYSTAL)
+	return ctr
+
+
+# --- cuore cavo (voce 48) -------------------------------------------------------------------------------------
+func _cuore_cavo(w: World, c: GenContext) -> Vector2i:
+	var x := _column(w, c, 220)
+	if x < 0:
+		return NONE
+	var ctr := Vector2i(x, w.surface[x] + StrataData.top(4) + 60)
+	var rx := mini(150, w.w / 5)
+	var ry := 42
+	if ctr.y + ry + 6 >= w.h:
+		ctr.y = w.h - ry - 8
+	var air := _carve(w, ctr, rx, ry, c.noise("cuore_cavo", 0.03, 2))
+	for cell in air:
+		w.walls[cell.y * w.w + cell.x] = TileDefs.WALL_VOID
+		if cell.y > ctr.y + ry * 0.6:
 			w.set_tile(cell.x, cell.y, TileDefs.CRYSTAL)
 	return ctr

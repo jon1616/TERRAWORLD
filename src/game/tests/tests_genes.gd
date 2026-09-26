@@ -28,6 +28,7 @@ func run() -> void:
 	await aiuole()
 	await genes_found()
 	await grafting()
+	await rare_genes()
 
 
 func _census(w: World) -> Dictionary:
@@ -417,3 +418,96 @@ func grafting() -> void:
 	await kit.frames(4)
 	await kit.save("87_innesto_nato")
 	ip.visible = false
+
+
+## Voce 48: i geni rari cambiano il mondo (Mosaico, Isole sospese, Cuore cavo, Città sepolta in mondi piccoli; foto
+## 88_isole_sospese), l'Aurora schiarisce la notte, le combinazioni segrete rendono la mutazione più probabile e danno il
+## loro gene, la Provetta vicino alla firma preleva il gene della firma; nessun Seme trovato porta un gene «solo per
+## mutazione».
+func rare_genes() -> void:
+	var res := {}
+	var keep: World = null
+	for gs in [["mosaico"], ["lanterna", "isole_sospese"], ["sporangio", "cuore_cavo"], ["resina", "citta_sepolta"]]:
+		var w := World.new()
+		WorldGen.generate(w, 4848, W, WorldGen.HEIGHT, {"vigore": 6, "geni": gs})
+		match String(gs[-1]):
+			"mosaico":
+				var changes := 0
+				for x in range(1, w.w):
+					if w.biomes[x] != w.biomes[x - 1]:
+						changes += 1
+				var kinds := {}
+				for x in w.w:
+					kinds[int(w.biomes[x])] = true
+				res["mosaico"] = "%d cambi di bioma, %d biomi" % [changes, kinds.size()]
+				res["_ok_mosaico"] = changes >= 8 and kinds.size() >= 4
+			"isole_sospese":
+				res["isole"] = (w.gen_notes.get("isole", []) as Array).size()
+				res["_ok_isole"] = int(res["isole"]) >= 4
+				keep = w
+			"cuore_cavo":
+				res["cuore cavo"] = int(w.gen_notes.get("sottosuolo", {}).get("cuore_cavo", 0))
+				res["_ok_cavo"] = int(res["cuore cavo"]) == 1
+			"citta_sepolta":
+				var city: Vector2i = w.gen_notes.get("citta", Vector2i(-1, -1))
+				var chests := 0
+				if city.x >= 0:
+					for o in w.chests:
+						if o.x >= city.x - 2 and o.x < city.x + 64 and o.y >= city.y - 12 and o.y < city.y + 34:
+							chests += 1
+				res["città: scrigni"] = chests
+				res["_ok_citta"] = chests >= 10
+	var ok := true
+	for k in res:
+		if String(k).begins_with("_ok"):
+			ok = ok and bool(res[k])
+	print("geni rari nel generatore: %s — %s" % [res.keys().filter(func(k: String) -> bool: return not k.begins_with("_")).map(
+		func(k: String) -> String: return "%s %s" % [k, res[k]]), "sì" if ok else "NO"])
+	if not ok:
+		print("ATTENZIONE: un gene raro non cambia il mondo come dovrebbe")
+	if keep != null:
+		var isl: Array = keep.gen_notes["isole"]
+		var p: Vector2i = isl[0]
+		keep.gen_notes["firma"] = {"x": p.x, "y": p.y + 4}
+		await _photo_at(keep, "88_isole_sospese", Vector2i(-520, 0), Vector2i(0, -2))
+	# l'Aurora: di notte la luce del cielo non scende sotto il suo valore
+	var wt: WorldTraits = m.world_traits
+	var old: Array = wt.genes
+	m.day.time = 0.02
+	m.day.apply(true)
+	var dark: Color = m.light.sky
+	wt.genes = ["lanterna", "aurora"]
+	wt.apply()
+	m.day.apply(true)
+	var lit: Color = m.light.sky
+	print("Aurora: cielo di notte %.2f → %.2f; è ancora notte per le creature %s" % [dark.v, lit.v, "sì" if m.day.is_night() else "NO"])
+	wt.genes = old
+	wt.apply()
+	m.day.time = 0.5
+	m.day.apply(true)
+	# le combinazioni segrete
+	var a := {"geni": ["sporangio", "vene_ricche"], "vigore": 4}
+	var b := {"geni": ["resina", "stellato"], "vigore": 4}
+	var mc := Genome.mutation_chance(a, b)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 48
+	var hits := 0
+	for k in 1000:
+		if "vene_stellari" in Genome.genes(Genome.cross(a, b, [], rng)):
+			hits += 1
+	var plain := Genome.mutation_chance({"geni": ["sporangio", "cavo"]}, {"geni": ["resina", "fertile"]})
+	print("combinazione Vene ricche + Stellato: mutazione %d%% verso «%s», nata %d volte su 1000; senza combinazione %d%%" % [
+		roundi(float(mc[0]) * 100), mc[1], hits, roundi(float(plain[0]) * 100)])
+	# nessun Seme trovato porta geni solo per mutazione o della firma
+	var found_only := 0
+	for k in 400:
+		for g in Genome.genes(Genome.roll(rng, 1 + k % 12)):
+			if GenesData.GENES[g].has("only"):
+				found_only += 1
+	# la Provetta vicino alla firma: il gene della firma
+	var sig: Signature = m.signature
+	var fid := String(sig.info().get("id", ""))
+	var fg := String(SignaturesData.SIGNATURES.get(fid, {}).get("gene", ""))
+	var cat: String = m.sampling.category_at(sig.center())
+	print("geni «solo mutazione o firma» nei Semi trovati: %d su 400 Semi; vicino alla firma «%s» la Provetta preleva «%s» (gene della firma: %s)" % [
+		found_only, fid, cat, fg])

@@ -54,8 +54,10 @@ const RARITY := [
 const DEFAULTS := {
 	"gen": {"ore": 0.0, "ruins": 1.0, "gems": 1.0, "surface": 0.0, "hills": 1.0, "rough": 0.0, "worm": 1.0, "room": 0.0,
 		"big": 0.0, "comb": false, "shafts": 0.0, "under": [], "roots": 1.0, "shallow": 1.0, "ore_boost": {},
-		"geodes": 1.0, "crystal": 0.0, "rich": 0.0, "trees": 1.0, "blight_zones": 0.0},
-	"run": {"danger": 0.0, "lumini": 1.0, "rare": 1.0, "grow": 1.0, "night": 0.0, "events": 1.0, "blight": 1.0},
+		"geodes": 1.0, "crystal": 0.0, "rich": 0.0, "trees": 1.0, "blight_zones": 0.0, "mosaic": false, "islands": 0.0,
+		"city": false},
+	"run": {"danger": 0.0, "lumini": 1.0, "rare": 1.0, "grow": 1.0, "night": 0.0, "events": 1.0, "blight": 1.0,
+		"aurora": 0.0},
 }
 const MUL := ["ruins", "gems", "lumini", "rare", "grow", "events", "blight", "hills", "worm", "roots", "shallow", "geodes",
 	"trees"]
@@ -165,6 +167,36 @@ const GENES := {
 	# ombra
 	"sano": {"cat": "ombra", "name": "Sano", "rar": 1, "dom": 2, "good": true,
 		"desc": "nessuna macchia di Avvizzimento", "gen": {"blight_zones": -9.0}, "run": {"blight": 0.0}},
+	# --- voce 48: i geni rari. Solo per mutazione (innestando, o nei Semi selvatici) ------------------------------
+	"mosaico": {"cat": "superficie", "name": "Mosaico", "rar": 2, "dom": 1, "good": true, "only": "mutazione",
+		"desc": "tutti i biomi, a tratti brevi uno accanto all'altro", "item": "seme_mondo_mosaico",
+		"gen": {"biomes": {"foresta": 1, "palude": 1, "ambra": 1, "brina": 1, "cenere": 1}, "mosaic": true}},
+	"isole_sospese": {"cat": "forma", "name": "Isole sospese", "rar": 3, "dom": 1, "good": true, "only": "mutazione",
+		"desc": "isole di terra e alberi che galleggiano nel cielo, alcune con uno scrigno", "gen": {"islands": 9.0}},
+	"cuore_cavo": {"cat": "sottosuolo", "name": "Cuore cavo", "rar": 3, "dom": 1, "good": true, "only": "mutazione",
+		"desc": "una caverna immensa nel Fondo, con il pavimento di cristallo", "gen": {"under": ["cuore_cavo"]}},
+	"citta_sepolta": {"cat": "rovine", "name": "Città sepolta", "rar": 3, "dom": 1, "good": true, "only": "mutazione",
+		"desc": "una città dei Seminatori: molte stanze collegate, ognuna con il suo scrigno", "gen": {"city": true}},
+	"aurora": {"cat": "tempo", "name": "Aurora", "rar": 3, "dom": 1, "good": true, "only": "mutazione",
+		"desc": "le notti sono chiare: la luce non scende mai del tutto", "run": {"aurora": 0.35}},
+	"cuore_nero": {"cat": "ombra", "name": "Cuore nero", "rar": 2, "dom": 4, "good": false, "only": "mutazione",
+		"desc": "l'Avvizzimento ovunque e creature rare e feroci, con molti Lumini", "gen": {"blight_zones": 5.0},
+		"run": {"blight": 2.5, "danger": 0.8, "rare": 2.0, "lumini": 1.5}},
+	# combinazioni segrete: nascono per mutazione, molto più spesso se i genitori portano i due geni indicati
+	"vene_stellari": {"cat": "minerali", "name": "Vene stellari", "rar": 3, "dom": 1, "good": true, "combo": ["vene_ricche", "stellato"],
+		"only": "mutazione", "desc": "vene ricchissime e stelle che cadono spesso", "gen": {"ore": 0.05}, "run": {"events": 1.8}},
+	"fioritura_eterna": {"cat": "flora", "name": "Fioritura eterna", "rar": 2, "dom": 2, "good": true, "combo": ["fertile", "rigoglioso"],
+		"only": "mutazione", "desc": "colture tre volte più svelte e boschi fitti", "gen": {"trees": 1.5}, "run": {"grow": 3.0}},
+	# un gene raro ma che si trova, nei mondi profondi
+	"eclissi": {"cat": "cielo", "name": "Eclissi", "rar": 2, "dom": 2, "good": false, "vmin": 4,
+		"desc": "notti lunghe, eventi e creature rare più frequenti", "run": {"night": 0.12, "events": 1.5, "rare": 1.5}},
+	# solo dalla firma di certi mondi (la Provetta vicino alla firma)
+	"eco_seminatori": {"cat": "rovine", "name": "Eco dei Seminatori", "rar": 3, "dom": 2, "good": true, "only": "firma",
+		"desc": "rovine ovunque, con gli scrigni più ricchi", "gen": {"ruins": 1.8, "rich": 3.0}},
+	"cuore_stellare": {"cat": "cielo", "name": "Cuore stellare", "rar": 3, "dom": 2, "good": true, "only": "firma",
+		"desc": "il cielo è sempre in festa: eventi continui e creature rare", "run": {"events": 3.0, "rare": 1.3}},
+	"radice_madre": {"cat": "sottosuolo", "name": "Radice madre", "rar": 3, "dom": 2, "good": true, "only": "firma",
+		"desc": "fungaie e laghi di Linfa insieme, e radici enormi", "gen": {"under": ["fungaie", "laghi_linfa"], "roots": 3.0}},
 }
 
 ## Voce 46: le Fiale, una per gene (oggetti generati da `items()`, uniti in `ItemsData.all()`), con il colore della
