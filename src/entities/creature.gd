@@ -10,6 +10,7 @@ var data: Dictionary
 var docile := false                    # voce 55: non attacca finché non la colpisci
 var hunger := 0.0                      # voce 57: fame (caccia e pascolo), 0 = sazia
 var hunt: Creature                     # voce 57: la preda che sta cacciando
+var family := ""                       # voce 58: la famiglia (per le migrazioni)
 var provoked := false
 var _docile_dmg := 0
 var _wander_t := 0.0
@@ -97,7 +98,8 @@ func setup(cid: String, w: World, tgt: Node2D, sd: int) -> void:
 	for b in data["behaviors"]:
 		behaviors.append(Behavior.make(b))
 	# voce 57: i predatori cacciano, gli erbivori brucano (per ultimi: le loro intenzioni vincono)
-	var fd: Dictionary = FamiliesData.FAMILIES.get(FamiliesData.family_of(cid), {})
+	family = FamiliesData.family_of(cid)
+	var fd: Dictionary = FamiliesData.FAMILIES.get(family, {})
 	if not boss and fd.has("prey"):
 		var bc := BhCaccia.new()
 		bc.prey = fd["prey"]
@@ -208,6 +210,19 @@ func _process(dt: float) -> void:
 	elif stun <= 0.0 or boss:
 		for b in behaviors:
 			b.tick(self, dt)
+	# voce 58: i branchi in migrazione vanno tutti dalla stessa parte (se non cacciano, non scappano, non combattono)
+	var fauna := get_parent()
+	if fauna != null and "migration" in fauna and fauna.migration.has(family) and hunt == null \
+			and (docile and not provoked or not Behavior.sees(self, float(p.get("sight", 20)))):
+		var dir: float = fauna.migration[family]
+		if fly:
+			want_fly = Vector2(dir * speed * 0.7, want_fly.y)
+		else:
+			want_x = dir * 0.8
+			facing = int(dir)
+			if on_floor and wall_ahead(facing):
+				vel.y = -260.0
+				on_floor = false
 	if chill_t > 0.0:
 		chill_t -= dt
 		want_x *= 0.45

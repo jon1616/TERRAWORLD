@@ -955,11 +955,20 @@ prede si inseguono (più prede → più predatori → meno prede). La prova: 400
 0,19 e 1,05. Nel giro lungo, un Germogliato arrivato alla prova con poca Vita appassiva e rinasceva al letto:
 la prova ora parte con la Vita piena e annota chi toglie le creature; e `snap_to` stacca la corda del rampino.
 
-## 58. [ ] Nidi, tane e migrazioni (M)
+## 58. [x] Nidi, tane e migrazioni (M) — fatto il 26 set 2026
 Nidi e tane da trovare (da cui nascono le creature di una zona: distruggerli la svuota, proteggerli la arricchisce),
 migrazioni di branchi al cambio del giorno e (con la voce 66) delle stagioni.
 **Pronto quando**: le creature non compaiono più «dal nulla» fuori dalla visuale ma dai loro nidi (dove il gene lo
 prevede).
+**Fatto il 26 set 2026**: 15 famiglie hanno **nidi** (`FamiliesData.nest`): nidi d'erba, tane (con due occhi che
+brillano), alveari di lume e formicai di resina, disegnati in `NestArt` e sparsi dal generatore (`PassNidi`: dove
+vive la specie, lontani dalla partenza e tra loro; nel mondo di prova 59). I mondi di prima li ricevono al primo
+ingresso. Le creature di quelle famiglie nascono per lo più dai nidi della zona (`Ecology.nest_spawn`,
+`Fauna.spawn_at_nest`). Clic destro su un nido: prendi un **uovo** (con la famiglia e la variante nei dati: si
+schiude nell'Incubatrice della voce 59), oppure lo **nutri** con il cibo della famiglia (uova più in fretta, più
+creature nella zona), oppure, con piccone o ascia, lo **distruggi** (la zona si svuota: popolazione 0,97 → 0,47).
+Ogni nido rifà un uovo ogni 4 minuti, fino a tre. All'alba e al tramonto i branchi di 5 famiglie **migrano**, tutti
+dalla stessa parte, per 50 secondi. Obiettivo «Prendi un uovo». Foto 93_nido.
 
 ## 59. [ ] Addomesticare (L)
 Calmare una creatura (cibo giusto, stordirla senza ucciderla, Essenze) e portarla nel Giardino in un **Vasetto**:

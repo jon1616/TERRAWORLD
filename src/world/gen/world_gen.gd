@@ -34,6 +34,7 @@ static func passes() -> Array[GenPass]:
 		PassIsole.new(),
 		PassFirma.new(),
 		PassPianteSeme.new(),
+		PassNidi.new(),
 		PassPartenza.new(),
 	]
 

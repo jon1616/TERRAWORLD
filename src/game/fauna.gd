@@ -42,6 +42,9 @@ signal hunted(prey: Creature, predator: Creature)      # voce 57: una preda pres
 signal grazed(c: Creature, cell: Vector2i)           # voce 57: erba o coltura mangiata
 ## voce 57: quanto una famiglia nasce in un punto (popolazioni per zona, `Ecology.factor`): (x in px, famiglia) -> float
 var pop_factor: Callable
+## voce 58: (cella del Germogliato) -> [specie, cella del nido] o []: le nascite dai nidi (`Ecology.nest_spawn`)
+var nest_hook: Callable
+var migration := {}                    # voce 58: famiglia -> direzione (-1/1) mentre migra
 signal vanished(c: Creature)
 
 
@@ -86,6 +89,26 @@ func weight_of(id: String, x := -1.0) -> float:
 	if x >= 0.0 and pop_factor.is_valid():
 		w *= float(pop_factor.call(x, f))
 	return w
+
+
+## Una creatura della specie nasce davanti a un nido (voce 58), se il posto è libero e al buio (sotto terra).
+func spawn_at_nest(species: String, cell: Vector2i) -> Creature:
+	if world.torch_near(cell, 8.0):
+		return null
+	var stratum := StrataData.at(world, cell.x, cell.y)
+	if stratum > 0 and not _dark(cell):
+		return null
+	var biome := String(BiomesData.BIOMES[BiomesData.at(world, cell.x)]["id"])
+	var id := FamiliesData.roll_variant(species, _rng, elem_bias(stratum, biome), danger)
+	var cd := CreaturesData.get_data(id)
+	var x := cell.x + (2 if _rng.randf() < 0.5 else -1)
+	if world.solid(x, cell.y) or world.solid(x, cell.y - 1):
+		x = cell.x
+	var cr := add(id, Vector2(x * S + 8, (cell.y + 1) * S - float(cd["half"][1]) - 0.1))
+	var mult := float(StrataData.STRATA[stratum]["danger"]) * vigor_mult
+	cr.strengthen(mult, mult * DangerData.DAMAGE)
+	_group(cr, id, mult)
+	return cr
 
 
 ## Una preda presa da un predatore (voce 57): sparisce senza bottino.
@@ -247,6 +270,10 @@ func _alive() -> int:
 ## creatura o null se il punto scelto non andava bene (si riprova al giro dopo).
 func try_spawn() -> Creature:
 	var pc := Vector2i(floori(player.position.x / S), floori(player.position.y / S))
+	if nest_hook.is_valid():
+		var ns: Array = nest_hook.call(pc)
+		if not ns.is_empty():
+			return spawn_at_nest(String(ns[0]), ns[1])
 	var ang := _rng.randf() * TAU
 	var dist := _rng.randf_range(DangerData.SPAWN_MIN, DangerData.SPAWN_MAX)
 	var c := pc + Vector2i(roundi(cos(ang) * dist), roundi(sin(ang) * dist * 0.6))

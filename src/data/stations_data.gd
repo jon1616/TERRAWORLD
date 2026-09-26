@@ -67,6 +67,12 @@ const STATIONS := {
 		"light_color": Color(0.6, 1.6, 1.5)},
 	"portale": {"name": "Portale di radici", "size": [3, 4], "item": "seme_mondo", "fixed": true, "light": true,
 		"light_color": Color(0.5, 1.3, 1.4)},
+	# voce 58: i nidi e le tane (nascono dal mondo; clic destro: un uovo, o nutrirli; con piccone o ascia si distruggono)
+	"nido_erba": {"name": "Nido d'erba", "size": [2, 1], "item": "", "fixed": true},
+	"nido_tana": {"name": "Tana", "size": [2, 1], "item": "", "fixed": true, "light": true, "light_color": Color(0.5, 0.4, 0.1)},
+	"nido_alveare": {"name": "Alveare di lume", "size": [2, 2], "item": "", "fixed": true, "light": true,
+		"light_color": Color(1.0, 0.7, 0.2)},
+	"nido_formicaio": {"name": "Formicaio di resina", "size": [3, 2], "item": "", "fixed": true},
 	# voce 47: il Banco dell'Innestatrice (clic destro: `InnestoPanel`)
 	"banco_innesti": {"name": "Banco dell'Innestatrice", "size": [3, 2], "item": "banco_innesti", "light": true,
 		"light_color": Color(0.5, 1.1, 0.9)},

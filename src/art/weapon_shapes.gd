@@ -68,6 +68,16 @@ static func draw(shape: String, im: Image, p: Array[Color]) -> bool:
 			Px.disc(im, 12.5, 3.5, 2.6, c[1])
 			Px.disc(im, 12.0, 3.0, 1.6, c[2])
 			Px.put(im, 12, 2, c[3])
+		"uovo":
+			# voce 58: un uovo della tavolozza del materiale, con le macchie
+			for y in S:
+				for x in S:
+					var d := Vector2((x + 0.5 - 8.0) / 5.0, (y + 0.5 - 9.0) / 6.2)
+					if d.length() <= 1.0:
+						Px.put(im, x, y, p[2] if d.x + d.y < 0.2 else p[1])
+			Px.put(im, 6, 5, hi)
+			Px.put(im, 9, 9, p[0])
+			Px.put(im, 7, 12, p[0])
 		_:
 			return false
 	return true

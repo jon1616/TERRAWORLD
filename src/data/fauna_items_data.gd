@@ -46,6 +46,10 @@ const ITEMS := {
 	"ali_libellula": {"name": "Ali di libellula", "kind": "accessorio", "icon": ["ali", "cristallo"], "acc": {"jump": 1.15}, "desc": "Salto +15%."},
 	"stola_volpe": {"name": "Stola di volpe d'oro", "kind": "accessorio", "icon": ["mantello", "ambra"], "acc": {"run": 1.08, "damage": 1.05}, "desc": "Corsa +8%, danno +5%."},
 	"monocolo_lince": {"name": "Monocolo di lince", "kind": "accessorio", "icon": ["occhio", "ardesia"], "acc": {"luck": 0.2}, "desc": "Più fortuna nel bottino."},
+	# voce 58: l'uovo preso da un nido (nei "dati": la famiglia, la specie e la variante); si schiude nell'Incubatrice
+	"uovo": {"name": "Uovo", "kind": "uovo", "icon": ["uovo", "seta"], "stack": 1,
+		"source": "nei nidi e nelle tane (clic destro), e dagli allevamenti",
+		"desc": "Un uovo preso da un nido. Nell'Incubatrice del Giardino si schiude: la creatura nasce già tua."},
 	# i Custodi dei biomi (voce 56): i richiami e ciò che lasciano
 	"richiamo_cervo": {"name": "Palco di richiamo", "kind": "richiamo", "icon": ["aculeo", "brina"], "stack": 10, "desc": "All'Altare dei Seminatori risveglia il Grande Cervo di brina."},
 	"richiamo_salamandre": {"name": "Brace di richiamo", "kind": "richiamo", "icon": ["goccia", "brace"], "stack": 10, "desc": "All'Altare dei Seminatori risveglia la Madre delle salamandre."},

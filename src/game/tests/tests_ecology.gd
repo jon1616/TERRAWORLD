@@ -27,6 +27,7 @@ func run() -> void:
 	await variants()
 	await new_families()
 	await food_chain()
+	await nests()
 
 
 func _feet(c: Vector2i, id: String) -> Vector2:
@@ -34,11 +35,11 @@ func _feet(c: Vector2i, id: String) -> Vector2:
 
 
 func variants() -> void:
-	var spot := kit.flat_spot(world.spawn + Vector2i(40, 0), 12)
+	var spot := kit.flat_spot(world.spawn + Vector2i(40, 0), 6)
 	if spot.x < 0:
 		print("ATTENZIONE: nessun posto per le varianti")
 		return
-	kit.flatten(spot, 12)
+	kit.flatten(spot, 16)
 	m.fauna.clear()
 	m.snap_to(spot)
 	await kit.frames(3)
@@ -241,3 +242,60 @@ func food_chain() -> void:
 		fox_mid, float(p[0]["pecore"]), float(p[0]["volpi"]), lo, hi])
 	if eco.hunts == h0 or fled < 8.0 or eco.grazed == g0 or float(p[0]["pecore"]) < 0.8 or lo < Ecology.MIN or hi > Ecology.MAX:
 		print("ATTENZIONE: la catena alimentare non funziona come dovrebbe")
+
+
+## Voce 58: i nidi del mondo di prova (quanti, di che famiglie; foto 93_nido), una creatura nasce dal nido, un uovo
+## preso con il clic destro (con la famiglia e la variante nei dati), il nido distrutto svuota la zona, la migrazione.
+func nests() -> void:
+	var eco: Ecology = m.ecology
+	var fams := {}
+	for k in eco.nests:
+		fams[eco.nests[k]["fam"]] = int(fams.get(eco.nests[k]["fam"], 0)) + 1
+	print("nidi nel mondo di prova: %d, famiglie %s" % [eco.nests.size(), fams])
+	if eco.nests.is_empty():
+		print("ATTENZIONE: nessun nido nel mondo di prova")
+		return
+	# il nido più vicino alla partenza
+	var best := Vector2i(-1, -1)
+	var bd := 1e9
+	for k in eco.nests:
+		var o := Ecology.cell_of(k)
+		var d := Vector2(o - world.spawn).length()
+		if d < bd and world.stations.has(o):
+			bd = d
+			best = o
+	var fam := String(eco.nests[Ecology.key(best)]["fam"])
+	m.snap_to(kit.floor_near(best + Vector2i(-3, 0), 8))
+	m.boons.add("bagliore", 4.0)
+	await kit.seconds(0.8)
+	await kit.save("93_nido")
+	# una creatura nasce dal nido
+	m.fauna.clear()
+	var size: Array = StationsData.STATIONS[world.stations[best]]["size"]
+	var born: Creature = m.fauna.spawn_at_nest(String(FamiliesData.FAMILIES[fam]["members"][0]), Vector2i(best.x, best.y + int(size[1]) - 1))
+	print("dal nido di %s nasce: %s" % [fam, born.data["name"] if born != null else "nulla (posto illuminato o occupato)"])
+	m.fauna.clear()
+	# un uovo
+	kit.make_room()
+	var e0: int = kit.bisaccia().count("uovo")
+	eco.nests[Ecology.key(best)]["eggs"] = 1
+	kit.hold("torcia")
+	var took := eco.touch_nest(best)
+	var dati := {}
+	for i in kit.bisaccia().slots.size():
+		if kit.bisaccia().id_at(i) == "uovo":
+			dati = kit.bisaccia().data_at(i)
+	print("uovo preso %s (%d → %d): %s" % ["sì" if took else "NO", e0, kit.bisaccia().count("uovo"), dati])
+	# la migrazione
+	var mg0: int = m.fauna.migration.size()
+	eco.start_migration()
+	print("migrazione: famiglie in cammino %d → %d %s" % [mg0, m.fauna.migration.size(), m.fauna.migration.keys()])
+	m.fauna.migration.clear()
+	# distruggere il nido svuota la zona
+	var before: float = eco.factor(best.x * 16.0, fam)
+	kit.hold("piccone_radicite")
+	eco.touch_nest(best)
+	print("nido distrutto: sparito %s, popolazione di %s nella zona %.2f → %.2f" % ["sì" if not world.stations.has(best) else "NO",
+		fam, before, eco.factor(best.x * 16.0, fam)])
+	if not took or dati.is_empty() or world.stations.has(best):
+		print("ATTENZIONE: i nidi non funzionano come dovrebbero")

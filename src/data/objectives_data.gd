@@ -117,6 +117,8 @@ const LIST := [
 		"reward": {"torcia": 20}},
 	{"id": "gene", "text": "Preleva un gene con la Provetta di Linfa (all'Alambicco) o da una pianta-seme",
 		"check": {"stat": "geni_imparati", "n": 1}, "reward": {"provetta": 4}},
+	{"id": "uovo", "text": "Prendi un uovo da un nido o da una tana (clic destro)", "check": {"stat": "uova", "n": 1},
+		"reward": {"boccone": 4}},
 	{"id": "reazione", "text": "Fai reagire due elementi su una creatura (per esempio gelo, poi brace)", "check": {"stat": "reazioni", "n": 1},
 		"reward": {"pozione_vigore": 2}},
 	{"id": "firma", "text": "Trova la firma di un mondo: il luogo che esiste solo lì", "check": {"stat": "firme", "n": 1},
