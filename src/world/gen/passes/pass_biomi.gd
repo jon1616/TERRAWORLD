@@ -21,16 +21,20 @@ func run(w: World, c: GenContext) -> void:
 		home = BiomesData.index_of(String((SpeciesData.SPECIES[c.params["specie"]]["biomes"] as Dictionary).keys()[0]))
 	var x := 0
 	var prev := -1
+	var segs := []                          # [inizio, fine, bioma] di ogni tratto
 	while x < w.w:
 		var len := rng.randi_range(BiomesData.SEG_MIN, BiomesData.SEG_MAX)
 		# con una specie lo stesso bioma può tornare di fila (così domina davvero); senza, mai due uguali
 		var b := _pick(rng, -1 if home_set else prev, weights)
 		for k in range(x, mini(x + len, w.w)):
 			w.biomes[k] = b
+		segs.append([x, mini(x + len, w.w), b])
 		prev = b
 		x += len
 	for k in range(maxi(w.spawn.x - BiomesData.SPAWN_SAFE, 0), mini(w.spawn.x + BiomesData.SPAWN_SAFE, w.w)):
 		w.biomes[k] = home
+	if not home_set:
+		_ensure_all(w, segs, weights, rng)
 	# il terreno: colline più o meno mosse e superficie più alta o più bassa, sfumate tra un bioma e l'altro
 	var base := w.h * float(c.params["surface_base"])
 	var hills := PackedFloat32Array()
@@ -54,6 +58,26 @@ func run(w: World, c: GenContext) -> void:
 			w.surface[k] = int(base + (s - base) * sh / n + sl / n)
 		sh += hills[clampi(k + r + 1, 0, w.w - 1)] - hills[clampi(k - r, 0, w.w - 1)]
 		sl += lift[clampi(k + r + 1, 0, w.w - 1)] - lift[clampi(k - r, 0, w.w - 1)]
+
+
+## Un mondo senza specie (il mondo casa) ha tutti i biomi: a quelli rimasti fuori per caso si dà un tratto preso a un
+## bioma che ne ha più di uno, lontano dalla partenza (con cinque biomi il mondo di prova aveva perso le paludi).
+func _ensure_all(w: World, segs: Array, weights: Array, rng: RandomNumberGenerator) -> void:
+	var safe := Vector2i(w.spawn.x - BiomesData.SPAWN_SAFE, w.spawn.x + BiomesData.SPAWN_SAFE)
+	for k in weights.size():
+		if int(weights[k]) <= 0 or segs.any(func(sg: Array) -> bool: return int(sg[2]) == k):
+			continue
+		var free := []
+		for sg in segs:
+			var many := segs.filter(func(o: Array) -> bool: return int(o[2]) == int(sg[2])).size() > 1
+			if many and (int(sg[1]) < safe.x or int(sg[0]) > safe.y):
+				free.append(sg)
+		if free.is_empty():
+			continue
+		var pick: Array = free[rng.randi_range(0, free.size() - 1)]
+		pick[2] = k
+		for xx in range(int(pick[0]), int(pick[1])):
+			w.biomes[xx] = k
 
 
 ## Il peso di ogni bioma: quelli della specie, o quelli di `BiomesData` se il mondo non ne ha una.

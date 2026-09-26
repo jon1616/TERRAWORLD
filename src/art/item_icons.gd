@@ -31,6 +31,8 @@ const MATERIALS := {
 	"brillaluce": ["#2a3a08", "#6a8a10", "#b8e020", "#e8ff70", "#fbffd8"],
 	"sanguinella": ["#3a0810", "#7a1424", "#c8283c", "#ff6a78", "#ffd0d4"],
 	"lagunite": ["#081a3a", "#12408a", "#2a7ad8", "#78c0ff", "#d8f0ff"],
+	"brina": ["#1c3048", "#2a4a6a", "#44729a", "#7aaed0", "#d0f0ff"],
+	"cenere": ["#3a2a30", "#5a3e44", "#7e565a", "#a8766e", "#e0a888"],
 	"nottilite": ["#1c0a30", "#40186a", "#7a38c0", "#b880ff", "#ecd8ff"],
 }
 const LEAF := ["#16574f", "#3aa08a", "#72d4b0"]

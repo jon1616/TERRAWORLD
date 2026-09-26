@@ -63,7 +63,10 @@ func run() -> void:
 	await kit.save("60_scoppio")
 	await kit.seconds(0.5)
 	print("baccello lanciato: partito %s, scoppiato %s" % ["sì" if ok else "NO", "sì" if th.blasts > n0 else "NO"])
-	# seme ricurvo: ferisce e torna
+	# seme ricurvo: ferisce e torna (terreno spianato davanti: nel giro lungo le prove di prima lo lasciano ingombro)
+	kit.flatten(spot, 10)
+	m.snap_to(spot)
+	await kit.frames(2)
 	var t: Creature = m.fauna.add("falena_brace", m.player.position + Vector2(70, -10))
 	t.set_process(false)
 	t.hp_max = 500

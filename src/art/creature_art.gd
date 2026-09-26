@@ -59,6 +59,15 @@ static func frames(shape: String, variant: int) -> Dictionary:
 			return _pair(func(f: int) -> Array: return DeepBeastArt.tessivuoto(f))
 		"sciame":
 			return _pair(func(f: int) -> Array: return DeepBeastArt.sciame(f))
+		# voce 40: i biomi nuovi
+		"cervo_brina":
+			return _pair(func(f: int) -> Array: return BiomeBeastArt.cervo_brina(f))
+		"gufo_gelo":
+			return _pair(func(f: int) -> Array: return BiomeBeastArt.gufo_gelo(f))
+		"salamandra":
+			return _pair(func(f: int) -> Array: return BiomeBeastArt.salamandra(f))
+		"fatuo_cenere":
+			return _pair(func(f: int) -> Array: return BiomeBeastArt.fatuo_cenere(f))
 		# voce 27: i Custodi
 		"madre_grumi":
 			return _pair(func(f: int) -> Array: return KeeperArt.madre_grumi(f))

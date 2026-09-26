@@ -29,10 +29,12 @@ const ASSI := 20                       # assi di legno di lanterna
 const MATTONI := 21                    # mattoni d'ardesia
 const VETRO := 22                      # vetro di resina: solido ma lascia passare la luce
 const PORTA := 23                      # una porta chiusa: solida, non disegnata (la disegna la stazione)
-const TYPES := 23
+const GRASS_BRINA := 24                # muschio di brina, azzurro: i Boschi di brina (voce 40)
+const GRASS_CENERE := 25               # cenere viva, rosata: le Cenerarie (voce 40)
+const TYPES := 25
 const BUILT := [ASSI, MATTONI, VETRO]
 const BLIGHTED := [AVV_TERRA, AVV_MUSCHIO, AVV_PIETRA]
-const GRASSES := [GRASS, GRASS_SPORE, GRASS_AMBRA]
+const GRASSES := [GRASS, GRASS_SPORE, GRASS_AMBRA, GRASS_BRINA, GRASS_CENERE]
 
 const WALL_DIRT := 1
 const WALL_STONE := 2
@@ -80,18 +82,18 @@ const DECOR_LIGHT := {
 ## Secondi di scavo con il piccone di radicite.
 const HARD := {DIRT: 0.22, GRASS: 0.22, STONE: 0.38, RADICITE: 0.5, LEGNOFERRO: 0.6, AMBRA: 0.7, CRYSTAL: 0.8,
 	RADICE: 0.45, SCISTO: 0.5, VUOTITE: 0.75, NODO: 9.0, PIETRA_SEM: 0.8,
-	GRASS_SPORE: 0.22, GRASS_AMBRA: 0.22, AVV_TERRA: 0.25, AVV_MUSCHIO: 0.25, AVV_PIETRA: 0.42,
+	GRASS_SPORE: 0.22, GRASS_AMBRA: 0.22, GRASS_BRINA: 0.22, GRASS_CENERE: 0.22, AVV_TERRA: 0.25, AVV_MUSCHIO: 0.25, AVV_PIETRA: 0.42,
 	PALLIDITE: 0.55, TIZZONITE: 0.8, ASSI: 0.3, MATTONI: 0.45, VETRO: 0.3, PORTA: 1.0}
 ## Forza di piccone minima (vedi `ItemsData.METALS`): radicite 35, legnoferro 45, ambra 55. L'ambra vuole il piccone
 ## di legnoferro, i cristalli di Linfa quello d'ambra: è il filo della progressione.
 ## Il Fondo (vuotite) vuole il piccone di legnoferro: non ci si arriva col primo corredo.
 const POWER := {DIRT: 0, GRASS: 0, STONE: 0, RADICITE: 0, LEGNOFERRO: 35, AMBRA: 45, CRYSTAL: 55, RADICE: 0, SCISTO: 0,
-	VUOTITE: 45, NODO: 999, PIETRA_SEM: 0, GRASS_SPORE: 0, GRASS_AMBRA: 0,
+	VUOTITE: 45, NODO: 999, PIETRA_SEM: 0, GRASS_SPORE: 0, GRASS_AMBRA: 0, GRASS_BRINA: 0, GRASS_CENERE: 0,
 	AVV_TERRA: 0, AVV_MUSCHIO: 0, AVV_PIETRA: 0, PALLIDITE: 35, TIZZONITE: 55, ASSI: 0, MATTONI: 0, VETRO: 0, PORTA: 999}
 ## Oggetto che si ottiene rompendo la tessera o raccogliendo la decorazione.
 const DROP := {DIRT: "humus", GRASS: "humus", STONE: "ardesia", RADICITE: "minerale_radicite", LEGNOFERRO: "minerale_legnoferro",
 	AMBRA: "minerale_ambra", CRYSTAL: "cristallo_linfa", RADICE: "radice_antica", SCISTO: "scisto", VUOTITE: "vuotite",
-	NODO: "radice_antica", PIETRA_SEM: "pietra_seminatori", GRASS_SPORE: "humus", GRASS_AMBRA: "humus",
+	NODO: "radice_antica", PIETRA_SEM: "pietra_seminatori", GRASS_SPORE: "humus", GRASS_AMBRA: "humus", GRASS_BRINA: "humus", GRASS_CENERE: "humus",
 	AVV_TERRA: "cenere_avvizzita", AVV_MUSCHIO: "cenere_avvizzita", AVV_PIETRA: "ardesia",
 	PALLIDITE: "minerale_pallidite", TIZZONITE: "minerale_tizzonite", ASSI: "assi_lanterna", MATTONI: "mattoni_ardesia",
 	VETRO: "vetro_resina", PORTA: "porta_lanterna"}
@@ -110,6 +112,7 @@ const ORES := [
 const NAMES := {DIRT: "Humus", GRASS: "Muschio", STONE: "Ardesia", RADICITE: "Radicite", LEGNOFERRO: "Legnoferro", AMBRA: "Ambra fossile", CRYSTAL: "Cristallo di Linfa",
 	RADICE: "Radice antica", SCISTO: "Scisto di Linfa", VUOTITE: "Vuotite", NODO: "Nodo avvizzito",
 	PIETRA_SEM: "Pietra dei Seminatori", GRASS_SPORE: "Muschio di spore", GRASS_AMBRA: "Erba d'ambra",
+	GRASS_BRINA: "Muschio di brina", GRASS_CENERE: "Cenere viva",
 	AVV_TERRA: "Terra avvizzita", AVV_MUSCHIO: "Muschio avvizzito", AVV_PIETRA: "Ardesia avvizzita",
 	PALLIDITE: "Pallidite", TIZZONITE: "Tizzonite", ASSI: "Assi di lanterna", MATTONI: "Mattoni d'ardesia",
 	VETRO: "Vetro di resina", PORTA: "Porta"}
@@ -136,6 +139,8 @@ const P_RADICE := ["#4a2c22", "#6a3e2c", "#8a5638", "#a8704a", "#c89066"]
 const P_SCISTO := ["#263a40", "#34505a", "#446872", "#58848c", "#7aa6aa"]
 const P_GRASS_SPORE := ["#2a1640", "#43235e", "#633a86", "#8a58b4", "#c49af0"]
 const P_GRASS_AMBRA := ["#4a3210", "#6e4c16", "#9a7022", "#c89a3a", "#f0d27a"]
+const P_GRASS_BRINA := ["#1c3048", "#2a4a6a", "#44729a", "#7aaed0", "#d0f0ff"]
+const P_GRASS_CENERE := ["#3a2a30", "#5a3e44", "#7e565a", "#a8766e", "#e0a888"]
 const P_AVV_TERRA := ["#2e2a28", "#433d38", "#5a534b", "#736a5e", "#8e8574"]
 const P_AVV_MUSCHIO := ["#2a2a22", "#3e3d30", "#57553f", "#72704f", "#949060"]
 const P_AVV_PIETRA := ["#2a2c30", "#3c3f45", "#51555c", "#686d74", "#858a90"]
@@ -147,13 +152,16 @@ const P_VUOTITE := ["#34284a", "#463662", "#5a467c", "#745c9c", "#967cc4"]
 ## dei tipi elencati. Il primo è la sagoma di tutto il terreno.
 const TERRAIN_LAYERS := [
 	{"id": "ardesia", "types": [DIRT, GRASS, STONE, RADICITE, LEGNOFERRO, AMBRA, CRYSTAL, RADICE, SCISTO, VUOTITE, NODO,
-		PIETRA_SEM, GRASS_SPORE, GRASS_AMBRA, AVV_TERRA, AVV_MUSCHIO, AVV_PIETRA, PALLIDITE, TIZZONITE],
+		PIETRA_SEM, GRASS_SPORE, GRASS_AMBRA, AVV_TERRA, AVV_MUSCHIO, AVV_PIETRA, PALLIDITE, TIZZONITE, GRASS_BRINA,
+		GRASS_CENERE],
 		"pal": P_STONE},
-	{"id": "humus", "types": [DIRT, GRASS, GRASS_SPORE, GRASS_AMBRA], "pal": P_DIRT},
+	{"id": "humus", "types": [DIRT, GRASS, GRASS_SPORE, GRASS_AMBRA, GRASS_BRINA, GRASS_CENERE], "pal": P_DIRT},
 	{"id": "terra_avv", "types": [AVV_TERRA, AVV_MUSCHIO], "pal": P_AVV_TERRA},
 	{"id": "muschio", "types": [GRASS], "pal": P_GRASS},
 	{"id": "muschio_spore", "types": [GRASS_SPORE], "pal": P_GRASS_SPORE},
 	{"id": "erba_ambra", "types": [GRASS_AMBRA], "pal": P_GRASS_AMBRA},
+	{"id": "muschio_brina", "types": [GRASS_BRINA], "pal": P_GRASS_BRINA},
+	{"id": "cenere_viva", "types": [GRASS_CENERE], "pal": P_GRASS_CENERE},
 	{"id": "muschio_avv", "types": [AVV_MUSCHIO], "pal": P_AVV_MUSCHIO},
 	{"id": "pietra_avv", "types": [AVV_PIETRA], "pal": P_AVV_PIETRA},
 	{"id": "radice", "types": [RADICE], "pal": P_RADICE},
@@ -175,7 +183,7 @@ const TERRAIN_LAYERS := [
 ## Colore sulla mappa (strumenti e, in futuro, minimappa).
 const MAP_COLOR := {DIRT: "#50343c", GRASS: "#3aa08a", STONE: "#434f6c", RADICITE: "#d4783a", LEGNOFERRO: "#a2b0c2", AMBRA: "#eec04a", CRYSTAL: "#3ac0c8",
 	RADICE: "#8a5638", SCISTO: "#32687c", VUOTITE: "#463464", NODO: "#ff40a0",
-	PIETRA_SEM: "#e8fff8", GRASS_SPORE: "#8a58b4", GRASS_AMBRA: "#c89a3a",
+	PIETRA_SEM: "#e8fff8", GRASS_SPORE: "#8a58b4", GRASS_AMBRA: "#c89a3a", GRASS_BRINA: "#7aaed0", GRASS_CENERE: "#a8766e",
 	AVV_TERRA: "#5a534b", AVV_MUSCHIO: "#72704f", AVV_PIETRA: "#51555c", PALLIDITE: "#c4c4dc", TIZZONITE: "#e0582a",
 	ASSI: "#7a5462", MATTONI: "#62779c", VETRO: "#d8f0c8", PORTA: "#9a7080"}
 
@@ -208,6 +216,10 @@ static func palette_of(type: int) -> Array[Color]:
 			return Px.pal(P_GRASS_SPORE)
 		GRASS_AMBRA:
 			return Px.pal(P_GRASS_AMBRA)
+		GRASS_BRINA:
+			return Px.pal(P_GRASS_BRINA)
+		GRASS_CENERE:
+			return Px.pal(P_GRASS_CENERE)
 		AVV_TERRA:
 			return Px.pal(P_AVV_TERRA)
 		AVV_MUSCHIO:
@@ -233,7 +245,7 @@ static func dust_colors(type: int) -> Array[Color]:
 
 ## È una delle erbe (muschio, muschio di spore, erba d'ambra)? Ci crescono alberi e germogli.
 static func is_grass(t: int) -> bool:
-	return t == GRASS or t == GRASS_SPORE or t == GRASS_AMBRA
+	return t in GRASSES
 
 
 ## Che cosa diventa una tessera toccata dall'Avvizzimento (-1 = non si ammala).
@@ -241,7 +253,7 @@ static func blighted_of(t: int) -> int:
 	match t:
 		DIRT:
 			return AVV_TERRA
-		GRASS, GRASS_SPORE, GRASS_AMBRA:
+		GRASS, GRASS_SPORE, GRASS_AMBRA, GRASS_BRINA, GRASS_CENERE:
 			return AVV_MUSCHIO
 		STONE:
 			return AVV_PIETRA

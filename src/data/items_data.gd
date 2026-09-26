@@ -275,6 +275,7 @@ static func all() -> Dictionary:
 	out.merge(TrophyItemsData.ITEMS.duplicate(true))
 	out.merge(KeeperItemsData.ITEMS.duplicate(true))
 	out.merge(RelicsData.ITEMS.duplicate(true))
+	out.merge(BiomeItemsData.ITEMS.duplicate(true))
 	for m in METALS:
 		var md: Dictionary = METALS[m]
 		for g in GEAR:

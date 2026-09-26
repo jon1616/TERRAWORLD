@@ -183,7 +183,7 @@ func _dig(c: Vector2i, item: Dictionary, dt: float) -> float:
 	_dig_snd -= dt
 	if _dig_snd <= 0.0 and sfx:
 		_dig_snd = 0.25
-		sfx.play("scavo_terra" if t in [TileDefs.DIRT, TileDefs.GRASS, TileDefs.GRASS_SPORE, TileDefs.GRASS_AMBRA, TileDefs.RADICE] else "scavo_roccia")
+		sfx.play("scavo_terra" if t in [TileDefs.DIRT, TileDefs.GRASS, TileDefs.GRASS_SPORE, TileDefs.GRASS_AMBRA, TileDefs.GRASS_BRINA, TileDefs.GRASS_CENERE, TileDefs.RADICE] else "scavo_roccia")
 	# più forza = più veloce (la radicite, forza 35, è il riferimento di TileDefs.HARD)
 	var hard: float = float(TileDefs.HARD[t]) * 35.0 / float(maxi(power, 1))
 	hard /= TraitsData.effect(String(item.get("tratto", "")), "dig") * dig_mult * boon_dig

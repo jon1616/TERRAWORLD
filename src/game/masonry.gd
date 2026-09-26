@@ -86,6 +86,8 @@ func door_placed(o: Vector2i, placed: bool) -> void:
 ## Clic destro su una porta: si apre o si chiude (non si chiude addosso a qualcuno).
 func toggle_door(o: Vector2i) -> bool:
 	var w: World = m.world
+	if not w.stations.has(o):
+		return false
 	var id := String(w.stations[o])
 	var cells := Rect2(Vector2(o) * S, Vector2(1, 3) * S)
 	if id == "porta_aperta":

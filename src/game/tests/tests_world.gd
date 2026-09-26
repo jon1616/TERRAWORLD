@@ -42,6 +42,17 @@ func places() -> void:
 			if world.solid(target.x, target.y):
 				break
 			target.x += 1
+		# nessun pavimento lì (una buca): il blocco pieno più vicino che tocca l'aria e che si raggiunge
+		# (non quello sotto i piedi: il Germogliato ci cadrebbe dentro e il blocco non si potrebbe rimettere)
+		if not world.solid(target.x, target.y):
+			var best := 1e9
+			for dy in range(-3, 4):
+				for dx in range(-5, 6):
+					var c := f + Vector2i(dx, dy)
+					var d := Vector2(dx, dy).length()
+					if d >= 2.0 and d < best and world.solid(c.x, c.y) and not world.solid(c.x, c.y - 1) 							and kit.m.actions.in_reach(c) and TileDefs.POWER.get(world.tile(c.x, c.y), 0) < 35:
+						best = d
+						target = c
 		var mined := ""
 		var had := 0
 		if world.solid(target.x, target.y):
@@ -96,16 +107,20 @@ func run_and_save() -> void:
 	var t0 := Time.get_ticks_msec()
 	var frames := 0
 	var worst := 0.0
+	var worst_at := 0
 	for k in 180:
 		kit.m.player.position.x += 9.0
 		kit.m.player.position.y = (world.surface[clampi(int(kit.m.player.position.x / S), 0, world.w - 1)] - 1) * S
 		var f0 := Time.get_ticks_usec()
 		await kit.node.get_tree().process_frame
-		worst = maxf(worst, (Time.get_ticks_usec() - f0) / 1000.0)
+		var dt := (Time.get_ticks_usec() - f0) / 1000.0
+		if dt > worst:
+			worst = dt
+			worst_at = k
 		frames += 1
 	var ms := Time.get_ticks_msec() - t0
-	print("corsa: %d fotogrammi in %d ms (%.1f fps), fotogramma peggiore %.1f ms, blocchi caricati %d" % [
-		frames, ms, frames * 1000.0 / ms, worst, kit.m.view.chunks.size()])
+	print("corsa: %d fotogrammi in %d ms (%.1f fps), fotogramma peggiore %.1f ms (il %d°), blocchi caricati %d" % [
+		frames, ms, frames * 1000.0 / ms, worst, worst_at, kit.m.view.chunks.size()])
 	await kit.frames(10)
 	await kit.save("05_dopo_la_corsa")
 	# salvataggio dal gioco e ricaricamento: il mondo su disco deve essere identico a quello in memoria

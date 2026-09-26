@@ -51,6 +51,22 @@ func run(w: World, c: GenContext) -> void:
 					d = TileDefs.DECOR_FERN
 				elif r < 0.5:
 					d = TileDefs.DECOR_FLOWERS[2]
+			elif below == TileDefs.GRASS_BRINA:
+				# boschi di brina: ciuffi gelati, sassi, qualche campanula turchese
+				if r < 0.3:
+					d = TileDefs.DECOR_GRASS[rng.randi_range(0, 2)]
+				elif r < 0.38:
+					d = TileDefs.DECOR_ROCKS[rng.randi_range(0, 1)]
+				elif r < 0.45:
+					d = TileDefs.DECOR_FLOWERS[0]
+			elif below == TileDefs.GRASS_CENERE:
+				# cenerarie: sassi, funghi di brace, pochi ciuffi bruciati
+				if r < 0.14:
+					d = TileDefs.DECOR_ROCKS[rng.randi_range(0, 1)]
+				elif r < 0.24:
+					d = TileDefs.DECOR_MUSHROOM
+				elif r < 0.29:
+					d = TileDefs.DECOR_GRASS[0]
 			elif below == TileDefs.GRASS_AMBRA:
 				# distese d'ambra: ciuffi, campanule d'ambra, sassi caldi
 				if r < 0.3:

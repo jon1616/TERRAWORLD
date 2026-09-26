@@ -54,7 +54,8 @@ Godot_console.exe --path . -- --prove            # --carica riapre il mondo di p
 # viaggio vero attraverso il portale (voce 12): pianta un Seme, va nel mondo nuovo (vigore 2, portale di ritorno), torna
 Godot_console.exe --path . -- --prove --prova-portale
 # solo alcuni gruppi di prove (per provare in fretta una voce nuova): doni, antiche, pericoli, combattimento, tratti,
-# obiettivi, guardiani, rovine (elenco in `AutoTests._group`)
+# obiettivi, guardiani, rovine, mobilita, lanci, giardino, eventi, casa, abitanti, compagni, viaggio, semi,
+# biomi, biomi_nuovi, luoghi, corsa (elenco in `AutoTests._group`)
 Godot_console.exe --path . -- --prove --solo=doni,antiche
 # suoni generati: prove/suoni/*.wav da ascoltare, con durata, picco e volume medio (segnala muti e distorti)
 Godot_console.exe --headless --path . --script res://tools/suoni.gd
@@ -106,6 +107,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   - `SpellsData` — gli incantesimi dei bastoni di Linfa (aspetto, velocità, ventaglio, quante creature attraversa,
     quanto insegue, se passa la roccia, luce).
   - `BeastItemsData` — materiali delle creature della voce 22 e ciò che se ne fa; uniti in `ItemsData.all()`.
+  - `BiomeItemsData` — voce 40: materiali, set, armi, trofei e Semi dei Boschi di brina e delle Cenerarie (oggetti e
+    ricette, uniti in `all()`). `SpeciesData` (voce 39): specie e tratti dei Semi di mondo.
+  - `CompanionsData` (voce 37: compagni e alleati), `NpcData` e `ValueData` (voce 36: abitanti, merci, prezzi).
   - `TrophyItemsData` — i trofei di ogni specie (`TROPHY_OF`: li lasciano solo le rare), gli oggetti unici che ne
     nascono, la Polvere iridata e gli oggetti iridati, con le loro ricette (unite in `RecipesData.all()`).
   - `SetsData` — i set di equipaggiamento: `METAL_BONUS` (un set per metallo, pezzi generati), vesti e coppie di
@@ -131,7 +135,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
     i banchi della voce 25 (Alambicco, Telaio, Mola) in `WorkshopArt`. Foglio di tutte le stazioni in prove/stazioni.png.
   - `BossArt` — i tre Guardiani (Nodo, Regina, Colosso), malati o guariti, chiamati da `CreatureArt.frames`.
   - `BeastArt` (creature della voce 22 di superficie e Sottobosco, `spider` per i ragni) e `DeepBeastArt` (quelle del
-    profondo), chiamate da `CreatureArt.frames` (2 fotogrammi, 3 per guscio e travestimento).
+    profondo), chiamate da `CreatureArt.frames` (2 fotogrammi, 3 per guscio e travestimento); `BiomeBeastArt` le
+    quattro creature dei biomi della voce 40. Una tessera d'erba nuova: `TileDefs` (costante, `GRASSES`, tabelle,
+    tavolozza, strato del terreno), `MapReveal`, suono di scavo in `PlayerActions`, `PassDecorazioni`.
   - `CharacterArt` (personaggio a pose, restituisce anche mano e occhio), `CreatureArt`, `NatureArt`
     (`tree_linfa` con parte luminosa, `root_arches`, `lantern_forest`, colline, torcia, sole).
 - `src/audio/` — `SfxSynth` (ricette di `SoundsData` → campioni PCM, limitatore, anelli senza cuciture per i
@@ -357,6 +363,12 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 - Nelle patch Python scritte dentro un heredoc del Bash tool i `\\n` diventano a capo veri dentro le stringhe
   GDScript: le patch si scrivono su file con Write. Per scovare stringhe spezzate: righe con un numero dispari di
   virgolette.
+
+- Un bioma in più cambia la forma di tutto il mondo di prova: nel giro lungo tre prove sono cadute (casa, seme ricurvo,
+  scavo) perché il loro posto era occupato o diverso. Le prove sgomberano e spianano il loro posto prima di usarlo;
+  un mondo senza specie ha sempre tutti i biomi (`PassBiomi._ensure_all`), altrimenti il mondo di prova perde un bioma.
+- Nel giro lungo (dopo ~12 minuti di prove) la corsa ha a volte un fotogramma da 75-120 ms che le prove singole non
+  mostrano (né il salvataggio automatico né il portale né le prove della casa lo causano): punto aperto (26 set 2026).
 
 ## Convenzioni
 

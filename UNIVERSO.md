@@ -174,6 +174,8 @@ che viene dal Giardino dei Semi.
 - Le specie dei Semi di mondo: **salice-lanterna**, **sporangio**, **resina** (all'Altare, con i materiali del bioma).
   I tratti dei mondi: Vene ricche, Rovine fitte, Gemme ricche, Iridescente, Fertile, Stellato, Quieto, Brulicante,
   Notti lunghe, Avvizzito.
+- I **Boschi di brina** (muschio di brina, Cervo di brina, Gufo del gelo) e le **Cenerarie** (cenere viva, Salamandra
+  di brace, Fatuo di cenere); i Semi di **brina** e di **cenere**.
 - Il **Fagotto del Germogliato**: dove si appassisce resta la Bisaccia, avvolta nelle foglie.
 - Doni da trovare: il **Bocciolo del cuore** (nelle grotte; il suo **Cuore di bocciolo** fa crescere una foglia di Vita
   in più) e la **Stilla perenne** (una goccia che pende dai soffitti profondi senza mai cadere: più Linfa).

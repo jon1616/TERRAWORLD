@@ -29,6 +29,16 @@ func run() -> void:
 	var fy := spot.y + 1                       # il pavimento
 	var x0 := spot.x - 8
 	var x1 := spot.x + 8
+	# nel giro lungo le prove di prima lasciano stazioni e terra qui attorno: si sgombera tutta la casa (la porta non
+	# ci stava e la prova falliva, successo quando i biomi nuovi hanno cambiato la forma del mondo)
+	for o in world.stations.keys():
+		if Rect2i(x0 - 4, fy - 10, x1 - x0 + 9, 10).has_point(o):
+			world.stations.erase(o)
+			m.view.remove_station(o)
+	for x in range(x0, x1 + 1):
+		for y in range(fy - 9, fy):
+			world.set_tile(x, y, TileDefs.AIR)
+			world.set_decor(x, y, 0)
 	# pavimento di assi, muri di mattoni alti 6 con una finestra di vetro, tetto di assi
 	for x in range(x0, x1 + 1):
 		world.set_tile(x, fy, TileDefs.ASSI)

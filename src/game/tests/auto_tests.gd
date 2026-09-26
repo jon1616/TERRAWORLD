@@ -82,6 +82,7 @@ func run(main: Node2D) -> void:
 	await TestsCompanions.new(kit).run()
 	await TestsTravel.new(kit).run()
 	await TestsSeeds.new(kit).run()
+	await TestsNewBiomes.new(kit).run()
 	await ob.run()
 	await w.run_and_save()
 	# la Bisaccia aperta
@@ -147,6 +148,12 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsGarden.new(kit).run()
 		"eventi":
 			await TestsEvents.new(kit).run()
+		"biomi":
+			await TestsBiomes.new(kit).run()
+		"luoghi":
+			await TestsWorld.new(kit).places()
+		"corsa":
+			await TestsWorld.new(kit).run_and_save()
 		"casa":
 			await TestsBuilding.new(kit).run()
 		"abitanti":
@@ -157,6 +164,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsTravel.new(kit).run()
 		"semi":
 			await TestsSeeds.new(kit).run()
+		"biomi_nuovi":
+			await TestsNewBiomes.new(kit).run()
 		"antiche":
 			await TestsAncient.new(kit).run()
 		"pericoli":

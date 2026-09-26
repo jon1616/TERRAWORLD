@@ -158,6 +158,17 @@ const TABLES := {
 		{"item": "scheggia_vuoto", "min": 1, "max": 3, "chance": 1.0},
 	],
 	"tessivuoto": [{"item": "seta_vuoto", "min": 2, "max": 3, "chance": 1.0}],
+	# voce 40
+	"cervo_brina": [
+		{"item": "vello_brina", "min": 1, "max": 3, "chance": 1.0},
+		{"item": "palco_brina", "min": 1, "max": 1, "chance": 0.25},
+	],
+	"gufo_gelo": [{"item": "piuma_gelo", "min": 1, "max": 2, "chance": 1.0}],
+	"salamandra": [
+		{"item": "squama_brace", "min": 1, "max": 2, "chance": 1.0},
+		{"item": "fungo_brace", "min": 1, "max": 1, "chance": 0.2},
+	],
+	"fatuo_cenere": [{"item": "cenere_viva", "min": 1, "max": 2, "chance": 0.9}],
 	"sciame": [{"item": "scheggia_vuoto", "min": 1, "max": 1, "chance": 0.8}],
 	# voce 27: i Custodi degli strati (sempre il loro materiale regale e un dono)
 	"madre_grumi": [

@@ -18,6 +18,9 @@ const TROPHY_OF := {
 	"ala_ardesia": "ala_maestra", "chiocciola_cristallo": "spirale_cristallo", "geomimo": "occhio_geode",
 	"serpe_linfa": "dente_serpe", "campanula_errante": "pistillo_oro", "guizzalinfa": "scintilla_guizzo",
 	"mietivuoto": "falce_maestra", "tessivuoto": "filiera_vuoto", "sciame_schegge": "nucleo_sciame",
+	# voce 40 (oggetti e ricette in `BiomeItemsData`)
+	"cervo_brina": "cuore_brina", "gufo_gelo": "occhio_gelo", "salamandra_brace": "coda_brace",
+	"fatuo_cenere": "fiamma_fatua",
 }
 
 const _T := "Lo lasciano solo le creature rare di questa specie."

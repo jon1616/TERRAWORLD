@@ -22,6 +22,11 @@ const SPECIES := {
 		"biomes": {"palude": 6, "foresta": 2, "ambra": 1}, "desc": "paludi di spore quasi ovunque"},
 	"resina": {"name": "Seme di resina", "short": "resina",
 		"biomes": {"ambra": 6, "foresta": 2, "palude": 1}, "desc": "distese d'ambra, calde e aperte"},
+	# voce 40
+	"brina": {"name": "Seme di brina", "short": "brina",
+		"biomes": {"brina": 6, "foresta": 2, "ambra": 1}, "desc": "boschi gelati e cieli chiari"},
+	"cenere": {"name": "Seme di cenere", "short": "cenere",
+		"biomes": {"cenere": 6, "ambra": 2, "palude": 1}, "desc": "pianure di cenere e braci"},
 }
 
 const TRAITS := {

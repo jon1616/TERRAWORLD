@@ -577,5 +577,29 @@ durata della notte, eventi, Avvizzimento). Il **primo clic destro sul portale** 
 Seme di sporangio · Vene ricche, Notti lunghe»), il secondo parte. Entrando la prima volta una scritta presenta il
 mondo; la scheda del personaggio lo ricorda. Prove `--solo=semi`.
 
-## 40. [ ] Biomi nuovi (L)
-Nuovi biomi di superficie e del sottosuolo con creature e materiali propri, legati alle specie dei Semi.
+## 40. [x] Biomi nuovi (L) — fatto il 26 set 2026
+Due biomi di superficie nuovi, ognuno con la sua tessera d'erba (con i contorni morbidi, sulla mappa e
+nell'Avvizzimento), le sue decorazioni, il suo cielo, due creature, i materiali, un set e i trofei:
+- **Boschi di brina** (muschio di brina azzurro): il **Cervo di brina** carica a testa bassa (vello, palchi), il **Gufo
+  del gelo** tira schegge fredde che rallentano (piume). Vesti di brina al Telaio (set «Passo di brina»: corsa +12%,
+  niente ferite da caduta), Arco del gelo (due dardi), Dardi del gelo, Amuleto del palco.
+- **Cenerarie** (cenere viva rosata, quasi senza alberi): la **Salamandra di brace** salta addosso (squame), i **Fatui
+  di cenere** arrivano a gruppetti e scattano (cenere viva). Corazza di squame al Maglio (set «Cuore di brace»: +10%
+  danno, spine 12), Lama della salamandra, Cuore di brace.
+- Trofei delle quattro creature (solo dalle rare) con i loro oggetti unici: Corona di palchi, Sguardo del gelo,
+  Frusta di coda (brucia), Lanterna fatua.
+- Due specie nuove di Semi di mondo, **brina** e **cenere** (all'Altare): un mondo di cenere è per il 92% Cenerarie.
+  Nei mondi nuovi senza specie i due biomi compaiono accanto agli altri (peso 2).
+Il sottosuolo resta per la prossima Roadmap. Oggetti e ricette in `BiomeItemsData`, disegni in `BiomeBeastArt`.
+Prove `--solo=biomi_nuovi` (foto 69_boschi_brina, 70_cenerarie).
+
+# Roadmap 5 — proposte (da decidere con l'utente)
+- **Il Germogliato vero**: importare le tavole di Nano Banana (48 px, braccio davanti separato, armature a colori
+  scambiati) con lo script di Inkblood; tutte le pose del movimento.
+- **Biomi del sottosuolo**: fungaie giganti nel Sottobosco, geodi di brina, fiumi di brace nel profondo, ognuno con le
+  sue creature e i suoi materiali (lo spazio nei dati c'è già: specie e strati).
+- **Un Custode per bioma**: il Grande Cervo di brina e la Madre delle salamandre, con le loro tane in superficie.
+- **Abitanti che crescono**: missioni degli abitanti, affetto (sconti), una casa per ciascuno, altri abitanti (il
+  Cartografo che vende mappe dei mondi, la Tessitrice di semi che cambia i tratti di un Seme di mondo).
+- **Alleati che crescono**: livelli dei compagni, bastoni evocatori più forti per ogni strato, ordini semplici.
+- **Scegliere la specie di un mondo nuovo dal menu** (oggi la sceglie solo l'Altare).

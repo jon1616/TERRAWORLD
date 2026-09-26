@@ -23,6 +23,13 @@ const BIOMES := [
 	{"id": "ambra", "name": "Distese d'ambra", "desc": "Erba dorata, rocce calde, pochi alberi",
 		"grass": TileDefs.GRASS_AMBRA, "trees": 0.07, "hills": 1.5, "lift": -8, "tint": Color(1.22, 0.9, 0.6),
 		"color": "#ffd08a", "weight": 3},
+	# voce 40
+	{"id": "brina", "name": "Boschi di brina", "desc": "Muschio gelato, alberi che scintillano, aria ferma",
+		"grass": TileDefs.GRASS_BRINA, "trees": 0.28, "hills": 1.2, "lift": -4, "tint": Color(0.8, 0.95, 1.22),
+		"color": "#bfe8ff", "weight": 2},
+	{"id": "cenere", "name": "Cenerarie", "desc": "Pianure di cenere viva: sotto la crosta covano le braci",
+		"grass": TileDefs.GRASS_CENERE, "trees": 0.03, "hills": 0.7, "lift": 5, "tint": Color(1.2, 0.82, 0.78),
+		"color": "#ff9a7a", "weight": 2},
 ]
 
 const SPAWN_SAFE := 160                # colonne di foresta attorno alla partenza

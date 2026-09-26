@@ -27,10 +27,12 @@ func _column_of(b: int) -> int:
 
 
 func run() -> void:
-	var count := [0, 0, 0]
+	var count := []
+	count.resize(BiomesData.BIOMES.size())
+	count.fill(0)
 	for x in world.w:
 		count[world.biomes[x]] += 1
-	print("biomi: foresta %d, paludi %d, ambra %d colonne; partenza nella %s" % [count[0], count[1], count[2],
+	print("biomi (colonne): %s; partenza nella %s" % [count,
 		BiomesData.BIOMES[BiomesData.at(world, world.spawn.x)]["name"]])
 	var names := ["", "31_paludi", "32_ambra"]
 	for b in [1, 2]:
