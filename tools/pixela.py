@@ -22,6 +22,7 @@ from PIL import Image
 
 OUTLINE = (26, 16, 32)          # #1A1020, il contorno del gioco
 ACCENT_SHARE = 0.12             # quota di un riquadro oltre cui un colore d'accento prende il pixel
+ACCENT_NEAR = 40.0              # distanza di colore (RGB) entro cui un pixel appartiene a un accento
 # gli accenti del Germogliato: l'occhio d'ambra, la perlina turchese e il verde del germoglio (presi dal disegno)
 ACCENTI = ["#f0c060", "#1898a0", "#84b45c"]
 
@@ -80,7 +81,13 @@ def pixela(path: str, alto: int, colori: int, tavolozza: str | None, accenti: li
     flat = rgb.reshape(-1, 3)
     idx = np.empty(len(flat), dtype=np.int32)
     for s in range(0, len(flat), 200000):
-        idx[s:s + 200000] = ((flat[s:s + 200000, None, :] - pal[None]) ** 2).sum(axis=2).argmin(axis=1)
+        d2 = ((flat[s:s + 200000, None, :] - pal[None]) ** 2).sum(axis=2)
+        near = d2.argmin(axis=1)
+        # un accento prende solo i pixel davvero del suo colore: altrimenti l'ambra dell'occhio si prendeva anche
+        # le foglie gialle del germoglio e la parte chiara della tunica
+        far = (near >= n_base) & (d2[np.arange(len(near)), near] > ACCENT_NEAR ** 2)
+        near[far] = d2[far, :n_base].argmin(axis=1)
+        idx[s:s + 200000] = near
     idx = idx.reshape(rgb.shape[:2])
     # peso dei colori nella moda: gli estremi (molto scuri, molto chiari o saturi) contano di più
     lum = pal @ np.array([0.3, 0.59, 0.11])
