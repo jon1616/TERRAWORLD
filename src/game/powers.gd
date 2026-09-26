@@ -63,10 +63,10 @@ func bonuses() -> Array:
 func _unhandled_input(e: InputEvent) -> void:
 	if not (e is InputEventKey) or not e.pressed or e.echo or m.hud.is_open():
 		return
-	if e.keycode == KEY_V and has("vista"):
+	if Keys.pressed(e, "vista") and has("vista"):
 		vista()
 		get_viewport().set_input_as_handled()
-	elif e.keycode == KEY_F and has("ponte"):
+	elif Keys.pressed(e, "ponte") and has("ponte"):
 		bridge(m.fx.get_global_mouse_position())
 		get_viewport().set_input_as_handled()
 

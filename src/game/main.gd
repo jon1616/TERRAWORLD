@@ -58,6 +58,8 @@ var giardino: Giardino
 var albero: AlberoMadre
 var powers: Powers
 var seasons: Seasons
+var game_options: GameOptions
+var encyclopedia: Encyclopedia
 var board: Board
 var storage: Storage
 var herd: Herd
@@ -207,7 +209,13 @@ func _build() -> void:
 	fauna.setup(world, player, drops, shots)
 	hud = Hud.new()
 	hud.bisaccia = character.bisaccia
-	hud.help = character.play_time < 1200.0     # dopo venti minuti di gioco l'aiuto dei tasti parte nascosto (F1)
+	match String(Settings.v("aiuto_tasti")):     # l'aiuto dei tasti: nelle prime ore (venti minuti), sempre o mai
+		"sempre":
+			hud.help = true
+		"mai":
+			hud.help = false
+		_:
+			hud.help = character.play_time < 1200.0
 	hud.stations_near = func() -> Dictionary: return Crafting.stations_near(world, player_cell())
 	add_child(hud)
 	var vv := VitalsView.new()
@@ -299,6 +307,8 @@ func _build() -> void:
 	minimap.setup(self, map_reveal)
 	_mount(Chronicle.new())                # avvisi, Erbario e conteggi degli obiettivi dagli eventi del gioco
 	_mount(TipsHook.new())                 # i suggerimenti: schede degli oggetti e delle cose del mondo
+	encyclopedia = _mount(Encyclopedia.new())  # l'Enciclopedia (tasto H, bottone «?», pausa)
+	game_options = _mount(GameOptions.new())   # Opzioni in partita: pausa, visuale; menu di pausa (Esc)
 	hud.select(character.hotbar)
 	var start := world.spawn
 	var pos: Array = (world_meta.get("giocatori", {}) as Dictionary).get(character.id, [])
@@ -388,9 +398,12 @@ func _process(dt: float) -> void:
 		grow_saplings(1.0)
 	_autosave -= dt
 	if _autosave <= 0.0:
-		_autosave = AUTOSAVE
-		save_game()
-		hud.toast("Salvataggio automatico")
+		_autosave = float(Settings.v("autosalvataggio"))
+		if _autosave <= 0.0:
+			_autosave = AUTOSAVE           # «mai»: si riguarda fra un po' se l'opzione è cambiata
+		else:
+			save_game()
+			hud.toast("Salvataggio automatico")
 
 
 ## I germogli crescono col tempo (vedi `Growth`); pubblica perché le prove la chiamano con tempi lunghi.
@@ -427,8 +440,8 @@ func save_game() -> void:
 
 func _unhandled_input(e: InputEvent) -> void:
 	if e is InputEventKey and e.pressed and not e.echo and e.keycode == KEY_ESCAPE and built:
-		save_game()
-		get_tree().change_scene_to_file(MENU_SCENE)
+		game_options.open_menu()           # la pausa: da lì si salva e si torna al menu
+		get_viewport().set_input_as_handled()
 
 
 ## Uscendo dalla scena (menu, portale, chiusura) nessun thread deve restare a lavorare su nodi che spariscono.

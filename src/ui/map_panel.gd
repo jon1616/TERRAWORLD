@@ -102,7 +102,7 @@ func _gui_input(e: InputEvent) -> void:
 
 func _unhandled_input(e: InputEvent) -> void:
 	if e is InputEventKey and e.pressed and not e.echo:
-		if e.keycode == KEY_M:
+		if Keys.pressed(e, "mappa"):
 			toggle()
 			get_viewport().set_input_as_handled()
 		elif e.keycode == KEY_ESCAPE and visible:

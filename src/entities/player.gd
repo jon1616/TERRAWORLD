@@ -114,7 +114,7 @@ func setup(wd: World) -> void:
 func _unhandled_input(e: InputEvent) -> void:
 	if not control:
 		return
-	if e is InputEventKey and e.pressed and not e.echo and (e.keycode == KEY_SPACE or e.keycode == KEY_W or e.keycode == KEY_UP):
+	if Keys.pressed(e, "salto"):
 		jump_buf = 0.14
 
 
@@ -129,11 +129,11 @@ func _process(delta: float) -> void:
 	var typing := get_viewport().gui_get_focus_owner() is LineEdit   # si scrive nella ricerca delle ricette
 	if control and not typing:
 		dir = 0.0
-		if Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT):
+		if Keys.held("sinistra"):
 			dir -= 1.0
-		if Input.is_key_pressed(KEY_D) or Input.is_key_pressed(KEY_RIGHT):
+		if Keys.held("destra"):
 			dir += 1.0
-		held = Input.is_key_pressed(KEY_SPACE) or Input.is_key_pressed(KEY_W) or Input.is_key_pressed(KEY_UP)
+		held = Keys.held("salto")
 	elif control and typing:
 		dir = 0.0
 		held = false
@@ -208,7 +208,7 @@ func _step(dt: float, dir: float, held: bool) -> void:
 	vel.y = minf(vel.y + GRAV * dt, GLIDE_FALL if gliding else MAX_FALL)
 	if vel.y < 0.0 and not held:
 		vel.y += GRAV * (JUMP_CUT - 1.0) * dt
-	var through := control and (Input.is_key_pressed(KEY_S) or Input.is_key_pressed(KEY_DOWN))
+	var through := control and Keys.held("giu")
 	var avg := Vector2((vx0 + vel.x) * 0.5, (vy0 + vel.y) * 0.5)
 	var r := TileBody.move(world, position, HALF, avg, dt, on_floor, through)
 	position = r["pos"]

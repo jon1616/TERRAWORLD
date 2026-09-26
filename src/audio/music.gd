@@ -110,7 +110,7 @@ func _boss_near() -> bool:
 
 func _process(dt: float) -> void:
 	# quale brano: il boss appena ce n'è uno vicino, il sottofondo dopo un po' che non c'è più
-	if _boss_near():
+	if _boss_near() and bool(Settings.v("musica_boss")):
 		_calm = 0.0
 		set_mode("guardiano")
 	elif mode == "guardiano":

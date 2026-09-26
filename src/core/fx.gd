@@ -15,6 +15,8 @@ static func fade(c: Color) -> Gradient:
 
 ## Nuvoletta di frammenti quando si rompe un blocco; si libera da sola.
 static func dust(parent: Node, pos: Vector2, cols: Array[Color]) -> void:
+	if not bool(Settings.v("particelle")):
+		return
 	var p := CPUParticles2D.new()
 	p.position = pos
 	p.one_shot = true
@@ -64,6 +66,8 @@ static func float_text(parent: Node, pos: Vector2, text: String, col: Color) -> 
 
 ## Sbuffo di particelle quando una creatura muore.
 static func puff(parent: Node, pos: Vector2, col: Color) -> void:
+	if not bool(Settings.v("particelle")):
+		return
 	var p := CPUParticles2D.new()
 	p.position = pos
 	p.one_shot = true

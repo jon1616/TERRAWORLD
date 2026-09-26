@@ -87,34 +87,33 @@ func _start_tests() -> void:
 func _show_title() -> void:
 	_clear()
 	_button("Gioca", _show_characters)
-	_button("Impostazioni", _show_settings, DIM)
+	_button("Enciclopedia", _show_ency, DIM)
+	_button("Opzioni", _show_settings, DIM)
 	_button("Esci", get_tree().quit)
 
 
-## Volume degli effetti, del sottofondo e della musica (salvati sul computer, vedi `Settings`).
+## L'Enciclopedia anche dal menu, senza personaggio: tutto ciò che si scopre giocando resta nascosto.
+var _ency: EncyPanel
+
+
+func _show_ency() -> void:
+	if _ency == null:
+		_ency = EncyPanel.new()
+		add_child(_ency)
+	EncyPages.ch = null
+	_ency.open()
+
+
+## Le Opzioni (27 set 2026): la stessa schermata del menu di pausa in gioco (`OptionsPanel`).
+var _options: OptionsPanel
+
+
 func _show_settings() -> void:
-	Settings.load_once()
-	_clear()
-	_heading("Impostazioni")
-	for row in [["Volume della musica", "music"], ["Volume degli effetti", "sfx"], ["Volume dell'ambiente (vento e grotte)", "ambient"]]:
-		_note(row[0])
-		var sl := HSlider.new()
-		sl.min_value = 0.0
-		sl.max_value = 1.0
-		sl.step = 0.05
-		sl.value = {"sfx": Settings.sfx, "ambient": Settings.ambient, "music": Settings.music}[row[1]]
-		sl.custom_minimum_size = Vector2(0, 32)
-		var key: String = row[1]
-		sl.value_changed.connect(func(v: float) -> void:
-			if key == "sfx":
-				Settings.sfx = v
-			elif key == "music":
-				Settings.music = v
-			else:
-				Settings.ambient = v
-			Settings.save())
-		_box.add_child(sl)
-	_button("Indietro", _show_title, DIM)
+	if _options == null:
+		_options = OptionsPanel.new()
+		add_child(_options)
+		_options.closed.connect(_show_title)
+	_options.open()
 
 
 func _show_characters() -> void:

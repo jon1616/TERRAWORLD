@@ -64,7 +64,7 @@ func _process(_dt: float) -> void:
 		return
 	var gone: bool = not m.world.solid(_cell.x, _cell.y) or m.life.dead
 	var too_far := p.position.distance_to(p.hook) > range_px * 1.6 + 32.0
-	var down := p.control and (Input.is_key_pressed(KEY_S) or Input.is_key_pressed(KEY_DOWN))
+	var down := p.control and Keys.held("giu")
 	if gone or too_far or down:
 		p.hook = Vector2.INF
 		rope.visible = false

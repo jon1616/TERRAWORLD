@@ -55,6 +55,8 @@ func add(boon_name: String, secs: float) -> void:
 
 ## Intensità della fiamma in mano (attorno a 1): aggiornata a piccoli passi, altrimenti ferma.
 func _flicker(dt: float) -> float:
+	if not bool(Settings.v("tremolio")):
+		return 1.0
 	_flick_clock += dt
 	_flick_t -= dt
 	if _flick_t <= 0.0:

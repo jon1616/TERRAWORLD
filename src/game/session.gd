@@ -15,6 +15,12 @@ var test_hops := 0
 func _ready() -> void:
 	# il tema del gioco per tutta la finestra: i suggerimenti con il fondo scuro (vedi `GameTheme`)
 	GameTheme.apply()
+	# le Opzioni del giocatore (schermo, fotogrammi, luce…); le prove usano sempre i valori di partenza
+	if "--prove" in OS.get_cmdline_user_args() or "--foto-menu" in OS.get_cmdline_user_args():
+		Settings.for_tests()
+	else:
+		Settings.load_once()
+		Settings.apply()
 
 
 ## `extra`: dati in più per il mondo nuovo (dal portale: "vigore" e "ritorno" = id del mondo d'origine).

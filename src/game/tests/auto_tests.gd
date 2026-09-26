@@ -99,6 +99,8 @@ func run(main: Node2D) -> void:
 	await TestsSeals.new(kit).run()
 	await TestsSeasons.new(kit).run()
 	await TestsTips.new(kit).run()
+	await TestsOptions.new(kit).run()
+	await TestsEncy.new(kit).run()
 	await ob.run()
 	await w.run_and_save()
 	# la Bisaccia aperta
@@ -116,14 +118,7 @@ func run(main: Node2D) -> void:
 
 	# un suggerimento: il mouse sopra una casella della barra rapida, poi si aspetta che compaia
 	var slot: Control = main.hud._slots[0]
-	var at := slot.get_global_rect().get_center()
-	get_viewport().warp_mouse(at)
-	for k in 3:
-		var mv := InputEventMouseMotion.new()
-		mv.position = at + Vector2(k, 0)
-		mv.global_position = mv.position
-		Input.parse_input_event(mv)
-		await kit.frames(2)
+	await kit.hover(slot.get_global_rect().get_center())
 	await kit.seconds(1.5)
 	await kit.save("39_suggerimento")
 	main.hud.panel.toggle()
@@ -220,5 +215,9 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsSeasons.new(kit).run()
 		"suggerimenti":
 			await TestsTips.new(kit).run()
+		"opzioni":
+			await TestsOptions.new(kit).run()
+		"enciclopedia":
+			await TestsEncy.new(kit).run()
 		_:
 			print("ATTENZIONE: gruppo di prove sconosciuto «%s»" % g)

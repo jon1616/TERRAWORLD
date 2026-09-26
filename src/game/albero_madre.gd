@@ -171,7 +171,7 @@ func _process(dt: float) -> void:
 		return
 	_t = 1.0
 	# la riga che dice che cosa chiede adesso l'Albero, in ogni mondo
-	_label.visible = has_garden() and not m.hud.is_open()
+	_label.visible = has_garden() and not m.hud.is_open() and bool(Settings.v("riga_albero"))
 	if not _label.visible:
 		return
 	if done():

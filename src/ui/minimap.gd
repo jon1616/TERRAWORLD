@@ -70,6 +70,6 @@ func _dot(c: Vector2, col: Color, r: float) -> void:
 
 
 func _unhandled_input(e: InputEvent) -> void:
-	if e is InputEventKey and e.pressed and not e.echo and e.keycode == KEY_N:
+	if Keys.pressed(e, "minimappa"):
 		shown = not shown
 		get_viewport().set_input_as_handled()

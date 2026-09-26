@@ -108,7 +108,7 @@ Godot_console.exe --path . -- --prove --prova-giardino
 # solo alcuni gruppi di prove (per provare in fretta una voce nuova): doni, antiche, pericoli, combattimento, tratti,
 # obiettivi, guardiani, rovine, mobilita, lanci, giardino, eventi, casa, abitanti, compagni, viaggio, semi,
 # biomi, biomi_nuovi, luoghi, corsa, raccolta, musica, germogliato, interfaccia, geni, forme, ecologia, mandria, casse, alberi,
-# sigilli, stagioni, suggerimenti
+# sigilli, stagioni, suggerimenti, opzioni, enciclopedia
 # (elenco in `AutoTests._group`)
 Godot_console.exe --path . -- --prove --solo=doni,antiche
 # suoni generati: prove/suoni/*.wav da ascoltare, con durata, picco e volume medio (segnala muti e distorti)
@@ -420,6 +420,17 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   spenti (`gui/timers/tooltip_delay_sec` enorme): un `tooltip_text` qualunque diventa una scheda di sole parole.
   **Ricette e provenienza non vanno nei suggerimenti** (scelta dell'utente): stanno in Esamina.
   Ogni contenuto nuovo: se ha un campo che il giocatore deve capire, va letto anche nella sua scheda.
+- **Opzioni e pausa** (27 set 2026): `OptionsData` (le opzioni come dati) e `KeysData` (i comandi); `Settings`
+  (`v(id)`, `set_v`, `keys_of`; `for_tests` = valori di partenza senza scrivere il file); `Keys` (`pressed`, `held`,
+  `label`, `help_text`: **mai `KEY_…` nel codice del gioco**, tranne Esc e i numeri); `OptionsPanel` e `PauseMenu` in
+  `src/ui/`; `GameOptions` (`src/game/`) mette in pausa (`get_tree().paused`; interfaccia, suggerimenti, suoni con
+  `PROCESS_MODE_ALWAYS`), l'ingrandimento, la minimappa, il contatore. Un'opzione nuova = una riga in `OptionsData` +
+  chi la legge con `Settings.v`.
+- **Enciclopedia** (27 set 2026): capitoli in `EncyGuideData`, `EncyCraftData`, `EncySeedsData` (BBCode con
+  collegamenti `[url=cap:id]`, `cat:`, `item:`, `cr:`, `gene:`; `{numero}` e `{cat_…}` riempiti dai dati); `EncyPages`
+  (pagine, ricerca, ciò che si conosce), `EncyCatalogs` (liste e cataloghi dai dati), `EncyPanel` (in `src/ui/ency/`),
+  `Encyclopedia` (`src/game/`, tasto H e bottone). **Ogni voce nuova scrive o aggiorna il suo capitolo**; la prova
+  `--solo=enciclopedia` controlla segnaposti e collegamenti.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni
@@ -608,6 +619,10 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   restava «premuto» da una prova di prima, e con un tasto premuto le schede del mondo non compaiono (27 set 2026).
 - Una prova che tocca una cella per il suo tipo (Provetta: cielo, flora…) la cerca con `category_at`, non la
   indovina con uno scarto fisso: sopra un albero la prova delle stagioni falliva una volta ogni tanto.
+
+- Il mouse vero del sistema non è affidabile nelle prove: dopo `warp_mouse` arrivano movimenti veri, e la finestra
+  può avere un'altra misura dello schermo di gioco (1600×900). Per i controlli si usa `TestKit.hover` (converte con
+  `get_final_transform`); per le schede del mondo `Tips.mouse_at` (un punto fisso) (27 set 2026).
 
 ## Convenzioni
 

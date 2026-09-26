@@ -65,7 +65,7 @@ func _input(e: InputEvent) -> void:
 	if not visible:
 		return
 	var close: bool = (e is InputEventMouseButton and e.pressed) \
-			or (e is InputEventKey and e.pressed and e.keycode in [KEY_E, KEY_ESCAPE])
+			or (e is InputEventKey and e.pressed and (e.keycode == KEY_ESCAPE or Keys.pressed(e, "bisaccia")))
 	if close:
 		visible = false
 		get_viewport().set_input_as_handled()

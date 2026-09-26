@@ -27,13 +27,13 @@ func _context() -> Dictionary:
 
 
 ## [chiave, costruttore] della cosa sotto il mouse, o [].
-func _world_tip(_screen: Vector2) -> Array:
+func _world_tip(screen: Vector2) -> Array:
 	if not m.built or (m.hud.map != null and m.hud.map.visible):
 		return []
 	for o in m.hud.overlays:
 		if o.visible:
 			return []
-	var wp: Vector2 = m.fx.get_global_mouse_position()
+	var wp: Vector2 = m.get_viewport().get_canvas_transform().affine_inverse() * screen
 	var c := Vector2i(floori(wp.x / 16.0), floori(wp.y / 16.0))
 	var w: World = m.world
 	if not w.inside(c.x, c.y) or w.explored[c.y * w.w + c.x] == 0:

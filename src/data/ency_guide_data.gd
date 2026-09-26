@@ -1,0 +1,128 @@
+class_name EncyGuideData
+## Enciclopedia (27 set 2026), prima parte: i primi passi, il mondo, scavare e costruire. Solo testo (BBCode).
+## Collegamenti: [url=cap:id]…[/url] a un capitolo, [url=cat:id]…[/url] a un catalogo, [url=item:id], [url=cr:id],
+## [url=gene:id]. I numeri tra graffe ({regen_delay}) e i cataloghi in linea ({cat_strati}) li riempie `EncyPages`.
+## Ogni capitolo: {"id", "group", "name", "text"}.
+
+const CHAPTERS := [
+	{"id": "inizio", "group": "Primi passi", "name": "Il Germogliato e il Giardino", "text":
+"""Sei il [b]Germogliato[/b], l'ultimo giardiniere di un cosmo fatto di semi. Ogni mondo nasce da un [url=cap:semi]Seme di mondo[/url] piantato nel [b]Giardino[/b], un'isola sospesa nel Vuoto attorno all'[url=cap:albero_madre]Albero-Madre[/url], che dorme.
+
+[b]Il giro del gioco[/b]
+1. L'Albero-Madre e gli [url=cap:abitanti]abitanti[/url] chiedono qualcosa: un materiale, un gene, una creatura.
+2. Per trovarlo pianti un Seme in un'[url=cap:portali]Aiuola[/url]: nasce un portale verso un mondo nuovo, fatto dai [url=cap:geni]geni[/url] di quel Seme.
+3. Esplori quel mondo: trovi ciò che cercavi e ciò che non ti aspettavi (la sua [url=cap:firme]firma[/url], rovine, creature rare).
+4. Torni, offri, e il Giardino cresce: poteri nuovi, abitanti nuovi, Semi migliori.
+5. Con l'[url=cap:innesto]innesto[/url] progetti i Semi dei mondi che ti servono.
+
+[b]Dove guardare quando non sai cosa fare[/b]
+• La riga dell'Albero-Madre, in alto a sinistra: che cosa chiede adesso.
+• Gli [url=cap:obiettivi]obiettivi[/url], sotto l'orologio.
+• La [url=cap:bacheca]Bacheca dei Giardinieri[/url], nel Giardino: richieste sempre nuove.
+• Gli abitanti: ognuno ha una richiesta; la Vecchia Radice ti dice cosa manca all'Albero.
+• L'[url=cap:erbario]Erbario[/url]: che cosa hai scoperto e, per le famiglie, dove cercare ciò che manca."""},
+	{"id": "comandi", "group": "Primi passi", "name": "I comandi", "text":
+"""I tasti si cambiano nelle [url=cap:opzioni]Opzioni[/url], sezione Comandi.
+
+{tabella_tasti}
+
+[b]Il mouse[/b]
+• [b]Clic sinistro[/b]: usa ciò che hai in mano (scava, colpisci, piazza, semina, bevi).
+• [b]Clic destro[/b]: tocca (apri casse e scrigni, parla con gli abitanti, portali, Albero-Madre, Sigilli, raccolti); dove non c'è niente da toccare, pianta una torcia dalla Bisaccia.
+• [b]1-0 e rotella[/b]: scegli la casella della barra rapida.
+• [b]Maiusc[/b] nei suggerimenti: confronta con ciò che indossi o hai in mano; nel pannello Creare, [b]Maiusc+clic[/b] crea cinque volte.
+• [b]Esc[/b]: chiude il pannello aperto; se non ce n'è, apre la pausa."""},
+	{"id": "vita", "group": "Primi passi", "name": "Vita, Linfa e Scorza", "text":
+"""[b]Vita[/b] (la barra verde): parte da {hp} punti. Dopo {regen_delay} secondi senza ferite ricresce da sola, {regen} punti al secondo. Si alza per sempre assorbendo i [b]Cuori di bocciolo[/b] (nelle grotte) e curando i [url=cap:guardiani]Guardiani[/url].
+[b]Linfa[/b] (la barra turchese): parte da {linfa} punti e ricresce sempre, {linfa_regen} al secondo. La spendono i [url=cap:combattere]bastoni[/url]. Si alza con le [b]Stille perenni[/b].
+[b]Scorza[/b]: la tua difesa, somma dell'armatura, dei [url=cap:set]set[/url] e dei poteri. Ogni ferita perde metà della tua Scorza.
+[b]Pozioni[/b]: ne puoi bere una ogni {potion_cd} secondi (vedi [url=cap:pozioni]Pozioni e cibo[/url]).
+[b]Cadute[/b]: fino a {fall_safe} tessere non fanno male; oltre, {fall_hurt} punti di Vita per tessera. Alcuni accessori tolgono le ferite da caduta.
+[b]Veleno[/b]: certe creature avvelenano; le bende lo tolgono."""},
+	{"id": "appassire", "group": "Primi passi", "name": "Appassire e rinascere", "text":
+"""Quando la Vita arriva a zero il Germogliato [b]appassisce[/b] e dopo qualche secondo rinasce: nel letto che hai usato per ultimo in quel mondo ([url=cap:costruire]Letto di foglie[/url], clic destro), altrimenti alla partenza.
+Appassire costa: la parte grande della Bisaccia (non la barra rapida, non ciò che indossi) resta in un [b]Fagotto[/b] dove sei appassito. Il fagotto è segnato sulla mappa: torna a prenderlo con il clic destro.
+Nel Giardino cadere nel Vuoto non uccide: riporta sull'isola con una piccola ferita (nessuna con il potere [url=cap:poteri]Passo nel Vuoto[/url])."""},
+	{"id": "luce", "group": "Primi passi", "name": "Luce e buio", "text":
+"""In TERRAWORLD dove la luce non arriva è [b]buio pieno[/b]: la luce viene dalle cose vive (torce, funghi, cristalli, alberi-lanterna, la Linfa) e dal cielo di giorno.
+• Il Germogliato ha un piccolo alone attorno a sé; accessori e pozioni lo allargano.
+• Le [b]torce[/b] si piantano con il clic destro dovunque tu sia (o con il clic sinistro tenendole in mano) e si riprendono. Tenute in mano fanno luce e tremolano.
+• La [b]Lanterna di Linfa[/b] in mano illumina di più, di luce turchese.
+• Le creature del sottosuolo nascono solo al buio e mai vicino alle torce: illuminare una grotta la rende più sicura.
+Se fatichi a vedere, nelle [url=cap:opzioni]Opzioni[/url] c'è il «Chiarore del buio»."""},
+	{"id": "bisaccia", "group": "Primi passi", "name": "La Bisaccia", "text":
+"""La [b]Bisaccia[/b] ({bag} caselle; le prime 10 sono la [b]barra rapida[/b] in basso). Si apre con {k_bisaccia}.
+• [b]Clic[/b] prende o posa una pila; [b]clic destro[/b] ne prende metà; [b]Maiusc+clic[/b] la manda nella cassa aperta.
+• A sinistra l'[b]equipaggiamento[/b]: elmo, corazza, gambali e due accessori, con la Scorza totale e il set più avanti.
+• In alto a sinistra la casella [b]Esamina[/b]: posaci un oggetto per sapere tutto (a cosa serve, in quali ricette, come si ottiene). A vuoto mostra la scheda del Germogliato.
+• A destra il pannello [url=cap:creare]Creare[/url].
+• «Riordina» mette in ordine (non tocca la barra rapida); «Nelle casse vicine» manda ogni oggetto nella [url=cap:casse]cassa[/url] che lo tiene già.
+Gli oggetti a terra vengono attirati quando ti avvicini, se c'è posto."""},
+	{"id": "opzioni", "group": "Primi passi", "name": "Opzioni, pausa e suggerimenti", "text":
+"""[b]Esc[/b] apre la pausa: da lì Opzioni, questa Enciclopedia, salvataggio, ritorno al menu.
+Le [b]Opzioni[/b] coprono audio, video (schermo, fotogrammi, ingrandimento, chiarore del buio), interfaccia, gioco (pausa mentre crei, pausa con i pannelli grandi, salvataggio automatico), suggerimenti (ritardo, grandezza, nel mondo) e comandi.
+I [b]suggerimenti[/b]: tieni il mouse su una casella, una creatura, una stazione, un minerale e compare la sua scheda. Tenendo [b]Maiusc[/b], armi e armature si confrontano con ciò che hai. Ricette e provenienza sono nella casella Esamina.
+Il gioco [b]si salva da solo[/b] ogni pochi minuti, passando da un portale e uscendo."""},
+	# il mondo
+	{"id": "strati", "group": "Il mondo", "name": "Gli strati", "text":
+"""Ogni mondo scende per strati, ognuno con la sua roccia, le sue creature, i suoi minerali e un pericolo più alto. Il confine tra uno strato e l'altro ondeggia; entrando in uno strato nuovo compare il suo nome.
+{cat_strati}
+Più in basso: minerali migliori (serve un [url=cap:scavare]piccone[/url] più forte), creature più forti, rovine più ricche. In fondo a ogni mondo c'è la cupola del [url=cap:guardiani]Cuore del mondo[/url]."""},
+	{"id": "biomi", "group": "Il mondo", "name": "I biomi", "text":
+"""La superficie di un mondo è divisa in biomi, ognuno con erba, alberi, piante, colline, cielo e creature suoi:
+{cat_biomi}
+Sotto terra ci sono i [b]biomi del sottosuolo[/b] (fungaie, geodi di brina, fiumi di brace, laghi di Linfa, cuore cavo), che dipendono dai [url=cap:geni]geni[/url] del mondo."""},
+	{"id": "giorno", "group": "Il mondo", "name": "Giorno e notte", "text":
+"""Un giorno dura {day_min} minuti. Di notte il cielo si spegne, escono creature più forti e più numerose, e ci sono [url=cap:eventi]eventi[/url] notturni. L'orologio in alto a sinistra dice giorno, ora e stagione.
+Alcuni [url=cap:geni]geni[/url] allungano le notti o schiariscono il buio."""},
+	{"id": "stagioni", "group": "Il mondo", "name": "Le stagioni", "text":
+"""Ogni mondo ha quattro stagioni di {season_days} giorni l'una; due mondi vicini non sono quasi mai nella stessa.
+{cat_stagioni}
+Ogni stagione cambia quali creature nascono, quanto crescono le colture, quanti eventi arrivano e il colore del cielo. Ognuna ha una sua [b]creatura di stagione[/b] che lascia un materiale unico, da cui nascono quattro accessori.
+I [b]geni di stagione[/b] fermano un mondo per sempre in una stagione: li cattura la Provetta toccando il cielo in quella stagione, o li lascia a volte la sua creatura."""},
+	{"id": "eventi", "group": "Il mondo", "name": "Gli eventi", "text":
+"""Di giorno e di notte c'è ogni volta una piccola probabilità che succeda qualcosa: più creature di un tipo, più creature rare, piogge di stelle cadenti, fioriture che danno più semi selvatici. Gli eventi con un traguardo (sconfiggere tante creature) danno un premio.
+{cat_eventi}"""},
+	{"id": "avvizzimento", "group": "Il mondo", "name": "L'Avvizzimento", "text":
+"""La malattia dei mondi: terra, muschio e ardesia avvizziti, grigi, dove le creature sono più cattive. Finché il [url=cap:guardiani]Guardiano[/url] del mondo dorme, l'Avvizzimento si allarga piano.
+• Sconfitto il Guardiano, si ferma.
+• [b]Curato[/b] il Guardiano, si ritira un poco alla volta.
+• A mano si purifica con il [b]Seme di muschio[/b] (cerchio piccolo) e la [b]Rugiada di Linfa[/b] (cerchio grande)."""},
+	{"id": "rovine", "group": "Il mondo", "name": "Rovine, scrigni e reliquie", "text":
+"""I [b]Seminatori[/b], giardinieri di prima, hanno lasciato in ogni mondo stanze di pietra: le [b]rovine[/b], con uno scrigno pieno secondo lo strato. Più in basso, bottino migliore.
+• I [b]reliquiari murati[/b] nascondono le [b]reliquie[/b] dei Seminatori: tre collezioni, ognuna completa dà un dono per sempre ({cat_collezioni}). La [b]Mappa dei Seminatori[/b] indica il reliquiario più vicino.
+• I [url=cap:poteri]luoghi sigillati[/url] si aprono solo con i poteri dell'Albero-Madre.
+• Pericoli: rovi spinosi e rune trappola."""},
+	{"id": "mappa", "group": "Il mondo", "name": "Mappa e viaggi", "text":
+"""La [b]mappa[/b] ({k_mappa}) mostra tutto ciò che hai già visto: si ingrandisce con la rotella, si sposta trascinando, ci si mettono segni. La [b]minimappa[/b] ({k_minimappa}) è il ritaglio attorno a te.
+Sulla mappa: la firma del mondo (stella), i portali, il fagotto se sei appassito.
+Le [b]radici viandanti[/b] sono passaggi dentro lo stesso mondo: clic destro su una radice per aprire la mappa e scegliere dove andare."""},
+	# scavare e costruire
+	{"id": "scavare", "group": "Scavare e costruire", "name": "Scavare e i minerali", "text":
+"""Il [b]piccone[/b] rompe la roccia; ogni tessera ha una [b]durezza[/b] (quanto ci vuole) e una [b]forza richiesta[/b]: un piccone troppo debole non la scalfisce. La scheda di una roccia (mouse sopra) ti dice se il tuo piccone basta.
+I minerali, dal più facile:
+{cat_minerali}
+I minerali si fondono in lingotti al [b]Baccello ardente[/b]; con i lingotti si fanno attrezzi, armi e armature migliori (vedi [url=cap:materiali]Materiali[/url]). Il potere [url=cap:poteri]Canto delle radici[/url] fa scavare un quarto più in fretta."""},
+	{"id": "alberi", "group": "Scavare e costruire", "name": "Alberi e legno", "text":
+"""Ogni bioma ha la sua specie d'albero, in quattro grandezze (piccolo, medio, grande e il raro antico): i grandi reggono più colpi di [b]ascia[/b] e danno più legno.
+{cat_alberi}
+Abbattuto, un albero lascia legno e a volte semi: il seme piantato cresce nell'albero del bioma dove lo metti."""},
+	{"id": "costruire", "group": "Scavare e costruire", "name": "Costruire", "text":
+"""• [b]Blocchi[/b]: assi di legno, mattoni d'ardesia, vetro di resina (lascia passare la luce). Si piazzano con il clic tenendoli in mano.
+• [b]Pareti di fondo[/b]: si piazzano allo stesso modo; il [b]Martello[/b] le toglie tenendo premuto.
+• [b]Passerelle[/b]: reggono chi scende; ci si passa attraverso tenendo {k_giu}.
+• [b]Porte[/b]: alte quanto il Germogliato; clic destro le apre e le chiude. Chiuse fermano anche le creature.
+• [b]Stazioni e mobili[/b]: si piazzano dalla Bisaccia; si riprendono con il piccone (tranne portali e Cuore).
+• [b]Letto di foglie[/b]: clic destro, e rinasci lì in quel mondo.
+Un [b]Focolare[/b] con un Letto di foglie libero vicino chiama un [url=cap:abitanti]abitante[/url] (ognuno ha anche una sua condizione)."""},
+	{"id": "casse", "group": "Scavare e costruire", "name": "Casse e scrigni", "text":
+"""Le casse tengono gli oggetti. Clic destro per aprirle; con una cassa aperta ci sono i pulsanti:
+• [b]Prendi tutto[/b], [b]Deposita tutto[/b] (non la barra rapida), [b]Deposita simili[/b] (solo ciò che la cassa tiene già), [b]Rifornisci[/b] (completa le pile della Bisaccia), [b]Riordina[/b].
+• Ogni cassa ha un [b]nome[/b] (scritto sopra), «usa per creare» e che cosa [b]raccoglie[/b] (minerali, materiali, costruzione…).
+• Il pannello [url=cap:creare]Creare[/url] usa gli ingredienti delle casse entro {chest_reach} tessere che hanno «usa per creare».
+• Nella Bisaccia, «Nelle casse vicine» manda ogni oggetto nella cassa giusta."""},
+	{"id": "giardino", "group": "Scavare e costruire", "name": "Il giardino e le colture", "text":
+"""I [b]semi da giardino[/b] si piantano sulla terra o sull'erba giusta; la coltura cresce anche lontano da te, e matura si raccoglie con il clic destro (o scavandola). L'[b]annaffiatoio[/b] la fa crescere il doppio più in fretta. Le stagioni e certi geni cambiano la crescita.
+{cat_colture}
+Raccogliendo piante selvatiche si trovano a volte semi nuovi."""},
+]

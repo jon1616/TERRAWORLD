@@ -12,8 +12,7 @@ extends CanvasLayer
 ##     mouse (si sta scavando o combattendo).
 ## `Tips.shift` è vero con Maiusc premuto: le schede degli oggetti mostrano il confronto con ciò che si indossa.
 
-const UI_DELAY := 0.22                 # secondi di mouse sopra un controllo prima della scheda
-const WORLD_DELAY := 0.4               # nel mondo un po' di più: il mouse passa sopra a tante cose
+## I ritardi (mouse fermo prima della scheda) sono nelle Opzioni: `tip_ritardo`, `tip_ritardo_mondo`.
 const WARM := 0.35                     # appena chiusa una scheda, la successiva compare subito
 const REFRESH := 0.45                  # le schede si rifanno ogni tanto (Vita di una creatura, crescita…)
 const OFFSET := Vector2(20, 22)
@@ -21,6 +20,7 @@ const OFFSET := Vector2(20, 22)
 static var inst: Tips
 static var shift := false
 static var _world := Callable()
+static var mouse_at := Vector2.INF     # nelle prove: il mouse «finto» in questo punto (il mouse vero può muoversi)
 static var pinned := false             # nelle prove: la scheda resta dov'è (`show_at`) finché non si chiama `unpin`
 
 var view: TipView
@@ -35,6 +35,7 @@ var _last := ""                        # il testo dell'ultima scheda: se non è 
 
 func _ready() -> void:
 	inst = self
+	process_mode = Node.PROCESS_MODE_ALWAYS    # anche a gioco in pausa (Bisaccia, pannelli)
 	layer = 100
 	view = TipView.new()
 	view.visible = false
@@ -81,11 +82,16 @@ static func _provider(c: Control) -> Callable:
 
 
 func _process(dt: float) -> void:
-	shift = Input.is_key_pressed(KEY_SHIFT)
+	shift = Keys.held("confronta") or String(Settings.v("tip_confronto")) == "sempre"
 	if pinned:
 		return
+	if not bool(Settings.v("tip_attivi")):
+		_close()
+		return
+	view.scale = Vector2.ONE * float(Settings.v("tip_scala"))
 	var vp := get_viewport()
-	var hov := vp.gui_get_hovered_control()
+	var fake := mouse_at != Vector2.INF
+	var hov: Control = null if fake else vp.gui_get_hovered_control()
 	var key: Variant = null
 	var builder := Callable()
 	var world := false
@@ -100,9 +106,10 @@ func _process(dt: float) -> void:
 		if c.mouse_filter == Control.MOUSE_FILTER_STOP:
 			blocked = true
 		c = c.get_parent() as Control
-	if key == null and not blocked and _world.is_valid() and not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) \
+	if key == null and not blocked and _world.is_valid() and bool(Settings.v("tip_mondo")) \
+			and not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) \
 			and not Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
-		var r: Array = _world.call(vp.get_mouse_position())
+		var r: Array = _world.call(mouse_at if fake else vp.get_mouse_position())
 		if not r.is_empty():
 			key = r[0]
 			builder = r[1]
@@ -115,7 +122,7 @@ func _process(dt: float) -> void:
 		_key = key
 		_builder = builder
 		_age = 0.0
-		_wait = 0.0 if _cold < WARM else (WORLD_DELAY if world else UI_DELAY)
+		_wait = 0.0 if _cold < WARM else float(Settings.v("tip_ritardo_mondo" if world else "tip_ritardo"))
 		if view.visible:
 			_wait = 0.0
 		if _wait <= 0.0:
@@ -176,9 +183,9 @@ func _close() -> void:
 ## Accanto al mouse, in basso a destra; se esce dallo schermo passa dall'altra parte.
 func _place() -> void:
 	var vs := get_viewport().get_visible_rect().size
-	var mp := get_viewport().get_mouse_position()
-	var sz := view.get_combined_minimum_size()
-	view.size = sz
+	var mp := mouse_at if mouse_at != Vector2.INF else get_viewport().get_mouse_position()
+	view.size = view.get_combined_minimum_size()
+	var sz := view.size * view.scale
 	var p := mp + OFFSET
 	if p.x + sz.x > vs.x - 6.0:
 		p.x = mp.x - sz.x - 12.0

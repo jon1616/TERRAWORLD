@@ -87,14 +87,7 @@ func run() -> void:
 		print("ATTENZIONE: una scheda degli oggetti è incompleta")
 	# il mouse vero sopra la prima casella della barra rapida
 	var slot: Control = m.hud._slots[0]
-	var mp := slot.get_global_rect().get_center()
-	m.get_viewport().warp_mouse(mp)
-	for k in 3:
-		var mv := InputEventMouseMotion.new()
-		mv.position = mp + Vector2(k, 0)
-		mv.global_position = mv.position
-		Input.parse_input_event(mv)
-		await kit.frames(2)
+	await kit.hover(slot.get_global_rect().get_center())
 	await kit.seconds(0.6)
 	var shown: bool = Tips.inst.view.visible
 	await kit.save("114_scheda_col_mouse")
@@ -171,21 +164,23 @@ func world_tips() -> void:
 		up.pressed = false
 		Input.parse_input_event(up)
 	await kit.seconds(0.5)                     # la mappa esplorata segna le celle attorno
-	var sp: Vector2 = m.get_viewport().get_canvas_transform() * cr.position
-	m.get_viewport().warp_mouse(sp)
-	for k in 3:
-		var mv := InputEventMouseMotion.new()
-		mv.position = sp + Vector2(k * 0.5, 0)
-		mv.global_position = mv.position
-		Input.parse_input_event(mv)
-		await kit.frames(2)
-	await kit.seconds(0.9)
-	var shown: bool = Tips.inst.view.visible
+	var shown := false
+	var sp := Vector2.ZERO
+	for attempt in 3:                          # nel giro lungo il primo movimento a volte non arriva
+		sp = m.get_viewport().get_canvas_transform() * cr.position
+		Tips.mouse_at = sp                     # il mouse vero del sistema può muoversi: un punto fisso
+		await kit.seconds(0.9)
+		shown = Tips.inst.view.visible
+		if shown:
+			break
 	await kit.save("118_mouse_sulla_creatura")
+	Tips.mouse_at = Vector2.INF
 	print("col mouse sulla creatura: scheda %s" % ("sì" if shown else "NO"))
 	if not shown:
 		var cc2 := Vector2i(floori(cr.position.x / 16.0), floori(cr.position.y / 16.0))
-		print("ATTENZIONE: la scheda non compare con il mouse sopra una creatura (sotto il mouse: %s, tasti %s/%s, cella vista %d, pannello aperto %s)" % [
+		var r: Array = Tips._world.call(sp) if Tips._world.is_valid() else ["nessuno"]
+		print("ATTENZIONE: la scheda non compare con il mouse sopra una creatura (mondo: %s, mouse nel mondo %s, creatura %s, sotto il mouse: %s, tasti %s/%s, cella vista %d, pannello aperto %s)" % [
+			r.slice(0, 1), m.get_viewport().get_canvas_transform().affine_inverse() * sp, cr.position,
 			m.get_viewport().gui_get_hovered_control(), Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT),
 			Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT), world.explored[cc2.y * world.w + cc2.x], m.hud.is_open()])
 	m.fauna.kill_quietly(cr)
@@ -209,14 +204,7 @@ func hud_tips() -> void:
 	for ch in m.hud.get_children():
 		if ch is VitalsView:
 			vv = ch
-	var mp := vv.get_global_rect().get_center() if vv != null else Vector2.ZERO
-	m.get_viewport().warp_mouse(mp)
-	for k in 3:
-		var mv := InputEventMouseMotion.new()
-		mv.position = mp + Vector2(k, 0)
-		mv.global_position = mv.position
-		Input.parse_input_event(mv)
-		await kit.frames(2)
+	await kit.hover(vv.get_global_rect().get_center() if vv != null else Vector2.ZERO)
 	await kit.seconds(0.6)
 	var shown: bool = Tips.inst.view.visible
 	await kit.save("120_scheda_vita")

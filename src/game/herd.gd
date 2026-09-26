@@ -267,7 +267,7 @@ func ride(on: bool) -> bool:
 
 
 func _unhandled_input(e: InputEvent) -> void:
-	if e is InputEventKey and e.pressed and not e.echo and e.keycode == KEY_R and not m.hud.is_open():
+	if Keys.pressed(e, "cavalca") and not m.hud.is_open():
 		ride(riding < 0)
 		get_viewport().set_input_as_handled()
 

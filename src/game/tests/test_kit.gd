@@ -21,6 +21,20 @@ func frames(n: int) -> void:
 		await node.get_tree().process_frame
 
 
+## Il mouse vero in un punto dello schermo di gioco (1600×900): la finestra può avere un'altra misura, e i movimenti
+## del mouse si danno in pixel della finestra (senza conversione il punto finiva centinaia di pixel più in là).
+func hover(at: Vector2) -> void:
+	var vp := node.get_viewport()
+	var win: Vector2 = vp.get_final_transform() * at
+	vp.warp_mouse(at)
+	for k in 3:
+		var mv := InputEventMouseMotion.new()
+		mv.position = win + Vector2(k * 0.5, 0)
+		mv.global_position = mv.position
+		Input.parse_input_event(mv)
+		await frames(2)
+
+
 func seconds(s: float) -> void:
 	var t0 := Time.get_ticks_msec()
 	while Time.get_ticks_msec() - t0 < int(s * 1000.0):

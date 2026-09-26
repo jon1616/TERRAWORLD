@@ -72,7 +72,7 @@ func toggle() -> void:
 
 func _unhandled_input(e: InputEvent) -> void:
 	if e is InputEventKey and e.pressed and not e.echo:
-		if e.keycode == KEY_L and not m.hud.panel.visible:
+		if Keys.pressed(e, "erbario") and not m.hud.panel.visible:
 			toggle()
 			get_viewport().set_input_as_handled()
 		elif e.keycode == KEY_ESCAPE and visible:

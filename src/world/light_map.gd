@@ -25,6 +25,8 @@ const LW := 128                       # finestra in tessere (la visuale è circa
 const LH := 96
 const RECENTER := 6                   # ricentra quando la visuale si sposta di tante tessere
 
+static var floor_light := 0.0           # Opzioni, «Chiarore del buio»: un filo di luce ovunque (0 = nero pieno)
+
 var world: World
 var image: Image
 var tex: ImageTexture
@@ -143,6 +145,7 @@ static func _decor_light() -> PackedColorArray:
 
 ## Il calcolo vero, nel thread: legge copie dei dati del mondo e scrive l'immagine nel lavoro.
 static func _solve(job: Dictionary) -> void:
+	var fl := floor_light
 	var o: Vector2i = job["origin"]
 	var tiles: PackedByteArray = job["tiles"]
 	var walls: PackedByteArray = job["walls"]
@@ -295,7 +298,7 @@ static func _solve(job: Dictionary) -> void:
 			vr = maxf(minf(vr, 1.0) - CUT, 0.0) / (1.0 - CUT)
 			vg = maxf(minf(vg, 1.0) - CUT, 0.0) / (1.0 - CUT)
 			vb = maxf(minf(vb, 1.0) - CUT, 0.0) / (1.0 - CUT)
-			img.set_pixel(x, y, Color(pow(vr, CURVE), pow(vg, CURVE), pow(vb, CURVE)).linear_to_srgb())
+			img.set_pixel(x, y, Color(maxf(pow(vr, CURVE), fl), maxf(pow(vg, CURVE), fl), maxf(pow(vb, CURVE), fl)).linear_to_srgb())
 	job["image"] = img
 
 

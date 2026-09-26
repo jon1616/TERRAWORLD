@@ -16,8 +16,8 @@
 - **Fatti i ritocchi chiesti dall'utente dopo la Roadmap 7** (26 set 2026): sezione «Ritocchi dopo la Roadmap 7»
   prima della Roadmap 8 (barre di Vita e Linfa, misure di banchi, mobili, casse e porte, casse per la creazione e
   pulsanti di comodità, pannello Creare rifatto, alberi e vegetazione di ogni bioma).
-- **Fatti i ritocchi dopo la Roadmap 8** (26-27 set 2026): scheda dei portali e il **sistema dei suggerimenti**
-  (sezione «Ritocchi dopo la Roadmap 8», prima della Roadmap 9).
+- **Fatti i ritocchi dopo la Roadmap 8** (26-27 set 2026): scheda dei portali, il **sistema dei suggerimenti**, le
+  **Opzioni** con la pausa e l'**Enciclopedia** (sezione «Ritocchi dopo la Roadmap 8», prima della Roadmap 9).
 - **Salvataggi**: in pieno sviluppo le partite sono solo prove (scelta dell'utente): niente migrazioni per ora.
 - **Fatta la Roadmap 8 «Il risveglio dell'Albero-Madre»** (voci 62-67, 26 set 2026): resoconto dopo la voce 67.
   Decisione di Claude (l'utente l'ha lasciata a lui): una partita nuova comincia nel **Giardino** sospeso nel Vuoto;
@@ -1231,6 +1231,43 @@ nell'interfaccia quasi subito, la successiva senza attesa; si aggiornano da sole
   dell'Erbario; i vecchi `tooltip_text` di bottoni e pannelli diventano schede da soli.
 Costo: 0,6 ms per comporre una scheda, 3 ms per disegnarla (solo quando cambia). Prove `--solo=suggerimenti` (foto
 110-120).
+
+## R8. [x] Le Opzioni e la pausa (M) — fatto il 27 set 2026
+Richiesta dell'utente: «una ampia e completa schermata delle opzioni che copra tutti gli aspetti del gioco, compresa la
+possibilità di mettere in pausa il gioco quando si è in creazione e decidere il ritardo dei tooltips».
+**Esc** apre il menu di pausa (Riprendi, Opzioni, Enciclopedia, Salva ora, Salva e torna al menu, Salva ed esci): prima
+Esc salvava e tornava subito al menu. Le **Opzioni** (`OptionsPanel`, dati in `OptionsData`: 29 opzioni in sei
+sezioni, ognuna con la sua spiegazione) si aprono dalla pausa e dal menu iniziale:
+- **Audio**: volume generale, musica, effetti, ambiente, musica degli scontri.
+- **Video**: finestra / schermo intero / senza bordi, sincronia verticale, fotogrammi al massimo, ingrandimento della
+  visuale (1,5×-3×), chiarore del buio (per chi fatica a vedere; di partenza buio pieno), tremolio della torcia, polvere
+  e scintille, contatore dei fotogrammi.
+- **Interfaccia**: aiuto dei tasti (prime ore, sempre, mai), obiettivi, riga dell'Albero, minimappa, barre della Vita
+  delle creature, durata degli avvisi.
+- **Gioco**: **pausa mentre crei** (Bisaccia aperta), pausa con i pannelli grandi, pausa fuori dalla finestra,
+  salvataggio automatico (1-10 minuti o mai).
+- **Suggerimenti**: accesi, **ritardo** nell'interfaccia e nel mondo, nel mondo sì o no, grandezza, confronto sempre o
+  con Maiusc.
+- **Comandi**: ogni tasto si cambia (due per comando; un tasto già usato passa al comando nuovo); nessun `KEY_…` è più
+  scritto nel codice (`KeysData`, `Keys`), e l'aiuto a schermo scrive i tasti scelti.
+In pausa il mondo si ferma (creature, tempo, crescita) ma interfaccia, suggerimenti e suoni restano vivi. Le prove usano
+sempre i valori di partenza e non scrivono mai il file del giocatore. Prove `--solo=opzioni` (foto 121-123).
+
+## R9. [x] L'Enciclopedia (L) — fatto il 27 set 2026
+Richiesta dell'utente: «una ampia Enciclopedia del gioco, accessibile con un pulsante nel gioco… il punto di
+riferimento per il giocatore, dove può togliersi qualsiasi dubbio». Tasto **H**, bottone «?» in basso a sinistra,
+menu di pausa, menu iniziale. A sinistra ricerca e indice, a destra la pagina con i collegamenti; Indietro, Inizio.
+- **Capitoli** scritti (`EncyGuideData`, `EncyCraftData`, `EncySeedsData`, otto gruppi: Primi passi, Il mondo, Scavare e
+  costruire, Creare ed equipaggiarsi, Combattere, La vita del mondo, Semi e mondi, Il Giardino) che spiegano ogni
+  meccanica; i numeri (Vita, attese, portate, percentuali) e le liste (strati, biomi, stagioni, eventi, minerali, banchi,
+  forme, fasce, set, elementi e reazioni, Guardiani, Custodi, abitanti, categorie dei geni, stadi, poteri, tasti) li
+  prende dai dati, così restano giusti.
+- **Cataloghi** generati: oggetti per categoria, creature per famiglia, famiglie, geni per categoria, materiali, forme,
+  tratti, banchi e stazioni, obiettivi (con quelli fatti); ogni voce apre la sua scheda (oggetto come in Esamina,
+  creatura con dove vive, elementi, bottino e addomesticamento, gene come nel Genario).
+- Ciò che non hai scoperto resta «???»; «Anticipazioni» lo mostra.
+Le prove controllano ogni pagina (niente segnaposti rimasti) e ogni collegamento (751, tutti validi). Prove
+`--solo=enciclopedia` (foto 124-126). **Ogni voce nuova aggiunge o aggiorna il suo capitolo.**
 
 # Roadmap 9 «Il mistero dei Seminatori» — il racconto sopra il motore
 
