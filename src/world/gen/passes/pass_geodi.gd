@@ -16,8 +16,9 @@ func title() -> String:
 func run(w: World, c: GenContext) -> void:
 	var rng := c.rng
 	var made := 0
-	for tries in COUNT * 60:
-		if made >= COUNT:
+	var want := roundi(COUNT * float(c.genes()["geodes"]))          # gene «Geodi fitti» (voce 43)
+	for tries in want * 60:
+		if made >= want:
 			break
 		var x := rng.randi_range(20, w.w - 21)
 		var st := 2 if rng.randf() < 0.55 else 3

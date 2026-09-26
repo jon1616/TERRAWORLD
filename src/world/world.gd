@@ -25,6 +25,7 @@ var chests := {}                       # angolo di una stazione con `slots` (ces
 var biomes := PackedByteArray()        # bioma di superficie di ogni colonna (indice di `BiomesData.BIOMES`)
 var explored := PackedByteArray()      # mappa: 1 dove il Germogliato ha già visto (vedi `MapReveal`)
 var plats := PackedByteArray()         # passerelle: 1 dove c'è una passerella (cella d'aria, si attraversa da sotto)
+var gen_notes := {}                    # gli appunti del generatore (`GenContext.notes`), solo per il mondo appena nato
 
 
 func setup(width: int, height: int) -> void:

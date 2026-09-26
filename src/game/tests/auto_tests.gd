@@ -86,6 +86,7 @@ func run(main: Node2D) -> void:
 	await TestsBagCost.new(kit).run()
 	await TestsMusic.new(kit).run()
 	await TestsHero.new(kit).run()
+	await TestsGenes.new(kit).run()
 	await ob.run()
 	await w.run_and_save()
 	# la Bisaccia aperta
@@ -189,5 +190,7 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsGuardians.new(kit).run()
 		"rovine":
 			await TestsRuins.new(kit).run()
+		"geni":
+			await TestsGenes.new(kit).run()
 		_:
 			print("ATTENZIONE: gruppo di prove sconosciuto «%s»" % g)

@@ -680,7 +680,7 @@ e il generatore in `GenContext.params["geni"]` (`c.genes()`, `c.surface_gene()`)
 e tratti → geni, anche nei portali). Entrando in un mondo i suoi geni diventano «visti» (`Character.genario`); in
 Esamina il Seme mostra il genoma, i geni mai visti come «?».
 
-## 43. [ ] Il generatore guidato dai geni (L)
+## 43. [x] Il generatore guidato dai geni (L) — fatto il 26 set 2026
 Ogni categoria di geni entra nella sua passata: biomi (peso e forma), strati (rocce e sacche diverse per gene), grotte
 («Cavo», «Compatto», «Alveare»…), minerali (quali vene e dove), flora, fauna (quali famiglie compaiono), strutture.
 Sottosuolo con i biomi propri come geni (fungaie giganti nel Sottobosco, geodi di brina, fiumi di brace nel
@@ -688,6 +688,19 @@ profondo), primi 20-25 geni in tutto. `tools/mappe.gd` stampa il genoma sotto og
 varietà** (quanto due mondi differiscono: biomi, rocce, grotte, fauna).
 **Pronto quando**: 20 Semi a caso danno 20 mappe riconoscibili a occhio; la misura della varietà non scende sotto una
 soglia scelta insieme.
+**Fatto il 26 set 2026**: 27 geni nuovi (42 in tutto). Forma: Pianure, Montagne, Altopiano, Conca, Frastagliato.
+Grotte: Cavo, Compatto, Gallerie, Alveare (celle da un rumore cellulare), Voragini (pozzi dalla superficie), Abissale.
+Sottosuolo (`PassSottosuolo`, nuova passata dopo i Cristalli): Fungaie (sale con funghi giganti di radice e spore nel
+Sottobosco), Geodi di brina, Fiumi di brace (gallerie di cenere viva e tizzonite), Laghi di Linfa (cristallo rappreso),
+Radici giganti. Minerali: Vene affioranti, Radicite diffusa, Metalli nobili; Gemme: Geodi fitti, Cristalli giganti;
+Rovine sepolte (scrigni più ricchi); Ancestrale; Rigoglioso e Spoglio; Giorni lunghi; Sano (nessuna macchia
+d'Avvizzimento; Avvizzito ne fa il doppio). I geni rari hanno un vigore minimo (`vmin`). Un Seme trovato ha **sempre**
+un gene di forma, grotte o sottosuolo (`Genome.SHAPE_CATS`): senza, due mondi con soli geni «in gioco» avevano la
+stessa mappa. `tools/mappe.gd -- --caso --vigore 7` stampa i geni e la **misura della varietà** (impronta di ogni
+mondo: biomi, superficie, grotte per strato, minerali, sottosuolo, alberi e scrigni): su 12 mondi a caso distanza
+media 5,0 e minima 2,2 contro un rumore di 0,74 dello stesso genoma con un seme diverso. **Soglia scelta**: la coppia
+più simile deve stare ad almeno il doppio del rumore. Gli appunti del generatore restano nel mondo appena nato
+(`World.gen_notes`). Prove `--solo=geni` (foto 80_fungaia, 81_fiume_brace).
 
 ## 44. [ ] La firma di ogni mondo (M)
 **Regola d'oro del piano**: ogni mondo ha almeno una cosa che si trova **solo lì**, scelta dal genoma e dal seme:

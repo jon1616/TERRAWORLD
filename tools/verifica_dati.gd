@@ -236,6 +236,10 @@ func _check_species() -> void:
 		_err(d.has("gen") or d.has("run"), "gene %s: non fa nulla" % g)
 		for k in d.get("run", {}):
 			_err(run_keys.has(k), "gene %s: effetto in gioco sconosciuto «%s»" % [g, k])
+		for k in d.get("gen", {}):
+			_err((GenesData.DEFAULTS["gen"] as Dictionary).has(k) or k == "biomes", "gene %s: effetto sul generatore sconosciuto «%s»" % [g, k])
+		for f in d.get("gen", {}).get("under", []):
+			_err(f in ["fungaie", "geodi_brina", "fiumi_brace", "laghi_linfa"], "gene %s: bioma del sottosuolo sconosciuto «%s»" % [g, f])
 		_err(not d.has("only") or String(d["only"]) in ["mutazione", "firma"], "gene %s: «only» sconosciuto" % g)
 		for x in d.get("combo", []):
 			_err(GenesData.GENES.has(x), "gene %s: combinazione con un gene inesistente «%s»" % [g, x])

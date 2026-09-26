@@ -12,16 +12,25 @@ extends RefCounted
 static var local_vigor := 2
 ## I geni conosciuti dal personaggio (`Character.genario`: gene → 1 visto, 2 imparato), per le schede.
 static var known := {}
+## Le categorie che cambiano la forma del mondo: un Seme trovato ne ha sempre una.
+const SHAPE_CATS := ["forma", "grotte", "sottosuolo"]
 
 
-## Un genoma a caso per un Seme trovato: la superficie data (o a caso), più alcuni geni secondo il vigore.
+## Un genoma a caso per un Seme trovato: la superficie data (o a caso), sempre un gene che cambia la forma del mondo
+## (forma, grotte o sottosuolo: due mondi non devono mai sembrare lo stesso con numeri diversi), più alcuni geni
+## secondo il vigore.
 static func roll(rng: RandomNumberGenerator, vigor: int, surface := "") -> Dictionary:
 	if GenesData.cat_of(surface) != "superficie":
 		surface = _pick(rng, GenesData.of_cat("superficie"), vigor)
 	var out := [surface]
-	var n := mini(1 + maxi(vigor - 1, 0) / 2, GenesData.MAX_EXTRA)
 	var cats := GenesData.CATEGORIES.duplicate()
 	cats.erase("superficie")
+	var shape := String(SHAPE_CATS[rng.randi_range(0, SHAPE_CATS.size() - 1)])
+	var sg := _pick(rng, GenesData.of_cat(shape), vigor)
+	if sg != "":
+		out.append(sg)
+		cats.erase(shape)
+	var n := mini(1 + maxi(vigor - 1, 0) / 2, GenesData.MAX_EXTRA) + out.size() - 1
 	while out.size() < n + 1 and not cats.is_empty():
 		var cat := String(cats[rng.randi_range(0, cats.size() - 1)])
 		cats.erase(cat)

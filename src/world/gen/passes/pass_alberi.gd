@@ -15,7 +15,7 @@ func run(w: World, c: GenContext) -> void:
 		var gy := w.surface[x]
 		if not TileDefs.is_grass(w.tile(x, gy)) or w.surface[x - 1] != gy or w.surface[x + 1] != gy:
 			continue
-		var chance: float = BiomesData.BIOMES[w.biomes[x]]["trees"]
+		var chance: float = float(BiomesData.BIOMES[w.biomes[x]]["trees"]) * float(c.genes()["trees"])   # geni di flora
 		if x - last < 5 or absi(x - w.spawn.x) < 4 or c.rng.randf() > chance:
 			continue
 		var clear := true

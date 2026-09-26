@@ -11,6 +11,7 @@ func title() -> String:
 
 func run(w: World, c: GenContext) -> void:
 	var n_cr := c.noise("cristalli", 0.08, 2)
+	var th := 0.3 - float(c.genes()["crystal"])                     # gene «Cristalli giganti» (voce 43)
 	var seeds: Array[Vector2i] = []
 	var min_depth := StrataData.top(3)
 	var off := PackedInt32Array()
@@ -22,7 +23,7 @@ func run(w: World, c: GenContext) -> void:
 			var t := w.tiles[y * w.w + x]
 			if not t in HOSTS or y - w.surface[x] - off[x] <= min_depth:
 				continue
-			if n_cr.get_noise_2d(x, y) > 0.3 and _near_air(w, x, y):
+			if n_cr.get_noise_2d(x, y) > th and _near_air(w, x, y):
 				seeds.append(Vector2i(x, y))
 	for s in seeds:
 		w.set_tile(s.x, s.y, TileDefs.CRYSTAL)

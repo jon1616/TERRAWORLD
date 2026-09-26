@@ -12,6 +12,8 @@ func run(w: World, c: GenContext) -> void:
 	var ores: Array = TileDefs.ORES
 	var richer := 0.025 * (int(c.params.get("vigore", 1)) - 1)   # vene più grandi nei mondi più vigorosi
 	richer += float(c.genes()["ore"])                               # gene «Vene ricche»
+	var shallow := float(c.genes()["shallow"])                      # gene «Vene affioranti»
+	var boost: Dictionary = c.genes()["ore_boost"]                  # geni di un metallo (voce 43)
 	var noises: Array[FastNoiseLite] = []
 	var hosts: Array[PackedByteArray] = []
 	var in_stratum: Array[PackedByteArray] = []
@@ -48,8 +50,8 @@ func run(w: World, c: GenContext) -> void:
 				sk -= 1
 			for k in ores.size():
 				var o: Dictionary = ores[k]
-				if hosts[k][t] == 1 and in_stratum[k][sk] == 1 and dep > int(o["min_depth"]) \
-						and noises[k].get_noise_2d(x, y) > float(o["threshold"]) - richer:
+				if hosts[k][t] == 1 and in_stratum[k][sk] == 1 and dep > int(o["min_depth"]) * shallow \
+						and noises[k].get_noise_2d(x, y) > float(o["threshold"]) - richer - float(boost.get(o["type"], 0.0)):
 					tiles[row + x] = o["type"]
 					break
 	w.tiles = tiles

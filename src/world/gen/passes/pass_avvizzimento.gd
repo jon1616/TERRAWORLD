@@ -19,7 +19,8 @@ func run(w: World, c: GenContext) -> void:
 	var n_edge := c.noise("avvizzimento", 0.09, 2)
 	var placed: Array[int] = []
 	var tries := 0
-	while placed.size() < ZONES and tries < 50:
+	var zones := maxi(ZONES + int(c.genes()["blight_zones"]), 0)     # geni d'ombra (voce 43)
+	while placed.size() < zones and tries < 50 * maxi(zones, 1):
 		tries += 1
 		var side := 1 if rng.randf() < 0.5 else -1
 		var cx := w.spawn.x + side * rng.randi_range(MIN_FROM_SPAWN, MIN_FROM_SPAWN + 700)

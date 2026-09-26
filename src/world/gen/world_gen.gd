@@ -18,6 +18,7 @@ static func passes() -> Array[GenPass]:
 		PassIngressi.new(),
 		PassMinerali.new(),
 		PassCristalli.new(),
+		PassSottosuolo.new(),
 		PassErba.new(),
 		PassAlberi.new(),
 		PassDecorazioni.new(),
@@ -45,4 +46,5 @@ static func generate(w: World, sd: int, width: int = WIDTH, height: int = HEIGHT
 		var t0 := Time.get_ticks_usec()
 		p.run(w, c)
 		times.append([p.title(), (Time.get_ticks_usec() - t0) / 1000])
+	w.gen_notes = c.notes
 	return times

@@ -45,11 +45,20 @@ const RARITY := [
 
 ## Valori neutri degli effetti. Le chiavi in `MUL` si moltiplicano tra geni, le altre numeriche si sommano; gli array
 ## si uniscono, i dizionari si fondono, i vero/falso valgono se almeno un gene li accende.
+## gen: ore (soglia delle vene più bassa), ruins, gems, surface (altezza della superficie, in frazione del mondo),
+##      hills (colline), rough (rupi), worm (larghezza delle gallerie), room (soglia delle caverne: meno = più),
+##      big (soglia delle grandi caverne), comb (grotte ad alveare), shafts (voragini), under (biomi del sottosuolo,
+##      `PassSottosuolo`), roots (radici giganti), shallow (profondità minima delle vene), ore_boost (tessera → soglia
+##      più bassa per quel minerale), geodes, crystal (soglia dei cristalli più bassa), rich (tiri di bottino in più
+##      negli scrigni delle rovine), trees, blight_zones (macchie di Avvizzimento in più o in meno)
 const DEFAULTS := {
-	"gen": {"ore": 0.0, "ruins": 1.0, "gems": 1.0},
+	"gen": {"ore": 0.0, "ruins": 1.0, "gems": 1.0, "surface": 0.0, "hills": 1.0, "rough": 0.0, "worm": 1.0, "room": 0.0,
+		"big": 0.0, "comb": false, "shafts": 0.0, "under": [], "roots": 1.0, "shallow": 1.0, "ore_boost": {},
+		"geodes": 1.0, "crystal": 0.0, "rich": 0.0, "trees": 1.0, "blight_zones": 0.0},
 	"run": {"danger": 0.0, "lumini": 1.0, "rare": 1.0, "grow": 1.0, "night": 0.0, "events": 1.0, "blight": 1.0},
 }
-const MUL := ["ruins", "gems", "lumini", "rare", "grow", "events", "blight"]
+const MUL := ["ruins", "gems", "lumini", "rare", "grow", "events", "blight", "hills", "worm", "roots", "shallow", "geodes",
+	"trees"]
 
 const GENES := {
 	# --- superficie: i biomi (erano le specie della voce 39) -------------------------------------------------------
@@ -88,7 +97,74 @@ const GENES := {
 	"notti_lunghe": {"cat": "tempo", "name": "Notti lunghe", "rar": 0, "dom": 3, "good": false,
 		"desc": "la notte dura molto di più", "run": {"night": 0.08}},
 	"avvizzito": {"cat": "ombra", "name": "Avvizzito", "rar": 0, "dom": 4, "good": false,
-		"desc": "l'Avvizzimento si allarga il doppio più in fretta", "run": {"blight": 2.0, "danger": 0.3}},
+		"desc": "l'Avvizzimento si allarga il doppio più in fretta, da più macchie", "gen": {"blight_zones": 2.0},
+		"run": {"blight": 2.0, "danger": 0.3}},
+	# --- voce 43: i geni del generatore -----------------------------------------------------------------------------
+	# forma
+	"pianure": {"cat": "forma", "name": "Pianure", "rar": 0, "dom": 2, "good": true,
+		"desc": "colline basse e orizzonti lunghi", "gen": {"hills": 0.35}},
+	"montagne": {"cat": "forma", "name": "Montagne", "rar": 1, "dom": 3, "good": true,
+		"desc": "montagne alte e valli profonde", "gen": {"hills": 2.2}},
+	"altopiano": {"cat": "forma", "name": "Altopiano", "rar": 0, "dom": 2, "good": true,
+		"desc": "la terra più alta: cielo basso e sottosuolo profondissimo", "gen": {"surface": -0.05}},
+	"conca": {"cat": "forma", "name": "Conca", "rar": 0, "dom": 2, "good": true,
+		"desc": "la terra più bassa: un cielo immenso", "gen": {"surface": 0.035}},
+	"frastagliato": {"cat": "forma", "name": "Frastagliato", "rar": 2, "dom": 1, "good": true, "vmin": 3,
+		"desc": "rupi, picchi e salti di roccia", "gen": {"rough": 6.0, "hills": 1.3}},
+	# grotte
+	"cavo": {"cat": "grotte", "name": "Cavo", "rar": 0, "dom": 3, "good": true,
+		"desc": "grotte ovunque, grandi e piccole", "gen": {"room": -0.07, "worm": 1.3}},
+	"compatto": {"cat": "grotte", "name": "Compatto", "rar": 0, "dom": 2, "good": false,
+		"desc": "roccia piena: poche grotte, tutto da scavare", "gen": {"room": 0.1, "worm": 0.55}},
+	"gallerie": {"cat": "grotte", "name": "Gallerie", "rar": 1, "dom": 2, "good": true,
+		"desc": "gallerie larghe che corrono per tutto il mondo", "gen": {"worm": 2.1, "room": 0.06}},
+	"alveare": {"cat": "grotte", "name": "Alveare", "rar": 1, "dom": 1, "good": true,
+		"desc": "grotte a celle, una accanto all'altra come in un alveare", "gen": {"comb": true, "room": 0.05}},
+	"voragini": {"cat": "grotte", "name": "Voragini", "rar": 1, "dom": 2, "good": true,
+		"desc": "pozzi che scendono dalla superficie fino al profondo", "gen": {"shafts": 9.0}},
+	"abissale": {"cat": "grotte", "name": "Abissale", "rar": 2, "dom": 1, "good": true, "vmin": 3,
+		"desc": "caverne immense sotto le Caverne d'ardesia", "gen": {"big": -0.28}},
+	# sottosuolo
+	"fungaie": {"cat": "sottosuolo", "name": "Fungaie", "rar": 1, "dom": 2, "good": true,
+		"desc": "sale di funghi giganti nel Sottobosco di radici", "gen": {"under": ["fungaie"]}},
+	"geodi_brina": {"cat": "sottosuolo", "name": "Geodi di brina", "rar": 1, "dom": 2, "good": true,
+		"desc": "grotte tonde di cristallo e ghiaccio nelle Caverne d'ardesia", "gen": {"under": ["geodi_brina"]}},
+	"fiumi_brace": {"cat": "sottosuolo", "name": "Fiumi di brace", "rar": 1, "dom": 2, "good": true, "vmin": 2,
+		"desc": "lunghe gallerie di cenere viva e tizzonite nel profondo", "gen": {"under": ["fiumi_brace"]}},
+	"radici_giganti": {"cat": "sottosuolo", "name": "Radici giganti", "rar": 0, "dom": 3, "good": true,
+		"desc": "il Sottobosco attraversato da radici enormi", "gen": {"roots": 2.5}},
+	"laghi_linfa": {"cat": "sottosuolo", "name": "Laghi di Linfa", "rar": 2, "dom": 1, "good": true, "vmin": 3,
+		"desc": "caverne con laghi di Linfa rappresa in cristallo", "gen": {"under": ["laghi_linfa"]}},
+	# minerali
+	"vene_affioranti": {"cat": "minerali", "name": "Vene affioranti", "rar": 1, "dom": 2, "good": true,
+		"desc": "i minerali affiorano più vicini alla superficie", "gen": {"shallow": 0.45}},
+	"radicite_diffusa": {"cat": "minerali", "name": "Radicite diffusa", "rar": 0, "dom": 2, "good": true,
+		"desc": "radicite e pallidite ovunque", "gen": {"ore_boost": {TileDefs.RADICITE: 0.07, TileDefs.PALLIDITE: 0.05}}},
+	"metalli_nobili": {"cat": "minerali", "name": "Metalli nobili", "rar": 2, "dom": 1, "good": true, "vmin": 3,
+		"desc": "legnoferro, ambra e tizzonite in abbondanza",
+		"gen": {"ore_boost": {TileDefs.LEGNOFERRO: 0.04, TileDefs.AMBRA: 0.06, TileDefs.TIZZONITE: 0.06}}},
+	# gemme
+	"geodi_fitti": {"cat": "gemme", "name": "Geodi fitti", "rar": 1, "dom": 2, "good": true,
+		"desc": "il triplo dei geodi nascosti nella roccia", "gen": {"geodes": 3.0}},
+	"cristalli_giganti": {"cat": "gemme", "name": "Cristalli giganti", "rar": 2, "dom": 1, "good": true, "vmin": 3,
+		"desc": "banchi di cristallo di Linfa nel profondo", "gen": {"crystal": 0.14}},
+	# rovine
+	"rovine_sepolte": {"cat": "rovine", "name": "Rovine sepolte", "rar": 2, "dom": 1, "good": true, "vmin": 3,
+		"desc": "più rovine, con scrigni molto più ricchi", "gen": {"ruins": 1.25, "rich": 2.0}},
+	# stirpi
+	"ancestrale": {"cat": "stirpi", "name": "Ancestrale", "rar": 2, "dom": 1, "good": true, "vmin": 3,
+		"desc": "creature rare più frequenti e più forti, con più Lumini", "run": {"rare": 1.5, "danger": 0.4, "lumini": 1.4}},
+	# flora
+	"rigoglioso": {"cat": "flora", "name": "Rigoglioso", "rar": 0, "dom": 3, "good": true,
+		"desc": "boschi fitti, il doppio degli alberi", "gen": {"trees": 1.9}},
+	"spoglio": {"cat": "flora", "name": "Spoglio", "rar": 0, "dom": 2, "good": false,
+		"desc": "pochi alberi: il legno è prezioso", "gen": {"trees": 0.25}},
+	# tempo
+	"giorni_lunghi": {"cat": "tempo", "name": "Giorni lunghi", "rar": 0, "dom": 2, "good": true,
+		"desc": "il giorno dura di più, la notte è breve", "run": {"night": -0.05}},
+	# ombra
+	"sano": {"cat": "ombra", "name": "Sano", "rar": 1, "dom": 2, "good": true,
+		"desc": "nessuna macchia di Avvizzimento", "gen": {"blight_zones": -9.0}, "run": {"blight": 0.0}},
 }
 
 ## Quanti geni oltre la superficie ha un Seme trovato: uno, più uno ogni due punti di vigore, fino a `MAX_EXTRA`.

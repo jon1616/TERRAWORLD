@@ -41,7 +41,7 @@ func run(w: World, c: GenContext) -> void:
 				continue
 			if StrataData.at(w, x, y) != s:
 				continue
-			_build(w, rng, p, s)
+			_build(w, rng, p, s, int(c.genes()["rich"]))       # gene «Rovine sepolte» (voce 43)
 			placed.append(p)
 			done += 1
 	c.notes["rovine"] = placed
@@ -49,7 +49,7 @@ func run(w: World, c: GenContext) -> void:
 
 ## Una stanza: guscio di pietra dei Seminatori (con qualche mattone crollato), dentro aria e parete lavorata,
 ## rune accese sul soffitto e uno scrigno pieno al centro del pavimento. p = angolo in basso a sinistra dell'interno.
-func _build(w: World, rng: RandomNumberGenerator, p: Vector2i, s: int) -> void:
+func _build(w: World, rng: RandomNumberGenerator, p: Vector2i, s: int, rich := 0) -> void:
 	var rw := rng.randi_range(12, 18)
 	var rh := rng.randi_range(6, 8)
 	for y in range(p.y - rh - 1, p.y + 2):
@@ -80,6 +80,6 @@ func _build(w: World, rng: RandomNumberGenerator, p: Vector2i, s: int) -> void:
 	w.set_decor(o.x + 1, o.y + 1, 0)
 	w.stations[o] = "scrigno"
 	var chest := w.chest_at(o)
-	var loot := LootData.roll_chest("rovina_%d" % clampi(s, 1, 4), rng, 2 + s / 2)
+	var loot := LootData.roll_chest("rovina_%d" % clampi(s, 1, 4), rng, 2 + s / 2 + rich)
 	for id in loot:
 		chest.add(id, int(loot[id]))

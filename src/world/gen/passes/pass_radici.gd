@@ -15,7 +15,7 @@ func run(w: World, c: GenContext) -> void:
 	var rng := c.rng
 	var n_bend := c.noise("radici_curve", 0.03, 2)
 	var bottom := StrataData.top(2) + 30
-	var count := w.w / EVERY
+	var count := roundi(w.w / EVERY * float(c.genes()["roots"]))     # gene «Radici giganti» (voce 43)
 	for r in count:
 		var x := float(rng.randi_range(8, w.w - 9))
 		var y := float(w.surface[int(x)] + rng.randi_range(8, 16))
