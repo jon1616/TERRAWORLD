@@ -166,6 +166,8 @@ func touch(c: Vector2i) -> bool:
 		return true                                      # voce 59: nutrire o accarezzare una creatura
 	if TileDefs.SEAL_KIND.has(m.world.tile(c.x, c.y)) and m.actions.in_reach(c):
 		return m.powers.open_seal(c)                     # voce 64: i Sigilli
+	if m.world.tile(c.x, c.y) == TileDefs.PORTA_SEM and m.actions.in_reach(c):
+		return m.mechanisms.touch_door(c)                # voce 71: le porte dei luoghi
 	var npc: Npc = m.villagers.npc_at(Vector2(c) * S + Vector2(8, 8))
 	if npc != null:
 		return m.villagers.open_trade(npc)
@@ -218,6 +220,8 @@ func touch(c: Vector2i) -> bool:
 			return m.language.read(o)                      # voce 68
 		"leggio":
 			return m.chains.read(o)                        # voce 69
+		"braciere", "braciere_acceso", "leva", "leva_su", "piastra", "piastra_premuta", "cristallo_eco", "cristallo_eco_desto":
+			return m.mechanisms.touch(o, id)               # voce 71
 		"cuore_mondo":
 			m.hud.toast("Il Cuore batte piano, malato. %d nodi avvizziti sul soffitto" % m.guardian.nodes_left())
 			return true

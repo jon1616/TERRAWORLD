@@ -15,6 +15,10 @@ class_name PlacesData
 const TILE := {"#": TileDefs.PIETRA_SEM, "=": TileDefs.MATTONI, "r": TileDefs.RADICE, "a": TileDefs.AMBRA,
 	"v": TileDefs.VUOTITE, "c": TileDefs.CRYSTAL, "g": TileDefs.VETRO}
 const STATION := {"S": "scrigno", "L": "leggio", "T": "stele", "P": "pianta_seme", "M": "maglio"}
+## Voce 71: la stazione dei meccanismi 1-4 secondo il tipo di enigma del luogo.
+const MECH := {"leve": "leva", "bracieri": "braciere", "piastre": "piastra", "cristalli": "cristallo_eco"}
+## Secondi per premere tutte le piastre.
+const PLATE_TIME := 5.0
 
 const GRIDS := {
 	"biblioteca": [

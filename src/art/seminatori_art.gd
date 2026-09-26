@@ -10,6 +10,14 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 			_stele(im, gm, w, h)
 		"leggio":
 			_leggio(im, gm, w, h)
+		"braciere", "braciere_acceso":
+			_braciere(im, gm, id == "braciere_acceso")
+		"leva", "leva_su":
+			_leva(im, gm, id == "leva_su")
+		"piastra", "piastra_premuta":
+			_piastra(im, gm, id == "piastra_premuta")
+		"cristallo_eco", "cristallo_eco_desto":
+			_cristallo(im, gm, id == "cristallo_eco_desto")
 		_:
 			return false
 	return true
@@ -73,3 +81,71 @@ static func _leggio(im: Image, gm: Image, w: int, h: int) -> void:
 		if i % 3 == 1:
 			Px.put(im, x, y - 1, glow)
 			Px.put(gm, x, y - 1, glow)
+
+
+## Voce 71: il braciere, una coppa di pietra su un piede; acceso, una fiamma d'oro che fa luce.
+static func _braciere(im: Image, gm: Image, lit: bool) -> void:
+	var p := Px.pal(TileDefs.P_SEM)
+	for x in range(6, 10):
+		for y in range(11, 16):
+			Px.put(im, x, y, p[1] if x == 6 else p[2])
+	for x in range(2, 14):
+		for y in range(7, 11):
+			var inside: bool = y == 7 and x > 2 and x < 13
+			Px.put(im, x, y, p[0] if inside else (p[3] if y == 8 else p[2]))
+	if lit:
+		var fl := [Color("#ff9a3a"), Color("#ffd24a"), Color("#fff2a8")]
+		for i in 3:
+			for x in range(4 + i, 12 - i):
+				for y in range(6 - i * 2 - 1, 7 - i * 2 + 1):
+					if (x + y + i) % 3 != 0 or i == 2:
+						Px.put(im, x, y, fl[i])
+						Px.put(gm, x, y, fl[i])
+
+
+## La leva di radice: una base di pietra e un manico di legno, in giù o in su, con la runa accesa se alzata.
+static func _leva(im: Image, gm: Image, up: bool) -> void:
+	var p := Px.pal(TileDefs.P_SEM)
+	var wd := Px.pal(TileDefs.P_ROOT)
+	for x in range(3, 13):
+		for y in range(12, 16):
+			Px.put(im, x, y, p[2] if y > 12 else p[3])
+	var tip := Vector2(12.0, 3.0) if up else Vector2(4.0, 5.0)
+	Px.line(im, Vector2(8.0, 12.0), tip, 2, wd[2])
+	Px.disc(im, tip.x, tip.y, 2.0, wd[3])
+	var rune := Color("#6ff0b8") if up else Color("#3a5a54")
+	Px.put(im, 8, 14, rune)
+	if up:
+		Px.put(gm, 8, 14, rune)
+
+
+## La piastra: una lastra bassa sul pavimento con una runa; premuta si abbassa e la runa si accende.
+static func _piastra(im: Image, gm: Image, pressed: bool) -> void:
+	var p := Px.pal(TileDefs.P_SEM)
+	var top := 13 if pressed else 11
+	for x in range(1, 15):
+		for y in range(top, 16):
+			Px.put(im, x, y, p[3] if y == top else p[2])
+	var rune := Color("#ffd24a") if pressed else Color("#587270")
+	for x in range(6, 10):
+		Px.put(im, x, top + 1, rune)
+		if pressed:
+			Px.put(gm, x, top + 1, rune)
+
+
+## Il cristallo d'eco: una punta di cristallo su un basamento; risvegliato brilla forte.
+static func _cristallo(im: Image, gm: Image, awake: bool) -> void:
+	var p := Px.pal(TileDefs.P_SEM)
+	var c := Px.pal(TileDefs.P_CRYSTAL)
+	for x in range(3, 13):
+		for y in range(13, 16):
+			Px.put(im, x, y, p[2])
+	for y in range(2, 13):
+		var hw := int((y - 2) / 2.2) + 1
+		for x in range(8 - hw, 8 + hw):
+			var col: Color = c[3] if x < 8 else c[2]
+			if not awake:
+				col = col.darkened(0.45)
+			Px.put(im, x, y, col)
+			if awake and (x + y) % 2 == 0:
+				Px.put(gm, x, y, c[4])

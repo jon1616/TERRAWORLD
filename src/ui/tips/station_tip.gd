@@ -24,6 +24,17 @@ static func card(m: Node2D, o: Vector2i, id: String) -> TipCard:
 	c.title(String(sd.get("name", id)), Color("#e0b878"), item if ItemsData.get_item(item).has("name") else null)
 	if id in CHESTS:
 		return _chest(m, c, o, id)
+	if id.begins_with("braciere") or id.begins_with("leva") or id.begins_with("piastra") or id.begins_with("cristallo_eco"):
+		var e: Dictionary = m.mechanisms.place_of(o)
+		c.sub("un meccanismo dei Seminatori")
+		if not e.is_empty():
+			if id.begins_with("cristallo_eco") and e["enigma"].has("elementi"):
+				var el := String(e["enigma"]["elementi"].get(m.mechanisms._key_of(e, o), ""))
+				if el != "":
+					c.pair("Risuona con", ElementsData.tag(el), Color("#8ef0d8"))
+			c.line(m.mechanisms.hint(e), TipCard.GOLD)
+		c.hint("Clic destro" if not id.begins_with("piastra") else "Salici sopra")
+		return c
 	if id == "leggio":
 		var open := false
 		for e in m.world_meta.get("cripte", []):

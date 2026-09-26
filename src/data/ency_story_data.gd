@@ -19,7 +19,15 @@ Il [url=cat:glossario]glossario[/url] raccoglie le parole che conosci."""},
 Le catene aperte sono nel [b]Taccuino[/b], la terza scheda del [url=cap:semenzaio]Semenzaio[/url] ({k_semenzaio}): per ogni tappa i geni che servono e se li conosci già. La scheda di un Seme (mouse sopra) dice se porta a una cripta.
 Per costruire il Seme giusto: [url=cap:innesto]l'innesto[/url], con le Fiale dei geni imparati."""},
 	{"id": "luoghi", "group": "Il mistero dei Seminatori", "name": "I luoghi dei Seminatori", "text":
-"""Oltre alle rovine, i Seminatori costruirono [b]luoghi[/b] speciali, uno per ogni loro arte. Ognuno si trova solo nei mondi con i [url=cap:geni]geni[/url] giusti, nel suo strato: trovarne uno è un evento (una scritta, il segno sulla mappa). Dentro: un [b]leggio[/b] con un pezzo della loro storia, uno [b]scrigno[/b] ricco con un [b]oggetto unico[/b] del luogo, tavolette e Linfa antica. La stanza del tesoro è chiusa da una [b]porta dei Seminatori[/b], che si apre risolvendo l'enigma del luogo.
+"""Oltre alle rovine, i Seminatori costruirono [b]luoghi[/b] speciali, uno per ogni loro arte. Ognuno si trova solo nei mondi con i [url=cap:geni]geni[/url] giusti, nel suo strato: trovarne uno è un evento (una scritta, il segno sulla mappa). Dentro: un [b]leggio[/b] con un pezzo della loro storia, uno [b]scrigno[/b] ricco con un [b]oggetto unico[/b] del luogo, tavolette e Linfa antica. La stanza del tesoro è chiusa da una [b]porta dei Seminatori[/b], che si apre risolvendo l'[url=cap:enigmi]enigma[/url] del luogo.
 Anche le stele possono indicarli («pietra seminatori veglia…»).
 {cat_luoghi}"""},
+	{"id": "enigmi", "group": "Il mistero dei Seminatori", "name": "Enigmi e meccanismi", "text":
+"""La stanza del tesoro di ogni [url=cap:luoghi]luogo[/url] è chiusa da una [b]porta dei Seminatori[/b]: il piccone non la scalfisce, si apre risolvendo l'enigma del luogo. La scheda della porta (mouse sopra) dice che cosa chiede.
+• [b]Bracieri[/b]: accendili tutti, clic destro con una torcia nella Bisaccia (la consuma).
+• [b]Leve[/b]: mettile come dice il leggio del luogo, scritto nella [url=cap:lingua]lingua dei Seminatori[/url] (su e giù: impara quelle due parole).
+• [b]Piastre[/b]: salici sopra tutte entro pochi secondi, prima che si rialzino.
+• [b]Cristalli d'eco[/b]: ognuno risuona con un [url=cap:elementi]elemento[/url]; clic destro con un'arma di quell'elemento in mano.
+• [b]Glifi[/b]: la porta porta una frase; si apre quando ne conosci tutte le parole (clic destro sulla porta).
+• [b]Chiave[/b]: la Chiave dei Seminatori è in uno scrigno delle rovine dello stesso mondo."""},
 ]

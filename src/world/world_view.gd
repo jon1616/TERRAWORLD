@@ -213,6 +213,8 @@ func refresh_rect(r: Rect2i) -> void:
 	for k in chunks.keys():
 		if Rect2i(k * World.CHUNK, Vector2i(World.CHUNK, World.CHUNK)).intersects(r.grow(2)):
 			_free_chunk(k)
+			if _want.has_point(k):
+				_queue.push_front(k)          # la coda si riempie solo quando la visuale cambia: si rimette qui
 
 
 ## Combinazione di bordi di una tessera (per le prove: 0 = circondata da blocchi).

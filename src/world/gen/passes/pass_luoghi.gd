@@ -87,14 +87,20 @@ static func build(w: World, id: String, o: Vector2i, rng: RandomNumberGenerator)
 				w.set_tile(x, y, int(PlacesData.TILE[ch]))
 				w.walls[y * w.w + x] = TileDefs.WALL_SEM
 				continue
+			if ch == "D":
+				w.set_tile(x, y, TileDefs.PORTA_SEM)           # voce 71: la porta del tesoro
+				w.walls[y * w.w + x] = TileDefs.WALL_SEM
+				(e["porta"] as Array).append(Vector2i(x, y))
+				continue
 			w.set_tile(x, y, TileDefs.AIR)
 			w.walls[y * w.w + x] = 0 if ch == "_" else TileDefs.WALL_SEM
 			if ch == "." and gy == 2 and gx % 3 == 0:
 				w.set_decor(x, y, TileDefs.DECOR_RUNE)    # le rune accese sul soffitto, come nelle rovine
-			if ch == "D":
-				(e["porta"] as Array).append(Vector2i(x, y))
-			elif ch in ["1", "2", "3", "4"]:
+			if ch in ["1", "2", "3", "4"]:
 				e["mecc"][ch] = Vector2i(x, y)
+				var tipo := String(PlacesData.PLACES[id]["enigma"]["tipo"])
+				if PlacesData.MECH.has(tipo):
+					stations.append([String(PlacesData.MECH[tipo]), Vector2i(x, y)])
 			elif PlacesData.STATION.has(ch):
 				stations.append([String(PlacesData.STATION[ch]), Vector2i(x, y)])
 	for s in stations:

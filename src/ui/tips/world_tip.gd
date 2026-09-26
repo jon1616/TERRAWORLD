@@ -175,6 +175,10 @@ static func tile(m: Node2D, t: int) -> TipCard:
 		t = TileDefs.STONE                     # il Sigillo velato sembra ardesia: lo svela solo la Vista della Linfa
 	if TileDefs.SEAL_KIND.has(t):
 		return seal(m, String(TileDefs.SEAL_KIND[t]))
+	if t == TileDefs.PORTA_SEM:
+		c.title("Porta dei Seminatori", Color("#ffd24a"))
+		c.sub("il piccone non la scalfisce")
+		return c
 	var drop_id := String(TileDefs.DROP.get(t, ""))
 	c.title(String(TileDefs.NAMES.get(t, "Roccia")), Color("#c8d0d8"), drop_id)
 	var need := int(TileDefs.POWER.get(t, 0))

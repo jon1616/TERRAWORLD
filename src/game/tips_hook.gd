@@ -59,6 +59,14 @@ func _world_tip(screen: Vector2) -> Array:
 	if t != TileDefs.AIR:
 		if t in PLAIN:
 			return []
+		if t == TileDefs.PORTA_SEM:                      # voce 71: che cosa chiede la porta
+			return ["t%d,%d,%d" % [c.x, c.y, t], func() -> Variant:
+				var tc := WorldTip.tile(m, t)
+				var e: Dictionary = m.mechanisms.place_of(c)
+				if not e.is_empty():
+					tc.line(m.mechanisms.hint(e), TipCard.GOLD)
+					tc.hint("Clic destro: esamina")
+				return tc]
 		return ["t%d,%d,%d" % [c.x, c.y, t], func() -> Variant: return WorldTip.tile(m, t)]
 	var tr := w.tree_at(c)
 	if tr.x >= 0:

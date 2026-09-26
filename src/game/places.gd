@@ -67,7 +67,8 @@ func read(o: Vector2i) -> bool:
 		var lg: Array = e.get("leggio", [-1, -1])
 		if int(lg[0]) == o.x and int(lg[1]) == o.y:
 			var pd: Dictionary = PlacesData.PLACES[String(e["id"])]
-			m.language.panel.show_text(String(pd["name"]), "[i]%s[/i]" % pd["lore"])
+			var extra: String = m.mechanisms.lore_extra(e) if m.get("mechanisms") != null else ""
+			m.language.panel.show_text(String(pd["name"]), "[i]%s[/i]%s" % [pd["lore"], extra])
 			m.sfx.play("dono")
 			return true
 	return false

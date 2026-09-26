@@ -1326,10 +1326,28 @@ Frammento di Vuoto domato, Goccia della Linfa madre). Le stele possono indicare 
 ridisegna una zona cambiata. Obiettivi «luogo» e «luoghi_tutti»; capitolo nell'Enciclopedia (i luoghi non trovati
 restano nascosti). Prove `--solo=luoghi_scritti` (foto 131_luogo, 132_luoghi).
 
-## 71. [ ] Enigmi e meccanismi (M)
+## 71. [x] Enigmi e meccanismi (M) — fatto il 26 set 2026
 Meccanismi dei Seminatori (leve di radice, specchi che portano la luce, canali di Linfa da aprire, piastre, porte a
 glifi) nei luoghi della voce 70 e nelle rovine sigillate.
 **Pronto quando**: almeno 6 tipi di meccanismo combinabili; i luoghi grandi hanno un enigma ciascuno.
+**Fatto il 27 set 2026**: sei tipi di meccanismo dei Seminatori (`Mechanisms`, dati in `PlacesData`), combinati negli
+otto luoghi della voce 70: la stanza del tesoro è chiusa da una **porta dei Seminatori** (tessera nuova `PORTA_SEM`,
+pietra con le rune d'oro, il piccone non la scalfisce) che si apre risolvendo l'enigma del luogo:
+- **bracieri** da accendere tutti con una torcia (clic destro, la consuma) — Osservatorio, Forgia;
+- **leve** da mettere come dice il leggio, scritto nella lingua dei Seminatori («ul» su, «nae» giù: la lingua della voce
+  68 serve anche qui) — Serra, Tempio;
+- **piastre** su cui salire tutte entro 5 secondi — Alveare;
+- **cristalli d'eco** da risvegliare con un'arma dell'elemento giusto in mano (la scheda del cristallo dice quale) —
+  Cripta di brina;
+- **porta a glifi**: una frase nella lingua dei Seminatori, si apre quando ne conosci tutte le parole — Biblioteca;
+- **chiave**: la Chiave dei Seminatori, in uno scrigno delle rovine dello stesso mondo — Santuario del Vuoto.
+I parametri (il codice delle leve, gli elementi dei cristalli, la frase della porta) nascono dal seme del mondo; lo
+stato dei meccanismi sono le stazioni stesse (braciere / braciere acceso, leva giù / su, piastra / premuta, cristallo /
+risvegliato), disegnate in `SeminatoriArt`. Le schede della porta e dei meccanismi dicono che cosa chiedono. Aperta la
+porta: rune che si spengono, suono, avviso, conteggio «enigmi». `WorldView.refresh_rect` ora rimette in coda i blocchi
+visibili (prima restavano vuoti finché la visuale non si spostava). Obiettivi «enigma» e «enigmi_8»; capitolo
+nell'Enciclopedia. Prove `--solo=enigmi`: tutti e otto risolti come li risolverebbe il giocatore (foto 133_enigma,
+134_porta_aperta).
 
 ## 72. [ ] Il Seme Nero (L)
 L'origine dell'Avvizzimento e il grande arco del racconto: indizi in tutte le catene, geni malati, un luogo finale e un

@@ -36,7 +36,8 @@ const SIG_VELATO := 26                 # sembra ardesia: la Vista della Linfa lo
 const SIG_RADICE := 27                 # radice intrecciata a rune: Canto delle radici
 const SIG_VUOTO := 28                  # velo del Vuoto: Passo nel Vuoto
 const SIG_BRACE := 29                  # muro di brace: Pelle di brace
-const TYPES := 29
+const PORTA_SEM := 30                  # voce 71: porta dei Seminatori, si apre risolvendo l'enigma del luogo
+const TYPES := 30
 const SEALS := {"velato": SIG_VELATO, "radice": SIG_RADICE, "vuoto": SIG_VUOTO, "brace": SIG_BRACE}
 const SEAL_KIND := {SIG_VELATO: "velato", SIG_RADICE: "radice", SIG_VUOTO: "vuoto", SIG_BRACE: "brace"}
 const BUILT := [ASSI, MATTONI, VETRO]
@@ -101,14 +102,14 @@ static func is_soft_decor(d: int) -> bool:
 ## Secondi di scavo con il piccone di radicite.
 const HARD := {DIRT: 0.22, GRASS: 0.22, STONE: 0.38, RADICITE: 0.5, LEGNOFERRO: 0.6, AMBRA: 0.7, CRYSTAL: 0.8,
 	RADICE: 0.45, SCISTO: 0.5, VUOTITE: 0.75, NODO: 9.0, PIETRA_SEM: 0.8,
-	SIG_VELATO: 9.0, SIG_RADICE: 9.0, SIG_VUOTO: 9.0, SIG_BRACE: 9.0,
+	SIG_VELATO: 9.0, SIG_RADICE: 9.0, SIG_VUOTO: 9.0, SIG_BRACE: 9.0, PORTA_SEM: 9.0,
 	GRASS_SPORE: 0.22, GRASS_AMBRA: 0.22, GRASS_BRINA: 0.22, GRASS_CENERE: 0.22, AVV_TERRA: 0.25, AVV_MUSCHIO: 0.25, AVV_PIETRA: 0.42,
 	PALLIDITE: 0.55, TIZZONITE: 0.8, ASSI: 0.3, MATTONI: 0.45, VETRO: 0.3, PORTA: 1.0}
 ## Forza di piccone minima (vedi la durezza in `MaterialsData`): radicite 35, legnoferro 45, ambra 55. L'ambra vuole il piccone
 ## di legnoferro, i cristalli di Linfa quello d'ambra: è il filo della progressione.
 ## Il Fondo (vuotite) vuole il piccone di legnoferro: non ci si arriva col primo corredo.
 const POWER := {DIRT: 0, GRASS: 0, STONE: 0, RADICITE: 0, LEGNOFERRO: 35, AMBRA: 45, CRYSTAL: 55, RADICE: 0, SCISTO: 0,
-	VUOTITE: 45, NODO: 999, PIETRA_SEM: 0, SIG_VELATO: 999, SIG_RADICE: 999, SIG_VUOTO: 999, SIG_BRACE: 999, GRASS_SPORE: 0, GRASS_AMBRA: 0, GRASS_BRINA: 0, GRASS_CENERE: 0,
+	VUOTITE: 45, NODO: 999, PIETRA_SEM: 0, SIG_VELATO: 999, SIG_RADICE: 999, SIG_VUOTO: 999, SIG_BRACE: 999, PORTA_SEM: 999, GRASS_SPORE: 0, GRASS_AMBRA: 0, GRASS_BRINA: 0, GRASS_CENERE: 0,
 	AVV_TERRA: 0, AVV_MUSCHIO: 0, AVV_PIETRA: 0, PALLIDITE: 35, TIZZONITE: 55, ASSI: 0, MATTONI: 0, VETRO: 0, PORTA: 999}
 ## Oggetto che si ottiene rompendo la tessera o raccogliendo la decorazione.
 const DROP := {DIRT: "humus", GRASS: "humus", STONE: "ardesia", RADICITE: "minerale_radicite", LEGNOFERRO: "minerale_legnoferro",
@@ -135,7 +136,7 @@ const NAMES := {DIRT: "Humus", GRASS: "Muschio", STONE: "Ardesia", RADICITE: "Ra
 	GRASS_BRINA: "Muschio di brina", GRASS_CENERE: "Cenere viva",
 	AVV_TERRA: "Terra avvizzita", AVV_MUSCHIO: "Muschio avvizzito", AVV_PIETRA: "Ardesia avvizzita",
 	PALLIDITE: "Pallidite", TIZZONITE: "Tizzonite", ASSI: "Assi di lanterna", MATTONI: "Mattoni d'ardesia",
-	VETRO: "Vetro di resina", PORTA: "Porta", SIG_VELATO: "Sigillo velato", SIG_RADICE: "Sigillo di radice",
+	VETRO: "Vetro di resina", PORTA: "Porta", PORTA_SEM: "Porta dei Seminatori", SIG_VELATO: "Sigillo velato", SIG_RADICE: "Sigillo di radice",
 	SIG_VUOTO: "Velo del Vuoto", SIG_BRACE: "Muro di brace"}
 
 ## Luce emessa dai blocchi.
@@ -174,7 +175,7 @@ const P_VUOTITE := ["#34284a", "#463662", "#5a467c", "#745c9c", "#967cc4"]
 const TERRAIN_LAYERS := [
 	{"id": "ardesia", "types": [DIRT, GRASS, STONE, RADICITE, LEGNOFERRO, AMBRA, CRYSTAL, RADICE, SCISTO, VUOTITE, NODO,
 		PIETRA_SEM, GRASS_SPORE, GRASS_AMBRA, AVV_TERRA, AVV_MUSCHIO, AVV_PIETRA, PALLIDITE, TIZZONITE, GRASS_BRINA,
-		GRASS_CENERE, SIG_VELATO, SIG_RADICE, SIG_VUOTO, SIG_BRACE],
+		GRASS_CENERE, SIG_VELATO, SIG_RADICE, SIG_VUOTO, SIG_BRACE, PORTA_SEM],
 		"pal": P_STONE},
 	{"id": "humus", "types": [DIRT, GRASS, GRASS_SPORE, GRASS_AMBRA, GRASS_BRINA, GRASS_CENERE], "pal": P_DIRT},
 	{"id": "terra_avv", "types": [AVV_TERRA, AVV_MUSCHIO], "pal": P_AVV_TERRA},
@@ -204,6 +205,8 @@ const TERRAIN_LAYERS := [
 	{"id": "sig_radice", "types": [SIG_RADICE], "pal": P_RADICE, "square": true, "glow": true},
 	{"id": "sig_vuoto", "types": [SIG_VUOTO], "pal": P_VUOTITE, "square": true, "glow": true},
 	{"id": "sig_brace", "types": [SIG_BRACE], "pal": P_TIZZONITE, "square": true, "glow": true},
+	# voce 71: la porta dei Seminatori dei luoghi (pietra lavorata con le rune d'oro)
+	{"id": "porta_sem", "types": [PORTA_SEM], "pal": P_SEM, "square": true, "glow": true},
 ]
 
 ## Colore sulla mappa (strumenti e, in futuro, minimappa).
@@ -212,7 +215,7 @@ const MAP_COLOR := {DIRT: "#50343c", GRASS: "#3aa08a", STONE: "#434f6c", RADICIT
 	PIETRA_SEM: "#e8fff8", GRASS_SPORE: "#8a58b4", GRASS_AMBRA: "#c89a3a", GRASS_BRINA: "#7aaed0", GRASS_CENERE: "#a8766e",
 	AVV_TERRA: "#5a534b", AVV_MUSCHIO: "#72704f", AVV_PIETRA: "#51555c", PALLIDITE: "#c4c4dc", TIZZONITE: "#e0582a",
 	ASSI: "#7a5462", MATTONI: "#62779c", VETRO: "#d8f0c8", PORTA: "#9a7080",
-	SIG_VELATO: "#434f6c", SIG_RADICE: "#c8905a", SIG_VUOTO: "#b890ff", SIG_BRACE: "#ff7a30"}
+	SIG_VELATO: "#434f6c", SIG_RADICE: "#c8905a", SIG_VUOTO: "#b890ff", SIG_BRACE: "#ff7a30", PORTA_SEM: "#ffd24a"}
 
 
 static func palette_of(type: int) -> Array[Color]:
@@ -245,7 +248,7 @@ static func palette_of(type: int) -> Array[Color]:
 			return Px.pal(P_VUOTITE)
 		SIG_BRACE:
 			return Px.pal(P_TIZZONITE)
-		PIETRA_SEM:
+		PIETRA_SEM, PORTA_SEM:
 			return Px.pal(P_SEM)
 		GRASS_SPORE:
 			return Px.pal(P_GRASS_SPORE)

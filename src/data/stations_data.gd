@@ -95,6 +95,15 @@ const STATIONS := {
 		"light_color": Color(1.0, 1.0, 0.8)},
 	# voce 68: la stele dei Seminatori (una frase nella loro lingua)
 	"stele": {"name": "Stele dei Seminatori", "size": [2, 3], "fixed": true},
+	# voce 71: i meccanismi dei luoghi (lo stato è la stazione: accesa, alzata, premuta, desta)
+	"braciere": {"name": "Braciere dei Seminatori", "size": [1, 1], "fixed": true},
+	"braciere_acceso": {"name": "Braciere acceso", "size": [1, 1], "fixed": true, "light": true},
+	"leva": {"name": "Leva di radice (giù)", "size": [1, 1], "fixed": true},
+	"leva_su": {"name": "Leva di radice (su)", "size": [1, 1], "fixed": true},
+	"piastra": {"name": "Piastra dei Seminatori", "size": [1, 1], "fixed": true},
+	"piastra_premuta": {"name": "Piastra premuta", "size": [1, 1], "fixed": true, "light": true},
+	"cristallo_eco": {"name": "Cristallo d'eco", "size": [1, 1], "fixed": true},
+	"cristallo_eco_desto": {"name": "Cristallo d'eco risvegliato", "size": [1, 1], "fixed": true, "light": true},
 	# voce 69: il leggio delle cripte delle catene
 	"leggio": {"name": "Leggio dei Seminatori", "size": [2, 2], "fixed": true, "light": true},
 	# voce 67: la Bacheca dei Giardinieri (richieste senza fine)
