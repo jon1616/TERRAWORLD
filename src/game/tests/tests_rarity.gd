@@ -77,7 +77,7 @@ func run() -> void:
 	var ir2 := fauna.add("grumo_resina", _feet(spot.x + 10, "grumo_resina"))
 	fauna.make_ancient(ir2, "iridata")
 	ir2.ancient.life = 0.2
-	await kit.frames(20)
+	await kit.seconds(0.6)                  # in secondi: a 134 fotogrammi al secondo 20 fotogrammi non bastavano
 	print("iridata non presa: svanita %s" % ("sì" if not is_instance_valid(ir2) or not fauna.list.has(ir2) else "NO"))
 	# foto: un capobranco con il branco, un'iridata e un'antica
 	fauna.clear()

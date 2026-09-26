@@ -52,10 +52,25 @@ func run() -> void:
 	# il suggerimento di una riga (le righe si riusano e lo scrivono solo quando il mouse ci passa sopra)
 	var tip := ""
 	for c in cp._list.get_children():
-		if c is CraftingPanel.RecipeRow and (c as Control).visible:
+		if c is RecipeRow and (c as Control).visible:
 			tip = (c as Control).get_tooltip(Vector2(5, 5))
 			break
 	print("Creare, suggerimento della prima ricetta: %s" % ("sì" if tip.strip_edges().length() > 3 else "NO"))
+	# un clic su una riga possibile fabbrica davvero (e suona)
+	cp.cat = 0
+	cp.refresh()
+	var made := "NO"
+	for c in cp._list.get_children():
+		if c is RecipeRow and (c as RecipeRow).visible and (c as RecipeRow).can:
+			var row := c as RecipeRow
+			var out := String(row.r["out"])
+			var before := b.count(out)
+			var sounds := int(m.sfx.played.get("crea", 0))
+			row.pressed.emit()
+			made = "%s ×%d%s" % [ItemsData.get_item(out)["name"], b.count(out) - before,
+				", suonato" if int(m.sfx.played.get("crea", 0)) > sounds else ", NESSUN suono"]
+			break
+	print("Creare, clic su una ricetta possibile: %s" % made)
 	cp.cat = 0
 	cp.refresh()
 	await kit.seconds(1.0)

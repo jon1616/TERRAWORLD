@@ -4,12 +4,11 @@ extends Control
 ## bastano i materiali (in cima), attenuate le altre. Ogni riga mostra l'oggetto e, sotto, gli ingredienti con le
 ## loro icone (rossi quelli che mancano). In alto le **categorie** e una **ricerca** per nome (voce 29: con le stazioni
 ## nuove le ricette sono più di cento). Un clic fabbrica una volta.
-## Ogni ricetta ha la sua riga (`RecipeRow`), costruita la prima volta che serve e poi riusata: a ogni aggiornamento
-## cambiano solo colori, ordine e visibilità, e il suggerimento si scrive quando il mouse ci passa sopra. Rifare 171
-## righe da capo costava 106 ms, e con la Bisaccia aperta succedeva in ogni fotogramma in cui si raccoglieva qualcosa.
+## Ogni ricetta ha la sua riga (`RecipeRow`, in `recipe_row.gd`), costruita la prima volta che serve e poi riusata: il
+## pannello decide solo quali righe si vedono e in che ordine. Rifare 171 righe da capo costava 106 ms, e con la
+## Bisaccia aperta succedeva in ogni fotogramma in cui si raccoglieva qualcosa.
 
 const W := 440
-const ROW := 56
 const AMBER := Color("#ffb84a")
 const TEAL := Color("#2f7a70")
 ## Categorie: nome visibile e tipi di oggetto (`kind` in `ItemsData`) che ci stanno; "" = tutto.
@@ -41,22 +40,6 @@ var _warm := 0                         # fin dove sono già pronte le righe di t
 const WARM_PER_FRAME := 3
 var _special: Array[Control] = []      # righe del Maglio (rinnovo del tratto e innesti): poche, si rifanno ogni volta
 var _empty: Label                      # «Nulla da creare qui.»
-static var _styles := {}               # "si/no:stato" -> StyleBoxFlat condiviso da tutte le righe
-
-
-## Una riga di ricetta: l'icona grande, il nome con la quantità e, sotto, gli ingredienti (icona e quanti).
-class RecipeRow:
-	extends Button
-	var r: Dictionary
-	var bag: Bisaccia
-	var can := false
-	var name_label: Label
-	var need: Array[Label] = []
-	var enough: Array[int] = []            # -1 = ancora da colorare, 0 = manca, 1 = basta
-
-	## Il suggerimento solo quando serve (scriverlo per tutte le righe a ogni aggiornamento costava).
-	func _get_tooltip(_at: Vector2) -> String:
-		return Crafting.describe(r, bag)
 
 signal crafted(id: String, n: int)
 signal grafted(id: String)
@@ -247,7 +230,7 @@ func refresh() -> void:
 			row = _row(r)
 			_rows[r] = row
 			_list.add_child(row)
-		_update_row(row, k < ok.size())
+		row.refresh(k < ok.size())
 		row.visible = true
 		shown[row] = true
 		order.append(row)
@@ -305,96 +288,15 @@ func _plain_row(icon_id: String, can: bool) -> Button:
 	b.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	b.custom_minimum_size = Vector2(0, 44)
 	b.add_theme_font_size_override("font_size", 15)
-	_style_row(b, can)
+	RecipeRow.style(b, can)
 	return b
 
 
-func _style_row(b: Button, can: bool) -> void:
-	b.add_theme_color_override("font_color", Color("#eafff6") if can else Color("#6f8a86"))
-	b.add_theme_color_override("font_hover_color", AMBER if can else Color("#8fa8a4"))
-	b.modulate = Color(1, 1, 1, 1) if can else Color(1, 1, 1, 0.62)
-	for st in ["normal", "hover", "pressed", "focus"]:
-		b.add_theme_stylebox_override(st, _style(can, st))
-
-
-## Gli stili delle righe sono solo otto: si fanno una volta e si condividono.
-static func _style(can: bool, st: String) -> StyleBoxFlat:
-	var key := "%s:%s" % [can, st]
-	if not _styles.has(key):
-		var sb := StyleBoxFlat.new()
-		sb.bg_color = Color(0.04, 0.14, 0.16, 0.9) if st != "hover" else Color(0.08, 0.22, 0.24, 0.95)
-		sb.border_color = AMBER if st == "hover" and can else TEAL
-		sb.set_border_width_all(1)
-		sb.set_corner_radius_all(14)
-		sb.content_margin_left = 10
-		_styles[key] = sb
-	return _styles[key]
-
-
-## Una ricetta: l'icona grande, il nome con la quantità e, sotto, gli ingredienti (icona e quanti, rossi se mancano).
-## Si costruisce una volta sola; colori e disponibilità li aggiorna `_update_row`.
+## La riga di una ricetta, pronta a fabbricare con un clic.
 func _row(r: Dictionary) -> RecipeRow:
 	var b := RecipeRow.new()
-	b.r = r
-	b.bag = bisaccia
-	var out: String = r["out"]
-	var n := int(r["qty"])
-	b.custom_minimum_size = Vector2(0, ROW)
-	b.tooltip_text = " "                  # non vuoto: così il motore chiede il suggerimento a `_get_tooltip`
-	b.can = true                           # disegnata come possibile: `_update_row` la cambia se non lo è
-	_style_row(b, true)
-	var ic := TextureRect.new()
-	ic.texture = SlotView.icon(out)
-	ic.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	ic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	ic.position = Vector2(10, 10)
-	ic.size = Vector2(36, 36)
-	ic.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	b.add_child(ic)
-	var lbl := Label.new()
-	lbl.text = "%s%s" % [ItemsData.get_item(out)["name"], (" ×%d" % n) if n > 1 else ""]
-	lbl.position = Vector2(54, 3)
-	lbl.add_theme_font_size_override("font_size", 16)
-	lbl.add_theme_color_override("font_color", Color("#eafff6"))
-	lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	b.add_child(lbl)
-	b.name_label = lbl
-	var x := 54.0
-	for k in r["in"]:
-		var need := int(r["in"][k])
-		var small := TextureRect.new()
-		small.texture = SlotView.icon(String(k))
-		small.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-		small.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		small.position = Vector2(x, 30)
-		small.size = Vector2(20, 20)
-		small.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		b.add_child(small)
-		var cnt := Label.new()
-		cnt.text = str(need)
-		cnt.position = Vector2(x + 21, 30)
-		cnt.add_theme_font_size_override("font_size", 13)
-		cnt.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		b.add_child(cnt)
-		b.need.append(cnt)
-		b.enough.append(-1)
-		x += 30.0 + 8.0 * str(need).length()
+	b.setup(r, bisaccia)
 	b.pressed.connect(func() -> void:
 		if Crafting.craft(r, bisaccia):
-			crafted.emit(out, n))
+			crafted.emit(String(r["out"]), int(r["qty"])))
 	return b
-
-
-## I colori di una riga secondo la Bisaccia di adesso: attenuata se non si può fare, rossi gli ingredienti che mancano.
-func _update_row(b: RecipeRow, can: bool) -> void:
-	if can != b.can:
-		b.can = can
-		_style_row(b, can)
-		b.name_label.add_theme_color_override("font_color", Color("#eafff6") if can else Color("#8aa6a2"))
-	var i := 0
-	for k in b.r["in"]:
-		var enough := 1 if bisaccia.count(k) >= int(b.r["in"][k]) else 0
-		if enough != b.enough[i]:              # si ricolora solo ciò che è cambiato
-			b.enough[i] = enough
-			b.need[i].add_theme_color_override("font_color", Color("#cfeee4") if enough == 1 else Color("#ff7a6a"))
-		i += 1

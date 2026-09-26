@@ -193,7 +193,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   Bisaccia aperta: ci si posa un oggetto e compare la sua scheda di `ItemInfo` — a cosa serve, in quali ricette, come
   si ottiene; l'utente la vuole in uno spazio apposito, non nel suggerimento), `VitalsView` (foglie e gocce in alto a destra), colonna
   dell'equipaggiamento a sinistra della Bisaccia (elmo, corazza, gambali, Scorza totale), `CraftingPanel` (colonna «Creare» a destra della Bisaccia: ricette
-  delle stazioni a portata, prima quelle possibili; passando sopra si vede cosa serve), `MiningCursor`.
+  delle stazioni a portata, prima quelle possibili; passando sopra si vede cosa serve; filtri, ordine e righe del
+  Maglio) con le righe in `RecipeRow` (una per ricetta, costruita una volta e riusata: `setup`, `refresh(possibile)`,
+  stili condivisi con `RecipeRow.style`), `MiningCursor`.
 - `src/game/vitals.gd` (`Vitals`) — Vita (100, foglie da 10) e Linfa (20, gocce da 2), Scorza (metà del suo valore
   tolta a ogni ferita), ricrescita della Vita dopo 6 s senza ferite, attesa di 30 s tra due pozioni; segnali `changed` e
   `died`. In main: ferite da caduta oltre 12 tessere (6 punti per tessera in più), appassire e rinascere alla partenza.
@@ -321,6 +323,10 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 - Il movimento calcolato a ogni fotogramma deve dare lo stesso risultato a ogni frequenza: con il semplice «velocità
   per tempo» il salto era 3,31 tessere a 60 fps e 3,22 a 144 (il muro di 3 blocchi non si superava più). Si usa la
   velocità media del passo; le prove misurano a 60 e a 144 fps, e contano il tempo in secondi, non in fotogrammi.
+  Vale per **ogni** attesa di qualcosa che dura un tempo (una rara che svanisce, un seme ricurvo che torna, un salto,
+  un oggetto che vola nella Bisaccia): a volte il gioco gira senza sincronia verticale (130-540 fotogrammi al secondo)
+  e le attese a fotogrammi finivano troppo presto (26 set 2026). Si prova con `--disable-vsync`. Le attese a
+  fotogrammi vanno bene solo per lasciar disegnare lo schermo.
 - Gli alberi hanno 8 forme disegnate una volta sola e riusate (disegnarne uno per albero costava secondi).
 - Dopo molti `snap_to` di fila (e con vsync spento) la foto della finestra arrivava in ritardo anche di secondi (mostrava
   la scena di prima): `TestKit.save` ora chiama `RenderingServer.force_draw(false)` prima di leggere l'immagine.
@@ -371,7 +377,7 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
   Creare, **anche chiuso**, rifaceva a ogni cambio l'elenco delle ricette dei banchi a portata. Alla partenza le prove
   avevano piazzato tutti i banchi: una raccolta costava 103 ms (0,4 ms ora). I pannelli ascoltano `Bisaccia.changed`
   segnando soltanto «da ridisegnare» e si ridisegnano in `_process`, una volta per fotogramma e solo se si vedono.
-  L'elenco Creare **riusa le sue righe** (`RecipeRow`, una per ricetta, preparate poche per fotogramma a Bisaccia
+  L'elenco Creare **riusa le sue righe** (`RecipeRow` in `src/ui/recipe_row.gd`, una per ricetta, preparate poche per fotogramma a Bisaccia
   chiusa; stili condivisi; suggerimento scritto solo al passaggio del mouse): rifarlo costa 9 ms invece di 106, e la
   prima apertura 43 ms invece di 206.
   Trovato con `FrameProbe` (in `src/game/tests/`): una sonda dopo ogni figlio della scena di gioco dice quanto ha

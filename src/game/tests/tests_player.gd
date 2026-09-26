@@ -115,7 +115,8 @@ func crafting() -> void:
 		var before := b.count("passerella")
 		if put:
 			kit.m.actions.build.take_plat(pc)
-		for k in 60:
+		var t0 := Time.get_ticks_msec()
+		while Time.get_ticks_msec() - t0 < 2000:     # in secondi: il tempo che la passerella vola nella Bisaccia
 			await kit.node.get_tree().process_frame
 			if b.count("passerella") > before:
 				break
@@ -216,7 +217,7 @@ func movement_at() -> void:
 		if reach_ms < 0 and absf(p.vel.x) >= Player.RUN - 0.5:
 			reach_ms = Time.get_ticks_msec() - t0
 	p.auto_dir = 0.0
-	await kit.frames(40)
+	await kit.seconds(0.7)
 	var ground := p.position.y
 	p.auto_jump = true
 	var high := ground

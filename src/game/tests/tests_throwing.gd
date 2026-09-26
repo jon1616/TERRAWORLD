@@ -75,7 +75,9 @@ func run() -> void:
 	kit.hold("seme_ricurvo")
 	th.throw("seme_ricurvo", t.position)
 	var back := false
-	for f in 120:
+	# si aspetta in secondi, non in fotogrammi: senza la sincronia verticale 120 fotogrammi erano meno di un secondo
+	var t0 := Time.get_ticks_msec()
+	while Time.get_ticks_msec() - t0 < 4000:
 		await kit.frames(1)
 		if th._rang.is_empty():
 			back = true

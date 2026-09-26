@@ -44,11 +44,14 @@ func _jump_height(presses: int) -> float:
 	for k in presses:
 		if k > 0:
 			p.jump_buf = 0.14
-		for f in 20:
+		# in secondi, non in fotogrammi: senza la sincronia verticale il gioco va a più di 130 fotogrammi al secondo
+		var t0 := Time.get_ticks_msec()
+		while Time.get_ticks_msec() - t0 < 330:
 			await kit.frames(1)
 			top = minf(top, p.position.y)
 	p.auto_jump = false
-	for f in 60:
+	var t1 := Time.get_ticks_msec()
+	while Time.get_ticks_msec() - t1 < 1000:
 		await kit.frames(1)
 		top = minf(top, p.position.y)
 	return (y0 - top) / S
