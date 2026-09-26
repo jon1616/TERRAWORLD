@@ -1,0 +1,7 @@
+Le immagini del Germogliato fatte con Nano Banana (26 set 2026, da capo).
+
+  00_profilo_fermo.png   il personaggio fermo, di profilo verso destra: il riferimento per tutte le tavole dopo
+
+Le tavole dei movimenti arriveranno qui una alla volta, con il nome che dirà Claude (01_..., 02_...).
+Salvare sempre in PNG, senza ritagliare e senza ritoccare: lo script di importazione toglie lo sfondo magenta,
+riduce a 48 pixel e porta i colori alla tavolozza del gioco.
