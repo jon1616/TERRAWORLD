@@ -31,7 +31,7 @@ const ITEMS := {
 	"veste_lana": {"name": "Veste di lana di muschio", "kind": "corazza", "icon": ["corazza", "muschio"], "defense": 3, "acc": {"regen": 1.1}, "desc": "Calda e morbida: la Vita ricresce un poco più in fretta."},
 	"elmo_corno": {"name": "Elmo di corno", "kind": "elmo", "icon": ["elmo", "radice"], "defense": 3, "desc": "Un elmo intagliato in un corno di radice."},
 	"stivali_lepre": {"name": "Stivali di pelo di lepre", "kind": "accessorio", "icon": ["stivali", "seta"], "acc": {"run": 1.1}, "desc": "Corsa +10%."},
-	"pozione_miele": {"name": "Pozione di miele", "kind": "cura", "icon": ["pozione", "ambra"], "heal": 60, "stack": 30, "desc": "Cura 60 di Vita."},
+	"pozione_miele": {"name": "Pozione di miele", "kind": "consumabile", "icon": ["pozione", "ambra"], "heal": 60, "stack": 30, "desc": "Cura 60 di Vita."},
 	"cappuccio_volpe": {"name": "Cappuccio di volpe", "kind": "elmo", "icon": ["elmo", "ambra"], "defense": 2, "acc": {"run": 1.05}, "desc": "Caldo e leggero: corsa +5%."},
 	"collana_zanne": {"name": "Collana di zanne di lince", "kind": "accessorio", "icon": ["collana", "ardesia"], "acc": {"damage": 1.08}, "desc": "Danno +8%."},
 	"dardo_libellula": {"name": "Dardo di libellula", "kind": "munizione", "icon": ["freccia", "brina"], "damage": 5, "desc": "Leggero e dritto."},
@@ -46,6 +46,11 @@ const ITEMS := {
 	"ali_libellula": {"name": "Ali di libellula", "kind": "accessorio", "icon": ["ali", "cristallo"], "acc": {"jump": 1.15}, "desc": "Salto +15%."},
 	"stola_volpe": {"name": "Stola di volpe d'oro", "kind": "accessorio", "icon": ["mantello", "ambra"], "acc": {"run": 1.08, "damage": 1.05}, "desc": "Corsa +8%, danno +5%."},
 	"monocolo_lince": {"name": "Monocolo di lince", "kind": "accessorio", "icon": ["occhio", "ardesia"], "acc": {"luck": 0.2}, "desc": "Più fortuna nel bottino."},
+	# i Custodi dei biomi (voce 56): i richiami e ciò che lasciano
+	"richiamo_cervo": {"name": "Palco di richiamo", "kind": "richiamo", "icon": ["aculeo", "brina"], "stack": 10, "desc": "All'Altare dei Seminatori risveglia il Grande Cervo di brina."},
+	"richiamo_salamandre": {"name": "Brace di richiamo", "kind": "richiamo", "icon": ["goccia", "brace"], "stack": 10, "desc": "All'Altare dei Seminatori risveglia la Madre delle salamandre."},
+	"manto_grande_cervo": {"name": "Manto del Grande Cervo", "kind": "accessorio", "icon": ["mantello", "brina"], "acc": {"run": 1.15, "jump": 1.1}, "desc": "Corsa +15%, salto +10%."},
+	"cuore_salamandre": {"name": "Cuore della Madre delle salamandre", "kind": "accessorio", "icon": ["cuore", "brace"], "acc": {"thorns": 10, "damage": 1.08}, "desc": "Chi ti tocca si brucia (10); danno +8%."},
 }
 
 const RECIPES := [
@@ -70,10 +75,6 @@ const RECIPES := [
 	{"out": "ali_libellula", "qty": 1, "in": {"ala_cristallo": 1, "ala_libellula": 6}, "station": "telaio"},
 	{"out": "stola_volpe", "qty": 1, "in": {"coda_oro": 1, "pelliccia_volpe": 6}, "station": "telaio"},
 	{"out": "monocolo_lince", "qty": 1, "in": {"occhio_lince": 1, "vetro_resina": 2}, "station": "mola"},
+	{"out": "richiamo_cervo", "qty": 1, "in": {"palco_brina": 4, "vello_brina": 6}, "station": "altare"},
+	{"out": "richiamo_salamandre", "qty": 1, "in": {"squama_brace": 6, "cenere_viva": 10}, "station": "altare"},
 ]
-
-## I trofei delle specie nuove (uniti in `TrophyItemsData.TROPHY_OF` da chi lo legge: vedi `trophy_of`).
-const TROPHY_OF := {"pecora_muschio": "vello_oro", "cornoradice": "corno_maestro", "lepre_linfa": "zampa_linfa",
-	"bruco_lanterna": "bozzolo_ambra", "ape_lume": "ape_regina", "formica_resina": "formica_regina",
-	"pipistrello_corteccia": "orecchio_eco", "libellula_brina": "ala_cristallo", "volpe_ambra": "coda_oro",
-	"lince_ardesia": "occhio_lince"}

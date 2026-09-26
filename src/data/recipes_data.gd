@@ -160,6 +160,7 @@ static func all() -> Array:
 	out.append_array(KeeperItemsData.RECIPES.duplicate(true))
 	out.append_array(RelicsData.RECIPES.duplicate(true))
 	out.append_array(BiomeItemsData.RECIPES.duplicate(true))
+	out.append_array(FaunaItemsData.RECIPES.duplicate(true))
 	for m in MaterialsData.all():
 		for f in FormsData.FORMS:
 			out.append(FormsData.recipe(f, m))

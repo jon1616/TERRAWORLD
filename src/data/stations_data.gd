@@ -47,6 +47,10 @@ const STATIONS := {
 		"light_color": Color(0.3, 0.8, 0.9)},
 	"bozzolo_mietitore": {"name": "Bozzolo del Mietitore", "size": [3, 3], "item": "", "fixed": true, "light": true,
 		"light_color": Color(0.7, 0.4, 1.0)},
+	"bozzolo_grande_cervo": {"name": "Bozzolo del Grande Cervo", "size": [3, 3], "item": "", "fixed": true, "light": true,
+		"light_color": Color(0.6, 0.9, 1.1)},
+	"bozzolo_madre_salamandre": {"name": "Bozzolo della Madre delle salamandre", "size": [3, 3], "item": "", "fixed": true,
+		"light": true, "light_color": Color(1.2, 0.6, 0.3)},
 	"bozzolo_rotto": {"name": "Bozzolo vuoto", "size": [3, 3], "item": "", "fixed": true},
 	# voce 28: il reliquiario dei nascondigli murati, con una reliquia dentro
 	"reliquiario": {"name": "Reliquiario dei Seminatori", "size": [2, 2], "item": "", "fixed": true, "slots": 10,

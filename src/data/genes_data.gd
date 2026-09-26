@@ -57,7 +57,7 @@ const DEFAULTS := {
 		"geodes": 1.0, "crystal": 0.0, "rich": 0.0, "trees": 1.0, "blight_zones": 0.0, "mosaic": false, "islands": 0.0,
 		"city": false},
 	"run": {"danger": 0.0, "lumini": 1.0, "rare": 1.0, "grow": 1.0, "night": 0.0, "events": 1.0, "blight": 1.0,
-		"aurora": 0.0},
+		"aurora": 0.0, "roles": {}},
 }
 const MUL := ["ruins", "gems", "lumini", "rare", "grow", "events", "blight", "hills", "worm", "roots", "shallow", "geodes",
 	"trees"]
@@ -94,6 +94,13 @@ const GENES := {
 		"desc": "eventi del cielo molto più frequenti", "run": {"events": 2.2}},
 	"brulicante": {"cat": "fauna", "name": "Brulicante", "rar": 0, "dom": 3, "good": false,
 		"desc": "più creature e più forti, ma il doppio dei Lumini", "run": {"danger": 1.0, "lumini": 2.0}},
+	# voce 56: geni che cambiano quali famiglie vivono nel mondo (`FamiliesData` role)
+	"pascoli": {"cat": "fauna", "name": "Pascoli", "rar": 0, "dom": 3, "good": true,
+		"desc": "mandrie di erbivori ovunque", "run": {"roles": {"erbivoro": 3.0}}},
+	"cacciatori": {"cat": "fauna", "name": "Cacciatori", "rar": 1, "dom": 2, "good": false,
+		"desc": "predatori affamati, molti di più", "run": {"roles": {"predatore": 2.5}, "danger": 0.2}},
+	"alveari": {"cat": "fauna", "name": "Alveari", "rar": 1, "dom": 2, "good": true,
+		"desc": "colonie di api e formiche", "run": {"roles": {"colonia": 3.0}}},
 	"quieto": {"cat": "fauna", "name": "Quieto", "rar": 0, "dom": 2, "good": true,
 		"desc": "meno creature, e meno Lumini", "run": {"danger": -0.6, "lumini": 0.7}},
 	"notti_lunghe": {"cat": "tempo", "name": "Notti lunghe", "rar": 0, "dom": 3, "good": false,

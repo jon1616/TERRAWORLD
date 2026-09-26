@@ -171,6 +171,29 @@ const TABLES := {
 	"fatuo_cenere": [{"item": "cenere_viva", "min": 1, "max": 2, "chance": 0.9}],
 	"sciame": [{"item": "scheggia_vuoto", "min": 1, "max": 1, "chance": 0.8}],
 	# voce 27: i Custodi degli strati (sempre il loro materiale regale e un dono)
+	# voce 56
+	"pecora_muschio": [{"item": "lana_muschio", "min": 1, "max": 3, "chance": 1.0}, {"item": "boccone", "min": 1, "max": 1, "chance": 0.6}],
+	"cornoradice": [{"item": "corno_radice", "min": 1, "max": 2, "chance": 1.0}, {"item": "boccone", "min": 1, "max": 2, "chance": 0.8}],
+	"lepre_linfa": [{"item": "pelo_lepre", "min": 1, "max": 2, "chance": 1.0}, {"item": "boccone", "min": 1, "max": 1, "chance": 0.5}],
+	"bruco_lanterna": [{"item": "seta_bruco", "min": 1, "max": 2, "chance": 1.0}],
+	"ape_lume": [{"item": "miele_lume", "min": 1, "max": 1, "chance": 0.7}],
+	"formica_resina": [{"item": "resina_dolce", "min": 1, "max": 1, "chance": 0.6}],
+	"pipistrello": [{"item": "ala_pipistrello", "min": 1, "max": 1, "chance": 0.8}],
+	"libellula": [{"item": "ala_libellula", "min": 1, "max": 1, "chance": 0.8}],
+	"volpe": [{"item": "pelliccia_volpe", "min": 1, "max": 2, "chance": 1.0}],
+	"lince": [{"item": "zanna_lince", "min": 1, "max": 2, "chance": 1.0}],
+	"grande_cervo": [
+		{"item": "manto_grande_cervo", "min": 1, "max": 1, "chance": 1.0},
+		{"item": "vello_brina", "min": 12, "max": 20, "chance": 1.0},
+		{"item": "palco_brina", "min": 4, "max": 8, "chance": 1.0},
+		{"item": "cuore_bocciolo", "min": 1, "max": 1, "chance": 1.0},
+	],
+	"madre_salamandre": [
+		{"item": "cuore_salamandre", "min": 1, "max": 1, "chance": 1.0},
+		{"item": "squama_brace", "min": 12, "max": 20, "chance": 1.0},
+		{"item": "cenere_viva", "min": 15, "max": 25, "chance": 1.0},
+		{"item": "stilla_perenne", "min": 1, "max": 1, "chance": 1.0},
+	],
 	"madre_grumi": [
 		{"item": "gelatina_regale", "min": 5, "max": 7, "chance": 1.0},
 		{"item": "gelatina", "min": 15, "max": 25, "chance": 1.0},

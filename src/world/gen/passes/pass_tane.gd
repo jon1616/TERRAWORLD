@@ -23,6 +23,8 @@ func run(w: World, c: GenContext) -> void:
 		var bottom := (StrataData.top(st + 1) if st + 1 < StrataData.STRATA.size() else w.h) - H
 		for tries in 200:
 			var x := c.rng.randi_range(W + 60, w.w - W - 60)
+			if kd.has("biome") and String(BiomesData.BIOMES[BiomesData.at(w, x)]["id"]) != String(kd["biome"]):
+				continue                           # voce 56: i Custodi dei biomi, solo nel loro bioma
 			var y := w.surface[x] + c.rng.randi_range(top, maxi(top + 1, bottom))
 			if y + H / 2 + 4 >= w.h or not _far(w, Vector2i(x, y)):
 				continue

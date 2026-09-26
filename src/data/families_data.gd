@@ -7,36 +7,49 @@ extends RefCounted
 ## (le parti vuote sono quelle normali: `grumo_muschio~grande~gelo~`); `CreaturesData.get_data` la costruisce.
 ##
 ## Campi di una famiglia: name (il nome della famiglia, per l'Erbario), members (le specie), fem (nome femminile: per
-## gli aggettivi), e dalle voci dopo: role e prey (57), nest (58), diet, tame, produce, mount (59).
+## gli aggettivi), role (voce 56: erbivoro · predatore · colonia · volante · scavatore · neutro: i geni di fauna ne
+## cambiano la frequenza), e dalle voci dopo: prey (57), nest (58), diet, tame, produce, mount (59).
 
 const FAMILIES := {
-	"grumi": {"name": "Grumi", "members": ["grumo_muschio", "grumo_resina", "grumo_spore"], "fem": false},
-	"falene": {"name": "Falene di brace", "members": ["falena_brace"], "fem": true},
-	"strisciaradici": {"name": "Strisciaradici", "members": ["strisciaradice"], "fem": true},
-	"scarabei": {"name": "Scarabei d'ardesia", "members": ["scarabeo_ardesia"], "fem": false},
-	"sputaspore": {"name": "Sputaspore", "members": ["sputaspore"], "fem": false},
-	"avvizziti": {"name": "Avvizziti erranti", "members": ["avvizzito_errante"], "fem": false},
-	"vagavuoti": {"name": "Vagavuoti", "members": ["vagavuoto"], "fem": false},
-	"corvi": {"name": "Corvi di corteccia", "members": ["corvo_corteccia"], "fem": false},
-	"spinoricci": {"name": "Spinoricci", "members": ["spinoriccio"], "fem": false},
-	"lucciole": {"name": "Lucciole voraci", "members": ["lucciola_vorace"], "fem": true},
-	"tessiradici": {"name": "Tessiradici", "members": ["tessiradice"], "fem": true},
-	"talponi": {"name": "Talponi di humus", "members": ["talpone"], "fem": false},
-	"saltafunghi": {"name": "Saltafunghi", "members": ["saltafungo"], "fem": false},
-	"ali_ardesia": {"name": "Ali d'ardesia", "members": ["ala_ardesia"], "fem": true},
-	"chiocciole": {"name": "Chiocciole di cristallo", "members": ["chiocciola_cristallo"], "fem": true},
-	"geomimi": {"name": "Geomimi", "members": ["geomimo"], "fem": false},
-	"serpi": {"name": "Serpi di Linfa", "members": ["serpe_linfa"], "fem": true},
-	"campanule": {"name": "Campanule erranti", "members": ["campanula_errante"], "fem": true},
-	"guizzalinfe": {"name": "Guizzalinfe", "members": ["guizzalinfa"], "fem": false},
-	"mietivuoti": {"name": "Mietivuoti", "members": ["mietivuoto"], "fem": false},
-	"tessivuoti": {"name": "Tessivuoti", "members": ["tessivuoto"], "fem": false},
-	"sciami": {"name": "Sciami di schegge", "members": ["sciame_schegge"], "fem": false},
-	"cervi": {"name": "Cervi di brina", "members": ["cervo_brina"], "fem": false},
-	"gufi": {"name": "Gufi del gelo", "members": ["gufo_gelo"], "fem": false},
-	"salamandre": {"name": "Salamandre di brace", "members": ["salamandra_brace"], "fem": true},
-	"fatui": {"name": "Fatui di cenere", "members": ["fatuo_cenere"], "fem": false},
+	"grumi": {"name": "Grumi", "members": ["grumo_muschio", "grumo_resina", "grumo_spore"], "fem": false, "role": "neutro"},
+	"falene": {"name": "Falene di brace", "members": ["falena_brace"], "fem": true, "role": "volante"},
+	"strisciaradici": {"name": "Strisciaradici", "members": ["strisciaradice"], "fem": true, "role": "neutro"},
+	"scarabei": {"name": "Scarabei d'ardesia", "members": ["scarabeo_ardesia"], "fem": false, "role": "neutro"},
+	"sputaspore": {"name": "Sputaspore", "members": ["sputaspore"], "fem": false, "role": "neutro"},
+	"avvizziti": {"name": "Avvizziti erranti", "members": ["avvizzito_errante"], "fem": false, "role": "neutro"},
+	"vagavuoti": {"name": "Vagavuoti", "members": ["vagavuoto"], "fem": false, "role": "volante"},
+	"corvi": {"name": "Corvi di corteccia", "members": ["corvo_corteccia"], "fem": false, "role": "volante"},
+	"spinoricci": {"name": "Spinoricci", "members": ["spinoriccio"], "fem": false, "role": "neutro"},
+	"lucciole": {"name": "Lucciole voraci", "members": ["lucciola_vorace"], "fem": true, "role": "volante"},
+	"tessiradici": {"name": "Tessiradici", "members": ["tessiradice"], "fem": true, "role": "predatore"},
+	"talponi": {"name": "Talponi di humus", "members": ["talpone"], "fem": false, "role": "scavatore"},
+	"saltafunghi": {"name": "Saltafunghi", "members": ["saltafungo"], "fem": false, "role": "neutro"},
+	"ali_ardesia": {"name": "Ali d'ardesia", "members": ["ala_ardesia"], "fem": true, "role": "volante"},
+	"chiocciole": {"name": "Chiocciole di cristallo", "members": ["chiocciola_cristallo"], "fem": true, "role": "erbivoro"},
+	"geomimi": {"name": "Geomimi", "members": ["geomimo"], "fem": false, "role": "neutro"},
+	"serpi": {"name": "Serpi di Linfa", "members": ["serpe_linfa"], "fem": true, "role": "predatore"},
+	"campanule": {"name": "Campanule erranti", "members": ["campanula_errante"], "fem": true, "role": "neutro"},
+	"guizzalinfe": {"name": "Guizzalinfe", "members": ["guizzalinfa"], "fem": false, "role": "neutro"},
+	"mietivuoti": {"name": "Mietivuoti", "members": ["mietivuoto"], "fem": false, "role": "predatore"},
+	"tessivuoti": {"name": "Tessivuoti", "members": ["tessivuoto"], "fem": false, "role": "predatore"},
+	"sciami": {"name": "Sciami di schegge", "members": ["sciame_schegge"], "fem": false, "role": "colonia"},
+	"cervi": {"name": "Cervi di brina", "members": ["cervo_brina"], "fem": false, "role": "erbivoro"},
+	"gufi": {"name": "Gufi del gelo", "members": ["gufo_gelo"], "fem": false, "role": "predatore"},
+	"salamandre": {"name": "Salamandre di brace", "members": ["salamandra_brace"], "fem": true, "role": "predatore"},
+	"fatui": {"name": "Fatui di cenere", "members": ["fatuo_cenere"], "fem": false, "role": "neutro"},
+	# voce 56: le famiglie nuove
+	"pecore": {"name": "Pecore di muschio", "members": ["pecora_muschio"], "fem": true, "role": "erbivoro"},
+	"cornoradici": {"name": "Cornoradici", "members": ["cornoradice"], "fem": false, "role": "erbivoro"},
+	"lepri": {"name": "Lepri di Linfa", "members": ["lepre_linfa"], "fem": true, "role": "erbivoro"},
+	"bruchi": {"name": "Bruchi di lanterna", "members": ["bruco_lanterna"], "fem": false, "role": "erbivoro"},
+	"api": {"name": "Api di lume", "members": ["ape_lume"], "fem": true, "role": "colonia"},
+	"formiche": {"name": "Formiche di resina", "members": ["formica_resina"], "fem": true, "role": "colonia"},
+	"pipistrelli": {"name": "Pipistrelli di corteccia", "members": ["pipistrello_corteccia"], "fem": false, "role": "volante"},
+	"libellule": {"name": "Libellule di brina", "members": ["libellula_brina"], "fem": true, "role": "volante"},
+	"volpi": {"name": "Volpi d'ambra", "members": ["volpe_ambra"], "fem": true, "role": "predatore"},
+	"linci": {"name": "Linci d'ardesia", "members": ["lince_ardesia"], "fem": true, "role": "predatore"},
 }
+const ROLES := ["erbivoro", "predatore", "colonia", "volante", "scavatore", "neutro"]
 
 ## Le taglie: Vita, danno, velocità e misura del disegno.
 const SIZES := {
@@ -141,6 +154,8 @@ static func make(id: String) -> Dictionary:
 		d["p"] = p
 		mods["temper"] = pr[3]
 		tags.append(td["adj"][1 if fem else 0])
+		if pr[3] != "docile":
+			d.erase("docile")                  # una pecora feroce non è più docile
 		match pr[3]:
 			"docile":
 				d["docile"] = true             # non attacca finché non la colpisci (`Creature.provoked`)

@@ -18,6 +18,11 @@ const KEEPERS := {
 		"color": "#5cc8cc", "summon": "richiamo_serpe", "page": "custode_serpe", "lair": TileDefs.DECOR_LINFA},
 	"mietitore": {"creature": "mietitore_cavo", "stratum": 4, "wake": "Il Vuoto ha mandato qualcuno a mietere",
 		"color": "#c08aff", "summon": "richiamo_mietitore", "page": "custode_mietitore", "lair": TileDefs.DECOR_SHARD},
+	# voce 56: i Custodi dei biomi, in una tana appena sotto la superficie del loro bioma (`biome`)
+	"grande_cervo": {"creature": "grande_cervo", "stratum": 0, "biome": "brina", "wake": "La brina si alza in un vortice: il Grande Cervo si sveglia",
+		"color": "#d0f0ff", "summon": "richiamo_cervo", "page": "custode_cervo", "lair": TileDefs.DECOR_ROCKS[0]},
+	"madre_salamandre": {"creature": "madre_salamandre", "stratum": 0, "biome": "cenere", "wake": "La cenere si scalda: la Madre delle salamandre è sveglia",
+		"color": "#ff9a5a", "summon": "richiamo_salamandre", "page": "custode_salamandre", "lair": TileDefs.DECOR_MUSHROOM},
 }
 
 ## Tessere dal bozzolo entro cui il Custode si schiude; oltre `LEASH` torna a dormire (e guarisce).

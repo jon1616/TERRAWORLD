@@ -36,6 +36,14 @@ const PAGES := {
 		"title": "Il Seme di mondo",
 		"text": "Il seme germoglia in un arco di radici. Dentro, la Linfa gira come un vortice: dall'altra parte c'è un mondo che non esisteva un attimo fa.\nI Seminatori piantavano i mondi così. Ora tocca a te.",
 	},
+	"custode_cervo": {
+		"title": "Il Grande Cervo di brina",
+		"text": "Si piega sulle zampe e la brina gli scivola via dal vello. Era il pastore dei boschi gelati: i cervi lo seguivano da una valle all'altra.\nNel bozzolo resta un palco che non si scioglie. Sull'Altare, un palco e un poco di vello lo richiamano.",
+	},
+	"custode_salamandre": {
+		"title": "La Madre delle salamandre",
+		"text": "Le braci della sua schiena si spengono una per una. Covava le uova delle salamandre nella cenere calda, e le difendeva da tutto.\nSull'Altare, squame e cenere viva la risvegliano.",
+	},
 	"custode_madre": {
 		"title": "La Madre dei grumi",
 		"text": "Si scioglie in una pozza di muschio che trema ancora. I grumi del Sottobosco non erano creature: erano le sue gocce, sparse a cercare cibo per lei.\nNel bozzolo vuoto resta il suo cuore di gelatina. I Seminatori sapevano chiamarla: sull'Altare, una goccia della sua gelatina la risveglia.",

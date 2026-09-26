@@ -58,6 +58,13 @@ const AFFINITY := {
 	"fatuo_cenere": {"weak": ["linfa"], "resist": ["brace"]}, "madre_grumi": {"weak": ["brace"], "resist": ["spora"]},
 	"tessitrice_radici": {"weak": ["brace"], "resist": []}, "serpe_madre": {"weak": ["gelo"], "resist": ["linfa"]},
 	"mietitore_cavo": {"weak": ["luce"], "resist": ["vuoto"]},
+	# voce 56
+	"pecora_muschio": {"weak": ["brace"], "resist": []}, "cornoradice": {"weak": ["brace"], "resist": ["spora"]},
+	"lepre_linfa": {"weak": ["vuoto"], "resist": ["linfa"]}, "bruco_lanterna": {"weak": ["brace"], "resist": []},
+	"ape_lume": {"weak": ["gelo"], "resist": ["luce"]}, "formica_resina": {"weak": ["gelo"], "resist": ["brace"]},
+	"pipistrello_corteccia": {"weak": ["luce"], "resist": ["vuoto"]}, "libellula_brina": {"weak": ["brace"], "resist": ["gelo"]},
+	"volpe_ambra": {"weak": ["gelo"], "resist": ["luce"]}, "lince_ardesia": {"weak": ["vuoto"], "resist": ["gelo"]},
+	"grande_cervo": {"weak": ["brace"], "resist": ["gelo"]}, "madre_salamandre": {"weak": ["gelo"], "resist": ["brace"]},
 }
 
 

@@ -31,7 +31,8 @@ const ADJ := {
 	"spoglio": ["spogli", "spoglie"], "stellato": ["stellati", "stellate"], "notti_lunghe": ["notturni", "notturne"],
 	"giorni_lunghi": ["solari", "solari"], "avvizzito": ["malati", "malate"], "sano": ["puri", "pure"],
 	"isole_sospese": ["sospesi", "sospese"], "cuore_cavo": ["cavernosi", "cavernose"], "citta_sepolta": ["murati", "murate"],
-	"aurora": ["aurorali", "aurorali"], "cuore_nero": ["neri", "nere"], "vene_stellari": ["stellari", "stellari"],
+	"aurora": ["aurorali", "aurorali"], "pascoli": ["pascolivi", "pascolive"], "cacciatori": ["selvaggi", "selvagge"],
+	"alveari": ["ronzanti", "ronzanti"], "cuore_nero": ["neri", "nere"], "vene_stellari": ["stellari", "stellari"],
 	"fioritura_eterna": ["fioriti", "fiorite"], "eclissi": ["oscurati", "oscurate"], "eco_seminatori": ["antichissimi", "antichissime"],
 	"cuore_stellare": ["stellanti", "stellanti"], "radice_madre": ["primigeni", "primigenie"],
 }

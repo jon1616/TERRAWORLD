@@ -9,7 +9,7 @@ const INVULN := 0.7                    # secondi senza ferite dopo un colpo subi
 const DART_SPEED := 380.0
 const DART_GRAV := 260.0
 const DIG_PERIOD := 0.3                # il gesto di piccone e ascia
-const AMMO := ["dardo_vuoto", "dardo_aculeo", "dardo_piumato", "dardo"]  # l'arco usa i dardi migliori che ci sono
+const AMMO := ["dardo_vuoto", "dardo_aculeo", "dardo_libellula", "dardo_piumato", "dardo"]  # l'arco usa i dardi migliori che ci sono
 
 var m: Node2D                          # la scena di gioco
 var player: Player

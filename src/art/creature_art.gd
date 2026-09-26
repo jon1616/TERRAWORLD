@@ -68,6 +68,27 @@ static func frames(shape: String, variant: int) -> Dictionary:
 			return _pair(func(f: int) -> Array: return BiomeBeastArt.salamandra(f))
 		"fatuo_cenere":
 			return _pair(func(f: int) -> Array: return BiomeBeastArt.fatuo_cenere(f))
+		# voce 56: le famiglie nuove
+		"pecora_muschio":
+			return _pair(func(f: int) -> Array: return FaunaArt.pecora_muschio(f))
+		"cornoradice":
+			return _pair(func(f: int) -> Array: return FaunaArt.cornoradice(f))
+		"lepre_linfa":
+			return _pair(func(f: int) -> Array: return FaunaArt.lepre_linfa(f))
+		"bruco_lanterna":
+			return _pair(func(f: int) -> Array: return FaunaArt.bruco_lanterna(f))
+		"ape_lume":
+			return _pair(func(f: int) -> Array: return FaunaArt.ape_lume(f))
+		"formica_resina":
+			return _pair(func(f: int) -> Array: return FaunaArt.formica_resina(f))
+		"pipistrello":
+			return _pair(func(f: int) -> Array: return FaunaArt.pipistrello(f))
+		"libellula_brina":
+			return _pair(func(f: int) -> Array: return FaunaArt.libellula_brina(f))
+		"volpe_ambra":
+			return _pair(func(f: int) -> Array: return FaunaArt.volpe_ambra(f))
+		"lince_ardesia":
+			return _pair(func(f: int) -> Array: return FaunaArt.lince_ardesia(f))
 		# voce 27: i Custodi
 		"madre_grumi":
 			return _pair(func(f: int) -> Array: return KeeperArt.madre_grumi(f))

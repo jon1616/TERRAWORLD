@@ -32,6 +32,7 @@ func apply() -> void:
 	m.events.chance_mult = float(e["events"])
 	m.blight.spread_mult = float(e["blight"])
 	m.day.night_floor = float(e["aurora"])
+	m.fauna.set_world(m.world.world_seed, genes, e["roles"])     # voce 56: le famiglie di questo mondo
 
 
 func _surface_name() -> String:

@@ -21,6 +21,11 @@ const TROPHY_OF := {
 	# voce 40 (oggetti e ricette in `BiomeItemsData`)
 	"cervo_brina": "cuore_brina", "gufo_gelo": "occhio_gelo", "salamandra_brace": "coda_brace",
 	"fatuo_cenere": "fiamma_fatua",
+	# voce 56 (oggetti e ricette in `FaunaItemsData`)
+	"pecora_muschio": "vello_oro", "cornoradice": "corno_maestro", "lepre_linfa": "zampa_linfa",
+	"bruco_lanterna": "bozzolo_ambra", "ape_lume": "ape_regina", "formica_resina": "formica_regina",
+	"pipistrello_corteccia": "orecchio_eco", "libellula_brina": "ala_cristallo", "volpe_ambra": "coda_oro",
+	"lince_ardesia": "occhio_lince",
 }
 
 const _T := "Lo lasciano solo le creature rare di questa specie."

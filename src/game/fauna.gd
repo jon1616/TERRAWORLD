@@ -41,6 +41,45 @@ signal killed(c: Creature)
 signal vanished(c: Creature)
 
 
+## Voce 56: la fauna di questo mondo. Dal seme: tre famiglie favorite (×2,5) e due assenti; dai geni: la frequenza dei
+## ruoli (`GenesData` "roles") e l'elemento più comune delle varianti.
+var family_mult := {}
+var role_mult := {}
+var world_elem := ""
+const GENE_ELEM := {"fungaie": "spora", "geodi_brina": "gelo", "fiumi_brace": "brace", "laghi_linfa": "linfa",
+	"cuore_nero": "vuoto", "avvizzito": "vuoto", "stellato": "luce", "aurora": "luce", "cuore_stellare": "luce"}
+
+
+func set_world(sd: int, genes: Array, roles: Dictionary) -> void:
+	family_mult = family_weights(sd)
+	role_mult = roles
+	world_elem = ""
+	for g in genes:
+		if GENE_ELEM.has(g):
+			world_elem = String(GENE_ELEM[g])
+
+
+## Le famiglie favorite e assenti di un mondo (sempre le stesse per lo stesso seme).
+static func family_weights(sd: int) -> Dictionary:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = sd ^ 0xFA0A
+	var fams := FamiliesData.FAMILIES.keys()
+	var out := {}
+	for k in 5:
+		var f := String(fams[rng.randi_range(0, fams.size() - 1)])
+		fams.erase(f)
+		out[f] = 2.5 if k < 3 else 0.0
+	return out
+
+
+## Il peso di una specie in questo mondo (famiglia favorita o assente, ruolo reso più frequente dai geni).
+func weight_of(id: String) -> float:
+	var f := FamiliesData.family_of(id)
+	if f == "":
+		return 1.0
+	return float(family_mult.get(f, 1.0)) * float(role_mult.get(String(FamiliesData.FAMILIES[f].get("role", "")), 1.0))
+
+
 func setup(w: World, p: Player, d: Drops, pr: Projectiles) -> void:
 	world = w
 	player = p
@@ -193,6 +232,12 @@ func try_spawn() -> Creature:
 	var stratum := StrataData.at(world, c.x, c.y)
 	var biome := "avvizzito" if Blight.surface_blighted(world, c.x) else String(BiomesData.BIOMES[BiomesData.at(world, c.x)]["id"])
 	var choices := CreaturesData.of_stratum(stratum, night, biome)
+	var weighted := []
+	for e in choices:
+		var wgt := int(round(float(e[1]) * weight_of(String(e[0])) * 10.0))
+		if wgt > 0:
+			weighted.append([e[0], wgt])
+	choices = weighted if not weighted.is_empty() else choices
 	if choices.is_empty():
 		return null
 	var id := _pick(choices)
@@ -270,6 +315,8 @@ func make_ancient(cr: Creature, rarity: String, traits: Array = []) -> void:
 
 ## L'elemento più probabile delle varianti in un luogo (voce 55): dal bioma in superficie, dallo strato sotto terra.
 func elem_bias(stratum: int, biome: String) -> String:
+	if world_elem != "" and _rng.randf() < 0.5:
+		return world_elem                      # l'elemento dei geni del mondo (voce 56)
 	if stratum == 0:
 		return {"brina": "gelo", "cenere": "brace", "palude": "spora", "ambra": "luce", "foresta": "linfa"}.get(biome, "")
 	return ["", "spora", "gelo", "linfa", "vuoto"][clampi(stratum, 0, 4)]

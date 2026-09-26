@@ -921,11 +921,22 @@ colori, misura e segni sul disegno della specie). Ogni famiglia dà 84 combinazi
 con nomi diversi). Nascono a caso secondo il pericolo, con l'elemento del luogo più probabile (`Fauna.elem_bias`).
 L'Erbario conta le specie e ricorda le varianti sconfitte. Foto 91_varianti. Prove `--solo=ecologia`.
 
-## 56. [ ] Famiglie per gene (M)
+## 56. [x] Famiglie per gene (M) — fatto il 26 set 2026
 I geni di fauna decidono quali famiglie e quali varianti vivono in un mondo; 10-12 famiglie nuove (acquatiche pronte
 per la Roadmap 10, volanti, scavatrici, colonie). Un **Custode per bioma** (Grande Cervo di brina, Madre delle
 salamandre…) con la sua tana.
 **Pronto quando**: due mondi con geni di fauna diversi hanno faune diverse per davvero.
+**Fatto il 26 set 2026**: 10 famiglie nuove disegnate dal codice (`FaunaArt`): Pecora di muschio, Cornoradice,
+Lepre di Linfa, Bruco di lanterna (erbivori, in gran parte docili), Ape di lume e Formica di resina (colonie in
+sciame), Pipistrello di corteccia e Libellula di brina (volanti), Volpe d'ambra e Lince d'ardesia (predatori); con
+materiali, trofei e 21 ricette nuove (`FaunaItemsData`: veste di lana, pozione di miele, dardi di libellula, spiedino,
+accessori dai trofei…). Ogni famiglia ha un **ruolo** (erbivoro, predatore, colonia, volante, scavatore, neutro).
+La fauna di un mondo (`Fauna.set_world`): dal seme tre famiglie favorite (×2,5) e due assenti; dai geni tre geni di
+fauna nuovi — **Pascoli** (erbivori ×3), **Cacciatori** (predatori ×2,5), **Alveari** (colonie ×3) — e l'elemento più
+comune delle varianti (fungaie → spora, geodi di brina → gelo…). Prova: erbivori nella foresta 61% con Pascoli, 32%
+con Cacciatori. Due **Custodi dei biomi** con tana appena sotto la superficie del loro bioma: il **Grande Cervo di
+brina** e la **Madre delle salamandre** (disegni ingranditi e tinti, pagine di storia, richiami all'Altare, un
+accessorio ciascuno). Foto 92_famiglie. Le famiglie acquatiche aspettano l'acqua (Roadmap 10).
 
 ## 57. [ ] La catena alimentare (L)
 Le creature hanno bisogni: predatori che cacciano prede, erbivori che brucano piante e colture, spazzini che mangiano ciò
