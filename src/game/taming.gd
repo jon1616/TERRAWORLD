@@ -173,6 +173,7 @@ func jar_record(rec: Dictionary) -> bool:
 		h.ride(false)
 	var pos: Vector2 = h.beasts[uid].position if h.beasts.has(uid) else m.player.position
 	h.despawn(uid)
+	h.unpair(rec)
 	h.records().erase(rec)
 	b.remove("vasetto", 1)
 	rec["stato"] = "vasetto"

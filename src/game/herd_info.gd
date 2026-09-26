@@ -49,5 +49,8 @@ static func sheet(rec: Dictionary) -> String:
 		out += "[color=#8ef0d8]Quando ti segue: %s[/color]\n" % t["aid_text"]
 	if t.has("mount_text"):
 		out += "[color=#8ef0d8]Si cavalca (R): %s[/color]\n" % t["mount_text"]
+	var g: Dictionary = rec.get("doti", {})
+	if not g.is_empty():
+		out += Breeding.sheet(g)                   # voce 60
 	out += "[color=#6a8a84]%s[/color]\n" % BORN.get(String(rec["nato"]), "")
 	return out

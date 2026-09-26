@@ -77,10 +77,12 @@ var _bar: HpBar
 var _base_y := 0.0
 
 static var _art_cache := {}
+var _more := {}
 const POISON_DPS := 4.0
 
 
-func setup(cid: String, w: World, tgt: Node2D, sd: int) -> void:
+func setup(cid: String, w: World, tgt: Node2D, sd: int, more_mods := {}) -> void:
+	_more = more_mods                          # voce 60: il manto e la grandezza di una creatura allevata
 	id = cid
 	base = CreaturesData.base_of(cid)
 	data = CreaturesData.get_data(cid)
@@ -145,7 +147,8 @@ func setup(cid: String, w: World, tgt: Node2D, sd: int) -> void:
 
 ## Fotogrammi di una forma e variante (messi da parte la prima volta: tutte le creature uguali li condividono).
 func _load_art(shape: String, variant: int) -> void:
-	var mods: Dictionary = data.get("art_mods", {})
+	var mods: Dictionary = data.get("art_mods", {}).duplicate()
+	mods.merge(_more, true)
 	var key := "%s_%d_%s" % [shape, variant, str(mods)]
 	if not _art_cache.has(key):
 		var fr := CreatureArt.frames(shape, variant)

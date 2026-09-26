@@ -36,6 +36,7 @@ func run() -> void:
 	await riding(spot, h)
 	await pens(spot, h)
 	await jars_and_saves(h)
+	await breeding(spot, h)
 	# si rimette la mandria com'era
 	h.ride(false)
 	for uid in h.beasts.keys():
@@ -227,3 +228,89 @@ func jars_and_saves(h: Herd) -> void:
 		copy.mandria.size(), "identiche" if same else "DIVERSE", HerdInfo.short(h.records()[0])])
 	if not ok or st != "riposo" or back == "" or not same:
 		print("ATTENZIONE: vasetti o salvataggio della mandria non funzionano")
+
+
+## Voce 60: una coppia nel recinto fa un uovo con le doti del figlio; che cosa può nascere (anteprima); i manti rari
+## più frequenti nelle stirpi lunghe; allevare scegliendo i migliori fa crescere la resa; foto 97_manti con tutti i
+## manti su una pecora.
+func breeding(spot: Vector2i, h: Herd) -> void:
+	var ps: Pens = m.pens
+	var c := spot + Vector2i(-8, 0)
+	kit.flatten(c, 14)
+	var o := c - Vector2i(1, 1)
+	world.stations[o] = "recinto"
+	m.view.add_station(o)
+	ps._scan()
+	var a := h.new_record("pecora_muschio", "nutrita")
+	var b := h.new_record("pecora_muschio~grande~~", "nutrita")
+	a["lvl"] = 1
+	b["lvl"] = 4
+	h.add_record(a)
+	h.add_record(b)
+	var too_young := h.pair(a, b)
+	a["lvl"] = 4
+	var paired := h.pair(a, b)
+	h.set_state(a, "recinto")
+	h.set_state(b, "recinto")
+	for r in [a, b]:
+		r["fame"] = 0.0
+		r["felice"] = 1.0
+	a["amore"] = BreedData.BREED_TIME - 1.0
+	ps.breed(Pens.key(o), 2.0)
+	var chest: Bisaccia = world.chest_at(o)
+	var egg := {}
+	for i in chest.slots.size():
+		if chest.id_at(i) == "uovo":
+			egg = chest.slots[i]
+	print("coppia: troppo giovane «%s», poi %s; uovo nella mangiatoia %s: %s, doti %s" % [too_young, "fatta" if paired == "" else paired,
+		"sì" if not egg.is_empty() else "NO", Gear.full_name(egg) if not egg.is_empty() else "-", egg.get("dati", {}).get("doti", {})])
+	print(Breeding.preview(a, b).replace("[color=#ffd08a]", "").replace("[color=#9fc8c0]", "").replace("[color=#cfeee4]", "")
+		.replace("[color=#ffd24a]", "").replace("[color=#6a8a84]", "").replace("[/color]", "").strip_edges().replace("\n", " | "))
+	# i manti rari: coppie comuni di generazione 0 e di generazione 6
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 60
+	var rare := [0, 0]
+	for k in 2:
+		var ga := {"gen": 6 * k, "manto": "", "vita": 1.0, "danno": 1.0, "resa": 1.0}
+		var pa := {"uid": 1, "specie": "pecora_muschio", "doti": ga}
+		var pb := {"uid": 2, "specie": "pecora_muschio", "doti": ga.duplicate()}
+		for i in 2000:
+			if BreedData.is_rare(String(Breeding.child(pa, pb, rng)["doti"]["manto"])):
+				rare[k] += 1
+	# allevare per la resa: dieci generazioni, ogni volta i due figli migliori di dieci
+	var p1 := {"uid": 1, "specie": "pecora_muschio", "doti": {"gen": 0, "manto": "", "vita": 1.0, "danno": 1.0, "resa": 1.0}}
+	var p2 := {"uid": 2, "specie": "pecora_muschio", "doti": {"gen": 0, "manto": "", "vita": 1.0, "danno": 1.0, "resa": 1.0}}
+	for g in 10:
+		var kids := []
+		for i in 10:
+			kids.append(Breeding.child(p1, p2, rng))
+		kids.sort_custom(func(x: Dictionary, y: Dictionary) -> bool: return float(x["doti"]["resa"]) > float(y["doti"]["resa"]))
+		p1 = {"uid": 1, "specie": kids[0]["specie"], "doti": kids[0]["doti"]}
+		p2 = {"uid": 2, "specie": kids[1]["specie"], "doti": kids[1]["doti"]}
+	print("manti rari: %.1f%% dei figli alla prima generazione, %.1f%% alla settima; resa dopo dieci generazioni scelte ×%.2f" % [
+		rare[0] / 20.0, rare[1] / 20.0, float(p1["doti"]["resa"])])
+	# foto: una pecora per manto, e una gigante
+	h.set_state(a, "riposo")
+	h.set_state(b, "riposo")
+	m.snap_to(kit.floor_near(c + Vector2i(2, 0), 6))
+	var shown: Array[Creature] = []
+	var coats: Array = BreedData.COATS.keys()
+	for k in coats.size() + 1:
+		var more := {"manto": coats[k]} if k < coats.size() else {"gigante": true}
+		var cr := Creature.new()
+		cr.setup("pecora_muschio", world, m.player, 7, more)
+		cr.position = Vector2((c.x - 9 + k * 2) * S + 8, (c.y + 1) * S - cr.half.y - 0.1)
+		m.fx.add_child(cr)
+		cr.set_process(false)
+		shown.append(cr)
+	m.boons.add("bagliore", 6.0)
+	await kit.seconds(0.6)
+	await kit.save("97_manti")
+	for cr in shown:
+		cr.queue_free()
+	world.stations.erase(o)
+	m.view.remove_station(o)
+	world.chests.erase(o)
+	ps._scan()
+	if too_young == "" or paired != "" or egg.is_empty() or rare[1] <= rare[0] or float(p1["doti"]["resa"]) < 1.3:
+		print("ATTENZIONE: l'allevamento non funziona come dovrebbe")

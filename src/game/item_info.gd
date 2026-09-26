@@ -20,6 +20,9 @@ static func bbcode(id: String, tratto := "", dati := {}) -> String:
 		t += Genome.sheet(dati)
 	if id == "creatura" and dati.has("specie"):
 		t += HerdInfo.sheet(dati)                  # voce 59
+	if id == "uovo" and dati.has("genitori"):
+		t += "[color=#ffd08a]Figlio di %s e %s[/color]\n" % [dati["genitori"][0], dati["genitori"][1]]
+		t += Breeding.sheet(dati.get("doti", {}))
 	if id == "uovo" and dati.has("specie"):
 		t += "[color=#9fc8c0]Nell'Incubatrice si schiude in %d secondi (anche se sei lontano): nasce già tua.[/color]\n" % int(HerdData.HATCH)
 	if tratto != "":

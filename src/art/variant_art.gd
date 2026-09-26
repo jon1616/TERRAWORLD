@@ -24,6 +24,13 @@ static func apply(fr: Dictionary, mods: Dictionary) -> Dictionary:
 			amount = 0.55
 		if tint.a > 0.0:
 			_tint(im, tint, amount)
+		var coat := BreedData.coat(String(mods.get("manto", "")))      # voce 60
+		if coat.has("tint"):
+			_tint(im, coat["tint"], float(coat["amount"]))
+		if coat.get("rainbow", false):
+			_rainbow(im)
+		if coat.get("stars", false):
+			_stars(im)
 		match String(mods.get("temper", "")):
 			"docile":
 				_lighten(im, 0.14)
@@ -31,9 +38,9 @@ static func apply(fr: Dictionary, mods: Dictionary) -> Dictionary:
 				_lighten(im, 0.22)
 			"feroce":
 				_spikes(im)
-		if mods.get("glow_body", false) or String(mods.get("elem", "")) in ["brace", "luce", "linfa"]:
+		if mods.get("glow_body", false) or coat.get("glow", false) or String(mods.get("elem", "")) in ["brace", "luce", "linfa"]:
 			gm = _glow_of(im)
-		var sc := float(mods.get("scale", 1.0))
+		var sc := float(mods.get("scale", 1.0)) * (BreedData.GIANT_SCALE if mods.get("gigante", false) else 1.0)
 		if absf(sc - 1.0) > 0.01:
 			var w := maxi(roundi(im.get_width() * sc), 4)
 			var h := maxi(roundi(im.get_height() * sc), 4)
@@ -85,3 +92,25 @@ static func _glow_of(im: Image) -> Image:
 			if p.a > 0.3 and p.v > 0.45:
 				gm.set_pixel(x, y, Color(p.r, p.g, p.b, 0.55))
 	return gm
+
+
+## Voce 60, manto iridato: la tinta gira lungo il corpo come un arcobaleno (tenendo luci e ombre).
+static func _rainbow(im: Image) -> void:
+	var w := float(im.get_width())
+	var h := float(im.get_height())
+	for y in im.get_height():
+		for x in im.get_width():
+			var p := im.get_pixel(x, y)
+			if p.a < 0.05 or p.v < 0.08:
+				continue
+			var c := Color.from_hsv(fmod(x / w + y / h * 0.5, 1.0), 0.55, p.v * 1.1, p.a)
+			im.set_pixel(x, y, p.lerp(c, 0.5))
+
+
+## Voce 60, manto stellato: puntini di luce sparsi sul corpo scuro.
+static func _stars(im: Image) -> void:
+	for y in range(1, im.get_height() - 1):
+		for x in range(1, im.get_width() - 1):
+			var p := im.get_pixel(x, y)
+			if p.a > 0.5 and p.v > 0.08 and (x * 7 + y * 13) % 17 == 0:
+				im.set_pixel(x, y, Color(1.0, 0.98, 0.8, p.a))

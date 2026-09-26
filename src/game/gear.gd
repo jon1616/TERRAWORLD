@@ -89,7 +89,8 @@ static func full_name(slot: Dictionary) -> String:
 		return "%s nel vasetto (%s, liv. %d)" % [dati["nome"], String(CreaturesData.get_data(String(dati["specie"]))["name"]).to_lower(),
 			int(dati["lvl"])]
 	if id == "uovo" and dati.has("specie"):
-		return "Uovo di %s" % String(CreaturesData.get_data(String(dati["specie"]))["name"]).to_lower()
+		var en := "Uovo di %s" % String(CreaturesData.get_data(String(dati["specie"]))["name"]).to_lower()
+		return en + (" (allevato)" if dati.has("doti") else "")
 	var q := quality(slot)
 	if q != 1 and dati.has("q"):
 		n += " " + String(TraitsData.QUALITY[q]["name"])

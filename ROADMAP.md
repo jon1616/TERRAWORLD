@@ -994,10 +994,23 @@ oggetto (la scheda nei dati). Pannello della **mandria** (tasto G): elenco, sche
 vasetto, Libera, nome da cambiare. 6 obiettivi nuovi. Foto 95_mandria (in sella) e 96_recinto; prove `--solo=mandria`.
 I compagni e gli alleati dei bastoni di prima restano com'erano (una cosa diversa: non mangiano e non crescono).
 
-## 60. [ ] Allevamento (M)
+## 60. [x] Allevamento (M) — fatto il 26 set 2026
 Due creature addomesticate danno un piccolo con i geni di entrambe (**lo stesso motore della voce 47**): colori,
 taglia, elemento, doni. Varianti rare che si ottengono solo allevando.
 **Pronto quando**: allevare è una seconda collezione lunga, con almeno 6 varianti ottenibili solo così.
+**Fatto il 26 set 2026**: ogni creatura della mandria ha le sue **doti** (`BreedData`, regole in `Breeding`):
+Vita, Forza e Resa (numeri attorno a 1), un **manto**, la generazione. Due creature della stessa famiglia, di
+livello 3 o più, messe in **coppia** dal pannello della mandria e tenute nello stesso recinto sazie e contente, fanno
+un **uovo** ogni 8 minuti (poi riposano un quarto d'ora): l'uovo compare nella mangiatoia e si schiude
+nell'Incubatrice. Il figlio prende specie, taglia, elemento e indole da uno dei due (a volte ne esce una nuova), i
+numeri dalla media più un po' di caso (e ogni tanto un salto in su): scegliendo i migliori per dieci generazioni la
+Resa arriva a ×1,77. Manti: quattro comuni (chiaro, scuro, fulvo, muschiato) e **sei rari che si ottengono solo
+allevando** — albino, d'ombra, dorato, cristallino, stellato (dalla terza generazione), iridato (dalla quarta) — più
+il **gigante**: ognuno con il suo disegno (`VariantArt`: tinta, arcobaleno, puntini di stelle, bagliore, misura) e i
+suoi bonus. I rari compaiono di più nelle stirpi lunghe (10% dei figli alla prima generazione, 28% alla settima) e un
+genitore raro passa il suo manto a metà dei figli. Prima di decidere, il pannello mostra **che cosa può nascere** da
+una coppia (400 figli di prova: intervalli dei numeri, manti con la percentuale, specie). Lo stesso modo di pensare
+del motore dei Semi (dominanza del raro, rarità, mutazioni), con le sue tabelle. 3 obiettivi. Foto 97_manti.
 
 ## 61. [ ] L'Erbario vivo (S)
 Ogni famiglia con le sue varianti, dove vive, cosa mangia, debolezze, nidi, prodotti, vista/sconfitta/addomesticata/

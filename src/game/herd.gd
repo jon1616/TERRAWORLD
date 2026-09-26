@@ -53,6 +53,8 @@ func followers() -> Array:
 ## Una scheda nuova (`how`: nutrita, laccio, uovo, allevata). `forza`: quanto era forte la creatura presa (strati
 ## profondi, mondi di vigore alto); `doti` sono i geni dell'allevamento (voce 60).
 func new_record(specie: String, how: String, forza := 1.0, doti := {}) -> Dictionary:
+	if doti.is_empty():
+		doti = Breeding.wild(_rng)             # voce 60: presa in natura, doti vicine a quelle della specie
 	var uid := int(m.character.stats.get("mandria_uid", 0)) + 1
 	m.character.stats["mandria_uid"] = uid
 	var mood := {"nutrita": 0.8, "laccio": 0.35, "uovo": 1.0, "allevata": 1.0}
@@ -125,6 +127,7 @@ func free_record(rec: Dictionary) -> void:
 		ride(false)
 	var pos: Vector2 = beasts[uid].position if beasts.has(uid) else m.player.position
 	despawn(uid)
+	unpair(rec)
 	records().erase(rec)
 	var c: Creature = m.fauna.add(String(rec["specie"]), pos)
 	c.docile = true
@@ -132,6 +135,28 @@ func free_record(rec: Dictionary) -> void:
 	Fx.puff(m.fx, pos, Color(1.0, 1.4, 1.2))
 	m.hud.toast("%s torna libera" % rec["nome"])
 	changed_now()
+
+
+## Voce 60: due creature della stessa famiglia in coppia (fanno uova nello stesso recinto). "" se è andata.
+func pair(a: Dictionary, b: Dictionary) -> String:
+	var why := Breeding.can_pair(a, b)
+	if why != "":
+		return why
+	unpair(a)
+	unpair(b)
+	a["coppia"] = int(b["uid"])
+	b["coppia"] = int(a["uid"])
+	m.objectives.bump("coppie")
+	changed_now()
+	return ""
+
+
+func unpair(a: Dictionary) -> void:
+	var other := rec_of(int(a.get("coppia", -1)))
+	if not other.is_empty():
+		other.erase("coppia")
+	a.erase("coppia")
+	a.erase("amore")
 
 
 ## Stremata: si ritira a riposare nel Giardino e guarisce piano.
@@ -156,8 +181,8 @@ static func stats_of(rec: Dictionary) -> Dictionary:
 	var lvl := int(rec["lvl"])
 	var f := float(rec.get("forza", 1.0))
 	var g: Dictionary = rec.get("doti", {})
-	var hp := roundi(int(d["hp"]) * f * (1.0 + 0.1 * (lvl - 1)) * float(g.get("vita", 1.0)))
-	var dmg := roundi(maxi(int(d["damage"]), 3) * f * (1.0 + HerdData.LVL_DAMAGE * (lvl - 1)) * float(g.get("danno", 1.0)))
+	var hp := roundi(int(d["hp"]) * f * (1.0 + 0.1 * (lvl - 1)) * Breeding.mult(g, "vita"))
+	var dmg := roundi(maxi(int(d["damage"]), 3) * f * (1.0 + HerdData.LVL_DAMAGE * (lvl - 1)) * Breeding.mult(g, "danno"))
 	return {"hp": maxi(hp, 1), "damage": dmg}
 
 
@@ -257,7 +282,7 @@ func spawn(rec: Dictionary, mode: String) -> Creature:
 	if beasts.has(uid):
 		return beasts[uid]
 	var c := Creature.new()
-	c.setup(String(rec["specie"]), m.world, m.player, uid)
+	c.setup(String(rec["specie"]), m.world, m.player, uid, Breeding.mods(rec.get("doti", {})))
 	c.behaviors.clear()
 	c.docile = false
 	var bh := BhMandria.new()

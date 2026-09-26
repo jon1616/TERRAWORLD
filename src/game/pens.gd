@@ -18,6 +18,7 @@ var m: Node2D
 var pens: Array[Vector2i] = []
 var incubators: Array[Vector2i] = []
 var hatched := 0                       # uova schiuse (le prove le contano)
+var laid := 0                          # voce 60: uova delle coppie
 var _t := 1.0
 var _scan_t := 0.0
 var _caught_up := false
@@ -116,6 +117,7 @@ func _process(dt: float) -> void:
 	for o in pens:
 		for r in members(key(o)):
 			tick(r, 1.0)
+		breed(key(o), 1.0)
 	for o in incubators:
 		incubate(o)
 
@@ -131,6 +133,9 @@ func catch_up() -> void:
 			var st := minf(el, 20.0)
 			tick(r, st)
 			el -= st
+	# voce 60: le coppie, per il tempo passato (al più un uovo per coppia: poi aspettano)
+	for o in pens:
+		breed(key(o), HerdData.OFFLINE_CAP)
 
 
 ## Un passo di vita nel recinto: fame, pasto dalla mangiatoia, umore, guarigione, produzione.
@@ -176,7 +181,7 @@ func tick(rec: Dictionary, dt: float) -> void:
 static func rate(rec: Dictionary, friends: int) -> float:
 	var g: Dictionary = rec.get("doti", {})
 	return (0.4 + 0.8 * float(rec["felice"])) * (1.0 + 0.04 * (int(rec["lvl"]) - 1)) * (1.0 + 0.15 * friends) \
-		* float(g.get("resa", 1.0))
+		* Breeding.mult(g, "resa")
 
 
 ## L'Incubatrice: ogni uovo ricorda quando è stato posato (orologio); passato `HATCH`, si schiude in un vasetto.
@@ -195,6 +200,14 @@ func incubate(o: Vector2i) -> void:
 		if now - float(d["cova"]) < HerdData.HATCH * float(d.get("cova_mult", 1.0)):
 			continue
 		var rec: Dictionary = m.herd.new_record(String(d["specie"]), String(d.get("nato", "uovo")), 1.0, d.get("doti", {}))
+		var coat := String(rec["doti"].get("manto", ""))
+		if coat != "":
+			if not m.character.erbario.has("manti"):
+				m.character.erbario["manti"] = {}
+			m.character.erbario["manti"][coat] = 1           # voce 60: i manti visti nascere
+			if BreedData.is_rare(coat):
+				m.objectives.bump("manti_rari")
+				m.hud.toast("Un manto %s! Una rarità" % BreedData.COATS[coat]["name"])
 		rec["stato"] = "vasetto"
 		chest.slots[i] = {"id": "creatura", "n": 1, "dati": rec}
 		chest.changed.emit()
@@ -204,3 +217,37 @@ func incubate(o: Vector2i) -> void:
 		if (Vector2(o) * S).distance_to(m.player.position) < 30.0 * S:
 			Fx.puff(m.fx, Vector2(o) * S + Vector2(16, 8), Herd.HEARTS)
 			m.hud.toast("Un uovo si è schiuso nell'Incubatrice: %s ti aspetta nel vasetto" % rec["nome"])
+
+
+## Voce 60: le coppie dello stesso recinto, sazie e contente, fanno un uovo ogni `BREED_TIME` secondi (poi riposano
+## `COOLDOWN` secondi). L'uovo va nella mangiatoia, con la specie e le doti del figlio già decise (`Breeding.child`).
+func breed(k: String, dt: float) -> void:
+	var ms := members(k)
+	var now := Time.get_unix_time_from_system()
+	for a in ms:
+		var pu := int(a.get("coppia", -1))
+		if pu < 0 or int(a["uid"]) > pu:
+			continue                       # ogni coppia una volta sola, dalla parte dell'uid più piccolo
+		var b := {}
+		for r in ms:
+			if int(r["uid"]) == pu:
+				b = r
+		if b.is_empty() or float(a.get("amore_cd", 0.0)) > now:
+			continue
+		if minf(float(a["felice"]), float(b["felice"])) < 0.7 or maxf(float(a["fame"]), float(b["fame"])) >= 0.6:
+			continue
+		a["amore"] = float(a.get("amore", 0.0)) + dt
+		if float(a["amore"]) < BreedData.BREED_TIME:
+			continue
+		var c := Breeding.child(a, b, _rng)
+		var egg := {"id": "uovo", "n": 1, "dati": {"fam": Herd.family_of(a), "specie": c["specie"], "doti": c["doti"],
+			"nato": "allevata", "genitori": [a["nome"], b["nome"]]}}
+		if m.world.chest_at(cell_of(k)).add_stack(egg) > 0:
+			a["amore"] = BreedData.BREED_TIME         # la mangiatoia è piena: l'uovo aspetta
+			continue
+		a["amore"] = 0.0
+		a["amore_cd"] = now + BreedData.COOLDOWN
+		laid += 1
+		m.objectives.bump("uova_allevate")
+		if (Vector2(cell_of(k)) * S).distance_to(m.player.position) < 40.0 * S:
+			m.hud.toast("%s e %s hanno fatto un uovo: è nella mangiatoia del recinto" % [a["nome"], b["nome"]])

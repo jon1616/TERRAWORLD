@@ -18,6 +18,7 @@ var _buttons := {}
 var _tex := {}
 var _dirty := true
 var _page := 0
+var _pairing := false                  # voce 60: il prossimo clic nell'elenco sceglie la compagna
 
 
 func setup(main: Node2D) -> void:
@@ -40,7 +41,8 @@ func setup(main: Node2D) -> void:
 	_detail.add_theme_font_size_override("normal_font_size", 16)
 	add_child(_detail)
 	var x := 780.0
-	for b in [["segue", "Segui"], ["riposo", "Riposa"], ["recinto", "Al recinto"], ["vasetto", "Nel vasetto"], ["libera", "Libera"]]:
+	for b in [["segue", "Segui"], ["riposo", "Riposa"], ["recinto", "Al recinto"], ["vasetto", "Nel vasetto"], ["libera", "Libera"],
+			["coppia", "Coppia…"]]:
 		var btn := Button.new()
 		btn.text = b[1]
 		btn.position = Vector2(x, 420)
@@ -58,6 +60,8 @@ func setup(main: Node2D) -> void:
 	_name.placeholder_text = "Nuovo nome (Invio)"
 	_name.text_submitted.connect(_rename)
 	add_child(_name)
+	(_buttons["coppia"] as Button).position = Vector2(1060, 476)      # accanto al nome
+	(_buttons["coppia"] as Button).size = Vector2(160, 36)
 	var prev := Button.new()
 	prev.text = "‹"
 	prev.position = Vector2(120, 100 + ROWS * ROW + 6)
@@ -110,15 +114,20 @@ func _process(_dt: float) -> void:
 		_refresh()
 
 
-func _icon(specie: String) -> Texture2D:
-	if not _tex.has(specie):
+func _icon(rec: Dictionary) -> Texture2D:
+	var specie := String(rec["specie"])
+	var more := Breeding.mods(rec.get("doti", {}))
+	var k := specie + str(more)
+	if not _tex.has(k):
 		var d := CreaturesData.get_data(specie)
 		var art: Array = d["art"]
 		var fr := CreatureArt.frames(String(art[0]), int(art[1]))
-		if d.has("art_mods"):
-			fr = VariantArt.apply(fr, d["art_mods"])
-		_tex[specie] = ImageTexture.create_from_image(fr["frames"][0])
-	return _tex[specie]
+		var mods: Dictionary = d.get("art_mods", {}).duplicate()
+		mods.merge(more, true)
+		if not mods.is_empty():
+			fr = VariantArt.apply(fr, mods)
+		_tex[k] = ImageTexture.create_from_image(fr["frames"][0])
+	return _tex[k]
 
 
 func _refresh() -> void:
@@ -137,7 +146,7 @@ func _refresh() -> void:
 		var b := Button.new()
 		b.position = Vector2(0, (k - _page * ROWS) * ROW)
 		b.size = Vector2(620, ROW - 6)
-		b.icon = _icon(String(r["specie"]))
+		b.icon = _icon(r)
 		b.expand_icon = false
 		b.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		b.text = "  %s · liv. %d · %s · %s" % [r["nome"], int(r["lvl"]), HerdInfo.STATES.get(String(r["stato"]), ""),
@@ -145,7 +154,13 @@ func _refresh() -> void:
 		ErbarioPanel._frame(b, Color("#ffb84a") if int(r["uid"]) == selected else Color("#2f7a70"))
 		var uid := int(r["uid"])
 		b.pressed.connect(func() -> void:
-			selected = uid
+			if _pairing:
+				_pairing = false
+				var why: String = m.herd.pair(m.herd.rec_of(selected), m.herd.rec_of(uid))
+				if why != "":
+					m.hud.toast(why)
+			else:
+				selected = uid
 			_dirty = true)
 		_list.add_child(b)
 	var rec: Dictionary = m.herd.rec_of(selected)
@@ -156,6 +171,12 @@ func _refresh() -> void:
 		_detail.text = "[color=#9fc8c0]La mandria è vuota.\n\nPer addomesticare una creatura: dalle il suo cibo con il clic destro quando si fida di te (le docili sempre; le altre quando hanno fame, sono stordite o indebolite), oppure prendila con il Laccio quando è stremata, o fai schiudere un uovo nell'Incubatrice.[/color]"
 	else:
 		_detail.text = HerdInfo.sheet(rec)
+		var mate: Dictionary = m.herd.rec_of(int(rec.get("coppia", -1)))
+		if not mate.is_empty():
+			_detail.text += "\n" + Breeding.preview(rec, mate)
+		if _pairing:
+			_detail.text += "\n[color=#ffb84a]Scegli nell'elenco con chi fare coppia (stessa famiglia, livello %d o più)[/color]" % BreedData.MIN_LVL
+		(_buttons["coppia"] as Button).text = "Sciogli coppia" if not mate.is_empty() else "Coppia…"
 		(_buttons["segue"] as Button).disabled = rec["stato"] == "segue"
 		(_buttons["riposo"] as Button).disabled = rec["stato"] == "riposo"
 		(_buttons["recinto"] as Button).disabled = rec["stato"] == "recinto" and rec["mondo"] == m.world_id
@@ -182,6 +203,11 @@ func _act(what: String) -> void:
 		"libera":
 			m.herd.free_record(rec)
 			selected = -1
+		"coppia":
+			if rec.has("coppia"):
+				m.herd.unpair(rec)
+			else:
+				_pairing = true
 	if why != "":
 		m.hud.toast(why)
 	_dirty = true
