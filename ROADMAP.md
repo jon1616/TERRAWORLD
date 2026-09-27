@@ -2151,7 +2151,16 @@ lenza si ritira; foto 183_pesca.
 - Clic sull'acqua con la canna: lenza e galleggiante; dopo un'attesa il pesce **abbocca e sale da solo** nella
   Bisaccia (spruzzo, suono). Spostarsi o cambiare oggetto ritira la lenza. Niente minigioco.
 
-## 122. [ ] Esche, accessori e tempo (M)
+## 122. [x] Esche, accessori e tempo (M) — fatto il 28 set 2026
+Fatto (`FishingData`): 4 **esche** (tipo «esca», campo `bait` {luck, wait}): Pallottola d'humus e Esca di petali di lume
+a mano, Esca di squama al Ceppo, Esca iridata al Maglio; a ogni pesce si consuma la migliore della Bisaccia (senza si
+pesca lo stesso). 3 **accessori** con effetti nuovi di `GearEffects` (fish_luck +, fish_wait ×, fish_size +, fish_double
++, fish_any): Galleggiante di lume (attesa −20%), Amo d'ambra (fortuna +30%), Sacca del pescatore (taglie +15%, 10% di
+due pesci). Il **tempo**: pioggia ×0,8, temporale ×0,7, nebbia ×0,9, bufera ×1,2 sull'attesa; alba e tramonto ×0,75, notte
+×0,9 (`Fishing.wait_mult`, `luck_now`). Schede di esche e accessori, capitolo dell'Enciclopedia. Prova: fortuna e
+attesa con l'esca, l'amo indossato, pioggia contro sereno, l'esca migliore consumata, due pesci con la Sacca.
+Corretto: la presa legge gli accessori una volta sola (consumare l'esca faceva ricalcolare `gear` a metà), e le prove
+della pesca rimettono la Bisaccia com'era (il seme spariva dalla barra rapida per le prove dopo).
 - Esche consumabili (dal giardino, dalle creature, dalla mandria; una per lancio, se montata) e accessori
   (galleggiante, amo, sacca del pescatore); il tempo conta: notte, stagione, pioggia, nebbia, luna.
 

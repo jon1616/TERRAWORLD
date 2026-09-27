@@ -35,6 +35,11 @@ Ogni specchio ha i suoi pesci: conta il liquido, lo strato, il bioma (in superfi
 [b]Le canne[/b]
 La [b]Canna di radice[/b] (al Ceppo) pesca solo nell'acqua. Le canne di metallo (al Maglio) hanno la fortuna di pesca (pesci più rari), l'attesa più breve e i liquidi del loro materiale: la Linfa con i materiali di Linfa o di luce, la brace con quelli di brace o di grado alto. La scheda della canna dice tutto.
 
+[b]Esche, accessori e tempo[/b]
+• Le [b]esche[/b] (Pallottola d'humus e Esca di petali di lume a mano, Esca di squama al Ceppo, Esca iridata al Maglio) alzano la fortuna e accorciano l'attesa: a ogni pesce si consuma la migliore che hai nella Bisaccia. Senza esche si pesca lo stesso.
+• Gli accessori: il [b]Galleggiante di lume[/b] (attesa più breve), l'[b]Amo d'ambra[/b] (fortuna di pesca), la [b]Sacca del pescatore[/b] (pesci più grandi, e a volte due in una volta).
+• Il tempo conta: con la pioggia, i temporali e la nebbia i pesci abboccano prima, e ancora di più all'alba e al tramonto; un po' anche di notte. Con la bufera, invece, più piano. Alcuni pesci si fanno vedere solo di notte, in una stagione o con un certo tempo: l'Erbario lo dice.
+
 [b]L'Erbario dei pesci[/b]
 Ogni pesce pescato entra nella scheda [b]Pesci[/b] dell'Erbario, con quanti ne hai presi e il più grande: la scheda sta a parte e non conta nella percentuale. Anche un pesce mai pescato dice dove cercarlo."""},
 	{"id": "meteo", "group": "Le leggi dei mondi", "name": "Vento e tempo atmosferico", "text":

@@ -15,7 +15,9 @@ const DOWN := 8                          # tessere sotto il clic in cui si cerca
 var m: Node2D
 var line := {}                           # la lenza in acqua: {cell, from, rod, ctx, t, bite}
 var caught := 0                          # quanti pesci (per le prove)
-var last := {}                           # l'ultimo pescato: {id, size, record}
+var last := {}                           # l'ultimo pescato: {id, size, record, n, bait}
+## Voce 122: gli effetti di ciò che si indossa (li scrive `GearEffects`): luck +, wait ×, size +, double +, any.
+var gear := {"luck": 0.0, "wait": 1.0, "size": 0.0, "double": 0.0, "any": false}
 var _rng := RandomNumberGenerator.new()
 var _time := 0.0
 
@@ -44,7 +46,7 @@ func cast(c: Vector2i, rod: String) -> bool:
 	var body := WaterBody.at(w, q)
 	var it := ItemsData.get_item(rod)
 	var liqs: Array = it.get("fish_liq", [0])
-	if not int(body["type"]) in liqs:
+	if not int(body["type"]) in liqs and not bool(gear["any"]):
 		m.hud.toast("Questa canna non regge la %s: serve una canna di un altro materiale" % String(LiquidsData.TYPES[int(body["type"])]["name"]).to_lower())
 		return false
 	if not body["ok"]:
@@ -57,10 +59,29 @@ func cast(c: Vector2i, rod: String) -> bool:
 	while w.liq(q.x, q.y - 1) > 0:
 		q.y -= 1                                  # il galleggiante sta sul pelo del liquido
 	line = {"cell": q, "from": pc, "rod": rod, "ctx": ctx, "bite": -1.0,
-		"t": _rng.randf_range(WAIT[0], WAIT[1]) * float(it.get("fish_speed", 1.0))}
+		"t": _rng.randf_range(WAIT[0], WAIT[1]) * wait_mult(rod)}
 	m.sfx.play("tira", Vector2(q) * 16.0)
 	queue_redraw()
 	return true
+
+
+## Quanto dura l'attesa (× quella di base): la canna, la migliore esca, gli accessori, il tempo (voce 122).
+func wait_mult(rod: String) -> float:
+	var k := float(ItemsData.get_item(rod).get("fish_speed", 1.0)) * float(gear["wait"])
+	var bi := FishingData.best_bait(m.character.bisaccia)
+	if bi >= 0:
+		k *= float(ItemsData.get_item(m.character.bisaccia.id_at(bi))["bait"]["wait"])
+	var dl: float = m.day.daylight()
+	return k * FishingData.weather_wait(String(m.weather.id), m.day.is_night(), dl > 0.08 and dl < 0.92)
+
+
+## La fortuna di pesca: la canna, la migliore esca e gli accessori (voce 122).
+func luck_now(rod: String) -> float:
+	var k := float(ItemsData.get_item(rod).get("fish", 0.0)) + float(gear["luck"])
+	var bi := FishingData.best_bait(m.character.bisaccia)
+	if bi >= 0:
+		k += float(ItemsData.get_item(m.character.bisaccia.id_at(bi))["bait"]["luck"])
+	return k
 
 
 ## Il mondo attorno allo specchio, per `FishData`.
@@ -103,24 +124,33 @@ func _process(dt: float) -> void:
 func catch() -> String:
 	if line.is_empty():
 		return ""
-	var it := ItemsData.get_item(String(line["rod"]))
-	var luck := float(it.get("fish", 0.0))
+	var g := gear.duplicate()                    # (consumare l'esca cambia la Bisaccia e fa ricalcolare `gear`)
+	var luck := luck_now(String(line["rod"]))
 	var id := FishData.roll(line["ctx"], _rng, luck)
 	var q: Vector2i = line["cell"]
 	stop()
 	if id == "":
 		return ""
-	var size := FishData.roll_size(id, _rng, luck * 0.05)
-	var rest: int = m.character.bisaccia.add(id, 1)
+	# l'esca migliore si consuma (voce 122)
+	var b: Bisaccia = m.character.bisaccia
+	var bi := FishingData.best_bait(b)
+	var bait := ""
+	if bi >= 0:
+		bait = b.id_at(bi)
+		b.take_one(bi)
+	var size := FishData.roll_size(id, _rng, luck * 0.05 + float(g["size"]))
+	var n := 2 if _rng.randf() < float(g["double"]) else 1
+	var rest: int = b.add(id, n)
 	if rest > 0:
 		m.drops.spawn(id, rest, m.player.position)
 	var first: bool = not m.erbario.known("pesci", id)
 	var better: bool = m.erbario.add_fish(id, size)
 	caught += 1
-	last = {"id": id, "size": size, "record": better and not first}
+	last = {"id": id, "size": size, "record": better and not first, "n": n, "bait": bait}
 	m.objectives.bump("pesci")
 	var f := FishData.info(id)
-	m.hud.toast("Hai pescato: %s, %d cm%s" % [f["name"], size, " — il più grande finora!" if better and not first else ""])
+	m.hud.toast("Hai pescato: %s%s, %d cm%s" % [f["name"], " (due!)" if n == 2 else "", size,
+		" — il più grande finora!" if better and not first else ""])
 	m.sfx.play("raccogli", Vector2(q) * 16.0)
 	Fx.puff(m.fx, Vector2(q) * 16.0 + Vector2(8, 4), Color(0.8, 1.2, 1.6))
 	return id

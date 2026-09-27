@@ -15,10 +15,22 @@ func _init(tk: TestKit) -> void:
 
 
 func run() -> void:
+	# (le prove mettono canne, otri ed esche in mano: alla fine la Bisaccia torna com'era, o le prove dopo non
+	# trovano più il seme nella barra rapida)
+	var b: Bisaccia = m.character.bisaccia
+	var slots0 := b.slots.duplicate(true)
+	var equip0 := b.equip.duplicate(true)
+	var sel0: int = m.hud.sel
 	await bodies()
 	await moving()
 	await species()
 	await gesture()
+	await extras()
+	for i in slots0.size():
+		b.slots[i] = slots0[i]
+	b.equip = equip0
+	b.changed.emit()
+	m.hud.select(sel0)
 
 
 ## Due conche vuote affiancate su terreno piano vicino a c: [sinistra, destra] (i centri della prima riga), e ciò che
@@ -324,4 +336,62 @@ func gesture() -> void:
 	if not cast_ok or not got or not pulled or not no_brace or not yes_brace or 2 in rad or not 2 in tiz or not 1 in lin \
 			or ste.size() != 3:
 		print("ATTENZIONE: la pesca non funziona come dovrebbe")
+
+
+## Voce 122: esche, accessori e tempo. L'esca migliore alza la fortuna, accorcia l'attesa e si consuma a ogni pesce;
+## l'Amo d'ambra indossato aggiunge fortuna; la pioggia accorcia l'attesa; la Sacca può dare due pesci.
+func extras() -> void:
+	var w: World = m.world
+	var b: Bisaccia = m.character.bisaccia
+	var fi: Fishing = m.fishing
+	kit.make_room()
+	if b.count("canna_radice") == 0:
+		b.add("canna_radice", 1)
+	kit.hold("canna_radice")
+	var luck0 := fi.luck_now("canna_radice")
+	var wait0 := fi.wait_mult("canna_radice")
+	b.add("esca_humus", 3)
+	b.add("esca_squama", 5)
+	var luck1 := fi.luck_now("canna_radice")
+	var wait1 := fi.wait_mult("canna_radice")
+	# l'Amo d'ambra in un posto da accessorio
+	var slot := "accessorio_1"
+	var old := String(b.equip.get(slot, ""))
+	b.equip[slot] = "amo_ambra"
+	m.gear.refresh()
+	var amo := float(fi.gear["luck"])
+	var tip := ItemTip.card({"id": "amo_ambra", "n": 1}, {}).plain()
+	if old == "":
+		b.equip.erase(slot)
+	else:
+		b.equip[slot] = old
+	m.gear.refresh()
+	# il tempo
+	var w0 := String(m.weather.id)
+	m.weather.set_weather("sereno")
+	var sunny := fi.wait_mult("canna_radice")
+	m.weather.set_weather("pioggia")
+	var rainy := fi.wait_mult("canna_radice")
+	m.weather.set_weather(w0)
+	# un pesce con l'esca: se ne consuma una (la migliore), e con la Sacca a volte sono due
+	var x0 := int(_pond.get("x0", w.spawn.x))
+	m.snap_to(Vector2i(x0 - 2, w.surface[x0 - 2] - 1))
+	await kit.frames(3)
+	var target := Vector2i(x0 + 4, int(_pond.get("top", w.surface[x0])) - 2)
+	fi.gear["double"] = 1.0
+	var n_sq := b.count("esca_squama")
+	var ok := fi.cast(target, "canna_radice")
+	if ok:
+		fi.line["t"] = 0.2
+	await kit.seconds(1.4)
+	var used := b.count("esca_squama") == n_sq - 1 and b.count("esca_humus") == 3 and String(fi.last.get("bait", "")) == "esca_squama"
+	var two := int(fi.last.get("n", 0)) == 2
+	m.gear.refresh()
+	print("esche: fortuna %.2f → %.2f, attesa ×%.2f → ×%.2f; Amo d'ambra: fortuna +%.2f (scheda: %s); sereno ×%.2f, pioggia ×%.2f" % [
+		luck0, luck1, wait0, wait1, amo, "sì" if tip.contains("Fortuna di pesca") else "NO", sunny, rainy])
+	print("pesce con l'esca: presa %s, consumata la migliore (squama) %s, con la Sacca due pesci %s" % ["sì" if ok else "NO",
+		"sì" if used else "NO", "sì" if two else "NO"])
+	if not (luck1 > luck0 + 0.4 and wait1 < wait0 and absf(amo - 0.3) < 0.001 and tip.contains("Fortuna di pesca") \
+			and rainy < sunny and ok and used and two):
+		print("ATTENZIONE: esche, accessori o tempo della pesca non vanno come dovrebbero")
 

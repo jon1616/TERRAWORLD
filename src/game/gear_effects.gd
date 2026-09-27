@@ -14,10 +14,12 @@ extends Node
 ##   magic      incantesimi dei bastoni più forti (`Combat.magic_mult`)
 ##   allies     alleati in più dai bastoni evocatori (`GearEffects.allies`)
 ##   air_jumps  salti in aria (`Player.air_jumps`); wall: scivolare e saltare sulle pareti (`Player.wall_climb`)
+##   fish_*     voce 122, la pesca (`Fishing.gear`): fish_luck +, fish_wait ×, fish_size +, fish_double +, fish_any
 ##   defense    (solo nei bonus dei set) Scorza in più (`Vitals.set_scorza`); quella dei pezzi la somma
 ##              `Bisaccia.scorza`
 
-const MULT := ["run", "jump", "halo", "regen", "dig", "stealth", "damage", "atk_speed", "linfa_regen", "magic", "respiro", "vento"]
+const MULT := ["run", "jump", "halo", "regen", "dig", "stealth", "damage", "atk_speed", "linfa_regen", "magic", "respiro", "vento",
+	"fish_wait"]
 
 var m: Node2D
 var sets: Array = []                   # i set completi indossati (per l'interfaccia)
@@ -47,6 +49,9 @@ func refresh() -> void:
 	for k in ["caldo", "acqua", "fresco", "filtro"]:
 		e[k] = 0.0                                 # voce 93: le protezioni dai rigori
 	e["passo"] = false
+	for k in ["fish_luck", "fish_size", "fish_double"]:
+		e[k] = 0.0                                 # voce 122: la pesca
+	e["fish_any"] = false
 	var b: Bisaccia = m.character.bisaccia
 	for slot in b.equip:
 		_add(e, ItemsData.get_item(String(b.equip[slot])).get("acc", {}))
@@ -96,6 +101,9 @@ func refresh() -> void:
 	m.vitals.linfa_regen_mult = e["linfa_regen"]
 	m.combat.magic_mult = e["magic"]
 	m.vitals.set_scorza = int(e["defense"])
+	if m.get("fishing") != null:
+		m.fishing.gear = {"luck": e["fish_luck"], "wait": e["fish_wait"], "size": e["fish_size"], "double": e["fish_double"],
+			"any": e["fish_any"]}
 	if m.get("harsh") != null:
 		m.harsh.protect = {"caldo": e["caldo"], "acqua": e["acqua"], "fresco": e["fresco"], "filtro": e["filtro"]}
 		m.harsh.passo = e["passo"]
@@ -106,7 +114,8 @@ static func _add(e: Dictionary, acc: Dictionary) -> void:
 	for k in acc:
 		if k in MULT:
 			e[k] = float(e[k]) * float(acc[k])
-		elif k in ["luck", "thorns", "defense", "air_jumps", "allies", "caldo", "acqua", "fresco", "filtro"]:
+		elif k in ["luck", "thorns", "defense", "air_jumps", "allies", "caldo", "acqua", "fresco", "filtro", "fish_luck", "fish_size",
+				"fish_double"]:
 			e[k] = float(e[k]) + float(acc[k])
-		elif k in ["glide", "fall_safe", "wall", "passo"]:
+		elif k in ["glide", "fall_safe", "wall", "passo", "fish_any"]:
 			e[k] = bool(e[k]) or bool(acc[k])

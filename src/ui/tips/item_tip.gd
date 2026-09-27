@@ -100,6 +100,10 @@ static func _specials(c: TipCard, slot: Dictionary, it: Dictionary, kind: String
 	if kind == "canna":
 		c.pair("Pesca", "fortuna +%d%% · attesa ×%s · in: %s" % [roundi(float(it.get("fish", 0.0)) * 100.0),
 			str(it.get("fish_speed", 1.0)).replace(".", ","), FishingData.liquids_text(it.get("fish_liq", [0]))], Color("#8ec8ff"))   # voce 121
+	if kind == "esca":
+		var bt: Dictionary = it.get("bait", {})
+		c.pair("Esca", "fortuna di pesca +%d%% · attesa ×%s (si consuma a ogni pesce)" % [roundi(float(bt.get("luck", 0.0)) * 100.0),
+			str(bt.get("wait", 1.0)).replace(".", ",")], Color("#8ec8ff"))   # voce 122
 	if kind == "contenitore":
 		c.pair("Contiene", LiquidTools.content_text(String(slot.get("id", "")), dati), Color("#8ec8ff"))   # voce 119
 	if it.has("boon"):
