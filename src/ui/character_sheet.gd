@@ -8,7 +8,7 @@ extends RefCounted
 ## Testo con i colori (BBCode) per la casella Esamina.
 static func bbcode(m: Node2D) -> String:
 	var v: Vitals = m.vitals
-	var t := "[font_size=18][color=#ffd08a]%s[/color][/font_size]  [color=#6a8a84](posa un oggetto qui per esaminarlo)[/color]\n" % m.character.name
+	var t := "[font_size=18][color=#ffd08a]%s[/color][/font_size]\n" % m.character.name
 	t += "Vita [color=#8ef0c0]%d/%d[/color] · Linfa [color=#5cc8cc]%d/%d[/color] · Scorza [color=#ffb84a]%d[/color]\n" % [
 		v.hp, v.hp_max, v.linfa, v.linfa_max, v.scorza + v.scorza_bonus + v.set_scorza]
 	var rows := []

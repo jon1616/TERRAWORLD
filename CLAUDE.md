@@ -297,16 +297,21 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
 - `src/ui/` — `menu.tscn`/`menu.gd` (scena iniziale: titolo, personaggi, mondi, creazione), `Hud` (barra rapida = le
   prime 10 caselle della Bisaccia, in basso al centro; `current()` = oggetto in mano; segnale `selected`; `toast`; tasto
   E/Tab apre la Bisaccia), `BisacciaPanel` (le altre 30 caselle; clic prende/posa/scambia, clic destro metà pila),
-  `SlotView` (casella riusabile con icona e quantità), `ExaminePanel` (casella «Esamina» in alto a sinistra della
-  Bisaccia aperta: ci si posa un oggetto e compare la sua scheda di `ItemInfo` — a cosa serve, in quali ricette, come
-  si ottiene; l'utente la vuole in uno spazio apposito, non nel suggerimento), `VitalsView` (foglie e gocce in alto a destra), colonna
-  dell'equipaggiamento a sinistra della Bisaccia (elmo, corazza, gambali, Scorza totale), `CraftingPanel` (colonna «Creare», rifatta il 26 set 2026:
-  alta tutta la destra dello schermo, bassa con una cassa aperta (`set_tall`); banchi vicini con le icone, dieci
-  categorie colorate (`CraftCatsData`: nome, colore, tipi), ricerca per nome o ingrediente, «Solo possibili»; in
-  «Tutto» gruppi per tipo con l'intestazione; lavorazioni del Maglio e del Telaio in cima; Maiusc+clic crea 5) con le
-  righe in `RecipeRow` (una per ricetta, **un nodo solo che si disegna da sé** in `_draw`: con una decina di nodi per
-  riga la prima apertura costava 90 ms; `refresh(possibile, conteggi)` con i conteggi di `Crafting.counts` fatti una
-  volta per tutte le righe), `MiningCursor`.
+  `SlotView` (casella riusabile con icona e quantità). **La Bisaccia aperta** (riprogettata il 28 set 2026, richiesta
+  dell'utente: «impaginazione nettamente migliore, sfondo scuro, pratica, intuitiva e chiara»): uno sfondo scuro copre
+  il mondo, riquadri opachi (`CraftingPanel.panel_box`); `panel.z_index` 4 sopra le scritte dell'HUD, la barra rapida
+  (5) e gli avvisi (6) sopra la Bisaccia.
+    `CraftingPanel` — «Creare», in alto a sinistra (`RECT`): banchi vicini con icona e nome, categorie in colonna con
+    «possibili/tutte» (più «Lavorazioni» del Maglio e del Telaio, righe in `CraftWork`), ricerca, «Solo possibili»,
+    «Anche i banchi lontani»; la griglia delle ricette per categoria (`RecipeTile` in `src/ui/craft/`: un nodo che si
+    disegna da sé, barra di quanto hai degli ingredienti; clic sceglie, doppio clic crea, Maiusc+clic crea 5), caselle
+    preparate poche per fotogramma a Bisaccia chiusa e riusate. `pick`, `times_possible`, `craft_times`, `station_ok`;
+    con una cassa aperta lascia il posto alla cassa (`set_tall(false)`).
+    `ExaminePanel` — «Esamina», la colonna a destra: la scheda della ricetta scelta (oggetto, banco vicino o no,
+    ingredienti con «ne hai / ne servono», quantità −/+/Max, «Crea») e sotto `ItemInfo`; oppure l'oggetto posato
+    nella casella (con «Vai alla ricetta»). L'utente vuole i dettagli qui, in uno spazio apposito, non nei suggerimenti.
+    `CharacterCard` — la scheda del Germogliato in basso a sinistra (`CharacterSheet`).
+    `RecipeRow` resta per lo stile dei bottoni (`RecipeRow.style`). `MiningCursor`.
 - `src/game/vitals.gd` (`Vitals`) — Vita (100, foglie da 10) e Linfa (20, gocce da 2), Scorza (metà del suo valore
   tolta a ogni ferita), ricrescita della Vita dopo 6 s senza ferite, attesa di 30 s tra due pozioni; segnali `changed` e
   `died`. In main: ferite da caduta oltre 12 tessere (6 punti per tessera in più), appassire e rinascere alla partenza.

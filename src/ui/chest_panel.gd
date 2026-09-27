@@ -11,7 +11,7 @@ const COLS := 10
 const GAP := 6
 const MAX_COLS := 15                   # 28 set 2026: le casse più grandi (fino a 100 caselle)
 const MAX_ROWS := 7
-const LEFT_MIN := 500.0                # a sinistra c'è la casella Esamina
+
 
 var panel: BisacciaPanel
 var storage: Storage
@@ -33,6 +33,7 @@ func setup(p: BisacciaPanel) -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	visible = false
+	z_index = 4                                # come la Bisaccia aperta: sopra lo sfondo scuro
 	_frame = Panel.new()
 	_frame.add_theme_stylebox_override("panel", _box())
 	_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -118,7 +119,8 @@ func _layout(n: int) -> void:
 	var cols := maxi(COLS, ceili(n / float(MAX_ROWS)))
 	var rows := maxi(ceili(n / float(cols)), 1)
 	var w := cols * SlotView.SIZE + (cols - 1) * GAP
-	var x0 := maxf((1600 - w) / 2.0, LEFT_MIN)
+	# nel posto di «Creare» (in alto a sinistra), centrata con i suoi pulsanti a destra
+	var x0 := maxf(CraftingPanel.RECT.position.x + (CraftingPanel.RECT.size.x - (w + 28 + 10 + 150)) / 2.0 + 14, 26.0)
 	var bag_top := Hud.HOTBAR_Y - 16 - 3 * (SlotView.SIZE + GAP) - 44
 	var y0 := bag_top - 14 - rows * (SlotView.SIZE + GAP)
 	_frame.position = Vector2(x0 - 14, y0 - 40)
@@ -138,7 +140,7 @@ func _layout(n: int) -> void:
 
 static func _box() -> StyleBoxFlat:
 	var sb := StyleBoxFlat.new()
-	sb.bg_color = Color(0.03, 0.06, 0.06, 0.86)
+	sb.bg_color = CraftingPanel.BG
 	sb.border_color = Color("#6ff0d8")
 	sb.set_border_width_all(2)
 	sb.set_corner_radius_all(18)

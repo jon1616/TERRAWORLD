@@ -54,14 +54,13 @@ Se fatichi a vedere, nelle [url=cap:opzioni]Opzioni[/url] c'è il «Chiarore del
 """La [b]Bisaccia[/b] ({bag} caselle; le prime 10 sono la [b]barra rapida[/b] in basso). Si apre con {k_bisaccia}.
 • [b]Clic[/b] prende o posa una pila; [b]clic destro[/b] ne prende metà; [b]Maiusc+clic[/b] la manda nella cassa aperta.
 • A sinistra l'[b]equipaggiamento[/b]: elmo, corazza, gambali e due accessori, con la Scorza totale e il set più avanti.
-• In alto a sinistra la casella [b]Esamina[/b]: posaci un oggetto per sapere tutto (a cosa serve, in quali ricette, come si ottiene). A vuoto mostra la scheda del Germogliato.
-• A destra il pannello [url=cap:creare]Creare[/url].
+• Aperta, il mondo si scurisce dietro: in alto a sinistra il pannello [url=cap:creare]Creare[/url], a destra la colonna [b]Esamina[/b] (la ricetta scelta, o l'oggetto che ci posi: a cosa serve, in quali ricette, come si ottiene), in basso a sinistra la scheda del [b]Germogliato[/b].
 • «Riordina» mette in ordine (non tocca la barra rapida); «Nelle casse vicine» manda ogni oggetto nella [url=cap:casse]cassa[/url] che lo tiene già.
 Gli oggetti a terra vengono attirati quando ti avvicini, se c'è posto."""},
 	{"id": "opzioni", "group": "Primi passi", "name": "Opzioni, pausa e suggerimenti", "text":
 """[b]Esc[/b] apre la pausa: da lì Opzioni, questa Enciclopedia, salvataggio, ritorno al menu.
 Le [b]Opzioni[/b] coprono audio, video (schermo, fotogrammi, ingrandimento, chiarore del buio), interfaccia, gioco (pausa mentre crei, pausa con i pannelli grandi, salvataggio automatico), suggerimenti (ritardo, grandezza, nel mondo) e comandi.
-I [b]suggerimenti[/b]: tieni il mouse su una casella, una creatura, una stazione, un minerale e compare la sua scheda. Tenendo [b]Maiusc[/b], armi e armature si confrontano con ciò che hai. Ricette e provenienza sono nella casella Esamina.
+I [b]suggerimenti[/b]: tieni il mouse su una casella, una creatura, una stazione, un minerale e compare la sua scheda. Tenendo [b]Maiusc[/b], armi e armature si confrontano con ciò che hai. Ricette e provenienza sono nella colonna Esamina.
 Nella sezione Gioco c'è anche la [b]grandezza delle pile[/b]: quanti oggetti uguali stanno in una casella, da un quarto del normale a infinite (attrezzi, armi e armature restano uno per casella).
 Il gioco [b]si salva da solo[/b] ogni pochi minuti, passando da un portale e uscendo."""},
 	# il mondo

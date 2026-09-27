@@ -26,13 +26,14 @@ func setup(p: BisacciaPanel) -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	visible = false
+	z_index = 4                                # come la Bisaccia aperta: sopra lo sfondo scuro (28 set 2026)
 	var w := COLS * SlotView.SIZE + (COLS - 1) * GAP
 	var x0 := (1600 - w) / 2.0
 	var bag_top := Hud.HOTBAR_Y - 16 - 3 * (SlotView.SIZE + GAP) - 44
 	var y0 := bag_top - 40 - SlotView.SIZE - 20
 	var frame := Panel.new()
 	var sb := StyleBoxFlat.new()
-	sb.bg_color = Color(0.05, 0.05, 0.03, 0.9)
+	sb.bg_color = CraftingPanel.BG
 	sb.border_color = Color("#ffd08a")
 	sb.set_border_width_all(2)
 	sb.set_corner_radius_all(18)
@@ -109,6 +110,7 @@ func open(id: String) -> void:
 	visible = true
 	if not panel.visible:
 		panel.toggle()
+	panel.crafting.set_tall(false)             # il commercio prende il posto di «Creare»
 	panel.quick_target = _sell_slot
 	_refresh()
 
@@ -117,6 +119,7 @@ func close() -> void:
 	visible = false
 	npc = ""
 	panel.quick_target = Callable()
+	panel.crafting.set_tall(true)
 
 
 func _goods() -> Array:

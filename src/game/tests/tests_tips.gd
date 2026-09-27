@@ -194,8 +194,8 @@ func hud_tips() -> void:
 	var vc := HudTips.vitals(m)
 	var ck := HudTips.clock(m)
 	var ob := HudTips.objectives(m)
-	# una riga di Creare: la scheda di ciò che nasce con gli ingredienti
-	var row := RecipeRow.new()
+	# una ricetta di Creare: la scheda di ciò che nasce con gli ingredienti
+	var row := RecipeTile.new()
 	row.setup(RecipesData.all()[0], m.character.bisaccia)
 	var rc: TipCard = Tips.card_of(row)
 	row.free()

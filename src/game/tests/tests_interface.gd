@@ -49,31 +49,32 @@ func run() -> void:
 		await kit.frames(1)
 		counts.append("%s %d" % [CraftingPanel.CATS[k][0], cp.shown_rows()])
 	print("Creare, righe per categoria: %s" % ", ".join(counts))
-	# il suggerimento di una riga (le righe si riusano e lo scrivono solo quando il mouse ci passa sopra)
+	# il suggerimento di una casella ricetta (le caselle si riusano e lo scrivono solo quando il mouse ci passa sopra)
 	cp.cat = 0
 	cp.refresh()
 	var tip := ""
-	for c in cp._list.get_children():
-		if c is RecipeRow and (c as Control).visible:
-			var tc := Tips.card_of(c as Control)
-			tip = tc.plain() if tc != null else ""
-			break
+	var tiles := cp.shown_tiles()
+	if not tiles.is_empty():
+		var tc := Tips.card_of(tiles[0])
+		tip = tc.plain() if tc != null else ""
 	print("Creare, suggerimento della prima ricetta: %s" % ("sì" if tip.strip_edges().length() > 3 else "NO"))
-	# un clic su una riga possibile fabbrica davvero (e suona)
-	cp.cat = 0
-	cp.refresh()
+	# 28 set 2026: si sceglie una ricetta possibile, la sua scheda compare in Esamina e «Crea» fabbrica davvero (e suona)
+	var ex: ExaminePanel = m.hud.panel.examine
 	var made := "NO"
-	for c in cp._list.get_children():
-		if c is RecipeRow and (c as RecipeRow).visible and (c as RecipeRow).can:
-			var row := c as RecipeRow
-			var out := String(row.r["out"])
+	var card_ok := false
+	for t in cp.shown_tiles():
+		if t.can:
+			var out := String(t.r["out"])
 			var before := b.count(out)
 			var sounds := int(m.sfx.played.get("crea", 0))
-			row.pressed.emit()
+			t.chosen.emit(t)
+			await kit.frames(2)
+			card_ok = ex._card.visible and ex._name.text.begins_with(String(ItemsData.get_item(out)["name"])) and not ex._make.disabled
+			ex._make.pressed.emit()
 			made = "%s ×%d%s" % [ItemsData.get_item(out)["name"], b.count(out) - before,
 				", suonato" if int(m.sfx.played.get("crea", 0)) > sounds else ", NESSUN suono"]
 			break
-	print("Creare, clic su una ricetta possibile: %s" % made)
+	print("Creare, ricetta scelta: scheda in Esamina %s; «Crea»: %s" % ["sì" if card_ok else "NO", made])
 	cp.cat = 0
 	cp.refresh()
 	await kit.seconds(1.0)
@@ -82,16 +83,18 @@ func run() -> void:
 	cp._search.text = "bastone"
 	cp.refresh()
 	await kit.frames(3)
-	print("Creare, Armi con la ricerca «bastone»: %d righe" % cp.shown_rows())
+	print("Creare, Armi con la ricerca «bastone»: %d ricette" % cp.shown_rows())
 	await kit.seconds(0.5)
 	await kit.save("56_creare_armi")
 	cp._search.text = ""
 	cp.cat = 0
 	cp.refresh()
+	if tip.strip_edges().length() <= 3 or not card_ok or made == "NO" or not made.contains("suonato"):
+		print("ATTENZIONE: il pannello Creare non funziona come dovrebbe")
 	# la scheda del Germogliato
-	var ex: ExaminePanel = m.hud.panel.examine
-	ex.refresh()
-	print("scheda del Germogliato nella casella vuota: %s" % ("sì" if ex._text.text.contains("Scorza") else "NO"))
+	var cc: CharacterCard = m.hud.panel.card
+	cc.refresh()
+	print("scheda del Germogliato: %s" % ("sì" if cc.text.text.contains("Scorza") else "NO"))
 	m.hud.panel.toggle()
 	# Riordina
 	b.add("aculeo", 5)

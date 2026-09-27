@@ -30,6 +30,7 @@ func _ready() -> void:
 	panel.stations_near = stations_near
 	panel.visible = false
 	add_child(panel)
+	panel.z_index = 4                          # sopra le scritte dell'HUD (orologio, obiettivi); la barra rapida sopra
 	panel.crafting.held_slot = func() -> int: return sel
 	selected.connect(func(_it: Dictionary) -> void:
 		if panel.visible:
@@ -41,6 +42,7 @@ func _ready() -> void:
 		s.index = k
 		s.position = Vector2(x0 + k * (SlotView.SIZE + 6), HOTBAR_Y)
 		s.clicked.connect(_on_slot_clicked)
+		s.z_index = 5                          # la barra rapida resta sopra la Bisaccia aperta
 		add_child(s)
 		var num := _label(s, Vector2(7, 1), 12)
 		num.add_theme_color_override("font_color", Color("#9fd8c8"))
@@ -64,6 +66,7 @@ func _ready() -> void:
 	_toast.size = Vector2(1600, 30)
 	_toast.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_toast.modulate.a = 0.0
+	_toast.z_index = 6                         # gli avvisi restano leggibili anche con la Bisaccia aperta
 	bisaccia.changed.connect(_refresh)
 	_refresh()
 	select(0)

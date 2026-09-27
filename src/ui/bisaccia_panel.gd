@@ -1,7 +1,11 @@
 class_name BisacciaPanel
 extends Control
 ## La Bisaccia aperta: le 30 caselle sopra la barra rapida. Un clic prende la pila (resta «in mano», segue il mouse),
-## un altro clic la posa o la scambia; il clic destro prende metà pila. A destra la colonna «Creare» (`CraftingPanel`).
+## un altro clic la posa o la scambia; il clic destro prende metà pila.
+## 28 set 2026 (richiesta dell'utente: Creare ed Esamina riprogettati, sfondo scuro): aperta, uno sfondo scuro copre il
+## mondo e i riquadri sono opachi: in alto a sinistra «Creare» (`CraftingPanel`), a destra la colonna «Esamina»
+## (`ExaminePanel`, con la scheda della ricetta scelta), in basso a sinistra la scheda del Germogliato
+## (`CharacterCard`), in basso al centro l'equipaggiamento e la Bisaccia.
 
 const COLS := 10
 const ROWS := 3
@@ -11,7 +15,8 @@ var bisaccia: Bisaccia
 var stations_near: Callable            # () -> stazioni a portata del giocatore, per la colonna «Creare»
 var _dirty := false                    # la Bisaccia è cambiata da quando le caselle sono state disegnate
 var crafting: CraftingPanel
-var examine: ExaminePanel               # la casella «Esamina» in alto a sinistra
+var examine: ExaminePanel               # la colonna «Esamina» a destra
+var card: CharacterCard                 # la scheda del Germogliato, in basso a sinistra
 var _equip: Dictionary = {}            # posto -> SlotView
 var _scorza: Label
 var _sets: Label
@@ -28,16 +33,23 @@ var _toast: Callable = func(_t: String) -> void: pass
 func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# lo sfondo scuro: il mondo resta dietro, appena visibile
+	var dim := ColorRect.new()
+	dim.color = Color(0.0, 0.015, 0.015, 0.78)
+	dim.position = Vector2(-400, -400)
+	dim.size = Vector2(2400, 1700)
+	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(dim)
 	var w := COLS * SlotView.SIZE + (COLS - 1) * GAP
 	var x0 := (1600 - w) / 2.0
 	var y0 := Hud.HOTBAR_Y - 16 - ROWS * (SlotView.SIZE + GAP)
 	var frame := Panel.new()
 	var sb := StyleBoxFlat.new()
 	# (la stessa cornice serve anche alla colonna dell'equipaggiamento)
-	sb.bg_color = Color(0.01, 0.05, 0.06, 0.82)
+	sb.bg_color = CraftingPanel.BG
 	sb.border_color = Color("#2f7a70")
 	sb.set_border_width_all(2)
-	sb.set_corner_radius_all(22)
+	sb.set_corner_radius_all(14)
 	frame.add_theme_stylebox_override("panel", sb)
 	frame.position = Vector2(x0 - 14, y0 - 44)
 	frame.size = Vector2(w + 28, ROWS * (SlotView.SIZE + GAP) + 44 + 8 + SlotView.SIZE + 18)
@@ -133,10 +145,14 @@ func _ready() -> void:
 	add_child(qs)
 	crafting = CraftingPanel.new()
 	add_child(crafting)
-	crafting.setup(bisaccia, stations_near, Vector2(frame.position.x + frame.size.x + 16, frame.position.y), frame.size.y)
+	crafting.setup(bisaccia, stations_near)
 	examine = ExaminePanel.new()
 	add_child(examine)
-	examine.setup(self, Vector2(20, frame.position.y - 16 - ExaminePanel.H))
+	examine.setup(self, crafting)
+	card = CharacterCard.new()
+	add_child(card)
+	card.setup(Rect2(12, frame.position.y, eframe.position.x - 24, frame.size.y), bisaccia)
+	card.sheet = func() -> String: return String(examine.sheet.call()) if examine.sheet.is_valid() else ""
 	_held_icon = SlotView.new()
 	_held_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_held_icon.modulate = Color(1, 1, 1, 0.9)
@@ -155,6 +171,7 @@ func toggle() -> void:
 		_refresh()
 		crafting.refresh()
 		examine.refresh()
+		card.refresh()
 	else:
 		crafting.release_search()
 	if not visible:
