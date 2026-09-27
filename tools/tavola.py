@@ -177,10 +177,13 @@ def quadrato(img: np.ndarray, lato: int) -> np.ndarray:
     return out
 
 
+DETTAGLI = 0.0   # peso in più dei colori scuri (--dettagli)
+
+
 def riduci_a(a: np.ndarray, lato: int, pal: np.ndarray, n_base: int) -> np.ndarray:
     """La figura dentro `lato` pixel compreso il contorno."""
     f = max(a.shape[0], a.shape[1]) / (lato - 2)
-    return quadrato(pixela.riduci(a, f, pal, n_base)[:lato, :lato], lato)
+    return quadrato(pixela.riduci(a, f, pal, n_base, DETTAGLI)[:lato, :lato], lato)
 
 
 def anteprima(figure: list[np.ndarray], nomi: list[str], misure: list[int], pal: np.ndarray, n_base: int,
@@ -219,9 +222,13 @@ def main() -> None:
     ap.add_argument("--colori", type=int, default=12, help="colori per ogni pezzo")
     ap.add_argument("--misure", default="", help="misure dell'anteprima, es. 12,16,20 (vuoto = solo --lato)")
     ap.add_argument("--griglia", default="", help="colonne x righe, es. 6x3: unisce i pezzi di ogni cella")
+    ap.add_argument("--dettagli", type=float, default=0.0,
+                    help="peso in più dei dettagli scuri (occhi, bocca), es. 1.5 per i ritratti")
     ap.add_argument("--tieni-contorno", action="store_true", help="non togliere il contorno scuro del disegno")
     args = ap.parse_args()
 
+    global DETTAGLI
+    DETTAGLI = args.dettagli
     nomi = [n.strip() for n in args.nomi.split(",") if n.strip()]
     a = togli_magenta(Image.open(args.file))
     if args.griglia:

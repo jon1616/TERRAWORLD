@@ -88,7 +88,7 @@ def _indici(rgb: np.ndarray, pal: np.ndarray, n_base: int) -> np.ndarray:
     return idx.reshape(rgb.shape[:2])
 
 
-def riduci(a: np.ndarray, f: float, pal: np.ndarray, n_base: int) -> np.ndarray:
+def riduci(a: np.ndarray, f: float, pal: np.ndarray, n_base: int, scuro_min: float = 0.0) -> np.ndarray:
     """Riduce la figura `a` (RGBA float) di un fattore `f` (pixel grandi per pixel piccolo) con la tavolozza data.
     Restituisce RGBA uint8 con il contorno (1 pixel in più su ogni lato)."""
     h_in = max(1, round(a.shape[0] / f))
@@ -103,6 +103,8 @@ def riduci(a: np.ndarray, f: float, pal: np.ndarray, n_base: int) -> np.ndarray:
     # perderebbero); nelle tavole, con celle piccole, il contorno del disegno è già largo mezzo pixel e vincerebbe
     # ovunque (la tunica diventava marrone): il peso scende con il fattore di riduzione
     scuro = 1.5 * float(np.clip((f - 8.0) / 12.0, 0.0, 1.0))
+    # i ritratti (tools/tavola.py --dettagli): occhi e bocca sono linee scure sottili che la moda perdeva
+    scuro = max(scuro, scuro_min)
     peso = 1.0 + scuro * (lum < 60) + 1.2 * (lum > 190) + 0.8 * (sat > 120)
     # i colori rari della figura sono dettagli messi apposta: contano di più, altrimenti in un riquadro perdono sempre
     # contro il colore che li circonda
