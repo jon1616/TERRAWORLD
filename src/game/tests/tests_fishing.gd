@@ -28,6 +28,7 @@ func run() -> void:
 	await extras()
 	await rewards()
 	await village()
+	await balance()
 	for i in slots0.size():
 		b.slots[i] = slots0[i]
 	b.equip = equip0
@@ -490,4 +491,25 @@ func village() -> void:
 		"arriva" if early else "no", "arriva" if ready else "NO", art.size(), asked, "sì" if objs else "NO", "sì" if tip else "NO", values])
 	if early or not ready or art.is_empty() or asked == "" or not objs or not tip or not (values[0] < values[1] and values[1] < values[2]):
 		print("ATTENZIONE: il Pescatore e l'intreccio della pesca non vanno come dovrebbero")
+
+
+## Voce 125: la fatica di uno specchio sale a ogni pesce (fino al tetto), allunga l'attesa e scende col tempo.
+func balance() -> void:
+	var fi: Fishing = m.fishing
+	var meta0: Dictionary = (m.world_meta.get("pesca", {}) as Dictionary).duplicate(true)
+	var body := {"x0": 4000, "top": 16}
+	var key := Fishing.spot_key(body)
+	var t0 := fi.tiredness(key)
+	for k in 14:
+		fi._tire(key)
+	var full := fi.tiredness(key)
+	# dieci minuti dopo (si sposta indietro l'ora dell'ultimo pesce)
+	var e: Array = m.world_meta["pesca"][key]
+	e[1] = float(e[1]) - 600.0
+	var later := fi.tiredness(key)
+	m.world_meta["pesca"] = meta0
+	print("fatica di uno specchio: all'inizio %.1f, dopo 14 pesci %.1f (tetto %.0f, attesa ×%.2f), dieci minuti dopo %.1f" % [t0,
+		full, FishingData.TIRE_MAX, 1.0 + FishingData.TIRE_WAIT * full, later])
+	if t0 > 0.01 or absf(full - FishingData.TIRE_MAX) > 0.05 or not (later < full - 3.0 and later > 0.0):
+		print("ATTENZIONE: la fatica degli specchi non va come dovrebbe")
 

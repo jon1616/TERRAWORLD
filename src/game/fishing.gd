@@ -59,8 +59,11 @@ func cast(c: Vector2i, rod: String) -> bool:
 		return false
 	while w.liq(q.x, q.y - 1) > 0:
 		q.y -= 1                                  # il galleggiante sta sul pelo del liquido
-	line = {"cell": q, "from": pc, "rod": rod, "ctx": ctx, "bite": -1.0,
-		"t": _rng.randf_range(WAIT[0], WAIT[1]) * wait_mult(rod)}
+	var key := spot_key(body)
+	line = {"cell": q, "from": pc, "rod": rod, "ctx": ctx, "bite": -1.0, "key": key,
+		"t": _rng.randf_range(WAIT[0], WAIT[1]) * wait_mult(rod) * (1.0 + FishingData.TIRE_WAIT * tiredness(key))}
+	if tiredness(key) >= FishingData.TIRE_MAX * 0.6:
+		m.hud.toast("Qui hai pescato tanto: i pesci sono diffidenti, abboccano più piano")
 	m.sfx.play("tira", Vector2(q) * 16.0)
 	queue_redraw()
 	return true
@@ -83,6 +86,23 @@ func luck_now(rod: String) -> float:
 	if bi >= 0:
 		k += float(ItemsData.get_item(m.character.bisaccia.id_at(bi))["bait"]["luck"])
 	return k
+
+
+## Voce 125: la chiave di uno specchio (il suo angolo, a blocchi di 16 tessere) e la sua fatica (0 - `TIRE_MAX`).
+static func spot_key(body: Dictionary) -> String:
+	return "%d,%d" % [int(body["x0"]) / 16, int(body["top"]) / 16]
+
+
+func tiredness(key: String) -> float:
+	var e: Array = (m.world_meta.get("pesca", {}) as Dictionary).get(key, [0.0, 0.0])
+	var now := Time.get_unix_time_from_system()
+	return maxf(float(e[0]) - (now - float(e[1])) / FishingData.TIRE_RECOVER, 0.0)
+
+
+func _tire(key: String) -> void:
+	var all: Dictionary = m.world_meta.get("pesca", {})
+	all[key] = [minf(tiredness(key) + 1.0, FishingData.TIRE_MAX), Time.get_unix_time_from_system()]
+	m.world_meta["pesca"] = all
 
 
 ## Il mondo attorno allo specchio, per `FishData`.
@@ -130,6 +150,7 @@ func catch() -> String:
 	var id := FishData.roll(line["ctx"], _rng, luck)
 	var q: Vector2i = line["cell"]
 	var ctx: Dictionary = line["ctx"]
+	_tire(String(line.get("key", "")))
 	stop()
 	if id == "":
 		return ""
@@ -205,7 +226,7 @@ func open_crate(id: String) -> bool:
 		return false
 	var cr: Array = ItemsData.get_item(id)["crate"]
 	b.take_one(i)
-	var got := LootData.roll_chest("rovina_%d" % _rng.randi_range(int(cr[0]), int(cr[1])), _rng, 2)
+	var got := LootData.roll_chest("rovina_%d" % _rng.randi_range(int(cr[0]), int(cr[1])), _rng, 1)
 	if _rng.randf() < 0.25:
 		got["perla_stagno"] = int(got.get("perla_stagno", 0)) + 1
 	if _rng.randf() < float(FishingData.UNIQUE_IN_CRATE.get(id, 0.0)):

@@ -100,9 +100,16 @@ const RECIPES := [
 	{"out": "collana_perle", "qty": 1, "in": {"perla_stagno": 3, "seta_radice": 2}, "station": "telaio"},
 ]
 
+## Voce 125: ogni specchio si stanca se ci si pesca tanto (la sua «fatica» sale di 1 a pesce e scende di 1 ogni
+## `TIRE_RECOVER` secondi, anche mentre non si gioca) e l'attesa si allunga di `TIRE_WAIT` per punto, fino a `TIRE_MAX`
+## punti: la pesca resta un'attività, non una fabbrica.
+const TIRE_WAIT := 0.15
+const TIRE_MAX := 10.0
+const TIRE_RECOVER := 180.0
+
 ## Voce 123: una cassa al posto del pesce (probabilità di base, più la fortuna × `CRATE_LUCK`), una perla in più.
-const CRATE := 0.06
-const CRATE_LUCK := 0.03
+const CRATE := 0.03
+const CRATE_LUCK := 0.02
 const PEARL := 0.03
 const UNIQUE_IN_CRATE := {"cassetta_alga": 0.02, "forziere_sommerso": 0.05, "scrigno_fondo": 0.1}
 

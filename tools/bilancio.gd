@@ -7,6 +7,7 @@ extends SceneTree
 ##   3. creature: Vita e danno medi per strato, per vigore (1, 2, 3, 5, 10, 20), con i colpi per sconfiggerle con l'arma
 ##      del grado atteso in quello strato, e i colpi che il Germogliato regge
 ##   4. ricette: quanti materiali grezzi servono in media per grado
+##   5. pesca (voce 125): per alcuni specchi e canne, con e senza esca: attesa, pesci all'ora, quanti rari, Lumini all'ora
 ## I segni «!» indicano un salto oltre il doppio tra un grado e il successivo.
 
 var out := ""
@@ -18,6 +19,7 @@ func _init() -> void:
 	_armor()
 	_creatures()
 	_recipes()
+	_fishing()
 	var f := FileAccess.open("res://prove/bilancio.txt", FileAccess.WRITE)
 	if f:
 		f.store_string(out)
@@ -127,3 +129,52 @@ func _recipes() -> void:
 	tiers.sort()
 	for t in tiers:
 		_p("   grado %d: %.1f materiali per oggetto (%d ricette)" % [t, float(sums[t][0]) / int(sums[t][1]), int(sums[t][1])])
+
+
+## Voce 125: i numeri della pesca (senza fatica dello specchio né tempo atmosferico). Un lancio costa l'attesa media, la
+## presa e un paio di secondi per rilanciare; il valore è quello del commercio (`FishData.RARITY`).
+func _fishing() -> void:
+	_p("5. PESCA: attesa media, pesci all'ora, rari e leggendari su cento, Lumini all'ora (il Pescatore paga un terzo)")
+	var spots := [
+		["stagno della foresta", {"liq": 0, "stratum": 0, "biome": "foresta", "depth": 5, "volume": 60.0}],
+		["stagno delle torbiere", {"liq": 0, "stratum": 0, "biome": "torba", "depth": 4, "volume": 60.0}],
+		["grotta delle Caverne", {"liq": 0, "stratum": 2, "biome": "foresta", "depth": 4, "volume": 60.0}],
+		["lago di Linfa", {"liq": 1, "stratum": 3, "biome": "foresta", "depth": 5, "volume": 80.0}],
+		["lago di brace", {"liq": 2, "stratum": 4, "biome": "foresta", "depth": 5, "volume": 80.0}],
+	]
+	var rods := [["canna_radice", ""], ["canna_radicite", ""], ["canna_ambra", "esca_squama"], ["canna_stellare", "esca_iridata"]]
+	for sp in spots:
+		var ctx: Dictionary = sp[1]
+		ctx.merge({"night": false, "season": "germoglio", "weather": "sereno", "genes": []})
+		var line := "   %-22s" % sp[0]
+		for rb in rods:
+			var it := ItemsData.get_item(String(rb[0]))
+			if not int(ctx["liq"]) in (it.get("fish_liq", [0]) as Array):
+				line += " | %s: —" % rb[0]
+				continue
+			var luck := float(it.get("fish", 0.0))
+			var wait := (Fishing.WAIT[0] + Fishing.WAIT[1]) / 2.0 * float(it.get("fish_speed", 1.0))
+			if String(rb[1]) != "":
+				var bt: Dictionary = ItemsData.get_item(String(rb[1]))["bait"]
+				luck += float(bt["luck"])
+				wait *= float(bt["wait"])
+			var pool := FishData.pool(ctx, luck)
+			var tot := 0.0
+			var rare := 0.0
+			var value := 0.0
+			for e in pool:
+				tot += float(e[1])
+			for e in pool:
+				var r := String(FishData.info(String(e[0]))["rar"])
+				var p := float(e[1]) / tot
+				if r in ["raro", "leggendario"]:
+					rare += p
+				value += p * float(FishData.RARITY[r]["value"])
+			var per_hour := 3600.0 / (wait + Fishing.BITE + 2.0)
+			line += " | %s%s: %.1f s, %d/h, rari %.1f%%, %d Lumini/h" % [String(rb[0]).trim_prefix("canna_"),
+				("+" + String(rb[1]).trim_prefix("esca_")) if String(rb[1]) != "" else "", wait, roundi(per_hour), rare * 100.0,
+				roundi(per_hour * value / 3.0)]
+		_p(line)
+	_p("   (con uno specchio stanco l'attesa arriva a ×%.1f; la fatica scende di 1 ogni %d s)" % [1.0 + FishingData.TIRE_WAIT * FishingData.TIRE_MAX,
+		roundi(FishingData.TIRE_RECOVER)])
+

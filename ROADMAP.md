@@ -7,8 +7,9 @@
 - **In corso: la Roadmap 13 «Il volto del mondo»** (voci 100-117, dal 28 set 2026): la grafica con Nano Banana,
   seguita passo passo con l'utente (Claude scrive i prompt, dice dove salvare le immagini, le adatta con gli script).
   Dopo: un secondo bilancio con il diario delle partite vere.
-- **In corso: la Roadmap 14 «Le acque vive»** (voci 118-125, dal 28 set 2026): la pesca, decisa con l'utente (gesto
-  quasi automatico, attività laterale ricca ma non indispensabile, in tutti i liquidi, liquidi spostabili).
+- **Fatta la Roadmap 14 «Le acque vive»** (voci 118-125, 28 set 2026): la pesca, decisa con l'utente (gesto quasi
+  automatico, attività laterale ricca ma non indispensabile, in tutti i liquidi, liquidi spostabili). Resoconto in fondo
+  alla Roadmap 14.
 - **Il piano «Il Giardiniere dei mondi» è compiuto**: Roadmap 5-11 (voci 41-82) tutte fatte.
 - **Fatte**: Roadmap 1 «Le fondamenta» (voci 0-16, tranne la 6), Roadmap 2 (17-20), Roadmap 3 «Esplorare, trovare,
   crescere» (21-30 + extra), Roadmap 4 «Un mondo da abitare» (31-40), il fotogramma lento del giro lungo (pannelli che
@@ -2192,10 +2193,36 @@ Bacheca chiede un pesce, gli obiettivi scattano, il consiglio della canna, i val
 - Un abitante nuovo, il Pescatore (vende attrezzi ed esche, compra pesci, le sue richieste); richieste facoltative
   nella Bacheca; obiettivi facoltativi; consigli alla prima volta; il capitolo dell'Enciclopedia.
 
-## 125. [ ] Equilibrio, prove e resoconto (M)
+## 125. [x] Equilibrio, prove e resoconto (M) — fatto il 28 set 2026
+Fatto: la **fatica degli specchi** (`world_meta["pesca"]`, chiave a blocchi di 16 tessere dall'angolo dello specchio):
++1 a ogni pesce fino a 10, −1 ogni 3 minuti di orologio vero (anche lontano dal gioco), l'attesa ×(1 + 0,15 × fatica),
+fino a ×2,5, con un avviso quando è alta. I **numeri** nella sezione 5 di `tools/bilancio.gd`: senza fatica da circa 320
+pesci all'ora (Canna di radice, nessuna esca) a 600 (stellare e esca iridata); rari e leggendari dallo 0% degli stagni
+di giorno al 4-14% nelle grotte e nei laghi profondi; con la fatica lo stesso specchio scende a circa 150 all'ora. Le
+casse pescate, al 6% erano 20-35 all'ora con due giri del bottino delle rovine (più che esplorare le rovine): ora 3% +
+fortuna × 2% e un giro solo. Il tetto di rendita delle farm non serve: la fatica fa da tetto. Prova della fatica.
 - Ogni specchio ha una popolazione che cala pescando e ricresce col tempo (l'ecologia della voce 57); un tetto alla
   rendita come le farm (`Fauna.loot_gate`); i numeri in `tools/bilancio.gd` (pesci all'ora, quanti rari); prove
   `--solo=pesca`; resoconto.
+
+### Resoconto della Roadmap 14 (28 set 2026)
+La pesca, come l'ha chiesta l'utente: **gesto quasi automatico** (clic sull'acqua, il pesce sale da solo), **attività
+laterale ricca ma non indispensabile** (nessuna ricetta importante vuole pesci; l'Erbario dei pesci sta fuori dalla
+percentuale; obiettivi e richieste della pesca facoltativi e in fondo), **in tutti i liquidi** con le canne del
+materiale giusto, **liquidi spostabili** per farsi le proprie zone di pesca.
+- Il mondo: stagni di superficie per bioma (`PassStagni`: 3-7 per mondo, 14-15 nelle Torbiere; prima quasi nessuno),
+  lo specchio riconosciuto al momento (`WaterBody`), l'otre, l'anfora e tre fonti (`LiquidTools`).
+- I pesci: 59 (`FishData`, 25 nei file dei biomi), con condizioni di liquido, strato, bioma, profondità, ora, stagione,
+  tempo e geni, rarità e taglia; oggetti, icone, la scheda Pesci dell'Erbario.
+- La pesca: `Fishing` (lancio, attesa, abboccata, presa), canne di ogni materiale (forma «canna») e la Canna di radice,
+  4 esche, 3 accessori, il tempo che accorcia l'attesa.
+- I frutti: filetti (una ricetta per pesce, generata), 5 piatti, 3 casse pescate, perle, la serie di unici «Tesori
+  delle acque». L'intreccio: il Pescatore, la Bacheca, 3 obiettivi, 2 consigli, il capitolo «La pesca».
+- L'equilibrio: la fatica degli specchi; i numeri in `tools/bilancio.gd`.
+Trovati per strada e corretti: gli scrigni dei luoghi scritti a mano finivano nel pavimento (casse alte due tessere); la
+prova dei gradi delle casse apriva una cassa lasciata accanto; `drink` ignorava la cura dei cibi con un effetto.
+Non fatto: il pesce leggendario per le Leggende (i leggendari restano nell'Erbario e negli obiettivi). Da fare con
+l'utente: provare la pesca giocando (ritmo, quanto rendono le casse), e le icone dei pesci con Nano Banana.
 
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».
