@@ -152,7 +152,8 @@ def pezzi_griglia(a: np.ndarray, col: int, righe: int) -> list[tuple[slice, slic
             continue
         scuri = (lum[sl] < 70)[m].mean()
         bianchi = ((lum[sl] > 190) & (sat[sl] < 50))[m].mean()
-        if scuri > 0.8 or (bianchi > 0.45 and scuri < 0.08):
+        # le lettere scure sono basse: una cassa quasi nera (l'Arca del Vuoto) è alta e resta
+        if (scuri > 0.8 and alto < ch * 0.2) or (bianchi > 0.45 and scuri < 0.08):
             continue
         cy, cx = (sl[0].start + sl[0].stop) / 2, (sl[1].start + sl[1].stop) / 2
         k = min(int(cy // ch), righe - 1) * col + min(int(cx // cw), col - 1)
