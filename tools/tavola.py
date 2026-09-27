@@ -100,6 +100,9 @@ def pezzi_griglia(a: np.ndarray, col: int, righe: int) -> list[tuple[slice, slic
         alto, largo = sl[0].stop - sl[0].start, sl[1].stop - sl[1].start
         if max(alto, largo) < min(ch, cw) * 0.12:
             continue
+        # una parola intera (lettere bianche unite dal loro contorno scuro): bassa e larga
+        if alto < ch * 0.14 and largo > alto * 2.5:
+            continue
         scuri = (lum[sl] < 70)[m].mean()
         bianchi = ((lum[sl] > 190) & (sat[sl] < 50))[m].mean()
         if scuri > 0.8 or (bianchi > 0.45 and scuri < 0.08):
