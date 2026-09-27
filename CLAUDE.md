@@ -283,7 +283,10 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   partenza, posizione di ogni personaggio), `Character` (personaggio separato dai mondi, `personaggi/<id>.json`), `Settings` (impostazioni del giocatore in
   `user://impostazioni.json`: volumi di effetti, sottofondo e musica).
   Cartella: `%APPDATA%\Godot\app_userdata\TERRAWORLD\salvataggi\`. Le creature non si salvano: si rimettono con
-  `PassPartenza.place_creatures`.
+  `PassPartenza.place_creatures`. I mondi nati dai Semi si salvano dentro il loro Giardino,
+  `mondi/<giardino>/semi/<id>` (28 set 2026, richiesta dell'utente: nel menu solo il mondo principale):
+  `WorldSave.dir_of` li trova, `list()` li elenca tutti (la rete delle Aiuole), `list_main()` solo i principali (menu);
+  quelli salvati prima in cima si spostano da soli; cancellando il Giardino se ne vanno anche loro.
 - `src/entities/` — `TileBody` (movimento contro la griglia, gradino automatico, passerelle che reggono solo chi scende
   e si attraversano tenendo S), `Creature` (una sola classe per tutte le creature: dati da `CreaturesData`, fisica a
   terra o in volo, fotogrammi, `take_hit` con spinta e lampo, `HpBar`), `behaviors/` (`Behavior.make(id)`: un

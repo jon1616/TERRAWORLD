@@ -105,9 +105,33 @@ func _init() -> void:
 	_check(not still and not FileAccess.file_exists(SavePaths.characters_dir() + "/" + c.id + ".json.bak"), "personaggio cancellato")
 	WorldSave.delete(id)
 	_check(WorldSave.read_meta(id).is_empty() and not DirAccess.dir_exists_absolute(ProjectSettings.globalize_path(WorldSave.dir_of(id))), "mondo cancellato")
+	_nested(w)
 	print("generazione %d ms · salvataggio %d ms · caricamento %d ms · file %.2f MB" % [t_gen, t_save, t_load, size / 1048576.0])
 	print("ESITO: %s" % ("tutto a posto" if errors == 0 else "%d errori" % errors))
 	quit()
+
+
+## 28 set 2026: i mondi nati dai Semi si salvano dentro il loro Giardino; nel menu solo il Giardino; quelli salvati
+## prima in cima alla cartella si spostano dentro; cancellando il Giardino se ne vanno anche loro.
+func _nested(w: World) -> void:
+	var g := "giardino_prova_semi"
+	var c1 := "figlio_prova_semi"
+	var c2 := "figlio_vecchio_prova_semi"
+	WorldSave.save(w, g, {"nome": "Giardino", "giardino": true})
+	WorldSave.save(w, c1, {"nome": "Figlio", "casa": g})
+	var root := SavePaths.worlds_dir()
+	_check(WorldSave.dir_of(c1) == root + "/" + g + "/semi/" + c1, "mondo del Seme dentro il Giardino (%s)" % WorldSave.dir_of(c1))
+	# un figlio salvato prima, in cima alla cartella
+	SavePaths.ensure(root + "/" + c2)
+	SavePaths.write_json(root + "/" + c2 + "/mondo.json", {"nome": "Figlio vecchio", "casa": g})
+	var all := WorldSave.list().map(func(m: Dictionary) -> String: return String(m["id"]))
+	var main := WorldSave.list_main().map(func(m: Dictionary) -> String: return String(m["id"]))
+	_check(g in all and c1 in all and c2 in all, "la rete vede tutti i mondi")
+	_check(g in main and not c1 in main and not c2 in main, "nel menu solo il Giardino %s" % [main])
+	_check(DirAccess.dir_exists_absolute(ProjectSettings.globalize_path(root + "/" + g + "/semi/" + c2)), "il figlio vecchio spostato dentro il Giardino")
+	_check(WorldSave.load_world(c1) != null and WorldSave.read_meta(c2).get("nome", "") == "Figlio vecchio", "i figli si leggono dal loro posto")
+	WorldSave.delete(g)
+	_check(WorldSave.read_meta(c1).is_empty() and WorldSave.read_meta(c2).is_empty(), "cancellato il Giardino, spariti i suoi mondi")
 
 
 func _same(a: World, b: World) -> void:

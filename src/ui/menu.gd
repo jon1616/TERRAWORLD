@@ -155,24 +155,36 @@ func _show_new_character() -> void:
 func _show_worlds() -> void:
 	_clear()
 	_heading("%s — scegli il mondo" % Session.character.name)
-	var list := WorldSave.list()
+	var list := WorldSave.list_main()             # 28 set 2026: solo i Giardini; i mondi dei Semi stanno dentro
 	if list.is_empty():
 		_note("Nessun mondo: piantane uno.")
 	for m in list:
 		var id: String = m["id"]
 		var vig := int(m.get("vigore", 1))
-		var b := _button("%s   ·   %sseme %s   ·   %s di gioco" % [m.get("nome", id), ("vigore %d   ·   " % vig) if vig > 1 else "", m.get("seme", "?"), _hours(float(m.get("tempo_di_gioco", 0.0)))], func() -> void:
+		var kids := _children_of(id)
+		var b := _button("%s   ·   %sseme %s   ·   %s di gioco%s" % [m.get("nome", id), ("vigore %d   ·   " % vig) if vig > 1 else "", m.get("seme", "?"), _hours(float(m.get("tempo_di_gioco", 0.0))),
+			("   ·   %d mondi nati dai Semi" % kids) if kids > 0 else ""], func() -> void:
 			Session.start_saved_world(id)
 			get_tree().change_scene_to_file(GAME_SCENE))
 		var wname := String(m.get("nome", id))
 		_with_delete(b, func() -> void:
-			_confirm("Eliminare per sempre il mondo «%s»?\nTutto ciò che hai costruito e scavato lì andrà perso.\nI personaggi restano." % wname,
+			_confirm("Eliminare per sempre il mondo «%s»?\nTutto ciò che hai costruito e scavato lì andrà perso%s.\nI personaggi restano." % [wname,
+				(", insieme ai %d mondi nati dai suoi Semi" % kids) if kids > 0 else ""],
 				func() -> void:
 					WorldSave.delete(id)
 					_show_worlds(),
 				_show_worlds))
 	_button("＋ Nuovo mondo", _show_new_world, GOLD)
 	_button("Indietro", _show_characters, DIM)
+
+
+## Quanti mondi nati dai Semi stanno dentro un Giardino.
+func _children_of(id: String) -> int:
+	var n := 0
+	for m in WorldSave.list():
+		if bool(m.get("dentro", false)) and String(m.get("casa", "")) == id:
+			n += 1
+	return n
 
 
 func _show_new_world() -> void:

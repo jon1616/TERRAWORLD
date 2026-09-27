@@ -10,12 +10,51 @@ extends RefCounted
 const MAGIC := "TWM1"
 
 
+## 28 set 2026 (richiesta dell'utente: nel menu solo il mondo principale della partita): i mondi nati dai Semi di un
+## Giardino si salvano dentro la sua cartella, `mondi/<giardino>/semi/<id>`; nel menu compare solo il Giardino
+## (`list_main`), la rete dei mondi li vede tutti (`list`). Cancellando il Giardino se ne vanno anche loro.
+const NESTED := "semi"
+static var _where := {}                # cartella base + id -> cartella del mondo (trovata una volta)
+
+
+## La cartella di un mondo: in cima (Giardini e mondi di prima) o dentro il suo Giardino.
 static func dir_of(id: String) -> String:
-	return SavePaths.worlds_dir() + "/" + id
+	var root := SavePaths.worlds_dir()
+	var key := root + "|" + id
+	if _where.has(key):
+		return _where[key]
+	var direct := root + "/" + id
+	if _exists(direct):
+		return direct
+	SavePaths.ensure(root)
+	for g in DirAccess.get_directories_at(ProjectSettings.globalize_path(root)):
+		var p := root + "/" + g + "/" + NESTED + "/" + id
+		if _exists(p):
+			_where[key] = p
+			return p
+	return direct
+
+
+static func _exists(path: String) -> bool:
+	return DirAccess.dir_exists_absolute(ProjectSettings.globalize_path(path))
+
+
+## Dove salvare un mondo nuovo: un mondo nato da un Seme va dentro il suo Giardino (se il Giardino c'è).
+static func _home_dir(id: String, meta: Dictionary) -> String:
+	var home := String(meta.get("casa", ""))
+	if home == "" or home == id or bool(meta.get("giardino", false)):
+		return ""
+	var hd := SavePaths.worlds_dir() + "/" + home
+	if not _exists(hd):
+		return ""
+	return hd + "/" + NESTED + "/" + id
 
 
 static func save(w: World, id: String, meta: Dictionary) -> Error:
 	var dir := dir_of(id)
+	if not _exists(dir) and _home_dir(id, meta) != "":
+		dir = _home_dir(id, meta)
+		_where[SavePaths.worlds_dir() + "|" + id] = dir
 	SavePaths.ensure(dir)
 	var torches := PackedInt32Array()
 	for c in w.torches:
@@ -137,6 +176,7 @@ static func _decode(bytes: PackedByteArray) -> World:
 ## passaggio, faranno nascere di nuovo il mondo dal suo seme (vedi `Portal`).
 static func delete(id: String) -> void:
 	SavePaths.delete_dir(dir_of(id))
+	_where.erase(SavePaths.worlds_dir() + "|" + id)
 
 
 ## I dati leggibili di un mondo, già portati alla forma di oggi (vedi `SaveMigrations`).
@@ -146,16 +186,47 @@ static func read_meta(id: String) -> Dictionary:
 	return m
 
 
-## Tutti i mondi salvati, dal più recente.
+## Tutti i mondi salvati (anche quelli dentro i Giardini), dal più recente. I mondi nati dai Semi salvati prima del
+## 28 set 2026 in cima alla cartella si spostano qui dentro il loro Giardino.
 static func list() -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
 	var root := SavePaths.worlds_dir()
 	SavePaths.ensure(root)
-	for id in DirAccess.get_directories_at(root):
+	for id in DirAccess.get_directories_at(ProjectSettings.globalize_path(root)):
 		var m := read_meta(id)
 		if m.is_empty():
 			continue
+		var into := _home_dir(id, m)
+		if into != "":
+			SavePaths.ensure(into.get_base_dir())
+			if DirAccess.rename_absolute(ProjectSettings.globalize_path(root + "/" + id), ProjectSettings.globalize_path(into)) == OK:
+				_where[root + "|" + id] = into
+				m["dentro"] = true
 		m["id"] = id
 		out.append(m)
+	for g in DirAccess.get_directories_at(ProjectSettings.globalize_path(root)):
+		var nd := root + "/" + g + "/" + NESTED
+		if not _exists(nd):
+			continue
+		for id in DirAccess.get_directories_at(ProjectSettings.globalize_path(nd)):
+			if out.any(func(e: Dictionary) -> bool: return String(e["id"]) == id):
+				continue
+			_where[root + "|" + id] = nd + "/" + id
+			var m := read_meta(id)
+			if m.is_empty():
+				continue
+			m["id"] = id
+			m["dentro"] = true
+			out.append(m)
 	out.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return String(a.get("ultimo_salvataggio", "")) > String(b.get("ultimo_salvataggio", "")))
+	return out
+
+
+## I mondi da mostrare nel menu: i Giardini (e i mondi di prima, o quelli il cui Giardino non c'è più). I mondi nati
+## dai Semi si raggiungono dal Giardino, con i portali.
+static func list_main() -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for m in list():
+		if not bool(m.get("dentro", false)):
+			out.append(m)
 	return out
