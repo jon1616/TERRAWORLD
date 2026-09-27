@@ -69,6 +69,7 @@ func _process(dt: float) -> void:
 		return
 	_t = TICK
 	var pc: Vector2i = m.player_cell()
+	_push_fake(pc)
 	var best := 1e9
 	for s in list:
 		if s.get("f", false):
@@ -101,6 +102,8 @@ func _found(s: Dictionary) -> void:
 		m.drops.spawn(String(ids[_rng.randi_range(0, ids.size() - 1)]), 1, at)
 	Fx.puff(m.fx, at, Color(gd["color"]) * 1.6)
 	m.sfx.play("apri", at)
+	if String(s["k"]) == "nido_nascosto":
+		_wake_nest(s)
 	m.objectives.bump("segreti")
 	if c[0] == c[1]:
 		m.objectives.bump("mondi_completi")
@@ -138,3 +141,65 @@ func _draw() -> void:
 	var k := 0.5 + 0.5 * sin(_clock * speed)
 	var col := Color("#8ef0d8").lerp(Color("#ffd24a"), rod)
 	draw_arc(p, 18.0 + k * 6.0 * (0.3 + rod), 0.0, TAU, 32, Color(col, 0.25 + 0.6 * rod * k), 1.5 + rod * 1.5)
+
+
+
+## Voce 96: la parete finta crolla appena ci si spinge contro (o la si tocca da sopra o da sotto).
+func _push_fake(pc: Vector2i) -> void:
+	var w: World = m.world
+	for q in [pc + Vector2i(-1, 0), pc + Vector2i(1, 0), pc + Vector2i(-1, -1), pc + Vector2i(1, -1), pc + Vector2i(0, 1),
+			pc + Vector2i(0, -2)]:
+		if w.inside(q.x, q.y) and w.tile(q.x, q.y) == TileDefs.FINTA:
+			crumble(q)
+			return
+
+
+## Fa crollare tutta la parete finta collegata a una cella.
+func crumble(start: Vector2i) -> int:
+	var w: World = m.world
+	var todo: Array[Vector2i] = [start]
+	var n := 0
+	while not todo.is_empty() and n < 60:
+		var q: Vector2i = todo.pop_back()
+		if not w.inside(q.x, q.y) or w.tile(q.x, q.y) != TileDefs.FINTA:
+			continue
+		w.set_tile(q.x, q.y, TileDefs.AIR)
+		n += 1
+		Fx.puff(m.fx, (Vector2(q) + Vector2(0.5, 0.5)) * 16.0, Color(0.6, 0.65, 0.75))
+		for d in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
+			todo.append(q + d)
+	if n > 0:
+		m.view.refresh_rect(Rect2i(start.x - 8, start.y - 8, 17, 17))
+		m.light.dirty = true
+		m.sfx.play("rompi", Vector2(start) * 16.0)
+		m.hud.toast("La parete era finta!")
+	return n
+
+
+## Voce 96: nel nido nascosto si sveglia una creatura rara dello strato.
+func _wake_nest(s: Dictionary) -> void:
+	var r := rect_of(s)
+	var st := StrataData.at(m.world, r.get_center().x, r.get_center().y)
+	var pool := CreaturesData.of_stratum(st, false, "")
+	var ok := pool.filter(func(e: Array) -> bool: return int(e[1]) > 0 and not CreaturesData.get_data(String(e[0])).get("fly", false))
+	if ok.is_empty():
+		return
+	var id := String(ok[_rng.randi_range(0, ok.size() - 1)][0])
+	var cr: Creature = m.fauna.add(id, (Vector2(r.get_center()) + Vector2(0.5, 0.0)) * 16.0)
+	var mult := float(StrataData.STRATA[st]["danger"]) * float(m.fauna.vigor_mult)
+	cr.strengthen(mult, mult * DangerData.DAMAGE)
+	m.fauna.make_ancient(cr, "antica")
+	m.hud.toast("Nel nido dormiva qualcosa di raro…")
+
+
+## Voce 96: la Mappa del tesoro segna dove è sepolto (i "dati" della casella dicono dove).
+func use_treasure_map() -> bool:
+	var b: Bisaccia = m.character.bisaccia
+	var d: Dictionary = b.data_at(m.hud.sel)
+	if not d.has("x"):
+		m.hud.toast("La mappa è sbiadita: non si legge più")
+		return false
+	m.language.add_mark(Vector2i(int(d["x"]), int(d["y"])), "tesoro", Color("#ffd24a"))
+	b.take_one(m.hud.sel)
+	m.hud.toast("Sulla mappa (M) c'è una croce: il tesoro è sepolto lì sotto")
+	return true

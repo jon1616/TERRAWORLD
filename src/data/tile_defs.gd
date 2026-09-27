@@ -38,6 +38,9 @@ const SIG_VUOTO := 28                  # velo del Vuoto: Passo nel Vuoto
 const SIG_BRACE := 29                  # muro di brace: Pelle di brace
 const PORTA_SEM := 30                  # voce 71: porta dei Seminatori, si apre risolvendo l'enigma del luogo
 const PIETRA_BRACE := 31               # voce 74: la brace spenta dall'acqua
+## voce 96: la parete finta. Sembra ardesia in tutto (disegno, mappa, nome) ma crolla appena ci spingi contro
+## (`Secrets`). Il numero viene dopo le tessere dei biomi (32-46).
+const FINTA := 47
 const TYPES_BASE := 31                 # le tessere scritte qui; quelle dei biomi nuovi vengono dopo (voce 91)
 static var TYPES: int = _types()
 const SEALS := {"velato": SIG_VELATO, "radice": SIG_RADICE, "vuoto": SIG_VUOTO, "brace": SIG_BRACE}
@@ -103,7 +106,7 @@ static func is_soft_decor(d: int) -> bool:
 	return d in DECOR_GRASS or d in DECOR_FLOWERS or d == DECOR_FERN or d in DECOR_BIOME_GRASS or d in DECOR_BIOME_PLANTS
 
 ## Secondi di scavo con il piccone di radicite.
-const _HARD := {DIRT: 0.22, STONE: 0.38, RADICITE: 0.5, LEGNOFERRO: 0.6, AMBRA: 0.7, CRYSTAL: 0.8,
+const _HARD := {FINTA: 0.2, DIRT: 0.22, STONE: 0.38, RADICITE: 0.5, LEGNOFERRO: 0.6, AMBRA: 0.7, CRYSTAL: 0.8,
 	RADICE: 0.45, SCISTO: 0.5, VUOTITE: 0.75, NODO: 9.0, PIETRA_SEM: 0.8,
 	SIG_VELATO: 9.0, SIG_RADICE: 9.0, SIG_VUOTO: 9.0, SIG_BRACE: 9.0, PORTA_SEM: 9.0, PIETRA_BRACE: 3.0,
 	AVV_TERRA: 0.25, AVV_MUSCHIO: 0.25, AVV_PIETRA: 0.42,
@@ -111,11 +114,11 @@ const _HARD := {DIRT: 0.22, STONE: 0.38, RADICITE: 0.5, LEGNOFERRO: 0.6, AMBRA: 
 ## Forza di piccone minima (vedi la durezza in `MaterialsData`): radicite 35, legnoferro 45, ambra 55. L'ambra vuole il piccone
 ## di legnoferro, i cristalli di Linfa quello d'ambra: è il filo della progressione.
 ## Il Fondo (vuotite) vuole il piccone di legnoferro: non ci si arriva col primo corredo.
-const _POWER := {DIRT: 0, STONE: 0, RADICITE: 0, LEGNOFERRO: 35, AMBRA: 45, CRYSTAL: 55, RADICE: 0, SCISTO: 0,
+const _POWER := {FINTA: 0, DIRT: 0, STONE: 0, RADICITE: 0, LEGNOFERRO: 35, AMBRA: 45, CRYSTAL: 55, RADICE: 0, SCISTO: 0,
 	VUOTITE: 45, NODO: 999, PIETRA_SEM: 0, SIG_VELATO: 999, SIG_RADICE: 999, SIG_VUOTO: 999, SIG_BRACE: 999, PORTA_SEM: 999, PIETRA_BRACE: 35,
 	AVV_TERRA: 0, AVV_MUSCHIO: 0, AVV_PIETRA: 0, PALLIDITE: 35, TIZZONITE: 55, ASSI: 0, MATTONI: 0, VETRO: 0, PORTA: 999}
 ## Oggetto che si ottiene rompendo la tessera o raccogliendo la decorazione.
-const _DROP := {PIETRA_BRACE: "pietra_brace", DIRT: "humus", STONE: "ardesia", RADICITE: "minerale_radicite", LEGNOFERRO: "minerale_legnoferro",
+const _DROP := {FINTA: "ardesia", PIETRA_BRACE: "pietra_brace", DIRT: "humus", STONE: "ardesia", RADICITE: "minerale_radicite", LEGNOFERRO: "minerale_legnoferro",
 	AMBRA: "minerale_ambra", CRYSTAL: "cristallo_linfa", RADICE: "radice_antica", SCISTO: "scisto", VUOTITE: "vuotite",
 	NODO: "radice_antica", PIETRA_SEM: "pietra_seminatori",
 	AVV_TERRA: "cenere_avvizzita", AVV_MUSCHIO: "cenere_avvizzita", AVV_PIETRA: "ardesia",
@@ -133,7 +136,7 @@ const ORES := [
 	{"type": PALLIDITE, "min_depth": 30, "strata": [1, 2], "in": [STONE, RADICE], "freq": 0.12, "threshold": 0.56},
 	{"type": TIZZONITE, "min_depth": 300, "strata": [3, 4], "in": [SCISTO, VUOTITE, STONE], "freq": 0.13, "threshold": 0.57},
 ]
-const _NAMES := {DIRT: "Humus", STONE: "Ardesia", RADICITE: "Radicite", LEGNOFERRO: "Legnoferro", AMBRA: "Ambra fossile", CRYSTAL: "Cristallo di Linfa",
+const _NAMES := {FINTA: "Ardesia", DIRT: "Humus", STONE: "Ardesia", RADICITE: "Radicite", LEGNOFERRO: "Legnoferro", AMBRA: "Ambra fossile", CRYSTAL: "Cristallo di Linfa",
 	RADICE: "Radice antica", SCISTO: "Scisto di Linfa", VUOTITE: "Vuotite", NODO: "Nodo avvizzito",
 	PIETRA_SEM: "Pietra dei Seminatori",
 	AVV_TERRA: "Terra avvizzita", AVV_MUSCHIO: "Muschio avvizzito", AVV_PIETRA: "Ardesia avvizzita",
@@ -176,7 +179,7 @@ const P_PIETRA_BRACE := ["#1e1216", "#2e1a1c", "#442424", "#5e3028", "#7c4030"]
 ## Strati del terreno dai contorni morbidi, dal basso verso l'alto: ogni strato disegna la forma morbida delle celle
 ## dei tipi elencati. Il primo è la sagoma di tutto il terreno.
 const _TERRAIN_LAYERS := [
-	{"id": "ardesia", "types": [DIRT, STONE, RADICITE, LEGNOFERRO, AMBRA, CRYSTAL, RADICE, SCISTO, VUOTITE, NODO,
+	{"id": "ardesia", "types": [FINTA, DIRT, STONE, RADICITE, LEGNOFERRO, AMBRA, CRYSTAL, RADICE, SCISTO, VUOTITE, NODO,
 		PIETRA_SEM, AVV_TERRA, AVV_MUSCHIO, AVV_PIETRA, PALLIDITE, TIZZONITE, SIG_VELATO, SIG_RADICE, SIG_VUOTO, SIG_BRACE, PORTA_SEM, PIETRA_BRACE],
 		"pal": P_STONE},
 	{"id": "humus", "types": [DIRT], "pal": P_DIRT},
@@ -209,7 +212,7 @@ const _TERRAIN_LAYERS := [
 ]
 
 ## Colore sulla mappa (strumenti e, in futuro, minimappa).
-const _MAP_COLOR := {DIRT: "#50343c", STONE: "#434f6c", RADICITE: "#d4783a", LEGNOFERRO: "#a2b0c2", AMBRA: "#eec04a", CRYSTAL: "#3ac0c8",
+const _MAP_COLOR := {FINTA: "#434f6c", DIRT: "#50343c", STONE: "#434f6c", RADICITE: "#d4783a", LEGNOFERRO: "#a2b0c2", AMBRA: "#eec04a", CRYSTAL: "#3ac0c8",
 	RADICE: "#8a5638", SCISTO: "#32687c", VUOTITE: "#463464", NODO: "#ff40a0",
 	PIETRA_SEM: "#e8fff8",
 	AVV_TERRA: "#5a534b", AVV_MUSCHIO: "#72704f", AVV_PIETRA: "#51555c", PALLIDITE: "#c4c4dc", TIZZONITE: "#e0582a",
@@ -309,7 +312,7 @@ static func _extra() -> Dictionary:
 
 
 static func _types() -> int:
-	var n := TYPES_BASE
+	var n := maxi(TYPES_BASE, FINTA)
 	for t in _extra():
 		n = maxi(n, int(t))
 	return n

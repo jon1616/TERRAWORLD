@@ -46,6 +46,7 @@ static func passes() -> Array[GenPass]:
 		PassCatene.new(),
 		PassStele.new(),
 		PassAcqua.new(),
+		PassSegretiStanze.new(),            # voce 96: stanze murate, passaggi, tesori, nidi nascosti
 		PassSegreti.new(),                  # voce 95: l'elenco dei segreti (non usa il caso, non sposta nulla)
 		PassPartenza.new(),
 	]

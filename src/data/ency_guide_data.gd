@@ -133,6 +133,7 @@ Quanti oggetti uguali stanno in una casella lo decidi nelle [url=cap:opzioni]Opz
 """Ogni mondo nasce con i suoi [b]segreti[/b]: posti nascosti che nessun sentiero porta a vedere. Entrando in un mondo un avviso dice quanti sono; il contatore («trovati 4 su 13») è sulla mappa (M), nella scheda del portale e nel Semenzaio. Un mondo non è finito finché il contatore non è pieno.
 Un segreto si trova [b]entrandoci[/b]: il premio dipende dal grado.
 {cat_segreti}
+Guarda bene le pareti delle grotte: alcune sono [b]finte[/b] e crollano appena ci spingi contro. La [b]Mappa del tesoro[/b], trovata in una stanza murata, segna dove scavare.
 Per fiutarli: la [b]Bacchetta rabdomante[/b] (indossata o in mano: un anello attorno a te pulsa più in fretta più un segreto è vicino) e l'[b]Eco dei Seminatori[/b] (segna sulla mappa, a grandi linee, i tre più vicini). Anche le stele nella [url=cap:lingua]lingua dei Seminatori[/url] a volte indicano un luogo."""},
 	{"id": "rigori", "group": "Il mondo", "name": "Le terre estreme", "text":
 """Alcuni biomi non si attraversano a mani nude: allo scoperto una [b]barra del rigore[/b] sale (accanto a Vita e Linfa) e, piena, ferisce e toglie qualcosa. Scende altrove, sotto un tetto, accanto a un [b]Rifugio del viandante[/b] (un totem) o con il rimedio giusto.

@@ -55,6 +55,8 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 		"mappa":
 			if id == "eco_seminatori":
 				return m.secrets.use_echo(id)          # voce 95
+			if id == "mappa_tesoro":
+				return m.secrets.use_treasure_map()    # voce 96
 			if id == "mappa_sigilli":
 				return _seal_hint(id)                  # voce 65
 			if id == "mappa_firma":

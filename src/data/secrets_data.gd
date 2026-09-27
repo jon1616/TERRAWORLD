@@ -24,6 +24,15 @@ const KINDS := {
 		"desc": "un pezzo di terra che galleggia nel cielo"},
 	"luogo": {"name": "Luogo dei Seminatori", "grade": 2, "from": "luoghi", "size": [0, 0],
 		"desc": "un luogo scritto a mano, con il suo enigma"},
+	# voce 96: costruiti apposta (`PassSegretiStanze`)
+	"passaggio": {"name": "Passaggio nascosto", "grade": 0, "from": "passaggi", "size": [0, 0],
+		"desc": "un cunicolo tra due grotte, chiuso da pareti finte"},
+	"stanza_murata": {"name": "Stanza murata", "grade": 1, "from": "stanze_murate", "size": [0, 0],
+		"desc": "una stanzetta dietro una parete finta, con uno scrigno"},
+	"tesoro_sepolto": {"name": "Tesoro sepolto", "grade": 2, "from": "tesori", "size": [0, 0],
+		"desc": "uno scrigno sotto terra: la mappa che lo indica sta in una stanza murata dello stesso mondo"},
+	"nido_nascosto": {"name": "Nido nascosto", "grade": 2, "from": "nidi_nascosti", "size": [0, 0],
+		"desc": "una tana chiusa nella roccia: dentro dorme una creatura rara"},
 	"firma": {"name": "La firma del mondo", "grade": 3, "from": "firma", "size": [16, 10],
 		"desc": "la cosa che si trova solo in questo mondo"},
 }
@@ -33,6 +42,9 @@ const ECHO_N := 3                      # l'Eco dei Seminatori segna sulla mappa 
 const ECHO_BLUR := 12                  # di quanto sbaglia il segno dell'Eco (tessere)
 
 const ITEMS := {
+	"mappa_tesoro": {"name": "Mappa del tesoro", "kind": "mappa", "icon": ["mappa", "legno"], "stack": 1,
+		"source": "in uno scrigno di una stanza murata (dietro una parete finta)",
+		"desc": "Clic: segna sulla mappa dove è sepolto il tesoro di questo mondo. Poi bisogna scavare."},
 	"bacchetta_rabdomante": {"name": "Bacchetta rabdomante", "kind": "accessorio", "icon": ["bastone", "legno"], "stack": 1,
 		"desc": "Indossata o in mano vibra vicino a un segreto non ancora trovato: più vibra, più è vicino."},
 	"eco_seminatori": {"name": "Eco dei Seminatori", "kind": "mappa", "icon": ["gemma", "sem"], "stack": 20,

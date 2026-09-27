@@ -1812,11 +1812,17 @@ l'avviso entrando («Questo mondo ha 27 segreti»), il segreto si trova entrando
 **Bacchetta rabdomante** (anello che pulsa più in fretta vicino a un segreto) e l'**Eco dei Seminatori** (segna sulla
 mappa, a grandi linee, i tre più vicini). Due obiettivi, capitolo «I segreti», prove `--solo=segreti` (foto 167).
 
-## 96. [ ] Segreti, primo ciclo: stanze e tesori (M)
+## 96. [x] Segreti, primo ciclo: stanze e tesori (M) — fatto il 28 set 2026
 **Pareti finte** (tessere che sembrano roccia ma si attraversano o crollano al tocco), **stanze murate** con dentro
 una sorpresa, **tesori sepolti** con la mappa del tesoro trovata altrove nello stesso mondo, **passaggi** tra due
 grotte, **nidi nascosti** di creature rare.
 **Pronto quando**: esplorando con attenzione si trovano stanze che nessun sentiero porta a vedere.
+Fatto il 28 set 2026: `PassSegretiStanze` (con un generatore di numeri suo, così non sposta il resto del mondo):
+**stanze murate** con uno scrigno dietro una **parete finta** (tessera `FINTA`: per disegno, mappa e scheda è
+ardesia, ma crolla appena ci spingi contro: `Secrets._push_fake`/`crumble`), **passaggi** tra due grotte chiusi da
+pareti finte, **tesori sepolti** con la **Mappa del tesoro** (i suoi "dati" dicono dove) in uno scrigno di una stanza
+murata dello stesso mondo, **nidi nascosti** dove si sveglia una creatura rara dello strato. Diventano segreti con il
+loro grado (il mondo di prova ne ha 47). Prove `--solo=segreti_stanze` (foto 168).
 
 ## 97. [ ] Segreti, secondo ciclo: enigmi, anomalie, creature nascoste (M)
 **Camere-enigma** piccole (con i meccanismi della voce 71), **anomalie** (una per mondo, rara: una bolla di gravità
