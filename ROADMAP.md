@@ -1672,14 +1672,14 @@ forti), Totem della radice pura (niente Avvizzimento ma niente crescita). Due to
 in `CompactArt._totem`; `verifica_dati` accetta le stazioni con la provenienza scritta. Capitolo nell'Enciclopedia.
 Prove `--solo=totem` (foto 154_totem).
 
-## 88. [x] Le trappole (M) — fatto il 28 set 2026
+## 88. [x] Le trappole (M) — fatto il 27 set 2026
 Pezzi da costruire che feriscono le creature (e, se sbadati, il Germogliato): **spuntoni** (a terra, a parete, al
 soffitto), **lame rotanti**, **rune** (una scarica per elemento: brace, gelo, spore, Vuoto), **presse** di pietra,
 **getti** di brace o d'acqua, **reti** che bloccano. Si attivano da sole (piastre, sensori di passaggio, tempo) o con
 le leve dei Seminatori (voce 71). Gradi dai materiali, elemento che si somma alle debolezze delle creature. Con i
 liquidi (voce 74) e le correnti d'aria nascono combinazioni.
 **Pronto quando**: con le trappole si difende la casa e si costruisce un corridoio che sconfigge le creature da solo.
-Fatto il 28 set 2026: `TrapsData` (10 tipi × 3 gradi: spuntoni, lama rotante, quattro rune elementali, pressa di
+Fatto il 27 set 2026: `TrapsData` (10 tipi × 3 gradi: spuntoni, lama rotante, quattro rune elementali, pressa di
 pietra, getti di brace e d'acqua, rete di radici; area cella/attorno/sotto/linea, attesa per creatura) e `Traps`
 (colpi da soli entro 70 tessere dal giocatore, con elementi, debolezze e reazioni di `Elements`, lo Stendardo di
 guardia, gelo e spinta; bottino normale con `Fauna.kill`; spuntoni, lama e pressa feriscono anche il Germogliato;
