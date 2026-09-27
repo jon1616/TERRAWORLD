@@ -21,6 +21,7 @@ var bar: BossBar
 var lore: LorePanel
 var _beat := 5.0
 var _seen := false
+var _phased := false                   # voce 80: la seconda fase di un Guardiano generato (cambia elemento)
 
 signal resolved(how: String)
 
@@ -65,6 +66,8 @@ func _process(dt: float) -> void:
 			if absf(dx) < 20 * S:
 				where = "proprio qui"
 			m.hud.toast("Un battito lontano… %s%s" % [where, ", più in basso" if dy > 6 * S else ""])
+	if boss != null and is_instance_valid(boss) and boss.enraged and not _phased and boss.data.has("phase_elem"):
+		_phase(boss)
 	# un Guardiano sveglio fa luce attorno a sé: nel buio vero la lotta deve leggersi
 	if boss != null and is_instance_valid(boss):
 		var bc := Vector2i(floori(boss.position.x / S), floori(boss.position.y / S))
@@ -82,13 +85,16 @@ func _process(dt: float) -> void:
 func info() -> Dictionary:
 	if bool(m.world_meta.get("nero", false)):
 		return NeroData.GUARDIAN                    # voce 72: dove cadde il Seme Nero
-	return GuardiansData.for_vigor(int(m.world_meta.get("vigore", 1)))
+	var v := int(m.world_meta.get("vigore", 1))
+	if v > GuardiansData.LIST.size():
+		return GuardianGen.info(m.world.world_seed)  # voce 80: oltre i tre scritti a mano, uno generato dal mondo
+	return GuardiansData.for_vigor(v)
 
 
 func wake() -> void:
 	var g := info()
 	var cid := String(g["creature"])
-	var fly: bool = CreaturesData.CREATURES[cid].get("fly", false)
+	var fly: bool = CreaturesData.get_data(cid).get("fly", false)
 	# chi vola nasce sopra il Cuore, chi cammina sul pavimento accanto
 	var at := heart_pos() + (Vector2(0, -8 * S) if fly else Vector2(-6 * S, 0))
 	boss = m.fauna.add(cid, at)
@@ -96,7 +102,7 @@ func wake() -> void:
 	boss.strengthen(m.fauna.vigor_mult)
 	m.sfx.play("guardiano")
 	bar.follow(boss)
-	m.depth_watch.banner.show_stratum(String(CreaturesData.CREATURES[cid]["name"]), String(g["wake"]), Color(g["color"]))
+	m.depth_watch.banner.show_stratum(String(CreaturesData.get_data(cid)["name"]), String(g["wake"]), Color(g["color"]))
 
 
 func _on_killed(c: Creature) -> void:
@@ -192,6 +198,9 @@ func _resolve(how: String) -> void:
 		lore.show_page(String(info()["pages"]["curato"]))
 	else:
 		lore.show_page(String(info()["pages"]["sconfitto"]))
+		var defeat: Dictionary = info().get("defeat", {})         # voce 80: i Nuclei di un Guardiano generato
+		for id in defeat:
+			m.drops.spawn(id, int(defeat[id]), heart_pos() + Vector2(0, -2 * S))
 	bar.follow(null)
 	# il Cuore torna vivo e dona il Seme di mondo
 	m.world.stations[cuore] = "cuore_vivo"
@@ -202,3 +211,20 @@ func _resolve(how: String) -> void:
 	m.drops.spawn("linfa_antica", 2, heart_pos() + Vector2(0, -S))       # voce 47: per gli innesti dei Semi
 	m.save_game()
 	resolved.emit(how)
+
+
+## Voce 80: a metà Vita un Guardiano generato cambia elemento (debolezze e resistenze comprese) e diventa più svelto.
+func _phase(c: Creature) -> void:
+	_phased = true
+	var d: Dictionary = c.data.duplicate(true)        # i dati sono condivisi tra chi ha lo stesso id: si copia
+	var e := String(d["phase_elem"])
+	d["elem"] = e
+	d["weak"] = [FamiliesData.OPPOSITE.get(e, e)]
+	d["resist"] = [e]
+	var mods: Dictionary = d["art_mods"]
+	mods["elem"] = e
+	c.data = d
+	c.speed *= 1.25
+	c._load_art(String(d["art"][0]), int(d["art"][1]))
+	Fx.puff(m.fx, c.position, VariantArt.ELEM_COLOR.get(e, Color.WHITE) * 1.8)
+	m.hud.toast("Il Guardiano cambia elemento: ora è %s" % GuardianGenData.ELEM_NAME.get(e, e))

@@ -23,6 +23,8 @@ static func text(portal: Portal, o: Vector2i) -> String:
 		if pct > 0 else "il vigore più basso: creature come quelle del Giardino"]
 	# Guardiano del Cuore
 	var g := GuardiansData.for_vigor(vigor)
+	if vigor > GuardiansData.LIST.size() and not e.get("nero", false):
+		g = GuardianGen.info(int(meta.get("seme", dest[2])))     # voce 80: oltre il terzo, un Guardiano generato
 	var gname := String(CreaturesData.get_data(String(g["creature"])).get("name", "?"))
 	var gstate := String(GUARD_STATE.get(String(meta.get("guardiano", "")), "")) if not meta.is_empty() else ""
 	t += "[color=%s]Guardiano del Cuore[/color]: %s%s\n" % [g["color"], gname, (" — " + gstate) if gstate != "" else ""]

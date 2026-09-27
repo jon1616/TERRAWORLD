@@ -25,6 +25,8 @@ func setup(main: Node2D) -> void:
 		if f0 != "":
 			data["famiglie"][f0] = 1
 	m.fauna.killed.connect(func(c: Creature) -> void:
+		if GuardianGen.is_gen(c.id):
+			return                                   # voce 80: i Guardiani generati non sono specie dell'Erbario
 		add("creature", c.base)
 		if FamiliesData.family_of(c.base) != "":
 			add("famiglie", FamiliesData.family_of(c.base))

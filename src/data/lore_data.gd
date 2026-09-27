@@ -28,6 +28,15 @@ const PAGES := {
 		"title": "Il Cuore del mondo",
 		"text": "Batte piano, grigio come cenere bagnata. Le radici che lo avvolgono sono marce di muffa: l'Avvizzimento è arrivato fin quaggiù.\nQuattro nodi, sul soffitto della cupola, pulsano insieme al Cuore. Qualcosa si muove tra le radici.",
 	},
+	# voce 80: i Guardiani generati
+	"generato_sconfitto": {
+		"title": "Un Guardiano che non ha nome",
+		"text": "Il gigante crolla e il Cuore si libera. Nessun Seminatore l'aveva disegnato: è nato da questo mondo, dalle sue creature e dal suo elemento, come un anticorpo.\nNel suo petto resta un Nucleo, ancora vivo. I mondi più vigorosi si difendono da soli.",
+	},
+	"generato_curato": {
+		"title": "Il Guardiano si calma",
+		"text": "La Rugiada scende sui nodi e il gigante si ferma, confuso. Guarda il Cuore come se lo vedesse per la prima volta, poi si accuccia accanto a lui.\nLascia una Linfa densa, che ricorda il suo elemento. Ogni mondo che nasce dai tuoi Semi ha il suo Guardiano: uno diverso per ogni mondo.",
+	},
 	# voce 72: il Seme Nero
 	"nero_spezzato": {
 		"title": "Il Seme Nero si spezza",

@@ -113,6 +113,7 @@ func run(main: Node2D) -> void:
 	await TestsLiving.new(kit).run()
 	await TestsWorldTime.new(kit).run()
 	await TestsVigor.new(kit).run()
+	await TestsGuardianGen.new(kit).run()
 	await ob.run()
 	await w.run_and_save()
 	# la Bisaccia aperta
@@ -255,5 +256,7 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsWorldTime.new(kit).run()
 		"vigore":
 			await TestsVigor.new(kit).run()
+		"guardiani_generati":
+			await TestsGuardianGen.new(kit).run()
 		_:
 			print("ATTENZIONE: gruppo di prove sconosciuto «%s»" % g)

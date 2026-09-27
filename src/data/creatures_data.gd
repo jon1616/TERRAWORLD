@@ -270,7 +270,10 @@ static func get_data(id: String) -> Dictionary:
 		return CREATURES[id]
 	if not _variants.has(id):
 		# voce 66: le creature delle stagioni nascono da una specie, con i loro colori e il loro bottino
-		_variants[id] = SeasonsData.make(id) if SeasonsData.CREATURES.has(id) else FamiliesData.make(id)
+		if GuardianGen.is_gen(id):
+			_variants[id] = GuardianGen.make(id)        # voce 80: un Guardiano generato dal seme
+		else:
+			_variants[id] = SeasonsData.make(id) if SeasonsData.CREATURES.has(id) else FamiliesData.make(id)
 	return _variants[id]
 
 

@@ -1488,10 +1488,20 @@ del mondo in cui si trova, quindi le tempre alte vogliono i mondi più vigorosi,
 grado nuovo un avviso dice cosa porta. `verifica_dati` accetta `used_for` per i materiali che servono fuori dalle
 ricette. Capitolo nell'Enciclopedia (gruppo «Senza fine»). Prove `--solo=vigore` (foto 146_gemelle).
 
-## 80. [ ] Guardiani generati (L)
+## 80. [x] Guardiani generati (L) — fatto il 26 set 2026
 Guardiani composti dai geni (corpo di famiglia, taglia gigante, attacchi scelti da una libreria di schemi, fasi
 secondo l'elemento), accanto a quelli scritti a mano. Ognuno si sconfigge o si cura, e lascia materiali propri.
 **Pronto quando**: ogni mondo senza un Guardiano scritto a mano ne ha uno generato diverso e credibile.
+**Fatto il 27 set 2026**: oltre i tre Guardiani scritti a mano (vigore 1-3) ogni mondo ha un **Guardiano generato**
+dal suo seme (`GuardianGen`, dati in `GuardianGenData`; id della creatura «gg~<seme>», che `CreaturesData.get_data`
+riconosce: nasce sempre uguale senza salvare niente). Il **corpo** viene da una delle specie delle famiglie, gigante
+(×3), spinoso e del colore del suo **elemento**; il nome dice titolo, specie ed elemento («La Signora lince d'ardesia
+della luce»); due o tre **attacchi** dalla libreria (ventaglio, scatto, carica, spara, bombarda, salto, lampo, evoca la
+sua specie) scelti tra quelli che il corpo sa fare; a metà Vita la **seconda fase** cambia elemento, debolezze e
+disegno e lo rende più svelto (`Guardian._phase`). Sconfitto lascia 14 **Nuclei** del suo elemento, curato 14 **Linfe
+dei Guardiani**: con 6 + 4 il Maglio fa il **talismano** dell'elemento (sei talismani). Due pagine di storia; la scheda
+del portale dice quale Guardiano aspetta; l'Erbario non conta i generati come specie. Su 30 semi: 30 nomi, 20 corpi,
+27 combinazioni di attacchi. Capitolo nell'Enciclopedia. Prove `--solo=guardiani_generati` (foto 147_guardiano_generato).
 
 ## 81. [ ] Semi leggendari e il Seme Primo (L)
 Semi leggendari (combinazioni rarissime di geni stellari, catene lunghe) e l'obiettivo finale: il **Seme Primo**,
