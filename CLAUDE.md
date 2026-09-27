@@ -11,7 +11,8 @@ siamo»).
   scelte dell'utente dopo; le lezioni in fondo.
 - **L'utente**: dà la direzione e lascia a Claude ordine e tecnica; vuole sostanza, spiegazioni in italiano semplice e
   un resoconto alla fine; per la grafica collabora generando le immagini con Gemini/Nano Banana su prompt di Claude.
-  **Niente push** su un repository remoto finché non lo chiede (per ora «non ancora»).
+  **Repository**: https://github.com/jon1616/TERRAWORLD (privato, creato il 28 set 2026 su richiesta dell'utente);
+  il push si fa quando l'utente lo chiede.
 - **Ogni passo**: si scrive (le modifiche lunghe con script Python scritti con Write, non con heredoc), poi
   `tools/prove.sh base,<gruppi della parte toccata>`: fa il controllo di sintassi dei .gd cambiati (se uno non
   compila le prove non partono), `--import`, le prove con un tempo massimo e il riassunto. Il gruppo **«base»**
