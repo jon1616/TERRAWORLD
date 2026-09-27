@@ -4,8 +4,9 @@
 - **Fatta la Roadmap 12 «Il mondo si riempie»** (voci 83-99, 28 set 2026): resoconto in fondo alla Roadmap 12. Diario,
   Guardiani da evocare, effetti speciali, dieci posti d'equipaggiamento, totem, trappole, farm, volo, 25 biomi a file,
   i rigori delle terre estreme, i segreti con il contatore, 151 oggetti unici in serie, il bilancio.
-- **Prossimo passo** (da decidere con l'utente): la **Roadmap della grafica** (rimandata a una Roadmap dedicata: le
-  creature nuove e gli alberi sono disegni del codice), poi un secondo bilancio con il diario delle partite vere.
+- **In corso: la Roadmap 13 «Il volto del mondo»** (voci 100-117, dal 28 set 2026): la grafica con Nano Banana,
+  seguita passo passo con l'utente (Claude scrive i prompt, dice dove salvare le immagini, le adatta con gli script).
+  Dopo: un secondo bilancio con il diario delle partite vere.
 - **Il piano «Il Giardiniere dei mondi» è compiuto**: Roadmap 5-11 (voci 41-82) tutte fatte.
 - **Fatte**: Roadmap 1 «Le fondamenta» (voci 0-16, tranne la 6), Roadmap 2 (17-20), Roadmap 3 «Esplorare, trovare,
   crescere» (21-30 + extra), Roadmap 4 «Un mondo da abitare» (31-40), il fotogramma lento del giro lungo (pannelli che
@@ -14,8 +15,8 @@
 - **La direzione (decisa con l'utente il 26 set 2026)**: «Il Giardiniere dei mondi», il piano delle Roadmap 5-11 in
   fondo a questo file; la filosofia che lo regge è in CLAUDE.md («La filosofia del gioco»). Priorità dell'utente:
   vastità, profondità, avventura e ricerca; grafica, rifinitura del movimento, armatura sugli sprite e rete **dopo**.
-- **Rimandate** (scelta dell'utente): voce 6 «Rete a 2»; dal Germogliato: armatura sugli sprite nuovi, colpo in corsa;
-  mostri e boss con Nano Banana.
+- **Rimandata** (scelta dell'utente): voce 6 «Rete a 2». Armatura sugli sprite, colpo in corsa, mostri e boss con
+  Nano Banana sono ora nella Roadmap 13.
 - **Contenuti oggi**: 1906 oggetti, 1404 ricette, 137 stazioni, 82 creature in 66 famiglie, 91 geni, 25 biomi (16 di superficie, 9 del sottosuolo), 30 effetti speciali, 151 oggetti unici in 15 serie, 12 tipi di segreto, 95 obiettivi, 76 capitoli dell'Enciclopedia; `tools/verifica_dati.gd` dà 0 errori e 0 avvisi.
 - **Fatta la Roadmap 5 «Il Seme e i suoi geni»** (voci 41-48, 26 set 2026): resoconto in fondo alla Roadmap 5.
 - **Fatta la Roadmap 6 «La materia viva»** (voci 49-54, 26 set 2026): resoconto in fondo alla Roadmap 6.
@@ -1907,8 +1908,138 @@ tratto); un nodo montato da `main._mount` è già figlio della scena (per metter
 sono disegni del codice, puliti ma semplici); il diario vero delle partite dell'utente per un secondo bilancio; i
 biomi estremi e rari non sono nel mondo di prova per intero (si vedono con i loro Semi).
 
+# Roadmap 13 «Il volto del mondo» — la grafica con Nano Banana (dal 28 set 2026)
+
+Nata dalla richiesta dell'utente (28 set 2026): Claude fa da **agente grafico**. Per ogni voce scrive i prompt per
+Nano Banana (in inglese, dettagliati, copiabili), dice **in quale cartella e con quale nome** salvare ogni immagine,
+scrive e usa gli script che la adattano al gioco, la collega al codice e mostra il risultato. Si segue **passo passo,
+insieme**: una tavola alla volta, l'utente guarda l'anteprima e approva prima della tavola dopo.
+
+**L'ordine** (scelto da Claude, approvato dall'utente): dal più semplice e veloce al più lungo. Prima le immagini
+ferme e grandi (niente animazione, niente pixel minuscoli), poi gli oggetti fermi e piccoli in tavole, poi le grandi
+scenografie, poi i personaggi animati semplici, per ultimi Custodi, Guardiani e il Germogliato, dove ogni pixel deve
+combaciare con ciò che c'è già. Le prime voci servono anche a mettere a punto gli attrezzi comuni.
+
+**Il metodo (vale per ogni voce)**:
+- Disegni originali di Nano Banana in `arte_ia/<categoria>/` (con `.gdignore`), nomi dati da Claude
+  (`01_icone_vita_v1.png`…); sfondo magenta pieno `#FF00FF`, griglia fissa di celle, niente scritte (le toglie comunque
+  lo script). Nano Banana disegna **in grande e a forme grandi**; la pixelatura la fa lo script, uguale per tutta la
+  tavola (lezione del Germogliato: non sa disegnare a pixel grossi).
+- Ogni prompt comincia con lo stesso **foglio di stile «Radici e Linfa»**: vista di lato, mondo scuro dove la luce
+  viene dalle cose vive, terra prugna intrecciata di radici, ardesia blu, muschio turchese, ambra e Linfa turchese come
+  accenti, forme organiche morbide. **Mai l'aspetto di Terraria** (tessere quadrate con contorno, terra marrone + erba
+  verde, chiome tonde).
+- Il risultato in `arte/<categoria>/` (png pronti per il gioco), anteprime in `prove/arte_<categoria>.png`.
+- Nel gioco un caricatore solo: se il file c'è si usa, altrimenti resta il **disegno del codice di oggi** (niente si
+  rompe se una tavola manca o si rifà).
+- Prima tavola di ogni voce = **tavola di prova** (pochi pezzi) per fissare stile e misura; poi le altre.
+- Ogni voce: `tools/prove.sh base,<gruppi toccati>`, foto controllate, commit.
+
+## 100. [ ] Gli attrezzi comuni (S)
+`tools/tavola.py`: taglia una tavola a griglia su magenta, toglie scritte, linee e ombre, rifila ogni pezzo, lo
+riduce alla misura voluta con la tavolozza comune (riuso di `pixela.py` e `importa_tavola.py`), scrive i png e il
+foglio d'anteprima. `ArtLib` nel gioco: carica `arte/<categoria>/<id>.png` se esiste, altrimenti chiede al disegno del
+codice. Si costruisce insieme alla voce 101, sulla prima tavola vera.
+**Pronto quando**: una tavola qualunque diventa png del gioco con un comando solo, e togliere il file riporta il
+disegno di prima.
+
+## 101. [ ] Icone dell'interfaccia (S)
+Foglia della Vita, goccia della Linfa, Scorza, i 6 poteri, i 6 elementi, gli stati (bruciato, indebolito…), i 4
+rigori (freddo, sete, calore, polvere), le icone dei pannelli (Bisaccia, Mappa, Erbario, Semenzaio, Enciclopedia,
+Mandria, Bacheca…). 2-3 tavole 6×6. Cartella `arte_ia/interfaccia/`.
+**Pronto quando**: HUD, barre e pannelli usano le icone nuove, leggibili alla loro misura.
+
+## 102. [ ] Ritratti degli abitanti (S)
+I 9 abitanti (`NpcData`) come busti grandi, con i colori del loro `look`, nel pannello del commercio e dell'affetto
+(`TradePanel`) e nella loro scheda. 1-2 tavole 3×3. Cartella `arte_ia/ritratti/`.
+**Pronto quando**: parlando con un abitante si vede il suo ritratto, e i 9 si riconoscono a colpo d'occhio.
+
+## 103. [ ] La schermata del titolo (S)
+Il logo «TERRAWORLD» nello stile e l'illustrazione di sfondo del menu (il Giardino sospeso nel Vuoto con
+l'Albero-Madre, le radici del cosmo). 1-2 immagini. Cartella `arte_ia/titolo/`.
+**Pronto quando**: `--foto-menu` mostra il menu nuovo.
+
+## 104. [ ] Illustrazioni delle pagine di storia (M)
+Vignette per `LorePanel` e l'Enciclopedia: il Cuore del mondo, i Guardiani curati e sconfitti, il Seme Nero, i
+Seminatori e le tappe della catena lunga. 6-12 vignette in tavole. Cartella `arte_ia/storia/`.
+**Pronto quando**: ogni pagina di storia importante ha la sua immagine.
+
+## 105. [ ] Le forme delle icone degli oggetti (M)
+Nano Banana disegna **ogni forma una volta**, in grigi (piccone, ascia, spada, arco, bastone, elmo, corazza,
+gambali, gemma, lingotto, seme, pozione, fiala…); lo script la riduce a 16 px e la **colora con la tavolozza di ogni
+materiale** (`ItemIcons`), così poche tavole rifanno centinaia delle 1906 icone. Qualche decina di forme, 3-4 tavole.
+Cartella `arte_ia/icone/`. Controllo sul foglio `prove/oggetti.png` di `tools/verifica_dati.gd`.
+**Pronto quando**: le famiglie di metallo e le forme × materiale hanno le icone nuove, distinte tra loro.
+
+## 106. [ ] Stazioni, banchi e mobili (L)
+Ceppo del Giardiniere, Baccello ardente, Maglio dei Seminatori, Telaio, i 9 gradi di cassa, letti, porte, tavoli,
+Aiuola, Bacheca, altari, meccanismi degli enigmi. Alti 1-2 tessere (misure di oggi, `CompactArt`), stati «spento/
+acceso», «aperto/chiuso». 8-10 tavole. Cartella `arte_ia/stazioni/`. Controllo su prove/stazioni.png.
+**Pronto quando**: il foglio delle stazioni è tutto nuovo e ogni banco si riconosce dal disegno.
+
+## 107. [ ] Vegetazione decorativa dei biomi (M)
+Erbe, cespugli, canne, cardi, cristalli di brina, braci, funghi (decorazioni 33-79): 2-4 per bioma, circa 6 tavole.
+Cartella `arte_ia/vegetazione/`.
+**Pronto quando**: ogni bioma si riconosce dalla sua vegetazione nelle foto 100_alberi_<bioma>.
+
+## 108. [ ] Oggetti speciali (M)
+Pezzi che meritano un disegno a mano: reliquie dei Seminatori, trofei, gli unici più importanti (uno per serie),
+stele e tavolette. Cartella `arte_ia/speciali/`.
+**Pronto quando**: reliquie e unici hanno icone proprie, diverse dalle forme generate.
+
+## 109. [ ] Sfondi a strati dei biomi (L)
+Parallasse per i 16 biomi di superficie (2-3 strati: lontano, medio, vicino) e i 5 strati del sottosuolo, larghi e
+ripetibili senza cucitura (lo script taglia e raccorda i bordi). Sostituiscono colline e foreste di `Background`.
+Cartella `arte_ia/sfondi/`.
+**Pronto quando**: camminando da un bioma all'altro lo sfondo cambia, e nessuna cucitura si vede.
+
+## 110. [ ] Alberi dei biomi (L)
+Una specie per bioma × 4 grandezze (piccolo, medio, grande, antico), baccelli luminosi a parte (servono per il
+bagliore). Circa 16 tavole 4×1. Cartella `arte_ia/alberi/`. Devono cadere, scuotersi e ricrescere come oggi.
+**Pronto quando**: `--solo=alberi` mostra gli alberi nuovi in tutte le foto 100_alberi_<bioma>.
+
+## 111. [ ] L'Albero-Madre (M)
+I 12 stadi del risveglio (`MotherTreeData`), dallo stesso disegno che cresce. Cartella `arte_ia/albero_madre/`.
+**Pronto quando**: `--prova-giardino` mostra l'Albero in ogni stadio (foto 101-103).
+
+## 112. [ ] Gli abitanti in gioco (M)
+I 9 abitanti a 36 px come il Germogliato: fermo (respiro dallo script) e 4 pose di camminata, dal loro ritratto.
+Cartella `arte_ia/abitanti/`. Sostituiscono `NpcArt`.
+**Pronto quando**: la foto 105_abitanti mostra gli abitanti nuovi che passeggiano.
+
+## 113. [ ] Compagni e mandria (M)
+Lucciolina, Grumetto, Spiritello di Linfa e gli altri compagni, gli animali della mandria e le cavalcature: 2-3 pose
+ciascuno. Cartella `arte_ia/compagni/`.
+**Pronto quando**: compagni e mandria in scena hanno i disegni nuovi.
+
+## 114. [ ] Le creature comuni (L)
+Circa 35 specie (grumi, falene, scarabei, serpi, lepri, volpi, pipistrelli, pesci…), 2-3 fotogrammi l'una, tavole da
+4 specie. Le varianti di taglia, elemento, indole e grado restano al codice (colore e misura sopra il disegno nuovo,
+`VariantArt`). Cartella `arte_ia/creature/`.
+**Pronto quando**: l'Erbario e il mondo mostrano le specie nuove, e le varianti si distinguono ancora.
+
+## 115. [ ] I sei Custodi (L)
+Madre dei grumi, Tessitrice delle radici, Serpe madre, Mietitore cavo, Grande Cervo di brina, Madre delle salamandre:
+grandi (3-5 tessere), pose di movimento e d'attacco, il bozzolo pieno e rotto. Cartella `arte_ia/custodi/`.
+**Pronto quando**: ogni Custode ha il suo disegno nella tana e all'Altare.
+
+## 116. [ ] I Guardiani (L)
+Il Nodo Avvizzito, la Regina delle Spore, il Colosso d'Ardesia, l'Avvizzitore e il Guardiano del Seme Nero: **malati
+e guariti**, due fasi, pose d'attacco. I Guardiani generati oltre il vigore 3 li ricolora il codice dai disegni nuovi.
+Cartella `arte_ia/guardiani/`.
+**Pronto quando**: ogni scontro con un Guardiano usa il disegno nuovo, e la cura si vede.
+
+## 117. [ ] Il Germogliato: ciò che manca (L)
+L'armatura sopra le pose di oggi (forme di elmo, corazza e gambali; i colori di ogni metallo li mette lo script), il
+colpo in corsa, il nuoto, il volo con le ali, la sella. Deve combaciare pixel per pixel con gli sprite che ci sono.
+Cartella `arte_ia/germogliato/` (come prima).
+**Pronto quando**: `--solo=germogliato` mostra ogni armatura in ogni posa, senza sbavature.
+
+### Resta al codice (Nano Banana non serve)
+Le trame del terreno e delle pareti (doppia griglia, trame 64×64 senza cuciture), la luce, i liquidi, gli
+incantesimi, le esplosioni, le particelle, il tempo atmosferico; le 1906 icone una per una (nascono dalla voce 105).
+
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».
-- Grafica: armatura sugli sprite nuovi (tunica e pantaloni con i colori del metallo, l'elmo come calotta sui capelli di
-  foglie), colpo in corsa, mostri e boss con Nano Banana (stesso metodo del Germogliato).
+- Grafica: ora nella Roadmap 13 «Il volto del mondo» (armatura e colpo in corsa alla voce 117, creature 114-116).
 - Rifinitura del movimento e del combattimento (all'utente sembrano già validi).
