@@ -18,6 +18,7 @@ const ACTIONS := [
 	["mandria", "Mandria", [KEY_G], "Pannelli"],
 	["enciclopedia", "Enciclopedia", [KEY_H], "Pannelli"],
 	["aiuto", "Mostra o nascondi l'aiuto dei tasti", [KEY_F1], "Pannelli"],
+	["filo", "Il filo da seguire: passa a un altro", [KEY_J], "Pannelli"],
 	["vista", "Potere: Vista della Linfa", [KEY_V], "Poteri"],
 	["ponte", "Potere: Radici-ponte", [KEY_F], "Poteri"],
 	["confronta", "Confronta nei suggerimenti", [KEY_SHIFT], "Altro"],

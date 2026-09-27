@@ -35,6 +35,7 @@ var station_check: Callable
 var dig_hook: Callable
 signal boon(name: String, secs: float)
 signal decor_picked(c: Vector2i, d: int)   # una decorazione tolta (il giardino vi aggiunge raccolto e semi)
+signal too_hard                          # un blocco che questo piccone non scalfisce (i consigli: `Consigli`)
 signal dug(t: int, c: Vector2i)            # voce 77: una tessera rotta (la terra viva: ferite e frane)
 var _cell := Vector2i(-9999, -9999)
 var _t := 0.0
@@ -181,6 +182,7 @@ func _dig(c: Vector2i, item: Dictionary, dt: float) -> float:
 		# troppo duro per questo piccone: il blocco non cede
 		if _t == 0.0:
 			hud.toast("Serve un piccone più forte")
+			too_hard.emit()
 		_t = -1.0
 		return 0.0
 	if _t < 0.0:

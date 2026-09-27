@@ -59,6 +59,9 @@ var albero: AlberoMadre
 var powers: Powers
 var seasons: Seasons
 var game_options: GameOptions
+var spesa: Spesa                       # la lista della spesa (Segna, in Esamina)
+var filo: Filo                         # il filo da seguire, in alto al centro
+var consigli: Consigli                 # i consigli alla prima volta
 var encyclopedia: Encyclopedia
 var language: Language
 var chains: Chains
@@ -266,6 +269,9 @@ func _build() -> void:
 	_mount(TipsHook.new())                 # i suggerimenti: schede degli oggetti e delle cose del mondo
 	encyclopedia = _mount(Encyclopedia.new())  # l'Enciclopedia (tasto H, bottone «?», pausa)
 	game_options = _mount(GameOptions.new())   # Opzioni in partita: pausa, visuale; menu di pausa (Esc)
+	spesa = _mount(Spesa.new())                # la guida del giocatore (28 set 2026): la lista della spesa,
+	filo = _mount(Filo.new())                  # il filo da seguire
+	consigli = _mount(Consigli.new())          # e i consigli alla prima volta
 	_mount(PanelButtons.new())                 # voce 101: i pulsanti dei pannelli in basso a sinistra
 	hud.select(character.hotbar)
 	var start := world.spawn

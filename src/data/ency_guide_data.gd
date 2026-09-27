@@ -16,11 +16,24 @@ const CHAPTERS := [
 5. Con l'[url=cap:innesto]innesto[/url] progetti i Semi dei mondi che ti servono.
 
 [b]Dove guardare quando non sai cosa fare[/b]
+• Il [url=cap:guida]filo[/url], in alto al centro: la prossima cosa da fare, e una freccia verso dove farla.
 • La riga dell'Albero-Madre, in alto a sinistra: che cosa chiede adesso.
 • Gli [url=cap:obiettivi]obiettivi[/url], sotto l'orologio.
 • La [url=cap:bacheca]Bacheca dei Giardinieri[/url], nel Giardino: richieste sempre nuove.
 • Gli abitanti: ognuno ha una richiesta; la Vecchia Radice ti dice cosa manca all'Albero.
 • L'[url=cap:erbario]Erbario[/url]: che cosa hai scoperto e, per le famiglie, dove cercare ciò che manca."""},
+	{"id": "guida", "group": "Primi passi", "name": "Il filo, la lista e i consigli", "text":
+"""Tre aiuti per non perdersi in un gioco grande. Si spengono dalle [url=cap:opzioni]Opzioni[/url], sezione Interfaccia.
+
+[b]Il filo[/b]
+In alto al centro c'è sempre [b]una cosa da fare adesso[/b], con sotto dove cercarla. Viene da una di queste fonti, in quest'ordine: la tua lista della spesa, l'[url=cap:albero_madre]Albero-Madre[/url], gli [url=cap:obiettivi]obiettivi[/url], la [url=cap:bacheca]Bacheca[/url]. Il tasto {k_filo} passa alla fonte dopo, e il gioco se la ricorda.
+Quando il posto è noto compare un segno: un rombo sopra di lui se lo vedi, una freccia sul bordo dello schermo con la distanza se è lontano. Indica il blocco più vicino già visto di un minerale, l'albero più vicino per il legno, il banco giusto, l'Albero-Madre; se serve scendere, una freccia in basso con il nome dello strato.
+
+[b]La lista della spesa[/b]
+In [url=cap:creare]Esamina[/url], accanto a «Crea», il pulsante [b]Segna[/b] mette la ricetta nella lista a destra (al più tre). La lista conta Bisaccia e casse vicine, e sotto un ingrediente che si fabbrica mostra i suoi ingredienti per la parte che manca. Il filo ti porta alla prossima cosa da raccogliere o da creare; fatta la ricetta, esce dalla lista da sola.
+
+[b]I consigli alla prima volta[/b]
+La prima volta che succede una cosa nuova (la notte, il buio sotto terra, un blocco troppo duro, la Bisaccia piena, un Seme di mondo…) compare a destra una scheda breve. Mentre si vede, il tasto dell'Enciclopedia apre il capitolo che ne parla."""},
 	{"id": "comandi", "group": "Primi passi", "name": "I comandi", "text":
 """I tasti si cambiano nelle [url=cap:opzioni]Opzioni[/url], sezione Comandi.
 

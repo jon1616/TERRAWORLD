@@ -8,6 +8,9 @@ var panel: EncyPanel
 var _btn: Button
 
 
+var next_addr := ""                      # il capitolo da aprire col tasto (un consiglio sulla scheda: `Consigli`)
+
+
 func setup(main: Node2D) -> void:
 	m = main
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -50,5 +53,5 @@ func _unhandled_input(e: InputEvent) -> void:
 		if panel.visible:
 			panel.close_panel()
 		elif not m.hud.is_open() or m.hud.panel.visible:
-			open()
+			open(next_addr)
 		get_viewport().set_input_as_handled()

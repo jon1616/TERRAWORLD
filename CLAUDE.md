@@ -528,6 +528,15 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     stanze murate, passaggi, tesori, nidi), `PassSegretiAnomalie` (camere-enigma in `notes["camere"]`, visioni,
     anomalie), `Secrets` (contatore, premi, bacchetta, Eco, mappa del tesoro), `HiddenCreatures` (creature a
     condizione, pacchetto `src/data/hidden_creatures.gd`).
+- **La guida del giocatore** (28 set 2026, richiesta dell'utente: il gioco è vasto, il giocatore nuovo si perde):
+  `Filo` (`src/game/filo.gd`: in alto al centro una cosa da fare adesso, dalle fonti lista → Albero-Madre → obiettivi →
+  Bacheca; tasto «filo» (J) per cambiarla; `FiloMarker` in `src/ui/` disegna il rombo sopra il posto o la freccia sul
+  bordo, «giù» con lo strato), `Spesa` (la lista della spesa: «Segna» in Esamina, al più 3 ricette, ingredienti degli
+  ingredienti fino a 3 livelli, `next_step` per il filo; esce dalla lista quando la si crea), `Consigli` + `ConsigliData`
+  (una scheda la prima volta che succede una cosa nuova, una condizione `_c_<id>` per riga; mentre si vede il tasto
+  dell'Enciclopedia apre il suo capitolo, `Encyclopedia.next_addr`; fermi nelle prove, `paused`). Tutto in
+  `Character.guida`; opzioni «filo», «lista_spesa», «consigli»; capitolo «guida»; prove `--solo=guida` (foto 170, 171).
+  Un contenuto nuovo che il giocatore deve scoprire da sé può aggiungere una riga a `ConsigliData`.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

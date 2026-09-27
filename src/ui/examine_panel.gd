@@ -20,6 +20,7 @@ const BAD := Color("#ff7a6a")
 var panel: BisacciaPanel
 var crafting: CraftingPanel
 var held := {}                         # l'oggetto posato nella casella
+var _mark: Button                       # «Segna»: nella lista della spesa (`Spesa`)
 var recipe := {}                       # la ricetta scelta in Creare
 var qty := 1
 var sheet: Callable                    # () -> la scheda del Germogliato (la mostra `CharacterCard`)
@@ -116,6 +117,12 @@ func setup(p: BisacciaPanel, c: CraftingPanel) -> void:
 	row.add_child(_qty_label)
 	row.add_child(_small("+", func() -> void: _set_qty(qty + 1)))
 	row.add_child(_small("Max", func() -> void: _set_qty(maxi(crafting.times_possible(recipe), 1))))
+	_mark = _small("Segna", func() -> void:
+		if not recipe.is_empty() and panel.mark_toggle.is_valid():
+			panel.mark_toggle.call(recipe)
+			_update_mark())
+	_mark.tooltip_text = "Segna: la ricetta va nella lista a destra (che cosa ti manca), e il filo ti porta a cercarlo"
+	row.add_child(_mark)
 	_make = Button.new()
 	_make.text = "Crea"
 	_make.focus_mode = Control.FOCUS_NONE
@@ -167,6 +174,12 @@ func _label(parent: Control, pos: Vector2, fs: int, col: Color) -> Label:
 	l.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	parent.add_child(l)
 	return l
+
+
+func _update_mark() -> void:
+	if _mark != null:
+		var on: bool = not recipe.is_empty() and panel.mark_has.is_valid() and bool(panel.mark_has.call(recipe))
+		_mark.text = "Segnata" if on else "Segna"
 
 
 func _small(t: String, f: Callable) -> Button:
@@ -299,6 +312,7 @@ func _fill_recipe() -> void:
 	_qty_label.text = str(qty)
 	_make.disabled = can_n < qty
 	_make.text = "Crea" if qty == 1 else "Crea ×%d" % qty
+	_update_mark()
 	_max_label.text = ("Puoi farne fino a %d." % can_n) if can_n > 0 else ("Mancano ingredienti." if near else "Avvicinati al banco.")
 	_max_label.add_theme_color_override("font_color", OK if can_n >= qty else MUTED)
 	# sotto, la scheda dell'oggetto

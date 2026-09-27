@@ -28,6 +28,8 @@ var held := {}                        # pila «in mano» mentre la Bisaccia è a
 var quick_target: Callable
 ## «Nelle casse vicine» (lo collega `main` a `Storage.quick_stack`): () -> {n, casse}.
 var quick_stack: Callable
+var mark_toggle: Callable              # (ricetta) -> bool: segna o toglie dalla lista della spesa (`Spesa`)
+var mark_has: Callable                 # (ricetta) -> bool: è nella lista?
 var _slots: Array[SlotView] = []
 var _held_icon: SlotView
 ## Il cestino (28 set 2026, richiesta dell'utente): ciò che ci si butta resta lì finché non si butta altro (o si esce
