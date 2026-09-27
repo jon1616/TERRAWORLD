@@ -5,6 +5,7 @@ const DATA := {
 	"id": "palude", "name": "Paludi di spore", "desc": "Muschio viola e aria pesante di spore che brillano",
 	"trees": 0.12, "hills": 0.3, "lift": 12, "tint": Color(0.78, 0.6, 1.12), "color": "#c08aff", "weight": 3,
 	"grass": 13,                  # la tessera (TileDefs.GRASS_SPORE)
+	"stagni": [4.0, 12, 30, 2, 4],      # voce 118: stagni di superficie (vedi `BiomesData`)
 	"turf": {"name": "Muschio di spore", "layer": "muschio_spore", "pal": ["#2a1640", "#43235e", "#633a86", "#8a58b4", "#c49af0"], "specks": 90},
 	"tree": {"id": "fungo", "name": "Fungo-albero", "glow": Color(1.5, 1.2, 1.8)},
 	# erba di spore bassa, canne, funghetti, sacche di spore, funghi luminosi, campanule viola

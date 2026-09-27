@@ -25,6 +25,7 @@ static func passes() -> Array[GenPass]:
 		PassCristalli.new(),
 		PassSottosuolo.new(),
 		PassErba.new(),
+		PassStagni.new(),                   # voce 118: laghi e stagni di superficie (la pesca)
 		PassAlberi.new(),
 		PassDecorazioni.new(),
 		PassAvvizzimento.new(),

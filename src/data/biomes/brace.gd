@@ -8,6 +8,7 @@ const DATA := {
 	"id": "brace", "name": "Lande di brace viva", "desc": "La crosta nera si spacca e sotto brilla la brace: l'aria stessa brucia",
 	"trees": 0.04, "hills": 0.9, "lift": 6, "tint": Color(1.35, 0.72, 0.6), "color": "#ff7a3a", "weight": 1,
 	"grass": 39,
+	"stagni": [0.0, 0, 0, 0, 0],      # voce 118: stagni di superficie (vedi `BiomesData`)
 	"turf": {"name": "Crosta di brace", "layer": "crosta_brace", "pal": ["#1a0c0a", "#2e1410", "#4a1e14", "#9a3a1a", "#ffb040"], "specks": 70},
 	"tree": {"id": "carbonero", "name": "Carbonero", "glow": Color(2.0, 1.1, 0.7), "art": "tizzone"},
 	"veg": [[0.15, 67], [0.22, 68], [0.27, 69], [0.3, "fungo"]],

@@ -8,6 +8,7 @@ const DATA := {
 	"id": "prati", "name": "Prati di vento", "desc": "Erba argentata a perdita d'occhio, e il vento che non smette mai",
 	"trees": 0.05, "hills": 0.4, "lift": 4, "tint": Color(0.92, 1.05, 1.0), "color": "#c8ece0", "weight": 2,
 	"grass": 32,
+	"stagni": [2.0, 12, 28, 2, 5],      # voce 118: stagni di superficie (vedi `BiomesData`)
 	"turf": {"name": "Erba del vento", "layer": "erba_vento", "pal": ["#1a302c", "#2a4a44", "#44706a", "#7ab8a4", "#c8ece0"], "specks": 60},
 	"tree": {"id": "ombrello", "name": "Ombrello del vento", "glow": Color(1.3, 1.5, 1.4)},
 	"veg": [[0.4, 46], [0.48, 47], [0.54, 48], [0.58, "fiori"]],

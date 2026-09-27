@@ -7,6 +7,7 @@ const DATA := {
 	"id": "iridato", "name": "Prati iridati", "desc": "L'erba cambia colore a ogni passo: qui corre il Cervo iridato",
 	"trees": 0.06, "hills": 0.6, "lift": 2, "tint": Color(1.1, 0.95, 1.2), "color": "#ffb0f0", "weight": 0,
 	"grass": 44,
+	"stagni": [1.5, 10, 22, 3, 6],      # voce 118: stagni di superficie (vedi `BiomesData`)
 	"turf": {"name": "Erba iridata", "layer": "erba_iridata", "pal": ["#2a1a3a", "#4a3a6a", "#8a60a8", "#e0a0d8", "#fff0c0"], "specks": 110},
 	"tree": {"id": "ombrello_iridato", "name": "Ombrello iridato", "glow": Color(1.8, 1.4, 1.8), "art": "ombrello"},
 	"veg": [[0.35, 74], [0.45, 75], [0.52, "fiori"]],

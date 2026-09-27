@@ -537,6 +537,10 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   dell'Enciclopedia apre il suo capitolo, `Encyclopedia.next_addr`; fermi nelle prove, `paused`). Tutto in
   `Character.guida`; opzioni «filo», «lista_spesa», «consigli»; capitolo «guida»; prove `--solo=guida` (foto 170, 171).
   Un contenuto nuovo che il giocatore deve scoprire da sé può aggiungere una riga a `ConsigliData`.
+- **Roadmap 14 «Le acque vive»** (la pesca, dal 28 set 2026; scelte dell'utente: gesto quasi automatico, attività
+  laterale ricca ma non indispensabile, in tutti i liquidi, liquidi spostabili dal giocatore): `WaterBody`
+  (`src/world/`: lo specchio riconosciuto al momento, `ok` da `MIN_VOLUME` celle), `PassStagni` (stagni di superficie dal
+  campo «stagni» dei biomi), `tools/specchi.gd` (la misura), prove `--solo=pesca` (`TestsFishing`).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

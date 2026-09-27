@@ -5,6 +5,7 @@ const DATA := {
 	"id": "ambra", "name": "Distese d'ambra", "desc": "Erba dorata, rocce calde, pochi alberi",
 	"trees": 0.07, "hills": 1.5, "lift": -8, "tint": Color(1.22, 0.9, 0.6), "color": "#ffd08a", "weight": 3,
 	"grass": 14,                  # la tessera (TileDefs.GRASS_AMBRA)
+	"stagni": [0.6, 8, 14, 2, 4],      # voce 118: stagni di superficie (vedi `BiomesData`)
 	"turf": {"name": "Erba d'ambra", "layer": "erba_ambra", "pal": ["#4a3210", "#6e4c16", "#9a7022", "#c89a3a", "#f0d27a"], "specks": 90},
 	"tree": {"id": "acacia", "name": "Acacia d'ambra", "glow": Color(1.7, 1.4, 0.9)},
 	# erba dorata, cardi, fiori di resina, sassi caldi, campanule d'ambra

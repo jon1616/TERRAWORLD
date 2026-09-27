@@ -2087,7 +2087,17 @@ La misura di partenza (28 set 2026, 5 mondi): specchi d'acqua di almeno 20 celle
 col gene «Sommerso»), 1-5 nel Sottobosco, 7-13 nelle Caverne d'ardesia e nelle Profondità della Linfa, più 1-4 laghi
 di Linfa (Profondità) e 3-4 di brace (il Fondo). Serve dunque acqua in superficie.
 
-## 118. [ ] Gli specchi d'acqua (M)
+## 118. [x] Gli specchi d'acqua (M) — fatto il 28 set 2026
+Fatto: `WaterBody.at(mondo, cella)` riconosce lo specchio al momento (liquido, volume in celle piene, profondità,
+strato, bioma; `ok` da 24 celle piene; si ferma a 4000 celle: un mare). `PassStagni` (dopo l'erba, prima degli alberi,
+con la mappa dei posti): per ogni tratto di bioma gli stagni che gli spettano dal campo «stagni» del bioma (Torbiere 5
+ogni 1000 colonne, paludi 4, foresta e prati 2…, deserto di vetro, cenerarie e brace nessuno); conca arrotondata nel
+terreno quasi piano, acqua fino al bordo più basso, niente grotte sotto. Misura (`tools/specchi.gd`, 6 mondi): in
+superficie da 0-3 specchi pescabili (solo col Sommerso) a 3-7 per mondo, 14-15 in un mondo di Torbiere; sotto terra come
+prima (acqua 17 nel Sottobosco, 47 nelle Caverne, 52 nelle Profondità; Linfa 14; brace 19). Prova `--solo=pesca`: gli
+stagni del mondo di prova, un laghetto fatto a mano che vale come uno naturale, una pozzanghera troppo piccola; foto
+180_stagno. Trovato col collaudatore e corretto: nelle camere-enigma e nei luoghi scritti a mano gli scrigni (ora alti
+due tessere) finivano nel pavimento; `PassLuoghi.build` alza una stazione finché sta nell'aria.
 - Lo specchio si **riconosce al momento del lancio**: il liquido collegato attorno all'amo (fino a un tetto di celle),
   con la sua carta d'identità (liquido, grandezza, profondità, strato, bioma della colonna); così un laghetto fatto dal
   giocatore vale come uno naturale. Sotto una grandezza minima non si pesca (niente pesca nelle pozzanghere).

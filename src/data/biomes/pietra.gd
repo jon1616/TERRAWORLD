@@ -8,6 +8,7 @@ const DATA := {
 	"id": "pietra", "name": "Foreste pietrificate", "desc": "Alberi di pietra e polvere che si posa su tutto, anche su di te",
 	"trees": 0.35, "hills": 1.3, "lift": -3, "tint": Color(0.95, 0.95, 0.9), "color": "#d8d0c0", "weight": 1,
 	"grass": 38,
+	"stagni": [1.0, 8, 16, 3, 7],      # voce 118: stagni di superficie (vedi `BiomesData`)
 	"turf": {"name": "Muschio di pietra", "layer": "muschio_pietra", "pal": ["#26262a", "#3e3e44", "#5e5e64", "#8a8a8a", "#c8c4b8"], "specks": 60},
 	"tree": {"id": "pietrificato", "name": "Albero pietrificato", "glow": Color(1.3, 1.3, 1.2)},
 	"veg": [[0.25, 64], [0.33, 65], [0.38, 66], [0.46, "sassi"]],

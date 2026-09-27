@@ -8,6 +8,7 @@ const DATA := {
 	"id": "torba", "name": "Torbiere di Linfa", "desc": "Torba scura e nebbia bassa: le ninfee brillano di Linfa",
 	"trees": 0.12, "hills": 0.2, "lift": 14, "tint": Color(0.76, 1.0, 0.95), "color": "#5cf0d8", "weight": 2,
 	"grass": 35,
+	"stagni": [5.0, 12, 34, 2, 4],      # voce 118: stagni di superficie (vedi `BiomesData`)
 	"turf": {"name": "Torba viva", "layer": "torba", "pal": ["#101c18", "#1a2e28", "#28463c", "#3a6a58", "#6ab890"], "specks": 30},
 	"tree": {"id": "mangrovia", "name": "Mangrovia di torba", "glow": Color(1.0, 1.8, 1.6)},
 	"veg": [[0.3, 55], [0.37, 56], [0.43, 57], [0.5, "spora"]],

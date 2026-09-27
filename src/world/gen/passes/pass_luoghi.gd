@@ -106,6 +106,13 @@ static func build(w: World, id: String, o: Vector2i, rng: RandomNumberGenerator)
 			elif PlacesData.STATION.has(ch):
 				stations.append([String(PlacesData.STATION[ch]), Vector2i(x, y)])
 	for s in stations:
+		# i disegni sono fatti per stazioni alte una tessera: una più alta (casse e banchi da 2, 28 set 2026) si alza
+		# finché non tocca più la roccia del disegno (prima finiva nel pavimento e lo scrigno restava murato)
+		var size: Array = StationsData.STATIONS[String(s[0])]["size"]
+		var lift := 0
+		while lift < int(size[1]) - 1 and not w.station_fits(String(s[0]), s[1] - Vector2i(0, lift)):
+			lift += 1
+		s[1] = (s[1] as Vector2i) - Vector2i(0, lift)
 		w.stations[s[1]] = s[0]
 		if s[0] == "leggio":
 			e["leggio"] = s[1]

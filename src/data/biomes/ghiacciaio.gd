@@ -8,6 +8,7 @@ const DATA := {
 	"id": "ghiacciaio", "name": "Ghiacciai di Linfa", "desc": "Ghiaccio antico con la Linfa gelata dentro: di notte il freddo morde",
 	"trees": 0.06, "hills": 1.7, "lift": -12, "tint": Color(0.82, 1.0, 1.25), "color": "#bff4ff", "weight": 1,
 	"grass": 37,
+	"stagni": [1.0, 10, 20, 3, 6],      # voce 118: stagni di superficie (vedi `BiomesData`)
 	"turf": {"name": "Ghiaccio di Linfa", "layer": "ghiaccio_linfa", "pal": ["#1a3848", "#2a5a70", "#4a8aa0", "#8ad0e0", "#e8ffff"], "specks": 50},
 	"tree": {"id": "cristallo_gelo", "name": "Albero di cristallo", "glow": Color(1.2, 1.7, 2.0)},
 	"veg": [[0.2, 61], [0.28, 62], [0.33, 63], [0.36, "sassi"]],

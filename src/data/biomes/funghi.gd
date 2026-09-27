@@ -8,6 +8,7 @@ const DATA := {
 	"id": "funghi", "name": "Colline dei cappelli", "desc": "Colline di micelio e funghi alti come case, sotto una pioggia tiepida",
 	"trees": 0.15, "hills": 1.8, "lift": -6, "tint": Color(1.1, 0.96, 0.8), "color": "#f0c890", "weight": 2,
 	"grass": 34,
+	"stagni": [1.5, 10, 20, 3, 6],      # voce 118: stagni di superficie (vedi `BiomesData`)
 	"turf": {"name": "Micelio bruno", "layer": "micelio_bruno", "pal": ["#2a2018", "#443426", "#62503a", "#8a7454", "#c8b088"], "specks": 70},
 	"tree": {"id": "cappellone", "name": "Cappellone", "glow": Color(1.7, 1.3, 0.9)},
 	"veg": [[0.35, 52], [0.45, 53], [0.5, 54], [0.54, "bagliore"]],

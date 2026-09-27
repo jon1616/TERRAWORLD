@@ -32,6 +32,8 @@ extends RefCounted
 ##   harsh            voce 93, il rigore di una terra estrema: {kind (di `HarshData`), rate (la barra si riempie in
 ##                    1/rate secondi allo scoperto), night (× di notte)} (regole in `Harshness`)
 ##   hurt_tile        voce 93, l'erba che ferisce chi ci sta sopra senza i piedi protetti: {dmg, text}
+##   stagni           voce 118, gli stagni di superficie (dove si pesca): [quanti ogni 1000 colonne, larghezza min,
+##                    max, profondità min, max] (0 = nessuno; senza il campo: pochi, `PassStagni.DEFAULT`)
 ## Dalla voce 92 un bioma porta con sé anche il suo **pacchetto** (tutti facoltativi), che le tabelle comuni uniscono
 ## alle loro:
 ##   creatures        {id: voce di `CreaturesData`} con in più body (la ricetta del disegno per `BodyArt`), affinity

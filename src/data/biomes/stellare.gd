@@ -7,6 +7,7 @@ const DATA := {
 	"id": "stellare", "name": "Radure stellari", "desc": "Un pezzo di cielo caduto a terra: l'erba è piena di stelle",
 	"trees": 0.1, "hills": 0.8, "lift": 0, "tint": Color(0.7, 0.8, 1.3), "color": "#c0d0ff", "weight": 0,
 	"grass": 45,
+	"stagni": [1.0, 10, 20, 3, 6],      # voce 118: stagni di superficie (vedi `BiomesData`)
 	"turf": {"name": "Erba stellata", "layer": "erba_stellata", "pal": ["#0a1030", "#141e50", "#243470", "#4a60a8", "#f0f4ff"], "specks": 140},
 	"tree": {"id": "cristallo_stellare", "name": "Albero di stelle", "glow": Color(1.6, 1.7, 2.2), "art": "cristallo_gelo"},
 	"veg": [[0.3, 76], [0.38, 77]],

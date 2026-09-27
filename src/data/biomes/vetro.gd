@@ -8,6 +8,7 @@ const DATA := {
 	"id": "vetro", "name": "Deserti di vetro", "desc": "Dune di vetro che tagliano, e nessuna ombra: portati da bere",
 	"trees": 0.03, "hills": 0.8, "lift": 3, "tint": Color(1.2, 1.1, 0.85), "color": "#f4f0b0", "weight": 1,
 	"grass": 36,
+	"stagni": [0.0, 0, 0, 0, 0],      # voce 118: stagni di superficie (vedi `BiomesData`)
 	"turf": {"name": "Sabbia di vetro", "layer": "sabbia_vetro", "pal": ["#3a3420", "#5a5230", "#8a8450", "#c8c890", "#f4fff0"], "specks": 120},
 	"tree": {"id": "vetrocacto", "name": "Cactus di vetro", "glow": Color(1.6, 1.8, 1.5)},
 	"veg": [[0.12, 58], [0.18, 59], [0.22, 60], [0.26, "sassi"]],
