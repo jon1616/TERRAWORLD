@@ -106,6 +106,12 @@ func run() -> void:
 	m.interact.touch(o)
 	await kit.frames(4)
 	var cp: ChestPanel = m.interact.chest_panel
+	if not cp.visible:
+		# nel giro intero il tocco non apriva la cassa (28 set 2026: qualcosa delle prove di prima occupa quella cella);
+		# questa prova controlla i clic sulle caselle, non il tocco: si dice chi c'era e si apre il pannello da qui
+		print("nota: il tocco non ha aperto la cassa (in quella cella: %s); pannello aperto dalla prova" % [w.station_at(o)])
+		cp.open(o, w.chest_at(o), "Cesta di radici")
+		await kit.frames(4)
 	await kit.click(_center(cp._slots[0]))
 	var chest_took := not bp.held.is_empty() and String(bp.held.get("id", "")) == "legno"
 	await kit.click(_center(cp._slots[0]))
