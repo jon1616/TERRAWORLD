@@ -1614,7 +1614,7 @@ scontro attorno al Cerchio non nasce niente (`Fauna.quiet_c`); il bottino è que
 più magro), mai i doni per sempre (Semi di mondo, Linfa antica, Vita). Tappa nel diario. Capitolo nell'Enciclopedia.
 Prove `--solo=evocazioni` (foto 151_evocazione).
 
-## 85. [ ] Effetti speciali componibili (M) — fondamenta
+## 85. [x] Effetti speciali componibili (M) — fondamenta — fatto il 27 set 2026
 Una libreria di **effetti** scritti come dati, che si montano su oggetti unici, accessori, totem, ali e set:
 «quando colpisci», «quando sei colpito», «sotto metà Vita», «ogni N colpi», «di notte», «nell'acqua», «in un bioma»,
 «aura continua», con risultati come scia di brace, schegge che rimbalzano, invisibilità breve, sciame evocato,
@@ -1622,6 +1622,17 @@ rallentamento attorno, cura sui colpi, raccolta a distanza, scavo ad area… Un 
 esteso o un `Effects` nuovo); la scheda dell'oggetto li descrive in italiano semplice.
 **Pronto quando**: un effetto nuovo è una riga di dati, e dieci oggetti di prova con effetti diversi si giocano in modo
 diverso, non solo con numeri più alti.
+**Fatto il 28 set 2026**: la libreria degli effetti (`EffectsData`, 19 effetti) e il modulo che li applica (`Effects`).
+Un oggetto li porta nel campo "effects"; valgono indossati o in mano. **Quando**: a ogni colpo (con probabilità), ogni
+N colpi, a ogni creatura sconfitta vicino, a ogni ferita (anche solo sotto una frazione di Vita), quando la Vita
+finirebbe, finché vale una condizione (Vita bassa, notte, nei liquidi, fermo, sotto terra, in superficie), di continuo
+attorno (aura). **Cosa**: brucia, gela, stordisce, schegge, fulmine a catena, cura dai colpi, Lumini, corsa o ombra a
+tempo, riflesso del colpo ricevuto, salvezza dall'appassire, danno, rigenerazione, respiro. Agganci nuovi e riusabili:
+`Combat.struck` e `Combat.hit_mult`, `Vitals.wounded` e `Vitals.death_guard`, `Player.effect_run`,
+`Vitals.effect_regen`, `Liquids.effect_breath`, `Behavior.effect_stealth`. Le schede (suggerimento ed Esamina) li
+dicono con ✦, e gli unici con la loro storia. I **primi 12 oggetti unici** (`UniquesData`: 5 armi, 7 accessori) li
+lasciano a volte i Guardiani evocati. `verifica_dati` controlla che un unico non sia nascosto da un oggetto con lo
+stesso id (successo con «Cuore di brina»). Capitolo nell'Enciclopedia. Prove `--solo=effetti` (foto 152_effetti).
 
 ## 86. [ ] Posti nuovi d'equipaggiamento (M) — fondamenta
 Da cinque posti a dieci: **guanti** (velocità dei colpi, scavo), **stivali** (corsa, salto, cadute), **mantello**

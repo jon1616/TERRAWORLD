@@ -11,6 +11,7 @@ const DART_GRAV := 260.0
 const DIG_PERIOD := 0.3                # il gesto di piccone e ascia
 const AMMO := ["dardo_vuoto", "dardo_aculeo", "dardo_libellula", "dardo_piumato", "dardo"]  # l'arco usa i dardi migliori che ci sono
 
+signal struck(c: Creature, dmg: int)        # voce 85: un colpo andato a segno (gli effetti)
 var m: Node2D                          # la scena di gioco
 var player: Player
 var fauna: Fauna
@@ -26,6 +27,7 @@ var auto_fire := false
 var god := false
 var _alt := 0                          # voce 52: l'elemento del prossimo colpo di una lega con due elementi
 var dmg_mult := 1.0                    # accessori: danno × (vedi `GearEffects`)
+var hit_mult: Callable                 # voce 85: () -> moltiplicatore delle condizioni (`Effects.hit_mult`)
 var spd_mult := 1.0                    # accessori: colpi più rapidi
 var magic_mult := 1.0                  # vesti di seta: incantesimi più forti
 var boon_thorns := 0                   # Pozione di spine
@@ -166,6 +168,8 @@ func _boon() -> float:
 
 func _strike(c: Creature, dmg: int, from_x: float, force: float, elem := "") -> void:
 	m.sfx.play("colpito", c.position)
+	if hit_mult.is_valid():
+		dmg = maxi(roundi(dmg * float(hit_mult.call())), 1)
 	if elem.contains("+"):
 		# una lega con due elementi (voce 52): uno per colpo, alternati
 		_alt += 1
@@ -180,6 +184,9 @@ func _strike(c: Creature, dmg: int, from_x: float, force: float, elem := "") -> 
 	# creatura Spinosa: colpirla da vicino ferisce anche il Germogliato
 	if c.ancient and c.ancient.has("spinosa") and player.position.distance_to(c.position) < 48.0:
 		_self_hurt(maxi(int(dmg * c.ancient.value("thorns")), 1))
+	struck.emit(c, dmg)
+	if not is_instance_valid(c) or not fauna.list.has(c):
+		return
 	if c.take_hit(dmg, from_x, maxf(force, 0.3)):
 		var burst := Gear.effect(held, "burst")
 		fauna.kill(c)

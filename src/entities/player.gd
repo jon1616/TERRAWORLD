@@ -47,6 +47,7 @@ var hook := Vector2.INF                # punto a cui è agganciato il rampino (I
 var hook_speed := 330.0
 var in_liquid := false                 # voce 73: nuota (acqua o Linfa fino al petto)
 var wind := 0.0                        # voce 75: il vento (px/s², solo in superficie), lo imposta `Weather`
+var effect_run := 1.0                  # voce 85: gli effetti (Slancio, Pinne, Vento alle spalle)
 var weather_run := 1.0                 # voce 75: la bufera rallenta la corsa
 var grav_mult := 1.0                   # voce 76: il peso del mondo (gene Lieve, Arcipelago), lo imposta `Gravity`
 var lift := 0.0                        # voce 76: dentro una corrente ascensionale, la velocità di salita
@@ -188,7 +189,7 @@ func _step(dt: float, dir: float, held: bool) -> void:
 	in_liquid = world.liq(cx, cy) >= 3 and bool(LiquidsData.TYPES[world.liq_type(cx, cy)]["swim"])
 	if in_liquid:
 		target *= LiquidsData.SWIM_RUN
-	target *= weather_run
+	target *= weather_run * effect_run
 	var accel := ACCEL_AIR
 	if on_floor:
 		accel = ACCEL_GROUND if dir != 0.0 and signf(dir) == signf(vel.x if vel.x != 0.0 else dir) else DECEL_GROUND

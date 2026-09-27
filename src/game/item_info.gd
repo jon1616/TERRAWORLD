@@ -29,6 +29,10 @@ static func bbcode(id: String, tratto := "", dati := {}) -> String:
 		t += "[color=#ffd08a]Tratto %s:[/color] %s\n" % [TraitsData.TRAITS[tratto]["name"], TraitsData.TRAITS[tratto]["desc"]]
 	if String(it.get("desc", "")) != "":
 		t += "[color=#cfeee4]%s[/color]\n" % it["desc"]
+	if it.get("unique", false):
+		t += "[color=#ffd24a]Oggetto unico.[/color] [color=#c8b890][i]%s[/i][/color]\n" % it.get("story", "")
+	for e in it.get("effects", []):
+		t += "[color=#ffd24a]✦ %s[/color]\n" % EffectsData.line(String(e))          # voce 85
 	var stats := []
 	for s in STATS:
 		if it.has(s[0]) and not s[0] in ["damage", "speed", "defense", "power"]:

@@ -53,10 +53,12 @@ static func make(id: String) -> Behavior:
 
 ## Il bersaglio è entro `tiles` tessere?
 static func sees(c: Creature, tiles: float) -> bool:
-	return c.target != null and c.target.position.distance_to(c.position) < tiles * 16.0 * stealth * fog
+	return c.target != null and c.target.position.distance_to(c.position) < tiles * 16.0 * stealth * fog * effect_stealth
 
 
 ## Tratto Ombra dell'equipaggiamento: le creature notano il Germogliato più tardi (lo imposta `GearEffects`).
 static var stealth := 1.0
 ## Voce 75: la nebbia accorcia la vista delle creature (lo imposta `Weather`).
 static var fog := 1.0
+## Voce 85: gli effetti (Muschio che nasconde) per qualche secondo.
+static var effect_stealth := 1.0

@@ -14,6 +14,7 @@ const REGEN := 1.2                    # punti di Vita al secondo, dopo l'attesa 
 const LINFA_REGEN := 1.5              # punti di Linfa al secondo
 const POTION_COOLDOWN := 30.0
 
+signal wounded(amount: int)                 # voce 85: una ferita (gli effetti)
 var hp := HP_MAX
 var hp_max := HP_MAX                   # HP_MAX più i doni duraturi (il Guardiano curato: +20)
 var linfa := LINFA_MAX
@@ -22,6 +23,8 @@ var scorza := 0
 var scorza_bonus := 0
 var set_scorza := 0                    # Scorza in più dei set completi (vedi `GearEffects`)
 var regen_mult := 1.0
+var effect_regen := 1.0                # voce 85: gli effetti (Radicato)
+var death_guard: Callable              # voce 85: () -> true se un effetto salva dall'appassire (Seconda radice)
 var boon_regen := 1.0                  # Pozione di rigoglio (vedi `Boons`)
 var linfa_regen_mult := 1.0            # accessori: la Linfa ricresce più in fretta
 var pet_linfa := 1.0                   # lo Spiritello di Linfa (voce 37)
@@ -39,9 +42,14 @@ func hurt(amount: int) -> int:
 	if hp <= 0:
 		return 0
 	var real := maxi(amount - (scorza + scorza_bonus + set_scorza) / 2, 1)
-	hp = maxi(hp - real, 0)
 	_since_hit = 0.0
+	if hp - real <= 0 and death_guard.is_valid() and bool(death_guard.call()):
+		changed.emit()
+		wounded.emit(real)
+		return real
+	hp = maxi(hp - real, 0)
 	changed.emit()
+	wounded.emit(real)
 	if hp == 0:
 		died.emit()
 	return real
@@ -77,8 +85,8 @@ func tick(dt: float) -> void:
 				return
 	_since_hit += dt
 	potion_wait = maxf(potion_wait - dt, 0.0)
-	if _since_hit >= REGEN_DELAY / (regen_mult * boon_regen) and hp < hp_max:
-		_acc += REGEN * regen_mult * boon_regen * dt
+	if _since_hit >= REGEN_DELAY / (regen_mult * boon_regen * effect_regen) and hp < hp_max:
+		_acc += REGEN * regen_mult * boon_regen * effect_regen * dt
 		var k := int(_acc)
 		_acc -= k
 		hp = mini(hp + k, hp_max)

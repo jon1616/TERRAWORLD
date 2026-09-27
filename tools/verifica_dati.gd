@@ -136,6 +136,12 @@ func _init() -> void:
 	for r in ChainsData.SHORT_REWARDS:
 		for k in r:
 			_err(items.has(String(k)) or String(k) == "seme_raro", "catena breve: premio inesistente %s" % k)
+	# voce 85: un unico non deve essere nascosto da un oggetto con lo stesso id (merge non sostituisce)
+	for uid in UniquesData.ITEMS:
+		_err(bool(items.get(uid, {}).get("unique", false)), "l'unico %s è nascosto da un altro oggetto con lo stesso id" % uid)
+	for pool in UniquesData.POOLS:
+		for uid in UniquesData.POOLS[pool]["items"]:
+			_err(UniquesData.ITEMS.has(uid), "raccolta %s: unico inesistente %s" % [pool, uid])
 	# 5. ogni oggetto si può ottenere; ogni materiale serve a qualcosa
 	for id in items:
 		var ok: bool = made.has(id) or dropped.has(id) or ItemsData.OTHER_SOURCES.has(id) or items[id].has("source")

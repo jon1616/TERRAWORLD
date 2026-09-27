@@ -92,4 +92,8 @@ Gli [b]alleati[/b] dei bastoni evocatori combattono per te finché non appassisc
 Clic destro: [b]commercio[/b] in Lumini (vendi ciò che hai in mano, o Maiusc+clic su una casella). Ognuno ha un mestiere e merci sue.
 [b]Affetto[/b]: cresce con i doni (molto di più con ciò che gli piace) e con le sue richieste. Ogni livello (un cuore) dà uno sconto; a certi livelli un regalo. Ogni abitante ha tre richieste in fila.
 {cat_abitanti}"""},
+	{"id": "effetti", "group": "Creare ed equipaggiarsi", "name": "Effetti speciali e oggetti unici", "text":
+"""Alcuni oggetti non sono solo più forti: [b]fanno qualcosa[/b]. Gli [b]effetti speciali[/b] (✦ nella scheda) scattano a ogni colpo o ogni tanti colpi, quando sconfiggi una creatura, quando sei ferito, quando la Vita finirebbe, oppure valgono finché è vera una condizione (di notte, nell'acqua, sotto terra, da fermo, con poca Vita) o di continuo attorno a te. Valgono indossati (armature, accessori) o in mano (armi).
+{cat_effetti}
+Gli [b]oggetti unici[/b] sono scritti a mano, ognuno con la sua storia e i suoi effetti: il nome dorato, e un posto preciso dove si trovano. I primi li lasciano, a volte, i Guardiani evocati al [url=cap:evocazioni]Cerchio dei Seminatori[/url]."""},
 ]

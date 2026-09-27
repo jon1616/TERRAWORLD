@@ -10,6 +10,7 @@ var m: Node2D
 var view: LiquidView
 var active := {}                        # indice della cella -> true
 var breath := LiquidsData.BREATH
+var effect_breath := 1.0               # voce 85: gli effetti (Branchia)
 var breath_mult := 1.0                  # accessori (Branchie di muschio)
 var _t := 0.0
 var _flip := false
@@ -311,7 +312,7 @@ func _body(dt: float) -> void:
 	var head := Vector2i(floori(p.position.x / 16.0), floori((p.position.y - Player.HALF.y + 3.0) / 16.0))
 	var mid := Vector2i(floori(p.position.x / 16.0), floori(p.position.y / 16.0))
 	var under := w.liq(head.x, head.y) >= 5
-	var max_b := LiquidsData.BREATH * breath_mult
+	var max_b := LiquidsData.BREATH * breath_mult * effect_breath
 	if under and w.liq_type(head.x, head.y) != LiquidsData.BRACE:
 		breath = maxf(breath - dt, 0.0)
 	else:

@@ -139,6 +139,9 @@ static func inline(key: String) -> String:
 				rows.append(_b(String(pd["name"]), "%s · nei mondi con %s · %s" % [pd["banner"], " o ".join(gn),
 					"in superficie" if pd.get("surface", false) else "nello strato «%s»" % StrataData.STRATA[int(pd["strata"][0])]["name"]],
 					String(pd["color"])))
+		"cat_effetti":
+			for k in EffectsData.EFFECTS:
+				rows.append(_b(String(EffectsData.EFFECTS[k]["name"]), String(EffectsData.EFFECTS[k]["desc"]), "#ffd24a"))
 		"cat_richiami":
 			for k in SummonData.CALLS:
 				var cid := String(SummonData.CALLS[k]["creature"])

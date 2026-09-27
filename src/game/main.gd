@@ -73,6 +73,7 @@ var legends: Legends
 var challenges: Challenges
 var diary: Diary
 var summons: Summons
+var effects: Effects
 var board: Board
 var storage: Storage
 var herd: Herd
@@ -321,6 +322,7 @@ func _build() -> void:
 	legends = _mount(Legends.new())        # voce 81: i Semi leggendari e il Seme Primo
 	challenges = _mount(Challenges.new())  # voce 82: le sfide dei Semi e i record
 	summons = _mount(Summons.new())        # voce 84: evocare i Guardiani già affrontati
+	effects = _mount(Effects.new())        # voce 85: gli effetti speciali degli oggetti
 	diary = _mount(Diary.new())            # voce 83: il diario della partita
 	hud.panel.quick_stack = storage.quick_stack
 	hud.panel._toast = hud.toast
