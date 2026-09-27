@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://h7c7ktwmd6q1"
-valid=false
+uid="uid://bmbbe3td8kysv"
+path="res://.godot/imported/potere_brace.png-34b610405724b3f52bf068cd69957cfb.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://arte/interfaccia/potere_brace.png"
+dest_files=["res://.godot/imported/potere_brace.png-34b610405724b3f52bf068cd69957cfb.ctex"]
 
 [params]
 

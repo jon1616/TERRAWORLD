@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0pnwuw0f5gpq"
-valid=false
+uid="uid://d1ijrypb56v5v"
+path="res://.godot/imported/accecato.png-d03daeb0659b14ac147b072cc1363225.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://arte/interfaccia/accecato.png"
+dest_files=["res://.godot/imported/accecato.png-d03daeb0659b14ac147b072cc1363225.ctex"]
 
 [params]
 

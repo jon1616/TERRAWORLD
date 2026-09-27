@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d0vsq1qay78xo"
-valid=false
+uid="uid://cp42rq3gukych"
+path="res://.godot/imported/brace.png-7b9342e72424200a85dd894133a375e2.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://arte/interfaccia/brace.png"
+dest_files=["res://.godot/imported/brace.png-7b9342e72424200a85dd894133a375e2.ctex"]
 
 [params]
 

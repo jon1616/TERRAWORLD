@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://csp3sqrtdwljg"
-valid=false
+uid="uid://cm3u4yt5f5400"
+path="res://.godot/imported/squarcio.png-88b901131c93a0ffe13c7db80c04f04c.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://arte/interfaccia/squarcio.png"
+dest_files=["res://.godot/imported/squarcio.png-88b901131c93a0ffe13c7db80c04f04c.ctex"]
 
 [params]
 

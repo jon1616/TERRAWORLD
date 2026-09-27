@@ -19,6 +19,8 @@ var _quest: Label
 var _deliver: Button
 var _gift: Button
 var sold := 0
+var _portrait: TextureRect
+const PORTRAIT := 112.0                 # voce 102: il ritratto (56 px) ingrandito due volte
 
 
 func setup(p: BisacciaPanel) -> void:
@@ -41,6 +43,14 @@ func setup(p: BisacciaPanel) -> void:
 	frame.size = Vector2(w + 28, SlotView.SIZE + 166)
 	frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(frame)
+	_portrait = TextureRect.new()
+	_portrait.position = Vector2(x0, y0 - PORTRAIT - 6.0)
+	_portrait.size = Vector2(PORTRAIT, PORTRAIT)
+	_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_portrait.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_portrait)
 	_title = Label.new()
 	_title.position = Vector2(x0, y0 - 58)
 	_title.add_theme_font_size_override("font_size", 20)
@@ -131,6 +141,17 @@ func _refresh() -> void:
 	var nd: Dictionary = NpcData.NPCS[npc]
 	_title.text = _title_text()
 	_greet.text = "«%s»" % _greeting()
+	# voce 102: con il ritratto le scritte cominciano alla sua destra
+	var pt := ArtLib.tex("ritratti", npc)
+	_portrait.texture = pt
+	_portrait.visible = pt != null
+	var dx := PORTRAIT + 12.0 if pt != null else 0.0
+	var x0 := _slots[0].position.x
+	var w := _slots[COLS - 1].position.x + SlotView.SIZE - x0
+	for l: Label in [_title, _greet, _quest]:
+		l.position.x = x0 + dx
+	_greet.size.x = w - dx
+	_quest.size.x = w - dx
 	var bonds := m != null and nd.has("quests")
 	_quest.visible = bonds
 	_deliver.visible = bonds

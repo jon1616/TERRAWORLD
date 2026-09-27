@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dgbafjosmfc1o"
-valid=false
+uid="uid://cg2iqtinnlukj"
+path="res://.godot/imported/potere_passo.png-6fcdfd208c9c1c6522fdb90a092f42aa.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://arte/interfaccia/potere_passo.png"
+dest_files=["res://.godot/imported/potere_passo.png-6fcdfd208c9c1c6522fdb90a092f42aa.ctex"]
 
 [params]
 

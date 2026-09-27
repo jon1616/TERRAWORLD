@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cri2wcaylph37"
-valid=false
+uid="uid://cqpi7a60lkp3"
+path="res://.godot/imported/polvere.png-f7225984ffc5f226840eca4917ca4032.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://arte/interfaccia/polvere.png"
+dest_files=["res://.godot/imported/polvere.png-f7225984ffc5f226840eca4917ca4032.ctex"]
 
 [params]
 

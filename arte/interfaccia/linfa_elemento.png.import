@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cqc8g8g6bfd5l"
-valid=false
+uid="uid://d086wa3hblm3f"
+path="res://.godot/imported/linfa_elemento.png-74d967c123dd5f8b76dff7d8747b5356.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://arte/interfaccia/linfa_elemento.png"
+dest_files=["res://.godot/imported/linfa_elemento.png-74d967c123dd5f8b76dff7d8747b5356.ctex"]
 
 [params]
 

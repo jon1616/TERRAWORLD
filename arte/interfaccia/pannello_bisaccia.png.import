@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cw3rbbnxv50yo"
-valid=false
+uid="uid://c20xvoe0jetuv"
+path="res://.godot/imported/pannello_bisaccia.png-ff37b716e3e935915307cfa3109cfe27.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://arte/interfaccia/pannello_bisaccia.png"
+dest_files=["res://.godot/imported/pannello_bisaccia.png-ff37b716e3e935915307cfa3109cfe27.ctex"]
 
 [params]
 

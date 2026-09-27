@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dffbu4p64cgtm"
-valid=false
+uid="uid://dad3v11sg7n0o"
+path="res://.godot/imported/pannello_mappa.png-e053fa1de3cee06b7a3ce05b2f6c3516.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://arte/interfaccia/pannello_mappa.png"
+dest_files=["res://.godot/imported/pannello_mappa.png-e053fa1de3cee06b7a3ce05b2f6c3516.ctex"]
 
 [params]
 

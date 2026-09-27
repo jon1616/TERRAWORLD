@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dcwrdvq5rwccg"
-valid=false
+uid="uid://cqqfqdx0bg4x7"
+path="res://.godot/imported/rallentato.png-cad14dc6d3d27bd7e816d10644538e69.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://arte/interfaccia/rallentato.png"
+dest_files=["res://.godot/imported/rallentato.png-cad14dc6d3d27bd7e816d10644538e69.ctex"]
 
 [params]
 

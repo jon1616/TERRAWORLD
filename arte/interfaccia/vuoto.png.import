@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cd6yd45owlm2n"
-valid=false
+uid="uid://cd101gl4r40uv"
+path="res://.godot/imported/vuoto.png-844d090d43af4a689fb13f796f2060bb.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://arte/interfaccia/vuoto.png"
+dest_files=["res://.godot/imported/vuoto.png-844d090d43af4a689fb13f796f2060bb.ctex"]
 
 [params]
 

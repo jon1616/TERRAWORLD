@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bfhvkiow3pm86"
-valid=false
+uid="uid://c1pwh5xyxoak0"
+path="res://.godot/imported/fiammata.png-0106dfe2b3017729378385859c0a123c.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://arte/interfaccia/fiammata.png"
+dest_files=["res://.godot/imported/fiammata.png-0106dfe2b3017729378385859c0a123c.ctex"]
 
 [params]
 

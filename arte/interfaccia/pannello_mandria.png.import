@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b7wgv6w53ealm"
-valid=false
+uid="uid://dv6m2j3xdmemb"
+path="res://.godot/imported/pannello_mandria.png-d58c1a6c5a929150b997f758ab9602a0.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://arte/interfaccia/pannello_mandria.png"
+dest_files=["res://.godot/imported/pannello_mandria.png-d58c1a6c5a929150b997f758ab9602a0.ctex"]
 
 [params]
 

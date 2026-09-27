@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bcye7kv8k2gcl"
-valid=false
+uid="uid://c0r25ahhftsw7"
+path="res://.godot/imported/luce.png-56de19cfa5dbd15836438f2176f1812b.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://arte/interfaccia/luce.png"
+dest_files=["res://.godot/imported/luce.png-56de19cfa5dbd15836438f2176f1812b.ctex"]
 
 [params]
 

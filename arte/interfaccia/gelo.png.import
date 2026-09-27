@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://2ph51kj13qh3"
-valid=false
+uid="uid://bimlabiw2a8bv"
+path="res://.godot/imported/gelo.png-782f9909c62f75fe0c48752a15af987c.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://arte/interfaccia/gelo.png"
+dest_files=["res://.godot/imported/gelo.png-782f9909c62f75fe0c48752a15af987c.ctex"]
 
 [params]
 

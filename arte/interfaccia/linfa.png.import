@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dcwtebj82kfy6"
-valid=false
+uid="uid://vevv1jfrw3ey"
+path="res://.godot/imported/linfa.png-9d9ed54af06e40c421268585640fed92.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://arte/interfaccia/linfa.png"
+dest_files=["res://.godot/imported/linfa.png-9d9ed54af06e40c421268585640fed92.ctex"]
 
 [params]
 

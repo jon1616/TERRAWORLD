@@ -2039,7 +2039,7 @@ Cartella `arte_ia/germogliato/` (come prima).
 gioco** (un altro agente lavorava al generatore: niente prove né `--import` nel frattempo). Gli script: `tools/tavola.py`
 (tavole di pezzi su magenta: `--griglia`, colori per pezzo, contorno disegnato tolto con lo spessore misurato sulla
 tavola, `--dettagli` per i visi) e `tools/illustrazione.py` (sfondi, logo, vignette); ogni cartella di `arte_ia/` ha
-`rifai.sh`, che rifà tutti i png. Risultati: `arte/interfaccia/` (44 icone, 16 px; Vita, Linfa, Scorza 20 px),
+`rifai.sh`, che rifà tutti i png. Risultati: `arte/interfaccia/` (36 icone, 16 px; Vita, Linfa, Scorza 20 px),
 `arte/ritratti/` (8 abitanti, 56 px), `arte/titolo/` (sfondo 400×225 da ingrandire ×4, logo 150 px), `arte/storia/`
 (25 vignette da 240 px, una per ogni pagina di `LoreData`, nomi = chiavi). Deciso con l'utente: **menu nella metà
 sinistra** (logo e pulsanti), l'Albero-Madre libero a destra.

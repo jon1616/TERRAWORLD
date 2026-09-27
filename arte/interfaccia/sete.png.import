@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://t88ngyjsf6nj"
-valid=false
+uid="uid://cvtujwfptvdea"
+path="res://.godot/imported/sete.png-c11ca05c9fedf0acab72200e5c10577a.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://arte/interfaccia/sete.png"
+dest_files=["res://.godot/imported/sete.png-c11ca05c9fedf0acab72200e5c10577a.ctex"]
 
 [params]
 

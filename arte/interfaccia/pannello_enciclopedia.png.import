@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ctsdrfmq2ga4t"
-valid=false
+uid="uid://76dhlxireotw"
+path="res://.godot/imported/pannello_enciclopedia.png-62dea35f39c14ce1c24cd5d9486a3a51.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://arte/interfaccia/pannello_enciclopedia.png"
+dest_files=["res://.godot/imported/pannello_enciclopedia.png-62dea35f39c14ce1c24cd5d9486a3a51.ctex"]
 
 [params]
 

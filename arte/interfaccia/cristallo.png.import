@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cuftturqlc0xb"
-valid=false
+uid="uid://bkhyccmfaokku"
+path="res://.godot/imported/cristallo.png-f0607fd060d9b0a40a0cb5282ce41876.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://arte/interfaccia/cristallo.png"
+dest_files=["res://.godot/imported/cristallo.png-f0607fd060d9b0a40a0cb5282ce41876.ctex"]
 
 [params]
 

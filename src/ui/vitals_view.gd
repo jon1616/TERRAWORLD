@@ -32,8 +32,13 @@ var _pulse := 0.0
 
 func setup(v: Vitals) -> void:
 	vitals = v
-	_leaf_tex = ImageTexture.create_from_image(_leaf(Px.pal(["#0c3a30", "#1f7a5a", "#3aa08a", "#8ef0c0"]), 1.0))
-	_drop_tex = ImageTexture.create_from_image(_drop(Px.pal(["#0a3a4a", "#1f8a9a", "#5cc8cc", "#dcffff"])))
+	# voce 101: le icone disegnate (20 px, a grandezza vera); se mancano, quelle del codice
+	_leaf_tex = ArtLib.tex("interfaccia", "vita")
+	_drop_tex = ArtLib.tex("interfaccia", "linfa")
+	if _leaf_tex == null:
+		_leaf_tex = ImageTexture.create_from_image(_leaf(Px.pal(["#0c3a30", "#1f7a5a", "#3aa08a", "#8ef0c0"]), 1.0))
+	if _drop_tex == null:
+		_drop_tex = ImageTexture.create_from_image(_drop(Px.pal(["#0a3a4a", "#1f8a9a", "#5cc8cc", "#dcffff"])))
 	_font = ThemeDB.fallback_font
 	position = Vector2(1600.0 - W - 16.0, TOP)
 	size = Vector2(W, BOTTOM - TOP)
@@ -105,7 +110,7 @@ func _draw() -> void:
 	# la Vita
 	var hp := _frac(vitals.hp, vitals.hp_max)
 	var y := PAD
-	draw_texture_rect(_leaf_tex, Rect2(Vector2(PAD, y + (BAR.y - ICON) * 0.5), Vector2(ICON, ICON)), false)
+	_icon(_leaf_tex, Vector2(PAD + ICON * 0.5, y + BAR.y * 0.5))
 	var col := hp_color(hp)
 	if hp < 0.25:
 		col = col.lerp(Color(1.0, 0.85, 0.8), 0.35 * (0.5 + 0.5 * sin(_pulse * 7.0)))
@@ -114,9 +119,17 @@ func _draw() -> void:
 	# la Linfa
 	var li := _frac(vitals.linfa, vitals.linfa_max)
 	y += BAR.y + 8.0
-	draw_texture_rect(_drop_tex, Rect2(Vector2(PAD + 2.0, y + (LINFA_H - ICON + 4.0) * 0.5), Vector2(ICON - 4.0, ICON - 4.0)), false)
+	_icon(_drop_tex, Vector2(PAD + ICON * 0.5, y + LINFA_H * 0.5))
 	_bar(Rect2(x0, y, bw, LINFA_H), li, _linfa_trail, Color("#34c8d0"), Color(0.8, 1.0, 1.0))
 	_text(Rect2(x0, y, bw, LINFA_H), "Linfa  %d / %d" % [vitals.linfa, vitals.linfa_max], 14)
+
+
+## Un'icona centrata su `c`: quelle disegnate a grandezza vera (pixel netti), quelle del codice (10 px) ingrandite.
+func _icon(t: Texture2D, c: Vector2) -> void:
+	var s := t.get_size()
+	if s.x < 16.0:
+		s *= ICON / s.x
+	draw_texture_rect(t, Rect2((c - s * 0.5).round(), s), false)
 
 
 ## Una barra: fondo scuro, la parte appena persa chiara, il pieno con un filo di luce in cima, il bordo.

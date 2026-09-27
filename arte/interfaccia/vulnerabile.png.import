@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bdfx3f7whixd"
-valid=false
+uid="uid://dmvis88ukdeo2"
+path="res://.godot/imported/vulnerabile.png-3b391056f9a4818c1da08843b79a61d2.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://arte/interfaccia/vulnerabile.png"
+dest_files=["res://.godot/imported/vulnerabile.png-3b391056f9a4818c1da08843b79a61d2.ctex"]
 
 [params]
 

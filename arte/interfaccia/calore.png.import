@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b0rpxg0kfre0f"
-valid=false
+uid="uid://ckvyonwocwv80"
+path="res://.godot/imported/calore.png-a6aa3a81ab8e4bd0bf4b761d95cde08a.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://arte/interfaccia/calore.png"
+dest_files=["res://.godot/imported/calore.png-a6aa3a81ab8e4bd0bf4b761d95cde08a.ctex"]
 
 [params]
 

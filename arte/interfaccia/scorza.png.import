@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bffgkga2scx2l"
-valid=false
+uid="uid://dlsurijib2y8v"
+path="res://.godot/imported/scorza.png-2e4dcd8493ad9bd08a4ccc71210676c4.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://arte/interfaccia/scorza.png"
+dest_files=["res://.godot/imported/scorza.png-2e4dcd8493ad9bd08a4ccc71210676c4.ctex"]
 
 [params]
 

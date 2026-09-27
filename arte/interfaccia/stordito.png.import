@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bl73mtbl1jut4"
-valid=false
+uid="uid://xvg8ryoqb8na"
+path="res://.godot/imported/stordito.png-cbdf5da14ff8e63ca0bbbd70baf8e528.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://arte/interfaccia/stordito.png"
+dest_files=["res://.godot/imported/stordito.png-cbdf5da14ff8e63ca0bbbd70baf8e528.ctex"]
 
 [params]
 

@@ -8,6 +8,8 @@ const TEXT := Color("#eafff6")
 const DIM := Color("#9fc8c0")
 const TEAL := Color("#2f7a70")
 const DANGER := Color("#ff6a5a")       # il rosso dei bottoni che cancellano
+const MENU_X := 416.0                   # voce 103: il centro della colonna del menu, nel cielo vuoto a sinistra
+const ART_SCALE := 4                    # sfondo (400×225) e logo ingranditi senza sfumare
 
 var _box: VBoxContainer
 var _title: Label
@@ -18,23 +20,27 @@ func _ready() -> void:
 	if "--prove" in OS.get_cmdline_user_args():
 		_start_tests.call_deferred()
 		return
-	_make_backdrop()
-	_title = _label("TERRAWORLD", 72, GOLD)
-	_title.set_anchors_preset(Control.PRESET_CENTER_TOP)
-	_title.position = Vector2(-400, 90)
-	_title.size = Vector2(800, 90)
-	_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	add_child(_title)
+	# voce 103: sfondo e logo di Nano Banana, con il menu nella metà sinistra (l'Albero-Madre resta libero a destra);
+	# senza i file, il cielo e il titolo scritto di prima, al centro
+	var art := ArtLib.has("titolo", "sfondo") and ArtLib.has("titolo", "logo")
+	var cx := MENU_X if art else 800.0
+	if art:
+		_make_art_backdrop()
+	else:
+		_make_backdrop()
+		_title = _label("TERRAWORLD", 72, GOLD)
+		_title.position = Vector2(cx - 400, 90)
+		_title.size = Vector2(800, 90)
+		_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		add_child(_title)
 	var sub := _label("Il Giardino dei Semi", 24, Color("#8ef0d0"))
-	sub.set_anchors_preset(Control.PRESET_CENTER_TOP)
-	sub.position = Vector2(-400, 180)
+	sub.position = Vector2(cx - 400, 222 if art else 180)
 	sub.size = Vector2(800, 40)
 	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	add_child(sub)
 	var panel := PanelContainer.new()
 	panel.add_theme_stylebox_override("panel", _style(Color(0.02, 0.08, 0.1, 0.85), TEAL, 18))
-	panel.set_anchors_preset(Control.PRESET_CENTER)
-	panel.position = Vector2(-280, -160)
+	panel.position = Vector2(cx - 280, 290)
 	panel.custom_minimum_size = Vector2(560, 0)
 	add_child(panel)
 	var margin := MarginContainer.new()
@@ -62,8 +68,21 @@ func _photos() -> void:
 		(s[1] as Callable).call()
 		for k in 10:
 			await get_tree().process_frame
-		get_viewport().get_texture().get_image().save_png(ProjectSettings.globalize_path("res://prove/%s.png" % s[0]))
+		# con hdr_2d l'immagine della finestra è in spazio lineare: senza la conversione la foto viene molto più scura
+		# di ciò che si vede sullo schermo (voce 103: lo sfondo sembrava quasi nero)
+		var img := _srgb(get_viewport().get_texture().get_image())
+		img.save_png(ProjectSettings.globalize_path("res://prove/%s.png" % s[0]))
 	get_tree().quit()
+
+
+## La foto della finestra in sRGB: l'immagine è a virgola mobile e lineare (hdr_2d). `Image.linear_to_srgb` vuole
+## 8 bit, e convertire prima schiaccia i toni scuri a gradini: si converte pixel per pixel (~1 s, solo per le foto).
+static func _srgb(img: Image) -> Image:
+	var out := Image.create(img.get_width(), img.get_height(), false, Image.FORMAT_RGB8)
+	for y in img.get_height():
+		for x in img.get_width():
+			out.set_pixel(x, y, img.get_pixel(x, y).linear_to_srgb())
+	return out
 
 
 func _start_tests() -> void:
@@ -257,6 +276,27 @@ func _confirm(question: String, on_yes: Callable, on_no: Callable) -> void:
 
 
 # ---------------------------------------------------------------- mattoni dell'interfaccia
+
+## Voce 103: lo sfondo del Giardino (arte/titolo/sfondo.png, 400×225) a tutto schermo e il logo sopra il menu.
+func _make_art_backdrop() -> void:
+	var bg := TextureRect.new()
+	bg.texture = ArtLib.tex("titolo", "sfondo")
+	bg.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	bg.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	bg.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(bg)
+	var lt := ArtLib.tex("titolo", "logo")
+	var logo := TextureRect.new()
+	logo.texture = lt
+	logo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	logo.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	logo.size = lt.get_size() * ART_SCALE
+	logo.position = Vector2(MENU_X - logo.size.x * 0.5, 72).round()
+	logo.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(logo)
+
 
 func _make_backdrop() -> void:
 	var sky := TextureRect.new()

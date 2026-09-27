@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://n1sdgalruf1u"
-valid=false
+uid="uid://ban0pax81oiiv"
+path="res://.godot/imported/pannello_semenzaio.png-1be8f2246ada06ae97d8069fd03d4d83.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://arte/interfaccia/pannello_semenzaio.png"
+dest_files=["res://.godot/imported/pannello_semenzaio.png-1be8f2246ada06ae97d8069fd03d4d83.ctex"]
 
 [params]
 

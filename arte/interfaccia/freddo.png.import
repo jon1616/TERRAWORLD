@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ceehyp0gs3end"
-valid=false
+uid="uid://dysstyid0k5kb"
+path="res://.godot/imported/freddo.png-14df7529237d7909b7d1b4ed4abf7e31.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://arte/interfaccia/freddo.png"
+dest_files=["res://.godot/imported/freddo.png-14df7529237d7909b7d1b4ed4abf7e31.ctex"]
 
 [params]
 

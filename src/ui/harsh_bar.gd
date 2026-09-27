@@ -50,8 +50,14 @@ func _draw() -> void:
 	draw_style_box(box, Rect2(Vector2.ZERO, size))
 	var s := hs.shield(k)
 	var label := String(kd["name"]) + ("  · protetto %d%%" % roundi(s * 100.0) if s > 0.0 else "")
-	draw_string(_font, Vector2(8, 13), label, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, col.lightened(0.3))
-	var r := Rect2(8, 18, W - 16, 10)
+	# voce 101: l'icona del rigore (16 px) a sinistra, se c'è
+	var ic := ArtLib.tex("interfaccia", k)
+	var x0 := 8.0
+	if ic != null:
+		draw_texture(ic, Vector2(6, (H - 16.0) * 0.5).round())
+		x0 = 28.0
+	draw_string(_font, Vector2(x0, 13), label, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, col.lightened(0.3))
+	var r := Rect2(x0, 18, W - x0 - 8.0, 10)
 	draw_rect(r, Color(0, 0, 0, 0.5))
 	var c := col if v < 1.0 else col.lerp(Color.WHITE, 0.35 + 0.35 * sin(_t * 8.0))
 	draw_rect(Rect2(r.position, Vector2(r.size.x * v, r.size.y)), c)

@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dfo132janqgrp"
-valid=false
+uid="uid://bfsag3g0maywa"
+path="res://.godot/imported/pannello_erbario.png-40e5f070a92459d3372984b53323119a.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://arte/interfaccia/pannello_erbario.png"
+dest_files=["res://.godot/imported/pannello_erbario.png-40e5f070a92459d3372984b53323119a.ctex"]
 
 [params]
 

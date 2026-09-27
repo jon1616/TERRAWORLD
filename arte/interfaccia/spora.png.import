@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cb6vgopu3jvrl"
-valid=false
+uid="uid://djqcxu6k6vxds"
+path="res://.godot/imported/spora.png-3d6a3f7b437a4c4f075a72cdc00d640e.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://arte/interfaccia/spora.png"
+dest_files=["res://.godot/imported/spora.png-3d6a3f7b437a4c4f075a72cdc00d640e.ctex"]
 
 [params]
 

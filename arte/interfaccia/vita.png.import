@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bj4u6cbc2vyus"
-valid=false
+uid="uid://bwyje4w8y0hwk"
+path="res://.godot/imported/vita.png-15aef36cede7bf1756ae5eafa68fa4ce.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://arte/interfaccia/vita.png"
+dest_files=["res://.godot/imported/vita.png-15aef36cede7bf1756ae5eafa68fa4ce.ctex"]
 
 [params]
 
