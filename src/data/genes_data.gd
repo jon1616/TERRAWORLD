@@ -57,7 +57,8 @@ const DEFAULTS := {
 		"geodes": 1.0, "crystal": 0.0, "rich": 0.0, "trees": 1.0, "blight_zones": 0.0, "mosaic": false, "islands": 0.0,
 		"city": false, "sea": false, "pools": 1.0, "roof": false, "archi": false},
 	"run": {"danger": 0.0, "lumini": 1.0, "rare": 1.0, "grow": 1.0, "night": 0.0, "events": 1.0, "blight": 1.0, "season": 0.0,
-		"aurora": 0.0, "roles": {}, "rain": 1.0, "wind": 1.0, "fog": 1.0, "grav": 1.0, "roof": false},
+		"aurora": 0.0, "roles": {}, "rain": 1.0, "wind": 1.0, "fog": 1.0, "grav": 1.0, "roof": false, "regrow": false, "crystal": 0.0,
+		"falling": false},
 }
 const MUL := ["ruins", "gems", "lumini", "rare", "grow", "events", "blight", "hills", "worm", "roots", "shallow", "geodes",
 	"trees", "pools", "rain", "wind", "fog", "grav"]
@@ -199,6 +200,15 @@ const GENES := {
 		"combo": ["avvizzito", "notti_lunghe"],       # voce 69: la via del Seme Nero lo insegna
 		"desc": "l'Avvizzimento ovunque e creature rare e feroci, con molti Lumini", "gen": {"blight_zones": 5.0},
 		"run": {"blight": 2.5, "danger": 0.8, "rare": 2.0, "lumini": 1.5}},
+	# voce 77: la terra viva
+	"radici_vive": {"cat": "sottosuolo", "name": "Radici vive", "rar": 1, "dom": 2, "good": false,
+		"desc": "le radici ricrescono e richiudono i cunicoli scavati (la luce delle torce le tiene lontane)",
+		"gen": {"roots": 1.8}, "run": {"regrow": true}},
+	"cristalli_vivi": {"cat": "gemme", "name": "Cristalli vivi", "rar": 1, "dom": 2, "good": true, "vmin": 2,
+		"desc": "i cristalli di Linfa crescono nel tempo, anche quando non ci sei", "gen": {"crystal": 0.04},
+		"run": {"crystal": 1.0}},
+	"frane": {"cat": "grotte", "name": "Frane", "rar": 1, "dom": 2, "good": false,
+		"desc": "la terra senza appoggio frana: scava con prudenza", "gen": {"worm": 1.25}, "run": {"falling": true}},
 	# voce 76: gravità e mondi strani
 	"lieve": {"cat": "forma", "name": "Lieve", "rar": 1, "dom": 2, "good": true, "vmin": 2,
 		"desc": "gravità leggera: salti altissimi, cadute lente e montagne vertiginose", "gen": {"hills": 1.7},

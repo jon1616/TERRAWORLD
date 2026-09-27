@@ -34,6 +34,7 @@ var station_check: Callable
 var dig_hook: Callable
 signal boon(name: String, secs: float)
 signal decor_picked(c: Vector2i, d: int)   # una decorazione tolta (il giardino vi aggiunge raccolto e semi)
+signal dug(t: int, c: Vector2i)            # voce 77: una tessera rotta (la terra viva: ferite e frane)
 var _cell := Vector2i(-9999, -9999)
 var _t := 0.0
 var _chop_t := 0.0
@@ -215,6 +216,7 @@ func break_tile(c: Vector2i) -> void:
 	drops.spawn(String(TileDefs.DROP.get(t, "")), 1, center)
 	if dig_hook.is_valid():
 		dig_hook.call(t, c)
+	dug.emit(t, c)
 	if sfx:
 		sfx.play("rompi", center)
 

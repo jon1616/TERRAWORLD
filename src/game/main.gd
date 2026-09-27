@@ -67,6 +67,7 @@ var mechanisms: Mechanisms
 var liquids: Liquids
 var weather: Weather
 var gravity: Gravity
+var living: LivingEarth
 var board: Board
 var storage: Storage
 var herd: Herd
@@ -306,6 +307,7 @@ func _build() -> void:
 	liquids = _mount(Liquids.new())        # voce 73: acqua, Linfa e brace che scorrono; nuoto e respiro
 	weather = _mount(Weather.new())        # voce 75: vento, pioggia, nebbia, temporali, cenere, bufere
 	gravity = _mount(Gravity.new())        # voce 76: il peso del mondo e le correnti ascensionali
+	living = _mount(LivingEarth.new())     # voce 77: radici che ricrescono, cristalli che crescono, frane
 	hud.panel.quick_stack = storage.quick_stack
 	hud.panel._toast = hud.toast
 	interact.chest_panel.storage = storage

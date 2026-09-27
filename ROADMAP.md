@@ -1442,10 +1442,20 @@ sole** (buchi nel tetto, uno sempre vicino alla partenza); sotto il tetto non pi
 Tutti e tre hanno il Cuore nel Fondo e la partenza libera (le prove generano i mondi e lo controllano). Capitolo
 nell'Enciclopedia. Prove `--solo=gravita` (foto 142_corrente).
 
-## 77. [ ] Terra viva (M)
+## 77. [x] Terra viva (M) — fatto il 26 set 2026
 Radici che ricrescono e chiudono i cunicoli, terreno che si sposta, cristalli che crescono nel tempo: mondi che
 cambiano mentre li si esplora.
 **Pronto quando**: tornare in un mondo con questi geni dopo qualche giorno lo trova cambiato.
+**Fatto il 27 set 2026**: tre geni che fanno cambiare il mondo da solo (`LivingEarth`, dati in `LivingData`).
+**Radici vive**: ogni tessera scavata sotto la superficie, fino al Sottobosco, si richiude di radice dopo 4 minuti di
+gioco o d'assenza; la tengono aperta una torcia vicina, una parete costruita, un liquido o il Germogliato stesso.
+**Cristalli vivi**: i cristalli di Linfa che toccano l'aria (cercati una volta con `find`, 500 punti di crescita)
+crescono di una tessera ogni 20 s, e mentre sei via di una ogni 10 minuti. **Frane**: humus ed erba senza appoggio
+cadono, una tessera alla volta, e la terra sopra le segue (le radici degli alberi e le stazioni la tengono; una zolla
+in testa fa male). Il tempo del mondo (`world_meta["terra_t"]`) e l'ora dell'ultimo passaggio (`["visto"]`): entrando
+dopo un'assenza radici e cristalli recuperano il tempo perso e un avviso lo racconta («Mentre eri via (3 ore): le
+radici hanno richiuso 5 tessere scavate, i cristalli sono cresciuti di 18 tessere»). `PlayerActions.dug` (segnale
+nuovo) per chi vuole sapere delle tessere rotte. Capitolo nell'Enciclopedia. Prove `--solo=terra_viva` (foto 143_frana).
 
 ## 78. [ ] Il tempo dei mondi (S)
 Geni del tempo: giorni lunghissimi o brevissimi, eclissi, notti eterne, mondi senza sole con luce solo dalle cose vive.
