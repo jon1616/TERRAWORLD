@@ -33,7 +33,7 @@ const CATEGORIES := [
 ]
 const KINDS := {
 	"costruzione": ["blocco", "piattaforma", "parete", "torcia", "stazione"],
-	"equipaggiamento": ["piccone", "ascia", "spada", "arco", "bastone", "munizione", "elmo", "corazza", "gambali",
+	"equipaggiamento": ["piccone", "ascia", "spada", "arco", "bastone", "munizione", "elmo", "corazza", "gambali", "guanti", "stivali", "mantello", "amuleto", "anello",
 		"accessorio", "rampino", "esplosivo", "ricurvo", "giavellotto", "martello", "annaffiatoio", "lanterna",
 		"evocatore", "specchio"],
 	"pozioni": ["consumabile", "cura", "dono"],

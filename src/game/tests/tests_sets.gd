@@ -17,7 +17,7 @@ func _init(tk: TestKit) -> void:
 
 func _wear_all(ids: Array) -> void:
 	var b: Bisaccia = m.character.bisaccia
-	for sl in ["elmo", "corazza", "gambali", "accessorio_1", "accessorio_2"]:
+	for sl in Bisaccia.EQUIP_SLOTS:
 		b.wear(sl, {})
 	var acc := 1
 	for id in ids:
@@ -34,14 +34,14 @@ func run() -> void:
 	var old := b.equip.duplicate()
 	print("set: %d in tutto (%d di metallo)" % [SetsData.all().size(), SetsData.METAL_BONUS.size()])
 	# pallidite: corsa e colpi
-	_wear_all(["elmo_pallidite", "corazza_pallidite", "gambali_pallidite"])
+	_wear_all(["elmo_pallidite", "corazza_pallidite", "gambali_pallidite", "guanti_pallidite", "stivali_pallidite"])
 	await kit.frames(1)
 	print("set di pallidite completo %s: corsa ×%.2f, colpi ×%.2f" % [m.gear.sets, m.player.run_mult, m.combat.spd_mult])
-	_wear_all(["elmo_pallidite", "corazza_pallidite"])
+	_wear_all(["elmo_pallidite", "corazza_pallidite", "gambali_pallidite", "guanti_pallidite"])
 	await kit.frames(1)
-	print("senza gambali: set %s, corsa ×%.2f" % [m.gear.sets, m.player.run_mult])
+	print("senza stivali: set %s, corsa ×%.2f" % [m.gear.sets, m.player.run_mult])
 	# legnoferro: la Scorza del set conta nelle ferite
-	_wear_all(["elmo_legnoferro", "corazza_legnoferro", "gambali_legnoferro"])
+	_wear_all(["elmo_legnoferro", "corazza_legnoferro", "gambali_legnoferro", "guanti_legnoferro", "stivali_legnoferro"])
 	await kit.frames(1)
 	m.vitals.refill()
 	var lost: int = m.vitals.hurt(30)
@@ -58,12 +58,12 @@ func run() -> void:
 	var info := ItemInfo.bbcode("elmo_ambra")
 	print("Esamina di un elmo d'ambra: parla del set %s" % ("sì" if info.contains("Luce fossile") else "NO"))
 	# foto: set d'ambra completo, Bisaccia aperta
-	_wear_all(["elmo_ambra", "corazza_ambra", "gambali_ambra", "anello_nottilite", "occhio_vuoto"])
+	_wear_all(["elmo_ambra", "corazza_ambra", "gambali_ambra", "guanti_ambra", "stivali_ambra", "anello_nottilite", "occhio_vuoto"])
 	m.hud.panel.toggle()
 	await kit.seconds(1.5)
 	await kit.save("50_set")
 	m.hud.panel.toggle()
-	for sl in ["elmo", "corazza", "gambali", "accessorio_1", "accessorio_2"]:
+	for sl in Bisaccia.EQUIP_SLOTS:
 		b.wear(sl, {})
 		if old.has(sl):
 			b.wear(sl, {"id": old[sl], "n": 1})

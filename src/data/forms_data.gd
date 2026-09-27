@@ -31,6 +31,13 @@ const FORMS := {
 	"trivella": {"name": "Trivella", "kind": "piccone", "bars": 14, "wood": 2, "desc": "scava molto più in fretta"},
 	"verga": {"name": "Verga", "kind": "bastone", "bars": 7, "wood": 3, "extra": {"cristallo_linfa": 2},
 		"desc": "tira saette di Linfa: la conduzione del metallo fa il danno"},
+	# voce 86: i posti nuovi dell'equipaggiamento
+	"guanti": {"name": "Guanti", "kind": "guanti", "bars": 8, "wood": 0, "plural": true, "extra": {"seta_radice": 2},
+		"desc": "colpi più rapidi e scavo più svelto, secondo il metallo"},
+	"stivali": {"name": "Stivali", "kind": "stivali", "bars": 10, "wood": 0, "plural": true,
+		"desc": "corsa e salto un po' più lunghi, secondo il metallo"},
+	"mantello": {"name": "Mantello", "kind": "mantello", "bars": 4, "wood": 0, "extra": {"seta_radice": 6},
+		"desc": "un mantello bordato di metallo: la Vita ricresce più in fretta"},
 }
 
 ## L'area del colpo in mischia: [larghezza, altezza, spostamento in avanti, anche dietro?]. Le forme non elencate
@@ -122,6 +129,17 @@ static func stats(form: String, mat: String) -> Dictionary:
 			out["damage"] = int(filo * 0.4)
 			out["speed"] = 2.6
 			out["dig"] = 1.6
+		"guanti":
+			out["defense"] = roundi(float(md["tenacia"]) * 0.5)
+			out["acc"] = {"atk_speed": snappedf(1.0 + 0.02 * float(md["tier"]), 0.001),
+				"dig": snappedf(1.0 + 0.04 * float(md["tier"]), 0.001)}
+		"stivali":
+			out["defense"] = roundi(float(md["tenacia"]) * 0.6)
+			out["acc"] = {"run": snappedf(1.0 + 0.02 * float(md["tier"]), 0.001),
+				"jump": snappedf(1.0 + 0.015 * float(md["tier"]), 0.001)}
+		"mantello":
+			out["defense"] = roundi(float(md["tenacia"]) * 0.4)
+			out["acc"] = {"regen": snappedf(1.0 + 0.04 * float(md["tier"]), 0.001)}
 		"verga":
 			out["damage"] = roundi(float(md["conduzione"]) * 1.6 + 2.0)
 			out["speed"] = 2.2

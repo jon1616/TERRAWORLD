@@ -35,7 +35,8 @@ func refresh() -> void:
 		active.append_array(ItemsData.get_item(String(b.equip[slot])).get("effects", []))
 	var held := String(m.hud.current().get("id", ""))
 	var it := ItemsData.get_item(held)
-	if it.has("effects") and not String(it.get("kind", "")) in ["accessorio", "elmo", "corazza", "gambali"]:
+	if it.has("effects") and not String(it.get("kind", "")) in ["accessorio", "elmo", "corazza", "gambali", "guanti",
+			"stivali", "mantello", "amuleto", "anello"]:
 		active.append_array(it["effects"])
 
 

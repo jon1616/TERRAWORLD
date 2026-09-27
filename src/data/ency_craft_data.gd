@@ -96,4 +96,10 @@ Clic destro: [b]commercio[/b] in Lumini (vendi ciò che hai in mano, o Maiusc+cl
 """Alcuni oggetti non sono solo più forti: [b]fanno qualcosa[/b]. Gli [b]effetti speciali[/b] (✦ nella scheda) scattano a ogni colpo o ogni tanti colpi, quando sconfiggi una creatura, quando sei ferito, quando la Vita finirebbe, oppure valgono finché è vera una condizione (di notte, nell'acqua, sotto terra, da fermo, con poca Vita) o di continuo attorno a te. Valgono indossati (armature, accessori) o in mano (armi).
 {cat_effetti}
 Gli [b]oggetti unici[/b] sono scritti a mano, ognuno con la sua storia e i suoi effetti: il nome dorato, e un posto preciso dove si trovano. I primi li lasciano, a volte, i Guardiani evocati al [url=cap:evocazioni]Cerchio dei Seminatori[/url]."""},
+	{"id": "equipaggiamento", "group": "Creare ed equipaggiarsi", "name": "I dieci posti dell'equipaggiamento", "text":
+"""Nella Bisaccia aperta, a sinistra, ci sono [b]dieci posti[/b]: elmo, corazza, gambali e stivali; guanti, mantello, amuleto e anello; due accessori.
+• [b]Guanti[/b], [b]stivali[/b] e [b]mantello[/b] si fanno al Maglio con ogni metallo, lega o materiale dei geni, come le armature: i guanti rendono i colpi più rapidi e lo scavo più svelto, gli stivali allungano corsa e salto, il mantello fa ricrescere la Vita più in fretta; tutti danno un po' di Scorza. Più il metallo è di grado alto, più rendono.
+• [b]Amuleti[/b] e [b]anelli[/b] si fanno alla Mola del gemmaio: una gemma incastonata in un metallo. L'amuleto dà la qualità della gemma, l'anello il suo [url=cap:effetti]effetto speciale[/url]:
+{cat_gemme}
+• I [b]set dei metalli[/b] sono di cinque pezzi: elmo, corazza, gambali, guanti e stivali dello stesso metallo."""},
 ]

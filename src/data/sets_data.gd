@@ -53,7 +53,9 @@ static func all() -> Dictionary:
 	var out := SETS.duplicate(true)
 	for m in METAL_BONUS:
 		var mb: Dictionary = METAL_BONUS[m]
-		out[m] = {"name": mb["name"], "pieces": ["elmo_" + m, "corazza_" + m, "gambali_" + m], "bonus": mb["bonus"],
+		# voce 86: i set dei metalli sono di cinque pezzi (con guanti e stivali)
+		out[m] = {"name": mb["name"], "pieces": ["elmo_" + m, "corazza_" + m, "gambali_" + m, "guanti_" + m, "stivali_" + m],
+			"bonus": mb["bonus"],
 			"desc": mb["desc"]}
 	_all = out
 	return _all

@@ -1634,7 +1634,7 @@ dicono con ✦, e gli unici con la loro storia. I **primi 12 oggetti unici** (`U
 lasciano a volte i Guardiani evocati. `verifica_dati` controlla che un unico non sia nascosto da un oggetto con lo
 stesso id (successo con «Cuore di brina»). Capitolo nell'Enciclopedia. Prove `--solo=effetti` (foto 152_effetti).
 
-## 86. [ ] Posti nuovi d'equipaggiamento (M) — fondamenta
+## 86. [x] Posti nuovi d'equipaggiamento (M) — fondamenta — fatto il 27 set 2026
 Da cinque posti a dieci: **guanti** (velocità dei colpi, scavo), **stivali** (corsa, salto, cadute), **mantello**
 (planata, Scorza, e dalla voce 90 il volo), **amuleto** e **anello** (effetti speciali), accanto a elmo, corazza,
 gambali e due accessori. Guanti, stivali e mantello nascono da **materiali × forme** come le armature (centinaia di
@@ -1642,6 +1642,16 @@ oggetti in più, ognuno con i valori dal suo materiale), amuleti e anelli dalle 
 con il suo effetto). I set crescono (set di cinque, sette pezzi); la colonna dell'equipaggiamento nella Bisaccia si
 rifà per dieci posti; l'armatura disegnata sul Germogliato mostra almeno guanti e stivali.
 **Pronto quando**: vestirsi è una scelta su dieci posti, con combinazioni e set che cambiano il modo di giocare.
+**Fatto il 28 set 2026**: da cinque a **dieci posti** (`Bisaccia.EQUIP_SLOTS`: elmo, corazza, gambali, guanti, stivali,
+mantello, amuleto, anello, due accessori). **Guanti** (colpi più rapidi e scavo più svelto), **stivali** (corsa e salto)
+e **mantello** (rigenerazione) sono forme nuove di `FormsData`: nascono per tutti i 48 materiali (144 oggetti), con un
+po' di Scorza e le qualità che crescono con il grado. **Amuleti e anelli** (`JewelsData`): 4 gemme × 8 metalli × 2 =
+64 oggetti alla Mola; l'amuleto dà la qualità della gemma (brillaluce: alone e fortuna; sanguinella: danno; lagunite:
+rigenerazione e respiro; nottilite: furtività e incantesimi), l'anello il suo **effetto speciale** (voce 85). I **set
+dei metalli** sono di cinque pezzi (con guanti e stivali). La colonna dell'equipaggiamento nella Bisaccia è in tre
+colonne da quattro; tipi nuovi in categorie di Creare, casse, tratti, tempra, confronto delle schede, riordino. Il
+disegno di guanti e stivali sul Germogliato resta per la Roadmap della grafica (scelta dell'utente). Capitolo
+nell'Enciclopedia con le gemme. Prove `--solo=posti` (foto 153_dieci_posti); prova dei set aggiornata.
 
 ## 87. [ ] Totem, stendardi e altari: gli oggetti di zona (M)
 Oggetti da piazzare che danno un **bonus o un malus in un raggio** (visibile quando li si tiene in mano o li si

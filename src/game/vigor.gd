@@ -87,7 +87,7 @@ func temper_hand() -> String:
 ## Tempra una casella di un livello (se l'oggetto si tempra, il grado lo permette e le Schegge bastano).
 func temper(slot: Dictionary) -> String:
 	var it := ItemsData.get_item(String(slot.get("id", "")))
-	if slot.is_empty() or not (it.has("form") or it.get("kind", "") in ["piccone", "ascia", "spada", "arco", "elmo", "corazza", "gambali", "bastone"]):
+	if slot.is_empty() or not (it.has("form") or it.get("kind", "") in ["guanti", "stivali", "mantello", "piccone", "ascia", "spada", "arco", "elmo", "corazza", "gambali", "bastone"]):
 		return "Il Maglio tempra solo attrezzi, armi e armature: tienine uno in mano."
 	var lv := level(slot) + 1
 	var cap := VigorData.temper_cap(grade)

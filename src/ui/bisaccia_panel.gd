@@ -10,6 +10,9 @@ extends Control
 const COLS := 10
 const ROWS := 3
 const GAP := 6
+## Voce 86: dove sta ogni posto dell'equipaggiamento [colonna, riga].
+const EQUIP_POS := {"elmo": [0, 0], "corazza": [0, 1], "gambali": [0, 2], "stivali": [0, 3], "guanti": [1, 0],
+	"mantello": [1, 1], "amuleto": [1, 2], "anello": [1, 3], "accessorio_1": [2, 0], "accessorio_2": [2, 1]}
 
 var bisaccia: Bisaccia
 var stations_near: Callable            # () -> stazioni a portata del giocatore, per la colonna «Creare»
@@ -73,19 +76,20 @@ func _ready() -> void:
 			_slots.append(s)
 	# equipaggiamento: una colonna a sinistra, con il nome dei posti e la Scorza totale
 	# due colonne: armatura (elmo, corazza, gambali) e accessori
-	var ex := frame.position.x - 16 - 2 * SlotView.SIZE - 40
+	# voce 86: dieci posti in tre colonne (armatura, vesti e gioielli, accessori)
+	var ew := 3 * SlotView.SIZE + 2 * 12 + 24
+	var ex := frame.position.x - 16 - ew + 12
 	var eframe := Panel.new()
 	eframe.add_theme_stylebox_override("panel", sb)
 	eframe.position = Vector2(ex - 12, frame.position.y)
-	eframe.size = Vector2(2 * SlotView.SIZE + 64, frame.size.y)
+	eframe.size = Vector2(ew, frame.size.y)
 	eframe.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(eframe)
 	for k in Bisaccia.EQUIP_SLOTS.size():
 		var slot: String = Bisaccia.EQUIP_SLOTS[k]
 		var s := SlotView.new()
-		var col := 0 if k < 3 else 1
-		var row := k if k < 3 else k - 3
-		s.position = Vector2(ex + 12 + col * (SlotView.SIZE + 16), frame.position.y + 40 + row * (SlotView.SIZE + 22))
+		var cr: Array = EQUIP_POS.get(slot, [0, 0])
+		s.position = Vector2(ex + int(cr[0]) * (SlotView.SIZE + 12), frame.position.y + 34 + int(cr[1]) * (SlotView.SIZE + 12))
 		s.clicked.connect(func(_i: int, button: int) -> void:
 			if button == MOUSE_BUTTON_LEFT:
 				held = bisaccia.wear(slot, held)
@@ -93,16 +97,16 @@ func _ready() -> void:
 		add_child(s)
 		var tag := Label.new()
 		tag.text = "Accessorio" if Bisaccia.kind_of_slot(slot) == "accessorio" else slot.capitalize()
-		tag.position = s.position + Vector2(-6, SlotView.SIZE - 2)
-		tag.size = Vector2(SlotView.SIZE + 12, 18)
+		tag.position = s.position + Vector2(-6, SlotView.SIZE - 3)
+		tag.size = Vector2(SlotView.SIZE + 12, 14)
 		tag.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		tag.add_theme_font_size_override("font_size", 12)
+		tag.add_theme_font_size_override("font_size", 10)
 		tag.add_theme_color_override("font_color", Color("#9fc8c0"))
 		add_child(tag)
 		_equip[slot] = s
 	_scorza = Label.new()
-	_scorza.position = Vector2(ex - 6, frame.position.y + 8)
-	_scorza.size = Vector2(2 * SlotView.SIZE + 52, 24)
+	_scorza.position = Vector2(ex - 6, frame.position.y + 6)
+	_scorza.size = Vector2(ew - 12, 24)
 	_scorza.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_scorza.add_theme_font_size_override("font_size", 16)
 	_scorza.add_theme_color_override("font_color", Color("#ffb84a"))
@@ -112,8 +116,8 @@ func _ready() -> void:
 	add_child(_scorza)
 	# i set (voce 26): sotto gli accessori, quanti pezzi si indossano e, completo, il bonus
 	_sets = Label.new()
-	_sets.position = Vector2(ex + 12 + SlotView.SIZE + 4, frame.position.y + 40 + 2 * (SlotView.SIZE + 22) - 4)
-	_sets.size = Vector2(SlotView.SIZE + 40, SlotView.SIZE + 26)
+	_sets.position = Vector2(ex + 2 * (SlotView.SIZE + 12) - 8, frame.position.y + 34 + 2 * (SlotView.SIZE + 12))
+	_sets.size = Vector2(SlotView.SIZE + 16, 2 * SlotView.SIZE + 12)
 	_sets.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_sets.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_sets.add_theme_font_size_override("font_size", 11)

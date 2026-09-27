@@ -77,9 +77,9 @@ static func category_of(id: String) -> String:
 			return "arma"
 		"piccone", "ascia":
 			return "attrezzo"
-		"elmo", "corazza", "gambali":
+		"elmo", "corazza", "gambali", "guanti", "stivali", "mantello":
 			return "armatura"
-		"accessorio":
+		"accessorio", "amuleto", "anello":
 			return "accessorio"
 	return ""
 

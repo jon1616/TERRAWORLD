@@ -172,6 +172,7 @@ static func all() -> Array:
 	out.append_array(ChallengesData.RECIPES.duplicate(true))  # voce 82
 	out.append_array(ChestsData.recipes())                  # 28 set 2026: i gradi delle casse
 	out.append_array(SummonData.RECIPES.duplicate(true))    # voce 84
+	out.append_array(JewelsData.recipes())                  # voce 86
 	for m in MaterialsData.all():
 		for f in FormsData.FORMS:
 			out.append(FormsData.recipe(f, m))

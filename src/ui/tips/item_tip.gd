@@ -7,7 +7,7 @@ extends RefCounted
 ## `slot` = {"id", "n"?, "tratto"?, "dati"?}; `ctx`: "bag" (la Bisaccia, per set e confronto), "price" ("buy"/"sell"
 ## con il prezzo del mercante), "hand" (la casella in mano), "equipped" (la casella dell'equipaggiamento), "no_compare".
 
-const ARMOR := ["elmo", "corazza", "gambali"]
+const ARMOR := ["elmo", "corazza", "gambali", "guanti", "stivali", "mantello", "amuleto", "anello"]   # voce 86
 
 
 static func card(slot: Dictionary, ctx := {}) -> TipCard:

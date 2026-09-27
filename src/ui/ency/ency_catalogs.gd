@@ -139,6 +139,15 @@ static func inline(key: String) -> String:
 				rows.append(_b(String(pd["name"]), "%s · nei mondi con %s · %s" % [pd["banner"], " o ".join(gn),
 					"in superficie" if pd.get("surface", false) else "nello strato «%s»" % StrataData.STRATA[int(pd["strata"][0])]["name"]],
 					String(pd["color"])))
+		"cat_gemme":
+			for g in JewelsData.GEMS:
+				var gd: Dictionary = JewelsData.GEMS[g]
+				var parts := []
+				for k in gd["amulet"]:
+					var v := float(gd["amulet"][k]) * 3              # il valore di un amuleto di grado 3
+					parts.append(TipWordsData.acc_line(String(k), v if k in JewelsData.ADD else 1.0 + v)[0])
+				rows.append(_b(String(ItemsData.get_item(g).get("name", g)), "amuleto: %s · anello: %s" % [", ".join(parts),
+					EffectsData.line(String(gd["effect"]))]))
 		"cat_effetti":
 			for k in EffectsData.EFFECTS:
 				rows.append(_b(String(EffectsData.EFFECTS[k]["name"]), String(EffectsData.EFFECTS[k]["desc"]), "#ffd24a"))

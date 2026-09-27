@@ -288,6 +288,7 @@ static func all() -> Dictionary:
 	out.merge(ChestsData.items())                          # 28 set 2026: i gradi delle casse
 	out.merge(SummonData.ITEMS.duplicate(true))            # voce 84
 	out.merge(UniquesData.ITEMS.duplicate(true))           # voce 85 e 98: gli oggetti unici
+	out.merge(JewelsData.items())                          # voce 86: amuleti e anelli
 	# le famiglie di equipaggiamento: forma × materiale (voce 49, `FormsData` e `MaterialsData`)
 	for m in MaterialsData.all():
 		for f in FormsData.FORMS:

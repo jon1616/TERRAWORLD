@@ -14,7 +14,10 @@ const HOTBAR := 10
 ## Corredo iniziale del Germogliato.
 const STARTER := [["piccone_radicite", 1], ["ascia_radicite", 1], ["spada_radice", 1], ["torcia", 10]]
 
-const EQUIP_SLOTS := ["elmo", "corazza", "gambali", "accessorio_1", "accessorio_2"]
+## Voce 86: dieci posti (guanti, stivali, mantello, amuleto e anello oltre a quelli di prima). Il posto ha il nome del
+## tipo di oggetto che prende, tranne «accessorio_N».
+const EQUIP_SLOTS := ["elmo", "corazza", "gambali", "guanti", "stivali", "mantello", "amuleto", "anello", "accessorio_1",
+	"accessorio_2"]
 
 var slots: Array[Dictionary] = []
 var equip := {}                        # "elmo"/"corazza"/"gambali"/"accessorio_N" -> id dell'oggetto indossato
@@ -185,7 +188,8 @@ func swap_with(i: int, held: Dictionary) -> Dictionary:
 ## Scorza totale dell'equipaggiamento indossato.
 ## Riordina la parte grande della Bisaccia (non la barra rapida): unisce le pile uguali e mette in fila per tipo
 ## (attrezzi, armature, accessori, pozioni, materiali…) e poi per nome. I tratti restano ai loro oggetti.
-const SORT_KINDS := ["piccone", "ascia", "spada", "arco", "bastone", "munizione", "elmo", "corazza", "gambali",
+const SORT_KINDS := ["piccone", "ascia", "spada", "arco", "bastone", "munizione", "elmo", "corazza", "gambali", "guanti",
+	"stivali", "mantello", "amuleto", "anello",
 	"accessorio", "consumabile", "cura", "dono", "purifica", "lanterna", "specchio", "mappa", "richiamo", "stazione",
 	"torcia", "piattaforma", "seme", "seme_mondo", "blocco", "materiale", "essenza", "trofeo", "reliquia", "ricordo", "provetta", "fiala", "uovo", "creatura", "vasetto", "laccio"]
 
