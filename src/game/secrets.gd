@@ -105,8 +105,7 @@ func _found(s: Dictionary) -> void:
 	for id in loot:
 		m.drops.spawn(String(id), int(loot[id]), at)
 	if _rng.randf() < float(gd["unique"]):
-		var ids := UniquesData.ITEMS.keys()
-		m.drops.spawn(String(ids[_rng.randi_range(0, ids.size() - 1)]), 1, at)
+		m.drops.spawn(UniquesData.roll("segreti", _rng, m.erbario.data["oggetti"]), 1, at)   # voce 98
 	Fx.puff(m.fx, at, Color(gd["color"]) * 1.6)
 	m.sfx.play("apri", at)
 	if String(s["k"]) == "nido_nascosto":

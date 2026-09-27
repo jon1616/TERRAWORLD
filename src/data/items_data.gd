@@ -295,6 +295,7 @@ static func all() -> Dictionary:
 	out.merge(FarmData.items())                            # voce 89: le farm
 	out.merge(FlightData.items())                          # voce 90: le ali
 	out.merge(SecretsData.ITEMS.duplicate(true))           # voce 95: gli attrezzi per i segreti
+	out.merge(UniqueSeriesData.ITEMS.duplicate(true))      # voce 98: gli oggetti unici
 	# le famiglie di equipaggiamento: forma × materiale (voce 49, `FormsData` e `MaterialsData`)
 	for m in MaterialsData.all():
 		for f in FormsData.FORMS:

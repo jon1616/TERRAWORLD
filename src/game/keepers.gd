@@ -121,4 +121,8 @@ func _on_killed(c: Creature) -> void:
 	if first:
 		m.guardian.lore.show_page(String(KeepersData.KEEPERS[active_id]["page"]))
 	m.objectives.bump("custodi")
+	var rng := RandomNumberGenerator.new()
+	rng.randomize()
+	if rng.randf() < float(UniqueSeriesData.POOL_CHANCE["custodi"]):     # voce 98: i doni dei Custodi
+		m.drops.spawn(UniquesData.roll("custodi", rng, m.erbario.data["oggetti"]), 1, c.position + Vector2(0, -12))
 	defeated.emit(active_id)

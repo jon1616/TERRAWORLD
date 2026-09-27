@@ -133,8 +133,9 @@ func _do(e: Dictionary, c: Creature, amount: int) -> void:
 				c.stun = maxf(c.stun, float(e["t"]) / (3.0 if c.boss else 1.0))
 		"schegge":
 			if is_instance_valid(c):
-				for k in int(e["n"]):
-					var dir := Vector2.RIGHT.rotated(TAU * k / float(e["n"]) + randf() * 0.4)
+				var shards := int(e.get("shards", e["n"]))             # voce 98: con «ogni», "n" dice ogni quanti colpi
+				for k in shards:
+					var dir := Vector2.RIGHT.rotated(TAU * k / float(shards) + randf() * 0.4)
 					m.shots.fire(c.position + dir * 14.0, dir * 220.0, 60.0, maxi(roundi(amount * float(e["dmg"])), 1), true, 0.3)
 		"catena":
 			if is_instance_valid(c):
@@ -148,7 +149,7 @@ func _do(e: Dictionary, c: Creature, amount: int) -> void:
 						if o.take_hit(maxi(roundi(amount * float(e["dmg"])), 1), c.position.x, 0.4):
 							m.fauna.kill(o)
 		"cura":
-			m.vitals.heal(maxi(roundi(amount * float(e["frac"])), 1))
+			m.vitals.heal(maxi(roundi(amount * float(e["frac"])), int(e.get("min", 1))))   # voce 98: "min" per le uccisioni
 		"lumini":
 			if c != null:
 				m.drops.spawn("lumino", int(e["n"]), c.position)

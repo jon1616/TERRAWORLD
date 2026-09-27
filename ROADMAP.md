@@ -1840,12 +1840,23 @@ Gatto delle lanterne (Lanterna di Linfa in mano sotto terra); i loro materiali f
 Obiettivo e diario, capitolo aggiornato; le stanze e le visioni non toccano più i luoghi dei Seminatori. Prove
 `--solo=segreti_anomalie` (foto 169).
 
-## 98. [ ] Gli oggetti unici (L) — lungo tutta la Roadmap
+## 98. [x] Gli oggetti unici (L) — lungo tutta la Roadmap — fatto il 28 set 2026
 Ogni voce della Roadmap ne aggiunge (boss, biomi, segreti, farm, volo); questa li completa fino a **150-200 oggetti
 unici scritti a mano**, con nome, storia, effetti speciali (voce 85) e un posto preciso dove si trovano. Una
 **collezione degli unici** (Erbario e Enciclopedia: trovati e da trovare, con un indizio di dove) e il premio per le
 serie complete.
 **Pronto quando**: gli unici sono un motivo a sé per esplorare, e ognuno cambia qualcosa nel modo di giocare.
+Fatto il 28 set 2026: `UniqueSeriesData` con **123 unici nuovi** scritti a mano (nome, storia, effetti speciali,
+posto) e le **15 serie** di tutti i 151 unici (lame perdute, archi antichi, gioielli dei Seminatori, vesti del
+viandante, reliquie delle bestie, doni dei Custodi, strumenti del Giardiniere, ricordi dei mondi, segni della notte,
+canti del Vuoto, fiori eterni, armi e ornamenti dei Guardiani, doni dei biomi, doni del profondo); si generano con
+`tools/gen_unici.py`. **Undici effetti nuovi** (solo righe di `EffectsData`: ramo che si biforca, tintinnio, fuga,
+passo di nebbia, Linfa raccolta, sole alle spalle, luna amica, ottavo rintocco, braciere addosso, pioggia di schegge,
+radici fonde). I **pool** (`UniquesData.roll`, preferisce gli unici che l'Erbario non ricorda): segreti profondi e
+leggendari, creature ancestrali e iridate, scrigni antichi e arche delle rovine, Custodi, Guardiani evocati. Una
+**serie completa** dà il suo premio per sempre (`GearEffects.series`), l'avviso dice a che punto è la serie
+(`Chronicle`); la **collezione** nell'Enciclopedia («Unici trovati 12 su 151», per serie, con i «???» e dove cercarli).
+Due obiettivi, `verifica_dati` controlla storia, posto, effetti e serie. Prove `--solo=unici`.
 
 ## 99. [ ] Bilancio e resoconto (M)
 Con il diario (voce 83) delle partite dell'utente e `tools/bilancio.gd`: ritmo, difficoltà, rendite delle farm,

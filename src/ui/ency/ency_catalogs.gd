@@ -140,6 +140,24 @@ static func inline(key: String) -> String:
 				rows.append(_b(String(pd["name"]), "%s · nei mondi con %s · %s" % [pd["banner"], " o ".join(gn),
 					"in superficie" if pd.get("surface", false) else "nello strato «%s»" % StrataData.STRATA[int(pd["strata"][0])]["name"]],
 					String(pd["color"])))
+		"cat_unici":
+			var tot := 0
+			var have := 0
+			for sid in UniqueSeriesData.SERIES:
+				var sd: Dictionary = UniqueSeriesData.SERIES[sid]
+				var names := []
+				var n := 0
+				for id in sd["items"]:
+					tot += 1
+					if EncyPages.known_item(String(id)):
+						n += 1
+						have += 1
+						names.append("[url=item:%s]%s[/url]" % [id, ItemsData.get_item(String(id))["name"]])
+					else:
+						names.append("[color=#5a6a68]???[/color]")
+				rows.append(_b("%s  %d/%d" % [sd["name"], n, (sd["items"] as Array).size()],
+					"[color=#ffd24a]premio: %s[/color] · %s\n%s" % [sd["desc"], sd["hint"], ", ".join(names)], "#ffb84a"))
+			rows.insert(0, "[color=#ffd24a]Unici trovati: %d su %d[/color]" % [have, tot])
 		"cat_nascoste":
 			for cid in HiddenCreatures.CONDITIONS:
 				var cd: Dictionary = HiddenCreatures.CONDITIONS[cid]

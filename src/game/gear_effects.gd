@@ -22,6 +22,7 @@ const MULT := ["run", "jump", "halo", "regen", "dig", "stealth", "damage", "atk_
 var m: Node2D
 var sets: Array = []                   # i set completi indossati (per l'interfaccia)
 var relics: Array = []                 # le collezioni di reliquie complete
+var series: Array = []                 # voce 98: le serie di oggetti unici complete
 var allies := 0                        # alleati in più insieme (voce 37, letto da `Companions`)
 
 
@@ -61,6 +62,10 @@ func refresh() -> void:
 	relics = RelicsData.complete(m.character.erbario.get("oggetti", {}))
 	for c in relics:
 		_add(e, RelicsData.COLLECTIONS[c]["bonus"])
+	# voce 98: le serie di oggetti unici complete, per sempre
+	series = UniqueSeriesData.complete(m.character.erbario.get("oggetti", {}))
+	for sr in series:
+		_add(e, UniqueSeriesData.SERIES[sr]["bonus"])
 	# voce 64: i poteri dell'Albero-Madre
 	if m.powers != null:
 		for pb in m.powers.bonuses():

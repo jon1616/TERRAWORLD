@@ -182,6 +182,7 @@ func _init() -> void:
 	_check_species()
 	_check_materials()
 	_check_biomes()
+	_check_uniques()
 	print("ESITO: %d errori, %d avvisi" % [errors, warnings])
 	quit()
 
@@ -468,3 +469,28 @@ func _check_biomes() -> void:
 		var ud: Dictionary = UnderBiomesData.UNDER[u]
 		_err(PassSottosuolo.new().has_method(String(ud["build"])) or String(ud["build"]) in UnderBuilders.NAMES, "sottosuolo %s: manca la funzione «%s»" % [u, ud["build"]])
 		_err(int(ud["stratum"]) >= 0 and int(ud["stratum"]) < StrataData.STRATA.size(), "sottosuolo %s: strato sbagliato" % u)
+
+
+
+## Voce 98: gli oggetti unici e le loro serie.
+func _check_uniques() -> void:
+	var n := 0
+	for id in ItemsData.all():
+		var it: Dictionary = ItemsData.get_item(id)
+		if not it.get("unique", false):
+			continue
+		n += 1
+		_err(String(it.get("story", "")) != "", "unico %s senza storia" % id)
+		_err(String(it.get("source", "")) != "", "unico %s: non dice dove si trova" % id)
+		_err(not (it.get("effects", []) as Array).is_empty() or not (it.get("acc", {}) as Dictionary).is_empty() or it.has("damage")
+			or it.has("defense"), "unico %s: non fa niente di speciale" % id)
+		for e in it.get("effects", []):
+			_err(EffectsData.EFFECTS.has(String(e)), "unico %s: effetto sconosciuto %s" % [id, e])
+		_warn(UniqueSeriesData.series_of(id) != "", "unico %s: in nessuna serie" % id)
+	for sid in UniqueSeriesData.SERIES:
+		for id in UniqueSeriesData.SERIES[sid]["items"]:
+			_err(ItemsData.get_item(String(id)).get("unique", false), "serie %s: %s non è un unico" % [sid, id])
+	for id in UniqueSeriesData.ITEMS:
+		_err(ItemsData.get_item(id).get("unique", false), "unico %s coperto da un altro oggetto con lo stesso nome" % id)
+	_err(n >= 150, "oggetti unici: %d (la voce 98 ne vuole almeno 150)" % n)
+	print("oggetti unici: %d in %d serie" % [n, UniqueSeriesData.SERIES.size()])

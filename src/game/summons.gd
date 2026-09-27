@@ -132,10 +132,8 @@ func _on_killed(c: Creature) -> void:
 			m.drops.spawn(String(id), rng.randi_range(int(loot[id][0]), int(loot[id][1])), at)
 	elif GuardianGen.is_gen(cid):
 		m.drops.spawn("nucleo_" + String(CreaturesData.get_data(cid)["elem"]), SummonData.GEN_DROP, at)
-	var pool: Dictionary = UniquesData.POOLS["evocati"]           # voce 85: a volte un oggetto unico
-	if rng.randf() < float(pool["chance"]):
-		var list: Array = pool["items"]
-		m.drops.spawn(String(list[rng.randi_range(0, list.size() - 1)]), 1, at + Vector2(0, -10))
+	if rng.randf() < float(UniqueSeriesData.POOL_CHANCE["evocati"]):        # voci 85 e 98: a volte un oggetto unico
+		m.drops.spawn(UniquesData.roll("evocati", rng, m.erbario.data["oggetti"]), 1, at + Vector2(0, -10))
 	remember(cid)
 	m.objectives.bump("evocati")
 	_end()

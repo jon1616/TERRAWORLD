@@ -38,10 +38,18 @@ func _on_killed(c: Creature) -> void:
 	n[c.base] = int(n.get(c.base, 0)) + 1
 	m.objectives.bump({"antica": "antiche", "ancestrale": "ancestrali", "capobranco": "capibranco",
 		"iridata": "iridate"}[c.ancient.rarity])
+	# voce 98: le ancestrali e le iridate a volte lasciano un oggetto unico
+	if c.ancient.rarity in ["ancestrale", "iridata"] and randf() < float(UniqueSeriesData.POOL_CHANCE["ancestrali"]):
+		var rng := RandomNumberGenerator.new()
+		rng.randomize()
+		m.drops.spawn(UniquesData.roll("ancestrali", rng, m.erbario.data["oggetti"]), 1, c.position + Vector2(0, -12))
 
 
 ## Le reliquie contano appena l'Erbario le ricorda: una collezione completa dà il suo bonus per sempre.
 func _on_discovered(section: String, id: String) -> void:
+	if section == "oggetti" and UniqueSeriesData.series_of(id) != "":
+		_on_unique(id)
+		return
 	if section != "oggetti" or RelicsData.collection_of(id) == "":
 		return
 	var before: int = m.gear.relics.size()
@@ -52,3 +60,23 @@ func _on_discovered(section: String, id: String) -> void:
 			RelicsData.COLLECTIONS[col]["desc"]])
 	else:
 		m.hud.toast("Reliquia trovata: %s" % ItemsData.get_item(id)["name"])
+
+
+
+## Voce 98: un oggetto unico nuovo per l'Erbario: a che punto è la sua serie, e il premio se è completa.
+func _on_unique(id: String) -> void:
+	var sid := UniqueSeriesData.series_of(id)
+	var sd: Dictionary = UniqueSeriesData.SERIES[sid]
+	var found: Dictionary = m.erbario.data["oggetti"]
+	var n := 0
+	for x in sd["items"]:
+		if found.has(x):
+			n += 1
+	m.objectives.bump("unici")
+	var total: int = (sd["items"] as Array).size()
+	if n == total:
+		m.gear.refresh()
+		m.objectives.bump("serie_unici")
+		m.hud.toast("Serie completa: %s! Per sempre: %s" % [sd["name"], sd["desc"]])
+	else:
+		m.hud.toast("Oggetto unico: %s — serie «%s» %d su %d" % [ItemsData.get_item(id)["name"], sd["name"], n, total])

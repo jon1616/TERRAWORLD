@@ -66,3 +66,19 @@ const POOLS := {
 
 static func is_unique(id: String) -> bool:
 	return bool(ItemsData.get_item(id).get("unique", false))
+
+
+
+## Voce 98: un unico a caso da un pool (quelli delle serie con quel pool, più il pool della voce 85), preferendo quelli
+## che l'Erbario non ricorda ancora (`found`): così la collezione avanza. "" se il pool è vuoto.
+static func roll(pool: String, rng: RandomNumberGenerator, found: Dictionary = {}) -> String:
+	var items: Array = UniqueSeriesData.pool_items(pool)
+	if POOLS.has(pool):
+		for id in POOLS[pool]["items"]:
+			if not id in items:
+				items.append(id)
+	if items.is_empty():
+		return ""
+	var fresh := items.filter(func(id: String) -> bool: return not found.has(id))
+	var from: Array = fresh if not fresh.is_empty() else items
+	return String(from[rng.randi_range(0, from.size() - 1)])

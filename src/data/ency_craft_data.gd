@@ -49,6 +49,10 @@ Gli effetti attivi e il tempo che resta sono in alto a destra, sotto la minimapp
 [b]Da lanciare[/b]: esplosivi (rompono la roccia fino alla loro forza, feriscono anche te se sei vicino), semi ricurvi (tornano in mano), giavellotti.
 [b]Rampino[/b]: si aggancia alla roccia e ti tira; si sgancia saltando o con {k_giu}.
 Gli [url=cap:elementi]elementi[/url] contano: ogni creatura ha almeno una debolezza."""},
+	{"id": "unici", "group": "Creare ed equipaggiarsi", "name": "La collezione degli unici", "text":
+"""Gli [b]oggetti unici[/b] hanno un nome, una storia e [b]effetti speciali[/b] che non si trovano altrove: ognuno cambia qualcosa nel modo di giocare. Stanno in [b]serie[/b]: quando l'Erbario le ricorda tutte, la serie completa dà il suo premio [b]per sempre[/b].
+Escono dai segreti profondi e leggendari, dalle creature ancestrali e iridate, dagli scrigni antichi delle rovine profonde, dai Custodi e dai Guardiani evocati; alcuni si fabbricano con i trofei delle creature rare. Chi li lascia a caso preferisce quelli che non hai ancora.
+{cat_unici}"""},
 	{"id": "elementi", "group": "Combattere", "name": "Elementi e reazioni", "text":
 """Sei elementi. Un'arma con un elemento lascia sulla creatura un [b]segno[/b] per qualche secondo e le dà il suo stato:
 {cat_elementi}

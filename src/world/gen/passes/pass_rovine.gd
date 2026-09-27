@@ -90,6 +90,11 @@ func _build(w: World, rng: RandomNumberGenerator, p: Vector2i, s: int, rich := 0
 	var loot := LootData.roll_chest("rovina_%d" % clampi(s, 1, 4), rng, 2 + s / 2 + rich)
 	for id in loot:
 		chest.add(id, int(loot[id]))
+	if ChestsData.is_found(sid) and sid != "scrigno":
+		var r2 := RandomNumberGenerator.new()                # voce 98: gli unici delle rovine profonde
+		r2.seed = hash([o.x, o.y, w.world_seed])
+		if r2.randf() < float(UniqueSeriesData.POOL_CHANCE["profondo"]):
+			chest.add(UniquesData.roll("profondo", r2), 1)
 	if rng.randf() < 0.25:                    # voce 46: una Fiala di un gene qualunque, anche di altri mondi
 		var g := Genome.random_gene(rng, 2 + s)
 		if g != "":
