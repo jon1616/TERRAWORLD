@@ -7,6 +7,8 @@
 - **In corso: la Roadmap 13 «Il volto del mondo»** (voci 100-117, dal 28 set 2026): la grafica con Nano Banana,
   seguita passo passo con l'utente (Claude scrive i prompt, dice dove salvare le immagini, le adatta con gli script).
   Dopo: un secondo bilancio con il diario delle partite vere.
+- **In corso: la Roadmap 14 «Le acque vive»** (voci 118-125, dal 28 set 2026): la pesca, decisa con l'utente (gesto
+  quasi automatico, attività laterale ricca ma non indispensabile, in tutti i liquidi, liquidi spostabili).
 - **Il piano «Il Giardiniere dei mondi» è compiuto**: Roadmap 5-11 (voci 41-82) tutte fatte.
 - **Fatte**: Roadmap 1 «Le fondamenta» (voci 0-16, tranne la 6), Roadmap 2 (17-20), Roadmap 3 «Esplorare, trovare,
   crescere» (21-30 + extra), Roadmap 4 «Un mondo da abitare» (31-40), il fotogramma lento del giro lungo (pannelli che
@@ -2068,6 +2070,65 @@ Lezioni: Nano Banana spesso sbaglia il numero di colonne o aggiunge doppioni anc
 ### Resta al codice (Nano Banana non serve)
 Le trame del terreno e delle pareti (doppia griglia, trame 64×64 senza cuciture), la luce, i liquidi, gli
 incantesimi, le esplosioni, le particelle, il tempo atmosferico; le 1906 icone una per una (nascono dalla voce 105).
+
+# Roadmap 14 «Le acque vive» — la pesca (dal 28 set 2026)
+
+Chiesta dall'utente il 28 set 2026, decisa insieme. **Le scelte dell'utente**: il gesto è **banale, quasi automatico**
+(nessun minigioco); la pesca pesa come un'**attività laterale ricca ma non indispensabile**; si pesca in **tutti i
+liquidi** (acqua, Linfa, brace) con gli attrezzi adatti; il giocatore può **spostare i liquidi** (far defluire, portare
+con il secchio) per crearsi zone di pesca dove prima non c'erano.
+
+Come si incastra (la filosofia: «moltiplicare, non sommare»): i pesci sono dati dei file dei biomi (un bioma nuovo porta
+i suoi pesci); la canna è una **forma** in più, moltiplicata per i materiali (i tier nascono da soli, con qualità, tratti
+e innesti); il posto (liquido, strato, bioma, profondità, ora, stagione, meteo, geni del mondo) decide i pesci; i pesci
+danno cibo, ingredienti, materiali, casse sommerse, trofei e unici, ma **nessuna ricetta importante li richiede**.
+
+La misura di partenza (28 set 2026, 5 mondi): specchi d'acqua di almeno 20 celle in superficie **quasi nessuno** (8 solo
+col gene «Sommerso»), 1-5 nel Sottobosco, 7-13 nelle Caverne d'ardesia e nelle Profondità della Linfa, più 1-4 laghi
+di Linfa (Profondità) e 3-4 di brace (il Fondo). Serve dunque acqua in superficie.
+
+## 118. [ ] Gli specchi d'acqua (M)
+- Lo specchio si **riconosce al momento del lancio**: il liquido collegato attorno all'amo (fino a un tetto di celle),
+  con la sua carta d'identità (liquido, grandezza, profondità, strato, bioma della colonna); così un laghetto fatto dal
+  giocatore vale come uno naturale. Sotto una grandezza minima non si pesca (niente pesca nelle pozzanghere).
+- Una passata nuova del generatore: **laghi e stagni di superficie secondo il bioma** (stagni torbosi, pozze gelate,
+  laghetti nel bosco; niente nel deserto di vetro), con la mappa dei posti (`GenContext.claim`).
+- Misura con uno strumento: quanti specchi pescabili per strato e per liquido in 10 mondi.
+
+## 119. [ ] Spostare i liquidi (M)
+- Contenitori più grandi del Secchio di radice (una cella): uno di legnoferro e uno d'ambra (più celle per viaggio).
+- **Le fonti**: stazioni che versano piano il loro liquido (una d'acqua da fabbricare presto; di Linfa e di brace più
+  avanti, con materiali dei loro strati), per riempire un bacino scavato apposta.
+- Scavare un canale fa già defluire i liquidi (voce 74): una prova crea un laghetto dal nulla e ci pesca.
+
+## 120. [ ] I pesci come dati (L)
+- `FishData` e un campo «pesci» nei file dei biomi e del sottosuolo; circa 60 pesci con nomi dell'universo, per liquido,
+  strato, profondità dell'acqua, ora, stagione, meteo e geni; rarità (comune → leggendario) e taglia; icone dal codice.
+- Una sezione «Pesci» nell'Erbario, **fuori dalla percentuale principale**; le schede dei suggerimenti.
+
+## 121. [ ] Il gesto e le canne (M)
+- La **canna** è una forma di `FormsData`, moltiplicata per i materiali: potenza (rarità), rapidità (attesa), e le
+  proprietà del materiale decidono **dove** pesca (acqua per tutte; Linfa e brace solo con i materiali giusti).
+- Clic sull'acqua con la canna: lenza e galleggiante; dopo un'attesa il pesce **abbocca e sale da solo** nella
+  Bisaccia (spruzzo, suono). Spostarsi o cambiare oggetto ritira la lenza. Niente minigioco.
+
+## 122. [ ] Esche, accessori e tempo (M)
+- Esche consumabili (dal giardino, dalle creature, dalla mandria; una per lancio, se montata) e accessori
+  (galleggiante, amo, sacca del pescatore); il tempo conta: notte, stagione, pioggia, nebbia, luna.
+
+## 123. [ ] Che cosa danno i pesci (M)
+- Cibo con effetti a tempo, ingredienti per pozioni, materiali per oggetti belli ma non indispensabili, casse sommerse
+  con il bottino dello strato, trofei dei pesci rari, una serie di oggetti unici della pesca, un pesce leggendario per le
+  Leggende.
+
+## 124. [ ] Il Pescatore e l'intreccio (M)
+- Un abitante nuovo, il Pescatore (vende attrezzi ed esche, compra pesci, le sue richieste); richieste facoltative
+  nella Bacheca; obiettivi facoltativi; consigli alla prima volta; il capitolo dell'Enciclopedia.
+
+## 125. [ ] Equilibrio, prove e resoconto (M)
+- Ogni specchio ha una popolazione che cala pescando e ricresce col tempo (l'ecologia della voce 57); un tetto alla
+  rendita come le farm (`Fauna.loot_gate`); i numeri in `tools/bilancio.gd` (pesci all'ora, quanti rari); prove
+  `--solo=pesca`; resoconto.
 
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».
