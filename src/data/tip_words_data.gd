@@ -15,7 +15,7 @@ const KINDS := {
 	"moneta": "Moneta", "ricordo": "Ricordo di un mondo", "evocatore": "Bastone evocatore", "compagno": "Compagno",
 	"vasetto": "Vasetto", "uovo": "Uovo", "purifica": "Purifica l'Avvizzimento", "provetta": "Provetta",
 	"laccio": "Laccio", "fiala": "Fiala di un gene", "creatura": "Creatura della mandria",
-	"tavoletta": "Tavoletta da leggere", "chiave": "Chiave", "secchio": "Secchio", "secchio_pieno": "Secchio pieno", "contenitore": "Contenitore di liquidi", "pesce": "Pesce", "canna": "Canna da pesca", "esca": "Esca da pesca",
+	"tavoletta": "Tavoletta da leggere", "chiave": "Chiave", "secchio": "Secchio", "secchio_pieno": "Secchio pieno", "contenitore": "Contenitore di liquidi", "pesce": "Pesce", "canna": "Canna da pesca", "esca": "Esca da pesca", "cassetta": "Cassa pescata",
 }
 
 ## Colore del nome secondo il tipo (le armi e le armature prendono quello della qualità).

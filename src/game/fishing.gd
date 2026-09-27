@@ -16,6 +16,7 @@ var m: Node2D
 var line := {}                           # la lenza in acqua: {cell, from, rod, ctx, t, bite}
 var caught := 0                          # quanti pesci (per le prove)
 var last := {}                           # l'ultimo pescato: {id, size, record, n, bait}
+var last_crate := {}                     # l'ultima cassa aperta: {oggetto: quanti} (per le prove)
 ## Voce 122: gli effetti di ciò che si indossa (li scrive `GearEffects`): luck +, wait ×, size +, double +, any.
 var gear := {"luck": 0.0, "wait": 1.0, "size": 0.0, "double": 0.0, "any": false}
 var _rng := RandomNumberGenerator.new()
@@ -128,9 +129,13 @@ func catch() -> String:
 	var luck := luck_now(String(line["rod"]))
 	var id := FishData.roll(line["ctx"], _rng, luck)
 	var q: Vector2i = line["cell"]
+	var ctx: Dictionary = line["ctx"]
 	stop()
 	if id == "":
 		return ""
+	# voce 123: a volte abbocca una cassa al posto del pesce
+	if _rng.randf() < FishingData.CRATE + luck * FishingData.CRATE_LUCK:
+		id = FishingData.crate_for(ctx)
 	# l'esca migliore si consuma (voce 122)
 	var b: Bisaccia = m.character.bisaccia
 	var bi := FishingData.best_bait(b)
@@ -140,9 +145,22 @@ func catch() -> String:
 		b.take_one(bi)
 	var size := FishData.roll_size(id, _rng, luck * 0.05 + float(g["size"]))
 	var n := 2 if _rng.randf() < float(g["double"]) else 1
+	if not FishData.all().has(id):
+		# una cassa: niente taglia, niente Erbario dei pesci
+		if b.add(id, 1) > 0:
+			m.drops.spawn(id, 1, m.player.position)
+		caught += 1
+		last = {"id": id, "size": 0, "record": false, "n": 1, "bait": bait}
+		m.hud.toast("Hai pescato: %s! (clic per aprirla)" % ItemsData.get_item(id)["name"])
+		m.sfx.play("apri", Vector2(q) * 16.0)
+		return id
 	var rest: int = b.add(id, n)
 	if rest > 0:
 		m.drops.spawn(id, rest, m.player.position)
+	if _rng.randf() < FishingData.PEARL:
+		if b.add("perla_stagno", 1) > 0:
+			m.drops.spawn("perla_stagno", 1, m.player.position)
+		m.hud.toast("Attaccata alla lenza: una Perla di stagno!")
 	var first: bool = not m.erbario.known("pesci", id)
 	var better: bool = m.erbario.add_fish(id, size)
 	caught += 1
@@ -172,3 +190,32 @@ func _draw() -> void:
 	draw_polyline(pts, Color(0.9, 0.95, 1.0, 0.7), 1.0)
 	draw_circle(bob, 3.0, Color("#f04040"))
 	draw_circle(bob + Vector2(0, -1.5), 1.6, Color.WHITE)
+
+
+## Voce 123: aprire una cassa pescata (clic con la cassa in mano): il bottino delle rovine del suo strato, a volte una
+## perla, e di rado un unico della serie «Tesori delle acque».
+func open_crate(id: String) -> bool:
+	var b: Bisaccia = m.character.bisaccia
+	var i: int = m.hud.sel if b.id_at(m.hud.sel) == id else Portal._slot_of(b, id)
+	if i < 0:
+		return false
+	var cr: Array = ItemsData.get_item(id)["crate"]
+	b.take_one(i)
+	var got := LootData.roll_chest("rovina_%d" % _rng.randi_range(int(cr[0]), int(cr[1])), _rng, 2)
+	if _rng.randf() < 0.25:
+		got["perla_stagno"] = int(got.get("perla_stagno", 0)) + 1
+	if _rng.randf() < float(FishingData.UNIQUE_IN_CRATE.get(id, 0.0)):
+		var u := UniquesData.roll("pesca", _rng, m.character.erbario.get("oggetti", {}))
+		if u != "":
+			got[u] = 1
+	var names := []
+	for k in got:
+		var rest := b.add(String(k), int(got[k]))
+		if rest > 0:
+			m.drops.spawn(String(k), rest, m.player.position)
+		names.append("%s ×%d" % [ItemsData.get_item(String(k)).get("name", k), int(got[k])])
+	m.hud.toast("Dentro: %s" % ", ".join(names))
+	m.sfx.play("apri", m.player.position)
+	last_crate = got
+	return true
+

@@ -348,6 +348,8 @@ func drink(id: String) -> bool:
 			sfx.play("pozione")
 		vitals.linfa = mini(vitals.linfa + int(it["linfa"]), vitals.linfa_max)
 		vitals.changed.emit()
+		if it.has("boon"):
+			boon.emit(String(it["boon"][0]), float(it["boon"][1]))   # voce 123: i piatti di pesce
 		return true
 	if it.has("boon"):
 		var slot0 := hud.sel
@@ -356,6 +358,10 @@ func drink(id: String) -> bool:
 		bisaccia.take_one(slot0)
 		if sfx:
 			sfx.play("pozione")
+		if heal > 0:
+			# voce 123: un piatto che cura e dà un effetto (il cibo non ha l'attesa delle pozioni)
+			vitals.hp = mini(vitals.hp + heal, vitals.hp_max)
+			vitals.changed.emit()
 		boon.emit(String(it["boon"][0]), float(it["boon"][1]))
 		return true
 	if vitals.potion_wait > 0.0:

@@ -8,7 +8,7 @@ extends SceneTree
 const KINDS := ["materiale", "blocco", "piccone", "ascia", "spada", "arco", "munizione", "torcia", "stazione",
 	"piattaforma", "elmo", "corazza", "gambali", "consumabile", "seme", "lanterna", "cura", "seme_mondo", "accessorio",
 	"purifica", "essenza", "bastone", "dono", "specchio", "trofeo", "richiamo", "reliquia", "mappa", "rampino", "esplosivo", "ricurvo",
-	"giavellotto", "coltura", "annaffiatoio", "parete", "martello", "moneta", "compagno", "evocatore", "ricordo", "provetta", "fiala", "uovo", "creatura", "vasetto", "laccio", "tavoletta", "chiave", "secchio", "secchio_pieno", "contenitore", "pesce", "canna", "esca", "sfida", "guanti", "stivali", "mantello", "amuleto", "anello"]
+	"giavellotto", "coltura", "annaffiatoio", "parete", "martello", "moneta", "compagno", "evocatore", "ricordo", "provetta", "fiala", "uovo", "creatura", "vasetto", "laccio", "tavoletta", "chiave", "secchio", "secchio_pieno", "contenitore", "pesce", "canna", "esca", "cassetta", "sfida", "guanti", "stivali", "mantello", "amuleto", "anello"]
 ## Forza di piccone oltre cui una tessera è voluta indistruttibile (i nodi avvizziti: si curano, non si scavano).
 const UNBREAKABLE := 999
 
@@ -483,7 +483,7 @@ func _check_uniques() -> void:
 		_err(String(it.get("story", "")) != "", "unico %s senza storia" % id)
 		_err(String(it.get("source", "")) != "", "unico %s: non dice dove si trova" % id)
 		_err(not (it.get("effects", []) as Array).is_empty() or not (it.get("acc", {}) as Dictionary).is_empty() or it.has("damage")
-			or it.has("defense"), "unico %s: non fa niente di speciale" % id)
+			or it.has("defense") or it.has("fish"), "unico %s: non fa niente di speciale" % id)
 		for e in it.get("effects", []):
 			_err(EffectsData.EFFECTS.has(String(e)), "unico %s: effetto sconosciuto %s" % [id, e])
 		_warn(UniqueSeriesData.series_of(id) != "", "unico %s: in nessuna serie" % id)

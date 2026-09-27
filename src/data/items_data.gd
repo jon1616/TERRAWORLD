@@ -383,6 +383,8 @@ static func use_of(id: String) -> String:
 			return "versa"
 		"canna":
 			return "pesca"
+		"cassetta":
+			return "apri"
 		"compagno":
 			return "chiama"
 		"evocatore":

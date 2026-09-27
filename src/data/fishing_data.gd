@@ -28,6 +28,56 @@ const ITEMS := {
 		"acc": {"fish_luck": 0.3}, "desc": "Un amo d'ambra dorata: i pesci rari abboccano più volentieri (fortuna di pesca +30%)."},
 	"sacca_pescatore": {"name": "Sacca del pescatore", "kind": "accessorio", "icon": ["membrana", "seta"], "stack": 1,
 		"acc": {"fish_size": 0.15, "fish_double": 0.1}, "desc": "Una sacca di seta sempre umida: pesci più grandi, e a volte due in una volta."},
+	# ---- voce 123: che cosa danno i pesci
+	"filetto": {"name": "Filetto di pesce", "kind": "materiale", "icon": ["foglia", "sanguinella"], "stack": 99,
+		"desc": "Pulito da un pesce d'acqua. Nel Paiolo e nel Baccello ardente diventa un piatto."},
+	"filetto_linfa": {"name": "Filetto di Linfa", "kind": "materiale", "icon": ["foglia", "linfa"], "stack": 99,
+		"desc": "Da un pesce della Linfa: brilla ancora un poco."},
+	"filetto_brace": {"name": "Filetto di brace", "kind": "materiale", "icon": ["foglia", "brace"], "stack": 99,
+		"desc": "Da un pesce della brace: si cuoce da solo, se lo lasci al sole."},
+	"filetto_pregiato": {"name": "Filetto pregiato", "kind": "materiale", "icon": ["foglia", "ambra"], "stack": 99,
+		"desc": "Da un pesce raro o leggendario: il piatto del pescatore lo vuole."},
+	"perla_stagno": {"name": "Perla di stagno", "kind": "materiale", "icon": ["gemma", "seta"], "stack": 99,
+		"source": "pescando: a volte è attaccata alla lenza, e nelle casse pescate",
+		"desc": "Rara: a volte è attaccata alla lenza insieme al pesce. Il Pescatore la paga bene."},
+	"pesce_arrosto": {"name": "Pesce arrosto", "kind": "consumabile", "icon": ["tubero", "sanguinella"], "heal": 30,
+		"boon": ["sazio", 300.0], "stack": 30, "desc": "Cura 30 Vita, e sazio per cinque minuti."},
+	"zuppa_pesce": {"name": "Zuppa di pesce", "kind": "consumabile", "icon": ["ciotola", "lagunite"], "heal": 20,
+		"boon": ["sazio", 900.0], "stack": 30, "desc": "Cura 20 Vita, e sazio per un quarto d'ora."},
+	"guazzetto_linfa": {"name": "Guazzetto di Linfa", "kind": "consumabile", "icon": ["ciotola", "linfa"], "linfa": 10,
+		"boon": ["vista", 600.0], "stack": 30, "desc": "Rende 10 Linfa, e per dieci minuti vedi un poco anche dove la luce non arriva."},
+	"spiedo_ardente": {"name": "Spiedo ardente", "kind": "consumabile", "icon": ["tubero", "brace"], "heal": 15,
+		"boon": ["vigore", 300.0], "stack": 30, "desc": "Cura 15 Vita, e per cinque minuti colpisci il 20% più forte."},
+	"piatto_pescatore": {"name": "Piatto del pescatore", "kind": "consumabile", "icon": ["ciotola", "ambra"], "heal": 40,
+		"boon": ["fortuna", 600.0], "stack": 30, "desc": "Cura 40 Vita, e per dieci minuti la fortuna ti accompagna."},
+	"collana_perle": {"name": "Collana di perle di stagno", "kind": "amuleto", "icon": ["amuleto", "seta"], "stack": 1,
+		"acc": {"luck": 0.05, "fish_luck": 0.15}, "desc": "Bella e un poco fortunata, anche con la canna."},
+	# le casse che a volte abboccano al posto di un pesce (si aprono con un clic)
+	"cassetta_alga": {"name": "Cassetta d'alga", "kind": "cassetta", "icon": ["cesta", "muschio"], "stack": 30, "crate": [1, 2],
+		"source": "pescando negli stagni e nelle acque poco profonde, al posto di un pesce", "desc": "Pescata negli stagni e nelle acque poco profonde. Clic per aprirla."},
+	"forziere_sommerso": {"name": "Forziere sommerso", "kind": "cassetta", "icon": ["scrigno", "ardesia"], "stack": 30, "crate": [3, 3],
+		"source": "pescando nelle acque delle grotte, al posto di un pesce", "desc": "Pescato nelle acque delle grotte. Clic per aprirlo."},
+	"scrigno_fondo": {"name": "Scrigno del Fondo", "kind": "cassetta", "icon": ["scrigno", "vuotite"], "stack": 30, "crate": [4, 4],
+		"source": "pescando nel Fondo, nella Linfa o nella brace, al posto di un pesce", "desc": "Pescato nel profondo, nella Linfa o nella brace. Clic per aprirlo."},
+	# i sei unici della serie «Tesori delle acque» (`UniqueSeriesData`): solo dalle casse pescate
+	"canna_primo_pescatore": {"name": "Canna del primo pescatore", "kind": "canna", "icon": ["canna", "iride"], "unique": true,
+		"stack": 1, "tier": 5, "fish": 1.2, "fish_speed": 0.55, "fish_liq": [0, 1, 2],
+		"story": "Il primo Giardiniere pescava per ascoltare i mondi, non per mangiare.", "source": "nelle casse pescate"},
+	"amo_luna": {"name": "Amo di luna", "kind": "accessorio", "icon": ["aculeo", "nottilite"], "unique": true, "stack": 1,
+		"acc": {"fish_luck": 0.5, "fish_wait": 0.9}, "story": "Si dice che abbia preso la luna, una notte, e l'abbia lasciata andare.",
+		"source": "nelle casse pescate"},
+	"arpione_maree": {"name": "Arpione delle maree", "kind": "spada", "icon": ["lancia", "lagunite"], "form": "lancia", "unique": true,
+		"stack": 1, "damage": 22, "speed": 2.2, "knockback": 2.5, "tier": 4, "effects": ["anfibio", "respiro_lungo"],
+		"story": "Ha ancora il sale di un mare che nessuno ricorda.", "source": "nelle casse pescate"},
+	"anello_marea": {"name": "Anello della marea", "kind": "anello", "icon": ["anello", "lagunite"], "unique": true, "stack": 1,
+		"acc": {"respiro": 2.0, "fish_wait": 0.85}, "story": "Si stringe quando l'acqua sale, si allarga quando scende.",
+		"source": "nelle casse pescate"},
+	"mantello_squame": {"name": "Mantello di squame", "kind": "mantello", "icon": ["mantello", "cristallo"], "unique": true, "stack": 1,
+		"defense": 6, "acc": {"respiro": 1.5, "run": 1.05}, "story": "Mille squame di mille pesci, cucite da qualcuno con molta pazienza.",
+		"source": "nelle casse pescate"},
+	"amuleto_perla_nera": {"name": "Amuleto della perla nera", "kind": "amuleto", "icon": ["amuleto", "vuotite"], "unique": true,
+		"stack": 1, "acc": {"fish_double": 0.15, "luck": 0.1}, "story": "Una perla del Fondo: nera, e calda come un cuore.",
+		"source": "nelle casse pescate"},
 	"canna_radice": {"name": "Canna di radice", "kind": "canna", "icon": ["canna", "legno"], "stack": 1, "tier": 0,
 		"fish": 0.0, "fish_speed": 1.15, "fish_liq": [0],
 		"desc": "Un ramo di radice flessibile e un filo di gelatina: pesca nell'acqua. Clic su uno specchio d'acqua: la lenza parte, e quando un pesce abbocca sale da solo."},
@@ -42,7 +92,19 @@ const RECIPES := [
 	{"out": "galleggiante_lume", "qty": 1, "in": {"squama_lume": 4, "legno": 2}, "station": "telaio"},
 	{"out": "amo_ambra", "qty": 1, "in": {"lingotto_ambra": 2, "squama_lume": 2}, "station": "maglio"},
 	{"out": "sacca_pescatore", "qty": 1, "in": {"seta_radice": 6, "gelatina": 4}, "station": "telaio"},
+	{"out": "pesce_arrosto", "qty": 1, "in": {"filetto": 2}, "station": "baccello_ardente"},
+	{"out": "zuppa_pesce", "qty": 1, "in": {"filetto": 3, "tubero_linfa": 1}, "station": "paiolo"},
+	{"out": "guazzetto_linfa", "qty": 1, "in": {"filetto_linfa": 2, "filetto": 1}, "station": "paiolo"},
+	{"out": "spiedo_ardente", "qty": 1, "in": {"filetto_brace": 2}, "station": "baccello_ardente"},
+	{"out": "piatto_pescatore", "qty": 1, "in": {"filetto_pregiato": 1, "filetto": 2, "petali_lume": 1}, "station": "paiolo"},
+	{"out": "collana_perle", "qty": 1, "in": {"perla_stagno": 3, "seta_radice": 2}, "station": "telaio"},
 ]
+
+## Voce 123: una cassa al posto del pesce (probabilità di base, più la fortuna × `CRATE_LUCK`), una perla in più.
+const CRATE := 0.06
+const CRATE_LUCK := 0.03
+const PEARL := 0.03
+const UNIQUE_IN_CRATE := {"cassetta_alga": 0.02, "forziere_sommerso": 0.05, "scrigno_fondo": 0.1}
 
 ## Voce 122: il tempo. L'attesa si accorcia con la pioggia, i temporali, la nebbia, di notte e all'alba e al tramonto.
 const WEATHER_WAIT := {"pioggia": 0.8, "temporale": 0.7, "nebbia": 0.9, "bufera": 1.2}
@@ -96,4 +158,28 @@ static func best_bait(b: Bisaccia) -> int:
 			bl = float(bt["luck"])
 			best = i
 	return best
+
+
+## Voce 123: pulire un pesce dà i filetti del suo liquido (i rari e i leggendari quelli pregiati). Una ricetta per pesce,
+## fatta a mano, generata dai dati: un pesce nuovo ha la sua da solo.
+static func fillet_recipes() -> Array:
+	var out := []
+	var fish := FishData.all()
+	for id in fish:
+		var f: Dictionary = fish[id]
+		var r := String(f["rar"])
+		var what: String = ["filetto", "filetto_linfa", "filetto_brace"][int(f.get("liq", 0))]
+		var n := 1 if r == "comune" else 2
+		if r in ["raro", "leggendario"]:
+			what = "filetto_pregiato"
+			n = 1 if r == "raro" else 3
+		out.append({"out": what, "qty": n, "in": {String(id): 1}, "station": ""})
+	return out
+
+
+## La cassa che abbocca in uno specchio: dalla profondità (strato) e dal liquido.
+static func crate_for(ctx: Dictionary) -> String:
+	if int(ctx["liq"]) > 0 or int(ctx["stratum"]) >= 4:
+		return "scrigno_fondo"
+	return "forziere_sommerso" if int(ctx["stratum"]) >= 2 else "cassetta_alga"
 

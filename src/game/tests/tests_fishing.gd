@@ -26,6 +26,7 @@ func run() -> void:
 	await species()
 	await gesture()
 	await extras()
+	await rewards()
 	for i in slots0.size():
 		b.slots[i] = slots0[i]
 	b.equip = equip0
@@ -394,4 +395,54 @@ func extras() -> void:
 	if not (luck1 > luck0 + 0.4 and wait1 < wait0 and absf(amo - 0.3) < 0.001 and tip.contains("Fortuna di pesca") \
 			and rainy < sunny and ok and used and two):
 		print("ATTENZIONE: esche, accessori o tempo della pesca non vanno come dovrebbero")
+
+
+## Voce 123: che cosa danno i pesci. Ogni pesce si pulisce nei filetti del suo liquido; i filetti diventano piatti con
+## un effetto; le casse pescate si aprono; la cassa giusta per ogni specchio; la serie «Tesori delle acque».
+func rewards() -> void:
+	var b: Bisaccia = m.character.bisaccia
+	kit.make_room()
+	var fr := FishingData.fillet_recipes()
+	var all_fish := fr.size() == FishData.all().size()
+	# pulire un avannotto (comune, acqua) e una Carpa di fuoco (rara, brace)
+	b.add("pesce_avannotto", 1)
+	b.add("pesce_carpa_fuoco", 1)
+	var f0 := b.count("filetto")
+	var p0 := b.count("filetto_pregiato")
+	for r in fr:
+		if String(r["in"].keys()[0]) in ["pesce_avannotto", "pesce_carpa_fuoco"]:
+			Crafting.craft(r, b)
+	var cleaned := b.count("filetto") == f0 + 1 and b.count("filetto_pregiato") == p0 + 1
+	# un piatto: il Pesce arrosto cura e sazia
+	b.add("pesce_arrosto", 1)
+	kit.hold("pesce_arrosto")
+	m.vitals.hp = m.vitals.hp_max - 40
+	m.boons.active.erase("sazio")
+	m.actions.drink("pesce_arrosto")
+	var ate: bool = m.boons.active.has("sazio") and m.vitals.hp >= m.vitals.hp_max - 10
+	m.vitals.refill()
+	# una cassa pescata si apre
+	b.add("forziere_sommerso", 1)
+	kit.hold("forziere_sommerso")
+	var opened: bool = m.fishing.open_crate("forziere_sommerso") and not m.fishing.last_crate.is_empty() and b.count("forziere_sommerso") == 0
+	# la cassa di ogni specchio
+	var ctx := {"liq": 0, "stratum": 0}
+	var c0 := FishingData.crate_for(ctx)
+	ctx["stratum"] = 2
+	var c2 := FishingData.crate_for(ctx)
+	ctx["liq"] = 2
+	var c4 := FishingData.crate_for(ctx)
+	var crates := c0 == "cassetta_alga" and c2 == "forziere_sommerso" and c4 == "scrigno_fondo"
+	# la serie degli unici della pesca
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 3
+	var pool := UniqueSeriesData.pool_items("pesca")
+	var u := UniquesData.roll("pesca", rng, {})
+	var series := pool.size() == 6 and u in pool and UniqueSeriesData.SERIES.has("tesori_acque")
+	print("pesci da pulire: ricette %d per %d pesci %s; avannotto → filetto, Carpa di fuoco → filetto pregiato %s" % [fr.size(),
+		FishData.all().size(), "sì" if all_fish else "NO", "sì" if cleaned else "NO"])
+	print("Pesce arrosto: cura e sazio %s; Forziere sommerso aperto %s (%s); casse per specchio %s %s %s; serie «Tesori delle acque» %s (%s)" % [
+		"sì" if ate else "NO", "sì" if opened else "NO", m.fishing.last_crate, c0, c2, c4, "sì" if series else "NO", u])
+	if not (all_fish and cleaned and ate and opened and crates and series):
+		print("ATTENZIONE: i frutti della pesca non sono come dovrebbero")
 

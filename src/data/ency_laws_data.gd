@@ -40,6 +40,12 @@ La [b]Canna di radice[/b] (al Ceppo) pesca solo nell'acqua. Le canne di metallo 
 • Gli accessori: il [b]Galleggiante di lume[/b] (attesa più breve), l'[b]Amo d'ambra[/b] (fortuna di pesca), la [b]Sacca del pescatore[/b] (pesci più grandi, e a volte due in una volta).
 • Il tempo conta: con la pioggia, i temporali e la nebbia i pesci abboccano prima, e ancora di più all'alba e al tramonto; un po' anche di notte. Con la bufera, invece, più piano. Alcuni pesci si fanno vedere solo di notte, in una stagione o con un certo tempo: l'Erbario lo dice.
 
+[b]Che cosa ci fai[/b]
+• Ogni pesce si [b]pulisce[/b] a mano (in Creare): dà i filetti del suo liquido (acqua, Linfa, brace); i pesci rari e leggendari danno il [b]filetto pregiato[/b].
+• Con i filetti si cucina: [b]Pesce arrosto[/b] e [b]Spiedo ardente[/b] al Baccello ardente, [b]Zuppa di pesce[/b], [b]Guazzetto di Linfa[/b] e [b]Piatto del pescatore[/b] al Paiolo. Curano e danno un effetto (sazio, vista nel buio, vigore, fortuna), senza l'attesa delle pozioni.
+• A volte abbocca una [b]cassa[/b] al posto del pesce: la Cassetta d'alga negli stagni, il Forziere sommerso nelle grotte, lo Scrigno del Fondo nel profondo, nella Linfa e nella brace. Clic per aprirla: dentro il bottino delle rovine, a volte una [b]Perla di stagno[/b] e, di rado, uno dei sei tesori della serie [b]Tesori delle acque[/b] (completa: più fortuna di pesca e pesci più grandi per sempre).
+• Le perle si trovano anche attaccate alla lenza: tre fanno una Collana di perle.
+
 [b]L'Erbario dei pesci[/b]
 Ogni pesce pescato entra nella scheda [b]Pesci[/b] dell'Erbario, con quanti ne hai presi e il più grande: la scheda sta a parte e non conta nella percentuale. Anche un pesce mai pescato dice dove cercarlo."""},
 	{"id": "meteo", "group": "Le leggi dei mondi", "name": "Vento e tempo atmosferico", "text":

@@ -56,6 +56,8 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 			return m.liquid_tools.use_container(c, id)   # voce 119: otre e anfora
 		"canna":
 			return m.fishing.cast(c, id)                # voce 121: la pesca
+		"cassetta":
+			return m.fishing.open_crate(id)             # voce 123: le casse pescate
 		"mappa":
 			if id == "eco_seminatori":
 				return m.secrets.use_echo(id)          # voce 95

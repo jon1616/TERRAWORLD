@@ -2164,7 +2164,18 @@ della pesca rimettono la Bisaccia com'era (il seme spariva dalla barra rapida pe
 - Esche consumabili (dal giardino, dalle creature, dalla mandria; una per lancio, se montata) e accessori
   (galleggiante, amo, sacca del pescatore); il tempo conta: notte, stagione, pioggia, nebbia, luna.
 
-## 123. [ ] Che cosa danno i pesci (M)
+## 123. [x] Che cosa danno i pesci (M) — fatto il 28 set 2026
+Fatto (`FishingData`): **filetti** (acqua, Linfa, brace, pregiato), una ricetta per pesce generata dai dati
+(`fillet_recipes`: i comuni 1 filetto, i non comuni 2, i rari 1 pregiato, i leggendari 3 pregiati); 5 **piatti** (Pesce
+arrosto e Spiedo ardente al Baccello, Zuppa di pesce, Guazzetto di Linfa e Piatto del pescatore al Paiolo) con cura o
+Linfa e un effetto (sazio, vista, vigore, fortuna) — `PlayerActions.drink` ora applica cura e Linfa anche agli oggetti
+che hanno un effetto; 3 **casse pescate** al posto del pesce (6% + fortuna × 3%: Cassetta d'alga, Forziere sommerso,
+Scrigno del Fondo secondo strato e liquido; clic per aprirle: bottino delle rovine, perla al 25%, un unico al 2-10%);
+la **Perla di stagno** (3% a ogni pesce) e la Collana di perle; la serie di unici **«Tesori delle acque»** (6 unici solo
+nelle casse pescate: canna di tutti i liquidi, amo, arpione, anello, mantello, amuleto; completa: fortuna di pesca +25%
+e taglie +10% per sempre). Il pesce leggendario per le Leggende non è stato fatto (i leggendari restano nell'Erbario).
+Prova: 59 ricette per 59 pesci, un filetto e un filetto pregiato, il Pesce arrosto cura e sazia, un Forziere si apre,
+la cassa giusta per ogni specchio, la serie. verifica_dati: 0 errori (la canna unica conta come «speciale»).
 - Cibo con effetti a tempo, ingredienti per pozioni, materiali per oggetti belli ma non indispensabili, casse sommerse
   con il bottino dello strato, trofei dei pesci rari, una serie di oggetti unici della pesca, un pesce leggendario per le
   Leggende.

@@ -164,6 +164,7 @@ static func all() -> Array:
 	out.append_array(NeroData.RECIPES.duplicate(true))     # voce 72
 	out.append_array(LiquidsData.RECIPES.duplicate(true))  # voce 73
 	out.append_array(FishingData.RECIPES.duplicate(true))  # voce 121
+	out.append_array(FishingData.fillet_recipes())         # voce 123: pulire i pesci
 	out.append_array(WeatherData.RECIPES.duplicate(true))  # voce 75
 	out.append_array(WorldTimeData.RECIPES.duplicate(true))  # voce 78
 	out.append_array(GuardianGenData.RECIPES.duplicate(true))  # voce 80
