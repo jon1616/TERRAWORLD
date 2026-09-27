@@ -88,7 +88,8 @@ def _indici(rgb: np.ndarray, pal: np.ndarray, n_base: int) -> np.ndarray:
     return idx.reshape(rgb.shape[:2])
 
 
-def riduci(a: np.ndarray, f: float, pal: np.ndarray, n_base: int, scuro_min: float = 0.0) -> np.ndarray:
+def riduci(a: np.ndarray, f: float, pal: np.ndarray, n_base: int, scuro_min: float = 0.0,
+           pieno: float = 0.45) -> np.ndarray:
     """Riduce la figura `a` (RGBA float) di un fattore `f` (pixel grandi per pixel piccolo) con la tavolozza data.
     Restituisce RGBA uint8 con il contorno (1 pixel in più su ogni lato)."""
     h_in = max(1, round(a.shape[0] / f))
@@ -116,7 +117,8 @@ def riduci(a: np.ndarray, f: float, pal: np.ndarray, n_base: int, scuro_min: flo
         for x in range(w_in):
             x0, x1 = int(x * f), max(int((x + 1) * f), int(x * f) + 1)
             cell_op = opaque[y0:y1, x0:x1]
-            if cell_op.size == 0 or cell_op.mean() < 0.45:
+            # `pieno`: quanta parte del riquadro deve essere figura (le icone con aste sottili ne vogliono meno)
+            if cell_op.size == 0 or cell_op.mean() < pieno:
                 continue
             raw = np.bincount(idx[y0:y1, x0:x1][cell_op], minlength=len(pal)).astype(np.float32)
             best = int((raw * peso).argmax())

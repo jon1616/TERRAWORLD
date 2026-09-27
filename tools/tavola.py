@@ -83,6 +83,53 @@ def pezzi(a: np.ndarray, soglia_area: float = 0.004) -> list[tuple[slice, slice,
     return [p for r in righe for p in sorted(r, key=lambda p: p[1].start)]
 
 
+def togli_scritte(a: np.ndarray, ch: float) -> None:
+    """Cancella le scritte di Nano Banana prima di cercare i pezzi: a volte una parola tocca il disegno (la punta dello
+    spadone, le spine della mazza) e finiva nel pezzo. Le lettere sono macchie bianche piccole, poco più larghe che
+    alte, in fila (almeno tre alla stessa altezza): si cancella il riquadro della fila, con il loro contorno."""
+    rgb = a[:, :, :3]
+    lum = rgb @ np.array([0.3, 0.59, 0.11])
+    sat = rgb.max(axis=2) - rgb.min(axis=2)
+    bianco = (lum > 225) & (sat < 30) & (a[:, :, 3] > 0.5)
+    lab, _ = ndimage.label(bianco)
+    lettere = []
+    for sl in ndimage.find_objects(lab):
+        h, w = sl[0].stop - sl[0].start, sl[1].stop - sl[1].start
+        if ch * 0.04 <= h <= ch * 0.14 and w <= h * 1.6:
+            lettere.append(sl)
+    lettere.sort(key=lambda s: (s[0].start + s[0].stop) / 2)
+    usate = [False] * len(lettere)
+    for i, s in enumerate(lettere):
+        if usate[i]:
+            continue
+        h = s[0].stop - s[0].start
+        cy = (s[0].start + s[0].stop) / 2
+        fila = [j for j, t in enumerate(lettere) if not usate[j] and abs((t[0].start + t[0].stop) / 2 - cy) < h * 0.4
+                and abs(t[0].stop - t[0].start - h) < h * 0.35]
+        if len(fila) < 3:
+            continue
+        # la fila si spezza dove tra due lettere c'è più di due altezze (due parole di celle diverse)
+        fila.sort(key=lambda j: lettere[j][1].start)
+        gruppi, cur = [], [fila[0]]
+        for j in fila[1:]:
+            if lettere[j][1].start - lettere[cur[-1]][1].stop > h * 2:
+                gruppi.append(cur)
+                cur = []
+            cur.append(j)
+        gruppi.append(cur)
+        for g in gruppi:
+            for j in g:
+                usate[j] = True
+            if len(g) < 3:
+                continue
+            pad = int(h * 0.35) + 2
+            y0 = max(min(lettere[j][0].start for j in g) - pad, 0)
+            y1 = max(lettere[j][0].stop for j in g) + pad
+            x0 = max(min(lettere[j][1].start for j in g) - pad, 0)
+            x1 = max(lettere[j][1].stop for j in g) + pad
+            a[y0:y1, x0:x1, 3] = 0.0
+
+
 def pezzi_griglia(a: np.ndarray, col: int, righe: int) -> list[tuple[slice, slice, np.ndarray]]:
     """Con --griglia: ogni macchia va nella cella del suo centro e le macchie di una cella diventano un pezzo solo
     (i raggi staccati di un sole, la stellina accanto a un occhio). Si scartano le scritte, che Nano Banana fa
@@ -178,12 +225,13 @@ def quadrato(img: np.ndarray, lato: int) -> np.ndarray:
 
 
 DETTAGLI = 0.0   # peso in più dei colori scuri (--dettagli)
+PIENO = 0.45     # quota di figura che un pixel piccolo deve coprire (--pieno)
 
 
 def riduci_a(a: np.ndarray, lato: int, pal: np.ndarray, n_base: int) -> np.ndarray:
     """La figura dentro `lato` pixel compreso il contorno."""
     f = max(a.shape[0], a.shape[1]) / (lato - 2)
-    return quadrato(pixela.riduci(a, f, pal, n_base, DETTAGLI)[:lato, :lato], lato)
+    return quadrato(pixela.riduci(a, f, pal, n_base, DETTAGLI, PIENO)[:lato, :lato], lato)
 
 
 def anteprima(figure: list[np.ndarray], nomi: list[str], misure: list[int], pal: np.ndarray, n_base: int,
@@ -222,17 +270,21 @@ def main() -> None:
     ap.add_argument("--colori", type=int, default=12, help="colori per ogni pezzo")
     ap.add_argument("--misure", default="", help="misure dell'anteprima, es. 12,16,20 (vuoto = solo --lato)")
     ap.add_argument("--griglia", default="", help="colonne x righe, es. 6x3: unisce i pezzi di ogni cella")
+    ap.add_argument("--pieno", type=float, default=0.45,
+                    help="quota di figura per tenere un pixel: meno (0.25) tiene le aste sottili delle armi")
     ap.add_argument("--dettagli", type=float, default=0.0,
                     help="peso in più dei dettagli scuri (occhi, bocca), es. 1.5 per i ritratti")
     ap.add_argument("--tieni-contorno", action="store_true", help="non togliere il contorno scuro del disegno")
     args = ap.parse_args()
 
-    global DETTAGLI
+    global DETTAGLI, PIENO
     DETTAGLI = args.dettagli
+    PIENO = args.pieno
     nomi = [n.strip() for n in args.nomi.split(",") if n.strip()]
     a = togli_magenta(Image.open(args.file))
     if args.griglia:
         c, r = (int(x) for x in args.griglia.lower().split("x"))
+        togli_scritte(a, a.shape[0] / r)
         trovati = pezzi_griglia(a, c, r)
     else:
         trovati = pezzi(a)

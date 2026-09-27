@@ -71,6 +71,10 @@ static func pal(material: String) -> Array[Color]:
 static func make(shape: String, material: String) -> Image:
 	var im := Px.img(S, S)
 	var p := pal(material)
+	# voce 105: la forma disegnata con Nano Banana (arte/forme/<forma>.png), se c'è, colorata con il materiale
+	var drawn := IconTemplates.make(shape, p)
+	if drawn != null:
+		return drawn
 	match shape:
 		"piccone":
 			_handle(im, Vector2(2.5, 13.5), Vector2(10.0, 6.0))
@@ -399,3 +403,4 @@ static func _clod(im: Image, p: Array[Color]) -> void:
 			if d.length() <= 1.0 + wob:
 				var t := 0.6 - d.x * 0.25 - d.y * 0.4
 				Px.put(im, x, y, p[clampi(int(t * p.size()), 0, p.size() - 1)])
+
