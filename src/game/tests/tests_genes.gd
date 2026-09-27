@@ -272,7 +272,11 @@ func aiuole() -> void:
 	sp.toggle()
 	await kit.frames(6)
 	await kit.save("84_semenzaio")
-	print("Semenzaio: mondi nella rete %d, titolo «%s»" % [ai.network().size(), sp._title.text])
+	var on_top: bool = sp.get_index() == m.hud.get_child_count() - 1    # sopra ogni scritta dell'HUD (riga dell'Albero)
+	print("Semenzaio: mondi nella rete %d, titolo «%s», sopra le scritte dell'HUD %s" % [ai.network().size(), sp._title.text,
+		"sì" if on_top else "NO"])
+	if not on_top:
+		print("ATTENZIONE: il Semenzaio aperto ha scritte dell'HUD sopra di sé")
 	sp.toggle()
 	# chiudere il mondo dell'Aiuola: torna Aiuola, il Seme dormiente torna con lo stesso genoma
 	var before: int = m.character.bisaccia.count(Genome.item_of(g))

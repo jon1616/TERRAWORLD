@@ -108,6 +108,20 @@ func select(k: int) -> void:
 	selected.emit(current())
 
 
+## Un pannello a schermo intero aperto (Semenzaio, Erbario, Albero-Madre, mappa…) sta in cima all'HUD, sopra ogni
+## scritta: aggiunto prima di altre (la riga dell'Albero-Madre) restava sotto di loro e le scritte gli passavano sopra
+## (28 set 2026, segnalato dall'utente con il Semenzaio).
+func _process(_dt: float) -> void:
+	var last := get_child(get_child_count() - 1)
+	for o in overlays:
+		if o.visible:
+			if o != last:
+				move_child(o, -1)
+			return
+	if map != null and map.visible and map != last:
+		move_child(map, -1)
+
+
 func is_open() -> bool:
 	if panel.visible or (map != null and map.visible):
 		return true
