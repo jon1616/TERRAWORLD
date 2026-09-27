@@ -56,6 +56,10 @@ static func text(portal: Portal, o: Vector2i) -> String:
 			var sig: Dictionary = SignaturesData.SIGNATURES.get(String(f.get("id", "")), {})
 			t += "[color=#c8a0ff]Firma[/color]: %s\n" % (("%s — trovata" % sig.get("name", "?")) if f.get("trovata", false)
 				else "non ancora trovata (%s)" % _where(String(sig.get("where", ""))))
+		# voce 95: i segreti
+		var sgc := Secrets.counts_of(meta)
+		if int(sgc[1]) > 0:
+			t += "[color=#8ef0d8]Segreti[/color]: trovati %d su %d\n" % [sgc[0], sgc[1]]
 	# geni
 	t += "\n" + Genome.sheet({"geni": genes, "vigore": vigor})
 	return t + _footer()

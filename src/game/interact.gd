@@ -53,6 +53,8 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 		"secchio_pieno":
 			return m.liquids.empty_bucket(c, id)
 		"mappa":
+			if id == "eco_seminatori":
+				return m.secrets.use_echo(id)          # voce 95
 			if id == "mappa_sigilli":
 				return _seal_hint(id)                  # voce 65
 			if id == "mappa_firma":

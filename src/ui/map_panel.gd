@@ -167,6 +167,11 @@ func _draw() -> void:
 		draw_string(ThemeDB.fallback_font, sc + Vector2(11, 5), String(sg[2]), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, col)
 	_mark(Vector2(w.spawn), MARK["spawn"], 6.0)
 	_mark(m.player.position / 16.0, MARK["player"], 7.0)
+	# voce 95: il contatore dei segreti
+	if m.secrets != null and m.secrets.counts()[1] > 0:
+		var sc2: Array = m.secrets.counts()
+		draw_string(ThemeDB.fallback_font, Vector2(18, size.y - 18), "Segreti trovati: %d su %d" % [sc2[0], sc2[1]],
+			HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color("#ffd24a") if sc2[0] == sc2[1] else Color("#8ef0d8"))
 
 
 func _mark(c: Vector2, col: Color, r: float) -> void:

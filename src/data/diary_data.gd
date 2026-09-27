@@ -11,6 +11,8 @@ const FIRSTS := {
 	"raccolti": "Primo raccolto",
 	"scrigni": "Primo Scrigno dei Seminatori aperto",
 	"reliquiari": "Primo reliquiario trovato",
+	"segreti": "Primo segreto trovato",
+	"mondi_completi": "Primo mondo con tutti i segreti trovati",
 	"innesti": "Primo innesto su un'arma o un'armatura",
 	"geni_imparati": "Primo gene imparato",
 	"mutazioni": "Primo Seme mutato all'Innestatrice",

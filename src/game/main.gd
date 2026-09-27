@@ -79,6 +79,7 @@ var traps: Traps
 var farms: Farms
 var flight: Flight
 var harsh: Harshness
+var secrets: Secrets
 var board: Board
 var storage: Storage
 var herd: Herd
@@ -333,6 +334,7 @@ func _build() -> void:
 	farms = _mount(Farms.new())            # voce 89: le farm automatiche
 	flight = _mount(Flight.new())          # voce 90: le ali
 	harsh = _mount(Harshness.new())        # voce 93: i rigori delle terre estreme
+	secrets = _mount(Secrets.new())        # voce 95: i segreti del mondo
 	var hb := HarshBar.new()
 	hud.add_child(hb)
 	hb.setup(harsh)

@@ -140,6 +140,16 @@ static func inline(key: String) -> String:
 				rows.append(_b(String(pd["name"]), "%s · nei mondi con %s · %s" % [pd["banner"], " o ".join(gn),
 					"in superficie" if pd.get("surface", false) else "nello strato «%s»" % StrataData.STRATA[int(pd["strata"][0])]["name"]],
 					String(pd["color"])))
+		"cat_segreti":
+			for g in SecretsData.GRADES.size():
+				var gd: Dictionary = SecretsData.GRADES[g]
+				var kinds := []
+				for k in SecretsData.KINDS:
+					if int(SecretsData.KINDS[k]["grade"]) == g:
+						kinds.append(String(SecretsData.KINDS[k]["name"]))
+				rows.append(_b(String(gd["name"]).capitalize(), "%s · premio: %d Lumini e il bottino %s%s" % [", ".join(kinds),
+					int(gd["lumini"]), ["delle rovine vicine", "delle rovine", "delle rovine profonde", "più ricco del profondo"][g],
+					(", a volte un oggetto unico" if float(gd["unique"]) > 0.0 else "")], String(gd["color"])))
 		"cat_rigori":
 			for b in BiomesData.BIOMES:
 				if not b.has("harsh"):

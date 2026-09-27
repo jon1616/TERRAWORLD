@@ -46,6 +46,7 @@ static func passes() -> Array[GenPass]:
 		PassCatene.new(),
 		PassStele.new(),
 		PassAcqua.new(),
+		PassSegreti.new(),                  # voce 95: l'elenco dei segreti (non usa il caso, non sposta nulla)
 		PassPartenza.new(),
 	]
 

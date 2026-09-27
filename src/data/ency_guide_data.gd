@@ -129,6 +129,11 @@ Un [b]Focolare[/b] con un Letto di foglie libero vicino chiama un [url=cap:abita
 Le casse hanno dei [b]gradi[/b]: più il materiale è raro, più caselle. Le prime si fanno al Ceppo, le altre al Maglio; gli scrigni dei Seminatori si trovano soltanto, pieni, nelle rovine (più grandi più si scende) e, vuoti, si portano via e si riusano.
 {cat_casse}
 Quanti oggetti uguali stanno in una casella lo decidi nelle [url=cap:opzioni]Opzioni[/url] (Gioco → Grandezza delle pile): da un quarto del normale fino a pile infinite."""},
+	{"id": "segreti", "group": "Il mondo", "name": "I segreti", "text":
+"""Ogni mondo nasce con i suoi [b]segreti[/b]: posti nascosti che nessun sentiero porta a vedere. Entrando in un mondo un avviso dice quanti sono; il contatore («trovati 4 su 13») è sulla mappa (M), nella scheda del portale e nel Semenzaio. Un mondo non è finito finché il contatore non è pieno.
+Un segreto si trova [b]entrandoci[/b]: il premio dipende dal grado.
+{cat_segreti}
+Per fiutarli: la [b]Bacchetta rabdomante[/b] (indossata o in mano: un anello attorno a te pulsa più in fretta più un segreto è vicino) e l'[b]Eco dei Seminatori[/b] (segna sulla mappa, a grandi linee, i tre più vicini). Anche le stele nella [url=cap:lingua]lingua dei Seminatori[/url] a volte indicano un luogo."""},
 	{"id": "rigori", "group": "Il mondo", "name": "Le terre estreme", "text":
 """Alcuni biomi non si attraversano a mani nude: allo scoperto una [b]barra del rigore[/b] sale (accanto a Vita e Linfa) e, piena, ferisce e toglie qualcosa. Scende altrove, sotto un tetto, accanto a un [b]Rifugio del viandante[/b] (un totem) o con il rimedio giusto.
 {cat_rigori}

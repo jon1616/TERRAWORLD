@@ -1796,13 +1796,21 @@ solo per mutazione (peso 0, gene `only: "mutazione"`): **Prati iridati** (Cervo 
 Con i tre cicli i biomi sono 25 (16 di superficie + 9 del sottosuolo). Piante in `RareDecorArt` (70-79). Prove
 `--solo=biomi_rari` (foto 166).
 
-## 95. [ ] Il sistema dei segreti (M) — fondamenta dei segreti
+## 95. [x] Il sistema dei segreti (M) — fondamenta dei segreti — fatto il 28 set 2026
 Ogni mondo nasce con una **lista di segreti** (piazzati dal generatore secondo i biomi e i geni) e un **contatore**
 («segreti trovati 4 su 13»: nella scheda del portale, sulla mappa, nel Semenzaio), così un mondo non è finito finché
 il contatore non è pieno. **Gradi** di segreto (facile, nascosto, profondo, leggendario) e **attrezzi per fiutarli**:
 la bacchetta rabdomante (vibra vicino a un segreto), l'Eco dei Seminatori (una mappa del suono), gli indizi nella
 lingua dei Seminatori (voce 68). Premi scritti a mano o dagli unici.
 **Pronto quando**: entrando in un mondo il giocatore sa quanti segreti ci sono e ha un modo per cercarli.
+Fatto il 28 set 2026: `SecretsData` (quattro gradi con il loro premio: Lumini, bottino delle rovine, a volte un
+oggetto unico; i tipi di segreto con il nome, il grado e gli appunti del generatore da cui nascono) e `PassSegreti`
+(senza caso, dopo tutte le passate: mette in fila reliquiari murati, stanze dei Sigilli, isole sospese, luoghi dei
+Seminatori e la firma; le voci 96-97 aggiungono i loro tipi). `Secrets`: l'elenco in `world_meta["segreti"]`,
+l'avviso entrando («Questo mondo ha 27 segreti»), il segreto si trova entrandoci (avviso, premio, conteggio, diario,
+«tutti i segreti di un mondo»); il contatore sulla mappa, nella scheda del portale e nel Semenzaio. Attrezzi: la
+**Bacchetta rabdomante** (anello che pulsa più in fretta vicino a un segreto) e l'**Eco dei Seminatori** (segna sulla
+mappa, a grandi linee, i tre più vicini). Due obiettivi, capitolo «I segreti», prove `--solo=segreti` (foto 167).
 
 ## 96. [ ] Segreti, primo ciclo: stanze e tesori (M)
 **Pareti finte** (tessere che sembrano roccia ma si attraversano o crollano al tocco), **stanze murate** con dentro

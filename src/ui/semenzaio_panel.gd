@@ -137,8 +137,10 @@ func refresh() -> void:
 		var id := String(w["id"])
 		var star := "★ " if id == m.world_id else ""
 		var f: Dictionary = w.get("firma", {})
-		var text := "%s%s   ·   %s%s" % [star, w.get("nome", id), "il Giardino" if id == home else "vigore %d" % int(w.get("vigore", 1)),
-			"   ·   firma trovata" if bool(f.get("trovata", false)) else ""]
+		var sgc := Secrets.counts_of(w)
+		var text := "%s%s   ·   %s%s%s" % [star, w.get("nome", id), "il Giardino" if id == home else "vigore %d" % int(w.get("vigore", 1)),
+			"   ·   firma trovata" if bool(f.get("trovata", false)) else "",
+			("   ·   segreti %d/%d" % [sgc[0], sgc[1]]) if int(sgc[1]) > 0 else ""]
 		_row(id, text, Color("#ffd08a") if id == selected else Color("#cfeee4"))
 	_show_world()
 
