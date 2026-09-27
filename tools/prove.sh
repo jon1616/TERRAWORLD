@@ -6,6 +6,7 @@
 set -u
 cd "$(dirname "$0")/.."
 G=/c/Users/Principale/Desktop/GODOT/Godot_v4.6.1-stable_win64_console.exe
+"$G" --headless --path . --import > /dev/null 2>&1      # prima: le classi nuove devono essere registrate
 bad=0
 for f in $( (git diff --name-only; git ls-files --others --exclude-standard) | grep '\.gd$' | sort -u); do
 	out=$("$G" --headless --path . --check-only --script "res://$f" 2>&1 | grep -a "ERROR" \
@@ -19,7 +20,6 @@ if [ $bad -ne 0 ]; then
 	echo "Controllo di sintassi: errori, prove NON lanciate."
 	exit 1
 fi
-"$G" --headless --path . --import > /dev/null 2>&1
 log=$(mktemp)
 start=$(date +%s)
 if [ "${1:-base}" = "tutto" ]; then

@@ -126,6 +126,19 @@ func _refresh() -> void:
 	selected.emit(current())
 
 
+## La Bisaccia aperta (con cassa o commercio) in cima all'ordine dei nodi, sopra le scritte dell'HUD, e la barra rapida
+## e gli avvisi sopra di lei. (28 set 2026: con il solo `z_index` il pannello si **disegnava** sopra gli obiettivi, ma i
+## clic seguono l'ordine dei nodi e la lista degli obiettivi, sotto il pannello, si prendeva i clic sulle ricette.)
+func bring_panel_forward() -> void:
+	move_child(panel, -1)
+	for c in get_children():
+		if c is ChestPanel or c is TradePanel:
+			move_child(c, -1)
+	for s in _slots:
+		move_child(s, -1)
+	move_child(_toast, -1)
+
+
 func _update_name() -> void:
 	_name.text = current()["name"]
 

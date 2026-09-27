@@ -168,6 +168,7 @@ func _ready() -> void:
 func toggle() -> void:
 	visible = not visible
 	if visible:
+		(get_parent() as Hud).bring_panel_forward()
 		_refresh()
 		crafting.refresh()
 		examine.refresh()

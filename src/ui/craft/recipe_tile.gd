@@ -39,7 +39,7 @@ func setup(recipe: Dictionary, b: Bisaccia) -> void:
 	focus_mode = Control.FOCUS_NONE
 	flat = true
 	Tips.attach(self, _tip)
-	gui_input.connect(_input)
+	gui_input.connect(_on_gui)
 
 
 ## I numeri secondo la Bisaccia di adesso: `possible` = si può fare, `have_n` i conteggi (Bisaccia e casse vicine).
@@ -63,7 +63,9 @@ func set_picked(on: bool) -> void:
 		queue_redraw()
 
 
-func _input(e: InputEvent) -> void:
+## I clic sulla casella. (Non chiamarla `_input`: quello è il metodo che il motore chiama per OGNI clic del gioco, e
+## con `accept_event` le mille caselle si mangiavano tutti i clic di tutti i menu, 28 set 2026.)
+func _on_gui(e: InputEvent) -> void:
 	if e is InputEventMouseButton and e.pressed and e.button_index == MOUSE_BUTTON_LEFT:
 		if e.double_click:
 			quick.emit(self, 1)

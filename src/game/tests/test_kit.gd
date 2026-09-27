@@ -51,6 +51,21 @@ func hover(at: Vector2) -> void:
 		await frames(2)
 
 
+## Un clic vero (sinistro) in un punto dello schermo di gioco: premuto e lasciato, come il mouse del giocatore.
+## (28 set 2026: le prove che chiamano le funzioni dei pulsanti direttamente non vedono chi si mangia i clic.)
+func click(at: Vector2) -> void:
+	await hover(at)
+	var win: Vector2 = node.get_viewport().get_final_transform() * at
+	for down in [true, false]:
+		var e := InputEventMouseButton.new()
+		e.button_index = MOUSE_BUTTON_LEFT
+		e.pressed = down
+		e.position = win
+		e.global_position = win
+		Input.parse_input_event(e)
+		await frames(2)
+
+
 func seconds(s: float) -> void:
 	var t0 := Time.get_ticks_msec()
 	while Time.get_ticks_msec() - t0 < int(s * 1000.0):

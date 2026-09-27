@@ -686,6 +686,12 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   può avere un'altra misura dello schermo di gioco (1600×900). Per i controlli si usa `TestKit.hover` (converte con
   `get_final_transform`); per le schede del mondo `Tips.mouse_at` (un punto fisso) (27 set 2026).
 
+- **Mai chiamare `_input` (o `_unhandled_input`) una funzione collegata a `gui_input`**: sono metodi che il motore
+  chiama per OGNI evento del gioco; con `accept_event` le mille caselle ricetta si mangiavano tutti i clic di tutti i
+  menu (28 set 2026). E `z_index` cambia solo il disegno: i clic seguono l'ordine dei nodi (`Hud.bring_panel_forward`).
+  Le prove che chiamano le funzioni dei pulsanti non vedono questi guasti: `TestsClicks` (nel gruppo «base») clicca
+  davvero con `TestKit.click`.
+
 ## Convenzioni
 
 - Tutto il testo visibile in italiano con accenti veri (à è ì ò ù).
