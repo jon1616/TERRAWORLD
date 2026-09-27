@@ -30,6 +30,7 @@ var plats := PackedByteArray()         # passerelle: 1 dove c'è una passerella 
 var liquid := PackedByteArray()
 ## Chiamata quando una tessera cambia (`set_tile`): i liquidi vicini si risvegliano (lo imposta `Liquids`).
 var on_change := Callable()
+var gen_rng: RandomNumberGenerator = null   # il caso del generatore mentre il mondo nasce (casse, vedi `chest_at`)
 var gen_notes := {}                    # gli appunti del generatore (`GenContext.notes`), solo per il mondo appena nato
 
 
@@ -232,6 +233,7 @@ func free_above(base: Vector2i, most: int) -> int:
 func chest_at(o: Vector2i) -> Bisaccia:
 	if not chests.has(o):
 		chests[o] = Bisaccia.new(int(StationsData.STATIONS[stations[o]].get("slots", 20)))
+		(chests[o] as Bisaccia).rng = gen_rng
 	return chests[o]
 
 

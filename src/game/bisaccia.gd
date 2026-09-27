@@ -20,6 +20,9 @@ const EQUIP_SLOTS := ["elmo", "corazza", "gambali", "guanti", "stivali", "mantel
 	"accessorio_2"]
 
 var slots: Array[Dictionary] = []
+## Il caso per i tratti e i genomi degli oggetti che entrano (null = il caso di sempre). Il generatore del mondo ci
+## mette il suo, così lo stesso seme riempie le casse sempre allo stesso modo.
+var rng: RandomNumberGenerator = null
 var equip := {}                        # "elmo"/"corazza"/"gambali"/"accessorio_N" -> id dell'oggetto indossato
 var equip_traits := {}                 # posto -> tratto del pezzo indossato ("" o assente = nessuno)
 var equip_data := {}                   # posto -> "dati" del pezzo indossato (voce 50)
@@ -95,11 +98,11 @@ func add(id: String, n: int) -> int:
 		if slots[i].is_empty():
 			var k := mini(cap, n)
 			slots[i] = {"id": id, "n": k}
-			var fresh := Genome.fresh_for_item(id)     # un Seme di mondo nasce con il suo genoma (voce 42)
+			var fresh := Genome.fresh_for_item(id, rng)     # un Seme di mondo nasce con il suo genoma (voce 42)
 			if not fresh.is_empty():
 				slots[i]["dati"] = fresh
 			if is_gear(id):
-				var t := TraitsData.roll(id)
+				var t := TraitsData.roll(id, rng)
 				if t != "":
 					slots[i]["tratto"] = t
 			n -= k

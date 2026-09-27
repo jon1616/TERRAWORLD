@@ -238,11 +238,13 @@ static func from_legacy(species: String, traits: Array, vigor_v: int) -> Diction
 
 
 ## Il genoma nuovo di un oggetto appena entrato nella Bisaccia ({} se non è un Seme di mondo).
-static func fresh_for_item(id: String) -> Dictionary:
+static func fresh_for_item(id: String, from: RandomNumberGenerator = null) -> Dictionary:
 	if String(ItemsData.get_item(id).get("kind", "")) != "seme_mondo":
 		return {}
-	var rng := RandomNumberGenerator.new()
-	rng.randomize()
+	var rng := from
+	if rng == null:
+		rng = RandomNumberGenerator.new()
+		rng.randomize()
 	return roll(rng, local_vigor, GenesData.of_item(id))
 
 

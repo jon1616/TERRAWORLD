@@ -70,9 +70,15 @@ static func generate(w: World, sd: int, width: int = WIDTH, height: int = HEIGHT
 	w.setup(width, height)
 	w.world_seed = sd
 	var times := []
+	w.gen_rng = c.rng
 	for p in (garden_passes() if params.get("giardino", false) else passes()):
 		var t0 := Time.get_ticks_usec()
+		c.begin(p.title())
 		p.run(w, c)
 		times.append([p.title(), (Time.get_ticks_usec() - t0) / 1000])
 	w.gen_notes = c.notes
+	# finito il mondo, le casse tornano al caso di sempre
+	w.gen_rng = null
+	for o in w.chests:
+		(w.chests[o] as Bisaccia).rng = null
 	return times

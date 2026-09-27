@@ -5,6 +5,7 @@ extends RefCounted
 
 var world_seed := 0
 var rng := RandomNumberGenerator.new()
+var pass_seed := 0                     # il seme della passata in corso (`begin`)
 var params := {
 	"surface_base": 0.27,       # altezza media della superficie, in frazione dell'altezza del mondo
 	"hills": 55.0,              # ampiezza delle colline grandi, in tessere
@@ -19,6 +20,21 @@ var notes := {}
 func _init(sd: int) -> void:
 	world_seed = sd
 	rng.seed = sd
+
+
+## Prima di ogni passata: il generatore casuale riparte da un seme suo, ricavato dal seme del mondo e dal nome della
+## passata (pulizia del generatore, 28 set 2026). Così cambiare una passata non sposta più ciò che fanno le altre.
+func begin(pass_name: String) -> void:
+	pass_seed = ("%d|%s" % [world_seed, pass_name]).hash()
+	rng.seed = pass_seed
+
+
+## Un generatore casuale per una fascia di righe di una passata (vedi `GenBands`): lo stesso risultato sia che le
+## fasce si facciano una alla volta, sia su più processori insieme.
+func band_rng(band: int) -> RandomNumberGenerator:
+	var r := RandomNumberGenerator.new()
+	r.seed = ("%d|%d" % [pass_seed, band]).hash()
+	return r
 
 
 ## La somma degli effetti dei geni sul generatore (calcolata una volta sola).
