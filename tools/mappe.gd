@@ -41,6 +41,11 @@ func _init() -> void:
 		print("seme %d: %d ms · aria sotto terra %d%% · radicite %d · legnoferro %d · ambra %d · cristalli %d · torce %d · alberi %d" % [
 			sd, ms, counts["cave"], counts[TileDefs.RADICITE], counts[TileDefs.LEGNOFERRO], counts[TileDefs.AMBRA],
 			counts[TileDefs.CRYSTAL], w.torches.size(), counts["trees"]])
+		var col: Dictionary = w.gen_notes.get("collaudo", {})
+		var probs: Array = col.get("problemi", [])
+		var fixd: Array = col.get("riparati", [])
+		print("   collaudo: %d problemi, %d riparazioni%s" % [probs.size(), fixd.size(),
+			("\n      " + "\n      ".join(PackedStringArray(probs + fixd))) if not (probs + fixd).is_empty() else ""])
 		if not genes.is_empty():
 			print("   geni: %s" % ", ".join(genes.map(func(g: String) -> String: return String(GenesData.info(g)["name"]))))
 		prints.append(_fingerprint(w))

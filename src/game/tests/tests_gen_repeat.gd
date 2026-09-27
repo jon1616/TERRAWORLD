@@ -3,7 +3,8 @@ extends RefCounted
 ## La ripetibilità del generatore (28 set 2026): lo stesso seme deve dare sempre lo stesso mondo, in ogni parte (tessere,
 ## pareti, decorazioni, liquidi, stazioni, alberi, casse…). Il mondo si fa due volte: una con le passate a fasce su più
 ## processori (`GenBands`, come nel gioco) e una dentro il gruppo di thread, dove le fasce si fanno una alla volta
-## (come nelle prove). Trovò subito un guasto: le casse si riempivano con il caso globale. Fa parte del gruppo «base».
+## (come nelle prove). Trovò subito un guasto: le casse si riempivano con il caso globale. Legge anche il collaudo del
+## mondo (`PassCollaudo`). Fa parte del gruppo «base».
 
 const SEED := 4242
 const PARAMS := {"vigore": 3, "geni": []}
@@ -40,3 +41,10 @@ func run() -> void:
 		t_par, t_seq, "identico in tutto" if diff.is_empty() else "DIVERSO in %s" % [diff]])
 	if not diff.is_empty():
 		print("ATTENZIONE: il generatore non dà lo stesso mondo con lo stesso seme")
+	# il collaudatore (`PassCollaudo`): strutture sovrapposte, Cuore, firma, partenza, stazioni
+	var col: Dictionary = a.gen_notes.get("collaudo", {})
+	var probs: Array = col.get("problemi", [])
+	print("collaudo del mondo: %d problemi %s, %d riparazioni %s" % [probs.size(), probs, (col.get("riparati", []) as Array).size(),
+		col.get("riparati", [])])
+	if not probs.is_empty() or not col.has("problemi"):
+		print("ATTENZIONE: il collaudatore ha trovato problemi nel mondo")

@@ -71,3 +71,4 @@ func run(w: World, c: GenContext) -> void:
 	var o := Vector2i(cx - 1, cy + FLOOR - 3)
 	w.stations[o] = "cuore_mondo"
 	c.notes["cuore"] = Vector2i(cx, cy)
+	c.claim(Rect2i(cx - RX - 30, cy - RY - 5, 2 * RX + 61, 2 * RY + 11), "cuore")   # la cupola e le gallerie

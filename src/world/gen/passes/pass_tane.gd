@@ -26,9 +26,11 @@ func run(w: World, c: GenContext) -> void:
 			if kd.has("biome") and String(BiomesData.BIOMES[BiomesData.at(w, x)]["id"]) != String(kd["biome"]):
 				continue                           # voce 56: i Custodi dei biomi, solo nel loro bioma
 			var y := w.surface[x] + c.rng.randi_range(top, maxi(top + 1, bottom))
-			if y + H / 2 + 4 >= w.h or not _far(w, Vector2i(x, y)):
+			var den := Rect2i(x - W / 2 - 3, y - H / 2 - 3, W + 6, H + 6)
+			if y + H / 2 + 4 >= w.h or not _far(w, Vector2i(x, y)) or not c.is_free(den):
 				continue
 			_carve(w, c, Vector2i(x, y), st, int(kd["lair"]))
+			c.claim(den, "tana")
 			var o := Vector2i(x - 1, y + H / 2 - 4)       # il bozzolo (3×3) poggia sul pavimento della tana
 			w.stations[o] = "bozzolo_" + k
 			dens[k] = o

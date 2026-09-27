@@ -50,6 +50,7 @@ static func passes() -> Array[GenPass]:
 		PassSegretiAnomalie.new(),          # voce 97: camere-enigma, anomalie, visioni
 		PassSegreti.new(),                  # voce 95: l'elenco dei segreti (non usa il caso, non sposta nulla)
 		PassPartenza.new(),
+		PassCollaudo.new(),                 # l'ultima: controlla le promesse del mondo e ripara ciò che può
 	]
 
 
@@ -60,6 +61,7 @@ static func garden_passes() -> Array[GenPass]:
 		PassAlberi.new(),
 		PassDecorazioni.new(),
 		PassGiardinoRifinitura.new(),
+		PassCollaudo.new(),
 	]
 
 

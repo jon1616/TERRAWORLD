@@ -41,7 +41,11 @@ func run(w: World, c: GenContext) -> void:
 				continue
 			if StrataData.at(w, x, y) != s:
 				continue
+			var room := Rect2i(x - 2, y - 10, 22, 13)        # la stanza più grande possibile (18×8 più il guscio)
+			if not c.is_free(room):
+				continue
 			_build(w, rng, p, s, int(c.genes()["rich"]))       # gene «Rovine sepolte» (voce 43)
+			c.claim(room, "rovina")
 			placed.append(p)
 			done += 1
 	c.notes["rovine"] = placed
@@ -115,6 +119,10 @@ func _city(w: World, c: GenContext) -> Vector2i:
 		var y0 := w.surface[x] + StrataData.top(2) + 40
 		if y0 + 3 * (rh + 3) > w.h - 30:
 			continue
+		var area := Rect2i(x - 2, y0 - rh - 3, 4 * (rw + 1) + 4, 3 * (rh + 3) + 4)
+		if not c.is_free(area):
+			continue
+		c.claim(area, "città")
 		for row in 3:
 			for col in 4:
 				var p := Vector2i(x + col * (rw + 1), y0 + row * (rh + 3))

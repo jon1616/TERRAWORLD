@@ -15,12 +15,16 @@ const VISIONS := 3
 var _rng := RandomNumberGenerator.new()
 
 
+var _c: GenContext                      # la mappa dei posti (`GenContext.claim`)
+
+
 func title() -> String:
 	return "Camere e anomalie"
 
 
 func run(w: World, c: GenContext) -> void:
 	_rng.seed = hash([c.world_seed, "segreti_anomalie"])
+	_c = c
 	var cams := []
 	for id in CAMERE:
 		for k in 200:
@@ -62,9 +66,13 @@ func _spot(w: World, id: String) -> Vector2i:
 		for xx in range(x - 2, x + gw + 2):
 			if not w.inside(xx, yy) or not w.solid(xx, yy) or w.tile(xx, yy) in [TileDefs.NODO, TileDefs.PIETRA_SEM, TileDefs.PORTA_SEM] 					or w.walls[yy * w.w + xx] == TileDefs.WALL_SEM:
 				return Vector2i(-1, -1)
+	var area := Rect2i(x - 4, y - 4, gw + 8, gh + 8)
+	if not _c.is_free(area):
+		return Vector2i(-1, -1)
 	for o in w.stations:
-		if Rect2i(x - 4, y - 4, gw + 8, gh + 8).has_point(o):
+		if area.has_point(o):
 			return Vector2i(-1, -1)
+	_c.claim(area, "camera")
 	return Vector2i(x, y)
 
 
@@ -76,10 +84,14 @@ func _vision(w: World) -> Array:
 		y += 1
 	if not w.inside(x, y + 1) or y - w.surface[x] > StrataData.top(4):
 		return []
+	var area := Rect2i(x - 3, y - 3, 7, 5)
+	if not _c.is_free(area):
+		return []
 	# un pavimento di grotta largo 5
 	for dx in range(-2, 3):
 		if w.solid(x + dx, y) or w.solid(x + dx, y - 1) or not w.solid(x + dx, y + 1) 				or w.walls[y * w.w + x + dx] == TileDefs.WALL_SEM:     # non dentro i luoghi e le rovine
 			return []
+	_c.claim(area, "visione")
 	for dx in range(-2, 3):
 		w.set_tile(x + dx, y + 1, TileDefs.PIETRA_SEM)
 		if absi(dx) == 2:
@@ -96,6 +108,10 @@ func _anomaly(w: World, c: GenContext, kind: String) -> Array:
 	for dx in range(-6, 7):
 		if absi(w.surface[x + dx] - s) > 2:
 			return []
+	var area := Rect2i(x - 7, s - 36, 15, 42)           # la più grande delle anomalie (la bolla sale di 34)
+	if not _c.is_free(area):
+		return []
+	_c.claim(area, "anomalia")
 	match kind:
 		"bolla":
 			var cur: Array = c.notes.get("correnti", [])

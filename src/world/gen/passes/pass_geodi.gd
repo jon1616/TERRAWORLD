@@ -24,9 +24,11 @@ func run(w: World, c: GenContext) -> void:
 		var st := 2 if rng.randf() < 0.55 else 3
 		var y := w.surface[x] + rng.randi_range(StrataData.top(st) + 10, StrataData.top(st + 1) - 10)
 		var r := rng.randi_range(R_MIN, R_MAX)
-		if y + r + 2 >= w.h or not _solid_ball(w, Vector2i(x, y), r + 1):
+		var ball := Rect2i(x - r - 1, y - r - 1, 2 * r + 3, 2 * r + 3)
+		if y + r + 2 >= w.h or not c.is_free(ball) or not _solid_ball(w, Vector2i(x, y), r + 1):
 			continue
 		_build(w, Vector2i(x, y), r, st, rng)
+		c.claim(ball, "geode")
 		made += 1
 	c.notes["geodi"] = made
 

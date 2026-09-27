@@ -16,6 +16,10 @@ var _gen := {}
 var _off := PackedInt32Array()
 ## Appunti che una passata lascia alle successive (es. le uscite delle gallerie d'ingresso).
 var notes := {}
+## La mappa dei posti occupati (pulizia del generatore, 28 set 2026): ogni struttura costruita annota il suo rettangolo
+## con `claim`, e chi cerca un posto chiede `is_free` prima di costruire. Così nessuna struttura ne schiaccia un'altra
+## (prima ogni passata guardava solo la roccia, e la pietra dei Seminatori di una stanza sembrava «roccia piena»).
+var claims: Array = []                 # [Rect2i, chi]
 
 
 func _init(sd: int) -> void:
@@ -54,6 +58,19 @@ func strata_tops() -> PackedInt32Array:
 	for st in StrataData.STRATA:
 		tops.append(int(st["top"]))
 	return tops
+
+
+## Annota il rettangolo di una struttura appena costruita.
+func claim(r: Rect2i, who: String) -> void:
+	claims.append([r, who])
+
+
+## Il rettangolo non tocca nessuna struttura già costruita.
+func is_free(r: Rect2i) -> bool:
+	for cl in claims:
+		if (cl[0] as Rect2i).intersects(r):
+			return false
+	return true
 
 
 ## La somma degli effetti dei geni sul generatore (calcolata una volta sola).

@@ -35,9 +35,11 @@ func run(w: World, c: GenContext) -> void:
 		for q in placed:
 			if absi(q.x - p.x) < 70:
 				far = false
-		if not far:
+		var isle := Rect2i(x - half - 2, top - 6, 2 * half + 5, 16)
+		if not far or not c.is_free(isle):
 			continue
 		_island(w, c, p, half, placed.size() % 3 == 0)
+		c.claim(isle, "isola")
 		placed.append(p)
 	c.notes["isole"] = placed
 

@@ -45,8 +45,10 @@ func _place(w: World, c: GenContext) -> Vector2i:
 		var y := w.surface[x] + rng.randi_range(t0 + 10, t1 - 10)
 		if y + 4 >= w.h or Vector2(Vector2i(x, y) - cuore).length() < 90.0:
 			continue
-		if _busy(w, x, y):
+		var crypt := Rect2i(x - 2, y - RH - 2, RW + 4, RH + 4)
+		if _busy(w, x, y) or not c.is_free(crypt):
 			continue
+		c.claim(crypt, "cripta")
 		for yy in range(y - RH - 1, y + 2):
 			for xx in range(x - 1, x + RW + 1):
 				var shell := yy == y - RH - 1 or yy == y + 1 or xx == x - 1 or xx == x + RW

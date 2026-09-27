@@ -31,10 +31,14 @@ func run(w: World, c: GenContext) -> void:
 			ctr.y += c.rng.randi_range(t0 + 30, maxi(t1 - 30, t0 + 31))
 			if ctr.y > w.h - 40:
 				continue
+		var area := Rect2i(ctr.x - 35, ctr.y - 60, 70, 95)        # il luogo unico più grande, con il suo scrigno
+		if not c.is_free(area):
+			continue
 		var chest: Vector2i = call("_" + id, w, c, ctr)
 		if chest.x < 0:
 			continue
 		_fill_chest(w, c, chest, id)
+		c.claim(area, "firma")
 		c.notes["firma"] = {"id": id, "x": ctr.x, "y": ctr.y, "scrigno": chest}
 		return
 	c.notes["firma"] = {}

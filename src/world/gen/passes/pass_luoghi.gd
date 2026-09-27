@@ -56,8 +56,10 @@ func _find(w: World, c: GenContext, id: String) -> Vector2i:
 			y = w.surface[x] + c.rng.randi_range(t0 + 4, maxi(t1 - gh - 4, t0 + 5))
 		if y < 4 or y + gh + 2 >= w.h:
 			continue
-		if Vector2(Vector2i(x + gw / 2, y) - cuore).length() < 80.0 or _busy(w, Rect2i(x - 3, y - 3, gw + 6, gh + 6)):
+		var area := Rect2i(x - 3, y - 3, gw + 6, gh + 6)
+		if Vector2(Vector2i(x + gw / 2, y) - cuore).length() < 80.0 or _busy(w, area) or not c.is_free(area):
 			continue
+		c.claim(area, "luogo")
 		return Vector2i(x, y)
 	return Vector2i(-1, -1)
 

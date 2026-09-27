@@ -35,9 +35,11 @@ func run(w: World, c: GenContext) -> void:
 			var t0 := StrataData.top(int(k[1]))
 			var t1 := StrataData.top(int(k[1]) + 1) if int(k[1]) + 1 < StrataData.STRATA.size() else t0 + 150
 			var y := w.surface[x] + rng.randi_range(t0 + 8, maxi(t1 - 8, t0 + 9))
-			if y + H + 2 >= w.h - 4 or not _free(w, x - 1, y - 1, W + 2, H + 2):
+			var vault := Rect2i(x - 2, y - 2, W + 4, H + 4)
+			if y + H + 2 >= w.h - 4 or not c.is_free(vault) or not _free(w, x - 1, y - 1, W + 2, H + 2):
 				continue
 			_vault(w, x, y, tile, String(k[0]), int(k[1]), rng)
+			c.claim(vault, "sigillo")
 			out.append([k[0], Vector2i(x + W / 2, y + H / 2)])
 			got += 1
 	# i nidi alti: isolotti nel cielo con uno scrigno (Salto delle spore e Radici-ponte)
@@ -49,8 +51,10 @@ func run(w: World, c: GenContext) -> void:
 		if absi(x - w.spawn.x) < 150:
 			continue
 		var y := w.surface[x] - rng.randi_range(30, 40)
-		if y < 12:
+		var nest := Rect2i(x - 5, y - 4, 11, 7)
+		if y < 12 or not c.is_free(nest) or not _open_sky(w, nest):
 			continue
+		c.claim(nest, "nido alto")
 		for dx in range(-4, 5):
 			w.set_tile(x + dx, y, TileDefs.PIETRA_SEM)
 			if absi(dx) < 3:
@@ -92,3 +96,12 @@ func _fill(w: World, o: Vector2i, stratum: int, rng: RandomNumberGenerator) -> v
 	var loot := LootData.roll_chest("rovina_%d" % clampi(maxi(stratum, 1), 1, 4), rng, 2)
 	for id in loot:
 		chest.add(id, int(loot[id]))
+
+
+## Tutta aria (il nido alto sta nel cielo: non dentro il tetto del Guscio o una scogliera, dove lo scrigno restava murato).
+func _open_sky(w: World, r: Rect2i) -> bool:
+	for y in range(r.position.y, r.end.y):
+		for x in range(r.position.x, r.end.x):
+			if not w.inside(x, y) or w.solid(x, y):
+				return false
+	return true

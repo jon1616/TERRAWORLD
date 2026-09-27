@@ -20,12 +20,16 @@ const NESTS := 4
 var _rng := RandomNumberGenerator.new()
 
 
+var _c: GenContext                      # la mappa dei posti (`GenContext.claim`)
+
+
 func title() -> String:
 	return "Stanze segrete"
 
 
 func run(w: World, c: GenContext) -> void:
 	_rng.seed = hash([c.world_seed, "segreti_stanze"])
+	_c = c
 	var rooms := []
 	var chests := []
 	for k in ROOMS * 12:
@@ -89,8 +93,10 @@ func _room(w: World) -> Array:
 	# la stanza (6×4 d'aria) a 2 tessere dalla grotta, con il suo guscio di roccia
 	var x0 := cave.x + dir * 3 if dir > 0 else cave.x - 3 - 7
 	var y0 := cave.y - 3
-	if not _solid_box(w, x0 - 1, y0 - 1, 9, 7):
+	var area := Rect2i(x0 - 2, y0 - 2, 10, 8).merge(Rect2i(cave.x - 1, cave.y - 2, 3, 4))
+	if not _c.is_free(area) or not _solid_box(w, x0 - 1, y0 - 1, 9, 7):
 		return []
+	_c.claim(area, "stanza murata")
 	for y in range(y0, y0 + 4):
 		for x in range(x0, x0 + 6):
 			w.set_tile(x, y, TileDefs.AIR)
@@ -135,6 +141,9 @@ func _passage(w: World) -> Array:
 		return []
 	var xs := mini(a.x, b.x) + 1
 	var xe := maxi(a.x, b.x) - 1
+	var area := Rect2i(xs - 1, a.y - 2, xe - xs + 3, 4)
+	if not _c.is_free(area):
+		return []
 	for xx in range(xs, xe + 1):
 		for y in [a.y - 1, a.y]:
 			if w.walls[y * w.w + xx] == TileDefs.WALL_SEM or w.tile(xx, y) in [TileDefs.PIETRA_SEM, TileDefs.PORTA_SEM, TileDefs.NODO]:
@@ -144,6 +153,7 @@ func _passage(w: World) -> Array:
 			var end := xx == xs or xx == xe
 			w.set_tile(xx, y, TileDefs.FINTA if end else TileDefs.AIR)
 			w.walls[y * w.w + xx] = TileDefs.WALL_STONE
+	_c.claim(area, "passaggio")
 	return [xs + 1, a.y - 1, maxi(xe - xs - 1, 1), 2]
 
 
@@ -154,8 +164,10 @@ func _treasure(w: World, chests: Array) -> Array:
 	if absi(x - w.spawn.x) < 80:
 		return []
 	var y := w.surface[x] + _rng.randi_range(5, 9)
-	if not _solid_box(w, x - 1, y - 1, 4, 4):
+	var area := Rect2i(x - 2, y - 3, 5, 5)
+	if not _c.is_free(area) or not _solid_box(w, x - 1, y - 1, 4, 4):
 		return []
+	_c.claim(area, "tesoro")
 	w.set_tile(x, y, TileDefs.AIR)
 	w.set_tile(x + 1, y, TileDefs.AIR)
 	w.set_tile(x, y - 1, TileDefs.AIR)
@@ -176,8 +188,10 @@ func _treasure(w: World, chests: Array) -> Array:
 func _nest(w: World) -> Array:
 	var x := _rng.randi_range(60, w.w - 61)
 	var y := w.surface[x] + _rng.randi_range(40, 380)
-	if not _solid_box(w, x - 5, y - 4, 11, 9):
+	var area := Rect2i(x - 5, y - 4, 11, 9)
+	if not _c.is_free(area) or not _solid_box(w, x - 5, y - 4, 11, 9):
 		return []
+	_c.claim(area, "nido nascosto")
 	for yy in range(y - 2, y + 3):
 		for xx in range(x - 3, x + 4):
 			if Vector2(xx - x, (yy - y) * 1.3).length() <= 3.2:

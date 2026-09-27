@@ -27,9 +27,11 @@ func run(w: World, c: GenContext) -> void:
 				if bottom - top < 10:
 					continue
 				var y := rng.randi_range(top, bottom - RH - 3)
-				if not _solid_block(w, x - 1, y - 1, RW + 2, RH + 2) or not _far(w, Vector2i(x, y)):
+				var box := Rect2i(x - 2, y - 2, RW + 4, RH + 4)
+				if not c.is_free(box) or not _solid_block(w, x - 1, y - 1, RW + 2, RH + 2) or not _far(w, Vector2i(x, y)):
 					continue
 				var o := _build(w, Vector2i(x, y), st, String(relic), rng)
+				c.claim(box, "nascondiglio")
 				out.append({"origin": o, "relic": relic})
 				break
 	c.notes["nascondigli"] = out

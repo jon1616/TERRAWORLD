@@ -49,7 +49,8 @@ func run(w: World, c: GenContext) -> void:
 					y += 1
 			var size: Array = StationsData.STATIONS[kind]["size"]
 			var o := Vector2i(x, y - int(size[1]) + 1)
-			if not w.station_fits(kind, o):
+			var spot := Rect2i(o.x - 1, o.y - 1, int(size[0]) + 2, int(size[1]) + 2)
+			if not w.station_fits(kind, o) or not c.is_free(spot):
 				continue
 			var far := true
 			for q in placed:
@@ -62,6 +63,7 @@ func run(w: World, c: GenContext) -> void:
 				for dx in size[0]:
 					w.set_decor(o.x + dx, o.y + dy, 0)
 			w.stations[o] = kind
+			c.claim(spot, "nido")
 			out["%d,%d" % [o.x, o.y]] = f
 			placed.append(o)
 			got += 1
