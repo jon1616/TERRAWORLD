@@ -5,6 +5,23 @@ Scritto il 27 set 2026, a Roadmap 5-11 finite, per discuterne insieme. Parto da 
 tanto trovare *ciò che non ci si aspetta*. Ogni voce dice il problema, la proposta, cosa **moltiplica** (la regola
 «moltiplicare, non sommare») e quanto costa (S piccola, M media, L grande).
 
+## Aggiornamento del 28 set 2026 (dopo la Roadmap 12 e la pulizia del codice)
+
+Cosa è già stato fatto di questa lista, e cosa resta aperto:
+- **1. Partite vere e bilancio** — in parte: il diario della partita e `tools/bilancio.gd` ci sono (voci 83 e 99),
+  il vigore e i costi delle ricette sono stati riequilibrati. **Manca il diario delle partite vere** dell'utente.
+- **7. Contenuti scritti a mano** — in gran parte: 151 oggetti unici in serie, camere-enigma, visioni, anomalie,
+  creature nascoste (voci 95-98). Restano la storia di ogni abitante e i Guardiani scritti ogni 5 gradi.
+- **11. Ordine del codice** — fatto: biomi in un formato solo, `main.gd`, `fauna.gd` e `crafting_panel.gd` divisi
+  (`MainBoot`, `FaunaExtra`, `CraftLayout`), `tools/impronta.gd` per verificare che un riordino non cambi il gioco,
+  il giro intero prepara in anticipo i mondi delle prove pesanti. Resta: la versione stabile con le migrazioni prima
+  di dare il gioco agli amici.
+- **Ancora aperte**: 2 (prima ora e apertura progressiva), 3 (Consigliere dei Semi), 4 (combattimento più leggibile),
+  5 (mondi che si parlano), 6 (il Giardino come casa che cresce), 8 (tenere in ordine il bottino), 9 (preparare la
+  rete), 10 (suono dei mondi). E la **Roadmap della grafica**, decisa con l'utente.
+
+I numeri qui sotto sono quelli del 27 set; quelli di oggi sono in cima a `ROADMAP.md`.
+
 ## Dove siamo, in numeri
 
 - 1318 oggetti (768 nati da 48 materiali × 16 forme), 1042 ricette, 55 stazioni.

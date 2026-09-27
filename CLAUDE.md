@@ -179,8 +179,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   - `SpellsData` — gli incantesimi dei bastoni di Linfa (aspetto, velocità, ventaglio, quante creature attraversa,
     quanto insegue, se passa la roccia, luce).
   - `BeastItemsData` — materiali delle creature della voce 22 e ciò che se ne fa; uniti in `ItemsData.all()`.
-  - `BiomeItemsData` — voce 40: materiali, set, armi, trofei e Semi dei Boschi di brina e delle Cenerarie (oggetti e
-    ricette, uniti in `all()`).
+  - (Materiali, set, armi, trofei e Semi di ogni bioma stanno nel pacchetto del suo file in `src/data/biomes/`:
+    `BiomeItemsData` non c'è più, pulizia del 28 set 2026.)
   - `GenesData` (Roadmap 5, piano «Il Giardiniere dei mondi») — i **geni** dei Semi di mondo in 13 categorie (superficie,
     forma, grotte, sottosuolo, minerali, gemme, rovine, fauna, stirpi, flora, cielo, tempo, ombra): rarità, dominanza,
     effetti `gen` (generatore) e `run` (in gioco, chiavi in `DEFAULTS`), `vmin`, `only` ("mutazione", "firma"), `combo`;
@@ -320,12 +320,14 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     ingredienti con «ne hai / ne servono», quantità −/+/Max, «Crea») e sotto `ItemInfo`; oppure l'oggetto posato
     nella casella (con «Vai alla ricetta»). L'utente vuole i dettagli qui, in uno spazio apposito, non nei suggerimenti.
     `CharacterCard` — la scheda del Germogliato in basso a sinistra (`CharacterSheet`).
+    Come è fatto il pannello (cornice, categorie, ricerca, griglia) sta in `CraftLayout` (`src/ui/craft/`).
     `RecipeRow` resta per lo stile dei bottoni (`RecipeRow.style`). `MiningCursor`.
 - `src/game/vitals.gd` (`Vitals`) — Vita (100, foglie da 10) e Linfa (20, gocce da 2), Scorza (metà del suo valore
   tolta a ogni ferita), ricrescita della Vita dopo 6 s senza ferite, attesa di 30 s tra due pozioni; segnali `changed` e
   `died`. In main: ferite da caduta oltre 12 tessere (6 punti per tessera in più), appassire e rinascere alla partenza.
 - `src/game/fauna.gd` (`Fauna`) — creature vive: comparsa per strato fuori dalla visuale (`try_spawn`, mai vicino alle
   torce), sparizione lontano, spari raccolti da `c.fire`, `kill` con bottino. `enabled` = falso nelle prove.
+  Il bottino, sciami e branchi, `make_ancient` e `family_weights` stanno in `FaunaExtra` (`fauna_extra.gd`).
 - `src/game/combat.gd` (`Combat`) — colpi in mischia a ogni giro dell'arma (`Player.swing_period` = 1/velocità),
   arco (`Player.aim`, dardi dalla Bisaccia; `auto_aim`/`auto_fire` per le prove), ferite al contatto e dalle spore con
   invulnerabilità, spinta e lampeggio.
@@ -542,7 +544,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   `accessorio_1`, `accessorio_2`; `kind_of_slot`); la stessa classe con meno caselle fa da contenuto di ceste e scrigni, corredo iniziale (`STARTER`); si salva
   con il personaggio insieme a Vita e Linfa.
 - `src/game/` — `session.gd` (autoload `Session`: personaggio e mondo scelti nel menu; non esiste negli script headless
-  né in `--check-only`, dove «Identifier not found: Session» è normale), `main.gd` (solo montaggio: caricamento o
+  né in `--check-only`, dove «Identifier not found: Session» è normale), `main.gd` (solo montaggio; il mondo nuovo, la schermata
+  d'attesa, la costruzione della scena e il salvataggio stanno in `MainBoot`, `main_boot.gd`: caricamento o
   generazione in un thread, nodi, camera, salvataggio automatico ogni 5 minuti, Esc = salva e torna al menu (con la
   Bisaccia aperta Esc la chiude soltanto),
   salvataggio alla chiusura della finestra), `Background`
@@ -552,7 +555,11 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   secondo i germogli si avvicinano all'albero; il tempo corre anche fuori dalla visuale); piazzare e riprendere
   stazioni (mouse sul bordo in basso al centro) e passerelle,
   `AutoTests` (prove automatiche).
-- `tools/` — strumenti da riga di comando (`mappe.gd`, `prova_salvataggi.gd`, `verifica_dati.gd`).
+- `tools/` — strumenti da riga di comando (`mappe.gd`, `prova_salvataggi.gd`, `verifica_dati.gd`, `impronta.gd`:
+  l'impronta di tutto il contenuto e di due mappe in prove/impronta.txt, da confrontare prima e dopo un riordino).
+- Il giro intero prepara all'inizio, in parallelo, tutti i mondi delle prove pesanti (`TestKit.prefetch`, con i
+  `jobs()` di ogni file di prove); `gen_many` li prende dalla cache. Una prova nuova che genera mondi aggiunge i suoi
+  lavori a `jobs()` e alla riga di `prefetch` in `AutoTests`.
 
 ## Ordine del codice
 
@@ -729,3 +736,12 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
 - Il Bash tool fallisce con heredoc contenenti apostrofi/accenti: per patch in Python scrivere lo script su file.
 - ROADMAP.md va aggiornato sempre: stato della voce ([ ] / [~] / [x]) e riga «fatto il …» con cosa è stato fatto.
 - Dopo ogni modifica alla logica: prove automatiche (`-- --prove`) e controllo degli screenshot.
+
+- `WorkerThreadPool`: i lavori a bassa priorità hanno solo una parte dei thread (3 su 12), e la luce, la mappa e i
+  suoni li usano. Un lavoro lungo delle prove messo a bassa priorità faceva aspettare la luce: il gioco sembrava
+  fermo (28 set 2026). I lavori lunghi di preparazione vanno ad alta priorità. E non si aspetta mai un Group ID che
+  potrebbe non esistere: `is_group_task_completed` su un ID non valido non diventa mai vero (ciclo infinito).
+- Una scritta con suggerimento (mouse_filter PASS) o uno sfondo a tutto schermo prendono i clic destinati ai
+  pannelli: gli sfondi hanno `MOUSE_FILTER_IGNORE`, e con la Bisaccia aperta `Hud.bring_panel_forward` spegne il
+  mouse delle scritte dell'HUD. Una prova che chiude un pannello lo chiude con la sua `close()`, mai con
+  `visible = false`: la prova delle reliquie lasciava «Creare» nascosto per tutte le prove dopo (28 set 2026).
