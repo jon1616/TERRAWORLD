@@ -6,6 +6,7 @@ extends RefCounted
 
 var kit: TestKit
 var m: Node2D
+var _pond := {}                         # lo stagno naturale più vicino alla partenza (da `bodies`)
 
 
 func _init(tk: TestKit) -> void:
@@ -17,6 +18,7 @@ func run() -> void:
 	await bodies()
 	await moving()
 	await species()
+	await gesture()
 
 
 ## Due conche vuote affiancate su terreno piano vicino a c: [sinistra, destra] (i centri della prima riga), e ciò che
@@ -122,6 +124,7 @@ func bodies() -> void:
 				x = int(b["x1"]) + 1
 				continue
 		x += 1
+	_pond = pond
 	print("stagni di superficie nel mondo di prova: %d; il più vicino: %s" % [ponds, WaterBody.describe(pond)])
 	if not pond.is_empty():
 		var c: Vector2i = pond["center"]
@@ -256,4 +259,69 @@ func species() -> void:
 	if not bad.is_empty() or not right or not fresh or rec or not same_pct or int(by.get("raro", 0)) == 0 \
 			or int(lucky.get("raro", 0)) <= int(by.get("raro", 0)):
 		print("ATTENZIONE: i pesci non sono come dovrebbero")
+
+
+## Voce 121: il gesto. Con la canna in mano, un clic sullo stagno: la lenza parte, un pesce abbocca e sale da solo nella
+## Bisaccia e nell'Erbario. La canna di radice non pesca nella brace, quella di tizzonite sì; allontanandosi la lenza
+## si ritira. I valori delle canne vengono dal materiale.
+func gesture() -> void:
+	var w: World = m.world
+	var b: Bisaccia = m.character.bisaccia
+	var fi: Fishing = m.fishing
+	if _pond.is_empty():
+		print("ATTENZIONE: nessuno stagno per la prova della pesca")
+		return
+	kit.make_room()
+	b.add("canna_radice", 1)
+	kit.hold("canna_radice")
+	var x0 := int(_pond["x0"])
+	m.snap_to(Vector2i(x0 - 2, w.surface[x0 - 2] - 1))
+	await kit.frames(3)
+	var target := Vector2i(x0 + 4, int(_pond["top"]) - 2)          # sopra l'acqua: la lenza scende fino al pelo
+	var cast_ok := fi.cast(target, "canna_radice")
+	await kit.seconds(0.5)
+	await kit.save("183_pesca")
+	var n0 := fi.caught
+	if cast_ok:
+		fi.line["t"] = 0.3                                          # (l'attesa vera è di 4-11 secondi)
+	await kit.seconds(1.6)
+	var got: bool = fi.caught > n0 and b.count(String(fi.last.get("id", ""))) > 0 and m.erbario.known("pesci", String(fi.last.get("id", "")))
+	print("pesca: lanciata %s, pescato %s (%s, %d cm), nella Bisaccia e nell'Erbario %s" % ["sì" if cast_ok else "NO",
+		"sì" if fi.caught > n0 else "NO", FishData.info(String(fi.last.get("id", ""))).get("name", "?"), int(fi.last.get("size", 0)),
+		"sì" if got else "NO"])
+	# allontanarsi ritira la lenza
+	fi.cast(target, "canna_radice")
+	var p0: Vector2i = m.player_cell()
+	m.snap_to(Vector2i(p0.x - 8, w.surface[p0.x - 8] - 1))
+	await kit.frames(3)
+	var pulled := fi.line.is_empty()
+	# i liquidi delle canne: la brace solo con i materiali giusti
+	var rad: Array = ItemsData.get_item("canna_radicite").get("fish_liq", [])
+	var tiz: Array = ItemsData.get_item("canna_tizzonite").get("fish_liq", [])
+	var lin: Array = ItemsData.get_item("canna_linfa").get("fish_liq", [])
+	var ste: Array = ItemsData.get_item("canna_stellare").get("fish_liq", [])
+	# una vasca di brace in aria accanto al Germogliato: la canna di radice no, quella di tizzonite sì
+	m.snap_to(w.spawn)
+	await kit.frames(2)
+	var pc: Vector2i = m.player_cell()
+	var cells := []
+	for yy in range(pc.y - 9, pc.y - 4):
+		for xx in range(pc.x + 3, pc.x + 9):
+			if not w.solid(xx, yy):
+				w.set_liq(xx, yy, 8, LiquidsData.BRACE)
+				cells.append(Vector2i(xx, yy))
+	var lava := Vector2i(pc.x + 5, pc.y - 7)
+	var no_brace := not fi.cast(lava, "canna_radice")
+	b.add("canna_tizzonite", 1)
+	kit.hold("canna_tizzonite")
+	var yes_brace := fi.cast(lava, "canna_tizzonite")
+	fi.stop()
+	for q in cells:
+		w.set_liq(q.x, q.y, 0, 0)
+	print("canne: radicite %s, tizzonite %s, Linfa %s, stellare %s; nella brace: radice no %s, tizzonite sì %s; allontanandosi si ritira %s" % [
+		FishingData.liquids_text(rad), FishingData.liquids_text(tiz), FishingData.liquids_text(lin), FishingData.liquids_text(ste),
+		"sì" if no_brace else "NO", "sì" if yes_brace else "NO", "sì" if pulled else "NO"])
+	if not cast_ok or not got or not pulled or not no_brace or not yes_brace or 2 in rad or not 2 in tiz or not 1 in lin \
+			or ste.size() != 3:
+		print("ATTENZIONE: la pesca non funziona come dovrebbe")
 

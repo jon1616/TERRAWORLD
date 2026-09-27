@@ -1,0 +1,144 @@
+class_name Fishing
+extends Node2D
+## La pesca (voce 121, Roadmap 14 «Le acque vive»). Il gesto è **banale, quasi automatico** (scelta dell'utente): con
+## una canna in mano, clic su uno specchio di liquido (o sopra di lui); la lenza parte, il galleggiante si posa sul
+## pelo del liquido e, dopo un'attesa (la canna, e poi esche e tempo: voce 122), un pesce **abbocca e sale da solo**
+## nella Bisaccia. Spostarsi, cambiare oggetto o togliere il liquido ritira la lenza. Il pesce viene da `FishData`
+## secondo lo specchio (`WaterBody`) e il mondo (notte, stagione, tempo, geni); la sua taglia va nell'Erbario.
+
+const RANGE := 14                        # tessere: fin dove arriva il lancio
+const WAIT := [4.0, 11.0]                # secondi d'attesa (× la rapidità della canna)
+const BITE := 0.7                        # secondi tra l'abboccata e la presa
+const LEAVE := 4                         # tessere: allontanandosi di più la lenza si ritira
+const DOWN := 8                          # tessere sotto il clic in cui si cerca il liquido
+
+var m: Node2D
+var line := {}                           # la lenza in acqua: {cell, from, rod, ctx, t, bite}
+var caught := 0                          # quanti pesci (per le prove)
+var last := {}                           # l'ultimo pescato: {id, size, record}
+var _rng := RandomNumberGenerator.new()
+var _time := 0.0
+
+
+func setup(main: Node2D) -> void:
+	m = main
+	z_index = 14
+	_rng.randomize()
+
+
+## Il lancio. Restituisce vero se la lenza è in acqua (altrimenti un avviso dice perché no).
+func cast(c: Vector2i, rod: String) -> bool:
+	var w: World = m.world
+	var q := c
+	for k in DOWN:
+		if w.liq(q.x, q.y) > 0 or w.solid(q.x, q.y):
+			break
+		q.y += 1
+	if w.liq(q.x, q.y) == 0:
+		m.hud.toast("Lancia la lenza in un liquido")
+		return false
+	var pc: Vector2i = m.player_cell()
+	if Vector2(q - pc).length() > RANGE:
+		m.hud.toast("Troppo lontano per lanciare")
+		return false
+	var body := WaterBody.at(w, q)
+	var it := ItemsData.get_item(rod)
+	var liqs: Array = it.get("fish_liq", [0])
+	if not int(body["type"]) in liqs:
+		m.hud.toast("Questa canna non regge la %s: serve una canna di un altro materiale" % String(LiquidsData.TYPES[int(body["type"])]["name"]).to_lower())
+		return false
+	if not body["ok"]:
+		m.hud.toast("Troppo poco liquido: in una pozza così non vive nessun pesce")
+		return false
+	var ctx := context(body)
+	if FishData.pool(ctx).is_empty():
+		m.hud.toast("Qui, adesso, non abbocca niente")
+		return false
+	while w.liq(q.x, q.y - 1) > 0:
+		q.y -= 1                                  # il galleggiante sta sul pelo del liquido
+	line = {"cell": q, "from": pc, "rod": rod, "ctx": ctx, "bite": -1.0,
+		"t": _rng.randf_range(WAIT[0], WAIT[1]) * float(it.get("fish_speed", 1.0))}
+	m.sfx.play("tira", Vector2(q) * 16.0)
+	queue_redraw()
+	return true
+
+
+## Il mondo attorno allo specchio, per `FishData`.
+func context(body: Dictionary) -> Dictionary:
+	return {"liq": int(body["type"]), "stratum": int(body["stratum"]), "biome": String(BiomesData.BIOMES[int(body["biome"])]["id"]),
+		"depth": int(body["depth"]), "volume": float(body["volume"]), "night": m.day.is_night(),
+		"season": String(m.seasons.info().get("id", "")), "weather": String(m.weather.id),
+		"genes": m.world_meta.get("geni", [])}
+
+
+func stop() -> void:
+	line = {}
+	queue_redraw()
+
+
+func _process(dt: float) -> void:
+	_time += dt
+	if line.is_empty():
+		return
+	var w: World = m.world
+	var q: Vector2i = line["cell"]
+	var pc: Vector2i = m.player_cell()
+	if String(m.hud.current().get("id", "")) != String(line["rod"]) or Vector2(pc - (line["from"] as Vector2i)).length() > LEAVE \
+			or w.liq(q.x, q.y) == 0:
+		stop()
+		return
+	queue_redraw()
+	if float(line["bite"]) < 0.0:
+		line["t"] = float(line["t"]) - dt
+		if float(line["t"]) <= 0.0:
+			line["bite"] = BITE                   # abbocca: il galleggiante va sotto
+			m.sfx.play("soffio", Vector2(q) * 16.0)
+		return
+	line["bite"] = float(line["bite"]) - dt
+	if float(line["bite"]) <= 0.0:
+		catch()
+
+
+## Il pesce sale: nella Bisaccia (o a terra se è piena), nell'Erbario, un avviso con la taglia.
+func catch() -> String:
+	if line.is_empty():
+		return ""
+	var it := ItemsData.get_item(String(line["rod"]))
+	var luck := float(it.get("fish", 0.0))
+	var id := FishData.roll(line["ctx"], _rng, luck)
+	var q: Vector2i = line["cell"]
+	stop()
+	if id == "":
+		return ""
+	var size := FishData.roll_size(id, _rng, luck * 0.05)
+	var rest: int = m.character.bisaccia.add(id, 1)
+	if rest > 0:
+		m.drops.spawn(id, rest, m.player.position)
+	var first: bool = not m.erbario.known("pesci", id)
+	var better: bool = m.erbario.add_fish(id, size)
+	caught += 1
+	last = {"id": id, "size": size, "record": better and not first}
+	m.objectives.bump("pesci")
+	var f := FishData.info(id)
+	m.hud.toast("Hai pescato: %s, %d cm%s" % [f["name"], size, " — il più grande finora!" if better and not first else ""])
+	m.sfx.play("raccogli", Vector2(q) * 16.0)
+	Fx.puff(m.fx, Vector2(q) * 16.0 + Vector2(8, 4), Color(0.8, 1.2, 1.6))
+	return id
+
+
+func _draw() -> void:
+	if line.is_empty():
+		return
+	var q: Vector2i = line["cell"]
+	var bite := float(line["bite"]) >= 0.0
+	var bob := Vector2(q) * 16.0 + Vector2(8, 3 + (6.0 if bite else sin(_time * 3.0) * 1.2))
+	var p: Player = m.player
+	var hand := p.hand_world if p.hand_world.x < INF else p.position + Vector2(10 * p.facing, -14)
+	# la lenza: una curva che pende un poco
+	var pts := PackedVector2Array()
+	for k in 13:
+		var t := k / 12.0
+		pts.append(hand.lerp(bob, t) + Vector2(0, sin(t * PI) * 10.0))
+	draw_polyline(pts, Color(0.9, 0.95, 1.0, 0.7), 1.0)
+	draw_circle(bob, 3.0, Color("#f04040"))
+	draw_circle(bob + Vector2(0, -1.5), 1.6, Color.WHITE)

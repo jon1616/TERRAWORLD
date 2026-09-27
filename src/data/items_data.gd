@@ -277,6 +277,7 @@ static func all() -> Dictionary:
 	out.merge(NeroData.ITEMS.duplicate(true))              # voce 72
 	out.merge(LiquidsData.ITEMS.duplicate(true))           # voce 73
 	out.merge(FishData.items())                            # voce 120: i pesci
+	out.merge(FishingData.ITEMS.duplicate(true))           # voce 121: la canna di radice
 	out.merge(WeatherData.ITEMS.duplicate(true))           # voce 75
 	out.merge(WorldTimeData.ITEMS.duplicate(true))         # voce 78
 	out.merge(VigorData.ITEMS.duplicate(true))             # voce 79
@@ -380,6 +381,8 @@ static func use_of(id: String) -> String:
 			return "sigilla"
 		"secchio", "secchio_pieno", "contenitore":
 			return "versa"
+		"canna":
+			return "pesca"
 		"compagno":
 			return "chiama"
 		"evocatore":

@@ -38,6 +38,9 @@ const FORMS := {
 		"desc": "corsa e salto un po' più lunghi, secondo il metallo"},
 	"mantello": {"name": "Mantello", "kind": "mantello", "bars": 4, "wood": 0, "extra": {"seta_radice": 6},
 		"desc": "un mantello bordato di metallo: la Vita ricresce più in fretta"},
+	# voce 121: la pesca (valori in `FishingData.rod_stats`)
+	"canna": {"name": "Canna", "kind": "canna", "bars": 4, "wood": 6, "extra": {"seta_radice": 2},
+		"desc": "pesca; il metallo decide la fortuna, l'attesa e i liquidi (acqua; Linfa e brace con i materiali giusti)"},
 }
 
 ## L'area del colpo in mischia: [larghezza, altezza, spostamento in avanti, anche dietro?]. Le forme non elencate
@@ -141,6 +144,8 @@ static func stats(form: String, mat: String) -> Dictionary:
 		"mantello":
 			out["defense"] = roundi(float(md["tenacia"]) * 0.4)
 			out["acc"] = {"regen": snappedf(1.0 + 0.04 * float(md["tier"]), 0.001)}
+		"canna":
+			out.merge(FishingData.rod_stats(md))
 		"verga":
 			out["damage"] = roundi(float(md["conduzione"]) * 1.6 + 2.0)
 			out["speed"] = 2.2

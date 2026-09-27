@@ -63,6 +63,7 @@ var spesa: Spesa                       # la lista della spesa (Segna, in Esamina
 var filo: Filo                         # il filo da seguire, in alto al centro
 var consigli: Consigli                 # i consigli alla prima volta
 var liquid_tools: LiquidTools          # voce 119: otre, anfora e fonti (spostare i liquidi)
+var fishing: Fishing                   # voce 121: la pesca
 var encyclopedia: Encyclopedia
 var language: Language
 var chains: Chains
@@ -274,6 +275,7 @@ func _build() -> void:
 	filo = _mount(Filo.new())                  # il filo da seguire
 	consigli = _mount(Consigli.new())          # e i consigli alla prima volta
 	liquid_tools = _mount(LiquidTools.new())   # voce 119: spostare i liquidi
+	fishing = _mount(Fishing.new())            # voce 121: la pesca
 	_mount(PanelButtons.new())                 # voce 101: i pulsanti dei pannelli in basso a sinistra
 	hud.select(character.hotbar)
 	var start := world.spawn

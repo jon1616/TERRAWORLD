@@ -437,6 +437,16 @@ static func draw(shape: String, im: Image, p: Array[Color]) -> bool:
 			Px.put(im, 11, 4, p[p.size() - 1])
 			Px.put(im, 5, 11, Color(ItemIcons.LEAF[1]))
 			Px.put(im, 4, 11, Color(ItemIcons.LEAF[2]))
+		"canna":
+			# voce 121: la canna di traverso (del materiale), il mulinello, la lenza che scende e l'amo
+			Px.line(im, Vector2(2.5, 14.0), Vector2(13.5, 2.0), 1, p[3])
+			Px.line(im, Vector2(3.0, 14.5), Vector2(6.0, 11.0), 2, p[1])
+			Px.put(im, 5, 10, p[2])
+			Px.put(im, 6, 11, p[2])
+			Px.line(im, Vector2(13.5, 2.0), Vector2(13.5, 11.0), 1, Color(0.9, 0.95, 1.0, 0.8))
+			Px.put(im, 12, 12, Color("#c8d0d8"))
+			Px.put(im, 13, 12, Color("#c8d0d8"))
+			Px.put(im, 12, 11, Color("#c8d0d8"))
 		"pesce":
 			# voce 120: un pesce di profilo, colorato dal materiale, con la pinna e l'occhio
 			for x in range(3, 13):

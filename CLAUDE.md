@@ -543,7 +543,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   campo «stagni» dei biomi), `tools/specchi.gd` (la misura), prove `--solo=pesca` (`TestsFishing`). `LiquidTools` (otre,
   anfora, fonti: spostare i liquidi). `FishData` (i pesci: di tutti i mondi qui, quelli dei biomi nel campo «fish» dei
   file dei biomi; `pool`/`roll`; ogni pesce è anche un oggetto di tipo «pesce»); l'Erbario ha la scheda Pesci
-  (`Erbario.add_fish`), fuori dalla percentuale.
+  (`Erbario.add_fish`), fuori dalla percentuale. `Fishing` (il gesto: `cast`, attesa, `catch`; la lenza disegnata),
+  `FishingData` (la Canna di radice e `rod_stats`, i valori della forma «canna» di `FormsData`).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

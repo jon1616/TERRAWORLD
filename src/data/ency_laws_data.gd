@@ -22,6 +22,21 @@ Con il secchio si portano: un ponte di pietra di brace su un fiume di brace, una
 • L'[b]Otre di legnoferro[/b] (6 celle, al Telaio) e l'[b]Anfora d'ambra[/b] (20 celle, al Maglio): clic su un liquido lo raccoglie dall'alto dello specchio, clic altrove lo versa. La scheda dice che cosa contengono.
 • Le [b]fonti[/b] versano senza fine il loro liquido accanto alla bocca, finché il bacino non sale fino a lei: la [b]Fonte di muschio[/b] (acqua, al Ceppo), la [b]Fonte di Linfa[/b] (al Maglio), la [b]Bocca di brace[/b] (al Baccello ardente). Lavorano quando sei vicino.
 • Scavando un canale il liquido scorre da solo verso il basso: così si svuota una grotta allagata o si riempie una conca. Un bacino di almeno {min_specchio} celle piene è uno specchio in cui si può pescare."""},
+	{"id": "pesca", "group": "Le leggi dei mondi", "name": "La pesca", "text":
+"""Un'attività da fare quando vuoi: non serve per andare avanti, ma dà cibo, materiali, trofei e pesci che non si trovano in nessun altro modo.
+
+[b]Come si pesca[/b]
+Con una [b]canna[/b] in mano, clic su uno specchio di liquido (o appena sopra): la lenza parte e il galleggiante si posa sul pelo. Aspetta: quando un pesce abbocca il galleggiante va sotto, e il pesce sale da solo nella Bisaccia. Se ti allontani o cambi oggetto, la lenza si ritira.
+
+[b]Dove[/b]
+Serve uno specchio di almeno {min_specchio} celle piene: gli stagni di superficie (tanti nelle Torbiere e nelle paludi), i laghetti delle grotte, i laghi di Linfa delle Profondità, quelli di brace del Fondo. Puoi fartene uno: scava una conca e riempila con l'otre, l'anfora o una fonte ([url=cap:liquidi]i liquidi[/url]).
+Ogni specchio ha i suoi pesci: conta il liquido, lo strato, il bioma (in superficie), quanto è profondo, e poi la notte, la stagione, il tempo e i geni del mondo. Il mare del gene Sommerso ha pesci tutti suoi.
+
+[b]Le canne[/b]
+La [b]Canna di radice[/b] (al Ceppo) pesca solo nell'acqua. Le canne di metallo (al Maglio) hanno la fortuna di pesca (pesci più rari), l'attesa più breve e i liquidi del loro materiale: la Linfa con i materiali di Linfa o di luce, la brace con quelli di brace o di grado alto. La scheda della canna dice tutto.
+
+[b]L'Erbario dei pesci[/b]
+Ogni pesce pescato entra nella scheda [b]Pesci[/b] dell'Erbario, con quanti ne hai presi e il più grande: la scheda sta a parte e non conta nella percentuale. Anche un pesce mai pescato dice dove cercarlo."""},
 	{"id": "meteo", "group": "Le leggi dei mondi", "name": "Vento e tempo atmosferico", "text":
 """In superficie il tempo cambia ogni poche ore di gioco, secondo la stagione, i biomi del mondo e i geni [url=gene:piovoso]Piovoso[/url], [url=gene:ventoso]Ventoso[/url] e [url=gene:nebbioso]Nebbioso[/url]. L'orologio dice che tempo fa. Sotto terra non arriva.
 {cat_meteo}

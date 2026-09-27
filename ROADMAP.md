@@ -2133,7 +2133,19 @@ abboccate (raro 3,8%, con fortuna 8%); foto 182_erbario_pesci.
   strato, profondità dell'acqua, ora, stagione, meteo e geni; rarità (comune → leggendario) e taglia; icone dal codice.
 - Una sezione «Pesci» nell'Erbario, **fuori dalla percentuale principale**; le schede dei suggerimenti.
 
-## 121. [ ] Il gesto e le canne (M)
+## 121. [x] Il gesto e le canne (M) — fatto il 28 set 2026
+Fatto: `Fishing` (`src/game/`, un Node2D del mondo): con una canna in mano, clic su un liquido o sopra (si cerca fino a
+8 tessere sotto, fino a 14 di distanza); controlli con un avviso chiaro (liquido che la canna non regge, pozza troppo
+piccola, niente pesci qui adesso); il galleggiante sul pelo, attesa di 4-11 s × la rapidità della canna, abboccata
+(il galleggiante va sotto, suono), dopo 0,7 s il pesce sale da solo: Bisaccia (o a terra), Erbario con la taglia,
+avviso con il record, conteggio «pesci». Spostandosi di 4 tessere, cambiando oggetto o se il liquido sparisce la lenza
+si ritira; la lenza pende dalla mano del Germogliato. Le canne: la **Canna di radice** (`FishingData`, al Ceppo, solo
+acqua) e la forma **«canna»** di `FormsData` × i 36 materiali (`FishingData.rod_stats`: fortuna 0,15 per grado + 0,1 per
+risonanza, attesa −7% per grado, Linfa con materiali di Linfa, di luce o conduzione ≥ 12, brace con materiali di brace o
+di grado ≥ 5): radicite solo acqua, tizzonite acqua e brace, Linfa acqua e Linfa, stellare tutti e tre. Icona «canna»,
+scheda della canna («Pesca: fortuna, attesa, in: …»), capitolo «La pesca» dell'Enciclopedia. Prova: si pesca nello
+stagno e il pesce arriva in Bisaccia ed Erbario, la radice non pesca nella brace e la tizzonite sì, allontanandosi la
+lenza si ritira; foto 183_pesca.
 - La **canna** è una forma di `FormsData`, moltiplicata per i materiali: potenza (rarità), rapidità (attesa), e le
   proprietà del materiale decidono **dove** pesca (acqua per tutte; Linfa e brace solo con i materiali giusti).
 - Clic sull'acqua con la canna: lenza e galleggiante; dopo un'attesa il pesce **abbocca e sale da solo** nella

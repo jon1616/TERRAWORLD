@@ -67,7 +67,7 @@ func _on_selected(item: Dictionary) -> void:
 	# torce e lanterne si tengono in mano e si vedono sempre; la torcia ha la sua fiamma
 	player.carry = kind in ["torcia", "lanterna", "rampino"]
 	player.carry_glow = Color(2.2, 1.6, 0.9) if kind == "torcia" else Color.BLACK
-	player.tool_tex = item["tex"] if use in ["scava", "colpo", "abbatti", "tira", "incanta", "smura", "evoca"] or player.carry else null
+	player.tool_tex = item["tex"] if use in ["scava", "colpo", "abbatti", "tira", "incanta", "smura", "evoca", "pesca"] or player.carry else null
 
 
 func mouse_cell() -> Vector2i:
