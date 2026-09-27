@@ -128,6 +128,11 @@ Un [b]Focolare[/b] con un Letto di foglie libero vicino chiama un [url=cap:abita
 Le casse hanno dei [b]gradi[/b]: più il materiale è raro, più caselle. Le prime si fanno al Ceppo, le altre al Maglio; gli scrigni dei Seminatori si trovano soltanto, pieni, nelle rovine (più grandi più si scende) e, vuoti, si portano via e si riusano.
 {cat_casse}
 Quanti oggetti uguali stanno in una casella lo decidi nelle [url=cap:opzioni]Opzioni[/url] (Gioco → Grandezza delle pile): da un quarto del normale fino a pile infinite."""},
+	{"id": "volo", "group": "Creare ed equipaggiarsi", "name": "Il volo", "text":
+"""Le [b]ali[/b] si indossano nel posto del mantello: o un mantello di metallo, o le ali. Si vola [b]tenendo Salto dopo il salto[/b]: passata la spinta, le ali sollevano finché dura la loro [b]autonomia[/b] (la barretta sopra la testa), che torna quando posi i piedi.
+Ogni paio ha quattro valori: [b]salita[/b], [b]autonomia[/b], [b]velocità[/b] in volo e [b]ricarica[/b].
+{cat_ali}
+Le prime, le Ali di foglia, sono poco più di un lungo salto: il volo vero arriva con i biomi e il profondo. Finita la barra si cade, e allora servono ancora la planata (una Foglia planante tra gli accessori), il rampino e i salti in aria. Le leggi del mondo contano: il [b]vento[/b] porta chi vola, in un mondo [b]leggero[/b] la barra dura di più, e nelle [b]correnti ascensionali[/b] si ricarica il doppio."""},
 	{"id": "farm", "group": "Scavare e costruire", "name": "Le farm", "text":
 """Una [b]farm[/b] è un posto costruito da te dove le creature nascono, cadono nelle [url=cap:trappole]trappole[/url] e il loro bottino finisce in una cassa, mentre tu fai altro. Nessuna farm è già pronta: i pezzi sono questi, il progetto è tuo.
 [b]Come nascono le creature[/b] (le regole di sempre, che valgono anche per le esche):

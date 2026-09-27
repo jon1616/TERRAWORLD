@@ -51,6 +51,9 @@ var effect_run := 1.0                  # voce 85: gli effetti (Slancio, Pinne, V
 var weather_run := 1.0                 # voce 75: la bufera rallenta la corsa
 var grav_mult := 1.0                   # voce 76: il peso del mondo (gene Lieve, Arcipelago), lo imposta `Gravity`
 var lift := 0.0                        # voce 76: dentro una corrente ascensionale, la velocità di salita
+var wings := {}                        # voce 90: le ali indossate (`FlightData.WINGS`), vuoto = niente volo
+var fly_left := 0.0                    # voce 90: l'autonomia che resta, in secondi
+var flying := false                    # voce 90: vola adesso (posa, ali, vento)
 var _air_left := 0
 var _wall := 0                         # -1/1: parete toccata a sinistra/destra mentre si scivola
 signal air_jumped
@@ -190,11 +193,21 @@ func _step(dt: float, dir: float, held: bool) -> void:
 	if in_liquid:
 		target *= LiquidsData.SWIM_RUN
 	target *= weather_run * effect_run
+	# voce 90: il volo. Tenendo Salto in aria, passata la spinta del salto, le ali sollevano finché dura la barra
+	# (comincia quando la spinta del salto cala, poi continua finché si tiene Salto)
+	flying = not wings.is_empty() and not on_floor and not in_liquid and held and fly_left > 0.0 \
+		and (flying or vel.y > -JUMP * 0.35) and lift <= 0.0
+	if flying:
+		target *= float(wings["speed"])
+	if on_floor:
+		fly_left = minf(fly_left + float(wings.get("time", 0.0)) * float(wings.get("recharge", 0.0)) * dt, float(wings.get("time", 0.0)))
+	elif lift > 0.0 and not wings.is_empty():
+		fly_left = minf(fly_left + float(wings["time"]) * float(wings["recharge"]) * FlightData.CURRENT_RECHARGE * dt, float(wings["time"]))
 	var accel := ACCEL_AIR
 	if on_floor:
 		accel = ACCEL_GROUND if dir != 0.0 and signf(dir) == signf(vel.x if vel.x != 0.0 else dir) else DECEL_GROUND
 	if not on_floor and not in_liquid and wind != 0.0:
-		target += wind * 0.35 * (2.2 if gliding else 1.0)    # voce 75: il vento porta chi è in aria, e chi plana di più
+		target += wind * 0.35 * (2.2 if gliding or flying else 1.0)    # voce 75: il vento porta chi è in aria, e chi plana o vola di più
 	var vx0 := vel.x
 	vel.x = move_toward(vel.x, target, accel * dt)
 	jump_buf -= dt
@@ -225,6 +238,13 @@ func _step(dt: float, dir: float, held: bool) -> void:
 		if held:
 			vel.y = move_toward(vel.y, -LiquidsData.SWIM_UP, 900.0 * dt)
 		_air_top = position.y                # nell'acqua non si cade
+	elif flying:
+		# voce 90: sale verso la sua velocità di salita; in un mondo leggero la barra dura di più
+		if vel.y > -float(wings["rise"]):
+			vel.y = move_toward(vel.y, -float(wings["rise"]), 1500.0 * dt)
+		else:
+			vel.y += GRAV * grav_mult * dt          # più veloce della sua salita: la spinta del salto cala da sé
+		fly_left = maxf(fly_left - dt * clampf(grav_mult, 0.5, 1.5), 0.0)
 	elif lift > 0.0:
 		# voce 76: la corrente ascensionale solleva, e chi ne esce riparte da qui a contare la caduta
 		vel.y = move_toward(vel.y, -lift, 1500.0 * dt)

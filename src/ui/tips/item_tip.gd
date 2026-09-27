@@ -149,6 +149,8 @@ static func _traits(c: TipCard, slot: Dictionary, gear: bool, dati: Dictionary) 
 
 ## Gli effetti che dà indossato (accessori, e le armature che ne hanno).
 static func _effects(c: TipCard, it: Dictionary) -> void:
+	if it.has("wings"):
+		c.text("[color=#8ef0d8]Volo:[/color] " + FlightData.line(String(it["wings"])))   # voce 90
 	for e in it.get("effects", []):
 		c.text("[color=#ffd24a]✦ %s[/color]" % EffectsData.line(String(e)))       # voce 85: gli effetti speciali
 	var acc: Dictionary = it.get("acc", {})

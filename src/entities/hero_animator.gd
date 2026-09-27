@@ -165,9 +165,10 @@ func special(dt: float) -> bool:
 		p.facing = 1 if p.hook.x >= p.position.x else -1
 	elif p._wall != 0 and not p.on_floor:
 		k = HeroSprites.Speciali.PARETE
-	elif p.gliding:
+	elif p.gliding or p.flying:
 		idle_t += dt
-		k = HeroSprites.Speciali.PLANA_A if int(idle_t * 3.0) % 2 == 0 else HeroSprites.Speciali.PLANA_B
+		var beat := 9.0 if p.flying else 3.0          # voce 90: in volo le braccia battono con le ali
+		k = HeroSprites.Speciali.PLANA_A if int(idle_t * beat) % 2 == 0 else HeroSprites.Speciali.PLANA_B
 	if k < 0:
 		return false
 	var top_left := _show(d, k)

@@ -139,6 +139,9 @@ static func inline(key: String) -> String:
 				rows.append(_b(String(pd["name"]), "%s · nei mondi con %s · %s" % [pd["banner"], " o ".join(gn),
 					"in superficie" if pd.get("surface", false) else "nello strato «%s»" % StrataData.STRATA[int(pd["strata"][0])]["name"]],
 					String(pd["color"])))
+		"cat_ali":
+			for id in FlightData.WINGS:
+				rows.append(_b(String(FlightData.WINGS[id]["name"]), FlightData.line(id), String(FlightData.WINGS[id]["color"])))
 		"cat_regole_nascita":
 			rows.append(_b("Lontano da te", "fuori dalla visuale: tra %d e %d tessere (le esche: almeno %d)" % [
 				int(DangerData.SPAWN_MIN), int(DangerData.SPAWN_MAX), FarmData.AWAY], "#8ef0d8"))

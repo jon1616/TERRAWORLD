@@ -176,6 +176,7 @@ static func all() -> Array:
 	out.append_array(ZonesData.recipes())                   # voce 87
 	out.append_array(TrapsData.recipes())                   # voce 88
 	out.append_array(FarmData.recipes())                    # voce 89
+	out.append_array(FlightData.recipes())                  # voce 90
 	for m in MaterialsData.all():
 		for f in FormsData.FORMS:
 			out.append(FormsData.recipe(f, m))

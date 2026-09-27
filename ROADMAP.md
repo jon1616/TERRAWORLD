@@ -1707,7 +1707,7 @@ lontano: `Fauna.keep_alive`). **Tetto di rendita** per zona di 64 tessere (60 cr
 un Lumino: `Fauna.loot_gate`). Capitolo «Le farm» con le regole di nascita scritte dai dati e i principi, due obiettivi,
 disegni in `FarmArt`, schede in `FarmInfo`, prove `--solo=farm` (foto 156).
 
-## 90. [ ] Il volo (M)
+## 90. [x] Il volo (M) — fatto il 27 set 2026
 Ali e mantelli con quattro valori: **velocità**, **salita**, **autonomia** (una barra che si consuma volando e si
 ricarica a terra) e **ricarica**. **Già a metà gioco** (scelta dell'utente) con **ali deboli, paragonabili a lunghi
 salti** (Ali di foglia: poca salita, autonomia breve); poi gradi dai materiali e dai biomi (ali di brina, di brace,
@@ -1715,6 +1715,14 @@ di Vuoto, stellari) e unici con effetti propri. Si lega alle leggi dei mondi: il
 allunga il volo, nel Guscio c'è il tetto, le correnti ricaricano. Le pose del Germogliato in volo.
 **Pronto quando**: il volo cresce da un lungo salto a metà gioco a un vero volo nel fine gioco, e non rende inutili
 rampino, planata e correnti.
+Fatto il 27 set 2026: `FlightData` (5 paia di ali nel posto del mantello: foglia, brina, brace, Vuoto, stellari, con
+salita, autonomia, velocità e ricarica; le Ali del Vuoto nascono sia da quelle di brina sia da quelle di brace) e
+`Flight` (legge le ali indossate, le disegna dietro il Germogliato, chiuse o che battono, e la barra dell'autonomia
+sopra la testa). Il volo in `Player._step`: tenendo Salto dopo il salto le ali sollevano finché dura la barra, che
+torna a terra e il doppio nelle correnti; il vento porta chi vola; in un mondo leggero la barra dura di più
+(consumo × peso). Misure: salto 3,36 tessere, Ali di foglia 4,5 (un lungo salto), stellari ~35 (volo vero). Posa
+della planata che batte in volo. Scheda con i quattro valori, capitolo «Il volo», prove `--solo=volo` (foto 157). Gli
+unici con effetti propri arrivano con la voce 98.
 
 ## 91. [ ] Il bioma come dato (M) — fondamenta dei biomi
 Oggi un bioma nuovo tocca molti file (tessere, tavolozze, alberi, vegetazione, creature, oggetti, geni). Si porta
