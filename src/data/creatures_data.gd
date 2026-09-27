@@ -75,6 +75,13 @@ const CREATURES := {
 			"shot_speed": 230.0, "shot_grav": 420.0, "shot_damage": 26, "summon_every": 9.0,
 			"summon": "scarabeo_ardesia", "summon_max": 2, "phase2": 0.5},
 		"loot": "colosso", "art": ["colosso", 0], "strata": [], "weight": 0, "glow": true, "boss": true},
+	# voce 73: le creature d'acqua (nascono solo nei liquidi, `water`); il pesce è docile, l'anguilla morde
+	"pesce_lume": {"name": "Pesce lume", "hp": 16, "damage": 4, "defense": 0, "knock": 1.0, "half": [6, 4],
+		"speed": 55, "fly": true, "behaviors": ["nuota"], "p": {"sight": 10}, "loot": "pesce_lume", "art": ["pesce", 0],
+		"strata": [], "weight": 8, "water": true, "docile": true, "glow": true, "no_trophy": true},
+	"anguilla_linfa": {"name": "Anguilla di Linfa", "hp": 48, "damage": 13, "defense": 2, "knock": 0.8, "half": [12, 4],
+		"speed": 80, "fly": true, "behaviors": ["nuota"], "p": {"sight": 16, "bite": true}, "loot": "anguilla_linfa",
+		"art": ["anguilla", 0], "strata": [], "weight": 4, "water": true, "glow": true, "no_trophy": true},
 	# voce 72: l'Avvizzitore, il Seme Nero cresciuto, Guardiano del mondo dove cadde: vola, scaglia ventagli fitti,
 	# scatta e chiama gli avvizziti erranti
 	"avvizzitore": {"name": "L'Avvizzitore", "hp": 3600, "damage": 38, "defense": 20, "knock": 1.0,

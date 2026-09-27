@@ -23,6 +23,7 @@ static func chapters() -> Array:
 	out.append_array(EncyCraftData.CHAPTERS)
 	out.append_array(EncySeedsData.CHAPTERS)
 	out.append_array(EncyStoryData.CHAPTERS)
+	out.append_array(EncyLawsData.CHAPTERS)
 	return out
 
 

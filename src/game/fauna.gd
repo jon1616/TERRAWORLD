@@ -286,6 +286,8 @@ func try_spawn() -> Creature:
 	if not world.inside(c.x, c.y) or c.y < 2:
 		return null
 	var stratum := StrataData.at(world, c.x, c.y)
+	if world.liq(c.x, c.y) >= 6 and world.liq_type(c.x, c.y) != LiquidsData.BRACE:
+		return _spawn_water(c)                          # voce 73: nell'acqua nascono le creature d'acqua
 	var biome := "avvizzito" if Blight.surface_blighted(world, c.x) else String(BiomesData.BIOMES[BiomesData.at(world, c.x)]["id"])
 	var choices := CreaturesData.of_stratum(stratum, night, biome)
 	var weighted := []
@@ -327,6 +329,22 @@ func try_spawn() -> Creature:
 		if fly:
 			break
 	return null
+
+
+## Voce 73: una creatura d'acqua in una cella piena di liquido (solo al buio sotto terra, come le altre).
+func _spawn_water(c: Vector2i) -> Creature:
+	if world.torch_near(c, 8.0) or (StrataData.at(world, c.x, c.y) > 0 and not _dark(c)):
+		return null
+	var choices := []
+	for id in CreaturesData.CREATURES:
+		if CreaturesData.CREATURES[id].get("water", false):
+			choices.append([id, int(CreaturesData.CREATURES[id]["weight"])])
+	if choices.is_empty():
+		return null
+	var cr := add(_pick(choices), Vector2(c.x * S + 8, c.y * S + 8))
+	var mult := float(StrataData.STRATA[StrataData.at(world, c.x, c.y)]["danger"]) * vigor_mult
+	cr.strengthen(mult, mult * DangerData.DAMAGE)
+	return cr
 
 
 ## Gli sciami (campo `group` in `CreaturesData`): con la prima nascono le compagne, che non contano nel tetto.

@@ -1377,10 +1377,24 @@ cambia tutti i mondi. Prove `--solo=lingua,catene,luoghi_scritti,enigmi,seme_ner
 
 Ogni legge è un **gene** (raro, spesso di vigore alto): i mondi non diventano solo più forti ma **diversi da giocare**.
 
-## 73. [ ] L'acqua (L)
+## 73. [x] L'acqua (L) — fatto il 26 set 2026
 Liquidi che scorrono a tessere (simulazione a blocchi, solo vicino alla visuale), nuoto, respiro, creature acquatiche
 (famiglie della voce 56), laghi e grotte allagate; gene «Sommerso» (mondi quasi tutti d'acqua).
 **Pronto quando**: un mondo sommerso si gioca in modo diverso da tutti gli altri, e resta a 60 fotogrammi al secondo.
+**Fatto il 27 set 2026**: l'acqua. Un nuovo strato del mondo (`World.liquid`: livello 0-8 e tipo per cella, salvato con
+il mondo; i mondi di prima nascono senza liquidi) e un automa a celle (`Liquids`, dati in `LiquidsData`): solo le celle
+**attive** e solo vicino al Germogliato (`WINDOW`), a passi di 0,05 s con un tetto di celle per passo; un liquido cade se
+sotto c'è posto, altrimenti **il tratto appoggiato sulla stessa riga si livella tutto insieme** (niente gradini, e si
+ferma senza oscillare); scavare accanto a un liquido lo risveglia (`World.on_change`). Un passo con 400 celle in moto
+costa ~0,5 ms. Disegno per blocchi (`LiquidView`, ridisegnato solo dove cambia), davanti al Germogliato. Il
+**nuoto** (`Player.in_liquid`: gravità e caduta lente, si sale tenendo il salto, niente ferite da caduta) e il
+**respiro** (12 s sott'acqua, poi si perde Vita; i pallini in alto a destra). Due **creature d'acqua** (`BhNuota`,
+`AquaArt`: il Pesce lume, docile, e l'Anguilla di Linfa, che morde chi nuota; fuori dall'acqua boccheggiano), nate solo
+nei liquidi. Il **Secchio di radice** raccoglie e versa; le **Branchie di muschio** (respiro ×3) e l'Amuleto d'anguilla.
+Il generatore (`PassAcqua`) mette conche d'acqua nelle grotte di ogni mondo; il gene **Sorgenti** ne mette molte di più;
+il gene **Sommerso** (forma, vigore 2+) copre il 90% delle colonne con un mare, con un'isola per la partenza. La scheda
+di un liquido (mouse sopra) dice che cosa fa. Capitolo nell'Enciclopedia (gruppo «Le leggi dei mondi»). Prove
+`--solo=acqua` (foto 137_acqua).
 
 ## 74. [ ] Linfa e brace liquide (M)
 Due liquidi in più con lo stesso sistema: la Linfa liquida (cura, fa crescere, luminosa) e la brace liquida

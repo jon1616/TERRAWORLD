@@ -15,7 +15,7 @@ const KINDS := {
 	"moneta": "Moneta", "ricordo": "Ricordo di un mondo", "evocatore": "Bastone evocatore", "compagno": "Compagno",
 	"vasetto": "Vasetto", "uovo": "Uovo", "purifica": "Purifica l'Avvizzimento", "provetta": "Provetta",
 	"laccio": "Laccio", "fiala": "Fiala di un gene", "creatura": "Creatura della mandria",
-	"tavoletta": "Tavoletta da leggere", "chiave": "Chiave",
+	"tavoletta": "Tavoletta da leggere", "chiave": "Chiave", "secchio": "Secchio", "secchio_pieno": "Secchio pieno",
 }
 
 ## Colore del nome secondo il tipo (le armi e le armature prendono quello della qualità).
@@ -36,7 +36,7 @@ const ACC := {
 	"luck": ["Fortuna nel bottino", "pct_add"], "thorns": ["Spine: danno a chi ti tocca", "add"], "defense": ["Scorza", "add"],
 	"air_jumps": ["Salti in aria", "add"], "allies": ["Alleati in più", "add"], "glide": ["Plani tenendo Spazio", "flag"],
 	"wall": ["Scivoli e salti sulle pareti", "flag"], "fall_safe": ["Nessuna ferita da caduta", "flag"],
-	"resist": ["Resistenza", "pct_add"], "weak": ["Indebolisce chi colpisci", "flag"],
+	"resist": ["Resistenza", "pct_add"], "weak": ["Indebolisce chi colpisci", "flag"], "respiro": ["Respiro sott'acqua", "pct"],
 }
 
 

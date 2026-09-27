@@ -13,6 +13,7 @@ extends RefCounted
 ## 59: diet, tame, produce, mount.
 
 const FAMILIES := {
+	"acquatici": {"name": "Creature delle acque", "members": ["pesce_lume", "anguilla_linfa"], "fem": true, "role": "neutro"},
 	"grumi": {"name": "Grumi", "members": ["grumo_muschio", "grumo_resina", "grumo_spore"], "fem": false, "role": "neutro", "nest": {"type": "erba", "n": 6}},
 	"falene": {"name": "Falene di brace", "members": ["falena_brace"], "fem": true, "role": "volante"},
 	"strisciaradici": {"name": "Strisciaradici", "members": ["strisciaradice"], "fem": true, "role": "neutro"},

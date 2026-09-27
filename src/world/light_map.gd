@@ -99,7 +99,8 @@ func _start(center: Vector2i, player_cell: Vector2i) -> void:
 		"origin": o, "tiles": world.tiles, "walls": world.walls, "decor": world.decor, "w": world.w, "h": world.h,
 		"torches": world.torches_in(Rect2i(o, Vector2i(LW, LH))), "player": player_cell, "player_light": player_light, "sky": sky,
 		"decor_light": _decor_light(), "lights": _station_lights(Rect2i(o, Vector2i(LW, LH))) + _extra(Rect2i(o, Vector2i(LW, LH))),
-		"ambient": ambient + ambient_boost, "time": flicker_time,
+		"ambient": ambient + ambient_boost, "time": flicker_time, "liquid": world.liquid,
+		"liq_light": PackedColorArray(LiquidsData.TYPES.map(func(t: Dictionary) -> Color: return t["light"])),
 	}
 	_job = job
 	_task = WorkerThreadPool.add_task(_solve.bind(job), false, "luce")
@@ -167,6 +168,9 @@ static func _solve(job: Dictionary) -> void:
 	solid.resize(n)
 	var cr := TileDefs.LIGHT_CRYSTAL
 	var dlight: PackedColorArray = job["decor_light"]
+	var liq: PackedByteArray = job["liquid"]               # voce 73: la Linfa e la brace liquide fanno luce
+	var llight: PackedColorArray = job["liq_light"]
+	var lq := 0
 	for y in LH:
 		var wy := o.y + y
 		for x in LW:
@@ -175,6 +179,7 @@ static func _solve(job: Dictionary) -> void:
 			var t := TileDefs.AIR
 			var wl := 0
 			var dc := 0
+			lq = 0
 			if wy >= wh or wx < 0 or wx >= ww:
 				t = TileDefs.STONE
 			elif wy >= 0:
@@ -182,6 +187,7 @@ static func _solve(job: Dictionary) -> void:
 				t = tiles[k]
 				wl = walls[k]
 				dc = decor[k]
+				lq = liq[k] if k < liq.size() else 0
 			if t != TileDefs.AIR and t != TileDefs.VETRO:     # il vetro lascia passare la luce
 				solid[i] = 1
 				d[i] = SOLID_DECAY
@@ -200,6 +206,11 @@ static func _solve(job: Dictionary) -> void:
 					r[i] = maxf(r[i], cg.r)
 					g[i] = maxf(g[i], cg.g)
 					b[i] = maxf(b[i], cg.b)
+				if (lq & 15) > 0 and (lq >> 4) > 0:
+					var lc2 := llight[(lq >> 4) & 3] * ((lq & 15) / 8.0)
+					r[i] = maxf(r[i], lc2.r)
+					g[i] = maxf(g[i], lc2.g)
+					b[i] = maxf(b[i], lc2.b)
 	var sources: Array = job["torches"]
 	var ft: float = job["time"]
 	for tc in sources:

@@ -44,6 +44,10 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 			return m.keepers.summon(id)
 		"tavoletta":
 			return m.language.use_tablet(id)           # voce 68
+		"secchio":
+			return m.liquids.scoop(c)                  # voce 73
+		"secchio_pieno":
+			return m.liquids.empty_bucket(c, id)
 		"mappa":
 			if id == "mappa_sigilli":
 				return _seal_hint(id)                  # voce 65

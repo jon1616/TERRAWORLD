@@ -8,7 +8,7 @@ extends SceneTree
 const KINDS := ["materiale", "blocco", "piccone", "ascia", "spada", "arco", "munizione", "torcia", "stazione",
 	"piattaforma", "elmo", "corazza", "gambali", "consumabile", "seme", "lanterna", "cura", "seme_mondo", "accessorio",
 	"purifica", "essenza", "bastone", "dono", "specchio", "trofeo", "richiamo", "reliquia", "mappa", "rampino", "esplosivo", "ricurvo",
-	"giavellotto", "coltura", "annaffiatoio", "parete", "martello", "moneta", "compagno", "evocatore", "ricordo", "provetta", "fiala", "uovo", "creatura", "vasetto", "laccio", "tavoletta", "chiave"]
+	"giavellotto", "coltura", "annaffiatoio", "parete", "martello", "moneta", "compagno", "evocatore", "ricordo", "provetta", "fiala", "uovo", "creatura", "vasetto", "laccio", "tavoletta", "chiave", "secchio", "secchio_pieno"]
 ## Forza di piccone oltre cui una tessera è voluta indistruttibile (i nodi avvizziti: si curano, non si scavano).
 const UNBREAKABLE := 999
 
@@ -103,7 +103,7 @@ func _init() -> void:
 			_err(items.has(String(g[0])), "abitante %s: merce inesistente %s" % [nid, g[0]])
 	# trofei (voce 23): ogni creatura non Guardiano ne ha uno, esiste e serve a qualcosa
 	for cid in CreaturesData.CREATURES:
-		if not CreaturesData.CREATURES[cid].get("boss", false):
+		if not CreaturesData.CREATURES[cid].get("boss", false) and not CreaturesData.CREATURES[cid].get("no_trophy", false):
 			_warn(TrophyItemsData.TROPHY_OF.has(cid), "la creatura %s non ha un trofeo" % cid)
 	for cid in TrophyItemsData.TROPHY_OF:
 		var tid := String(TrophyItemsData.TROPHY_OF[cid])

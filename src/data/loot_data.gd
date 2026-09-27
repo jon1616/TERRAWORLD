@@ -96,6 +96,16 @@ const TABLES := {
 		{"item": "lumino", "min": 250, "max": 400, "chance": 1.0},
 		{"item": "polvere_iridata", "min": 1, "max": 2, "chance": 0.6},
 	],
+	# voce 73: le creature d'acqua
+	"pesce_lume": [
+		{"item": "squama_lume", "min": 1, "max": 2, "chance": 0.9},
+		{"item": "lumino", "min": 1, "max": 3, "chance": 0.5},
+	],
+	"anguilla_linfa": [
+		{"item": "dente_anguilla", "min": 1, "max": 2, "chance": 0.8},
+		{"item": "squama_lume", "min": 1, "max": 1, "chance": 0.4},
+		{"item": "lumino", "min": 2, "max": 6, "chance": 0.6},
+	],
 	"guardiano": [
 		{"item": "frammento_nodo", "min": 30, "max": 30, "chance": 1.0},
 		{"item": "scheggia_vuoto", "min": 8, "max": 12, "chance": 1.0},

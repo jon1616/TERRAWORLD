@@ -19,6 +19,7 @@ const LANDS := {
 const ADJ := {
 	"pianure": ["aperti", "aperte"], "montagne": ["alti", "alte"], "altopiano": ["eccelsi", "eccelse"],
 	"conca": ["bassi", "basse"], "frastagliato": ["spezzati", "spezzate"], "cavo": ["cavi", "cave"],
+	"sommerso": ["sommersi", "sommerse"], "sorgenti": ["sorgivi", "sorgive"],
 	"compatto": ["sordi", "sorde"], "gallerie": ["traforati", "traforate"], "alveare": ["alveolati", "alveolate"],
 	"voragini": ["squarciati", "squarciate"], "abissale": ["abissali", "abissali"], "fungaie": ["fungosi", "fungose"],
 	"geodi_brina": ["gelidi", "gelide"], "fiumi_brace": ["ardenti", "ardenti"], "radici_giganti": ["radicati", "radicate"],

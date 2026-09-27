@@ -45,6 +45,7 @@ var air_jumps := 0                     # salti in aria concessi dagli accessori 
 var wall_climb := false                # Artigli di corteccia: scivolare lungo le pareti e saltarci via
 var hook := Vector2.INF                # punto a cui è agganciato il rampino (INF = sganciato)
 var hook_speed := 330.0
+var in_liquid := false                 # voce 73: nuota (acqua o Linfa fino al petto)
 var _air_left := 0
 var _wall := 0                         # -1/1: parete toccata a sinistra/destra mentre si scivola
 signal air_jumped
@@ -178,6 +179,11 @@ func _step(dt: float, dir: float, held: bool) -> void:
 	if on_floor:
 		_air_left = air_jumps
 	var target := dir * RUN * run_mult * boon_run * (0.45 if slow_t > 0.0 else 1.0)
+	var cx := floori(position.x / 16.0)
+	var cy := floori(position.y / 16.0)
+	in_liquid = world.liq(cx, cy) >= 3 and bool(LiquidsData.TYPES[world.liq_type(cx, cy)]["swim"])
+	if in_liquid:
+		target *= LiquidsData.SWIM_RUN
 	var accel := ACCEL_AIR
 	if on_floor:
 		accel = ACCEL_GROUND if dir != 0.0 and signf(dir) == signf(vel.x if vel.x != 0.0 else dir) else DECEL_GROUND
@@ -205,9 +211,16 @@ func _step(dt: float, dir: float, held: bool) -> void:
 		jump_buf = 0.0
 	var vy0 := vel.y
 	gliding = glide and held and vel.y > 0.0 and not on_floor
-	vel.y = minf(vel.y + GRAV * dt, GLIDE_FALL if gliding else MAX_FALL)
-	if vel.y < 0.0 and not held:
-		vel.y += GRAV * (JUMP_CUT - 1.0) * dt
+	if in_liquid:
+		# voce 73: nell'acqua si galleggia piano, e tenendo il salto si nuota verso l'alto
+		vel.y = minf(vel.y + GRAV * LiquidsData.SWIM_GRAV * dt, LiquidsData.SWIM_FALL)
+		if held:
+			vel.y = move_toward(vel.y, -LiquidsData.SWIM_UP, 900.0 * dt)
+		_air_top = position.y                # nell'acqua non si cade
+	else:
+		vel.y = minf(vel.y + GRAV * dt, GLIDE_FALL if gliding else MAX_FALL)
+		if vel.y < 0.0 and not held:
+			vel.y += GRAV * (JUMP_CUT - 1.0) * dt
 	var through := control and Keys.held("giu")
 	var avg := Vector2((vx0 + vel.x) * 0.5, (vy0 + vel.y) * 0.5)
 	var r := TileBody.move(world, position, HALF, avg, dt, on_floor, through)

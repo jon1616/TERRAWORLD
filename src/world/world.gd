@@ -25,6 +25,11 @@ var chests := {}                       # angolo di una stazione con `slots` (ces
 var biomes := PackedByteArray()        # bioma di superficie di ogni colonna (indice di `BiomesData.BIOMES`)
 var explored := PackedByteArray()      # mappa: 1 dove il Germogliato ha già visto (vedi `MapReveal`)
 var plats := PackedByteArray()         # passerelle: 1 dove c'è una passerella (cella d'aria, si attraversa da sotto)
+## Voce 73: i liquidi. Un byte per cella: livello 0-8 nei 4 bit bassi, tipo (0 acqua, 1 Linfa, 2 brace) nei due sopra.
+## Le regole di come scorrono in `Liquids`, i tipi in `LiquidsData`.
+var liquid := PackedByteArray()
+## Chiamata quando una tessera cambia (`set_tile`): i liquidi vicini si risvegliano (lo imposta `Liquids`).
+var on_change := Callable()
 var gen_notes := {}                    # gli appunti del generatore (`GenContext.notes`), solo per il mondo appena nato
 
 
@@ -39,6 +44,8 @@ func setup(width: int, height: int) -> void:
 	decor.fill(0)
 	plats.resize(w * h)
 	plats.fill(0)
+	liquid.resize(w * h)
+	liquid.fill(0)
 	explored.resize(w * h)
 	explored.fill(0)
 	biomes.resize(w)
@@ -88,6 +95,8 @@ func inside(x: int, y: int) -> bool:
 
 func set_tile(x: int, y: int, t: int) -> void:
 	tiles[y * w + x] = t
+	if on_change.is_valid():
+		on_change.call(x, y)
 
 
 func set_decor(x: int, y: int, d: int) -> void:
@@ -231,3 +240,23 @@ func chests_key() -> String:
 	for o in keys:
 		out += "%s:%s;" % [o, (chests[o] as Bisaccia).to_array()]
 	return out
+
+
+## Voce 73: il livello del liquido in una cella (0-8; 0 fuori dal mondo).
+func liq(x: int, y: int) -> int:
+	if x < 0 or x >= w or y < 0 or y >= h:
+		return 0
+	return liquid[y * w + x] & 15
+
+
+## Il tipo del liquido in una cella (0 acqua, 1 Linfa, 2 brace).
+func liq_type(x: int, y: int) -> int:
+	if x < 0 or x >= w or y < 0 or y >= h:
+		return 0
+	return (liquid[y * w + x] >> 4) & 3
+
+
+func set_liq(x: int, y: int, level: int, type: int) -> void:
+	if x < 0 or x >= w or y < 0 or y >= h:
+		return
+	liquid[y * w + x] = 0 if level <= 0 else (clampi(level, 0, 8) | (type << 4))

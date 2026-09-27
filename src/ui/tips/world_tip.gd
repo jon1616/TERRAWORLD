@@ -236,6 +236,21 @@ static func nest(m: Node2D, e: Dictionary) -> TipCard:
 	return c
 
 
+## Voce 73: un liquido.
+static func liquid(t: int) -> TipCard:
+	var td: Dictionary = LiquidsData.TYPES[t]
+	var c := TipCard.new()
+	c.title(String(td["name"]), td["color"])
+	if bool(td["swim"]):
+		c.line("Ci si nuota: tieni premuto il salto per salire", TipCard.TEXT)
+	if float(td["heal"]) > 0.0:
+		c.line("Cura chi ci sta dentro (%s Vita al secondo)" % ItemTip.num(float(td["heal"]), 0), TipCard.GOOD)
+	if float(td["dps"]) > 0.0:
+		c.line("Brucia chi ci cade dentro (%d Vita al secondo)" % roundi(float(td["dps"])), TipCard.BAD)
+	c.hint("Il secchio di radice lo raccoglie")
+	return c
+
+
 static func _mins(s: float) -> String:
 	if s >= 60.0:
 		return "%d min" % ceili(s / 60.0)

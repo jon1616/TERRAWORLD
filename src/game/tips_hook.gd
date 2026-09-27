@@ -68,6 +68,9 @@ func _world_tip(screen: Vector2) -> Array:
 					tc.hint("Clic destro: esamina")
 				return tc]
 		return ["t%d,%d,%d" % [c.x, c.y, t], func() -> Variant: return WorldTip.tile(m, t)]
+	if w.liq(c.x, c.y) > 0:                                # voce 73: acqua, Linfa, brace
+		var lt := w.liq_type(c.x, c.y)
+		return ["lq%d,%d,%d" % [c.x, c.y, lt], func() -> Variant: return WorldTip.liquid(lt)]
 	var tr := w.tree_at(c)
 	if tr.x >= 0:
 		return ["tr%d,%d" % [tr.x, tr.y], func() -> Variant: return WorldTip.tree(tr)]

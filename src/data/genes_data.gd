@@ -55,12 +55,12 @@ const DEFAULTS := {
 	"gen": {"ore": 0.0, "ruins": 1.0, "gems": 1.0, "surface": 0.0, "hills": 1.0, "rough": 0.0, "worm": 1.0, "room": 0.0,
 		"big": 0.0, "comb": false, "shafts": 0.0, "under": [], "roots": 1.0, "shallow": 1.0, "ore_boost": {},
 		"geodes": 1.0, "crystal": 0.0, "rich": 0.0, "trees": 1.0, "blight_zones": 0.0, "mosaic": false, "islands": 0.0,
-		"city": false},
+		"city": false, "sea": false, "pools": 1.0},
 	"run": {"danger": 0.0, "lumini": 1.0, "rare": 1.0, "grow": 1.0, "night": 0.0, "events": 1.0, "blight": 1.0, "season": 0.0,
 		"aurora": 0.0, "roles": {}},
 }
 const MUL := ["ruins", "gems", "lumini", "rare", "grow", "events", "blight", "hills", "worm", "roots", "shallow", "geodes",
-	"trees"]
+	"trees", "pools"]
 
 const GENES := {
 	# --- superficie: i biomi (erano le specie della voce 39) -------------------------------------------------------
@@ -199,6 +199,11 @@ const GENES := {
 		"combo": ["avvizzito", "notti_lunghe"],       # voce 69: la via del Seme Nero lo insegna
 		"desc": "l'Avvizzimento ovunque e creature rare e feroci, con molti Lumini", "gen": {"blight_zones": 5.0},
 		"run": {"blight": 2.5, "danger": 0.8, "rare": 2.0, "lumini": 1.5}},
+	# voce 73: l'acqua
+	"sommerso": {"cat": "forma", "name": "Sommerso", "rar": 2, "dom": 2, "good": true, "vmin": 2,
+		"desc": "un mare copre quasi tutto il mondo: isole, conche allagate, creature d'acqua", "gen": {"sea": true}},
+	"sorgenti": {"cat": "grotte", "name": "Sorgenti", "rar": 0, "dom": 2, "good": true,
+		"desc": "tante conche d'acqua nelle grotte", "gen": {"pools": 3.0}},
 	# combinazioni segrete: nascono per mutazione, molto più spesso se i genitori portano i due geni indicati
 	"vene_stellari": {"cat": "minerali", "name": "Vene stellari", "rar": 3, "dom": 1, "good": true, "combo": ["vene_ricche", "stellato"],
 		"only": "mutazione", "desc": "vene ricchissime e stelle che cadono spesso", "gen": {"ore": 0.05}, "run": {"events": 1.8}},

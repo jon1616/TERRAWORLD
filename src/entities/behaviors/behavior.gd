@@ -43,6 +43,8 @@ static func make(id: String) -> Behavior:
 			return BhMimo.new()
 		"fugge":
 			return BhFugge.new()                  # le varianti timide (voce 55)
+		"nuota":
+			return BhNuota.new()                  # voce 73: le creature d'acqua
 		"fermo":
 			return Behavior.new()
 	push_error("comportamento sconosciuto: %s" % id)
