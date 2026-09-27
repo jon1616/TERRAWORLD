@@ -21,6 +21,7 @@ var erbario := {}                      # scoperte (vedi `Erbario`): creature sco
 var guardiani_curati: Array = []       # mondi in cui ha curato il Guardiano (il dono vale una volta per mondo)
 var mandria: Array = []                # voce 59: le schede delle creature addomesticate (vedi `Herd`)
 var seme_nero := ""                    # voce 72: "" · "spezzato" · "curato" (vale per tutti i mondi)
+var leggende := {}                     # voce 81: leggende compiute (id → 1), "primo_dato", "primo_fatto"
 var catene := {}                       # voce 69: le catene di ricerca (tappa della lunga, brevi aperte, fatte)
 var lingua := {}                       # voce 68: le parole dei Seminatori che conosce (parola -> 1)
 var bacheca := {}                      # voce 67: le richieste aperte della Bacheca dei Giardinieri e quante fatte
@@ -35,7 +36,8 @@ func to_dict() -> Dictionary:
 		"tratti_equip": bisaccia.equip_traits if bisaccia else {}, "dati_equip": bisaccia.equip_data if bisaccia else {},
 		"vita": hp, "linfa": linfa, "vita_extra": vita_extra, "linfa_extra": linfa_extra, "guardiani_curati": guardiani_curati,
 		"erbario": erbario, "stats": stats, "obiettivi": obiettivi, "genario": genario, "mandria": mandria,
-		"albero": albero, "bacheca": bacheca, "lingua": lingua, "catene": catene, "seme_nero": seme_nero}
+		"albero": albero, "bacheca": bacheca, "lingua": lingua, "catene": catene, "seme_nero": seme_nero,
+		"leggende": leggende}
 
 
 ## Null se i dati vengono da una versione più nuova del gioco (vedi `SaveMigrations`).
@@ -91,6 +93,9 @@ static func from_dict(cid: String, d: Dictionary) -> Character:
 				r[k] = int(r.get(k, 0))
 			c.mandria.append(r)
 	c.seme_nero = String(d.get("seme_nero", ""))
+	var lgd: Variant = d.get("leggende", {})
+	if lgd is Dictionary:
+		c.leggende = SaveMigrations.ints(lgd)
 	var cat: Variant = d.get("catene", {})
 	if cat is Dictionary and not (cat as Dictionary).is_empty():
 		c.catene = SaveMigrations.ints(cat)

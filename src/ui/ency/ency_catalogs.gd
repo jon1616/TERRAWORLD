@@ -139,6 +139,33 @@ static func inline(key: String) -> String:
 				rows.append(_b(String(pd["name"]), "%s · nei mondi con %s · %s" % [pd["banner"], " o ".join(gn),
 					"in superficie" if pd.get("surface", false) else "nello strato «%s»" % StrataData.STRATA[int(pd["strata"][0])]["name"]],
 					String(pd["color"])))
+		"cat_leggende":
+			var ch: Character = EncyPages.ch
+			for k in LegendsData.LEGENDS:
+				var ld: Dictionary = LegendsData.LEGENDS[k]
+				var parts := []
+				for g in ld["needs"]:
+					parts.append(String(GenesData.info(String(g))["name"]) if Genome.state(String(g)) >= 1 or EncyPages.show_all else "?")
+				var done := ch != null and ch.leggende.has(k)
+				rows.append(_b(String(ld["name"]) + ("  ✓" if done else ""), "%s — geni: %s" % [ld["desc"], ", ".join(parts)]))
+		"cat_primo":
+			var ch2: Character = EncyPages.ch
+			var ld2 := 0
+			if ch2 != null:
+				for k in LegendsData.LEGENDS:
+					if ch2.leggende.has(k):
+						ld2 += 1
+			var learned := 0
+			var total := 0
+			for g in GenesData.GENES:
+				if String(GenesData.info(String(g)).get("cat", "")) != "superficie":
+					total += 1
+					if Genome.state(String(g)) >= 2:
+						learned += 1
+			var tree_done := ch2 != null and int(ch2.albero.get("stadio", 0)) >= MotherTreeData.STAGES.size()
+			rows.append(_b("L'Albero-Madre sveglio del tutto", "tutti gli stadi" + ("  ✓" if tree_done else "")))
+			rows.append(_b("Il Genario", "%d geni imparati su %d (ne servono %d)" % [learned, total, ceili(total * LegendsData.PRIMO_GENARIO)]))
+			rows.append(_b("Le leggende", "%d compiute (ne servono %d)" % [ld2, LegendsData.PRIMO_LEGENDS]))
 		"cat_gradi":
 			for t in VigorData.TEMPERS:
 				var td: Dictionary = VigorData.TEMPERS[t]

@@ -48,4 +48,11 @@ Il Maglio tempra fino a due livelli per grado del mondo in cui si trova: in un m
 """I primi tre mondi hanno i Guardiani che i Seminatori conoscevano: il Nodo Avvizzito, la Regina delle Spore, il Colosso d'Ardesia. Dal vigore 4 in poi ogni mondo ha un [b]Guardiano suo[/b], nato dal mondo stesso: sempre diverso, sempre lo stesso per quel mondo.
 Il suo [b]corpo[/b] viene da una delle famiglie di creature, reso gigante, spinoso e del colore del suo [b]elemento[/b]. Il nome dice il suo titolo, la specie e l'elemento. Ha due o tre [b]attacchi[/b] scelti tra ventagli di colpi, scatti, cariche, tiri, bombe dall'alto, salti, lampi (sparisce e ricompare) ed evocazioni della sua specie; solo quelli che il suo corpo sa fare. A metà Vita entra nella [b]seconda fase[/b]: cambia elemento (e con lui le debolezze: guarda la scheda sopra di lui) e diventa più svelto.
 Come tutti i Guardiani si sconfigge o si cura con la Rugiada sui quattro nodi. Sconfitto lascia il [b]Nucleo[/b] del suo elemento, curato la [b]Linfa dei Guardiani[/b]; con sei Nuclei e quattro Linfe il Maglio fa il [b]talismano[/b] di quell'elemento. Sei elementi, sei talismani: per averli tutti servono Guardiani di tutti gli elementi, sia sconfitti che curati."""},
+	{"id": "leggende", "group": "Senza fine", "name": "Semi leggendari e Seme Primo", "text":
+"""Un Seme è [b]leggendario[/b] quando porta insieme i tre geni di una leggenda. Sono geni di categorie diverse e almeno uno è stellare: si mettono insieme innestando (Banco dell'Innestatrice), con le Fiale e con i geni delle firme dei mondi. Il nome del Seme cambia appena li ha tutti.
+{cat_leggende}
+Il mondo di un Seme leggendario ha il doppio di creature rare e di Lumini; quando il suo Guardiano è curato o sconfitto, il Cuore dona un [b]oggetto unico[/b] della leggenda e tre Linfe antiche.
+Il [b]Seme Primo[/b] è il traguardo più lontano. Lo dona l'Albero-Madre, da solo, quando sono vere tutte e tre le cose:
+{cat_primo}
+Nasce il [b]Primo Mondo[/b]: tutti i biomi, quattro geni stellari, il vigore più alto che conosci più cinque. Il suo Cuore dona il [b]Germoglio del Primo[/b]. E dopo il gioco continua: il vigore non ha tetto, le leggende restano da compiere, e i Semi con le loro sfide."""},
 ]

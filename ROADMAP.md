@@ -1503,10 +1503,21 @@ dei Guardiani**: con 6 + 4 il Maglio fa il **talismano** dell'elemento (sei tali
 del portale dice quale Guardiano aspetta; l'Erbario non conta i generati come specie. Su 30 semi: 30 nomi, 20 corpi,
 27 combinazioni di attacchi. Capitolo nell'Enciclopedia. Prove `--solo=guardiani_generati` (foto 147_guardiano_generato).
 
-## 81. [ ] Semi leggendari e il Seme Primo (L)
+## 81. [x] Semi leggendari e il Seme Primo (L) — fatto il 26 set 2026
 Semi leggendari (combinazioni rarissime di geni stellari, catene lunghe) e l'obiettivo finale: il **Seme Primo**,
 che si ottiene solo completando gran parte del Genario e dell'Albero-Madre.
 **Pronto quando**: esiste un traguardo finale lontano e chiaro, e dopo di esso il gioco continua.
+**Fatto il 27 set 2026**: sei **Semi leggendari** (`LegendsData`, `Legends`): un Seme è leggendario quando porta i tre
+geni di una leggenda (categorie diverse, almeno uno stellare: Aurora sospesa, Arcipelago dei venti, Cuore di cristallo,
+Città viva, Abisso sommerso, Notte stellata). Si riconosce dai geni (`Legends.of_genes`), quindi niente da salvare: il
+Seme cambia nome, la scheda del portale lo dice, il mondo ha creature rare e Lumini doppi e il suo Cuore dona un
+**oggetto unico** della leggenda e tre Linfe antiche (`Character.leggende`). Il **Seme Primo** è il traguardo lontano:
+lo dona l'Albero-Madre da solo quando è sveglio del tutto, il Genario ha il 60% dei geni imparati e due leggende sono
+compiute; porta il Mosaico (tutti i biomi), quattro geni stellari di categorie diverse e il vigore più alto conosciuto
+più cinque. Nasce il **Primo Mondo** (`world_meta["primo"]`, dal portale come il Seme Nero), il cui Cuore dona il
+**Germoglio del Primo**; poi il gioco continua (vigore senza tetto, leggende, sfide). Due pagine di storia. Capitolo
+nell'Enciclopedia con le leggende (i geni mai visti restano «?») e l'avanzamento verso il Seme Primo. Prove
+`--solo=leggende` (foto 148_leggende).
 
 ## 82. [ ] Sfide dei Semi (M)
 Semi con prove (senza torce, a tempo, Avvizzimento che avanza, creature solo antiche…) e premi propri; record

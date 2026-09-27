@@ -21,6 +21,13 @@ static func text(portal: Portal, o: Vector2i) -> String:
 	var pct := roundi((Portal.vigor_mult(vigor) - 1.0) * 100.0)
 	t += "[color=#8ef0d8]Vigore %d[/color] · %s\n" % [vigor, ("creature con il %d%% di Vita e danno in più, vene più ricche" % pct)
 		if pct > 0 else "il vigore più basso: creature come quelle del Giardino"]
+	# voce 81: i Semi leggendari e il Seme Primo
+	if e.get("primo", false):
+		t += "[color=#ffe8a0]Il Primo Mondo[/color]: tutti i biomi, i geni stellari, il vigore più alto
+"
+	elif Legends.of_genes(genes) != "":
+		t += "[color=#ffd08a]Mondo leggendario[/color]: %s
+" % Legends.name_of(Legends.of_genes(genes))
 	# Guardiano del Cuore
 	var g := GuardiansData.for_vigor(vigor)
 	if vigor > GuardiansData.LIST.size() and not e.get("nero", false):

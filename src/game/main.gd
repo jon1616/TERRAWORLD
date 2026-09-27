@@ -69,6 +69,7 @@ var weather: Weather
 var gravity: Gravity
 var living: LivingEarth
 var vigor: Vigor
+var legends: Legends
 var board: Board
 var storage: Storage
 var herd: Herd
@@ -113,6 +114,8 @@ func _ready() -> void:
 			world_meta["casa"] = nw["casa"]
 		if nw.get("nero", false):
 			world_meta["nero"] = true              # voce 72: il mondo dove cadde il Seme Nero
+		if nw.get("primo", false):
+			world_meta["primo"] = true             # voce 81: il mondo del Seme Primo
 		if nw.get("giardino", false):
 			# voce 62: il Giardino, la casa della partita (il gene del menu andrà nel primo Seme)
 			world_meta["giardino"] = true
@@ -310,6 +313,7 @@ func _build() -> void:
 	gravity = _mount(Gravity.new())        # voce 76: il peso del mondo e le correnti ascensionali
 	living = _mount(LivingEarth.new())     # voce 77: radici che ricrescono, cristalli che crescono, frane
 	vigor = _mount(Vigor.new())            # voce 79: i gradi del vigore, le indoli nuove, la tempra
+	legends = _mount(Legends.new())        # voce 81: i Semi leggendari e il Seme Primo
 	hud.panel.quick_stack = storage.quick_stack
 	hud.panel._toast = hud.toast
 	interact.chest_panel.storage = storage

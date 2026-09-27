@@ -28,6 +28,15 @@ const PAGES := {
 		"title": "Il Cuore del mondo",
 		"text": "Batte piano, grigio come cenere bagnata. Le radici che lo avvolgono sono marce di muffa: l'Avvizzimento è arrivato fin quaggiù.\nQuattro nodi, sul soffitto della cupola, pulsano insieme al Cuore. Qualcosa si muove tra le radici.",
 	},
+	# voce 81: il Seme Primo
+	"seme_primo": {
+		"title": "Il Seme Primo",
+		"text": "L'Albero-Madre apre una fronda e ti lascia cadere in mano un seme caldo, grande come un pugno. Non è un seme come gli altri: dentro ci sono tutti i biomi, tutte le stelle che hai visto, tutti i geni che hai imparato.\nÈ il seme da cui nacque il primo mondo, quando i Seminatori erano ancora qui. Piantalo, e il Giardino avrà di nuovo un mondo come quelli di allora.",
+	},
+	"primo_compiuto": {
+		"title": "Il Primo Mondo",
+		"text": "Il Cuore del Primo Mondo batte forte, e da ogni radice del Giardino risponde un battito. Hai fatto quello che i Seminatori avevano smesso di fare.\nNon è una fine. I Semi continuano a crescere, i mondi continuano a nascere, e il vigore non ha tetto: da qui in poi ogni mondo è tuo da inventare.",
+	},
 	# voce 80: i Guardiani generati
 	"generato_sconfitto": {
 		"title": "Un Guardiano che non ha nome",

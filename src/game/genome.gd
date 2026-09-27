@@ -277,6 +277,11 @@ static func state(g: String) -> int:
 static func describe(g: Dictionary, colored := false) -> String:
 	var gs := genes(g)
 	var s := String(ItemsData.get_item(item_of(g)).get("name", "Seme di mondo"))
+	var lg := Legends.of_genes(gs)                # voce 81: i Semi leggendari e il Seme Primo
+	if g.get("primo", false):
+		s = "[color=#ffe8a0]Seme Primo[/color]" if colored else "Seme Primo"
+	elif lg != "":
+		s = ("[color=#ffd08a]%s[/color]" if colored else "%s") % Legends.name_of(lg)
 	var names := []
 	for x in gs:
 		if GenesData.cat_of(String(x)) == "superficie":
@@ -296,6 +301,10 @@ static func sheet(g: Dictionary) -> String:
 		t += "[color=#ffd24a]Seme dormiente: ripiantato, riapre «%s»[/color]\n" % g.get("nome", "il suo mondo")
 	if g.has("mutato"):
 		t += "[color=#d890ff]Mutato: porta un gene che i genitori non avevano (%s)[/color]\n" % GenesData.tag(String(g["mutato"]))
+	if g.get("primo", false):
+		t += "[color=#ffe8a0]Il Seme Primo: il mondo di tutti i biomi, il più vigoroso[/color]\n"
+	elif Legends.of_genes(genes(g)) != "":
+		t += "[color=#ffd08a]Seme leggendario: %s[/color]\n" % LegendsData.LEGENDS[Legends.of_genes(genes(g))]["desc"]
 	t += "[color=#8ef0d8]Genoma[/color] · [color=#9fc8c0]%s[/color]\n" % (("vigore %d" % v) if v > 0
 		else "vigore del mondo dove lo pianti, più uno")
 	for x in genes(g):
