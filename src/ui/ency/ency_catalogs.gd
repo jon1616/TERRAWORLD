@@ -247,8 +247,24 @@ static func catalog(id: String) -> Array:
 					return EncyPages.link("gene:" + g, String(GenesData.GENES[g]["name"])) if EncyPages.known_gene(g) else "[color=#5a706c]?[/color]")) + "\n"
 			return ["Geni", t, ""]
 		"materiali":
+			# 28 set 2026 (appunto dell'utente): ogni riga comincia con il nome del materiale; per gruppi
+			var groups := [["Metalli", []], ["Leghe", []], ["Materiali dei geni", []]]
 			for k in MaterialsData.all():
-				t += "• %s\n" % MaterialsData.describe(String(k))
+				var md: Dictionary = MaterialsData.get_mat(String(k))
+				var gi := 0 if MaterialsData.MATERIALS.has(k) else (1 if md.has("alloy") else 2)
+				(groups[gi][1] as Array).append(String(k))
+			for gr in groups:
+				t += "[color=%s]%s[/color]\n" % [G, gr[0]]
+				for k in gr[1]:
+					var md: Dictionary = MaterialsData.get_mat(String(k))
+					var nm := String(md.get("short", String(md.get("label", k)).trim_prefix("di ").trim_prefix("d'")))
+					nm = nm.substr(0, 1).to_upper() + nm.substr(1)
+					var bar := String(md.get("bar", ""))
+					var link := "[url=item:%s]%s[/url]" % [bar, nm] if ItemsData.get_item(bar).has("name") else nm
+					var el := String(md.get("elemento", ""))
+					t += "• [color=#ffe8b0]%s[/color]  [color=%s](grado %d%s)[/color] — [color=%s]%s[/color]\n" % [link, D,
+						int(md.get("tier", 0)), (", " + el) if el != "" else "", T, MaterialsData.describe(String(k))]
+				t += "\n"
 			return ["Materiali", t, ""]
 		"forme":
 			return ["Forme", inline("cat_forme"), ""]

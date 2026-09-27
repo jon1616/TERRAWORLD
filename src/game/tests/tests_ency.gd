@@ -64,6 +64,9 @@ func run() -> void:
 	ep.go("cat:oggetti")
 	await kit.frames(3)
 	await kit.save("125_enciclopedia_oggetti")
+	ep.go("cat:materiali")
+	await kit.frames(3)
+	await kit.save("127_enciclopedia_materiali")
 	ep._search.text = "legnoferro"
 	ep._fill_index()
 	ep.go("cap:elementi")
