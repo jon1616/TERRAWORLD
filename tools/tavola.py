@@ -358,6 +358,14 @@ def main() -> None:
     os.makedirs(args.cartella, exist_ok=True)
     if args.stazioni:
         mis = misure_stazioni()
+        # le stazioni a gradi hanno un disegno solo, senza il numero: la misura è quella del primo grado.
+        # I nomi «x…» sono pezzi da scartare (doppioni che Nano Banana aggiunge)
+        for n in nomi:
+            if n not in mis and n + "_1" in mis:
+                mis[n] = mis[n + "_1"]
+        tieni = [i for i, n in enumerate(nomi[:len(figure)]) if not n.startswith("x")]
+        figure = [figure[i] for i in tieni]
+        nomi = [nomi[i] for i in tieni]
         manca = [n for n in nomi if n not in mis]
         if manca:
             print("ATTENZIONE: stazioni sconosciute %s" % manca)
