@@ -1457,9 +1457,18 @@ dopo un'assenza radici e cristalli recuperano il tempo perso e un avviso lo racc
 radici hanno richiuso 5 tessere scavate, i cristalli sono cresciuti di 18 tessere»). `PlayerActions.dug` (segnale
 nuovo) per chi vuole sapere delle tessere rotte. Capitolo nell'Enciclopedia. Prove `--solo=terra_viva` (foto 143_frana).
 
-## 78. [ ] Il tempo dei mondi (S)
+## 78. [x] Il tempo dei mondi (S) — fatto il 26 set 2026
 Geni del tempo: giorni lunghissimi o brevissimi, eclissi, notti eterne, mondi senza sole con luce solo dalle cose vive.
 **Pronto quando**: i geni del tempo cambiano davvero cosa si può fare e quando.
+**Fatto il 27 set 2026**: i geni del tempo (`DayCycle`, dati in `WorldTimeData`). **Giorni brevi** (un giorno in 8
+minuti) e **Giorno lento** (quasi un'ora): `DayCycle.day_len`. **Notte eterna** (vigore 3+): l'ora resta a mezzanotte,
+sempre le creature della notte, più pericolo e Lumini; i giorni si contano lo stesso. **Senza sole** (vigore 3+): il
+cielo non fa luce, né sole né luna (`Background.no_lights`); si vede solo ciò che brilla, ma le creature sono quelle del
+giorno. Il gene **Eclissi** (che c'era già: notti lunghe, creature rare) ora spegne davvero il sole ogni mezzogiorno per
+un paio di minuti (disco nero nel cielo, creature della notte, avviso) e chi si sconfigge durante l'eclissi può lasciare
+la **Polvere d'eclissi**: Amuleto dell'eclissi (alone e furtività) e Lanterna della notte eterna. Nei mondi bui le
+colture crescono a 0,3 tranne vicino a una torcia o alla Linfa (`DayCycle.dark_grow`). Capitolo nell'Enciclopedia.
+Prove `--solo=tempo_mondi` (foto 144_eclissi, 145_senza_sole).
 
 # Roadmap 11 «Senza fine» — il fine gioco che non finisce
 

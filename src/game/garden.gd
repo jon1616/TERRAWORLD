@@ -38,7 +38,8 @@ func grow(secs: float) -> void:
 		var e: Array = w.crops[c]
 		if float(e[1]) <= 0.0:
 			continue
-		e[1] = float(e[1]) - secs * (LiquidsData.LINFA_GROW if _near_linfa(c) else 1.0)   # voce 74
+		var lf := _near_linfa(c)
+		e[1] = float(e[1]) - secs * (LiquidsData.LINFA_GROW if lf else m.day.dark_grow(c))   # voci 74 e 78
 		if float(e[1]) <= 0.0:
 			w.set_decor(c.x, c.y, int(CropsData.CROPS[String(e[0])]["decor"]))
 			m.view.refresh_around(c)

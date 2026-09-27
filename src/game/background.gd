@@ -19,6 +19,8 @@ const LAYERS := [
 var world: World
 var _layers: Array[Dictionary] = []
 var _sun: Sprite2D
+var eclipse := 0.0                     # voce 78: quanto è piena l'eclissi (il sole diventa un disco scuro)
+var no_lights := false                 # voce 78: mondo senza sole, né sole né luna
 var _moon: Sprite2D
 var _sky_rect: TextureRect
 var _stars: TextureRect
@@ -113,8 +115,9 @@ func set_time(t: float, tint: Color, night: float, star_gain := Color.WHITE) -> 
 	_moon.modulate = Color(0.95, 1.05, 1.1) * Color(minf(star_gain.r, 2.5), minf(star_gain.g, 2.5), minf(star_gain.b, 2.5))
 	for L in _layers:
 		(L["node"] as Node2D).modulate = tint.lerp(Color.WHITE, 0.15)
-	_sun.visible = t > 0.18 and t < 0.82
-	_moon.visible = not _sun.visible or t < 0.22 or t > 0.78
+	_sun.visible = t > 0.18 and t < 0.82 and not no_lights
+	_moon.visible = (not (t > 0.18 and t < 0.82) or t < 0.22 or t > 0.78) and not no_lights
+	_sun.modulate = Color(2.2, 2.1, 1.8).lerp(Color(0.04, 0.03, 0.07), eclipse)
 
 
 ## `cp` = centro della visuale in pixel del mondo, `view` = dimensione della visuale in pixel del mondo.

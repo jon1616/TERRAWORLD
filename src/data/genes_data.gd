@@ -58,10 +58,10 @@ const DEFAULTS := {
 		"city": false, "sea": false, "pools": 1.0, "roof": false, "archi": false},
 	"run": {"danger": 0.0, "lumini": 1.0, "rare": 1.0, "grow": 1.0, "night": 0.0, "events": 1.0, "blight": 1.0, "season": 0.0,
 		"aurora": 0.0, "roles": {}, "rain": 1.0, "wind": 1.0, "fog": 1.0, "grav": 1.0, "roof": false, "regrow": false, "crystal": 0.0,
-		"falling": false},
+		"falling": false, "day_len": 1.0, "eternal": false, "sunless": false, "eclipse": false},
 }
 const MUL := ["ruins", "gems", "lumini", "rare", "grow", "events", "blight", "hills", "worm", "roots", "shallow", "geodes",
-	"trees", "pools", "rain", "wind", "fog", "grav"]
+	"trees", "pools", "rain", "wind", "fog", "grav", "day_len"]
 
 const GENES := {
 	# --- superficie: i biomi (erano le specie della voce 39) -------------------------------------------------------
@@ -200,6 +200,16 @@ const GENES := {
 		"combo": ["avvizzito", "notti_lunghe"],       # voce 69: la via del Seme Nero lo insegna
 		"desc": "l'Avvizzimento ovunque e creature rare e feroci, con molti Lumini", "gen": {"blight_zones": 5.0},
 		"run": {"blight": 2.5, "danger": 0.8, "rare": 2.0, "lumini": 1.5}},
+	# voce 78: il tempo dei mondi
+	"giorni_brevi": {"cat": "tempo", "name": "Giorni brevi", "rar": 0, "dom": 2, "good": false,
+		"desc": "i giorni volano: un giorno intero dura otto minuti", "run": {"day_len": 0.4}},
+	"giorno_lento": {"cat": "tempo", "name": "Giorno lento", "rar": 1, "dom": 2, "good": true,
+		"desc": "un giorno dura quasi un'ora: lunghe mattine e lunghissime notti", "run": {"day_len": 2.5}},
+	"notte_eterna": {"cat": "tempo", "name": "Notte eterna", "rar": 2, "dom": 1, "good": false, "vmin": 3,
+		"desc": "il sole non sorge mai: sempre le creature della notte, e le colture vogliono le torce",
+		"run": {"eternal": true, "lumini": 1.3, "danger": 0.3}},
+	"senza_sole": {"cat": "tempo", "name": "Senza sole", "rar": 2, "dom": 1, "good": false, "vmin": 3,
+		"desc": "un cielo che non fa luce: si vede solo ciò che brilla da sé", "run": {"sunless": true}},
 	# voce 77: la terra viva
 	"radici_vive": {"cat": "sottosuolo", "name": "Radici vive", "rar": 1, "dom": 2, "good": false,
 		"desc": "le radici ricrescono e richiudono i cunicoli scavati (la luce delle torce le tiene lontane)",
@@ -238,7 +248,8 @@ const GENES := {
 		"only": "mutazione", "desc": "colture tre volte più svelte e boschi fitti", "gen": {"trees": 1.5}, "run": {"grow": 3.0}},
 	# un gene raro ma che si trova, nei mondi profondi
 	"eclissi": {"cat": "cielo", "name": "Eclissi", "rar": 2, "dom": 2, "good": false, "vmin": 4,
-		"desc": "notti lunghe, eventi e creature rare più frequenti", "run": {"night": 0.12, "events": 1.5, "rare": 1.5}},
+		"desc": "notti lunghe, creature rare, e ogni mezzogiorno il sole si spegne (la Polvere d'eclissi)",
+		"run": {"night": 0.12, "events": 1.5, "rare": 1.5, "eclipse": true}},
 	# solo dalla firma di certi mondi (la Provetta vicino alla firma)
 	"eco_seminatori": {"cat": "rovine", "name": "Eco dei Seminatori", "rar": 3, "dom": 2, "good": true, "only": "firma",
 		"desc": "rovine ovunque, con gli scrigni più ricchi", "gen": {"ruins": 1.8, "rich": 3.0}},
