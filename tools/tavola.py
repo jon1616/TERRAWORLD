@@ -310,6 +310,8 @@ def main() -> None:
     ap.add_argument("--colori", type=int, default=12, help="colori per ogni pezzo")
     ap.add_argument("--misure", default="", help="misure dell'anteprima, es. 12,16,20 (vuoto = solo --lato)")
     ap.add_argument("--griglia", default="", help="colonne x righe, es. 6x3: unisce i pezzi di ogni cella")
+    ap.add_argument("--decor", type=int, default=0,
+                    help="decorazioni: ogni pezzo largo 16 e alto al più N pixel, in basso in una cella 16×16")
     ap.add_argument("--stazioni", action="store_true",
                     help="ogni pezzo prende la misura della sua stazione (src/data/stations_data.gd), non --lato")
     ap.add_argument("--riempi", default="",
@@ -358,6 +360,21 @@ def main() -> None:
                     + [np.array([pixela.OUTLINE], dtype=np.float32)])
     n_base = len(pal)
     os.makedirs(args.cartella, exist_ok=True)
+    if args.decor:
+        os.makedirs(args.cartella, exist_ok=True)
+        for f, nome in zip(figure, nomi):
+            if nome.startswith("x"):
+                continue
+            cella = np.zeros((16, 16, 4), dtype=np.uint8)
+            cella[16 - args.decor:] = riduci_in(f, 16, args.decor, pal, n_base)
+            Image.fromarray(cella, "RGBA").save(os.path.join(args.cartella, nome + ".png"))
+        base = os.path.splitext(os.path.basename(args.file))[0]
+        prev = os.path.join("prove", "arte_%s.png" % base)
+        tieni = [(f, n) for f, n in zip(figure, nomi) if not n.startswith("x")]
+        anteprima_stazioni([t[0] for t in tieni], [t[1] for t in tieni], {t[1]: (16, args.decor) for t in tieni},
+                           pal, n_base, prev)
+        print("%d decorazioni in %s, anteprima %s" % (len(tieni), args.cartella, prev))
+        return
     if args.stazioni:
         mis = misure_stazioni()
         # le stazioni a gradi hanno un disegno solo, senza il numero: la misura è quella del primo grado.

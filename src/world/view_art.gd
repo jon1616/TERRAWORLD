@@ -23,12 +23,14 @@ static func start() -> void:
 		return
 	# le tabelle che servono si caricano qui, nel thread principale, prima di cominciare
 	var _warm := [TileDefs.TERRAIN_LAYERS.size(), TileDefs.TYPES, DecorPainter.ROWS]
+	ArtLib.preload_images("vegetazione")      # voce 107: i disegni delle decorazioni, qui e non nel thread
 	_thread = Thread.new()
 	_thread.start(func() -> Dictionary: return _prepare())
 
 
 ## Le risorse pronte (aspetta il thread se sta ancora lavorando, o le fa subito se nessuno le ha cominciate).
 static func get_all() -> Dictionary:
+	ArtLib.preload_images("vegetazione")
 	if _thread != null:
 		_res = _thread.wait_to_finish()
 		_thread = null

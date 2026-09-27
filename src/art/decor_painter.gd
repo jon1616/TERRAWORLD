@@ -91,6 +91,16 @@ static func decor(id: int) -> Dictionary:
 	rng.seed = id * 1013 + 5
 	var im := Px.img(S, S)
 	var gm := Px.img(S, S)
+	# voce 107: il disegno di Nano Banana (arte/vegetazione/<id>.png), se c'è; la parte luminosa sono i pixel accesi
+	var art := ArtLib.image("vegetazione", str(id))
+	if art != null:
+		for y in S:
+			for x in S:
+				var c := art.get_pixel(x, y)
+				var hi := maxf(c.r, maxf(c.g, c.b))
+				if c.a > 0.5 and hi > 0.72 and hi - minf(c.r, minf(c.g, c.b)) > 0.35:
+					gm.set_pixel(x, y, c)
+		return {"img": art.duplicate(), "glow": gm}
 	var moss := Px.pal(TileDefs.P_GRASS)
 	var root := Px.pal(TileDefs.P_ROOT)
 	var outline := true
