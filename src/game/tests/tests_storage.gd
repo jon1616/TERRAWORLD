@@ -136,6 +136,12 @@ func _tiers(spot: Vector2i) -> void:
 			bad.append("%s: manca la ricetta" % id)
 		sizes.append(int(e["slots"]))
 	var o := spot + Vector2i(2, 0)
+	# (nel giro intero le prove di prima lasciano casse qui accanto: toccando si apriva una di loro, con 20 caselle)
+	for so: Vector2i in world.stations.keys():
+		if Rect2i(o - Vector2i(4, 4), Vector2i(10, 8)).has_point(so):
+			world.stations.erase(so)
+			world.chests.erase(so)
+			m.view.remove_station(so)
 	world.stations[o] = "arca_stellare"
 	m.view.add_station(o)
 	var ch := world.chest_at(o)

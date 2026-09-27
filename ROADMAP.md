@@ -2105,7 +2105,15 @@ due tessere) finivano nel pavimento; `PassLuoghi.build` alza una stazione finch�
   laghetti nel bosco; niente nel deserto di vetro), con la mappa dei posti (`GenContext.claim`).
 - Misura con uno strumento: quanti specchi pescabili per strato e per liquido in 10 mondi.
 
-## 119. [ ] Spostare i liquidi (M)
+## 119. [x] Spostare i liquidi (M) — fatto il 28 set 2026
+Fatto: `LiquidTools` (`src/game/`): **Otre di legnoferro** (6 celle, Telaio) e **Anfora d'ambra** (20 celle, Maglio),
+tipo «contenitore»: clic su un liquido raccoglie dall'alto dello specchio (`WaterBody`), clic altrove versa riempiendo le
+celle d'aria vicine; il contenuto nei "dati" della casella ({liq, n}), letto nella scheda («Contiene»). Tre **fonti**
+(stazioni 1×2 con campo `fonte`): Fonte di muschio (acqua, Ceppo), Fonte di Linfa (Maglio), Bocca di brace (Baccello
+ardente); versano 4 livelli ogni 0,25 s nella cella accanto alla bocca finché lì non è pieno (il bacino sale fino a
+lei), solo vicino al Germogliato; disegno in `FountainArt`. Prova `--solo=pesca`: l'otre porta 6 celle da una conca
+all'altra senza perderne, una fonte rende pescabile una conca vuota; foto 181_fonte. Enciclopedia: capitolo dei liquidi.
+Corretto nella prova dei gradi delle casse: nel giro intero una cassa lasciata accanto si apriva al posto dell'arca.
 - Contenitori più grandi del Secchio di radice (una cella): uno di legnoferro e uno d'ambra (più celle per viaggio).
 - **Le fonti**: stazioni che versano piano il loro liquido (una d'acqua da fabbricare presto; di Linfa e di brace più
   avanti, con materiali dei loro strati), per riempire un bacino scavato apposta.

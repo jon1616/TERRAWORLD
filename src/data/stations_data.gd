@@ -51,6 +51,11 @@ const STATIONS := {
 		"light_color": Color(1.8, 1.0, 0.5)},
 	# voce 27: l'Altare dei Seminatori (richiama i Custodi) e i bozzoli delle tane dei Custodi
 	# voce 87: totem, stendardi e altari (tipo × grado; gli effetti in `ZonesData`, le regole in `Zones`)
+	"fonte_acqua": {"name": "Fonte di muschio", "size": [1, 2], "item": "fonte_acqua", "fonte": 0},     # voce 119
+	"fonte_linfa": {"name": "Fonte di Linfa", "size": [1, 2], "item": "fonte_linfa", "fonte": 1, "light": true,
+		"light_color": Color(0.35, 1.3, 1.1)},
+	"fonte_brace": {"name": "Bocca di brace", "size": [1, 2], "item": "fonte_brace", "fonte": 2, "light": true,
+		"light_color": Color(1.6, 0.7, 0.25)},
 	"totem_germoglio_1": {"name": "Totem del germoglio", "size": [1, 2], "item": "totem_germoglio_1"},
 	"totem_germoglio_2": {"name": "Totem del germoglio di legnoferro", "size": [1, 2], "item": "totem_germoglio_2"},
 	"totem_germoglio_3": {"name": "Totem del germoglio d'ambra", "size": [1, 2], "item": "totem_germoglio_3"},

@@ -377,7 +377,7 @@ static func use_of(id: String) -> String:
 			return "leggi"
 		"sfida":
 			return "sigilla"
-		"secchio", "secchio_pieno":
+		"secchio", "secchio_pieno", "contenitore":
 			return "versa"
 		"compagno":
 			return "chiama"

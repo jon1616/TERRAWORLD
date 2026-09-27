@@ -16,7 +16,12 @@ Il [b]Secchio di radice[/b] (Ceppo) raccoglie una cella piena di liquido e la ve
 • la [b]brace liquida[/b], densa e lenta, che fa luce rossa e [b]brucia[/b] chi ci cade dentro, creature comprese. I fiumi del gene [url=gene:fiumi_brace]Fiumi di brace[/url] sono di brace vera; qualche pozza c'è nel Fondo di ogni mondo.
 [b]Quando si toccano[/b]:
 {cat_reazioni_liquidi}
-Con il secchio si portano: un ponte di pietra di brace su un fiume di brace, una pozza di Linfa accanto all'orto, un fossato di brace attorno alla casa."""},
+Con il secchio si portano: un ponte di pietra di brace su un fiume di brace, una pozza di Linfa accanto all'orto, un fossato di brace attorno alla casa.
+
+[b]Spostare molto liquido[/b]
+• L'[b]Otre di legnoferro[/b] (6 celle, al Telaio) e l'[b]Anfora d'ambra[/b] (20 celle, al Maglio): clic su un liquido lo raccoglie dall'alto dello specchio, clic altrove lo versa. La scheda dice che cosa contengono.
+• Le [b]fonti[/b] versano senza fine il loro liquido accanto alla bocca, finché il bacino non sale fino a lei: la [b]Fonte di muschio[/b] (acqua, al Ceppo), la [b]Fonte di Linfa[/b] (al Maglio), la [b]Bocca di brace[/b] (al Baccello ardente). Lavorano quando sei vicino.
+• Scavando un canale il liquido scorre da solo verso il basso: così si svuota una grotta allagata o si riempie una conca. Un bacino di almeno {min_specchio} celle piene è uno specchio in cui si può pescare."""},
 	{"id": "meteo", "group": "Le leggi dei mondi", "name": "Vento e tempo atmosferico", "text":
 """In superficie il tempo cambia ogni poche ore di gioco, secondo la stagione, i biomi del mondo e i geni [url=gene:piovoso]Piovoso[/url], [url=gene:ventoso]Ventoso[/url] e [url=gene:nebbioso]Nebbioso[/url]. L'orologio dice che tempo fa. Sotto terra non arriva.
 {cat_meteo}

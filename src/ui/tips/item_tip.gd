@@ -97,6 +97,8 @@ static func _values(c: TipCard, slot: Dictionary, it: Dictionary, kind: String) 
 
 ## Ciò che solo certi oggetti hanno: pozioni, doni, Semi di mondo, creature nel vasetto, uova, incantesimi.
 static func _specials(c: TipCard, slot: Dictionary, it: Dictionary, kind: String, dati: Dictionary, ctx := {}) -> void:
+	if kind == "contenitore":
+		c.pair("Contiene", LiquidTools.content_text(String(slot.get("id", "")), dati), Color("#8ec8ff"))   # voce 119
 	if it.has("boon"):
 		var b: Array = it["boon"]
 		c.pair("Effetto", "%s per %s" % [Boons.NAMES.get(String(b[0]), String(b[0]).capitalize()), _time(float(b[1]))],

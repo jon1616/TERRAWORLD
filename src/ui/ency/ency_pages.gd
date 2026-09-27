@@ -79,7 +79,7 @@ static func numbers() -> Dictionary:
 	return {"hp": Vitals.HP_MAX, "linfa": Vitals.LINFA_MAX, "regen_delay": roundi(Vitals.REGEN_DELAY),
 		"regen": ItemTip.num(Vitals.REGEN, 1), "linfa_regen": ItemTip.num(Vitals.LINFA_REGEN, 1),
 		"potion_cd": roundi(Vitals.POTION_COOLDOWN), "fall_safe": roundi(Life.FALL_SAFE), "fall_hurt": Life.FALL_HURT,
-		"bag": 40, "day_min": roundi(DayCycle.DAY / 60.0), "season_days": SeasonsData.DAYS, "chest_reach": 10,
+		"bag": 40, "min_specchio": roundi(WaterBody.MIN_VOLUME), "day_min": roundi(DayCycle.DAY / 60.0), "season_days": SeasonsData.DAYS, "chest_reach": 10,
 		"craft_reach": 5, "max_slots": TraitsData.MAX_SLOTS, "weak": ItemTip.num(ElementsData.WEAK, 1),
 		"resist": ItemTip.num(ElementsData.RESIST, 1), "vigor_pct": roundi(VigorData.CREATURE_STEP * 100.0),
 		"vigor_pct2": roundi(VigorData.CREATURE_STEP_HIGH * 100.0), "vigor_soft": VigorData.CREATURE_SOFT,

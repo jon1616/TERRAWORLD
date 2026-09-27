@@ -39,6 +39,17 @@ const ITEMS := {
 		"source": "un secchio di radice immerso nella Linfa", "desc": "Clic: versa la Linfa. Cura chi ci sta dentro."},
 	"secchio_brace": {"name": "Secchio di brace", "kind": "secchio_pieno", "icon": ["vasetto", "brace"], "stack": 1, "liquid": 2,
 		"source": "un secchio di radice immerso nella brace liquida", "desc": "Clic: versa la brace. Brucia chi ci cade dentro."},
+	# voce 119: spostare i liquidi (contenitori grandi e fonti, vedi `LiquidTools`)
+	"otre_legnoferro": {"name": "Otre di legnoferro", "kind": "contenitore", "cap": 6, "icon": ["vasetto", "legnoferro"], "stack": 1,
+		"desc": "Raccoglie fino a sei celle di un liquido (clic sul liquido) e le versa dove vuoi (clic altrove). Per riempire o svuotare un bacino."},
+	"anfora_ambra": {"name": "Anfora d'ambra", "kind": "contenitore", "cap": 20, "icon": ["vasetto", "ambra"], "stack": 1,
+		"desc": "Raccoglie fino a venti celle di un liquido e le versa dove vuoi: basta per un laghetto."},
+	"fonte_acqua": {"name": "Fonte di muschio", "kind": "stazione", "place": "fonte_acqua", "icon": ["vasetto", "muschio"], "stack": 9,
+		"desc": "Una pietra che gocciola acqua senza fine: la versa accanto a sé finché il bacino non sale fino alla sua bocca."},
+	"fonte_linfa": {"name": "Fonte di Linfa", "kind": "stazione", "place": "fonte_linfa", "icon": ["vasetto", "linfa"], "stack": 9,
+		"desc": "Un cristallo che piange Linfa: la versa accanto a sé finché il bacino non sale fino alla sua bocca."},
+	"fonte_brace": {"name": "Bocca di brace", "kind": "stazione", "place": "fonte_brace", "icon": ["vasetto", "brace"], "stack": 9,
+		"desc": "Una roccia che trabocca di brace liquida: la versa accanto a sé. Attenzione a dove la metti."},
 	"pietra_brace": {"name": "Pietra di brace", "kind": "blocco", "icon": ["zolla", "brace"], "place": TileDefs.PIETRA_BRACE,
 		"desc": "Nasce dove l'acqua spegne la brace liquida: scura, dura, calda al tatto. Un blocco da costruzione."},
 	"squama_lume": {"name": "Squama di lume", "kind": "materiale", "icon": ["foglia", "cristallo"], "stack": 99,
@@ -53,6 +64,11 @@ const ITEMS := {
 
 const RECIPES := [
 	{"out": "secchio", "qty": 1, "in": {"legno": 8, "lingotto_radicite": 2}, "station": "ceppo"},
+	{"out": "otre_legnoferro", "qty": 1, "in": {"lingotto_legnoferro": 3, "seta_radice": 3}, "station": "telaio"},
+	{"out": "anfora_ambra", "qty": 1, "in": {"lingotto_ambra": 4, "cristallo_linfa": 2}, "station": "maglio"},
+	{"out": "fonte_acqua", "qty": 1, "in": {"ardesia": 20, "gelatina": 5, "lingotto_radicite": 2}, "station": "ceppo"},
+	{"out": "fonte_linfa", "qty": 1, "in": {"ardesia": 20, "cristallo_linfa": 6, "lingotto_legnoferro": 2}, "station": "maglio"},
+	{"out": "fonte_brace", "qty": 1, "in": {"pietra_brace": 15, "polvere_brace": 10, "lingotto_ambra": 2}, "station": "baccello_ardente"},
 	{"out": "branchie_muschio", "qty": 1, "in": {"squama_lume": 8, "seta_radice": 2}, "station": "telaio"},
 	{"out": "amuleto_anguilla", "qty": 1, "in": {"dente_anguilla": 6, "squama_lume": 4, "lingotto_legnoferro": 2}, "station": "maglio"},
 ]

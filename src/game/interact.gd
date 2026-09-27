@@ -52,6 +52,8 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 			return m.liquids.scoop(c)                  # voce 73
 		"secchio_pieno":
 			return m.liquids.empty_bucket(c, id)
+		"contenitore":
+			return m.liquid_tools.use_container(c, id)   # voce 119: otre e anfora
 		"mappa":
 			if id == "eco_seminatori":
 				return m.secrets.use_echo(id)          # voce 95
