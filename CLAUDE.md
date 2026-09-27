@@ -108,7 +108,8 @@ Godot_console.exe --path . -- --prove --prova-giardino
 # solo alcuni gruppi di prove (per provare in fretta una voce nuova): doni, antiche, pericoli, combattimento, tratti,
 # obiettivi, guardiani, rovine, mobilita, lanci, giardino, eventi, casa, abitanti, compagni, viaggio, semi,
 # biomi, biomi_nuovi, luoghi, corsa, raccolta, musica, germogliato, interfaccia, geni, forme, ecologia, mandria, casse, alberi,
-# sigilli, stagioni, suggerimenti, opzioni, enciclopedia
+# sigilli, stagioni, suggerimenti, opzioni, enciclopedia, lingua, catene, luoghi_scritti, enigmi, seme_nero, acqua,
+# liquidi, meteo, gravita, terra_viva, tempo_mondi, vigore, guardiani_generati, leggende, sfide
 # (elenco in `AutoTests._group`)
 Godot_console.exe --path . -- --prove --solo=doni,antiche
 # suoni generati: prove/suoni/*.wav da ascoltare, con durata, picco e volume medio (segnala muti e distorti)
@@ -430,7 +431,41 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   collegamenti `[url=cap:id]`, `cat:`, `item:`, `cr:`, `gene:`; `{numero}` e `{cat_…}` riempiti dai dati); `EncyPages`
   (pagine, ricerca, ciò che si conosce), `EncyCatalogs` (liste e cataloghi dai dati), `EncyPanel` (in `src/ui/ency/`),
   `Encyclopedia` (`src/game/`, tasto H e bottone). **Ogni voce nuova scrive o aggiorna il suo capitolo**; la prova
-  `--solo=enciclopedia` controlla segnaposti e collegamenti.
+  `--solo=enciclopedia` controlla segnaposti e collegamenti. Capitoli delle Roadmap 9-11 in `EncyStoryData` (lingua,
+  catene, luoghi, enigmi, Seme Nero) ed `EncyLawsData` (gruppi «Le leggi dei mondi» e «Senza fine»).
+- **Roadmap 9 «Il mistero dei Seminatori»** (voci 68-72):
+  - `LanguageData` (50 parole, indizi, pagine) e `Language` — le stele (`PassStele`, `SeminatoriArt`), le tavolette,
+    le parole imparate in `Character.lingua`, i segni sulla mappa (`world_meta["segni"]`); `ReadPanel` in `src/ui/`.
+  - `ChainsData` e `Chains` — la catena lunga (5 tappe fino al Seme Nero) e le brevi; le cripte dei Seminatori
+    (`PassCatene`, da `Chains.pending`) e il leggio; il Taccuino nel Semenzaio (`view`, `records_text`).
+  - `PlacesData` (luoghi scritti a mano come griglie di caratteri, fatte da `places_gen.py`), `PassLuoghi.build`,
+    `Places`; `WorldView.refresh_rect` per ridisegnare una zona.
+  - `Mechanisms` — gli enigmi (bracieri, leve, piastre, cristalli d'eco, porte `PORTA_SEM`), stazioni dei meccanismi.
+  - `NeroData`, `NeroArt`, `PassNero` — il mondo dove cadde il Seme Nero e il suo Guardiano; la scelta (curato o
+    spezzato) vale per tutti i mondi (`Character.seme_nero`, `Blight.tick`).
+- **Roadmap 10 «Le leggi dei mondi»** (voci 73-78):
+  - I liquidi: `World.liquid` (livello 0-8 nei 4 bit bassi, tipo nei bit 4-5), `LiquidsData` (acqua, Linfa, brace,
+    reazioni), `Liquids` (automa a celle **solo attive e solo vicino al Germogliato**, livellamento del tratto
+    appoggiato; nuoto, respiro, secchio; le pellicole sottili evaporano), `LiquidView` (z 12), `PassAcqua` (conche,
+    mare del gene Sommerso, laghi nelle voragini dell'Arcipelago), `BhNuota`, `AquaArt`.
+  - `WeatherData` e `Weather` — sei tempi scelti per stagione, biomi e geni: vento (`Player.wind`,
+    `Projectiles.wind`), pioggia (acqua vera nelle conche), nebbia (`Behavior.fog`), fulmini, cenere, bufera.
+  - `Gravity` — il peso del mondo (`Player.grav_mult`, `Creature.grav` per tutto ciò che cade) e le correnti
+    ascensionali (`world_meta["correnti"]`, `Player.lift`); `PassGuscio` (tetto di roccia, pozzi di sole) e
+    `PassArcipelago` (pilastri, voragini, isole). Sotto il tetto non piove (`Weather.roofed`).
+  - `LivingData` e `LivingEarth` — Radici vive (ferite che si richiudono), Cristalli vivi, Frane; il tempo d'assenza
+    (`world_meta["terra_t"]`, `["visto"]`) e l'avviso «Mentre eri via». Segnale `PlayerActions.dug`.
+  - `WorldTimeData` e i geni del tempo in `DayCycle` (`day_len`, `eternal`, `sunless`, `eclipses`, `dark_grow`);
+    `Background.eclipse` / `no_lights`.
+- **Roadmap 11 «Senza fine»** (voci 79-82):
+  - `VigorData` e `Vigor` — i gradi (vigore / 5), le indoli di grado (in `FamiliesData.make`, disegno in
+    `VariantArt`), le Schegge, la tempra al Maglio (`Gear`: `dati.tempra`, danno, posti d'innesto, nome «+n»).
+  - `GuardianGenData` e `GuardianGen` — i Guardiani generati «gg~<seme>» (riconosciuti da `CreaturesData.get_data`),
+    usati da `Guardian.info` oltre il vigore 3; `Guardian._phase` (seconda fase: cambia elemento); Nuclei, talismani.
+  - `LegendsData` e `Legends` — le leggende si riconoscono dai geni (`of_genes`), il Seme Primo (`give_primo`,
+    `progress`), `Character.leggende`; `world_meta["primo"]` arriva dal portale come "nero".
+  - `ChallengesData` e `Challenges` — i Sigilli di sfida sui portali, le regole (`PlayerActions.no_torches`,
+    `Fauna.force_ancient`…), vittoria e record in `Character.sfide`, la riga sotto l'orologio.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni
@@ -613,7 +648,20 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
 - Un effetto applicato prima di `take_hit` può essere cancellato da `take_hit` stesso (lo stordimento del Vapore
   tornava a 0,2 s): i valori «almeno tanto» si scrivono con `maxf`.
 - Nelle patch Python dentro un heredoc del Bash tool le tabulazioni e le barre rovesciate non arrivano sempre uguali:
-  le patch con codice GDScript si scrivono con Write, sempre (anche le piccole).
+  le patch con codice GDScript si scrivono con Write, sempre (anche le piccole). Una riga che finisce con «\\» dentro
+  un heredoc sparisce: la continuazione diventa una riga sola (successo il 27 set 2026 in `VariantArt`).
+
+- Un `PackedByteArray` passato a una funzione è una **copia** (copia alla scrittura): le modifiche fatte dentro non
+  tornano indietro. Nei liquidi i cambi si raccolgono e si applicano in linea (27 set 2026).
+- Il mouse del sistema nelle prove non è affidabile: per i Control si usa `TestKit.hover`, per le schede del mondo
+  `Tips.mouse_at` (27 set 2026).
+- Lavorando a più voci insieme, **mai `git add -A`**: i file nuovi delle voci dopo finiscono nel commit sbagliato
+  (successo due volte il 27 set 2026). Si fa `git add -u` più i file nuovi della voce, per nome; i file delle voci dopo
+  si tengono fuori dal progetto (anche perché una prova che non compila ferma il giro).
+- Prima di aggiungere un gene si cerca se il nome c'è già (`grep '"nome":'`): «eclissi» esisteva, e il dizionario
+  con due chiavi uguali non compila (27 set 2026). Meglio arricchire il gene vecchio.
+- Un fotogramma peggiore di 33 ms con gli script a 2 ms è un'attesa del disegno (vsync mancato, due fotogrammi da
+  16,7): la sonda lo dice («disegno, fisica e il resto»). Si riprova prima di cercare un colpevole nel codice.
 
 - Una prova che usa il mouse vero sul mondo (suggerimenti) lascia prima andare i tasti: nel giro lungo un tasto
   restava «premuto» da una prova di prima, e con un tasto premuto le schede del mondo non compaiono (27 set 2026).

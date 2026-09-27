@@ -1,6 +1,10 @@
 # TERRAWORLD — Roadmap
 
-## Dove siamo (aggiornato il 26 set 2026)
+## Dove siamo (aggiornato il 27 set 2026)
+- **Il piano «Il Giardiniere dei mondi» è compiuto**: Roadmap 5-11 (voci 41-82) tutte fatte, ognuna con capitolo
+  nell'Enciclopedia, prove e giro completo pulito. Resoconti in fondo a ogni Roadmap.
+- **Prossimo passo**: discutere con l'utente le migliorie di `MIGLIORIE.md` (la prima: partite vere e strumenti di
+  bilancio, perché il gioco non è mai stato giocato per ore da una persona).
 - **Fatte**: Roadmap 1 «Le fondamenta» (voci 0-16, tranne la 6), Roadmap 2 (17-20), Roadmap 3 «Esplorare, trovare,
   crescere» (21-30 + extra), Roadmap 4 «Un mondo da abitare» (31-40), il fotogramma lento del giro lungo (pannelli che
   si ridisegnavano a ogni raccolta, vedi CLAUDE.md), la musica (autoload `Musica`, file in `musica/`) e il Germogliato
@@ -10,6 +14,7 @@
   vastità, profondità, avventura e ricerca; grafica, rifinitura del movimento, armatura sugli sprite e rete **dopo**.
 - **Rimandate** (scelta dell'utente): voce 6 «Rete a 2»; dal Germogliato: armatura sugli sprite nuovi, colpo in corsa;
   mostri e boss con Nano Banana.
+- **Contenuti oggi**: 1337 oggetti (768 armi, attrezzi e armature da 48 materiali × 16 forme), 1048 ricette, 55 stazioni, 50 creature in 37 famiglie (varianti per taglia, elemento e 7 indoli, 4 di grado), 25 famiglie addomesticabili, 76 geni in 13 categorie, 3 liquidi, 6 tempi atmosferici, 3 forme di mondo strane, 8 luoghi scritti a mano, 3 Guardiani scritti e infiniti generati, 6 leggende e il Seme Primo, 6 sfide, 65 capitoli dell'Enciclopedia, 88 obiettivi; `tools/verifica_dati.gd` dà 0 errori e 0 avvisi.
 - **Fatta la Roadmap 5 «Il Seme e i suoi geni»** (voci 41-48, 26 set 2026): resoconto in fondo alla Roadmap 5.
 - **Fatta la Roadmap 6 «La materia viva»** (voci 49-54, 26 set 2026): resoconto in fondo alla Roadmap 6.
 - **Fatta la Roadmap 7 «L'ecologia»** (voci 55-61, 26 set 2026): resoconto in fondo alla voce 61.
@@ -22,14 +27,7 @@
 - **Fatta la Roadmap 8 «Il risveglio dell'Albero-Madre»** (voci 62-67, 26 set 2026): resoconto dopo la voce 67.
   Decisione di Claude (l'utente l'ha lasciata a lui): una partita nuova comincia nel **Giardino** sospeso nel Vuoto;
   il mondo di partenza di prima è diventato il primo mondo nato da un Seme (vigore 1).
-- **Prossimo passo**: Roadmap 9 «Il mistero dei Seminatori» (voce 68, la lingua dei Seminatori). L'utente dà la
-  direzione e lascia a Claude ordine e tecnica; chiede sempre un resoconto alla fine di un lavoro lungo.
-- **Contenuti oggi**: 1259 oggetti (768 sono armi, attrezzi e armature generati da 48 materiali × 16 forme; 58 le
-  Fiale dei geni), 1027 ricette, 45 stazioni, 47 creature (più 4 di stagione) in 36 famiglie (84 varianti per specie; 25 famiglie si
-  addomesticano, 10 manti), 6 elementi e 4 reazioni, 5 biomi di superficie e 5 del sottosuolo, 5 strati,
-  10 Guardiani/Custodi, 61 geni in 13 categorie, 12 firme dei mondi, 5 specie d'albero in 4 grandezze, 45
-  decorazioni (13 di vegetazione dei biomi), 9 abitanti, 12 stadi dell'Albero-Madre, 6 poteri, 4 Sigilli, 4
-  stagioni, 78 obiettivi; `tools/verifica_dati.gd` dà 0 errori e 0 avvisi (`tools/elenco.gd` di nuovo a posto).
+- **Fatte le Roadmap 9 «Il mistero dei Seminatori», 10 «Le leggi dei mondi» e 11 «Senza fine»** (voci 68-82, 27 set 2026).
 
 # Roadmap 1: «Le fondamenta» (dal 24 set 2026)
 
@@ -1470,6 +1468,17 @@ la **Polvere d'eclissi**: Amuleto dell'eclissi (alone e furtività) e Lanterna d
 colture crescono a 0,3 tranne vicino a una torcia o alla Linfa (`DayCycle.dark_grow`). Capitolo nell'Enciclopedia.
 Prove `--solo=tempo_mondi` (foto 144_eclissi, 145_senza_sole).
 
+### Resoconto della Roadmap 10 (27 set 2026)
+Le leggi dei mondi sono diventate geni: i mondi non sono solo più forti, sono **diversi da giocare**. I liquidi
+(acqua, Linfa, brace) scorrono con un automa a celle che lavora solo vicino al Germogliato e solo dove qualcosa si
+muove, con reazioni utili (la Pietra di brace per costruire, il cristallo dalla Linfa); il tempo atmosferico cambia il
+modo di muoversi e di tirare (vento), riempie le conche (pioggia), accorcia la vista (nebbia), ferisce (cenere,
+fulmini) e rallenta (bufera); tre forme di mondo (Lieve, Guscio, Arcipelago) cambiano gravità, cielo e percorso, tutte
+giocabili fino al Cuore; la terra viva richiude i cunicoli, fa crescere i cristalli e frana, e racconta ciò che è
+cambiato durante l'assenza; il tempo dei mondi va da giorni di otto minuti alla notte eterna, al cielo senza sole, alle
+eclissi di mezzogiorno. Ogni legge ha il suo capitolo nell'Enciclopedia e il suo gruppo di prove. Il giro completo resta
+a 60 fotogrammi al secondo (fotogramma peggiore ~20 ms; due volte 33 ms per un vsync mancato, non per gli script).
+
 # Roadmap 11 «Senza fine» — il fine gioco che non finisce
 
 ## 79. [x] Vigore senza tetto (M) — fatto il 27 set 2026
@@ -1533,6 +1542,16 @@ Lumini secondo il livello, la prima volta una **medaglia** (sei accessori), e al
 tempo, meno Vita, premi più ricchi: senza fine). I **record** (vittorie, livello, tempo migliore) stanno in
 `Character.sfide` e si leggono nel Taccuino del Semenzaio (con le leggende compiute) e nell'Enciclopedia. Prove
 `--solo=sfide` (foto 149_sfida).
+
+### Resoconto della Roadmap 11 (27 set 2026)
+Il fine gioco non finisce. Il **vigore** sale a gradi e ogni grado porta indoli nuove (corazzate, rigeneranti, gemelle,
+voraci), le Schegge e tempre sempre più alte che aprono posti d'innesto oltre il tetto di prima. Dal vigore 4 ogni mondo
+ha un **Guardiano generato** dal suo seme, diverso e credibile (30 semi: 30 nomi, 20 corpi, 27 combinazioni di attacchi),
+con la seconda fase che cambia elemento e sei talismani da raccogliere. Sei **leggende** premiano chi progetta i suoi
+Semi, e il **Seme Primo** è il traguardo lontano e chiaro (Albero-Madre sveglio, Genario al 60%, due leggende): dopo di
+lui il gioco continua. Le **sfide dei Semi** (sei regole, livelli senza fine, medaglie, record nel Semenzaio e
+nell'Enciclopedia) danno sempre qualcosa da tentare anche a chi ha tutto. Con questa Roadmap il piano «Il Giardiniere
+dei mondi» (Roadmap 5-11) è compiuto; le migliorie proposte per dopo sono in `MIGLIORIE.md`, da discutere insieme.
 
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».
