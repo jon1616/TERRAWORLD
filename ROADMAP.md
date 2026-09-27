@@ -1971,7 +1971,7 @@ materiale** (`ItemIcons`), così poche tavole rifanno centinaia delle 1906 icone
 Cartella `arte_ia/icone/`. Controllo sul foglio `prove/oggetti.png` di `tools/verifica_dati.gd`.
 **Pronto quando**: le famiglie di metallo e le forme × materiale hanno le icone nuove, distinte tra loro.
 
-## 106. [ ] Stazioni, banchi e mobili (L)
+## 106. [x] Stazioni, banchi e mobili (L) — fatto il 28 set 2026
 Ceppo del Giardiniere, Baccello ardente, Maglio dei Seminatori, Telaio, i 9 gradi di cassa, letti, porte, tavoli,
 Aiuola, Bacheca, altari, meccanismi degli enigmi. Alti 1-2 tessere (misure di oggi, `CompactArt`), stati «spento/
 acceso», «aperto/chiuso». 8-10 tavole. Cartella `arte_ia/stazioni/`. Controllo su prove/stazioni.png.
@@ -2055,6 +2055,15 @@ convertono; per le prove c'è un lavoro a parte proposto all'utente). Nano Banan
 figure su magenta (spariscono con lo sfondo); a 16 px solo forme piene e compatte (anelli, archi sottili, molle e ciglia
 si perdono); nella stessa conversazione un «rifai» restituisce spesso la stessa immagine: i rifacimenti si chiedono in
 una conversazione nuova, con un'immagine allegata solo come stile.
+
+**Voce 106 fatta (28 set 2026)**: sei tavole in `arte_ia/stazioni/` → `arte/stazioni/`, 132 stazioni su 137 (restano i
+cinque stadi dell'Albero-Madre, voce 111). `tavola.py --stazioni` dà a ogni pezzo la misura della sua stazione
+(letta da `StationsData`, appoggiata al pavimento), `--riempi` allunga le porte, i nomi «x…» scartano i doppioni.
+`StationTemplates` (`src/art/`): il disegno se c'è, altrimenti per le stazioni a gradi (`_1` `_2` `_3`) il disegno
+grigio colorato con radice, legnoferro, ambra; la parte luminosa si ricava dai pixel accesi. Attenzione: le stazioni
+si caricano nel thread principale (`ViewArt.get_all`), mai nel thread che prepara le tavole (lì un `load()` blocca).
+Lezioni: Nano Banana spesso sbaglia il numero di colonne o aggiunge doppioni anche se vietati: si taglia «a macchie»
+(senza `--griglia`) o con i nomi «x…»; un pezzo staccato (la fiamma di un getto) può finire nella cella accanto.
 
 ### Resta al codice (Nano Banana non serve)
 Le trame del terreno e delle pareti (doppia griglia, trame 64×64 senza cuciture), la luce, i liquidi, gli
