@@ -30,7 +30,6 @@ func _ready() -> void:
 	panel.stations_near = stations_near
 	panel.visible = false
 	add_child(panel)
-	panel.z_index = 4                          # sopra le scritte dell'HUD (orologio, obiettivi); la barra rapida sopra
 	panel.crafting.held_slot = func() -> int: return sel
 	selected.connect(func(_it: Dictionary) -> void:
 		if panel.visible:
@@ -42,7 +41,6 @@ func _ready() -> void:
 		s.index = k
 		s.position = Vector2(x0 + k * (SlotView.SIZE + 6), HOTBAR_Y)
 		s.clicked.connect(_on_slot_clicked)
-		s.z_index = 5                          # la barra rapida resta sopra la Bisaccia aperta
 		add_child(s)
 		var num := _label(s, Vector2(7, 1), 12)
 		num.add_theme_color_override("font_color", Color("#9fd8c8"))
@@ -137,6 +135,14 @@ func bring_panel_forward() -> void:
 	for s in _slots:
 		move_child(s, -1)
 	move_child(_toast, -1)
+
+
+## Chiusa la Bisaccia, lei e la barra rapida tornano in fondo all'ordine: i pannelli a schermo intero (Semenzaio,
+## Erbario, mappa…) devono coprire la barra.
+func send_panel_back() -> void:
+	move_child(panel, 0)
+	for k in _slots.size():
+		move_child(_slots[k], k + 1)
 
 
 func _update_name() -> void:

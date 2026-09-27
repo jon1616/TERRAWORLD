@@ -1573,7 +1573,7 @@ nuovi d'equipaggiamento); poi i sistemi del giocatore (totem, trappole e farm in
 cicli, con le loro creature; poi i **segreti**, che si appoggiano ai biomi; gli **oggetti unici** crescono lungo tutta
 la Roadmap e la chiudono. Ogni voce ha il suo capitolo nell'Enciclopedia, le sue prove, e passa da `tools/prove.sh`.
 
-## 83. [ ] Il diario della partita (S)
+## 83. [x] Il diario della partita (S) — fatto il 27 set 2026
 Un registro automatico, per personaggio, di **quando** succedono le cose che contano: primo Seme, primo portale, ogni
 Guardiano (curato o sconfitto, in quanto tempo, quante volte si è appassiti prima), ogni grado di vigore, stadi
 dell'Albero-Madre, primo metallo di ogni grado, prima creatura addomesticata, leggende, sfide; più i conteggi (morti e
@@ -1583,6 +1583,18 @@ Con lui `tools/bilancio.gd`: le curve su una pagina (danno delle armi per grado,
 vigore, colpi per sconfiggerle, costo delle ricette in tempo di raccolta) per vedere salti e buchi.
 **Pronto quando**: dopo una partita di due ore il diario dice dove il ritmo si è fermato, e il bilancio mostra i numeri
 fuori curva.
+**Fatto il 28 set 2026**: il diario (`Diary`, testi in `DiaryData`, dati in `Character.diario`). Scrive una tappa, con
+l'ora di gioco, alla prima volta di ogni conteggio che conta (`Objectives.bumped`, segnale nuovo: primo viaggio,
+primo gene, prima creatura addomesticata…), a ogni leggenda e sfida, a ogni Guardiano (curato o sconfitto, dove, in
+quanti minuti, dopo quanti appassimenti), al primo mondo di ogni vigore, a ogni stadio dell'Albero-Madre, al primo
+lingotto di ogni metallo; conta gli appassimenti per strato, il tempo per strato e ciò che si fabbrica. Si legge nel
+Semenzaio, scheda **Storia** (tappe dalla più recente e riassunto), «Esporta» scrive `diario_<personaggio>.txt`.
+`tools/bilancio.gd` (senza finestra) scrive prove/bilancio.txt: danno delle armi per forma e grado, Scorza dei set,
+creature per strato e vigore con i colpi per sconfiggerle e quelli che si reggono, materiali per ricetta per grado
+(già due spunti per la voce 99: ogni grado costa gli stessi materiali; al vigore 20 senza Scorza un colpo del Fondo
+basta). Capitolo nell'Enciclopedia. Prove `--solo=diario` (foto 150_diario). Nello stesso giro: tolti gli `z_index`
+della Bisaccia aperta (la barra rapida finiva sopra i pannelli a schermo intero); l'ordine dei nodi si sistema aprendo
+(`Hud.bring_panel_forward`) e chiudendo (`send_panel_back`).
 
 ## 84. [ ] Evocare i Guardiani sconfitti (S)
 Come i Custodi all'Altare dei Seminatori (voce 27), ma per i Guardiani: dal secondo incontro in poi un **Richiamo**

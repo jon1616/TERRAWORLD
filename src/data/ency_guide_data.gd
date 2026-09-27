@@ -57,6 +57,10 @@ Se fatichi a vedere, nelle [url=cap:opzioni]Opzioni[/url] c'è il «Chiarore del
 • Aperta, il mondo si scurisce dietro: in alto a sinistra il pannello [url=cap:creare]Creare[/url], a destra la colonna [b]Esamina[/b] (la ricetta scelta, o l'oggetto che ci posi: a cosa serve, in quali ricette, come si ottiene), in basso a sinistra la scheda del [b]Germogliato[/b].
 • «Riordina» mette in ordine (non tocca la barra rapida); «Nelle casse vicine» manda ogni oggetto nella [url=cap:casse]cassa[/url] che lo tiene già.
 Gli oggetti a terra vengono attirati quando ti avvicini, se c'è posto."""},
+	{"id": "diario", "group": "Primi passi", "name": "Il diario della partita", "text":
+"""Il gioco tiene un [b]diario[/b] della tua partita: le prime volte che contano (il primo viaggio, il primo gene imparato, la prima creatura addomesticata…), ogni Guardiano curato o sconfitto (dove, in quanto tempo, dopo quanti appassimenti), ogni grado di vigore nuovo, gli stadi dell'Albero-Madre, i primi lingotti di ogni metallo.
+Conta anche gli [b]appassimenti[/b] (e in che strato), il [b]tempo passato in ogni strato[/b] e ciò che [b]fabbrichi[/b].
+Si legge nel [b]Semenzaio[/b] ({k_semenzaio}), scheda [b]Storia[/b]: le tappe dalla più recente, e a destra il riassunto. «Esporta» lo scrive in un file di testo."""},
 	{"id": "opzioni", "group": "Primi passi", "name": "Opzioni, pausa e suggerimenti", "text":
 """[b]Esc[/b] apre la pausa: da lì Opzioni, questa Enciclopedia, salvataggio, ritorno al menu.
 Le [b]Opzioni[/b] coprono audio, video (schermo, fotogrammi, ingrandimento, chiarore del buio), interfaccia, gioco (pausa mentre crei, pausa con i pannelli grandi, salvataggio automatico), suggerimenti (ritardo, grandezza, nel mondo) e comandi.

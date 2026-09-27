@@ -19,6 +19,9 @@ var _worlds: Array[Dictionary] = []
 ## Il contenuto della scheda del Genario, se c'è (voce 46): () -> [righe dell'elenco, testo a destra].
 var genario_view: Callable
 var chains_view: Callable                  # voce 69: il Taccuino delle catene
+var diary_view: Callable                   # voce 83: il diario della partita («Storia»)
+var diary_export: Callable                 # () -> percorso del file scritto
+var _export: Button
 
 
 func setup(main: Node2D) -> void:
@@ -36,7 +39,7 @@ func setup(main: Node2D) -> void:
 	_title.add_theme_color_override("font_color", Color("#8ef0d8"))
 	add_child(_title)
 	var x := 120.0
-	for t in [["mondi", "Mondi"], ["genario", "Genario"], ["catene", "Catene"]]:
+	for t in [["mondi", "Mondi"], ["genario", "Genario"], ["catene", "Catene"], ["storia", "Storia"]]:
 		var b := Button.new()
 		b.text = t[1]
 		b.position = Vector2(x, 96)
@@ -70,6 +73,16 @@ func setup(main: Node2D) -> void:
 	ErbarioPanel._frame(_close, Color("#ff9a7a"))
 	_close.pressed.connect(_close_selected)
 	add_child(_close)
+	_export = Button.new()
+	_export.text = "Esporta il diario in un file di testo"
+	_export.position = Vector2(780, 790)
+	_export.size = Vector2(420, 38)
+	ErbarioPanel._frame(_export, Color("#8ef0d8"))
+	_export.pressed.connect(func() -> void:
+		if diary_export.is_valid():
+			var p := String(diary_export.call())
+			_detail.text = ("[color=#9fe070]Diario scritto in:[/color]\n%s\n\n" % p if p != "" else "[color=#ff8a78]Non si è potuto scrivere il file.[/color]\n\n") + _detail.text)
+	add_child(_export)
 	var hint := Label.new()
 	hint.text = "K o Esc per chiudere · clic su un mondo per leggerne la scheda"
 	hint.position = Vector2(120, 850)
@@ -95,12 +108,14 @@ func _unhandled_input(e: InputEvent) -> void:
 
 func refresh() -> void:
 	for k in _tabs.size():
-		ErbarioPanel._frame(_tabs[k], Color("#ffb84a") if ["mondi", "genario", "catene"][k] == tab else Color("#2f7a70"))
+		ErbarioPanel._frame(_tabs[k], Color("#ffb84a") if ["mondi", "genario", "catene", "storia"][k] == tab else Color("#2f7a70"))
 	for c in _list.get_children():
 		c.queue_free()
 	_close.visible = false
-	if (tab == "genario" and genario_view.is_valid()) or (tab == "catene" and chains_view.is_valid()):
-		var view: Array = (genario_view if tab == "genario" else chains_view).call(selected)
+	_export.visible = tab == "storia"
+	var views := {"genario": genario_view, "catene": chains_view, "storia": diary_view}
+	if views.has(tab) and (views[tab] as Callable).is_valid():
+		var view: Array = (views[tab] as Callable).call(selected)
 		_title.text = String(view[0])
 		for row in view[1]:
 			_row(String(row[0]), String(row[1]), Color(String(row[2])))

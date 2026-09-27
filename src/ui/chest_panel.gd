@@ -33,7 +33,6 @@ func setup(p: BisacciaPanel) -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	visible = false
-	z_index = 4                                # come la Bisaccia aperta: sopra lo sfondo scuro
 	_frame = Panel.new()
 	_frame.add_theme_stylebox_override("panel", _box())
 	_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE

@@ -7,6 +7,7 @@ extends Node
 
 const EVERY := 1.0
 
+signal bumped(stat: String)
 var m: Node2D
 var _t := 0.5
 var _label: RichTextLabel
@@ -37,6 +38,7 @@ func stats() -> Dictionary:
 ## Aggiunge 1 a un conteggio del personaggio (scrigni aperti, viaggi…).
 func bump(stat: String) -> void:
 	stats()[stat] = int(stats().get(stat, 0)) + 1
+	bumped.emit(stat)                          # voce 83: il diario della partita scrive le prime volte
 
 
 func done(id: String) -> bool:

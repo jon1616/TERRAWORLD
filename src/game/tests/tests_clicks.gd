@@ -87,6 +87,17 @@ func run() -> void:
 		await kit.click(_center(resume))
 		await kit.frames(3)
 		closed = not menu.visible
+		if not closed:
+			# un secondo tentativo (una volta su tanti il primo clic arrivava prima che il menu fosse pronto); il guasto
+			# vero di prima fermava tutti i clic, anche questo
+			await kit.seconds(0.3)
+			await kit.click(_center(resume))
+			await kit.frames(3)
+			closed = not menu.visible
+		if not closed:
+			await kit.hover(_center(resume))
+			print("diag Riprendi: sotto il mouse %s, menu in posizione %d su %d" % [m.get_viewport().gui_get_hovered_control(),
+				menu.get_index(), menu.get_parent().get_child_count()])
 	if menu.visible:
 		menu.close_menu()
 	if free >= 0 and b.id_at(free) == "humus":

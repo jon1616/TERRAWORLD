@@ -26,7 +26,6 @@ func setup(p: BisacciaPanel) -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	visible = false
-	z_index = 4                                # come la Bisaccia aperta: sopra lo sfondo scuro (28 set 2026)
 	var w := COLS * SlotView.SIZE + (COLS - 1) * GAP
 	var x0 := (1600 - w) / 2.0
 	var bag_top := Hud.HOTBAR_Y - 16 - 3 * (SlotView.SIZE + GAP) - 44

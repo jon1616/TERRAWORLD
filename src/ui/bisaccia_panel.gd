@@ -175,6 +175,7 @@ func toggle() -> void:
 		card.refresh()
 	else:
 		crafting.release_search()
+		(get_parent() as Hud).send_panel_back()
 	if not visible:
 		examine.give_back()
 	if not visible and not held.is_empty():
