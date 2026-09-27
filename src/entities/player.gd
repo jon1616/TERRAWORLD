@@ -48,6 +48,8 @@ var hook_speed := 330.0
 var in_liquid := false                 # voce 73: nuota (acqua o Linfa fino al petto)
 var wind := 0.0                        # voce 75: il vento (px/s², solo in superficie), lo imposta `Weather`
 var effect_run := 1.0                  # voce 85: gli effetti (Slancio, Pinne, Vento alle spalle)
+var harsh_run := 1.0                   # voce 93: i rigori delle terre estreme (freddo, polvere)
+var harsh_jump := 1.0
 var weather_run := 1.0                 # voce 75: la bufera rallenta la corsa
 var grav_mult := 1.0                   # voce 76: il peso del mondo (gene Lieve, Arcipelago), lo imposta `Gravity`
 var lift := 0.0                        # voce 76: dentro una corrente ascensionale, la velocità di salita
@@ -192,7 +194,7 @@ func _step(dt: float, dir: float, held: bool) -> void:
 	in_liquid = world.liq(cx, cy) >= 3 and bool(LiquidsData.TYPES[world.liq_type(cx, cy)]["swim"])
 	if in_liquid:
 		target *= LiquidsData.SWIM_RUN
-	target *= weather_run * effect_run
+	target *= weather_run * effect_run * harsh_run
 	# voce 90: il volo. Tenendo Salto in aria, passata la spinta del salto, le ali sollevano finché dura la barra
 	# (comincia quando la spinta del salto cala, poi continua finché si tiene Salto)
 	flying = not wings.is_empty() and not on_floor and not in_liquid and held and fly_left > 0.0 \
@@ -212,7 +214,7 @@ func _step(dt: float, dir: float, held: bool) -> void:
 	vel.x = move_toward(vel.x, target, accel * dt)
 	jump_buf -= dt
 	if jump_buf > 0.0 and coyote > 0.0:
-		vel.y = -JUMP * sqrt(jump_mult)       # l'altezza cresce col quadrato della velocità: ×jump in altezza
+		vel.y = -JUMP * sqrt(jump_mult * harsh_jump)   # l'altezza cresce col quadrato della velocità: ×jump in altezza
 		_takeoff_t = 0.1
 		jumped.emit()
 		jump_buf = 0.0

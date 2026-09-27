@@ -98,4 +98,4 @@ static func draw(id: int, im: Image, gm: Image, rng: RandomNumberGenerator) -> V
 			Px.disc(im, 8, 13, 2.2, Color("#566a3e"))
 			Px.put(im, 7, 11, Color("#c8e0a0"))
 			return true
-	return null
+	return ExtremeDecorArt.draw(id, im, gm, rng)               # voce 93: le terre estreme

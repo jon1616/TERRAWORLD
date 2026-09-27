@@ -78,6 +78,7 @@ var zones: Zones
 var traps: Traps
 var farms: Farms
 var flight: Flight
+var harsh: Harshness
 var board: Board
 var storage: Storage
 var herd: Herd
@@ -331,6 +332,11 @@ func _build() -> void:
 	traps = _mount(Traps.new())            # voce 88: le trappole
 	farms = _mount(Farms.new())            # voce 89: le farm automatiche
 	flight = _mount(Flight.new())          # voce 90: le ali
+	harsh = _mount(Harshness.new())        # voce 93: i rigori delle terre estreme
+	var hb := HarshBar.new()
+	hud.add_child(hb)
+	hb.setup(harsh)
+	gear.refresh()                         # le protezioni dai rigori arrivano a `Harshness`
 	diary = _mount(Diary.new())            # voce 83: il diario della partita
 	hud.panel.quick_stack = storage.quick_stack
 	hud.panel._toast = hud.toast

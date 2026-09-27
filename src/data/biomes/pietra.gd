@@ -1,0 +1,82 @@
+extends RefCounted
+## Le Foreste pietrificate (voce 93, terre estreme): boschi di alberi diventati pietra, muschio grigio, nubi di
+## polvere. **Polvere di pietra** (`HarshData`): pietrifica piano chi resta allo scoperto; ripara il Velo di piume
+## (piume dei Prati di vento e delle Torbiere di Linfa) o il Soffio di muschio. Le Gargolle scattano dai rami, i Golem di
+## muschio caricano. Tutto il bioma sta in questo file (campi in cima a `BiomesData`).
+
+const DATA := {
+	"id": "pietra", "name": "Foreste pietrificate", "desc": "Alberi di pietra e polvere che si posa su tutto, anche su di te",
+	"trees": 0.35, "hills": 1.3, "lift": -3, "tint": Color(0.95, 0.95, 0.9), "color": "#d8d0c0", "weight": 1,
+	"grass": 38,
+	"turf": {"name": "Muschio di pietra", "layer": "muschio_pietra", "pal": ["#26262a", "#3e3e44", "#5e5e64", "#8a8a8a", "#c8c4b8"], "specks": 60},
+	"tree": {"id": "pietrificato", "name": "Albero pietrificato", "glow": Color(1.3, 1.3, 1.2)},
+	"veg": [[0.25, 64], [0.33, 65], [0.38, 66], [0.46, "sassi"]],
+	"decor": {64: {"soft": "erba"}, 65: {}, 66: {"light": Color(0.2, 0.18, 0.12)}},
+	"elem": "vuoto",
+	"weather": {"nube_pietra": 3.0},
+	"harsh": {"kind": "polvere", "rate": 0.018, "night": 1.0},
+	"gene": "pietra",
+	"lands": [["Foreste di pietra", true], ["Boschi muti", false], ["Selve grigie", true]],
+	"creatures": {
+		"gargolla": {"name": "Gargolla", "hp": 42, "damage": 13, "defense": 6, "knock": 0.3, "half": [8, 7], "speed": 95,
+			"fly": true, "behaviors": ["vola", "scatto"],
+			"p": {"sight": 26, "hover": 60.0, "wobble": 10.0, "dash_every": 3.2, "dash_speed": 300.0, "dash_time": 0.45},
+			"loot": "gargolla", "art": ["gargolla", 0], "strata": [0], "weight": 5, "biomes": ["pietra"],
+			"body": {"plan": "uccello", "w": 22, "h": 16, "pal": ["#26262a", "#3e3e44", "#5e5e64", "#8a8a8a", "#c8c4b8"],
+				"eye": "#ff8a3a", "wings": "#3e3e44", "marks": "punte", "mark": "#8a8a8a"},
+			"affinity": {"weak": ["linfa"], "resist": ["brace", "gelo"]}, "trophy": "ala_pietra"},
+		"golem_muschio": {"name": "Golem di muschio", "hp": 110, "damage": 18, "defense": 8, "knock": 0.9, "half": [13, 11],
+			"speed": 35, "behaviors": ["cammina", "carica"],
+			"p": {"sight": 16, "charge": 200.0, "charge_range": 8, "charge_time": 1.0, "charge_cool": 4.0},
+			"loot": "golem_muschio", "art": ["golem_muschio", 0], "strata": [0], "weight": 2, "biomes": ["pietra"], "glow": true,
+			"body": {"plan": "quadrupede", "w": 30, "h": 24, "pal": ["#2a2a26", "#46463e", "#6a6a5e", "#9a9a88", "#d0d0b8"],
+				"eye": "#8ef0d8", "marks": "macchie", "mark": "#3aa08a", "glow": true, "horns": 1},
+			"affinity": {"weak": ["linfa"], "resist": ["spora"]}, "trophy": "cuore_golem"},
+	},
+	"families": {
+		"gargolle": {"name": "Gargolle", "members": ["gargolla"], "fem": true, "role": "volante"},
+		"golem": {"name": "Golem di muschio", "members": ["golem_muschio"], "fem": false, "role": "neutro"},
+	},
+	"loot": {
+		"gargolla": [{"item": "scheggia_pietra", "min": 1, "max": 3, "chance": 1.0}],
+		"golem_muschio": [{"item": "muschio_antico", "min": 2, "max": 3, "chance": 1.0}, {"item": "ardesia", "min": 3, "max": 6, "chance": 0.6}],
+	},
+	"items": {
+		"scheggia_pietra": {"name": "Scheggia pietrificata", "kind": "materiale", "icon": ["scaglia", "ardesia"], "desc": "Una scaglia di Gargolla: era legno, prima."},
+		"muschio_antico": {"name": "Muschio antico", "kind": "materiale", "icon": ["seta", "muschio"], "desc": "Il muschio che tiene insieme un Golem. Respira ancora."},
+		"elmo_pietra": {"name": "Elmo pietrificato", "kind": "elmo", "icon": ["elmo", "ardesia"], "tier": 4, "defense": 6, "acc": {"filtro": 0.15}, "desc": "Polvere: protegge un poco."},
+		"corazza_pietra": {"name": "Corazza pietrificata", "kind": "corazza", "icon": ["corazza", "ardesia"], "tier": 4, "defense": 9, "desc": "Scaglie di gargolla legate con muschio antico."},
+		"gambali_pietra": {"name": "Gambali pietrificati", "kind": "gambali", "icon": ["gambali", "ardesia"], "tier": 4, "defense": 6, "desc": "Pesanti come un albero di pietra."},
+		"ala_pietra": {"name": "Ala di pietra", "kind": "trofeo", "icon": ["penna", "ardesia"], "desc": "La lasciano solo le creature rare di questa specie."},
+		"cuore_golem": {"name": "Cuore del golem", "kind": "trofeo", "icon": ["essenza", "muschio"], "desc": "Lo lasciano solo le creature rare di questa specie."},
+		"seme_pietrificato": {"name": "Seme pietrificato", "kind": "accessorio", "icon": ["seme", "ardesia"], "unique": true, "stack": 1,
+			"acc": {"filtro": 0.5, "regen": 1.15}, "effects": ["seconda_vita", "rigenera_fermo"],
+			"story": "Il primo Seme che la polvere trasformò in pietra. Dentro, qualcosa aspetta ancora di germogliare.",
+			"source": "si fabbrica con i trofei delle creature rare delle Foreste pietrificate",
+			"desc": "Polvere: protegge a metà; la Vita ricresce +15%; una volta per giorno non appassisci."},
+		"seme_mondo_pietra": {"name": "Seme di pietra", "kind": "seme_mondo", "icon": ["seme", "ardesia"], "species": "pietra", "stack": 1,
+			"desc": "Un Seme di mondo pesante come un sasso: dietro il suo portale, foreste pietrificate."},
+		"velo_piume": {"name": "Velo di piume", "kind": "accessorio", "icon": ["velo", "seta"], "acc": {"filtro": 0.7},
+			"desc": "Polvere: protegge al 70%. Piume dei Prati di vento e delle Torbiere di Linfa."},
+		"soffio_muschio": {"name": "Soffio di muschio", "kind": "consumabile", "icon": ["pozione", "muschio"], "boon": ["riparo_polvere", 240.0], "stack": 20,
+			"desc": "Per 4 minuti la polvere non ti tocca."},
+	},
+	"recipes": [
+		{"out": "elmo_pietra", "qty": 1, "in": {"scheggia_pietra": 6, "muschio_antico": 3, "lingotto_ambra": 3}, "station": "maglio"},
+		{"out": "corazza_pietra", "qty": 1, "in": {"scheggia_pietra": 10, "muschio_antico": 5, "lingotto_ambra": 5}, "station": "maglio"},
+		{"out": "gambali_pietra", "qty": 1, "in": {"scheggia_pietra": 8, "muschio_antico": 4, "lingotto_ambra": 4}, "station": "maglio"},
+		{"out": "seme_pietrificato", "qty": 1, "in": {"ala_pietra": 1, "cuore_golem": 1, "muschio_antico": 8}, "station": "maglio"},
+		{"out": "seme_mondo_pietra", "qty": 1, "in": {"seme_mondo": 1, "scheggia_pietra": 10, "muschio_antico": 6}, "station": "altare"},
+		{"out": "velo_piume", "qty": 1, "in": {"piuma_vento": 6, "piuma_airone": 4}, "station": "telaio"},
+		{"out": "soffio_muschio", "qty": 2, "in": {"humus": 4, "muschio_antico": 1}, "station": "alambicco"},
+	],
+	"sets": {
+		"pietra": {"name": "Corteccia di pietra", "pieces": ["elmo_pietra", "corazza_pietra", "gambali_pietra"],
+			"bonus": {"defense": 6, "filtro": 0.35}, "desc": "+6 Scorza, polvere: protegge un altro 35%"},
+	},
+	"genes": {
+		"pietra": {"cat": "superficie", "name": "Pietra", "rar": 2, "dom": 2, "good": false,
+			"desc": "foreste pietrificate e nubi di polvere", "item": "seme_mondo_pietra",
+			"gen": {"biomes": {"pietra": 6, "rossa": 2, "foresta": 1}}},
+	},
+}

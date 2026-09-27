@@ -25,6 +25,7 @@ var set_scorza := 0                    # Scorza in più dei set completi (vedi `
 var regen_mult := 1.0
 var effect_regen := 1.0                # voce 85: gli effetti (Radicato)
 var zone_regen := 1.0                  # voce 87: lo Stendardo del riposo
+var harsh_regen := 1.0                 # voce 93: la sete ferma la ricrescita
 var death_guard: Callable              # voce 85: () -> true se un effetto salva dall'appassire (Seconda radice)
 var boon_regen := 1.0                  # Pozione di rigoglio (vedi `Boons`)
 var linfa_regen_mult := 1.0            # accessori: la Linfa ricresce più in fretta
@@ -86,8 +87,8 @@ func tick(dt: float) -> void:
 				return
 	_since_hit += dt
 	potion_wait = maxf(potion_wait - dt, 0.0)
-	if _since_hit >= REGEN_DELAY / (regen_mult * boon_regen * effect_regen * zone_regen) and hp < hp_max:
-		_acc += REGEN * regen_mult * boon_regen * effect_regen * zone_regen * dt
+	if harsh_regen > 0.0 and _since_hit >= REGEN_DELAY / (regen_mult * boon_regen * effect_regen * zone_regen) and hp < hp_max:
+		_acc += REGEN * regen_mult * boon_regen * effect_regen * zone_regen * harsh_regen * dt
 		var k := int(_acc)
 		_acc -= k
 		hp = mini(hp + k, hp_max)

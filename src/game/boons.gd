@@ -50,7 +50,7 @@ func setup(main: Node2D) -> void:
 func add(boon_name: String, secs: float) -> void:
 	active[boon_name] = maxf(float(active.get(boon_name, 0.0)), secs)
 	var span := "%d minuti" % roundi(secs / 60.0) if secs >= 90.0 else "%d secondi" % roundi(secs)
-	m.hud.toast("%s per %s" % [NAMES.get(boon_name, boon_name), span])
+	m.hud.toast("%s per %s" % [label(boon_name), span])
 
 
 ## Intensità della fiamma in mano (attorno a 1): aggiornata a piccoli passi, altrimenti ferma.
@@ -76,7 +76,7 @@ func _process(dt: float) -> void:
 			active.erase(k)
 			continue
 		var t := int(active[k])
-		text += "%s %d:%02d   " % [NAMES.get(k, k), t / 60, t % 60]
+		text += "%s %d:%02d   " % [label(k), t / 60, t % 60]
 	_label.text = text
 	m.vitals.scorza_bonus = SCORZA if active.has("scorza") else 0
 	m.vitals.boon_regen = (RIGOGLIO if active.has("rigoglio") else 1.0) * (1.25 if active.has("sazio") else 1.0)
@@ -109,3 +109,9 @@ func _process(dt: float) -> void:
 		_last_light = l
 		m.light.player_light = l
 		m.light.dirty = true
+
+
+
+## Il nome di un effetto a tempo (voce 93: anche i rimedi dei rigori, `HarshData`).
+static func label(k: String) -> String:
+	return String(NAMES.get(k, HarshData.boon_names().get(k, k)))

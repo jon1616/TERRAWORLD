@@ -43,6 +43,9 @@ func refresh() -> void:
 	e["allies"] = 0.0
 	e["wall"] = false
 	e["fall_safe"] = false
+	for k in ["caldo", "acqua", "fresco", "filtro"]:
+		e[k] = 0.0                                 # voce 93: le protezioni dai rigori
+	e["passo"] = false
 	var b: Bisaccia = m.character.bisaccia
 	for slot in b.equip:
 		_add(e, ItemsData.get_item(String(b.equip[slot])).get("acc", {}))
@@ -88,6 +91,9 @@ func refresh() -> void:
 	m.vitals.linfa_regen_mult = e["linfa_regen"]
 	m.combat.magic_mult = e["magic"]
 	m.vitals.set_scorza = int(e["defense"])
+	if m.get("harsh") != null:
+		m.harsh.protect = {"caldo": e["caldo"], "acqua": e["acqua"], "fresco": e["fresco"], "filtro": e["filtro"]}
+		m.harsh.passo = e["passo"]
 
 
 ## Somma un gruppo di effetti (di un pezzo o di un set) a quelli raccolti.
@@ -95,7 +101,7 @@ static func _add(e: Dictionary, acc: Dictionary) -> void:
 	for k in acc:
 		if k in MULT:
 			e[k] = float(e[k]) * float(acc[k])
-		elif k in ["luck", "thorns", "defense", "air_jumps", "allies"]:
+		elif k in ["luck", "thorns", "defense", "air_jumps", "allies", "caldo", "acqua", "fresco", "filtro"]:
 			e[k] = float(e[k]) + float(acc[k])
-		elif k in ["glide", "fall_safe", "wall"]:
+		elif k in ["glide", "fall_safe", "wall", "passo"]:
 			e[k] = bool(e[k]) or bool(acc[k])

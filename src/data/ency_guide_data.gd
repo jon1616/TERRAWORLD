@@ -129,6 +129,10 @@ Un [b]Focolare[/b] con un Letto di foglie libero vicino chiama un [url=cap:abita
 Le casse hanno dei [b]gradi[/b]: più il materiale è raro, più caselle. Le prime si fanno al Ceppo, le altre al Maglio; gli scrigni dei Seminatori si trovano soltanto, pieni, nelle rovine (più grandi più si scende) e, vuoti, si portano via e si riusano.
 {cat_casse}
 Quanti oggetti uguali stanno in una casella lo decidi nelle [url=cap:opzioni]Opzioni[/url] (Gioco → Grandezza delle pile): da un quarto del normale fino a pile infinite."""},
+	{"id": "rigori", "group": "Il mondo", "name": "Le terre estreme", "text":
+"""Alcuni biomi non si attraversano a mani nude: allo scoperto una [b]barra del rigore[/b] sale (accanto a Vita e Linfa) e, piena, ferisce e toglie qualcosa. Scende altrove, sotto un tetto, accanto a un [b]Rifugio del viandante[/b] (un totem) o con il rimedio giusto.
+{cat_rigori}
+Ci si [b]prepara[/b]: l'equipaggiamento che protegge si fa con i materiali di [i]altri[/i] biomi, e i rimedi sono pozioni che proteggono del tutto per qualche minuto. Il vetro e la brace feriscono i piedi: servono gli Stivali di scaglie. Ogni terra estrema ha anche la sua [b]tempesta[/b], che fa salire la barra il doppio."""},
 	{"id": "volo", "group": "Creare ed equipaggiarsi", "name": "Il volo", "text":
 """Le [b]ali[/b] si indossano nel posto del mantello: o un mantello di metallo, o le ali. Si vola [b]tenendo Salto dopo il salto[/b]: passata la spinta, le ali sollevano finché dura la loro [b]autonomia[/b] (la barretta sopra la testa), che torna quando posi i piedi.
 Ogni paio ha quattro valori: [b]salita[/b], [b]autonomia[/b], [b]velocità[/b] in volo e [b]ricarica[/b].

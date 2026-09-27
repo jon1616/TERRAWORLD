@@ -137,6 +137,8 @@ func run(main: Node2D) -> void:
 	_mark("TestsNewBiomes")
 	await TestsTemperate.new(kit).run()
 	_mark("TestsTemperate")
+	await TestsExtreme.new(kit).run()
+	_mark("TestsExtreme")
 	await TestsBagCost.new(kit).run()
 	_mark("TestsBagCost")
 	await TestsMusic.new(kit).run()
@@ -362,6 +364,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsNewBiomes.new(kit).run()
 		"biomi_temperati":
 			await TestsTemperate.new(kit).run()
+		"biomi_estremi":
+			await TestsExtreme.new(kit).run()
 		"antiche":
 			await TestsAncient.new(kit).run()
 		"pericoli":

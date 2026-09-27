@@ -15,7 +15,7 @@ static func make(species: String, h: int, sd: int) -> Dictionary:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = sd
 	var w := maxi(44, int(h * 0.62)) / 2 * 2
-	if species in ["acacia", "ombrello", "cappellone"]:
+	if species in ["acacia", "ombrello", "cappellone", "cristallo_gelo"]:
 		w = maxi(56, int(h * 0.9)) / 2 * 2
 	var im := Px.img(w, h)
 	var gm := Px.img(w, h)
@@ -29,8 +29,8 @@ static func make(species: String, h: int, sd: int) -> Dictionary:
 		"tizzone":
 			_tizzone(im, gm, w, h, rng)
 		_:
-			if not TreeArtTemperate.draw(species, im, gm, w, h, rng):   # voce 92
-				_lanterna(im, gm, w, h, rng)
+			if not TreeArtTemperate.draw(species, im, gm, w, h, rng) and not TreeArtExtreme.draw(species, im, gm, w, h, rng):
+				_lanterna(im, gm, w, h, rng)                     # voci 92 e 93: gli alberi dei biomi nuovi
 	return {"img": im, "glow": gm}
 
 

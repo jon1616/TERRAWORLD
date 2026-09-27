@@ -11,6 +11,7 @@ class_name ZonesData
 ##   pericolo   pericolo in più (creature più forti e più numerose qui)    bottino   giri di bottino in più (`Fauna.kill`)
 ##   forza      Vita e danno delle creature nate qui ×        puro      l'Avvizzimento qui non si allarga (`Blight`)
 ##   esca       le creature di una famiglia nascono qui (voce 89: le farm)
+##   riparo     voce 93: i rigori delle terre estreme non salgono (`Harshness`)
 
 const TIERS := [
 	{"mat": "radicite", "name": "", "r": 10, "k": 1.0, "bar": "lingotto_radicite", "bars": 3},
@@ -32,6 +33,8 @@ const TYPES := {
 		"desc": "attorno non nasce nessuna creatura", "extra": {"cristallo_linfa": 2}},
 	"guardia": {"name": "Stendardo di guardia", "icon": "velo", "color": "#ff6f5e", "fx": {"guardia": [1.15, 0.1]},
 		"desc": "le creature qui prendono più danno", "extra": {"aculeo": 4}},
+	"rifugio": {"name": "Rifugio del viandante", "icon": "lanterna", "color": "#ffd8a0", "fx": {"riparo": [1.0, 0.0]},
+		"desc": "attorno i rigori delle terre estreme non si sentono (freddo, sete, calore, polvere)", "extra": {"cristallo_linfa": 2}},
 	# scambi: un bonus e un malus insieme
 	"stirpi": {"name": "Altare delle stirpi", "icon": "altare", "color": "#c890ff", "cost": true,
 		"fx": {"rare": [2.5, 1.0], "pericolo": [0.5, 0.25]},

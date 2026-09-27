@@ -29,6 +29,9 @@ extends RefCounted
 ##   elem             l'elemento più probabile delle varianti delle creature che nascono qui (voce 55)
 ##   weather          i tempi che il bioma porta nel mondo: {stato: moltiplicatore} (vedi `WeatherData`)
 ##   gene             il gene di superficie che lo sceglie (`GenesData`, categoria superficie)
+##   harsh            voce 93, il rigore di una terra estrema: {kind (di `HarshData`), rate (la barra si riempie in
+##                    1/rate secondi allo scoperto), night (× di notte)} (regole in `Harshness`)
+##   hurt_tile        voce 93, l'erba che ferisce chi ci sta sopra senza i piedi protetti: {dmg, text}
 ## Dalla voce 92 un bioma porta con sé anche il suo **pacchetto** (tutti facoltativi), che le tabelle comuni uniscono
 ## alle loro:
 ##   creatures        {id: voce di `CreaturesData`} con in più body (la ricetta del disegno per `BodyArt`), affinity
@@ -50,6 +53,11 @@ const FILES := [
 	preload("res://src/data/biomes/rossa.gd"),
 	preload("res://src/data/biomes/funghi.gd"),
 	preload("res://src/data/biomes/torba.gd"),
+	# voce 93: le terre estreme
+	preload("res://src/data/biomes/vetro.gd"),
+	preload("res://src/data/biomes/ghiacciaio.gd"),
+	preload("res://src/data/biomes/pietra.gd"),
+	preload("res://src/data/biomes/brace.gd"),
 ]
 
 static var BIOMES: Array = _load()

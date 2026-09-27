@@ -139,6 +139,21 @@ static func inline(key: String) -> String:
 				rows.append(_b(String(pd["name"]), "%s · nei mondi con %s · %s" % [pd["banner"], " o ".join(gn),
 					"in superficie" if pd.get("surface", false) else "nello strato «%s»" % StrataData.STRATA[int(pd["strata"][0])]["name"]],
 					String(pd["color"])))
+		"cat_rigori":
+			for b in BiomesData.BIOMES:
+				if not b.has("harsh"):
+					continue
+				var kd: Dictionary = HarshData.KINDS[String(b["harsh"]["kind"])]
+				var gear := []
+				var items: Dictionary = b.get("items", {})
+				for iid in items:
+					if (items[iid].get("acc", {}) as Dictionary).has(String(kd["acc"])) and not items[iid].get("unique", false) \
+							and not items[iid]["kind"] in ["elmo", "corazza", "gambali"]:
+						gear.append(String(items[iid]["name"]))
+					elif items[iid].has("boon"):
+						gear.append(String(items[iid]["name"]) + " (rimedio)")
+				rows.append(_b(String(b["name"]), "%s — %s. Ripara: %s%s" % [kd["name"], kd["desc"], ", ".join(gear),
+					" · il terreno ferisce" if b.has("hurt_tile") else ""], String(kd["color"])))
 		"cat_sottosuolo":
 			for u in UnderBiomesData.UNDER:
 				var ud: Dictionary = UnderBiomesData.UNDER[u]

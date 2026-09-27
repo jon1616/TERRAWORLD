@@ -1761,11 +1761,23 @@ creatura nuova è una riga di dati), gli alberi in `TreeArtTemperate` (ombrello,
 piante in `TemperateDecorArt` (46-57; l'atlante delle decorazioni va a capo da solo). Prove `--solo=biomi_temperati`
 (un mondo per Seme: 71-100% del suo bioma, partenza lì; foto 158-161), foglio prove/biomi.png.
 
-## 93. [ ] Biomi nuovi, secondo ciclo: le terre estreme (L)
+## 93. [x] Biomi nuovi, secondo ciclo: le terre estreme (L) — fatto il 28 set 2026
 Quattro biomi duri (per esempio: deserti di vetro, ghiacciai di Linfa, foreste pietrificate, lande di cenere
 viva), con regole proprie (sete o freddo da gestire con equipaggiamento e totem, terreno che ferisce, tempeste del
 bioma) e creature di pari passo.
 **Pronto quando**: un bioma estremo si esplora solo preparati, e prepararsi è un obiettivo che fa cercare cose altrove.
+Fatto il 28 set 2026: i **rigori** (`HarshData`, `Harshness`, barra `HarshBar` accanto a Vita e Linfa): freddo, sete,
+calore e polvere di pietra salgono allo scoperto nella terra estrema (campo `harsh` del bioma), a barra piena feriscono
+e tolgono corsa, ricrescita, Linfa o salto; scendono al riparo (tetto), accanto al **Rifugio del viandante** (totem,
+chiave `riparo`) o con i **rimedi** (pozioni a tempo in `Boons`). L'equipaggiamento che protegge (chiavi `caldo`,
+`acqua`, `fresco`, `filtro`) si fa con i materiali di **altri** biomi (Borraccia di rana, Mantello di pelliccia, Velo
+di piume, Manto di brina fresca): prepararsi fa cercare altrove. Il terreno che ferisce (vetro, brace: campo
+`hurt_tile`) e gli Stivali di scaglie (`passo`). Quattro biomi: **Deserti di vetro** (Scorpione di vetro, Verme delle
+dune), **Ghiacciai di Linfa** (Lupo del gelo a branchi, Spirito del gelo), **Foreste pietrificate** (Gargolla, Golem di
+muschio), **Lande di brace viva** (Segugio di brace, Fenice di cenere), ognuno con set, unico, gene e Seme, e una
+tempesta propria (`WeatherData`: tempesta di vetro, gelicidio, nube di pietra, pioggia di brace, che fanno salire la
+barra il doppio). Alberi in `TreeArtExtreme`, piante in `ExtremeDecorArt` (58-69). Capitolo «Le terre estreme»,
+prove `--solo=biomi_estremi` (foto 162-165).
 
 ## 94. [ ] Biomi nuovi, terzo ciclo: il sottosuolo e i rari (L)
 Quattro biomi del sottosuolo (caverne di cristallo cantante, giungle di radici, laghi sotterranei, catacombe dei
