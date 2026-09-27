@@ -80,10 +80,22 @@ def vignette(src: str, cartella: str, nomi: list[str], largo: int, colori: int) 
     os.makedirs(cartella, exist_ok=True)
     out = []
     for sl, nome in zip(rett, nomi):
+        # si tolgono dai bordi le righe e le colonne per lo più magenta: dove una figura esce dalla cornice (le radici
+        # del Nodo, il piede del Colosso) la macchia comprende anche la striscia di magenta sotto
+        y0, y1, x0, x1 = sl[0].start, sl[0].stop, sl[1].start, sl[1].stop
+        vuoto = a[:, :, 3] < 0.5
+        while y1 - y0 > 10 and vuoto[y1 - 1, x0:x1].mean() > 0.3:
+            y1 -= 1
+        while y1 - y0 > 10 and vuoto[y0, x0:x1].mean() > 0.3:
+            y0 += 1
+        while x1 - x0 > 10 and vuoto[y0:y1, x1 - 1].mean() > 0.3:
+            x1 -= 1
+        while x1 - x0 > 10 and vuoto[y0:y1, x0].mean() > 0.3:
+            x0 += 1
         m = 4
-        v = im.crop((sl[1].start + m, sl[0].start + m, sl[1].stop - m, sl[0].stop - m))
-        alto = round(largo * 9 / 16)
-        v = v.crop(_taglio_16_9(v))
+        v = im.crop((x0 + m, y0 + m, x1 - m, y1 - m))
+        # la forma della vignetta resta la sua: Nano Banana non le fa mai 16:9, e il taglio decapitava i Guardiani
+        alto = round(largo * v.height / v.width)
         small = riduci_con_luci(v, largo, alto)
         small = small.quantize(colors=colori, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE).convert("RGB")
         small.save(os.path.join(cartella, nome + ".png"))
@@ -91,27 +103,18 @@ def vignette(src: str, cartella: str, nomi: list[str], largo: int, colori: int) 
     return out
 
 
-def _taglio_16_9(v: Image.Image) -> tuple[int, int, int, int]:
-    """Il riquadro 16:9 più grande al centro della vignetta."""
-    w, h = v.size
-    if w * 9 > h * 16:
-        nw = h * 16 // 9
-        return ((w - nw) // 2, 0, (w - nw) // 2 + nw, h)
-    nh = w * 9 // 16
-    return (0, (h - nh) // 2, w, (h - nh) // 2 + nh)
-
-
 def foglio(immagini: list[Image.Image], nomi: list[str], path: str, zoom: int = 2) -> None:
     """Le vignette ingrandite in un foglio, per guardarle."""
     from PIL import ImageDraw
-    w, h = immagini[0].width * zoom, immagini[0].height * zoom
+    w = max(v.width for v in immagini) * zoom
+    h = max(v.height for v in immagini) * zoom
     col = 3
     righe = (len(immagini) + col - 1) // col
     f = Image.new("RGB", (col * (w + 12) + 12, righe * (h + 34) + 12), (60, 52, 66))
     d = ImageDraw.Draw(f)
     for i, (v, n) in enumerate(zip(immagini, nomi)):
         x, y = 12 + (i % col) * (w + 12), 12 + (i // col) * (h + 34)
-        f.paste(v.resize((w, h), Image.NEAREST), (x, y))
+        f.paste(v.resize((v.width * zoom, v.height * zoom), Image.NEAREST), (x, y))
         d.text((x, y + h + 6), n, fill=(230, 220, 200))
     f.save(path)
 
