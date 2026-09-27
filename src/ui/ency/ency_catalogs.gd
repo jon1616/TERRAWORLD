@@ -139,6 +139,11 @@ static func inline(key: String) -> String:
 				rows.append(_b(String(pd["name"]), "%s · nei mondi con %s · %s" % [pd["banner"], " o ".join(gn),
 					"in superficie" if pd.get("surface", false) else "nello strato «%s»" % StrataData.STRATA[int(pd["strata"][0])]["name"]],
 					String(pd["color"])))
+		"cat_casse":
+			for e in ChestsData.all():
+				var how := "si trova nelle rovine" if ChestsData.is_found(String(e["id"])) else (
+					"al %s" % StationsData.STATIONS.get(String(e.get("station", "ceppo")), {}).get("name", "Ceppo") if e.has("in") else "al Ceppo del Giardiniere, con il legno")
+				rows.append(_b("[url=item:%s]%s[/url]" % [e["id"], e["name"]], "%d caselle · %s" % [int(e["slots"]), how]))
 		"cat_sfide":
 			for k in ChallengesData.LIST:
 				rows.append(_b(String(ChallengesData.LIST[k]["name"]), String(ChallengesData.LIST[k]["desc"])))

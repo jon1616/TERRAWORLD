@@ -58,7 +58,7 @@ func _init() -> void:
 		if st.get("fixed", false):
 			continue                           # Cuore e portale: nascono dal mondo, non da una ricetta
 		_err(items.has(String(st["item"])), "stazione %s: oggetto inesistente %s" % [s, st["item"]])
-		_warn(made.has(String(st["item"])) or ItemsData.OTHER_SOURCES.has(String(st["item"])),
+		_warn(made.has(String(st["item"])) or ItemsData.OTHER_SOURCES.has(String(st["item"])) or ChestsData.is_found(s),
 			"stazione %s: nessuna ricetta la costruisce" % s)
 	# 4. tessere, decorazioni, creature, bottino
 	var dropped := {}

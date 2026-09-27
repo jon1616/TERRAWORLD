@@ -116,6 +116,74 @@ func run() -> void:
 		m.view.remove_station(o)
 	(m.world_meta["casse"] as Dictionary).clear()
 	kit.make_room()
+	await _tiers(spot)
+	_stacks()
+
+
+## 28 set 2026: i gradi delle casse. Ogni grado ha la sua stazione con la capienza giusta, un oggetto e (se si
+## fabbrica) una ricetta; la più grande si apre con tutte le caselle in vista. Foto 99_casse_arca.
+func _tiers(spot: Vector2i) -> void:
+	var bad := []
+	var sizes := []
+	for e in ChestsData.all():
+		var id := String(e["id"])
+		var sd: Dictionary = StationsData.STATIONS.get(id, {})
+		if int(sd.get("slots", 0)) != int(e["slots"]):
+			bad.append("%s: caselle %s" % [id, sd.get("slots", "?")])
+		if not ItemsData.get_item(id).has("name"):
+			bad.append("%s: manca l'oggetto" % id)
+		if e.has("in") and RecipesData.all().filter(func(r: Dictionary) -> bool: return String(r["out"]) == id).is_empty():
+			bad.append("%s: manca la ricetta" % id)
+		sizes.append(int(e["slots"]))
+	var o := spot + Vector2i(2, 0)
+	world.stations[o] = "arca_stellare"
+	m.view.add_station(o)
+	var ch := world.chest_at(o)
+	for i in 100:
+		ch.slots[i] = {"id": "humus", "n": i + 1}
+	m.interact.touch(o)
+	await kit.seconds(0.6)
+	var cp: ChestPanel = m.interact.chest_panel
+	var shown := 0
+	var inside := true
+	for sv in cp._slots:
+		if sv.visible:
+			shown += 1
+			var r := Rect2(sv.global_position, Vector2(SlotView.SIZE, SlotView.SIZE))
+			if r.position.x < 0 or r.position.y < 0 or r.end.x > 1600 or r.end.y > 900:
+				inside = false
+	var top_ok: bool = cp._settings.position.y >= 0.0
+	await kit.save("99_casse_arca")
+	cp.close()
+	if m.hud.panel.visible:
+		m.hud.panel.toggle()
+	world.stations.erase(o)
+	world.chests.erase(o)
+	m.view.remove_station(o)
+	print("gradi delle casse: capienze %s; problemi %s; arca stellare aperta con %d caselle in vista, dentro lo schermo %s" % [
+		sizes, bad, shown, "sì" if inside and top_ok else "NO"])
+	if not bad.is_empty() or shown != 100 or not inside or not top_ok:
+		print("ATTENZIONE: i gradi delle casse non funzionano come dovrebbero")
+
+
+## L'opzione «Grandezza delle pile»: un quarto, normali, infinite; ciò che non si impila resta uno.
+func _stacks() -> void:
+	var m0 := ItemsData.stack_mult
+	var b := Bisaccia.new(4)
+	ItemsData.stack_mult = 0.25
+	var small := ItemsData.stack_of("legno")
+	ItemsData.stack_mult = 1.0
+	var normal := ItemsData.stack_of("legno")
+	ItemsData.stack_mult = -1.0
+	var left := b.add("legno", 5000000)
+	var one_slot := b.count_at(0) == 5000000 and b.id_at(1) == ""
+	var sword := ItemsData.stack_of("spada_radice")
+	var txt := SlotView.short_count(5000000)
+	ItemsData.stack_mult = m0
+	print("pile: legno un quarto %d, normale %d, infinite: 5 milioni in una casella %s (avanzano %d, scritto «%s»); spada %d" % [
+		small, normal, "sì" if one_slot else "NO", left, txt, sword])
+	if small >= normal or normal != 999 or not one_slot or left != 0 or sword != 1 or txt != "5M":
+		print("ATTENZIONE: la grandezza delle pile non funziona come dovrebbe")
 
 
 func _put(b: Bisaccia, id: String, n: int) -> void:

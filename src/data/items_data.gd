@@ -285,6 +285,7 @@ static func all() -> Dictionary:
 	out.merge(GuardianGenData.ITEMS.duplicate(true))       # voce 80
 	out.merge(LegendsData.ITEMS.duplicate(true))           # voce 81
 	out.merge(ChallengesData.ITEMS.duplicate(true))        # voce 82
+	out.merge(ChestsData.items())                          # 28 set 2026: i gradi delle casse
 	# le famiglie di equipaggiamento: forma × materiale (voce 49, `FormsData` e `MaterialsData`)
 	for m in MaterialsData.all():
 		for f in FormsData.FORMS:
@@ -303,12 +304,25 @@ static func has(id: String) -> bool:
 
 static func stack_of(id: String) -> int:
 	var it := get_item(id)
+	var base := 1
 	if it.has("stack"):
-		return int(it["stack"])
-	return 999 if String(it.get("kind", "")) in ["materiale", "blocco", "munizione", "piattaforma"] else 1
+		base = int(it["stack"])
+	elif String(it.get("kind", "")) in ["materiale", "blocco", "munizione", "piattaforma"]:
+		base = 999
+	if base <= 1:
+		return base                            # ciò che non si impila non si impila con nessuna opzione
+	if stack_mult < 0.0:
+		return INFINITE_STACK
+	return clampi(roundi(base * stack_mult), 2, INFINITE_STACK)
 
 
 ## Che cosa fa il clic con l'oggetto in mano (per ora: scava, colpisci, piazza una torcia).
+## 28 set 2026 (opzione «Grandezza delle pile», richiesta dell'utente): moltiplica le pile; negativo = infinite.
+## La imposta `Settings`.
+static var stack_mult := 1.0
+const INFINITE_STACK := 1000000000
+
+
 static func use_of(id: String) -> String:
 	match String(get_item(id).get("kind", "")):
 		"piccone":

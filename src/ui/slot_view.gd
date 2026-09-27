@@ -64,7 +64,7 @@ func _tip() -> Variant:
 
 func set_item(id: String, n: int, tratto := "", dati := {}) -> void:
 	_icon.texture = icon(id) if id != "" else null
-	_count.text = str(n) if n > 1 else ""
+	_count.text = short_count(n) if n > 1 else ""
 	slot_data = {"id": id, "n": n, "tratto": tratto, "dati": dati} if id != "" else {}
 	# un filo dorato sotto l'icona se c'è un tratto
 	_count.add_theme_color_override("font_color", Color("#ffd08a") if tratto != "" else Color.WHITE)
@@ -94,3 +94,19 @@ func _gui_input(e: InputEvent) -> void:
 	if e is InputEventMouseButton and e.pressed:
 		clicked.emit(index, e.button_index)
 		accept_event()
+
+
+## I numeri delle pile grandi in poche cifre (28 set 2026, pile fino a infinite): 12500 → «12,5k», 3400000 → «3,4M».
+static func short_count(n: int) -> String:
+	if n < 10000:
+		return str(n)
+	if n < 1000000:
+		return _short(n / 1000.0, "k") if n < 100000 else "%dk" % (n / 1000)
+	if n < 1000000000:
+		return _short(n / 1000000.0, "M") if n < 100000000 else "%dM" % (n / 1000000)
+	return _short(n / 1000000000.0, "G")
+
+
+static func _short(v: float, unit: String) -> String:
+	var t := "%.1f" % (floorf(v * 10.0) / 10.0)
+	return t.trim_suffix(".0").replace(".", ",") + unit

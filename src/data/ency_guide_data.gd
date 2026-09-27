@@ -62,6 +62,7 @@ Gli oggetti a terra vengono attirati quando ti avvicini, se c'è posto."""},
 """[b]Esc[/b] apre la pausa: da lì Opzioni, questa Enciclopedia, salvataggio, ritorno al menu.
 Le [b]Opzioni[/b] coprono audio, video (schermo, fotogrammi, ingrandimento, chiarore del buio), interfaccia, gioco (pausa mentre crei, pausa con i pannelli grandi, salvataggio automatico), suggerimenti (ritardo, grandezza, nel mondo) e comandi.
 I [b]suggerimenti[/b]: tieni il mouse su una casella, una creatura, una stazione, un minerale e compare la sua scheda. Tenendo [b]Maiusc[/b], armi e armature si confrontano con ciò che hai. Ricette e provenienza sono nella casella Esamina.
+Nella sezione Gioco c'è anche la [b]grandezza delle pile[/b]: quanti oggetti uguali stanno in una casella, da un quarto del normale a infinite (attrezzi, armi e armature restano uno per casella).
 Il gioco [b]si salva da solo[/b] ogni pochi minuti, passando da un portale e uscendo."""},
 	# il mondo
 	{"id": "strati", "group": "Il mondo", "name": "Gli strati", "text":
@@ -120,7 +121,10 @@ Un [b]Focolare[/b] con un Letto di foglie libero vicino chiama un [url=cap:abita
 • [b]Prendi tutto[/b], [b]Deposita tutto[/b] (non la barra rapida), [b]Deposita simili[/b] (solo ciò che la cassa tiene già), [b]Rifornisci[/b] (completa le pile della Bisaccia), [b]Riordina[/b].
 • Ogni cassa ha un [b]nome[/b] (scritto sopra), «usa per creare» e che cosa [b]raccoglie[/b] (minerali, materiali, costruzione…).
 • Il pannello [url=cap:creare]Creare[/url] usa gli ingredienti delle casse entro {chest_reach} tessere che hanno «usa per creare».
-• Nella Bisaccia, «Nelle casse vicine» manda ogni oggetto nella cassa giusta."""},
+• Nella Bisaccia, «Nelle casse vicine» manda ogni oggetto nella cassa giusta.
+Le casse hanno dei [b]gradi[/b]: più il materiale è raro, più caselle. Le prime si fanno al Ceppo, le altre al Maglio; gli scrigni dei Seminatori si trovano soltanto, pieni, nelle rovine (più grandi più si scende) e, vuoti, si portano via e si riusano.
+{cat_casse}
+Quanti oggetti uguali stanno in una casella lo decidi nelle [url=cap:opzioni]Opzioni[/url] (Gioco → Grandezza delle pile): da un quarto del normale fino a pile infinite."""},
 	{"id": "giardino", "group": "Scavare e costruire", "name": "Il giardino e le colture", "text":
 """I [b]semi da giardino[/b] si piantano sulla terra o sull'erba giusta; la coltura cresce anche lontano da te, e matura si raccoglie con il clic destro (o scavandola). L'[b]annaffiatoio[/b] la fa crescere il doppio più in fretta. Le stagioni e certi geni cambiano la crescita.
 {cat_colture}

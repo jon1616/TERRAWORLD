@@ -139,7 +139,7 @@ func _draw() -> void:
 			key = "cuore"
 		elif id == "portale":
 			key = "portale"
-		elif id == "scrigno" or id == "cesta":
+		elif ChestsData.is_chest(id):
 			key = "scrigno"
 		elif id == "fagotto":
 			key = "fagotto"

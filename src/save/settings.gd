@@ -108,6 +108,7 @@ static func _sync() -> void:
 	ambient = float(values.get("ambiente", ambient))
 	music = float(values.get("musica", music))
 	_master = float(values.get("volume", 1.0))
+	ItemsData.stack_mult = float(values.get("pile", 1.0))      # 28 set 2026: la grandezza delle pile
 
 
 ## Applica ciò che vale per tutto il gioco (schermo, fotogrammi); il resto lo leggono i moduli quando serve.

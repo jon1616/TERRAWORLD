@@ -127,7 +127,7 @@ func room_for(id: String) -> int:
 		if slots[i].is_empty():
 			r += cap
 		elif id_at(i) == id and not slots[i].has("dati"):
-			r += cap - count_at(i)
+			r += maxi(cap - count_at(i), 0)
 	return r
 
 
@@ -171,7 +171,7 @@ func swap_with(i: int, held: Dictionary) -> Dictionary:
 	if not held.is_empty() and id_at(i) == String(held["id"]) and ItemsData.stack_of(id_at(i)) > 1 \
 			and not held.has("dati") and not slots[i].has("dati"):
 		var cap := ItemsData.stack_of(id_at(i))
-		var k := mini(cap - count_at(i), int(held["n"]))
+		var k := maxi(mini(cap - count_at(i), int(held["n"])), 0)
 		slots[i]["n"] = count_at(i) + k
 		var rest := int(held["n"]) - k
 		changed.emit()
@@ -208,7 +208,7 @@ func sort_bag(from := HOTBAR) -> void:
 		if k > from and slots[k - 1].get("id", "") == it["id"] and not it.has("tratto") and not slots[k - 1].has("tratto") \
 				and not it.has("dati") and not slots[k - 1].has("dati"):
 			var room := ItemsData.stack_of(String(it["id"])) - int(slots[k - 1]["n"])
-			var moved := mini(room, int(it["n"]))
+			var moved := maxi(mini(room, int(it["n"])), 0)
 			slots[k - 1]["n"] = int(slots[k - 1]["n"]) + moved
 			it["n"] = int(it["n"]) - moved
 			if int(it["n"]) <= 0:

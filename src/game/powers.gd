@@ -97,7 +97,8 @@ func vista() -> Dictionary:
 					lights.append([c, Color(0.9, 0.7, 0.3)])
 	var chests := 0
 	for o in m.world.stations:
-		if String(m.world.stations[o]) in ["scrigno", "reliquiario"] and Vector2(o - pc).length() <= VISTA_R:
+		var sid := String(m.world.stations[o])
+		if (ChestsData.is_found(sid) or sid == "reliquiario") and Vector2(o - pc).length() <= VISTA_R:
 			lights.append([o, Color(1.2, 1.0, 0.5)])
 			chests += 1
 	m.light.set_extra("vista", lights)

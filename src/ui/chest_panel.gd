@@ -9,6 +9,9 @@ extends Control
 
 const COLS := 10
 const GAP := 6
+const MAX_COLS := 15                   # 28 set 2026: le casse più grandi (fino a 100 caselle)
+const MAX_ROWS := 7
+const LEFT_MIN := 500.0                # a sinistra c'è la casella Esamina
 
 var panel: BisacciaPanel
 var storage: Storage
@@ -22,6 +25,7 @@ var _craft: CheckBox
 var _kind: OptionButton
 var _settings: Control
 var _info: Label
+var _buttons: Array[Button] = []
 
 
 func setup(p: BisacciaPanel) -> void:
@@ -29,40 +33,27 @@ func setup(p: BisacciaPanel) -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	visible = false
-	var rows := 2
-	var w := COLS * SlotView.SIZE + (COLS - 1) * GAP
-	var x0 := (1600 - w) / 2.0
-	var bag_top := Hud.HOTBAR_Y - 16 - 3 * (SlotView.SIZE + GAP) - 44
-	var y0 := bag_top - 14 - rows * (SlotView.SIZE + GAP)
 	_frame = Panel.new()
 	_frame.add_theme_stylebox_override("panel", _box())
-	_frame.position = Vector2(x0 - 14, y0 - 40)
-	_frame.size = Vector2(w + 28, rows * (SlotView.SIZE + GAP) + 44)
 	_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_frame)
 	_title = Label.new()
-	_title.position = Vector2(x0, y0 - 34)
 	_title.add_theme_font_size_override("font_size", 20)
 	_title.add_theme_color_override("font_color", Color("#8ef0d8"))
 	add_child(_title)
 	_info = Label.new()
-	_info.position = Vector2(x0 + 260, y0 - 30)
-	_info.size = Vector2(w - 260, 20)
 	_info.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_info.add_theme_font_size_override("font_size", 13)
 	_info.add_theme_color_override("font_color", Color("#9fc8c0"))
 	add_child(_info)
-	for r in rows:
-		for c in COLS:
-			var s := SlotView.new()
-			s.index = r * COLS + c
-			s.position = Vector2(x0 + c * (SlotView.SIZE + GAP), y0 + r * (SlotView.SIZE + GAP))
-			s.clicked.connect(_click)
-			add_child(s)
-			_slots.append(s)
+	# le caselle per la cassa più grande; `_layout` le mette in griglia secondo la capienza
+	for i in MAX_COLS * MAX_ROWS:
+		var s := SlotView.new()
+		s.index = i
+		s.clicked.connect(_click)
+		add_child(s)
+		_slots.append(s)
 	# i pulsanti di comodità, in colonna a destra della cassa
-	var bx := _frame.position.x + _frame.size.x + 10
-	var by := _frame.position.y
 	for b in [["Prendi tutto", "Tutto ciò che ci sta passa nella Bisaccia", take_all],
 			["Deposita tutto", "Le 30 caselle grandi della Bisaccia nella cassa (la barra rapida resta)", _deposit_all],
 			["Deposita simili", "Nella cassa solo ciò che contiene già (dalle caselle grandi della Bisaccia)", _deposit_similar],
@@ -72,17 +63,15 @@ func setup(p: BisacciaPanel) -> void:
 		btn.text = b[0]
 		btn.tooltip_text = b[1]
 		btn.focus_mode = Control.FOCUS_NONE
-		btn.position = Vector2(bx, by)
 		btn.size = Vector2(150, 30)
 		btn.add_theme_font_size_override("font_size", 14)
 		btn.pressed.connect(b[2])
 		add_child(btn)
-		by += 34.0
+		_buttons.append(btn)
 	# le impostazioni, in una fascia sopra la cassa
 	_settings = Panel.new()
 	(_settings as Panel).add_theme_stylebox_override("panel", _box())
-	_settings.position = Vector2(_frame.position.x, _frame.position.y - 50)
-	_settings.size = Vector2(_frame.size.x, 44)
+	_settings.size = Vector2(COLS * SlotView.SIZE + (COLS - 1) * GAP + 28, 44)
 	add_child(_settings)
 	_name = LineEdit.new()
 	_name.position = Vector2(12, 7)
@@ -119,6 +108,32 @@ func setup(p: BisacciaPanel) -> void:
 		_kind.add_item(String(e[1]))
 	_kind.item_selected.connect(func(i: int) -> void: _set_opt("tipo", String(StorageData.CATEGORIES[i][0])))
 	_settings.add_child(_kind)
+	_layout(20)
+
+
+## La griglia secondo la capienza (28 set 2026, i gradi delle casse): 10 colonne finché bastano 7 righe, poi più
+## colonne (fino a 15 × 7 = 105). Sopra la Bisaccia, mai sotto la casella Esamina a sinistra; i pulsanti a destra,
+## le impostazioni in una fascia sopra.
+func _layout(n: int) -> void:
+	var cols := maxi(COLS, ceili(n / float(MAX_ROWS)))
+	var rows := maxi(ceili(n / float(cols)), 1)
+	var w := cols * SlotView.SIZE + (cols - 1) * GAP
+	var x0 := maxf((1600 - w) / 2.0, LEFT_MIN)
+	var bag_top := Hud.HOTBAR_Y - 16 - 3 * (SlotView.SIZE + GAP) - 44
+	var y0 := bag_top - 14 - rows * (SlotView.SIZE + GAP)
+	_frame.position = Vector2(x0 - 14, y0 - 40)
+	_frame.size = Vector2(w + 28, rows * (SlotView.SIZE + GAP) + 44)
+	_title.position = Vector2(x0, y0 - 34)
+	_info.position = Vector2(x0 + 260, y0 - 30)
+	_info.size = Vector2(w - 260, 20)
+	for s in _slots:
+		s.position = Vector2(x0 + (s.index % cols) * (SlotView.SIZE + GAP), y0 + (s.index / cols) * (SlotView.SIZE + GAP))
+	var bx := _frame.position.x + _frame.size.x + 10
+	var by := _frame.position.y
+	for btn in _buttons:
+		btn.position = Vector2(bx, by)
+		by += 34.0
+	_settings.position = Vector2(_frame.position.x, _frame.position.y - 50)
 
 
 static func _box() -> StyleBoxFlat:
@@ -140,6 +155,7 @@ func open(o: Vector2i, contents: Bisaccia, title: String) -> void:
 		chest.changed.disconnect(_refresh)
 	origin = o
 	chest = contents
+	_layout(contents.slots.size())
 	chest.changed.connect(_refresh)
 	_title.text = title
 	visible = true

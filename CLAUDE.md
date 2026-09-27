@@ -500,6 +500,12 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   `world_meta["casse"]` (nome scritto sopra la cassa, usa per creare, tipo che raccoglie); Deposita tutto/simili,
   Rifornisci, Riordina (in `ChestPanel`) e «Nelle casse vicine» (nella Bisaccia). I pulsanti non toccano mai la barra
   rapida (tranne Rifornisci, che completa le pile). Prove `--solo=casse`, foto 99_casse.
+  I **gradi delle casse** (28 set 2026) in `ChestsData`: sei da fabbricare (20-100 caselle, dal legno alla stellare) e
+  tre da trovare nelle rovine (più grandi più si scende: `PassRovine`); `ChestPanel._layout` allarga la griglia (fino a
+  15 × 7) senza coprire Esamina; disegno in `CompactArt._cassa`/`_trim`. Chi riconosceva «scrigno»/«cesta» usa
+  `ChestsData.is_chest`/`is_found`. Foto 99_casse_arca.
+  **Grandezza delle pile** (opzione `pile`): `ItemsData.stack_mult` (lo imposta `Settings`), negativo = infinite
+  (`INFINITE_STACK`); ciò che non si impila resta 1; `SlotView.short_count` scrive «12,5k», «5M».
 - `src/game/bisaccia.gd` (`Bisaccia`) — l'inventario: 40 caselle (prime 10 = barra rapida), `add`/`remove`/`count`/
   `room_for`/`take_one`/`swap_with`, equipaggiamento `equip` con `wear`/`scorza` (5 posti: elmo, corazza, gambali,
   `accessorio_1`, `accessorio_2`; `kind_of_slot`); la stessa classe con meno caselle fa da contenuto di ceste e scrigni, corredo iniziale (`STARTER`); si salva

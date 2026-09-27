@@ -193,7 +193,7 @@ func touch(c: Vector2i) -> bool:
 				seen.append("%d,%d" % [o.x, o.y])
 				m.world_meta["reliquiari_aperti"] = seen
 				m.objectives.bump("reliquiari")
-		if id == "scrigno":
+		if ChestsData.is_found(id):
 			var opened: Array = m.world_meta.get("scrigni_aperti", [])
 			if not "%d,%d" % [o.x, o.y] in opened:
 				opened.append("%d,%d" % [o.x, o.y])

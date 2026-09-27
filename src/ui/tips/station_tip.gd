@@ -22,7 +22,7 @@ static func card(m: Node2D, o: Vector2i, id: String) -> TipCard:
 	var c := TipCard.new()
 	var item := String(sd.get("item", ""))
 	c.title(String(sd.get("name", id)), Color("#e0b878"), item if ItemsData.get_item(item).has("name") else null)
-	if id in CHESTS:
+	if id in CHESTS or ChestsData.is_chest(id):
 		return _chest(m, c, o, id)
 	if id.begins_with("braciere") or id.begins_with("leva") or id.begins_with("piastra") or id.begins_with("cristallo_eco"):
 		var e: Dictionary = m.mechanisms.place_of(o)
@@ -124,7 +124,7 @@ static func _chest(m: Node2D, c: TipCard, o: Vector2i, id: String) -> TipCard:
 	c.stats(rows)
 	if ids.size() > 6:
 		c.line("… e altri %d" % (ids.size() - 6), TipCard.DIM)
-	if id == "cesta" or id == "scrigno":
+	if ChestsData.is_chest(id):
 		c.line("Usata per creare" if bool(cfg["creare"]) else "Non usata per creare", TipCard.GOOD if bool(cfg["creare"]) else TipCard.DIM)
 	c.hint("Clic destro: apri")
 	return c

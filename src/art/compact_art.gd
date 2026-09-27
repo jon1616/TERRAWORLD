@@ -42,7 +42,13 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 		"reliquiario":
 			_reliquiario(im, gm, w, h)
 		_:
-			return false
+			if not ChestsData.is_chest(id):
+				return false
+			if ChestsData.is_found(id):
+				_scrigno(im, gm, w, h)
+				_trim(im, gm, w, h, String(ChestsData.info(id)["mat"]))
+			else:
+				_cassa(im, gm, w, h, String(ChestsData.info(id)["mat"]))
 	return true
 
 
@@ -264,3 +270,44 @@ static func _bacheca(im: Image, gm: Image, w: int, h: int) -> void:
 				Px.put(im, x, y, Color("#e8dcc0") if (y - q.y) % 3 else Color("#b8a888"))
 		Px.put(im, q.x + 3, q.y, Color("#6ff0d8"))
 		Px.put(gm, q.x + 3, q.y, Color("#6ff0d8"))
+
+
+## I gradi delle casse (28 set 2026): assi scure con le fasce e gli angoli del metallo, il coperchio bordato, la
+## serratura; dai metalli del fine gioco una vena accesa sul coperchio.
+static func _cassa(im: Image, gm: Image, w: int, h: int, mat: String) -> void:
+	var wood := _wood()
+	var met := ItemIcons.pal(mat)
+	for y in range(3, h):
+		for x in range(3, w - 3):
+			Px.put(im, x, y, wood[2] if (y / 3) % 2 == 0 else wood[1])
+	for x in range(2, w - 2):
+		Px.put(im, x, 2, met[3])
+		Px.put(im, x, 3, met[2])
+		Px.put(im, x, 8, met[2])
+	for y in range(2, h):
+		for x in [3, 4, w - 5, w - 4]:
+			Px.put(im, x, y, met[2] if x in [3, w - 4] else met[1])
+	for q in [Vector2i(w / 2 - 1, 6), Vector2i(w / 2, 6), Vector2i(w / 2 - 1, 7), Vector2i(w / 2, 7)]:
+		Px.put(im, q.x, q.y, met[met.size() - 1])
+	if mat in ["cristallo", "vuotite", "brillaluce", "ambra"]:
+		var glow := met[met.size() - 1]
+		for x in range(6, w - 6, 3):
+			Px.put(im, x, 2, glow)
+			Px.put(gm, x, 2, glow)
+		Px.put(gm, w / 2 - 1, 6, glow)
+		Px.put(gm, w / 2, 6, glow)
+
+
+## Gli scrigni trovati più grandi: bordi e runa del loro colore sopra lo Scrigno dei Seminatori.
+static func _trim(im: Image, gm: Image, w: int, h: int, mat: String) -> void:
+	var met := ItemIcons.pal(mat)
+	for x in range(3, w - 3):
+		Px.put(im, x, 2, met[3])
+		Px.put(im, x, h - 1, met[2])
+	for y in range(2, h):
+		Px.put(im, 3, y, met[2])
+		Px.put(im, w - 4, y, met[2])
+	var rune := met[met.size() - 1]
+	for q in [Vector2i(w / 2 - 3, 10), Vector2i(w / 2 + 3, 10), Vector2i(w / 2 - 3, 11), Vector2i(w / 2 + 3, 11)]:
+		Px.put(im, q.x, q.y, rune)
+		Px.put(gm, q.x, q.y, rune)

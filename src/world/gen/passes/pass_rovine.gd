@@ -80,7 +80,12 @@ func _build(w: World, rng: RandomNumberGenerator, p: Vector2i, s: int, rich := 0
 	w.set_decor(o.x + 1, o.y, 0)
 	w.set_decor(o.x, o.y + 1, 0)
 	w.set_decor(o.x + 1, o.y + 1, 0)
-	w.stations[o] = "scrigno"
+	# 28 set 2026: più in basso, scrigni più capienti (i gradi trovati di `ChestsData`)
+	var sid := "scrigno"
+	for e in ChestsData.FOUND:
+		if e.has("strata") and s >= int(e["strata"]) and rng.randf() < float(e["chance"]):
+			sid = String(e["id"])
+	w.stations[o] = sid
 	var chest := w.chest_at(o)
 	var loot := LootData.roll_chest("rovina_%d" % clampi(s, 1, 4), rng, 2 + s / 2 + rich)
 	for id in loot:
