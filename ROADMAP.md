@@ -3,8 +3,9 @@
 ## Dove siamo (aggiornato il 27 set 2026)
 - **Il piano «Il Giardiniere dei mondi» è compiuto**: Roadmap 5-11 (voci 41-82) tutte fatte, ognuna con capitolo
   nell'Enciclopedia, prove e giro completo pulito. Resoconti in fondo a ogni Roadmap.
-- **Prossimo passo**: discutere con l'utente le migliorie di `MIGLIORIE.md` (la prima: partite vere e strumenti di
-  bilancio, perché il gioco non è mai stato giocato per ore da una persona).
+- **Prossimo passo**: la **Roadmap 12 «Il mondo si riempie»** (voci 83-99, decisa con l'utente il 28 set 2026:
+  diario, Guardiani da evocare, effetti speciali, posti nuovi d'equipaggiamento, totem, trappole e farm, volo, biomi a
+  cicli, segreti, oggetti unici). Si parte dalla voce 83, il diario della partita.
 - **Fatte**: Roadmap 1 «Le fondamenta» (voci 0-16, tranne la 6), Roadmap 2 (17-20), Roadmap 3 «Esplorare, trovare,
   crescere» (21-30 + extra), Roadmap 4 «Un mondo da abitare» (31-40), il fotogramma lento del giro lungo (pannelli che
   si ridisegnavano a ogni raccolta, vedi CLAUDE.md), la musica (autoload `Musica`, file in `musica/`) e il Germogliato
@@ -1552,6 +1553,158 @@ Semi, e il **Seme Primo** è il traguardo lontano e chiaro (Albero-Madre sveglio
 lui il gioco continua. Le **sfide dei Semi** (sei regole, livelli senza fine, medaglie, record nel Semenzaio e
 nell'Enciclopedia) danno sempre qualcosa da tentare anche a chi ha tutto. Con questa Roadmap il piano «Il Giardiniere
 dei mondi» (Roadmap 5-11) è compiuto; le migliorie proposte per dopo sono in `MIGLIORIE.md`, da discutere insieme.
+
+# Roadmap 12 «Il mondo si riempie» — più cose da trovare, da costruire, da indossare (dal 28 set 2026)
+
+Nata dal punto della situazione con l'utente (28 set 2026). La struttura del gioco è completa; mancano **quantità e
+varietà di contenuti** (oggetti, biomi, creature, luoghi segreti) e alcuni **sistemi da giocatore esperto** (volo,
+boss da evocare, oggetti di zona, farm). Le regole della filosofia valgono tutte: ogni cosa nuova risponde a «cosa
+cerco, perché mi serve, cosa trovo che non mi aspettavo», e **moltiplica** i sistemi che ci sono.
+
+**Decisioni dell'utente (28 set 2026):**
+- il **volo** arriva già a metà gioco, ma con ali deboli, paragonabili a lunghi salti; poi cresce per gradi;
+- le **farm** funzionano da sole (anche la raccolta del bottino), ma sta alla fantasia del giocatore metterle a punto:
+  il gioco dà i pezzi (esche, trappole, raccoglitori, regole chiare di comparsa), non farm già fatte;
+- l'ordine lo sceglie Claude; si aggiunge il **diario della partita**.
+
+**L'ordine e perché**: prima il diario (costa poco e da subito misura il ritmo mentre tutto cresce); poi l'evocazione
+dei Guardiani (breve, subito utile); poi le **fondamenta** che reggono il resto (effetti speciali componibili, posti
+nuovi d'equipaggiamento); poi i sistemi del giocatore (totem, trappole e farm insieme, poi il volo); poi i **biomi** a
+cicli, con le loro creature; poi i **segreti**, che si appoggiano ai biomi; gli **oggetti unici** crescono lungo tutta
+la Roadmap e la chiudono. Ogni voce ha il suo capitolo nell'Enciclopedia, le sue prove, e passa da `tools/prove.sh`.
+
+## 83. [ ] Il diario della partita (S)
+Un registro automatico, per personaggio, di **quando** succedono le cose che contano: primo Seme, primo portale, ogni
+Guardiano (curato o sconfitto, in quanto tempo, quante volte si è appassiti prima), ogni grado di vigore, stadi
+dell'Albero-Madre, primo metallo di ogni grado, prima creatura addomesticata, leggende, sfide; più i conteggi (morti e
+dove, cosa si fabbrica e si usa davvero, tempo per strato, oggetti mai usati). Si legge in gioco (una scheda del
+Semenzaio: «La tua storia», con la linea del tempo) e si esporta in un file di testo da mandare a Claude.
+Con lui `tools/bilancio.gd`: le curve su una pagina (danno delle armi per grado, Vita e danno delle creature per
+vigore, colpi per sconfiggerle, costo delle ricette in tempo di raccolta) per vedere salti e buchi.
+**Pronto quando**: dopo una partita di due ore il diario dice dove il ritmo si è fermato, e il bilancio mostra i numeri
+fuori curva.
+
+## 84. [ ] Evocare i Guardiani sconfitti (S)
+Come i Custodi all'Altare dei Seminatori (voce 27), ma per i Guardiani: dal secondo incontro in poi un **Richiamo**
+per ognuno dei Guardiani scritti a mano (Nodo, Regina, Colosso, il Seme Nero), fatto con i suoi materiali; per i
+Guardiani generati il **Sigillo del Guardiano**, che ricorda il seme del mondo e quindi evoca proprio quello (con la
+sua specie, i suoi attacchi e il suo elemento). Solo quelli già risolti almeno una volta. Si combattono in una
+**Arena**: una stazione che segna il campo di battaglia (niente fuga del boss, niente creature attorno). Evocato,
+il boss lascia di nuovo il suo bottino (non i doni per sempre: Vita, Semi di mondo, Linfa antica).
+**Pronto quando**: ogni Guardiano sconfitto si può riaffrontare quando si vuole, e ne vale la pena per i suoi oggetti.
+
+## 85. [ ] Effetti speciali componibili (M) — fondamenta
+Una libreria di **effetti** scritti come dati, che si montano su oggetti unici, accessori, totem, ali e set:
+«quando colpisci», «quando sei colpito», «sotto metà Vita», «ogni N colpi», «di notte», «nell'acqua», «in un bioma»,
+«aura continua», con risultati come scia di brace, schegge che rimbalzano, invisibilità breve, sciame evocato,
+rallentamento attorno, cura sui colpi, raccolta a distanza, scavo ad area… Un modulo solo li applica (`GearEffects`
+esteso o un `Effects` nuovo); la scheda dell'oggetto li descrive in italiano semplice.
+**Pronto quando**: un effetto nuovo è una riga di dati, e dieci oggetti di prova con effetti diversi si giocano in modo
+diverso, non solo con numeri più alti.
+
+## 86. [ ] Posti nuovi d'equipaggiamento (M) — fondamenta
+Da cinque posti a dieci: **guanti** (velocità dei colpi, scavo), **stivali** (corsa, salto, cadute), **mantello**
+(planata, Scorza, e dalla voce 90 il volo), **amuleto** e **anello** (effetti speciali), accanto a elmo, corazza,
+gambali e due accessori. Guanti, stivali e mantello nascono da **materiali × forme** come le armature (centinaia di
+oggetti in più, ognuno con i valori dal suo materiale), amuleti e anelli dalle **gemme** (un'incastonatura per gemma,
+con il suo effetto). I set crescono (set di cinque, sette pezzi); la colonna dell'equipaggiamento nella Bisaccia si
+rifà per dieci posti; l'armatura disegnata sul Germogliato mostra almeno guanti e stivali.
+**Pronto quando**: vestirsi è una scelta su dieci posti, con combinazioni e set che cambiano il modo di giocare.
+
+## 87. [ ] Totem, stendardi e altari: gli oggetti di zona (M)
+Oggetti da piazzare che danno un **bonus o un malus in un raggio** (visibile quando li si tiene in mano o li si
+piazza): crescita dell'orto, rigenerazione, fortuna, luce, meno creature; e gli **scambi**: più creature rare ma più
+pericolo, più bottino ma nemici più forti, niente Avvizzimento ma niente crescita. Gradi dai materiali (raggio e forza),
+effetti dalla libreria della voce 85, un tetto per zona (non si impilano all'infinito). Alcuni solo trovati (luoghi,
+segreti, boss). Le **esche** per le farm (voce 89) sono totem.
+**Pronto quando**: la casa e le zone di lavoro si progettano con i totem, e ogni scelta ha un costo.
+
+## 88. [ ] Le trappole (M)
+Pezzi da costruire che feriscono le creature (e, se sbadati, il Germogliato): **spuntoni** (a terra, a parete, al
+soffitto), **lame rotanti**, **rune** (una scarica per elemento: brace, gelo, spore, Vuoto), **presse** di pietra,
+**getti** di brace o d'acqua, **reti** che bloccano. Si attivano da sole (piastre, sensori di passaggio, tempo) o con
+le leve dei Seminatori (voce 71). Gradi dai materiali, elemento che si somma alle debolezze delle creature. Con i
+liquidi (voce 74) e le correnti d'aria nascono combinazioni.
+**Pronto quando**: con le trappole si difende la casa e si costruisce un corridoio che sconfigge le creature da solo.
+
+## 89. [ ] Farm automatiche: esche e raccoglitori (M)
+Le regole di comparsa diventano **chiare e scritte** (Enciclopedia: buio, distanza dalle torce e dalla visuale,
+superficie adatta, tetto per zona, strato e bioma), e il giocatore riceve i pezzi per sfruttarle: **esche** (totem che
+chiamano una famiglia o uno strato in una zona, anche lontano dalla visuale entro un raggio), **raccoglitori** (una
+tramoggia che aspira il bottino caduto vicino e lo mette in una cassa collegata), **nastri e scivoli** di passerelle
+che portano gli oggetti. Tutto automatico, ma **sta al giocatore mettere a punto** la farm (scelta dell'utente): niente
+farm già pronte, un tetto di rendita per zona perché resti un gioco e non un modo per spegnere la difficoltà.
+Obiettivi e un capitolo dell'Enciclopedia con i principi (non le soluzioni).
+**Pronto quando**: un giocatore costruisce una farm di una creatura scelta che raccoglie il bottino in una cassa mentre
+lui esplora altrove (la farm lavora se il suo blocco è caricato: vicino, o tenuto vivo da un totem apposito).
+
+## 90. [ ] Il volo (M)
+Ali e mantelli con quattro valori: **velocità**, **salita**, **autonomia** (una barra che si consuma volando e si
+ricarica a terra) e **ricarica**. **Già a metà gioco** (scelta dell'utente) con **ali deboli, paragonabili a lunghi
+salti** (Ali di foglia: poca salita, autonomia breve); poi gradi dai materiali e dai biomi (ali di brina, di brace,
+di Vuoto, stellari) e unici con effetti propri. Si lega alle leggi dei mondi: il vento spinge, la gravità lieve
+allunga il volo, nel Guscio c'è il tetto, le correnti ricaricano. Le pose del Germogliato in volo.
+**Pronto quando**: il volo cresce da un lungo salto a metà gioco a un vero volo nel fine gioco, e non rende inutili
+rampino, planata e correnti.
+
+## 91. [ ] Il bioma come dato (M) — fondamenta dei biomi
+Oggi un bioma nuovo tocca molti file (tessere, tavolozze, alberi, vegetazione, creature, oggetti, geni). Si porta
+tutto in **un file per bioma** (o una voce di dati): terreno e tavolozza, erba, specie d'albero, vegetazione, cielo,
+musica o sottofondo, famiglie di creature, materiali, set, oggetto unico, gene e Fiala; il codice legge. Anche i
+biomi del sottosuolo passano allo stesso formato. `tools/biomi.gd` fa il foglio di tutti i biomi (terreno, alberi,
+creature) per il controllo a occhio.
+**Pronto quando**: aggiungere un bioma è scrivere un file di dati e i suoi disegni, senza toccare il resto.
+
+## 92. [ ] Biomi nuovi, primo ciclo: le terre temperate (L)
+Quattro biomi di superficie (per esempio: prati di vento, foreste di corteccia rossa, colline di funghi bassi,
+torbiere di Linfa), ognuno con 2-3 famiglie di creature nuove (con le varianti), materiali, un set, un oggetto unico,
+un gene di superficie e il posto nei Semi. Ogni nome è dell'universo (UNIVERSO.md).
+**Pronto quando**: `tools/mappe.gd -- --caso` misura mondi più vari di prima, e ogni bioma ha qualcosa che si trova
+solo lì.
+
+## 93. [ ] Biomi nuovi, secondo ciclo: le terre estreme (L)
+Quattro biomi duri (per esempio: deserti di vetro, ghiacciai di Linfa, foreste pietrificate, lande di cenere
+viva), con regole proprie (sete o freddo da gestire con equipaggiamento e totem, terreno che ferisce, tempeste del
+bioma) e creature di pari passo.
+**Pronto quando**: un bioma estremo si esplora solo preparati, e prepararsi è un obiettivo che fa cercare cose altrove.
+
+## 94. [ ] Biomi nuovi, terzo ciclo: il sottosuolo e i rari (L)
+Quattro biomi del sottosuolo (caverne di cristallo cantante, giungle di radici, laghi sotterranei, catacombe dei
+Seminatori) e due o tre **biomi rari** di superficie, solo per mutazione (come il Mosaico), ognuno con una creatura
+unica.
+**Pronto quando**: con i tre cicli i biomi sono almeno 20, e le combinazioni dei Semi danno mondi mai visti per ore.
+
+## 95. [ ] Il sistema dei segreti (M) — fondamenta dei segreti
+Ogni mondo nasce con una **lista di segreti** (piazzati dal generatore secondo i biomi e i geni) e un **contatore**
+(«segreti trovati 4 su 13»: nella scheda del portale, sulla mappa, nel Semenzaio), così un mondo non è finito finché
+il contatore non è pieno. **Gradi** di segreto (facile, nascosto, profondo, leggendario) e **attrezzi per fiutarli**:
+la bacchetta rabdomante (vibra vicino a un segreto), l'Eco dei Seminatori (una mappa del suono), gli indizi nella
+lingua dei Seminatori (voce 68). Premi scritti a mano o dagli unici.
+**Pronto quando**: entrando in un mondo il giocatore sa quanti segreti ci sono e ha un modo per cercarli.
+
+## 96. [ ] Segreti, primo ciclo: stanze e tesori (M)
+**Pareti finte** (tessere che sembrano roccia ma si attraversano o crollano al tocco), **stanze murate** con dentro
+una sorpresa, **tesori sepolti** con la mappa del tesoro trovata altrove nello stesso mondo, **passaggi** tra due
+grotte, **nidi nascosti** di creature rare.
+**Pronto quando**: esplorando con attenzione si trovano stanze che nessun sentiero porta a vedere.
+
+## 97. [ ] Segreti, secondo ciclo: enigmi, anomalie, creature nascoste (M)
+**Camere-enigma** piccole (con i meccanismi della voce 71), **anomalie** (una per mondo, rara: una bolla di gravità
+rovesciata, un lago che canta, un albero antichissimo, una stella caduta che non si spegne), **creature nascoste** che
+compaiono solo a certe condizioni (ora, meteo, stagione, un oggetto in mano), **visioni** dei Seminatori.
+**Pronto quando**: in ogni mondo c'è almeno un imprevisto che fa dire «questo non l'avevo mai visto».
+
+## 98. [ ] Gli oggetti unici (L) — lungo tutta la Roadmap
+Ogni voce della Roadmap ne aggiunge (boss, biomi, segreti, farm, volo); questa li completa fino a **150-200 oggetti
+unici scritti a mano**, con nome, storia, effetti speciali (voce 85) e un posto preciso dove si trovano. Una
+**collezione degli unici** (Erbario e Enciclopedia: trovati e da trovare, con un indizio di dove) e il premio per le
+serie complete.
+**Pronto quando**: gli unici sono un motivo a sé per esplorare, e ognuno cambia qualcosa nel modo di giocare.
+
+## 99. [ ] Bilancio e resoconto (M)
+Con il diario (voce 83) delle partite dell'utente e `tools/bilancio.gd`: ritmo, difficoltà, rendite delle farm,
+potenza del volo e degli unici. Si sistemano i numeri fuori curva, poi il resoconto della Roadmap.
+**Pronto quando**: una partita nuova scorre senza salti di difficoltà né tratti vuoti, secondo il diario.
 
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».
