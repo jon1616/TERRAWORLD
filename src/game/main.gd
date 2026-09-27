@@ -116,52 +116,11 @@ func _ready() -> void:
 		_show_loading("Il mondo si risveglia…")
 		_gen_task = WorkerThreadPool.add_task(func() -> void: world = WorldSave.load_world(world_id), false, "carica mondo")
 	else:
-		var nw: Dictionary = Session.new_world
-		world_id = nw["id"]
-		world_meta = {"nome": nw["nome"], "creato": SavePaths.now_text(), "tempo_di_gioco": 0.0, "giocatori": {},
-			"vigore": int(nw.get("vigore", 1)), "geni": nw.get("geni", []), "formato": SaveMigrations.WORLD}
-		if nw.has("casa"):
-			world_meta["casa"] = nw["casa"]
-		if nw.get("nero", false):
-			world_meta["nero"] = true              # voce 72: il mondo dove cadde il Seme Nero
-		if nw.get("primo", false):
-			world_meta["primo"] = true             # voce 81: il mondo del Seme Primo
-		if String(nw.get("sfida", "")) != "":
-			Challenges.start(world_meta, String(nw["sfida"]), int(nw.get("sfida_livello", 1)))   # voce 82
-		if nw.get("giardino", false):
-			# voce 62: il Giardino, la casa della partita (il gene del menu andrà nel primo Seme)
-			world_meta["giardino"] = true
-			world_meta["vigore"] = 0
-			world_meta["geni"] = []
-			world_meta["primo_geni"] = nw.get("geni", [])
-		_show_loading("Il seme germoglia…\ngenerazione del mondo")
-		world = World.new()
-		var sd: int = nw["seme"]
-		var params := {"vigore": int(nw.get("vigore", 1)), "geni": nw.get("geni", []), "giardino": nw.get("giardino", false),
-			"catene": Chains.pending(character),   # voce 69: le cripte delle tappe aperte
-			"nero": nw.get("nero", false)}         # voce 72
-		var gw := WorldGen.GARDEN_W if params["giardino"] else WorldGen.WIDTH
-		var gh := WorldGen.GARDEN_H if params["giardino"] else WorldGen.HEIGHT
-		_gen_task = WorkerThreadPool.add_task(func() -> void: gen_times = WorldGen.generate(world, sd, gw, gh, params), false, "genera mondo")
+		MainBoot.new_world(self)
 
 
 func _show_loading(text: String) -> void:
-	_loading = CanvasLayer.new()
-	_loading.layer = 50
-	add_child(_loading)
-	var bg := ColorRect.new()
-	bg.color = Color("#0f0d18")
-	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_loading.add_child(bg)
-	var l := Label.new()
-	l.text = text
-	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	l.add_theme_font_size_override("font_size", 30)
-	l.add_theme_color_override("font_color", Color("#cfe8a0"))
-	l.set_anchors_preset(Control.PRESET_CENTER)
-	l.position = Vector2(-200, -40)
-	l.size = Vector2(400, 80)
-	_loading.add_child(l)
+	_loading = MainBoot.loading_screen(self, text)
 
 
 func _build() -> void:
@@ -174,58 +133,8 @@ func _build() -> void:
 		var rng := RandomNumberGenerator.new()
 		rng.seed = world.world_seed
 		PassPartenza.place_creatures(world, rng)
-	add_child(Ambience.environment())
-	background = Background.new()
-	add_child(background)
-	background.setup(world)
-	view = WorldView.new()
-	add_child(view)
-	view.setup(world)
-	fx = Node2D.new()
-	fx.z_index = 6
-	add_child(fx)
-	player = Player.new()
-	player.setup(world)
-	player.z_index = 4
-	player.position = cell_to_feet(world.spawn)
-	add_child(player)
-	light = LightMap.new()
-	light.setup(world)
-	overlay = Sprite2D.new()
-	overlay.texture = light.tex
-	overlay.centered = false
-	overlay.scale = Vector2(S, S)
-	overlay.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
-	var mat := CanvasItemMaterial.new()
-	mat.blend_mode = CanvasItemMaterial.BLEND_MODE_MUL
-	overlay.material = mat
-	overlay.z_index = 20
-	overlay.visible = not ("--senza-luce" in OS.get_cmdline_user_args())
-	add_child(overlay)
-	cam = Camera2D.new()
-	cam.zoom = Vector2(2, 2)
-	cam.position_smoothing_enabled = true
-	cam.position_smoothing_speed = 7.0
-	cam.limit_left = 0
-	cam.limit_top = 0
-	cam.limit_right = world.w * S
-	cam.limit_bottom = world.h * S
-	add_child(cam)
-	cam.make_current()
-	_spores = Ambience.spores()
-	add_child(_spores)
-	vitals = Vitals.new()
-	vitals.hp_max = Vitals.HP_MAX + character.vita_extra
-	vitals.linfa_max = Vitals.LINFA_MAX + character.linfa_extra
-	vitals.hp = character.hp
-	vitals.linfa = character.linfa
-	vitals.scorza = character.bisaccia.scorza()
-	player.set_look(character.bisaccia.equip)
-	character.bisaccia.changed.connect(func() -> void:
-		vitals.scorza = character.bisaccia.scorza()
-		if str(character.bisaccia.equip) != player._look_key_source:
-			player._look_key_source = str(character.bisaccia.equip)
-			player.set_look(character.bisaccia.equip))
+	MainBoot.build_scene(self)
+	vitals = MainBoot.make_vitals(self)
 	drops = Drops.new()
 	add_child(drops)
 	drops.setup(world, player, character.bisaccia)
@@ -261,13 +170,7 @@ func _build() -> void:
 	sfx = _mount(Sfx.new())
 	actions.sfx = sfx
 	fauna.sfx = sfx
-	player.jumped.connect(func() -> void: sfx.play("salto"))
-	player.landed.connect(func(tiles: float) -> void:
-		if tiles > 1.5:
-			sfx.play("atterra"))
-	drops.picked.connect(func(_id: String, _n: int) -> void: sfx.play("raccogli"))
-	fauna.killed.connect(func(c: Creature) -> void: sfx.play("morte", c.position))
-	hud.panel.crafting.crafted.connect(func(_id: String, _n: int) -> void: sfx.play("crea"))
+	MainBoot.link_sounds(self)
 	boons = _mount(Boons.new())
 	guardian = _mount(Guardian.new())
 	portal = _mount(Portal.new())
@@ -469,25 +372,7 @@ func grow_saplings(dt: float) -> void:
 func save_game() -> void:
 	if not built or world == null:
 		return
-	world_meta["tempo_di_gioco"] = float(world_meta.get("tempo_di_gioco", 0.0)) + _session_time
-	character.play_time += _session_time
-	_session_time = 0.0
-	var players: Dictionary = world_meta.get("giocatori", {})
-	var pc := player_cell()
-	players[character.id] = [pc.x, pc.y]
-	world_meta["giocatori"] = players
-	world_meta["esplorato"] = aiuole.explored_percent()
-	if aiuole.is_home():
-		world_meta["aiuole"] = aiuole.count()
-	var err := WorldSave.save(world, world_id, world_meta)
-	if err != OK:
-		push_error("salvataggio del mondo non riuscito: %s" % error_string(err))
-		hud.toast("Salvataggio NON riuscito")
-	character.hotbar = hud.sel
-	character.last_world = world_id
-	character.hp = maxi(vitals.hp, 1)
-	character.linfa = vitals.linfa
-	character.save()
+	MainBoot.save(self)
 
 
 func _unhandled_input(e: InputEvent) -> void:

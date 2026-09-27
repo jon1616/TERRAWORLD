@@ -77,18 +77,9 @@ func set_world(sd: int, genes: Array, roles: Dictionary) -> void:
 			world_elem = String(GENE_ELEM[g])
 
 
-## Le famiglie favorite e assenti di un mondo (sempre le stesse per lo stesso seme).
+## Le famiglie favorite e assenti di un mondo (sempre le stesse per lo stesso seme): `FaunaExtra`.
 static func family_weights(sd: int) -> Dictionary:
-	var rng := RandomNumberGenerator.new()
-	rng.seed = sd ^ 0xFA0A
-	var fams := FamiliesData.FAMILIES.keys()
-	fams.sort()                                  # (in ordine alfabetico: non dipende da dove sono scritte)
-	var out := {}
-	for k in 5:
-		var f := String(fams[rng.randi_range(0, fams.size() - 1)])
-		fams.erase(f)
-		out[f] = 2.5 if k < 3 else 0.0
-	return out
+	return FaunaExtra.family_weights(sd)
 
 
 ## Il peso di una specie in questo mondo (famiglia favorita o assente, ruolo reso più frequente dai geni) e, se si sa
@@ -193,35 +184,7 @@ func kill(c: Creature) -> void:
 		killed.emit(c)
 		c.queue_free()
 		return
-	# bottino: più giri per le rare e con la Fortuna, e un'Essenza per ogni tratto di una creatura antica
-	var rolls := 1
-	if c.ancient:
-		rolls = int(AncientData.RARITIES[c.ancient.rarity]["loot_rolls"])
-	if _rng.randf() < (luck + boon_luck + _za(c.position, "fortuna")) * 0.5:
-		rolls += 1
-	rolls += int(_za(c.position, "bottino"))            # voce 87: lo Stendardo del saccheggio
-	# i Lumini (voce 36): quanti secondo quanto era forte, di più per le rare e i boss
-	var lum := maxi(1, roundi(c.hp_max / 18.0))
-	if c.ancient:
-		lum *= {"antica": 3, "ancestrale": 10, "capobranco": 3, "iridata": 8}[c.ancient.rarity]
-	if c.boss:
-		lum = maxi(lum, roundi(c.hp_max / 6.0))
-	lum = maxi(1, roundi(lum * world_lumini))
-	drops.spawn("lumino", lum, c.position + Vector2(_rng.randf_range(-6, 6), -4))
-	for r in rolls:
-		var loot := LootData.roll(String(c.data["loot"]), _rng)
-		for id in loot:
-			drops.spawn(id, int(loot[id]), c.position)
-	if c.ancient:
-		for t in c.ancient.traits:
-			drops.spawn(String(AncientData.TRAITS[t]["essence"]), 1, c.position + Vector2(_rng.randf_range(-8, 8), -6))
-		# il trofeo della specie: bottino che lasciano solo le rare (voce 23)
-		var rd: Dictionary = AncientData.RARITIES[c.ancient.rarity]
-		var trophy := String(TrophyItemsData.TROPHY_OF.get(c.base, ""))
-		if trophy != "" and _rng.randf() < float(rd.get("trophy", 0.0)):
-			drops.spawn(trophy, 1, c.position + Vector2(0, -10))
-		if rd.has("dust"):
-			drops.spawn("polvere_iridata", _rng.randi_range(int(rd["dust"][0]), int(rd["dust"][1])), c.position)
+	FaunaExtra.drop(self, c, _rng)                # il bottino (voce 23, 36, 87…): `FaunaExtra`
 	Fx.puff(self, c.position, Color(1.3, 1.2, 1.0))
 	killed.emit(c)
 	c.queue_free()
@@ -380,46 +343,18 @@ func _spawn_water(c: Vector2i) -> Creature:
 	return cr
 
 
-## Gli sciami (campo `group` in `CreaturesData`): con la prima nascono le compagne, che non contano nel tetto.
+## Gli sciami e i branchi (le compagne che nascono con la prima): `FaunaExtra`.
 func _group(first: Creature, id: String, mult: float) -> void:
-	var g: Array = CreaturesData.get_data(id).get("group", [])
-	if g.is_empty():
-		return
-	for k in _rng.randi_range(int(g[0]), int(g[1])) - 1:
-		var o := first.position + Vector2(_rng.randf_range(-24, 24), _rng.randf_range(-16, 0))
-		var q := Vector2i(floori(o.x / S), floori(o.y / S))
-		if world.solid(q.x, q.y):
-			continue
-		var mb := add(id, o)
-		mb.strengthen(mult, mult * DangerData.DAMAGE)
-		mb.extra = true
+	FaunaExtra.group(self, first, id, mult, _rng)
 
 
-## Il branco di un capobranco: compagne della stessa specie attorno a lui (non contano nel tetto).
 func pack(leader: Creature, id: String, mult: float) -> void:
-	var span: Array = AncientData.RARITIES["capobranco"]["pack"]
-	for k in _rng.randi_range(int(span[0]), int(span[1])):
-		var o := leader.position + Vector2(_rng.randf_range(-40, 40), -4)
-		if world.solid(floori(o.x / S), floori(o.y / S)):
-			o = leader.position
-		var mb := add(id, o)
-		mb.strengthen(mult, mult * DangerData.DAMAGE)
-		mb.extra = true
+	FaunaExtra.pack(self, leader, id, mult, _rng)
 
 
-## Rende rara una creatura (e la annuncia se ancestrale o iridata e vicina).
+## Rende rara una creatura (e la annuncia se ancestrale o iridata e vicina): `FaunaExtra`.
 func make_ancient(cr: Creature, rarity: String, traits: Array = []) -> void:
-	cr.ancient = Ancient.new()
-	var rd: Dictionary = AncientData.RARITIES[rarity]
-	cr.ancient.apply(cr, rarity, traits if not traits.is_empty() or rd["traits"][1] == 0 else AncientData.roll_traits(rarity, _rng))
-	if rd.get("iride", false):
-		# non attacca e scappa: gli altri comportamenti non servono più
-		var fl := BhFugge.new()
-		cr.behaviors.clear()
-		cr.behaviors.append(fl)
-		cr.damage = 0
-	if rarity in ["ancestrale", "iridata"] and cr.position.distance_to(player.position) < AncientData.ANNOUNCE * S:
-		rare_spawned.emit(cr)
+	FaunaExtra.make_ancient(self, cr, rarity, traits, _rng)
 
 
 ## L'elemento più probabile delle varianti in un luogo (voce 55): dal bioma in superficie, dallo strato sotto terra.
