@@ -55,4 +55,10 @@ Il mondo di un Seme leggendario ha il doppio di creature rare e di Lumini; quand
 Il [b]Seme Primo[/b] è il traguardo più lontano. Lo dona l'Albero-Madre, da solo, quando sono vere tutte e tre le cose:
 {cat_primo}
 Nasce il [b]Primo Mondo[/b]: tutti i biomi, quattro geni stellari, il vigore più alto che conosci più cinque. Il suo Cuore dona il [b]Germoglio del Primo[/b]. E dopo il gioco continua: il vigore non ha tetto, le leggende restano da compiere, e i Semi con le loro sfide."""},
+	{"id": "sfide", "group": "Senza fine", "name": "Le sfide dei Semi", "text":
+"""Per chi ha già tutto, e per chi vuole mettersi alla prova. Al Maglio si fanno i [b]Sigilli di sfida[/b] (Lumini e cristalli di Linfa); con il Sigillo in mano, clic su un portale verso un mondo [b]mai visitato[/b]: quel mondo porterà la sfida. La scheda del portale la mostra, e sotto l'orologio compare la riga della sfida con il tempo.
+{cat_sfide}
+Si [b]vince[/b] risolvendo il Guardiano del Cuore (curato o sconfitto) senza rompere la regola; si [b]perde[/b] se la regola si rompe, e il mondo resta, senza la sfida. Ogni vittoria dà Linfa antica, Schegge di vigore e Lumini (di più più il livello è alto), la prima anche una [b]medaglia[/b]. E alza il [b]livello[/b] di quella sfida: la prossima volta è più dura (meno tempo, meno Vita) e rende di più, senza fine.
+I tuoi [b]record[/b] (vittorie, livello, tempo migliore) sono qui sotto e nel Semenzaio (tasto K), nella scheda del Taccuino.
+{cat_record}"""},
 ]

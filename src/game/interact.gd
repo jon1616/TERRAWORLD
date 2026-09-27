@@ -44,6 +44,8 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 			return m.keepers.summon(id)
 		"tavoletta":
 			return m.language.use_tablet(id)           # voce 68
+		"sfida":
+			return m.challenges.seal_portal(c, id)     # voce 82
 		"secchio":
 			return m.liquids.scoop(c)                  # voce 73
 		"secchio_pieno":

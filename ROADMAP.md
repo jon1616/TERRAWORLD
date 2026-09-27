@@ -1271,7 +1271,7 @@ Le prove controllano ogni pagina (niente segnaposti rimasti) e ogni collegamento
 
 # Roadmap 9 «Il mistero dei Seminatori» — il racconto sopra il motore
 
-## 68. [x] La lingua dei Seminatori (M) — fatto il 26 set 2026
+## 68. [x] La lingua dei Seminatori (M) — fatto il 27 set 2026
 Le scritte dei Seminatori sono glifi: ogni tavoletta trovata insegna parole, il Cartografo aiuta a decifrare. Le
 scritte sui muri delle rovine si leggono a poco a poco: una progressione di **conoscenza**, non di equipaggiamento.
 **Pronto quando**: una stessa scritta, riletta più avanti nella partita, dice di più (e indica qualcosa da cercare).
@@ -1288,7 +1288,7 @@ riletta più avanti, dice di più. Le parole valgono in tutti i mondi (`Characte
 sopra) mostra la frase e quante parole capisci. Obiettivi «stele», «parole» (15), «parole_tutte». Enciclopedia: capitolo
 «La lingua dei Seminatori» e il **Glossario**. Prove `--solo=lingua` (foto 127_stele, 128_segno_sulla_mappa).
 
-## 69. [x] Le catene di ricerca tra i mondi (L) — fatto il 26 set 2026
+## 69. [x] Le catene di ricerca tra i mondi (L) — fatto il 27 set 2026
 Catene generate e scritte: un indizio in un mondo indica un gene o una combinazione di geni; il mondo che ne nasce ha
 una rovina sigillata; dentro c'è la chiave o la mappa per la tappa dopo. Alcune catene lunghe scritte a mano (la
 storia), molte brevi generate (i segreti).
@@ -1306,7 +1306,7 @@ Il **Taccuino delle catene** è la terza scheda del Semenzaio (K): indizio, geni
 Seme (mouse sopra) dice se porta a una cripta. Obiettivi «catena» e «catene_10»; capitolo nell'Enciclopedia; la verifica
 dei dati controlla geni e premi delle catene. Prove `--solo=catene` (foto 129_leggio, 130_taccuino).
 
-## 70. [x] Luoghi scritti a mano (L) — fatto il 26 set 2026
+## 70. [x] Luoghi scritti a mano (L) — fatto il 27 set 2026
 Luoghi progettati come modelli (tempio sommerso, città sepolta, biblioteca di radici, serra dei Seminatori,
 osservatorio, alveare colossale…) che il generatore piazza solo nei mondi con i geni giusti, adattandoli al terreno.
 Sono la parte «a mano» che dà sapore a quella generata. Almeno 8 per cominciare.
@@ -1326,7 +1326,7 @@ Frammento di Vuoto domato, Goccia della Linfa madre). Le stele possono indicare 
 ridisegna una zona cambiata. Obiettivi «luogo» e «luoghi_tutti»; capitolo nell'Enciclopedia (i luoghi non trovati
 restano nascosti). Prove `--solo=luoghi_scritti` (foto 131_luogo, 132_luoghi).
 
-## 71. [x] Enigmi e meccanismi (M) — fatto il 26 set 2026
+## 71. [x] Enigmi e meccanismi (M) — fatto il 27 set 2026
 Meccanismi dei Seminatori (leve di radice, specchi che portano la luce, canali di Linfa da aprire, piastre, porte a
 glifi) nei luoghi della voce 70 e nelle rovine sigillate.
 **Pronto quando**: almeno 6 tipi di meccanismo combinabili; i luoghi grandi hanno un enigma ciascuno.
@@ -1349,7 +1349,7 @@ visibili (prima restavano vuoti finché la visuale non si spostava). Obiettivi �
 nell'Enciclopedia. Prove `--solo=enigmi`: tutti e otto risolti come li risolverebbe il giocatore (foto 133_enigma,
 134_porta_aperta).
 
-## 72. [x] Il Seme Nero (L) — fatto il 26 set 2026
+## 72. [x] Il Seme Nero (L) — fatto il 27 set 2026
 L'origine dell'Avvizzimento e il grande arco del racconto: indizi in tutte le catene, geni malati, un luogo finale e un
 Guardiano che si può sconfiggere o curare, come tutti. Non chiude il gioco: apre il fine gioco (Roadmap 11).
 **Pronto quando**: la storia principale si può giocare dall'inizio alla fine.
@@ -1377,7 +1377,7 @@ cambia tutti i mondi. Prove `--solo=lingua,catene,luoghi_scritti,enigmi,seme_ner
 
 Ogni legge è un **gene** (raro, spesso di vigore alto): i mondi non diventano solo più forti ma **diversi da giocare**.
 
-## 73. [x] L'acqua (L) — fatto il 26 set 2026
+## 73. [x] L'acqua (L) — fatto il 27 set 2026
 Liquidi che scorrono a tessere (simulazione a blocchi, solo vicino alla visuale), nuoto, respiro, creature acquatiche
 (famiglie della voce 56), laghi e grotte allagate; gene «Sommerso» (mondi quasi tutti d'acqua).
 **Pronto quando**: un mondo sommerso si gioca in modo diverso da tutti gli altri, e resta a 60 fotogrammi al secondo.
@@ -1396,7 +1396,7 @@ il gene **Sommerso** (forma, vigore 2+) copre il 90% delle colonne con un mare, 
 di un liquido (mouse sopra) dice che cosa fa. Capitolo nell'Enciclopedia (gruppo «Le leggi dei mondi»). Prove
 `--solo=acqua` (foto 137_acqua).
 
-## 74. [x] Linfa e brace liquide (M) — fatto il 26 set 2026
+## 74. [x] Linfa e brace liquide (M) — fatto il 27 set 2026
 Due liquidi in più con lo stesso sistema: la Linfa liquida (cura, fa crescere, luminosa) e la brace liquida
 (brucia, indurisce a contatto con l'acqua in una roccia nuova). Reazioni tra liquidi.
 **Pronto quando**: i liquidi si mescolano con regole chiare e utili (costruire, difendersi, coltivare).
@@ -1411,7 +1411,7 @@ e in ogni mondo qualche pozza di brace nel Fondo e di Linfa nelle Profondità. I
 (più scuro sotto), una lieve variazione tra le celle, le braci che galleggiano e un riflesso sulla superficie.
 Capitolo nell'Enciclopedia con le reazioni. Prove `--solo=liquidi` (foto 138_liquidi).
 
-## 75. [x] Vento e tempo atmosferico (M) — fatto il 26 set 2026
+## 75. [x] Vento e tempo atmosferico (M) — fatto il 27 set 2026
 Vento che spinge il Germogliato, le planate, i dardi e le spore; piogge, nebbie, tempeste di cenere, bufere di brina,
 secondo i geni del cielo e la stagione.
 **Pronto quando**: il tempo atmosferico cambia il modo di muoversi e combattere, non solo il colore del cielo.
@@ -1427,7 +1427,7 @@ cenere sono particelle attorno alla visuale. Oggetti: Amuleto della tempesta (sa
 (planata, vento ×0,4). Capitolo nell'Enciclopedia. Prove `--solo=meteo` (foto 139_pioggia, 140_nebbia, 141_bufera).
 Nello stesso giro: la mappa esplorata legge la luce come byte (il suo giro costava 6 ms in un fotogramma, ora 1,3).
 
-## 76. [x] Gravità e mondi strani (M) — fatto il 26 set 2026
+## 76. [x] Gravità e mondi strani (M) — fatto il 27 set 2026
 Geni di forma del mondo: gravità leggera, isole sospese nel Vuoto, mondi cavi (superficie dentro), mondi capovolti
 in certe zone.
 **Pronto quando**: almeno 3 forme di mondo diverse, tutte giocabili dall'inizio al Cuore.
@@ -1442,7 +1442,7 @@ sole** (buchi nel tetto, uno sempre vicino alla partenza); sotto il tetto non pi
 Tutti e tre hanno il Cuore nel Fondo e la partenza libera (le prove generano i mondi e lo controllano). Capitolo
 nell'Enciclopedia. Prove `--solo=gravita` (foto 142_corrente).
 
-## 77. [x] Terra viva (M) — fatto il 26 set 2026
+## 77. [x] Terra viva (M) — fatto il 27 set 2026
 Radici che ricrescono e chiudono i cunicoli, terreno che si sposta, cristalli che crescono nel tempo: mondi che
 cambiano mentre li si esplora.
 **Pronto quando**: tornare in un mondo con questi geni dopo qualche giorno lo trova cambiato.
@@ -1457,7 +1457,7 @@ dopo un'assenza radici e cristalli recuperano il tempo perso e un avviso lo racc
 radici hanno richiuso 5 tessere scavate, i cristalli sono cresciuti di 18 tessere»). `PlayerActions.dug` (segnale
 nuovo) per chi vuole sapere delle tessere rotte. Capitolo nell'Enciclopedia. Prove `--solo=terra_viva` (foto 143_frana).
 
-## 78. [x] Il tempo dei mondi (S) — fatto il 26 set 2026
+## 78. [x] Il tempo dei mondi (S) — fatto il 27 set 2026
 Geni del tempo: giorni lunghissimi o brevissimi, eclissi, notti eterne, mondi senza sole con luce solo dalle cose vive.
 **Pronto quando**: i geni del tempo cambiano davvero cosa si può fare e quando.
 **Fatto il 27 set 2026**: i geni del tempo (`DayCycle`, dati in `WorldTimeData`). **Giorni brevi** (un giorno in 8
@@ -1472,7 +1472,7 @@ Prove `--solo=tempo_mondi` (foto 144_eclissi, 145_senza_sole).
 
 # Roadmap 11 «Senza fine» — il fine gioco che non finisce
 
-## 79. [x] Vigore senza tetto (M) — fatto il 26 set 2026
+## 79. [x] Vigore senza tetto (M) — fatto il 27 set 2026
 La scala del vigore continua per sempre: a gradini regolari arrivano un grado nuovo di materiali (dai geni), creature
 più forti con indoli nuove, nuovi posti d'innesto; il vigore non è solo «numeri più alti».
 **Pronto quando**: un mondo di vigore 20 ha cose che un mondo di vigore 10 non ha.
@@ -1488,7 +1488,7 @@ del mondo in cui si trova, quindi le tempre alte vogliono i mondi più vigorosi,
 grado nuovo un avviso dice cosa porta. `verifica_dati` accetta `used_for` per i materiali che servono fuori dalle
 ricette. Capitolo nell'Enciclopedia (gruppo «Senza fine»). Prove `--solo=vigore` (foto 146_gemelle).
 
-## 80. [x] Guardiani generati (L) — fatto il 26 set 2026
+## 80. [x] Guardiani generati (L) — fatto il 27 set 2026
 Guardiani composti dai geni (corpo di famiglia, taglia gigante, attacchi scelti da una libreria di schemi, fasi
 secondo l'elemento), accanto a quelli scritti a mano. Ognuno si sconfigge o si cura, e lascia materiali propri.
 **Pronto quando**: ogni mondo senza un Guardiano scritto a mano ne ha uno generato diverso e credibile.
@@ -1503,7 +1503,7 @@ dei Guardiani**: con 6 + 4 il Maglio fa il **talismano** dell'elemento (sei tali
 del portale dice quale Guardiano aspetta; l'Erbario non conta i generati come specie. Su 30 semi: 30 nomi, 20 corpi,
 27 combinazioni di attacchi. Capitolo nell'Enciclopedia. Prove `--solo=guardiani_generati` (foto 147_guardiano_generato).
 
-## 81. [x] Semi leggendari e il Seme Primo (L) — fatto il 26 set 2026
+## 81. [x] Semi leggendari e il Seme Primo (L) — fatto il 27 set 2026
 Semi leggendari (combinazioni rarissime di geni stellari, catene lunghe) e l'obiettivo finale: il **Seme Primo**,
 che si ottiene solo completando gran parte del Genario e dell'Albero-Madre.
 **Pronto quando**: esiste un traguardo finale lontano e chiaro, e dopo di esso il gioco continua.
@@ -1519,10 +1519,20 @@ più cinque. Nasce il **Primo Mondo** (`world_meta["primo"]`, dal portale come i
 nell'Enciclopedia con le leggende (i geni mai visti restano «?») e l'avanzamento verso il Seme Primo. Prove
 `--solo=leggende` (foto 148_leggende).
 
-## 82. [ ] Sfide dei Semi (M)
+## 82. [x] Sfide dei Semi (M) — fatto il 27 set 2026
 Semi con prove (senza torce, a tempo, Avvizzimento che avanza, creature solo antiche…) e premi propri; record
 personali nel Semenzaio.
 **Pronto quando**: ci sono sempre sfide nuove da tentare anche per chi ha tutto.
+**Fatto il 27 set 2026**: sei **sfide dei Semi** (`ChallengesData`, `Challenges`): Senza torce, Contro il tempo,
+L'Avvizzimento avanza, Solo antiche, Vita fragile, Senza ritorno. Il **Sigillo di sfida** (Maglio: Lumini e cristalli)
+si usa su un portale verso un mondo mai visitato; la scheda del portale mostra la sfida, il mondo la riceve
+(`world_meta["sfida"]`) e in alto al centro compare la sua riga con il tempo. Le regole si applicano e si tolgono da
+sole (`PlayerActions.no_torches`, `Fauna.force_ancient`, Avvizzimento ×4, Vita a metà…); si vince risolvendo il
+Guardiano, si perde se la regola si rompe (il mondo resta, senza la sfida). La vittoria dà Linfa antica, Schegge e
+Lumini secondo il livello, la prima volta una **medaglia** (sei accessori), e alza il **livello** di quella sfida (meno
+tempo, meno Vita, premi più ricchi: senza fine). I **record** (vittorie, livello, tempo migliore) stanno in
+`Character.sfide` e si leggono nel Taccuino del Semenzaio (con le leggende compiute) e nell'Enciclopedia. Prove
+`--solo=sfide` (foto 149_sfida).
 
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».

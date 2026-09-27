@@ -24,6 +24,7 @@ var boon_dig := 1.0                    # Pozione del minatore
 ## Hook per gli usi che non stanno qui (curare un nodo, piantare un Seme di mondo, toccare il Cuore o il portale):
 ## `use_hook.call(tipo, id, cella)` e `touch_hook.call(cella)` restituiscono true se hanno fatto qualcosa.
 var use_hook: Callable
+var no_torches := false                # voce 82: la sfida «Senza torce»
 var build: Building                    # stazioni e passerelle
 var sfx: Sfx                           # i suoni (può mancare nelle prove senza scena)
 var _dig_snd := 0.0
@@ -386,6 +387,9 @@ func place_torch(c: Vector2i) -> void:
 	if not in_reach(c) or not world.inside(c.x, c.y) or world.solid(c.x, c.y) or world.torches.has(c):
 		return
 	if not world.solid(c.x, c.y + 1) and world.wall(c.x, c.y) == 0:
+		return
+	if no_torches:
+		hud.toast("Sfida «Senza torce»: qui le torce non si accendono")
 		return
 	if not bisaccia.remove("torcia", 1):
 		hud.toast("Nessuna torcia nella Bisaccia")

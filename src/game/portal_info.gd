@@ -21,6 +21,10 @@ static func text(portal: Portal, o: Vector2i) -> String:
 	var pct := roundi((Portal.vigor_mult(vigor) - 1.0) * 100.0)
 	t += "[color=#8ef0d8]Vigore %d[/color] · %s\n" % [vigor, ("creature con il %d%% di Vita e danno in più, vene più ricche" % pct)
 		if pct > 0 else "il vigore più basso: creature come quelle del Giardino"]
+	# voce 82: la sfida che il portale porta
+	if String(e.get("sfida", "")) != "" and not back:
+		var sd0: Dictionary = ChallengesData.LIST.get(String(e["sfida"]), {})
+		t += "[color=#ffb070]Sfida «%s»[/color]: %s\n" % [sd0.get("name", "?"), sd0.get("desc", "")]
 	# voce 81: i Semi leggendari e il Seme Primo
 	if e.get("primo", false):
 		t += "[color=#ffe8a0]Il Primo Mondo[/color]: tutti i biomi, i geni stellari, il vigore più alto

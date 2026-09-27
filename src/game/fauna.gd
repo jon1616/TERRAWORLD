@@ -19,6 +19,7 @@ var light: LightMap                    # per nascere solo al buio
 var vigor := 1                         # vigore del mondo (voce 12)
 var vigor_mult := 1.0                  # creature più forti nei mondi oltre i portali
 var grade := 0                         # voce 79: il grado del mondo (vigore / 5), le indoli nuove (lo imposta `Vigor`)
+var force_ancient := false             # voce 82: la sfida «Solo antiche»
 var danger := 1.0                      # pericolo attorno al giocatore, aggiornato a ogni tentativo
 var luck := 0.0                        # tratto Fortuna dell'equipaggiamento: probabilità di un giro di bottino in più
 var boon_luck := 0.0                   # Pozione di fortuna
@@ -321,6 +322,8 @@ func try_spawn() -> Creature:
 			var grouped: bool = CreaturesData.get_data(id).has("group")
 			var rarity := AncientData.roll_rarity(DangerData.at(world, Vector2i(c.x, y), night, vigor) + event_danger, _rng,
 				grouped, rare_mult * event_rare * world_rare)
+			if rarity == "" and force_ancient:
+				rarity = "antica"
 			if rarity != "":
 				make_ancient(cr, rarity)
 			if rarity == "capobranco":

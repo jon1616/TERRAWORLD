@@ -231,6 +231,33 @@ func view(selected: String) -> Array:
 
 
 func _detail(id: String) -> String:
+	var t := _detail0(id)
+	if id == "":
+		t += "
+
+" + records_text()                  # voce 82: i record delle sfide e le leggende
+	return t
+
+
+## I record del personaggio: le sfide dei Semi (voce 82) e le leggende compiute (voce 81).
+func records_text() -> String:
+	var ch: Character = m.character
+	var t := "[color=#ffb070]Sfide dei Semi[/color]
+"
+	for r in Challenges.records(ch):
+		t += "• [color=#ffd8b0]%s[/color] [color=#9fc8c0]— %s[/color]
+" % [r[0], r[1]]
+	var n := 0
+	for k in LegendsData.LEGENDS:
+		if ch.leggende.has(k):
+			n += 1
+	t += "
+[color=#ffd08a]Leggende compiute[/color]: %d su %d%s" % [n, LegendsData.LEGENDS.size(),
+		"  ·  Seme Primo " + ("piantato e compiuto" if ch.leggende.has("primo_fatto") else "ricevuto") if ch.leggende.has("primo_dato") else ""]
+	return t
+
+
+func _detail0(id: String) -> String:
 	var ch: Character = m.character
 	if id == "":
 		if rows_empty():

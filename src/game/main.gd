@@ -70,6 +70,7 @@ var gravity: Gravity
 var living: LivingEarth
 var vigor: Vigor
 var legends: Legends
+var challenges: Challenges
 var board: Board
 var storage: Storage
 var herd: Herd
@@ -116,6 +117,8 @@ func _ready() -> void:
 			world_meta["nero"] = true              # voce 72: il mondo dove cadde il Seme Nero
 		if nw.get("primo", false):
 			world_meta["primo"] = true             # voce 81: il mondo del Seme Primo
+		if String(nw.get("sfida", "")) != "":
+			Challenges.start(world_meta, String(nw["sfida"]), int(nw.get("sfida_livello", 1)))   # voce 82
 		if nw.get("giardino", false):
 			# voce 62: il Giardino, la casa della partita (il gene del menu andrà nel primo Seme)
 			world_meta["giardino"] = true
@@ -314,6 +317,7 @@ func _build() -> void:
 	living = _mount(LivingEarth.new())     # voce 77: radici che ricrescono, cristalli che crescono, frane
 	vigor = _mount(Vigor.new())            # voce 79: i gradi del vigore, le indoli nuove, la tempra
 	legends = _mount(Legends.new())        # voce 81: i Semi leggendari e il Seme Primo
+	challenges = _mount(Challenges.new())  # voce 82: le sfide dei Semi e i record
 	hud.panel.quick_stack = storage.quick_stack
 	hud.panel._toast = hud.toast
 	interact.chest_panel.storage = storage

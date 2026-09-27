@@ -169,6 +169,7 @@ static func all() -> Array:
 	out.append_array(WeatherData.RECIPES.duplicate(true))  # voce 75
 	out.append_array(WorldTimeData.RECIPES.duplicate(true))  # voce 78
 	out.append_array(GuardianGenData.RECIPES.duplicate(true))  # voce 80
+	out.append_array(ChallengesData.RECIPES.duplicate(true))  # voce 82
 	for m in MaterialsData.all():
 		for f in FormsData.FORMS:
 			out.append(FormsData.recipe(f, m))

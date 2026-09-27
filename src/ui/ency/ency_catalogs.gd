@@ -139,6 +139,12 @@ static func inline(key: String) -> String:
 				rows.append(_b(String(pd["name"]), "%s · nei mondi con %s · %s" % [pd["banner"], " o ".join(gn),
 					"in superficie" if pd.get("surface", false) else "nello strato «%s»" % StrataData.STRATA[int(pd["strata"][0])]["name"]],
 					String(pd["color"])))
+		"cat_sfide":
+			for k in ChallengesData.LIST:
+				rows.append(_b(String(ChallengesData.LIST[k]["name"]), String(ChallengesData.LIST[k]["desc"])))
+		"cat_record":
+			for r in Challenges.records(EncyPages.ch):
+				rows.append(_b(String(r[0]), String(r[1])))
 		"cat_leggende":
 			var ch: Character = EncyPages.ch
 			for k in LegendsData.LEGENDS:
