@@ -13,4 +13,11 @@ const DATA := {
 	"decor": {33: {"soft": "pianta", "light": Color(0.18, 0.11, 0.03)}},
 	"elem": "linfa",
 	"gene": "lanterna",
+	"lands": [["Foreste", true], ["Selve", true], ["Boschi", false]],
+	"items": {
+		"seme_mondo_lanterna": {"name": "Seme di salice-lanterna", "kind": "seme_mondo", "icon": ["seme", "linfa"], "species": "lanterna", "stack": 1, "desc": "Un Seme di mondo nutrito di semi-lanterna: dietro il suo portale, foreste di alberi-lanterna a perdita d'occhio."},
+	},
+	"recipes": [
+		{"out": "seme_mondo_lanterna", "qty": 1, "in": {"seme_mondo": 1, "seme_lanterna": 10, "legno": 30}, "station": "altare"},
+	],
 }

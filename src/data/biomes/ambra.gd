@@ -13,4 +13,11 @@ const DATA := {
 		39: {"soft": "pianta", "light": Color(0.22, 0.12, 0.02)}},
 	"elem": "luce",
 	"gene": "resina",
+	"lands": [["Distese", true], ["Dune", true], ["Piani", false]],
+	"items": {
+		"seme_mondo_resina": {"name": "Seme di resina", "kind": "seme_mondo", "icon": ["seme", "ambra"], "species": "resina", "stack": 1, "desc": "Un Seme di mondo nutrito d'ambra: dietro il suo portale, distese d'ambra calde e aperte."},
+	},
+	"recipes": [
+		{"out": "seme_mondo_resina", "qty": 1, "in": {"seme_mondo": 1, "minerale_ambra": 12, "scaglia_ardesia": 10}, "station": "altare"},
+	],
 }

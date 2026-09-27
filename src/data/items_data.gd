@@ -223,9 +223,6 @@ const ITEMS := {
 	"fischietto_branco": {"name": "Fischietto del branco", "kind": "accessorio", "icon": ["amuleto", "seta"], "acc": {"allies": 1, "magic": 1.05}, "desc": "Un alleato in più insieme; incantesimi e alleati +5%."},
 	# voce 39: Semi di mondo con la specie scelta (`species` = gene di superficie di `GenesData`; voce 42: ogni Seme
 	# ha il suo genoma nei dati della casella, e non si impila)
-	"seme_mondo_lanterna": {"name": "Seme di salice-lanterna", "kind": "seme_mondo", "icon": ["seme", "linfa"], "species": "lanterna", "stack": 1, "desc": "Un Seme di mondo nutrito di semi-lanterna: dietro il suo portale, foreste di alberi-lanterna a perdita d'occhio."},
-	"seme_mondo_sporangio": {"name": "Seme di sporangio", "kind": "seme_mondo", "icon": ["seme", "fungo"], "species": "sporangio", "stack": 1, "desc": "Un Seme di mondo nutrito di spore: dietro il suo portale, paludi di spore quasi ovunque."},
-	"seme_mondo_resina": {"name": "Seme di resina", "kind": "seme_mondo", "icon": ["seme", "ambra"], "species": "resina", "stack": 1, "desc": "Un Seme di mondo nutrito d'ambra: dietro il suo portale, distese d'ambra calde e aperte."},
 	# voce 38: viaggio rapido
 	"radice_viandante": {"name": "Radice viandante", "kind": "stazione", "icon": ["radice_viaggio", "linfa"], "place": "radice_viandante", "stack": 99, "desc": "Piantala dove vuoi tornare. Clic destro su una radice: la mappa mostra tutte le altre radici del mondo, un clic e ci arrivi."},
 	"lumino": {"name": "Lumino", "kind": "moneta", "icon": ["lumino", "ambra"], "stack": 9999, "desc": "Una goccia di luce solida: la moneta degli abitanti. La lasciano le creature sconfitte e gli scrigni."},
@@ -266,7 +263,6 @@ static func all() -> Dictionary:
 	out.merge(TrophyItemsData.ITEMS.duplicate(true))
 	out.merge(KeeperItemsData.ITEMS.duplicate(true))
 	out.merge(RelicsData.ITEMS.duplicate(true))
-	out.merge(BiomeItemsData.ITEMS.duplicate(true))
 	out.merge(BiomesData.pack("items").duplicate(true))     # voce 92: gli oggetti dei pacchetti dei biomi
 	out.merge(SignaturesData.ITEMS.duplicate(true))
 	out.merge(GenesData.items().duplicate(true))

@@ -13,4 +13,11 @@ const DATA := {
 		36: {"soft": "pianta", "light": Color(0.22, 0.1, 0.32)}},
 	"elem": "spora",
 	"gene": "sporangio",
+	"lands": [["Paludi", true], ["Torbiere", true], ["Acquitrini", false]],
+	"items": {
+		"seme_mondo_sporangio": {"name": "Seme di sporangio", "kind": "seme_mondo", "icon": ["seme", "fungo"], "species": "sporangio", "stack": 1, "desc": "Un Seme di mondo nutrito di spore: dietro il suo portale, paludi di spore quasi ovunque."},
+	},
+	"recipes": [
+		{"out": "seme_mondo_sporangio", "qty": 1, "in": {"seme_mondo": 1, "sacca_spore": 10, "fungo_luminoso": 6}, "station": "altare"},
+	],
 }

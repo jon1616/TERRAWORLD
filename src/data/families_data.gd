@@ -36,10 +36,6 @@ const _FAMILIES := {
 	"mietivuoti": {"name": "Mietivuoti", "members": ["mietivuoto"], "fem": false, "role": "predatore", "prey": ["sciami", "vagavuoti"]},
 	"tessivuoti": {"name": "Tessivuoti", "members": ["tessivuoto"], "fem": false, "role": "predatore", "prey": ["sciami", "pipistrelli"]},
 	"sciami": {"name": "Sciami di schegge", "members": ["sciame_schegge"], "fem": false, "role": "colonia"},
-	"cervi": {"name": "Cervi di brina", "members": ["cervo_brina"], "fem": false, "role": "erbivoro", "nest": {"type": "erba", "n": 4}, "migrate": true},
-	"gufi": {"name": "Gufi del gelo", "members": ["gufo_gelo"], "fem": false, "role": "predatore", "prey": ["lepri", "pipistrelli", "falene", "libellule"]},
-	"salamandre": {"name": "Salamandre di brace", "members": ["salamandra_brace"], "fem": true, "role": "predatore", "prey": ["bruchi", "formiche", "lepri"], "nest": {"type": "tana", "n": 4}},
-	"fatui": {"name": "Fatui di cenere", "members": ["fatuo_cenere"], "fem": false, "role": "neutro"},
 	# voce 56: le famiglie nuove
 	"pecore": {"name": "Pecore di muschio", "members": ["pecora_muschio"], "fem": true, "role": "erbivoro", "nest": {"type": "erba", "n": 6}, "migrate": true},
 	"cornoradici": {"name": "Cornoradici", "members": ["cornoradice"], "fem": false, "role": "erbivoro", "nest": {"type": "tana", "n": 4}, "migrate": true},

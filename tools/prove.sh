@@ -8,7 +8,7 @@ cd "$(dirname "$0")/.."
 G=/c/Users/Principale/Desktop/GODOT/Godot_v4.6.1-stable_win64_console.exe
 "$G" --headless --path . --import > /dev/null 2>&1      # prima: le classi nuove devono essere registrate
 bad=0
-for f in $( (git diff --name-only; git ls-files --others --exclude-standard) | grep '\.gd$' | sort -u); do
+for f in $( (git diff --name-only --diff-filter=d; git ls-files --others --exclude-standard) | grep '\.gd$' | sort -u); do
 	out=$("$G" --headless --path . --check-only --script "res://$f" 2>&1 | grep -a "ERROR" \
 		| grep -v "Session\|Musica\|depended\|Compilation failed")
 	if [ -n "$out" ]; then

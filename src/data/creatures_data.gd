@@ -167,21 +167,7 @@ const _CREATURES := {
 	"sciame_schegge": {"name": "Sciame di schegge", "hp": 12, "damage": 10, "defense": 2, "knock": 0.0, "half": [4, 4],
 		"speed": 100, "fly": true, "behaviors": ["vola"], "p": {"sight": 28, "wobble": 50.0}, "group": [3, 5],
 		"loot": "sciame", "art": ["sciame", 0], "strata": [4], "weight": 4, "glow": true},
-	# --- voce 40: le creature dei biomi nuovi ---
-	# Boschi di brina: il cervo carica a testa bassa; il gufo del gelo tira schegge fredde che rallentano
-	"cervo_brina": {"name": "Cervo di brina", "hp": 64, "damage": 15, "defense": 3, "knock": 0.5, "half": [9, 8],
-		"speed": 55, "behaviors": ["cammina", "carica"],
-		"p": {"sight": 22, "charge": 250.0, "charge_range": 12, "charge_time": 1.0, "charge_cool": 3.2},
-		"loot": "cervo_brina", "art": ["cervo_brina", 0], "strata": [0], "weight": 6, "biomes": ["brina"]},
-	"gufo_gelo": {"name": "Gufo del gelo", "hp": 30, "damage": 10, "defense": 1, "knock": 0.1, "half": [7, 6],
-		"speed": 80, "fly": true, "behaviors": ["vola", "spara"],
-		"p": {"sight": 28, "hover": 70.0, "wobble": 20.0, "rate": 2.4, "shot_speed": 230.0, "shot_grav": 0.0,
-			"shot_damage": 8, "slow": 1.5, "shot_look": "gelo"},
-		"loot": "gufo_gelo", "art": ["gufo_gelo", 0], "strata": [0], "weight": 5, "glow": true, "biomes": ["brina"]},
-	# Cenerarie: la salamandra salta addosso; i fatui di cenere arrivano a gruppetti e scattano
-	"salamandra_brace": {"name": "Salamandra di brace", "hp": 46, "damage": 13, "defense": 2, "knock": 0.3,
-		"half": [10, 4], "speed": 75, "behaviors": ["salta_verso"], "p": {"jump": 230.0, "sight": 20},
-		"loot": "salamandra", "art": ["salamandra", 0], "strata": [0], "weight": 6, "glow": true, "biomes": ["cenere"]},
+	# (voce 40: le creature dei Boschi di brina e delle Cenerarie stanno nei file dei loro biomi, `src/data/biomes/`)
 	# voce 56: le famiglie nuove (disegni in `FaunaArt`). Erbivori docili, colonie, volanti, predatori.
 	"pecora_muschio": {"name": "Pecora di muschio", "hp": 30, "damage": 5, "defense": 1, "knock": 0.3, "half": [8, 6],
 		"speed": 40, "behaviors": ["cammina"], "p": {"sight": 10}, "docile": true,
@@ -228,10 +214,6 @@ const _CREATURES := {
 		"p": {"jump": 380.0, "sight": 40, "summon_every": 5.5, "summon": "salamandra_brace", "summon_max": 4, "phase2": 0.5},
 		"loot": "madre_salamandre", "art": ["salamandra", 0], "art_mods": {"scale": 2.4, "tint": Color("#ff7a3a"), "tint_amount": 0.25},
 		"strata": [], "weight": 0, "glow": true, "boss": true},
-	"fatuo_cenere": {"name": "Fatuo di cenere", "hp": 20, "damage": 9, "defense": 0, "knock": 0.0, "half": [5, 6],
-		"speed": 90, "fly": true, "behaviors": ["vola", "scatto"], "group": [2, 3],
-		"p": {"sight": 26, "hover": 40.0, "wobble": 40.0, "dash_every": 3.2, "dash_speed": 250.0, "dash_time": 0.4},
-		"loot": "fatuo_cenere", "art": ["fatuo_cenere", 0], "strata": [0], "weight": 5, "glow": true, "biomes": ["cenere"]},
 	# --- voce 27: i Custodi degli strati (boss intermedi, nelle tane o richiamati all'Altare; vedi `KeepersData`) ---
 	# la Madre dei grumi: salti enormi, e nella seconda fase chiama i suoi piccoli
 	"madre_grumi": {"name": "La Madre dei grumi", "hp": 450, "damage": 14, "defense": 2, "knock": 1.0, "half": [22, 17],

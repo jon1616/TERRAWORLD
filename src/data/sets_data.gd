@@ -36,11 +36,6 @@ const SETS := {
 		"bonus": {"thorns": 10, "defense": 2}, "desc": "chi ti tocca si ferisce ancora di più (10), +2 Scorza"},
 	"cielo": {"name": "Ali del cielo", "pieces": ["ali_membrana", "mantello_penne"],
 		"bonus": {"run": 1.1, "jump": 1.1}, "desc": "corsa e salto +10%"},
-	# voce 40: i set dei biomi nuovi
-	"brina": {"name": "Passo di brina", "pieces": ["cappuccio_brina", "manto_brina", "gambali_brina"],
-		"bonus": {"defense": 2, "run": 1.12, "fall_safe": true}, "desc": "+2 Scorza, corsa +12%, nessuna ferita da caduta"},
-	"cenere": {"name": "Cuore di brace", "pieces": ["elmo_squame", "corazza_squame", "gambali_squame"],
-		"bonus": {"defense": 3, "damage": 1.1, "thorns": 12}, "desc": "+3 Scorza, +10% danno, chi ti tocca si brucia (12)"},
 }
 
 static var _all := {}

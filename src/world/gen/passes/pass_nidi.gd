@@ -14,7 +14,10 @@ func title() -> String:
 func run(w: World, c: GenContext) -> void:
 	var out := {}
 	var placed: Array[Vector2i] = []
-	for f in FamiliesData.FAMILIES:
+	# in ordine alfabetico: il generatore non deve dipendere da dove sono scritte le famiglie (tabella o file di bioma)
+	var fams := FamiliesData.FAMILIES.keys()
+	fams.sort()
+	for f in fams:
 		var fd: Dictionary = FamiliesData.FAMILIES[f]
 		if not fd.has("nest"):
 			continue

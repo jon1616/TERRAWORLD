@@ -88,9 +88,6 @@ const RECIPES := [
 	{"out": "provetta", "qty": 3, "in": {"vetro_resina": 1, "gelatina": 2}, "station": "alambicco"},
 	{"out": "bacheca", "qty": 1, "in": {"legno": 20, "seta_radice": 2}, "station": "ceppo"},
 	{"out": "aiuola", "qty": 1, "in": {"humus": 25, "legno": 12, "seme_lanterna": 3}, "station": "ceppo"},
-	{"out": "seme_mondo_lanterna", "qty": 1, "in": {"seme_mondo": 1, "seme_lanterna": 10, "legno": 30}, "station": "altare"},
-	{"out": "seme_mondo_sporangio", "qty": 1, "in": {"seme_mondo": 1, "sacca_spore": 10, "fungo_luminoso": 6}, "station": "altare"},
-	{"out": "seme_mondo_resina", "qty": 1, "in": {"seme_mondo": 1, "minerale_ambra": 12, "scaglia_ardesia": 10}, "station": "altare"},
 	# voce 38: viaggio rapido
 	{"out": "radice_viandante", "qty": 1, "in": {"legno": 20, "gelatina": 6, "lingotto_radicite": 3}, "station": "ceppo"},
 	# voce 37: compagni ed evocatori
@@ -161,7 +158,6 @@ static func all() -> Array:
 	out.append_array(BiomesData.pack_list("recipes").duplicate(true))   # voce 92: le ricette dei biomi
 	out.append_array(KeeperItemsData.RECIPES.duplicate(true))
 	out.append_array(RelicsData.RECIPES.duplicate(true))
-	out.append_array(BiomeItemsData.RECIPES.duplicate(true))
 	out.append_array(FaunaItemsData.RECIPES.duplicate(true))
 	out.append_array(HerdData.RECIPES.duplicate(true))     # voce 59
 	out.append_array(SeasonsData.RECIPES.duplicate(true))  # voce 66

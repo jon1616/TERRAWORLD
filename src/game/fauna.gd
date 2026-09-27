@@ -82,6 +82,7 @@ static func family_weights(sd: int) -> Dictionary:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = sd ^ 0xFA0A
 	var fams := FamiliesData.FAMILIES.keys()
+	fams.sort()                                  # (in ordine alfabetico: non dipende da dove sono scritte)
 	var out := {}
 	for k in 5:
 		var f := String(fams[rng.randi_range(0, fams.size() - 1)])

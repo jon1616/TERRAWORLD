@@ -55,9 +55,8 @@ const _AFFINITY := {
 	"geomimo": {"weak": ["linfa"], "resist": ["gelo"]}, "serpe_linfa": {"weak": ["gelo"], "resist": ["linfa"]},
 	"campanula_errante": {"weak": ["vuoto"], "resist": ["luce"]}, "guizzalinfa": {"weak": ["gelo"], "resist": ["linfa"]},
 	"mietivuoto": {"weak": ["luce"], "resist": ["vuoto"]}, "tessivuoto": {"weak": ["luce"], "resist": ["vuoto"]},
-	"sciame_schegge": {"weak": ["luce"], "resist": ["vuoto"]}, "cervo_brina": {"weak": ["brace"], "resist": ["gelo"]},
-	"gufo_gelo": {"weak": ["brace"], "resist": ["gelo"]}, "salamandra_brace": {"weak": ["gelo"], "resist": ["brace"]},
-	"fatuo_cenere": {"weak": ["linfa"], "resist": ["brace"]}, "madre_grumi": {"weak": ["brace"], "resist": ["spora"]},
+	"sciame_schegge": {"weak": ["luce"], "resist": ["vuoto"]},
+	"madre_grumi": {"weak": ["brace"], "resist": ["spora"]},
 	"tessitrice_radici": {"weak": ["brace"], "resist": []}, "serpe_madre": {"weak": ["gelo"], "resist": ["linfa"]},
 	"mietitore_cavo": {"weak": ["luce"], "resist": ["vuoto"]},
 	# voce 56

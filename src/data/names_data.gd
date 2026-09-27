@@ -6,11 +6,6 @@ extends RefCounted
 
 ## Paesaggi per gene di superficie: [nome, femminile?]. "" = senza gene di superficie (tutti i biomi).
 const _LANDS := {
-	"lanterna": [["Foreste", true], ["Selve", true], ["Boschi", false]],
-	"sporangio": [["Paludi", true], ["Torbiere", true], ["Acquitrini", false]],
-	"resina": [["Distese", true], ["Dune", true], ["Piani", false]],
-	"brina": [["Nevai", false], ["Brume", true], ["Ghiacciai", false]],
-	"cenere": [["Cenerarie", true], ["Lande", true], ["Roghi", false]],
 	"mosaico": [["Mosaici", false], ["Arazzi", false], ["Contrade variegate", true]],
 	"": [["Terre", true], ["Contrade", true], ["Giardini", false]],
 }
