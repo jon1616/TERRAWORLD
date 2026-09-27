@@ -10,6 +10,7 @@ gioco, in pixel grossi come il resto (Roadmap 13, voce 103).
 Uso:
   python tools/illustrazione.py --sfondo arte_ia/titolo/01_sfondo_v1.jpg arte/titolo/sfondo.png --largo 400
   python tools/illustrazione.py --logo arte_ia/titolo/02_logo_v1.png arte/titolo/logo.png --largo 150
+  python tools/illustrazione.py --vignette arte_ia/storia/01_mito_v1.png arte/storia --nomi a,b,c --largo 240
   python tools/illustrazione.py --prova-menu arte/titolo/sfondo.png arte/titolo/logo.png    (-> prove/arte_menu.png)
 """
 import argparse
@@ -58,6 +59,63 @@ def sfondo(src: str, dst: str, largo: int, colori: int) -> Image.Image:
     return small
 
 
+def vignette(src: str, cartella: str, nomi: list[str], largo: int, colori: int) -> list[Image.Image]:
+    """Una tavola di vignette rettangolari separate da magenta: ogni rettangolo (una macchia grande e piena) in ordine
+    di lettura, tagliato di qualche pixel ai bordi (le sbavature di magenta) e ridotto come uno sfondo."""
+    im = Image.open(src).convert("RGB")
+    a = tavola.togli_magenta(im)
+    opaque = a[:, :, 3] > 0.5
+    from scipy import ndimage
+    lab, _ = ndimage.label(opaque)
+    rett = []
+    for i, sl in enumerate(ndimage.find_objects(lab), start=1):
+        h, w = sl[0].stop - sl[0].start, sl[1].stop - sl[1].start
+        pieno = (lab[sl] == i).mean()
+        if h * w > opaque.size * 0.02 and pieno > 0.85:
+            rett.append(sl)
+    alt = np.mean([r[0].stop - r[0].start for r in rett]) if rett else 1
+    rett.sort(key=lambda r: (round(r[0].start / (alt * 0.5)), r[1].start))
+    if len(rett) != len(nomi):
+        print("ATTENZIONE: trovate %d vignette, ma i nomi sono %d" % (len(rett), len(nomi)))
+    os.makedirs(cartella, exist_ok=True)
+    out = []
+    for sl, nome in zip(rett, nomi):
+        m = 4
+        v = im.crop((sl[1].start + m, sl[0].start + m, sl[1].stop - m, sl[0].stop - m))
+        alto = round(largo * 9 / 16)
+        v = v.crop(_taglio_16_9(v))
+        small = riduci_con_luci(v, largo, alto)
+        small = small.quantize(colors=colori, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE).convert("RGB")
+        small.save(os.path.join(cartella, nome + ".png"))
+        out.append(small)
+    return out
+
+
+def _taglio_16_9(v: Image.Image) -> tuple[int, int, int, int]:
+    """Il riquadro 16:9 più grande al centro della vignetta."""
+    w, h = v.size
+    if w * 9 > h * 16:
+        nw = h * 16 // 9
+        return ((w - nw) // 2, 0, (w - nw) // 2 + nw, h)
+    nh = w * 9 // 16
+    return (0, (h - nh) // 2, w, (h - nh) // 2 + nh)
+
+
+def foglio(immagini: list[Image.Image], nomi: list[str], path: str, zoom: int = 2) -> None:
+    """Le vignette ingrandite in un foglio, per guardarle."""
+    from PIL import ImageDraw
+    w, h = immagini[0].width * zoom, immagini[0].height * zoom
+    col = 3
+    righe = (len(immagini) + col - 1) // col
+    f = Image.new("RGB", (col * (w + 12) + 12, righe * (h + 34) + 12), (60, 52, 66))
+    d = ImageDraw.Draw(f)
+    for i, (v, n) in enumerate(zip(immagini, nomi)):
+        x, y = 12 + (i % col) * (w + 12), 12 + (i // col) * (h + 34)
+        f.paste(v.resize((w, h), Image.NEAREST), (x, y))
+        d.text((x, y + h + 6), n, fill=(230, 220, 200))
+    f.save(path)
+
+
 def logo(src: str, dst: str, largo: int, colori: int) -> Image.Image:
     a = pixela.ritaglia(tavola.togli_magenta(Image.open(src)))
     a = tavola.togli_contorno(a, tavola.spessore_contorno([a]))
@@ -98,6 +156,8 @@ def main() -> None:
     ap.add_argument("--sfondo", nargs=2, metavar=("DA", "A"))
     ap.add_argument("--logo", nargs=2, metavar=("DA", "A"))
     ap.add_argument("--prova-menu", nargs=2, metavar=("SFONDO", "LOGO"))
+    ap.add_argument("--vignette", nargs=2, metavar=("TAVOLA", "CARTELLA"))
+    ap.add_argument("--nomi", default="")
     ap.add_argument("--largo", type=int, default=400)
     ap.add_argument("--colori", type=int, default=128)
     args = ap.parse_args()
@@ -107,6 +167,12 @@ def main() -> None:
     if args.logo:
         im = logo(args.logo[0], args.logo[1], args.largo, min(args.colori, 16))
         print("%s %dx%d" % (args.logo[1], im.width, im.height))
+    if args.vignette:
+        nomi = [n.strip() for n in args.nomi.split(",") if n.strip()]
+        ims = vignette(args.vignette[0], args.vignette[1], nomi, args.largo, min(args.colori, 64))
+        base = os.path.splitext(os.path.basename(args.vignette[0]))[0]
+        foglio(ims, nomi, "prove/arte_%s.png" % base)
+        print("%d vignette in %s, foglio prove/arte_%s.png" % (len(ims), args.vignette[1], base))
     if args.prova_menu:
         prova_menu(*args.prova_menu)
 
