@@ -540,7 +540,10 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
 - **Roadmap 14 «Le acque vive»** (la pesca, dal 28 set 2026; scelte dell'utente: gesto quasi automatico, attività
   laterale ricca ma non indispensabile, in tutti i liquidi, liquidi spostabili dal giocatore): `WaterBody`
   (`src/world/`: lo specchio riconosciuto al momento, `ok` da `MIN_VOLUME` celle), `PassStagni` (stagni di superficie dal
-  campo «stagni» dei biomi), `tools/specchi.gd` (la misura), prove `--solo=pesca` (`TestsFishing`).
+  campo «stagni» dei biomi), `tools/specchi.gd` (la misura), prove `--solo=pesca` (`TestsFishing`). `LiquidTools` (otre,
+  anfora, fonti: spostare i liquidi). `FishData` (i pesci: di tutti i mondi qui, quelli dei biomi nel campo «fish» dei
+  file dei biomi; `pool`/`roll`; ogni pesce è anche un oggetto di tipo «pesce»); l'Erbario ha la scheda Pesci
+  (`Erbario.add_fish`), fuori dalla percentuale.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

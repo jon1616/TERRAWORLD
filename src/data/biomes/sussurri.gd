@@ -9,6 +9,11 @@ const DATA := {
 	"trees": 0.45, "hills": 1.0, "lift": -2, "tint": Color(0.9, 1.05, 1.05), "color": "#a8f0e0", "weight": 0,
 	"grass": 46,
 	"stagni": [2.0, 10, 24, 3, 6],      # voce 118: stagni di superficie (vedi `BiomesData`)
+	# voce 120: i pesci degli stagni di questo bioma (campi in cima a `FishData`)
+	"fish": {
+		"pesce_sussurro": {"name": "Pesce sussurro", "rar": "comune", "size": [10, 20], "color": "pallidite", "biomes": ["sussurri"], "desc": "Quando lo tiri su, sembra che dica qualcosa."},
+		"pesce_ombra": {"name": "Pesce-ombra", "rar": "raro", "size": [30, 60], "color": "nottilite", "biomes": ["sussurri"], "time": "notte", "desc": "Si vede solo la sua ombra sul fondo: il pesce, mai."},
+	},
 	"turf": {"name": "Muschio d'argento", "layer": "muschio_argento", "pal": ["#1a2a2a", "#2e4444", "#4a6a68", "#8ab0a8", "#e0fff4"], "specks": 80},
 	"tree": {"id": "sequoia_pallida", "name": "Sequoia pallida", "glow": Color(1.3, 1.8, 1.7), "art": "sequoia"},
 	"veg": [[0.3, 78], [0.38, 79], [0.44, "felce"]],

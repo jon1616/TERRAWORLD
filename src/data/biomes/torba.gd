@@ -9,6 +9,11 @@ const DATA := {
 	"trees": 0.12, "hills": 0.2, "lift": 14, "tint": Color(0.76, 1.0, 0.95), "color": "#5cf0d8", "weight": 2,
 	"grass": 35,
 	"stagni": [5.0, 12, 34, 2, 4],      # voce 118: stagni di superficie (vedi `BiomesData`)
+	# voce 120: i pesci degli stagni di questo bioma (campi in cima a `FishData`)
+	"fish": {
+		"pesce_torbina": {"name": "Torbina", "rar": "comune", "size": [10, 25], "color": "humus", "biomes": ["torba"], "desc": "Scura come l'acqua delle torbiere, che non lascia vedere il fondo."},
+		"pesce_luccio_torba": {"name": "Luccio delle torbiere", "rar": "non_comune", "size": [50, 100], "color": "humus", "biomes": ["torba"], "depth": 3, "desc": "Aspetta immobile nell'acqua nera, poi scatta."},
+	},
 	"turf": {"name": "Torba viva", "layer": "torba", "pal": ["#101c18", "#1a2e28", "#28463c", "#3a6a58", "#6ab890"], "specks": 30},
 	"tree": {"id": "mangrovia", "name": "Mangrovia di torba", "glow": Color(1.0, 1.8, 1.6)},
 	"veg": [[0.3, 55], [0.37, 56], [0.43, 57], [0.5, "spora"]],

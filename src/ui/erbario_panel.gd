@@ -34,7 +34,8 @@ func setup(main: Node2D, e: Erbario) -> void:
 	_title.add_theme_color_override("font_color", Color("#8ef0d8"))
 	add_child(_title)
 	var x := 120.0
-	for sec in [["creature", "Creature"], ["famiglie", "Famiglie"], ["oggetti", "Oggetti"], ["pagine", "Pagine di storia"]]:
+	for sec in [["creature", "Creature"], ["famiglie", "Famiglie"], ["oggetti", "Oggetti"], ["pagine", "Pagine di storia"],
+			["pesci", "Pesci"]]:
 		var b := Button.new()
 		b.text = sec[1]
 		b.position = Vector2(x, 96)
@@ -95,7 +96,7 @@ func _icon(id: String) -> Texture2D:
 				var fr: Array = CreatureArt.frames(String(art[0]), int(art[1]))["frames"]
 				_creature_tex[id] = ImageTexture.create_from_image(fr[0])
 			return _creature_tex[id]
-		"oggetti":
+		"oggetti", "pesci":
 			return SlotView.icon(id)
 	return SlotView.icon("seme_mondo") if section == "pagine" else null
 
@@ -142,10 +143,12 @@ func _cell_tip(sec: String, id: String, known: bool) -> Variant:
 
 func _refresh() -> void:
 	for k in _tabs.size():
-		_frame(_tabs[k], Color("#ffb84a") if ["creature", "famiglie", "oggetti", "pagine"][k] == section else Color("#2f7a70"))
+		_frame(_tabs[k], Color("#ffb84a") if ["creature", "famiglie", "oggetti", "pagine", "pesci"][k] == section else Color("#2f7a70"))
 	_title.text = "Erbario — %d%% scoperto  (creature %d%% · famiglie %d%% · oggetti %d%% · pagine %d%%)" % [roundi(erbario.percent()),
 		roundi(erbario.percent("creature")), roundi(erbario.percent("famiglie")), roundi(erbario.percent("oggetti")),
 		roundi(erbario.percent("pagine"))]
+	var fish := (erbario.data.get("pesci", {}) as Dictionary).size()
+	_title.text += "   · pesci %d su %d, a parte" % [fish, FishData.all().size()]
 	for c in _grid.get_children():
 		c.queue_free()
 	var list := Erbario.entries(section)
@@ -178,7 +181,7 @@ func _show_detail() -> void:
 		return
 	if not erbario.known(section, selected):
 		# voce 61: una famiglia mai incontrata dice dove cercarla
-		_detail.text = BestiaryInfo.hint(selected) if section == "famiglie" else "[color=#6a8a84]Non l'hai ancora scoperta.[/color]"
+		_detail.text = BestiaryInfo.hint(selected) if section == "famiglie" else ("[color=#6a8a84]Non l'hai ancora pescato.[/color]\n\n%s" % FishData.where(selected) if section == "pesci" else "[color=#6a8a84]Non l'hai ancora scoperta.[/color]")
 		return
 	var t := "[font_size=24][color=#ffd08a]%s[/color][/font_size]\n\n" % Erbario.title_of(section, selected)
 	match section:
@@ -214,4 +217,12 @@ func _show_detail() -> void:
 			t += String(LoreData.PAGES[selected]["text"])
 		"famiglie":
 			t += BestiaryInfo.family(m.character, selected) + "\n" + BestiaryInfo.coats_line(m.character)
+		"pesci":
+			var f := FishData.info(selected)
+			var e: Dictionary = erbario.data["pesci"][selected]
+			t += String(f.get("desc", "")) + "\n\n"
+			t += "[color=%s]%s[/color] · da %d a %d cm\n" % [FishData.RARITY[f["rar"]]["color"], FishData.RARITY[f["rar"]]["name"],
+				int(f["size"][0]), int(f["size"][1])]
+			t += "Dove: %s\n" % FishData.where(selected)
+			t += "Pescati: %d · il più grande: %d cm" % [int(e.get("n", 0)), int(e.get("max", 0))]
 	_detail.text = t

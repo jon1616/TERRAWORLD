@@ -9,6 +9,11 @@ const DATA := {
 	"trees": 0.35, "hills": 1.3, "lift": -3, "tint": Color(0.95, 0.95, 0.9), "color": "#d8d0c0", "weight": 1,
 	"grass": 38,
 	"stagni": [1.0, 8, 16, 3, 7],      # voce 118: stagni di superficie (vedi `BiomesData`)
+	# voce 120: i pesci degli stagni di questo bioma (campi in cima a `FishData`)
+	"fish": {
+		"pesce_ghiozzo_pietra": {"name": "Ghiozzo di pietra", "rar": "comune", "size": [6, 14], "color": "ardesia", "biomes": ["pietra"], "desc": "Si confonde con i sassi del fondo."},
+		"pesce_gargolla": {"name": "Pesce-gargolla", "rar": "raro", "size": [30, 60], "color": "ardesia", "biomes": ["pietra"], "depth": 4, "desc": "Ha la faccia delle statue dei boschi di pietra, e ne ha la pazienza."},
+	},
 	"turf": {"name": "Muschio di pietra", "layer": "muschio_pietra", "pal": ["#26262a", "#3e3e44", "#5e5e64", "#8a8a8a", "#c8c4b8"], "specks": 60},
 	"tree": {"id": "pietrificato", "name": "Albero pietrificato", "glow": Color(1.3, 1.3, 1.2)},
 	"veg": [[0.25, 64], [0.33, 65], [0.38, 66], [0.46, "sassi"]],

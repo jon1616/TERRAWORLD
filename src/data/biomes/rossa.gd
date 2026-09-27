@@ -9,6 +9,11 @@ const DATA := {
 	"trees": 0.5, "hills": 1.1, "lift": -2, "tint": Color(1.15, 0.86, 0.76), "color": "#e0925a", "weight": 2,
 	"grass": 33,
 	"stagni": [1.5, 10, 22, 3, 6],      # voce 118: stagni di superficie (vedi `BiomesData`)
+	# voce 120: i pesci degli stagni di questo bioma (campi in cima a `FishData`)
+	"fish": {
+		"pesce_persico_rosso": {"name": "Persico rosso", "rar": "comune", "size": [15, 30], "color": "sanguinella", "biomes": ["rossa"], "desc": "Rosso come le foglie delle selve dove vive."},
+		"pesce_corteccia": {"name": "Pesce-corteccia", "rar": "non_comune", "size": [25, 50], "color": "legno", "biomes": ["rossa"], "depth": 3, "desc": "Ha la pelle ruvida come la corteccia degli alberi rossi."},
+	},
 	"turf": {"name": "Muschio rosso", "layer": "muschio_rosso", "pal": ["#3a1a12", "#5a2a1a", "#7e3e24", "#a85a34", "#e0925a"], "specks": 40},
 	"tree": {"id": "sequoia", "name": "Sequoia rossa", "glow": Color(1.8, 1.3, 0.9)},
 	"veg": [[0.3, 50], [0.4, 49], [0.46, 51], [0.52, "felce"], [0.56, "fungo"]],

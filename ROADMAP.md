@@ -2119,7 +2119,16 @@ Corretto nella prova dei gradi delle casse: nel giro intero una cassa lasciata a
   avanti, con materiali dei loro strati), per riempire un bacino scavato apposta.
 - Scavare un canale fa già defluire i liquidi (voce 74): una prova crea un laghetto dal nulla e ci pesca.
 
-## 120. [ ] I pesci come dati (L)
+## 120. [x] I pesci come dati (L) — fatto il 28 set 2026
+Fatto: `FishData` (`src/data/`): 59 pesci; 34 di tutti i mondi (superficie, uno o più per strato sotto terra, 6 nella
+Linfa, 6 nella brace, 4 nel mare del gene Sommerso, 2 leggendari di tutti i mondi) e 25 dei biomi (campo «fish» dei 13
+file dei biomi con l'acqua: un bioma nuovo porta i suoi pesci). Condizioni: liquido, strati, biomi, profondità, laghi
+grandi, notte, stagione, tempo, gene; rarità comune / non comune / raro / leggendario (pesi 100 / 35 / 9 / 1,2; la
+fortuna alza le più alte) e taglia in centimetri. `pool`, `roll`, `roll_size`, `where`. Ogni pesce è anche un oggetto
+(tipo «pesce», icona «pesce» del colore del suo materiale, «si pesca: …» in Esamina). L'Erbario ha la scheda **Pesci**
+(pescati, il più grande, dove vive) **fuori dalla percentuale**; i pesci non contano tra gli oggetti. Prova: ogni pesce
+ha campi validi e uno specchio che lo ospita (59 su 59), foresta e torbiere danno i pesci giusti, la rarità in 6000
+abboccate (raro 3,8%, con fortuna 8%); foto 182_erbario_pesci.
 - `FishData` e un campo «pesci» nei file dei biomi e del sottosuolo; circa 60 pesci con nomi dell'universo, per liquido,
   strato, profondità dell'acqua, ora, stagione, meteo e geni; rarità (comune → leggendario) e taglia; icone dal codice.
 - Una sezione «Pesci» nell'Erbario, **fuori dalla percentuale principale**; le schede dei suggerimenti.

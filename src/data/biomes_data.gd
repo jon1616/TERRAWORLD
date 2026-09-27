@@ -34,6 +34,7 @@ extends RefCounted
 ##   hurt_tile        voce 93, l'erba che ferisce chi ci sta sopra senza i piedi protetti: {dmg, text}
 ##   stagni           voce 118, gli stagni di superficie (dove si pesca): [quanti ogni 1000 colonne, larghezza min,
 ##                    max, profondità min, max] (0 = nessuno; senza il campo: pochi, `PassStagni.DEFAULT`)
+##   fish             voce 120, i pesci degli stagni del bioma: {id: pesce} (campi in cima a `FishData`)
 ## Dalla voce 92 un bioma porta con sé anche il suo **pacchetto** (tutti facoltativi), che le tabelle comuni uniscono
 ## alle loro:
 ##   creatures        {id: voce di `CreaturesData`} con in più body (la ricetta del disegno per `BodyArt`), affinity

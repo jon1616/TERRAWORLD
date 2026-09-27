@@ -6,6 +6,11 @@ const DATA := {
 	"trees": 0.28, "hills": 1.2, "lift": -4, "tint": Color(0.8, 0.95, 1.22), "color": "#bfe8ff", "weight": 2,
 	"grass": 24,                  # la tessera (TileDefs.GRASS_BRINA)
 	"stagni": [1.5, 10, 20, 3, 5],      # voce 118: stagni di superficie (vedi `BiomesData`)
+	# voce 120: i pesci degli stagni di questo bioma (campi in cima a `FishData`)
+	"fish": {
+		"pesce_trota_brina": {"name": "Trota di brina", "rar": "comune", "size": [18, 35], "color": "brina", "biomes": ["brina"], "desc": "Le pinne hanno il bordo gelato anche d'estate."},
+		"pesce_luccio_gelo": {"name": "Luccio del gelo", "rar": "raro", "size": [40, 80], "color": "brina", "biomes": ["brina"], "season": ["gelo"], "desc": "Si sveglia solo quando gli stagni cominciano a ghiacciare."},
+	},
 	"turf": {"name": "Muschio di brina", "layer": "muschio_brina", "pal": ["#1c3048", "#2a4a6a", "#44729a", "#7aaed0", "#d0f0ff"], "specks": 0},
 	"tree": {"id": "abete", "name": "Abete di brina", "glow": Color(1.2, 1.5, 1.8)},
 	# muschio gelato, cristalli di brina, cespugli di bacche gelate, sassi, campanule turchesi

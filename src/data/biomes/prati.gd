@@ -9,6 +9,11 @@ const DATA := {
 	"trees": 0.05, "hills": 0.4, "lift": 4, "tint": Color(0.92, 1.05, 1.0), "color": "#c8ece0", "weight": 2,
 	"grass": 32,
 	"stagni": [2.0, 12, 28, 2, 5],      # voce 118: stagni di superficie (vedi `BiomesData`)
+	# voce 120: i pesci degli stagni di questo bioma (campi in cima a `FishData`)
+	"fish": {
+		"pesce_alborella": {"name": "Alborella del vento", "rar": "comune", "size": [6, 12], "color": "seta", "biomes": ["prati"], "desc": "Leggera e argentata: salta fuori dall'acqua quando tira vento."},
+		"pesce_saltarello": {"name": "Saltarello d'erba", "rar": "non_comune", "size": [10, 20], "color": "muschio", "biomes": ["prati"], "weather": ["pioggia"], "desc": "Con la pioggia salta di stagno in stagno attraverso l'erba."},
+	},
 	"turf": {"name": "Erba del vento", "layer": "erba_vento", "pal": ["#1a302c", "#2a4a44", "#44706a", "#7ab8a4", "#c8ece0"], "specks": 60},
 	"tree": {"id": "ombrello", "name": "Ombrello del vento", "glow": Color(1.3, 1.5, 1.4)},
 	"veg": [[0.4, 46], [0.48, 47], [0.54, 48], [0.58, "fiori"]],

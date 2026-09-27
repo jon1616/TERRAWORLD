@@ -8,6 +8,11 @@ const DATA := {
 	"trees": 0.06, "hills": 0.6, "lift": 2, "tint": Color(1.1, 0.95, 1.2), "color": "#ffb0f0", "weight": 0,
 	"grass": 44,
 	"stagni": [1.5, 10, 22, 3, 6],      # voce 118: stagni di superficie (vedi `BiomesData`)
+	# voce 120: i pesci degli stagni di questo bioma (campi in cima a `FishData`)
+	"fish": {
+		"pesce_iridino": {"name": "Iridino", "rar": "comune", "size": [8, 16], "color": "iride", "biomes": ["iridato"], "desc": "Cambia colore a seconda di come lo guardi."},
+		"pesce_iride": {"name": "Pesce d'iride", "rar": "raro", "size": [20, 40], "color": "iride", "biomes": ["iridato"], "depth": 3, "desc": "Porta tutti i colori del mondo iridato sulle squame."},
+	},
 	"turf": {"name": "Erba iridata", "layer": "erba_iridata", "pal": ["#2a1a3a", "#4a3a6a", "#8a60a8", "#e0a0d8", "#fff0c0"], "specks": 110},
 	"tree": {"id": "ombrello_iridato", "name": "Ombrello iridato", "glow": Color(1.8, 1.4, 1.8), "art": "ombrello"},
 	"veg": [[0.35, 74], [0.45, 75], [0.52, "fiori"]],

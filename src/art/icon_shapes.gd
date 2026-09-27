@@ -437,6 +437,22 @@ static func draw(shape: String, im: Image, p: Array[Color]) -> bool:
 			Px.put(im, 11, 4, p[p.size() - 1])
 			Px.put(im, 5, 11, Color(ItemIcons.LEAF[1]))
 			Px.put(im, 4, 11, Color(ItemIcons.LEAF[2]))
+		"pesce":
+			# voce 120: un pesce di profilo, colorato dal materiale, con la pinna e l'occhio
+			for x in range(3, 13):
+				var t := (x - 3) / 10.0
+				var half := 3.6 * sin(t * PI) + 0.4
+				for y in range(int(8.0 - half), int(8.0 + half) + 1):
+					Px.put(im, x, y, p[2] if y < 8 else p[1])
+			Px.line(im, Vector2(4.5, 6.5), Vector2(10.5, 6.5), 1, p[3])
+			for q in [Vector2(13, 5), Vector2(14, 4), Vector2(13, 11), Vector2(14, 12), Vector2(13, 8), Vector2(14, 8)]:
+				Px.put(im, int(q.x), int(q.y), p[2])
+			Px.put(im, 14, 5, p[1])
+			Px.put(im, 14, 11, p[1])
+			Px.put(im, 8, 3, p[2])
+			Px.put(im, 9, 4, p[2])
+			Px.put(im, 5, 7, Color("#0a0c12"))
+			Px.put(im, 5, 6, Color.WHITE)
 		_:
 			return WeaponShapes.draw(shape, im, p)              # le forme della voce 50
 	return true

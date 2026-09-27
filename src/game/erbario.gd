@@ -71,10 +71,13 @@ static func entries(section: String) -> Array:
 		"creature":
 			return CreaturesData.CREATURES.keys()
 		"oggetti":
-			# gli oggetti generati a centinaia (forme nuove, leghe) e le Fiale (che conta il Genario) restano fuori
+			# gli oggetti generati a centinaia (forme nuove, leghe), le Fiale (che conta il Genario) e i pesci (voce 120:
+			# la loro sezione, fuori dalla percentuale: la pesca non è indispensabile) restano fuori
 			return ItemsData.all().keys().filter(func(k: String) -> bool:
 				var it := ItemsData.get_item(k)
-				return not it.get("gen", false) and String(it.get("kind", "")) != "fiala")
+				return not it.get("gen", false) and not String(it.get("kind", "")) in ["fiala", "pesce"])
+		"pesci":
+			return FishData.all().keys()
 		"pagine":
 			return LoreData.PAGES.keys()
 		"famiglie":
@@ -92,11 +95,13 @@ static func title_of(section: String, id: String) -> String:
 			return String(LoreData.PAGES[id]["title"])
 		"famiglie":
 			return String(FamiliesData.FAMILIES[id]["name"])
+		"pesci":
+			return String(FishData.info(id).get("name", id))
 	return id
 
 
 func known(section: String, id: String) -> bool:
-	return (data[section] as Dictionary).has(id)
+	return (data.get(section, {}) as Dictionary).has(id)
 
 
 ## Percentuale di completamento (0-100) di una sezione, o di tutto se `section` è vuota.
@@ -109,6 +114,24 @@ func percent(section := "") -> float:
 			if known(sec, id):
 				got += 1
 	return 100.0 * got / maxi(tot, 1)
+
+
+## Voce 120: un pesce pescato: quanti e il più grande (centimetri). Restituisce vero se è il primo o un record.
+func add_fish(id: String, size: int) -> bool:
+	if not data.has("pesci"):
+		data["pesci"] = {}
+	var sec: Dictionary = data["pesci"]
+	var fresh := not sec.has(id)
+	var e: Dictionary = sec.get(id, {"n": 0, "max": 0})
+	var record := size > int(e.get("max", 0))
+	e["n"] = int(e.get("n", 0)) + 1
+	e["max"] = maxi(int(e.get("max", 0)), size)
+	sec[id] = e
+	if fresh:
+		discovered.emit("pesci", id)
+		if m.built:
+			m.hud.toast("Erbario, Pesci: nuova voce — %s" % title_of("pesci", id))
+	return fresh or record
 
 
 ## Voce 61: una creatura della famiglia addomesticata (o nata nell'Incubatrice), e un uovo preso da un suo nido.

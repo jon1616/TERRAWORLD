@@ -16,6 +16,7 @@ func _init(tk: TestKit) -> void:
 func run() -> void:
 	await bodies()
 	await moving()
+	await species()
 
 
 ## Due conche vuote affiancate su terreno piano vicino a c: [sinistra, destra] (i centri della prima riga), e ciò che
@@ -159,3 +160,100 @@ func bodies() -> void:
 	if ponds == 0 or pond.is_empty() or not pond["ok"] or made.is_empty() or not made["ok"] or int(made["stratum"]) != 0 \
 			or puddle.is_empty() or puddle["ok"]:
 		print("ATTENZIONE: gli specchi d'acqua non si riconoscono come dovrebbero")
+
+
+## Voce 120: i pesci come dati. Ogni pesce ha campi validi e si può davvero pescare (esiste uno specchio in cui
+## vive); gli stagni del bioma giusto danno i pesci giusti; la rarità segue i pesi; la sezione Pesci dell'Erbario
+## non cambia la percentuale.
+func species() -> void:
+	var bad := []
+	var reach := 0
+	for id in FishData.all():
+		var f: Dictionary = FishData.all()[id]
+		for k in ["name", "rar", "size", "color"]:
+			if not f.has(k):
+				bad.append("%s: manca %s" % [id, k])
+		if not FishData.RARITY.has(String(f.get("rar", ""))):
+			bad.append("%s: rarità %s" % [id, f.get("rar", "")])
+		if not ItemIcons.has_palette(String(f.get("color", ""))):
+			bad.append("%s: colore %s" % [id, f.get("color", "")])
+		for b in f.get("biomes", []):
+			if BiomesData.by_id(String(b)).is_empty():
+				bad.append("%s: bioma %s" % [id, b])
+		for sn in f.get("season", []):
+			if not SeasonsData.SEASONS.any(func(x: Dictionary) -> bool: return String(x["id"]) == String(sn)):
+				bad.append("%s: stagione %s" % [id, sn])
+		for wk in f.get("weather", []):
+			if not WeatherData.STATES.has(String(wk)):
+				bad.append("%s: tempo %s" % [id, wk])
+		if f.has("gene") and GenesData.info(String(f["gene"])).is_empty():
+			bad.append("%s: gene %s" % [id, f["gene"]])
+		if not ItemsData.get_item(String(id)).get("kind", "") == "pesce":
+			bad.append("%s: manca l'oggetto" % id)
+		# lo specchio fatto apposta per lui: il pesce deve esserci
+		var ctx := {"liq": int(f.get("liq", 0)), "stratum": int((f.get("strata", [0]) as Array)[0]),
+			"biome": String((f.get("biomes", ["foresta"]) as Array)[0]), "depth": int(f.get("depth", 1)),
+			"volume": float(f.get("big", 30.0)), "night": String(f.get("time", "")) == "notte",
+			"season": String((f.get("season", ["germoglio"]) as Array)[0]),
+			"weather": String((f.get("weather", ["sereno"]) as Array)[0]), "genes": [f.get("gene", "")]}
+		if FishData.pool(ctx).any(func(e: Array) -> bool: return String(e[0]) == String(id)):
+			reach += 1
+		else:
+			bad.append("%s: nessuno specchio lo ospita" % id)
+	# lo stagno della foresta e quello delle torbiere
+	var base := {"liq": 0, "stratum": 0, "depth": 4, "volume": 40.0, "night": false, "season": "germoglio",
+		"weather": "sereno", "genes": []}
+	var forest := base.duplicate()
+	forest["biome"] = "foresta"
+	var peat := base.duplicate()
+	peat["biome"] = "torba"
+	var ids_f := FishData.pool(forest).map(func(e: Array) -> String: return String(e[0]))
+	var ids_t := FishData.pool(peat).map(func(e: Array) -> String: return String(e[0]))
+	var right := "pesce_trota_lanterna" in ids_f and not "pesce_torbina" in ids_f and "pesce_torbina" in ids_t \
+		and "pesce_avannotto" in ids_t and not "pesce_persico_lume" in ids_f
+	# la rarità in una grotta d'acqua delle Caverne, 6000 abboccate
+	var cave := base.duplicate()
+	cave["stratum"] = 2
+	cave["biome"] = "foresta"
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 12
+	var by := {}
+	for k in 6000:
+		var id := FishData.roll(cave, rng)
+		var r := String(FishData.info(id)["rar"])
+		by[r] = int(by.get(r, 0)) + 1
+	var lucky := {}
+	for k in 6000:
+		var r := String(FishData.info(FishData.roll(cave, rng, 1.0))["rar"])
+		lucky[r] = int(lucky.get(r, 0)) + 1
+	# l'Erbario: la sezione dei pesci non cambia la percentuale
+	var er: Erbario = m.erbario
+	var pct0 := er.percent()
+	var saved: Dictionary = (er.data.get("pesci", {}) as Dictionary).duplicate(true)
+	var fresh := er.add_fish("pesce_avannotto", 7)
+	var rec := er.add_fish("pesce_avannotto", 5)
+	var same_pct := absf(er.percent() - pct0) < 0.001 and er.known("pesci", "pesce_avannotto")
+	var ep: ErbarioPanel = null
+	for o in m.hud.overlays:
+		if o is ErbarioPanel:
+			ep = o
+	if ep != null:
+		ep.toggle()
+		ep.section = "pesci"
+		ep.selected = "pesce_avannotto"
+		ep._refresh()
+		await kit.frames(4)
+		await kit.save("182_erbario_pesci")
+		ep.toggle()
+	print("pesci: %d in tutto, %d pescabili da qualche parte; problemi %s" % [FishData.all().size(), reach, bad])
+	print("stagno della foresta: %s" % ", ".join(ids_f.map(func(i: String) -> String: return String(FishData.info(i)["name"]))))
+	print("stagno delle torbiere: %s; giusti %s" % [", ".join(ids_t.map(func(i: String) -> String: return String(FishData.info(i)["name"]))),
+		"sì" if right else "NO"])
+	print("rarità nelle Caverne (6000): %s; con fortuna 1: %s" % [by, lucky])
+	print("Erbario dei pesci: nuovo %s, 5 cm dopo 7 non è un record %s, percentuale uguale %s" % ["sì" if fresh else "NO",
+		"sì" if not rec else "NO", "sì" if same_pct else "NO"])
+	er.data["pesci"] = saved
+	if not bad.is_empty() or not right or not fresh or rec or not same_pct or int(by.get("raro", 0)) == 0 \
+			or int(lucky.get("raro", 0)) <= int(by.get("raro", 0)):
+		print("ATTENZIONE: i pesci non sono come dovrebbero")
+

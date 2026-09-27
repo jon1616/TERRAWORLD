@@ -276,6 +276,7 @@ static func all() -> Dictionary:
 	out.merge(PlacesData.ITEMS.duplicate(true))            # voce 70
 	out.merge(NeroData.ITEMS.duplicate(true))              # voce 72
 	out.merge(LiquidsData.ITEMS.duplicate(true))           # voce 73
+	out.merge(FishData.items())                            # voce 120: i pesci
 	out.merge(WeatherData.ITEMS.duplicate(true))           # voce 75
 	out.merge(WorldTimeData.ITEMS.duplicate(true))         # voce 78
 	out.merge(VigorData.ITEMS.duplicate(true))             # voce 79
