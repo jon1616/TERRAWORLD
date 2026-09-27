@@ -46,6 +46,8 @@ var wall_climb := false                # Artigli di corteccia: scivolare lungo l
 var hook := Vector2.INF                # punto a cui è agganciato il rampino (INF = sganciato)
 var hook_speed := 330.0
 var in_liquid := false                 # voce 73: nuota (acqua o Linfa fino al petto)
+var wind := 0.0                        # voce 75: il vento (px/s², solo in superficie), lo imposta `Weather`
+var weather_run := 1.0                 # voce 75: la bufera rallenta la corsa
 var _air_left := 0
 var _wall := 0                         # -1/1: parete toccata a sinistra/destra mentre si scivola
 signal air_jumped
@@ -184,9 +186,12 @@ func _step(dt: float, dir: float, held: bool) -> void:
 	in_liquid = world.liq(cx, cy) >= 3 and bool(LiquidsData.TYPES[world.liq_type(cx, cy)]["swim"])
 	if in_liquid:
 		target *= LiquidsData.SWIM_RUN
+	target *= weather_run
 	var accel := ACCEL_AIR
 	if on_floor:
 		accel = ACCEL_GROUND if dir != 0.0 and signf(dir) == signf(vel.x if vel.x != 0.0 else dir) else DECEL_GROUND
+	if not on_floor and not in_liquid and wind != 0.0:
+		target += wind * 0.35 * (2.2 if gliding else 1.0)    # voce 75: il vento porta chi è in aria, e chi plana di più
 	var vx0 := vel.x
 	vel.x = move_toward(vel.x, target, accel * dt)
 	jump_buf -= dt

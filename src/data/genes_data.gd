@@ -57,10 +57,10 @@ const DEFAULTS := {
 		"geodes": 1.0, "crystal": 0.0, "rich": 0.0, "trees": 1.0, "blight_zones": 0.0, "mosaic": false, "islands": 0.0,
 		"city": false, "sea": false, "pools": 1.0},
 	"run": {"danger": 0.0, "lumini": 1.0, "rare": 1.0, "grow": 1.0, "night": 0.0, "events": 1.0, "blight": 1.0, "season": 0.0,
-		"aurora": 0.0, "roles": {}},
+		"aurora": 0.0, "roles": {}, "rain": 1.0, "wind": 1.0, "fog": 1.0},
 }
 const MUL := ["ruins", "gems", "lumini", "rare", "grow", "events", "blight", "hills", "worm", "roots", "shallow", "geodes",
-	"trees", "pools"]
+	"trees", "pools", "rain", "wind", "fog"]
 
 const GENES := {
 	# --- superficie: i biomi (erano le specie della voce 39) -------------------------------------------------------
@@ -199,6 +199,13 @@ const GENES := {
 		"combo": ["avvizzito", "notti_lunghe"],       # voce 69: la via del Seme Nero lo insegna
 		"desc": "l'Avvizzimento ovunque e creature rare e feroci, con molti Lumini", "gen": {"blight_zones": 5.0},
 		"run": {"blight": 2.5, "danger": 0.8, "rare": 2.0, "lumini": 1.5}},
+	# voce 75: il tempo atmosferico
+	"piovoso": {"cat": "cielo", "name": "Piovoso", "rar": 0, "dom": 2, "good": true,
+		"desc": "piove spesso: pozze, orti rigogliosi e temporali", "run": {"rain": 3.0}},
+	"ventoso": {"cat": "cielo", "name": "Ventoso", "rar": 1, "dom": 2, "good": true,
+		"desc": "vento forte: si plana lontano, e i dardi volano storti", "run": {"wind": 1.8}},
+	"nebbioso": {"cat": "tempo", "name": "Nebbioso", "rar": 0, "dom": 2, "good": true,
+		"desc": "nebbie frequenti: si vede poco, e le creature vedono meno", "run": {"fog": 3.0}},
 	# voce 73: l'acqua
 	"sommerso": {"cat": "forma", "name": "Sommerso", "rar": 2, "dom": 2, "good": true, "vmin": 2,
 		"desc": "un mare copre quasi tutto il mondo: isole, conche allagate, creature d'acqua", "gen": {"sea": true}},

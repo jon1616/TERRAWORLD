@@ -37,6 +37,7 @@ const ACC := {
 	"air_jumps": ["Salti in aria", "add"], "allies": ["Alleati in più", "add"], "glide": ["Plani tenendo Spazio", "flag"],
 	"wall": ["Scivoli e salti sulle pareti", "flag"], "fall_safe": ["Nessuna ferita da caduta", "flag"],
 	"resist": ["Resistenza", "pct_add"], "weak": ["Indebolisce chi colpisci", "flag"], "respiro": ["Respiro sott'acqua", "pct"],
+	"vento": ["Il vento ti spinge", "less"],
 }
 
 

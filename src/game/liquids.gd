@@ -15,6 +15,7 @@ var _t := 0.0
 var _flip := false
 var _step_n := 0
 var _hurt := 0.0
+var _evap_t := 0.0
 const RUN_MAX := 48                     # celle al più di un tratto che si livella
 var bar: Label
 var reactions := 0                      # quante reazioni tra liquidi (per le prove)
@@ -128,7 +129,30 @@ func _process(dt: float) -> void:
 	if _t >= LiquidsData.STEP:
 		_t = 0.0
 		step()
+	_evap_t += dt
+	if _evap_t >= 2.0:
+		_evap_t = 0.0
+		evaporate()
 	_body(dt)
+
+
+## Le pellicole d'acqua di un livello solo su un pavimento asciutto evaporano (voce 75: la pioggia non lascia una riga
+## blu su ogni tratto piano); le pozze nelle conche restano.
+func evaporate() -> int:
+	var w: World = m.world
+	var pc: Vector2i = m.player_cell()
+	var n := 0
+	for y in range(maxi(pc.y - LiquidsData.WINDOW.y, 1), mini(pc.y + LiquidsData.WINDOW.y, w.h - 1)):
+		for x in range(maxi(pc.x - LiquidsData.WINDOW.x, 1), mini(pc.x + LiquidsData.WINDOW.x, w.w - 1)):
+			var v := w.liquid[y * w.w + x]
+			if v != 1:                                          # acqua (tipo 0), livello 1
+				continue
+			if w.liq(x - 1, y) > 1 or w.liq(x + 1, y) > 1 or w.liq(x, y - 1) > 0:
+				continue
+			w.set_liq(x, y, 0, 0)
+			view.touch(Vector2i(x, y))
+			n += 1
+	return n
 
 
 ## Un passo della simulazione. Restituisce quante celle si sono mosse.

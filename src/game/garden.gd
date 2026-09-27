@@ -13,6 +13,7 @@ var paused := false                    # le prove fanno crescere a comando (`gro
 var wild_mult := 1.0                   # la Fioritura (voce 34) fa trovare più semi selvatici
 var grow_mult := 1.0                   # tratto «Fertile» del mondo (voce 39)
 var season_mult := 1.0                 # voce 66: la stagione
+var weather_mult := 1.0                # voce 75: la pioggia
 
 
 func setup(main: Node2D) -> void:
@@ -27,7 +28,7 @@ func _process(dt: float) -> void:
 	_t -= dt
 	if _t <= 0.0:
 		_t = 1.0
-		grow(grow_mult * season_mult)
+		grow(grow_mult * season_mult * weather_mult)
 
 
 ## Fa passare il tempo per tutte le colture: le mature cambiano aspetto.

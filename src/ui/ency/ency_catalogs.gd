@@ -139,6 +139,9 @@ static func inline(key: String) -> String:
 				rows.append(_b(String(pd["name"]), "%s · nei mondi con %s · %s" % [pd["banner"], " o ".join(gn),
 					"in superficie" if pd.get("surface", false) else "nello strato «%s»" % StrataData.STRATA[int(pd["strata"][0])]["name"]],
 					String(pd["color"])))
+		"cat_meteo":
+			for k in WeatherData.STATES:
+				rows.append(_b(String(WeatherData.STATES[k]["name"]), String(WeatherData.STATES[k]["desc"])))
 		"cat_reazioni_liquidi":
 			for k in LiquidsData.REACTIONS:
 				rows.append("• [color=%s]%s[/color]" % [G, LiquidsData.REACTIONS[k]["name"]])

@@ -65,6 +65,7 @@ var chains: Chains
 var places: Places
 var mechanisms: Mechanisms
 var liquids: Liquids
+var weather: Weather
 var board: Board
 var storage: Storage
 var herd: Herd
@@ -302,6 +303,7 @@ func _build() -> void:
 	places = _mount(Places.new())          # voce 70: i luoghi scritti a mano
 	mechanisms = _mount(Mechanisms.new())  # voce 71: enigmi e meccanismi dei luoghi (porte dei Seminatori)
 	liquids = _mount(Liquids.new())        # voce 73: acqua, Linfa e brace che scorrono; nuoto e respiro
+	weather = _mount(Weather.new())        # voce 75: vento, pioggia, nebbia, temporali, cenere, bufere
 	hud.panel.quick_stack = storage.quick_stack
 	hud.panel._toast = hud.toast
 	interact.chest_panel.storage = storage

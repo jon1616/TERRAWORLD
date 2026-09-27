@@ -7,6 +7,8 @@ extends Node2D
 
 const LIFE := 3.0
 
+static var wind := 0.0                  # voce 75: il vento devia i colpi in superficie (lo imposta `Weather`)
+
 var world: World
 ## hit.call(colpo) -> true se il colpo ha preso qualcosa (allora sparisce)
 var hit: Callable
@@ -70,6 +72,7 @@ func _process(dt: float) -> void:
 		var sp: Sprite2D = s["node"]
 		var v: Vector2 = s["vel"]
 		v.y += float(s["grav"]) * dt
+		v.x += wind * 0.6 * dt
 		var hm := float(s["homing"])
 		if hm > 0.0 and seek.is_valid():
 			var goal: Vector2 = seek.call(sp.position)

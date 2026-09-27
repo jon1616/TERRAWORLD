@@ -1411,10 +1411,21 @@ e in ogni mondo qualche pozza di brace nel Fondo e di Linfa nelle Profondità. I
 (più scuro sotto), una lieve variazione tra le celle, le braci che galleggiano e un riflesso sulla superficie.
 Capitolo nell'Enciclopedia con le reazioni. Prove `--solo=liquidi` (foto 138_liquidi).
 
-## 75. [ ] Vento e tempo atmosferico (M)
+## 75. [x] Vento e tempo atmosferico (M) — fatto il 26 set 2026
 Vento che spinge il Germogliato, le planate, i dardi e le spore; piogge, nebbie, tempeste di cenere, bufere di brina,
 secondo i geni del cielo e la stagione.
 **Pronto quando**: il tempo atmosferico cambia il modo di muoversi e combattere, non solo il colore del cielo.
+**Fatto il 27 set 2026**: il tempo atmosferico (`Weather`, dati in `WeatherData`). Ogni 4 minuti il mondo sceglie un tempo
+secondo la stagione, i biomi e tre geni nuovi (**Piovoso**, **Ventoso**, **Nebbioso**): sereno, pioggia, temporale,
+nebbia, bufera di brina (solo con i Boschi di brina), tempesta di cenere (solo con le Cenerarie). Vale in superficie,
+non sotto terra né nel Giardino; l'orologio dice che tempo fa. Il **vento** spinge chi è in aria (di più chi plana:
+`Player.wind`) e devia dardi e incantesimi (`Projectiles.wind`); la **pioggia** versa acqua vera nelle conche vicine
+(le pellicole sottili sui tratti piani evaporano) e fa crescere l'orto di più; la **nebbia** vela il mondo e accorcia
+la vista delle creature (`Behavior.fog`); nei **temporali** cadono fulmini che feriscono chi è vicino e lasciano la
+**Fulgorite**; la **cenere** ferisce chi resta senza una parete dietro; la **bufera** rallenta la corsa. Gocce, fiocchi e
+cenere sono particelle attorno alla visuale. Oggetti: Amuleto della tempesta (salto in aria), Mantello del vento
+(planata, vento ×0,4). Capitolo nell'Enciclopedia. Prove `--solo=meteo` (foto 139_pioggia, 140_nebbia, 141_bufera).
+Nello stesso giro: la mappa esplorata legge la luce come byte (il suo giro costava 6 ms in un fotogramma, ora 1,3).
 
 ## 76. [ ] Gravità e mondi strani (M)
 Geni di forma del mondo: gravità leggera, isole sospese nel Vuoto, mondi cavi (superficie dentro), mondi capovolti

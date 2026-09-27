@@ -25,6 +25,7 @@ var _stars: TextureRect
 var _time := 0.3
 var biome_tint := Color.WHITE          # colore del bioma di superficie sotto la visuale (sfumato)
 var season_tint := Color.WHITE         # voce 66: un velo del colore della stagione
+var weather_tint := Color.WHITE        # voce 75: il cielo del tempo che fa
 var _biome_goal := Color.WHITE
 var _horizon := 0.0
 var void_mode := false                 # voce 62: il Giardino sospeso nel Vuoto (niente colline né foreste, sempre le stelle)
@@ -105,7 +106,7 @@ func _make_sky() -> void:
 ## `star_gain` compensa la luce che moltiplica anche lo sfondo (vedi `DayCycle.apply`).
 func set_time(t: float, tint: Color, night: float, star_gain := Color.WHITE) -> void:
 	_time = t
-	tint *= biome_tint * season_tint
+	tint *= biome_tint * season_tint * weather_tint
 	_sky_rect.modulate = tint
 	_stars.modulate = Color(minf(star_gain.r, 6.0), minf(star_gain.g, 6.0), minf(star_gain.b, 6.0),
 		maxf(night, 0.55) if void_mode else night)

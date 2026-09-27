@@ -82,20 +82,25 @@ func _process(dt: float) -> void:
 func reveal(all := false) -> int:
 	var li: Image = m.light.image
 	var o: Vector2i = m.light.origin
+	# la luce si legge come byte (RGB8): con `get_pixel` su 12 000 celle il giro costava ~6 ms in un fotogramma
+	var px := li.get_data()
+	var ex := world.explored
+	var ww := world.w
 	var n := 0
 	for y in LightMap.LH:
 		var wy := o.y + y
 		if wy < 0 or wy >= world.h:
 			continue
+		var row := y * LightMap.LW * 3
 		for x in LightMap.LW:
 			var wx := o.x + x
-			if wx < 0 or wx >= world.w:
+			if wx < 0 or wx >= ww:
 				continue
-			var c := li.get_pixel(x, y)
-			if c.r + c.g + c.b < 0.03:
+			var k := row + x * 3
+			if px[k] + px[k + 1] + px[k + 2] < 8:
 				continue
-			var i := wy * world.w + wx
-			if world.explored[i] == 0:
+			var i := wy * ww + wx
+			if ex[i] == 0:
 				world.explored[i] = 1
 				n += 1
 				image.set_pixel(wx, wy, color_at(i))

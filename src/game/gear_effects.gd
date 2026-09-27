@@ -17,7 +17,7 @@ extends Node
 ##   defense    (solo nei bonus dei set) Scorza in più (`Vitals.set_scorza`); quella dei pezzi la somma
 ##              `Bisaccia.scorza`
 
-const MULT := ["run", "jump", "halo", "regen", "dig", "stealth", "damage", "atk_speed", "linfa_regen", "magic", "respiro"]
+const MULT := ["run", "jump", "halo", "regen", "dig", "stealth", "damage", "atk_speed", "linfa_regen", "magic", "respiro", "vento"]
 
 var m: Node2D
 var sets: Array = []                   # i set completi indossati (per l'interfaccia)
@@ -80,6 +80,8 @@ func refresh() -> void:
 	Behavior.stealth = e["stealth"]
 	if m.get("liquids") != null:
 		m.liquids.breath_mult = e["respiro"]         # voce 73: le Branchie di muschio
+	if m.get("weather") != null:
+		m.weather.wind_mult = e["vento"]             # voce 75: il Mantello del vento
 	m.actions.dig_mult = e["dig"]
 	m.combat.dmg_mult = e["damage"]
 	m.combat.spd_mult = e["atk_speed"]
