@@ -13,8 +13,10 @@ const GARDEN_H := 240
 static func passes() -> Array[GenPass]:
 	return [
 		PassTerreno.new(),
+		PassArcipelago.new(),
 		PassBiomi.new(),
 		PassStrati.new(),
+		PassGuscio.new(),
 		PassGrotte.new(),
 		PassVuoti.new(),
 		PassRadici.new(),

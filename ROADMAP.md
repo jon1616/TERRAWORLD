@@ -1427,10 +1427,20 @@ cenere sono particelle attorno alla visuale. Oggetti: Amuleto della tempesta (sa
 (planata, vento ×0,4). Capitolo nell'Enciclopedia. Prove `--solo=meteo` (foto 139_pioggia, 140_nebbia, 141_bufera).
 Nello stesso giro: la mappa esplorata legge la luce come byte (il suo giro costava 6 ms in un fotogramma, ora 1,3).
 
-## 76. [ ] Gravità e mondi strani (M)
+## 76. [x] Gravità e mondi strani (M) — fatto il 26 set 2026
 Geni di forma del mondo: gravità leggera, isole sospese nel Vuoto, mondi cavi (superficie dentro), mondi capovolti
 in certe zone.
 **Pronto quando**: almeno 3 forme di mondo diverse, tutte giocabili dall'inizio al Cuore.
+**Fatto il 27 set 2026**: tre geni di forma che cambiano le leggi del mondo. **Lieve** (vigore 2+): la gravità è
+0,55 per il Germogliato (`Player.grav_mult`: salto da 3,4 a 6,1 tessere, cadute lente che contano meno) e per tutto
+ciò che cade (`Creature.grav`: creature, oggetti a terra, dardi, bombe), con montagne più alte. **Guscio** (vigore 3+,
+`PassGuscio`): la superficie è dentro il mondo, sotto un tetto di roccia a 30-50 tessere dal terreno; dietro l'aria c'è
+la parete, quindi è buio come in grotta, rischiarato da gocce di Linfa e baccelli appesi al tetto e dai **pozzi di
+sole** (buchi nel tetto, uno sempre vicino alla partenza); sotto il tetto non piove. **Arcipelago** (vigore 2+,
+`PassArcipelago`): pilastri di terra tra voragini profonde con un lago sul fondo, isole sospese sopra le voragini e una
+**corrente ascensionale** in ognuna (`Gravity`: `Player.lift`, particelle che salgono) che riporta su chi ci cade.
+Tutti e tre hanno il Cuore nel Fondo e la partenza libera (le prove generano i mondi e lo controllano). Capitolo
+nell'Enciclopedia. Prove `--solo=gravita` (foto 142_corrente).
 
 ## 77. [ ] Terra viva (M)
 Radici che ricrescono e chiudono i cunicoli, terreno che si sposta, cristalli che crescono nel tempo: mondi che

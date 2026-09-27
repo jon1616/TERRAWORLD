@@ -73,7 +73,7 @@ func _process(dt: float) -> void:
 		var b := _bombs[i]
 		var sp: Sprite2D = b["node"]
 		var v: Vector2 = b["vel"]
-		v.y += GRAV * dt
+		v.y += GRAV * Creature.grav * dt
 		var np := sp.position + v * dt
 		# rimbalza sulla roccia, perdendo slancio
 		if m.world.solid(floori(np.x / S), floori(sp.position.y / S)):

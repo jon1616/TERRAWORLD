@@ -48,6 +48,8 @@ var hook_speed := 330.0
 var in_liquid := false                 # voce 73: nuota (acqua o Linfa fino al petto)
 var wind := 0.0                        # voce 75: il vento (px/s², solo in superficie), lo imposta `Weather`
 var weather_run := 1.0                 # voce 75: la bufera rallenta la corsa
+var grav_mult := 1.0                   # voce 76: il peso del mondo (gene Lieve, Arcipelago), lo imposta `Gravity`
+var lift := 0.0                        # voce 76: dentro una corrente ascensionale, la velocità di salita
 var _air_left := 0
 var _wall := 0                         # -1/1: parete toccata a sinistra/destra mentre si scivola
 signal air_jumped
@@ -222,10 +224,14 @@ func _step(dt: float, dir: float, held: bool) -> void:
 		if held:
 			vel.y = move_toward(vel.y, -LiquidsData.SWIM_UP, 900.0 * dt)
 		_air_top = position.y                # nell'acqua non si cade
+	elif lift > 0.0:
+		# voce 76: la corrente ascensionale solleva, e chi ne esce riparte da qui a contare la caduta
+		vel.y = move_toward(vel.y, -lift, 1500.0 * dt)
+		_air_top = position.y
 	else:
-		vel.y = minf(vel.y + GRAV * dt, GLIDE_FALL if gliding else MAX_FALL)
+		vel.y = minf(vel.y + GRAV * grav_mult * dt, GLIDE_FALL if gliding else MAX_FALL)
 		if vel.y < 0.0 and not held:
-			vel.y += GRAV * (JUMP_CUT - 1.0) * dt
+			vel.y += GRAV * grav_mult * (JUMP_CUT - 1.0) * dt
 	var through := control and Keys.held("giu")
 	var avg := Vector2((vx0 + vel.x) * 0.5, (vy0 + vel.y) * 0.5)
 	var r := TileBody.move(world, position, HALF, avg, dt, on_floor, through)
@@ -252,7 +258,7 @@ func _step(dt: float, dir: float, held: bool) -> void:
 	elif not _was_floor:
 		# l'atterraggio si vede di più dopo una caduta vera
 		_land_t = 0.14 if position.y - _air_top > 24.0 else 0.07
-		landed.emit((position.y - _air_top) / 16.0)
+		landed.emit((position.y - _air_top) / 16.0 * grav_mult)   # voce 76: in un mondo leggero si cade più piano
 	_was_floor = on_floor
 
 

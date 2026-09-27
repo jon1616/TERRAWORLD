@@ -23,6 +23,7 @@ var _parts: CPUParticles2D
 var _fog: ColorRect
 var paused := false                     # le prove lo fermano o lo scelgono
 var _tex := {}
+var roofed := false                     # voce 76: il Guscio ha un tetto di roccia, sotto non piove
 
 
 static func _drop_tex(sz: Vector2i, c: Color) -> Texture2D:
@@ -36,6 +37,7 @@ func setup(main: Node2D) -> void:
 	_rng.randomize()
 	var st: Dictionary = m.world_meta.get("meteo", {})
 	id = String(st.get("id", "sereno"))
+	roofed = bool(Genome.effects(m.world_meta.get("geni", []), "run").get("roof", false))
 	_t = float(st.get("t", WeatherData.CHANGE))
 	_parts = CPUParticles2D.new()
 	_parts.z_as_relative = false
@@ -61,7 +63,7 @@ func state() -> Dictionary:
 
 
 func outdoor() -> bool:
-	return not m.giardino.active and m.depth_watch.stratum == 0
+	return not m.giardino.active and m.depth_watch.stratum == 0 and not roofed
 
 
 ## Sceglie il tempo che viene: stagione, biomi e geni.

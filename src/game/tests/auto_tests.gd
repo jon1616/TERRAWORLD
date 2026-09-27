@@ -109,6 +109,7 @@ func run(main: Node2D) -> void:
 	await TestsWater.new(kit).run()
 	await TestsLiquids.new(kit).run()
 	await TestsWeather.new(kit).run()
+	await TestsGravity.new(kit).run()
 	await ob.run()
 	await w.run_and_save()
 	# la Bisaccia aperta
@@ -243,5 +244,7 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsLiquids.new(kit).run()
 		"meteo":
 			await TestsWeather.new(kit).run()
+		"gravita":
+			await TestsGravity.new(kit).run()
 		_:
 			print("ATTENZIONE: gruppo di prove sconosciuto «%s»" % g)

@@ -84,7 +84,7 @@ func _process(dt: float) -> void:
 		elif d.get("rest", false) and world.solid(floori(sp.position.x / 16.0), floori((sp.position.y + HALF.y + 1.0) / 16.0)):
 			pass                                 # fermo sul pavimento: dorme finché il pavimento resta
 		else:
-			vel.y = minf(vel.y + 700.0 * dt, 400.0)
+			vel.y = minf(vel.y + 700.0 * Creature.grav * dt, 400.0)
 			vel.x = move_toward(vel.x, 0.0, 200.0 * dt)
 			var r := TileBody.move(world, sp.position, HALF, vel, dt, false)
 			sp.position = r["pos"]

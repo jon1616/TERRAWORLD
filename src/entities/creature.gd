@@ -4,6 +4,8 @@ extends Node2D
 ## comportamenti combinati (`Behavior`). Qui ci sono solo la fisica (a terra o in volo), l'animazione, i colpi
 ## subiti (danno, contraccolpo, lampo bianco) e la barra della vita.
 
+## Voce 76: il peso del mondo per tutto ciò che cade (creature, oggetti a terra, dardi, bombe); lo imposta `Gravity`.
+static var grav := 1.0
 var id := ""
 var base := ""                         # la specie (per una variante, voce 55: quella da cui nasce)
 var data: Dictionary
@@ -244,7 +246,7 @@ func _process(dt: float) -> void:
 		if world.solid(floori(position.x / 16.0), floori(position.y / 16.0)):
 			vel = vel.move_toward(want_fly if stun <= 0.0 else Vector2.ZERO, 500.0 * dt)
 		else:
-			vel.y = minf(vel.y + 900.0 * dt, 520.0)
+			vel.y = minf(vel.y + 900.0 * grav * dt, 520.0)
 		position += vel * dt
 		position.y = minf(position.y, world.h * 16.0 - 24.0)
 		on_floor = false
@@ -252,7 +254,7 @@ func _process(dt: float) -> void:
 		if fly:
 			vel = vel.move_toward(want_fly if stun <= 0.0 or boss else Vector2.ZERO, (900.0 if busy else 360.0) * dt)
 		else:
-			vel.y = minf(vel.y + 900.0 * dt, 520.0)
+			vel.y = minf(vel.y + 900.0 * grav * dt, 520.0)
 			if on_floor and not busy:
 				vel.x = move_toward(vel.x, want_x * speed if stun <= 0.0 else 0.0, 700.0 * dt)
 		var was := on_floor

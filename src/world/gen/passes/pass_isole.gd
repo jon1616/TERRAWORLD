@@ -11,15 +11,24 @@ func title() -> String:
 func run(w: World, c: GenContext) -> void:
 	var n := int(c.genes().get("islands", 0.0))
 	var placed: Array[Vector2i] = []
+	var chasms: Array = c.notes.get("abissi", [])          # voce 76: nell'Arcipelago le isole stanno sulle voragini
+	var roof: PackedInt32Array = c.notes.get("tetto", PackedInt32Array())
 	for tries in n * 30:
 		if placed.size() >= n:
 			break
 		var x := c.rng.randi_range(80, w.w - 81)
+		var top := 0
+		var half := c.rng.randi_range(9, 20)
+		if not chasms.is_empty():
+			var a: Array = chasms[c.rng.randi_range(0, chasms.size() - 1)]
+			x = c.rng.randi_range(int(a[0]) + 16, maxi(int(a[1]) - 16, int(a[0]) + 16))
+			half = c.rng.randi_range(7, 14)
+			top = w.surface[x] - int(a[2]) - c.rng.randi_range(-12, 10)
+		else:
+			top = w.surface[x] - c.rng.randi_range(28, 60)
 		if absi(x - w.spawn.x) < 60:
 			continue
-		var half := c.rng.randi_range(9, 20)
-		var top := w.surface[x] - c.rng.randi_range(28, 60)
-		if top < 14:
+		if top < 14 or (roof.size() > x and top - 6 <= roof[x]):
 			continue
 		var p := Vector2i(x, top)
 		var far := true

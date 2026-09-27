@@ -55,12 +55,12 @@ const DEFAULTS := {
 	"gen": {"ore": 0.0, "ruins": 1.0, "gems": 1.0, "surface": 0.0, "hills": 1.0, "rough": 0.0, "worm": 1.0, "room": 0.0,
 		"big": 0.0, "comb": false, "shafts": 0.0, "under": [], "roots": 1.0, "shallow": 1.0, "ore_boost": {},
 		"geodes": 1.0, "crystal": 0.0, "rich": 0.0, "trees": 1.0, "blight_zones": 0.0, "mosaic": false, "islands": 0.0,
-		"city": false, "sea": false, "pools": 1.0},
+		"city": false, "sea": false, "pools": 1.0, "roof": false, "archi": false},
 	"run": {"danger": 0.0, "lumini": 1.0, "rare": 1.0, "grow": 1.0, "night": 0.0, "events": 1.0, "blight": 1.0, "season": 0.0,
-		"aurora": 0.0, "roles": {}, "rain": 1.0, "wind": 1.0, "fog": 1.0},
+		"aurora": 0.0, "roles": {}, "rain": 1.0, "wind": 1.0, "fog": 1.0, "grav": 1.0, "roof": false},
 }
 const MUL := ["ruins", "gems", "lumini", "rare", "grow", "events", "blight", "hills", "worm", "roots", "shallow", "geodes",
-	"trees", "pools", "rain", "wind", "fog"]
+	"trees", "pools", "rain", "wind", "fog", "grav"]
 
 const GENES := {
 	# --- superficie: i biomi (erano le specie della voce 39) -------------------------------------------------------
@@ -199,6 +199,16 @@ const GENES := {
 		"combo": ["avvizzito", "notti_lunghe"],       # voce 69: la via del Seme Nero lo insegna
 		"desc": "l'Avvizzimento ovunque e creature rare e feroci, con molti Lumini", "gen": {"blight_zones": 5.0},
 		"run": {"blight": 2.5, "danger": 0.8, "rare": 2.0, "lumini": 1.5}},
+	# voce 76: gravità e mondi strani
+	"lieve": {"cat": "forma", "name": "Lieve", "rar": 1, "dom": 2, "good": true, "vmin": 2,
+		"desc": "gravità leggera: salti altissimi, cadute lente e montagne vertiginose", "gen": {"hills": 1.7},
+		"run": {"grav": 0.55}},
+	"guscio": {"cat": "forma", "name": "Guscio", "rar": 2, "dom": 1, "good": true, "vmin": 3,
+		"desc": "la superficie è dentro il mondo: un tetto di roccia al posto del cielo, bucato da pozzi di sole",
+		"gen": {"roof": true}, "run": {"roof": true}},
+	"arcipelago": {"cat": "forma", "name": "Arcipelago", "rar": 2, "dom": 1, "good": true, "vmin": 2,
+		"desc": "pilastri di terra tra voragini allagate, isole sospese e correnti d'aria che sollevano",
+		"gen": {"archi": true, "islands": 12.0}, "run": {"grav": 0.85}},
 	# voce 75: il tempo atmosferico
 	"piovoso": {"cat": "cielo", "name": "Piovoso", "rar": 0, "dom": 2, "good": true,
 		"desc": "piove spesso: pozze, orti rigogliosi e temporali", "run": {"rain": 3.0}},

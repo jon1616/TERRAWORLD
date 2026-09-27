@@ -151,10 +151,11 @@ func _bow(it: Dictionary, st: Dictionary, use: String, active: bool, dt: float, 
 	# un po' di anticipo sulla caduta, così il dardo va dove si mira anche lontano
 	var flight := d.length() / DART_SPEED
 	var v := d.normalized() * DART_SPEED
-	v.y -= 0.5 * DART_GRAV * minf(flight, 0.8)
+	var dg := DART_GRAV * Creature.grav           # voce 76: in un mondo leggero il dardo cade meno
+	v.y -= 0.5 * dg * minf(flight, 0.8)
 	var n := int(it.get("multishot", 1))       # l'Arco iridato tira più dardi a ventaglio con un dardo solo
 	for k in n:
-		shots.fire(from + d.normalized() * 8.0, v.rotated((k - (n - 1) / 2.0) * 0.12), DART_GRAV, dmg, true,
+		shots.fire(from + d.normalized() * 8.0, v.rotated((k - (n - 1) / 2.0) * 0.12), dg, dmg, true,
 				float(st["knockback"]) / 3.0, {"pierce": int(st["pierce"]), "elem": String(st["elem"])})
 
 

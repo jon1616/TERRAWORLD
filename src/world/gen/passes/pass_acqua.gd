@@ -15,6 +15,7 @@ func title() -> String:
 
 
 func run(w: World, c: GenContext) -> void:
+	_chasms(w, c)
 	if bool(c.params.get("giardino", false)):
 		return
 	var g := c.genes()
@@ -106,3 +107,12 @@ static func _sea(w: World) -> void:
 				w.set_liq(x, y, 8, LiquidsData.ACQUA)
 			elif y > w.surface[x] + 2:
 				break                                         # sotto il fondo solo le grotte che si aprono sul mare
+
+
+## Voce 76: il fondo delle voragini dell'Arcipelago è un lago (chi ci cade non si ferisce).
+func _chasms(w: World, c: GenContext) -> void:
+	for a in c.notes.get("abissi", []):
+		for x in range(int(a[0]) + 5, int(a[1]) - 5):
+			for y in range(w.surface[x] - 4, w.surface[x]):
+				if w.inside(x, y) and not w.solid(x, y):
+					w.set_liq(x, y, 8, LiquidsData.ACQUA)
