@@ -1672,14 +1672,14 @@ forti), Totem della radice pura (niente Avvizzimento ma niente crescita). Due to
 in `CompactArt._totem`; `verifica_dati` accetta le stazioni con la provenienza scritta. Capitolo nell'Enciclopedia.
 Prove `--solo=totem` (foto 154_totem).
 
-## 88. [x] Le trappole (M) — fatto il 27 set 2026
+## 88. [x] Le trappole (M) — fatto il 28 set 2026
 Pezzi da costruire che feriscono le creature (e, se sbadati, il Germogliato): **spuntoni** (a terra, a parete, al
 soffitto), **lame rotanti**, **rune** (una scarica per elemento: brace, gelo, spore, Vuoto), **presse** di pietra,
 **getti** di brace o d'acqua, **reti** che bloccano. Si attivano da sole (piastre, sensori di passaggio, tempo) o con
 le leve dei Seminatori (voce 71). Gradi dai materiali, elemento che si somma alle debolezze delle creature. Con i
 liquidi (voce 74) e le correnti d'aria nascono combinazioni.
 **Pronto quando**: con le trappole si difende la casa e si costruisce un corridoio che sconfigge le creature da solo.
-Fatto il 27 set 2026: `TrapsData` (10 tipi × 3 gradi: spuntoni, lama rotante, quattro rune elementali, pressa di
+Fatto il 28 set 2026: `TrapsData` (10 tipi × 3 gradi: spuntoni, lama rotante, quattro rune elementali, pressa di
 pietra, getti di brace e d'acqua, rete di radici; area cella/attorno/sotto/linea, attesa per creatura) e `Traps`
 (colpi da soli entro 70 tessere dal giocatore, con elementi, debolezze e reazioni di `Elements`, lo Stendardo di
 guardia, gelo e spinta; bottino normale con `Fauna.kill`; spuntoni, lama e pressa feriscono anche il Germogliato;
@@ -1688,7 +1688,7 @@ pareti e soffitti; la **Leva delle trappole** ferma o arma quelle entro 10 tesse
 capitolo dell'Enciclopedia con il catalogo, prove `--solo=trappole` (foto 155). Le piastre e i sensori sono le aree
 stesse delle trappole; le combinazioni con i liquidi passano dal getto d'acqua e dalle reazioni degli elementi.
 
-## 89. [x] Farm automatiche: esche e raccoglitori (M) — fatto il 27 set 2026
+## 89. [x] Farm automatiche: esche e raccoglitori (M) — fatto il 28 set 2026
 Le regole di comparsa diventano **chiare e scritte** (Enciclopedia: buio, distanza dalle torce e dalla visuale,
 superficie adatta, tetto per zona, strato e bioma), e il giocatore riceve i pezzi per sfruttarle: **esche** (totem che
 chiamano una famiglia o uno strato in una zona, anche lontano dalla visuale entro un raggio), **raccoglitori** (una
@@ -1698,7 +1698,7 @@ farm già pronte, un tetto di rendita per zona perché resti un gioco e non un m
 Obiettivi e un capitolo dell'Enciclopedia con i principi (non le soluzioni).
 **Pronto quando**: un giocatore costruisce una farm di una creatura scelta che raccoglie il bottino in una cassa mentre
 lui esplora altrove (la farm lavora se il suo blocco è caricato: vicino, o tenuto vivo da un totem apposito).
-Fatto il 27 set 2026: `FarmData` e `Farms`. **Esche** (tre gradi, una casella): ci si posa un pezzo di bottino e
+Fatto il 28 set 2026: `FarmData` e `Farms`. **Esche** (tre gradi, una casella): ci si posa un pezzo di bottino e
 chiamano le specie che lo lasciano, se vivono in quello strato e bioma (e di notte, se escono solo di notte), al buio,
 lontano da torce e dal giocatore; tetto di creature per esca, un'esca consumata ogni poche chiamate; la scheda dice chi
 chiama e perché no. **Tramogge** (casse che aspirano gli oggetti caduti), **nastri di radici** (spingono gli oggetti,
@@ -1707,7 +1707,7 @@ lontano: `Fauna.keep_alive`). **Tetto di rendita** per zona di 64 tessere (60 cr
 un Lumino: `Fauna.loot_gate`). Capitolo «Le farm» con le regole di nascita scritte dai dati e i principi, due obiettivi,
 disegni in `FarmArt`, schede in `FarmInfo`, prove `--solo=farm` (foto 156).
 
-## 90. [x] Il volo (M) — fatto il 27 set 2026
+## 90. [x] Il volo (M) — fatto il 28 set 2026
 Ali e mantelli con quattro valori: **velocità**, **salita**, **autonomia** (una barra che si consuma volando e si
 ricarica a terra) e **ricarica**. **Già a metà gioco** (scelta dell'utente) con **ali deboli, paragonabili a lunghi
 salti** (Ali di foglia: poca salita, autonomia breve); poi gradi dai materiali e dai biomi (ali di brina, di brace,
@@ -1715,7 +1715,7 @@ di Vuoto, stellari) e unici con effetti propri. Si lega alle leggi dei mondi: il
 allunga il volo, nel Guscio c'è il tetto, le correnti ricaricano. Le pose del Germogliato in volo.
 **Pronto quando**: il volo cresce da un lungo salto a metà gioco a un vero volo nel fine gioco, e non rende inutili
 rampino, planata e correnti.
-Fatto il 27 set 2026: `FlightData` (5 paia di ali nel posto del mantello: foglia, brina, brace, Vuoto, stellari, con
+Fatto il 28 set 2026: `FlightData` (5 paia di ali nel posto del mantello: foglia, brina, brace, Vuoto, stellari, con
 salita, autonomia, velocità e ricarica; le Ali del Vuoto nascono sia da quelle di brina sia da quelle di brace) e
 `Flight` (legge le ali indossate, le disegna dietro il Germogliato, chiuse o che battono, e la barra dell'autonomia
 sopra la testa). Il volo in `Player._step`: tenendo Salto dopo il salto le ali sollevano finché dura la barra, che
@@ -1724,14 +1724,14 @@ torna a terra e il doppio nelle correnti; il vento porta chi vola; in un mondo l
 della planata che batte in volo. Scheda con i quattro valori, capitolo «Il volo», prove `--solo=volo` (foto 157). Gli
 unici con effetti propri arrivano con la voce 98.
 
-## 91. [x] Il bioma come dato (M) — fondamenta dei biomi — fatto il 27 set 2026
+## 91. [x] Il bioma come dato (M) — fondamenta dei biomi — fatto il 28 set 2026
 Oggi un bioma nuovo tocca molti file (tessere, tavolozze, alberi, vegetazione, creature, oggetti, geni). Si porta
 tutto in **un file per bioma** (o una voce di dati): terreno e tavolozza, erba, specie d'albero, vegetazione, cielo,
 musica o sottofondo, famiglie di creature, materiali, set, oggetto unico, gene e Fiala; il codice legge. Anche i
 biomi del sottosuolo passano allo stesso formato. `tools/biomi.gd` fa il foglio di tutti i biomi (terreno, alberi,
 creature) per il controllo a occhio.
 **Pronto quando**: aggiungere un bioma è scrivere un file di dati e i suoi disegni, senza toccare il resto.
-Fatto il 27 set 2026: **un file per bioma** in `src/data/biomes/` (foresta, palude, ambra, brina, cenere), letti da
+Fatto il 28 set 2026: **un file per bioma** in `src/data/biomes/` (foresta, palude, ambra, brina, cenere), letti da
 `BiomesData.FILES`: terreno, erba (tessera, nome, strato, tavolozza, trama), specie d'albero (`TreesData.SPECIES` ora
 nasce da qui), vegetazione (`veg`: tabella di piante letta da `PassDecorazioni`), decorazioni proprie con luce e
 «morbidezza», elemento delle varianti (`Fauna.elem_bias`), tempi del bioma (`Weather`, con `senza_bioma` in
@@ -1742,13 +1742,13 @@ funzione di costruzione, pavimento), con il catalogo nell'Enciclopedia. `tools/b
 alberi, piante e creature di ogni bioma); `verifica_dati` controlla i file dei biomi. I mondi escono identici a prima
 (stesse mappe, pixel per pixel).
 
-## 92. [x] Biomi nuovi, primo ciclo: le terre temperate (L) — fatto il 27 set 2026
+## 92. [x] Biomi nuovi, primo ciclo: le terre temperate (L) — fatto il 28 set 2026
 Quattro biomi di superficie (per esempio: prati di vento, foreste di corteccia rossa, colline di funghi bassi,
 torbiere di Linfa), ognuno con 2-3 famiglie di creature nuove (con le varianti), materiali, un set, un oggetto unico,
 un gene di superficie e il posto nei Semi. Ogni nome è dell'universo (UNIVERSO.md).
 **Pronto quando**: `tools/mappe.gd -- --caso` misura mondi più vari di prima, e ogni bioma ha qualcosa che si trova
 solo lì.
-Fatto il 27 set 2026: quattro biomi nuovi, **ognuno tutto nel suo file** (il formato della voce 91 esteso con il
+Fatto il 28 set 2026: quattro biomi nuovi, **ognuno tutto nel suo file** (il formato della voce 91 esteso con il
 **pacchetto**: creature con la ricetta del disegno, debolezze e trofeo, famiglie, bottino, oggetti e ricette, set,
 gene di superficie con il Seme, paesaggi dei nomi, `fauna` = creature già esistenti che vivono anche lì; le tabelle
 comuni li uniscono: `CreaturesData`, `LootData`, `ElementsData`, `FamiliesData`, `TrophyItemsData`, `GenesData`,
