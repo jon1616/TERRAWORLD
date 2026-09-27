@@ -195,6 +195,10 @@ const LIST := [
 		"reward": {"linfa_antica": 2}},
 	{"id": "geni_25", "text": "Impara 25 geni", "check": {"stat": "geni_imparati", "n": 25},
 		"reward": {"linfa_antica": 4}},
+	{"id": "trappole_25", "text": "Abbatti 25 creature con le trappole", "check": {"stat": "prede_trappole", "n": 25},
+		"reward": {"esca": 1, "nastro": 6}},
+	{"id": "tramoggia_200", "text": "Fai raccogliere 200 oggetti a una Tramoggia", "check": {"stat": "tramoggia", "n": 200},
+		"reward": {"radice_ancora": 1}},
 	{"id": "firme_5", "text": "Trova le firme di cinque mondi", "check": {"stat": "firme", "n": 5},
 		"reward": {"linfa_antica": 3}},
 ]

@@ -36,8 +36,8 @@ func stats() -> Dictionary:
 
 
 ## Aggiunge 1 a un conteggio del personaggio (scrigni aperti, viaggi…).
-func bump(stat: String) -> void:
-	stats()[stat] = int(stats().get(stat, 0)) + 1
+func bump(stat: String, n := 1) -> void:
+	stats()[stat] = int(stats().get(stat, 0)) + n
 	bumped.emit(stat)                          # voce 83: il diario della partita scrive le prime volte
 
 

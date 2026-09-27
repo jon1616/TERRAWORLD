@@ -22,6 +22,9 @@ static func card(m: Node2D, o: Vector2i, id: String) -> TipCard:
 	var c := TipCard.new()
 	var item := String(sd.get("item", ""))
 	c.title(String(sd.get("name", id)), Color("#e0b878"), item if ItemsData.get_item(item).has("name") else null)
+	if FarmData.is_bait(id) or id == "radice_ancora" or id.begins_with("nastro_") or FarmData.is_hopper(id):
+		FarmInfo.card(m, c, o, id)                        # voce 89: le farm
+		return c
 	if id in CHESTS or ChestsData.is_chest(id):
 		return _chest(m, c, o, id)
 	if id.begins_with("braciere") or id.begins_with("leva") or id.begins_with("piastra") or id.begins_with("cristallo_eco"):

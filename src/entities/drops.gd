@@ -104,3 +104,31 @@ func _process(dt: float) -> void:
 		if float(d["t"]) > LIFE:
 			sp.queue_free()
 			_items.remove_at(i)
+
+
+## Voce 89, i nastri: gli oggetti dentro il rettangolo scivolano a questa velocità.
+func push(r: Rect2, vx: float) -> void:
+	for d in _items:
+		if r.has_point((d["node"] as Node2D).position):
+			var v: Vector2 = d["vel"]
+			d["vel"] = Vector2(vx, v.y)
+			d["rest"] = false
+
+
+## Voce 89, le tramogge: gli oggetti entro `r` pixel entrano nel contenitore (se c'è posto). Quanti ne sono entrati.
+func pull_into(pos: Vector2, r: float, bag: Bisaccia) -> int:
+	var got := 0
+	for i in range(_items.size() - 1, -1, -1):
+		var d: Dictionary = _items[i]
+		var sp: Sprite2D = d["node"]
+		if sp.position.distance_to(pos) > r:
+			continue
+		var n: int = d["n"]
+		var left := bag.add_stack({"id": d["id"], "n": n, "dati": d["dati"]}) if d.has("dati") else bag.add(d["id"], n)
+		got += n - left
+		if left <= 0:
+			sp.queue_free()
+			_items.remove_at(i)
+		else:
+			d["n"] = left
+	return got

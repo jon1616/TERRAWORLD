@@ -139,6 +139,24 @@ static func inline(key: String) -> String:
 				rows.append(_b(String(pd["name"]), "%s · nei mondi con %s · %s" % [pd["banner"], " o ".join(gn),
 					"in superficie" if pd.get("surface", false) else "nello strato «%s»" % StrataData.STRATA[int(pd["strata"][0])]["name"]],
 					String(pd["color"])))
+		"cat_regole_nascita":
+			rows.append(_b("Lontano da te", "fuori dalla visuale: tra %d e %d tessere (le esche: almeno %d)" % [
+				int(DangerData.SPAWN_MIN), int(DangerData.SPAWN_MAX), FarmData.AWAY], "#8ef0d8"))
+			rows.append(_b("Lontano dalle torce", "nessuna nasce entro %d tessere da una torcia" % int(FarmData.TORCH), "#ffd24a"))
+			rows.append(_b("Al buio sotto terra", "sotto la Superficie si nasce solo dove la luce è sotto il %d%%" % roundi(DangerData.DARK * 100.0), "#b070f0"))
+			rows.append(_b("Con i piedi per terra", "chi non vola ha bisogno di due tessere d'aria e del pavimento", "#c8c0b0"))
+			rows.append(_b("Strato e bioma", "ogni creatura ha i suoi strati; in superficie anche i suoi biomi, e alcune solo di notte", "#7ed67a"))
+			rows.append(_b("Un tetto per zona", "più il posto è pericoloso, più creature insieme e più in fretta; il Totem della quiete le ferma", "#ff8a6a"))
+		"cat_farm":
+			for id in FarmData.BAITS:
+				var b: Dictionary = FarmData.BAITS[id]
+				rows.append(_b(String(b["name"]), "chiama chi lascia l'oggetto posato: entro %d tessere, una ogni %d s, al più %d insieme, un'esca ogni %d chiamate" % [
+					int(b["r"]), int(b["every"]), int(b["cap"]), int(b["per"])], "#ffb070"))
+			for id in FarmData.HOPPERS:
+				var h: Dictionary = FarmData.HOPPERS[id]
+				rows.append(_b(String(h["name"]), "una cassa da %d caselle che aspira gli oggetti entro %d tessere" % [int(h["slots"]), int(h["r"])], "#e0c080"))
+			rows.append(_b("Nastro di radici", "spinge gli oggetti caduti; clic destro cambia verso", "#c8a070"))
+			rows.append(_b("Radice-ancora", "entro %d tessere la farm lavora anche quando sei lontano" % FarmData.ANCHOR_R, "#8ef0d8"))
 		"cat_trappole":
 			for t in TrapsData.TYPES:
 				var td: Dictionary = TrapsData.TYPES[t]

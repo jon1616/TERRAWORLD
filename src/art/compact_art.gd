@@ -43,6 +43,8 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 			_reliquiario(im, gm, w, h)
 		"arena":
 			_arena(im, gm, w, h)
+		"esca", "esca_legnoferro", "esca_ambra", "tramoggia", "tramoggia_ambra", "radice_ancora", "nastro_dx", "nastro_sx":
+			FarmArt.draw(id, im, gm, w, h)
 		_ when TrapsData.is_trap(id):
 			_trap(im, gm, w, h, TrapsData.info(id))
 		_ when ZonesData.is_totem(id):

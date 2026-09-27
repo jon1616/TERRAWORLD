@@ -205,6 +205,8 @@ func run(main: Node2D) -> void:
 	_mark("TestsZones")
 	await TestsTraps.new(kit).run()
 	_mark("TestsTraps")
+	await TestsFarms.new(kit).run()
+	_mark("TestsFarms")
 	await ob.run()
 	_mark("ob.run")
 	await w.run_and_save()
@@ -325,6 +327,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsZones.new(kit).run()
 		"trappole":
 			await TestsTraps.new(kit).run()
+		"farm":
+			await TestsFarms.new(kit).run()
 		"base":
 			# 28 set 2026: il cuore del gioco in ~2 minuti (il giro intero ne dura 8-9): mondo, alberi, creazione,
 			# Vita, movimento a 60 e 144 fotogrammi, combattimento, corsa, salvataggio e ricarica

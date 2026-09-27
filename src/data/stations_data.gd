@@ -76,6 +76,15 @@ const STATIONS := {
 	"totem_antico_stirpi": {"name": "Altare antico delle stirpi", "size": [1, 2], "item": "totem_antico_stirpi", "light": true, "light_color": Color(0.5, 0.45, 0.2)},
 	"leva_trappole": {"name": "Leva delle trappole (giù: ferme)", "size": [1, 1], "item": "leva_trappole"},
 	"leva_trappole_su": {"name": "Leva delle trappole (su: armate)", "size": [1, 1], "item": "leva_trappole"},
+	# voce 89: le farm (esche, tramogge, Radice-ancora, nastri; dati in `FarmData`, regole in `Farms`)
+	"esca": {"name": "Esca di radice", "size": [1, 1], "item": "esca", "slots": 1, "light": true, "light_color": Color(0.5, 0.35, 0.2)},
+	"esca_legnoferro": {"name": "Esca di legnoferro", "size": [1, 1], "item": "esca_legnoferro", "slots": 1, "light": true, "light_color": Color(0.5, 0.35, 0.2)},
+	"esca_ambra": {"name": "Esca d'ambra", "size": [1, 1], "item": "esca_ambra", "slots": 1, "light": true, "light_color": Color(0.5, 0.35, 0.2)},
+	"tramoggia": {"name": "Tramoggia di radice", "size": [1, 1], "item": "tramoggia", "slots": 20},
+	"tramoggia_ambra": {"name": "Tramoggia d'ambra", "size": [1, 1], "item": "tramoggia_ambra", "slots": 40},
+	"radice_ancora": {"name": "Radice-ancora", "size": [1, 2], "item": "radice_ancora", "light": true, "light_color": Color(0.25, 0.5, 0.45)},
+	"nastro_dx": {"name": "Nastro di radici (verso destra)", "size": [1, 1], "item": "nastro"},
+	"nastro_sx": {"name": "Nastro di radici (verso sinistra)", "size": [1, 1], "item": "nastro"},
 	# voce 88: le trappole (tipo × grado; i dati in `TrapsData`, le regole in `Traps`)
 	"trappola_spuntoni_1": {"name": "Spuntoni", "size": [1, 1], "item": "trappola_spuntoni_1"},
 	"trappola_spuntoni_2": {"name": "Spuntoni di legnoferro", "size": [1, 1], "item": "trappola_spuntoni_2"},

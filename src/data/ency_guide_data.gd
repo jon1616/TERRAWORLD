@@ -128,6 +128,14 @@ Un [b]Focolare[/b] con un Letto di foglie libero vicino chiama un [url=cap:abita
 Le casse hanno dei [b]gradi[/b]: più il materiale è raro, più caselle. Le prime si fanno al Ceppo, le altre al Maglio; gli scrigni dei Seminatori si trovano soltanto, pieni, nelle rovine (più grandi più si scende) e, vuoti, si portano via e si riusano.
 {cat_casse}
 Quanti oggetti uguali stanno in una casella lo decidi nelle [url=cap:opzioni]Opzioni[/url] (Gioco → Grandezza delle pile): da un quarto del normale fino a pile infinite."""},
+	{"id": "farm", "group": "Scavare e costruire", "name": "Le farm", "text":
+"""Una [b]farm[/b] è un posto costruito da te dove le creature nascono, cadono nelle [url=cap:trappole]trappole[/url] e il loro bottino finisce in una cassa, mentre tu fai altro. Nessuna farm è già pronta: i pezzi sono questi, il progetto è tuo.
+[b]Come nascono le creature[/b] (le regole di sempre, che valgono anche per le esche):
+{cat_regole_nascita}
+[b]I pezzi[/b]
+{cat_farm}
+[b]Principi[/b]: un'esca chiama solo chi [i]vive[/i] lì (lo strato, il bioma, la notte); una creatura cade meglio in un corridoio stretto che in una grande grotta; la spinta di un getto d'acqua porta le creature sulle trappole; i nastri portano il bottino alla tramoggia; una Leva delle trappole ti lascia entrare a raccogliere. Posandoci il mouse, un'esca ti dice chi chiama e perché no.
+[b]Il tetto di rendita[/b]: in ogni zona di {farm_zona} tessere, al più {farm_tetto} creature chiamate lasciano bottino ogni {farm_minuti} minuti; oltre, la zona è [i]stanca[/i] e lasciano solo un Lumino. Più farm in zone diverse rendono di più di una farm enorme."""},
 	{"id": "trappole", "group": "Scavare e costruire", "name": "Le trappole", "text":
 """Le [b]trappole[/b] sono piccole stazioni che colpiscono da sole chi entra nella loro area: tu non devi esserci. Le creature che abbattono lasciano il loro bottino come se le avessi sconfitte tu, ed è così che nascono le farm.
 Ogni trappola aspetta un po' prima di colpire di nuovo la [b]stessa[/b] creatura, quindi più trappole in fila fanno più danno di una sola. I [b]gradi[/b] (Ceppo con la radicite, poi Maglio con legnoferro e ambra) moltiplicano danno ed effetti.

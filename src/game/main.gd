@@ -76,6 +76,7 @@ var summons: Summons
 var effects: Effects
 var zones: Zones
 var traps: Traps
+var farms: Farms
 var board: Board
 var storage: Storage
 var herd: Herd
@@ -327,6 +328,7 @@ func _build() -> void:
 	effects = _mount(Effects.new())        # voce 85: gli effetti speciali degli oggetti
 	zones = _mount(Zones.new())            # voce 87: totem, stendardi e altari
 	traps = _mount(Traps.new())            # voce 88: le trappole
+	farms = _mount(Farms.new())            # voce 89: le farm automatiche
 	diary = _mount(Diary.new())            # voce 83: il diario della partita
 	hud.panel.quick_stack = storage.quick_stack
 	hud.panel._toast = hud.toast

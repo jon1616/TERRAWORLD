@@ -16,7 +16,7 @@ const LABEL_REACH := 18                # tessere: si vede il nome delle casse
 
 ## Le casse del gioco (le altre stazioni con caselle: la creazione non tocca da sé la mangiatoia e l'Incubatrice).
 const DEFAULT_CRAFT := {"cesta": true, "scrigno": true, "reliquiario": true, "recinto": false, "incubatrice": false}
-const NO_SETTINGS := ["fagotto"]
+const NO_SETTINGS := ["fagotto", "esca", "esca_legnoferro", "esca_ambra"]   # le esche non sono dispense
 
 ## I tipi, nell'ordine del menu. kinds = tipi di oggetto di `ItemsData`; prefix = inizio dell'id.
 const CATEGORIES := [

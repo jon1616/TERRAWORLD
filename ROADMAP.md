@@ -1688,7 +1688,7 @@ pareti e soffitti; la **Leva delle trappole** ferma o arma quelle entro 10 tesse
 capitolo dell'Enciclopedia con il catalogo, prove `--solo=trappole` (foto 155). Le piastre e i sensori sono le aree
 stesse delle trappole; le combinazioni con i liquidi passano dal getto d'acqua e dalle reazioni degli elementi.
 
-## 89. [ ] Farm automatiche: esche e raccoglitori (M)
+## 89. [x] Farm automatiche: esche e raccoglitori (M) — fatto il 27 set 2026
 Le regole di comparsa diventano **chiare e scritte** (Enciclopedia: buio, distanza dalle torce e dalla visuale,
 superficie adatta, tetto per zona, strato e bioma), e il giocatore riceve i pezzi per sfruttarle: **esche** (totem che
 chiamano una famiglia o uno strato in una zona, anche lontano dalla visuale entro un raggio), **raccoglitori** (una
@@ -1698,6 +1698,14 @@ farm già pronte, un tetto di rendita per zona perché resti un gioco e non un m
 Obiettivi e un capitolo dell'Enciclopedia con i principi (non le soluzioni).
 **Pronto quando**: un giocatore costruisce una farm di una creatura scelta che raccoglie il bottino in una cassa mentre
 lui esplora altrove (la farm lavora se il suo blocco è caricato: vicino, o tenuto vivo da un totem apposito).
+Fatto il 27 set 2026: `FarmData` e `Farms`. **Esche** (tre gradi, una casella): ci si posa un pezzo di bottino e
+chiamano le specie che lo lasciano, se vivono in quello strato e bioma (e di notte, se escono solo di notte), al buio,
+lontano da torce e dal giocatore; tetto di creature per esca, un'esca consumata ogni poche chiamate; la scheda dice chi
+chiama e perché no. **Tramogge** (casse che aspirano gli oggetti caduti), **nastri di radici** (spingono gli oggetti,
+clic destro cambia verso), **Radice-ancora** (entro 24 tessere creature, trappole, esche e tramogge lavorano anche da
+lontano: `Fauna.keep_alive`). **Tetto di rendita** per zona di 64 tessere (60 creature chiamate ogni 10 minuti, poi solo
+un Lumino: `Fauna.loot_gate`). Capitolo «Le farm» con le regole di nascita scritte dai dati e i principi, due obiettivi,
+disegni in `FarmArt`, schede in `FarmInfo`, prove `--solo=farm` (foto 156).
 
 ## 90. [ ] Il volo (M)
 Ali e mantelli con quattro valori: **velocità**, **salita**, **autonomia** (una barra che si consuma volando e si

@@ -94,7 +94,7 @@ func _process(dt: float) -> void:
 	var pp: Vector2 = m.player.position
 	for e in list:
 		var o: Vector2i = e[0]
-		if (e[3] as Vector2).distance_to(pp) > REACH or not armed(o):
+		if ((e[3] as Vector2).distance_to(pp) > REACH and not (m.farms != null and m.farms.anchored(e[3]))) or not armed(o):
 			continue
 		var td: Dictionary = TrapsData.TYPES[e[1]]
 		var box := area(o, td)

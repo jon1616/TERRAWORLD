@@ -206,6 +206,8 @@ func touch(c: Vector2i) -> bool:
 		return m.traps.toggle(o)                         # voce 88: disarma e riarma
 	if id.begins_with("leva_trappole"):
 		return m.traps.lever(o)
+	if id.begins_with("nastro_"):
+		return m.farms.flip_belt(o)                      # voce 89
 	match id:
 		"maglio":
 			m.vigor.temper_hand()                        # voce 79: la tempra

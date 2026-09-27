@@ -20,6 +20,8 @@ var vigor := 1                         # vigore del mondo (voce 12)
 var vigor_mult := 1.0                  # creature più forti nei mondi oltre i portali
 var zone_mult: Callable                # voce 87: (punto, chiave) -> moltiplicatore dei totem (`Zones.mult_at`)
 var zone_add: Callable                 # voce 87: (punto, chiave) -> aggiunta dei totem (`Zones.add_at`)
+var keep_alive: Callable               # voce 89: (punto) -> vero se una Radice-ancora lo tiene vivo (`Farms.anchored`)
+var loot_gate: Callable                # voce 89: (creatura) -> 1 o 0 giri di bottino (il tetto di rendita delle farm)
 var quiet_c := Vector2i(-1, -1)        # voce 84: il Cerchio dei Seminatori durante uno scontro (niente nascite attorno)
 var grade := 0                         # voce 79: il grado del mondo (vigore / 5), le indoli nuove (lo imposta `Vigor`)
 var force_ancient := false             # voce 82: la sfida «Solo antiche»
@@ -183,6 +185,13 @@ func kill(c: Creature) -> void:
 		killed.emit(c)
 		c.queue_free()
 		return
+	if loot_gate.is_valid() and int(loot_gate.call(c)) <= 0:
+		# voce 89: una zona «stanca» di farm: solo un Lumino
+		drops.spawn("lumino", 1, c.position)
+		Fx.puff(self, c.position, Color(0.9, 0.9, 0.9))
+		killed.emit(c)
+		c.queue_free()
+		return
 	# bottino: più giri per le rare e con la Fortuna, e un'Essenza per ogni tratto di una creatura antica
 	var rolls := 1
 	if c.ancient:
@@ -250,7 +259,8 @@ func _process(dt: float) -> void:
 		var c := list[i]
 		if c.boss:
 			continue                           # i Guardiani non spariscono
-		if c.position.distance_to(player.position) > CreaturesData.DESPAWN * S or c.position.y > world.h * S:
+		if c.position.y > world.h * S or (c.position.distance_to(player.position) > CreaturesData.DESPAWN * S
+				and not (keep_alive.is_valid() and keep_alive.call(c.position))):   # voce 89: la Radice-ancora
 			c.queue_free()
 			list.remove_at(i)
 	# le creature Luminose fanno luce attorno a sé
