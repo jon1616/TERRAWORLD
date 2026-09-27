@@ -270,6 +270,9 @@ def main() -> None:
     ap.add_argument("--colori", type=int, default=12, help="colori per ogni pezzo")
     ap.add_argument("--misure", default="", help="misure dell'anteprima, es. 12,16,20 (vuoto = solo --lato)")
     ap.add_argument("--griglia", default="", help="colonne x righe, es. 6x3: unisce i pezzi di ogni cella")
+    ap.add_argument("--desatura", default="",
+                    help="pezzi da rendere tutti grigi (nomi separati da virgole): le forme che Nano Banana colora "
+                         "anche se gli si chiede il grigio (l'amuleto marrone), perché il gioco le colori col materiale")
     ap.add_argument("--pieno", type=float, default=0.45,
                     help="quota di figura per tenere un pixel: meno (0.25) tiene le aste sottili delle armi")
     ap.add_argument("--dettagli", type=float, default=0.0,
@@ -296,6 +299,12 @@ def main() -> None:
         f[~m, 3] = 0.0
         f = pixela.ritaglia(f)
         figure.append(f)
+    grigi = {n.strip() for n in args.desatura.split(",") if n.strip()}
+    for i, nome in enumerate(nomi[:len(figure)]):
+        if nome in grigi:
+            f = figure[i]
+            lum = f[:, :, :3] @ np.array([0.3, 0.59, 0.11])
+            f[:, :, :3] = lum[:, :, None]
     if not args.tieni_contorno:
         sp = spessore_contorno(figure)
         figure = [togli_contorno(f, sp) for f in figure]
