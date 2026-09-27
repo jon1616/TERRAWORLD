@@ -237,7 +237,7 @@ func _station_sheet() -> void:
 		var r := StationArt.make(String(ids[i]))
 		var im: Image = r["img"]
 		im.blend_rect(r["glow"], Rect2i(Vector2i.ZERO, im.get_size()), Vector2i.ZERO)
-		var sc := mini(3, mini((cell.x - 8) / im.get_width(), (cell.y - 8) / im.get_height()))
+		var sc := maxi(1, mini(3, mini((cell.x - 8) / im.get_width(), (cell.y - 8) / im.get_height())))   # le più larghe restano 1:1
 		im.resize(im.get_width() * sc, im.get_height() * sc, Image.INTERPOLATE_NEAREST)
 		sheet.blend_rect(im, Rect2i(Vector2i.ZERO, im.get_size()), Vector2i((i % cols) * cell.x + 4, (i / cols) * cell.y + 4))
 	sheet.save_png(ProjectSettings.globalize_path("res://prove/stazioni.png"))

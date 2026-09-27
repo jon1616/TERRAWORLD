@@ -39,6 +39,15 @@ static func card(m: Node2D, o: Vector2i, id: String) -> TipCard:
 		c.line(Zones.describe(id), TipCard.GOLD)          # voce 87
 		c.hint("Con un totem in mano si vedono i raggi")
 		return c
+	if id.begins_with("leva_trappole"):
+		c.line("Le trappole entro %d tessere: %s" % [TrapsData.LEVER_R, "armate" if id.ends_with("_su") else "ferme"], TipCard.GOLD)
+		c.hint("Clic destro: gira la leva")
+		return c
+	if TrapsData.is_trap(id):
+		c.line(Traps.describe(id), TipCard.GOLD)          # voce 88
+		c.line("Armata" if m.traps.armed(o) else "Disarmata", TipCard.GOOD if m.traps.armed(o) else Color("#ff8a6a"))
+		c.hint("Clic destro: disarma o riarma · con una trappola in mano si vedono le aree")
+		return c
 	if id == "maglio":
 		c.line(m.vigor.hint(), TipCard.GOLD)             # voce 79
 		c.hint("Clic destro con un attrezzo in mano: tempra")

@@ -128,6 +128,12 @@ Un [b]Focolare[/b] con un Letto di foglie libero vicino chiama un [url=cap:abita
 Le casse hanno dei [b]gradi[/b]: più il materiale è raro, più caselle. Le prime si fanno al Ceppo, le altre al Maglio; gli scrigni dei Seminatori si trovano soltanto, pieni, nelle rovine (più grandi più si scende) e, vuoti, si portano via e si riusano.
 {cat_casse}
 Quanti oggetti uguali stanno in una casella lo decidi nelle [url=cap:opzioni]Opzioni[/url] (Gioco → Grandezza delle pile): da un quarto del normale fino a pile infinite."""},
+	{"id": "trappole", "group": "Scavare e costruire", "name": "Le trappole", "text":
+"""Le [b]trappole[/b] sono piccole stazioni che colpiscono da sole chi entra nella loro area: tu non devi esserci. Le creature che abbattono lasciano il loro bottino come se le avessi sconfitte tu, ed è così che nascono le farm.
+Ogni trappola aspetta un po' prima di colpire di nuovo la [b]stessa[/b] creatura, quindi più trappole in fila fanno più danno di una sola. I [b]gradi[/b] (Ceppo con la radicite, poi Maglio con legnoferro e ambra) moltiplicano danno ed effetti.
+{cat_trappole}
+Le rune e il getto di brace colpiscono con un [url=cap:elementi]elemento[/url]: debolezze e reazioni valgono anche qui, e uno Stendardo di guardia vicino fa più male. Il getto d'acqua quasi non ferisce ma [b]spinge[/b]: serve a portare le creature dove vuoi. Spuntoni, lama e pressa feriscono anche te se ci passi sopra: con il clic destro una trappola si [b]disarma[/b] e si riarma. Con una trappola in mano si vedono le aree di quelle vicine (in rosso le disarmate).
+Una trappola si appoggia a terra, a una parete o al soffitto. La [b]Leva delle trappole[/b] ferma o arma insieme tutte quelle entro 10 tessere: comoda per entrare nella propria farm a raccogliere."""},
 	{"id": "totem", "group": "Scavare e costruire", "name": "Totem, stendardi e altari", "text":
 """Alcune stazioni non servono a fabbricare: cambiano la [b]zona[/b] attorno a sé. Ogni tipo dà il suo effetto in un raggio; i [b]gradi[/b] (Ceppo con la radicite, poi Maglio con legnoferro e ambra) allargano il raggio e rafforzano l'effetto. Con un totem in mano si vedono i raggi di quelli già piazzati e di quello nuovo.
 Due totem dello stesso tipo [b]non si sommano[/b]: dove si sovrappongono vale il più forte. Tipi diversi, invece, lavorano insieme.

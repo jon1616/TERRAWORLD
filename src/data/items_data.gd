@@ -290,6 +290,7 @@ static func all() -> Dictionary:
 	out.merge(UniquesData.ITEMS.duplicate(true))           # voce 85 e 98: gli oggetti unici
 	out.merge(JewelsData.items())                          # voce 86: amuleti e anelli
 	out.merge(ZonesData.items())                           # voce 87: totem, stendardi e altari
+	out.merge(TrapsData.items())                           # voce 88: le trappole
 	# le famiglie di equipaggiamento: forma × materiale (voce 49, `FormsData` e `MaterialsData`)
 	for m in MaterialsData.all():
 		for f in FormsData.FORMS:

@@ -16,7 +16,6 @@ func setup(main: Node2D) -> void:
 	m = main
 	z_as_relative = false
 	z_index = 22                           # sopra la luce: i raggi si vedono anche al buio
-	m.view.add_child.call_deferred(self)
 	m.fauna.zone_mult = mult_at
 	m.fauna.zone_add = add_at
 	rebuild()

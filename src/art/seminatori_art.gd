@@ -12,8 +12,8 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 			_leggio(im, gm, w, h)
 		"braciere", "braciere_acceso":
 			_braciere(im, gm, id == "braciere_acceso")
-		"leva", "leva_su":
-			_leva(im, gm, id == "leva_su")
+		"leva", "leva_su", "leva_trappole", "leva_trappole_su":
+			_leva(im, gm, id.ends_with("_su"))
 		"piastra", "piastra_premuta":
 			_piastra(im, gm, id == "piastra_premuta")
 		"cristallo_eco", "cristallo_eco_desto":

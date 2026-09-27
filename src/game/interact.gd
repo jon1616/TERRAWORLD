@@ -202,6 +202,10 @@ func touch(c: Vector2i) -> bool:
 				m.world_meta["scrigni_aperti"] = opened
 				m.objectives.bump("scrigni")
 		return true
+	if TrapsData.is_trap(id):
+		return m.traps.toggle(o)                         # voce 88: disarma e riarma
+	if id.begins_with("leva_trappole"):
+		return m.traps.lever(o)
 	match id:
 		"maglio":
 			m.vigor.temper_hand()                        # voce 79: la tempra

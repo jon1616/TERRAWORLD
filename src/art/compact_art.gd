@@ -43,6 +43,8 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 			_reliquiario(im, gm, w, h)
 		"arena":
 			_arena(im, gm, w, h)
+		_ when TrapsData.is_trap(id):
+			_trap(im, gm, w, h, TrapsData.info(id))
 		_ when ZonesData.is_totem(id):
 			_totem(im, gm, w, h, ZonesData.info(id))
 		_:
@@ -367,3 +369,59 @@ static func _totem(im: Image, gm: Image, w: int, h: int, d: Dictionary) -> void:
 			Vector2i(cx - 1, 7), Vector2i(cx, 7), Vector2i(cx - 1, 4), Vector2i(cx, 4)]:
 		Px.put(im, q.x, q.y, col)
 		Px.put(gm, q.x, q.y, col)
+
+
+## Voce 88, le trappole (1×1): una base bassa del metallo del grado e sopra il segno del tipo (punte, lama, runa accesa,
+## blocco della pressa, bocchetta dei getti, intreccio della rete) nel suo colore.
+static func _trap(im: Image, gm: Image, w: int, h: int, d: Dictionary) -> void:
+	var type := String(d["type"])
+	var col := Color(String(TrapsData.TYPES[type]["color"]))
+	var met := ItemIcons.pal(["radicite", "legnoferro", "ambra"][clampi(int(d.get("tier", 1)) - 1, 0, 2)])
+	for x in range(1, w - 1):
+		Px.put(im, x, h - 1, met[2])
+		Px.put(im, x, h - 2, met[3])
+	match type:
+		"spuntoni":
+			for x0 in [2, 6, 10]:
+				for k in 6:
+					Px.put(im, x0 + 1, h - 3 - k, col.darkened(0.1 * k))
+					if k < 3:
+						Px.put(im, x0, h - 3 - k, col.darkened(0.4))
+						Px.put(im, x0 + 2, h - 3 - k, col.darkened(0.4))
+		"lama":
+			var c0 := Vector2(w / 2.0, h - 9)
+			for a in 24:
+				var ang := a * TAU / 24.0
+				for r in range(2, 7):
+					if a % 6 < 3:
+						Px.put(im, int(c0.x + cos(ang) * r), int(c0.y + sin(ang) * r), col if r > 4 else col.darkened(0.3))
+			Px.put(im, int(c0.x), int(c0.y), met[1])
+		"pressa":
+			for y in range(0, h - 3):
+				for x in range(1, w - 1):
+					Px.put(im, x, y, col.darkened(0.2 + 0.25 * float(x % 4 == 0 or y % 5 == 0)))
+			for x in range(1, w - 1):
+				Px.put(im, x, h - 3, met[1])
+		"getto_brace", "getto_acqua":
+			for y in range(h - 9, h - 2):
+				for x in range(3, w - 3):
+					Px.put(im, x, y, met[3] if y > h - 5 else met[2])
+			for y in range(h - 8, h - 5):
+				Px.put(im, 1, y, col)
+				Px.put(im, w - 2, y, col)
+				Px.put(gm, 1, y, col)
+				Px.put(gm, w - 2, y, col)
+		"rete":
+			for y in range(h - 8, h - 2):
+				for x in range(1, w - 1):
+					if (x + y) % 3 == 0 or (x - y + 30) % 3 == 0:
+						Px.put(im, x, y, col.darkened(0.2))
+		_:
+			# le rune: una pietra piatta con il segno acceso
+			for y in range(h - 5, h - 2):
+				for x in range(2, w - 2):
+					Px.put(im, x, y, Px.pal(TileDefs.P_SEM)[2])
+			for q in [Vector2i(w / 2, h - 4), Vector2i(w / 2 - 2, h - 4), Vector2i(w / 2 + 2, h - 4), Vector2i(w / 2, h - 5),
+					Vector2i(w / 2 - 1, h - 3), Vector2i(w / 2 + 1, h - 3)]:
+				Px.put(im, q.x, q.y, col)
+				Px.put(gm, q.x, q.y, col)
