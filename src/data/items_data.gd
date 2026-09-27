@@ -281,6 +281,7 @@ static func all() -> Dictionary:
 	out.merge(LiquidsData.ITEMS.duplicate(true))           # voce 73
 	out.merge(WeatherData.ITEMS.duplicate(true))           # voce 75
 	out.merge(WorldTimeData.ITEMS.duplicate(true))         # voce 78
+	out.merge(VigorData.ITEMS.duplicate(true))             # voce 79
 	# le famiglie di equipaggiamento: forma × materiale (voce 49, `FormsData` e `MaterialsData`)
 	for m in MaterialsData.all():
 		for f in FormsData.FORMS:

@@ -39,4 +39,9 @@ Tutti e tre hanno il loro Cuore del mondo nel Fondo, come ogni mondo: si giocano
 [b][url=gene:eclissi]Eclissi[/url][/b]: ogni giorno a mezzogiorno il sole si spegne per un paio di minuti. Escono le creature della notte, e chi sconfiggi durante l'eclissi può lasciare la [b]Polvere d'eclissi[/b]: serve per l'[b]Amuleto dell'eclissi[/b] (alone più grande, le creature ti vedono meno) e per la [b]Lanterna della notte eterna[/b]. Aspetta il mezzogiorno in superficie, pronto a combattere.
 [b][url=gene:notte_eterna]Notte eterna[/url][/b] (vigore 3+): il sole non sorge mai. Sempre le creature della notte, più pericolo e più Lumini. [b][url=gene:senza_sole]Senza sole[/url][/b] (vigore 3+): il cielo non fa luce, nemmeno la luna; si vede solo ciò che brilla da sé (funghi, baccelli, cristalli, torce), ma le creature sono quelle del giorno.
 Nei mondi bui le colture crescono a meno di un terzo, tranne vicino a una torcia o a una pozza di Linfa: l'orto va illuminato."""},
+	{"id": "vigore", "group": "Senza fine", "name": "Il vigore senza tetto", "text":
+"""Il vigore di un mondo non ha un tetto: ogni Seme raccolto porta al mondo dopo, e si può salire per sempre. Ogni cinque punti arriva un [b]grado[/b], e ogni grado porta cose nuove, non solo creature più forti.
+{cat_gradi}
+Le [b]Schegge di vigore[/b] le lasciano solo le creature dei mondi di vigore 5 e oltre, di più più il grado è alto; un Guardiano ne lascia un mucchio. Al [b]Maglio dei Seminatori[/b], con un attrezzo, un'arma o un'armatura in mano, clic destro: la [b]tempra[/b] lo rafforza di un livello (+8% a danno e Scorza, più forza al piccone). Ogni tre livelli di tempra si apre un [b]posto d'innesto[/b] in più, oltre i soliti. Il livello n costa 4 × n Schegge.
+Il Maglio tempra fino a due livelli per grado del mondo in cui si trova: in un mondo di vigore 10 fino a +4, in uno di vigore 20 fino a +8. Le tempre alte si fanno solo nei mondi più vigorosi: è sempre un motivo per andare più in là."""},
 ]

@@ -18,6 +18,7 @@ var sfx: Sfx
 var light: LightMap                    # per nascere solo al buio
 var vigor := 1                         # vigore del mondo (voce 12)
 var vigor_mult := 1.0                  # creature più forti nei mondi oltre i portali
+var grade := 0                         # voce 79: il grado del mondo (vigore / 5), le indoli nuove (lo imposta `Vigor`)
 var danger := 1.0                      # pericolo attorno al giocatore, aggiornato a ogni tentativo
 var luck := 0.0                        # tratto Fortuna dell'equipaggiamento: probabilità di un giro di bottino in più
 var boon_luck := 0.0                   # Pozione di fortuna
@@ -105,7 +106,7 @@ func spawn_at_nest(species: String, cell: Vector2i) -> Creature:
 	if stratum > 0 and not _dark(cell):
 		return null
 	var biome := String(BiomesData.BIOMES[BiomesData.at(world, cell.x)]["id"])
-	var id := FamiliesData.roll_variant(species, _rng, elem_bias(stratum, biome), danger)
+	var id := FamiliesData.roll_variant(species, _rng, elem_bias(stratum, biome), danger, grade)
 	var cd := CreaturesData.get_data(id)
 	var x := cell.x + (2 if _rng.randf() < 0.5 else -1)
 	if world.solid(x, cell.y) or world.solid(x, cell.y - 1):
@@ -304,7 +305,7 @@ func try_spawn() -> Creature:
 	if not event_pool.is_empty() and _rng.randf() < 0.6:
 		id = String(event_pool[_rng.randi_range(0, event_pool.size() - 1)])   # l'evento sceglie le sue creature
 	# voce 55: una variante della specie (taglia, elemento e indole), con l'elemento del luogo più probabile
-	id = FamiliesData.roll_variant(id, _rng, elem_bias(stratum, biome), danger)
+	id = FamiliesData.roll_variant(id, _rng, elem_bias(stratum, biome), danger, grade)
 	var fly: bool = CreaturesData.get_data(id).get("fly", false)
 	# uno spazio d'aria di 2×2; chi non vola ha bisogno anche del terreno sotto (lo si cerca scendendo un poco)
 	for k in 12:

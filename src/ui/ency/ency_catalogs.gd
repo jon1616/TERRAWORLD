@@ -139,6 +139,10 @@ static func inline(key: String) -> String:
 				rows.append(_b(String(pd["name"]), "%s · nei mondi con %s · %s" % [pd["banner"], " o ".join(gn),
 					"in superficie" if pd.get("surface", false) else "nello strato «%s»" % StrataData.STRATA[int(pd["strata"][0])]["name"]],
 					String(pd["color"])))
+		"cat_gradi":
+			for t in VigorData.TEMPERS:
+				var td: Dictionary = VigorData.TEMPERS[t]
+				rows.append(_b("Grado %d · indole %s" % [int(td["grade"]), String(td["adj"][1])], String(td["desc"])))
 		"cat_meteo":
 			for k in WeatherData.STATES:
 				rows.append(_b(String(WeatherData.STATES[k]["name"]), String(WeatherData.STATES[k]["desc"])))

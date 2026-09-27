@@ -36,6 +36,13 @@ static func stats(slot: Dictionary) -> Dictionary:
 		for k in MULT:
 			out[k] = float(out[k]) * float(md.get(MULT[k], 1.0))
 		out["defense"] = float(out["defense"]) + float(md.get("scorza", 0.0))
+	# voce 79: la tempra del Maglio
+	var tp := int(dati.get("tempra", 0))
+	if tp > 0:
+		out["damage"] = float(out["damage"]) * (1.0 + VigorData.TEMPER_MULT * tp)
+		out["defense"] = float(out["defense"]) * (1.0 + VigorData.TEMPER_MULT * tp)
+		if int(out["power"]) > 0:
+			out["power"] = int(out["power"]) + VigorData.TEMPER_POWER * tp
 	return out
 
 
@@ -71,7 +78,8 @@ static func quality(slot: Dictionary) -> int:
 static func slots(slot: Dictionary) -> int:
 	var it := ItemsData.get_item(String(slot.get("id", "")))
 	var res := int(MaterialsData.get_mat(String(it.get("mat", ""))).get("risonanza", 0)) if it.has("mat") else 0
-	return mini(1 + maxi(quality(slot) - 1, 0) + res, TraitsData.MAX_SLOTS)
+	var tp := int((slot.get("dati", {}) as Dictionary).get("tempra", 0))       # voce 79: la tempra apre posti nuovi
+	return mini(1 + maxi(quality(slot) - 1, 0) + res, TraitsData.MAX_SLOTS) + tp / VigorData.TEMPER_SLOT
 
 
 ## Posti ancora liberi per un innesto.
@@ -81,6 +89,12 @@ static func free_slots(slot: Dictionary) -> int:
 
 ## Il nome completo: «Lancia di legnoferro con fascia di seta [Spina]».
 static func full_name(slot: Dictionary) -> String:
+	var n0 := _full_name(slot)
+	var tp := int((slot.get("dati", {}) as Dictionary).get("tempra", 0))
+	return n0 + (" +%d" % tp if tp > 0 else "")
+
+
+static func _full_name(slot: Dictionary) -> String:
 	var id := String(slot.get("id", ""))
 	var n := String(ItemsData.get_item(id).get("name", id))
 	var dati: Dictionary = slot.get("dati", {})

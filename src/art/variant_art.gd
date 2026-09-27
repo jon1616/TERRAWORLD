@@ -38,7 +38,19 @@ static func apply(fr: Dictionary, mods: Dictionary) -> Dictionary:
 				_lighten(im, 0.22)
 			"feroce":
 				_spikes(im)
-		if mods.get("glow_body", false) or coat.get("glow", false) or String(mods.get("elem", "")) in ["brace", "luce", "linfa"]:
+			# voce 79: le indoli dei gradi
+			"corazzata":
+				_tint(im, Color("#8a98b0"), 0.4)       # grigio di scaglia
+				_spikes(im)
+			"rigenerante":
+				_tint(im, Color("#58e8a8"), 0.3)
+			"gemella":
+				_tint(im, Color("#e8c8ff"), 0.3)
+			"vorace":
+				_tint(im, Color("#e0443a"), 0.3)
+				_spikes(im)
+		if mods.get("glow_body", false) or coat.get("glow", false) or String(mods.get("elem", "")) in ["brace", "luce", "linfa"] \
+				or String(mods.get("temper", "")) == "rigenerante":
 			gm = _glow_of(im)
 		var sc := float(mods.get("scale", 1.0)) * (BreedData.GIANT_SCALE if mods.get("gigante", false) else 1.0)
 		if absf(sc - 1.0) > 0.01:

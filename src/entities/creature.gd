@@ -76,6 +76,7 @@ var _glows: Array = []
 var _anim := 0.0
 var _flash := 0.0
 var _bar: HpBar
+var _regen := 0.0                      # voce 79: le rigeneranti
 var _base_y := 0.0
 
 static var _art_cache := {}
@@ -206,6 +207,12 @@ func wall_ahead(dir: int) -> bool:
 func _process(dt: float) -> void:
 	dt = minf(dt, 1.0 / 30.0)
 	stun = maxf(stun - dt, 0.0)
+	if data.has("regen") and hp > 0 and hp < hp_max:
+		_regen += hp_max * float(data["regen"]) * dt
+		if _regen >= 1.0:
+			hp = mini(hp + int(_regen), hp_max)
+			_regen -= int(_regen)
+			_bar.set_value(float(hp) / hp_max)
 	enraged = boss and hp < hp_max * float(p.get("phase2", 0.0))
 	if tame != null:
 		tame.tick(self, dt)                    # voce 59: della mandria, niente comportamenti selvatici

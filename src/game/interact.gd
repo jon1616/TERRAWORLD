@@ -199,6 +199,9 @@ func touch(c: Vector2i) -> bool:
 				m.objectives.bump("scrigni")
 		return true
 	match id:
+		"maglio":
+			m.vigor.temper_hand()                        # voce 79: la tempra
+			return true
 		"porta", "porta_aperta":
 			return m.masonry.toggle_door(o)
 		"letto":

@@ -98,7 +98,7 @@ static func parts(id: String) -> Array:
 
 ## Una variante a caso di una specie: taglia, elemento (più spesso quello del luogo, `bias`) e indole (più feroce dove
 ## è più pericoloso). Guardiani, Custodi e chi non ha famiglia restano come sono.
-static func roll_variant(base: String, rng: RandomNumberGenerator, bias := "", danger := 1.0) -> String:
+static func roll_variant(base: String, rng: RandomNumberGenerator, bias := "", danger := 1.0, grade := 0) -> String:
 	if family_of(base) == "":
 		return base
 	var size := ""
@@ -120,6 +120,10 @@ static func roll_variant(base: String, rng: RandomNumberGenerator, bias := "", d
 		temper = "feroce"
 	elif r < 0.32 and not still:
 		temper = "timida"
+	# voce 79: nei mondi di grado 1+ nascono le indoli dei gradi (corazzate, rigeneranti, gemelle, voraci)
+	if grade > 0 and rng.randf() < minf(VigorData.TEMPER_CHANCE * grade, VigorData.TEMPER_MAX):
+		var ts := VigorData.tempers_for(grade)
+		temper = String(ts[rng.randi_range(0, ts.size() - 1)])
 	return variant_id(base, size, elem, temper)
 
 
@@ -147,9 +151,14 @@ static func make(id: String) -> Dictionary:
 		tags.append(ELEM_ADJ[pr[2]][1 if fem else 0])
 		if pr[2] in ["luce", "linfa", "brace"]:
 			d["glow"] = true
-	var td: Dictionary = TEMPERS.get(pr[3], {})
+	var td: Dictionary = TEMPERS.get(pr[3], VigorData.TEMPERS.get(pr[3], {}))
 	if not td.is_empty():
 		d["damage"] = roundi(float(d["damage"]) * float(td.get("damage", 1.0)))
+		d["hp"] = maxi(roundi(float(d["hp"]) * float(td.get("hp", 1.0))), 1)       # voce 79: le indoli dei gradi
+		if td.has("regen"):
+			d["regen"] = float(td["regen"])
+		if td.get("split", false):
+			d["split"] = true
 		d["speed"] = float(d.get("speed", 60)) * float(td.get("speed", 1.0))
 		var p: Dictionary = d.get("p", {})
 		if td.has("sight"):

@@ -1472,10 +1472,21 @@ Prove `--solo=tempo_mondi` (foto 144_eclissi, 145_senza_sole).
 
 # Roadmap 11 «Senza fine» — il fine gioco che non finisce
 
-## 79. [ ] Vigore senza tetto (M)
+## 79. [x] Vigore senza tetto (M) — fatto il 26 set 2026
 La scala del vigore continua per sempre: a gradini regolari arrivano un grado nuovo di materiali (dai geni), creature
 più forti con indoli nuove, nuovi posti d'innesto; il vigore non è solo «numeri più alti».
 **Pronto quando**: un mondo di vigore 20 ha cose che un mondo di vigore 10 non ha.
+**Fatto il 27 set 2026**: il vigore a **gradi** (`Vigor`, dati in `VigorData`): ogni 5 punti di vigore un grado, e
+ogni grado porta cose nuove. **Indoli nuove** delle creature (in `FamiliesData.make`, disegno in `VariantArt`):
+corazzate (grado 1: Vita quasi doppia, più lente, grigie e spinose), rigeneranti (grado 2: si rimarginano, luminose),
+gemelle (grado 3: sconfitte si dividono in due piccole), voraci (grado 4: danno, corsa e vista); nascono con probabilità
+7% per grado (fino al 45%) e dal quinto grado sono tutte più frequenti. Le **Schegge di vigore** cadono solo nei mondi
+di grado 1+ (di più più il grado è alto; un Guardiano ne lascia 4 per grado). La **tempra** al Maglio dei Seminatori
+(clic destro con l'attrezzo in mano): +8% danno e Scorza e +4 forza di piccone per livello, un **posto d'innesto** in
+più ogni 3 livelli (oltre il tetto di prima), nome «+n», costo 4 × n Schegge; il Maglio tempra fino a 2 livelli per grado
+del mondo in cui si trova, quindi le tempre alte vogliono i mondi più vigorosi, senza fine. Arrivando in un mondo di
+grado nuovo un avviso dice cosa porta. `verifica_dati` accetta `used_for` per i materiali che servono fuori dalle
+ricette. Capitolo nell'Enciclopedia (gruppo «Senza fine»). Prove `--solo=vigore` (foto 146_gemelle).
 
 ## 80. [ ] Guardiani generati (L)
 Guardiani composti dai geni (corpo di famiglia, taglia gigante, attacchi scelti da una libreria di schemi, fasi

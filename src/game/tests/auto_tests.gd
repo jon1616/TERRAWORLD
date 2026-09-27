@@ -112,6 +112,7 @@ func run(main: Node2D) -> void:
 	await TestsGravity.new(kit).run()
 	await TestsLiving.new(kit).run()
 	await TestsWorldTime.new(kit).run()
+	await TestsVigor.new(kit).run()
 	await ob.run()
 	await w.run_and_save()
 	# la Bisaccia aperta
@@ -252,5 +253,7 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsLiving.new(kit).run()
 		"tempo_mondi":
 			await TestsWorldTime.new(kit).run()
+		"vigore":
+			await TestsVigor.new(kit).run()
 		_:
 			print("ATTENZIONE: gruppo di prove sconosciuto «%s»" % g)

@@ -35,6 +35,9 @@ static func card(m: Node2D, o: Vector2i, id: String) -> TipCard:
 			c.line(m.mechanisms.hint(e), TipCard.GOLD)
 		c.hint("Clic destro" if not id.begins_with("piastra") else "Salici sopra")
 		return c
+	if id == "maglio":
+		c.line(m.vigor.hint(), TipCard.GOLD)             # voce 79
+		c.hint("Clic destro con un attrezzo in mano: tempra")
 	if id == "leggio":
 		var open := false
 		for e in m.world_meta.get("cripte", []):

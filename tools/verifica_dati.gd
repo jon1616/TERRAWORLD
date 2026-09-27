@@ -141,7 +141,9 @@ func _init() -> void:
 		var ok: bool = made.has(id) or dropped.has(id) or ItemsData.OTHER_SOURCES.has(id) or items[id].has("source")
 		_warn(ok, "%s non si può ottenere (né ricetta, né scavo, né bottino)" % id)
 		if items[id].get("kind") == "materiale":
-			_warn(not RecipesData.using(id).is_empty() or _offered(id), "il materiale %s non serve a nessuna ricetta" % id)
+			# `used_for`: un materiale che serve fuori dalle ricette (la tempra del Maglio, voce 79)
+			_warn(not RecipesData.using(id).is_empty() or _offered(id) or items[id].has("used_for"),
+				"il materiale %s non serve a nessuna ricetta" % id)
 	# 6. progressione: ogni minerale si stacca con un piccone che si può fabbricare con minerali più facili
 	var best_power := {}
 	for id in items:
