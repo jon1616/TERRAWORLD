@@ -61,11 +61,15 @@ func variants() -> void:
 		", ".join(ids.map(func(i: String) -> String: return String(CreaturesData.get_data(i)["name"])))])
 	m.fauna.clear()
 	# una docile non ferisce finché non la colpisci
+	# (prima quanto si perde senza creature: nel giro intero freddo, sete o altro possono togliere un punto)
+	m.vitals.refill()
+	await kit.seconds(0.6)
+	var base_hurt: int = m.vitals.hp_max - m.vitals.hp
 	m.vitals.refill()
 	var hp0: int = m.vitals.hp
 	var d: Creature = m.fauna.add("grumo_muschio~~~docile", m.player.position + Vector2(4, 0))
 	await kit.seconds(0.6)
-	var calm_hurt: int = hp0 - m.vitals.hp
+	var calm_hurt: int = maxi(hp0 - m.vitals.hp - base_hurt, 0)
 	m.combat._strike(d, 1, m.player.position.x - 20, 0.1)
 	m.combat.invuln = 0.0
 	m.vitals.refill()
