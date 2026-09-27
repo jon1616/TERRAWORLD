@@ -5,6 +5,11 @@ extends RefCounted
 ## riordina le tessere di una tavola a ogni tessera aggiunta, e quelle del terreno sono 11.520). Ora si preparano una
 ## volta per sessione, in sottofondo, già dal menu (`Session._ready` chiama `start`); `WorldView` le prende con `get_all`
 ## e, se non sono ancora pronte, aspetta solo quello che manca (28 set 2026).
+##
+## **Nel thread solo lavoro di puro codice** (pixel, tavole): niente `load()` di file né altro che possa aver bisogno del
+## thread principale, che intanto aspetta il thread e resterebbe fermo per sempre. Successo il 28 set 2026: le stazioni
+## cominciarono a caricare i disegni di Nano Banana (`StationTemplates`) e il mondo non si apriva più. Le stazioni
+## si fanno quindi nel thread principale, in `get_all`.
 
 const S := 16
 
@@ -17,7 +22,7 @@ static func start() -> void:
 	if not _res.is_empty() or _thread != null:
 		return
 	# le tabelle che servono si caricano qui, nel thread principale, prima di cominciare
-	var _warm := [TileDefs.TERRAIN_LAYERS.size(), TileDefs.TYPES, StationsData.STATIONS.size(), DecorPainter.ROWS]
+	var _warm := [TileDefs.TERRAIN_LAYERS.size(), TileDefs.TYPES, DecorPainter.ROWS]
 	_thread = Thread.new()
 	_thread.start(func() -> Dictionary: return _prepare())
 
@@ -29,6 +34,8 @@ static func get_all() -> Dictionary:
 		_thread = null
 	if _res.is_empty():
 		_res = _prepare()
+	if not _res.has("stations"):
+		_res["stations"] = _stations()            # nel thread principale: possono caricare file
 	if not _res.has("pronte"):
 		# il bordo delle tavole (vedi `_tileset`) si riaccende qui, nel thread principale, a tavole finite
 		for k in ["terrain", "terrain_glow", "misc", "misc_glow"]:
@@ -54,12 +61,16 @@ static func _prepare() -> Dictionary:
 		"misc": _tileset(ImageTexture.create_from_image(misc["img"]), DecorPainter.COLS, DecorPainter.ROWS),
 		"misc_glow": _tileset(ImageTexture.create_from_image(misc["glow"]), DecorPainter.COLS, DecorPainter.ROWS),
 	}
+	return out
+
+
+## Le texture delle stazioni (nel thread principale: `StationArt` può caricare i disegni da file).
+static func _stations() -> Dictionary:
 	var st := {}
 	for id in StationsData.STATIONS:
 		var a := StationArt.make(id)
 		st[id] = {"img": ImageTexture.create_from_image(a["img"]), "glow": ImageTexture.create_from_image(a["glow"])}
-	out["stations"] = st
-	return out
+	return st
 
 
 static func _tileset(tex: Texture2D, cols: int, rows: int) -> TileSet:

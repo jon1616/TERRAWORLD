@@ -54,6 +54,24 @@ func run() -> void:
 		took = not bp.held.is_empty()
 		await kit.click(_center(sv))
 		put_back = bp.held.is_empty() and b.id_at(from) == "humus"
+	# 1b. dalla Bisaccia alla barra rapida e ritorno (28 set 2026, segnalato dall'utente: la barra non prendeva più i clic)
+	var to_bar := false
+	var bar_free := Bisaccia.HOTBAR - 1           # l'ultima casella della barra, liberata per la prova e poi rimessa
+	var bar_old: Dictionary = b.slots[bar_free].duplicate(true)
+	b.slots[bar_free] = {}
+	b.changed.emit()
+	await kit.frames(2)
+	if from >= 0:
+		var n0 := b.count_at(from)
+		var bar_slot: SlotView = m.hud._slots[bar_free]
+		await kit.click(_center(bp._slots[from - Bisaccia.HOTBAR]))
+		await kit.click(_center(bar_slot))
+		var moved := b.id_at(bar_free) == "humus" and b.count_at(bar_free) == n0
+		await kit.click(_center(bar_slot))
+		await kit.click(_center(bp._slots[from - Bisaccia.HOTBAR]))
+		to_bar = moved and b.slots[bar_free].is_empty() and b.id_at(from) == "humus" and bp.held.is_empty()
+	b.slots[bar_free] = bar_old
+	b.changed.emit()
 	# 2. Creare: un clic su una ricetta la mostra in Esamina
 	var shown := false
 	# (una casella davvero visibile: le prove di prima lasciano una ricerca e l'elenco scorso più in basso)
@@ -126,8 +144,8 @@ func run() -> void:
 	if free >= 0 and b.id_at(free) == "humus":
 		b.slots[free] = {}
 		b.changed.emit()
-	print("clic veri: Bisaccia presa %s e posata %s; ricetta in Esamina %s; casella della cassa %s; «Riprendi» del menu %s" % [
-		"sì" if took else "NO", "sì" if put_back else "NO", "sì" if shown else "NO", "sì" if chest_took else "NO",
-		"sì" if closed else "NO"])
-	if not (took and put_back and shown and chest_took and closed):
+	print("clic veri: Bisaccia presa %s e posata %s; nella barra rapida e ritorno %s; ricetta in Esamina %s; casella della cassa %s; «Riprendi» del menu %s" % [
+		"sì" if took else "NO", "sì" if put_back else "NO", "sì" if to_bar else "NO", "sì" if shown else "NO",
+		"sì" if chest_took else "NO", "sì" if closed else "NO"])
+	if not (took and put_back and to_bar and shown and chest_took and closed):
 		print("ATTENZIONE: i menu non rispondono ai clic")

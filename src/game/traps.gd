@@ -143,7 +143,7 @@ func _draw() -> void:
 		var a := float(f[3]) / 0.18
 		draw_line(f[0], f[1], Color(f[2] as Color, 0.8 * a), 2.0)
 		draw_circle(f[1], 5.0 * a, Color(f[2] as Color, 0.6 * a))
-	var held := String(ItemsData.get_item(String(m.hud.current().get("id", ""))).get("place", ""))
+	var held := str(ItemsData.get_item(String(m.hud.current().get("id", ""))).get("place", ""))
 	if not TrapsData.is_trap(held):
 		return
 	var pp: Vector2 = m.player.position

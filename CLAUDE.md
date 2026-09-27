@@ -783,3 +783,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   fanno una volta per sessione.
 - Fare in parallelo non rende sempre più veloci: i 120 alberi di un mondo su 12 processori ci mettevano 3,4 s invece
   di 1,8 uno alla volta (qualcosa di condiviso li fa litigare). Si misura sempre prima e dopo.
+- Un thread in sottofondo che il thread principale poi **aspetta** (`ViewArt`, generazione) fa solo lavoro di puro codice:
+  niente `load()` di file. Il 28 set 2026 le stazioni cominciarono a caricare i disegni di Nano Banana e il mondo non si
+  apriva più (il thread aspettava il principale, il principale aspettava il thread). Chi aggiunge file a un pittore
+  controlla se quel pittore gira in un thread.
+- `String(x)` con un numero è un errore: per un campo che può essere numero o testo («place» è un numero per i blocchi)
+  si usa `str(x)`. Trappole e totem lo sbagliavano a ogni fotogramma con un blocco in mano.

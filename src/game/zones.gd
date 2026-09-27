@@ -70,7 +70,7 @@ func _process(dt: float) -> void:
 		if m.world.stations.size() != _count:
 			rebuild()
 		m.vitals.zone_regen = mult_at(m.player.position, "rigenera")
-	var holding := ZonesData.is_totem(String(ItemsData.get_item(String(m.hud.current().get("id", ""))).get("place", "")))
+	var holding := ZonesData.is_totem(str(ItemsData.get_item(String(m.hud.current().get("id", ""))).get("place", "")))
 	if holding != visible or holding:
 		visible = holding
 		queue_redraw()
@@ -86,7 +86,7 @@ func _draw() -> void:
 			var col := Color(String(ZonesData.TYPES[e[1]]["color"]))
 			draw_arc(e[0], float(e[2]), 0.0, TAU, 96, Color(col, 0.55), 2.0)
 			draw_circle(e[0], 4.0, Color(col, 0.8))
-	var d := ZonesData.info(String(ItemsData.get_item(String(m.hud.current().get("id", ""))).get("place", "")))
+	var d := ZonesData.info(str(ItemsData.get_item(String(m.hud.current().get("id", ""))).get("place", "")))
 	if not d.is_empty():
 		var at: Vector2 = (Vector2(m.actions.mouse_cell()) + Vector2(0.5, 1.0)) * 16.0
 		var col2 := Color(String(ZonesData.TYPES[d["type"]]["color"]))

@@ -130,8 +130,10 @@ func _refresh() -> void:
 func bring_panel_forward() -> void:
 	# le scritte dell'HUD con un suggerimento (orologio, obiettivi, Albero, effetti) sentono il mouse: sotto la Bisaccia
 	# aperta rubavano i clic alle prime ricette di Creare (28 set 2026). Finché è aperta non lo sentono più.
+	# Le caselle della barra rapida no: hanno anche loro un suggerimento, ma servono per spostare gli oggetti.
 	for c in get_children():
-		if c is Control and c != panel and c.has_meta("tip") and c.mouse_filter != Control.MOUSE_FILTER_IGNORE:
+		if c is Control and c != panel and not c is SlotView and c.has_meta("tip") \
+				and c.mouse_filter != Control.MOUSE_FILTER_IGNORE:
 			c.set_meta("filtro", c.mouse_filter)
 			c.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	move_child(panel, -1)
