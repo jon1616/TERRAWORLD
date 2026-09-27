@@ -189,6 +189,9 @@ static func material(id: String, p: Array[Color], sd: int) -> PackedColorArray:
 			_specks(col, rng, _linfa(p), 6)          # qualche goccia di Linfa nel legno
 		"scisto":
 			_fibers(col, rng, [_linfa(p)], 3, 16)    # vene di Linfa nella roccia
+		"pietra_brace":
+			_fibers(col, rng, [p[0]], 4, 18)
+			_specks(col, rng, Color("#ff8a3a"), 22)              # voce 74: le braci ancora accese
 		"porta_sem":
 			_bricks(col, p)
 			_specks(col, rng, Color("#ffd24a"), 30)              # voce 71: le rune d'oro della porta

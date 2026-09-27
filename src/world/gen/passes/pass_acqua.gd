@@ -32,6 +32,20 @@ func run(w: World, c: GenContext) -> void:
 			y += 1
 		if _fill_basin(w, Vector2i(x, y), rng.randi_range(1, 4), LiquidsData.ACQUA):
 			made += 1
+	# voce 74: qualche pozza di brace nel Fondo e di Linfa nelle Profondità, in ogni mondo
+	for spec in [[LiquidsData.BRACE, 4, 6], [LiquidsData.LINFA, 3, 4]]:
+		var got := 0
+		for k in int(spec[2]) * 6:
+			if got >= int(spec[2]):
+				break
+			var x := rng.randi_range(20, w.w - 21)
+			var y := w.surface[x] + rng.randi_range(StrataData.top(int(spec[1])), mini(StrataData.top(int(spec[1])) + 80, w.h - w.surface[x] - 10))
+			if y >= w.h - 4 or w.solid(x, y):
+				continue
+			while y < w.h - 2 and not w.solid(x, y + 1):
+				y += 1
+			if _fill_basin(w, Vector2i(x, y), rng.randi_range(1, 3), int(spec[0])):
+				got += 1
 	if bool(g.get("sea", false)):
 		_sea(w)
 	c.notes["laghi"] = made

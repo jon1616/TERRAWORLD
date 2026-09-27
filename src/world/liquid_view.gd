@@ -55,14 +55,27 @@ class LiquidChunk extends Node2D:
 				var lv := v & 15
 				if lv == 0:
 					continue
-				var td: Dictionary = LiquidsData.TYPES[(v >> 4) & 3]
+				var ty := (v >> 4) & 3
+				var td: Dictionary = LiquidsData.TYPES[ty]
 				var above := world.liq(x, y - 1) > 0
 				var hgt := 16.0 if above else 16.0 * lv / 8.0
-				var col: Color = td["color"]
+				# più scuro in profondità (fino a tre celle sotto la superficie), un filo diverso da una cella all'altra
+				var depth := 0
+				while depth < 3 and world.liq(x, y - depth - 1) > 0:
+					depth += 1
+				var col: Color = (td["color"] as Color).darkened(0.12 * depth)
+				col = col.lightened(0.04 * float((x * 7 + y * 13) % 4))
 				col.a = float(td["alpha"])
 				var r := Rect2(x * 16.0, y * 16.0 + 16.0 - hgt, 16.0, hgt)
 				draw_rect(r, col)
+				if ty == LiquidsData.BRACE:
+					# le braci che galleggiano
+					var h2 := (x * 31 + y * 17) % 11
+					if h2 < 4:
+						draw_rect(Rect2(x * 16.0 + 2.0 + h2 * 3, r.position.y + 3.0 + h2 * 2, 2.0, 2.0), Color("#ffd070"))
 				if not above:
 					var top: Color = td["top"]
 					top.a = minf(float(td["alpha"]) + 0.2, 1.0)
 					draw_rect(Rect2(r.position, Vector2(16.0, 1.5)), top)
+					var shine := Color(1, 1, 1, 0.18)
+					draw_rect(Rect2(r.position + Vector2(3.0 + (x % 3) * 3.0, 3.0), Vector2(4.0, 1.0)), shine)

@@ -17,6 +17,7 @@ var _step_n := 0
 var _hurt := 0.0
 const RUN_MAX := 48                     # celle al più di un tratto che si livella
 var bar: Label
+var reactions := 0                      # quante reazioni tra liquidi (per le prove)
 
 
 func setup(main: Node2D) -> void:
@@ -145,6 +146,8 @@ func step() -> int:
 	var moved := 0
 	var wake_list: Array[int] = []
 	var leveled := {}
+	var contacts := []                                      # voce 74: [da, a, tipo di chi scorre, tipo di chi c'era]
+	var glow := false
 	for key in keys:
 		if done >= LiquidsData.MAX_UPDATES:
 			break
@@ -178,7 +181,7 @@ func step() -> int:
 					wake_list.append(b)
 					moved_here = true
 				elif bt != ty and bl > 0:
-					_react(w, x, y + 1, ty, bt)
+					contacts.append([i, b, ty, bt])
 		# ai lati: il tratto di liquido appoggiato su questa riga si livella tutto insieme (voce 73)
 		if lv > 0 and not leveled.has(i) and _supported(liq, tiles, i, W, w.h, ty):
 			liq[i] = lv | (ty << 4)
@@ -191,7 +194,7 @@ func step() -> int:
 						break
 					var jv := liq[jj]
 					if (jv & 15) > 0 and (jv >> 4) != ty:
-						_react(w, k, y, ty, jv >> 4)
+						contacts.append([i, jj, ty, jv >> 4])
 						break
 					run.append(jj)
 					if (jv & 15) == 0 or not _supported(liq, tiles, jj, W, w.h, ty):
@@ -216,17 +219,48 @@ func step() -> int:
 		liq[i] = 0 if lv <= 0 else (lv | (ty << 4))
 		if moved_here:
 			moved += 1
+			glow = glow or ty != LiquidsData.ACQUA
 			wake_list.append(i)
 			if y > 0:
 				wake_list.append(i - W)
 			view.touch(Vector2i(x, y))
 		else:
 			active.erase(i)
+	# voce 74: i liquidi diversi che si sono toccati (`LiquidsData.REACTIONS`)
+	var new_tiles := []
+	for ct in contacts:
+		var src: int = ct[0]
+		var dst: int = ct[1]
+		var a: int = ct[2]
+		var bb: int = ct[3]
+		if (liq[src] & 15) == 0 or (liq[dst] & 15) == 0 or (liq[src] >> 4) != a or (liq[dst] >> 4) != bb:
+			continue
+		var rx: Dictionary = LiquidsData.REACTIONS.get("%d,%d" % [mini(a, bb), maxi(a, bb)], {})
+		if rx.is_empty():
+			continue
+		if rx.has("tile"):
+			liq[dst] = 0
+			var sl := maxi((liq[src] & 15) - int(rx["consume"]), 0)
+			liq[src] = 0 if sl == 0 else (sl | (a << 4))
+			new_tiles.append([dst, int(rx["tile"])])
+		else:
+			var lin := dst if bb == LiquidsData.LINFA else src
+			liq[lin] = (liq[lin] & 15) | (int(rx["become"]) << 4)
+		wake_list.append(src)
+		wake_list.append(dst)
+		reactions += 1
 	for j in wake_list:
 		if (liq[j] & 15) > 0:
 			active[j] = true
-			view.touch(Vector2i(j % W, j / W))
+		view.touch(Vector2i(j % W, j / W))
 	w.liquid = liq
+	for nt in new_tiles:
+		var c := Vector2i(int(nt[0]) % W, int(nt[0]) / W)
+		w.set_tile(c.x, c.y, int(nt[1]))
+		m.view.refresh_around(c)
+		Fx.puff(m.fx, Vector2(c) * 16.0 + Vector2(8, 8), Color(1.2, 1.2, 1.3))
+	if glow or not new_tiles.is_empty():
+		m.light.dirty = true                    # la Linfa e la brace che si muovono fanno luce altrove
 	return moved
 
 
@@ -244,11 +278,6 @@ static func _supported(liq: PackedByteArray, tiles: PackedByteArray, i: int, W: 
 ## Pieno per un liquido: ogni tessera che non è aria (le passerelle sono aria: il liquido ci passa).
 static func _solid(t: int) -> bool:
 	return t != TileDefs.AIR
-
-
-## Due liquidi diversi si toccano (voce 74, `LiquidsData`): per ora nulla; la voce 74 aggiunge le reazioni.
-func _react(_w: World, _x: int, _y: int, _a: int, _b: int) -> void:
-	pass
 
 
 ## Il Germogliato nel liquido: respiro, cura della Linfa, brace che brucia.
@@ -279,3 +308,11 @@ func _body(dt: float) -> void:
 			m.vitals.hurt(roundi(float(td["dps"]) * 0.5))
 		if float(td["heal"]) > 0.0:
 			m.vitals.heal(roundi(float(td["heal"]) * 0.5))
+	# voce 74: anche le creature bruciano nella brace (quelle d'acqua a parte)
+	for cr in m.fauna.list:
+		if not is_instance_valid(cr) or cr.data.get("water", false):
+			continue
+		var cc := Vector2i(floori(cr.position.x / 16.0), floori(cr.position.y / 16.0))
+		if w.liq(cc.x, cc.y) > 0 and w.liq_type(cc.x, cc.y) == LiquidsData.BRACE:
+			cr.take_hit(roundi(float(LiquidsData.TYPES[LiquidsData.BRACE]["dps"]) * 0.5), cr.position.x, 0.0)
+			cr.burn_t = maxf(cr.burn_t, 2.0)

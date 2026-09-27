@@ -1396,10 +1396,20 @@ il gene **Sommerso** (forma, vigore 2+) copre il 90% delle colonne con un mare, 
 di un liquido (mouse sopra) dice che cosa fa. Capitolo nell'Enciclopedia (gruppo «Le leggi dei mondi»). Prove
 `--solo=acqua` (foto 137_acqua).
 
-## 74. [ ] Linfa e brace liquide (M)
+## 74. [x] Linfa e brace liquide (M) — fatto il 26 set 2026
 Due liquidi in più con lo stesso sistema: la Linfa liquida (cura, fa crescere, luminosa) e la brace liquida
 (brucia, indurisce a contatto con l'acqua in una roccia nuova). Reazioni tra liquidi.
 **Pronto quando**: i liquidi si mescolano con regole chiare e utili (costruire, difendersi, coltivare).
+**Fatto il 27 set 2026**: altri due liquidi con lo stesso sistema dell'acqua. La **Linfa** (luce turchese, cura chi ci sta
+dentro, fa crescere il doppio più in fretta le colture entro tre tessere) e la **brace liquida** (densa e lenta: scorre un
+passo su quattro; luce rossa; brucia il Germogliato e le creature, che prendono fuoco). La luce (`LightMap`) legge i
+liquidi e si ricalcola quando Linfa e brace si muovono. **Reazioni** (`LiquidsData.REACTIONS`, applicate alla fine di ogni
+passo): l'acqua sulla brace fa la **Pietra di brace** (tessera nuova, un blocco da costruzione: si scava col legnoferro),
+la Linfa sulla brace **cristallizza** in cristallo di Linfa, l'acqua **annacqua** la Linfa. Il generatore: i fiumi del gene
+Fiumi di brace sono di brace vera, i laghi del gene Laghi di Linfa hanno tre righe di Linfa sopra il cristallo rappreso,
+e in ogni mondo qualche pozza di brace nel Fondo e di Linfa nelle Profondità. Il disegno dei liquidi ha profondità
+(più scuro sotto), una lieve variazione tra le celle, le braci che galleggiano e un riflesso sulla superficie.
+Capitolo nell'Enciclopedia con le reazioni. Prove `--solo=liquidi` (foto 138_liquidi).
 
 ## 75. [ ] Vento e tempo atmosferico (M)
 Vento che spinge il Germogliato, le planate, i dardi e le spore; piogge, nebbie, tempeste di cenere, bufere di brina,

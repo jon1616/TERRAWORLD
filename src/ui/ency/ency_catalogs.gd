@@ -139,6 +139,9 @@ static func inline(key: String) -> String:
 				rows.append(_b(String(pd["name"]), "%s · nei mondi con %s · %s" % [pd["banner"], " o ".join(gn),
 					"in superficie" if pd.get("surface", false) else "nello strato «%s»" % StrataData.STRATA[int(pd["strata"][0])]["name"]],
 					String(pd["color"])))
+		"cat_reazioni_liquidi":
+			for k in LiquidsData.REACTIONS:
+				rows.append("• [color=%s]%s[/color]" % [G, LiquidsData.REACTIONS[k]["name"]])
 		"cat_poteri":
 			for p in PowersData.POWERS:
 				var pd: Dictionary = PowersData.POWERS[p]

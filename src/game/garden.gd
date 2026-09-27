@@ -37,11 +37,22 @@ func grow(secs: float) -> void:
 		var e: Array = w.crops[c]
 		if float(e[1]) <= 0.0:
 			continue
-		e[1] = float(e[1]) - secs
+		e[1] = float(e[1]) - secs * (LiquidsData.LINFA_GROW if _near_linfa(c) else 1.0)   # voce 74
 		if float(e[1]) <= 0.0:
 			w.set_decor(c.x, c.y, int(CropsData.CROPS[String(e[0])]["decor"]))
 			m.view.refresh_around(c)
 			m.light.dirty = true
+
+
+## Voce 74: c'è Linfa liquida vicino a questa cella?
+func _near_linfa(c: Vector2i) -> bool:
+	var w: World = m.world
+	var r := LiquidsData.LINFA_GROW_R
+	for y in range(c.y - r, c.y + r + 1):
+		for x in range(c.x - r, c.x + r + 1):
+			if w.liq(x, y) > 0 and w.liq_type(x, y) == LiquidsData.LINFA:
+				return true
+	return false
 
 
 ## Pianta un seme da giardino in una cella. True se l'ha fatto.

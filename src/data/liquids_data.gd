@@ -11,9 +11,9 @@ const BRACE := 2
 const TYPES := [
 	{"id": "acqua", "name": "Acqua", "color": Color("#2f6ec8"), "alpha": 0.55, "top": Color("#8ec8ff"), "light": Color(0, 0, 0),
 		"flow": 1, "swim": true, "dps": 0.0, "heal": 0.0},
-	{"id": "linfa", "name": "Linfa", "color": Color("#2ad8b8"), "alpha": 0.62, "top": Color("#b8fff0"), "light": Color(0.35, 1.3, 1.1),
+	{"id": "linfa", "name": "Linfa", "color": Color("#1fb8a0"), "alpha": 0.55, "top": Color("#b8fff0"), "light": Color(0.35, 1.3, 1.1),
 		"flow": 2, "swim": true, "dps": 0.0, "heal": 3.0},
-	{"id": "brace", "name": "Brace liquida", "color": Color("#ff6a20"), "alpha": 0.88, "top": Color("#ffd070"), "light": Color(1.6, 0.7, 0.25),
+	{"id": "brace", "name": "Brace liquida", "color": Color("#d84a14"), "alpha": 0.86, "top": Color("#ffd070"), "light": Color(1.6, 0.7, 0.25),
 		"flow": 4, "swim": false, "dps": 14.0, "heal": 0.0},
 ]
 
@@ -39,6 +39,8 @@ const ITEMS := {
 		"source": "un secchio di radice immerso nella Linfa", "desc": "Clic: versa la Linfa. Cura chi ci sta dentro."},
 	"secchio_brace": {"name": "Secchio di brace", "kind": "secchio_pieno", "icon": ["vasetto", "brace"], "stack": 1, "liquid": 2,
 		"source": "un secchio di radice immerso nella brace liquida", "desc": "Clic: versa la brace. Brucia chi ci cade dentro."},
+	"pietra_brace": {"name": "Pietra di brace", "kind": "blocco", "icon": ["zolla", "brace"], "place": TileDefs.PIETRA_BRACE,
+		"desc": "Nasce dove l'acqua spegne la brace liquida: scura, dura, calda al tatto. Un blocco da costruzione."},
 	"squama_lume": {"name": "Squama di lume", "kind": "materiale", "icon": ["foglia", "cristallo"], "stack": 99,
 		"desc": "Una squama che brilla piano, dai pesci lume."},
 	"dente_anguilla": {"name": "Dente d'anguilla", "kind": "materiale", "icon": ["aculeo", "linfa"], "stack": 99,
@@ -54,6 +56,18 @@ const RECIPES := [
 	{"out": "branchie_muschio", "qty": 1, "in": {"squama_lume": 8, "seta_radice": 2}, "station": "telaio"},
 	{"out": "amuleto_anguilla", "qty": 1, "in": {"dente_anguilla": 6, "squama_lume": 4, "lingotto_legnoferro": 2}, "station": "maglio"},
 ]
+
+## Voce 74: quando due liquidi si toccano. [tipo a, tipo b] (in ordine) -> che cosa succede:
+##   tile: la cella di contatto diventa questa tessera (il liquido lì sparisce); consume: livelli persi da chi scorre;
+##   become: il liquido di tipo b diventa di questo tipo.
+const REACTIONS := {
+	"0,2": {"tile": TileDefs.PIETRA_BRACE, "consume": 2, "name": "L'acqua spegne la brace: pietra di brace"},
+	"1,2": {"tile": TileDefs.CRYSTAL, "consume": 2, "name": "La Linfa cristallizza sulla brace"},
+	"0,1": {"become": 0, "name": "L'acqua annacqua la Linfa"},
+}
+## La Linfa fa crescere più in fretta le colture a questa distanza (in tessere).
+const LINFA_GROW_R := 3
+const LINFA_GROW := 2.0
 
 ## Il respiro: secondi sott'acqua prima di cominciare a perdere Vita, e quanta al secondo dopo.
 const BREATH := 12.0

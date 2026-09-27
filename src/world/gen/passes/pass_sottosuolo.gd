@@ -177,6 +177,8 @@ func _fiume_brace(w: World, c: GenContext) -> Vector2i:
 		for k in range(-h, 1):
 			w.set_tile(x, yi + k, TileDefs.AIR)
 			w.walls[(yi + k) * w.w + x] = TileDefs.WALL_SCISTO
+		w.set_liq(x, yi, 8, LiquidsData.BRACE)                  # voce 74: il fiume è di brace vera
+		w.set_liq(x, yi - 1, 4, LiquidsData.BRACE)
 		w.set_tile(x, yi + 1, TileDefs.GRASS_CENERE)            # il letto di cenere viva
 		w.set_tile(x, yi + 2, TileDefs.GRASS_CENERE)
 		if c.rng.randf() < 0.18:
@@ -200,11 +202,13 @@ func _lago_linfa(w: World, c: GenContext) -> Vector2i:
 	var air := _carve(w, ctr, rx, ry, c.noise("laghi_linfa", 0.07, 2))
 	for cell in air:
 		w.walls[cell.y * w.w + cell.x] = TileDefs.WALL_SCISTO
-	# il lago rappreso: dal livello dell'acqua in giù, tutto cristallo di Linfa piatto
+	# il lago: sul fondo il cristallo di Linfa rappreso, sopra tre righe di Linfa liquida (voce 74)
 	var level := ctr.y + ry / 3
 	for cell in air:
-		if cell.y >= level:
+		if cell.y >= level + 3:
 			w.set_tile(cell.x, cell.y, TileDefs.CRYSTAL)
+		elif cell.y >= level:
+			w.set_liq(cell.x, cell.y, 8, LiquidsData.LINFA)
 	return ctr
 
 
