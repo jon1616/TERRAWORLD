@@ -82,3 +82,27 @@ static func generate(w: World, sd: int, width: int = WIDTH, height: int = HEIGHT
 	for o in w.chests:
 		(w.chests[o] as Bisaccia).rng = null
 	return times
+
+
+## L'impronta di un mondo, una riga per parte (così si vede subito che cosa è cambiato). La usa anche la prova della
+## ripetibilità del generatore (`TestsGenRepeat`, gruppo «base»).
+static func fingerprint(w: World, name: String) -> PackedStringArray:
+	var st := []
+	for k in w.stations:
+		st.append("%s=%s" % [k, w.stations[k]])
+	st.sort()
+	var tr := []
+	for k in w.trees:
+		for t in w.trees[k]:
+			tr.append(str(t))
+	tr.sort()
+	var ch := []
+	for k in w.chests:
+		ch.append("%s=%s" % [k, (w.chests[k] as Bisaccia).slots])
+	ch.sort()
+	var out := PackedStringArray()
+	for part in [["tessere", w.tiles.hex_encode()], ["pareti", w.walls.hex_encode()], ["biomi", w.biomes.hex_encode()],
+			["decorazioni", w.decor.hex_encode()], ["liquidi", w.liquid.hex_encode()], ["superficie", str(w.surface)],
+			["stazioni", str(st)], ["alberi", str(tr)], ["casse", str(ch)], ["partenza", str(w.spawn)]]:
+		out.append("%-22s %s" % ["%s %s" % [name, part[0]], String(part[1]).md5_text()])
+	return out

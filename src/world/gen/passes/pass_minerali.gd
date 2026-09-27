@@ -29,29 +29,38 @@ func run(w: World, c: GenContext) -> void:
 		for k in o["strata"]:
 			st[k] = 1
 		in_stratum.append(st)
-	var off := PackedInt32Array()
-	off.resize(w.w)
-	for x in w.w:
-		off[x] = StrataData.offset(x, w.world_seed)
-	var tops := PackedInt32Array()
-	for st in StrataData.STRATA:
-		tops.append(int(st["top"]))
+	var off := c.strata_off(w)
+	var tops := c.strata_tops()
 	var last := tops.size() - 1
+	# le soglie e le profondità una volta sola, non a ogni tessera
+	var th := PackedFloat64Array()
+	var mind := PackedFloat64Array()
+	var kind := PackedByteArray()
+	for o in ores:
+		th.append(float(o["threshold"]) - richer - float(boost.get(o["type"], 0.0)))
+		mind.append(int(o["min_depth"]) * shallow)
+		kind.append(int(o["type"]))
+	var n_ores := ores.size()
 	var tiles := w.tiles
-	for y in w.h:
-		var row := y * w.w
-		for x in w.w:
-			var t := tiles[row + x]
-			if t == TileDefs.AIR:
-				continue
-			var dep := y - w.surface[x]
-			var sk := last
-			while sk > 0 and dep - off[x] < tops[sk]:
-				sk -= 1
-			for k in ores.size():
-				var o: Dictionary = ores[k]
-				if hosts[k][t] == 1 and in_stratum[k][sk] == 1 and dep > int(o["min_depth"]) * shallow \
-						and noises[k].get_noise_2d(x, y) > float(o["threshold"]) - richer - float(boost.get(o["type"], 0.0)):
-					tiles[row + x] = o["type"]
-					break
-	w.tiles = tiles
+	var surf := w.surface
+	var ww := w.w
+	# a fasce di righe su più processori (`GenBands`): ogni cella dipende solo da sé
+	var parts := GenBands.run(w.h, func(_b: int, y0: int, y1: int) -> Array:
+		var out: PackedByteArray = tiles.slice(y0 * ww, y1 * ww)
+		for y in range(y0, y1):
+			var row := (y - y0) * ww
+			for x in ww:
+				var t := out[row + x]
+				if t == TileDefs.AIR:
+					continue
+				var dep := y - surf[x]
+				var sk := last
+				while sk > 0 and dep - off[x] < tops[sk]:
+					sk -= 1
+				for k in n_ores:
+					if hosts[k][t] == 1 and in_stratum[k][sk] == 1 and dep > mind[k] \
+							and noises[k].get_noise_2d(x, y) > th[k]:
+						out[row + x] = kind[k]
+						break
+		return [out])
+	w.tiles = GenBands.join(parts, 0)

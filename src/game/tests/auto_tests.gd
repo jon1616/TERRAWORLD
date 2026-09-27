@@ -116,6 +116,8 @@ func run(main: Node2D) -> void:
 	_mark("TestsInterface")
 	await TestsClicks.new(kit).run()
 	_mark("TestsClicks")
+	await TestsGenRepeat.new(kit).run()
+	_mark("TestsGenRepeat")
 	await TestsTorch.new(kit).run()
 	_mark("TestsTorch")
 	await TestsMobility.new(kit).run()
@@ -350,6 +352,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsFarms.new(kit).run()
 		"volo":
 			await TestsFlight.new(kit).run()
+		"ripeti":
+			await TestsGenRepeat.new(kit).run()
 		"base":
 			# 28 set 2026: il cuore del gioco in ~2 minuti (il giro intero ne dura 8-9): mondo, alberi, creazione,
 			# Vita, movimento a 60 e 144 fotogrammi, combattimento, corsa, salvataggio e ricarica
@@ -362,6 +366,7 @@ func _group(kit: TestKit, g: String) -> void:
 			await pb.movement()
 			await TestsCombat.new(kit).run()
 			await TestsClicks.new(kit).run()
+			await TestsGenRepeat.new(kit).run()
 			await wb.run_and_save()
 		"casa":
 			await TestsBuilding.new(kit).run()

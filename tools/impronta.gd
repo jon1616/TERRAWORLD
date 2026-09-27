@@ -76,33 +76,9 @@ func _init() -> void:
 	for sd in [1, 2]:
 		var w := World.new()
 		WorldGen.generate(w, sd, WorldGen.WIDTH, WorldGen.HEIGHT, {"vigore": 2, "geni": []})
-		lines.append_array(world_lines(w, "mondo_%d" % sd))
+		lines.append_array(WorldGen.fingerprint(w, "mondo_%d" % sd))
 	var text := "\n".join(lines)
 	print(text)
 	var f := FileAccess.open("res://prove/impronta.txt", FileAccess.WRITE)
 	f.store_string(text + "\n")
 	quit()
-
-
-## L'impronta di un mondo, una riga per parte (così si vede subito che cosa è cambiato). La usa anche la prova della
-## ripetibilità del generatore.
-static func world_lines(w: World, name: String) -> PackedStringArray:
-	var st := []
-	for k in w.stations:
-		st.append("%s=%s" % [k, w.stations[k]])
-	st.sort()
-	var tr := []
-	for k in w.trees:
-		for t in w.trees[k]:
-			tr.append(str(t))
-	tr.sort()
-	var ch := []
-	for k in w.chests:
-		ch.append("%s=%s" % [k, (w.chests[k] as Bisaccia).slots])
-	ch.sort()
-	var out := PackedStringArray()
-	for part in [["tessere", w.tiles.hex_encode()], ["pareti", w.walls.hex_encode()], ["biomi", w.biomes.hex_encode()],
-			["decorazioni", w.decor.hex_encode()], ["liquidi", w.liquid.hex_encode()], ["superficie", str(w.surface)],
-			["stazioni", str(st)], ["alberi", str(tr)], ["casse", str(ch)], ["partenza", str(w.spawn)]]:
-		out.append("%-22s %s" % ["%s %s" % [name, part[0]], String(part[1]).md5_text()])
-	return out

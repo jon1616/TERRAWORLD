@@ -13,6 +13,7 @@ var params := {
 	"geni": [],                 # dal Seme (voce 42): il genoma; senza gene di superficie = tutti i biomi (il mondo casa)
 }
 var _gen := {}
+var _off := PackedInt32Array()
 ## Appunti che una passata lascia alle successive (es. le uscite delle gallerie d'ingresso).
 var notes := {}
 
@@ -35,6 +36,24 @@ func band_rng(band: int) -> RandomNumberGenerator:
 	var r := RandomNumberGenerator.new()
 	r.seed = ("%d|%d" % [pass_seed, band]).hash()
 	return r
+
+
+## Lo spostamento del confine degli strati per ogni colonna (`StrataData.offset`): calcolato una volta sola per mondo
+## (prima lo rifacevano cinque passate). Lo strato di una cella: dep = y - surface[x] - off[x], poi il più profondo di
+## `strata_tops()` che dep raggiunge.
+func strata_off(w: World) -> PackedInt32Array:
+	if _off.size() != w.w:
+		_off.resize(w.w)
+		for x in w.w:
+			_off[x] = StrataData.offset(x, w.world_seed)
+	return _off
+
+
+func strata_tops() -> PackedInt32Array:
+	var tops := PackedInt32Array()
+	for st in StrataData.STRATA:
+		tops.append(int(st["top"]))
+	return tops
 
 
 ## La somma degli effetti dei geni sul generatore (calcolata una volta sola).

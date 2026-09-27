@@ -13,72 +13,84 @@ func title() -> String:
 
 
 func run(w: World, c: GenContext) -> void:
-	var rng := c.rng
-	var off := PackedInt32Array()
-	off.resize(w.w)
-	for x in w.w:
-		off[x] = StrataData.offset(x, w.world_seed)
-	var tops := PackedInt32Array()
-	for st in StrataData.STRATA:
-		tops.append(int(st["top"]))
+	var off := c.strata_off(w)
+	var tops := c.strata_tops()
 	var last := tops.size() - 1
 	var veg := {}
 	for b in BiomesData.BIOMES:
 		veg[int(b["grass"])] = b.get("veg", [])
 	for u in BiomesData.UNDER:
 		veg[int(u["floor"])] = u.get("veg", [])       # voce 94: i pavimenti dei biomi del sottosuolo
-	for y in range(1, w.h - 1):
-		for x in w.w:
-			if w.tiles[y * w.w + x] != TileDefs.AIR:
-				continue
-			var below := w.tiles[(y + 1) * w.w + x]
-			var above := w.tiles[(y - 1) * w.w + x]
-			var dep := y - w.surface[x]
-			var sk := last
-			while sk > 0 and dep - off[x] < tops[sk]:
-				sk -= 1
-			var r := rng.randf()
-			var d := 0
-			if below == TileDefs.AIR or below == TileDefs.CRYSTAL:
-				# niente pavimento: forse qualcosa che pende dal soffitto
-				if above != TileDefs.AIR and dep > 3 and w.walls[y * w.w + x] != 0:
-					if sk == 3 and r < 0.1:
-						d = TileDefs.DECOR_LINFA
-					elif r < (0.12 if sk == 1 else 0.06) and sk < 4:
-						d = TileDefs.DECOR_ROOTS[0] if rng.randf() < 0.5 else TileDefs.DECOR_ROOTS[1]
-			elif veg.has(below):
-				d = _veg(veg[below], r, rng)            # voce 91: la vegetazione del bioma di quell'erba
-			else:
-				match sk:
-					0, 1:
-						if r < 0.05:
-							d = TileDefs.DECOR_ROCKS[rng.randi_range(0, 1)]
-						elif dep > 8 and r < 0.09:
-							d = TileDefs.DECOR_MUSHROOM
-					2:
-						if r < 0.06:
-							d = TileDefs.DECOR_ROCKS[rng.randi_range(0, 1)]
-						elif r < 0.09:
-							d = TileDefs.DECOR_MUSHROOM
-						elif r < 0.13:
-							d = TileDefs.DECOR_SPORE
-					3:
-						if r < 0.12:
-							d = TileDefs.DECOR_GLOW
-						elif r < 0.17:
-							d = TileDefs.DECOR_SPORE
-						elif r < 0.2:
-							d = TileDefs.DECOR_ROCKS[rng.randi_range(0, 1)]
-					4:
-						if r < 0.1:
-							d = TileDefs.DECOR_SHARD
-						elif r < 0.13:
-							d = TileDefs.DECOR_GLOW
-			w.decor[y * w.w + x] = d
+	var tiles := w.tiles
+	var walls := w.walls
+	var decor := w.decor
+	var surf := w.surface
+	var ww := w.w
+	var hh := w.h
+	# a fasce di righe su più processori (`GenBands`), ognuna con il suo caso (`GenContext.band_rng`)
+	var parts := GenBands.run(hh, func(b: int, y0: int, y1: int) -> Array:
+		var rng := c.band_rng(b)
+		var out: PackedByteArray = decor.slice(y0 * ww, y1 * ww)
+		for y in range(maxi(y0, 1), mini(y1, hh - 1)):
+			for x in ww:
+				var i := y * ww + x
+				if tiles[i] != TileDefs.AIR:
+					continue
+				var below := tiles[i + ww]
+				var above := tiles[i - ww]
+				var dep := y - surf[x]
+				var sk := last
+				while sk > 0 and dep - off[x] < tops[sk]:
+					sk -= 1
+				var r := rng.randf()
+				var d := 0
+				if below == TileDefs.AIR or below == TileDefs.CRYSTAL:
+					# niente pavimento: forse qualcosa che pende dal soffitto
+					if above != TileDefs.AIR and dep > 3 and walls[i] != 0:
+						if sk == 3 and r < 0.1:
+							d = TileDefs.DECOR_LINFA
+						elif r < (0.12 if sk == 1 else 0.06) and sk < 4:
+							d = TileDefs.DECOR_ROOTS[0] if rng.randf() < 0.5 else TileDefs.DECOR_ROOTS[1]
+				elif veg.has(below):
+					d = _veg(veg[below], r, rng)            # voce 91: la vegetazione del bioma di quell'erba
+				else:
+					d = _deep(sk, dep, r, rng)
+				out[i - y0 * ww] = d
+		return [out])
+	w.decor = GenBands.join(parts, 0)
 	for k in w.trees:
 		for t in w.trees[k]:
 			w.set_decor(t.x, t.y, 0)
 
+
+## Le decorazioni di un pavimento senza vegetazione, secondo lo strato (0 = niente).
+static func _deep(sk: int, dep: int, r: float, rng: RandomNumberGenerator) -> int:
+	match sk:
+		0, 1:
+			if r < 0.05:
+				return TileDefs.DECOR_ROCKS[rng.randi_range(0, 1)]
+			elif dep > 8 and r < 0.09:
+				return TileDefs.DECOR_MUSHROOM
+		2:
+			if r < 0.06:
+				return TileDefs.DECOR_ROCKS[rng.randi_range(0, 1)]
+			elif r < 0.09:
+				return TileDefs.DECOR_MUSHROOM
+			elif r < 0.13:
+				return TileDefs.DECOR_SPORE
+		3:
+			if r < 0.12:
+				return TileDefs.DECOR_GLOW
+			elif r < 0.17:
+				return TileDefs.DECOR_SPORE
+			elif r < 0.2:
+				return TileDefs.DECOR_ROCKS[rng.randi_range(0, 1)]
+		4:
+			if r < 0.1:
+				return TileDefs.DECOR_SHARD
+			elif r < 0.13:
+				return TileDefs.DECOR_GLOW
+	return 0
 
 
 ## Voce 91: una pianta dalla tabella `veg` di un bioma ([[fino a, cosa], …]); 0 = niente.

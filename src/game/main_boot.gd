@@ -35,7 +35,9 @@ static func new_world(m: Node2D) -> void:
 		"nero": nw.get("nero", false)}         # voce 72
 	var gw := WorldGen.GARDEN_W if params["giardino"] else WorldGen.WIDTH
 	var gh := WorldGen.GARDEN_H if params["giardino"] else WorldGen.HEIGHT
-	m._gen_task = WorkerThreadPool.add_task(func() -> void: m.gen_times = WorldGen.generate(m.world, sd, gw, gh, params), false, "genera mondo")
+	# un thread tutto suo (non il gruppo di thread): così le passate a fasce (`GenBands`) usano tutti i processori
+	m._gen_thread = Thread.new()
+	m._gen_thread.start(func() -> void: m.gen_times = WorldGen.generate(m.world, sd, gw, gh, params))
 
 
 ## La schermata d'attesa mentre il mondo si carica o nasce.

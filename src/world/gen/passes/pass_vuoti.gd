@@ -17,10 +17,8 @@ func run(w: World, c: GenContext) -> void:
 	var tiles := w.tiles
 	# si parte dalla riga più alta in cui può cominciare il Fondo: sopra non c'è nulla da fare
 	var first := w.h
-	var off := PackedInt32Array()
-	off.resize(w.w)
+	var off := c.strata_off(w)
 	for x in w.w:
-		off[x] = StrataData.offset(x, w.world_seed)
 		first = mini(first, w.surface[x] + off[x] + top)
 	for y in range(maxi(first, 0), w.h):
 		var row := y * w.w

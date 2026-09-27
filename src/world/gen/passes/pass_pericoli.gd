@@ -16,34 +16,48 @@ func title() -> String:
 
 func run(w: World, c: GenContext) -> void:
 	var rng := c.rng
-	var off := PackedInt32Array()
-	off.resize(w.w)
-	for x in w.w:
-		off[x] = StrataData.offset(x, w.world_seed)
-	var tops := PackedInt32Array()
-	for st in StrataData.STRATA:
-		tops.append(int(st["top"]))
+	var off := c.strata_off(w)
+	var tops := c.strata_tops()
 	var last := tops.size() - 1
-	for y in range(2, w.h - 1):
-		for x in range(1, w.w - 1):
-			var i := y * w.w + x
-			if w.tiles[i] != TileDefs.AIR or w.decor[i] != 0 or w.tiles[i + w.w] == TileDefs.AIR:
-				continue
-			var below := w.tiles[i + w.w]
-			var chance := 0.0
-			if below in TileDefs.BLIGHTED:
-				chance = ROVO_BLIGHT
-			elif w.walls[i] != 0 and below != TileDefs.PIETRA_SEM:
-				var sk := last
-				while sk > 0 and y - w.surface[x] - off[x] < tops[sk]:
-					sk -= 1
-				chance = ROVO[sk]
-			if chance > 0.0 and rng.randf() < chance:
-				# un cespuglio: la tessera e qualcuna accanto sullo stesso pavimento
-				for dx in rng.randi_range(1, 3):
-					var j := i + dx
-					if w.tiles[j] == TileDefs.AIR and w.decor[j] == 0 and w.tiles[j + w.w] != TileDefs.AIR:
-						w.decor[j] = TileDefs.DECOR_ROVO
+	var blighted := PackedByteArray()
+	blighted.resize(TileDefs.TYPES + 1)
+	for t in TileDefs.BLIGHTED:
+		blighted[t] = 1
+	var tiles := w.tiles
+	var walls := w.walls
+	var decor := w.decor
+	var surf := w.surface
+	var ww := w.w
+	var hh := w.h
+	# a fasce di righe su più processori (`GenBands`), ognuna con il suo caso; un cespuglio resta nella sua riga
+	var parts := GenBands.run(hh, func(b: int, y0: int, y1: int) -> Array:
+		var r := c.band_rng(b)
+		var out: PackedByteArray = decor.slice(y0 * ww, y1 * ww)
+		for y in range(maxi(y0, 2), mini(y1, hh - 1)):
+			var base := (y - y0) * ww
+			for x in range(1, ww - 1):
+				var i := y * ww + x
+				if tiles[i] != TileDefs.AIR or out[base + x] != 0 or tiles[i + ww] == TileDefs.AIR:
+					continue
+				var below := tiles[i + ww]
+				var chance := 0.0
+				if blighted[below] == 1:
+					chance = ROVO_BLIGHT
+				elif walls[i] != 0 and below != TileDefs.PIETRA_SEM:
+					var sk := last
+					while sk > 0 and y - surf[x] - off[x] < tops[sk]:
+						sk -= 1
+					chance = ROVO[sk]
+				if chance > 0.0 and r.randf() < chance:
+					# un cespuglio: la tessera e qualcuna accanto sullo stesso pavimento
+					for dx in r.randi_range(1, 3):
+						if x + dx >= ww:
+							break
+						var j := i + dx
+						if tiles[j] == TileDefs.AIR and out[base + x + dx] == 0 and tiles[j + ww] != TileDefs.AIR:
+							out[base + x + dx] = TileDefs.DECOR_ROVO
+		return [out])
+	w.decor = GenBands.join(parts, 0)
 	# rune trappola: sul pavimento di ogni rovina, lontano dallo scrigno
 	for p in c.notes.get("rovine", []):
 		var cells: Array[Vector2i] = []

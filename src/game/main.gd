@@ -89,6 +89,7 @@ var _spores: CPUParticles2D
 var built := false
 var gen_times: Array = []
 var _gen_task := -1
+var _gen_thread: Thread = null           # la generazione di un mondo nuovo (`MainBoot.new_world`)
 var _loading: CanvasLayer
 var _view_key := Rect2i()
 var world_id := ""
@@ -333,6 +334,10 @@ func _process(dt: float) -> void:
 			WorkerThreadPool.wait_for_task_completion(_gen_task)
 			_gen_task = -1
 			_build()
+		elif _gen_thread != null and not _gen_thread.is_alive():
+			_gen_thread.wait_to_finish()
+			_gen_thread = null
+			_build()
 		return
 	cam.position = player.position + Vector2(0, -12)
 	var vc := view_cells()
@@ -387,6 +392,9 @@ func _exit_tree() -> void:
 	if _gen_task >= 0:
 		WorkerThreadPool.wait_for_task_completion(_gen_task)
 		_gen_task = -1
+	if _gen_thread != null:
+		_gen_thread.wait_to_finish()
+		_gen_thread = null
 	if light:
 		light.finish()
 

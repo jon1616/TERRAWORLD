@@ -29,24 +29,30 @@ func run(w: World, c: GenContext) -> void:
 	n_cell.fractal_type = FastNoiseLite.FRACTAL_NONE
 	n_cell.cellular_return_type = FastNoiseLite.RETURN_DISTANCE2_SUB
 	var tiles := w.tiles
-	for y in w.h:
-		var row := y * w.w
-		for x in w.w:
-			var dep := y - w.surface[x]
-			if dep <= 6:
-				continue
-			var f := minf(dep / 300.0, 1.0)
-			var reg := n_reg.get_noise_2d(x, y) * 1.6
-			var worm := (0.035 + 0.025 * f + 0.02 * reg) * worm_k
-			var room := 0.47 - 0.16 * f - 0.1 * reg + room_d
-			var carve := absf(n_worm.get_noise_2d(x, y * 1.4)) < worm or n_room.get_noise_2d(x, y * 1.2) > room
-			if not carve and dep > DEEP:
-				carve = n_big.get_noise_2d(x, y * 1.5) > 0.5 - 0.08 * minf((dep - DEEP) / 200.0, 1.0) + big_d
-			if not carve and comb and dep > 30:
-				carve = n_cell.get_noise_2d(x, y * 1.15) > -0.62         # l'interno di una cella; i bordi restano muri
-			if carve:
-				tiles[row + x] = TileDefs.AIR
-	w.tiles = tiles
+	var surf := w.surface
+	var ww := w.w
+	# a fasce di righe su più processori (`GenBands`): ogni cella dipende solo da sé
+	var parts := GenBands.run(w.h, func(_b: int, y0: int, y1: int) -> Array:
+		var t: PackedByteArray = tiles.slice(y0 * ww, y1 * ww)
+		for y in range(y0, y1):
+			var row := (y - y0) * ww
+			for x in ww:
+				var dep := y - surf[x]
+				if dep <= 6:
+					continue
+				var f := minf(dep / 300.0, 1.0)
+				var reg := n_reg.get_noise_2d(x, y) * 1.6
+				var worm := (0.035 + 0.025 * f + 0.02 * reg) * worm_k
+				var room := 0.47 - 0.16 * f - 0.1 * reg + room_d
+				var carve := absf(n_worm.get_noise_2d(x, y * 1.4)) < worm or n_room.get_noise_2d(x, y * 1.2) > room
+				if not carve and dep > DEEP:
+					carve = n_big.get_noise_2d(x, y * 1.5) > 0.5 - 0.08 * minf((dep - DEEP) / 200.0, 1.0) + big_d
+				if not carve and comb and dep > 30:
+					carve = n_cell.get_noise_2d(x, y * 1.15) > -0.62     # l'interno di una cella; i bordi restano muri
+				if carve:
+					t[row + x] = TileDefs.AIR
+		return [t])
+	w.tiles = GenBands.join(parts, 0)
 	_shafts(w, c, int(g["shafts"]))
 
 
