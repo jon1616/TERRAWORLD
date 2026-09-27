@@ -23,22 +23,40 @@ static func variant_of(x: int, y: int) -> int:
 	return posmod(x, REP) + REP * posmod(y, REP)
 
 
+## Le trame del terreno non cambiano da un mondo all'altro: si dipingono una volta per sessione (costavano quasi 5 s
+## a ogni ingresso in un mondo, 28 set 2026).
+static var _built := {}
+
+
 static func build() -> Dictionary:
+	if not _built.is_empty():
+		return _built
 	var layers: Array = TileDefs.TERRAIN_LAYERS
 	var img := Px.img(VARIANTS * 16 * S, layers.size() * S)
 	var glow := Px.img(VARIANTS * 16 * S, layers.size() * S)
 	var jitter := wrap_noise(TEX, 8, 991)
-	for li in layers.size():
+	# ogni strato del terreno è una striscia a sé: si dipingono insieme su più processori e poi si incollano
+	var strips := []
+	strips.resize(layers.size())
+	Par.each(layers.size(), func(li: int) -> void:
 		var L: Dictionary = layers[li]
 		var tex := material(String(L["id"]), Px.pal(L["pal"]), 100 + li)
-		var gl: Image = glow if L.get("glow", false) else null
+		var si := Px.img(VARIANTS * 16 * S, S)
+		var sg: Image = Px.img(VARIANTS * 16 * S, S) if L.get("glow", false) else null
 		for v in VARIANTS:
 			for k in range(1, 16):
 				if L.get("square", false):
-					_square(img, (v * 16 + k) * S, li * S, v % REP, v / REP, k, tex)
+					_square(si, (v * 16 + k) * S, 0, v % REP, v / REP, k, tex)
 				else:
-					_shape(img, gl, (v * 16 + k) * S, li * S, v % REP, v / REP, k, tex, jitter, li == 0)
-	return {"img": img, "glow": glow}
+					_shape(si, sg, (v * 16 + k) * S, 0, v % REP, v / REP, k, tex, jitter, li == 0)
+		strips[li] = [si, sg], "pittore del terreno")
+	for li in layers.size():
+		var r := Rect2i(0, 0, VARIANTS * 16 * S, S)
+		img.blit_rect(strips[li][0], r, Vector2i(0, li * S))
+		if strips[li][1] != null:
+			glow.blit_rect(strips[li][1], r, Vector2i(0, li * S))
+	_built = {"img": img, "glow": glow}
+	return _built
 
 
 # ---------------------------------------------------------------- forme

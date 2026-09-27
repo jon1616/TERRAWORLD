@@ -21,12 +21,7 @@ static func run(h: int, job: Callable) -> Array:
 	out.resize(n)
 	var one := func(i: int) -> void:
 		out[i] = job.call(i, i * ROWS, mini((i + 1) * ROWS, h))
-	if WorkerThreadPool.get_caller_task_id() == -1 and WorkerThreadPool.get_caller_group_id() == -1:
-		var g := WorkerThreadPool.add_group_task(one, n, -1, true, "generatore a fasce")
-		WorkerThreadPool.wait_for_group_task_completion(g)
-	else:
-		for i in n:
-			one.call(i)
+	Par.each(n, one, "generatore a fasce")
 	return out
 
 

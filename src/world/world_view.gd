@@ -25,12 +25,12 @@ var _glow_layer := -1                 # strato del terreno che ha anche la versi
 
 func setup(w: World) -> void:
 	world = w
-	var terrain := TerrainPainter.build()
-	ts_terrain = _tileset(ImageTexture.create_from_image(terrain["img"]), 16 * TerrainPainter.VARIANTS, TileDefs.TERRAIN_LAYERS.size())
-	ts_terrain_glow = _tileset(ImageTexture.create_from_image(terrain["glow"]), 16 * TerrainPainter.VARIANTS, TileDefs.TERRAIN_LAYERS.size())
-	var misc := DecorPainter.build()
-	ts_misc = _tileset(ImageTexture.create_from_image(misc["img"]), DecorPainter.COLS, DecorPainter.ROWS)
-	ts_misc_glow = _tileset(ImageTexture.create_from_image(misc["glow"]), DecorPainter.COLS, DecorPainter.ROWS)
+	# trame e tavole uguali in ogni mondo: preparate una volta per sessione, in sottofondo dal menu (`ViewArt`)
+	var art := ViewArt.get_all()
+	ts_terrain = art["terrain"]
+	ts_terrain_glow = art["terrain_glow"]
+	ts_misc = art["misc"]
+	ts_misc_glow = art["misc_glow"]
 	for li in TileDefs.TERRAIN_LAYERS.size():
 		var L: Dictionary = TileDefs.TERRAIN_LAYERS[li]
 		var m := PackedByteArray()
@@ -42,19 +42,6 @@ func setup(w: World) -> void:
 			_glow_layer = li
 	props = ViewProps.new()
 	props.setup(self, w)
-
-func _tileset(tex: Texture2D, cols: int, rows: int) -> TileSet:
-	var ts := TileSet.new()
-	ts.tile_size = Vector2i(S, S)
-	var src := TileSetAtlasSource.new()
-	src.texture = tex
-	src.texture_region_size = Vector2i(S, S)
-	for r in rows:
-		for c in cols:
-			src.create_tile(Vector2i(c, r))
-	ts.add_source(src, 0)
-	return ts
-
 
 ## Rettangolo visibile in celle: decide quali blocchi servono. `immediate` li costruisce tutti subito.
 func set_view(view_cells: Rect2i, immediate := false) -> void:

@@ -25,13 +25,15 @@ func setup(v: WorldView, w: World) -> void:
 	var species := {}
 	for b in w.biomes:
 		species[TreesData.species_of_biome(b)] = true
+	var codes := []
 	for sp in species:
 		for size in TreesData.SIZES.size():
 			for f in TreesData.FORMS:
-				_tree_tex(TreesData.encode(int(sp), size, f))
-	for id in StationsData.STATIONS:
-		var st := StationArt.make(id)
-		tex_stations[id] = {"img": ImageTexture.create_from_image(st["img"]), "glow": ImageTexture.create_from_image(st["glow"])}
+				codes.append(TreesData.encode(int(sp), size, f))
+	# (uno alla volta: provati su più processori andavano più lenti, 3,4 s invece di 1,8 per 120 alberi)
+	for code in codes:
+		_tree_tex(int(code))
+	tex_stations = ViewArt.get_all()["stations"]         # uguali in ogni mondo: una volta per sessione
 	tex_flame = ImageTexture.create_from_image(NatureArt.flame())
 	tex_stick = ImageTexture.create_from_image(NatureArt.torch_stick())
 	var hg := GradientTexture2D.new()
@@ -103,11 +105,17 @@ func tree_node(chunk: Node2D, t: Vector3i) -> void:
 ## Il disegno di una variante d'albero (fatto la prima volta che serve, poi riusato).
 func _tree_tex(v: int) -> Dictionary:
 	if not tex_trees.has(v):
-		var d := TreesData.decode(v)
-		var sp: Dictionary = TreesData.SPECIES[d[0]]
-		var tr := TreeArt.make(String(sp["art"]), int(TreesData.SIZES[d[1]]["h"]), world.world_seed * 7 + v * 131)
+		var tr := _tree_art(v, world.world_seed)
 		tex_trees[v] = {"img": ImageTexture.create_from_image(tr["img"]), "glow": ImageTexture.create_from_image(tr["glow"])}
 	return tex_trees[v]
+
+
+## Il disegno di un albero (specie × grandezza × forma) per un mondo: le immagini, senza texture (si può fare in un
+## thread).
+static func _tree_art(v: int, sd: int) -> Dictionary:
+	var d := TreesData.decode(v)
+	var sp: Dictionary = TreesData.SPECIES[d[0]]
+	return TreeArt.make(String(sp["art"]), int(TreesData.SIZES[d[1]]["h"]), sd * 7 + v * 131)
 
 
 func _tree_pivot(base: Vector2i) -> Node2D:

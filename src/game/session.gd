@@ -21,6 +21,12 @@ func _ready() -> void:
 	else:
 		Settings.load_once()
 		Settings.apply()
+	# le trame e le tavole del mondo si preparano in sottofondo mentre si sceglie il personaggio (`ViewArt`)
+	ViewArt.start()
+
+
+func _exit_tree() -> void:
+	ViewArt.finish()
 
 
 ## `extra`: dati in più per il mondo nuovo (dal portale: "vigore" e "ritorno" = id del mondo d'origine).
