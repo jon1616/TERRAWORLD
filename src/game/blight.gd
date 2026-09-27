@@ -79,6 +79,8 @@ func spread(n: int) -> int:
 		var b := TileDefs.blighted_of(w.tile(q.x, q.y))
 		if b < 0:
 			continue
+		if m.zones != null and m.zones.add_at(Vector2(q) * 16.0, "puro") > 0.0:
+			continue                                   # voce 87: il Totem della radice pura
 		w.set_tile(q.x, q.y, b)
 		var d := w.decor_at(q.x, q.y - 1)
 		if d != 0 and not d in TileDefs.DECOR_CEILING:

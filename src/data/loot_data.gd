@@ -64,6 +64,8 @@ const TABLES := {
 		{"item": "cuore_muschio", "min": 1, "max": 1, "chance": 0.1},
 	],
 	"rovina_3": [
+		{"item": "totem_antico_germoglio", "min": 1, "max": 1, "chance": 0.06},          # voce 87
+		{"item": "totem_antico_quiete", "min": 1, "max": 1, "chance": 0.06},          # voce 87
 		{"item": "tavoletta_seminatori", "min": 1, "max": 2, "chance": 0.45},
 		{"item": "lumino", "min": 20, "max": 50, "chance": 1.0},
 		{"item": "baccello_vento", "min": 1, "max": 1, "chance": 0.1},
@@ -79,6 +81,8 @@ const TABLES := {
 		{"item": "foglia_planante", "min": 1, "max": 1, "chance": 0.12},
 	],
 	"rovina_4": [
+		{"item": "totem_antico_stirpi", "min": 1, "max": 1, "chance": 0.06},          # voce 87
+		{"item": "totem_antico_quiete", "min": 1, "max": 1, "chance": 0.06},          # voce 87
 		{"item": "tavoletta_seminatori", "min": 1, "max": 2, "chance": 0.5},
 		{"item": "lumino", "min": 40, "max": 90, "chance": 1.0},
 		{"item": "lingotto_ambra", "min": 4, "max": 8, "chance": 0.5},

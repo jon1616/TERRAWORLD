@@ -43,6 +43,8 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 			_reliquiario(im, gm, w, h)
 		"arena":
 			_arena(im, gm, w, h)
+		_ when ZonesData.is_totem(id):
+			_totem(im, gm, w, h, ZonesData.info(id))
 		_:
 			if not ChestsData.is_chest(id):
 				return false
@@ -332,3 +334,36 @@ static func _arena(im: Image, gm: Image, w: int, h: int) -> void:
 	for x in range(w / 2 - 6, w / 2 + 6):
 		Px.put(im, x, h - 5, amb[3])
 		Px.put(gm, x, h - 5, amb[2])
+
+
+## Voce 87, i totem di zona (1×2): un palo di legno fasciato del metallo del grado, in cima il segno del tipo nel suo
+## colore (acceso), e per gli stendardi un drappo; gli antichi in pietra dei Seminatori.
+static func _totem(im: Image, gm: Image, w: int, h: int, d: Dictionary) -> void:
+	var td: Dictionary = ZonesData.TYPES[d["type"]]
+	var col := Color(String(td["color"]))
+	var old := not d.has("tier")
+	var pole := Px.pal(TileDefs.P_SEM) if old else _wood()
+	var met := ItemIcons.pal(["radicite", "legnoferro", "ambra"][clampi(int(d.get("tier", 1)) - 1, 0, 2)] if not old else "brillaluce")
+	var cx := w / 2
+	for y in range(8, h):
+		Px.put(im, cx - 1, y, pole[2])
+		Px.put(im, cx, y, pole[3])
+	for y in [12, 20, h - 3]:
+		Px.put(im, cx - 1, y, met[3])
+		Px.put(im, cx, y, met[3])
+	match String(td["icon"]):
+		"velo":
+			for y in range(4, 16):
+				for x in range(cx + 1, mini(cx + 7, w)):
+					Px.put(im, x, y, col.darkened(0.35) if (x + y) % 5 else col)
+			Px.put(gm, cx + 3, 9, col)
+		"altare":
+			for y in range(h - 6, h):
+				for x in range(1, w - 1):
+					Px.put(im, x, y, pole[2] if y > h - 3 else pole[3])
+		_:
+			pass
+	for q in [Vector2i(cx - 1, 5), Vector2i(cx, 5), Vector2i(cx - 1, 6), Vector2i(cx, 6), Vector2i(cx - 2, 6), Vector2i(cx + 1, 6),
+			Vector2i(cx - 1, 7), Vector2i(cx, 7), Vector2i(cx - 1, 4), Vector2i(cx, 4)]:
+		Px.put(im, q.x, q.y, col)
+		Px.put(gm, q.x, q.y, col)

@@ -18,6 +18,8 @@ var sfx: Sfx
 var light: LightMap                    # per nascere solo al buio
 var vigor := 1                         # vigore del mondo (voce 12)
 var vigor_mult := 1.0                  # creature più forti nei mondi oltre i portali
+var zone_mult: Callable                # voce 87: (punto, chiave) -> moltiplicatore dei totem (`Zones.mult_at`)
+var zone_add: Callable                 # voce 87: (punto, chiave) -> aggiunta dei totem (`Zones.add_at`)
 var quiet_c := Vector2i(-1, -1)        # voce 84: il Cerchio dei Seminatori durante uno scontro (niente nascite attorno)
 var grade := 0                         # voce 79: il grado del mondo (vigore / 5), le indoli nuove (lo imposta `Vigor`)
 var force_ancient := false             # voce 82: la sfida «Solo antiche»
@@ -185,8 +187,9 @@ func kill(c: Creature) -> void:
 	var rolls := 1
 	if c.ancient:
 		rolls = int(AncientData.RARITIES[c.ancient.rarity]["loot_rolls"])
-	if _rng.randf() < (luck + boon_luck) * 0.5:
+	if _rng.randf() < (luck + boon_luck + _za(c.position, "fortuna")) * 0.5:
 		rolls += 1
+	rolls += int(_za(c.position, "bottino"))            # voce 87: lo Stendardo del saccheggio
 	# i Lumini (voce 36): quanti secondo quanto era forte, di più per le rare e i boss
 	var lum := maxi(1, roundi(c.hp_max / 18.0))
 	if c.ancient:
@@ -296,6 +299,8 @@ func try_spawn() -> Creature:
 		return null
 	if quiet_c.x >= 0 and Vector2(c - quiet_c).length() < SummonData.ARENA_R:
 		return null                                     # voce 84: attorno al Cerchio, durante uno scontro evocato
+	if _za(Vector2(c) * S, "quiete") > 0.0:
+		return null                                     # voce 87: il Totem della quiete
 	var stratum := StrataData.at(world, c.x, c.y)
 	if world.liq(c.x, c.y) >= 6 and world.liq_type(c.x, c.y) != LiquidsData.BRACE:
 		return _spawn_water(c)                          # voce 73: nell'acqua nascono le creature d'acqua
@@ -326,11 +331,12 @@ func try_spawn() -> Creature:
 			if stratum > 0 and not _dark(Vector2i(c.x, y)):
 				return null                # sotto terra si nasce solo al buio
 			var cr := add(id, Vector2(c.x * S + 8, (y + 1) * S - CreaturesData.get_data(id)["half"][1] - 0.1))
-			var mult := float(StrataData.STRATA[stratum]["danger"]) * vigor_mult
+			var zp := Vector2(c.x, y) * S                # voce 87: i totem di zona dove nasce
+			var mult := float(StrataData.STRATA[stratum]["danger"]) * vigor_mult * _zm(zp, "forza")
 			cr.strengthen(mult, mult * DangerData.DAMAGE)
 			var grouped: bool = CreaturesData.get_data(id).has("group")
-			var rarity := AncientData.roll_rarity(DangerData.at(world, Vector2i(c.x, y), night, vigor) + event_danger, _rng,
-				grouped, rare_mult * event_rare * world_rare)
+			var rarity := AncientData.roll_rarity(DangerData.at(world, Vector2i(c.x, y), night, vigor) + event_danger
+				+ _za(zp, "pericolo"), _rng, grouped, rare_mult * event_rare * world_rare * _zm(zp, "rare"))
 			if rarity == "" and force_ancient:
 				rarity = "antica"
 			if rarity != "":
@@ -434,3 +440,12 @@ func _pick(choices: Array) -> String:
 		if r <= 0:
 			return String(e[0])
 	return String(choices[0][0])
+
+
+## Voce 87: i totem di zona (1 / 0 se `Zones` non c'è, come negli strumenti senza finestra).
+func _zm(pos: Vector2, key: String) -> float:
+	return float(zone_mult.call(pos, key)) if zone_mult.is_valid() else 1.0
+
+
+func _za(pos: Vector2, key: String) -> float:
+	return float(zone_add.call(pos, key)) if zone_add.is_valid() else 0.0

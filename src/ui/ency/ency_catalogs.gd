@@ -139,6 +139,11 @@ static func inline(key: String) -> String:
 				rows.append(_b(String(pd["name"]), "%s · nei mondi con %s · %s" % [pd["banner"], " o ".join(gn),
 					"in superficie" if pd.get("surface", false) else "nello strato «%s»" % StrataData.STRATA[int(pd["strata"][0])]["name"]],
 					String(pd["color"])))
+		"cat_totem":
+			for t in ZonesData.TYPES:
+				var td: Dictionary = ZonesData.TYPES[t]
+				rows.append(_b(String(td["name"]), "%s%s" % [td["desc"], " [color=#ff9a7a](scambio)[/color]" if td.get("cost", false) else ""],
+					String(td["color"])))
 		"cat_gemme":
 			for g in JewelsData.GEMS:
 				var gd: Dictionary = JewelsData.GEMS[g]

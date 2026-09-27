@@ -1653,13 +1653,24 @@ colonne da quattro; tipi nuovi in categorie di Creare, casse, tratti, tempra, co
 disegno di guanti e stivali sul Germogliato resta per la Roadmap della grafica (scelta dell'utente). Capitolo
 nell'Enciclopedia con le gemme. Prove `--solo=posti` (foto 153_dieci_posti); prova dei set aggiornata.
 
-## 87. [ ] Totem, stendardi e altari: gli oggetti di zona (M)
+## 87. [x] Totem, stendardi e altari: gli oggetti di zona (M) — fatto il 27 set 2026
 Oggetti da piazzare che danno un **bonus o un malus in un raggio** (visibile quando li si tiene in mano o li si
 piazza): crescita dell'orto, rigenerazione, fortuna, luce, meno creature; e gli **scambi**: più creature rare ma più
 pericolo, più bottino ma nemici più forti, niente Avvizzimento ma niente crescita. Gradi dai materiali (raggio e forza),
 effetti dalla libreria della voce 85, un tetto per zona (non si impilano all'infinito). Alcuni solo trovati (luoghi,
 segreti, boss). Le **esche** per le farm (voce 89) sono totem.
 **Pronto quando**: la casa e le zone di lavoro si progettano con i totem, e ogni scelta ha un costo.
+**Fatto il 28 set 2026**: nove tipi di oggetti di zona (`ZonesData`, regole in `Zones`), ognuno in tre gradi (Ceppo con
+la radicite, poi Maglio con legnoferro e ambra: raggio 10, 16, 24 tessere, effetto più forte): Totem del germoglio
+(orto più svelto), Stendardo del riposo (Vita), Altarino della fortuna (bottino), Lanterna-totem (luce forte), Totem
+della quiete (niente nascite), Stendardo di guardia (le creature prendono più danno) e tre **scambi**: Altare delle
+stirpi (rare molto più spesso ma più pericolo), Stendardo del saccheggio (un giro di bottino in più ma creature più
+forti), Totem della radice pura (niente Avvizzimento ma niente crescita). Due totem dello stesso tipo non si sommano
+(vale il più forte). Tre **totem antichi** più forti si trovano solo nelle rovine del profondo. Agganci: `Garden`
+(crescita), `Vitals.zone_regen`, `Fauna.zone_mult/zone_add` (quiete, fortuna, bottino, rare, pericolo, forza),
+`Combat` (guardia), `Blight.spread` (puro). Con un totem in mano si vedono i raggi (sopra la luce). Disegno dei totem
+in `CompactArt._totem`; `verifica_dati` accetta le stazioni con la provenienza scritta. Capitolo nell'Enciclopedia.
+Prove `--solo=totem` (foto 154_totem).
 
 ## 88. [ ] Le trappole (M)
 Pezzi da costruire che feriscono le creature (e, se sbadati, il Germogliato): **spuntoni** (a terra, a parete, al

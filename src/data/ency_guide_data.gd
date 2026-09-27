@@ -128,6 +128,11 @@ Un [b]Focolare[/b] con un Letto di foglie libero vicino chiama un [url=cap:abita
 Le casse hanno dei [b]gradi[/b]: più il materiale è raro, più caselle. Le prime si fanno al Ceppo, le altre al Maglio; gli scrigni dei Seminatori si trovano soltanto, pieni, nelle rovine (più grandi più si scende) e, vuoti, si portano via e si riusano.
 {cat_casse}
 Quanti oggetti uguali stanno in una casella lo decidi nelle [url=cap:opzioni]Opzioni[/url] (Gioco → Grandezza delle pile): da un quarto del normale fino a pile infinite."""},
+	{"id": "totem", "group": "Scavare e costruire", "name": "Totem, stendardi e altari", "text":
+"""Alcune stazioni non servono a fabbricare: cambiano la [b]zona[/b] attorno a sé. Ogni tipo dà il suo effetto in un raggio; i [b]gradi[/b] (Ceppo con la radicite, poi Maglio con legnoferro e ambra) allargano il raggio e rafforzano l'effetto. Con un totem in mano si vedono i raggi di quelli già piazzati e di quello nuovo.
+Due totem dello stesso tipo [b]non si sommano[/b]: dove si sovrappongono vale il più forte. Tipi diversi, invece, lavorano insieme.
+{cat_totem}
+Gli [b]scambi[/b] danno un bonus e un costo insieme: sceglili apposta, non per caso. I [b]totem antichi[/b], più forti di quelli che si fabbricano, si trovano solo nelle rovine del profondo."""},
 	{"id": "giardino", "group": "Scavare e costruire", "name": "Il giardino e le colture", "text":
 """I [b]semi da giardino[/b] si piantano sulla terra o sull'erba giusta; la coltura cresce anche lontano da te, e matura si raccoglie con il clic destro (o scavandola). L'[b]annaffiatoio[/b] la fa crescere il doppio più in fretta. Le stagioni e certi geni cambiano la crescita.
 {cat_colture}

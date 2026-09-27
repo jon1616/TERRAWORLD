@@ -170,6 +170,7 @@ func _strike(c: Creature, dmg: int, from_x: float, force: float, elem := "") -> 
 	m.sfx.play("colpito", c.position)
 	if hit_mult.is_valid():
 		dmg = maxi(roundi(dmg * float(hit_mult.call())), 1)
+	dmg = maxi(roundi(dmg * fauna._zm(c.position, "guardia")), 1)   # voce 87: lo Stendardo di guardia
 	if elem.contains("+"):
 		# una lega con due elementi (voce 52): uno per colpo, alternati
 		_alt += 1
