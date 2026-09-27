@@ -22,6 +22,9 @@ func run(w: World, c: GenContext) -> void:
 	for st in StrataData.STRATA:
 		tops.append(int(st["top"]))
 	var last := tops.size() - 1
+	var veg := {}
+	for b in BiomesData.BIOMES:
+		veg[int(b["grass"])] = b.get("veg", [])
 	for y in range(1, w.h - 1):
 		for x in w.w:
 			if w.tiles[y * w.w + x] != TileDefs.AIR:
@@ -41,66 +44,8 @@ func run(w: World, c: GenContext) -> void:
 						d = TileDefs.DECOR_LINFA
 					elif r < (0.12 if sk == 1 else 0.06) and sk < 4:
 						d = TileDefs.DECOR_ROOTS[0] if rng.randf() < 0.5 else TileDefs.DECOR_ROOTS[1]
-			elif below == TileDefs.GRASS_SPORE:
-				# paludi di spore: erba di spore bassa, canne, funghetti, sacche di spore, funghi luminosi
-				if r < 0.28:
-					d = 34
-				elif r < 0.36:
-					d = 35
-				elif r < 0.44:
-					d = 36
-				elif r < 0.5:
-					d = TileDefs.DECOR_SPORE
-				elif r < 0.55:
-					d = TileDefs.DECOR_GLOW
-				elif r < 0.6:
-					d = TileDefs.DECOR_FLOWERS[2]
-			elif below == TileDefs.GRASS_BRINA:
-				# boschi di brina: muschio gelato, cristalli di brina, cespugli di bacche gelate, sassi
-				if r < 0.35:
-					d = 40
-				elif r < 0.42:
-					d = 41
-				elif r < 0.49:
-					d = 42
-				elif r < 0.53:
-					d = TileDefs.DECOR_ROCKS[rng.randi_range(0, 1)]
-				elif r < 0.56:
-					d = TileDefs.DECOR_FLOWERS[0]
-			elif below == TileDefs.GRASS_CENERE:
-				# cenerarie: ciuffi bruciati, braci nella cenere, stecchi carbonizzati, sassi, funghi di brace
-				if r < 0.3:
-					d = 43
-				elif r < 0.36:
-					d = 44
-				elif r < 0.43:
-					d = 45
-				elif r < 0.5:
-					d = TileDefs.DECOR_ROCKS[rng.randi_range(0, 1)]
-				elif r < 0.54:
-					d = TileDefs.DECOR_MUSHROOM
-			elif below == TileDefs.GRASS_AMBRA:
-				# distese d'ambra: erba dorata, cardi, fiori di resina, sassi caldi, campanule d'ambra
-				if r < 0.35:
-					d = 37
-				elif r < 0.43:
-					d = 38
-				elif r < 0.5:
-					d = 39
-				elif r < 0.56:
-					d = TileDefs.DECOR_ROCKS[rng.randi_range(0, 1)]
-				elif r < 0.6:
-					d = TileDefs.DECOR_FLOWERS[1]
-			elif below == TileDefs.GRASS:
-				# foresta-lanterna: muschio basso, felci, campanule, cespugli di bacche-lanterna
-				if r < 0.45:
-					d = TileDefs.DECOR_GRASS[rng.randi_range(0, 2)]
-				elif r < 0.52:
-					d = TileDefs.DECOR_FERN
-				elif r < 0.6:
-					d = TileDefs.DECOR_FLOWERS[rng.randi_range(0, 2)]
-				elif r < 0.66:
-					d = 33
+			elif veg.has(below):
+				d = _veg(veg[below], r, rng)            # voce 91: la vegetazione del bioma di quell'erba
 			else:
 				match sk:
 					0, 1:
@@ -131,3 +76,33 @@ func run(w: World, c: GenContext) -> void:
 	for k in w.trees:
 		for t in w.trees[k]:
 			w.set_decor(t.x, t.y, 0)
+
+
+
+## Voce 91: una pianta dalla tabella `veg` di un bioma ([[fino a, cosa], …]); 0 = niente.
+static func _veg(table: Array, r: float, rng: RandomNumberGenerator) -> int:
+	for e in table:
+		if r < float(e[0]):
+			var what: Variant = e[1]
+			if what is int:
+				return what
+			match String(what):
+				"fronda":
+					return TileDefs.DECOR_GRASS[rng.randi_range(0, 2)]
+				"felce":
+					return TileDefs.DECOR_FERN
+				"fiori":
+					return TileDefs.DECOR_FLOWERS[rng.randi_range(0, 2)]
+				"sassi":
+					return TileDefs.DECOR_ROCKS[rng.randi_range(0, 1)]
+				"spora":
+					return TileDefs.DECOR_SPORE
+				"bagliore":
+					return TileDefs.DECOR_GLOW
+				"fungo":
+					return TileDefs.DECOR_MUSHROOM
+				_:
+					if String(what).begins_with("fiore_"):
+						return TileDefs.DECOR_FLOWERS[int(String(what).get_slice("_", 1))]
+			return 0
+	return 0

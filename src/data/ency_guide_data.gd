@@ -75,7 +75,8 @@ Più in basso: minerali migliori (serve un [url=cap:scavare]piccone[/url] più f
 	{"id": "biomi", "group": "Il mondo", "name": "I biomi", "text":
 """La superficie di un mondo è divisa in biomi, ognuno con erba, alberi, piante, colline, cielo e creature suoi:
 {cat_biomi}
-Sotto terra ci sono i [b]biomi del sottosuolo[/b] (fungaie, geodi di brina, fiumi di brace, laghi di Linfa, cuore cavo), che dipendono dai [url=cap:geni]geni[/url] del mondo."""},
+Sotto terra ci sono i [b]biomi del sottosuolo[/b], che dipendono dai [url=cap:geni]geni[/url] del mondo:
+{cat_sottosuolo}"""},
 	{"id": "giorno", "group": "Il mondo", "name": "Giorno e notte", "text":
 """Un giorno dura {day_min} minuti. Di notte il cielo si spegne, escono creature più forti e più numerose, e ci sono [url=cap:eventi]eventi[/url] notturni. L'orologio in alto a sinistra dice giorno, ora e stagione.
 Alcuni [url=cap:geni]geni[/url] allungano le notti o schiariscono il buio."""},

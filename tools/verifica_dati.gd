@@ -181,6 +181,7 @@ func _init() -> void:
 		StationsData.STATIONS.size(), CreaturesData.CREATURES.size(), LootData.TABLES.size()])
 	_check_species()
 	_check_materials()
+	_check_biomes()
 	print("ESITO: %d errori, %d avvisi" % [errors, warnings])
 	quit()
 
@@ -259,7 +260,7 @@ func _check_species() -> void:
 		for k in d.get("gen", {}):
 			_err((GenesData.DEFAULTS["gen"] as Dictionary).has(k) or k == "biomes", "gene %s: effetto sul generatore sconosciuto «%s»" % [g, k])
 		for f in d.get("gen", {}).get("under", []):
-			_err(f in ["fungaie", "geodi_brina", "fiumi_brace", "laghi_linfa", "cuore_cavo"], "gene %s: bioma del sottosuolo sconosciuto «%s»" % [g, f])
+			_err(UnderBiomesData.UNDER.has(String(f)), "gene %s: bioma del sottosuolo sconosciuto «%s»" % [g, f])
 		_err(not d.has("only") or String(d["only"]) in ["mutazione", "firma", "stagione"], "gene %s: «only» sconosciuto" % g)
 		for x in d.get("combo", []):
 			_err(GenesData.GENES.has(x), "gene %s: combinazione con un gene inesistente «%s»" % [g, x])
@@ -417,3 +418,53 @@ func _offered(id: String) -> bool:
 			if String(o.get("item", "")) == id:
 				return true
 	return false
+
+
+
+## Voce 91: i file dei biomi. Ogni campo c'è; erba, strato e specie d'albero non si ripetono; l'erba nuova non pesta
+## una tessera scritta a mano; la vegetazione usa decorazioni che esistono; il gene di superficie c'è e porta a questo
+## bioma; le creature, i Custodi e i biomi del sottosuolo nominano biomi e tessere che esistono.
+func _check_biomes() -> void:
+	var grasses := {}
+	var layers := {}
+	var trees := {}
+	var ids := {}
+	var need := ["id", "name", "desc", "trees", "hills", "lift", "tint", "color", "weight", "grass", "turf", "tree", "veg", "elem", "gene"]
+	for b in BiomesData.BIOMES:
+		var id := String(b.get("id", "?"))
+		for k in need:
+			_err(b.has(k), "bioma %s: manca «%s»" % [id, k])
+		_err(not ids.has(id), "bioma %s ripetuto" % id)
+		ids[id] = true
+		var g := int(b.get("grass", 0))
+		_err(not grasses.has(g), "bioma %s: l'erba %d è già di un altro bioma" % [id, g])
+		grasses[g] = true
+		_err(g in [TileDefs.GRASS, TileDefs.GRASS_SPORE, TileDefs.GRASS_AMBRA, TileDefs.GRASS_BRINA, TileDefs.GRASS_CENERE] or g > TileDefs.TYPES_BASE,
+			"bioma %s: l'erba %d è una tessera scritta a mano (un bioma nuovo usa un numero oltre %d)" % [id, g, TileDefs.TYPES_BASE])
+		var turf: Dictionary = b.get("turf", {})
+		_err((turf.get("pal", []) as Array).size() == 5, "bioma %s: la tavolozza dell'erba vuole 5 colori" % id)
+		_err(not layers.has(turf.get("layer", "")), "bioma %s: lo strato «%s» è già di un altro bioma" % [id, turf.get("layer", "")])
+		layers[turf.get("layer", "")] = true
+		var tr := String((b.get("tree", {}) as Dictionary).get("id", ""))
+		_err(tr != "" and not trees.has(tr), "bioma %s: specie d'albero mancante o ripetuta" % id)
+		trees[tr] = true
+		for e in b.get("veg", []):
+			var d := PassDecorazioni._veg([[1.0, e[1]]], 0.0, RandomNumberGenerator.new())
+			_err(d > 0 and d <= TileDefs.DECOR_COUNT, "bioma %s: pianta sconosciuta «%s»" % [id, e[1]])
+		_err(String(b.get("elem", "")) == "" or ElementsData.ELEMENTS.has(String(b["elem"])), "bioma %s: elemento sconosciuto" % id)
+		for wk in b.get("weather", {}):
+			_err(WeatherData.STATES.has(wk), "bioma %s: tempo sconosciuto «%s»" % [id, wk])
+		var gd: Dictionary = GenesData.GENES.get(String(b.get("gene", "")), {})
+		_err(gd.get("cat", "") == "superficie" and (gd.get("gen", {}).get("biomes", {}) as Dictionary).has(id),
+			"bioma %s: il gene «%s» non esiste o non porta a questo bioma" % [id, b.get("gene", "")])
+	_err(String(BiomesData.BIOMES[0]["id"]) == "foresta", "il primo bioma deve restare la foresta (la partenza)")
+	for cid in CreaturesData.CREATURES:
+		for bid in CreaturesData.CREATURES[cid].get("biomes", []):
+			_err(ids.has(bid), "creatura %s: bioma sconosciuto «%s»" % [cid, bid])
+	for kid in KeepersData.KEEPERS:
+		var kb := String(KeepersData.KEEPERS[kid].get("biome", ""))
+		_err(kb == "" or ids.has(kb), "Custode %s: bioma sconosciuto «%s»" % [kid, kb])
+	for u in UnderBiomesData.UNDER:
+		var ud: Dictionary = UnderBiomesData.UNDER[u]
+		_err(PassSottosuolo.new().has_method(String(ud["build"])), "sottosuolo %s: manca la funzione «%s»" % [u, ud["build"]])
+		_err(int(ud["stratum"]) >= 0 and int(ud["stratum"]) < StrataData.STRATA.size(), "sottosuolo %s: strato sbagliato" % u)

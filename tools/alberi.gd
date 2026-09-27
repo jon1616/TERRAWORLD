@@ -21,7 +21,7 @@ func _init() -> void:
 		for size in TreesData.SIZES.size():
 			for f in 2:
 				var h := int(TreesData.SIZES[size]["h"])
-				var tr := TreeArt.make(String(TreesData.SPECIES[s]["id"]), h, 7 + size * 31 + f * 131 + s * 977)
+				var tr := TreeArt.make(String(TreesData.SPECIES[s]["art"]), h, 7 + size * 31 + f * 131 + s * 977)
 				n += 1
 				var im: Image = tr["img"]
 				var x0 := (size * 2 + f) * cw + cw / 2 - im.get_width() / 2

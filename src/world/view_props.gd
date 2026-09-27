@@ -105,7 +105,7 @@ func _tree_tex(v: int) -> Dictionary:
 	if not tex_trees.has(v):
 		var d := TreesData.decode(v)
 		var sp: Dictionary = TreesData.SPECIES[d[0]]
-		var tr := TreeArt.make(String(sp["id"]), int(TreesData.SIZES[d[1]]["h"]), world.world_seed * 7 + v * 131)
+		var tr := TreeArt.make(String(sp["art"]), int(TreesData.SIZES[d[1]]["h"]), world.world_seed * 7 + v * 131)
 		tex_trees[v] = {"img": ImageTexture.create_from_image(tr["img"]), "glow": ImageTexture.create_from_image(tr["glow"])}
 	return tex_trees[v]
 

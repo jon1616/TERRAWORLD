@@ -9,6 +9,7 @@ class_name WeatherData
 ##   wind     forza del vento [min, max] in px/s²: spinge chi è in aria, le planate, i dardi e gli incantesimi
 ##   tint     colore del cielo; weights: quanto è probabile in ogni stagione (indice di `SeasonsData.SEASONS`)
 
+## senza_bioma: il moltiplicatore di un tempo che porta un bioma (campo `weather` dei biomi) quando il mondo non l'ha.
 const STATES := {
 	"sereno": {"name": "Sereno", "desc": "cielo pulito", "wind": [0.0, 30.0], "tint": Color(1, 1, 1),
 		"weights": [4, 5, 3, 3]},
@@ -19,9 +20,10 @@ const STATES := {
 	"nebbia": {"name": "Nebbia", "desc": "si vede poco, e anche le creature vedono meno", "fog": 0.45, "sight": 0.6,
 		"wind": [0.0, 15.0], "tint": Color(0.82, 0.86, 0.86), "weights": [2, 0, 3, 2]},
 	"bufera": {"name": "Bufera di brina", "desc": "neve e vento gelato: si corre più piano", "snow": 1.5, "slow": 0.8,
-		"wind": [120.0, 200.0], "tint": Color(0.8, 0.88, 1.0), "weights": [0, 0, 0, 3]},
+		"wind": [120.0, 200.0], "tint": Color(0.8, 0.88, 1.0), "weights": [0, 0, 0, 3], "senza_bioma": 0.5},
 	"cenere": {"name": "Tempesta di cenere", "desc": "la cenere ferisce chi resta allo scoperto: riparati sotto un tetto",
-		"ash": 1.0, "fog": 0.3, "sight": 0.8, "wind": [90.0, 170.0], "tint": Color(0.85, 0.66, 0.6), "weights": [1, 2, 1, 0]},
+		"ash": 1.0, "fog": 0.3, "sight": 0.8, "wind": [90.0, 170.0], "tint": Color(0.85, 0.66, 0.6), "weights": [1, 2, 1, 0],
+		"senza_bioma": 0.0},
 }
 
 ## Ogni quanti secondi il tempo può cambiare (un quinto di giorno).

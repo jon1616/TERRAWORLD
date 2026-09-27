@@ -189,7 +189,7 @@ func _fall_step() -> void:
 			continue
 		seen[q] = true
 		var t := w.tile(q.x, q.y)
-		if not (t in LivingData.FALLING) or w.solid(q.x, q.y + 1) or w.plat(q.x, q.y + 1) or w.liq(q.x, q.y + 1) > 0:
+		if not (t in LivingData.FALLING or TileDefs.is_grass(t)) or w.solid(q.x, q.y + 1) or w.plat(q.x, q.y + 1) or w.liq(q.x, q.y + 1) > 0:
 			continue
 		if not w.station_at(q + Vector2i(0, -1)).is_empty() or w.tree_at(q + Vector2i(0, -1)).x >= 0:
 			continue                              # le radici degli alberi e le stazioni tengono la terra

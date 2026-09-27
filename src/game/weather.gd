@@ -79,9 +79,8 @@ func choose() -> String:
 			"nebbia":
 				wgt *= float(run.get("fog", 1.0))
 			"bufera":
-				wgt *= float(run.get("wind", 1.0)) * (3.0 if _has_biome("brina") else 0.5)
-			"cenere":
-				wgt *= 3.0 if _has_biome("cenere") else 0.0
+				wgt *= float(run.get("wind", 1.0))
+		wgt *= _biome_weather(String(k))             # voce 91: i tempi che portano i biomi del mondo
 		if wgt > 0.0:
 			pool.append([k, wgt])
 	var tot := 0.0
@@ -93,6 +92,22 @@ func choose() -> String:
 		if r <= 0.0:
 			return String(e[0])
 	return "sereno"
+
+
+## Quanto i biomi del mondo rendono probabile un tempo: il loro moltiplicatore se ci sono; se il tempo è di un bioma
+## che il mondo non ha, quello di `WeatherData` («senza_bioma»).
+func _biome_weather(k: String) -> float:
+	var own := false
+	var out := 1.0
+	for b in BiomesData.BIOMES:
+		var bw: Dictionary = b.get("weather", {})
+		if bw.has(k):
+			own = true
+			if _has_biome(String(b["id"])):
+				out *= float(bw[k])
+	if own and out == 1.0:
+		return float(WeatherData.STATES[k].get("senza_bioma", 1.0))
+	return out
 
 
 func _has_biome(b: String) -> bool:

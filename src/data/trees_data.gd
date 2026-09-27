@@ -6,14 +6,19 @@ extends RefCounted
 ## (`encode`/`decode`). Solo dati; li usano il generatore (`PassAlberi`), la crescita dei germogli (`Growth`), l'ascia
 ## (`PlayerActions`) e la vista (`ViewProps`, che disegna ogni combinazione una volta sola).
 
-## Le specie, nell'ordine dei biomi di `BiomesData` (foresta, palude, ambra, brina, cenere).
-const SPECIES := [
-	{"id": "lanterna", "name": "Albero-lanterna", "biome": "foresta", "glow": Color(1.6, 1.5, 1.3)},
-	{"id": "fungo", "name": "Fungo-albero", "biome": "palude", "glow": Color(1.5, 1.2, 1.8)},
-	{"id": "acacia", "name": "Acacia d'ambra", "biome": "ambra", "glow": Color(1.7, 1.4, 0.9)},
-	{"id": "abete", "name": "Abete di brina", "biome": "brina", "glow": Color(1.2, 1.5, 1.8)},
-	{"id": "tizzone", "name": "Tizzone", "biome": "cenere", "glow": Color(1.9, 1.2, 0.8)},
-]
+## Le specie, una per bioma e nel loro ordine (voce 91: le scrive il campo `tree` dei file dei biomi). L'indice è
+## salvato con ogni albero: i biomi nuovi vanno in fondo.
+static var SPECIES: Array = _species()
+
+
+static func _species() -> Array:
+	var out := []
+	for b in BiomesData.BIOMES:
+		var t: Dictionary = (b["tree"] as Dictionary).duplicate()
+		t["biome"] = b["id"]
+		t["art"] = t.get("art", t["id"])
+		out.append(t)
+	return out
 
 ## Le grandezze: altezza del disegno in pixel, robustezza (ogni colpo d'ascia toglie la forza dell'ascia: radicite 35),
 ## legno che lasciano, peso nel tiro a caso. «Antico» è raro e altissimo.

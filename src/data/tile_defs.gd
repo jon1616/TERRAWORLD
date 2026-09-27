@@ -38,12 +38,14 @@ const SIG_VUOTO := 28                  # velo del Vuoto: Passo nel Vuoto
 const SIG_BRACE := 29                  # muro di brace: Pelle di brace
 const PORTA_SEM := 30                  # voce 71: porta dei Seminatori, si apre risolvendo l'enigma del luogo
 const PIETRA_BRACE := 31               # voce 74: la brace spenta dall'acqua
-const TYPES := 31
+const TYPES_BASE := 31                 # le tessere scritte qui; quelle dei biomi nuovi vengono dopo (voce 91)
+static var TYPES: int = _types()
 const SEALS := {"velato": SIG_VELATO, "radice": SIG_RADICE, "vuoto": SIG_VUOTO, "brace": SIG_BRACE}
 const SEAL_KIND := {SIG_VELATO: "velato", SIG_RADICE: "radice", SIG_VUOTO: "vuoto", SIG_BRACE: "brace"}
 const BUILT := [ASSI, MATTONI, VETRO]
 const BLIGHTED := [AVV_TERRA, AVV_MUSCHIO, AVV_PIETRA]
-const GRASSES := [GRASS, GRASS_SPORE, GRASS_AMBRA, GRASS_BRINA, GRASS_CENERE]
+## Le erbe: una per bioma di superficie (voce 91: le dice `BiomesData`).
+static var GRASSES: Array = _grasses()
 
 const WALL_DIRT := 1
 const WALL_STONE := 2
@@ -75,24 +77,24 @@ const DECOR_STILLA := 22               # Stilla perenne: pende dai soffitti prof
 const DECOR_GEMS := [23, 24, 25, 26]   # gemme a grappolo (voce 24): brillaluce, sanguinella, lagunite, nottilite
 const DECOR_CROPS := [27, 28, 29, 30, 31, 32]   # il giardino (voce 33): germoglio di coltura e piante mature
 ## La vegetazione dei biomi (26 set 2026, disegni in `BiomeDecorArt`): erbe bassissime e piante di ogni bioma.
-const DECOR_BIOME_GRASS := [34, 37, 40, 43]     # erba di spore, erba dorata, muschio gelato, ciuffi bruciati
-const DECOR_BIOME_PLANTS := [33, 35, 36, 38, 39, 42, 45]   # cespugli, canne, funghetti, cardo, fiore, stecchi
-const DECOR_COUNT := 45
+## Voce 91: le dicono i file dei biomi (campo `decor`); `DECOR_BASE` = le decorazioni scritte qui.
+static var DECOR_BIOME_GRASS: Array = _biome_decor("erba")
+static var DECOR_BIOME_PLANTS: Array = _biome_decor("pianta")
+const DECOR_BASE := 32
+static var DECOR_COUNT: int = _decor_count()
 const DECOR_CEILING := [11, 12, 17, 22]        # queste pendono dal blocco sopra
 
 ## Luce emessa dalle decorazioni (indice = id della decorazione): piccole pozze di luce nel buio, non lampioni
 ## (con il buio vero del 25 set 2026 una luce di 0,3 si vede per ~6 tessere).
-const DECOR_LIGHT := {
+const _DECOR_LIGHT := {
 	4: Color(0.15, 0.4, 0.45), 5: Color(0.45, 0.3, 0.1), 6: Color(0.3, 0.15, 0.45),
 	10: Color(0.25, 0.6, 0.85), 11: Color(0.2, 0.13, 0.04), 12: Color(0.17, 0.11, 0.03), 13: Color(0.3, 0.17, 0.5),
 	15: Color(0.25, 0.14, 0.04), 16: Color(0.4, 0.18, 0.7), 17: Color(0.15, 0.5, 0.55),
 	18: Color(0.2, 0.62, 0.6), 20: Color(0.14, 0.2, 0.1), 21: Color(0.75, 0.25, 0.3), 22: Color(0.3, 0.75, 0.8),
 	28: Color(0.1, 0.3, 0.3), 30: Color(0.2, 0.5, 0.75), 31: Color(0.6, 0.25, 0.45), 32: Color(0.12, 0.45, 0.45),
 	23: Color(0.45, 0.55, 0.15), 24: Color(0.55, 0.12, 0.12), 25: Color(0.12, 0.3, 0.6), 26: Color(0.35, 0.15, 0.55),
-	33: Color(0.18, 0.11, 0.03), 35: Color(0.18, 0.1, 0.28), 36: Color(0.22, 0.1, 0.32), 38: Color(0.25, 0.17, 0.04),
-	39: Color(0.22, 0.12, 0.02), 41: Color(0.12, 0.3, 0.42), 42: Color(0.1, 0.16, 0.2), 44: Color(0.42, 0.16, 0.04),
-	45: Color(0.18, 0.07, 0.02),
 }
+static var DECOR_LIGHT: Dictionary = _decor_light()
 
 
 ## Una decorazione «morbida» del pavimento (erba, fiori, felci, piante dei biomi): ci si può seminare sopra e le
@@ -101,21 +103,21 @@ static func is_soft_decor(d: int) -> bool:
 	return d in DECOR_GRASS or d in DECOR_FLOWERS or d == DECOR_FERN or d in DECOR_BIOME_GRASS or d in DECOR_BIOME_PLANTS
 
 ## Secondi di scavo con il piccone di radicite.
-const HARD := {DIRT: 0.22, GRASS: 0.22, STONE: 0.38, RADICITE: 0.5, LEGNOFERRO: 0.6, AMBRA: 0.7, CRYSTAL: 0.8,
+const _HARD := {DIRT: 0.22, STONE: 0.38, RADICITE: 0.5, LEGNOFERRO: 0.6, AMBRA: 0.7, CRYSTAL: 0.8,
 	RADICE: 0.45, SCISTO: 0.5, VUOTITE: 0.75, NODO: 9.0, PIETRA_SEM: 0.8,
 	SIG_VELATO: 9.0, SIG_RADICE: 9.0, SIG_VUOTO: 9.0, SIG_BRACE: 9.0, PORTA_SEM: 9.0, PIETRA_BRACE: 3.0,
-	GRASS_SPORE: 0.22, GRASS_AMBRA: 0.22, GRASS_BRINA: 0.22, GRASS_CENERE: 0.22, AVV_TERRA: 0.25, AVV_MUSCHIO: 0.25, AVV_PIETRA: 0.42,
+	AVV_TERRA: 0.25, AVV_MUSCHIO: 0.25, AVV_PIETRA: 0.42,
 	PALLIDITE: 0.55, TIZZONITE: 0.8, ASSI: 0.3, MATTONI: 0.45, VETRO: 0.3, PORTA: 1.0}
 ## Forza di piccone minima (vedi la durezza in `MaterialsData`): radicite 35, legnoferro 45, ambra 55. L'ambra vuole il piccone
 ## di legnoferro, i cristalli di Linfa quello d'ambra: è il filo della progressione.
 ## Il Fondo (vuotite) vuole il piccone di legnoferro: non ci si arriva col primo corredo.
-const POWER := {DIRT: 0, GRASS: 0, STONE: 0, RADICITE: 0, LEGNOFERRO: 35, AMBRA: 45, CRYSTAL: 55, RADICE: 0, SCISTO: 0,
-	VUOTITE: 45, NODO: 999, PIETRA_SEM: 0, SIG_VELATO: 999, SIG_RADICE: 999, SIG_VUOTO: 999, SIG_BRACE: 999, PORTA_SEM: 999, PIETRA_BRACE: 35, GRASS_SPORE: 0, GRASS_AMBRA: 0, GRASS_BRINA: 0, GRASS_CENERE: 0,
+const _POWER := {DIRT: 0, STONE: 0, RADICITE: 0, LEGNOFERRO: 35, AMBRA: 45, CRYSTAL: 55, RADICE: 0, SCISTO: 0,
+	VUOTITE: 45, NODO: 999, PIETRA_SEM: 0, SIG_VELATO: 999, SIG_RADICE: 999, SIG_VUOTO: 999, SIG_BRACE: 999, PORTA_SEM: 999, PIETRA_BRACE: 35,
 	AVV_TERRA: 0, AVV_MUSCHIO: 0, AVV_PIETRA: 0, PALLIDITE: 35, TIZZONITE: 55, ASSI: 0, MATTONI: 0, VETRO: 0, PORTA: 999}
 ## Oggetto che si ottiene rompendo la tessera o raccogliendo la decorazione.
-const DROP := {PIETRA_BRACE: "pietra_brace", DIRT: "humus", GRASS: "humus", STONE: "ardesia", RADICITE: "minerale_radicite", LEGNOFERRO: "minerale_legnoferro",
+const _DROP := {PIETRA_BRACE: "pietra_brace", DIRT: "humus", STONE: "ardesia", RADICITE: "minerale_radicite", LEGNOFERRO: "minerale_legnoferro",
 	AMBRA: "minerale_ambra", CRYSTAL: "cristallo_linfa", RADICE: "radice_antica", SCISTO: "scisto", VUOTITE: "vuotite",
-	NODO: "radice_antica", PIETRA_SEM: "pietra_seminatori", GRASS_SPORE: "humus", GRASS_AMBRA: "humus", GRASS_BRINA: "humus", GRASS_CENERE: "humus",
+	NODO: "radice_antica", PIETRA_SEM: "pietra_seminatori",
 	AVV_TERRA: "cenere_avvizzita", AVV_MUSCHIO: "cenere_avvizzita", AVV_PIETRA: "ardesia",
 	PALLIDITE: "minerale_pallidite", TIZZONITE: "minerale_tizzonite", ASSI: "assi_lanterna", MATTONI: "mattoni_ardesia",
 	VETRO: "vetro_resina", PORTA: "porta_lanterna"}
@@ -131,10 +133,9 @@ const ORES := [
 	{"type": PALLIDITE, "min_depth": 30, "strata": [1, 2], "in": [STONE, RADICE], "freq": 0.12, "threshold": 0.56},
 	{"type": TIZZONITE, "min_depth": 300, "strata": [3, 4], "in": [SCISTO, VUOTITE, STONE], "freq": 0.13, "threshold": 0.57},
 ]
-const NAMES := {DIRT: "Humus", GRASS: "Muschio", STONE: "Ardesia", RADICITE: "Radicite", LEGNOFERRO: "Legnoferro", AMBRA: "Ambra fossile", CRYSTAL: "Cristallo di Linfa",
+const _NAMES := {DIRT: "Humus", STONE: "Ardesia", RADICITE: "Radicite", LEGNOFERRO: "Legnoferro", AMBRA: "Ambra fossile", CRYSTAL: "Cristallo di Linfa",
 	RADICE: "Radice antica", SCISTO: "Scisto di Linfa", VUOTITE: "Vuotite", NODO: "Nodo avvizzito",
-	PIETRA_SEM: "Pietra dei Seminatori", GRASS_SPORE: "Muschio di spore", GRASS_AMBRA: "Erba d'ambra",
-	GRASS_BRINA: "Muschio di brina", GRASS_CENERE: "Cenere viva",
+	PIETRA_SEM: "Pietra dei Seminatori",
 	AVV_TERRA: "Terra avvizzita", AVV_MUSCHIO: "Muschio avvizzito", AVV_PIETRA: "Ardesia avvizzita",
 	PALLIDITE: "Pallidite", TIZZONITE: "Tizzonite", ASSI: "Assi di lanterna", MATTONI: "Mattoni d'ardesia",
 	VETRO: "Vetro di resina", PORTA: "Porta", PORTA_SEM: "Porta dei Seminatori", PIETRA_BRACE: "Pietra di brace", SIG_VELATO: "Sigillo velato", SIG_RADICE: "Sigillo di radice",
@@ -174,18 +175,12 @@ const P_PIETRA_BRACE := ["#1e1216", "#2e1a1c", "#442424", "#5e3028", "#7c4030"]
 
 ## Strati del terreno dai contorni morbidi, dal basso verso l'alto: ogni strato disegna la forma morbida delle celle
 ## dei tipi elencati. Il primo è la sagoma di tutto il terreno.
-const TERRAIN_LAYERS := [
-	{"id": "ardesia", "types": [DIRT, GRASS, STONE, RADICITE, LEGNOFERRO, AMBRA, CRYSTAL, RADICE, SCISTO, VUOTITE, NODO,
-		PIETRA_SEM, GRASS_SPORE, GRASS_AMBRA, AVV_TERRA, AVV_MUSCHIO, AVV_PIETRA, PALLIDITE, TIZZONITE, GRASS_BRINA,
-		GRASS_CENERE, SIG_VELATO, SIG_RADICE, SIG_VUOTO, SIG_BRACE, PORTA_SEM, PIETRA_BRACE],
+const _TERRAIN_LAYERS := [
+	{"id": "ardesia", "types": [DIRT, STONE, RADICITE, LEGNOFERRO, AMBRA, CRYSTAL, RADICE, SCISTO, VUOTITE, NODO,
+		PIETRA_SEM, AVV_TERRA, AVV_MUSCHIO, AVV_PIETRA, PALLIDITE, TIZZONITE, SIG_VELATO, SIG_RADICE, SIG_VUOTO, SIG_BRACE, PORTA_SEM, PIETRA_BRACE],
 		"pal": P_STONE},
-	{"id": "humus", "types": [DIRT, GRASS, GRASS_SPORE, GRASS_AMBRA, GRASS_BRINA, GRASS_CENERE], "pal": P_DIRT},
+	{"id": "humus", "types": [DIRT], "pal": P_DIRT},
 	{"id": "terra_avv", "types": [AVV_TERRA, AVV_MUSCHIO], "pal": P_AVV_TERRA},
-	{"id": "muschio", "types": [GRASS], "pal": P_GRASS},
-	{"id": "muschio_spore", "types": [GRASS_SPORE], "pal": P_GRASS_SPORE},
-	{"id": "erba_ambra", "types": [GRASS_AMBRA], "pal": P_GRASS_AMBRA},
-	{"id": "muschio_brina", "types": [GRASS_BRINA], "pal": P_GRASS_BRINA},
-	{"id": "cenere_viva", "types": [GRASS_CENERE], "pal": P_GRASS_CENERE},
 	{"id": "muschio_avv", "types": [AVV_MUSCHIO], "pal": P_AVV_MUSCHIO},
 	{"id": "pietra_avv", "types": [AVV_PIETRA], "pal": P_AVV_PIETRA},
 	{"id": "radice", "types": [RADICE], "pal": P_RADICE},
@@ -214,20 +209,21 @@ const TERRAIN_LAYERS := [
 ]
 
 ## Colore sulla mappa (strumenti e, in futuro, minimappa).
-const MAP_COLOR := {DIRT: "#50343c", GRASS: "#3aa08a", STONE: "#434f6c", RADICITE: "#d4783a", LEGNOFERRO: "#a2b0c2", AMBRA: "#eec04a", CRYSTAL: "#3ac0c8",
+const _MAP_COLOR := {DIRT: "#50343c", STONE: "#434f6c", RADICITE: "#d4783a", LEGNOFERRO: "#a2b0c2", AMBRA: "#eec04a", CRYSTAL: "#3ac0c8",
 	RADICE: "#8a5638", SCISTO: "#32687c", VUOTITE: "#463464", NODO: "#ff40a0",
-	PIETRA_SEM: "#e8fff8", GRASS_SPORE: "#8a58b4", GRASS_AMBRA: "#c89a3a", GRASS_BRINA: "#7aaed0", GRASS_CENERE: "#a8766e",
+	PIETRA_SEM: "#e8fff8",
 	AVV_TERRA: "#5a534b", AVV_MUSCHIO: "#72704f", AVV_PIETRA: "#51555c", PALLIDITE: "#c4c4dc", TIZZONITE: "#e0582a",
 	ASSI: "#7a5462", MATTONI: "#62779c", VETRO: "#d8f0c8", PORTA: "#9a7080",
 	SIG_VELATO: "#434f6c", SIG_RADICE: "#c8905a", SIG_VUOTO: "#b890ff", SIG_BRACE: "#ff7a30", PORTA_SEM: "#ffd24a", PIETRA_BRACE: "#5a2c24"}
 
 
 static func palette_of(type: int) -> Array[Color]:
+	var b := BiomesData.of_grass(type)
+	if not b.is_empty():
+		return Px.pal(b["turf"]["pal"])                # voce 91: le erbe dei biomi
 	match type:
 		DIRT:
 			return Px.pal(P_DIRT)
-		GRASS:
-			return Px.pal(P_GRASS)
 		RADICITE:
 			return Px.pal(P_RADICITE)
 		LEGNOFERRO:
@@ -256,14 +252,6 @@ static func palette_of(type: int) -> Array[Color]:
 			return Px.pal(P_SEM)
 		PIETRA_BRACE:
 			return Px.pal(P_PIETRA_BRACE)
-		GRASS_SPORE:
-			return Px.pal(P_GRASS_SPORE)
-		GRASS_AMBRA:
-			return Px.pal(P_GRASS_AMBRA)
-		GRASS_BRINA:
-			return Px.pal(P_GRASS_BRINA)
-		GRASS_CENERE:
-			return Px.pal(P_GRASS_CENERE)
 		AVV_TERRA:
 			return Px.pal(P_AVV_TERRA)
 		AVV_MUSCHIO:
@@ -294,11 +282,94 @@ static func is_grass(t: int) -> bool:
 
 ## Che cosa diventa una tessera toccata dall'Avvizzimento (-1 = non si ammala).
 static func blighted_of(t: int) -> int:
+	if is_grass(t):
+		return AVV_MUSCHIO
 	match t:
 		DIRT:
 			return AVV_TERRA
-		GRASS, GRASS_SPORE, GRASS_AMBRA, GRASS_BRINA, GRASS_CENERE:
-			return AVV_MUSCHIO
 		STONE:
 			return AVV_PIETRA
 	return -1
+
+
+
+# ---------------------------------------------------------------- voce 91: le tabelle che nascono dai biomi
+
+static func _types() -> int:
+	var n := TYPES_BASE
+	for b in BiomesData.BIOMES:
+		n = maxi(n, int(b["grass"]))
+	return n
+
+
+static func _grasses() -> Array:
+	var out := []
+	for b in BiomesData.BIOMES:
+		out.append(int(b["grass"]))
+	return out
+
+
+## Una tabella scritta a mano più una voce per ogni erba (`value` = il valore, o una funzione del bioma).
+static func _with_grass(base: Dictionary, value: Variant) -> Dictionary:
+	var out := base.duplicate()
+	for b in BiomesData.BIOMES:
+		out[int(b["grass"])] = value.call(b) if value is Callable else value
+	return out
+
+
+static var HARD: Dictionary = _with_grass(_HARD, 0.22)
+static var POWER: Dictionary = _with_grass(_POWER, 0)
+static var DROP: Dictionary = _with_grass(_DROP, "humus")
+static var NAMES: Dictionary = _with_grass(_NAMES, func(b: Dictionary) -> String: return String(b["turf"]["name"]))
+static var MAP_COLOR: Dictionary = _with_grass(_MAP_COLOR, func(b: Dictionary) -> String: return String(b["turf"]["pal"][3]))
+static var TERRAIN_LAYERS: Array = _layers()
+
+
+## Gli strati del terreno: quelli scritti a mano, le erbe nella sagoma e sotto l'humus, e uno strato per erba (dopo la
+## terra avvizzita, nell'ordine dei biomi).
+static func _layers() -> Array:
+	var out := []
+	for l in _TERRAIN_LAYERS:
+		var e: Dictionary = (l as Dictionary).duplicate(true)
+		if e["id"] in ["ardesia", "humus"]:
+			for g in _grasses():
+				(e["types"] as Array).append(g)
+		out.append(e)
+		if e["id"] == "terra_avv":
+			for b in BiomesData.BIOMES:
+				out.append({"id": String(b["turf"]["layer"]), "types": [int(b["grass"])], "pal": b["turf"]["pal"]})
+	return out
+
+
+## Lo strato del terreno di un'erba (per la trama: i puntini chiari).
+static func turf_of_layer(layer: String) -> Dictionary:
+	for b in BiomesData.BIOMES:
+		if b["turf"]["layer"] == layer:
+			return b["turf"]
+	return {}
+
+
+static func _biome_decor(soft: String) -> Array:
+	var out := []
+	for b in BiomesData.BIOMES:
+		for d in b.get("decor", {}):
+			if String(b["decor"][d].get("soft", "")) == soft:
+				out.append(int(d))
+	return out
+
+
+static func _decor_count() -> int:
+	var n := DECOR_BASE
+	for b in BiomesData.BIOMES:
+		for d in b.get("decor", {}):
+			n = maxi(n, int(d))
+	return n
+
+
+static func _decor_light() -> Dictionary:
+	var out := _DECOR_LIGHT.duplicate()
+	for b in BiomesData.BIOMES:
+		for d in b.get("decor", {}):
+			if b["decor"][d].has("light"):
+				out[int(d)] = b["decor"][d]["light"]
+	return out

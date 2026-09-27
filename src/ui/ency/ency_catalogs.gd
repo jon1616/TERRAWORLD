@@ -139,6 +139,10 @@ static func inline(key: String) -> String:
 				rows.append(_b(String(pd["name"]), "%s · nei mondi con %s · %s" % [pd["banner"], " o ".join(gn),
 					"in superficie" if pd.get("surface", false) else "nello strato «%s»" % StrataData.STRATA[int(pd["strata"][0])]["name"]],
 					String(pd["color"])))
+		"cat_sottosuolo":
+			for u in UnderBiomesData.UNDER:
+				var ud: Dictionary = UnderBiomesData.UNDER[u]
+				rows.append(_b(String(ud["name"]), "%s · %s" % [ud["desc"], StrataData.STRATA[int(ud["stratum"])]["name"]], "#b890ff"))
 		"cat_ali":
 			for id in FlightData.WINGS:
 				rows.append(_b(String(FlightData.WINGS[id]["name"]), FlightData.line(id), String(FlightData.WINGS[id]["color"])))

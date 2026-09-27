@@ -76,7 +76,7 @@ func _dirt_column(from: int) -> int:
 			var s: int = world.surface[x]
 			var ok := not world.solid(x, s - 1) and world.tree_at(Vector2i(x, s - 1)).x < 0 and world.station_at(Vector2i(x, s - 1)).is_empty()
 			for y in range(s, s + 7):
-				if not (world.tile(x, y) in LivingData.FALLING):
+				if not (world.tile(x, y) in LivingData.FALLING or TileDefs.is_grass(world.tile(x, y))):
 					ok = false
 			if ok:
 				return x

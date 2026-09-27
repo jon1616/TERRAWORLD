@@ -182,8 +182,8 @@ static func material(id: String, p: Array[Color], sd: int) -> PackedColorArray:
 		"sig_radice", "sig_vuoto", "sig_brace":
 			_bricks(col, p)                                      # voce 64: pietra lavorata con le rune accese
 			_specks(col, rng, Color("#8ef0d8") if id != "sig_brace" else Color("#ffd060"), 26)
-		"muschio", "muschio_spore", "erba_ambra":
-			_specks(col, rng, p[4], 90)
+		_ when int(TileDefs.turf_of_layer(id).get("specks", 0)) > 0:
+			_specks(col, rng, p[4], int(TileDefs.turf_of_layer(id)["specks"]))   # voce 91: le erbe dei biomi
 		"radice":
 			_fibers(col, rng, [p[0]], 5, 20)
 			_specks(col, rng, _linfa(p), 6)          # qualche goccia di Linfa nel legno

@@ -423,7 +423,7 @@ func elem_bias(stratum: int, biome: String) -> String:
 	if world_elem != "" and _rng.randf() < 0.5:
 		return world_elem                      # l'elemento dei geni del mondo (voce 56)
 	if stratum == 0:
-		return {"brina": "gelo", "cenere": "brace", "palude": "spora", "ambra": "luce", "foresta": "linfa"}.get(biome, "")
+		return String(BiomesData.by_id(biome).get("elem", ""))    # voce 91: l'elemento del bioma
 	return ["", "spora", "gelo", "linfa", "vuoto"][clampi(stratum, 0, 4)]
 
 

@@ -1724,13 +1724,23 @@ torna a terra e il doppio nelle correnti; il vento porta chi vola; in un mondo l
 della planata che batte in volo. Scheda con i quattro valori, capitolo «Il volo», prove `--solo=volo` (foto 157). Gli
 unici con effetti propri arrivano con la voce 98.
 
-## 91. [ ] Il bioma come dato (M) — fondamenta dei biomi
+## 91. [x] Il bioma come dato (M) — fondamenta dei biomi — fatto il 27 set 2026
 Oggi un bioma nuovo tocca molti file (tessere, tavolozze, alberi, vegetazione, creature, oggetti, geni). Si porta
 tutto in **un file per bioma** (o una voce di dati): terreno e tavolozza, erba, specie d'albero, vegetazione, cielo,
 musica o sottofondo, famiglie di creature, materiali, set, oggetto unico, gene e Fiala; il codice legge. Anche i
 biomi del sottosuolo passano allo stesso formato. `tools/biomi.gd` fa il foglio di tutti i biomi (terreno, alberi,
 creature) per il controllo a occhio.
 **Pronto quando**: aggiungere un bioma è scrivere un file di dati e i suoi disegni, senza toccare il resto.
+Fatto il 27 set 2026: **un file per bioma** in `src/data/biomes/` (foresta, palude, ambra, brina, cenere), letti da
+`BiomesData.FILES`: terreno, erba (tessera, nome, strato, tavolozza, trama), specie d'albero (`TreesData.SPECIES` ora
+nasce da qui), vegetazione (`veg`: tabella di piante letta da `PassDecorazioni`), decorazioni proprie con luce e
+«morbidezza», elemento delle varianti (`Fauna.elem_bias`), tempi del bioma (`Weather`, con `senza_bioma` in
+`WeatherData`), gene di superficie. `TileDefs` costruisce da qui erbe, durezza, forza, bottino, nomi, colori della
+mappa, strati del terreno e luci delle decorazioni (`static var`); mappa, suoni di scavo, schede, terra viva e
+Avvizzimento non elencano più le erbe a mano. I biomi del sottosuolo in `UnderBiomesData` (nome, strato, quanti,
+funzione di costruzione, pavimento), con il catalogo nell'Enciclopedia. `tools/biomi.gd` → prove/biomi.png (terreno,
+alberi, piante e creature di ogni bioma); `verifica_dati` controlla i file dei biomi. I mondi escono identici a prima
+(stesse mappe, pixel per pixel).
 
 ## 92. [ ] Biomi nuovi, primo ciclo: le terre temperate (L)
 Quattro biomi di superficie (per esempio: prati di vento, foreste di corteccia rossa, colline di funghi bassi,

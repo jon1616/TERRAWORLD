@@ -57,7 +57,7 @@ func _world_tip(screen: Vector2) -> Array:
 		return ["cr%d,%d" % [c.x, c.y], func() -> Variant: return WorldTip.crop(w.crops[c]) if w.crops.has(c) else null]
 	var t := w.tile(c.x, c.y)
 	if t != TileDefs.AIR:
-		if t in PLAIN:
+		if t in PLAIN or TileDefs.is_grass(t):
 			return []
 		if t == TileDefs.PORTA_SEM:                      # voce 71: che cosa chiede la porta
 			return ["t%d,%d,%d" % [c.x, c.y, t], func() -> Variant:

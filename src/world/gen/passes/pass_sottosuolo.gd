@@ -22,17 +22,9 @@ func run(w: World, c: GenContext) -> void:
 	var made := {}
 	c.notes["sottosuolo_pos"] = {}
 	for f in c.genes().get("under", []):
-		match String(f):
-			"fungaie":
-				made[f] = _many(w, c, 14, _fungaia, f)
-			"geodi_brina":
-				made[f] = _many(w, c, 20, _geode_brina, f)
-			"fiumi_brace":
-				made[f] = _many(w, c, 6, _fiume_brace, f)
-			"laghi_linfa":
-				made[f] = _many(w, c, 7, _lago_linfa, f)
-			"cuore_cavo":
-				made[f] = _many(w, c, 1, _cuore_cavo, f)
+		var u: Dictionary = UnderBiomesData.UNDER.get(String(f), {})     # voce 91: i dati in `UnderBiomesData`
+		if not u.is_empty():
+			made[f] = _many(w, c, int(u["count"]), Callable(self, String(u["build"])), f)
 	c.notes["sottosuolo"] = made
 
 
