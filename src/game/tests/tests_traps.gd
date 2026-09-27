@@ -33,7 +33,7 @@ func run() -> void:
 	var res := {}
 	var spot := kit.flat_spot(w.spawn + Vector2i(40, 0), 16)
 	if spot.x < 0:
-		print("ATTENZIONE: trappole, nessun posto piano: provo alla partenza")
+		print("trappole: nessun posto piano, spiano vicino alla partenza")
 		spot = w.spawn
 	kit.flatten(spot, 16)
 	m.fauna.clear()

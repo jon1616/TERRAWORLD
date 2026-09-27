@@ -5,7 +5,7 @@ extends RefCounted
 ## stesso Seme, stesso nome. Solo dati e la funzione che li mette insieme.
 
 ## Paesaggi per gene di superficie: [nome, femminile?]. "" = senza gene di superficie (tutti i biomi).
-const LANDS := {
+const _LANDS := {
 	"lanterna": [["Foreste", true], ["Selve", true], ["Boschi", false]],
 	"sporangio": [["Paludi", true], ["Torbiere", true], ["Acquitrini", false]],
 	"resina": [["Distese", true], ["Dune", true], ["Piani", false]],
@@ -72,3 +72,15 @@ static func world_name(genes: Array, world_seed: int) -> String:
 	var proper := String(SYL_A[rng.randi_range(0, SYL_A.size() - 1)]) + String(SYL_B[rng.randi_range(0, SYL_B.size() - 1)]) \
 		+ String(SYL_C[rng.randi_range(0, SYL_C.size() - 1)])
 	return "%s%s di %s" % [land[0], adj, proper]
+
+
+## Voce 92: più i paesaggi dei pacchetti dei biomi (per il loro gene).
+static var LANDS: Dictionary = _lands()
+
+
+static func _lands() -> Dictionary:
+	var out := _LANDS.duplicate()
+	for b in BiomesData.BIOMES:
+		if b.has("lands"):
+			out[String(b["gene"])] = b["lands"]
+	return out

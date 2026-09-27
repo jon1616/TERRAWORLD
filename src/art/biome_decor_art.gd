@@ -104,7 +104,7 @@ static func draw(id: int, im: Image, gm: Image, rng: RandomNumberGenerator) -> V
 			Px.put(im, 11, 9, Color("#ff9a40"))
 			Px.put(gm, 11, 9, Color("#ff7a20"))
 			return true
-	return null
+	return TemperateDecorArt.draw(id, im, gm, rng)          # voce 92: le terre temperate
 
 
 ## Ciuffi d'erba bassissimi (al più `top` pixel più uno): tanti fili corti, i più alti con la punta chiara.

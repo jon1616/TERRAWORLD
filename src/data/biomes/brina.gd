@@ -4,8 +4,8 @@ extends RefCounted
 const DATA := {
 	"id": "brina", "name": "Boschi di brina", "desc": "Muschio gelato, alberi che scintillano, aria ferma",
 	"trees": 0.28, "hills": 1.2, "lift": -4, "tint": Color(0.8, 0.95, 1.22), "color": "#bfe8ff", "weight": 2,
-	"grass": TileDefs.GRASS_BRINA,
-	"turf": {"name": "Muschio di brina", "layer": "muschio_brina", "pal": TileDefs.P_GRASS_BRINA, "specks": 0},
+	"grass": 24,                  # la tessera (TileDefs.GRASS_BRINA)
+	"turf": {"name": "Muschio di brina", "layer": "muschio_brina", "pal": ["#1c3048", "#2a4a6a", "#44729a", "#7aaed0", "#d0f0ff"], "specks": 0},
 	"tree": {"id": "abete", "name": "Abete di brina", "glow": Color(1.2, 1.5, 1.8)},
 	# muschio gelato, cristalli di brina, cespugli di bacche gelate, sassi, campanule turchesi
 	"veg": [[0.35, 40], [0.42, 41], [0.49, 42], [0.53, "sassi"], [0.56, "fiore_0"]],

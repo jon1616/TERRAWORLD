@@ -158,6 +158,7 @@ static func all() -> Array:
 		return _all
 	var out := RECIPES.duplicate(true)
 	out.append_array(TrophyItemsData.RECIPES.duplicate(true))
+	out.append_array(BiomesData.pack_list("recipes").duplicate(true))   # voce 92: le ricette dei biomi
 	out.append_array(KeeperItemsData.RECIPES.duplicate(true))
 	out.append_array(RelicsData.RECIPES.duplicate(true))
 	out.append_array(BiomeItemsData.RECIPES.duplicate(true))

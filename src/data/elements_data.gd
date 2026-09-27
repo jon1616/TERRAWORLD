@@ -39,7 +39,7 @@ const REACTIONS := [
 ]
 
 ## Debolezze e resistenze delle creature (tutte ne hanno almeno una debolezza: l'elemento giusto conta sempre).
-const AFFINITY := {
+const _AFFINITY := {
 	"pesce_lume": {"weak": ["luce"], "resist": ["gelo"]}, "anguilla_linfa": {"weak": ["gelo"], "resist": ["linfa"]},
 	"grumo_muschio": {"weak": ["brace"], "resist": ["spora"]}, "grumo_resina": {"weak": ["gelo"], "resist": ["brace"]},
 	"grumo_spore": {"weak": ["brace"], "resist": ["spora"]}, "falena_brace": {"weak": ["gelo"], "resist": ["brace"]},
@@ -92,3 +92,7 @@ static func reaction(a: String, b: String) -> Dictionary:
 static func tag(elem: String) -> String:
 	var e: Dictionary = ELEMENTS.get(elem, {})
 	return "" if e.is_empty() else "[color=%s]%s[/color]" % [e["color"], e["name"]]
+
+
+## Voce 92: più quelle dei pacchetti dei biomi (`BiomesData`).
+static var AFFINITY: Dictionary = _AFFINITY.merged(BiomesData.pack_creatures("affinity"))

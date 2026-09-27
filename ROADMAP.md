@@ -1742,12 +1742,24 @@ funzione di costruzione, pavimento), con il catalogo nell'Enciclopedia. `tools/b
 alberi, piante e creature di ogni bioma); `verifica_dati` controlla i file dei biomi. I mondi escono identici a prima
 (stesse mappe, pixel per pixel).
 
-## 92. [ ] Biomi nuovi, primo ciclo: le terre temperate (L)
+## 92. [x] Biomi nuovi, primo ciclo: le terre temperate (L) — fatto il 27 set 2026
 Quattro biomi di superficie (per esempio: prati di vento, foreste di corteccia rossa, colline di funghi bassi,
 torbiere di Linfa), ognuno con 2-3 famiglie di creature nuove (con le varianti), materiali, un set, un oggetto unico,
 un gene di superficie e il posto nei Semi. Ogni nome è dell'universo (UNIVERSO.md).
 **Pronto quando**: `tools/mappe.gd -- --caso` misura mondi più vari di prima, e ogni bioma ha qualcosa che si trova
 solo lì.
+Fatto il 27 set 2026: quattro biomi nuovi, **ognuno tutto nel suo file** (il formato della voce 91 esteso con il
+**pacchetto**: creature con la ricetta del disegno, debolezze e trofeo, famiglie, bottino, oggetti e ricette, set,
+gene di superficie con il Seme, paesaggi dei nomi, `fauna` = creature già esistenti che vivono anche lì; le tabelle
+comuni li uniscono: `CreaturesData`, `LootData`, `ElementsData`, `FamiliesData`, `TrophyItemsData`, `GenesData`,
+`NamesData`, `SetsData`, `ItemsData`, `RecipesData`). **Prati di vento** (Planavento, Saltagrillo; set «Soffio di
+vento», Aquilone del vento, gene Prateria), **Selve di corteccia rossa** (Orso di corteccia, Picchio di rame,
+Codarossa; «Scorza rossa», Cuore di sequoia, gene Corteccia), **Colline dei cappelli** (Lumacone, Spolverino; «Il
+fungaio», Cappello del vecchio fungaio, gene Cappelli), **Torbiere di Linfa** (Rana di torba, Airone di torba; «Passo
+di torba», Ninfea perenne, gene Torba). Le creature nascono da `BodyArt` (sette piani del corpo × ricetta: una
+creatura nuova è una riga di dati), gli alberi in `TreeArtTemperate` (ombrello, sequoia, cappellone, mangrovia), le
+piante in `TemperateDecorArt` (46-57; l'atlante delle decorazioni va a capo da solo). Prove `--solo=biomi_temperati`
+(un mondo per Seme: 71-100% del suo bioma, partenza lì; foto 158-161), foglio prove/biomi.png.
 
 ## 93. [ ] Biomi nuovi, secondo ciclo: le terre estreme (L)
 Quattro biomi duri (per esempio: deserti di vetro, ghiacciai di Linfa, foreste pietrificate, lande di cenere

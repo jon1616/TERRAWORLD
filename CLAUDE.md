@@ -695,6 +695,12 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   Le prove che chiamano le funzioni dei pulsanti non vedono questi guasti: `TestsClicks` (nel gruppo «base») clicca
   davvero con `TestKit.click`.
 
+- Le tabelle comuni che si riempiono dai file dei biomi sono `static var` inizializzate al caricamento della classe: i
+  file dei biomi e `BiomesData` **non nominano nessun'altra classe** (valori scritti per esteso), altrimenti un giro di
+  dipendenze le lascia a metà a seconda di chi si carica prima (28 set 2026: la mappa dei colori perdeva un'erba solo
+  in `tools/mappe.gd`). Le prove non devono dipendere da quali famiglie sono assenti nel mondo di prova (cambiano con
+  ogni famiglia nuova): la prova delle stagioni misurava un rapporto con una specie «assente».
+
 ## Convenzioni
 
 - Tutto il testo visibile in italiano con accenti veri (à è ì ò ù).

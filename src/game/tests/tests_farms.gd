@@ -25,7 +25,7 @@ func run() -> void:
 	var res := {}
 	var spot := kit.flat_spot(w.spawn + Vector2i(-70, 0), 16)
 	if spot.x < 0:
-		print("ATTENZIONE: farm, nessun posto piano: provo alla partenza")
+		print("farm: nessun posto piano, spiano vicino alla partenza")
 		spot = w.spawn
 	kit.flatten(spot, 16)
 	m.fauna.clear()

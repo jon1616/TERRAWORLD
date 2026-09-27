@@ -9,7 +9,7 @@ extends RefCounted
 ## linfa_regen (la Linfa ricresce ×); le armi `poison` (i colpi avvelenano) e gli archi `multishot` (dardi per tiro).
 
 ## Il trofeo di ogni specie.
-const TROPHY_OF := {
+const _TROPHY_OF := {
 	"grumo_muschio": "nucleo_muschio", "grumo_resina": "nucleo_resina", "grumo_spore": "nucleo_spore",
 	"falena_brace": "ala_falena", "strisciaradice": "nodo_strisciaradice", "scarabeo_ardesia": "corno_scarabeo",
 	"sputaspore": "bocca_sputaspore", "avvizzito_errante": "cuore_errante", "vagavuoto": "occhio_vagavuoto",
@@ -120,3 +120,7 @@ const RECIPES := [
 	{"out": "bastone_iridato", "qty": 1, "in": {"polvere_iridata": 6, "scintilla_guizzo": 2, "cristallo_linfa": 10}, "station": "maglio"},
 	{"out": "mantello_iridato", "qty": 1, "in": {"polvere_iridata": 8, "ala_maestra": 1, "filiera_vuoto": 1, "seta_radice": 10}, "station": "maglio"},
 ]
+
+
+## Voce 92: più quelle dei pacchetti dei biomi (`BiomesData`).
+static var TROPHY_OF: Dictionary = _TROPHY_OF.merged(BiomesData.pack_creatures("trophy"))

@@ -23,7 +23,10 @@ func run() -> void:
 	for d in range(1, 14):
 		names.append(String(SeasonsData.SEASONS[SeasonsData.index(d, world.world_seed)]["id"]).substr(0, 4))
 	var day0: int = m.day.day
-	# al Germoglio, poi al Gelo: i pesi cambiano
+	# al Germoglio, poi al Gelo: i pesi cambiano (solo per la stagione: le famiglie favorite o assenti del mondo, che
+	# cambiano con ogni famiglia nuova, qui non contano)
+	var fm: Dictionary = m.fauna.family_mult
+	m.fauna.family_mult = {}
 	var w := {}
 	for target in [0, 3]:
 		var d := 1
@@ -32,6 +35,7 @@ func run() -> void:
 		m.day.day = d
 		await kit.seconds(1.3)
 		w[target] = m.fauna.weight_of("cervo_brina") / maxf(m.fauna.weight_of("pecora_muschio"), 0.01)
+	m.fauna.family_mult = fm
 	var gelo := se.current
 	# la creatura della stagione (il Gelo: il Cervo del gelo), e il suo bottino
 	var spot := kit.flat_spot(world.spawn + Vector2i(30, 0), 6)

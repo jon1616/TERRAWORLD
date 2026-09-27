@@ -51,6 +51,7 @@ static func all() -> Dictionary:
 	if not _all.is_empty():
 		return _all
 	var out := SETS.duplicate(true)
+	out.merge(BiomesData.pack("sets"))                  # voce 92: i set dei biomi
 	for m in METAL_BONUS:
 		var mb: Dictionary = METAL_BONUS[m]
 		# voce 86: i set dei metalli sono di cinque pezzi (con guanti e stivali)

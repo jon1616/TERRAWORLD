@@ -110,6 +110,9 @@ static func frames(shape: String, variant: int) -> Dictionary:
 			return _pair(func(f: int) -> Array: return AquaArt.anguilla(f))
 		"avvizzitore":
 			return _pair(func(f: int) -> Array: return NeroArt.avvizzitore(f, variant == 1))     # voce 72
+		_ when CreaturesData.CREATURES.has(shape) and CreaturesData.CREATURES[shape].has("body"):
+			var body: Dictionary = CreaturesData.CREATURES[shape]["body"]            # voce 92: le creature dei biomi
+			return _pair(func(f: int) -> Array: return BodyArt.draw(body, f))
 	return {"frames": [Px.img(8, 8)], "glow": [Px.img(8, 8)]}
 
 

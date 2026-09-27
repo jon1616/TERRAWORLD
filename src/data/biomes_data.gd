@@ -4,6 +4,9 @@ extends RefCounted
 ## mondo è divisa in tratti di qualche centinaio di colonne, ognuno con il suo bioma (`World.biomes`, uno per colonna,
 ## salva l'**indice** in `FILES`: i biomi nuovi vanno in fondo, e il primo è la foresta della partenza).
 ##
+## Questo file e i file dei biomi **non nominano altre classi** (nemmeno `TileDefs`): le tabelle comuni li leggono
+## mentre si preparano, e un giro di dipendenze le lascerebbe a metà (successo con la mappa dei colori).
+##
 ## Aggiungere un bioma = scrivere il suo file e aggiungerlo a `FILES`, più i suoi disegni (albero in `TreeArt`, piante
 ## in `BiomeDecorArt`); le tabelle delle tessere (`TileDefs`), gli alberi (`TreesData`), il generatore, la mappa, il
 ## tempo e le creature leggono da qui. Il foglio di tutti i biomi: `tools/biomi.gd` → prove/biomi.png.
@@ -26,6 +29,15 @@ extends RefCounted
 ##   elem             l'elemento più probabile delle varianti delle creature che nascono qui (voce 55)
 ##   weather          i tempi che il bioma porta nel mondo: {stato: moltiplicatore} (vedi `WeatherData`)
 ##   gene             il gene di superficie che lo sceglie (`GenesData`, categoria superficie)
+## Dalla voce 92 un bioma porta con sé anche il suo **pacchetto** (tutti facoltativi), che le tabelle comuni uniscono
+## alle loro:
+##   creatures        {id: voce di `CreaturesData`} con in più body (la ricetta del disegno per `BodyArt`), affinity
+##                    ({weak, resist} di `ElementsData`) e trophy (l'id del trofeo che lasciano le rare)
+##   families         {id: famiglia di `FamiliesData`}          loot     {tabella: voci di `LootData`}
+##   items, recipes   oggetti e ricette (come `ItemsData` e `RecipesData`), il Seme di mondo e l'oggetto unico compresi
+##   sets             {id: set di `SetsData`}                   genes    {id: gene di `GenesData`} (il suo di superficie)
+##   lands            i paesaggi dei nomi dei mondi del suo gene (`NamesData.LANDS`)
+##   fauna            creature che ci sono già e vivono anche qui (il bioma si aggiunge ai loro `biomes`)
 
 const FILES := [
 	preload("res://src/data/biomes/foresta.gd"),
@@ -33,6 +45,11 @@ const FILES := [
 	preload("res://src/data/biomes/ambra.gd"),
 	preload("res://src/data/biomes/brina.gd"),
 	preload("res://src/data/biomes/cenere.gd"),
+	# voce 92: le terre temperate
+	preload("res://src/data/biomes/prati.gd"),
+	preload("res://src/data/biomes/rossa.gd"),
+	preload("res://src/data/biomes/funghi.gd"),
+	preload("res://src/data/biomes/torba.gd"),
 ]
 
 static var BIOMES: Array = _load()
@@ -57,8 +74,34 @@ static func index_of(id: String) -> int:
 	return 0
 
 
-static func at(w: World, x: int) -> int:
+static func at(w: Object, x: int) -> int:    # (niente tipo World: questo file non dipende da nessuno)
 	return w.biomes[clampi(x, 0, w.w - 1)]
+
+
+## Voce 92: l'unione di un campo-dizionario del pacchetto di tutti i biomi.
+static func pack(key: String) -> Dictionary:
+	var out := {}
+	for f in FILES:
+		out.merge((f.DATA as Dictionary).get(key, {}))
+	return out
+
+
+## Voce 92: l'unione di un campo-elenco del pacchetto di tutti i biomi.
+static func pack_list(key: String) -> Array:
+	var out := []
+	for f in FILES:
+		out.append_array((f.DATA as Dictionary).get(key, []))
+	return out
+
+
+## Voce 92: un campo di ogni creatura dei pacchetti ({id creatura: valore}), per debolezze e trofei.
+static func pack_creatures(field: String) -> Dictionary:
+	var out := {}
+	var cr := pack("creatures")
+	for id in cr:
+		if (cr[id] as Dictionary).has(field):
+			out[id] = cr[id][field]
+	return out
 
 
 ## Il bioma che ha questa tessera d'erba (vuoto se nessuno).

@@ -2,7 +2,7 @@ class_name LootData
 extends RefCounted
 ## Tabelle di bottino: ogni voce = oggetto, quantità minima e massima, probabilità (0-1).
 
-const TABLES := {
+const _TABLES := {
 	"grumo": [
 		{"item": "gelatina", "min": 1, "max": 2, "chance": 1.0},
 	],
@@ -266,3 +266,7 @@ static func roll(table: String, rng: RandomNumberGenerator) -> Dictionary:
 		if rng.randf() <= float(e["chance"]):
 			out[e["item"]] = int(out.get(e["item"], 0)) + rng.randi_range(int(e["min"]), int(e["max"]))
 	return out
+
+
+## Voce 92: più quelle dei pacchetti dei biomi (`BiomesData`).
+static var TABLES: Dictionary = _TABLES.merged(BiomesData.pack("loot"))

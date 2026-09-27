@@ -63,7 +63,7 @@ const DEFAULTS := {
 const MUL := ["ruins", "gems", "lumini", "rare", "grow", "events", "blight", "hills", "worm", "roots", "shallow", "geodes",
 	"trees", "pools", "rain", "wind", "fog", "grav", "day_len"]
 
-const GENES := {
+const _GENES := {
 	# --- superficie: i biomi (erano le specie della voce 39) -------------------------------------------------------
 	"lanterna": {"cat": "superficie", "name": "Salice-lanterna", "rar": 0, "dom": 3, "good": true,
 		"desc": "foreste di alberi-lanterna a perdita d'occhio", "item": "seme_mondo_lanterna",
@@ -331,3 +331,7 @@ static func tag(g: String) -> String:
 		return "?"
 	var col := String(RARITY[int(d["rar"])]["color"]) if d.get("good", true) else "#ff9a7a"
 	return "[color=%s]%s[/color]" % [col, d["name"]]
+
+
+## Voce 92: più quelle dei pacchetti dei biomi (`BiomesData`).
+static var GENES: Dictionary = _GENES.merged(BiomesData.pack("genes"))

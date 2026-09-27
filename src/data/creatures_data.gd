@@ -23,7 +23,7 @@ extends RefCounted
 ## guscio (colpita si chiude), bombarda (lascia cadere colpi dall'alto), mimo (travestita finché non ti avvicini).
 ## Parametri nuovi: hover (quanto vola alta sopra il bersaglio), slow e shot_look (ragnatele che invischiano).
 
-const CREATURES := {
+const _CREATURES := {
 	# i grumi: gocce di muschio, resina o spore che si sono animate e saltellano
 	"grumo_muschio": {"name": "Grumo di muschio", "hp": 14, "damage": 6, "defense": 0, "knock": 0.0, "half": [6, 5],
 		"speed": 80, "behaviors": ["salta_verso"], "p": {"jump": 260.0, "sight": 20},
@@ -297,4 +297,24 @@ static func of_stratum(s: int, night := false, biome := "") -> Array:
 		# nelle terre avvizzite gli Avvizziti erranti camminano anche di giorno
 		if s in c["strata"] and (night or not c.get("night", false) or biome == "avvizzito"):
 			out.append([id, int(c["weight"])])
+	return out
+
+
+## Voce 92: le creature scritte qui più quelle dei pacchetti dei biomi.
+static var CREATURES: Dictionary = _merged()
+
+
+static func _merged() -> Dictionary:
+	var out := _CREATURES.duplicate()
+	out.merge(BiomesData.pack("creatures"))
+	# le creature che vivono anche nei biomi nuovi (campo `fauna` dei biomi)
+	for b in BiomesData.BIOMES:
+		for cid in b.get("fauna", []):
+			if out.has(cid):
+				var cd: Dictionary = (out[cid] as Dictionary).duplicate()
+				var bl: Array = (cd.get("biomes", []) as Array).duplicate()
+				if not b["id"] in bl:
+					bl.append(b["id"])
+				cd["biomes"] = bl
+				out[cid] = cd
 	return out

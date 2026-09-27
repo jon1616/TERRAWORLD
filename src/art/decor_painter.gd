@@ -9,8 +9,10 @@ extends RefCounted
 
 const S := 16
 const DECOR_ROW := TileDefs.WALLS
-const PLAT_ROW := TileDefs.WALLS + 1
 const COLS := 48
+## Voce 92: le decorazioni dei biomi nuovi possono essere più di una riga
+static var DECOR_ROWS: int = ceili(TileDefs.DECOR_COUNT / float(COLS))
+static var PLAT_ROW: int = DECOR_ROW + DECOR_ROWS
 ## Tavolozze delle gemme a grappolo (decorazioni 23-26), le stesse delle loro icone.
 const GEM_PAL := [
 	["#2a3a08", "#6a8a10", "#b8e020", "#e8ff70", "#fbffd8"],
@@ -18,7 +20,7 @@ const GEM_PAL := [
 	["#081a3a", "#12408a", "#2a7ad8", "#78c0ff", "#d8f0ff"],
 	["#1c0a30", "#40186a", "#7a38c0", "#b880ff", "#ecd8ff"],
 ]
-const ROWS := TileDefs.WALLS + 2
+static var ROWS: int = PLAT_ROW + 1
 ## Parete di fondo: materiale e tavolozza da cui nasce (scurita e raffreddata).
 const WALL_SRC := {
 	TileDefs.WALL_DIRT: ["humus", TileDefs.P_DIRT], TileDefs.WALL_STONE: ["ardesia", TileDefs.P_STONE],
@@ -34,7 +36,7 @@ static func wall_coords(kind: int, x: int, y: int) -> Vector2i:
 
 
 static func decor_coords(id: int) -> Vector2i:
-	return Vector2i(id - 1, DECOR_ROW)
+	return Vector2i((id - 1) % COLS, DECOR_ROW + (id - 1) / COLS)
 
 
 static func plat_coords(x: int) -> Vector2i:
@@ -59,8 +61,9 @@ static func build() -> Dictionary:
 					img.set_pixel(v * S + px, (kind - 1) * S + py, tex[(vy * S + py) * TerrainPainter.TEX + vx * S + px])
 	for d in range(1, TileDefs.DECOR_COUNT + 1):
 		var r := decor(d)
-		img.blit_rect(r["img"], Rect2i(0, 0, S, S), Vector2i((d - 1) * S, DECOR_ROW * S))
-		glow.blit_rect(r["glow"], Rect2i(0, 0, S, S), Vector2i((d - 1) * S, DECOR_ROW * S))
+		var dc := decor_coords(d)
+		img.blit_rect(r["img"], Rect2i(0, 0, S, S), dc * S)
+		glow.blit_rect(r["glow"], Rect2i(0, 0, S, S), dc * S)
 	for v in 4:
 		img.blit_rect(plank(v), Rect2i(0, 0, S, S), Vector2i(v * S, PLAT_ROW * S))
 	return {"img": img, "glow": glow}

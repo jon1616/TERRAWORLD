@@ -51,10 +51,16 @@ func run() -> void:
 		put_back = bp.held.is_empty() and b.id_at(from) == "humus"
 	# 2. Creare: un clic su una ricetta la mostra in Esamina
 	var shown := false
-	var tiles := bp.crafting.shown_tiles()
+	# (una casella davvero visibile: le prove di prima lasciano una ricerca e l'elenco scorso più in basso)
+	bp.crafting._scroll.scroll_vertical = 0
+	await kit.frames(3)
+	var view := bp.crafting._scroll.get_global_rect()
+	var tiles := bp.crafting.shown_tiles().filter(func(t: RecipeTile) -> bool: return view.encloses(t.get_global_rect()))
 	if not tiles.is_empty():
 		await kit.click(_center(tiles[0]))
 		shown = bp.examine._card.visible and bp.crafting.selected == tiles[0].r
+	else:
+		print("ATTENZIONE: nessuna ricetta visibile in Creare per la prova dei clic")
 	bp.toggle()
 	await kit.frames(2)
 	# 3. la cassa: un clic sulla casella con qualcosa dentro la prende in mano

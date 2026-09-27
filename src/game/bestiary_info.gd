@@ -61,7 +61,7 @@ static func family(ch: Character, fam: String) -> String:
 			for st in cd.get("strata", []):
 				where[String(StrataData.STRATA[st]["name"])] = true
 			for b in cd.get("biomes", []):
-				where[String(b).replace("_", " ")] = true
+				where[BiomesData.name_of(String(b))] = true
 		t += "[color=#9fc8c0]Dove vive: %s[/color]\n" % ", ".join(where.keys())
 	else:
 		t += "%sDove vive: ? (sconfiggine %d per capirlo)%s\n" % [Q, WATCH, E]
@@ -141,7 +141,7 @@ static func hint(fam: String) -> String:
 		for st in cd.get("strata", []):
 			where[String(StrataData.STRATA[st]["name"]).to_lower()] = true
 		for b in cd.get("biomes", []):
-			where[String(b).replace("_", " ")] = true
+			where[BiomesData.name_of(String(b))] = true
 		if cd.get("night", false):
 			where["di notte"] = true
 	var t := "[color=#6a8a84]Non l'hai ancora incontrata.[/color]\n"

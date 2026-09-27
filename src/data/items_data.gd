@@ -267,6 +267,7 @@ static func all() -> Dictionary:
 	out.merge(KeeperItemsData.ITEMS.duplicate(true))
 	out.merge(RelicsData.ITEMS.duplicate(true))
 	out.merge(BiomeItemsData.ITEMS.duplicate(true))
+	out.merge(BiomesData.pack("items").duplicate(true))     # voce 92: gli oggetti dei pacchetti dei biomi
 	out.merge(SignaturesData.ITEMS.duplicate(true))
 	out.merge(GenesData.items().duplicate(true))
 	out.merge(MaterialsData.items().duplicate(true))
