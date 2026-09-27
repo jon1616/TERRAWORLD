@@ -95,10 +95,9 @@ func run() -> void:
 	var poured: bool = lq.empty_bucket(dry, "secchio_acqua")
 	m.snap_to(world.spawn)
 	# 5. i mondi: conche ovunque, il mare con Sommerso
-	var w1 := World.new()
-	WorldGen.generate(w1, 3131, 1600, 900, {"geni": ["lanterna", "sorgenti"], "vigore": 2})
-	var w2 := World.new()
-	WorldGen.generate(w2, 3131, 1600, 900, {"geni": ["lanterna", "sommerso"], "vigore": 2})
+	var ws: Array[World] = await kit.gen_many([[3131, 1600, 900, {"geni": ["lanterna", "sorgenti"], "vigore": 2}], [3131, 1600, 900, {"geni": ["lanterna", "sommerso"], "vigore": 2}]])      # insieme, in parallelo
+	var w1 := ws[0]
+	var w2 := ws[1]
 	var sea := 0                               # quante colonne hanno il mare sopra la superficie (in percentuale)
 	for x in w2.w:
 		if w2.liq(x, w2.surface[x] - 1) > 0:

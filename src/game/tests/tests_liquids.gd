@@ -98,10 +98,9 @@ func run() -> void:
 	world.crops.erase(near)
 	world.crops.erase(far)
 	# i geni: fiumi e laghi veri
-	var w1 := World.new()
-	WorldGen.generate(w1, 5151, 1600, 900, {"geni": ["lanterna", "fiumi_brace"], "vigore": 3})
-	var w2 := World.new()
-	WorldGen.generate(w2, 5151, 1600, 900, {"geni": ["lanterna", "laghi_linfa"], "vigore": 3})
+	var ws: Array[World] = await kit.gen_many([[5151, 1600, 900, {"geni": ["lanterna", "fiumi_brace"], "vigore": 3}], [5151, 1600, 900, {"geni": ["lanterna", "laghi_linfa"], "vigore": 3}]])      # insieme, in parallelo
+	var w1 := ws[0]
+	var w2 := ws[1]
 	var brace := 0
 	var linfa := 0
 	for i in range(0, w1.liquid.size(), 3):

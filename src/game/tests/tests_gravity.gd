@@ -67,8 +67,10 @@ func run() -> void:
 	await kit.seconds(0.3)
 	m.vitals.refill()
 	# i mondi generati
-	var sh := _gen(["guscio"], 7607)
-	var ar := _gen(["arcipelago"], 7608)
+	var ws: Array[World] = await kit.gen_many([[7607, WorldGen.WIDTH, WorldGen.HEIGHT, {"geni": ["guscio"], "vigore": 3}],
+		[7608, WorldGen.WIDTH, WorldGen.HEIGHT, {"geni": ["arcipelago"], "vigore": 3}]])
+	var sh := _measure(["guscio"], ws[0])
+	var ar := _measure(["arcipelago"], ws[1])
 	var run_l := Genome.effects(["lieve"], "run")
 	var run_g := Genome.effects(["guscio"], "run")
 	print("gravità: salto normale %.2f tessere, lieve %.2f; caduta di 30 tessere conta %.0f / %.1f; corrente: salito %.1f tessere (dentro %s, particelle %d); lieve grav %.2f, guscio senza pioggia %s" % [
@@ -96,10 +98,8 @@ func _open_spot(from: int) -> Vector2i:
 	return world.spawn
 
 
-## Genera un mondo con questi geni e ne misura la forma.
-func _gen(genes: Array, sd: int) -> Dictionary:
-	var w := World.new()
-	WorldGen.generate(w, sd, WorldGen.WIDTH, WorldGen.HEIGHT, {"geni": genes, "vigore": 3})
+## Misura la forma di un mondo generato con questi geni.
+func _measure(genes: Array, w: World) -> Dictionary:
 	var out := {"cuore": false}
 	for o in w.stations:
 		if String(w.stations[o]) == "cuore_mondo":

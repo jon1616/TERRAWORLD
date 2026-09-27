@@ -12,12 +12,15 @@ siamo»).
 - **L'utente**: dà la direzione e lascia a Claude ordine e tecnica; vuole sostanza, spiegazioni in italiano semplice e
   un resoconto alla fine; per la grafica collabora generando le immagini con Gemini/Nano Banana su prompt di Claude.
   **Niente push** su un repository remoto finché non lo chiede (per ora «non ancora»).
-- **Ogni passo**: si scrive (le modifiche lunghe con script Python scritti con Write, non con heredoc), controllo di
-  sintassi di tutti i .gd cambiati, `--import` se ci sono `class_name` nuovi, prove del gruppo (`--solo=...`), poi il
-  **giro completo** in sottofondo con un tempo massimo (`timeout 1200 ... -- --prove > log`, dura ~5 minuti) e un
-  controllo che avvisi se si ferma; foto controllate a occhio; commit in italiano con la riga Co-Authored-By.
-  Per i **ritocchi piccoli e isolati** basta la prova dedicata (scelta dell'utente, 26 set 2026): il giro completo
-  alla fine di una voce o quando si toccano sistemi condivisi (movimento, generatore, salvataggi, Bisaccia, main, luce).
+- **Ogni passo**: si scrive (le modifiche lunghe con script Python scritti con Write, non con heredoc), poi
+  `tools/prove.sh base,<gruppi della parte toccata>`: fa il controllo di sintassi dei .gd cambiati (se uno non
+  compila le prove non partono), `--import`, le prove con un tempo massimo e il riassunto. Il gruppo **«base»**
+  (~1 minuto: mondo, alberi, creazione, Vita, movimento a 60 e 144 fps, combattimento, corsa, salvataggio) va
+  sempre; foto controllate a occhio; commit in italiano con la riga Co-Authored-By.
+  **Il giro intero** (`tools/prove.sh tutto`, ~8 minuti) solo quando è indispensabile (scelta dell'utente, 28 set
+  2026: «stava diventando troppo lungo»): alla fine di un lavoro grande (più voci) o dopo cambi profondi ai sistemi
+  condivisi (generatore, salvataggi, movimento, luce). Alla fine stampa «tempi del giro» con i gruppi più lenti.
+  Le prove che generano mondi li fanno insieme, in parallelo (`TestKit.gen_many`).
 - **Controllo di sintassi** dei file cambiati: `for f in $(git diff --name-only | grep .gd$); do Godot_console.exe
   --headless --path . --check-only --script res://$f; done` («Identifier not found: Session/Musica» è normale).
 
@@ -88,7 +91,7 @@ Godot_console.exe --path .
 Godot_console.exe --headless --path . --import
 # controllo sintattico di uno script
 Godot_console.exe --headless --path . --check-only --script res://src/world/world.gd
-# prove automatiche con finestra (il giro completo dura ~5 minuti; nelle prime Roadmap erano ~25 s): screenshot in prove/ (01_superficie, 02_grotta_buia e 02_grotta_torcia con la
+# prove automatiche con finestra (il giro intero dura ~8 minuti, il gruppo «base» ~1; nelle prime Roadmap ~25 s): screenshot in prove/ (01_superficie, 02_grotta_buia e 02_grotta_torcia con la
 # misura del buio, 03_cristalli, 04_scavo,
 # 05_dopo_la_corsa, 06_muro_3_blocchi), misura del movimento (velocità, salto pieno in tessere, muro di 3 blocchi da
 # scavalcare) e dei fotogrammi durante una corsa in superficie (obiettivo: 60 fps, fotogramma peggiore < 25 ms)
@@ -108,7 +111,7 @@ Godot_console.exe --path . -- --prove --prova-giardino
 # solo alcuni gruppi di prove (per provare in fretta una voce nuova): doni, antiche, pericoli, combattimento, tratti,
 # obiettivi, guardiani, rovine, mobilita, lanci, giardino, eventi, casa, abitanti, compagni, viaggio, semi,
 # biomi, biomi_nuovi, luoghi, corsa, raccolta, musica, germogliato, interfaccia, geni, forme, ecologia, mandria, casse, alberi,
-# sigilli, stagioni, suggerimenti, opzioni, enciclopedia, lingua, catene, luoghi_scritti, enigmi, seme_nero, acqua,
+# base (il cuore del gioco, da lanciare sempre), sigilli, stagioni, suggerimenti, opzioni, enciclopedia, lingua, catene, luoghi_scritti, enigmi, seme_nero, acqua,
 # liquidi, meteo, gravita, terra_viva, tempo_mondi, vigore, guardiani_generati, leggende, sfide
 # (elenco in `AutoTests._group`)
 Godot_console.exe --path . -- --prove --solo=doni,antiche

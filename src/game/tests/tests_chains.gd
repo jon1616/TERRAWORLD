@@ -22,10 +22,9 @@ func run() -> void:
 	ch.catene = {"lunga": {"tappa": 0, "fatta": false}, "brevi": [], "fatte": 0, "n": 0}
 	var pend := Chains.pending(ch)
 	# due mondi piccoli: con il gene della prima tappa e senza
-	var w1 := World.new()
-	WorldGen.generate(w1, 4242, 1600, 900, {"geni": ["lanterna", "radici_giganti"], "vigore": 2, "catene": pend})
-	var w2 := World.new()
-	WorldGen.generate(w2, 4242, 1600, 900, {"geni": ["lanterna", "cavo"], "vigore": 2, "catene": pend})
+	var ws: Array[World] = await kit.gen_many([[4242, 1600, 900, {"geni": ["lanterna", "radici_giganti"], "vigore": 2, "catene": pend}], [4242, 1600, 900, {"geni": ["lanterna", "cavo"], "vigore": 2, "catene": pend}]])      # insieme, in parallelo
+	var w1 := ws[0]
+	var w2 := ws[1]
 	var c1: Array = w1.gen_notes.get("cripte", [])
 	var c2: Array = w2.gen_notes.get("cripte", [])
 	var has_leggio: bool = c1.size() > 0 and w1.stations.get(c1[0]["leggio"], "") == "leggio"

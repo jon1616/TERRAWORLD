@@ -18,6 +18,13 @@ func run(main: Node2D) -> void:
 	main.hazards.paused = true
 	main.events.paused = true              # niente eventi a caso sotto le misure
 	main.villagers.paused = true           # gli abitanti arrivano solo quando lo chiede la prova             # l'Avvizzimento non si allarga sotto le misure delle altre prove
+	# 28 set 2026: uno script delle prove che non compila fermava il giro senza chiuderlo (fino al tempo massimo):
+	# si controllano tutti prima di cominciare, e se uno è rotto si esce subito dicendo quale
+	var broken := _broken_scripts()
+	if not broken.is_empty():
+		print("ATTENZIONE: prove che non si compilano, giro fermato: %s" % [broken])
+		get_tree().quit(1)
+		return
 	var kit := TestKit.new(self, main)
 	if "--prova-portale" in OS.get_cmdline_user_args():
 		await TestsPortalTrip.new(kit).run()
@@ -49,74 +56,143 @@ func run(main: Node2D) -> void:
 	var bl := TestsBlight.new(kit)
 	var an := TestsAncient.new(kit)
 	var hz := TestsHazards.new(kit)
+	_mark("inizio")
 	await w.places()
+	_mark("w.places")
 	await p.trees()
+	_mark("p.trees")
 	await p.crafting()
+	_mark("p.crafting")
 	await p.vitals()
+	_mark("p.vitals")
 	await p.movement()
+	_mark("p.movement")
 	await c.run()
+	_mark("c.run")
 	await st.run()
+	_mark("st.run")
 	await gd.run()
+	_mark("gd.run")
 	await gs.run()
+	_mark("gs.run")
 	await dn.run()
+	_mark("dn.run")
 	await rv.run()
+	_mark("rv.run")
 	await bi.run()
+	_mark("bi.run")
 	await mp.run()
+	_mark("mp.run")
 	await eb.run()
+	_mark("eb.run")
 	await tt.run()
+	_mark("tt.run")
 	await bl.run()
+	_mark("bl.run")
 	await an.run()
+	_mark("an.run")
 	await hz.run()
+	_mark("hz.run")
 	await TestsGifts.new(kit).run()
+	_mark("TestsGifts")
 	await TestsBestiary.new(kit).run()
+	_mark("TestsBestiary")
 	await TestsRarity.new(kit).run()
+	_mark("TestsRarity")
 	await TestsGems.new(kit).run()
+	_mark("TestsGems")
 	await TestsWorkshop.new(kit).run()
+	_mark("TestsWorkshop")
 	await TestsSets.new(kit).run()
+	_mark("TestsSets")
 	await TestsKeepers.new(kit).run()
+	_mark("TestsKeepers")
 	await TestsRelics.new(kit).run()
+	_mark("TestsRelics")
 	await TestsInterface.new(kit).run()
+	_mark("TestsInterface")
 	await TestsTorch.new(kit).run()
+	_mark("TestsTorch")
 	await TestsMobility.new(kit).run()
+	_mark("TestsMobility")
 	await TestsThrowing.new(kit).run()
+	_mark("TestsThrowing")
 	await TestsGarden.new(kit).run()
+	_mark("TestsGarden")
 	await TestsEvents.new(kit).run()
+	_mark("TestsEvents")
 	await TestsBuilding.new(kit).run()
+	_mark("TestsBuilding")
 	await TestsVillagers.new(kit).run()
+	_mark("TestsVillagers")
 	await TestsCompanions.new(kit).run()
+	_mark("TestsCompanions")
 	await TestsTravel.new(kit).run()
+	_mark("TestsTravel")
 	await TestsSeeds.new(kit).run()
+	_mark("TestsSeeds")
 	await TestsNewBiomes.new(kit).run()
+	_mark("TestsNewBiomes")
 	await TestsBagCost.new(kit).run()
+	_mark("TestsBagCost")
 	await TestsMusic.new(kit).run()
+	_mark("TestsMusic")
 	await TestsHero.new(kit).run()
+	_mark("TestsHero")
 	await TestsGenes.new(kit).run()
+	_mark("TestsGenes")
 	await TestsForms.new(kit).run()
+	_mark("TestsForms")
 	await TestsEcology.new(kit).run()
+	_mark("TestsEcology")
 	await TestsHerd.new(kit).run()
+	_mark("TestsHerd")
 	await TestsStorage.new(kit).run()
+	_mark("TestsStorage")
 	await TestsTrees.new(kit).run()
+	_mark("TestsTrees")
 	await TestsSeals.new(kit).run()
+	_mark("TestsSeals")
 	await TestsSeasons.new(kit).run()
+	_mark("TestsSeasons")
 	await TestsTips.new(kit).run()
+	_mark("TestsTips")
 	await TestsOptions.new(kit).run()
+	_mark("TestsOptions")
 	await TestsEncy.new(kit).run()
+	_mark("TestsEncy")
 	await TestsLanguage.new(kit).run()
+	_mark("TestsLanguage")
 	await TestsChains.new(kit).run()
+	_mark("TestsChains")
 	await TestsPlaces.new(kit).run()
+	_mark("TestsPlaces")
 	await TestsEnigmas.new(kit).run()
+	_mark("TestsEnigmas")
 	await TestsNero.new(kit).run()
+	_mark("TestsNero")
 	await TestsWater.new(kit).run()
+	_mark("TestsWater")
 	await TestsLiquids.new(kit).run()
+	_mark("TestsLiquids")
 	await TestsWeather.new(kit).run()
+	_mark("TestsWeather")
 	await TestsGravity.new(kit).run()
+	_mark("TestsGravity")
 	await TestsLiving.new(kit).run()
+	_mark("TestsLiving")
 	await TestsWorldTime.new(kit).run()
+	_mark("TestsWorldTime")
 	await TestsVigor.new(kit).run()
+	_mark("TestsVigor")
 	await TestsGuardianGen.new(kit).run()
+	_mark("TestsGuardianGen")
 	await TestsLegends.new(kit).run()
+	_mark("TestsLegends")
 	await TestsChallenges.new(kit).run()
+	_mark("TestsChallenges")
 	await ob.run()
+	_mark("ob.run")
 	await w.run_and_save()
 	# la Bisaccia aperta
 	main.hud.panel.toggle()
@@ -140,10 +216,45 @@ func run(main: Node2D) -> void:
 	var heard: Dictionary = main.sfx.played
 	var silent := SoundsData.SOUNDS.keys().filter(func(k: String) -> bool: return not heard.has(k))
 	print("suoni suonati durante le prove: %d tipi su %d; mai sentiti: %s" % [heard.size(), SoundsData.SOUNDS.size(), silent])
+	_mark("salvataggio, Bisaccia e finale")
+	_report_times()
 	get_tree().quit()
 
 
 ## Un gruppo di prove per nome (per `--solo=`).
+func _broken_scripts() -> Array:
+	var out := []
+	for f in DirAccess.get_files_at("res://src/game/tests"):
+		if f.ends_with(".gd"):
+			var sc: Script = load("res://src/game/tests/" + f)
+			if sc == null or not sc.can_instantiate():
+				out.append(f)
+	return out
+
+
+## I tempi del giro lungo (28 set 2026: era arrivato a 9 minuti): quanto dura ogni gruppo, e alla fine i più lenti.
+var _times: Array = []
+var _last := 0
+
+
+func _mark(name: String) -> void:
+	var now := Time.get_ticks_msec()
+	if _last > 0:
+		_times.append([name, now - _last])
+	_last = now
+
+
+func _report_times() -> void:
+	_times.sort_custom(func(a: Array, b: Array) -> bool: return int(a[1]) > int(b[1]))
+	var tot := 0
+	for t in _times:
+		tot += int(t[1])
+	var top := []
+	for t in _times.slice(0, 25):
+		top.append("%s %.1f s" % [t[0], int(t[1]) / 1000.0])
+	print("tempi del giro: %.0f s nei gruppi; i più lenti: %s" % [tot / 1000.0, ", ".join(top)])
+
+
 func _group(kit: TestKit, g: String) -> void:
 	match g:
 		"doni":
@@ -186,6 +297,18 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsBagCost.new(kit).run()
 		"corsa":
 			await TestsWorld.new(kit).run_and_save()
+		"base":
+			# 28 set 2026: il cuore del gioco in ~2 minuti (il giro intero ne dura 8-9): mondo, alberi, creazione,
+			# Vita, movimento a 60 e 144 fotogrammi, combattimento, corsa, salvataggio e ricarica
+			var wb := TestsWorld.new(kit)
+			var pb := TestsPlayer.new(kit)
+			await wb.places()
+			await pb.trees()
+			await pb.crafting()
+			await pb.vitals()
+			await pb.movement()
+			await TestsCombat.new(kit).run()
+			await wb.run_and_save()
 		"casa":
 			await TestsBuilding.new(kit).run()
 		"abitanti":

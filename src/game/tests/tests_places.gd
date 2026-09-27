@@ -42,10 +42,9 @@ func build_row(ids: Array, depth := 40) -> Array:
 
 func run() -> void:
 	# la generazione: il luogo solo con il gene giusto
-	var w1 := World.new()
-	WorldGen.generate(w1, 777, 1600, 900, {"geni": ["lanterna", "alveari"], "vigore": 2})
-	var w2 := World.new()
-	WorldGen.generate(w2, 777, 1600, 900, {"geni": ["lanterna", "cavo"], "vigore": 2})
+	var ws: Array[World] = await kit.gen_many([[777, 1600, 900, {"geni": ["lanterna", "alveari"], "vigore": 2}], [777, 1600, 900, {"geni": ["lanterna", "cavo"], "vigore": 2}]])      # insieme, in parallelo
+	var w1 := ws[0]
+	var w2 := ws[1]
 	var ids1: Array = (w1.gen_notes.get("luoghi", []) as Array).map(func(e: Dictionary) -> String: return String(e["id"]))
 	var n2: int = (w2.gen_notes.get("luoghi", []) as Array).size()
 	# gli otto disegni nel mondo di prova

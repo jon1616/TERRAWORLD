@@ -16,6 +16,22 @@ func _init(n: Node, main: Node2D) -> void:
 	world = main.world
 
 
+## Genera più mondi insieme, uno per thread (28 set 2026: il giro lungo durava 9 minuti, e un terzo se ne andava a
+## generare mondi di prova uno dopo l'altro sul thread principale). jobs: [[seme, larghezza, altezza, params], …];
+## restituisce i mondi nello stesso ordine. Le cache dei dati sono già piene quando le prove partono.
+func gen_many(jobs: Array) -> Array[World]:
+	var out: Array[World] = []
+	for j in jobs:
+		out.append(World.new())
+	var tid := WorkerThreadPool.add_group_task(func(i: int) -> void:
+		var j: Array = jobs[i]
+		WorldGen.generate(out[i], int(j[0]), int(j[1]), int(j[2]), j[3]), jobs.size(), -1, false, "mondi di prova")
+	while not WorkerThreadPool.is_group_task_completed(tid):
+		await node.get_tree().process_frame
+	WorkerThreadPool.wait_for_group_task_completion(tid)
+	return out
+
+
 func frames(n: int) -> void:
 	for k in n:
 		await node.get_tree().process_frame

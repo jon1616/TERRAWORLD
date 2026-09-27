@@ -56,14 +56,12 @@ func _census(w: World) -> Dictionary:
 
 func generator() -> void:
 	var sd := 5150
-	var plain := World.new()
-	WorldGen.generate(plain, sd, W, WorldGen.HEIGHT, {"vigore": 3})
-	var a := World.new()
-	WorldGen.generate(a, sd, W, WorldGen.HEIGHT, {"vigore": 3,
-		"geni": ["sporangio", "montagne", "cavo", "fungaie", "radicite_diffusa", "rigoglioso", "sano"]})
-	var b := World.new()
-	WorldGen.generate(b, sd, W, WorldGen.HEIGHT, {"vigore": 3,
-		"geni": ["cenere", "pianure", "compatto", "fiumi_brace", "spoglio", "avvizzito"]})
+	var ws: Array[World] = await kit.gen_many([[sd, W, WorldGen.HEIGHT, {"vigore": 3}],
+		[sd, W, WorldGen.HEIGHT, {"vigore": 3, "geni": ["sporangio", "montagne", "cavo", "fungaie", "radicite_diffusa", "rigoglioso", "sano"]}],
+		[sd, W, WorldGen.HEIGHT, {"vigore": 3, "geni": ["cenere", "pianure", "compatto", "fiumi_brace", "spoglio", "avvizzito"]}]])
+	var plain := ws[0]
+	var a := ws[1]
+	var b := ws[2]
 	var cp := _census(plain)
 	var ca := _census(a)
 	var cb := _census(b)
@@ -136,9 +134,14 @@ func signatures() -> void:
 	var ok := 0
 	var fails := []
 	var keep := {}
+	var jobs := []
 	for id in SignaturesData.SIGNATURES:
-		var w := World.new()
-		WorldGen.generate(w, 777, 900, WorldGen.HEIGHT, {"vigore": 3, "firma": id})
+		jobs.append([777, 900, WorldGen.HEIGHT, {"vigore": 3, "firma": id}])
+	var made: Array[World] = await kit.gen_many(jobs)       # le dodici firme insieme, in parallelo
+	var wi := 0
+	for id in SignaturesData.SIGNATURES:
+		var w := made[wi]
+		wi += 1
 		var f: Dictionary = w.gen_notes.get("firma", {})
 		var good := false
 		if not f.is_empty() and f["id"] == id:
@@ -427,9 +430,11 @@ func grafting() -> void:
 func rare_genes() -> void:
 	var res := {}
 	var keep: World = null
-	for gs in [["mosaico"], ["lanterna", "isole_sospese"], ["sporangio", "cuore_cavo"], ["resina", "citta_sepolta"]]:
-		var w := World.new()
-		WorldGen.generate(w, 4848, W, WorldGen.HEIGHT, {"vigore": 6, "geni": gs})
+	var sets := [["mosaico"], ["lanterna", "isole_sospese"], ["sporangio", "cuore_cavo"], ["resina", "citta_sepolta"]]
+	var made: Array[World] = await kit.gen_many(sets.map(func(g: Array) -> Array: return [4848, W, WorldGen.HEIGHT, {"vigore": 6, "geni": g}]))
+	for i in sets.size():
+		var gs: Array = sets[i]
+		var w := made[i]
 		match String(gs[-1]):
 			"mosaico":
 				var changes := 0
