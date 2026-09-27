@@ -4,7 +4,7 @@ extends RefCounted
 ## pareti, decorazioni, liquidi, stazioni, alberi, casse…). Il mondo si fa due volte: una con le passate a fasce su più
 ## processori (`GenBands`, come nel gioco) e una dentro il gruppo di thread, dove le fasce si fanno una alla volta
 ## (come nelle prove). Trovò subito un guasto: le casse si riempivano con il caso globale. Legge anche il collaudo del
-## mondo (`PassCollaudo`). Fa parte del gruppo «base».
+## mondo (`PassCollaudo`) e prova il mondo preparato in anticipo (`WorldPregen`). Fa parte del gruppo «base».
 
 const SEED := 4242
 const PARAMS := {"vigore": 3, "geni": []}
@@ -48,3 +48,19 @@ func run() -> void:
 		col.get("riparati", [])])
 	if not probs.is_empty() or not col.has("problemi"):
 		print("ATTENZIONE: il collaudatore ha trovato problemi nel mondo")
+	# il mondo preparato in anticipo (`WorldPregen`, su un processore solo mentre si gioca) è lo stesso mondo; i parametri
+	# riletti dal salvataggio (3.0 invece di 3) lo ritrovano
+	var params := PARAMS.duplicate(true)
+	WorldPregen.start(SEED, 1600, 900, params)
+	t0 = Time.get_ticks_msec()
+	var got := {}
+	while got.is_empty() and Time.get_ticks_msec() - t0 < 60000:
+		await m.get_tree().process_frame
+		got = WorldPregen.take(SEED, 1600, 900, {"vigore": 3.0, "geni": []})
+	var same := false
+	if not got.is_empty():
+		same = WorldGen.fingerprint(got["world"], "a") == fa
+	print("mondo preparato in anticipo: pronto %s in %d ms, uguale a quello fatto subito %s" % [
+		"sì" if not got.is_empty() else "NO", Time.get_ticks_msec() - t0, "sì" if same else "NO"])
+	if not same:
+		print("ATTENZIONE: il mondo preparato in anticipo non è quello giusto")

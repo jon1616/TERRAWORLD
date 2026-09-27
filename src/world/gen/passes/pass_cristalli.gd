@@ -23,7 +23,7 @@ func run(w: World, c: GenContext) -> void:
 	for t in HOSTS:
 		host[t] = 1
 	# i punti dei grappoli si cercano a fasce su più processori (`GenBands`), in ordine; la crescita resta una sola
-	var parts := GenBands.run(hh, func(_b: int, y0: int, y1: int) -> Array:
+	var parts := GenBands.run(c, hh, func(_b: int, y0: int, y1: int) -> Array:
 		var found := []
 		for y in range(maxi(y0, 1), mini(y1, hh - 1)):
 			var row := y * ww

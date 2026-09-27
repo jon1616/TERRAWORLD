@@ -19,7 +19,8 @@ func run(w: World, c: GenContext) -> void:
 	if not SignaturesData.SIGNATURES.has(id):
 		id = SignaturesData.choose(w.world_seed, c.params.get("geni", []))
 	var sd: Dictionary = SignaturesData.SIGNATURES[id]
-	for tries in 60:
+	for tries in 120:
+		var strict := tries < 60                # le prime 60 prove solo in un posto libero (`GenContext.is_free`)
 		var x := _column(w, c)
 		if x < 0:
 			continue
@@ -32,8 +33,8 @@ func run(w: World, c: GenContext) -> void:
 			if ctr.y > w.h - 40:
 				continue
 		var area := Rect2i(ctr.x - 35, ctr.y - 60, 70, 95)        # il luogo unico più grande, con il suo scrigno
-		if not c.is_free(area):
-			continue
+		if strict and not c.is_free(area):
+			continue                              # (poi dove capita: la firma è una promessa di ogni mondo)
 		var chest: Vector2i = call("_" + id, w, c, ctr)
 		if chest.x < 0:
 			continue

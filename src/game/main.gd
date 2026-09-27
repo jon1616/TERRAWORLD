@@ -90,6 +90,7 @@ var built := false
 var gen_times: Array = []
 var _gen_task := -1
 var _gen_thread: Thread = null           # la generazione di un mondo nuovo (`MainBoot.new_world`)
+var _gen_ready := false                  # il mondo nuovo era già pronto (`WorldPregen`)
 var _loading: CanvasLayer
 var _view_key := Rect2i()
 var world_id := ""
@@ -337,6 +338,9 @@ func _process(dt: float) -> void:
 		elif _gen_thread != null and not _gen_thread.is_alive():
 			_gen_thread.wait_to_finish()
 			_gen_thread = null
+			_build()
+		elif _gen_ready:
+			_gen_ready = false
 			_build()
 		return
 	cam.position = player.position + Vector2(0, -12)

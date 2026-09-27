@@ -5,6 +5,9 @@ extends GenPass
 ## Viene subito dopo il Terreno: le passate che seguono (strati, erba, alberi, decorazioni) leggono `World.biomes`.
 
 
+const SPLIT_MIN := 90                  # colonne minime di ognuna delle due metà quando si divide un tratto
+
+
 func title() -> String:
 	return "Biomi"
 
@@ -77,6 +80,21 @@ func _ensure_all(w: World, segs: Array, weights: Array, rng: RandomNumberGenerat
 			if many and (int(sg[1]) < safe.x or int(sg[0]) > safe.y):
 				free.append(sg)
 		if free.is_empty():
+			# nessun bioma ripetuto da cui prendere un tratto: si divide in due il tratto più largo lontano dalla
+			# partenza (28 set 2026: con 16 biomi e tratti di 220-440 colonne, prima qualche bioma mancava in silenzio)
+			var big: Array = []
+			for sg in segs:
+				if (int(sg[1]) < safe.x or int(sg[0]) > safe.y) and int(sg[1]) - int(sg[0]) >= 2 * SPLIT_MIN \
+						and (big.is_empty() or int(sg[1]) - int(sg[0]) > int(big[1]) - int(big[0])):
+					big = sg
+			if big.is_empty():
+				continue
+			var mid := (int(big[0]) + int(big[1])) / 2
+			var half := [mid, int(big[1]), k]
+			big[1] = mid
+			segs.append(half)
+			for xx in range(mid, int(half[1])):
+				w.biomes[xx] = k
 			continue
 		var pick: Array = free[rng.randi_range(0, free.size() - 1)]
 		pick[2] = k

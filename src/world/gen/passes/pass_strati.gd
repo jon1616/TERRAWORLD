@@ -33,7 +33,7 @@ func run(w: World, c: GenContext) -> void:
 	var tiles := w.tiles
 	var walls := w.walls
 	# a fasce di righe su più processori (`GenBands`): ogni cella dipende solo da sé
-	var parts := GenBands.run(w.h, func(_b: int, y0: int, y1: int) -> Array:
+	var parts := GenBands.run(c, w.h, func(_b: int, y0: int, y1: int) -> Array:
 		var t: PackedByteArray = tiles.slice(y0 * ww, y1 * ww)
 		var wl: PackedByteArray = walls.slice(y0 * ww, y1 * ww)
 		for y in range(y0, y1):

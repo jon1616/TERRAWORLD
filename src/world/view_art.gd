@@ -29,6 +29,11 @@ static func get_all() -> Dictionary:
 		_thread = null
 	if _res.is_empty():
 		_res = _prepare()
+	if not _res.has("pronte"):
+		# il bordo delle tavole (vedi `_tileset`) si riaccende qui, nel thread principale, a tavole finite
+		for k in ["terrain", "terrain_glow", "misc", "misc_glow"]:
+			((_res[k] as TileSet).get_source(0) as TileSetAtlasSource).use_texture_padding = true
+		_res["pronte"] = true
 	return _res
 
 
@@ -61,6 +66,9 @@ static func _tileset(tex: Texture2D, cols: int, rows: int) -> TileSet:
 	var ts := TileSet.new()
 	ts.tile_size = Vector2i(S, S)
 	var src := TileSetAtlasSource.new()
+	# senza il bordo mentre si aggiungono le tessere: a ogni tessera il motore rifà il bordo nel thread principale, e
+	# lì leggeva le tessere mentre questo thread le stava ancora aggiungendo («no tile at (101, 16)», 28 set 2026)
+	src.use_texture_padding = false
 	src.texture = tex
 	src.texture_region_size = Vector2i(S, S)
 	for r in rows:

@@ -27,6 +27,7 @@ func _ready() -> void:
 
 func _exit_tree() -> void:
 	ViewArt.finish()
+	WorldPregen.finish()
 
 
 ## `extra`: dati in più per il mondo nuovo (dal portale: "vigore" e "ritorno" = id del mondo d'origine).

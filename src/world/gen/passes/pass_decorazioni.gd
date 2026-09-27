@@ -28,7 +28,7 @@ func run(w: World, c: GenContext) -> void:
 	var ww := w.w
 	var hh := w.h
 	# a fasce di righe su più processori (`GenBands`), ognuna con il suo caso (`GenContext.band_rng`)
-	var parts := GenBands.run(hh, func(b: int, y0: int, y1: int) -> Array:
+	var parts := GenBands.run(c, hh, func(b: int, y0: int, y1: int) -> Array:
 		var rng := c.band_rng(b)
 		var out: PackedByteArray = decor.slice(y0 * ww, y1 * ww)
 		for y in range(maxi(y0, 1), mini(y1, hh - 1)):

@@ -75,7 +75,21 @@ func plant(c: Vector2i, id: String) -> bool:
 		"primo": bool(g.get("primo", false))}
 	m.guardian.lore.show_page("portale")
 	m.sfx.play("portale", Vector2(o) * 16.0)
+	pregen(o)
 	return true
+
+
+## Il mondo dall'altra parte comincia a nascere in sottofondo (`WorldPregen`), con gli stessi parametri che userà il
+## viaggio (`MainBoot.gen_params`): mentre si legge la pagina e si torna al portale, è quasi sempre già pronto.
+func pregen(o: Vector2i) -> void:
+	var dest := destination(o)
+	if String(dest[0]) != "":
+		return                                 # il mondo esiste già: si carica
+	var e: Dictionary = _portals()[_key(o)]
+	if e.get("ritorno", false):
+		return
+	WorldPregen.start(int(dest[2]), WorldGen.WIDTH, WorldGen.HEIGHT,
+		MainBoot.gen_params(dest[3], e.get("geni", []), false, m.character, e.get("nero", false)))
 
 
 func _add_station(o: Vector2i) -> void:

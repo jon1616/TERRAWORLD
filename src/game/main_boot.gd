@@ -30,14 +30,29 @@ static func new_world(m: Node2D) -> void:
 	m._show_loading("Il seme germoglia…\ngenerazione del mondo")
 	m.world = World.new()
 	var sd: int = nw["seme"]
-	var params := {"vigore": int(nw.get("vigore", 1)), "geni": nw.get("geni", []), "giardino": nw.get("giardino", false),
-		"catene": Chains.pending(m.character),   # voce 69: le cripte delle tappe aperte
-		"nero": nw.get("nero", false)}         # voce 72
+	var params := gen_params(nw.get("vigore", 1), nw.get("geni", []), nw.get("giardino", false), m.character,
+		nw.get("nero", false))
 	var gw := WorldGen.GARDEN_W if params["giardino"] else WorldGen.WIDTH
 	var gh := WorldGen.GARDEN_H if params["giardino"] else WorldGen.HEIGHT
+	# preparato in anticipo quando il Seme fu piantato (`WorldPregen`)? allora è già pronto
+	var ready := WorldPregen.take(sd, gw, gh, params)
+	if not ready.is_empty():
+		m.world = ready["world"]
+		m.gen_times = ready["times"]
+		m.gen_times.append(["(preparato in anticipo)", 0])
+		m._gen_ready = true
+		return
 	# un thread tutto suo (non il gruppo di thread): così le passate a fasce (`GenBands`) usano tutti i processori
 	m._gen_thread = Thread.new()
 	m._gen_thread.start(func() -> void: m.gen_times = WorldGen.generate(m.world, sd, gw, gh, params))
+
+
+## I parametri del generatore per un mondo nuovo (li usa anche `Portal.plant` per prepararlo in anticipo: devono
+## essere gli stessi).
+static func gen_params(vigor: Variant, genes: Variant, garden: Variant, character: Character, nero: Variant) -> Dictionary:
+	return {"vigore": int(vigor), "geni": genes, "giardino": garden,
+		"catene": Chains.pending(character),   # voce 69: le cripte delle tappe aperte
+		"nero": nero}                          # voce 72
 
 
 ## La schermata d'attesa mentre il mondo si carica o nasce.

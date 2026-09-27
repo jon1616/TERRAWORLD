@@ -139,7 +139,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
 
 ## Struttura
 
-- `src/core/` — attrezzi generici: `Px` (primitive di pixel art, contorno automatico), `Fx` (sfumature, polvere di scavo).
+- `src/core/` — attrezzi generici: `Px` (primitive di pixel art, contorno automatico), `Fx` (sfumature, polvere di scavo),
+  `Par` (`each(n, lavoro)`: lavori indipendenti su più processori; uno alla volta dentro il gruppo di thread).
 - `src/data/` — **solo dati** (voce 3):
   - `GuardiansData` — il Guardiano di ogni vigore (Nodo Avvizzito, Regina delle Spore, Colosso d'Ardesia, poi da capo),
     con la creatura, ciò che lascia curato e le sue pagine di storia.
@@ -270,7 +271,28 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     cupola del Cuore del mondo nel Fondo, con i 4 nodi avvizziti e la stazione `cuore_mondo`), Rovine (44 stanze dei
     Seminatori con uno scrigno pieno secondo lo strato), Pericoli (rovi spinosi e rune trappola, vedi `Hazards`), Doni (Boccioli del cuore e Stille perenni), Gemme (grappoli nelle grotte, per strato), Tane (dei Custodi), Nascondigli (reliquiari murati), Geodi, Isole (sospese, gene raro), Firma (il
     luogo unico del mondo, `PassFirma`), Piante-seme, Partenza (le torce
-    già accese della vecchia passata provvisoria sono state tolte il 25 set 2026: le torce le mette il giocatore). Un mondo 3000×1000 si genera in ~8,5 s (in un thread, con schermata d'attesa).
+    già accese della vecchia passata provvisoria sono state tolte il 25 set 2026: le torce le mette il giocatore),
+    Collaudo (l'ultima). Un mondo 3000×1000 si genera in **~3 s** (28 set 2026, prima 10), in un thread suo con la
+    schermata d'attesa. Le regole del generatore (28 set 2026):
+    - **un caso per passata**: `GenContext.begin(nome)` riparte da seme del mondo + nome della passata, così cambiare
+      una passata non sposta le altre; le casse si riempiono con il caso del generatore (`World.gen_rng`,
+      `Bisaccia.rng`), mai con quello globale;
+    - **a fasce**: le passate che guardano ogni tessera (Strati, Grotte, Minerali, Cristalli, Decorazioni, Pericoli)
+      lavorano per fasce fisse di 25 righe con `GenBands.run(c, h, lavoro)`, su tutti i processori; chi usa il caso lo
+      prende da `c.band_rng(fascia)`. Il lavoro legge copie locali e scrive solo la sua fascia (regole in cima a
+      `gen_bands.gd`). Lo strato di una cella: `c.strata_off(w)` e `c.strata_tops()`;
+    - **la mappa dei posti**: ogni struttura chiede `c.is_free(rettangolo)` e poi `c.claim(rettangolo, nome)`; una
+      struttura nuova deve fare lo stesso;
+    - **il collaudatore** (`PassCollaudo`): sovrapposizioni, Cuore, firma, partenza sicura, stazioni dentro il mondo e
+      non murate; ripara ciò che può e scrive `notes["collaudo"]` (lo stampa `tools/mappe.gd`);
+    - **ripetibile**: lo stesso seme dà lo stesso mondo in ogni parte (`WorldGen.fingerprint`, prova `TestsGenRepeat`
+      nel gruppo «base», da sola `--solo=ripeti`); `tools/impronta.gd` confronta tutto prima e dopo un riordino;
+    - **preparato in anticipo**: piantando un Seme, `Portal.pregen` fa nascere il mondo in sottofondo su un processore
+      solo (`WorldPregen`, parametro "seriale"); il viaggio lo usa se è pronto con gli stessi parametri
+      (`MainBoot.gen_params`), altrimenti genera come sempre.
+  - `ViewArt` — le trame e le tavole (TileSet) di terreno e decorazioni e le texture delle stazioni, uguali in ogni
+    mondo: preparate una volta per sessione in un thread, già dal menu (`Session._ready`); `get_all()` le dà a
+    `WorldView` e `ViewProps` (ingresso in un mondo da 12 a ~3 s, 28 set 2026).
   - `WorldView` — disegno a blocchi da 32×32: solo i blocchi vicini alla visuale esistono come nodi (1 costruito per
     fotogramma, liberati oltre 2 blocchi di margine); ogni blocco ha pareti (z -10) e decorazioni (z 1) sulla griglia
     normale, i 7 strati del terreno sulla doppia griglia (z 0, spostati di -8,-8), bagliore di cristalli e decorazioni
@@ -746,3 +768,13 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   pannelli: gli sfondi hanno `MOUSE_FILTER_IGNORE`, e con la Bisaccia aperta `Hud.bring_panel_forward` spegne il
   mouse delle scritte dell'HUD. Una prova che chiude un pannello lo chiude con la sua `close()`, mai con
   `visible = false`: la prova delle reliquie lasciava «Creare» nascosto per tutte le prove dopo (28 set 2026).
+- **Mai `git add -u` né `-A`** quando un'altra sessione può lavorare sullo stesso progetto: il 28 set 2026 due immagini
+  della Roadmap 13 (fatta da un'altra sessione nello stesso momento) sono finite in un commit del generatore. Si
+  aggiungono i file per nome, e prima del commit si guarda `git show --stat`.
+- Una tavola (`TileSetAtlasSource`) costruita in un thread va costruita con `use_texture_padding = false` e il bordo
+  riacceso nel thread principale a tavola finita: a ogni tessera aggiunta il motore rifà il bordo nel thread principale
+  e leggeva le tessere mentre il thread le stava ancora aggiungendo («no tile at (101, 16)», una volta su cinque). E
+  aggiungere tessere a una tavola costa sempre di più (il motore le riordina a ogni aggiunta): le tavole grandi si
+  fanno una volta per sessione.
+- Fare in parallelo non rende sempre più veloci: i 120 alberi di un mondo su 12 processori ci mettevano 3,4 s invece
+  di 1,8 uno alla volta (qualcosa di condiviso li fa litigare). Si misura sempre prima e dopo.

@@ -15,13 +15,18 @@ const ROWS := 25
 
 
 ## Chiama job(fascia, y0, y1) per ogni fascia di righe [y0, y1) e restituisce i risultati in ordine di fascia.
-static func run(h: int, job: Callable) -> Array:
+## Con il parametro "seriale" (il mondo preparato in anticipo, `WorldPregen`) le fasce si fanno una alla volta.
+static func run(c: GenContext, h: int, job: Callable) -> Array:
 	var n := ceili(h / float(ROWS))
 	var out := []
 	out.resize(n)
 	var one := func(i: int) -> void:
 		out[i] = job.call(i, i * ROWS, mini((i + 1) * ROWS, h))
-	Par.each(n, one, "generatore a fasce")
+	if bool(c.params.get("seriale", false)):
+		for i in n:
+			one.call(i)
+	else:
+		Par.each(n, one, "generatore a fasce")
 	return out
 
 

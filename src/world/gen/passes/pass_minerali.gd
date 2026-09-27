@@ -45,7 +45,7 @@ func run(w: World, c: GenContext) -> void:
 	var surf := w.surface
 	var ww := w.w
 	# a fasce di righe su più processori (`GenBands`): ogni cella dipende solo da sé
-	var parts := GenBands.run(w.h, func(_b: int, y0: int, y1: int) -> Array:
+	var parts := GenBands.run(c, w.h, func(_b: int, y0: int, y1: int) -> Array:
 		var out: PackedByteArray = tiles.slice(y0 * ww, y1 * ww)
 		for y in range(y0, y1):
 			var row := (y - y0) * ww
