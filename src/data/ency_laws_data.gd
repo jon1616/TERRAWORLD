@@ -46,6 +46,9 @@ La [b]Canna di radice[/b] (al Ceppo) pesca solo nell'acqua. Le canne di metallo 
 • A volte abbocca una [b]cassa[/b] al posto del pesce: la Cassetta d'alga negli stagni, il Forziere sommerso nelle grotte, lo Scrigno del Fondo nel profondo, nella Linfa e nella brace. Clic per aprirla: dentro il bottino delle rovine, a volte una [b]Perla di stagno[/b] e, di rado, uno dei sei tesori della serie [b]Tesori delle acque[/b] (completa: più fortuna di pesca e pesci più grandi per sempre).
 • Le perle si trovano anche attaccate alla lenza: tre fanno una Collana di perle.
 
+[b]Il Pescatore[/b]
+Quando hai pescato cinque pesci, al tuo Focolare (con un letto libero) si ferma il [b]Pescatore[/b]: vende canne, esche, galleggianti, l'otre e la Fonte di muschio, compra i pesci (i rari valgono molto) e ha tre richieste tutte sue. Anche la [b]Bacheca[/b] a volte chiede pesci che hai già pescato, e in fondo agli obiettivi ce ne sono tre della pesca: niente di tutto questo è obbligatorio.
+
 [b]L'Erbario dei pesci[/b]
 Ogni pesce pescato entra nella scheda [b]Pesci[/b] dell'Erbario, con quanti ne hai presi e il più grande: la scheda sta a parte e non conta nella percentuale. Anche un pesce mai pescato dice dove cercarlo."""},
 	{"id": "meteo", "group": "Le leggi dei mondi", "name": "Vento e tempo atmosferico", "text":

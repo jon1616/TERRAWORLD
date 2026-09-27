@@ -2180,7 +2180,15 @@ la cassa giusta per ogni specchio, la serie. verifica_dati: 0 errori (la canna u
   con il bottino dello strato, trofei dei pesci rari, una serie di oggetti unici della pesca, un pesce leggendario per le
   Leggende.
 
-## 124. [ ] Il Pescatore e l'intreccio (M)
+## 124. [x] Il Pescatore e l'intreccio (M) — fatto il 28 set 2026
+Fatto: **il Pescatore** (`NpcData`: arriva al Focolare con un letto libero quando si sono pescati 5 pesci — condizione
+nuova «stat» di `Villagers._ready_for`; vende Canna di radice, esche, Galleggiante, Sacca, Otre e Fonte di muschio;
+gusti, regali e tre richieste: tre Carpe-lanterna, dieci specie, un Cuore di Linfa; disegno in `NpcArt` con cappello di
+paglia e canna). I pesci hanno un valore per il commercio (4 / 12 / 40 / 200 secondo la rarità). **Bacheca**: il tipo
+«pesce» chiede pesci comuni o non comuni già pescati. Tre **obiettivi facoltativi** in fondo alla strada (primo pesce,
+dieci specie, un leggendario: conteggi «pesci», «specie_pescate», «pesci_leggendari»). Due **consigli** alla prima
+volta (la canna, la cassa pescata). Capitolo della pesca aggiornato. Prova: il Pescatore no con 2 pesci e sì con 5, la
+Bacheca chiede un pesce, gli obiettivi scattano, il consiglio della canna, i valori dei pesci.
 - Un abitante nuovo, il Pescatore (vende attrezzi ed esche, compra pesci, le sue richieste); richieste facoltative
   nella Bacheca; obiettivi facoltativi; consigli alla prima volta; il capitolo dell'Enciclopedia.
 

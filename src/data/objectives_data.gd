@@ -211,6 +211,12 @@ const LIST := [
 		"reward": {"radice_ancora": 1}},
 	{"id": "firme_5", "text": "Trova le firme di cinque mondi", "check": {"stat": "firme", "n": 5},
 		"reward": {"linfa_antica": 3}},
+	# voce 124: la pesca, facoltativa (in fondo alla strada: il filo non ci porta prima del resto)
+	{"id": "pesca_1", "text": "Pesca il tuo primo pesce", "check": {"stat": "pesci", "n": 1}, "reward": {"esca_humus": 10}},
+	{"id": "pesca_specie_10", "text": "Pesca dieci specie di pesci diverse", "check": {"stat": "specie_pescate", "n": 10},
+		"reward": {"galleggiante_lume": 1}},
+	{"id": "pesca_leggenda", "text": "Pesca un pesce leggendario", "check": {"stat": "pesci_leggendari", "n": 1},
+		"reward": {"esca_iridata": 10}},
 ]
 
 ## Quanti obiettivi si vedono insieme.

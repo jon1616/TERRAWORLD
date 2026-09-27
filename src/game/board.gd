@@ -69,6 +69,10 @@ func make() -> Dictionary:
 		kinds.append_array(["mandria", "prodotto"])
 	if m.powers.has("canto") or m.powers.has("vista") or m.powers.has("passo") or m.powers.has("brace"):
 		kinds.append("sigillo")
+	var fished: Array = (ch.erbario.get("pesci", {}) as Dictionary).keys().filter(func(f: String) -> bool:
+		return String(FishData.info(f).get("rar", "")) in ["comune", "non_comune"])
+	if not fished.is_empty():
+		kinds.append("pesce")                       # voce 124: pesci che si sono già pescati (mai obbligatori)
 	var k := String(kinds[_rng.randi_range(0, kinds.size() - 1)])
 	var r := {"tipo": k}
 	match k:
@@ -101,6 +105,12 @@ func make() -> Dictionary:
 			r["testo"] = "Portami %d %s (lo danno i %s del recinto)" % [r["n"], ItemsData.get_item(item)["name"],
 				String(FamiliesData.FAMILIES[f]["name"]).to_lower()]
 			r["premio"] = {"lumino": 50 + int(r["n"]) * 6, "vasetto": 1}
+		"pesce":
+			var fid := String(fished[_rng.randi_range(0, fished.size() - 1)])
+			r["cosa"] = fid
+			r["n"] = _rng.randi_range(2, 5)
+			r["testo"] = "Portami %d %s: %s" % [r["n"], FishData.info(fid)["name"], FishData.where(fid)]
+			r["premio"] = {"lumino": 40 + int(r["n"]) * 10, "esca_petali": 5}
 		"firma":
 			r["n"] = 1
 			r["base"] = int(ch.stats.get("firme", 0))
@@ -165,7 +175,7 @@ func progress(r: Dictionary) -> Array:
 	var ch: Character = m.character
 	var n := int(r["n"])
 	match String(r["tipo"]):
-		"gene", "prodotto", "fornitura":
+		"gene", "prodotto", "fornitura", "pesce":
 			return [mini(Crafting.have(ch.bisaccia, String(r["cosa"])), n), n]
 		"caccia":
 			return [mini(_kills(String(r["cosa"])) - int(r["base"]), n), n]

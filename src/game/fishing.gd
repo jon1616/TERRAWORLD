@@ -166,6 +166,10 @@ func catch() -> String:
 	caught += 1
 	last = {"id": id, "size": size, "record": better and not first, "n": n, "bait": bait}
 	m.objectives.bump("pesci")
+	if first:
+		m.objectives.bump("specie_pescate")      # voce 124: obiettivi e Pescatore
+	if String(FishData.info(id)["rar"]) == "leggendario":
+		m.objectives.bump("pesci_leggendari")
 	var f := FishData.info(id)
 	m.hud.toast("Hai pescato: %s%s, %d cm%s" % [f["name"], " (due!)" if n == 2 else "", size,
 		" — il più grande finora!" if better and not first else ""])

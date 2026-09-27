@@ -206,3 +206,15 @@ func _c_guardiano() -> bool:
 
 func _c_gene() -> bool:
 	return int(m.character.stats.get("geni_imparati", 0)) > 0
+
+
+func _c_canna() -> bool:
+	return String(ItemsData.get_item(String(m.hud.current().get("id", ""))).get("kind", "")) == "canna"
+
+
+func _c_cassa_pescata() -> bool:
+	for s in m.character.bisaccia.slots:
+		if not s.is_empty() and String(ItemsData.get_item(String(s["id"])).get("kind", "")) == "cassetta":
+			return true
+	return false
+

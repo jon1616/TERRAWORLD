@@ -98,6 +98,8 @@ func _ready_for(nid: String) -> bool:
 		return false
 	if req.get("giardino", false) and not m.giardino.active:
 		return false
+	if req.has("stat") and int(m.character.stats.get(String(req["stat"]), 0)) < int(req["n"]):
+		return false                          # voce 124: il Pescatore, dopo i primi pesci
 	return true
 
 

@@ -6,7 +6,7 @@ extends RefCounted
 ##
 ## Campi: name, greet (ciò che dice aprendo il commercio), requires (condizione: vuoto, "station" = una stazione
 ## piazzata nel mondo, "custodi" = Custodi sconfitti in questo mondo, "albero" = stadio dell'Albero-Madre, "giardino" =
-## solo nel Giardino), look (colori per `NpcArt`), goods ([oggetto, quantità] in vendita); dalla voce 65 anche free
+## solo nel Giardino, "stat" + "n" = un conteggio del personaggio, voce 124), look (colori per `NpcArt`), goods ([oggetto, quantità] in vendita); dalla voce 65 anche free
 ## (vive accanto all'Albero, senza letto), likes, gifts, quests (vedi `NpcBonds`).
 
 ## Tessere dal Focolare entro cui contano i letti e in cui gli abitanti passeggiano.
@@ -81,6 +81,22 @@ const NPCS := {
 				"reward": {"incubatrice": 1}},
 			{"text": "Fa' nascere un manto raro. Non ne ho mai visto uno.", "stat": "manti_rari", "n": 1,
 				"reward": {"polvere_iridata": 2, "lumino": 300}},
+		]},
+	# voce 124: il Pescatore arriva al Focolare quando si sono pescati cinque pesci ("stat": un conteggio del personaggio)
+	"pescatore": {"name": "Il Pescatore", "greet": "Ogni stagno ha la sua voce. Stai zitto un momento, e l'acqua ti dice chi ci abita.",
+		"requires": {"stat": "pesci", "n": 5},
+		"look": {"cloak": "#2a4a5a", "trim": "#8ec8ff", "skin": "#c89a72", "extra": "#d8c070"},
+		"goods": [["canna_radice", 1], ["esca_humus", 10], ["esca_petali", 5], ["galleggiante_lume", 1], ["sacca_pescatore", 1],
+			["otre_legnoferro", 1], ["fonte_acqua", 1]],
+		"likes": ["perla_stagno", "filetto_pregiato", "zuppa_pesce", "squama_lume"],
+		"gifts": {2: ["amo_ambra", 1], 4: ["esca_iridata", 10]},
+		"quests": [
+			{"text": "Tre Carpe-lanterna: le cucino per chi arriva stanco al Focolare.", "need": {"pesce_carpa_lanterna": 3},
+				"reward": {"esca_squama": 10}},
+			{"text": "Pesca dieci specie diverse: voglio sapere quante acque hai ascoltato.", "stat": "specie_pescate", "n": 10,
+				"reward": {"sacca_pescatore": 1}},
+			{"text": "Un Cuore di Linfa, dal fondo di un lago di Linfa. Dicono che batta ancora.", "need": {"pesce_cuore_linfa": 1},
+				"reward": {"amo_ambra": 1, "lumino": 150}},
 		]},
 	"innestatrice": {"name": "L'Innestatrice", "greet": "Due semi, una lama, un po' di Linfa antica. E un mondo che non c'era.",
 		"requires": {"albero": 5, "giardino": true},

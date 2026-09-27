@@ -27,6 +27,7 @@ func run() -> void:
 	await gesture()
 	await extras()
 	await rewards()
+	await village()
 	for i in slots0.size():
 		b.slots[i] = slots0[i]
 	b.equip = equip0
@@ -445,4 +446,48 @@ func rewards() -> void:
 		"sì" if ate else "NO", "sì" if opened else "NO", m.fishing.last_crate, c0, c2, c4, "sì" if series else "NO", u])
 	if not (all_fish and cleaned and ate and opened and crates and series):
 		print("ATTENZIONE: i frutti della pesca non sono come dovrebbero")
+
+
+## Voce 124: il Pescatore arriva dopo cinque pesci (e ha il suo disegno), la Bacheca chiede pesci già pescati, gli
+## obiettivi della pesca, il consiglio della canna, il valore dei pesci per il commercio.
+func village() -> void:
+	var ch: Character = m.character
+	var stats0: Dictionary = ch.stats.duplicate(true)
+	var obj0: Array = ch.obiettivi.duplicate()
+	var bac0: Dictionary = ch.bacheca.duplicate(true)
+	var pesci0: Dictionary = (ch.erbario.get("pesci", {}) as Dictionary).duplicate(true)
+	ch.stats["pesci"] = 2
+	var early: bool = m.villagers._ready_for("pescatore")
+	ch.stats["pesci"] = 5
+	var ready: bool = m.villagers._ready_for("pescatore")
+	var art := NpcArt.frames("pescatore")
+	# la Bacheca: con un pesce comune nell'Erbario, prima o poi chiede pesci
+	m.erbario.add_fish("pesce_carpa_lanterna", 30)
+	var asked := ""
+	for k in 300:
+		var r: Dictionary = m.board.make()
+		if String(r.get("tipo", "")) == "pesce":
+			asked = String(r["testo"])
+			break
+	# gli obiettivi della pesca
+	ch.stats["specie_pescate"] = 10
+	ch.stats["pesci_leggendari"] = 1
+	m.objectives.check_all()
+	var objs: bool = m.objectives.done("pesca_1") and m.objectives.done("pesca_specie_10") and m.objectives.done("pesca_leggenda")
+	# il consiglio della canna, e il valore dei pesci
+	var b: Bisaccia = m.character.bisaccia
+	if b.count("canna_radice") == 0:
+		b.add("canna_radice", 1)
+	kit.hold("canna_radice")
+	var tip: bool = m.consigli._c_canna()
+	var values := [ValueData.value("pesce_avannotto"), ValueData.value("pesce_persico_lume"), ValueData.value("pesce_primo")]
+	ch.stats = stats0
+	ch.obiettivi = obj0
+	ch.bacheca = bac0
+	ch.erbario["pesci"] = pesci0
+	m.objectives.refresh_label()
+	print("Pescatore: con 2 pesci %s, con 5 %s, disegno %d pose; Bacheca: «%s»; obiettivi della pesca %s; consiglio della canna %s; valori %s" % [
+		"arriva" if early else "no", "arriva" if ready else "NO", art.size(), asked, "sì" if objs else "NO", "sì" if tip else "NO", values])
+	if early or not ready or art.is_empty() or asked == "" or not objs or not tip or not (values[0] < values[1] and values[1] < values[2]):
+		print("ATTENZIONE: il Pescatore e l'intreccio della pesca non vanno come dovrebbero")
 

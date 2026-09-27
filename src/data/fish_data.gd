@@ -129,7 +129,8 @@ static func items() -> Dictionary:
 	for id in all():
 		var f: Dictionary = all()[id]
 		out[id] = {"name": String(f["name"]), "kind": "pesce", "icon": ["pesce", String(f["color"])], "stack": 99,
-			"rar": String(f["rar"]), "desc": String(f.get("desc", "")), "source": "si pesca: %s" % where(id)}
+			"rar": String(f["rar"]), "desc": String(f.get("desc", "")), "source": "si pesca: %s" % where(id),
+			"value": int(RARITY[String(f["rar"])]["value"])}
 	return out
 
 

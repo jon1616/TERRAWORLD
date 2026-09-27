@@ -36,6 +36,10 @@ const LIST := [
 		"text": "Le creature con il contorno acceso sono rare: più forti, ma lasciano Essenze e a volte trofei che non si trovano altrove."},
 	{"id": "guardiano", "title": "Un Guardiano", "cap": "guardiani",
 		"text": "Il Guardiano del mondo è sveglio. Si può sconfiggere, oppure [b]curare[/b] con la Rugiada sui nodi avvizziti: curarlo dona di più."},
+	{"id": "canna", "title": "Una canna da pesca", "cap": "pesca",
+		"text": "Clic su uno specchio d'acqua (almeno qualche decina di celle): la lenza parte e il pesce, quando abbocca, sale da solo. Le esche nella Bisaccia aiutano; la pesca non è obbligatoria, ma dà cibo, perle e tesori."},
+	{"id": "cassa_pescata", "title": "Una cassa dall'acqua", "cap": "pesca",
+		"text": "A volte alla lenza abbocca una cassa: tienila in mano e fai clic per aprirla. Dentro c'è il bottino delle rovine, e di rado un tesoro delle acque."},
 	{"id": "gene", "title": "Il primo gene", "cap": "geni",
 		"text": "I geni dei mondi si imparano con la Provetta di Linfa e con le Fiale delle creature. Nel Semenzaio (tasto {semenzaio}) il Genario dice che cosa conosci."},
 ]

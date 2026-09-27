@@ -88,6 +88,17 @@ static func _draw(id: String, f: int) -> Image:
 			Px.disc(im, 5.5, 18.0, 3.4, extra)
 			for q in [Vector2i(4, 16), Vector2i(6, 17), Vector2i(5, 19)]:
 				Px.put(im, q.x, q.y, trim)
+		"pescatore":
+			# voce 124: cappello di paglia a tesa larga e la canna in mano, con la lenza
+			for x in range(5, 19):
+				Px.put(im, x, 3, extra)
+				Px.put(im, x, 4, Px.sh(extra, 0.8))
+			for x in range(8, 16):
+				Px.put(im, x, 2, extra)
+				Px.put(im, x, 1, Px.sh(extra, 1.1))
+			Px.line(im, Vector2(17, 20), Vector2(21, 6), 1, Color("#6a4a2a"))
+			Px.line(im, Vector2(21, 6), Vector2(21, 16), 1, Color(0.9, 0.95, 1.0, 0.8))
+			Px.put(im, 21, 17, Color("#f04040"))
 		"mandriano":
 			# collo di pelliccia e bastone ricurvo da pastore
 			for x in range(7, 16):
