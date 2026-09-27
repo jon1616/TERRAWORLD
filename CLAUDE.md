@@ -220,7 +220,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     d'ambra): `make(forma, materiale)` o `of(id)`; il materiale sceglie la tavolozza.
   - `StationArt` — Ceppo del Giardiniere, Baccello ardente (bocca di brace luminosa), Maglio dei Seminatori (rune);
     i banchi della voce 25 in `WorkshopArt`. Foglio di tutte le stazioni in prove/stazioni.png.
-    Banchi, mobili e casse sono **bassi** (26 set 2026, appunto dell'utente: «troppo grandi»): alti una tessera
+    Mobili **bassi** (26 set 2026, appunto dell'utente: «troppo grandi»), ma banchi da lavoro e casse **2×2** (28 set
+    2026, l'utente giocando: «troppo piccoli, circa 2×2»; `V2_SIZE` alza quelli dei mondi salvati prima): mobili alti una tessera
     (il Baccello ardente e il Telaio due, ma stretti), disegnati apposta in `CompactArt`. Le misure di prima stanno in
     `StationsData.OLD_SIZE`: `WorldSave` fa scendere al pavimento quelli dei mondi salvati prima (`stazioni_v`), e il
     generatore appoggia le casse al pavimento secondo la loro altezza.

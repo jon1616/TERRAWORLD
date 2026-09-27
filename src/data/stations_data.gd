@@ -21,15 +21,22 @@ const OLD_SIZE := {"ceppo": [3, 2], "baccello_ardente": [3, 2], "maglio": [2, 2]
 	"paiolo": [2, 2], "tavolo": [3, 2], "sedia": [1, 2], "banco_innesti": [3, 2], "incubatrice": [2, 2],
 	"alambicco": [2, 2], "cesta": [2, 2], "scrigno": [2, 2], "reliquiario": [2, 2]}
 
+## Il 28 set 2026 (l'utente, giocando: «il banco da lavoro e le casse sono troppo piccoli, circa 2×2») banchi e casse
+## sono tornati alti due tessere: `V2_SIZE` sono le misure del 26 set, per alzare quelli dei mondi salvati (`WorldSave`).
+const V2_SIZE := {"ceppo": [2, 1], "maglio": [2, 1], "alambicco": [2, 1], "mola": [2, 1], "paiolo": [2, 1],
+	"cesta": [2, 1], "cassa_legnoferro": [2, 1], "forziere_ambra": [2, 1], "scrigno_linfa": [2, 1],
+	"arca_vuoto": [2, 1], "arca_stellare": [2, 1], "scrigno_antico": [2, 1], "arca_seminatori": [2, 1],
+	"scrigno": [2, 1], "reliquiario": [2, 1], "banco_innesti": [3, 1]}
+
 const STATIONS := {
-	"ceppo": {"name": "Ceppo del Giardiniere", "size": [2, 1], "item": "ceppo"},
+	"ceppo": {"name": "Ceppo del Giardiniere", "size": [2, 2], "item": "ceppo"},
 	"baccello_ardente": {"name": "Baccello ardente", "size": [2, 2], "item": "baccello_ardente", "light": true},
-	"maglio": {"name": "Maglio dei Seminatori", "size": [2, 1], "item": "maglio"},
-	"alambicco": {"name": "Alambicco di Linfa", "size": [2, 1], "item": "alambicco", "light": true,
+	"maglio": {"name": "Maglio dei Seminatori", "size": [2, 2], "item": "maglio"},
+	"alambicco": {"name": "Alambicco di Linfa", "size": [2, 2], "item": "alambicco", "light": true,
 		"light_color": Color(0.3, 0.9, 0.9)},
 	"telaio": {"name": "Telaio di foglie", "size": [2, 2], "item": "telaio"},
-	"mola": {"name": "Mola del gemmaio", "size": [2, 1], "item": "mola"},
-	"paiolo": {"name": "Paiolo di radice", "size": [2, 1], "item": "paiolo", "light": true},
+	"mola": {"name": "Mola del gemmaio", "size": [2, 2], "item": "mola"},
+	"paiolo": {"name": "Paiolo di radice", "size": [2, 2], "item": "paiolo", "light": true},
 	# voce 35: porte e arredi (la porta chiusa riempie le sue celle di tessere `PORTA`, vedi `Masonry`)
 	"porta": {"name": "Porta", "size": [1, 2], "item": "porta_lanterna"},
 	"porta_aperta": {"name": "Porta aperta", "size": [1, 2], "item": "porta_lanterna"},
@@ -138,24 +145,24 @@ const STATIONS := {
 		"light": true, "light_color": Color(1.2, 0.6, 0.3)},
 	"bozzolo_rotto": {"name": "Bozzolo vuoto", "size": [3, 3], "item": "", "fixed": true},
 	# voce 28: il reliquiario dei nascondigli murati, con una reliquia dentro
-	"reliquiario": {"name": "Reliquiario dei Seminatori", "size": [2, 1], "item": "", "fixed": true, "slots": 10,
+	"reliquiario": {"name": "Reliquiario dei Seminatori", "size": [2, 2], "item": "", "fixed": true, "slots": 10,
 		"light": true, "light_color": Color(0.9, 0.75, 0.35)},
-	"cesta": {"name": "Cesta di radici", "size": [2, 1], "item": "cesta", "slots": 20},
+	"cesta": {"name": "Cesta di radici", "size": [2, 2], "item": "cesta", "slots": 20},
 	# 28 set 2026: i gradi delle casse (capienze e materiali in `ChestsData`)
-	"cassa_legnoferro": {"name": "Cassa di legnoferro", "size": [2, 1], "item": "cassa_legnoferro", "slots": 30},
-	"forziere_ambra": {"name": "Forziere d'ambra", "size": [2, 1], "item": "forziere_ambra", "slots": 40, "light": true,
+	"cassa_legnoferro": {"name": "Cassa di legnoferro", "size": [2, 2], "item": "cassa_legnoferro", "slots": 30},
+	"forziere_ambra": {"name": "Forziere d'ambra", "size": [2, 2], "item": "forziere_ambra", "slots": 40, "light": true,
 		"light_color": Color(0.5, 0.35, 0.1)},
-	"scrigno_linfa": {"name": "Scrigno di Linfa", "size": [2, 1], "item": "scrigno_linfa", "slots": 50, "light": true,
+	"scrigno_linfa": {"name": "Scrigno di Linfa", "size": [2, 2], "item": "scrigno_linfa", "slots": 50, "light": true,
 		"light_color": Color(0.15, 0.5, 0.45)},
-	"arca_vuoto": {"name": "Arca del Vuoto", "size": [2, 1], "item": "arca_vuoto", "slots": 70, "light": true,
+	"arca_vuoto": {"name": "Arca del Vuoto", "size": [2, 2], "item": "arca_vuoto", "slots": 70, "light": true,
 		"light_color": Color(0.35, 0.15, 0.6)},
-	"arca_stellare": {"name": "Arca stellare", "size": [2, 1], "item": "arca_stellare", "slots": 100, "light": true,
+	"arca_stellare": {"name": "Arca stellare", "size": [2, 2], "item": "arca_stellare", "slots": 100, "light": true,
 		"light_color": Color(0.7, 0.65, 0.3)},
-	"scrigno_antico": {"name": "Scrigno antico dei Seminatori", "size": [2, 1], "item": "scrigno_antico", "slots": 40,
+	"scrigno_antico": {"name": "Scrigno antico dei Seminatori", "size": [2, 2], "item": "scrigno_antico", "slots": 40,
 		"light": true, "light_color": Color(0.6, 0.45, 0.15)},
-	"arca_seminatori": {"name": "Arca dei Seminatori", "size": [2, 1], "item": "arca_seminatori", "slots": 60,
+	"arca_seminatori": {"name": "Arca dei Seminatori", "size": [2, 2], "item": "arca_seminatori", "slots": 60,
 		"light": true, "light_color": Color(0.7, 0.65, 0.35)},
-	"scrigno": {"name": "Scrigno dei Seminatori", "size": [2, 1], "item": "scrigno", "slots": 20, "light": true,
+	"scrigno": {"name": "Scrigno dei Seminatori", "size": [2, 2], "item": "scrigno", "slots": 20, "light": true,
 		"light_color": Color(0.2, 0.6, 0.55)},
 	# il fagotto di foglie dove il Germogliato è appassito, con la sua Bisaccia (voce 20): sparisce svuotato
 	"fagotto": {"name": "Fagotto del Germogliato", "size": [1, 1], "item": "", "fixed": true, "slots": 30, "light": true,
@@ -202,7 +209,7 @@ const STATIONS := {
 	# voce 67: la Bacheca dei Giardinieri (richieste senza fine)
 	"bacheca": {"name": "Bacheca dei Giardinieri", "size": [3, 2], "item": "bacheca"},
 	# voce 47: il Banco dell'Innestatrice (clic destro: `InnestoPanel`)
-	"banco_innesti": {"name": "Banco dell'Innestatrice", "size": [3, 1], "item": "banco_innesti", "light": true,
+	"banco_innesti": {"name": "Banco dell'Innestatrice", "size": [3, 2], "item": "banco_innesti", "light": true,
 		"light_color": Color(0.5, 1.1, 0.9)},
 	# voce 46: la pianta-seme selvatica (clic destro: una Fiala di gene o un Seme selvatico, vedi `Sampling`)
 	"pianta_seme": {"name": "Pianta-seme", "size": [1, 2], "item": "", "fixed": true, "light": true,

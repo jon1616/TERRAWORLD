@@ -79,7 +79,7 @@ static func save(w: World, id: String, meta: Dictionary) -> Error:
 		chests.append([o.x, o.y, (w.chests[o] as Bisaccia).to_array()])
 	var data := {
 		"w": w.w, "h": w.h, "tiles": w.tiles, "walls": w.walls, "decor": w.decor, "surface": w.surface,
-		"torches": torches, "trees": trees, "saplings": saplings, "stations": stations, "stazioni_v": 2, "plats": w.plats,
+		"torches": torches, "trees": trees, "saplings": saplings, "stations": stations, "stazioni_v": 3, "plats": w.plats,
 		"chests": chests, "explored": w.explored, "biomes": w.biomes, "crops": crops, "liquid": w.liquid,
 	}
 	var raw := var_to_bytes(data)
@@ -137,15 +137,22 @@ static func _decode(bytes: PackedByteArray) -> World:
 	for i in range(0, trees.size(), 3):
 		w.add_tree(Vector2i(trees[i], trees[i + 1]), trees[i + 2])
 	# banchi e mobili rimpiccioliti (26 set 2026): quelli salvati prima scendono di quanto sono calati in altezza,
-	# così restano appoggiati al pavimento; le ceste loro seguono lo stesso spostamento
+	# così restano appoggiati al pavimento; le ceste loro seguono lo stesso spostamento.
 	var moved := {}
-	var old := int(data.get("stazioni_v", 1)) < 2
+	# 28 set 2026: banchi e casse tornati alti due tessere (`V2_SIZE`): quelli salvati prima salgono di una
+	var ver := int(data.get("stazioni_v", 1))
 	for s in data.get("stations", []):
 		if StationsData.STATIONS.has(String(s[2])):
+			var id := String(s[2])
 			var o0 := Vector2i(int(s[0]), int(s[1]))
 			var o1 := o0
-			if old and StationsData.OLD_SIZE.has(String(s[2])):
-				o1.y += int(StationsData.OLD_SIZE[String(s[2])][1]) - int(StationsData.STATIONS[String(s[2])]["size"][1])
+			var was: Array = []
+			if ver < 2 and StationsData.OLD_SIZE.has(id):
+				was = StationsData.OLD_SIZE[id]
+			elif ver < 3 and StationsData.V2_SIZE.has(id):
+				was = StationsData.V2_SIZE[id]
+			if not was.is_empty():
+				o1.y += int(was[1]) - int(StationsData.STATIONS[id]["size"][1])
 				moved[o0] = o1
 			w.stations[o1] = String(s[2])
 	for ch in data.get("chests", []):
