@@ -466,5 +466,5 @@ func _check_biomes() -> void:
 		_err(kb == "" or ids.has(kb), "Custode %s: bioma sconosciuto «%s»" % [kid, kb])
 	for u in UnderBiomesData.UNDER:
 		var ud: Dictionary = UnderBiomesData.UNDER[u]
-		_err(PassSottosuolo.new().has_method(String(ud["build"])), "sottosuolo %s: manca la funzione «%s»" % [u, ud["build"]])
+		_err(PassSottosuolo.new().has_method(String(ud["build"])) or String(ud["build"]) in UnderBuilders.NAMES, "sottosuolo %s: manca la funzione «%s»" % [u, ud["build"]])
 		_err(int(ud["stratum"]) >= 0 and int(ud["stratum"]) < StrataData.STRATA.size(), "sottosuolo %s: strato sbagliato" % u)

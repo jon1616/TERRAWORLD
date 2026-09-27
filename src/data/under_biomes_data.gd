@@ -8,7 +8,7 @@ class_name UnderBiomesData
 ##   build        la funzione di `PassSottosuolo` che ne scava uno
 ##   floor        la tessera del pavimento (che la vegetazione del bioma di superficie con la stessa erba veste da sola)
 
-const UNDER := {
+const _UNDER := {
 	"fungaie": {"name": "Fungaie", "desc": "grandi sale con funghi giganti e il pavimento di spore",
 		"stratum": 1, "count": 14, "build": "_fungaia", "floor": TileDefs.GRASS_SPORE},
 	"geodi_brina": {"name": "Geodi di brina", "desc": "grotte tonde con il guscio di cristallo e dentro muschio di brina",
@@ -20,3 +20,31 @@ const UNDER := {
 	"cuore_cavo": {"name": "Cuore cavo", "desc": "una caverna immensa nel Fondo, pavimento di cristallo e schegge del Vuoto",
 		"stratum": 4, "count": 1, "build": "_cuore_cavo", "floor": TileDefs.CRYSTAL},
 }
+
+
+## Voce 94: più quelli scritti come file (`BiomesData.UNDER_FILES`), con creature proprie (campo "under" e peso "uw").
+static var UNDER: Dictionary = _merged()
+static var _pools := {}
+
+
+static func _merged() -> Dictionary:
+	var out := _UNDER.duplicate()
+	for u in BiomesData.UNDER:
+		out[String(u["id"])] = u
+	return out
+
+
+## Le creature che nascono in un bioma del sottosuolo a partire dalla cella c (guarda il pavimento sotto): [[id, peso]]
+## o vuoto se lì non c'è un bioma con creature sue (voce 94, usato da `Fauna.try_spawn`).
+static func pool_at(w: World, c: Vector2i) -> Array:
+	if _pools.is_empty():
+		for u in BiomesData.UNDER:
+			var list := []
+			for cid in (u.get("creatures", {}) as Dictionary):
+				list.append([cid, int(u["creatures"][cid].get("uw", 1))])
+			_pools[int(u["floor"])] = list
+		_pools[-1] = []
+	for dy in 12:
+		if w.solid(c.x, c.y + dy):
+			return _pools.get(w.tile(c.x, c.y + dy), [])
+	return []

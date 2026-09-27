@@ -28,7 +28,8 @@ static func inline(key: String) -> String:
 				rows.append(_b(String(s["name"]), String(s.get("desc", ""))))
 		"cat_biomi":
 			for b in BiomesData.BIOMES:
-				rows.append(_b(String(b["name"]), String(b.get("desc", ""))))
+				var rare := " [color=#ffb0f0](raro: nasce solo da un innesto con mutazione)[/color]" if int(b["weight"]) == 0 else ""
+				rows.append(_b(String(b["name"]), String(b.get("desc", "")) + rare))
 		"cat_stagioni":
 			for s in SeasonsData.SEASONS:
 				rows.append(_b(String(s["name"]), String(s["desc"]), String(s.get("color", G)) if s.get("color") is String else G))

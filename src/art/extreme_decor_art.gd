@@ -87,4 +87,4 @@ static func draw(id: int, im: Image, gm: Image, rng: RandomNumberGenerator) -> V
 			for k in 3:
 				Px.put(im, 8 + (k % 2), 8 - k * 2, Color(0.6, 0.3, 0.25, 0.6))
 			return true
-	return null
+	return RareDecorArt.draw(id, im, gm, rng)                # voce 94: sottosuolo e biomi rari

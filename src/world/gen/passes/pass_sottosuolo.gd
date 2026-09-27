@@ -24,7 +24,10 @@ func run(w: World, c: GenContext) -> void:
 	for f in c.genes().get("under", []):
 		var u: Dictionary = UnderBiomesData.UNDER.get(String(f), {})     # voce 91: i dati in `UnderBiomesData`
 		if not u.is_empty():
-			made[f] = _many(w, c, int(u["count"]), Callable(self, String(u["build"])), f)
+			var bname := String(u["build"])
+			var build := Callable(self, bname) if has_method(bname) else \
+				func(w2: World, c2: GenContext) -> Vector2i: return UnderBuilders.build(bname, self, w2, c2, u)   # voce 94
+			made[f] = _many(w, c, int(u["count"]), build, f)
 	c.notes["sottosuolo"] = made
 
 

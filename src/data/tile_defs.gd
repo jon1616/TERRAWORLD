@@ -218,9 +218,8 @@ const _MAP_COLOR := {DIRT: "#50343c", STONE: "#434f6c", RADICITE: "#d4783a", LEG
 
 
 static func palette_of(type: int) -> Array[Color]:
-	var b := BiomesData.of_grass(type)
-	if not b.is_empty():
-		return Px.pal(b["turf"]["pal"])                # voce 91: le erbe dei biomi
+	if _EXTRA.has(type):
+		return Px.pal(_EXTRA[type]["pal"])              # voci 91 e 94: le tessere dei biomi
 	match type:
 		DIRT:
 			return Px.pal(P_DIRT)
@@ -293,83 +292,118 @@ static func blighted_of(t: int) -> int:
 
 
 
-# ---------------------------------------------------------------- voce 91: le tabelle che nascono dai biomi
+# ---------------------------------------------------------------- voci 91 e 94: le tabelle che nascono dai biomi
+
+## Le tessere che portano i biomi: le erbe dei biomi di superficie e le tessere nuove dei biomi del sottosuolo (campo
+## `tiles`), tutte nella stessa forma: {name, hard, power, drop, pal, layer, specks, grass, square, glow}.
+static func _extra() -> Dictionary:
+	var out := {}
+	for b in BiomesData.BIOMES:
+		var t: Dictionary = b["turf"]
+		out[int(b["grass"])] = {"name": t["name"], "hard": 0.22, "power": 0, "drop": "humus", "pal": t["pal"],
+			"layer": t["layer"], "specks": int(t.get("specks", 0)), "grass": true}
+	var tiles := BiomesData.pack("tiles")
+	for k in tiles:
+		out[int(k)] = tiles[k]
+	return out
+
 
 static func _types() -> int:
 	var n := TYPES_BASE
-	for b in BiomesData.BIOMES:
-		n = maxi(n, int(b["grass"]))
+	for t in _extra():
+		n = maxi(n, int(t))
 	return n
 
 
 static func _grasses() -> Array:
 	var out := []
-	for b in BiomesData.BIOMES:
-		out.append(int(b["grass"]))
+	var ex := _extra()
+	for t in ex:
+		if ex[t].get("grass", false):
+			out.append(int(t))
 	return out
 
 
-## Una tabella scritta a mano più una voce per ogni erba (`value` = il valore, o una funzione del bioma).
-static func _with_grass(base: Dictionary, value: Variant) -> Dictionary:
+## Una tabella scritta a mano più una voce per ogni tessera dei biomi (il campo `key` della tessera).
+static func _with_tiles(base: Dictionary, key: String) -> Dictionary:
 	var out := base.duplicate()
-	for b in BiomesData.BIOMES:
-		out[int(b["grass"])] = value.call(b) if value is Callable else value
+	var ex := _extra()
+	for t in ex:
+		out[int(t)] = ex[t][key] if key != "map" else String(ex[t]["pal"][3])
 	return out
 
 
-static var HARD: Dictionary = _with_grass(_HARD, 0.22)
-static var POWER: Dictionary = _with_grass(_POWER, 0)
-static var DROP: Dictionary = _with_grass(_DROP, "humus")
-static var NAMES: Dictionary = _with_grass(_NAMES, func(b: Dictionary) -> String: return String(b["turf"]["name"]))
-static var MAP_COLOR: Dictionary = _with_grass(_MAP_COLOR, func(b: Dictionary) -> String: return String(b["turf"]["pal"][3]))
+static var HARD: Dictionary = _with_tiles(_HARD, "hard")
+static var POWER: Dictionary = _with_tiles(_POWER, "power")
+static var DROP: Dictionary = _with_tiles(_DROP, "drop")
+static var NAMES: Dictionary = _with_tiles(_NAMES, "name")
+static var MAP_COLOR: Dictionary = _with_tiles(_MAP_COLOR, "map")
 static var TERRAIN_LAYERS: Array = _layers()
+static var _EXTRA: Dictionary = _extra()
 
 
-## Gli strati del terreno: quelli scritti a mano, le erbe nella sagoma e sotto l'humus, e uno strato per erba (dopo la
-## terra avvizzita, nell'ordine dei biomi).
+## Gli strati del terreno: quelli scritti a mano; le tessere dei biomi nella sagoma (tranne le squadrate) e le erbe
+## sotto l'humus; uno strato per erba dopo la terra avvizzita (nell'ordine dei biomi), poi quelli del sottosuolo.
 static func _layers() -> Array:
 	var out := []
+	var ex := _extra()
 	for l in _TERRAIN_LAYERS:
 		var e: Dictionary = (l as Dictionary).duplicate(true)
-		if e["id"] in ["ardesia", "humus"]:
-			for g in _grasses():
-				(e["types"] as Array).append(g)
+		for t in ex:
+			if (e["id"] == "ardesia" and not ex[t].get("square", false)) or (e["id"] == "humus" and ex[t].get("grass", false)):
+				(e["types"] as Array).append(int(t))
 		out.append(e)
 		if e["id"] == "terra_avv":
 			for b in BiomesData.BIOMES:
 				out.append({"id": String(b["turf"]["layer"]), "types": [int(b["grass"])], "pal": b["turf"]["pal"]})
+	var tiles := BiomesData.pack("tiles")
+	for t in tiles:
+		var d: Dictionary = tiles[t]
+		var l2 := {"id": String(d["layer"]), "types": [int(t)], "pal": d["pal"]}
+		if d.get("square", false):
+			l2["square"] = true
+		if d.get("glow", false):
+			l2["glow"] = true
+		out.append(l2)
 	return out
 
 
-## Lo strato del terreno di un'erba (per la trama: i puntini chiari).
+## Lo strato del terreno di una tessera dei biomi (per la trama: i puntini chiari).
 static func turf_of_layer(layer: String) -> Dictionary:
-	for b in BiomesData.BIOMES:
-		if b["turf"]["layer"] == layer:
-			return b["turf"]
+	for t in _EXTRA:
+		if _EXTRA[t]["layer"] == layer:
+			return _EXTRA[t]
 	return {}
+
+
+## Le decorazioni dei biomi, di superficie e del sottosuolo.
+static func _all_decor() -> Dictionary:
+	var out := {}
+	for b in BiomesData.BIOMES + BiomesData.UNDER:
+		out.merge(b.get("decor", {}))
+	return out
 
 
 static func _biome_decor(soft: String) -> Array:
 	var out := []
-	for b in BiomesData.BIOMES:
-		for d in b.get("decor", {}):
-			if String(b["decor"][d].get("soft", "")) == soft:
-				out.append(int(d))
+	var all := _all_decor()
+	for d in all:
+		if String(all[d].get("soft", "")) == soft:
+			out.append(int(d))
 	return out
 
 
 static func _decor_count() -> int:
 	var n := DECOR_BASE
-	for b in BiomesData.BIOMES:
-		for d in b.get("decor", {}):
-			n = maxi(n, int(d))
+	for d in _all_decor():
+		n = maxi(n, int(d))
 	return n
 
 
 static func _decor_light() -> Dictionary:
 	var out := _DECOR_LIGHT.duplicate()
-	for b in BiomesData.BIOMES:
-		for d in b.get("decor", {}):
-			if b["decor"][d].has("light"):
-				out[int(d)] = b["decor"][d]["light"]
+	var all := _all_decor()
+	for d in all:
+		if all[d].has("light"):
+			out[int(d)] = all[d]["light"]
 	return out

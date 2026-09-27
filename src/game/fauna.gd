@@ -316,6 +316,9 @@ func try_spawn() -> Creature:
 		return _spawn_water(c)                          # voce 73: nell'acqua nascono le creature d'acqua
 	var biome := "avvizzito" if Blight.surface_blighted(world, c.x) else String(BiomesData.BIOMES[BiomesData.at(world, c.x)]["id"])
 	var choices := CreaturesData.of_stratum(stratum, night, biome)
+	var up: Array = UnderBiomesData.pool_at(world, c) if stratum > 0 else []
+	if not up.is_empty() and _rng.randf() < 0.75:
+		choices = up                                    # voce 94: le creature dei biomi del sottosuolo
 	var weighted := []
 	for e in choices:
 		var wgt := int(round(float(e[1]) * weight_of(String(e[0]), c.x * S) * 10.0))

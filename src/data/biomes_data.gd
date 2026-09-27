@@ -58,9 +58,23 @@ const FILES := [
 	preload("res://src/data/biomes/ghiacciaio.gd"),
 	preload("res://src/data/biomes/pietra.gd"),
 	preload("res://src/data/biomes/brace.gd"),
+	# voce 94: i biomi rari (solo per mutazione: peso 0, gene `only: "mutazione"`)
+	preload("res://src/data/biomes/iridato.gd"),
+	preload("res://src/data/biomes/stellare.gd"),
+	preload("res://src/data/biomes/sussurri.gd"),
+]
+
+## Voce 94: i biomi del sottosuolo scritti come file (campi in cima a `UnderBiomesData`, pacchetto come qui; in più
+## `tiles`: {tessera: {name, hard, power, drop, pal, layer, specks, grass, square, glow}} le tessere nuove che portano).
+const UNDER_FILES := [
+	preload("res://src/data/biomes/sotto_canto.gd"),
+	preload("res://src/data/biomes/sotto_giungla.gd"),
+	preload("res://src/data/biomes/sotto_lago.gd"),
+	preload("res://src/data/biomes/sotto_catacombe.gd"),
 ]
 
 static var BIOMES: Array = _load()
+static var UNDER: Array = _load_under()
 
 const SPAWN_SAFE := 160                # colonne di foresta attorno alla partenza
 const SEG_MIN := 220                   # lunghezza di un tratto di bioma, in colonne
@@ -71,6 +85,13 @@ const BLEND := 30                      # colonne di passaggio morbido del terren
 static func _load() -> Array:
 	var out := []
 	for f in FILES:
+		out.append(f.DATA)
+	return out
+
+
+static func _load_under() -> Array:
+	var out := []
+	for f in UNDER_FILES:
 		out.append(f.DATA)
 	return out
 
@@ -89,7 +110,7 @@ static func at(w: Object, x: int) -> int:    # (niente tipo World: questo file n
 ## Voce 92: l'unione di un campo-dizionario del pacchetto di tutti i biomi.
 static func pack(key: String) -> Dictionary:
 	var out := {}
-	for f in FILES:
+	for f in FILES + UNDER_FILES:
 		out.merge((f.DATA as Dictionary).get(key, {}))
 	return out
 
@@ -97,7 +118,7 @@ static func pack(key: String) -> Dictionary:
 ## Voce 92: l'unione di un campo-elenco del pacchetto di tutti i biomi.
 static func pack_list(key: String) -> Array:
 	var out := []
-	for f in FILES:
+	for f in FILES + UNDER_FILES:
 		out.append_array((f.DATA as Dictionary).get(key, []))
 	return out
 

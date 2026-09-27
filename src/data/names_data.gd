@@ -16,7 +16,7 @@ const _LANDS := {
 }
 
 ## Aggettivi per gene: [maschile plurale, femminile plurale].
-const ADJ := {
+const _ADJ := {
 	"pianure": ["aperti", "aperte"], "montagne": ["alti", "alte"], "altopiano": ["eccelsi", "eccelse"],
 	"conca": ["bassi", "basse"], "frastagliato": ["spezzati", "spezzate"], "cavo": ["cavi", "cave"],
 	"sommerso": ["sommersi", "sommerse"], "piovoso": ["piovosi", "piovose"], "ventoso": ["ventosi", "ventose"],
@@ -83,4 +83,17 @@ static func _lands() -> Dictionary:
 	for b in BiomesData.BIOMES:
 		if b.has("lands"):
 			out[String(b["gene"])] = b["lands"]
+	return out
+
+
+## Voce 94: più gli aggettivi dei biomi del sottosuolo (campo `adj`, per il loro gene).
+static var ADJ: Dictionary = _adj()
+
+
+static func _adj() -> Dictionary:
+	var out := _ADJ.duplicate()
+	for u in BiomesData.UNDER:
+		if u.has("adj"):
+			for g in (u.get("genes", {}) as Dictionary):
+				out[g] = u["adj"]
 	return out

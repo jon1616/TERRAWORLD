@@ -1779,11 +1779,22 @@ tempesta propria (`WeatherData`: tempesta di vetro, gelicidio, nube di pietra, p
 barra il doppio). Alberi in `TreeArtExtreme`, piante in `ExtremeDecorArt` (58-69). Capitolo «Le terre estreme»,
 prove `--solo=biomi_estremi` (foto 162-165).
 
-## 94. [ ] Biomi nuovi, terzo ciclo: il sottosuolo e i rari (L)
+## 94. [x] Biomi nuovi, terzo ciclo: il sottosuolo e i rari (L) — fatto il 28 set 2026
 Quattro biomi del sottosuolo (caverne di cristallo cantante, giungle di radici, laghi sotterranei, catacombe dei
 Seminatori) e due o tre **biomi rari** di superficie, solo per mutazione (come il Mosaico), ognuno con una creatura
 unica.
 **Pronto quando**: con i tre cicli i biomi sono almeno 20, e le combinazioni dei Semi danno mondi mai visti per ore.
+Fatto il 28 set 2026: i biomi del sottosuolo diventano file come quelli di superficie (`BiomesData.UNDER_FILES`,
+uniti in `UnderBiomesData.UNDER`; campo `tiles` per le tessere nuove che `TileDefs` aggiunge a tutte le sue tabelle e
+agli strati del terreno; forme in `UnderBuilders`; creature con il campo `under` che nascono sopra il loro pavimento:
+`UnderBiomesData.pool_at` in `Fauna.try_spawn`). Quattro nuovi, ognuno con il suo gene: **Caverne del cristallo
+cantante** (Cantore di cristallo, Grillo d'eco), **Giungle di radici** (Liana predatrice, Scimmia di radice),
+**Laghi sotterranei** (acqua vera; Granchio di lago, Medusa di grotta), **Catacombe dei Seminatori** (gallerie di
+mattoni, celle, scrigno antico; Sentinella, Anima errante), con materiali e un unico ciascuno. Tre **biomi rari**
+solo per mutazione (peso 0, gene `only: "mutazione"`): **Prati iridati** (Cervo iridato), **Radure stellari**
+(Stellino), **Boschi dei sussurri** (Ombra di Seminatore), ognuno con la sua creatura unica e il suo oggetto unico.
+Con i tre cicli i biomi sono 25 (16 di superficie + 9 del sottosuolo). Piante in `RareDecorArt` (70-79). Prove
+`--solo=biomi_rari` (foto 166).
 
 ## 95. [ ] Il sistema dei segreti (M) — fondamenta dei segreti
 Ogni mondo nasce con una **lista di segreti** (piazzati dal generatore secondo i biomi e i geni) e un **contatore**
