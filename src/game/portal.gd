@@ -33,7 +33,7 @@ func vigor() -> int:
 
 ## Moltiplicatore delle creature per un certo vigore.
 static func vigor_mult(v: int) -> float:
-	return 1.0 + VIGOR_STEP * (v - 1)
+	return VigorData.creature_mult(v)                # voce 99: la curva sta nei dati
 
 
 static func _key(o: Vector2i) -> String:

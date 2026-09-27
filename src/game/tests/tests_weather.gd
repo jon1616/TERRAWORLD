@@ -51,8 +51,12 @@ func run() -> void:
 		pr.fire(m.player.position + Vector2(0, -40), Vector2(0, -150), 0.0, 1, true)
 		var node: Node2D = pr._shots[-1]["node"]
 		var x0 := node.position.x
-		await kit.seconds(0.4)
-		drift = node.position.x - x0 if is_instance_valid(node) else 0.0
+		# (l'ultima posizione vista: se il dardo tocca qualcosa sparisce prima della fine)
+		var t := 0.0
+		while t < 0.4 and is_instance_valid(node):
+			drift = node.position.x - x0
+			await kit.frames(1)
+			t += m.get_process_delta_time()
 	wt.wind = 0.0
 	wt._goal_wind = 0.0
 	# la pioggia riempie le conche vicine

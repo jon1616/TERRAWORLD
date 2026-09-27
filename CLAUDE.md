@@ -143,10 +143,13 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   - `GuardiansData` — il Guardiano di ogni vigore (Nodo Avvizzito, Regina delle Spore, Colosso d'Ardesia, poi da capo),
     con la creatura, ciò che lascia curato e le sue pagine di storia.
   - `LoreData` — le pagine di storia (Cuore trovato, Guardiano sconfitto o curato, portale), mostrate da `LorePanel`.
-  - `BiomesData` — i biomi di superficie (foresta-lanterna, paludi di spore, distese d'ambra, boschi di brina,
-    cenerarie): erba, alberi, colline,
-    altezza, tinta del cielo; `World.biomes` = un bioma per colonna (salvato). Creature con `biomes` compaiono in
-    superficie solo lì.
+  - `BiomesData` — i biomi (voce 91: **un file per bioma** in `src/data/biomes/`, 16 di superficie + 9 del sottosuolo
+    `sotto_*.gd`, più i pacchetti di contenuto `PACK_FILES`); `World.biomes` = l'indice del bioma per colonna (salvato:
+    i biomi nuovi vanno in fondo a `FILES`). Ogni file porta tutto: erba, albero, vegetazione, cielo, tempo, elemento,
+    gene, e il **pacchetto** (creature con la ricetta del disegno, famiglie, bottino, oggetti, ricette, set, geni,
+    paesaggi dei nomi) che le tabelle comuni uniscono (`static var` in `TileDefs`, `TreesData`, `CreaturesData`,
+    `LootData`, `ElementsData`, `FamiliesData`, `TrophyItemsData`, `GenesData`, `NamesData`, `SetsData`, `ItemsData`,
+    `RecipesData`). **Questi file e `BiomesData` non nominano altre classi** (valori per esteso). Foglio: `tools/biomi.gd`.
   - `DangerData` — il pericolo di una zona (strato, notte, Avvizzimento, vigore) → tetto di creature, ritmo delle
     nascite, soglia di buio per nascere sotto terra, moltiplicatore del danno. Qui si regola la difficoltà.
   - `AncientData` — creature antiche e ancestrali: rarità (probabilità secondo il pericolo, moltiplicatori, aura),
@@ -477,6 +480,23 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     `progress`), `Character.leggende`; `world_meta["primo"]` arriva dal portale come "nero".
   - `ChallengesData` e `Challenges` — i Sigilli di sfida sui portali, le regole (`PlayerActions.no_torches`,
     `Fauna.force_ancient`…), vittoria e record in `Character.sfide`, la riga sotto l'orologio.
+- **Roadmap 12 «Il mondo si riempie»** (voci 83-99, 28 set 2026):
+  - `Diary`/`DiaryData` (il diario, scheda «Storia» del Semenzaio), `tools/bilancio.gd` (numeri del gioco in
+    prove/bilancio.txt). `SummonData`/`Summons` (Guardiani evocati al Cerchio).
+  - `EffectsData`/`Effects` (effetti speciali: righe «quando × cosa»), `UniquesData` e `UniqueSeriesData` (151 unici in
+    15 serie con premio per sempre, `UniquesData.roll` dai pool; generati da `tools/gen_unici.py`), `JewelsData`, dieci
+    posti in `Bisaccia.EQUIP_SLOTS`.
+  - `ZonesData`/`Zones` (totem: `mult_at`/`add_at`), `TrapsData`/`Traps` (trappole, leva), `FarmData`/`Farms` (esche,
+    tramogge, nastri, Radice-ancora, tetto di rendita in `Fauna.loot_gate`), `FlightData`/`Flight` (ali nel posto del
+    mantello; il volo in `Player._step`).
+  - I biomi: `BodyArt` (creature da una ricetta: 7 piani del corpo), `TreeArtTemperate`/`TreeArtExtreme`,
+    `TemperateDecorArt`/`ExtremeDecorArt`/`RareDecorArt` (vegetazione 46-79), `UnderBuilders` (forme del sottosuolo),
+    `UnderBiomesData.pool_at` (creature che nascono sopra il loro pavimento). I rigori: `HarshData`/`Harshness`/
+    `HarshBar` (freddo, sete, calore, polvere; protezioni `caldo`/`acqua`/`fresco`/`filtro`/`passo`, rimedi in `Boons`).
+  - I segreti: `SecretsData`, `PassSegreti` (l'elenco, dagli appunti), `PassSegretiStanze` (pareti finte `FINTA`,
+    stanze murate, passaggi, tesori, nidi), `PassSegretiAnomalie` (camere-enigma in `notes["camere"]`, visioni,
+    anomalie), `Secrets` (contatore, premi, bacchetta, Eco, mappa del tesoro), `HiddenCreatures` (creature a
+    condizione, pacchetto `src/data/hidden_creatures.gd`).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

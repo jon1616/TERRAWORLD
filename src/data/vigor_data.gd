@@ -10,6 +10,16 @@ class_name VigorData
 ##   del mondo in cui si trova, quindi le tempre alte si fanno solo nei mondi più vigorosi.
 
 const STEP := 5
+## Voce 99, il bilancio: quanto crescono Vita e danno delle creature con il vigore. Fino al vigore 5 +35% per punto,
+## poi +20%: con la sola crescita lineare a vigore 20 una creatura della Superficie voleva 32 colpi e ne bastavano 2
+## per appassire (`tools/bilancio.gd`). La usano `Portal.vigor_mult`, i testi e lo strumento del bilancio.
+const CREATURE_STEP := 0.35
+const CREATURE_SOFT := 5
+const CREATURE_STEP_HIGH := 0.2
+
+
+static func creature_mult(v: int) -> float:
+	return 1.0 + CREATURE_STEP * mini(v - 1, CREATURE_SOFT - 1) + CREATURE_STEP_HIGH * maxi(v - CREATURE_SOFT, 0)
 
 ## Le indoli dei gradi (le legge `FamiliesData.make`): hp, damage, speed, sight moltiplicano; regen = Vita al secondo
 ## (frazione della Vita piena); split = sconfitta, si divide in due piccole.

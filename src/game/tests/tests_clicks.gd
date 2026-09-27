@@ -52,6 +52,8 @@ func run() -> void:
 	# 2. Creare: un clic su una ricetta la mostra in Esamina
 	var shown := false
 	# (una casella davvero visibile: le prove di prima lasciano una ricerca e l'elenco scorso più in basso)
+	bp.crafting._search.text = ""                 # (le prove di prima lasciano una ricerca che nasconde tutto)
+	bp.crafting.refresh()
 	bp.crafting._scroll.scroll_vertical = 0
 	await kit.frames(3)
 	var view := bp.crafting._scroll.get_global_rect()

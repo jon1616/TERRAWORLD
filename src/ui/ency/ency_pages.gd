@@ -81,7 +81,8 @@ static func numbers() -> Dictionary:
 		"potion_cd": roundi(Vitals.POTION_COOLDOWN), "fall_safe": roundi(Life.FALL_SAFE), "fall_hurt": Life.FALL_HURT,
 		"bag": 40, "day_min": roundi(DayCycle.DAY / 60.0), "season_days": SeasonsData.DAYS, "chest_reach": 10,
 		"craft_reach": 5, "max_slots": TraitsData.MAX_SLOTS, "weak": ItemTip.num(ElementsData.WEAK, 1),
-		"resist": ItemTip.num(ElementsData.RESIST, 1), "vigor_pct": roundi(Portal.VIGOR_STEP * 100.0),
+		"resist": ItemTip.num(ElementsData.RESIST, 1), "vigor_pct": roundi(VigorData.CREATURE_STEP * 100.0),
+		"vigor_pct2": roundi(VigorData.CREATURE_STEP_HIGH * 100.0), "vigor_soft": VigorData.CREATURE_SOFT,
 		"stages": MotherTreeData.STAGES.size(), "n_obiettivi": ObjectivesData.LIST.size(),
 		"farm_zona": FarmData.ZONE, "farm_tetto": FarmData.ZONE_CAP, "farm_minuti": roundi(FarmData.ZONE_TIME / 60.0),
 		"n_parole": LanguageData.WORDS.size(), "parole_note": ch.lingua.size() if ch != null else 0}

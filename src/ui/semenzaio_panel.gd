@@ -171,7 +171,7 @@ func _show_world() -> void:
 	var home := String(w["id"]) == ai.home_id()
 	var t := "[font_size=24][color=#ffd08a]%s[/color][/font_size]\n" % w.get("nome", "")
 	t += "[color=#9fc8c0]%s[/color]\n\n" % ("Il Giardino: il mondo di partenza, dove crescono le Aiuole" if home
-		else "Vigore %d · creature più forti del %d%%" % [int(w.get("vigore", 1)), roundi(Portal.VIGOR_STEP * 100 * (int(w.get("vigore", 1)) - 1))])
+		else "Vigore %d · creature più forti del %d%%" % [int(w.get("vigore", 1)), roundi((VigorData.creature_mult(int(w.get("vigore", 1))) - 1.0) * 100.0)])
 	var genes: Array = w.get("geni", [])
 	if genes.is_empty():
 		t += "[color=#9fc8c0]Nessun gene particolare: tutti i biomi.[/color]\n"

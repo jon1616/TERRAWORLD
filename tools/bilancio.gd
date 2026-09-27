@@ -101,7 +101,7 @@ func _creatures() -> void:
 		var sword := _sword(s + 1)
 		var row := "   %-26s (%d specie)" % [StrataData.STRATA[s]["name"], n]
 		for v in [1, 2, 3, 5, 10, 20]:
-			var mult: float = danger * (1.0 + VIGOR_STEP * (int(v) - 1))
+			var mult: float = danger * VigorData.creature_mult(int(v))
 			var h: float = hp * mult
 			var d: float = dmg * mult * DangerData.DAMAGE
 			row += "  v%d: %d/%d %s|%s" % [v, roundi(h), roundi(d), str(ceili(h / sword)) if sword > 0.0 else "?", str(ceili(100.0 / maxf(d, 1.0)))]

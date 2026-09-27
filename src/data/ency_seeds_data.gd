@@ -5,7 +5,7 @@ class_name EncySeedsData
 const CHAPTERS := [
 	{"id": "semi", "group": "Semi e mondi", "name": "I Semi di mondo", "text":
 """Un [b]Seme di mondo[/b] è un mondo che aspetta di nascere. Ha un [b]genoma[/b]: un gene di superficie (che bioma sarà il mondo, e dà il nome al Seme), al più un gene per ogni altra [url=cap:geni]categoria[/url], e il [b]vigore[/b].
-[b]Il vigore[/b] è quanto è forte il mondo: ogni punto dà alle creature il {vigor_pct}% di Vita e danno in più, ma anche vene più grandi, materiali migliori e Guardiani nuovi. Un Seme raccolto in un mondo di vigore N nasce di vigore N+1.
+[b]Il vigore[/b] è quanto è forte il mondo: ogni punto dà alle creature il {vigor_pct}% di Vita e danno in più (oltre il vigore {vigor_soft}, il {vigor_pct2}%), ma anche vene più grandi, materiali migliori e Guardiani nuovi. Un Seme raccolto in un mondo di vigore N nasce di vigore N+1.
 Dove si trovano: il primo te lo dà l'Albero-Madre; poi dal Cuore guarito di ogni mondo, dalle [b]piante-seme[/b] selvatiche, dalla [url=cap:bacheca]Bacheca[/url], dal Mercante di Semi, dall'[url=cap:innesto]innesto[/url].
 La scheda di un Seme (mouse sopra o Esamina) mostra i suoi geni; quelli che non hai mai visto sono «?»."""},
 	{"id": "portali", "group": "Semi e mondi", "name": "Aiuole e portali", "text":

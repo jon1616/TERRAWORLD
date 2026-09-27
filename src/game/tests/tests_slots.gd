@@ -25,7 +25,7 @@ func run() -> void:
 		var k := String(ItemsData.get_item(String(id)).get("kind", ""))
 		if k in ["guanti", "stivali", "mantello"]:
 			n_gear += 1
-		elif k in ["amuleto", "anello"]:
+		elif k in ["amuleto", "anello"] and JewelsData.items().has(String(id)):   # (non gli unici della voce 98)
 			n_jewel += 1
 	res["forme"] = n_gear >= 3 * 40
 	res["gioielli"] = n_jewel == 64

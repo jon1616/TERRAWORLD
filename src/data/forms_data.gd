@@ -68,6 +68,7 @@ const ARMOR := {"elmo": 1.0, "corazza": 1.6, "gambali": 1.0}
 ## Velocità dei colpi di una spada = SPEED_BASE − SPEED_PESO × peso (più pesante = più lenta).
 const SPEED_BASE := 3.0
 const SPEED_PESO := 0.04
+const BAR_STEP := 0.1                  # voce 99: lingotti in più per grado del materiale
 
 
 static func item_id(form: String, mat: String) -> String:
@@ -167,7 +168,9 @@ static func item(form: String, mat: String) -> Dictionary:
 ## La ricetta di una forma e un materiale (al Maglio).
 static func recipe(form: String, mat: String) -> Dictionary:
 	var fd: Dictionary = FORMS[form]
-	var needs := {String(MaterialsData.get_mat(mat)["bar"]): int(fd["bars"])}
+	# voce 99: ogni grado del materiale chiede il 10% di lingotti in più (prima costavano uguale a ogni grado)
+	var tier := int(MaterialsData.get_mat(mat).get("tier", 1))
+	var needs := {String(MaterialsData.get_mat(mat)["bar"]): ceili(int(fd["bars"]) * (1.0 + BAR_STEP * (tier - 1)))}
 	if int(fd["wood"]) > 0:
 		needs["legno"] = int(fd["wood"])
 	for k in fd.get("extra", {}):

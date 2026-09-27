@@ -1,11 +1,12 @@
 # TERRAWORLD — Roadmap
 
-## Dove siamo (aggiornato il 27 set 2026)
-- **Il piano «Il Giardiniere dei mondi» è compiuto**: Roadmap 5-11 (voci 41-82) tutte fatte, ognuna con capitolo
-  nell'Enciclopedia, prove e giro completo pulito. Resoconti in fondo a ogni Roadmap.
-- **Prossimo passo**: la **Roadmap 12 «Il mondo si riempie»** (voci 83-99, decisa con l'utente il 28 set 2026:
-  diario, Guardiani da evocare, effetti speciali, posti nuovi d'equipaggiamento, totem, trappole e farm, volo, biomi a
-  cicli, segreti, oggetti unici). Si parte dalla voce 83, il diario della partita.
+## Dove siamo (aggiornato il 28 set 2026)
+- **Fatta la Roadmap 12 «Il mondo si riempie»** (voci 83-99, 28 set 2026): resoconto in fondo alla Roadmap 12. Diario,
+  Guardiani da evocare, effetti speciali, dieci posti d'equipaggiamento, totem, trappole, farm, volo, 25 biomi a file,
+  i rigori delle terre estreme, i segreti con il contatore, 151 oggetti unici in serie, il bilancio.
+- **Prossimo passo** (da decidere con l'utente): la **Roadmap della grafica** (rimandata a una Roadmap dedicata: le
+  creature nuove e gli alberi sono disegni del codice), poi un secondo bilancio con il diario delle partite vere.
+- **Il piano «Il Giardiniere dei mondi» è compiuto**: Roadmap 5-11 (voci 41-82) tutte fatte.
 - **Fatte**: Roadmap 1 «Le fondamenta» (voci 0-16, tranne la 6), Roadmap 2 (17-20), Roadmap 3 «Esplorare, trovare,
   crescere» (21-30 + extra), Roadmap 4 «Un mondo da abitare» (31-40), il fotogramma lento del giro lungo (pannelli che
   si ridisegnavano a ogni raccolta, vedi CLAUDE.md), la musica (autoload `Musica`, file in `musica/`) e il Germogliato
@@ -15,7 +16,7 @@
   vastità, profondità, avventura e ricerca; grafica, rifinitura del movimento, armatura sugli sprite e rete **dopo**.
 - **Rimandate** (scelta dell'utente): voce 6 «Rete a 2»; dal Germogliato: armatura sugli sprite nuovi, colpo in corsa;
   mostri e boss con Nano Banana.
-- **Contenuti oggi**: 1337 oggetti (768 armi, attrezzi e armature da 48 materiali × 16 forme), 1048 ricette, 55 stazioni, 50 creature in 37 famiglie (varianti per taglia, elemento e 7 indoli, 4 di grado), 25 famiglie addomesticabili, 76 geni in 13 categorie, 3 liquidi, 6 tempi atmosferici, 3 forme di mondo strane, 8 luoghi scritti a mano, 3 Guardiani scritti e infiniti generati, 6 leggende e il Seme Primo, 6 sfide, 65 capitoli dell'Enciclopedia, 88 obiettivi; `tools/verifica_dati.gd` dà 0 errori e 0 avvisi.
+- **Contenuti oggi**: 1906 oggetti, 1404 ricette, 137 stazioni, 82 creature in 66 famiglie, 91 geni, 25 biomi (16 di superficie, 9 del sottosuolo), 30 effetti speciali, 151 oggetti unici in 15 serie, 12 tipi di segreto, 95 obiettivi, 76 capitoli dell'Enciclopedia; `tools/verifica_dati.gd` dà 0 errori e 0 avvisi.
 - **Fatta la Roadmap 5 «Il Seme e i suoi geni»** (voci 41-48, 26 set 2026): resoconto in fondo alla Roadmap 5.
 - **Fatta la Roadmap 6 «La materia viva»** (voci 49-54, 26 set 2026): resoconto in fondo alla Roadmap 6.
 - **Fatta la Roadmap 7 «L'ecologia»** (voci 55-61, 26 set 2026): resoconto in fondo alla voce 61.
@@ -1858,10 +1859,53 @@ leggendari, creature ancestrali e iridate, scrigni antichi e arche delle rovine,
 (`Chronicle`); la **collezione** nell'Enciclopedia («Unici trovati 12 su 151», per serie, con i «???» e dove cercarli).
 Due obiettivi, `verifica_dati` controlla storia, posto, effetti e serie. Prove `--solo=unici`.
 
-## 99. [ ] Bilancio e resoconto (M)
+## 99. [x] Bilancio e resoconto (M) — fatto il 28 set 2026
 Con il diario (voce 83) delle partite dell'utente e `tools/bilancio.gd`: ritmo, difficoltà, rendite delle farm,
 potenza del volo e degli unici. Si sistemano i numeri fuori curva, poi il resoconto della Roadmap.
 **Pronto quando**: una partita nuova scorre senza salti di difficoltà né tratti vuoti, secondo il diario.
+Fatto il 28 set 2026: il diario delle partite dell'utente è ancora vuoto (le partite di questi giorni sono prove), così
+il bilancio si è fatto con `tools/bilancio.gd` (prove/bilancio.txt). Trovati e sistemati due numeri fuori curva:
+**il vigore** cresceva senza freno (+35% per punto: a vigore 20 una creatura di Superficie voleva 32 colpi e ne bastavano
+2 per appassire): ora +35% fino al vigore 5 e +20% dopo (`VigorData.creature_mult`, usata da `Portal.vigor_mult`, dai
+testi e dallo strumento): a vigore 20 i colpi scendono a 23, a vigore 10 da 18 a 15. **Le ricette** costavano uguale a
+ogni grado (13,7 materiali): ora +10% di lingotti per grado (`FormsData.BAR_STEP`), da 13,7 a 19,4. Il martello di
+radicite che batte quello di legnoferro e la verga che cala di poco al grado 5 restano: sono scambi voluti (il peso fa il
+danno ma rallenta il colpo; la conduzione fa la verga). Controllati a mano: rendita delle farm (tetto 60 creature ogni 10
+minuti per zona), volo (foglia 4,5 tessere, stellari ~35), rigori (barra piena in 45-55 s, protezione al 60-70% con un
+pezzo, del tutto con il rimedio), unici (effetti presi dalle stesse righe di `EffectsData`, bonus delle serie piccoli).
+
+### Resoconto della Roadmap 12 (28 set 2026)
+
+Tutte le voci 83-99 fatte in un giorno di lavoro, ognuna con il suo capitolo nell'Enciclopedia, le sue prove e il suo
+commit. Cosa c'è di nuovo, in breve:
+- **Il diario** della partita e lo strumento del **bilancio** (83); **i Guardiani da evocare** al Cerchio dei
+  Seminatori (84).
+- **Gli effetti speciali componibili** (85: 30 effetti, tutti righe di dati) e **dieci posti d'equipaggiamento** (86:
+  guanti, stivali, mantello, amuleto, anello).
+- **I sistemi del giocatore**: totem, stendardi e altari che cambiano la zona (87), **trappole** con la leva (88),
+  **farm automatiche** con esche, tramogge, nastri, Radice-ancora e tetto di rendita (89), **il volo** che cresce da un
+  lungo salto a un volo vero (90).
+- **I biomi come dati** (91: un file per bioma, con tutto il suo pacchetto) e **tre cicli di biomi**: le terre
+  temperate (92), le terre estreme con i **rigori** da cui ci si prepara con i materiali di altri biomi (93), il
+  sottosuolo e i biomi rari solo per mutazione (94): **25 biomi** (16 di superficie, 9 del sottosuolo), con 32
+  creature nuove disegnate da `BodyArt` (una ricetta di dati per creatura).
+- **I segreti** (95-97): ogni mondo ne ha un elenco e un contatore (il mondo di prova 53), attrezzi per fiutarli
+  (bacchetta rabdomante, Eco), pareti finte, stanze murate, passaggi, tesori con la mappa, nidi nascosti, camere-enigma,
+  visioni, un'anomalia per mondo e quattro creature nascoste che escono solo a certe condizioni.
+- **151 oggetti unici** in 15 serie con un premio per sempre e la loro collezione (98); il **bilancio** (99).
+
+**Contenuti oggi**: 1906 oggetti, 1404 ricette, 137 stazioni, 82 creature (10 Guardiani e Custodi) in 66 famiglie,
+91 geni, 25 biomi, 30 effetti speciali, 12 tipi di segreto, 10 trappole, 5 paia d'ali, 95 obiettivi, 76 capitoli
+dell'Enciclopedia; `verifica_dati` 0 errori e 0 avvisi.
+
+**Lezioni** (in CLAUDE.md): le tabelle che si riempiono dai file dei biomi sono `static var`, e quei file non nominano
+altre classi (un giro di dipendenze le lasciava a metà); le prove non devono dipendere dalle famiglie assenti né dal
+fatto che il mondo di prova abbia tutti i biomi (con 25 non ci stanno più: la prova delle terre estreme «ridipinge» un
+tratto); un nodo montato da `main._mount` è già figlio della scena (per metterlo altrove va tolto prima).
+
+**Cosa resta aperto** (da decidere con l'utente): la Roadmap della grafica (le creature di `BodyArt` e gli alberi nuovi
+sono disegni del codice, puliti ma semplici); il diario vero delle partite dell'utente per un secondo bilancio; i
+biomi estremi e rari non sono nel mondo di prova per intero (si vedono con i loro Semi).
 
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».
