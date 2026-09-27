@@ -56,6 +56,7 @@ Se fatichi a vedere, nelle [url=cap:opzioni]Opzioni[/url] c'è il «Chiarore del
 • A sinistra l'[b]equipaggiamento[/b]: elmo, corazza, gambali e due accessori, con la Scorza totale e il set più avanti.
 • Aperta, il mondo si scurisce dietro: in alto a sinistra il pannello [url=cap:creare]Creare[/url], a destra la colonna [b]Esamina[/b] (la ricetta scelta, o l'oggetto che ci posi: a cosa serve, in quali ricette, come si ottiene), in basso a sinistra la scheda del [b]Germogliato[/b].
 • «Riordina» mette in ordine (non tocca la barra rapida); «Nelle casse vicine» manda ogni oggetto nella [url=cap:casse]cassa[/url] che lo tiene già.
+• Il [b]Cestino[/b] (accanto al titolo della Bisaccia) elimina gli oggetti: clic sul cestino con l'oggetto in mano, o [b]Ctrl+clic[/b] su una casella. L'ultimo oggetto buttato resta nel cestino finché non ne butti un altro: un clic a mani vuote lo riprende.
 Gli oggetti a terra vengono attirati quando ti avvicini, se c'è posto."""},
 	{"id": "diario", "group": "Primi passi", "name": "Il diario della partita", "text":
 """Il gioco tiene un [b]diario[/b] della tua partita: le prime volte che contano (il primo viaggio, il primo gene imparato, la prima creatura addomesticata…), ogni Guardiano curato o sconfitto (dove, in quanto tempo, dopo quanti appassimenti), ogni grado di vigore nuovo, gli stadi dell'Albero-Madre, i primi lingotti di ogni metallo.

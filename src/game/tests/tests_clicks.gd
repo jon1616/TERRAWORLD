@@ -72,6 +72,34 @@ func run() -> void:
 		to_bar = moved and b.slots[bar_free].is_empty() and b.id_at(from) == "humus" and bp.held.is_empty()
 	b.slots[bar_free] = bar_old
 	b.changed.emit()
+	# 1c. il cestino (28 set 2026): buttare con un clic, riprendere a mani vuote, Ctrl+clic su una casella
+	var trash_ok := false
+	if from >= 0:
+		var n1 := b.count_at(from)
+		var sv2: SlotView = bp._slots[from - Bisaccia.HOTBAR]
+		await kit.click(_center(sv2))
+		await kit.click(_center(bp._trash_view))
+		var thrown := b.slots[from].is_empty() and String(bp.trash.get("id", "")) == "humus" and bp.held.is_empty()
+		await kit.save("07_cestino")
+		await kit.click(_center(bp._trash_view))
+		var back := String(bp.held.get("id", "")) == "humus" and bp.trash.is_empty()
+		await kit.click(_center(sv2))
+		var ctrl := InputEventKey.new()
+		ctrl.keycode = KEY_CTRL
+		ctrl.pressed = true
+		Input.parse_input_event(ctrl)
+		await kit.frames(1)
+		await kit.click(_center(sv2))
+		ctrl = ctrl.duplicate()
+		ctrl.pressed = false
+		Input.parse_input_event(ctrl)
+		await kit.frames(1)
+		var by_ctrl := b.slots[from].is_empty() and int(bp.trash.get("n", 0)) == n1
+		await kit.click(_center(bp._trash_view))
+		await kit.click(_center(sv2))
+		trash_ok = thrown and back and by_ctrl and b.id_at(from) == "humus" and b.count_at(from) == n1
+		print("cestino: buttato %s, ripreso %s, Ctrl+clic %s, di nuovo al suo posto %s" % ["sì" if thrown else "NO",
+			"sì" if back else "NO", "sì" if by_ctrl else "NO", "sì" if b.count_at(from) == n1 else "NO"])
 	# 2. Creare: un clic su una ricetta la mostra in Esamina
 	var shown := false
 	# (una casella davvero visibile: le prove di prima lasciano una ricerca e l'elenco scorso più in basso)
@@ -150,8 +178,9 @@ func run() -> void:
 	if free >= 0 and b.id_at(free) == "humus":
 		b.slots[free] = {}
 		b.changed.emit()
-	print("clic veri: Bisaccia presa %s e posata %s; nella barra rapida e ritorno %s; ricetta in Esamina %s; casella della cassa %s; «Riprendi» del menu %s" % [
-		"sì" if took else "NO", "sì" if put_back else "NO", "sì" if to_bar else "NO", "sì" if shown else "NO",
+	print("clic veri: Bisaccia presa %s e posata %s; nella barra rapida e ritorno %s; cestino %s; ricetta in Esamina %s; casella della cassa %s; «Riprendi» del menu %s" % [
+		"sì" if took else "NO", "sì" if put_back else "NO", "sì" if to_bar else "NO", "sì" if trash_ok else "NO",
+		"sì" if shown else "NO",
 		"sì" if chest_took else "NO", "sì" if closed else "NO"])
-	if not (took and put_back and to_bar and shown and chest_took and closed):
+	if not (took and put_back and to_bar and trash_ok and shown and chest_took and closed):
 		print("ATTENZIONE: i menu non rispondono ai clic")

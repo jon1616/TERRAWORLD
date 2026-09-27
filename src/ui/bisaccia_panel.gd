@@ -30,6 +30,10 @@ var quick_target: Callable
 var quick_stack: Callable
 var _slots: Array[SlotView] = []
 var _held_icon: SlotView
+## Il cestino (28 set 2026, richiesta dell'utente): ciò che ci si butta resta lì finché non si butta altro (o si esce
+## dal mondo), così un errore si ripara con un clic. Non si salva.
+var trash := {}
+var _trash_view: SlotView
 var _toast: Callable = func(_t: String) -> void: pass
 
 
@@ -156,6 +160,24 @@ func _ready() -> void:
 			var r: Dictionary = quick_stack.call()
 			_toast.call("Messi via %d oggetti in %d casse" % [int(r["n"]), int(r["casse"])] if int(r["n"]) > 0 else "Nessuna cassa vicina li vuole: scegli il tipo di una cassa, o mettici un oggetto uguale"))
 	add_child(qs)
+	# il cestino: nella riga del titolo, a sinistra dei pulsanti
+	_trash_view = SlotView.new()
+	_trash_view.scale = Vector2(0.6, 0.6)
+	_trash_view.position = Vector2(qs.position.x - 18 - SlotView.SIZE * 0.6, frame.position.y + 5)
+	_trash_view.clicked.connect(func(_i: int, button: int) -> void:
+		if button == MOUSE_BUTTON_LEFT:
+			click_trash())
+	add_child(_trash_view)
+	var tl := Label.new()
+	tl.text = "Cestino"
+	tl.position = _trash_view.position + Vector2(-66, 7)
+	tl.size = Vector2(60, 20)
+	tl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	tl.add_theme_font_size_override("font_size", 13)
+	tl.add_theme_color_override("font_color", Color("#9fc8c0"))
+	tl.mouse_filter = Control.MOUSE_FILTER_STOP
+	tl.tooltip_text = "Cestino: posa qui un oggetto per eliminarlo (clic con l'oggetto in mano, o Ctrl+clic su una casella). Finché non ci butti altro, un clic a mani vuote lo riprende."
+	add_child(tl)
 	crafting = CraftingPanel.new()
 	add_child(crafting)
 	crafting.setup(bisaccia, stations_near)
@@ -199,7 +221,11 @@ func toggle() -> void:
 
 
 func click_slot(i: int, button: int) -> void:
-	if button == MOUSE_BUTTON_LEFT and Input.is_key_pressed(KEY_SHIFT) and quick_target.is_valid():
+	if button == MOUSE_BUTTON_LEFT and Input.is_key_pressed(KEY_CTRL) and held.is_empty() and not bisaccia.slots[i].is_empty():
+		_to_trash(bisaccia.slots[i].duplicate(true))   # Ctrl+clic: la casella intera nel cestino
+		bisaccia.slots[i] = {}
+		bisaccia.changed.emit()
+	elif button == MOUSE_BUTTON_LEFT and Input.is_key_pressed(KEY_SHIFT) and quick_target.is_valid():
 		quick_target.call(i)
 	elif button == MOUSE_BUTTON_RIGHT and held.is_empty() and bisaccia.count_at(i) > 1:
 		var half := bisaccia.count_at(i) / 2
@@ -209,6 +235,23 @@ func click_slot(i: int, button: int) -> void:
 	elif button == MOUSE_BUTTON_LEFT:
 		held = bisaccia.swap_with(i, held)
 	_refresh()
+
+
+## Un clic sul cestino: con una pila in mano la si butta; a mani vuote si riprende l'ultima buttata.
+func click_trash() -> void:
+	if not held.is_empty():
+		_to_trash(held)
+		held = {}
+	elif not trash.is_empty():
+		held = trash
+		trash = {}
+	_refresh()
+
+
+func _to_trash(stack: Dictionary) -> void:
+	trash = stack                                  # ciò che c'era prima sparisce davvero
+	_toast.call("Nel cestino: %s ×%d · un clic sul cestino a mani vuote lo riprende" % [
+		String(ItemsData.get_item(String(stack.get("id", ""))).get("name", stack.get("id", ""))), int(stack.get("n", 1))])
 
 
 ## Dopo che un altro pannello ha cambiato la pila in mano.
@@ -232,6 +275,9 @@ func _refresh() -> void:
 			extra += int((SetsData.all()[s]["bonus"] as Dictionary).get("defense", 0))
 		_scorza.text = "Scorza %d" % (bisaccia.scorza() + extra)
 		_show_sets(done)
+	if _trash_view:
+		_trash_view.set_item(String(trash.get("id", "")), int(trash.get("n", 0)), String(trash.get("tratto", "")),
+			trash.get("dati", {}))
 	_held_icon.visible = not held.is_empty()
 	if not held.is_empty():
 		_held_icon.set_item(held["id"], held["n"], String(held.get("tratto", "")), held.get("dati", {}))
