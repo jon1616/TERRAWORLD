@@ -114,6 +114,15 @@ func _ready() -> void:
 	_scorza.add_theme_constant_override("outline_size", 5)
 	_scorza.tooltip_text = "Scorza: toglie metà del suo valore a ogni ferita"
 	add_child(_scorza)
+	# voce 101: l'icona della Scorza accanto alla scritta
+	var st := ArtLib.tex("interfaccia", "scorza")
+	if st != null:
+		var ic := TextureRect.new()
+		ic.texture = st
+		ic.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		ic.position = Vector2(ex + 8, frame.position.y + 8)
+		ic.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(ic)
 	# i set (voce 26): sotto gli accessori, quanti pezzi si indossano e, completo, il bonus
 	_sets = Label.new()
 	_sets.position = Vector2(ex + 2 * (SlotView.SIZE + 12) - 8, frame.position.y + 34 + 2 * (SlotView.SIZE + 12))

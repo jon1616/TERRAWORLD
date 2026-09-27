@@ -140,6 +140,7 @@ func _rich(bb: String, w: float, fs := 14) -> RichTextLabel:
 
 
 static var _strip: RegEx
+static var _img: RegEx
 
 
 ## Quanto è largo un testo con i colori (BBCode), con il carattere del gioco: la misura del nodo arriva solo dopo che
@@ -147,7 +148,9 @@ static var _strip: RegEx
 static func measure(bb: String, fs: int) -> float:
 	if _strip == null:
 		_strip = RegEx.create_from_string("\\[[^\\]]*\\]")
-	var plain := _strip.sub(bb, "", true)
+		_img = RegEx.create_from_string("\\[img[^\\]]*\\][^\\[]*\\[/img\\]")
+	# voce 101: un'icona ([img]...[/img]) vale circa due lettere larghe
+	var plain := _strip.sub(_img.sub(bb, "WW", true), "", true)
 	var font := ThemeDB.fallback_font
 	var w := 0.0
 	for ln in plain.split("\n"):

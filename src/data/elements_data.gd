@@ -90,7 +90,11 @@ static func reaction(a: String, b: String) -> Dictionary:
 ## «[color=#ff8a4a]Brace[/color]»
 static func tag(elem: String) -> String:
 	var e: Dictionary = ELEMENTS.get(elem, {})
-	return "" if e.is_empty() else "[color=%s]%s[/color]" % [e["color"], e["name"]]
+	if e.is_empty():
+		return ""
+	# voce 101: con l'icona dell'elemento davanti (la Linfa come elemento ha la sua, diversa dalla goccia della barra)
+	var ic := ArtLib.bb("interfaccia", "linfa_elemento" if elem == "linfa" else elem)
+	return "%s[color=%s]%s[/color]" % [ic, e["color"], e["name"]]
 
 
 ## Voce 92: più quelle dei pacchetti dei biomi (`BiomesData`).

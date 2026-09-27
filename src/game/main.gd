@@ -266,6 +266,7 @@ func _build() -> void:
 	_mount(TipsHook.new())                 # i suggerimenti: schede degli oggetti e delle cose del mondo
 	encyclopedia = _mount(Encyclopedia.new())  # l'Enciclopedia (tasto H, bottone «?», pausa)
 	game_options = _mount(GameOptions.new())   # Opzioni in partita: pausa, visuale; menu di pausa (Esc)
+	_mount(PanelButtons.new())                 # voce 101: i pulsanti dei pannelli in basso a sinistra
 	hud.select(character.hotbar)
 	var start := world.spawn
 	var pos: Array = (world_meta.get("giocatori", {}) as Dictionary).get(character.id, [])

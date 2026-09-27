@@ -19,5 +19,12 @@ static func tex(cartella: String, nome: String) -> Texture2D:
 	return t
 
 
+## L'icona dentro un testo BBCode (schede, Enciclopedia): «[img]…[/img] » o niente se il file manca.
+static func bb(cartella: String, nome: String, lato := 16) -> String:
+	if not has(cartella, nome):
+		return ""
+	return "[img=%dx%d]res://arte/%s/%s.png[/img] " % [lato, lato, cartella, nome]
+
+
 static func has(cartella: String, nome: String) -> bool:
 	return tex(cartella, nome) != null

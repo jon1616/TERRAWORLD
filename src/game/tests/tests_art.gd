@@ -36,3 +36,16 @@ func run() -> void:
 	print("pagina di storia con la vignetta: %s" % ("sì" if lore._pic.visible and lore._pic.texture != null else "NO"))
 	await kit.save("160_pagina_storia")
 	lore.visible = false
+	# i pulsanti dei pannelli e gli stati sopra una creatura (brucia, rallentata, vulnerabile)
+	var pb: Array = m.get_children().filter(func(n: Node) -> bool: return n is PanelButtons)
+	print("pulsanti dei pannelli: %d" % (pb[0].buttons.size() if not pb.is_empty() else 0))
+	m.combat.god = true
+	var c: Creature = m.fauna.add("grumo_muschio", m.player.position + Vector2(40, -8))
+	c.burn_t = 5.0
+	c.chill_t = 5.0
+	c.weak_t = 5.0
+	await kit.seconds(0.5)
+	print("stati sopra la creatura: %s" % [StatusMarks.states(c)])
+	await kit.save("161_stati_e_pulsanti")
+	m.fauna.clear()
+	m.combat.god = false

@@ -146,6 +146,9 @@ func setup(cid: String, w: World, tgt: Node2D, sd: int, more_mods := {}) -> void
 	_bar = HpBar.new()
 	_bar.position = Vector2(0, -half.y - 8)
 	add_child(_bar)
+	var marks := StatusMarks.new(self)       # voce 101: le icone degli stati sopra la barra
+	marks.position = _bar.position + Vector2(0, -2)
+	add_child(marks)
 
 
 ## Fotogrammi di una forma e variante (messi da parte la prima volta: tutte le creature uguali li condividono).

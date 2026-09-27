@@ -288,7 +288,7 @@ static func inline(key: String) -> String:
 		"cat_poteri":
 			for p in PowersData.POWERS:
 				var pd: Dictionary = PowersData.POWERS[p]
-				rows.append(_b(String(pd["name"]), String(pd["desc"])))
+				rows.append(ArtLib.bb("interfaccia", "potere_" + String(p)) + _b(String(pd["name"]), String(pd["desc"])))
 	return "\n".join(rows)
 
 

@@ -57,15 +57,15 @@ static func creature(m: Node2D, cr: Creature) -> TipCard:
 	# stati
 	var st := []
 	if cr.burn_t > 0.0:
-		st.append("brucia")
+		st.append(ArtLib.bb("interfaccia", "brace") + "brucia")
 	if cr.poison_t > 0.0:
-		st.append("avvelenata")
+		st.append(ArtLib.bb("interfaccia", "spora") + "avvelenata")
 	if cr.chill_t > 0.0:
-		st.append("rallentata")
+		st.append(ArtLib.bb("interfaccia", "rallentato") + "rallentata")
 	if cr.weak_t > 0.0:
-		st.append("vulnerabile")
+		st.append(ArtLib.bb("interfaccia", "vulnerabile") + "vulnerabile")
 	if cr.stun > 0.0:
-		st.append("stordita")
+		st.append(ArtLib.bb("interfaccia", "stordito") + "stordita")
 	if cr.shell > 0.0:
 		st.append("chiusa nel guscio")
 	if cr.calm:

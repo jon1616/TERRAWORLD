@@ -126,7 +126,8 @@ func _refresh() -> void:
 		gifts.append("un'Aiuola in più nel Giardino")
 	if gv.has("power"):
 		var pw: Dictionary = PowersData.POWERS[gv["power"]]
-		gifts.append("il potere [color=#ffd24a]«%s»[/color]: %s" % [pw["name"], pw["desc"]])
+		gifts.append("il potere %s[color=#ffd24a]«%s»[/color]: %s" % [ArtLib.bb("interfaccia", "potere_" + String(gv["power"])),
+			pw["name"], pw["desc"]])
 	if gv.has("npc"):
 		gifts.append("arriva al Giardino %s" % NpcData.name_of(String(gv["npc"])))
 	if gv.has("graft"):
