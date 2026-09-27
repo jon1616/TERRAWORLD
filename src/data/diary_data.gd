@@ -34,6 +34,7 @@ const FIRSTS := {
 	"reazioni": "Prima reazione tra elementi",
 	"stagioni": "Prima stagione vista cambiare",
 	"alleati": "Primo alleato evocato",
+	"evocati": "Primo Guardiano evocato al Cerchio dei Seminatori",
 }
 
 const EVERY := {

@@ -1596,7 +1596,7 @@ basta). Capitolo nell'Enciclopedia. Prove `--solo=diario` (foto 150_diario). Nel
 della Bisaccia aperta (la barra rapida finiva sopra i pannelli a schermo intero); l'ordine dei nodi si sistema aprendo
 (`Hud.bring_panel_forward`) e chiudendo (`send_panel_back`).
 
-## 84. [ ] Evocare i Guardiani sconfitti (S)
+## 84. [x] Evocare i Guardiani sconfitti (S) — fatto il 27 set 2026
 Come i Custodi all'Altare dei Seminatori (voce 27), ma per i Guardiani: dal secondo incontro in poi un **Richiamo**
 per ognuno dei Guardiani scritti a mano (Nodo, Regina, Colosso, il Seme Nero), fatto con i suoi materiali; per i
 Guardiani generati il **Sigillo del Guardiano**, che ricorda il seme del mondo e quindi evoca proprio quello (con la
@@ -1604,6 +1604,15 @@ sua specie, i suoi attacchi e il suo elemento). Solo quelli già risolti almeno 
 **Arena**: una stazione che segna il campo di battaglia (niente fuga del boss, niente creature attorno). Evocato,
 il boss lascia di nuovo il suo bottino (non i doni per sempre: Vita, Semi di mondo, Linfa antica).
 **Pronto quando**: ogni Guardiano sconfitto si può riaffrontare quando si vuole, e ne vale la pena per i suoi oggetti.
+**Fatto il 28 set 2026**: i Guardiani affrontati si ricordano nel personaggio (`Character.guardiani`) e si possono
+evocare di nuovo (`Summons`, dati in `SummonData`). Il **Cerchio dei Seminatori** (stazione `arena`, Maglio) è il luogo
+dello scontro: vicino, con il **Richiamo** in mano (Radice, Spora, Pietra e Guscio di richiamo, fatti al Cerchio con i
+materiali del loro Guardiano) un clic risveglia il Nodo, la Regina, il Colosso o ciò che uscì dal Seme Nero. I
+Guardiani generati lasciano la prima volta il loro **Sigillo** (con il Guardiano nei "dati": specie, attacchi,
+elemento): con il Sigillo e un **Seme d'eco** (consumato) si richiama proprio quello, con la sua seconda fase. Durante lo
+scontro attorno al Cerchio non nasce niente (`Fauna.quiet_c`); il bottino è quello dell'evocazione (`SummonData`,
+più magro), mai i doni per sempre (Semi di mondo, Linfa antica, Vita). Tappa nel diario. Capitolo nell'Enciclopedia.
+Prove `--solo=evocazioni` (foto 151_evocazione).
 
 ## 85. [ ] Effetti speciali componibili (M) — fondamenta
 Una libreria di **effetti** scritti come dati, che si montano su oggetti unici, accessori, totem, ali e set:

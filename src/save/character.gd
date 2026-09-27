@@ -24,6 +24,7 @@ var seme_nero := ""                    # voce 72: "" · "spezzato" · "curato" (
 var leggende := {}                     # voce 81: leggende compiute (id → 1), "primo_dato", "primo_fatto"
 var sfide := {}                        # voce 82: i record delle sfide (id → {vinte, livello, record})
 var diario := {}                       # voce 83: il diario della partita (tappe e conteggi, vedi `Diary`)
+var guardiani := {}                    # voce 84: i Guardiani affrontati (creatura → {volte, nome}): si possono evocare
 var catene := {}                       # voce 69: le catene di ricerca (tappa della lunga, brevi aperte, fatte)
 var lingua := {}                       # voce 68: le parole dei Seminatori che conosce (parola -> 1)
 var bacheca := {}                      # voce 67: le richieste aperte della Bacheca dei Giardinieri e quante fatte
@@ -39,7 +40,8 @@ func to_dict() -> Dictionary:
 		"vita": hp, "linfa": linfa, "vita_extra": vita_extra, "linfa_extra": linfa_extra, "guardiani_curati": guardiani_curati,
 		"erbario": erbario, "stats": stats, "obiettivi": obiettivi, "genario": genario, "mandria": mandria,
 		"albero": albero, "bacheca": bacheca, "lingua": lingua, "catene": catene, "seme_nero": seme_nero,
-		"leggende": leggende, "sfide": sfide, "diario": diario}
+		"leggende": leggende, "sfide": sfide, "diario": diario,
+		"guardiani": guardiani}
 
 
 ## Null se i dati vengono da una versione più nuova del gioco (vedi `SaveMigrations`).
@@ -98,6 +100,9 @@ static func from_dict(cid: String, d: Dictionary) -> Character:
 	var lgd: Variant = d.get("leggende", {})
 	if lgd is Dictionary:
 		c.leggende = SaveMigrations.ints(lgd)
+	var gua: Variant = d.get("guardiani", {})
+	if gua is Dictionary:
+		c.guardiani = gua
 	var dia: Variant = d.get("diario", {})
 	if dia is Dictionary:
 		c.diario = dia

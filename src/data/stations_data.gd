@@ -43,6 +43,8 @@ const STATIONS := {
 	"focolare": {"name": "Focolare del Giardino", "size": [2, 1], "item": "focolare", "light": true,
 		"light_color": Color(1.8, 1.0, 0.5)},
 	# voce 27: l'Altare dei Seminatori (richiama i Custodi) e i bozzoli delle tane dei Custodi
+	"arena": {"name": "Cerchio dei Seminatori", "size": [3, 1], "item": "cerchio_arena", "light": true,
+		"light_color": Color(0.6, 0.5, 0.2)},                # voce 84: si evocano i Guardiani già affrontati
 	"altare": {"name": "Altare dei Seminatori", "size": [3, 2], "item": "altare", "light": true,
 		"light_color": Color(0.2, 0.6, 0.55)},
 	"bozzolo_madre_grumi": {"name": "Bozzolo della Madre dei grumi", "size": [3, 3], "item": "", "fixed": true,

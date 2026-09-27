@@ -61,4 +61,10 @@ Nasce il [b]Primo Mondo[/b]: tutti i biomi, quattro geni stellari, il vigore pi�
 Si [b]vince[/b] risolvendo il Guardiano del Cuore (curato o sconfitto) senza rompere la regola; si [b]perde[/b] se la regola si rompe, e il mondo resta, senza la sfida. Ogni vittoria dà Linfa antica, Schegge di vigore e Lumini (di più più il livello è alto), la prima anche una [b]medaglia[/b]. E alza il [b]livello[/b] di quella sfida: la prossima volta è più dura (meno tempo, meno Vita) e rende di più, senza fine.
 I tuoi [b]record[/b] (vittorie, livello, tempo migliore) sono qui sotto e nel Semenzaio (tasto K), nella scheda del Taccuino.
 {cat_record}"""},
+	{"id": "evocazioni", "group": "Senza fine", "name": "Evocare i Guardiani", "text":
+"""Un Guardiano che hai già affrontato (curato o sconfitto) non è perso: lo puoi [b]evocare[/b] di nuovo, quando vuoi, per il suo bottino.
+Serve il [b]Cerchio dei Seminatori[/b] (Maglio: pietre dei Seminatori, cristalli di Linfa, torce). Piazzalo dove vuoi combattere: vicino al Cerchio, con il [b]Richiamo[/b] del Guardiano in mano, un clic lo risveglia. I Richiami si fanno al Cerchio stesso, con i materiali del loro Guardiano:
+{cat_richiami}
+I Guardiani generati dei mondi di vigore 4 e oltre lasciano, la prima volta, il loro [b]Sigillo[/b]: ricorda proprio quel Guardiano (specie, attacchi, elemento). Con il Sigillo in mano e un [b]Seme d'eco[/b] (Cerchio: Lumini e cristalli di Linfa) lo richiami; il Sigillo resta, il Seme d'eco si consuma.
+Finché lo scontro dura, attorno al Cerchio non nasce nessun'altra creatura. Un Guardiano evocato lascia i suoi materiali (meno del primo incontro), mai i doni per sempre: niente Semi di mondo, Linfa antica o Vita in più."""},
 ]

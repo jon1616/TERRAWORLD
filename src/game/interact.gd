@@ -41,6 +41,8 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 		"dono":
 			return Gifts.absorb(m, id)
 		"richiamo":
+			if SummonData.CALLS.has(id) or id == "sigillo_guardiano":
+				return m.summons.summon(id, m.character.bisaccia.data_at(m.hud.sel))   # voce 84
 			return m.keepers.summon(id)
 		"tavoletta":
 			return m.language.use_tablet(id)           # voce 68

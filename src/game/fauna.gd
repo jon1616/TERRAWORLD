@@ -18,6 +18,7 @@ var sfx: Sfx
 var light: LightMap                    # per nascere solo al buio
 var vigor := 1                         # vigore del mondo (voce 12)
 var vigor_mult := 1.0                  # creature più forti nei mondi oltre i portali
+var quiet_c := Vector2i(-1, -1)        # voce 84: il Cerchio dei Seminatori durante uno scontro (niente nascite attorno)
 var grade := 0                         # voce 79: il grado del mondo (vigore / 5), le indoli nuove (lo imposta `Vigor`)
 var force_ancient := false             # voce 82: la sfida «Solo antiche»
 var danger := 1.0                      # pericolo attorno al giocatore, aggiornato a ogni tentativo
@@ -174,6 +175,12 @@ func kill(c: Creature) -> void:
 	kills += 1
 	if is_instance_valid(c.master):
 		c.master.minions -= 1
+	if c.has_meta("evocato"):
+		# voce 84: un Guardiano evocato ha il suo bottino (più magro), lo dà `Summons`
+		Fx.puff(self, c.position, Color(1.1, 0.7, 0.6))
+		killed.emit(c)
+		c.queue_free()
+		return
 	# bottino: più giri per le rare e con la Fortuna, e un'Essenza per ogni tratto di una creatura antica
 	var rolls := 1
 	if c.ancient:
@@ -287,6 +294,8 @@ func try_spawn() -> Creature:
 	var c := pc + Vector2i(roundi(cos(ang) * dist), roundi(sin(ang) * dist * 0.6))
 	if not world.inside(c.x, c.y) or c.y < 2:
 		return null
+	if quiet_c.x >= 0 and Vector2(c - quiet_c).length() < SummonData.ARENA_R:
+		return null                                     # voce 84: attorno al Cerchio, durante uno scontro evocato
 	var stratum := StrataData.at(world, c.x, c.y)
 	if world.liq(c.x, c.y) >= 6 and world.liq_type(c.x, c.y) != LiquidsData.BRACE:
 		return _spawn_water(c)                          # voce 73: nell'acqua nascono le creature d'acqua

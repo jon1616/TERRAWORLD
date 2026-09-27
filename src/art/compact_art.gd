@@ -41,6 +41,8 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 			_scrigno(im, gm, w, h)
 		"reliquiario":
 			_reliquiario(im, gm, w, h)
+		"arena":
+			_arena(im, gm, w, h)
 		_:
 			if not ChestsData.is_chest(id):
 				return false
@@ -311,3 +313,22 @@ static func _trim(im: Image, gm: Image, w: int, h: int, mat: String) -> void:
 	for q in [Vector2i(w / 2 - 3, 10), Vector2i(w / 2 + 3, 10), Vector2i(w / 2 - 3, 11), Vector2i(w / 2 + 3, 11)]:
 		Px.put(im, q.x, q.y, rune)
 		Px.put(gm, q.x, q.y, rune)
+
+
+## Voce 84, il Cerchio dei Seminatori (3×1): una fila bassa di pietre lavorate con le rune accese, al centro un disco
+## d'ambra dove il Guardiano si risveglia.
+static func _arena(im: Image, gm: Image, w: int, h: int) -> void:
+	var st := Px.pal(TileDefs.P_SEM)
+	var amb := Px.pal(TileDefs.P_AMBRA)
+	for x in range(1, w - 1):
+		for y in range(h - 5, h):
+			Px.put(im, x, y, st[2] if y > h - 4 else st[3])
+	for px in [3, w / 2 - 1, w - 5]:
+		for y in range(h - 11, h - 5):
+			Px.put(im, px, y, st[3])
+			Px.put(im, px + 1, y, st[2])
+		Px.put(im, px, h - 12, Color("#6ff0d8"))
+		Px.put(gm, px, h - 12, Color("#6ff0d8"))
+	for x in range(w / 2 - 6, w / 2 + 6):
+		Px.put(im, x, h - 5, amb[3])
+		Px.put(gm, x, h - 5, amb[2])
