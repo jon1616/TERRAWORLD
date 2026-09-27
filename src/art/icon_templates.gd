@@ -8,24 +8,36 @@ extends RefCounted
 
 ## L'icona della forma colorata con la tavolozza `p`, o null se la forma non è disegnata.
 static func make(shape: String, p: Array[Color]) -> Image:
-	var tpl: Variant = _template(shape)
+	return tinted("forme", shape, p)
+
+
+## Un disegno qualunque di `arte/<cartella>/` con i grigi colorati dalla tavolozza `p` (voce 106: le stazioni a gradi).
+static func tinted(cartella: String, nome: String, p: Array[Color]) -> Image:
+	var tpl: Variant = _template(cartella, nome)
 	return _tinted(tpl, p) if tpl != null else null
+
+
+## Il disegno come immagine RGBA8 che si può leggere pixel per pixel.
+static func rgba(t: Texture2D) -> Image:
+	var img := t.get_image()
+	if img.is_compressed():
+		img.decompress()
+	img.convert(Image.FORMAT_RGBA8)
+	return img
 
 
 static var _templates := {}
 
 
-## La forma disegnata (16×16, RGBA) e la gamma dei suoi grigi, o null se il file non c'è.
-static func _template(shape: String) -> Variant:
-	if _templates.has(shape):
-		return _templates[shape]
+## Il disegno (RGBA) e la gamma dei suoi grigi, o null se il file non c'è.
+static func _template(cartella: String, shape: String) -> Variant:
+	var key := cartella + "/" + shape
+	if _templates.has(key):
+		return _templates[key]
 	var out := {}
-	var t := ArtLib.tex("forme", shape)
+	var t := ArtLib.tex(cartella, shape)
 	if t != null:
-		var img := t.get_image()
-		if img.is_compressed():
-			img.decompress()
-		img.convert(Image.FORMAT_RGBA8)
+		var img := rgba(t)
 		var lo := 1.0
 		var hi := 0.0
 		for y in img.get_height():
@@ -35,8 +47,8 @@ static func _template(shape: String) -> Variant:
 					lo = minf(lo, c.get_luminance())
 					hi = maxf(hi, c.get_luminance())
 		out = {"img": img, "lo": lo, "hi": maxf(hi, lo + 0.01)}
-	_templates[shape] = out if not out.is_empty() else null
-	return _templates[shape]
+	_templates[key] = out if not out.is_empty() else null
+	return _templates[key]
 
 
 ## La parte del materiale è disegnata in grigi neutri; il contorno (quasi nero) e il resto (manici, foglie, perline)

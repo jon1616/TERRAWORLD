@@ -16,6 +16,9 @@ static func make(id: String) -> Dictionary:
 	var size: Array = StationsData.STATIONS[id]["size"]
 	var w: int = size[0] * S
 	var h: int = size[1] * S
+	var drawn := StationTemplates.make(id, w, h)     # voce 106: il disegno di Nano Banana, se c'è
+	if not drawn.is_empty():
+		return drawn
 	var im := Px.img(w, h)
 	var gm := Px.img(w, h)
 	if id.begins_with("albero_madre_"):              # voce 62: l'Albero-Madre, in cinque fasi

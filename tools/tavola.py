@@ -234,6 +234,46 @@ def riduci_a(a: np.ndarray, lato: int, pal: np.ndarray, n_base: int) -> np.ndarr
     return quadrato(pixela.riduci(a, f, pal, n_base, DETTAGLI, PIENO)[:lato, :lato], lato)
 
 
+def misure_stazioni() -> dict:
+    """La misura in pixel di ogni stazione (16 per tessera), letta da src/data/stations_data.gd."""
+    import re
+    testo = open(os.path.join("src", "data", "stations_data.gd"), encoding="utf-8").read()
+    out = {}
+    for m in re.finditer(r'"([a-z_0-9]+)": \{"name": "[^"]*", "size": \[(\d+), (\d+)\]', testo):
+        out[m.group(1)] = (int(m.group(2)) * 16, int(m.group(3)) * 16)
+    return out
+
+
+def riduci_in(a: np.ndarray, w: int, h: int, pal: np.ndarray, n_base: int) -> np.ndarray:
+    """La figura dentro w×h pixel compreso il contorno, appoggiata in basso al centro (una stazione sta sul pavimento)."""
+    f = max(a.shape[0] / (h - 2), a.shape[1] / (w - 2))
+    img = pixela.riduci(a, f, pal, n_base, DETTAGLI, PIENO)[:h, :w]
+    out = np.zeros((h, w, 4), dtype=np.uint8)
+    ih, iw = img.shape[:2]
+    x0 = (w - iw) // 2
+    out[h - ih:h, x0:x0 + iw] = img
+    return out
+
+
+def anteprima_stazioni(figure: list, nomi: list, mis: dict, pal: np.ndarray, n_base: int, path: str) -> None:
+    zoom = 4
+    font = ImageFont.truetype("arialbd.ttf", 14) if os.path.exists("C:/Windows/Fonts/arialbd.ttf") else None
+    cw = max(mis[n][0] for n in nomi) * zoom + 24
+    ch = max(mis[n][1] for n in nomi) * zoom + 40
+    col = 4
+    righe = (len(figure) + col - 1) // col
+    im = Image.new("RGB", (col * cw + 12, righe * ch + 12), FONDO_SCURO)
+    d = ImageDraw.Draw(im)
+    for i, (a, n) in enumerate(zip(figure, nomi)):
+        w, h = mis[n]
+        px = Image.fromarray(riduci_in(a, w, h, pal, n_base), "RGBA").resize((w * zoom, h * zoom), Image.NEAREST)
+        x, y = 12 + (i % col) * cw, 12 + (i // col) * ch
+        d.rectangle([x, y + ch - 36, x + cw - 24, y + ch - 34], fill=(70, 60, 80))
+        im.paste(px, (x + (cw - 24 - w * zoom) // 2, y + ch - 36 - h * zoom), px)
+        d.text((x, y + ch - 30), "%s %dx%d" % (n, w, h), fill=(230, 220, 200), font=font)
+    im.save(path)
+
+
 def anteprima(figure: list[np.ndarray], nomi: list[str], misure: list[int], pal: np.ndarray, n_base: int,
               path: str) -> None:
     zoom = 4
@@ -270,6 +310,8 @@ def main() -> None:
     ap.add_argument("--colori", type=int, default=12, help="colori per ogni pezzo")
     ap.add_argument("--misure", default="", help="misure dell'anteprima, es. 12,16,20 (vuoto = solo --lato)")
     ap.add_argument("--griglia", default="", help="colonne x righe, es. 6x3: unisce i pezzi di ogni cella")
+    ap.add_argument("--stazioni", action="store_true",
+                    help="ogni pezzo prende la misura della sua stazione (src/data/stations_data.gd), non --lato")
     ap.add_argument("--desatura", default="",
                     help="pezzi da rendere tutti grigi (nomi separati da virgole): le forme che Nano Banana colora "
                          "anche se gli si chiede il grigio (l'amuleto marrone), perché il gioco le colori col materiale")
@@ -314,6 +356,19 @@ def main() -> None:
                     + [np.array([pixela.OUTLINE], dtype=np.float32)])
     n_base = len(pal)
     os.makedirs(args.cartella, exist_ok=True)
+    if args.stazioni:
+        mis = misure_stazioni()
+        manca = [n for n in nomi if n not in mis]
+        if manca:
+            print("ATTENZIONE: stazioni sconosciute %s" % manca)
+        for f, nome in zip(figure, nomi):
+            w, h = mis.get(nome, (32, 32))
+            Image.fromarray(riduci_in(f, w, h, pal, n_base), "RGBA").save(os.path.join(args.cartella, nome + ".png"))
+        base = os.path.splitext(os.path.basename(args.file))[0]
+        prev = os.path.join("prove", "arte_%s.png" % base)
+        anteprima_stazioni(figure, nomi[:len(figure)], {n: mis.get(n, (32, 32)) for n in nomi}, pal, n_base, prev)
+        print("%d stazioni in %s, anteprima %s" % (len(figure), args.cartella, prev))
+        return
     for f, nome in zip(figure, nomi):
         Image.fromarray(riduci_a(f, args.lato, pal, n_base), "RGBA").save(os.path.join(args.cartella, nome + ".png"))
     misure = [int(x) for x in args.misure.split(",") if x.strip()] or [args.lato]
