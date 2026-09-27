@@ -13,7 +13,7 @@ a 16 pixel sarebbe largo un pixel e mezzo e, con quello del gioco, la figura spa
 
 Uso:
   python tools/tavola.py arte_ia/interfaccia/01_prova_v1.png --nomi vita,linfa,scorza,brace,gelo,spora \
-         --cartella arte/interfaccia --lato 16 [--griglia 6x3] [--colori 32] [--misure 12,16,20] [--tieni-contorno]
+         --cartella arte/interfaccia --lato 16 [--griglia 6x3] [--colori 12] [--misure 12,16,20] [--tieni-contorno]
 Scrive arte/<cartella>/<nome>.png (quadrato di --lato pixel, trasparente) e l'anteprima prove/arte_<tavola>.png:
 ogni pezzo alle misure di --misure, ingrandito, su un fondo scuro come quello del gioco e su uno chiaro.
 """
@@ -120,15 +120,46 @@ def pezzi_griglia(a: np.ndarray, col: int, righe: int) -> list[tuple[slice, slic
     return out
 
 
-def togli_contorno(a: np.ndarray) -> np.ndarray:
-    """Toglie l'anello scuro esterno disegnato da Nano Banana (i pixel scuri raggiungibili dal fuori passando solo
-    per scuri). I dettagli scuri interni restano."""
+def _corse_scure(a: np.ndarray) -> list[int]:
+    """I tratti scuri che si incontrano entrando nella figura, riga per riga e colonna per colonna."""
+    lum = a[:, :, :3] @ np.array([0.3, 0.59, 0.11])
+    fuori = a[:, :, 3] < 0.5
+    scuro = (lum < 75) & ~fuori
+    corse = []
+    for m, op in ((scuro, ~fuori), (scuro.T, ~fuori.T)):
+        for riga_s, riga_o in zip(m, op):
+            xs = np.flatnonzero(riga_o)
+            if len(xs) == 0:
+                continue
+            for x0, passo in ((xs[0], 1), (xs[-1], -1)):
+                n, x = 0, x0
+                while 0 <= x < len(riga_s) and riga_s[x]:
+                    n += 1
+                    x += passo
+                if n:
+                    corse.append(n)
+    return corse
+
+
+def spessore_contorno(figure: list[np.ndarray]) -> float:
+    """Lo spessore del contorno disegnato, uguale per tutta la tavola: la mediana dei tratti scuri all'ingresso di
+    tutte le figure (in una figura sola scura, il ponte di radici prugna, i tratti attraversavano tutto il corpo)."""
+    corse = [n for f in figure for n in _corse_scure(f)]
+    return float(np.median(corse)) * 1.35 + 1.0 if corse else 0.0
+
+
+def togli_contorno(a: np.ndarray, spessore: float) -> np.ndarray:
+    """Toglie l'anello scuro esterno disegnato da Nano Banana: i pixel scuri raggiungibili dal fuori passando solo per
+    scuri, e non più lontani dal fuori dello spessore del contorno (una figura scura che tocca il contorno resta).
+    I dettagli scuri interni restano."""
     lum = a[:, :, :3] @ np.array([0.3, 0.59, 0.11])
     fuori = a[:, :, 3] < 0.5
     scuro = (lum < 75) & ~fuori
     lab, _ = ndimage.label(fuori | scuro)
     bordo = set(np.unique(np.concatenate([lab[0], lab[-1], lab[:, 0], lab[:, -1]]))) - {0}
     anello = np.isin(lab, list(bordo)) & scuro
+    dist = ndimage.distance_transform_edt(np.pad(~fuori, 1))[1:-1, 1:-1]
+    anello &= dist <= spessore
     b = a.copy()
     b[anello, 3] = 0.0
     return pixela.ritaglia(b)
@@ -155,13 +186,13 @@ def anteprima(figure: list[np.ndarray], nomi: list[str], misure: list[int], pal:
     cella = max(misure) * zoom + 16
     font = ImageFont.truetype("arialbd.ttf", 14) if os.path.exists("C:/Windows/Fonts/arialbd.ttf") else None
     righe = len(figure)
-    W = 110 + cella * len(misure) * 2
+    W = 170 + cella * len(misure) * 2
     H = 30 + righe * cella
     im = Image.new("RGB", (W, H), (60, 52, 66))
     d = ImageDraw.Draw(im)
     for j, m in enumerate(misure):
         for k, fondo in enumerate((FONDO_SCURO, FONDO_CHIARO)):
-            d.text((110 + (j * 2 + k) * cella + 8, 8), "%d px%s" % (m, "" if k == 0 else " chiaro"),
+            d.text((170 + (j * 2 + k) * cella + 8, 8), "%d px%s" % (m, "" if k == 0 else " chiaro"),
                    fill=(230, 220, 200), font=font)
     for i, (a, nome) in enumerate(zip(figure, nomi)):
         y = 30 + i * cella
@@ -169,7 +200,7 @@ def anteprima(figure: list[np.ndarray], nomi: list[str], misure: list[int], pal:
         for j, m in enumerate(misure):
             px = Image.fromarray(riduci_a(a, m, pal, n_base), "RGBA").resize((m * zoom, m * zoom), Image.NEAREST)
             for k, fondo in enumerate((FONDO_SCURO, FONDO_CHIARO)):
-                x = 110 + (j * 2 + k) * cella
+                x = 170 + (j * 2 + k) * cella
                 d.rectangle([x, y, x + cella - 6, y + cella - 6], fill=fondo)
                 off = (cella - 6 - m * zoom) // 2
                 im.paste(px, (x + off, y + off), px)
@@ -182,7 +213,7 @@ def main() -> None:
     ap.add_argument("--nomi", required=True, help="nomi dei pezzi in ordine di lettura, separati da virgole")
     ap.add_argument("--cartella", required=True, help="dove scrivere i png del gioco, es. arte/interfaccia")
     ap.add_argument("--lato", type=int, default=16)
-    ap.add_argument("--colori", type=int, default=32)
+    ap.add_argument("--colori", type=int, default=12, help="colori per ogni pezzo")
     ap.add_argument("--misure", default="", help="misure dell'anteprima, es. 12,16,20 (vuoto = solo --lato)")
     ap.add_argument("--griglia", default="", help="colonne x righe, es. 6x3: unisce i pezzi di ogni cella")
     ap.add_argument("--tieni-contorno", action="store_true", help="non togliere il contorno scuro del disegno")
@@ -202,8 +233,15 @@ def main() -> None:
         f = a[ys, xs].copy()
         f[~m, 3] = 0.0
         f = pixela.ritaglia(f)
-        figure.append(f if args.tieni_contorno else togli_contorno(f))
-    pal, n_base = pixela.tavolozza(figure, args.colori, [])
+        figure.append(f)
+    if not args.tieni_contorno:
+        sp = spessore_contorno(figure)
+        figure = [togli_contorno(f, sp) for f in figure]
+    # ogni pezzo porta i suoi colori (--colori a testa): con una tavolozza sola per tutta la tavola il prugna del ponte
+    # di radici non aveva un colore suo e diventava contorno
+    pal = np.vstack([pixela.tavolozza([f], args.colori, [])[0][:-1] for f in figure]
+                    + [np.array([pixela.OUTLINE], dtype=np.float32)])
+    n_base = len(pal)
     os.makedirs(args.cartella, exist_ok=True)
     for f, nome in zip(figure, nomi):
         Image.fromarray(riduci_a(f, args.lato, pal, n_base), "RGBA").save(os.path.join(args.cartella, nome + ".png"))
