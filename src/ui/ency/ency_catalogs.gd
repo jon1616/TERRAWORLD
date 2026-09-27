@@ -140,6 +140,10 @@ static func inline(key: String) -> String:
 				rows.append(_b(String(pd["name"]), "%s · nei mondi con %s · %s" % [pd["banner"], " o ".join(gn),
 					"in superficie" if pd.get("surface", false) else "nello strato «%s»" % StrataData.STRATA[int(pd["strata"][0])]["name"]],
 					String(pd["color"])))
+		"cat_nascoste":
+			for cid in HiddenCreatures.CONDITIONS:
+				var cd: Dictionary = HiddenCreatures.CONDITIONS[cid]
+				rows.append(_b(String(CreaturesData.CREATURES[cid]["name"]), "creatura nascosta: esce solo %s" % cd["hint"], "#c890ff"))
 		"cat_segreti":
 			for g in SecretsData.GRADES.size():
 				var gd: Dictionary = SecretsData.GRADES[g]

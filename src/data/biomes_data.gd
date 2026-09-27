@@ -73,6 +73,11 @@ const UNDER_FILES := [
 	preload("res://src/data/biomes/sotto_catacombe.gd"),
 ]
 
+## Voce 97: pacchetti di contenuto che non sono biomi (le creature nascoste): stessi campi del pacchetto.
+const PACK_FILES := [
+	preload("res://src/data/hidden_creatures.gd"),
+]
+
 static var BIOMES: Array = _load()
 static var UNDER: Array = _load_under()
 
@@ -110,7 +115,7 @@ static func at(w: Object, x: int) -> int:    # (niente tipo World: questo file n
 ## Voce 92: l'unione di un campo-dizionario del pacchetto di tutti i biomi.
 static func pack(key: String) -> Dictionary:
 	var out := {}
-	for f in FILES + UNDER_FILES:
+	for f in FILES + UNDER_FILES + PACK_FILES:
 		out.merge((f.DATA as Dictionary).get(key, {}))
 	return out
 
@@ -118,7 +123,7 @@ static func pack(key: String) -> Dictionary:
 ## Voce 92: l'unione di un campo-elenco del pacchetto di tutti i biomi.
 static func pack_list(key: String) -> Array:
 	var out := []
-	for f in FILES + UNDER_FILES:
+	for f in FILES + UNDER_FILES + PACK_FILES:
 		out.append_array((f.DATA as Dictionary).get(key, []))
 	return out
 

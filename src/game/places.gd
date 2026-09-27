@@ -13,7 +13,7 @@ func setup(main: Node2D) -> void:
 	m = main
 	if not m.world_meta.has("luoghi"):
 		var out := []
-		for e in m.world.gen_notes.get("luoghi", []):
+		for e in (m.world.gen_notes.get("luoghi", []) as Array) + (m.world.gen_notes.get("camere", []) as Array):   # voce 97: le camere-enigma
 			var d: Dictionary = (e as Dictionary).duplicate(true)
 			var lg: Vector2i = d.get("leggio", Vector2i(-1, -1))
 			d["leggio"] = [lg.x, lg.y]

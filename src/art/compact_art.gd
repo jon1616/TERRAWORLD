@@ -43,6 +43,8 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 			_reliquiario(im, gm, w, h)
 		"arena":
 			_arena(im, gm, w, h)
+		"stella_eterna":
+			_stella(im, gm, w, h)
 		"esca", "esca_legnoferro", "esca_ambra", "tramoggia", "tramoggia_ambra", "radice_ancora", "nastro_dx", "nastro_sx":
 			FarmArt.draw(id, im, gm, w, h)
 		_ when TrapsData.is_trap(id):
@@ -427,3 +429,15 @@ static func _trap(im: Image, gm: Image, w: int, h: int, d: Dictionary) -> void:
 					Vector2i(w / 2 - 1, h - 3), Vector2i(w / 2 + 1, h - 3)]:
 				Px.put(im, q.x, q.y, col)
 				Px.put(gm, q.x, q.y, col)
+
+
+
+## Voce 97, la stella caduta che non si spegne: una stella a cinque punte, tutta accesa.
+static func _stella(im: Image, gm: Image, w: int, h: int) -> void:
+	var c := Vector2(w / 2.0, h / 2.0 + 1.0)
+	for a in 5:
+		var ang := -PI / 2.0 + a * TAU / 5.0
+		Px.line(im, c, c + Vector2(cos(ang), sin(ang)) * 6.0, 1, Color("#fff0a0"))
+		Px.line(gm, c, c + Vector2(cos(ang), sin(ang)) * 6.0, 1, Color("#fff0a0"))
+	Px.disc(im, c.x, c.y, 2.5, Color("#ffffff"))
+	Px.disc(gm, c.x, c.y, 2.5, Color("#ffffff"))

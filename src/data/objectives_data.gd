@@ -199,6 +199,8 @@ const LIST := [
 		"reward": {"eco_seminatori": 2}},
 	{"id": "mondo_completo", "text": "Trova tutti i segreti di un mondo", "check": {"stat": "mondi_completi", "n": 1},
 		"reward": {"linfa_antica": 3}},
+	{"id": "nascoste_3", "text": "Incontra tre creature nascoste (escono solo a certe condizioni)", "check": {"stat": "nascoste", "n": 3},
+		"reward": {"eco_seminatori": 3}},
 	{"id": "trappole_25", "text": "Abbatti 25 creature con le trappole", "check": {"stat": "prede_trappole", "n": 25},
 		"reward": {"esca": 1, "nastro": 6}},
 	{"id": "tramoggia_200", "text": "Fai raccogliere 200 oggetti a una Tramoggia", "check": {"stat": "tramoggia", "n": 200},

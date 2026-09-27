@@ -19,8 +19,8 @@ func run(w: World, c: GenContext) -> void:
 			if g in genes:
 				cand.append(String(id))
 				break
-	if bool(c.params.get("luoghi_tutti", false)):          # prove e strumenti: tutti
-		cand = PlacesData.PLACES.keys()
+	if bool(c.params.get("luoghi_tutti", false)):          # prove e strumenti: tutti (non le camere-enigma)
+		cand = PlacesData.PLACES.keys().filter(func(k: String) -> bool: return not PlacesData.PLACES[k].get("camera", false))
 	var out := []
 	for id in cand:
 		if out.size() >= PlacesData.MAX_PER_WORLD and not bool(c.params.get("luoghi_tutti", false)):
@@ -110,10 +110,12 @@ static func build(w: World, id: String, o: Vector2i, rng: RandomNumberGenerator)
 		elif s[0] == "scrigno":
 			var chest := w.chest_at(s[1])
 			var st := clampi(StrataData.at(w, o.x, o.y), 1, 4)
-			var loot := LootData.roll_chest("rovina_%d" % st, rng, 5)
+			var camera: bool = PlacesData.PLACES[id].get("camera", false)     # voce 97: le camere-enigma
+			var loot := LootData.roll_chest("rovina_%d" % st, rng, 2 if camera else 5)
 			for iid in loot:
 				chest.add(iid, int(loot[iid]))
-			chest.add(String(PlacesData.PLACES[id]["unique"]), 1)
+			if String(PlacesData.PLACES[id]["unique"]) != "":
+				chest.add(String(PlacesData.PLACES[id]["unique"]), 1)
 			chest.add("tavoletta_seminatori", 2)
 			chest.add("linfa_antica", 1)
 	return e

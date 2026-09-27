@@ -145,6 +145,8 @@ func run(main: Node2D) -> void:
 	_mark("TestsSecrets")
 	await TestsSecretRooms.new(kit).run()
 	_mark("TestsSecretRooms")
+	await TestsAnomalies.new(kit).run()
+	_mark("TestsAnomalies")
 	await TestsBagCost.new(kit).run()
 	_mark("TestsBagCost")
 	await TestsMusic.new(kit).run()
@@ -378,6 +380,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsSecrets.new(kit).run()
 		"segreti_stanze":
 			await TestsSecretRooms.new(kit).run()
+		"segreti_anomalie":
+			await TestsAnomalies.new(kit).run()
 		"antiche":
 			await TestsAncient.new(kit).run()
 		"pericoli":

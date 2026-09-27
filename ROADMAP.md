@@ -1824,11 +1824,21 @@ pareti finte, **tesori sepolti** con la **Mappa del tesoro** (i suoi "dati" dico
 murata dello stesso mondo, **nidi nascosti** dove si sveglia una creatura rara dello strato. Diventano segreti con il
 loro grado (il mondo di prova ne ha 47). Prove `--solo=segreti_stanze` (foto 168).
 
-## 97. [ ] Segreti, secondo ciclo: enigmi, anomalie, creature nascoste (M)
+## 97. [x] Segreti, secondo ciclo: enigmi, anomalie, creature nascoste (M) — fatto il 28 set 2026
 **Camere-enigma** piccole (con i meccanismi della voce 71), **anomalie** (una per mondo, rara: una bolla di gravità
 rovesciata, un lago che canta, un albero antichissimo, una stella caduta che non si spegne), **creature nascoste** che
 compaiono solo a certe condizioni (ora, meteo, stagione, un oggetto in mano), **visioni** dei Seminatori.
 **Pronto quando**: in ogni mondo c'è almeno un imprevisto che fa dire «questo non l'avevo mai visto».
+Fatto il 28 set 2026: `PassSegretiAnomalie` (generatore di numeri suo): quattro **camere-enigma** per mondo (bracieri,
+leve, piastre, cristalli: piccoli luoghi di `PlacesData` costruiti con `PassLuoghi.build`, in `notes["camere"]` che
+`Places` unisce ai luoghi, così porta, meccanismi, leggio e scritta funzionano da soli); tre **visioni** (cerchi di
+pietre accese: entrando si legge una di `SecretsData.VISIONS`); al più un'**anomalia** per mondo (colonna dove si cade
+verso l'alto = una corrente di `Gravity`, Lago che canta, Albero antichissimo, Stella che non si spegne: 70% dei
+mondi). Le **creature nascoste** (pacchetto `src/data/hidden_creatures.gd`, `BiomesData.PACK_FILES`; regole in
+`HiddenCreatures`): Lucciola di mezzanotte (notte), Spirito del temporale (temporale), Cervo bianco del Gelo (stagione),
+Gatto delle lanterne (Lanterna di Linfa in mano sotto terra); i loro materiali fanno la Lanterna delle quattro ore.
+Obiettivo e diario, capitolo aggiornato; le stanze e le visioni non toccano più i luoghi dei Seminatori. Prove
+`--solo=segreti_anomalie` (foto 169).
 
 ## 98. [ ] Gli oggetti unici (L) — lungo tutta la Roadmap
 Ogni voce della Roadmap ne aggiunge (boss, biomi, segreti, farm, volo); questa li completa fino a **150-200 oggetti

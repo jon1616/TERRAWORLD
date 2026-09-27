@@ -119,6 +119,7 @@ const STATIONS := {
 	"totem_rifugio_1": {"name": "Rifugio del viandante", "size": [1, 2], "item": "totem_rifugio_1", "light": true, "light_color": Color(1.00, 0.80, 0.55)},
 	"totem_rifugio_2": {"name": "Rifugio del viandante di legnoferro", "size": [1, 2], "item": "totem_rifugio_2", "light": true, "light_color": Color(1.20, 0.96, 0.66)},
 	"totem_rifugio_3": {"name": "Rifugio del viandante d'ambra", "size": [1, 2], "item": "totem_rifugio_3", "light": true, "light_color": Color(1.40, 1.12, 0.77)},
+	"stella_eterna": {"name": "Stella che non si spegne", "size": [1, 1], "fixed": true, "light": true, "light_color": Color(1.6, 1.5, 0.8)},
 	"arena": {"name": "Cerchio dei Seminatori", "size": [3, 1], "item": "cerchio_arena", "light": true,
 		"light_color": Color(0.6, 0.5, 0.2)},                # voce 84: si evocano i Guardiani già affrontati
 	"altare": {"name": "Altare dei Seminatori", "size": [3, 2], "item": "altare", "light": true,

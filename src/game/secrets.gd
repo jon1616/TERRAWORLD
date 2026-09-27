@@ -14,6 +14,7 @@ var rod := -1.0                        # 0..1 quanto vibra la bacchetta (-1 = no
 var _t := 0.0
 var _clock := 0.0
 var _rng := RandomNumberGenerator.new()
+var _hidden_t := 5.0
 
 
 func setup(main: Node2D) -> void:
@@ -70,6 +71,10 @@ func _process(dt: float) -> void:
 	_t = TICK
 	var pc: Vector2i = m.player_cell()
 	_push_fake(pc)
+	_hidden_t -= TICK
+	if _hidden_t <= 0.0:
+		_hidden_t = HiddenCreatures.EVERY
+		HiddenCreatures.try_spawn(m, _rng)
 	var best := 1e9
 	for s in list:
 		if s.get("f", false):
@@ -87,7 +92,9 @@ func _process(dt: float) -> void:
 
 func _found(s: Dictionary) -> void:
 	s["f"] = true
-	var kd: Dictionary = SecretsData.KINDS.get(String(s["k"]), {"name": "Segreto"})
+	var kd: Dictionary = SecretsData.KINDS.get(String(s["k"]), {"name": "Segreto"}).duplicate()
+	if s.has("n"):
+		kd["name"] = s["n"]                     # voce 97: le anomalie hanno il loro nome
 	var gd: Dictionary = SecretsData.GRADES[clampi(int(s.get("g", 0)), 0, SecretsData.GRADES.size() - 1)]
 	var c := counts()
 	m.hud.toast("Segreto trovato: %s (%s) — %d su %d" % [kd["name"], gd["name"], c[0], c[1]])
@@ -104,6 +111,8 @@ func _found(s: Dictionary) -> void:
 	m.sfx.play("apri", at)
 	if String(s["k"]) == "nido_nascosto":
 		_wake_nest(s)
+	elif String(s["k"]) == "visione":
+		_vision(s)
 	m.objectives.bump("segreti")
 	if c[0] == c[1]:
 		m.objectives.bump("mondi_completi")
@@ -203,3 +212,13 @@ func use_treasure_map() -> bool:
 	b.take_one(m.hud.sel)
 	m.hud.toast("Sulla mappa (M) c'è una croce: il tesoro è sepolto lì sotto")
 	return true
+
+
+
+## Voce 97: una visione dei Seminatori (una delle scritte di `SecretsData.VISIONS`, sempre la stessa per quel posto).
+func _vision(s: Dictionary) -> void:
+	var r := rect_of(s)
+	var v: Array = SecretsData.VISIONS[absi(hash([r.position.x, r.position.y])) % SecretsData.VISIONS.size()]
+	m.language.panel.show_text(String(v[0]), "[i]%s[/i]" % v[1])
+	var st: Dictionary = m.character.stats
+	st["visioni"] = int(st.get("visioni", 0)) + 1

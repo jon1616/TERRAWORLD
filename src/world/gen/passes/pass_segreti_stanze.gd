@@ -67,7 +67,7 @@ func _cave_cell(w: World, dmin: int, dmax: int) -> Vector2i:
 	for k in 30:
 		var x := _rng.randi_range(40, w.w - 41)
 		var y := w.surface[x] + _rng.randi_range(dmin, dmax)
-		if w.inside(x, y) and w.tile(x, y) == TileDefs.AIR and w.walls[y * w.w + x] != 0 and w.solid(x, y + 1):
+		if w.inside(x, y) and w.tile(x, y) == TileDefs.AIR and w.walls[y * w.w + x] != 0 				and w.walls[y * w.w + x] != TileDefs.WALL_SEM and w.solid(x, y + 1):   # (non nei luoghi e nelle rovine)
 			return Vector2i(x, y)
 	return Vector2i(-1, -1)
 
@@ -76,7 +76,7 @@ func _cave_cell(w: World, dmin: int, dmax: int) -> Vector2i:
 func _solid_box(w: World, x0: int, y0: int, bw: int, bh: int) -> bool:
 	for y in range(y0, y0 + bh):
 		for x in range(x0, x0 + bw):
-			if not w.inside(x, y) or not w.solid(x, y) or w.tile(x, y) in [TileDefs.NODO, TileDefs.PIETRA_SEM, TileDefs.SIG_VELATO]:
+			if not w.inside(x, y) or not w.solid(x, y) or w.tile(x, y) in [TileDefs.NODO, TileDefs.PIETRA_SEM, TileDefs.SIG_VELATO] 					or w.walls[y * w.w + x] == TileDefs.WALL_SEM:
 				return false
 	return true
 
@@ -135,6 +135,10 @@ func _passage(w: World) -> Array:
 		return []
 	var xs := mini(a.x, b.x) + 1
 	var xe := maxi(a.x, b.x) - 1
+	for xx in range(xs, xe + 1):
+		for y in [a.y - 1, a.y]:
+			if w.walls[y * w.w + xx] == TileDefs.WALL_SEM or w.tile(xx, y) in [TileDefs.PIETRA_SEM, TileDefs.PORTA_SEM, TileDefs.NODO]:
+				return []                                  # non si buca un luogo dei Seminatori
 	for xx in range(xs, xe + 1):
 		for y in [a.y - 1, a.y]:
 			var end := xx == xs or xx == xe

@@ -24,6 +24,13 @@ const KINDS := {
 		"desc": "un pezzo di terra che galleggia nel cielo"},
 	"luogo": {"name": "Luogo dei Seminatori", "grade": 2, "from": "luoghi", "size": [0, 0],
 		"desc": "un luogo scritto a mano, con il suo enigma"},
+	# voce 97 (`PassSegretiAnomalie`)
+	"camera_enigma": {"name": "Camera-enigma", "grade": 1, "from": "camere", "size": [0, 0],
+		"desc": "una piccola camera dei Seminatori: si entra risolvendo i suoi tre meccanismi"},
+	"visione": {"name": "Visione dei Seminatori", "grade": 1, "from": "visioni", "size": [0, 0],
+		"desc": "un cerchio di pietre accese: entrandoci si vede qualcosa che è successo tanto tempo fa"},
+	"anomalia": {"name": "Anomalia", "grade": 3, "from": "anomalie", "size": [0, 0],
+		"desc": "una sola per mondo, e non sempre: qualcosa che non dovrebbe esserci"},
 	# voce 96: costruiti apposta (`PassSegretiStanze`)
 	"passaggio": {"name": "Passaggio nascosto", "grade": 0, "from": "passaggi", "size": [0, 0],
 		"desc": "un cunicolo tra due grotte, chiuso da pareti finte"},
@@ -36,6 +43,23 @@ const KINDS := {
 	"firma": {"name": "La firma del mondo", "grade": 3, "from": "firma", "size": [16, 10],
 		"desc": "la cosa che si trova solo in questo mondo"},
 }
+
+## Voce 97: le anomalie (una per mondo, a volte nessuna: `ANOMALY_CHANCE`) e le visioni.
+const ANOMALY_CHANCE := 0.7
+const ANOMALIES := {
+	"bolla": {"name": "Bolla di gravità rovesciata", "desc": "una colonna d'aria dove si cade verso l'alto"},
+	"lago_cantante": {"name": "Lago che canta", "desc": "un laghetto circondato di cristallo cantante: vibra quando ti avvicini"},
+	"albero_primo": {"name": "Albero antichissimo", "desc": "un albero più vecchio del mondo stesso"},
+	"stella": {"name": "Stella che non si spegne", "desc": "una stella caduta in un cratere, ancora accesa"},
+}
+const VISIONS := [
+	["Il primo Seme", "Vedi mani grandi che scavano la terra nera del Vuoto e ci lasciano cadere un seme. Il seme non germoglia. Le mani aspettano. Poi, dal nulla, una radice."],
+	["La stele spezzata", "Un Seminatore scrive su una stele il nome di un mondo. Si ferma, cancella, riscrive. Alla fine spezza la pietra e la seppellisce."],
+	["La notte senza stelle", "Il cielo del Giardino è pieno di stelle, poi una alla volta si spengono. L'ultima non si spegne: cade."],
+	["Il Giardiniere", "Qualcuno cammina tra le Aiuole con un annaffiatoio di radice. Si volta, e per un attimo ti sembra di vedere il tuo viso."],
+	["La porta chiusa", "Una porta dei Seminatori si chiude da dentro. Dietro, qualcuno canta piano per non avere paura."],
+	["Il Seme Nero", "Un seme scuro passa di mano in mano. Nessuno vuole piantarlo. Qualcuno lo pianta di notte, da solo."],
+]
 
 const R_ROD := 45                      # la bacchetta rabdomante sente i segreti entro 45 tessere
 const ECHO_N := 3                      # l'Eco dei Seminatori segna sulla mappa i 3 segreti più vicini (a grandi linee)

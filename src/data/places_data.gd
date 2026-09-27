@@ -21,6 +21,39 @@ const MECH := {"leve": "leva", "bracieri": "braciere", "piastre": "piastra", "cr
 const PLATE_TIME := 5.0
 
 const GRIDS := {
+	# voce 97: le camere-enigma, piccole e uguali: a sinistra il leggio e i tre meccanismi, dietro la porta lo scrigno
+	"camera_bracieri": [
+		"################",
+		"#........#.....#",
+		"#........#.....#",
+		"#L.......D.....#",
+		"#..1.2.3.D.S...#",
+		"################",
+	],
+	"camera_leve": [
+		"################",
+		"#........#.....#",
+		"#........#.....#",
+		"#L.......D.....#",
+		"#..1.2.3.D.S...#",
+		"################",
+	],
+	"camera_piastre": [
+		"################",
+		"#........#.....#",
+		"#........#.....#",
+		"#L.......D.....#",
+		"#..1.2.3.D.S...#",
+		"################",
+	],
+	"camera_cristalli": [
+		"################",
+		"#........#.....#",
+		"#........#.....#",
+		"#L.......D.....#",
+		"#..1.2.3.D.S...#",
+		"################",
+	],
 	"biblioteca": [
 		"rrrrrrrrrrrrrrrrrrrrrrrr",
 		"r######################r",
@@ -130,6 +163,21 @@ const GRIDS := {
 ## Ogni luogo: nome, dove (strati, o "superficie"), i geni che lo chiamano (ne basta uno), la scritta del ritrovamento,
 ## la storia del leggio, l'oggetto unico dello scrigno, il colore, l'enigma (voce 71).
 const PLACES := {
+	# voce 97: le camere-enigma (niente geni: le mette `PassSegretiAnomalie` in ogni mondo, niente oggetto unico)
+	"camera_bracieri": {"name": "Camera dei bracieri", "strata": [1, 3], "genes": [], "camera": true,
+		"banner": "Tre bracieri spenti davanti a una porta", "color": "#ffb070", "unique": "",
+		"lore": "«La porta si apre a chi porta luce.» Sotto, a matita: «Tre volte».", "enigma": {"tipo": "bracieri"}},
+	"camera_leve": {"name": "Camera delle leve", "strata": [1, 3], "genes": [], "camera": true,
+		"banner": "Tre leve di radice e una frase", "color": "#c89066", "unique": "",
+		"lore": "Le leve si mettono come dice la frase del leggio, nella lingua dei Seminatori: «ul» su, «nae» giù.",
+		"enigma": {"tipo": "leve"}},
+	"camera_piastre": {"name": "Camera delle piastre", "strata": [1, 3], "genes": [], "camera": true,
+		"banner": "Tre piastre nel pavimento", "color": "#9fc8c0", "unique": "",
+		"lore": "«Chi corre abbastanza, entra.» Le piastre vanno premute tutte, e in fretta.", "enigma": {"tipo": "piastre"}},
+	"camera_cristalli": {"name": "Camera dei cristalli", "strata": [1, 3], "genes": [], "camera": true,
+		"banner": "Tre cristalli che aspettano un elemento", "color": "#8ef0d8", "unique": "",
+		"lore": "Ogni cristallo risuona con un elemento: la sua scheda dice quale. Serve un'arma di quell'elemento in mano.",
+		"enigma": {"tipo": "cristalli"}},
 	"biblioteca": {"name": "La Biblioteca di radici", "strata": [1, 2], "genes": ["radici_giganti", "rovine_fitte", "rovine_sepolte", "eco_seminatori"],
 		"banner": "Scaffali di radice, e stele fitte di parole", "color": "#c89066", "unique": "occhiali_seminatori",
 		"lore": "Qui i Seminatori scrivevano tutto ciò che piantavano: ogni mondo una stele, ogni stele un nome. Mancano solo le ultime righe, strappate via: parlano di un seme che nessuno aveva piantato.",
