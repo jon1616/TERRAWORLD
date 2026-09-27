@@ -1935,7 +1935,7 @@ combaciare con ciò che c'è già. Le prime voci servono anche a mettere a punto
 - Prima tavola di ogni voce = **tavola di prova** (pochi pezzi) per fissare stile e misura; poi le altre.
 - Ogni voce: `tools/prove.sh base,<gruppi toccati>`, foto controllate, commit.
 
-## 100. [~] Gli attrezzi comuni (S) — script fatti il 28 set 2026, manca `ArtLib` nel gioco
+## 100. [x] Gli attrezzi comuni (S) — fatto il 28 set 2026
 `tools/tavola.py`: taglia una tavola a griglia su magenta, toglie scritte, linee e ombre, rifila ogni pezzo, lo
 riduce alla misura voluta con la tavolozza comune (riuso di `pixela.py` e `importa_tavola.py`), scrive i png e il
 foglio d'anteprima. `ArtLib` nel gioco: carica `arte/<categoria>/<id>.png` se esiste, altrimenti chiede al disegno del
@@ -1943,28 +1943,28 @@ codice. Si costruisce insieme alla voce 101, sulla prima tavola vera.
 **Pronto quando**: una tavola qualunque diventa png del gioco con un comando solo, e togliere il file riporta il
 disegno di prima.
 
-## 101. [~] Icone dell'interfaccia (S) — disegni fatti il 28 set 2026, manca il collegamento
+## 101. [x] Icone dell'interfaccia (S) — fatto il 28 set 2026
 Foglia della Vita, goccia della Linfa, Scorza, i 6 poteri, i 6 elementi, gli stati (bruciato, indebolito…), i 4
 rigori (freddo, sete, calore, polvere), le icone dei pannelli (Bisaccia, Mappa, Erbario, Semenzaio, Enciclopedia,
 Mandria, Bacheca…). 2-3 tavole 6×6. Cartella `arte_ia/interfaccia/`.
 **Pronto quando**: HUD, barre e pannelli usano le icone nuove, leggibili alla loro misura.
 
-## 102. [~] Ritratti degli abitanti (S) — disegni fatti il 28 set 2026, manca il collegamento
+## 102. [x] Ritratti degli abitanti (S) — fatto il 28 set 2026
 I 9 abitanti (`NpcData`) come busti grandi, con i colori del loro `look`, nel pannello del commercio e dell'affetto
 (`TradePanel`) e nella loro scheda. 1-2 tavole 3×3. Cartella `arte_ia/ritratti/`.
 **Pronto quando**: parlando con un abitante si vede il suo ritratto, e i 9 si riconoscono a colpo d'occhio.
 
-## 103. [~] La schermata del titolo (S) — disegni fatti il 28 set 2026, manca il collegamento
+## 103. [x] La schermata del titolo (S) — fatto il 28 set 2026
 Il logo «TERRAWORLD» nello stile e l'illustrazione di sfondo del menu (il Giardino sospeso nel Vuoto con
 l'Albero-Madre, le radici del cosmo). 1-2 immagini. Cartella `arte_ia/titolo/`.
 **Pronto quando**: `--foto-menu` mostra il menu nuovo.
 
-## 104. [~] Illustrazioni delle pagine di storia (M) — disegni fatti il 28 set 2026, manca il collegamento
+## 104. [x] Illustrazioni delle pagine di storia (M) — fatto il 28 set 2026
 Vignette per `LorePanel` e l'Enciclopedia: il Cuore del mondo, i Guardiani curati e sconfitti, il Seme Nero, i
 Seminatori e le tappe della catena lunga. 6-12 vignette in tavole. Cartella `arte_ia/storia/`.
 **Pronto quando**: ogni pagina di storia importante ha la sua immagine.
 
-## 105. [ ] Le forme delle icone degli oggetti (M)
+## 105. [x] Le forme delle icone degli oggetti (M) — fatto il 28 set 2026
 Nano Banana disegna **ogni forma una volta**, in grigi (piccone, ascia, spada, arco, bastone, elmo, corazza,
 gambali, gemma, lingotto, seme, pozione, fiala…); lo script la riduce a 16 px e la **colora con la tavolozza di ogni
 materiale** (`ItemIcons`), così poche tavole rifanno centinaia delle 1906 icone. Qualche decina di forme, 3-4 tavole.
@@ -2035,15 +2035,23 @@ colpo in corsa, il nuoto, il volo con le ali, la sella. Deve combaciare pixel pe
 Cartella `arte_ia/germogliato/` (come prima).
 **Pronto quando**: `--solo=germogliato` mostra ogni armatura in ogni posa, senza sbavature.
 
-**A che punto siamo (28 set 2026)**: le voci 100-104 hanno i disegni pronti e tagliati, **non ancora collegati al
-gioco** (un altro agente lavorava al generatore: niente prove né `--import` nel frattempo). Gli script: `tools/tavola.py`
-(tavole di pezzi su magenta: `--griglia`, colori per pezzo, contorno disegnato tolto con lo spessore misurato sulla
-tavola, `--dettagli` per i visi) e `tools/illustrazione.py` (sfondi, logo, vignette); ogni cartella di `arte_ia/` ha
-`rifai.sh`, che rifà tutti i png. Risultati: `arte/interfaccia/` (36 icone, 16 px; Vita, Linfa, Scorza 20 px),
-`arte/ritratti/` (8 abitanti, 56 px), `arte/titolo/` (sfondo 400×225 da ingrandire ×4, logo 150 px), `arte/storia/`
-(25 vignette da 240 px, una per ogni pagina di `LoreData`, nomi = chiavi). Deciso con l'utente: **menu nella metà
-sinistra** (logo e pulsanti), l'Albero-Madre libero a destra.
-Lezioni: Nano Banana scrive sempre i nomi (bianchi, neri o bordati: `tavola.py` li scarta); niente rosa o viola nelle
+**Fatto (28 set 2026), voci 100-105**: gli script `tools/tavola.py` (tavole di pezzi su magenta: `--griglia`, colori
+per pezzo, scritte cancellate anche quando toccano un disegno, contorno disegnato tolto con lo spessore misurato sulla
+tavola, `--dettagli` per i visi, `--pieno` per le aste sottili, `--desatura` per i pezzi che devono restare grigi) e
+`tools/illustrazione.py` (sfondi, logo, vignette); ogni cartella di `arte_ia/` ha `rifai.sh`, che rifà tutti i png.
+Nel gioco: `ArtLib` (`src/art/`: `tex`, `has`, `bb` per un'icona dentro il BBCode; senza il file resta il disegno del
+codice). `arte/interfaccia/` (36 icone: Vita, Linfa e Scorza 20 px, il resto 16) in `VitalsView`, `HarshBar`,
+Bisaccia (Scorza), `ElementsData.tag` (l'icona davanti a ogni elemento: schede, Erbario, Enciclopedia), stati nella
+scheda delle creature e sopra di loro (`StatusMarks` in `src/entities/`: 16 px disegnati a metà, netti con la visuale
+×2), poteri (Enciclopedia, Albero-Madre), `PanelButtons` (`src/ui/`: Bisaccia, Mappa, Erbario, Semenzaio, Mandria,
+pausa in basso a sinistra; il «?» dell'Enciclopedia diventa la sua icona). `arte/ritratti/` (8, 56 px) nel
+`TradePanel`. `arte/titolo/` nel menu: sfondo 400×225 ingrandito ×4, logo, **menu nella metà sinistra** (scelta
+dell'utente). `arte/storia/` (25 vignette da 240 px, nomi = chiavi di `LoreData`) nel `LorePanel`. `arte/forme/` (59
+forme d'icona, 16 px, la parte del materiale in grigi neutri): `IconTemplates` la colora con la tavolozza di ogni
+materiale, leghe comprese; circa 1830 oggetti su 1906 hanno l'icona disegnata (restano banchi, casse, altari: voce
+106). Foglio `tools/foglio_forme.gd` → prove/arte_forme.png. Prove `--solo=grafica` (foto 160 e 161).
+Lezioni: con `hdr_2d` la foto della finestra è lineare e viene molto più scura dello schermo (le foto del menu ora si
+convertono; per le prove c'è un lavoro a parte proposto all'utente). Nano Banana scrive sempre i nomi (bianchi, neri o bordati: `tavola.py` li scarta); niente rosa o viola nelle
 figure su magenta (spariscono con lo sfondo); a 16 px solo forme piene e compatte (anelli, archi sottili, molle e ciglia
 si perdono); nella stessa conversazione un «rifai» restituisce spesso la stessa immagine: i rifacimenti si chiedono in
 una conversazione nuova, con un'immagine allegata solo come stile.

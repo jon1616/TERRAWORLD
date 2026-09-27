@@ -1,7 +1,7 @@
 extends SceneTree
 ## Voce 105: le forme disegnate (arte/forme/) in una tabella forma × materiale, ingrandita ×4, in prove/arte_forme.png:
 ## si guarda se la colorazione con le tavolozze dei materiali funziona. Senza finestra:
-## Godot_console.exe --headless --path . --script res://tools/foglio_forme.gd
+## Godot_console.exe --headless --path . --script res://tools/foglio_forme.gd [-- --solo=spada,elmo]
 
 const MATERIALI := ["radicite", "legnoferro", "ambra", "cristallo", "brace", "vuotite", "lega:radicite:cristallo"]
 const Z := 4
@@ -13,6 +13,10 @@ func _init() -> void:
 		if f.ends_with(".png"):
 			forme.append(f.get_basename())
 	forme.sort()
+	# `-- --solo=a,b`: solo alcune forme (il foglio intero è lungo)
+	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with("--solo="):
+			forme = forme.filter(func(f: String) -> bool: return f in arg.trim_prefix("--solo=").split(","))
 	var cell := 16 * Z + 8
 	var out := Image.create(cell * MATERIALI.size() + 8, cell * forme.size() + 8, false, Image.FORMAT_RGBA8)
 	out.fill(Color("#241a2c"))

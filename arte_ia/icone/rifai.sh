@@ -6,3 +6,4 @@ D="--cartella arte/forme --lato 16 --misure 16,32 --pieno 0.25"
 $T arte_ia/icone/01_armi_attrezzi_v1.png --griglia 6x2 --nomi piccone,ascia,spada,spadone,pugnale,lancia,mazza,falcione,frusta,arco,balestra,trivella $D
 $T arte_ia/icone/02_armature_accessori_v1.png --griglia 6x2 --nomi elmo,corazza,gambali,mantello,stivali,guanti,amuleto,anello,lingotto,gemma,pozione,verga $D
 $T arte_ia/icone/03_materiali_v1.png --griglia 6x3 --nomi amuleto,essenza,seme,seta,foglia,artiglio,lanterna,aculeo,polvere,penna,cuore,scaglia,velo,goccia,occhio,tavoletta,bastone,ali --desatura amuleto,cuore,ali $D
+$T arte_ia/icone/04_varie_v1.png --griglia 6x3 --nomi torcia,vasetto,lama,corona,zolla,falce,martello,sacca,freccia,cristallo,minerale,fungo,membrana,bomba,gel,geode,ciotola,guscio --desatura corona,sacca,bomba,membrana $D
