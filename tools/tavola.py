@@ -312,6 +312,8 @@ def main() -> None:
     ap.add_argument("--griglia", default="", help="colonne x righe, es. 6x3: unisce i pezzi di ogni cella")
     ap.add_argument("--stazioni", action="store_true",
                     help="ogni pezzo prende la misura della sua stazione (src/data/stations_data.gd), non --lato")
+    ap.add_argument("--riempi", default="",
+                    help="stazioni da allungare fino a riempire la loro misura (le porte: Nano Banana le fa troppo larghe)")
     ap.add_argument("--desatura", default="",
                     help="pezzi da rendere tutti grigi (nomi separati da virgole): le forme che Nano Banana colora "
                          "anche se gli si chiede il grigio (l'amuleto marrone), perché il gioco le colori col materiale")
@@ -369,6 +371,18 @@ def main() -> None:
         manca = [n for n in nomi if n not in mis]
         if manca:
             print("ATTENZIONE: stazioni sconosciute %s" % manca)
+        allunga = {n.strip() for n in args.riempi.split(",") if n.strip()}
+        for i, nome in enumerate(nomi):
+            if nome in allunga:
+                w, h = mis.get(nome, (32, 32))
+                f = figure[i]
+                alto = f.shape[0]
+                largo = max(1, round(alto * (w - 2) / (h - 2)))
+                # le figure hanno i colori 0-255 e la trasparenza 0-1
+                u8 = np.dstack([np.clip(f[:, :, :3], 0, 255), np.clip(f[:, :, 3:], 0, 1) * 255]).astype(np.uint8)
+                r = np.asarray(Image.fromarray(u8, "RGBA").resize((largo, alto), Image.LANCZOS)).astype(np.float32)
+                r[:, :, 3] /= 255.0
+                figure[i] = r
         for f, nome in zip(figure, nomi):
             w, h = mis.get(nome, (32, 32))
             Image.fromarray(riduci_in(f, w, h, pal, n_base), "RGBA").save(os.path.join(args.cartella, nome + ".png"))
