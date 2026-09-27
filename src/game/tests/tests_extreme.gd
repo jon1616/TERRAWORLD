@@ -45,13 +45,21 @@ func _rise(kind: String, secs: float) -> float:
 	return float(m.harsh.meters[kind])
 
 
+const IDS := ["vetro", "ghiacciaio", "pietra", "brace"]
+
+
+## I mondi che la prova genera (li prepara in anticipo il giro intero: `TestKit.prefetch`).
+static func jobs() -> Array:
+	var out := []
+	for bid in IDS:
+		out.append([950 + out.size(), WorldGen.WIDTH, WorldGen.HEIGHT, {"vigore": 3, "geni": [String(BiomesData.by_id(bid)["gene"])]}])
+	return out
+
+
 func run() -> void:
 	var res := {}
-	var ids := ["vetro", "ghiacciaio", "pietra", "brace"]
-	var jobs := []
-	for bid in ids:
-		jobs.append([950 + jobs.size(), WorldGen.WIDTH, WorldGen.HEIGHT, {"vigore": 3, "geni": [String(BiomesData.by_id(bid)["gene"])]}])
-	var worlds: Array[World] = await kit.gen_many(jobs)
+	var ids := IDS
+	var worlds: Array[World] = await kit.gen_many(jobs())
 	for i in ids.size():
 		var w := worlds[i]
 		var b := BiomesData.index_of(String(ids[i]))

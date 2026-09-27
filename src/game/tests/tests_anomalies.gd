@@ -14,6 +14,14 @@ func _init(tk: TestKit) -> void:
 	m = tk.m
 
 
+## I mondi che la prova genera (sei mondi più stretti: bastano per contare le anomalie; li prepara il giro intero).
+static func jobs() -> Array:
+	var out := []
+	for k in 6:
+		out.append([1500 + k, 1600, WorldGen.HEIGHT, {"vigore": 2, "geni": ["lanterna"]}])
+	return out
+
+
 func run() -> void:
 	var res := {}
 	var w: World = m.world
@@ -52,10 +60,7 @@ func run() -> void:
 			m.language.panel.hide()
 			break
 	# le anomalie su più semi
-	var jobs := []
-	for k in 6:
-		jobs.append([1500 + k, WorldGen.WIDTH, WorldGen.HEIGHT, {"vigore": 2, "geni": ["lanterna"]}])
-	var worlds: Array[World] = await kit.gen_many(jobs)
+	var worlds: Array[World] = await kit.gen_many(jobs())
 	var seen := {}
 	var with := 0
 	for ww in worlds:

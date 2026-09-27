@@ -128,6 +128,12 @@ func _refresh() -> void:
 ## e gli avvisi sopra di lei. (28 set 2026: con il solo `z_index` il pannello si **disegnava** sopra gli obiettivi, ma i
 ## clic seguono l'ordine dei nodi e la lista degli obiettivi, sotto il pannello, si prendeva i clic sulle ricette.)
 func bring_panel_forward() -> void:
+	# le scritte dell'HUD con un suggerimento (orologio, obiettivi, Albero, effetti) sentono il mouse: sotto la Bisaccia
+	# aperta rubavano i clic alle prime ricette di Creare (28 set 2026). Finché è aperta non lo sentono più.
+	for c in get_children():
+		if c is Control and c != panel and c.has_meta("tip") and c.mouse_filter != Control.MOUSE_FILTER_IGNORE:
+			c.set_meta("filtro", c.mouse_filter)
+			c.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	move_child(panel, -1)
 	for c in get_children():
 		if c is ChestPanel or c is TradePanel:
@@ -140,6 +146,10 @@ func bring_panel_forward() -> void:
 ## Chiusa la Bisaccia, lei e la barra rapida tornano in fondo all'ordine: i pannelli a schermo intero (Semenzaio,
 ## Erbario, mappa…) devono coprire la barra.
 func send_panel_back() -> void:
+	for c in get_children():
+		if c is Control and c.has_meta("filtro"):
+			c.mouse_filter = int(c.get_meta("filtro"))
+			c.remove_meta("filtro")
 	move_child(panel, 0)
 	for k in _slots.size():
 		move_child(_slots[k], k + 1)

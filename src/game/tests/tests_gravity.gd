@@ -36,6 +36,13 @@ func _jump(g: float) -> float:
 	return (y0 - top) / 16.0
 
 
+
+## I mondi che la prova genera (li prepara in anticipo il giro intero: `TestKit.prefetch`).
+static func jobs() -> Array:
+	return [[7607, WorldGen.WIDTH, WorldGen.HEIGHT, {"geni": ["guscio"], "vigore": 3}],
+		[7608, WorldGen.WIDTH, WorldGen.HEIGHT, {"geni": ["arcipelago"], "vigore": 3}]]
+
+
 func run() -> void:
 	var gv: Gravity = m.gravity
 	var p: Player = m.player
@@ -67,8 +74,7 @@ func run() -> void:
 	await kit.seconds(0.3)
 	m.vitals.refill()
 	# i mondi generati
-	var ws: Array[World] = await kit.gen_many([[7607, WorldGen.WIDTH, WorldGen.HEIGHT, {"geni": ["guscio"], "vigore": 3}],
-		[7608, WorldGen.WIDTH, WorldGen.HEIGHT, {"geni": ["arcipelago"], "vigore": 3}]])
+	var ws: Array[World] = await kit.gen_many(jobs())
 	var sh := _measure(["guscio"], ws[0])
 	var ar := _measure(["arcipelago"], ws[1])
 	var run_l := Genome.effects(["lieve"], "run")

@@ -14,14 +14,22 @@ func _init(tk: TestKit) -> void:
 	m = tk.m
 
 
+const UNDER := ["cristalli_cantanti", "giungle_radici", "laghi_profondi", "catacombe"]
+const RARES := ["iride_viva", "cielo_caduto", "sussurri"]
+
+
+## I mondi che la prova genera (li prepara in anticipo il giro intero: `TestKit.prefetch`).
+static func jobs() -> Array:
+	var out := [[1201, WorldGen.WIDTH, WorldGen.HEIGHT, {"vigore": 3, "geni": UNDER.duplicate()}]]
+	for g in RARES:
+		out.append([1300 + out.size(), WorldGen.WIDTH, WorldGen.HEIGHT, {"vigore": 2, "geni": [g]}])
+	return out
+
+
 func run() -> void:
 	var res := {}
-	var under := ["cristalli_cantanti", "giungle_radici", "laghi_profondi", "catacombe"]
-	var rares := ["iride_viva", "cielo_caduto", "sussurri"]
-	var jobs := [[1201, WorldGen.WIDTH, WorldGen.HEIGHT, {"vigore": 3, "geni": under.duplicate()}]]
-	for g in rares:
-		jobs.append([1300 + jobs.size(), WorldGen.WIDTH, WorldGen.HEIGHT, {"vigore": 2, "geni": [g]}])
-	var worlds: Array[World] = await kit.gen_many(jobs)
+	var rares := RARES
+	var worlds: Array[World] = await kit.gen_many(jobs())
 	# il sottosuolo
 	var w := worlds[0]
 	var count := {}
@@ -76,7 +84,8 @@ func run() -> void:
 	var drawn := true
 	for b in BiomesData.BIOMES + BiomesData.UNDER:
 		for cid in (b.get("creatures", {}) as Dictionary):
-			var fr: Dictionary = CreatureArt.frames(String(cid), 0)
+			var art: Array = b["creatures"][cid].get("art", [cid, 0])      # (il disegno ha il nome scritto in "art")
+			var fr: Dictionary = CreatureArt.frames(String(art[0]), int(art[1]))
 			drawn = drawn and (fr["frames"][0] as Image).get_width() > 8
 	res["disegni"] = drawn
 	res["venti_biomi"] = BiomesData.BIOMES.size() + UnderBiomesData.UNDER.size() >= 20

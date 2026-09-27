@@ -10,6 +10,29 @@ extends RefCounted
 
 const S := 16
 const W := 1400                        # mondi piccoli: la prova resta svelta
+const RARE_SETS := [["mosaico"], ["lanterna", "isole_sospese"], ["sporangio", "cuore_cavo"], ["resina", "citta_sepolta"]]
+
+
+## I mondi che la prova genera (li prepara in anticipo il giro intero: `TestKit.prefetch`).
+static func jobs() -> Array:
+	return jobs_generator(5150) + jobs_signatures() + jobs_rare()
+
+
+static func jobs_generator(sd: int) -> Array:
+	return [[sd, W, WorldGen.HEIGHT, {"vigore": 3}],
+		[sd, W, WorldGen.HEIGHT, {"vigore": 3, "geni": ["sporangio", "montagne", "cavo", "fungaie", "radicite_diffusa", "rigoglioso", "sano"]}],
+		[sd, W, WorldGen.HEIGHT, {"vigore": 3, "geni": ["cenere", "pianure", "compatto", "fiumi_brace", "spoglio", "avvizzito"]}]]
+
+
+static func jobs_signatures() -> Array:
+	var out := []
+	for id in SignaturesData.SIGNATURES:
+		out.append([777, 900, WorldGen.HEIGHT, {"vigore": 3, "firma": id}])
+	return out
+
+
+static func jobs_rare() -> Array:
+	return RARE_SETS.map(func(g: Array) -> Array: return [4848, W, WorldGen.HEIGHT, {"vigore": 6, "geni": g}])
 
 var kit: TestKit
 var world: World
@@ -56,9 +79,7 @@ func _census(w: World) -> Dictionary:
 
 func generator() -> void:
 	var sd := 5150
-	var ws: Array[World] = await kit.gen_many([[sd, W, WorldGen.HEIGHT, {"vigore": 3}],
-		[sd, W, WorldGen.HEIGHT, {"vigore": 3, "geni": ["sporangio", "montagne", "cavo", "fungaie", "radicite_diffusa", "rigoglioso", "sano"]}],
-		[sd, W, WorldGen.HEIGHT, {"vigore": 3, "geni": ["cenere", "pianure", "compatto", "fiumi_brace", "spoglio", "avvizzito"]}]])
+	var ws: Array[World] = await kit.gen_many(jobs_generator(sd))
 	var plain := ws[0]
 	var a := ws[1]
 	var b := ws[2]
@@ -134,10 +155,7 @@ func signatures() -> void:
 	var ok := 0
 	var fails := []
 	var keep := {}
-	var jobs := []
-	for id in SignaturesData.SIGNATURES:
-		jobs.append([777, 900, WorldGen.HEIGHT, {"vigore": 3, "firma": id}])
-	var made: Array[World] = await kit.gen_many(jobs)       # le dodici firme insieme, in parallelo
+	var made: Array[World] = await kit.gen_many(jobs_signatures())       # le dodici firme insieme, in parallelo
 	var wi := 0
 	for id in SignaturesData.SIGNATURES:
 		var w := made[wi]
@@ -430,8 +448,8 @@ func grafting() -> void:
 func rare_genes() -> void:
 	var res := {}
 	var keep: World = null
-	var sets := [["mosaico"], ["lanterna", "isole_sospese"], ["sporangio", "cuore_cavo"], ["resina", "citta_sepolta"]]
-	var made: Array[World] = await kit.gen_many(sets.map(func(g: Array) -> Array: return [4848, W, WorldGen.HEIGHT, {"vigore": 6, "geni": g}]))
+	var sets := RARE_SETS
+	var made: Array[World] = await kit.gen_many(jobs_rare())
 	for i in sets.size():
 		var gs: Array = sets[i]
 		var w := made[i]

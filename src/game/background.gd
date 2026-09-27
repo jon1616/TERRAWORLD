@@ -92,6 +92,7 @@ func _make_sky() -> void:
 	tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	tr.stretch_mode = TextureRect.STRETCH_SCALE
 	tr.set_anchors_preset(Control.PRESET_FULL_RECT)
+	tr.mouse_filter = Control.MOUSE_FILTER_IGNORE   # il cielo non prende i clic (li rubava ai pannelli)
 	sky.add_child(tr)
 	_sky_rect = tr
 	# le stelle: un'immagine di puntini sopra il cielo, visibile solo di notte
@@ -100,6 +101,7 @@ func _make_sky() -> void:
 	_stars.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_stars.stretch_mode = TextureRect.STRETCH_SCALE
 	_stars.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_stars.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_stars.modulate.a = 0.0
 	sky.add_child(_stars)
 

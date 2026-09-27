@@ -23,6 +23,11 @@ func run() -> void:
 	var bp: BisacciaPanel = m.hud.panel
 	var b: Bisaccia = m.character.bisaccia
 	m.snap_to(w.spawn)
+	# le prove di prima possono lasciare aperta una pagina di storia o un pannello: coprirebbero i clic
+	m.guardian.lore.visible = false
+	m.language.panel.visible = false
+	for o in m.hud.overlays:
+		o.visible = false
 	await kit.frames(3)
 	# 1. la Bisaccia: un clic prende la pila, un altro la posa
 	var free := -1
@@ -53,9 +58,15 @@ func run() -> void:
 	var shown := false
 	# (una casella davvero visibile: le prove di prima lasciano una ricerca e l'elenco scorso più in basso)
 	bp.crafting._search.text = ""                 # (le prove di prima lasciano una ricerca che nasconde tutto)
+	var cat0: int = bp.crafting.cat
+	var all0: bool = bp.crafting.all_benches
+	var only0: bool = bp.crafting.only_possible
+	bp.crafting.cat = 0
+	bp.crafting.only_possible = false
+	bp.crafting.all_benches = true               # (e senza banchi vicini non ci sarebbero ricette da cliccare)
 	bp.crafting.refresh()
 	bp.crafting._scroll.scroll_vertical = 0
-	await kit.frames(3)
+	await kit.seconds(0.5)                       # le caselle si preparano poche per fotogramma
 	var view := bp.crafting._scroll.get_global_rect()
 	var tiles := bp.crafting.shown_tiles().filter(func(t: RecipeTile) -> bool: return view.encloses(t.get_global_rect()))
 	if not tiles.is_empty():
@@ -63,6 +74,10 @@ func run() -> void:
 		shown = bp.examine._card.visible and bp.crafting.selected == tiles[0].r
 	else:
 		print("ATTENZIONE: nessuna ricetta visibile in Creare per la prova dei clic")
+	bp.crafting.cat = cat0
+	bp.crafting.all_benches = all0
+	bp.crafting.only_possible = only0
+	bp.crafting.refresh()
 	bp.toggle()
 	await kit.frames(2)
 	# 3. la cassa: un clic sulla casella con qualcosa dentro la prende in mano

@@ -28,13 +28,21 @@ func _find(biome: String) -> int:
 	return -1
 
 
+const IDS := ["prati", "rossa", "funghi", "torba"]
+
+
+## I mondi che la prova genera (li prepara in anticipo il giro intero: `TestKit.prefetch`).
+static func jobs() -> Array:
+	var out := []
+	for bid in IDS:
+		out.append([900 + out.size(), WorldGen.WIDTH, WorldGen.HEIGHT, {"vigore": 2, "geni": [String(BiomesData.by_id(bid)["gene"])]}])
+	return out
+
+
 func run() -> void:
 	var res := {}
-	var ids := ["prati", "rossa", "funghi", "torba"]
-	var jobs := []
-	for bid in ids:
-		jobs.append([900 + jobs.size(), WorldGen.WIDTH, WorldGen.HEIGHT, {"vigore": 2, "geni": [String(BiomesData.by_id(bid)["gene"])]}])
-	var worlds: Array[World] = await kit.gen_many(jobs)
+	var ids := IDS
+	var worlds: Array[World] = await kit.gen_many(jobs())
 	for i in ids.size():
 		var bid := String(ids[i])
 		var w := worlds[i]

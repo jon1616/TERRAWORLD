@@ -49,7 +49,7 @@ func run() -> void:
 	await kit.save("53_nascondiglio")
 	m.interact.touch(near)
 	print("reliquiario aperto e segnato: %s" % ("sì" if "%d,%d" % [near.x, near.y] in m.world_meta.get("reliquiari_aperti", []) else "NO"))
-	m.interact.chest_panel.visible = false
+	m.interact.chest_panel.close()              # (con close: spegnerla a mano lasciava «Creare» nascosto)
 	if m.hud.panel.visible:
 		m.hud.panel.toggle()
 	# una collezione completa: gli Attrezzi dei Seminatori

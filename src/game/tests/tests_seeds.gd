@@ -36,6 +36,13 @@ func _census(w: World) -> Dictionary:
 		"minerali": ores}
 
 
+
+## I mondi che la prova genera (li prepara in anticipo il giro intero: `TestKit.prefetch`).
+static func jobs() -> Array:
+	return [[4242, WorldGen.WIDTH, WorldGen.HEIGHT, {"vigore": 2}],
+		[4242, WorldGen.WIDTH, WorldGen.HEIGHT, {"vigore": 2, "geni": ["sporangio", "rovine_fitte", "gemme_ricche", "vene_ricche"]}]]
+
+
 func run() -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 7
@@ -44,8 +51,7 @@ func run() -> void:
 		counts.append(Genome.genes(Genome.roll(rng, v)).size() - 1)
 	print("geni oltre la superficie per vigore 2, 3, 5, 9: %s" % [counts])
 	# due mondi dallo stesso seme
-	var ws: Array[World] = await kit.gen_many([[4242, WorldGen.WIDTH, WorldGen.HEIGHT, {"vigore": 2}],
-		[4242, WorldGen.WIDTH, WorldGen.HEIGHT, {"vigore": 2, "geni": ["sporangio", "rovine_fitte", "gemme_ricche", "vene_ricche"]}]])
+	var ws: Array[World] = await kit.gen_many(jobs())
 	var plain := ws[0]
 	var rich := ws[1]
 	var a := _census(plain)

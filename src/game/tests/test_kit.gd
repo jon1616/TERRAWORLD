@@ -19,7 +19,49 @@ func _init(n: Node, main: Node2D) -> void:
 ## Genera più mondi insieme, uno per thread (28 set 2026: il giro lungo durava 9 minuti, e un terzo se ne andava a
 ## generare mondi di prova uno dopo l'altro sul thread principale). jobs: [[seme, larghezza, altezza, params], …];
 ## restituisce i mondi nello stesso ordine. Le cache dei dati sono già piene quando le prove partono.
+## Pulizia del 28 set 2026: il giro intero prepara in anticipo, tutti insieme sui 12 nuclei, i mondi delle prove
+## pesanti (`prefetch`, chiamato da `AutoTests` dopo le misure del movimento); `gen_many` li prende già fatti se ci sono
+## (stessi parametri), altrimenti li genera come prima. Ogni mondo preparato si usa una volta sola e poi si libera.
+var _pre := {}                         # parametri del lavoro (testo) -> World
+var _pre_task := -1
+var _pre_done := false
+
+
+func prefetch(jobs: Array) -> void:
+	var worlds: Array[World] = []
+	var list := []
+	for j in jobs:
+		var k := var_to_str(j)
+		if _pre.has(k):
+			continue
+		var w := World.new()
+		_pre[k] = w
+		worlds.append(w)
+		list.append((j as Array).duplicate(true))
+	if list.is_empty():
+		return
+	_pre_task = WorkerThreadPool.add_group_task(func(i: int) -> void:
+		var j: Array = list[i]
+		WorldGen.generate(worlds[i], int(j[0]), int(j[1]), int(j[2]), j[3]), list.size(),
+		maxi(OS.get_processor_count() - 4, 2), true, "mondi preparati")
+	# (i thread «ad alta priorità» e non tutti: la luce, la mappa e i suoni del gioco usano quelli a bassa priorità, che
+	# sono solo un terzo; prima la preparazione li occupava e le prove restavano ferme ad aspettare la luce)
+
+
 func gen_many(jobs: Array) -> Array[World]:
+	if _pre_task >= 0 and jobs.all(func(j: Array) -> bool: return _pre.has(var_to_str(j))):
+		# (dopo la prima attesa il lavoro non esiste più: chiedere di nuovo se è finito darebbe sempre «no»)
+		while not _pre_done and not WorkerThreadPool.is_group_task_completed(_pre_task):
+			await node.get_tree().process_frame
+		if not _pre_done:
+			WorkerThreadPool.wait_for_group_task_completion(_pre_task)
+			_pre_done = true
+		var got: Array[World] = []
+		for j in jobs:
+			var k := var_to_str(j)
+			got.append(_pre[k])
+			_pre.erase(k)
+		return got
 	var out: Array[World] = []
 	for j in jobs:
 		out.append(World.new())
