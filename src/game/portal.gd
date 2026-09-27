@@ -71,7 +71,7 @@ func plant(c: Vector2i, id: String) -> bool:
 	var sd := hash([m.world.world_seed, "portale", o.x, o.y, int(m.world_meta["semi_piantati"])]) & 0x7fffffff
 	var v := Genome.vigor(g)
 	_portals()[_key(o)] = {"mondo": String(g.get("mondo", "")), "seme": sd, "ritorno": false, "geni": Genome.genes(g),
-		"vigore": v if v > 0 else vigor() + 1, "aiuola": true}
+		"vigore": v if v > 0 else vigor() + 1, "aiuola": true, "nero": bool(g.get("nero", false))}
 	m.guardian.lore.show_page("portale")
 	m.sfx.play("portale", Vector2(o) * 16.0)
 	return true
@@ -165,7 +165,8 @@ func destination(o: Vector2i) -> Array:
 		var back := WorldSave.read_meta(id)
 		return [id, String(back.get("nome", "")), 0, int(back.get("vigore", 1))]
 	# voce 44: il mondo nuovo ha un nome suo, nato dai geni e dal seme («Paludi cave di Osrarim»)
-	return [id, NamesData.world_name(e.get("geni", []), int(e["seme"])), int(e["seme"]), _dest_vigor(e)]
+	var nm := NeroData.WORLD_NAME if e.get("nero", false) else NamesData.world_name(e.get("geni", []), int(e["seme"]))
+	return [id, nm, int(e["seme"]), _dest_vigor(e)]
 
 
 func travel(o: Vector2i) -> void:
@@ -180,7 +181,7 @@ func travel(o: Vector2i) -> void:
 		var nid := SavePaths.new_id(String(dest[1]))
 		e["mondo"] = nid
 		Session.start_new_world(String(dest[1]), int(dest[2]), nid, {"vigore": int(dest[3]), "ritorno": m.world_id,
-			"geni": e.get("geni", []), "casa": m.aiuole.home_id()})
+			"geni": e.get("geni", []), "casa": m.aiuole.home_id(), "nero": e.get("nero", false)})
 	m.objectives.bump("viaggi")
 	m.save_game()
 	get_tree().change_scene_to_file(GAME_SCENE)

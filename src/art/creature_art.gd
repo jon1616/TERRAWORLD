@@ -104,6 +104,8 @@ static func frames(shape: String, variant: int) -> Dictionary:
 			return _pair(func(f: int) -> Array: return BossArt.regina(f, variant == 1))
 		"colosso":
 			return _pair(func(f: int) -> Array: return BossArt.colosso(f, variant == 1))
+		"avvizzitore":
+			return _pair(func(f: int) -> Array: return NeroArt.avvizzitore(f, variant == 1))     # voce 72
 	return {"frames": [Px.img(8, 8)], "glow": [Px.img(8, 8)]}
 
 

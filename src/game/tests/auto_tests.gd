@@ -105,6 +105,7 @@ func run(main: Node2D) -> void:
 	await TestsChains.new(kit).run()
 	await TestsPlaces.new(kit).run()
 	await TestsEnigmas.new(kit).run()
+	await TestsNero.new(kit).run()
 	await ob.run()
 	await w.run_and_save()
 	# la Bisaccia aperta
@@ -231,5 +232,7 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsPlaces.new(kit).run()
 		"enigmi":
 			await TestsEnigmas.new(kit).run()
+		"seme_nero":
+			await TestsNero.new(kit).run()
 		_:
 			print("ATTENZIONE: gruppo di prove sconosciuto «%s»" % g)

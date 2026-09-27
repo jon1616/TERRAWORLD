@@ -80,6 +80,8 @@ func _process(dt: float) -> void:
 
 ## Il Guardiano di questo mondo, secondo il vigore (`GuardiansData`).
 func info() -> Dictionary:
+	if bool(m.world_meta.get("nero", false)):
+		return NeroData.GUARDIAN                    # voce 72: dove cadde il Seme Nero
 	return GuardiansData.for_vigor(int(m.world_meta.get("vigore", 1)))
 
 
@@ -153,10 +155,22 @@ func nodes_left() -> int:
 	return n
 
 
+## Voce 72: nel mondo dove cadde il Seme Nero, la scelta vale per tutti i mondi (`Character.seme_nero`).
+func nero_choice(how: String) -> void:
+	var ch: Character = m.character
+	if not bool(m.world_meta.get("nero", false)) or ch.seme_nero != "":
+		return
+	ch.seme_nero = "curato" if how == "curato" else "spezzato"
+	ch.stats["seme_nero"] = 1
+	m.hud.toast("Il Seme Nero è %s: in tutti i mondi l'Avvizzimento %s" % ["guarito" if how == "curato" else "spezzato",
+		"si ritira" if how == "curato" else "smette di allargarsi"])
+
+
 func _resolve(how: String) -> void:
 	state = how
 	m.world_meta["guardiano"] = how
 	var ch: Character = m.character
+	nero_choice(how)
 	m.objectives.bump("guardiani")                 # voce 63: l'Albero-Madre conta i Guardiani risolti
 	if how == "curato":
 		if boss != null:

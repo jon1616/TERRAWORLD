@@ -1349,10 +1349,29 @@ visibili (prima restavano vuoti finché la visuale non si spostava). Obiettivi �
 nell'Enciclopedia. Prove `--solo=enigmi`: tutti e otto risolti come li risolverebbe il giocatore (foto 133_enigma,
 134_porta_aperta).
 
-## 72. [ ] Il Seme Nero (L)
+## 72. [x] Il Seme Nero (L) — fatto il 26 set 2026
 L'origine dell'Avvizzimento e il grande arco del racconto: indizi in tutte le catene, geni malati, un luogo finale e un
 Guardiano che si può sconfiggere o curare, come tutti. Non chiude il gioco: apre il fine gioco (Roadmap 11).
 **Pronto quando**: la storia principale si può giocare dall'inizio alla fine.
+**Fatto il 27 set 2026**: il grande arco del racconto (`NeroData`). L'ultima tappa della via del Seme Nero (voce 69) dà
+il **Seme Nero**; piantato in un'Aiuola apre il mondo «**Dove cadde il Seme Nero**» (`world_meta["nero"]`, gene Cuore
+nero: Avvizzimento a macchie ovunque; `PassNero` fa malata tutta la roccia attorno alla cupola del Cuore, con punte di
+vuotite). Il suo Guardiano non è uno dei tre ma **l'Avvizzitore** (`NeroArt`: il seme stesso cresciuto, guscio nero
+con le crepe viola; guarito verde scuro con le crepe turchesi e le foglie), debole alla luce e alla Linfa, con ventagli
+fitti, scatti e avvizziti chiamati in aiuto. Come ogni Guardiano si **sconfigge** o si **cura** (Rugiada sui quattro
+nodi), e la scelta vale per **tutti i mondi** (`Character.seme_nero`, `Guardian.nero_choice`): **spezzato**,
+l'Avvizzimento smette di allargarsi ovunque e lascia le Schegge del Seme Nero; **curato**, si ritira un poco alla volta
+in tutti i mondi e lascia la Linfa del Seme guarito (due amuleti nuovi al Maglio). Due pagine di storia per il finale;
+indizi in tutte le catene, nelle stele e nei leggii dei luoghi. Non chiude il gioco: apre il fine gioco. Obiettivo
+«seme_nero»; capitolo nell'Enciclopedia. Prove `--solo=seme_nero` (foto 135_avvizzitore, 136_avvizzitore_guarito).
+
+### Resoconto della Roadmap 9 (27 set 2026)
+Il racconto è diventato una meccanica. La **lingua dei Seminatori** (50 parole) si impara da stele, tavolette e
+contesto, e fa capire frasi che indicano luoghi veri di ogni mondo. Le **catene di ricerca** chiedono mondi fatti di
+certi geni e costringono a **progettare** i Semi: la via del Seme Nero è la storia principale, le catene brevi non
+finiscono mai. Otto **luoghi scritti a mano** compaiono solo nei mondi con i geni giusti, ognuno con storia, tesoro
+unico e un **enigma** (sei tipi di meccanismo, anche con la lingua). Il **Seme Nero** chiude l'arco con una scelta che
+cambia tutti i mondi. Prove `--solo=lingua,catene,luoghi_scritti,enigmi,seme_nero`; giro completo pulito.
 
 # Roadmap 10 «Le leggi dei mondi» — meccaniche fisiche come geni
 

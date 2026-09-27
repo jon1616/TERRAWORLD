@@ -47,9 +47,20 @@ func _process(dt: float) -> void:
 	if _t > 0.0:
 		return
 	_t = EVERY
+	tick()
+
+
+## Un giro di contagio (o di ritiro): secondo il Guardiano del mondo e il Seme Nero.
+func tick() -> void:
+	# voce 72: il Seme Nero curato fa ritirare l'Avvizzimento in tutti i mondi; spezzato, non si allarga più
+	var sn := String(m.character.seme_nero)
+	if sn == "curato":
+		recede(PER_TICK)
+		return
 	match String(m.world_meta.get("guardiano", "dorme")):
 		"dorme":
-			spread(roundi(PER_TICK * spread_mult))
+			if sn != "spezzato":
+				spread(roundi(PER_TICK * spread_mult))
 		"curato":
 			recede(PER_TICK)
 

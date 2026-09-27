@@ -89,6 +89,13 @@ const TABLES := {
 		{"item": "cuore_muschio", "min": 1, "max": 1, "chance": 0.18},
 		{"item": "foglia_planante", "min": 1, "max": 1, "chance": 0.15},
 	],
+	# voce 72: l'Avvizzitore sconfitto
+	"avvizzitore": [
+		{"item": "scheggia_nera", "min": 3, "max": 5, "chance": 1.0},
+		{"item": "linfa_antica", "min": 3, "max": 4, "chance": 1.0},
+		{"item": "lumino", "min": 250, "max": 400, "chance": 1.0},
+		{"item": "polvere_iridata", "min": 1, "max": 2, "chance": 0.6},
+	],
 	"guardiano": [
 		{"item": "frammento_nodo", "min": 30, "max": 30, "chance": 1.0},
 		{"item": "scheggia_vuoto", "min": 8, "max": 12, "chance": 1.0},

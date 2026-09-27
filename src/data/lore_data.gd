@@ -28,6 +28,17 @@ const PAGES := {
 		"title": "Il Cuore del mondo",
 		"text": "Batte piano, grigio come cenere bagnata. Le radici che lo avvolgono sono marce di muffa: l'Avvizzimento è arrivato fin quaggiù.\nQuattro nodi, sul soffitto della cupola, pulsano insieme al Cuore. Qualcosa si muove tra le radici.",
 	},
+	# voce 72: il Seme Nero
+	"nero_spezzato": {
+		"title": "Il Seme Nero si spezza",
+		"text": "Il guscio cede con un suono che non è un suono: è il Vuoto che se ne va. Dalle crepe non esce più niente. In tutti i mondi l'Avvizzimento si ferma dov'è, come una mano che ha perso la presa.
+Non guarirà da solo: quello che è malato resta malato. Ma non si allargherà più. Le schegge del seme sono fredde e dure: i Seminatori non avevano avuto il coraggio. Tu sì.",
+	},
+	"nero_curato": {
+		"title": "Il Seme Nero guarisce",
+		"text": "La Rugiada scende nelle crepe e il viola si spegne, piano. Il seme trema, poi si apre: dentro c'è linfa chiara, come quella del primo giorno.
+Non era cattivo: aveva fame, e il Vuoto gliel'aveva insegnata. In tutti i mondi l'Avvizzimento comincia a ritirarsi, un poco alla volta. L'ultimo giardiniere è tornato.",
+	},
 	"guardiano_sconfitto": {
 		"title": "Il Nodo si spezza",
 		"text": "Il Guardiano si sfalda in schegge di legno duro come pietra. Era malato, e ora non c'è più: il Cuore è libero, ma il mondo ha perso chi lo custodiva.\nDai frammenti del Nodo si può forgiare il metallo della Linfa. Il Cuore, sollevato, ti dona un seme.",

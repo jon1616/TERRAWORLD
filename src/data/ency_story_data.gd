@@ -30,4 +30,11 @@ Anche le stele possono indicarli («pietra seminatori veglia…»).
 • [b]Cristalli d'eco[/b]: ognuno risuona con un [url=cap:elementi]elemento[/url]; clic destro con un'arma di quell'elemento in mano.
 • [b]Glifi[/b]: la porta porta una frase; si apre quando ne conosci tutte le parole (clic destro sulla porta).
 • [b]Chiave[/b]: la Chiave dei Seminatori è in uno scrigno delle rovine dello stesso mondo."""},
+	{"id": "seme_nero", "group": "Il mistero dei Seminatori", "name": "Il Seme Nero", "text":
+"""L'Avvizzimento non è nato nei mondi: è caduto dal Vuoto, dentro un [b]seme nero[/b] che i Seminatori accolsero senza sapere che cosa fosse. Le stele, i luoghi e soprattutto [url=cap:catene]la via del Seme Nero[/url] raccontano come andò.
+L'ultima tappa della catena ti dà il [b]Seme Nero[/b]. Piantato in un'[url=cap:portali]Aiuola[/url], apre il mondo [b]dove cadde[/b]: Avvizzimento ovunque, roccia malata attorno al Cuore, e nella cupola non un Guardiano come gli altri ma [b]l'Avvizzitore[/b], il seme stesso cresciuto (debole alla luce e alla Linfa).
+Come ogni [url=cap:guardiani]Guardiano[/url] si può [b]sconfiggere[/b] o [b]curare[/b] (Rugiada di Linfa sui quattro nodi), e la scelta vale per [b]tutti i mondi[/b]:
+• [b]spezzato[/b]: l'Avvizzimento smette di allargarsi ovunque; lascia le Schegge del Seme Nero (amuleto della forza, al Maglio);
+• [b]curato[/b]: l'Avvizzimento si ritira un poco alla volta in tutti i mondi; lascia la Linfa del Seme guarito (amuleto della Vita e della Linfa).
+Non è la fine: dopo il Seme Nero comincia il fine gioco."""},
 ]

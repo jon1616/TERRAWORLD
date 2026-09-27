@@ -45,6 +45,7 @@ const AFFINITY := {
 	"strisciaradice": {"weak": ["brace"], "resist": []}, "scarabeo_ardesia": {"weak": ["vuoto"], "resist": ["gelo"]},
 	"sputaspore": {"weak": ["brace"], "resist": ["spora"]}, "guardiano_nodo": {"weak": ["luce"], "resist": ["spora"]},
 	"regina_spore": {"weak": ["brace"], "resist": ["spora"]}, "colosso_ardesia": {"weak": ["vuoto"], "resist": ["gelo"]},
+	"avvizzitore": {"weak": ["luce", "linfa"], "resist": ["vuoto", "spora"]},
 	"avvizzito_errante": {"weak": ["luce"], "resist": ["vuoto"]}, "vagavuoto": {"weak": ["luce"], "resist": ["vuoto"]},
 	"corvo_corteccia": {"weak": ["gelo"], "resist": []}, "spinoriccio": {"weak": ["brace"], "resist": []},
 	"lucciola_vorace": {"weak": ["vuoto"], "resist": ["luce"]}, "tessiradice": {"weak": ["brace"], "resist": ["spora"]},

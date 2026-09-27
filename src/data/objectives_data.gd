@@ -171,6 +171,8 @@ const LIST := [
 		"reward": {"linfa_antica": 1, "tavoletta_seminatori": 2}},
 	{"id": "enigmi_8", "text": "Apri otto porte dei Seminatori", "check": {"stat": "enigmi", "n": 8},
 		"reward": {"polvere_iridata": 2, "lumino": 400}},
+	{"id": "seme_nero", "text": "Scendi dove cadde il Seme Nero e decidi: spezzalo o curalo", "check": {"stat": "seme_nero", "n": 1},
+		"reward": {"linfa_antica": 5, "polvere_iridata": 5}},
 	{"id": "bacheca", "text": "Compi una richiesta della Bacheca dei Giardinieri (nel Giardino)",
 		"check": {"stat": "bacheca", "n": 1}, "reward": {"lumino": 80}},
 	{"id": "bacheca_20", "text": "Compi venti richieste della Bacheca", "check": {"stat": "bacheca", "n": 20},

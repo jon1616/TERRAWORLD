@@ -106,6 +106,8 @@ func _ready() -> void:
 			"vigore": int(nw.get("vigore", 1)), "geni": nw.get("geni", []), "formato": SaveMigrations.WORLD}
 		if nw.has("casa"):
 			world_meta["casa"] = nw["casa"]
+		if nw.get("nero", false):
+			world_meta["nero"] = true              # voce 72: il mondo dove cadde il Seme Nero
 		if nw.get("giardino", false):
 			# voce 62: il Giardino, la casa della partita (il gene del menu andrà nel primo Seme)
 			world_meta["giardino"] = true
@@ -116,7 +118,8 @@ func _ready() -> void:
 		world = World.new()
 		var sd: int = nw["seme"]
 		var params := {"vigore": int(nw.get("vigore", 1)), "geni": nw.get("geni", []), "giardino": nw.get("giardino", false),
-			"catene": Chains.pending(character)}   # voce 69: le cripte delle tappe aperte
+			"catene": Chains.pending(character),   # voce 69: le cripte delle tappe aperte
+			"nero": nw.get("nero", false)}         # voce 72
 		var gw := WorldGen.GARDEN_W if params["giardino"] else WorldGen.WIDTH
 		var gh := WorldGen.GARDEN_H if params["giardino"] else WorldGen.HEIGHT
 		_gen_task = WorkerThreadPool.add_task(func() -> void: gen_times = WorldGen.generate(world, sd, gw, gh, params), false, "genera mondo")

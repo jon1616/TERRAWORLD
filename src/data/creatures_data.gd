@@ -75,6 +75,14 @@ const CREATURES := {
 			"shot_speed": 230.0, "shot_grav": 420.0, "shot_damage": 26, "summon_every": 9.0,
 			"summon": "scarabeo_ardesia", "summon_max": 2, "phase2": 0.5},
 		"loot": "colosso", "art": ["colosso", 0], "strata": [], "weight": 0, "glow": true, "boss": true},
+	# voce 72: l'Avvizzitore, il Seme Nero cresciuto, Guardiano del mondo dove cadde: vola, scaglia ventagli fitti,
+	# scatta e chiama gli avvizziti erranti
+	"avvizzitore": {"name": "L'Avvizzitore", "hp": 3600, "damage": 38, "defense": 20, "knock": 1.0,
+		"half": [32, 30], "speed": 80, "fly": true, "behaviors": ["vola", "ventaglio", "scatto", "evoca"],
+		"p": {"sight": 80, "wobble": 35.0, "leash": 30, "fan_rate": 1.8, "fan_n": 9, "fan_spread": 1.6,
+			"shot_speed": 190.0, "shot_grav": 25.0, "shot_damage": 26, "dash_every": 4.5, "dash_speed": 360.0,
+			"dash_time": 0.5, "summon_every": 7.0, "summon": "avvizzito_errante", "summon_max": 4, "phase2": 0.5},
+		"loot": "avvizzitore", "art": ["avvizzitore", 0], "strata": [], "weight": 0, "glow": true, "boss": true},
 	# avvizzito errante: un guscio di radici svuotato dall'Avvizzimento; cammina in superficie, solo di notte
 	"avvizzito_errante": {"name": "Avvizzito errante", "hp": 32, "damage": 11, "defense": 2, "knock": 0.3, "half": [5, 11],
 		"speed": 42, "behaviors": ["cammina"], "p": {"sight": 30}, "loot": "avvizzito", "art": ["avvizzito", 0],
