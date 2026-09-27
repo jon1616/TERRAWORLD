@@ -13,7 +13,7 @@ a 16 pixel sarebbe largo un pixel e mezzo e, con quello del gioco, la figura spa
 
 Uso:
   python tools/tavola.py arte_ia/interfaccia/01_prova_v1.png --nomi vita,linfa,scorza,brace,gelo,spora \
-         --cartella arte/interfaccia --lato 16 [--colori 32] [--misure 12,16,20] [--tieni-contorno]
+         --cartella arte/interfaccia --lato 16 [--griglia 6x3] [--colori 32] [--misure 12,16,20] [--tieni-contorno]
 Scrive arte/<cartella>/<nome>.png (quadrato di --lato pixel, trasparente) e l'anteprima prove/arte_<tavola>.png:
 ogni pezzo alle misure di --misure, ingrandito, su un fondo scuro come quello del gioco e su uno chiaro.
 """
@@ -83,6 +83,43 @@ def pezzi(a: np.ndarray, soglia_area: float = 0.004) -> list[tuple[slice, slice,
     return [p for r in righe for p in sorted(r, key=lambda p: p[1].start)]
 
 
+def pezzi_griglia(a: np.ndarray, col: int, righe: int) -> list[tuple[slice, slice, np.ndarray]]:
+    """Con --griglia: ogni macchia va nella cella del suo centro e le macchie di una cella diventano un pezzo solo
+    (i raggi staccati di un sole, la stellina accanto a un occhio). Si scartano le scritte, che Nano Banana fa
+    bianche o scure (lettere quasi tutte scure o quasi tutte bianche), e i granelli più piccoli di un ottavo di cella."""
+    h, w = a.shape[:2]
+    ch, cw = h / righe, w / col
+    opaque = a[:, :, 3] > 0.5
+    lab, _ = ndimage.label(opaque)
+    rgb = a[:, :, :3]
+    lum = rgb @ np.array([0.3, 0.59, 0.11])
+    sat = rgb.max(axis=2) - rgb.min(axis=2)
+    celle: dict[int, np.ndarray] = {}
+    for i, sl in enumerate(ndimage.find_objects(lab), start=1):
+        m = lab[sl] == i
+        alto, largo = sl[0].stop - sl[0].start, sl[1].stop - sl[1].start
+        if max(alto, largo) < min(ch, cw) * 0.12:
+            continue
+        scuri = (lum[sl] < 70)[m].mean()
+        bianchi = ((lum[sl] > 190) & (sat[sl] < 50))[m].mean()
+        if scuri > 0.8 or (bianchi > 0.45 and scuri < 0.08):
+            continue
+        cy, cx = (sl[0].start + sl[0].stop) / 2, (sl[1].start + sl[1].stop) / 2
+        k = min(int(cy // ch), righe - 1) * col + min(int(cx // cw), col - 1)
+        if k not in celle:
+            celle[k] = np.zeros_like(opaque)
+        celle[k][sl] |= m
+    out = []
+    for k in sorted(celle):
+        ys, xs = np.where(celle[k])
+        sy, sx = slice(ys.min(), ys.max() + 1), slice(xs.min(), xs.max() + 1)
+        out.append((sy, sx, celle[k][sy, sx]))
+    if len(celle) != col * righe:
+        vuote = [k for k in range(col * righe) if k not in celle]
+        print("ATTENZIONE: celle vuote %s" % vuote)
+    return out
+
+
 def togli_contorno(a: np.ndarray) -> np.ndarray:
     """Toglie l'anello scuro esterno disegnato da Nano Banana (i pixel scuri raggiungibili dal fuori passando solo
     per scuri). I dettagli scuri interni restano."""
@@ -147,12 +184,17 @@ def main() -> None:
     ap.add_argument("--lato", type=int, default=16)
     ap.add_argument("--colori", type=int, default=32)
     ap.add_argument("--misure", default="", help="misure dell'anteprima, es. 12,16,20 (vuoto = solo --lato)")
+    ap.add_argument("--griglia", default="", help="colonne x righe, es. 6x3: unisce i pezzi di ogni cella")
     ap.add_argument("--tieni-contorno", action="store_true", help="non togliere il contorno scuro del disegno")
     args = ap.parse_args()
 
     nomi = [n.strip() for n in args.nomi.split(",") if n.strip()]
     a = togli_magenta(Image.open(args.file))
-    trovati = pezzi(a)
+    if args.griglia:
+        c, r = (int(x) for x in args.griglia.lower().split("x"))
+        trovati = pezzi_griglia(a, c, r)
+    else:
+        trovati = pezzi(a)
     if len(trovati) != len(nomi):
         print("ATTENZIONE: trovati %d pezzi, ma i nomi sono %d" % (len(trovati), len(nomi)))
     figure = []
