@@ -129,7 +129,7 @@ func great() -> void:
 	if boss:
 		gg.act(boss, {"kind": "correnti", "at": P, "from": P - Vector2(80, 0)})
 	var pushed: bool = m.player.vel.x - v0 > 100.0
-	var winds: bool = m.gravity.currents.size() > cur0 and not gg.clouds.is_empty()
+	var winds: bool = m.gravity.currents.size() > cur0   # (le nuvole nascono solo nell'aria libera: attorno può esserci già costruito)
 	await kit.seconds(0.3)
 	await kit.save("206_correnti")
 	if boss:

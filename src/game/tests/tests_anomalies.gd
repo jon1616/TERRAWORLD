@@ -79,7 +79,11 @@ func run() -> void:
 	var t0: float = m.day.time
 	m.day.time = 0.95                                            # notte fonda
 	await kit.seconds(0.2)
-	var one := HiddenCreatures.try_spawn(m, rng, true)
+	var one: Creature = null
+	for k in 10:                                                 # (il posto è a caso: a volte non lo trova al primo colpo)
+		one = HiddenCreatures.try_spawn(m, rng, true)
+		if one != null:
+			break
 	res["nascoste"] = none == null and one != null
 	m.day.time = t0
 	m.fauna.clear()

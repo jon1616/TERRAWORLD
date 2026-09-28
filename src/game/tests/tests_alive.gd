@@ -125,8 +125,10 @@ func brain() -> void:
 			cid = String(id)
 			break
 	var spot := kit.flat_spot(w.spawn + Vector2i(60, 0), 16)
-	if cid == "" or spot.x < 0:
-		print("ATTENZIONE: nessuna creatura che cammina, o nessun posto piano, per la prova del cervello")
+	if spot.x < 0:
+		spot = m.player_cell()                  # (lo spiana `flatten` qui sotto)
+	if cid == "":
+		print("ATTENZIONE: nessuna creatura che cammina per la prova del cervello")
 		return
 	kit.flatten(spot, 36)
 	m.snap_to(spot)
