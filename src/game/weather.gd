@@ -37,6 +37,7 @@ func setup(main: Node2D) -> void:
 	_rng.randomize()
 	var st: Dictionary = m.world_meta.get("meteo", {})
 	id = String(st.get("id", "sereno"))
+	CreaturesData.now_weather = id                 # voce 134
 	roofed = bool(Genome.effects(m.world_meta.get("geni", []), "run").get("roof", false))
 	_t = float(st.get("t", WeatherData.CHANGE))
 	_parts = CPUParticles2D.new()
@@ -121,6 +122,7 @@ func _has_biome(b: String) -> bool:
 ## Mette un tempo (anche dalle prove) e ne sceglie il vento.
 func set_weather(new_id: String) -> void:
 	id = new_id
+	CreaturesData.now_weather = id                 # voce 134
 	var wr: Array = state()["wind"]
 	var run := Genome.effects(m.world_meta.get("geni", []), "run")
 	_goal_wind = _rng.randf_range(float(wr[0]), float(wr[1])) * float(run.get("wind", 1.0)) * (1.0 if _rng.randf() < 0.5 else -1.0)

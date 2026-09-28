@@ -27,6 +27,8 @@ func run() -> void:
 	await tactics()
 	await species("superficie", "198_bestiario_superficie")
 	await species("sottosuolo", "199_bestiario_sottosuolo")
+	await species("tempo", "200_bestiario_tempo")
+	conditions()
 	for i in slots0.size():
 		b.slots[i] = slots0[i]
 	b.equip = equip0
@@ -503,3 +505,30 @@ func species(pack: String, photo: String) -> void:
 	print("bestiario «%s»: %d specie nate, %d vive dopo un attimo, %d schede scritte" % [pack, ids.size(), alive, cards])
 	if cards < ids.size():
 		print("ATTENZIONE: alcune specie del bestiario «%s» non hanno la scheda" % pack)
+
+
+## Voce 134: le specie a condizione nascono solo quando la condizione c'è (notte, stagione, tempo, eclissi).
+func conditions() -> void:
+	var s0 := CreaturesData.now_season
+	var w0 := CreaturesData.now_weather
+	var e0 := CreaturesData.now_eclipse
+	var ids := func(night: bool) -> Array:
+		return CreaturesData.of_stratum(0, night, "foresta").map(func(e: Array) -> String: return String(e[0]))
+	CreaturesData.now_season = "germoglio"
+	CreaturesData.now_weather = "sereno"
+	CreaturesData.now_eclipse = false
+	var calm: Array = ids.call(false)
+	var no_other := not "cinghiale_raccolto" in calm and not "rana_tuono" in calm and not "eclissimo" in calm and not "lupo_lunare" in calm
+	var has_season := "bruco_germoglio" in calm
+	CreaturesData.now_season = "raccolto"
+	CreaturesData.now_weather = "temporale"
+	CreaturesData.now_eclipse = true
+	var storm: Array = ids.call(true)
+	var all_in := "cinghiale_raccolto" in storm and "rana_tuono" in storm and "eclissimo" in storm and "lupo_lunare" in storm 		and not "bruco_germoglio" in storm
+	CreaturesData.now_season = s0
+	CreaturesData.now_weather = w0
+	CreaturesData.now_eclipse = e0
+	print("specie a condizione: col sereno di giorno in Germoglio solo quelle giuste %s (bruco sì %s); di notte col temporale in Raccolto e l'eclissi le altre %s" % [
+		"sì" if no_other else "NO", "sì" if has_season else "NO", "sì" if all_in else "NO"])
+	if not no_other or not has_season or not all_in:
+		print("ATTENZIONE: le specie a condizione non nascono come dovrebbero")

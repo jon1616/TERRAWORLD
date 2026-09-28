@@ -270,11 +270,24 @@ const DESPAWN := 90
 
 
 ## Le creature che possono comparire in uno strato, con il loro peso: [[id, peso], …]. Quelle della notte solo di notte.
+## Voce 134: la stagione, il tempo e l'eclissi di adesso (li scrivono `Seasons`, `Weather`, `DayCycle`).
+static var now_season := ""
+static var now_weather := ""
+static var now_eclipse := false
+
+
 static func of_stratum(s: int, night := false, biome := "") -> Array:
 	var out := []
 	for id in CREATURES:
 		var c: Dictionary = CREATURES[id]
 		if s == 0 and c.has("biomes") and not biome in c["biomes"]:
+			continue
+		# voce 134: le creature di una stagione, di un tempo, dell'eclissi
+		if c.has("season") and not now_season in (c["season"] as Array):
+			continue
+		if c.has("weather") and not now_weather in (c["weather"] as Array):
+			continue
+		if c.get("eclipse", false) and not now_eclipse:
 			continue
 		# nelle terre avvizzite gli Avvizziti erranti camminano anche di giorno
 		if s in c["strata"] and (night or not c.get("night", false) or biome == "avvizzito"):

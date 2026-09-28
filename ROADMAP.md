@@ -2391,7 +2391,14 @@ talismani. `tools/ecosistemi.gd`: **0 zone con un buco su 25** (130 → 133 spec
 - Circa 22 specie per i 5 strati e i 9 biomi del sottosuolo, e le **acquatiche ostili**: predatori degli stagni che
   rubano il pesce alla lenza (lega con la Roadmap 14), creature della Linfa e della brace che escono dal loro lago.
 
-## 134. [ ] Terzo ciclo: la notte, le stagioni, il tempo (M)
+## 134. [x] Terzo ciclo: la notte, le stagioni, il tempo (M) — fatto il 29 set 2026
+Fatto: **11 specie** a condizione in `src/data/bestiary/tempo.gd` (righe in `tools/bestiario_tempo.py`): di notte
+(Lupi lunari in branco, Falena vampira parassita), una per stagione (Bruco del Germoglio, Libellula del Rigoglio,
+Cinghiale del Raccolto, Volpe ladra del Gelo), col tempo (Rana del tuono che scoppia col temporale, Lumacone della
+pioggia, Velo di nebbia fotofobo, Spirito della bufera) e l'**Eclissimo** (mimetico che si divide, solo durante
+un'eclissi: servirà all'Eclissi dei mimi della voce 137). Campi `season`, `weather`, `eclipse` letti da
+`CreaturesData.of_stratum` (`now_season`, `now_weather`, `now_eclipse` scritti da `Seasons`, `Weather`, `DayCycle`).
+11 oggetti e 4 talismani. Prova in `--solo=vivo` (11 nate, le condizioni rispettate, foto 200).
 - Circa 10 specie che esistono solo di notte, in una stagione, con il temporale, la nebbia, la bufera o l'eclissi (le
   stesse condizioni dei pesci): uscire col brutto tempo diventa una scelta.
 

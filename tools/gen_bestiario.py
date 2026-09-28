@@ -391,3 +391,6 @@ if __name__ == '__main__':
     import bestiario_sottosuolo as sot
     write('sottosuolo.gd', 'Il nuovo bestiario, secondo ciclo: il sottosuolo e i liquidi (voce 133, Roadmap 15). 24 specie per gli\nstrati, i biomi del sottosuolo (`under`) e i liquidi (`water` con `liquid`); la lontra e il luccio rubano il\npesce alla lenza (`steal_fish`).',
           sot.UNDER, sot.UNDER_ITEMS, sot.UNDER_RECIPES)
+    import bestiario_tempo as tem
+    write('tempo.gd', 'Il nuovo bestiario, terzo ciclo: la notte, le stagioni e il tempo (voce 134, Roadmap 15). 11 specie che\nesistono solo di notte (`night`), in una stagione (`season`), con un tempo (`weather`) o durante un\'eclissi (`eclipse`):\nuscire col brutto tempo diventa una scelta.',
+          tem.TIME, tem.TIME_ITEMS, tem.TIME_RECIPES)

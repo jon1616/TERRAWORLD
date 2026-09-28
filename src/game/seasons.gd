@@ -42,6 +42,7 @@ func _update(first: bool) -> void:
 	if s == current:
 		return
 	current = s
+	CreaturesData.now_season = String(SeasonsData.SEASONS[s]["id"]) if s >= 0 and s < SeasonsData.SEASONS.size() else ""   # voce 134
 	var sd: Dictionary = SeasonsData.SEASONS[s]
 	m.fauna.season_roles = sd["roles"]
 	m.fauna.season_families = sd["families"]

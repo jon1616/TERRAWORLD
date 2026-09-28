@@ -110,6 +110,7 @@ func _process(dt: float) -> void:
 	if ec and not eclipse_on:
 		m.hud.toast("Eclissi! Il sole si spegne: escono le creature della notte.")
 	eclipse_on = ec
+	CreaturesData.now_eclipse = ec                 # voce 134
 	m.world_meta["ora"] = time
 	m.world_meta["giorno"] = day
 	m.fauna.night = is_night()
