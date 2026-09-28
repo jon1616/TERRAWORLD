@@ -86,6 +86,7 @@ var weather: Weather
 var gravity: Gravity
 var chiome: Chiome
 var lexicon: LexiconPanel
+var vitals_view: VitalsView
 var word_chests: WordChests
 var strikes: SkyStrikes
 var living: LivingEarth
@@ -179,9 +180,9 @@ func _build() -> void:
 			hud.help = character.play_time < 1200.0
 	hud.stations_near = func() -> Dictionary: return Crafting.stations_near(world, player_cell())
 	add_child(hud)
-	var vv := VitalsView.new()
-	hud.add_child(vv)
-	vv.setup(vitals)
+	vitals_view = VitalsView.new()             # Vita, Linfa e Respiro sopra la barra rapida (29 set 2026)
+	hud.add_child(vitals_view)
+	vitals_view.setup(vitals)
 	actions = PlayerActions.new()
 	add_child(actions)
 	actions.setup(world, view, light, player, hud, drops, fx)

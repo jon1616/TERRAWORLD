@@ -317,9 +317,11 @@ func _body(dt: float) -> void:
 		breath = maxf(breath - dt, 0.0)
 	else:
 		breath = minf(breath + dt * 6.0, max_b)
-	bar.visible = breath < max_b - 0.05
-	if bar.visible:
-		bar.text = "Respiro  " + "●".repeat(ceili(breath / max_b * 8.0)) + "○".repeat(8 - ceili(breath / max_b * 8.0))
+	# il Respiro si vede sopra la barra rapida, grande come Vita e Linfa (`VitalsView`), solo quando serve
+	if m.get("vitals_view") != null:
+		m.vitals_view.breath = breath / max_b
+		m.vitals_view.breath_secs = breath
+		m.vitals_view.breath_need = breath < max_b - 0.05
 	_hurt += dt
 	if _hurt < 0.5:
 		return

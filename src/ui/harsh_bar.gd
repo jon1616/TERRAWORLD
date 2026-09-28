@@ -14,7 +14,7 @@ var _t := 0.0
 func setup(h: Harshness) -> void:
 	hs = h
 	_font = ThemeDB.fallback_font
-	position = Vector2(1600.0 - VitalsView.W - 16.0 - W - 10.0, VitalsView.TOP)
+	position = Vector2(1600.0 - 16.0 - 224.0 - 10.0 - W, VitalsView.TOP)      # a sinistra della minimappa
 	size = Vector2(W, H)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 

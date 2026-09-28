@@ -1,58 +1,66 @@
 class_name VitalsView
 extends Control
-## Vita e Linfa in alto a destra, su un riquadro scuro che si legge sopra il cielo e dentro le grotte: due barre
-## grandi con il numero dentro, una foglia e una goccia accanto. La Vita va dal verde muschio all'ambra e al rosso man
-## mano che cala; quello che si è appena perso resta chiaro per un attimo e poi si svuota piano (si vede quanto ha fatto
-## male un colpo); sotto un quarto della Vita la barra pulsa. La Linfa è turchese.
-## (Prima c'erano 10 foglie e 10 gocce piccole con il numero accanto: si vedevano poco e la minimappa le copriva.
-## La minimappa ora comincia sotto `BOTTOM`.)
+## Vita, Linfa e Respiro sopra la barra rapida (29 set 2026, richiesta dell'utente: «ripensate, con fantasia, ma ben
+## visibili; Vita e Linfa sempre, il Respiro solo quando serve, grande come le altre»).
+## Al centro il **seme-cuore**, un seme che germoglia dentro un anello d'ambra: da lui crescono due **rami**, la Vita a
+## sinistra e la Linfa a destra. I rami si riempiono dal seme verso fuori e finiscono a punta di foglia (Vita) e di goccia
+## (Linfa); sopra la Vita dieci foglioline (ognuna un decimo: si seccano quando la Vita scende), sotto la Linfa dieci
+## gocce. La Vita va dal verde muschio all'ambra e al rosso; ciò che si è appena perso resta chiaro un attimo e poi si
+## svuota piano; sotto un quarto il ramo e il seme pulsano. Il **Respiro** (sott'acqua) compare sopra il seme, grande come
+## un ramo, azzurro con le bolle che salgono, e sparisce quando si torna a respirare (`breath`, lo scrive `Liquids`).
+## (Prima: un riquadro in alto a destra; il Respiro era una riga di pallini.)
 
-const W := 360.0                       # larghezza del riquadro
-const TOP := 12.0
-const BAR := Vector2(300, 24)          # barra della Vita (quella della Linfa è più bassa)
-const LINFA_H := 18.0
-const PAD := 10.0
-const ICON := 22.0
-const BOTTOM := TOP + PAD * 2.0 + 24.0 + 8.0 + LINFA_H   # dove finisce il riquadro (la minimappa va sotto)
-const TRAIL_WAIT := 0.5                # secondi prima che la parte persa cominci a svuotarsi
-const TRAIL_SPEED := 0.6               # frazione della barra al secondo
+const W := 720.0                        # larghezza di tutto (due rami e il seme)
+const BAR_W := 300.0                    # un ramo
+const BAR_H := 26.0
+const SEED_R := 27.0
+const ROW_GAP := 16.0                   # tra il Respiro e la riga di Vita e Linfa
+const TRAIL_WAIT := 0.5                 # secondi prima che la parte persa cominci a svuotarsi
+const TRAIL_SPEED := 0.6                # frazione della barra al secondo
+const TOP := 12.0                       # (in alto a destra ora c'è solo la minimappa, da qui)
+const BOTTOM := 0.0                     # (chi si metteva sotto le vecchie barre ora comincia da `TOP`)
 
 var vitals: Vitals
+var breath := 1.0                       # il respiro che resta (0-1); lo scrive `Liquids`
+var breath_need := false
+var breath_secs := 0.0                  # i secondi di respiro che restano                # sott'acqua o non ancora ripreso: la barra si vede
 var _leaf_tex: Texture2D
 var _drop_tex: Texture2D
 var _font: Font
-var _hp_trail := 1.0                   # frazione mostrata come «appena persa»
+var _hp_trail := 1.0
 var _linfa_trail := 1.0
 var _hp_wait := 0.0
 var _linfa_wait := 0.0
 var _last_hp := -1
 var _last_linfa := -1
-var _pulse := 0.0
+var _t := 0.0
+var _breath_a := 0.0                    # quanto si vede il Respiro (sfuma)
 
 
 func setup(v: Vitals) -> void:
 	vitals = v
-	# voce 101: le icone disegnate (20 px, a grandezza vera); se mancano, quelle del codice
-	_leaf_tex = ArtLib.tex("interfaccia", "vita")
+	_leaf_tex = ArtLib.tex("interfaccia", "vita")        # voce 101: le icone disegnate, se ci sono
 	_drop_tex = ArtLib.tex("interfaccia", "linfa")
-	if _leaf_tex == null:
-		_leaf_tex = ImageTexture.create_from_image(_leaf(Px.pal(["#0c3a30", "#1f7a5a", "#3aa08a", "#8ef0c0"]), 1.0))
-	if _drop_tex == null:
-		_drop_tex = ImageTexture.create_from_image(_drop(Px.pal(["#0a3a4a", "#1f8a9a", "#5cc8cc", "#dcffff"])))
 	_font = ThemeDB.fallback_font
-	position = Vector2(1600.0 - W - 16.0, TOP)
-	size = Vector2(W, BOTTOM - TOP)
+	var row_y := Hud.HOTBAR_Y - 32.0 - 10.0 - SEED_R * 2.0      # sopra il nome dell'oggetto in mano
+	size = Vector2(W, SEED_R * 2.0 + ROW_GAP + BAR_H + 8.0)
+	position = Vector2((1600.0 - W) * 0.5, row_y - ROW_GAP - BAR_H - 8.0)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	vitals.changed.connect(queue_redraw)
 	queue_redraw()
 
 
+## Il centro del seme e la riga di Vita e Linfa (coordinate del controllo).
+func _center() -> Vector2:
+	return Vector2(W * 0.5, size.y - SEED_R)
+
+
 func _process(dt: float) -> void:
 	if vitals == null:
 		return
+	_t += dt
 	var hp := _frac(vitals.hp, vitals.hp_max)
 	var li := _frac(vitals.linfa, vitals.linfa_max)
-	# la parte persa: resta ferma un attimo, poi scende fino al valore vero (se si guarisce, segue subito)
 	if vitals.hp != _last_hp:
 		if vitals.hp < _last_hp:
 			_hp_wait = TRAIL_WAIT
@@ -61,27 +69,18 @@ func _process(dt: float) -> void:
 		if vitals.linfa < _last_linfa:
 			_linfa_wait = TRAIL_WAIT
 		_last_linfa = vitals.linfa
-	var redraw := false
 	_hp_wait -= dt
 	_linfa_wait -= dt
 	if _hp_trail < hp:
 		_hp_trail = hp
 	elif _hp_trail > hp and _hp_wait <= 0.0:
 		_hp_trail = maxf(hp, _hp_trail - TRAIL_SPEED * dt)
-		redraw = true
 	if _linfa_trail < li:
 		_linfa_trail = li
 	elif _linfa_trail > li and _linfa_wait <= 0.0:
 		_linfa_trail = maxf(li, _linfa_trail - TRAIL_SPEED * dt)
-		redraw = true
-	if hp < 0.25:
-		_pulse += dt
-		redraw = true
-	elif _pulse != 0.0:
-		_pulse = 0.0
-		redraw = true
-	if redraw:
-		queue_redraw()
+	_breath_a = move_toward(_breath_a, 1.0 if breath_need else 0.0, dt * 4.0)
+	queue_redraw()                       # (bolle, battito, sfumature: poco da disegnare)
 
 
 static func _frac(v: int, mx: int) -> float:
@@ -98,96 +97,177 @@ static func hp_color(f: float) -> Color:
 func _draw() -> void:
 	if vitals == null:
 		return
-	# il riquadro
-	var box := StyleBoxFlat.new()
-	box.bg_color = Color(0.02, 0.05, 0.06, 0.82)
-	box.border_color = Color("#2f7a70")
-	box.set_border_width_all(2)
-	box.set_corner_radius_all(10)
-	draw_style_box(box, Rect2(Vector2.ZERO, size))
-	var x0 := PAD + ICON + 8.0
-	var bw := size.x - x0 - PAD
-	# la Vita
+	var c := _center()
 	var hp := _frac(vitals.hp, vitals.hp_max)
-	var y := PAD
-	_icon(_leaf_tex, Vector2(PAD + ICON * 0.5, y + BAR.y * 0.5))
-	var col := hp_color(hp)
-	if hp < 0.25:
-		col = col.lerp(Color(1.0, 0.85, 0.8), 0.35 * (0.5 + 0.5 * sin(_pulse * 7.0)))
-	_bar(Rect2(x0, y, bw, BAR.y), hp, _hp_trail, col, Color(1.0, 0.92, 0.7))
-	_text(Rect2(x0, y, bw, BAR.y), "Vita  %d / %d" % [vitals.hp, vitals.hp_max], 16)
-	# la Linfa
 	var li := _frac(vitals.linfa, vitals.linfa_max)
-	y += BAR.y + 8.0
-	_icon(_drop_tex, Vector2(PAD + ICON * 0.5, y + LINFA_H * 0.5))
-	_bar(Rect2(x0, y, bw, LINFA_H), li, _linfa_trail, Color("#34c8d0"), Color(0.8, 1.0, 1.0))
-	_text(Rect2(x0, y, bw, LINFA_H), "Linfa  %d / %d" % [vitals.linfa, vitals.linfa_max], 14)
+	var low := hp < 0.25
+	var beat := 0.5 + 0.5 * sin(_t * 7.0) if low else 0.0
+	# i due rami
+	var inner := SEED_R - 6.0
+	var col := hp_color(hp)
+	if low:
+		col = col.lerp(Color(1.0, 0.85, 0.8), 0.35 * beat)
+	_branch(c, -1.0, inner, hp, _hp_trail, col, Color(1.0, 0.92, 0.7), "leaf")
+	_branch(c, 1.0, inner, li, _linfa_trail, Color("#34c8d0"), Color(0.8, 1.0, 1.0), "drop")
+	# le tacche: foglioline sopra la Vita, gocce sotto la Linfa
+	for i in 10:
+		var on := hp * 10.0 > i + 0.05
+		var x := c.x - inner - (i + 0.5) * BAR_W / 10.0
+		_small_leaf(Vector2(x, c.y - BAR_H * 0.5 - 5.0), on, col)
+		var on_l := li * 10.0 > i + 0.05
+		var xl := c.x + inner + (i + 0.5) * BAR_W / 10.0
+		_small_drop(Vector2(xl, c.y + BAR_H * 0.5 + 6.0), on_l)
+	# i numeri
+	_text(Vector2(c.x - inner - BAR_W * 0.5, c.y), "Vita  %d / %d" % [vitals.hp, vitals.hp_max], 17)
+	_text(Vector2(c.x + inner + BAR_W * 0.5, c.y), "Linfa  %d / %d" % [vitals.linfa, vitals.linfa_max], 17)
+	# il seme-cuore
+	_seed(c, hp, col, beat)
+	# il Respiro
+	if _breath_a > 0.01:
+		_breath_bar(Vector2(c.x, c.y - SEED_R - ROW_GAP - BAR_H * 0.5 + 4.0))
 
 
-## Un'icona centrata su `c`: quelle disegnate a grandezza vera (pixel netti), quelle del codice (10 px) ingrandite.
-func _icon(t: Texture2D, c: Vector2) -> void:
-	var s := t.get_size()
-	if s.x < 16.0:
-		s *= ICON / s.x
-	draw_texture_rect(t, Rect2((c - s * 0.5).round(), s), false)
-
-
-## Una barra: fondo scuro, la parte appena persa chiara, il pieno con un filo di luce in cima, il bordo.
-func _bar(r: Rect2, f: float, trail: float, col: Color, trail_col: Color) -> void:
-	draw_rect(r, Color(0.01, 0.02, 0.03, 0.95))
+## Un ramo: dal seme verso fuori (dir -1 a sinistra, +1 a destra), che finisce a punta. Riempito dal seme in fuori.
+func _branch(c: Vector2, dir: float, inner: float, f: float, trail: float, col: Color, trail_col: Color, tip: String) -> void:
+	var x0 := c.x + dir * inner
+	var h := BAR_H
+	# la sagoma: il fondo scuro e il bordo
+	var shape := _shape(x0, dir, c.y, h, 0.0, 1.0)
+	draw_colored_polygon(shape, Color(0.02, 0.04, 0.05, 0.92))
 	if trail > f:
-		draw_rect(Rect2(r.position, Vector2(r.size.x * trail, r.size.y)), trail_col * Color(1, 1, 1, 0.75))
+		draw_colored_polygon(_shape(x0, dir, c.y, h, f, trail), trail_col * Color(1, 1, 1, 0.7))
 	if f > 0.0:
-		var fr := Rect2(r.position, Vector2(r.size.x * f, r.size.y))
-		draw_rect(fr, col.darkened(0.25))
-		draw_rect(Rect2(fr.position, Vector2(fr.size.x, r.size.y * 0.55)), col)
-		draw_rect(Rect2(fr.position + Vector2(0, 2), Vector2(fr.size.x, 2)), col.lightened(0.35))
-	# tacche ogni decimo: si contano i colpi a occhio
-	for i in range(1, 10):
-		var tx := r.position.x + r.size.x * i / 10.0
-		draw_line(Vector2(tx, r.position.y + r.size.y - 5.0), Vector2(tx, r.position.y + r.size.y), Color(0, 0, 0, 0.45), 1.0)
-	draw_rect(r, Color("#8ef0d8") * Color(1, 1, 1, 0.55), false, 1.5)
+		draw_colored_polygon(_shape(x0, dir, c.y, h, 0.0, f), col.darkened(0.3))
+		draw_colored_polygon(_shape(x0, dir, c.y - h * 0.12, h * 0.55, 0.0, f), col)
+		# un filo di luce che corre lungo il ramo
+		var y_l := c.y - h * 0.28
+		draw_line(Vector2(x0, y_l), Vector2(x0 + dir * BAR_W * f * 0.97, y_l), col.lightened(0.45), 2.0)
+	var edge := shape.duplicate()
+	edge.append(shape[0])
+	draw_polyline(edge, Color("#0a1414"), 3.0)
+	draw_polyline(edge, Color("#8ef0d8") * Color(1, 1, 1, 0.55), 1.2)
+	# la punta: una foglia (Vita) o una goccia (Linfa) oltre la fine del ramo
+	var end := Vector2(x0 + dir * (BAR_W + 12.0), c.y)
+	if tip == "leaf":
+		_big_leaf(end, dir, f > 0.99, col)
+	else:
+		_big_drop(end, f > 0.99)
 
 
-## Il numero dentro la barra, con il contorno scuro (si legge su ogni colore).
-func _text(r: Rect2, t: String, fs: int) -> void:
+## La sagoma di un ramo tra le frazioni a e b della sua lunghezza: alta h, si stringe negli ultimi 22 px (la punta).
+func _shape(x0: float, dir: float, cy: float, h: float, a: float, b: float) -> PackedVector2Array:
+	var top := PackedVector2Array()
+	var bot := PackedVector2Array()
+	var steps := 24
+	for i in steps + 1:
+		var u := lerpf(a, b, float(i) / steps)
+		var x := x0 + dir * BAR_W * u
+		var from_end := BAR_W * (1.0 - u)
+		var half := h * 0.5 * (clampf(from_end / 22.0, 0.25, 1.0) if from_end < 22.0 else 1.0)
+		top.append(Vector2(x, cy - half))
+		bot.append(Vector2(x, cy + half))
+	bot.reverse()
+	top.append_array(bot)
+	return top
+
+
+## Il seme-cuore: anello d'ambra, il seme scuro con il germoglio del colore della Vita; batte quando la Vita è poca.
+func _seed(c: Vector2, hp: float, col: Color, beat: float) -> void:
+	var r := SEED_R * (1.0 + 0.06 * beat)
+	draw_circle(c, r + 3.0, Color("#0a1414"))
+	draw_circle(c, r, Color("#2a1a10"))
+	draw_arc(c, r - 1.5, 0.0, TAU, 40, Color("#e0a040"), 3.0)
+	# la Vita come un anello che si svuota dall'alto
+	draw_arc(c, r - 6.0, -PI * 0.5, -PI * 0.5 + TAU * hp, 40, col, 4.0)
+	# il seme
+	var sp := PackedVector2Array()
+	for i in 20:
+		var a := TAU * i / 20.0
+		sp.append(c + Vector2(cos(a) * 9.0, sin(a) * 11.0 + 4.0))
+	draw_colored_polygon(sp, Color("#8a5a2a"))
+	draw_colored_polygon(PackedVector2Array([c + Vector2(-3, 0), c + Vector2(3, 2), c + Vector2(-1, 12)]), Color("#b07a3a"))
+	# il germoglio: due foglie che si aprono (più la Vita è alta, più sono aperte)
+	var open := 0.35 + 0.65 * hp
+	for s in [-1.0, 1.0]:
+		var base := c + Vector2(0, -6)
+		var tip := base + Vector2(s * 12.0 * open, -10.0 - 2.0 * open)
+		var mid := base + Vector2(s * 9.0 * open, -2.0)
+		draw_colored_polygon(PackedVector2Array([base, mid, tip, base + Vector2(s * 3.0, -9.0)]), col)
+	draw_line(c + Vector2(0, -6), c + Vector2(0, -14), col.darkened(0.2), 2.0)
+	if beat > 0.0:
+		draw_circle(c, r + 6.0 * beat, Color(1.0, 0.3, 0.2, 0.18 * beat))
+
+
+## Il Respiro: un ramo d'acqua sopra il seme, con le bolle; rosso quando sta per finire.
+func _breath_bar(c: Vector2) -> void:
+	var a := _breath_a
+	var w := BAR_W
+	var r := Rect2(c.x - w * 0.5, c.y - BAR_H * 0.5, w, BAR_H)
+	var col := Color("#58a8ff") if breath > 0.3 else Color("#58a8ff").lerp(Color("#ff5a4a"), 0.5 + 0.5 * sin(_t * 9.0))
+	var box := StyleBoxFlat.new()
+	box.bg_color = Color(0.02, 0.04, 0.08, 0.92 * a)
+	box.border_color = Color(0.55, 0.8, 1.0, 0.8 * a)
+	box.set_border_width_all(2)
+	box.set_corner_radius_all(13)
+	draw_style_box(box, r)
+	if breath > 0.0:
+		var fb := StyleBoxFlat.new()
+		fb.bg_color = col * Color(1, 1, 1, a)
+		fb.set_corner_radius_all(11)
+		draw_style_box(fb, Rect2(r.position + Vector2(3, 3), Vector2((w - 6.0) * breath, BAR_H - 6.0)))
+	# le bolle che salgono dentro e sopra la barra
+	for i in 7:
+		var bx := r.position.x + 18.0 + fmod(i * 47.0 + _t * 9.0, w - 36.0)
+		var by := r.position.y + BAR_H - fmod(_t * 22.0 + i * 11.0, BAR_H + 14.0)
+		draw_arc(Vector2(bx, by), 2.0 + (i % 3), 0.0, TAU, 10, Color(0.85, 0.95, 1.0, 0.7 * a), 1.2)
+	# l'icona: una bolla grande a sinistra
+	var ic := Vector2(r.position.x - 16.0, c.y)
+	draw_circle(ic, 11.0, Color(0.1, 0.2, 0.35, a))
+	draw_arc(ic, 11.0, 0.0, TAU, 24, Color(0.75, 0.9, 1.0, a), 2.0)
+	draw_circle(ic + Vector2(-3, -4), 2.5, Color(1, 1, 1, 0.8 * a))
+	var secs := breath_secs
+	var tt := "Respiro" if breath > 0.0 else "Respiro finito!"
+	_text(r.get_center(), "%s  %d s" % [tt, ceili(secs)] if breath > 0.0 else tt, 17, a)
+
+
+func _small_leaf(p: Vector2, on: bool, col: Color) -> void:
+	var cc := col if on else Color("#4e3a26")
+	draw_colored_polygon(PackedVector2Array([p + Vector2(0, 3), p + Vector2(-4, -1), p + Vector2(0, -5), p + Vector2(4, -1)]), cc)
+	draw_line(p + Vector2(0, 3), p + Vector2(0, -4), cc.darkened(0.4), 1.0)
+
+
+func _small_drop(p: Vector2, on: bool) -> void:
+	var cc := Color("#5cc8cc") if on else Color("#1c3a40")
+	draw_circle(p + Vector2(0, 1), 3.2, cc)
+	draw_colored_polygon(PackedVector2Array([p + Vector2(-2.5, 0), p + Vector2(0, -5), p + Vector2(2.5, 0)]), cc)
+
+
+func _big_leaf(p: Vector2, dir: float, full: bool, col: Color) -> void:
+	if _leaf_tex != null:
+		draw_texture_rect(_leaf_tex, Rect2(p - Vector2(12, 12), Vector2(24, 24)), false)
+		return
+	var cc := col if full else col.darkened(0.35)
+	var back := p - Vector2(dir * 12.0, 0)
+	var tip := p + Vector2(dir * 12.0, -4.0)
+	draw_colored_polygon(PackedVector2Array([back, p + Vector2(0, -9), tip, p + Vector2(0, 7)]), cc)
+	draw_line(back, tip, cc.darkened(0.45), 1.5)
+	var edge := PackedVector2Array([back, p + Vector2(0, -9), tip, p + Vector2(0, 7), back])
+	draw_polyline(edge, Color("#0a1414"), 1.5)
+
+
+func _big_drop(p: Vector2, full: bool) -> void:
+	if _drop_tex != null:
+		draw_texture_rect(_drop_tex, Rect2(p - Vector2(12, 12), Vector2(24, 24)), false)
+		return
+	var cc := Color("#5cc8cc") if full else Color("#2a7a88")
+	draw_circle(p + Vector2(0, 3), 8.0, cc)
+	draw_colored_polygon(PackedVector2Array([p + Vector2(-7, 1), p + Vector2(0, -12), p + Vector2(7, 1)]), cc)
+	draw_circle(p + Vector2(-3, 2), 2.0, Color(0.9, 1.0, 1.0, 0.8))
+
+
+## Un testo centrato su `c`, con il contorno scuro.
+func _text(c: Vector2, t: String, fs: int, a := 1.0) -> void:
 	var tw := _font.get_string_size(t, HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x
-	var pos := Vector2(r.position.x + (r.size.x - tw) * 0.5, r.position.y + r.size.y * 0.5 + fs * 0.36)
-	draw_string_outline(_font, pos, t, HORIZONTAL_ALIGNMENT_LEFT, -1, fs, 4, Color(0.02, 0.04, 0.05))
-	draw_string(_font, pos, t, HORIZONTAL_ALIGNMENT_LEFT, -1, fs, Color("#f4fff8"))
-
-
-## Foglia a punta, inclinata, con la nervatura; `fill` = quanta parte è viva (la punta secca per prima).
-static func _leaf(p: Array[Color], fill: float) -> Image:
-	var im := Px.img(10, 10)
-	var dry := Px.pal(["#1c1410", "#3a2a1c", "#4e3a26", "#6a5236"])
-	for y in 10:
-		for x in 10:
-			# coordinate ruotate di 45°: a lungo la foglia (da -1 alla base a +1 in punta), b di traverso
-			var dx := x + 0.5 - 5.0
-			var dy := y + 0.5 - 5.0
-			var a := (dx - dy) / (sqrt(2.0) * 4.6)
-			var b := (dx + dy) / (sqrt(2.0) * 4.6)
-			var half := 0.62 * sqrt(maxf(1.0 - a * a, 0.0)) * (1.0 - maxf(a, 0.0) * 0.35)
-			if absf(b) <= half and absf(a) <= 1.0:
-				var alive := (a + 1.0) * 0.5 <= fill
-				var pal: Array[Color] = p if alive else dry
-				var c := pal[2] if b < 0.0 else pal[1]
-				if absf(b) < 0.1:
-					c = pal[3]
-				Px.put(im, x, y, c)
-	Px.outline(im, Color("#050c10"))
-	return im
-
-
-static func _drop(p: Array[Color]) -> Image:
-	var im := Px.img(10, 10)
-	for y in 10:
-		for x in 10:
-			var d := Vector2((x + 0.5 - 5.0) / 3.6, (y + 0.5 - 6.2) / 3.4)
-			var tip := y < 4 and absf(x + 0.5 - 5.0) <= (y + 0.5) * 0.45
-			if d.length() <= 1.0 or tip:
-				Px.put(im, x, y, p[2] if d.x > -0.2 else p[1])
-	Px.put(im, 4, 5, p[3])
-	Px.outline(im, Color("#050c10"))
-	return im
+	var pos := Vector2(c.x - tw * 0.5, c.y + fs * 0.36)
+	draw_string_outline(_font, pos, t, HORIZONTAL_ALIGNMENT_LEFT, -1, fs, 5, Color(0.02, 0.04, 0.05, a))
+	draw_string(_font, pos, t, HORIZONTAL_ALIGNMENT_LEFT, -1, fs, Color(0.96, 1.0, 0.97, a))

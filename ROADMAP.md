@@ -7,6 +7,11 @@
 - **In corso: la Roadmap 13 «Il volto del mondo»** (voci 100-117, dal 28 set 2026): la grafica con Nano Banana,
   seguita passo passo con l'utente (Claude scrive i prompt, dice dove salvare le immagini, le adatta con gli script).
   Dopo: un secondo bilancio con il diario delle partite vere.
+- **Ritocco dell'HUD** (29 set 2026, richiesta dell'utente: Vita, Linfa e ossigeno «ripensate, sopra la barra rapida,
+  con fantasia, ben visibili»): `VitalsView` ora sta in basso al centro. Un seme-cuore al centro (anello della Vita,
+  germoglio che pulsa sotto un quarto), la Vita è un ramo verde a sinistra con dieci foglioline, la Linfa un ramo
+  turchese a destra con dieci gocce; il **Respiro** (grande come le altre, con le bollicine, rosso sotto il 30%) compare
+  sopra il seme solo sott'acqua (`breath`/`breath_need`, scritti da `Liquids`). Minimappa e rigori salgono in alto a destra.
 - **Fatta la Roadmap 17 «La lingua dei Seminatori»** (voci 170-178, 29 set 2026): le stele si decifrano (vista, ipotesi,
   certa), tre lingue, scrigni a parola, incisioni, ricette scritte, il Quaderno delle parole (U). Resoconto in fondo.
 - **Fatta la Roadmap 16 «Le Chiome del cielo»** (voci 152-169, 29 set 2026): il tasto Riponi, lo scavo intelligente e

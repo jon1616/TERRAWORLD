@@ -78,6 +78,11 @@ func run() -> void:
 	m.boons.add("bagliore", 10.0)
 	await kit.seconds(0.4)
 	await kit.save("137_acqua")
+	# 29 set 2026: il Respiro compare sopra la barra rapida, grande come Vita e Linfa
+	var shows: bool = m.vitals_view.breath_need and m.vitals_view._breath_a > 0.5
+	print("respiro sopra la barra rapida: si vede sott'acqua %s (%.2f)" % [shows, m.vitals_view.breath])
+	if not shows:
+		print("ATTENZIONE: la barra del Respiro non compare sott'acqua")
 	p.auto_jump = true
 	var y0: float = p.position.y
 	await kit.seconds(0.5)
