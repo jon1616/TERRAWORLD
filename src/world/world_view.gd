@@ -119,12 +119,17 @@ func _build_chunk(k: Vector2i) -> void:
 	chunks[k] = node
 	var x0 := k.x * World.CHUNK
 	var y0 := k.y * World.CHUNK
+	var bld := world.build
+	var wls := world.walls
+	var has_build := bld.size() == world.tiles.size()
 	for y in range(y0, mini(y0 + World.CHUNK, world.h + 1)):
 		for x in range(x0, mini(x0 + World.CHUNK, world.w + 1)):
 			_paint_dual(Vector2i(x, y), terrain, glow_t)
 			if x < world.w and y < world.h:
 				_paint_grid(Vector2i(x, y), walls, decor, glow_d, plats)
-				_paint_built(Vector2i(x, y), node)
+				var i := y * world.w + x
+				if has_build and (bld[i] != 0 or wls[i] >= BuildData.WALL_BASE):
+					_paint_built(Vector2i(x, y), node)     # solo dove c'è qualcosa di costruito (voce 128)
 	node.set_meta("trees", trees)
 	props.fill_chunk(node, k)
 
