@@ -3073,7 +3073,7 @@ ad aprire qualche porta dei luoghi scritti a mano.
 - **Tutto si spiega da sé**: il **Quaderno delle parole** (tasto U) raccoglie ciò che sai, dove l'hai visto, le ipotesi
   e come funziona; le stele mostrano i colori degli stati; consigli, filo ed Enciclopedia accompagnano.
 
-## 170. [ ] Il modello della conoscenza (M)
+## 170. [x] Il modello della conoscenza (M) — fatto il 29 set 2026
 `Character.lingua` diventa {parola: {s: 0 vista · 1 ipotesi · 2 certa, v: frasi diverse in cui l'hai vista, x: i
 significati scartati}} (i personaggi di prima: le parole che avevano sono certe). Ogni parola ha una **classe** (cosa,
 azione, luogo, quantità) e i suoi **significati possibili** (quello vero e due della stessa classe, sempre gli stessi).
@@ -3081,13 +3081,15 @@ azione, luogo, quantità) e i suoi **significati possibili** (quello vero e due 
 significato)` (giusto: certa; sbagliato: quel significato è scartato e serve un'altra frase prima di riprovare),
 `confirm(parole)`. `known()` resta «certa» per chi la usa già (porte dei luoghi, leve).
 **Pronto quando**: la prova porta una parola da vista a certa in tutti e tre i modi.
+**Fatto**: `LanguageData`: 114 parole in tre strati (`_COMMON` 50, `_ANCIENT` 40, `_BLACK` 24; `WORDS` = [lingua, italiano, classe, strato]), le classi (cosa, azione, luogo, quantità), `options(w)`: tre significati possibili fissi per parola. `Language` rifatto: record {s, f, x, r} in `Character.lingua` (i personaggi di prima: certe), `see` (vista → ipotesi dopo 2 frasi diverse, 3 per le lingue alte), `guess` (giusto: certa; sbagliato: scartato e bloccato finché non si vede una frase nuova; scartati tutti gli altri: dedotta), `confirm`, `tally`, segnali `changed` e `confirmed`. Tasto «quaderno» (U).
 
-## 171. [ ] Le stele che si decifrano (M)
+## 171. [x] Le stele che si decifrano (M) — fatto il 29 set 2026
 La stele mostra la frase con i colori degli stati (grigio vista, ambra ipotesi con il «?», verde certa) e una legenda;
 la prima lettura segna le parole come viste. Le **stele dei luoghi**: quando ogni parola è almeno un'ipotesi, il luogo si
 segna sulla mappa come «forse» (tratteggiato); **arrivandoci** le sue parole diventano certe e il segno si fa pieno.
 Le **tavolette** confermano due parole tra quelle viste o ipotizzate (prima quelle di questo mondo).
 **Pronto quando**: la prova legge due stele, trova le ipotesi, va al luogo e le conferma.
+**Fatto**: la stele mostra la frase con i colori degli stati e la legenda; la prima lettura dice che le parole ora sono viste; nessuna lettura regala più parole. Le stele dei luoghi: con tutte ipotesi il segno «forse» (ambra) sulla mappa; arrivando entro 12 tessere le parole diventano certe e il segno pieno. La tavoletta conferma 2 parole viste (prima le ipotesi di questo mondo) e non si consuma se non c'è niente da confermare. Prova «lingua»: leggendo le 50 stele del mondo di prova 34 ipotesi e 0 parole certe; sbagliato → bloccato → dedotto; tavoletta +2; luogo «forse» confermato arrivandoci.
 
 ## 172. [ ] Il Quaderno delle parole (M)
 Un pannello da consultare sempre (tasto U, e dal Semenzaio): le parole per strato di lingua con lo stato e quante volte
