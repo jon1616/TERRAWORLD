@@ -3261,11 +3261,17 @@ il 23% della Vita per creatura con la spada di radice, 2,6 appassimenti all'ora;
 Sottobosco; dalle Profondità in giù nessuno regge (anche «attento» appassisce 15 volte all'ora nel Fondo e 24-40 dal
 vigore 3): il vigore e la profondità crescono molto più dell'equipaggiamento, e l'armatura cambia poco.
 
-## 182. [ ] Le armi, gli attrezzi e le armature a confronto (M)
+## 182. [x] Le armi, gli attrezzi e le armature a confronto (M) — fatto il 29 set 2026
 Per ogni grado: danno al secondo di ogni forma (con area, portata, velocità, spinta), armature e accessori; i doppioni
 che dominano (una forma migliore di tutte in tutto), gli oggetti inutili (peggiori di uno più facile), gli attrezzi che
 battono le armi, le leghe e i materiali dei geni fuori fascia, i tratti e la qualità.
 **Pronto quando**: `prove/armi.txt` elenca gli squilibri con i numeri.
+**Fatto**: `tools/armi.gd` (prove/armi.txt). **Cosa dice**: piccone e ascia colpiscono le creature al 70-85% della spada
+dello stesso metallo (ogni 0,3 s); il pugnale domina dal grado 3 in su (104 al secondo con lo stellare) e il martello
+crolla (46: rapporto 2,25 tra la forma più forte e la più debole); la verga di legnoferro è più debole di quella di
+radicite e quella di vuoto di quella di linfa; le leghe stanno quasi tutte in fascia, ma la lega tizzonite-nimbite fa
++33% e la sospesite −35%; le armature tolgono solo il 24-40% di un colpo del loro strato; la qualità vale da −15% a
++26%, la tempra +8% a livello.
 
 ## 183. [ ] Le progressioni e l'economia (M)
 I sistemi che si chiudono troppo presto o mai (come le stele): stadi dell'Albero (cosa chiedono e quanto ci vuole),
