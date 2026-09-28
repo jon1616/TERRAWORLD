@@ -4,7 +4,7 @@ extends RefCounted
 
 const DATA := {
 	"id": "scogliere_cristallo", "name": "Scogliere di cristallo", "desc": "scogli di cristallo celeste che brillano nel vuoto",
-	"band": "alto", "color": "#8ac8f0", "weight": 3, "floor": 55, "body": 55, "rock": 55, "isle": "scoglio", "isles": 1.6,
+	"band": "alto", "ores": [[57, 0.05]], "color": "#8ac8f0", "weight": 3, "floor": 55, "body": 55, "rock": 55, "isle": "scoglio", "isles": 1.6,
 	"pools": 0.0, "trees": 0.0, "danger": 1.8, "thin": 1.0, "elem": "gelo", "adj": ["cristalline", "celesti"],
 	"tiles": {
 		55: {"name": "Cristallo celeste", "hard": 0.6, "power": 35, "drop": "cristallo_celeste", "square": true, "glow": true,

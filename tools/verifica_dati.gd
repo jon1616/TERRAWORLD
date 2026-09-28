@@ -5,7 +5,7 @@ extends SceneTree
 ## ERRORE = qualcosa di rotto (riferimento a un oggetto che non esiste…); AVVISO = probabilmente da sistemare
 ## (oggetto che non si può ottenere, materiale che non serve a nulla…).
 
-const KINDS := ["progetto_sem", "richiamo_grande", "esca_signore", "tintura", "progetto", "materiale", "blocco", "piccone", "ascia", "spada", "arco", "munizione", "torcia", "stazione",
+const KINDS := ["fagiolo", "progetto_sem", "richiamo_grande", "esca_signore", "tintura", "progetto", "materiale", "blocco", "piccone", "ascia", "spada", "arco", "munizione", "torcia", "stazione",
 	"piattaforma", "elmo", "corazza", "gambali", "consumabile", "seme", "lanterna", "cura", "seme_mondo", "accessorio",
 	"purifica", "essenza", "bastone", "dono", "specchio", "trofeo", "richiamo", "reliquia", "mappa", "rampino", "esplosivo", "ricurvo",
 	"giavellotto", "coltura", "annaffiatoio", "parete", "martello", "moneta", "compagno", "evocatore", "ricordo", "provetta", "fiala", "uovo", "creatura", "vasetto", "laccio", "tavoletta", "chiave", "secchio", "secchio_pieno", "contenitore", "pesce", "canna", "esca", "cassetta", "sfida", "guanti", "stivali", "mantello", "amuleto", "anello"]
@@ -368,7 +368,7 @@ func _check_materials() -> void:
 		for k in ["weak", "resist"]:
 			for e in ElementsData.AFFINITY[cid][k]:
 				_err(ElementsData.ELEMENTS.has(String(e)), "creatura %s: elemento sconosciuto «%s»" % [cid, e])
-	# voce 52: 28 leghe, ognuna con lingotto, ricetta e famiglia; nessuna lega è la migliore in tutte le proprietà
+	# voce 52: 36 leghe (28 e le 8 della nimbite, Roadmap 16), ognuna con lingotto, ricetta e famiglia; nessuna lega è la migliore in tutte le proprietà
 	var alloys := 0
 	var best_all := 0
 	for m in MaterialsData.all():
@@ -384,7 +384,7 @@ func _check_materials() -> void:
 					beats = false
 		if beats:
 			best_all += 1
-	_err(alloys == 28, "leghe: %d invece di 28" % alloys)
+	_err(alloys == 36, "leghe: %d invece di 36" % alloys)
 	# voce 53: i materiali dei geni hanno geni esistenti e un grezzo che si fonde
 	for g in MaterialsData.GENE_MATERIALS:
 		var gd: Dictionary = MaterialsData.GENE_MATERIALS[g]

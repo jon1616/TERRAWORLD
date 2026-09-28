@@ -63,6 +63,7 @@ func _band(w: World, c: GenContext, z: Dictionary, band: String, all: Array) -> 
 		var shape := String(b.get("isle", "zolla"))
 		var cells := _shape(c, shape, half)
 		_paint(w, c, b, Vector2i(x, top), cells)
+		_ores(w, c, b, Vector2i(x, top), cells)
 		c.claim(Rect2i(x - half - 2, top - 8, 2 * half + 4, 18), "cielo")
 		var e := {"rect": [x - half, top, 2 * half + 1, 10], "biome": id, "band": band, "top": top, "x": x, "half": half}
 		out.append(e)
@@ -153,6 +154,25 @@ func _paint(w: World, c: GenContext, b: Dictionary, o: Vector2i, cells: Dictiona
 			continue
 		var kind := String(cells[p])
 		w.set_tile(q.x, q.y, floor_t if kind == "top" else (rock_t if kind == "rock" else body_t))
+
+
+## Voce 159: le vene nel corpo dell'isola (grumi di 3-7 celle, mai sulla cima).
+func _ores(w: World, c: GenContext, b: Dictionary, o: Vector2i, cells: Dictionary) -> void:
+	var inner := []
+	for p in cells:
+		if String(cells[p]) != "top":
+			inner.append(p)
+	if inner.is_empty():
+		return
+	for ore in b.get("ores", []):
+		var t := int(ore[0])
+		var clumps := int(ceil(inner.size() * float(ore[1]) / 5.0))
+		for k in clumps:
+			var p0: Vector2i = inner[c.rng.randi_range(0, inner.size() - 1)]
+			for d in [Vector2i.ZERO, Vector2i(1, 0), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 1), Vector2i(0, -1), Vector2i(-1, 1)]:
+				var p: Vector2i = p0 + d
+				if cells.has(p) and String(cells[p]) != "top" and c.rng.randf() < 0.75:
+					w.set_tile(o.x + p.x, o.y + p.y, t)
 
 
 ## Alberi, radichette che pendono, pozze d'acqua.

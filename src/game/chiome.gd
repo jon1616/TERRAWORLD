@@ -3,7 +3,7 @@ extends Node
 ## Le Chiome del cielo in partita (Roadmap 16): le zone del cielo (`World.sky`, fatte da `PassCielo`) si salvano in
 ## `world_meta["cielo"]` e si rimettono nel mondo a ogni ingresso; entrando in un bioma del cielo compare la sua scritta
 ## (come gli strati, `DepthWatch.banner`); `stats["cielo_max"]` ricorda la fascia più alta raggiunta (1 basso, 2 alto)
-## per i consigli, il filo e gli obiettivi.
+## per i consigli, il filo e gli obiettivi; `stats["cielo_<bioma>"]` = 1 per ogni bioma del cielo visto.
 ## Voce 157: il **Fagiolo di nuvola** (`plant_bean`): piantato a terra fa salire una liana di passerelle
 ## (`world_meta["fagioli"]`: [x, riga della cima, passerelle che mancano], cresce anche lontano, `grow_beans`).
 
@@ -50,9 +50,7 @@ func _process(dt: float) -> void:
 			m.depth_watch.banner.show_stratum(String(b["name"]), String(b["desc"]), Color(String(b["color"])))
 			var st: Dictionary = m.character.stats
 			st["cielo_max"] = maxi(int(st.get("cielo_max", 0)), 2 if band == "alto" else 1)
-			var seen: Dictionary = st.get("cieli_visti", {})
-			seen[id] = true
-			st["cieli_visti"] = seen
+			st["cielo_" + id] = 1                   # le statistiche sono solo numeri (il salvataggio le rilegge con int)
 
 
 ## Pianta un Fagiolo di nuvola sopra la cella c (d'aria, con la terra sotto e un po' di cielo libero sopra).

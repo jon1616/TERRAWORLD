@@ -85,6 +85,9 @@ const MATERIALS := [
 		"raw": "squama_brace", "n": 1, "hard": 0.6, "power": 35, "iso": 3, "luce": 0, "bello": 3},
 	{"id": "carapace", "label": "carapace di granchio", "pal": ["#1a2a30", "#2e4650", "#4a6a78", "#7aa0b0", "#c0e0e8"], "icon": "lagunite",
 		"raw": "carapace_lago", "n": 1, "hard": 0.6, "power": 35, "iso": 1, "luce": 0, "bello": 2},
+	# Roadmap 16, voce 159: il cielo (l'ultimo posto: 28 materiali × 9 forme stanno in un byte)
+	{"id": "celeste", "label": "cristallo celeste", "pal": ["#1a3a5a", "#2a6090", "#4a90c8", "#8ac8f0", "#e0f6ff"], "icon": "celeste",
+		"raw": "cristallo_celeste", "n": 1, "hard": 0.6, "power": 35, "iso": 0, "luce": 1, "bello": 5, "glow": true},
 ]
 
 

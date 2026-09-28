@@ -4,7 +4,7 @@ extends RefCounted
 
 const DATA := {
 	"id": "nidi_tempesta", "name": "Nidi di tempesta", "desc": "nuvole scure cariche, e fulmini che cercano i punti alti",
-	"band": "alto", "color": "#a0b0d8", "weight": 3, "floor": 53, "body": 53, "rock": 53, "isle": "tempesta", "isles": 1.8,
+	"band": "alto", "ores": [[57, 0.05], [58, 0.06]], "color": "#a0b0d8", "weight": 3, "floor": 53, "body": 53, "rock": 53, "isle": "tempesta", "isles": 1.8,
 	"pools": 0.2, "trees": 0.0, "danger": 2.0, "thin": 1.2, "elem": "luce", "bolts": 1, "adj": ["tempestose", "folgoranti"],
 	"tiles": {
 		53: {"name": "Nuvola di tempesta", "hard": 0.3, "power": 0, "drop": "nuvola_tempesta",

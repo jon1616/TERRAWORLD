@@ -36,6 +36,10 @@ const MATERIALS := {
 		"elemento": "brace", "risonanza": 0, "bar": "lingotto_tizzonite"},
 	"stellare": {"label": "stellare", "label_pl": "stellari", "tier": 6, "durezza": 85, "filo": 34, "peso": 5.0, "tenacia": 6.0,
 		"conduzione": 16, "elemento": "luce", "risonanza": 2, "bar": "lingotto_stellare", "icon": "ambra"},
+	# Roadmap 16, voce 159: il metallo del cielo alto. Della forza dell'ambra ma leggerissimo (colpi più svelti), il set
+	# intero fa saltare più in alto e protegge dall'aria sottile
+	"nimbite": {"label": "di nimbite", "tier": 3, "durezza": 55, "filo": 15, "peso": 4.0, "tenacia": 2.4, "conduzione": 9,
+		"elemento": "luce", "risonanza": 1, "bar": "lingotto_nimbite", "icon": "nimbite"},
 }
 
 ## Voce 52: le **leghe**. Al Baccello ardente un lingotto di due metalli diversi dà due lingotti di lega (i metalli
@@ -55,6 +59,10 @@ const ALLOY_NAMES := {
 	"linfa+stellare": "linfastella", "vuoto+pallidite": "vuotalba", "vuoto+tizzonite": "vuotobrace",
 	"vuoto+stellare": "stellanera", "pallidite+tizzonite": "vaporite", "pallidite+stellare": "stellalba",
 	"tizzonite+stellare": "stellardente",
+	# Roadmap 16: le leghe della nimbite
+	"radicite+nimbite": "nemborosso", "legnoferro+nimbite": "ferronembo", "ambra+nimbite": "ambranembo",
+	"linfa+nimbite": "linfanembo", "vuoto+nimbite": "nembonero", "pallidite+nimbite": "nembalba",
+	"tizzonite+nimbite": "nembobrace", "stellare+nimbite": "stellanembo",
 }
 ## Voce 53: i **materiali dei geni**. Ognuno si trova solo nei mondi con il suo gene (`genes`): scavando certe tessere
 ## (`raw.tiles`, sotto `min_depth` tessere dalla superficie, o in cielo con `sky`) o dalle creature (`raw.kill`: "any"

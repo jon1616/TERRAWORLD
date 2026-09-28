@@ -24,6 +24,7 @@ func run() -> void:
 	await biomes()
 	await reach()
 	await thin()
+	mats()
 
 
 ## Voce 154: le zone e le fasce.
@@ -271,3 +272,28 @@ func thin() -> void:
 		print("ATTENZIONE: l'aria sottile non va come dovrebbe")
 	for k in h.meters:
 		h.meters[k] = 0.0
+
+
+## Voce 159: le vene di nimbite e folgorite nel cielo alto, la famiglia della nimbite, il costrutto e gli arredi celesti.
+func mats() -> void:
+	var nim := 0
+	var fol := 0
+	for e in world.sky:
+		for x in range(int(e["x0"]), int(e["x1"])):
+			for y in range(SkyData.TOP, int(e["split"])):
+				var t := world.tile(x, y)
+				if t == 57:
+					nim += 1
+				elif t == 58:
+					fol += 1
+	var fam := ["piccone_nimbite", "spada_nimbite", "elmo_nimbite", "lingotto_lega_ambra_nimbite", "costr_mattoni_celeste",
+		FurnitureData.id_of("tavolo", "celeste"), "dardo_folgore", "baccello_tuono"]
+	var missing := fam.filter(func(id: String) -> bool: return ItemsData.get_item(id).is_empty())
+	var pick := ItemsData.get_item("piccone_nimbite")
+	var spd := Gear.stats({"id": "spada_nimbite"})
+	var spa := Gear.stats({"id": "spada_ambra"})
+	print("materiali del cielo: nimbite %d celle, folgorite %d; mancano %s; piccone di nimbite forza %d; spada di nimbite danno %s velocità %s (d'ambra %s, %s); set «%s»" % [
+		nim, fol, missing, int(pick.get("power", 0)), spd.get("damage"), spd.get("speed"), spa.get("damage"), spa.get("speed"),
+		SetsData.all().get("nimbite", {}).get("name", "-")])
+	if nim < 20 or fol < 5 or not missing.is_empty():
+		print("ATTENZIONE: i materiali del cielo non ci sono tutti")

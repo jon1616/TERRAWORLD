@@ -17,6 +17,8 @@ const METAL_BONUS := {
 	"tizzonite": {"name": "Brace viva", "bonus": {"damage": 1.12, "thorns": 10}, "desc": "+12% danno, chi ti tocca si brucia (10)"},
 	"linfa": {"name": "Linfa che scorre", "bonus": {"defense": 3, "regen": 1.5, "linfa_regen": 1.5}, "desc": "+3 Scorza, Vita e Linfa ricrescono il 50% più in fretta"},
 	"vuoto": {"name": "Ombra del Vuoto", "bonus": {"defense": 4, "damage": 1.1, "stealth": 0.7}, "desc": "+4 Scorza, +10% danno, le creature ti vedono più tardi"},
+	"nimbite": {"name": "Passo di nembo", "bonus": {"jump": 1.15, "run": 1.06, "quota": 0.5},
+		"desc": "salto +15%, corsa +6%, l'aria sottile protegge a metà"},
 	"stellare": {"name": "Stella del Giardino", "bonus": {"defense": 6, "damage": 1.15, "run": 1.1, "luck": 0.2}, "desc": "+6 Scorza, +15% danno, corsa +10%, più fortuna"},
 }
 

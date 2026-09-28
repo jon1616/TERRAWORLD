@@ -27,7 +27,8 @@ const FORMS := [
 ## allo scalpellino.
 const MATS := [["lanterna", "ceppo"], ["radice", "ceppo"], ["ardesia", "scalpellino"], ["ambra", "scalpellino"],
 	["legnoferro", "scalpellino"], ["seminatori", "scalpellino"], ["linfa", "scalpellino"], ["stellare", "scalpellino"],
-	["osso", "scalpellino"], ["chitina", "scalpellino"]]              # voce 147: i materiali delle creature
+	["osso", "scalpellino"], ["chitina", "scalpellino"],               # voce 147: i materiali delle creature
+	["celeste", "scalpellino"]]                                        # Roadmap 16: il cristallo celeste
 
 
 static var _stations := {}

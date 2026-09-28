@@ -2857,13 +2857,14 @@ con la chiave `quota` (Maschera di nuvola, Mantello di piume: materiali del ciel
 
 ## Parte C — Che cosa c'è lassù
 
-## 159. [ ] I materiali del cielo e la nimbite (M)
+## 159. [x] I materiali del cielo e la nimbite (M) — fatto il 29 set 2026
 Il metallo celeste **nimbite** (vene nei Nidi di tempesta e nelle Scogliere; della forza dell'ambra ma **leggero**:
 colpi più svelti, salto più alto con l'armatura intera) con la sua famiglia di attrezzi e armature (una riga in
 `MaterialsData`), materiali delle isole (legno di nuvola, lana di nuvola, cristallo celeste, polvere di stelle,
 folgorite), tre materiali da costruzione nuovi (27 × 9 forme → 30 × 9: nuvola, cristallo celeste, legno di nuvola) e
 una serie di arredi di nuvola.
 **Pronto quando**: `verifica_dati` 0 errori; la nimbite si scava, si fonde, fa un piccone; un blocco di nuvola si posa.
+**Fatto**: la **nimbite** in `MaterialsData` (grado 3, durezza 55, peso 4: la spada colpisce 2,84 volte al secondo contro 2,4 dell'ambra) con le sue 8 leghe (nemborosso, ferronembo, ambranembo, linfanembo, nembonero, nembalba, nembobrace, stellanembo) e il set «Passo di nembo» (salto +15%, corsa +6%, aria sottile a metà); vene di nimbite (tessera 57) e folgorite (58, fa un po' di luce) nel corpo delle isole alte (campo `ores`, `PassCielo._ores`: nel mondo di prova 290 e 145 celle); Dardo di folgore, Baccello del tuono, Lanterna di polvere di stelle; il materiale da costruzione «cristallo celeste» (il 28°, l'ultimo che sta in un byte: 252 costrutti) e la sua serie di 12 arredi. 3010 oggetti, 2305 ricette.
 
 ## 160. [ ] Le creature del cielo (L)
 Circa 30 specie da `tools/bestiario_cielo.py` (dati generati `src/data/bestiary/cielo.gd`), 4-6 per bioma: plananti,
