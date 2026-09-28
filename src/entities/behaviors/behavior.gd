@@ -45,6 +45,35 @@ static func make(id: String) -> Behavior:
 			return BhFugge.new()                  # le varianti timide (voce 55)
 		"nuota":
 			return BhNuota.new()                  # voce 73: le creature d'acqua
+		# voce 130: le astuzie (`WilesData`)
+		"sbuca":
+			return BhSbuca.new()
+		"divide":
+			return BhDivide.new()
+		"ladro":
+			return BhLadro.new()
+		"mimetico":
+			return BhMimetico.new()
+		"scudo":
+			return BhScudo.new()
+		"guaritore":
+			return BhGuaritore.new()
+		"richiamo":
+			return BhRichiamo.new()
+		"parassita":
+			return BhParassita.new()
+		"tuffatore":
+			return BhTuffatore.new()
+		"tessitore":
+			return BhTessitore.new()
+		"rosicchia":
+			return BhRosicchia.new()
+		"fotofobo":
+			return BhFotofobo.new()
+		"pastore":
+			return BhPastore.new()
+		"scoppia":
+			return BhScoppia.new()
 		"fermo":
 			return Behavior.new()
 	push_error("comportamento sconosciuto: %s" % id)

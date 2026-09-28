@@ -1,7 +1,8 @@
 class_name TestsAlive
 extends RefCounted
 ## Roadmap 15 «Il mondo abitato» (creature e costruzioni). Voce 127: gli attacchi si annunciano (il «!» di `TeleMark`) e
-## la schivata c'è solo con un oggetto che la sblocca. Voce 128: i costrutti (forma × materiale). Voce 129: il cervello (`Mind`). Gruppo «vivo».
+## la schivata c'è solo con un oggetto che la sblocca. Voce 128: i costrutti (forma × materiale). Voce 129: il cervello (`Mind`).
+## Voce 130: le astuzie (`WilesData`, `Wiles`). Gruppo «vivo».
 
 var kit: TestKit
 var m: Node2D
@@ -20,6 +21,7 @@ func run() -> void:
 	await dash()
 	await builds()
 	await brain()
+	await wiles()
 	for i in slots0.size():
 		b.slots[i] = slots0[i]
 	b.equip = equip0
@@ -185,3 +187,160 @@ func brain() -> void:
 		cid, sight, "sì" if day else "NO", "sì" if not night else "NO", "sì" if alert else "NO", went, "sì" if flee else "NO"])
 	if not day or night or not alert or went < 16.0 or not flee:
 		print("ATTENZIONE: il cervello delle creature non va come dovrebbe")
+
+
+var _wid := ""
+
+
+## Una creatura di prova con un'astuzia in più (dati copiati, per non toccare la tabella).
+func _mk(beh: String, at: Vector2, params := {}) -> Creature:
+	var cr: Creature = m.fauna.add(_wid, at)
+	cr.data = cr.data.duplicate(true)
+	(cr.data["behaviors"] as Array).append(beh)
+	cr.p = cr.p.duplicate(true)
+	cr.p.merge(params, true)
+	cr.behaviors.append(Behavior.make(beh))
+	cr.mind.brave = true
+	return cr
+
+
+## Voce 130: ogni astuzia fa ciò che promette (il tuffatore ha bisogno di uno specchio: lo prova il gruppo «pesca» più avanti).
+func wiles() -> void:
+	var w: World = m.world
+	for id in CreaturesData.CREATURES:
+		var d: Dictionary = CreaturesData.CREATURES[id]
+		if "cammina" in (d.get("behaviors", []) as Array) and not d.get("fly", false) and not d.get("boss", false) 				and not d.get("docile", false) and 0 in (d.get("strata", []) as Array):
+			_wid = String(id)
+			break
+	var spot := kit.flat_spot(w.spawn + Vector2i(60, 0), 16)
+	if spot.x < 0:
+		spot = m.player_cell()                  # il posto della prova del cervello, già spianato
+	if _wid == "":
+		print("ATTENZIONE: nessuna creatura semplice o nessun posto piano per la prova delle astuzie")
+		return
+	kit.flatten(spot, 30)
+	m.snap_to(spot)
+	m.vitals.refill()
+	m.combat.god = true
+	var b: Bisaccia = m.character.bisaccia
+	b.add("legno", 20)
+	var res := {}
+	var P: Vector2 = m.player.position
+	# ladro
+	var cr := _mk("ladro", P + Vector2(10, 0))
+	await kit.seconds(0.8)
+	var had := cr.has_meta("rubato")
+	var n0: int = m.drops._items.size()
+	m.fauna.kill(cr)
+	res["ladro"] = had and m.drops._items.size() > n0
+	m.fauna.clear()
+	# si divide
+	cr = _mk("divide", P + Vector2(60, 0))
+	cr.last_dmg = 1
+	var c0: int = m.fauna.list.size()
+	m.fauna.kill(cr)
+	res["divide"] = m.fauna.list.size() == c0 + 1
+	m.fauna.clear()
+	# scudo: davanti un quinto
+	cr = _mk("scudo", P + Vector2(60, 0))
+	await kit.seconds(0.1)
+	cr.hp = cr.hp_max
+	cr.defense = 0
+	var fc := float((cr.behaviors[-1] as BhScudo).face)
+	cr.take_hit(20, cr.position.x + fc * 20.0, 0.0)
+	var front := cr.hp_max - cr.hp
+	cr.hp = cr.hp_max
+	cr.take_hit(20, cr.position.x - fc * 20.0, 0.0)
+	var back := cr.hp_max - cr.hp
+	res["scudo"] = front < back
+	m.fauna.clear()
+	# guaritore
+	var hurt: Creature = m.fauna.add(_wid, P + Vector2(80, 0))
+	hurt.hp = maxi(1, hurt.hp_max / 3)
+	var h0 := hurt.hp
+	cr = _mk("guaritore", P + Vector2(100, 0))
+	await kit.seconds(4.0)
+	res["guaritore"] = is_instance_valid(hurt) and hurt.hp > h0
+	m.fauna.clear()
+	# richiamo
+	cr = _mk("richiamo", P + Vector2(90, 0), {"call_time": 0.5})
+	await kit.seconds(1.2)
+	res["richiamo"] = m.fauna.list.size() >= 3
+	m.fauna.clear()
+	# parassita
+	m.vitals.refill()
+	var l0: int = m.vitals.linfa
+	cr = _mk("parassita", P + Vector2(4, 0))
+	await kit.seconds(2.3)
+	res["parassita"] = m.vitals.linfa < l0
+	m.fauna.clear()
+	# tessitore
+	cr = _mk("tessitore", P + Vector2(100, 0))
+	(cr.behaviors[-1] as BhTessitore).t = 0.0
+	await kit.seconds(1.0)
+	res["tessitore"] = not m.wiles.webs.is_empty() and m.player.slow_t > 0.0
+	await kit.save("193_ragnatela")
+	m.wiles.webs.clear()
+	m.wiles.queue_redraw()
+	m.player.slow_t = 0.0
+	m.fauna.clear()
+	# scoppiante
+	var bl0: int = m.throwing.blasts
+	cr = _mk("scoppia", P + Vector2(20, 0), {"fuse": 0.5})
+	await kit.seconds(1.2)
+	res["scoppia"] = m.throwing.blasts > bl0 and not m.fauna.list.has(cr)
+	m.fauna.clear()
+	# mimetico: fermo finché non ti avvicini
+	cr = _mk("mimetico", P + Vector2(6 * 16, 0))
+	await kit.seconds(0.5)
+	var still := cr.anchored
+	await kit.save("194_mimetico")
+	cr.position = P + Vector2(24, 0)
+	await kit.seconds(0.3)
+	res["mimetico"] = still and not cr.anchored
+	m.fauna.clear()
+	# pastore
+	var sheep: Creature = m.fauna.add(_wid, P + Vector2(120, 0))
+	cr = _mk("pastore", P + Vector2(160, 0))
+	await kit.seconds(0.7)
+	var led := sheep.mind.lead == cr
+	m.fauna.kill(cr)
+	res["pastore"] = led and sheep.mind.state == Mind.FLEE
+	m.fauna.clear()
+	# sbuca: sotto terra, poi fuori
+	cr = _mk("sbuca", P + Vector2(40, 48), {"sight": 20})
+	cr.behaviors = [cr.behaviors[-1]] as Array[Behavior]
+	var out := false
+	var t0 := Time.get_ticks_msec()
+	while Time.get_ticks_msec() - t0 < 5000 and is_instance_valid(cr):
+		await kit.frames(1)
+		if (cr.behaviors[0] as BhSbuca).phase == 2 and not cr.buried:
+			out = true
+			break
+	res["sbuca"] = out
+	m.fauna.clear()
+	# rosicchia: terra davanti mentre caccia
+	var q: Vector2i = m.player_cell() + Vector2i(3, 0)
+	w.set_tile(q.x, q.y, TileDefs.DIRT)
+	m.view.refresh_around(q)
+	cr = _mk("rosicchia", Vector2(q.x + 1, q.y) * 16.0 + Vector2(8, 8))   # tra lei e il Germogliato, la terra
+	cr.mind.state = Mind.HUNT
+	(cr.behaviors[-1] as BhRosicchia).t = 0.0
+	await kit.seconds(0.3)
+	res["rosicchia"] = w.tile(q.x, q.y) == TileDefs.AIR
+	m.fauna.clear()
+	# fotofobo: a mezzogiorno in superficie fugge
+	cr = _mk("fotofobo", P + Vector2(60, 0))
+	await kit.seconds(0.6)
+	res["fotofobo"] = cr.mind.state == Mind.FLEE
+	m.fauna.clear()
+	m.combat.god = false
+	b.remove("legno", mini(20, b.count("legno")))
+	var bad := []
+	for k in res:
+		if not res[k]:
+			bad.append(k)
+	print("astuzie: %d su %d come promesso%s (furti %d, divisioni %d)" % [res.size() - bad.size(), res.size(),
+		"" if bad.is_empty() else "; NON vanno: " + ", ".join(bad), m.wiles.stolen, m.wiles.splits])
+	if not bad.is_empty():
+		print("ATTENZIONE: alcune astuzie non vanno")

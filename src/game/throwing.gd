@@ -136,6 +136,8 @@ func explode(at: Vector2, bl: Dictionary) -> void:
 			if Vector2(q - ctr).length() > r or not m.world.inside(x, y) or y >= m.world.h - 1:
 				continue
 			var t: int = m.world.tile(x, y)
+			if bl.get("natural", false) and (t in TileDefs.BUILT or t == TileDefs.FINTA):
+				continue                           # voce 130: chi scoppia non rompe le costruzioni
 			if t != TileDefs.AIR and int(TileDefs.POWER.get(t, 999)) <= power and m.world.tree_at(q + Vector2i(0, -1)).x < 0:
 				m.actions.break_tile(q)
 	var dmg := int(bl["damage"])

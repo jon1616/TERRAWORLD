@@ -2326,7 +2326,17 @@ sempre e le altre una volta su tre; mai Guardiani e antiche), ritorno (oltre 60 
   visto (ti cerca lì). I comportamenti esistenti li usano, senza riscriverli.
 - Moltiplica la furtività (già negli accessori), la luce, il rumore delle esplosioni, le esche della pesca e delle farm.
 
-## 130. [ ] Comportamenti nuovi componibili (L)
+## 130. [x] Comportamenti nuovi componibili (L) — fatto il 29 set 2026
+Fatto: 14 comportamenti in `src/entities/behaviors/` (`BhSbuca`, `BhDivide`, `BhLadro`, `BhMimetico`, `BhScudo`,
+`BhGuaritore`, `BhRichiamo`, `BhParassita`, `BhTuffatore`, `BhTessitore`, `BhRosicchia`, `BhFotofobo`, `BhPastore`,
+`BhScoppia`), ognuno con i suoi parametri in `p` e il suo segnale (`Creature.telegraph`); nome, segnale e
+**contromossa** in `WilesData`, letti dalla scheda della creatura e dal capitolo «Combattere». Ciò che tocca il mondo
+lo fa `Wiles` (`src/game/`) dalle richieste `Creature.acts`: furto dalla Bisaccia (mai la casella in mano né gli oggetti
+unici; preso, il ladro restituisce), Linfa bevuta, ragnatele (rallentano; le bruciano le torce vicine o una torcia in
+mano), terra rosicchiata e colture mangiate, lo scoppio; alla morte le figlie di chi si divide, il maltolto, il gregge
+sbandato. **Regola dell'utente rispettata**: nessuna astuzia rompe i blocchi costruiti (`Throwing.explode` con
+«natural», il rosicchiatore solo terra tenera naturale). Prova in `--solo=vivo`: 13 astuzie su 13 (foto 193_ragnatela,
+194_mimetico); il tuffatore si prova con la sua creatura (voce 136).
 Circa 14 pezzi, ognuno con i suoi parametri, il suo telegrafo e la sua contromossa scritta nei dati:
 - **Sbuca da sotto** (scava sotto il giocatore e salta fuori: si sente prima), **si divide** quando è colpita (meglio il
   fuoco o un colpo solo forte), **ladro** (ruba un oggetto dalla Bisaccia e scappa; lo riprendi se lo prendi),

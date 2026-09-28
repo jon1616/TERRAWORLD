@@ -70,6 +70,8 @@ var _burn_acc := 0.0
 var extra := false                     # parte di uno sciame o di un branco: non conta nel tetto delle creature
 var _poison_acc := 0.0
 var behaviors: Array[Behavior] = []
+var acts: Array[Dictionary] = []       # voce 130: ciò che le astuzie chiedono al mondo (le fa `Wiles`)
+var last_dmg := 0                      # voce 130: il danno dell'ultimo colpo (chi si divide)
 var mind := Mind.new()                 # voce 129: sensi e stati (calma, allerta, caccia, fuga, ritorno)
 var _spr: Sprite2D
 var _glow: Sprite2D
@@ -389,6 +391,13 @@ func take_hit(dmg: int, from_x: float, force: float) -> bool:
 	if weak_t > 0.0:
 		dmg = roundi(dmg * ElementsData.VULNERABLE)
 	var real := maxi(dmg - defense / 2, 1)
+	for b in behaviors:
+		if b is BhScudo and (b as BhScudo).blocks(self, from_x):
+			real = maxi(real / 5, 1)               # voce 130: lo scudo para davanti
+			if get_parent():
+				Fx.puff(get_parent(), position + Vector2(facing * half.x, 0), Color(1.6, 1.6, 1.8))
+			break
+	last_dmg = real
 	if shell > 0.0:
 		real = maxi(real / 4, 1)               # chiusa nel guscio
 	elif "guscio" in data["behaviors"]:

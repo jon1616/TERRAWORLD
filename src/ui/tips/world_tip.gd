@@ -34,6 +34,8 @@ static func creature(m: Node2D, cr: Creature) -> TipCard:
 	c.bar("Vita %d / %d" % [cr.hp, cr.hp_max], float(cr.hp) / maxf(cr.hp_max, 1), Color("#e05a4a") if not cr.calm else TipCard.GOOD)
 	if cr.tame == null and not cr.calm and cr.mind.state != Mind.CALM:
 		c.line("Ora: %s" % cr.mind.label(), Color("#e8d8a0"))       # voce 129: lo stato del cervello
+	for wd in WilesData.of(cr.data.get("behaviors", [])):          # voce 130: le astuzie e la contromossa
+		c.line("%s: %s" % [wd["name"], wd["counter"]], Color("#a8e0c8"))
 	var rows := [["Danno", str(cr.damage)]]
 	if cr.defense > 0:
 		rows.append(["Scorza", str(cr.defense)])

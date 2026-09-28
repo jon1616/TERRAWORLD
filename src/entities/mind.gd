@@ -41,6 +41,7 @@ var home := Vector2.INF
 var dark := false                        # vede al buio
 var brave := true                        # non fugge mai
 var hunter := false                      # fiuta il sangue (i predatori)
+var lead: Creature                       # voce 130: il pastore che segue quando è calma (`BhPastore`)
 var _mem := 0.0
 var _search := 0.0
 var _flee := 0.0
@@ -123,6 +124,12 @@ func tick(c: Creature, dt: float) -> void:
 			goal = Vector2.INF
 
 
+## Voce 130: fugge per `t` secondi, anche se è coraggiosa (un ladro con il bottino, il gregge senza pastore, la luce).
+func force_flee(t: float) -> void:
+	_flee = maxf(_flee, t)
+	state = FLEE
+
+
 func _look(at: Vector2) -> void:
 	state = ALERT
 	goal = at
@@ -149,6 +156,8 @@ func after(c: Creature) -> void:
 ## Per i comportamenti che gironzolano: se c'è un punto da guardare (allerta, ritorno) la direzione verso di esso,
 ## altrimenti 0 (gironzola come sempre).
 func wander_dir(c: Creature) -> float:
+	if state == CALM and is_instance_valid(lead) and absf(lead.position.x - c.position.x) > 4.0 * 16.0:
+		return signf(lead.position.x - c.position.x)   # voce 130: segue il pastore
 	if goal == Vector2.INF or not (state == ALERT or state == HOME):
 		return 0.0
 	var dx := goal.x - c.position.x
