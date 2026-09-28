@@ -26,6 +26,7 @@ func run() -> void:
 	await kit.frames(3)
 	await _stash(spot)
 	await _smart(spot)
+	refusion()
 
 
 func _stash(spot: Vector2i) -> void:
@@ -115,3 +116,27 @@ func _smart(spot: Vector2i) -> void:
 			world.set_tile(x, y, TileDefs.AIR)
 			world.set_liq(x, y, 0, 0)
 	m.view.refresh_around(Vector2i(x0 + 1, spot.y))
+
+
+## La rifusione dei doppioni: due spade uguali «buone» diventano una «fine» con il tratto migliore e gli innesti di
+## tutte e due; la seconda casella si svuota; senza doppione niente.
+func refusion() -> void:
+	var b := kit.bisaccia()
+	kit.make_room()
+	var i := Bisaccia.HOTBAR + 1
+	var j := Bisaccia.HOTBAR + 4
+	b.slots[i] = {"id": "spada_ambra", "n": 1, "tratto": "seccume", "dati": {"q": 1, "innesti": ["furia"]}}
+	b.slots[j] = {"id": "spada_ambra", "n": 1, "tratto": "spina", "dati": {"q": 1, "innesti": ["fulmine"], "tempra": 2}}
+	b.add("polvere_brace", 2)
+	var alone := Refusion.partner(b, Bisaccia.HOTBAR + 2) < 0
+	var ok := Refusion.refuse(b, i)
+	var s: Dictionary = b.slots[i]
+	var d: Dictionary = s.get("dati", {})
+	var good: bool = ok and b.slots[j].is_empty() and int(d.get("q", 0)) == 2 and String(s.get("tratto", "")) == "spina" \
+		and (d.get("innesti", []) as Array).has("furia") and (d.get("innesti", []) as Array).has("fulmine") and int(d.get("tempra", 0)) == 2
+	print("rifusione: due spade d'ambra buone → %s (qualità %d, tratto %s, innesti %s, tempra %d); casella svuotata %s; senza doppione niente %s" % [
+		Gear.full_name(s), int(d.get("q", 0)), s.get("tratto", ""), d.get("innesti", []), int(d.get("tempra", 0)), b.slots[j].is_empty(), alone])
+	if not good or not alone:
+		print("ATTENZIONE: la rifusione dei doppioni non va come dovrebbe")
+	b.slots[i] = {}
+	b.changed.emit()

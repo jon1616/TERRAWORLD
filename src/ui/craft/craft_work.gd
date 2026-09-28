@@ -1,7 +1,7 @@
 class_name CraftWork
 extends RefCounted
 ## Le lavorazioni sull'oggetto in mano nel pannello «Creare» (la categoria «Lavorazioni»): al Maglio rinnovo del
-## tratto, innesti delle Essenze e innesti da togliere; al Telaio le fasce del manico. Ogni lavorazione è una riga
+## tratto, rifusione dei doppioni (`Refusion`), innesti delle Essenze e innesti da togliere; al Telaio le fasce del manico. Ogni lavorazione è una riga
 ## larga con l'icona, il testo e il costo nel suggerimento. Spostate qui dal pannello il 28 set 2026.
 
 
@@ -11,6 +11,8 @@ static func rows(p: CraftingPanel, hs: int, near: Dictionary) -> Array[Button]:
 	var bag := p.bisaccia
 	if near.has("maglio") and Bisaccia.is_gear(bag.id_at(hs)):
 		out.append(_reforge(p, hs))
+		if Refusion.partner(bag, hs) >= 0:
+			out.append(_refuse(p, hs))                 # la rifusione dei doppioni (29 set 2026)
 		var seen := {}
 		for s in bag.slots:
 			var e := String(s.get("id", ""))
@@ -38,6 +40,28 @@ static func _reforge(p: CraftingPanel, i: int) -> Button:
 	b.tooltip_text = "Al Maglio dei Seminatori: un tratto nuovo, sempre diverso dal vecchio.\nCosta %s." % cost
 	b.pressed.connect(func() -> void:
 		if Crafting.reforge(bag, i) != "":
+			p.crafted.emit(id, 1)
+		p.refresh())
+	return b
+
+
+static func _refuse(p: CraftingPanel, i: int) -> Button:
+	var bag := p.bisaccia
+	var id := bag.id_at(i)
+	var j := Refusion.partner(bag, i)
+	var res := Refusion.result(bag.slots[i], bag.slots[j])
+	var cost := ""
+	var can := true
+	for k in Refusion.COST:
+		cost += "%d %s" % [Refusion.COST[k], ItemsData.get_item(k)["name"]]
+		can = can and Crafting.have(bag, k) >= int(Refusion.COST[k])
+	var qn := func(s: Dictionary) -> String: return String(TraitsData.QUALITY[Gear.quality(s)]["name"])
+	var b := _row(id, can, "Rifondi i due doppioni: %s + %s → %s" % [qn.call(bag.slots[i]), qn.call(bag.slots[j]),
+		Gear.full_name(res)], cost)
+	b.tooltip_text = "Al Maglio due oggetti uguali diventano uno solo: la qualità più alta (uguali: un grado in più), il tratto migliore, gli innesti di tutti e due finché c'è posto.
+Costa %s." % cost
+	b.pressed.connect(func() -> void:
+		if Refusion.refuse(bag, i):
 			p.crafted.emit(id, 1)
 		p.refresh())
 	return b

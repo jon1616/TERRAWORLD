@@ -3039,6 +3039,14 @@ da quale cassa vicina dava gli ingredienti.
 **La grafica**: tutto nasce disegnato dal codice; le voci 117g-117j della Roadmap 13 dicono che cosa ridisegnare con
 Nano Banana, con i prompt pronti e le cartelle create.
 
+## Ritocchi dopo la Roadmap 16 (29 set 2026)
+- [x] **La rifusione dei doppioni** (scelta dell'utente tra tre strade: niente centinaia di ricette, una lavorazione sola).
+  Al Maglio, con un oggetto in mano e un altro identico nella Bisaccia, «Rifondi i due doppioni» (`Refusion`,
+  `src/game/refusion.gd`; riga in `CraftWork`; costa 2 polveri di brace): la qualità più alta (se uguali, un grado in
+  più), il tratto migliore (Essenze, poi i più rari, poi nessuno, poi i cattivi), gli innesti di tutti e due finché c'è
+  posto, la fascia, la tempra più alta. Vale per tutte le ~1140 armi, attrezzi e armature e per gli accessori; non cambia
+  il materiale (la progressione resta ai metalli). Enciclopedia: capitolo della qualità. Prova nel gruppo «comodita».
+
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».
 - Grafica: ora nella Roadmap 13 «Il volto del mondo» (armatura e colpo in corsa alla voce 117, creature 114-116).

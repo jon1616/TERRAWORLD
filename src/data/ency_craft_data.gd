@@ -21,7 +21,8 @@ Il catalogo completo: [url=cat:materiali]tutti i materiali[/url]."""},
 """La forma decide come si usa un oggetto: la sua area di colpo, la velocità, a che cosa serve. Ogni forma esiste in ogni materiale.
 {cat_forme}"""},
 	{"id": "qualita", "group": "Creare ed equipaggiarsi", "name": "La qualità", "text":
-"""Ogni arma, attrezzo e armatura nasce con una [b]qualità[/b]: {cat_qualita}. La qualità cambia i valori e dà posti d'innesto in più. Al [b]Maglio dei Seminatori[/b] escono più spesso le qualità alte; la fortuna aiuta."""},
+"""Ogni arma, attrezzo e armatura nasce con una [b]qualità[/b]: {cat_qualita}. La qualità cambia i valori e dà posti d'innesto in più. Al [b]Maglio dei Seminatori[/b] escono più spesso le qualità alte; la fortuna aiuta.
+[b]La rifusione dei doppioni[/b]: al Maglio, con un oggetto in mano e un altro identico nella Bisaccia (stessa forma, stesso materiale), la lavorazione «Rifondi» li unisce in uno solo con la qualità più alta dei due (se sono uguali, un grado in più), il tratto migliore e gli innesti di tutti e due finché c'è posto. Non cambia il materiale: per salire di grado serve sempre il metallo nuovo."""},
 	{"id": "tratti", "group": "Creare ed equipaggiarsi", "name": "Tratti e innesti", "text":
 """Un oggetto può nascere con un [b]tratto[/b] (Spina: +15% danno; Vento: colpi più rapidi…). Al Maglio si [b]rinnova[/b] il tratto (sempre diverso dal vecchio) pagando materiali.
 Le [b]Essenze[/b] (lasciate dalle creature antiche, una per tratto delle antiche) si [b]innestano[/b] al Maglio: ogni oggetto ha dei [b]posti d'innesto[/b] (uno in più per ogni qualità sopra «buono» e per la risonanza del materiale, al massimo {max_slots}). Un innesto si può togliere, perdendo l'Essenza.
