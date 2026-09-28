@@ -7,6 +7,7 @@ extends Node2D
 var m: Node2D
 var id := ""                           # le ali indossate ("" = nessuna)
 var _flap := 0.0
+var _mount := ""                       # Roadmap 16: le ali della cavalcatura che vola ("" = nessuna)
 
 
 func setup(main: Node2D) -> void:
@@ -21,15 +22,27 @@ func setup(main: Node2D) -> void:
 func refresh() -> void:
 	var worn := String(m.character.bisaccia.equip.get("mantello", ""))
 	id = String(ItemsData.get_item(worn).get("wings", "")) if worn != "" else ""
-	var w: Dictionary = FlightData.WINGS.get(id, {})
+	_mount = _mount_wings()
+	if _mount != "":
+		id = _mount                            # in sella a una creatura che vola: vola lei
+	var w: Dictionary = FlightData.get_wings(id)
 	var p: Player = m.player
 	p.wings = w
 	p.fly_left = minf(p.fly_left, float(w.get("time", 0.0)))
-	visible = not w.is_empty()
+	visible = not w.is_empty() and not w.get("hidden", false)
 	queue_redraw()
 
 
+## Le ali della cavalcatura su cui si è in sella ("" se non vola).
+func _mount_wings() -> String:
+	if m.get("herd") == null or m.herd.riding < 0:
+		return ""
+	return String(Herd.tame_data(m.herd.rec_of(m.herd.riding)).get("mount_wings", ""))
+
+
 func _process(dt: float) -> void:
+	if _mount_wings() != _mount:
+		refresh()
 	if id == "":
 		return
 	var p: Player = m.player
@@ -41,7 +54,7 @@ func _draw() -> void:
 	if id == "":
 		return
 	var p: Player = m.player
-	var w: Dictionary = FlightData.WINGS[id]
+	var w: Dictionary = FlightData.get_wings(id)
 	var col := Color(String(w["color"]))
 	var open := p.flying or p.gliding
 	var beat := sin(_flap) if p.flying else 0.0

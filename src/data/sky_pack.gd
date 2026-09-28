@@ -12,6 +12,10 @@ const DATA := {
 			"pal": ["#2a2450", "#4a4a9a", "#7a8ae0", "#c0d0ff", "#fffac0"], "layer": "folgorite", "specks": 36},
 	},
 	"items": {
+		"seme_vento": {"name": "Seme di vento", "kind": "coltura", "icon": ["seme", "vento"], "stack": 99,
+			"desc": "Un seme con le ali: piantalo sull'erba (meglio quella del cielo) e nasce un Fiore di vento."},
+		"petali_vento": {"name": "Petali di vento", "kind": "materiale", "icon": ["foglia", "vento"],
+			"desc": "Leggeri come l'aria: il cibo delle creature del cielo, e un elisir per respirare lassù."},
 		"nimbite_grezza": {"name": "Nimbite grezza", "kind": "materiale", "icon": ["minerale", "nimbite"],
 			"desc": "Un metallo leggero come una nuvola, nelle isole del cielo alto. Al Baccello ardente, tre fanno un lingotto."},
 		"lingotto_nimbite": {"name": "Lingotto di nimbite", "kind": "materiale", "icon": ["lingotto", "nimbite"], "tier": 3,
@@ -59,7 +63,44 @@ const DATA := {
 			{"item": "linfa_antica", "min": 1, "max": 1, "chance": 0.15},
 		],
 	},
+	# voce 165: i pesci delle pozze del cielo (campo "sky"; i campi in cima a `FishData`)
+	"fish": {
+		"pesce_nuvola": {"name": "Pesce nuvola", "rar": "comune", "size": [8, 16], "color": "nuvola",
+			"sky": ["mare_nubi", "radici_sospese", "giardini_vento"], "desc": "Bianco e morbido: nuota come una nuvola che passa."},
+		"guizzo_pioggia": {"name": "Guizzo di pioggia", "rar": "non_comune", "size": [6, 12], "color": "lagunite",
+			"sky": ["mare_nubi", "nidi_tempesta"], "desc": "Nasce da una goccia che non è mai arrivata a terra."},
+		"anguilla_turchese": {"name": "Anguilla turchese", "rar": "non_comune", "size": [30, 60], "color": "cielo",
+			"sky": ["radici_sospese"], "desc": "Si attorciglia alle radici che pendono nelle pozze."},
+		"carpa_vento": {"name": "Carpa dorata del vento", "rar": "non_comune", "size": [20, 40], "color": "vento",
+			"sky": ["giardini_vento"], "desc": "Le pinne come girandole: nuota controcorrente anche nell'acqua ferma."},
+		"pesce_fulmine": {"name": "Pesce fulmine", "rar": "raro", "size": [15, 30], "color": "folgorite",
+			"sky": ["nidi_tempesta", "mare_nubi"], "time": "notte", "desc": "Di notte illumina la pozza a ogni guizzo."},
+		"pesce_stella_cielo": {"name": "Pesce stella del cielo", "rar": "leggendario", "size": [20, 45], "color": "stelle",
+			"sky": ["mare_nubi", "radici_sospese", "giardini_vento", "nidi_tempesta"], "time": "notte",
+			"desc": "Dicono che sia una stella caduta in una pozza, che ha imparato a nuotare."},
+	},
+	# voce 165: chi si addomestica tra le famiglie del cielo (campi di `HerdData.TAME`); la Balena delle stelle vola
+	"tame": {
+		"greggi_nuvola": {"diet": ["petali_vento", "miele_cielo"], "diff": 2, "produce": ["lana_nuvola", 200, 1, 3],
+			"aid": {"fall_safe": true}, "aid_text": "con lei vicino le cadute non fanno male"},
+		"lepri_vento": {"diet": ["petali_vento", "tubero_linfa"], "diff": 2, "produce": ["pelo_vento", 200, 1, 2],
+			"aid": {"jump": 1.08}, "aid_text": "salti l'8% più in alto"},
+		"api_cielo": {"diet": ["petali_vento", "petali_lume"], "diff": 2, "produce": ["miele_cielo", 240, 1, 1],
+			"aid": {"quota": 0.2}, "aid_text": "l'aria sottile ti pesa un po' meno (20%)"},
+		"balene_stelle": {"diet": ["polvere_stelle", "miele_cielo"], "diff": 4, "produce": ["ambra_stelle", 900, 1, 1],
+			"mount": {"run": 1.15}, "mount_wings": "balena", "mount_text": "vola: tenendo il salto sale piano e a lungo (4 s)"},
+	},
+	# voce 165: l'orto del cielo (campi di `CropsData`): il Fiore di vento cresce sulle erbe del cielo
+	"crops": {
+		"fiore_vento": {"name": "Fiore di vento", "seed": "seme_vento", "decor": 85, "grow": 300.0, "soil": "erba",
+			"harvest": {"petali_vento": [2, 3]}, "seeds": [1, 2]},
+	},
+	"wild": [
+		[[85], "seme_vento", 0.2],              # i fiori-girandola dei Giardini del vento
+		[[84], "seme_vento", 0.05],             # l'erba dorata
+	],
 	"recipes": [
+		{"out": "elisir_respiro", "qty": 1, "in": {"petali_vento": 3, "gelatina": 1}, "station": "alambicco"},
 		{"out": "lingotto_nimbite", "qty": 1, "in": {"nimbite_grezza": 3}, "station": "baccello_ardente"},
 		{"out": "dardo_folgore", "qty": 25, "in": {"folgorite": 1, "legno": 2}, "station": "ceppo"},
 		{"out": "baccello_tuono", "qty": 3, "in": {"folgorite": 2, "gelatina": 2, "nuvola_tempesta": 4}, "station": "maglio"},

@@ -153,6 +153,12 @@ static func fits(f: Dictionary, ctx: Dictionary) -> bool:
 		return false
 	if f.has("gene") and not String(f["gene"]) in (ctx.get("genes", []) as Array):
 		return false
+	# Roadmap 16: nelle pozze del cielo solo i pesci del cielo (campo "sky": i biomi del cielo dove vivono)
+	var sky := String(ctx.get("sky", ""))
+	if f.has("sky") != (sky != ""):
+		return false
+	if sky != "" and not sky in (f["sky"] as Array):
+		return false
 	return true
 
 
@@ -219,4 +225,9 @@ static func where(id: String) -> String:
 		parts.append("con %s" % ", ".join(ws))
 	if f.has("gene"):
 		parts.append("nei mondi con il gene %s" % GenesData.info(String(f["gene"])).get("name", f["gene"]))
+	if f.has("sky"):
+		var ss := []
+		for sid in f["sky"]:
+			ss.append(String(SkyData.get_biome(String(sid)).get("name", sid)))
+		parts.append("nelle pozze del cielo: %s" % ", ".join(ss))
 	return " · ".join(parts)

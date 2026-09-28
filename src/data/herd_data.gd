@@ -12,7 +12,7 @@ extends RefCounted
 ##   mount       si cavalca (tasto R): effetti di chi sta in sella, con `mount_text`
 ## Le famiglie che non ci sono non si lasciano addomesticare (Avvizziti, creature del Vuoto, mimi…).
 
-const TAME := {
+const _TAME := {
 	"grumi": {"diet": ["gelatina", "fungo_luminoso"], "diff": 1, "produce": ["gelatina", 150, 1, 2]},
 	"pecore": {"diet": ["seme_lanterna", "tubero_linfa"], "diff": 1, "produce": ["lana_muschio", 180, 1, 2],
 		"aid": {"defense": 1}, "aid_text": "+1 Scorza (la lana tiene caldo)"},
@@ -62,6 +62,9 @@ const TAME := {
 	"campanule": {"diet": ["petali_lume"], "diff": 2, "produce": ["petali_lume", 200, 1, 3],
 		"aid": {"regen": 1.2}, "aid_text": "la Vita ricresce il 20% più in fretta"},
 }
+
+## Roadmap 16: più quelle dei pacchetti (campo "tame", come qui).
+static var TAME: Dictionary = _TAME.merged(BiomesData.pack("tame"))
 
 ## Le regole in numeri.
 const FOLLOW_MAX := 3                  # creature che ti seguono insieme

@@ -30,6 +30,7 @@ func run() -> void:
 	await guardian()
 	await observatory()
 	await sky_weather()
+	await life()
 
 
 ## Voce 154: le zone e le fasce.
@@ -82,22 +83,23 @@ func climb() -> void:
 		return
 	var x := int(best["x"])
 	var top := int(best["y0"]) + 2
-	# da che parte è l'isola
+	# da che parte è l'isola: quella degli appunti del generatore con la cima alla riga della corrente
 	var side := 0
-	for dx in range(1, 24):
-		if world.solid(x - dx, top):
-			side = -1
-			break
-		if world.solid(x + dx, top):
-			side = 1
-			break
+	var bestd := 1e9
+	for e in world.gen_notes.get("isole_cielo", []):
+		if absi(int(e["top"]) - top) <= 1 and absf(float(e["x"]) - x) < bestd:
+			bestd = absf(float(e["x"]) - x)
+			side = 1 if int(e["x"]) > x else -1
 	m.vitals.hp = m.vitals.hp_max
 	m.snap_to(Vector2i(x, int(best["y1"])))
 	await kit.frames(2)
 	var p: Player = m.player
+	var had_control := p.control
+	p.control = false                        # si muove con i comandi simulati (`auto_dir`)
 	var min_y := p.position.y
 	var t := 0.0
-	while t < 8.0:
+	var limit := 4.0 + (int(best["y1"]) - int(best["y0"])) / 12.0     # la corrente sale 15 tessere al secondo
+	while t < limit:
 		await kit.frames(1)
 		t += m.get_process_delta_time()
 		min_y = minf(min_y, p.position.y)
@@ -106,6 +108,7 @@ func climb() -> void:
 		if p.on_floor and p.position.y < (top + 1) * S:
 			break
 	p.auto_dir = 0.0
+	p.control = had_control
 	var c: Vector2i = m.player_cell()
 	var zone := SkyData.zone_at(world, c.x, c.y)
 	await kit.seconds(0.6)
@@ -593,3 +596,66 @@ func sky_weather() -> void:
 		bolts, gust, rainbow, waves, in_air, won])
 	if bolts < 1 or gust < 1 or not rainbow or waves < 3 or in_air < 6 or won < 1:
 		print("ATTENZIONE: il tempo del cielo o la Burrasca non vanno come dovrebbero")
+
+
+## Voce 165: nelle pozze del cielo si pescano i pesci del cielo (e a terra no); la Balena delle stelle si cavalca e
+## vola; il Fiore di vento si pianta sull'erba del cielo.
+func life() -> void:
+	# la pesca: la prima pozza del cielo abbastanza grande
+	var ctx := {}
+	var pool := []
+	for e in world.sky:
+		if not ctx.is_empty():
+			break
+		for x in range(int(e["x0"]), int(e["x1"])):
+			if not ctx.is_empty():
+				break
+			for y in range(int(e["split"]), int(e["base"])):
+				if world.liq(x, y) >= 6:
+					var body := WaterBody.at(world, Vector2i(x, y))
+					if bool(body.get("ok", false)):
+						ctx = m.fishing.context(body)
+						pool = FishData.pool(ctx)
+						break
+	var sky_only := not pool.is_empty()
+	for e in pool:
+		if not FishData.info(String(e[0])).has("sky"):
+			sky_only = false
+	var ground := ctx.duplicate()
+	ground["sky"] = ""
+	var leaks := 0
+	for e in FishData.pool(ground) if not ground.is_empty() else []:
+		if FishData.info(String(e[0])).has("sky"):
+			leaks += 1
+	# la Balena delle stelle in sella
+	var h: Herd = m.herd
+	var spot := island_spot("basso")
+	m.snap_to(spot)
+	await kit.frames(3)
+	var whale := h.new_record("balena_stelle", "nutrita")
+	h.add_record(whale)
+	await kit.frames(3)
+	var rode := h.ride(true)
+	await kit.frames(3)
+	var wings: Dictionary = m.player.wings
+	var flies := not wings.is_empty() and float(wings.get("time", 0.0)) >= 3.0
+	h.ride(false)
+	await kit.frames(3)
+	var off: bool = m.player.wings.get("time", 0.0) != wings.get("time", -1.0) or wings.is_empty()
+	for r in h.records():
+		if int(r["uid"]) == int(whale["uid"]):
+			h.set_state(r, "riposo")
+	# il Fiore di vento
+	var b: Bisaccia = m.character.bisaccia
+	b.add("seme_vento", 1)
+	var gp := biome_spot("giardini_vento")
+	var planted := false
+	if gp.x >= 0:
+		m.snap_to(gp + Vector2i(-2, 0))
+		await kit.frames(3)
+		world.set_decor(gp.x, gp.y, 0)
+		planted = m.garden.plant(gp, "seme_vento")
+	print("vita del cielo: pozza con %d pesci, tutti del cielo %s, a terra nessuno del cielo %s (%d); Balena in sella %s, vola %s (%s s), scesa %s; Fiore di vento piantato %s" % [
+		pool.size(), sky_only, leaks == 0, leaks, rode, flies, wings.get("time", 0.0), off, planted])
+	if pool.is_empty() or not sky_only or leaks > 0 or not rode or not flies or not planted:
+		print("ATTENZIONE: pesca, mandria o orto del cielo non vanno come dovrebbero")

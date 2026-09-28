@@ -175,7 +175,7 @@ func _ores(w: World, c: GenContext, b: Dictionary, o: Vector2i, cells: Dictionar
 					w.set_tile(o.x + p.x, o.y + p.y, t)
 
 
-## Alberi, radichette che pendono, pozze d'acqua.
+## Alberi, radichette che pendono, pozze d'acqua (8-14 × 3: si pesca, voce 165).
 func _extras(w: World, c: GenContext, b: Dictionary, o: Vector2i, half: int) -> void:
 	# le radichette sotto le zolle
 	if String(b.get("isle", "")) in ["zolla", "giardino"]:
@@ -187,17 +187,17 @@ func _extras(w: World, c: GenContext, b: Dictionary, o: Vector2i, half: int) -> 
 			if c.rng.randf() < 0.4 and not w.solid(x, y) and w.solid(x, y - 1):
 				w.set_decor(x, y, TileDefs.DECOR_ROOTS[c.rng.randi_range(0, 1)])
 	# una pozza: una conca di 4-7 tessere scavata nella cima, piena d'acqua
-	if c.rng.randf() < float(b.get("pools", 0.0)) and half >= 8:
-		var pw := c.rng.randi_range(4, mini(7, half - 3))
-		var px := o.x + c.rng.randi_range(-half + 3, half - 3 - pw)
+	if c.rng.randf() < float(b.get("pools", 0.0)) and half >= 9:
+		var pw := c.rng.randi_range(8, mini(14, 2 * half - 5))          # almeno 24 celle: si pesca (`WaterBody.MIN_VOLUME`)
+		var px := o.x + c.rng.randi_range(-half + 2, maxi(half - 2 - pw, -half + 2))
 		var ok := true
 		for x in range(px - 1, px + pw + 1):
-			for dy in range(0, 4):
+			for dy in range(0, 5):
 				if not w.solid(x, o.y + dy):
 					ok = false
 		if ok:
 			for x in range(px, px + pw):
-				for dy in range(0, 2):
+				for dy in range(0, 3):
 					w.set_tile(x, o.y + dy, TileDefs.AIR)
 					w.set_liq(x, o.y + dy, 8, 0)
 	# un albero o due sulle zolle con l'erba

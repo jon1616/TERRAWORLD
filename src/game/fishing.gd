@@ -113,7 +113,8 @@ func context(body: Dictionary) -> Dictionary:
 	return {"liq": int(body["type"]), "stratum": int(body["stratum"]), "biome": String(BiomesData.BIOMES[int(body["biome"])]["id"]),
 		"depth": int(body["depth"]), "volume": float(body["volume"]), "night": m.day.is_night(),
 		"season": String(m.seasons.info().get("id", "")), "weather": String(m.weather.id),
-		"genes": m.world_meta.get("geni", [])}
+		"genes": m.world_meta.get("geni", []),
+		"sky": SkyData.zone_at(m.world, (body["center"] as Vector2i).x, (body["center"] as Vector2i).y)}
 
 
 func stop() -> void:

@@ -34,7 +34,18 @@ const WINGS := {
 		"desc": "Il volo dei Seminatori: alto, lungo, veloce."},
 }
 
+## Roadmap 16, voce 165: il volo delle cavalcature che volano (campo `mount_wings` della mandria): non sono oggetti,
+## non si disegnano sul Germogliato (vola la creatura sotto di lui).
+const MOUNT_WINGS := {
+	"balena": {"name": "In sella alla Balena delle stelle", "speed": 1.0, "rise": 150.0, "time": 4.0, "recharge": 0.8,
+		"mat": "stelle", "color": "#6a78c0", "hidden": true},
+}
+
 const CURRENT_RECHARGE := 2.0          # nelle correnti ascensionali la barra torna il doppio
+
+
+static func get_wings(id: String) -> Dictionary:
+	return WINGS.get(id, MOUNT_WINGS.get(id, {}))
 
 
 static func items() -> Dictionary:

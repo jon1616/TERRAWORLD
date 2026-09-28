@@ -11,7 +11,7 @@ extends RefCounted
 
 const SPROUT := 27                     # il germoglio di una coltura, uguale per tutte
 
-const CROPS := {
+const _CROPS := {
 	"rugiada": {"name": "Erba di rugiada", "seed": "seme_rugiada", "decor": 28, "grow": 180.0, "soil": "erba",
 		"harvest": {"foglia_rugiada": [2, 4]}, "seeds": [1, 2]},
 	"brace": {"name": "Funghi di brace", "seed": "spore_brace", "decor": 29, "grow": 240.0, "soil": "terra",
@@ -25,7 +25,7 @@ const CROPS := {
 }
 
 ## Semi selvatici: raccogliendo certe decorazioni ogni tanto cade un seme (decorazioni di `TileDefs`).
-const WILD := [
+const _WILD := [
 	[[1, 2, 3], "seme_rugiada", 0.08],     # fronde di muschio
 	[[4, 5, 6], "seme_campanula", 0.12],   # campanule luminose
 	[[9], "spore_brace", 0.25],            # funghi di brace
@@ -37,6 +37,11 @@ const WILD := [
 	[[42], "seme_rugiada", 0.15],          # cespuglio di brina
 	[[44, 45], "spore_brace", 0.12],       # braci e stecchi delle cenerarie
 ]
+
+
+## Roadmap 16: più quelle dei pacchetti (campi "crops" e "wild", come qui).
+static var CROPS: Dictionary = _CROPS.merged(BiomesData.pack("crops"))
+static var WILD: Array = _WILD + BiomesData.pack_list("wild")
 
 
 ## La coltura di un seme ("" se non è un seme da giardino).

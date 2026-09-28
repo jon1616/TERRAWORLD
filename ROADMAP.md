@@ -2904,10 +2904,11 @@ stormi», solo in cielo: ondate di volatili e il loro capo.
 
 ## Parte D — L'intreccio
 
-## 165. [ ] Pesca, mandria e orto del cielo (M)
+## 165. [x] Pesca, mandria e orto del cielo (M) — fatto il 29 set 2026
 Pesci delle pozze di nuvola (6), una creatura da mandria delle nuvole (lana di nuvola) e una **cavalcatura volante**,
 piante del cielo da coltivare (il Fagiolo di nuvola, il Fiore di vento).
 **Pronto quando**: la prova pesca in una pozza del cielo e cavalca la cavalcatura volante.
+**Fatto**: la pesca: sei pesci del cielo nel pacchetto (`fish` con il campo `sky`: Pesce nuvola, Guizzo di pioggia, Anguilla turchese, Carpa dorata del vento, Pesce fulmine, Pesce stella del cielo leggendario); nelle pozze del cielo solo loro, e loro solo lì (`FishData.fits`, `Fishing.context` con `sky`); le pozze delle isole ora 8-14 × 3 (sopra il minimo per pescare). La mandria: `HerdData.TAME` e `CropsData.CROPS/WILD` si allargano con i pacchetti (`tame`, `crops`, `wild`): greggi di nuvola (lana, cadute senza danno), lepri del vento, api turchesi (aria sottile −20%) e la **Balena delle stelle**, la prima cavalcatura che vola (`mount_wings` → `FlightData.MOUNT_WINGS`, letto da `Flight`: 4 s di volo lento). L'orto: il Fiore di vento (seme dai fiori-girandola, petali: cibo delle creature del cielo ed elisir). La prova della salita ora aspetta quanto serve (le correnti lunghe salgono per 8 s) e muove il Germogliato con i comandi simulati.
 
 ## 166. [ ] I geni del cielo (M)
 Il gene di forma **«Cieli alti»** (la superficie scende, il cielo raddoppia, più zone alte), un gene per bioma del cielo
