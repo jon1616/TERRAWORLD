@@ -419,6 +419,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsHazards.new(kit).run()
 		"combattimento":
 			await TestsCombat.new(kit).run()
+		"arena":
+			await TestsArena.new(kit).run()          # voce 180: il bot in arena (una misura, non nel giro)
 		"tratti":
 			await TestsTraits.new(kit).run()
 		"obiettivi":

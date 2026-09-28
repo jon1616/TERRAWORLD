@@ -44,7 +44,7 @@ var _lacc := 0.0
 func hurt(amount: int) -> int:
 	if hp <= 0:
 		return 0
-	var real := maxi(amount - (scorza + scorza_bonus + set_scorza) / 2, 1)
+	var real := reduce(amount, scorza + scorza_bonus + set_scorza)
 	_since_hit = 0.0
 	if hp - real <= 0 and death_guard.is_valid() and bool(death_guard.call()):
 		changed.emit()
@@ -56,6 +56,11 @@ func hurt(amount: int) -> int:
 	if hp == 0:
 		died.emit()
 	return real
+
+
+## La ferita che resta dopo la Scorza (una regola sola: la usa anche `FightModel`, voce 179).
+static func reduce(amount: int, total_scorza: int) -> int:
+	return maxi(amount - total_scorza / 2, 1)
 
 
 func heal(amount: int) -> void:

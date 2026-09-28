@@ -3227,7 +3227,7 @@ chiede di **equipaggiarsi bene**; nel complesso «abbastanza difficile, ma non t
 - **Il giocatore deve capire**: se l'armatura conta, deve vederlo (Scorza in percentuale nelle schede, un consiglio,
   l'Enciclopedia).
 
-## 179. [ ] Il modello del combattimento (M)
+## 179. [x] Il modello del combattimento (M) — fatto il 29 set 2026
 `FightModel` (`src/game/balance/fight_model.gd`, solo dati e formule, usabile senza finestra): il danno per secondo di
 un'arma vera (`Gear.stats`, velocità, dardi, difesa della creatura, elementi), la ferita vera che si riceve (Scorza,
 invulnerabilità, contatto, proiettili con le loro cadenze), la creatura vera di uno strato e di un vigore (varianti,
@@ -3235,14 +3235,16 @@ taglie, indoli, rare con le loro probabilità, `strengthen` come `Fauna`). `duel
 → secondi per abbatterla, Vita persa, colpi che si reggono. L'**abilità** è un profilo: quanto del tempo si colpisce
 davvero, quanti contatti si evitano, quanti proiettili si schivano.
 **Pronto quando**: `tools/bilancio.gd` usa il modello per le sue tabelle, e i conti tornano con le formule del gioco.
+**Fatto**: `FightModel` e `ZoneModel` in `src/game/balance/`: le regole del gioco in comune (`Vitals.reduce`, `Creature.through`, `Creature.HIT_STUN`), l'arma vera (`Gear.stats`, velocità, dardi, verghe con la Linfa), la creatura come la fa nascere `Fauna` (strato, vigore, varianti, rare, sciami), il duello (colpi, stordimento dei colpi, spinta, contatti, proiettili, invulnerabilità) e la zona (media pesata delle nascite, scontri affollati secondo il tetto del pericolo). `tools/curva.gd` (equipaggiamento × zona, `--abilita`, `--nuda`) e la sezione 3 di `tools/bilancio.gd` lo usano.
 
-## 180. [ ] Il bot in arena (M)
+## 180. [x] Il bot in arena (M) — fatto il 29 set 2026
 Una prova vera (`--solo=arena`, `TestsArena`): un posto piano, il Germogliato guidato da un bot (si avvicina, colpisce,
 arretra quando è ferito, salta i proiettili con un ritardo di reazione umano, beve una pozione sotto il 30%), una
 creatura vera alla volta con il suo comportamento vero, per un campione di specie di ogni strato. Misura secondi e Vita
 persa; `prove/arena.txt` li mette accanto a quelli del modello e ricava l'abilità del bot (quanto colpisce, quanto
 evita) con cui tarare i profili.
 **Pronto quando**: modello e arena distano meno del 25% sulla media di ogni strato.
+**Fatto**: `TestsArena` (`--solo=arena`, prove/arena.txt): recinto piano, bot che si avvicina, colpisce, arretra dopo una ferita, salta i proiettili con 0,25 s di reazione e prende l'arco contro chi vola fuori portata; tre scenari per strato (duello, sorpresa alle spalle, gruppo di tre). Primo giro: **nel duello il bot quasi non viene toccato** (0,09 contatti al secondo: ogni colpo ferma la creatura 0,22 s), una sorpresa vale +0,26 ferite per creatura, in gruppo ogni creatura ferisce il doppio; la Campanula errante (vola a 5 tessere) si batte solo con l'arco. Il modello tarato su questi numeri: duello vero/modello 0,94 per la Vita e 1,2 per il tempo; abilità «bot» → profili «attento», «medio», «jon».
 
 ## 181. [ ] Il giocatore simulato (G)
 `tools/percorso.gd`: una partita intera simulata a tappe, per i tre profili. A ogni tappa (Giardino, Superficie di

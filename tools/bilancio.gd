@@ -85,32 +85,21 @@ func _sword(tier: int) -> float:
 
 
 func _creatures() -> void:
-	_p("3. CREATURE: media per strato × vigore — Vita, danno, colpi per sconfiggerle (spada del grado atteso), colpi che reggi (Vita 100)")
+	_p("3. CREATURE (voce 179, `ZoneModel`): per strato × vigore, con l'arma e l'armatura intera del grado atteso")
+	_p("   (strato 0 → radicite, 1 → radicite, 2 → legnoferro, 3 → ambra, 4 → linfa; abilità «medio»)")
+	var mats := ["radicite", "radicite", "legnoferro", "ambra", "linfa"]
 	for s in StrataData.STRATA.size():
-		var hp := 0.0
-		var dmg := 0.0
-		var n := 0
-		for cid in CreaturesData.CREATURES:
-			var c: Dictionary = CreaturesData.CREATURES[cid]
-			if c.get("boss", false) or not s in c.get("strata", []):
-				continue
-			hp += float(c["hp"])
-			dmg += float(c["damage"])
-			n += 1
-		if n == 0:
-			continue
-		hp /= n
-		dmg /= n
-		var danger := float(StrataData.STRATA[s]["danger"])
-		var sword := _sword(s + 1)
-		var row := "   %-26s (%d specie)" % [StrataData.STRATA[s]["name"], n]
+		var mat: String = mats[s]
+		var eq := {}
+		for piece in ["elmo", "corazza", "gambali", "guanti", "stivali"]:
+			eq[piece] = {"id": "%s_%s" % [piece, mat]}
+		var lo := {"weapon": {"id": "spada_" + mat}, "equip": eq, "hp": 100.0}
+		var row := "   %-26s" % StrataData.STRATA[s]["name"]
 		for v in [1, 2, 3, 5, 10, 20]:
-			var mult: float = danger * VigorData.creature_mult(int(v))
-			var h: float = hp * mult
-			var d: float = dmg * mult * DangerData.DAMAGE
-			row += "  v%d: %d/%d %s|%s" % [v, roundi(h), roundi(d), str(ceili(h / sword)) if sword > 0.0 else "?", str(ceili(100.0 / maxf(d, 1.0)))]
+			var r := ZoneModel.fight(lo, s, int(v), FightModel.SKILL["medio"])
+			row += "  v%d: %3.0f%% %4.1fs" % [v, float(r["pressure"]) * 100.0, float(r["ttk"])]
 		_p(row)
-	_p("   (v = vigore; Vita/danno; colpi per sconfiggerla | colpi che il Germogliato regge senza Scorza)")
+	_p("   (pressione = Vita persa per creatura sconfitta; secondi per abbatterla. La curva intera: tools/curva.gd)")
 	_p("")
 
 

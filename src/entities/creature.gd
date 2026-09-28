@@ -395,11 +395,19 @@ func icon() -> Texture2D:
 	return _frames[0] if not _frames.is_empty() else null
 
 
+const HIT_STUN := 0.22                 # ogni colpo ferma la creatura per un attimo (lo legge anche `FightModel`)
+
+
+## Il colpo che passa la difesa di una creatura (una regola sola: la usa anche `FightModel`, voce 179).
+static func through(dmg: int, def: int) -> int:
+	return maxi(dmg - def / 2, 1)
+
+
 func take_hit(dmg: int, from_x: float, force: float) -> bool:
 	provoke()
 	if weak_t > 0.0:
 		dmg = roundi(dmg * ElementsData.VULNERABLE)
-	var real := maxi(dmg - defense / 2, 1)
+	var real := through(dmg, defense)
 	for b in behaviors:
 		if b is BhScudo and (b as BhScudo).blocks(self, from_x):
 			real = maxi(real / 5, 1)               # voce 130: lo scudo para davanti
@@ -414,7 +422,7 @@ func take_hit(dmg: int, from_x: float, force: float) -> bool:
 	just_hit = true
 	hp -= real
 	_flash = 0.12
-	stun = maxf(stun, 0.22)                 # non accorcia uno stordimento più lungo (reazioni, voce 51)
+	stun = maxf(stun, HIT_STUN)             # non accorcia uno stordimento più lungo (reazioni, voce 51)
 	var dir := signf(position.x - from_x)
 	if dir == 0.0:
 		dir = 1.0
