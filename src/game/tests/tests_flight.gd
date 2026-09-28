@@ -49,7 +49,7 @@ func run() -> void:
 	var eq0: Dictionary = m.character.bisaccia.equip.duplicate()
 	var spot := kit.flat_spot(w.spawn + Vector2i(100, 0), 8)
 	if spot.x < 0:
-		print("ATTENZIONE: volo, nessun posto piano: provo alla partenza")
+		print("volo: nessun posto piano, spiano vicino alla partenza")      # (lo spiana `flatten` qui sotto: la prova vale)
 		spot = w.spawn
 	kit.flatten(spot, 8)
 	# cielo libero sopra

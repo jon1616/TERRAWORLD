@@ -134,6 +134,8 @@ python tools/importa_tavola.py arte_ia/germogliato/01_corsa_v2.png --griglia 4x2
 python tools/respiro.py
 # mappe dei mondi: mappe/mondo_<seme>.png a metà grandezza (--intera per 1:1), tempi per passata, conteggi per seme
 Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20 --da 1
+# Roadmap 17: quanto dura imparare la lingua (un giocatore simulato in otto mondi) → prove/lingua.txt
+Godot_console.exe --headless --path . --script res://tools/lingua.gd
 # Roadmap 16: la misura del cielo (zone, tessere, isole, osservatori) con e senza i geni del cielo → prove/cielo.txt
 Godot_console.exe --headless --path . --script res://tools/cielo.gd -- --semi 3
 # voce 43: genomi a caso (`--caso --vigore 7`) o fissi (`--geni cavo,fungaie`), con la misura della varietà in fondo
@@ -609,6 +611,22 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     cristallo celeste (28° e ultimo materiale di `BuildData`), le Ali di nuvola e della tempesta e la cavalcatura che vola
     (`FlightData.MOUNT_WINGS`, `mount_wings` in `HerdData.TAME`, letto da `Flight`), i pesci (`FishData.fits` con `sky`).
   - Prove: gruppo «cielo» (`TestsSky`, foto 212-220) e «comodita» (`TestsComfort`). Enciclopedia: `EncySkyData`.
+- **Roadmap 17 «La lingua dei Seminatori»** (voci 170-178, 29 set 2026; richiesta dell'utente: le stele si imparavano in
+  un'ora; «tutte e tre le proposte, profonde, e il giocatore deve capire e poter consultare»): **si decifra**.
+  - `LanguageData`: 114 parole in tre strati (comune 50, antica 40, nera 24; `WORDS` = [lingua, italiano, classe, strato]),
+    `options(w)` (tre significati possibili fissi), le frasi `LORE`, `LORE_ANCIENT`, `LORE_BLACK` (ogni parola ne ha una:
+    `tools/lingua.gd` e la prova lo controllano), le iscrizioni delle cripte `CRYPT_TRUTH`.
+  - `Language`: `Character.lingua` = {parola: {s: 0 vista · 1 ipotesi · 2 certa, f: frasi viste, x: significati scartati,
+    r: bloccata}}; `see` (ipotesi dopo 2 frasi diverse, 3 per le lingue alte, una in meno con gli Occhiali), `guess`
+    (sbagliato: bloccata fino a una frase nuova; scartati due: dedotta), `confirm` (luoghi «forse» raggiunti, scrigni,
+    tavolette, Stilo), `known` = certa. Stele colorate per stato; luoghi «forse» sulla mappa.
+  - `LexiconPanel` (il Quaderno, tasto U), `WordChests` + `GlyphPanel` (gli scrigni a parola di `PassParole`, stazione
+    `scrigno_parola`), `IncisionsData` (incisioni al Maglio: tratti in `TraitsData.TRAITS`, dati "incisione", non prendono
+    un posto), `language_pack.gd` (ricette con il campo `parole`: `Crafting._discovered` con `Crafting.words`).
+  - `PassStele` sceglie lo strato (osservatori e mondi di vigore 3+ antica, mondo del Seme Nero nera); `Chains.inscription`.
+  - Prove: gruppo «lingua» (`TestsLanguage`: stati, Quaderno, strati, scrigni, incisioni, ricette; foto 127, 128, 221, 222).
+    Misura: `tools/lingua.gd` (un giocatore simulato in otto mondi → prove/lingua.txt). Enciclopedia: capitoli della lingua,
+    scrigni a parola, incisioni, ricette scritte (`EncyStoryData`).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni
@@ -867,6 +885,14 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   dell'universo anche per le classi (`Chiome`).
 - Le tabelle scritte con `const` non si allargano dai pacchetti: diventano `static var X = _X.merged(BiomesData.pack(...))`
   (`HerdData.TAME`, `CropsData.CROPS/WILD`), e chi le legge non cambia.
+
+- Un riferimento statico a un dizionario del personaggio (`Crafting.words = character.lingua`) si perde quando il
+  dizionario viene **sostituito** (salvataggi, prove che lo rimettono com'era): lo si riassegna dove il dato cambia
+  (`Language._sync_stat`), non una volta sola all'avvio.
+- Una meccanica «da decifrare» va misurata con un giocatore simulato (`tools/lingua.gd`): la prima misura ha trovato cinque
+  parole che non comparivano in nessuna frase, cioè impossibili da imparare.
+- Negli heredoc del Bash tool i caratteri come «—» possono arrivare rovinati e far fallire una sostituzione: per le
+  modifiche con testo accentato, Edit o uno script scritto con Write.
 
 ## Convenzioni
 

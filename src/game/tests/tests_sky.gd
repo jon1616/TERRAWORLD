@@ -342,18 +342,21 @@ func beasts() -> void:
 	f.clear()
 	var own := 0
 	var born := 0
+	var in_sky := 0
 	for i in 200:
 		var cr: Creature = f.try_spawn()
 		if cr != null:
 			born += 1
 			var cz := SkyData.zone_at(world, floori(cr.position.x / S), floori(cr.position.y / S))
+			if cz != "":
+				in_sky += 1                             # (le altre nascono sotto le isole, sulla terra)
 			if cz != "" and String(cr.data.get("sky", "")) == cz:
 				own += 1
 		if f.list.size() > 30:
 			f.clear()
 	f.clear()
-	print("nascite nel cielo (zona «%s»): %d nate, %d del bioma del cielo dove sono nate" % [zone, born, own])
-	if born < 10 or own < born / 2:
+	print("nascite nel cielo (zona «%s»): %d nate, %d in cielo, %d del bioma del cielo dove sono nate" % [zone, born, in_sky, own])
+	if born < 10 or in_sky < 5 or own < in_sky * 0.6:
 		print("ATTENZIONE: nel cielo non nascono le creature del cielo")
 	# la picchiata
 	m.vitals.refill()

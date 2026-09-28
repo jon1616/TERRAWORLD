@@ -7,8 +7,8 @@
 - **In corso: la Roadmap 13 «Il volto del mondo»** (voci 100-117, dal 28 set 2026): la grafica con Nano Banana,
   seguita passo passo con l'utente (Claude scrive i prompt, dice dove salvare le immagini, le adatta con gli script).
   Dopo: un secondo bilancio con il diario delle partite vere.
-- **In corso: la Roadmap 17 «La lingua dei Seminatori»** (voci 170-178, dal 29 set 2026): decifrare le stele (vista,
-  ipotesi, certa), tre strati di lingua, scrigni a parola, incisioni, ricette scritte, il Quaderno delle parole.
+- **Fatta la Roadmap 17 «La lingua dei Seminatori»** (voci 170-178, 29 set 2026): le stele si decifrano (vista, ipotesi,
+  certa), tre lingue, scrigni a parola, incisioni, ricette scritte, il Quaderno delle parole (U). Resoconto in fondo.
 - **Fatta la Roadmap 16 «Le Chiome del cielo»** (voci 152-169, 29 set 2026): il tasto Riponi, lo scavo intelligente e
   un ecosistema del cielo in ogni mondo (sei biomi, 30 creature, 6 Signori, l'Occhio della Tempesta, la nimbite, la
   Balena che vola, gli osservatori, 8 geni). Resoconto in fondo alla Roadmap 16; la grafica nelle voci 117g-117j.
@@ -2263,6 +2263,21 @@ Le trame delle tessere del cielo, i fulmini annunciati (la colonna di luce), le 
 del Fagiolo (passerelle), l'osservatorio (costrutti), il cielo che si fa notte nel Firmamento: sono effetti o blocchi,
 restano al codice.
 
+## 117k. [ ] I glifi dei Seminatori (S) — Roadmap 17
+Oggi le parole dei Seminatori si scrivono con le lettere («wehr sae ul»). Una tavola di **glifi**, uno per parola (le
+114 dei tre strati, in tre tavole), li mostrerebbe sulle stele, sugli scrigni a parola e nel Quaderno accanto alla
+scrittura: la lingua avrebbe una faccia. Tavole `arte_ia/glifi/NN_<strato>_v1.png`, griglia 10×5, in bianco su magenta
+(la tinta la dà il gioco: verde la comune, azzurra l'antica, viola-grigia la nera). Nel gioco: `ReadPanel`, `GlyphPanel`
+e `LexiconPanel` userebbero `arte/glifi/<parola>.png` se c'è.
+**Pronto quando**: la foto 127_stele mostra i glifi sopra la frase.
+Prompt (la lingua comune, prima tavola, nell'ordine di `LanguageData._COMMON`):
+```
+[FOGLIO DI STILE «Radici e Linfa»] A sheet of 50 ancient runic GLYPHS of an invented plant-people language, carved
+style, each glyph made of flowing root-like strokes, seeds and leaves, all different, same size, centred in its cell.
+Solid magenta #FF00FF background, a 10 x 5 grid, glyphs in pure WHITE only, thick clear strokes (they will be shown
+very small), no text, no numbers, no letters of any real alphabet.
+```
+
 ### Resta al codice (Nano Banana non serve)
 Le trame del terreno e delle pareti (doppia griglia, trame 64×64 senza cuciture), la luce, i liquidi, gli
 incantesimi, le esplosioni, le particelle, il tempo atmosferico; le 1906 icone una per una (nascono dalla voce 105).
@@ -3135,9 +3150,25 @@ vai a confermarla), obiettivi.
 **Pronto quando**: la prova dell'Enciclopedia è pulita e il filo porta alla stele giusta.
 **Fatto**: Enciclopedia: il capitolo «La lingua dei Seminatori» rifatto (i tre stati, come si prova un significato, gli altri modi di essere certi, le tre lingue, a che cosa servono) e tre capitoli nuovi (Gli scrigni a parola, Le incisioni con il loro catalogo, Le ricette scritte): 95 capitoli, 0 problemi; il glossario conta solo le parole certe. Quattro consigli (prima stele, prima ipotesi, prima parola certa, primo scrigno a parola), il filo «La lingua dei Seminatori» (porta al luogo «forse» più vicino), cinque obiettivi nuovi (scrigni a parola, lingua antica, lingua nera) e i due vecchi riscritti («decifra»).
 
-## 178. [ ] Bilancio, prove e resoconto (M)
+## 178. [x] Bilancio, prove e resoconto (M) — fatto il 29 set 2026
 Quanto dura imparare ogni strato (misura con un giocatore simulato che legge le stele di più mondi), il giro intero,
 CLAUDE.md, il resoconto, la grafica da ridisegnare (i glifi), commit e push.
+**Fatto**: `tools/lingua.gd` (un giocatore simulato in otto mondi; ha trovato cinque parole comuni che non comparivano in nessuna frase: due frasi nuove), il giro intero (657 s: due prove da correggere, le nascite nel cielo misurate male e il volo che ripiegava senza dirlo bene), CLAUDE.md (struttura e tre lezioni), il resoconto, la voce grafica 117k (i glifi, cartella `arte_ia/glifi/`).
+
+### Resoconto della Roadmap 17 (29 set 2026)
+La lingua dei Seminatori ora **si decifra**. Nessuna lettura regala più parole: una parola è prima **vista**, poi
+un'**ipotesi** (vista in 2 frasi diverse, 3 per le lingue alte) con tre significati possibili da provare ragionando sulle
+frasi (sbagliare blocca fino a una frase nuova; scartati due, la parola è dedotta), infine **certa** (anche arrivando al
+luogo che una stele indica «forse», aprendo uno scrigno a parola, con le tavolette o lo Stilo). **Tre lingue**: la comune
+(50 parole), l'antica (40, nei mondi di vigore 3 o più e negli osservatori del cielo), quella del Seme Nero (24, nel suo
+mondo e nelle iscrizioni delle cripte, che capite dicono la verità sul Seme). **Le parole servono**: 17-19 scrigni a
+parola per mondo (la ruota dei glifi), 20 incisioni al Maglio che non prendono posti d'innesto, 7 ricette scritte che si
+svelano con le loro parole. **Si consulta**: il Quaderno delle parole (U: stati, frasi viste tradotte, significati da
+provare, ricette nascoste, incisioni), la legenda sulle stele, quattro consigli, il filo verso i luoghi «forse», quattro
+capitoli dell'Enciclopedia, cinque obiettivi.
+**Quanto dura** (`tools/lingua.gd`, un giocatore che legge **tutte** le stele di ogni mondo): la lingua comune 32/50 nel
+primo mondo, completa al sesto; l'antica 22/40 nel primo mondo di vigore 3, completa al vigore 5; la nera 16/24 nel mondo
+del Seme Nero (il resto dalle cripte, dallo Stilo, dalle tavolette). Prima: tutto in un'ora.
 
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».
