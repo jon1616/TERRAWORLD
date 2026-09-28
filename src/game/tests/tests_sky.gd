@@ -21,6 +21,7 @@ func run() -> void:
 	await zones()
 	await climb()
 	await high()
+	await biomes()
 
 
 ## Voce 154: le zone e le fasce.
@@ -123,3 +124,38 @@ func high() -> void:
 					await kit.save("213_cielo_alto")
 					return
 	print("ATTENZIONE: nessuna isola alta dove posarsi")
+
+
+## Voce 156: una foto per ogni bioma del cielo che c'è nel mondo (sul suo pavimento); il Firmamento fa notte.
+func biomes() -> void:
+	var seen := {}
+	for e in world.sky:
+		for band in ["low", "high"]:
+			var id := String(e[band])
+			if seen.has(id):
+				continue
+			var b := SkyData.get_biome(id)
+			var fl := int(b["floor"])
+			var y_top := SkyData.TOP if band == "high" else int(e["split"])
+			var y_bot := int(e["split"]) if band == "high" else int(e["base"])
+			var found := Vector2i(-1, -1)
+			for x in range(int(e["x0"]) + 10, int(e["x1"]) - 10):
+				for y in range(y_top, y_bot):
+					if world.tile(x, y + 1) == fl and not world.solid(x, y) and not world.solid(x, y - 1) and not world.solid(x + 1, y):
+						found = Vector2i(x, y)
+						break
+				if found.x >= 0:
+					break
+			if found.x < 0:
+				continue
+			seen[id] = true
+			m.snap_to(found)
+			await kit.seconds(2.2 if b.has("dark") else 0.8)
+			var extra := ""
+			if b.has("dark"):
+				extra = " (buio del cielo %.2f)" % m.day.high_dark
+				if m.day.high_dark < 0.5:
+					print("ATTENZIONE: nel Firmamento il cielo non si fa notte")
+			print("bioma del cielo %s in %s, la scritta «%s»%s" % [id, found, m.chiome.here, extra])
+			await kit.save("214_cielo_" + id)
+	print("biomi del cielo fotografati: %d su %d" % [seen.size(), SkyData.BIOMES.size()])

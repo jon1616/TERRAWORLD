@@ -11,12 +11,14 @@ extends RefCounted
 ##   weight                  quanto spesso tocca a una zona (i geni del cielo lo moltiplicano)
 ##   floor                   la tessera del pavimento delle isole (la vegetazione `veg` ci cresce sopra)
 ##   body                    la tessera sotto il pavimento; rock: quella del cuore delle isole grandi
-##   tiles, veg, decor       come i biomi del sottosuolo (tessere nuove, vegetazione, decorazioni con la luce)
+##   tiles, veg, decor       come i biomi del sottosuolo (tessere nuove, vegetazione, decorazioni con la luce); in più
+##                           le tessere hanno "pass" (quanta luce le attraversa, la roccia 0,5) ed "emit" (luce propria)
 ##   isle                    la forma delle isole in `PassCielo` (zolla, nuvola, giardino, scoglio, tempesta, stelle)
 ##   isles                   quante isole per 100 colonne di zona
 ##   pools                   probabilità di una pozza d'acqua su un'isola (la pesca)
 ##   trees                   probabilità di un albero sulle isole (la specie del bioma di superficie sotto)
 ##   danger                  × il pericolo delle creature che nascono qui
+##   dark                    quanto il cielo si fa notte anche di giorno stando qui (il Firmamento)
 ##   thin                    voce 158: quanto svelta sale la barra dell'aria sottile (0 = niente)
 ##   elem                    l'elemento più probabile delle varianti che nascono qui
 ##   adj                     gli aggettivi dei nomi dei mondi (`NamesData`)

@@ -346,6 +346,10 @@ static var DROP: Dictionary = _with_tiles(_DROP, "drop")
 static var NAMES: Dictionary = _with_tiles(_NAMES, "name")
 static var MAP_COLOR: Dictionary = _with_tiles(_MAP_COLOR, "map")
 static var TERRAIN_LAYERS: Array = _layers()
+## Roadmap 16: quanto la luce attraversa ogni tessera solida (0,5 la roccia; le nuvole la lasciano passare) e la luce
+## che fanno da sé (cristallo celeste, polvere di stelle): campi "pass" ed "emit" delle tessere dei pacchetti.
+static var LIGHT_PASS: PackedFloat32Array = _light_pass()
+static var LIGHT_EMIT: PackedColorArray = _light_emit()
 static var _EXTRA: Dictionary = _extra()
 
 
@@ -413,4 +417,27 @@ static func _decor_light() -> Dictionary:
 	for d in all:
 		if all[d].has("light"):
 			out[int(d)] = all[d]["light"]
+	return out
+
+
+static func _light_pass() -> PackedFloat32Array:
+	var out := PackedFloat32Array()
+	out.resize(256)
+	out.fill(0.5)
+	var ex := _extra()
+	for t in ex:
+		if ex[t].has("pass"):
+			out[int(t)] = float(ex[t]["pass"])
+	return out
+
+
+static func _light_emit() -> PackedColorArray:
+	var out := PackedColorArray()
+	out.resize(256)
+	out.fill(Color(0, 0, 0))
+	var ex := _extra()
+	for t in ex:
+		if ex[t].has("emit"):
+			var e: Array = ex[t]["emit"]
+			out[int(t)] = Color(float(e[0]), float(e[1]), float(e[2]))
 	return out

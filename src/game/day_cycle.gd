@@ -25,6 +25,7 @@ var eternal := false                   # Notte eterna: l'ora resta a mezzanotte
 var sunless := false                   # Senza sole: il cielo non fa luce
 var eclipses := false                  # Eclissi: ogni mezzogiorno il sole si spegne per un po'
 var eclipse_on := false
+var high_dark := 0.0                   # Roadmap 16: nel Firmamento il cielo si fa notte anche di giorno (0-1, `Chiome`)
 var _last_sky := Color.BLACK
 var _eternal_t := 0.0
 var _label: Label
@@ -119,7 +120,7 @@ func _process(dt: float) -> void:
 
 ## Porta sole, cielo e luce all'ora attuale (`force` = subito, senza aspettare che cambi abbastanza).
 func apply(force := false) -> void:
-	var d := maxf(daylight(), night_floor)
+	var d := maxf(daylight(), night_floor) * (1.0 - high_dark)
 	var sky: Color = NIGHT_SKY.lerp(LightMap.SKY, d)
 	if sunless:
 		sky = Color(0.0, 0.0, 0.0)             # voce 78: niente sole né luna, la luce viene solo dalle cose vive
@@ -132,6 +133,8 @@ func apply(force := false) -> void:
 	# Si divide il colore dello sfondo per la luce che vi cade sopra, così a schermo resta `tint()`.
 	var seen := Color(_seen(sky.r), _seen(sky.g), _seen(sky.b))
 	var t := tint() if not sunless else Color(0.05, 0.05, 0.09)
+	if high_dark > 0.0:
+		t = t.lerp(NIGHT_TINT, high_dark)
 	var comp := Color(minf(t.r / seen.r, 6.0), minf(t.g / seen.g, 6.0), minf(t.b / seen.b, 6.0))
 	m.background.eclipse = eclipse_depth()
 	m.background.no_lights = sunless

@@ -23,6 +23,11 @@ func setup(main: Node2D) -> void:
 func _process(dt: float) -> void:
 	if m == null or not m.built:
 		return
+	# il Firmamento: la notte anche di giorno (si sfuma entrando e uscendo)
+	var dark := float(SkyData.get_biome(here).get("dark", 0.0)) if here != "" else 0.0
+	if absf(m.day.high_dark - dark) > 0.001:
+		m.day.high_dark = move_toward(m.day.high_dark, dark, dt * 0.6)
+		m.day.apply()
 	_t -= dt
 	if _t > 0.0:
 		return

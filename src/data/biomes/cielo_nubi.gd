@@ -8,7 +8,7 @@ const DATA := {
 	"pools": 0.5, "trees": 0.0, "danger": 1.15, "thin": 0.0, "elem": "gelo", "adj": ["nuvolose", "bianche"],
 	"tiles": {
 		52: {"name": "Nuvola", "hard": 0.1, "power": 0, "drop": "nuvola",
-			"pal": ["#6a7a98", "#9aaccc", "#c4d4ec", "#e4eefa", "#ffffff"], "layer": "nuvola", "specks": 0},
+			"pal": ["#6a7a98", "#9aaccc", "#c4d4ec", "#e4eefa", "#ffffff"], "layer": "nuvola", "specks": 0, "pass": 0.82},
 	},
 	"veg": [[0.2, 82], [0.28, 83]],
 	"decor": {82: {"soft": "erba"}, 83: {"soft": "pianta", "light": Color(0.25, 0.35, 0.5)}},

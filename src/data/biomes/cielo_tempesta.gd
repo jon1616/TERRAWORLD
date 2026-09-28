@@ -8,7 +8,7 @@ const DATA := {
 	"pools": 0.2, "trees": 0.0, "danger": 2.0, "thin": 1.2, "elem": "luce", "bolts": 1, "adj": ["tempestose", "folgoranti"],
 	"tiles": {
 		53: {"name": "Nuvola di tempesta", "hard": 0.3, "power": 0, "drop": "nuvola_tempesta",
-			"pal": ["#1a1e2e", "#2c3248", "#434c68", "#66729a", "#a0b0d8"], "layer": "nuvola_tempesta", "specks": 10},
+			"pal": ["#1a1e2e", "#2c3248", "#434c68", "#66729a", "#a0b0d8"], "layer": "nuvola_tempesta", "specks": 10, "pass": 0.8},
 	},
 	"veg": [[0.14, 88], [0.2, 89]],
 	"decor": {88: {"soft": "erba"}, 89: {"soft": "pianta", "light": Color(0.35, 0.4, 0.7)}},

@@ -2828,7 +2828,7 @@ partenza), niente cielo nei mondi a Guscio (il tetto) e nel Giardino. Tempo del 
 a un'isola bassa con una corrente.
 **Fatto**: `PassCielo` (44 ms per mondo): isole per forma (zolla, nuvola, giardino, scoglio, tempesta, stelle), radici pendenti di passerelle, ponti di liane, pozze, alberi sulle zolle, correnti dalla superficie al cielo basso e dal basso all'alto (con un'isoletta di nuvola se serve). Nel mondo di prova 6 zone, 13 correnti; la prova sale con una corrente fino all'isola (foto 212, 213).
 
-## 156. [ ] I sei biomi del cielo (L)
+## 156. [x] I sei biomi del cielo (L) — fatto il 29 set 2026
 Tre bassi e tre alti, ognuno con la sua tessera di pavimento, la vegetazione (`SkyDecorArt`), la luce, il tempo:
 - **Radici sospese** (basso): zolle di terra di cielo tenute insieme dalle radici, felci d'aria, erba turchese.
 - **Mare di nuvole** (basso): banchi di nuvola morbida (si scava in un attimo, attutisce le cadute), pozze di pioggia.
@@ -2837,6 +2837,7 @@ Tre bassi e tre alti, ognuno con la sua tessera di pavimento, la vegetazione (`S
 - **Nidi di tempesta** (alto): nuvole scure cariche, folgorite nella roccia, fulmini frequenti.
 - **Il Firmamento** (il più alto): polvere di stelle, frammenti stellari, la notte anche di giorno.
 **Pronto quando**: il foglio `tools/biomi.gd` li mostra e la foto di ognuno (prove) si legge.
+**Fatto**: sette tessere nuove (erba di cielo, terra di cielo, nuvola, nuvola di tempesta, erba del vento, cristallo celeste, polvere di stelle) e dodici piante (`SkyDecorArt`, id 80-91); le tessere hanno "pass" ed "emit" (`TileDefs.LIGHT_PASS/LIGHT_EMIT`, lette da `LightMap`): le nuvole lasciano passare la luce, cristallo e polvere di stelle brillano; nel Firmamento il cielo si fa notte (`DayCycle.high_dark`, campo "dark"). Foto 214_cielo_<bioma> (tutti e sei nel mondo di prova).
 
 ## 157. [ ] Arrivare in cielo (M)
 Presto: le correnti e le radici pendenti (voce 155); il **Fagiolo di nuvola** (si pianta a terra e in un minuto sale

@@ -8,7 +8,8 @@ const DATA := {
 	"pools": 0.0, "trees": 0.0, "danger": 1.8, "thin": 1.0, "elem": "gelo", "adj": ["cristalline", "celesti"],
 	"tiles": {
 		55: {"name": "Cristallo celeste", "hard": 0.6, "power": 35, "drop": "cristallo_celeste", "square": true, "glow": true,
-			"pal": ["#1a3a5a", "#2a6090", "#4a90c8", "#8ac8f0", "#e0f6ff"], "layer": "cristallo_celeste", "specks": 0},
+			"pal": ["#1a3a5a", "#2a6090", "#4a90c8", "#8ac8f0", "#e0f6ff"], "layer": "cristallo_celeste", "specks": 0, "pass": 0.7,
+			"emit": [0.3, 0.55, 0.9]},
 	},
 	"veg": [[0.12, 86], [0.2, 87]],
 	"decor": {86: {"soft": "pianta", "light": Color(0.3, 0.55, 0.8)}, 87: {"soft": "pianta", "light": Color(0.4, 0.6, 0.9)}},

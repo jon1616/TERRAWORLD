@@ -167,6 +167,8 @@ static func _solve(job: Dictionary) -> void:
 	d.resize(n)
 	solid.resize(n)
 	var cr := TileDefs.LIGHT_CRYSTAL
+	var lpass := TileDefs.LIGHT_PASS
+	var lemit := TileDefs.LIGHT_EMIT
 	var dlight: PackedColorArray = job["decor_light"]
 	var liq: PackedByteArray = job["liquid"]               # voce 73: la Linfa e la brace liquide fanno luce
 	var llight: PackedColorArray = job["liq_light"]
@@ -190,7 +192,12 @@ static func _solve(job: Dictionary) -> void:
 				lq = liq[k] if k < liq.size() else 0
 			if t != TileDefs.AIR and t != TileDefs.VETRO and t != TileDefs.COSTRUTTO_T:     # il vetro (e le vetrate) lasciano passare la luce
 				solid[i] = 1
-				d[i] = SOLID_DECAY
+				d[i] = lpass[t]                            # Roadmap 16: le nuvole lasciano passare la luce
+				var em := lemit[t]
+				if em.r + em.g + em.b > 0.0:
+					r[i] = em.r
+					g[i] = em.g
+					b[i] = em.b
 				if t == TileDefs.CRYSTAL:
 					r[i] = cr.r
 					g[i] = cr.g
