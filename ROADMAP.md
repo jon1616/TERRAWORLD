@@ -2263,7 +2263,14 @@ bioma); 3 Guardiani scritti a mano in più; eventi da 3 a circa 9. Blocchi da 10
 
 ## Parte A — Le fondamenta
 
-## 126. [ ] La mappa degli ecosistemi (S)
+## 126. [x] La mappa degli ecosistemi (S) — fatto il 29 set 2026
+Fatto: `tools/ecosistemi.gd` (prove/ecosistemi.txt): per ogni bioma di superficie, strato, bioma del sottosuolo con
+creature proprie e i liquidi: specie, specie **proprie** (per i biomi), ruoli e modi d'attacco; «!» sulle zone sotto la
+regola (5 ruoli, 3 modi, 3 specie proprie). Prima misura: **13 zone su 25 con un buco** — Cenerarie, Deserti di vetro,
+Ghiacciai, Foreste pietrificate, Lande di brace (2 specie proprie), Prati iridati, Radure stellari, Boschi dei sussurri
+(1), i 4 biomi del sottosuolo con creature (2 specie, 2-4 modi), i liquidi (2 specie, 1 modo). In superficie i modi
+d'attacco propri sono quasi sempre gli stessi (volo, carica, contatto). Comportamenti usati: vola 31, cammina 28,
+carica 16, scatto 14, salta 13, spara 12, evoca 10; nuota 2, agguato 3, scava 2, guscio 1, mimo 1.
 - `tools/ecosistemi.gd`: per ogni bioma di superficie, bioma del sottosuolo, strato e liquido: quali specie ci vivono,
   con che **ruolo** (erbivoro, predatore, volante, notturno, sciame, scavatore, acquatico, raro, mini-boss) e quanti
   **modi d'attacco** diversi (contatto, carica, proiettile, agguato, esplosione, magia…); stampa i buchi.
