@@ -26,7 +26,8 @@ const FORMS := [
 ## I materiali degli arredi (id di `BuildData.MATERIALS`), con il banco dove si fanno: i legni al Ceppo, il resto
 ## allo scalpellino.
 const MATS := [["lanterna", "ceppo"], ["radice", "ceppo"], ["ardesia", "scalpellino"], ["ambra", "scalpellino"],
-	["legnoferro", "scalpellino"], ["seminatori", "scalpellino"], ["linfa", "scalpellino"], ["stellare", "scalpellino"]]
+	["legnoferro", "scalpellino"], ["seminatori", "scalpellino"], ["linfa", "scalpellino"], ["stellare", "scalpellino"],
+	["osso", "scalpellino"], ["chitina", "scalpellino"]]              # voce 147: i materiali delle creature
 
 
 static var _stations := {}

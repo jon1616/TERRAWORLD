@@ -72,6 +72,19 @@ const MATERIALS := [
 		"raw": "linfa_gelata", "n": 1, "hard": 0.35, "power": 0, "iso": 0, "luce": 1, "bello": 3},
 	{"id": "cenere", "label": "cenere antica", "pal": ["#2a2a2c", "#3e3e42", "#56565a", "#727278", "#9a9aa0"], "icon": "cenere",
 		"raw": "cenere_antica", "n": 2, "hard": 0.45, "power": 0, "iso": 2, "luce": 0, "bello": 1},
+	# voce 147: i materiali delle creature
+	{"id": "osso", "label": "osso levigato", "pal": ["#5a5448", "#8a8270", "#b8ae98", "#dcd4c0", "#f8f4e8"], "icon": "ardesia",
+		"raw": "osso_antico_grezzo", "n": 1, "hard": 0.5, "power": 0, "iso": 1, "luce": 0, "bello": 3},
+	{"id": "chitina", "label": "chitina", "pal": ["#1e2a1a", "#34462a", "#52683c", "#7a9254", "#b0c880"], "icon": "muschio",
+		"raw": "chitina_grezza", "n": 1, "hard": 0.55, "power": 35, "iso": 1, "luce": 0, "bello": 2},
+	{"id": "cera", "label": "cera di lume", "pal": ["#6a4a10", "#a0741a", "#d0a030", "#f0cc60", "#fff4b0"], "icon": "ambra",
+		"raw": "miele_lume", "n": 1, "hard": 0.25, "power": 0, "iso": 2, "luce": 1, "bello": 3, "glow": true},
+	{"id": "seta", "label": "seta intrecciata", "pal": ["#6a6a60", "#9a9a8a", "#c8c8b8", "#e8e8dc", "#ffffff"], "icon": "seta",
+		"raw": "seta_radice", "n": 2, "hard": 0.2, "power": 0, "iso": 3, "luce": 0, "bello": 2},
+	{"id": "squama", "label": "squame di salamandra", "pal": ["#3a1008", "#6a1c0c", "#a83414", "#e06a24", "#ffc070"], "icon": "brace",
+		"raw": "squama_brace", "n": 1, "hard": 0.6, "power": 35, "iso": 3, "luce": 0, "bello": 3},
+	{"id": "carapace", "label": "carapace di granchio", "pal": ["#1a2a30", "#2e4650", "#4a6a78", "#7aa0b0", "#c0e0e8"], "icon": "lagunite",
+		"raw": "carapace_lago", "n": 1, "hard": 0.6, "power": 35, "iso": 1, "luce": 0, "bello": 2},
 ]
 
 

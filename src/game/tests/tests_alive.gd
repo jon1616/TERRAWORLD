@@ -117,7 +117,7 @@ func builds() -> void:
 	kit.flatten(spot, 14)
 	var nf := BuildData.FORMS.size()
 	var placed := 0
-	var mats := [0, 1, 2, 6, 12, 13, 14, 17]              # un campione: ardesia, lanterna, ambra, brace, Linfa, stellare, vetro, catacomba
+	var mats := [0, 1, 2, 6, 12, 21, 23, 25]              # un campione: ardesia, lanterna, ambra, brace, Linfa, osso, cera, squame
 	for r in mats.size():
 		var mi: int = mats[r]
 		for fi in nf:

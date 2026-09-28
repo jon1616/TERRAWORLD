@@ -2567,7 +2567,11 @@ disegno in `NestArt`): clic destro, piume e a volte un uovo, ogni 10 minuti. Dif
   e lasciate sole, gli uccelli fanno il nido sui tetti. Difese: pietra, luce, trappole, creature da guardia della
   mandria. Ciò che si rompe torna materiale; si spegne dalle Opzioni.
 
-## 147. [ ] I materiali delle creature per costruire (S)
+## 147. [x] I materiali delle creature per costruire (S) — fatto il 29 set 2026
+Fatto: sei materiali nuovi in `BuildData.MATERIALS` (osso levigato, chitina, cera di lume che lascia passare la luce e
+brilla, seta intrecciata che isola più di tutti, squame di salamandra, carapace di granchio): **27 materiali × 9 forme
+= 243 costrutti** (il limite di un byte è 252) e le loro pareti; osso e chitina anche negli **arredi** (120 in tutto).
+I trofei si espongono negli armadi di una sala dei trofei (voce 142). Un motivo in più per cacciare ogni specie.
 - Ossa, chitina, cera, seta, squame e pelli diventano blocchi e arredi (voce 139); i trofei si espongono (voce 142):
   un motivo in più per cacciare ogni specie.
 
