@@ -5,7 +5,7 @@ extends RefCounted
 const DATA := {
 	"id": "mare_nubi", "name": "Mare di nuvole", "desc": "banchi di nuvola morbida su cui si cammina, pozze di pioggia",
 	"band": "basso", "color": "#e4eefa", "weight": 4, "floor": 52, "body": 52, "rock": 52, "isle": "nuvola", "isles": 2.0,
-	"pools": 0.5, "trees": 0.0, "danger": 1.15, "thin": 0.0, "elem": "gelo", "adj": ["nuvolose", "bianche"],
+	"pools": 0.5, "trees": 0.0, "danger": 1.15, "thin": 0.0, "elem": "gelo", "adj": ["nuvolosi", "nuvolose"],
 	"tiles": {
 		52: {"name": "Nuvola", "hard": 0.1, "power": 0, "drop": "nuvola",
 			"pal": ["#6a7a98", "#9aaccc", "#c4d4ec", "#e4eefa", "#ffffff"], "layer": "nuvola", "specks": 0, "pass": 0.82},
@@ -15,5 +15,10 @@ const DATA := {
 	"items": {
 		"nuvola": {"name": "Nuvola", "kind": "blocco", "icon": ["zolla", "nuvola"], "place": 52,
 			"desc": "Si posa come un blocco e si scava in un attimo. Chi ci cade sopra non si fa male."},
+	},
+	# voce 166: il gene del cielo che rende questo bioma più frequente
+	"genes": {
+		"cielo_nubi": {"cat": "cielo", "name": "Mare di nubi", "rar": 1, "dom": 2, "good": true, "desc": "nel cielo basso il mare di nuvole: pecore, meduse e pozze di pioggia",
+			"gen": {"sky": {"mare_nubi": 5.0}}},
 	},
 }

@@ -87,8 +87,9 @@ static var ADJ: Dictionary = _adj()
 
 static func _adj() -> Dictionary:
 	var out := _ADJ.duplicate()
-	for u in BiomesData.UNDER:
+	for u in BiomesData.UNDER + BiomesData.SKY:          # Roadmap 16: anche i biomi del cielo
 		if u.has("adj"):
 			for g in (u.get("genes", {}) as Dictionary):
 				out[g] = u["adj"]
+	out.merge(BiomesData.pack("gene_adj"))               # e quelli dei pacchetti ({gene: [maschile, femminile]})
 	return out

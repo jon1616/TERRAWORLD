@@ -50,18 +50,20 @@ const RARITY := [
 ##      big (soglia delle grandi caverne), comb (grotte ad alveare), shafts (voragini), under (biomi del sottosuolo,
 ##      `PassSottosuolo`), roots (radici giganti), shallow (profondità minima delle vene), ore_boost (tessera → soglia
 ##      più bassa per quel minerale), geodes, crystal (soglia dei cristalli più bassa), rich (tiri di bottino in più
-##      negli scrigni delle rovine), trees, blight_zones (macchie di Avvizzimento in più o in meno)
+##      negli scrigni delle rovine), trees, blight_zones (macchie di Avvizzimento in più o in meno); Roadmap 16: sky
+##      ({bioma del cielo: × il peso}), sky_scale (fascia bassa più alta), sky_isles (× le isole), no_sky (niente cielo)
 const DEFAULTS := {
 	"gen": {"ore": 0.0, "ruins": 1.0, "gems": 1.0, "surface": 0.0, "hills": 1.0, "rough": 0.0, "worm": 1.0, "room": 0.0,
 		"big": 0.0, "comb": false, "shafts": 0.0, "under": [], "roots": 1.0, "shallow": 1.0, "ore_boost": {},
 		"geodes": 1.0, "crystal": 0.0, "rich": 0.0, "trees": 1.0, "blight_zones": 0.0, "mosaic": false, "islands": 0.0,
-		"city": false, "sea": false, "pools": 1.0, "roof": false, "archi": false},
+		"city": false, "sea": false, "pools": 1.0, "roof": false, "archi": false,
+		"sky": {}, "sky_scale": 1.0, "sky_isles": 1.0, "no_sky": false},
 	"run": {"danger": 0.0, "lumini": 1.0, "rare": 1.0, "grow": 1.0, "night": 0.0, "events": 1.0, "blight": 1.0, "season": 0.0,
 		"aurora": 0.0, "roles": {}, "rain": 1.0, "wind": 1.0, "fog": 1.0, "grav": 1.0, "roof": false, "regrow": false, "crystal": 0.0,
 		"falling": false, "day_len": 1.0, "eternal": false, "sunless": false, "eclipse": false},
 }
 const MUL := ["ruins", "gems", "lumini", "rare", "grow", "events", "blight", "hills", "worm", "roots", "shallow", "geodes",
-	"trees", "pools", "rain", "wind", "fog", "grav", "day_len"]
+	"trees", "pools", "rain", "wind", "fog", "grav", "day_len", "sky_scale", "sky_isles"]
 
 const _GENES := {
 	# --- superficie: i biomi (erano le specie della voce 39) -------------------------------------------------------

@@ -5,7 +5,7 @@ extends RefCounted
 const DATA := {
 	"id": "radici_sospese", "name": "Radici sospese", "desc": "zolle di terra che galleggiano, tenute insieme dalle radici",
 	"band": "basso", "color": "#8ef0c8", "weight": 4, "floor": 50, "body": 51, "rock": 51, "isle": "zolla", "isles": 2.2,
-	"pools": 0.25, "trees": 0.5, "danger": 1.2, "thin": 0.0, "elem": "linfa", "adj": ["sospese", "pensili"],
+	"pools": 0.25, "trees": 0.5, "danger": 1.2, "thin": 0.0, "elem": "linfa", "adj": ["pensili", "pensili"],
 	"tiles": {
 		50: {"name": "Erba di cielo", "hard": 0.22, "power": 0, "drop": "terra_cielo", "grass": true,
 			"pal": ["#123a3a", "#1f5c58", "#2f8a7c", "#58c0a4", "#a8f0d8"], "layer": "erba_cielo", "specks": 20},
@@ -17,5 +17,10 @@ const DATA := {
 	"items": {
 		"terra_cielo": {"name": "Terra di cielo", "kind": "blocco", "icon": ["zolla", "cielo"], "place": 51,
 			"desc": "Terra leggera delle isole sospese: sta dove la metti, anche nel vuoto accanto a un blocco."},
+	},
+	# voce 166: il gene del cielo che rende questo bioma più frequente
+	"genes": {
+		"cielo_radici": {"cat": "cielo", "name": "Radici pendule", "rar": 1, "dom": 2, "good": true, "desc": "nel cielo tante isole di radici sospese, con le loro api e le loro volpi",
+			"gen": {"sky": {"radici_sospese": 5.0}}},
 	},
 }

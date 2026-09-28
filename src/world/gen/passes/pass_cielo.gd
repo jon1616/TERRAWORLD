@@ -47,7 +47,7 @@ func _band(w: World, c: GenContext, z: Dictionary, band: String, all: Array) -> 
 		return []
 	var x0 := int(z["x0"])
 	var x1 := int(z["x1"])
-	var n := int(roundf(float(b.get("isles", 1.5)) * (x1 - x0) / 100.0))
+	var n := int(roundf(float(b.get("isles", 1.5)) * (x1 - x0) / 100.0 * float(c.genes().get("sky_isles", 1.0))))
 	var out := []
 	for tries in n * 8:
 		if out.size() >= n:

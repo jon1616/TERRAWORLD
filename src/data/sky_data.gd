@@ -23,7 +23,7 @@ extends RefCounted
 ##   ores                    voce 159: [[tessera, quota delle celle]] le vene nel corpo delle isole (nimbite, folgorite)
 ##   thin                    voce 158: quanto svelta sale la barra dell'aria sottile (0 = niente)
 ##   elem                    l'elemento più probabile delle varianti che nascono qui
-##   adj                     gli aggettivi dei nomi dei mondi (`NamesData`)
+##   adj                     gli aggettivi dei nomi dei mondi per il gene del bioma: [maschile, femminile] (`NamesData`)
 
 const LOW_GAP := 28                    # tessere tra la superficie più alta della zona e il fondo del cielo basso
 const LOW_H := 62                      # altezza della fascia bassa

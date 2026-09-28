@@ -41,6 +41,14 @@ const DATA := {
 		"elisir_respiro": {"name": "Elisir del respiro alto", "kind": "consumabile", "icon": ["pozione", "celeste"],
 			"boon": ["respiro_alto", 300.0], "stack": 20, "desc": "Per 5 minuti l'aria sottile non ti tocca."},
 	},
+	# voce 166: i geni di forma del cielo
+	"genes": {
+		"cieli_alti": {"cat": "forma", "name": "Cieli alti", "rar": 1, "dom": 2, "good": true,
+			"desc": "la terra un poco più bassa, un cielo alto e pieno di isole", "gen": {"surface": 0.045, "sky_scale": 1.5, "sky_isles": 2.3}},
+		"senza_cielo": {"cat": "cielo", "name": "Cielo vuoto", "rar": 1, "dom": 1, "good": false,
+			"desc": "nessuna isola nel cielo: solo vento", "gen": {"no_sky": true}},
+	},
+	"gene_adj": {"cieli_alti": ["altissimi", "altissime"]},      # gli aggettivi dei nomi dei mondi per i geni di qui
 	# voce 163: gli scrigni degli osservatori
 	"loot": {
 		"marea_cielo": [

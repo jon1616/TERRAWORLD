@@ -5,7 +5,7 @@ extends RefCounted
 const DATA := {
 	"id": "scogliere_cristallo", "name": "Scogliere di cristallo", "desc": "scogli di cristallo celeste che brillano nel vuoto",
 	"band": "alto", "ores": [[57, 0.05]], "color": "#8ac8f0", "weight": 3, "floor": 55, "body": 55, "rock": 55, "isle": "scoglio", "isles": 1.6,
-	"pools": 0.0, "trees": 0.0, "danger": 1.8, "thin": 1.0, "elem": "gelo", "adj": ["cristalline", "celesti"],
+	"pools": 0.0, "trees": 0.0, "danger": 1.8, "thin": 1.0, "elem": "gelo", "adj": ["cristallini", "cristalline"],
 	"tiles": {
 		55: {"name": "Cristallo celeste", "hard": 0.6, "power": 35, "drop": "cristallo_celeste", "square": true, "glow": true,
 			"pal": ["#1a3a5a", "#2a6090", "#4a90c8", "#8ac8f0", "#e0f6ff"], "layer": "cristallo_celeste", "specks": 0, "pass": 0.7,
@@ -16,5 +16,10 @@ const DATA := {
 	"items": {
 		"cristallo_celeste": {"name": "Cristallo celeste", "kind": "blocco", "icon": ["gemma", "celeste"], "place": 55,
 			"desc": "Brilla da sé: un blocco che fa luce, e un materiale per le lenti e le ali."},
+	},
+	# voce 166: il gene del cielo che rende questo bioma più frequente
+	"genes": {
+		"cielo_cristallo": {"cat": "cielo", "name": "Scogliere celesti", "rar": 2, "dom": 2, "good": true, "desc": "nel cielo alto le scogliere di cristallo celeste",
+			"gen": {"sky": {"scogliere_cristallo": 5.0}}},
 	},
 }

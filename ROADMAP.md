@@ -2910,11 +2910,12 @@ piante del cielo da coltivare (il Fagiolo di nuvola, il Fiore di vento).
 **Pronto quando**: la prova pesca in una pozza del cielo e cavalca la cavalcatura volante.
 **Fatto**: la pesca: sei pesci del cielo nel pacchetto (`fish` con il campo `sky`: Pesce nuvola, Guizzo di pioggia, Anguilla turchese, Carpa dorata del vento, Pesce fulmine, Pesce stella del cielo leggendario); nelle pozze del cielo solo loro, e loro solo lì (`FishData.fits`, `Fishing.context` con `sky`); le pozze delle isole ora 8-14 × 3 (sopra il minimo per pescare). La mandria: `HerdData.TAME` e `CropsData.CROPS/WILD` si allargano con i pacchetti (`tame`, `crops`, `wild`): greggi di nuvola (lana, cadute senza danno), lepri del vento, api turchesi (aria sottile −20%) e la **Balena delle stelle**, la prima cavalcatura che vola (`mount_wings` → `FlightData.MOUNT_WINGS`, letto da `Flight`: 4 s di volo lento). L'orto: il Fiore di vento (seme dai fiori-girandola, petali: cibo delle creature del cielo ed elisir). La prova della salita ora aspetta quanto serve (le correnti lunghe salgono per 8 s) e muove il Germogliato con i comandi simulati.
 
-## 166. [ ] I geni del cielo (M)
+## 166. [x] I geni del cielo (M) — fatto il 29 set 2026
 Il gene di forma **«Cieli alti»** (la superficie scende, il cielo raddoppia, più zone alte), un gene per bioma del cielo
 (categoria «cielo»: quel bioma più spesso) e **«Senza cielo»** (per la varietà). Nomi dei mondi, Semi, schede dei
 portali; `tools/mappe.gd -- --caso` misura la varietà.
 **Pronto quando**: un mondo «Cieli alti» ha il cielo di almeno il doppio e la varietà resta sopra la soglia.
+**Fatto**: otto geni: **Cieli alti** (forma: la terra un poco più bassa, fascia bassa ×1,5, isole ×2,3: il cielo ha 2,24 volte le tessere, misura di `tools/cielo.gd` su 3 semi), **Cielo vuoto** (nessuna isola), e uno per bioma del cielo (categoria «cielo», nel file del bioma: quel bioma ×5 nelle zone; Radici pendule, Mare di nubi, Giardini pensili, Scogliere celesti, Nidi del tuono, Firmamento vicino). Chiavi nuove del generatore in `GenesData.DEFAULTS` (`sky`, `sky_scale`, `sky_isles`, `no_sky`); aggettivi dei nomi dei mondi anche dai biomi del cielo e dal campo `gene_adj` dei pacchetti. Varietà con i geni a caso (8 semi, vigore 5): la coppia più simile 2,49 contro un rumore di 0,50.
 
 ## 167. [ ] Il cielo nella partita (S)
 Enciclopedia («Le Chiome del cielo»), consigli, filo, Bacheca (richieste del cielo), obiettivi, Erbario, studio.
