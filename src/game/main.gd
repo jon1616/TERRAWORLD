@@ -85,6 +85,7 @@ var liquids: Liquids
 var weather: Weather
 var gravity: Gravity
 var chiome: Chiome
+var lexicon: LexiconPanel
 var strikes: SkyStrikes
 var living: LivingEarth
 var vigor: Vigor
@@ -241,6 +242,10 @@ func _build() -> void:
 	seasons = _mount(Seasons.new())        # voce 66: le stagioni di ogni mondo
 	board = _mount(Board.new())            # voce 67: la Bacheca dei Giardinieri
 	language = _mount(Language.new())      # voce 68: la lingua dei Seminatori, le stele e le tavolette
+	lexicon = LexiconPanel.new()           # Roadmap 17: il Quaderno delle parole (tasto U)
+	hud.add_child(lexicon)
+	lexicon.setup(self)
+	hud.overlays.append(lexicon)
 	chains = _mount(Chains.new())          # voce 69: le catene di ricerca tra i mondi (cripte, Taccuino)
 	places = _mount(Places.new())          # voce 70: i luoghi scritti a mano
 	mechanisms = _mount(Mechanisms.new())  # voce 71: enigmi e meccanismi dei luoghi (porte dei Seminatori)

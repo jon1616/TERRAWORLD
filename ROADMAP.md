@@ -3091,11 +3091,12 @@ Le **tavolette** confermano due parole tra quelle viste o ipotizzate (prima quel
 **Pronto quando**: la prova legge due stele, trova le ipotesi, va al luogo e le conferma.
 **Fatto**: la stele mostra la frase con i colori degli stati e la legenda; la prima lettura dice che le parole ora sono viste; nessuna lettura regala più parole. Le stele dei luoghi: con tutte ipotesi il segno «forse» (ambra) sulla mappa; arrivando entro 12 tessere le parole diventano certe e il segno pieno. La tavoletta conferma 2 parole viste (prima le ipotesi di questo mondo) e non si consuma se non c'è niente da confermare. Prova «lingua»: leggendo le 50 stele del mondo di prova 34 ipotesi e 0 parole certe; sbagliato → bloccato → dedotto; tavoletta +2; luogo «forse» confermato arrivandoci.
 
-## 172. [ ] Il Quaderno delle parole (M)
+## 172. [x] Il Quaderno delle parole (M) — fatto il 29 set 2026
 Un pannello da consultare sempre (tasto U, e dal Semenzaio): le parole per strato di lingua con lo stato e quante volte
 le hai viste; di ogni parola le frasi in cui compare (tradotte per quello che sai), i significati possibili con il
 pulsante «Prova»; in cima «Come si decifra» in poche righe, e quanto ti manca per strato.
 **Pronto quando**: la foto del Quaderno si legge, e un «Prova» giusto conferma la parola.
+**Fatto**: `LexiconPanel` (`src/ui/lexicon_panel.gd`, tasto U): in cima «Come si decifra» e a che punto è ogni strato (certe, ipotesi, viste, mai viste); tre schede (gli strati mai incontrati restano «???»); la griglia delle parole con il colore dello stato (quelle mai viste sono puntini); la scheda della parola: che tipo di parola è, in quante frasi l'hai vista, le frasi lette in questo mondo tradotte per quello che sai, e per un'ipotesi i significati ancora possibili con i pulsanti ««…»?» (`Language.guess`), quelli scartati e se sei bloccato. Foto 221.
 
 ## 173. [ ] La lingua antica e la lingua del Seme Nero (L)
 Circa 40 parole antiche e 24 della lingua nera, con le loro frasi (storia e luoghi: osservatori, Signori, Guardiani, il

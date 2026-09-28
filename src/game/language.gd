@@ -237,6 +237,9 @@ func read(o: Vector2i) -> bool:
 	var n := understood(e)
 	t += "[color=#9fc8c0]Parole certe %d su %d%s.[/color]" % [n, words.size(),
 		"" if layer == "comune" else " · %s" % String(LanguageData.LAYERS[layer]["name"]).to_lower()]
+	if first and news.is_empty() and n < words.size():
+		t += "\n[color=#8aa09a]Queste parole ora le hai «viste». Ritrovale in altre frasi (%d in tutto) e te ne farai un'ipotesi.[/color]" % \
+			int(LanguageData.LAYERS[layer]["hyp"])
 	if not news.is_empty():
 		t += "\n[color=#e0b060]Hai visto %s in abbastanza frasi: ora ne hai un'ipotesi. Nel Quaderno puoi provare il significato.[/color]" % \
 			", ".join(news.map(func(w: String) -> String: return "«%s»" % LanguageData.sem(w)))

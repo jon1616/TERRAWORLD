@@ -94,3 +94,44 @@ func run() -> void:
 		print("ATTENZIONE: la lingua dei Seminatori non funziona come dovrebbe")
 	m.character.lingua = had
 	lg._sync_stat()
+	await lexicon()
+
+
+## Voce 172: il Quaderno si apre con il suo tasto, mostra lo strato e una parola scelta; «È questo?» giusto la conferma.
+func lexicon() -> void:
+	var lg: Language = m.language
+	var had: Dictionary = m.character.lingua.duplicate(true)
+	m.character.lingua.clear()
+	for o in world.stations:
+		if String(world.stations[o]) == "stele":
+			lg.read(o)
+			lg.panel.visible = false
+	var hyp := ""
+	for w in m.character.lingua:
+		if lg.state(String(w)) == Language.IPOTESI:
+			hyp = String(w)
+			break
+	var lx: LexiconPanel = m.lexicon
+	var ev := InputEventKey.new()
+	ev.keycode = int(Settings.keys_of("quaderno")[0])
+	ev.pressed = true
+	lx._unhandled_input(ev)
+	lx.selected = hyp
+	lx._dirty = true
+	await kit.frames(4)
+	var opened := lx.visible
+	var buttons := lx._opts.get_child_count()
+	await kit.save("221_quaderno")
+	var right := false
+	for b in lx._opts.get_children():
+		if (b as Button).text == "«%s»?" % LanguageData.it(hyp):
+			(b as Button).pressed.emit()
+			right = true
+	await kit.frames(2)
+	var certa := lg.state(hyp) == Language.CERTA
+	lx.toggle()
+	print("Quaderno: aperto con il tasto %s, parola «%s» con %d significati da provare, quello giusto la conferma %s" % [opened, LanguageData.sem(hyp), buttons, certa])
+	if not opened or buttons != LanguageData.HYP_OPTIONS or not right or not certa:
+		print("ATTENZIONE: il Quaderno delle parole non va come dovrebbe")
+	m.character.lingua = had
+	lg._sync_stat()
