@@ -2359,7 +2359,19 @@ ferite o in fuga avvisano le compagne della famiglia entro 10 tessere, e fuggono
 - I branchi accerchiano (uno davanti, gli altri ai lati), le colonie difendono il nido, gli sciami volano in formazione;
   il **capobranco**: se cade, gli altri fuggono. Le prede fuggono insieme e avvisano le vicine.
 
-## 132. [ ] Il nuovo bestiario, primo ciclo: la superficie (L)
+## 132. [x] Il nuovo bestiario, primo ciclo: la superficie (L) — fatto il 29 set 2026
+Fatto: **25 specie** nuove di superficie in un pacchetto di dati, `src/data/bestiary/superficie.gd`, generato da
+`tools/gen_bestiario.py` (una riga per specie: grado del bioma → vita, danno, difesa; corpo di `BodyArt`; astuzie della
+voce 130; famiglia con ruolo, prede e nidi; materiale e trofeo). Per ogni bioma che ne aveva poche: Colline (Tessispore,
+Cappelletto ladro), Torbiere (Rospo gonfio che scoppia), Prati di vento (Pavoncella che chiama), Brina (Ermellino
+ladro), Cenerarie (Talpa che sbuca, Scarabeo delle ceneri), Vetro (Lucertola mimetica, Scarabeo della sabbia), Ghiacciai
+(Foca di Linfa, Lupi del ghiacciaio in branco), Pietrificate (Muschiolo guaritore, Scudato di pietra), Brace viva (Grumo
+che si divide, Falco di brace), Iridati (Cervi, Cerva guida pastore, Farfalle), Stellari (Brillo, Stellamimo, Gufo
+notturno), Sussurri (Sussurratore fotofobo, Zecca parassita, Cerbiatto d'ombra), Ambra (Formiche ladre). 24 oggetti dai
+loro materiali (accessori, pozioni, la sacca esplosiva di torba) e 13 talismani dai trofei. `tools/ecosistemi.gd`
+conosce le astuzie: le zone con un buco scendono da 13 a 5 (restano sottosuolo e liquidi). Foglio dei disegni con
+`tools/bestiario.gd -- superficie` (prove/bestiario_superficie.png); prova in `--solo=vivo` (25 nate, 25 schede,
+foto 198).
 - Circa 24 specie nuove, 1-2 per bioma di superficie secondo i buchi della voce 126: ogni bioma arriva ad almeno 5
   facce sue (erbivoro, predatore, volante, notturno, raro). Ognuna con ruolo, comportamenti (voce 130), famiglia,
   materiale, trofeo e, dove ha senso, un gene, la mandria o un pesce che caccia.

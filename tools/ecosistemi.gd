@@ -15,6 +15,10 @@ const MODE := {
 	"spara": "proiettile", "ventaglio": "proiettile", "bombarda": "dall'alto", "agguato": "agguato",
 	"scava": "sbuca", "teletrasporto": "teletrasporto", "evoca": "evoca", "mimo": "mimetico", "guscio": "difesa",
 	"nuota": "acqua", "caccia": "", "pascola": "", "fugge": "", "mandria": "",
+	# voce 130: le astuzie
+	"sbuca": "sbuca", "divide": "divide", "ladro": "ruba", "mimetico": "mimetico", "scudo": "difesa", "guaritore": "cura",
+	"richiamo": "evoca", "parassita": "parassita", "tuffatore": "acqua", "tessitore": "ragnatela", "rosicchia": "",
+	"fotofobo": "buio", "pastore": "gregge", "scoppia": "scoppio",
 }
 
 var out := ""

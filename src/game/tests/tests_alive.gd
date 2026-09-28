@@ -3,7 +3,7 @@ extends RefCounted
 ## Roadmap 15 «Il mondo abitato» (creature e costruzioni). Voce 127: gli attacchi si annunciano (il «!» di `TeleMark`) e
 ## la schivata c'è solo con un oggetto che la sblocca. Voce 128: i costrutti (forma × materiale). Voce 129: il cervello (`Mind`).
 ## Voce 130: le astuzie (`WilesData`, `Wiles`). Voce 131: le tattiche di gruppo (`Tactics`).
-## Voce 140: gli strumenti del costruttore (`BuilderTools`). Gruppo «vivo».
+## Voce 140: gli strumenti del costruttore (`BuilderTools`). Voci 132-134: le specie nuove nascono e vivono. Gruppo «vivo».
 
 var kit: TestKit
 var m: Node2D
@@ -25,6 +25,7 @@ func run() -> void:
 	await brain()
 	await wiles()
 	await tactics()
+	await species("superficie", "198_bestiario_superficie")
 	for i in slots0.size():
 		b.slots[i] = slots0[i]
 	b.equip = equip0
@@ -468,3 +469,36 @@ func builder() -> void:
 		line, area, "sì" if sc else "NO", "sì" if dy else "NO", copied, "sì" if built_ok else "NO", same, "sì" if kept else "NO"])
 	if line < 5 or area < 6 or not sc or not dy or copied < 8 or not built_ok or same < 8 or not kept:
 		print("ATTENZIONE: gli strumenti del costruttore non vanno come dovrebbero")
+
+
+## Voci 132-134: ogni specie di un pacchetto del bestiario nasce, vive qualche istante accanto al Germogliato (a gruppi
+## di otto) senza errori, e la sua scheda si scrive; una foto del primo gruppo.
+func species(pack: String, photo: String) -> void:
+	var data: Dictionary = (load("res://src/data/bestiary/%s.gd" % pack) as GDScript).get("DATA")
+	var ids: Array = (data["creatures"] as Dictionary).keys()
+	m.snap_to(m.player_cell())
+	m.combat.god = true
+	var P: Vector2 = m.player.position
+	var alive := 0
+	var cards := 0
+	for g in range(0, ids.size(), 8):
+		for i in range(g, mini(g + 8, ids.size())):
+			var id := String(ids[i])
+			var cd: Dictionary = CreaturesData.get_data(id)
+			var at := P + Vector2(-140.0 + (i - g) * 40.0, -40.0 if cd.get("fly", false) else -8.0)
+			var cr: Creature = m.fauna.add(id, at)
+			cr.mind.brave = true
+			if not WorldTip.creature(m, cr).plain().is_empty():
+				cards += 1
+		await kit.seconds(1.2)
+		if g == 0:
+			await kit.save(photo)
+		for cr in m.fauna.list:
+			if is_instance_valid(cr) and cr.hp > 0:
+				alive += 1
+		m.fauna.clear()
+	m.combat.god = false
+	m.vitals.refill()
+	print("bestiario «%s»: %d specie nate, %d vive dopo un attimo, %d schede scritte" % [pack, ids.size(), alive, cards])
+	if cards < ids.size():
+		print("ATTENZIONE: alcune specie del bestiario «%s» non hanno la scheda" % pack)

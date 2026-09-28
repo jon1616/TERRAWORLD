@@ -79,6 +79,7 @@ const UNDER_FILES := [
 ## Voce 97: pacchetti di contenuto che non sono biomi (le creature nascoste): stessi campi del pacchetto.
 const PACK_FILES := [
 	preload("res://src/data/hidden_creatures.gd"),
+	preload("res://src/data/bestiary/superficie.gd"),      # voce 132: il nuovo bestiario (fatto da tools/gen_bestiario.py)
 ]
 
 static var BIOMES: Array = _load()
