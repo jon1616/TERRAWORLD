@@ -37,6 +37,21 @@ const DATA := {
 		"elisir_respiro": {"name": "Elisir del respiro alto", "kind": "consumabile", "icon": ["pozione", "celeste"],
 			"boon": ["respiro_alto", 300.0], "stack": 20, "desc": "Per 5 minuti l'aria sottile non ti tocca."},
 	},
+	# voce 163: gli scrigni degli osservatori
+	"loot": {
+		"rovina_cielo": [
+			{"item": "progetto_osservatorio", "min": 1, "max": 1, "chance": 0.25},
+			{"item": "tavoletta_seminatori", "min": 1, "max": 1, "chance": 0.5},
+			{"item": "lingotto_nimbite", "min": 2, "max": 5, "chance": 0.7},
+			{"item": "cristallo_celeste", "min": 4, "max": 10, "chance": 0.6},
+			{"item": "polvere_stelle", "min": 6, "max": 14, "chance": 0.5},
+			{"item": "elisir_respiro", "min": 1, "max": 3, "chance": 0.5},
+			{"item": "fagiolo_nuvola", "min": 2, "max": 4, "chance": 0.4},
+			{"item": "dardo_stella", "min": 20, "max": 40, "chance": 0.3},
+			{"item": "lanterna_stelle", "min": 1, "max": 1, "chance": 0.06},
+			{"item": "linfa_antica", "min": 1, "max": 1, "chance": 0.15},
+		],
+	},
 	"recipes": [
 		{"out": "lingotto_nimbite", "qty": 1, "in": {"nimbite_grezza": 3}, "station": "baccello_ardente"},
 		{"out": "dardo_folgore", "qty": 25, "in": {"folgorite": 1, "legno": 2}, "station": "ceppo"},

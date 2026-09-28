@@ -2888,11 +2888,12 @@ e chiama gli stormi. Lascia il Cuore di tempesta: Ali della tempesta, la tempra 
 **Pronto quando**: la prova lo chiama e lo batte; il bilancio: circa 50 s con l'arma del suo livello.
 **Fatto**: l'**Occhio della Tempesta** in `guardiani.gd` (3200 di Vita; «vola», «folgore» con tre fulmini di fila, «correnti» con le raffiche; in furia un secondo «folgore», gli stormi di aquile e lo scatto, e il cielo si oscura: `Chiome.extra_dark`). Si chiama con il Richiamo della tempesta (all'Altare: nuclei del tuono, scaglie del drago di cristallo, nimbite) solo nel cielo alto e all'aperto (`GreatGuardians._place`). Lascia il Cuore di tempesta, il Vento imprigionato e la nimbite: Corona della tempesta, **Ali della tempesta** (in `FlightData`, tra quelle del Vuoto e le stellari). La prova: a terra no, nel cielo alto sì, fulmini, furia, cielo oscurato, sconfitto con il bottino (foto 219). Il bilancio dei tempi con la voce 168; l'osservatorio con la 163.
 
-## 163. [ ] Gli osservatori dei Seminatori (M)
+## 163. [x] Gli osservatori dei Seminatori (M) — fatto il 29 set 2026
 Nel cielo alto, le rovine dei Seminatori che guardavano le stelle: stanze aperte con scrigni (tabella «rovina_cielo»),
 una stele (parole della lingua), il leggio del Guardiano, un progetto dei Seminatori («la torre del vento»). Nel cielo
 basso i **nidi giganti** (uova da covare, `Ecology`).
 **Pronto quando**: ogni mondo con il cielo ha almeno un osservatorio (collaudo) e la prova ne apre lo scrigno.
+**Fatto**: `PassOsservatori` (6 ms, dopo i nidi e prima delle stele): su un'isola alta per zona (al più 4) la cupola del nuovo progetto «L'osservatorio delle stelle» (`ProjectsData`, cristallo celeste levigato e vetrate: il giocatore la può rifare), con lo scrigno (tabella «rovina_cielo»: il progetto, tavolette, nimbite, cristallo, polvere di stelle, elisir, fagioli, dardi di stella, Linfa antica) e una stele (il punto negli appunti "rovine", la mette `PassStele`). I nidi delle famiglie del cielo (api, greggi di nuvola, lepri, garzette: campo `nest`) sulle isole basse del loro bioma (`PassNidi` ora li salta). Nel mondo di prova 4 osservatori e 10 nidi del cielo; collaudo 0 problemi. Foto 220. Il leggio del Guardiano non serve: il Richiamo della tempesta vale in tutto il cielo alto.
 
 ## 164. [ ] Il tempo del cielo e la marea degli stormi (M)
 I fulmini dei Nidi di tempesta cadono sui punti alti anche col bel tempo; nelle zone del vento le raffiche spingono;

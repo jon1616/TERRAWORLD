@@ -24,8 +24,8 @@ func run(w: World, c: GenContext) -> void:
 		var species := String(fd["members"][0])
 		var cd: Dictionary = CreaturesData.CREATURES[species]
 		var strata: Array = cd.get("strata", [])
-		if strata.is_empty():
-			continue
+		if strata.is_empty() or cd.has("sky"):
+			continue                                   # Roadmap 16: i nidi del cielo li mette `PassOsservatori`
 		var kind := "nido_" + String(fd["nest"]["type"])
 		var got := 0
 		for tries in int(fd["nest"]["n"]) * 150:

@@ -10,11 +10,12 @@ extends RefCounted
 ##   .  aria con la parete dei Seminatori dietro            _  passerella            *  torcia
 ##   D  porta aperta (l'angolo in alto: la cella sotto è «.»)       F  fonte d'acqua (1×2)    A  armadio d'ardesia (2×2)
 ##   S  scaffale di Seminatori (2×2)   L  lanterna appesa d'ambra   V  vaso fiorito di lanterna
+##   c  cristallo celeste levigato      k  vetrata di cristallo celeste (Roadmap 16: l'osservatorio)
 ## I materiali che servono li conta `needs`.
 
 const BLOCK := {"#": ["mattoni", "seminatori"], "=": ["lastre", "ardesia"], "o": ["levigato", "ambra"],
 	"|": ["colonna", "seminatori"], "^": ["tegole", "lanterna"], "v": ["vetrata", "vetro"], "t": ["travi", "lanterna"],
-	"p": ["piastrelle", "linfa"]}
+	"p": ["piastrelle", "linfa"], "c": ["levigato", "celeste"], "k": ["vetrata", "celeste"]}
 const WALL_MAT := "seminatori"
 const STATION := {"D": "porta_aperta", "F": "fonte_acqua", "A": "arredo_armadio_ardesia", "S": "arredo_scaffale_seminatori",
 	"L": "arredo_lanterna_ambra", "V": "arredo_vaso_lanterna"}
@@ -78,6 +79,17 @@ const PROJECTS := {
 			"p          p",
 			"p          p",
 			"pppppppppppp",
+		]},
+	# Roadmap 16, voce 163: l'osservatorio del cielo (il generatore lo costruisce sulle isole alte, `PassOsservatori`)
+	"osservatorio": {"name": "L'osservatorio delle stelle", "desc": "Una cupola di cristallo celeste su due colonne, aperta ai lati: da qui i Seminatori guardavano il cielo.",
+		"grid": [
+			"   kkkkk   ",
+			"  kk.L.kk  ",
+			" |.......| ",
+			" |.......| ",
+			"  .......  ",
+			"  .......  ",
+			"ccccccccccc",
 		]},
 	"sala_trofei": {"name": "La sala dei trofei", "desc": "Una sala di mattoni con gli scaffali e un armadio: mettici tre trofei.",
 		"grid": [

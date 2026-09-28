@@ -43,6 +43,7 @@ static func passes() -> Array[GenPass]:
 		PassFirma.new(),
 		PassPianteSeme.new(),
 		PassNidi.new(),
+		PassOsservatori.new(),              # voce 163: gli osservatori dei Seminatori e i nidi del cielo
 		PassSigilli.new(),
 		PassLuoghi.new(),
 		PassCatene.new(),

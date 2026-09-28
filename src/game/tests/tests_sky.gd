@@ -28,6 +28,7 @@ func run() -> void:
 	await beasts()
 	await lords()
 	await guardian()
+	await observatory()
 
 
 ## Voce 154: le zone e le fasce.
@@ -471,3 +472,36 @@ func guardian() -> void:
 		no_ground, ok, bolts, fury, dark, rec, m.drops._items.size() > d0])
 	if not no_ground or not ok or bolts < 1 or not fury or dark < 0.5 or rec < 1:
 		print("ATTENZIONE: l'Occhio della Tempesta non va come dovrebbe")
+
+
+## Voce 163: un osservatorio per zona (fino a 4) con lo scrigno pieno e la stele; i nidi delle famiglie del cielo.
+func observatory() -> void:
+	var obs: Array = world.gen_notes.get("osservatori", [])
+	if obs.is_empty():
+		print("ATTENZIONE: nessun osservatorio nel cielo")
+		return
+	var x0 := int(obs[0][0])
+	var top := int(obs[0][1])
+	var chest_o := Vector2i(x0 + 6, top - 2)
+	var full := world.chests.has(chest_o) and not (world.chests[chest_o] as Bisaccia).is_empty()
+	var stele := String(world.stations.get(Vector2i(x0 + 3, top - 3), "")) == "stele"
+	var built := 0
+	for x in range(x0, x0 + 11):
+		for y in range(top - 7, top + 1):
+			if world.build_at(x, y) > 0:
+				built += 1
+	var sky_nests := 0
+	var nests: Dictionary = m.world_meta.get("nidi", {})
+	for k in nests:
+		var fam := String((nests[k] as Dictionary).get("fam", ""))
+		var fd: Dictionary = FamiliesData.FAMILIES.get(fam, {})
+		if not fd.is_empty() and CreaturesData.CREATURES.get(String(fd["members"][0]), {}).has("sky"):
+			sky_nests += 1
+	m.snap_to(Vector2i(x0 + 4, top - 1))
+	m.boons.add("bagliore", 5.0)
+	await kit.seconds(0.8)
+	await kit.save("220_osservatorio")
+	print("osservatori: %d; il primo in (%d, %d): %d blocchi di cristallo celeste, scrigno pieno %s, stele %s; nidi del cielo %d" % [
+		obs.size(), x0, top, built, full, stele, sky_nests])
+	if built < 20 or not full or sky_nests < 2:
+		print("ATTENZIONE: gli osservatori o i nidi del cielo non ci sono come dovrebbero")
