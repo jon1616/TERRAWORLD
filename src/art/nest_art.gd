@@ -10,6 +10,13 @@ extends RefCounted
 
 static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 	match id:
+		"nido_tetto":
+			# voce 146: un nido di rametti sul tetto, con un uovo chiaro
+			var r2 := Px.pal(TileDefs.P_RADICE)
+			for k in 9:
+				Px.line(im, Vector2(1.0 + k * 3.0, h - 1.0), Vector2(4.0 + k * 3.0, h - 5.0 + (k % 2)), 1, r2[2 + k % 2])
+			Px.line(im, Vector2(2.0, h - 4.0), Vector2(w - 3.0, h - 4.0), 1, r2[1])
+			Px.disc(im, w / 2.0, h - 6.0, 2.2, Color("#e8f0f0"))
 		"nido_erba":
 			var g := Px.pal(TileDefs.P_GRASS)
 			var r := Px.pal(TileDefs.P_RADICE)

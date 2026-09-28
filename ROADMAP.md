@@ -2555,7 +2555,14 @@ Prova in `--solo=vivo` (foto 208: la sala dei trofei, riconosciuta come stanza).
 
 ## Parte D — L'intreccio
 
-## 146. [ ] Chi mangia e chi abita le costruzioni (M)
+## 146. [x] Chi mangia e chi abita le costruzioni (M) — fatto il 29 set 2026
+Fatto (con la regola dell'utente: fuori dagli assedi nessuno distrugge nulla; i rosicchiatori rodono solo le porte e
+solo negli assedi, voci 130 e 137): `Dwellers` (`src/game/`). Le **stanze lasciate sole e al buio** per 8 minuti di
+gioco si riempiono di **ragnatele** negli angoli (rallentano; una torcia in mano le brucia, una luce nella stanza le
+tiene lontane; avviso entrando); sui **tetti delle case** in superficie a volte un uccello fa il **nido** («nido_tetto»,
+disegno in `NestArt`): clic destro, piume e a volte un uovo, ogni 10 minuti. Difese: luce, pietra, trappole e (voce
+148) la mandria di guardia. Opzione «Ospiti delle case». Visite e tempo di gioco in `world_meta`. Prova in
+`--solo=vivo` (foto 209_ospiti).
 - I rosicchiatori mangiano legno e colture, le termiti di radice scavano nel legno, i ragni tessono nelle stanze buie
   e lasciate sole, gli uccelli fanno il nido sui tetti. Difese: pietra, luce, trappole, creature da guardia della
   mandria. Ciò che si rompe torna materiale; si spegne dalle Opzioni.

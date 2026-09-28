@@ -196,6 +196,7 @@ const _STATIONS := {
 		"light_color": Color(0.5, 1.3, 1.4)},
 	# voce 58: i nidi e le tane (nascono dal mondo; clic destro: un uovo, o nutrirli; con piccone o ascia si distruggono)
 	"nido_erba": {"name": "Nido d'erba", "size": [2, 1], "item": "", "fixed": true},
+	"nido_tetto": {"name": "Nido sul tetto", "size": [2, 1], "item": "", "fixed": true},       # voce 146
 	"nido_tana": {"name": "Tana", "size": [2, 1], "item": "", "fixed": true, "light": true, "light_color": Color(0.5, 0.4, 0.1)},
 	"nido_alveare": {"name": "Alveare di lume", "size": [2, 2], "item": "", "fixed": true, "light": true,
 		"light_color": Color(1.0, 0.7, 0.2)},

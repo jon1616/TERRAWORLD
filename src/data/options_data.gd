@@ -66,6 +66,8 @@ const OPTIONS := [
 		"choices": [[1.0, "Breve"], [1.5, "Normale"], [3.0, "Lunga"], [5.0, "Molto lunga"]],
 		"desc": "Quanto restano le scritte al centro («Raccolto…», «Obiettivo raggiunto…»)."},
 	# gioco
+	{"id": "ospiti", "sec": "gioco", "name": "Ospiti delle case", "type": "bool", "def": true,
+		"desc": "Nelle stanze lasciate sole al buio arrivano i ragni; sui tetti gli uccelli fanno il nido. Nessuno rompe nulla."},
 	{"id": "assedi", "sec": "gioco", "name": "Assedi alla base", "type": "bool", "def": true,
 		"desc": "Una volta a stagione, di notte, i rosicchiatori attaccano la tua casa (solo le porte). Spento: niente assedi."},
 	{"id": "pausa_bisaccia", "sec": "gioco", "name": "Pausa mentre crei", "type": "bool", "def": false,

@@ -238,6 +238,8 @@ func touch(c: Vector2i) -> bool:
 		"banco_innesti":
 			m.innesto.open()
 			return true
+		"nido_tetto":
+			return m.dwellers.touch_nest(o)            # voce 146
 		"nido_erba", "nido_tana", "nido_alveare", "nido_formicaio":
 			return m.ecology.touch_nest(o)             # voce 58
 		"portale":

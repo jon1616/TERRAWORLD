@@ -40,6 +40,7 @@ func run() -> void:
 	await tides()
 	await study()
 	await blueprints()
+	await dwellers()
 	for i in slots0.size():
 		b.slots[i] = slots0[i]
 	b.equip = equip0
@@ -214,6 +215,7 @@ func brain() -> void:
 
 
 var _wid := ""
+var _hall := Vector2i(-1, -1)                    # la sala dei trofei della prova dei progetti (per gli ospiti)
 var _bed := Vector2i(-1, -1)                     # il letto della stanza della prova delle stanze (per le case)
 
 
@@ -951,4 +953,60 @@ func blueprints() -> void:
 		"sì" if none else "NO", "sì" if ok else "NO", left, room.get("type", "—"), int(room.get("comfort", 0))])
 	if not none or not ok or room.is_empty():
 		print("ATTENZIONE: i progetti dei Seminatori non vanno come dovrebbero")
+	_hall = o
+
+
+## Voce 146: la sala dei progetti, senza luci e lasciata sola, si riempie di ragnatele; con un letto è una casa e sul
+## tetto un uccello fa il nido, che lascia piume.
+func dwellers() -> void:
+	var w: World = m.world
+	if _hall.x < 0:
+		print("ATTENZIONE: nessuna sala per la prova degli ospiti")
+		return
+	var sz := ProjectsData.size_of("sala_trofei")
+	# via le lanterne, dentro un letto
+	for o in w.stations.keys():
+		if Rect2i(_hall, sz).has_point(o) and StationsData.role(String(w.stations[o])) == "lanterna":
+			w.stations.erase(o)
+			m.view.remove_station(o)
+	var bed := _hall + Vector2i(6, sz.y - 2)
+	w.stations[bed] = FurnitureData.id_of("letto", "lanterna")
+	m.view.add_station(bed)
+	m.snap_to(_hall + Vector2i(3, sz.y - 2))
+	await kit.frames(2)
+	var room: Dictionary = m.rooms.refresh()
+	m.snap_to(_hall + Vector2i(-6, sz.y - 1))
+	await kit.frames(2)
+	m.rooms.refresh()
+	var visits: Dictionary = m.world_meta.get("stanze_visite", {})
+	var now: float = float(m.world_meta.get("tempo_gioco", 0.0))
+	visits[String(room.get("key", ""))] = now - Dwellers.DARK_AFTER - 10.0
+	var dw: Dwellers = m.dwellers
+	var w0 := dw.webs_made
+	dw.check(now)
+	var webbed := dw.webs_made > w0
+	# il nido: si prova finché lo mette (è una probabilità)
+	var e: Dictionary = {}
+	for r in m.rooms.list():
+		if String(r["key"]) == String(room.get("key", "")):
+			e = r
+	var nest := false
+	if not e.is_empty():
+		dw._nest(e)
+		nest = dw.nests_made > 0
+	var nest_o := Vector2i(-1, -1)
+	for o in w.stations:
+		if String(w.stations[o]) == "nido_tetto":
+			nest_o = o
+	var d0: int = m.drops._items.size()
+	if nest_o.x >= 0:
+		dw.touch_nest(nest_o)
+	var feathers: bool = m.drops._items.size() > d0
+	await kit.seconds(0.2)
+	await kit.save("209_ospiti")
+	m.wiles.webs.clear()
 	m.world_meta["stanze"] = []
+	print("ospiti delle case: stanza «%s» buia e sola → ragnatele %s; casa con un nido sul tetto %s, piume %s" % [
+		room.get("type", "—"), "sì" if webbed else "NO", "sì" if nest else "NO", "sì" if feathers else "NO"])
+	if not webbed or not nest or not feathers:
+		print("ATTENZIONE: gli ospiti delle case non vanno come dovrebbero")

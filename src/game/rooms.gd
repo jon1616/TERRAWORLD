@@ -55,7 +55,10 @@ func refresh() -> Dictionary:
 		var found := false
 		for e in rooms:
 			if String(e["key"]) == String(r["key"]):
+				if e.get("ragni", false):
+					m.hud.toast("Ragnatele: la stanza è rimasta sola e al buio (una luce le tiene lontane)")   # voce 146
 				e.merge(_save_form(r), true)
+				e["ragni"] = false
 				found = true
 		if not found:
 			rooms.append(_save_form(r))
@@ -73,7 +76,7 @@ func refresh() -> Dictionary:
 
 func _save_form(r: Dictionary) -> Dictionary:
 	return {"key": r["key"], "x": r["x"], "y": r["y"], "w": r["w"], "h": r["h"], "type": r["type"], "comfort": r["comfort"],
-		"fams": r.get("fams", [])}
+		"fams": r.get("fams", []), "lights": r.get("lights", 0)}
 
 
 ## Il riempimento: le celle libere raggiungibili da `start`, chiuse da blocchi, ognuna con una parete dietro; una porta
@@ -219,6 +222,7 @@ func _contents(r: Dictionary, cells: Dictionary, edge_beauty: int, edge_n: int) 
 				if f != "":
 					fams[f] = true
 		r["fams"] = fams.keys()
+	r["lights"] = lights                             # voce 146: al buio arrivano i ragni
 	var comfort := beauty * 2 + mini(lights * RoomsData.PER_LIGHT, RoomsData.LIGHT_MAX)
 	comfort += FurnitureData.series_of(ids).size() * RoomsData.PER_SERIES
 	if edge_n > 0:
