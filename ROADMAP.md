@@ -7,6 +7,8 @@
 - **In corso: la Roadmap 13 «Il volto del mondo»** (voci 100-117, dal 28 set 2026): la grafica con Nano Banana,
   seguita passo passo con l'utente (Claude scrive i prompt, dice dove salvare le immagini, le adatta con gli script).
   Dopo: un secondo bilancio con il diario delle partite vere.
+- **Proposta: la Roadmap 15 «Il mondo abitato»** (voci 126-151, piano del 29 set 2026): creature più intelligenti e più
+  numerose, e costruzioni con un motivo di gioco; in attesa delle scelte dell'utente (in fondo al piano).
 - **Fatta la Roadmap 14 «Le acque vive»** (voci 118-125, 28 set 2026): la pesca, decisa con l'utente (gesto quasi
   automatico, attività laterale ricca ma non indispensabile, in tutti i liquidi, liquidi spostabili). Resoconto in fondo
   alla Roadmap 14.
@@ -2223,6 +2225,205 @@ Trovati per strada e corretti: gli scrigni dei luoghi scritti a mano finivano ne
 prova dei gradi delle casse apriva una cassa lasciata accanto; `drink` ignorava la cura dei cibi con un effetto.
 Non fatto: il pesce leggendario per le Leggende (i leggendari restano nell'Erbario e negli obiettivi). Da fare con
 l'utente: provare la pesca giocando (ritmo, quanto rendono le casse), e le icone dei pesci con Nano Banana.
+
+# Roadmap 15 «Il mondo abitato» — creature e costruzioni (piano del 29 set 2026)
+
+Chiesta dall'utente il 29 set 2026: «aumentare in maniera intelligente sia le creature che i blocchi da costruzione,
+pensando a fondo al gameplay e alla profondità». Il titolo ha due sensi: chi abita i mondi (le creature) e come li abita
+il Giardiniere (le costruzioni). Le due metà sono pensate **per toccarsi**: creature che minacciano o abitano le
+costruzioni, costruzioni che servono contro le creature, il tempo e i rigori, materiali delle creature che diventano
+blocchi e arredi.
+
+## Da dove si parte (misurato il 29 set 2026)
+- **Creature**: 82 specie in 66 famiglie, 20 comportamenti; ruoli sbilanciati (11 famiglie «neutre», 7 volanti, 6
+  predatori, 5 erbivori, 3 colonie, 2 scavatori). Quasi tutte combattono allo stesso modo (avvicinarsi e toccare): le
+  varianti (taglia, elemento, indole) cambiano i numeri, non le **decisioni** del giocatore. Boss: 3 Guardiani scritti a
+  mano (poi generati), 6 Custodi. Eventi: 3.
+- **Costruire**: 10 blocchi, 3 pareti, una decina di mobili. Costruire serve quasi solo a dare un letto agli abitanti:
+  **non c'è un motivo di gioco** per scegliere un materiale invece di un altro.
+- **Limite tecnico**: ogni tipo di blocco aggiunge una riga alle tavole del terreno (256 tessere), e il motore le
+  riordina a ogni aggiunta (costo che cresce più in fretta del numero di tessere, vedi CLAUDE.md). Cento blocchi nuovi
+  fatti come oggi aggiungerebbero secondi a ogni avvio: prima serve un atlante apposta (voce 128).
+
+## Le regole di questa Roadmap
+- **Profondità = decisioni.** Una creatura nuova vale se cambia che cosa fa il giocatore (arma, elemento, luce, terreno,
+  distanza, momento), non se ha solo più Vita. Ogni creatura ha nei dati il suo **come si batte**.
+- **Leggibile e giusto.** Ogni attacco nuovo si annuncia (un segno, un suono) e ha una contromossa.
+- **Comporre, non scrivere a mano.** Comportamenti, attacchi, forme da costruzione e stanze sono pezzi di dati che si
+  combinano: 25 Signori dei luoghi non sono 25 programmi, 200 blocchi non sono 200 disegni.
+- **Un motivo per costruire con cura**: ogni materiale ha proprietà che contano (durezza, isolamento, luce, bellezza),
+  e le stanze fatte bene danno qualcosa di vero.
+- **Le perdite non devono frustrare**: ciò che le creature rompono o mangiano torna come materiale, e l'utente può
+  spegnere gli assedi e le creature che rompono i blocchi nelle Opzioni.
+
+## Obiettivo in numeri (da verificare con la voce 126, non da inseguire a ogni costo)
+Specie di creature da 82 a circa 140; comportamenti da 20 a circa 34; 25 Signori dei luoghi (mini-boss, uno per
+bioma); 3 Guardiani scritti a mano in più; eventi da 3 a circa 9. Blocchi da 10 a circa 200 e pareti da 3 a circa 200
+(forme × materiali); mobili da una decina a circa 100 (in serie); 9 tipi di stanza.
+
+## Parte A — Le fondamenta
+
+## 126. [ ] La mappa degli ecosistemi (S)
+- `tools/ecosistemi.gd`: per ogni bioma di superficie, bioma del sottosuolo, strato e liquido: quali specie ci vivono,
+  con che **ruolo** (erbivoro, predatore, volante, notturno, sciame, scavatore, acquatico, raro, mini-boss) e quanti
+  **modi d'attacco** diversi (contatto, carica, proiettile, agguato, esplosione, magia…); stampa i buchi.
+- Regola scritta: ogni zona ha almeno 5 ruoli e almeno 3 modi d'attacco diversi. Le voci 132-134 riempiono i buchi che
+  lo strumento mostra, non una lista inventata.
+
+## 127. [ ] Combattimento leggibile e la schivata (M)
+- Telegrafi uniformi per tutti gli attacchi (vecchi e nuovi): la carica si prepara con un lampo e un suono, il salto
+  mostra l'ombra dove cadrà, il proiettile brilla prima di partire, l'esplosione lampeggia. Un campo nei dati
+  (`windup`), letto da un solo pezzo di codice.
+- La **schivata**: uno scatto breve con un attimo d'invulnerabilità (tasto nuovo, ricarica), resa migliore da stivali,
+  tratti e un potere. È ciò che rende giusti gli attacchi più forti.
+- Stati leggibili sopra le creature (già in parte: voce 101 della Roadmap 13).
+
+## 128. [ ] L'atlante dei costrutti (M, tecnica)
+- I blocchi costruiti in un atlante **a parte**, con le forme squadrate (16 combinazioni di vicini) di una sola trama
+  per forma, **colorata per materiale** quando serve (una tavola per i materiali davvero usati nel mondo), preparata
+  come le altre in sottofondo (`ViewArt`).
+- Prova dei tempi: con 200 blocchi il montaggio non deve crescere più di qualche decimo di secondo; `TestsGenRepeat` e
+  l'impronta restano identici per il terreno naturale.
+
+## Parte B — Le creature: prima più intelligenti, poi più numerose
+
+## 129. [ ] Il cervello delle creature (M)
+- **Sensi**: vista (secondo la luce: al buio vedono meno, chi è fotofobo fugge dalla luce), udito (passi, scavo,
+  esplosioni, il suono degli attacchi), odore (esche, sangue, cibo nella Bisaccia).
+- **Stati**: tranquilla, all'erta, a caccia, in fuga, di ritorno alla tana; memoria breve dell'ultimo punto in cui ti ha
+  visto (ti cerca lì). I comportamenti esistenti li usano, senza riscriverli.
+- Moltiplica la furtività (già negli accessori), la luce, il rumore delle esplosioni, le esche della pesca e delle farm.
+
+## 130. [ ] Comportamenti nuovi componibili (L)
+Circa 14 pezzi, ognuno con i suoi parametri, il suo telegrafo e la sua contromossa scritta nei dati:
+- **Sbuca da sotto** (scava sotto il giocatore e salta fuori: si sente prima), **si divide** quando è colpita (meglio il
+  fuoco o un colpo solo forte), **ladro** (ruba un oggetto dalla Bisaccia e scappa; lo riprendi se lo prendi),
+  **mimetico** (sembra un blocco, una cassa o una pianta finché non ti avvicini: la Vista della Linfa lo scopre),
+  **scudo frontale** (para davanti: colpiscilo da dietro o dall'alto), **guaritore** (cura le compagne: si abbatte per
+  primo), **richiamo** (chiama rinforzi se non lo zittisci in fretta), **parassita** (si attacca e beve Linfa: si stacca
+  con un salto o il fuoco), **tuffatore** (esce dall'acqua e ci rientra: si pesca, si prosciuga o si aspetta),
+  **tessitore** (ragnatele che rallentano, bruciano col fuoco), **rosicchiatore** (mangia blocchi deboli e colture),
+  **fotofobo** (forte al buio, fugge dalla luce forte), **pastore** (guida altre creature: se cade, il gruppo si
+  sbanda), **scoppiante** (esplode e rompe blocchi deboli: si affronta da lontano).
+
+## 131. [ ] Tattiche di gruppo (M)
+- I branchi accerchiano (uno davanti, gli altri ai lati), le colonie difendono il nido, gli sciami volano in formazione;
+  il **capobranco**: se cade, gli altri fuggono. Le prede fuggono insieme e avvisano le vicine.
+
+## 132. [ ] Il nuovo bestiario, primo ciclo: la superficie (L)
+- Circa 24 specie nuove, 1-2 per bioma di superficie secondo i buchi della voce 126: ogni bioma arriva ad almeno 5
+  facce sue (erbivoro, predatore, volante, notturno, raro). Ognuna con ruolo, comportamenti (voce 130), famiglia,
+  materiale, trofeo e, dove ha senso, un gene, la mandria o un pesce che caccia.
+- Scritte come dati nei file dei biomi (il pacchetto «creatures»), disegnate con `BodyArt` (le ricette dei corpi).
+
+## 133. [ ] Secondo ciclo: il sottosuolo e i liquidi (L)
+- Circa 22 specie per i 5 strati e i 9 biomi del sottosuolo, e le **acquatiche ostili**: predatori degli stagni che
+  rubano il pesce alla lenza (lega con la Roadmap 14), creature della Linfa e della brace che escono dal loro lago.
+
+## 134. [ ] Terzo ciclo: la notte, le stagioni, il tempo (M)
+- Circa 10 specie che esistono solo di notte, in una stagione, con il temporale, la nebbia, la bufera o l'eclissi (le
+  stesse condizioni dei pesci): uscire col brutto tempo diventa una scelta.
+
+## 135. [ ] I Signori dei luoghi (L)
+- Un **mini-boss per ogni bioma** (16 di superficie, 9 del sottosuolo): raro, con la sua tana o il suo richiamo
+  (un'esca rituale, una notte, una stagione), 2-3 attacchi scritti e una fase di furia. Lasciano un materiale che c'è
+  solo lì (per armi, blocchi e arredi) e un trofeo da esporre.
+- Nati da una **ricetta** (corpo + comportamenti + attacchi dai pezzi delle voci 127-131), come i Guardiani generati.
+
+## 136. [ ] Tre Guardiani scritti a mano (L)
+- Tre boss nuovi con arena e fasi, pensati sulle meccaniche nuove: uno del lago (sale e scende dall'acqua, alza le
+  maree), uno che scava e rimodella il terreno dell'arena, uno del cielo (correnti e piattaforme). I loro attacchi
+  entrano come pezzi nuovi nei Guardiani generati.
+
+## 137. [ ] Le maree del mondo: eventi a ondate (L)
+- Circa 6 eventi con ondate, un capo finale e un premio: la Notte delle spore, la Migrazione (branchi che attraversano
+  il mondo: caccia o proteggi), l'**Assedio dei rosicchiatori** (attaccano le costruzioni: qui servono mura, porte,
+  trappole e luce), la Marea di brace (dal Fondo sale la brace), lo Stormo, l'Eclissi dei mimi. Frequenza secondo
+  stagioni e geni; annunciati prima; segnati sulla mappa; gli assedi si spengono dalle Opzioni.
+
+## 138. [ ] Studiare le creature (M)
+- L'Erbario diventa un bestiario a gradi: vista, sconfitta, **studiata** (con la Provetta o sconfiggendone abbastanza).
+  Ogni grado scopre qualcosa: dove vive, il bottino, le debolezze, i comportamenti, il «come si batte». Le specie
+  studiate a fondo danno un piccolo bonus contro di loro, per sempre. Il filo suggerisce che cosa studiare.
+
+## Parte C — Costruire: più blocchi, e un motivo per usarli
+
+## 139. [ ] I materiali da costruzione (M)
+- I blocchi come dati, forme × materiali come le armi: **forme** grezzo, mattoni, lastre, levigato, colonna, travi,
+  tegole, piastrelle, vetrata (circa 9) × **materiali** (le rocce degli strati, i legni delle 16 specie d'albero, i
+  metalli, i cristalli, i materiali delle creature: ossa, chitina, cera, seta, squame…). Circa 200 blocchi, e le pareti
+  di ognuno.
+- **Proprietà che contano**: durezza (contro chi rompe e contro le esplosioni), isolamento (freddo e caldo: i rigori
+  della voce 93), luce (vetri che la lasciano passare, cristalli che la fanno), bellezza (il comfort delle stanze).
+- Si fanno a una stazione nuova, il **Banco dello scalpellino** (e i più semplici a mano).
+
+## 140. [ ] Gli strumenti del costruttore (M)
+- Posare **in linea e ad area** trascinando; il Martello che **scolpisce** un blocco già posato (cambia forma); le
+  **tinture** dai fiori e dai minerali per colorare blocchi e pareti; togliere senza perdere; un «progetto» da
+  un'area già costruita da ripetere altrove portando i materiali.
+
+## 141. [ ] Mobili e arredi in serie (M)
+- Mobili come forme × materiali (tavolo, sedia, letto, armadio che contiene, scaffale che espone, lampada, lanterna
+  appesa, finestra, tappeto, quadro, vaso con pianta, camino) per circa 8-10 materiali: circa 100. Una serie completa
+  nella stessa stanza dà più comfort.
+
+## 142. [ ] Le stanze (L)
+- Il gioco **riconosce una stanza** (chiusa da blocchi e pareti, con una porta) e il suo **tipo** dagli arredi: casa,
+  laboratorio (qualità dei lavori ai banchi), serra (colture più rapide), stalla (la mandria), cantina (cibo e pozioni),
+  sala dei trofei (trofei esposti: bonus contro quelle famiglie), acquario (pesci vivi esposti), biblioteca (lingua e
+  tavolette), osservatorio (eventi e stelle). Il **comfort** viene dalla bellezza dei materiali, dalla luce e dagli
+  arredi. Ogni tipo moltiplica un sistema che c'è già.
+
+## 143. [ ] Le case degli abitanti (M)
+- Ogni abitante vuole la sua stanza, con i suoi gusti (materiali, arredi, vicini); la sua felicità cambia prezzi,
+  richieste e regali; una casa bella attira abitanti nuovi.
+
+## 144. [ ] Costruire contro il mondo (M)
+- Il **riparo**: tetto e pareti proteggono da pioggia, cenere, fulmini e rigori; i materiali isolanti scaldano o
+  rinfrescano. Le creature non nascono sulle pareti posate dal giocatore. Porte e mura resistono secondo la durezza.
+  Dighe, canali e vasche per i liquidi (con le voci 118-119).
+
+## 145. [ ] I progetti dei Seminatori (M)
+- Nelle rovine e nei segreti si trovano **progetti** (strutture scritte a mano come i luoghi della voce 70: ponte,
+  torre, serra a cupola, faro, pozzo delle fonti, sala dei trofei): portati i materiali a un cantiere, la struttura
+  nasce in un colpo. Esplorare dà architettura.
+
+## Parte D — L'intreccio
+
+## 146. [ ] Chi mangia e chi abita le costruzioni (M)
+- I rosicchiatori mangiano legno e colture, le termiti di radice scavano nel legno, i ragni tessono nelle stanze buie
+  e lasciate sole, gli uccelli fanno il nido sui tetti. Difese: pietra, luce, trappole, creature da guardia della
+  mandria. Ciò che si rompe torna materiale; si spegne dalle Opzioni.
+
+## 147. [ ] I materiali delle creature per costruire (S)
+- Ossa, chitina, cera, seta, squame e pelli diventano blocchi e arredi (voce 139); i trofei si espongono (voce 142):
+  un motivo in più per cacciare ogni specie.
+
+## 148. [ ] La mandria abita (S)
+- Cucce, stalle, nidi artificiali per le colonie (un alveare costruito), creature da guardia che difendono la casa
+  durante le maree.
+
+## Parte E — Chiudere
+
+## 149. [ ] Enciclopedia, consigli, filo, Bacheca (S)
+- Capitoli nuovi (creature per ruolo, Signori, maree, costruire, stanze), consigli alla prima volta, il filo che propone
+  anche «costruisci la tua prima stanza», richieste della Bacheca per stanze e Signori.
+
+## 150. [ ] Bilancio, prove e resoconto (M)
+- `tools/ecosistemi.gd` rifatto (i buchi chiusi), `tools/bilancio.gd` con le nuove creature e i Signori, i tempi
+  (montaggio, fotogramma con più creature e più blocchi), giro intero, resoconto.
+
+## 151. [ ] La grafica da ridisegnare (S)
+- L'elenco delle creature, dei Signori e degli arredi più importanti da ridisegnare con Nano Banana, con i prompt pronti
+  (come la Roadmap 13). Fino ad allora tutto nasce disegnato dal codice.
+
+## Da decidere con l'utente prima di cominciare
+1. **Creature che rompono i blocchi e mangiano le colture**: sì (con l'opzione per spegnerle), o mai?
+2. **La schivata con un tasto**: sì o no?
+3. **L'ordine**: prima le fondamenta (126-128), poi creature e costruzioni **alternate** (un ciclo di creature, un ciclo
+   di costruzioni: ogni volta si vede subito l'intreccio), oppure prima tutte le creature.
+4. **Gli assedi**: quanto spesso (rari, una volta a stagione, …).
+5. **Fuori piano**: pendenze e mezzi blocchi (cambierebbero le collisioni di tutto il gioco: meglio di no, per ora).
 
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».
