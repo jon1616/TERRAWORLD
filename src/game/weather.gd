@@ -172,7 +172,7 @@ func _process(dt: float) -> void:
 			_ash = 0.0
 			var pc: Vector2i = m.player_cell()
 			if m.world.wall(pc.x, pc.y) == 0:          # allo scoperto: niente parete dietro
-				m.vitals.hurt(WeatherData.ASH_DAMAGE)
+				m.vitals.hurt(WeatherData.ASH_DAMAGE, "la cenere")
 
 
 ## La pioggia: un po' d'acqua sulla superficie vicina (le conche si riempiono).
@@ -199,7 +199,7 @@ func strike() -> Vector2i:
 	Fx.puff(m.fx, Vector2(c) * 16.0 + Vector2(8, 8), Color(1.8, 1.8, 2.2))
 	if Vector2(m.player_cell() - c).length() <= WeatherData.BOLT_RANGE and not roofed \
 			and (m.rooms == null or m.rooms.current.is_empty()):     # voce 144: sotto un tetto il fulmine non ti tocca
-		m.vitals.hurt(WeatherData.BOLT_DAMAGE)
+		m.vitals.hurt(WeatherData.BOLT_DAMAGE, "un fulmine")
 	for cr in m.fauna.list:
 		if is_instance_valid(cr) and cr.position.distance_to(Vector2(c) * 16.0) < WeatherData.BOLT_RANGE * 16.0:
 			cr.take_hit(WeatherData.BOLT_DAMAGE, float(x * 16), 120.0)

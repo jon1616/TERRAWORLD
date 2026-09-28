@@ -104,6 +104,7 @@ func _on_died() -> void:
 	add("morti")
 	var st: int = m.depth_watch.stratum if m.depth_watch != null else 0
 	add("morti_strato", StrataData.STRATA[clampi(st, 0, StrataData.STRATA.size() - 1)]["name"])
+	add("morti_causa", m.vitals.cause if m.vitals.cause != "" else "altro")     # voce 188
 	if count("morti") == 1:
 		note("Primo appassimento (%s)" % StrataData.STRATA[clampi(st, 0, StrataData.STRATA.size() - 1)]["name"], "morte")
 
@@ -148,6 +149,11 @@ func summary(colored: bool) -> String:
 	t += h.call("Appassimenti: %d" % int(c.get("morti", 0)))
 	for k in (c.get("morti_strato", {}) as Dictionary):
 		t += "• %s: %d\n" % [k, int(c["morti_strato"][k])]
+	var why: Dictionary = c.get("morti_causa", {})
+	if not why.is_empty():
+		var ks := why.keys()
+		ks.sort_custom(func(a: String, b: String) -> bool: return int(why[a]) > int(why[b]))
+		t += "di che cosa: " + ", ".join(ks.slice(0, 8).map(func(k: String) -> String: return "%s %d" % [k, int(why[k])])) + "\n"
 	t += h.call("Tempo per strato")
 	var tot := 0
 	for k in (c.get("tempo_strato", {}) as Dictionary):

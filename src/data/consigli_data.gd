@@ -16,6 +16,8 @@ const LIST := [
 		"text": "Dove la luce non arriva è buio pieno: pianta [b]torce[/b] mentre scendi (clic destro le riprende). Ogni strato ha le sue rocce, i suoi minerali e creature più forti."},
 	{"id": "profondo", "title": "Le Caverne d'ardesia", "cap": "strati",
 		"text": "Più in basso le creature fanno male davvero: un'armatura di metallo e qualche pozione fanno la differenza. I minerali nuovi vogliono un piccone più forte."},
+	{"id": "armatura", "title": "La Scorza conta", "cap": "pericolo",
+		"text": "La [b]Scorza[/b] toglie una parte di ogni ferita: con 10 le ferite si dimezzano, con 20 ne resta un terzo. Qui le creature ne vogliono di più: un'armatura intera (elmo, corazza, gambali, guanti, stivali) del metallo migliore che hai. La Bisaccia dice quanto toglie la tua."},
 	{"id": "piccone", "title": "Troppo duro", "cap": "scavare",
 		"text": "Questo blocco vuole un piccone più forte. I picconi si fanno con i lingotti: radicite, poi legnoferro, poi ambra fossile. L'Esamina di un piccone dice che cosa scava."},
 	{"id": "vita_bassa", "title": "Vita bassa", "cap": "vita",

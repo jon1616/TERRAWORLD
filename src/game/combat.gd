@@ -67,7 +67,7 @@ func on_shot(s: Dictionary) -> bool:
 			if player.slow_t <= 0.0:
 				m.hud.toast("Invischiato nella ragnatela!")
 			player.slow_t = maxf(player.slow_t, float(s["slow"]))
-		hurt_player(int(s["damage"]), pos.x)
+		hurt_player(int(s["damage"]), pos.x, "un proiettile")
 		return true
 	return false
 
@@ -221,7 +221,7 @@ func on_killed(c: Creature) -> void:
 		Fx.puff(m.fx, c.position, Color(2.4, 1.2, 0.5))
 		m.sfx.play("rompi", c.position)
 		if player.position.distance_to(c.position) < 3.5 * 16.0:
-			hurt_player(int(c.ancient.value("explode")), c.position.x)
+			hurt_player(int(c.ancient.value("explode")), c.position.x, "uno scoppio")
 
 
 ## Le creature che toccano il Germogliato lo feriscono.
@@ -231,7 +231,7 @@ func _contact() -> void:
 	var pr := Rect2(player.position - Player.HALF, Player.HALF * 2.0).grow(-1.0)
 	for c in fauna.list:
 		if c.damage > 0 and pr.intersects(c.rect().grow(-1.0)):
-			hurt_player(c.damage, c.position.x)
+			hurt_player(c.damage, c.position.x, String(c.data.get("name", "una creatura")))
 			if c.ancient and c.ancient.has("velenosa"):
 				vitals.poison_t = maxf(vitals.poison_t, c.ancient.value("poison"))
 				m.hud.toast("Avvelenato!")
@@ -242,12 +242,12 @@ func _contact() -> void:
 
 
 ## Ferita del Germogliato da una creatura o da un colpo: meno Vita, spinta indietro, lampeggio, numero rosso.
-func hurt_player(dmg: int, from_x: float) -> void:
+func hurt_player(dmg: int, from_x: float, why := "una creatura") -> void:
 	if invuln > 0.0 or m.life.dead or god:
 		return
 	invuln = INVULN
 	m.sfx.play("ferita")
-	var lost := vitals.hurt(dmg)
+	var lost := vitals.hurt(dmg, why)
 	var dir := signf(player.position.x - from_x)
 	if dir == 0.0:
 		dir = -float(player.facing)

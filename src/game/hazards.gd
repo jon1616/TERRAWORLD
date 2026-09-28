@@ -32,7 +32,7 @@ func _process(_dt: float) -> void:
 			match m.world.decor_at(x, y):
 				TileDefs.DECOR_ROVO:
 					var st := StrataData.at(m.world, x, y)
-					m.combat.hurt_player(ROVO_DMG + 4 * st, x * S + 8)
+					m.combat.hurt_player(ROVO_DMG + 4 * st, x * S + 8, "i rovi")
 					return
 				TileDefs.DECOR_TRAP:
 					_spring(Vector2i(x, y))
@@ -45,6 +45,6 @@ func _spring(c: Vector2i) -> void:
 	m.light.dirty = true
 	Fx.puff(m.fx, Vector2(c) * S + Vector2(8, 4), Color(1.2, 1.8, 0.6))
 	m.sfx.play("spora", Vector2(c) * S)
-	m.combat.hurt_player(TRAP_DMG, c.x * S + 8)
+	m.combat.hurt_player(TRAP_DMG, c.x * S + 8, "una runa trappola")
 	m.vitals.poison_t = maxf(m.vitals.poison_t, TRAP_POISON)
 	m.hud.toast("Una runa trappola dei Seminatori!")

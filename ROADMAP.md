@@ -3311,10 +3311,11 @@ Le correzioni trovate nella voce 183.
 **Pronto quando**: `prove/progressioni.txt` non segna più niente di grave.
 **Fatto**: un Lumino ogni 10 punti di Vita delle creature (erano 18: `FaunaExtra.LUMINI_HP`): cacciare rende ~130 Lumini all'ora in Superficie, ~500 nelle Caverne, ~1400 nel Fondo, ~5400 al vigore 8 (erano 66, 250, 930, 4200); la stanchezza degli specchi arriva a 16 (era 10: attesa fino a ×3,4), così la pesca resta una rendita tranquilla e non quattro volte la caccia; Cuori di bocciolo 24 per mondo (erano 60) e Stille perenni 16 (erano 36): il tetto della Vita e della Linfa arriva in due o tre mondi, non nel primo. Trovato strada facendo: con una cassa pescata (3% dei lanci) il gioco chiedeva la taglia di un pesce che non c'era e si fermava (`Fishing.catch`), sistemato. Le offerte dell'Albero restano com'erano (le squame di brace ora si cacciano di notte o dal vigore 2, come le salamandre).
 
-## 188. [ ] Capire e sentire la difficoltà (P)
+## 188. [x] Capire e sentire la difficoltà (P) — fatto il 29 set 2026
 Il giocatore deve sapere che l'armatura conta e quando è sotto il suo strato: consiglio «equipaggiati», avviso entrando
 in uno strato con l'equipaggiamento troppo debole, capitolo dell'Enciclopedia sulla Scorza e sul pericolo.
 **Pronto quando**: la prova vede il consiglio e l'avviso.
+**Fatto**: la **Scorza attesa** in ogni strato e vigore (`DangerData.expected_scorza`: 6 nel Sottobosco, 10 nelle Caverne, 14 nelle Profondità e nel Fondo al vigore 1, +6 a vigore fino al 3, poi +2); entrando in uno strato con meno del 60% arriva un avviso (`DepthWatch`), la prima volta anche il consiglio «La Scorza conta»; il capitolo dell'Enciclopedia «Il pericolo e l'armatura» (inizio facile, notte, strati, vigore, Scorza, riposo vicino alle torce, rare, armi); la Scorza con la sua percentuale nelle schede (voce 184). **Il Diario conta di che cosa si appassisce** (`Vitals.cause`: la creatura, una caduta, un proiettile, i rovi, il respiro, un fulmine…): la prossima partita dell'utente dirà dove tarare ancora. Prove nel gruppo «diario».
 
 ## 189. [ ] Il resoconto (P)
 Giro intero delle prove, CLAUDE.md, resoconto con i numeri prima e dopo, Git e GitHub.

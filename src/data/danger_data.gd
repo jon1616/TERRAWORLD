@@ -37,5 +37,26 @@ static func at(w: World, c: Vector2i, night: bool, vigor: int) -> float:
 	return d
 
 
+## Voce 188 (Roadmap 18): la Scorza che la curva della difficoltà si aspetta in uno strato e a un vigore (quella del
+## set del metallo di quel momento, misurata con `tools/percorso.gd`: radicite 8, legnoferro 12, ambra 16, linfa 21,
+## vuoto 28, stellare 35, più la tempra). Sotto il `LOW` di questa, `DepthWatch` avvisa entrando nello strato.
+const EXPECTED_SCORZA := [0, 6, 10, 14, 14]
+const LOW := 0.6
+
+
+static func expected_scorza(stratum: int, vigor: int) -> int:
+	var v := maxi(vigor, 1)
+	return mini(EXPECTED_SCORZA[clampi(stratum, 0, EXPECTED_SCORZA.size() - 1)] + 6 * (mini(v, 3) - 1) + 2 * maxi(v - 3, 0), 45)
+
+
+## L'avviso per una Scorza troppo bassa ("" se va bene).
+static func scorza_warning(sc: int, stratum: int, vigor: int) -> String:
+	var want := expected_scorza(stratum, vigor)
+	if want <= 0 or sc >= roundi(want * LOW):
+		return ""
+	return "La tua Scorza (%d) è bassa per questo posto: qui le creature vogliono almeno %d. Un'armatura di metallo migliore." % [
+		sc, want]
+
+
 static func cap(danger: float) -> int:
 	return CAP[clampi(floori(danger), 0, CAP.size() - 1)]

@@ -161,6 +161,12 @@ func _c_profondo() -> bool:
 	return m.depth_watch.stratum >= 2
 
 
+## Voce 188: in uno strato con una Scorza troppo bassa per quel punto della partita.
+func _c_armatura() -> bool:
+	return m.depth_watch.stratum >= 1 and DangerData.scorza_warning(m.depth_watch.scorza(), m.depth_watch.stratum,
+		m.fauna.vigor) != ""
+
+
 func _c_piccone() -> bool:
 	return _flags.get("piccone", false)
 

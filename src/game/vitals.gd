@@ -37,15 +37,18 @@ var poison_t := 0.0                    # avvelenato da una creatura Velenosa: pe
 var _pacc := 0.0
 const POISON_DPS := 3.0                  # accessori: la Vita ricresce più in fretta (e l'attesa si accorcia)                  # dalle pozioni (vedi `Boons`)
 var potion_wait := 0.0
+var cause := ""                        # voce 188: di che cosa è stata l'ultima ferita (per il Diario)
 var _since_hit := 99.0
 var _acc := 0.0
 var _lacc := 0.0
 
 
-## Ferita: restituisce i punti tolti davvero (almeno 1).
-func hurt(amount: int) -> int:
+## Ferita: restituisce i punti tolti davvero (almeno 1). `why` = di che cosa (voce 188: il Diario conta di che cosa si
+## appassisce, per bilanciare con le partite vere).
+func hurt(amount: int, why := "altro") -> int:
 	if hp <= 0:
 		return 0
+	cause = why
 	var real := reduce(amount, scorza + scorza_bonus + set_scorza)
 	_since_hit = 0.0
 	if hp - real <= 0 and death_guard.is_valid() and bool(death_guard.call()):
@@ -101,6 +104,7 @@ func tick(dt: float) -> void:
 		if pk > 0:
 			_pacc -= pk
 			hp = maxi(hp - pk, 0)
+			cause = "il veleno"
 			_since_hit = 0.0
 			if hp == 0:
 				changed.emit()

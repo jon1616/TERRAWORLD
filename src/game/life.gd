@@ -22,7 +22,7 @@ func _on_landed(tiles: float) -> void:
 	if tiles > FALL_SAFE and SkyData.soft_under(m.world, m.player.position):
 		return                                 # Roadmap 16: la nuvola accoglie chi ci cade sopra
 	if tiles > FALL_SAFE and not dead and not fall_safe:
-		var lost: int = m.vitals.hurt(int((tiles - FALL_SAFE) * FALL_HURT))
+		var lost: int = m.vitals.hurt(int((tiles - FALL_SAFE) * FALL_HURT), "una caduta")
 		m.hud.toast("Caduta: -%d Vita" % lost)
 		m.player.hurt_t = HeroSprites.HURT_TIME
 		flash(Color(1.0, 0.4, 0.3, 0.35))

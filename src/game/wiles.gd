@@ -41,7 +41,7 @@ func _act(c: Creature, a: Dictionary) -> void:
 			_steal(c, int(a["n"]))
 		"beve":
 			m.vitals.linfa = maxi(m.vitals.linfa - int(a["linfa"]), 0)
-			m.vitals.hurt(int(a["vita"]))
+			m.vitals.hurt(int(a["vita"]), "un parassita")
 			m.vitals.changed.emit()
 			Fx.float_text(m.fx, m.player.position + Vector2(0, -20), "-%d Linfa" % int(a["linfa"]), Color("#6ae0d8"))
 		"tela":

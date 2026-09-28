@@ -52,6 +52,14 @@ La prima volta che succede una cosa nuova (la notte, il buio sotto terra, un blo
 [b]Pozioni[/b]: ne puoi bere una ogni {potion_cd} secondi (vedi [url=cap:pozioni]Pozioni e cibo[/url]).
 [b]Cadute[/b]: fino a {fall_safe} tessere non fanno male; oltre, {fall_hurt} punti di Vita per tessera. Alcuni accessori tolgono le ferite da caduta.
 [b]Veleno[/b]: certe creature avvelenano; le bende lo tolgono."""},
+	{"id": "pericolo", "group": "Primi passi", "name": "Il pericolo e l'armatura", "text":
+"""Il gioco comincia facile e diventa sempre più duro: per andare avanti bisogna [b]equipaggiarsi[/b].
+[b]Di giorno, in superficie, nel primo mondo[/b] nascono solo le creature leggere. Le forti dei biomi (orsi, lupi, golem) escono [b]di notte[/b] e nei mondi di [url=cap:semi]vigore[/url] 2 o più.
+[b]Scendendo[/b] le creature crescono a ogni strato: nel Sottobosco un poco, nelle Caverne di più, nelle Profondità e nel Fondo quasi il doppio. [b]Ogni punto di vigore[/b] del mondo le rende più forti ancora.
+[b]La Scorza[/b] (vedi [url=cap:vita]Vita, Linfa e Scorza[/url]) toglie una parte di ogni ferita. Quella che serve, a grandi linee: 6 nel Sottobosco, 10 nelle Caverne, 14 nelle Profondità e nel Fondo; qualche punto in più per ogni vigore. Entrando in uno strato con meno di così arriva un avviso. Un set intero dello stesso metallo dà anche il suo [url=cap:set]bonus[/url].
+[b]Riposare[/b]: la Vita ricresce da sola dopo qualche secondo senza ferite, più in fretta più Vita massima hai. Quando è bassa, ritirati vicino a una torcia (lì non nasce nessuno) e aspetta, o bevi una pozione.
+[b]Le creature rare[/b] hanno un'aura colorata: molta più Vita, colpi più forti, bottino migliore. Affrontale preparato.
+[b]Le armi[/b]: piccone e ascia colpiscono le creature a metà; ogni forma ha il suo gioco (il pugnale è rapido, lo spadone e il martello spingono lontano, la lancia e la frusta tengono a distanza)."""},
 	{"id": "appassire", "group": "Primi passi", "name": "Appassire e rinascere", "text":
 """Quando la Vita arriva a zero il Germogliato [b]appassisce[/b] e dopo qualche secondo rinasce: nel letto che hai usato per ultimo in quel mondo ([url=cap:costruire]Letto di foglie[/url], clic destro), altrimenti alla partenza.
 Appassire costa: la parte grande della Bisaccia (non la barra rapida, non ciò che indossi) resta in un [b]Fagotto[/b] dove sei appassito. Il fagotto è segnato sulla mappa: torna a prenderlo con il clic destro.

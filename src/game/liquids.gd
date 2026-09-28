@@ -327,12 +327,12 @@ func _body(dt: float) -> void:
 		return
 	_hurt = 0.0
 	if breath <= 0.0:
-		m.vitals.hurt(roundi(LiquidsData.DROWN * 0.5))
+		m.vitals.hurt(roundi(LiquidsData.DROWN * 0.5), "il respiro finito")
 	var lv := w.liq(mid.x, mid.y)
 	if lv > 0:
 		var td: Dictionary = LiquidsData.TYPES[w.liq_type(mid.x, mid.y)]
 		if float(td["dps"]) > 0.0:
-			m.vitals.hurt(roundi(float(td["dps"]) * 0.5))
+			m.vitals.hurt(roundi(float(td["dps"]) * 0.5), "un liquido che brucia")
 		if float(td["heal"]) > 0.0:
 			m.vitals.heal(roundi(float(td["heal"]) * 0.5))
 	# voce 74: anche le creature bruciano nella brace (quelle d'acqua a parte)

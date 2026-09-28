@@ -33,6 +33,11 @@ func _stratum_at(margin: int) -> int:
 	return k
 
 
+## La Scorza di adesso (armatura, set, poteri, pozione).
+func scorza() -> int:
+	return m.vitals.scorza + m.vitals.set_scorza + m.vitals.scorza_bonus
+
+
 ## Il bioma di superficie di una colonna, o BLIGHT se lì la superficie è avvizzita.
 func _biome_at(x: int) -> int:
 	return BLIGHT if Blight.surface_blighted(m.world, x) else BiomesData.at(m.world, x)
@@ -48,6 +53,10 @@ func _process(dt: float) -> void:
 		stats["strato_max"] = maxi(int(stats.get("strato_max", 0)), k)
 		var st: Dictionary = StrataData.STRATA[k]
 		banner.show_stratum(String(st["name"]), String(st["desc"]), Color(st["color"]))
+		# voce 188: entrando in uno strato con una Scorza troppo bassa per quel punto della partita, un avviso
+		var warn := DangerData.scorza_warning(scorza(), k, m.fauna.vigor)
+		if warn != "":
+			m.hud.toast(warn)
 	# in superficie: la scritta del bioma quando se ne attraversa il confine (con un margine di qualche colonna)
 	if stratum == 0:
 		var x: int = m.player_cell().x

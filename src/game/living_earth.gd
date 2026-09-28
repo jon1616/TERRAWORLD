@@ -198,7 +198,7 @@ func _fall_step() -> void:
 		var pr: Rect2 = Rect2(m.player.position - Player.HALF, Player.HALF * 2.0)
 		if pr.intersects(Rect2(Vector2(below) * 16.0, Vector2(16, 16))):
 			# cade in testa al Germogliato: si sbriciola
-			m.vitals.hurt(LivingData.FALL_HURT)
+			m.vitals.hurt(LivingData.FALL_HURT, "una frana")
 			m.drops.spawn(String(TileDefs.DROP.get(t, "")), 1, Vector2(below) * 16.0 + Vector2(8, 8))
 		else:
 			w.set_tile(below.x, below.y, t)
