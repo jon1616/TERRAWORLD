@@ -1,7 +1,8 @@
 class_name Lords
 extends Node
 ## I Signori dei luoghi (voce 135, dati in `src/data/bestiary/signori.gd`, fatti da `tools/gen_signori.py`): con
-## l'esca rituale in mano, nel suo luogo (il bioma di superficie, il bioma del sottosuolo o lo strato), il Signore
+## l'esca rituale in mano, nel suo luogo (il bioma di superficie, il bioma del sottosuolo, lo strato o, dalla Roadmap 16,
+## il bioma del cielo), il Signore
 ## arriva a una decina di tessere, con la barra in alto e la musica dei Guardiani. A metà Vita entra in **furia**
 ## (`Creature`: i comportamenti del campo `fury`). Sconfitto: il suo materiale unico e il trofeo, `world_meta["signori"]`.
 
@@ -38,6 +39,7 @@ func here() -> String:
 	var pc: Vector2i = m.player_cell()
 	var stratum := StrataData.at(m.world, pc.x, pc.y)
 	var biome := String(BiomesData.BIOMES[BiomesData.at(m.world, pc.x)]["id"])
+	var sky := SkyData.zone_at(m.world, pc.x, pc.y) if stratum == 0 else ""     # Roadmap 16: i Signori del cielo
 	var under := ""
 	if stratum > 0:
 		for e in UnderBiomesData.pool_at(m.world, pc):
@@ -47,7 +49,11 @@ func here() -> String:
 				break
 	for k in all():
 		var wh: Dictionary = all()[k]["where"]
-		if wh.has("biomes") and stratum == 0 and biome in (wh["biomes"] as Array):
+		if wh.has("sky"):
+			if String(wh["sky"]) == sky:
+				return String(k)
+			continue
+		if wh.has("biomes") and stratum == 0 and sky == "" and biome in (wh["biomes"] as Array):
 			return String(k)
 		if wh.has("under") and String(wh["under"]) == under:
 			return String(k)
@@ -79,7 +85,9 @@ func spawn(cid: String) -> Creature:
 	var at: Vector2 = m.player.position + Vector2(side * 10.0 * S, -3.0 * S)
 	active = m.fauna.add(cid, at)
 	var st := StrataData.at(m.world, m.player_cell().x, m.player_cell().y)
-	active.strengthen(m.fauna.vigor_mult * float(StrataData.STRATA[st]["danger"]))
+	var sky := SkyData.zone_at(m.world, m.player_cell().x, m.player_cell().y)
+	var sky_k := float(SkyData.get_biome(sky).get("danger", 1.0)) if sky != "" else 1.0
+	active.strengthen(m.fauna.vigor_mult * float(StrataData.STRATA[st]["danger"]) * sky_k)
 	active.provoke()
 	bar.follow(active)
 	m.sfx.play("guardiano")

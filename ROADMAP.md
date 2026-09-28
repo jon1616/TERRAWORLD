@@ -2875,10 +2875,11 @@ creature del cielo nascono dove `SkyData.zone_at` dice (80%), più forti nel cie
 **Pronto quando**: `tools/ecosistemi.gd` misura anche le zone del cielo senza buchi; il foglio del bestiario le mostra.
 **Fatto**: 30 specie in `src/data/bestiary/cielo.gd` (righe in `tools/bestiario_cielo.py`, generate da `gen_bestiario.py`; campi `sky` e `sw`, peso normale 0), cinque per bioma con ruoli e modi d'attacco diversi (`tools/ecosistemi.gd` misura anche il cielo: 0 zone con buchi su 31); tre comportamenti nuovi: **picchiata** (`BhPicchiata`: sale, trema, cala), **folgore** (`BhFolgore` → richiesta «folgore» → `SkyStrikes`: la colonna si accende, poi il fulmine cade; sotto un tetto non tocca), **deriva** (`BhDeriva`: va col vento); nomi e contromosse in `WilesData`; nascite: `SkyData.pool_of` nell'85% delle nascite in cielo, forza × `danger` del bioma; 6 talismani, 6 emblemi e 23 oggetti dai materiali (0 avvisi in `verifica_dati`). Foto 216 (bestiario), 217 (il fulmine annunciato).
 
-## 161. [ ] I Signori del cielo (M)
+## 161. [x] I Signori del cielo (M) — fatto il 29 set 2026
 Sei Signori (uno per bioma del cielo) da `tools/gen_signori.py`, con l'esca rituale da usare nel loro bioma, la furia a
 metà Vita e il materiale che c'è solo da loro.
 **Pronto quando**: la prova ne chiama uno nel suo bioma e lo batte; il bilancio dà i tempi.
+**Fatto**: sei Signori del cielo in `tools/gen_signori.py` (`where`: `{sky: bioma}`; tutti volanti): Regina turchese, Grande Nuvolo, Falco re dei venti, Drago di cristallo, Signore del tuono (tre fulmini di fila), Balena madre delle stelle; ognuno con esca, materiale, trofeo e oggetto (Mantello della Regina, Cuscino di nuvola, Ali del re dei venti, Corona di cristallo, Corno del tuono, Mantello del Firmamento: l'aria sottile non tocca più). `Lords.here()` riconosce le zone del cielo (lì non vale il Signore del bioma di sotto) e la forza si moltiplica per il `danger` del bioma. 30 Signori in tutto. Foto 218.
 
 ## 162. [ ] Il Guardiano delle Chiome (L)
 Un grande Guardiano scritto a mano, **l'Occhio della Tempesta**: si chiama all'Osservatorio del Firmamento (voce 163)

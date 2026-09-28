@@ -138,6 +138,37 @@ L = [
      {'sight': 30, 'hover': 30.0, 'wobble': 30.0, 'blink_every': 3.5, 'tp_range': 9, 'fan_n': 7, 'fan_rate': 2.4, 'summon_every': 6.0, 'summon_max': 3, 'dash_every': 2.4, 'dash_speed': 320.0, 'dash_time': 0.4},
      'bolla_vuoto', ('luce', 'vuoto'), ('frammento_fondo', 'Frammento del Fondo', ['gemma', 'vuotite']), ('occhio_fondo', 'Occhio del Fondo', ['essenza', 'vuotite']),
      ('mantello_fondo', 'Mantello dell\'Ombra del Fondo', 'accessorio', ['velo', 'vuotite'], {'acc': {'damage': 1.15, 'stealth': 0.8}, 'desc': 'Danno +15%; le creature ti vedono più tardi.'}), {'artiglio_vuoto': 4, 'vello_vuoto': 3}),
+    # Roadmap 16, voce 161: i Signori del cielo (uno per bioma del cielo, tutti volanti: sulle isole non si cade)
+    ('radici_sospese', {'sky': 'radici_sospese'}, 3, 'Regina turchese', 'insetto', 40, 32, ['#0f2a30', '#1f5c58', '#3aa08a', '#8ef0d8', '#fff0a0'], '#101010',
+     {'wings': '#d8fff4', 'marks': 'strisce', 'mark': '#fff0a0', 'glow': True}, ['vola', 'richiamo'], ['ventaglio', 'evoca'],
+     {'sight': 28, 'hover': 50.0, 'wobble': 40.0, 'call_time': 1.2, 'call_n': 3, 'calls': 3, 'fan_n': 6, 'fan_rate': 2.6, 'summon_every': 6.0, 'summon_max': 4},
+     'ape_turchese', ('brace', 'spora'), ('pappa_reale_cielo', 'Pappa reale di cielo', ['goccia', 'cielo']), ('corona_turchese', 'Corona turchese', ['corona', 'cielo']),
+     ('mantello_regina', 'Mantello della Regina turchese', 'accessorio', ['mantello', 'cielo'], {'acc': {'glide': True, 'regen': 1.15}, 'desc': 'Si plana tenendo il salto; la Vita ricresce +15%.'}), {'miele_cielo': 4, 'seta_cielo': 3}),
+    ('mare_nubi', {'sky': 'mare_nubi'}, 3, 'Grande Nuvolo', 'fluttuante', 48, 36, ['#4a5470', '#7a88a8', '#aebcd8', '#d8e2f4', '#ffffff'], '#303040',
+     {'marks': 'macchie', 'mark': '#ffffff'}, ['vola', 'divide'], ['bombarda', 'evoca'],
+     {'sight': 26, 'hover': 40.0, 'wobble': 30.0, 'rate': 2.4, 'summon_every': 6.0, 'summon_max': 4},
+     'nuvolo_vivo', ('brace', 'gelo'), ('cuore_nembo', 'Cuore del nembo', ['cuore', 'nuvola']), ('occhio_nuvolo', 'Occhio del Grande Nuvolo', ['occhio', 'nuvola']),
+     ('cuscino_nuvola', 'Cuscino di nuvola', 'accessorio', ['sacca', 'nuvola'], {'acc': {'fall_safe': True, 'defense': 4, 'regen': 1.1}, 'desc': 'Le cadute non fanno male; +4 Scorza; la Vita ricresce +10%.'}), {'vapore_vivo': 4, 'velo_nuvola': 3}),
+    ('giardini_vento', {'sky': 'giardini_vento'}, 3, 'Falco re dei venti', 'uccello', 46, 30, ['#2a1a0a', '#5a3a14', '#8a6020', '#c09040', '#f0e0b0'], '#ffd24a',
+     {'wings': '#5a3a14', 'marks': 'strisce', 'mark': '#f0e0b0'}, ['vola', 'picchiata'], ['scatto', 'richiamo'],
+     {'sight': 32, 'hover': 90.0, 'wobble': 20.0, 'rise': 8, 'dive_speed': 380.0, 'dive_every': 3.5, 'dash_every': 2.6, 'dash_speed': 330.0, 'dash_time': 0.4, 'call_time': 1.2, 'call_n': 2, 'calls': 3},
+     'falco_vento', ('gelo', 'luce'), ('piuma_re_venti', 'Piuma del re dei venti', ['penna', 'vento']), ('artiglio_re_venti', 'Artiglio del re dei venti', ['artiglio', 'vento']),
+     ('ali_re_venti', 'Ali del re dei venti', 'accessorio', ['ali', 'vento'], {'acc': {'glide': True, 'air_jumps': 1, 'run': 1.08}, 'desc': 'Un salto in aria in più; si plana; corsa +8%.'}), {'penna_falco_vento': 4, 'pelo_vento': 3}),
+    ('scogliere_cristallo', {'sky': 'scogliere_cristallo'}, 4, 'Drago di cristallo', 'serpe', 56, 26, ['#14304a', '#1f5078', '#3a80b0', '#8ac8f0', '#e0f6ff'], '#ffd24a',
+     {'wings': '#8ac8f0', 'marks': 'punte', 'mark': '#e0f6ff', 'glow': True}, ['vola', 'ventaglio'], ['teletrasporto', 'evoca'],
+     {'sight': 30, 'hover': 60.0, 'wobble': 30.0, 'fan_n': 5, 'fan_rate': 2.4, 'fan_spread': 0.7, 'shot_speed': 200.0, 'blink_every': 3.5, 'summon_every': 6.0, 'summon_max': 3},
+     'draghetto_eco', ('brace', 'gelo'), ('scaglia_drago_cristallo', 'Scaglia del drago di cristallo', ['scaglia', 'celeste']), ('corno_cristallo', 'Corno di cristallo', ['artiglio', 'celeste']),
+     ('corona_cristallo', 'Corona di cristallo', 'accessorio', ['corona', 'celeste'], {'acc': {'quota': 0.6, 'defense': 4}, 'desc': 'Aria sottile: protegge al 60%; +4 Scorza.'}), {'squama_eco': 4, 'cristallo_celeste': 4}),
+    ('nidi_tempesta', {'sky': 'nidi_tempesta'}, 4, 'Signore del tuono', 'fluttuante', 46, 42, ['#14182a', '#2a3048', '#4a5478', '#8a98c8', '#fffac0'], '#fffac0',
+     {'marks': 'punte', 'mark': '#fffac0', 'glow': True}, ['vola', 'folgore'], ['scatto', 'evoca'],
+     {'sight': 30, 'hover': 80.0, 'wobble': 20.0, 'bolt_every': 3.5, 'bolt_delay': 1.0, 'bolts': 3, 'dash_every': 2.8, 'dash_speed': 320.0, 'dash_time': 0.4, 'summon_every': 6.0, 'summon_max': 4},
+     'scintilla_viva', ('spora', 'luce'), ('nucleo_tuono', 'Nucleo del tuono', ['stella', 'folgorite']), ('corona_tuono', 'Corona del tuono', ['corona', 'folgorite']),
+     ('corno_tuono', 'Corno del tuono', 'accessorio', ['artiglio', 'folgorite'], {'acc': {'damage': 1.12, 'atk_speed': 1.05}, 'desc': 'Danno +12%; colpi +5% più rapidi.'}), {'scintilla_tuono': 4, 'folgorite': 3}),
+    ('firmamento', {'sky': 'firmamento'}, 4, 'Balena madre delle stelle', 'fluttuante', 60, 30, ['#101430', '#1c2450', '#2e3a78', '#6a78c0', '#f0f0ff'], '#fff0a0',
+     {'marks': 'macchie', 'mark': '#fffbe0', 'glow': True}, ['vola', 'bombarda'], ['teletrasporto', 'ventaglio'],
+     {'sight': 30, 'hover': 100.0, 'wobble': 15.0, 'rate': 2.2, 'shot_look': 'stella', 'blink_every': 4.0, 'fan_n': 7, 'fan_rate': 2.4, 'shot_speed': 190.0},
+     'stella_errante', ('vuoto', 'luce'), ('lacrima_stelle', 'Lacrima di stelle', ['goccia', 'stelle']), ('canto_madre', 'Canto della balena madre', ['essenza', 'stelle']),
+     ('mantello_firmamento', 'Mantello del Firmamento', 'accessorio', ['mantello', 'stelle'], {'acc': {'quota': 1.0, 'magic': 1.1}, 'desc': "L'aria sottile non ti tocca; incantesimi +10%."}), {'ambra_stelle': 4, 'polvere_stelle': 10}),
 ]
 
 
@@ -175,7 +206,7 @@ def main():
         lords[key] = {'creature': cid, 'where': where, 'bait': bait_id}
     out = ['extends RefCounted',
            '## I Signori dei luoghi (voce 135, Roadmap 15): un mini-boss per ogni bioma di superficie, del sottosuolo e per',
-           '## ogni strato, nato da una ricetta (corpo, comportamenti, furia a metà Vita). Si chiamano con la loro esca rituale',
+           '## ogni strato e per ogni bioma del cielo (Roadmap 16), nato da una ricetta (corpo, comportamenti, furia a metà Vita). Si chiamano con la loro esca rituale',
            '## nel loro luogo (`Lords`). Fatto da `tools/gen_signori.py` (non a mano). Non nomina altre classi.', '',
            'const DATA := {']
     for k, v in (('creatures', creatures), ('loot', loot), ('items', items)):

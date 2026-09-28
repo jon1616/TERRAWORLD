@@ -26,6 +26,7 @@ func run() -> void:
 	await thin()
 	mats()
 	await beasts()
+	await lords()
 
 
 ## Voce 154: le zone e le fasce.
@@ -385,3 +386,39 @@ func beasts() -> void:
 	if not tele or not dove or not saw_line or st.fallen == fallen0:
 		print("ATTENZIONE: le mosse del cielo (picchiata, fulmine) non vanno come dovrebbero")
 	m.vitals.refill()
+
+
+## Voce 161: su un'isola del cielo il Signore del posto è quello del bioma del cielo; la sua esca lo chiama, a terra no.
+func lords() -> void:
+	var spot := island_spot("basso")
+	if spot.x < 0:
+		print("ATTENZIONE: nessuna isola per i Signori del cielo")
+		return
+	m.snap_to(spot)
+	await kit.frames(3)
+	var key: String = m.lords.here()
+	var zone := SkyData.zone_at(world, spot.x, spot.y)
+	var b: Bisaccia = m.character.bisaccia
+	var bait := "esca_signore_" + key
+	b.add(bait, 1)
+	m.combat.god = true
+	var ok: bool = key == zone and m.lords.summon(bait)
+	var lord: Creature = m.lords.active
+	var hp := lord.hp_max if lord else 0
+	var flies: bool = lord != null and lord.fly
+	await kit.seconds(0.6)
+	await kit.save("218_signore_cielo")
+	if lord and is_instance_valid(lord):
+		m.fauna.kill(lord)
+	m.fauna.clear()
+	m.combat.god = false
+	# a terra, l'esca del cielo non fa nulla
+	m.snap_to(world.spawn)
+	await kit.frames(3)
+	b.add(bait, 1)
+	var no: bool = not m.lords.summon(bait)
+	b.remove(bait, b.count(bait))
+	print("Signore del cielo: qui «%s» (zona «%s»), chiamato %s, vola %s, Vita %d; a terra l'esca non fa nulla %s" % [
+		key, zone, ok, flies, hp, no])
+	if not ok or not flies or not no:
+		print("ATTENZIONE: i Signori del cielo non vanno come dovrebbero")
