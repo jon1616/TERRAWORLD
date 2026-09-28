@@ -3,7 +3,8 @@ extends RefCounted
 ## Le astuzie delle creature (voce 130, Roadmap 15): i comportamenti nuovi con il loro nome, il segnale che danno prima
 ## e la **contromossa**. La scheda della creatura e l'Enciclopedia li leggono da qui; la logica sta in
 ## `src/entities/behaviors/` (un file per comportamento) e in `Wiles` (ciò che tocca il mondo).
-## Regola dell'utente: le creature non rompono mai i blocchi costruiti (solo le porte, solo negli assedi).
+## Regola dell'utente: le creature non distruggono nulla (blocchi, terra, colture) fuori dagli assedi; negli assedi
+## rodono solo le porte.
 
 const WILES := {
 	"sbuca": {"name": "Sbuca da sotto", "tell": "la terra trema e fa polvere sotto i tuoi piedi",
@@ -26,8 +27,8 @@ const WILES := {
 		"counter": "stai lontano dalla riva, pescalo, o prosciuga lo specchio"},
 	"tessitore": {"name": "Tessitore", "tell": "si ferma e fila",
 		"counter": "una torcia in mano brucia le ragnatele; le torce vicine le disfano"},
-	"rosicchia": {"name": "Rosicchiatore", "tell": "rode la terra tenera e le colture",
-		"counter": "recinta l'orto con blocchi costruiti: quelli non li tocca"},
+	"rosicchia": {"name": "Rosicchiatore", "tell": "negli assedi rode le porte",
+		"counter": "negli assedi difendi le porte: una porta regge qualche morso, poi cade (mura e luce lo tengono lontano)"},
 	"fotofobo": {"name": "Fotofobo", "tell": "si aggira nel buio",
 		"counter": "accendi le torce: alla luce forte è più debole e fugge"},
 	"pastore": {"name": "Pastore", "tell": "le compagne lo seguono",
@@ -41,8 +42,8 @@ const WEB_W := 3
 const WEB_H := 2
 const WEB_TIME := 25.0
 const WEB_SLOW := 0.6
-## I rosicchiatori: la terra che rodono (durezza massima di `TileDefs.HARD`).
-const GNAW_HARD := 0.35
+## I rosicchiatori: quanti morsi regge una porta durante un assedio.
+const DOOR_HITS := 6
 
 
 static func of(c_behaviors: Array) -> Array:

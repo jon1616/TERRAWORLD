@@ -320,15 +320,25 @@ func wiles() -> void:
 			break
 	res["sbuca"] = out
 	m.fauna.clear()
-	# rosicchia: terra davanti mentre caccia
-	var q: Vector2i = m.player_cell() + Vector2i(3, 0)
-	w.set_tile(q.x, q.y, TileDefs.DIRT)
-	m.view.refresh_around(q)
-	cr = _mk("rosicchia", Vector2(q.x + 1, q.y) * 16.0 + Vector2(8, 8))   # tra lei e il Germogliato, la terra
-	cr.mind.state = Mind.HUNT
-	(cr.behaviors[-1] as BhRosicchia).t = 0.0
-	await kit.seconds(0.3)
-	res["rosicchia"] = w.tile(q.x, q.y) == TileDefs.AIR
+	# rosicchia: fuori dall'assedio non tocca nulla, nell'assedio rode la porta finché cade
+	var q: Vector2i = m.player_cell() + Vector2i(4, 1 - m.masonry.door_h())
+	for dy in m.masonry.door_h():
+		w.set_tile(q.x, q.y + dy, TileDefs.PORTA)
+	w.stations[q] = "porta"
+	m.view.add_station(q)
+	cr = _mk("rosicchia", Vector2(q.x + 1, q.y + m.masonry.door_h() - 1) * 16.0 + Vector2(8, 8), {"gnaw_every": 0.15})
+	cr.mind.dark = true
+	await kit.seconds(1.2)
+	var kept: bool = w.stations.get(q, "") == "porta"
+	Wiles.siege = true
+	await kit.seconds(2.0)
+	Wiles.siege = false
+	res["rosicchia"] = kept and not w.stations.has(q) and w.tile(q.x, q.y) == TileDefs.AIR
+	if w.stations.has(q):
+		w.stations.erase(q)
+		m.view.remove_station(q)
+		for dy in m.masonry.door_h():
+			w.set_tile(q.x, q.y + dy, TileDefs.AIR)
 	m.fauna.clear()
 	# fotofobo: a mezzogiorno in superficie fugge
 	cr = _mk("fotofobo", P + Vector2(60, 0))

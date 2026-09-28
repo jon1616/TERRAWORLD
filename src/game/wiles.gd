@@ -10,6 +10,9 @@ var m: Node2D
 var webs := {}                           # cella -> secondi che restano
 var stolen := 0                          # conteggi (prove)
 var splits := 0
+var doors_broken := 0
+var door_hits := {}                      # origine della porta -> morsi presi
+static var siege := false                # un assedio in corso (voce 137): solo allora si rodono le porte
 var _burn_t := 0.0
 
 
@@ -53,7 +56,7 @@ func _act(c: Creature, a: Dictionary) -> void:
 		"rosicchia":
 			_gnaw(c, a["cell"])
 		"scoppia":
-			var bl := {"radius": float(a["r"]), "power": 10, "damage": int(a["damage"]), "natural": true}
+			var bl := {"radius": float(a["r"]), "power": -1, "damage": int(a["damage"]), "natural": true}   # non rompe blocchi
 			m.throwing.explode(c.position, bl)
 			m.fauna.kill_quietly(c)                 # scoppiata: niente bottino (abbattuta prima, sì)
 
@@ -82,25 +85,31 @@ func _steal(c: Creature, n: int) -> void:
 	Fx.puff(m.fx, m.player.position, Color(1.6, 1.4, 0.6))
 
 
-## Rode una coltura o la terra naturale tenera (mai i blocchi costruiti, le pareti finte dei segreti, i Sigilli).
+## Rode: solo durante un assedio (scelta dell'utente: fuori dagli assedi le creature non distruggono nulla), e solo le
+## porte; una porta regge `WilesData.DOOR_HITS` morsi, poi cade e lascia la porta a terra.
 func _gnaw(c: Creature, q: Vector2i) -> void:
+	if not siege:
+		return
 	var w: World = m.world
-	if w.crops.has(q):
-		w.crops.erase(q)
-		w.set_decor(q.x, q.y, 0)
-		m.view.refresh_around(q)
-		Fx.puff(m.fx, Vector2(q) * S + Vector2(8, 8), Color(0.8, 1.3, 0.6))
+	var st: Dictionary = w.station_at(q)
+	if st.is_empty() or String(st["id"]) != "porta":
 		return
-	if not (c.mind.state == Mind.HUNT or c.mind.state == Mind.ALERT):
-		return                                  # a zonzo non scava gallerie
-	var t: int = w.tile(q.x, q.y)
-	if t in TileDefs.BUILT or t == TileDefs.FINTA or TileDefs.SEALS.values().has(t) \
-			or float(TileDefs.HARD.get(t, 9.0)) > WilesData.GNAW_HARD or not w.station_at(q).is_empty() or w.tree_at(q).x >= 0:
+	var o: Vector2i = st["origin"]
+	door_hits[o] = int(door_hits.get(o, 0)) + 1
+	Fx.dust(m.fx, Vector2(q) * S + Vector2(8, 8), TileDefs.dust_colors(TileDefs.PORTA))
+	m.sfx.play("legno", Vector2(q) * S)
+	if int(door_hits[o]) < WilesData.DOOR_HITS:
 		return
-	w.set_tile(q.x, q.y, TileDefs.AIR)
-	m.view.refresh_around(q)
+	door_hits.erase(o)
+	w.stations.erase(o)
+	for dy in m.masonry.door_h():
+		w.set_tile(o.x, o.y + dy, TileDefs.AIR)
+		m.view.refresh_around(o + Vector2i(0, dy))
+	m.view.remove_station(o)
 	m.light.dirty = true
-	Fx.dust(m.fx, Vector2(q) * S + Vector2(8, 8), TileDefs.dust_colors(t))
+	m.drops.spawn("porta_lanterna", 1, Vector2(o) * S + Vector2(8, 8))
+	doors_broken += 1
+	m.hud.toast("Una porta è caduta!")
 
 
 func _webs(dt: float) -> void:

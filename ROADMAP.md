@@ -2333,9 +2333,10 @@ Fatto: 14 comportamenti in `src/entities/behaviors/` (`BhSbuca`, `BhDivide`, `Bh
 **contromossa** in `WilesData`, letti dalla scheda della creatura e dal capitolo «Combattere». Ciò che tocca il mondo
 lo fa `Wiles` (`src/game/`) dalle richieste `Creature.acts`: furto dalla Bisaccia (mai la casella in mano né gli oggetti
 unici; preso, il ladro restituisce), Linfa bevuta, ragnatele (rallentano; le bruciano le torce vicine o una torcia in
-mano), terra rosicchiata e colture mangiate, lo scoppio; alla morte le figlie di chi si divide, il maltolto, il gregge
-sbandato. **Regola dell'utente rispettata**: nessuna astuzia rompe i blocchi costruiti (`Throwing.explode` con
-«natural», il rosicchiatore solo terra tenera naturale). Prova in `--solo=vivo`: 13 astuzie su 13 (foto 193_ragnatela,
+mano), le porte rosicchiate, lo scoppio; alla morte le figlie di chi si divide, il maltolto, il gregge sbandato.
+**Regola dell'utente rispettata**: fuori dagli assedi nessuna creatura distrugge nulla (lo scoppiante ferisce ma non
+rompe blocchi); durante un assedio (`Wiles.siege`, voce 137) il rosicchiatore rode **solo le porte** (6 morsi, poi la
+porta cade e torna oggetto). Prova in `--solo=vivo`: 13 astuzie su 13 (foto 193_ragnatela,
 194_mimetico); il tuffatore si prova con la sua creatura (voce 136).
 Circa 14 pezzi, ognuno con i suoi parametri, il suo telegrafo e la sua contromossa scritta nei dati:
 - **Sbuca da sotto** (scava sotto il giocatore e salta fuori: si sente prima), **si divide** quando è colpita (meglio il

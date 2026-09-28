@@ -1,8 +1,7 @@
 class_name BhScoppia
 extends Behavior
 ## Scoppiante (voce 130): arrivata vicina (`p.fuse_r` tessere) si gonfia e trema per `p.fuse` secondi (il segnale),
-## poi scoppia: ferisce chi c'è attorno e rompe la terra naturale tenera (mai i blocchi costruiti). Si affronta da
-## lontano: abbattuta prima, non scoppia.
+## poi scoppia e ferisce chi c'è attorno (creature comprese; non rompe blocchi). Si affronta da lontano: abbattuta prima, non scoppia.
 
 var timer := -1.0
 
