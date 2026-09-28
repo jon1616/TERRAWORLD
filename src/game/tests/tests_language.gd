@@ -103,6 +103,7 @@ func run() -> void:
 	await lexicon()
 	await layers()
 	await word_chest()
+	engraving()
 
 
 ## Voce 172: il Quaderno si apre con il suo tasto, mostra lo strato e una parola scelta; «È questo?» giusto la conferma.
@@ -238,3 +239,24 @@ func word_chest() -> void:
 	m.character.lingua = had
 	lg._sync_stat()
 	m.snap_to(world.spawn)
+
+
+## Voce 175: incidere «brace» su una spada: il danno sale, i posti d'innesto restano; «radice» (delle armature) no.
+func engraving() -> void:
+	var b := kit.bisaccia()
+	kit.make_room()
+	var i := Bisaccia.HOTBAR + 2
+	b.slots[i] = {"id": "spada_ambra", "n": 1, "dati": {"q": 1}}
+	b.add("polvere_brace", 10)
+	var free0 := Gear.free_slots(b.slots[i])
+	var d0 := float(Gear.stats(b.slots[i])["damage"])
+	var ok := Crafting.engrave(b, i, "brace")
+	var d1 := float(Gear.stats(b.slots[i])["damage"])
+	var free1 := Gear.free_slots(b.slots[i])
+	var no_armor := not Crafting.engrave(b, i, "radice")          # «radice» è per le armature
+	print("incisione «brace» sulla spada d'ambra: fatta %s, danno %.1f → %.1f, posti liberi %d → %d, «radice» su una spada no %s; nome «%s»" % [
+		ok, d0, d1, free0, free1, no_armor, Gear.full_name(b.slots[i])])
+	if not ok or d1 <= d0 or free1 != free0 or not no_armor:
+		print("ATTENZIONE: le incisioni non vanno come dovrebbero")
+	b.slots[i] = {}
+	b.changed.emit()

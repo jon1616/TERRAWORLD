@@ -3114,11 +3114,12 @@ dedurre.
 **Pronto quando**: la prova apre uno scrigno a parola sbagliando una volta.
 **Fatto**: `PassParole` (dopo le stele): un terzo degli scrigni delle rovine diventa uno **scrigno a parola** (stazione `scrigno_parola`, sigillo d'ambra disegnato in `CompactArt`), sigillato da una frase di una stele di quel mondo con una parola mancante che compare in almeno due stele. `WordChests` (`src/game/word_chests.gd`) e la **ruota dei glifi** `GlyphPanel`: la frase con il vuoto, che tipo di parola manca, le parole viste di quella classe (in italiano se certe); giusta: si apre, bottino in più (rovina_3 e una tavoletta), la parola diventa certa; sbagliata: il sigillo si richiude per 45 s. Nel mondo di prova 17 scrigni a parola. Foto 222.
 
-## 175. [ ] Le incisioni (M)
+## 175. [x] Le incisioni (M) — fatto il 29 set 2026
 Al Maglio, una parola **certa** si incide su un'arma, un attrezzo o un'armatura: un effetto in più che non prende un
 posto d'innesto (una per oggetto). Circa 20 incisioni nei tre strati (brace, gelo, luce, radice, pietra, vento, stella,
 guardiano, vuoto…), più forti quelle delle lingue alte.
 **Pronto quando**: la prova incide «brace» su una spada e il danno cambia.
+**Fatto**: `IncisionsData` (`src/data/incisions_data.gd`): 20 incisioni (10 della lingua comune, 6 dell'antica con la nimbite, 4 della nera con la Linfa antica), tratti uniti a `TraitsData.TRAITS` (ora `static var` = `_TRAITS` + incisioni: non si tirano mai); nei dati della casella "incisione", contata da `Gear.traits` ma non da `Gear.free_slots`; `Crafting.engrave`; al Maglio, tra le Lavorazioni, una riga per ogni parola certa che si può incidere sull'oggetto in mano (`CraftingPanel.language`). Il Quaderno dice che cosa incide una parola. Prova: «brace» su una spada d'ambra, danno 16 → 17,3, posti d'innesto invariati.
 
 ## 176. [ ] Le parole che svelano (M)
 Ricette scritte nella lingua: si vedono (e si fanno) solo quando tutte le loro parole sono certe. Oggetti che aiutano a

@@ -55,6 +55,8 @@ static func traits(slot: Dictionary) -> Array:
 	for t in dati.get("innesti", []):
 		if TraitsData.TRAITS.has(String(t)):
 			out.append(String(t))
+	if TraitsData.TRAITS.has(String(dati.get("incisione", ""))):
+		out.append(String(dati["incisione"]))          # Roadmap 17: l'incisione (non prende un posto)
 	return out
 
 
@@ -84,7 +86,8 @@ static func slots(slot: Dictionary) -> int:
 
 ## Posti ancora liberi per un innesto.
 static func free_slots(slot: Dictionary) -> int:
-	return slots(slot) - traits(slot).size()
+	var inc := 1 if TraitsData.TRAITS.has(String((slot.get("dati", {}) as Dictionary).get("incisione", ""))) else 0
+	return slots(slot) - traits(slot).size() + inc
 
 
 ## Il nome completo: «Lancia di legnoferro con fascia di seta [Spina]».

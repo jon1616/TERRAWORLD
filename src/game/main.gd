@@ -248,6 +248,7 @@ func _build() -> void:
 	lexicon.setup(self)
 	hud.overlays.append(lexicon)
 	word_chests = _mount(WordChests.new())     # Roadmap 17: gli scrigni a parola
+	hud.panel.crafting.language = language     # Roadmap 17: le incisioni al Maglio
 	chains = _mount(Chains.new())          # voce 69: le catene di ricerca tra i mondi (cripte, Taccuino)
 	places = _mount(Places.new())          # voce 70: i luoghi scritti a mano
 	mechanisms = _mount(Mechanisms.new())  # voce 71: enigmi e meccanismi dei luoghi (porte dei Seminatori)

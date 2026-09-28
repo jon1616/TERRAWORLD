@@ -10,7 +10,7 @@ extends RefCounted
 ##   scorza                     Scorza in più (somma)
 ##   run, halo                  moltiplicano corsa e alone (come gli accessori, vedi `GearEffects`)
 
-const TRAITS := {
+const _TRAITS := {
 	# armi e attrezzi
 	"spina": {"name": "Spina", "desc": "+15% danno", "for": ["arma", "attrezzo"], "weight": 10, "damage": 1.15},
 	"vento": {"name": "Vento", "desc": "+12% velocità del colpo", "for": ["arma", "attrezzo"], "weight": 10, "speed": 1.12},
@@ -48,6 +48,9 @@ const TRAITS := {
 	"ombra": {"name": "Ombra", "desc": "le creature ti notano più tardi", "for": ["armatura", "accessorio"], "weight": 0,
 		"essence": true, "stealth": 0.7},
 }
+
+## Roadmap 17: più le incisioni (`IncisionsData`: tratti che non si tirano mai e non prendono un posto d'innesto).
+static var TRAITS: Dictionary = _TRAITS.merged(IncisionsData.traits())
 
 ## Voce 54: la **qualità** di fabbricazione (nei "dati" della casella, "q"): moltiplica danno, Scorza e (poco) la
 ## velocità, e dà i **posti d'innesto**: 1, più uno per ogni grado oltre «buono», più la risonanza del materiale

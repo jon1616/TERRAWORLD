@@ -212,4 +212,8 @@ func _show_word() -> void:
 								m.hud.toast("No: «%s» non vuol dire «%s»" % [LanguageData.sem(w), LanguageData.it(meaning)])
 						_dirty = true)
 					_opts.add_child(b)
+	var inc := IncisionsData.of_word(w)
+	if not inc.is_empty():
+		t += "\n\n[color=#ffd08a]Si incide al Maglio%s: %s (su %s).[/color]" % ["" if st == Language.CERTA else " quando sarà certa",
+			inc["desc"], ", ".join(inc["for"])]
 	_detail.text = t

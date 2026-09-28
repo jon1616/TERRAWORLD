@@ -13,6 +13,13 @@ static func rows(p: CraftingPanel, hs: int, near: Dictionary) -> Array[Button]:
 		out.append(_reforge(p, hs))
 		if Refusion.partner(bag, hs) >= 0:
 			out.append(_refuse(p, hs))                 # la rifusione dei doppioni (29 set 2026)
+		if p.language != null:                         # Roadmap 17: le incisioni delle parole certe
+			var cat := TraitsData.category_of(bag.id_at(hs))
+			var cur := String((bag.slots[hs].get("dati", {}) as Dictionary).get("incisione", ""))
+			for e in IncisionsData.LIST:
+				var w := String(e[0])
+				if p.language.known(w) and cat in (e[1] as Array) and cur != IncisionsData.trait_id(w):
+					out.append(_engrave(p, hs, w))
 		var seen := {}
 		for s in bag.slots:
 			var e := String(s.get("id", ""))
@@ -62,6 +69,26 @@ static func _refuse(p: CraftingPanel, i: int) -> Button:
 Costa %s." % cost
 	b.pressed.connect(func() -> void:
 		if Refusion.refuse(bag, i):
+			p.crafted.emit(id, 1)
+		p.refresh())
+	return b
+
+
+static func _engrave(p: CraftingPanel, i: int, w: String) -> Button:
+	var bag := p.bisaccia
+	var id := bag.id_at(i)
+	var inc := IncisionsData.of_word(w)
+	var cost := ""
+	var can := true
+	for k in inc["cost"]:
+		cost += "%s%d %s" % [", " if cost != "" else "", int(inc["cost"][k]), ItemsData.get_item(String(k))["name"]]
+		can = can and Crafting.have(bag, String(k)) >= int(inc["cost"][k])
+	var had := String((bag.slots[i].get("dati", {}) as Dictionary).get("incisione", ""))
+	var b := _row(id, can, "Incidi «%s» (%s): %s%s" % [LanguageData.sem(w), LanguageData.it(w), inc["desc"],
+		"  (al posto dell'incisione di prima)" if had != "" else ""], cost)
+	b.tooltip_text = "Al Maglio una parola certa della lingua dei Seminatori si incide sull'oggetto: un effetto in più che non prende un posto d'innesto (una sola incisione per oggetto).\nCosta %s." % cost
+	b.pressed.connect(func() -> void:
+		if Crafting.engrave(bag, i, w):
 			p.crafted.emit(id, 1)
 		p.refresh())
 	return b

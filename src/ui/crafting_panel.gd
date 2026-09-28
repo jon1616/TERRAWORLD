@@ -34,6 +34,7 @@ var bisaccia: Bisaccia
 var stations_near: Callable            # () -> Dictionary delle stazioni a portata
 var luck: Callable                     # () -> float: la fortuna alza la qualità dei pezzi fabbricati (voce 54)
 var held_slot: Callable                # () -> casella dell'oggetto in mano (lavorazioni del Maglio e del Telaio)
+var language: Language                 # Roadmap 17: le parole certe (le incisioni del Maglio); la collega `main`
 var cat := 0
 var only_possible := false
 var all_benches := false               # mostra anche le ricette dei banchi lontani (per sapere cosa serve e dove)

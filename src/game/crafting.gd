@@ -238,3 +238,24 @@ static func wrap(b: Bisaccia, i: int, fascia: String) -> bool:
 	b.changed.emit()
 	return true
 
+
+## Roadmap 17, voce 175: incide la parola `word` (certa: lo controlla chi chiama) sull'oggetto nella casella i, al posto
+## dell'incisione che c'era. Vero se è riuscito (costo pagato).
+static func engrave(b: Bisaccia, i: int, word: String) -> bool:
+	var id := b.id_at(i)
+	var inc := IncisionsData.of_word(word)
+	if id == "" or inc.is_empty() or not Bisaccia.is_gear(id) or not TraitsData.category_of(id) in (inc["for"] as Array):
+		return false
+	var dati: Dictionary = b.slots[i].get("dati", {}).duplicate(true)
+	if String(dati.get("incisione", "")) == String(inc["trait"]):
+		return false
+	for k in inc["cost"]:
+		if have(b, String(k)) < int(inc["cost"][k]):
+			return false
+	for k in inc["cost"]:
+		take(b, String(k), int(inc["cost"][k]))
+	dati["incisione"] = String(inc["trait"])
+	b.slots[i]["dati"] = dati
+	b.changed.emit()
+	return true
+
