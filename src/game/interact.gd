@@ -48,6 +48,8 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 			return m.language.use_tablet(id)           # voce 68
 		"esca_signore":
 			return m.lords.summon(id)                  # voce 135: i Signori dei luoghi
+		"richiamo_grande":
+			return m.great.summon(id)                  # voce 136: i tre Guardiani scritti a mano
 		"sfida":
 			return m.challenges.seal_portal(c, id)     # voce 82
 		"secchio":

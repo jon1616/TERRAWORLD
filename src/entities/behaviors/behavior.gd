@@ -74,6 +74,13 @@ static func make(id: String) -> Behavior:
 			return BhPastore.new()
 		"scoppia":
 			return BhScoppia.new()
+		# voce 136: le mosse dei tre Guardiani scritti a mano
+		"marea":
+			return BhMarea.new()
+		"rimodella":
+			return BhRimodella.new()
+		"correnti":
+			return BhCorrenti.new()
 		"fermo":
 			return Behavior.new()
 	push_error("comportamento sconosciuto: %s" % id)

@@ -35,6 +35,8 @@ func run() -> void:
 	conditions()
 	await species("signori", "203_signori")
 	await lords()
+	await species("guardiani", "205_grandi_guardiani")
+	await great()
 	for i in slots0.size():
 		b.slots[i] = slots0[i]
 	b.equip = equip0
@@ -779,3 +781,51 @@ func lords() -> void:
 		key, "sì" if no else "NO", "sì" if ok else "NO", "sì" if fury else "NO", rec, "sì" if dropped else "NO"])
 	if key == "" or not no or not ok or not fury or rec < 1 or not dropped:
 		print("ATTENZIONE: i Signori dei luoghi non vanno come dovrebbero")
+
+
+## Voce 136: la Signora delle correnti si chiama all'aperto (il Leviatano senza lago no); le mosse: la raffica spinge
+## e fa nascere correnti e nuvole, i pilastri si alzano solo nell'aria e crollano, la marea versa acqua; alla fine non
+## resta nulla di temporaneo.
+func great() -> void:
+	var w: World = m.world
+	var gg: GreatGuardians = m.great
+	m.snap_to(w.spawn)
+	await kit.frames(3)
+	m.combat.god = true
+	var b: Bisaccia = m.character.bisaccia
+	b.add("richiamo_leviatano", 1)
+	var no_lake: bool = not gg.summon("richiamo_leviatano")
+	b.add("richiamo_correnti", 1)
+	var sky: bool = gg.summon("richiamo_correnti")
+	var boss: Creature = gg.active
+	var P: Vector2 = m.player.position
+	var v0: float = m.player.vel.x
+	var cur0: int = m.gravity.currents.size()
+	if boss:
+		gg.act(boss, {"kind": "correnti", "at": P, "from": P - Vector2(80, 0)})
+	var pushed: bool = m.player.vel.x - v0 > 100.0
+	var winds: bool = m.gravity.currents.size() > cur0 and not gg.clouds.is_empty()
+	await kit.seconds(0.3)
+	await kit.save("206_correnti")
+	if boss:
+		gg.act(boss, {"kind": "pilastri", "at": P + Vector2(0, 0), "n": 3})
+	var raised: int = gg.pillars.size()
+	var solid_ok := true
+	for e in gg.pillars:
+		solid_ok = solid_ok and w.tile((e[0] as Vector2i).x, (e[0] as Vector2i).y) == TileDefs.RADICE
+	var t0: int = gg.tides
+	if boss:
+		gg.act(boss, {"kind": "marea", "at": P + Vector2(0, 16), "to": P + Vector2(64, 0), "n": 4})
+	var tide: bool = gg.tides > t0
+	gg.clear_temp()
+	var cleared: bool = gg.pillars.is_empty() and gg.clouds.is_empty() and m.gravity.currents.size() == cur0
+	if boss and is_instance_valid(boss):
+		m.fauna.kill(boss)
+	var rec: int = int((m.world_meta.get("grandi_guardiani", {}) as Dictionary).get("correnti", 0))
+	m.fauna.clear()
+	m.combat.god = false
+	print("grandi Guardiani: il Leviatano senza lago no %s; la Signora delle correnti all'aperto sì %s; raffica %s, correnti e nuvole %s; %d pilastri di radice %s; marea %s; poi tutto sparito %s; sconfitta (%d)" % [
+		"sì" if no_lake else "NO", "sì" if sky else "NO", "sì" if pushed else "NO", "sì" if winds else "NO", raised,
+		"sì" if solid_ok else "NO", "sì" if tide else "NO", "sì" if cleared else "NO", rec])
+	if not no_lake or not sky or not pushed or not winds or raised < 3 or not tide or not cleared or rec < 1:
+		print("ATTENZIONE: i grandi Guardiani non vanno come dovrebbero")

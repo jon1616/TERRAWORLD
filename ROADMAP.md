@@ -2416,7 +2416,17 @@ loro oggetto (24 accessori e una lama). Registro in `world_meta["signori"]`, obi
   solo lì (per armi, blocchi e arredi) e un trofeo da esporre.
 - Nati da una **ricetta** (corpo + comportamenti + attacchi dai pezzi delle voci 127-131), come i Guardiani generati.
 
-## 136. [ ] Tre Guardiani scritti a mano (L)
+## 136. [x] Tre Guardiani scritti a mano (L) — fatto il 29 set 2026
+Fatto: `src/data/bestiary/guardiani.gd` e `GreatGuardians` (`src/game/`): il **Leviatano del lago** (nuota, salta
+fuori, ogni 9 s alza la **marea**: l'acqua trabocca verso di te; furia: sputa), la **Grande Scavatrice** (sbuca, alza
+**pilastri di radice** solo nell'aria che crollano dopo 8 s: non rompe nulla; furia: carica e chiama le talpe del
+Vuoto), la **Signora delle correnti** (vola, bombarda, chiama **raffiche**, colonne d'aria che fanno salire e passerelle
+di nuvola per 9-12 s; furia: ventaglio e scatto). Tre comportamenti nuovi (`BhMarea`, `BhRimodella`, `BhCorrenti`); le
+mosse che toccano il mondo le passa `Wiles` a `GreatGuardians.act`, e ciò che è temporaneo si toglie da solo (anche
+uscendo). Si chiamano con il loro richiamo (all'Altare, dai materiali dei **Signori**: la progressione) nel posto
+giusto (lago di almeno 80 celle, Caverne d'ardesia o più giù, superficie all'aperto). Lasciano trofeo e materiale per
+tre oggetti (corazza, piccone di forza 60, ali con due salti in aria). «pilastri» e «correnti» sono anche pezzi dei
+Guardiani generati (`GuardianGenData.ATTACKS`). Prova in `--solo=vivo` (foto 205, 206).
 - Tre boss nuovi con arena e fasi, pensati sulle meccaniche nuove: uno del lago (sale e scende dall'acqua, alza le
   maree), uno che scava e rimodella il terreno dell'arena, uno del cielo (correnti e piattaforme). I loro attacchi
   entrano come pezzi nuovi nei Guardiani generati.

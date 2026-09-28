@@ -1,0 +1,71 @@
+extends RefCounted
+## Tre Guardiani scritti a mano (voce 136, Roadmap 15), pensati sulle meccaniche nuove: il **Leviatano del lago** (sale
+## e scende dall'acqua, alza le maree), la **Grande Scavatrice** (sbuca e alza pilastri di radice nell'arena) e la
+## **Signora delle correnti** (vola, chiama raffiche, correnti e passerelle di nuvola). Si chiamano con il loro richiamo
+## (dai materiali dei Signori) nel posto giusto (`GreatGuardians`); le loro mosse sono anche pezzi dei Guardiani
+## generati (`GuardianGenData.ATTACKS`). Scritto a mano; non nomina altre classi.
+
+const DATA := {
+	"creatures": {
+		"leviatano_lago": {"name": "Leviatano del lago", "hp": 2600, "damage": 30, "defense": 10, "knock": 1.0, "half": [26, 10],
+			"speed": 95, "fly": true, "behaviors": ["nuota", "tuffatore", "marea"], "fury": ["spara"],
+			"p": {"sight": 30, "bite": true, "leap_range": 12, "leap_cool": 3.5, "tide_every": 9.0, "tide_cells": 12, "phase2": 0.5,
+				"rate": 1.6, "shot_speed": 220.0, "shot_damage": 22},
+			"loot": "leviatano_lago", "art": ["leviatano_lago", 0], "strata": [], "weight": 0, "boss": true, "great": "leviatano",
+			"no_trophy": true, "glow": true,
+			"body": {"plan": "serpe", "w": 64, "h": 24, "pal": ["#0a2030", "#14405a", "#20688a", "#48a0c0", "#b8f0ff"], "eye": "#ffd24a",
+				"marks": "punte", "mark": "#b8f0ff", "glow": true, "tail": true},
+			"affinity": {"weak": ["brace"], "resist": ["gelo", "linfa"]}},
+		"grande_scavatrice": {"name": "Grande Scavatrice", "hp": 2800, "damage": 32, "defense": 12, "knock": 1.0, "half": [22, 14],
+			"speed": 80, "behaviors": ["cammina", "sbuca", "rimodella"], "fury": ["carica", "evoca"],
+			"p": {"sight": 26, "windup": 1.0, "out_time": 5.0, "pillar_every": 5.5, "pillars": 3, "phase2": 0.5,
+				"charge": 260.0, "charge_range": 12, "charge_time": 0.9, "charge_cool": 3.5, "summon": "talpa_vuoto", "summon_every": 7.0, "summon_max": 3},
+			"loot": "grande_scavatrice", "art": ["grande_scavatrice", 0], "strata": [], "weight": 0, "boss": true, "great": "scavatrice",
+			"no_trophy": true, "glow": true,
+			"body": {"plan": "quadrupede", "w": 52, "h": 34, "pal": ["#2a1c16", "#443024", "#664834", "#8e6a4c", "#e0b890"], "eye": "#ff8030",
+				"marks": "punte", "mark": "#ffb060", "glow": true, "horns": 1},
+			"affinity": {"weak": ["gelo"], "resist": ["spora", "brace"]}},
+		"signora_correnti": {"name": "Signora delle correnti", "hp": 2400, "damage": 28, "defense": 8, "knock": 1.0, "half": [20, 14],
+			"speed": 120, "fly": true, "behaviors": ["vola", "correnti", "bombarda"], "fury": ["ventaglio", "scatto"],
+			"p": {"sight": 34, "hover": 110.0, "wobble": 30.0, "gust_every": 6.5, "rate": 2.2, "shot_damage": 22, "phase2": 0.5,
+				"fan_rate": 2.4, "fan_n": 7, "fan_spread": 1.2, "shot_speed": 180.0, "dash_every": 4.0, "dash_speed": 320.0, "dash_time": 0.45},
+			"loot": "signora_correnti", "art": ["signora_correnti", 0], "strata": [], "weight": 0, "boss": true, "great": "correnti",
+			"no_trophy": true, "glow": true,
+			"body": {"plan": "uccello", "w": 56, "h": 34, "pal": ["#1e2a3a", "#34506a", "#5a80a0", "#9ac0dc", "#f0fbff"], "eye": "#ffe070",
+				"wings": "#9ac0dc", "marks": "strisce", "mark": "#f0fbff", "glow": true},
+			"affinity": {"weak": ["vuoto"], "resist": ["gelo", "spora"]}},
+	},
+	"loot": {
+		"leviatano_lago": [{"item": "perla_leviatano", "min": 1, "max": 1, "chance": 1.0}, {"item": "squama_leviatano", "min": 6, "max": 9, "chance": 1.0}],
+		"grande_scavatrice": [{"item": "cuore_scavatrice", "min": 1, "max": 1, "chance": 1.0}, {"item": "artiglio_scavatrice", "min": 6, "max": 9, "chance": 1.0}],
+		"signora_correnti": [{"item": "occhio_correnti", "min": 1, "max": 1, "chance": 1.0}, {"item": "piuma_correnti", "min": 6, "max": 9, "chance": 1.0}],
+	},
+	"items": {
+		"richiamo_leviatano": {"name": "Richiamo del Leviatano", "kind": "richiamo_grande", "icon": ["gemma", "lagunite"], "stack": 1,
+			"great": "leviatano", "desc": "Suonalo accanto a un lago grande (almeno 80 celle d'acqua): il Leviatano sale dal fondo."},
+		"richiamo_scavatrice": {"name": "Richiamo della Grande Scavatrice", "kind": "richiamo_grande", "icon": ["artiglio", "radice"], "stack": 1,
+			"great": "scavatrice", "desc": "Piantalo sotto terra, nelle Caverne d'ardesia o più giù: la Grande Scavatrice sale a cercarti."},
+		"richiamo_correnti": {"name": "Richiamo delle correnti", "kind": "richiamo_grande", "icon": ["penna", "seta"], "stack": 1,
+			"great": "correnti", "desc": "Lascialo al vento in superficie, all'aperto: la Signora delle correnti scende dal cielo."},
+		"perla_leviatano": {"name": "Perla del Leviatano", "kind": "trofeo", "icon": ["gemma", "lagunite"], "desc": "Il trofeo del Leviatano del lago."},
+		"squama_leviatano": {"name": "Squama del Leviatano", "kind": "materiale", "icon": ["scaglia", "lagunite"], "desc": "Grande come una mano, dura come l'ambra."},
+		"cuore_scavatrice": {"name": "Cuore della Scavatrice", "kind": "trofeo", "icon": ["essenza", "radice"], "desc": "Il trofeo della Grande Scavatrice."},
+		"artiglio_scavatrice": {"name": "Artiglio della Scavatrice", "kind": "materiale", "icon": ["artiglio", "radice"], "desc": "Scava la roccia come fosse terra."},
+		"occhio_correnti": {"name": "Occhio delle correnti", "kind": "trofeo", "icon": ["gemma", "seta"], "desc": "Il trofeo della Signora delle correnti."},
+		"piuma_correnti": {"name": "Piuma delle correnti", "kind": "materiale", "icon": ["penna", "seta"], "desc": "Non cade mai: il vento la tiene su."},
+		"corazza_leviatano": {"name": "Corazza di squame del Leviatano", "kind": "accessorio", "icon": ["scudo", "lagunite"], "stack": 1,
+			"acc": {"defense": 8, "respiro": 3.0}, "desc": "+8 Scorza; sott'acqua il respiro dura il triplo."},
+		"picco_scavatrice": {"name": "Piccone della Grande Scavatrice", "kind": "piccone", "icon": ["piccone", "radice"], "stack": 1, "tier": 5,
+			"power": 60, "damage": 18, "speed": 3.2, "knockback": 1.0, "desc": "Rompe anche i cristalli di Linfa, e scava velocissimo."},
+		"ali_correnti": {"name": "Ali delle correnti", "kind": "accessorio", "icon": ["penna", "seta"], "stack": 1,
+			"acc": {"glide": true, "air_jumps": 2, "run": 1.08}, "desc": "Due salti in aria; si plana; corsa +8%."},
+	},
+	"recipes": [
+		{"out": "richiamo_leviatano", "qty": 1, "in": {"chela_re": 4, "pinna_orca": 4, "lingotto_ambra": 4}, "station": "altare"},
+		{"out": "richiamo_scavatrice", "qty": 1, "in": {"artiglio_talpone": 4, "cuore_pietra_antico": 2, "lingotto_legnoferro": 6}, "station": "altare"},
+		{"out": "richiamo_correnti", "qty": 1, "in": {"penna_aquila": 4, "palco_brina": 2, "lingotto_ambra": 4}, "station": "altare"},
+		{"out": "corazza_leviatano", "qty": 1, "in": {"squama_leviatano": 10, "perla_leviatano": 1, "lingotto_ambra": 4}, "station": "maglio"},
+		{"out": "picco_scavatrice", "qty": 1, "in": {"artiglio_scavatrice": 10, "cuore_scavatrice": 1, "lingotto_tizzonite": 4}, "station": "maglio"},
+		{"out": "ali_correnti", "qty": 1, "in": {"piuma_correnti": 12, "occhio_correnti": 1, "seta_radice": 6}, "station": "telaio"},
+	],
+}

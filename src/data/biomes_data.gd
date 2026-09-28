@@ -83,6 +83,7 @@ const PACK_FILES := [
 	preload("res://src/data/bestiary/sottosuolo.gd"),      # voce 133
 	preload("res://src/data/bestiary/tempo.gd"),           # voce 134
 	preload("res://src/data/bestiary/signori.gd"),         # voce 135: i Signori dei luoghi (tools/gen_signori.py)
+	preload("res://src/data/bestiary/guardiani.gd"),       # voce 136: tre Guardiani scritti a mano
 ]
 
 static var BIOMES: Array = _load()

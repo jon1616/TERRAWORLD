@@ -35,6 +35,9 @@ const ATTACKS := {
 	"salto": {"bh": "salta_verso", "fly": false, "p": {"jump": [280.0, 340.0]}},
 	"lampo": {"bh": "teletrasporto", "p": {"blink_every": [4.0, 6.0]}},
 	"evoca": {"bh": "evoca", "p": {"summon_every": [7.0, 10.0], "summon_max": [2, 4]}},
+	# voce 136: le mosse dei tre Guardiani scritti a mano diventano pezzi dei Guardiani generati
+	"pilastri": {"bh": "rimodella", "fly": false, "p": {"pillar_every": [5.5, 8.0], "pillars": [2, 3]}},
+	"correnti": {"bh": "correnti", "fly": true, "p": {"gust_every": [6.0, 9.0]}},
 }
 
 ## Il proiettile secondo l'elemento (aspetto di `Projectiles`).

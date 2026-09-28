@@ -59,6 +59,9 @@ func _act(c: Creature, a: Dictionary) -> void:
 			var bl := {"radius": float(a["r"]), "power": -1, "damage": int(a["damage"]), "natural": true}   # non rompe blocchi
 			m.throwing.explode(c.position, bl)
 			m.fauna.kill_quietly(c)                 # scoppiata: niente bottino (abbattuta prima, sì)
+		_:
+			if m.great:
+				m.great.act(c, a)                   # voce 136: marea, pilastri, correnti
 
 
 ## Ruba fino a n oggetti da una casella della Bisaccia (mai quella in mano, mai oggetti unici), e scappa.

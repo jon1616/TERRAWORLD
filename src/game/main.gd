@@ -72,6 +72,7 @@ var builder: BuilderTools              # voce 140: gli strumenti del costruttore
 var rooms: Rooms                       # voce 142: le stanze
 var homes: Homes                       # voce 143: le case degli abitanti
 var lords: Lords                       # voce 135: i Signori dei luoghi
+var great: GreatGuardians              # voce 136: i tre Guardiani scritti a mano
 var encyclopedia: Encyclopedia
 var language: Language
 var chains: Chains
@@ -292,6 +293,7 @@ func _build() -> void:
 	rooms = _mount(Rooms.new())                # voce 142: le stanze
 	homes = _mount(Homes.new())                # voce 143: le case degli abitanti
 	lords = _mount(Lords.new())                # voce 135: i Signori dei luoghi
+	great = _mount(GreatGuardians.new())       # voce 136: i tre Guardiani scritti a mano
 	_mount(PanelButtons.new())                 # voce 101: i pulsanti dei pannelli in basso a sinistra
 	hud.select(character.hotbar)
 	var start := world.spawn
