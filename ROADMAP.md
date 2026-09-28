@@ -7,6 +7,8 @@
 - **In corso: la Roadmap 13 «Il volto del mondo»** (voci 100-117, dal 28 set 2026): la grafica con Nano Banana,
   seguita passo passo con l'utente (Claude scrive i prompt, dice dove salvare le immagini, le adatta con gli script).
   Dopo: un secondo bilancio con il diario delle partite vere.
+- **In corso: la Roadmap 18 «Il bilancio»** (voci 179-189, dal 29 set 2026): un modello del combattimento, un bot
+  in arena, tre giocatori simulati (l'utente, uno medio, uno attento), poi le correzioni (Scorza, curva, boss, economia).
 - **Ritocco dell'HUD** (29 set 2026, richiesta dell'utente: Vita, Linfa e ossigeno «ripensate, sopra la barra rapida,
   con fantasia, ben visibili»): `VitalsView` ora sta in basso al centro. Un seme-cuore al centro (anello della Vita,
   germoglio che pulsa sotto un quarto), la Vita è un ramo verde a sinistra con dieci foglioline, la Linfa un ramo
@@ -3174,6 +3176,123 @@ capitoli dell'Enciclopedia, cinque obiettivi.
 **Quanto dura** (`tools/lingua.gd`, un giocatore che legge **tutte** le stele di ogni mondo): la lingua comune 32/50 nel
 primo mondo, completa al sesto; l'antica 22/40 nel primo mondo di vigore 3, completa al vigore 5; la nera 16/24 nel mondo
 del Seme Nero (il resto dalle cripte, dallo Stilo, dalle tavolette). Prima: tutto in un'ora.
+
+# Roadmap 18 «Il bilancio» — bot che giocano, numeri che parlano (piano del 29 set 2026)
+
+Chiesta dall'utente il 29 set 2026: «studiare nei minimi dettagli il gioco intero, scovare problemi di bilanciamento e
+risolverli, almeno secondo i numeri; notare meccaniche tarate male come le stele». Scelte: **carta bianca** sulle
+correzioni, facendo attenzione a non sbilanciare altro; **bot che simulino l'utente** (o un umano medio dove mancano i
+dati). La curva voluta: **l'inizio è facile** (il giocatore nuovo si adatta), poi **sempre più sfidante**, e progredire
+chiede di **equipaggiarsi bene**; nel complesso «abbastanza difficile, ma non troppo».
+
+## Da dove si parte (29 set 2026)
+- `tools/bilancio.gd` (voce 83) stampa le curve (armi, armature, creature per strato e vigore, ricette, pesca, boss), ma
+  con un modello rozzo: ignora Scorza, difesa delle creature, velocità delle armi, varianti, rare, invulnerabilità e
+  proiettili, e non c'è un giocatore. Nessuno dice quanto è difficile **giocare**.
+- I dati veri dell'utente (la partita «jon», 67 minuti, dal Diario): primo lingotto a 10 min, primo portale a 11,
+  **primo appassimento a 13 min in Superficie**, stadio 2 dell'Albero a 24, vigore 2 a 47, un Custode a 57; 4
+  appassimenti (2 in Superficie, 2 nel Sottobosco); 73% del tempo in Superficie, mai sotto il Sottobosco; **nessuna
+  armatura dopo un'ora** (pugnale di legnoferro, arco, due accessori), pur avendo sconfitto un Custode.
+- I primi sospetti, dalle formule (rapporto del 29 set):
+  - **la Scorza quasi non conta**: toglie metà del suo valore a ogni ferita (`Vitals.hurt`). Il set di radicite (4)
+    toglie 2 punti a un colpo di 14 (−14%); lo stellare (22+6) toglie 14 punti a un colpo del Fondo al vigore 5 (101):
+    −14%. Equipaggiarsi non cambia la partita, e infatti l'utente non l'ha fatto;
+  - **i proiettili delle creature** (spara, ventaglio, bombarda) non crescono con lo strato né con il vigore: nel Fondo
+    al vigore 10 un dardo fa quanto in Superficie;
+  - **piccone e ascia colpiscono le creature** ogni 0,3 s con il loro danno: il piccone di radicite (5 × 3,3 = 16,7 al
+    secondo) batte la spada di radice iniziale (6 × 2,4 = 14,4);
+  - la Vita del Germogliato cresce senza tetto (+20 per ogni Guardiano curato, in ogni mondo);
+  - le creature «colpi che reggi» dicono 1 colpo nel Fondo dal vigore 5: tutto uccide in un colpo, armatura o no.
+
+## Le regole di questa Roadmap
+- **Prima si misura, poi si corregge, poi si rimisura.** Ogni correzione ha il suo numero prima e dopo nel resoconto.
+- **Un modello solo, tarato sul gioco vero**: le formule del combattimento stanno in un posto (`FightModel`), le leggono
+  gli strumenti e le prove; un bot in arena combatte davvero (creature vere, comportamenti veri) e dice se il modello
+  sbaglia.
+- **Tre giocatori simulati**: «jon» (l'utente: esplora molto, combatte con quello che ha, non cerca l'armatura; tarato
+  sul suo Diario), «medio» (un umano medio: si equipaggia con un po' di ritardo), «attento» (sempre il meglio che può
+  fare). La curva giusta: «attento» deve trovarla facile all'inizio e sfidante poi; «medio» deve farcela con qualche
+  appassimento; «jon» deve sentire che **senza equipaggiarsi** più avanti non si passa.
+- **Numeri obiettivo** (li decide Claude, carta bianca; in «Pressione» = Vita persa per ogni creatura sconfitta, per il
+  giocatore «medio» con l'equipaggiamento atteso):
+  - i primi 20 minuti (Superficie di giorno, corredo iniziale): pressione ≤ 12%, una creatura comune cade in ≤ 4 s,
+    appassimenti ≈ 0;
+  - la pressione cresce piano, strato dopo strato e vigore dopo vigore: ~15% nel Sottobosco, ~20% nelle Caverne, ~25%
+    nelle Profondità, ~30% nel Fondo, ~35% dal vigore 5 in su;
+  - **un grado di equipaggiamento sotto** quello atteso: pressione ×1,6-2; **due gradi sotto**: non si regge (> 60%);
+  - nessuna creatura comune uccide in meno di 3 colpi il giocatore che si è equipaggiato;
+  - i boss: 45-120 s di scontro con l'arma attesa, e servono pozioni o armatura buona.
+- **Si corregge al livello più basso possibile**: una formula (Scorza, proiettili) prima di cento numeri; i dati delle
+  creature solo dove una specie esce dalla sua fascia.
+- **Il giocatore deve capire**: se l'armatura conta, deve vederlo (Scorza in percentuale nelle schede, un consiglio,
+  l'Enciclopedia).
+
+## 179. [ ] Il modello del combattimento (M)
+`FightModel` (`src/game/balance/fight_model.gd`, solo dati e formule, usabile senza finestra): il danno per secondo di
+un'arma vera (`Gear.stats`, velocità, dardi, difesa della creatura, elementi), la ferita vera che si riceve (Scorza,
+invulnerabilità, contatto, proiettili con le loro cadenze), la creatura vera di uno strato e di un vigore (varianti,
+taglie, indoli, rare con le loro probabilità, `strengthen` come `Fauna`). `duel(equip, creatura, strato, vigore, abilità)`
+→ secondi per abbatterla, Vita persa, colpi che si reggono. L'**abilità** è un profilo: quanto del tempo si colpisce
+davvero, quanti contatti si evitano, quanti proiettili si schivano.
+**Pronto quando**: `tools/bilancio.gd` usa il modello per le sue tabelle, e i conti tornano con le formule del gioco.
+
+## 180. [ ] Il bot in arena (M)
+Una prova vera (`--solo=arena`, `TestsArena`): un posto piano, il Germogliato guidato da un bot (si avvicina, colpisce,
+arretra quando è ferito, salta i proiettili con un ritardo di reazione umano, beve una pozione sotto il 30%), una
+creatura vera alla volta con il suo comportamento vero, per un campione di specie di ogni strato. Misura secondi e Vita
+persa; `prove/arena.txt` li mette accanto a quelli del modello e ricava l'abilità del bot (quanto colpisce, quanto
+evita) con cui tarare i profili.
+**Pronto quando**: modello e arena distano meno del 25% sulla media di ogni strato.
+
+## 181. [ ] Il giocatore simulato (G)
+`tools/percorso.gd`: una partita intera simulata a tappe, per i tre profili. A ogni tappa (Giardino, Superficie di
+giorno e di notte, Sottobosco, Caverne, Profondità, Fondo, Guardiano, vigore 2…10, cielo) il profilo ha l'equipaggiamento
+che avrebbe (secondo i minerali che può scavare, il tempo e la sua voglia di equipaggiarsi) e il modello dice pressione,
+tempo per abbattere, creature al minuto (ritmo delle nascite, tetto, notte), Vita persa al minuto contro la ricrescita,
+appassimenti all'ora. «jon» si tara sul suo Diario (4 appassimenti in 67 min, tempi delle tappe).
+**Pronto quando**: `prove/percorso.txt` mostra le tre curve, e la curva di «jon» somiglia ai suoi appassimenti veri.
+
+## 182. [ ] Le armi, gli attrezzi e le armature a confronto (M)
+Per ogni grado: danno al secondo di ogni forma (con area, portata, velocità, spinta), armature e accessori; i doppioni
+che dominano (una forma migliore di tutte in tutto), gli oggetti inutili (peggiori di uno più facile), gli attrezzi che
+battono le armi, le leghe e i materiali dei geni fuori fascia, i tratti e la qualità.
+**Pronto quando**: `prove/armi.txt` elenca gli squilibri con i numeri.
+
+## 183. [ ] Le progressioni e l'economia (M)
+I sistemi che si chiudono troppo presto o mai (come le stele): stadi dell'Albero (cosa chiedono e quanto ci vuole),
+geni, Erbario e studio, Bacheca, segreti, unici, doni (Vita e Linfa massime), mandria. L'economia: Lumini all'ora per
+ogni fonte (creature, pesca, vendite, recinti, farm, Bacheca) contro i prezzi; i materiali che servono tanto e cadono
+poco.
+**Pronto quando**: `prove/progressioni.txt` dice per ogni sistema quanto dura e cosa non va.
+
+## 184. [ ] La Scorza che conta (M)
+Nuova regola della Scorza (percentuale che cresce con la Scorza più una parte fissa, al posto di «metà del valore»),
+Scorza dei materiali e dei set rivista perché il set del grado atteso tolga circa metà delle ferite del suo strato;
+schede, Esamina e scheda del Germogliato che dicono la percentuale.
+**Pronto quando**: con il modello, un grado sotto = pressione ×1,6-2 in ogni strato.
+
+## 185. [ ] La curva della difficoltà (G)
+Pericolo degli strati, crescita con il vigore, proiettili che crescono come il contatto, attrezzi che non fanno da armi
+(il piccone colpisce, ma meno), l'inizio più morbido (primi minuti, prima notte), la Vita che cresce con un tetto
+sensato, le creature fuori fascia. Si rifà il giro dei tre profili dopo ogni cambio.
+**Pronto quando**: la curva di «medio» sta nei numeri obiettivo, e «jon» senza armatura sente il muro dalle Caverne.
+
+## 186. [ ] Boss, rare e scontri speciali (M)
+Guardiani, Guardiani generati, Custodi, Signori, Grandi Guardiani, maree: durata e pericolo con l'arma attesa; le rare
+(antiche, ancestrali) e le loro probabilità.
+**Pronto quando**: ogni boss sta nella sua fascia (45-120 s), nessuno si batte in 10 s né regge 5 minuti.
+
+## 187. [ ] Progressioni ed economia corrette (M)
+Le correzioni trovate nella voce 183.
+**Pronto quando**: `prove/progressioni.txt` non segna più niente di grave.
+
+## 188. [ ] Capire e sentire la difficoltà (P)
+Il giocatore deve sapere che l'armatura conta e quando è sotto il suo strato: consiglio «equipaggiati», avviso entrando
+in uno strato con l'equipaggiamento troppo debole, capitolo dell'Enciclopedia sulla Scorza e sul pericolo.
+**Pronto quando**: la prova vede il consiglio e l'avviso.
+
+## 189. [ ] Il resoconto (P)
+Giro intero delle prove, CLAUDE.md, resoconto con i numeri prima e dopo, Git e GitHub.
 
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».
