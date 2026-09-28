@@ -53,6 +53,14 @@ func run() -> void:
 		ks.active.hp_max if hatched else 0, "sì" if ks.bar.visible else "NO"])
 	await kit.seconds(2.0)
 	await kit.save("51_custode")
+	# la barra del boss sta sotto il filo, non sopra le sue scritte
+	var fl: Control = m.filo._label
+	if ks.bar.visible and fl.visible and fl.text.strip_edges() != "":
+		var below := ks.bar.position.y - 26.0 >= fl.position.y + fl.size.y
+		print("barra del Custode sotto il filo: %s (barra %d, filo fino a %d)" % ["sì" if below else "NO",
+			int(ks.bar.position.y), int(fl.position.y + fl.size.y)])
+		if not below:
+			print("ATTENZIONE: la barra del boss copre il filo")
 	if hatched:
 		var g0 := _count("gelatina_regale")
 		m.fauna.kill(ks.active)

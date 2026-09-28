@@ -38,6 +38,7 @@ func setup(main: Node2D) -> void:
 	_label.add_theme_color_override("font_outline_color", Color(0.02, 0.05, 0.07))
 	_label.add_theme_constant_override("outline_size", 4)
 	m.hud.add_child(_label)
+	_label.add_to_group("hud_alto")
 	_marker = FiloMarker.new()
 	_marker.filo = self
 	m.hud.add_child(_marker)
@@ -70,6 +71,8 @@ func _process(dt: float) -> void:
 		return
 	var on: bool = bool(Settings.v("filo")) and not m.hud.is_open()
 	_label.visible = on
+	var ch = m.get("challenges")
+	_label.position.y = 44.0 + (24.0 if ch != null and ch._label != null and ch._label.visible else 0.0)
 	_marker.visible = on
 	if not on:
 		return

@@ -11,6 +11,7 @@ var _name: Label
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_to_group("boss_bar")
 	visible = false
 	_name = Label.new()
 	_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -28,13 +29,33 @@ func follow(c: Creature) -> void:
 	visible = c != null
 	if c:
 		_name.text = String(c.data["name"])
-	position = Vector2((get_viewport_rect().size.x - W) * 0.5, 96)
+	position = Vector2((get_viewport_rect().size.x - W) * 0.5, top_y() if is_inside_tree() else 96.0)
 
 
 func _process(_dt: float) -> void:
 	if visible and (boss == null or not is_instance_valid(boss) or boss.calm):
 		visible = false
+	if visible:
+		position = Vector2((get_viewport_rect().size.x - W) * 0.5, top_y())
 	queue_redraw()
+
+
+## Dove comincia la barra: sotto le scritte in alto al centro (sfida, filo), che possono andare su più righe, e sotto
+## le altre barre dei boss già visibili (più Guardiani insieme).
+func top_y() -> float:
+	var y := 96.0
+	for n in get_tree().get_nodes_in_group("hud_alto"):
+		var c := n as Control
+		if c and c.is_visible_in_tree() :
+			var t: String = c.text if "text" in c else ""
+			if t.strip_edges() != "":
+				y = maxf(y, c.position.y + maxf(c.size.y, c.get_combined_minimum_size().y) + 34.0)
+	for n in get_tree().get_nodes_in_group("boss_bar"):
+		if n == self:
+			break
+		if (n as Control).visible:
+			y += 50.0
+	return y
 
 
 func _draw() -> void:

@@ -25,6 +25,7 @@ func setup(main: Node2D) -> void:
 	_label.add_theme_color_override("font_outline_color", Color(0.02, 0.05, 0.07))
 	_label.add_theme_constant_override("outline_size", 5)
 	m.hud.add_child(_label)
+	_label.add_to_group("hud_alto")
 	m.guardian.resolved.connect(_on_resolved)
 	m.vitals.died.connect(_on_died)
 	apply()
