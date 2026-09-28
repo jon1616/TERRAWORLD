@@ -301,7 +301,9 @@ func gesture() -> void:
 	if cast_ok:
 		fi.line["t"] = 0.3                                          # (l'attesa vera è di 4-11 secondi)
 	await kit.seconds(1.6)
-	var got: bool = fi.caught > n0 and b.count(String(fi.last.get("id", ""))) > 0 and m.erbario.known("pesci", String(fi.last.get("id", "")))
+	var lid := String(fi.last.get("id", ""))
+	# a volte abbocca una cassa (3%): nella Bisaccia sì, nell'Erbario dei pesci no
+	var got: bool = fi.caught > n0 and b.count(lid) > 0 and (m.erbario.known("pesci", lid) or not FishData.all().has(lid))
 	print("pesca: lanciata %s, pescato %s (%s, %d cm), nella Bisaccia e nell'Erbario %s" % ["sì" if cast_ok else "NO",
 		"sì" if fi.caught > n0 else "NO", FishData.info(String(fi.last.get("id", ""))).get("name", "?"), int(fi.last.get("size", 0)),
 		"sì" if got else "NO"])
@@ -522,7 +524,7 @@ func balance() -> void:
 	var body := {"x0": 4000, "top": 16}
 	var key := Fishing.spot_key(body)
 	var t0 := fi.tiredness(key)
-	for k in 14:
+	for k in int(FishingData.TIRE_MAX) + 4:
 		fi._tire(key)
 	var full := fi.tiredness(key)
 	# dieci minuti dopo (si sposta indietro l'ora dell'ultimo pesce)
@@ -530,7 +532,7 @@ func balance() -> void:
 	e[1] = float(e[1]) - 600.0
 	var later := fi.tiredness(key)
 	m.world_meta["pesca"] = meta0
-	print("fatica di uno specchio: all'inizio %.1f, dopo 14 pesci %.1f (tetto %.0f, attesa ×%.2f), dieci minuti dopo %.1f" % [t0,
+	print("fatica di uno specchio: all'inizio %.1f, dopo tanti pesci %.1f (tetto %.0f, attesa ×%.2f), dieci minuti dopo %.1f" % [t0,
 		full, FishingData.TIRE_MAX, 1.0 + FishingData.TIRE_WAIT * full, later])
 	if t0 > 0.01 or absf(full - FishingData.TIRE_MAX) > 0.05 or not (later < full - 3.0 and later > 0.0):
 		print("ATTENZIONE: la fatica degli specchi non va come dovrebbe")

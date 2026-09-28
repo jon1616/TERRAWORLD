@@ -8,6 +8,11 @@ const S := 16
 
 
 ## Il bottino di una creatura sconfitta: più giri per le rare e con la Fortuna, e un'Essenza per ogni tratto.
+## Voce 187 (Roadmap 18): un Lumino ogni 10 punti di Vita della creatura (erano 18): cacciare rendeva 66 Lumini all'ora
+## in Superficie e un quarto della pesca dello stesso momento (`tools/progressioni.gd`).
+const LUMINI_HP := 10.0
+
+
 static func drop(f: Fauna, c: Creature, _rng: RandomNumberGenerator) -> void:
 	# bottino: più giri per le rare e con la Fortuna, e un'Essenza per ogni tratto di una creatura antica
 	var rolls := 1
@@ -17,7 +22,7 @@ static func drop(f: Fauna, c: Creature, _rng: RandomNumberGenerator) -> void:
 		rolls += 1
 	rolls += int(f._za(c.position, "bottino"))            # voce 87: lo Stendardo del saccheggio
 	# i Lumini (voce 36): quanti secondo quanto era forte, di più per le rare e i boss
-	var lum := maxi(1, roundi(c.hp_max / 18.0))
+	var lum := maxi(1, roundi(c.hp_max / LUMINI_HP))
 	if c.ancient:
 		lum *= {"antica": 3, "ancestrale": 10, "capobranco": 3, "iridata": 8}[c.ancient.rarity]
 	if c.boss:

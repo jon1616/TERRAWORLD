@@ -178,8 +178,6 @@ func catch() -> String:
 			m.hud.toast("%s ti ha rubato il pesce dalla lenza! Prendilo per riaverlo" % String(cr.data.get("name", "")))
 			Fx.puff(m.fx, Vector2(q) * 16.0 + Vector2(8, 4), Color(1.4, 1.2, 0.8))
 			return ""
-	var size := FishData.roll_size(id, _rng, luck * 0.05 + float(g["size"]))
-	var n := 2 if _rng.randf() < float(g["double"]) else 1
 	if not FishData.all().has(id):
 		# una cassa: niente taglia, niente Erbario dei pesci
 		if b.add(id, 1) > 0:
@@ -189,6 +187,9 @@ func catch() -> String:
 		m.hud.toast("Hai pescato: %s! (clic per aprirla)" % ItemsData.get_item(id)["name"])
 		m.sfx.play("apri", Vector2(q) * 16.0)
 		return id
+	# la taglia solo per i pesci (voce 187: calcolata prima della cassa, con una cassa il gioco si fermava)
+	var size := FishData.roll_size(id, _rng, luck * 0.05 + float(g["size"]))
+	var n := 2 if _rng.randf() < float(g["double"]) else 1
 	var rest: int = b.add(id, n)
 	if rest > 0:
 		m.drops.spawn(id, rest, m.player.position)

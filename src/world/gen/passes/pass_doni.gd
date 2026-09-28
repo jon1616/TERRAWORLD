@@ -4,8 +4,8 @@ extends GenPass
 ## massima) e **Stille perenni** appese ai soffitti dalle Profondità della Linfa in giù (Linfa massima). Pochi e lontani
 ## tra loro, più fitti scendendo: una ragione per esplorare ogni grotta.
 
-const BOCCIOLI := 60
-const STILLE := 36
+const BOCCIOLI := 24                   # voce 187: erano 60, e il tetto (15) si toccava nel primo mondo
+const STILLE := 16                     # voce 187: erano 36 (tetto 10: si toccava nel primo mondo)
 const SPACING := 28.0                  # distanza minima tra due doni, in tessere
 
 

@@ -104,7 +104,7 @@ const RECIPES := [
 ## `TIRE_RECOVER` secondi, anche mentre non si gioca) e l'attesa si allunga di `TIRE_WAIT` per punto, fino a `TIRE_MAX`
 ## punti: la pesca resta un'attività, non una fabbrica.
 const TIRE_WAIT := 0.15
-const TIRE_MAX := 10.0
+const TIRE_MAX := 16.0                     # voce 187: era 10 (la pesca rendeva 4-8 volte la caccia)
 const TIRE_RECOVER := 180.0
 
 ## Voce 123: una cassa al posto del pesce (probabilità di base, più la fortuna × `CRATE_LUCK`), una perla in più.

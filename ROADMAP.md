@@ -3306,9 +3306,10 @@ Guardiani, Guardiani generati, Custodi, Signori, Grandi Guardiani, maree: durata
 **Pronto quando**: ogni boss sta nella sua fascia (45-120 s), nessuno si batte in 10 s né regge 5 minuti.
 **Fatto**: `tools/boss.gd` (prove/boss.txt): ogni boss con l'equipaggiamento atteso quando lo si incontra, per «attento» e «medio» (secondi, Vite perse, pozioni, colpi per cadere; i Guardiani generati su dodici semi per vigore). **Correzioni**: i Signori crescono con la **radice** del pericolo dello strato (`Lords.strength`: quelli del Fondo duravano 150 s e toglievano 6 Vite, ora 107 s e 3,6); i Grandi Guardiani −15% di Vita (116-132 s invece di 137-157); la Regina delle Spore tira il ventaglio ogni 2,8 s (era 2,2); i **Guardiani generati** con due o più attacchi a distanza li tirano il 60% più piano e quelli senza feriscono il 40% di più al contatto (al vigore 5, a seconda del seme, andavano da 0,6 a 4,5 Vite perse, ora da 0,9 a 3,2); le rare hanno un tetto (voce 185). Guardiani del Cuore 54-100 s, Custodi 45-81 s, Signori 39-110 s: nessuno si batte in 10 s e nessuno fa cadere in meno di 5 colpi chi è equipaggiato.
 
-## 187. [ ] Progressioni ed economia corrette (M)
+## 187. [x] Progressioni ed economia corrette (M) — fatto il 29 set 2026
 Le correzioni trovate nella voce 183.
 **Pronto quando**: `prove/progressioni.txt` non segna più niente di grave.
+**Fatto**: un Lumino ogni 10 punti di Vita delle creature (erano 18: `FaunaExtra.LUMINI_HP`): cacciare rende ~130 Lumini all'ora in Superficie, ~500 nelle Caverne, ~1400 nel Fondo, ~5400 al vigore 8 (erano 66, 250, 930, 4200); la stanchezza degli specchi arriva a 16 (era 10: attesa fino a ×3,4), così la pesca resta una rendita tranquilla e non quattro volte la caccia; Cuori di bocciolo 24 per mondo (erano 60) e Stille perenni 16 (erano 36): il tetto della Vita e della Linfa arriva in due o tre mondi, non nel primo. Trovato strada facendo: con una cassa pescata (3% dei lanci) il gioco chiedeva la taglia di un pesce che non c'era e si fermava (`Fishing.catch`), sistemato. Le offerte dell'Albero restano com'erano (le squame di brace ora si cacciano di notte o dal vigore 2, come le salamandre).
 
 ## 188. [ ] Capire e sentire la difficoltà (P)
 Il giocatore deve sapere che l'armatura conta e quando è sotto il suo strato: consiglio «equipaggiati», avviso entrando

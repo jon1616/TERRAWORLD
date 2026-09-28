@@ -109,8 +109,8 @@ func _gifts() -> void:
 		var g: Array = it["gift"]
 		_p("   %s: +%d %s, al più %d volte (tetto +%d)" % [it["name"], int(g[1]), g[0], int(it["gift_max"]),
 			int(g[1]) * int(it["gift_max"])])
-	_p("   doni per mondo (PassDoni): %d boccioli e %d stille: il tetto si raggiunge nel primo mondo" % [PassDoni.BOCCIOLI,
-		PassDoni.STILLE])
+	_p("   doni per mondo (PassDoni): %d boccioli e %d stille (se ne trova una parte: il tetto arriva in due o tre mondi)" % [
+		PassDoni.BOCCIOLI, PassDoni.STILLE])
 	_p("   Guardiano curato: +%d Vita per ogni mondo, **senza tetto** (vigore 12 ≈ %d mondi curati → +%d)" % [Guardian.HP_GIFT, 12,
 		Guardian.HP_GIFT * 12])
 	_p("")
@@ -127,7 +127,7 @@ func _economy() -> void:
 			hp += float(f["hp"]) * float(pl[id])
 			wsum += float(pl[id])
 		hp /= maxf(wsum, 0.001)
-		var per_kill := maxf(1.0, roundf(hp / 18.0))
+		var per_kill := maxf(1.0, roundf(hp / FaunaExtra.LUMINI_HP))
 		var rate := PACE * sqrt(ZoneModel.danger(int(z[1]), int(z[2])))
 		_p("   creature, %-16s Vita media %4.0f → %2.0f Lumini a creatura, %.1f al minuto: ~%4.0f Lumini all'ora" % [z[0], hp,
 			per_kill, rate, per_kill * rate * 60.0])
