@@ -42,6 +42,7 @@ func run() -> void:
 	await blueprints()
 	await dwellers()
 	await herd_home()
+	await load_test()
 	for i in slots0.size():
 		b.slots[i] = slots0[i]
 	b.equip = equip0
@@ -1057,3 +1058,43 @@ func herd_home() -> void:
 		"sì" if guarding else "NO", why if why != "" else "ok", "sì" if bit else "NO", honey, "sì" if got else "NO"])
 	if not guarding or not bit or honey < 3 or not got:
 		print("ATTENZIONE: la mandria che abita non va come dovrebbe")
+
+
+## Voce 150: i tempi con molte creature nuove (astuzie, cervello, tattiche) e i costrutti attorno: il fotogramma peggiore
+## e la media in 3 secondi con 40 creature vicine.
+func load_test() -> void:
+	var w: World = m.world
+	m.snap_to(w.spawn)
+	await kit.frames(3)
+	m.combat.god = true
+	var pool: Array = []
+	for f in ["superficie", "sottosuolo", "tempo"]:
+		var d: Dictionary = (load("res://src/data/bestiary/%s.gd" % f) as GDScript).get("DATA")
+		for cid in d["creatures"]:
+			if not (d["creatures"][cid] as Dictionary).get("water", false):
+				pool.append(cid)
+	for i in 40:
+		var cid := String(pool[i % pool.size()])
+		var cr: Creature = m.fauna.add(cid, m.player.position + Vector2(-300.0 + (i % 20) * 30.0, -30.0 - (i / 20) * 40.0))
+		cr.mind.brave = true
+	await kit.frames(10)
+	var worst := 0.0
+	var total := 0.0
+	var n := 0
+	var t0 := Time.get_ticks_usec()
+	var last := t0
+	while Time.get_ticks_usec() - t0 < 3000000:
+		await kit.frames(1)
+		var now := Time.get_ticks_usec()
+		var dt := float(now - last) / 1000.0
+		last = now
+		worst = maxf(worst, dt)
+		total += dt
+		n += 1
+	m.fauna.clear()
+	m.wiles.webs.clear()
+	m.combat.god = false
+	m.vitals.refill()
+	print("tempi con 40 creature nuove: %d fotogrammi in 3 s (media %.1f ms), il peggiore %.1f ms" % [n, total / maxf(n, 1), worst])
+	if total / maxf(n, 1) > 25.0:
+		print("ATTENZIONE: con 40 creature il gioco rallenta troppo")

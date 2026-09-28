@@ -20,6 +20,7 @@ func _init() -> void:
 	_creatures()
 	_recipes()
 	_fishing()
+	_world15()
 	var f := FileAccess.open("res://prove/bilancio.txt", FileAccess.WRITE)
 	if f:
 		f.store_string(out)
@@ -177,4 +178,35 @@ func _fishing() -> void:
 		_p(line)
 	_p("   (con uno specchio stanco l'attesa arriva a ×%.1f; la fatica scende di 1 ogni %d s)" % [1.0 + FishingData.TIRE_WAIT * FishingData.TIRE_MAX,
 		roundi(FishingData.TIRE_RECOVER)])
+
+
+## Roadmap 15 «Il mondo abitato»: i Signori e i tre Guardiani contro la spada del grado atteso (colpi per sconfiggerli,
+## secondi a 2,5 colpi al secondo), le maree, i costrutti, gli arredi, le stanze.
+func _world15() -> void:
+	_p("6. IL MONDO ABITATO (Roadmap 15)")
+	var lords := 0
+	var rows := []
+	for cid in CreaturesData.CREATURES:
+		var c: Dictionary = CreaturesData.CREATURES[cid]
+		if not (c.has("lord") or c.has("great")):
+			continue
+		lords += 1
+		var hp := float(c["hp"])
+		var sword := _sword(3 if int(c["hp"]) < 1000 else 4)
+		var hits := ceili(hp / maxf(sword, 1.0))
+		rows.append("   %-34s Vita %4d  danno %2d  colpi %3d (~%d s)  furia: %s" % [c["name"], int(c["hp"]), int(c["damage"]), hits,
+			roundi(hits / 2.5), ", ".join(c.get("fury", []))])
+	rows.sort()
+	for r in rows:
+		_p(r)
+	_p("   Signori e Guardiani: %d. Le maree: %d (%s)" % [lords, TidesData.TIDES.size(), ", ".join(TidesData.TIDES.keys())])
+	_p("   costrutti: %d (%d materiali × %d forme); arredi: %d; progetti dei Seminatori: %d; tipi di stanza: %d" % [
+		BuildData.kinds().size(), BuildData.MATERIALS.size(), BuildData.FORMS.size(), FurnitureData.stations().size(),
+		ProjectsData.PROJECTS.size(), RoomsData.ORDER.size()])
+	var n_species := 0
+	for f in BiomesData.PACK_FILES:
+		n_species += ((f.DATA as Dictionary).get("creatures", {}) as Dictionary).size()
+	_p("   creature in tutto: %d (dei pacchetti: %d); famiglie: %d; astuzie: %d" % [CreaturesData.CREATURES.size(), n_species,
+		FamiliesData.FAMILIES.size(), WilesData.WILES.size()])
+	_p("")
 
