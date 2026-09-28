@@ -33,6 +33,8 @@ const _TABLES := {
 	],
 	# scrigni delle rovine dei Seminatori, per strato (1 Sottobosco … 4 il Fondo); `roll_chest` tira più volte
 	"rovina_1": [
+		{"item": "progetto_ponte", "min": 1, "max": 1, "chance": 0.06},   # voce 145
+		{"item": "progetto_pozzo", "min": 1, "max": 1, "chance": 0.06},   # voce 145
 		{"item": "tavoletta_seminatori", "min": 1, "max": 1, "chance": 0.35},
 		{"item": "lumino", "min": 5, "max": 15, "chance": 1.0},
 		{"item": "seme_rugiada", "min": 2, "max": 4, "chance": 0.3},
@@ -47,6 +49,8 @@ const _TABLES := {
 		{"item": "pappo_seme", "min": 1, "max": 1, "chance": 0.12},
 	],
 	"rovina_2": [
+		{"item": "progetto_torre", "min": 1, "max": 1, "chance": 0.06},   # voce 145
+		{"item": "progetto_serra", "min": 1, "max": 1, "chance": 0.06},   # voce 145
 		{"item": "tavoletta_seminatori", "min": 1, "max": 1, "chance": 0.4},
 		{"item": "lumino", "min": 10, "max": 30, "chance": 1.0},
 		{"item": "spore_luminose", "min": 2, "max": 3, "chance": 0.2},
@@ -64,6 +68,8 @@ const _TABLES := {
 		{"item": "cuore_muschio", "min": 1, "max": 1, "chance": 0.1},
 	],
 	"rovina_3": [
+		{"item": "progetto_faro", "min": 1, "max": 1, "chance": 0.06},   # voce 145
+		{"item": "progetto_sala_trofei", "min": 1, "max": 1, "chance": 0.06},   # voce 145
 		{"item": "totem_antico_germoglio", "min": 1, "max": 1, "chance": 0.06},          # voce 87
 		{"item": "totem_antico_quiete", "min": 1, "max": 1, "chance": 0.06},          # voce 87
 		{"item": "tavoletta_seminatori", "min": 1, "max": 2, "chance": 0.45},
@@ -81,6 +87,9 @@ const _TABLES := {
 		{"item": "foglia_planante", "min": 1, "max": 1, "chance": 0.12},
 	],
 	"rovina_4": [
+		{"item": "progetto_faro", "min": 1, "max": 1, "chance": 0.06},   # voce 145
+		{"item": "progetto_sala_trofei", "min": 1, "max": 1, "chance": 0.06},   # voce 145
+		{"item": "progetto_serra", "min": 1, "max": 1, "chance": 0.06},   # voce 145
 		{"item": "totem_antico_stirpi", "min": 1, "max": 1, "chance": 0.06},          # voce 87
 		{"item": "totem_antico_quiete", "min": 1, "max": 1, "chance": 0.06},          # voce 87
 		{"item": "tavoletta_seminatori", "min": 1, "max": 2, "chance": 0.5},

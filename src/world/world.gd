@@ -178,6 +178,8 @@ func station_fits(id: String, o: Vector2i) -> bool:
 	if TrapsData.is_trap(id):
 		# voce 88: le trappole si appoggiano a terra, a una parete o al soffitto
 		return solid(o.x, o.y + 1) or solid(o.x, o.y - 1) or solid(o.x - 1, o.y) or solid(o.x + 1, o.y)
+	if StationsData.role(id) == "lanterna" and solid(o.x, o.y - 1):
+		return true                              # voce 145: la lanterna si appende al soffitto
 	for dx in size[0]:
 		if not solid(o.x + dx, o.y + size[1]):
 			return false

@@ -39,6 +39,7 @@ func run() -> void:
 	await great()
 	await tides()
 	await study()
+	await blueprints()
 	for i in slots0.size():
 		b.slots[i] = slots0[i]
 	b.equip = equip0
@@ -919,3 +920,35 @@ func study() -> void:
 		"sì" if tip3.contains("fuoco") or tip3.contains("Debole") else "NO", mult])
 	if g0 != 0 or g1 != 1 or g2 != 2 or g3 != 3 or not sampled or mult <= 1.0 or not tip1.contains("studiala"):
 		print("ATTENZIONE: lo studio delle creature non va come dovrebbe")
+
+
+## Voce 145: la sala dei trofei dei Seminatori nasce in un colpo se hai i materiali; dentro è una stanza.
+func blueprints() -> void:
+	var w: World = m.world
+	var spot := kit.flat_spot(w.spawn + Vector2i(-150, 0), 18)
+	if spot.x < 0:
+		spot = m.player_cell() + Vector2i(-40, 0)
+	kit.flatten(spot, 24)
+	var b: Bisaccia = m.character.bisaccia
+	var id := "sala_trofei"
+	var sz := ProjectsData.size_of(id)
+	var o := Vector2i(spot.x - sz.x / 2, spot.y - sz.y + 1)
+	m.snap_to(spot + Vector2i(-sz.x / 2 - 3, 0))
+	await kit.frames(2)
+	var none: bool = not m.builder.build_blueprint(id, o)
+	var need := ProjectsData.needs(id)
+	for k in need:
+		b.add(String(k), int(need[k]))
+	var ok: bool = m.builder.build_blueprint(id, o)
+	var left := 0
+	for k in need:
+		left += b.count(String(k))
+	m.snap_to(o + Vector2i(4, sz.y - 2))
+	await kit.seconds(0.3)
+	await kit.save("208_progetto_seminatori")
+	var room: Dictionary = m.rooms.refresh()
+	print("progetti dei Seminatori: senza materiali no %s; con i materiali costruito %s (ne restano %d nella Bisaccia); dentro una stanza «%s» comfort %d" % [
+		"sì" if none else "NO", "sì" if ok else "NO", left, room.get("type", "—"), int(room.get("comfort", 0))])
+	if not none or not ok or room.is_empty():
+		print("ATTENZIONE: i progetti dei Seminatori non vanno come dovrebbero")
+	m.world_meta["stanze"] = []

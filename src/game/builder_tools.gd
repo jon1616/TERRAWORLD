@@ -19,6 +19,7 @@ var placed := 0                          # conteggi (prove)
 var sculpted := 0
 var dyed := 0
 var plans := 0
+var blueprints := 0                      # voce 145: i progetti dei Seminatori costruiti
 
 
 func setup(main: Node2D) -> void:
@@ -80,6 +81,9 @@ func _unhandled_input(e: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 		elif k == "progetto" and not _plan().is_empty():
 			build_plan(c)
+			get_viewport().set_input_as_handled()
+		elif k == "progetto_sem":
+			build_blueprint(String(ItemsData.get_item(String(item["id"]))["project"]), c)   # voce 145
 			get_viewport().set_input_as_handled()
 
 
@@ -235,10 +239,104 @@ func build_plan(c: Vector2i) -> bool:
 	return true
 
 
+## Voce 145: un progetto dei Seminatori, con l'angolo in alto a sinistra in c. Servono tutti i materiali; le celle
+## occupate si saltano (e il loro materiale resta nella Bisaccia).
+func build_blueprint(id: String, c: Vector2i) -> bool:
+	var w: World = m.world
+	var b: Bisaccia = m.character.bisaccia
+	if Vector2(c - m.player_cell()).length() > BuilderData.PLAN_REACH + 6.0:
+		m.hud.toast("Troppo lontano per costruire il progetto")
+		return false
+	var need := ProjectsData.needs(id)
+	var miss := []
+	for it in need:
+		if b.count(it) < int(need[it]):
+			miss.append("%s (%d/%d)" % [String(ItemsData.get_item(it).get("name", it)), b.count(it), int(need[it])])
+	if not miss.is_empty():
+		m.hud.toast("Per il progetto mancano: " + ", ".join(miss.slice(0, 3)))
+		return false
+	var grid: Array = ProjectsData.PROJECTS[id]["grid"]
+	var wall := ProjectsData.wall_id()
+	var n := 0
+	for pass_n in 2:                              # prima i blocchi e le pareti, poi le stazioni (vogliono il pavimento)
+		n += _blueprint_pass(grid, c, wall, pass_n == 1)
+	var sz := ProjectsData.size_of(id)
+	for y in range(c.y - 1, c.y + sz.y + 1):
+		for x in range(c.x - 1, c.x + sz.x + 1):
+			m.view.refresh_around(Vector2i(x, y))
+	m.light.dirty = true
+	m.sfx.play("posa", Vector2(c) * S)
+	blueprints += 1
+	m.objectives.bump("progetti")
+	m.hud.toast("%s: costruito (%d pezzi)" % [ProjectsData.PROJECTS[id]["name"], n])
+	return true
+
+
+func _blueprint_pass(grid: Array, c: Vector2i, wall: int, stations: bool) -> int:
+	var w: World = m.world
+	var b: Bisaccia = m.character.bisaccia
+	var n := 0
+	for y in grid.size():
+		var row := String(grid[y])
+		for x in row.length():
+			var ch := row[x]
+			var q := c + Vector2i(x, y)
+			if ch == " " or not w.inside(q.x, q.y) or q.y >= w.h - 1:
+				continue
+			if ProjectsData.STATION.has(ch) != stations:
+				continue
+			var free := not w.solid(q.x, q.y) and w.station_at(q).is_empty() and not w.torches.has(q)
+			if ProjectsData.BLOCK.has(ch):
+				if free:
+					var kk := ProjectsData.kind_of(ch)
+					w.set_build(q.x, q.y, kk)
+					b.remove(BuildData.item_of(kk), 1)
+					n += 1
+			elif ch == ".":
+				if w.wall(q.x, q.y) == 0:
+					w.walls[q.y * w.w + q.x] = wall
+					b.remove("parete_" + ProjectsData.WALL_MAT, 1)
+					n += 1
+			elif ch == "_":
+				if free and not w.plat(q.x, q.y):
+					w.set_plat(q.x, q.y, true)
+					b.remove("passerella", 1)
+					n += 1
+			elif ch == "*":
+				if free:
+					w.add_torch(q)
+					m.view.add_torch(q)
+					b.remove("torcia", 1)
+					n += 1
+			elif ProjectsData.STATION.has(ch):
+				var sid := String(ProjectsData.STATION[ch])
+				if w.station_fits(sid, q):
+					w.stations[q] = sid
+					m.view.add_station(q)
+					b.remove(String(StationsData.STATIONS[sid]["item"]), 1)
+					n += 1
+				if w.wall(q.x, q.y) == 0:
+					w.walls[q.y * w.w + q.x] = wall
+	return n
+
+
 func _draw() -> void:
 	if m == null or not m.built:
 		return
 	var k := _kind_of(_held())
+	if k == "progetto_sem":
+		var pid := String(ItemsData.get_item(String(_held()["id"])).get("project", ""))
+		if pid != "":
+			var o: Vector2i = m.actions.mouse_cell()
+			var sz := ProjectsData.size_of(pid)
+			draw_rect(Rect2(Vector2(o) * S, Vector2(sz) * S), Color(0.6, 1.0, 0.85, 0.7), false, 1.0)
+			var grid: Array = ProjectsData.PROJECTS[pid]["grid"]
+			for y in grid.size():
+				var row := String(grid[y])
+				for x in row.length():
+					if ProjectsData.BLOCK.has(row[x]):
+						draw_rect(Rect2(Vector2(o + Vector2i(x, y)) * S + Vector2(3, 3), Vector2(10, 10)), Color(0.6, 1.0, 0.85, 0.3))
+		return
 	var col := Color(0.5, 1.0, 0.9, 0.5)
 	if _down and _from.x >= 0 and (k == "blocco" or k == "progetto"):
 		var to: Vector2i = m.actions.mouse_cell()

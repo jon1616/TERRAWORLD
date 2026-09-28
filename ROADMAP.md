@@ -2541,7 +2541,14 @@ Prova in `--solo=vivo` («riparo: …»).
   rinfrescano. Le creature non nascono sulle pareti posate dal giocatore. Porte e mura resistono secondo la durezza.
   Dighe, canali e vasche per i liquidi (con le voci 118-119).
 
-## 145. [ ] I progetti dei Seminatori (M)
+## 145. [x] I progetti dei Seminatori (M) — fatto il 29 set 2026
+Fatto: `ProjectsData`: **sei progetti** scritti a mano come disegni a caratteri (il ponte, la torre di vedetta, la serra
+a cupola, il faro, il pozzo delle fonti, la sala dei trofei), con blocchi dei costrutti, pareti, passerelle, torce e
+arredi (porta, fonte, armadio, scaffali, lanterne appese, vasi). Si trovano negli scrigni delle rovine (6% per
+progetto, tabelle «rovina_N»); in mano mostrano la sagoma e, se nella Bisaccia ci sono i materiali (la scheda li
+elenca), un clic li costruisce in un colpo (`BuilderTools.build_blueprint`, due passate: prima i blocchi, poi le
+stazioni che vogliono il pavimento; le celle occupate si saltano). La lanterna appesa ora si può appendere al soffitto.
+Prova in `--solo=vivo` (foto 208: la sala dei trofei, riconosciuta come stanza).
 - Nelle rovine e nei segreti si trovano **progetti** (strutture scritte a mano come i luoghi della voce 70: ponte,
   torre, serra a cupola, faro, pozzo delle fonti, sala dei trofei): portati i materiali a un cantiere, la struttura
   nasce in un colpo. Esplorare dà architettura.

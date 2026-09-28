@@ -44,6 +44,13 @@ static func card(slot: Dictionary, ctx := {}) -> TipCard:
 	if String(it.get("desc", "")) != "":
 		c.sep()
 		c.text("[i][color=#%s]%s[/color][/i]" % [TipCard.SOFT.to_html(false), it["desc"]])
+	if it.has("project"):
+		# voce 145: che cosa serve per costruire il progetto
+		var need := ProjectsData.needs(String(it["project"]))
+		var parts := []
+		for k in need:
+			parts.append("%s ×%d" % [String(ItemsData.get_item(k).get("name", k)), int(need[k])])
+		c.pair("Servono", ", ".join(parts), Color("#a8e0c8"))
 	_compare(c, slot, it, kind, ctx)
 	_price(c, id, n, ctx)
 	var hints := []
