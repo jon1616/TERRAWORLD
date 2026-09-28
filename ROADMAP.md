@@ -3246,13 +3246,20 @@ evita) con cui tarare i profili.
 **Pronto quando**: modello e arena distano meno del 25% sulla media di ogni strato.
 **Fatto**: `TestsArena` (`--solo=arena`, prove/arena.txt): recinto piano, bot che si avvicina, colpisce, arretra dopo una ferita, salta i proiettili con 0,25 s di reazione e prende l'arco contro chi vola fuori portata; tre scenari per strato (duello, sorpresa alle spalle, gruppo di tre). Primo giro: **nel duello il bot quasi non viene toccato** (0,09 contatti al secondo: ogni colpo ferma la creatura 0,22 s), una sorpresa vale +0,26 ferite per creatura, in gruppo ogni creatura ferisce il doppio; la Campanula errante (vola a 5 tessere) si batte solo con l'arco. Il modello tarato su questi numeri: duello vero/modello 0,94 per la Vita e 1,2 per il tempo; abilità «bot» → profili «attento», «medio», «jon».
 
-## 181. [ ] Il giocatore simulato (G)
+## 181. [x] Il giocatore simulato (G) — fatto il 29 set 2026
 `tools/percorso.gd`: una partita intera simulata a tappe, per i tre profili. A ogni tappa (Giardino, Superficie di
 giorno e di notte, Sottobosco, Caverne, Profondità, Fondo, Guardiano, vigore 2…10, cielo) il profilo ha l'equipaggiamento
 che avrebbe (secondo i minerali che può scavare, il tempo e la sua voglia di equipaggiarsi) e il modello dice pressione,
 tempo per abbattere, creature al minuto (ritmo delle nascite, tetto, notte), Vita persa al minuto contro la ricrescita,
 appassimenti all'ora. «jon» si tara sul suo Diario (4 appassimenti in 67 min, tempi delle tappe).
 **Pronto quando**: `prove/percorso.txt` mostra le tre curve, e la curva di «jon» somiglia ai suoi appassimenti veri.
+**Fatto**: `tools/percorso.gd` (prove/percorso.txt): 11 tappe (dai primi passi al vigore 12) per tre profili, a scontri
+uno a uno con il caso (ferite contate una a una, ricrescita di `Vitals` tra uno scontro e l'altro, pozioni a un terzo della
+Vita, appassimenti). «jon» (pugnale, nessuna armatura, niente pozioni) tarato sul Diario: 3,7 appassimenti all'ora in
+Superficie e Sottobosco contro i 3,6 veri. **Cosa dice (prima delle correzioni)**: l'inizio non è facile («medio» perde
+il 23% della Vita per creatura con la spada di radice, 2,6 appassimenti all'ora; «jon» 4,4); la Superficie è più dura del
+Sottobosco; dalle Profondità in giù nessuno regge (anche «attento» appassisce 15 volte all'ora nel Fondo e 24-40 dal
+vigore 3): il vigore e la profondità crescono molto più dell'equipaggiamento, e l'armatura cambia poco.
 
 ## 182. [ ] Le armi, gli attrezzi e le armature a confronto (M)
 Per ogni grado: danno al secondo di ogni forma (con area, portata, velocità, spinta), armature e accessori; i doppioni

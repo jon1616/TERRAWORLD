@@ -20,7 +20,7 @@ const SKILL := {
 	"bot": {"uptime": 0.52, "touch": 0.13, "open": 0.0, "dodge": 0.5, "bow_hit": 0.7},
 	"attento": {"uptime": 0.55, "touch": 0.15, "open": 0.12, "dodge": 0.5, "bow_hit": 0.7},
 	"medio": {"uptime": 0.5, "touch": 0.28, "open": 0.3, "dodge": 0.4, "bow_hit": 0.6},
-	"jon": {"uptime": 0.48, "touch": 0.3, "open": 0.4, "dodge": 0.35, "bow_hit": 0.6},
+	"jon": {"uptime": 0.48, "touch": 0.22, "open": 0.28, "dodge": 0.35, "bow_hit": 0.6},
 }
 ## Quanto ogni comportamento cambia i contatti (1 = chi salta o cammina addosso). Tarati con l'arena (voce 180).
 const TOUCH_K := {"salta_verso": 1.0, "cammina": 1.0, "caccia": 1.0, "vola": 0.8, "carica": 1.25, "scatto": 1.2,
