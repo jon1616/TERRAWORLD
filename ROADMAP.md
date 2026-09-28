@@ -2587,7 +2587,14 @@ un recinto è una stalla (voce 142). Prova in `--solo=vivo` (foto 210_guardia).
 
 ## Parte E — Chiudere
 
-## 149. [ ] Enciclopedia, consigli, filo, Bacheca (S)
+## 149. [x] Enciclopedia, consigli, filo, Bacheca (S) — fatto il 29 set 2026
+Fatto: `EncyWorldData`, gruppo «Il mondo abitato» con sette capitoli (come pensano le creature, le creature di ogni
+luogo, i Signori, i tre Guardiani, le maree, le stanze e le case, i progetti), oltre ai paragrafi aggiunti a
+«Combattere» e «Costruire» voce per voce; sei **consigli** alla prima volta (il «?» di chi ti ha sentito, la prima
+stanza, la prima marea, un'esca rituale, la prima specie studiata, un progetto); il **filo** propone la prima stanza
+(con un Focolare e nessuna stanza) e la specie più vicina a essere studiata; la **Bacheca** chiede stanze di un tipo,
+un Signore, una marea respinta, una specie studiata; nove **obiettivi** nuovi. Le stanze contano quante per tipo
+(Bacheca) e quanti tipi (obiettivi). Prove `--solo=enciclopedia,guida` senza problemi (85 capitoli, 2121 collegamenti).
 - Capitoli nuovi (creature per ruolo, Signori, maree, costruire, stanze), consigli alla prima volta, il filo che propone
   anche «costruisci la tua prima stanza», richieste della Bacheca per stanze e Signori.
 

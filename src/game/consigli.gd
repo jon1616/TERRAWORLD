@@ -218,3 +218,32 @@ func _c_cassa_pescata() -> bool:
 			return true
 	return false
 
+
+# ---------------------------------------------------------------- Roadmap 15
+
+func _c_allerta() -> bool:
+	for c in m.fauna.list:
+		if c.mind.state == Mind.ALERT and c.position.distance_to(m.player.position) < 14.0 * 16.0 and not c.docile:
+			return true
+	return false
+
+
+func _c_stanza() -> bool:
+	return m.get("rooms") != null and not m.rooms.current.is_empty() and String(m.rooms.current.get("type", "")) != "stanza"
+
+
+func _c_marea() -> bool:
+	return m.get("tides") != null and (m.tides.pending != "" or m.tides.active != "")
+
+
+func _c_signore() -> bool:
+	return String(ItemsData.get_item(String(m.hud.current().get("id", ""))).get("kind", "")) == "esca_signore"
+
+
+func _c_studiata() -> bool:
+	return int(m.character.stats.get("studiate", 0)) >= 1
+
+
+func _c_progetto() -> bool:
+	return String(ItemsData.get_item(String(m.hud.current().get("id", ""))).get("kind", "")) == "progetto_sem"
+

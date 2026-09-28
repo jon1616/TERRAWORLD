@@ -24,6 +24,7 @@ static func chapters() -> Array:
 	out.append_array(EncySeedsData.CHAPTERS)
 	out.append_array(EncyStoryData.CHAPTERS)
 	out.append_array(EncyLawsData.CHAPTERS)
+	out.append_array(EncyWorldData.CHAPTERS)           # Roadmap 15: il mondo abitato
 	return out
 
 

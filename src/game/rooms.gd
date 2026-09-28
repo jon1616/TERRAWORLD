@@ -65,9 +65,12 @@ func refresh() -> Dictionary:
 		if was.is_empty() or String(was.get("key", "")) != String(r["key"]) or String(was.get("type", "")) != String(r["type"]):
 			var td: Dictionary = RoomsData.TYPES[r["type"]]
 			m.hud.toast("%s %s · comfort %d" % [td["name"], RoomsData.level(int(r["comfort"])), int(r["comfort"])])
-			if String(r["type"]) != "stanza" and not m.character.stats.has("stanza_" + String(r["type"])):
-				m.character.stats["stanza_" + String(r["type"])] = 1
-				m.objectives.bump("stanze")
+			if String(r["type"]) != "stanza":
+				# quante stanze di questo tipo (la Bacheca), e i tipi diversi (gli obiettivi)
+				var sk := "stanza_" + String(r["type"])
+				if not m.character.stats.has(sk):
+					m.objectives.bump("stanze")
+				m.character.stats[sk] = int(m.character.stats.get(sk, 0)) + 1
 	m.world_meta["stanze"] = rooms
 	_apply_here()
 	_apply_world()

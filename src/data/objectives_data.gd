@@ -217,6 +217,19 @@ const LIST := [
 		"reward": {"galleggiante_lume": 1}},
 	{"id": "pesca_leggenda", "text": "Pesca un pesce leggendario", "check": {"stat": "pesci_leggendari", "n": 1},
 		"reward": {"esca_iridata": 10}},
+	# Roadmap 15 «Il mondo abitato»
+	{"id": "stanza_1", "text": "Costruisci una stanza con un tipo (una casa, un laboratorio…)", "check": {"stat": "stanze", "n": 1},
+		"reward": {"tintura_gialla": 8, "costr_mattoni_ardesia": 20}},
+	{"id": "stanze_5", "text": "Costruisci cinque tipi di stanza diversi", "check": {"stat": "stanze", "n": 5},
+		"reward": {"tavola_progetto": 1}},
+	{"id": "studio_1", "text": "Studia a fondo una specie", "check": {"stat": "studiate", "n": 1}, "reward": {"provetta": 3}},
+	{"id": "studio_10", "text": "Studia a fondo dieci specie", "check": {"stat": "studiate", "n": 10}, "reward": {"linfa_antica": 2}},
+	{"id": "signore_1", "text": "Sconfiggi un Signore dei luoghi", "check": {"stat": "signori", "n": 1}, "reward": {"lumino": 200}},
+	{"id": "signori_10", "text": "Sconfiggi dieci Signori dei luoghi", "check": {"stat": "signori", "n": 10}, "reward": {"linfa_antica": 3}},
+	{"id": "marea_1", "text": "Respingi una marea del mondo", "check": {"stat": "maree_vinte", "n": 1}, "reward": {"pozione_rigoglio": 3}},
+	{"id": "progetto_1", "text": "Costruisci un progetto dei Seminatori", "check": {"stat": "progetti", "n": 1}, "reward": {"lumino": 150}},
+	{"id": "guardiano_grande", "text": "Sconfiggi uno dei tre grandi Guardiani", "check": {"stat": "grandi_guardiani", "n": 1},
+		"reward": {"linfa_antica": 3}},
 ]
 
 ## Quanti obiettivi si vedono insieme.

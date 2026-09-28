@@ -73,6 +73,14 @@ func make() -> Dictionary:
 		return String(FishData.info(f).get("rar", "")) in ["comune", "non_comune"])
 	if not fished.is_empty():
 		kinds.append("pesce")                       # voce 124: pesci che si sono già pescati (mai obbligatori)
+	# Roadmap 15: una stanza di un tipo, un Signore, una marea, una specie da studiare
+	kinds.append("stanza")
+	if int(ch.stats.get("signori", 0)) > 0 or ch.bisaccia.count("lingotto_ambra") > 0:
+		kinds.append("signore")
+	if int(ch.stats.get("maree", 0)) > 0:
+		kinds.append("marea")
+	if not (ch.erbario.get("creature", {}) as Dictionary).is_empty():
+		kinds.append("studio")
 	var k := String(kinds[_rng.randi_range(0, kinds.size() - 1)])
 	var r := {"tipo": k}
 	match k:
@@ -121,6 +129,29 @@ func make() -> Dictionary:
 			r["base"] = int(ch.stats.get("viaggi", 0))
 			r["testo"] = "Visita %s" % ("un mondo" if int(r["n"]) == 1 else "due mondi")
 			r["premio"] = {"lumino": 50, "provetta": 2}
+		"stanza":
+			var types := ["casa", "laboratorio", "serra", "cantina", "biblioteca", "osservatorio", "stalla", "acquario", "trofei"]
+			var t := String(types[_rng.randi_range(0, types.size() - 1)])
+			r["cosa"] = t
+			r["n"] = 1
+			r["base"] = int(ch.stats.get("stanza_" + t, 0))
+			r["testo"] = "Costruisci una stanza: %s (%s)" % [String(RoomsData.TYPES[t]["name"]).to_lower(), RoomsData.TYPES[t]["need"]]
+			r["premio"] = {"lumino": 80, FurnitureData.id_of("vaso", "lanterna"): 1}
+		"signore":
+			r["n"] = 1
+			r["base"] = int(ch.stats.get("signori", 0))
+			r["testo"] = "Sconfiggi un Signore dei luoghi (con la sua esca rituale, all'Altare)"
+			r["premio"] = {"lumino": 150, "linfa_antica": 1}
+		"marea":
+			r["n"] = 1
+			r["base"] = int(ch.stats.get("maree_vinte", 0))
+			r["testo"] = "Respingi una marea fino al suo capo"
+			r["premio"] = {"lumino": 150, "pozione_rigoglio": 2}
+		"studio":
+			r["n"] = 1
+			r["base"] = int(ch.stats.get("studiate", 0))
+			r["testo"] = "Studia a fondo una specie (sconfitte o Provetta)"
+			r["premio"] = {"lumino": 60, "provetta": 2}
 		"sigillo":
 			r["n"] = 1
 			r["base"] = int(ch.stats.get("sigilli", 0))
@@ -187,6 +218,14 @@ func progress(r: Dictionary) -> Array:
 			return [mini(int(ch.stats.get("viaggi", 0)) - int(r["base"]), n), n]
 		"sigillo":
 			return [mini(int(ch.stats.get("sigilli", 0)) - int(r["base"]), n), n]
+		"stanza":
+			return [mini(int(ch.stats.get("stanza_" + String(r["cosa"]), 0)) - int(r["base"]), n), n]
+		"signore":
+			return [mini(int(ch.stats.get("signori", 0)) - int(r["base"]), n), n]
+		"marea":
+			return [mini(int(ch.stats.get("maree_vinte", 0)) - int(r["base"]), n), n]
+		"studio":
+			return [mini(int(ch.stats.get("studiate", 0)) - int(r["base"]), n), n]
 	return [0, n]
 
 

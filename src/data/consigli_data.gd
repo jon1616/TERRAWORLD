@@ -42,6 +42,19 @@ const LIST := [
 		"text": "A volte alla lenza abbocca una cassa: tienila in mano e fai clic per aprirla. Dentro c'è il bottino delle rovine, e di rado un tesoro delle acque."},
 	{"id": "gene", "title": "Il primo gene", "cap": "geni",
 		"text": "I geni dei mondi si imparano con la Provetta di Linfa e con le Fiale delle creature. Nel Semenzaio (tasto {semenzaio}) il Genario dice che cosa conosci."},
+	# Roadmap 15: il mondo abitato
+	{"id": "allerta", "title": "Ti hanno sentito", "cap": "creature_vive",
+		"text": "Il [b]?[/b] sopra una creatura: ha sentito un rumore (scavo, colpi, passi di corsa) e viene a guardare. Al buio ti vedono meno lontano; ferito, i predatori ti fiutano da lontano."},
+	{"id": "stanza", "title": "La tua prima stanza", "cap": "stanze",
+		"text": "Blocchi attorno, pareti dietro e una porta: è una [b]stanza[/b]. Gli arredi le danno un tipo (un letto: una casa; due banchi: un laboratorio) e un aiuto; bellezza e luci il comfort."},
+	{"id": "marea", "title": "Una marea", "cap": "maree",
+		"text": "Si avvicina una [b]marea[/b]: arriveranno ondate di creature e alla fine il loro capo. Preparati vicino a un riparo; sconfitto il capo, c'è un premio."},
+	{"id": "signore", "title": "Un'esca rituale", "cap": "signori",
+		"text": "Con l'esca rituale in mano, nel luogo del suo Signore, un clic lo chiama. È un mini-boss: a metà Vita entra in furia. Lascia un materiale che c'è solo da lui."},
+	{"id": "studiata", "title": "Una specie studiata", "cap": "combattere",
+		"text": "Hai studiato una specie: la sua scheda mostra come si batte, e fai più danno contro di lei per sempre. La [b]Provetta[/b] su una creatura aiuta a studiarla."},
+	{"id": "progetto", "title": "Un progetto dei Seminatori", "cap": "progetti",
+		"text": "Un progetto in mano mostra la sagoma di una struttura; se nella Bisaccia hai i materiali (la scheda li elenca), un clic la costruisce in un colpo."},
 ]
 
 

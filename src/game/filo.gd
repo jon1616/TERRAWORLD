@@ -7,7 +7,7 @@ extends Node
 ## blocco del minerale più vicino già visto, l'albero più vicino per il legno, il banco giusto, l'Albero-Madre; se
 ## serve scendere, una freccia in basso con lo strato.
 
-const SOURCES := ["lista", "albero", "obiettivo", "bacheca", "studio"]
+const SOURCES := ["lista", "albero", "obiettivo", "bacheca", "studio", "stanza"]
 const SOURCE_NAME := {"lista": "La tua lista", "albero": "Albero-Madre", "obiettivo": "Obiettivo", "bacheca": "Bacheca"}
 const SCAN_X := 110                      # quanto lontano si cerca un blocco già visto (tessere)
 const SCAN_Y := 70
@@ -191,6 +191,14 @@ func _from_obiettivo() -> Dictionary:
 			out["hint"] = _lives(String(c["kill"]))
 		return out
 	return {}
+
+
+## Voce 149: la prima stanza (quando c'è già un Focolare, ma nessuna stanza nel mondo).
+func _from_stanza() -> Dictionary:
+	if m.get("rooms") == null or not m.rooms.list().is_empty() or m.villagers._hearth().x < 0:
+		return {}
+	return {"text": "Costruisci la tua prima stanza: blocchi attorno, pareti dietro, una porta e un letto",
+		"hint": "una stanza ripara dai rigori e, con gli arredi, aiuta (Enciclopedia: Le stanze e le case)"}
 
 
 ## Voce 138: la specie più vicina a essere studiata.
