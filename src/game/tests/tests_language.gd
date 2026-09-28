@@ -86,7 +86,11 @@ func run() -> void:
 		if int(s[0]) == int(hint[0]) and int(s[1]) == int(hint[1]) and String(s[2]).begins_with("forse"):
 			maybe = true
 	var fc: Dictionary = m.filo._from_stele()                  # voce 177: il filo porta al luogo «forse»
-	var filo_ok: bool = fc.get("cell", Vector2i(-1, -1)) == Vector2i(int(hint[0]), int(hint[1]))
+	var filo_ok := false                                          # (la più vicina: può essere un'altra stele «forse»)
+	for k2 in lg.stele():
+		var e2: Dictionary = lg.stele()[k2]
+		if e2.get("forse", false) and not e2.get("segnata", false):
+			filo_ok = filo_ok or fc.get("cell", Vector2i(-1, -1)) == Vector2i(int(e2["hint"][0]), int(e2["hint"][1]))
 	if not filo_ok:
 		print("ATTENZIONE: il filo non porta al luogo «forse» della stele (%s)" % fc)
 	m.snap_to(Vector2i(int(hint[0]), int(hint[1])))
