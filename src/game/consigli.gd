@@ -265,3 +265,24 @@ func _c_fulmine() -> bool:
 func _c_fagiolo() -> bool:
 	return String(ItemsData.get_item(String(m.hud.current().get("id", ""))).get("kind", "")) == "fagiolo"
 
+
+# ---------------------------------------------------------------- Roadmap 17
+
+func _c_prima_stele() -> bool:
+	return int(m.character.stats.get("stele", 0)) > 0
+
+
+func _c_prima_ipotesi() -> bool:
+	for w in m.character.lingua:
+		if m.language.state(String(w)) == Language.IPOTESI:
+			return true
+	return false
+
+
+func _c_prima_certa() -> bool:
+	return m.language.count() > 0
+
+
+func _c_scrigno_parola() -> bool:
+	return m.word_chests != null and m.word_chests.panel.visible
+

@@ -4,14 +4,30 @@ class_name EncyStoryData
 
 const CHAPTERS := [
 	{"id": "lingua", "group": "Il mistero dei Seminatori", "name": "La lingua dei Seminatori", "text":
-"""I Seminatori scrivevano in una lingua loro. Nelle rovine (e due vicino alla partenza di ogni mondo) ci sono le [b]stele[/b]: clic destro per leggerle. Le parole che conosci si leggono in italiano, le altre restano nella loro lingua.
-[b]Come si imparano le parole[/b]
-• La prima volta che leggi una stele capisci una parola dal contesto.
-• Le [b]tavolette dei Seminatori[/b] (negli scrigni delle rovine, dal Cartografo) insegnano tre parole ciascuna, prima quelle delle stele del mondo dove sei.
-Le parole valgono in tutti i mondi. Sono {n_parole}; ne conosci {parole_note}.
-[b]Che cosa dicono le stele[/b]
-Quasi tutte indicano un luogo vero di quel mondo, rispetto alla stele: un [url=cap:poteri]Sigillo[/url], un reliquiario, la [url=cap:firme]firma[/url], il Cuore, la tana di un Custode («sigillo di brace dorme sotto, verso l'alba, lontano»). Quando capisci tutta la frase il luogo si segna sulla mappa. Le altre raccontano la storia dei Seminatori e del Seme Nero: rileggile quando conosci più parole.
-Il [url=cat:glossario]glossario[/url] raccoglie le parole che conosci."""},
+"""I Seminatori scrivevano in una lingua loro, e nessuno te la insegna: si [b]decifra[/b]. Nelle rovine (e due vicino alla partenza di ogni mondo) ci sono le [b]stele[/b]: clic destro per leggerle. Tutto ciò che sai sta nel [b]Quaderno delle parole[/b] ({k_quaderno}).
+[b]I tre stati di una parola[/b]
+• [color=#8aa09a]Vista[/color]: l'hai letta su una stele, sai com'è scritta, non che cosa vuol dire.
+• [color=#e0b060]Ipotesi[/color]: l'hai vista in abbastanza frasi diverse (due; tre per le lingue più alte) da farti un'idea: nel Quaderno ha [b]tre significati possibili[/b]. Guarda le frasi in cui compare (il Quaderno le mostra, tradotte per quello che sai) e scegli: giusto, diventa certa; sbagliato, quel significato è scartato e per riprovare devi ritrovarla in una frase nuova. Scartati due, resta quello giusto.
+• [color=#ffe8b0]Certa[/color]: la sai, in tutti i mondi. Solo le parole certe si leggono in italiano.
+[b]Altri modi di esserne certi[/b]
+• Una stele che [b]indica un luogo[/b] («sigillo di brace dorme sotto, verso l'alba, lontano»): quando ogni sua parola è almeno un'ipotesi il luogo si segna «forse» sulla mappa; [b]arrivandoci[/b], le sue parole diventano certe.
+• Gli [url=cap:scrigni_parola]scrigni a parola[/url]: aprirli conferma la parola mancante.
+• Le [b]tavolette dei Seminatori[/b] (negli scrigni, dal Cartografo) confermano due parole che hai già visto.
+• Lo Stilo dei Seminatori, una [url=cap:ricette_scritte]ricetta scritta[/url].
+[b]Tre lingue[/b]: la lingua comune ({n_comune} parole, ovunque), la lingua antica ({n_antica}, nei mondi di vigore 3 o più e negli osservatori del cielo) e la lingua del Seme Nero ({n_nera}, nel suo mondo e sui leggii della sua via). Ne sai con certezza {parole_note} su {n_parole}.
+[b]A che cosa servono[/b]: segnano i luoghi sulla mappa, aprono scrigni e porte, si [url=cap:incisioni]incidono[/url] sulle armi, svelano [url=cap:ricette_scritte]ricette[/url] e, nella lingua nera, la verità sul Seme.
+Il [url=cat:glossario]glossario[/url] raccoglie le parole certe."""},
+	{"id": "scrigni_parola", "group": "Il mistero dei Seminatori", "name": "Gli scrigni a parola", "text":
+"""In un terzo delle rovine lo scrigno ha un sigillo d'ambra: sul coperchio è incisa una frase di una stele di [b]quel mondo[/b], con una parola mancante. Clic destro apre la [b]ruota dei glifi[/b]: ti dice che tipo di parola manca (una cosa, un'azione, un luogo, una quantità) e ti fa scegliere tra le parole di quel tipo che hai visto.
+Giusta: lo scrigno si apre, dentro c'è più del solito (e una tavoletta), e la parola diventa certa. Sbagliata: il sigillo si richiude per quarantacinque secondi.
+Per indovinare: leggi le altre stele del mondo (la parola mancante compare in almeno due) e ragiona sulla frase."""},
+	{"id": "incisioni", "group": "Il mistero dei Seminatori", "name": "Le incisioni", "text":
+"""Al [b]Maglio dei Seminatori[/b], con un'arma, un attrezzo, un'armatura o un accessorio in mano, tra le Lavorazioni compaiono le [b]incisioni[/b]: una parola certa della lingua incisa sull'oggetto dà un effetto in più che [b]non prende un posto d'innesto[/b]. Una sola incisione per oggetto (una nuova prende il posto della vecchia).
+Più alta la lingua, più forte l'incisione: «brace» +8% danno, «fuoco» (antica) +14%, «divora» (nera) +22%. Il Quaderno dice che cosa incide ogni parola.
+{cat_incisioni}"""},
+	{"id": "ricette_scritte", "group": "Il mistero dei Seminatori", "name": "Le ricette scritte", "text":
+"""Alcune ricette i Seminatori le hanno scritte nella loro lingua: [b]compaiono[/b] (e si possono fare) solo quando tutte le loro parole sono certe. Il Quaderno conta quelle svelate e, per ogni parola, dice se è in una ricetta ancora nascosta.
+Tra queste: la [b]Bussola delle stele[/b] (segna sulla mappa le stele non lette), gli [b]Occhiali del decifratore[/b] (un'ipotesi con una frase in meno), lo [b]Stilo dei Seminatori[/b] (conferma un'ipotesi), e oggetti forti per chi sa le lingue alte."""},
 	{"id": "catene", "group": "Il mistero dei Seminatori", "name": "Le catene di ricerca", "text":
 """Una catena è una ricerca tra più mondi. Ogni tappa dice [b]di che geni deve essere fatto un mondo[/b]: quando pianti un Seme con quei geni, il mondo che nasce ha una [b]cripta dei Seminatori[/b], segnata sulla mappa appena entri. Si raggiunge scavando; sul suo [b]leggio[/b] (clic destro) ci sono un pezzo di storia, il premio e l'indizio della tappa dopo.
 • [b]La via del Seme Nero[/b]: la catena lunga, scritta dai Seminatori, cinque tappe in cinque mondi diversi. Comincia dopo il primo viaggio.

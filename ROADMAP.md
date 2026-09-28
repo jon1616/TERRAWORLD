@@ -3128,11 +3128,12 @@ intera.
 **Pronto quando**: una ricetta nascosta compare confermando la sua ultima parola.
 **Fatto**: il pacchetto `src/data/language_pack.gd`: sette ricette **scritte nella lingua** (campo `parole`: si vedono e si fanno solo con tutte le parole certe, `Crafting._discovered` con `Crafting.words`, memoria rifatta a ogni conferma): la Bussola delle stele (segna le stele non lette, non si consuma), gli Occhiali del decifratore (un'ipotesi con una frase in meno, `Language.hyp_need`), lo Stilo dei Seminatori (conferma un'ipotesi, prima delle lingue alte), la Corona dei Seminatori, il Mantello del canto, l'Amuleto del patto, il Talismano della rinascita. Il Quaderno conta le ricette svelate e, per ogni parola, in quale ricetta compare (nascosta finché non è svelata).
 
-## 177. [ ] Capire e seguire (S)
+## 177. [x] Capire e seguire (S) — fatto il 29 set 2026
 Enciclopedia (il capitolo della lingua rifatto, con gli stati e gli esempi), consigli alla prima volta (prima stele,
 prima ipotesi, prima conferma, primo scrigno a parola, prima incisione), il filo (una stele che indica un luogo «forse»:
 vai a confermarla), obiettivi.
 **Pronto quando**: la prova dell'Enciclopedia è pulita e il filo porta alla stele giusta.
+**Fatto**: Enciclopedia: il capitolo «La lingua dei Seminatori» rifatto (i tre stati, come si prova un significato, gli altri modi di essere certi, le tre lingue, a che cosa servono) e tre capitoli nuovi (Gli scrigni a parola, Le incisioni con il loro catalogo, Le ricette scritte): 95 capitoli, 0 problemi; il glossario conta solo le parole certe. Quattro consigli (prima stele, prima ipotesi, prima parola certa, primo scrigno a parola), il filo «La lingua dei Seminatori» (porta al luogo «forse» più vicino), cinque obiettivi nuovi (scrigni a parola, lingua antica, lingua nera) e i due vecchi riscritti («decifra»).
 
 ## 178. [ ] Bilancio, prove e resoconto (M)
 Quanto dura imparare ogni strato (misura con un giocatore simulato che legge le stele di più mondi), il giro intero,

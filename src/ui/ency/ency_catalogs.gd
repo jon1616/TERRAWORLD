@@ -23,6 +23,10 @@ static func inline(key: String) -> String:
 					group = String(a[3])
 					rows.append("[b]%s[/b]" % group)
 				rows.append("• [color=%s]%s[/color]  %s" % [G, Keys.labels(String(a[0])), a[1]])
+		"cat_incisioni":
+			for e in IncisionsData.LIST:
+				rows.append(_b("«%s» (%s)" % [LanguageData.it(String(e[0])), String(LanguageData.LAYERS[LanguageData.layer_of(String(e[0]))]["name"]).to_lower()],
+					"%s · su %s" % [e[3], ", ".join(e[1])]))
 		"cat_strati":
 			for s in StrataData.STRATA:
 				rows.append(_b(String(s["name"]), String(s.get("desc", ""))))
@@ -392,7 +396,8 @@ static func catalog(id: String) -> Array:
 			ws.sort_custom(func(a: String, b: String) -> bool: return LanguageData.sem(a) < LanguageData.sem(b))
 			var n := 0
 			for w in ws:
-				var k: bool = EncyPages.show_all or (EncyPages.ch != null and EncyPages.ch.lingua.has(w))
+				var rw: Variant = EncyPages.ch.lingua.get(w, {}) if EncyPages.ch != null else {}
+				var k: bool = EncyPages.show_all or (rw is Dictionary and int((rw as Dictionary).get("s", -1)) == 2)
 				if k:
 					n += 1
 					t += "• [color=#6ff0b8]%s[/color] — %s\n" % [LanguageData.sem(String(w)), LanguageData.it(String(w))]

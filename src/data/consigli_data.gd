@@ -64,6 +64,15 @@ const LIST := [
 		"text": "Una riga di luce sulla tua colonna: tra un attimo cade un [b]fulmine[/b]. Spostati di lato; sotto un tetto non ti tocca."},
 	{"id": "fagiolo", "title": "Il Fagiolo di nuvola", "cap": "cielo",
 		"text": "Piantalo nella terra all'aperto: in un minuto sale una liana di [b]passerelle[/b] verso il cielo. Ci si sale saltando."},
+	# Roadmap 17: la lingua dei Seminatori
+	{"id": "prima_stele", "title": "Una stele dei Seminatori", "cap": "lingua",
+		"text": "Le parole che hai letto ora sono [b]viste[/b]: ritrovale in altre stele e te ne farai un'ipotesi. Tutto ciò che sai della lingua è nel [b]Quaderno delle parole[/b] (tasto U)."},
+	{"id": "prima_ipotesi", "title": "Un'ipotesi", "cap": "lingua",
+		"text": "Hai visto una parola in abbastanza frasi: ora ha tre [b]significati possibili[/b]. Apri il Quaderno (U), guarda le frasi in cui compare e scegli quello giusto."},
+	{"id": "prima_certa", "title": "Una parola certa", "cap": "lingua",
+		"text": "Una parola dei Seminatori è [b]certa[/b]: ora la leggi in italiano ovunque. Le parole certe si incidono al Maglio e svelano ricette scritte."},
+	{"id": "scrigno_parola", "title": "Uno scrigno a parola", "cap": "scrigni_parola",
+		"text": "Questo scrigno ha un sigillo: una frase con una parola mancante. Scegli la parola giusta tra quelle che hai visto; se sbagli si richiude per un po'."},
 ]
 
 

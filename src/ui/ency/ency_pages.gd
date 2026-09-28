@@ -87,7 +87,9 @@ static func numbers() -> Dictionary:
 		"vigor_pct2": roundi(VigorData.CREATURE_STEP_HIGH * 100.0), "vigor_soft": VigorData.CREATURE_SOFT,
 		"stages": MotherTreeData.STAGES.size(), "n_obiettivi": ObjectivesData.LIST.size(),
 		"farm_zona": FarmData.ZONE, "farm_tetto": FarmData.ZONE_CAP, "farm_minuti": roundi(FarmData.ZONE_TIME / 60.0),
-		"n_parole": LanguageData.WORDS.size(), "parole_note": ch.lingua.size() if ch != null else 0}
+		"n_parole": LanguageData.WORDS.size(), "parole_note": _certain(ch),
+		"n_comune": LanguageData.words_of("comune").size(), "n_antica": LanguageData.words_of("antica").size(),
+		"n_nera": LanguageData.words_of("nera").size()}
 
 
 ## Il personaggio conosce già questa cosa? (senza personaggio, nel menu: no)
@@ -158,3 +160,16 @@ static func search(q: String) -> Array:
 	a.append_array(b)
 	a.append_array(c)
 	return a.slice(0, 60)
+
+
+## Roadmap 17: le parole certe del personaggio.
+static func _certain(ch: Character) -> int:
+	if ch == null:
+		return 0
+	var n := 0
+	for w in ch.lingua:
+		var r: Variant = ch.lingua[w]
+		if not r is Dictionary or int((r as Dictionary).get("s", 2)) == 2:
+			n += 1
+	return n
+

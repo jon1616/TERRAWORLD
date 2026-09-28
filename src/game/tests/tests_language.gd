@@ -85,6 +85,10 @@ func run() -> void:
 	for s in m.world_meta["segni"]:
 		if int(s[0]) == int(hint[0]) and int(s[1]) == int(hint[1]) and String(s[2]).begins_with("forse"):
 			maybe = true
+	var fc: Dictionary = m.filo._from_stele()                  # voce 177: il filo porta al luogo «forse»
+	var filo_ok: bool = fc.get("cell", Vector2i(-1, -1)) == Vector2i(int(hint[0]), int(hint[1]))
+	if not filo_ok:
+		print("ATTENZIONE: il filo non porta al luogo «forse» della stele (%s)" % fc)
 	m.snap_to(Vector2i(int(hint[0]), int(hint[1])))
 	await kit.seconds(1.5)
 	var sure: bool = lg.understood(e) == (e["words"] as Array).size() and bool(e.get("segnata", false))

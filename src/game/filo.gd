@@ -7,9 +7,9 @@ extends Node
 ## blocco del minerale più vicino già visto, l'albero più vicino per il legno, il banco giusto, l'Albero-Madre; se
 ## serve scendere, una freccia in basso con lo strato.
 
-const SOURCES := ["lista", "albero", "obiettivo", "bacheca", "studio", "stanza", "cielo"]
+const SOURCES := ["lista", "albero", "obiettivo", "bacheca", "studio", "stanza", "cielo", "stele"]
 const SOURCE_NAME := {"lista": "La tua lista", "albero": "Albero-Madre", "obiettivo": "Obiettivo", "bacheca": "Bacheca",
-	"studio": "Studio", "stanza": "La casa", "cielo": "Il cielo"}
+	"studio": "Studio", "stanza": "La casa", "cielo": "Il cielo", "stele": "La lingua dei Seminatori"}
 const SCAN_X := 110                      # quanto lontano si cerca un blocco già visto (tessere)
 const SCAN_Y := 70
 const S := 16
@@ -218,6 +218,22 @@ func _from_cielo() -> Dictionary:
 	if best.x >= 0:
 		c["cell"] = best
 	return c
+
+
+## Roadmap 17: il luogo «forse» più vicino di una stele: arrivandoci le sue parole diventano certe.
+func _from_stele() -> Dictionary:
+	var best := Vector2i(-1, -1)
+	var pc: Vector2i = m.player_cell()
+	for k in m.language.stele():
+		var e: Dictionary = m.language.stele()[k]
+		if e.get("forse", false) and not e.get("segnata", false):
+			var h: Array = e["hint"]
+			var q := Vector2i(int(h[0]), int(h[1]))
+			if best.x < 0 or Vector2(q - pc).length() < Vector2(best - pc).length():
+				best = q
+	if best.x < 0:
+		return {}
+	return {"text": "Va' a vedere il luogo che una stele indica «forse»", "hint": "arrivandoci, le parole di quella stele diventano certe", "cell": best}
 
 
 ## Voce 138: la specie più vicina a essere studiata.
