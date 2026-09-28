@@ -31,6 +31,7 @@ const HIGH_MIN := 36                   # la fascia alta ha almeno queste righe (
 const ZONE_MIN := 300                  # lunghezza di una zona, in colonne
 const ZONE_MAX := 520
 const SPAWN_FREE := 60                 # colonne attorno alla partenza senza isole
+const SKY_SHARE := 0.85                # voce 160: quante nascite in cielo sono creature del cielo
 
 const CLOUDS := [52, 53]               # le tessere di nuvola: attutiscono le cadute (`Life._on_landed`)
 const BEAN_STEP := 3                   # voce 157: righe tra due passerelle della liana del Fagiolo
@@ -143,4 +144,25 @@ static func soft_under(w: Object, feet_pos: Vector2) -> bool:
 		if w.tile(x, y) in CLOUDS:
 			return true
 	return false
+
+
+static var _pools := {}
+
+
+## Voce 160: le creature che nascono in un bioma del cielo: [[id, peso]] (quelle della notte solo di notte).
+static func pool_of(id: String, night: bool) -> Array:
+	if _pools.is_empty():
+		var all_cr := BiomesData.pack("creatures")
+		for cid in all_cr:
+			var cd: Dictionary = all_cr[cid]
+			var sid := String(cd.get("sky", ""))
+			if sid != "":
+				if not _pools.has(sid):
+					_pools[sid] = []
+				(_pools[sid] as Array).append([cid, int(cd.get("sw", 1)), bool(cd.get("night", false))])
+	var out := []
+	for e in _pools.get(id, []):
+		if night or not bool(e[2]):
+			out.append([e[0], e[1]])
+	return out
 

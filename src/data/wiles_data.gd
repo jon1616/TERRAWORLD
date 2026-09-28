@@ -7,6 +7,13 @@ extends RefCounted
 ## rodono solo le porte.
 
 const WILES := {
+	# Roadmap 16: il cielo
+	"picchiata": {"name": "Picchiata", "tell": "sale sopra di te, si ferma e trema",
+		"counter": "quando trema spostati di lato; colpiscila mentre risale, o sotto un tetto"},
+	"folgore": {"name": "Chiama il fulmine", "tell": "una riga di luce si accende sulla tua colonna",
+		"counter": "spostati appena vedi la luce; sotto un tetto il fulmine non ti tocca"},
+	"deriva": {"name": "Va col vento", "tell": "galleggia piano, senza badarti",
+		"counter": "lasciala stare: si difende solo se la colpisci"},
 	"sbuca": {"name": "Sbuca da sotto", "tell": "la terra trema e fa polvere sotto i tuoi piedi",
 		"counter": "spostati appena la terra trema; sulle passerelle o sui blocchi costruiti è più lenta a trovarti"},
 	"divide": {"name": "Si divide", "tell": "si gonfia quando è colpita",

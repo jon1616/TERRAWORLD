@@ -285,6 +285,11 @@ func try_spawn() -> Creature:
 	var up: Array = UnderBiomesData.pool_at(world, c) if stratum > 0 else []
 	if not up.is_empty() and _rng.randf() < 0.75:
 		choices = up                                    # voce 94: le creature dei biomi del sottosuolo
+	var sky_id := SkyData.zone_at(world, c.x, c.y) if stratum == 0 else ""
+	if sky_id != "":
+		var sp := SkyData.pool_of(sky_id, night)        # Roadmap 16: le creature del cielo
+		if not sp.is_empty() and _rng.randf() < SkyData.SKY_SHARE:
+			choices = sp
 	var weighted := []
 	for e in choices:
 		var wgt := int(round(float(e[1]) * weight_of(String(e[0]), c.x * S) * 10.0))
@@ -312,6 +317,8 @@ func try_spawn() -> Creature:
 			var cr := add(id, Vector2(c.x * S + 8, (y + 1) * S - CreaturesData.get_data(id)["half"][1] - 0.1))
 			var zp := Vector2(c.x, y) * S                # voce 87: i totem di zona dove nasce
 			var mult := float(StrataData.STRATA[stratum]["danger"]) * vigor_mult * _zm(zp, "forza")
+			if sky_id != "":
+				mult *= float(SkyData.get_biome(sky_id).get("danger", 1.0))     # il cielo alto è più pericoloso
 			cr.strengthen(mult, mult * DangerData.DAMAGE)
 			var grouped: bool = CreaturesData.get_data(id).has("group")
 			var rarity := AncientData.roll_rarity(DangerData.at(world, Vector2i(c.x, y), night, vigor) + event_danger

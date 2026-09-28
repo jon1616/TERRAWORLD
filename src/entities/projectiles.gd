@@ -36,6 +36,10 @@ func setup(w: World, on_hit: Callable) -> void:
 	_tex["giavellotto"] = ImageTexture.create_from_image(_javelin())
 	_tex["polline"] = ImageTexture.create_from_image(_spore(Color("#fff2a8"), Color("#e0a030")))
 	_tex["scheggia_nera"] = ImageTexture.create_from_image(_spore(Color("#e0c8ff"), Color("#463464")))
+	# Roadmap 16: il cielo
+	_tex["goccia"] = ImageTexture.create_from_image(_spore(Color("#d8f0ff"), Color("#2a7ad8")))
+	_tex["stella"] = ImageTexture.create_from_image(_spore(Color("#fffbe0"), Color("#f0c050")))
+	_tex["cristallo"] = ImageTexture.create_from_image(_spore(Color("#e0f6ff"), Color("#4a90c8")))
 
 
 ## Un colpo nuovo. `from_player` = dardo del Germogliato, altrimenti spora di una creatura. `opts` per gli

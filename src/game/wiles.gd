@@ -59,6 +59,8 @@ func _act(c: Creature, a: Dictionary) -> void:
 			var bl := {"radius": float(a["r"]), "power": -1, "damage": int(a["damage"]), "natural": true}   # non rompe blocchi
 			m.throwing.explode(c.position, bl)
 			m.fauna.kill_quietly(c)                 # scoppiata: niente bottino (abbattuta prima, sì)
+		"folgore":
+			m.strikes.bolt(float(a["x"]), float(a["delay"]), int(a["damage"]))    # Roadmap 16: il fulmine annunciato
 		_:
 			if m.great:
 				m.great.act(c, a)                   # voce 136: marea, pilastri, correnti

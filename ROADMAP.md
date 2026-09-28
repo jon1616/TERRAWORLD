@@ -2866,13 +2866,14 @@ una serie di arredi di nuvola.
 **Pronto quando**: `verifica_dati` 0 errori; la nimbite si scava, si fonde, fa un piccone; un blocco di nuvola si posa.
 **Fatto**: la **nimbite** in `MaterialsData` (grado 3, durezza 55, peso 4: la spada colpisce 2,84 volte al secondo contro 2,4 dell'ambra) con le sue 8 leghe (nemborosso, ferronembo, ambranembo, linfanembo, nembonero, nembalba, nembobrace, stellanembo) e il set «Passo di nembo» (salto +15%, corsa +6%, aria sottile a metà); vene di nimbite (tessera 57) e folgorite (58, fa un po' di luce) nel corpo delle isole alte (campo `ores`, `PassCielo._ores`: nel mondo di prova 290 e 145 celle); Dardo di folgore, Baccello del tuono, Lanterna di polvere di stelle; il materiale da costruzione «cristallo celeste» (il 28°, l'ultimo che sta in un byte: 252 costrutti) e la sua serie di 12 arredi. 3010 oggetti, 2305 ricette.
 
-## 160. [ ] Le creature del cielo (L)
+## 160. [x] Le creature del cielo (L) — fatto il 29 set 2026
 Circa 30 specie da `tools/bestiario_cielo.py` (dati generati `src/data/bestiary/cielo.gd`), 4-6 per bioma: plananti,
 fluttuanti che si lasciano portare dal vento, pascolatori delle nuvole, predatori in picchiata, nuvole vive che si
 dividono, ladri di piume, stormi. Comportamenti nuovi: **picchiata** (si alza sopra e cala, il segno «!» prima),
 **folgore** (chiama un fulmine a colonna annunciato), **deriva** (va col vento, innocuo finché non lo tocchi). Le
 creature del cielo nascono dove `SkyData.zone_at` dice (80%), più forti nel cielo alto.
 **Pronto quando**: `tools/ecosistemi.gd` misura anche le zone del cielo senza buchi; il foglio del bestiario le mostra.
+**Fatto**: 30 specie in `src/data/bestiary/cielo.gd` (righe in `tools/bestiario_cielo.py`, generate da `gen_bestiario.py`; campi `sky` e `sw`, peso normale 0), cinque per bioma con ruoli e modi d'attacco diversi (`tools/ecosistemi.gd` misura anche il cielo: 0 zone con buchi su 31); tre comportamenti nuovi: **picchiata** (`BhPicchiata`: sale, trema, cala), **folgore** (`BhFolgore` → richiesta «folgore» → `SkyStrikes`: la colonna si accende, poi il fulmine cade; sotto un tetto non tocca), **deriva** (`BhDeriva`: va col vento); nomi e contromosse in `WilesData`; nascite: `SkyData.pool_of` nell'85% delle nascite in cielo, forza × `danger` del bioma; 6 talismani, 6 emblemi e 23 oggetti dai materiali (0 avvisi in `verifica_dati`). Foto 216 (bestiario), 217 (il fulmine annunciato).
 
 ## 161. [ ] I Signori del cielo (M)
 Sei Signori (uno per bioma del cielo) da `tools/gen_signori.py`, con l'esca rituale da usare nel loro bioma, la furia a

@@ -57,7 +57,7 @@ def creature(s):
     c['body'] = s['body']
     c['affinity'] = s['aff']
     c['trophy'] = s['trophy'][0]
-    for k in ('under', 'uw', 'water', 'liquid'):
+    for k in ('under', 'uw', 'water', 'liquid', 'sky', 'sw'):
         if k in s:
             c[k] = s[k]
     for k in ('season', 'weather', 'eclipse'):
@@ -394,3 +394,7 @@ if __name__ == '__main__':
     import bestiario_tempo as tem
     write('tempo.gd', 'Il nuovo bestiario, terzo ciclo: la notte, le stagioni e il tempo (voce 134, Roadmap 15). 11 specie che\nesistono solo di notte (`night`), in una stagione (`season`), con un tempo (`weather`) o durante un\'eclissi (`eclipse`):\nuscire col brutto tempo diventa una scelta.',
           tem.TIME, tem.TIME_ITEMS, tem.TIME_RECIPES)
+    import bestiario_cielo as cie
+    write('cielo.gd', 'Le creature del cielo (voce 160, Roadmap 16): cinque per bioma del cielo (`sky` = il bioma, `sw` = il peso' + chr(10) +
+          'nella sua zona, `weight` 0: non nascono fuori dal cielo), con i comportamenti del cielo (picchiata, folgore, deriva).',
+          cie.SKY, cie.SKY_ITEMS, cie.SKY_RECIPES)

@@ -81,6 +81,13 @@ static func make(id: String) -> Behavior:
 			return BhRimodella.new()
 		"correnti":
 			return BhCorrenti.new()
+		# Roadmap 16: il cielo
+		"picchiata":
+			return BhPicchiata.new()
+		"folgore":
+			return BhFolgore.new()
+		"deriva":
+			return BhDeriva.new()
 		"fermo":
 			return Behavior.new()
 	push_error("comportamento sconosciuto: %s" % id)

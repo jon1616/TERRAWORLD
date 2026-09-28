@@ -19,6 +19,8 @@ const MODE := {
 	"sbuca": "sbuca", "divide": "divide", "ladro": "ruba", "mimetico": "mimetico", "scudo": "difesa", "guaritore": "cura",
 	"richiamo": "evoca", "parassita": "parassita", "tuffatore": "balzo", "tessitore": "ragnatela", "rosicchia": "",
 	"fotofobo": "buio", "pastore": "gregge", "scoppia": "scoppio",
+	# Roadmap 16: il cielo
+	"picchiata": "picchiata", "folgore": "fulmine", "deriva": "",
 }
 
 var out := ""
@@ -53,6 +55,13 @@ func _init() -> void:
 				ids.append(String(cid))
 		if not ids.is_empty():
 			zones.append(["sottosuolo · %s" % u.get("name", u["id"]), ids])
+	for sb in BiomesData.SKY:
+		# Roadmap 16: le creature del cielo (campo «sky»), tutte proprie del loro bioma
+		var ids := []
+		for cid in CreaturesData.CREATURES:
+			if String(CreaturesData.CREATURES[cid].get("sky", "")) == String(sb["id"]):
+				ids.append(String(cid))
+		zones.append(["cielo · %s" % sb["name"], ids, ids])
 	var water := []
 	for cid in CreaturesData.CREATURES:
 		if "nuota" in (CreaturesData.CREATURES[cid].get("behaviors", []) as Array):

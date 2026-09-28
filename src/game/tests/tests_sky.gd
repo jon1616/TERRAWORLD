@@ -25,6 +25,7 @@ func run() -> void:
 	await reach()
 	await thin()
 	mats()
+	await beasts()
 
 
 ## Voce 154: le zone e le fasce.
@@ -297,3 +298,90 @@ func mats() -> void:
 		SetsData.all().get("nimbite", {}).get("name", "-")])
 	if nim < 20 or fol < 5 or not missing.is_empty():
 		print("ATTENZIONE: i materiali del cielo non ci sono tutti")
+
+
+## Una cella d'aria sopra un'isola della fascia data ("basso"/"alto"), con due celle libere sopra.
+func island_spot(band: String) -> Vector2i:
+	for e in world.sky:
+		var y0 := SkyData.TOP + 2 if band == "alto" else int(e["split"]) + 1
+		var y1 := int(e["split"]) - 1 if band == "alto" else int(e["base"])
+		for x in range(int(e["x0"]) + 20, int(e["x1"]) - 20, 3):
+			for y in range(y0, y1):
+				if world.solid(x, y + 1) and not world.solid(x, y) and not world.solid(x, y - 1) and not world.solid(x + 1, y) \
+						and world.solid(x + 1, y + 1) and world.solid(x - 1, y + 1):
+					return Vector2i(x, y)
+	return Vector2i(-1, -1)
+
+
+## Voce 160: il foglio delle creature del cielo; nel cielo nascono le creature del suo bioma (e più forti in alto);
+## la picchiata cala sul Germogliato dopo il segnale; il fulmine annunciato cade dove era la colonna.
+func beasts() -> void:
+	for k in m.harsh.meters:
+		m.harsh.meters[k] = 0.0
+	m.snap_to(world.spawn)
+	await kit.seconds(0.5)
+	await TestsAliveBeasts.new(kit).species("cielo", "216_bestiario_cielo")
+	var spot := island_spot("basso")
+	if spot.x < 0:
+		print("ATTENZIONE: nessuna isola bassa per le creature del cielo")
+		return
+	m.snap_to(spot)
+	await kit.frames(3)
+	var zone := SkyData.zone_at(world, spot.x, spot.y)
+	var f: Fauna = m.fauna
+	f.clear()
+	var own := 0
+	var born := 0
+	for i in 200:
+		var cr: Creature = f.try_spawn()
+		if cr != null:
+			born += 1
+			var cz := SkyData.zone_at(world, floori(cr.position.x / S), floori(cr.position.y / S))
+			if cz != "" and String(cr.data.get("sky", "")) == cz:
+				own += 1
+		if f.list.size() > 30:
+			f.clear()
+	f.clear()
+	print("nascite nel cielo (zona «%s»): %d nate, %d del bioma del cielo dove sono nate" % [zone, born, own])
+	if born < 10 or own < born / 2:
+		print("ATTENZIONE: nel cielo non nascono le creature del cielo")
+	# la picchiata
+	m.vitals.refill()
+	var hawk: Creature = f.add("falco_vento", m.player.position + Vector2(-120, -40))
+	hawk.mind.brave = true
+	var tele := false
+	var dove := false
+	var t := 0.0
+	var y_top := hawk.position.y
+	while t < 10.0 and not dove:
+		await kit.frames(1)
+		t += m.get_process_delta_time()
+		if not is_instance_valid(hawk):
+			break
+		y_top = minf(y_top, hawk.position.y)
+		if hawk.shake > 0.0:
+			tele = true
+		if tele and hawk.vel.length() > 250.0:
+			dove = true
+	print("picchiata del falco del vento: salito fino a %.0f px sopra, segnale %s, picchiata %s (in %.1f s)" % [
+		m.player.position.y - y_top, tele, dove, t])
+	f.clear()
+	# il fulmine annunciato
+	var st: SkyStrikes = m.strikes
+	var fallen0 := st.fallen
+	var cloud: Creature = f.add("nube_tuono", m.player.position + Vector2(80, -70))
+	cloud.mind.brave = true
+	t = 0.0
+	var saw_line := false
+	while t < 9.0 and st.fallen == fallen0:
+		await kit.frames(1)
+		t += m.get_process_delta_time()
+		if not st.pending.is_empty() and not saw_line:
+			saw_line = true
+			await kit.seconds(0.5)
+			await kit.save("217_fulmine_annunciato")
+	f.clear()
+	print("fulmine della nube del tuono: colonna accesa prima %s, caduti %d, colpito il Germogliato %d volte" % [saw_line, st.fallen - fallen0, st.hits])
+	if not tele or not dove or not saw_line or st.fallen == fallen0:
+		print("ATTENZIONE: le mosse del cielo (picchiata, fulmine) non vanno come dovrebbero")
+	m.vitals.refill()
