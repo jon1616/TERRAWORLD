@@ -95,6 +95,7 @@ const PACK_FILES := [
 	preload("res://src/data/bestiary/signori.gd"),         # voce 135: i Signori dei luoghi (tools/gen_signori.py)
 	preload("res://src/data/bestiary/guardiani.gd"),       # voce 136: tre Guardiani scritti a mano
 	preload("res://src/data/bestiary/maree.gd"),           # voce 137: i premi delle maree
+	preload("res://src/data/sky_pack.gd"),                 # Roadmap 16: gli oggetti del cielo
 ]
 
 static var BIOMES: Array = _load()

@@ -2839,12 +2839,13 @@ Tre bassi e tre alti, ognuno con la sua tessera di pavimento, la vegetazione (`S
 **Pronto quando**: il foglio `tools/biomi.gd` li mostra e la foto di ognuno (prove) si legge.
 **Fatto**: sette tessere nuove (erba di cielo, terra di cielo, nuvola, nuvola di tempesta, erba del vento, cristallo celeste, polvere di stelle) e dodici piante (`SkyDecorArt`, id 80-91); le tessere hanno "pass" ed "emit" (`TileDefs.LIGHT_PASS/LIGHT_EMIT`, lette da `LightMap`): le nuvole lasciano passare la luce, cristallo e polvere di stelle brillano; nel Firmamento il cielo si fa notte (`DayCycle.high_dark`, campo "dark"). Foto 214_cielo_<bioma> (tutti e sei nel mondo di prova).
 
-## 157. [ ] Arrivare in cielo (M)
+## 157. [x] Arrivare in cielo (M) — fatto il 29 set 2026
 Presto: le correnti e le radici pendenti (voce 155); il **Fagiolo di nuvola** (si pianta a terra e in un minuto sale
 una colonna di passerelle di liana fino a 40 tessere; si fa con cose di superficie); la **Piuma lenta** (accessorio
 presto: cadute senza danno e più lente). Dopo: le **Ali di nuvola** (tra le Ali di foglia e quelle di brina) e le **Ali
 della tempesta** (dal Guardiano, voce 162). Il primo consiglio e il filo («Segui la corrente che sale»).
 **Pronto quando**: la prova pianta un Fagiolo, lo fa crescere e sale; la Piuma toglie il danno di una caduta di 30.
+**Fatto**: il pacchetto `src/data/sky_pack.gd` (in `PACK_FILES`): il Fagiolo di nuvola (tipo «fagiolo», `Chiome.plant_bean`/`grow_beans`, una passerella ogni 4 s fino a 40 tessere, `world_meta["fagioli"]`; ricetta al Ceppo con legno, gelatina e humus) e la Piuma lenta (planata e niente danno da caduta: penne di corteccia e gelatina). Le nuvole attutiscono le cadute (`SkyData.soft_under` in `Life._on_landed`). Ali di nuvola in `FlightData` (tra foglia e brina). Consiglio e filo con la voce 167. Foto 215.
 
 ## 158. [ ] L'aria sottile (S)
 Un rigore nuovo in `HarshData` («Aria sottile»): nel cielo alto, allo scoperto, la barra sale (più svelta nel

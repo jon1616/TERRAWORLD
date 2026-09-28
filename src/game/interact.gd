@@ -46,6 +46,8 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 			return m.keepers.summon(id)
 		"tavoletta":
 			return m.language.use_tablet(id)           # voce 68
+		"fagiolo":
+			return m.chiome.plant_bean(c, id)          # Roadmap 16, voce 157: il Fagiolo di nuvola
 		"esca_signore":
 			return m.lords.summon(id)                  # voce 135: i Signori dei luoghi
 		"richiamo_grande":

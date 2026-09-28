@@ -19,6 +19,8 @@ func setup(main: Node2D) -> void:
 
 
 func _on_landed(tiles: float) -> void:
+	if tiles > FALL_SAFE and SkyData.soft_under(m.world, m.player.position):
+		return                                 # Roadmap 16: la nuvola accoglie chi ci cade sopra
 	if tiles > FALL_SAFE and not dead and not fall_safe:
 		var lost: int = m.vitals.hurt(int((tiles - FALL_SAFE) * FALL_HURT))
 		m.hud.toast("Caduta: -%d Vita" % lost)

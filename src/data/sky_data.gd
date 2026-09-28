@@ -31,6 +31,11 @@ const ZONE_MIN := 300                  # lunghezza di una zona, in colonne
 const ZONE_MAX := 520
 const SPAWN_FREE := 60                 # colonne attorno alla partenza senza isole
 
+const CLOUDS := [52, 53]               # le tessere di nuvola: attutiscono le cadute (`Life._on_landed`)
+const BEAN_STEP := 3                   # voce 157: righe tra due passerelle della liana del Fagiolo
+const BEAN_H := 40                     # quanto sale una liana, in tessere
+const BEAN_EVERY := 4.0                # secondi tra una passerella e l'altra (una liana intera in ~52 s)
+
 static var BIOMES: Array = BiomesData.SKY
 
 
@@ -127,3 +132,14 @@ static func make_zones(w: Object, rng: RandomNumberGenerator, scale: float = 1.0
 			last_high = high
 		x = x1
 	return out
+
+
+## Voce 157: sotto i piedi (posizione del corpo di chi atterra) c'è una nuvola?
+static func soft_under(w: Object, feet_pos: Vector2) -> bool:
+	var y := floori((feet_pos.y + 15.0 + 2.0) / 16.0)
+	for dx in [-4.0, 0.0, 4.0]:
+		var x := floori((feet_pos.x + dx) / 16.0)
+		if w.tile(x, y) in CLOUDS:
+			return true
+	return false
+

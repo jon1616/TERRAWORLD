@@ -22,6 +22,7 @@ func run() -> void:
 	await climb()
 	await high()
 	await biomes()
+	await reach()
 
 
 ## Voce 154: le zone e le fasce.
@@ -159,3 +160,71 @@ func biomes() -> void:
 			print("bioma del cielo %s in %s, la scritta «%s»%s" % [id, found, m.chiome.here, extra])
 			await kit.save("214_cielo_" + id)
 	print("biomi del cielo fotografati: %d su %d" % [seen.size(), SkyData.BIOMES.size()])
+
+
+## Voce 157: il Fagiolo di nuvola sale; la nuvola e la Piuma lenta tolgono il danno di una caduta di 30 tessere.
+func reach() -> void:
+	var spot := kit.flat_spot(world.spawn + Vector2i(-90, 0), 6)
+	if spot.x < 0:
+		spot = m.player_cell()
+		print("ATTENZIONE: nessun posto piano per il Fagiolo")
+	kit.flatten(spot, 6)
+	for dy in range(1, 60):
+		for dx in range(-1, 2):
+			world.set_tile(spot.x + dx, spot.y - dy, TileDefs.AIR)
+	m.snap_to(spot + Vector2i(-2, 0))
+	await kit.frames(3)
+	var b := kit.bisaccia()
+	b.add("fagiolo_nuvola", 1)
+	var planted: bool = m.chiome.plant_bean(spot, "fagiolo_nuvola")
+	for i in 20:
+		m.chiome.grow_beans()
+	var plats := 0
+	for y in range(spot.y - SkyData.BEAN_H - 2, spot.y + 1):
+		if world.plat(spot.x, y):
+			plats += 1
+	await kit.seconds(0.4)
+	await kit.save("215_fagiolo_nuvola")
+	# la caduta sulla nuvola
+	for dx in range(-3, 4):
+		world.set_tile(spot.x + 6 + dx, spot.y + 1, 52)
+	m.view.refresh_around(spot + Vector2i(6, 0))
+	var v: Vitals = m.vitals
+	v.hp = v.hp_max
+	var hp0 := v.hp
+	m.snap_to(spot + Vector2i(6, -30))
+	await _land()
+	var cloud_ok := v.hp == hp0
+	# la caduta con la Piuma lenta sulla terra
+	world.set_tile(spot.x + 6, spot.y + 1, TileDefs.STONE)
+	for dx in range(-3, 4):
+		world.set_tile(spot.x + 6 + dx, spot.y + 1, TileDefs.STONE)
+	m.view.refresh_around(spot + Vector2i(6, 0))
+	var old: Variant = b.equip.get("accessorio_1", "")
+	b.equip["accessorio_1"] = "piuma_lenta"
+	m.gear.refresh()
+	v.hp = v.hp_max
+	m.snap_to(spot + Vector2i(6, -30))
+	await _land()
+	var feather_ok := v.hp == hp0
+	b.equip["accessorio_1"] = old
+	m.gear.refresh()
+	# senza niente: ci si fa male (la prova che la caduta era vera)
+	v.hp = v.hp_max
+	m.snap_to(spot + Vector2i(6, -30))
+	await _land()
+	var hurt := v.hp < hp0
+	v.hp = v.hp_max
+	print("Fagiolo di nuvola: piantato %s, passerelle %d; caduta di 30 sulla nuvola senza danno %s, con la Piuma lenta %s, senza niente ferito %s" % [
+		planted, plats, cloud_ok, feather_ok, hurt])
+	if not planted or plats < 10 or not cloud_ok or not feather_ok or not hurt:
+		print("ATTENZIONE: arrivare in cielo non va come dovrebbe")
+
+
+func _land() -> void:
+	await kit.frames(2)
+	var t := 0.0
+	while t < 5.0 and not m.player.on_floor:
+		await kit.frames(1)
+		t += m.get_process_delta_time()
+	await kit.seconds(0.2)
