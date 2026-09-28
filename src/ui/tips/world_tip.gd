@@ -34,8 +34,13 @@ static func creature(m: Node2D, cr: Creature) -> TipCard:
 	c.bar("Vita %d / %d" % [cr.hp, cr.hp_max], float(cr.hp) / maxf(cr.hp_max, 1), Color("#e05a4a") if not cr.calm else TipCard.GOOD)
 	if cr.tame == null and not cr.calm and cr.mind.state != Mind.CALM:
 		c.line("Ora: %s" % cr.mind.label(), Color("#e8d8a0"))       # voce 129: lo stato del cervello
+	# voce 138: che cosa si sa della specie dipende da quanto l'hai studiata
+	var grade: int = m.study.grade(cr.base) if m.get("study") != null and cr.tame == null else 3
 	for wd in WilesData.of(cr.data.get("behaviors", [])):          # voce 130: le astuzie e la contromossa
-		c.line("%s: %s" % [wd["name"], wd["counter"]], Color("#a8e0c8"))
+		if grade >= 3:
+			c.line("%s: %s" % [wd["name"], wd["counter"]], Color("#a8e0c8"))
+		else:
+			c.line("%s: studiala per sapere come batterla" % wd["name"], Color("#80a8a0"))
 	var rows := [["Danno", str(cr.damage)]]
 	if cr.defense > 0:
 		rows.append(["Scorza", str(cr.defense)])
@@ -49,10 +54,16 @@ static func creature(m: Node2D, cr: Creature) -> TipCard:
 			weak.append(ElementsData.tag(String(e)))
 		elif a < 0.99:
 			strong.append(ElementsData.tag(String(e)))
-	if not weak.is_empty():
-		c.pair("Debole a", ", ".join(weak), TipCard.GOOD)
-	if not strong.is_empty():
-		c.pair("Resiste a", ", ".join(strong), TipCard.BAD)
+	if grade < 2:
+		if not weak.is_empty() or not strong.is_empty():
+			c.line("Debolezze: sconfiggila per scoprirle", Color("#80a8a0"))
+	else:
+		if not weak.is_empty():
+			c.pair("Debole a", ", ".join(weak), TipCard.GOOD)
+		if not strong.is_empty():
+			c.pair("Resiste a", ", ".join(strong), TipCard.BAD)
+	if m.get("study") != null and cr.tame == null and not cr.boss:
+		c.line(m.study.line(cr.base), Color("#d8c890"))
 	# le creature antiche e i loro tratti
 	if cr.ancient != null and not cr.ancient.traits.is_empty():
 		for t in cr.ancient.traits:

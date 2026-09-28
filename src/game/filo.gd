@@ -7,7 +7,7 @@ extends Node
 ## blocco del minerale più vicino già visto, l'albero più vicino per il legno, il banco giusto, l'Albero-Madre; se
 ## serve scendere, una freccia in basso con lo strato.
 
-const SOURCES := ["lista", "albero", "obiettivo", "bacheca"]
+const SOURCES := ["lista", "albero", "obiettivo", "bacheca", "studio"]
 const SOURCE_NAME := {"lista": "La tua lista", "albero": "Albero-Madre", "obiettivo": "Obiettivo", "bacheca": "Bacheca"}
 const SCAN_X := 110                      # quanto lontano si cerca un blocco già visto (tessere)
 const SCAN_Y := 70
@@ -191,6 +191,11 @@ func _from_obiettivo() -> Dictionary:
 			out["hint"] = _lives(String(c["kill"]))
 		return out
 	return {}
+
+
+## Voce 138: la specie più vicina a essere studiata.
+func _from_studio() -> Dictionary:
+	return m.study.next_to_study() if m.get("study") != null else {}
 
 
 func _from_bacheca() -> Dictionary:

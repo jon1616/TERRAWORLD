@@ -74,6 +74,8 @@ func category_at(c: Vector2i) -> String:
 func use_vial(id: String, c: Vector2i) -> bool:
 	if not m.actions.in_reach(c):
 		return false
+	if m.study and m.study.sample(c, id):
+		return true                                  # voce 138: la Provetta su una creatura la studia
 	var cat := category_at(c)
 	var g := ""
 	if cat == "firma":

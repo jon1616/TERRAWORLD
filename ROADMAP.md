@@ -2447,7 +2447,13 @@ oggetto o creatura dei pacchetti abbia l'id di un altro (ne ha trovati sette, ri
   trappole e luce), la Marea di brace (dal Fondo sale la brace), lo Stormo, l'Eclissi dei mimi. Frequenza secondo
   stagioni e geni; annunciati prima; segnati sulla mappa; gli assedi si spengono dalle Opzioni.
 
-## 138. [ ] Studiare le creature (M)
+## 138. [x] Studiare le creature (M) — fatto il 29 set 2026
+Fatto: `Study` (`src/game/`): per ogni specie un grado (sconosciuta, **vista** entro 14 tessere, **sconfitta**,
+**studiata**: sconfitte + punti ≥ 12, o 3 per Guardiani e Signori; la **Provetta** usata su una creatura dà 4 punti).
+La scheda della creatura svela le debolezze da sconfitta e le contromosse delle astuzie da studiata, e dice il grado
+(«Erbario: sconfitta · studio 5/12»); studiata = **+6% di danno** contro di lei per sempre (`Combat`). Il filo ha una
+fonte nuova, «studio» (la specie più vicina). Dati in `Character.erbario` («viste», «studio»). Capitolo «Combattere».
+Prova in `--solo=vivo`.
 - L'Erbario diventa un bestiario a gradi: vista, sconfitta, **studiata** (con la Provetta o sconfiggendone abbastanza).
   Ogni grado scopre qualcosa: dove vive, il bottino, le debolezze, i comportamenti, il «come si batte». Le specie
   studiate a fondo danno un piccolo bonus contro di loro, per sempre. Il filo suggerisce che cosa studiare.

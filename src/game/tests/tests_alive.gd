@@ -38,6 +38,7 @@ func run() -> void:
 	await species("guardiani", "205_grandi_guardiani")
 	await great()
 	await tides()
+	await study()
 	for i in slots0.size():
 		b.slots[i] = slots0[i]
 	b.equip = equip0
@@ -881,3 +882,40 @@ func tides() -> void:
 		waves_seen, "sì" if won_ok else "NO", td.spawned, "sì" if can else "NO", "sì" if gnaw else "NO", "sì" if not again else "NO"])
 	if waves_seen < 3 or not won_ok or not can or not gnaw or again:
 		print("ATTENZIONE: le maree del mondo non vanno come dovrebbero")
+
+
+## Voce 138: una specie passa da sconosciuta a vista, sconfitta e studiata (con le sconfitte e la Provetta); la scheda
+## svela le debolezze da sconfitta e le contromosse da studiata; studiata fa +6% di danno.
+func study() -> void:
+	var w: World = m.world
+	var st: Study = m.study
+	var base := "tessispore"
+	var er: Dictionary = m.character.erbario
+	er["creature"].erase(base)
+	er["viste"].erase(base)
+	er["studio"].erase(base)
+	m.snap_to(w.spawn)
+	await kit.frames(2)
+	var g0 := st.grade(base)
+	var cr: Creature = m.fauna.add(base, m.player.position + Vector2(40, -8))
+	cr.mind.brave = true
+	await kit.seconds(1.2)
+	var g1 := st.grade(base)
+	var tip1: String = WorldTip.creature(m, cr).plain()
+	m.fauna.kill(cr)
+	await kit.frames(2)
+	var g2 := st.grade(base)
+	er["creature"][base] = st.need(base) - 4
+	var cr2: Creature = m.fauna.add(base, m.player.position + Vector2(24, -8))
+	m.character.bisaccia.add("provetta", 1)
+	var c2 := Vector2i(floori(cr2.position.x / 16.0), floori(cr2.position.y / 16.0))
+	var sampled: bool = st.sample(c2, "provetta")
+	var g3 := st.grade(base)
+	var tip3: String = WorldTip.creature(m, cr2).plain()
+	var mult: float = st.mult(base)
+	m.fauna.clear()
+	print("studio: %s da %d a %d (vista), %d (sconfitta), %d (studiata con la Provetta %s); prima la scheda nasconde %s, dopo mostra %s; danno ×%.2f" % [
+		base, g0, g1, g2, g3, "sì" if sampled else "NO", "sì" if tip1.contains("studiala") else "NO",
+		"sì" if tip3.contains("fuoco") or tip3.contains("Debole") else "NO", mult])
+	if g0 != 0 or g1 != 1 or g2 != 2 or g3 != 3 or not sampled or mult <= 1.0 or not tip1.contains("studiala"):
+		print("ATTENZIONE: lo studio delle creature non va come dovrebbe")
