@@ -7,6 +7,8 @@
 - **In corso: la Roadmap 13 «Il volto del mondo»** (voci 100-117, dal 28 set 2026): la grafica con Nano Banana,
   seguita passo passo con l'utente (Claude scrive i prompt, dice dove salvare le immagini, le adatta con gli script).
   Dopo: un secondo bilancio con il diario delle partite vere.
+- **In corso: la Roadmap 16 «Le Chiome del cielo»** (voci 152-169, dal 29 set 2026): il tasto Riponi e lo scavo
+  intelligente (fatti), poi un ecosistema del cielo in ogni mondo (sei biomi, creature, Signori, un Guardiano).
 - **Fatta la Roadmap 15 «Il mondo abitato»** (voci 126-151, 29 set 2026): creature che pensano e 171 specie (Signori,
   tre Guardiani, maree, studio), 243 costrutti, 120 arredi, stanze, case, progetti. Resoconto in fondo alla Roadmap 15;
   la grafica da ridisegnare nelle voci 117a-117f della Roadmap 13.
@@ -2759,6 +2761,162 @@ le voci 117a-117f della Roadmap 13 dicono che cosa ridisegnare con Nano Banana, 
 5. **Pendenze e mezzi blocchi fuori.**
 L'utente: «lavora a cicli continui e porta a termine tutta la roadmap… bilancia il gioco al meglio… alla fine metti
 ordine ai file, aggiorna la roadmap grafica con le nuove aggiunte e fissa il tutto su Git e GitHub».
+
+# Roadmap 16 «Le Chiome del cielo» — comodità e un ecosistema sospeso (piano del 29 set 2026)
+
+Chiesta dall'utente il 29 set 2026: due comodità (riporre nelle casse con un tasto, lo scavo intelligente) e «un intero
+ecosistema che fluttua in cielo: biomi, creature, oggetti e boss dedicati». Scelte dell'utente: il cielo è **sia uno
+strato in ogni mondo sia un gene** per i mondi dal cielo enorme; ci si arriva **presto** (le isole basse dall'inizio,
+le zone alte più avanti). Il resto (ordine, tecnica, numeri) lo decide Claude, a cicli, senza chiedere.
+
+## Da dove si parte (29 set 2026)
+Il cielo oggi ha pezzi sparsi e scollegati: le isole sospese (gene raro, solo per mutazione, zolle di terra con uno
+scrigno), l'Arcipelago (pilastri e correnti ascensionali), il Giardino che galleggia nel Vuoto, le ali (dalla metà del
+gioco), la planata, il rampino, il vento e i fulmini del tempo, la Signora delle correnti (un Guardiano). Sopra la
+superficie di un mondo (a circa il 27% dell'altezza: ~270 righe d'aria) **non c'è niente da cercare**.
+
+## Le regole di questa Roadmap
+- **Il cielo è un luogo, non un fondale**: ogni zona ha qualcosa che si trova solo lì (un materiale, una creatura, un
+  pesce, una pianta), e un motivo per tornarci (le ali migliori, il metallo celeste, il Guardiano, le richieste).
+- **Presto, ma a gradini**: il cielo basso si raggiunge dal primo giorno (correnti che salgono dalla superficie, radici
+  che pendono fino a terra, il Fagiolo di nuvola); il cielo alto chiede di prepararsi (l'aria sottile, le creature più
+  forti), come i rigori delle terre estreme.
+- **Moltiplicare**: i materiali del cielo entrano nei costrutti, negli arredi, nelle ali, nelle armi e armature, nelle
+  esche, nella mandria, nella pesca, nell'orto; i geni del cielo nei Semi; le richieste nell'Albero, nella Bacheca e
+  negli obiettivi.
+- **Dati, non codice**: i biomi del cielo sono file come quelli del sottosuolo (`src/data/biomes/cielo_*.gd`), le
+  creature righe di un generatore (`tools/bestiario_cielo.py`), i Signori righe di `tools/gen_signori.py`.
+- **Si cade**: il cielo è pericoloso perché si cade. Niente morti ingiuste: le cadute si possono sempre prevenire (la
+  planata, la Piuma lenta, l'acqua delle pozze), e lo scavo intelligente non toglie mai il blocco sotto i piedi.
+
+## Parte A — Le comodità
+
+## 152. [x] Il tasto «Riponi nelle casse» (S) — fatto il 29 set 2026
+Q (si cambia nei Comandi, si spegne nelle Opzioni, «riponi_tasto»): «Nelle casse vicine» senza aprire la Bisaccia.
+Ogni oggetto delle caselle grandi va nella cassa entro 10 tessere che lo contiene già, poi in quella che raccoglie il
+suo tipo (il filtro). La barra rapida e l'equipaggiamento non si toccano. Avviso «Riposti N oggetti in M casse».
+
+## 153. [x] Lo scavo intelligente (M) — fatto il 29 set 2026
+`SmartDig` (`src/game/smart_dig.gd`, chiamato da `PlayerActions._process`): tenendo premuto il piccone con il mouse
+su una cella vuota si scavano, alla velocità del piccone, i blocchi a portata dal più vicino al mouse. Regole: mai ciò
+che è costruito (costrutti, mattoni, vetro, porte, sigilli), mai il blocco sotto i piedi o sotto un albero o una
+stazione, mai un blocco che tocca un liquido, solo i blocchi che toccano l'aria (avanza come uno scavo vero), il
+bersaglio resta lo stesso finché non si rompe. Con Maiusc tenuto all'inizio («vena»): solo lo stesso blocco del primo.
+Opzione «scavo_intelligente». Prove `--solo=comodita` (`TestsComfort`, foto 211).
+
+## Parte B — Il cielo nel mondo
+
+## 154. [ ] Il cielo nei dati (M)
+`SkyData` (`src/data/sky_data.gd`) e i file dei biomi del cielo (`src/data/biomes/cielo_*.gd`, `BiomesData.SKY_FILES`,
+uniti ai pacchetti come quelli del sottosuolo). Le **due fasce**: il **cielo basso** (da ~30 a ~90 tessere sopra la
+superficie) e il **cielo alto** (sopra, fino al bordo del mondo). Il mondo è diviso in **zone del cielo** lungo la
+larghezza (300-500 colonne, mai sopra la partenza per le prime 60), ognuna con un bioma basso e uno alto; le zone
+vanno negli appunti del generatore e poi in `world_meta["cielo"]`. `SkyData.zone_at(mondo, x, y)` dice in che bioma
+del cielo è una cella; la scritta entrando («Le Chiome del cielo — Mare di nuvole», `DepthWatch`); i colori sulla mappa.
+**Pronto quando**: `tools/mappe.gd` mostra le zone e la prova dice per una cella del cielo basso e del cielo alto il
+bioma giusto.
+
+## 155. [ ] Il generatore del cielo (L)
+`PassCielo` (dopo le isole della voce 48, prima della firma): in ogni zona isole della forma del suo bioma (zolle
+sospese, banchi di nuvola piatti, scogli di cristallo, isole a nido), in gruppi a gradini così che dall'una si salti
+all'altra; **radici pendenti** (colonne di passerelle) che scendono dalle isole basse fin quasi a terra; **correnti
+ascensionali** (quelle dell'Arcipelago, `Gravity`) dalla superficie alle isole basse e dalle basse alle alte; pozze
+d'acqua sulle isole (la pesca). Mappa dei posti (`claim`), collaudo (niente isole dentro il terreno o sopra la
+partenza), niente cielo nei mondi a Guscio (il tetto) e nel Giardino. Tempo del generatore misurato: +0,3 s al più.
+**Pronto quando**: `tools/mappe.gd` su 6 semi mostra il cielo abitato in ogni mondo, e la prova sale dalla superficie
+a un'isola bassa con una corrente.
+
+## 156. [ ] I sei biomi del cielo (L)
+Tre bassi e tre alti, ognuno con la sua tessera di pavimento, la vegetazione (`SkyDecorArt`), la luce, il tempo:
+- **Radici sospese** (basso): zolle di terra di cielo tenute insieme dalle radici, felci d'aria, erba turchese.
+- **Mare di nuvole** (basso): banchi di nuvola morbida (si scava in un attimo, attutisce le cadute), pozze di pioggia.
+- **Giardini del vento** (basso): erba dorata piegata dal vento, correnti ovunque, fiori-girandola.
+- **Scogliere di cristallo** (alto): scogli di cristallo celeste che brillano, eco.
+- **Nidi di tempesta** (alto): nuvole scure cariche, folgorite nella roccia, fulmini frequenti.
+- **Il Firmamento** (il più alto): polvere di stelle, frammenti stellari, la notte anche di giorno.
+**Pronto quando**: il foglio `tools/biomi.gd` li mostra e la foto di ognuno (prove) si legge.
+
+## 157. [ ] Arrivare in cielo (M)
+Presto: le correnti e le radici pendenti (voce 155); il **Fagiolo di nuvola** (si pianta a terra e in un minuto sale
+una colonna di passerelle di liana fino a 40 tessere; si fa con cose di superficie); la **Piuma lenta** (accessorio
+presto: cadute senza danno e più lente). Dopo: le **Ali di nuvola** (tra le Ali di foglia e quelle di brina) e le **Ali
+della tempesta** (dal Guardiano, voce 162). Il primo consiglio e il filo («Segui la corrente che sale»).
+**Pronto quando**: la prova pianta un Fagiolo, lo fa crescere e sale; la Piuma toglie il danno di una caduta di 30.
+
+## 158. [ ] L'aria sottile (S)
+Un rigore nuovo in `HarshData` («Aria sottile»): nel cielo alto, allo scoperto, la barra sale (più svelta nel
+Firmamento); piena, il fiato manca (la Linfa cala e il salto si accorcia) e si perde Vita. Protegge l'equipaggiamento
+con la chiave `quota` (Maschera di nuvola, Mantello di piume: materiali del cielo basso) e il rimedio «Respiro alto».
+`Harshness` guarda anche l'altezza, non solo la colonna.
+**Pronto quando**: la prova nel Firmamento vede la barra salire e fermarsi con la Maschera.
+
+## Parte C — Che cosa c'è lassù
+
+## 159. [ ] I materiali del cielo e la nimbite (M)
+Il metallo celeste **nimbite** (vene nei Nidi di tempesta e nelle Scogliere; della forza dell'ambra ma **leggero**:
+colpi più svelti, salto più alto con l'armatura intera) con la sua famiglia di attrezzi e armature (una riga in
+`MaterialsData`), materiali delle isole (legno di nuvola, lana di nuvola, cristallo celeste, polvere di stelle,
+folgorite), tre materiali da costruzione nuovi (27 × 9 forme → 30 × 9: nuvola, cristallo celeste, legno di nuvola) e
+una serie di arredi di nuvola.
+**Pronto quando**: `verifica_dati` 0 errori; la nimbite si scava, si fonde, fa un piccone; un blocco di nuvola si posa.
+
+## 160. [ ] Le creature del cielo (L)
+Circa 30 specie da `tools/bestiario_cielo.py` (dati generati `src/data/bestiary/cielo.gd`), 4-6 per bioma: plananti,
+fluttuanti che si lasciano portare dal vento, pascolatori delle nuvole, predatori in picchiata, nuvole vive che si
+dividono, ladri di piume, stormi. Comportamenti nuovi: **picchiata** (si alza sopra e cala, il segno «!» prima),
+**folgore** (chiama un fulmine a colonna annunciato), **deriva** (va col vento, innocuo finché non lo tocchi). Le
+creature del cielo nascono dove `SkyData.zone_at` dice (80%), più forti nel cielo alto.
+**Pronto quando**: `tools/ecosistemi.gd` misura anche le zone del cielo senza buchi; il foglio del bestiario le mostra.
+
+## 161. [ ] I Signori del cielo (M)
+Sei Signori (uno per bioma del cielo) da `tools/gen_signori.py`, con l'esca rituale da usare nel loro bioma, la furia a
+metà Vita e il materiale che c'è solo da loro.
+**Pronto quando**: la prova ne chiama uno nel suo bioma e lo batte; il bilancio dà i tempi.
+
+## 162. [ ] Il Guardiano delle Chiome (L)
+Un grande Guardiano scritto a mano, **l'Occhio della Tempesta**: si chiama all'Osservatorio del Firmamento (voce 163)
+con il suo richiamo; fulmini a colonna annunciati, nuvole che lo nascondono, raffiche; a metà Vita il cielo si oscura
+e chiama gli stormi. Lascia il Cuore di tempesta: Ali della tempesta, la tempra della nimbite, una pagina di storia.
+**Pronto quando**: la prova lo chiama e lo batte; il bilancio: circa 50 s con l'arma del suo livello.
+
+## 163. [ ] Gli osservatori dei Seminatori (M)
+Nel cielo alto, le rovine dei Seminatori che guardavano le stelle: stanze aperte con scrigni (tabella «rovina_cielo»),
+una stele (parole della lingua), il leggio del Guardiano, un progetto dei Seminatori («la torre del vento»). Nel cielo
+basso i **nidi giganti** (uova da covare, `Ecology`).
+**Pronto quando**: ogni mondo con il cielo ha almeno un osservatorio (collaudo) e la prova ne apre lo scrigno.
+
+## 164. [ ] Il tempo del cielo e la marea degli stormi (M)
+I fulmini dei Nidi di tempesta cadono sui punti alti anche col bel tempo; nelle zone del vento le raffiche spingono;
+dopo la pioggia l'arcobaleno (un evento breve: creature rare del cielo). Una **marea** nuova, la «Migrazione degli
+stormi», solo in cielo: ondate di volatili e il loro capo.
+**Pronto quando**: la prova avvia la marea in cielo fino al capo.
+
+## Parte D — L'intreccio
+
+## 165. [ ] Pesca, mandria e orto del cielo (M)
+Pesci delle pozze di nuvola (6), una creatura da mandria delle nuvole (lana di nuvola) e una **cavalcatura volante**,
+piante del cielo da coltivare (il Fagiolo di nuvola, il Fiore di vento).
+**Pronto quando**: la prova pesca in una pozza del cielo e cavalca la cavalcatura volante.
+
+## 166. [ ] I geni del cielo (M)
+Il gene di forma **«Cieli alti»** (la superficie scende, il cielo raddoppia, più zone alte), un gene per bioma del cielo
+(categoria «cielo»: quel bioma più spesso) e **«Senza cielo»** (per la varietà). Nomi dei mondi, Semi, schede dei
+portali; `tools/mappe.gd -- --caso` misura la varietà.
+**Pronto quando**: un mondo «Cieli alti» ha il cielo di almeno il doppio e la varietà resta sopra la soglia.
+
+## 167. [ ] Il cielo nella partita (S)
+Enciclopedia («Le Chiome del cielo»), consigli, filo, Bacheca (richieste del cielo), obiettivi, Erbario, studio.
+**Pronto quando**: la prova dell'Enciclopedia è pulita e il filo porta al cielo al momento giusto.
+
+## Parte E — Chiudere
+
+## 168. [ ] Bilancio, prove e resoconto (M)
+`tools/bilancio.gd` (sezione del cielo), la misura con 40 creature del cielo, il tempo del generatore, il giro intero,
+CLAUDE.md e il resoconto.
+
+## 169. [ ] La grafica da ridisegnare (S)
+Le voci della Roadmap 13 per il cielo (tessere, vegetazione, creature, Signori, Guardiano, icone) con i prompt pronti e
+le cartelle create.
 
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».
