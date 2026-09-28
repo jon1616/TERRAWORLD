@@ -13,6 +13,11 @@ const DAMAGE := [24, 32]
 const DEFENSE := [10, 16]
 const PHASE2 := 0.5
 const DROP := 14                       # Nuclei o Linfe che lascia
+## Voce 186 (Roadmap 18): gli attacchi che tirano; con due o più la loro cadenza si allunga, senza nessuno il contatto
+## ferisce di più (la stessa difficoltà per ogni seme).
+const SHOOTERS := ["ventaglio", "spara", "bombarda"]
+const MANY_SHOTS_SLOW := 1.6
+const NO_SHOTS_DAMAGE := 1.4
 
 ## Le specie che non fanno da corpo: troppo piccole per leggersi, o fatte per l'acqua.
 const NO_BODY := ["pesce_lume", "anguilla_linfa", "sciame_schegge", "geomimo"]

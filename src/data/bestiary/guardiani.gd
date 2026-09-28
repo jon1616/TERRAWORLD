@@ -8,7 +8,7 @@ extends RefCounted
 
 const DATA := {
 	"creatures": {
-		"leviatano_lago": {"name": "Leviatano del lago", "hp": 2600, "damage": 30, "defense": 10, "knock": 1.0, "half": [26, 10],
+		"leviatano_lago": {"name": "Leviatano del lago", "hp": 2200, "damage": 30, "defense": 10, "knock": 1.0, "half": [26, 10],
 			"speed": 95, "fly": true, "behaviors": ["nuota", "tuffatore", "marea"], "fury": ["spara"],
 			"p": {"sight": 30, "bite": true, "leap_range": 12, "leap_cool": 3.5, "tide_every": 9.0, "tide_cells": 12, "phase2": 0.5,
 				"rate": 1.6, "shot_speed": 220.0, "shot_damage": 22},
@@ -17,7 +17,7 @@ const DATA := {
 			"body": {"plan": "serpe", "w": 64, "h": 24, "pal": ["#0a2030", "#14405a", "#20688a", "#48a0c0", "#b8f0ff"], "eye": "#ffd24a",
 				"marks": "punte", "mark": "#b8f0ff", "glow": true, "tail": true},
 			"affinity": {"weak": ["brace"], "resist": ["gelo", "linfa"]}},
-		"grande_scavatrice": {"name": "Grande Scavatrice", "hp": 2800, "damage": 32, "defense": 12, "knock": 1.0, "half": [22, 14],
+		"grande_scavatrice": {"name": "Grande Scavatrice", "hp": 2350, "damage": 32, "defense": 12, "knock": 1.0, "half": [22, 14],
 			"speed": 80, "behaviors": ["cammina", "sbuca", "rimodella"], "fury": ["carica", "evoca"],
 			"p": {"sight": 26, "windup": 1.0, "out_time": 5.0, "pillar_every": 5.5, "pillars": 3, "phase2": 0.5,
 				"charge": 260.0, "charge_range": 12, "charge_time": 0.9, "charge_cool": 3.5, "summon": "talpa_vuoto", "summon_every": 7.0, "summon_max": 3},
@@ -26,7 +26,7 @@ const DATA := {
 			"body": {"plan": "quadrupede", "w": 52, "h": 34, "pal": ["#2a1c16", "#443024", "#664834", "#8e6a4c", "#e0b890"], "eye": "#ff8030",
 				"marks": "punte", "mark": "#ffb060", "glow": true, "horns": 1},
 			"affinity": {"weak": ["gelo"], "resist": ["spora", "brace"]}},
-		"signora_correnti": {"name": "Signora delle correnti", "hp": 2400, "damage": 28, "defense": 8, "knock": 1.0, "half": [20, 14],
+		"signora_correnti": {"name": "Signora delle correnti", "hp": 2100, "damage": 28, "defense": 8, "knock": 1.0, "half": [20, 14],
 			"speed": 120, "fly": true, "behaviors": ["vola", "correnti", "bombarda"], "fury": ["ventaglio", "scatto"],
 			"p": {"sight": 34, "hover": 110.0, "wobble": 30.0, "gust_every": 6.5, "rate": 2.2, "shot_damage": 22, "phase2": 0.5,
 				"fan_rate": 2.4, "fan_n": 7, "fan_spread": 1.2, "shot_speed": 180.0, "dash_every": 4.0, "dash_speed": 320.0, "dash_time": 0.45},
@@ -37,7 +37,7 @@ const DATA := {
 			"affinity": {"weak": ["vuoto"], "resist": ["gelo", "spora"]}},
 		# Roadmap 16, voce 162: il Guardiano delle Chiome. Si chiama nel cielo alto, all'aperto: fulmini annunciati sulla tua
 		# colonna, raffiche e correnti; a metà Vita il cielo si oscura, i fulmini raddoppiano e chiama gli stormi
-		"occhio_tempesta": {"name": "Occhio della Tempesta", "hp": 2700, "damage": 32, "defense": 10, "knock": 1.0, "half": [22, 18],
+		"occhio_tempesta": {"name": "Occhio della Tempesta", "hp": 2300, "damage": 32, "defense": 10, "knock": 1.0, "half": [22, 18],
 			"speed": 110, "fly": true, "behaviors": ["vola", "folgore", "correnti"], "fury": ["folgore", "evoca", "scatto"],
 			"p": {"sight": 36, "hover": 120.0, "wobble": 25.0, "bolt_every": 3.2, "bolt_delay": 1.0, "bolts": 3, "bolt_damage": 30,
 				"gust_every": 7.0, "phase2": 0.5, "summon": "aquila_tempesta", "summon_every": 8.0, "summon_max": 3,

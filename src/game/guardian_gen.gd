@@ -76,12 +76,23 @@ static func make(id: String) -> Dictionary:
 		behaviors.append(String(ad["bh"]))
 		for k in ad["p"]:
 			p[k] = _pick_num(ad["p"][k], r)
+	# voce 186 (Roadmap 18, `tools/boss.gd`): due o tre attacchi a distanza insieme toglievano quattro Vite e mezza,
+	# solo attacchi a contatto nemmeno una: chi tira molto tira più piano, chi non tira colpisce più forte
+	var shooters := 0
+	for a in picks:
+		if a in GuardianGenData.SHOOTERS:
+			shooters += 1
+	if shooters >= 2:
+		for k in ["fan_rate", "rate"]:
+			if p.has(k):
+				p[k] = float(p[k]) * GuardianGenData.MANY_SHOTS_SLOW
+	var dmg_k := GuardianGenData.NO_SHOTS_DAMAGE if shooters == 0 else 1.0
 	var titles: Array = GuardianGenData.TITLES[r.randi_range(0, GuardianGenData.TITLES.size() - 1)]
 	var name := "%s %s %s" % [titles[1 if fem else 0], String(src["name"]).to_lower(), GuardianGenData.ELEM_NAME[elem]]
 	var half := [maxi(roundi(float(src["half"][0]) * GuardianGenData.SCALE), 12),
 		maxi(roundi(float(src["half"][1]) * GuardianGenData.SCALE), 12)]
 	return {"name": name, "hp": r.randi_range(GuardianGenData.HP[0], GuardianGenData.HP[1]),
-		"damage": r.randi_range(GuardianGenData.DAMAGE[0], GuardianGenData.DAMAGE[1]),
+		"damage": roundi(r.randi_range(GuardianGenData.DAMAGE[0], GuardianGenData.DAMAGE[1]) * dmg_k),
 		"defense": r.randi_range(GuardianGenData.DEFENSE[0], GuardianGenData.DEFENSE[1]), "knock": 1.0, "half": half,
 		"speed": float(src.get("speed", 60)) * 1.1, "fly": fly, "behaviors": behaviors, "p": p, "loot": "",
 		"art": src["art"], "strata": [], "weight": 0, "glow": true, "boss": true, "elem": elem, "weak": [FamiliesData.OPPOSITE[elem]],

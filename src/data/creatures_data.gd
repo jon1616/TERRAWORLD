@@ -64,7 +64,7 @@ const _CREATURES := {
 	# larghi, scatta e chiama sputaspore e grumi di spore
 	"regina_spore": {"name": "La Regina delle Spore", "hp": 1300, "damage": 24, "defense": 10, "knock": 1.0,
 		"half": [22, 20], "speed": 75, "fly": true, "behaviors": ["vola", "ventaglio", "scatto", "evoca"],
-		"p": {"sight": 70, "wobble": 40.0, "leash": 26, "fan_rate": 2.2, "fan_n": 7, "fan_spread": 1.3,
+		"p": {"sight": 70, "wobble": 40.0, "leash": 26, "fan_rate": 2.8, "fan_n": 7, "fan_spread": 1.3,
 			"shot_speed": 160.0, "shot_grav": 30.0, "shot_damage": 20, "dash_every": 5.0, "dash_speed": 330.0,
 			"dash_time": 0.5, "summon_every": 7.0, "summon": "grumo_spore", "summon_max": 4, "phase2": 0.5},
 		"loot": "regina", "art": ["regina", 0], "strata": [], "weight": 0, "glow": true, "boss": true},

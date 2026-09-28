@@ -28,6 +28,14 @@ static func all() -> Dictionary:
 	return PACK.DATA["lords"]
 
 
+## Quanto è più forte un Signore del suo dato: il vigore, la radice del pericolo dello strato e in cielo metà del
+## pericolo del bioma (un Signore è già un boss: non deve durare più del Guardiano). Voce 186 (Roadmap 18): la radice,
+## perché con il pericolo pieno i Signori del Fondo duravano due minuti e mezzo e toglievano sei Vite (`tools/boss.gd`).
+static func strength(vigor_mult: float, stratum: int, sky: String) -> float:
+	var sky_k := 1.0 + (float(SkyData.get_biome(sky).get("danger", 1.0)) - 1.0) * 0.5 if sky != "" else 1.0
+	return vigor_mult * sqrt(float(StrataData.STRATA[stratum]["danger"])) * sky_k
+
+
 func _process(_dt: float) -> void:
 	if active != null and not is_instance_valid(active):
 		active = null
@@ -86,9 +94,7 @@ func spawn(cid: String) -> Creature:
 	active = m.fauna.add(cid, at)
 	var st := StrataData.at(m.world, m.player_cell().x, m.player_cell().y)
 	var sky := SkyData.zone_at(m.world, m.player_cell().x, m.player_cell().y)
-	# in cielo metà del pericolo del bioma: un Signore è già un boss (non deve durare più del Guardiano)
-	var sky_k := 1.0 + (float(SkyData.get_biome(sky).get("danger", 1.0)) - 1.0) * 0.5 if sky != "" else 1.0
-	active.strengthen(m.fauna.vigor_mult * float(StrataData.STRATA[st]["danger"]) * sky_k)
+	active.strengthen(strength(m.fauna.vigor_mult, st, sky))
 	active.provoke()
 	bar.follow(active)
 	m.sfx.play("guardiano")
