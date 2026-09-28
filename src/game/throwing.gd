@@ -126,6 +126,7 @@ func _move_rang(dt: float) -> void:
 ## Lo scoppio di un baccello: roccia rotta fino alla sua forza, creature ferite, il Germogliato se è vicino.
 func explode(at: Vector2, bl: Dictionary) -> void:
 	blasts += 1
+	Mind.noise(at, Senses.BLAST_NOISE)            # voce 129: tutti vengono a vedere
 	var r: float = float(bl["radius"])
 	var power := int(bl["power"])
 	var ctr := Vector2i(floori(at.x / S), floori(at.y / S))

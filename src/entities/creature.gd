@@ -70,6 +70,7 @@ var _burn_acc := 0.0
 var extra := false                     # parte di uno sciame o di un branco: non conta nel tetto delle creature
 var _poison_acc := 0.0
 var behaviors: Array[Behavior] = []
+var mind := Mind.new()                 # voce 129: sensi e stati (calma, allerta, caccia, fuga, ritorno)
 var _spr: Sprite2D
 var _glow: Sprite2D
 var _frames: Array = []
@@ -122,6 +123,7 @@ func setup(cid: String, w: World, tgt: Node2D, sd: int, more_mods := {}) -> void
 		docile = true
 		_docile_dmg = damage
 		damage = 0
+	mind.setup(self)
 	var art: Array = data["art"]
 	_load_art(String(art[0]), int(art[1]))
 	_spr = Sprite2D.new()
@@ -232,8 +234,10 @@ func _process(dt: float) -> void:
 			if b is BhPascola:
 				b.tick(self, dt)               # ma bruca e scappa dai predatori (voce 57)
 	elif stun <= 0.0 or boss:
+		mind.tick(self, dt)                    # voce 129: prima i sensi, poi i comportamenti, poi la fuga
 		for b in behaviors:
 			b.tick(self, dt)
+		mind.after(self)
 	# voce 58: i branchi in migrazione vanno tutti dalla stessa parte (se non cacciano, non scappano, non combattono)
 	var fauna := get_parent()
 	if fauna != null and "migration" in fauna and fauna.migration.has(family) and hunt == null \

@@ -51,9 +51,9 @@ static func make(id: String) -> Behavior:
 	return Behavior.new()
 
 
-## Il bersaglio è entro `tiles` tessere?
+## Il bersaglio è entro `tiles` tessere? Voce 129: lo decide il cervello (`Mind.sees`: luce, olfatto, memoria).
 static func sees(c: Creature, tiles: float) -> bool:
-	return c.target != null and c.target.position.distance_to(c.position) < tiles * 16.0 * stealth * fog * effect_stealth
+	return c.target != null and c.mind.sees(c, tiles)
 
 
 ## Tratto Ombra dell'equipaggiamento: le creature notano il Germogliato più tardi (lo imposta `GearEffects`).

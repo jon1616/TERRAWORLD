@@ -1,7 +1,7 @@
 class_name TestsAlive
 extends RefCounted
 ## Roadmap 15 «Il mondo abitato» (creature e costruzioni). Voce 127: gli attacchi si annunciano (il «!» di `TeleMark`) e
-## la schivata c'è solo con un oggetto che la sblocca. Voce 128: i costrutti (forma × materiale). Gruppo «vivo».
+## la schivata c'è solo con un oggetto che la sblocca. Voce 128: i costrutti (forma × materiale). Voce 129: il cervello (`Mind`). Gruppo «vivo».
 
 var kit: TestKit
 var m: Node2D
@@ -19,6 +19,7 @@ func run() -> void:
 	await telegraphs()
 	await dash()
 	await builds()
+	await brain()
 	for i in slots0.size():
 		b.slots[i] = slots0[i]
 	b.equip = equip0
@@ -132,3 +133,55 @@ func builds() -> void:
 		"sì" if vt else "NO"])
 	if not dropped or not gone or not same or not vt:
 		print("ATTENZIONE: i costrutti non vanno come dovrebbero")
+
+
+## Voce 129: al buio una creatura vede meno lontano; un rumore la fa venire a guardare; ferita grave, una paurosa fugge.
+func brain() -> void:
+	var w: World = m.world
+	var cid := ""
+	for id in CreaturesData.CREATURES:
+		var d: Dictionary = CreaturesData.CREATURES[id]
+		if "cammina" in (d.get("behaviors", []) as Array) and not d.get("fly", false) and not d.get("boss", false) 				and not d.get("docile", false) and 0 in (d.get("strata", []) as Array) and int(d.get("damage", 0)) > 0:
+			cid = String(id)
+			break
+	var spot := kit.flat_spot(w.spawn + Vector2i(60, 0), 16)
+	if cid == "" or spot.x < 0:
+		print("ATTENZIONE: nessuna creatura che cammina, o nessun posto piano, per la prova del cervello")
+		return
+	kit.flatten(spot, 36)
+	m.snap_to(spot)
+	m.vitals.refill()
+	m.senses.paused = true
+	await kit.frames(3)
+	var cr: Creature = m.fauna.add(cid, m.player.position + Vector2(15 * 16, -8))
+	var sight := float(cr.p.get("sight", 20))
+	Mind.lit = 1.0
+	var day := Behavior.sees(cr, 16.0)
+	cr.mind = Mind.new()
+	cr.mind.setup(cr)
+	Mind.lit = 0.0
+	var night := Behavior.sees(cr, 16.0)
+	# un rumore vicino alla creatura: va a vedere
+	cr.mind.dark = false
+	var x0 := cr.position.x
+	var spot_n := cr.position + Vector2(-6 * 16, 0)
+	Mind.noise(spot_n, 9.0)
+	await kit.seconds(1.2)
+	var alert := cr.mind.state == Mind.ALERT
+	var went := x0 - cr.position.x
+	await kit.save("192_allerta")
+	# la fuga
+	cr.mind.brave = false
+	cr.hp = maxi(1, cr.hp_max / 10)
+	Mind.lit = 1.0
+	await kit.seconds(0.3)
+	var fx0 := absf(cr.position.x - m.player.position.x)
+	await kit.seconds(1.0)
+	var flee := cr.mind.state == Mind.FLEE and absf(cr.position.x - m.player.position.x) > fx0
+	m.fauna.clear()
+	m.senses.paused = false
+	Mind.reset()
+	print("cervello (%s, vista %.0f): a 15 tessere di giorno la vede %s, al buio no %s; un rumore: all'erta %s, %.0f px verso il rumore; ferita grave fugge %s" % [
+		cid, sight, "sì" if day else "NO", "sì" if not night else "NO", "sì" if alert else "NO", went, "sì" if flee else "NO"])
+	if not day or night or not alert or went < 16.0 or not flee:
+		print("ATTENZIONE: il cervello delle creature non va come dovrebbe")

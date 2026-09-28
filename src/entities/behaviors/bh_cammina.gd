@@ -14,6 +14,10 @@ func tick(c: Creature, dt: float) -> void:
 		dir = signf(c.target.position.x - c.position.x)
 		if absf(c.target.position.x - c.position.x) < 4.0:
 			dir = 0.0
+	elif c.mind.wander_dir(c) != 0.0:
+		dir = c.mind.wander_dir(c)             # voce 129: va a vedere un rumore, o a cercarti dove ti ha visto
+		if c.on_floor and not c.ground_ahead(int(dir)):
+			dir = 0.0
 	else:
 		wander -= dt
 		if wander <= 0.0:

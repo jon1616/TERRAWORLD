@@ -9,6 +9,7 @@ const COL := Color("#ffb84a")
 
 var c: Creature
 var _t := 0.0
+var _alert := false
 
 
 func _ready() -> void:
@@ -22,12 +23,20 @@ func _process(dt: float) -> void:
 	var was := c.tele > 0.0
 	c.tele = maxf(c.tele - dt, 0.0)
 	_t += dt
-	if was or c.tele > 0.0:
+	var alert := c.mind.state == Mind.ALERT
+	if was or c.tele > 0.0 or alert != _alert:
 		queue_redraw()
+	_alert = alert
 
 
 func _draw() -> void:
-	if c == null or c.tele <= 0.0 or c.buried:
+	if c == null or c.buried:
+		return
+	if c.tele <= 0.0:
+		if c.mind.state == Mind.ALERT and not c.docile and c.damage > 0:
+			# voce 129: ha sentito qualcosa e va a vedere (un «?» pallido, fermo)
+			draw_string(ThemeDB.fallback_font, Vector2(-3, -c.half.y - 6.0), "?", HORIZONTAL_ALIGNMENT_LEFT, -1, 12,
+				Color(0.95, 0.9, 0.7, 0.8))
 		return
 	if int(_t * 12.0) % 2 == 1:
 		return                                   # lampeggia

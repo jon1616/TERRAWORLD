@@ -50,7 +50,9 @@ Gli effetti attivi e il tempo che resta sono in alto a destra, sotto la minimapp
 [b]Rampino[/b]: si aggancia alla roccia e ti tira; si sgancia saltando o con {k_giu}.
 Gli [url=cap:elementi]elementi[/url] contano: ogni creatura ha almeno una debolezza.
 [b]Il segnale «!»[/b]: prima di caricare, scattare, sputare o lasciar cadere un colpo, sopra la creatura lampeggia un «!» color ambra. È il momento di spostarsi, saltare o schivare.
-[b]La schivata[/b] ({k_schiva}): uno scatto breve con un attimo in cui niente ti ferisce. Non c'è di base: la sblocca il [b]Cavigliere di vento[/b] (al Telaio), e la [b]Fascia-lampo[/b] (al Maglio) la ricarica molto più in fretta."""},
+[b]La schivata[/b] ({k_schiva}): uno scatto breve con un attimo in cui niente ti ferisce. Non c'è di base: la sblocca il [b]Cavigliere di vento[/b] (al Telaio), e la [b]Fascia-lampo[/b] (al Maglio) la ricarica molto più in fretta.
+
+[b]Come ti sentono le creature[/b]: al buio ti vedono meno lontano (chi vive sotto terra no); lo scavo, i colpi, le esplosioni e i passi di corsa si sentono, e chi li sente viene a guardare (un [b]?[/b] sopra la testa); se sei ferito gravemente i predatori ti fiutano da lontano; un'esca in mano attira. Persa di vista, una creatura ti cerca dove ti ha visto l'ultima volta; ferita gravemente, una paurosa fugge. La scheda di una creatura dice che cosa sta facendo."""},
 	{"id": "unici", "group": "Creare ed equipaggiarsi", "name": "La collezione degli unici", "text":
 """Gli [b]oggetti unici[/b] hanno un nome, una storia e [b]effetti speciali[/b] che non si trovano altrove: ognuno cambia qualcosa nel modo di giocare. Stanno in [b]serie[/b]: quando l'Erbario le ricorda tutte, la serie completa dà il suo premio [b]per sempre[/b].
 Escono dai segreti profondi e leggendari, dalle creature ancestrali e iridate, dagli scrigni antichi delle rovine profonde, dai Custodi e dai Guardiani evocati; alcuni si fabbricano con i trofei delle creature rare. Chi li lascia a caso preferisce quelli che non hai ancora.

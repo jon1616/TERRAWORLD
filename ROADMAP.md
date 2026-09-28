@@ -2311,7 +2311,15 @@ scavato lascia il suo oggetto, salvati e ricaricati identici, la vetrata traspar
 
 ## Parte B — Le creature: prima più intelligenti, poi più numerose
 
-## 129. [ ] Il cervello delle creature (M)
+## 129. [x] Il cervello delle creature (M) — fatto il 29 set 2026
+Fatto: `Mind` (`src/entities/mind.gd`), uno per creatura, e `Senses` (`src/game/`): `Behavior.sees` passa dal
+cervello, così tutti i comportamenti ne approfittano senza riscriverli. Vista accorciata dal buio attorno al Germogliato
+(fino a 0,55; chi vive solo sotto terra vede al buio), olfatto (ferito sotto il 35%: i predatori fiutano da 14 tessere;
+un'esca in mano attira da 10), udito (`Mind.noise`: scavo 9 tessere, colpi 7, passi di corsa 4, esplosioni 28; l'Ombra
+li accorcia). Stati calma, allerta (un «?» sopra la testa, va a vedere), caccia, fuga (sotto il 20% della Vita, le prede
+sempre e le altre una volta su tre; mai Guardiani e antiche), ritorno (oltre 60 tessere da dove è nata); memoria di
+3 s, poi ti cerca dove ti ha visto. Lo stato nella scheda della creatura; capitolo «Combattere». Prova in `--solo=vivo`
+(foto 192_allerta); base, combattimento, antiche ed ecologia senza avvisi.
 - **Sensi**: vista (secondo la luce: al buio vedono meno, chi è fotofobo fugge dalla luce), udito (passi, scavo,
   esplosioni, il suono degli attacchi), odore (esche, sangue, cibo nella Bisaccia).
 - **Stati**: tranquilla, all'erta, a caccia, in fuga, di ritorno alla tana; memoria breve dell'ultimo punto in cui ti ha

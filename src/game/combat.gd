@@ -102,6 +102,7 @@ func _melee(st: Dictionary, use: String, tr := "") -> void:
 		_hit_set.clear()
 		if use == "colpo":
 			m.sfx.play("colpo")
+			Mind.noise(player.position, Senses.SWING_NOISE)   # voce 129: i colpi si sentono
 	var ph := fmod(player.swing_t, player.swing_period) / player.swing_period
 	if ph < 0.15:
 		return                             # l'attrezzo è ancora alzato

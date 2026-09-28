@@ -19,6 +19,8 @@ func tick(c: Creature, dt: float) -> void:
 		goal = home                        # un Guardiano non si allontana dal suo Cuore
 	elif Behavior.sees(c, float(c.p.get("sight", 24))):
 		goal = c.target.position + Vector2(0, -float(c.p.get("hover", 10.0)))
+	elif c.mind.goal != Vector2.INF and c.mind.wander_dir(c) != 0.0:
+		goal = c.mind.goal + Vector2(0, -24.0)  # voce 129: va a vedere
 	else:
 		if drift == Vector2.ZERO or c.rng.randf() < dt * 0.3:
 			drift = Vector2(c.rng.randf_range(-80, 80), c.rng.randf_range(-50, 30))
