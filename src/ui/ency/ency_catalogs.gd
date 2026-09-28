@@ -36,7 +36,7 @@ static func inline(key: String) -> String:
 		"cat_eventi":
 			for id in EventsData.EVENTS:
 				var e: Dictionary = EventsData.EVENTS[id]
-				rows.append(_b(String(e["name"]), "%s (%s)" % [e["desc"], "di notte" if String(e.get("when", "")) == "notte" else "di giorno"]))
+				rows.append(_b(String(e["name"]), "%s (%s)" % [e["desc"], {"notte": "di notte", "speciale": "dopo la pioggia"}.get(String(e.get("when", "")), "di giorno")]))
 		"cat_collezioni":
 			var names := []
 			for c in RelicsData.COLLECTIONS:

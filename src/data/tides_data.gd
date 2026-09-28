@@ -6,7 +6,8 @@ extends RefCounted
 ## (scelta dell'utente), solo se c'è una base (Focolare e una porta), e si spegne dalle Opzioni («assedi»).
 ## Campi: name, desc, when (notte/giorno/eclissi), chance, seasons {stagione: ×}, color, waves [quante, creature per
 ## ondata], pool (le creature delle ondate), boss (il capo: una creatura), reward (tabella di bottino, in
-## `src/data/bestiary/maree.gd`), rolls, siege (assedio: si attaccano le porte, le ondate nascono attorno alla base).
+## `src/data/bestiary/maree.gd`), rolls, siege (assedio: si attaccano le porte, le ondate nascono attorno alla base),
+## sky (Roadmap 16: solo se il Germogliato è nel cielo; le altre maree lì no).
 
 const ANNOUNCE := 40.0                   # secondi tra l'annuncio e la prima ondata
 const WAVE_TIME := 70.0                  # secondi al più per un'ondata (poi arriva la seguente)
@@ -34,6 +35,11 @@ const TIDES := {
 		"when": "giorno", "chance": 0.05, "seasons": {"rigoglio": 1.6, "raccolto": 1.4}, "color": "#a0d8ff",
 		"waves": [3, 6], "pool": ["pavoncella", "damigella_rigoglio", "falena_vampira", "falco_brace"], "boss": "signore_prati",
 		"reward": "marea_stormo", "rolls": 2},
+	# Roadmap 16, voce 164: solo in cielo (all'alba o al tramonto, se il Germogliato è tra le Chiome)
+	"burrasca": {"name": "La Burrasca delle Chiome", "desc": "Il vento del cielo porta gli stormi da caccia, e il loro re li guida",
+		"when": "giorno", "sky": true, "chance": 0.3, "seasons": {"rigoglio": 1.3}, "color": "#c8e0ff",
+		"waves": [3, 5], "pool": ["garzetta_nubi", "falco_vento", "gazza_vento", "anguilla_vento", "scintilla_viva"],
+		"boss": "signore_giardini_vento", "reward": "marea_cielo", "rolls": 2},
 	"eclissi_mimi": {"name": "L'Eclissi dei mimi", "desc": "Il sole si spegne e le cose non sono più quello che sembrano",
 		"when": "eclissi", "chance": 0.5, "seasons": {}, "color": "#ffb040",
 		"waves": [3, 5], "pool": ["eclissimo", "stellamimo", "lucertola_vetro"], "boss": "signore_stellare",

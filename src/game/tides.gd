@@ -83,10 +83,12 @@ func _roll(when: String) -> void:
 		announce("assedio")
 		return
 	var season := CreaturesData.now_season
+	var pc: Vector2i = m.player_cell()
+	var in_sky := SkyData.zone_at(m.world, pc.x, pc.y) != ""
 	for id in TidesData.for_time(when):
 		var td: Dictionary = TidesData.TIDES[id]
-		if td.get("siege", false):
-			continue
+		if td.get("siege", false) or bool(td.get("sky", false)) != in_sky:
+			continue                                 # Roadmap 16: in cielo solo le maree del cielo
 		var ch := float(td["chance"]) * float((td["seasons"] as Dictionary).get(season, 1.0)) * float(m.events.chance_mult)
 		if _rng.randf() < ch:
 			announce(String(id))
@@ -219,6 +221,11 @@ func _spawn_pos() -> Vector2:
 	for tries in 20:
 		var r := _rng.randi_range(TidesData.SPAWN_R[0], TidesData.SPAWN_R[1]) * (1 if _rng.randf() < 0.5 else -1)
 		var x := clampi(center.x + r, 2, w.w - 3)
+		if TidesData.TIDES[active if active != "" else pending].get("sky", false):
+			var ys := center.y + _rng.randi_range(-10, 3)          # Roadmap 16: in cielo, nell'aria attorno
+			if w.inside(x, ys) and not w.solid(x, ys) and not w.solid(x, ys + 1):
+				return Vector2(x * S + 8, ys * S)
+			continue
 		if StrataData.at(w, center.x, center.y) == 0 or TidesData.TIDES[active if active != "" else pending].get("siege", false):
 			var y: int = w.surface[x] - 1
 			while y > 1 and w.solid(x, y):

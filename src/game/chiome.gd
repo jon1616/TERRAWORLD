@@ -13,6 +13,11 @@ var m: Node2D
 var here := ""                         # il bioma del cielo dove si trova il Germogliato ("" = non in cielo)
 var _t := 0.0
 var _bean_t := 0.0
+var _bolt_t := 6.0
+var _gust_t := 7.0
+var _rained := false
+var bolts := 0                         # (prove) i fulmini da soli dei Nidi di tempesta
+var gusts := 0                         # (prove) le raffiche dei Giardini del vento
 var extra_dark := 0.0                  # voce 162: l'Occhio della Tempesta in furia oscura il cielo (`GreatGuardians`)
 
 
@@ -33,6 +38,7 @@ func _process(dt: float) -> void:
 	if absf(m.day.high_dark - dark) > 0.001:
 		m.day.high_dark = move_toward(m.day.high_dark, dark, dt * 0.6)
 		m.day.apply()
+	_sky_weather(dt)
 	_bean_t += dt
 	if _bean_t >= SkyData.BEAN_EVERY:
 		_bean_t = 0.0
@@ -95,4 +101,34 @@ func grow_beans() -> void:
 		if left > 0:
 			keep.append([x, y, left])
 	m.world_meta["fagioli"] = keep
+
+
+## Voce 164: il tempo del cielo. Nei Nidi di tempesta i fulmini cadono da soli attorno al Germogliato (annunciati come
+## quelli delle creature); nei Giardini del vento ogni tanto una raffica spinge; quando smette di piovere, a volte,
+## l'arcobaleno (un evento: le creature rare del cielo).
+func _sky_weather(dt: float) -> void:
+	var w_state: Dictionary = m.weather.state() if m.weather != null else {}
+	var raining := float(w_state.get("rain", 0.0)) > 0.0
+	if _rained and not raining and m.events.active == "" and not m.events.paused and randf() < 0.5:
+		m.events.start("arcobaleno")
+	_rained = raining
+	if here == "":
+		return
+	var b := SkyData.get_biome(here)
+	if b.has("bolts") and not m.weather.roofed:
+		_bolt_t -= dt
+		if _bolt_t <= 0.0:
+			_bolt_t = randf_range(6.0, 12.0)
+			bolts += 1
+			m.strikes.bolt(m.player.position.x + randf_range(-90.0, 90.0), 1.3, 14)
+	if b.has("gusts"):
+		_gust_t -= dt
+		if _gust_t <= 0.0:
+			_gust_t = randf_range(7.0, 12.0)
+			gusts += 1
+			var dir := -1.0 if randf() < 0.5 else 1.0
+			m.player.vel.x += dir * 190.0
+			m.player.vel.y = minf(m.player.vel.y, -70.0)
+			Fx.puff(m.fx, m.player.position + Vector2(-dir * 20.0, 0), Color(1.4, 1.5, 1.2))
+			m.sfx.play("soffio", m.player.position)
 

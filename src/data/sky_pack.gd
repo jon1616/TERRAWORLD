@@ -39,6 +39,13 @@ const DATA := {
 	},
 	# voce 163: gli scrigni degli osservatori
 	"loot": {
+		"marea_cielo": [
+			{"item": "vento_imprigionato", "min": 2, "max": 4, "chance": 1.0},
+			{"item": "lingotto_nimbite", "min": 3, "max": 6, "chance": 0.8},
+			{"item": "penna_tempesta", "min": 3, "max": 6, "chance": 0.6},
+			{"item": "elisir_respiro", "min": 2, "max": 3, "chance": 0.5},
+			{"item": "linfa_antica", "min": 1, "max": 1, "chance": 0.25},
+		],
 		"rovina_cielo": [
 			{"item": "progetto_osservatorio", "min": 1, "max": 1, "chance": 0.25},
 			{"item": "tavoletta_seminatori", "min": 1, "max": 1, "chance": 0.5},

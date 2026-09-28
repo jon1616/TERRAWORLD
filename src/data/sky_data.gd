@@ -19,6 +19,7 @@ extends RefCounted
 ##   trees                   probabilità di un albero sulle isole (la specie del bioma di superficie sotto)
 ##   danger                  × il pericolo delle creature che nascono qui
 ##   dark                    quanto il cielo si fa notte anche di giorno stando qui (il Firmamento)
+##   bolts, gusts            voce 164: fulmini che cadono da soli (Nidi di tempesta), raffiche che spingono (Giardini)
 ##   ores                    voce 159: [[tessera, quota delle celle]] le vene nel corpo delle isole (nimbite, folgorite)
 ##   thin                    voce 158: quanto svelta sale la barra dell'aria sottile (0 = niente)
 ##   elem                    l'elemento più probabile delle varianti che nascono qui

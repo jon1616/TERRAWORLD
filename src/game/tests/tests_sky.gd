@@ -29,6 +29,7 @@ func run() -> void:
 	await lords()
 	await guardian()
 	await observatory()
+	await sky_weather()
 
 
 ## Voce 154: le zone e le fasce.
@@ -505,3 +506,90 @@ func observatory() -> void:
 		obs.size(), x0, top, built, full, stele, sky_nests])
 	if built < 20 or not full or sky_nests < 2:
 		print("ATTENZIONE: gli osservatori o i nidi del cielo non ci sono come dovrebbero")
+
+
+## Una cella d'aria su un'isola di un bioma del cielo preciso (o (-1, -1)).
+func biome_spot(id: String) -> Vector2i:
+	var fl := int(SkyData.get_biome(id)["floor"])
+	for e in world.sky:
+		if String(e["low"]) != id and String(e["high"]) != id:
+			continue
+		for x in range(int(e["x0"]) + 10, int(e["x1"]) - 10, 2):
+			for y in range(SkyData.TOP, int(e["base"])):
+				if world.tile(x, y + 1) == fl and not world.solid(x, y) and not world.solid(x, y - 1) and world.solid(x + 1, y + 1) \
+						and world.solid(x - 1, y + 1):
+					return Vector2i(x, y)
+	return Vector2i(-1, -1)
+
+
+## Voce 164: i fulmini che cadono da soli nei Nidi di tempesta, la raffica dei Giardini, l'arcobaleno dopo la pioggia,
+## la Burrasca delle Chiome fino al capo.
+func sky_weather() -> void:
+	var ch: Chiome = m.chiome
+	m.combat.god = true
+	var bolts := -1
+	var st: SkyStrikes = m.strikes
+	var p := biome_spot("nidi_tempesta")
+	if p.x >= 0:
+		m.snap_to(p)
+		await kit.seconds(0.6)
+		var b0 := ch.bolts
+		var f0 := st.fallen
+		ch._bolt_t = 0.0
+		await kit.seconds(2.0)
+		bolts = mini(ch.bolts - b0, st.fallen - f0)
+	var gust := -1
+	p = biome_spot("giardini_vento")
+	if p.x >= 0:
+		m.snap_to(p)
+		await kit.seconds(0.6)
+		var g0 := ch.gusts
+		ch._gust_t = 0.0
+		await kit.seconds(0.3)
+		gust = ch.gusts - g0
+	# l'arcobaleno
+	m.events.stop()
+	var rainbow := false
+	var ev_paused: bool = m.events.paused
+	m.events.paused = false                        # le prove fermano gli eventi: qui serve che l'arcobaleno parta
+	for i in 30:
+		ch._rained = true
+		await kit.frames(1)
+		if m.events.active == "arcobaleno":
+			rainbow = true
+			break
+	m.events.stop()
+	m.events.paused = ev_paused
+	# la Burrasca
+	var td: Tides = m.tides
+	td.paused = true
+	var spot := island_spot("basso")
+	m.snap_to(spot)
+	await kit.frames(3)
+	td.center = m.player_cell()
+	td.start("burrasca")
+	var waves := 0
+	var in_air := 0
+	var t0 := Time.get_ticks_msec()
+	while td.active != "" and Time.get_ticks_msec() - t0 < 20000:
+		await kit.frames(3)
+		if td.wave > waves:
+			waves = td.wave
+			for c in td._wave_list:
+				if is_instance_valid(c) and SkyData.zone_at(world, floori(c.position.x / S), floori(c.position.y / S)) != "":
+					in_air += 1
+		if td.boss and is_instance_valid(td.boss):
+			m.fauna.kill(td.boss)
+		else:
+			for c in td._wave_list.duplicate():
+				if is_instance_valid(c):
+					m.fauna.kill(c)
+	var won := td.wins
+	m.fauna.clear()
+	td.paused = false
+	m.combat.god = false
+	m.vitals.refill()
+	print("tempo del cielo: fulmini da soli %d, raffiche %d, arcobaleno %s; Burrasca: %d ondate (%d creature nate in cielo), vinte in tutto %d" % [
+		bolts, gust, rainbow, waves, in_air, won])
+	if bolts < 1 or gust < 1 or not rainbow or waves < 3 or in_air < 6 or won < 1:
+		print("ATTENZIONE: il tempo del cielo o la Burrasca non vanno come dovrebbero")

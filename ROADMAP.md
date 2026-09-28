@@ -2895,11 +2895,12 @@ basso i **nidi giganti** (uova da covare, `Ecology`).
 **Pronto quando**: ogni mondo con il cielo ha almeno un osservatorio (collaudo) e la prova ne apre lo scrigno.
 **Fatto**: `PassOsservatori` (6 ms, dopo i nidi e prima delle stele): su un'isola alta per zona (al più 4) la cupola del nuovo progetto «L'osservatorio delle stelle» (`ProjectsData`, cristallo celeste levigato e vetrate: il giocatore la può rifare), con lo scrigno (tabella «rovina_cielo»: il progetto, tavolette, nimbite, cristallo, polvere di stelle, elisir, fagioli, dardi di stella, Linfa antica) e una stele (il punto negli appunti "rovine", la mette `PassStele`). I nidi delle famiglie del cielo (api, greggi di nuvola, lepri, garzette: campo `nest`) sulle isole basse del loro bioma (`PassNidi` ora li salta). Nel mondo di prova 4 osservatori e 10 nidi del cielo; collaudo 0 problemi. Foto 220. Il leggio del Guardiano non serve: il Richiamo della tempesta vale in tutto il cielo alto.
 
-## 164. [ ] Il tempo del cielo e la marea degli stormi (M)
+## 164. [x] Il tempo del cielo e la marea degli stormi (M) — fatto il 29 set 2026
 I fulmini dei Nidi di tempesta cadono sui punti alti anche col bel tempo; nelle zone del vento le raffiche spingono;
 dopo la pioggia l'arcobaleno (un evento breve: creature rare del cielo). Una **marea** nuova, la «Migrazione degli
 stormi», solo in cielo: ondate di volatili e il loro capo.
 **Pronto quando**: la prova avvia la marea in cielo fino al capo.
+**Fatto**: il tempo del cielo in `Chiome._sky_weather`: nei Nidi di tempesta (campo `bolts`) un fulmine annunciato ogni 6-12 s attorno al Germogliato, nei Giardini del vento (`gusts`) una raffica ogni 7-12 s; quando smette di piovere, una volta su due, l'evento **Arcobaleno** (`EventsData`, «speciale»: creature rare ×3 e quelle del cielo). La marea **La Burrasca delle Chiome** (`TidesData`, campo `sky`: si tira solo se il Germogliato è in cielo, e lì le altre maree no; ondate di garzette, falchi, gazze, anguille, scintille nell'aria attorno; capo il Falco re dei venti; premio «marea_cielo»). La prova: fulmine, raffica, arcobaleno, Burrasca con 3 ondate e il capo.
 
 ## Parte D — L'intreccio
 

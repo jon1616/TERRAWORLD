@@ -17,6 +17,10 @@ const EVENTS := {
 	"notte_avvizzita": {"name": "Notte dell'Avvizzimento", "desc": "Gli Avvizziti si svegliano tutti insieme. Resisti fino all'alba",
 		"when": "notte", "chance": 0.12, "color": "#b0a060", "danger": 2.0, "pool": ["avvizzito_errante"],
 		"goal": 40, "reward": "alba", "rolls": 3},
+	# Roadmap 16, voce 164: non si tira mai da solo, lo avvia `Chiome` quando smette di piovere
+	"arcobaleno": {"name": "Arcobaleno", "desc": "Dopo la pioggia, l'arcobaleno: le creature rare del cielo escono allo scoperto",
+		"when": "speciale", "chance": 0.0, "color": "#ffe8a0", "rare": 3.0,
+		"pool": ["farfalla_prisma", "balena_stelle", "girandola_viva", "medusa_nuvola", "stella_errante"]},
 	"fioritura": {"name": "Fioritura", "desc": "Il Giardino fiorisce: le creature rare escono allo scoperto",
 		"when": "giorno", "chance": 0.15, "color": "#ff9ad8", "rare": 2.0, "wild": 3.0},
 }
