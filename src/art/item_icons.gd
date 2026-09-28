@@ -43,6 +43,10 @@ static func of(id: String) -> Image:
 	var it := ItemsData.get_item(id)
 	if it.is_empty():
 		return make("?", "ardesia")
+	if it.has("build"):
+		return BuildPainter.icon(int(it["build"]))          # voce 139: i costrutti
+	if int(it.get("wall", 0)) >= BuildData.WALL_BASE:
+		return BuildPainter.wall_icon(int(it["wall"]))
 	var ic: Array = it["icon"]
 	return make(String(ic[0]), String(ic[1]))
 

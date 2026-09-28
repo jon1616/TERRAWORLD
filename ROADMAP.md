@@ -2397,7 +2397,15 @@ ferite o in fuga avvisano le compagne della famiglia entro 10 tessere, e fuggono
 
 ## Parte C — Costruire: più blocchi, e un motivo per usarli
 
-## 139. [ ] I materiali da costruzione (M)
+## 139. [x] I materiali da costruzione (M) — fatto il 29 set 2026
+Fatto: 21 materiali in `BuildData.MATERIALS` (ardesia, legno di lanterna, ambra, radice antica, scisto, vuotite,
+pietra di brace, pietra dei Seminatori, radicite, legnoferro, pallidite, tizzonite, cristallo di Linfa, metallo
+stellare, vetro di sabbia, argilla, terra battuta, pietra di catacomba, muschio antico, Linfa gelata, cenere antica) ×
+9 forme = **189 blocchi** e 21 pareti, ognuno con durezza, forza del piccone, isolamento, luce e bellezza (nella
+descrizione). Il grezzo e le pareti a mano, le altre forme al **Banco dello scalpellino** (stazione nuova, 2×2, dal
+Ceppo; disegno in `WorkshopArt`). Icone disegnate dal blocco stesso (`BuildPainter.icon`, `wall_icon`). Tempi:
+l'atlante dei costrutti 0,3 s di disegno e 0,15 s di tavola (in sottofondo dal menu, accanto ai 3,3 s del terreno).
+I materiali delle creature arrivano con la voce 147 (fino a 28: un costrutto sta in un byte). Foto 191_costrutti.
 - I blocchi come dati, forme × materiali come le armi: **forme** grezzo, mattoni, lastre, levigato, colonna, travi,
   tegole, piastrelle, vetrata (circa 9) × **materiali** (le rocce degli strati, i legni delle 16 specie d'albero, i
   metalli, i cristalli, i materiali delle creature: ossa, chitina, cera, seta, squame…). Circa 200 blocchi, e le pareti

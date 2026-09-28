@@ -6,7 +6,9 @@ extends RefCounted
 ## ci stanno 28 materiali. Le pareti costruite hanno i numeri da `WALL_BASE` in su (una per materiale). Il disegno è un
 ## atlante squadrato a parte (`BuildPainter`), una riga per costrutto: 200 blocchi non pesano sull'avvio come i
 ## 45 strati del terreno. Le proprietà dei materiali (voce 139) dicono quanto sono duri, quanto isolano, quanta luce
-## lasciano passare e quanto sono belli (il comfort delle stanze, voce 142).
+## lasciano passare e quanto sono belli (il comfort delle stanze, voce 142). Voce 139: 21 materiali (rocce degli
+## strati, legno, metalli, cristalli, i materiali dei biomi); la voce 147 aggiunge quelli delle creature (al più 28:
+## un costrutto sta in un byte).
 
 ## Le forme: nome, disegno (`BuildPainter`), quanti blocchi dà una ricetta, trasparente.
 const FORMS := [
@@ -34,6 +36,42 @@ const MATERIALS := [
 		"raw": "legno", "n": 2, "hard": 0.3, "power": 0, "iso": 2, "luce": 0, "bello": 1},
 	{"id": "ambra", "label": "ambra", "pal": ["#6a3a10", "#a8641a", "#d8962a", "#eec04a", "#fff0a8"], "icon": "ambra",
 		"raw": "lingotto_ambra", "n": 1, "hard": 0.7, "power": 45, "iso": 1, "luce": 1, "bello": 3, "glow": true},
+	{"id": "radice", "label": "radice antica", "pal": ["#3a2a2a", "#553c38", "#70524a", "#8e6c5e", "#b08e7a"], "icon": "radice",
+		"raw": "radice_antica", "n": 2, "hard": 0.55, "power": 0, "iso": 2, "luce": 0, "bello": 1},
+	{"id": "scisto", "label": "scisto di Linfa", "pal": ["#1e3a40", "#2c5058", "#3e6a70", "#56888c", "#7cb0b0"], "icon": "scisto",
+		"raw": "scisto", "n": 2, "hard": 0.5, "power": 0, "iso": 1, "luce": 0, "bello": 2},
+	{"id": "vuotite", "label": "vuotite", "pal": ["#1a1428", "#2a2040", "#3c2e58", "#524078", "#7a64a8"], "icon": "vuotite",
+		"raw": "vuotite", "n": 2, "hard": 0.8, "power": 45, "iso": 1, "luce": 0, "bello": 3},
+	{"id": "brace", "label": "pietra di brace", "pal": ["#3a1a14", "#5a2618", "#823a1e", "#b05a28", "#e08a3a"], "icon": "brace",
+		"raw": "pietra_brace", "n": 2, "hard": 0.6, "power": 35, "iso": 3, "luce": 0, "bello": 2, "glow": true},
+	{"id": "seminatori", "label": "pietra dei Seminatori", "pal": ["#2c3a3a", "#40504e", "#586a66", "#768a84", "#a0b8ae"], "icon": "sem",
+		"raw": "pietra_seminatori", "n": 2, "hard": 0.7, "power": 35, "iso": 1, "luce": 0, "bello": 4},
+	{"id": "radicite", "label": "radicite", "pal": ["#4a2a1a", "#6e4028", "#965a38", "#bc7a4c", "#e0a070"], "icon": "radicite",
+		"raw": "lingotto_radicite", "n": 1, "hard": 0.6, "power": 35, "iso": 0, "luce": 0, "bello": 2},
+	{"id": "legnoferro", "label": "legnoferro", "pal": ["#303844", "#4a5666", "#6a7688", "#a2b0c2", "#dce6f2"], "icon": "legnoferro",
+		"raw": "lingotto_legnoferro", "n": 1, "hard": 0.75, "power": 45, "iso": 0, "luce": 0, "bello": 2},
+	{"id": "pallidite", "label": "pallidite", "pal": ["#4a4a5a", "#6c6c80", "#9090a8", "#b8b8cc", "#e4e4f0"], "icon": "pallidite",
+		"raw": "lingotto_pallidite", "n": 1, "hard": 0.75, "power": 45, "iso": 1, "luce": 0, "bello": 3},
+	{"id": "tizzonite", "label": "tizzonite", "pal": ["#3a1010", "#6a1c14", "#a0301c", "#d8582a", "#ffa050"], "icon": "tizzonite",
+		"raw": "lingotto_tizzonite", "n": 1, "hard": 0.85, "power": 55, "iso": 1, "luce": 0, "bello": 3, "glow": true},
+	{"id": "linfa", "label": "cristallo di Linfa", "pal": ["#0c3a3a", "#146060", "#1e8a88", "#3ab8b0", "#90f0e0"], "icon": "linfa",
+		"raw": "cristallo_linfa", "n": 1, "hard": 0.8, "power": 55, "iso": 0, "luce": 1, "bello": 4, "glow": true},
+	{"id": "stellare", "label": "metallo stellare", "pal": ["#1a1a3a", "#2e2e60", "#4a4a90", "#8080c8", "#e0e0ff"], "icon": "brillaluce",
+		"raw": "lingotto_stellare", "n": 1, "hard": 0.9, "power": 55, "iso": 1, "luce": 0, "bello": 5, "glow": true},
+	{"id": "vetro", "label": "vetro di sabbia", "pal": ["#5a7a80", "#7aa0a8", "#a0c8cc", "#c8e8ea", "#f0ffff"], "icon": "cristallo",
+		"raw": "sabbia_fusa", "n": 1, "hard": 0.3, "power": 0, "iso": 0, "luce": 1, "bello": 3},
+	{"id": "argilla", "label": "argilla del lago", "pal": ["#3e2c22", "#5a4030", "#765642", "#94705a", "#b89478"], "icon": "humus",
+		"raw": "fango_lago", "n": 2, "hard": 0.35, "power": 0, "iso": 3, "luce": 0, "bello": 1},
+	{"id": "terra", "label": "terra battuta", "pal": ["#2e2226", "#44323a", "#5c4450", "#765a68", "#9a7a8a"], "icon": "humus",
+		"raw": "humus", "n": 2, "hard": 0.3, "power": 0, "iso": 2, "luce": 0, "bello": 0},
+	{"id": "catacomba", "label": "pietra di catacomba", "pal": ["#3a3630", "#54504a", "#706a62", "#8e887e", "#b4aea2"], "icon": "ardesia",
+		"raw": "mattone_catacomba", "n": 1, "hard": 0.6, "power": 35, "iso": 1, "luce": 0, "bello": 3},
+	{"id": "muschio", "label": "muschio antico", "pal": ["#12302a", "#1c4a3e", "#286656", "#3a8870", "#5cb094"], "icon": "muschio",
+		"raw": "muschio_antico", "n": 1, "hard": 0.3, "power": 0, "iso": 2, "luce": 0, "bello": 3},
+	{"id": "ghiaccio", "label": "Linfa gelata", "pal": ["#3a6a80", "#5a8aa0", "#80b0c4", "#a8d4e4", "#e0f6ff"], "icon": "brina",
+		"raw": "linfa_gelata", "n": 1, "hard": 0.35, "power": 0, "iso": 0, "luce": 1, "bello": 3},
+	{"id": "cenere", "label": "cenere antica", "pal": ["#2a2a2c", "#3e3e42", "#56565a", "#727278", "#9a9aa0"], "icon": "cenere",
+		"raw": "cenere_antica", "n": 2, "hard": 0.45, "power": 0, "iso": 2, "luce": 0, "bello": 1},
 ]
 
 
@@ -102,20 +140,30 @@ static func items() -> Dictionary:
 	return out
 
 
-## Le ricette: ogni forma dal materiale grezzo (al Ceppo: la voce 139 le porta al Banco dello scalpellino), le pareti
-## dal blocco grezzo.
+## Le ricette: il blocco grezzo a mano, le altre forme al Banco dello scalpellino, dal materiale grezzo; le pareti
+## dal blocco grezzo (a mano).
 static func recipes() -> Array:
 	var out := []
 	for e in kinds():
 		var md := material_of(int(e["kind"]))
 		var f: Dictionary = FORMS[(int(e["kind"]) - 1) % FORMS.size()]
-		out.append({"out": String(e["id"]), "qty": int(f["qty"]), "in": {String(md["raw"]): int(md["n"])}, "station": STATION})
+		var st := "" if String(f["id"]) == "grezzo" else STATION
+		out.append({"out": String(e["id"]), "qty": int(f["qty"]), "in": {String(md["raw"]): int(md["n"])}, "station": st})
 	for md in MATERIALS:
 		out.append({"out": "parete_%s" % md["id"], "qty": 4, "in": {"costr_grezzo_%s" % md["id"]: 1}, "station": ""})
 	return out
 
 
-const STATION := "ceppo"
+const STATION := "scalpellino"
+
+## Il Banco dello scalpellino (voce 139): lavora ogni forma tranne il grezzo, che si fa a mano.
+const STATION_ITEMS := {
+	"scalpellino": {"name": "Banco dello scalpellino", "kind": "stazione", "icon": ["incudine", "ardesia"], "place": "scalpellino",
+		"stack": 99, "desc": "Scalpelli, squadre e un piano di pietra: qui i materiali diventano mattoni, lastre, colonne, travi, tegole, piastrelle e vetrate."},
+}
+const STATION_RECIPES := [
+	{"out": "scalpellino", "qty": 1, "in": {"legno": 12, "ardesia": 20, "lingotto_radicite": 2}, "station": "ceppo"},
+]
 
 
 static func _props_text(md: Dictionary) -> String:

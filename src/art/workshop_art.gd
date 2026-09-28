@@ -10,6 +10,8 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 	match id:
 		"telaio":
 			_telaio(im, w, h)
+		"scalpellino":
+			_scalpellino(im, w, h)
 		"altare":
 			_altare(im, gm, w, h)
 		"bozzolo_rotto":
@@ -66,3 +68,31 @@ static func _altare(im: Image, gm: Image, w: int, h: int) -> void:
 		Px.put(gm, x, 4, rune)
 	Px.put(im, 24, 3, Color.WHITE)
 	Px.put(gm, 24, 3, Color.WHITE)
+
+
+## Il Banco dello scalpellino (voce 139): un piano di pietra su due gambe di radice, un blocco a metà lavoro con i
+## segni dello scalpello, lo scalpello e la squadra appoggiati.
+static func _scalpellino(im: Image, w: int, h: int) -> void:
+	var bark := Px.pal(["#241624", "#362234", "#4c3246", "#644652"])
+	var st := Px.pal(["#2a3650", "#3a4966", "#4c5e80", "#62779c", "#8298bc"])
+	var metal := Px.pal(["#4a2a1a", "#965a38", "#e0a070"])
+	# le gambe
+	for x in [4, w - 5]:
+		Px.line(im, Vector2(x, h - 1.0), Vector2(x, h - 11.0), 2, bark[2])
+	# il piano di pietra
+	for y in range(h - 14, h - 10):
+		for x in range(1, w - 1):
+			Px.put(im, x, y, st[3] if y == h - 14 else st[2])
+	# il blocco a metà lavoro: squadrato a sinistra, grezzo a destra
+	for y in range(h - 24, h - 14):
+		for x in range(7, 19):
+			var rough := x > 13 and ((x * 7 + y * 3) % 5 == 0)
+			if rough and y < h - 20:
+				continue
+			Px.put(im, x, y, st[4] if y == h - 24 else (st[1] if x == 7 or (x == 13 and y % 3 == 0) else st[2]))
+	# lo scalpello e la squadra
+	Px.line(im, Vector2(21.0, h - 15.0), Vector2(27.0, h - 21.0), 1, metal[1])
+	Px.put(im, 27, h - 21, metal[2])
+	Px.line(im, Vector2(2.0, h - 15.0), Vector2(6.0, h - 15.0), 1, metal[2])
+	Px.line(im, Vector2(2.0, h - 15.0), Vector2(2.0, h - 19.0), 1, metal[2])
+

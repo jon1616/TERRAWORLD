@@ -35,6 +35,7 @@ const STATIONS := {
 	"alambicco": {"name": "Alambicco di Linfa", "size": [2, 2], "item": "alambicco", "light": true,
 		"light_color": Color(0.3, 0.9, 0.9)},
 	"telaio": {"name": "Telaio di foglie", "size": [2, 2], "item": "telaio"},
+	"scalpellino": {"name": "Banco dello scalpellino", "size": [2, 2], "item": "scalpellino"},   # voce 139
 	"mola": {"name": "Mola del gemmaio", "size": [2, 2], "item": "mola"},
 	"paiolo": {"name": "Paiolo di radice", "size": [2, 2], "item": "paiolo", "light": true},
 	# voce 35: porte e arredi (la porta chiusa riempie le sue celle di tessere `PORTA`, vedi `Masonry`)

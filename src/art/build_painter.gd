@@ -115,3 +115,30 @@ static func _pattern(form: String, p: Array[Color]) -> Image:
 					c = p[1] if frame else Color(p[4], 0.35 + 0.15 * n)
 			im.set_pixel(x, y, c)
 	return im
+
+
+## L'icona di un costrutto (voce 139): il blocco con tutti i bordi, come si vede in una casella.
+static func icon(k: int) -> Image:
+	var md := BuildData.material_of(k)
+	var p := Px.pal(md["pal"])
+	var tile := _pattern(String(BuildData.kind_info(k)["form"]), p)
+	var im := Image.create_empty(S, S, false, Image.FORMAT_RGBA8)
+	for y in range(1, S - 1):
+		for x in range(1, S - 1):
+			var c: Color = tile.get_pixel(x, y)
+			if x == 1 or y == 1 or x == S - 2 or y == S - 2:
+				c = Color(p[0].darkened(0.35), maxf(c.a, 0.9))
+			elif y == 2:
+				c = Color(p[4], maxf(c.a, 0.9))
+			im.set_pixel(x, y, c)
+	return im
+
+
+## L'icona di una parete costruita.
+static func wall_icon(wall: int) -> Image:
+	var src := walls()
+	var mi := wall - BuildData.WALL_BASE
+	var im := Image.create_empty(S, S, false, Image.FORMAT_RGBA8)
+	im.blit_rect(src, Rect2i(0, mi * S, S, S), Vector2i.ZERO)
+	return im
+

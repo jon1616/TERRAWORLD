@@ -129,6 +129,7 @@ Abbattuto, un albero lascia legno e a volte semi: il seme piantato cresce nell'a
 	{"id": "costruire", "group": "Scavare e costruire", "name": "Costruire", "text":
 """• [b]Blocchi[/b]: assi di legno, mattoni d'ardesia, vetro di resina (lascia passare la luce). Si piazzano con il clic tenendoli in mano.
 • [b]Pareti di fondo[/b]: si piazzano allo stesso modo; il [b]Martello[/b] le toglie tenendo premuto.
+• [b]I costrutti[/b]: ogni materiale (rocce degli strati, legno, metalli, cristalli, argilla, muschio, Linfa gelata…) diventa un blocco in nove forme: grezzo, mattoni, lastre, levigato, colonna, travi, tegole, piastrelle, vetrata. Il blocco grezzo e le sue pareti si fanno a mano; le altre forme al [b]Banco dello scalpellino[/b]. I materiali contano: quanto sono duri, quanto isolano dal freddo e dal caldo, se lasciano passare la luce o la fanno, quanto sono belli (la scheda di ogni blocco lo dice).
 • [b]Passerelle[/b]: reggono chi scende; ci si passa attraverso tenendo {k_giu}.
 • [b]Porte[/b]: alte quanto il Germogliato; clic destro le apre e le chiude. Chiuse fermano anche le creature.
 • [b]Stazioni e mobili[/b]: si piazzano dalla Bisaccia; si riprendono con il piccone (tranne portali e Cuore).

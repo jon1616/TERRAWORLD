@@ -99,22 +99,28 @@ func builds() -> void:
 	kit.flatten(spot, 14)
 	var nf := BuildData.FORMS.size()
 	var placed := 0
-	for mi in BuildData.MATERIALS.size():
+	var mats := [0, 1, 2, 6, 12, 13, 14, 17]              # un campione: ardesia, lanterna, ambra, brace, Linfa, stellare, vetro, catacomba
+	for r in mats.size():
+		var mi: int = mats[r]
 		for fi in nf:
-			var c := Vector2i(spot.x - 4 + fi, spot.y - 2 - mi * 2)
+			var c := Vector2i(spot.x - 4 + fi, spot.y - 2 - r * 2)
 			for dy in 2:
 				var q := c + Vector2i(0, -dy) if dy == 1 else c
 				w.set_build(q.x, q.y, mi * nf + fi + 1)
-				if w.inside(q.x, q.y - 7) and not w.solid(q.x, q.y - 7):
-					w.walls[(q.y - 7) * w.w + q.x] = BuildData.WALL_BASE + mi   # le pareti costruite, più in alto
+				if fi < 3 and w.inside(q.x - 5, q.y) and not w.solid(q.x - 5, q.y):
+					w.walls[q.y * w.w + q.x - 5] = BuildData.WALL_BASE + mi   # le pareti costruite, a sinistra
 				placed += 1
 	for x in range(spot.x - 6, spot.x + 8):
-		for y in range(spot.y - 9, spot.y + 1):
+		for y in range(spot.y - 18, spot.y + 1):
 			m.view.refresh_around(Vector2i(x, y))
+	w.stations[Vector2i(spot.x + 8, spot.y - 1)] = "scalpellino"   # voce 139: il Banco dello scalpellino accanto
+	m.view.add_station(Vector2i(spot.x + 8, spot.y - 1))
 	m.snap_to(Vector2i(spot.x + 6, spot.y))
 	m.light.dirty = true
 	await kit.seconds(0.4)
 	await kit.save("191_costrutti")
+	m.view.remove_station(Vector2i(spot.x + 8, spot.y - 1))
+	w.stations.erase(Vector2i(spot.x + 8, spot.y - 1))
 	# si scava: lascia il suo oggetto
 	var c0 := Vector2i(spot.x - 4, spot.y - 2)
 	var k0 := w.build_at(c0.x, c0.y)
