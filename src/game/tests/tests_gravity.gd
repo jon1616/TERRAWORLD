@@ -61,9 +61,10 @@ func run() -> void:
 	m.snap_to(spot)
 	await kit.seconds(0.2)
 	var y0 := p.position.y
-	await kit.seconds(1.6)
+	await kit.seconds(0.8)
+	var inside := gv.current_at(m.player_cell()) >= 0        # a metà salita (a 1,6 s può essere già uscito dalla cima)
+	await kit.seconds(0.8)
 	var rose := (y0 - p.position.y) / 16.0
-	var inside := gv.current_at(m.player_cell()) >= 0
 	await kit.save("142_corrente")
 	var parts := gv._fx.size()
 	gv.currents = saved
@@ -128,7 +129,7 @@ func _measure(genes: Array, w: World) -> Dictionary:
 			and roof.size() == w.w and w.trees.size() > 20
 	else:
 		var ch: Array = w.gen_notes.get("abissi", [])
-		var cu: Array = w.gen_notes.get("correnti", [])
+		var cu: Array = (w.gen_notes.get("correnti", []) as Array).filter(func(e: Dictionary) -> bool: return not e.get("cielo", false))   # Roadmap 16: senza quelle del cielo
 		var wet := 0
 		var deep := 0
 		for a in ch:

@@ -108,3 +108,10 @@ func _smart(spot: Vector2i) -> void:
 	if not first_ok or not bad.is_empty() or order.size() < 5 or not vein_ok or n < 2:
 		print("ATTENZIONE: lo scavo intelligente non rispetta le sue regole")
 	await kit.save("211_scavo_intelligente")
+	# rimette il posto piano com'era (le prove dopo cercano un tratto piano qui attorno)
+	for x in range(x0 - 1, x0 + 5):
+		world.set_tile(x, spot.y + 1, TileDefs.STONE)
+		for y in range(spot.y - 5, spot.y + 1):
+			world.set_tile(x, y, TileDefs.AIR)
+			world.set_liq(x, y, 0, 0)
+	m.view.refresh_around(Vector2i(x0 + 1, spot.y))

@@ -21,6 +21,7 @@ func _init() -> void:
 	_recipes()
 	_fishing()
 	_world15()
+	_sky()
 	var f := FileAccess.open("res://prove/bilancio.txt", FileAccess.WRITE)
 	if f:
 		f.store_string(out)
@@ -208,5 +209,67 @@ func _world15() -> void:
 		n_species += ((f.DATA as Dictionary).get("creatures", {}) as Dictionary).size()
 	_p("   creature in tutto: %d (dei pacchetti: %d); famiglie: %d; astuzie: %d" % [CreaturesData.CREATURES.size(), n_species,
 		FamiliesData.FAMILIES.size(), WilesData.WILES.size()])
+	_p("")
+
+
+## Roadmap 16 «Le Chiome del cielo»: le creature di ogni bioma del cielo (con il pericolo del bioma) contro la spada
+## del grado atteso (basso: legnoferro, alto: ambra), i Signori del cielo e l'Occhio della Tempesta, la nimbite contro
+## l'ambra, le ali, l'aria sottile.
+func _sky() -> void:
+	_p("7. LE CHIOME DEL CIELO (Roadmap 16)")
+	var surf := float(StrataData.STRATA[0]["danger"])
+	for b in SkyData.BIOMES:
+		var hp := 0.0
+		var dmg := 0.0
+		var n := 0
+		for cid in CreaturesData.CREATURES:
+			var c: Dictionary = CreaturesData.CREATURES[cid]
+			if String(c.get("sky", "")) == String(b["id"]) and not c.get("boss", false):
+				hp += float(c["hp"])
+				dmg += float(c["damage"])
+				n += 1
+		if n == 0:
+			continue
+		var k := surf * float(b.get("danger", 1.0))
+		hp = hp / n * k
+		dmg = dmg / n * k * DangerData.DAMAGE
+		var sword := _sword(2 if String(b["band"]) == "basso" else 3)
+		var full := 1.0 / (HarshData.QUOTA_RATE * float(b.get("thin", 0.0))) if float(b.get("thin", 0.0)) > 0.0 else 0.0
+		_p("   %-24s %-5s %d specie · pericolo ×%.2f · Vita %d, danno %d · colpi per abbatterle %d · colpi che reggi %d%s" % [
+			b["name"], b["band"], n, k, roundi(hp), roundi(dmg), ceili(hp / maxf(sword, 1.0)), ceili(100.0 / maxf(dmg, 1.0)),
+			(" · aria sottile piena in %d s" % roundi(full)) if full > 0.0 else ""])
+	var rows := []
+	for cid in CreaturesData.CREATURES:
+		var c: Dictionary = CreaturesData.CREATURES[cid]
+		var sky := ""
+		if c.has("lord") and (Lords.all().get(String(c["lord"]), {}) as Dictionary).get("where", {}).has("sky"):
+			sky = String(Lords.all()[String(c["lord"])]["where"]["sky"])
+		elif String(c.get("great", "")) == "tempesta":
+			sky = "firmamento"
+		if sky == "":
+			continue
+		var hp2 := float(c["hp"]) * surf * (1.0 + (float(SkyData.get_biome(sky).get("danger", 1.0)) - 1.0) * 0.5) if c.has("lord") else float(c["hp"])
+		var sw := _sword(4 if c.has("great") else 3)
+		var hits := ceili(hp2 / maxf(sw, 1.0))
+		rows.append("   %-30s Vita %4d  danno %2d  colpi %3d (~%d s)" % [c["name"], roundi(hp2), int(c["damage"]), hits, roundi(hits / 2.5)])
+	rows.sort()
+	for r in rows:
+		_p(r)
+	var nim := Gear.stats({"id": "spada_nimbite"})
+	var amb := Gear.stats({"id": "spada_ambra"})
+	_p("   spada di nimbite: danno %d × %.2f colpi/s = %.1f al secondo; d'ambra: %d × %.2f = %.1f" % [int(nim["damage"]), float(nim["speed"]),
+		float(nim["damage"]) * float(nim["speed"]), int(amb["damage"]), float(amb["speed"]), float(amb["damage"]) * float(amb["speed"])])
+	var wl := []
+	for id in FlightData.WINGS:
+		var w: Dictionary = FlightData.WINGS[id]
+		wl.append("%s %d/%.1fs" % [String(w["name"]).trim_prefix("Ali "), int(w["rise"]), float(w["time"])])
+	_p("   ali (salita/autonomia): %s" % ", ".join(wl))
+	var sky_items := 0
+	for f in BiomesData.SKY_FILES:
+		sky_items += ((f.DATA as Dictionary).get("items", {}) as Dictionary).size()
+	for f in [preload("res://src/data/sky_pack.gd"), preload("res://src/data/bestiary/cielo.gd")]:
+		sky_items += ((f.DATA as Dictionary).get("items", {}) as Dictionary).size()
+	_p("   oggetti del cielo (biomi, pacchetto, bestiario): %d; oggetti in tutto %d, ricette %d, creature %d" % [sky_items,
+		ItemsData.all().size(), RecipesData.all().size(), CreaturesData.CREATURES.size()])
 	_p("")
 

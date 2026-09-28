@@ -113,7 +113,8 @@ Godot_console.exe --path . -- --prove --prova-giardino
 # obiettivi, guardiani, rovine, mobilita, lanci, giardino, eventi, casa, abitanti, compagni, viaggio, semi,
 # biomi, biomi_nuovi, luoghi, corsa, raccolta, musica, germogliato, interfaccia, geni, forme, ecologia, mandria, casse, alberi,
 # base (il cuore del gioco, da lanciare sempre), sigilli, stagioni, suggerimenti, opzioni, enciclopedia, lingua, catene, luoghi_scritti, enigmi, seme_nero, acqua,
-# liquidi, meteo, gravita, terra_viva, tempo_mondi, vigore, guardiani_generati, leggende, sfide, grafica
+# liquidi, meteo, gravita, terra_viva, tempo_mondi, vigore, guardiani_generati, leggende, sfide, grafica, vivo, cielo,
+# comodita
 # (elenco in `AutoTests._group`)
 Godot_console.exe --path . -- --prove --solo=doni,antiche
 # suoni generati: prove/suoni/*.wav da ascoltare, con durata, picco e volume medio (segnala muti e distorti)
@@ -133,6 +134,8 @@ python tools/importa_tavola.py arte_ia/germogliato/01_corsa_v2.png --griglia 4x2
 python tools/respiro.py
 # mappe dei mondi: mappe/mondo_<seme>.png a metà grandezza (--intera per 1:1), tempi per passata, conteggi per seme
 Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20 --da 1
+# Roadmap 16: la misura del cielo (zone, tessere, isole, osservatori) con e senza i geni del cielo → prove/cielo.txt
+Godot_console.exe --headless --path . --script res://tools/cielo.gd -- --semi 3
 # voce 43: genomi a caso (`--caso --vigore 7`) o fissi (`--geni cavo,fungaie`), con la misura della varietà in fondo
 Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12 --caso --vigore 7
 ```
@@ -578,6 +581,34 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     gli ospiti (`Dwellers`: ragnatele, nidi sui tetti, alveari), la mandria di guardia (`Herd` stato «guardia», cucce).
   - Prove: gruppo «vivo» (`TestsAlive` per le creature, `TestsAliveBuild` per le costruzioni, `TestsAliveBeasts` per
     bestiario, Signori, maree, studio e tempi). Enciclopedia: `EncyWorldData` («Il mondo abitato»).
+- **Roadmap 16 «Le Chiome del cielo»** (voci 152-169, 29 set 2026; scelte dell'utente: il cielo è sia uno strato in ogni
+  mondo sia un gene, ci si arriva presto):
+  - Le comodità: il tasto «riponi» (Q, `Storage._unhandled_input` → `quick_stack`) e lo **scavo intelligente**
+    (`SmartDig`, `src/game/smart_dig.gd`, da `PlayerActions._process`: mai costruito, mai sotto i piedi, mai accanto ai
+    liquidi, solo blocchi che toccano l'aria; tasto «vena» = stesso blocco). Opzioni «riponi_tasto», «scavo_intelligente».
+  - Il cielo nei dati: `SkyData` (fasce basso/alto, zone lungo il mondo, `zone_at`, `band_at`, `pool_of`, `soft_under`) e
+    i sei biomi come file `src/data/biomes/cielo_*.gd` (`BiomesData.SKY_FILES`, uniti ai pacchetti; campi in cima a
+    `SkyData`: floor, isle, isles, pools, danger, thin, dark, ores, bolts, gusts, genes). Le tessere dei pacchetti hanno
+    `pass` ed `emit` per la luce (`TileDefs.LIGHT_PASS/LIGHT_EMIT`, lette da `LightMap`: le nuvole lasciano passare la
+    luce). Il pacchetto `src/data/sky_pack.gd` (oggetti, ricette, tessere della nimbite e della folgorite, pesci `fish`
+    con `sky`, `tame`, `crops`, `wild`, `genes`, `gene_adj`, `loot`); le creature in `src/data/bestiary/cielo.gd`
+    (righe in `tools/bestiario_cielo.py`, campi `sky` e `sw`, peso 0 fuori dal cielo).
+  - Il generatore: `PassCielo` (zone → `World.sky`, salvato in `world_meta["cielo"]` da `Chiome`; isole per forma,
+    radici pendenti, ponti di liane, pozze da pesca, vene, correnti del cielo negli appunti "correnti" con `cielo: true`)
+    e `PassOsservatori` (la cupola del progetto «osservatorio» su un'isola alta per zona, scrigno «rovina_cielo», stele;
+    i nidi delle famiglie del cielo, che `PassNidi` salta). Misura: `tools/cielo.gd`.
+  - In partita: `Chiome` (`src/game/chiome.gd`: la scritta del bioma, `stats.cielo_max`, il Fagiolo di nuvola
+    `plant_bean`/`grow_beans`, il Firmamento che fa notte con `DayCycle.high_dark`, `extra_dark` dell'Occhio, il tempo del
+    cielo: fulmini dei Nidi, raffiche dei Giardini, l'arcobaleno dopo la pioggia) e `SkyStrikes` (`src/game/sky_strikes.gd`:
+    il fulmine annunciato da una colonna di luce; lo chiedono «folgore» con `Creature.acts`, l'Occhio e i Nidi).
+    L'aria sottile è il rigore «quota» di `HarshData` (protezione `quota`), presa dalla zona in `Harshness`. Le nuvole
+    attutiscono le cadute (`Life._on_landed`). Tre comportamenti: `BhPicchiata`, `BhFolgore`, `BhDeriva`.
+  - Il resto passa dai sistemi di prima: Signori del cielo (`where: {sky}` in `tools/gen_signori.py`, `Lords.here()`),
+    l'Occhio della Tempesta (`guardiani.gd`, `GreatGuardians._place("tempesta")`), la marea «burrasca» (`TidesData`,
+    campo `sky`), l'evento «arcobaleno» (`EventsData`, «speciale»), la nimbite (`MaterialsData`: 8 leghe, set), il
+    cristallo celeste (28° e ultimo materiale di `BuildData`), le Ali di nuvola e della tempesta e la cavalcatura che vola
+    (`FlightData.MOUNT_WINGS`, `mount_wings` in `HerdData.TAME`, letto da `Flight`), i pesci (`FishData.fits` con `sky`).
+  - Prove: gruppo «cielo» (`TestsSky`, foto 212-220) e «comodita» (`TestsComfort`). Enciclopedia: `EncySkyData`.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni
@@ -819,6 +850,23 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   scrivono con Write in un file e si importano.
 - Nelle patch Python, `rindex(']')` per trovare la fine di un elenco trova l'ultima parentesi del file (anche dentro una
   funzione): si cerca la fine dell'elenco a partire dalla sua costante.
+
+- **`Character.stats` tiene solo numeri** (Roadmap 16, 29 set 2026): il caricamento li rilegge con `int()`, e un
+  dizionario messo lì («cieli_visti») rompeva il personaggio al primo salvataggio. Più cose = più chiavi numeriche
+  (`cielo_<bioma>` = 1).
+- Un campo dei pacchetti ha **un solo tipo in tutti i file**: `BiomesData.pack(k)` fonde i dizionari di tutti, e «adj»
+  era un elenco nei biomi e un dizionario nel pacchetto del cielo (errore di `merge`). Per un significato nuovo, un nome
+  nuovo (`gene_adj`).
+- Le prove che muovono il Germogliato con `auto_dir` tolgono prima il controllo alla tastiera (`player.control =
+  false`) e lo rimettono com'era: altrimenti il comando simulato è ignorato, e la prova passa o no per caso.
+- Le attese delle prove si calcolano dai dati: una corrente di 120 tessere sale per 8 s, e il limite fisso di 8 s
+  faceva fallire la prova proprio all'arrivo.
+- Una struttura costruita **dentro** il posto di un'altra (l'osservatorio sull'isola) non fa `claim`: il collaudatore la
+  vede sovrapposta. Il posto lo tiene già la struttura che la contiene.
+- `Sky` è una classe del motore: un `class_name` con lo stesso nome non compila («hides a native class»). Nomi
+  dell'universo anche per le classi (`Chiome`).
+- Le tabelle scritte con `const` non si allargano dai pacchetti: diventano `static var X = _X.merged(BiomesData.pack(...))`
+  (`HerdData.TAME`, `CropsData.CROPS/WILD`), e chi le legge non cambia.
 
 ## Convenzioni
 

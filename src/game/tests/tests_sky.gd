@@ -31,6 +31,7 @@ func run() -> void:
 	await observatory()
 	await sky_weather()
 	await life()
+	await load_test()
 
 
 ## Voce 154: le zone e le fasce.
@@ -659,3 +660,36 @@ func life() -> void:
 		pool.size(), sky_only, leaks == 0, leaks, rode, flies, wings.get("time", 0.0), off, planted])
 	if pool.is_empty() or not sky_only or leaks > 0 or not rode or not flies or not planted:
 		print("ATTENZIONE: pesca, mandria o orto del cielo non vanno come dovrebbero")
+
+
+## Voce 168: 40 creature del cielo attorno al Germogliato su un'isola bassa (fulmini, picchiate, derive): i tempi.
+func load_test() -> void:
+	var spot := island_spot("basso")
+	m.snap_to(spot)
+	await kit.frames(3)
+	m.combat.god = true
+	var ids: Array = ((load("res://src/data/bestiary/cielo.gd") as GDScript).get("DATA")["creatures"] as Dictionary).keys()
+	for i in 40:
+		var cr: Creature = m.fauna.add(String(ids[i % ids.size()]), m.player.position + Vector2(-300.0 + (i % 20) * 30.0, -60.0 - (i / 20) * 50.0))
+		cr.mind.brave = true
+	await kit.frames(10)
+	var worst := 0.0
+	var total := 0.0
+	var n := 0
+	var t0 := Time.get_ticks_usec()
+	var last := t0
+	while Time.get_ticks_usec() - t0 < 3000000:
+		await kit.frames(1)
+		var now := Time.get_ticks_usec()
+		var dt := float(now - last) / 1000.0
+		last = now
+		worst = maxf(worst, dt)
+		total += dt
+		n += 1
+	m.fauna.clear()
+	m.combat.god = false
+	m.vitals.refill()
+	print("tempi con 40 creature del cielo: %d fotogrammi in 3 s (media %.1f ms), il peggiore %.1f ms; fulmini chiamati %d" % [
+		n, total / maxf(n, 1), worst, m.strikes.fallen])
+	if total / maxf(n, 1) > 25.0:
+		print("ATTENZIONE: con 40 creature del cielo il gioco rallenta troppo")

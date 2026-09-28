@@ -86,7 +86,8 @@ func spawn(cid: String) -> Creature:
 	active = m.fauna.add(cid, at)
 	var st := StrataData.at(m.world, m.player_cell().x, m.player_cell().y)
 	var sky := SkyData.zone_at(m.world, m.player_cell().x, m.player_cell().y)
-	var sky_k := float(SkyData.get_biome(sky).get("danger", 1.0)) if sky != "" else 1.0
+	# in cielo metà del pericolo del bioma: un Signore è già un boss (non deve durare più del Guardiano)
+	var sky_k := 1.0 + (float(SkyData.get_biome(sky).get("danger", 1.0)) - 1.0) * 0.5 if sky != "" else 1.0
 	active.strengthen(m.fauna.vigor_mult * float(StrataData.STRATA[st]["danger"]) * sky_k)
 	active.provoke()
 	bar.follow(active)

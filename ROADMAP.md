@@ -7,8 +7,9 @@
 - **In corso: la Roadmap 13 «Il volto del mondo»** (voci 100-117, dal 28 set 2026): la grafica con Nano Banana,
   seguita passo passo con l'utente (Claude scrive i prompt, dice dove salvare le immagini, le adatta con gli script).
   Dopo: un secondo bilancio con il diario delle partite vere.
-- **In corso: la Roadmap 16 «Le Chiome del cielo»** (voci 152-169, dal 29 set 2026): il tasto Riponi e lo scavo
-  intelligente (fatti), poi un ecosistema del cielo in ogni mondo (sei biomi, creature, Signori, un Guardiano).
+- **Fatta la Roadmap 16 «Le Chiome del cielo»** (voci 152-169, 29 set 2026): il tasto Riponi, lo scavo intelligente e
+  un ecosistema del cielo in ogni mondo (sei biomi, 30 creature, 6 Signori, l'Occhio della Tempesta, la nimbite, la
+  Balena che vola, gli osservatori, 8 geni). Resoconto in fondo alla Roadmap 16; la grafica nelle voci 117g-117j.
 - **Fatta la Roadmap 15 «Il mondo abitato»** (voci 126-151, 29 set 2026): creature che pensano e 171 specie (Signori,
   tre Guardiani, maree, studio), 243 costrutti, 120 arredi, stanze, case, progetti. Resoconto in fondo alla Roadmap 15;
   la grafica da ridisegnare nelle voci 117a-117f della Roadmap 13.
@@ -25,7 +26,7 @@
   vastità, profondità, avventura e ricerca; grafica, rifinitura del movimento, armatura sugli sprite e rete **dopo**.
 - **Rimandata** (scelta dell'utente): voce 6 «Rete a 2». Armatura sugli sprite, colpo in corsa, mostri e boss con
   Nano Banana sono ora nella Roadmap 13.
-- **Contenuti oggi**: 1906 oggetti, 1404 ricette, 137 stazioni, 82 creature in 66 famiglie, 91 geni, 25 biomi (16 di superficie, 9 del sottosuolo), 30 effetti speciali, 151 oggetti unici in 15 serie, 12 tipi di segreto, 95 obiettivi, 76 capitoli dell'Enciclopedia; `tools/verifica_dati.gd` dà 0 errori e 0 avvisi.
+- **Contenuti oggi** (29 set 2026): 3149 oggetti, 2366 ricette, 208 creature, 31 biomi (16 di superficie, 9 del sottosuolo, 6 del cielo), 30 effetti speciali, 151 oggetti unici in 15 serie, 12 tipi di segreto, 95 obiettivi, 76 capitoli dell'Enciclopedia; `tools/verifica_dati.gd` dà 0 errori e 0 avvisi.
 - **Fatta la Roadmap 5 «Il Seme e i suoi geni»** (voci 41-48, 26 set 2026): resoconto in fondo alla Roadmap 5.
 - **Fatta la Roadmap 6 «La materia viva»** (voci 49-54, 26 set 2026): resoconto in fondo alla Roadmap 6.
 - **Fatta la Roadmap 7 «L'ecologia»** (voci 55-61, 26 set 2026): resoconto in fondo alla voce 61.
@@ -2180,6 +2181,86 @@ I segni sopra le creature (il «!» ambra e il «?»), le ragnatele, i pilastri 
 correnti, la marea: sono effetti, restano al codice. Le varianti di colore dei costrutti e degli arredi le fa lo
 script dai disegni grigi (un disegno, molti materiali).
 
+### Le aggiunte della Roadmap 16 «Le Chiome del cielo» (voce 169, 29 set 2026)
+Anche il cielo nasce **disegnato dal codice** (piante in `SkyDecorArt`, creature in `BodyArt`, l'osservatorio con i
+costrutti, i fulmini in `SkyStrikes`), quindi è già giocabile; queste voci lo rendono bello. Stesso metodo delle voci
+100-117 (foglio di stile, magenta pieno, forme grandi, pixelatura dello script, il disegno del codice se il file manca).
+Cartelle già create da Claude: `arte_ia/creature_cielo/`, `arte_ia/sfondi/` (le piante vanno in `arte_ia/vegetazione/`,
+i Signori in `arte_ia/signori/`). **Regola del magenta**: la Balena delle stelle, la Stella errante e le creature del
+Firmamento sono blu-notte e oro nel codice; nei prompt si chiedono **indaco-blu e oro**, mai viola, rosa o magenta.
+Le trame delle tessere del cielo (nuvola, cristallo celeste, polvere di stelle, nimbite…) restano al codice come
+tutto il terreno (doppia griglia).
+
+## 117g. [ ] La vegetazione del cielo (S)
+Dodici piante 16×16 (id 80-91 di `SkyDecorArt`): felce d'aria e bulbo di cielo (Radici sospese), ciuffo di nuvola e
+fiore di pioggia (Mare di nuvole), erba dorata piegata e fiore-girandola (Giardini del vento), germoglio di cristallo ed
+eco di cristallo (Scogliere), ciuffo di tempesta e roccia carica (Nidi di tempesta), erba di stelle e stella caduta
+(Firmamento). Tavola `arte_ia/vegetazione/20_cielo_v1.png`, griglia 4×3, nell'ordine. Nel gioco: `SkyDecorArt.draw`
+userà `arte/vegetazione/<id>.png` se c'è (come la voce 108).
+**Pronto quando**: le foto 214_cielo_<bioma> mostrano le piante nuove.
+Prompt:
+```
+[FOGLIO DI STILE «Radici e Linfa»] Side-view pixel-art small plants for floating sky islands, organic, NOT Terraria.
+Solid magenta #FF00FF background, 4 columns x 3 rows, one small plant per cell standing on the bottom edge, no text:
+1 a turquoise air-fern with long thin curling fronds; 2 a teal glowing bulb on a short stalk; 3 low fluffy white
+cloud tufts; 4 a pale blue bell flower hanging with a water drop; 5 golden grass bent to the right by the wind;
+6 a pinwheel flower with four coloured petals (orange, yellow, turquoise, red) on a tall stem; 7 three thin sky-blue
+crystal spikes; 8 a round flat crystal disc with a bright centre; 9 dark blue-grey grass tufts with one yellow spark;
+10 a dark stone with a thin glowing pale-blue vein; 11 deep blue grass with white star tips; 12 a small golden
+five-pointed fallen star.
+```
+
+## 117h. [ ] Le creature del cielo (L)
+Le 30 specie di `src/data/bestiary/cielo.gd` (5 per bioma), 2 fotogrammi l'una, tavole da 4 specie (8 tavole)
+nell'ordine del file; il foglio `tools/bestiario.gd -- cielo` (prove/bestiario_cielo.png) mostra il corpo di oggi
+come traccia. Tavole `arte_ia/creature_cielo/NN_cielo_v1.png`; nel gioco `CreatureArt.frames` userà
+`arte/creature/<id>_<n>.png` (come la voce 114).
+**Pronto quando**: la foto 216_bestiario_cielo mostra le specie nuove.
+Prompt (tavola 1: Volpe planante, Bruco delle radici pendenti, Ape turchese, Allocco delle radici):
+```
+[FOGLIO DI STILE «Radici e Linfa»] Side-view pixel-art creature sprites facing RIGHT, big clear shapes, bright eye,
+dark outline added later, NOT Terraria. Solid magenta #FF00FF background, 4 columns x 2 rows: each column is ONE
+creature, top row = frame A (standing or gliding), bottom row = frame B (mid-step or wings down), same size in both
+frames, no text: 1 "Volpe planante": a small russet fox with a skin membrane between its legs, cream belly, striped
+tail; 2 "Bruco pendente": a long turquoise caterpillar with pale spots and yellow eyes; 3 "Ape turchese": a teal bee
+with yellow stripes and big transparent wings; 4 "Allocco delle radici": a grey-brown owl with round orange eyes and
+pale spots, wings closed.
+```
+
+## 117i. [ ] I Signori del cielo e l'Occhio della Tempesta (M)
+Sette figure grandi: i sei Signori del cielo (`src/data/bestiary/signori.gd`, chiavi del cielo) e l'Occhio della
+Tempesta (`guardiani.gd`), 2 pose (ferma e d'attacco) e la furia per l'Occhio. Tavole da 3 figure
+(`arte_ia/signori/NN_cielo_v1.png`), griglia 3×2 (tre tavole).
+**Pronto quando**: le foto 218 (un Signore del cielo) e 219 (l'Occhio) mostrano i disegni nuovi.
+Prompt (tavola 1: Regina turchese, Grande Nuvolo, Falco re dei venti):
+```
+[FOGLIO DI STILE «Radici e Linfa»] Side-view pixel-art BOSS creatures of the sky facing RIGHT, large and imposing, big
+clear shapes, glowing accents, NOT Terraria. Solid magenta #FF00FF background, 3 columns x 2 rows: each column is ONE
+boss, top row = idle pose, bottom row = attack pose, same size in both rows, no text: 1 "Regina turchese": a huge teal
+queen bee with a golden crown-like crest, yellow stripes and shining transparent wings; 2 "Grande Nuvolo": a giant
+living storm-cloud, white and blue-grey, with two dark eyes and small cloud arms; 3 "Falco re dei venti": a royal
+golden-brown falcon with long pointed wings, a pale striped chest and golden eyes.
+```
+
+## 117j. [ ] Il cielo di sfondo (M)
+Quando il Germogliato è tra le Chiome lo sfondo mostra ancora colline e foreste lontane (sotto di lui): serve uno
+strato lontano di **isole sospese e banchi di nuvole** che scorre piano (parallasse), uno per fascia (basso: isole di
+radici e nuvole; alto: scogli di cristallo e stelle). Due immagini larghe e ripetibili, `arte_ia/sfondi/01_cielo_basso_v1.png`
+e `02_cielo_alto_v1.png`; nel gioco `Background` le stenderà dietro al mondo sopra una certa altezza.
+**Pronto quando**: le foto 212 e 213 mostrano lo sfondo del cielo.
+Prompt (il cielo basso):
+```
+[FOGLIO DI STILE «Radici e Linfa»] A wide seamless side-view pixel-art BACKGROUND strip (repeats left-right), distant
+and soft, low contrast: small floating islands of earth held together by hanging roots, a few with turquoise grass and
+tiny lantern trees, drifting banks of white clouds between them, far away and slightly blue with distance. The TOP and
+BOTTOM of the strip are solid magenta #FF00FF (only the islands and clouds are drawn), no text, no characters.
+```
+
+### Resta al codice anche per la Roadmap 16
+Le trame delle tessere del cielo, i fulmini annunciati (la colonna di luce), le correnti, le radici pendenti e la liana
+del Fagiolo (passerelle), l'osservatorio (costrutti), il cielo che si fa notte nel Firmamento: sono effetti o blocchi,
+restano al codice.
+
 ### Resta al codice (Nano Banana non serve)
 Le trame del terreno e delle pareti (doppia griglia, trame 64×64 senza cuciture), la luce, i liquidi, gli
 incantesimi, le esplosioni, le particelle, il tempo atmosferico; le 1906 icone una per una (nascono dalla voce 105).
@@ -2924,13 +3005,39 @@ Enciclopedia («Le Chiome del cielo»), consigli, filo, Bacheca (richieste del c
 
 ## Parte E — Chiudere
 
-## 168. [ ] Bilancio, prove e resoconto (M)
+## 168. [x] Bilancio, prove e resoconto (M) — fatto il 29 set 2026
 `tools/bilancio.gd` (sezione del cielo), la misura con 40 creature del cielo, il tempo del generatore, il giro intero,
 CLAUDE.md e il resoconto.
+**Fatto**: `tools/bilancio.gd` sezione 7 (creature di ogni bioma del cielo, Signori, Occhio, nimbite contro ambra, ali) e il riequilibrio che ne è venuto: pericolo del cielo alto più basso (1,55 / 1,65 / 1,75), i Signori del cielo prendono metà del pericolo del bioma (22-42 s), l'Occhio a 2700 di Vita (~52 s). Con 40 creature del cielo 60 fotogrammi al secondo (peggiore 18 ms). Il giro intero (671 s) ha trovato quattro prove che non conoscevano il cielo (pesci, correnti dell'Arcipelago, la corrente misurata troppo tardi, i gioielli della nimbite) e il posto piano lasciato scavato dalle comodità: corretti e riprovati. CLAUDE.md: struttura e sette lezioni.
 
-## 169. [ ] La grafica da ridisegnare (S)
+## 169. [x] La grafica da ridisegnare (S) — fatto il 29 set 2026
 Le voci della Roadmap 13 per il cielo (tessere, vegetazione, creature, Signori, Guardiano, icone) con i prompt pronti e
 le cartelle create.
+**Fatto**: voci 117g-117j nella Roadmap 13 (vegetazione del cielo, creature del cielo, Signori e Occhio, lo sfondo del cielo) con i prompt pronti; cartelle `arte_ia/creature_cielo/` e `arte_ia/sfondi/` create.
+
+### Resoconto della Roadmap 16 (29 set 2026)
+Tutte le voci 152-169 fatte, con le scelte dell'utente rispettate: il cielo c'è **in ogni mondo** (tranne il Giardino, i
+mondi a Guscio e quelli con il gene Cielo vuoto) ed è anche un **gene** (Cieli alti: 2,24 volte il cielo); ci si arriva
+**presto** (correnti dalla superficie, radici pendenti, Fagiolo di nuvola al Ceppo, Piuma lenta), il cielo alto chiede di
+prepararsi (l'aria sottile, creature più forti).
+**Le comodità**: il tasto Riponi (Q) e lo scavo intelligente, con le loro opzioni.
+**Il cielo**: 6 biomi (3 bassi, 3 alti) in zone lungo il mondo (~8 zone, ~60 isole basse e ~50 alte per mondo, 4
+osservatori, ~14 correnti; il generatore costa ~50 ms in più), 7 tessere nuove e 12 piante, la luce che passa nelle
+nuvole, il Firmamento notturno; **30 creature** (0 zone con buchi nella mappa degli ecosistemi, ora 31 zone) con tre
+modi nuovi d'attaccare (picchiata, fulmine annunciato, deriva), **6 Signori**, **l'Occhio della Tempesta** (quarto
+Guardiano scritto a mano), la marea **Burrasca delle Chiome**, l'**arcobaleno**, i fulmini e le raffiche dei biomi.
+**Le cose del cielo**: la **nimbite** (metallo leggero, 8 leghe, set Passo di nembo), folgorite, cristallo celeste (da
+costruire: 252 costrutti, 132 arredi), Ali di nuvola e della tempesta, 6 talismani e 6 emblemi, 6 pesci delle pozze,
+4 famiglie da mandria (la **Balena delle stelle** si cavalca e vola), il Fiore di vento nell'orto, gli osservatori con il
+loro progetto, 8 geni.
+**Numeri** (`tools/bilancio.gd`, sezione 7): creature del cielo basso 4 colpi della spada di legnoferro, del cielo alto
+6-13 di quella d'ambra; Signori del cielo 22-42 s, l'Occhio 52 s; la spada di nimbite fa 42,6 danni al secondo contro
+38,4 dell'ambra. Con 40 creature del cielo 60 fotogrammi al secondo (peggiore 18 ms). Oggetti 3149, ricette 2366,
+creature 208.
+**Corretto per strada**: i fili «studio» e «stanza» (Roadmap 15) senza nome davano errore; la prova delle casse dipendeva
+da quale cassa vicina dava gli ingredienti.
+**La grafica**: tutto nasce disegnato dal codice; le voci 117g-117j della Roadmap 13 dicono che cosa ridisegnare con
+Nano Banana, con i prompt pronti e le cartelle create.
 
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».

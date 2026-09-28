@@ -37,7 +37,7 @@ const DATA := {
 			"affinity": {"weak": ["vuoto"], "resist": ["gelo", "spora"]}},
 		# Roadmap 16, voce 162: il Guardiano delle Chiome. Si chiama nel cielo alto, all'aperto: fulmini annunciati sulla tua
 		# colonna, raffiche e correnti; a metà Vita il cielo si oscura, i fulmini raddoppiano e chiama gli stormi
-		"occhio_tempesta": {"name": "Occhio della Tempesta", "hp": 3200, "damage": 32, "defense": 10, "knock": 1.0, "half": [22, 18],
+		"occhio_tempesta": {"name": "Occhio della Tempesta", "hp": 2700, "damage": 32, "defense": 10, "knock": 1.0, "half": [22, 18],
 			"speed": 110, "fly": true, "behaviors": ["vola", "folgore", "correnti"], "fury": ["folgore", "evoca", "scatto"],
 			"p": {"sight": 36, "hover": 120.0, "wobble": 25.0, "bolt_every": 3.2, "bolt_delay": 1.0, "bolts": 3, "bolt_damage": 30,
 				"gust_every": 7.0, "phase2": 0.5, "summon": "aquila_tempesta", "summon_every": 8.0, "summon_max": 3,
