@@ -8,7 +8,10 @@ const MELEE_REACH := Vector2(26, 34)   # area del colpo davanti al Germogliato
 const INVULN := 0.7                    # secondi senza ferite dopo un colpo subito
 const DART_SPEED := 380.0
 const DART_GRAV := 260.0
-const DIG_PERIOD := 0.3                # il gesto di piccone e ascia
+const DIG_PERIOD := 0.3
+## Voce 185 (Roadmap 18): piccone e ascia colpiscono le creature a metà (facevano l'85% della spada dello stesso metallo:
+## un attrezzo non deve fare da arma).
+const TOOL_HIT := 0.5                # il gesto di piccone e ascia
 const AMMO := ["dardo_vuoto", "dardo_aculeo", "dardo_libellula", "dardo_piumato", "dardo"]  # l'arco usa i dardi migliori che ci sono
 
 signal struck(c: Creature, dmg: int)        # voce 85: un colpo andato a segno (gli effetti)
@@ -92,7 +95,7 @@ func _process(dt: float) -> void:
 ## dipende dalla forma, `FormsData.AREA`: la lancia e la frusta lontano in linea, la falce anche dietro).
 func _melee(st: Dictionary, use: String, tr := "") -> void:
 	var sw: bool = player.swinging or player.force_swing
-	var dmg := roundi(float(st["damage"]) * _boon())
+	var dmg := roundi(float(st["damage"]) * _boon() * (1.0 if use == "colpo" else TOOL_HIT))
 	if not sw or dmg <= 0 or not use in ["colpo", "scava", "abbatti"]:
 		_cycle = -1
 		return

@@ -24,10 +24,10 @@ const STRATA := [
 		"ambient": Color(0, 0, 0), "danger": 1.4, "color": "#8298bc"},
 	{"id": "linfa", "name": "Profondità della Linfa", "desc": "La roccia trasuda Linfa: cristalli e funghi che brillano",
 		"top": 340, "rock": TileDefs.SCISTO, "pocket": TileDefs.STONE, "wall": TileDefs.WALL_SCISTO,
-		"ambient": Color(0, 0, 0), "danger": 1.8, "color": "#5cc8cc"},
+		"ambient": Color(0, 0, 0), "danger": 1.7, "color": "#5cc8cc"},
 	{"id": "fondo", "name": "Il Fondo", "desc": "Qui il mondo finisce e comincia il Vuoto",
 		"top": 560, "rock": TileDefs.VUOTITE, "pocket": TileDefs.SCISTO, "wall": TileDefs.WALL_VOID,
-		"ambient": Color(0, 0, 0), "danger": 2.3, "color": "#c08aff"},
+		"ambient": Color(0, 0, 0), "danger": 1.9, "color": "#c08aff"},
 ]
 
 

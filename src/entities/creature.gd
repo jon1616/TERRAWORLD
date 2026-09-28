@@ -31,6 +31,7 @@ var knock := 0.0
 var half := Vector2(6, 6)
 var speed := 60.0
 var fly := false
+var shot_k := 1.0                      # voce 185: quanto crescono i suoi proiettili (lo scrive `strengthen`)
 # stato e intenzioni (scritte dai comportamenti)
 var vel := Vector2.ZERO
 var on_floor := false
@@ -191,6 +192,7 @@ func make_calm() -> void:
 
 ## Più forte negli strati profondi: Vita e danno moltiplicati.
 func strengthen(mult: float, dmg_mult := -1.0) -> void:
+	shot_k *= mult                          # voce 185: anche i proiettili crescono con lo strato e il vigore
 	hp_max = int(round(hp_max * mult))
 	hp = hp_max
 	damage = int(round(damage * (mult if dmg_mult < 0.0 else dmg_mult)))

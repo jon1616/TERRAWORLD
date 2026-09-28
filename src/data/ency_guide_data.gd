@@ -46,9 +46,9 @@ La prima volta che succede una cosa nuova (la notte, il buio sotto terra, un blo
 • [b]Maiusc[/b] nei suggerimenti: confronta con ciò che indossi o hai in mano; nel pannello Creare, [b]Maiusc+clic[/b] crea cinque volte.
 • [b]Esc[/b]: chiude il pannello aperto; se non ce n'è, apre la pausa."""},
 	{"id": "vita", "group": "Primi passi", "name": "Vita, Linfa e Scorza", "text":
-"""[b]Vita[/b] (la barra verde): parte da {hp} punti. Dopo {regen_delay} secondi senza ferite ricresce da sola, {regen} punti al secondo. Si alza per sempre assorbendo i [b]Cuori di bocciolo[/b] (nelle grotte) e curando i [url=cap:guardiani]Guardiani[/url].
+"""[b]Vita[/b] (la barra verde): parte da {hp} punti. Dopo {regen_delay} secondi senza ferite ricresce da sola, {regen} punti al secondo ogni 100 di Vita massima (più Vita hai, più in fretta torna). Si alza per sempre assorbendo i [b]Cuori di bocciolo[/b] (nelle grotte) e curando i [url=cap:guardiani]Guardiani[/url].
 [b]Linfa[/b] (la barra turchese): parte da {linfa} punti e ricresce sempre, {linfa_regen} al secondo. La spendono i [url=cap:combattere]bastoni[/url]. Si alza con le [b]Stille perenni[/b].
-[b]Scorza[/b]: la tua difesa, somma dell'armatura, dei [url=cap:set]set[/url] e dei poteri. Ogni ferita perde metà della tua Scorza.
+[b]Scorza[/b]: la tua difesa, somma dell'armatura, dei [url=cap:set]set[/url] e dei poteri. Toglie una [b]parte[/b] di ogni ferita, a qualunque profondità e vigore: con 10 di Scorza le ferite si dimezzano, con 20 ne resta un terzo, con 30 un quarto. Scendendo e salendo di vigore le creature colpiscono sempre più forte: senza un'armatura del metallo giusto, dalle Caverne in giù non si regge. La scheda del Germogliato e la Bisaccia dicono quanto toglie la tua.
 [b]Pozioni[/b]: ne puoi bere una ogni {potion_cd} secondi (vedi [url=cap:pozioni]Pozioni e cibo[/url]).
 [b]Cadute[/b]: fino a {fall_safe} tessere non fanno male; oltre, {fall_hurt} punti di Vita per tessera. Alcuni accessori tolgono le ferite da caduta.
 [b]Veleno[/b]: certe creature avvelenano; le bende lo tolgono."""},

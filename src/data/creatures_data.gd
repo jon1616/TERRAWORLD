@@ -274,6 +274,11 @@ const DESPAWN := 90
 static var now_season := ""
 static var now_weather := ""
 static var now_eclipse := false
+## Voce 185 (Roadmap 18): l'inizio facile. Nei mondi di vigore 1, di giorno, in Superficie nascono solo le creature
+## leggere (Vita × danno sotto `SURFACE_STRONG`, l'80% delle nascite); le forti dei biomi (orsi, lupi, golem, scudati)
+## arrivano di notte e nei mondi di vigore 2 o più: salire di vigore porta creature nuove. Il vigore lo scrive `main`.
+const SURFACE_STRONG := 480
+static var now_vigor := 1
 
 
 static func of_stratum(s: int, night := false, biome := "") -> Array:
@@ -281,6 +286,8 @@ static func of_stratum(s: int, night := false, biome := "") -> Array:
 	for id in CREATURES:
 		var c: Dictionary = CREATURES[id]
 		if s == 0 and c.has("biomes") and not biome in c["biomes"]:
+			continue
+		if s == 0 and not night and now_vigor < 2 and biome != "avvizzito" 				and int(c.get("hp", 0)) * int(c.get("damage", 0)) >= SURFACE_STRONG:
 			continue
 		# voce 134: le creature di una stagione, di un tempo, dell'eclissi
 		if c.has("season") and not now_season in (c["season"] if c["season"] is Array else [c["season"]]):

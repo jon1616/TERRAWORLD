@@ -34,8 +34,10 @@ static func surface_biomes() -> Array:
 
 
 ## Le specie di uno strato con il loro peso (in superficie: la media dei biomi).
-static func pool(stratum: int, night := false) -> Dictionary:
+static func pool(stratum: int, night := false, vigor := 1) -> Dictionary:
 	var out := {}
+	var v0 := CreaturesData.now_vigor
+	CreaturesData.now_vigor = vigor
 	if stratum == 0:
 		var bs := surface_biomes()
 		for b in bs:
@@ -44,6 +46,7 @@ static func pool(stratum: int, night := false) -> Dictionary:
 	else:
 		for e in CreaturesData.of_stratum(stratum, night, ""):
 			out[String(e[0])] = float(out.get(String(e[0]), 0.0)) + float(e[1])
+	CreaturesData.now_vigor = v0
 	return out
 
 
@@ -65,7 +68,7 @@ static func fight(loadout: Dictionary, stratum: int, vigor: int, skill: Dictiona
 	var hp := float(loadout.get("hp", Vitals.HP_MAX))
 	var dz := danger(stratum, vigor, night)
 	var grade := VigorData.grade(vigor)
-	var pl := pool(stratum, night)
+	var pl := pool(stratum, night, vigor)
 	var crowd_k := crowd(dz)
 	var acc := {"w": 0.0, "lost": 0.0, "ttk": 0.0, "deadly": 0.0, "hit": 0.0, "rare": 0.0, "n": 0}
 	for id in pl:

@@ -9,8 +9,9 @@ extends RefCounted
 static func bbcode(m: Node2D) -> String:
 	var v: Vitals = m.vitals
 	var t := "[font_size=18][color=#ffd08a]%s[/color][/font_size]\n" % m.character.name
-	t += "Vita [color=#8ef0c0]%d/%d[/color] · Linfa [color=#5cc8cc]%d/%d[/color] · Scorza [color=#ffb84a]%d[/color]\n" % [
-		v.hp, v.hp_max, v.linfa, v.linfa_max, v.scorza + v.scorza_bonus + v.set_scorza]
+	var sc: int = v.scorza + v.scorza_bonus + v.set_scorza
+	t += "Vita [color=#8ef0c0]%d/%d[/color] · Linfa [color=#5cc8cc]%d/%d[/color] · Scorza [color=#ffb84a]%d[/color] (−%d%% alle ferite)\n" % [
+		v.hp, v.hp_max, v.linfa, v.linfa_max, sc, roundi(Vitals.scorza_share(sc) * 100.0)]
 	var rows := []
 	_mult(rows, "Danno", m.combat.dmg_mult * (Boons.VIGORE if m.boons.active.has("vigore") else 1.0))
 	_mult(rows, "Colpi", m.combat.spd_mult)

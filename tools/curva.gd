@@ -21,6 +21,11 @@ func _init() -> void:
 	if i >= 0 and i + 1 < args.size():
 		sk = args[i + 1]
 	var bare := "--nuda" in args
+	var di := args.find("--dettaglio")
+	if di >= 0 and di + 3 < args.size():
+		_detail(int(args[di + 1]), int(args[di + 2]), String(args[di + 3]), FightModel.SKILL[sk])
+		quit()
+		return
 	var skill: Dictionary = FightModel.SKILL[sk]
 	_p("CURVA (abilità «%s»%s): pressione %% | secondi per abbattere | ferita di un contatto" % [sk, ", senza armatura" if bare else ""])
 	var head := "%-11s" % ""
@@ -45,6 +50,24 @@ func _init() -> void:
 	if f:
 		f.store_string(out)
 	quit()
+
+
+## `--dettaglio strato vigore arma`: le specie di una zona in ordine di quanta Vita tolgono in tutto (peso × ferita).
+func _detail(s: int, v: int, weapon: String, skill: Dictionary) -> void:
+	var w := FightModel.weapon({"id": weapon}, {})
+	var pl := ZoneModel.pool(s)
+	var rows := []
+	var tot := 0.0
+	for id in pl:
+		var f := FightModel.foe(String(id), s, v)
+		var du := FightModel.duel(w, 0, 100.0, f, skill)
+		var share := float(pl[id]) * float(du["lost"])
+		tot += share
+		rows.append([share, "%-26s peso %4.1f  Vita %4.0f contatto %3.0f  abbatte %4.1fs  perde %4.1f" % [String(f["name"]).left(26),
+			float(pl[id]), float(f["hp"]), float(f["contact"]), float(du["ttk"]), float(du["lost"])]])
+	rows.sort_custom(func(a: Array, b: Array) -> bool: return float(a[0]) > float(b[0]))
+	for r in rows.slice(0, 25):
+		_p("%5.1f%%  %s" % [100.0 * float(r[0]) / tot, r[1]])
 
 
 func _p(s: String) -> void:

@@ -100,7 +100,7 @@ static func stats(form: String, mat: String) -> Dictionary:
 			out["speed"] = snappedf(1.6 + 0.15 * float(md["tier"]), 0.01)
 			out["knockback"] = 1.2
 		"pugnale":
-			out["damage"] = roundi(filo * 0.7)
+			out["damage"] = roundi(filo * 0.65)          # voce 185: era 0,7, batteva la spada in tutto dal grado 3
 			out["speed"] = snappedf((SPEED_BASE - SPEED_PESO * peso) * 1.55, 0.01)
 			out["knockback"] = 1.5
 		"spadone":
@@ -112,7 +112,7 @@ static func stats(form: String, mat: String) -> Dictionary:
 			out["speed"] = snappedf((SPEED_BASE - SPEED_PESO * peso) * 0.85, 0.01)
 			out["knockback"] = 2.5
 		"martello":
-			out["damage"] = roundi(filo * 0.8 + peso * 0.6)
+			out["damage"] = roundi(filo * 1.2 + peso * 0.4)   # voce 185: era filo 0,8 + peso 0,6: con i metalli leggeri crollava
 			out["speed"] = snappedf((SPEED_BASE - SPEED_PESO * peso) * 0.55, 0.01)
 			out["knockback"] = 9.0
 		"falcione":
@@ -147,7 +147,8 @@ static func stats(form: String, mat: String) -> Dictionary:
 		"canna":
 			out.merge(FishingData.rod_stats(md))
 		"verga":
-			out["damage"] = roundi(float(md["conduzione"]) * 1.6 + 2.0)
+			# voce 185: anche il grado conta (la verga di legnoferro era più debole di quella di radicite)
+			out["damage"] = roundi(float(md["conduzione"]) * 1.4 + float(md["tier"]) * 1.5 + 2.0)
 			out["speed"] = 2.2
 			out["knockback"] = 1.0
 			out["spell"] = "saetta"

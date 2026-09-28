@@ -118,7 +118,7 @@ func _ready() -> void:
 	_scorza.add_theme_color_override("font_color", Color("#ffb84a"))
 	_scorza.add_theme_color_override("font_outline_color", Color(0.02, 0.05, 0.07))
 	_scorza.add_theme_constant_override("outline_size", 5)
-	_scorza.tooltip_text = "Scorza: toglie metà del suo valore a ogni ferita"
+	_scorza.tooltip_text = "Scorza: toglie una parte di ogni ferita (10 di Scorza la dimezza, 30 ne toglie tre quarti)"
 	add_child(_scorza)
 	# voce 101: l'icona della Scorza accanto alla scritta
 	var st := ArtLib.tex("interfaccia", "scorza")
@@ -275,7 +275,8 @@ func _refresh() -> void:
 		var extra := 0
 		for s in done:
 			extra += int((SetsData.all()[s]["bonus"] as Dictionary).get("defense", 0))
-		_scorza.text = "Scorza %d" % (bisaccia.scorza() + extra)
+		var sc := bisaccia.scorza() + extra
+		_scorza.text = "Scorza %d  (−%d%% alle ferite)" % [sc, roundi(Vitals.scorza_share(sc) * 100.0)]
 		_show_sets(done)
 	if _trash_view:
 		_trash_view.set_item(String(trash.get("id", "")), int(trash.get("n", 0)), String(trash.get("tratto", "")),

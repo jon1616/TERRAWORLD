@@ -325,6 +325,7 @@ func _build() -> void:
 	built = true
 	fauna.vigor_mult = Portal.vigor_mult(portal.vigor())
 	fauna.vigor = portal.vigor()
+	CreaturesData.now_vigor = portal.vigor()     # voce 185: le creature forti della Superficie dal vigore 2
 	fauna.light = light
 	if Session.world_id == "":
 		if Session.new_world.has("ritorno"):

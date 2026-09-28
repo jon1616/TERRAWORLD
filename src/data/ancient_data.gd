@@ -21,6 +21,9 @@ const RARITIES := {
 		"damage": 0.0, "scale": 1.1, "aura": Color(1.7, 1.7, 1.7), "loot_rolls": 3, "trophy": 1.0, "iride": true,
 		"life": 75.0, "dust": [2, 4]},
 }
+## Voce 185 (Roadmap 18): oltre questo pericolo le rare non crescono più (al vigore 12 nel Fondo erano quasi metà
+## delle creature: una rara deve restare un incontro speciale). Con 7: al più ~22% di rare, come nel Fondo del primo mondo.
+const DANGER_CAP := 7.0
 ## L'ordine in cui si tirano (la più rara per prima).
 const ORDER := ["ancestrale", "iridata", "capobranco", "antica"]
 
@@ -51,6 +54,7 @@ const ANNOUNCE := 60
 ## Che rarità ha una creatura che nasce con questo pericolo ("" = comune). `grouped` = la specie nasce già in sciame
 ## (niente capobranco).
 static func roll_rarity(danger: float, rng: RandomNumberGenerator, grouped := false, mult := 1.0) -> String:
+	danger = minf(danger, DANGER_CAP)
 	var r := rng.randf()
 	var acc := 0.0
 	for k in ORDER:

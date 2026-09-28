@@ -14,12 +14,13 @@ extends RefCounted
 ##   dodge    parte dei proiettili evitati
 ##   bow_hit  parte dei dardi e degli incantesimi che vanno a segno
 ## Il bot gioca bene ma senza sorprese; i profili umani (voce 181) sono il bot con gli errori di chi gioca davvero:
-## «attento» come il bot, «medio» il doppio dei contatti e più sorprese, «jon» tarato sul Diario dell'utente.
+## «jon» è tarato sul Diario dell'utente (voce 181: 3,7 appassimenti all'ora contro i 3,6 veri), «medio» ha la sua stessa
+## mano (l'unico umano misurato) e cambia solo le abitudini (`tools/percorso.gd`), «attento» è il bot con qualche sorpresa.
 
 const SKILL := {
 	"bot": {"uptime": 0.52, "touch": 0.13, "open": 0.0, "dodge": 0.5, "bow_hit": 0.7},
 	"attento": {"uptime": 0.55, "touch": 0.15, "open": 0.12, "dodge": 0.5, "bow_hit": 0.7},
-	"medio": {"uptime": 0.5, "touch": 0.28, "open": 0.3, "dodge": 0.4, "bow_hit": 0.6},
+	"medio": {"uptime": 0.5, "touch": 0.22, "open": 0.28, "dodge": 0.4, "bow_hit": 0.6},
 	"jon": {"uptime": 0.48, "touch": 0.22, "open": 0.28, "dodge": 0.35, "bow_hit": 0.6},
 }
 ## Quanto ogni comportamento cambia i contatti (1 = chi salta o cammina addosso). Tarati con l'arena (voce 180).
@@ -77,7 +78,7 @@ static func weapon(cell: Dictionary, fx: Dictionary = {}) -> Dictionary:
 			if f in ["lancia", "frusta"]:
 				w["reach"] = MELEE_REACH
 		"scava", "abbatti":
-			w["dmg"] = float(st["damage"]) * dmg_k
+			w["dmg"] = float(st["damage"]) * dmg_k * Combat.TOOL_HIT
 			w["rate"] = 1.0 / Combat.DIG_PERIOD
 		"tira":
 			w["dmg"] = (float(st["damage"]) + DART) * dmg_k
@@ -114,15 +115,11 @@ static func stats_of(d: Dictionary, hp_mult: float, dmg_mult: float) -> Dictiona
 	for b in f["behaviors"]:
 		if SHOTS.has(b):
 			var s: Array = SHOTS[b]
-			var base_dmg := float(p.get("bolt_damage", d["damage"])) if int(s[3]) < 0 else float(p.get("shot_damage", s[3]))
+			# i fulmini feriscono con il danno al contatto (già cresciuto); gli altri proiettili crescono come la Vita
+			var sdmg := float(p.get("bolt_damage", float(d["damage"]) * dmg_mult)) if int(s[3]) < 0 				else float(p.get("shot_damage", s[3])) * hp_mult
 			f["shots"].append({"every": float(p.get(String(s[0]), s[1])), "n": int(p.get("fan_n", s[2])) if b == "ventaglio" else 1,
-				"dmg": base_dmg * shot_mult(dmg_mult), "share": float(s[4])})
+				"dmg": sdmg, "share": float(s[4])})
 	return f
-
-
-## Quanto crescono i proiettili con strato e vigore (oggi non crescono: voce 185).
-static func shot_mult(_dmg_mult: float) -> float:
-	return 1.0
 
 
 ## Una creatura rara (`AncientData.RARITIES`): più Vita e più danno.

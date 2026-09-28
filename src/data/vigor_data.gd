@@ -13,9 +13,11 @@ const STEP := 5
 ## Voce 99, il bilancio: quanto crescono Vita e danno delle creature con il vigore. Fino al vigore 5 +35% per punto,
 ## poi +20%: con la sola crescita lineare a vigore 20 una creatura della Superficie voleva 32 colpi e ne bastavano 2
 ## per appassire (`tools/bilancio.gd`). La usano `Portal.vigor_mult`, i testi e lo strumento del bilancio.
-const CREATURE_STEP := 0.35
+## Voce 185 (Roadmap 18, misurato con `tools/percorso.gd`): +30% fino al vigore 5 e +15% dopo (erano 35% e 20%: con
+## l'equipaggiamento migliore e la tempra si appassiva 6 volte all'ora al vigore 12).
+const CREATURE_STEP := 0.3
 const CREATURE_SOFT := 5
-const CREATURE_STEP_HIGH := 0.2
+const CREATURE_STEP_HIGH := 0.15
 
 
 static func creature_mult(v: int) -> float:

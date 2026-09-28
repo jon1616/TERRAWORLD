@@ -157,8 +157,10 @@ static func _alloy(a: String, b: String) -> Dictionary:
 	var elem := ea if eb == "" or ea == eb else (eb if ea == "" else "%s+%s" % [ea, eb])
 	return {"label": "di " + name, "short": name, "tier": maxi(int(ma["tier"]), int(mb["tier"])),
 		"durezza": roundi(maxf(float(ma["durezza"]), float(mb["durezza"])) * 0.95),
-		"filo": roundi((float(ma["filo"]) + float(mb["filo"])) * 0.5 * 1.1),
-		"peso": minf(float(ma["peso"]), float(mb["peso"])),
+		# voce 185: filo ×1,05 (era 1,1) e peso a metà tra il più leggero e la media (era il più leggero): la lega
+		# tizzonite-nimbite batteva di un terzo i metalli del suo grado (`tools/armi.gd`)
+		"filo": roundi((float(ma["filo"]) + float(mb["filo"])) * 0.5 * 1.05),
+		"peso": (minf(float(ma["peso"]), float(mb["peso"])) + (float(ma["peso"]) + float(mb["peso"])) * 0.5) * 0.5,
 		"tenacia": snappedf((float(ma["tenacia"]) + float(mb["tenacia"])) * 0.5 * 1.1, 0.1),
 		"conduzione": roundi((float(ma["conduzione"]) + float(mb["conduzione"])) * 0.5),
 		"elemento": elem, "risonanza": mini(maxi(int(ma["risonanza"]), int(mb["risonanza"])) + 1, 3),

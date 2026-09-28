@@ -34,8 +34,9 @@ static func vitals(m: Node2D) -> TipCard:
 	c.bar("Vita %d / %d" % [v.hp, v.hp_max], float(v.hp) / maxf(v.hp_max, 1), Color("#3aa08a"))
 	c.bar("Linfa %d / %d" % [v.linfa, v.linfa_max], float(v.linfa) / maxf(v.linfa_max, 1), Color("#5cc8cc"))
 	var sc: int = m.character.bisaccia.scorza() + v.set_scorza + v.scorza_bonus
-	var rows := [["Scorza", "%d (toglie %d a ogni ferita)" % [sc, sc / 2]],
-		["Ricrescita della Vita", "%s al secondo dopo %d s senza ferite" % [ItemTip.num(Vitals.REGEN * v.regen_mult * v.boon_regen, 1),
+	var rows := [["Scorza", "%d (toglie il %d%% di ogni ferita)" % [sc, roundi(Vitals.scorza_share(sc) * 100.0)]],
+		["Ricrescita della Vita", "%s al secondo dopo %d s senza ferite" % [ItemTip.num(Vitals.REGEN * v.hp_max / Vitals.HP_MAX
+			* v.regen_mult * v.boon_regen, 1),
 			roundi(Vitals.REGEN_DELAY)]],
 		["Ricrescita della Linfa", "%s al secondo" % ItemTip.num(Vitals.LINFA_REGEN * v.linfa_regen_mult * v.pet_linfa, 1)]]
 	c.stats(rows)

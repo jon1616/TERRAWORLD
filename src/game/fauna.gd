@@ -208,7 +208,7 @@ func _process(dt: float) -> void:
 			vanished.emit(c)
 			continue
 		for f in c.fire:
-			shots.fire(f["from"], f["vel"], f["grav"], f["damage"], false, 1.0,
+			shots.fire(f["from"], f["vel"], f["grav"], roundi(float(f["damage"]) * c.shot_k), false, 1.0,
 				{"look": f.get("look", "spora"), "slow": f.get("slow", 0.0)})
 			if sfx:
 				sfx.play("spora", f["from"])

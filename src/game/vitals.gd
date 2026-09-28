@@ -1,7 +1,7 @@
 class_name Vitals
 extends RefCounted
 ## Vita e Linfa del Germogliato (solo regole, nessun disegno). La Vita si mostra come foglie (10 punti l'una), la Linfa
-## come gocce. La Scorza (difesa, dall'equipaggiamento) toglie metà del suo valore a ogni ferita, come una corteccia.
+## come gocce. La Scorza (difesa, dall'equipaggiamento) toglie una parte di ogni ferita, come una corteccia (`reduce`).
 ## La Vita ricresce da sola dopo qualche secondo senza ferite; la Linfa sempre.
 
 signal changed
@@ -10,7 +10,9 @@ signal died
 const HP_MAX := 100
 const LINFA_MAX := 20
 const REGEN_DELAY := 10.0             # secondi senza ferite prima che la Vita ricresca (voce 20: prima 6, troppo facile)
-const REGEN := 1.2                    # punti di Vita al secondo, dopo l'attesa (prima 2)
+const REGEN := 1.2                    # punti di Vita al secondo per 100 di Vita massima, dopo l'attesa (prima 2)
+                                       # voce 185: cresce con la Vita massima (con 300 di Vita 3,6 al secondo), se no
+                                       # i doni di Vita valevano solo per il primo colpo e la Vita non tornava più
 const LINFA_REGEN := 1.5              # punti di Linfa al secondo
 const POTION_COOLDOWN := 30.0
 
@@ -58,9 +60,22 @@ func hurt(amount: int) -> int:
 	return real
 
 
-## La ferita che resta dopo la Scorza (una regola sola: la usa anche `FightModel`, voce 179).
+## La ferita che resta dopo la Scorza (una regola sola: la usa anche `FightModel`, voce 179). Voce 184: la Scorza toglie
+## una **parte** della ferita, SCORZA_K / (SCORZA_K + Scorza): con 10 di Scorza metà, con 30 tre quarti. Prima toglieva
+## metà del suo valore: contava all'inizio e non contava più niente contro le creature forti (−14% nel Fondo al vigore
+## 5 con lo stellare), e il giocatore non aveva motivo di equipaggiarsi.
+const SCORZA_K := 10.0
+
+
 static func reduce(amount: int, total_scorza: int) -> int:
-	return maxi(amount - total_scorza / 2, 1)
+	if amount <= 0:
+		return 0
+	return maxi(roundi(amount * SCORZA_K / (SCORZA_K + maxf(total_scorza, 0))), 1)
+
+
+## La parte di ogni ferita che la Scorza toglie (0-1), per le schede.
+static func scorza_share(total_scorza: int) -> float:
+	return 1.0 - SCORZA_K / (SCORZA_K + maxf(total_scorza, 0))
 
 
 func heal(amount: int) -> void:
@@ -94,7 +109,7 @@ func tick(dt: float) -> void:
 	_since_hit += dt
 	potion_wait = maxf(potion_wait - dt, 0.0)
 	if harsh_regen > 0.0 and _since_hit >= REGEN_DELAY / (regen_mult * boon_regen * effect_regen * zone_regen * room_regen) and hp < hp_max:
-		_acc += REGEN * regen_mult * boon_regen * effect_regen * zone_regen * harsh_regen * room_regen * dt
+		_acc += REGEN * hp_max / HP_MAX * regen_mult * boon_regen * effect_regen * zone_regen * harsh_regen * room_regen * dt
 		var k := int(_acc)
 		_acc -= k
 		hp = mini(hp + k, hp_max)

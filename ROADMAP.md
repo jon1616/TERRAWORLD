@@ -3286,17 +3286,19 @@ solo con i Guardiani curati (+20 a mondo, senza tetto); **l'economia**: cacciare
 ~930 nel Fondo, ~4200 al vigore 8, mentre la pesca rende 270-3000 all'ora (con la stanchezza degli specchi) fin dalla
 prima canna: 4-8 volte la caccia dello stesso momento; un Seme di mondo costa 1400-1800 Lumini, la Linfa antica 240.
 
-## 184. [ ] La Scorza che conta (M)
+## 184. [x] La Scorza che conta (M) — fatto il 29 set 2026
 Nuova regola della Scorza (percentuale che cresce con la Scorza più una parte fissa, al posto di «metà del valore»),
 Scorza dei materiali e dei set rivista perché il set del grado atteso tolga circa metà delle ferite del suo strato;
 schede, Esamina e scheda del Germogliato che dicono la percentuale.
 **Pronto quando**: con il modello, un grado sotto = pressione ×1,6-2 in ogni strato.
+**Fatto**: `Vitals.reduce`: la Scorza toglie la parte `SCORZA_K / (SCORZA_K + Scorza)` di ogni ferita (K = 10: 10 di Scorza dimezzano, 30 tolgono tre quarti), a qualunque profondità e vigore; prima toglieva metà del suo valore e contro le creature forti non contava più (−14% nel Fondo al vigore 5 con lo stellare, ora −78%). Scorza e percentuale nella Bisaccia, nella scheda del Germogliato e nel suggerimento della Vita; l'Enciclopedia («Vita, Linfa e Scorza») lo spiega. La Pozione di scorza (+8) ora vale il 44% da sola.
 
-## 185. [ ] La curva della difficoltà (G)
+## 185. [x] La curva della difficoltà (G) — fatto il 29 set 2026
 Pericolo degli strati, crescita con il vigore, proiettili che crescono come il contatto, attrezzi che non fanno da armi
 (il piccone colpisce, ma meno), l'inizio più morbido (primi minuti, prima notte), la Vita che cresce con un tetto
 sensato, le creature fuori fascia. Si rifà il giro dei tre profili dopo ogni cambio.
 **Pronto quando**: la curva di «medio» sta nei numeri obiettivo, e «jon» senza armatura sente il muro dalle Caverne.
+**Fatto**: misurato con `tools/percorso.gd` dopo ogni cambio. **L'inizio facile**: nei mondi di vigore 1, di giorno, in Superficie nascono solo le creature leggere (Vita × danno sotto 480: l'80% delle nascite); le forti dei biomi arrivano di notte e dal vigore 2 (`CreaturesData.now_vigor`, `SURFACE_STRONG`). **La Vita ricresce in proporzione** alla Vita massima (1,2 al secondo ogni 100). **Pericolo degli strati** Profondità 1,8 → 1,7, Fondo 2,3 → 1,9; **vigore** +30% a punto fino al 5 (era 35) e +15% dopo (era 20); **le rare** non crescono oltre il pericolo 7 (`AncientData.DANGER_CAP`: al vigore 12 erano quasi metà delle creature). **I proiettili** delle creature crescono come la loro Vita (`Creature.shot_k`). **Le armi** (`tools/armi.gd`): piccone e ascia colpiscono le creature a metà (`Combat.TOOL_HIT`), pugnale filo × 0,65 (batteva la spada in tutto), martello filo × 1,2 + peso × 0,4 (crollava con i metalli leggeri), la verga conta anche il grado, le leghe filo × 1,05 e peso a metà tra il più leggero e la media (la tizzonite-nimbite faceva +33%); tra la forma più forte e la più debole di un metallo ora c'è al più 1,45 (era 2,25). **Il risultato** (40 giri a tappa, appassimenti all'ora): «attento» 0 fino alle Caverne, 0,3 nelle Profondità, 2 nel Fondo del primo mondo, 0,6-1,8 dal vigore 2 all'8, 4,8 al 12; «medio» (armatura di un grado sotto) 0-2,9 fino alle Profondità, 4,5-11 dopo; «jon» (senza armatura) 0,4 nei primi passi, il muro dalle Caverne (5) e dalle Profondità (18). Prima: «medio» 2,6 già nei primi passi e 26-47 dal vigore 3, anche «attento» 15-40.
 
 ## 186. [ ] Boss, rare e scontri speciali (M)
 Guardiani, Guardiani generati, Custodi, Signori, Grandi Guardiani, maree: durata e pericolo con l'arma attesa; le rare
