@@ -26,6 +26,7 @@ static func passes() -> Array[GenPass]:
 		PassSottosuolo.new(),
 		PassErba.new(),
 		PassStagni.new(),                   # voce 118: laghi e stagni di superficie (la pesca)
+		PassCielo.new(),                    # Roadmap 16: le Chiome del cielo (isole, radici pendenti, correnti)
 		PassAlberi.new(),
 		PassDecorazioni.new(),
 		PassAvvizzimento.new(),

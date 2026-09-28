@@ -2806,7 +2806,7 @@ Opzione «scavo_intelligente». Prove `--solo=comodita` (`TestsComfort`, foto 21
 
 ## Parte B — Il cielo nel mondo
 
-## 154. [ ] Il cielo nei dati (M)
+## 154. [x] Il cielo nei dati (M) — fatto il 29 set 2026
 `SkyData` (`src/data/sky_data.gd`) e i file dei biomi del cielo (`src/data/biomes/cielo_*.gd`, `BiomesData.SKY_FILES`,
 uniti ai pacchetti come quelli del sottosuolo). Le **due fasce**: il **cielo basso** (da ~30 a ~90 tessere sopra la
 superficie) e il **cielo alto** (sopra, fino al bordo del mondo). Il mondo è diviso in **zone del cielo** lungo la
@@ -2815,8 +2815,9 @@ vanno negli appunti del generatore e poi in `world_meta["cielo"]`. `SkyData.zone
 del cielo è una cella; la scritta entrando («Le Chiome del cielo — Mare di nuvole», `DepthWatch`); i colori sulla mappa.
 **Pronto quando**: `tools/mappe.gd` mostra le zone e la prova dice per una cella del cielo basso e del cielo alto il
 bioma giusto.
+**Fatto**: `SkyData` (fasce, zone, `zone_at`, `band_at`, `make_zones`), sei file `src/data/biomes/cielo_*.gd` in `BiomesData.SKY_FILES` (uniti ai pacchetti), `World.sky` salvato in `world_meta["cielo"]` dal modulo `Chiome` (`src/game/chiome.gd`: la scritta entrando, `stats.cielo_max`, `cieli_visti`). Prove `--solo=cielo` (`TestsSky`).
 
-## 155. [ ] Il generatore del cielo (L)
+## 155. [x] Il generatore del cielo (L) — fatto il 29 set 2026
 `PassCielo` (dopo le isole della voce 48, prima della firma): in ogni zona isole della forma del suo bioma (zolle
 sospese, banchi di nuvola piatti, scogli di cristallo, isole a nido), in gruppi a gradini così che dall'una si salti
 all'altra; **radici pendenti** (colonne di passerelle) che scendono dalle isole basse fin quasi a terra; **correnti
@@ -2825,6 +2826,7 @@ d'acqua sulle isole (la pesca). Mappa dei posti (`claim`), collaudo (niente isol
 partenza), niente cielo nei mondi a Guscio (il tetto) e nel Giardino. Tempo del generatore misurato: +0,3 s al più.
 **Pronto quando**: `tools/mappe.gd` su 6 semi mostra il cielo abitato in ogni mondo, e la prova sale dalla superficie
 a un'isola bassa con una corrente.
+**Fatto**: `PassCielo` (44 ms per mondo): isole per forma (zolla, nuvola, giardino, scoglio, tempesta, stelle), radici pendenti di passerelle, ponti di liane, pozze, alberi sulle zolle, correnti dalla superficie al cielo basso e dal basso all'alto (con un'isoletta di nuvola se serve). Nel mondo di prova 6 zone, 13 correnti; la prova sale con una corrente fino all'isola (foto 212, 213).
 
 ## 156. [ ] I sei biomi del cielo (L)
 Tre bassi e tre alti, ognuno con la sua tessera di pavimento, la vegetazione (`SkyDecorArt`), la luce, il tempo:

@@ -386,7 +386,7 @@ static func turf_of_layer(layer: String) -> Dictionary:
 ## Le decorazioni dei biomi, di superficie e del sottosuolo.
 static func _all_decor() -> Dictionary:
 	var out := {}
-	for b in BiomesData.BIOMES + BiomesData.UNDER:
+	for b in BiomesData.BIOMES + BiomesData.UNDER + BiomesData.SKY:
 		out.merge(b.get("decor", {}))
 	return out
 

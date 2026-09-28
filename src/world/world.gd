@@ -33,6 +33,7 @@ var liquid := PackedByteArray()
 ## Chiamata quando una tessera cambia (`set_tile`): i liquidi vicini si risvegliano (lo imposta `Liquids`).
 var on_change := Callable()
 var gen_rng: RandomNumberGenerator = null   # il caso del generatore mentre il mondo nasce (casse, vedi `chest_at`)
+var sky: Array = []                    # Roadmap 16: le zone del cielo ({x0, x1, low, high, base, split}, `SkyData`)
 var gen_notes := {}                    # gli appunti del generatore (`GenContext.notes`), solo per il mondo appena nato
 
 
@@ -58,6 +59,7 @@ func setup(width: int, height: int) -> void:
 	biomes.resize(w)
 	biomes.fill(0)
 	surface.resize(w)
+	sky = []
 	torches.clear()
 	_torch_buckets.clear()
 	trees.clear()

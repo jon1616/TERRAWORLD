@@ -34,6 +34,15 @@ const MATERIALS := {
 	"brina": ["#1c3048", "#2a4a6a", "#44729a", "#7aaed0", "#d0f0ff"],
 	"cenere": ["#3a2a30", "#5a3e44", "#7e565a", "#a8766e", "#e0a888"],
 	"nottilite": ["#1c0a30", "#40186a", "#7a38c0", "#b880ff", "#ecd8ff"],
+	# Roadmap 16: il cielo
+	"cielo": ["#1f5c58", "#2f8a7c", "#58c0a4", "#a8f0d8", "#e8fff6"],
+	"nuvola": ["#6a7a98", "#9aaccc", "#c4d4ec", "#e4eefa", "#ffffff"],
+	"tempesta": ["#1a1e2e", "#2c3248", "#434c68", "#66729a", "#c8d4ff"],
+	"celeste": ["#1a3a5a", "#2a6090", "#4a90c8", "#8ac8f0", "#e0f6ff"],
+	"stelle": ["#1c2450", "#2e3a78", "#6a78c0", "#c8d0ff", "#fffbe0"],
+	"vento": ["#6a5418", "#a08028", "#e0c050", "#fff0a0", "#fffbe8"],
+	"nimbite": ["#34405a", "#5a7090", "#8ea8c8", "#cfe0f4", "#ffffff"],
+	"folgorite": ["#2a2450", "#4a4a9a", "#7a8ae0", "#c0d0ff", "#fffac0"],
 }
 const LEAF := ["#16574f", "#3aa08a", "#72d4b0"]
 const AMBER := ["#9a4a22", "#ffb040", "#ffe0a0"]

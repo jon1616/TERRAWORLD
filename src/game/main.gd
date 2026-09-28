@@ -84,6 +84,7 @@ var mechanisms: Mechanisms
 var liquids: Liquids
 var weather: Weather
 var gravity: Gravity
+var chiome: Chiome
 var living: LivingEarth
 var vigor: Vigor
 var legends: Legends
@@ -245,6 +246,7 @@ func _build() -> void:
 	liquids = _mount(Liquids.new())        # voce 73: acqua, Linfa e brace che scorrono; nuoto e respiro
 	weather = _mount(Weather.new())        # voce 75: vento, pioggia, nebbia, temporali, cenere, bufere
 	gravity = _mount(Gravity.new())        # voce 76: il peso del mondo e le correnti ascensionali
+	chiome = _mount(Chiome.new())              # Roadmap 16: le Chiome del cielo (zone, scritte)
 	living = _mount(LivingEarth.new())     # voce 77: radici che ricrescono, cristalli che crescono, frane
 	vigor = _mount(Vigor.new())            # voce 79: i gradi del vigore, le indoli nuove, la tempra
 	legends = _mount(Legends.new())        # voce 81: i Semi leggendari e il Seme Primo

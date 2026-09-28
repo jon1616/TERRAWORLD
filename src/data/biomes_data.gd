@@ -76,6 +76,16 @@ const UNDER_FILES := [
 	preload("res://src/data/biomes/sotto_catacombe.gd"),
 ]
 
+## Roadmap 16: i biomi del cielo (campi in cima a `SkyData`; pacchetto come qui, `tiles` come i biomi del sottosuolo).
+const SKY_FILES := [
+	preload("res://src/data/biomes/cielo_radici.gd"),
+	preload("res://src/data/biomes/cielo_nubi.gd"),
+	preload("res://src/data/biomes/cielo_vento.gd"),
+	preload("res://src/data/biomes/cielo_cristallo.gd"),
+	preload("res://src/data/biomes/cielo_tempesta.gd"),
+	preload("res://src/data/biomes/cielo_firmamento.gd"),
+]
+
 ## Voce 97: pacchetti di contenuto che non sono biomi (le creature nascoste): stessi campi del pacchetto.
 const PACK_FILES := [
 	preload("res://src/data/hidden_creatures.gd"),
@@ -89,6 +99,7 @@ const PACK_FILES := [
 
 static var BIOMES: Array = _load()
 static var UNDER: Array = _load_under()
+static var SKY: Array = _load_sky()
 
 const SPAWN_SAFE := 160                # colonne di foresta attorno alla partenza
 const SEG_MIN := 220                   # lunghezza di un tratto di bioma, in colonne
@@ -110,6 +121,13 @@ static func _load_under() -> Array:
 	return out
 
 
+static func _load_sky() -> Array:
+	var out := []
+	for f in SKY_FILES:
+		out.append(f.DATA)
+	return out
+
+
 static func index_of(id: String) -> int:
 	for k in BIOMES.size():
 		if BIOMES[k]["id"] == id:
@@ -124,7 +142,7 @@ static func at(w: Object, x: int) -> int:    # (niente tipo World: questo file n
 ## Voce 92: l'unione di un campo-dizionario del pacchetto di tutti i biomi.
 static func pack(key: String) -> Dictionary:
 	var out := {}
-	for f in FILES + UNDER_FILES + PACK_FILES:
+	for f in FILES + UNDER_FILES + SKY_FILES + PACK_FILES:
 		out.merge((f.DATA as Dictionary).get(key, {}))
 	return out
 
@@ -132,7 +150,7 @@ static func pack(key: String) -> Dictionary:
 ## Voce 92: l'unione di un campo-elenco del pacchetto di tutti i biomi.
 static func pack_list(key: String) -> Array:
 	var out := []
-	for f in FILES + UNDER_FILES + PACK_FILES:
+	for f in FILES + UNDER_FILES + SKY_FILES + PACK_FILES:
 		out.append_array((f.DATA as Dictionary).get(key, []))
 	return out
 

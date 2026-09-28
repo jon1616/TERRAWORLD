@@ -74,4 +74,4 @@ static func draw(id: int, im: Image, gm: Image, rng: RandomNumberGenerator) -> V
 				Px.put(im, q.x, q.y, Color("#6ff0b8"))
 				Px.put(gm, q.x, q.y, Color(0.3, 0.8, 0.6))
 			return true
-	return null
+	return SkyDecorArt.draw(id, im, gm, rng)          # Roadmap 16: il cielo

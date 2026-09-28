@@ -237,6 +237,8 @@ func run(main: Node2D) -> void:
 	# Roadmap 15: per ultime, perché costruiscono attorno alla partenza (le prove dopo cercherebbero i loro posti)
 	await TestsAlive.new(kit).run()
 	_mark("TestsAlive")
+	await TestsSky.new(kit).run()          # Roadmap 16: il cielo
+	_mark("TestsSky")
 	await ob.run()
 	_mark("ob.run")
 	await w.run_and_save()
@@ -437,6 +439,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsStorage.new(kit).run()
 		"comodita":
 			await TestsComfort.new(kit).run()
+		"cielo":
+			await TestsSky.new(kit).run()
 		"alberi":
 			await TestsTrees.new(kit).run()
 		"sigilli":

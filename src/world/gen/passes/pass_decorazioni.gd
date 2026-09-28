@@ -19,8 +19,8 @@ func run(w: World, c: GenContext) -> void:
 	var veg := {}
 	for b in BiomesData.BIOMES:
 		veg[int(b["grass"])] = b.get("veg", [])
-	for u in BiomesData.UNDER:
-		veg[int(u["floor"])] = u.get("veg", [])       # voce 94: i pavimenti dei biomi del sottosuolo
+	for u in BiomesData.UNDER + BiomesData.SKY:
+		veg[int(u["floor"])] = u.get("veg", [])       # voce 94 e Roadmap 16: i pavimenti del sottosuolo e del cielo
 	var tiles := w.tiles
 	var walls := w.walls
 	var decor := w.decor
