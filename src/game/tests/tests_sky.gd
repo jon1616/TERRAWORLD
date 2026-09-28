@@ -23,6 +23,7 @@ func run() -> void:
 	await high()
 	await biomes()
 	await reach()
+	await thin()
 
 
 ## Voce 154: le zone e le fasce.
@@ -209,13 +210,13 @@ func reach() -> void:
 	var feather_ok := v.hp == hp0
 	b.equip["accessorio_1"] = old
 	m.gear.refresh()
-	# senza niente: ci si fa male (la prova che la caduta era vera)
+	# senza niente: ci si fa male (la prova che la caduta era vera; da 20, per non appassire)
 	v.hp = v.hp_max
-	m.snap_to(spot + Vector2i(6, -30))
+	m.snap_to(spot + Vector2i(6, -20))
 	await _land()
 	var hurt := v.hp < hp0
 	v.hp = v.hp_max
-	print("Fagiolo di nuvola: piantato %s, passerelle %d; caduta di 30 sulla nuvola senza danno %s, con la Piuma lenta %s, senza niente ferito %s" % [
+	print("Fagiolo di nuvola: piantato %s, passerelle %d; caduta di 30 sulla nuvola senza danno %s, con la Piuma lenta %s, da 20 senza niente ferito %s" % [
 		planted, plats, cloud_ok, feather_ok, hurt])
 	if not planted or plats < 10 or not cloud_ok or not feather_ok or not hurt:
 		print("ATTENZIONE: arrivare in cielo non va come dovrebbe")
@@ -228,3 +229,45 @@ func _land() -> void:
 		await kit.frames(1)
 		t += m.get_process_delta_time()
 	await kit.seconds(0.2)
+
+
+## Voce 158: nel cielo alto la barra dell'aria sottile sale; con la Maschera e il Mantello di piume scende.
+func thin() -> void:
+	var spot := Vector2i(-1, -1)
+	for e in world.sky:
+		if spot.x >= 0:
+			break
+		for x in range(int(e["x0"]) + 10, int(e["x1"]) - 10, 2):
+			if spot.x >= 0:
+				break
+			for y in range(SkyData.TOP + 2, int(e["split"]) - 2):
+				if world.solid(x, y + 1) and not world.solid(x, y) and not world.solid(x, y - 1):
+					spot = Vector2i(x, y)
+					break
+	if spot.x < 0:
+		print("ATTENZIONE: nessun posto nel cielo alto per l'aria sottile")
+		return
+	var h: Harshness = m.harsh
+	for k in h.meters:
+		h.meters[k] = 0.0
+	m.snap_to(spot)
+	m.vitals.hp = m.vitals.hp_max
+	await kit.seconds(3.0)
+	var rose := float(h.meters["quota"])
+	var b := kit.bisaccia()
+	var old1: Variant = b.equip.get("accessorio_1", "")
+	var old2: Variant = b.equip.get("accessorio_2", "")
+	b.equip["accessorio_1"] = "maschera_nuvola"
+	b.equip["accessorio_2"] = "mantello_piume"
+	m.gear.refresh()
+	await kit.seconds(2.0)
+	var after := float(h.meters["quota"])
+	b.equip["accessorio_1"] = old1
+	b.equip["accessorio_2"] = old2
+	m.gear.refresh()
+	print("aria sottile in %s («%s»): rigore «%s», dopo 3 s %.3f; con Maschera e Mantello dopo 2 s %.3f (protezione %.2f)" % [
+		spot, m.chiome.here, h.kind, rose, after, h.shield("quota") if false else float(h.protect.get("quota", 0.0))])
+	if h.kind != "quota" or rose < 0.04 or after >= rose:
+		print("ATTENZIONE: l'aria sottile non va come dovrebbe")
+	for k in h.meters:
+		h.meters[k] = 0.0

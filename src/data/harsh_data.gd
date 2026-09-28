@@ -21,7 +21,13 @@ const KINDS := {
 		"penalty": {"linfa": 1.0}, "desc": "l'aria brucia: a barra piena la Linfa cala e ti scotti"},
 	"polvere": {"name": "Polvere di pietra", "color": "#b8b0a0", "acc": "filtro", "boon": "riparo_polvere", "hurt": 3, "every": 2.5,
 		"penalty": {"jump": 0.7, "run": 0.85}, "desc": "la polvere pietrifica: a barra piena salti e corri meno"},
+	# Roadmap 16, voce 158: nel cielo alto (campo `thin` dei biomi del cielo, `QUOTA_RATE` × thin)
+	"quota": {"name": "Aria sottile", "color": "#c8d0ff", "acc": "quota", "boon": "respiro_alto", "hurt": 4, "every": 2.5,
+		"boon_name": "Respiro alto", "penalty": {"jump": 0.8, "linfa": 0.6},
+		"desc": "lassù l'aria manca: a barra piena salti meno, la Linfa cala e il fiato ferisce"},
 }
+
+const QUOTA_RATE := 1.0 / 45.0         # voce 158: nel cielo alto la barra si riempie in 45 s (× `thin` del bioma)
 
 const DECAY := 1.0 / 20.0              # quanto scende la barra al secondo fuori dal rigore (vuota in 20 s)
 const ROOF := 0.25                     # sotto un tetto sale a un quarto
@@ -32,6 +38,9 @@ const HURT_TILE_EVERY := 1.0           # il terreno che ferisce: ogni quanti sec
 static func boon_names() -> Dictionary:
 	var out := {}
 	for k in KINDS:
+		if KINDS[k].has("boon_name"):
+			out[String(KINDS[k]["boon"])] = String(KINDS[k]["boon_name"])
+			continue
 		out[String(KINDS[k]["boon"])] = "Riparo dal " + String(KINDS[k]["name"]).to_lower() if k != "sete" \
 			else "Riparo dalla sete"
 	return out

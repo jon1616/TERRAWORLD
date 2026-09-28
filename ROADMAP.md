@@ -2847,12 +2847,13 @@ della tempesta** (dal Guardiano, voce 162). Il primo consiglio e il filo («Segu
 **Pronto quando**: la prova pianta un Fagiolo, lo fa crescere e sale; la Piuma toglie il danno di una caduta di 30.
 **Fatto**: il pacchetto `src/data/sky_pack.gd` (in `PACK_FILES`): il Fagiolo di nuvola (tipo «fagiolo», `Chiome.plant_bean`/`grow_beans`, una passerella ogni 4 s fino a 40 tessere, `world_meta["fagioli"]`; ricetta al Ceppo con legno, gelatina e humus) e la Piuma lenta (planata e niente danno da caduta: penne di corteccia e gelatina). Le nuvole attutiscono le cadute (`SkyData.soft_under` in `Life._on_landed`). Ali di nuvola in `FlightData` (tra foglia e brina). Consiglio e filo con la voce 167. Foto 215.
 
-## 158. [ ] L'aria sottile (S)
+## 158. [x] L'aria sottile (S) — fatto il 29 set 2026
 Un rigore nuovo in `HarshData` («Aria sottile»): nel cielo alto, allo scoperto, la barra sale (più svelta nel
 Firmamento); piena, il fiato manca (la Linfa cala e il salto si accorcia) e si perde Vita. Protegge l'equipaggiamento
 con la chiave `quota` (Maschera di nuvola, Mantello di piume: materiali del cielo basso) e il rimedio «Respiro alto».
 `Harshness` guarda anche l'altezza, non solo la colonna.
 **Pronto quando**: la prova nel Firmamento vede la barra salire e fermarsi con la Maschera.
+**Fatto**: rigore «quota» in `HarshData` (barra piena in 45 s × `thin` del bioma: 1 nelle Scogliere, 1,2 nei Nidi, 1,6 nel Firmamento; a barra piena salto −20%, la Linfa cala, 4 di ferita ogni 2,5 s); `Harshness` lo prende dalla zona del cielo (`Chiome.here`); protezione `quota` in `GearEffects`: Maschera di nuvola (60%), Mantello di piume del cielo (50% e planata), Elisir del respiro alto (5 minuti, all'Alambicco). La prova vede la barra salire (0,078 in 3 s) e scendere con la protezione.
 
 ## Parte C — Che cosa c'è lassù
 

@@ -48,6 +48,10 @@ func _process(dt: float) -> void:
 	var pc: Vector2i = m.player_cell()
 	var outside: bool = m.depth_watch.stratum == 0 and not m.giardino.active
 	var h := harsh_at(pc.x) if outside else {}
+	# voce 158: nel cielo alto l'aria sottile vince sul rigore del bioma di sotto
+	var thin := float(SkyData.get_biome(m.chiome.here).get("thin", 0.0)) if m.get("chiome") != null and m.chiome.here != "" else 0.0
+	if thin > 0.0:
+		h = {"kind": "quota", "rate": HarshData.QUOTA_RATE * thin}
 	kind = String(h.get("kind", ""))
 	for k in meters:
 		var v := float(meters[k])
