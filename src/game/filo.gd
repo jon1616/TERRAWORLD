@@ -7,8 +7,9 @@ extends Node
 ## blocco del minerale più vicino già visto, l'albero più vicino per il legno, il banco giusto, l'Albero-Madre; se
 ## serve scendere, una freccia in basso con lo strato.
 
-const SOURCES := ["lista", "albero", "obiettivo", "bacheca", "studio", "stanza"]
-const SOURCE_NAME := {"lista": "La tua lista", "albero": "Albero-Madre", "obiettivo": "Obiettivo", "bacheca": "Bacheca"}
+const SOURCES := ["lista", "albero", "obiettivo", "bacheca", "studio", "stanza", "cielo"]
+const SOURCE_NAME := {"lista": "La tua lista", "albero": "Albero-Madre", "obiettivo": "Obiettivo", "bacheca": "Bacheca",
+	"studio": "Studio", "stanza": "La casa", "cielo": "Il cielo"}
 const SCAN_X := 110                      # quanto lontano si cerca un blocco già visto (tessere)
 const SCAN_Y := 70
 const S := 16
@@ -109,7 +110,7 @@ func text() -> String:
 	var t := "[center][color=#ffd08a]➤[/color] [b]%s[/b]" % current["text"]
 	if String(current.get("hint", "")) != "":
 		t += "\n[font_size=14][color=#cfe8e2]%s[/color][/font_size]" % current["hint"]
-	t += "\n[font_size=12][color=#9fbfb8]%s%s[/color][/font_size][/center]" % [SOURCE_NAME[current["src"]],
+	t += "\n[font_size=12][color=#9fbfb8]%s%s[/color][/font_size][/center]" % [SOURCE_NAME.get(current["src"], ""),
 		(" · %s: un altro filo (%d)" % [Keys.label("filo"), _count]) if _count > 1 else ""]
 	return t
 
@@ -201,6 +202,24 @@ func _from_stanza() -> Dictionary:
 		"hint": "una stanza ripara dai rigori e, con gli arredi, aiuta (Enciclopedia: Le stanze e le case)"}
 
 
+## Roadmap 16: dal secondo giorno, se il Germogliato non è mai salito in cielo, la corrente più vicina che ci porta.
+func _from_cielo() -> Dictionary:
+	if m.world.sky.is_empty() or int(m.character.stats.get("cielo_max", 0)) > 0 or m.day.day < 2 or m.giardino.active:
+		return {}
+	var best := Vector2i(-1, -1)
+	var pc: Vector2i = m.player_cell()
+	for cu in m.gravity.currents:
+		var d: Dictionary = cu
+		if d.get("cielo", false) and int(d["y1"]) >= int(m.world.surface[int(d["x"])]) - 3:
+			var q := Vector2i(int(d["x"]), int(d["y1"]))
+			if best.x < 0 or absi(q.x - pc.x) < absi(best.x - pc.x):
+				best = q
+	var c := {"text": "Sali alle isole del cielo", "hint": "una corrente d'aria (foglie che salgono) porta su dalla terra; o le radici che pendono dalle isole, o un Fagiolo di nuvola"}
+	if best.x >= 0:
+		c["cell"] = best
+	return c
+
+
 ## Voce 138: la specie più vicina a essere studiata.
 func _from_studio() -> Dictionary:
 	return m.study.next_to_study() if m.get("study") != null else {}
@@ -219,6 +238,8 @@ func _from_bacheca() -> Dictionary:
 func _target(c: Dictionary) -> Dictionary:
 	if c.is_empty():
 		return {}
+	if c.has("cell"):
+		return {"cell": c["cell"]}
 	if c.get("tree", false) and m.giardino.active and m.giardino.tree_o.x >= 0:
 		return {"cell": m.giardino.tree_o + Vector2i(4, 6)}
 	if c.has("station"):

@@ -121,6 +121,7 @@ Le [b]radici viandanti[/b] sono passaggi dentro lo stesso mondo: clic destro su 
 """Il [b]piccone[/b] rompe la roccia; ogni tessera ha una [b]durezza[/b] (quanto ci vuole) e una [b]forza richiesta[/b]: un piccone troppo debole non la scalfisce. La scheda di una roccia (mouse sopra) ti dice se il tuo piccone basta.
 I minerali, dal più facile:
 {cat_minerali}
+[b]Lo scavo intelligente[/b]: tenendo premuto il piccone con il mouse su una cella vuota, scavi da solo i blocchi a portata, prima i più vicini al mouse; mai ciò che hai costruito, mai il blocco sotto i piedi, mai accanto a un liquido. Tenendo {k_vena} all'inizio segui una vena: solo lo stesso blocco del primo. Si spegne nelle [url=cap:opzioni]Opzioni[/url].
 I minerali si fondono in lingotti al [b]Baccello ardente[/b]; con i lingotti si fanno attrezzi, armi e armature migliori (vedi [url=cap:materiali]Materiali[/url]). Il potere [url=cap:poteri]Canto delle radici[/url] fa scavare un quarto più in fretta."""},
 	{"id": "alberi", "group": "Scavare e costruire", "name": "Alberi e legno", "text":
 """Ogni bioma ha la sua specie d'albero, in quattro grandezze (piccolo, medio, grande e il raro antico): i grandi reggono più colpi di [b]ascia[/b] e danno più legno.
@@ -144,7 +145,7 @@ Un [b]Focolare[/b] con un Letto di foglie libero vicino chiama un [url=cap:abita
 • [b]Prendi tutto[/b], [b]Deposita tutto[/b] (non la barra rapida), [b]Deposita simili[/b] (solo ciò che la cassa tiene già), [b]Rifornisci[/b] (completa le pile della Bisaccia), [b]Riordina[/b].
 • Ogni cassa ha un [b]nome[/b] (scritto sopra), «usa per creare» e che cosa [b]raccoglie[/b] (minerali, materiali, costruzione…).
 • Il pannello [url=cap:creare]Creare[/url] usa gli ingredienti delle casse entro {chest_reach} tessere che hanno «usa per creare».
-• Nella Bisaccia, «Nelle casse vicine» manda ogni oggetto nella cassa giusta.
+• Nella Bisaccia, «Nelle casse vicine» manda ogni oggetto nella cassa giusta; il tasto {k_riponi} fa lo stesso senza aprire la Bisaccia (si spegne nelle Opzioni).
 Le casse hanno dei [b]gradi[/b]: più il materiale è raro, più caselle. Le prime si fanno al Ceppo, le altre al Maglio; gli scrigni dei Seminatori si trovano soltanto, pieni, nelle rovine (più grandi più si scende) e, vuoti, si portano via e si riusano.
 {cat_casse}
 Quanti oggetti uguali stanno in una casella lo decidi nelle [url=cap:opzioni]Opzioni[/url] (Gioco → Grandezza delle pile): da un quarto del normale fino a pile infinite."""},

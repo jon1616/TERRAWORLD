@@ -2917,9 +2917,10 @@ portali; `tools/mappe.gd -- --caso` misura la varietà.
 **Pronto quando**: un mondo «Cieli alti» ha il cielo di almeno il doppio e la varietà resta sopra la soglia.
 **Fatto**: otto geni: **Cieli alti** (forma: la terra un poco più bassa, fascia bassa ×1,5, isole ×2,3: il cielo ha 2,24 volte le tessere, misura di `tools/cielo.gd` su 3 semi), **Cielo vuoto** (nessuna isola), e uno per bioma del cielo (categoria «cielo», nel file del bioma: quel bioma ×5 nelle zone; Radici pendule, Mare di nubi, Giardini pensili, Scogliere celesti, Nidi del tuono, Firmamento vicino). Chiavi nuove del generatore in `GenesData.DEFAULTS` (`sky`, `sky_scale`, `sky_isles`, `no_sky`); aggettivi dei nomi dei mondi anche dai biomi del cielo e dal campo `gene_adj` dei pacchetti. Varietà con i geni a caso (8 semi, vigore 5): la coppia più simile 2,49 contro un rumore di 0,50.
 
-## 167. [ ] Il cielo nella partita (S)
+## 167. [x] Il cielo nella partita (S) — fatto il 29 set 2026
 Enciclopedia («Le Chiome del cielo»), consigli, filo, Bacheca (richieste del cielo), obiettivi, Erbario, studio.
 **Pronto quando**: la prova dell'Enciclopedia è pulita e il filo porta al cielo al momento giusto.
+**Fatto**: Enciclopedia: il gruppo «Le Chiome del cielo» (`EncySkyData`: il cielo, i sei biomi, l'aria sottile, creature e Signori, l'Occhio della Tempesta, la nimbite, pescare-allevare-coltivare) e i capitoli di prima aggiornati (casse: il tasto Riponi; scavare: lo scavo intelligente; i Guardiani; le maree): 92 capitoli, 0 problemi. Quattro consigli (il cielo, l'aria sottile, la colonna di luce, il Fagiolo), il filo «Il cielo» (dal secondo giorno, se non sei mai salito: la corrente più vicina), la Bacheca («Dal cielo»: porta nuvole, cristallo, nimbite, polvere di stelle, lana, petali), cinque obiettivi (cielo basso, cielo alto, nimbite, Ali di nuvola, Occhio della Tempesta), l'Erbario dice «nel cielo: …» per le creature del cielo. Corretto un guasto della Roadmap 15: i fili «studio» e «stanza» non avevano un nome e davano errore.
 
 ## Parte E — Chiudere
 

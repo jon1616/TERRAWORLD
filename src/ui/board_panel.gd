@@ -14,6 +14,7 @@ const KINDS := {
 	"firma": ["Firma di un mondo", Color("#c8a0ff")],
 	"viaggio": ["Viaggio", Color("#80c0ff")],
 	"sigillo": ["Sigillo", Color("#6ff0b8")],
+	"cielo": ["Dal cielo", Color("#c8e0ff")],            # Roadmap 16
 }
 ## Icona per le richieste che non chiedono un oggetto.
 const GOAL_ICON := {"firma": "mappa_firma", "viaggio": "provetta", "sigillo": "frammento_albero", "caccia": "lumino",
@@ -116,7 +117,7 @@ func _card(i: int, r: Dictionary) -> void:
 	_cards.add_child(card)
 	# il tipo, l'icona grande della cosa chiesta e il testo
 	card.add_child(_label(String(kind[0]).to_upper(), Vector2(28, 14), 13, col))
-	var what := String(r.get("cosa", "")) if tipo in ["fornitura", "gene", "prodotto"] else String(GOAL_ICON.get(tipo, "lumino"))
+	var what := String(r.get("cosa", "")) if tipo in ["fornitura", "gene", "prodotto", "cielo"] else String(GOAL_ICON.get(tipo, "lumino"))
 	var ic := _icon(what)
 	ic.position = Vector2(28, 44)
 	ic.size = Vector2(64, 64)

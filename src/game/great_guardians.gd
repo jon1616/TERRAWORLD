@@ -235,6 +235,8 @@ func _on_killed(c: Creature) -> void:
 	rec[key] = int(rec.get(key, 0)) + 1
 	m.world_meta["grandi_guardiani"] = rec
 	m.objectives.bump("grandi_guardiani")
+	if key == "tempesta":
+		m.objectives.bump("occhio_tempesta")      # Roadmap 16
 	var who: String = {"correnti": "la Signora delle correnti", "tempesta": "l'Occhio della Tempesta"}.get(key, "il " + String(c.data["name"]))
 	m.hud.toast("Hai sconfitto %s!" % who)
 	defeated.emit(key)

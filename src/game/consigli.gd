@@ -247,3 +247,21 @@ func _c_studiata() -> bool:
 func _c_progetto() -> bool:
 	return String(ItemsData.get_item(String(m.hud.current().get("id", ""))).get("kind", "")) == "progetto_sem"
 
+
+# ---------------------------------------------------------------- Roadmap 16
+
+func _c_cielo() -> bool:
+	return m.get("chiome") != null and m.chiome.here != ""
+
+
+func _c_aria_sottile() -> bool:
+	return m.get("harsh") != null and m.harsh.kind == "quota"
+
+
+func _c_fulmine() -> bool:
+	return m.get("strikes") != null and not m.strikes.pending.is_empty()
+
+
+func _c_fagiolo() -> bool:
+	return String(ItemsData.get_item(String(m.hud.current().get("id", ""))).get("kind", "")) == "fagiolo"
+

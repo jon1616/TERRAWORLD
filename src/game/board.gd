@@ -81,6 +81,8 @@ func make() -> Dictionary:
 		kinds.append("marea")
 	if not (ch.erbario.get("creature", {}) as Dictionary).is_empty():
 		kinds.append("studio")
+	if int(ch.stats.get("cielo_max", 0)) > 0:
+		kinds.append("cielo")                       # Roadmap 16: una richiesta dal cielo
 	var k := String(kinds[_rng.randi_range(0, kinds.size() - 1)])
 	var r := {"tipo": k}
 	match k:
@@ -147,6 +149,14 @@ func make() -> Dictionary:
 			r["base"] = int(ch.stats.get("maree_vinte", 0))
 			r["testo"] = "Respingi una marea fino al suo capo"
 			r["premio"] = {"lumino": 150, "pozione_rigoglio": 2}
+		"cielo":
+			var asks := [["nuvola", 40], ["cristallo_celeste", 12], ["lingotto_nimbite", 5], ["polvere_stelle", 20], ["lana_nuvola", 6],
+				["petali_vento", 6]]
+			var a: Array = asks[_rng.randi_range(0, asks.size() - 1)]
+			r["cosa"] = String(a[0])
+			r["n"] = int(a[1])
+			r["testo"] = "Porta %d %s dal cielo" % [int(a[1]), String(ItemsData.get_item(String(a[0]))["name"])]
+			r["premio"] = {"lumino": 60 + int(a[1]) * 2, "fagiolo_nuvola": 2}
 		"studio":
 			r["n"] = 1
 			r["base"] = int(ch.stats.get("studiate", 0))
@@ -206,7 +216,7 @@ func progress(r: Dictionary) -> Array:
 	var ch: Character = m.character
 	var n := int(r["n"])
 	match String(r["tipo"]):
-		"gene", "prodotto", "fornitura", "pesce":
+		"gene", "prodotto", "fornitura", "pesce", "cielo":
 			return [mini(Crafting.have(ch.bisaccia, String(r["cosa"])), n), n]
 		"caccia":
 			return [mini(_kills(String(r["cosa"])) - int(r["base"]), n), n]
@@ -239,7 +249,7 @@ func deliver(i: int) -> bool:
 	var r: Dictionary = open_list()[i]
 	if not can_deliver(r):
 		return false
-	if String(r["tipo"]) in ["gene", "prodotto", "fornitura"]:
+	if String(r["tipo"]) in ["gene", "prodotto", "fornitura", "cielo"]:
 		Crafting.take(m.character.bisaccia, String(r["cosa"]), int(r["n"]))
 	for k in r["premio"]:
 		if k == "seme":

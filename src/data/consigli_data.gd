@@ -55,6 +55,15 @@ const LIST := [
 		"text": "Hai studiato una specie: la sua scheda mostra come si batte, e fai più danno contro di lei per sempre. La [b]Provetta[/b] su una creatura aiuta a studiarla."},
 	{"id": "progetto", "title": "Un progetto dei Seminatori", "cap": "progetti",
 		"text": "Un progetto in mano mostra la sagoma di una struttura; se nella Bisaccia hai i materiali (la scheda li elenca), un clic la costruisce in un colpo."},
+	# Roadmap 16: il cielo
+	{"id": "cielo", "title": "Le Chiome del cielo", "cap": "cielo",
+		"text": "Sei tra le isole del [b]cielo[/b]. Qui sotto è il cielo basso; più su, il cielo alto (dove l'aria è sottile). Attento a dove metti i piedi: la [b]Piuma lenta[/b] toglie il danno delle cadute."},
+	{"id": "aria_sottile", "title": "L'aria sottile", "cap": "aria_sottile",
+		"text": "Nel cielo alto sale la barra dell'[b]aria sottile[/b]: piena, il fiato ferisce. La Maschera di nuvola, il Mantello di piume o l'Elisir del respiro alto ti proteggono."},
+	{"id": "fulmine", "title": "Una colonna di luce", "cap": "creature_cielo",
+		"text": "Una riga di luce sulla tua colonna: tra un attimo cade un [b]fulmine[/b]. Spostati di lato; sotto un tetto non ti tocca."},
+	{"id": "fagiolo", "title": "Il Fagiolo di nuvola", "cap": "cielo",
+		"text": "Piantalo nella terra all'aperto: in un minuto sale una liana di [b]passerelle[/b] verso il cielo. Ci si sale saltando."},
 ]
 
 

@@ -230,6 +230,13 @@ const LIST := [
 	{"id": "progetto_1", "text": "Costruisci un progetto dei Seminatori", "check": {"stat": "progetti", "n": 1}, "reward": {"lumino": 150}},
 	{"id": "guardiano_grande", "text": "Sconfiggi uno dei tre grandi Guardiani", "check": {"stat": "grandi_guardiani", "n": 1},
 		"reward": {"linfa_antica": 3}},
+	# Roadmap 16 «Le Chiome del cielo»
+	{"id": "cielo_basso", "text": "Sali alle isole del cielo", "check": {"stat": "cielo_max", "n": 1}, "reward": {"fagiolo_nuvola": 3, "piuma_lenta": 1}},
+	{"id": "cielo_alto", "text": "Raggiungi il cielo alto", "check": {"stat": "cielo_max", "n": 2}, "reward": {"elisir_respiro": 3}},
+	{"id": "nimbite", "text": "Fondi un lingotto di nimbite", "check": {"item": "lingotto_nimbite", "n": 1}, "reward": {"nimbite_grezza": 6}},
+	{"id": "ali_nuvola", "text": "Fatti le Ali di nuvola", "check": {"item": "ali_nuvola", "n": 1}, "reward": {"cristallo_celeste": 10}},
+	{"id": "occhio_tempesta", "text": "Sconfiggi l'Occhio della Tempesta", "check": {"stat": "occhio_tempesta", "n": 1},
+		"reward": {"linfa_antica": 3, "lingotto_nimbite": 6}},
 ]
 
 ## Quanti obiettivi si vedono insieme.

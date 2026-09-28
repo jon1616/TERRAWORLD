@@ -19,10 +19,11 @@ Lascia un materiale che c'è solo da lui e il suo trofeo: insieme, al Maglio, di
 """• [b]Il Leviatano del lago[/b]: si chiama accanto a un lago grande (almeno 80 celle d'acqua). Sale e scende dall'acqua e alza la [b]marea[/b]: quando il lago ribolle, sali in alto.
 • [b]La Grande Scavatrice[/b]: si chiama sotto terra, dalle Caverne d'ardesia in giù. Sbuca dal terreno e alza [b]pilastri di radice[/b] che crollano da soli: spostati quando la terra trema, e usali per salire.
 • [b]La Signora delle correnti[/b]: si chiama in superficie, all'aperto. Chiama le [b]raffiche[/b], le colonne d'aria che fanno salire e le passerelle di nuvola: combatti in alto, dove vola lei.
-I richiami si fanno all'Altare con i materiali dei Signori; ognuno lascia un trofeo e il materiale per un oggetto grande."""},
+I richiami si fanno all'Altare con i materiali dei Signori; ognuno lascia un trofeo e il materiale per un oggetto grande.
+Nel cielo alto c'è un quarto Guardiano: [url=cap:occhio_tempesta]l'Occhio della Tempesta[/url]."""},
 	{"id": "maree", "group": "Il mondo abitato", "name": "Le maree del mondo", "text":
 """A volte, al calar della notte, al sorgere del giorno o quando comincia un'eclissi, arriva una [b]marea[/b]: prima si annuncia (una scritta e un segno sulla mappa), poi arrivano le [b]ondate[/b], e alla fine il [b]capo[/b] (un Signore). Sconfitto il capo, il premio e il suo [b]Sigillo[/b]: con tutti e sei, all'Altare, la Corona delle sei maree.
-Le maree: la Notte delle spore, la Migrazione (i branchi attraversano il mondo e i predatori li seguono), l'[b]Assedio dei rosicchiatori[/b], la Marea di brace, lo Stormo, l'Eclissi dei mimi. La stagione ne rende alcune più frequenti.
+Le maree: la Notte delle spore, la Migrazione (i branchi attraversano il mondo e i predatori li seguono), l'[b]Assedio dei rosicchiatori[/b], la Marea di brace, lo Stormo, l'Eclissi dei mimi, e in cielo la [url=cap:creature_cielo]Burrasca delle Chiome[/url]. La stagione ne rende alcune più frequenti.
 [b]L'assedio[/b] arriva al massimo una volta a stagione, solo se hai una base (un Focolare e una porta): i rosicchiatori rodono le [b]porte[/b] (nient'altro). Una porta regge qualche morso, il doppio se è incorniciata da mura dure; le creature di guardia della mandria difendono la casa. Gli assedi si spengono dalle Opzioni."""},
 	{"id": "stanze", "group": "Il mondo abitato", "name": "Le stanze e le case", "text":
 """Una [b]stanza[/b] è un posto chiuso da blocchi, con una parete dietro ogni cella e una porta. Entrando il gioco ti dice che cos'è e il suo [b]comfort[/b] (la bellezza degli arredi e dei blocchi, le luci, le serie complete):

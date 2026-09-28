@@ -58,6 +58,9 @@ static func family(ch: Character, fam: String) -> String:
 		var where := {}
 		for s in fd["members"]:
 			var cd: Dictionary = CreaturesData.CREATURES[s]
+			if cd.has("sky"):                            # Roadmap 16: le creature del cielo
+				where["nel cielo: " + String(SkyData.get_biome(String(cd["sky"])).get("name", cd["sky"]))] = true
+				continue
 			for st in cd.get("strata", []):
 				where[String(StrataData.STRATA[st]["name"])] = true
 			for b in cd.get("biomes", []):
@@ -138,6 +141,9 @@ static func hint(fam: String) -> String:
 	var where := {}
 	for s in fd["members"]:
 		var cd: Dictionary = CreaturesData.CREATURES[s]
+		if cd.has("sky"):                                # Roadmap 16: in cielo, nel suo bioma
+			where["nel cielo: " + String(SkyData.get_biome(String(cd["sky"])).get("name", cd["sky"]))] = true
+			continue
 		for st in cd.get("strata", []):
 			where[String(StrataData.STRATA[st]["name"]).to_lower()] = true
 		for b in cd.get("biomes", []):
