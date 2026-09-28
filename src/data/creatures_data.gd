@@ -283,7 +283,7 @@ static func of_stratum(s: int, night := false, biome := "") -> Array:
 		if s == 0 and c.has("biomes") and not biome in c["biomes"]:
 			continue
 		# voce 134: le creature di una stagione, di un tempo, dell'eclissi
-		if c.has("season") and not now_season in (c["season"] as Array):
+		if c.has("season") and not now_season in (c["season"] if c["season"] is Array else [c["season"]]):
 			continue
 		if c.has("weather") and not now_weather in (c["weather"] as Array):
 			continue

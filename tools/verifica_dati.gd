@@ -136,6 +136,23 @@ func _init() -> void:
 	for r in ChainsData.SHORT_REWARDS:
 		for k in r:
 			_err(items.has(String(k)) or String(k) == "seme_raro", "catena breve: premio inesistente %s" % k)
+	# Roadmap 15: una creatura o un oggetto di un pacchetto non deve avere l'id di un altro (l'unione lo perderebbe)
+	for f in BiomesData.PACK_FILES:
+		var pd: Dictionary = f.DATA
+		for cid in pd.get("creatures", {}):
+			_err(String(CreaturesData.CREATURES.get(cid, {}).get("name", "")) == String(pd["creatures"][cid]["name"]),
+				"la creatura %s di un pacchetto è nascosta da un'altra con lo stesso id" % cid)
+		for iid in pd.get("items", {}):
+			_err(String(items.get(iid, {}).get("name", "")) == String(pd["items"][iid]["name"]),
+				"l'oggetto %s di un pacchetto è nascosto da un altro con lo stesso id" % iid)
+	# voce 137: le maree del mondo chiedono creature, capi e premi veri
+	for tid in TidesData.TIDES:
+		var td: Dictionary = TidesData.TIDES[tid]
+		for cid in td["pool"] + td.get("herd", []) + [td["boss"]]:
+			_err(CreaturesData.CREATURES.has(String(cid)), "marea %s: creatura inesistente %s" % [tid, cid])
+		_err(LootData.TABLES.has(String(td["reward"])), "marea %s: premio inesistente %s" % [tid, td["reward"]])
+		for e in LootData.TABLES.get(String(td["reward"]), []):
+			dropped[String(e["item"])] = true
 	# voce 85: un unico non deve essere nascosto da un oggetto con lo stesso id (merge non sostituisce)
 	for uid in UniquesData.ITEMS:
 		_err(bool(items.get(uid, {}).get("unique", false)), "l'unico %s è nascosto da un altro oggetto con lo stesso id" % uid)

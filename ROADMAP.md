@@ -2431,7 +2431,17 @@ Guardiani generati (`GuardianGenData.ATTACKS`). Prova in `--solo=vivo` (foto 205
   maree), uno che scava e rimodella il terreno dell'arena, uno del cielo (correnti e piattaforme). I loro attacchi
   entrano come pezzi nuovi nei Guardiani generati.
 
-## 137. [ ] Le maree del mondo: eventi a ondate (L)
+## 137. [x] Le maree del mondo: eventi a ondate (L) — fatto il 29 set 2026
+Fatto: `TidesData` e `Tides` (`src/game/`), premi in `src/data/bestiary/maree.gd`: **sei maree** (Notte delle spore,
+Migrazione con i branchi che attraversano, **Assedio dei rosicchiatori**, Marea di brace, Stormo, Eclissi dei mimi).
+Si tirano al calar della notte, al sorgere del giorno o all'inizio di un'eclissi (probabilità × stagione × geni del
+mondo), si **annunciano** 40 s prima (scritta, segno sulla mappa), arrivano a **ondate** (la seguente quando il 70% è
+abbattuto o dopo 70 s), poi il **capo** (un Signore dei luoghi, con la barra); il premio con il Sigillo della marea
+(tutti e sei → la Corona delle sei maree, all'Altare). L'assedio (scelta dell'utente): **una volta a stagione**, solo con
+una base (Focolare e una porta), nasce attorno alla base e accende `Wiles.siege` (si rodono solo le porte); si spegne
+dalle Opzioni («Assedi alla base»). `verifica_dati` controlla creature, capi e premi delle maree e, da ora, che nessun
+oggetto o creatura dei pacchetti abbia l'id di un altro (ne ha trovati sette, rinominati). Prova in `--solo=vivo`
+(foto 207_marea).
 - Circa 6 eventi con ondate, un capo finale e un premio: la Notte delle spore, la Migrazione (branchi che attraversano
   il mondo: caccia o proteggi), l'**Assedio dei rosicchiatori** (attaccano le costruzioni: qui servono mura, porte,
   trappole e luce), la Marea di brace (dal Fondo sale la brace), lo Stormo, l'Eclissi dei mimi. Frequenza secondo

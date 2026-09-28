@@ -37,6 +37,7 @@ func run() -> void:
 	await lords()
 	await species("guardiani", "205_grandi_guardiani")
 	await great()
+	await tides()
 	for i in slots0.size():
 		b.slots[i] = slots0[i]
 	b.equip = equip0
@@ -829,3 +830,54 @@ func great() -> void:
 		"sì" if solid_ok else "NO", "sì" if tide else "NO", "sì" if cleared else "NO", rec])
 	if not no_lake or not sky or not pushed or not winds or raised < 3 or not tide or not cleared or rec < 1:
 		print("ATTENZIONE: i grandi Guardiani non vanno come dovrebbero")
+
+
+## Voce 137: lo Stormo arriva a ondate, poi il capo; sconfitto, il premio. L'assedio c'è solo con una base, accende
+## i morsi alle porte e poi non torna nella stessa stagione.
+func tides() -> void:
+	var w: World = m.world
+	var td: Tides = m.tides
+	td.paused = true
+	m.snap_to(w.spawn)
+	await kit.frames(3)
+	m.combat.god = true
+	td.center = m.player_cell()
+	td.start("stormo")
+	var waves_seen := 0
+	var t0 := Time.get_ticks_msec()
+	while td.active != "" and Time.get_ticks_msec() - t0 < 20000:
+		await kit.frames(3)
+		waves_seen = maxi(waves_seen, td.wave)
+		if td.boss and is_instance_valid(td.boss):
+			if waves_seen >= 3 and td.wins == 0:
+				await kit.save("207_marea")
+			m.fauna.kill(td.boss)
+		else:
+			for c in td._wave_list.duplicate():
+				if is_instance_valid(c):
+					m.fauna.kill(c)
+	var won_ok := td.wins >= 1
+	m.fauna.clear()
+	# l'assedio: senza base no; con Focolare e porta sì, e accende i morsi
+	var no_base: bool = not td.siege_allowed() or td._base().x >= 0
+	var fo: Vector2i = m.player_cell() + Vector2i(-6, -1)
+	var dr: Vector2i = m.player_cell() + Vector2i(-10, 1 - m.masonry.door_h())
+	var had_f: bool = w.stations.has(fo)
+	w.stations[fo] = "focolare"
+	w.stations[dr] = "porta_aperta"
+	m.world_meta.erase("assedio")
+	var can: bool = td.siege_allowed()
+	td.center = td._base()
+	td.start("assedio")
+	var gnaw: bool = Wiles.siege
+	td._end(false)
+	var again: bool = td.siege_allowed()
+	w.stations.erase(fo)
+	w.stations.erase(dr)
+	m.fauna.clear()
+	m.combat.god = false
+	td.paused = false
+	print("maree: lo Stormo %d ondate, capo sconfitto e premio %s (%d nate); l'assedio con la base %s, porte rosicchiate %s, di nuovo nella stessa stagione no %s" % [
+		waves_seen, "sì" if won_ok else "NO", td.spawned, "sì" if can else "NO", "sì" if gnaw else "NO", "sì" if not again else "NO"])
+	if waves_seen < 3 or not won_ok or not can or not gnaw or again:
+		print("ATTENZIONE: le maree del mondo non vanno come dovrebbero")

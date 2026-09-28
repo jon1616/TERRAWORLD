@@ -146,7 +146,7 @@ func _on_kill(c: Creature) -> void:
 	# voce 66: la creatura di una stagione porta il gene che la ferma
 	if c.data.has("season") and _rng.randf() < DROP_SEASON:
 		for sd in SeasonsData.SEASONS:
-			if sd["id"] == c.data["season"]:
+			if sd["id"] in (c.data["season"] if c.data["season"] is Array else [c.data["season"]]):   # voce 134: anche elenchi
 				m.drops.spawn(GenesData.vial_of(String(sd["gene"])), 1, c.position)
 	var s := gene_of("stirpi")
 	if s != "" and c.ancient and _rng.randf() < DROP_STIRPI:

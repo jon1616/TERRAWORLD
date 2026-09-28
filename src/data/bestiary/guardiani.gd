@@ -62,8 +62,8 @@ const DATA := {
 	},
 	"recipes": [
 		{"out": "richiamo_leviatano", "qty": 1, "in": {"chela_re": 4, "pinna_orca": 4, "lingotto_ambra": 4}, "station": "altare"},
-		{"out": "richiamo_scavatrice", "qty": 1, "in": {"artiglio_talpone": 4, "cuore_pietra_antico": 2, "lingotto_legnoferro": 6}, "station": "altare"},
-		{"out": "richiamo_correnti", "qty": 1, "in": {"penna_aquila": 4, "palco_brina": 2, "lingotto_ambra": 4}, "station": "altare"},
+		{"out": "richiamo_scavatrice", "qty": 1, "in": {"artiglio_talpone_radici": 4, "cuore_pietra_antico": 2, "lingotto_legnoferro": 6}, "station": "altare"},
+		{"out": "richiamo_correnti", "qty": 1, "in": {"penna_aquila": 4, "palco_alce": 2, "lingotto_ambra": 4}, "station": "altare"},
 		{"out": "corazza_leviatano", "qty": 1, "in": {"squama_leviatano": 10, "perla_leviatano": 1, "lingotto_ambra": 4}, "station": "maglio"},
 		{"out": "picco_scavatrice", "qty": 1, "in": {"artiglio_scavatrice": 10, "cuore_scavatrice": 1, "lingotto_tizzonite": 4}, "station": "maglio"},
 		{"out": "ali_correnti", "qty": 1, "in": {"piuma_correnti": 12, "occhio_correnti": 1, "seta_radice": 6}, "station": "telaio"},
