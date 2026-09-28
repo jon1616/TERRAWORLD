@@ -134,6 +134,15 @@ python tools/importa_tavola.py arte_ia/germogliato/01_corsa_v2.png --griglia 4x2
 python tools/respiro.py
 # mappe dei mondi: mappe/mondo_<seme>.png a metà grandezza (--intera per 1:1), tempi per passata, conteggi per seme
 Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20 --da 1
+# Roadmap 18, il bilancio (vedi «Il bilancio» in Struttura): la curva della difficoltà equipaggiamento × zona
+# (`--abilita medio|attento|jon|bot`, `--nuda`, `--dettaglio strato vigore arma` = chi pesa in una zona) → prove/curva.txt
+Godot_console.exe --headless --path . --script res://tools/curva.gd
+# i tre giocatori simulati attraverso la partita (appassimenti all'ora, riposo, pressione) → prove/percorso.txt
+Godot_console.exe --headless --path . --script res://tools/percorso.gd -- --giri 40
+# armi e armature a confronto, boss, progressioni ed economia → prove/armi.txt, prove/boss.txt, prove/progressioni.txt
+Godot_console.exe --headless --path . --script res://tools/armi.gd
+# il bot in arena contro creature vere (tara il modello; ~3 minuti) → prove/arena.txt
+Godot_console.exe --path . -- --prove --solo=arena
 # Roadmap 17: quanto dura imparare la lingua (un giocatore simulato in otto mondi) → prove/lingua.txt
 Godot_console.exe --headless --path . --script res://tools/lingua.gd
 # Roadmap 16: la misura del cielo (zone, tessere, isole, osservatori) con e senza i geni del cielo → prove/cielo.txt
@@ -627,6 +636,23 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   - Prove: gruppo «lingua» (`TestsLanguage`: stati, Quaderno, strati, scrigni, incisioni, ricette; foto 127, 128, 221, 222).
     Misura: `tools/lingua.gd` (un giocatore simulato in otto mondi → prove/lingua.txt). Enciclopedia: capitoli della lingua,
     scrigni a parola, incisioni, ricette scritte (`EncyStoryData`).
+- **Roadmap 18 «Il bilancio»** (voci 179-189, 29 set 2026; richiesta dell'utente: studiare tutto il gioco con i numeri e
+  con bot che simulino lui o un umano medio, correggere in autonomia; curva voluta: inizio facile, poi sempre più
+  sfidante, equipaggiarsi bene deve servire):
+  - `FightModel` e `ZoneModel` (`src/game/balance/`): le formule del combattimento in un posto solo, usate da strumenti e
+    prove. Le regole vere sono condivise: `Vitals.reduce` (la Scorza toglie SCORZA_K / (SCORZA_K + Scorza) di ogni
+    ferita), `Creature.through` (difesa delle creature), `Creature.HIT_STUN`, `Combat.TOOL_HIT`. **Una regola nuova del
+    combattimento si scrive una volta sola e la leggono entrambi.** Le abilità dei profili in `FightModel.SKILL`, tarate
+    con `TestsArena` (bot vero contro creature vere: duello, sorpresa, gruppo) e con il Diario dell'utente («jon»).
+  - Strumenti: `tools/curva.gd`, `tools/percorso.gd` (tre profili, a scontri uno a uno con il caso, riposo, pozioni),
+    `tools/armi.gd`, `tools/boss.gd`, `tools/progressioni.gd`; `tools/bilancio.gd` usa il modello per le creature.
+  - Le leve della difficoltà: `StrataData.STRATA[...]["danger"]`, `VigorData.CREATURE_STEP/_HIGH`, `DangerData.DAMAGE`,
+    `CreaturesData.SURFACE_STRONG` + `now_vigor` (di giorno al vigore 1 in Superficie solo le creature leggere),
+    `AncientData.DANGER_CAP`, `Creature.shot_k` (i proiettili crescono con la creatura), `Lords.strength`, la ricrescita
+    della Vita in proporzione alla Vita massima, `DangerData.expected_scorza` (l'avviso entrando in uno strato).
+    **Dopo ogni cambio a questi numeri si rifà `tools/percorso.gd`** e si guarda che «attento» resti a 0-2 appassimenti
+    all'ora e «medio» sotto ~10.
+  - `Vitals.cause` e il Diario (`morti_causa`): di che cosa appassisce l'utente nelle partite vere, per tarare ancora.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni
@@ -893,6 +919,16 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   parole che non comparivano in nessuna frase, cioè impossibili da imparare.
 - Negli heredoc del Bash tool i caratteri come «—» possono arrivare rovinati e far fallire una sostituzione: per le
   modifiche con testo accentato, Edit o uno script scritto con Write.
+
+- **I numeri si misurano con un giocatore, non a occhio** (Roadmap 18, 29 set 2026): il bot in arena ha mostrato che nel
+  duello uno contro uno quasi non si è toccati (ogni colpo ferma la creatura 0,22 s) e che le ferite vengono da
+  sorprese, gruppi e logoramento; il giocatore simulato ha mostrato che una Scorza «a sottrazione» smette di contare
+  contro le creature forti, e che la ricrescita della Vita fissa rendeva inutili i doni di Vita. Un profilo si tara su
+  dati veri (il Diario dell'utente), gli altri si definiscono come differenze di abitudini da quello.
+- Un simulatore che combatte senza sosta fino alla morte sbaglia: una persona si ferma a riposare quando la Vita è bassa
+  (`tools/percorso.gd`, soglia «rest» dei profili). Senza, anche i più attenti «morivano» 15 volte all'ora.
+- Un difetto raro (3%) può restare nascosto a lungo: la cassa pescata fermava il gioco solo quando il caso della prova
+  la sceglieva. Nei rami rari del codice si controlla che ogni valore usato esista per quel ramo.
 
 ## Convenzioni
 

@@ -67,9 +67,13 @@ func variants() -> void:
 	var base_hurt: int = m.vitals.hp_max - m.vitals.hp
 	m.vitals.refill()
 	var hp0: int = m.vitals.hp
+	m.vitals.cause = ""
 	var d: Creature = m.fauna.add("grumo_muschio~~~docile", m.player.position + Vector2(4, 0))
 	await kit.seconds(0.6)
 	var calm_hurt: int = maxi(hp0 - m.vitals.hp - base_hurt, 0)
+	# voce 188: si conta solo se la ferita è del grumo (freddo, sete o altro nel giro intero non contano)
+	if not m.vitals.cause.begins_with("Grumo"):
+		calm_hurt = 0
 	m.combat._strike(d, 1, m.player.position.x - 20, 0.1)
 	m.combat.invuln = 0.0
 	m.vitals.refill()

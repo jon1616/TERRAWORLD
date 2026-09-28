@@ -7,8 +7,9 @@
 - **In corso: la Roadmap 13 «Il volto del mondo»** (voci 100-117, dal 28 set 2026): la grafica con Nano Banana,
   seguita passo passo con l'utente (Claude scrive i prompt, dice dove salvare le immagini, le adatta con gli script).
   Dopo: un secondo bilancio con il diario delle partite vere.
-- **In corso: la Roadmap 18 «Il bilancio»** (voci 179-189, dal 29 set 2026): un modello del combattimento, un bot
-  in arena, tre giocatori simulati (l'utente, uno medio, uno attento), poi le correzioni (Scorza, curva, boss, economia).
+- **Fatta la Roadmap 18 «Il bilancio»** (voci 179-189, 29 set 2026): modello del combattimento, bot in arena, tre
+  giocatori simulati, poi Scorza a percentuale, inizio facile, curva degli strati e del vigore, armi, boss, economia,
+  avvisi e Diario delle morti. Resoconto in fondo.
 - **Ritocco dell'HUD** (29 set 2026, richiesta dell'utente: Vita, Linfa e ossigeno «ripensate, sopra la barra rapida,
   con fantasia, ben visibili»): `VitalsView` ora sta in basso al centro. Un seme-cuore al centro (anello della Vita,
   germoglio che pulsa sotto un quarto), la Vita è un ramo verde a sinistra con dieci foglioline, la Linfa un ramo
@@ -3317,8 +3318,36 @@ in uno strato con l'equipaggiamento troppo debole, capitolo dell'Enciclopedia su
 **Pronto quando**: la prova vede il consiglio e l'avviso.
 **Fatto**: la **Scorza attesa** in ogni strato e vigore (`DangerData.expected_scorza`: 6 nel Sottobosco, 10 nelle Caverne, 14 nelle Profondità e nel Fondo al vigore 1, +6 a vigore fino al 3, poi +2); entrando in uno strato con meno del 60% arriva un avviso (`DepthWatch`), la prima volta anche il consiglio «La Scorza conta»; il capitolo dell'Enciclopedia «Il pericolo e l'armatura» (inizio facile, notte, strati, vigore, Scorza, riposo vicino alle torce, rare, armi); la Scorza con la sua percentuale nelle schede (voce 184). **Il Diario conta di che cosa si appassisce** (`Vitals.cause`: la creatura, una caduta, un proiettile, i rovi, il respiro, un fulmine…): la prossima partita dell'utente dirà dove tarare ancora. Prove nel gruppo «diario».
 
-## 189. [ ] Il resoconto (P)
+## 189. [x] Il resoconto (P) — fatto il 29 set 2026
 Giro intero delle prove, CLAUDE.md, resoconto con i numeri prima e dopo, Git e GitHub.
+**Fatto**: giro intero delle prove, CLAUDE.md (struttura, comandi, lezioni), il resoconto qui sotto, Git e GitHub.
+
+### Resoconto della Roadmap 18 (29 set 2026)
+Il gioco ora si misura con un giocatore. **Gli strumenti**: `FightModel`/`ZoneModel` (le formule del combattimento, le
+stesse del gioco), il bot in arena (creature vere: tara il modello), tre giocatori simulati che attraversano la partita
+(«jon» tarato sulla partita vera dell'utente, «medio», «attento»), e i confronti di armi, boss, progressioni ed economia.
+**Cosa non andava**: la Scorza «a sottrazione» non contava più niente dalle Profondità in giù (−14% nel Fondo al vigore
+5 con lo stellare), e infatti l'utente dopo un'ora non aveva armatura; l'inizio non era facile (in Superficie il 20% delle
+creature, quelle forti dei biomi, faceva metà delle ferite: il primo appassimento dell'utente a 13 minuti); dal Fondo in
+giù nessuno reggeva, nemmeno chi si equipaggia al meglio (15-40 appassimenti all'ora); la Vita che ricresceva fissa
+rendeva inutili i doni di Vita; i proiettili non crescevano; piccone e ascia facevano da arma; pugnale e martello fuori
+fascia; alcuni Signori e Guardiani generati da due minuti e mezzo o da quattro Vite; la pesca rendeva 4-8 volte la
+caccia; il tetto della Vita si toccava nel primo mondo; una cassa pescata fermava il gioco.
+**Come è adesso** (appassimenti all'ora, 40 giri per tappa):
+
+| tappa | attento | medio (armatura un grado sotto) | jon (senza armatura) |
+|---|---|---|---|
+| primi passi (giorno) | 0 | 0 (prima 2,6) | 0,4 (prima 4,4) |
+| Sottobosco, Caverne | 0-0,1 | 0,5-1,6 | 1,1 → 5 (il muro comincia) |
+| Profondità | 0,3 | 2,5 | 18 |
+| Fondo del primo mondo | 2 (prima 15) | 9 | 30 |
+| vigore 2-8 | 0,6-1,8 (prima 11-39) | 4,5-9 | 22-40 |
+| vigore 12 | 4,8 (prima 40) | 11 | 46 |
+
+Chi si equipaggia bene sente la partita farsi più dura ma giusta (e passa il 10-25% del tempo a riposare nel profondo);
+chi resta indietro di un grado appassisce 5-10 volte di più; senza armatura dalle Caverne non si passa. I boss stanno tra
+45 e 120 secondi con l'arma attesa. Il Diario ora conta **di che cosa** si appassisce: la prossima partita dell'utente
+dirà dove i numeri del modello sbagliano ancora (esportandolo dal Semenzaio, scheda Storia).
 
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».
