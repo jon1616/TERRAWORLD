@@ -14,12 +14,13 @@ extends Node
 ##   magic      incantesimi dei bastoni più forti (`Combat.magic_mult`)
 ##   allies     alleati in più dai bastoni evocatori (`GearEffects.allies`)
 ##   air_jumps  salti in aria (`Player.air_jumps`); wall: scivolare e saltare sulle pareti (`Player.wall_climb`)
+##   dash       voce 127, la schivata (`Player.dash_ok`); dash_cd: × la sua ricarica
 ##   fish_*     voce 122, la pesca (`Fishing.gear`): fish_luck +, fish_wait ×, fish_size +, fish_double +, fish_any
 ##   defense    (solo nei bonus dei set) Scorza in più (`Vitals.set_scorza`); quella dei pezzi la somma
 ##              `Bisaccia.scorza`
 
 const MULT := ["run", "jump", "halo", "regen", "dig", "stealth", "damage", "atk_speed", "linfa_regen", "magic", "respiro", "vento",
-	"fish_wait"]
+	"fish_wait", "dash_cd"]
 
 var m: Node2D
 var sets: Array = []                   # i set completi indossati (per l'interfaccia)
@@ -52,6 +53,7 @@ func refresh() -> void:
 	for k in ["fish_luck", "fish_size", "fish_double"]:
 		e[k] = 0.0                                 # voce 122: la pesca
 	e["fish_any"] = false
+	e["dash"] = false                              # voce 127: la schivata
 	var b: Bisaccia = m.character.bisaccia
 	for slot in b.equip:
 		_add(e, ItemsData.get_item(String(b.equip[slot])).get("acc", {}))
@@ -85,6 +87,8 @@ func refresh() -> void:
 	m.player.air_jumps = int(e["air_jumps"])
 	allies = int(e["allies"])
 	m.player.wall_climb = e["wall"]
+	m.player.dash_ok = e["dash"]
+	m.player.dash_cd_mult = e["dash_cd"]
 	m.life.fall_safe = e["fall_safe"]
 	m.boons.halo_mult = e["halo"]
 	m.vitals.regen_mult = e["regen"]
@@ -117,5 +121,5 @@ static func _add(e: Dictionary, acc: Dictionary) -> void:
 		elif k in ["luck", "thorns", "defense", "air_jumps", "allies", "caldo", "acqua", "fresco", "filtro", "fish_luck", "fish_size",
 				"fish_double"]:
 			e[k] = float(e[k]) + float(acc[k])
-		elif k in ["glide", "fall_safe", "wall", "passo", "fish_any"]:
+		elif k in ["glide", "fall_safe", "wall", "passo", "fish_any", "dash"]:
 			e[k] = bool(e[k]) or bool(acc[k])

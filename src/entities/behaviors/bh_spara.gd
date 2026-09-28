@@ -7,8 +7,11 @@ var t := 1.0
 
 
 func tick(c: Creature, dt: float) -> void:
+	var was := t
 	t -= dt
 	c.mouth = t < 0.35
+	if was >= 0.45 and t < 0.45 and c.target != null:
+		c.telegraph(0.45)                          # voce 127: il colpo si annuncia
 	if t > 0.0:
 		return
 	t = float(c.p.get("rate", 2.5))

@@ -36,7 +36,7 @@ const ACC := {
 	"luck": ["Fortuna nel bottino", "pct_add"], "thorns": ["Spine: danno a chi ti tocca", "add"], "defense": ["Scorza", "add"],
 	"air_jumps": ["Salti in aria", "add"], "allies": ["Alleati in più", "add"], "glide": ["Plani tenendo Spazio", "flag"],
 	"wall": ["Scivoli e salti sulle pareti", "flag"], "fall_safe": ["Nessuna ferita da caduta", "flag"],
-	"resist": ["Resistenza", "pct_add"], "weak": ["Indebolisce chi colpisci", "flag"], "respiro": ["Respiro sott'acqua", "pct"], "fish_luck": ["Fortuna di pesca", "pct_add"], "fish_wait": ["Attesa della pesca", "pct"], "fish_size": ["Taglia dei pesci", "pct_add"], "fish_double": ["Due pesci in una volta", "pct_add"], "fish_any": ["La lenza regge ogni liquido", "flag"],
+	"resist": ["Resistenza", "pct_add"], "weak": ["Indebolisce chi colpisci", "flag"], "respiro": ["Respiro sott'acqua", "pct"], "dash": ["Sblocca la schivata (tasto C)", "flag"], "dash_cd": ["Ricarica della schivata", "pct"], "fish_luck": ["Fortuna di pesca", "pct_add"], "fish_wait": ["Attesa della pesca", "pct"], "fish_size": ["Taglia dei pesci", "pct_add"], "fish_double": ["Due pesci in una volta", "pct_add"], "fish_any": ["La lenza regge ogni liquido", "flag"],
 	"vento": ["Il vento ti spinge", "less"],
 }
 

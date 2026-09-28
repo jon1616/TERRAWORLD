@@ -122,6 +122,8 @@ func run(main: Node2D) -> void:
 	_mark("TestsGuide")
 	await TestsFishing.new(kit).run()
 	_mark("TestsFishing")
+	await TestsAlive.new(kit).run()
+	_mark("TestsAlive")
 	await TestsTorch.new(kit).run()
 	_mark("TestsTorch")
 	await TestsMobility.new(kit).run()
@@ -364,6 +366,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsGuide.new(kit).run()
 		"pesca":
 			await TestsFishing.new(kit).run()
+		"vivo":
+			await TestsAlive.new(kit).run()
 		"base":
 			# 28 set 2026: il cuore del gioco in ~2 minuti (il giro intero ne dura 8-9): mondo, alberi, creazione,
 			# Vita, movimento a 60 e 144 fotogrammi, combattimento, corsa, salvataggio e ricarica

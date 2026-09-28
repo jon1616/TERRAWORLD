@@ -58,6 +58,7 @@ var upside := false                    # disegnata a testa in giù (appesa al so
 var ghost := false                     # attraversa la terra (chi scava)
 var buried := false                    # non si vede (dentro la terra)
 var shell := 0.0                       # chiusa nel guscio: ferma, un quarto del danno
+var tele := 0.0                        # voce 127: un attacco si annuncia (il «!» di `TeleMark`), secondi che restano
 var just_hit := false                  # appena colpita (lo legge il guscio)
 var chill_t := 0.0                     # rallentata dal freddo (Bastone di lagunite): metà velocità
 var burn_t := 0.0                      # voce 51: brucia (elemento brace), perde `burn_dps` al secondo
@@ -134,6 +135,7 @@ func setup(cid: String, w: World, tgt: Node2D, sd: int, more_mods := {}) -> void
 		_spr.position = Vector2(0, half.y - h / 2.0)
 	_base_y = _spr.position.y
 	add_child(_spr)
+	add_child(TeleMark.new())                  # voce 127: il segnale degli attacchi
 	if data.get("glow", false):
 		_glow = Sprite2D.new()
 		_glow.texture = _glows[0]
@@ -402,3 +404,9 @@ func take_hit(dmg: int, from_x: float, force: float) -> bool:
 	_bar.set_value(float(hp) / float(hp_max))
 	Fx.float_text(get_parent(), position + Vector2(0, -half.y - 6), str(real), Color("#ffe0a0"))
 	return hp <= 0
+
+
+## Voce 127: un attacco sta per partire. Il «!» resta acceso almeno `t` secondi (`TeleMark`).
+func telegraph(t: float) -> void:
+	tele = maxf(tele, t)
+

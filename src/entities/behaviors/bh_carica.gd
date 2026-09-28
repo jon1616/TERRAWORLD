@@ -18,7 +18,8 @@ func tick(c: Creature, dt: float) -> void:
 			var d := c.target.position - c.position
 			if absf(d.y) < 20.0 and absf(d.x) < float(c.p.get("charge_range", 10)) * 16.0:
 				phase = 1
-				timer = 0.4
+				timer = 0.4 * float(c.p.get("windup", 1.0))
+				c.telegraph(timer)                 # voce 127
 				dir = signf(d.x)
 				c.facing = int(dir)
 				c.busy = true

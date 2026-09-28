@@ -9,6 +9,7 @@ const ACTIONS := [
 	["destra", "Vai a destra", [KEY_D, KEY_RIGHT], "Muoversi"],
 	["salto", "Salta (tieni premuto: più in alto, plana)", [KEY_SPACE, KEY_W, KEY_UP], "Muoversi"],
 	["giu", "Scendi dalle passerelle, sgancia il rampino", [KEY_S, KEY_DOWN], "Muoversi"],
+	["schiva", "Schivata (serve un oggetto che la sblocca)", [KEY_C], "Muoversi"],
 	["cavalca", "Sali o scendi dalla cavalcatura", [KEY_R], "Muoversi"],
 	["bisaccia", "Apri la Bisaccia (e Creare)", [KEY_E, KEY_TAB], "Pannelli"],
 	["mappa", "Mappa", [KEY_M], "Pannelli"],

@@ -15,7 +15,8 @@ func tick(c: Creature, dt: float) -> void:
 			t -= dt * (1.5 if c.enraged else 1.0)
 			if t <= 0.0 and Behavior.sees(c, float(c.p.get("sight", 30))):
 				phase = 1
-				timer = 0.5
+				timer = 0.5 * float(c.p.get("windup", 1.0))
+				c.telegraph(timer)                 # voce 127
 				c.busy = true
 				c.want_fly = Vector2.ZERO
 		1:

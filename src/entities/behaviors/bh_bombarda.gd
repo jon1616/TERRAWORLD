@@ -7,8 +7,11 @@ var t := 1.5
 
 
 func tick(c: Creature, dt: float) -> void:
+	var was := t
 	t -= dt
 	c.mouth = t < 0.3
+	if was >= 0.4 and t < 0.4:
+		c.telegraph(0.4)                           # voce 127
 	if t > 0.0 or c.target == null:
 		return
 	var d := c.target.position - c.position

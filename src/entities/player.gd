@@ -181,8 +181,27 @@ func reset_fall() -> void:
 
 ## Un passo di movimento. Lo spostamento usa la velocità media del passo (prima e dopo la gravità): è il calcolo
 ## esatto per un'accelerazione costante, così il salto è alto uguale a 60 come a 144 fotogrammi al secondo.
+## Voce 127: la schivata (la sbloccano gli accessori: `GearEffects` scrive dash_ok e dash_cd_mult).
+var dash_ok := false
+var dash_cd_mult := 1.0
+var dash_t := 0.0
+var dash_cd_t := 0.0
+var dash_dir := 1.0
+
+
+## Uno scatto nella direzione dir (-1, 1; 0 = dove guarda). Falso se non si può (niente oggetto, in ricarica).
+func try_dash(dir: float) -> bool:
+	if not dash_ok or dash_cd_t > 0.0 or hook != Vector2.INF:
+		return false
+	dash_dir = signf(dir) if dir != 0.0 else float(facing)
+	dash_t = DashData.TIME
+	dash_cd_t = DashData.COOLDOWN * dash_cd_mult
+	return true
+
+
 func _step(dt: float, dir: float, held: bool) -> void:
 	slow_t = maxf(slow_t - dt, 0.0)
+	dash_cd_t = maxf(dash_cd_t - dt, 0.0)
 	if hook != Vector2.INF:
 		_hook_step(dt)
 		return
@@ -212,6 +231,11 @@ func _step(dt: float, dir: float, held: bool) -> void:
 		target += wind * 0.35 * (2.2 if gliding or flying else 1.0)    # voce 75: il vento porta chi è in aria, e chi plana o vola di più
 	var vx0 := vel.x
 	vel.x = move_toward(vel.x, target, accel * dt)
+	if dash_t > 0.0:
+		# voce 127: la schivata vince sul resto del movimento orizzontale e ferma la caduta per un attimo
+		dash_t -= dt
+		vel.x = dash_dir * DashData.SPEED
+		vel.y = minf(vel.y, 20.0)
 	jump_buf -= dt
 	if jump_buf > 0.0 and coyote > 0.0:
 		vel.y = -JUMP * sqrt(jump_mult * harsh_jump)   # l'altezza cresce col quadrato della velocità: ×jump in altezza

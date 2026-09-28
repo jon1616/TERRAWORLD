@@ -2277,7 +2277,15 @@ carica 16, scatto 14, salta 13, spara 12, evoca 10; nuota 2, agguato 3, scava 2,
 - Regola scritta: ogni zona ha almeno 5 ruoli e almeno 3 modi d'attacco diversi. Le voci 132-134 riempiono i buchi che
   lo strumento mostra, non una lista inventata.
 
-## 127. [ ] Combattimento leggibile e la schivata (M)
+## 127. [x] Combattimento leggibile e la schivata (M) — fatto il 29 set 2026
+Fatto: `Creature.telegraph(t)` e il segno `TeleMark` (un «!» ambra che lampeggia sopra la creatura), acceso dalla
+rincorsa della carica (0,4 s) e dello scatto (0,5 s), dalla bocca che si apre prima di un tiro (0,45 s) e prima di un
+colpo dall'alto (0,4 s); il parametro `windup` dei dati allunga o accorcia la rincorsa. La **schivata** (scelta
+dell'utente: solo con gli oggetti): `DashData` (velocità, durata, ricarica, invulnerabilità), `Player.try_dash`, il
+modulo `Dodge` (tasto «schiva», C), gli effetti `dash`/`dash_cd` di `GearEffects`; il **Cavigliere di vento** (Telaio) e
+la **Fascia-lampo** (Maglio, ricarica ×0,6). Capitolo «Combattere». Prova `--solo=vivo` (`TestsAlive`): lo scarabeo
+d'ardesia accende il «!» 0,39 s prima della carica (foto 190_telegrafo); senza oggetto niente schivata, con il
+Cavigliere 87-92 px di scatto, 0,3 s d'invulnerabilità, poi la ricarica.
 - Telegrafi uniformi per tutti gli attacchi (vecchi e nuovi): la carica si prepara con un lampo e un suono, il salto
   mostra l'ombra dove cadrà, il proiettile brilla prima di partire, l'esplosione lampeggia. Un campo nei dati
   (`windup`), letto da un solo pezzo di codice.

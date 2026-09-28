@@ -48,7 +48,9 @@ Gli effetti attivi e il tempo che resta sono in alto a destra, sotto la minimapp
 [b]Bastoni evocatori[/b]: chiamano creature alleate che combattono con te.
 [b]Da lanciare[/b]: esplosivi (rompono la roccia fino alla loro forza, feriscono anche te se sei vicino), semi ricurvi (tornano in mano), giavellotti.
 [b]Rampino[/b]: si aggancia alla roccia e ti tira; si sgancia saltando o con {k_giu}.
-Gli [url=cap:elementi]elementi[/url] contano: ogni creatura ha almeno una debolezza."""},
+Gli [url=cap:elementi]elementi[/url] contano: ogni creatura ha almeno una debolezza.
+[b]Il segnale «!»[/b]: prima di caricare, scattare, sputare o lasciar cadere un colpo, sopra la creatura lampeggia un «!» color ambra. È il momento di spostarsi, saltare o schivare.
+[b]La schivata[/b] ({k_schiva}): uno scatto breve con un attimo in cui niente ti ferisce. Non c'è di base: la sblocca il [b]Cavigliere di vento[/b] (al Telaio), e la [b]Fascia-lampo[/b] (al Maglio) la ricarica molto più in fretta."""},
 	{"id": "unici", "group": "Creare ed equipaggiarsi", "name": "La collezione degli unici", "text":
 """Gli [b]oggetti unici[/b] hanno un nome, una storia e [b]effetti speciali[/b] che non si trovano altrove: ognuno cambia qualcosa nel modo di giocare. Stanno in [b]serie[/b]: quando l'Erbario le ricorda tutte, la serie completa dà il suo premio [b]per sempre[/b].
 Escono dai segreti profondi e leggendari, dalle creature ancestrali e iridate, dagli scrigni antichi delle rovine profonde, dai Custodi e dai Guardiani evocati; alcuni si fabbricano con i trofei delle creature rare. Chi li lascia a caso preferisce quelli che non hai ancora.
