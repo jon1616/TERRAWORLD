@@ -52,7 +52,7 @@ var harsh_run := 1.0                   # voce 93: i rigori delle terre estreme (
 var harsh_jump := 1.0
 var weather_run := 1.0                 # voce 75: la bufera rallenta la corsa
 var grav_mult := 1.0                   # voce 76: il peso del mondo (gene Lieve, Arcipelago), lo imposta `Gravity`
-var lift := 0.0                        # voce 76: dentro una corrente ascensionale, la velocità di salita
+var lift := 0.0                        # voce 76: dentro una corrente ascensionale, la velocità di salita (solo tenendo Salto)
 var wings := {}                        # voce 90: le ali indossate (`FlightData.WINGS`), vuoto = niente volo
 var fly_left := 0.0                    # voce 90: l'autonomia che resta, in secondi
 var flying := false                    # voce 90: vola adesso (posa, ali, vento)
@@ -217,7 +217,7 @@ func _step(dt: float, dir: float, held: bool) -> void:
 	# voce 90: il volo. Tenendo Salto in aria, passata la spinta del salto, le ali sollevano finché dura la barra
 	# (comincia quando la spinta del salto cala, poi continua finché si tiene Salto)
 	flying = not wings.is_empty() and not on_floor and not in_liquid and held and fly_left > 0.0 \
-		and (flying or vel.y > -JUMP * 0.35) and lift <= 0.0
+		and (flying or vel.y > -JUMP * 0.35) and not (lift > 0.0 and held)
 	if flying:
 		target *= float(wings["speed"])
 	if on_floor:
@@ -271,7 +271,8 @@ func _step(dt: float, dir: float, held: bool) -> void:
 		else:
 			vel.y += GRAV * grav_mult * dt          # più veloce della sua salita: la spinta del salto cala da sé
 		fly_left = maxf(fly_left - dt * clampf(grav_mult, 0.5, 1.5), 0.0)
-	elif lift > 0.0:
+	elif lift > 0.0 and held:
+		# 29 set 2026 (richiesta dell'utente): la corrente solleva solo tenendo premuto Salto (su); senza, ci si passa
 		# voce 76: la corrente ascensionale solleva, e chi ne esce riparte da qui a contare la caduta
 		vel.y = move_toward(vel.y, -lift, 1500.0 * dt)
 		_air_top = position.y

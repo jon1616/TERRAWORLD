@@ -9,7 +9,7 @@ const CHAPTERS := [
 • il [b]cielo basso[/b], una trentina di tessere sopra le colline più alte: si raggiunge dal primo giorno;
 • il [b]cielo alto[/b], sopra, fino al bordo del mondo: l'[url=cap:aria_sottile]aria sottile[/url] e le creature più forti chiedono di prepararsi.
 [b]Come si sale[/b]:
-• le [b]correnti[/b]: colonne d'aria (foglie e scintille che salgono) che partono dalla terra e portano su fino a un'isola bassa; altre portano dalle isole basse a quelle alte;
+• le [b]correnti[/b]: colonne d'aria (foglie e scintille che salgono) che partono dalla terra e portano su fino a un'isola bassa, finché tieni premuto {k_salto} (lasciandolo ci passi attraverso); altre portano dalle isole basse a quelle alte;
 • le [b]radici pendenti[/b]: file di passerelle che scendono da molte isole basse fin quasi a terra (ci si sale saltando);
 • il [b]Fagiolo di nuvola[/b] (al Ceppo: legno, gelatina, humus): piantato all'aperto, in un minuto sale una liana di passerelle, 40 tessere;
 • le ali, la planata e il rampino.

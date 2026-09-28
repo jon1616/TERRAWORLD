@@ -59,12 +59,19 @@ func run() -> void:
 	var saved: Array = gv.currents
 	gv.currents = [{"x": spot.x, "w": 1, "y0": spot.y - 22, "y1": spot.y}]
 	m.snap_to(spot)
+	var had_control := p.control
+	p.control = false
+	await kit.seconds(0.4)
+	var still := absf(p.vel.y) < 30.0 and p.on_floor               # senza tenere il salto la corrente non solleva
+	p.auto_jump = true                                           # tenendo il salto, sì
 	await kit.seconds(0.2)
 	var y0 := p.position.y
 	await kit.seconds(0.8)
 	var inside := gv.current_at(m.player_cell()) >= 0        # a metà salita (a 1,6 s può essere già uscito dalla cima)
 	await kit.seconds(0.8)
 	var rose := (y0 - p.position.y) / 16.0
+	p.auto_jump = false
+	p.control = had_control
 	await kit.save("142_corrente")
 	var parts := gv._fx.size()
 	gv.currents = saved
@@ -80,11 +87,11 @@ func run() -> void:
 	var ar := _measure(["arcipelago"], ws[1])
 	var run_l := Genome.effects(["lieve"], "run")
 	var run_g := Genome.effects(["guscio"], "run")
-	print("gravità: salto normale %.2f tessere, lieve %.2f; caduta di 30 tessere conta %.0f / %.1f; corrente: salito %.1f tessere (dentro %s, particelle %d); lieve grav %.2f, guscio senza pioggia %s" % [
-		normal, light, fall_n, fall_l, rose, "sì" if inside else "NO", parts, float(run_l["grav"]), "sì" if run_g["roof"] else "NO"])
+	print("gravità: salto normale %.2f tessere, lieve %.2f; caduta di 30 tessere conta %.0f / %.1f; corrente: ferma senza il salto %s, salito %.1f tessere (dentro %s, particelle %d); lieve grav %.2f, guscio senza pioggia %s" % [
+		normal, light, fall_n, fall_l, "sì" if still else "NO", rose, "sì" if inside else "NO", parts, float(run_l["grav"]), "sì" if run_g["roof"] else "NO"])
 	print("guscio: %s" % sh)
 	print("arcipelago: %s" % ar)
-	if light < normal * 1.5 or rose < 6.0 or parts < 1 or float(run_l["grav"]) >= 1.0 or not run_g["roof"] \
+	if light < normal * 1.5 or rose < 6.0 or not still or parts < 1 or float(run_l["grav"]) >= 1.0 or not run_g["roof"] \
 			or not sh["ok"] or not ar["ok"]:
 		print("ATTENZIONE: la gravità o i mondi strani non funzionano come dovrebbero")
 

@@ -97,6 +97,7 @@ func climb() -> void:
 	var p: Player = m.player
 	var had_control := p.control
 	p.control = false                        # si muove con i comandi simulati (`auto_dir`)
+	p.auto_jump = true                       # la corrente solleva solo tenendo premuto il salto
 	var min_y := p.position.y
 	var t := 0.0
 	var limit := 4.0 + (int(best["y1"]) - int(best["y0"])) / 12.0     # la corrente sale 15 tessere al secondo
@@ -109,6 +110,7 @@ func climb() -> void:
 		if p.on_floor and p.position.y < (top + 1) * S:
 			break
 	p.auto_dir = 0.0
+	p.auto_jump = false
 	p.control = had_control
 	var c: Vector2i = m.player_cell()
 	var zone := SkyData.zone_at(world, c.x, c.y)

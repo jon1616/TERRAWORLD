@@ -5,7 +5,7 @@ extends Node
 ##   più alti, cadute più lente e meno dannose), per le creature, gli oggetti a terra, i dardi e le bombe
 ##   (`Creature.grav`, letto da tutti);
 ##   le correnti ascensionali dell'Arcipelago (appunti del generatore → `world_meta["correnti"]`): colonne d'aria che
-##   sollevano chi ci entra (`Player.lift`) fino sopra le voragini. Si vedono: foglie e scintille che salgono.
+##   sollevano chi ci entra tenendo premuto Salto (`Player.lift`; senza, ci si passa attraverso) fino sopra le voragini. Si vedono: foglie e scintille che salgono.
 ## Il Guscio (tetto di roccia) non ha codice qui: è tutto nel generatore (`PassGuscio`), e `Weather` sa che sotto il
 ## tetto non piove (`run.roof`).
 

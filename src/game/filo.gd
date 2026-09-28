@@ -214,7 +214,7 @@ func _from_cielo() -> Dictionary:
 			var q := Vector2i(int(d["x"]), int(d["y1"]))
 			if best.x < 0 or absi(q.x - pc.x) < absi(best.x - pc.x):
 				best = q
-	var c := {"text": "Sali alle isole del cielo", "hint": "una corrente d'aria (foglie che salgono) porta su dalla terra; o le radici che pendono dalle isole, o un Fagiolo di nuvola"}
+	var c := {"text": "Sali alle isole del cielo", "hint": "entra in una corrente d'aria (foglie che salgono) e tieni premuto il salto: porta su dalla terra; o le radici che pendono dalle isole, o un Fagiolo di nuvola"}
 	if best.x >= 0:
 		c["cell"] = best
 	return c
