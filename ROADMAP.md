@@ -2414,7 +2414,15 @@ I materiali delle creature arrivano con la voce 147 (fino a 28: un costrutto sta
   della voce 93), luce (vetri che la lasciano passare, cristalli che la fanno), bellezza (il comfort delle stanze).
 - Si fanno a una stazione nuova, il **Banco dello scalpellino** (e i più semplici a mano).
 
-## 140. [ ] Gli strumenti del costruttore (M)
+## 140. [x] Gli strumenti del costruttore (M) — fatto il 29 set 2026
+Fatto: `BuilderTools` (`src/game/`) e `BuilderData`: con un blocco in mano trascinare posa **in linea** (fino a 24),
+tenendo il tasto «area» (Ctrl) un **rettangolo** (fino a 64), sempre con le regole del clic; il **Martello** (clic
+destro) **scolpisce** un costrutto nella forma dopo; otto **tinture** (fungo di brace, polvere di brace e di lucciola,
+fiore germoglio, fungo luminoso, lagunite, nottilite, brillaluce) e la sbiadente colorano blocchi (clic) e pareti
+costruite (clic destro): `World.tint` (salvato), strati colorati fatti al bisogno in `WorldView`; la **Tavola del
+progetto** (allo scalpellino) copia fino a 16 × 12 celle costruite e le rifà altrove con i materiali della Bisaccia.
+Togliere senza perdere c'era già (costrutti e pareti tornano oggetto). La mappa colora costrutti e pareti costruite
+secondo il materiale. Prova in `--solo=vivo` (foto 196_costruttore, 197_progetto).
 - Posare **in linea e ad area** trascinando; il Martello che **scolpisce** un blocco già posato (cambia forma); le
   **tinture** dai fiori e dai minerali per colorare blocchi e pareti; togliere senza perdere; un «progetto» da
   un'area già costruita da ripetere altrove portando i materiali.

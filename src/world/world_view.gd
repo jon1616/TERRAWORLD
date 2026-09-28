@@ -108,6 +108,7 @@ func _build_chunk(k: Vector2i) -> void:
 	var built := _layer(node, ts_built, 0, Vector2.ZERO)          # voce 128: i costrutti, squadrati
 	var built_g := _layer(node, ts_built_glow, 25, Vector2.ZERO)
 	node.set_meta("built", [built, built_g, bwalls])
+	node.set_meta("tints", {})                                  # voce 140: strati colorati, fatti al bisogno
 	var fx := Node2D.new()
 	fx.z_index = 26
 	node.add_child(fx)
@@ -123,7 +124,7 @@ func _build_chunk(k: Vector2i) -> void:
 			_paint_dual(Vector2i(x, y), terrain, glow_t)
 			if x < world.w and y < world.h:
 				_paint_grid(Vector2i(x, y), walls, decor, glow_d, plats)
-				_paint_built(Vector2i(x, y), built, built_g, bwalls)
+				_paint_built(Vector2i(x, y), node)
 	node.set_meta("trees", trees)
 	props.fill_chunk(node, k)
 
@@ -191,8 +192,23 @@ func _paint_grid(c: Vector2i, walls: TileMapLayer, decor: TileMapLayer, glow: Ti
 
 
 ## Voce 128: un costrutto (i bordi secondo i 4 vicini costruiti) e la parete costruita della cella c.
-func _paint_built(c: Vector2i, built: TileMapLayer, glow: TileMapLayer, bwalls: TileMapLayer) -> void:
+func _paint_built(c: Vector2i, node: Node2D) -> void:
+	var lay: Array = node.get_meta("built")
+	var built: TileMapLayer = lay[0]
+	var glow: TileMapLayer = lay[1]
+	var bwalls: TileMapLayer = lay[2]
+	var tints: Dictionary = node.get_meta("tints")
+	for tl in tints.values():
+		(tl as TileMapLayer).erase_cell(c)
 	var k := world.build_at(c.x, c.y)
+	var tv := world.tint_at(c.x, c.y)
+	if k > 0 and tv & 15 > 0:
+		built.erase_cell(c)                        # voce 140: un blocco colorato sta nel suo strato colorato
+		built = _tint_layer(node, "b%d" % (tv & 15), ts_built, 0, BuilderData.color(tv & 15))
+	var wl0 := world.wall(c.x, c.y)
+	if wl0 >= BuildData.WALL_BASE and tv >> 4 > 0:
+		bwalls.erase_cell(c)
+		bwalls = _tint_layer(node, "w%d" % (tv >> 4), ts_built_walls, -10, BuilderData.color(tv >> 4))
 	if k > 0:
 		var mask := (1 if world.build_at(c.x, c.y - 1) > 0 else 0) | (2 if world.build_at(c.x + 1, c.y) > 0 else 0) \
 			| (4 if world.build_at(c.x, c.y + 1) > 0 else 0) | (8 if world.build_at(c.x - 1, c.y) > 0 else 0)
@@ -209,6 +225,16 @@ func _paint_built(c: Vector2i, built: TileMapLayer, glow: TileMapLayer, bwalls: 
 		bwalls.set_cell(c, 0, BuildPainter.wall_coords(wl, c.x, c.y))
 	else:
 		bwalls.erase_cell(c)
+
+
+## Voce 140: lo strato colorato di un blocco (uno per colore, fatto la prima volta che serve).
+func _tint_layer(node: Node2D, key: String, ts: TileSet, z: int, col: Color) -> TileMapLayer:
+	var tints: Dictionary = node.get_meta("tints")
+	if not tints.has(key):
+		var l := _layer(node, ts, z, Vector2.ZERO)
+		l.modulate = col
+		tints[key] = l
+	return tints[key]
 
 
 ## Ridisegna ciò che dipende dalla tessera c (dopo uno scavo o un piazzamento), nei blocchi caricati.
@@ -233,8 +259,7 @@ func refresh_around(c: Vector2i) -> void:
 			continue
 		var node2: Node2D = chunks.get(World.chunk_of(q2))
 		if node2 and node2.has_meta("built"):
-			var b: Array = node2.get_meta("built")
-			_paint_built(q2, b[0], b[1], b[2])
+			_paint_built(q2, node2)
 
 
 ## Ridisegna da capo i blocchi che toccano un rettangolo di celle (luoghi costruiti, porte dei Seminatori): si

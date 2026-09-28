@@ -281,6 +281,7 @@ static func all() -> Dictionary:
 	out.merge(DashData.ITEMS.duplicate(true))              # voce 127: la schivata
 	out.merge(BuildData.items())                           # voce 128: i costrutti
 	out.merge(BuildData.STATION_ITEMS.duplicate(true))     # voce 139: il Banco dello scalpellino
+	out.merge(BuilderData.items())                         # voce 140: tinture e Tavola del progetto
 	out.merge(WeatherData.ITEMS.duplicate(true))           # voce 75
 	out.merge(WorldTimeData.ITEMS.duplicate(true))         # voce 78
 	out.merge(VigorData.ITEMS.duplicate(true))             # voce 79

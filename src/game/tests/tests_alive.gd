@@ -2,7 +2,8 @@ class_name TestsAlive
 extends RefCounted
 ## Roadmap 15 «Il mondo abitato» (creature e costruzioni). Voce 127: gli attacchi si annunciano (il «!» di `TeleMark`) e
 ## la schivata c'è solo con un oggetto che la sblocca. Voce 128: i costrutti (forma × materiale). Voce 129: il cervello (`Mind`).
-## Voce 130: le astuzie (`WilesData`, `Wiles`). Voce 131: le tattiche di gruppo (`Tactics`). Gruppo «vivo».
+## Voce 130: le astuzie (`WilesData`, `Wiles`). Voce 131: le tattiche di gruppo (`Tactics`).
+## Voce 140: gli strumenti del costruttore (`BuilderTools`). Gruppo «vivo».
 
 var kit: TestKit
 var m: Node2D
@@ -20,6 +21,7 @@ func run() -> void:
 	await telegraphs()
 	await dash()
 	await builds()
+	await builder()
 	await brain()
 	await wiles()
 	await tactics()
@@ -409,3 +411,60 @@ func tactics() -> void:
 		"sì" if flanked else "NO", "sì" if crossed else "NO", "sì" if warned else "NO", "sì" if defend else "NO"])
 	if not flanked or not crossed or not warned or not defend:
 		print("ATTENZIONE: le tattiche di gruppo non vanno come dovrebbero")
+
+
+## Voce 140: posare in linea e ad area, scolpire, tingere, copiare e rifare un progetto (e i colori si salvano).
+func builder() -> void:
+	var w: World = m.world
+	var spot := kit.flat_spot(w.spawn + Vector2i(-70, 0), 12)
+	if spot.x < 0:
+		print("ATTENZIONE: nessun posto piano per la prova degli strumenti del costruttore")
+		return
+	kit.flatten(spot, 24)
+	m.snap_to(spot)
+	await kit.frames(3)
+	var bt: BuilderTools = m.builder
+	var b: Bisaccia = m.character.bisaccia
+	var id := "costr_mattoni_ardesia"
+	b.add(id, 60)
+	m.hud.sel = kit.hold(id)
+	# una linea di 5 sul pavimento, verso destra
+	var a := spot + Vector2i(1, 0)
+	var line := bt.fill(bt._cells(a, a + Vector2i(4, 0), false), id)
+	# un'area 3 × 2 sopra la linea
+	var area := bt.fill(bt._cells(spot + Vector2i(2, -1), spot + Vector2i(4, -2), true), id)
+	# scolpire: la forma dopo
+	var k0 := w.build_at(a.x, a.y)
+	var sc := bt.sculpt(a) and w.build_at(a.x, a.y) == k0 + 1
+	# tingere
+	b.add("tintura_rossa", 5)
+	m.hud.sel = kit.hold("tintura_rossa")
+	var dy := bt.dye(spot + Vector2i(3, -1), "tintura_rossa", false) and w.block_tint(spot.x + 3, spot.y - 1) == 1
+	b.add("tintura_blu", 5)
+	m.hud.sel = kit.hold("tintura_blu")
+	bt.dye(spot + Vector2i(4, -2), "tintura_blu", false)
+	await kit.seconds(0.3)
+	await kit.save("196_costruttore")
+	# il progetto: copia l'area e la rifà più in là
+	b.add("tavola_progetto", 1)
+	m.hud.sel = kit.hold("tavola_progetto")
+	var copied := bt.copy(Rect2i(spot + Vector2i(1, -2), Vector2i(5, 3)))
+	var need := BuilderTools.needs(bt._plan())
+	for nid in need:
+		b.add(String(nid), int(need[nid]))
+	var dest := spot + Vector2i(-8, -3)
+	var built_ok := bt.build_plan(dest)
+	var same := 0
+	for e in bt._plan()["cells"]:
+		if int(e[2]) > 0 and w.build_at(dest.x + int(e[0]), dest.y + int(e[1])) == int(e[2]):
+			same += 1
+	var saved := WorldSave.save(w, "prova_tinte", {"nome": "tinte"})
+	var back := WorldSave.load_world("prova_tinte")
+	var kept: bool = saved == OK and back != null and back.tint == w.tint
+	WorldSave.delete("prova_tinte")
+	await kit.seconds(0.2)
+	await kit.save("197_progetto")
+	print("costruttore: in linea %d su 5, ad area %d su 6, scolpito %s, tinto %s, progetto copiato %d celle e rifatto %s (%d blocchi uguali), colori salvati %s" % [
+		line, area, "sì" if sc else "NO", "sì" if dy else "NO", copied, "sì" if built_ok else "NO", same, "sì" if kept else "NO"])
+	if line < 5 or area < 6 or not sc or not dy or copied < 8 or not built_ok or same < 8 or not kept:
+		print("ATTENZIONE: gli strumenti del costruttore non vanno come dovrebbero")

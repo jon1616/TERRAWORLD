@@ -66,6 +66,7 @@ func remove_wall(c: Vector2i) -> void:
 	var w: World = m.world
 	var wl := w.wall(c.x, c.y)
 	w.walls[c.y * w.w + c.x] = 0
+	w.set_tint(c.x, c.y, w.block_tint(c.x, c.y), 0)   # voce 140: il colore se ne va con la parete
 	m.view.refresh_around(c)
 	m.light.dirty = true
 	var at := Vector2(c) * S + Vector2(8, 8)

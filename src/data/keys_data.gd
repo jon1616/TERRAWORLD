@@ -23,6 +23,7 @@ const ACTIONS := [
 	["vista", "Potere: Vista della Linfa", [KEY_V], "Poteri"],
 	["ponte", "Potere: Radici-ponte", [KEY_F], "Poteri"],
 	["confronta", "Confronta nei suggerimenti", [KEY_SHIFT], "Altro"],
+	["area", "Posa ad area (trascinando un blocco)", [KEY_CTRL], "Altro"],
 ]
 
 

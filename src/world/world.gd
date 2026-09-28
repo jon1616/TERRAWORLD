@@ -27,6 +27,7 @@ var explored := PackedByteArray()      # mappa: 1 dove il Germogliato ha già vi
 var plats := PackedByteArray()         # passerelle: 1 dove c'è una passerella (cella d'aria, si attraversa da sotto)
 ## Voce 73: i liquidi. Un byte per cella: livello 0-8 nei 4 bit bassi, tipo (0 acqua, 1 Linfa, 2 brace) nei due sopra.
 ## Le regole di come scorrono in `Liquids`, i tipi in `LiquidsData`.
+var tint := PackedByteArray()           # voce 140: i colori delle tinture (4 bit bassi il blocco, 4 alti la parete)
 var build := PackedByteArray()          # voce 128: quale costrutto c'è in una cella (0 = nessuno, vedi `BuildData`)
 var liquid := PackedByteArray()
 ## Chiamata quando una tessera cambia (`set_tile`): i liquidi vicini si risvegliano (lo imposta `Liquids`).
@@ -50,6 +51,8 @@ func setup(width: int, height: int) -> void:
 	liquid.fill(0)
 	build.resize(w * h)
 	build.fill(0)
+	tint.resize(w * h)
+	tint.fill(0)
 	explored.resize(w * h)
 	explored.fill(0)
 	biomes.resize(w)
@@ -103,6 +106,26 @@ func set_build(x: int, y: int, k: int) -> void:
 	build[y * w + x] = k
 
 
+## Voce 140: il colore di una cella (blocco e parete, 0 = nessuno; `BuilderData.DYES`).
+func tint_at(x: int, y: int) -> int:
+	if x < 0 or y < 0 or x >= w or y >= h or tint.size() != tiles.size():
+		return 0
+	return tint[y * w + x]
+
+
+func block_tint(x: int, y: int) -> int:
+	return tint_at(x, y) & 15
+
+
+func wall_tint(x: int, y: int) -> int:
+	return tint_at(x, y) >> 4
+
+
+func set_tint(x: int, y: int, block: int, wall: int) -> void:
+	if tint.size() == tiles.size():
+		tint[y * w + x] = (block & 15) | ((wall & 15) << 4)
+
+
 func build_at(x: int, y: int) -> int:
 	if x < 0 or y < 0 or x >= w or y >= h or build.size() != tiles.size():
 		return 0
@@ -113,6 +136,8 @@ func set_tile(x: int, y: int, t: int) -> void:
 	tiles[y * w + x] = t
 	if t != TileDefs.COSTRUTTO and t != TileDefs.COSTRUTTO_T and build.size() == tiles.size():
 		build[y * w + x] = 0                       # voce 128: un costrutto tolto non lascia il suo numero
+		if tint.size() == tiles.size():
+			tint[y * w + x] &= 0xF0                # né il suo colore (voce 140)
 	if on_change.is_valid():
 		on_change.call(x, y)
 

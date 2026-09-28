@@ -22,6 +22,9 @@ var _tile_col := PackedColorArray()
 var _wall_col := PackedColorArray()
 
 
+var _build_col := PackedColorArray()     # voce 128: il colore dei costrutti per materiale
+
+
 func setup(main: Node2D) -> void:
 	m = main
 	world = m.world
@@ -34,6 +37,13 @@ func setup(main: Node2D) -> void:
 	for k in range(1, TileDefs.WALLS + 1):
 		var src: Array = DecorPainter.WALL_SRC[k]
 		_wall_col[k] = Px.sh(Color(src[1][1]), 0.6)
+	# voce 128: le pareti costruite e i costrutti, dal colore del loro materiale
+	_wall_col.resize(256)
+	_build_col.resize(BuildData.MATERIALS.size())
+	for mi in BuildData.MATERIALS.size():
+		var pal: Array = BuildData.MATERIALS[mi]["pal"]
+		_wall_col[BuildData.WALL_BASE + mi] = Px.sh(Color(String(pal[2])), 0.6)
+		_build_col[mi] = Color(String(pal[3]))
 	image = Image.create_empty(world.w, world.h, false, Image.FORMAT_RGB8)
 	_task = WorkerThreadPool.add_task(_build, false, "mappa")
 
@@ -41,6 +51,9 @@ func setup(main: Node2D) -> void:
 ## Colore di una cella sulla mappa.
 func color_at(i: int) -> Color:
 	var t := world.tiles[i]
+	if t == TileDefs.COSTRUTTO or t == TileDefs.COSTRUTTO_T:
+		var k := world.build[i]
+		return _build_col[(k - 1) / BuildData.FORMS.size()] if k > 0 else _tile_col[t]
 	if t != TileDefs.AIR:
 		return _tile_col[t]
 	var wl := world.walls[i]
