@@ -2881,11 +2881,12 @@ metà Vita e il materiale che c'è solo da loro.
 **Pronto quando**: la prova ne chiama uno nel suo bioma e lo batte; il bilancio dà i tempi.
 **Fatto**: sei Signori del cielo in `tools/gen_signori.py` (`where`: `{sky: bioma}`; tutti volanti): Regina turchese, Grande Nuvolo, Falco re dei venti, Drago di cristallo, Signore del tuono (tre fulmini di fila), Balena madre delle stelle; ognuno con esca, materiale, trofeo e oggetto (Mantello della Regina, Cuscino di nuvola, Ali del re dei venti, Corona di cristallo, Corno del tuono, Mantello del Firmamento: l'aria sottile non tocca più). `Lords.here()` riconosce le zone del cielo (lì non vale il Signore del bioma di sotto) e la forza si moltiplica per il `danger` del bioma. 30 Signori in tutto. Foto 218.
 
-## 162. [ ] Il Guardiano delle Chiome (L)
+## 162. [x] Il Guardiano delle Chiome (L) — fatto il 29 set 2026
 Un grande Guardiano scritto a mano, **l'Occhio della Tempesta**: si chiama all'Osservatorio del Firmamento (voce 163)
 con il suo richiamo; fulmini a colonna annunciati, nuvole che lo nascondono, raffiche; a metà Vita il cielo si oscura
 e chiama gli stormi. Lascia il Cuore di tempesta: Ali della tempesta, la tempra della nimbite, una pagina di storia.
 **Pronto quando**: la prova lo chiama e lo batte; il bilancio: circa 50 s con l'arma del suo livello.
+**Fatto**: l'**Occhio della Tempesta** in `guardiani.gd` (3200 di Vita; «vola», «folgore» con tre fulmini di fila, «correnti» con le raffiche; in furia un secondo «folgore», gli stormi di aquile e lo scatto, e il cielo si oscura: `Chiome.extra_dark`). Si chiama con il Richiamo della tempesta (all'Altare: nuclei del tuono, scaglie del drago di cristallo, nimbite) solo nel cielo alto e all'aperto (`GreatGuardians._place`). Lascia il Cuore di tempesta, il Vento imprigionato e la nimbite: Corona della tempesta, **Ali della tempesta** (in `FlightData`, tra quelle del Vuoto e le stellari). La prova: a terra no, nel cielo alto sì, fulmini, furia, cielo oscurato, sconfitto con il bottino (foto 219). Il bilancio dei tempi con la voce 168; l'osservatorio con la 163.
 
 ## 163. [ ] Gli osservatori dei Seminatori (M)
 Nel cielo alto, le rovine dei Seminatori che guardavano le stelle: stanze aperte con scrigni (tabella «rovina_cielo»),

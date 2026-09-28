@@ -27,6 +27,7 @@ func run() -> void:
 	mats()
 	await beasts()
 	await lords()
+	await guardian()
 
 
 ## Voce 154: le zone e le fasce.
@@ -422,3 +423,51 @@ func lords() -> void:
 		key, zone, ok, flies, hp, no])
 	if not ok or not flies or not no:
 		print("ATTENZIONE: i Signori del cielo non vanno come dovrebbero")
+
+
+## Voce 162: l'Occhio della Tempesta si chiama solo nel cielo alto; i suoi fulmini cadono; in furia oscura il cielo e
+## le mosse raddoppiano; sconfitto lascia il Cuore di tempesta.
+func guardian() -> void:
+	var gg: GreatGuardians = m.great
+	var b: Bisaccia = m.character.bisaccia
+	m.snap_to(world.spawn)
+	await kit.frames(3)
+	b.add("richiamo_tempesta", 1)
+	var no_ground: bool = not gg.summon("richiamo_tempesta")
+	var spot := island_spot("alto")
+	if spot.x < 0:
+		print("ATTENZIONE: nessuna isola alta per l'Occhio della Tempesta")
+		return
+	m.snap_to(spot)
+	await kit.frames(3)
+	m.combat.god = true
+	var ok: bool = gg.summon("richiamo_tempesta")
+	var boss: Creature = gg.active
+	var st: SkyStrikes = m.strikes
+	var f0 := st.fallen
+	var t := 0.0
+	while t < 7.0 and st.fallen == f0:
+		await kit.frames(1)
+		t += m.get_process_delta_time()
+	var bolts := st.fallen - f0
+	var n0: int = boss.behaviors.size() if boss else 0
+	if boss:
+		boss.hp = int(boss.hp_max * 0.4)
+		await kit.seconds(1.8)
+	var fury: bool = boss != null and is_instance_valid(boss) and boss.behaviors.size() > n0
+	var dark: float = m.chiome.extra_dark
+	await kit.save("219_occhio_tempesta")
+	var d0: int = m.drops._items.size()
+	if boss and is_instance_valid(boss):
+		m.fauna.kill(boss)
+	await kit.frames(2)
+	var rec := int((m.world_meta.get("grandi_guardiani", {}) as Dictionary).get("tempesta", 0))
+	m.fauna.clear()
+	gg.clear_temp()
+	m.combat.god = false
+	m.vitals.refill()
+	await kit.frames(2)
+	print("Occhio della Tempesta: a terra no %s, nel cielo alto sì %s; fulmini caduti %d; furia %s, cielo oscurato %.1f; sconfitto %d, bottino %s" % [
+		no_ground, ok, bolts, fury, dark, rec, m.drops._items.size() > d0])
+	if not no_ground or not ok or bolts < 1 or not fury or dark < 0.5 or rec < 1:
+		print("ATTENZIONE: l'Occhio della Tempesta non va come dovrebbe")

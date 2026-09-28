@@ -13,6 +13,7 @@ var m: Node2D
 var here := ""                         # il bioma del cielo dove si trova il Germogliato ("" = non in cielo)
 var _t := 0.0
 var _bean_t := 0.0
+var extra_dark := 0.0                  # voce 162: l'Occhio della Tempesta in furia oscura il cielo (`GreatGuardians`)
 
 
 func setup(main: Node2D) -> void:
@@ -28,6 +29,7 @@ func _process(dt: float) -> void:
 		return
 	# il Firmamento: la notte anche di giorno (si sfuma entrando e uscendo)
 	var dark := float(SkyData.get_biome(here).get("dark", 0.0)) if here != "" else 0.0
+	dark = maxf(dark, extra_dark)
 	if absf(m.day.high_dark - dark) > 0.001:
 		m.day.high_dark = move_toward(m.day.high_dark, dark, dt * 0.6)
 		m.day.apply()

@@ -2,7 +2,8 @@ extends RefCounted
 ## Tre Guardiani scritti a mano (voce 136, Roadmap 15), pensati sulle meccaniche nuove: il **Leviatano del lago** (sale
 ## e scende dall'acqua, alza le maree), la **Grande Scavatrice** (sbuca e alza pilastri di radice nell'arena) e la
 ## **Signora delle correnti** (vola, chiama raffiche, correnti e passerelle di nuvola). Si chiamano con il loro richiamo
-## (dai materiali dei Signori) nel posto giusto (`GreatGuardians`); le loro mosse sono anche pezzi dei Guardiani
+## (dai materiali dei Signori) nel posto giusto. Dalla Roadmap 16 (voce 162) anche l'**Occhio della Tempesta**, il
+## Guardiano delle Chiome del cielo (`GreatGuardians`); le loro mosse sono anche pezzi dei Guardiani
 ## generati (`GuardianGenData.ATTACKS`). Scritto a mano; non nomina altre classi.
 
 const DATA := {
@@ -34,11 +35,25 @@ const DATA := {
 			"body": {"plan": "uccello", "w": 56, "h": 34, "pal": ["#1e2a3a", "#34506a", "#5a80a0", "#9ac0dc", "#f0fbff"], "eye": "#ffe070",
 				"wings": "#9ac0dc", "marks": "strisce", "mark": "#f0fbff", "glow": true},
 			"affinity": {"weak": ["vuoto"], "resist": ["gelo", "spora"]}},
+		# Roadmap 16, voce 162: il Guardiano delle Chiome. Si chiama nel cielo alto, all'aperto: fulmini annunciati sulla tua
+		# colonna, raffiche e correnti; a metà Vita il cielo si oscura, i fulmini raddoppiano e chiama gli stormi
+		"occhio_tempesta": {"name": "Occhio della Tempesta", "hp": 3200, "damage": 32, "defense": 10, "knock": 1.0, "half": [22, 18],
+			"speed": 110, "fly": true, "behaviors": ["vola", "folgore", "correnti"], "fury": ["folgore", "evoca", "scatto"],
+			"p": {"sight": 36, "hover": 120.0, "wobble": 25.0, "bolt_every": 3.2, "bolt_delay": 1.0, "bolts": 3, "bolt_damage": 30,
+				"gust_every": 7.0, "phase2": 0.5, "summon": "aquila_tempesta", "summon_every": 8.0, "summon_max": 3,
+				"dash_every": 4.0, "dash_speed": 330.0, "dash_time": 0.45},
+			"loot": "occhio_tempesta", "art": ["occhio_tempesta", 0], "strata": [], "weight": 0, "boss": true, "great": "tempesta",
+			"no_trophy": true, "glow": true,
+			"body": {"plan": "fluttuante", "w": 56, "h": 44, "pal": ["#10141e", "#232c44", "#3c4a70", "#8a98c8", "#fffac0"], "eye": "#fffac0",
+				"marks": "punte", "mark": "#fffac0", "glow": true},
+			"affinity": {"weak": ["spora"], "resist": ["luce", "gelo"]}},
 	},
 	"loot": {
 		"leviatano_lago": [{"item": "perla_leviatano", "min": 1, "max": 1, "chance": 1.0}, {"item": "squama_leviatano", "min": 6, "max": 9, "chance": 1.0}],
 		"grande_scavatrice": [{"item": "cuore_scavatrice", "min": 1, "max": 1, "chance": 1.0}, {"item": "artiglio_scavatrice", "min": 6, "max": 9, "chance": 1.0}],
 		"signora_correnti": [{"item": "occhio_correnti", "min": 1, "max": 1, "chance": 1.0}, {"item": "piuma_correnti", "min": 6, "max": 9, "chance": 1.0}],
+		"occhio_tempesta": [{"item": "cuore_tempesta", "min": 1, "max": 1, "chance": 1.0}, {"item": "vento_imprigionato", "min": 6, "max": 9, "chance": 1.0},
+			{"item": "lingotto_nimbite", "min": 4, "max": 6, "chance": 1.0}],
 	},
 	"items": {
 		"richiamo_leviatano": {"name": "Richiamo del Leviatano", "kind": "richiamo_grande", "icon": ["gemma", "lagunite"], "stack": 1,
@@ -53,6 +68,12 @@ const DATA := {
 		"artiglio_scavatrice": {"name": "Artiglio della Scavatrice", "kind": "materiale", "icon": ["artiglio", "radice"], "desc": "Scava la roccia come fosse terra."},
 		"occhio_correnti": {"name": "Occhio delle correnti", "kind": "trofeo", "icon": ["gemma", "seta"], "desc": "Il trofeo della Signora delle correnti."},
 		"piuma_correnti": {"name": "Piuma delle correnti", "kind": "materiale", "icon": ["penna", "seta"], "desc": "Non cade mai: il vento la tiene su."},
+		"richiamo_tempesta": {"name": "Richiamo della tempesta", "kind": "richiamo_grande", "icon": ["stella", "folgorite"], "stack": 1,
+			"great": "tempesta", "desc": "Alzalo nel cielo alto, all'aperto (Scogliere, Nidi di tempesta, Firmamento): l'Occhio della Tempesta si apre."},
+		"cuore_tempesta": {"name": "Cuore di tempesta", "kind": "trofeo", "icon": ["cuore", "folgorite"], "desc": "Il trofeo dell'Occhio della Tempesta: batte come un tuono lontano."},
+		"vento_imprigionato": {"name": "Vento imprigionato", "kind": "materiale", "icon": ["essenza", "nuvola"], "desc": "Un soffio chiuso in una bolla: spinge ancora."},
+		"corona_tempesta": {"name": "Corona della tempesta", "kind": "accessorio", "icon": ["corona", "folgorite"], "stack": 1,
+			"acc": {"damage": 1.12, "quota": 1.0, "air_jumps": 1}, "desc": "Danno +12%; l'aria sottile non ti tocca; un salto in aria in più."},
 		"corazza_leviatano": {"name": "Corazza di squame del Leviatano", "kind": "accessorio", "icon": ["scudo", "lagunite"], "stack": 1,
 			"acc": {"defense": 8, "respiro": 3.0}, "desc": "+8 Scorza; sott'acqua il respiro dura il triplo."},
 		"picco_scavatrice": {"name": "Piccone della Grande Scavatrice", "kind": "piccone", "icon": ["piccone", "radice"], "stack": 1, "tier": 5,
@@ -64,6 +85,8 @@ const DATA := {
 		{"out": "richiamo_leviatano", "qty": 1, "in": {"chela_re": 4, "pinna_orca": 4, "lingotto_ambra": 4}, "station": "altare"},
 		{"out": "richiamo_scavatrice", "qty": 1, "in": {"artiglio_talpone_radici": 4, "cuore_pietra_antico": 2, "lingotto_legnoferro": 6}, "station": "altare"},
 		{"out": "richiamo_correnti", "qty": 1, "in": {"penna_aquila": 4, "palco_alce": 2, "lingotto_ambra": 4}, "station": "altare"},
+		{"out": "richiamo_tempesta", "qty": 1, "in": {"nucleo_tuono": 2, "scaglia_drago_cristallo": 2, "lingotto_nimbite": 6}, "station": "altare"},
+		{"out": "corona_tempesta", "qty": 1, "in": {"vento_imprigionato": 8, "cuore_tempesta": 1, "lingotto_nimbite": 4}, "station": "maglio"},
 		{"out": "corazza_leviatano", "qty": 1, "in": {"squama_leviatano": 10, "perla_leviatano": 1, "lingotto_ambra": 4}, "station": "maglio"},
 		{"out": "picco_scavatrice", "qty": 1, "in": {"artiglio_scavatrice": 10, "cuore_scavatrice": 1, "lingotto_tizzonite": 4}, "station": "maglio"},
 		{"out": "ali_correnti", "qty": 1, "in": {"piuma_correnti": 12, "occhio_correnti": 1, "seta_radice": 6}, "station": "telaio"},

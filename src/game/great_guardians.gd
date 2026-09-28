@@ -2,7 +2,7 @@ class_name GreatGuardians
 extends Node
 ## I tre Guardiani scritti a mano (voce 136, dati in `src/data/bestiary/guardiani.gd`): il richiamo giusto nel posto
 ## giusto li chiama (il Leviatano accanto a un lago grande, la Grande Scavatrice sotto terra, la Signora delle correnti
-## in superficie all'aperto). Qui le loro mosse che toccano il mondo, chieste con `Creature.acts` (le passa `Wiles`):
+## in superficie all'aperto, e dalla Roadmap 16 l'Occhio della Tempesta nel cielo alto). Qui le loro mosse che toccano il mondo, chieste con `Creature.acts` (le passa `Wiles`):
 ## la **marea** (acqua che trabocca verso il Germogliato), i **pilastri** di radice (si alzano solo nell'aria e crollano
 ## da soli: niente si rompe) e le **correnti** (una raffica, colonne d'aria che fanno salire, passerelle di nuvola che
 ## spariscono). Tutto ciò che è temporaneo si toglie anche uscendo dal mondo.
@@ -77,11 +77,17 @@ func _place(key: String) -> Vector2:
 			if StrataData.at(w, pc.x, pc.y) > 0 or m.weather.roofed:
 				return Vector2(-1, -1)
 			return m.player.position + Vector2(8.0 * S, -9.0 * S)
+		"tempesta":
+			# Roadmap 16: nel cielo alto, all'aperto
+			if SkyData.band_at(w, pc.x, pc.y) != "alto" or m.weather.roofed or (m.rooms != null and not m.rooms.current.is_empty()):
+				return Vector2(-1, -1)
+			return m.player.position + Vector2(9.0 * S, -8.0 * S)
 	return Vector2(-1, -1)
 
 
 func spawn(key: String, at: Vector2) -> Creature:
-	var cid: String = {"leviatano": "leviatano_lago", "scavatrice": "grande_scavatrice", "correnti": "signora_correnti"}[key]
+	var cid: String = {"leviatano": "leviatano_lago", "scavatrice": "grande_scavatrice", "correnti": "signora_correnti",
+		"tempesta": "occhio_tempesta"}[key]
 	active = m.fauna.add(cid, at)
 	active.strengthen(m.fauna.vigor_mult)
 	active.provoke()
@@ -98,6 +104,10 @@ func _process(dt: float) -> void:
 	if active != null and not is_instance_valid(active):
 		active = null
 		bar.follow(null)
+	# Roadmap 16: in furia l'Occhio della Tempesta oscura il cielo
+	var storm := active != null and String(active.data.get("great", "")) == "tempesta" and active.enraged
+	if m.get("chiome") != null:
+		m.chiome.extra_dark = 0.7 if storm else 0.0
 	_tick(pillars, dt, func(c: Vector2i) -> void:
 		if m.world.tile(c.x, c.y) == TileDefs.RADICE and m.world.build_at(c.x, c.y) == 0:
 			m.world.set_tile(c.x, c.y, TileDefs.AIR)
@@ -225,5 +235,6 @@ func _on_killed(c: Creature) -> void:
 	rec[key] = int(rec.get(key, 0)) + 1
 	m.world_meta["grandi_guardiani"] = rec
 	m.objectives.bump("grandi_guardiani")
-	m.hud.toast("Hai sconfitto il %s!" % String(c.data["name"]) if key != "correnti" else "Hai sconfitto la Signora delle correnti!")
+	var who: String = {"correnti": "la Signora delle correnti", "tempesta": "l'Occhio della Tempesta"}.get(key, "il " + String(c.data["name"]))
+	m.hud.toast("Hai sconfitto %s!" % who)
 	defeated.emit(key)
