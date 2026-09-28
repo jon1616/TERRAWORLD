@@ -2402,7 +2402,15 @@ un'eclissi: servirà all'Eclissi dei mimi della voce 137). Campi `season`, `weat
 - Circa 10 specie che esistono solo di notte, in una stagione, con il temporale, la nebbia, la bufera o l'eclissi (le
   stesse condizioni dei pesci): uscire col brutto tempo diventa una scelta.
 
-## 135. [ ] I Signori dei luoghi (L)
+## 135. [x] I Signori dei luoghi (L) — fatto il 29 set 2026
+Fatto: **24 Signori** (16 biomi di superficie, 4 biomi del sottosuolo, 4 strati) in `src/data/bestiary/signori.gd`,
+generati da `tools/gen_signori.py`: una ricetta per ognuno (corpo `BodyArt` grande, 2-3 comportamenti delle voci
+127-131, una **furia** a metà Vita con altri comportamenti: campo `fury`, `Creature._fury`; +25% velocità, il segnale).
+Si chiamano con la loro **esca rituale** (all'Altare, dai materiali del bestiario del loro luogo) solo nel loro luogo
+(`Lords.here`: bioma, bioma del sottosuolo o strato); barra in alto, musica dei Guardiani, scritta d'arrivo. Lasciano un
+**materiale unico** e il **trofeo** (per la sala dei trofei); con 6 del materiale, il trofeo e l'ambra, al Maglio, il
+loro oggetto (24 accessori e una lama). Registro in `world_meta["signori"]`, obiettivo «signori». Prova in
+`--solo=vivo` (24 nati, esca giusta e sbagliata, furia, bottino; foto 203, 204).
 - Un **mini-boss per ogni bioma** (16 di superficie, 9 del sottosuolo): raro, con la sua tana o il suo richiamo
   (un'esca rituale, una notte, una stagione), 2-3 attacchi scritti e una fase di furia. Lasciano un materiale che c'è
   solo lì (per armi, blocchi e arredi) e un trofeo da esporre.

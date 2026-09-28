@@ -68,7 +68,7 @@ TIME = [
          mat=('nebbia_chiusa', 'Nebbia in bottiglia', ['goccia', 'seta'], 'Aprila e non vedi più niente.'),
          trophy=('cuore_nebbia', 'Cuore di nebbia', ['essenza', 'seta'])),
     dict(id='spirito_bufera', name='Spirito della bufera', tier=3, half=[8, 10], speed=100, fly=True, beh=['vola', 'spara'], weather=['bufera'], weight=6,
-         p={'sight': 26, 'hover': 70.0, 'wobble': 30.0, 'shot_every': 2.2, 'shot_speed': 220.0, 'shot_look': 'spora'}, glow=True,
+         p={'sight': 26, 'hover': 70.0, 'wobble': 30.0, 'rate': 2.2, 'shot_speed': 220.0, 'shot_look': 'spora'}, glow=True,
          body={'plan': 'fluttuante', 'w': 18, 'h': 22, 'pal': P('#4a6070', '#6a8898', '#98b8c8', '#c8e4f0', '#ffffff'), 'eye': '#40d0ff', 'marks': 'punte', 'mark': '#ffffff', 'glow': True},
          aff={'weak': ['brace'], 'resist': ['gelo']}, fam=('spiriti_bufera', 'Spiriti della bufera', False, 'volante'),
          mat=('neve_eterna', 'Neve eterna', ['polvere', 'brina'], 'Non si scioglie, nemmeno nel fuoco.'),

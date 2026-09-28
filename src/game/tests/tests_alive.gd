@@ -33,6 +33,8 @@ func run() -> void:
 	await species("sottosuolo", "199_bestiario_sottosuolo")
 	await species("tempo", "200_bestiario_tempo")
 	conditions()
+	await species("signori", "203_signori")
+	await lords()
 	for i in slots0.size():
 		b.slots[i] = slots0[i]
 	b.equip = equip0
@@ -741,3 +743,39 @@ func shelter() -> void:
 		float(r.get("iso", 0.0)), cold, heat, cold_fire, "sì" if no_spawn else "NO", soft, hard])
 	if cold >= 1.0 or cold_fire > 0.0 or not no_spawn or hard <= soft:
 		print("ATTENZIONE: costruire contro il mondo non va come dovrebbe")
+
+
+## Voce 135: nella foresta l'esca del Cervo-lanterna lo chiama; a metà Vita entra in furia; sconfitto lascia il suo
+## materiale e il trofeo; l'esca di un altro luogo qui non fa nulla.
+func lords() -> void:
+	var w: World = m.world
+	m.snap_to(w.spawn)
+	await kit.frames(3)
+	var key: String = m.lords.here()
+	var b: Bisaccia = m.character.bisaccia
+	var wrong := "esca_signore_brace" if key != "brace" else "esca_signore_foresta"
+	b.add(wrong, 1)
+	var no: bool = not m.lords.summon(wrong)
+	var bait := "esca_signore_" + key
+	b.add(bait, 1)
+	m.combat.god = true
+	var ok: bool = key != "" and m.lords.summon(bait)
+	var lord: Creature = m.lords.active
+	var n0: int = lord.behaviors.size() if lord else 0
+	if lord:
+		lord.hp = lord.hp_max / 3
+		await kit.seconds(0.3)
+	var fury: bool = lord != null and is_instance_valid(lord) and lord.behaviors.size() > n0
+	await kit.save("204_signore")
+	var d0: int = m.drops._items.size()
+	if lord and is_instance_valid(lord):
+		m.fauna.kill(lord)
+	var rec: int = int((m.world_meta.get("signori", {}) as Dictionary).get(key, 0))
+	var dropped: bool = m.drops._items.size() > d0
+	m.fauna.clear()
+	m.combat.god = false
+	b.remove(wrong, b.count(wrong))
+	print("Signori: qui «%s», l'esca sbagliata non fa nulla %s, quella giusta lo chiama %s, furia a metà Vita %s, sconfitto (%d) e bottino %s" % [
+		key, "sì" if no else "NO", "sì" if ok else "NO", "sì" if fury else "NO", rec, "sì" if dropped else "NO"])
+	if key == "" or not no or not ok or not fury or rec < 1 or not dropped:
+		print("ATTENZIONE: i Signori dei luoghi non vanno come dovrebbero")

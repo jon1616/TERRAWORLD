@@ -29,7 +29,7 @@ static func creature(m: Node2D, cr: Creature) -> TipCard:
 		sub.append("famiglia dei %s" % String(fd["name"]).to_lower())
 		sub.append(String(ROLE_NAMES.get(String(fd.get("role", "")), "")))
 	if cr.boss:
-		sub.append("Guardiano")
+		sub.append("Signore del luogo" if cr.data.has("lord") else "Guardiano")   # voce 135
 	c.sub(" · ".join(sub.filter(func(s: String) -> bool: return s != "")))
 	c.bar("Vita %d / %d" % [cr.hp, cr.hp_max], float(cr.hp) / maxf(cr.hp_max, 1), Color("#e05a4a") if not cr.calm else TipCard.GOOD)
 	if cr.tame == null and not cr.calm and cr.mind.state != Mind.CALM:

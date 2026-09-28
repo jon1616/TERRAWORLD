@@ -71,6 +71,7 @@ var tactics: Tactics                   # voce 131: le tattiche di gruppo
 var builder: BuilderTools              # voce 140: gli strumenti del costruttore
 var rooms: Rooms                       # voce 142: le stanze
 var homes: Homes                       # voce 143: le case degli abitanti
+var lords: Lords                       # voce 135: i Signori dei luoghi
 var encyclopedia: Encyclopedia
 var language: Language
 var chains: Chains
@@ -290,6 +291,7 @@ func _build() -> void:
 	builder = _mount(BuilderTools.new())       # voce 140: gli strumenti del costruttore
 	rooms = _mount(Rooms.new())                # voce 142: le stanze
 	homes = _mount(Homes.new())                # voce 143: le case degli abitanti
+	lords = _mount(Lords.new())                # voce 135: i Signori dei luoghi
 	_mount(PanelButtons.new())                 # voce 101: i pulsanti dei pannelli in basso a sinistra
 	hud.select(character.hotbar)
 	var start := world.spawn

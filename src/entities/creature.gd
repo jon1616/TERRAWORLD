@@ -71,7 +71,8 @@ var extra := false                     # parte di uno sciame o di un branco: non
 var _poison_acc := 0.0
 var behaviors: Array[Behavior] = []
 var acts: Array[Dictionary] = []       # voce 130: ciò che le astuzie chiedono al mondo (le fa `Wiles`)
-var last_dmg := 0                      # voce 130: il danno dell'ultimo colpo (chi si divide)
+var last_dmg := 0
+var _fury := false                     # voce 135: la furia è già cominciata                      # voce 130: il danno dell'ultimo colpo (chi si divide)
 var mind := Mind.new()                 # voce 129: sensi e stati (calma, allerta, caccia, fuga, ritorno)
 var _spr: Sprite2D
 var _glow: Sprite2D
@@ -223,6 +224,14 @@ func _process(dt: float) -> void:
 			_regen -= int(_regen)
 			_bar.set_value(float(hp) / hp_max)
 	enraged = boss and hp < hp_max * float(p.get("phase2", 0.0))
+	if enraged and not _fury and data.has("fury"):
+		_fury = true                               # voce 135: la furia di un Signore, a metà Vita
+		for b in data["fury"]:
+			behaviors.append(Behavior.make(String(b)))
+		speed *= 1.25
+		telegraph(0.8)
+		if get_parent():
+			Fx.puff(get_parent(), position, Color(1.8, 0.8, 0.5))
 	if tame != null:
 		tame.tick(self, dt)                    # voce 59: della mandria, niente comportamenti selvatici
 		if tame.mode == "cavalcata":
