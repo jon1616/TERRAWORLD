@@ -133,6 +133,7 @@ func _ready() -> void:
 	if not character.erbario.has("oggetti"):
 		character.erbario["oggetti"] = {}
 	Crafting.known = character.erbario["oggetti"]   # le ricette delle leghe si scoprono (voce 52)
+	Crafting.words = character.lingua                # Roadmap 17: le ricette scritte nella lingua
 	if Session.world_id != "":
 		world_id = Session.world_id
 		world_meta = WorldSave.read_meta(world_id)

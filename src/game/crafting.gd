@@ -84,12 +84,16 @@ static func stations_near(world: World, c: Vector2i) -> Dictionary:
 ## leghe (voce 52) e dei materiali dei geni (voce 53) si vedono solo quando se ne conoscono gli ingredienti, e le loro
 ## armi quando se ne è avuto il lingotto (sono centinaia: così l'elenco cresce con le scoperte).
 static var known := {}
+## Roadmap 17: le parole del personaggio (`Character.lingua`) per le ricette scritte (campo `parole`), e un numero che
+## cambia a ogni parola confermata (per la memoria delle ricette usabili).
+static var words := {}
+static var words_version := 0
 
 
 ## Ricette usabili con queste stazioni (quelle «a mano» sempre).
 static func available(near: Dictionary) -> Array:
 	# (ricordato per banchi vicini e ricette scoperte: con 2000 ricette rifarlo a ogni raccolta costava troppo)
-	var key := "%s|%d" % [",".join(near.keys()), known.hash()]
+	var key := "%s|%d|%d" % [",".join(near.keys()), known.hash(), words_version]
 	if not _avail_cache.has(key):
 		if _avail_cache.size() > 64:
 			_avail_cache.clear()
@@ -102,6 +106,8 @@ static var _avail_cache := {}
 
 
 static func _discovered(r: Dictionary) -> bool:
+	if r.has("parole") and not words_known(r["parole"]):
+		return false                                 # Roadmap 17: scritta nella lingua dei Seminatori
 	var it := ItemsData.get_item(String(r["out"]))
 	var mat := String(it.get("mat", ""))
 	var md := MaterialsData.get_mat(mat)
@@ -257,5 +263,14 @@ static func engrave(b: Bisaccia, i: int, word: String) -> bool:
 	dati["incisione"] = String(inc["trait"])
 	b.slots[i]["dati"] = dati
 	b.changed.emit()
+	return true
+
+
+## Roadmap 17: tutte queste parole sono certe?
+static func words_known(list: Array) -> bool:
+	for w in list:
+		var r: Variant = words.get(String(w), {})
+		if not r is Dictionary or int((r as Dictionary).get("s", -1)) != 2:
+			return false
 	return true
 

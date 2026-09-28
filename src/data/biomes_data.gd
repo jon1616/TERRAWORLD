@@ -97,6 +97,7 @@ const PACK_FILES := [
 	preload("res://src/data/bestiary/maree.gd"),           # voce 137: i premi delle maree
 	preload("res://src/data/sky_pack.gd"),                 # Roadmap 16: gli oggetti del cielo
 	preload("res://src/data/bestiary/cielo.gd"),           # voce 160: le creature del cielo (tools/gen_bestiario.py)
+	preload("res://src/data/language_pack.gd"),            # Roadmap 17, voce 176: le ricette scritte nella lingua
 ]
 
 static var BIOMES: Array = _load()

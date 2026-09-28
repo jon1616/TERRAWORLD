@@ -3121,11 +3121,12 @@ guardiano, vuoto…), più forti quelle delle lingue alte.
 **Pronto quando**: la prova incide «brace» su una spada e il danno cambia.
 **Fatto**: `IncisionsData` (`src/data/incisions_data.gd`): 20 incisioni (10 della lingua comune, 6 dell'antica con la nimbite, 4 della nera con la Linfa antica), tratti uniti a `TraitsData.TRAITS` (ora `static var` = `_TRAITS` + incisioni: non si tirano mai); nei dati della casella "incisione", contata da `Gear.traits` ma non da `Gear.free_slots`; `Crafting.engrave`; al Maglio, tra le Lavorazioni, una riga per ogni parola certa che si può incidere sull'oggetto in mano (`CraftingPanel.language`). Il Quaderno dice che cosa incide una parola. Prova: «brace» su una spada d'ambra, danno 16 → 17,3, posti d'innesto invariati.
 
-## 176. [ ] Le parole che svelano (M)
+## 176. [x] Le parole che svelano (M) — fatto il 29 set 2026
 Ricette scritte nella lingua: si vedono (e si fanno) solo quando tutte le loro parole sono certe. Oggetti che aiutano a
 decifrare (la Bussola delle stele, gli Occhiali del decifratore, la Lanterna dei glifi) e premi per chi conosce una lingua
 intera.
 **Pronto quando**: una ricetta nascosta compare confermando la sua ultima parola.
+**Fatto**: il pacchetto `src/data/language_pack.gd`: sette ricette **scritte nella lingua** (campo `parole`: si vedono e si fanno solo con tutte le parole certe, `Crafting._discovered` con `Crafting.words`, memoria rifatta a ogni conferma): la Bussola delle stele (segna le stele non lette, non si consuma), gli Occhiali del decifratore (un'ipotesi con una frase in meno, `Language.hyp_need`), lo Stilo dei Seminatori (conferma un'ipotesi, prima delle lingue alte), la Corona dei Seminatori, il Mantello del canto, l'Amuleto del patto, il Talismano della rinascita. Il Quaderno conta le ricette svelate e, per ogni parola, in quale ricetta compare (nascosta finché non è svelata).
 
 ## 177. [ ] Capire e seguire (S)
 Enciclopedia (il capitolo della lingua rifatto, con gli stati e gli esempi), consigli alla prima volta (prima stele,

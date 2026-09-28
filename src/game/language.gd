@@ -121,7 +121,7 @@ func see(words: Array, key: String) -> Array:
 				f.pop_front()
 			r.erase("r")                           # una frase nuova: si può riprovare
 		r["f"] = f
-		if int(r.get("s", VISTA)) == VISTA and f.size() >= int(LanguageData.LAYERS[LanguageData.layer_of(w)]["hyp"]):
+		if int(r.get("s", VISTA)) == VISTA and f.size() >= hyp_need(w):
 			r["s"] = IPOTESI
 			out.append(w)
 		lg[w] = r
@@ -166,6 +166,7 @@ func confirm(words: Array, how := "") -> Array:
 		out.append(w)
 	if not out.is_empty():
 		_sync_stat()
+		Crafting.words_version += 1                  # voce 176: le ricette scritte si rifanno
 		changed.emit()
 		confirmed.emit(out, how)
 	return out
@@ -177,6 +178,7 @@ func learn(words: Array) -> Array:
 
 
 func _sync_stat() -> void:
+	Crafting.words = m.character.lingua              # (il dizionario può essere sostituito: salvataggi, prove)
 	m.character.stats["parole"] = count()
 	m.character.stats["parole_antiche"] = count("antica")
 	m.character.stats["parole_nere"] = count("nera")
@@ -328,3 +330,55 @@ func use_tablet(id: String) -> bool:
 		return "%s = %s" % [LanguageData.sem(w), LanguageData.it(w)])), count(), LanguageData.WORDS.size()])
 	m.sfx.play("dono")
 	return true
+
+
+## Quante frasi servono per un'ipotesi: quelle dello strato, una in meno con gli Occhiali del decifratore (voce 176).
+func hyp_need(w: String) -> int:
+	var n := int(LanguageData.LAYERS[LanguageData.layer_of(w)]["hyp"])
+	if m != null and "occhiali_decifratore" in (m.character.bisaccia.equip as Dictionary).values():
+		n -= 1
+	return maxi(n, 1)
+
+
+## Voce 176: la Bussola delle stele segna sulla mappa le stele di questo mondo non ancora lette.
+func mark_steles() -> bool:
+	var n := 0
+	for k in stele():
+		if not stele()[k].get("letta", false):
+			add_mark(Vector2i(int(String(k).get_slice(",", 0)), int(String(k).get_slice(",", 1))), "stele", Color("#6ff0b8"))
+			n += 1
+	m.hud.toast("La bussola trema: %d stele da leggere, segnate sulla mappa" % n if n > 0 else "Hai letto tutte le stele di questo mondo")
+	return n > 0
+
+
+## Voce 176: lo Stilo dei Seminatori conferma un'ipotesi (prima quelle delle lingue più alte).
+func use_stylus(id: String) -> bool:
+	var best := ""
+	for w in m.character.lingua:
+		if state(String(w)) == IPOTESI:
+			if best == "" or LanguageData.LAYER_ORDER.find(LanguageData.layer_of(String(w))) > LanguageData.LAYER_ORDER.find(LanguageData.layer_of(best)):
+				best = String(w)
+	if best == "":
+		m.hud.toast("Lo stilo non ha niente da scrivere: prima fatti un'ipotesi su qualche parola")
+		return false
+	if not m.character.bisaccia.remove(id, 1):
+		return false
+	confirm([best], "stilo")
+	m.hud.toast("Lo stilo scrive: «%s» vuol dire «%s»" % [LanguageData.sem(best), LanguageData.it(best)])
+	return true
+
+
+## Voce 176: le ricette scritte nella lingua: [nome dell'oggetto, parole certe, parole in tutto, svelata].
+static func written_recipes(lingua: Dictionary) -> Array:
+	var out := []
+	for r in RecipesData.all():
+		if r.has("parole"):
+			var n := 0
+			for w in r["parole"]:
+				var rec: Variant = lingua.get(String(w), {})
+				if rec is Dictionary and int((rec as Dictionary).get("s", -1)) == CERTA:
+					n += 1
+			out.append([String(ItemsData.get_item(String(r["out"])).get("name", r["out"])), n, (r["parole"] as Array).size(),
+				n == (r["parole"] as Array).size(), r["parole"]])
+	return out
+

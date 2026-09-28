@@ -64,7 +64,11 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 			return m.fishing.cast(c, id)                # voce 121: la pesca
 		"cassetta":
 			return m.fishing.open_crate(id)             # voce 123: le casse pescate
+		"stilo":
+			return m.language.use_stylus(id)          # Roadmap 17
 		"mappa":
+			if id == "bussola_stele":
+				return m.language.mark_steles()        # Roadmap 17
 			if id == "eco_seminatori":
 				return m.secrets.use_echo(id)          # voce 95
 			if id == "mappa_tesoro":

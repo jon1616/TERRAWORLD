@@ -4,7 +4,7 @@ class_name TipWordsData
 
 ## Nome di ogni `kind` di `ItemsData` (le forme generate che non ci sono qui prendono il nome della forma).
 const KINDS := {
-	"fagiolo": "Seme da piantare all'aperto", "progetto_sem": "Progetto dei Seminatori", "esca_signore": "Esca rituale di un Signore", "richiamo_grande": "Richiamo di un Guardiano", "tintura": "Tintura", "progetto": "Tavola del progetto", "materiale": "Materiale", "blocco": "Blocco", "piccone": "Piccone", "ascia": "Ascia", "spada": "Arma da mischia",
+	"stilo": "Strumento dei Seminatori", "fagiolo": "Seme da piantare all'aperto", "progetto_sem": "Progetto dei Seminatori", "esca_signore": "Esca rituale di un Signore", "richiamo_grande": "Richiamo di un Guardiano", "tintura": "Tintura", "progetto": "Tavola del progetto", "materiale": "Materiale", "blocco": "Blocco", "piccone": "Piccone", "ascia": "Ascia", "spada": "Arma da mischia",
 	"arco": "Arco", "munizione": "Munizione", "torcia": "Torcia", "stazione": "Banco o mobile", "piattaforma": "Passerella",
 	"elmo": "Elmo", "corazza": "Corazza", "gambali": "Gambali", "accessorio": "Accessorio", "essenza": "Essenza da innestare",
 	"consumabile": "Da bere o mangiare", "seme": "Seme d'albero", "lanterna": "Lanterna", "cura": "Cura",

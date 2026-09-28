@@ -114,6 +114,9 @@ func refresh() -> void:
 		if met:
 			parts.append("[color=%s]%s[/color]: certe %d · ipotesi %d · viste %d · mai viste %d" % [LanguageData.LAYERS[l]["color"],
 				LanguageData.LAYERS[l]["name"], int(t[0]), int(t[1]), int(t[2]), int(t[3]) - int(t[0]) - int(t[1]) - int(t[2])])
+	var wr := Language.written_recipes(m.character.lingua)
+	var shown := wr.filter(func(e: Array) -> bool: return bool(e[3])).size()
+	parts.append("[color=#ffd08a]Ricette scritte[/color]: svelate %d su %d" % [shown, wr.size()])
 	_head.text = HOW % "2 (3 per le lingue più alte)" + "\n" + ("  ·  ".join(parts) if not parts.is_empty() else
 		"[color=#6a8a84]Non hai ancora letto nessuna stele: cercale nelle rovine dei Seminatori (due sono vicino alla partenza di ogni mondo).[/color]")
 	for c in _grid.get_children():
@@ -212,6 +215,10 @@ func _show_word() -> void:
 								m.hud.toast("No: «%s» non vuol dire «%s»" % [LanguageData.sem(w), LanguageData.it(meaning)])
 						_dirty = true)
 					_opts.add_child(b)
+	for e in Language.written_recipes(m.character.lingua):
+		if w in (e[4] as Array):
+			t += "\n[color=#ffd08a]È in una ricetta scritta: %s (%d parole certe su %d).[/color]" % [
+				String(e[0]) if bool(e[3]) else "una ricetta ancora nascosta", int(e[1]), int(e[2])]
 	var inc := IncisionsData.of_word(w)
 	if not inc.is_empty():
 		t += "\n\n[color=#ffd08a]Si incide al Maglio%s: %s (su %s).[/color]" % ["" if st == Language.CERTA else " quando sarà certa",

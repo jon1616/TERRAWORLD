@@ -104,6 +104,7 @@ func run() -> void:
 	await layers()
 	await word_chest()
 	engraving()
+	written()
 
 
 ## Voce 172: il Quaderno si apre con il suo tasto, mostra lo strato e una parola scelta; «È questo?» giusto la conferma.
@@ -260,3 +261,36 @@ func engraving() -> void:
 		print("ATTENZIONE: le incisioni non vanno come dovrebbero")
 	b.slots[i] = {}
 	b.changed.emit()
+
+
+## Voce 176: la ricetta della Bussola compare solo con le sue tre parole certe; lo Stilo conferma un'ipotesi; la Bussola
+## segna le stele non lette; gli Occhiali chiedono una frase in meno.
+func written() -> void:
+	var lg: Language = m.language
+	var had: Dictionary = m.character.lingua.duplicate(true)
+	m.character.lingua.clear()
+	var has_bussola := func() -> bool:
+		return Crafting.available({"ceppo": true}).any(func(r: Dictionary) -> bool: return String(r["out"]) == "bussola_stele")
+	var before: bool = has_bussola.call()
+	lg.confirm(["pietra", "segno", "cerca"])
+	var after: bool = has_bussola.call()
+	lg.see(["vento"], "prova:1")
+	var rv: Dictionary = m.character.lingua["vento"]
+	rv["s"] = Language.IPOTESI
+	var b := kit.bisaccia()
+	b.add("stilo_seminatori", 1)
+	var stylus: bool = lg.use_stylus("stilo_seminatori") and lg.known("vento")
+	var marks0: int = (m.world_meta["segni"] as Array).size()
+	var comp: bool = lg.mark_steles()
+	var marks1: int = (m.world_meta["segni"] as Array).size()
+	var old: Variant = b.equip.get("accessorio_1", "")
+	var need0 := lg.hyp_need("seme")
+	b.equip["accessorio_1"] = "occhiali_decifratore"
+	var need1 := lg.hyp_need("seme")
+	b.equip["accessorio_1"] = old
+	print("ricette scritte: Bussola prima %s, con le parole %s; Stilo conferma %s; Bussola segna %d stele (%s); Occhiali: frasi %d → %d; ricette scritte in tutto %d" % [
+		before, after, stylus, marks1 - marks0, comp, need0, need1, Language.written_recipes(m.character.lingua).size()])
+	if before or not after or not stylus or need1 != need0 - 1:
+		print("ATTENZIONE: le ricette scritte non vanno come dovrebbero")
+	m.character.lingua = had
+	lg._sync_stat()
