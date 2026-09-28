@@ -2293,7 +2293,16 @@ Cavigliere 87-92 px di scatto, 0,3 s d'invulnerabilità, poi la ricarica.
   tratti e un potere. È ciò che rende giusti gli attacchi più forti.
 - Stati leggibili sopra le creature (già in parte: voce 101 della Roadmap 13).
 
-## 128. [ ] L'atlante dei costrutti (M, tecnica)
+## 128. [x] L'atlante dei costrutti (M, tecnica) — fatto il 29 set 2026
+Fatto: `BuildData` (forme × materiali: 9 forme — grezzo, mattoni, lastre, levigato, colonna, travi, tegole,
+piastrelle, vetrata — per ora 3 materiali: ardesia, legno di lanterna, ambra; le proprietà hard, power, iso, luce,
+bello, glow). Nel mondo un costrutto è **una tessera sola** (`TileDefs.COSTRUTTO`, o `COSTRUTTO_T` che lascia passare la
+luce) più un byte in `World.build` (`set_build`, `build_at`; salvato con il mondo); le pareti costruite hanno i numeri da
+`BuildData.WALL_BASE` (64) in su. Il disegno è un atlante squadrato a parte (`BuildPainter`: 16 combinazioni di vicini
+per costrutto, bordo scuro e filo di luce dove il vicino manca), preparato in `ViewArt` con gli altri; in `WorldView` tre
+strati per blocco (costrutti, bagliore, pareti costruite), ridisegnati con i vicini. Scavo con durezza e forza del
+materiale, l'oggetto giusto che cade, la scheda con il nome. Prova in `--solo=vivo`: 54 costrutti di 27 tipi, uno
+scavato lascia il suo oggetto, salvati e ricaricati identici, la vetrata trasparente (foto 191_costrutti).
 - I blocchi costruiti in un atlante **a parte**, con le forme squadrate (16 combinazioni di vicini) di una sola trama
   per forma, **colorata per materiale** quando serve (una tavola per i materiali davvero usati nel mondo), preparata
   come le altre in sottofondo (`ViewArt`).

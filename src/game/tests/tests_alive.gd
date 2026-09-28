@@ -1,7 +1,7 @@
 class_name TestsAlive
 extends RefCounted
 ## Roadmap 15 «Il mondo abitato» (creature e costruzioni). Voce 127: gli attacchi si annunciano (il «!» di `TeleMark`) e
-## la schivata c'è solo con un oggetto che la sblocca. Gruppo «vivo».
+## la schivata c'è solo con un oggetto che la sblocca. Voce 128: i costrutti (forma × materiale). Gruppo «vivo».
 
 var kit: TestKit
 var m: Node2D
@@ -18,6 +18,7 @@ func run() -> void:
 	var equip0 := b.equip.duplicate(true)
 	await telegraphs()
 	await dash()
+	await builds()
 	for i in slots0.size():
 		b.slots[i] = slots0[i]
 	b.equip = equip0
@@ -81,3 +82,53 @@ func dash() -> void:
 		"sì" if no_item else "NO", "sì" if ok else "NO", moved, inv, "sì" if not again else "NO"])
 	if not no_item or not ok or moved < 24.0 or inv < 0.25 or again:
 		print("ATTENZIONE: la schivata non va come dovrebbe")
+
+
+## Voce 128: un muretto di costrutti (tutte le forme, tre materiali) con le pareti costruite dietro; uno si scava e
+## lascia il suo oggetto; il mondo salvato e ricaricato li tiene.
+func builds() -> void:
+	var w: World = m.world
+	var spot := kit.flat_spot(w.spawn + Vector2i(-40, 0), 12)
+	if spot.x < 0:
+		print("ATTENZIONE: nessun posto piano per la prova dei costrutti")
+		return
+	kit.flatten(spot, 14)
+	var nf := BuildData.FORMS.size()
+	var placed := 0
+	for mi in BuildData.MATERIALS.size():
+		for fi in nf:
+			var c := Vector2i(spot.x - 4 + fi, spot.y - 2 - mi * 2)
+			for dy in 2:
+				var q := c + Vector2i(0, -dy) if dy == 1 else c
+				w.set_build(q.x, q.y, mi * nf + fi + 1)
+				if w.inside(q.x, q.y - 7) and not w.solid(q.x, q.y - 7):
+					w.walls[(q.y - 7) * w.w + q.x] = BuildData.WALL_BASE + mi   # le pareti costruite, più in alto
+				placed += 1
+	for x in range(spot.x - 6, spot.x + 8):
+		for y in range(spot.y - 9, spot.y + 1):
+			m.view.refresh_around(Vector2i(x, y))
+	m.snap_to(Vector2i(spot.x + 6, spot.y))
+	m.light.dirty = true
+	await kit.seconds(0.4)
+	await kit.save("191_costrutti")
+	# si scava: lascia il suo oggetto
+	var c0 := Vector2i(spot.x - 4, spot.y - 2)
+	var k0 := w.build_at(c0.x, c0.y)
+	var want := BuildData.item_of(k0)
+	var n0: int = m.drops._items.size()
+	m.actions.break_tile(c0)
+	var dropped := false
+	for d in m.drops._items.slice(n0):
+		dropped = dropped or String(d["id"]) == want
+	var gone := w.build_at(c0.x, c0.y) == 0 and w.tile(c0.x, c0.y) == TileDefs.AIR
+	# salvato e ricaricato
+	var saved := WorldSave.save(w, "prova_costrutti", {"nome": "costrutti"})
+	var back := WorldSave.load_world("prova_costrutti")
+	var same: bool = saved == OK and back != null and back.build == w.build
+	WorldSave.delete("prova_costrutti")
+	var vt := TileDefs.COSTRUTTO_T in [w.tile(spot.x + 4, spot.y - 2)]
+	print("costrutti: %d piazzati (%d tipi), scavato lascia «%s» %s, tolto %s, salvati e ricaricati %s, vetrata trasparente %s" % [
+		placed, BuildData.kinds().size(), want, "sì" if dropped else "NO", "sì" if gone else "NO", "sì" if same else "NO",
+		"sì" if vt else "NO"])
+	if not dropped or not gone or not same or not vt:
+		print("ATTENZIONE: i costrutti non vanno come dovrebbero")

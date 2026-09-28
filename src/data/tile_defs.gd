@@ -41,11 +41,15 @@ const PIETRA_BRACE := 31               # voce 74: la brace spenta dall'acqua
 ## voce 96: la parete finta. Sembra ardesia in tutto (disegno, mappa, nome) ma crolla appena ci spingi contro
 ## (`Secrets`). Il numero viene dopo le tessere dei biomi (32-46).
 const FINTA := 47
+## voce 128: i costrutti (blocchi da costruire forma × materiale): una tessera sola, e quale costrutto è lo dice
+## `World.build` (`BuildData`); quella trasparente lascia passare la luce (vetrate, ambra, cristalli).
+const COSTRUTTO := 48
+const COSTRUTTO_T := 49
 const TYPES_BASE := 31                 # le tessere scritte qui; quelle dei biomi nuovi vengono dopo (voce 91)
 static var TYPES: int = _types()
 const SEALS := {"velato": SIG_VELATO, "radice": SIG_RADICE, "vuoto": SIG_VUOTO, "brace": SIG_BRACE}
 const SEAL_KIND := {SIG_VELATO: "velato", SIG_RADICE: "radice", SIG_VUOTO: "vuoto", SIG_BRACE: "brace"}
-const BUILT := [ASSI, MATTONI, VETRO]
+const BUILT := [ASSI, MATTONI, VETRO, COSTRUTTO, COSTRUTTO_T]
 const BLIGHTED := [AVV_TERRA, AVV_MUSCHIO, AVV_PIETRA]
 ## Le erbe: una per bioma di superficie (voce 91: le dice `BiomesData`).
 static var GRASSES: Array = _grasses()
@@ -106,7 +110,7 @@ static func is_soft_decor(d: int) -> bool:
 	return d in DECOR_GRASS or d in DECOR_FLOWERS or d == DECOR_FERN or d in DECOR_BIOME_GRASS or d in DECOR_BIOME_PLANTS
 
 ## Secondi di scavo con il piccone di radicite.
-const _HARD := {FINTA: 0.2, DIRT: 0.22, STONE: 0.38, RADICITE: 0.5, LEGNOFERRO: 0.6, AMBRA: 0.7, CRYSTAL: 0.8,
+const _HARD := {COSTRUTTO: 0.4, COSTRUTTO_T: 0.3, FINTA: 0.2, DIRT: 0.22, STONE: 0.38, RADICITE: 0.5, LEGNOFERRO: 0.6, AMBRA: 0.7, CRYSTAL: 0.8,
 	RADICE: 0.45, SCISTO: 0.5, VUOTITE: 0.75, NODO: 9.0, PIETRA_SEM: 0.8,
 	SIG_VELATO: 9.0, SIG_RADICE: 9.0, SIG_VUOTO: 9.0, SIG_BRACE: 9.0, PORTA_SEM: 9.0, PIETRA_BRACE: 3.0,
 	AVV_TERRA: 0.25, AVV_MUSCHIO: 0.25, AVV_PIETRA: 0.42,
@@ -114,7 +118,7 @@ const _HARD := {FINTA: 0.2, DIRT: 0.22, STONE: 0.38, RADICITE: 0.5, LEGNOFERRO: 
 ## Forza di piccone minima (vedi la durezza in `MaterialsData`): radicite 35, legnoferro 45, ambra 55. L'ambra vuole il piccone
 ## di legnoferro, i cristalli di Linfa quello d'ambra: è il filo della progressione.
 ## Il Fondo (vuotite) vuole il piccone di legnoferro: non ci si arriva col primo corredo.
-const _POWER := {FINTA: 0, DIRT: 0, STONE: 0, RADICITE: 0, LEGNOFERRO: 35, AMBRA: 45, CRYSTAL: 55, RADICE: 0, SCISTO: 0,
+const _POWER := {COSTRUTTO: 0, COSTRUTTO_T: 0, FINTA: 0, DIRT: 0, STONE: 0, RADICITE: 0, LEGNOFERRO: 35, AMBRA: 45, CRYSTAL: 55, RADICE: 0, SCISTO: 0,
 	VUOTITE: 45, NODO: 999, PIETRA_SEM: 0, SIG_VELATO: 999, SIG_RADICE: 999, SIG_VUOTO: 999, SIG_BRACE: 999, PORTA_SEM: 999, PIETRA_BRACE: 35,
 	AVV_TERRA: 0, AVV_MUSCHIO: 0, AVV_PIETRA: 0, PALLIDITE: 35, TIZZONITE: 55, ASSI: 0, MATTONI: 0, VETRO: 0, PORTA: 999}
 ## Oggetto che si ottiene rompendo la tessera o raccogliendo la decorazione.
@@ -136,7 +140,7 @@ const ORES := [
 	{"type": PALLIDITE, "min_depth": 30, "strata": [1, 2], "in": [STONE, RADICE], "freq": 0.12, "threshold": 0.56},
 	{"type": TIZZONITE, "min_depth": 300, "strata": [3, 4], "in": [SCISTO, VUOTITE, STONE], "freq": 0.13, "threshold": 0.57},
 ]
-const _NAMES := {FINTA: "Ardesia", DIRT: "Humus", STONE: "Ardesia", RADICITE: "Radicite", LEGNOFERRO: "Legnoferro", AMBRA: "Ambra fossile", CRYSTAL: "Cristallo di Linfa",
+const _NAMES := {COSTRUTTO: "Costruzione", COSTRUTTO_T: "Vetrata", FINTA: "Ardesia", DIRT: "Humus", STONE: "Ardesia", RADICITE: "Radicite", LEGNOFERRO: "Legnoferro", AMBRA: "Ambra fossile", CRYSTAL: "Cristallo di Linfa",
 	RADICE: "Radice antica", SCISTO: "Scisto di Linfa", VUOTITE: "Vuotite", NODO: "Nodo avvizzito",
 	PIETRA_SEM: "Pietra dei Seminatori",
 	AVV_TERRA: "Terra avvizzita", AVV_MUSCHIO: "Muschio avvizzito", AVV_PIETRA: "Ardesia avvizzita",
@@ -212,7 +216,7 @@ const _TERRAIN_LAYERS := [
 ]
 
 ## Colore sulla mappa (strumenti e, in futuro, minimappa).
-const _MAP_COLOR := {FINTA: "#434f6c", DIRT: "#50343c", STONE: "#434f6c", RADICITE: "#d4783a", LEGNOFERRO: "#a2b0c2", AMBRA: "#eec04a", CRYSTAL: "#3ac0c8",
+const _MAP_COLOR := {COSTRUTTO: "#9a8aa0", COSTRUTTO_T: "#b8e0e0", FINTA: "#434f6c", DIRT: "#50343c", STONE: "#434f6c", RADICITE: "#d4783a", LEGNOFERRO: "#a2b0c2", AMBRA: "#eec04a", CRYSTAL: "#3ac0c8",
 	RADICE: "#8a5638", SCISTO: "#32687c", VUOTITE: "#463464", NODO: "#ff40a0",
 	PIETRA_SEM: "#e8fff8",
 	AVV_TERRA: "#5a534b", AVV_MUSCHIO: "#72704f", AVV_PIETRA: "#51555c", PALLIDITE: "#c4c4dc", TIZZONITE: "#e0582a",
@@ -312,7 +316,7 @@ static func _extra() -> Dictionary:
 
 
 static func _types() -> int:
-	var n := maxi(TYPES_BASE, FINTA)
+	var n := maxi(TYPES_BASE, COSTRUTTO_T)
 	for t in _extra():
 		n = maxi(n, int(t))
 	return n

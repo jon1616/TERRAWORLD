@@ -71,6 +71,8 @@ func remove_wall(c: Vector2i) -> void:
 	var at := Vector2(c) * S + Vector2(8, 8)
 	if WALL_DROP.has(wl):
 		m.drops.spawn(String(WALL_DROP[wl]), 1, at)
+	elif wl >= BuildData.WALL_BASE and wl - BuildData.WALL_BASE < BuildData.MATERIALS.size():
+		m.drops.spawn("parete_%s" % BuildData.MATERIALS[wl - BuildData.WALL_BASE]["id"], 1, at)   # voce 128
 	Fx.dust(m.fx, at, TileDefs.dust_colors(TileDefs.STONE))
 	m.sfx.play("scavo_roccia", at)
 

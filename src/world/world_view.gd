@@ -15,6 +15,9 @@ var ts_terrain: TileSet
 var ts_terrain_glow: TileSet
 var ts_misc: TileSet
 var ts_misc_glow: TileSet
+var ts_built: TileSet                   # voce 128: i costrutti (un atlante a parte, `BuildPainter`)
+var ts_built_glow: TileSet
+var ts_built_walls: TileSet
 var props: ViewProps                  # alberi, stazioni, torce, scintille (vedi `view_props.gd`)
 var chunks := {}                      # Vector2i -> Node2D
 var _queue: Array[Vector2i] = []
@@ -31,6 +34,9 @@ func setup(w: World) -> void:
 	ts_terrain_glow = art["terrain_glow"]
 	ts_misc = art["misc"]
 	ts_misc_glow = art["misc_glow"]
+	ts_built = art["built"]
+	ts_built_glow = art["built_glow"]
+	ts_built_walls = art["built_walls"]
 	for li in TileDefs.TERRAIN_LAYERS.size():
 		var L: Dictionary = TileDefs.TERRAIN_LAYERS[li]
 		var m := PackedByteArray()
@@ -86,6 +92,7 @@ func _build_chunk(k: Vector2i) -> void:
 	node.name = "blocco_%d_%d" % [k.x, k.y]
 	add_child(node)
 	var walls := _layer(node, ts_misc, -10, Vector2.ZERO)
+	var bwalls := _layer(node, ts_built_walls, -10, Vector2.ZERO)   # voce 128: le pareti costruite
 	var trees := Node2D.new()
 	trees.z_index = -5
 	node.add_child(trees)
@@ -98,6 +105,9 @@ func _build_chunk(k: Vector2i) -> void:
 	glow_t.modulate = Color(1.0, 1.0, 1.0)
 	var glow_d := _layer(node, ts_misc_glow, 25, Vector2.ZERO)
 	glow_d.modulate = Color(1.5, 1.5, 1.5)
+	var built := _layer(node, ts_built, 0, Vector2.ZERO)          # voce 128: i costrutti, squadrati
+	var built_g := _layer(node, ts_built_glow, 25, Vector2.ZERO)
+	node.set_meta("built", [built, built_g, bwalls])
 	var fx := Node2D.new()
 	fx.z_index = 26
 	node.add_child(fx)
@@ -113,6 +123,7 @@ func _build_chunk(k: Vector2i) -> void:
 			_paint_dual(Vector2i(x, y), terrain, glow_t)
 			if x < world.w and y < world.h:
 				_paint_grid(Vector2i(x, y), walls, decor, glow_d, plats)
+				_paint_built(Vector2i(x, y), built, built_g, bwalls)
 	node.set_meta("trees", trees)
 	props.fill_chunk(node, k)
 
@@ -161,7 +172,9 @@ func _paint_grid(c: Vector2i, walls: TileMapLayer, decor: TileMapLayer, glow: Ti
 		plats.erase_cell(c)
 	# la parete si mette anche dietro i blocchi: i bordi morbidi del terreno lasciano scoperti gli angoli
 	var wl := world.wall(c.x, c.y)
-	if wl > 0:
+	if wl >= BuildData.WALL_BASE:
+		walls.erase_cell(c)                        # voce 128: le pareti costruite stanno nel loro strato
+	elif wl > 0:
 		walls.set_cell(c, 0, DecorPainter.wall_coords(wl, c.x, c.y))
 	else:
 		walls.erase_cell(c)
@@ -175,6 +188,27 @@ func _paint_grid(c: Vector2i, walls: TileMapLayer, decor: TileMapLayer, glow: Ti
 	else:
 		decor.erase_cell(c)
 		glow.erase_cell(c)
+
+
+## Voce 128: un costrutto (i bordi secondo i 4 vicini costruiti) e la parete costruita della cella c.
+func _paint_built(c: Vector2i, built: TileMapLayer, glow: TileMapLayer, bwalls: TileMapLayer) -> void:
+	var k := world.build_at(c.x, c.y)
+	if k > 0:
+		var mask := (1 if world.build_at(c.x, c.y - 1) > 0 else 0) | (2 if world.build_at(c.x + 1, c.y) > 0 else 0) \
+			| (4 if world.build_at(c.x, c.y + 1) > 0 else 0) | (8 if world.build_at(c.x - 1, c.y) > 0 else 0)
+		built.set_cell(c, 0, BuildPainter.coords(k, mask))
+		if BuildData.material_of(k).get("glow", false):
+			glow.set_cell(c, 0, BuildPainter.coords(k, mask))
+		else:
+			glow.erase_cell(c)
+	else:
+		built.erase_cell(c)
+		glow.erase_cell(c)
+	var wl := world.wall(c.x, c.y)
+	if wl >= BuildData.WALL_BASE:
+		bwalls.set_cell(c, 0, BuildPainter.wall_coords(wl, c.x, c.y))
+	else:
+		bwalls.erase_cell(c)
 
 
 ## Ridisegna ciò che dipende dalla tessera c (dopo uno scavo o un piazzamento), nei blocchi caricati.
@@ -192,6 +226,15 @@ func refresh_around(c: Vector2i) -> void:
 		if node:
 			var g: Array = node.get_meta("grid")
 			_paint_grid(q, g[0], g[1], g[2], g[3])
+	# voce 128: il costrutto e i suoi 4 vicini (i bordi cambiano)
+	for d2 in [Vector2i(0, 0), Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
+		var q2: Vector2i = c + d2
+		if not world.inside(q2.x, q2.y):
+			continue
+		var node2: Node2D = chunks.get(World.chunk_of(q2))
+		if node2 and node2.has_meta("built"):
+			var b: Array = node2.get_meta("built")
+			_paint_built(q2, b[0], b[1], b[2])
 
 
 ## Ridisegna da capo i blocchi che toccano un rettangolo di celle (luoghi costruiti, porte dei Seminatori): si

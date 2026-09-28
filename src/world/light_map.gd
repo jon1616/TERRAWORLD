@@ -188,7 +188,7 @@ static func _solve(job: Dictionary) -> void:
 				wl = walls[k]
 				dc = decor[k]
 				lq = liq[k] if k < liq.size() else 0
-			if t != TileDefs.AIR and t != TileDefs.VETRO:     # il vetro lascia passare la luce
+			if t != TileDefs.AIR and t != TileDefs.VETRO and t != TileDefs.COSTRUTTO_T:     # il vetro (e le vetrate) lasciano passare la luce
 				solid[i] = 1
 				d[i] = SOLID_DECAY
 				if t == TileDefs.CRYSTAL:

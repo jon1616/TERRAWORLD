@@ -27,6 +27,7 @@ var explored := PackedByteArray()      # mappa: 1 dove il Germogliato ha già vi
 var plats := PackedByteArray()         # passerelle: 1 dove c'è una passerella (cella d'aria, si attraversa da sotto)
 ## Voce 73: i liquidi. Un byte per cella: livello 0-8 nei 4 bit bassi, tipo (0 acqua, 1 Linfa, 2 brace) nei due sopra.
 ## Le regole di come scorrono in `Liquids`, i tipi in `LiquidsData`.
+var build := PackedByteArray()          # voce 128: quale costrutto c'è in una cella (0 = nessuno, vedi `BuildData`)
 var liquid := PackedByteArray()
 ## Chiamata quando una tessera cambia (`set_tile`): i liquidi vicini si risvegliano (lo imposta `Liquids`).
 var on_change := Callable()
@@ -47,6 +48,8 @@ func setup(width: int, height: int) -> void:
 	plats.fill(0)
 	liquid.resize(w * h)
 	liquid.fill(0)
+	build.resize(w * h)
+	build.fill(0)
 	explored.resize(w * h)
 	explored.fill(0)
 	biomes.resize(w)
@@ -94,8 +97,22 @@ func inside(x: int, y: int) -> bool:
 	return x >= 0 and y >= 0 and x < w and y < h
 
 
+## Voce 128: mette un costrutto (`BuildData`), o lo toglie con 0.
+func set_build(x: int, y: int, k: int) -> void:
+	set_tile(x, y, BuildData.tile_of(k) if k > 0 else TileDefs.AIR)
+	build[y * w + x] = k
+
+
+func build_at(x: int, y: int) -> int:
+	if x < 0 or y < 0 or x >= w or y >= h or build.size() != tiles.size():
+		return 0
+	return build[y * w + x]
+
+
 func set_tile(x: int, y: int, t: int) -> void:
 	tiles[y * w + x] = t
+	if t != TileDefs.COSTRUTTO and t != TileDefs.COSTRUTTO_T and build.size() == tiles.size():
+		build[y * w + x] = 0                       # voce 128: un costrutto tolto non lascia il suo numero
 	if on_change.is_valid():
 		on_change.call(x, y)
 

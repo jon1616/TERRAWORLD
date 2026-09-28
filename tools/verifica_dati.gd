@@ -69,7 +69,7 @@ func _init() -> void:
 		_err(items.has(String(TileDefs.DECOR_DROP[d])), "la decorazione %d lascia un oggetto inesistente" % d)
 		dropped[TileDefs.DECOR_DROP[d]] = true
 	for t in range(1, TileDefs.TYPES + 1):
-		_err(TileDefs.DROP.has(t) or TileDefs.SEAL_KIND.has(t) or t == TileDefs.PORTA_SEM, "la tessera %d non lascia nulla" % t)   # (i Sigilli si aprono, non si scavano)
+		_err(TileDefs.DROP.has(t) or TileDefs.SEAL_KIND.has(t) or t == TileDefs.PORTA_SEM or t == TileDefs.COSTRUTTO or t == TileDefs.COSTRUTTO_T, "la tessera %d non lascia nulla" % t)   # (i Sigilli si aprono; i costrutti lasciano il loro oggetto, `BuildData.item_of`)
 		_err(TileDefs.POWER.has(t) and TileDefs.HARD.has(t), "la tessera %d non ha durezza o forza richiesta" % t)
 	for c in CreaturesData.CREATURES:
 		var cr: Dictionary = CreaturesData.CREATURES[c]

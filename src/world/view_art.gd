@@ -22,7 +22,7 @@ static func start() -> void:
 	if not _res.is_empty() or _thread != null:
 		return
 	# le tabelle che servono si caricano qui, nel thread principale, prima di cominciare
-	var _warm := [TileDefs.TERRAIN_LAYERS.size(), TileDefs.TYPES, DecorPainter.ROWS]
+	var _warm := [TileDefs.TERRAIN_LAYERS.size(), TileDefs.TYPES, DecorPainter.ROWS, BuildData.kinds().size()]
 	ArtLib.preload_images("vegetazione")      # voce 107: i disegni delle decorazioni, qui e non nel thread
 	_thread = Thread.new()
 	_thread.start(func() -> Dictionary: return _prepare())
@@ -40,7 +40,7 @@ static func get_all() -> Dictionary:
 		_res["stations"] = _stations()            # nel thread principale: possono caricare file
 	if not _res.has("pronte"):
 		# il bordo delle tavole (vedi `_tileset`) si riaccende qui, nel thread principale, a tavole finite
-		for k in ["terrain", "terrain_glow", "misc", "misc_glow"]:
+		for k in ["terrain", "terrain_glow", "misc", "misc_glow", "built", "built_glow", "built_walls"]:
 			((_res[k] as TileSet).get_source(0) as TileSetAtlasSource).use_texture_padding = true
 		_res["pronte"] = true
 	return _res
@@ -56,12 +56,17 @@ static func finish() -> void:
 static func _prepare() -> Dictionary:
 	var terrain := TerrainPainter.build()
 	var misc := DecorPainter.build()
+	var built := BuildPainter.build()               # voce 128: l'atlante dei costrutti (una riga per costrutto)
 	var rows := TileDefs.TERRAIN_LAYERS.size()
 	var out := {
 		"terrain": _tileset(ImageTexture.create_from_image(terrain["img"]), 16 * TerrainPainter.VARIANTS, rows),
 		"terrain_glow": _tileset(ImageTexture.create_from_image(terrain["glow"]), 16 * TerrainPainter.VARIANTS, rows),
 		"misc": _tileset(ImageTexture.create_from_image(misc["img"]), DecorPainter.COLS, DecorPainter.ROWS),
 		"misc_glow": _tileset(ImageTexture.create_from_image(misc["glow"]), DecorPainter.COLS, DecorPainter.ROWS),
+		"built": _tileset(ImageTexture.create_from_image(built["img"]), BuildPainter.COLS, BuildData.kinds().size()),
+		"built_glow": _tileset(ImageTexture.create_from_image(built["glow"]), BuildPainter.COLS, BuildData.kinds().size()),
+		"built_walls": _tileset(ImageTexture.create_from_image(BuildPainter.walls()), BuildPainter.WALL_VARIANTS,
+			BuildData.MATERIALS.size()),
 	}
 	return out
 

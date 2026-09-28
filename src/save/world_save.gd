@@ -80,7 +80,7 @@ static func save(w: World, id: String, meta: Dictionary) -> Error:
 	var data := {
 		"w": w.w, "h": w.h, "tiles": w.tiles, "walls": w.walls, "decor": w.decor, "surface": w.surface,
 		"torches": torches, "trees": trees, "saplings": saplings, "stations": stations, "stazioni_v": 3, "plats": w.plats,
-		"chests": chests, "explored": w.explored, "biomes": w.biomes, "crops": crops, "liquid": w.liquid,
+		"chests": chests, "explored": w.explored, "biomes": w.biomes, "crops": crops, "liquid": w.liquid, "build": w.build,
 	}
 	var raw := var_to_bytes(data)
 	var out := MAGIC.to_ascii_buffer()
@@ -166,6 +166,8 @@ static func _decode(bytes: PackedByteArray) -> World:
 		w.explored = data["explored"]
 	if data.has("plats") and (data["plats"] as PackedByteArray).size() == w.w * w.h:
 		w.plats = data["plats"]
+	if data.has("build") and (data["build"] as PackedByteArray).size() == w.w * w.h:
+		w.build = data["build"]                    # voce 128: i costrutti
 	if data.has("liquid") and (data["liquid"] as PackedByteArray).size() == w.w * w.h:
 		w.liquid = data["liquid"]                  # voce 73 (i mondi di prima: nessun liquido)
 	var saplings: PackedInt32Array = data.get("saplings", PackedInt32Array())

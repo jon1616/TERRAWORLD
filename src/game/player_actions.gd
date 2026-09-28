@@ -178,7 +178,9 @@ func _dig(c: Vector2i, item: Dictionary, dt: float) -> float:
 		_t = -1.0
 		return 0.0
 	var power := int(ItemsData.get_item(item["id"]).get("power", 0))
-	if power < int(TileDefs.POWER.get(t, 0)):
+	var bk := world.build_at(c.x, c.y)              # voce 128: un costrutto ha durezza e forza del suo materiale
+	var need := BuildData.power(bk) if bk > 0 else int(TileDefs.POWER.get(t, 0))
+	if power < need:
 		# troppo duro per questo piccone: il blocco non cede
 		if _t == 0.0:
 			hud.toast("Serve un piccone più forte")
@@ -193,7 +195,7 @@ func _dig(c: Vector2i, item: Dictionary, dt: float) -> float:
 		_dig_snd = 0.25
 		sfx.play("scavo_terra" if t in [TileDefs.DIRT, TileDefs.RADICE] or TileDefs.is_grass(t) else "scavo_roccia")
 	# più forza = più veloce (la radicite, forza 35, è il riferimento di TileDefs.HARD)
-	var hard: float = float(TileDefs.HARD[t]) * 35.0 / float(maxi(power, 1))
+	var hard: float = (BuildData.hard(bk) if bk > 0 else float(TileDefs.HARD[t])) * 35.0 / float(maxi(power, 1))
 	hard /= float(Gear.stats(item)["dig"]) * dig_mult * boon_dig         # tratto, fascia, trivella (voce 50)
 	if _t >= hard:
 		break_tile(c)
@@ -204,6 +206,7 @@ func _dig(c: Vector2i, item: Dictionary, dt: float) -> float:
 
 func break_tile(c: Vector2i) -> void:
 	var t := world.tile(c.x, c.y)
+	var bk := world.build_at(c.x, c.y)              # voce 128
 	world.set_tile(c.x, c.y, TileDefs.AIR)
 	# ciò che poggiava sopra, o pendeva sotto, cade insieme al blocco
 	var up := world.decor_at(c.x, c.y - 1)
@@ -215,8 +218,8 @@ func break_tile(c: Vector2i) -> void:
 	view.refresh_around(c)
 	light.dirty = true
 	var center := Vector2(c) * S + Vector2(8, 8)
-	Fx.dust(fx_parent, center, TileDefs.dust_colors(t))
-	drops.spawn(String(TileDefs.DROP.get(t, "")), 1, center)
+	Fx.dust(fx_parent, center, Px.pal(BuildData.material_of(bk)["pal"]) if bk > 0 else TileDefs.dust_colors(t))
+	drops.spawn(BuildData.item_of(bk) if bk > 0 else String(TileDefs.DROP.get(t, "")), 1, center)
 	if dig_hook.is_valid():
 		dig_hook.call(t, c)
 	dug.emit(t, c)
@@ -321,7 +324,11 @@ func place_block(c: Vector2i, id: String) -> bool:
 		return false
 	if world.decor_at(c.x, c.y) != 0:
 		pick_decor(c)
-	world.set_tile(c.x, c.y, int(ItemsData.get_item(id)["place"]))
+	var it := ItemsData.get_item(id)
+	if it.has("build"):
+		world.set_build(c.x, c.y, int(it["build"]))  # voce 128: un costrutto
+	else:
+		world.set_tile(c.x, c.y, int(it["place"]))
 	bisaccia.take_one(slot)
 	view.refresh_around(c)
 	light.dirty = true

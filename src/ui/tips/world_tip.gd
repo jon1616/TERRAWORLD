@@ -180,8 +180,16 @@ static func tile(m: Node2D, t: int) -> TipCard:
 		c.sub("il piccone non la scalfisce")
 		return c
 	var drop_id := String(TileDefs.DROP.get(t, ""))
-	c.title(String(TileDefs.NAMES.get(t, "Roccia")), Color("#c8d0d8"), drop_id)
+	var tname := String(TileDefs.NAMES.get(t, "Roccia"))
 	var need := int(TileDefs.POWER.get(t, 0))
+	if t == TileDefs.COSTRUTTO or t == TileDefs.COSTRUTTO_T:
+		var mc: Vector2i = m.actions.mouse_cell()      # voce 128: il costrutto sotto il mouse
+		var bk: int = m.world.build_at(mc.x, mc.y)
+		if bk > 0:
+			drop_id = BuildData.item_of(bk)
+			tname = String(BuildData.kind_info(bk)["name"])
+			need = BuildData.power(bk)
+	c.title(tname, Color("#c8d0d8"), drop_id)
 	var hand: Dictionary = m.hud.current()
 	var have := 0
 	if String(hand.get("use", "")) == "scava":
