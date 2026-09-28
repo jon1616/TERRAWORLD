@@ -34,7 +34,7 @@ func run(w: World, c: GenContext) -> void:
 				break
 	c.notes["camere"] = cams                             # `Places` le unisce ai luoghi
 	var visions := []
-	for k in VISIONS * 20:
+	for k in VISIONS * 80:                           # (più tentativi: con le grotte piene di nidi e stagni una non trovava posto)
 		if visions.size() >= VISIONS:
 			break
 		var v := _vision(w)

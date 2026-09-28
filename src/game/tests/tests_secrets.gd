@@ -49,6 +49,7 @@ func run() -> void:
 	m.boons.add("bagliore", 3.0)
 	await kit.save("167_bacchetta")
 	# l'Eco
+	kit.make_room()                         # (dopo altre prove la Bisaccia può essere piena)
 	b.add("eco_seminatori", 1)
 	var marks0 := (m.world_meta.get("segni", []) as Array).size()
 	res["eco"] = se.use_echo("eco_seminatori") and (m.world_meta.get("segni", []) as Array).size() > marks0

@@ -88,8 +88,17 @@ static var known := {}
 
 ## Ricette usabili con queste stazioni (quelle «a mano» sempre).
 static func available(near: Dictionary) -> Array:
-	return RecipesData.all().filter(func(r: Dictionary) -> bool:
-		return (String(r["station"]) == "" or near.has(String(r["station"]))) and _discovered(r))
+	# (ricordato per banchi vicini e ricette scoperte: con 2000 ricette rifarlo a ogni raccolta costava troppo)
+	var key := "%s|%d" % [",".join(near.keys()), known.hash()]
+	if not _avail_cache.has(key):
+		if _avail_cache.size() > 64:
+			_avail_cache.clear()
+		_avail_cache[key] = RecipesData.all().filter(func(r: Dictionary) -> bool:
+			return (String(r["station"]) == "" or near.has(String(r["station"]))) and _discovered(r))
+	return _avail_cache[key]
+
+
+static var _avail_cache := {}
 
 
 static func _discovered(r: Dictionary) -> bool:

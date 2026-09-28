@@ -547,6 +547,37 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   `FishingData` (la Canna di radice e `rod_stats`, i valori della forma «canna» di `FormsData`; esche, accessori con gli
   effetti `fish_*` di `GearEffects`, il tempo, filetti generati, piatti, casse pescate, la fatica degli specchi); il
   Pescatore in `NpcData` (condizione «stat»); la serie «Tesori delle acque» in `UniqueSeriesData` (scritta a mano).
+- **Roadmap 15 «Il mondo abitato»** (voci 126-151, 29 set 2026; scelte dell'utente: le creature rompono **solo le porte
+  e solo negli assedi**, la schivata solo con gli oggetti, assedi una volta a stagione, niente pendenze né mezzi blocchi):
+  - Le creature pensano: `Mind` (`src/entities/mind.gd`, uno per creatura: vista secondo la luce, udito `Mind.noise`,
+    olfatto, memoria; stati calma/allerta/caccia/fuga/ritorno; `lead`, `flank`, `slot` per i gruppi) e `Senses`
+    (`src/game/`: luce sul Germogliato, sangue, esca, passi); `Behavior.sees` passa dal cervello. Il segnale degli
+    attacchi `TeleMark` («!» con `Creature.telegraph`, «?» in allerta); la schivata `Dodge` + `DashData` + `Player.try_dash`.
+  - Le astuzie: 14 comportamenti in `src/entities/behaviors/` (sbuca, divide, ladro, mimetico, scudo, guaritore,
+    richiamo, parassita, tuffatore, tessitore, rosicchia, fotofobo, pastore, scoppia) più marea, rimodella e correnti dei
+    Guardiani; nome, segnale e contromossa in `WilesData`; ciò che tocca il mondo lo fa `Wiles` dalle richieste
+    `Creature.acts` (furti, Linfa bevuta, ragnatele disegnate lì, porte rosicchiate solo con `Wiles.siege`, scoppi che non
+    rompono blocchi; alla morte figlie, maltolto, gregge sbandato). Tattiche di gruppo in `Tactics`.
+  - Il bestiario nuovo è **dati generati**: `tools/gen_bestiario.py` (righe in `tools/bestiario_sottosuolo.py`,
+    `bestiario_tempo.py`) scrive `src/data/bestiary/{superficie,sottosuolo,tempo}.gd`; `tools/gen_signori.py` scrive
+    `signori.gd`; `guardiani.gd` e `maree.gd` sono scritti a mano. Tutti in `BiomesData.PACK_FILES`. Campi nuovi delle
+    creature: `under`/`uw` (biomi del sottosuolo, anche dai pacchetti), `water` + `liquid`, `season`/`weather`/`eclipse`
+    (`CreaturesData.now_*`), `fury` (la furia dei boss a metà Vita), `lord`, `great`, `p.steal_fish`. Foglio dei disegni:
+    `tools/bestiario.gd -- <file>`; misura degli ecosistemi `tools/ecosistemi.gd` (0 zone con buchi).
+  - Signori (`Lords`, esca rituale nel suo luogo: `here()`), tre Guardiani scritti a mano (`GreatGuardians`: marea,
+    pilastri che crollano da soli, raffiche/correnti/nuvole temporanee), le maree a ondate (`Tides` + `TidesData`:
+    annuncio, ondate, capo, premio; l'assedio accende `Wiles.siege`, `world_meta["assedio"]`), lo studio (`Study`: gradi
+    dell'Erbario, schede che si svelano, +6% di danno).
+  - Costruire: i **costrutti** (`BuildData` forme × materiali, 27 × 9 = 243; una tessera `COSTRUTTO`/`COSTRUTTO_T` più il
+    byte `World.build`, i colori in `World.tint`; atlante squadrato `BuildPainter`, strati a parte in `WorldView`;
+    pareti da `BuildData.WALL_BASE`), `BuilderTools` + `BuilderData` (linea, area col tasto «area», scalpello del
+    Martello, tinture, Tavola del progetto, i progetti dei Seminatori di `ProjectsData`), gli arredi in serie
+    (`FurnitureData` × `FurnitureSeriesArt`; `StationsData.STATIONS` ora è `static var` = `_STATIONS` + arredi; il ruolo di
+    una stazione con `StationsData.role`), le stanze (`Rooms` + `RoomsData`: riconoscimento, tipo, comfort, bonus,
+    riparo `shelter`), le case degli abitanti (`Homes` + `HomesData`: felicità, prezzi `NpcBonds.mood_mult`, regali),
+    gli ospiti (`Dwellers`: ragnatele, nidi sui tetti, alveari), la mandria di guardia (`Herd` stato «guardia», cucce).
+  - Prove: gruppo «vivo» (`TestsAlive` per le creature, `TestsAliveBuild` per le costruzioni, `TestsAliveBeasts` per
+    bestiario, Signori, maree, studio e tempi). Enciclopedia: `EncyWorldData` («Il mondo abitato»).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni
@@ -775,6 +806,19 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   dipendenze le lascia a metà a seconda di chi si carica prima (28 set 2026: la mappa dei colori perdeva un'erba solo
   in `tools/mappe.gd`). Le prove non devono dipendere da quali famiglie sono assenti nel mondo di prova (cambiano con
   ogni famiglia nuova): la prova delle stagioni misurava un rapporto con una specie «assente».
+
+- **Id doppi nei pacchetti** (Roadmap 15, 29 set 2026): l'unione delle tabelle (`merge`) tiene il primo, e un oggetto o
+  una creatura di un pacchetto con l'id di un altro spariva in silenzio (sette oggetti, e la «libellula_rigoglio» delle
+  stagioni con un campo `season` di tipo diverso che rompeva `Sampling`). `verifica_dati` ora controlla i nomi di ogni
+  pacchetto; prima di dare un id nuovo si cerca (`grep '"id"'`).
+- I parametri dei comportamenti hanno i loro nomi (`rate`, `fan_n`, `fan_rate`, `blink_every`…): un dato con un nome
+  inventato viene ignorato senza errori. Si guarda `c.p.get(` nel comportamento prima di scrivere i dati.
+- Le prove che cercano un posto «piano» (`kit.flat_spot`) possono non trovarlo quando le prove prima hanno costruito:
+  si ricade sulla cella del Germogliato, e quando serve si costruisce il posto (stanza, porta) invece di cercarlo.
+- Un comando Bash troppo lungo (un heredoc di centinaia di righe) fallisce con «ENAMETOOLONG»: i dati lunghi si
+  scrivono con Write in un file e si importano.
+- Nelle patch Python, `rindex(']')` per trovare la fine di un elenco trova l'ultima parentesi del file (anche dentro una
+  funzione): si cerca la fine dell'elenco a partire dalla sua costante.
 
 ## Convenzioni
 

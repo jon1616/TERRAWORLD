@@ -1,14 +1,15 @@
 # TERRAWORLD — Roadmap
 
-## Dove siamo (aggiornato il 28 set 2026)
+## Dove siamo (aggiornato il 29 set 2026)
 - **Fatta la Roadmap 12 «Il mondo si riempie»** (voci 83-99, 28 set 2026): resoconto in fondo alla Roadmap 12. Diario,
   Guardiani da evocare, effetti speciali, dieci posti d'equipaggiamento, totem, trappole, farm, volo, 25 biomi a file,
   i rigori delle terre estreme, i segreti con il contatore, 151 oggetti unici in serie, il bilancio.
 - **In corso: la Roadmap 13 «Il volto del mondo»** (voci 100-117, dal 28 set 2026): la grafica con Nano Banana,
   seguita passo passo con l'utente (Claude scrive i prompt, dice dove salvare le immagini, le adatta con gli script).
   Dopo: un secondo bilancio con il diario delle partite vere.
-- **In corso: la Roadmap 15 «Il mondo abitato»** (voci 126-151, dal 29 set 2026): creature più intelligenti e più
-  numerose, e costruzioni con un motivo di gioco; le scelte dell'utente sono in cima al piano.
+- **Fatta la Roadmap 15 «Il mondo abitato»** (voci 126-151, 29 set 2026): creature che pensano e 171 specie (Signori,
+  tre Guardiani, maree, studio), 243 costrutti, 120 arredi, stanze, case, progetti. Resoconto in fondo alla Roadmap 15;
+  la grafica da ridisegnare nelle voci 117a-117f della Roadmap 13.
 - **Fatta la Roadmap 14 «Le acque vive»** (voci 118-125, 28 set 2026): la pesca, decisa con l'utente (gesto quasi
   automatico, attività laterale ricca ma non indispensabile, in tutti i liquidi, liquidi spostabili). Resoconto in fondo
   alla Roadmap 14.
@@ -2070,6 +2071,113 @@ si caricano nel thread principale (`ViewArt.get_all`), mai nel thread che prepar
 Lezioni: Nano Banana spesso sbaglia il numero di colonne o aggiunge doppioni anche se vietati: si taglia «a macchie»
 (senza `--griglia`) o con i nomi «x…»; un pezzo staccato (la fiamma di un getto) può finire nella cella accanto.
 
+### Le aggiunte della Roadmap 15 «Il mondo abitato» (voce 151, 29 set 2026)
+Tutto ciò che la Roadmap 15 ha portato nasce **disegnato dal codice** (corpi di `BodyArt`, `BuildPainter`,
+`FurnitureSeriesArt`, `NestArt`, `WorkshopArt`), quindi il gioco è già completo; queste voci lo rendono bello. Stesso
+metodo delle voci 100-117 (foglio di stile, magenta pieno, forme grandi, pixelatura dello script, un caricatore che
+lascia il disegno del codice se il file manca). Cartelle già create da Claude: `arte_ia/creature_nuove/`,
+`arte_ia/signori/`, `arte_ia/costrutti/`, `arte_ia/arredi/` (le stazioni nuove vanno in `arte_ia/stazioni/`).
+**Attenzione ai colori** (regola del magenta): diverse creature nuove sono viola o rosa nel codice (Iridati, Vuoto,
+Stellari); nei prompt si chiedono in **indaco-blu, turchese o oro iridescente**, mai viola, rosa o magenta: la tinta
+finale la rimette lo script con la tavolozza del codice.
+
+## 117a. [ ] I costrutti: le nove forme (S) — da fare per prima (le più viste)
+Nove trame da 16×16 **in grigio neutro** (come le forme delle icone, voce 105): grezzo, mattoni, lastre, levigato,
+colonna, travi, tegole, piastrelle, vetrata; lo script le colora con i 27 materiali (243 blocchi) e rifà i bordi
+secondo i vicini (`BuildPainter`). Tavola `arte_ia/costrutti/01_forme_v1.png`, griglia 3×3. Nel gioco:
+`BuildPainter._pattern` legge `arte/costrutti/<forma>.png` se c'è.
+**Pronto quando**: la foto 191_costrutti mostra le trame nuove in tutti i materiali.
+Prompt:
+```
+[FOGLIO DI STILE «Radici e Linfa»] Side-view pixel-art game tiles, organic hand-crafted look, NOT Terraria (no square
+tiles with outlines, no brown dirt with green grass). Solid magenta #FF00FF background. A 3x3 grid of nine square
+building-block textures, each filling its cell edge to edge, drawn in NEUTRAL GREYS ONLY (from near-black to light
+grey, no colour at all), big clear shapes, no text, no labels, no numbers:
+1 rough-hewn stone block with chisel marks; 2 staggered bricks with deep mortar lines; 3 wide horizontal stone slabs;
+4 polished smooth block with a soft sheen; 5 a fluted column segment (vertical grooves); 6 wooden beams with grain
+and pegs; 7 overlapping roof tiles, scalloped rows; 8 checkered floor tiles with grout; 9 a leaded window: a frame
+of four panes, the glass very light grey.
+```
+
+## 117b. [ ] Gli arredi in serie: le dodici forme (M)
+Dodici arredi **in grigio neutro** (lo script li colora con i 10 materiali: 120 arredi), alle misure di
+`FurnitureData.FORMS`: tavolo 3×1, sedia 1×1, letto 3×1, armadio 2×2, scaffale 2×2, lampada 1×2, lanterna appesa 1×1,
+finestra 2×2, tappeto 3×1, quadro 2×2, vaso fiorito 1×1, camino 2×2. Le parti che restano del loro colore (il fuoco
+del camino e della lampada, la stoffa del letto, il fiore del vaso, il quadro dipinto) si chiedono colorate e le
+tiene `tavola.py --desatura` solo sul resto. Tavole `arte_ia/arredi/01_arredi_v1.png` (tavolo, sedia, letto,
+armadio, scaffale, lampada) e `02_arredi_v1.png` (lanterna, finestra, tappeto, quadro, vaso, camino), griglia 3×2.
+Nel gioco: `FurnitureSeriesArt.draw` come `StationTemplates` (il disegno grigio colorato per materiale).
+**Pronto quando**: la foto 201_arredi mostra le due serie nuove, ambra e legno di lanterna.
+Prompt (tavola 1):
+```
+[FOGLIO DI STILE «Radici e Linfa»] Side-view pixel-art furniture for a cosy root-and-sap world, organic curvy shapes,
+NOT Terraria. Solid magenta #FF00FF background, 3 columns x 2 rows, one piece per cell, each piece standing on the
+bottom of its cell, no text: 1 a long low table on two curved root legs; 2 a small chair with a leaf-shaped back;
+3 a low bed with a curved headboard and a green woven blanket and a cream pillow; 4 a tall two-door wardrobe with
+round knobs; 5 an open shelf with three boards, two little jars and a book; 6 a floor lamp with a warm glowing
+amber shade. Draw all the WOOD and FRAME parts in NEUTRAL GREYS ONLY (they get recoloured later); keep only the
+blanket green, the pillow cream and the lamp light warm amber.
+```
+
+## 117c. [ ] Le stazioni nuove (S)
+Banco dello scalpellino (2×2), Cuccia (2×1), Alveare costruito (1×2), Nido sul tetto (2×1). Una tavola
+`arte_ia/stazioni/08_mondo_abitato_v1.png`, griglia 4×1, con `tavola.py --stazioni` come la voce 106.
+**Pronto quando**: prove/stazioni.png mostra le quattro stazioni nuove.
+Prompt:
+```
+[FOGLIO DI STILE «Radici e Linfa»] Side-view pixel-art workstations, organic, NOT Terraria. Solid magenta #FF00FF
+background, 4 columns x 1 row, each object standing on the bottom of its cell, no text: 1 a stonemason's bench: a
+slate-blue stone top on two dark root legs, a half-carved block, a chisel and a set square lying on it; 2 a small
+dog kennel of plum-coloured planks with a pointed roof and a dark round doorway; 3 a built beehive, a tall amber
+wooden box with rounded edges, a small dark entrance and a warm glow; 4 a bird's nest of dark twigs on a flat roof
+edge, with one pale blue egg.
+```
+
+## 117d. [ ] Le creature nuove (L)
+Le 62 specie dei pacchetti `src/data/bestiary/` (superficie 25, sottosuolo e liquidi 26, notte e stagioni 11), 2
+fotogrammi l'una, tavole da 4 specie (16 tavole), nell'ordine dei file. Il corpo di oggi (piano, misura, tavolozza,
+segni) è la traccia: il foglio `tools/bestiario.gd -- <file>` (prove/bestiario_<file>.png) mostra che cosa rifare.
+Nel gioco `CreatureArt.frames` userà `arte/creature/<id>_<n>.png` se c'è (come le altre creature della voce 114).
+Tavole `arte_ia/creature_nuove/NN_<file>_v1.png`.
+**Pronto quando**: i tre fogli del bestiario mostrano le specie nuove.
+Prompt (tavola 1, superficie: Tessispore, Cappelletto ladro, Rospo gonfio di torba, Pavoncella del vento):
+```
+[FOGLIO DI STILE «Radici e Linfa»] Side-view pixel-art creature sprites facing RIGHT, big clear shapes, bright eye,
+dark outline added later, NOT Terraria. Solid magenta #FF00FF background, 4 columns x 2 rows: each column is ONE
+creature, top row = frame A (standing), bottom row = frame B (mid-step), same size in both frames, no text:
+1 "Tessispore": a small plum-and-cream spotted spider-like fungus weaver, thin legs, yellow eyes; 2 "Cappelletto
+ladro": a little red mushroom creature with a big red cap with pale spots, a small sack on its back, bright yellow
+eyes; 3 "Rospo gonfio": a round swamp toad of dark mossy green with glowing green spots, a big throat sac,
+orange eyes; 4 "Pavoncella": a slim grey-green lapwing bird with a black crest and white stripes, wings closed.
+```
+
+## 117e. [ ] I Signori dei luoghi e i tre grandi Guardiani (L)
+27 figure grandi (da 40×30 a 64×24 px nel gioco): i 24 Signori (`src/data/bestiary/signori.gd`, uno per luogo) e il
+Leviatano del lago, la Grande Scavatrice, la Signora delle correnti; 2 pose (ferma e d'attacco) e, per i tre
+Guardiani, la furia. Tavole da 3 figure (`arte_ia/signori/NN_signori_v1.png`), griglia 3×2.
+**Pronto quando**: ogni Signore e Guardiano chiamato ha il suo disegno (foto 203-206).
+Prompt (tavola 1: Cervo-lanterna antico, Madre delle spore, Scarabeo regale d'ambra):
+```
+[FOGLIO DI STILE «Radici e Linfa»] Side-view pixel-art BOSS creatures facing RIGHT, large and imposing, big clear
+shapes, glowing accents, NOT Terraria. Solid magenta #FF00FF background, 3 columns x 2 rows: each column is ONE
+boss, top row = idle pose, bottom row = attack pose, same size in both rows, no text:
+1 "Cervo-lanterna antico": an ancient stag of dark bark and moss, huge branching antlers hung with glowing amber
+lantern-pods; 2 "Madre delle spore": a huge swamp snail-mother of deep indigo-blue flesh with glowing green spore
+spots and a shell of fungus caps (NO purple, NO pink); 3 "Scarabeo regale d'ambra": a royal amber beetle, a golden
+translucent shell with a big horn and orange eyes.
+```
+
+## 117f. [ ] Le icone nuove (S)
+Le tinture (8 gocce colorate + la sbiadente), le esche rituali dei Signori (una forma, colorata per luogo), i
+progetti dei Seminatori (un rotolo con il disegno della struttura), i sigilli delle maree, la Corona delle sei maree:
+nuove forme d'icona in grigio per `arte/forme/` (voce 105). Tavola `arte_ia/icone/20_mondo_abitato_v1.png`.
+**Pronto quando**: il foglio prove/arte_forme.png le mostra.
+
+### Resta al codice anche per la Roadmap 15
+I segni sopra le creature (il «!» ambra e il «?»), le ragnatele, i pilastri di radice, le passerelle di nuvola e le
+correnti, la marea: sono effetti, restano al codice. Le varianti di colore dei costrutti e degli arredi le fa lo
+script dai disegni grigi (un disegno, molti materiali).
+
 ### Resta al codice (Nano Banana non serve)
 Le trame del terreno e delle pareti (doppia griglia, trame 64×64 senza cuciture), la luce, i liquidi, gli
 incantesimi, le esplosioni, le particelle, il tempo atmosferico; le 1906 icone una per una (nascono dalla voce 105).
@@ -2598,13 +2706,47 @@ un Signore, una marea respinta, una specie studiata; nove **obiettivi** nuovi. L
 - Capitoli nuovi (creature per ruolo, Signori, maree, costruire, stanze), consigli alla prima volta, il filo che propone
   anche «costruisci la tua prima stanza», richieste della Bacheca per stanze e Signori.
 
-## 150. [ ] Bilancio, prove e resoconto (M)
+## 150. [x] Bilancio, prove e resoconto (M) — fatto il 29 set 2026
+Fatto: `tools/ecosistemi.gd` conosce le astuzie e i pacchetti (0 zone con un buco su 25); `tools/bilancio.gd` sezione
+6 (Signori e Guardiani contro la spada del loro grado: 13-23 s i Signori, ~50 s i tre Guardiani; costrutti, arredi,
+maree, 171 creature); la misura con 40 creature nuove (60 fotogrammi al secondo, peggiore 20 ms). Il giro intero ha
+trovato cinque guasti, tutti corretti: le prove della Roadmap 15 costruivano attorno alla partenza prima delle altre
+(ora girano per ultime), l'elenco Creare con 2000 ricette rifaceva tutto a ogni raccolta (ora le ricette disponibili si
+ricordano e il posto nella Bisaccia si conta solo per quelle possibili: da 34 a 3,5 ms), la Bisaccia piena lasciata
+da una prova (le prove fanno posto), due passate del generatore con troppi pochi tentativi (tane dei Custodi dei
+biomi, visioni). Le prove della Roadmap 15 divise in tre file. Resoconto qui sotto.
 - `tools/ecosistemi.gd` rifatto (i buchi chiusi), `tools/bilancio.gd` con le nuove creature e i Signori, i tempi
   (montaggio, fotogramma con più creature e più blocchi), giro intero, resoconto.
 
-## 151. [ ] La grafica da ridisegnare (S)
+## 151. [x] La grafica da ridisegnare (S) — fatto il 29 set 2026
+Fatto: nella Roadmap 13 «Il volto del mondo» (la roadmap grafica) le voci **117a-117f** con tutto ciò che la Roadmap 15
+ha portato: le nove forme dei costrutti e le dodici forme degli arredi (in grigio: lo script le colora per materiale),
+le quattro stazioni nuove, le 62 creature nuove, i 24 Signori e i tre grandi Guardiani, le icone nuove; per ognuna la
+cartella (già creata), il nome delle tavole, dove le legge il gioco e il **prompt pronto** della prima tavola. Nuovo
+strumento `tools/bestiario.gd -- <file>` (il foglio dei disegni di oggi, da rifare).
 - L'elenco delle creature, dei Signori e degli arredi più importanti da ridisegnare con Nano Banana, con i prompt pronti
   (come la Roadmap 13). Fino ad allora tutto nasce disegnato dal codice.
+
+### Resoconto della Roadmap 15 (29 set 2026)
+Tutte le voci 126-151 fatte, nell'ordine scelto (fondamenta, poi tre cicli alternati creature / costruzioni, poi la
+chiusura), con le scelte dell'utente rispettate: **fuori dagli assedi nessuna creatura distrugge nulla** (negli assedi
+solo le porte), la schivata solo con gli oggetti, l'assedio una volta a stagione (e spegnibile), niente pendenze.
+**Le creature**: da 82 a **171 specie** (62 nuove comuni in tre pacchetti generati, 24 Signori, 3 Guardiani scritti a
+mano), **0 zone su 25** con un buco nella mappa degli ecosistemi (erano 13); ognuna pensa (sensi, stati, memoria),
+molte hanno un'**astuzia** con il suo segnale e la sua contromossa, i gruppi accerchiano, fuggono insieme, difendono i
+nidi; le **maree** portano ondate e un capo; lo **studio** svela le schede e dà un bonus per sempre.
+**Le costruzioni**: da 3 blocchi da costruzione a **243 costrutti** (27 materiali × 9 forme, con durezza, isolamento,
+luce, bellezza), **120 arredi** in serie, gli strumenti (linea, area, scalpello, tinture, progetti), **9 tipi di stanza**
+riconosciuti dagli arredi con il comfort e un aiuto ciascuno, il **riparo** dai rigori, le **case degli abitanti** con
+gusti e felicità, gli ospiti (ragnatele, nidi), la mandria di guardia, **6 progetti** dei Seminatori dalle rovine.
+Il motivo di gioco che moltiplica: i materiali delle creature fanno blocchi, arredi, talismani ed esche rituali; i
+Signori fanno i richiami dei Guardiani; i trofei vanno nella sala dei trofei; le stanze moltiplicano orto, mandria,
+pesca, lingua, eventi, cure e creazioni; le maree mettono alla prova casa e mandria.
+**Tempi**: con 40 creature nuove 60 fotogrammi al secondo (peggiore 20 ms); l'atlante dei costrutti 0,45 s in
+sottofondo dal menu; la costruzione di un blocco di mondo come prima (i costrutti si disegnano solo dove ci sono).
+**Ordine dei file**: le prove della Roadmap 15 divise in tre (`TestsAlive`, `TestsAliveBuild`, `TestsAliveBeasts`);
+`verifica_dati` controlla anche gli id doppi dei pacchetti e le maree. **La grafica**: tutto nasce disegnato dal codice;
+le voci 117a-117f della Roadmap 13 dicono che cosa ridisegnare con Nano Banana, con i prompt pronti.
 
 ## Le scelte dell'utente (29 set 2026)
 1. **Le creature rompono solo le porte, e solo durante gli eventi di attacco alla base** (gli assedi). Niente creature

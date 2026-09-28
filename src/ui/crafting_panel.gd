@@ -195,15 +195,18 @@ func refresh() -> void:
 	var room := {}
 	_can.clear()
 	for r in pool:
-		var out := String(r["out"])
-		if not room.has(out):
-			room[out] = bisaccia.room_for(out)
-		var ok := here_set.has(r) and int(room[out]) >= int(r["qty"])
+		var ok := here_set.has(r)
 		if ok:
 			for k in r["in"]:
 				if int(have_n.get(k, 0)) < int(r["in"][k]):
 					ok = false
 					break
+		if ok:
+			# il posto nella Bisaccia solo per le ricette che si possono fare (è il conto più caro)
+			var out := String(r["out"])
+			if not room.has(out):
+				room[out] = bisaccia.room_for(out)
+			ok = int(room[out]) >= int(r["qty"])
 		_can[r] = ok
 	# per categoria (dopo la ricerca): prima le possibili, poi le altre
 	var groups := []
