@@ -66,6 +66,10 @@ const OPTIONS := [
 		"choices": [[1.0, "Breve"], [1.5, "Normale"], [3.0, "Lunga"], [5.0, "Molto lunga"]],
 		"desc": "Quanto restano le scritte al centro («Raccolto…», «Obiettivo raggiunto…»)."},
 	# gioco
+	{"id": "scavo_intelligente", "sec": "gioco", "name": "Scavo intelligente", "type": "bool", "def": true,
+		"desc": "Tenendo premuto il piccone su una cella vuota scavi da solo i blocchi a portata, prima i più vicini al mouse. Mai ciò che hai costruito, mai sotto i piedi, mai vicino ai liquidi. Con Maiusc all'inizio: solo lo stesso blocco."},
+	{"id": "riponi_tasto", "sec": "gioco", "name": "Tasto «Riponi nelle casse»", "type": "bool", "def": true,
+		"desc": "Il tasto Riponi (Q) mette ogni oggetto della Bisaccia (non la barra rapida) nelle casse vicine che lo contengono già o che raccolgono il suo tipo."},
 	{"id": "ospiti", "sec": "gioco", "name": "Ospiti delle case", "type": "bool", "def": true,
 		"desc": "Nelle stanze lasciate sole al buio arrivano i ragni; sui tetti gli uccelli fanno il nido. Nessuno rompe nulla."},
 	{"id": "assedi", "sec": "gioco", "name": "Assedi alla base", "type": "bool", "def": true,

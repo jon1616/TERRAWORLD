@@ -174,6 +174,8 @@ func run(main: Node2D) -> void:
 	_mark("TestsHerd")
 	await TestsStorage.new(kit).run()
 	_mark("TestsStorage")
+	await TestsComfort.new(kit).run()
+	_mark("TestsComfort")
 	await TestsTrees.new(kit).run()
 	_mark("TestsTrees")
 	await TestsSeals.new(kit).run()
@@ -433,6 +435,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsHerd.new(kit).run()
 		"casse":
 			await TestsStorage.new(kit).run()
+		"comodita":
+			await TestsComfort.new(kit).run()
 		"alberi":
 			await TestsTrees.new(kit).run()
 		"sigilli":

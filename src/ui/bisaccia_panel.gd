@@ -160,7 +160,7 @@ func _ready() -> void:
 	qs.pressed.connect(func() -> void:
 		if quick_stack.is_valid():
 			var r: Dictionary = quick_stack.call()
-			_toast.call("Messi via %d oggetti in %d casse" % [int(r["n"]), int(r["casse"])] if int(r["n"]) > 0 else "Nessuna cassa vicina li vuole: scegli il tipo di una cassa, o mettici un oggetto uguale"))
+			_toast.call(Storage.stash_text(r)))
 	add_child(qs)
 	# il cestino: nella riga del titolo, a sinistra dei pulsanti
 	_trash_view = SlotView.new()

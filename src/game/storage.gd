@@ -161,6 +161,20 @@ func restock(chest: Bisaccia) -> int:
 	return moved
 
 
+## Il tasto «riponi» (29 set 2026, richiesta dell'utente): «Nelle casse vicine» senza aprire la Bisaccia.
+func _unhandled_input(e: InputEvent) -> void:
+	if m == null or not m.built or not Keys.pressed(e, "riponi") or not bool(Settings.v("riponi_tasto")):
+		return
+	get_viewport().set_input_as_handled()
+	m.hud.toast(stash_text(quick_stack()))
+
+
+static func stash_text(r: Dictionary) -> String:
+	if int(r["n"]) > 0:
+		return "Riposti %d oggetti in %d casse" % [int(r["n"]), int(r["casse"])]
+	return "Nessuna cassa vicina li vuole: scegli il tipo di una cassa, o mettici un oggetto uguale"
+
+
 ## Nelle casse vicine: ogni oggetto delle caselle grandi va nella cassa più vicina che lo contiene già, o che raccoglie
 ## il suo tipo. Restituisce {oggetti spostati, casse usate}.
 func quick_stack() -> Dictionary:

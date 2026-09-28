@@ -24,6 +24,8 @@ const ACTIONS := [
 	["ponte", "Potere: Radici-ponte", [KEY_F], "Poteri"],
 	["confronta", "Confronta nei suggerimenti", [KEY_SHIFT], "Altro"],
 	["area", "Posa ad area (trascinando un blocco)", [KEY_CTRL], "Altro"],
+	["riponi", "Riponi nelle casse vicine (quelle che hanno già l'oggetto o lo raccolgono)", [KEY_Q], "Altro"],
+	["vena", "Scavo intelligente: solo lo stesso blocco (tienilo premuto all'inizio)", [KEY_SHIFT], "Altro"],
 ]
 
 

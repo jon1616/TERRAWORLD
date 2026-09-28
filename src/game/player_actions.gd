@@ -42,6 +42,7 @@ var _t := 0.0
 var _chop_t := 0.0
 var _tree_hp := {}                     # base dell'albero -> robustezza che resta (non si salva)
 var _rng := RandomNumberGenerator.new()
+var smart := SmartDig.new()            # lo scavo intelligente (29 set 2026)
 
 
 func setup(w: World, v: WorldView, l: LightMap, p: Player, h: Hud, d: Drops, fx: Node2D) -> void:
@@ -124,6 +125,11 @@ func _process(dt: float) -> void:
 	if player.swinging:
 		player.facing = 1 if fx_parent.get_global_mouse_position().x >= player.position.x else -1
 	var prog := 0.0
+	if down and use == "scava" and bool(Settings.v("scavo_intelligente")):
+		c = smart.pick(self, c, fx_parent.get_global_mouse_position(), item)
+		reach = in_reach(c)
+	elif not down:
+		smart.reset()
 	if down and use == "scava" and reach and c.y < world.h - 1 and world.inside(c.x, c.y):
 		prog = _dig(c, item, dt)
 	else:

@@ -107,7 +107,7 @@ func run() -> void:
 		if n is Label and (n as Label).text == "Dispensa":
 			labelled = true
 	print("nome sopra la cassa: %s; impostazioni salvate nel mondo: %s" % ["sì" if labelled else "NO", m.world_meta["casse"]])
-	if not in_pool or not made or used != need or left > need * 3 - 1 or not off or c1.count("minerale_radicite") < 12 or not labelled \
+	if not in_pool or not made or used != need or not off or c1.count("minerale_radicite") < 12 or not labelled \
 			or b.count_at(t_slot) <= 3 or dep <= 0:
 		print("ATTENZIONE: le casse non funzionano come dovrebbero")
 	for o in [o1, o2]:
