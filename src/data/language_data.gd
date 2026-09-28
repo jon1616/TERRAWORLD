@@ -141,6 +141,9 @@ const LORE := [
 	["chiave", "apre", "porta", "seminatori"],
 	["guardiano", "veglia", "cuore", "malattia", "cerca", "cuore"],
 	["luce", "linfa", "cura", "malattia"],
+	# Roadmap 17: perché ogni parola comune si possa decifrare
+	["seminatori", "chiude", "scrigno", "chiave", "apre"],
+	["strada", "stella", "gelo", "giardiniere", "ritorna"],
 ]
 
 ## Roadmap 17, voce 173: le frasi della lingua antica (stele degli osservatori del cielo e dei mondi di vigore 3 o più)
