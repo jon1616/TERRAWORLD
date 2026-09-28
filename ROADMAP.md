@@ -3273,12 +3273,18 @@ radicite e quella di vuoto di quella di linfa; le leghe stanno quasi tutte in fa
 +33% e la sospesite −35%; le armature tolgono solo il 24-40% di un colpo del loro strato; la qualità vale da −15% a
 +26%, la tempra +8% a livello.
 
-## 183. [ ] Le progressioni e l'economia (M)
+## 183. [x] Le progressioni e l'economia (M) — fatto il 29 set 2026
 I sistemi che si chiudono troppo presto o mai (come le stele): stadi dell'Albero (cosa chiedono e quanto ci vuole),
 geni, Erbario e studio, Bacheca, segreti, unici, doni (Vita e Linfa massime), mandria. L'economia: Lumini all'ora per
 ogni fonte (creature, pesca, vendite, recinti, farm, Bacheca) contro i prezzi; i materiali che servono tanto e cadono
 poco.
 **Pronto quando**: `prove/progressioni.txt` dice per ogni sistema quanto dura e cosa non va.
+**Fatto**: `tools/progressioni.gd` (prove/progressioni.txt). **Cosa dice**: le offerte dell'Albero-Madre stanno in piedi
+(le cacce più lunghe sono le squame di brace fuori dalle Cenerarie, che l'Albero manda a cercare lì); **la Vita massima**
+arriva al tetto dei Cuori di bocciolo (+150) già nel primo mondo (60 boccioli per mondo, se ne assorbono 15), poi cresce
+solo con i Guardiani curati (+20 a mondo, senza tetto); **l'economia**: cacciare rende ~66 Lumini all'ora in Superficie,
+~930 nel Fondo, ~4200 al vigore 8, mentre la pesca rende 270-3000 all'ora (con la stanchezza degli specchi) fin dalla
+prima canna: 4-8 volte la caccia dello stesso momento; un Seme di mondo costa 1400-1800 Lumini, la Linfa antica 240.
 
 ## 184. [ ] La Scorza che conta (M)
 Nuova regola della Scorza (percentuale che cresce con la Scorza più una parte fissa, al posto di «metà del valore»),
