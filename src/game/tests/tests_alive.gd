@@ -24,6 +24,7 @@ func run() -> void:
 	await builder()
 	await furniture()
 	await rooms()
+	await homes()
 	await brain()
 	await wiles()
 	await tactics()
@@ -205,6 +206,7 @@ func brain() -> void:
 
 
 var _wid := ""
+var _bed := Vector2i(-1, -1)                     # il letto della stanza della prova delle stanze (per le case)
 
 
 ## Una creatura di prova con un'astuzia in più (dati copiati, per non toccare la tabella).
@@ -623,6 +625,7 @@ func rooms() -> void:
 		w.stations[o] = sid
 		m.view.add_station(o)
 	put.call(FurnitureData.id_of("letto", "ambra"), Vector2i(x0, y1))
+	_bed = Vector2i(x0, y1)
 	put.call(FurnitureData.id_of("lampada", "ambra"), Vector2i(x0 + 3, y1 - 1))
 	put.call(FurnitureData.id_of("quadro", "ambra"), Vector2i(x0 + 4, y0))
 	put.call(FurnitureData.id_of("vaso", "ambra"), Vector2i(x0 + 8, y1))
@@ -652,3 +655,48 @@ func rooms() -> void:
 		print("ATTENZIONE: le stanze non si riconoscono come dovrebbero")
 	m.world_meta["stanze"] = []
 	m.rooms.refresh()
+
+
+## Voce 143: il Forgiatore prende il letto della stanza di prova; con un camino di legnoferro (che ama) è più felice e
+## i prezzi scendono; senza letto è scontento e i prezzi salgono; felice, lascia un regalo al giorno.
+func homes() -> void:
+	var w: World = m.world
+	if _bed.x < 0:
+		print("ATTENZIONE: nessuna stanza per la prova delle case")
+		return
+	var vil: Villagers = m.villagers
+	vil.paused = true
+	var n: Npc = vil._spawn("forgiatore", _bed)
+	var saved: Dictionary = m.world_meta.get("abitanti", {})
+	saved["forgiatore"] = [_bed.x, _bed.y]
+	m.world_meta["abitanti"] = saved
+	m.world_meta["case"] = {"forgiatore": [_bed.x, _bed.y]}          # il letto della stanza (ce ne sono altri, fuori)
+	var h0: int = int(m.homes.update(0.0).get("forgiatore", 0))
+	var cam := _bed + Vector2i(3, -1)
+	w.stations[cam] = FurnitureData.id_of("camino", "legnoferro")
+	m.view.add_station(cam)
+	var h1: int = int(m.homes.update(0.0).get("forgiatore", 0))
+	var p1: int = NpcBonds.price(m.character, "forgiatore", 100)
+	var g0: int = m.homes.gifts
+	m.homes.update(HomesData.GIFT_EVERY + 1.0)
+	var gift: bool = m.homes.gifts > g0 or h1 < HomesData.HAPPY
+	var line: String = m.homes.line("forgiatore")
+	# un letto fuori da una stanza
+	var bed_id := String(w.stations[_bed])
+	w.stations.erase(_bed)
+	m.world_meta.erase("case")
+	var h2: int = int(m.homes.update(0.0).get("forgiatore", 0))
+	var p2: int = NpcBonds.price(m.character, "forgiatore", 100)
+	w.stations[_bed] = bed_id
+	# via l'abitante di prova
+	vil.list.erase(n)
+	n.queue_free()
+	saved.erase("forgiatore")
+	m.world_meta.erase("case")
+	m.world_meta.erase("felicita")
+	NpcBonds.mood_mult.clear()
+	vil.paused = false
+	print("case: il Forgiatore nella stanza %d, col camino di legnoferro %d (prezzo 100 → %d, regalo %s), in un letto fuori da una stanza %d (prezzo %d); «%s»" % [
+		h0, h1, p1, "sì" if gift else "NO", h2, p2, line])
+	if h1 <= h0 or h2 >= h0 or p2 <= p1 or not gift or line == "":
+		print("ATTENZIONE: le case degli abitanti non vanno come dovrebbero")

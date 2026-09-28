@@ -23,9 +23,13 @@ static func level(ch: Character, id: String) -> int:
 	return mini(affetto(ch, id) / PER_LEVEL, 4)
 
 
-## Il prezzo con lo sconto dell'affetto.
+## Voce 143: la felicità della casa cambia i prezzi (abitante → moltiplicatore, lo scrive `Homes`).
+static var mood_mult := {}
+
+
+## Il prezzo con lo sconto dell'affetto (e la felicità della casa).
 static func price(ch: Character, id: String, base: int) -> int:
-	return maxi(1, roundi(base * (1.0 - DISCOUNT * level(ch, id))))
+	return maxi(1, roundi(base * (1.0 - DISCOUNT * level(ch, id)) * float(mood_mult.get(id, 1.0))))
 
 
 ## Aggiunge affetto; restituisce il regalo dei livelli nuovi raggiunti ({oggetto: quanti}), da dare.

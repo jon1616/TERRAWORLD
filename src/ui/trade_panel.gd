@@ -141,6 +141,8 @@ func _refresh() -> void:
 	var nd: Dictionary = NpcData.NPCS[npc]
 	_title.text = _title_text()
 	_greet.text = "«%s»" % _greeting()
+	if m != null and m.homes and m.homes.line(npc) != "":
+		_greet.text += "   ·   " + m.homes.line(npc)          # voce 143: la sua casa
 	# voce 102: con il ritratto le scritte cominciano alla sua destra
 	var pt := ArtLib.tex("ritratti", npc)
 	_portrait.texture = pt

@@ -64,6 +64,9 @@ func check() -> String:
 	for o in m.world.stations:
 		if StationsData.role(String(m.world.stations[o])) == "letto" and Vector2(o - hearth).length() <= NpcData.HOME_RANGE:
 			beds += 1
+	# voce 143: una casa bella con un letto libero attira abitanti anche lontano dal Focolare
+	if beds <= list.size() and m.homes and m.homes.nice_house():
+		beds = list.size() + 1
 	if beds <= list.size():
 		return ""
 	for nid in NpcData.NPCS:

@@ -70,6 +70,7 @@ var wiles: Wiles                       # voce 130: le astuzie delle creature nel
 var tactics: Tactics                   # voce 131: le tattiche di gruppo
 var builder: BuilderTools              # voce 140: gli strumenti del costruttore
 var rooms: Rooms                       # voce 142: le stanze
+var homes: Homes                       # voce 143: le case degli abitanti
 var encyclopedia: Encyclopedia
 var language: Language
 var chains: Chains
@@ -288,6 +289,7 @@ func _build() -> void:
 	tactics = _mount(Tactics.new())            # voce 131: le tattiche di gruppo
 	builder = _mount(BuilderTools.new())       # voce 140: gli strumenti del costruttore
 	rooms = _mount(Rooms.new())                # voce 142: le stanze
+	homes = _mount(Homes.new())                # voce 143: le case degli abitanti
 	_mount(PanelButtons.new())                 # voce 101: i pulsanti dei pannelli in basso a sinistra
 	hud.select(character.hotbar)
 	var start := world.spawn

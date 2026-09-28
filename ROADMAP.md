@@ -2485,7 +2485,13 @@ il mondo. Avviso entrando («Casa bella · comfort 64»). Prova in `--solo=vivo`
   tavolette), osservatorio (eventi e stelle). Il **comfort** viene dalla bellezza dei materiali, dalla luce e dagli
   arredi. Ogni tipo moltiplica un sistema che c'è già.
 
-## 143. [ ] Le case degli abitanti (M)
+## 143. [x] Le case degli abitanti (M) — fatto il 29 set 2026
+Fatto: `Homes` (`src/game/`) e `HomesData` (i gusti di 8 abitanti: materiali, arredi, amici, rivali). Ogni abitante
+prende un letto (`world_meta["case"]`) e la stanza che lo contiene; la **felicità** (0-100: letto fuori da una stanza
+20; in una stanza 40 + comfort × 0,3, arredi e materiali amati, amici e rivali entro 24 tessere, stanza condivisa −12)
+cambia i prezzi (felice ×0,9, scontento ×1,15: `NpcBonds.mood_mult`), fa lasciare un regalo al giorno agli abitanti
+felici, e una casa bella (comfort ≥ 40) con un letto libero fa arrivare gli abitanti anche lontano dal Focolare. Nel
+pannello del commercio: «Felice (86) · ama: legnoferro e ardesia, camino, armadio». Prova in `--solo=vivo`.
 - Ogni abitante vuole la sua stanza, con i suoi gusti (materiali, arredi, vicini); la sua felicità cambia prezzi,
   richieste e regali; una casa bella attira abitanti nuovi.
 
