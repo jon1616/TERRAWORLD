@@ -332,9 +332,12 @@ func _spawn_water(c: Vector2i) -> Creature:
 	if world.torch_near(c, 8.0) or (StrataData.at(world, c.x, c.y) > 0 and not _dark(c)):
 		return null
 	var choices := []
+	var lt := String(LiquidsData.TYPES[world.liq_type(c.x, c.y)]["id"]) if world.liq(c.x, c.y) > 0 else "acqua"
 	for id in CreaturesData.CREATURES:
-		if CreaturesData.CREATURES[id].get("water", false):
-			choices.append([id, int(CreaturesData.CREATURES[id]["weight"])])
+		var cd: Dictionary = CreaturesData.CREATURES[id]
+		# voce 133: `liquid` = solo in quel liquido (senza: nell'acqua)
+		if cd.get("water", false) and String(cd.get("liquid", "acqua")) == lt:
+			choices.append([id, int(cd["weight"])])
 	if choices.is_empty():
 		return null
 	var cr := add(_pick(choices), Vector2(c.x * S + 8, c.y * S + 8))

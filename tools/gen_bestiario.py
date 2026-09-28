@@ -57,6 +57,9 @@ def creature(s):
     c['body'] = s['body']
     c['affinity'] = s['aff']
     c['trophy'] = s['trophy'][0]
+    for k in ('under', 'uw', 'water', 'liquid'):
+        if k in s:
+            c[k] = s[k]
     for k in ('season', 'weather', 'eclipse'):
         if k in s:
             c[k] = s[k]
@@ -385,3 +388,6 @@ SURFACE_RECIPES = [
 if __name__ == '__main__':
     write('superficie.gd', 'Il nuovo bestiario, primo ciclo: la superficie (voce 132, Roadmap 15). 24 specie per i biomi di superficie\nche ne avevano poche (misurati da `tools/ecosistemi.gd`), con le astuzie della voce 130.',
           SURFACE, SURFACE_ITEMS, SURFACE_RECIPES)
+    import bestiario_sottosuolo as sot
+    write('sottosuolo.gd', 'Il nuovo bestiario, secondo ciclo: il sottosuolo e i liquidi (voce 133, Roadmap 15). 24 specie per gli\nstrati, i biomi del sottosuolo (`under`) e i liquidi (`water` con `liquid`); la lontra e il luccio rubano il\npesce alla lenza (`steal_fish`).',
+          sot.UNDER, sot.UNDER_ITEMS, sot.UNDER_RECIPES)

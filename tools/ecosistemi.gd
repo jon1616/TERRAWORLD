@@ -17,7 +17,7 @@ const MODE := {
 	"nuota": "acqua", "caccia": "", "pascola": "", "fugge": "", "mandria": "",
 	# voce 130: le astuzie
 	"sbuca": "sbuca", "divide": "divide", "ladro": "ruba", "mimetico": "mimetico", "scudo": "difesa", "guaritore": "cura",
-	"richiamo": "evoca", "parassita": "parassita", "tuffatore": "acqua", "tessitore": "ragnatela", "rosicchia": "",
+	"richiamo": "evoca", "parassita": "parassita", "tuffatore": "balzo", "tessitore": "ragnatela", "rosicchia": "",
 	"fotofobo": "buio", "pastore": "gregge", "scoppia": "scoppio",
 }
 
@@ -46,9 +46,13 @@ func _init() -> void:
 				list.append(String(cid))
 		zones.append(["strato · %s" % StrataData.STRATA[s]["name"], list])
 	for u in BiomesData.UNDER:
-		var cr: Dictionary = u.get("creatures", {})
-		if not cr.is_empty():
-			zones.append(["sottosuolo · %s" % u.get("name", u["id"]), cr.keys()])
+		# voce 133: anche le creature dei pacchetti del bestiario con «under»
+		var ids := []
+		for cid in CreaturesData.CREATURES:
+			if String(CreaturesData.CREATURES[cid].get("under", "")) == String(u["id"]):
+				ids.append(String(cid))
+		if not ids.is_empty():
+			zones.append(["sottosuolo · %s" % u.get("name", u["id"]), ids])
 	var water := []
 	for cid in CreaturesData.CREATURES:
 		if "nuota" in (CreaturesData.CREATURES[cid].get("behaviors", []) as Array):

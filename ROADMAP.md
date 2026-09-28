@@ -2377,7 +2377,17 @@ foto 198).
   materiale, trofeo e, dove ha senso, un gene, la mandria o un pesce che caccia.
 - Scritte come dati nei file dei biomi (il pacchetto «creatures»), disegnate con `BodyArt` (le ricette dei corpi).
 
-## 133. [ ] Secondo ciclo: il sottosuolo e i liquidi (L)
+## 133. [x] Secondo ciclo: il sottosuolo e i liquidi (L) — fatto il 29 set 2026
+Fatto: **26 specie** in `src/data/bestiary/sottosuolo.gd` (righe in `tools/bestiario_sottosuolo.py`): per gli strati
+(Radicello ladro, Lombrico che sbuca, Pipistrelli fotofobi, Carapace scudato, Lucciola guaritrice, Goccia che si
+divide, Brucatore, Talpa del Vuoto, Pascolante, Bolla che scoppia), per i biomi del sottosuolo (Corista che chiama,
+Grappolo mimetico, Brucacristalli, Scimmia ladra, Ragno della giungla, Bufalo pastore, Lontra, Tartaruga, Ossuto
+scudato, Ombra fotofoba, Ratti) e per i liquidi (Luccio e Carpa e Polpo nell'acqua, Salamandra nella Linfa, Anguilla
+nella brace: `liquid`, e `Fauna._spawn_water` guarda il liquido della cella). `UnderBiomesData.pool_at` prende anche
+le creature dei pacchetti con «under». **Ladri di pesci**: con `steal_fish` (lontra, luccio) vicino al galleggiante il
+pesce che abbocca può sparire (metà delle volte, entro 7 tessere); presa, la creatura lo restituisce. 26 oggetti e
+talismani. `tools/ecosistemi.gd`: **0 zone con un buco su 25** (130 → 133 specie contate con le voci 132-133). Prove:
+`--solo=vivo` (26 nate, 26 schede, foto 199), `--solo=pesca` (la lontra ruba e restituisce).
 - Circa 22 specie per i 5 strati e i 9 biomi del sottosuolo, e le **acquatiche ostili**: predatori degli stagni che
   rubano il pesce alla lenza (lega con la Roadmap 14), creature della Linfa e della brace che escono dal loro lago.
 

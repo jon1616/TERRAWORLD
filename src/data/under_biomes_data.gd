@@ -38,11 +38,16 @@ static func _merged() -> Dictionary:
 ## o vuoto se lì non c'è un bioma con creature sue (voce 94, usato da `Fauna.try_spawn`).
 static func pool_at(w: World, c: Vector2i) -> Array:
 	if _pools.is_empty():
+		var floor_of := {}
 		for u in BiomesData.UNDER:
-			var list := []
-			for cid in (u.get("creatures", {}) as Dictionary):
-				list.append([cid, int(u["creatures"][cid].get("uw", 1))])
-			_pools[int(u["floor"])] = list
+			_pools[int(u["floor"])] = []
+			floor_of[String(u["id"])] = int(u["floor"])
+		# voce 133: tutte le creature con «under», dai file del sottosuolo e dai pacchetti del bestiario
+		var all_cr := BiomesData.pack("creatures")
+		for cid in all_cr:
+			var u_id := String((all_cr[cid] as Dictionary).get("under", ""))
+			if floor_of.has(u_id):
+				(_pools[floor_of[u_id]] as Array).append([cid, int(all_cr[cid].get("uw", 1))])
 		_pools[-1] = []
 	for dy in 12:
 		if w.solid(c.x, c.y + dy):

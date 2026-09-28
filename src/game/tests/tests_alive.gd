@@ -26,6 +26,7 @@ func run() -> void:
 	await wiles()
 	await tactics()
 	await species("superficie", "198_bestiario_superficie")
+	await species("sottosuolo", "199_bestiario_sottosuolo")
 	for i in slots0.size():
 		b.slots[i] = slots0[i]
 	b.equip = equip0

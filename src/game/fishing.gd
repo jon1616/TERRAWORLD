@@ -11,10 +11,13 @@ const WAIT := [4.0, 11.0]                # secondi d'attesa (× la rapidità del
 const BITE := 0.7                        # secondi tra l'abboccata e la presa
 const LEAVE := 4                         # tessere: allontanandosi di più la lenza si ritira
 const DOWN := 8                          # tessere sotto il clic in cui si cerca il liquido
+const STEAL_R := 7.0                     # voce 133: tessere dal galleggiante entro cui un ladro di pesci ruba
+const STEAL_CHANCE := 0.5
 
 var m: Node2D
 var line := {}                           # la lenza in acqua: {cell, from, rod, ctx, t, bite}
 var caught := 0                          # quanti pesci (per le prove)
+var stolen := 0                          # voce 133: quanti rubati dai ladri di pesci
 var last := {}                           # l'ultimo pescato: {id, size, record, n, bait}
 var last_crate := {}                     # l'ultima cassa aperta: {oggetto: quanti} (per le prove)
 ## Voce 122: gli effetti di ciò che si indossa (li scrive `GearEffects`): luck +, wait ×, size +, double +, any.
@@ -164,6 +167,16 @@ func catch() -> String:
 	if bi >= 0:
 		bait = b.id_at(bi)
 		b.take_one(bi)
+	# voce 133: un ladro di pesci vicino al galleggiante (lontra, luccio) può portarlo via: preso, lo restituisce
+	for cr in m.fauna.list:
+		if bool(cr.p.get("steal_fish", false)) and cr.position.distance_to(Vector2(q) * 16.0) < STEAL_R * 16.0 \
+				and not cr.has_meta("rubato") and _rng.randf() < STEAL_CHANCE:
+			cr.set_meta("rubato", [id, 1])
+			cr.mind.force_flee(10.0)
+			stolen += 1
+			m.hud.toast("%s ti ha rubato il pesce dalla lenza! Prendilo per riaverlo" % String(cr.data.get("name", "")))
+			Fx.puff(m.fx, Vector2(q) * 16.0 + Vector2(8, 4), Color(1.4, 1.2, 0.8))
+			return ""
 	var size := FishData.roll_size(id, _rng, luck * 0.05 + float(g["size"]))
 	var n := 2 if _rng.randf() < float(g["double"]) else 1
 	if not FishData.all().has(id):

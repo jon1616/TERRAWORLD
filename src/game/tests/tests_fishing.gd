@@ -304,6 +304,27 @@ func gesture() -> void:
 	print("pesca: lanciata %s, pescato %s (%s, %d cm), nella Bisaccia e nell'Erbario %s" % ["sì" if cast_ok else "NO",
 		"sì" if fi.caught > n0 else "NO", FishData.info(String(fi.last.get("id", ""))).get("name", "?"), int(fi.last.get("size", 0)),
 		"sì" if got else "NO"])
+	# voce 133: una lontra vicino al galleggiante ruba il pesce; presa, lo restituisce
+	var st0 := fi.stolen
+	var otter: Creature = m.fauna.add("lontra_lago", Vector2(target) * 16.0 + Vector2(40, -20))
+	otter.anchored = true
+	var steals := 0
+	for k in 6:
+		if fi.stolen > st0:
+			break
+		if fi.cast(target, "canna_radice"):
+			fi.line["t"] = 0.2
+		await kit.seconds(1.2)
+	var had: bool = is_instance_valid(otter) and otter.has_meta("rubato")
+	var d0: int = m.drops._items.size()
+	if is_instance_valid(otter):
+		m.fauna.kill(otter)
+	steals = fi.stolen - st0
+	print("ladri di pesci: la lontra ha rubato %d pesce, lo teneva %s, presa lo restituisce %s" % [steals, "sì" if had else "NO",
+		"sì" if m.drops._items.size() > d0 else "NO"])
+	if steals < 1 or not had:
+		print("ATTENZIONE: la lontra non ruba il pesce dalla lenza")
+	m.fauna.clear()
 	# allontanarsi ritira la lenza
 	fi.cast(target, "canna_radice")
 	var p0: Vector2i = m.player_cell()
