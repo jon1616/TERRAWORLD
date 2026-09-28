@@ -7,8 +7,8 @@
 - **In corso: la Roadmap 13 «Il volto del mondo»** (voci 100-117, dal 28 set 2026): la grafica con Nano Banana,
   seguita passo passo con l'utente (Claude scrive i prompt, dice dove salvare le immagini, le adatta con gli script).
   Dopo: un secondo bilancio con il diario delle partite vere.
-- **Proposta: la Roadmap 15 «Il mondo abitato»** (voci 126-151, piano del 29 set 2026): creature più intelligenti e più
-  numerose, e costruzioni con un motivo di gioco; in attesa delle scelte dell'utente (in fondo al piano).
+- **In corso: la Roadmap 15 «Il mondo abitato»** (voci 126-151, dal 29 set 2026): creature più intelligenti e più
+  numerose, e costruzioni con un motivo di gioco; le scelte dell'utente sono in cima al piano.
 - **Fatta la Roadmap 14 «Le acque vive»** (voci 118-125, 28 set 2026): la pesca, decisa con l'utente (gesto quasi
   automatico, attività laterale ricca ma non indispensabile, in tutti i liquidi, liquidi spostabili). Resoconto in fondo
   alla Roadmap 14.
@@ -2417,13 +2417,17 @@ Circa 14 pezzi, ognuno con i suoi parametri, il suo telegrafo e la sua contromos
 - L'elenco delle creature, dei Signori e degli arredi più importanti da ridisegnare con Nano Banana, con i prompt pronti
   (come la Roadmap 13). Fino ad allora tutto nasce disegnato dal codice.
 
-## Da decidere con l'utente prima di cominciare
-1. **Creature che rompono i blocchi e mangiano le colture**: sì (con l'opzione per spegnerle), o mai?
-2. **La schivata con un tasto**: sì o no?
-3. **L'ordine**: prima le fondamenta (126-128), poi creature e costruzioni **alternate** (un ciclo di creature, un ciclo
-   di costruzioni: ogni volta si vede subito l'intreccio), oppure prima tutte le creature.
-4. **Gli assedi**: quanto spesso (rari, una volta a stagione, …).
-5. **Fuori piano**: pendenze e mezzi blocchi (cambierebbero le collisioni di tutto il gioco: meglio di no, per ora).
+## Le scelte dell'utente (29 set 2026)
+1. **Le creature rompono solo le porte, e solo durante gli eventi di attacco alla base** (gli assedi). Niente creature
+   che mangiano blocchi o colture fuori dagli assedi: le voci 130 e 146 si adattano (i «rosicchiatori» rosicchiano le
+   porte durante gli assedi; fuori, al più rubano o sporcano, senza distruggere).
+2. **La schivata solo con gli oggetti che la sbloccano** (stivali, accessori, un potere): nessuno scatto di base.
+3. **L'ordine lo sceglie Claude**: prima le fondamenta (126-128), poi tre cicli alternati creature / costruzioni
+   (129-131 e 139-140; 132-134 e 141-144; 135-138 e 145-148), poi 149-151.
+4. **Gli assedi una volta a stagione.**
+5. **Pendenze e mezzi blocchi fuori.**
+L'utente: «lavora a cicli continui e porta a termine tutta la roadmap… bilancia il gioco al meglio… alla fine metti
+ordine ai file, aggiorna la roadmap grafica con le nuove aggiunte e fissa il tutto su Git e GitHub».
 
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».
