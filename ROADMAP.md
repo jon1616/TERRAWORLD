@@ -7,6 +7,8 @@
 - **In corso: la Roadmap 13 «Il volto del mondo»** (voci 100-117, dal 28 set 2026): la grafica con Nano Banana,
   seguita passo passo con l'utente (Claude scrive i prompt, dice dove salvare le immagini, le adatta con gli script).
   Dopo: un secondo bilancio con il diario delle partite vere.
+- **In corso: la Roadmap 17 «La lingua dei Seminatori»** (voci 170-178, dal 29 set 2026): decifrare le stele (vista,
+  ipotesi, certa), tre strati di lingua, scrigni a parola, incisioni, ricette scritte, il Quaderno delle parole.
 - **Fatta la Roadmap 16 «Le Chiome del cielo»** (voci 152-169, 29 set 2026): il tasto Riponi, lo scavo intelligente e
   un ecosistema del cielo in ogni mondo (sei biomi, 30 creature, 6 Signori, l'Occhio della Tempesta, la nimbite, la
   Balena che vola, gli osservatori, 8 geni). Resoconto in fondo alla Roadmap 16; la grafica nelle voci 117g-117j.
@@ -3046,6 +3048,88 @@ Nano Banana, con i prompt pronti e le cartelle create.
   più), il tratto migliore (Essenze, poi i più rari, poi nessuno, poi i cattivi), gli innesti di tutti e due finché c'è
   posto, la fascia, la tempra più alta. Vale per tutte le ~1140 armi, attrezzi e armature e per gli accessori; non cambia
   il materiale (la progressione resta ai metalli). Enciclopedia: capitolo della qualità. Prova nel gruppo «comodita».
+
+# Roadmap 17 «La lingua dei Seminatori» — decifrare, non imparare a memoria (piano del 29 set 2026)
+
+Chiesta dall'utente il 29 set 2026, giocando: «la meccanica delle stele mi sembra corta e poco avvincente: in un'oretta
+si trovano tutte le parole». Scelta: tutte e tre le proposte, «in maniera profonda e intelligente», e **il giocatore
+deve capire la meccanica e poterla consultare strada facendo**.
+
+## Da dove si parte (29 set 2026)
+50 parole, uguali in tutti i mondi e tenute dal personaggio. Una stele letta **regala** una parola, una tavoletta tre;
+un mondo ha ~45 stele (una per rovina, due alla partenza, quattro negli osservatori) e le tavolette si comprano: in
+un'ora si sa tutto, per sempre. Non si deduce niente, e dopo la lingua serve quasi solo a segnare luoghi sulla mappa e
+ad aprire qualche porta dei luoghi scritti a mano.
+
+## Le regole di questa Roadmap
+- **Si deduce, non si riceve.** Una parola passa per tre stati: **vista** (la conosci solo di forma), **ipotesi** (l'hai
+  vista in abbastanza frasi da avere due o tre significati possibili), **certa** (confermata da un fatto). Nessuna
+  lettura regala più una parola.
+- **Ogni conferma è un fatto del mondo**: arrivare al luogo che una stele indica, aprire uno scrigno a parola, scegliere
+  il significato giusto tra le ipotesi ragionando sulle frasi, una tavoletta (che ora conferma, non insegna dal nulla).
+- **La lingua cresce con la partita**: la lingua comune (50 parole), la lingua antica (dei mondi forti e del cielo
+  alto) e la lingua del Seme Nero (delle sue cripte e del suo mondo).
+- **Ogni parola serve**: apre scrigni, si incide sulle armi, svela ricette e oggetti.
+- **Tutto si spiega da sé**: il **Quaderno delle parole** (tasto U) raccoglie ciò che sai, dove l'hai visto, le ipotesi
+  e come funziona; le stele mostrano i colori degli stati; consigli, filo ed Enciclopedia accompagnano.
+
+## 170. [ ] Il modello della conoscenza (M)
+`Character.lingua` diventa {parola: {s: 0 vista · 1 ipotesi · 2 certa, v: frasi diverse in cui l'hai vista, x: i
+significati scartati}} (i personaggi di prima: le parole che avevano sono certe). Ogni parola ha una **classe** (cosa,
+azione, luogo, quantità) e i suoi **significati possibili** (quello vero e due della stessa classe, sempre gli stessi).
+`Language`: `see(frase)`, `promote` (vista → ipotesi dopo 2 frasi diverse, 3 per le lingue alte), `guess(parola,
+significato)` (giusto: certa; sbagliato: quel significato è scartato e serve un'altra frase prima di riprovare),
+`confirm(parole)`. `known()` resta «certa» per chi la usa già (porte dei luoghi, leve).
+**Pronto quando**: la prova porta una parola da vista a certa in tutti e tre i modi.
+
+## 171. [ ] Le stele che si decifrano (M)
+La stele mostra la frase con i colori degli stati (grigio vista, ambra ipotesi con il «?», verde certa) e una legenda;
+la prima lettura segna le parole come viste. Le **stele dei luoghi**: quando ogni parola è almeno un'ipotesi, il luogo si
+segna sulla mappa come «forse» (tratteggiato); **arrivandoci** le sue parole diventano certe e il segno si fa pieno.
+Le **tavolette** confermano due parole tra quelle viste o ipotizzate (prima quelle di questo mondo).
+**Pronto quando**: la prova legge due stele, trova le ipotesi, va al luogo e le conferma.
+
+## 172. [ ] Il Quaderno delle parole (M)
+Un pannello da consultare sempre (tasto U, e dal Semenzaio): le parole per strato di lingua con lo stato e quante volte
+le hai viste; di ogni parola le frasi in cui compare (tradotte per quello che sai), i significati possibili con il
+pulsante «Prova»; in cima «Come si decifra» in poche righe, e quanto ti manca per strato.
+**Pronto quando**: la foto del Quaderno si legge, e un «Prova» giusto conferma la parola.
+
+## 173. [ ] La lingua antica e la lingua del Seme Nero (L)
+Circa 40 parole antiche e 24 della lingua nera, con le loro frasi (storia e luoghi: osservatori, Signori, Guardiani, il
+cielo). Le stele dei mondi di vigore 3 o più e degli osservatori del cielo parlano la lingua antica; i leggii delle
+cripte della via del Seme Nero e il suo mondo la lingua nera, che racconta la verità sul Seme (e che si legge solo
+imparandola). `PassStele` sceglie lo strato secondo il posto e il vigore.
+**Pronto quando**: un mondo di vigore 3 ha stele antiche, e il Quaderno mostra i tre strati.
+
+## 174. [ ] Gli scrigni a parola (M)
+In un terzo delle rovine lo scrigno è **sigillato da una parola**: una frase con una parola mancante, e la ruota dei
+glifi per comporla con le parole che hai visto. Giusto: si apre (bottino più ricco) e la parola diventa certa; sbagliato:
+lo scrigno si chiude per un po'. La parola mancante è sempre una delle parole di altre stele di quel mondo: si può
+dedurre.
+**Pronto quando**: la prova apre uno scrigno a parola sbagliando una volta.
+
+## 175. [ ] Le incisioni (M)
+Al Maglio, una parola **certa** si incide su un'arma, un attrezzo o un'armatura: un effetto in più che non prende un
+posto d'innesto (una per oggetto). Circa 20 incisioni nei tre strati (brace, gelo, luce, radice, pietra, vento, stella,
+guardiano, vuoto…), più forti quelle delle lingue alte.
+**Pronto quando**: la prova incide «brace» su una spada e il danno cambia.
+
+## 176. [ ] Le parole che svelano (M)
+Ricette scritte nella lingua: si vedono (e si fanno) solo quando tutte le loro parole sono certe. Oggetti che aiutano a
+decifrare (la Bussola delle stele, gli Occhiali del decifratore, la Lanterna dei glifi) e premi per chi conosce una lingua
+intera.
+**Pronto quando**: una ricetta nascosta compare confermando la sua ultima parola.
+
+## 177. [ ] Capire e seguire (S)
+Enciclopedia (il capitolo della lingua rifatto, con gli stati e gli esempi), consigli alla prima volta (prima stele,
+prima ipotesi, prima conferma, primo scrigno a parola, prima incisione), il filo (una stele che indica un luogo «forse»:
+vai a confermarla), obiettivi.
+**Pronto quando**: la prova dell'Enciclopedia è pulita e il filo porta alla stele giusta.
+
+## 178. [ ] Bilancio, prove e resoconto (M)
+Quanto dura imparare ogni strato (misura con un giocatore simulato che legge le stele di più mondi), il giro intero,
+CLAUDE.md, il resoconto, la grafica da ridisegnare (i glifi), commit e push.
 
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».
