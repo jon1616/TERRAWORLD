@@ -158,7 +158,10 @@ func read(o: Vector2i) -> bool:
 	var id := String(e["catena"])
 	var step := int(e["tappa"])
 	if not is_open(id, step):
-		m.language.panel.show_text("Leggio dei Seminatori", "[color=#9fc8c0]%s[/color]" % String(e.get("letto", "Hai già letto questo leggio.")))
+		var again := "[color=#9fc8c0]%s[/color]" % String(e.get("letto", "Hai già letto questo leggio.")).split("\n\n[font_size=22]")[0]
+		if id == "lunga":
+			again += inscription(step)                     # Roadmap 17: l'iscrizione si rilegge (e si capisce, più avanti)
+		m.language.panel.show_text("Leggio dei Seminatori", again)
 		return true
 	var t := ""
 	var rw := {}
@@ -180,6 +183,8 @@ func read(o: Vector2i) -> bool:
 		(m.character.catene["brevi"] as Array).erase(b)
 	e["letto"] = t
 	t += "\n\n[color=#ffd24a]Premio:[/color] %s" % _give(rw)
+	if id == "lunga":
+		t += inscription(step)
 	m.character.catene["fatte"] = int(m.character.catene.get("fatte", 0)) + 1
 	m.objectives.bump("catene")
 	m.language.panel.show_text("Leggio dei Seminatori", t)
@@ -290,3 +295,25 @@ func _detail0(id: String) -> String:
 
 func rows_empty() -> bool:
 	return int(m.character.catene["lunga"]["tappa"]) < 0 and (m.character.catene["brevi"] as Array).is_empty()
+
+
+## Roadmap 17, voce 173: l'iscrizione nella lingua del Seme Nero sul leggio della tappa `step`. Leggerla fa vedere le sue
+## parole; capita tutta, dice la verità della tappa (e la prima volta un dono).
+func inscription(step: int) -> String:
+	if step < 0 or step >= LanguageData.CRYPT_TRUTH.size():
+		return ""
+	var ct: Array = LanguageData.CRYPT_TRUTH[step]
+	var words: Array = LanguageData.LORE_BLACK[int(ct[0])]
+	m.language.see(words, "cripta:%d" % step)
+	var t := "\n\n[font_size=22][color=#b89ae0]%s[/color][/font_size]\n%s" % [Language.line_sem(words), m.language.line_it(words)]
+	if m.language.understood({"words": words}) >= words.size():
+		t += "\n[color=#e0d0ff]%s[/color]" % String(ct[1])
+		var seen: Array = m.character.catene.get("verita", [])
+		if not step in seen:
+			seen.append(step)
+			m.character.catene["verita"] = seen
+			t += "\n[color=#ffd24a]Hai capito la verità della tappa: %s[/color]" % _give(LanguageData.CRYPT_GIFT)
+	else:
+		t += "\n[color=#6a8a84]Sotto, un'iscrizione nella lingua del Seme Nero: capiscila tutta e dirà che cosa accadde davvero.[/color]"
+	return t
+

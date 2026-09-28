@@ -19,6 +19,9 @@ func run(w: World, c: GenContext) -> void:
 	var used := {}
 	var out := {}
 	var spots: Array[Vector2i] = []
+	var obs := []                                           # Roadmap 17: le stele degli osservatori del cielo
+	for ob in c.notes.get("osservatori", []):
+		obs.append(Vector2i(int(ob[0]) + 3, int(ob[1]) - 3))
 	for p in c.notes.get("rovine", []):
 		var o := Vector2i(p.x + 1, p.y - 2)            # a sinistra dello scrigno, sul pavimento della stanza
 		if _fits(w, o):
@@ -49,6 +52,13 @@ func run(w: World, c: GenContext) -> void:
 				e = sentence(targets[best], o)
 		if (e["words"] as Array).is_empty():
 			e["words"] = (LanguageData.LORE[rng.randi_range(0, LanguageData.LORE.size() - 1)] as Array).duplicate()
+		# Roadmap 17: lo strato della lingua. Il mondo del Seme Nero parla la lingua nera; gli osservatori del cielo e, nei
+		# mondi di vigore 3 o più, quasi metà delle stele la lingua antica (frasi di storia: niente luogo indicato)
+		var vig := int(c.params.get("vigore", 1))
+		if bool(c.params.get("nero", false)) and rng.randf() < 0.8:
+			e = {"words": (LanguageData.LORE_BLACK[rng.randi_range(0, LanguageData.LORE_BLACK.size() - 1)] as Array).duplicate(), "hint": []}
+		elif o in obs or (vig >= 3 and rng.randf() < (0.6 if vig >= 5 else 0.45)):
+			e = {"words": (LanguageData.LORE_ANCIENT[rng.randi_range(0, LanguageData.LORE_ANCIENT.size() - 1)] as Array).duplicate(), "hint": []}
 		out["%d,%d" % [o.x, o.y]] = e
 	c.notes["stele"] = out
 

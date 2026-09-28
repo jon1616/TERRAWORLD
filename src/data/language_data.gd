@@ -143,6 +143,45 @@ const LORE := [
 	["luce", "linfa", "cura", "malattia"],
 ]
 
+## Roadmap 17, voce 173: le frasi della lingua antica (stele degli osservatori del cielo e dei mondi di vigore 3 o più)
+## e della lingua del Seme Nero (le stele del suo mondo). Ogni parola dei due strati compare in almeno una frase (la
+## prova lo controlla).
+const LORE_ANCIENT := [
+	["seminatori", "osserva", "stella", "sempre", "alto"],
+	["isola", "vola", "oltre", "nuvola", "vento", "canta"],
+	["occhio", "tempesta", "veglia", "dentro", "tuono", "fulmine"],
+	["corona", "cristallo", "protegge", "nome", "seminatori"],
+	["memoria", "scrive", "pietra", "tempo", "mai", "dorme"],
+	["torre", "ponte", "cielo", "mille", "isola"],
+	["fiume", "mare", "sale", "oltre", "fondo"],
+	["guardiano", "ricorda", "primo", "seme", "canto"],
+	["voce", "seminatori", "canta", "sogno", "mondo"],
+	["fuoco", "brucia", "mai", "cristallo", "sempre", "luce"],
+	["ala", "corrente", "sale", "alto", "occhio", "attende"],
+	["uno", "nome", "apre", "tutti", "porta"],
+	["giardiniere", "sogna", "intorno", "albero", "madre"],
+]
+const LORE_BLACK := [
+	["seme", "nero", "fame", "divora", "ogni", "luce"],
+	["patto", "seminatori", "nero", "prezzo", "silenzio"],
+	["bocca", "vuoto", "chiama", "ovunque"],
+	["seme", "nero", "inganna", "guarisce", "nulla"],
+	["catena", "spezza", "ferita", "rinascita"],
+	["verita", "laggiu", "nasconde", "ombra", "sete"],
+	["seminatori", "tradisce", "troppo", "altrove"],
+	["ogni", "ferita", "nasconde", "seme", "altrove"],
+]
+## Le iscrizioni nella lingua nera sui leggii della via del Seme Nero (una per tappa, indice in `LORE_BLACK`) e che cosa
+## dicono davvero: si legge solo quando ogni loro parola è certa (e allora c'è anche un dono, una volta).
+const CRYPT_TRUTH := [
+	[1, "Il patto: i Seminatori accolsero il seme per il suo potere, e pagarono il prezzo in silenzio."],
+	[0, "Il seme non si nutre di Linfa: si nutre della fame, e divora ogni luce che gli si avvicina."],
+	[2, "Non cadde per caso. Fu chiamato: una bocca nel Vuoto chiama ancora, da ogni parte."],
+	[7, "Ogni ferita dei mondi nasconde un seme più piccolo, altrove: curare il Cuore non basta a tutto."],
+	[4, "Spezzarlo è una rinascita, curarlo è una catena: nessuna delle due strade è senza prezzo."],
+]
+const CRYPT_GIFT := {"linfa_antica": 2, "tavoletta_seminatori": 1}
+
 ## Le tavolette: quante parole **confermano** (Roadmap 17: tra quelle viste o ipotizzate, prima quelle di questo mondo).
 const TABLET_WORDS := 2
 

@@ -17,6 +17,12 @@ func _init(tk: TestKit) -> void:
 	m = tk.m
 
 
+## I mondi della voce 173: uno di vigore 5 (la lingua antica) e quello del Seme Nero (la lingua nera).
+static func jobs() -> Array:
+	return [[7617, WorldGen.WIDTH, WorldGen.HEIGHT, {"vigore": 5}],
+		[7618, WorldGen.WIDTH, WorldGen.HEIGHT, {"vigore": 3, "nero": true, "geni": ["cuore_nero"]}]]
+
+
 func run() -> void:
 	var lg: Language = m.language
 	var had: Dictionary = m.character.lingua.duplicate(true)
@@ -95,6 +101,7 @@ func run() -> void:
 	m.character.lingua = had
 	lg._sync_stat()
 	await lexicon()
+	await layers()
 
 
 ## Voce 172: il Quaderno si apre con il suo tasto, mostra lo strato e una parola scelta; «È questo?» giusto la conferma.
@@ -135,3 +142,47 @@ func lexicon() -> void:
 		print("ATTENZIONE: il Quaderno delle parole non va come dovrebbe")
 	m.character.lingua = had
 	lg._sync_stat()
+
+
+## Voce 173: ogni parola antica e nera compare in una frase; un mondo di vigore 5 ha stele antiche, quello del Seme Nero
+## stele nere; l'iscrizione di una cripta si capisce solo con tutte le parole certe, e allora dà il dono una volta.
+func layers() -> void:
+	var missing := []
+	for l in ["antica", "nera"]:
+		var pool: Array = LanguageData.LORE_ANCIENT if l == "antica" else LanguageData.LORE_BLACK
+		for w in LanguageData.words_of(l):
+			if not pool.any(func(f: Array) -> bool: return w in f):
+				missing.append(w)
+	var ws: Array[World] = await kit.gen_many(jobs())
+	var counts := []
+	for w in ws:
+		var n := {"comune": 0, "antica": 0, "nera": 0}
+		var st: Dictionary = w.gen_notes.get("stele", {})
+		for k in st:
+			var lay := "comune"
+			for wd in st[k]["words"]:
+				if LanguageData.layer_of(String(wd)) != "comune":
+					lay = LanguageData.layer_of(String(wd))
+			n[lay] += 1
+		counts.append(n)
+	# l'iscrizione della prima tappa
+	var ch: Chains = m.chains
+	var had: Dictionary = m.character.lingua.duplicate(true)
+	var had_c: Dictionary = m.character.catene.duplicate(true)
+	m.character.lingua.clear()
+	var before: String = ch.inscription(0)
+	var words: Array = LanguageData.LORE_BLACK[int(LanguageData.CRYPT_TRUTH[0][0])]
+	m.language.confirm(words)
+	var li0 := kit.bisaccia().count("linfa_antica")
+	var after: String = ch.inscription(0)
+	var gift := kit.bisaccia().count("linfa_antica") - li0
+	var again := ch.inscription(0)
+	var gift2 := kit.bisaccia().count("linfa_antica") - li0
+	var truth := String(LanguageData.CRYPT_TRUTH[0][1])
+	print("strati: parole senza frase %s; stele del mondo di vigore 5 %s, del mondo del Seme Nero %s; iscrizione: prima nascosta %s, poi capita %s, dono %d (una volta: %s)" % [
+		missing, counts[0], counts[1], not truth in before, truth in after, gift, gift2 == gift])
+	if not missing.is_empty() or int(counts[0]["antica"]) < 10 or int(counts[1]["nera"]) < 10 or truth in before or not truth in after 			or gift < 1 or gift2 != gift:
+		print("ATTENZIONE: gli strati della lingua non vanno come dovrebbero")
+	m.character.lingua = had
+	m.character.catene = had_c
+	m.language._sync_stat()

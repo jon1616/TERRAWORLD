@@ -3098,12 +3098,13 @@ pulsante «Prova»; in cima «Come si decifra» in poche righe, e quanto ti manc
 **Pronto quando**: la foto del Quaderno si legge, e un «Prova» giusto conferma la parola.
 **Fatto**: `LexiconPanel` (`src/ui/lexicon_panel.gd`, tasto U): in cima «Come si decifra» e a che punto è ogni strato (certe, ipotesi, viste, mai viste); tre schede (gli strati mai incontrati restano «???»); la griglia delle parole con il colore dello stato (quelle mai viste sono puntini); la scheda della parola: che tipo di parola è, in quante frasi l'hai vista, le frasi lette in questo mondo tradotte per quello che sai, e per un'ipotesi i significati ancora possibili con i pulsanti ««…»?» (`Language.guess`), quelli scartati e se sei bloccato. Foto 221.
 
-## 173. [ ] La lingua antica e la lingua del Seme Nero (L)
+## 173. [x] La lingua antica e la lingua del Seme Nero (L) — fatto il 29 set 2026
 Circa 40 parole antiche e 24 della lingua nera, con le loro frasi (storia e luoghi: osservatori, Signori, Guardiani, il
 cielo). Le stele dei mondi di vigore 3 o più e degli osservatori del cielo parlano la lingua antica; i leggii delle
 cripte della via del Seme Nero e il suo mondo la lingua nera, che racconta la verità sul Seme (e che si legge solo
 imparandola). `PassStele` sceglie lo strato secondo il posto e il vigore.
 **Pronto quando**: un mondo di vigore 3 ha stele antiche, e il Quaderno mostra i tre strati.
+**Fatto**: 40 parole antiche e 24 nere (`LanguageData`), 13 frasi antiche e 8 nere che le usano tutte; `PassStele`: gli osservatori del cielo e, nei mondi di vigore 3 (45%) e 5 (60%), le stele parlano la lingua antica; nel mondo del Seme Nero l'80% parla la lingua nera. Sui leggii della via del Seme Nero un'**iscrizione** nella lingua nera (`Chains.inscription`, `LanguageData.CRYPT_TRUTH`): leggerla fa vedere le parole, capita tutta dice che cosa accadde davvero e dà una volta Linfa antica e una tavoletta; si rilegge anche dopo. Misura: nel mondo di vigore 5 32 stele antiche su 50, in quello del Seme Nero 39 nere.
 
 ## 174. [ ] Gli scrigni a parola (M)
 In un terzo delle rovine lo scrigno è **sigillato da una parola**: una frase con una parola mancante, e la ruota dei
