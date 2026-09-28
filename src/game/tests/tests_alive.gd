@@ -2,7 +2,7 @@ class_name TestsAlive
 extends RefCounted
 ## Roadmap 15 «Il mondo abitato» (creature e costruzioni). Voce 127: gli attacchi si annunciano (il «!» di `TeleMark`) e
 ## la schivata c'è solo con un oggetto che la sblocca. Voce 128: i costrutti (forma × materiale). Voce 129: il cervello (`Mind`).
-## Voce 130: le astuzie (`WilesData`, `Wiles`). Gruppo «vivo».
+## Voce 130: le astuzie (`WilesData`, `Wiles`). Voce 131: le tattiche di gruppo (`Tactics`). Gruppo «vivo».
 
 var kit: TestKit
 var m: Node2D
@@ -22,6 +22,7 @@ func run() -> void:
 	await builds()
 	await brain()
 	await wiles()
+	await tactics()
 	for i in slots0.size():
 		b.slots[i] = slots0[i]
 	b.equip = equip0
@@ -344,3 +345,51 @@ func wiles() -> void:
 		"" if bad.is_empty() else "; NON vanno: " + ", ".join(bad), m.wiles.stolen, m.wiles.splits])
 	if not bad.is_empty():
 		print("ATTENZIONE: alcune astuzie non vanno")
+
+
+## Voce 131: un branco accerchia (qualcuno gira dall'altra parte), le prede si avvisano, la colonia difende il nido.
+func tactics() -> void:
+	if _wid == "":
+		return
+	m.snap_to(m.player_cell())
+	m.combat.god = true
+	var P: Vector2 = m.player.position
+	# il branco: tre dalla destra, lo stesso gruppo
+	var pack := []
+	for i in 3:
+		var c: Creature = m.fauna.add(_wid, P + Vector2(150.0 + i * 20.0, -4))
+		c.set_meta("grp", 777)
+		pack.append(c)
+	var crossed := false
+	var flanked := false
+	var t0 := Time.get_ticks_msec()
+	while Time.get_ticks_msec() - t0 < 4000:
+		await kit.frames(2)
+		for c in pack:
+			if is_instance_valid(c):
+				flanked = flanked or c.mind.flank != 0.0
+				crossed = crossed or c.position.x < m.player.position.x - 8.0
+	await kit.save("195_branco")
+	m.fauna.clear()
+	# le prede si avvisano
+	var a: Creature = m.fauna.add("lepre_linfa", P + Vector2(120, -4))
+	var b2: Creature = m.fauna.add("lepre_linfa", P + Vector2(150, -4))
+	await kit.seconds(0.4)
+	a.take_hit(2, P.x, 0.0)
+	await kit.seconds(0.5)
+	var warned: bool = is_instance_valid(b2) and b2.mind.state == Mind.FLEE
+	m.fauna.clear()
+	# la colonia difende il nido
+	var key := "%d,%d" % [m.player_cell().x, m.player_cell().y]
+	m.ecology.nests[key] = {"fam": "formiche", "eggs": 0, "t": 0.0, "fed": 0}
+	var ant: Creature = m.fauna.add("formica_resina", P + Vector2(18 * 16, -4))
+	ant.docile = false
+	await kit.seconds(1.4)
+	var defend: bool = is_instance_valid(ant) and ant.mind.state in [Mind.ALERT, Mind.HUNT]
+	m.ecology.nests.erase(key)
+	m.fauna.clear()
+	m.combat.god = false
+	print("tattiche: il branco accerchia %s (qualcuno gira dall'altra parte %s); le prede si avvisano %s; la colonia difende il nido %s" % [
+		"sì" if flanked else "NO", "sì" if crossed else "NO", "sì" if warned else "NO", "sì" if defend else "NO"])
+	if not flanked or not crossed or not warned or not defend:
+		print("ATTENZIONE: le tattiche di gruppo non vanno come dovrebbero")

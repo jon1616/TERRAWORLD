@@ -42,6 +42,10 @@ var dark := false                        # vede al buio
 var brave := true                        # non fugge mai
 var hunter := false                      # fiuta il sangue (i predatori)
 var lead: Creature                       # voce 130: il pastore che segue quando è calma (`BhPastore`)
+var flank := 0.0                         # voce 131: di quanto accerchiare il bersaglio a terra (px, `Tactics`)
+var slot := Vector2.ZERO                 # voce 131: il posto nello sciame attorno al bersaglio (px)
+var last_hp := 0                         # voce 131: per accorgersi di una ferita (prede che si avvisano)
+var warned := false                      # voce 131: ha già avvisato le compagne
 var _mem := 0.0
 var _search := 0.0
 var _flee := 0.0
@@ -55,6 +59,7 @@ func setup(c: Creature) -> void:
 	dark = bool(c.data.get("dark_sight", false)) or not (0 in st) or c.boss
 	hunter = c.hunger > 0.0 and FamiliesData.FAMILIES.get(c.family, {}).has("prey")
 	# le prede e le docili fuggono sempre; le altre una volta su tre; i Guardiani e le antiche mai
+	last_hp = c.hp
 	var role := String(FamiliesData.FAMILIES.get(c.family, {}).get("role", ""))
 	brave = c.boss or c.ancient != null or not (role == "erbivoro" or c.docile or c.rng.randf() < 0.33)
 
@@ -105,6 +110,7 @@ func tick(c: Creature, dt: float) -> void:
 		_flee -= dt
 		if _flee <= 0.0:
 			state = CALM
+			warned = false
 	elif not brave and c.hp < c.hp_max * FLEE_BELOW and c.hp > 0 and c.tame == null:
 		_flee = FLEE_TIME
 		state = FLEE
@@ -128,6 +134,11 @@ func tick(c: Creature, dt: float) -> void:
 func force_flee(t: float) -> void:
 	_flee = maxf(_flee, t)
 	state = FLEE
+
+
+## Voce 131: un richiamo (il nido minacciato): va a vedere dove sei.
+func alarm(at: Vector2) -> void:
+	_look(at)
 
 
 func _look(at: Vector2) -> void:

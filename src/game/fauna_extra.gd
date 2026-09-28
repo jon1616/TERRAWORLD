@@ -53,6 +53,8 @@ static func group(f: Fauna, first: Creature, id: String, mult: float, _rng: Rand
 		var mb := f.add(id, o)
 		mb.strengthen(mult, mult * DangerData.DAMAGE)
 		mb.extra = true
+		mb.set_meta("grp", first.get_instance_id())   # voce 131: un gruppo (`Tactics`)
+	first.set_meta("grp", first.get_instance_id())
 
 
 ## Il branco di un capobranco: compagne della stessa specie attorno a lui (non contano nel tetto).
@@ -65,6 +67,9 @@ static func pack(f: Fauna, leader: Creature, id: String, mult: float, _rng: Rand
 		var mb := f.add(id, o)
 		mb.strengthen(mult, mult * DangerData.DAMAGE)
 		mb.extra = true
+		mb.set_meta("grp", leader.get_instance_id())  # voce 131: il branco segue il capo; se cade, fugge
+		mb.mind.lead = leader
+	leader.set_meta("grp", leader.get_instance_id())
 
 
 ## Rende rara una creatura (e la annuncia se ancestrale o iridata e vicina).

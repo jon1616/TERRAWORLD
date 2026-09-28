@@ -11,8 +11,12 @@ func tick(c: Creature, dt: float) -> void:
 	if c.busy:
 		return
 	if Behavior.sees(c, float(c.p.get("sight", 20))):
-		dir = signf(c.target.position.x - c.position.x)
-		if absf(c.target.position.x - c.position.x) < 4.0:
+		# voce 131: chi accerchia punta al fianco del bersaglio, arrivato si stringe
+		var gx: float = c.target.position.x + c.mind.flank
+		if c.mind.flank != 0.0 and absf(gx - c.position.x) < 12.0:
+			c.mind.flank = 0.0
+		dir = signf(gx - c.position.x)
+		if absf(gx - c.position.x) < 4.0:
 			dir = 0.0
 	elif c.mind.wander_dir(c) != 0.0:
 		dir = c.mind.wander_dir(c)             # voce 129: va a vedere un rumore, o a cercarti dove ti ha visto

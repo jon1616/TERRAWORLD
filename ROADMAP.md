@@ -2348,7 +2348,13 @@ Circa 14 pezzi, ognuno con i suoi parametri, il suo telegrafo e la sua contromos
   **fotofobo** (forte al buio, fugge dalla luce forte), **pastore** (guida altre creature: se cade, il gruppo si
   sbanda), **scoppiante** (esplode e rompe blocchi deboli: si affronta da lontano).
 
-## 131. [ ] Tattiche di gruppo (M)
+## 131. [x] Tattiche di gruppo (M) — fatto il 29 set 2026
+Fatto: `Tactics` (`src/game/`): le creature nate insieme (sciami e branchi di `FaunaExtra`) sono un gruppo (meta
+"grp"). Il branco a terra accerchia (il più vicino va dritto, gli altri al fianco opposto: `Mind.flank`, poi si
+stringono), lo sciame in volo gira in cerchio e scende a ondate (`Mind.slot`), il branco segue il capobranco
+(`Mind.lead`) e fugge se cade; le colonie accorrono quando ci si avvicina a un loro nido (7 tessere, da 26); le prede
+ferite o in fuga avvisano le compagne della famiglia entro 10 tessere, e fuggono insieme. Prova in `--solo=vivo` (foto
+195_branco); base, antiche, ecologia e mandria senza avvisi.
 - I branchi accerchiano (uno davanti, gli altri ai lati), le colonie difendono il nido, gli sciami volano in formazione;
   il **capobranco**: se cade, gli altri fuggono. Le prede fuggono insieme e avvisano le vicine.
 

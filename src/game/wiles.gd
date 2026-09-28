@@ -162,8 +162,8 @@ func _on_killed(c: Creature) -> void:
 			k.scale = Vector2(0.75, 0.75)
 			k.vel = Vector2(-90.0 + 180.0 * i, -160.0)
 			k.provoke()
-	if "pastore" in beh:
-		for o in m.fauna.list:
-			if o.mind.lead == c:
-				o.mind.lead = null
-				o.mind.force_flee(6.0)          # il gregge si sbanda
+	# chi seguiva il morto (il gregge del pastore, voce 130; il branco del capobranco, voce 131) si sbanda e fugge
+	for o in m.fauna.list:
+		if o.mind.lead == c:
+			o.mind.lead = null
+			o.mind.force_flee(6.0)

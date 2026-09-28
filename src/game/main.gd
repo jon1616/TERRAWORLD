@@ -67,6 +67,7 @@ var fishing: Fishing                   # voce 121: la pesca
 var dodge: Dodge                       # voce 127: la schivata
 var senses: Senses                     # voce 129: ciò che le creature sentono
 var wiles: Wiles                       # voce 130: le astuzie delle creature nel mondo
+var tactics: Tactics                   # voce 131: le tattiche di gruppo
 var encyclopedia: Encyclopedia
 var language: Language
 var chains: Chains
@@ -282,6 +283,7 @@ func _build() -> void:
 	dodge = _mount(Dodge.new())                # voce 127: la schivata
 	senses = _mount(Senses.new())              # voce 129: il cervello delle creature
 	wiles = _mount(Wiles.new())                # voce 130: le astuzie
+	tactics = _mount(Tactics.new())            # voce 131: le tattiche di gruppo
 	_mount(PanelButtons.new())                 # voce 101: i pulsanti dei pannelli in basso a sinistra
 	hud.select(character.hotbar)
 	var start := world.spawn
