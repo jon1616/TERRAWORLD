@@ -98,7 +98,7 @@ func _gnaw(c: Creature, q: Vector2i) -> void:
 	door_hits[o] = int(door_hits.get(o, 0)) + 1
 	Fx.dust(m.fx, Vector2(q) * S + Vector2(8, 8), TileDefs.dust_colors(TileDefs.PORTA))
 	m.sfx.play("legno", Vector2(q) * S)
-	if int(door_hits[o]) < WilesData.DOOR_HITS:
+	if int(door_hits[o]) < door_strength(o):
 		return
 	door_hits.erase(o)
 	w.stations.erase(o)
@@ -176,3 +176,16 @@ func _on_killed(c: Creature) -> void:
 		if o.mind.lead == c:
 			o.mind.lead = null
 			o.mind.force_flee(6.0)
+
+
+## Voce 144: quanti morsi regge una porta: il doppio se è incorniciata da mura dure (costrutti con forza ≥ 35 ai lati).
+func door_strength(o: Vector2i) -> int:
+	var w: World = m.world
+	var strong := 0
+	for dy in m.masonry.door_h():
+		for dx in [-1, 1]:
+			var k := w.build_at(o.x + dx, o.y + dy)
+			if k > 0 and BuildData.power(k) >= 35:
+				strong += 1
+	return WilesData.DOOR_HITS * (2 if strong >= m.masonry.door_h() else 1)
+

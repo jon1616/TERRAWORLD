@@ -2495,7 +2495,14 @@ pannello del commercio: «Felice (86) · ama: legnoferro e ardesia, camino, arma
 - Ogni abitante vuole la sua stanza, con i suoi gusti (materiali, arredi, vicini); la sua felicità cambia prezzi,
   richieste e regali; una casa bella attira abitanti nuovi.
 
-## 144. [ ] Costruire contro il mondo (M)
+## 144. [x] Costruire contro il mondo (M) — fatto il 29 set 2026
+Fatto: il **riparo** (`Rooms.shelter`): dentro una stanza i rigori salgono a metà, meno ancora con i materiali che
+isolano (isolamento medio del contorno 0-3, la roccia vale 1: ×(0,5 × (1 − 0,2 × iso))), e un camino ferma il freddo;
+sotto un tetto o in una stanza il fulmine non ti ferisce (`Weather.strike`). Le creature **non nascono sulle pareti
+posate** dal giocatore (`Fauna.player_wall`: assi, mattoni, pareti costruite). Le **porte incorniciate di mura dure**
+(costrutti con forza ≥ 35 ai due lati) reggono il doppio dei morsi negli assedi (`Wiles.door_strength`). Dighe, canali e
+vasche: i costrutti sono tessere solide e fermano i liquidi come la roccia (con otre, anfore e fonti della voce 119).
+Prova in `--solo=vivo` («riparo: …»).
 - Il **riparo**: tetto e pareti proteggono da pioggia, cenere, fulmini e rigori; i materiali isolanti scaldano o
   rinfrescano. Le creature non nascono sulle pareti posate dal giocatore. Porte e mura resistono secondo la durezza.
   Dighe, canali e vasche per i liquidi (con le voci 118-119).

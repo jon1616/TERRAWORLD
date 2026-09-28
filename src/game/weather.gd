@@ -197,7 +197,8 @@ func strike() -> Vector2i:
 	m.life.flash(Color(1, 1, 1, 0.35), 0.25)
 	m.sfx.play("scoppio", Vector2(c) * 16.0)
 	Fx.puff(m.fx, Vector2(c) * 16.0 + Vector2(8, 8), Color(1.8, 1.8, 2.2))
-	if Vector2(m.player_cell() - c).length() <= WeatherData.BOLT_RANGE:
+	if Vector2(m.player_cell() - c).length() <= WeatherData.BOLT_RANGE and not roofed \
+			and (m.rooms == null or m.rooms.current.is_empty()):     # voce 144: sotto un tetto il fulmine non ti tocca
 		m.vitals.hurt(WeatherData.BOLT_DAMAGE)
 	for cr in m.fauna.list:
 		if is_instance_valid(cr) and cr.position.distance_to(Vector2(c) * 16.0) < WeatherData.BOLT_RANGE * 16.0:

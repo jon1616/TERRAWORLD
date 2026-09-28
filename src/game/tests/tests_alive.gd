@@ -25,6 +25,7 @@ func run() -> void:
 	await furniture()
 	await rooms()
 	await homes()
+	await shelter()
 	await brain()
 	await wiles()
 	await tactics()
@@ -700,3 +701,43 @@ func homes() -> void:
 		h0, h1, p1, "sì" if gift else "NO", h2, p2, line])
 	if h1 <= h0 or h2 >= h0 or p2 <= p1 or not gift or line == "":
 		print("ATTENZIONE: le case degli abitanti non vanno come dovrebbero")
+
+
+## Voce 144: nella stanza di prova il freddo sale meno (e con un camino niente), le creature non nascono sulle pareti
+## posate, una porta incorniciata di mura dure regge il doppio dei morsi.
+func shelter() -> void:
+	var w: World = m.world
+	if _bed.x < 0:
+		return
+	m.snap_to(_bed + Vector2i(2, 0))
+	await kit.frames(2)
+	var r: Dictionary = m.rooms.refresh()
+	var cold: float = m.rooms.shelter("freddo")
+	var heat: float = m.rooms.shelter("calore")
+	var cam := _bed + Vector2i(3, -1)
+	var had_cam := w.stations.has(cam)
+	if not had_cam:
+		w.stations[cam] = FurnitureData.id_of("camino", "ardesia")
+	m.rooms.refresh()
+	var cold_fire: float = m.rooms.shelter("freddo")
+	var no_spawn := Fauna.player_wall(w, _bed + Vector2i(1, 0)) and not Fauna.player_wall(w, w.spawn + Vector2i(0, -3))
+	# la porta della stanza: cornice d'ardesia (tenera), poi d'ambra (dura)
+	var door := Vector2i(-1, -1)
+	for o in w.stations:
+		if String(w.stations[o]) == "porta" and Vector2(o - _bed).length() < 14.0:
+			door = o
+	var soft: int = m.wiles.door_strength(door) if door.x >= 0 else 0
+	var hard := 0
+	if door.x >= 0:
+		var amber := 2 * BuildData.FORMS.size() + 2          # mattoni d'ambra
+		for dy in m.masonry.door_h():
+			w.set_build(door.x - 1, door.y + dy, amber)
+			w.set_build(door.x + 1, door.y + dy, amber)
+		hard = m.wiles.door_strength(door)
+	m.snap_to(w.spawn)
+	await kit.frames(2)
+	m.rooms.refresh()
+	print("riparo: nella stanza (isolamento %.1f) il freddo sale ×%.2f, il calore ×%.2f, col camino il freddo ×%.2f; pareti posate senza nascite %s; porta: %d morsi, con le mura d'ambra %d" % [
+		float(r.get("iso", 0.0)), cold, heat, cold_fire, "sì" if no_spawn else "NO", soft, hard])
+	if cold >= 1.0 or cold_fire > 0.0 or not no_spawn or hard <= soft:
+		print("ATTENZIONE: costruire contro il mondo non va come dovrebbe")

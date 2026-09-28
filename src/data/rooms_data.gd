@@ -44,6 +44,10 @@ const FISH := 0.05                       # acquario: fortuna di pesca
 const TROPHY := 0.08                     # sala dei trofei: + danno contro quelle famiglie
 const EVENTS := 0.25                     # osservatorio: + probabilità degli eventi
 const BOON := 0.3                        # cantina: + la durata di cibi e pozioni
+## Voce 144: il riparo dai rigori dentro una stanza (× questo), meno `PER_ISO` per ogni punto d'isolamento medio del
+## contorno (0-3); un camino ferma il freddo.
+const SHELTER := 0.5
+const PER_ISO := 0.2
 
 
 static func level(comfort: int) -> String:

@@ -275,6 +275,8 @@ func try_spawn() -> Creature:
 		return null                                     # voce 84: attorno al Cerchio, durante uno scontro evocato
 	if _za(Vector2(c) * S, "quiete") > 0.0:
 		return null                                     # voce 87: il Totem della quiete
+	if player_wall(world, c):
+		return null                                     # voce 144: sulle pareti posate dal giocatore non nasce nessuno
 	var stratum := StrataData.at(world, c.x, c.y)
 	if world.liq(c.x, c.y) >= 6 and world.liq_type(c.x, c.y) != LiquidsData.BRACE:
 		return _spawn_water(c)                          # voce 73: nell'acqua nascono le creature d'acqua
@@ -325,6 +327,12 @@ func try_spawn() -> Creature:
 		if fly:
 			break
 	return null
+
+
+## Voce 144: una parete posata dal giocatore (assi, mattoni, pareti costruite)?
+static func player_wall(w: World, c: Vector2i) -> bool:
+	var wl := w.wall(c.x, c.y)
+	return wl == TileDefs.WALL_ASSI or wl == TileDefs.WALL_MATTONI or wl >= BuildData.WALL_BASE
 
 
 ## Voce 73: una creatura d'acqua in una cella piena di liquido (solo al buio sotto terra, come le altre).

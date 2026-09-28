@@ -55,6 +55,8 @@ func _process(dt: float) -> void:
 			var rate := float(h["rate"]) * (float(h.get("night", 1.0)) if m.day.is_night() else 1.0)
 			if m.weather != null and m.weather.roofed:
 				rate *= HarshData.ROOF
+			if m.rooms != null:
+				rate *= m.rooms.shelter(k)                   # voce 144: una stanza ripara, i materiali isolano
 			if m.weather != null:
 				rate *= float(m.weather.state().get("rigore", 1.0))      # le tempeste dei biomi
 			var s := shield(k)

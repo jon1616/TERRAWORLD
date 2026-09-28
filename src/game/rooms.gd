@@ -89,10 +89,13 @@ func scan(start: Vector2i) -> Dictionary:
 			for dy in int(StationsData.STATIONS["porta_aperta"]["size"][1]):
 				open_doors[o + Vector2i(0, dy)] = true
 	var seen := {start: true}
+	var n_in := 1
 	var todo := [start]
 	var door := false
 	var edge_beauty := 0
 	var edge_n := 0
+	var edge_iso := 0                            # voce 144: quanto isolano i blocchi del contorno (la roccia 1)
+	var edge_all := 0
 	var lo := start
 	var hi := start
 	while not todo.is_empty():
@@ -108,9 +111,14 @@ func scan(start: Vector2i) -> Dictionary:
 				if t == TileDefs.PORTA:
 					door = true
 				var k := w.build_at(q.x, q.y)
+				edge_all += 1
 				if k > 0:
 					edge_beauty += int(BuildData.material_of(k).get("bello", 0))
+					edge_iso += int(BuildData.material_of(k).get("iso", 1))
 					edge_n += 1
+				else:
+					edge_iso += 1
+				seen[q] = false                      # visto (contorno): non si conta due volte
 				continue
 			if open_doors.has(q):
 				door = true                          # una porta aperta chiude comunque la stanza
@@ -118,16 +126,21 @@ func scan(start: Vector2i) -> Dictionary:
 			if w.wall(q.x, q.y) == 0:
 				return {}                            # un buco nella parete: non è chiusa
 			seen[q] = true
+			n_in += 1
 			todo.append(q)
 			lo = Vector2i(mini(lo.x, q.x), mini(lo.y, q.y))
 			hi = Vector2i(maxi(hi.x, q.x), maxi(hi.y, q.y))
-			if seen.size() > RoomsData.MAX_CELLS or hi.x - lo.x > RoomsData.MAX_SIDE or hi.y - lo.y > RoomsData.MAX_SIDE:
+			if n_in > RoomsData.MAX_CELLS or hi.x - lo.x > RoomsData.MAX_SIDE or hi.y - lo.y > RoomsData.MAX_SIDE:
 				return {}
-	if not door or seen.size() < RoomsData.MIN_CELLS:
+	var inside := {}
+	for c in seen:
+		if seen[c]:
+			inside[c] = true
+	if not door or inside.size() < RoomsData.MIN_CELLS:
 		return {}
-	var r := {"x": lo.x, "y": lo.y, "w": hi.x - lo.x + 1, "h": hi.y - lo.y + 1, "cells": seen.size(),
-		"key": "%d,%d,%d" % [lo.x, lo.y, seen.size()]}
-	_contents(r, seen, edge_beauty, edge_n)
+	var r := {"x": lo.x, "y": lo.y, "w": hi.x - lo.x + 1, "h": hi.y - lo.y + 1, "cells": inside.size(),
+		"key": "%d,%d,%d" % [lo.x, lo.y, inside.size()], "iso": float(edge_iso) / maxf(edge_all, 1)}
+	_contents(r, inside, edge_beauty, edge_n)
 	return r
 
 
@@ -177,6 +190,7 @@ func _contents(r: Dictionary, cells: Dictionary, edge_beauty: int, edge_n: int) 
 			crops += 1
 		if w.liq(c.x, c.y) > 0:
 			liquid += 1
+	r["fire"] = roles.has("camino")                  # voce 144: un camino scalda la stanza
 	var benches := 0
 	for b in RoomsData.BENCHES:
 		benches += int(roles.get(b, 0))
@@ -263,3 +277,14 @@ func fish_luck() -> float:
 
 func trophy_mult(family: String) -> float:
 	return float(_trophy.get(family, 1.0))
+
+
+## Voce 144: il riparo di dove sei contro un rigore («freddo», «calore», «sete», «polvere»): moltiplica quanto sale.
+## Una stanza ferma metà del rigore, i materiali che isolano (iso 0-3) ancora di più; un camino ferma il freddo.
+func shelter(kind: String) -> float:
+	if current.is_empty():
+		return 1.0
+	if kind == "freddo" and bool(current.get("fire", false)):
+		return 0.0
+	return clampf(RoomsData.SHELTER * (1.0 - RoomsData.PER_ISO * float(current.get("iso", 1.0))), 0.0, 1.0)
+

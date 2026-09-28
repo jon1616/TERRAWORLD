@@ -137,6 +137,7 @@ Abbattuto, un albero lascia legno e a volte semi: il seme piantato cresce nell'a
 • [b]Stazioni e mobili[/b]: si piazzano dalla Bisaccia; si riprendono con il piccone (tranne portali e Cuore).
 • [b]Letto di foglie[/b]: clic destro, e rinasci lì in quel mondo.
 • [b]Gli arredi in serie[/b]: tavolo, sedia, letto, armadio (tiene 24 oggetti), scaffale, lampada, lanterna appesa, finestra, tappeto, quadro, vaso fiorito e camino, in otto materiali (i legni al Ceppo, gli altri allo scalpellino). Ogni arredo ha la sua bellezza; cinque forme dello stesso materiale nella stessa stanza fanno una [b]serie[/b].
+• [b]Le stanze[/b]: un posto chiuso da blocchi, con le pareti dietro e una porta, è una stanza; gli arredi ne fanno una casa (letto), un laboratorio (due banchi), una serra (colture o vasi), una stalla, un acquario, una sala dei trofei, una biblioteca, un osservatorio o una cantina, ognuna con il suo aiuto. Il [b]comfort[/b] (bellezza, luci, serie) lo rende più forte. Una stanza ripara dai rigori e dai fulmini (i materiali che isolano ancora di più, un camino ferma il freddo); sulle pareti posate da te non nascono creature.
 Un [b]Focolare[/b] con un Letto di foglie libero vicino chiama un [url=cap:abitanti]abitante[/url] (ognuno ha anche una sua condizione)."""},
 	{"id": "casse", "group": "Scavare e costruire", "name": "Casse e scrigni", "text":
 """Le casse tengono gli oggetti. Clic destro per aprirle; con una cassa aperta ci sono i pulsanti:
