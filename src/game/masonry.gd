@@ -119,7 +119,8 @@ func toggle_door(o: Vector2i) -> bool:
 func use_bed(o: Vector2i) -> bool:
 	var beds: Dictionary = m.world_meta.get("letti", {})
 	# il punto dove si rinasce: al centro del letto, sulla sua riga più bassa (il letto è alto una tessera)
-	beds[m.character.id] = [o.x + 1, o.y + int(StationsData.STATIONS["letto"]["size"][1]) - 1]
+	var sid := String(m.world.stations.get(o, "letto"))
+	beds[m.character.id] = [o.x + 1, o.y + int(StationsData.STATIONS[sid]["size"][1]) - 1]
 	m.world_meta["letti"] = beds
 	m.hud.toast("Da ora rinasci qui, al tuo letto di foglie")
 	m.sfx.play("dono")
@@ -132,6 +133,6 @@ func respawn_point() -> Vector2i:
 	if b.size() == 2:
 		var c := Vector2i(int(b[0]), int(b[1]))
 		var st: Dictionary = m.world.station_at(c)
-		if not st.is_empty() and st["id"] == "letto":
+		if not st.is_empty() and StationsData.role(String(st["id"])) == "letto":
 			return c
 	return m.world.spawn

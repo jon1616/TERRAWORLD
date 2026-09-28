@@ -45,6 +45,8 @@ static func of(id: String) -> Image:
 		return make("?", "ardesia")
 	if it.has("build"):
 		return BuildPainter.icon(int(it["build"]))          # voce 139: i costrutti
+	if str(it.get("place", "")).begins_with("arredo_"):
+		return FurnitureSeriesArt.icon(String(it["place"]))  # voce 141: gli arredi in serie
 	if int(it.get("wall", 0)) >= BuildData.WALL_BASE:
 		return BuildPainter.wall_icon(int(it["wall"]))
 	var ic: Array = it["icon"]

@@ -218,7 +218,7 @@ func touch(c: Vector2i) -> bool:
 		return m.traps.lever(o)
 	if id.begins_with("nastro_"):
 		return m.farms.flip_belt(o)                      # voce 89
-	match id:
+	match StationsData.role(id):                        # voce 141: i letti della serie sono letti
 		"maglio":
 			m.vigor.temper_hand()                        # voce 79: la tempra
 			return true

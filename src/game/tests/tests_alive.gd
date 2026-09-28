@@ -22,6 +22,7 @@ func run() -> void:
 	await dash()
 	await builds()
 	await builder()
+	await furniture()
 	await brain()
 	await wiles()
 	await tactics()
@@ -532,3 +533,53 @@ func conditions() -> void:
 		"sì" if no_other else "NO", "sì" if has_season else "NO", "sì" if all_in else "NO"])
 	if not no_other or not has_season or not all_in:
 		print("ATTENZIONE: le specie a condizione non nascono come dovrebbero")
+
+
+## Voce 141: una stanza di arredi in serie (tutte le forme di un materiale, più qualche altro materiale): si
+## piazzano, il letto è un letto vero, l'armadio tiene gli oggetti; foto.
+func furniture() -> void:
+	var w: World = m.world
+	var spot := kit.flat_spot(w.spawn + Vector2i(-110, 0), 20)
+	if spot.x < 0:
+		spot = m.player_cell()
+	kit.flatten(spot, 30)
+	var x := spot.x - 14
+	var placed := 0
+	for mat in ["ambra", "lanterna"]:
+		for f in FurnitureData.FORMS:
+			var sid := FurnitureData.id_of(String(f["id"]), mat)
+			var sz: Array = f["size"]
+			var o := Vector2i(x, spot.y - int(sz[1]) + 1)
+			if String(f["id"]) == "lanterna":
+				o.y -= 3
+			elif String(f["id"]) in ["finestra", "quadro"]:
+				o.y -= 2
+			w.stations[o] = sid
+			m.view.add_station(o)
+			placed += 1
+			x += int(sz[0]) + (0 if mat == "ambra" else 0)
+		x = spot.x - 14
+		spot.y -= 5
+		for dx in range(-16, 30):
+			w.set_tile(spot.x + dx, spot.y + 1, TileDefs.STONE)
+			m.view.refresh_around(Vector2i(spot.x + dx, spot.y + 1))
+	spot.y += 10
+	m.snap_to(spot + Vector2i(2, 0))
+	m.light.dirty = true
+	await kit.seconds(0.4)
+	await kit.save("201_arredi")
+	# il letto della serie è un letto; l'armadio tiene 24 oggetti
+	var bed_o := Vector2i(-1, -1)
+	var wardrobe := Vector2i(-1, -1)
+	for o in w.stations:
+		if String(w.stations[o]) == FurnitureData.id_of("letto", "ambra"):
+			bed_o = o
+		if String(w.stations[o]) == FurnitureData.id_of("armadio", "ambra"):
+			wardrobe = o
+	var bed_ok: bool = bed_o.x >= 0 and m.masonry.use_bed(bed_o) and m.masonry.respawn_point() != w.spawn
+	var slots: int = w.chest_at(wardrobe).slots.size() if wardrobe.x >= 0 else 0
+	m.world_meta.erase("letti")
+	print("arredi: %d piazzati (%d forme × 2 materiali), il letto è un letto %s, l'armadio tiene %d oggetti" % [placed,
+		FurnitureData.FORMS.size(), "sì" if bed_ok else "NO", slots])
+	if not bed_ok or slots != 24:
+		print("ATTENZIONE: gli arredi in serie non vanno come dovrebbero")

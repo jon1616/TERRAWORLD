@@ -62,7 +62,7 @@ func check() -> String:
 		return ""
 	var beds := 0
 	for o in m.world.stations:
-		if m.world.stations[o] == "letto" and Vector2(o - hearth).length() <= NpcData.HOME_RANGE:
+		if StationsData.role(String(m.world.stations[o])) == "letto" and Vector2(o - hearth).length() <= NpcData.HOME_RANGE:
 			beds += 1
 	if beds <= list.size():
 		return ""

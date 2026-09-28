@@ -28,7 +28,22 @@ const V2_SIZE := {"ceppo": [2, 1], "maglio": [2, 1], "alambicco": [2, 1], "mola"
 	"arca_vuoto": [2, 1], "arca_stellare": [2, 1], "scrigno_antico": [2, 1], "arca_seminatori": [2, 1],
 	"scrigno": [2, 1], "reliquiario": [2, 1], "banco_innesti": [3, 1]}
 
-const STATIONS := {
+## Voce 141: le stazioni scritte qui più gli arredi in serie (`FurnitureData`).
+static var STATIONS: Dictionary = _merged()
+
+
+static func _merged() -> Dictionary:
+	var out := _STATIONS.duplicate()
+	out.merge(FurnitureData.stations())
+	return out
+
+
+## Voce 141: il ruolo di una stazione: per un arredo della serie la sua forma («letto», «tavolo»…), altrimenti l'id.
+static func role(id: String) -> String:
+	return String(STATIONS.get(id, {}).get("arredo", id))
+
+
+const _STATIONS := {
 	"ceppo": {"name": "Ceppo del Giardiniere", "size": [2, 2], "item": "ceppo"},
 	"baccello_ardente": {"name": "Baccello ardente", "size": [2, 2], "item": "baccello_ardente", "light": true},
 	"maglio": {"name": "Maglio dei Seminatori", "size": [2, 2], "item": "maglio"},

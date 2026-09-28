@@ -2456,7 +2456,15 @@ secondo il materiale. Prova in `--solo=vivo` (foto 196_costruttore, 197_progetto
   **tinture** dai fiori e dai minerali per colorare blocchi e pareti; togliere senza perdere; un «progetto» da
   un'area già costruita da ripetere altrove portando i materiali.
 
-## 141. [ ] Mobili e arredi in serie (M)
+## 141. [x] Mobili e arredi in serie (M) — fatto il 29 set 2026
+Fatto: `FurnitureData`: **12 forme** (tavolo, sedia, letto, armadio da 24 caselle, scaffale, lampada, lanterna appesa,
+finestra, tappeto, quadro, vaso fiorito, camino) × **8 materiali** (lanterna, radice, ardesia, ambra, legnoferro,
+Seminatori, Linfa, stellare) = **96 arredi**, stazioni generate e unite a `StationsData.STATIONS` (ora `static var`
+da `_STATIONS` + arredi), con oggetto e ricetta (legni al Ceppo, il resto allo scalpellino). `StationsData.role(id)`:
+un letto della serie è un letto (rinascita, abitanti), l'armadio un contenitore, lampade e camini fanno luce. Disegni in
+`FurnitureSeriesArt` dalla tavolozza del materiale (icone dalla stazione rimpicciolita); bellezza = forma + materiale,
+e `FurnitureData.series_of` riconosce una serie (5 forme dello stesso materiale) per le stanze della voce 142. Prova
+in `--solo=vivo` (foto 201_arredi).
 - Mobili come forme × materiali (tavolo, sedia, letto, armadio che contiene, scaffale che espone, lampada, lanterna
   appesa, finestra, tappeto, quadro, vaso con pianta, camino) per circa 8-10 materiali: circa 100. Una serie completa
   nella stessa stanza dà più comfort.
