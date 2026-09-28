@@ -3,7 +3,7 @@ extends RefCounted
 ## I testi della mandria (voce 59): la riga breve di una creatura, la sua scheda (pannello della mandria e casella
 ## Esamina per il vasetto pieno), fame e umore a parole.
 
-const STATES := {"segue": "ti segue", "recinto": "nel recinto", "riposo": "riposa nel Giardino", "vasetto": "in un vasetto"}
+const STATES := {"guardia": "di guardia alla cuccia", "segue": "ti segue", "recinto": "nel recinto", "riposo": "riposa nel Giardino", "vasetto": "in un vasetto"}
 const BORN := {"nutrita": "Addomesticata con il cibo", "laccio": "Presa con il laccio", "uovo": "Nata da un uovo",
 	"allevata": "Nata nel tuo allevamento"}
 

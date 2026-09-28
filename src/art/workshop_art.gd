@@ -19,7 +19,7 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 		_:
 			if id.begins_with("arredo_"):
 				return FurnitureSeriesArt.draw(id, im, gm, w, h)   # voce 141
-			if id.begins_with("nido_") or id in ["recinto", "incubatrice"]:
+			if id.begins_with("nido_") or id in ["recinto", "incubatrice", "cuccia", "alveare_costruito"]:
 				return NestArt.draw(id, im, gm, w, h)       # voce 58
 			if id.begins_with("bozzolo_"):
 				KeeperArt.bozzolo(im, gm, w, h, StationsData.STATIONS[id]["light_color"] * 1.4, false)

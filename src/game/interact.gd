@@ -240,6 +240,8 @@ func touch(c: Vector2i) -> bool:
 			return true
 		"nido_tetto":
 			return m.dwellers.touch_nest(o)            # voce 146
+		"alveare_costruito":
+			return m.dwellers.touch_hive(o)            # voce 148
 		"nido_erba", "nido_tana", "nido_alveare", "nido_formicaio":
 			return m.ecology.touch_nest(o)             # voce 58
 		"portale":

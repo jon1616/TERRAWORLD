@@ -41,6 +41,7 @@ func run() -> void:
 	await study()
 	await blueprints()
 	await dwellers()
+	await herd_home()
 	for i in slots0.size():
 		b.slots[i] = slots0[i]
 	b.equip = equip0
@@ -1010,3 +1011,49 @@ func dwellers() -> void:
 		room.get("type", "—"), "sì" if webbed else "NO", "sì" if nest else "NO", "sì" if feathers else "NO"])
 	if not webbed or not nest or not feathers:
 		print("ATTENZIONE: gli ospiti delle case non vanno come dovrebbero")
+
+
+## Voce 148: una creatura della mandria di guardia alla cuccia attacca chi si avvicina; l'alveare costruito fa il miele.
+func herd_home() -> void:
+	var w: World = m.world
+	var spot := kit.flat_spot(w.spawn + Vector2i(170, 0), 12)
+	if spot.x < 0:
+		spot = m.player_cell() + Vector2i(20, 0)
+	kit.flatten(spot, 16)
+	m.snap_to(spot + Vector2i(-4, 0))
+	await kit.frames(2)
+	var cu := spot + Vector2i(2, 0)
+	w.stations[cu] = "cuccia"
+	m.view.add_station(cu)
+	var rec: Dictionary = m.herd.new_record(String(FamiliesData.FAMILIES["linci"]["members"][0]), "nutrita", 2.0)
+	m.herd.add_record(rec)
+	var why: String = m.herd.set_state(rec, "guardia")
+	await kit.seconds(0.5)
+	var beast: Creature = m.herd.beasts.get(int(rec["uid"]))
+	var guarding: bool = beast != null and beast.tame != null and beast.tame.mode == "guardia"
+	m.combat.god = true
+	var foe: Creature = m.fauna.add(_wid if _wid != "" else "scarabeo_ardesia", (Vector2(cu) + Vector2(6, 0)) * 16.0)
+	var hp0 := foe.hp
+	var t0 := Time.get_ticks_msec()
+	while Time.get_ticks_msec() - t0 < 5000 and is_instance_valid(foe) and foe.hp >= hp0:
+		await kit.frames(3)
+	var bit: bool = not is_instance_valid(foe) or foe.hp < hp0
+	await kit.save("210_guardia")
+	m.fauna.clear()
+	m.combat.god = false
+	# l'alveare
+	var hv := spot + Vector2i(-2, -1)
+	w.stations[hv] = "alveare_costruito"
+	m.view.add_station(hv)
+	m.dwellers.hive_honey(hv)
+	var t: Dictionary = m.world_meta["alveari"]
+	t["%d,%d" % [hv.x, hv.y]] = float(m.world_meta.get("tempo_gioco", 0.0)) - Dwellers.HIVE_EVERY * 3.0
+	var honey: int = m.dwellers.hive_honey(hv)
+	var d0: int = m.drops._items.size()
+	m.dwellers.touch_hive(hv)
+	var got: bool = m.drops._items.size() > d0
+	m.herd.free_record(rec)
+	print("la mandria abita: di guardia %s (%s), morde chi si avvicina alla cuccia %s; alveare: %d miele, raccolto %s" % [
+		"sì" if guarding else "NO", why if why != "" else "ok", "sì" if bit else "NO", honey, "sì" if got else "NO"])
+	if not guarding or not bit or honey < 3 or not got:
+		print("ATTENZIONE: la mandria che abita non va come dovrebbe")

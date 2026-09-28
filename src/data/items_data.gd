@@ -284,6 +284,7 @@ static func all() -> Dictionary:
 	out.merge(BuilderData.items())                         # voce 140: tinture e Tavola del progetto
 	out.merge(FurnitureData.items())                       # voce 141: gli arredi in serie
 	out.merge(ProjectsData.items())                        # voce 145: i progetti dei Seminatori
+	out.merge(HOME_ITEMS.duplicate(true))                  # voce 148: la mandria abita
 	out.merge(WeatherData.ITEMS.duplicate(true))           # voce 75
 	out.merge(WorldTimeData.ITEMS.duplicate(true))         # voce 78
 	out.merge(VigorData.ITEMS.duplicate(true))             # voce 79
@@ -306,6 +307,15 @@ static func all() -> Dictionary:
 			out[FormsData.item_id(f, m)] = FormsData.item(f, m)
 	_all = out
 	return _all
+
+
+## Voce 148: la mandria abita (cucce per le creature di guardia, alveari costruiti per le colonie).
+const HOME_ITEMS := {
+	"cuccia": {"name": "Cuccia", "kind": "stazione", "icon": ["cassa", "legno"], "place": "cuccia", "stack": 9,
+		"desc": "Una creatura della mandria messa «di guardia» (pannello della mandria) resta qui e difende la casa."},
+	"alveare_costruito": {"name": "Alveare costruito", "kind": "stazione", "icon": ["cassa", "ambra"], "place": "alveare_costruito", "stack": 9,
+		"desc": "Le api di lume ci vivono volentieri: ogni tanto lascia del miele (clic destro)."},
+}
 
 
 static func get_item(id: String) -> Dictionary:

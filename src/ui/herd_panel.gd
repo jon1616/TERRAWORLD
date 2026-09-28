@@ -41,8 +41,8 @@ func setup(main: Node2D) -> void:
 	_detail.add_theme_font_size_override("normal_font_size", 16)
 	add_child(_detail)
 	var x := 780.0
-	for b in [["segue", "Segui"], ["riposo", "Riposa"], ["recinto", "Al recinto"], ["vasetto", "Nel vasetto"], ["libera", "Libera"],
-			["coppia", "Coppia…"]]:
+	for b in [["segue", "Segui"], ["riposo", "Riposa"], ["recinto", "Al recinto"], ["guardia", "Di guardia"], ["vasetto", "Nel vasetto"],
+			["libera", "Libera"], ["coppia", "Coppia…"]]:
 		var btn := Button.new()
 		btn.text = b[1]
 		btn.position = Vector2(x, 420)
@@ -196,7 +196,7 @@ func _act(what: String) -> void:
 		return
 	var why := ""
 	match what:
-		"segue", "riposo", "recinto":
+		"segue", "riposo", "recinto", "guardia":
 			why = m.herd.set_state(rec, what)
 		"vasetto":
 			m.taming.jar_record(rec)

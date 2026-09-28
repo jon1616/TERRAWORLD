@@ -10,6 +10,25 @@ extends RefCounted
 
 static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 	match id:
+		"cuccia":
+			# voce 148: una cuccia di assi con il tetto a punta e l'ingresso scuro
+			var wd := Px.pal(["#3a2630", "#5a3a44", "#7a5462", "#9a7080"])
+			for y in range(4, h):
+				for x in range(2, w - 2):
+					Px.put(im, x, y, wd[2] if (x / 3) % 2 == 0 else wd[1])
+			for k in range(0, 5):
+				Px.line(im, Vector2(1.0 + k, 4.0 - k * 0.6), Vector2(w - 2.0 - k, 4.0 - k * 0.6), 1, wd[3] if k % 2 else wd[0])
+			for y in range(h - 7, h):
+				for x in range(w / 2 - 3, w / 2 + 3):
+					Px.put(im, x, y, Color("#140c10"))
+		"alveare_costruito":
+			var am := Px.pal(TileDefs.P_AMBRA)
+			for y in range(2, h - 1):
+				for x in range(2, w - 2):
+					Px.put(im, x, y, am[1] if y % 4 == 0 else am[2])
+			Px.put(im, w / 2, h / 2, Color("#140c10"))
+			Px.line(im, Vector2(w / 2.0, 0.0), Vector2(w / 2.0, 2.0), 1, Color("#3a2630"))
+			Px.put(gm, w / 2 - 2, h / 2 + 2, Color("#ffd070"))
 		"nido_tetto":
 			# voce 146: un nido di rametti sul tetto, con un uovo chiaro
 			var r2 := Px.pal(TileDefs.P_RADICE)

@@ -110,3 +110,31 @@ func touch_nest(o: Vector2i) -> bool:
 		m.drops.spawn("uovo", 1, at)
 	m.hud.toast("Nel nido sul tetto: piume" + (" e un uovo" if egg else ""))
 	return true
+
+
+## Voce 148: l'alveare costruito si riempie di miele (uno ogni `HIVE_EVERY` secondi di gioco, al più `HIVE_MAX`).
+const HIVE_EVERY := 120.0
+const HIVE_MAX := 6
+
+
+func hive_honey(o: Vector2i) -> int:
+	var t: Dictionary = m.world_meta.get("alveari", {})
+	var k := "%d,%d" % [o.x, o.y]
+	var now: float = m.world_meta.get("tempo_gioco", 0.0)
+	if not t.has(k):
+		t[k] = now
+		m.world_meta["alveari"] = t
+	return mini(int((now - float(t[k])) / HIVE_EVERY), HIVE_MAX)
+
+
+func touch_hive(o: Vector2i) -> bool:
+	var n := hive_honey(o)
+	if n <= 0:
+		m.hud.toast("L'alveare è ancora vuoto: torna più tardi")
+		return true
+	var t: Dictionary = m.world_meta["alveari"]
+	t["%d,%d" % [o.x, o.y]] = float(m.world_meta.get("tempo_gioco", 0.0))
+	m.drops.spawn("miele_lume", n, (Vector2(o) + Vector2(0.5, 0.5)) * 16.0)
+	m.hud.toast("Dall'alveare: %d miele di lume" % n)
+	return true
+

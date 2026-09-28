@@ -170,6 +170,8 @@ static func all() -> Array:
 	out.append_array(BuildData.STATION_RECIPES.duplicate(true))   # voce 139: il Banco dello scalpellino
 	out.append_array(BuilderData.recipes())                # voce 140: tinture e Tavola del progetto
 	out.append_array(FurnitureData.recipes())              # voce 141: gli arredi in serie
+	out.append({"out": "cuccia", "qty": 1, "in": {"legno": 10, "seta_radice": 2}, "station": "ceppo"})       # voce 148
+	out.append({"out": "alveare_costruito", "qty": 1, "in": {"legno": 12, "miele_lume": 3}, "station": "ceppo"})
 	out.append_array(WeatherData.RECIPES.duplicate(true))  # voce 75
 	out.append_array(WorldTimeData.RECIPES.duplicate(true))  # voce 78
 	out.append_array(GuardianGenData.RECIPES.duplicate(true))  # voce 80

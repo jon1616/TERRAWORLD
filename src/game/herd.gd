@@ -102,6 +102,15 @@ func set_state(rec: Dictionary, stato: String) -> String:
 				return "Ti seguono già in %d" % HerdData.FOLLOW_MAX
 			if float(rec["vita"]) < 0.3:
 				return "%s è ancora stremata: lasciala riposare" % rec["nome"]
+		"guardia":
+			# voce 148: di guardia alla sua cuccia (in questo mondo): difende la casa, anche durante le maree
+			var cu := free_kennel(m.player.position)
+			if cu.x < 0:
+				return "Serve una Cuccia libera qui vicino (al Ceppo)"
+			if float(rec["vita"]) < 0.3:
+				return "%s è ancora stremata: lasciala riposare" % rec["nome"]
+			rec["cuccia"] = "%d,%d" % [cu.x, cu.y]
+			rec["mondo"] = m.world_id
 		"recinto":
 			var k: String = m.pens.free_pen(m.player.position)
 			if k == "":
@@ -114,10 +123,34 @@ func set_state(rec: Dictionary, stato: String) -> String:
 	rec["stato"] = stato
 	if stato != "recinto":
 		rec["recinto"] = ""
+	if stato != "guardia":
+		rec.erase("cuccia")
+	if stato != "recinto" and stato != "guardia":
 		rec["mondo"] = ""
 	despawn(int(rec["uid"]))
 	changed_now()
 	return ""
+
+
+## Voce 148: la cuccia di una scheda di guardia (se c'è ancora), o (-1, -1).
+func kennel_of(rec: Dictionary) -> Vector2i:
+	var parts := String(rec.get("cuccia", "")).split(",")
+	if parts.size() != 2:
+		return Vector2i(-1, -1)
+	var o := Vector2i(int(parts[0]), int(parts[1]))
+	return o if String(m.world.stations.get(o, "")) == "cuccia" else Vector2i(-1, -1)
+
+
+## Una cuccia libera entro 40 tessere da un punto.
+func free_kennel(near: Vector2) -> Vector2i:
+	var taken := []
+	for r in records():
+		if String(r["stato"]) == "guardia":
+			taken.append(kennel_of(r))
+	for o in m.world.stations:
+		if String(m.world.stations[o]) == "cuccia" and not o in taken and (Vector2(o) * S).distance_to(near) < 40.0 * S:
+			return o
+	return Vector2i(-1, -1)
 
 
 ## Liberare: la creatura torna selvatica, per sempre.
@@ -332,6 +365,8 @@ func _process(dt: float) -> void:
 			mode = "cavalcata" if uid == riding else "segue"
 		elif r["stato"] == "recinto" and m.pens.shows(r):
 			mode = "recinto"
+		elif r["stato"] == "guardia" and String(r.get("mondo", "")) == m.world_id and kennel_of(r).x >= 0:
+			mode = "guardia"                               # voce 148
 		if mode == "":
 			despawn(uid)
 			continue
@@ -342,6 +377,11 @@ func _process(dt: float) -> void:
 		c.tame.mode = mode
 		if mode == "recinto":
 			c.tame.home = m.pens.range_of(r)
+		elif mode == "guardia":
+			var cu := kennel_of(r)
+			if fresh:
+				c.position = (Vector2(cu) + Vector2(1.0, 0.0)) * S
+			c.tame.home = (Vector2(cu) + Vector2(1.0, 0.5)) * S
 		elif mode == "segue":
 			c.tame.slot = slot
 			slot += 1
@@ -366,7 +406,7 @@ func _process(dt: float) -> void:
 				if c != null and c.hp < c.hp_max:
 					c.hp = mini(c.hp + maxi(1, c.hp_max / 60), c.hp_max)      # guarisce piano anche seguendoti
 					c._bar.set_value(float(c.hp) / float(c.hp_max))
-			"riposo":
+			"riposo", "guardia":
 				r["vita"] = minf(float(r["vita"]) + 1.0 / HerdData.REST_HEAL, 1.0)
 				r["fame"] = move_toward(float(r["fame"]), 0.3, 0.01)
 				r["felice"] = move_toward(float(r["felice"]), 0.7, 1.0 / 600.0)

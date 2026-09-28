@@ -6,6 +6,8 @@ extends Behavior
 ##              guadagna esperienza; le creature selvatiche la feriscono, e se la sua Vita finisce si ritira a riposare
 ##   recinto    gironzola dentro il suo recinto (non si fa male)
 ##   cavalcata  sta sotto il Germogliato e si muove con lui
+##   guardia    voce 148: resta alla sua cuccia (`home` = il punto) e attacca chi ostile le si avvicina entro `GUARD`
+##              tessere (le ondate delle maree comprese)
 
 var herd: Node2D                       # il modulo `Herd`
 var rec: Dictionary                    # la sua scheda (in `Character.mandria`)
@@ -21,6 +23,7 @@ var _look := 0.0
 const SIGHT := 12.0                    # tessere attorno al Germogliato entro cui difende
 const HIT_EVERY := 0.8
 const TELEPORT := 30.0
+const GUARD := 14.0                    # tessere attorno alla cuccia che la creatura di guardia difende
 
 
 func tick(c: Creature, dt: float) -> void:
@@ -47,6 +50,21 @@ func tick(c: Creature, dt: float) -> void:
 			if c.fly:
 				c.want_fly.y = clampf((m.pens.pen_y(rec) - 24.0 - c.position.y) * 2.0, -40.0, 40.0)
 			return
+	if mode == "guardia":
+		_hurt(c, m)
+		if not is_instance_valid(c) or c.tame != self:
+			return
+		if _look <= 0.0:
+			_look = 0.35
+			foe = _guard_foe(c, m)
+		if foe != null and (not is_instance_valid(foe) or not m.fauna.list.has(foe)):
+			foe = null
+		if foe != null:
+			_attack(c, m)
+			_go(c, foe.position)
+		else:
+			_go(c, home)
+		return
 	if c.position.distance_to(p.position) > TELEPORT * 16.0:
 		c.position = p.position + Vector2(-20.0 * p.facing, -8.0)
 		c.vel = Vector2.ZERO
@@ -126,3 +144,18 @@ func _hurt(c: Creature, m: Node2D) -> void:
 			else:
 				rec["vita"] = float(c.hp) / float(c.hp_max)
 			return
+
+
+## Voce 148: il nemico più vicino alla cuccia, entro `GUARD` tessere.
+func _guard_foe(c: Creature, m: Node2D) -> Creature:
+	var best := GUARD * 16.0
+	var out: Creature = null
+	for o in m.fauna.list:
+		if o == c or o.tame != null or o.calm or o.damage <= 0 or o.buried or o.docile:
+			continue
+		var d: float = o.position.distance_to(home)
+		if d < best:
+			best = d
+			out = o
+	return out
+

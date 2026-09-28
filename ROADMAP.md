@@ -2575,7 +2575,13 @@ I trofei si espongono negli armadi di una sala dei trofei (voce 142). Un motivo 
 - Ossa, chitina, cera, seta, squame e pelli diventano blocchi e arredi (voce 139); i trofei si espongono (voce 142):
   un motivo in più per cacciare ogni specie.
 
-## 148. [ ] La mandria abita (S)
+## 148. [x] La mandria abita (S) — fatto il 29 set 2026
+Fatto: la **Cuccia** (al Ceppo) e lo stato **«Di guardia»** nel pannello della mandria (`Herd.set_state`,
+`kennel_of`, `free_kennel`): la creatura resta alla sua cuccia in quel mondo (guarisce come a riposo) e attacca chi
+ostile si avvicina entro 14 tessere (`BhMandria` modo «guardia»): difende la casa, anche dalle ondate delle maree.
+L'**Alveare costruito** (al Ceppo, con il miele): un miele di lume ogni 2 minuti di gioco, al più 6, clic destro per
+raccoglierlo (`Dwellers.touch_hive`). Disegni in `NestArt`. Le stalle erano già i recinti (voce 60) e ora una stanza con
+un recinto è una stalla (voce 142). Prova in `--solo=vivo` (foto 210_guardia).
 - Cucce, stalle, nidi artificiali per le colonie (un alveare costruito), creature da guardia che difendono la casa
   durante le maree.
 
