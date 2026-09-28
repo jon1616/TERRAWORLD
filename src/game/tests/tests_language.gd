@@ -102,6 +102,7 @@ func run() -> void:
 	lg._sync_stat()
 	await lexicon()
 	await layers()
+	await word_chest()
 
 
 ## Voce 172: il Quaderno si apre con il suo tasto, mostra lo strato e una parola scelta; «È questo?» giusto la conferma.
@@ -186,3 +187,54 @@ func layers() -> void:
 	m.character.lingua = had
 	m.character.catene = had_c
 	m.language._sync_stat()
+
+
+## Voce 174: gli scrigni a parola: ce ne sono; la ruota dei glifi offre parole della classe giusta; una sbagliata chiude
+## il sigillo, la giusta lo apre (scrigno normale, bottino in più, la parola certa).
+func word_chest() -> void:
+	var wc: WordChests = m.word_chests
+	var seals: Dictionary = wc.all()
+	var n := seals.size()
+	if n == 0:
+		print("ATTENZIONE: nessuno scrigno a parola nel mondo di prova")
+		return
+	var lg: Language = m.language
+	var had: Dictionary = m.character.lingua.duplicate(true)
+	m.character.lingua.clear()
+	var k := String(seals.keys()[0])
+	var o := Vector2i(int(k.get_slice(",", 0)), int(k.get_slice(",", 1)))
+	var e: Dictionary = seals[k]
+	var gap := String(e["words"][int(e["gap"])])
+	m.snap_to(o + Vector2i(-2, 1))
+	await kit.frames(3)
+	for so in world.stations:
+		if String(world.stations[so]) == "stele":
+			lg.read(so)
+			lg.panel.visible = false
+	var touched: bool = wc.touch(o)
+	await kit.frames(4)
+	await kit.save("222_scrigno_parola")
+	wc.panel.visible = false
+	var ch: Array = wc.choices(e)
+	var same_class := ch.all(func(w: String) -> bool: return LanguageData.class_of(w) == LanguageData.class_of(gap))
+	var wrong := ""
+	for w in ch:
+		if String(w) != gap:
+			wrong = String(w)
+			break
+	var no: bool = wrong != "" and not wc.answer(o, wrong)
+	var locked: bool = not wc.touch(o) or wc.panel.visible == false
+	wc.panel.visible = false
+	e["lock"] = 0.0
+	var items0: int = world.chest_at(o).slots.filter(func(s: Dictionary) -> bool: return not s.is_empty()).size()
+	var yes: bool = wc.answer(o, gap)
+	m.interact.chest_panel.close()
+	var items1: int = world.chest_at(o).slots.filter(func(s: Dictionary) -> bool: return not s.is_empty()).size()
+	print("scrigni a parola: %d nel mondo; ruota %s, %d parole tutte della classe giusta %s; sbagliata «%s» chiude %s; giusta «%s» apre %s (%s, oggetti %d → %d, parola certa %s)" % [
+		n, touched, ch.size(), same_class, LanguageData.sem(wrong), no, LanguageData.sem(gap), yes, world.stations.get(o, ""), items0, items1,
+		lg.known(gap)])
+	if n < 2 or not touched or not same_class or not gap in ch or not no or not yes or String(world.stations.get(o, "")) != "scrigno" 			or items1 <= items0 or not lg.known(gap):
+		print("ATTENZIONE: gli scrigni a parola non vanno come dovrebbero")
+	m.character.lingua = had
+	lg._sync_stat()
+	m.snap_to(world.spawn)

@@ -185,6 +185,9 @@ const _STATIONS := {
 		"light": true, "light_color": Color(0.7, 0.65, 0.35)},
 	"scrigno": {"name": "Scrigno dei Seminatori", "size": [2, 2], "item": "scrigno", "slots": 20, "light": true,
 		"light_color": Color(0.2, 0.6, 0.55)},
+	# Roadmap 17, voce 174: lo scrigno sigillato da una parola (si apre con la ruota dei glifi, `WordChests`)
+	"scrigno_parola": {"name": "Scrigno a parola", "size": [2, 2], "item": "", "fixed": true, "slots": 20, "light": true,
+		"light_color": Color(0.9, 0.65, 0.25)},
 	# il fagotto di foglie dove il Germogliato è appassito, con la sua Bisaccia (voce 20): sparisce svuotato
 	"fagotto": {"name": "Fagotto del Germogliato", "size": [1, 1], "item": "", "fixed": true, "slots": 30, "light": true,
 		"light_color": Color(0.9, 0.7, 0.35)},

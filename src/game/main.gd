@@ -86,6 +86,7 @@ var weather: Weather
 var gravity: Gravity
 var chiome: Chiome
 var lexicon: LexiconPanel
+var word_chests: WordChests
 var strikes: SkyStrikes
 var living: LivingEarth
 var vigor: Vigor
@@ -246,6 +247,7 @@ func _build() -> void:
 	hud.add_child(lexicon)
 	lexicon.setup(self)
 	hud.overlays.append(lexicon)
+	word_chests = _mount(WordChests.new())     # Roadmap 17: gli scrigni a parola
 	chains = _mount(Chains.new())          # voce 69: le catene di ricerca tra i mondi (cripte, Taccuino)
 	places = _mount(Places.new())          # voce 70: i luoghi scritti a mano
 	mechanisms = _mount(Mechanisms.new())  # voce 71: enigmi e meccanismi dei luoghi (porte dei Seminatori)

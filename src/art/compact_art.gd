@@ -39,6 +39,9 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 			_cesta(im, w, h)
 		"scrigno":
 			_scrigno(im, gm, w, h)
+		"scrigno_parola":
+			_scrigno(im, gm, w, h)
+			_word_seal(im, gm, w)
 		"reliquiario":
 			_reliquiario(im, gm, w, h)
 		"arena":
@@ -441,3 +444,16 @@ static func _stella(im: Image, gm: Image, w: int, h: int) -> void:
 		Px.line(gm, c, c + Vector2(cos(ang), sin(ang)) * 6.0, 1, Color("#fff0a0"))
 	Px.disc(im, c.x, c.y, 2.5, Color("#ffffff"))
 	Px.disc(gm, c.x, c.y, 2.5, Color("#ffffff"))
+
+
+## Roadmap 17: il sigillo a parola sul coperchio dello scrigno: una fila di glifi d'ambra accesi.
+static func _word_seal(im: Image, gm: Image, w: int) -> void:
+	var gold := Color("#ffc860")
+	for x in range(5, w - 5):
+		if x % 3 != 1:
+			Px.put(im, x, 5, gold)
+			Px.put(gm, x, 5, Color(0.8, 0.55, 0.2))
+		if x % 3 == 0:
+			Px.put(im, x, 4, gold)
+			Px.put(gm, x, 4, Color(0.6, 0.4, 0.15))
+

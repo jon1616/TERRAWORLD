@@ -48,6 +48,7 @@ static func passes() -> Array[GenPass]:
 		PassLuoghi.new(),
 		PassCatene.new(),
 		PassStele.new(),
+		PassParole.new(),                   # Roadmap 17, voce 174: gli scrigni a parola (dopo le stele)
 		PassAcqua.new(),
 		PassSegretiStanze.new(),            # voce 96: stanze murate, passaggi, tesori, nidi nascosti
 		PassSegretiAnomalie.new(),          # voce 97: camere-enigma, anomalie, visioni

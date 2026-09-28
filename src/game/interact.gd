@@ -202,6 +202,8 @@ func touch(c: Vector2i) -> bool:
 		return false
 	var id := String(st["id"])
 	var o: Vector2i = st["origin"]
+	if id == "scrigno_parola" and m.get("word_chests") != null:
+		return m.word_chests.touch(o)                      # Roadmap 17: la ruota dei glifi
 	if StationsData.STATIONS[id].has("slots"):
 		chest_panel.open(o, m.world.chest_at(o), String(StationsData.STATIONS[id]["name"]))
 		m.sfx.play("apri", Vector2(o) * 16.0)

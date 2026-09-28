@@ -3106,12 +3106,13 @@ imparandola). `PassStele` sceglie lo strato secondo il posto e il vigore.
 **Pronto quando**: un mondo di vigore 3 ha stele antiche, e il Quaderno mostra i tre strati.
 **Fatto**: 40 parole antiche e 24 nere (`LanguageData`), 13 frasi antiche e 8 nere che le usano tutte; `PassStele`: gli osservatori del cielo e, nei mondi di vigore 3 (45%) e 5 (60%), le stele parlano la lingua antica; nel mondo del Seme Nero l'80% parla la lingua nera. Sui leggii della via del Seme Nero un'**iscrizione** nella lingua nera (`Chains.inscription`, `LanguageData.CRYPT_TRUTH`): leggerla fa vedere le parole, capita tutta dice che cosa accadde davvero e dà una volta Linfa antica e una tavoletta; si rilegge anche dopo. Misura: nel mondo di vigore 5 32 stele antiche su 50, in quello del Seme Nero 39 nere.
 
-## 174. [ ] Gli scrigni a parola (M)
+## 174. [x] Gli scrigni a parola (M) — fatto il 29 set 2026
 In un terzo delle rovine lo scrigno è **sigillato da una parola**: una frase con una parola mancante, e la ruota dei
 glifi per comporla con le parole che hai visto. Giusto: si apre (bottino più ricco) e la parola diventa certa; sbagliato:
 lo scrigno si chiude per un po'. La parola mancante è sempre una delle parole di altre stele di quel mondo: si può
 dedurre.
 **Pronto quando**: la prova apre uno scrigno a parola sbagliando una volta.
+**Fatto**: `PassParole` (dopo le stele): un terzo degli scrigni delle rovine diventa uno **scrigno a parola** (stazione `scrigno_parola`, sigillo d'ambra disegnato in `CompactArt`), sigillato da una frase di una stele di quel mondo con una parola mancante che compare in almeno due stele. `WordChests` (`src/game/word_chests.gd`) e la **ruota dei glifi** `GlyphPanel`: la frase con il vuoto, che tipo di parola manca, le parole viste di quella classe (in italiano se certe); giusta: si apre, bottino in più (rovina_3 e una tavoletta), la parola diventa certa; sbagliata: il sigillo si richiude per 45 s. Nel mondo di prova 17 scrigni a parola. Foto 222.
 
 ## 175. [ ] Le incisioni (M)
 Al Maglio, una parola **certa** si incide su un'arma, un attrezzo o un'armatura: un effetto in più che non prende un
