@@ -25,6 +25,10 @@ var _caught_up := false
 var _rng := RandomNumberGenerator.new()
 
 
+## Voce 142: una stalla nel mondo fa produrre di più la mandria (lo scrive `Rooms`).
+static var room_mult := 1.0
+
+
 func setup(main: Node2D) -> void:
 	m = main
 	_rng.randomize()
@@ -165,7 +169,7 @@ func tick(rec: Dictionary, dt: float) -> void:
 	var p: Array = t["produce"]
 	var secs := float(p[1])
 	if float(rec["fame"]) < 0.8:
-		rec["prod"] = float(rec["prod"]) + dt * rate(rec, friends)
+		rec["prod"] = float(rec["prod"]) + dt * rate(rec, friends) * room_mult   # voce 142: la stalla
 	if float(rec["prod"]) >= secs:
 		var q := _rng.randi_range(int(p[2]), int(p[3]))
 		if chest.add(String(p[0]), q) > 0:

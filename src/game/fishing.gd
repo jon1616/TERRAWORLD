@@ -84,7 +84,7 @@ func wait_mult(rod: String) -> float:
 
 ## La fortuna di pesca: la canna, la migliore esca e gli accessori (voce 122).
 func luck_now(rod: String) -> float:
-	var k := float(ItemsData.get_item(rod).get("fish", 0.0)) + float(gear["luck"])
+	var k: float = float(ItemsData.get_item(rod).get("fish", 0.0)) + float(gear["luck"]) + (m.rooms.fish_luck() if m.rooms else 0.0)   # voce 142
 	var bi := FishingData.best_bait(m.character.bisaccia)
 	if bi >= 0:
 		k += float(ItemsData.get_item(m.character.bisaccia.id_at(bi))["bait"]["luck"])

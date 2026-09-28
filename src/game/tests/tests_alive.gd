@@ -23,6 +23,7 @@ func run() -> void:
 	await builds()
 	await builder()
 	await furniture()
+	await rooms()
 	await brain()
 	await wiles()
 	await tactics()
@@ -583,3 +584,71 @@ func furniture() -> void:
 		FurnitureData.FORMS.size(), "sì" if bed_ok else "NO", slots])
 	if not bed_ok or slots != 24:
 		print("ATTENZIONE: gli arredi in serie non vanno come dovrebbero")
+
+
+## Voce 142: una stanza chiusa (blocchi, pareti, porta) si riconosce; col letto è una casa, con due banchi un
+## laboratorio, con tre trofei in un armadio una sala dei trofei (più danno contro quelle famiglie); il comfort cresce
+## con gli arredi.
+func rooms() -> void:
+	var w: World = m.world
+	var spot := kit.flat_spot(w.spawn + Vector2i(130, 0), 16)
+	if spot.x < 0:
+		spot = m.player_cell() + Vector2i(30, 0)
+	kit.flatten(spot, 20)
+	var x0 := spot.x - 5
+	var y1 := spot.y                                   # la riga del pavimento libero più bassa
+	var y0 := y1 - 3
+	var k_wall := 1 + 0 * BuildData.FORMS.size() + 1  # mattoni d'ardesia
+	for y in range(y0 - 1, y1 + 2):
+		for x in range(x0 - 1, x0 + 11):
+			var inside := x >= x0 and x < x0 + 10 and y >= y0 and y <= y1
+			if inside:
+				w.set_tile(x, y, TileDefs.AIR)
+				w.walls[y * w.w + x] = BuildData.WALL_BASE
+			else:
+				w.set_build(x, y, k_wall)
+	# la porta a destra
+	var door := Vector2i(x0 + 10, y1 - m.masonry.door_h() + 1)
+	for dy in m.masonry.door_h():
+		w.set_tile(door.x, door.y + dy, TileDefs.PORTA)
+	w.stations[door] = "porta"
+	for y in range(y0 - 2, y1 + 3):
+		for x in range(x0 - 2, x0 + 13):
+			m.view.refresh_around(Vector2i(x, y))
+	m.view.add_station(door)
+	m.snap_to(Vector2i(x0 + 4, y1))
+	await kit.frames(3)
+	var empty: Dictionary = m.rooms.refresh()
+	var put := func(sid: String, o: Vector2i) -> void:
+		w.stations[o] = sid
+		m.view.add_station(o)
+	put.call(FurnitureData.id_of("letto", "ambra"), Vector2i(x0, y1))
+	put.call(FurnitureData.id_of("lampada", "ambra"), Vector2i(x0 + 3, y1 - 1))
+	put.call(FurnitureData.id_of("quadro", "ambra"), Vector2i(x0 + 4, y0))
+	put.call(FurnitureData.id_of("vaso", "ambra"), Vector2i(x0 + 8, y1))
+	put.call(FurnitureData.id_of("tappeto", "ambra"), Vector2i(x0 + 5, y1))
+	var home: Dictionary = m.rooms.refresh()
+	var regen: float = m.vitals.room_regen
+	await kit.seconds(0.3)
+	await kit.save("202_stanza")
+	# una sala dei trofei: un armadio con tre trofei
+	var ward := Vector2i(x0 + 6, y0)
+	put.call(FurnitureData.id_of("armadio", "ambra"), ward)
+	var trophies := ["coda_brace", "ala_pietra", "cuore_golem"]
+	var chest: Bisaccia = w.chest_at(ward)
+	for t in trophies:
+		chest.add(t, 1)
+	var hall: Dictionary = m.rooms.refresh()
+	var mult: float = m.rooms.trophy_mult(FamiliesData.family_of("salamandra_brace"))
+	# e ancora: uscendo la stanza resta ricordata (i bonus del mondo), rientrando si riconosce di nuovo
+	m.snap_to(door + Vector2i(3, m.masonry.door_h() - 1))
+	await kit.frames(2)
+	m.rooms.refresh()
+	var kept: bool = m.rooms.list().any(func(e: Dictionary) -> bool: return String(e["type"]) == "trofei")
+	print("stanze: senza arredi «%s» %s; col letto «%s» comfort %d (Vita ×%.2f); con tre trofei «%s» (danno contro le salamandre ×%.2f); ricordata uscendo %s" % [
+		empty.get("type", "—"), "sì" if not empty.is_empty() else "NO", home.get("type", "—"), int(home.get("comfort", 0)), regen,
+		hall.get("type", "—"), mult, "sì" if kept else "NO"])
+	if empty.is_empty() or String(home.get("type", "")) != "casa" or String(hall.get("type", "")) != "trofei" or mult <= 1.0 or not kept:
+		print("ATTENZIONE: le stanze non si riconoscono come dovrebbero")
+	m.world_meta["stanze"] = []
+	m.rooms.refresh()

@@ -308,6 +308,10 @@ func plant(c: Vector2i, id: String) -> bool:
 
 ## Piazza un blocco dalla casella in mano: serve un appoggio (un blocco accanto o una parete dietro) e che non si
 ## sovrapponga al giocatore.
+## Voce 142: dentro una cantina cibi e pozioni durano di più (lo scrive `Rooms`).
+static var room_boon := 1.0
+
+
 func place_block(c: Vector2i, id: String) -> bool:
 	if not in_reach(c) or not world.inside(c.x, c.y) or world.solid(c.x, c.y) or world.torches.has(c):
 		return false
@@ -356,7 +360,7 @@ func drink(id: String) -> bool:
 		vitals.linfa = mini(vitals.linfa + int(it["linfa"]), vitals.linfa_max)
 		vitals.changed.emit()
 		if it.has("boon"):
-			boon.emit(String(it["boon"][0]), float(it["boon"][1]))   # voce 123: i piatti di pesce
+			boon.emit(String(it["boon"][0]), float(it["boon"][1]) * room_boon)   # voce 123: i piatti di pesce
 		return true
 	if it.has("boon"):
 		var slot0 := hud.sel
@@ -369,7 +373,7 @@ func drink(id: String) -> bool:
 			# voce 123: un piatto che cura e dà un effetto (il cibo non ha l'attesa delle pozioni)
 			vitals.hp = mini(vitals.hp + heal, vitals.hp_max)
 			vitals.changed.emit()
-		boon.emit(String(it["boon"][0]), float(it["boon"][1]))
+		boon.emit(String(it["boon"][0]), float(it["boon"][1]) * room_boon)
 		return true
 	if vitals.potion_wait > 0.0:
 		hud.toast("Ancora %d secondi prima di un'altra pozione" % ceili(vitals.potion_wait))

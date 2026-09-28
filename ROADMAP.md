@@ -2469,7 +2469,16 @@ in `--solo=vivo` (foto 201_arredi).
   appesa, finestra, tappeto, quadro, vaso con pianta, camino) per circa 8-10 materiali: circa 100. Una serie completa
   nella stessa stanza dà più comfort.
 
-## 142. [ ] Le stanze (L)
+## 142. [x] Le stanze (L) — fatto il 29 set 2026
+Fatto: `Rooms` (`src/game/`) e `RoomsData`: ogni secondo, se il Germogliato è in un posto chiuso (celle libere chiuse
+da blocchi, una parete dietro ognuna, una porta nel contorno, al più 260 celle) lo riconosce, ne trova il **tipo**
+dagli arredi (stalla, laboratorio, serra, acquario, sala dei trofei, biblioteca, osservatorio, cantina, casa, in
+quest'ordine) e il **comfort** (bellezza di arredi e blocchi del contorno, luci, serie complete; stretta −10), e lo
+ricorda in `world_meta["stanze"]`. I bonus × (1 + comfort/100): casa → Vita che ricresce (`Vitals.room_regen`),
+laboratorio → qualità (`Crafting.room_luck`), cantina → durata di cibi e pozioni (`PlayerActions.room_boon`) mentre ci
+sei; serra → colture (`grow_at`), stalla → mandria (`Pens.room_mult`), acquario → fortuna di pesca, trofei → danno
+contro le famiglie esposte (`Combat`), biblioteca → una parola in più dalle tavolette, osservatorio → eventi, in tutto
+il mondo. Avviso entrando («Casa bella · comfort 64»). Prova in `--solo=vivo` (foto 202_stanza).
 - Il gioco **riconosce una stanza** (chiusa da blocchi e pareti, con una porta) e il suo **tipo** dagli arredi: casa,
   laboratorio (qualità dei lavori ai banchi), serra (colture più rapide), stalla (la mandria), cantina (cibo e pozioni),
   sala dei trofei (trofei esposti: bonus contro quelle famiglie), acquario (pesci vivi esposti), biblioteca (lingua e

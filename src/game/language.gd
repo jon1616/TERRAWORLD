@@ -12,6 +12,9 @@ var panel: ReadPanel
 var _rng := RandomNumberGenerator.new()
 
 
+var extra_words := 0                     # voce 142: una biblioteca nel mondo (`Rooms`)
+
+
 func setup(main: Node2D) -> void:
 	m = main
 	_rng.randomize()
@@ -132,7 +135,7 @@ func use_tablet(id: String) -> bool:
 		return false
 	if not m.character.bisaccia.remove(id, 1):
 		return false
-	var got := learn(here.slice(0, LanguageData.TABLET_WORDS))
+	var got := learn(here.slice(0, LanguageData.TABLET_WORDS + extra_words))   # voce 142: la biblioteca
 	m.hud.toast("Parole nuove: %s  (%d su %d)" % [", ".join(got.map(func(w: String) -> String:
 		return "%s = %s" % [LanguageData.sem(w), LanguageData.it(w)])), count(), LanguageData.WORDS.size()])
 	m.sfx.play("dono")

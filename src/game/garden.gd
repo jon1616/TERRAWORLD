@@ -40,7 +40,8 @@ func grow(secs: float) -> void:
 			continue
 		var lf := _near_linfa(c)
 		e[1] = float(e[1]) - secs * (LiquidsData.LINFA_GROW if lf else m.day.dark_grow(c)) \
-			* m.zones.mult_at((Vector2(c) + Vector2(0.5, 0.5)) * 16.0, "crescita")        # voci 74, 78 e 87
+			* m.zones.mult_at((Vector2(c) + Vector2(0.5, 0.5)) * 16.0, "crescita") \
+			* (m.rooms.grow_at(c) if m.rooms else 1.0)        # voci 74, 78, 87 e 142 (la serra)
 		if float(e[1]) <= 0.0:
 			w.set_decor(c.x, c.y, int(CropsData.CROPS[String(e[0])]["decor"]))
 			m.view.refresh_around(c)

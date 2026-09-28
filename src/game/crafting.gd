@@ -134,7 +134,12 @@ static func craft(r: Dictionary, b: Bisaccia, luck := 0.0) -> bool:
 
 
 ## La qualità di un oggetto fabbricato a una stazione (0 grezzo … 3 capolavoro); la fortuna sposta il tiro in alto.
+## Voce 142: la fortuna della qualità dentro un laboratorio (la scrive `Rooms`).
+static var room_luck := 0.0
+
+
 static func roll_quality(station: String, luck := 0.0) -> int:
+	luck += room_luck
 	var w: Array = TraitsData.QUALITY_WEIGHTS.get(station, TraitsData.QUALITY_WEIGHTS[""])
 	var tot := 0
 	for x in w:

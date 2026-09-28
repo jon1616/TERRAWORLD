@@ -28,6 +28,7 @@ var zone_regen := 1.0                  # voce 87: lo Stendardo del riposo
 var harsh_regen := 1.0                 # voce 93: la sete ferma la ricrescita
 var death_guard: Callable              # voce 85: () -> true se un effetto salva dall'appassire (Seconda radice)
 var boon_regen := 1.0                  # Pozione di rigoglio (vedi `Boons`)
+var room_regen := 1.0                  # voce 142: dentro una casa la Vita ricresce più in fretta (`Rooms`)
 var linfa_regen_mult := 1.0            # accessori: la Linfa ricresce più in fretta
 var pet_linfa := 1.0                   # lo Spiritello di Linfa (voce 37)
 var poison_t := 0.0                    # avvelenato da una creatura Velenosa: perde Vita per qualche secondo
@@ -87,8 +88,8 @@ func tick(dt: float) -> void:
 				return
 	_since_hit += dt
 	potion_wait = maxf(potion_wait - dt, 0.0)
-	if harsh_regen > 0.0 and _since_hit >= REGEN_DELAY / (regen_mult * boon_regen * effect_regen * zone_regen) and hp < hp_max:
-		_acc += REGEN * regen_mult * boon_regen * effect_regen * zone_regen * harsh_regen * dt
+	if harsh_regen > 0.0 and _since_hit >= REGEN_DELAY / (regen_mult * boon_regen * effect_regen * zone_regen * room_regen) and hp < hp_max:
+		_acc += REGEN * regen_mult * boon_regen * effect_regen * zone_regen * harsh_regen * room_regen * dt
 		var k := int(_acc)
 		_acc -= k
 		hp = mini(hp + k, hp_max)
