@@ -108,6 +108,10 @@ static var _avail_cache := {}
 static func _discovered(r: Dictionary) -> bool:
 	if r.has("parole") and not words_known(r["parole"]):
 		return false                                 # Roadmap 17: scritta nella lingua dei Seminatori
+	if r.get("ricettario", false):                   # voce 245: un piatto si scopre avendo avuto tutti gli ingredienti
+		for k in r["in"]:
+			if not known.has(k):
+				return false
 	var it := ItemsData.get_item(String(r["out"]))
 	var mat := String(it.get("mat", ""))
 	var md := MaterialsData.get_mat(mat)

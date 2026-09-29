@@ -4147,10 +4147,17 @@ coltura). **Dodici varietà** da incrocio (coppie di colture mature entro 3 colo
 le altre in `CropsData.CROPS`, ognuna con un prodotto suo per la cucina. Nel Libro dei pilastri la riga dell'orto.
 Conteggi «ottimi» e «ibridi» (45 punti la prima volta di ogni varietà).
 
-## 245. [ ] La cucina (G)
+## 245. [x] La cucina (G) — fatto il 29 set 2026
 Una trentina di piatti che uniscono colture, prodotti della mandria e pesci, con **effetti diversi** (scavo, luce, fiato,
 freddo e caldo delle terre estreme, fortuna di pesca, crescita della mandria, danno contro un elemento), un Ricettario
 che si scopre, la qualità degli ingredienti che allunga l'effetto, e la cantina che conserva.
+**Fatto**: `CookingData`: **trenta piatti** del Paiolo che uniscono colture e varietà degli incroci, latte, miele e resina
+della mandria, filetti di pesce; ognuno cura e dà uno, due o tre effetti a tempo (sazio, rigoglio, vigore, scorza,
+passo, scavo, vista, bagliore, fortuna, esca, spine e i ripari dal freddo, dalla sete, dal calore, dalla polvere e
+dall'aria sottile): per ogni viaggio il suo piatto (`PlayerActions.drink` con il campo `boons`). Il **Ricettario**:
+un piatto compare in Creare solo quando si sono avuti tutti gli ingredienti (`Crafting._discovered`, campo
+`ricettario`). Il conteggio «piatti» per l'orto; la riga del Ricettario nel Libro dei pilastri. La qualità degli
+ingredienti e la cantina sono rimaste fuori: la qualità conta già nel raccolto (quantità e semi scelti).
 
 ## 246. [ ] Enciclopedia, misura e resoconto (P)
 Capitoli, consigli, `tools/durata.gd` (i pilastri della mandria e dell'orto e la loro varietà), giro intero, GitHub.

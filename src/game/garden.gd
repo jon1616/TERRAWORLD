@@ -116,7 +116,12 @@ func line() -> String:
 	var n := 0
 	for v in OrchardData.VARIETIES:
 		n += int(m.character.stats.get("ibrido_" + v, 0))
-	return "Varietà scoperte: %d su %d · raccolti ottimi: %d" % [n, OrchardData.VARIETIES.size(), int(m.character.stats.get("ottimi", 0))]
+	var dishes := 0
+	for r in CookingData.recipes():
+		if Crafting._discovered(r):
+			dishes += 1
+	return "Varietà scoperte: %d su %d · raccolti ottimi: %d · Ricettario: %d piatti su %d (cucinati %d)" % [n, OrchardData.VARIETIES.size(),
+		int(m.character.stats.get("ottimi", 0)), dishes, CookingData.DISHES.size(), int(m.character.stats.get("piatti", 0))]
 
 
 ## Pianta un seme da giardino in una cella. True se l'ha fatto.

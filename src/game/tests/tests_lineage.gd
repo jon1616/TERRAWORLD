@@ -17,6 +17,7 @@ func run() -> void:
 	await fairs()
 	await jobs()
 	await orchard()
+	await cooking()
 
 
 ## Voce 241: sei generazioni della stessa variante fanno una stirpe pura (doti in più); un manto raro nuovo entra nella
@@ -160,3 +161,33 @@ func orchard() -> void:
 			st.erase(k2)
 		else:
 			st[k2] = saved[k2]
+
+
+## Voce 245: un piatto si scopre solo con tutti gli ingredienti già visti; mangiato, dà tutti i suoi effetti.
+func cooking() -> void:
+	var r: Dictionary = RecipesData.making("frittelle_brezza")[0]
+	var saved_known: Dictionary = Crafting.known.duplicate()
+	for k in r["in"]:
+		Crafting.known.erase(k)
+	var hidden: bool = not Crafting._discovered(r)
+	for k in r["in"]:
+		Crafting.known[k] = 1
+	var shown: bool = Crafting._discovered(r)
+	Crafting.known.clear()
+	Crafting.known.merge(saved_known)
+	m.boons.active.erase("passo")
+	m.boons.active.erase("respiro_alto")
+	var slot := kit.hold("frittelle_brezza")
+	var ate: bool = m.actions.drink("frittelle_brezza")
+	var both: bool = m.boons.active.has("passo") and m.boons.active.has("respiro_alto")
+	m.boons.active.erase("passo")
+	m.boons.active.erase("respiro_alto")
+	var boons_ok := true
+	for id in CookingData.DISHES:
+		for b in CookingData.DISHES[id][3]:
+			boons_ok = boons_ok and (CookingData.BOON_NAMES.has(String(b[0])) or HarshData.boon_names().has(String(b[0])))
+	var ok: bool = hidden and shown and ate and both and boons_ok and CookingData.DISHES.size() == 30
+	print("cucina: ricetta nascosta %s, scoperta %s; mangiato %s, due effetti %s; effetti tutti noti %s; piatti %d" % [hidden, shown, ate,
+		both, boons_ok, CookingData.DISHES.size()])
+	if not ok:
+		print("ATTENZIONE: la cucina non va")

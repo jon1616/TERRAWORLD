@@ -361,6 +361,17 @@ func drink(id: String) -> bool:
 	var heal := int(it.get("heal", 0))
 	if vitals == null or (heal <= 0 and not it.has("boon") and not it.has("linfa")):
 		return false
+	if it.has("boons"):                               # voce 245: i piatti con più effetti
+		if bisaccia.id_at(hud.sel) != id:
+			return false
+		bisaccia.take_one(hud.sel)
+		if sfx:
+			sfx.play("pozione")
+		vitals.hp = mini(vitals.hp + heal, vitals.hp_max)
+		vitals.changed.emit()
+		for b in it["boons"]:
+			boon.emit(String(b[0]), float(b[1]) * room_boon)
+		return true
 	if it.has("linfa"):
 		# la Linfa non ha attesa tra una pozione e l'altra: serve nel mezzo di una lotta
 		if vitals.linfa >= vitals.linfa_max:

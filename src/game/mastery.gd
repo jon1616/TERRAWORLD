@@ -94,6 +94,8 @@ func _on_craft(r: Dictionary) -> void:
 	var pillar := String(MasteryData.KIND.get(kind, MasteryData.STATION.get(String(r.get("station", "")), "")))
 	if String(it.get("cat", "")) == "rete":
 		pillar = "rete"
+	if it.has("boons"):
+		m.objectives.bump("piatti")                  # voce 245: la cucina
 	if pillar == "" and Bisaccia.is_gear(out):
 		add("combattimento", MasteryData.GEAR_PTS)
 		return

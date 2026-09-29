@@ -278,6 +278,7 @@ static func all() -> Dictionary:
 	out.merge(WondersData.items())                         # Roadmap 23: i ricordi delle meraviglie
 	out.merge(ExplorerData.ITEMS.duplicate(true))          # voce 239: gli attrezzi dell'esploratore
 	out.merge(OrchardData.items(CropsData.CROPS))          # voce 244: varietà e semi scelti
+	out.merge(CookingData.items())                         # voce 245: i piatti del Ricettario
 	out.merge(PlacesData.ITEMS.duplicate(true))            # voce 70
 	out.merge(NeroData.ITEMS.duplicate(true))              # voce 72
 	out.merge(LiquidsData.ITEMS.duplicate(true))           # voce 73
