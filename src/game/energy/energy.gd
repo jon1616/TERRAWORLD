@@ -19,6 +19,8 @@ var nets: Array[Dictionary] = []       # {cells, sources, reserves, users, prod,
 var net_of := {}                       # cella di vena -> indice della rete
 var cells := {}                        # tutte le celle con una vena del Flusso
 var solved := 0                        # quanti conti (per le prove)
+var impulse: Impulse                   # voce 193: i fili e i comandi
+var _framed: Array[Machine] = []       # chi va guardato a ogni fotogramma (porte, piastre)
 var _dirty := true
 var _rev := -1
 var _t := 0.0
@@ -27,6 +29,7 @@ var _lights: Array = []
 
 func setup(main: Node2D) -> void:
 	m = main
+	impulse = Impulse.new(self)
 	m.veins.changed.connect(_on_vein)
 	m.view.flow_check = func(c: Vector2i) -> bool: return flows(c)
 	m.view.props.machine_look = func(o: Vector2i) -> Array: return look(o)
@@ -58,15 +61,21 @@ func _scan_cells() -> void:
 		if row.count(0) == w.w:
 			continue
 		for x in w.w:
+			if row[x] == 0:
+				continue
 			if row[x] & VeinsData.TIER_MASK != 0:
 				cells[Vector2i(x, y)] = true
+			if row[x] >> VeinsData.WIRE_SHIFT != 0:
+				impulse.on_cell(Vector2i(x, y), row[x])
 
 
 func _on_vein(c: Vector2i) -> void:
-	if VeinsData.tier(m.world.vein_at(c.x, c.y)) > 0:
+	var b: int = m.world.vein_at(c.x, c.y)
+	if VeinsData.tier(b) > 0:
 		cells[c] = true
 	else:
 		cells.erase(c)
+	impulse.on_cell(c, b)
 	_dirty = true
 
 
@@ -81,6 +90,9 @@ func _process(dt: float) -> void:
 	if rev != _rev or _dirty:
 		_rev = rev
 		rebuild()
+	for mc in _framed:
+		mc.bh.frame(mc, self, dt)
+	impulse.process(dt)
 	_t += dt
 	if _t >= TICK:
 		solve(_t)
@@ -117,6 +129,13 @@ func rebuild() -> void:
 	for k in st_all.keys():
 		if not alive.has(k):
 			st_all.erase(k)
+	for o: Vector2i in old:
+		if not machines.has(o) or (machines[o] as Machine) != old[o]:
+			(old[o] as Machine).bh.removed(old[o], self)
+	_framed.clear()
+	for mc: Machine in machines.values():
+		if mc.d.get("frame", false):
+			_framed.append(mc)
 	# le reti: visita delle celle di vena collegate
 	net_of.clear()
 	nets.clear()
@@ -160,6 +179,7 @@ func rebuild() -> void:
 					nt["users"].append(mc)
 	for ni in nets.size():
 		_widest(ni)
+	impulse.rebuild(machines)
 	# il bagliore delle vene si ridisegna secondo chi scorre (al primo conto)
 	for nt in nets:
 		nt["flowing"] = false
@@ -296,6 +316,46 @@ func solve(dt: float) -> void:
 	ticked.emit()
 
 
+## Spende le gocce di un'azione (una porta che si muove) dalla rete della macchina: prima da ciò che le sorgenti danno
+## in più adesso, poi dalle riserve. Falso se non basta (l'azione non si fa).
+func spend(mc: Machine, amount: float) -> bool:
+	if amount <= 0.0:
+		return true
+	if mc.net < 0:
+		return false
+	var nt: Dictionary = nets[mc.net]
+	var spare := (float(nt["prod"]) - float(nt["used"])) * 4.0      # il Flusso in più di un secondo
+	if spare >= amount:
+		return true
+	var need := amount - maxf(spare, 0.0)
+	if float(nt["stored"]) < need:
+		return false
+	for r: Machine in nt["reserves"]:
+		var g := float(r.st.get("g", 0.0))
+		var take := minf(g, need)
+		r.st["g"] = g - take
+		need -= take
+		if need <= 0.0:
+			break
+	nt["stored"] = maxf(float(nt["stored"]) - amount, 0.0)
+	return true
+
+
+## Clic destro su una macchina: il suo comportamento (una leva, un pulsante) o il pannello.
+func touch(o: Vector2i) -> bool:
+	var mc: Machine = machines.get(o)
+	if mc == null:
+		return false
+	if mc.bh.touch(mc, self):
+		refresh_look(mc)
+		return true
+	if m.get("machine_panel") != null:
+		m.machine_panel.open(mc)
+		return true
+	m.hud.toast("%s: %s" % [mc.d["name"], mc.bh.state_text(mc, self)])
+	return true
+
+
 ## Perché una macchina non ha tutto (per le schede).
 func why(mc: Machine) -> String:
 	if mc.net < 0:
@@ -341,27 +401,44 @@ func _repaint_all() -> void:
 
 # ---------------------------------------------------------------- l'aspetto e la luce
 
-## [fa luce, ha energia] di una macchina (per `ViewProps`).
+## [fa luce, ha energia, trasparenza] di una macchina (per `ViewProps`).
 func look(o: Vector2i) -> Array:
 	var mc: Machine = machines.get(o)
 	if mc == null:
-		return [true, true]
-	var powered := mc.role() != "macchina" or mc.power >= 0.99 or not mc.on()
+		return [true, true, 1.0]
+	var needs := float(mc.d.get("pulsi", 0)) > 0.0
+	var powered := mc.role() != "macchina" or not needs or mc.power >= 0.99 or not mc.on()
 	var glow := mc.lit if mc.d.has("light") else (mc.role() != "macchina" or mc.power >= 0.99)
-	if mc.role() == "sorgente":
-		glow = mc.made > 0.01
-	elif mc.role() == "riserva":
-		glow = float(mc.st.get("g", 0.0)) > 1.0
-	return [glow, powered]
+	var alpha := 1.0
+	match mc.role():
+		"sorgente":
+			glow = mc.made > 0.01
+		"riserva":
+			glow = float(mc.st.get("g", 0.0)) > 1.0
+		"comando", "nodo":
+			glow = bool(mc.st.get("out", false)) or float(mc.get_meta("flash", 0.0)) > 0.0
+	if mc.d.get("porta", false):
+		glow = bool(mc.st.get("open", false))
+		alpha = 0.3 if glow else 1.0
+		powered = true
+	return [glow, powered, alpha]
+
+
+func refresh_look(mc: Machine) -> void:
+	var lk := look(mc.o)
+	mc.set_meta("look", lk)
+	m.view.props.set_machine_look(mc.o, bool(lk[0]), bool(lk[1]), float(lk[2]))
 
 
 func _update_looks() -> void:
 	var lights := []
 	for mc: Machine in machines.values():
+		if mc.has_meta("flash"):
+			mc.set_meta("flash", maxf(float(mc.get_meta("flash")) - TICK, 0.0))
 		var lk := look(mc.o)
 		if mc.get_meta("look", []) != lk:
 			mc.set_meta("look", lk)
-			m.view.props.set_machine_look(mc.o, bool(lk[0]), bool(lk[1]))
+			m.view.props.set_machine_look(mc.o, bool(lk[0]), bool(lk[1]), float(lk[2]))
 		if mc.lit and mc.d.has("light"):
 			lights.append([mc.o, mc.d["light"]])
 	if lights != _lights:

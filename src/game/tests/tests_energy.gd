@@ -31,6 +31,7 @@ func run() -> void:
 	await kit.frames(4)
 	await veins()
 	await flux()
+	await impulses()
 	m.player.control = ctl
 	m.day.paused = false
 
@@ -188,3 +189,104 @@ func flux() -> void:
 		unplace(o)
 	unplace(lamp)
 	unplace(leaf)
+
+
+## Posa una vena o un filo in una cella senza la Pinza (per le prove lontane dal Germogliato).
+func lay(c: Vector2i, bits: int) -> void:
+	m.world.set_vein(c.x, c.y, m.world.vein_at(c.x, c.y) | bits)
+	m.energy._on_vein(c)
+	m.view.refresh_vein(c)
+
+
+func lay_row(x0: int, x1: int, y: int, bits: int) -> void:
+	for x in range(mini(x0, x1), maxi(x0, x1) + 1):
+		lay(Vector2i(x, y), bits)
+
+
+func door_open(o: Vector2i) -> bool:
+	return m.world.tile(o.x, o.y) == TileDefs.AIR and m.world.tile(o.x, o.y + 1) == TileDefs.AIR
+
+
+## Aspetta qualche fotogramma (le porte e le piastre si guardano a ogni fotogramma, gli impulsi arrivano subito).
+func settle(secs := 0.4) -> void:
+	await kit.seconds(secs)
+
+
+## Voce 193: una leva a 40 tessere apre e chiude una porta; un pulsante la alterna; una piastra la apre finché ci stai
+## sopra; una porta senza fili si apre da sola quando arrivi; senza Linfa una porta non si muove.
+func impulses() -> void:
+	var e: Energy = m.energy
+	var w: World = m.world
+	var y := spot.y
+	var dx := spot.x - 30
+	kit.flatten(Vector2i(dx + 20, y), 26)
+	var TURQ := 1 << VeinsData.WIRE_SHIFT
+	# la porta, con un Otre carico accanto e una vena sotto entrambi
+	var door := place("porta_viva", Vector2i(dx, y))
+	var otre := place("otre_linfa", Vector2i(dx + 1, y))
+	lay_row(dx, dx + 1, y, 1)
+	var lever := place("leva_radice", Vector2i(dx + 40, y))
+	lay_row(dx, dx + 40, y, TURQ)
+	await ticks(2)
+	(e.machines[otre] as Machine).st["g"] = 3000.0
+	await settle()
+	var closed0 := not door_open(door)
+	e.touch(lever)
+	await settle()
+	var opened := door_open(door)
+	await kit.save("232_impulso")
+	e.touch(lever)
+	await settle()
+	var closed1 := not door_open(door)
+	print("Impulso: porta chiusa all'inizio %s, la leva a 40 tessere la apre %s e la chiude %s" % [closed0, opened, closed1])
+	# un pulsante: ogni colpo la alterna
+	var btn := place("pulsante_radice", Vector2i(dx + 20, y - 1))
+	lay(Vector2i(dx + 20, y - 1), TURQ)
+	await ticks(2)
+	e.touch(btn)
+	await settle()
+	var p_open := door_open(door)
+	e.touch(btn)
+	await settle()
+	var p_closed := not door_open(door)
+	print("pulsante: apre %s, richiude %s" % [p_open, p_closed])
+	# una piastra: aperta finché il Germogliato ci sta sopra
+	var plate := place("piastra_radice", Vector2i(dx + 10, y))
+	await ticks(2)
+	m.snap_to(Vector2i(dx + 10, y))
+	await settle(0.5)
+	var on_plate := door_open(door)
+	m.snap_to(Vector2i(dx + 14, y))
+	await settle(0.5)
+	var off_plate := not door_open(door)
+	print("piastra: sopra la porta è aperta %s, sceso si richiude %s" % [on_plate, off_plate])
+	# senza Linfa non si muove
+	unplace(plate)
+	unplace(btn)
+	(e.machines[otre] as Machine).st["g"] = 0.0
+	await ticks(2)
+	e.touch(lever)
+	await settle()
+	var dry := not door_open(door)
+	e.touch(lever)
+	# una porta senza fili si apre quando arrivi
+	var d2 := place("porta_viva", Vector2i(dx + 44, y))           # oltre la fine del filo turchese
+	var o2 := place("otre_linfa", Vector2i(dx + 45, y))
+	lay_row(dx + 44, dx + 45, y, 1)
+	await ticks(2)
+	(e.machines[o2] as Machine).st["g"] = 3000.0
+	m.snap_to(Vector2i(dx + 48, y))
+	await settle()
+	var auto_closed := not door_open(d2)
+	m.snap_to(Vector2i(dx + 45, y))
+	await settle()
+	var auto_open := door_open(d2)
+	print("senza Linfa la porta resta chiusa %s; la porta senza fili: chiusa %s, arrivando si apre %s" % [dry, auto_closed, auto_open])
+	if not (closed0 and opened and closed1 and p_open and p_closed and on_plate and off_plate and dry and auto_closed and auto_open):
+		print("ATTENZIONE: l'Impulso non va come dovrebbe")
+	for o in [d2, o2, door, otre, lever]:
+		unplace(o)
+	await ticks(2)
+	var clean := w.tile(door.x, door.y) == TileDefs.AIR and w.tile(d2.x, d2.y) == TileDefs.AIR
+	if not clean:
+		print("ATTENZIONE: una porta tolta ha lasciato il suo muro")

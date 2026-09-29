@@ -235,6 +235,8 @@ func touch(c: Vector2i) -> bool:
 				m.world_meta["scrigni_aperti"] = opened
 				m.objectives.bump("scrigni")
 		return true
+	if MachinesData.is_machine(id):
+		return m.energy.touch(o)                         # Roadmap 19: le macchine della rete
 	if TrapsData.is_trap(id):
 		return m.traps.toggle(o)                         # voce 88: disarma e riarma
 	if id.begins_with("leva_trappole"):

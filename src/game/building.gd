@@ -35,7 +35,7 @@ func place_station(c: Vector2i, id: String) -> bool:
 	a.world.stations[o] = sid
 	a.bisaccia.take_one(slot)
 	if sid == "porta":
-		for dy in 3:
+		for dy in Masonry.door_h():                      # (erano 3 tessere: la porta è alta 2 dal 26 set 2026)
 			a.world.set_tile(o.x, o.y + dy, TileDefs.PORTA)   # chiusa: ferma chi passa (vedi `Masonry`)
 	a.view.add_station(o)
 	a.light.dirty = true
@@ -50,9 +50,10 @@ func take_station(o: Vector2i) -> void:
 			return
 		a.world.chests.erase(o)
 	var size: Array = StationsData.STATIONS[sid]["size"]
-	if sid == "porta" or sid == "porta_aperta":
-		for dy in 3:
-			a.world.set_tile(o.x, o.y + dy, TileDefs.AIR)
+	if sid == "porta" or sid == "porta_aperta" or MachinesData.get_machine(sid).get("porta", false):
+		for dy in int(size[1]):
+			for dx in int(size[0]):
+				a.world.set_tile(o.x + dx, o.y + dy, TileDefs.AIR)
 	a.world.stations.erase(o)
 	a.view.remove_station(o)
 	a.light.dirty = true

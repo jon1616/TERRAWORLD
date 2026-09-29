@@ -3418,10 +3418,18 @@ con `LightMap.set_extra`. Prova: di giorno la foglia dà 12 pulsi e carica l'Otr
 spegne a Otre vuoto, con 13 lampade e 12 pulsi resta accesa quella ad alta priorità, portata 30 dietro la radice (foto
 231_flusso_notte).
 
-## 193. [ ] L'Impulso (M)
+## 193. [x] L'Impulso (M) — fatto il 29 set 2026
 `Impulse` (reti dei fili per colore, colpo e stato, un passo di ritardo per ogni rimbalzo), Leva, Pulsante, Piastra,
 Porta di radice viva (si apre anche da sola al Germogliato, resta chiusa alle creature).
 **Pronto quando**: una leva apre una porta a 40 tessere; un circuito chiuso su se stesso non blocca il gioco.
+**Fatto**: `Impulse` (reti dei fili per colore, stato = una qualunque leva o piastra accesa sul filo, eventi «su», «giu»,
+«colpo»; reazione «segue» o «alterna»; chi risponde con un altro impulso lo manda un passo dopo, al più 400 eventi per
+fotogramma), comandi `MbLeva`, `MbPulsante`, `MbPiastra` (Germogliato, creature o tutti), `MbPorta` (la Porta di radice
+viva: tessere `PORTA` da chiusa, senza fili si apre quando arrivi, con un filo segue l'Impulso, ogni movimento costa 20
+gocce con `Energy.spend`, non si chiude addosso a nessuno), clic destro sulle macchine (`Energy.touch`), porte vive che si
+riprendono scavando. Trovato strada facendo: `Building` trattava la porta come alta 3 tessere (dal 26 set è alta 2) e
+trasformava in porta la tessera del pavimento. Prova: una leva a 40 tessere apre e chiude la porta, il pulsante la
+alterna, la piastra la tiene aperta, senza Linfa resta ferma, la porta senza fili si apre arrivando.
 
 ## 194. [ ] Il pannello e le schede (M)
 `MachinePanel` (stato, consumo, priorità, reazione all'impulso, impostazioni), schede dei suggerimenti per vene e

@@ -146,11 +146,17 @@ func _process(dt: float) -> void:
 
 
 ## Scava la tessera o raccoglie la decorazione sotto il mouse; restituisce l'avanzamento (0-1) per le crepe.
+## Roadmap 19: una porta viva chiusa è fatta di tessere solide, ma si riprende come una stazione.
+func _machine_door(c: Vector2i) -> bool:
+	var st := world.station_at(c)
+	return not st.is_empty() and bool(MachinesData.get_machine(String(st["id"])).get("porta", false))
+
+
 func _dig(c: Vector2i, item: Dictionary, dt: float) -> float:
 	if c != _cell:
 		_cell = c
 		_t = 0.0
-	if not world.solid(c.x, c.y):
+	if not world.solid(c.x, c.y) or _machine_door(c):
 		var st := world.station_at(c)
 		if not st.is_empty() and StationsData.STATIONS[st["id"]].get("fixed", false):
 			return 0.0                         # Cuore e portale non si riprendono

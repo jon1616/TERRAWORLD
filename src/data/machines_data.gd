@@ -34,6 +34,20 @@ const MACHINES := {
 		"light": Color(0.7, 1.5, 1.4), "look": "lampada", "icon": ["lanterna", "linfa"], "in": {"legno": 2, "gelatina": 1},
 		"station": "ceppo", "qty": 2, "tier": 1,
 		"desc": "Una luce che si accende e si spegne con l'Impulso (o sempre accesa, se nessun filo la tocca). Chiede 1 pulso."},
+	# ---------------------------------------------------------------- l'Impulso: comandi e porta (voce 193)
+	"leva_radice": {"name": "Leva di radice", "role": "comando", "size": [1, 1], "bh": "leva", "look": "leva",
+		"icon": ["chiave", "legno"], "in": {"legno": 3, "lingotto_radicite": 1}, "station": "ceppo", "tier": 1,
+		"desc": "Un comando: clic destro la alza o la abbassa. Alzata accende i fili dell'Impulso che la toccano."},
+	"pulsante_radice": {"name": "Pulsante di radice", "role": "comando", "size": [1, 1], "bh": "pulsante", "look": "pulsante",
+		"icon": ["gemma", "linfa"], "in": {"legno": 2, "gelatina": 1}, "station": "ceppo", "tier": 1,
+		"desc": "Un comando: clic destro manda un colpo sui fili che lo toccano (una porta si apre o si chiude, una lampada si alterna)."},
+	"piastra_radice": {"name": "Piastra di radice", "role": "comando", "size": [1, 1], "bh": "piastra", "look": "piastra",
+		"frame": true, "icon": ["mattoni", "legno"], "in": {"legno": 3, "ardesia": 2}, "station": "ceppo", "tier": 1,
+		"desc": "Un comando: accesa finché qualcuno ci sta sopra (nel pannello: tu, le creature, o tutti)."},
+	"porta_viva": {"name": "Porta di radice viva", "role": "macchina", "size": [1, 2], "bh": "porta", "pulsi": 0, "colpo": 20,
+		"porta": true, "frame": true, "look": "porta", "icon": ["porta", "linfa"],
+		"in": {"legno": 10, "lingotto_radicite": 2, "gelatina": 2}, "station": "ceppo", "tier": 1,
+		"desc": "Una porta che le creature non aprono. Senza fili si apre da sola quando arrivi; con un filo la comanda l'Impulso. Ogni volta che si muove costa 20 gocce della sua rete."},
 }
 
 

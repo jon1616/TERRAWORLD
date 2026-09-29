@@ -25,6 +25,14 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 			_otre(im, gm, w, h, 0.55)
 		"lampada":
 			_lampada(im, gm, w, h)
+		"leva":
+			_leva(im, gm, w, h)
+		"pulsante":
+			_pulsante(im, gm, w, h)
+		"piastra":
+			_piastra(im, gm, w, h)
+		"porta":
+			_porta(im, gm, w, h)
 		_:
 			_scatola(im, gm, w, h, d)
 	return true
@@ -135,3 +143,43 @@ static func _scatola(im: Image, gm: Image, w: int, h: int, _d: Dictionary) -> vo
 	Px.disc(im, c.x, c.y, minf(w, h) * 0.22, SLATE[0])
 	Px.disc(im, c.x, c.y, minf(w, h) * 0.16, LINFA[2])
 	Px.disc(gm, c.x, c.y, minf(w, h) * 0.14, LINFA[3])
+
+
+## La Leva di radice: un ceppo con un ramo che si alza; la punta brilla quando è alzata.
+static func _leva(im: Image, gm: Image, w: int, h: int) -> void:
+	_roots(im, w, h)
+	_rect(im, 4, h - 6, w - 4, h - 3, BARK[1])
+	_rect(im, 5, h - 6, w - 5, h - 5, BARK[3])
+	Px.line(im, Vector2(w * 0.5, h - 6), Vector2(w - 4, 3), 2, BARK[2])
+	Px.disc(im, w - 4, 3, 1.8, LINFA[2])
+	Px.disc(gm, w - 4, 3, 1.6, LINFA[3])
+
+
+## Il Pulsante di radice: un nodo di corteccia con una goccia di Linfa da premere.
+static func _pulsante(im: Image, gm: Image, w: int, h: int) -> void:
+	_roots(im, w, h)
+	Px.disc(im, w * 0.5, h - 6, 4.5, BARK[1])
+	Px.disc(im, w * 0.5, h - 7, 2.6, LINFA[1])
+	Px.disc(gm, w * 0.5, h - 7, 2.4, LINFA[3])
+
+
+## La Piastra di radice: una lastra bassa con le venature.
+static func _piastra(im: Image, gm: Image, w: int, h: int) -> void:
+	_rect(im, 0, h - 4, w, h, BARK[0])
+	_rect(im, 1, h - 4, w - 1, h - 2, BARK[2])
+	for x in range(2, w - 2, 3):
+		Px.put(im, x, h - 3, BARK[3])
+		Px.put(gm, x, h - 3, LINFA[3])
+
+
+## La Porta di radice viva: tavole di corteccia intrecciate con una vena di Linfa nel mezzo.
+static func _porta(im: Image, gm: Image, w: int, h: int) -> void:
+	_rect(im, 1, 0, w - 1, h, BARK[0])
+	_rect(im, 2, 1, w - 2, h - 1, BARK[2])
+	for y in range(3, h - 1, 4):
+		_rect(im, 2, y, w - 2, y + 1, BARK[1])
+	for y in range(2, h - 2):
+		Px.put(im, int(w * 0.5), y, LINFA[1])
+		if y % 2 == 0:
+			Px.put(gm, int(w * 0.5), y, LINFA[3])
+	Px.put(im, w - 4, int(h * 0.55), AMBER[2])

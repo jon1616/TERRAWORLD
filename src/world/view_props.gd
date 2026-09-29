@@ -186,21 +186,23 @@ func station_node(chunk: Node2D, o: Vector2i, id: String) -> void:
 	chunk.set_meta("station_nodes", by_origin)
 	if machine_look.is_valid() and MachinesData.is_machine(id):
 		var lk: Array = machine_look.call(o)
-		_apply_look(holder, bool(lk[0]), bool(lk[1]))
+		_apply_look(holder, bool(lk[0]), bool(lk[1]), float(lk[2]))
 
 
 ## Roadmap 19: il bagliore acceso o spento di una macchina, e più scura quando non ha energia.
-func set_machine_look(o: Vector2i, glow: bool, powered: bool) -> void:
+func set_machine_look(o: Vector2i, glow: bool, powered: bool, alpha := 1.0) -> void:
 	var chunk: Node2D = view.chunks.get(World.chunk_of(o))
 	if chunk == null:
 		return
 	var holder: Node2D = (chunk.get_meta("station_nodes", {}) as Dictionary).get(o)
 	if holder:
-		_apply_look(holder, glow, powered)
+		_apply_look(holder, glow, powered, alpha)
 
 
-func _apply_look(holder: Node2D, glow: bool, powered: bool) -> void:
-	(holder.get_child(0) as Sprite2D).modulate = Color.WHITE if powered else Color(0.62, 0.6, 0.66)
+func _apply_look(holder: Node2D, glow: bool, powered: bool, alpha := 1.0) -> void:
+	var col := Color.WHITE if powered else Color(0.62, 0.6, 0.66)
+	col.a = alpha
+	(holder.get_child(0) as Sprite2D).modulate = col
 	(holder.get_child(1) as Sprite2D).visible = glow
 
 
