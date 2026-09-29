@@ -81,6 +81,20 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 			_mungitrice(im, gm, w, h)
 		"culla":
 			_culla(im, gm, w, h)
+		"forno":
+			_forno(im, gm, w, h)
+		"frantoio":
+			_frantoio(im, gm, w, h)
+		"telaio_linfa":
+			_telaio_linfa(im, gm, w, h)
+		"braccio":
+			_braccio(im, gm, w, h)
+		"smistatore":
+			_smistatore(im, gm, w, h)
+		"nodo_casse":
+			_nodo_casse(im, gm, w, h)
+		"magazzino":
+			_magazzino(im, gm, w, h)
 		_:
 			_scatola(im, gm, w, h, d)
 	return true
@@ -515,3 +529,78 @@ static func _culla(im: Image, gm: Image, w: int, h: int) -> void:
 	Px.disc(im, w * 0.5, h * 0.6, w * 0.4, Color("#e8dcc8"))
 	Px.disc(im, w * 0.5, h * 0.55, w * 0.22, Color("#ff9a50"))
 	Px.disc(gm, w * 0.5, h * 0.55, w * 0.18, Color("#ffc080"))
+
+
+## Il Forno a Linfa: un forno di ardesia con la bocca di brace e una vena di Linfa che lo nutre.
+static func _forno(im: Image, gm: Image, w: int, h: int) -> void:
+	_rect(im, 1, 3, w - 1, h, SLATE[0])
+	_rect(im, 2, 4, w - 2, h - 1, SLATE[1])
+	_rect(im, int(w * 0.3), int(h * 0.5), int(w * 0.7), h - 3, Color("#401810"))
+	_rect(im, int(w * 0.34), int(h * 0.55), int(w * 0.66), h - 4, Color("#ff8a40"))
+	_rect(gm, int(w * 0.36), int(h * 0.58), int(w * 0.64), h - 5, Color("#ffc080"))
+	_rect(im, w - 5, 0, w - 2, 4, SLATE[0])
+	Px.line(im, Vector2(2, 6), Vector2(w - 3, 6), 1, LINFA[1])
+
+
+## Il Frantoio: due mole di pietra una sopra l'altra.
+static func _frantoio(im: Image, gm: Image, w: int, h: int) -> void:
+	_rect(im, 1, h - 5, w - 1, h, BARK[1])
+	Px.disc(im, w * 0.5, h * 0.45, w * 0.36, SLATE[1])
+	Px.disc(im, w * 0.5, h * 0.45, w * 0.28, SLATE[2])
+	Px.disc(im, w * 0.5, h * 0.45, 2.0, LINFA[1])
+	Px.disc(gm, w * 0.5, h * 0.45, 1.5, LINFA[3])
+	for k in 6:
+		var a := k * PI / 3.0
+		Px.put(im, int(w * 0.5 + cos(a) * w * 0.2), int(h * 0.45 + sin(a) * w * 0.2), SLATE[0])
+
+
+## Il Telaio a Linfa: un telaio con i fili di seta tesi e una spola che brilla.
+static func _telaio_linfa(im: Image, gm: Image, w: int, h: int) -> void:
+	_rect(im, 1, 1, 3, h, BARK[1])
+	_rect(im, w - 3, 1, w - 1, h, BARK[1])
+	_rect(im, 1, 1, w - 1, 3, BARK[2])
+	for x in range(4, w - 3, 2):
+		Px.line(im, Vector2(x, 3), Vector2(x, h - 2), 1, Color("#f0ece0"))
+	Px.disc(im, w * 0.5, h * 0.65, 1.8, LINFA[2])
+	Px.disc(gm, w * 0.5, h * 0.65, 1.4, LINFA[3])
+
+
+## Il Braccio di radice: una radice piegata con una pinza, sopra un piede.
+static func _braccio(im: Image, gm: Image, w: int, h: int) -> void:
+	_rect(im, 3, h - 4, w - 3, h, BARK[1])
+	Px.line(im, Vector2(w * 0.5, h - 4), Vector2(w * 0.3, h * 0.35), 2, BARK[2])
+	Px.line(im, Vector2(w * 0.3, h * 0.35), Vector2(w * 0.75, h * 0.2), 2, BARK[2])
+	Px.put(im, int(w * 0.8), int(h * 0.15), SLATE[3])
+	Px.put(im, int(w * 0.8), int(h * 0.28), SLATE[3])
+	Px.put(gm, int(w * 0.3), int(h * 0.35), LINFA[3])
+
+
+## Lo Smistatore: un imbuto di corteccia con le frecce di Linfa.
+static func _smistatore(im: Image, gm: Image, w: int, h: int) -> void:
+	for y in h - 2:
+		var half := int(lerpf(w * 0.48, w * 0.18, float(y) / h))
+		_rect(im, w / 2 - half, y, w / 2 + half, y + 1, BARK[1] if y % 3 else BARK[0])
+	_rect(im, int(w * 0.35), h - 3, int(w * 0.65), h, SLATE[1])
+	Px.put(im, int(w * 0.5), int(h * 0.4), LINFA[3])
+	Px.put(gm, int(w * 0.5), int(h * 0.4), LINFA[3])
+
+
+## Il Nodo delle casse: un nodo di radice con quattro vene che escono.
+static func _nodo_casse(im: Image, gm: Image, w: int, h: int) -> void:
+	var c := Vector2(w * 0.5, h * 0.5)
+	for d in [Vector2(1, 0), Vector2(-1, 0), Vector2(0, 1), Vector2(0, -1)]:
+		Px.line(im, c, c + d * (w * 0.5), 1, BARK[2])
+	Px.disc(im, c.x, c.y, 4.0, BARK[1])
+	Px.disc(im, c.x, c.y, 2.6, AMBER[2])
+	Px.disc(gm, c.x, c.y, 2.2, AMBER[3])
+
+
+## Il Magazzino vivo: una grande cassa d'ambra con le fasce e una finestra di Linfa.
+static func _magazzino(im: Image, gm: Image, w: int, h: int) -> void:
+	_rect(im, 1, 3, w - 1, h, BARK[0])
+	_rect(im, 2, 4, w - 2, h - 1, BARK[2])
+	for y in [8, int(h * 0.55), h - 6]:
+		_rect(im, 2, y, w - 2, y + 2, AMBER[1])
+	_rect(im, 1, 2, w - 1, 5, BARK[1])
+	Px.disc(im, w * 0.5, h * 0.35, 3.0, LINFA[1])
+	Px.disc(gm, w * 0.5, h * 0.35, 2.4, LINFA[3])

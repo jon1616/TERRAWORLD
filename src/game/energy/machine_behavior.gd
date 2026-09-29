@@ -60,6 +60,14 @@ static func make(bh: String) -> MachineBehavior:
 			return MbMungitrice.new()
 		"culla":
 			return MbCulla.new()
+		"fabbrica":
+			return MbFabbrica.new()
+		"braccio":
+			return MbBraccio.new()
+		"smistatore":
+			return MbSmistatore.new()
+		"magazzino":
+			return MbMagazzino.new()
 		"nastro":
 			return MbNastro.new()
 		"catapulta":

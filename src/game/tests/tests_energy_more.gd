@@ -217,7 +217,7 @@ func garden_light_liquids() -> void:
 	t.lay_row(px + 2, px + 4, y, 2)
 	for yy in range(y - 3, y):
 		t.lay(Vector2i(px + 4, yy), 2)
-	await t.ticks(6)
+	await t.ticks(10)
 	var pumped := int((e.machines[pump] as Machine).st.get("mosso", 0))    # poi l'acqua scorre via dallo sbocco
 	print("pompa: %d livelli d'acqua portati allo sbocco (sotto la pompa ne restano %d)" % [pumped, w.liq(px, y + 1) + w.liq(px, y + 2)])
 	# la chiusa: il clic destro la apre
@@ -272,6 +272,73 @@ func garden_light_liquids() -> void:
 		print("ATTENZIONE: le macchine di luce, liquidi e giardino non fanno ciò che devono")
 	for o in m.energy.machines.keys():
 		if o.x >= p.x - 2 and o.x <= p.x + 62:
+			if w.chests.has(o):
+				w.chests.erase(o)
+			t.unplace(o)
+
+
+## Voce 200: forno, frantoio, telaio, braccio, smistatore, nodo delle casse (tutti insieme, poi si guarda).
+func factory() -> void:
+	var e: Energy = m.energy
+	var w: World = m.world
+	var p: Vector2i = await t.clean_spot(330, 70)
+	var y := p.y
+	var forno := await powered("forno_linfa", Vector2i(p.x, y))
+	w.chest_at(forno).add("minerale_radicite", 6)
+	var mill := await powered("frantoio", Vector2i(p.x + 5, y), "baccello_serbatoio")
+	w.chest_at(mill).add("minerale_legnoferro", 3)
+	var loom := await powered("telaio_linfa", Vector2i(p.x + 11, y))
+	var lm: Machine = e.machines[loom]
+	var trec: Dictionary = {}
+	for r in RecipesData.all():
+		if String(r.get("station", "")) == "telaio" and not r.has("parole"):
+			trec = r
+			break
+	lm.st["ricetta"] = String(trec["out"])
+	for id in trec["in"]:
+		w.chest_at(loom).add(String(id), int(trec["in"][id]))
+	# il braccio: dalla cesta a sinistra a quella a destra
+	var arm := t.place("braccio_radice", Vector2i(p.x + 18, y))          # cesta | braccio | cesta, l'Otre più in là
+	var cl := t.place("cesta", Vector2i(p.x + 16, y))
+	var cr := t.place("cesta", Vector2i(p.x + 19, y))
+	var aot := t.place("otre_linfa", Vector2i(p.x + 22, y))
+	t.lay_row(p.x + 18, p.x + 22, y, 2)
+	await t.ticks(2)
+	(e.machines[aot] as Machine).st["g"] = 3000.0
+	w.chest_at(cl).add("legno", 5)
+	# lo smistatore: gli oggetti a terra nella cesta della sua rete che li ha già
+	var sorter := await powered("smistatore", Vector2i(p.x + 26, y))
+	var target := t.place("cesta", Vector2i(p.x + 32, y))
+	t.lay_row(p.x + 26, p.x + 33, y, 2)
+	w.chest_at(target).add("ardesia", 1)
+	await t.ticks(2)
+	m.snap_to(Vector2i(p.x + 40, y))
+	await kit.frames(2)
+	m.drops.spawn("ardesia", 4, (Vector2(sorter) + Vector2(0.5, 0.5)) * 16.0)
+	# il nodo delle casse: una cesta lontana sulla sua rete dà gli ingredienti
+	var node := await powered("nodo_casse", Vector2i(p.x + 44, y))
+	var far := t.place("cesta", Vector2i(p.x + 64, y))
+	t.lay_row(p.x + 44, p.x + 65, y, 2)
+	w.chest_at(far).add("gelatina", 7)
+	await t.ticks(2)
+	m.snap_to(Vector2i(p.x + 46, y))
+	await kit.seconds(7.0)
+	var ingots: int = w.chest_at(forno).count("lingotto_radicite")
+	var dust: int = w.chest_at(mill).count("polvere_legnoferro")
+	var woven: int = w.chest_at(loom).count(String(trec["out"]))
+	var carried: int = w.chest_at(cr).count("legno")
+	var sorted: int = w.chest_at(target).count("ardesia")
+	var pooled := false
+	for b in Crafting.pool:
+		if b == w.chests[far]:
+			pooled = true
+	print("forno: %d lingotti; frantoio: %d polveri; telaio: %d «%s»; braccio: %d legni portati; smistatore: %d ardesie nella cesta; nodo delle casse: la cesta lontana dà gli ingredienti %s" % [
+		ingots, dust, woven, trec["out"], carried, sorted, pooled])
+	await kit.save("236_fabbrica")
+	if not (ingots >= 1 and dust == 4 and woven >= 1 and carried >= 3 and sorted >= 5 and pooled):
+		print("ATTENZIONE: le macchine che fabbricano e smistano non fanno ciò che devono")
+	for o in m.energy.machines.keys() + [cl, cr, target, far]:
+		if o.x >= p.x - 2 and o.x <= p.x + 70:
 			if w.chests.has(o):
 				w.chests.erase(o)
 			t.unplace(o)

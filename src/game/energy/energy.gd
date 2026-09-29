@@ -18,6 +18,7 @@ var machines := {}                     # angolo -> Machine
 var nets: Array[Dictionary] = []       # {cells, sources, reserves, users, prod, used, want, stored, cap, flowing, bottleneck}
 var net_of := {}                       # cella di vena -> indice della rete
 var cells := {}                        # tutte le celle con una vena del Flusso
+var chest_net := {}                    # voce 200: angolo di una cassa -> la rete che la tocca
 var solved := 0                        # quanti conti (per le prove)
 var away_worked := 0.0                 # voce 197: secondi di lavoro fatti mentre si era via (per le prove)
 var _away_done := false
@@ -285,6 +286,23 @@ func needs(mc: Machine) -> bool:
 	var nt: Dictionary = nets[mc.net]
 	var others := float(nt["prod"]) - mc.made
 	return float(nt["want"]) > others + 0.01 or float(nt["stored"]) < float(nt["cap"]) - 1.0
+
+
+## Voce 200: le casse delle reti dei Nodi delle casse accesi vicini al Germogliato (a `CRAFT_REACH`): per `Storage`.
+func linked_chests() -> Array[Vector2i]:
+	var nets_on := {}
+	var p: Vector2 = m.player.position
+	for mc: Machine in machines.values():
+		if String(mc.id) == "nodo_casse" and mc.net >= 0 and mc.power >= 0.99 and mc.on() \
+				and mc.center().distance_to(p) <= StorageData.CRAFT_REACH * 16.0:
+			nets_on[mc.net] = true
+	var out: Array[Vector2i] = []
+	if nets_on.is_empty():
+		return out
+	for o: Vector2i in chest_net:
+		if nets_on.has(chest_net[o]) and m.world.chests.has(o):
+			out.append(o)
+	return out
 
 
 ## Roadmap 19, voce 196: il parafulmine più vicino alla colonna x (entro 40), o -1. Lo chiede `Weather.strike`.

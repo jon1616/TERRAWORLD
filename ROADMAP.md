@@ -3494,7 +3494,14 @@ cassetta), Mungitrice (porta via i prodotti dei recinti, non il cibo), Culla cal
 facendo: `Pens` usava un'incubatrice tolta fino al giro dopo dell'elenco (ora controlla). Foto 235_macchine_199.
 Faro di Linfa, Cupola di quiete, Insegna; Pompa di radice, Chiusa, Irrigatore, Distillatore; Serra, Mietitrice,
 Mungitrice, Culla calda.
-## 200. [ ] Fabbricare e smistare (G)
+## 200. [x] Fabbricare e smistare (G) — fatto il 29 set 2026
+**Fatto**: `MbFabbrica` per Forno a Linfa (i lingotti del Baccello, uno ogni 4 s), Frantoio (3 minerali danno 4 polveri, che
+fondono come i minerali: +33% di metallo; cinque polveri nuove e le loro ricette, fatte anche a mano accanto) e Telaio a
+Linfa (la ricetta scelta nel pannello); Braccio di radice (un oggetto al secondo da sinistra a destra o il contrario, con
+un filtro); Smistatore (gli oggetti a terra nelle casse della sua rete, prima dove ci sono già poi dove vuole il tipo);
+Nodo delle casse (le casse della sua rete danno gli ingredienti quando gli sei vicino: `Energy.linked_chests` in
+`Storage._update_pool`; `Energy.chest_net` in `EnergyGraph`); Magazzino vivo (105 caselle che si riordinano). Foto
+236_fabbrica.
 Forno a Linfa, Frantoio, Telaio a Linfa, Braccio di radice, Smistatore, Nodo delle casse (`Crafting.pool`), Magazzino vivo.
 ## 201. [ ] La Trivella di radice (M)
 Scavo automatico con la forza del piccone nella cassetta, tetto di resa, stop ai liquidi e ai Sigilli.

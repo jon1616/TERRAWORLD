@@ -51,6 +51,18 @@ static func build(e: Energy) -> void:
 					nt["reserves"].append(mc)
 				"macchina":
 					nt["users"].append(mc)
+	# le casse (e le cassette delle macchine) attaccate a una rete: per il Nodo delle casse e lo Smistatore
+	e.chest_net.clear()
+	for o: Vector2i in w.chests:
+		var sid := String(w.stations.get(o, ""))
+		if sid == "" or not StationsData.STATIONS.has(sid):
+			continue
+		var sz: Array = StationsData.STATIONS[sid]["size"]
+		for dy in int(sz[1]):
+			for dx in int(sz[0]):
+				var q := o + Vector2i(dx, dy)
+				if not e.chest_net.has(o) and net_of.has(q):
+					e.chest_net[o] = int(net_of[q])
 	for ni in nets.size():
 		_widest(e, ni)
 
