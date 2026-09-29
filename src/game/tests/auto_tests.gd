@@ -249,6 +249,8 @@ func run(main: Node2D) -> void:
 	_mark("TestsGardenLife")
 	await TestsAtlas.new(kit).run()        # Roadmap 23: l'Atlante
 	_mark("TestsAtlas")
+	await TestsLineage.new(kit).run()      # Roadmap 24: stirpi e semi
+	_mark("TestsLineage")
 	await ob.run()
 	_mark("ob.run")
 	await w.run_and_save()
@@ -439,6 +441,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsGardenLife.new(kit).run()     # Roadmap 22: il Giardino vivo
 		"atlante":
 			await TestsAtlas.new(kit).run()          # Roadmap 23: l'Atlante
+		"stirpi":
+			await TestsLineage.new(kit).run()        # Roadmap 24: stirpi e semi
 		"arena":
 			await TestsArena.new(kit).run()          # voce 180: il bot in arena (una misura, non nel giro)
 		"tratti":

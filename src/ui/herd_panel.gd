@@ -133,7 +133,8 @@ func _icon(rec: Dictionary) -> Texture2D:
 func _refresh() -> void:
 	var recs: Array = m.herd.records()
 	var jars: int = m.character.bisaccia.count("creatura")
-	_title.text = "La mandria — %d creature%s" % [recs.size(), (" (e %d nei vasetti)" % jars) if jars > 0 else ""]
+	_title.text = "La mandria — %d creature%s · manti %d/%d" % [recs.size(), (" (e %d nei vasetti)" % jars) if jars > 0 else "",
+		Lineage.collected(m.character.stats), Lineage.total()]
 	for c in _list.get_children():
 		c.queue_free()
 	_page = clampi(_page, 0, maxi((recs.size() - 1) / ROWS, 0))

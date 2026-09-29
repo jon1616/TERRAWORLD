@@ -216,6 +216,9 @@ func incubate(o: Vector2i) -> void:
 			if BreedData.is_rare(coat):
 				m.objectives.bump("manti_rari")
 				m.hud.toast("Un manto %s! Una rarità" % BreedData.COATS[coat]["name"])
+		var lmsg := Lineage.on_hatch(m, rec)                 # voce 241: collezione dei manti e stirpi pure
+		if lmsg != "":
+			m.hud.toast(lmsg)
 		rec["stato"] = "vasetto"
 		chest.slots[i] = {"id": "creatura", "n": 1, "dati": rec}
 		chest.changed.emit()

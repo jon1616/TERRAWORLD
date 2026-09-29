@@ -4097,6 +4097,47 @@ che esiste solo lì, per tre accessori), le **spedizioni** del Cartografo con i 
 attrezzi che fanno perdere meno strada (Tenda da campo, Cannocchiale, Bussola, Radice di ritorno). Tutto al grado 10:
 ~404 ore (458 per il giocatore medio).
 
+# Roadmap 24 «Stirpi e semi» — i pilastri della mandria e dell'orto (dal 29 set 2026)
+
+## Da dove si parte
+La mandria ha 30 famiglie da addomesticare, doti ereditate, manti rari, uova e cavalcature, ma dopo i primi manti non
+c'è una meta: nessuna genealogia, nessuna gara, nessun lavoro oltre la guardia. L'orto ha sei colture senza qualità né
+incroci, e la cucina quattro piatti che danno tutti lo stesso effetto. Obiettivo: ~50 ore di cose nuove, tutte utili
+anche al resto (combattere, esplorare, pescare, costruire).
+
+## 241. [x] Le stirpi e la collezione dei manti (M) — fatto il 29 set 2026
+Ogni creatura nata ricorda i genitori e la **stirpe** (il capostipite, le generazioni); nella scheda della mandria
+l'albero di tre generazioni. Le **stirpi pure** (cinque generazioni della stessa famiglia) danno un titolo e un
+piccolo bonus alla creatura; la **collezione dei manti** (famiglia × manto raro) dà un premio ogni dieci.
+**Fatto**: `Lineage` (`src/game/lineage.gd`): nelle doti di ogni figlio i genitori, i nonni, il capostipite e da quante
+generazioni la variante resta la stessa (`Breeding.child`); dalla quinta la **stirpe pura** vale +10% su tutte le doti
+(`Breeding.mult`). La **collezione dei manti** (30 famiglie × 6 manti rari = 180) segna ogni coppia nuova alla schiusa
+(`Pens.incubate`), un premio ogni 10; il titolo del pannello della mandria dice a che punto è. Conteggi «stirpi_pure»
+(90 punti) e «collezione_manti» (20). Prova nel gruppo nuovo `stirpi`.
+
+## 242. [ ] Le fiere della mandria (M)
+Una fiera nel Giardino ogni tre giorni: si iscrive una creatura, il giudizio guarda doti, manto, livello e stirpe;
+categorie per ruolo (da latte, da sella, da guardia), medaglie di bronzo, argento e oro, record per famiglia, premi
+che servono all'allevamento (mangimi rari, uova, un laccio migliore).
+
+## 243. [ ] I lavori della mandria (M)
+Oltre alla guardia, tre lavori nel recinto: **aratura** (le colture vicine crescono di più), **cerca** (ogni tanto la
+creatura trova qualcosa secondo la sua famiglia: tartufi, minerali, semi selvatici, anche a gioco chiuso) e **tiro**
+(le macchine della rete vicine hanno Flusso in più). Il lavoro dà esperienza e stanca.
+
+## 244. [ ] Qualità e incroci dell'orto (G)
+Ogni raccolto ha una **qualità** (comune, buona, ottima) che viene dalla terra, dall'acqua, dalla stagione e dal seme;
+i semi di qualità danno piante migliori. Due colture diverse accanto possono **incrociarsi**: dodici varietà nuove
+(dati), con usi propri in cucina e nell'allevamento. Un Semenzaio dell'orto nell'Erbario tiene il conto.
+
+## 245. [ ] La cucina (G)
+Una trentina di piatti che uniscono colture, prodotti della mandria e pesci, con **effetti diversi** (scavo, luce, fiato,
+freddo e caldo delle terre estreme, fortuna di pesca, crescita della mandria, danno contro un elemento), un Ricettario
+che si scopre, la qualità degli ingredienti che allunga l'effetto, e la cantina che conserva.
+
+## 246. [ ] Enciclopedia, misura e resoconto (P)
+Capitoli, consigli, `tools/durata.gd` (i pilastri della mandria e dell'orto e la loro varietà), giro intero, GitHub.
+
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».
 - Grafica: ora nella Roadmap 13 «Il volto del mondo» (armatura e colpo in corsa alla voce 117, creature 114-116).

@@ -56,7 +56,9 @@ static func child(a: Dictionary, b: Dictionary, rng: RandomNumberGenerator) -> D
 			pool.append("")
 			p = String(pool[rng.randi_range(0, pool.size() - 1)])
 		parts.append(p)
-	return {"specie": FamiliesData.variant_id(parts[0], parts[1], parts[2], parts[3]), "doti": d}
+	var sp := FamiliesData.variant_id(parts[0], parts[1], parts[2], parts[3])
+	d.merge(Lineage.of_child(a, b, sp))              # voce 241: la stirpe
+	return {"specie": sp, "doti": d}
 
 
 static func _coat(ca: String, cb: String, gen: int, rng: RandomNumberGenerator) -> String:
@@ -87,7 +89,7 @@ static func mult(g: Dictionary, k: String) -> float:
 	v *= float(BreedData.coat(String(g.get("manto", ""))).get("bonus", {}).get(k, 1.0))
 	if g.get("gigante", false):
 		v *= float(BreedData.GIANT_BONUS.get(k, 1.0))
-	return v
+	return v * Lineage.mult(g)                        # voce 241: la stirpe pura
 
 
 ## Il disegno: manto e grandezza per `VariantArt`.
@@ -167,4 +169,4 @@ static func sheet(g: Dictionary) -> String:
 	if g.get("gigante", false):
 		extra.append("[color=#ffd24a]gigante[/color]")
 	extra.append("generazione %d" % int(g.get("gen", 0)))
-	return t + "[color=#9fc8c0]%s[/color]\n" % " · ".join(extra)
+	return t + "[color=#9fc8c0]%s[/color]\n" % " · ".join(extra) + Lineage.sheet(g)
