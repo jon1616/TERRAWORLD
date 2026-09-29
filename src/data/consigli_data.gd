@@ -116,6 +116,11 @@ const LIST := [
 		"text": "La maestria della tua arma è arrivata al rango 3: si è aperta la sua [b]tecnica[/b] ({tecnica}). Il pannello delle arti ({arti}) mostra tutte le maestrie."},
 	{"id": "taglia", "title": "Le taglie", "cap": "taglie",
 		"text": "È arrivato il [b]Cacciatore di taglie[/b]: tre creature con un nome aspettano in posti precisi. Il pannello delle arti ({arti}) dice dove."},
+	# Roadmap 26 «Memorie»
+	{"id": "cronaca", "title": "Un frammento di cronaca", "cap": "archeologia",
+		"text": "Hai trovato un frammento delle [b]cronache perdute[/b]: leggilo nella sua scheda. Con tutti e cinque i frammenti di una storia, la storia si ricompone."},
+	{"id": "fossile", "title": "Un fossile", "cap": "archeologia",
+		"text": "Un [b]fossile[/b] da un giacimento: tre parti dello stesso animale fanno lo scheletro, al Maglio. Fossili e scheletri si espongono nelle Vetrine del Museo, nel Giardino."},
 ]
 
 

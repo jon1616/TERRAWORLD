@@ -774,7 +774,15 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     al Cerchio «arena»: clic destro due volte).
   - Prove: gruppo «arti» (`TestsArts`, foto 254). Enciclopedia: `EncyArtsData`.
   - Gli strumenti senza finestra (`tools/durata.gd`) contano dai **dati**, non dagli script di gioco: questi tirano dentro
-    `Portal` e `Session` e lo strumento non si carica («Compilation failed»).
+    `Portal` e `Session` e lo strumento non si carica («Compilation failed»). Per lo stesso motivo **un file di dati
+    (`ItemsData`…) non nomina mai uno script di `src/game/`**: gli oggetti nuovi stanno in un file di `src/data/`.
+- **Roadmap 26 «Memorie»** (voci 253-257, 30 set 2026; misteri 60 ore):
+  - `MuseumData` (sale costruite dagli altri dati, la Vetrina, gli accessori dei traguardi) e `Museum` (vetrine del
+    Giardino → `stats["museo_<oggetto>"]`, sale complete → `GearEffects`, bellezza in `GardenBeauty`); dentro `Museum`:
+    `arch` (`Archaeology`: giacimenti di `PassGiacimenti`, Pennello, fossili e scheletri di `ArchaeologyData`), `chron`
+    (`Chronicles`: le otto storie di `ChroniclesData`, frammenti nelle tabelle «rovina_N» di `LootData`), `goals`
+    (`Milestones`: i dieci traguardi delle collezioni).
+  - Prove: gruppo «memorie» (`TestsMemories`). Enciclopedia: `EncyMemoriesData`.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

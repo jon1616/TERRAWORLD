@@ -12,6 +12,13 @@ const ITEMS := {
 	"vetrina": {"name": "Vetrina del Museo", "kind": "stazione", "icon": ["vetro", "cristallo"], "place": "vetrina", "stack": 20,
 		"desc": "Una teca di vetro su un piedistallo: ciò che vi posi, nel Giardino, entra nel Museo."},
 }
+## Voce 256: gli accessori dei traguardi delle collezioni (`Milestones`).
+const MILESTONE_ITEMS := {
+	"sigillo_collezionista": {"name": "Sigillo del collezionista", "kind": "accessorio", "icon": ["collana", "iride"], "source": "traguardo dell'Erbario completo",
+		"acc": {"luck": 0.15, "magic": 1.05}, "desc": "Per chi ha trovato tutto ciò che l'Erbario conosce: fortuna e incantesimi un po' più forti."},
+	"corona_lingua": {"name": "Corona della lingua", "kind": "accessorio", "icon": ["corona", "sem"], "source": "traguardo delle tre lingue",
+		"acc": {"linfa_regen": 1.15, "magic": 1.08}, "desc": "Per chi legge tutte e tre le lingue dei Seminatori: Linfa +15%, incantesimi +8%."},
+}
 const RECIPES := [
 	{"out": "vetrina", "qty": 1, "in": {"vetro_resina": 3, "legno": 4}, "station": "ceppo"},
 ]

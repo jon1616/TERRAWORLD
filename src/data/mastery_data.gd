@@ -47,7 +47,7 @@ const PILLARS := {
 	"rete": {"name": "La rete di Linfa", "color": Color("#6ff0c0"), "icon": ["radice_viaggio", "linfa"], "hours": 35,
 		"desc": "Vene, fili, macchine e le Centrali dei Seminatori.",
 		"hint": "costruisci una macchina nuova, risveglia una Centrale"},
-	"misteri": {"name": "I misteri e le collezioni", "color": Color("#c090ff"), "icon": ["tavoletta", "sem"], "hours": 50,
+	"misteri": {"name": "I misteri e le collezioni", "color": Color("#c090ff"), "icon": ["tavoletta", "sem"], "hours": 60,
 		"desc": "La lingua dei Seminatori, le reliquie, gli unici, i trofei, lo studio.",
 		"hint": "decifra una stele, completa una serie, studia una specie"},
 }

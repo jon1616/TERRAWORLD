@@ -219,6 +219,9 @@ func _variety() -> void:
 	for c in BreedData.COATS:
 		if BreedData.is_rare(c):
 			rare_coats += 1
+	var museum_pieces := 0
+	for h in MuseumData.HALLS:
+		museum_pieces += MuseumData.pieces(h).size()
 	var rows := {
 		"giardino": [["isole", GardenIslandsData.ISLANDS.size(), 90.0], ["grandi opere", works, 150.0],
 			["progetti dei Seminatori", projects, 25.0], ["feste", FestivalsData.FESTIVALS.size(), 40.0]],
@@ -234,6 +237,10 @@ func _variety() -> void:
 			["Signori", BiomesData.pack("creatures").keys().filter(func(k: String) -> bool: return BiomesData.pack("creatures")[k].has("lord")).size(), 25.0],
 			["maree", TidesData.TIDES.size(), 35.0], ["sfide", ChallengesData.LIST.size(), 30.0], ["le dieci ondate del Cerchio", 1, 90.0],
 			["taglie (le prime trenta)", 30, 20.0]],
+		"misteri": [["parole dei Seminatori", LanguageData.WORDS.size(), 6.0], ["reliquie", 12, 20.0],
+			["serie di unici", UniqueSeriesData.SERIES.size(), 60.0], ["pezzi del Museo", museum_pieces, 3.0],
+			["fossili", ArchaeologyData.ANIMALS.size() * 3, 12.0], ["cronache", ChroniclesData.STORIES.size(), 40.0],
+			["traguardi", 10, 20.0]],
 		"orto": [["colture", CropsData.CROPS.size() - OrchardData.VARIETIES.size(), 20.0], ["varietà da incrocio", OrchardData.VARIETIES.size(), 45.0],
 			["semi scelti", CropsData.CROPS.size(), 10.0], ["piatti del Ricettario", CookingData.DISHES.size(), 12.0]],
 	}

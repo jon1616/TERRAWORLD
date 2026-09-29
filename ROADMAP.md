@@ -15,7 +15,8 @@
   degli abitanti, grandi opere. **Fatta la Roadmap 23 «L'Atlante»** (voci 235-240): stelle dei mondi, pagine dei biomi,
   meraviglie, spedizioni, attrezzi dell'esploratore. **Fatta la Roadmap 24 «Stirpi e semi»** (voci 241-246): stirpi,
   fiere e lavori della mandria; qualità, incroci e cucina dell'orto. **Fatta la Roadmap 25 «Le arti»** (voci 247-252):
-  maestrie e tecniche delle armi, taglie, prove del Cerchio. Il modello dà ~503 ore al giocatore medio.
+  maestrie e tecniche delle armi, taglie, prove del Cerchio. **Fatta la Roadmap 26 «Memorie»** (voci 253-257): Museo,
+  archeologia, cronache perdute, traguardi. Il modello dà ~513 ore al giocatore medio.
 - **Fatta la Roadmap 19 «La Linfa che scorre»** (voci 190-213, 29 set 2026, in autonomia): vene del Flusso e fili
   dell'Impulso, 64 macchine (sorgenti, riserve, macchine che lavorano, sensori, nodi della logica), le Centrali dei
   Seminatori, la Tempesta di Linfa, Succhiavena e Lucciole, la Tessitrice, il primo circuito guidato. Resoconto in fondo
@@ -4288,8 +4289,17 @@ reliquie; metà delle serie di unici; tutte le sale del Museo) con i loro premi,
 collezionista, la Corona della lingua), avviso e diario. Conteggio «traguardi» (60 punti). I titoli sono rimasti fuori:
 il diario e il Libro dei pilastri fanno già da registro.
 
-## 257. [ ] Enciclopedia, misura e resoconto (P)
+## 257. [x] Enciclopedia, misura e resoconto (P) — fatto il 30 set 2026
 Capitoli, consigli, `tools/durata.gd` (il pilastro dei misteri e la sua varietà), giro intero, GitHub.
+**Fatto**: `EncyMemoriesData` (Il Museo del Giardino; Archeologia e cronache), due consigli (il primo frammento di
+cronaca, il primo fossile), `tools/durata.gd` con la varietà dei misteri (55 ore di cose diverse). Il pilastro dei
+misteri sale da 50 a 60 ore.
+
+### Resoconto della Roadmap 26 (30 set 2026)
+Le collezioni hanno un posto: il **Museo** del Giardino con undici sale e le Vetrine, che danno bonus e bellezza. Sotto
+terra c'è l'**archeologia** (giacimenti, Pennello, 24 fossili e 8 scheletri); negli scrigni delle rovine le **cronache
+perdute** raccontano in otto storie chi erano i Seminatori e dove sono andati; i **traguardi** premiano l'Erbario, le tre
+lingue, le reliquie, le serie e il Museo completi. Tutto al grado 10: ~459 ore (513 per il giocatore medio).
 
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».

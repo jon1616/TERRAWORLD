@@ -1,7 +1,7 @@
 class_name Milestones
 extends RefCounted
 ## I traguardi delle collezioni (Roadmap 26, voce 256): premi una volta sola quando una grande collezione arriva a una
-## soglia (l'Erbario a un quarto, metà, tre quarti, tutto; ogni strato della lingua; tutte le reliquie; metà delle serie
+## soglia (gli accessori dei premi in `MuseumData.MILESTONE_ITEMS`; l'Erbario a un quarto, metà, tre quarti, tutto; ogni strato della lingua; tutte le reliquie; metà delle serie
 ## di unici; tutto il Museo). `Character.stats["traguardo_<id>"]`; li controlla `Museum` ogni `EVERY` secondi, ovunque.
 ##   [id, frase, premio]
 
@@ -18,12 +18,6 @@ const LIST := [
 	["serie_unici", "Metà delle serie di unici", {"linfa_antica": 5}],
 	["museo", "Tutte le sale del Museo", {"polvere_iridata": 10, "linfa_antica": 5}],
 ]
-const ITEMS := {
-	"sigillo_collezionista": {"name": "Sigillo del collezionista", "kind": "accessorio", "icon": ["collana", "iride"], "source": "traguardo dell'Erbario completo",
-		"acc": {"luck": 0.15, "magic": 1.05}, "desc": "Per chi ha trovato tutto ciò che l'Erbario conosce: fortuna e incantesimi un po' più forti."},
-	"corona_lingua": {"name": "Corona della lingua", "kind": "accessorio", "icon": ["corona", "sem"], "source": "traguardo delle tre lingue",
-		"acc": {"linfa_regen": 1.15, "magic": 1.08}, "desc": "Per chi legge tutte e tre le lingue dei Seminatori: Linfa +15%, incantesimi +8%."},
-}
 
 var m: Node2D
 

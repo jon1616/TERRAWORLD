@@ -33,6 +33,7 @@ static func chapters() -> Array:
 	out.append_array(EncyAtlasData.CHAPTERS)           # Roadmap 23: l'Atlante
 	out.append_array(EncyBreedData.CHAPTERS)           # Roadmap 24: stirpi e semi
 	out.append_array(EncyArtsData.CHAPTERS)            # Roadmap 25: le arti
+	out.append_array(EncyMemoriesData.CHAPTERS)        # Roadmap 26: memorie
 	return out
 
 

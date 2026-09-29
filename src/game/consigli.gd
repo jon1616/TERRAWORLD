@@ -390,3 +390,14 @@ func _c_tecnica() -> bool:
 
 func _c_taglia() -> bool:
 	return int(m.character.stats.get("guardiani", 0)) >= 1 and m.get("bounties") != null and not m.bounties.open_list().is_empty()
+
+
+func _c_cronaca() -> bool:
+	for k in (m.character.erbario.get("oggetti", {}) as Dictionary):
+		if String(k).begins_with("cronaca_"):
+			return true
+	return false
+
+
+func _c_fossile() -> bool:
+	return int(m.character.stats.get("fossili", 0)) >= 1
