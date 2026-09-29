@@ -80,7 +80,7 @@ func rebuild(machines: Dictionary) -> void:
 	# lo stato delle reti dai comandi, e chi «segue» si mette in pari senza eventi
 	for k in 4:
 		for nt: Dictionary in wnets[k]:
-			nt["state"] = _or(nt)
+			nt["state"] = _or(nt, k)
 	for mc: Machine in machines.values():
 		if mc.role() in ["comando", "nodo"]:
 			continue
@@ -96,31 +96,60 @@ func rebuild(machines: Dictionary) -> void:
 	queue.clear()
 
 
-## Il filo della rete è acceso se almeno un comando che lo tocca è acceso.
-func _or(nt: Dictionary) -> bool:
+## Il filo della rete è acceso se almeno un comando che lo tocca è acceso (un nodo solo sul filo della sua uscita).
+func _or(nt: Dictionary, k: int) -> bool:
 	for mc: Machine in nt["members"]:
-		if mc.role() in ["comando", "nodo"] and bool(mc.st.get("out", false)):
+		if drives(mc, k) and bool(mc.st.get("out", false)):
 			return true
 	return false
 
 
+## Chi guida il filo di un colore: i comandi tutti i loro fili, i nodi solo quello dell'uscita (voce 205).
+static func drives(mc: Machine, k: int) -> bool:
+	match mc.role():
+		"comando":
+			return true
+		"nodo":
+			return MbNodo.out_of(mc) == k
+	return false
+
+
 ## Un comando cambia il suo stato (leva, piastra, sensore, nodo): le reti che tocca si riaccendono o si spengono.
+## Con un'attesa (i nodi) il cambio stesso arriva dopo: fino ad allora il filo resta com'era.
 func set_out(mc: Machine, value: bool, delay := 0.0) -> void:
+	if delay > 0.0:
+		queue.append([now + delay, -1, 1 if value else 0, "stato", mc])
+		return
 	if bool(mc.st.get("out", false)) == value:
 		return
 	mc.st["out"] = value
 	for k in mc.wired:
+		if not drives(mc, k) or int(mc.wired[k]) >= (wnets[k] as Array).size():
+			continue
 		var nt: Dictionary = wnets[k][mc.wired[k]]
-		var s := _or(nt)
+		var s := _or(nt, k)
 		if s != bool(nt["state"]):
 			nt["state"] = s
 			queue.append([now + delay, k, int(mc.wired[k]), "su" if s else "giu", mc])
 
 
+## Rimette in pari lo stato di tutti i fili che una macchina tocca (un nodo che ha cambiato uscita).
+func refresh(mc: Machine) -> void:
+	for k in mc.wired:
+		if int(mc.wired[k]) >= (wnets[k] as Array).size():
+			continue
+		var nt: Dictionary = wnets[k][mc.wired[k]]
+		var s := _or(nt, k)
+		if s != bool(nt["state"]):
+			nt["state"] = s
+			queue.append([now, k, int(mc.wired[k]), "su" if s else "giu", mc])
+
+
 ## Un colpo istantaneo su tutti i fili che il comando tocca.
 func pulse(mc: Machine, delay := 0.0) -> void:
 	for k in mc.wired:
-		queue.append([now + delay, k, int(mc.wired[k]), "colpo", mc])
+		if drives(mc, k):
+			queue.append([now + delay, k, int(mc.wired[k]), "colpo", mc])
 
 
 ## Consegna gli eventi arrivati (al più `MAX_EVENTS` per fotogramma).
@@ -135,6 +164,11 @@ func process(dt: float) -> void:
 		n += 1
 		var k: int = ev[1]
 		var ni: int = ev[2]
+		if k < 0:
+			var who: Machine = ev[4]
+			if e.machines.get(who.o) == who:           # la macchina c'è ancora
+				set_out(who, ni == 1)
+			continue
 		if ni >= (wnets[k] as Array).size():
 			continue
 		for mc: Machine in wnets[k][ni]["members"]:

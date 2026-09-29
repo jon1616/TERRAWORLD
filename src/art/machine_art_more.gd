@@ -66,6 +66,10 @@ static func draw(look: String, im: Image, gm: Image, w: int, h: int) -> bool:
 			_fontana(im, gm, w, h)
 		"teca":
 			_teca(im, gm, w, h)
+		"nodo_e", "nodo_o", "nodo_non", "nodo_ritardo", "nodo_contatore", "nodo_memoria":
+			_nodo(im, gm, w, h, look.trim_prefix("nodo_"))
+		"sensore_luce", "sensore_orecchio", "sensore_acqua", "sensore_cassa", "sensore_riserva", "sensore_orologio", "sensore_meteo":
+			_sensore(im, gm, w, h, look.trim_prefix("sensore_"))
 		_:
 			return false
 	return true
@@ -383,3 +387,51 @@ static func _teca(im: Image, gm: Image, w: int, h: int) -> void:
 	for x in range(2, w - 2):
 		Px.put(im, x, 2, Color("#b8e0e8"))
 	Px.disc(gm, w * 0.5, h * 0.35, 2.0, Color("#fff0d0"))
+
+
+## I sensori: una placca di corteccia con il segno di ciò che sentono (un occhio, un orecchio, una goccia, una cassa, una
+## riserva, un quadrante, una nuvola), in un colore suo.
+static func _sensore(im: Image, gm: Image, w: int, h: int, kind: String) -> void:
+	MachineArt._rect(im, 1, 2, w - 1, h - 1, MachineArt.BARK[0])
+	MachineArt._rect(im, 2, 3, w - 2, h - 2, MachineArt.BARK[2])
+	var c := Vector2(w * 0.5, h * 0.5)
+	var col: Color = {"luce": MachineArt.AMBER[2], "orecchio": MachineArt.LEAF[3], "acqua": Color("#8ad8ff"),
+		"cassa": MachineArt.BARK[3], "riserva": MachineArt.LINFA[2], "orologio": Color("#f0ece0"), "meteo": Color("#c8d8f0")}.get(kind, MachineArt.LINFA[2])
+	match kind:
+		"luce":
+			Px.disc(im, c.x, c.y, 3.0, col)
+			Px.disc(im, c.x, c.y, 1.2, MachineArt.BARK[0])
+		"orecchio":
+			Px.curve(im, c + Vector2(-2, -3), c + Vector2(4, -2), c + Vector2(-1, 4), 1, col)
+		"acqua":
+			Px.disc(im, c.x, c.y + 1, 2.4, col)
+			Px.put(im, int(c.x), int(c.y) - 2, col)
+		"cassa":
+			MachineArt._rect(im, int(c.x) - 3, int(c.y) - 2, int(c.x) + 3, int(c.y) + 3, col)
+		"riserva":
+			MachineArt._rect(im, int(c.x) - 2, int(c.y) - 3, int(c.x) + 2, int(c.y) + 3, MachineArt.SLATE[0])
+			MachineArt._rect(im, int(c.x) - 1, int(c.y), int(c.x) + 1, int(c.y) + 3, col)
+		"orologio":
+			Px.disc(im, c.x, c.y, 3.2, col)
+			Px.line(im, c, c + Vector2(0, -2.5), 1, MachineArt.BARK[0])
+			Px.line(im, c, c + Vector2(2, 0), 1, MachineArt.BARK[0])
+		"meteo":
+			Px.disc(im, c.x - 1.5, c.y, 2.0, col)
+			Px.disc(im, c.x + 1.5, c.y - 1, 2.2, col)
+	Px.disc(gm, c.x, c.y, 1.4, col)
+
+
+## I nodi della logica: un sasso d'ardesia con una runa dei Seminatori che brilla (ogni nodo la sua).
+static func _nodo(im: Image, gm: Image, w: int, h: int, kind: String) -> void:
+	Px.disc(im, w * 0.5, h * 0.55, 6.0, MachineArt.SLATE[0])
+	Px.disc(im, w * 0.5, h * 0.5, 5.0, MachineArt.SLATE[2])
+	var c := Vector2(w * 0.5, h * 0.5)
+	var col: Color = MachineArt.LINFA[3]
+	var pts: Array = {"e": [[-3, 2, 0, -3], [0, -3, 3, 2]], "o": [[-3, -2, 0, 3], [0, 3, 3, -2]],
+		"non": [[-3, 0, 3, 0], [2, -2, 2, 2]], "ritardo": [[0, -3, 0, 0], [0, 0, 3, 2]],
+		"contatore": [[-2, -3, -2, 3], [0, -3, 0, 3], [2, -3, 2, 3]], "memoria": [[-3, -3, 3, -3], [-3, 3, 3, 3], [0, -3, 0, 3]]}.get(kind, [])
+	for p in pts:
+		var a := c + Vector2(float(p[0]), float(p[1]))
+		var b := c + Vector2(float(p[2]), float(p[3]))
+		Px.line(im, a, b, 1, col)
+		Px.line(gm, a, b, 1, col)

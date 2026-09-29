@@ -3526,11 +3526,21 @@ il trofeo conta per la sala dei trofei).
 Carillon di radice, Fontana di Linfa, Esposizione (comodità e trofei delle stanze).
 
 ## Fase 4 · La logica
-## 204. [ ] I sensori (M)
+## 204. [x] I sensori (M) — fatto il 29 set 2026
 Occhio di luce, Orecchio di muschio, Sensore d'acqua, Sensore di cassa, Sensore di riserva, Orologio di Linfa, Barometro.
-## 205. [ ] I nodi (M)
+**Fatto**: sette comandi (`MbSensore`, tipo in `p.kind`) che accendono i loro fili da soli a ogni conto del Flusso, con le
+impostazioni nel pannello (giorno/notte, raggio dell'orecchio, liquido, cassa piena/vuota/con qualcosa, riserve sotto un
+quarto o oltre tre quarti, periodo dell'orologio da 1 s a 10 min, pioggia/temporale/maltempo). Prova: ogni sensore acceso e
+spento quando deve (foto 238_sensori).
+## 205. [x] I nodi (M) — fatto il 29 set 2026
 E, O, NON, Ritardo, Contatore, Memoria; i nomi a runa (la parola conosciuta li mostra in chiaro).
 **Pronto quando**: la prova controlla le tabelle di verità e un contatore di 10.
+**Fatto**: sei nodi (`MbNodo`): ingressi e uscita sono fili di colori diversi (l'uscita si sceglie nel pannello, all'inizio
+il colore più alto); l'`Impulse` fa guidare a un nodo solo il filo della sua uscita (`drives`) e, con un'attesa, rimanda
+il cambio stesso (evento «stato»), così il Ritardo è vero e un giro chiuso oscilla senza fermare il gioco. Prova: tabelle
+di verità di E, O, NON, ritardo di 1 s, contatore di 10 su un carillon, memoria a due ingressi, giro chiuso NON→O che
+oscilla (14 cambi in 1,5 s, 90 fotogrammi) (foto 239_logica). I nomi a runa sono rimasti fuori: i nodi hanno nomi chiari
+(«Nodo E (intreccio)»), perché la logica è già difficile da capire senza dover decifrare anche i pezzi.
 
 ## Fase 5 · Il mondo si collega
 ## 206. [ ] Le centrali dei Seminatori (G)

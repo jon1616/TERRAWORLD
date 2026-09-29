@@ -9,6 +9,7 @@ const S := 16
 var kit: TestKit
 var m: Node
 var spot := Vector2i(-1, -1)
+var more: TestsEnergyMore
 
 
 func _init(tk: TestKit) -> void:
@@ -34,7 +35,7 @@ func run() -> void:
 	await impulses()
 	await panel()
 	await sources()
-	var more := TestsEnergyMore.new(kit, self)
+	more = TestsEnergyMore.new(kit, self)
 	await more.special()
 	await more.reserves()
 	await more.moving()
@@ -43,6 +44,9 @@ func run() -> void:
 	await more.drill()
 	await more.defense()
 	await more.play_decor()
+	var logic := TestsEnergyLogic.new(kit, self)
+	await logic.sensors()
+	await logic.logic()
 	m.player.control = ctl
 	m.day.paused = false
 

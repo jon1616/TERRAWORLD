@@ -33,7 +33,7 @@ static func card(m: Node2D, o: Vector2i, id: String) -> TipCard:
 		c.pair("Dà al più", "%d pulsi" % int(d["pulsi"]), Color("#cfe6e0"))
 	if d.has("colpo"):
 		c.pair("Ogni azione", "%d gocce" % int(d["colpo"]), Color("#cfe6e0"))
-	c.hint("Clic destro: " + ("usa" if String(d.get("role", "")) == "comando" else "il pannello"))
+	c.hint("Clic destro: " + ("usa" if String(d.get("bh", "")) in ["leva", "pulsante"] else "il pannello"))
 	return c
 
 
