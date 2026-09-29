@@ -3942,11 +3942,16 @@ la maestria del Giardino cresce anche con la bellezza guadagnata. Le soglie dell
 ogni 2, al più 40). La più alta in `stats.bellezza_max`; ogni punto nuovo = un punto di maestria del Giardino. Una riga
 nel Libro dei pilastri. Prova nel gruppo nuovo `giardino_vivo`.
 
-## 228. [ ] Le isole del Giardino (G)
+## 228. [x] Le isole del Giardino (G) — fatto il 29 set 2026
 A certe soglie di bellezza e dell'Albero, accanto all'isola del Giardino nasce un'isola nuova (una passata del
 Giardino eseguita dopo, `GardenIslands`): l'isola dell'orto (terra fertile, acqua), l'isola delle bestie (prati e
 recinti), l'isola della bottega (roccia e minerali poveri), l'isola del cielo (nuvole e correnti). Ogni isola ha un
 ponte di radici verso le altre e una cosa che c'è solo lì.
+**Fatto**: `GardenIslandsData` e `GardenIslands` (`src/game/garden_islands.gd`): l'isola dell'orto (bellezza 60: una
+polla d'acqua, le colture crescono ×1,5, letta da `Garden.grow`), delle bestie (150: recinto e incubatrice, ogni
+giorno una creatura mansueta di una famiglia addomesticabile), della bottega (300: roccia con una miniera viva che
+rimette i minerali ogni giorno), del cielo (500: nuvole, polvere di stelle ogni notte). Le prime due con un ponte di
+passerelle, le altre con una corrente che sale dall'isola grande. `stats.isole` nutre la maestria del Giardino.
 
 ## 229. [ ] I visitatori (M)
 `VisitorsData`: viandanti che arrivano al Giardino per un giorno, se la bellezza basta (il Mercante dei mondi con merci
