@@ -4027,11 +4027,16 @@ traccia: non c'è un posto che dica che cosa si è visto, che cosa manca e dove 
 hanno ancora cose **da non credere** che valga la pena di andare a vedere. Obiettivo: ~50 ore di esplorazione con uno
 scopo (sapere che cosa cercare, perché, e trovare l'imprevisto).
 
-## 235. [ ] L'Atlante dei mondi (M)
+## 235. [x] L'Atlante dei mondi (M) — fatto il 29 set 2026
 `Atlas` e `Character.atlante`: una scheda per ogni mondo visitato (nome, vigore, geni, firma) con **cinque stelle**
 (mappa scoperta per metà, firma trovata, Guardiano curato o sconfitto, tutti i Sigilli aperti, tutti i segreti). Le
 stelle si segnano da sole mentre si gioca; ogni stella è maestria dell'esplorazione e ogni cinque stelle un premio.
 `AtlantePanel` (tasto O): i mondi con le stelle e che cosa manca a ognuno.
+**Fatto**: `AtlasData` (le cinque stelle: mappa al 6% delle celle, cioè la superficie intera e un po' di grotte; firma;
+Guardiano; metà dei Sigilli, contati in `world_meta["sigilli_aperti"]` da `Powers.open_seal`; tutti i segreti; un premio
+ogni 5 stelle, 10 premi e poi in giro), `Atlas` (`src/game/atlas.gd`: la scheda del mondo in `Character.atlante`, le
+stelle guardate ogni 5 s, conteggio «stelle» = 30 punti d'esplorazione) e `AtlasPanel` (tasto O, schede in alto: una
+coppia `_rows_<scheda>`/`_text_<scheda>` per scheda). Prova nel gruppo nuovo `atlante` (foto 250).
 
 ## 236. [ ] Le pagine dei biomi (G)
 Una pagina dell'Atlante per ogni bioma (superficie, sottosuolo, cielo), costruita dai dati: le sue creature, le sue

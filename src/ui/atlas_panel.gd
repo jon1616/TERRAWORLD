@@ -1,0 +1,190 @@
+class_name AtlasPanel
+extends Control
+## L'Atlante (Roadmap 23; tasto «atlante», O): schede in alto (i mondi, e con le voci dopo i biomi, le meraviglie, le
+## spedizioni); a sinistra l'elenco con una barra di quanto è completo, a destra la voce scelta. Ogni scheda è una coppia
+## di funzioni `_rows_<scheda>` (elenco di [chiave, titolo, sotto, 0..1, colore]) e `_text_<scheda>` (BBCode).
+
+const ROW_H := 52.0
+const LEFT := Vector2(90, 130)
+const ROW_W := 430.0
+const ROWS_SHOWN := 13
+const TABS := [["mondi", "I mondi"]]
+
+var m: Node2D
+var at: Atlas
+var tab := "mondi"
+var sel := ""
+var scroll := 0
+var _body: RichTextLabel
+var _rows_box: Control
+var _tabs: Array[Button] = []
+var _rows: Array = []
+var _dirty := true
+
+
+func setup(main: Node2D, atlas: Atlas) -> void:
+	m = main
+	at = atlas
+	visible = false
+	mouse_filter = Control.MOUSE_FILTER_STOP
+	var bg := ColorRect.new()
+	bg.color = Color(0.02, 0.03, 0.04, 0.97)
+	bg.size = Vector2(1600, 900)
+	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(bg)
+	var title := Label.new()
+	title.text = "L'Atlante"
+	title.position = Vector2(90, 30)
+	title.add_theme_font_size_override("font_size", 30)
+	title.add_theme_color_override("font_color", Color("#5cf0e0"))
+	add_child(title)
+	for i in TABS.size():
+		var b := Button.new()
+		b.text = String(TABS[i][1])
+		b.position = Vector2(90 + i * 160, 80)
+		b.size = Vector2(150, 32)
+		var id := String(TABS[i][0])
+		b.pressed.connect(func() -> void: pick_tab(id))
+		add_child(b)
+		_tabs.append(b)
+	_rows_box = Control.new()
+	_rows_box.position = LEFT
+	_rows_box.size = Vector2(ROW_W, ROW_H * ROWS_SHOWN)
+	_rows_box.mouse_filter = Control.MOUSE_FILTER_STOP
+	_rows_box.draw.connect(_draw_rows)
+	_rows_box.gui_input.connect(_on_rows_input)
+	add_child(_rows_box)
+	_body = RichTextLabel.new()
+	_body.bbcode_enabled = true
+	_body.position = Vector2(580, 130)
+	_body.size = Vector2(930, 690)
+	_body.add_theme_font_size_override("normal_font_size", 17)
+	_body.add_theme_font_size_override("bold_font_size", 17)
+	add_child(_body)
+	var hint := Label.new()
+	hint.text = "Esc o %s per chiudere · rotella per scorrere l'elenco" % Keys.label("atlante")
+	hint.position = Vector2(90, 850)
+	hint.add_theme_color_override("font_color", Color("#6a7a84"))
+	add_child(hint)
+
+
+func open() -> void:
+	visible = true
+	_dirty = true
+	if at.here():
+		at.check()
+		if tab == "mondi":
+			sel = m.world_id
+	get_parent().move_child(self, -1)
+
+
+func close() -> void:
+	visible = false
+
+
+func toggle() -> void:
+	if visible:
+		close()
+	else:
+		open()
+
+
+func pick_tab(id: String) -> void:
+	tab = id
+	sel = ""
+	scroll = 0
+	_dirty = true
+
+
+func _unhandled_input(e: InputEvent) -> void:
+	if not (e is InputEventKey and e.pressed and not e.echo):
+		return
+	if visible and (e.keycode == KEY_ESCAPE or Keys.pressed(e, "atlante")):
+		close()
+		get_viewport().set_input_as_handled()
+	elif not visible and Keys.pressed(e, "atlante") and not m.hud.panel.visible:
+		open()
+		get_viewport().set_input_as_handled()
+
+
+func _process(_dt: float) -> void:
+	if not visible or not _dirty:
+		return
+	_dirty = false
+	_rows = call("_rows_" + tab)
+	if sel == "" and not _rows.is_empty():
+		sel = String(_rows[0][0])
+	scroll = clampi(scroll, 0, maxi(_rows.size() - ROWS_SHOWN, 0))
+	for i in _tabs.size():
+		_tabs[i].modulate = Color(1.3, 1.2, 0.8) if String(TABS[i][0]) == tab else Color(0.8, 0.8, 0.85)
+	_rows_box.queue_redraw()
+	_body.text = call("_text_" + tab, sel) if sel != "" else "[color=#7a8a94]Qui non c'è ancora niente.[/color]"
+
+
+func _on_rows_input(e: InputEvent) -> void:
+	if not (e is InputEventMouseButton and e.pressed):
+		return
+	if e.button_index == MOUSE_BUTTON_WHEEL_DOWN or e.button_index == MOUSE_BUTTON_WHEEL_UP:
+		scroll += 1 if e.button_index == MOUSE_BUTTON_WHEEL_DOWN else -1
+		_dirty = true
+	elif e.button_index == MOUSE_BUTTON_LEFT:
+		var i := int(e.position.y / ROW_H) + scroll
+		if i >= 0 and i < _rows.size():
+			sel = String(_rows[i][0])
+			_dirty = true
+	_rows_box.accept_event()
+
+
+func _draw_rows() -> void:
+	var font := get_theme_default_font()
+	for k in mini(ROWS_SHOWN, _rows.size() - scroll):
+		var r: Array = _rows[k + scroll]
+		var y := k * ROW_H
+		var col: Color = r[4]
+		_rows_box.draw_rect(Rect2(0, y, ROW_W, ROW_H - 6), Color(0.2, 0.13, 0.22) if String(r[0]) == sel else Color(0.1, 0.1, 0.13))
+		_rows_box.draw_rect(Rect2(0, y, 5, ROW_H - 6), col)
+		_rows_box.draw_string(font, Vector2(14, y + 20), String(r[1]), HORIZONTAL_ALIGNMENT_LEFT, ROW_W - 150, 16, Color("#ece4ea"))
+		_rows_box.draw_string(font, Vector2(ROW_W - 140, y + 20), String(r[2]), HORIZONTAL_ALIGNMENT_RIGHT, 128, 15, col)
+		_rows_box.draw_rect(Rect2(14, y + 30, ROW_W - 28, 6), Color(0.2, 0.2, 0.24))
+		_rows_box.draw_rect(Rect2(14, y + 30, (ROW_W - 28) * clampf(float(r[3]), 0.0, 1.0), 6), col)
+
+
+# --- la scheda dei mondi (voce 235) ---
+
+func _rows_mondi() -> Array:
+	var out := []
+	for wid in at.data():
+		var e: Dictionary = at.data()[wid]
+		var n := (e.get("stelle", {}) as Dictionary).size()
+		out.append([String(wid), String(e.get("nome", wid)), "★ %d/%d" % [n, AtlasData.STARS.size()],
+			float(n) / AtlasData.STARS.size(), Color("#ffd24a") if n >= AtlasData.STARS.size() else Color("#5cf0e0")])
+	out.sort_custom(func(a: Array, b: Array) -> bool: return String(a[1]) < String(b[1]))
+	return out
+
+
+func _text_mondi(wid: String) -> String:
+	var e: Dictionary = at.entry(wid)
+	if e.is_empty():
+		return ""
+	var t := "[font_size=26][color=#5cf0e0]%s[/color][/font_size]\n" % e.get("nome", wid)
+	t += "Vigore %d" % int(e.get("vigore", 1))
+	if wid == m.world_id:
+		t += " · [color=#ffd24a]sei qui[/color]"
+	t += "\n"
+	var genes: Array = e.get("geni", [])
+	if not genes.is_empty():
+		var names := []
+		for g in genes:
+			names.append(String(GenesData.GENES.get(String(g), {}).get("name", g)))
+		t += "Geni: %s\n" % ", ".join(names)
+	t += "\n[b]Le stelle[/b] (%d in tutto l'Atlante; ogni %d un premio)\n" % [at.total(), AtlasData.EVERY]
+	var st: Dictionary = e.get("stelle", {})
+	for s in AtlasData.STARS:
+		var id := String(s[0])
+		var done := st.has(id)
+		t += "%s [color=%s]%s[/color] — %s\n" % ["★" if done else "☆", "#ffd24a" if done else "#9a8aa4", s[1], AtlasData.star_desc(id)]
+	if wid == m.world_id:
+		t += "\n[color=#9a8aa4]Mappa scoperta: %.1f%% · Sigilli aperti: %d su %d · Segreti: %d su %d[/color]\n" % [
+			at.map_frac() * 100.0, int(m.world_meta.get("sigilli_aperti", 0)), (m.world_meta.get("sigilli", []) as Array).size(),
+			int(Secrets.counts_of(m.world_meta)[0]), int(Secrets.counts_of(m.world_meta)[1])]
+	return t

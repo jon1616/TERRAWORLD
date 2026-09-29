@@ -22,6 +22,7 @@ const ACTIONS := [
 	["filo", "Il filo da seguire: passa a un altro", [KEY_J], "Pannelli"],
 	["quaderno", "Il Quaderno delle parole (la lingua dei Seminatori)", [KEY_U], "Pannelli"],
 	["pilastri", "Il Libro dei pilastri (i gradi della maestria)", [KEY_P], "Pannelli"],
+	["atlante", "L'Atlante (i mondi, le loro stelle e ciò che manca)", [KEY_O], "Pannelli"],
 	["vista", "Potere: Vista della Linfa", [KEY_V], "Poteri"],
 	["ponte", "Potere: Radici-ponte", [KEY_F], "Poteri"],
 	["confronta", "Confronta nei suggerimenti", [KEY_SHIFT], "Altro"],

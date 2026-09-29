@@ -102,6 +102,7 @@ var beauty: GardenBeauty               # Roadmap 22: la bellezza del Giardino
 var garden_islands: GardenIslands      # Roadmap 22: le isole del Giardino
 var visitors: Visitors                 # Roadmap 22: i visitatori
 var festivals: Festivals               # Roadmap 22: le feste di stagione
+var atlas: Atlas                       # Roadmap 23: l'Atlante
 var summons: Summons
 var effects: Effects
 var zones: Zones
@@ -330,6 +331,7 @@ func _build() -> void:
 	garden_islands = _mount(GardenIslands.new())   # Roadmap 22: le isole del Giardino
 	visitors = _mount(Visitors.new())          # Roadmap 22: i visitatori del Giardino
 	festivals = _mount(Festivals.new())        # Roadmap 22: le feste di stagione
+	atlas = _mount(Atlas.new())                # Roadmap 23: l'Atlante dei mondi
 	_mount(PanelButtons.new())                 # voce 101: i pulsanti dei pannelli in basso a sinistra
 	hud.select(character.hotbar)
 	var start := world.spawn

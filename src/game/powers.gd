@@ -167,6 +167,7 @@ func open_seal(c: Vector2i) -> bool:
 	Fx.puff(m.fx, Vector2(c) * S + Vector2(8, 8), Color(0.9, 1.7, 1.5))
 	m.sfx.play("portale", Vector2(c) * S)
 	m.objectives.bump("sigilli")
+	m.world_meta["sigilli_aperti"] = int(m.world_meta.get("sigilli_aperti", 0)) + 1     # voce 235: la stella dei Sigilli
 	m.hud.toast("Il Sigillo si dissolve")
 	return true
 
