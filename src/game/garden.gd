@@ -12,6 +12,7 @@ var _rng := RandomNumberGenerator.new()
 var paused := false                    # le prove fanno crescere a comando (`grow`)
 var wild_mult := 1.0                   # la Fioritura (voce 34) fa trovare più semi selvatici
 var grow_mult := 1.0                   # tratto «Fertile» del mondo (voce 39)
+var gear_grow := 1.0                   # Roadmap 20: il grado dell'orto (`GearEffects`, chiave «grow»)
 var season_mult := 1.0                 # voce 66: la stagione
 var weather_mult := 1.0                # voce 75: la pioggia
 
@@ -28,7 +29,7 @@ func _process(dt: float) -> void:
 	_t -= dt
 	if _t <= 0.0:
 		_t = 1.0
-		grow(grow_mult * season_mult * weather_mult)
+		grow(grow_mult * season_mult * weather_mult * gear_grow)
 
 
 ## Fa passare il tempo per tutte le colture: le mature cambiano aspetto.

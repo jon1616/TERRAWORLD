@@ -3761,11 +3761,16 @@ del pilastro, il 5 al 25%, il 10 alle ore obiettivo; 60 conteggi del personaggio
 `MapReveal.on_new`, da ciò che si fabbrica `Crafting.crafted`, dai blocchi posati `PlayerActions.placed`, dalle parole
 certe); `Character.maestria`; i bonus dei gradi passano da `GearEffects`. Prova nel gruppo nuovo `maestria`.
 
-## 215. [ ] I premi dei gradi (M)
+## 215. [x] I premi dei gradi (M) — fatto il 29 set 2026
 Ogni grado di ogni pilastro dà qualcosa: oggetti, un bonus per sempre piccolo e proprio del pilastro (pesca: fortuna
 di pesca; Giardino: comodità; combattimento: danno…), e dai gradi alti una cosa che si ottiene solo lì. Dati in
 `MasteryData`; i bonus passano da `GearEffects` come le serie di unici.
 **Pronto quando**: `verifica_dati` controlla i premi; la prova riceve i premi di un grado.
+**Fatto**: 100 premi in `MasteryData.REWARDS` (oggetti ai gradi dispari, un bonus piccolo e proprio del pilastro ai pari,
+un premio grande al 10: in tutto circa +10-15% nel campo del pilastro), dati da `MasteryRewards` e sommati da
+`GearEffects` come le serie di unici. Tre bonus nuovi: l'orto che cresce (`grow` → `Garden.gear_grow`), la mandria che
+prende esperienza (`herd` → `Herd.xp_mult`), le sorgenti della rete (`pulsi` → `EnergyStorm.gear_pulsi`).
+`verifica_dati._check_mastery` controlla oggetti, chiavi e che ogni grado abbia il suo premio.
 
 ## 216. [ ] Il Libro dei pilastri (M)
 Un pannello (tasto P): i dieci pilastri con grado, barra dei punti, il premio del grado dopo, il prossimo passo

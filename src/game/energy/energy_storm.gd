@@ -13,6 +13,7 @@ const BOOST := 1.5
 const BURST_EVERY := 90.0              # secondi in media tra due vene spezzate, per rete
 const VALVE := "valvola_sfogo"
 
+static var gear_pulsi := 1.0           # Roadmap 20: il grado della rete (`GearEffects`, chiave «pulsi»)
 static var bursts := 0                 # vene spezzate (per le prove)
 static var _told := 0.0
 
@@ -31,7 +32,7 @@ static func storm(e: Energy) -> bool:
 
 ## Quanto danno in più le sorgenti adesso.
 static func boost(e: Energy) -> float:
-	return BOOST if storm(e) else 1.0
+	return (BOOST if storm(e) else 1.0) * gear_pulsi
 
 
 ## Dopo ogni conto: durante la Tempesta le reti che scorrono senza valvola rischiano una vena.

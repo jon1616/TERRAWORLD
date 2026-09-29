@@ -18,6 +18,7 @@ func setup(main: Node2D) -> void:
 	m.actions.placed.connect(func(_c: Vector2i, _id: String) -> void: add("giardino", MasteryData.BLOCK_PTS))
 	m.map_reveal.on_new = func(n: int) -> void: add("esplorazione", n / MasteryData.CELLS_PER_PT)
 	Crafting.crafted = _on_craft
+	m.gear.refresh()                              # i bonus dei gradi anche ai moduli montati dopo `GearEffects`
 	if m.get("language") != null:
 		m.language.confirmed.connect(func(words: Array, _how: String) -> void: add("misteri", MasteryData.WORD_PTS * words.size()))
 

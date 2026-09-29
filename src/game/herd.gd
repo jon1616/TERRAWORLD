@@ -18,6 +18,7 @@ var riding := -1                       # uid della creatura cavalcata (-1 = a pi
 var _t := 1.0
 var _light_t := 0.0
 var _rng := RandomNumberGenerator.new()
+var xp_mult := 1.0                     # Roadmap 20: il grado della mandria (`GearEffects`, chiave «herd»)
 signal changed                         # la mandria è cambiata (il pannello si ridisegna)
 
 
@@ -240,7 +241,7 @@ func credit(rec: Dictionary, foe: Creature) -> void:
 
 
 func gain_xp(rec: Dictionary, n: int, quiet := false) -> void:
-	rec["xp"] = int(rec["xp"]) + n
+	rec["xp"] = int(rec["xp"]) + maxi(n, roundi(n * xp_mult))     # Roadmap 20: il grado della mandria
 	while int(rec["lvl"]) < HerdData.LVL_MAX and int(rec["xp"]) >= HerdData.xp_for(int(rec["lvl"])):
 		rec["xp"] = int(rec["xp"]) - HerdData.xp_for(int(rec["lvl"]))
 		rec["lvl"] = int(rec["lvl"]) + 1

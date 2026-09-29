@@ -205,6 +205,7 @@ func _init() -> void:
 	_check_biomes()
 	_check_uniques()
 	_check_machines()
+	_check_mastery(items)
 	print("ESITO: %d errori, %d avvisi" % [errors, warnings])
 	quit()
 
@@ -497,6 +498,23 @@ func _check_biomes() -> void:
 ## Voce 98: gli oggetti unici e le loro serie.
 ## Roadmap 19: ogni macchina è davvero l'oggetto e la stazione con il suo id (un id già usato da un altro oggetto la
 ## nasconde: successo con «cuore_cristallo» e «mietitrice»), ha un comportamento e una ricetta.
+## Roadmap 20: i premi dei gradi dei pilastri: oggetti veri, chiavi di `GearEffects` vere, ogni grado ha un premio.
+func _check_mastery(items: Dictionary) -> void:
+	for p in MasteryData.ORDER:
+		_err(MasteryData.PILLARS.has(p), "maestria: pilastro senza dati %s" % p)
+		for g in range(1, MasteryData.GRADES + 1):
+			var r := MasteryData.reward(p, g)
+			_err(not r.is_empty(), "maestria: %s grado %d senza premio" % [p, g])
+			for id in r.get("items", {}):
+				_err(items.has(String(id)), "maestria: %s grado %d, oggetto inesistente %s" % [p, g, id])
+			for k in r.get("bonus", {}):
+				var known: bool = k in GearEffects.MULT or k in ["luck", "thorns", "defense", "fish_luck", "fish_size", "fish_double"]
+				_err(known, "maestria: %s grado %d, bonus sconosciuto %s" % [p, g, k])
+	for s in MasteryData.STATS:
+		for e in MasteryData.STATS[s]:
+			_err(MasteryData.PILLARS.has(String(e[0])), "maestria: il conteggio %s nutre un pilastro inesistente" % s)
+
+
 func _check_machines() -> void:
 	for id in MachinesData.MACHINES:
 		if MachinesData.MACHINES[id].get("gen", false):

@@ -16,11 +16,13 @@ extends Node
 ##   air_jumps  salti in aria (`Player.air_jumps`); wall: scivolare e saltare sulle pareti (`Player.wall_climb`)
 ##   dash       voce 127, la schivata (`Player.dash_ok`); dash_cd: × la sua ricarica
 ##   fish_*     voce 122, la pesca (`Fishing.gear`): fish_luck +, fish_wait ×, fish_size +, fish_double +, fish_any
+##   grow, herd, pulsi  Roadmap 20 (i gradi dei pilastri): l'orto cresce ×, la mandria prende esperienza ×, le sorgenti
+##              della rete danno × (`Garden.gear_grow`, `Herd.xp_mult`, `EnergyStorm.gear_pulsi`)
 ##   defense    (solo nei bonus dei set) Scorza in più (`Vitals.set_scorza`); quella dei pezzi la somma
 ##              `Bisaccia.scorza`
 
 const MULT := ["run", "jump", "halo", "regen", "dig", "stealth", "damage", "atk_speed", "linfa_regen", "magic", "respiro", "vento",
-	"fish_wait", "dash_cd"]
+	"fish_wait", "dash_cd", "grow", "herd", "pulsi"]
 
 var m: Node2D
 var sets: Array = []                   # i set completi indossati (per l'interfaccia)
@@ -107,6 +109,11 @@ func refresh() -> void:
 	m.combat.spd_mult = e["atk_speed"]
 	m.vitals.linfa_regen_mult = e["linfa_regen"]
 	m.combat.magic_mult = e["magic"]
+	if m.get("garden") != null:
+		m.garden.gear_grow = e["grow"]           # Roadmap 20: i gradi dei pilastri
+	if m.get("herd") != null:
+		m.herd.xp_mult = e["herd"]
+	EnergyStorm.gear_pulsi = e["pulsi"]
 	m.vitals.set_scorza = int(e["defense"])
 	if m.get("fishing") != null:
 		m.fishing.gear = {"luck": e["fish_luck"], "wait": e["fish_wait"], "size": e["fish_size"], "double": e["fish_double"],

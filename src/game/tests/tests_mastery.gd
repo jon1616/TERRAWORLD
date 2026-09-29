@@ -15,6 +15,8 @@ func run() -> void:
 	var saved: Dictionary = m.character.maestria.duplicate(true)
 	m.character.maestria = {}
 	await points()
+	m.character.maestria = {}
+	await rewards()
 	m.character.maestria = saved
 	m.gear.refresh()
 
@@ -55,3 +57,20 @@ func points() -> void:
 	print("maestria: punti %s; gradi saliti %s; curva della storia %s" % [str(got), str(grades), ", ".join(curve)])
 	if not ok:
 		print("ATTENZIONE: la maestria non raccoglie i punti come deve")
+
+
+## Voce 215: salire di grado dà gli oggetti del grado e i bonus per sempre (pesca: fortuna di pesca).
+func rewards() -> void:
+	var ms: Mastery = m.mastery
+	var b: Bisaccia = m.character.bisaccia
+	var bait0 := b.count("esca_squama")
+	var luck0 := float(m.fishing.gear.get("luck", 0.0))
+	ms.add("pesca", MasteryData.points_for("pesca", 4))       # dal grado 0 al 4
+	await kit.frames(2)
+	var grade := ms.grade("pesca")
+	var bait := b.count("esca_squama") - bait0
+	var luck := float(m.fishing.gear.get("luck", 0.0)) - luck0
+	var ok := grade == 4 and bait == 10 and is_equal_approx(luck, 0.06)
+	print("premi della maestria: pesca al grado %d, esche avute %d, fortuna di pesca +%.2f" % [grade, bait, luck])
+	if not ok:
+		print("ATTENZIONE: i premi dei gradi non arrivano come devono")
