@@ -3484,7 +3484,14 @@ chi ci sta sopra in su, a sinistra o a destra, 60 gocce), Porta-seme (`MbPortaSe
 2000 gocce; Maiusc+clic destro il pannello). Prova: si sale di 14 tessere in 1,5 s, quattro nastri portano un oggetto,
 la catapulta lancia a 560 px/s, la porta-seme porta dall'altra parte.
 Ascensore a bolla, Nastro vivo, Catapulta di spore, Porta-seme (coppie).
-## 199. [ ] Luce, liquidi, giardino (G)
+## 199. [x] Luce, liquidi, giardino (G) — fatto il 29 set 2026
+**Fatto**: dodici macchine. Faro di Linfa (luce grande e quiete a 14 tessere), Cupola di quiete (30 tessere), Serra di
+Linfa (crescita ×1,6 a 10 tessere): le zone delle macchine accese entrano in `Zones.powered`, lette come i totem;
+Insegna (colore scelto nel pannello). Pompa di radice + Sbocco (il liquido sotto la pompa esce dallo sbocco della stessa
+rete), Chiusa (`MbChiusa`: ferma i liquidi, clic destro o filo), Irrigatore (annaffia le colture a 8 tessere se ha acqua
+vicino), Distillatore (sopra un lago di Linfa, una Pozione di Linfa al minuto). Mietitrice (raccoglie e ripianta nella sua
+cassetta), Mungitrice (porta via i prodotti dei recinti, non il cibo), Culla calda (le uova covano ×0,6). Trovato strada
+facendo: `Pens` usava un'incubatrice tolta fino al giro dopo dell'elenco (ora controlla). Foto 235_macchine_199.
 Faro di Linfa, Cupola di quiete, Insegna; Pompa di radice, Chiusa, Irrigatore, Distillatore; Serra, Mietitrice,
 Mungitrice, Culla calda.
 ## 200. [ ] Fabbricare e smistare (G)

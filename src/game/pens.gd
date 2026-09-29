@@ -119,6 +119,8 @@ func _process(dt: float) -> void:
 		return
 	_t = 1.0
 	for o in pens:
+		if not m.world.stations.has(o):
+			continue
 		for r in members(key(o)):
 			tick(r, 1.0)
 		breed(key(o), 1.0)
@@ -190,6 +192,8 @@ static func rate(rec: Dictionary, friends: int) -> float:
 
 ## L'Incubatrice: ogni uovo ricorda quando è stato posato (orologio); passato `HATCH`, si schiude in un vasetto.
 func incubate(o: Vector2i) -> void:
+	if String(m.world.stations.get(o, "")) != "incubatrice":
+		return                                  # tolta dopo l'ultimo giro dell'elenco (si rifà ogni 3 s)
 	var chest: Bisaccia = m.world.chest_at(o)
 	var now := Time.get_unix_time_from_system()
 	for i in chest.slots.size():

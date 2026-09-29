@@ -117,13 +117,14 @@ func reserves() -> void:
 
 
 ## Una macchina con un Otre pieno accanto e una vena di legnoferro sotto entrambi (per le macchine che chiedono poco).
-func powered(id: String, c: Vector2i) -> Vector2i:
+func powered(id: String, c: Vector2i, reserve := "otre_linfa") -> Vector2i:
 	var o := t.place(id, c)
 	var sz: Array = StationsData.STATIONS[id]["size"]
-	var ot := t.place("otre_linfa", Vector2i(c.x + int(sz[0]), c.y))
-	t.lay_row(c.x, c.x + int(sz[0]), c.y, 2)
+	var ot := t.place(reserve, Vector2i(c.x + int(sz[0]), c.y))
+	var rs: Array = StationsData.STATIONS[reserve]["size"]
+	t.lay_row(c.x, c.x + int(sz[0]) + int(rs[0]) - 1, c.y, 2)
 	await t.ticks(2)
-	(m.energy.machines[ot] as Machine).st["g"] = 3000.0
+	(m.energy.machines[ot] as Machine).st["g"] = float(MachinesData.get_machine(reserve)["cap"])
 	await t.ticks(2)
 	return o
 
@@ -186,4 +187,91 @@ func moving() -> void:
 		print("ATTENZIONE: le macchine del movimento non vanno come dovrebbero")
 	for o in e.machines.keys():
 		if o.x >= p.x - 2 and o.x <= p.x + 40:
+			t.unplace(o)
+
+
+## Voce 199: luce, liquidi, giardino e mandria.
+func garden_light_liquids() -> void:
+	var e: Energy = m.energy
+	var w: World = m.world
+	var p: Vector2i = await t.clean_spot(260, 60)
+	var y := p.y
+	# il faro e la cupola: zone di quiete; la serra: zona di crescita
+	var faro := await powered("faro_linfa", Vector2i(p.x, y))
+	var cup := await powered("cupola_quiete", Vector2i(p.x + 4, y), "baccello_serbatoio")
+	var serra := await powered("serra_linfa", Vector2i(p.x + 10, y))
+	await t.ticks(2)
+	var fpos := (Vector2(faro) + Vector2(0.5, 1.0)) * 16.0
+	var quiet_near: float = m.zones.add_at(fpos + Vector2(10 * 16, 0), "quiete")
+	var quiet_far: float = m.zones.add_at(fpos + Vector2(0, 45 * 16), "quiete")
+	var grow: float = m.zones.mult_at((Vector2(serra) + Vector2(1, 1)) * 16.0, "crescita")
+	var faro_lit: bool = (e.machines[faro] as Machine).lit
+	print("faro acceso %s, quiete vicino %.1f e lontano %.1f, serra: crescita ×%.2f" % [faro_lit, quiet_near, quiet_far, grow])
+	# la pompa: l'acqua della buca sotto va allo sbocco
+	var px := p.x + 16
+	for yy in range(y + 1, y + 3):
+		w.set_tile(px, yy, TileDefs.AIR)
+		w.set_liq(px, yy, 8, LiquidsData.ACQUA)
+	var pump := await powered("pompa_radice", Vector2i(px, y))
+	var spout := t.place("sbocco_radice", Vector2i(px + 4, y - 3))
+	t.lay_row(px + 2, px + 4, y, 2)
+	for yy in range(y - 3, y):
+		t.lay(Vector2i(px + 4, yy), 2)
+	await t.ticks(6)
+	var pumped := int((e.machines[pump] as Machine).st.get("mosso", 0))    # poi l'acqua scorre via dallo sbocco
+	print("pompa: %d livelli d'acqua portati allo sbocco (sotto la pompa ne restano %d)" % [pumped, w.liq(px, y + 1) + w.liq(px, y + 2)])
+	# la chiusa: il clic destro la apre
+	var gate := await powered("chiusa_radice", Vector2i(p.x + 24, y))
+	await t.settle(0.3)
+	var closed0: bool = w.tile(gate.x, gate.y) == TileDefs.PORTA
+	e.touch(gate)
+	await t.settle(0.4)
+	var opened: bool = w.tile(gate.x, gate.y) == TileDefs.AIR
+	print("chiusa: chiusa all'inizio %s, il clic destro la apre %s" % [closed0, opened])
+	# l'irrigatore annaffia, la mietitrice raccoglie
+	var crop := String(CropsData.CROPS.keys()[0])
+	var c1 := Vector2i(p.x + 32, y)
+	var c2 := Vector2i(p.x + 34, y)
+	w.crops[c1] = [crop, 200.0, false]
+	w.crops[c2] = [crop, 0.0, true]
+	w.set_decor(c2.x, c2.y, int(CropsData.CROPS[crop]["decor"]))
+	for xx in range(p.x + 29, p.x + 31):                       # una piccola buca d'acqua
+		w.set_tile(xx, y + 1, TileDefs.AIR)
+		w.set_liq(xx, y + 1, 8, LiquidsData.ACQUA)
+		w.set_tile(xx, y + 2, TileDefs.STONE)
+	var irr := await powered("irrigatore", Vector2i(p.x + 28, y))
+	var har := await powered("mietitrice", Vector2i(p.x + 36, y))
+	await t.settle(4.5)
+	var watered := bool(w.crops[c1][2])
+	var box: Bisaccia = w.chest_at(har)
+	var harvested := not box.is_empty() and float(w.crops[c2][1]) > 0.0
+	print("irrigatore: la coltura è annaffiata %s; mietitrice: raccolto nella cassetta %s e ripiantato" % [watered, harvested])
+	# la mungitrice: la lana del recinto va nella sua cassetta
+	var pen := Vector2i(p.x + 42, y - 1)
+	w.stations[pen] = "recinto"
+	w.chest_at(pen).add("lana_muschio", 3)
+	var milk := await powered("mungitrice", Vector2i(p.x + 46, y))
+	await t.settle(2.5)
+	var milked: int = w.chest_at(milk).count("lana_muschio")
+	w.chests.erase(pen)
+	w.stations.erase(pen)
+	# la culla: le uova dell'Incubatrice vicina covano più in fretta
+	var inc := Vector2i(p.x + 50, y)
+	w.stations[inc] = "incubatrice"
+	w.chest_at(inc).add_stack({"id": "uovo", "n": 1, "dati": {"specie": "pecora_muschio"}})
+	var cradle := await powered("culla_calda", Vector2i(p.x + 53, y))
+	await t.ticks(2)
+	var fast := float((w.chest_at(inc).slots[0].get("dati", {}) as Dictionary).get("cova_mult", 1.0))
+	w.chests.erase(inc)
+	w.stations.erase(inc)
+	print("mungitrice: lana portata via %d; culla calda: le uova covano ×%.1f" % [milked, fast])
+	await kit.save("235_macchine_199")
+	var ok := faro_lit and quiet_near > 0.0 and quiet_far == 0.0 and grow > 1.5 and pumped >= 16 and closed0 and opened \
+		and watered and harvested and milked == 3 and fast < 0.7
+	if not ok:
+		print("ATTENZIONE: le macchine di luce, liquidi e giardino non fanno ciò che devono")
+	for o in m.energy.machines.keys():
+		if o.x >= p.x - 2 and o.x <= p.x + 62:
+			if w.chests.has(o):
+				w.chests.erase(o)
 			t.unplace(o)

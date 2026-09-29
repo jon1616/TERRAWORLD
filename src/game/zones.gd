@@ -8,6 +8,7 @@ extends Node2D
 
 var m: Node2D
 var list: Array = []                   # [centro in px, tipo, raggio in px, forza]
+var powered: Array = []                # Roadmap 19: le zone delle macchine accese (serra, faro, cupola), stesso formato
 var _count := -1
 var _t := 0.0
 
@@ -29,13 +30,13 @@ func rebuild() -> void:
 		if d.is_empty():
 			continue
 		list.append([(Vector2(o) + Vector2(0.5, 1.0)) * 16.0, String(d["type"]), float(d["r"]) * 16.0, float(d["k"])])
-	_count = m.world.stations.size()
+	_count = m.world.stations_rev()
 
 
 ## Per ogni tipo, la forza del totem più forte che copre il punto.
 func _best(pos: Vector2) -> Dictionary:
 	var best := {}
-	for e in list:
+	for e in list + powered:
 		if (e[0] as Vector2).distance_to(pos) <= float(e[2]):
 			best[e[1]] = maxf(float(best.get(e[1], 0.0)), float(e[3]))
 	return best
@@ -67,7 +68,7 @@ func _process(dt: float) -> void:
 	_t -= dt
 	if _t <= 0.0:
 		_t = 0.5
-		if m.world.stations.size() != _count:
+		if m.world.stations_rev() != _count:
 			rebuild()
 		m.vitals.zone_regen = mult_at(m.player.position, "rigenera")
 	var holding := ZonesData.is_totem(str(ItemsData.get_item(String(m.hud.current().get("id", ""))).get("place", "")))

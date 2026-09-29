@@ -79,6 +79,54 @@ const MACHINES := {
 		"light": Color(0.7, 1.5, 1.4), "look": "lampada", "icon": ["lanterna", "linfa"], "in": {"legno": 2, "gelatina": 1},
 		"station": "ceppo", "qty": 2, "tier": 1,
 		"desc": "Una luce che si accende e si spegne con l'Impulso (o sempre accesa, se nessun filo la tocca). Chiede 1 pulso."},
+	# ---------------------------------------------------------------- luce e buio (voce 199)
+	"faro_linfa": {"name": "Faro di Linfa", "role": "macchina", "size": [1, 2], "bh": "lampada", "pulsi": 25,
+		"light": Color(2.6, 3.0, 2.8), "zona": ["quiete", 14, 1.0], "look": "faro", "icon": ["lanterna", "cristallo"],
+		"in": {"cristallo_linfa": 3, "lingotto_legnoferro": 3, "gelatina": 4}, "station": "baccello_ardente", "tier": 2,
+		"desc": "Una luce grande: attorno a lui (14 tessere) non nasce nessuna creatura, come con dieci torce. Chiede 25 pulsi."},
+	"cupola_quiete": {"name": "Cupola di quiete", "role": "macchina", "size": [2, 2], "bh": "zona", "pulsi": 60,
+		"zona": ["quiete", 30, 1.0], "look": "cupola", "icon": ["gemma", "cielo"],
+		"in": {"lingotto_ambra": 5, "cristallo_linfa": 4, "seta_radice": 6}, "station": "maglio", "tier": 3,
+		"desc": "Nel raggio di 30 tessere non nasce nessuna creatura (il Totem della quiete, a energia e più grande). Chiede 60 pulsi."},
+	"insegna_linfa": {"name": "Insegna di Linfa", "role": "macchina", "size": [1, 1], "bh": "lampada", "pulsi": 1,
+		"light": Color(0.7, 1.5, 1.4), "colori": true, "look": "insegna", "icon": ["gemma", "linfa"],
+		"in": {"gelatina": 1, "legno": 1}, "station": "ceppo", "qty": 4, "tier": 1,
+		"desc": "Una piccola luce da parete del colore che scegli nel pannello: per segnare le strade, le stanze, i circuiti. Chiede 1 pulso."},
+	# ---------------------------------------------------------------- liquidi (voce 199)
+	"pompa_radice": {"name": "Pompa di radice", "role": "macchina", "size": [1, 1], "bh": "pompa", "pulsi": 10,
+		"look": "pompa", "icon": ["goccia", "legnoferro"], "in": {"lingotto_legnoferro": 3, "gelatina": 4, "legno": 4},
+		"station": "baccello_ardente", "tier": 2,
+		"desc": "Beve il liquido sotto di sé (fino a 3 tessere) e lo manda allo Sbocco di radice della stessa rete, ovunque sia: svuotare grotte, riempire vasche, portare la brace. Chiede 10 pulsi."},
+	"sbocco_radice": {"name": "Sbocco di radice", "role": "macchina", "size": [1, 1], "bh": "sbocco", "pulsi": 0,
+		"look": "sbocco", "icon": ["goccia", "legno"], "in": {"legno": 3, "gelatina": 2}, "station": "ceppo", "tier": 2,
+		"desc": "Dove esce il liquido della Pompa di radice della stessa rete: lo versa nella tessera sotto di sé."},
+	"chiusa_radice": {"name": "Chiusa di radice", "role": "macchina", "size": [1, 1], "bh": "chiusa", "pulsi": 0, "colpo": 5,
+		"porta": true, "frame": true, "look": "chiusa", "icon": ["mattoni", "legnoferro"], "in": {"lingotto_legnoferro": 1, "ardesia": 4},
+		"station": "baccello_ardente", "tier": 2,
+		"desc": "Un blocco che ferma i liquidi (e chi passa): con un filo si apre finché è acceso, senza fili il clic destro la apre o la chiude. Ogni volta 5 gocce."},
+	"irrigatore": {"name": "Irrigatore", "role": "macchina", "size": [1, 1], "bh": "irrigatore", "pulsi": 5,
+		"look": "irrigatore", "icon": ["annaffiatoio", "legnoferro"], "in": {"lingotto_legnoferro": 2, "seta_radice": 2},
+		"station": "baccello_ardente", "tier": 2,
+		"desc": "Annaffia da solo le colture nel raggio di 8 tessere (crescono il doppio più in fretta), se ha acqua vicino (3 tessere). Chiede 5 pulsi."},
+	"distillatore": {"name": "Distillatore", "role": "macchina", "size": [2, 2], "bh": "distillatore", "pulsi": 30, "slots": 4,
+		"sul_liquido": true, "look": "distillatore", "icon": ["alambicco", "linfa"],
+		"in": {"lingotto_ambra": 3, "cristallo_linfa": 2, "legno": 6}, "station": "maglio", "tier": 3,
+		"desc": "Posato sopra un lago di Linfa ne distilla una Pozione di Linfa al minuto nella sua cassetta. Chiede 30 pulsi."},
+	# ---------------------------------------------------------------- giardino e mandria (voce 199)
+	"serra_linfa": {"name": "Serra di Linfa", "role": "macchina", "size": [2, 2], "bh": "zona", "pulsi": 20,
+		"zona": ["germoglio", 10, 1.34], "look": "serra", "icon": ["foglia", "cristallo"],
+		"in": {"lingotto_legnoferro": 3, "cristallo_linfa": 2, "legno": 10}, "station": "baccello_ardente", "tier": 2,
+		"desc": "Le colture nel raggio di 10 tessere crescono il 60% più in fretta, anche sotto terra. Chiede 20 pulsi."},
+	"mietitrice": {"name": "Mietitrice", "role": "macchina", "size": [2, 1], "bh": "mietitrice", "pulsi": 8, "slots": 12,
+		"look": "mietitrice", "icon": ["falce", "legnoferro"], "in": {"lingotto_legnoferro": 3, "legno": 6}, "station": "baccello_ardente",
+		"tier": 2, "desc": "Raccoglie le colture mature nel raggio di 8 tessere nella sua cassetta e ripianta un seme. Chiede 8 pulsi."},
+	"mungitrice": {"name": "Mungitrice del recinto", "role": "macchina", "size": [1, 1], "bh": "mungitrice", "pulsi": 5, "slots": 12,
+		"look": "mungitrice", "icon": ["vasetto", "legno"], "in": {"lingotto_legnoferro": 2, "legno": 4, "lana_muschio": 2},
+		"station": "baccello_ardente", "tier": 2,
+		"desc": "Porta nella sua cassetta ciò che la mandria produce nei recinti vicini (6 tessere): il recinto non si ferma più quando è pieno. Chiede 5 pulsi."},
+	"culla_calda": {"name": "Culla calda", "role": "macchina", "size": [1, 1], "bh": "culla", "pulsi": 10, "light": Color(1.2, 0.8, 0.5),
+		"look": "culla", "icon": ["cuore", "ambra"], "in": {"lingotto_ambra": 1, "lana_muschio": 3, "legno": 3}, "station": "maglio",
+		"tier": 3, "desc": "Scalda le Incubatrici vicine (4 tessere): le uova si schiudono il 40% prima. Chiede 10 pulsi."},
 	# ---------------------------------------------------------------- muoversi (voce 198)
 	"ascensore_bolla": {"name": "Ascensore a bolla", "role": "macchina", "size": [2, 1], "bh": "ascensore", "pulsi": 15,
 		"frame": true, "look": "ascensore", "icon": ["goccia", "muschio"],
@@ -133,6 +181,8 @@ static func stations() -> Dictionary:
 			var e := {"name": d["name"], "size": d["size"], "item": id, "macchina": true}
 			if d.has("slots"):
 				e["slots"] = int(d["slots"])             # la cassetta del combustibile (la apre il pannello)
+			if d.get("porta", false):
+				e["porta_rete"] = true                   # le tessere si chiudono e si aprono (vedi `MbPorta`)
 			if d.get("sul_liquido", false):
 				e["sul_liquido"] = true                  # si posa sopra un lago (il Pozzo di Linfa)
 			if d.has("light"):

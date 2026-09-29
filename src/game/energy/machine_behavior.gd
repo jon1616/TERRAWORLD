@@ -42,6 +42,24 @@ static func make(bh: String) -> MachineBehavior:
 			return MbRuotaMandria.new()
 		"ascensore":
 			return MbAscensore.new()
+		"zona":
+			return MachineBehavior.new()
+		"pompa":
+			return MbPompa.new()
+		"sbocco":
+			return MachineBehavior.new()
+		"chiusa":
+			return MbChiusa.new()
+		"irrigatore":
+			return MbIrrigatore.new()
+		"distillatore":
+			return MbDistillatore.new()
+		"mietitrice":
+			return MbMietitrice.new()
+		"mungitrice":
+			return MbMungitrice.new()
+		"culla":
+			return MbCulla.new()
 		"nastro":
 			return MbNastro.new()
 		"catapulta":

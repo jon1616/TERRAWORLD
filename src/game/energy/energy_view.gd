@@ -46,6 +46,7 @@ static func refresh_look(e: Energy, mc: Machine) -> void:
 
 static func update_looks(e: Energy) -> void:
 	var lights := []
+	var zones := []
 	for mc: Machine in e.machines.values():
 		if mc.has_meta("flash"):
 			mc.set_meta("flash", maxf(float(mc.get_meta("flash")) - Energy.TICK, 0.0))
@@ -54,7 +55,15 @@ static func update_looks(e: Energy) -> void:
 			mc.set_meta("look", lk)
 			e.m.view.props.set_machine_look(mc.o, bool(lk[0]), bool(lk[1]), float(lk[2]), float(lk[3]))
 		if mc.lit and mc.d.has("light"):
-			lights.append([mc.o, mc.d["light"]])
+			var col: Color = mc.d["light"]
+			if mc.st.has("col"):
+				col = Color(String(mc.st["col"])) * 1.6            # l'Insegna: il colore scelto
+			lights.append([mc.o, col])
+		if mc.d.has("zona") and mc.role() == "macchina" and mc.on() and mc.power >= 0.99:
+			var z: Array = mc.d["zona"]
+			zones.append([mc.center(), String(z[0]), float(z[1]) * 16.0, float(z[2])])
 	if lights != e._lights:
 		e._lights = lights
 		e.m.light.set_extra("rete", lights)
+	if e.m.get("zones") != null and e.m.zones.powered != zones:
+		e.m.zones.powered = zones
