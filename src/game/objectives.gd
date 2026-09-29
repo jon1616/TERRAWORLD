@@ -8,6 +8,7 @@ extends Node
 const EVERY := 1.0
 
 signal bumped(stat: String)
+signal bumped_n(stat: String, n: int)        # Roadmap 20: con quanti (la maestria dei pilastri)
 var m: Node2D
 var _t := 0.5
 var _label: RichTextLabel
@@ -39,6 +40,7 @@ func stats() -> Dictionary:
 func bump(stat: String, n := 1) -> void:
 	stats()[stat] = int(stats().get(stat, 0)) + n
 	bumped.emit(stat)                          # voce 83: il diario della partita scrive le prime volte
+	bumped_n.emit(stat, n)
 
 
 func done(id: String) -> bool:

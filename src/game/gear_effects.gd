@@ -73,6 +73,9 @@ func refresh() -> void:
 	series = UniqueSeriesData.complete(m.character.erbario.get("oggetti", {}))
 	for sr in series:
 		_add(e, UniqueSeriesData.SERIES[sr]["bonus"])
+	# Roadmap 20: i gradi della maestria dei pilastri, per sempre
+	for mb in MasteryRewards.bonuses(m.character.maestria):
+		_add(e, mb)
 	# voce 64: i poteri dell'Albero-Madre
 	if m.powers != null:
 		for pb in m.powers.bonuses():

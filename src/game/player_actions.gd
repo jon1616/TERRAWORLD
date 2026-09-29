@@ -36,6 +36,7 @@ var dig_hook: Callable
 signal boon(name: String, secs: float)
 signal decor_picked(c: Vector2i, d: int)   # una decorazione tolta (il giardino vi aggiunge raccolto e semi)
 signal too_hard                          # un blocco che questo piccone non scalfisce (i consigli: `Consigli`)
+signal placed(c: Vector2i, id: String)      # Roadmap 20: un blocco posato (la maestria del Giardino)
 signal dug(t: int, c: Vector2i)            # voce 77: una tessera rotta (la terra viva: ferite e frane)
 var _cell := Vector2i(-9999, -9999)
 var _t := 0.0
@@ -350,6 +351,7 @@ func place_block(c: Vector2i, id: String) -> bool:
 	light.dirty = true
 	if sfx:
 		sfx.play("posa", Vector2(c) * S)
+	placed.emit(c, id)
 	return true
 
 

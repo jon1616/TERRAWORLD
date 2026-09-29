@@ -24,6 +24,7 @@ var seme_nero := ""                    # voce 72: "" · "spezzato" · "curato" (
 var leggende := {}                     # voce 81: leggende compiute (id → 1), "primo_dato", "primo_fatto"
 var sfide := {}                        # voce 82: i record delle sfide (id → {vinte, livello, record})
 var diario := {}                       # voce 83: il diario della partita (tappe e conteggi, vedi `Diary`)
+var maestria := {}                     # Roadmap 20: pilastro → {"p": punti, "t": tempo di gioco dell'ultimo punto}
 var guida := {}                        # 28 set 2026: la guida (lista della spesa, filo scelto, consigli visti)
 var guardiani := {}                    # voce 84: i Guardiani affrontati (creatura → {volte, nome}): si possono evocare
 var catene := {}                       # voce 69: le catene di ricerca (tappa della lunga, brevi aperte, fatte)
@@ -42,7 +43,7 @@ func to_dict() -> Dictionary:
 		"erbario": erbario, "stats": stats, "obiettivi": obiettivi, "genario": genario, "mandria": mandria,
 		"albero": albero, "bacheca": bacheca, "lingua": lingua, "catene": catene, "seme_nero": seme_nero,
 		"leggende": leggende, "sfide": sfide, "diario": diario,
-		"guardiani": guardiani, "guida": guida}
+		"guardiani": guardiani, "guida": guida, "maestria": maestria}
 
 
 ## Null se i dati vengono da una versione più nuova del gioco (vedi `SaveMigrations`).
@@ -104,6 +105,11 @@ static func from_dict(cid: String, d: Dictionary) -> Character:
 	var gua: Variant = d.get("guardiani", {})
 	if gua is Dictionary:
 		c.guardiani = gua
+	var ms: Variant = d.get("maestria", {})
+	if ms is Dictionary:
+		for k in ms:
+			if MasteryData.PILLARS.has(k) and ms[k] is Dictionary:
+				c.maestria[k] = {"p": float(ms[k].get("p", 0.0)), "t": float(ms[k].get("t", 0.0))}
 	var gd: Variant = d.get("guida", {})
 	if gd is Dictionary:
 		c.guida = gd

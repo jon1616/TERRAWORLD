@@ -130,9 +130,15 @@ static func can_craft(r: Dictionary, b: Bisaccia) -> bool:
 	return b.room_for(String(r["out"])) >= int(r["qty"])
 
 
+## Roadmap 20: chi vuole sapere che cosa si è fabbricato (la maestria dei pilastri).
+static var crafted := Callable()
+
+
 static func craft(r: Dictionary, b: Bisaccia, luck := 0.0) -> bool:
 	if not can_craft(r, b):
 		return false
+	if crafted.is_valid():
+		crafted.call(r)
 	for k in r["in"]:
 		take(b, k, int(r["in"][k]))
 	var out := String(r["out"])

@@ -13,6 +13,7 @@ const VEIN := Color("#5cc8cc")             # Roadmap 19: le vene sulla mappa
 
 var m: Node2D
 var world: World
+var on_new := Callable()                  # Roadmap 20: celle nuove scoperte (la maestria dell'esplorazione)
 var _veins := PackedByteArray()           # Roadmap 19: le vene, prese una volta per giro (`color_at` è nel ciclo)
 var image: Image
 var tex: ImageTexture
@@ -90,7 +91,9 @@ func _process(dt: float) -> void:
 	var all := _rt <= 0.0
 	if all:
 		_rt = REPAINT
-	reveal(all)
+	var n := reveal(all)
+	if n > 0 and on_new.is_valid():
+		on_new.call(n)
 
 
 ## Segna come viste le celle illuminate nell'ultima immagine della luce (`all` = ridipinge anche quelle già viste).

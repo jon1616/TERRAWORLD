@@ -3750,11 +3750,16 @@ I conteggi del personaggio (`Character.stats`, `Objectives.bump`) dicono già mo
 nessuno li raccoglie per strada: le ore passate a pescare o a costruire non portano da nessuna parte fuori dalla loro
 attività. L'Albero-Madre chiede una cosa precisa per ogni offerta.
 
-## 214. [ ] I pilastri e la maestria (M)
+## 214. [x] I pilastri e la maestria (M) — fatto il 29 set 2026
 `MasteryData` (i 10 pilastri: nome, colore, icona, ore obiettivo; 10 gradi numerati con una curva che arriva al grado
 10 nelle ore del pilastro; da dove vengono i punti: conteggi del personaggio, creature sconfitte, celle esplorate, cose
 fabbricate e costruite) e `Mastery` (`add`, `grade`, segnale `graded`, avviso, tappa del diario). `Character.maestria`.
 **Pronto quando**: la prova vede i punti arrivare dalle attività e un grado salire.
+**Fatto**: `MasteryData` (10 pilastri, un punto ≈ un minuto di attività, curva quadratica: il grado 1 all'1% delle ore
+del pilastro, il 5 al 25%, il 10 alle ore obiettivo; 60 conteggi del personaggio legati ai pilastri) e `Mastery`
+(punti dai conteggi con il segnale nuovo `Objectives.bumped_n`, dalle creature sconfitte, dalle celle scoperte
+`MapReveal.on_new`, da ciò che si fabbrica `Crafting.crafted`, dai blocchi posati `PlayerActions.placed`, dalle parole
+certe); `Character.maestria`; i bonus dei gradi passano da `GearEffects`. Prova nel gruppo nuovo `maestria`.
 
 ## 215. [ ] I premi dei gradi (M)
 Ogni grado di ogni pilastro dà qualcosa: oggetti, un bonus per sempre piccolo e proprio del pilastro (pesca: fortuna

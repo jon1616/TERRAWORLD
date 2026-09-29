@@ -241,6 +241,8 @@ func run(main: Node2D) -> void:
 	_mark("TestsSky")
 	await TestsEnergy.new(kit).run()       # Roadmap 19: la rete (costruisce lontano dalla partenza)
 	_mark("TestsEnergy")
+	await TestsMastery.new(kit).run()      # Roadmap 20: la maestria dei pilastri
+	_mark("TestsMastery")
 	await ob.run()
 	_mark("ob.run")
 	await w.run_and_save()
@@ -423,6 +425,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsCombat.new(kit).run()
 		"energia":
 			await TestsEnergy.new(kit).run()         # Roadmap 19: la Linfa che scorre
+		"maestria":
+			await TestsMastery.new(kit).run()        # Roadmap 20: i pilastri e la maestria
 		"arena":
 			await TestsArena.new(kit).run()          # voce 180: il bot in arena (una misura, non nel giro)
 		"tratti":
