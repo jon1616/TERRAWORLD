@@ -56,6 +56,29 @@ in `ROADMAP.md` (Roadmap 5-11). Queste regole valgono per **ogni** voce, anche f
   passa da una migrazione (voce 41).
   **Sospesa per ora** (26 set 2026, l'utente): in pieno sviluppo le partite sono solo prove, non serve preservarle.
 
+## I pilastri: un gioco enorme che rispetta il giocatore (29 set 2026, approvata dall'utente)
+
+L'obiettivo finale dell'utente: un gioco **enorme** (la parte a obiettivi ~500 ore per un giocatore medio, misurata con
+`tools/durata.gd`), pieno di cose da fare anche **senza** avanzare nella storia principale, con meccaniche lunghe e mai
+noiose che danno **tutte** qualcosa di utile. In una stessa partita il giocatore sceglie se progredire, esplorare, curare
+la base o altro, e nessuna scelta è tempo perso. Regole per ogni voce, insieme a «Il Giardiniere dei mondi»:
+
+- **Più pilastri, ognuno una partita a sé**: storia (Albero-Madre, catene, Seme Nero), esplorazione, Giardino e base,
+  mandria, pesca, rete di Linfa, misteri e lingua dei Seminatori, collezioni (e i prossimi). Ogni pilastro ha una
+  **strada lunga sua** (gradi di maestria, cose che si sbloccano solo lì, un traguardo in fondo): una serata dedicata a
+  un pilastro solo si chiude con qualcosa di nuovo in mano.
+- **Ogni pilastro nutre gli altri** (è «moltiplicare, non sommare»): ciò che si ottiene in uno serve negli altri.
+- **La storia è la spina dorsale, con strade alternative**: le richieste della storia si soddisfano in più modi (dal
+  Guardiano, dall'allevamento, da una Centrale…), così chi ama costruire avanza costruendo e chi ama esplorare esplorando.
+- **Rispettare i tempi del giocatore**: qualcosa di utile in 15 minuti come in 3 ore; niente muri che obbligano a
+  ripetere la stessa cosa per ore; rendite che calano insistendo su una cosa sola (la varietà conviene); le cose lunghe
+  (allevare, la rete, il lavoro mentre si è via) vanno avanti mentre si fa altro.
+- **Mai noioso**: salendo un pilastro cambia forma (meccaniche, luoghi, imprevisti), non solo i numeri.
+- **Il giocatore vede le sue strade**: in ogni momento deve sapere quali pilastri ha, a che punto è in ognuno e qual è
+  il prossimo passo interessante (il filo, la Bacheca, il diario, e un posto che li mostri tutti).
+- **Mai allungare gonfiando i costi**: le ore vengono da cose nuove da fare, non dalla ripetizione. Una voce che allunga
+  la partita dice quali ore aggiunge e a quale pilastro (`tools/durata.gd`).
+
 ## Decisioni di base (24 set 2026, scelte dall'utente)
 
 - **Mondi a portale**: un mondo casa più una serie infinita di mondi generati, finiti, con tema e difficoltà crescenti.
