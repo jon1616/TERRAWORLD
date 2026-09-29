@@ -16,6 +16,13 @@ static func _b(name: String, desc: String, col := G) -> String:
 static func inline(key: String) -> String:
 	if key.begins_with("cat_rete_"):
 		return EncyEnergy.inline(key)                  # Roadmap 19: la rete
+	if key == "cat_pilastri":                          # Roadmap 20: i dieci pilastri
+		var ps := []
+		for p in MasteryData.ORDER:
+			var d: Dictionary = MasteryData.PILLARS[p]
+			ps.append(_b(String(d["name"]), "%s Grado 10: circa %d ore." % [d["desc"], int(d["hours"])], "#" + (d["color"] as Color).to_html(false)))
+		return "
+".join(ps)
 	var rows := []
 	match key:
 		"tabella_tasti":

@@ -7,6 +7,9 @@
 - **In corso: la Roadmap 13 «Il volto del mondo»** (voci 100-117, dal 28 set 2026): la grafica con Nano Banana,
   seguita passo passo con l'utente (Claude scrive i prompt, dice dove salvare le immagini, le adatta con gli script).
   Dopo: un secondo bilancio con il diario delle partite vere.
+- **In corso: il piano «Le dieci strade»** (Roadmap 20-28, dal 29 set 2026, in autonomia): dieci pilastri con gradi di
+  maestria verso ~500 ore di partita. **Fatta la Roadmap 20 «Il motore comune»** (voci 214-219): maestria a gradi,
+  Libro dei pilastri (P), strade alternative dell'Albero, misura per pilastro. Resoconto in fondo alla Roadmap 20.
 - **Fatta la Roadmap 19 «La Linfa che scorre»** (voci 190-213, 29 set 2026, in autonomia): vene del Flusso e fili
   dell'Impulso, 64 macchine (sorgenti, riserve, macchine che lavorano, sensori, nodi della logica), le Centrali dei
   Seminatori, la Tempesta di Linfa, Succhiavena e Lucciole, la Tessitrice, il primo circuito guidato. Resoconto in fondo
@@ -3804,8 +3807,20 @@ apposta per il grado 10. Oggi: storia al grado 6 per strada, esplorazione e comb
 0; tutto al grado 10 fa ~400 ore (via diretta 45 + ~350 apposta), ~425 per il giocatore medio. Le ore apposta però
 vengono da attività che oggi in gran parte si ripetono: le Roadmap 21-28 aggiungono ciò che le rende nuove.
 
-## 219. [ ] Enciclopedia, consigli e resoconto (P)
+## 219. [x] Enciclopedia, consigli e resoconto (P) — fatto il 29 set 2026
 Capitolo «I pilastri e la maestria», un consiglio al primo grado, CLAUDE.md, giro intero, resoconto, GitHub.
+**Fatto**: `EncyPillarsData` (il capitolo con il catalogo {cat_pilastri}), il consiglio «Il primo grado», CLAUDE.md
+(struttura e regola: un conteggio nuovo va legato al suo pilastro), il resoconto qui sotto.
+
+### Resoconto della Roadmap 20 (29 set 2026)
+Il gioco ha ora **dieci pilastri con i gradi da 1 a 10**, visibili nel Libro dei pilastri (tasto P). Ogni attività
+nutre il suo pilastro (sessanta conteggi del personaggio, le creature sconfitte, la mappa scoperta, ciò che si fabbrica
+e si costruisce, le parole dei Seminatori); ogni grado dà un premio (cento in tutto) e i gradi pari un bonus per sempre
+proprio del pilastro. L'Albero-Madre accetta per **19 offerte** una seconda strada da un altro pilastro. Il filo ricorda
+il pilastro fermo da più tempo. La misura (`tools/durata.gd`): la storia resta 45 ore di via diretta (72 per il
+giocatore medio); portare tutti i pilastri al grado 10 chiede ~400 ore, ~425 per il giocatore medio. Quelle ore però
+oggi vengono in gran parte da attività che si ripetono: le Roadmap 21-28 le riempiono di cose nuove, pilastro per
+pilastro.
 
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».

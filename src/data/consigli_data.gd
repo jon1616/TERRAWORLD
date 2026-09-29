@@ -86,6 +86,9 @@ const LIST := [
 		"text": "Il cuore dorme: un [b]cristallo di Linfa[/b] lo sveglia. Poi ripara la vena d'ambra del pavimento (lo scrigno all'ingresso ha ciò che serve) e alza le tre leve: la porta della sala interna si apre."},
 	{"id": "succhiavena", "title": "Qualcosa beve le vene", "cap": "rete_creature",
 		"text": "Un [b]Succhiavena[/b] ha bevuto una vena di radice. Le vene di legnoferro (e più dure) non le toccano, e nemmeno quelle isolate con la gelatina."},
+	# Roadmap 20 «Il motore comune»
+	{"id": "maestria", "title": "Il primo grado", "cap": "pilastri",
+		"text": "Un pilastro è salito di grado: ciò che fai nel suo campo lo fa salire, e ogni grado dà un premio. Il [b]Libro dei pilastri[/b] ({pilastri}) mostra tutti e dieci i pilastri, a che punto sei e che cosa dà il grado dopo."},
 ]
 
 

@@ -327,3 +327,14 @@ func _c_centrale() -> bool:
 
 func _c_succhiavena() -> bool:
 	return m.get("wiles") != null and m.wiles.sucked > 0
+
+
+# ---------------------------------------------------------------- Roadmap 20
+
+func _c_maestria() -> bool:
+	if m.get("mastery") == null:
+		return false
+	for p in MasteryData.ORDER:
+		if m.mastery.grade(p) >= 1:
+			return true
+	return false

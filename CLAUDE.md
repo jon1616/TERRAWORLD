@@ -139,7 +139,7 @@ Godot_console.exe --path . -- --prove --prova-giardino
 # biomi, biomi_nuovi, luoghi, corsa, raccolta, musica, germogliato, interfaccia, geni, forme, ecologia, mandria, casse, alberi,
 # base (il cuore del gioco, da lanciare sempre), sigilli, stagioni, suggerimenti, opzioni, enciclopedia, lingua, catene, luoghi_scritti, enigmi, seme_nero, acqua,
 # liquidi, meteo, gravita, terra_viva, tempo_mondi, vigore, guardiani_generati, leggende, sfide, grafica, vivo, cielo,
-# comodita, energia (la rete della Roadmap 19, ~3 minuti)
+# comodita, energia (la rete della Roadmap 19, ~3 minuti), maestria
 # (elenco in `AutoTests._group`)
 Godot_console.exe --path . -- --prove --solo=doni,antiche
 # suoni generati: prove/suoni/*.wav da ascoltare, con durata, picco e volume medio (segnala muti e distorti)
@@ -711,6 +711,20 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     (`FiloRete`), progetti con le griglie «vene» e «fili» (`ProjectsData`, `BuilderTools._blueprint_veins`).
   - Prove: gruppo «energia» (`TestsEnergy`, `TestsEnergyMore`, `TestsEnergyLogic`, `TestsEnergyWorld`; foto 230-243).
     Misura: `tools/rete.gd`. Enciclopedia: `EncyEnergyData` + cataloghi `EncyEnergy`.
+- **Roadmap 20 «Il motore comune»** (voci 214-219, 29 set 2026; il piano «Le dieci strade», scelte dell'utente: gradi
+  numerati e visibili, nessun limite a chi insiste su una cosa sola):
+  - `MasteryData` (i 10 pilastri in `ORDER`/`PILLARS` con le ore obiettivo; un punto ≈ un minuto di attività; curva
+    quadratica `points_for`/`grade_of`; `STATS` = i conteggi del personaggio che nutrono ogni pilastro; `STATION`/`KIND`
+    per ciò che si fabbrica; `REWARDS` = i 100 premi) e `Mastery` (`src/game/mastery.gd`: `add`, `grade`, `idle`,
+    segnali `gained`/`graded`, `neglected` per il filo; i punti arrivano da `Objectives.bumped_n`, `Fauna.killed`,
+    `MapReveal.on_new`, `Crafting.crafted`, `PlayerActions.placed`, `Language.confirmed`). `MasteryRewards` (oggetti e
+    bonus per sempre sommati da `GearEffects`; bonus nuovi `grow`, `herd`, `pulsi`). `Character.maestria`.
+    **Un conteggio nuovo (`bump`) di un'attività va legato al suo pilastro in `MasteryData.STATS`.**
+  - `PillarsPanel` (il Libro dei pilastri, tasto P); la fonte «pilastro» del filo.
+  - Le strade alternative dell'Albero-Madre: `{"any": [offerta, offerta]}` in `MotherTreeData`, lette con
+    `AlberoMadre.progress/alt/offer_of` (mai `offers[i]["item"]` direttamente).
+  - Prove: gruppo «maestria» (`TestsMastery`, foto 244). Misura: sezione 4 di `tools/durata.gd`. Enciclopedia:
+    `EncyPillarsData`.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni
