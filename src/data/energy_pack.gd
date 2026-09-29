@@ -4,7 +4,60 @@ extends RefCounted
 ## altre classi.
 
 const DATA := {
+	# voce 207: i geni della rete (la parte `run` la legge `EnergyStorm`, «vene_mondo» anche `PassCentrali`)
+	"genes": {
+		"vene_mondo": {"cat": "minerali", "name": "Vene del mondo", "rar": 2, "dom": 1, "good": true,
+			"desc": "il mondo dei Seminatori era tutto una rete: due Centrali in più", "gen": {"ruins": 1.15}},
+		"vento_perenne": {"cat": "cielo", "name": "Vento perenne", "rar": 1, "dom": 2, "good": true,
+			"desc": "un vento che non cala mai: i Mulini girano sempre almeno all'80%", "run": {"wind": 1.3, "linfa_vento": 0.8}},
+		"sole_linfa": {"cat": "tempo", "name": "Sole di Linfa", "rar": 1, "dom": 2, "good": true,
+			"desc": "un sole che nutre: le Foglie-lanterna danno il 50% in più", "run": {"linfa_sole": 0.5}},
+		"terra_conduce": {"cat": "sottosuolo", "name": "Terra che conduce", "rar": 2, "dom": 1, "good": true,
+			"desc": "la roccia stessa porta la Linfa: ogni vena porta il 50% in più", "run": {"linfa_vene": 0.5}},
+		"tempeste_linfa": {"cat": "tempo", "name": "Tempeste di Linfa", "rar": 1, "dom": 2, "good": false,
+			"desc": "la Linfa ribolle spesso: Tempeste sei volte più frequenti (sorgenti al 150%, vene che si spezzano)",
+			"run": {"linfa_tempeste": 5.0}},
+	},
+	"gene_adj": {"terra_conduce": ["risonanti", "risonanti"]},     # gli aggettivi dei nomi dei mondi
+	# voce 207: le creature della rete
+	"creatures": {
+		"succhiavena": {"name": "Succhiavena", "hp": 34, "damage": 6, "defense": 2, "knock": 0.3, "half": [9, 4], "speed": 50,
+			"behaviors": ["cammina", "succhia"], "p": {"sight": 12, "smell": 10, "gnaw_every": 2.5}, "loot": "succhiavena",
+			"art": ["succhiavena", 0], "strata": [1, 2], "weight": 3,
+			"body": {"plan": "serpe", "w": 20, "h": 10, "pal": ["#10202a", "#1a3a44", "#2a5a64", "#48908c", "#9ef0e0"], "eye": "#6ff0e0",
+				"marks": "strisce", "mark": "#6ff0e0", "glow": true},
+			"affinity": {"weak": ["brace"], "resist": ["spora"]}, "trophy": "denti_succhiavena"},
+		"lucciola_vena": {"name": "Lucciola di vena", "hp": 10, "damage": 0, "defense": 0, "knock": 0.5, "half": [5, 4], "speed": 60,
+			"fly": true, "docile": true, "glow": true, "behaviors": ["deriva", "lucciola_vena"],
+			"p": {"drift": 14.0, "bob": 16.0, "leash": 30, "smell": 12, "sight": 10}, "loot": "lucciola_vena",
+			"art": ["lucciola_vena", 0], "strata": [0, 1, 2], "weight": 2,
+			"body": {"plan": "insetto", "w": 12, "h": 10, "pal": ["#0a2a2a", "#145050", "#208080", "#50d0c0", "#d8fff4"], "eye": "#e8fff8",
+				"wings": "#9ef0e0", "glow": true},
+			"affinity": {"weak": ["vuoto"], "resist": ["luce"]}, "trophy": "ampolla_vena"},
+	},
+	"families": {
+		"succhiavene": {"name": "Succhiavene", "members": ["succhiavena"], "fem": false, "role": "neutro"},
+		"lucciole_vena": {"name": "Lucciole di vena", "members": ["lucciola_vena"], "fem": true, "role": "volante"},
+	},
+	"loot": {
+		"succhiavena": [{"item": "linfa_rappresa", "min": 1, "max": 2, "chance": 1.0}],
+		"lucciola_vena": [{"item": "luce_vena", "min": 1, "max": 2, "chance": 1.0}],
+	},
 	"items": {
+		"linfa_rappresa": {"name": "Linfa rappresa", "kind": "materiale", "icon": ["gel", "linfa"], "stack": 999,
+			"desc": "La Linfa che un Succhiavena ha bevuto, rappresa nel suo corpo. Serve alla Valvola di sfogo."},
+		"denti_succhiavena": {"name": "Denti di succhiavena", "kind": "trofeo", "icon": ["aculeo", "linfa"],
+			"desc": "Lo lasciano solo le creature rare di questa specie."},
+		"luce_vena": {"name": "Luce di vena", "kind": "materiale", "icon": ["essenza", "linfa"], "stack": 999,
+			"desc": "Il chiarore di una Lucciola di vena: resta acceso in una goccia per giorni."},
+		"ampolla_vena": {"name": "Ampolla di vena", "kind": "trofeo", "icon": ["goccia", "linfa"],
+			"desc": "Lo lasciano solo le creature rare di questa specie."},
+		"anello_succhiavena": {"name": "Anello dei denti di vena", "kind": "anello", "icon": ["anello", "linfa"],
+			"acc": {"linfa_regen": 1.15, "thorns": 3}, "desc": "La Linfa torna il 15% più in fretta; chi ti tocca si punge (3)."},
+		"lanterna_vena": {"name": "Lanterna di vena", "kind": "accessorio", "icon": ["lanterna", "linfa"],
+			"acc": {"halo": 1.4, "stealth": 0.95}, "desc": "Alone +40%, di una luce che le creature notano appena."},
+		"ampolla_lucciole": {"name": "Ampolla di lucciole di vena", "kind": "accessorio", "icon": ["lanterna", "linfa"],
+			"acc": {"halo": 1.25, "linfa_regen": 1.05}, "desc": "Alone +25%; la Linfa torna un poco più in fretta."},
 		# voce 206: gli unici delle Centrali dei Seminatori (serie «Ingegni dei Seminatori», pool «centrali»)
 		"guanto_tessitore": {"name": "Guanto del tessitore", "kind": "guanti", "icon": ["guanti", "sem"], "unique": true, "stack": 1,
 			"acc": {"dig": 1.15, "luck": 0.05}, "serie": "ingegni_seminatori", "source": "nelle Centrali dei Seminatori risvegliate",
@@ -56,6 +109,10 @@ const DATA := {
 			"desc": "Usalo su una vena: non si collega più alle vene vicine di un altro grado (così due reti si incrociano). Di nuovo per togliere."},
 	},
 	"recipes": [
+		{"out": "anello_succhiavena", "qty": 1, "in": {"denti_succhiavena": 1, "lingotto_legnoferro": 2}, "station": "maglio"},
+		{"out": "lanterna_vena", "qty": 1, "in": {"ampolla_vena": 1, "luce_vena": 4}, "station": "maglio"},
+		{"out": "ampolla_lucciole", "qty": 1, "in": {"luce_vena": 6, "vetro_resina": 1}, "station": "ceppo"},
+		{"out": "lampada_baccello", "qty": 2, "in": {"luce_vena": 2, "legno": 4}, "station": "ceppo"},
 		{"out": "pinza_vene", "qty": 1, "in": {"legno": 6, "lingotto_radicite": 2}, "station": "ceppo"},
 		{"out": "vena_radice", "qty": 10, "in": {"legno": 4, "gelatina": 1}, "station": "ceppo"},
 		{"out": "vena_legnoferro", "qty": 10, "in": {"lingotto_legnoferro": 1, "legno": 2}, "station": "baccello_ardente"},

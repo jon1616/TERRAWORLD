@@ -5,6 +5,9 @@ extends RefCounted
 ## stretta sulla strada più larga dalle sorgenti e dalle riserve (`Machine.cap`).
 
 
+static var cap_mult := 1.0             # voce 207: il gene «Terra che conduce» (`EnergyStorm.genes`)
+
+
 static func build(e: Energy) -> void:
 	var w: World = e.m.world
 	var net_of: Dictionary = e.net_of
@@ -69,7 +72,7 @@ static func build(e: Energy) -> void:
 
 ## La portata di una cella di vena.
 static func cap_at(w: World, c: Vector2i) -> float:
-	return float(VeinsData.TIERS[VeinsData.tier(w.vein_at(c.x, c.y))].get("cap", 0))
+	return float(VeinsData.TIERS[VeinsData.tier(w.vein_at(c.x, c.y))].get("cap", 0)) * cap_mult
 
 
 ## Per ogni macchina della rete: la vena più stretta sulla strada migliore dalle sorgenti e dalle riserve (la strada

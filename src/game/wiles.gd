@@ -22,6 +22,9 @@ func setup(main: Node2D) -> void:
 	m.fauna.killed.connect(_on_killed)
 
 
+var sucked := 0                        # voce 207: vene bevute dai Succhiavena (per le prove)
+
+
 func _process(dt: float) -> void:
 	if m == null or not m.built:
 		return
@@ -55,6 +58,8 @@ func _act(c: Creature, a: Dictionary) -> void:
 			queue_redraw()
 		"rosicchia":
 			_gnaw(c, a["cell"])
+		"succhia":
+			_suck(c, a["cell"])
 		"scoppia":
 			var bl := {"radius": float(a["r"]), "power": -1, "damage": int(a["damage"]), "natural": true}   # non rompe blocchi
 			m.throwing.explode(c.position, bl)
@@ -197,3 +202,18 @@ func door_strength(o: Vector2i) -> int:
 		k *= 2                                    # Roadmap 19: lo Scudo di corteccia sulla rete della porta
 	return WilesData.DOOR_HITS * k
 
+
+
+## Roadmap 19, voce 207: il Succhiavena beve una vena di radice (non quelle più dure, non quelle isolate con la
+## gelatina): la vena sparisce, i fili restano, e la creatura guarisce un poco.
+func _suck(c: Creature, cell: Vector2i) -> void:
+	var w: World = m.world
+	var b := w.vein_at(cell.x, cell.y)
+	if VeinsData.tier(b) != 1 or b & VeinsData.INSULATED != 0:
+		return
+	w.set_vein(cell.x, cell.y, b & ~VeinsData.TIER_MASK)
+	if m.get("energy") != null:
+		m.energy._on_vein(cell)
+	m.view.refresh_vein(cell)
+	c.hp = mini(c.hp + 6, c.hp_max)
+	sucked += 1

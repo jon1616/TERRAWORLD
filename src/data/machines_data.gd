@@ -170,6 +170,10 @@ const MACHINES := {
 	"scudo_corteccia": {"name": "Scudo di corteccia", "role": "macchina", "size": [1, 1], "bh": "zona", "pulsi": 40,
 		"look": "scudo", "icon": ["scudo", "legnoferro"], "in": {"lingotto_legnoferro": 4, "legno": 10, "gelatina": 2}, "station": "baccello_ardente",
 		"tier": 2, "desc": "Durante un assedio le porte attaccate alla sua rete (una vena che le tocca) reggono il doppio dei morsi. Chiede 40 pulsi."},
+	# ---------------------------------------------------------------- la Valvola di sfogo (voce 207)
+	"valvola_sfogo": {"name": "Valvola di sfogo", "role": "macchina", "size": [1, 1], "bh": "valvola", "pulsi": 0, "look": "valvola",
+		"icon": ["gel", "linfa"], "in": {"lingotto_legnoferro": 2, "linfa_rappresa": 3}, "station": "baccello_ardente", "tier": 2,
+		"desc": "Su una rete, la protegge dalla Tempesta di Linfa: le vene tese non si spezzano. Non chiede pulsi."},
 	# ---------------------------------------------------------------- le Centrali dei Seminatori (voce 206)
 	# `gen`: solo del generatore (nessun oggetto, nessuna ricetta); `fixed`: non si riprendono.
 	"cuore_centrale": {"name": "Cuore della centrale", "role": "sorgente", "size": [2, 2], "bh": "centrale", "pulsi": 80,

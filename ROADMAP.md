@@ -3558,9 +3558,18 @@ intatta»** (`PassFirma._centrale_intatta`: cuore già sveglio da 120 pulsi, ven
 interna, ricordo «Scintilla della Centrale»). Prova nel gruppo `energia` (foto 240_centrale). L'ordine delle leve scritto
 nella lingua è rimasto fuori: tre leve e un nodo E sono già un enigma che insegna la logica, un ordine da decifrare
 sarebbe stato un secondo enigma sopra il primo.
-## 207. [ ] Geni, creature, evento (M)
+## 207. [x] Geni, creature, evento (M) — fatto il 29 set 2026
 Geni «Vene del mondo», «Vento perenne», «Sole di Linfa», «Terra che conduce», «Tempeste di Linfa»; Succhiavena e Lucciole
 di vena; la Tempesta di Linfa e la Valvola di sfogo.
+**Fatto**: i cinque geni nel pacchetto della rete (`energy_pack.gd`), con le chiavi `linfa_*` della parte `run` lette da
+`EnergyStorm` (`src/game/energy/energy_storm.gd`): Foglie-lanterna +50%, Mulini sempre almeno all'80%, vene +50%
+(`EnergyGraph.cap_mult`), Tempeste ×6; «Vene del mondo» dà due Centrali in più. La **Tempesta di Linfa** (`EventsData`,
+solo nei mondi con una rete): sorgenti al 150%, e ogni ~90 s una vena di radice o legnoferro non isolata di una rete che
+scorre si spezza, se la rete non ha una **Valvola di sfogo** (macchina nuova, fatta con la Linfa rappresa dei
+Succhiavena). Il **Succhiavena** (`BhSucchia` + `Wiles._suck`, Sottobosco e Caverne) fiuta e beve solo le vene di radice
+non isolate; la **Lucciola di vena** (`BhLucciolaVena`, docile) volteggia sopra le vene e nasce di più durante la
+Tempesta. Oggetti: Linfa rappresa, Luce di vena, i due trofei, Anello dei denti di vena, Lanterna di vena, Ampolla di
+lucciole (e la Lampada a baccello si fa anche con la Luce di vena). Prova nel gruppo `energia` (foto 241, 242).
 ## 208. [ ] La Tessitrice di vene e il Giardino (M)
 L'abitante (merci, richieste, affetto, progetti), Aiuole alimentate, obiettivi, Bacheca, Diario.
 

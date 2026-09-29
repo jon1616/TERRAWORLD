@@ -21,6 +21,10 @@ const EVENTS := {
 	"arcobaleno": {"name": "Arcobaleno", "desc": "Dopo la pioggia, l'arcobaleno: le creature rare del cielo escono allo scoperto",
 		"when": "speciale", "chance": 0.0, "color": "#ffe8a0", "rare": 3.0,
 		"pool": ["farfalla_prisma", "balena_stelle", "girandola_viva", "medusa_nuvola", "stella_errante"]},
+	# Roadmap 19, voce 207: solo nei mondi con una rete (`rete`), sei volte più spesso con il gene «Tempeste di Linfa»
+	# (`linfa_tempeste` dei geni, letto da `Events`)
+	"tempesta_linfa": {"name": "Tempesta di Linfa", "desc": "La Linfa del mondo ribolle: le sorgenti danno di più, ma le vene tese si spezzano",
+		"when": "giorno", "chance": 0.06, "color": "#6ff0e0", "rete": true, "pool": ["lucciola_vena"]},
 	"fioritura": {"name": "Fioritura", "desc": "Il Giardino fiorisce: le creature rare escono allo scoperto",
 		"when": "giorno", "chance": 0.15, "color": "#ff9ad8", "rare": 2.0, "wild": 3.0},
 }

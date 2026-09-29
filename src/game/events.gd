@@ -49,7 +49,13 @@ func _process(dt: float) -> void:
 		stop()
 		var pool := EventsData.for_time("notte" if night else "giorno")
 		for id in pool:
-			if _rng.randf() < float(EventsData.EVENTS[id]["chance"]) * chance_mult * season_mult * room_mult:
+			var ev0: Dictionary = EventsData.EVENTS[id]
+			var ch := float(ev0["chance"]) * chance_mult * season_mult * room_mult
+			if ev0.get("rete", false) and (m.get("energy") == null or m.energy.machines.is_empty()):
+				continue                               # voce 207: la Tempesta di Linfa solo dove c'è una rete
+			if ev0.get("rete", false):
+				ch *= 1.0 + float(m.energy.gene.get("linfa_tempeste", 0.0))
+			if _rng.randf() < ch:
 				start(String(id))
 				break
 	if active == "":

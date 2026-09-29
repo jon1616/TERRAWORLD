@@ -18,4 +18,4 @@ func produce(mc: Machine, e: Energy) -> float:
 		k *= 0.5
 	if SkyData.zone_at(w, mc.o.x, mc.o.y) != "":
 		k *= SKY
-	return float(mc.d["pulsi"]) * k
+	return float(mc.d["pulsi"]) * k * (1.0 + float(e.gene.get("linfa_sole", 0.0)))   # voce 207: «Sole di Linfa»

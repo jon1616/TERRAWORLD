@@ -66,6 +66,8 @@ static func draw(look: String, im: Image, gm: Image, w: int, h: int) -> bool:
 			_fontana(im, gm, w, h)
 		"teca":
 			_teca(im, gm, w, h)
+		"valvola":
+			_valvola(im, gm, w, h)
 		"nodo_e", "nodo_o", "nodo_non", "nodo_ritardo", "nodo_contatore", "nodo_memoria":
 			_nodo(im, gm, w, h, look.trim_prefix("nodo_"))
 		"sensore_luce", "sensore_orecchio", "sensore_acqua", "sensore_cassa", "sensore_riserva", "sensore_orologio", "sensore_meteo":
@@ -435,3 +437,12 @@ static func _nodo(im: Image, gm: Image, w: int, h: int, kind: String) -> void:
 		var b := c + Vector2(float(p[2]), float(p[3]))
 		Px.line(im, a, b, 1, col)
 		Px.line(gm, a, b, 1, col)
+
+
+## La Valvola di sfogo: un bulbo di gelatina su un tubo di legnoferro, con la Linfa che ci ribolle dentro.
+static func _valvola(im: Image, gm: Image, w: int, h: int) -> void:
+	MachineArt._rect(im, int(w * 0.5) - 2, h - 5, int(w * 0.5) + 2, h, MachineArt.SLATE[1])
+	Px.disc(im, w * 0.5, h * 0.4, 4.5, MachineArt.LINFA[1])
+	Px.disc(im, w * 0.5, h * 0.4, 3.0, MachineArt.LINFA[2])
+	Px.disc(gm, w * 0.5, h * 0.4, 2.2, MachineArt.LINFA[3])
+	Px.put(im, int(w * 0.5) + 1, int(h * 0.4) - 2, Color("#e8fff8"))

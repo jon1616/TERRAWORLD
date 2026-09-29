@@ -48,6 +48,7 @@ func run() -> void:
 	await logic.sensors()
 	await logic.logic()
 	await logic.centrale()
+	await logic.world_and_storm()
 	m.player.control = ctl
 	m.day.paused = false
 

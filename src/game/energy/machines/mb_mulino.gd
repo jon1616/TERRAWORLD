@@ -21,7 +21,7 @@ func produce(mc: Machine, e: Energy) -> float:
 	var wind := 0.0
 	if e.m.get("weather") != null:
 		wind = absf(float(e.m.weather.wind))
-	var k := clampf(wind / WIND_FULL, BREEZE, 1.0)
+	var k := clampf(wind / WIND_FULL, maxf(BREEZE, float(e.gene.get("linfa_vento", 0.0))), 1.0)   # voce 207: «Vento perenne»
 	var above := float(int(w.surface[clampi(cx, 0, w.w - 1)]) - top)
 	k *= 1.0 + clampf(above / HIGH, 0.0, 1.0) * 0.6
 	if SkyData.zone_at(w, mc.o.x, mc.o.y) != "":

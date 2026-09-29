@@ -62,6 +62,7 @@ const ITEMS := {
 	"ricordo_serra": {"name": "Vaso dei Seminatori", "kind": "ricordo", "icon": ["goccia", "ambra"], "stack": 1,
 		"desc": "Un vaso della Serra sepolta, con la terra ancora umida. Esiste solo in un mondo."},
 	"ricordo_centrale": {"name": "Scintilla della Centrale", "kind": "ricordo", "icon": ["gemma", "linfa"], "stack": 1,
+		"source": "nello scrigno della Centrale intatta, la firma di un mondo",
 		"desc": "Un pulso di Linfa della Centrale intatta, chiuso in una goccia di vetro. Esiste solo in un mondo."},
 	"ricordo_colonne": {"name": "Capitello d'ambra", "kind": "ricordo", "icon": ["gemma", "ambra"], "stack": 1,
 		"desc": "La cima di una colonna d'ambra fossile. Esiste solo in un mondo."},

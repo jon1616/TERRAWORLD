@@ -17,6 +17,10 @@ static func make(id: String) -> Behavior:
 			return BhSaltaVerso.new()
 		"cammina":
 			return BhCammina.new()
+		"succhia":
+			return BhSucchia.new()
+		"lucciola_vena":
+			return BhLucciolaVena.new()
 		"vola":
 			return BhVola.new()
 		"carica":

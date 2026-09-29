@@ -60,7 +60,8 @@ const DEFAULTS := {
 		"sky": {}, "sky_scale": 1.0, "sky_isles": 1.0, "no_sky": false},
 	"run": {"danger": 0.0, "lumini": 1.0, "rare": 1.0, "grow": 1.0, "night": 0.0, "events": 1.0, "blight": 1.0, "season": 0.0,
 		"aurora": 0.0, "roles": {}, "rain": 1.0, "wind": 1.0, "fog": 1.0, "grav": 1.0, "roof": false, "regrow": false, "crystal": 0.0,
-		"falling": false, "day_len": 1.0, "eternal": false, "sunless": false, "eclipse": false},
+		"falling": false, "day_len": 1.0, "eternal": false, "sunless": false, "eclipse": false,
+		"linfa_sole": 0.0, "linfa_vento": 0.0, "linfa_vene": 0.0, "linfa_tempeste": 0.0},     # Roadmap 19 (`EnergyStorm`)
 }
 const MUL := ["ruins", "gems", "lumini", "rare", "grow", "events", "blight", "hills", "worm", "roots", "shallow", "geodes",
 	"trees", "pools", "rain", "wind", "fog", "grav", "day_len", "sky_scale", "sky_isles"]

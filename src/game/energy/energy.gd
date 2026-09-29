@@ -30,6 +30,8 @@ var _dirty := true
 var _rev := -1
 var _t := 0.0
 var _lights: Array = []
+var gene := {}                         # voce 207: i geni del mondo per la rete (`EnergyStorm.genes`)
+var rng := RandomNumberGenerator.new()
 
 
 func setup(main: Node2D) -> void:
@@ -156,6 +158,7 @@ func rebuild() -> void:
 	for o: Vector2i in old:
 		if not machines.has(o) or (machines[o] as Machine) != old[o]:
 			(old[o] as Machine).bh.removed(old[o], self)
+	gene = EnergyStorm.genes(self)
 	_framed.clear()
 	for mc: Machine in machines.values():
 		if mc.d.get("frame", false):
@@ -174,6 +177,7 @@ func rebuild() -> void:
 func solve(dt: float) -> void:
 	solved += 1
 	var changed := false
+	var boost := EnergyStorm.boost(self)      # voce 207: la Tempesta di Linfa
 	for mc: Machine in machines.values():
 		if mc.net < 0:
 			mc.power = 0.0
@@ -183,7 +187,7 @@ func solve(dt: float) -> void:
 		var nt: Dictionary = nets[ni]
 		var prod := 0.0
 		for mc: Machine in nt["sources"]:
-			mc.made = minf(mc.bh.produce(mc, self), mc.cap)
+			mc.made = minf(mc.bh.produce(mc, self) * boost, mc.cap)
 			prod += mc.made
 		# quanto possono dare le riserve adesso
 		var res_out := 0.0
@@ -248,6 +252,7 @@ func solve(dt: float) -> void:
 		nt["cap"] = capacity
 	for mc: Machine in machines.values():
 		mc.bh.tick(mc, self, dt)
+	EnergyStorm.tick(self, dt)
 	_update_looks()
 	if changed:
 		m.light.dirty = true
