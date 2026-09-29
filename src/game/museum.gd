@@ -7,12 +7,14 @@ extends Node
 
 var m: Node2D
 var arch: Archaeology                  # voce 254: l'archeologia
+var chron: Chronicles                  # voce 255: le cronache perdute
 var _t := 2.0
 
 
 func setup(main: Node2D) -> void:
 	m = main
 	arch = Archaeology.new(m)
+	chron = Chronicles.new(m)
 
 
 func _process(dt: float) -> void:
@@ -90,4 +92,5 @@ func line() -> String:
 	var done := 0
 	for h in MuseumData.HALLS:
 		done += int(m.character.stats.get("sala_" + h, 0))
-	return "Il Museo: %d pezzi su %d, sale complete %d su %d" % [exhibited(), MuseumData.total(), done, MuseumData.HALLS.size()]
+	return "Il Museo: %d pezzi su %d, sale complete %d su %d · %s" % [exhibited(), MuseumData.total(), done, MuseumData.HALLS.size(),
+		chron.line()]

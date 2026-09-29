@@ -22,6 +22,7 @@ func _restore(st: Dictionary, saved: Dictionary) -> void:
 func run() -> void:
 	await museum()
 	await archaeology()
+	await chronicles()
 
 
 ## Voce 253: le sale nascono dai dati; un pezzo in una vetrina entra nel Museo una volta sola; la sala completa dà il
@@ -92,3 +93,33 @@ func archaeology() -> void:
 		print("ATTENZIONE: l'archeologia non va")
 	if got != "":
 		m.character.bisaccia.remove(got, 1)
+
+
+## Voce 255: i frammenti stanno nelle tabelle delle rovine; con tutti e cinque la storia si ricompone una volta sola.
+func chronicles() -> void:
+	var ch: Chronicles = m.museum.chron
+	var st: Dictionary = m.character.stats
+	var saved := st.duplicate()
+	var er: Dictionary = m.character.erbario["oggetti"]
+	var saved_er: Dictionary = er.duplicate()
+	var in_loot := false
+	for e in LootData.TABLES["rovina_1"]:
+		in_loot = in_loot or String(e["item"]).begins_with("cronaca_primo_seme")
+	st.erase("cronaca_primo_seme")
+	for n in 4:
+		er[ChroniclesData.fragment_id("primo_seme", n)] = 1
+	var early := ch.check()
+	er[ChroniclesData.fragment_id("primo_seme", 4)] = 1
+	var done := ch.check()
+	var again := ch.check()
+	m.guardian.lore.visible = false
+	var ok: bool = in_loot and early.is_empty() and done == ["primo_seme"] and again.is_empty() and ChroniclesData.STORIES.size() == 8 \
+		and MuseumData.pieces("cronache").size() == 40
+	print("cronache: nei bottini %s; con 4 frammenti %s, con 5 %s, di nuovo %s; storie %d" % [in_loot, str(early), str(done), str(again),
+		ChroniclesData.STORIES.size()])
+	if not ok:
+		print("ATTENZIONE: le cronache non vanno")
+	m.character.bisaccia.remove("linfa_antica", 2)
+	er.clear()
+	er.merge(saved_er)
+	_restore(st, saved)

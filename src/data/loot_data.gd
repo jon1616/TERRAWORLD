@@ -268,4 +268,13 @@ static func roll(table: String, rng: RandomNumberGenerator) -> Dictionary:
 
 
 ## Voce 92: più quelle dei pacchetti dei biomi (`BiomesData`).
-static var TABLES: Dictionary = _TABLES.merged(BiomesData.pack("loot"))
+static var TABLES: Dictionary = _with_chronicles(_TABLES.merged(BiomesData.pack("loot")))
+
+
+## Voce 255: i frammenti delle cronache nelle tabelle delle rovine.
+static func _with_chronicles(t: Dictionary) -> Dictionary:
+	var add := ChroniclesData.loot()
+	for k in add:
+		if t.has(k):
+			t[k] = (t[k] as Array) + (add[k] as Array)
+	return t

@@ -27,6 +27,7 @@ const HALLS := {
 	"unici": {"name": "Sala degli unici", "desc": "il primo oggetto di ogni serie", "bonus": {"magic": 1.05}},
 	"fossili": {"name": "Sala dei fossili", "desc": "le ventiquattro parti degli animali antichi", "bonus": {"dig": 1.08}},
 	"scheletri": {"name": "Sala degli scheletri", "desc": "gli otto animali antichi ricostruiti", "bonus": {"linfa_regen": 1.08}},
+	"cronache": {"name": "Sala delle cronache", "desc": "i quaranta frammenti delle storie dei Seminatori", "bonus": {"luck": 0.05}},
 }
 
 static var _pieces := {}
@@ -80,6 +81,11 @@ static func _build() -> void:
 			fos.append(ArchaeologyData.fossil_id(String(a), String(p[0])))
 		ske.append(ArchaeologyData.skeleton_id(String(a)))
 	_pieces["fossili"] = fos
+	var chr := []
+	for s in ChroniclesData.STORIES:                   # voce 255
+		for n in 5:
+			chr.append(ChroniclesData.fragment_id(String(s), n))
+	_pieces["cronache"] = chr
 	_pieces["scheletri"] = ske
 
 

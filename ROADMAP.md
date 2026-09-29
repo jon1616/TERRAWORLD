@@ -4270,11 +4270,15 @@ grotte, lontani tra loro) e `Archaeology` (`src/game/archaeology.gd`, da `Museum
 clic destri sul giacimento, poi esce il fossile di quello strato che il personaggio ha di meno, e il giacimento
 sparisce. Le sale «fossili» (scavo +8%) e «scheletri» (Linfa +8%) nel Museo. Conteggio «fossili».
 
-## 255. [ ] Le porte a indovinello (M)
-Porte dei Seminatori con una frase a cui manca una parola: si aprono scegliendo la parola giusta (fra quelle certe del
-Quaderno); dietro, una stanza con uno scrigno e una pagina. Una passata le mette nei mondi; sbagliare le chiude per un
-giorno.
-
+## 255. [x] Le cronache perdute (M) — fatto il 30 set 2026 (al posto delle porte a indovinello)
+Le porte a indovinello sarebbero state troppo simili agli scrigni a parola della Roadmap 17: al loro posto le
+**cronache perdute**, otto storie dei Seminatori (il primo seme, le serre di vetro, il Custode che non dormiva, la lingua
+delle radici, la lite dei giardinieri, l'ultima semina, le mani di Linfa, il viaggio nel Vuoto) in cinque frammenti
+ciascuna.
+**Fatto**: `ChroniclesData` (le storie, scritte a mano; i frammenti sono oggetti che si leggono nella scheda; entrano nelle
+tabelle «rovina_1-4» di `LootData`, le storie più tarde più in profondità) e `Chronicles` (`src/game/chronicles.gd`, da
+`Museum.chron`): con tutti e cinque i frammenti nell'Erbario la storia si ricompone in una pagina, dà il suo premio e
+conta «cronache» (40 punti). La sala «cronache» del Museo (40 frammenti).
 ## 256. [ ] I traguardi delle collezioni (M)
 Premi per l'Erbario al 25/50/75/100%, per ogni strato della lingua imparato tutto, per le reliquie, le serie, il Museo:
 oggetti unici e titoli, scritti nel diario.
