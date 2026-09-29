@@ -55,6 +55,19 @@ func _ready() -> void:
 	v.add_child(hint)
 
 
+## Voce 231: una pagina che non sta in `LoreData` (le scene delle storie degli abitanti).
+func show_text(title: String, text: String) -> void:
+	_title.text = title
+	_text.text = text
+	_pic.visible = false
+	visible = true
+	_box.reset_size()
+	await get_tree().process_frame
+	var vs := get_viewport_rect().size
+	_box.position = (vs - _box.size) * 0.5 - Vector2(0, 60)
+	_box.position.y = maxf(_box.position.y, 12.0)
+
+
 func show_page(id: String) -> void:
 	var pg: Dictionary = LoreData.PAGES.get(id, {})
 	if pg.is_empty():

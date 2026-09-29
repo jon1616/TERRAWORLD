@@ -3972,10 +3972,15 @@ la festa della stagione (la Fioritura dei semi, la Festa delle acque, la Festa d
 scritta, un compito da fare entro il giorno (seminare, pescare, raccogliere, prodotti della mandria), i premi e, la prima
 volta, un oggetto che esiste solo lì (corona di fiori, lanterna delle acque, cesto del raccolto, sciarpa di brace).
 
-## 231. [ ] Le storie degli abitanti (G)
+## 231. [x] Le storie degli abitanti (G) — fatto il 29 set 2026
 Ogni abitante ha una **storia a capitoli** (cinque capitoli, aperti dall'affetto): una richiesta, una scena, un dono;
 l'ultimo capitolo cambia qualcosa per sempre (una merce nuova, un potere piccolo, un luogo). Pannello: la scheda
 «Storia» nella finestra dell'abitante.
+**Fatto**: `NpcStoriesData` (scritto da `tools/gen_storie.py`): **70 capitoli**, cinque per ognuno dei quattordici
+abitanti che vivono nel Giardino, dopo le loro richieste di sempre. Ogni capitolo si apre con l'affetto (livelli 1, 1,
+2, 3, 4), chiede oggetti o un traguardo di un pilastro vicino al mestiere dell'abitante, dona e mostra la sua **scena**
+(`LorePanel.show_text`); a storia finita l'abitante vende una merce in più (`FINAL`). `NpcBonds.quest` continua la
+catena con i capitoli (chiusi finché l'affetto non basta), `stats.capitoli` nutre la maestria degli abitanti.
 
 ## 232. [ ] I mestieri e le botteghe (M)
 Un abitante con un mestiere lavora per te: gli si lasciano i materiali, dopo un tempo (anche mentre sei via) si

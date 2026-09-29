@@ -64,7 +64,7 @@ const STATS := {
 	"maree_vinte": [["combattimento", 40.0]], "evocati": [["combattimento", 30.0]], "sfide": [["combattimento", 30.0]],
 	"occhio_tempesta": [["combattimento", 90.0]], "eventi_vinti": [["combattimento", 15.0]],
 	"stanze": [["giardino", 20.0]], "progetti": [["giardino", 40.0]], "isole": [["giardino", 60.0]], "feste": [["giardino", 30.0], ["abitanti", 15.0]],
-	"abitanti": [["abitanti", 60.0]], "visitatori": [["abitanti", 10.0]], "richieste": [["abitanti", 25.0]], "bacheca": [["abitanti", 20.0]],
+	"abitanti": [["abitanti", 60.0]], "visitatori": [["abitanti", 10.0]], "richieste": [["abitanti", 25.0]], "capitoli": [["abitanti", 30.0]], "bacheca": [["abitanti", 20.0]],
 	"addomesticate": [["mandria", 20.0]], "uova": [["mandria", 5.0]], "schiuse": [["mandria", 15.0]],
 	"uova_allevate": [["mandria", 30.0]], "manti_rari": [["mandria", 60.0]], "coppie": [["mandria", 10.0]],
 	"cavalcate": [["mandria", 5.0]], "prodotti": [["mandria", 1.0]], "mandria_prede": [["mandria", 2.0]],

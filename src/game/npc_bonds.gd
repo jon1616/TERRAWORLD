@@ -50,16 +50,34 @@ static func gift_value(id: String, item: String, n: int) -> int:
 	return mini((GIFT_LIKED if item in liked else GIFT_OTHER) * maxi(1, n), 20)
 
 
-## La richiesta di adesso ({} se le ha fatte tutte).
+## La richiesta di adesso ({} se le ha fatte tutte). Voce 231: finite le richieste di sempre, i capitoli della sua
+## storia (`NpcStoriesData`); un capitolo che l'affetto non ha ancora aperto ha "chiuso".
 static func quest(ch: Character, id: String) -> Dictionary:
 	var qs: Array = NpcData.NPCS.get(id, {}).get("quests", [])
 	var k := int(ch.stats.get("richiesta_" + id, 0))
-	return qs[k] if k < qs.size() else {}
+	if k < qs.size():
+		return qs[k]
+	var st: Array = NpcStoriesData.STORIES.get(id, [])
+	var j := k - qs.size()
+	if j >= st.size():
+		return {}
+	var c: Dictionary = (st[j] as Dictionary).duplicate()
+	c["capitolo"] = j + 1
+	if level(ch, id) < int(c.get("lvl", 0)):
+		c["chiuso"] = true
+	return c
+
+
+## Voce 231: la storia è finita (tutti i capitoli)?
+static func story_done(ch: Character, id: String) -> bool:
+	var qs: Array = NpcData.NPCS.get(id, {}).get("quests", [])
+	var st: Array = NpcStoriesData.STORIES.get(id, [])
+	return not st.is_empty() and int(ch.stats.get("richiesta_" + id, 0)) >= qs.size() + st.size()
 
 
 static func quest_ready(ch: Character, id: String) -> bool:
 	var q := quest(ch, id)
-	if q.is_empty():
+	if q.is_empty() or q.get("chiuso", false):
 		return false
 	if q.has("stat"):
 		return int(ch.stats.get(String(q["stat"]), 0)) >= int(q["n"])
@@ -89,7 +107,9 @@ static func deliver(ch: Character, id: String) -> Dictionary:
 static func quest_text(ch: Character, id: String) -> String:
 	var q := quest(ch, id)
 	if q.is_empty():
-		return "Nessuna richiesta: le hai fatte tutte."
+		return "Nessuna richiesta: le hai fatte tutte." + (" La sua storia è finita." if story_done(ch, id) else "")
+	if q.get("chiuso", false):
+		return "La sua storia, capitolo %d «%s»: si apre con più affetto (livello %d)." % [int(q["capitolo"]), q["title"], int(q["lvl"])]
 	var need := ""
 	if q.has("stat"):
 		need = "(%d/%d)" % [mini(int(ch.stats.get(String(q["stat"]), 0)), int(q["n"])), int(q["n"])]
@@ -99,4 +119,6 @@ static func quest_text(ch: Character, id: String) -> String:
 			parts.append("%s %d/%d" % [ItemsData.get_item(String(it))["name"], mini(Crafting.have(ch.bisaccia, String(it)), int(q["need"][it])),
 				int(q["need"][it])])
 		need = "(" + ", ".join(parts) + ")"
+	if q.has("capitolo"):
+		return "Capitolo %d «%s»: «%s» %s" % [int(q["capitolo"]), q["title"], q["text"], need]
 	return "«%s» %s" % [q["text"], need]

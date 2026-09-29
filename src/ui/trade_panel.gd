@@ -132,7 +132,12 @@ func close() -> void:
 
 
 func _goods() -> Array:
-	return NpcData.NPCS[npc]["goods"] if npc != "" else []
+	if npc == "":
+		return []
+	var g: Array = (NpcData.NPCS[npc]["goods"] as Array).duplicate()
+	if m != null and NpcStoriesData.FINAL.has(npc) and NpcBonds.story_done(m.character, npc):
+		g.append(NpcStoriesData.FINAL[npc])          # voce 231: la merce in più a storia finita
+	return g
 
 
 func _refresh() -> void:
@@ -283,9 +288,13 @@ func _give(items: Dictionary) -> void:
 func deliver() -> bool:
 	if m == null or npc == "":
 		return false
+	var q := NpcBonds.quest(m.character, npc)
 	var rw := NpcBonds.deliver(m.character, npc)
 	if rw.is_empty():
 		return false
+	if q.has("scene"):                                # voce 231: un capitolo della sua storia
+		m.guardian.lore.show_text("%s · %s" % [NpcData.NPCS[npc]["name"], q["title"]], String(q["scene"]))
+		m.objectives.bump("capitoli")
 	for id in rw:
 		var rest := panel.bisaccia.add(String(id), int(rw[id]))
 		if rest > 0:

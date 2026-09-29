@@ -16,6 +16,7 @@ func run() -> void:
 	await islands()
 	await visitors()
 	await festival()
+	await stories()
 
 
 ## Voce 227: la bellezza nasce dalle stanze, dai tipi di stanza, dalla felicità degli abitanti; salire dà maestria.
@@ -107,3 +108,34 @@ func festival() -> void:
 	print("feste: la Fioritura dei semi 0/20 → compiuta %s, corona di fiori %s" % [done, crown])
 	if not ok:
 		print("ATTENZIONE: le feste di stagione non vanno")
+
+
+## Voce 231: la storia della Viandante: il capitolo 1 chiuso senza affetto, aperto con l'affetto, consegnato; a storia
+## finita la merce in più.
+func stories() -> void:
+	var ch: Character = m.character
+	var keep := {"richiesta_viandante": ch.stats.get("richiesta_viandante", 0), "affetto_viandante": ch.stats.get("affetto_viandante", 0)}
+	ch.stats["richiesta_viandante"] = 0
+	ch.stats["affetto_viandante"] = 0
+	var locked: bool = NpcBonds.quest(ch, "viandante").get("chiuso", false)
+	NpcBonds.add(ch, "viandante", 30)
+	var q := NpcBonds.quest(ch, "viandante")
+	ch.bisaccia.add("torcia", 30)
+	var rw := NpcBonds.deliver(ch, "viandante")
+	var next := int(NpcBonds.quest(ch, "viandante").get("capitolo", 0))
+	ch.stats["richiesta_viandante"] = 5
+	var tp: TradePanel = m.villagers.panel
+	tp.npc = "viandante"
+	var goods: Array = tp._goods()
+	tp.npc = ""
+	var final_ok: bool = NpcBonds.story_done(ch, "viandante") and String(goods[goods.size() - 1][0]) == String(NpcStoriesData.FINAL["viandante"][0])
+	for k in keep:
+		ch.stats[k] = keep[k]
+	var ok: bool = locked and int(q.get("capitolo", 0)) == 1 and not q.get("chiuso", false) and rw.has("lumino") and next == 2 and final_ok
+	var n := 0
+	for id in NpcStoriesData.STORIES:
+		n += (NpcStoriesData.STORIES[id] as Array).size()
+	print("storie degli abitanti: %d capitoli; la Viandante: chiuso senza affetto %s, capitolo 1 consegnato %s, poi il %d; merce finale %s" % [
+		n, locked, rw.has("lumino"), next, final_ok])
+	if not ok:
+		print("ATTENZIONE: le storie degli abitanti non vanno")
