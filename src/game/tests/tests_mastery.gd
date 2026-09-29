@@ -17,6 +17,8 @@ func run() -> void:
 	await points()
 	m.character.maestria = {}
 	await rewards()
+	m.character.maestria = {}
+	await book()
 	m.character.maestria = saved
 	m.gear.refresh()
 
@@ -74,3 +76,24 @@ func rewards() -> void:
 	print("premi della maestria: pesca al grado %d, esche avute %d, fortuna di pesca +%.2f" % [grade, bait, luck])
 	if not ok:
 		print("ATTENZIONE: i premi dei gradi non arrivano come devono")
+
+
+## Voce 216: il Libro dei pilastri si apre e dice i gradi e i premi; il filo propone il pilastro trascurato.
+func book() -> void:
+	var ms: Mastery = m.mastery
+	ms.add("storia", MasteryData.points_for("storia", 3) + 10.0)
+	ms.add("esplorazione", MasteryData.points_for("esplorazione", 1) + 5.0)
+	ms.panel.sel = "storia"
+	ms.panel.open()
+	await kit.frames(4)
+	await kit.save("244_pilastri")
+	var txt := ms.panel.text_of("storia")
+	ms.panel.close()
+	var pt0: float = m.character.play_time
+	m.character.play_time = pt0 + 7200.0                  # due ore dopo: tutto è fermo, il più fermo è il primo mai cominciato
+	var n := ms.neglected()
+	m.character.play_time = pt0
+	var ok := txt.contains("Grado 3") and txt.contains("✓") and String(n.get("text", "")).contains("grado")
+	print("Libro dei pilastri: scheda della storia %s; il filo propone «%s»" % ["sì" if txt.contains("Grado 3") else "NO", n.get("text", "")])
+	if not ok:
+		print("ATTENZIONE: il Libro dei pilastri o il filo del pilastro trascurato non vanno")

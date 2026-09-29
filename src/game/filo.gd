@@ -7,7 +7,7 @@ extends Node
 ## blocco del minerale più vicino già visto, l'albero più vicino per il legno, il banco giusto, l'Albero-Madre; se
 ## serve scendere, una freccia in basso con lo strato.
 
-const SOURCES := ["lista", "albero", "rete", "obiettivo", "bacheca", "studio", "stanza", "cielo", "stele"]
+const SOURCES := ["lista", "albero", "rete", "pilastro", "obiettivo", "bacheca", "studio", "stanza", "cielo", "stele"]
 const SOURCE_NAME := {"lista": "La tua lista", "albero": "Albero-Madre", "obiettivo": "Obiettivo", "bacheca": "Bacheca",
 	"studio": "Studio", "stanza": "La casa", "cielo": "Il cielo", "stele": "La lingua dei Seminatori"}
 const SCAN_X := 110                      # quanto lontano si cerca un blocco già visto (tessere)
@@ -198,6 +198,11 @@ func _from_obiettivo() -> Dictionary:
 
 
 ## Voce 149: la prima stanza (quando c'è già un Focolare, ma nessuna stanza nel mondo).
+## Roadmap 20, voce 216: il pilastro più trascurato (`Mastery.neglected`).
+func _from_pilastro() -> Dictionary:
+	return m.mastery.neglected() if m.get("mastery") != null else {}
+
+
 ## Roadmap 19, voce 209: il primo circuito, passo passo (`FiloRete`).
 func _from_rete() -> Dictionary:
 	return FiloRete.from(m)

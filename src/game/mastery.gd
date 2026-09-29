@@ -9,6 +9,7 @@ signal graded(pillar: String, grade: int)
 signal gained(pillar: String, pts: float)
 
 var m: Node2D
+var panel: PillarsPanel
 
 
 func setup(main: Node2D) -> void:
@@ -19,6 +20,10 @@ func setup(main: Node2D) -> void:
 	m.map_reveal.on_new = func(n: int) -> void: add("esplorazione", n / MasteryData.CELLS_PER_PT)
 	Crafting.crafted = _on_craft
 	m.gear.refresh()                              # i bonus dei gradi anche ai moduli montati dopo `GearEffects`
+	panel = PillarsPanel.new()                    # voce 216: il Libro dei pilastri
+	m.hud.add_child(panel)
+	panel.setup(m, self)
+	m.hud.overlays.append(panel)
 	if m.get("language") != null:
 		m.language.confirmed.connect(func(words: Array, _how: String) -> void: add("misteri", MasteryData.WORD_PTS * words.size()))
 
@@ -94,3 +99,25 @@ func _on_craft(r: Dictionary) -> void:
 		return
 	if pillar != "":
 		add(pillar, MasteryData.CRAFT_PTS)
+
+
+## Voce 216: per il filo, il pilastro più trascurato (dopo la prima mezz'ora di gioco, fermo da almeno 40 minuti di
+## gioco, non al grado massimo), con il suo passo tipico. {} se nessuno.
+func neglected() -> Dictionary:
+	if float(m.character.play_time) < 1800.0:
+		return {}
+	var best := ""
+	var worst := 0.0
+	for p in MasteryData.ORDER:
+		if grade(p) >= MasteryData.GRADES:
+			continue
+		var i := idle(p)
+		var how_long := float(m.character.play_time) if i < 0.0 else i
+		if how_long > worst:
+			worst = how_long
+			best = p
+	if best == "" or worst < 2400.0:
+		return {}
+	var d: Dictionary = MasteryData.PILLARS[best]
+	return {"text": "Da un po' non curi %s (grado %d)" % [String(d["name"]).to_lower(), grade(best)],
+		"hint": "%s · il Libro dei pilastri (%s) dice che cosa dà il grado dopo" % [d["hint"], Keys.label("pilastri")]}

@@ -3772,11 +3772,15 @@ un premio grande al 10: in tutto circa +10-15% nel campo del pilastro), dati da 
 prende esperienza (`herd` → `Herd.xp_mult`), le sorgenti della rete (`pulsi` → `EnergyStorm.gear_pulsi`).
 `verifica_dati._check_mastery` controlla oggetti, chiavi e che ogni grado abbia il suo premio.
 
-## 216. [ ] Il Libro dei pilastri (M)
+## 216. [x] Il Libro dei pilastri (M) — fatto il 29 set 2026
 Un pannello (tasto P): i dieci pilastri con grado, barra dei punti, il premio del grado dopo, il prossimo passo
 interessante e da quanto non lo si cura; scheda di ogni pilastro con tutti i gradi e i premi. Il filo propone il
 pilastro più trascurato.
 **Pronto quando**: foto del Libro; il filo dice il pilastro trascurato.
+**Fatto**: `PillarsPanel` (tasto P, nuovo in `KeysData`): i dieci pilastri con grado e barra verso il grado dopo, la
+scheda del pilastro scelto (punti, prossimo passo, da quanto non lo curi, i dieci gradi con i premi presi segnati). Il
+filo ha la fonte «pilastro» (`Mastery.neglected`: dopo la prima mezz'ora, il pilastro fermo da più tempo, almeno 40
+minuti di gioco). Foto 244_pilastri.
 
 ## 217. [ ] Le strade alternative (M)
 Le offerte dell'Albero-Madre possono essere «una di queste» (`any`): Linfa antica dal Cuore *oppure* da una Centrale
