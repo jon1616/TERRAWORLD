@@ -7,7 +7,7 @@ extends Node
 ## blocco del minerale più vicino già visto, l'albero più vicino per il legno, il banco giusto, l'Albero-Madre; se
 ## serve scendere, una freccia in basso con lo strato.
 
-const SOURCES := ["lista", "albero", "rete", "pilastro", "obiettivo", "bacheca", "studio", "stanza", "cielo", "stele"]
+const SOURCES := ["lista", "perduto", "albero", "rete", "pilastro", "obiettivo", "bacheca", "studio", "stanza", "cielo", "stele"]
 const SOURCE_NAME := {"lista": "La tua lista", "albero": "Albero-Madre", "obiettivo": "Obiettivo", "bacheca": "Bacheca",
 	"studio": "Studio", "stanza": "La casa", "cielo": "Il cielo", "stele": "La lingua dei Seminatori"}
 const SCAN_X := 110                      # quanto lontano si cerca un blocco già visto (tessere)
@@ -198,6 +198,17 @@ func _from_obiettivo() -> Dictionary:
 
 
 ## Voce 149: la prima stanza (quando c'è già un Focolare, ma nessuna stanza nel mondo).
+## Roadmap 21: in un Giardino perduto, l'Albero da guarire e la sua prossima cura.
+func _from_perduto() -> Dictionary:
+	var lg: LostGardens = m.get("lost_gardens")
+	if lg == null or not lg.active() or lg.healed():
+		return {}
+	for cu in lg.cures():
+		if not lg.done(String(cu[0])):
+			return {"text": "Per l'Albero perduto: %s" % cu[1], "hint": String(cu[2]), "cell": lg.tree() + Vector2i(4, 12)}
+	return {}
+
+
 ## Roadmap 20, voce 216: il pilastro più trascurato (`Mastery.neglected`).
 func _from_pilastro() -> Dictionary:
 	return m.mastery.neglected() if m.get("mastery") != null else {}

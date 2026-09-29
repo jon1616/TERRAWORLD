@@ -10,6 +10,7 @@
 - **In corso: il piano «Le dieci strade»** (Roadmap 20-28, dal 29 set 2026, in autonomia): dieci pilastri con gradi di
   maestria verso ~500 ore di partita. **Fatta la Roadmap 20 «Il motore comune»** (voci 214-219): maestria a gradi,
   Libro dei pilastri (P), strade alternative dell'Albero, misura per pilastro. Resoconto in fondo alla Roadmap 20.
+  **Fatta la Roadmap 21 «Le radici del cosmo»** (voci 220-226): l'Atto II della storia, i quattro Giardini perduti.
 - **Fatta la Roadmap 19 «La Linfa che scorre»** (voci 190-213, 29 set 2026, in autonomia): vene del Flusso e fili
   dell'Impulso, 64 macchine (sorgenti, riserve, macchine che lavorano, sensori, nodi della logica), le Centrali dei
   Seminatori, la Tempesta di Linfa, Succhiavena e Lucciole, la Tessitrice, il primo circuito guidato. Resoconto in fondo
@@ -2362,6 +2363,21 @@ sottili ma leggibili: le toglieranno le forme nuove di Nano Banana (palco, zanna
 Da fare con Nano Banana: i ritratti del Pescatore e della Tessitrice, l'icona del rigore «quota» (la prova «grafica» li
 segnala).
 
+## 117o. [ ] I Giardini perduti (M) — Roadmap 21
+Le 12 creature dei quattro Giardini (Lontra di radice, Granchio del lago, Ragno d'ingranaggio, Sentinella di radice,
+Cervo e Cinghiale di rovo, Ombra di parola, Guardastele) e i quattro Custodi (Madre delle maree, Telaio vivo, Re dei rovi,
+il Silenzio) in tavole come la voce 117d (`arte_ia/creature_perdute/`, 4 colonne × 2 righe: fotogramma A e B); i quattro
+Alberi perduti malati e guariti (oggi l'Albero-Madre tinto nel colore del Giardino) in una tavola come la voce 106.
+Prompt della tavola dei Custodi:
+```
+[FOGLIO DI STILE «Radici e Linfa»] Side-view pixel-art BOSS creature sprites facing RIGHT, big clear shapes, bright
+eyes, NOT Terraria. Solid magenta #FF00FF background, 4 columns x 2 rows, top row frame A, bottom row frame B, no text:
+1 "Madre delle maree": a huge floating jellyfish-mother of deep blue water with glowing pale tentacles and yellow eyes;
+2 "Telaio vivo": a floating loom-machine of iron-wood and roots with glowing turquoise threads, spider-like arms;
+3 "Re dei rovi": a massive stag-boar of thorny brambles, red berries glowing, antlers of branches;
+4 "Il Silenzio": a tall floating shadow in violet robes without a face, only two white eyes, runes fading around it.
+```
+
 ### Resta al codice (Nano Banana non serve)
 Le trame del terreno e delle pareti (doppia griglia, trame 64×64 senza cuciture), la luce, i liquidi, gli
 incantesimi, le esplosioni, le particelle, il tempo atmosferico; le 1906 icone una per una (nascono dalla voce 105).
@@ -3895,8 +3911,19 @@ Palombara, il Fabbro delle radici, il Guardaboschi (con gli stadi 15, 18, 21) e 
 ognuno con merci, gusti, doni e tre richieste. `tools/durata.gd` conta i giri dei Giardini perduti e i traguardi fatti
 apposta: la storia passa da 45 a **89 ore** di via diretta (da 72 a **143** per il giocatore medio).
 
-## 226. [ ] Racconto, Enciclopedia, misura e resoconto (P)
+## 226. [x] Racconto, Enciclopedia, misura e resoconto (P) — fatto il 29 set 2026
 Le pagine di storia, il capitolo «Le radici del cosmo», i consigli, la misura delle ore, il giro intero, GitHub.
+**Fatto**: `EncyCosmosData` (due capitoli: l'Atto II e i quattro Giardini con le loro cure), il consiglio «Un Giardino
+perduto», il filo che nel Giardino perduto indica l'Albero e la sua prossima cura, la grafica nella voce 117o della
+Roadmap 13, CLAUDE.md, il resoconto qui sotto.
+
+### Resoconto della Roadmap 21 (29 set 2026)
+La storia ha un **Atto II**: dodici stadi nuovi dell'Albero-Madre e **quattro Giardini perduti** da raggiungere con i
+Semi del cosmo, ognuno con il suo luogo (un lago con l'Albero sul fondo, una sala di macchine sotto terra, una radura
+selvatica, un cerchio di stele nella lingua nera), le sue creature, un Custode, pesci o bestie che vivono solo lì, e un
+Albero che guarisce con tre cure del suo pilastro: pescare, far scorrere la Linfa, addomesticare, decifrare. Ogni
+Giardino guarito dona un oggetto unico (una serie nuova) e porta un abitante al Giardino. La via diretta della storia
+passa da **45 a 89 ore** (giocatore medio da 72 a 143); tutto al grado 10 ~390 ore (443 per il giocatore medio).
 
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».

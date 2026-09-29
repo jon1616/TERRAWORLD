@@ -89,6 +89,9 @@ const LIST := [
 	# Roadmap 20 «Il motore comune»
 	{"id": "maestria", "title": "Il primo grado", "cap": "pilastri",
 		"text": "Un pilastro è salito di grado: ciò che fai nel suo campo lo fa salire, e ogni grado dà un premio. Il [b]Libro dei pilastri[/b] ({pilastri}) mostra tutti e dieci i pilastri, a che punto sei e che cosa dà il grado dopo."},
+	# Roadmap 21 «Le radici del cosmo»
+	{"id": "perduto", "title": "Un Giardino perduto", "cap": "giardini_perduti",
+		"text": "Qui un Albero è malato. Cercalo (il filo lo indica): la sua [b]scheda[/b] dice le tre cure che chiede. Il clic destro gli porta ciò che serve e, alla fine, sveglia il suo Custode."},
 ]
 
 

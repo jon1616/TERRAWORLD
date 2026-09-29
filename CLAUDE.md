@@ -139,7 +139,7 @@ Godot_console.exe --path . -- --prove --prova-giardino
 # biomi, biomi_nuovi, luoghi, corsa, raccolta, musica, germogliato, interfaccia, geni, forme, ecologia, mandria, casse, alberi,
 # base (il cuore del gioco, da lanciare sempre), sigilli, stagioni, suggerimenti, opzioni, enciclopedia, lingua, catene, luoghi_scritti, enigmi, seme_nero, acqua,
 # liquidi, meteo, gravita, terra_viva, tempo_mondi, vigore, guardiani_generati, leggende, sfide, grafica, vivo, cielo,
-# comodita, energia (la rete della Roadmap 19, ~3 minuti), maestria
+# comodita, energia (la rete della Roadmap 19, ~3 minuti), maestria, perduti
 # (elenco in `AutoTests._group`)
 Godot_console.exe --path . -- --prove --solo=doni,antiche
 # suoni generati: prove/suoni/*.wav da ascoltare, con durata, picco e volume medio (segnala muti e distorti)
@@ -725,6 +725,16 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     `AlberoMadre.progress/alt/offer_of` (mai `offers[i]["item"]` direttamente).
   - Prove: gruppo «maestria» (`TestsMastery`, foto 244). Misura: sezione 4 di `tools/durata.gd`. Enciclopedia:
     `EncyPillarsData`.
+- **Roadmap 21 «Le radici del cosmo»** (voci 220-226, 29 set 2026; l'Atto II della storia):
+  - `MotherTreeData.ACTS` (gli atti e `act_of`) e gli stadi 13-24; il dono `seed` = un Seme del cosmo.
+  - `LostGardensData` (i quattro Giardini perduti: pilastro, vigore, geni, Seme del cosmo, Albero, tre cure con il loro
+    compimento, doni; le stazioni «albero_<id>» e «albero_<id>_vivo») e il pacchetto `lost_gardens_pack.gd` (creature con
+    `perduto`, i Custodi con `lost_boss`, famiglie, i Cervi di rovo da addomesticare, i pesci con `perduto`, oggetti).
+  - Il parametro `perduto` del generatore passa da `Portal` a `MainBoot.gen_params` (come `nero`); `PassPerduto` (dopo le
+    stele) fa il luogo; `LostGardens` (`src/game/lost_gardens.gd`) le cure, il Custode, la guarigione e
+    `Fauna.lost_pool`; `Fishing.on_catch`; il filo ha la fonte «perduto». `tools/mappe.gd -- --perduto tutti`.
+  - Prove: gruppo «perduti» (`TestsLostGardens`, foto 245); `--prova-giardino` fa tutti i 24 stadi. Enciclopedia:
+    `EncyCosmosData`.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

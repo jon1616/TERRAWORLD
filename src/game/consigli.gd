@@ -338,3 +338,9 @@ func _c_maestria() -> bool:
 		if m.mastery.grade(p) >= 1:
 			return true
 	return false
+
+
+# ---------------------------------------------------------------- Roadmap 21
+
+func _c_perduto() -> bool:
+	return m.get("lost_gardens") != null and m.lost_gardens.active()
