@@ -74,3 +74,25 @@ static func genome(id: String) -> Dictionary:
 
 static func name_of(id: String) -> String:
 	return String(GARDENS.get(id, {}).get("name", ""))
+
+
+## Gli Alberi perduti come stazioni: «albero_<giardino>» malato e «albero_<giardino>_vivo» guarito (li unisce
+## `StationsData`); non si riprendono.
+static func stations() -> Dictionary:
+	var out := {}
+	for id in GARDENS:
+		var g: Dictionary = GARDENS[id]
+		out["albero_" + id] = {"name": "L'Albero del " + String(g["name"]).trim_prefix("Il "), "size": [9, 13], "item": "", "fixed": true}
+		out["albero_%s_vivo" % id] = {"name": "L'Albero del " + String(g["name"]).trim_prefix("Il "), "size": [9, 13], "item": "",
+			"fixed": true, "light": true, "light_color": (g["color"] as Color).lightened(0.2)}
+	return out
+
+
+## Il Giardino di una stazione «albero_…» ("" se non è un Albero perduto) e se è guarito.
+static func tree_of(station: String) -> Array:
+	for id in GARDENS:
+		if station == "albero_" + id:
+			return [id, false]
+		if station == "albero_%s_vivo" % id:
+			return [id, true]
+	return ["", false]

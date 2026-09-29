@@ -24,6 +24,16 @@ static func make(id: String) -> Dictionary:
 	if id.begins_with("albero_madre_"):              # voce 62: l'Albero-Madre, in cinque fasi
 		MotherTreeArt.draw(int(id.get_slice("_", 2)), im, gm, w, h)
 		return {"img": im, "glow": gm}
+	var lost := LostGardensData.tree_of(id)
+	if String(lost[0]) != "":                        # Roadmap 21: un Albero perduto, malato o guarito, nel suo colore
+		MotherTreeArt.draw(4 if bool(lost[1]) else 0, im, gm, w, h)
+		var col: Color = LostGardensData.GARDENS[String(lost[0])]["color"]
+		for y in h:
+			for x in w:
+				var p := im.get_pixel(x, y)
+				if p.a > 0.0:
+					im.set_pixel(x, y, Color(p.r, p.g, p.b, p.a).lerp(col * Color(p.v, p.v, p.v), 0.35 if bool(lost[1]) else 0.2))
+		return {"img": im, "glow": gm}
 	if SeminatoriArt.draw(id, im, gm, w, h):       # Roadmap 9: stele, meccanismi e luoghi dei Seminatori
 		Px.outline(im, OUT)
 		return {"img": im, "glow": gm}

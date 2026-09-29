@@ -36,6 +36,7 @@ static func _merged() -> Dictionary:
 	var out := _STATIONS.duplicate()
 	out.merge(FurnitureData.stations())
 	out.merge(MachinesData.stations())                  # Roadmap 19: le macchine della rete
+	out.merge(LostGardensData.stations())               # Roadmap 21: gli Alberi dei Giardini perduti
 	return out
 
 

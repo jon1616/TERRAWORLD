@@ -3853,10 +3853,16 @@ loro compimento, doni) e il pacchetto `lost_gardens_pack.gd` (i materiali delle 
 parametro `perduto` passa da `Portal` (piantare, prepararsi in anticipo, viaggio, nome del mondo) a `MainBoot`
 (`gen_params`, `world_meta["perduto"]`). Prova nel gruppo nuovo `perduti`.
 
-## 222. [ ] I luoghi dei Giardini perduti (G)
+## 222. [x] I luoghi dei Giardini perduti (G) — fatto il 29 set 2026
 `PassPerduto`: l'Albero perduto (una stazione grande, malata e guarita) nel suo luogo: sotto un lago, dentro una sala
 di macchine, in una radura invasa, in un cerchio di stele. `claim`, collaudo.
 **Pronto quando**: `tools/mappe.gd` con `perduto` mostra i quattro luoghi, collaudo pulito.
+**Fatto**: `PassPerduto` (dopo le stele): il lago del Giardino sommerso (60 tessere, fondo piano, l'Albero sott'acqua),
+la sala di ferro sessanta tessere sotto terra (pietra dei Seminatori, un pozzo di passerelle per scendere, lampade
+spente e un Cuore di centrale addormentato), la radura selvatica, il cerchio di otto stele nella lingua nera del
+Giardino muto; il posto si cerca lontano dalla partenza dove non pesta altre strutture. Gli Alberi perduti sono stazioni
+(`LostGardensData.stations`, malati e guariti, disegnati da `MotherTreeArt` nel colore del Giardino).
+`tools/mappe.gd -- --perduto tutti`: otto mondi, collaudo pulito.
 
 ## 223. [ ] Le cure dei quattro Alberi (G)
 Ogni Albero perduto guarisce con tre cure del suo pilastro (`LostGardens`, stato in `world_meta["perduto"]` e

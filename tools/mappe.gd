@@ -18,6 +18,7 @@ func _init() -> void:
 	var random := "--caso" in args
 	var vigor := int(_arg(args, "--vigore", "5"))
 	var fixed := _arg(args, "--geni", "")
+	var lost := _arg(args, "--perduto", "")          # Roadmap 21: `--perduto sommerso` o `--perduto tutti` (uno per mondo)
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path("res://mappe"))
 	var totals := {}
 	var prints: Array = []
@@ -31,9 +32,15 @@ func _init() -> void:
 			var rng := RandomNumberGenerator.new()
 			rng.seed = sd * 7919
 			genes = Genome.genes(Genome.roll(rng, vigor))
+		var params := {"vigore": vigor, "geni": genes}
+		if lost != "":
+			var lid := String(LostGardensData.ORDER[k % 4]) if lost == "tutti" else lost
+			var lg := LostGardensData.genome(lid)
+			params = {"vigore": int(lg["vigore"]), "geni": lg["geni"], "perduto": lid}
+			genes = lg["geni"]
 		var w := World.new()
 		var t0 := Time.get_ticks_msec()
-		var times := WorldGen.generate(w, sd, WorldGen.WIDTH, WorldGen.HEIGHT, {"vigore": vigor, "geni": genes})
+		var times := WorldGen.generate(w, sd, WorldGen.WIDTH, WorldGen.HEIGHT, params)
 		var ms := Time.get_ticks_msec() - t0
 		for t in times:
 			totals[t[0]] = int(totals.get(t[0], 0)) + int(t[1])
@@ -48,6 +55,8 @@ func _init() -> void:
 			("\n      " + "\n      ".join(PackedStringArray(probs + fixd))) if not (probs + fixd).is_empty() else ""])
 		if not genes.is_empty():
 			print("   geni: %s" % ", ".join(genes.map(func(g: String) -> String: return String(GenesData.info(g)["name"]))))
+		if w.gen_notes.has("perduto"):
+			print("   Giardino perduto: %s" % str(w.gen_notes["perduto"]))
 		prints.append(_fingerprint(w))
 		genomes.append(genes)
 		_save_map(w, "res://mappe/mondo_%d.png" % sd, full)
