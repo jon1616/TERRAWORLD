@@ -55,7 +55,7 @@ func update() -> int:
 
 ## La bellezza di adesso, e le sue parti: [totale, {parte: punti}].
 func parts() -> Dictionary:
-	var out := {"stanze": 0, "tipi": 0, "abitanti": 0, "orto": 0, "rete": 0}
+	var out := {"stanze": 0, "tipi": 0, "abitanti": 0, "orto": 0, "rete": 0, "museo": 0}
 	var types := {}
 	for r in m.world_meta.get("stanze", []):
 		var e: Dictionary = r
@@ -74,6 +74,7 @@ func parts() -> Dictionary:
 			if mc.lit or (mc.role() == "macchina" and mc.power >= 0.99 and mc.on()):
 				lit += 1
 	out["rete"] = mini(lit / 2, MACHINES_CAP)
+	out["museo"] = m.museum.exhibited() * MuseumData.PIECE_BEAUTY if m.get("museum") != null else 0   # voce 253
 	return out
 
 

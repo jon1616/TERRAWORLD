@@ -163,6 +163,7 @@ static func all() -> Array:
 	out.append_array(WondersData.RECIPES.duplicate(true))  # Roadmap 23: gli oggetti dell'esploratore
 	out.append_array(ExplorerData.RECIPES.duplicate(true)) # voce 239: gli attrezzi dell'esploratore
 	out.append_array(CookingData.recipes())                # voce 245: il Ricettario
+	out.append_array(MuseumData.RECIPES.duplicate(true))   # voce 253: il Museo
 	out.append_array(MachinesData.recipes())               # Roadmap 19: le macchine della rete
 	out.append_array(SeasonsData.RECIPES.duplicate(true))  # voce 66
 	out.append_array(NeroData.RECIPES.duplicate(true))     # voce 72

@@ -4241,6 +4241,42 @@ le prove a dieci ondate con i capi e il record. Tutto nel pannello delle arti (t
 **503 per il giocatore medio**: l'obiettivo delle 500 ore è raggiunto nel modello; le Roadmap 26-28 aggiungono varietà
 ai pilastri che ne hanno meno (misteri, pesca e rete, la storia).
 
+# Roadmap 26 «Memorie» — il pilastro dei misteri e delle collezioni (dal 30 set 2026)
+
+## Da dove si parte
+Si collezionano già molte cose (12 reliquie, 18 serie di unici, trofei, ricordi delle meraviglie, 114 parole, l'Erbario)
+ma non c'è un posto dove esporle, finire l'Erbario o una lingua non dà niente, gli enigmi nella lingua sono pochi e non
+esiste l'archeologia. Obiettivo: ~40 ore di cose nuove, legate ai pilastri che già ci sono.
+
+## 253. [x] Il Museo del Giardino (G) — fatto il 30 set 2026
+Le **vetrine** (stazione da una casella) nel Giardino: un oggetto posato in una vetrina entra nel Museo. Dodici **sale**
+(reliquie, ricordi delle meraviglie, trofei, fossili, pesci, manti, varietà dell'orto, unici, tavolette, gemme, doni dei
+Giardini perduti, reperti), ognuna con i suoi pezzi dai dati; una sala completa dà un bonus per sempre e bellezza al
+Giardino. Scheda del Museo nel Libro dei pilastri.
+**Fatto**: `MuseumData` (otto sale costruite dagli altri dati: 12 reliquie, 12 ricordi delle meraviglie, 16 trofei, 12
+pesci rari, 12 prodotti delle varietà, 4 gemme, 4 doni dei Giardini perduti, 18 unici, 90 pezzi; fossili e scheletri
+arrivano con la voce 254; la Vetrina al Ceppo) e `Museum` (`src/game/museum.gd`): nel Giardino un oggetto posato in una
+vetrina (un contenitore da una casella) entra nel Museo per sempre; sala completa = bonus per sempre (`GearEffects`),
+ogni pezzo +2 di bellezza (`GardenBeauty`). La riga del Museo nel Libro dei pilastri; conteggi «museo» e «sale_museo».
+Prova nel gruppo nuovo `memorie`.
+
+## 254. [ ] L'archeologia (G)
+Strati fossili sotto terra (una passata): scavandoli con il **Pennello** (un attrezzo lento) escono **fossili** (24, per
+strato e bioma) e reperti dei Seminatori; tre fossili dello stesso animale al Maglio ricostruiscono uno **scheletro** da
+esporre. Conteggi per la maestria dei misteri.
+
+## 255. [ ] Le porte a indovinello (M)
+Porte dei Seminatori con una frase a cui manca una parola: si aprono scegliendo la parola giusta (fra quelle certe del
+Quaderno); dietro, una stanza con uno scrigno e una pagina. Una passata le mette nei mondi; sbagliare le chiude per un
+giorno.
+
+## 256. [ ] I traguardi delle collezioni (M)
+Premi per l'Erbario al 25/50/75/100%, per ogni strato della lingua imparato tutto, per le reliquie, le serie, il Museo:
+oggetti unici e titoli, scritti nel diario.
+
+## 257. [ ] Enciclopedia, misura e resoconto (P)
+Capitoli, consigli, `tools/durata.gd` (il pilastro dei misteri e la sua varietà), giro intero, GitHub.
+
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».
 - Grafica: ora nella Roadmap 13 «Il volto del mondo» (armatura e colpo in corsa alla voce 117, creature 114-116).

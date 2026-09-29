@@ -57,6 +57,8 @@ static func make(id: String) -> Dictionary:
 			_meraviglia(im, gm, w, h)
 		"tenda_campo":
 			_tenda(im, gm, w, h)
+		"vetrina":
+			_vetrina(im, gm, w, h)
 		"portale":
 			_portale(im, gm, w, h)
 		"fagotto":
@@ -204,6 +206,21 @@ static func _tenda(im: Image, gm: Image, w: int, h: int) -> void:
 		for x in range(int(cx + 9), int(cx + 12)):
 			Px.put(im, x, y, Color("#ffd070"))
 			Px.put(gm, x, y, Color("#ffd070"))
+
+
+## Voce 253: la vetrina del Museo, una teca di vetro chiaro su un piedistallo di pietra dei Seminatori.
+static func _vetrina(im: Image, gm: Image, w: int, h: int) -> void:
+	var st := Px.pal(TileDefs.P_SEM)
+	for y in range(h - 9, h):                               # il piedistallo
+		for x in range(2, w - 2):
+			Px.put(im, x, y, st[2 if x > 3 and x < w - 4 else 1] if y > h - 8 else st[3])
+	for y in range(2, h - 9):                               # la teca
+		for x in range(1, w - 1):
+			var edge := x == 1 or x == w - 2 or y == 2
+			Px.put(im, x, y, Color(0.75, 0.95, 1.0, 0.95) if edge else Color(0.55, 0.8, 0.9, 0.35))
+	for y in range(4, h - 11):                              # un riflesso
+		Px.put(im, 4, y, Color(0.95, 1.0, 1.0, 0.7))
+		Px.put(gm, 4, y, Color(0.5, 0.7, 0.8))
 
 
 static func _aiuola(im: Image, gm: Image, w: int, h: int) -> void:

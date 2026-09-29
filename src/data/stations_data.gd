@@ -63,6 +63,9 @@ const _STATIONS := {
 	"tavolo": {"name": "Tavolo di radice", "size": [3, 1], "item": "tavolo_radice"},
 	"sedia": {"name": "Sedia di radice", "size": [1, 1], "item": "sedia_radice"},
 	"letto": {"name": "Letto di foglie", "size": [3, 1], "item": "letto_foglie"},
+	# voce 253: la vetrina del Museo (un contenitore da una casella; `Museum`)
+	"vetrina": {"name": "Vetrina del Museo", "size": [1, 2], "item": "vetrina", "slots": 1, "light": true,
+		"light_color": Color(0.9, 1.1, 1.2)},
 	# voce 239: la Tenda da campo (un letto per chi esplora, che tiene lontane le creature: `ExplorerTools.camp`)
 	"tenda_campo": {"name": "Tenda da campo", "size": [3, 2], "item": "tenda_campo", "arredo": "letto", "light": true,
 		"light_color": Color(1.0, 0.8, 0.5)},

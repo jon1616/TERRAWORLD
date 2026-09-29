@@ -82,6 +82,9 @@ func refresh() -> void:
 			if k in MULT:
 				eff[k] = wk[k]
 		_add(e, eff)
+	# voce 253: le sale complete del Museo
+	for mb in Museum.bonuses(m.character.stats):
+		_add(e, mb)
 	# Roadmap 20: i gradi della maestria dei pilastri, per sempre
 	for mb in MasteryRewards.bonuses(m.character.maestria):
 		_add(e, mb)
