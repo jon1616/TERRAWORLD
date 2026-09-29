@@ -16,6 +16,7 @@ func run() -> void:
 	await stars()
 	await pages()
 	await wonders()
+	await expeditions()
 
 
 ## Voce 235: le stelle si segnano da sole quando il mondo le dà; ogni cinque stelle un premio; il pannello le mostra.
@@ -149,3 +150,39 @@ func wonders() -> void:
 	m.character.bisaccia.remove(id, maxi(got, 0))
 	if saved_seen == 0:
 		m.character.stats.erase("mer_" + k)
+
+
+## Voce 238: tre spedizioni di tipi diversi; una di conteggio si compie facendo salire il conteggio, dà il premio e ne
+## apre un'altra; il Seme del premio porta il gene chiesto.
+func expeditions() -> void:
+	var ex: Expeditions = m.atlas.expeditions
+	var saved: Dictionary = m.character.spedizioni.duplicate(true)
+	m.character.spedizioni = {}
+	ex.fill()
+	var kinds := []
+	for e in ex.open_list():
+		kinds.append(String(e["k"]))
+	var distinct: bool = kinds.size() == 3 and kinds[0] != kinds[1] and kinds[1] != kinds[2] and kinds[0] != kinds[2]
+	var e := {"k": "segreti", "base": int(m.character.stats.get("segreti", 0))}
+	ex.open_list()[0] = e
+	var seg0 := int(m.character.stats.get("segreti", 0))
+	var map0: int = m.character.bisaccia.count("mappa_seminatori")
+	m.character.stats["segreti"] = seg0 + 4
+	var done := ex.check()
+	var map_got: int = m.character.bisaccia.count("mappa_seminatori") - map0
+	var g := ex.seed_genome("cristalli_giganti")
+	var has_gene: bool = "cristalli_giganti" in (g["geni"] as Array)
+	m.atlas.panel.open()
+	m.atlas.panel.pick_tab("spedizioni")
+	await kit.frames(3)
+	await kit.save("253_atlante_spedizioni")
+	m.atlas.panel.close()
+	var ok: bool = distinct and done.size() == 1 and map_got >= 1 and ex.open_list().size() == 3 and has_gene
+	print("spedizioni: aperte %s; compiuta %s (mappa +%d), di nuovo %d aperte; Seme con il gene chiesto %s" % [str(kinds), str(done),
+		map_got, ex.open_list().size(), has_gene])
+	if not ok:
+		print("ATTENZIONE: le spedizioni non vanno")
+	m.character.stats["segreti"] = seg0
+	m.character.bisaccia.remove("mappa_seminatori", maxi(map_got, 0))
+	m.character.bisaccia.remove("tavoletta_seminatori", 2)
+	m.character.spedizioni = saved

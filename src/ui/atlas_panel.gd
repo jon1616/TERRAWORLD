@@ -8,7 +8,7 @@ const ROW_H := 52.0
 const LEFT := Vector2(90, 130)
 const ROW_W := 430.0
 const ROWS_SHOWN := 13
-const TABS := [["mondi", "I mondi"], ["biomi", "I biomi"], ["meraviglie", "Le meraviglie"]]
+const TABS := [["mondi", "I mondi"], ["biomi", "I biomi"], ["meraviglie", "Le meraviglie"], ["spedizioni", "Le spedizioni"]]
 
 var m: Node2D
 var at: Atlas
@@ -143,8 +143,8 @@ func _draw_rows() -> void:
 		var col: Color = r[4]
 		_rows_box.draw_rect(Rect2(0, y, ROW_W, ROW_H - 6), Color(0.2, 0.13, 0.22) if String(r[0]) == sel else Color(0.1, 0.1, 0.13))
 		_rows_box.draw_rect(Rect2(0, y, 5, ROW_H - 6), col)
-		_rows_box.draw_string(font, Vector2(14, y + 20), String(r[1]), HORIZONTAL_ALIGNMENT_LEFT, ROW_W - 150, 16, Color("#ece4ea"))
-		_rows_box.draw_string(font, Vector2(ROW_W - 140, y + 20), String(r[2]), HORIZONTAL_ALIGNMENT_RIGHT, 128, 15, col)
+		_rows_box.draw_string(font, Vector2(14, y + 20), String(r[1]), HORIZONTAL_ALIGNMENT_LEFT, ROW_W - 104, 16, Color("#ece4ea"))
+		_rows_box.draw_string(font, Vector2(ROW_W - 84, y + 20), String(r[2]), HORIZONTAL_ALIGNMENT_RIGHT, 72, 15, col)
 		_rows_box.draw_rect(Rect2(14, y + 30, ROW_W - 28, 6), Color(0.2, 0.2, 0.24))
 		_rows_box.draw_rect(Rect2(14, y + 30, (ROW_W - 28) * clampf(float(r[3]), 0.0, 1.0), 6), col)
 
@@ -248,4 +248,45 @@ func _text_meraviglie(k: String) -> String:
 		t += "\n[b]In questo mondo[/b]: %s\n" % (", ".join(here) if not here.is_empty() else "nessuna")
 	t += "\n[color=#6a7a84]Tipi visti: %d su %d · con i ricordi, al Maglio: il Mappamondo dei Seminatori e la Bussola del cosmo[/color]" % [
 		Wonders.kinds_seen(m.character.stats), WondersData.WONDERS.size()]
+	return t
+
+
+# --- la scheda delle spedizioni (voce 238) ---
+
+func _rows_spedizioni() -> Array:
+	at.expeditions.fill()
+	var out := []
+	var list: Array = at.expeditions.open_list()
+	for i in list.size():
+		var e: Dictionary = list[i]
+		var p: Array = at.expeditions.progress(e)
+		out.append([str(i), at.expeditions.title(e), "%d/%d" % [int(p[0]), int(p[1])], float(p[0]) / maxf(float(p[1]), 1.0),
+			Color("#ffb84a")])
+	return out
+
+
+func _text_spedizioni(key: String) -> String:
+	var list: Array = at.expeditions.open_list()
+	var i := int(key)
+	if i < 0 or i >= list.size():
+		return ""
+	var e: Dictionary = list[i]
+	var d: Dictionary = ExpeditionsData.KINDS[String(e["k"])]
+	var p: Array = at.expeditions.progress(e)
+	var t := "[font_size=26][color=#ffb84a]%s[/color][/font_size]\n" % at.expeditions.title(e)
+	t += "Il Cartografo ti propone questa spedizione. A che punto sei: %d su %d\n\n" % [int(p[0]), int(p[1])]
+	t += "[b]Dove cercare[/b]: %s\n" % d["hint"]
+	if String(e["k"]) == "meraviglia":
+		var gn := []
+		for g in WondersData.WONDERS[String(e["t"])]["genes"]:
+			gn.append(String(GenesData.GENES.get(String(g), {}).get("name", g)))
+		t += "La chiamano più spesso i geni: %s\n" % ", ".join(gn)
+	var parts := []
+	for it in d["reward"]:
+		parts.append("%s ×%d" % [String(ItemsData.get_item(String(it)).get("name", it)), int(d["reward"][it])])
+	if d.get("seed", false):
+		var gene := String(e.get("gene", ""))
+		parts.append("un Seme di mondo" + (" con il gene «%s»" % GenesData.GENES[gene]["name"] if GenesData.GENES.has(gene) else " con un gene raro"))
+	t += "\n[b]Premio[/b]: %s\n" % ", ".join(parts)
+	t += "\n[color=#6a7a84]Spedizioni compiute: %d · finita una, se ne apre un'altra[/color]" % int(at.expeditions.data().get("fatte", 0))
 	return t

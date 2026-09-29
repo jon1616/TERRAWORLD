@@ -7,9 +7,11 @@ extends Node
 ## blocco del minerale più vicino già visto, l'albero più vicino per il legno, il banco giusto, l'Albero-Madre; se
 ## serve scendere, una freccia in basso con lo strato.
 
-const SOURCES := ["lista", "perduto", "albero", "rete", "pilastro", "obiettivo", "bacheca", "studio", "stanza", "cielo", "stele"]
+const SOURCES := ["lista", "perduto", "albero", "rete", "pilastro", "obiettivo", "bacheca", "spedizione", "studio", "stanza", "cielo",
+	"stele"]
 const SOURCE_NAME := {"lista": "La tua lista", "albero": "Albero-Madre", "obiettivo": "Obiettivo", "bacheca": "Bacheca",
-	"studio": "Studio", "stanza": "La casa", "cielo": "Il cielo", "stele": "La lingua dei Seminatori"}
+	"studio": "Studio", "stanza": "La casa", "cielo": "Il cielo", "stele": "La lingua dei Seminatori",
+	"spedizione": "Spedizione"}
 const SCAN_X := 110                      # quanto lontano si cerca un blocco già visto (tessere)
 const SCAN_Y := 70
 const S := 16
@@ -212,6 +214,24 @@ func _from_perduto() -> Dictionary:
 ## Roadmap 20, voce 216: il pilastro più trascurato (`Mastery.neglected`).
 func _from_pilastro() -> Dictionary:
 	return m.mastery.neglected() if m.get("mastery") != null else {}
+
+
+## Voce 238: la spedizione più avanti del Cartografo.
+func _from_spedizione() -> Dictionary:
+	if m.get("atlas") == null:
+		return {}
+	var best := {}
+	var best_f := -1.0
+	for e in m.atlas.expeditions.open_list():
+		var p: Array = m.atlas.expeditions.progress(e)
+		if float(p[0]) / float(p[1]) > best_f:
+			best_f = float(p[0]) / float(p[1])
+			best = e
+	if best.is_empty():
+		return {}
+	var p: Array = m.atlas.expeditions.progress(best)
+	return {"text": "%s  %d/%d" % [m.atlas.expeditions.title(best), int(p[0]), int(p[1])],
+		"hint": String(ExpeditionsData.KINDS[String(best["k"])]["hint"])}
 
 
 ## Roadmap 19, voce 209: il primo circuito, passo passo (`FiloRete`).

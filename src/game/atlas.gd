@@ -9,6 +9,7 @@ var m: Node2D
 var panel: AtlasPanel
 var wonders: Wonders                   # voce 237: le meraviglie del mondo
 var pages: BiomePages                  # voce 236: le pagine dei biomi
+var expeditions: Expeditions           # voce 238: le spedizioni del Cartografo
 var _t := 1.0
 
 
@@ -19,6 +20,7 @@ func setup(main: Node2D) -> void:
 	panel.setup(m, self)
 	m.hud.overlays.append(panel)
 	pages = BiomePages.new(m)
+	expeditions = Expeditions.new(m)
 	wonders = Wonders.new(m)
 	if here():
 		_record()
@@ -59,6 +61,7 @@ func _process(dt: float) -> void:
 	_t = AtlasData.TICK
 	pages.visit()                               # voce 236: i biomi si visitano anche nel Giardino
 	pages.check()
+	expeditions.check()
 	if here():
 		check()
 

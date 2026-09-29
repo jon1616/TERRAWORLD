@@ -4062,10 +4062,15 @@ dona il ricordo una volta sola. Dodici ricordi per tre accessori al Maglio (Mapp
 cosmo, Sigillo del viandante). Scheda «Le meraviglie» nell'Atlante. `tools/meraviglie.gd` ritaglia ogni forma dalla
 mappa in prove/meraviglie/. Foto 252.
 
-## 238. [ ] Le spedizioni del Cartografo (M)
+## 238. [x] Le spedizioni del Cartografo (M) — fatto il 29 set 2026
 Il Cartografo propone tre spedizioni alla volta, costruite da ciò che il personaggio non ha ancora: una meraviglia da
 trovare, un mondo da portare a tre stelle, una pagina di bioma, il Fondo di un mondo con un gene. Premi: Semi con il
 gene che serve per la spedizione dopo, polvere iridata, mappe. Una fonte in più per il filo.
+**Fatto**: `ExpeditionsData` (sei tipi: vedere una meraviglia, completare una pagina di bioma, stelle, segreti, Sigilli,
+firme) ed `Expeditions` (`src/game/expeditions.gd`: sempre tre aperte e di tipi diversi, in `Character.spedizioni`; la
+meraviglia è una mai vista, la pagina quella più avanti; premi con un Seme di mondo che porta il gene che aiuta,
+`seed_genome`; conteggio «spedizioni» = 45 punti d'esplorazione). Scheda «Le spedizioni» nell'Atlante e la fonte
+«spedizione» del filo. Foto 253.
 
 ## 239. [ ] Gli attrezzi dell'esploratore (M)
 La Tenda da campo (il punto di rinascita portatile, una per mondo), il Cannocchiale (scopre la mappa lontano, dove
