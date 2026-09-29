@@ -3601,8 +3601,17 @@ I progetti dei Seminatori hanno due griglie facoltative, «vene» e «fili» (`P
 Giardiniere** (due Foglie sul tetto, Otre, due Lampade e la Leva, già collegate) e **la torre del mulino**; li vende la
 Tessitrice e li donano le Centrali. Prova: la centralina costruita funziona (foto 243_centralina), tutti i capitoli e i
 cataloghi ci sono; il gruppo `enciclopedia` controlla i collegamenti.
-## 211. [ ] Il bilancio della rete (M)
+## 211. [x] Il bilancio della rete (M) — fatto il 29 set 2026
 `tools/rete.gd`: rese all'ora delle costruzioni tipo contro caccia, pesca, scavo; tetti di resa.
+**Fatto**: `tools/rete.gd` → prove/rete.txt: le sorgenti (pulsi massimi e medi in un giorno, costo), le macchine che
+producono (resa all'ora, Lumini all'ora, quante Foglie-lanterna le tengono accese) e il confronto con il lavoro a mano.
+Cosa dicono i numeri: il Forno e il Frantoio non creano ricchezza (trasformano il minerale che si scava; il Frantoio dà
+un +33% di metallo, un premio giusto per una macchina da 40 pulsi); la Trivella scava come il Germogliato fermo ma ha il
+tetto di 600 blocchi al giorno del mondo (1 800/h contro ~3 800/h a mano); il Distillatore rende 240 Lumini/h contro i
+500-3 000 della pesca; Falciatrice e Mungitrice raccolgono solo ciò che cresce e che la mandria fa; il lavoro mentre si è
+via è al più un'ora. Le sorgenti salgono con il costo e con la fatica di trovarne il posto (Foglia 6 pulsi medi, Mulino 19,
+Ruota e Baccello 40, Pozzo di Linfa 80 in un lago profondo, Nucleo 120 a cristalli, Radice-madre 250 accanto al Cuore
+curato). Nessun numero da cambiare: la rete risparmia fatica e apre possibilità, non stampa Lumini.
 ## 212. [ ] Prestazioni (P)
 Una base con 2 000 celle di vena e 200 macchine sotto 0,5 ms per fotogramma (`FrameProbe`); il giro intero.
 ## 213. [ ] Grafica e resoconto (P)
