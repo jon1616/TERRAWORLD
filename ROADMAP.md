@@ -4221,8 +4221,10 @@ capo ancestrale alla quinta e alla decima; l'ondata dopo quando la precedente è
 o allontanandosi più di 45 tessere. Premio: schegge di vigore quante le ondate vinte, polvere iridata, Linfa antica
 vincendo tutto; il record personale. Conteggi «prove_ondate» e «prove_vinte».
 
-## 251. [ ] Il pannello delle arti (P)
+## 251. [x] Il pannello delle arti (P) — fatto il 30 set 2026
 Tasto I: le maestrie delle armi con le tecniche, il registro delle taglie, i record delle prove.
+**Fatto**: `ArtsPanel` (`src/ui/arts_panel.gd`, tasto I, montato da `WeaponArts`): le dieci maestrie con il rango e la
+barra, la tecnica con i suoi tre gradi, le taglie aperte (dove, tratto) e il registro, il record delle prove. Foto 254.
 
 ## 252. [ ] Enciclopedia, misura e resoconto (P)
 Capitoli, consigli, `tools/durata.gd` (il pilastro del combattimento e la sua varietà), giro intero, GitHub.

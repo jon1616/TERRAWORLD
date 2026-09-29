@@ -16,6 +16,7 @@ func run() -> void:
 	await techniques()
 	await bounties()
 	await trials()
+	await panel()
 
 
 ## Voce 247: una creatura sconfitta con la lancia in mano dà punti alla lancia; al rango 3 la tecnica si apre; il danno
@@ -145,3 +146,20 @@ func trials() -> void:
 	st["prova_record"] = rec0
 	m.character.bisaccia.remove("scheggia_vigore", Trials.WAVES)
 	m.character.bisaccia.remove("linfa_antica", 3)
+
+
+## Voce 251: il pannello delle arti mostra la maestria, la tecnica, le taglie e le prove.
+func panel() -> void:
+	var p: ArtsPanel = m.arts.panel
+	kit.hold("lancia_radicite")
+	p.open()
+	await kit.frames(3)
+	await kit.save("254_arti")
+	var t1: String = p.text_of("lancia")
+	var t2: String = p.text_of("taglie")
+	var t3: String = p.text_of("prove")
+	p.close()
+	var ok: bool = p.sel == "lancia" and "Carica" in t1 and "taglie" in t2.to_lower() and "record" in t3
+	print("pannello delle arti: scelta %s; tecnica %s; taglie %s; prove %s" % [p.sel, "Carica" in t1, "taglie" in t2.to_lower(), "record" in t3])
+	if not ok:
+		print("ATTENZIONE: il pannello delle arti non va")

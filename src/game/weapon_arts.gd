@@ -5,11 +5,16 @@ extends Node
 ## con quella forma (`mult_now`, letto da `Combat._boon`) e apre le tecniche (voce 248).
 
 var m: Node2D
+var panel: ArtsPanel                   # voce 251: il pannello delle arti
 
 
 func setup(main: Node2D) -> void:
 	m = main
 	m.fauna.killed.connect(_on_kill)
+	panel = ArtsPanel.new()
+	m.hud.add_child(panel)
+	panel.setup(m)
+	m.hud.overlays.append(panel)
 
 
 ## La forma d'arma di un oggetto ("" se non è un'arma con maestria).
