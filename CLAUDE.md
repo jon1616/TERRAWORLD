@@ -71,8 +71,10 @@ la base o altro, e nessuna scelta è tempo perso. Regole per ogni voce, insieme 
 - **La storia è la spina dorsale, con strade alternative**: le richieste della storia si soddisfano in più modi (dal
   Guardiano, dall'allevamento, da una Centrale…), così chi ama costruire avanza costruendo e chi ama esplorare esplorando.
 - **Rispettare i tempi del giocatore**: qualcosa di utile in 15 minuti come in 3 ore; niente muri che obbligano a
-  ripetere la stessa cosa per ore; rendite che calano insistendo su una cosa sola (la varietà conviene); le cose lunghe
-  (allevare, la rete, il lavoro mentre si è via) vanno avanti mentre si fa altro.
+  ripetere la stessa cosa per ore; le cose lunghe (allevare, la rete, il lavoro mentre si è via) vanno avanti mentre si
+  fa altro. **Nessun limite** a chi insiste su una cosa sola (scelta dell'utente, 29 set 2026): la varietà si invoglia
+  con ciò che dà, non si impone togliendo rendita.
+- **La maestria è a gradi numerati e visibili** (scelta dell'utente, 29 set 2026): un solo motore per tutti i pilastri.
 - **Mai noioso**: salendo un pilastro cambia forma (meccaniche, luoghi, imprevisti), non solo i numeri.
 - **Il giocatore vede le sue strade**: in ogni momento deve sapere quali pilastri ha, a che punto è in ognuno e qual è
   il prossimo passo interessante (il filo, la Bacheca, il diario, e un posto che li mostri tutti).

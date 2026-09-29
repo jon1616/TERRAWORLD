@@ -3722,6 +3722,65 @@ tetto di 600 blocchi al giorno, il Distillatore rende 240 Lumini/h contro i 500-
 logica è già un enigma: due enigmi uno sopra l'altro sarebbero stati troppi). **Da fare con l'utente**: la grafica
 (voci 117l-117n) e, giocando, il parere sulle quattro scelte del prospetto.
 
+# Il piano «Le dieci strade» (Roadmap 20-28, dal 29 set 2026)
+
+Chiesto dall'utente il 29 set 2026 dopo il piano dei pilastri (https://claude.ai/artifact/BP3386JPuAS8qUUyN6z6UW):
+«fai tutto il lavoro completo, a cicli continui, al meglio e senza il mio intervento; tutto il più bilanciato
+possibile». Scelte: i 10 pilastri vanno bene; la maestria a **gradi numerati e visibili**; **nessun limite** a chi insiste
+su una cosa sola. Obiettivo: ~500 ore di parte a obiettivi per un giocatore medio (oggi 72, `tools/durata.gd`), fatte di
+cose nuove. Regole in CLAUDE.md («I pilastri»). Ogni Roadmap: voci piccole, un commit per voce, la misura delle ore, il
+giro intero e GitHub alla fine.
+
+| Roadmap | Pilastri | Ore in più (obiettivo) |
+|---|---|---|
+| 20 «Il motore comune» | tutti: maestria, Libro dei pilastri, strade alternative, misura | la cornice |
+| 21 «Le radici del cosmo» | la storia, Atto II | ~45 |
+| 22 «Il Giardino vivo» | Giardino e base, abitanti | ~50 |
+| 23 «L'Atlante» | esplorazione | ~50 |
+| 24 «Stirpi e semi» | mandria, orto e cucina | ~50 |
+| 25 «Le arti» | combattimento ed equipaggiamento | ~40 |
+| 26 «Memorie» | misteri, lingua, collezioni | ~40 |
+| 27 «Acque e correnti» | pesca, rete di Linfa | ~35 |
+| 28 «Il Seme Primo» | la storia, Atto III | ~45 |
+
+# Roadmap 20 «Il motore comune» — la maestria dei pilastri (dal 29 set 2026)
+
+## Da dove si parte
+I conteggi del personaggio (`Character.stats`, `Objectives.bump`) dicono già molto di ciò che il giocatore fa, ma
+nessuno li raccoglie per strada: le ore passate a pescare o a costruire non portano da nessuna parte fuori dalla loro
+attività. L'Albero-Madre chiede una cosa precisa per ogni offerta.
+
+## 214. [ ] I pilastri e la maestria (M)
+`MasteryData` (i 10 pilastri: nome, colore, icona, ore obiettivo; 10 gradi numerati con una curva che arriva al grado
+10 nelle ore del pilastro; da dove vengono i punti: conteggi del personaggio, creature sconfitte, celle esplorate, cose
+fabbricate e costruite) e `Mastery` (`add`, `grade`, segnale `graded`, avviso, tappa del diario). `Character.maestria`.
+**Pronto quando**: la prova vede i punti arrivare dalle attività e un grado salire.
+
+## 215. [ ] I premi dei gradi (M)
+Ogni grado di ogni pilastro dà qualcosa: oggetti, un bonus per sempre piccolo e proprio del pilastro (pesca: fortuna
+di pesca; Giardino: comodità; combattimento: danno…), e dai gradi alti una cosa che si ottiene solo lì. Dati in
+`MasteryData`; i bonus passano da `GearEffects` come le serie di unici.
+**Pronto quando**: `verifica_dati` controlla i premi; la prova riceve i premi di un grado.
+
+## 216. [ ] Il Libro dei pilastri (M)
+Un pannello (tasto P): i dieci pilastri con grado, barra dei punti, il premio del grado dopo, il prossimo passo
+interessante e da quanto non lo si cura; scheda di ogni pilastro con tutti i gradi e i premi. Il filo propone il
+pilastro più trascurato.
+**Pronto quando**: foto del Libro; il filo dice il pilastro trascurato.
+
+## 217. [ ] Le strade alternative (M)
+Le offerte dell'Albero-Madre possono essere «una di queste» (`any`): Linfa antica dal Cuore *oppure* da una Centrale
+o dalla mandria; traguardi di un pilastro *oppure* di un altro. `AlberoMadre`, `AlberoPanel`, `Filo`, `tools/durata.gd`
+le leggono. Gli stadi di oggi ricevono le loro alternative.
+**Pronto quando**: uno stadio si compie per strade diverse nella prova.
+
+## 218. [ ] La misura per pilastro (P)
+`tools/durata.gd` conta anche le ore di ogni pilastro (i gradi della maestria e le attività che li danno) e le somma
+alla storia; la tabella dice dove mancano ore rispetto al piano.
+
+## 219. [ ] Enciclopedia, consigli e resoconto (P)
+Capitolo «I pilastri e la maestria», un consiglio al primo grado, CLAUDE.md, giro intero, resoconto, GitHub.
+
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».
 - Grafica: ora nella Roadmap 13 «Il volto del mondo» (armatura e colpo in corsa alla voce 117, creature 114-116).
