@@ -30,6 +30,9 @@ static func make(id: String) -> Dictionary:
 	if FountainArt.draw(id, im, gm, w, h):         # voce 119: le fonti dei liquidi
 		Px.outline(im, OUT)
 		return {"img": im, "glow": gm}
+	if MachineArt.draw(id, im, gm, w, h):          # Roadmap 19: le macchine della rete
+		Px.outline(im, OUT)
+		return {"img": im, "glow": gm}
 	if CompactArt.draw(id, im, gm, w, h):          # banchi e mobili rimpiccioliti
 		Px.outline(im, OUT)
 		return {"img": im, "glow": gm}

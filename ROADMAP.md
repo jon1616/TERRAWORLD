@@ -3403,11 +3403,20 @@ Pinza o l'opzione «Mostra sempre i fili»), `Veins` (la Pinza: linea al rilasci
 modo, portata 26 tessere), il pacchetto `energy_pack.gd` (Pinza, vene, fili, isolante di gelatina e ricette), la categoria
 «Linfa e macchine» in Creare (e «Lavorazioni» ora contata, non scritta a mano). Prove `--solo=energia` (foto 230_vene).
 
-## 192. [ ] Le reti e il Flusso (G)
+## 192. [x] Le reti e il Flusso (G) — fatto il 29 set 2026
 `EnergyGraph` (reti per visita, macchine attaccate), `EnergySolver` (produzione, domanda, riserve, priorità, portata
 della vena più stretta), le prime sorgenti (Tamburo di radice, Foglia-lanterna), l'Otre di Linfa, la Lampada a baccello.
 **Pronto quando**: una lampada si accende da una foglia al sole, di notte dall'Otre, si spegne a Otre vuoto; con due
 macchine e poca energia si ferma quella a priorità bassa.
+**Fatto**: `MachinesData` (le macchine come righe: stazione, oggetto e ricetta nascono da lì; categoria «Linfa e macchine»),
+`MachineArt` (tamburo, foglia, otre, lampada, e una cassa di corteccia con la finestra di Linfa per chi non ha ancora
+un disegno suo), `Machine` e `MachineBehavior` (+ `MbTamburo`, `MbSole`, `MbLampada`), `Energy`: l'elenco delle celle di
+vena (all'ingresso salta le righe vuote con il conto nativo degli zeri), le reti per visita, le macchine attaccate, la
+strada più larga dalle sorgenti e dalle riserve a ogni macchina (la vena più stretta), il conto ogni 0,25 s con le
+priorità e le riserve, il bagliore delle vene solo dove la Linfa scorre, le macchine più scure senza energia, le luci
+con `LightMap.set_extra`. Prova: di giorno la foglia dà 12 pulsi e carica l'Otre, di notte la lampada va con l'Otre e si
+spegne a Otre vuoto, con 13 lampade e 12 pulsi resta accesa quella ad alta priorità, portata 30 dietro la radice (foto
+231_flusso_notte).
 
 ## 193. [ ] L'Impulso (M)
 `Impulse` (reti dei fili per colore, colpo e stato, un passo di ritardo per ogni rimbalzo), Leva, Pulsante, Piastra,

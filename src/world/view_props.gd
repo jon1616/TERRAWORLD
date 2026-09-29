@@ -160,6 +160,10 @@ func grow_tree(t: Vector3i) -> void:
 
 # ---------------------------------------------------------------- stazioni
 
+## Roadmap 19: (angolo) -> [fa luce, ha energia] di una macchina della rete (lo imposta `Energy`).
+var machine_look := Callable()
+
+
 func station_node(chunk: Node2D, o: Vector2i, id: String) -> void:
 	var tex: Dictionary = tex_stations[id]
 	var holder := Node2D.new()
@@ -180,6 +184,24 @@ func station_node(chunk: Node2D, o: Vector2i, id: String) -> void:
 	var by_origin: Dictionary = chunk.get_meta("station_nodes", {})
 	by_origin[o] = holder
 	chunk.set_meta("station_nodes", by_origin)
+	if machine_look.is_valid() and MachinesData.is_machine(id):
+		var lk: Array = machine_look.call(o)
+		_apply_look(holder, bool(lk[0]), bool(lk[1]))
+
+
+## Roadmap 19: il bagliore acceso o spento di una macchina, e più scura quando non ha energia.
+func set_machine_look(o: Vector2i, glow: bool, powered: bool) -> void:
+	var chunk: Node2D = view.chunks.get(World.chunk_of(o))
+	if chunk == null:
+		return
+	var holder: Node2D = (chunk.get_meta("station_nodes", {}) as Dictionary).get(o)
+	if holder:
+		_apply_look(holder, glow, powered)
+
+
+func _apply_look(holder: Node2D, glow: bool, powered: bool) -> void:
+	(holder.get_child(0) as Sprite2D).modulate = Color.WHITE if powered else Color(0.62, 0.6, 0.66)
+	(holder.get_child(1) as Sprite2D).visible = glow
 
 
 func add_station(o: Vector2i) -> void:

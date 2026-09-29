@@ -5,7 +5,7 @@ extends RefCounted
 
 const DATA := {
 	"items": {
-		"pinza_vene": {"name": "Pinza delle vene", "kind": "pinza", "icon": ["uncino", "radicite"], "stack": 1,
+		"pinza_vene": {"name": "Pinza delle vene", "kind": "pinza", "icon": ["uncino", "legnoferro"], "stack": 1,
 			"desc": "Posa le vene del Flusso e i fili dell'Impulso: clic e trascina per una linea, clic destro per riprendere. Maiusc+rotella: che cosa posare. In mano mostra i fili."},
 		"vena_radice": {"name": "Vena di radice", "kind": "vena", "icon": ["radice_viaggio", "legno"], "stack": 999,
 			"desc": "Porta fino a 30 pulsi di Linfa. Si posa con la Pinza delle vene, anche nella roccia: scavando non si taglia."},

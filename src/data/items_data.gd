@@ -278,6 +278,7 @@ static func all() -> Dictionary:
 	out.merge(LiquidsData.ITEMS.duplicate(true))           # voce 73
 	out.merge(FishData.items())                            # voce 120: i pesci
 	out.merge(FishingData.ITEMS.duplicate(true))           # voce 121: la canna di radice
+	out.merge(MachinesData.items())                        # Roadmap 19: le macchine della rete
 	out.merge(DashData.ITEMS.duplicate(true))              # voce 127: la schivata
 	out.merge(BuildData.items())                           # voce 128: i costrutti
 	out.merge(BuildData.STATION_ITEMS.duplicate(true))     # voce 139: il Banco dello scalpellino

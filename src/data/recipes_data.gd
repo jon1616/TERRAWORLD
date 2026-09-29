@@ -160,6 +160,7 @@ static func all() -> Array:
 	out.append_array(RelicsData.RECIPES.duplicate(true))
 	out.append_array(FaunaItemsData.RECIPES.duplicate(true))
 	out.append_array(HerdData.RECIPES.duplicate(true))     # voce 59
+	out.append_array(MachinesData.recipes())               # Roadmap 19: le macchine della rete
 	out.append_array(SeasonsData.RECIPES.duplicate(true))  # voce 66
 	out.append_array(NeroData.RECIPES.duplicate(true))     # voce 72
 	out.append_array(LiquidsData.RECIPES.duplicate(true))  # voce 73

@@ -35,6 +35,7 @@ static var STATIONS: Dictionary = _merged()
 static func _merged() -> Dictionary:
 	var out := _STATIONS.duplicate()
 	out.merge(FurnitureData.stations())
+	out.merge(MachinesData.stations())                  # Roadmap 19: le macchine della rete
 	return out
 
 
