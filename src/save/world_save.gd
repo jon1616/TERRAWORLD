@@ -70,7 +70,7 @@ static func save(w: World, id: String, meta: Dictionary) -> Error:
 	var crops := []
 	for c in w.crops:
 		var e: Array = w.crops[c]
-		crops.append([c.x, c.y, String(e[0]), int(ceil(float(e[1]))), bool(e[2])])
+		crops.append([c.x, c.y, String(e[0]), int(ceil(float(e[1]))), bool(e[2]), int(e[3]) if e.size() > 3 else 0])
 	var stations := []
 	for o in w.stations:
 		stations.append([o.x, o.y, w.stations[o]])
@@ -180,7 +180,7 @@ static func _decode(bytes: PackedByteArray) -> World:
 		w.saplings[Vector2i(saplings[i], saplings[i + 1])] = float(saplings[i + 2])
 	for e in data.get("crops", []):
 		if CropsData.CROPS.has(String(e[2])):
-			w.crops[Vector2i(int(e[0]), int(e[1]))] = [String(e[2]), float(e[3]), bool(e[4])]
+			w.crops[Vector2i(int(e[0]), int(e[1]))] = [String(e[2]), float(e[3]), bool(e[4]), int(e[5]) if e.size() > 5 else 0]
 	if w.tiles.size() != w.w * w.h or w.surface.size() != w.w:
 		return null
 	return w

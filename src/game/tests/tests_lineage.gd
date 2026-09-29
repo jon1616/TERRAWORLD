@@ -16,6 +16,7 @@ func run() -> void:
 	await lineage()
 	await fairs()
 	await jobs()
+	await orchard()
 
 
 ## Voce 241: sei generazioni della stessa variante fanno una stirpe pura (doti in più); un manto raro nuovo entra nella
@@ -120,3 +121,42 @@ func jobs() -> void:
 		j1, HerdJobs.job_of(rec), int(f[1]), f[0], near, far, two, s])
 	if not ok:
 		print("ATTENZIONE: i lavori della mandria non vanno")
+
+
+## Voce 244: le cure danno qualità (un seme scelto ne vale due); ottima = raccolto doppio e un seme scelto; due colture
+## mature accanto si incrociano (qui con la probabilità portata a 1 dalla prova).
+func orchard() -> void:
+	var w: World = m.world
+	var g: Garden = m.garden
+	var pc: Vector2i = m.player_cell() + Vector2i(3, 0)
+	var q0 := g.quality(pc, ["rugiada", 0.0, false, 0])
+	var q1 := g.quality(pc, ["rugiada", 0.0, true, OrchardData.CHOSEN])
+	var tiers := [Garden.tier_of(q0), Garden.tier_of(q1), Garden.tier_of(OrchardData.GREAT)]
+	var chosen := CropsData.of_seed("scelto_tubero") == "tubero" and ItemsData.get_item("scelto_tubero").has("name")
+	var hy := OrchardData.hybrid("tubero", "rugiada")
+	var st: Dictionary = m.character.stats
+	var saved := st.duplicate()
+	var a := pc
+	var b := pc + Vector2i(2, 0)
+	var saved_crops: Dictionary = w.crops.duplicate(true)
+	w.crops[a] = ["rugiada", 0.0, false, 0]
+	w.crops[b] = ["tubero", 0.0, false, 0]
+	var ibr0 := int(st.get("ibridi", 0))
+	var found := false
+	for k in 40:                                  # il caso della prova: al 15% esce in poche prove
+		g._cross(a, "rugiada", 2, Vector2(a) * 16.0)
+		if int(st.get("ibridi", 0)) > ibr0:
+			found = true
+			break
+	var ok: bool = tiers == [0, 1, 2] and chosen and hy == "tubero_dolce" and found and CropsData.CROPS.has("tubero_dolce") \
+		and OrchardData.VARIETIES.size() == 12
+	print("orto: qualità %d e %d (gradi %s); seme scelto %s; incrocio tubero × rugiada = %s, trovato %s; varietà %d" % [q0, q1, str(tiers),
+		chosen, hy, found, OrchardData.VARIETIES.size()])
+	if not ok:
+		print("ATTENZIONE: qualità e incroci dell'orto non vanno")
+	w.crops = saved_crops
+	for k2 in st.keys():
+		if not saved.has(k2):
+			st.erase(k2)
+		else:
+			st[k2] = saved[k2]

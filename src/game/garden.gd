@@ -62,6 +62,63 @@ func _near_linfa(c: Vector2i) -> bool:
 	return false
 
 
+var _last_e: Array = []                  # voce 244: la coltura appena tolta (la qualità si calcola dopo)
+
+
+## Voce 244: i punti di qualità di una coltura (le cure che ha avuto; il seme scelto ne vale due).
+func quality(c: Vector2i, e: Array) -> int:
+	if e.is_empty():
+		return 0
+	var q := int(e[3]) if e.size() > 3 else 0
+	if bool(e[2]):
+		q += 1
+	if m.get("pens") != null and HerdJobs.plow_at(m.pens.plows, c) > 1.0:
+		q += 1
+	if m.rooms != null and m.rooms.grow_at(c) > 1.0:
+		q += 1
+	if _near_linfa(c):
+		q += 1
+	if m.get("garden_islands") != null and m.garden_islands.grow_at(c) > 1.0:
+		q += 1
+	return q
+
+
+static func tier_of(q: int) -> int:
+	return 2 if q >= OrchardData.GREAT else (1 if q >= OrchardData.GOOD else 0)
+
+
+func e_of(c: Vector2i, _crop: String) -> Array:
+	return m.world.crops.get(c, _last_e)
+
+
+## Voce 244: un incrocio con una pianta matura di un'altra coltura accanto.
+func _cross(c: Vector2i, crop: String, tier: int, at: Vector2) -> void:
+	for dy in range(-1, 2):
+		for dx in range(-OrchardData.NEAR, OrchardData.NEAR + 1):
+			var o := c + Vector2i(dx, dy)
+			var e: Array = m.world.crops.get(o, [])
+			if o == c or e.is_empty() or float(e[1]) > 0.0 or String(e[0]) == crop:
+				continue
+			var v := OrchardData.hybrid(crop, String(e[0]))
+			if v == "" or _rng.randf() >= (OrchardData.CROSS_GREAT if tier == 2 else OrchardData.CROSS):
+				continue
+			m.drops.spawn(OrchardData.seed_of(v), 1, at)
+			var st: Dictionary = m.character.stats
+			if int(st.get("ibrido_" + v, 0)) == 0:
+				st["ibrido_" + v] = 1
+				m.objectives.bump("ibridi")
+				m.hud.toast("Un incrocio! Un seme di %s, una varietà nuova" % String(OrchardData.VARIETIES[v][0]).to_lower())
+			return
+
+
+## Voce 244: la riga dell'orto nel Libro dei pilastri.
+func line() -> String:
+	var n := 0
+	for v in OrchardData.VARIETIES:
+		n += int(m.character.stats.get("ibrido_" + v, 0))
+	return "Varietà scoperte: %d su %d · raccolti ottimi: %d" % [n, OrchardData.VARIETIES.size(), int(m.character.stats.get("ottimi", 0))]
+
+
 ## Pianta un seme da giardino in una cella. True se l'ha fatto.
 func plant(c: Vector2i, item: String) -> bool:
 	var w: World = m.world
@@ -80,7 +137,7 @@ func plant(c: Vector2i, item: String) -> bool:
 	if not m.character.bisaccia.remove(item, 1):
 		return false
 	w.set_decor(c.x, c.y, CropsData.SPROUT)
-	w.crops[c] = [crop, float(CropsData.CROPS[crop]["grow"]), false]
+	w.crops[c] = [crop, float(CropsData.CROPS[crop]["grow"]), false, OrchardData.CHOSEN if item.begins_with("scelto_") else 0]
 	m.view.refresh_around(c)
 	m.sfx.play("posa", Vector2(c) * S)
 	m.objectives.bump("semine")
@@ -116,16 +173,26 @@ func _on_picked(c: Vector2i, d: int) -> void:
 	var at := Vector2(c) * S + Vector2(8, 8)
 	var w: World = m.world
 	if w.crops.has(c):
+		_last_e = w.crops[c]
 		var crop := String(w.crops[c][0])
 		var cd: Dictionary = CropsData.CROPS[crop]
 		w.crops.erase(c)
 		if d == CropsData.SPROUT:
 			m.drops.spawn(String(cd["seed"]), 1, at)         # un germoglio strappato ridà il suo seme
 			return
+		var tier := tier_of(quality(c, e_of(c, crop)))      # voce 244: la qualità
+		var mult: float = [1.0, OrchardData.GOOD_MULT, OrchardData.GREAT_MULT][tier]
 		for id in cd["harvest"]:
 			var span: Array = cd["harvest"][id]
-			m.drops.spawn(String(id), _rng.randi_range(int(span[0]), int(span[1])), at)
+			m.drops.spawn(String(id), roundi(_rng.randi_range(int(span[0]), int(span[1])) * mult), at)
 		m.drops.spawn(String(cd["seed"]), _rng.randi_range(int(cd["seeds"][0]), int(cd["seeds"][1])), at)
+		if tier == 2:
+			m.drops.spawn("scelto_" + crop, 1, at)
+			m.objectives.bump("ottimi")
+		if tier > 0:
+			m.hud.toast("Raccolto %s: %s" % [OrchardData.NAMES[tier], cd["name"]])
+		_cross(c, crop, tier, at)
+		_last_e = []
 		m.objectives.bump("raccolti")
 		m.sfx.play("raccogli", at)
 		return

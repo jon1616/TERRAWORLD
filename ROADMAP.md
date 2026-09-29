@@ -4136,10 +4136,16 @@ mangiatoia: semi e funghi gli erbivori, minerali i predatori e gli scavatori, se
 **canto** (le altre del recinto producono come con un'amica in più). Il lavoro fa venire fame una volta e mezza più in
 fretta e dà esperienza. Il tiro per la rete è rimasto fuori: la rete ha già le sue sorgenti.
 
-## 244. [ ] Qualità e incroci dell'orto (G)
+## 244. [x] Qualità e incroci dell'orto (G) — fatto il 29 set 2026
 Ogni raccolto ha una **qualità** (comune, buona, ottima) che viene dalla terra, dall'acqua, dalla stagione e dal seme;
 i semi di qualità danno piante migliori. Due colture diverse accanto possono **incrociarsi**: dodici varietà nuove
 (dati), con usi propri in cucina e nell'allevamento. Un Semenzaio dell'orto nell'Erbario tiene il conto.
+**Fatto**: `OrchardData` e le regole in `Garden` (`quality`, `tier_of`, `_cross`): un punto di qualità per ogni cura
+(annaffiata, aratura della mandria, serra, Linfa vicina, isola dell'orto), due per il **seme scelto**; buona = raccolto
+×1,5, ottima = ×2 e un seme scelto (`scelto_<coltura>`, conservato nel salvataggio del mondo come quarto campo della
+coltura). **Dodici varietà** da incrocio (coppie di colture mature entro 3 colonne, 15%, 25% se ottima), colture come
+le altre in `CropsData.CROPS`, ognuna con un prodotto suo per la cucina. Nel Libro dei pilastri la riga dell'orto.
+Conteggi «ottimi» e «ibridi» (45 punti la prima volta di ogni varietà).
 
 ## 245. [ ] La cucina (G)
 Una trentina di piatti che uniscono colture, prodotti della mandria e pesci, con **effetti diversi** (scavo, luce, fiato,

@@ -40,12 +40,14 @@ const _WILD := [
 
 
 ## Roadmap 16: più quelle dei pacchetti (campi "crops" e "wild", come qui).
-static var CROPS: Dictionary = _CROPS.merged(BiomesData.pack("crops"))
+static var CROPS: Dictionary = _CROPS.merged(BiomesData.pack("crops")).merged(OrchardData.crops())   # voce 244: le varietà
 static var WILD: Array = _WILD + BiomesData.pack_list("wild")
 
 
 ## La coltura di un seme ("" se non è un seme da giardino).
 static func of_seed(item: String) -> String:
+	if item.begins_with("scelto_") and CROPS.has(item.substr(7)):
+		return item.substr(7)                        # voce 244: i semi scelti
 	for k in CROPS:
 		if CROPS[k]["seed"] == item:
 			return k
