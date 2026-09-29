@@ -50,6 +50,8 @@ static func draw(look: String, im: Image, gm: Image, w: int, h: int) -> bool:
 			_nodo_casse(im, gm, w, h)
 		"magazzino":
 			_magazzino(im, gm, w, h)
+		"trivella":
+			_trivella(im, gm, w, h)
 		_:
 			return false
 	return true
@@ -286,3 +288,15 @@ static func _magazzino(im: Image, gm: Image, w: int, h: int) -> void:
 	MachineArt._rect(im, 1, 2, w - 1, 5, MachineArt.BARK[1])
 	Px.disc(im, w * 0.5, h * 0.35, 3.0, MachineArt.LINFA[1])
 	Px.disc(gm, w * 0.5, h * 0.35, 2.4, MachineArt.LINFA[3])
+
+
+## La Trivella di radice: un castello di legnoferro con la punta a spirale che scende nel terreno.
+static func _trivella(im: Image, gm: Image, w: int, h: int) -> void:
+	MachineArt._rect(im, 1, 1, w - 1, 4, MachineArt.SLATE[1])
+	MachineArt._rect(im, 2, 4, 5, h, MachineArt.SLATE[0])
+	MachineArt._rect(im, w - 5, 4, w - 2, h, MachineArt.SLATE[0])
+	for y in range(5, h):
+		var half := maxi(1, int((h - y) * 0.35) + 1)
+		MachineArt._rect(im, w / 2 - half, y, w / 2 + half, y + 1, MachineArt.SLATE[2] if y % 2 == 0 else MachineArt.SLATE[3])
+	Px.disc(im, w * 0.5, 3, 2.0, MachineArt.LINFA[1])
+	Px.disc(gm, w * 0.5, 3, 1.6, MachineArt.LINFA[3])

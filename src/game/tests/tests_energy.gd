@@ -40,6 +40,7 @@ func run() -> void:
 	await more.moving()
 	await more.garden_light_liquids()
 	await more.factory()
+	await more.drill()
 	m.player.control = ctl
 	m.day.paused = false
 

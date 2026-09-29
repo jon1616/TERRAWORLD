@@ -156,6 +156,11 @@ const MACHINES := {
 	"magazzino_vivo": {"name": "Magazzino vivo", "role": "macchina", "size": [3, 3], "bh": "magazzino", "pulsi": 10, "slots": 105,
 		"look": "magazzino", "icon": ["cesta", "ambra"], "in": {"lingotto_ambra": 4, "legno": 30, "seta_radice": 6}, "station": "maglio",
 		"tier": 3, "desc": "Una cassa di 105 caselle che si riordina da sola quando ha i suoi pulsi. Chiede 10 pulsi."},
+	# ---------------------------------------------------------------- la Trivella (voce 201)
+	"trivella_radice": {"name": "Trivella di radice", "role": "macchina", "size": [3, 2], "bh": "trivella", "pulsi": 80, "slots": 16,
+		"light": Color(1.2, 1.0, 0.6), "look": "trivella", "icon": ["piccone", "legnoferro"],
+		"in": {"lingotto_legnoferro": 8, "lingotto_ambra": 2, "cristallo_linfa": 2, "legno": 10}, "station": "maglio", "tier": 3,
+		"desc": "Scava da sola un pozzo largo 3 verso il basso con il piccone che metti nella sua cassetta (la sua forza decide che cosa scava) e ci mette ciò che trova. Si ferma ai liquidi, ai Sigilli, a ciò che hai costruito, a cassetta piena; al più 600 blocchi al giorno. Chiede 80 pulsi."},
 	# ---------------------------------------------------------------- muoversi (voce 198)
 	"ascensore_bolla": {"name": "Ascensore a bolla", "role": "macchina", "size": [2, 1], "bh": "ascensore", "pulsi": 15,
 		"frame": true, "look": "ascensore", "icon": ["goccia", "muschio"],

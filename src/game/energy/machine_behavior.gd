@@ -68,6 +68,8 @@ static func make(bh: String) -> MachineBehavior:
 			return MbSmistatore.new()
 		"magazzino":
 			return MbMagazzino.new()
+		"trivella":
+			return MbTrivella.new()
 		"nastro":
 			return MbNastro.new()
 		"catapulta":

@@ -342,3 +342,33 @@ func factory() -> void:
 			if w.chests.has(o):
 				w.chests.erase(o)
 			t.unplace(o)
+
+
+## Voce 201: la Trivella scava con il piccone della cassetta e si ferma davanti a ciò che è troppo duro.
+func drill() -> void:
+	var e: Energy = m.energy
+	var w: World = m.world
+	var p: Vector2i = await t.clean_spot(420, 10)
+	var y := p.y
+	var dr := await powered("trivella_radice", Vector2i(p.x, y), "baccello_serbatoio")
+	var dm: Machine = e.machines[dr]
+	await t.ticks(2)
+	var no_pick := String(dm.get_meta("stop", ""))
+	# sotto: tre righe di terra, poi una riga di vuotite (vuole il legnoferro)
+	for x in range(p.x, p.x + 3):
+		for yy in range(y + 1, y + 4):
+			w.set_tile(x, yy, TileDefs.DIRT)
+		w.set_tile(x, y + 4, TileDefs.VUOTITE)
+	w.chest_at(dr).add("piccone_radicite", 1)
+	await kit.seconds(6.0)
+	var dug := int(dm.st.get("scavati", 0))
+	var soil: int = w.chest_at(dr).count("humus")
+	var stop := String(dm.get_meta("stop", ""))
+	print("trivella: senza piccone «%s»; con il piccone di radicite scavati %d (humus %d), poi «%s»" % [no_pick, dug, soil, stop])
+	if not (no_pick.contains("piccone") and dug >= 9 and soil >= 9 and stop.contains("troppo duro")):
+		print("ATTENZIONE: la Trivella non scava come dovrebbe")
+	for o in e.machines.keys():
+		if o.x >= p.x - 2 and o.x <= p.x + 10:
+			if w.chests.has(o):
+				w.chests.erase(o)
+			t.unplace(o)

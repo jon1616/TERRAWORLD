@@ -3503,7 +3503,11 @@ Nodo delle casse (le casse della sua rete danno gli ingredienti quando gli sei v
 `Storage._update_pool`; `Energy.chest_net` in `EnergyGraph`); Magazzino vivo (105 caselle che si riordinano). Foto
 236_fabbrica.
 Forno a Linfa, Frantoio, Telaio a Linfa, Braccio di radice, Smistatore, Nodo delle casse (`Crafting.pool`), Magazzino vivo.
-## 201. [ ] La Trivella di radice (M)
+## 201. [x] La Trivella di radice (M) — fatto il 29 set 2026
+**Fatto**: `MbTrivella`: scava un pozzo largo 3 verso il basso con il piccone migliore della cassetta (forza e tempi del
+piccone, ciò che cade nella cassetta), si ferma e dice perché (niente piccone, troppo duro, liquido, Sigillo o porta o
+costruito, cassetta piena, in fondo), al più 600 blocchi per giorno del mondo, e senza lavoro non consuma. Prova: 9
+blocchi di terra scavati, ferma davanti alla vuotite con il piccone di radicite.
 Scavo automatico con la forza del piccone nella cassetta, tetto di resa, stop ai liquidi e ai Sigilli.
 ## 202. [ ] Difendersi (M)
 Torretta di spine, Rovo vivo, Campana d'allarme, Scudo di corteccia, trappole comandate dall'Impulso.
