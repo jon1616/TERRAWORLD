@@ -117,7 +117,8 @@ func stages() -> void:
 	var grafts0: Array = am.graftable()
 	while not am.done():
 		var st: Dictionary = am.current()
-		for o in st["offers"]:
+		for o0 in st["offers"]:
+			var o: Dictionary = o0["any"][0] if (o0 as Dictionary).has("any") else o0
 			if o.has("item"):
 				b.add(String(o["item"]), int(o["n"]))
 			else:

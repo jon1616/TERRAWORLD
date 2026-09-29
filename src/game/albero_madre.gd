@@ -57,13 +57,42 @@ func current() -> Dictionary:
 	return {} if done() else MotherTreeData.STAGES[stage()]
 
 
-## Quanto manca a un'offerta: [quanti ne hai già dato o raggiunto, quanti ne servono].
+## Quanto manca a un'offerta: [quanti ne hai già dato o raggiunto, quanti ne servono]. Per le strade alternative
+## (voce 217) quella più avanti.
 func progress(i: int) -> Array:
+	return _progress_of(i, alt(i))
+
+
+## La strada di un'offerta che si segue adesso (l'offerta stessa, o delle alternative quella più avanti).
+func alt(i: int) -> int:
 	var o: Dictionary = current()["offers"][i]
+	if not o.has("any"):
+		return -1
+	var best := 0
+	var bf := -1.0
+	for j in (o["any"] as Array).size():
+		var p := _progress_of(i, j)
+		var f := float(p[0]) / maxf(float(p[1]), 1.0)
+		if f > bf:
+			bf = f
+			best = j
+	return best
+
+
+## L'offerta vera (con "item" o "stat") dell'indice i: quella della strada che si segue adesso.
+func offer_of(i: int) -> Dictionary:
+	var o: Dictionary = current()["offers"][i]
+	return o["any"][alt(i)] if o.has("any") else o
+
+
+func _progress_of(i: int, j: int) -> Array:
+	var o0: Dictionary = current()["offers"][i]
+	var o: Dictionary = o0["any"][j] if j >= 0 else o0
 	var need := int(o["n"])
 	if o.has("stat"):
 		return [mini(int(m.character.stats.get(String(o["stat"]), 0)), need), need]
-	return [mini(int((m.character.albero["offerte"] as Dictionary).get(str(i), 0)), need), need]
+	var key := str(i) if j < 0 else "%d:%d" % [i, j]
+	return [mini(int((m.character.albero["offerte"] as Dictionary).get(key, 0)), need), need]
 
 
 func ready_to_wake() -> bool:
@@ -84,14 +113,20 @@ func offer() -> int:
 	var off: Dictionary = m.character.albero["offerte"]
 	var offers: Array = current()["offers"]
 	for i in offers.size():
-		var o: Dictionary = offers[i]
-		if not o.has("item"):
-			continue
-		var p := progress(i)
-		var k := mini(int(p[1]) - int(p[0]), Crafting.have(m.character.bisaccia, String(o["item"])))
-		if k > 0 and Crafting.take(m.character.bisaccia, String(o["item"]), k):
-			off[str(i)] = int(p[0]) + k
-			given += k
+		if int(progress(i)[0]) >= int(progress(i)[1]):
+			continue                                   # già fatta (anche per un'altra strada)
+		var alts: Array = offers[i]["any"] if (offers[i] as Dictionary).has("any") else [offers[i]]
+		for j in alts.size():
+			var o: Dictionary = alts[j]
+			if not o.has("item"):
+				continue
+			var jj := j if (offers[i] as Dictionary).has("any") else -1
+			var p := _progress_of(i, jj)
+			var k := mini(int(p[1]) - int(p[0]), Crafting.have(m.character.bisaccia, String(o["item"])))
+			if k > 0 and Crafting.take(m.character.bisaccia, String(o["item"]), k):
+				off[str(i) if jj < 0 else "%d:%d" % [i, jj]] = int(p[0]) + k
+				given += k
+				break
 	if given > 0:
 		m.sfx.play("dono")
 		Fx.puff(m.fx, _tree_pos(), Color(0.9, 1.7, 1.4))
@@ -187,7 +222,7 @@ func _process(dt: float) -> void:
 	var parts := []
 	var offers: Array = current()["offers"]
 	for i in offers.size():
-		var o: Dictionary = offers[i]
+		var o: Dictionary = offer_of(i)
 		var p := progress(i)
 		var what := String(o.get("text", ItemsData.get_item(String(o.get("item", ""))).get("name", "")))
 		parts.append("%s %d/%d" % [what, int(p[0]), int(p[1])] if int(p[0]) < int(p[1]) else "%s ✓" % what)

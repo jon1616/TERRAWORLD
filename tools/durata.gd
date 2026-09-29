@@ -73,19 +73,22 @@ func _init() -> void:
 		var w0 := worlds
 		var notes := []
 		# i traguardi dai giri di mondo
-		for o in st["offers"]:
+		for o0 in st["offers"]:
+			var o: Dictionary = o0["any"][0] if (o0 as Dictionary).has("any") else o0      # la strada principale
 			if o.has("stat") and PER_WORLD.has(String(o["stat"])):
 				var need := float(o["n"])
 				while float(have.get(String(o["stat"]), 0.0)) + 0.001 < need:
 					_world()
 		# gli oggetti: da ciò che si ha, il resto apposta
-		for o in st["offers"]:
+		for o0 in st["offers"]:
+			var o: Dictionary = o0["any"][0] if (o0 as Dictionary).has("any") else o0      # la strada principale
 			if o.has("item"):
 				var extra := _item(String(o["item"]), float(o["n"]))
 				if extra > 0.5:
 					notes.append("%s %.0f min" % [String(ItemsData.get_item(String(o["item"])).get("name", o["item"])), extra])
 		# i traguardi con un tempo loro
-		for o in st["offers"]:
+		for o0 in st["offers"]:
+			var o: Dictionary = o0["any"][0] if (o0 as Dictionary).has("any") else o0      # la strada principale
 			if o.has("stat") and STAT_MIN.has(String(o["stat"])):
 				var sid := String(o["stat"])
 				var t: Array = STAT_MIN[sid]

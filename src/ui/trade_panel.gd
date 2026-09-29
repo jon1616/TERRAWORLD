@@ -258,7 +258,7 @@ func _greeting() -> String:
 		for i in offers.size():
 			var p: Array = m.albero.progress(i)
 			if int(p[0]) < int(p[1]):
-				var o: Dictionary = offers[i]
+				var o: Dictionary = m.albero.offer_of(i)
 				var what := String(o["text"]) if o.has("text") else String(ItemsData.get_item(String(o["item"]))["name"])
 				return "L'Albero chiede «%s»: %s. Cerca %s." % [st["name"], what.to_lower(), o["hint"]]
 		return "L'Albero ha tutto ciò che chiedeva: va' da lui e sveglialo."

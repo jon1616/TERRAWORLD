@@ -109,7 +109,7 @@ func _refresh() -> void:
 	t += "[color=#8ef0d8]Chiede:[/color]\n"
 	var offers: Array = st["offers"]
 	for i in offers.size():
-		var o: Dictionary = offers[i]
+		var o: Dictionary = am.offer_of(i)
 		var p := am.progress(i)
 		var ok := int(p[0]) >= int(p[1])
 		var what := String(o["text"]) if o.has("text") else String(ItemsData.get_item(String(o["item"]))["name"])
@@ -120,6 +120,14 @@ func _refresh() -> void:
 		t += "  %s [color=%s]%s  %d/%d[/color]%s\n" % ["✓" if ok else "•", "#9ff0b8" if ok else "#ffffff", what, int(p[0]), int(p[1]), extra]
 		if not ok:
 			t += "     [color=#6a8a84]%s[/color]\n" % o["hint"]
+		if (offers[i] as Dictionary).has("any"):               # voce 217: le altre strade
+			for j in (offers[i]["any"] as Array).size():
+				if j == am.alt(i):
+					continue
+				var oa: Dictionary = offers[i]["any"][j]
+				var wa := String(oa["text"]) if oa.has("text") else String(ItemsData.get_item(String(oa["item"]))["name"])
+				var pa := am._progress_of(i, j)
+				t += "     [color=#b8a0d8]oppure[/color] [color=#cfeee4]%s  %d/%d[/color]\n" % [wa, int(pa[0]), int(pa[1])]
 	var gv: Dictionary = st["gives"]
 	var gifts := []
 	if gv.has("aiuola"):

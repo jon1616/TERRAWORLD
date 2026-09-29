@@ -167,7 +167,7 @@ static func mother_tree(m: Node2D) -> TipCard:
 	c.sub("stadio %d di %d · %s" % [al.stage() + 1, MotherTreeData.STAGES.size(), st.get("name", "")])
 	var offers: Array = st["offers"]
 	for i in offers.size():
-		var of: Dictionary = offers[i]
+		var of: Dictionary = al.offer_of(i)
 		var p := al.progress(i)
 		var what := String(of.get("text", ItemsData.get_item(String(of.get("item", ""))).get("name", "")))
 		c.bar("%s  %d/%d" % [what, int(p[0]), int(p[1])], float(p[0]) / maxf(float(p[1]), 1.0),

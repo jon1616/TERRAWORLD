@@ -64,7 +64,8 @@ func _tree() -> void:
 	for k in MotherTreeData.STAGES.size():
 		var st: Dictionary = MotherTreeData.STAGES[k]
 		_p("   stadio %d «%s»" % [k + 1, st["name"]])
-		for o in st["offers"]:
+		for o0 in st["offers"]:
+			var o: Dictionary = o0["any"][0] if (o0 as Dictionary).has("any") else o0      # la strada principale
 			if o.has("stat"):
 				_p("      traguardo: %s (%d)" % [o.get("text", o["stat"]), int(o["n"])])
 				continue

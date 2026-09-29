@@ -161,7 +161,7 @@ func _from_albero() -> Dictionary:
 			"tree": true}
 	var offers: Array = al.current()["offers"]
 	for i in offers.size():
-		var o: Dictionary = offers[i]
+		var o: Dictionary = al.offer_of(i)                 # voce 217: la strada che si segue adesso
 		var p := al.progress(i)
 		if int(p[0]) >= int(p[1]):
 			continue

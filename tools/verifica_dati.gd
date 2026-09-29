@@ -438,9 +438,10 @@ func _warn(ok: bool, msg: String) -> void:
 ## Voce 63: un oggetto che l'Albero-Madre chiede in offerta serve a qualcosa anche senza ricette.
 func _offered(id: String) -> bool:
 	for st in MotherTreeData.STAGES:
-		for o in st["offers"]:
-			if String(o.get("item", "")) == id:
-				return true
+		for o0 in st["offers"]:
+			for o in (o0["any"] if (o0 as Dictionary).has("any") else [o0]):
+				if String(o.get("item", "")) == id:
+					return true
 	return false
 
 

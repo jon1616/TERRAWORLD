@@ -19,6 +19,7 @@ func run() -> void:
 	await rewards()
 	m.character.maestria = {}
 	await book()
+	await alternatives()
 	m.character.maestria = saved
 	m.gear.refresh()
 
@@ -97,3 +98,28 @@ func book() -> void:
 	print("Libro dei pilastri: scheda della storia %s; il filo propone «%s»" % ["sì" if txt.contains("Grado 3") else "NO", n.get("text", "")])
 	if not ok:
 		print("ATTENZIONE: il Libro dei pilastri o il filo del pilastro trascurato non vanno")
+
+
+## Voce 217: uno stadio dell'Albero si compie anche per la strada alternativa (la Linfa antica o una Centrale).
+func alternatives() -> void:
+	var al: AlberoMadre = m.albero
+	var saved_tree: Dictionary = m.character.albero.duplicate(true)
+	var had := int(m.character.stats.get("centrali", 0))
+	m.character.albero = {"stadio": 2, "offerte": {}}
+	m.character.stats["centrali"] = 0
+	var before: Array = al.progress(0)
+	m.character.stats["centrali"] = 1                        # una Centrale risvegliata invece della Linfa antica
+	var after: Array = al.progress(0)
+	var o := al.offer_of(0)
+	var other: Array = MotherTreeData.STAGES[2]["offers"][0]["any"]
+	m.character.albero = saved_tree
+	m.character.stats["centrali"] = had
+	var n_any := 0
+	for st in MotherTreeData.STAGES:
+		for of in st["offers"]:
+			if (of as Dictionary).has("any"):
+				n_any += 1
+	var ok := int(before[0]) == 0 and int(after[0]) >= int(after[1]) and String(o.get("stat", "")) == "centrali" and other.size() == 2
+	print("strade alternative: %d offerte con più strade; la Linfa antica dello stadio 3 si compie con una Centrale %s" % [n_any, ok])
+	if not ok:
+		print("ATTENZIONE: le strade alternative dell'Albero-Madre non vanno")

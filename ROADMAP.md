@@ -3782,11 +3782,18 @@ scheda del pilastro scelto (punti, prossimo passo, da quanto non lo curi, i diec
 filo ha la fonte «pilastro» (`Mastery.neglected`: dopo la prima mezz'ora, il pilastro fermo da più tempo, almeno 40
 minuti di gioco). Foto 244_pilastri.
 
-## 217. [ ] Le strade alternative (M)
+## 217. [x] Le strade alternative (M) — fatto il 29 set 2026
 Le offerte dell'Albero-Madre possono essere «una di queste» (`any`): Linfa antica dal Cuore *oppure* da una Centrale
 o dalla mandria; traguardi di un pilastro *oppure* di un altro. `AlberoMadre`, `AlberoPanel`, `Filo`, `tools/durata.gd`
 le leggono. Gli stadi di oggi ricevono le loro alternative.
 **Pronto quando**: uno stadio si compie per strade diverse nella prova.
+**Fatto**: il formato `{"any": [offerta, offerta]}` in `MotherTreeData`; `AlberoMadre` (`progress` prende la strada
+più avanti, `alt`, `offer_of`; le offerte di oggetti delle strade alternative si contano a parte, «i:j»), letto dalla
+riga dell'HUD, dal filo, dalla scheda dell'Albero, dalla Vecchia Radice, dal pannello (le altre strade con «oppure»),
+dalle prove e dagli strumenti. **19 offerte** hanno ora una seconda strada da un altro pilastro: stele (misteri) per i
+geni, Centrali (rete) per la Linfa antica, colture (orto) per la seta, segreti (esplorazione) per le firme, scrigni a
+parola per il reliquiario, addomesticare e prodotti (mandria) per l'allevamento, Signori e maree (combattimento) per
+Custodi e Guardiani, firme per i viaggi, specie pescate (pesca) per il manto raro.
 
 ## 218. [ ] La misura per pilastro (P)
 `tools/durata.gd` conta anche le ore di ogni pilastro (i gradi della maestria e le attività che li danno) e le somma
