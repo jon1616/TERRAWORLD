@@ -143,6 +143,10 @@ Godot_console.exe --headless --path . --script res://tools/percorso.gd -- --giri
 Godot_console.exe --headless --path . --script res://tools/armi.gd
 # il bot in arena contro creature vere (tara il modello; ~3 minuti) → prove/arena.txt
 Godot_console.exe --path . -- --prove --solo=arena
+# quanto dura la partita a obiettivi (Albero-Madre, catena lunga, Seme Nero): conti sui dati, ~12 s → prove/durata.txt.
+# Le stime del modello (minuti di un giro di mondo, ciò che un giro porta, quanto rende cercare apposta) sono in cima al file.
+# Obiettivo dell'utente (29 set 2026): ~500 ore per il giocatore medio.
+Godot_console.exe --headless --path . --script res://tools/durata.gd
 # Roadmap 19: il bilancio della rete (sorgenti, macchine all'ora in Lumini, confronto con scavo e pesca) → prove/rete.txt
 Godot_console.exe --headless --path . --script res://tools/rete.gd
 # Roadmap 17: quanto dura imparare la lingua (un giocatore simulato in otto mondi) → prove/lingua.txt
