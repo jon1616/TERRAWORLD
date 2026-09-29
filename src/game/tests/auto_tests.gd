@@ -251,6 +251,8 @@ func run(main: Node2D) -> void:
 	_mark("TestsAtlas")
 	await TestsLineage.new(kit).run()      # Roadmap 24: stirpi e semi
 	_mark("TestsLineage")
+	await TestsArts.new(kit).run()         # Roadmap 25: le arti
+	_mark("TestsArts")
 	await ob.run()
 	_mark("ob.run")
 	await w.run_and_save()
@@ -443,6 +445,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsAtlas.new(kit).run()          # Roadmap 23: l'Atlante
 		"stirpi":
 			await TestsLineage.new(kit).run()        # Roadmap 24: stirpi e semi
+		"arti":
+			await TestsArts.new(kit).run()           # Roadmap 25: le arti
 		"arena":
 			await TestsArena.new(kit).run()          # voce 180: il bot in arena (una misura, non nel giro)
 		"tratti":

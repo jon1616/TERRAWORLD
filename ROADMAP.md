@@ -4173,6 +4173,44 @@ aiutano l'orto e riempiono le mangiatoie anche a gioco chiuso. L'orto ha la **qu
 **dodici varietà** da incrocio e una **cucina** di trenta piatti con effetti diversi per ogni viaggio, in un Ricettario che
 si scopre. Tutto al grado 10: ~434 ore (488 per il giocatore medio).
 
+# Roadmap 25 «Le arti» — il pilastro del combattimento (dal 30 set 2026)
+
+## Da dove si parte
+Il combattimento ha tanta materia (16 forme d'arma, 45 metalli e leghe, qualità, tratti, innesti, tempra, set, unici,
+gioielli, incisioni) e tanti avversari ripetibili (Guardiani evocati, Signori, maree, sfide), ma il gesto è sempre lo
+stesso: nessuna forma d'arma ha una mossa sua, nessuna arma cresce con chi la usa, nessuna caccia ha un nome. Obiettivo:
+~40 ore di cose nuove, che rendano diverso combattere con una lancia o con un martello.
+
+## 247. [x] La maestria delle armi (M) — fatto il 30 set 2026
+Ogni forma d'arma ha la sua maestria (10 ranghi): cresce con le creature sconfitte usando quella forma, dà danno in più
+con quella forma e apre le sue tecniche ai ranghi 3, 6 e 9. Scheda «Le arti» nel pannello nuovo.
+**Fatto**: `ArtsData` (dieci forme d'arma con maestria: spada, pugnale, spadone, lancia, martello, falce, frusta, arco,
+balestra, verga; il rango r vuole 20·r² punti, il 10 a 2000; +2% di danno per rango; tecniche ai ranghi 3, 6 e 9) e
+`WeaponArts` (`src/game/weapon_arts.gd`): una creatura sconfitta entro 40 tessere con un'arma in mano dà Vita/20 punti
+alla sua forma (`stats["arte_<forma>"]`); il danno in più passa da `Combat._boon`; avviso e diario a ogni rango,
+conteggio «ranghi_arma» per il combattimento. Prova nel gruppo nuovo `arti`.
+
+## 248. [ ] Le tecniche (G)
+Una tecnica per ogni forma d'arma (tasto «tecnica»): il fendente rotante della spada, l'affondo del pugnale, il colpo
+pesante dello spadone, la carica della lancia, il terremoto del martello, la mietitura del falcione, il laccio della
+frusta, la pioggia di frecce, il colpo perforante della balestra, la saetta caricata della verga. Costano Linfa e hanno
+un'attesa; i ranghi alti le rendono più forti. Tutte scritte come dati (forma, area, danno, spinta, scatto).
+
+## 249. [ ] Le taglie (M)
+Il Cacciatore di taglie (un abitante nuovo) propone tre cacce a una creatura con un nome, più forte, con un tratto
+antico, in un bioma e in uno strato precisi; la taglia la fa nascere quando ci si arriva. Premi: schegge, trofei,
+unici; il registro delle cacce.
+
+## 250. [ ] Le prove del Cerchio (M)
+Al Cerchio dei Seminatori, oltre ai Guardiani, le prove a ondate: dieci ondate sempre più dure delle creature del
+vigore del mondo, un capo ogni cinque; premio secondo l'ondata raggiunta e il record personale.
+
+## 251. [ ] Il pannello delle arti (P)
+Tasto I: le maestrie delle armi con le tecniche, il registro delle taglie, i record delle prove.
+
+## 252. [ ] Enciclopedia, misura e resoconto (P)
+Capitoli, consigli, `tools/durata.gd` (il pilastro del combattimento e la sua varietà), giro intero, GitHub.
+
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».
 - Grafica: ora nella Roadmap 13 «Il volto del mondo» (armatura e colpo in corsa alla voce 117, creature 114-116).
