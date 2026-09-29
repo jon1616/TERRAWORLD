@@ -167,14 +167,26 @@ var machine_look := Callable()
 func station_node(chunk: Node2D, o: Vector2i, id: String) -> void:
 	var tex: Dictionary = tex_stations[id]
 	var holder := Node2D.new()
-	holder.position = Vector2(o) * S
+	# 29 set 2026: le stazioni affondano di qualche pixel nel terreno morbido e hanno un'ombra di contatto sotto la
+	# base (l'utente: «sembrano staccate dal terreno»); vedi `StationGround`
+	holder.position = Vector2(o) * S + Vector2(0, StationGround.sink(id))
 	holder.z_index = 1
 	chunk.add_child(holder)
 	var sp := Sprite2D.new()
+	sp.name = "img"
 	sp.texture = tex["img"]
 	sp.centered = false
 	holder.add_child(sp)
+	if tex.has("shadow"):
+		var sh := Sprite2D.new()
+		sh.name = "shadow"
+		sh.texture = tex["shadow"]
+		sh.centered = false
+		sh.show_behind_parent = true
+		sh.position = Vector2(float(tex["shadow_x"]), float(sp.texture.get_height()) - StationGround.SHADOW_H + 1.0)
+		sp.add_child(sh)
 	var gl := Sprite2D.new()
+	gl.name = "glow"
 	gl.texture = tex["glow"]
 	gl.centered = false
 	gl.modulate = Color(1.8, 1.5, 1.2)
@@ -202,8 +214,8 @@ func set_machine_look(o: Vector2i, glow: bool, powered: bool, alpha := 1.0, glow
 func _apply_look(holder: Node2D, glow: bool, powered: bool, alpha := 1.0, glow_k := 1.0) -> void:
 	var col := Color.WHITE if powered else Color(0.62, 0.6, 0.66)
 	col.a = alpha
-	(holder.get_child(0) as Sprite2D).modulate = col
-	var gl := holder.get_child(1) as Sprite2D
+	(holder.get_node("img") as Sprite2D).modulate = col
+	var gl := holder.get_node("glow") as Sprite2D
 	gl.visible = glow
 	gl.modulate = Color(1.8, 1.5, 1.2, glow_k)
 

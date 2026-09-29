@@ -49,3 +49,32 @@ func run() -> void:
 	await kit.save("161_stati_e_pulsanti")
 	m.fauna.clear()
 	m.combat.god = false
+	await _ground_row()
+
+
+## 29 set 2026: una fila di stazioni su un tratto piano (affondo nel terreno, ombra di contatto, niente contorno sotto;
+## l'utente: «sembrano staccate dal terreno»). Foto 162_stazioni_a_terra.
+func _ground_row() -> void:
+	var w: World = kit.world
+	var ids := ["ceppo", "maglio", "alambicco", "cesta", "forziere_ambra", "totem_germoglio_2", "trappola_spuntoni_1",
+		"baccello_ardente", "telaio", "mola"]
+	var c := kit.flat_spot(w.spawn + Vector2i(30, 0), 14)
+	if c.x < 0:
+		c = Vector2i(w.spawn.x + 30, w.surface[w.spawn.x + 30] - 1)
+	kit.flatten(c, 14)
+	var x := c.x - 12
+	var placed: Array[Vector2i] = []
+	for id in ids:
+		var size: Array = StationsData.STATIONS[id]["size"]
+		var o := Vector2i(x, c.y - int(size[1]) + 1)
+		w.stations[o] = id
+		m.view.add_station(o)
+		placed.append(o)
+		x += int(size[0]) + 1
+	m.snap_to(c + Vector2i(0, 0))
+	await kit.seconds(0.4)
+	await kit.save("162_stazioni_a_terra")
+	for o in placed:
+		w.stations.erase(o)
+		w.chests.erase(o)
+		m.view.remove_station(o)

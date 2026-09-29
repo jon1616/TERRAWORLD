@@ -245,10 +245,31 @@ def misure_stazioni() -> dict:
     return out
 
 
+def senza_contorno_sotto(img: np.ndarray) -> np.ndarray:
+    """Toglie il contorno che sta sotto la figura (in ogni colonna, il pixel di contorno più basso che ha sopra un
+    pixel della figura) e le righe vuote rimaste in fondo."""
+    out = img.copy()
+    col = np.array(pixela.OUTLINE, dtype=np.int16)
+    for x in range(out.shape[1]):
+        ys = np.flatnonzero(out[:, x, 3] > 0)
+        if len(ys) < 2:
+            continue
+        y = ys[-1]
+        is_out = np.abs(out[y, x, :3].astype(np.int16) - col).sum() < 12
+        above_fig = np.abs(out[y - 1, x, :3].astype(np.int16) - col).sum() >= 12 and out[y - 1, x, 3] > 0
+        if is_out and above_fig:
+            out[y, x] = 0
+    rows = np.flatnonzero(out[:, :, 3].max(axis=1) > 0)
+    return out[:rows[-1] + 1] if len(rows) else out
+
+
 def riduci_in(a: np.ndarray, w: int, h: int, pal: np.ndarray, n_base: int) -> np.ndarray:
     """La figura dentro w×h pixel compreso il contorno, appoggiata in basso al centro (una stazione sta sul pavimento)."""
-    f = max(a.shape[0] / (h - 2), a.shape[1] / (w - 2))
-    img = pixela.riduci(a, f, pal, n_base, DETTAGLI, PIENO)[:h, :w]
+    # 29 set 2026 (l'utente: «gli oggetti posati sembrano staccati dal terreno»): niente contorno sul lato di sotto (la
+    # riga scura tra oggetto e terreno si leggeva come uno spazio) e la figura tocca il fondo della sua misura
+    f = max(a.shape[0] / (h - 1), a.shape[1] / (w - 2))
+    img = pixela.riduci(a, f, pal, n_base, DETTAGLI, PIENO)
+    img = senza_contorno_sotto(img)[:h, :w]
     out = np.zeros((h, w, 4), dtype=np.uint8)
     ih, iw = img.shape[:2]
     x0 = (w - iw) // 2

@@ -82,6 +82,10 @@ static func _stations() -> Dictionary:
 	for id in StationsData.STATIONS:
 		var a := StationArt.make(id)
 		st[id] = {"img": ImageTexture.create_from_image(a["img"]), "glow": ImageTexture.create_from_image(a["glow"])}
+		var sh := StationGround.shadow(a["img"])        # l'ombra di contatto sotto la base (29 set 2026)
+		if not sh.is_empty():
+			st[id]["shadow"] = ImageTexture.create_from_image(sh["img"])
+			st[id]["shadow_x"] = sh["x"]
 	return st
 
 
