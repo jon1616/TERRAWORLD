@@ -25,6 +25,8 @@ const HALLS := {
 	"gemme": {"name": "Sala delle gemme", "desc": "le quattro gemme dei mondi", "bonus": {"halo": 1.15}},
 	"perduti": {"name": "Sala dei Giardini perduti", "desc": "i doni degli Alberi guariti", "bonus": {"regen": 1.08}},
 	"unici": {"name": "Sala degli unici", "desc": "il primo oggetto di ogni serie", "bonus": {"magic": 1.05}},
+	"fossili": {"name": "Sala dei fossili", "desc": "le ventiquattro parti degli animali antichi", "bonus": {"dig": 1.08}},
+	"scheletri": {"name": "Sala degli scheletri", "desc": "gli otto animali antichi ricostruiti", "bonus": {"linfa_regen": 1.08}},
 }
 
 static var _pieces := {}
@@ -71,6 +73,14 @@ static func _build() -> void:
 		if not its.is_empty():
 			uni.append(String(its[0]))
 	_pieces["unici"] = uni
+	var fos := []
+	var ske := []
+	for a in ArchaeologyData.ANIMALS:                # voce 254
+		for p in ArchaeologyData.PARTS:
+			fos.append(ArchaeologyData.fossil_id(String(a), String(p[0])))
+		ske.append(ArchaeologyData.skeleton_id(String(a)))
+	_pieces["fossili"] = fos
+	_pieces["scheletri"] = ske
 
 
 ## La sala di un oggetto ("" se non va nel Museo).

@@ -21,6 +21,7 @@ func _restore(st: Dictionary, saved: Dictionary) -> void:
 
 func run() -> void:
 	await museum()
+	await archaeology()
 
 
 ## Voce 253: le sale nascono dai dati; un pezzo in una vetrina entra nel Museo una volta sola; la sala completa dà il
@@ -56,3 +57,38 @@ func museum() -> void:
 		print("ATTENZIONE: il Museo non va")
 	_restore(st, saved)
 	m.gear.refresh()
+
+
+## Voce 254: il mondo di prova ha i suoi giacimenti; senza Pennello niente; con il Pennello, otto colpi e un fossile dello
+## strato; tre parti al Maglio fanno lo scheletro; fossili e scheletri sono sale del Museo.
+func archaeology() -> void:
+	var ar: Archaeology = m.museum.arch
+	var sites := []
+	for o in m.world.stations:
+		if String(m.world.stations[o]) == "giacimento":
+			sites.append(o)
+	var o: Vector2i = m.player_cell() + Vector2i(1, 0)
+	m.world.stations[o] = "giacimento"
+	kit.hold("piccone_radicite")
+	ar.brush(o)
+	var untouched: bool = not m.world_meta.get("scavi", {}).has("%d,%d" % [o.x, o.y])
+	kit.hold("pennello")
+	var before: int = m.character.bisaccia.count("pennello")
+	for k in ArchaeologyData.BRUSHES:
+		ar.brush(o)
+	var gone: bool = not m.world.stations.has(o)
+	var got := ""
+	for a in ArchaeologyData.ANIMALS:
+		for p in ArchaeologyData.PARTS:
+			var id := ArchaeologyData.fossil_id(String(a), String(p[0]))
+			if m.character.bisaccia.count(id) > 0:
+				got = id
+	var r: Dictionary = RecipesData.making(ArchaeologyData.skeleton_id("grumo_primo"))[0]
+	var ok: bool = sites.size() >= 10 and untouched and gone and got != "" and (r["in"] as Dictionary).size() == 3 \
+		and MuseumData.pieces("fossili").size() == 24 and MuseumData.pieces("scheletri").size() == 8 and before >= 1
+	print("archeologia: %d giacimenti nel mondo; senza pennello nessun colpo %s; esaurito %s; fossile %s; scheletro da %d parti" % [
+		sites.size(), untouched, gone, got, (r["in"] as Dictionary).size()])
+	if not ok:
+		print("ATTENZIONE: l'archeologia non va")
+	if got != "":
+		m.character.bisaccia.remove(got, 1)

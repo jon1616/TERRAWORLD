@@ -6,11 +6,13 @@ extends Node
 ## da `GearEffects` (`bonuses`), e ogni pezzo dà bellezza al Giardino (`GardenBeauty`).
 
 var m: Node2D
+var arch: Archaeology                  # voce 254: l'archeologia
 var _t := 2.0
 
 
 func setup(main: Node2D) -> void:
 	m = main
+	arch = Archaeology.new(m)
 
 
 func _process(dt: float) -> void:

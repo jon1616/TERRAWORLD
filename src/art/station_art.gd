@@ -59,6 +59,8 @@ static func make(id: String) -> Dictionary:
 			_tenda(im, gm, w, h)
 		"vetrina":
 			_vetrina(im, gm, w, h)
+		"giacimento":
+			_giacimento(im, gm, w, h)
 		"portale":
 			_portale(im, gm, w, h)
 		"fagotto":
@@ -221,6 +223,21 @@ static func _vetrina(im: Image, gm: Image, w: int, h: int) -> void:
 	for y in range(4, h - 11):                              # un riflesso
 		Px.put(im, 4, y, Color(0.95, 1.0, 1.0, 0.7))
 		Px.put(gm, 4, y, Color(0.5, 0.7, 0.8))
+
+
+## Voce 254: un giacimento fossile, un sasso chiaro con un osso che spunta.
+static func _giacimento(im: Image, _gm: Image, w: int, h: int) -> void:
+	var st := Px.pal(TileDefs.P_PALLIDITE)
+	for y in range(h - 9, h):
+		for x in range(1, w - 1):
+			var d := Vector2((x + 0.5 - w / 2.0) / (w * 0.45), (y + 0.5 - h) / 9.0).length()
+			if d <= 1.0:
+				Px.put(im, x, y, st[clampi(3 - int(d * 3.0), 0, 4)])
+	var bone := Color("#f0e6d0")
+	for x in range(4, w - 4):
+		Px.put(im, x, h - 6, bone)
+	for p in [Vector2i(3, h - 7), Vector2i(3, h - 5), Vector2i(w - 4, h - 7), Vector2i(w - 4, h - 5)]:
+		Px.put(im, p.x, p.y, bone)
 
 
 static func _aiuola(im: Image, gm: Image, w: int, h: int) -> void:

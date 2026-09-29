@@ -280,6 +280,7 @@ static func all() -> Dictionary:
 	out.merge(OrchardData.items(CropsData.CROPS))          # voce 244: varietà e semi scelti
 	out.merge(CookingData.items())                         # voce 245: i piatti del Ricettario
 	out.merge(MuseumData.ITEMS.duplicate(true))            # voce 253: la vetrina del Museo
+	out.merge(ArchaeologyData.items())                     # voce 254: fossili, scheletri, pennello
 	out.merge(PlacesData.ITEMS.duplicate(true))            # voce 70
 	out.merge(NeroData.ITEMS.duplicate(true))              # voce 72
 	out.merge(LiquidsData.ITEMS.duplicate(true))           # voce 73

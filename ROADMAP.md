@@ -4260,10 +4260,15 @@ vetrina (un contenitore da una casella) entra nel Museo per sempre; sala complet
 ogni pezzo +2 di bellezza (`GardenBeauty`). La riga del Museo nel Libro dei pilastri; conteggi «museo» e «sale_museo».
 Prova nel gruppo nuovo `memorie`.
 
-## 254. [ ] L'archeologia (G)
+## 254. [x] L'archeologia (G) — fatto il 30 set 2026
 Strati fossili sotto terra (una passata): scavandoli con il **Pennello** (un attrezzo lento) escono **fossili** (24, per
 strato e bioma) e reperti dei Seminatori; tre fossili dello stesso animale al Maglio ricostruiscono uno **scheletro** da
 esporre. Conteggi per la maestria dei misteri.
+**Fatto**: `ArchaeologyData` (otto animali antichi, due per strato dal Sottobosco al Fondo, tre parti ciascuno: 24
+fossili; gli scheletri al Maglio; il Pennello al Ceppo), `PassGiacimenti` (26 giacimenti per mondo sui pavimenti delle
+grotte, lontani tra loro) e `Archaeology` (`src/game/archaeology.gd`, da `Museum.arch`): con il Pennello in mano otto
+clic destri sul giacimento, poi esce il fossile di quello strato che il personaggio ha di meno, e il giacimento
+sparisce. Le sale «fossili» (scavo +8%) e «scheletri» (Linfa +8%) nel Museo. Conteggio «fossili».
 
 ## 255. [ ] Le porte a indovinello (M)
 Porte dei Seminatori con una frase a cui manca una parola: si aprono scegliendo la parola giusta (fra quelle certe del
