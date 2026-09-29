@@ -18,6 +18,7 @@ func run(main: Node2D) -> void:
 	main.hazards.paused = true
 	main.events.paused = true              # niente eventi a caso sotto le misure
 	main.angler.paused = true              # Roadmap 27: i premi dei record di pesca cambierebbero i conti
+	main.contracts.set_process(false)      # e quelli dei contratti della rete (la prova li chiama a mano)
 	main.villagers.paused = true           # gli abitanti arrivano solo quando lo chiede la prova             # l'Avvizzimento non si allarga sotto le misure delle altre prove
 	# 28 set 2026: uno script delle prove che non compila fermava il giro senza chiuderlo (fino al tempo massimo):
 	# si controllano tutti prima di cominciare, e se uno è rotto si esce subito dicendo quale

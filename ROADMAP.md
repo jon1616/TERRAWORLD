@@ -4325,9 +4325,14 @@ la stessa per lo stesso giorno e mondo), da prendere grande almeno quanto l'arge
 dei giorni vinti di fila (`stats["gara_serie"]`) fa crescere la polvere iridata del premio (una cassa pescata sempre, un
 forziere ogni cinque), un giorno senza vittoria la azzera. Conteggio «gare_pesca».
 
-## 260. [ ] I contratti della rete (M)
+## 260. [x] I contratti della rete (M) — fatto il 30 set 2026
 La Tessitrice di vene propone tre contratti: una rete che dà tanti pulsi insieme, tante macchine che lavorano insieme,
 una Centrale risvegliata, tanti impulsi mandati; premi di pezzi rari e maestria della rete.
+**Fatto**: `NetContracts` (`src/game/net_contracts.gd`): quattro contratti della Tessitrice sempre aperti, ognuno con un
+grado che sale e una soglia ×1,6 a ogni grado (una rete che dà tanti pulsi insieme, tante macchine che lavorano insieme,
+tante gocce in una riserva, Centrali risvegliate), letti ogni 5 s dalla rete del mondo in cui si è; premi di cristalli,
+lingotti, polvere iridata e Linfa antica; la riga nel Libro dei pilastri; conteggio «contratti» (40 punti). Nelle prove
+non gira da solo (la prova lo chiama a mano). Gli impulsi mandati sono rimasti fuori: la rete non li conta ancora.
 
 ## 261. [ ] Enciclopedia, misura e resoconto (P)
 Capitoli, consigli, `tools/durata.gd` (i pilastri della pesca e della rete e la loro varietà), giro intero, GitHub.

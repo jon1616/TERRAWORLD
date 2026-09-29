@@ -22,6 +22,7 @@ func _restore(st: Dictionary, saved: Dictionary) -> void:
 func run() -> void:
 	await records()
 	await contest()
+	await contracts()
 
 
 ## Voce 258: la misura dà la medaglia; una medaglia migliore sostituisce la vecchia (con i premi di mezzo), una peggiore no.
@@ -105,3 +106,31 @@ func contest() -> void:
 	m.character.maestria.merge(mastery0)
 	m.gear.refresh()
 	ab.paused = true
+
+
+## Voce 260: i contratti leggono la rete del mondo; compiuto uno, il grado sale e la soglia cresce.
+func contracts() -> void:
+	var nc: NetContracts = m.contracts
+	var st: Dictionary = m.character.stats
+	var saved := st.duplicate()
+	var mastery0: Dictionary = m.character.maestria.duplicate(true)
+	var t0 := nc.target("centrali")
+	st["contratto_centrali"] = 0
+	st["centrali"] = 1
+	var got0: int = m.character.bisaccia.count("cristallo_linfa")
+	var done := nc.check()
+	var t1 := nc.target("centrali")
+	var again := nc.check()
+	var values := {}
+	for k in NetContracts.KINDS:
+		values[k] = nc.value(k)
+	var ok: bool = "centrali" in done and not "centrali" in again and t1 > 1 and nc.grade("centrali") == 1 and nc.line().contains("Tessitrice")
+	print("contratti della rete: compiuti %s, poi %s; soglia delle Centrali %d → %d; valori adesso %s" % [str(done), str(again), 1, t1, str(values)])
+	if not ok:
+		print("ATTENZIONE: i contratti della rete non vanno")
+	m.character.bisaccia.remove("cristallo_linfa", maxi(m.character.bisaccia.count("cristallo_linfa") - got0, 0))
+	m.character.bisaccia.remove("lingotto_legnoferro", 4)
+	_restore(st, saved)
+	m.character.maestria.clear()
+	m.character.maestria.merge(mastery0)
+	m.gear.refresh()
