@@ -54,7 +54,7 @@ const PILLARS := {
 
 ## Un conteggio del personaggio → i pilastri che nutre (punti per unità ≈ minuti di fatica).
 const STATS := {
-	"albero": [["storia", 150.0]], "catene": [["storia", 90.0], ["misteri", 20.0]], "cuore": [["storia", 30.0]],
+	"albero": [["storia", 150.0]], "perduti": [["storia", 120.0]], "catene": [["storia", 90.0], ["misteri", 20.0]], "cuore": [["storia", 30.0]],
 	"guardiani": [["storia", 60.0], ["combattimento", 40.0]], "leggende": [["storia", 120.0]], "seme_primo": [["storia", 300.0]],
 	"viaggi": [["esplorazione", 20.0]], "firme": [["esplorazione", 45.0]], "segreti": [["esplorazione", 15.0]],
 	"sigilli": [["esplorazione", 20.0]], "reliquiari": [["esplorazione", 15.0], ["misteri", 15.0]], "scrigni": [["esplorazione", 5.0]],

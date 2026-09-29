@@ -214,7 +214,8 @@ func species() -> void:
 			"volume": float(f.get("big", 30.0)), "night": String(f.get("time", "")) == "notte",
 			"season": String((f.get("season", ["germoglio"]) as Array)[0]),
 			"weather": String((f.get("weather", ["sereno"]) as Array)[0]), "genes": [f.get("gene", "")],
-			"sky": String((f.get("sky", [""]) as Array)[0])}      # Roadmap 16: i pesci delle pozze del cielo
+			"sky": String((f.get("sky", [""]) as Array)[0]),      # Roadmap 16: i pesci delle pozze del cielo
+			"perduto": String(f.get("perduto", ""))}               # Roadmap 21: i pesci dei Giardini perduti
 		if FishData.pool(ctx).any(func(e: Array) -> bool: return String(e[0]) == String(id)):
 			reach += 1
 		else:

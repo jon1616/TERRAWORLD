@@ -437,6 +437,10 @@ func _warn(ok: bool, msg: String) -> void:
 
 ## Voce 63: un oggetto che l'Albero-Madre chiede in offerta serve a qualcosa anche senza ricette.
 func _offered(id: String) -> bool:
+	for gid in LostGardensData.GARDENS:                  # Roadmap 21: ciò che le cure degli Alberi perduti chiedono
+		for cu in LostGardensData.GARDENS[gid]["cures"]:
+			if String((cu[3] as Dictionary).get("item", [""])[0]) == id:
+				return true
 	for st in MotherTreeData.STAGES:
 		for o0 in st["offers"]:
 			for o in (o0["any"] if (o0 as Dictionary).has("any") else [o0]):

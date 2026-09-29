@@ -167,6 +167,10 @@ const SERIES := {
 		"items": ["mazza_nodo", "pungiglione_regina", "scudo_colosso"]},
 	"ornamenti_evocati": {"name": "Ornamenti evocati", "pool": "evocati", "bonus": {"luck": 0.1, "regen": 1.1}, "desc": "più fortuna e la Vita ricresce +10% per sempre", "hint": "dai Guardiani evocati al Cerchio dei Seminatori",
 		"items": ["lingua_tizzone", "spina_inverno", "campana_rovo", "ramo_temporale", "falce_sete", "occhio_gufo", "pinna_lago", "muschio_ombra", "seme_secondo", "corno_cacciatore", "cuore_inverno", "rovo_vivo"]},
+	# Roadmap 21 (scritta a mano): i doni degli Alberi dei Giardini perduti guariti
+	"doni_perduti": {"name": "Doni dei Giardini perduti", "pool": "", "bonus": {"regen": 1.1, "luck": 0.1, "magic": 1.05},
+		"desc": "la Vita ricresce +10%, fortuna +10%, incantesimi +5% per sempre", "hint": "li donano gli Alberi dei Giardini perduti guariti",
+		"items": ["amo_radice_cosmo", "cuore_ingranaggio", "corno_selvatico", "voce_ritrovata"]},
 	"doni_biomi": {"name": "Doni dei biomi", "pool": "", "bonus": {"run": 1.05, "jump": 1.05, "halo": 1.1}, "desc": "corsa e salto +5%, alone più ampio per sempre", "hint": "si fabbricano con i trofei delle creature rare di ogni bioma",
 		"items": ["aquilone_vento", "cuore_sequoia", "cappello_vecchio", "ninfea_perenne", "clessidra_dune", "corno_branco", "seme_pietrificato", "fiamma_rinata"]},
 	"doni_profondo": {"name": "Doni del profondo e dei rari", "pool": "", "bonus": {"magic": 1.08, "luck": 0.1}, "desc": "incantesimi +8% e più fortuna per sempre", "hint": "dal sottosuolo, dai biomi rari e dalle creature nascoste",

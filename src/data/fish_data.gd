@@ -153,6 +153,8 @@ static func fits(f: Dictionary, ctx: Dictionary) -> bool:
 		return false
 	if f.has("gene") and not String(f["gene"]) in (ctx.get("genes", []) as Array):
 		return false
+	if String(f.get("perduto", "")) != String(ctx.get("perduto", "")) and f.has("perduto"):
+		return false                                   # Roadmap 21: i pesci di un Giardino perduto vivono solo lì
 	# Roadmap 16: nelle pozze del cielo solo i pesci del cielo (campo "sky": i biomi del cielo dove vivono)
 	var sky := String(ctx.get("sky", ""))
 	if f.has("sky") != (sky != ""):

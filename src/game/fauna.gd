@@ -45,6 +45,9 @@ var _t := 0.0
 var _rng := RandomNumberGenerator.new()
 
 signal killed(c: Creature)
+var lost_pool: Array = []              # Roadmap 21: le creature del Giardino perduto (`LostGardens`) attorno al suo Albero
+var lost_center := Vector2.INF
+var lost_r := 0.0
 signal hunted(prey: Creature, predator: Creature)      # voce 57: una preda presa da un predatore (niente bottino)
 signal grazed(c: Creature, cell: Vector2i)           # voce 57: erba o coltura mangiata
 ## voce 57: quanto una famiglia nasce in un punto (popolazioni per zona, `Ecology.factor`): (x in px, famiglia) -> float
@@ -285,6 +288,8 @@ func try_spawn() -> Creature:
 	var up: Array = UnderBiomesData.pool_at(world, c) if stratum > 0 else []
 	if not up.is_empty() and _rng.randf() < 0.75:
 		choices = up                                    # voce 94: le creature dei biomi del sottosuolo
+	if not lost_pool.is_empty() and (Vector2(c) * S).distance_to(lost_center) < lost_r and _rng.randf() < LostGardens.FAUNA_SHARE:
+		choices = lost_pool                             # Roadmap 21: il Giardino perduto
 	var sky_id := SkyData.zone_at(world, c.x, c.y) if stratum == 0 else ""
 	if sky_id != "":
 		var sp := SkyData.pool_of(sky_id, night)        # Roadmap 16: le creature del cielo

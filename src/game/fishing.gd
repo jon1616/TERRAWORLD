@@ -14,6 +14,7 @@ const DOWN := 8                          # tessere sotto il clic in cui si cerca
 const STEAL_R := 7.0                     # voce 133: tessere dal galleggiante entro cui un ladro di pesci ruba
 const STEAL_CHANCE := 0.5
 
+var on_catch := Callable()               # Roadmap 21: chi vuole sapere che pesce si è preso (`LostGardens`)
 var m: Node2D
 var line := {}                           # la lenza in acqua: {cell, from, rod, ctx, t, bite}
 var caught := 0                          # quanti pesci (per le prove)
@@ -114,6 +115,7 @@ func context(body: Dictionary) -> Dictionary:
 		"depth": int(body["depth"]), "volume": float(body["volume"]), "night": m.day.is_night(),
 		"season": String(m.seasons.info().get("id", "")), "weather": String(m.weather.id),
 		"genes": m.world_meta.get("geni", []),
+		"perduto": String((m.world_meta.get("perduto", {}) as Dictionary).get("id", "")) if m.world_meta.get("perduto") is Dictionary else "",
 		"sky": SkyData.zone_at(m.world, (body["center"] as Vector2i).x, (body["center"] as Vector2i).y)}
 
 
@@ -202,6 +204,8 @@ func catch() -> String:
 	caught += 1
 	last = {"id": id, "size": size, "record": better and not first, "n": n, "bait": bait}
 	m.objectives.bump("pesci")
+	if on_catch.is_valid():
+		on_catch.call(id)                        # Roadmap 21: le cure del Giardino sommerso
 	if first:
 		m.objectives.bump("specie_pescate")      # voce 124: obiettivi e Pescatore
 	if String(FishData.info(id)["rar"]) == "leggendario":

@@ -48,7 +48,7 @@ const GARDENS := {
 		"cures": [
 			["parole", "Ritrova otto parole nel Giardino muto", "le stele del cerchio attorno all'Albero (Quaderno, tasto U)", {"words": 8}],
 			["eco", "Portagli sei Eco di parola", "le lasciano le ombre che vagano nel cerchio", {"item": ["eco_parola", 6]}],
-			["custode", "Sconfiggi il Silenzio", "il Custode del Giardino, sotto il cerchio di stele", {"boss": "silenzio"}],
+			["custode", "Sconfiggi il Silenzio", "il Custode del Giardino, sotto il cerchio di stele", {"boss": "custode_silenzio"}],
 		],
 		"gifts": {"items": {"linfa_antica": 3, "voce_ritrovata": 1}}},
 }

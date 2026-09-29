@@ -3864,15 +3864,25 @@ Giardino muto; il posto si cerca lontano dalla partenza dove non pesta altre str
 (`LostGardensData.stations`, malati e guariti, disegnati da `MotherTreeArt` nel colore del Giardino).
 `tools/mappe.gd -- --perduto tutti`: otto mondi, collaudo pulito.
 
-## 223. [ ] Le cure dei quattro Alberi (G)
+## 223. [x] Le cure dei quattro Alberi (G) — fatto il 29 set 2026
 Ogni Albero perduto guarisce con tre cure del suo pilastro (`LostGardens`, stato in `world_meta["perduto"]` e
 `Character.stats`): pescare i suoi pesci e portargli l'acqua viva; dargli pulsi dalla sua rete e riaccendere la sua
 Centrale; addomesticare la sua bestia e far crescere il suo seme; ritrovare le sue parole e rispondere al suo enigma.
 Guarito dona e apre lo stadio dopo.
+**Fatto**: `LostGardens` (`src/game/lost_gardens.gd`): le cure che si compiono da sole (pesci del lago con
+`Fishing.on_catch`, parole certe nel mondo, una rete viva di N pulsi sull'Albero, una creatura della famiglia nella
+mandria), quelle da portare (clic destro sull'Albero, anche dalle casse vicine) e il Custode, che l'Albero sveglia quando
+il resto è fatto. Guarito: la stazione diventa «albero_<id>_vivo», i doni, `stats.perduto_<id>` e `perduti` (che nutre
+la storia nella maestria). La scheda dell'Albero con le tre cure (`StationTip`). Foto 245_albero_selvatico.
 
-## 224. [ ] Ciò che vive nei Giardini perduti (M)
+## 224. [x] Ciò che vive nei Giardini perduti (M) — fatto il 29 set 2026
 Il pacchetto `lost_gardens_pack.gd`: pesci, creature, una famiglia da addomesticare, una pianta, materiali e un oggetto
 unico per Giardino; un Custode del Giardino (boss) per ognuno.
+**Fatto**: nel pacchetto 8 creature (due per Giardino, `perduto` = nascono solo lì, attorno all'Albero:
+`Fauna.lost_pool`) e 4 Custodi (`lost_boss`: la Madre delle maree, il Telaio vivo, il Re dei rovi, il Silenzio), 8
+famiglie, i Cervi di rovo da addomesticare (e cavalcare), due pesci del lago sommerso (`FishData.fits` con `perduto`),
+materiali, trofei, i quattro talismani dei trofei, quattro oggetti dai Custodi (fiocina, guanti, mantello, libro), la
+marmellata di rovo e la serie di unici «Doni dei Giardini perduti».
 
 ## 225. [ ] Gli stadi 13-24 (M)
 I dodici stadi dell'Atto II con le offerte (sempre con una strada alternativa) e i doni (Aiuole, abitanti dei Giardini,
