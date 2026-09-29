@@ -276,6 +276,7 @@ static func all() -> Dictionary:
 	out.merge(LostGardensData.ITEMS.duplicate(true))       # Roadmap 21: i Semi del cosmo
 	out.merge(FestivalsData.ITEMS.duplicate(true))         # Roadmap 22: gli oggetti delle feste
 	out.merge(WondersData.items())                         # Roadmap 23: i ricordi delle meraviglie
+	out.merge(ExplorerData.ITEMS.duplicate(true))          # voce 239: gli attrezzi dell'esploratore
 	out.merge(PlacesData.ITEMS.duplicate(true))            # voce 70
 	out.merge(NeroData.ITEMS.duplicate(true))              # voce 72
 	out.merge(LiquidsData.ITEMS.duplicate(true))           # voce 73
@@ -409,4 +410,10 @@ static func use_of(id: String) -> String:
 			return "chiama"
 		"evocatore":
 			return "evoca"
+		"cannocchiale":                    # voce 239: gli attrezzi dell'esploratore
+			return "guarda"
+		"bussola":
+			return "orienta"
+		"radice_ritorno":
+			return "torna"
 	return ""

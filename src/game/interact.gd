@@ -112,6 +112,13 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 			return m.masonry.place_wall(c, id)
 		"esplosivo", "ricurvo", "giavellotto":
 			return m.throwing.throw(id, m.fx.get_global_mouse_position())
+		"cannocchiale":
+			return m.atlas.explorer.scope(c)            # voce 239: gli attrezzi dell'esploratore
+		"bussola":
+			m.atlas.explorer.compass()
+			return true
+		"radice_ritorno":
+			return m.atlas.explorer.go_home(id)
 		"specchio":
 			# lo Specchio del guizzo: si torna al punto di partenza del mondo
 			Fx.puff(m.fx, m.player.position, Color(0.8, 1.6, 1.7))
@@ -247,6 +254,8 @@ func touch(c: Vector2i) -> bool:
 		return m.traps.lever(o)
 	if id.begins_with("nastro_"):
 		return m.farms.flip_belt(o)                      # voce 89
+	if id == "tenda_campo" and m.get("atlas") != null:
+		return m.atlas.explorer.camp(o)                  # voce 239: il campo dell'esploratore
 	match StationsData.role(id):                        # voce 141: i letti della serie sono letti
 		"maglio":
 			m.vigor.temper_hand()                        # voce 79: la tempra

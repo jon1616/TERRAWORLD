@@ -13,6 +13,7 @@ var player: Player
 var drops: Drops
 var shots: Projectiles
 var enabled := true                    # le prove lo spengono per non essere disturbate
+var camp := Vector2i(-1, -1)            # voce 239: il campo della Tenda (niente nascite attorno, `ExplorerData.CAMP_R`)
 var night := false                     # lo aggiorna `DayCycle`: di notte la superficie è più pericolosa
 var sfx: Sfx
 var light: LightMap                    # per nascere solo al buio
@@ -101,7 +102,7 @@ func weight_of(id: String, x := -1.0) -> float:
 
 ## Una creatura della specie nasce davanti a un nido (voce 58), se il posto è libero e al buio (sotto terra).
 func spawn_at_nest(species: String, cell: Vector2i) -> Creature:
-	if world.torch_near(cell, 8.0):
+	if world.torch_near(cell, 8.0) or near_camp(cell):
 		return null
 	var stratum := StrataData.at(world, cell.x, cell.y)
 	if stratum > 0 and not _dark(cell):
@@ -315,8 +316,8 @@ func try_spawn() -> Creature:
 	for k in 12:
 		var y := c.y + (k if not fly else 0)
 		if _free(c.x, y) and (fly or world.solid(c.x, y + 1)):
-			if world.torch_near(Vector2i(c.x, y), 8.0):
-				return null                # la luce delle torce tiene lontane le creature
+			if world.torch_near(Vector2i(c.x, y), 8.0) or near_camp(Vector2i(c.x, y)):
+				return null                # la luce delle torce (e il campo della Tenda) tiene lontane le creature
 			if stratum > 0 and not _dark(Vector2i(c.x, y)):
 				return null                # sotto terra si nasce solo al buio
 			var cr := add(id, Vector2(c.x * S + 8, (y + 1) * S - CreaturesData.get_data(id)["half"][1] - 0.1))
@@ -345,6 +346,10 @@ func try_spawn() -> Creature:
 static func player_wall(w: World, c: Vector2i) -> bool:
 	var wl := w.wall(c.x, c.y)
 	return wl == TileDefs.WALL_ASSI or wl == TileDefs.WALL_MATTONI or wl >= BuildData.WALL_BASE
+
+
+func near_camp(c: Vector2i) -> bool:
+	return camp.x >= 0 and Vector2(c - camp).length() < ExplorerData.CAMP_R
 
 
 ## Voce 73: una creatura d'acqua in una cella piena di liquido (solo al buio sotto terra, come le altre).

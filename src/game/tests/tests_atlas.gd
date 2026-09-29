@@ -17,6 +17,7 @@ func run() -> void:
 	await pages()
 	await wonders()
 	await expeditions()
+	await tools()
 
 
 ## Voce 235: le stelle si segnano da sole quando il mondo le dà; ogni cinque stelle un premio; il pannello le mostra.
@@ -186,3 +187,45 @@ func expeditions() -> void:
 	m.character.bisaccia.remove("mappa_seminatori", maxi(map_got, 0))
 	m.character.bisaccia.remove("tavoletta_seminatori", 2)
 	m.character.spedizioni = saved
+
+
+## Voce 239: la Tenda pianta il campo (rinascita e niente nascite attorno), il cannocchiale scopre la mappa lontano, la
+## bussola indica una meraviglia non vista.
+func tools() -> void:
+	var ex: ExplorerTools = m.atlas.explorer
+	var pc: Vector2i = m.player_cell()
+	var saved_camp: Vector2i = m.fauna.camp
+	var saved_meta: Variant = m.world_meta.get("campo", null)
+	var saved_beds: Dictionary = (m.world_meta.get("letti", {}) as Dictionary).duplicate()
+	var o := pc + Vector2i(-1, -1)
+	m.world.stations[o] = "tenda_campo"
+	var camped := ex.camp(o)
+	var respawn: Vector2i = m.masonry.respawn_point()
+	var safe: bool = m.fauna.near_camp(pc) and not m.fauna.near_camp(pc + Vector2i(40, 0))
+	m.world.stations.erase(o)
+	var far := pc + Vector2i(100, 30)
+	var i: int = far.y * m.world.w + far.x
+	var was: int = m.world.explored[i]
+	m.world.explored[i] = 0
+	m.vitals.linfa = m.vitals.linfa_max
+	var seen: bool = ex.scope(far) and m.world.explored[i] == 1
+	m.world.explored[i] = was
+	var list: Array = m.atlas.wonders.list()
+	var vis := []
+	for e in list:
+		vis.append(e.get("vista", false))
+		e["vista"] = false
+	var k := ex.compass()
+	for j in list.size():
+		list[j]["vista"] = vis[j]
+	var ok: bool = camped and respawn == o + Vector2i(1, 1) and safe and seen and (k != "" or list.is_empty())
+	print("attrezzi dell'esploratore: campo %s (rinascita %s, niente nascite attorno %s); cannocchiale %s; bussola «%s»" % [
+		camped, str(respawn), safe, seen, k])
+	if not ok:
+		print("ATTENZIONE: gli attrezzi dell'esploratore non vanno")
+	m.fauna.camp = saved_camp
+	if saved_meta == null:
+		m.world_meta.erase("campo")
+	else:
+		m.world_meta["campo"] = saved_meta
+	m.world_meta["letti"] = saved_beds

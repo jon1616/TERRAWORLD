@@ -4072,10 +4072,15 @@ meraviglia è una mai vista, la pagina quella più avanti; premi con un Seme di 
 `seed_genome`; conteggio «spedizioni» = 45 punti d'esplorazione). Scheda «Le spedizioni» nell'Atlante e la fonte
 «spedizione» del filo. Foto 253.
 
-## 239. [ ] Gli attrezzi dell'esploratore (M)
+## 239. [x] Gli attrezzi dell'esploratore (M) — fatto il 29 set 2026
 La Tenda da campo (il punto di rinascita portatile, una per mondo), il Cannocchiale (scopre la mappa lontano, dove
 guardi), la Bussola delle meraviglie (indica la più vicina non ancora vista), la Radice di ritorno (riporta al Giardino).
 Rispettano il tempo del giocatore: meno strada a vuoto, più scoperte.
+**Fatto**: `ExplorerData` e `ExplorerTools` (`src/game/explorer_tools.gd`): la Tenda da campo (stazione con il ruolo di
+letto; clic destro = si rinasce lì e si pianta il campo, `Fauna.camp`: niente nascite entro 24 tessere, uno per mondo),
+il Cannocchiale di ambra (scopre la mappa in un cerchio di 14 tessere fino a 160 di distanza, 3 Linfa), la Bussola delle
+meraviglie (distanza e direzione della meraviglia più vicina non vista) e la Radice di ritorno (si consuma e riporta al
+Giardino). Ricette a Telaio, Maglio e Ceppo; tenda, radici e cannocchiale anche dal Cartografo.
 
 ## 240. [ ] Enciclopedia, misura e resoconto (P)
 Capitoli, consigli, `tools/durata.gd` (il pilastro dell'esplorazione e la sua varietà), giro intero, GitHub.

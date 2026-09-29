@@ -10,6 +10,7 @@ var panel: AtlasPanel
 var wonders: Wonders                   # voce 237: le meraviglie del mondo
 var pages: BiomePages                  # voce 236: le pagine dei biomi
 var expeditions: Expeditions           # voce 238: le spedizioni del Cartografo
+var explorer: ExplorerTools            # voce 239: gli attrezzi dell'esploratore
 var _t := 1.0
 
 
@@ -21,6 +22,7 @@ func setup(main: Node2D) -> void:
 	m.hud.overlays.append(panel)
 	pages = BiomePages.new(m)
 	expeditions = Expeditions.new(m)
+	explorer = ExplorerTools.new(m)
 	wonders = Wonders.new(m)
 	if here():
 		_record()

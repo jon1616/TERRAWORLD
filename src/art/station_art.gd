@@ -55,6 +55,8 @@ static func make(id: String) -> Dictionary:
 			_cuore(im, gm, w, h, true)
 		"cuore_meraviglia":
 			_meraviglia(im, gm, w, h)
+		"tenda_campo":
+			_tenda(im, gm, w, h)
 		"portale":
 			_portale(im, gm, w, h)
 		"fagotto":
@@ -180,6 +182,28 @@ static func _meraviglia(im: Image, gm: Image, w: int, h: int) -> void:
 			if absi(dx) + absi(dy) <= 2:
 				Px.put(im, int(cx) + dx, h - 10 + dy, Color("#ffffff"))
 				Px.put(gm, int(cx) + dx, h - 10 + dy, Color("#ffffff"))
+
+
+## Voce 239: la Tenda da campo, un telo di foglie su due pali, con una lanterna accesa davanti.
+static func _tenda(im: Image, gm: Image, w: int, h: int) -> void:
+	var leaf := Px.pal(TileDefs.P_GRASS)
+	var wood := Px.pal(TileDefs.P_ASSI)
+	var cx := w / 2.0
+	for y in range(3, h):
+		var half := (y - 2.0) / (h - 2.0) * (w * 0.46)
+		for x in range(int(cx - half), int(cx + half) + 1):
+			var edge := absf(x + 0.5 - cx) > half - 1.5
+			var c: Color = leaf[1] if edge else leaf[clampi(2 + (1 if x < cx else 0) - (1 if (x + y) % 5 == 0 else 0), 0, 4)]
+			Px.put(im, x, y, c)
+	for y in range(h - 9, h):                               # l'entrata, scura
+		for x in range(int(cx - 2 - (y - h + 9) * 0.35), int(cx + 3 + (y - h + 9) * 0.35)):
+			Px.put(im, x, y, wood[0])
+	for y in range(1, 5):                                   # la punta del palo
+		Px.put(im, int(cx), y, wood[2])
+	for y in range(h - 6, h - 2):                           # la lanterna accesa
+		for x in range(int(cx + 9), int(cx + 12)):
+			Px.put(im, x, y, Color("#ffd070"))
+			Px.put(gm, x, y, Color("#ffd070"))
 
 
 static func _aiuola(im: Image, gm: Image, w: int, h: int) -> void:
