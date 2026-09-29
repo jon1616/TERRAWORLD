@@ -783,6 +783,13 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     (`Chronicles`: le otto storie di `ChroniclesData`, frammenti nelle tabelle «rovina_N» di `LootData`), `goals`
     (`Milestones`: i dieci traguardi delle collezioni).
   - Prove: gruppo «memorie» (`TestsMemories`). Enciclopedia: `EncyMemoriesData`.
+- **Roadmap 27 «Acque e correnti»** (voci 258-261, 30 set 2026; pesca 30 ore, rete 35):
+  - `AnglerBook` (segnale `Fishing.fish_caught`: medaglie delle misure in `stats["record_<pesce>"]`, la gara del giorno
+    con la serie `gara_serie`; `paused` nelle prove) e `NetContracts` (quattro contratti della Tessitrice con il grado in
+    `stats["contratto_<tipo>"]`, letti dalla rete di `Energy`; nelle prove fermo).
+  - Prove: gruppo «correnti» (`TestsCurrents`). Enciclopedia: `EncyCurrentsData`.
+  - Una prova che dà premi o punti di maestria rimette com'erano Bisaccia (le quantità esatte) **e** `Character.maestria`:
+    un grado della pesca in più cambiava la fortuna di pesca delle prove della pesca.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni
@@ -1103,5 +1110,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   niente `load()` di file. Il 28 set 2026 le stazioni cominciarono a caricare i disegni di Nano Banana e il mondo non si
   apriva più (il thread aspettava il principale, il principale aspettava il thread). Chi aggiunge file a un pittore
   controlla se quel pittore gira in un thread.
+- **Una voce in più in una tabella di bottino usata dal generatore** (le casse delle rovine) cambia quanti numeri a caso
+  usa quella passata, quindi sposta tutto ciò che la passata fa dopo: con le cronache della Roadmap 26 le rovine si sono
+  spostate e una tana dei Custodi non trovava più posto. Le passate che piazzano cose obbligatorie devono avere un
+  ripiego (meno distanza, più tentativi), non contare sulla fortuna del seme.
 - `String(x)` con un numero è un errore: per un campo che può essere numero o testo («place» è un numero per i blocchi)
   si usa `str(x)`. Trappole e totem lo sbagliavano a ogni fotogramma con un blocco in mano.

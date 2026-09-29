@@ -41,7 +41,7 @@ const PILLARS := {
 	"orto": {"name": "L'orto e la cucina", "color": Color("#b0e060"), "icon": ["seme", "muschio"], "hours": 30,
 		"desc": "Seminare, raccogliere, cucinare e distillare.",
 		"hint": "semina e raccogli, cucina al paiolo, distilla all'alambicco"},
-	"pesca": {"name": "La pesca", "color": Color("#8ad8ff"), "icon": ["pesce", "lagunite"], "hours": 25,
+	"pesca": {"name": "La pesca", "color": Color("#8ad8ff"), "icon": ["pesce", "lagunite"], "hours": 30,
 		"desc": "Le acque di ogni mondo e ciò che ci vive.",
 		"hint": "pesca una specie che non hai ancora"},
 	"rete": {"name": "La rete di Linfa", "color": Color("#6ff0c0"), "icon": ["radice_viaggio", "linfa"], "hours": 35,

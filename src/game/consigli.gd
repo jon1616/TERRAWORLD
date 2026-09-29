@@ -401,3 +401,11 @@ func _c_cronaca() -> bool:
 
 func _c_fossile() -> bool:
 	return int(m.character.stats.get("fossili", 0)) >= 1
+
+
+func _c_medaglia_pesca() -> bool:
+	return int(m.character.stats.get("medaglie_pesca", 0)) >= 1
+
+
+func _c_contratto() -> bool:
+	return int(m.character.stats.get("contratti", 0)) >= 1

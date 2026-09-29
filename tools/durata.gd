@@ -241,6 +241,10 @@ func _variety() -> void:
 			["serie di unici", UniqueSeriesData.SERIES.size(), 60.0], ["pezzi del Museo", museum_pieces, 3.0],
 			["fossili", ArchaeologyData.ANIMALS.size() * 3, 12.0], ["cronache", ChroniclesData.STORIES.size(), 40.0],
 			["traguardi", 10, 20.0]],
+		"pesca": [["specie da pescare", FishData.all().size(), 8.0], ["medaglie d'oro", FishData.all().size(), 6.0],
+			["unici della pesca", 6, 20.0], ["gare (le prime trenta)", 30, 10.0]],
+		"rete": [["macchine da costruire", MachinesData.MACHINES.size(), 12.0], ["contratti (cinque gradi ciascuno)", 4 * 5, 25.0],
+			["Centrali dei Seminatori", 6, 30.0]],
 		"orto": [["colture", CropsData.CROPS.size() - OrchardData.VARIETIES.size(), 20.0], ["varietà da incrocio", OrchardData.VARIETIES.size(), 45.0],
 			["semi scelti", CropsData.CROPS.size(), 10.0], ["piatti del Ricettario", CookingData.DISHES.size(), 12.0]],
 	}

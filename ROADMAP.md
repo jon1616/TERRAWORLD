@@ -16,7 +16,8 @@
   meraviglie, spedizioni, attrezzi dell'esploratore. **Fatta la Roadmap 24 «Stirpi e semi»** (voci 241-246): stirpi,
   fiere e lavori della mandria; qualità, incroci e cucina dell'orto. **Fatta la Roadmap 25 «Le arti»** (voci 247-252):
   maestrie e tecniche delle armi, taglie, prove del Cerchio. **Fatta la Roadmap 26 «Memorie»** (voci 253-257): Museo,
-  archeologia, cronache perdute, traguardi. Il modello dà ~513 ore al giocatore medio.
+  archeologia, cronache perdute, traguardi. **Fatta la Roadmap 27 «Acque e correnti»** (voci 258-261): record e gare di
+  pesca, contratti della rete. Il modello dà ~518 ore al giocatore medio.
 - **Fatta la Roadmap 19 «La Linfa che scorre»** (voci 190-213, 29 set 2026, in autonomia): vene del Flusso e fili
   dell'Impulso, 64 macchine (sorgenti, riserve, macchine che lavorano, sensori, nodi della logica), le Centrali dei
   Seminatori, la Tempesta di Linfa, Succhiavena e Lucciole, la Tessitrice, il primo circuito guidato. Resoconto in fondo
@@ -4334,8 +4335,15 @@ tante gocce in una riserva, Centrali risvegliate), letti ogni 5 s dalla rete del
 lingotti, polvere iridata e Linfa antica; la riga nel Libro dei pilastri; conteggio «contratti» (40 punti). Nelle prove
 non gira da solo (la prova lo chiama a mano). Gli impulsi mandati sono rimasti fuori: la rete non li conta ancora.
 
-## 261. [ ] Enciclopedia, misura e resoconto (P)
+## 261. [x] Enciclopedia, misura e resoconto (P) — fatto il 30 set 2026
 Capitoli, consigli, `tools/durata.gd` (i pilastri della pesca e della rete e la loro varietà), giro intero, GitHub.
+**Fatto**: `EncyCurrentsData` (Record e gare di pesca; I contratti della Tessitrice), due consigli, `tools/durata.gd` con la
+varietà della pesca (23 ore) e della rete (25). Il pilastro della pesca sale da 25 a 30 ore.
+
+### Resoconto della Roadmap 27 (30 set 2026)
+La pesca ha una meta lunga: il **libro dei record** con bronzo, argento e oro per ognuna delle 67 specie, e la **gara del
+giorno** del Pescatore con la sua serie. La rete ha i **contratti della Tessitrice**, quattro richieste che crescono di
+grado e chiedono reti sempre più grandi. Tutto al grado 10: ~464 ore (518 per il giocatore medio).
 
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».

@@ -121,6 +121,11 @@ const LIST := [
 		"text": "Hai trovato un frammento delle [b]cronache perdute[/b]: leggilo nella sua scheda. Con tutti e cinque i frammenti di una storia, la storia si ricompone."},
 	{"id": "fossile", "title": "Un fossile", "cap": "archeologia",
 		"text": "Un [b]fossile[/b] da un giacimento: tre parti dello stesso animale fanno lo scheletro, al Maglio. Fossili e scheletri si espongono nelle Vetrine del Museo, nel Giardino."},
+	# Roadmap 27 «Acque e correnti»
+	{"id": "medaglia_pesca", "title": "Una medaglia di pesca", "cap": "record_pesca",
+		"text": "Il tuo pesce più grande di una specie vale una [b]medaglia[/b]: bronzo, argento, oro secondo la misura. E ogni giorno c'è la gara del Pescatore: il Libro dei pilastri ({pilastri}) dice quale."},
+	{"id": "contratto", "title": "Un contratto della Tessitrice", "cap": "contratti_rete",
+		"text": "Hai compiuto un [b]contratto della rete[/b]: la Tessitrice ne ha sempre quattro, e ognuno cresce di grado. Il Libro dei pilastri ({pilastri}) mostra le soglie."},
 ]
 
 
