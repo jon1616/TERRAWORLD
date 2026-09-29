@@ -72,7 +72,7 @@ func plant(c: Vector2i, id: String) -> bool:
 	var v := Genome.vigor(g)
 	_portals()[_key(o)] = {"mondo": String(g.get("mondo", "")), "seme": sd, "ritorno": false, "geni": Genome.genes(g),
 		"vigore": v if v > 0 else vigor() + 1, "aiuola": true, "nero": bool(g.get("nero", false)),
-		"primo": bool(g.get("primo", false))}
+		"primo": bool(g.get("primo", false)), "perduto": String(g.get("perduto", ""))}
 	m.guardian.lore.show_page("portale")
 	m.sfx.play("portale", Vector2(o) * 16.0)
 	pregen(o)
@@ -89,7 +89,7 @@ func pregen(o: Vector2i) -> void:
 	if e.get("ritorno", false):
 		return
 	WorldPregen.start(int(dest[2]), WorldGen.WIDTH, WorldGen.HEIGHT,
-		MainBoot.gen_params(dest[3], e.get("geni", []), false, m.character, e.get("nero", false)))
+		MainBoot.gen_params(dest[3], e.get("geni", []), false, m.character, e.get("nero", false), String(e.get("perduto", ""))))
 
 
 func _add_station(o: Vector2i) -> void:
@@ -183,6 +183,8 @@ func destination(o: Vector2i) -> Array:
 	var nm := NeroData.WORLD_NAME if e.get("nero", false) else NamesData.world_name(e.get("geni", []), int(e["seme"]))
 	if e.get("primo", false):
 		nm = "Il Primo Mondo"                    # voce 81
+	if String(e.get("perduto", "")) != "":
+		nm = LostGardensData.name_of(String(e["perduto"]))   # Roadmap 21
 	return [id, nm, int(e["seme"]), _dest_vigor(e)]
 
 
@@ -199,7 +201,7 @@ func travel(o: Vector2i) -> void:
 		e["mondo"] = nid
 		Session.start_new_world(String(dest[1]), int(dest[2]), nid, {"vigore": int(dest[3]), "ritorno": m.world_id,
 			"geni": e.get("geni", []), "casa": m.aiuole.home_id(), "nero": e.get("nero", false),
-			"primo": e.get("primo", false), "sfida": String(e.get("sfida", "")),
+			"primo": e.get("primo", false), "perduto": String(e.get("perduto", "")), "sfida": String(e.get("sfida", "")),
 			"sfida_livello": m.challenges.next_level(String(e["sfida"])) if String(e.get("sfida", "")) != "" else 0})
 	m.objectives.bump("viaggi")
 	m.save_game()

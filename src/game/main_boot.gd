@@ -19,6 +19,8 @@ static func new_world(m: Node2D) -> void:
 		m.world_meta["nero"] = true              # voce 72: il mondo dove cadde il Seme Nero
 	if nw.get("primo", false):
 		m.world_meta["primo"] = true             # voce 81: il mondo del Seme Primo
+	if String(nw.get("perduto", "")) != "":
+		m.world_meta["perduto"] = {"id": String(nw["perduto"])}   # Roadmap 21: un Giardino perduto
 	if String(nw.get("sfida", "")) != "":
 		Challenges.start(m.world_meta, String(nw["sfida"]), int(nw.get("sfida_livello", 1)))   # voce 82
 	if nw.get("giardino", false):
@@ -31,7 +33,7 @@ static func new_world(m: Node2D) -> void:
 	m.world = World.new()
 	var sd: int = nw["seme"]
 	var params := gen_params(nw.get("vigore", 1), nw.get("geni", []), nw.get("giardino", false), m.character,
-		nw.get("nero", false))
+		nw.get("nero", false), String(nw.get("perduto", "")))
 	var gw := WorldGen.GARDEN_W if params["giardino"] else WorldGen.WIDTH
 	var gh := WorldGen.GARDEN_H if params["giardino"] else WorldGen.HEIGHT
 	# preparato in anticipo quando il Seme fu piantato (`WorldPregen`)? allora è già pronto
@@ -49,10 +51,12 @@ static func new_world(m: Node2D) -> void:
 
 ## I parametri del generatore per un mondo nuovo (li usa anche `Portal.plant` per prepararlo in anticipo: devono
 ## essere gli stessi).
-static func gen_params(vigor: Variant, genes: Variant, garden: Variant, character: Character, nero: Variant) -> Dictionary:
+static func gen_params(vigor: Variant, genes: Variant, garden: Variant, character: Character, nero: Variant,
+		perduto := "") -> Dictionary:
 	return {"vigore": int(vigor), "geni": genes, "giardino": garden,
 		"catene": Chains.pending(character),   # voce 69: le cripte delle tappe aperte
-		"nero": nero}                          # voce 72
+		"nero": nero,                          # voce 72
+		"perduto": perduto}                    # Roadmap 21: il Giardino perduto (`PassPerduto`)
 
 
 ## La schermata d'attesa mentre il mondo si carica o nasce.

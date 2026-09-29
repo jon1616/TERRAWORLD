@@ -16,6 +16,23 @@ extends RefCounted
 ## Roadmap 20, voce 217, **strade alternative**: {"any": [offerta, offerta, …]} = basta una di queste (le strade di
 ## pilastri diversi: chi costruisce, chi esplora, chi alleva avanza ognuno a modo suo). `AlberoMadre.alt`.
 
+## Roadmap 21: gli **atti** della storia dell'Albero (il primo stadio di ognuno e il nome). Il dono `seed` di uno stadio
+## = il Seme del cosmo di un Giardino perduto (`LostGardensData`).
+const ACTS := [
+	{"first": 0, "name": "Il risveglio"},
+	{"first": 12, "name": "Le radici del cosmo"},
+]
+
+
+## L'atto di uno stadio (indice in `ACTS`).
+static func act_of(stage: int) -> int:
+	var a := 0
+	for i in ACTS.size():
+		if stage >= int(ACTS[i]["first"]):
+			a = i
+	return a
+
+
 const STAGES := [
 	{"name": "Il primo respiro", "say": "Il legno mi pesa. Portami terra e legno del Giardino, e va' a vedere il primo mondo.",
 		"offers": [

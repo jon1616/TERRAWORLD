@@ -3836,16 +3836,22 @@ luogo che esiste solo lì.
 - **Il Giardino muto** (misteri e lingua): un Albero che ha dimenticato le sue parole.
 Obiettivo: ~45 ore di storia in più (misura `tools/durata.gd`).
 
-## 220. [ ] Gli Atti dell'Albero-Madre (M)
+## 220. [x] Gli Atti dell'Albero-Madre (M) — fatto il 29 set 2026
 `MotherTreeData.ACTS` (gli atti con il loro nome e il primo stadio), il pannello e la riga dell'HUD dicono l'atto;
 l'Atto I resta com'è e finisce con «Il risveglio». Il dono nuovo `seed`: un Seme del cosmo (un Seme di mondo con il
 Giardino perduto nei dati).
 **Pronto quando**: la prova passa dall'Atto I all'Atto II.
+**Fatto**: `MotherTreeData.ACTS` e `act_of`; il pannello dell'Albero mostra l'atto e i suoi stadi, la riga dell'HUD dice
+l'atto; il dono `seed` mette nella Bisaccia il Seme del cosmo del Giardino (genoma con "perduto").
 
-## 221. [ ] I Giardini perduti nei dati (M)
+## 221. [x] I Giardini perduti nei dati (M) — fatto il 29 set 2026
 `LostGardensData`: i quattro Giardini (nome, pilastro, geni del mondo, il Seme del cosmo, l'Albero perduto, le tre cure,
 i doni, le pagine). Il parametro `perduto` del generatore passa dal portale come il Seme Nero (`Portal`, `MainBoot`,
 `WorldPregen`); il nome del mondo è il nome del Giardino.
+**Fatto**: `LostGardensData` (i quattro Giardini: pilastro, vigore 4-7, geni, Seme del cosmo, Albero, tre cure con il
+loro compimento, doni) e il pacchetto `lost_gardens_pack.gd` (i materiali delle cure e i quattro doni unici). Il
+parametro `perduto` passa da `Portal` (piantare, prepararsi in anticipo, viaggio, nome del mondo) a `MainBoot`
+(`gen_params`, `world_meta["perduto"]`). Prova nel gruppo nuovo `perduti`.
 
 ## 222. [ ] I luoghi dei Giardini perduti (G)
 `PassPerduto`: l'Albero perduto (una stazione grande, malata e guarita) nel suo luogo: sotto un lago, dentro una sala

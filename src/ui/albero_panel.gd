@@ -89,10 +89,13 @@ func _process(_dt: float) -> void:
 func _refresh() -> void:
 	var s := am.stage()
 	var n := MotherTreeData.STAGES.size()
-	_title.text = "L'Albero-Madre — stadio %d su %d" % [s, n]
+	var act := MotherTreeData.act_of(mini(s, n - 1))
+	_title.text = "L'Albero-Madre — Atto %s «%s» — stadio %d su %d" % [["I", "II", "III"][act], MotherTreeData.ACTS[act]["name"], s, n]
 	for c in _stages.get_children():
 		c.queue_free()
 	for i in n:
+		if MotherTreeData.act_of(i) != act:
+			continue                                  # Roadmap 21: si vedono gli stadi dell'atto di adesso
 		var l := Label.new()
 		var st: Dictionary = MotherTreeData.STAGES[i]
 		l.text = ("✓ " if i < s else ("▶ " if i == s else "   ")) + String(st["name"])
@@ -140,6 +143,8 @@ func _refresh() -> void:
 		gifts.append("arriva al Giardino %s" % NpcData.name_of(String(gv["npc"])))
 	if gv.has("graft"):
 		gifts.append("il Banco dell'Innestatrice sa innestare i geni di %s" % ", ".join(gv["graft"]))
+	if gv.has("seed"):
+		gifts.append("un Seme del cosmo: la strada per %s" % LostGardensData.name_of(String(gv["seed"])))
 	if gv.has("items"):
 		var names := []
 		for id in gv["items"]:

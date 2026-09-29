@@ -150,8 +150,16 @@ func awaken() -> bool:
 		news.append("arriverà %s" % NpcData.name_of(String(gv["npc"])))
 	if gv.has("graft"):
 		news.append("si possono innestare i geni di %s" % ", ".join(gv["graft"]))
+	if gv.has("seed"):                             # Roadmap 21: un Seme del cosmo, la strada per un Giardino perduto
+		var sid := String(gv["seed"])
+		var gen := LostGardensData.genome(sid)
+		var item := String(LostGardensData.GARDENS[sid]["seed"])
+		if m.character.bisaccia.add_stack({"id": item, "n": 1, "dati": gen}) > 0:
+			m.drops.spawn(item, 1, m.player.position, gen)
+		news.append("un Seme del cosmo: %s" % LostGardensData.name_of(sid))
 	if gv.has("items"):
-		news.append("il corredo della rete (il filo ti guida al primo circuito)")
+		news.append("il corredo della rete (il filo ti guida al primo circuito)" if (gv["items"] as Dictionary).has("pinza_vene")
+			else "dei doni")
 		for id in gv["items"]:
 			var rest: int = m.character.bisaccia.add(String(id), int(gv["items"][id]))
 			if rest > 0:
@@ -226,5 +234,6 @@ func _process(dt: float) -> void:
 		var p := progress(i)
 		var what := String(o.get("text", ItemsData.get_item(String(o.get("item", ""))).get("name", "")))
 		parts.append("%s %d/%d" % [what, int(p[0]), int(p[1])] if int(p[0]) < int(p[1]) else "%s ✓" % what)
-	_label.text = "Albero-Madre, «%s»: %s%s" % [current()["name"], " · ".join(parts),
+	var act := MotherTreeData.act_of(stage())
+	_label.text = "Albero-Madre%s, «%s»: %s%s" % [(" · Atto %s" % ["I", "II", "III"][act]) if act > 0 else "", current()["name"], " · ".join(parts),
 		"  → torna all'Albero!" if ready_to_wake() else ""]
