@@ -11,6 +11,10 @@ extends RefCounted
 ##   D  porta aperta (l'angolo in alto: la cella sotto è «.»)       F  fonte d'acqua (1×2)    A  armadio d'ardesia (2×2)
 ##   S  scaffale di Seminatori (2×2)   L  lanterna appesa d'ambra   V  vaso fiorito di lanterna
 ##   c  cristallo celeste levigato      k  vetrata di cristallo celeste (Roadmap 16: l'osservatorio)
+##   Roadmap 19, le macchine (l'angolo in alto a sinistra): Y Foglia-lanterna (2×2)  M Mulino di semi (2×3)
+##   O Otre di Linfa  P Lampada a baccello  Q Leva di radice
+## Roadmap 19: due griglie in più, facoltative, della stessa misura: "vene" (r radice, l legnoferro, a ambra, c cristallo)
+## e "fili" (t turchese, y ambra, k corallo, v viola); lo spazio non posa niente.
 ## I materiali che servono li conta `needs`.
 
 const BLOCK := {"#": ["mattoni", "seminatori"], "=": ["lastre", "ardesia"], "o": ["levigato", "ambra"],
@@ -18,7 +22,10 @@ const BLOCK := {"#": ["mattoni", "seminatori"], "=": ["lastre", "ardesia"], "o":
 	"p": ["piastrelle", "linfa"], "c": ["levigato", "celeste"], "k": ["vetrata", "celeste"]}
 const WALL_MAT := "seminatori"
 const STATION := {"D": "porta_aperta", "F": "fonte_acqua", "A": "arredo_armadio_ardesia", "S": "arredo_scaffale_seminatori",
-	"L": "arredo_lanterna_ambra", "V": "arredo_vaso_lanterna"}
+	"L": "arredo_lanterna_ambra", "V": "arredo_vaso_lanterna",
+	"Y": "foglia_lanterna", "M": "mulino_semi", "O": "otre_linfa", "P": "lampada_baccello", "Q": "leva_radice"}
+const VEIN := {"r": 1, "l": 2, "a": 3, "c": 4}
+const WIRE := {"t": 0, "y": 1, "k": 2, "v": 3}
 
 const PROJECTS := {
 	"ponte": {"name": "Il ponte dei Seminatori", "desc": "Un ponte di lastre su colonne, con due torce: per passare le voragini.",
@@ -91,6 +98,53 @@ const PROJECTS := {
 			"  .......  ",
 			"ccccccccccc",
 		]},
+	# Roadmap 19, voce 210: i progetti della rete (le Centrali, la Tessitrice di vene)
+	"centralina": {"name": "La centralina del Giardiniere", "desc": "Una casetta con due Foglie-lanterna sul tetto, un Otre, due Lampade e la Leva che le accende: una rete già posata.",
+		"grid": [
+			"Y     Y     ",
+			"            ",
+			"^^^^^^^^^^^^",
+			"#..........#",
+			"#..........D",
+			"#.P..O.QP...",
+			"============",
+		],
+		"vene": [
+			"            ",
+			"lllllll     ",
+			"      l     ",
+			"      l     ",
+			"      l     ",
+			"  lllllll   ",
+		],
+		"fili": [
+			"            ",
+			"            ",
+			"            ",
+			"            ",
+			"            ",
+			"  ttttttt   ",
+		]},
+	"torre_mulino": {"name": "La torre del mulino", "desc": "Un Mulino di semi in cima a una colonna, dove il vento è più forte, con la vena che scende a un Otre.",
+		"grid": [
+			"M   ",
+			"    ",
+			"    ",
+			"====",
+			" |  ",
+			" |  ",
+			" |O.",
+			"====",
+		],
+		"vene": [
+			"    ",
+			"    ",
+			"l   ",
+			"l   ",
+			"l   ",
+			"l   ",
+			"lll ",
+		]},
 	"sala_trofei": {"name": "La sala dei trofei", "desc": "Una sala di mattoni con gli scaffali e un armadio: mettici tre trofei.",
 		"grid": [
 			"^^^^^^^^^^^^^^",
@@ -157,6 +211,16 @@ static func needs(id: String) -> Dictionary:
 				item = String(StationsData.STATIONS[STATION[ch]]["item"])
 			if item != "":
 				out[item] = int(out.get(item, 0)) + 1
+	for row in PROJECTS[id].get("vene", []):
+		for ch in String(row):
+			if VEIN.has(ch):
+				var it := String(VeinsData.TIERS[int(VEIN[ch])]["item"])
+				out[it] = int(out.get(it, 0)) + 1
+	for row in PROJECTS[id].get("fili", []):
+		for ch in String(row):
+			if WIRE.has(ch):
+				var it2 := String(VeinsData.WIRES[int(WIRE[ch])]["item"])
+				out[it2] = int(out.get(it2, 0)) + 1
 	return out
 
 

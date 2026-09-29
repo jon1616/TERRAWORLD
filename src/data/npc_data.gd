@@ -103,7 +103,8 @@ const NPCS := {
 		"requires": {"stat": "macchine", "n": 4},
 		"look": {"cloak": "#1a3a3a", "trim": "#6ff0e0", "skin": "#c8a07a", "extra": "#ffc050"},
 		"goods": [["pinza_vene", 1], ["vena_radice", 20], ["vena_legnoferro", 20], ["filo_turchese", 20], ["filo_ambra", 20],
-			["occhio_vene", 1], ["isolante_resina", 5], ["valvola_sfogo", 1], ["nodo_e", 2], ["occhio_luce", 1]],
+			["occhio_vene", 1], ["isolante_resina", 5], ["valvola_sfogo", 1], ["nodo_e", 2], ["occhio_luce", 1],
+			["progetto_centralina", 1], ["progetto_torre_mulino", 1]],
 		"likes": ["linfa_rappresa", "luce_vena", "cristallo_linfa", "seta_radice"],
 		"gifts": {2: ["vena_ambra", 20], 4: ["ampolla_lucciole", 1]},
 		"quests": [

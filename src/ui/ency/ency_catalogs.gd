@@ -14,6 +14,8 @@ static func _b(name: String, desc: String, col := G) -> String:
 
 ## Una lista in linea per un segnaposto dei capitoli ({cat_strati} → "cat_strati").
 static func inline(key: String) -> String:
+	if key.begins_with("cat_rete_"):
+		return EncyEnergy.inline(key)                  # Roadmap 19: la rete
 	var rows := []
 	match key:
 		"tabella_tasti":

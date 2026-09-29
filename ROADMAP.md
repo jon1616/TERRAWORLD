@@ -3591,8 +3591,16 @@ turchese). Il **filo** ha una fonte nuova «rete» (`FiloRete`, `src/game/filo_r
 circuito (Tamburo → vena → Otre → Lampada → Leva col filo), con il rombo sul posto; finito, `stats.primo_circuito` (e una
 tappa del diario). Cinque consigli della rete (`ConsigliData`: la Pinza, una macchina senza vena, la Tempesta, una
 Centrale vicina, un Succhiavena) con i capitoli dell'Enciclopedia. Prova nel gruppo `energia`.
-## 210. [ ] Enciclopedia e progetti (M)
+## 210. [x] Enciclopedia e progetti (M) — fatto il 29 set 2026
 Il gruppo «La Linfa che scorre», il catalogo delle macchine, i progetti nella Tavola del progetto.
+**Fatto**: `EncyEnergyData` (nove capitoli: la rete, le vene e la Pinza, sorgenti e riserve, le macchine, l'Impulso, i
+nodi, le Centrali, la Tempesta e i geni, chi vive attorno alle vene) con i cataloghi nati dai dati (`EncyEnergy`:
+{cat_rete_vene}, {cat_rete_sorgenti}, {cat_rete_riserve}, {cat_rete_macchine}, {cat_rete_comandi}, {cat_rete_nodi}).
+I progetti dei Seminatori hanno due griglie facoltative, «vene» e «fili» (`ProjectsData`, posate da
+`BuilderTools._blueprint_veins`), e le macchine come stazioni (Y, M, O, P, Q): due progetti nuovi, **la centralina del
+Giardiniere** (due Foglie sul tetto, Otre, due Lampade e la Leva, già collegate) e **la torre del mulino**; li vende la
+Tessitrice e li donano le Centrali. Prova: la centralina costruita funziona (foto 243_centralina), tutti i capitoli e i
+cataloghi ci sono; il gruppo `enciclopedia` controlla i collegamenti.
 ## 211. [ ] Il bilancio della rete (M)
 `tools/rete.gd`: rese all'ora delle costruzioni tipo contro caccia, pesca, scavo; tetti di resa.
 ## 212. [ ] Prestazioni (P)

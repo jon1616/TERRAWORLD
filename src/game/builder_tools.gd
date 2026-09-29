@@ -260,6 +260,7 @@ func build_blueprint(id: String, c: Vector2i) -> bool:
 	var n := 0
 	for pass_n in 2:                              # prima i blocchi e le pareti, poi le stazioni (vogliono il pavimento)
 		n += _blueprint_pass(grid, c, wall, pass_n == 1)
+	n += _blueprint_veins(ProjectsData.PROJECTS[id], c)      # Roadmap 19: le vene e i fili del progetto
 	var sz := ProjectsData.size_of(id)
 	for y in range(c.y - 1, c.y + sz.y + 1):
 		for x in range(c.x - 1, c.x + sz.x + 1):
@@ -317,6 +318,42 @@ func _blueprint_pass(grid: Array, c: Vector2i, wall: int, stations: bool) -> int
 					n += 1
 				if w.wall(q.x, q.y) == 0:
 					w.walls[q.y * w.w + q.x] = wall
+	return n
+
+
+## Roadmap 19, voce 210: le vene e i fili di un progetto (griglie "vene" e "fili" di `ProjectsData`).
+func _blueprint_veins(pd: Dictionary, c: Vector2i) -> int:
+	var w: World = m.world
+	var b: Bisaccia = m.character.bisaccia
+	var n := 0
+	for layer in [["vene", ProjectsData.VEIN], ["fili", ProjectsData.WIRE]]:
+		var grid: Array = pd.get(String(layer[0]), [])
+		var codes: Dictionary = layer[1]
+		for y in grid.size():
+			var row := String(grid[y])
+			for x in row.length():
+				var ch := row[x]
+				var q := c + Vector2i(x, y)
+				if not codes.has(ch) or not w.inside(q.x, q.y):
+					continue
+				var v := w.vein_at(q.x, q.y)
+				var item := ""
+				if String(layer[0]) == "vene":
+					if VeinsData.tier(v) > 0:
+						continue
+					v = (v & ~VeinsData.TIER_MASK) | int(codes[ch])
+					item = String(VeinsData.TIERS[int(codes[ch])]["item"])
+				else:
+					if VeinsData.has_wire(v, int(codes[ch])):
+						continue
+					v |= 1 << (VeinsData.WIRE_SHIFT + int(codes[ch]))
+					item = String(VeinsData.WIRES[int(codes[ch])]["item"])
+				w.set_vein(q.x, q.y, v)
+				b.remove(item, 1)
+				if m.get("energy") != null:
+					m.energy._on_vein(q)
+				m.view.refresh_vein(q)
+				n += 1
 	return n
 
 
