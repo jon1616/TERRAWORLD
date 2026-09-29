@@ -79,8 +79,7 @@ func check() -> Array:
 		if not st.has(id) and has_star(id):
 			st[id] = 1
 			fresh.append(id)
-	for id in fresh:
-		_gain(String(id))
+			_gain(id)                            # una alla volta: il premio «ogni cinque» conta giusto
 	wonders.check()
 	return fresh
 
