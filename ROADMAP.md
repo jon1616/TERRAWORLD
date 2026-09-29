@@ -3933,10 +3933,14 @@ non cambia più. Qui il Giardino **cresce** con chi lo cura (isole nuove), si **
 gli abitanti diventano **persone** (una storia a capitoli per ognuno, un mestiere, le botteghe). Due pilastri: il
 Giardino e la base (~50 ore) e gli abitanti (~30 ore). Obiettivo: che una serata passata solo in casa porti avanti.
 
-## 227. [ ] La bellezza del Giardino (M)
+## 227. [x] La bellezza del Giardino (M) — fatto il 29 set 2026
 `GardenBeauty`: un numero che dice quanto è vivo il Giardino (stanze e il loro comfort, arredi belli, abitanti felici,
 colture, macchine accese, fontane e teche), letto ogni tanto, nel Libro dei pilastri e nella scheda dell'Albero-Madre;
 la maestria del Giardino cresce anche con la bellezza guadagnata. Le soglie della bellezza aprono il resto della Roadmap.
+**Fatto**: `GardenBeauty` (`src/game/garden_beauty.gd`, solo nel Giardino, ogni 10 s): comfort delle stanze ricordate,
+8 per ogni tipo di stanza diverso, felicità degli abitanti / 10, colture (una ogni 5, al più 40), macchine accese (una
+ogni 2, al più 40). La più alta in `stats.bellezza_max`; ogni punto nuovo = un punto di maestria del Giardino. Una riga
+nel Libro dei pilastri. Prova nel gruppo nuovo `giardino_vivo`.
 
 ## 228. [ ] Le isole del Giardino (G)
 A certe soglie di bellezza e dell'Albero, accanto all'isola del Giardino nasce un'isola nuova (una passata del

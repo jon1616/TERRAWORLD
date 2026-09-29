@@ -137,6 +137,8 @@ func text_of(p: String) -> String:
 	else:
 		t += "[b]Grado %d, il massimo[/b] · %d punti\n" % [g, int(ms.points(p))]
 	t += "Il prossimo passo: [color=#ffd24a]%s[/color]\n" % d["hint"]
+	if p == "giardino" and m.get("beauty") != null:
+		t += m.beauty.line() + "\n"             # Roadmap 22: la bellezza del Giardino
 	var idle := ms.idle(p)
 	if idle < 0.0:
 		t += "[color=#9a8aa4]Non l'hai ancora cominciato.[/color]\n"

@@ -98,6 +98,7 @@ var challenges: Challenges
 var diary: Diary
 var mastery: Mastery                   # Roadmap 20: la maestria dei pilastri
 var lost_gardens: LostGardens          # Roadmap 21: i Giardini perduti
+var beauty: GardenBeauty               # Roadmap 22: la bellezza del Giardino
 var summons: Summons
 var effects: Effects
 var zones: Zones
@@ -322,6 +323,7 @@ func _build() -> void:
 	energy = _mount(Energy.new())              # e la rete del Flusso
 	mastery = _mount(Mastery.new())            # Roadmap 20: la maestria dei dieci pilastri
 	lost_gardens = _mount(LostGardens.new())   # Roadmap 21: le cure degli Alberi dei Giardini perduti
+	beauty = _mount(GardenBeauty.new())        # Roadmap 22: la bellezza del Giardino
 	_mount(PanelButtons.new())                 # voce 101: i pulsanti dei pannelli in basso a sinistra
 	hud.select(character.hotbar)
 	var start := world.spawn
