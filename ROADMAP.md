@@ -4317,9 +4317,13 @@ premi a ogni medaglia (lumini, casse pescate, polvere iridata) e un premio grand
 pilastri; conteggi «medaglie_pesca» e «ori_pesca». In pausa durante le prove (i premi cambierebbero i conti delle prove
 della pesca). Prova nel gruppo nuovo `correnti`.
 
-## 259. [ ] Le gare di pesca (M)
+## 259. [x] Le gare di pesca (M) — fatto il 30 set 2026
 Ogni giorno il Pescatore sceglie una specie del mondo: chi ne pesca una abbastanza grande prima della fine del giorno
 vince il premio della gara (esche, casse, polvere iridata); le vittorie di fila allungano la serie e il premio.
+**Fatto**: in `AnglerBook` la gara del giorno: a ogni giorno del mondo una specie comune o non comune già pescata (sempre
+la stessa per lo stesso giorno e mondo), da prendere grande almeno quanto l'argento; una vittoria al giorno, la serie
+dei giorni vinti di fila (`stats["gara_serie"]`) fa crescere la polvere iridata del premio (una cassa pescata sempre, un
+forziere ogni cinque), un giorno senza vittoria la azzera. Conteggio «gare_pesca».
 
 ## 260. [ ] I contratti della rete (M)
 La Tessitrice di vene propone tre contratti: una rete che dà tanti pulsi insieme, tante macchine che lavorano insieme,
