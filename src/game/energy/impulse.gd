@@ -19,6 +19,7 @@ var wcells: Array[Dictionary] = [{}, {}, {}, {}]      # colore -> {cella: true}
 var wnet_of: Array[Dictionary] = [{}, {}, {}, {}]     # colore -> {cella: indice}
 var wnets: Array = [[], [], [], []]                    # colore -> [{cells, members, state}]
 var queue: Array = []                                  # [tempo, colore, rete, tipo, chi l'ha mandato]
+var traps := {}                                        # voce 202: trappola (angolo) -> [colore, rete del filo] che la arma
 var now := 0.0
 var delivered := 0                                     # eventi consegnati (per le prove)
 
@@ -67,6 +68,15 @@ func rebuild(machines: Dictionary) -> void:
 					if not mc.wired.has(k) and wnet_of[k].has(q):
 						mc.wired[k] = int(wnet_of[k][q])
 						wnets[k][mc.wired[k]]["members"].append(mc)
+	# voce 202: le trappole che toccano un filo: armate finché il filo è acceso
+	traps.clear()
+	var w: World = e.m.world
+	for o: Vector2i in w.stations:
+		if not TrapsData.is_trap(String(w.stations[o])):
+			continue
+		for k in 4:
+			if wnet_of[k].has(o) and not traps.has(o):
+				traps[o] = [k, int(wnet_of[k][o])]
 	# lo stato delle reti dai comandi, e chi «segue» si mette in pari senza eventi
 	for k in 4:
 		for nt: Dictionary in wnets[k]:
@@ -139,3 +149,17 @@ func state_at(c: Vector2i, k: int) -> int:
 	if not wnet_of[k].has(c):
 		return -1
 	return 1 if bool(wnets[k][wnet_of[k][c]]["state"]) else 0
+
+
+## Voce 202: le trappole con un filo sono armate finché il filo è acceso (`Traps.set_armed`).
+func sync_traps() -> void:
+	if traps.is_empty() or e.m.get("traps") == null:
+		return
+	for o: Vector2i in traps:
+		var k: int = traps[o][0]
+		var ni: int = traps[o][1]
+		if ni >= (wnets[k] as Array).size():
+			continue
+		var on: bool = wnets[k][ni]["state"]
+		if e.m.traps.armed(o) != on:
+			e.m.traps.set_armed(o, on)

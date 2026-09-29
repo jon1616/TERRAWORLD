@@ -43,6 +43,18 @@ func armed(o: Vector2i) -> bool:
 	return not _key(o) in (m.world_meta.get("trappole_ferme", []) as Array)
 
 
+## Roadmap 19, voce 202: arma o disarma senza avvisi (le trappole con un filo dell'Impulso).
+func set_armed(o: Vector2i, on: bool) -> void:
+	var off: Array = m.world_meta.get("trappole_ferme", [])
+	var k := _key(o)
+	if on:
+		off.erase(k)
+	elif not k in off:
+		off.append(k)
+	m.world_meta["trappole_ferme"] = off
+	queue_redraw()
+
+
 ## Clic destro: disarma o riarma.
 func toggle(o: Vector2i) -> bool:
 	var off: Array = m.world_meta.get("trappole_ferme", [])

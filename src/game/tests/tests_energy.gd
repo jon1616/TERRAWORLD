@@ -41,6 +41,7 @@ func run() -> void:
 	await more.garden_light_liquids()
 	await more.factory()
 	await more.drill()
+	await more.defense()
 	m.player.control = ctl
 	m.day.paused = false
 
@@ -416,7 +417,7 @@ func sources() -> void:
 	var well_p := wm.bh.produce(wm, e)
 	print("pozzo di Linfa: si posa sopra il lago %s, dà %.1f pulsi" % [fits, well_p])
 	# il cuore di cristallo: consuma un cristallo
-	var heart := place("cuore_cristallo", Vector2i(p.x + 26, y))
+	var heart := place("nucleo_cristallo", Vector2i(p.x + 26, y))
 	var lamp2 := place("lampada_baccello", Vector2i(p.x + 29, y))
 	w.chest_at(heart).add("cristallo_linfa", 2)
 	lay_row(p.x + 26, p.x + 29, y, 3)                           # ambra: porta 300

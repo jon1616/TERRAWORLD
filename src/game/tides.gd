@@ -108,14 +108,20 @@ func siege_allowed() -> bool:
 	return day - int(rec.get("giorno", -99)) >= 3 and (m.seasons.current != int(rec.get("stagione", -1)) or day - int(rec["giorno"]) >= 12)
 
 
-## La base: il Focolare, se c'è una porta entro 30 tessere.
+## La base: un Focolare con una porta entro 30 tessere (uno qualunque: prima guardava solo il primo Focolare del mondo).
 func _base() -> Vector2i:
-	var hearth: Vector2i = m.villagers._hearth()
-	if hearth.x < 0:
-		return Vector2i(-1, -1)
-	for o in m.world.stations:
-		if StationsData.role(String(m.world.stations[o])) in ["porta", "porta_aperta"] and Vector2(o - hearth).length() < 30.0:
-			return hearth
+	var hearths: Array[Vector2i] = []
+	var doors: Array[Vector2i] = []
+	for o: Vector2i in m.world.stations:
+		var id := String(m.world.stations[o])
+		if id == "focolare":
+			hearths.append(o)
+		elif StationsData.role(id) in ["porta", "porta_aperta"] or bool(MachinesData.get_machine(id).get("porta", false)):
+			doors.append(o)
+	for h in hearths:
+		for d in doors:
+			if Vector2(d - h).length() < 30.0:
+				return h
 	return Vector2i(-1, -1)
 
 

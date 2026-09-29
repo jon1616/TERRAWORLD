@@ -18,7 +18,7 @@ var machines := {}                     # angolo -> Machine
 var nets: Array[Dictionary] = []       # {cells, sources, reserves, users, prod, used, want, stored, cap, flowing, bottleneck}
 var net_of := {}                       # cella di vena -> indice della rete
 var cells := {}                        # tutte le celle con una vena del Flusso
-var chest_net := {}                    # voce 200: angolo di una cassa -> la rete che la tocca
+var station_net := {}                  # voci 200 e 202: angolo di una stazione (casse, porte…) -> la rete che la tocca
 var solved := 0                        # quanti conti (per le prove)
 var away_worked := 0.0                 # voce 197: secondi di lavoro fatti mentre si era via (per le prove)
 var _away_done := false
@@ -116,6 +116,7 @@ func _process(dt: float) -> void:
 	for mc in _framed:
 		mc.bh.frame(mc, self, dt)
 	impulse.process(dt)
+	impulse.sync_traps()
 	_t += dt
 	if _t >= TICK:
 		solve(_t)
@@ -299,10 +300,21 @@ func linked_chests() -> Array[Vector2i]:
 	var out: Array[Vector2i] = []
 	if nets_on.is_empty():
 		return out
-	for o: Vector2i in chest_net:
-		if nets_on.has(chest_net[o]) and m.world.chests.has(o):
+	for o: Vector2i in station_net:
+		if nets_on.has(station_net[o]) and m.world.chests.has(o):
 			out.append(o)
 	return out
+
+
+## Voce 202: questa stazione (una porta) è su una rete con uno Scudo di corteccia acceso? Lo chiede `Wiles`.
+func shielded(o: Vector2i) -> bool:
+	var ni: int = station_net.get(o, -1)
+	if ni < 0:
+		return false
+	for mc: Machine in nets[ni]["users"]:
+		if mc.id == "scudo_corteccia" and mc.on() and mc.power >= 0.99:
+			return true
+	return false
 
 
 ## Roadmap 19, voce 196: il parafulmine più vicino alla colonna x (entro 40), o -1. Lo chiede `Weather.strike`.

@@ -10,6 +10,7 @@ const SPEED := 32.0
 var id := ""
 var world: World
 var home := Vector2i.ZERO
+var shelter_t := 0.0                     # Roadmap 19: la Campana d'allarme: per un po' si corre a casa
 var player: Node2D
 var vel := Vector2.ZERO
 var on_floor := false
@@ -54,7 +55,12 @@ func _process(dt: float) -> void:
 	dt = minf(dt, 1.0 / 30.0)
 	_t -= dt
 	var near := player.position.distance_to(position) < 3.5 * S
-	if near:
+	shelter_t = maxf(shelter_t - dt, 0.0)
+	if shelter_t > 0.0:
+		var gx := home.x * S + 8.0
+		_dir = 0.0 if absf(gx - position.x) < 6.0 else signf(gx - position.x)
+		_t = 0.5
+	elif near:
 		_dir = 0.0
 		_spr.scale.x = 1.0 if player.position.x >= position.x else -1.0
 	elif _t <= 0.0:

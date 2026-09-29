@@ -1,7 +1,7 @@
 class_name MbSmistatore
 extends MachineBehavior
 ## Lo Smistatore: con i suoi pulsi raccoglie gli oggetti a terra vicino a lui (`PULL` tessere: anche quelli che arrivano
-## dai nastri) nella sua cassetta e li manda nelle casse della sua rete (`Energy.chest_net`): prima in quella che ha già
+## dai nastri) nella sua cassetta e li manda nelle casse della sua rete (`Energy.station_net`): prima in quella che ha già
 ## quell'oggetto, poi in quella che raccoglie il suo tipo (le impostazioni delle casse, `Storage.settings`).
 
 const PULL := 2.5
@@ -22,8 +22,8 @@ func tick(mc: Machine, e: Energy, dt: float) -> void:
 	if own.is_empty() or mc.net < 0:
 		return
 	var targets: Array[Vector2i] = []
-	for o: Vector2i in e.chest_net:
-		if e.chest_net[o] == mc.net and o != mc.o and w.chests.has(o) and not MachinesData.is_machine(String(w.stations.get(o, ""))):
+	for o: Vector2i in e.station_net:
+		if e.station_net[o] == mc.net and o != mc.o and w.chests.has(o) and not MachinesData.is_machine(String(w.stations.get(o, ""))):
 			targets.append(o)
 	for i in own.slots.size():
 		var id := own.id_at(i)

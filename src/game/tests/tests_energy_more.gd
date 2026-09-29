@@ -240,7 +240,7 @@ func garden_light_liquids() -> void:
 		w.set_liq(xx, y + 1, 8, LiquidsData.ACQUA)
 		w.set_tile(xx, y + 2, TileDefs.STONE)
 	var irr := await powered("irrigatore", Vector2i(p.x + 28, y))
-	var har := await powered("mietitrice", Vector2i(p.x + 36, y))
+	var har := await powered("falciatrice_radice", Vector2i(p.x + 36, y))
 	await t.settle(4.5)
 	var watered := bool(w.crops[c1][2])
 	var box: Bisaccia = w.chest_at(har)
@@ -372,3 +372,66 @@ func drill() -> void:
 			if w.chests.has(o):
 				w.chests.erase(o)
 			t.unplace(o)
+
+
+## Voce 202: la torretta tira, la siepe punge, la campana suona, lo scudo raddoppia le porte, la leva arma le trappole.
+func defense() -> void:
+	var e: Energy = m.energy
+	var w: World = m.world
+	var p: Vector2i = await t.clean_spot(460, 50)
+	var y := p.y
+	m.fauna.clear()
+	# la torretta: un grumo a 8 tessere
+	var tur := await powered("torretta_spine", Vector2i(p.x, y))
+	w.chest_at(tur).add("dardo", 20)
+	var gr: Creature = m.fauna.add("grumo_muschio", Vector2((p.x + 8) * 16 + 8, (y + 1) * 16 - 6))
+	gr.set_process(false)
+	var hp0 := gr.hp
+	var k0: int = m.fauna.kills
+	await kit.seconds(2.5)
+	var shot := int((e.machines[tur] as Machine).st.get("tiri", 0))
+	var hurt: bool = m.fauna.kills > k0 or (is_instance_valid(gr) and gr.hp < hp0)
+	m.fauna.clear()
+	# la siepe di spine: punge chi la attraversa
+	var hedge := await powered("siepe_spine", Vector2i(p.x + 12, y))
+	var gr2: Creature = m.fauna.add("scarabeo_ardesia", (Vector2(hedge) + Vector2(0.5, 0.5)) * 16.0)
+	gr2.set_process(false)
+	var hp2 := gr2.hp
+	await kit.seconds(1.2)
+	var pricked: bool = not is_instance_valid(gr2) or gr2.hp < hp2
+	m.fauna.clear()
+	print("torretta: %d tiri, il grumo è ferito %s; siepe di spine: punge %s" % [shot, hurt, pricked])
+	# la campana: suona
+	var bell := await powered("campana_allarme", Vector2i(p.x + 16, y))
+	e.touch(bell)
+	var rang := int((e.machines[bell] as Machine).st.get("suoni", 0)) == 1
+	# lo scudo: una porta sulla sua rete regge il doppio
+	var door := Vector2i(p.x + 22, y - 1)
+	w.stations[door] = "porta"
+	var base_hits: int = m.wiles.door_strength(door)
+	var shield := await powered("scudo_corteccia", Vector2i(p.x + 23, y), "baccello_serbatoio")
+	t.lay(Vector2i(p.x + 22, y), 2)
+	await t.ticks(3)
+	var shielded_hits: int = m.wiles.door_strength(door)
+	w.stations.erase(door)
+	print("campana: suona %s; scudo di corteccia: la porta regge %d morsi invece di %d" % [rang, shielded_hits, base_hits])
+	# le trappole: una leva le arma e le disarma
+	var trap := t.place(TrapsData.id_of(String(TrapsData.TYPES.keys()[0]), 0), Vector2i(p.x + 30, y))
+	var lever := t.place("leva_radice", Vector2i(p.x + 34, y))
+	t.lay_row(p.x + 30, p.x + 34, y, 1 << VeinsData.WIRE_SHIFT)
+	await t.ticks(2)
+	await kit.frames(2)
+	var off_now: bool = not m.traps.armed(trap)
+	e.touch(lever)
+	await kit.frames(3)
+	var on_now: bool = m.traps.armed(trap)
+	print("trappola con un filo: disarmata a leva giù %s, armata a leva su %s" % [off_now, on_now])
+	await kit.save("237_difese")
+	if not (shot >= 1 and hurt and pricked and rang and shielded_hits == base_hits * 2 and off_now and on_now):
+		print("ATTENZIONE: le difese non fanno ciò che devono")
+	for o in e.machines.keys() + [trap]:
+		if o.x >= p.x - 2 and o.x <= p.x + 50:
+			if w.chests.has(o):
+				w.chests.erase(o)
+			t.unplace(o)
+	m.world_meta["trappole_ferme"] = []

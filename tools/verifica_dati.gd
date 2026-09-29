@@ -200,6 +200,7 @@ func _init() -> void:
 	_check_materials()
 	_check_biomes()
 	_check_uniques()
+	_check_machines()
 	print("ESITO: %d errori, %d avvisi" % [errors, warnings])
 	quit()
 
@@ -490,6 +491,17 @@ func _check_biomes() -> void:
 
 
 ## Voce 98: gli oggetti unici e le loro serie.
+## Roadmap 19: ogni macchina è davvero l'oggetto e la stazione con il suo id (un id già usato da un altro oggetto la
+## nasconde: successo con «cuore_cristallo» e «mietitrice»), ha un comportamento e una ricetta.
+func _check_machines() -> void:
+	for id in MachinesData.MACHINES:
+		var it := ItemsData.get_item(String(id))
+		_err(String(it.get("place", "")) == String(id) and String(it.get("cat", "")) == "rete",
+			"macchina %s: l'id è già di un altro oggetto (%s)" % [id, it.get("name", "?")])
+		_err(StationsData.STATIONS.get(id, {}).get("macchina", false), "macchina %s: l'id è già di un'altra stazione" % id)
+		_err(not RecipesData.making(String(id)).is_empty(), "macchina %s: nessuna ricetta" % id)
+
+
 func _check_uniques() -> void:
 	var n := 0
 	for id in ItemsData.all():

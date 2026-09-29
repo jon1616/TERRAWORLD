@@ -52,6 +52,14 @@ static func draw(look: String, im: Image, gm: Image, w: int, h: int) -> bool:
 			_magazzino(im, gm, w, h)
 		"trivella":
 			_trivella(im, gm, w, h)
+		"torretta":
+			_torretta(im, gm, w, h)
+		"rovo":
+			_rovo(im, gm, w, h)
+		"campana":
+			_campana(im, gm, w, h)
+		"scudo":
+			_scudo(im, gm, w, h)
 		_:
 			return false
 	return true
@@ -300,3 +308,41 @@ static func _trivella(im: Image, gm: Image, w: int, h: int) -> void:
 		MachineArt._rect(im, w / 2 - half, y, w / 2 + half, y + 1, MachineArt.SLATE[2] if y % 2 == 0 else MachineArt.SLATE[3])
 	Px.disc(im, w * 0.5, 3, 2.0, MachineArt.LINFA[1])
 	Px.disc(gm, w * 0.5, 3, 1.6, MachineArt.LINFA[3])
+
+
+## La Torretta di spine: un tronco di legnoferro con un arco di radice in cima.
+static func _torretta(im: Image, gm: Image, w: int, h: int) -> void:
+	MachineArt._roots(im, w, h)
+	MachineArt._rect(im, 4, int(h * 0.35), w - 4, h - 3, MachineArt.SLATE[1])
+	Px.curve(im, Vector2(1, h * 0.3), Vector2(w * 0.5, 0), Vector2(w - 2, h * 0.3), 1, MachineArt.BARK[2])
+	Px.line(im, Vector2(1, h * 0.3), Vector2(w - 2, h * 0.3), 1, Color("#f0ece0"))
+	Px.disc(im, w * 0.5, h * 0.45, 1.5, MachineArt.LINFA[2])
+	Px.disc(gm, w * 0.5, h * 0.45, 1.2, MachineArt.LINFA[3])
+
+
+## Il Rovo vivo: un cespuglio di spine con le punte che brillano.
+static func _rovo(im: Image, gm: Image, w: int, h: int) -> void:
+	for k in 5:
+		var a := Vector2(2 + k * 3, h - 1)
+		var b := Vector2(1 + (k * 7) % w, 2 + (k * 5) % 6)
+		Px.line(im, a, b, 1, MachineArt.LEAF[0] if k % 2 else MachineArt.BARK[1])
+		Px.put(im, int(b.x), int(b.y), Color("#e0d0a0"))
+		Px.put(gm, int(b.x), int(b.y), Color("#ffe0a0"))
+
+
+## La Campana d'allarme: una campana d'ambra appesa a un arco di radice.
+static func _campana(im: Image, gm: Image, w: int, h: int) -> void:
+	MachineArt._roots(im, w, h)
+	Px.line(im, Vector2(w * 0.5, h - 3), Vector2(w * 0.5, 3), 1, MachineArt.BARK[2])
+	for y in range(4, int(h * 0.55)):
+		var half := int(lerpf(2.0, w * 0.45, float(y - 4) / (h * 0.55 - 4)))
+		MachineArt._rect(im, w / 2 - half, y, w / 2 + half, y + 1, MachineArt.AMBER[1] if y % 3 else MachineArt.AMBER[2])
+	Px.put(gm, w / 2, int(h * 0.55), MachineArt.AMBER[3])
+
+
+## Lo Scudo di corteccia: uno scudo tondo di corteccia con il bordo di legnoferro.
+static func _scudo(im: Image, gm: Image, w: int, h: int) -> void:
+	Px.disc(im, w * 0.5, h * 0.5, w * 0.46, MachineArt.SLATE[1])
+	Px.disc(im, w * 0.5, h * 0.5, w * 0.36, MachineArt.BARK[2])
+	Px.disc(im, w * 0.5, h * 0.5, 1.5, MachineArt.LINFA[2])
+	Px.disc(gm, w * 0.5, h * 0.5, 1.2, MachineArt.LINFA[3])

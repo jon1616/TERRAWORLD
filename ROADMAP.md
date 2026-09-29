@@ -3509,7 +3509,15 @@ piccone, ciò che cade nella cassetta), si ferma e dice perché (niente piccone,
 costruito, cassetta piena, in fondo), al più 600 blocchi per giorno del mondo, e senza lavoro non consuma. Prova: 9
 blocchi di terra scavati, ferma davanti alla vuotite con il piccone di radicite.
 Scavo automatico con la forza del piccone nella cassetta, tetto di resa, stop ai liquidi e ai Sigilli.
-## 202. [ ] Difendersi (M)
+## 202. [x] Difendersi (M) — fatto il 29 set 2026
+**Fatto**: Torretta di spine (i dardi migliori della cassetta alla creatura ostile più vicina che vede, 18 tessere, danno
+del dardo + 8, 5 gocce a tiro), Siepe di spine viva (punge le creature, mai il Germogliato; spenta si ritira), Campana
+d'allarme (gli abitanti corrono a casa per 30 s: `Npc.shelter_t`), Scudo di corteccia (le porte sulla sua rete reggono il
+doppio negli assedi: `Energy.shielded` in `Wiles.door_strength`; `Energy.station_net` ora per tutte le stazioni),
+trappole con un filo armate finché il filo è acceso (`Impulse.sync_traps`, `Traps.set_armed`). Trovato strada facendo:
+due macchine avevano l'id di oggetti che già c'erano («cuore_cristallo», «mietitrice») e restavano nascoste: ora sono
+Nucleo di cristallo e Falciatrice di radice, e `verifica_dati` controlla le macchine; le maree guardavano solo il primo
+Focolare del mondo per la base degli assedi. Foto 237_difese.
 Torretta di spine, Rovo vivo, Campana d'allarme, Scudo di corteccia, trappole comandate dall'Impulso.
 ## 203. [ ] Giocare e decorare (P)
 Carillon di radice, Fontana di Linfa, Esposizione (comodità e trofei delle stanze).
