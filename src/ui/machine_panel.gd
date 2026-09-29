@@ -100,7 +100,7 @@ func _fill_text() -> void:
 		t += ".\n"
 	if mc.d.has("colpo"):
 		t += "Ogni azione costa [b]%d[/b] gocce della sua rete.\n" % int(mc.d["colpo"])
-	t += "\n" + e.net_text(mc.net)
+	t += "\n" + EnergyLinks.net_text(e, mc.net)
 	if not mc.wired.is_empty():
 		var ws := []
 		for k in mc.wired:

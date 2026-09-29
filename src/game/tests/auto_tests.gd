@@ -239,6 +239,8 @@ func run(main: Node2D) -> void:
 	_mark("TestsAlive")
 	await TestsSky.new(kit).run()          # Roadmap 16: il cielo
 	_mark("TestsSky")
+	await TestsEnergy.new(kit).run()       # Roadmap 19: la rete (costruisce lontano dalla partenza)
+	_mark("TestsEnergy")
 	await ob.run()
 	_mark("ob.run")
 	await w.run_and_save()

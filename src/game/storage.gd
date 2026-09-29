@@ -84,7 +84,7 @@ func _update_pool() -> void:
 	var pool: Array = []
 	var near := chests_near(StorageData.CRAFT_REACH)
 	if m.get("energy") != null:
-		for o in m.energy.linked_chests():            # Roadmap 19: le casse della rete di un Nodo delle casse
+		for o in EnergyLinks.linked_chests(m.energy):            # Roadmap 19: le casse della rete di un Nodo delle casse
 			if not o in near:
 				near.append(o)
 	for o in near:

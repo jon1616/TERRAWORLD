@@ -30,6 +30,7 @@ var _dirty := true
 var _rev := -1
 var _t := 0.0
 var _lights: Array = []
+var painted := {}                      # voce 212: cella -> scorre com'è disegnata (si ridisegna solo ciò che cambia)
 var gene := {}                         # voce 207: i geni del mondo per la rete (`EnergyStorm.genes`)
 var rng := RandomNumberGenerator.new()
 
@@ -92,6 +93,7 @@ func _on_vein(c: Vector2i) -> void:
 	else:
 		cells.erase(c)
 	impulse.on_cell(c, b)
+	painted.erase(c)
 	_dirty = true
 
 
@@ -167,9 +169,11 @@ func rebuild() -> void:
 			_framed.append(mc)
 	EnergyGraph.build(self)
 	impulse.rebuild(machines)
-	# il bagliore delle vene si ridisegna secondo chi scorre (al primo conto)
+	# voce 212: una rete rifatta scorre come era disegnata (il primo conto la corregge); si ridisegnano solo le celle
+	# che cambiano (in una base di 2 000 vene ridisegnarle tutte costava più di 100 ms a ogni vena posata)
 	for nt in nets:
-		nt["flowing"] = false
+		var cl: Array = nt["cells"]
+		nt["flowing"] = not cl.is_empty() and bool(painted.get(cl[0], false))
 	_repaint_all()
 	rebuilt.emit()
 
@@ -296,34 +300,6 @@ func needs(mc: Machine) -> bool:
 	return float(nt["want"]) > others + 0.01 or float(nt["stored"]) < float(nt["cap"]) - 1.0
 
 
-## Voce 200: le casse delle reti dei Nodi delle casse accesi vicini al Germogliato (a `CRAFT_REACH`): per `Storage`.
-func linked_chests() -> Array[Vector2i]:
-	var nets_on := {}
-	var p: Vector2 = m.player.position
-	for mc: Machine in machines.values():
-		if String(mc.id) == "nodo_casse" and mc.net >= 0 and mc.power >= 0.99 and mc.on() \
-				and mc.center().distance_to(p) <= StorageData.CRAFT_REACH * 16.0:
-			nets_on[mc.net] = true
-	var out: Array[Vector2i] = []
-	if nets_on.is_empty():
-		return out
-	for o: Vector2i in station_net:
-		if nets_on.has(station_net[o]) and m.world.chests.has(o):
-			out.append(o)
-	return out
-
-
-## Voce 202: questa stazione (una porta) è su una rete con uno Scudo di corteccia acceso? Lo chiede `Wiles`.
-func shielded(o: Vector2i) -> bool:
-	var ni: int = station_net.get(o, -1)
-	if ni < 0:
-		return false
-	for mc: Machine in nets[ni]["users"]:
-		if mc.id == "scudo_corteccia" and mc.on() and mc.power >= 0.99:
-			return true
-	return false
-
-
 ## Roadmap 19, voce 196: il parafulmine più vicino alla colonna x (entro 40), o -1. Lo chiede `Weather.strike`.
 func bolt_target(px: int) -> int:
 	var best := -1
@@ -370,32 +346,6 @@ func touch(o: Vector2i) -> bool:
 		return true
 	panel.open(mc)
 	return true
-
-
-## I numeri di una rete, in parole (per il pannello).
-func net_text(ni: int) -> String:
-	if ni < 0 or ni >= nets.size():
-		return "[color=#ffb070]Non è su una rete: posa una vena sotto di lei con la Pinza delle vene.[/color]"
-	var nt: Dictionary = nets[ni]
-	var t := "[color=#8ef0e8]La rete[/color]: %d vene · %d sorgenti · %d macchine · %d riserve\n" % [(nt["cells"] as Array).size(),
-		(nt["sources"] as Array).size(), (nt["users"] as Array).size(), (nt["reserves"] as Array).size()]
-	t += "Le sorgenti danno [b]%d[/b] pulsi, le macchine ne chiedono [b]%d[/b]" % [roundi(float(nt["prod"])), roundi(float(nt["want"]))]
-	if float(nt["cap"]) > 0.0:
-		t += ", nelle riserve [b]%d[/b] gocce su %d" % [roundi(float(nt["stored"])), roundi(float(nt["cap"]))]
-	return t + "."
-
-
-## Perché una macchina non ha tutto (per le schede).
-func why(mc: Machine) -> String:
-	if mc.net < 0:
-		return "nessuna vena"
-	var nt: Dictionary = nets[mc.net]
-	if mc.cap <= 0.0:
-		return "nessuna sorgente o riserva sulla sua rete"
-	var full := mc.bh.demand(mc, self)
-	if mc.cap < full:
-		return "la vena più stretta porta %d pulsi, ne chiede %d" % [roundi(mc.cap), roundi(full)]
-	return "le sorgenti danno %d pulsi, le macchine ne chiedono %d" % [roundi(float(nt["prod"])), roundi(float(nt["want"]))]
 
 
 ## La Linfa scorre nella cella c? (per il bagliore delle vene)

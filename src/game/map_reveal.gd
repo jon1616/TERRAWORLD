@@ -13,6 +13,7 @@ const VEIN := Color("#5cc8cc")             # Roadmap 19: le vene sulla mappa
 
 var m: Node2D
 var world: World
+var _veins := PackedByteArray()           # Roadmap 19: le vene, prese una volta per giro (`color_at` è nel ciclo)
 var image: Image
 var tex: ImageTexture
 var ready_img := false
@@ -57,13 +58,14 @@ func color_at(i: int) -> Color:
 		return _build_col[(k - 1) / BuildData.FORMS.size()] if k > 0 else _tile_col[t]
 	if t != TileDefs.AIR:
 		return _tile_col[t]
-	if world.vein.size() == world.tiles.size() and world.vein[i] & VeinsData.TIER_MASK != 0:
+	if i < _veins.size() and _veins[i] & 7 != 0:
 		return VEIN                                         # Roadmap 19: le vene della rete, turchesi
 	var wl := world.walls[i]
 	return _wall_col[wl] if wl != 0 else SKY
 
 
 func _build() -> void:
+	_veins = world.vein
 	var ex := world.explored
 	for i in ex.size():
 		if ex[i] != 0:
@@ -97,6 +99,7 @@ func reveal(all := false) -> int:
 	var o: Vector2i = m.light.origin
 	# la luce si legge come byte (RGB8): con `get_pixel` su 12 000 celle il giro costava ~6 ms in un fotogramma
 	var px := li.get_data()
+	_veins = world.vein
 	var ex := world.explored
 	var ww := world.w
 	var n := 0
@@ -124,6 +127,7 @@ func reveal(all := false) -> int:
 
 ## Rivela un cerchio di celle attorno a una (la Mappa dei Seminatori), anche se non è mai stato illuminato.
 func reveal_area(c: Vector2i, r: int) -> void:
+	_veins = world.vein
 	for y in range(c.y - r, c.y + r + 1):
 		for x in range(c.x - r, c.x + r + 1):
 			if world.inside(x, y) and Vector2(x - c.x, y - c.y).length() <= r:

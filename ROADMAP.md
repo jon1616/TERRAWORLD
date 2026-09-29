@@ -7,8 +7,10 @@
 - **In corso: la Roadmap 13 «Il volto del mondo»** (voci 100-117, dal 28 set 2026): la grafica con Nano Banana,
   seguita passo passo con l'utente (Claude scrive i prompt, dice dove salvare le immagini, le adatta con gli script).
   Dopo: un secondo bilancio con il diario delle partite vere.
-- **In corso: la Roadmap 19 «La Linfa che scorre»** (voci 190-213, dal 29 set 2026): vene del Flusso, fili
-  dell'Impulso, sorgenti, riserve, 34 macchine, sensori e nodi, centrali dei Seminatori.
+- **Fatta la Roadmap 19 «La Linfa che scorre»** (voci 190-213, 29 set 2026, in autonomia): vene del Flusso e fili
+  dell'Impulso, 64 macchine (sorgenti, riserve, macchine che lavorano, sensori, nodi della logica), le Centrali dei
+  Seminatori, la Tempesta di Linfa, Succhiavena e Lucciole, la Tessitrice, il primo circuito guidato. Resoconto in fondo
+  alla Roadmap 19; la grafica nelle voci 117l-117n della Roadmap 13.
 - **Fatta la Roadmap 18 «Il bilancio»** (voci 179-189, 29 set 2026): modello del combattimento, bot in arena, tre
   giocatori simulati, poi Scorza a percentuale, inizio facile, curva degli strati e del vigore, armi, boss, economia,
   avvisi e Diario delle morti. Resoconto in fondo.
@@ -2288,6 +2290,60 @@ Solid magenta #FF00FF background, a 10 x 5 grid, glyphs in pure WHITE only, thic
 very small), no text, no numbers, no letters of any real alphabet.
 ```
 
+## 117l. [ ] Le macchine della rete: sorgenti e riserve (M) — Roadmap 19
+Oggi le 57 macchine della rete nascono dal codice (`MachineArt`, `MachineArtMore`: forme semplici con la parte che
+brilla). Quattro tavole in `arte_ia/macchine/` (cartella già creata), griglia 4×2, una macchina per cella appoggiata al
+fondo, ognuna con **due disegni**: in alto spenta, in basso accesa (la parte che brilla più chiara: lo script ne ricava
+lo strato di luce come per le stazioni della voce 106). Nel gioco `StationArt.make` userà `arte/macchine/<look>.png`
+(e `<look>_luce.png`) se ci sono, altrimenti resta il disegno del codice; il foglio prove/stazioni.png le mostra tutte.
+**Pronto quando**: prove/stazioni.png mostra le macchine di Nano Banana accese e spente.
+Tavola 1 `01_sorgenti_v1.png` (Tamburo 2×1, Foglia-lanterna 2×2, Mulino di semi 2×3, Ruota d'acqua 2×2):
+```
+[FOGLIO DI STILE «Radici e Linfa»] Side-view pixel-art MACHINES of a living plant civilisation, organic wood, roots,
+amber and glowing turquoise sap, NOT Terraria, NOT steampunk. Solid magenta #FF00FF background, 4 columns x 2 rows,
+top row = the machine OFF (sap dark), bottom row = the SAME machine ON (sap glowing bright turquoise #5CF0E0), each
+standing on the bottom of its cell, no text: 1 a wide low root drum, a hollow log with a stretched leaf skin on top and
+turquoise veins in the bark; 2 a big lantern-leaf on a curled stem, the leaf translucent with glowing veins, like a
+solar panel made of a leaf; 3 a tall windmill of seeds: a root tower with four dandelion-seed sails; 4 a water wheel
+of bark planks with small cups, a turquoise core at the hub.
+```
+Tavola 2 `02_sorgenti_riserve_v1.png` (Baccello di brace, Pozzo di Linfa, Nucleo di cristallo, Ruota della mandria;
+Otre, Baccello-serbatoio, Cisterna viva, Radice-madre): stessa intestazione, poi «1 a seed pod oven with a glowing
+ember mouth; 2 a root well with a turquoise pool inside a ring of stones; 3 a crystal heart held by roots, pulsing; 4 a
+big treadmill wheel of woven branches; 5 a small leather waterskin full of glowing sap, hanging from a hook; 6 a tall
+amber seed pod tank with a sap level window; 7 a living cistern, a hollow stump full of sap; 8 a thick ancient root
+that plunges into the ground, veins of light running up».
+
+## 117m. [ ] Le macchine che lavorano (M) — Roadmap 19
+Tavola 3 `03_lavoro_v1.png` (Forno a Linfa, Frantoio, Telaio a Linfa, Trivella di radice, Falciatrice, Mungitrice,
+Distillatore, Irrigatore) e tavola 4 `04_casa_difesa_v1.png` (Lampada a baccello, Faro di Linfa, Insegna, Carillon,
+Fontana di Linfa, Teca, Torretta di spine, Campana d'allarme), stessa intestazione e stessa regola spenta/accesa.
+Tavola 3: «1 a clay-and-root furnace with a turquoise fire; 2 a grinding mill of two round slate stones turned by a root
+arm; 3 a small loom with glowing threads; 4 a drilling machine: a wooden frame with a big spiral root bit pointing down;
+5 a low sickle-cart of bark with curved blades; 6 a milking stool with a bucket and a small pump; 7 an alembic of glass
+and roots over a pool, a drop falling; 8 a sprinkler flower that sprays droplets». Tavola 4: «1 a small hanging seed-pod
+lamp; 2 a tall beacon tower of roots with a crystal at the top; 3 a hanging wooden sign with a glowing rune; 4 a tiny
+amber bell on a curled root; 5 a stone basin with a fountain of glowing sap; 6 a glass dome on a wooden pedestal; 7 a
+thorny turret of bark with a dark hole that shoots darts; 8 a big bronze-amber bell on a wooden frame».
+
+## 117n. [ ] Comandi, sensori, nodi e i due nuovi abitanti delle vene (M) — Roadmap 19
+Tavola 5 `05_comandi_v1.png`, griglia 8×2 (piccoli, 1×1): Leva, Pulsante, Piastra, Occhio di luce, Orecchio di
+muschio, Sensore d'acqua, Sensore di cassa, Orologio di Linfa (in alto spenti, in basso accesi); tavola 6
+`06_nodi_v1.png`, griglia 8×2: i sei nodi (sassi d'ardesia con una **runa** diversa per E, O, NON, ritardo, contatore,
+memoria), Barometro, Valvola di sfogo. Tavola 7 `07_creature_vene_v1.png` (come la voce 117d, 2 colonne × 2 righe:
+fotogramma A e B): il **Succhiavena** (un verme-sanguisuga scuro con strisce turchesi che brillano, bocca a ventosa) e
+la **Lucciola di vena** (un piccolo insetto turchese con le ali chiare, l'addome luminoso). Icone (voce 105): la Pinza
+delle vene, le quattro vene (radice, legnoferro, ambra, cristallo), le quattro matasse di filo, l'Occhio delle vene.
+Prompt della tavola 6:
+```
+[FOGLIO DI STILE «Radici e Linfa»] Small side-view pixel-art LOGIC STONES of a plant civilisation, NOT Terraria.
+Solid magenta #FF00FF background, 8 columns x 2 rows, top row OFF (rune dim), bottom row ON (rune glowing turquoise
+#5CF0E0), each object small and centred at the bottom of its cell, no text: 1-6 six round slate pebbles, each carved
+with a DIFFERENT simple rune made of root strokes (an arrow up, a fork, a crossed line, an hourglass, three notches, a
+closed loop); 7 a small barometer: a curled root holding a cloud-shaped glass; 8 a jelly bulb valve on a short iron-wood
+pipe, sap bubbling inside.
+```
+
 ### Resta al codice (Nano Banana non serve)
 Le trame del terreno e delle pareti (doppia griglia, trame 64×64 senza cuciture), la luce, i liquidi, gli
 incantesimi, le esplosioni, le particelle, il tempo atmosferico; le 1906 icone una per una (nascono dalla voce 105).
@@ -3612,10 +3668,44 @@ tetto di 600 blocchi al giorno del mondo (1 800/h contro ~3 800/h a mano); il Di
 via è al più un'ora. Le sorgenti salgono con il costo e con la fatica di trovarne il posto (Foglia 6 pulsi medi, Mulino 19,
 Ruota e Baccello 40, Pozzo di Linfa 80 in un lago profondo, Nucleo 120 a cristalli, Radice-madre 250 accanto al Cuore
 curato). Nessun numero da cambiare: la rete risparmia fatica e apre possibilità, non stampa Lumini.
-## 212. [ ] Prestazioni (P)
+## 212. [x] Prestazioni (P) — fatto il 29 set 2026
 Una base con 2 000 celle di vena e 200 macchine sotto 0,5 ms per fotogramma (`FrameProbe`); il giro intero.
-## 213. [ ] Grafica e resoconto (P)
+**Fatto**: la prova `perf` (gruppo `energia`) costruisce una base di 2 000 vene e 200 macchine: il conto del Flusso
+costa 1,9 ms ogni quarto di secondo, cioè **0,12 ms per fotogramma**. Rifare la rete (a ogni vena posata) costava
+**131 ms**: ogni ricostruzione ridisegnava tutte le vene. Ora `Energy.painted` ricorda che cosa è disegnato e si
+ridisegna solo ciò che cambia; in `EnergyGraph` la visita e la strada più larga leggono l'array delle vene direttamente,
+con le regole scritte in linea, una pila per grado invece di un dizionario di portate, e una scorciatoia per le reti di
+un grado solo: **10 ms**. `Energy` (440 righe) è stato diviso: i legami con gli altri moduli e i testi sono in
+`EnergyLinks`. Giro intero: 14 minuti con il gruppo «energia» (aggiunto al giro: prima non c'era); l'unico avviso, la pompa che nel giro intero perdeva acqua ai lati della buca di prova, si è corretto murando la buca (gruppo «energia» rifatto: passa). Nello stesso giro la mappa esplorata leggeva le vene a ogni cella (5,6 ms in un fotogramma): ora le prende una volta per giro.
+## 213. [x] Grafica e resoconto (P) — fatto il 29 set 2026
 Voci per Nano Banana nella Roadmap 13, CLAUDE.md, resoconto, GitHub.
+**Fatto**: voci 117l-117n nella Roadmap 13 (le macchine accese e spente in sette tavole, i sensori, i nodi con le rune,
+Succhiavena e Lucciola, le icone) con i prompt pronti e la cartella `arte_ia/macchine/`; CLAUDE.md (struttura, comandi,
+lezioni); il resoconto qui sotto; GitHub.
+
+### Resoconto della Roadmap 19 (29 set 2026)
+**Che cosa c'è adesso.** La Linfa del mondo si fa scorrere. Con la **Pinza** si posano vene (quattro gradi: radice 30
+pulsi, legnoferro 100, ambra 300, cristallo 1 000) e fili di quattro colori. **64 macchine** da costruire: 11 sorgenti
+(dal Tamburo che si batte a mano alla Radice-madre accanto al Cuore curato), 3 riserve, 34 macchine che lavorano
+(luce, porte, ascensore, nastri, catapulta, porta-seme, pompe e chiuse, orto automatico, mandria, forno, frantoio,
+telaio, braccio e smistatore, magazzino, trivella, difese, carillon e decorazioni), 10 comandi e sensori e 6 nodi della
+logica. Il mondo risponde: **Centrali dei Seminatori** da risvegliare in ogni mondo (3-6, con una serie nuova di unici),
+la firma della Centrale intatta, cinque geni della rete, la **Tempesta di Linfa** e la **Valvola di sfogo**, i
+**Succhiavena** che bevono le vene di radice, le **Lucciole di vena**, la **Tessitrice di vene**, le **Aiuole
+alimentate**, obiettivi, diario, Bacheca, il **primo circuito guidato** dal secondo stadio dell'Albero, cinque
+consigli, nove capitoli dell'Enciclopedia e due progetti con vene e fili.
+**Quanto moltiplica.** La rete tocca quasi tutto quello che c'era: le stanze (luce, fontane, teche), le porte e gli
+assedi (lo Scudo di corteccia), le trappole (armate da un filo), le casse (il Nodo delle casse e il magazzino vivo),
+l'orto e la mandria (irrigatori, falciatrici, mungitrici, culle), i liquidi (pompe, chiuse, pozzi di Linfa), il meteo
+(parafulmini, mulini, barometro), il Cuore del mondo (la Radice-madre), il Giardino e i portali (Aiuole alimentate), la
+lingua dei Seminatori (le Centrali), il combattimento (torrette, siepi di spine).
+**Il bilancio** (`tools/rete.gd`): la rete risparmia fatica e apre possibilità, non stampa Lumini: il Forno e il
+Frantoio trasformano il minerale che si scava (il Frantoio +33%), la Trivella scava come il Germogliato fermo ma con un
+tetto di 600 blocchi al giorno, il Distillatore rende 240 Lumini/h contro i 500-3 000 della pesca, il lavoro mentre si
+è via arriva al più a un'ora.
+**Lasciato fuori di proposito**: i nomi a runa dei nodi e l'ordine delle leve scritto nella lingua nelle Centrali (la
+logica è già un enigma: due enigmi uno sopra l'altro sarebbero stati troppi). **Da fare con l'utente**: la grafica
+(voci 117l-117n) e, giocando, il parere sulle quattro scelte del prospetto.
 
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».

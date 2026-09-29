@@ -198,7 +198,7 @@ func door_strength(o: Vector2i) -> int:
 			if k > 0 and BuildData.power(k) >= 35:
 				strong += 1
 	var k := 2 if strong >= m.masonry.door_h() else 1
-	if m.get("energy") != null and m.energy.shielded(o):
+	if m.get("energy") != null and EnergyLinks.shielded(m.energy, o):
 		k *= 2                                    # Roadmap 19: lo Scudo di corteccia sulla rete della porta
 	return WilesData.DOOR_HITS * k
 

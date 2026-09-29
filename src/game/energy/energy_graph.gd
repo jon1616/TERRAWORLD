@@ -6,6 +6,7 @@ extends RefCounted
 
 
 static var cap_mult := 1.0             # voce 207: il gene «Terra che conduce» (`EnergyStorm.genes`)
+const DIRS: Array[Vector2i] = [Vector2i(0, -1), Vector2i(1, 0), Vector2i(0, 1), Vector2i(-1, 0)]
 
 
 static func build(e: Energy) -> void:
@@ -16,6 +17,8 @@ static func build(e: Energy) -> void:
 	var machines: Dictionary = e.machines
 	net_of.clear()
 	nets.clear()
+	var vein: PackedByteArray = w.vein
+	var ww := w.w
 	for c0: Vector2i in cells:
 		if net_of.has(c0):
 			continue
@@ -27,11 +30,15 @@ static func build(e: Energy) -> void:
 			var c: Vector2i = list[i]
 			i += 1
 			var b := w.vein_at(c.x, c.y)
-			for d in [Vector2i(0, -1), Vector2i(1, 0), Vector2i(0, 1), Vector2i(-1, 0)]:
+			for d: Vector2i in DIRS:
 				var q: Vector2i = c + d
 				if net_of.has(q) or not cells.has(q):
 					continue
-				if VeinsData.joins(b, w.vein_at(q.x, q.y)):
+				var bq := vein[q.y * ww + q.x]          # (le celle di `cells` stanno dentro il mondo)
+				# (`VeinsData.joins` scritto in linea: le chiamate nei cicli interni costano)
+				var ta := b & 7
+				var tb := bq & 7
+				if ta == tb or (b & 8 == 0 and bq & 8 == 0):
 					net_of[q] = idx
 					list.append(q)
 		nets.append({"cells": list, "sources": [], "reserves": [], "users": [], "prod": 0.0, "used": 0.0, "want": 0.0,
@@ -56,16 +63,10 @@ static func build(e: Energy) -> void:
 					nt["users"].append(mc)
 	# le stazioni (casse, porte…) attaccate a una rete: per il Nodo delle casse, lo Smistatore, lo Scudo di corteccia
 	e.station_net.clear()
-	for o: Vector2i in w.stations:
-		var sid := String(w.stations.get(o, ""))
-		if sid == "" or not StationsData.STATIONS.has(sid):
-			continue
-		var sz: Array = StationsData.STATIONS[sid]["size"]
-		for dy in int(sz[1]):
-			for dx in int(sz[0]):
-				var q := o + Vector2i(dx, dy)
-				if not e.station_net.has(o) and net_of.has(q):
-					e.station_net[o] = int(net_of[q])
+	for q: Vector2i in net_of:                # (dalle celle di vena: le stazioni del mondo sono migliaia, le vene no)
+		var st: Dictionary = w.station_at(q)
+		if not st.is_empty() and not e.station_net.has(st["origin"]):
+			e.station_net[st["origin"]] = int(net_of[q])
 	for ni in nets.size():
 		_widest(e, ni)
 
@@ -80,35 +81,58 @@ static func cap_at(w: World, c: Vector2i) -> float:
 static func _widest(e: Energy, ni: int) -> void:
 	var nt: Dictionary = e.nets[ni]
 	var w: World = e.m.world
-	var best := {}
-	var buckets := {}                    # portata -> celle da allargare
-	for mc in nt["sources"] + nt["reserves"]:
-		var v0 := cap_at(w, mc.entry)
-		if v0 > float(best.get(mc.entry, 0.0)):
-			best[mc.entry] = v0
-			if not buckets.has(v0):
-				buckets[v0] = []
-			buckets[v0].append(mc.entry)
-	while not buckets.is_empty():
-		var top: float = buckets.keys().max()
-		var lst: Array = buckets[top]
-		var c: Vector2i = lst.pop_back()
+	var ends: Array = nt["sources"] + nt["reserves"]
+	# voce 212: una rete di un grado solo (il caso più comune) non ha strozzature: ogni macchina ha la portata del grado
+	var cl: Array = nt["cells"]
+	var t0 := w.vein_at(cl[0].x, cl[0].y) & 7 if not cl.is_empty() else 0
+	var uniform := true
+	var vein: PackedByteArray = w.vein
+	var ww := w.w
+	for c: Vector2i in cl:
+		if vein[c.y * ww + c.x] & 7 != t0:
+			uniform = false
+			break
+	if uniform:
+		var cap := cap_at(w, cl[0]) if not ends.is_empty() else 0.0
+		for mc in nt["users"]:
+			mc.cap = cap
+		for mc in ends:
+			mc.cap = cap
+		return
+	# altrimenti la strada più larga: si allarga prima dal grado più alto (una pila per grado, 1-4)
+	var net_of: Dictionary = e.net_of
+	var best := {}                        # cella -> grado della vena più stretta sulla strada migliore
+	var stacks: Array = [[], [], [], [], []]
+	for mc in ends:
+		var t := vein[mc.entry.y * ww + mc.entry.x] & 7
+		if t > int(best.get(mc.entry, 0)):
+			best[mc.entry] = t
+			stacks[t].append(mc.entry)
+	var top := 4
+	while top > 0:
+		var lst: Array = stacks[top]
 		if lst.is_empty():
-			buckets.erase(top)
-		if float(best.get(c, 0.0)) > top:
+			top -= 1
 			continue
-		var b := w.vein_at(c.x, c.y)
-		for d in [Vector2i(0, -1), Vector2i(1, 0), Vector2i(0, 1), Vector2i(-1, 0)]:
+		var c: Vector2i = lst.pop_back()
+		if int(best.get(c, 0)) > top:
+			continue
+		var b := vein[c.y * ww + c.x]
+		for d: Vector2i in DIRS:
 			var q: Vector2i = c + d
-			if e.net_of.get(q, -1) != ni or not VeinsData.joins(b, w.vein_at(q.x, q.y)):
+			if net_of.get(q, -1) != ni:
 				continue
-			var v := minf(top, cap_at(w, q))
-			if v > float(best.get(q, 0.0)):
+			var bq := vein[q.y * ww + q.x]
+			if not ((b & 7) == (bq & 7) or (b & 8 == 0 and bq & 8 == 0)):
+				continue                         # (`VeinsData.joins` in linea: le chiamate nei cicli interni costano)
+			var v := mini(top, bq & 7)
+			if v > int(best.get(q, 0)):
 				best[q] = v
-				if not buckets.has(v):
-					buckets[v] = []
-				buckets[v].append(q)
+				stacks[v].append(q)
+	var caps: Array[float] = []
+	for td in VeinsData.TIERS:
+		caps.append(float((td as Dictionary).get("cap", 0)) * cap_mult)
 	for mc in nt["users"]:
-		mc.cap = float(best.get(mc.entry, 0.0))
+		mc.cap = caps[int(best.get(mc.entry, 0))]
 	for mc in nt["sources"] + nt["reserves"]:
 		mc.cap = cap_at(w, mc.entry)

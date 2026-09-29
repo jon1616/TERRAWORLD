@@ -166,5 +166,5 @@ func state_text(mc: Machine, e: Energy) -> String:
 				return "ferma: nessuna vena la tocca"
 			if mc.power >= 0.99:
 				return "lavora (%s)" % Energy.pulsi(mc.given)
-			return "ferma: %s" % e.why(mc)
+			return "ferma: %s" % EnergyLinks.why(e, mc)
 	return ""

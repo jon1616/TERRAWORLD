@@ -24,6 +24,11 @@ func run() -> void:
 	m.day.paused = true
 	kit.make_room()
 	spot = kit.flat_spot(m.world.spawn, 12)
+	# nel giro intero la partenza è già piena delle costruzioni delle altre prove: si cerca più in là
+	for dx in [0, 260, -260, 420]:
+		spot = kit.flat_spot(m.world.spawn + Vector2i(dx, 0), 12)
+		if spot.x >= 0 and m.world.station_at(spot).is_empty():
+			break
 	if spot.x < 0:
 		spot = m.world.spawn
 		print("ATTENZIONE: energia: nessun posto piano, uso la partenza")
@@ -53,6 +58,7 @@ func run() -> void:
 	await world.garden_links()
 	await world.first_circuit()
 	await world.blueprint()
+	await world.perf()
 	m.player.control = ctl
 	m.day.paused = false
 
@@ -353,6 +359,19 @@ func clean_spot(dx: int, width := 14) -> Vector2i:
 	var y := spot.y
 	var x0 := spot.x + dx
 	kit.flatten(Vector2i(x0 + width / 2, y), width / 2 + 2)
+	# via ciò che le prove di prima hanno lasciato qui (stazioni, liquidi): nel giro intero il posto non è mai vuoto
+	for o in m.world.stations.keys():
+		if o.x >= x0 - 2 and o.x < x0 + width + 2 and o.y >= y - 18 and o.y <= y:
+			if m.world.chests.has(o):
+				m.world.chests.erase(o)
+			unplace(o)
+	for x in range(x0 - 2, x0 + width + 2):
+		for yy in range(y - 18, y + 1):
+			if m.world.liq(x, yy) > 0:
+				m.world.set_liq(x, yy, 0, 0)
+			var tr: Vector3i = m.world.tree_at(Vector2i(x, yy))
+			if tr.x > -9999 and tr != Vector3i(-1, -1, -1):
+				m.world.remove_tree(tr)
 	for x in range(x0 - 2, x0 + width + 2):
 		for yy in range(y - 16, y - 4):
 			m.world.set_tile(x, yy, TileDefs.AIR)

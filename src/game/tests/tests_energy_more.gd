@@ -209,6 +209,10 @@ func garden_light_liquids() -> void:
 	print("faro acceso %s, quiete vicino %.1f e lontano %.1f, serra: crescita ×%.2f" % [faro_lit, quiet_near, quiet_far, grow])
 	# la pompa: l'acqua della buca sotto va allo sbocco
 	var px := p.x + 16
+	for yy in range(y + 1, y + 4):                         # una buca murata: l'acqua non scappa di lato né sotto
+		w.set_tile(px - 1, yy, TileDefs.STONE)
+		w.set_tile(px + 1, yy, TileDefs.STONE)
+	w.set_tile(px, y + 3, TileDefs.STONE)
 	for yy in range(y + 1, y + 3):
 		w.set_tile(px, yy, TileDefs.AIR)
 		w.set_liq(px, yy, 8, LiquidsData.ACQUA)

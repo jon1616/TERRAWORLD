@@ -248,3 +248,54 @@ func blueprint() -> void:
 	for mc: Machine in e.machines.values():
 		if Rect2i(o, sz).has_point(mc.o):
 			t.unplace(mc.o)
+
+
+## Voce 212: una base grande (2 000 celle di vena, 200 macchine): quanto costano la ricostruzione, il conto del Flusso e
+## la parte di ogni fotogramma (il conto si fa ogni `Energy.TICK`: a 60 fotogrammi al secondo, uno ogni 15).
+func perf() -> void:
+	var e: Energy = m.energy
+	var w: World = m.world
+	var p: Vector2i = await t.clean_spot(-640, 100)
+	var y := p.y
+	var placed: Array[Vector2i] = []
+	for i in 10:
+		placed.append(t.place("foglia_lanterna", Vector2i(p.x + i * 10, y - 9)))
+	for i in 190:
+		placed.append(t.place("lampada_baccello", Vector2i(p.x + (i % 95), y - (i / 95) * 2)))
+	for yy in range(y - 19, y + 1):
+		for x in range(p.x, p.x + 100):
+			w.set_vein(x, yy, 2 | (1 << VeinsData.WIRE_SHIFT if yy == y else 0))
+			e._on_vein(Vector2i(x, yy))
+	await kit.frames(2)
+	var t0 := Time.get_ticks_usec()
+	e.rebuild()
+	var rebuild_ms := (Time.get_ticks_usec() - t0) / 1000.0
+	e.solve(Energy.TICK)
+	t0 = Time.get_ticks_usec()
+	e.rebuild()                                              # la seconda volta: una vena posata in una base già fatta
+	var again_ms := (Time.get_ticks_usec() - t0) / 1000.0
+	t0 = Time.get_ticks_usec()
+	for i in 20:
+		e.solve(Energy.TICK)
+	var solve_ms := (Time.get_ticks_usec() - t0) / 20000.0
+	t0 = Time.get_ticks_usec()
+	for i in 60:
+		e.impulse.process(1.0 / 60.0)
+		for mc: Machine in e._framed:
+			mc.bh.frame(mc, e, 1.0 / 60.0)
+	var frame_ms := (Time.get_ticks_usec() - t0) / 60000.0
+	var per_frame := solve_ms / (60.0 * Energy.TICK) + frame_ms
+	var cells := 0
+	for x in range(p.x, p.x + 100):
+		for yy in range(y - 19, y + 1):
+			cells += 1 if VeinsData.tier(w.vein_at(x, yy)) > 0 else 0
+	print("prestazioni della rete: %d celle di vena, %d macchine; ricostruzione %.1f ms (poi %.1f), un conto del Flusso %.2f ms, per fotogramma %.3f ms" % [
+		cells, placed.size(), rebuild_ms, again_ms, solve_ms, per_frame])
+	if per_frame > 0.5 or again_ms > 30.0:
+		print("ATTENZIONE: la rete costa più di 0,5 ms per fotogramma, o rifarla più di 30 ms")
+	for o in placed:
+		t.unplace(o)
+	for yy in range(y - 19, y + 1):
+		for x in range(p.x, p.x + 100):
+			w.set_vein(x, yy, 0)
+			e._on_vein(Vector2i(x, yy))

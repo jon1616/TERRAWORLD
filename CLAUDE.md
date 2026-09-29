@@ -114,7 +114,7 @@ Godot_console.exe --path . -- --prove --prova-giardino
 # biomi, biomi_nuovi, luoghi, corsa, raccolta, musica, germogliato, interfaccia, geni, forme, ecologia, mandria, casse, alberi,
 # base (il cuore del gioco, da lanciare sempre), sigilli, stagioni, suggerimenti, opzioni, enciclopedia, lingua, catene, luoghi_scritti, enigmi, seme_nero, acqua,
 # liquidi, meteo, gravita, terra_viva, tempo_mondi, vigore, guardiani_generati, leggende, sfide, grafica, vivo, cielo,
-# comodita
+# comodita, energia (la rete della Roadmap 19, ~3 minuti)
 # (elenco in `AutoTests._group`)
 Godot_console.exe --path . -- --prove --solo=doni,antiche
 # suoni generati: prove/suoni/*.wav da ascoltare, con durata, picco e volume medio (segnala muti e distorti)
@@ -143,6 +143,8 @@ Godot_console.exe --headless --path . --script res://tools/percorso.gd -- --giri
 Godot_console.exe --headless --path . --script res://tools/armi.gd
 # il bot in arena contro creature vere (tara il modello; ~3 minuti) → prove/arena.txt
 Godot_console.exe --path . -- --prove --solo=arena
+# Roadmap 19: il bilancio della rete (sorgenti, macchine all'ora in Lumini, confronto con scavo e pesca) → prove/rete.txt
+Godot_console.exe --headless --path . --script res://tools/rete.gd
 # Roadmap 17: quanto dura imparare la lingua (un giocatore simulato in otto mondi) → prove/lingua.txt
 Godot_console.exe --headless --path . --script res://tools/lingua.gd
 # Roadmap 16: la misura del cielo (zone, tessere, isole, osservatori) con e senza i geni del cielo → prove/cielo.txt
@@ -653,6 +655,32 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     **Dopo ogni cambio a questi numeri si rifà `tools/percorso.gd`** e si guarda che «attento» resti a 0-2 appassimenti
     all'ora e «medio» sotto ~10.
   - `Vitals.cause` e il Diario (`morti_causa`): di che cosa appassisce l'utente nelle partite vere, per tarare ancora.
+- **Roadmap 19 «La Linfa che scorre»** (voci 190-213, 29 set 2026; richiesta dell'utente dopo il prospetto: roadmap
+  dettagliata eseguita in autonomia; scelte: due reti, lavoro mentre si è via a metà velocità per al più 2 ore, solo i
+  Succhiavena bevono e solo le vene di radice, le vene si vedono sempre e i fili solo con la Pinza o l'Occhio):
+  - Lo strato: `World.vein` (un byte per cella: bit 0-2 grado della vena, bit 3 isolata, bit 4-7 i quattro fili),
+    `vein_at`/`set_vein`, salvato da `WorldSave`; `VeinsData` (gradi, fili, `joins`); disegno `VeinPainter` + strati di
+    `WorldView` (vene z -8, bagliore z -7, fili z 2 solo con `set_show_wires`). La Pinza: `Veins` (`src/game/energy/`).
+    L'indice delle stazioni in `World` (`station_at` veloce, `stations_rev()`, `stations_changed()`; durante la
+    generazione `station_at` è lineare: il generatore non lo usa nei cicli).
+  - Le macchine sono **righe di dati** (`MachinesData`: role sorgente/riserva/macchina/comando/nodo, size, bh, pulsi,
+    colpo, cap/io, slots, fuel, light, porta, p, look, in, `gen` = solo del generatore, `fixed` = non si riprende) che
+    diventano stazioni, oggetti (categoria «rete») e ricette; il comportamento è un file per `bh` in
+    `src/game/energy/machines/` (`MachineBehavior.make`: produce, demand, tick, frame, on_impulse, touch, panel_rows,
+    removed, state_text). Disegni in `MachineArt`/`MachineArtMore`. **Prima di dare un id si controlla che non sia già
+    un oggetto o una stazione** (`verifica_dati._check_machines`: tre macchine avevano l'id di un oggetto).
+  - `Energy` (il Flusso: reti per visita delle vene, `EnergyGraph` con la strada più larga fino a ogni macchina, conto
+    ogni `TICK`, priorità, riserve, `spend`, `needs`, `charge`; stato in `world_meta["rete"]["m"]`), `EnergyView`
+    (aspetto, luci, zone), `EnergyAway` (il lavoro mentre si è via), `EnergyStorm` (geni `linfa_*` e la Tempesta di
+    Linfa), `EnergyGarden` (Aiuole alimentate, `stats.macchine`), `EnergyLinks` (casse, scudi, testi); `Impulse` (i fili:
+    reti per colore, eventi su/giù/colpo, un nodo guida solo il filo della sua uscita con `drives`, i cambi con attesa
+    sono eventi «stato», al più `MAX_EVENTS` per fotogramma). Pannello `MachinePanel`, schede `MachineTip`.
+  - Il mondo: `PassCentrali` (le Centrali dei Seminatori; `build(…, intatta)` anche per la firma), Succhiavena
+    (`BhSucchia` + `Wiles._suck`), Lucciole di vena (`BhLucciolaVena`), evento `tempesta_linfa`, la Tessitrice di vene,
+    obiettivi, diario, Bacheca, il corredo del secondo stadio dell'Albero (`gives.items`) e il filo del primo circuito
+    (`FiloRete`), progetti con le griglie «vene» e «fili» (`ProjectsData`, `BuilderTools._blueprint_veins`).
+  - Prove: gruppo «energia» (`TestsEnergy`, `TestsEnergyMore`, `TestsEnergyLogic`, `TestsEnergyWorld`; foto 230-243).
+    Misura: `tools/rete.gd`. Enciclopedia: `EncyEnergyData` + cataloghi `EncyEnergy`.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni
@@ -929,6 +957,18 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   (`tools/percorso.gd`, soglia «rest» dei profili). Senza, anche i più attenti «morivano» 15 volte all'ora.
 - Un difetto raro (3%) può restare nascosto a lungo: la cassa pescata fermava il gioco solo quando il caso della prova
   la sceglieva. Nei rami rari del codice si controlla che ogni valore usato esista per quel ramo.
+
+- **Roadmap 19** (29 set 2026): non chiamare una funzione `_set` (è un metodo virtuale di Object: «The function
+  signature doesn't match the parent»); `get_meta(k, null)` dà errore se la chiave manca: si usa `has_meta`.
+- Un ridisegno «di tutto» a ogni cambio non scala: con 2 000 vene ogni vena posata ridisegnava tutte le celle (131 ms).
+  Si ricorda che cosa è disegnato (`Energy.painted`) e si ridisegna solo ciò che cambia; nei cicli sulle celle si legge
+  l'array direttamente e le regole piccole si scrivono in linea (`EnergyGraph`: da 25 a 6 ms).
+- `rindex(']')` nelle patch Python ha colpito ancora (la parentesi di `c["id"]` in una funzione dopo la lista): la fine
+  di una costante si cerca con `index('\n]\n', inizio_della_costante)`.
+- Le prove che mettono liquidi o creature cercano un posto lontano dai laghi (una prova passava o no secondo il lago
+  del mondo di prova) e creano le creature con `Fauna.add` (`spawn_at_nest` rifiuta vicino alle torce, a caso).
+- Un comando con un'attesa (i nodi) cambia il filo un passo dopo: una prova che cambia due cose nello stesso fotogramma
+  (abbassa una leva e ripara una vena) vede la porta aprirsi nel mezzo. Si aspetta che l'Impulso si assesti.
 
 ## Convenzioni
 

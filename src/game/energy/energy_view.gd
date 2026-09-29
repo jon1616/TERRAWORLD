@@ -6,9 +6,15 @@ extends RefCounted
 
 
 static func repaint(e: Energy, ni: int) -> void:
+	var f: bool = e.nets[ni]["flowing"]
 	for c: Vector2i in e.nets[ni]["cells"]:
+		if e.painted.get(c, null) == f:
+			continue
 		if e.m.view.chunks.has(World.chunk_of(c)):
 			e.m.view.refresh_vein(c)
+			e.painted[c] = f
+		else:
+			e.painted.erase(c)                      # il blocco non c'è: quando arriva si disegna com'è
 
 
 ## [fa luce, ha energia, trasparenza, forza del bagliore] di una macchina (per `ViewProps`). Il bagliore di una riserva
