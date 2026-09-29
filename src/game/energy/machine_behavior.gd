@@ -72,6 +72,10 @@ static func make(bh: String) -> MachineBehavior:
 			return MbTrivella.new()
 		"torretta":
 			return MbTorretta.new()
+		"carillon":
+			return MbCarillon.new()
+		"esposizione":
+			return MbEsposizione.new()
 		"rovo":
 			return MbRovo.new()
 		"campana":

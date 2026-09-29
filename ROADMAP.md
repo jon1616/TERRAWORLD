@@ -3519,7 +3519,10 @@ due macchine avevano l'id di oggetti che già c'erano («cuore_cristallo», «mi
 Nucleo di cristallo e Falciatrice di radice, e `verifica_dati` controlla le macchine; le maree guardavano solo il primo
 Focolare del mondo per la base degli assedi. Foto 237_difese.
 Torretta di spine, Rovo vivo, Campana d'allarme, Scudo di corteccia, trappole comandate dall'Impulso.
-## 203. [ ] Giocare e decorare (P)
+## 203. [x] Giocare e decorare (P) — fatto il 29 set 2026
+**Fatto**: Carillon di radice (una nota di una scala pentatonica a ogni impulso: `Sfx.play` ha l'altezza), Fontana di
+Linfa e Teca d'esposizione (il campo `bello` delle macchine passa alle stanze; la teca illumina il trofeo che contiene, e
+il trofeo conta per la sala dei trofei).
 Carillon di radice, Fontana di Linfa, Esposizione (comodità e trofei delle stanze).
 
 ## Fase 4 · La logica

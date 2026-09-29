@@ -435,3 +435,31 @@ func defense() -> void:
 				w.chests.erase(o)
 			t.unplace(o)
 	m.world_meta["trappole_ferme"] = []
+
+
+## Voce 203: il carillon suona la sua nota, la fontana e la teca sono belle, la teca illumina il trofeo.
+func play_decor() -> void:
+	var e: Energy = m.energy
+	var w: World = m.world
+	var p: Vector2i = await t.clean_spot(520, 16)
+	var y := p.y
+	var bell := await powered("carillon_radice", Vector2i(p.x, y))
+	var bm: Machine = e.machines[bell]
+	bm.st["nota"] = 4
+	var played0: int = int(m.sfx.played.get("stella", 0))
+	e.touch(bell)
+	var played: bool = int(m.sfx.played.get("stella", 0)) == played0 + 1 and int(bm.st.get("suoni", 0)) == 1
+	var fount := await powered("fontana_linfa", Vector2i(p.x + 4, y))
+	var case_o := await powered("esposizione", Vector2i(p.x + 9, y))
+	w.chest_at(case_o).add(String(TrophyItemsData.TROPHY_OF.values()[0]), 1)
+	await t.ticks(3)
+	var lit: bool = (e.machines[case_o] as Machine).lit
+	var pretty: bool = int(StationsData.STATIONS["fontana_linfa"].get("bello", 0)) == 6 and int(StationsData.STATIONS["esposizione"].get("bello", 0)) == 3
+	print("carillon: suona la nota %s; fontana e teca belle nelle stanze %s; la teca con un trofeo si illumina %s" % [played, pretty, lit])
+	if not (played and pretty and lit):
+		print("ATTENZIONE: carillon, fontana o teca non fanno ciò che devono")
+	for o in e.machines.keys():
+		if o.x >= p.x - 2 and o.x <= p.x + 16:
+			if w.chests.has(o):
+				w.chests.erase(o)
+			t.unplace(o)

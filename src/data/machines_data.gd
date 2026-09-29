@@ -170,6 +170,18 @@ const MACHINES := {
 	"scudo_corteccia": {"name": "Scudo di corteccia", "role": "macchina", "size": [1, 1], "bh": "zona", "pulsi": 40,
 		"look": "scudo", "icon": ["scudo", "legnoferro"], "in": {"lingotto_legnoferro": 4, "legno": 10, "gelatina": 2}, "station": "baccello_ardente",
 		"tier": 2, "desc": "Durante un assedio le porte attaccate alla sua rete (una vena che le tocca) reggono il doppio dei morsi. Chiede 40 pulsi."},
+	# ---------------------------------------------------------------- giocare e decorare (voce 203)
+	"carillon_radice": {"name": "Carillon di radice", "role": "macchina", "size": [1, 1], "bh": "carillon", "pulsi": 0, "colpo": 1,
+		"look": "carillon", "icon": ["stella", "ambra"], "in": {"lingotto_ambra": 1, "legno": 2}, "station": "maglio", "qty": 4, "tier": 2,
+		"desc": "A ogni impulso suona la sua nota (nel pannello, otto note): tanti carillon, un Orologio e qualche Ritardo fanno una melodia."},
+	"fontana_linfa": {"name": "Fontana di Linfa", "role": "macchina", "size": [2, 2], "bh": "lampada", "pulsi": 4, "bello": 6,
+		"light": Color(0.6, 1.2, 1.2), "look": "fontana", "icon": ["goccia", "linfa"], "in": {"ardesia": 12, "cristallo_linfa": 1, "gelatina": 2},
+		"station": "ceppo", "tier": 2,
+		"desc": "Un getto di Linfa che brilla: nelle stanze conta come un mobile bello (+6). Chiede 4 pulsi."},
+	"esposizione": {"name": "Teca d'esposizione", "role": "macchina", "size": [1, 2], "bh": "esposizione", "pulsi": 2, "slots": 1,
+		"bello": 3, "light": Color(1.2, 1.1, 0.9), "look": "teca", "icon": ["gemma", "cielo"], "in": {"cristallo_linfa": 1, "legno": 4, "gelatina": 2},
+		"station": "ceppo", "tier": 2,
+		"desc": "Una teca illuminata per un trofeo o un oggetto unico: nelle stanze è un mobile bello, e i trofei contano per la sala dei trofei. Chiede 2 pulsi."},
 	# ---------------------------------------------------------------- la Trivella (voce 201)
 	"trivella_radice": {"name": "Trivella di radice", "role": "macchina", "size": [3, 2], "bh": "trivella", "pulsi": 80, "slots": 16,
 		"light": Color(1.2, 1.0, 0.6), "look": "trivella", "icon": ["piccone", "legnoferro"],
@@ -229,6 +241,8 @@ static func stations() -> Dictionary:
 			var e := {"name": d["name"], "size": d["size"], "item": id, "macchina": true}
 			if d.has("slots"):
 				e["slots"] = int(d["slots"])             # la cassetta del combustibile (la apre il pannello)
+			if d.has("bello"):
+				e["bello"] = int(d["bello"])             # la bellezza nelle stanze (`Rooms`)
 			if d.get("porta", false):
 				e["porta_rete"] = true                   # le tessere si chiudono e si aprono (vedi `MbPorta`)
 			if d.get("sul_liquido", false):

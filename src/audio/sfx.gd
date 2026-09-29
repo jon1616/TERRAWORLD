@@ -46,7 +46,7 @@ func setup(main: Node2D) -> void:
 
 
 ## Suona un effetto; `at` = punto del mondo da cui viene (INF = dal Germogliato stesso).
-func play(id: String, at := Vector2.INF) -> void:
+func play(id: String, at := Vector2.INF, pitch := 0.0) -> void:
 	if _task >= 0:
 		if not WorkerThreadPool.is_task_completed(_task):
 			return
@@ -68,7 +68,7 @@ func play(id: String, at := Vector2.INF) -> void:
 	p.stream = streams[id]
 	p.volume_db = gain
 	var v := float(r.get("var", 0.0))
-	p.pitch_scale = 1.0 + randf_range(-v, v)
+	p.pitch_scale = 1.0 + randf_range(-v, v) if pitch <= 0.0 else pitch     # Roadmap 19: il carillon suona una nota
 	p.play()
 	played[id] = int(played.get(id, 0)) + 1
 

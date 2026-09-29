@@ -42,6 +42,7 @@ func run() -> void:
 	await more.factory()
 	await more.drill()
 	await more.defense()
+	await more.play_decor()
 	m.player.control = ctl
 	m.day.paused = false
 

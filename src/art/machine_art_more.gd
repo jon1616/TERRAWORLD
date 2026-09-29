@@ -60,6 +60,12 @@ static func draw(look: String, im: Image, gm: Image, w: int, h: int) -> bool:
 			_campana(im, gm, w, h)
 		"scudo":
 			_scudo(im, gm, w, h)
+		"carillon":
+			_carillon(im, gm, w, h)
+		"fontana":
+			_fontana(im, gm, w, h)
+		"teca":
+			_teca(im, gm, w, h)
 		_:
 			return false
 	return true
@@ -346,3 +352,34 @@ static func _scudo(im: Image, gm: Image, w: int, h: int) -> void:
 	Px.disc(im, w * 0.5, h * 0.5, w * 0.36, MachineArt.BARK[2])
 	Px.disc(im, w * 0.5, h * 0.5, 1.5, MachineArt.LINFA[2])
 	Px.disc(gm, w * 0.5, h * 0.5, 1.2, MachineArt.LINFA[3])
+
+
+## Il Carillon di radice: una campanella d'ambra su un ricciolo di radice.
+static func _carillon(im: Image, gm: Image, w: int, h: int) -> void:
+	MachineArt._roots(im, w, h)
+	Px.curve(im, Vector2(w * 0.5, h - 3), Vector2(2, h * 0.3), Vector2(w * 0.6, 3), 1, MachineArt.BARK[2])
+	Px.disc(im, w * 0.6, 5, 2.4, MachineArt.AMBER[2])
+	Px.disc(gm, w * 0.6, 5, 1.6, MachineArt.AMBER[3])
+
+
+## La Fontana di Linfa: una vasca di ardesia con il getto che brilla.
+static func _fontana(im: Image, gm: Image, w: int, h: int) -> void:
+	MachineArt._rect(im, 1, h - 7, w - 1, h, MachineArt.SLATE[0])
+	MachineArt._rect(im, 2, h - 7, w - 2, h - 4, MachineArt.LINFA[1])
+	MachineArt._rect(gm, 3, h - 7, w - 3, h - 5, MachineArt.LINFA[2])
+	Px.line(im, Vector2(w * 0.5, h - 7), Vector2(w * 0.5, 4), 2, MachineArt.LINFA[2])
+	Px.line(gm, Vector2(w * 0.5, h - 7), Vector2(w * 0.5, 4), 1, MachineArt.LINFA[3])
+	for a in [-1, 1]:
+		Px.curve(im, Vector2(w * 0.5, 4), Vector2(w * 0.5 + a * 6, 0), Vector2(w * 0.5 + a * 9, h - 8), 1, MachineArt.LINFA[2])
+
+
+## La Teca d'esposizione: un piedistallo di legno con una campana di vetro.
+static func _teca(im: Image, gm: Image, w: int, h: int) -> void:
+	MachineArt._rect(im, 2, int(h * 0.55), w - 2, h, MachineArt.BARK[1])
+	MachineArt._rect(im, 3, int(h * 0.55) + 1, w - 3, h - 1, MachineArt.BARK[3])
+	for y in range(2, int(h * 0.55)):
+		Px.put(im, 2, y, Color("#b8e0e8"))
+		Px.put(im, w - 3, y, Color("#b8e0e8"))
+	for x in range(2, w - 2):
+		Px.put(im, x, 2, Color("#b8e0e8"))
+	Px.disc(gm, w * 0.5, h * 0.35, 2.0, Color("#fff0d0"))
