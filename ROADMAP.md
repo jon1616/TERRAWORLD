@@ -4301,6 +4301,33 @@ terra c'è l'**archeologia** (giacimenti, Pennello, 24 fossili e 8 scheletri); n
 perdute** raccontano in otto storie chi erano i Seminatori e dove sono andati; i **traguardi** premiano l'Erbario, le tre
 lingue, le reliquie, le serie e il Museo completi. Tutto al grado 10: ~459 ore (513 per il giocatore medio).
 
+# Roadmap 27 «Acque e correnti» — i pilastri della pesca e della rete (dal 30 set 2026)
+
+## Da dove si parte
+La pesca ha più di cento pesci, casse, esche, piatti e il Pescatore; la rete 64 macchine, le Centrali e le tempeste. Ma
+nessuna delle due ha una meta lunga oltre «pescarli tutti» e «costruire di più»: nessun record da battere, nessuna
+gara, nessuna richiesta che chieda di far lavorare bene una rete grande. Obiettivo: ~25 ore di cose nuove.
+
+## 258. [x] Il libro dei record di pesca (M) — fatto il 30 set 2026
+Per ogni specie tre medaglie secondo la misura del pesce più grande (bronzo, argento, oro, dalla sua taglia massima);
+premi a ogni medaglia nuova e a ogni dieci ori; la riga della pesca nel Libro dei pilastri.
+**Fatto**: `AnglerBook` (`src/game/angler_book.gd`, segnale nuovo `Fishing.fish_caught`): per ognuna delle 67 specie la
+medaglia della misura più grande (bronzo dal 40% della taglia, argento dal 70%, oro dal 90%) in `stats["record_<pesce>"]`,
+premi a ogni medaglia (lumini, casse pescate, polvere iridata) e un premio grande ogni dieci ori; la riga nel Libro dei
+pilastri; conteggi «medaglie_pesca» e «ori_pesca». In pausa durante le prove (i premi cambierebbero i conti delle prove
+della pesca). Prova nel gruppo nuovo `correnti`.
+
+## 259. [ ] Le gare di pesca (M)
+Ogni giorno il Pescatore sceglie una specie del mondo: chi ne pesca una abbastanza grande prima della fine del giorno
+vince il premio della gara (esche, casse, polvere iridata); le vittorie di fila allungano la serie e il premio.
+
+## 260. [ ] I contratti della rete (M)
+La Tessitrice di vene propone tre contratti: una rete che dà tanti pulsi insieme, tante macchine che lavorano insieme,
+una Centrale risvegliata, tanti impulsi mandati; premi di pezzi rari e maestria della rete.
+
+## 261. [ ] Enciclopedia, misura e resoconto (P)
+Capitoli, consigli, `tools/durata.gd` (i pilastri della pesca e della rete e la loro varietà), giro intero, GitHub.
+
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».
 - Grafica: ora nella Roadmap 13 «Il volto del mondo» (armatura e colpo in corsa alla voce 117, creature 114-116).

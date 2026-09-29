@@ -17,6 +17,7 @@ func run(main: Node2D) -> void:
 	main.blight.paused = true
 	main.hazards.paused = true
 	main.events.paused = true              # niente eventi a caso sotto le misure
+	main.angler.paused = true              # Roadmap 27: i premi dei record di pesca cambierebbero i conti
 	main.villagers.paused = true           # gli abitanti arrivano solo quando lo chiede la prova             # l'Avvizzimento non si allarga sotto le misure delle altre prove
 	# 28 set 2026: uno script delle prove che non compila fermava il giro senza chiuderlo (fino al tempo massimo):
 	# si controllano tutti prima di cominciare, e se uno è rotto si esce subito dicendo quale
@@ -255,6 +256,8 @@ func run(main: Node2D) -> void:
 	_mark("TestsArts")
 	await TestsMemories.new(kit).run()     # Roadmap 26: memorie
 	_mark("TestsMemories")
+	await TestsCurrents.new(kit).run()     # Roadmap 27: acque e correnti
+	_mark("TestsCurrents")
 	await ob.run()
 	_mark("ob.run")
 	await w.run_and_save()
@@ -451,6 +454,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsArts.new(kit).run()           # Roadmap 25: le arti
 		"memorie":
 			await TestsMemories.new(kit).run()       # Roadmap 26: memorie
+		"correnti":
+			await TestsCurrents.new(kit).run()       # Roadmap 27: acque e correnti
 		"arena":
 			await TestsArena.new(kit).run()          # voce 180: il bot in arena (una misura, non nel giro)
 		"tratti":

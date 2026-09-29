@@ -139,6 +139,8 @@ func text_of(p: String) -> String:
 	t += "Il prossimo passo: [color=#ffd24a]%s[/color]\n" % d["hint"]
 	if p == "giardino" and m.get("beauty") != null:
 		t += m.beauty.line() + "\n"             # Roadmap 22: la bellezza del Giardino
+	if p == "pesca" and m.get("angler") != null:
+		t += m.angler.line() + "\n"             # voce 258: i record di pesca
 	if p == "misteri" and m.get("museum") != null:
 		t += m.museum.line() + "\n"             # voce 253: il Museo
 	if p == "orto" and m.get("garden") != null:

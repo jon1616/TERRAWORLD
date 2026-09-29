@@ -15,6 +15,7 @@ const STEAL_R := 7.0                     # voce 133: tessere dal galleggiante en
 const STEAL_CHANCE := 0.5
 
 var on_catch := Callable()               # Roadmap 21: chi vuole sapere che pesce si è preso (`LostGardens`)
+signal fish_caught(id: String, size: int)  # Roadmap 27: il pesce preso e la sua misura (`AnglerBook`)
 var m: Node2D
 var line := {}                           # la lenza in acqua: {cell, from, rod, ctx, t, bite}
 var caught := 0                          # quanti pesci (per le prove)
@@ -206,6 +207,7 @@ func catch() -> String:
 	m.objectives.bump("pesci")
 	if on_catch.is_valid():
 		on_catch.call(id)                        # Roadmap 21: le cure del Giardino sommerso
+	fish_caught.emit(id, size)
 	if first:
 		m.objectives.bump("specie_pescate")      # voce 124: obiettivi e Pescatore
 	if String(FishData.info(id)["rar"]) == "leggendario":
