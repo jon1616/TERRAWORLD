@@ -81,7 +81,7 @@ func line(a: Vector2i, b: Vector2i, md: int) -> int:
 		if put(c, md):
 			n += 1
 	if n > 0:
-		m.sfx.play("piazza", Vector2(b) * 16.0)
+		m.sfx.play("posa", Vector2(b) * 16.0)
 	elif m.character.bisaccia.count(VeinsData.mode_item(md)) == 0:
 		m.hud.toast("Non hai %s: si fa al banco (vedi Creare)" % VeinsData.mode_name(md).to_lower())
 	return n

@@ -40,6 +40,14 @@ static func make(bh: String) -> MachineBehavior:
 			return MbPozzo.new()
 		"mandria":
 			return MbRuotaMandria.new()
+		"ascensore":
+			return MbAscensore.new()
+		"nastro":
+			return MbNastro.new()
+		"catapulta":
+			return MbCatapulta.new()
+		"porta_seme":
+			return MbPortaSeme.new()
 		"parafulmine":
 			return MbParafulmine.new()
 		"radice_madre":

@@ -37,6 +37,7 @@ func run() -> void:
 	var more := TestsEnergyMore.new(kit, self)
 	await more.special()
 	await more.reserves()
+	await more.moving()
 	m.player.control = ctl
 	m.day.paused = false
 

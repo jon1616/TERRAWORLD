@@ -51,6 +51,14 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 			_parafulmine(im, gm, w, h)
 		"radice_madre":
 			_radice_madre(im, gm, w, h)
+		"ascensore":
+			_ascensore(im, gm, w, h)
+		"nastro":
+			_nastro(im, gm, w, h)
+		"catapulta":
+			_catapulta(im, gm, w, h)
+		"porta_seme":
+			_porta_seme(im, gm, w, h)
 		_:
 			_scatola(im, gm, w, h, d)
 	return true
@@ -327,3 +335,51 @@ static func _cisterna(im: Image, gm: Image, w: int, h: int) -> void:
 	_rect(im, 7, int(h * 0.45), w - 7, h - 10, LINFA[1])
 	_rect(gm, 8, int(h * 0.45) + 1, w - 8, h - 11, LINFA[2])
 	_rect(im, int(w * 0.3), 0, int(w * 0.7), 3, BARK[1])
+
+
+## L'Ascensore a bolla: una conca di corteccia con la bocca di Linfa da cui escono le bolle.
+static func _ascensore(im: Image, gm: Image, w: int, h: int) -> void:
+	_rect(im, 0, h - 6, w, h, BARK[0])
+	_rect(im, 1, h - 6, w - 1, h - 1, BARK[2])
+	_rect(im, 3, h - 7, w - 3, h - 4, LINFA[1])
+	_rect(gm, 4, h - 7, w - 4, h - 5, LINFA[3])
+	for p in [Vector2(w * 0.3, h * 0.35), Vector2(w * 0.6, h * 0.2), Vector2(w * 0.75, h * 0.5)]:
+		Px.disc(im, p.x, p.y, 1.4, LINFA[2])
+		Px.disc(gm, p.x, p.y, 1.0, LINFA[3])
+
+
+## Il Nastro vivo: una striscia di foglie intrecciate con le frecce di Linfa.
+static func _nastro(im: Image, gm: Image, w: int, h: int) -> void:
+	_rect(im, 0, h - 5, w, h, BARK[0])
+	_rect(im, 0, h - 5, w, h - 2, LEAF[1])
+	for x in range(1, w, 4):
+		Px.put(im, x, h - 4, LEAF[3])
+		Px.put(im, x + 1, h - 3, LEAF[2])
+	Px.put(im, w - 4, h - 4, LINFA[3])
+	Px.put(gm, w - 4, h - 4, LINFA[3])
+	Px.put(im, w - 5, h - 3, LINFA[2])
+
+
+## La Catapulta di spore: un grosso fungo a molla, il cappello pieno di spore.
+static func _catapulta(im: Image, gm: Image, w: int, h: int) -> void:
+	_roots(im, w, h)
+	Px.line(im, Vector2(w * 0.5, h - 3), Vector2(w * 0.5, h * 0.5), 2, BARK[3])
+	for y in range(int(h * 0.3), int(h * 0.55)):
+		for x in w:
+			var dx := (x + 0.5 - w * 0.5) / (w * 0.5)
+			var top := h * 0.3 + (1.0 - (1.0 - dx * dx)) * h * 0.2
+			if y >= top:
+				Px.put(im, x, y, Color("#b04a3a") if (x + y) % 5 != 0 else Color("#f0e0c0"))
+	Px.disc(gm, w * 0.5, h * 0.42, 1.5, Color("#ffd0a0"))
+
+
+## La Porta-seme: un arco di radici attorno a un grande seme che brilla.
+static func _porta_seme(im: Image, gm: Image, w: int, h: int) -> void:
+	_roots(im, w, h)
+	Px.curve(im, Vector2(2, h - 3), Vector2(w * 0.5, -h * 0.3), Vector2(w - 3, h - 3), 3, BARK[1])
+	Px.curve(im, Vector2(3, h - 3), Vector2(w * 0.5, -h * 0.2), Vector2(w - 4, h - 3), 1, BARK[3])
+	var c := Vector2(w * 0.5, h * 0.55)
+	Px.disc(im, c.x, c.y, w * 0.26, AMBER[1])
+	Px.disc(im, c.x, c.y, w * 0.2, AMBER[2])
+	Px.disc(gm, c.x, c.y, w * 0.16, AMBER[3])
+	Px.line(im, c + Vector2(0, -w * 0.2), c + Vector2(0, w * 0.2), 1, AMBER[0])

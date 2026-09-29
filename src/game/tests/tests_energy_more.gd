@@ -114,3 +114,76 @@ func reserves() -> void:
 		print("ATTENZIONE: le riserve o il lavoro mentre si è via non vanno come dovrebbero")
 	t.unplace(leaf)
 	t.unplace(tank)
+
+
+## Una macchina con un Otre pieno accanto e una vena di legnoferro sotto entrambi (per le macchine che chiedono poco).
+func powered(id: String, c: Vector2i) -> Vector2i:
+	var o := t.place(id, c)
+	var sz: Array = StationsData.STATIONS[id]["size"]
+	var ot := t.place("otre_linfa", Vector2i(c.x + int(sz[0]), c.y))
+	t.lay_row(c.x, c.x + int(sz[0]), c.y, 2)
+	await t.ticks(2)
+	(m.energy.machines[ot] as Machine).st["g"] = 3000.0
+	await t.ticks(2)
+	return o
+
+
+## Voce 198: l'ascensore porta su, il nastro sposta, la catapulta lancia, la porta-seme porta dall'altra parte.
+func moving() -> void:
+	var e: Energy = m.energy
+	var p: Vector2i = await t.clean_spot(210, 40)
+	var y := p.y
+	var ctl: bool = m.player.control
+	m.player.control = false
+	# l'ascensore: tenendo il salto nella colonna si sale
+	var lift := await powered("ascensore_bolla", Vector2i(p.x, y))
+	m.snap_to(Vector2i(p.x, y - 1))
+	await kit.frames(3)
+	var y0: float = m.player.position.y
+	m.player.auto_jump = true
+	await kit.seconds(1.5)
+	m.player.auto_jump = false
+	var rose: float = (y0 - m.player.position.y) / 16.0
+	var col_ok: bool = m.gravity.columns.has("%d,%d" % [lift.x, lift.y])
+	await kit.seconds(1.5)
+	print("ascensore a bolla: colonna accesa %s, in 1,5 s si sale di %.1f tessere" % [col_ok, rose])
+	# il nastro vivo: un oggetto posato sopra si sposta
+	var belt := await powered("nastro_vivo", Vector2i(p.x + 6, y))     # quattro in fila (l'Otre a destra del primo)
+	for k in range(1, 4):
+		t.place("nastro_vivo", Vector2i(p.x + 6 - k, y))
+	t.lay_row(p.x + 3, p.x + 6, y, 2)
+	await t.ticks(3)
+	belt = Vector2i(p.x + 3, y)
+	m.snap_to(Vector2i(p.x + 30, y))                    # lontano: gli oggetti vicini volano nella Bisaccia
+	await kit.frames(2)
+	m.drops.spawn("legno", 1, Vector2(belt) * 16.0 + Vector2(8, 0))
+	var item: Dictionary = m.drops._items[-1]
+	await kit.seconds(0.2)
+	var d0: Vector2 = (item["node"] as Node2D).position
+	await kit.seconds(0.8)
+	var moved: float = (item["node"] as Node2D).position.x - d0.x if is_instance_valid(item["node"]) else 0.0
+	print("nastro vivo: l'oggetto si sposta di %.0f px in 0,8 s" % moved)
+	# la catapulta: il Germogliato sopra viene lanciato in su
+	var cat := await powered("catapulta_spore", Vector2i(p.x + 16, y))
+	m.snap_to(Vector2i(p.x + 16, y))
+	await kit.frames(3)
+	e.touch(cat)
+	var vy: float = m.player.vel.y
+	await kit.seconds(1.5)
+	print("catapulta di spore: velocità in su %.0f px/s" % -vy)
+	# la porta-seme: da una all'altra
+	var g1 := await powered("porta_seme", Vector2i(p.x + 22, y))
+	var g2 := t.place("porta_seme", Vector2i(p.x + 34, y))
+	await t.ticks(2)
+	m.snap_to(Vector2i(p.x + 23, y))
+	await kit.frames(3)
+	e.touch(g1)
+	await kit.frames(3)
+	var arrived: bool = absi(m.player_cell().x - (g2.x + 1)) <= 1
+	print("porta-seme: arrivato all'altra porta %s" % arrived)
+	m.player.control = ctl
+	if not (col_ok and rose > 8.0 and absf(moved) > 60.0 and -vy > 400.0 and arrived):
+		print("ATTENZIONE: le macchine del movimento non vanno come dovrebbero")
+	for o in e.machines.keys():
+		if o.x >= p.x - 2 and o.x <= p.x + 40:
+			t.unplace(o)

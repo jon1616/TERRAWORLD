@@ -3476,7 +3476,13 @@ lavoro), e l'avviso «Mentre eri via la rete ha lavorato N minuti». Per stare s
 luci, bagliore delle vene). Prova: un'ora finta = 1800 s di lavoro e il serbatoio pieno, dieci ore = 3600 s.
 
 ## Fase 3 · Le macchine
-## 198. [ ] Muoversi (G)
+## 198. [x] Muoversi (G) — fatto il 29 set 2026
+**Fatto**: Ascensore a bolla (`MbAscensore`: una colonna di bolle fino al primo soffitto, al più 60 tessere, in
+`Gravity.columns`: sale chi tiene il salto, tenendo giù si scende piano; le bolle si vedono), Nastro vivo (`MbNastro`:
+gli oggetti il doppio più svelti, il verso lo cambia un impulso o il pannello), Catapulta di spore (`MbCatapulta`: lancia
+chi ci sta sopra in su, a sinistra o a destra, 60 gocce), Porta-seme (`MbPortaSeme`: alla porta dello stesso canale, 1-6,
+2000 gocce; Maiusc+clic destro il pannello). Prova: si sale di 14 tessere in 1,5 s, quattro nastri portano un oggetto,
+la catapulta lancia a 560 px/s, la porta-seme porta dall'altra parte.
 Ascensore a bolla, Nastro vivo, Catapulta di spore, Porta-seme (coppie).
 ## 199. [ ] Luce, liquidi, giardino (G)
 Faro di Linfa, Cupola di quiete, Insegna; Pompa di radice, Chiusa, Irrigatore, Distillatore; Serra, Mietitrice,

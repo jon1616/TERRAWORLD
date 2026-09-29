@@ -15,6 +15,7 @@ const SHOW := 70                       # tessere: le correnti più lontane non h
 var m: Node2D
 var grav := 1.0
 var currents: Array = []               # [{x, w, y0, y1}] in tessere
+var columns := {}                      # Roadmap 19: le colonne di bolle degli ascensori accesi (chiave -> Rect2i di celle)
 var _fx := {}                          # indice della corrente → CPUParticles2D
 
 
@@ -51,11 +52,19 @@ func current_at(c: Vector2i) -> int:
 	return -1
 
 
+## Roadmap 19: la cella è nella colonna di un ascensore a bolla acceso?
+func in_column(c: Vector2i) -> bool:
+	for r: Rect2i in columns.values():
+		if r.has_point(c):
+			return true
+	return false
+
+
 func _process(_dt: float) -> void:
 	if not m.built:
 		return
 	var p: Player = m.player
-	p.lift = LIFT if current_at(m.player_cell()) >= 0 else 0.0
+	p.lift = LIFT if current_at(m.player_cell()) >= 0 or in_column(m.player_cell()) else 0.0
 	_visuals()
 
 
