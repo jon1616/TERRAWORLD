@@ -54,6 +54,12 @@ var minutes := 0.0
 var world_min := 0.0
 var focus_min := 0.0
 var stat_min := 0.0
+var mastery := {}                      # Roadmap 20: i punti dei pilastri presi per strada nella via diretta
+## Roadmap 20, voce 218: in un giro di mondo, oltre ai traguardi di `PER_WORLD` (che passano per `MasteryData.STATS`),
+## i punti che arrivano per strada: combattere (una parte del giro), scoprire la mappa, fabbricare e costruire un poco.
+const WORLD_PTS := {"combattimento": 0.35, "esplorazione": 0.25, "giardino": 0.05, "orto": 0.03, "misteri": 0.05}
+## Chi cura un pilastro apposta fa i suoi punti a questo ritmo (punti all'ora: un punto ≈ un minuto).
+const PILLAR_RATE := 60.0
 
 
 func _p(s: String) -> void:
@@ -94,9 +100,11 @@ func _init() -> void:
 				var t: Array = STAT_MIN[sid]
 				var m := float(t[0]) if not done.has(sid) else float(t[1])
 				done[sid] = true
+				_stat_points(sid, 1.0)
 				minutes += m
 				stat_min += m
 				notes.append("%s %.0f min" % [sid, m])
+		_stat_points("albero", 1.0)
 		var h := (minutes - before) / 60.0
 		_p("   %2d «%s»: %5.1f h (%5.1f) · giri di mondo %d%s" % [k + 1, st["name"], h, h * MEDIO, worlds - w0,
 			(" · apposta: " + ", ".join(notes)) if not notes.is_empty() else ""])
@@ -107,6 +115,7 @@ func _init() -> void:
 	var before_chain := minutes
 	for step in ChainsData.LONG["steps"]:
 		var m := CHAIN_DESIGN_MIN + _world_minutes() * CHAIN_WORLD_FRACTION
+		_stat_points("catene", 1.0)
 		minutes += m
 		_p("   «%s»: %.0f min (progettare il Seme, trovare la cripta)" % [step["name"], m])
 	var nero := _world_minutes() * NERO_WORLD_MULT
@@ -120,12 +129,40 @@ func _init() -> void:
 		100.0 * total * MEDIO / 500.0])
 	_p("   dove va il tempo (via diretta): giri di mondo %.0f h (%d mondi), cercare apposta %.0f h, allevare e addomesticare %.0f h, catena %.0f h" % [
 		world_min / 60.0, worlds, focus_min / 60.0, stat_min / 60.0, (minutes - before_chain) / 60.0])
+	_pillars(total)
 	_p("   la lingua dei Seminatori si impara per strada (tools/lingua.gd: comune e antica in 5 mondi, la nera nel mondo del Seme Nero)")
 	_p("   (conti fatti in %d ms)" % (Time.get_ticks_msec() - t0))
 	var f := FileAccess.open("res://prove/durata.txt", FileAccess.WRITE)
 	if f:
 		f.store_string("\n".join(out))
 	quit()
+
+
+## Voce 218: i pilastri. Il grado preso per strada nella via diretta, e le ore che servono ancora a portarlo al 10
+## curandolo apposta; poi il totale della partita «tutto al 10» contro le 500 ore dell'utente.
+func _pillars(story_h: float) -> void:
+	_p("")
+	_p("4. I PILASTRI (la maestria, Roadmap 20): il grado preso per strada, le ore apposta fino al grado 10")
+	var extra := 0.0
+	for p in MasteryData.ORDER:
+		var pts := float(mastery.get(p, 0.0))
+		var g := MasteryData.grade_of(p, pts)
+		var need := maxf(MasteryData.points_for(p, MasteryData.GRADES) - pts, 0.0)
+		var h := need / PILLAR_RATE
+		if p != "storia":
+			extra += h
+		_p("   %-28s grado %2d per strada (%5.0f punti) · ancora %5.1f h apposta (obiettivo %d h)" % [
+			MasteryData.PILLARS[p]["name"], g, pts, h, int(MasteryData.PILLARS[p]["hours"])])
+	# le ore apposta sono già ore di gioco vero: il giocatore medio allunga solo la via diretta
+	_p("   tutto al grado 10: via diretta %.0f h + %.0f h apposta = %.0f ore; giocatore medio %.0f ore (obiettivo 500)" % [
+		story_h, extra, story_h + extra, story_h * MEDIO + extra])
+	_p("   (le ore apposta vengono dalle attività di ogni pilastro, che oggi in gran parte si ripetono: le Roadmap 21-28")
+	_p("    aggiungono ciò che le rende nuove; questa misura dice quanta strada c'è, non quanto è varia)")
+
+
+func _stat_points(stat: String, n: float) -> void:
+	for e in MasteryData.STATS.get(stat, []):
+		mastery[String(e[0])] = float(mastery.get(String(e[0]), 0.0)) + float(e[1]) * n
 
 
 func _world_minutes() -> float:
@@ -141,6 +178,9 @@ func _world() -> void:
 	worlds += 1
 	for k in PER_WORLD:
 		have[k] = float(have.get(k, 0.0)) + float(PER_WORLD[k])
+		_stat_points(String(k), float(PER_WORLD[k]))
+	for p in WORLD_PTS:
+		mastery[p] = float(mastery.get(p, 0.0)) + m * float(WORLD_PTS[p])
 
 
 ## Prende n di un oggetto: da ciò che si ha, poi dalla ricetta (scomposta), poi cercando apposta. I minuti apposta.

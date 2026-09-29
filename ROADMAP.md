@@ -3795,9 +3795,14 @@ geni, Centrali (rete) per la Linfa antica, colture (orto) per la seta, segreti (
 parola per il reliquiario, addomesticare e prodotti (mandria) per l'allevamento, Signori e maree (combattimento) per
 Custodi e Guardiani, firme per i viaggi, specie pescate (pesca) per il manto raro.
 
-## 218. [ ] La misura per pilastro (P)
+## 218. [x] La misura per pilastro (P) — fatto il 29 set 2026
 `tools/durata.gd` conta anche le ore di ogni pilastro (i gradi della maestria e le attività che li danno) e le somma
 alla storia; la tabella dice dove mancano ore rispetto al piano.
+**Fatto**: la sezione 4 di `tools/durata.gd`: i punti che la via diretta porta per strada in ogni pilastro (i traguardi
+dei giri di mondo passati da `MasteryData.STATS`, più combattere, scoprire, fabbricare), il grado che se ne ha, e le ore
+apposta per il grado 10. Oggi: storia al grado 6 per strada, esplorazione e combattimento al 4, abitanti, pesca e rete a
+0; tutto al grado 10 fa ~400 ore (via diretta 45 + ~350 apposta), ~425 per il giocatore medio. Le ore apposta però
+vengono da attività che oggi in gran parte si ripetono: le Roadmap 21-28 aggiungono ciò che le rende nuove.
 
 ## 219. [ ] Enciclopedia, consigli e resoconto (P)
 Capitolo «I pilastri e la maestria», un consiglio al primo grado, CLAUDE.md, giro intero, resoconto, GitHub.
