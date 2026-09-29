@@ -3570,8 +3570,17 @@ Succhiavena). Il **Succhiavena** (`BhSucchia` + `Wiles._suck`, Sottobosco e Cave
 non isolate; la **Lucciola di vena** (`BhLucciolaVena`, docile) volteggia sopra le vene e nasce di più durante la
 Tempesta. Oggetti: Linfa rappresa, Luce di vena, i due trofei, Anello dei denti di vena, Lanterna di vena, Ampolla di
 lucciole (e la Lampada a baccello si fa anche con la Luce di vena). Prova nel gruppo `energia` (foto 241, 242).
-## 208. [ ] La Tessitrice di vene e il Giardino (M)
+## 208. [x] La Tessitrice di vene e il Giardino (M) — fatto il 29 set 2026
 L'abitante (merci, richieste, affetto, progetti), Aiuole alimentate, obiettivi, Bacheca, Diario.
+**Fatto**: la **Tessitrice di vene** (`NpcData`: arriva con quattro macchine in un mondo; vende Pinza, vene, fili, Occhio,
+gelatina, Valvola, nodi e Occhio di luce; ama Linfa rappresa, Luce di vena, cristalli e seta; tre richieste: dieci
+macchine, cinque Linfa rappresa, una Centrale risvegliata). `EnergyGarden` (`src/game/energy/energy_garden.gd`): le
+**Aiuole alimentate** (un portale del Giardino su una rete viva di almeno 20 pulsi fa lavorare la rete del suo mondo a
+piena velocità mentre si è via, invece che a metà; il Giardino lo scrive in `stats["rete_viva_<mondo>"]`, la scheda del
+portale lo dice) e il conto `stats.macchine` (il massimo di macchine posate in un mondo, con `bump`: il diario scrive la
+prima). Cinque obiettivi (1, 10, 40 macchine; 1 e 5 Centrali), due tappe del diario, la Bacheca con le richieste della
+rete (vene, fili, Linfa rappresa, Luce di vena, polveri, o una Centrale da risvegliare). Le prove della rete e del mondo
+passano in `TestsEnergyWorld` (nuovo file). I progetti della Tessitrice sono andati alla voce 210.
 
 ## Fase 6 · Capire, misurare, chiudere
 ## 209. [ ] Il primo circuito e i consigli (M)

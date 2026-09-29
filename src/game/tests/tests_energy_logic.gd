@@ -73,7 +73,7 @@ func sensors() -> void:
 	await t.ticks(3)
 	var quiet := not _on(Vector2i(p.x + 7, y), 0)
 	(e.machines[ear] as Machine).st["r"] = 16
-	var foe: Creature = m.fauna.spawn_at_nest("grumo_muschio", Vector2i(p.x + 6, y))
+	var foe: Creature = m.fauna.add("grumo_muschio", Vector2(p.x + 6, y) * 16.0 + Vector2(8, 8))   # (non al nido: le torce vicine lo vietano)
 	if is_instance_valid(foe):
 		foe.set_physics_process(false)                     # fermo: non deve scappare dall'orecchio
 		foe.set_process(false)
@@ -336,76 +336,3 @@ func centrale() -> void:
 				w.chests.erase(o)
 			t.unplace(o)
 
-
-## Voce 207: i geni della rete, la Tempesta di Linfa con e senza Valvola, il Succhiavena che beve solo le vene di radice.
-func world_and_storm() -> void:
-	var e: Energy = m.energy
-	var w: World = m.world
-	var p: Vector2i = await t.clean_spot(-360, 40)
-	var y := p.y
-	var genes0: Array = m.world_traits.genes.duplicate()
-	# una Foglia-lanterna su una vena d'ambra con una Lampada
-	var leaf := t.place("foglia_lanterna", Vector2i(p.x, y))
-	var lamp := t.place("lampada_baccello", Vector2i(p.x + 6, y))
-	t.lay_row(p.x, p.x + 6, y, 3)
-	await t.ticks(3)
-	var base: float = (e.machines[leaf] as Machine).made
-	m.world_traits.genes = genes0 + ["sole_linfa", "terra_conduce"]
-	e.rebuild()
-	await t.ticks(3)
-	var sunny: float = (e.machines[leaf] as Machine).made
-	var cond := is_equal_approx(EnergyGraph.cap_mult, 1.5)
-	m.world_traits.genes = genes0
-	e.rebuild()
-	await t.ticks(2)
-	var genes_ok := base > 0.0 and is_equal_approx(sunny, base * 1.5) and cond and is_equal_approx(EnergyGraph.cap_mult, 1.0)
-	# la Tempesta: sorgenti al 150%; senza valvola le vene di radice si spezzano, con la valvola no
-	var ev_paused: bool = m.events.paused
-	m.events.paused = true
-	m.events.start("tempesta_linfa")
-	t.lay_row(p.x + 7, p.x + 12, y, 1)                    # un tratto di radice (sulla stessa rete: ambra e radice si toccano)
-	await t.ticks(3)
-	var stormy: float = (e.machines[leaf] as Machine).made
-	var b0 := EnergyStorm.bursts
-	EnergyStorm.tick(e, EnergyStorm.BURST_EVERY)         # probabilità piena: una vena si spezza per rete che scorre
-	var broke := EnergyStorm.bursts == b0 + 1
-	await t.ticks(2)
-	var valve := t.place("valvola_sfogo", Vector2i(p.x + 3, y))
-	await t.ticks(3)
-	var b1 := EnergyStorm.bursts
-	EnergyStorm.tick(e, EnergyStorm.BURST_EVERY)
-	var saved := EnergyStorm.bursts == b1
-	await kit.save("241_tempesta")
-	m.events.stop()
-	m.events.paused = ev_paused
-	var storm_ok := is_equal_approx(stormy, minf(base * 1.5, (e.machines[leaf] as Machine).cap)) and broke and saved
-	# il Succhiavena: una riga di radice, una di legnoferro, una cella di radice isolata
-	var sx := p.x + 18
-	for x in range(sx, sx + 12):
-		if VeinsData.tier(w.vein_at(x, y)) == 0:
-			t.lay(Vector2i(x, y), 1 if x < sx + 6 else 2)
-	w.set_vein(sx + 2, y, w.vein_at(sx + 2, y) | VeinsData.INSULATED)
-	e._on_vein(Vector2i(sx + 2, y))
-	m.snap_to(Vector2i(p.x - 25, y))
-	var s0: int = m.wiles.sucked
-	var leech: Creature = m.fauna.spawn_at_nest("succhiavena", Vector2i(sx + 3, y))
-	await kit.seconds(9.0)
-	var radice_left := 0
-	for x in range(sx, sx + 6):
-		if VeinsData.tier(w.vein_at(x, y)) == 1:
-			radice_left += 1
-	var hard_left := 0
-	for x in range(sx + 6, sx + 12):
-		if VeinsData.tier(w.vein_at(x, y)) == 2:
-			hard_left += 1
-	var ins_ok := VeinsData.tier(w.vein_at(sx + 2, y)) == 1
-	var leech_ok: bool = is_instance_valid(leech) and m.wiles.sucked > s0 and radice_left < 5 and hard_left == 6 and ins_ok
-	await kit.save("242_succhiavena")
-	m.fauna.clear()
-	print("geni della rete: sole %.1f → %.1f pulsi, vene ×%s %s; tempesta: %.1f pulsi, vena spezzata %s, con la valvola salva %s; succhiavena: bevute %d, radice rimasta %d/5, legnoferro %d/6, isolata intatta %s" % [
-		base, sunny, str(cond), genes_ok, stormy, broke, saved, m.wiles.sucked - s0, radice_left, hard_left, ins_ok])
-	if not (genes_ok and storm_ok and leech_ok):
-		print("ATTENZIONE: geni, Tempesta di Linfa o Succhiavena non fanno ciò che devono")
-	for o in [leaf, lamp, valve]:
-		t.unplace(o)
-	_clear(p, 40)

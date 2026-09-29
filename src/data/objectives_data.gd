@@ -230,6 +230,12 @@ const LIST := [
 	{"id": "progetto_1", "text": "Costruisci un progetto dei Seminatori", "check": {"stat": "progetti", "n": 1}, "reward": {"lumino": 150}},
 	{"id": "guardiano_grande", "text": "Sconfiggi uno dei tre grandi Guardiani", "check": {"stat": "grandi_guardiani", "n": 1},
 		"reward": {"linfa_antica": 3}},
+	# Roadmap 19 «La Linfa che scorre»
+	{"id": "rete_1", "text": "Posa la prima macchina della rete", "check": {"stat": "macchine", "n": 1}, "reward": {"vena_radice": 20}},
+	{"id": "rete_10", "text": "Dieci macchine in un mondo", "check": {"stat": "macchine", "n": 10}, "reward": {"vena_legnoferro": 20}},
+	{"id": "rete_40", "text": "Quaranta macchine in un mondo", "check": {"stat": "macchine", "n": 40}, "reward": {"vena_ambra": 30}},
+	{"id": "centrale_1", "text": "Risveglia una Centrale dei Seminatori", "check": {"stat": "centrali", "n": 1}, "reward": {"lumino": 200}},
+	{"id": "centrali_5", "text": "Risveglia cinque Centrali dei Seminatori", "check": {"stat": "centrali", "n": 5}, "reward": {"linfa_antica": 3}},
 	# Roadmap 17 «La lingua dei Seminatori»
 	{"id": "scrigno_parola", "text": "Apri uno scrigno a parola", "check": {"stat": "scrigni_parola", "n": 1}, "reward": {"tavoletta_seminatori": 2}},
 	{"id": "scrigni_parola_10", "text": "Apri dieci scrigni a parola", "check": {"stat": "scrigni_parola", "n": 10}, "reward": {"stilo_seminatori": 2}},

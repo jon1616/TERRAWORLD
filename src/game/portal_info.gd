@@ -62,7 +62,7 @@ static func text(portal: Portal, o: Vector2i) -> String:
 			t += "[color=#8ef0d8]Segreti[/color]: trovati %d su %d\n" % [sgc[0], sgc[1]]
 	# geni
 	t += "\n" + Genome.sheet({"geni": genes, "vigore": vigor})
-	return t + _footer()
+	return t + _power(portal, o) + _footer()
 
 
 static func _where(w: String) -> String:
@@ -72,6 +72,16 @@ static func _where(w: String) -> String:
 		"":
 			return "chissà dove"
 	return "è sotto terra"
+
+
+## Roadmap 19, voce 208: l'Aiuola alimentata (solo nel Giardino).
+static func _power(portal: Portal, o: Vector2i) -> String:
+	var m: Node2D = portal.m
+	if m.get("energy") == null or m.get("aiuole") == null or not m.aiuole.is_home():
+		return ""
+	if EnergyGarden.powered(m.energy, o):
+		return "\n[color=#6ff0e0]Aiuola alimentata[/color]: mentre sei via, la rete di quel mondo lavora a piena velocità\n"
+	return "\n[color=#7a9a94]Una vena viva di almeno %d pulsi sotto l'Aiuola terrebbe sveglio quel mondo mentre sei via[/color]\n" % int(EnergyGarden.MIN_PULSI)
 
 
 static func _footer() -> String:

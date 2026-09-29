@@ -83,6 +83,8 @@ func make() -> Dictionary:
 		kinds.append("studio")
 	if int(ch.stats.get("cielo_max", 0)) > 0:
 		kinds.append("cielo")                       # Roadmap 16: una richiesta dal cielo
+	if int(ch.stats.get("macchine", 0)) > 0:
+		kinds.append("rete")                        # Roadmap 19: vene, fili e ciò che vive attorno alla rete
 	var k := String(kinds[_rng.randi_range(0, kinds.size() - 1)])
 	var r := {"tipo": k}
 	match k:
@@ -157,6 +159,21 @@ func make() -> Dictionary:
 			r["n"] = int(a[1])
 			r["testo"] = "Porta %d %s dal cielo" % [int(a[1]), String(ItemsData.get_item(String(a[0]))["name"])]
 			r["premio"] = {"lumino": 60 + int(a[1]) * 2, "fagiolo_nuvola": 2}
+		"rete":
+			if _rng.randf() < 0.3:
+				r["tipo"] = "centrale"
+				r["n"] = 1
+				r["base"] = int(ch.stats.get("centrali", 0))
+				r["testo"] = "Risveglia una Centrale dei Seminatori (nelle Caverne e più giù)"
+				r["premio"] = {"lumino": 150, "vena_ambra": 20}
+			else:
+				var asks := [["vena_legnoferro", 30], ["filo_turchese", 40], ["linfa_rappresa", 5], ["luce_vena", 6],
+					["polvere_legnoferro", 12]]
+				var a: Array = asks[_rng.randi_range(0, asks.size() - 1)]
+				r["cosa"] = String(a[0])
+				r["n"] = int(a[1])
+				r["testo"] = "Portami %d %s per la rete del Giardino" % [int(a[1]), String(ItemsData.get_item(String(a[0]))["name"])]
+				r["premio"] = {"lumino": 50 + int(a[1]) * 2, "isolante_resina": 3}
 		"studio":
 			r["n"] = 1
 			r["base"] = int(ch.stats.get("studiate", 0))
@@ -236,6 +253,8 @@ func progress(r: Dictionary) -> Array:
 			return [mini(int(ch.stats.get("maree_vinte", 0)) - int(r["base"]), n), n]
 		"studio":
 			return [mini(int(ch.stats.get("studiate", 0)) - int(r["base"]), n), n]
+		"centrale":
+			return [mini(int(ch.stats.get("centrali", 0)) - int(r["base"]), n), n]
 	return [0, n]
 
 
@@ -249,7 +268,7 @@ func deliver(i: int) -> bool:
 	var r: Dictionary = open_list()[i]
 	if not can_deliver(r):
 		return false
-	if String(r["tipo"]) in ["gene", "prodotto", "fornitura", "cielo"]:
+	if String(r["tipo"]) in ["gene", "prodotto", "fornitura", "cielo", "rete"]:
 		Crafting.take(m.character.bisaccia, String(r["cosa"]), int(r["n"]))
 	for k in r["premio"]:
 		if k == "seme":

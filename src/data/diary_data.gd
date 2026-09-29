@@ -6,6 +6,8 @@ class_name DiaryData
 
 const FIRSTS := {
 	"viaggi": "Primo viaggio attraverso un portale",
+	"macchine": "Prima macchina della rete posata",                  # Roadmap 19
+	"centrali": "Prima Centrale dei Seminatori risvegliata",
 	"cuore": "Primo Cuore del mondo trovato",
 	"semine": "Primo seme piantato nell'orto",
 	"raccolti": "Primo raccolto",

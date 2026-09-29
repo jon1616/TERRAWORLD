@@ -48,7 +48,9 @@ func run() -> void:
 	await logic.sensors()
 	await logic.logic()
 	await logic.centrale()
-	await logic.world_and_storm()
+	var world := TestsEnergyWorld.new(kit, self, logic)
+	await world.world_and_storm()
+	await world.garden_links()
 	m.player.control = ctl
 	m.day.paused = false
 

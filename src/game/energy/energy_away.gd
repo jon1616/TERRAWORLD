@@ -19,7 +19,7 @@ static func run(e: Energy) -> String:
 	meta["visto"] = now
 	if seen <= 0.0 or now - seen < MIN_AWAY or e.machines.is_empty():
 		return ""
-	var work := minf(now - seen, MAX_SECS) * SPEED
+	var work := minf(now - seen, MAX_SECS) * EnergyGarden.away_speed(e)   # voce 208: piena velocità con l'Aiuola alimentata
 	var before := _stored(e)
 	var steps := int(work / STEP)
 	for i in steps:

@@ -115,6 +115,7 @@ func _process(dt: float) -> void:
 	if _seen_t <= 0.0:
 		_seen_t = 1.0
 		meta()["visto"] = Time.get_unix_time_from_system()
+		EnergyGarden.update(self)             # voce 208: le Aiuole alimentate
 	for mc in _framed:
 		mc.bh.frame(mc, self, dt)
 	impulse.process(dt)
@@ -159,6 +160,7 @@ func rebuild() -> void:
 		if not machines.has(o) or (machines[o] as Machine) != old[o]:
 			(old[o] as Machine).bh.removed(old[o], self)
 	gene = EnergyStorm.genes(self)
+	EnergyGarden.count(self)                  # voce 208
 	_framed.clear()
 	for mc: Machine in machines.values():
 		if mc.d.get("frame", false):
