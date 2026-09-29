@@ -30,7 +30,8 @@ func run(w: World, c: GenContext) -> void:
 				y += dy
 				ok = true
 				break
-		if not ok or w.stations.has(Vector2i(x, y)) or not c.is_free(Rect2i(x, y, 1, 1)):
+		# nessuna stazione che copra la cella (un bozzolo dei Custodi è 3×3: il collaudatore ne toglierebbe una)
+		if not ok or not w.station_at(Vector2i(x, y)).is_empty() or not c.is_free(Rect2i(x - 1, y - 1, 3, 3)):
 			continue
 		var far := true
 		for p in made:

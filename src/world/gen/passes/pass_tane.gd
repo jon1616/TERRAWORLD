@@ -21,13 +21,16 @@ func run(w: World, c: GenContext) -> void:
 		var st := int(kd["stratum"])
 		var top := StrataData.top(st) + H
 		var bottom := (StrataData.top(st + 1) if st + 1 < StrataData.STRATA.size() else w.h) - H
-		for tries in 600:                           # (più tentativi: i Custodi dei biomi vivono in un bioma solo)
+		for tries in 1200:                          # (più tentativi: i Custodi dei biomi vivono in un bioma solo)
+			if dens.has(k):
+				break
+			var far := FAR if tries < 600 else FAR * 0.5      # 30 set 2026: poi ci si accontenta di metà distanza
 			var x := c.rng.randi_range(W + 60, w.w - W - 60)
 			if kd.has("biome") and String(BiomesData.BIOMES[BiomesData.at(w, x)]["id"]) != String(kd["biome"]):
 				continue                           # voce 56: i Custodi dei biomi, solo nel loro bioma
 			var y := w.surface[x] + c.rng.randi_range(top, maxi(top + 1, bottom))
 			var den := Rect2i(x - W / 2 - 3, y - H / 2 - 3, W + 6, H + 6)
-			if y + H / 2 + 4 >= w.h or not _far(w, Vector2i(x, y)) or not c.is_free(den):
+			if y + H / 2 + 4 >= w.h or not _far(w, Vector2i(x, y), far) or not c.is_free(den):
 				continue
 			_carve(w, c, Vector2i(x, y), st, int(kd["lair"]))
 			c.claim(den, "tana")
@@ -38,11 +41,11 @@ func run(w: World, c: GenContext) -> void:
 	c.notes["tane"] = dens
 
 
-func _far(w: World, q: Vector2i) -> bool:
+func _far(w: World, q: Vector2i, far: float = FAR) -> bool:
 	if Vector2(q - Vector2i(w.w / 2, w.surface[w.w / 2])).length() < FAR:
 		return false                       # la partenza è a metà del mondo
 	for o in w.stations:
-		if Vector2(o - q).length() < FAR:
+		if Vector2(o - q).length() < far:
 			return false
 	return true
 
