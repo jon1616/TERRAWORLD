@@ -23,6 +23,7 @@ func run() -> void:
 	await museum()
 	await archaeology()
 	await chronicles()
+	await milestones()
 
 
 ## Voce 253: le sale nascono dai dati; un pezzo in una vetrina entra nel Museo una volta sola; la sala completa dà il
@@ -123,3 +124,28 @@ func chronicles() -> void:
 	er.clear()
 	er.merge(saved_er)
 	_restore(st, saved)
+
+
+## Voce 256: un traguardo raggiunto dà il suo premio una volta sola; gli altri aspettano.
+func milestones() -> void:
+	var gl: Milestones = m.museum.goals
+	var st: Dictionary = m.character.stats
+	var saved := st.duplicate()
+	for e in Milestones.LIST:
+		st.erase("traguardo_" + String(e[0]))
+	for h in MuseumData.HALLS:
+		st["sala_" + h] = 1
+	var first := gl.check()
+	var again := gl.check()
+	var items_ok := true
+	for e in Milestones.LIST:
+		for it in e[2]:
+			items_ok = items_ok and ItemsData.get_item(String(it)).has("name")
+	var ok: bool = "museo" in first and again.is_empty() and not "erbario_100" in first and items_ok
+	print("traguardi: raggiunti %s; poi %s; premi esistenti %s" % [str(first), str(again), items_ok])
+	if not ok:
+		print("ATTENZIONE: i traguardi delle collezioni non vanno")
+	m.character.bisaccia.remove("polvere_iridata", 10)
+	m.character.bisaccia.remove("linfa_antica", 5)
+	_restore(st, saved)
+	m.gear.refresh()

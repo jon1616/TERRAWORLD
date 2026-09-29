@@ -4279,9 +4279,14 @@ ciascuna.
 tabelle «rovina_1-4» di `LootData`, le storie più tarde più in profondità) e `Chronicles` (`src/game/chronicles.gd`, da
 `Museum.chron`): con tutti e cinque i frammenti nell'Erbario la storia si ricompone in una pagina, dà il suo premio e
 conta «cronache» (40 punti). La sala «cronache» del Museo (40 frammenti).
-## 256. [ ] I traguardi delle collezioni (M)
+## 256. [x] I traguardi delle collezioni (M) — fatto il 30 set 2026
 Premi per l'Erbario al 25/50/75/100%, per ogni strato della lingua imparato tutto, per le reliquie, le serie, il Museo:
 oggetti unici e titoli, scritti nel diario.
+**Fatto**: `Milestones` (`src/game/milestones.gd`, da `Museum.goals`, controllati ogni 10 s in ogni mondo): dieci
+traguardi una volta sola (l'Erbario al 25, 50, 75 e 100%; ognuno dei tre strati della lingua tutto certo; tutte le
+reliquie; metà delle serie di unici; tutte le sale del Museo) con i loro premi, due accessori nuovi (il Sigillo del
+collezionista, la Corona della lingua), avviso e diario. Conteggio «traguardi» (60 punti). I titoli sono rimasti fuori:
+il diario e il Libro dei pilastri fanno già da registro.
 
 ## 257. [ ] Enciclopedia, misura e resoconto (P)
 Capitoli, consigli, `tools/durata.gd` (il pilastro dei misteri e la sua varietà), giro intero, GitHub.

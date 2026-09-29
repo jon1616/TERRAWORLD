@@ -8,17 +8,26 @@ extends Node
 var m: Node2D
 var arch: Archaeology                  # voce 254: l'archeologia
 var chron: Chronicles                  # voce 255: le cronache perdute
+var goals: Milestones                  # voce 256: i traguardi delle collezioni
 var _t := 2.0
+var _goal_t := 5.0
 
 
 func setup(main: Node2D) -> void:
 	m = main
 	arch = Archaeology.new(m)
 	chron = Chronicles.new(m)
+	goals = Milestones.new(m)
 
 
 func _process(dt: float) -> void:
-	if m == null or not m.built or m.get("beauty") == null or not m.beauty.home():
+	if m == null or not m.built:
+		return
+	_goal_t -= dt
+	if _goal_t <= 0.0:
+		_goal_t = Milestones.EVERY
+		goals.check()                            # voce 256: in ogni mondo
+	if m.get("beauty") == null or not m.beauty.home():
 		return
 	_t -= dt
 	if _t > 0.0:
