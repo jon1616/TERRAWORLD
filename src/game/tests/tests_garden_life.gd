@@ -15,6 +15,7 @@ func run() -> void:
 	await beauty()
 	await islands()
 	await visitors()
+	await festival()
 
 
 ## Voce 227: la bellezza nasce dalle stanze, dai tipi di stanza, dalla felicità degli abitanti; salire dà maestria.
@@ -84,3 +85,25 @@ func visitors() -> void:
 	print("visitatori: con bellezza 120 %s; il Collezionista arriva %s e se ne va %s" % [str(el), here, gone])
 	if not ok:
 		print("ATTENZIONE: i visitatori non vanno")
+
+
+## Voce 230: la festa comincia, il compito sale con il conteggio, alla fine i premi e l'oggetto della festa.
+func festival() -> void:
+	var fs: Festivals = m.festivals
+	var had := int(m.character.stats.get("festa_germoglio", 0))
+	m.character.stats["festa_germoglio"] = 0
+	var crown0: int = m.character.bisaccia.count("corona_fiori")
+	fs.start("germoglio")
+	var p0: Array = fs.progress()
+	m.objectives.bump("semine", 20)
+	fs.check()
+	var crown: bool = m.character.bisaccia.count("corona_fiori") == crown0 + 1
+	var done: bool = bool(fs.active().get("fatta", false))
+	if m.depth_watch.banner.visible:
+		m.depth_watch.banner.visible = false
+	m.world_meta.erase("festa")
+	m.character.stats["festa_germoglio"] = had + 1
+	var ok := int(p0[0]) == 0 and int(p0[1]) == 20 and done and crown
+	print("feste: la Fioritura dei semi 0/20 → compiuta %s, corona di fiori %s" % [done, crown])
+	if not ok:
+		print("ATTENZIONE: le feste di stagione non vanno")

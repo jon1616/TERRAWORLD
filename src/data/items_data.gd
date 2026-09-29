@@ -274,6 +274,7 @@ static func all() -> Dictionary:
 	out.merge(LanguageData.ITEMS.duplicate(true))          # voce 68
 	out.merge(ChainsData.ITEMS.duplicate(true))            # voce 69
 	out.merge(LostGardensData.ITEMS.duplicate(true))       # Roadmap 21: i Semi del cosmo
+	out.merge(FestivalsData.ITEMS.duplicate(true))         # Roadmap 22: gli oggetti delle feste
 	out.merge(PlacesData.ITEMS.duplicate(true))            # voce 70
 	out.merge(NeroData.ITEMS.duplicate(true))              # voce 72
 	out.merge(LiquidsData.ITEMS.duplicate(true))           # voce 73

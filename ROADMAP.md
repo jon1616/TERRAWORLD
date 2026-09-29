@@ -3963,10 +3963,14 @@ Pellegrino dei Seminatori (150: tavolette, stilo, occhiali; due richieste), la M
 festa, +5 di affetto a tutti gli abitanti). Ogni giorno del Giardino uno di loro può arrivare (60%) accanto all'Albero e
 resta fino al giorno dopo; non occupa letti. `verifica_dati._check_npcs` controlla merci, gusti, regali e richieste.
 
-## 230. [ ] Le feste di stagione (M)
+## 230. [x] Le feste di stagione (M) — fatto il 29 set 2026
 Una festa per stagione nel Giardino (la Fioritura dei semi, la Notte delle lanterne, la Festa del raccolto, il Fuoco
 d'inverno): un giorno con un compito (decorare, cucinare, portare), gli abitanti che partecipano, premi di stagione e
 oggetti decorativi che si ottengono solo lì.
+**Fatto**: `FestivalsData` e `Festivals` (`src/game/festivals.gd`): il primo giorno di ogni stagione, con bellezza 80,
+la festa della stagione (la Fioritura dei semi, la Festa delle acque, la Festa del raccolto, il Fuoco d'inverno) con la
+scritta, un compito da fare entro il giorno (seminare, pescare, raccogliere, prodotti della mandria), i premi e, la prima
+volta, un oggetto che esiste solo lì (corona di fiori, lanterna delle acque, cesto del raccolto, sciarpa di brace).
 
 ## 231. [ ] Le storie degli abitanti (G)
 Ogni abitante ha una **storia a capitoli** (cinque capitoli, aperti dall'affetto): una richiesta, una scena, un dono;
