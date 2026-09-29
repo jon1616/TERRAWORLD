@@ -8,7 +8,7 @@ const ROW_H := 52.0
 const LEFT := Vector2(90, 130)
 const ROW_W := 430.0
 const ROWS_SHOWN := 13
-const TABS := [["mondi", "I mondi"]]
+const TABS := [["mondi", "I mondi"], ["biomi", "I biomi"]]
 
 var m: Node2D
 var at: Atlas
@@ -188,3 +188,23 @@ func _text_mondi(wid: String) -> String:
 			at.map_frac() * 100.0, int(m.world_meta.get("sigilli_aperti", 0)), (m.world_meta.get("sigilli", []) as Array).size(),
 			int(Secrets.counts_of(m.world_meta)[0]), int(Secrets.counts_of(m.world_meta)[1])]
 	return t
+
+
+# --- la scheda dei biomi (voce 236) ---
+
+func _rows_biomi() -> Array:
+	var out := []
+	for p in BiomePagesData.pages():
+		var pr := at.pages.progress(p)
+		var done: bool = at.pages.done(p)
+		var col: Color = {"sup": Color("#8ef0a0"), "sot": Color("#e0a060"), "cie": Color("#9ad0ff")}[String(p["kind"])]
+		out.append([String(p["id"]), String(p["name"]), "%d/%d" % [int(pr[0]), int(pr[1])],
+			float(pr[0]) / maxf(float(pr[1]), 1.0), Color("#ffd24a") if done else col])
+	return out
+
+
+func _text_biomi(id: String) -> String:
+	var p := BiomePagesData.page(id)
+	if p.is_empty():
+		return ""
+	return at.pages.text_of(p) + "\n\n[color=#6a7a84]Pagine complete: %d su %d[/color]" % [at.pages.done_count(), BiomePagesData.pages().size()]

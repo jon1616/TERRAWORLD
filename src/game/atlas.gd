@@ -7,6 +7,7 @@ extends Node
 
 var m: Node2D
 var panel: AtlasPanel
+var pages: BiomePages                  # voce 236: le pagine dei biomi
 var _t := 1.0
 
 
@@ -16,6 +17,7 @@ func setup(main: Node2D) -> void:
 	m.hud.add_child(panel)
 	panel.setup(m, self)
 	m.hud.overlays.append(panel)
+	pages = BiomePages.new(m)
 	if here():
 		_record()
 
@@ -47,13 +49,16 @@ func _record() -> void:
 
 
 func _process(dt: float) -> void:
-	if m == null or not m.built or not here():
+	if m == null or not m.built:
 		return
 	_t -= dt
 	if _t > 0.0:
 		return
 	_t = AtlasData.TICK
-	check()
+	pages.visit()                               # voce 236: i biomi si visitano anche nel Giardino
+	pages.check()
+	if here():
+		check()
 
 
 ## Le stelle guadagnate adesso nel mondo di adesso (e le segna). Restituisce quelle nuove.

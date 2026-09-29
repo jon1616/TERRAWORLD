@@ -4038,10 +4038,15 @@ ogni 5 stelle, 10 premi e poi in giro), `Atlas` (`src/game/atlas.gd`: la scheda 
 stelle guardate ogni 5 s, conteggio «stelle» = 30 punti d'esplorazione) e `AtlasPanel` (tasto O, schede in alto: una
 coppia `_rows_<scheda>`/`_text_<scheda>` per scheda). Prova nel gruppo nuovo `atlante` (foto 250).
 
-## 236. [ ] Le pagine dei biomi (G)
+## 236. [x] Le pagine dei biomi (G) — fatto il 29 set 2026
 Una pagina dell'Atlante per ogni bioma (superficie, sottosuolo, cielo), costruita dai dati: le sue creature, le sue
 piante, i suoi minerali, i suoi pesci. Si riempie da sola con ciò che l'Erbario sa; completata dà un premio del bioma.
 Dice **che cosa manca e dove** (quale bioma, quale strato): il motivo per tornare in un tipo di mondo.
+**Fatto**: `BiomePagesData` (26 pagine costruite dai dati: 16 di superficie, 4 del sottosuolo, 6 del cielo; per ognuna
+le 8 creature più comuni del bioma, esclusi Guardiani, Signori, creature di stagione e dei Giardini perduti, e fino a 4
+pesci) e `BiomePages` (`src/game/biome_pages.gd`: la visita, «visto_<bioma>» o «cielo_<bioma>», anche nel Giardino;
+creature e pesci dall'Erbario; la pagina completa dà polvere iridata e Linfa antica e il conteggio «pagine_biomi» = 60
+punti d'esplorazione). Nell'Atlante la scheda «I biomi»: che cosa manca e dove cercarlo (strati, notte, tempo). Foto 251.
 
 ## 237. [ ] Le meraviglie (G)
 `WondersData` e `PassMeraviglie`: dodici meraviglie naturali generate (l'Arco di pietra, la Cascata di Linfa, l'Albero
