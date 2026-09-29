@@ -36,7 +36,7 @@ func points() -> void:
 	var cg := func(p: String, g: int) -> void: grades.append([p, g])
 	ms.graded.connect(cg)
 	m.objectives.bump("pesci", 10)                      # 3 punti di pesca
-	m.objectives.bump("firme")                          # 45 di esplorazione: grado 1 (38)
+	m.objectives.bump("firme", 2)                       # 90 di esplorazione: grado 1 (54, con 90 ore)
 	var foe: Creature = m.fauna.add("grumo_muschio", m.player.position + Vector2(200, -20))
 	m.fauna.kill(foe)
 	var r: Dictionary = RecipesData.making("torcia")[0]
@@ -51,7 +51,7 @@ func points() -> void:
 	await kit.frames(2)
 	ms.gained.disconnect(cb)
 	ms.graded.disconnect(cg)
-	var ok := is_equal_approx(float(got["pesca"]), 3.0) and float(got["esplorazione"]) >= 47.0
+	var ok := is_equal_approx(float(got["pesca"]), 3.0) and float(got["esplorazione"]) >= 92.0
 	ok = ok and float(got["combattimento"]) > 0.0 and float(got["rete"]) >= 1.0 and ms.grade("esplorazione") == 1
 	ok = ok and ["esplorazione", 1] in grades
 	var curve := []

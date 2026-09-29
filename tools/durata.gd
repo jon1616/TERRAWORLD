@@ -32,6 +32,7 @@ const PER_WORLD := {
 	"fungo_luminoso": 10.0, "minerale_radicite": 30.0, "minerale_legnoferro": 24.0, "minerale_ambra": 14.0,
 	"minerale_tizzonite": 6.0, "vuotite": 30.0, "cristallo_linfa": 8.0, "squama_brace": 2.0,
 	"stele": 6.0, "centrali": 0.3, "scrigni_parola": 1.0,
+	"stelle": 2.5, "meraviglie": 1.5, "ricordi": 1.0, "spedizioni": 0.5,        # Roadmap 23: l'Atlante per strada
 }
 ## Roadmap 21: un Giardino perduto è un giro di mondo più lungo (le tre cure e il Custode) e porta ciò che vive solo lì.
 const GARDEN_MULT := 1.5
@@ -219,6 +220,9 @@ func _variety() -> void:
 			["progetti dei Seminatori", projects, 25.0], ["feste", FestivalsData.FESTIVALS.size(), 40.0]],
 		"abitanti": [["capitoli delle storie", chapters, 20.0], ["richieste", quests, 12.0],
 			["botteghe", NpcWork.JOBS.size(), 15.0], ["visitatori", visitors, 20.0]],
+		"esplorazione": [["meraviglie", WondersData.WONDERS.size(), 90.0], ["pagine dei biomi", BiomePagesData.pages().size(), 40.0],
+			["accessori dei ricordi", WondersData.GEAR.size(), 30.0], ["attrezzi", ExplorerData.ITEMS.size(), 10.0],
+			["firme dei mondi", SignaturesData.SIGNATURES.size(), 20.0]],
 	}
 	for p in rows:
 		var tot := 0.0

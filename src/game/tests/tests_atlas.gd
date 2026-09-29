@@ -29,6 +29,12 @@ func stars() -> void:
 	for k in keys:
 		saved[k] = m.world_meta.get(k, null)
 	m.character.atlante = {"altro_mondo": {"nome": "Un altro mondo", "vigore": 2, "stelle": {"firma": 1}, "meraviglie": {}}}
+	var f0: Dictionary = (m.world_meta.get("firma", {}) as Dictionary).duplicate()
+	f0["trovata"] = false                          # le prove di prima possono aver già trovato la firma o curato il Guardiano
+	m.world_meta["firma"] = f0
+	m.world_meta["guardiano"] = "dorme"
+	m.world_meta["sigilli"] = []
+	m.world_meta["segreti"] = []
 	at._record()
 	var here: bool = at.here()
 	var none := at.check()
@@ -49,7 +55,8 @@ func stars() -> void:
 	await kit.save("250_atlante")
 	var shown: bool = "★" in at.panel._body.text and at.panel._rows.size() == 2
 	at.panel.close()
-	var ok: bool = here and not "firma" in none and fresh.size() == 4 and st == 4 and at.total() == 5 and dust >= 2 and shown
+	var four: bool = "firma" in fresh and "guardiano" in fresh and "sigilli" in fresh and "segreti" in fresh
+	var ok: bool = here and not "firma" in none and four and st == fresh.size() and at.total() >= 5 and dust >= 2 and shown
 	print("atlante: stelle nuove %s (conteggio +%d, in tutto %d); premio delle cinque stelle: polvere iridata +%d; pannello %s" % [
 		str(fresh), st, at.total(), dust, shown])
 	if not ok:
@@ -165,7 +172,8 @@ func expeditions() -> void:
 		kinds.append(String(e["k"]))
 	var distinct: bool = kinds.size() == 3 and kinds[0] != kinds[1] and kinds[1] != kinds[2] and kinds[0] != kinds[2]
 	var e := {"k": "segreti", "base": int(m.character.stats.get("segreti", 0))}
-	ex.open_list()[0] = e
+	ex.open_list().clear()                         # una sola spedizione di segreti: quella della prova
+	ex.open_list().append(e)
 	var seg0 := int(m.character.stats.get("segreti", 0))
 	var map0: int = m.character.bisaccia.count("mappa_seminatori")
 	m.character.stats["segreti"] = seg0 + 4

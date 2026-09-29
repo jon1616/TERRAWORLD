@@ -99,6 +99,11 @@ const LIST := [
 		"text": "Oggi accanto all'Albero-Madre c'è un [b]visitatore[/b]: resta solo fino a domani. Ha merci che gli abitanti non hanno, e qualcuno anche richieste."},
 	{"id": "storia", "title": "Una storia comincia", "cap": "storie_botteghe",
 		"text": "Un abitante ha finito le sue richieste e comincia a raccontare la sua [b]storia[/b]: cinque capitoli aperti dall'affetto. Molti hanno anche una [b]bottega[/b] che lavora per te mentre sei via."},
+	# Roadmap 23 «L'Atlante»
+	{"id": "stella", "title": "La prima stella", "cap": "atlante",
+		"text": "L'[b]Atlante[/b] ({atlante}) ricorda i mondi che visiti: cinque stelle per mondo, un premio ogni cinque. Ha anche le pagine dei biomi, le meraviglie e le spedizioni del Cartografo."},
+	{"id": "meraviglia", "title": "Una meraviglia", "cap": "meraviglie",
+		"text": "Hai visto una [b]meraviglia[/b]: al suo centro c'è un cuore che brilla. Il clic destro ti dona il suo ricordo, che esiste solo lì."},
 ]
 
 

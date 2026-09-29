@@ -359,3 +359,11 @@ func _c_storia() -> bool:
 		if int(m.character.stats.get("richiesta_" + String(nid), 0)) >= (NpcData.NPCS[nid].get("quests", []) as Array).size():
 			return true
 	return false
+
+
+func _c_stella() -> bool:
+	return int(m.character.stats.get("stelle", 0)) >= 1
+
+
+func _c_meraviglia() -> bool:
+	return int(m.character.stats.get("meraviglie", 0)) >= 1

@@ -30,6 +30,7 @@ static func chapters() -> Array:
 	out.append_array(EncyPillarsData.CHAPTERS)         # Roadmap 20: i pilastri e la maestria
 	out.append_array(EncyCosmosData.CHAPTERS)          # Roadmap 21: le radici del cosmo
 	out.append_array(EncyGardenData.CHAPTERS)          # Roadmap 22: il Giardino vivo
+	out.append_array(EncyAtlasData.CHAPTERS)           # Roadmap 23: l'Atlante
 	return out
 
 

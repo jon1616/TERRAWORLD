@@ -23,7 +23,7 @@ const PILLARS := {
 	"storia": {"name": "La storia", "color": Color("#ffd24a"), "icon": ["seme", "sem"], "hours": 120,
 		"desc": "L'Albero-Madre, le catene dei Seminatori, il Seme Nero.",
 		"hint": "porta all'Albero-Madre ciò che chiede, segui le catene"},
-	"esplorazione": {"name": "L'esplorazione", "color": Color("#5cf0e0"), "icon": ["mappa", "legno"], "hours": 70,
+	"esplorazione": {"name": "L'esplorazione", "color": Color("#5cf0e0"), "icon": ["mappa", "legno"], "hours": 90,
 		"desc": "I mondi nati dai Semi, le firme, i segreti, il cielo e il profondo.",
 		"hint": "pianta un Seme nuovo, cerca la firma e i segreti del mondo"},
 	"combattimento": {"name": "Il combattimento", "color": Color("#ff8a6a"), "icon": ["spada", "legnoferro"], "hours": 60,
@@ -54,7 +54,7 @@ const PILLARS := {
 
 ## Un conteggio del personaggio → i pilastri che nutre (punti per unità ≈ minuti di fatica).
 const STATS := {
-	"albero": [["storia", 150.0]], "perduti": [["storia", 120.0]], "stelle": [["esplorazione", 30.0]], "spedizioni": [["esplorazione", 45.0]], "meraviglie": [["esplorazione", 60.0]], "ricordi": [["esplorazione", 10.0]], "pagine_biomi": [["esplorazione", 60.0]], "catene": [["storia", 90.0], ["misteri", 20.0]], "cuore": [["storia", 30.0]],
+	"albero": [["storia", 150.0]], "perduti": [["storia", 120.0]], "stelle": [["esplorazione", 10.0]], "spedizioni": [["esplorazione", 30.0]], "meraviglie": [["esplorazione", 30.0]], "ricordi": [["esplorazione", 5.0]], "pagine_biomi": [["esplorazione", 60.0]], "catene": [["storia", 90.0], ["misteri", 20.0]], "cuore": [["storia", 30.0]],
 	"guardiani": [["storia", 60.0], ["combattimento", 40.0]], "leggende": [["storia", 120.0]], "seme_primo": [["storia", 300.0]],
 	"viaggi": [["esplorazione", 20.0]], "firme": [["esplorazione", 45.0]], "segreti": [["esplorazione", 15.0]],
 	"sigilli": [["esplorazione", 20.0]], "reliquiari": [["esplorazione", 15.0], ["misteri", 15.0]], "scrigni": [["esplorazione", 5.0]],

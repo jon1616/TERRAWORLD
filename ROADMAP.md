@@ -12,7 +12,8 @@
   Libro dei pilastri (P), strade alternative dell'Albero, misura per pilastro. Resoconto in fondo alla Roadmap 20.
   **Fatta la Roadmap 21 «Le radici del cosmo»** (voci 220-226): l'Atto II della storia, i quattro Giardini perduti.
   **Fatta la Roadmap 22 «Il Giardino vivo»** (voci 227-234): bellezza, isole, visitatori, feste, storie e botteghe
-  degli abitanti, grandi opere.
+  degli abitanti, grandi opere. **Fatta la Roadmap 23 «L'Atlante»** (voci 235-240): stelle dei mondi, pagine dei biomi,
+  meraviglie, spedizioni, attrezzi dell'esploratore.
 - **Fatta la Roadmap 19 «La Linfa che scorre»** (voci 190-213, 29 set 2026, in autonomia): vene del Flusso e fili
   dell'Impulso, 64 macchine (sorgenti, riserve, macchine che lavorano, sensori, nodi della logica), le Centrali dei
   Seminatori, la Tempesta di Linfa, Succhiavena e Lucciole, la Tessitrice, il primo circuito guidato. Resoconto in fondo
@@ -4082,8 +4083,19 @@ il Cannocchiale di ambra (scopre la mappa in un cerchio di 14 tessere fino a 160
 meraviglie (distanza e direzione della meraviglia più vicina non vista) e la Radice di ritorno (si consuma e riporta al
 Giardino). Ricette a Telaio, Maglio e Ceppo; tenda, radici e cannocchiale anche dal Cartografo.
 
-## 240. [ ] Enciclopedia, misura e resoconto (P)
+## 240. [x] Enciclopedia, misura e resoconto (P) — fatto il 29 set 2026
 Capitoli, consigli, `tools/durata.gd` (il pilastro dell'esplorazione e la sua varietà), giro intero, GitHub.
+**Fatto**: `EncyAtlasData` (L'Atlante e le stelle, Le meraviglie, Spedizioni e attrezzi), due consigli (la prima stella,
+la prima meraviglia), `tools/durata.gd` (l'Atlante per strada: 2,5 stelle, 1,5 meraviglie e mezza spedizione a mondo; la
+varietà dell'esplorazione: 42 ore di cose diverse). Il bilancio: le stelle premiano cose già contate, quindi valgono 10
+punti (non 30), le spedizioni 30, le meraviglie 30; il pilastro dell'esplorazione sale da 70 a 90 ore.
+
+### Resoconto della Roadmap 23 (29 set 2026)
+L'esplorazione ha un **Atlante** (tasto O): ogni mondo con le sue cinque stelle e ciò che gli manca, 26 pagine di bioma
+che dicono che cosa cercare e dove, **dodici meraviglie** generate (due o tre per mondo, con il loro cuore e un ricordo
+che esiste solo lì, per tre accessori), le **spedizioni** del Cartografo con i Semi del gene che serve, e quattro
+attrezzi che fanno perdere meno strada (Tenda da campo, Cannocchiale, Bussola, Radice di ritorno). Tutto al grado 10:
+~404 ore (458 per il giocatore medio).
 
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».

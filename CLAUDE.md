@@ -747,6 +747,17 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     `ProjectsData.WORKS`/`works_built`, letti da `Aiuole.max_aiuole`, `GearEffects`, `Visitors`.
   - Prove: gruppo «giardino_vivo» (`TestsGardenLife`). Enciclopedia: `EncyGardenData`. `tools/durata.gd` misura anche
     la varietà (sezione 5: ore di cose diverse per pilastro).
+- **Roadmap 23 «L'Atlante»** (voci 235-240, 29 set 2026; il pilastro dell'esplorazione, 90 ore):
+  - `Atlas` (`src/game/atlas.gd`, tasto O) tiene insieme tutto e gira ogni 5 s: le stelle dei mondi (`AtlasData`,
+    `Character.atlante`), le pagine dei biomi (`BiomePagesData` costruite dai dati, `BiomePages`: visite «visto_<bioma>»),
+    le meraviglie (`Wonders`), le spedizioni (`ExpeditionsData`/`Expeditions`, `Character.spedizioni`, fonte «spedizione»
+    del filo) e gli attrezzi (`ExplorerData`/`ExplorerTools`: Tenda con `Fauna.camp`, Cannocchiale, Bussola, Radice di
+    ritorno). `AtlasPanel`: una scheda = una coppia `_rows_<scheda>`/`_text_<scheda>`.
+  - Le meraviglie: `WondersData` (12, pesi, geni, ricordi e i tre accessori), `PassMeraviglie` e `WonderShapes`
+    (`src/world/gen/`: una funzione `_b_<id>` per forma, `solid_enough` sotto terra), stazione `cuore_meraviglia`.
+    `tools/meraviglie.gd -- --semi 30` ritaglia ogni forma dalla mappa in prove/meraviglie/.
+  - I punti delle stelle e delle spedizioni sono bassi apposta: premiano cose già contate (firme, Guardiani, segreti).
+  - Prove: gruppo «atlante» (`TestsAtlas`, foto 250-253). Enciclopedia: `EncyAtlasData`.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni
