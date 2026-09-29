@@ -219,6 +219,8 @@ func touch(c: Vector2i) -> bool:
 	var o: Vector2i = st["origin"]
 	if id == "scrigno_parola" and m.get("word_chests") != null:
 		return m.word_chests.touch(o)                      # Roadmap 17: la ruota dei glifi
+	if MachinesData.is_machine(id):
+		return m.energy.touch(o)                         # Roadmap 19 (anche con la cassetta: il pannello la apre)
 	if StationsData.STATIONS[id].has("slots"):
 		chest_panel.open(o, m.world.chest_at(o), String(StationsData.STATIONS[id]["name"]))
 		m.sfx.play("apri", Vector2(o) * 16.0)
@@ -235,8 +237,6 @@ func touch(c: Vector2i) -> bool:
 				m.world_meta["scrigni_aperti"] = opened
 				m.objectives.bump("scrigni")
 		return true
-	if MachinesData.is_machine(id):
-		return m.energy.touch(o)                         # Roadmap 19: le macchine della rete
 	if TrapsData.is_trap(id):
 		return m.traps.toggle(o)                         # voce 88: disarma e riarma
 	if id.begins_with("leva_trappole"):

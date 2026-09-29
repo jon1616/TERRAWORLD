@@ -171,6 +171,18 @@ func _fill_rows() -> void:
 		for opt in [["germogliato", "Tu"], ["creature", "Le creature"], ["tutti", "Tutti"]]:
 			var o := String(opt[0])
 			_button(r4, String(opt[1]), who == o, func() -> void: mc.st["chi"] = o)
+	if mc.d.has("slots"):
+		var r6 := _row("La cassetta")
+		var b6 := Button.new()
+		b6.focus_mode = Control.FOCUS_NONE
+		b6.text = "Apri la cassetta"
+		b6.custom_minimum_size = Vector2(160, 32)
+		b6.add_theme_font_size_override("font_size", 15)
+		var o := mc.o
+		b6.pressed.connect(func() -> void:
+			close()
+			e.m.interact.chest_panel.open(o, e.m.world.chest_at(o), String(mc.d["name"])))
+		r6.add_child(b6)
 	for extra in mc.bh.panel_rows(mc, e):
 		var r5 := _row(String(extra[0]))
 		for opt in extra[1]:

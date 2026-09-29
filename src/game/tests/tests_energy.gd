@@ -33,6 +33,7 @@ func run() -> void:
 	await flux()
 	await impulses()
 	await panel()
+	await sources()
 	m.player.control = ctl
 	m.day.paused = false
 
@@ -326,3 +327,103 @@ func panel() -> void:
 		print("ATTENZIONE: il pannello o le schede della rete non dicono ciò che devono")
 	unplace(lamp)
 	unplace(leaf)
+
+
+## Un posto pulito lontano dalle prove di prima, con il cielo libero sopra: la cella del pavimento a sinistra.
+func clean_spot(dx: int, width := 14) -> Vector2i:
+	var y := spot.y
+	var x0 := spot.x + dx
+	kit.flatten(Vector2i(x0 + width / 2, y), width / 2 + 2)
+	for x in range(x0 - 2, x0 + width + 2):
+		for yy in range(y - 16, y - 4):
+			m.world.set_tile(x, yy, TileDefs.AIR)
+	m.view.refresh_rect(Rect2i(x0 - 2, y - 16, width + 4, 18))
+	m.snap_to(Vector2i(x0 + width / 2, y))
+	await kit.frames(3)
+	return Vector2i(x0, y)
+
+
+## Voce 195: le sorgenti del mondo, ognuna nel suo posto giusto e a secco dove non deve.
+func sources() -> void:
+	var e: Energy = m.energy
+	var w: World = m.world
+	var p := await clean_spot(80, 34)
+	var y := p.y
+	# il mulino: con il vento pieno quasi tutto, con l'aria ferma un filo, sotto un tetto niente
+	var mill := place("mulino_semi", Vector2i(p.x, y))
+	await ticks(2)
+	var mm: Machine = e.machines[mill]
+	var w0: float = m.weather.wind
+	m.weather.wind = 160.0
+	var windy := mm.bh.produce(mm, e)
+	m.weather.wind = 0.0
+	var calm := mm.bh.produce(mm, e)
+	w.set_tile(p.x, mill.y - 3, TileDefs.STONE)
+	var roofed := mm.bh.produce(mm, e)
+	w.set_tile(p.x, mill.y - 3, TileDefs.AIR)
+	m.weather.wind = w0
+	var mill_ok := windy >= 34.0 and calm > 1.0 and calm < 12.0 and roofed == 0.0
+	print("mulino: vento pieno %.1f pulsi, aria ferma %.1f, sotto un tetto %.1f" % [windy, calm, roofed])
+	# la ruota d'acqua: 4 celle d'acqua accanto = 20 pulsi
+	var wheel := place("ruota_acqua", Vector2i(p.x + 5, y))
+	await ticks(2)
+	var rm: Machine = e.machines[wheel]
+	var dry := rm.bh.produce(rm, e)
+	for dy in 2:
+		w.set_liq(wheel.x - 1, wheel.y + dy, 8, LiquidsData.ACQUA)
+		w.set_liq(wheel.x + 2, wheel.y + dy, 8, LiquidsData.ACQUA)
+	var wet := rm.bh.produce(rm, e)
+	for dy in 2:
+		w.set_liq(wheel.x - 1, wheel.y + dy, 0, 0)
+		w.set_liq(wheel.x + 2, wheel.y + dy, 0, 0)
+	var wheel_ok := dry == 0.0 and wet >= 20.0
+	print("ruota d'acqua: asciutta %.1f, con quattro celle d'acqua accanto %.1f" % [dry, wet])
+	# il baccello di brace: brucia solo se la rete ne ha bisogno
+	var ember := place("baccello_brace", Vector2i(p.x + 10, y))
+	var lamp := place("lampada_baccello", Vector2i(p.x + 13, y))
+	w.chest_at(ember).add("legno", 3)
+	lay_row(p.x + 10, p.x + 13, y, 2)                           # legnoferro: porta 100 (la radice solo 30)
+	await ticks(4)
+	var em: Machine = e.machines[ember]
+	var lm: Machine = e.machines[lamp]
+	var burning := em.made > 39.0 and lm.lit and w.chest_at(ember).count("legno") == 2
+	lm.st["on"] = false
+	lm.st["off_by_hand"] = true
+	await ticks(1)
+	em.st["burn"] = 0.0
+	await ticks(3)
+	var idle := em.made == 0.0 and w.chest_at(ember).count("legno") == 2
+	print("baccello di brace: con una lampada brucia %s (%.0f pulsi), senza bisogno si ferma %s" % [burning, em.made, idle])
+	# il pozzo di Linfa: sopra un lago di Linfa
+	var lx := p.x + 18
+	for x in range(lx - 3, lx + 5):
+		for yy in range(y + 1, y + 5):
+			w.set_tile(x, yy, TileDefs.AIR)
+			w.set_liq(x, yy, 8, LiquidsData.LINFA)
+		w.set_tile(x, y + 5, TileDefs.STONE)
+	m.view.refresh_rect(Rect2i(lx - 3, y, 8, 6))
+	var fits := w.station_fits("pozzo_linfa", Vector2i(lx, y - 1))
+	var well := place("pozzo_linfa", Vector2i(lx, y))
+	await ticks(2)
+	var wm: Machine = e.machines[well]
+	var well_p := wm.bh.produce(wm, e)
+	print("pozzo di Linfa: si posa sopra il lago %s, dà %.1f pulsi" % [fits, well_p])
+	# il cuore di cristallo: consuma un cristallo
+	var heart := place("cuore_cristallo", Vector2i(p.x + 26, y))
+	var lamp2 := place("lampada_baccello", Vector2i(p.x + 29, y))
+	w.chest_at(heart).add("cristallo_linfa", 2)
+	lay_row(p.x + 26, p.x + 29, y, 3)                           # ambra: porta 300
+	await ticks(3)
+	var hm: Machine = e.machines[heart]
+	var heart_ok := hm.made >= 119.0 and w.chest_at(heart).count("cristallo_linfa") == 1
+	print("cuore di cristallo: %.0f pulsi, cristalli rimasti %d" % [hm.made, w.chest_at(heart).count("cristallo_linfa")])
+	await kit.save("234_sorgenti")
+	if not (mill_ok and wheel_ok and burning and idle and fits and well_p >= 79.0 and heart_ok):
+		print("ATTENZIONE: le sorgenti del mondo non danno ciò che devono")
+	for o in [mill, wheel, ember, lamp, well, heart, lamp2]:
+		if w.chests.has(o):
+			w.chests.erase(o)
+		unplace(o)
+	for x in range(lx - 3, lx + 5):
+		for yy in range(y + 1, y + 5):
+			w.set_liq(x, yy, 0, 0)

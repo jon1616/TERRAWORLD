@@ -351,6 +351,16 @@ func spend(mc: Machine, amount: float) -> bool:
 	return true
 
 
+## La rete di questa sorgente ha bisogno di più Flusso? (Le macchine chiedono più di quanto danno le altre sorgenti, o
+## le riserve non sono piene.) Lo guardano le sorgenti che bruciano, per non sprecare.
+func needs(mc: Machine) -> bool:
+	if mc.net < 0:
+		return false
+	var nt: Dictionary = nets[mc.net]
+	var others := float(nt["prod"]) - mc.made
+	return float(nt["want"]) > others + 0.01 or float(nt["stored"]) < float(nt["cap"]) - 1.0
+
+
 ## Clic destro su una macchina: il suo comportamento (una leva, un pulsante) o il pannello.
 func touch(o: Vector2i) -> bool:
 	var mc: Machine = machines.get(o)

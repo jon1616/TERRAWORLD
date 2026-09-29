@@ -3442,10 +3442,17 @@ portata, rete, sorgenti e macchine, riserve, fili), le vene turchesi sulla mappa
 fili; con il mouse dice la rete). Foto 233_pannello_macchina.
 
 ## Fase 2 · Le sorgenti e il mondo
-## 195. [ ] Le sorgenti del mondo (M)
+## 195. [x] Le sorgenti del mondo (M) — fatto il 29 set 2026
 Mulino di semi (vento e quota), Ruota d'acqua (colonne di liquido che cadono accanto, senza simulare i liquidi lontani),
 Baccello di brace (combustibile, doppio accanto alla brace), Pozzo di Linfa (su un lago di Linfa), Cuore di cristallo.
 **Pronto quando**: ogni sorgente dà i suoi pulsi nel posto giusto e zero dove non deve.
+**Fatto**: Mulino di semi (`MbMulino`: il vento del meteo, un filo d'aria sempre, la quota, il cielo ×1,5; sotto terra o
+sotto un tetto niente), Ruota d'acqua (`MbRuota`: 5 pulsi per cella d'acqua che la tocca, ×1,5 se si muove), Baccello di
+brace e Cuore di cristallo (`MbFuoco`: bruciano dalla cassetta solo quando la rete ne ha bisogno, `Energy.needs`; il
+baccello il doppio accanto alla brace), Pozzo di Linfa (`MbPozzo`: sopra un lago di Linfa, `sul_liquido` in
+`station_fits`). Le macchine con la cassetta aprono il pannello, che ha il pulsante «Apri la cassetta». La portata della
+vena conta anche per le sorgenti (una vena di radice porta 30 anche dal Cuore di cristallo). Prova: mulino 35/7/0,
+ruota 0/20, baccello che brucia solo se serve, pozzo 80 sopra il lago, cuore 120 con un cristallo.
 
 ## 196. [ ] Le sorgenti speciali (M)
 Ruota della mandria, Parafulmine (i fulmini dei temporali nelle riserve), Radice-madre (sul Cuore curato: 250 pulsi),

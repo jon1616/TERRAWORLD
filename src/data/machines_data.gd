@@ -25,6 +25,26 @@ const MACHINES := {
 	"foglia_lanterna": {"name": "Foglia-lanterna", "role": "sorgente", "size": [2, 2], "bh": "sole", "pulsi": 12,
 		"look": "foglia", "icon": ["foglia", "linfa"], "in": {"legno": 8, "gelatina": 4, "fungo_luminoso": 2}, "station": "ceppo",
 		"tier": 1, "desc": "Una sorgente: beve la luce del giorno, fino a 12 pulsi a mezzogiorno (di più nel cielo). Di notte e sotto un tetto niente."},
+	# ---------------------------------------------------------------- le sorgenti del mondo (voce 195)
+	"mulino_semi": {"name": "Mulino di semi", "role": "sorgente", "size": [2, 3], "bh": "mulino", "pulsi": 35,
+		"look": "mulino", "icon": ["pappo", "legno"], "in": {"legno": 20, "lingotto_radicite": 4, "seta_radice": 4}, "station": "ceppo",
+		"tier": 2, "desc": "Una sorgente: le pale di pappo girano con il vento. Più vento e più in alto, più pulsi (fino a 35; nel cielo di più). Sotto terra non c'è vento."},
+	"ruota_acqua": {"name": "Ruota d'acqua", "role": "sorgente", "size": [2, 2], "bh": "ruota", "pulsi": 40,
+		"look": "ruota", "icon": ["mola", "legnoferro"], "in": {"legno": 16, "lingotto_legnoferro": 3}, "station": "baccello_ardente",
+		"tier": 2, "desc": "Una sorgente: l'acqua che la bagna la fa girare, 5 pulsi per ogni cella d'acqua che la tocca (ai lati o sopra), fino a 40; l'acqua che scorre il 50% in più."},
+	"baccello_brace": {"name": "Baccello di brace", "role": "sorgente", "size": [2, 2], "bh": "fuoco", "pulsi": 40, "slots": 4,
+		"fuel": {"legno": 20.0, "polvere_brace": 90.0, "pietra_brace": 60.0, "fungo_brace": 45.0, "tizzone_quieto": 240.0},
+		"hot": 2, "look": "brace", "icon": ["fornace", "brace"], "in": {"ardesia": 20, "lingotto_legnoferro": 4, "polvere_brace": 4},
+		"station": "baccello_ardente", "tier": 2,
+		"desc": "Una sorgente: brucia ciò che le metti nella cassetta (legno, polvere e pietra di brace…) e dà 40 pulsi, il doppio accanto a un lago di brace. Brucia solo quando la rete ne ha bisogno."},
+	"pozzo_linfa": {"name": "Pozzo di Linfa", "role": "sorgente", "size": [2, 2], "bh": "pozzo", "pulsi": 80,
+		"look": "pozzo", "icon": ["goccia", "cristallo"], "sul_liquido": true, "in": {"lingotto_ambra": 4, "cristallo_linfa": 3, "seta_radice": 4},
+		"station": "maglio", "tier": 3,
+		"desc": "Una sorgente: posato sopra un lago di Linfa beve la Linfa del mondo, 80 pulsi senza combustibile (meno se il lago è piccolo)."},
+	"cuore_cristallo": {"name": "Cuore di cristallo", "role": "sorgente", "size": [2, 2], "bh": "fuoco", "pulsi": 120, "slots": 4,
+		"fuel": {"cristallo_linfa": 120.0}, "look": "cuore_cristallo", "icon": ["cristallo", "linfa"],
+		"in": {"cristallo_linfa": 8, "lingotto_ambra": 4, "gelatina": 6}, "station": "maglio", "tier": 3,
+		"desc": "Una sorgente: consuma un cristallo di Linfa ogni 2 minuti di lavoro e dà 120 pulsi. Brucia solo quando la rete ne ha bisogno."},
 	# ---------------------------------------------------------------- riserve
 	"otre_linfa": {"name": "Otre di Linfa", "role": "riserva", "size": [1, 1], "bh": "riserva", "cap": 3000, "io": 30,
 		"look": "otre", "icon": ["goccia", "linfa"], "in": {"legno": 4, "gelatina": 6, "lingotto_radicite": 1}, "station": "ceppo",
@@ -69,6 +89,10 @@ static func stations() -> Dictionary:
 		for id in MACHINES:
 			var d: Dictionary = MACHINES[id]
 			var e := {"name": d["name"], "size": d["size"], "item": id, "macchina": true}
+			if d.has("slots"):
+				e["slots"] = int(d["slots"])             # la cassetta del combustibile (la apre il pannello)
+			if d.get("sul_liquido", false):
+				e["sul_liquido"] = true                  # si posa sopra un lago (il Pozzo di Linfa)
 			if d.has("light"):
 				e["light_rete"] = d["light"]           # la luce la accende la rete (`Energy`), non la stazione da sola
 			_stations[id] = e

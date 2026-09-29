@@ -33,6 +33,16 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 			_piastra(im, gm, w, h)
 		"porta":
 			_porta(im, gm, w, h)
+		"mulino":
+			_mulino(im, gm, w, h)
+		"ruota":
+			_ruota(im, gm, w, h)
+		"brace":
+			_brace(im, gm, w, h)
+		"pozzo":
+			_pozzo(im, gm, w, h)
+		"cuore_cristallo":
+			_cuore_cristallo(im, gm, w, h)
 		_:
 			_scatola(im, gm, w, h, d)
 	return true
@@ -183,3 +193,78 @@ static func _porta(im: Image, gm: Image, w: int, h: int) -> void:
 		if y % 2 == 0:
 			Px.put(gm, int(w * 0.5), y, LINFA[3])
 	Px.put(im, w - 4, int(h * 0.55), AMBER[2])
+
+
+## Il Mulino di semi: un fusto di radice e quattro pale di pappo bianco attorno a un mozzo di Linfa.
+static func _mulino(im: Image, gm: Image, w: int, h: int) -> void:
+	_roots(im, w, h)
+	var hub := Vector2(w * 0.5, h * 0.32)
+	Px.line(im, Vector2(w * 0.5, h - 3), hub, 2, BARK[2])
+	for k in 4:
+		var a := k * PI * 0.5 + 0.4
+		var tip := hub + Vector2(cos(a), sin(a)) * (w * 0.46)
+		Px.line(im, hub, tip, 1, BARK[3])
+		for t in [0.45, 0.7, 0.95]:
+			var p := hub.lerp(tip, t)
+			Px.disc(im, p.x, p.y, 1.6, Color("#f0ece0"))
+	Px.disc(im, hub.x, hub.y, 2.4, BARK[1])
+	Px.disc(im, hub.x, hub.y, 1.4, LINFA[2])
+	Px.disc(gm, hub.x, hub.y, 1.3, LINFA[3])
+
+
+## La Ruota d'acqua: una ruota di legnoferro a pale con l'asse di Linfa.
+static func _ruota(im: Image, gm: Image, w: int, h: int) -> void:
+	var c := Vector2(w * 0.5, h * 0.5)
+	var r := minf(w, h) * 0.46
+	Px.disc(im, c.x, c.y, r, SLATE[0])
+	Px.disc(im, c.x, c.y, r - 2.0, Color(0, 0, 0, 0))
+	for y in h:
+		for x in w:
+			var d := Vector2(x + 0.5, y + 0.5).distance_to(c)
+			if d <= r and d >= r - 2.0:
+				Px.put(im, x, y, SLATE[1])
+	for k in 8:
+		var a := k * PI / 4.0
+		var p := c + Vector2(cos(a), sin(a)) * r
+		Px.line(im, c, p, 1, SLATE[2])
+		Px.disc(im, p.x, p.y, 1.6, BARK[2])
+	Px.disc(im, c.x, c.y, 2.2, LINFA[1])
+	Px.disc(gm, c.x, c.y, 1.6, LINFA[3])
+
+
+## Il Baccello di brace: un baccello scuro di ardesia con la bocca di brace che brilla.
+static func _brace(im: Image, gm: Image, w: int, h: int) -> void:
+	_roots(im, w, h)
+	var c := Vector2(w * 0.5, h * 0.52)
+	Px.disc(im, c.x, c.y, w * 0.44, SLATE[0])
+	Px.disc(im, c.x, c.y, w * 0.38, SLATE[1])
+	Px.disc(im, c.x, c.y + 3, w * 0.2, Color("#401810"))
+	Px.disc(im, c.x, c.y + 3, w * 0.15, Color("#ff7a30"))
+	Px.disc(gm, c.x, c.y + 3, w * 0.14, Color("#ffb060"))
+	Px.line(im, Vector2(c.x, 1), Vector2(c.x, c.y - w * 0.3), 2, BARK[1])
+
+
+## Il Pozzo di Linfa: un anello di pietra e una vasca di Linfa luminosa con un tubo di radice che scende.
+static func _pozzo(im: Image, gm: Image, w: int, h: int) -> void:
+	_rect(im, 1, int(h * 0.4), w - 1, h, SLATE[0])
+	_rect(im, 3, int(h * 0.4) + 2, w - 3, h - 2, LINFA[1])
+	_rect(gm, 4, int(h * 0.4) + 3, w - 4, h - 3, LINFA[2])
+	for x in range(1, w - 1, 3):
+		Px.put(im, x, int(h * 0.4), SLATE[2])
+	Px.line(im, Vector2(w * 0.5, 1), Vector2(w * 0.5, h - 2), 2, BARK[2])
+	Px.disc(im, w * 0.5, 3, 2.4, BARK[1])
+
+
+## Il Cuore di cristallo: un cristallo di Linfa stretto in una radice.
+static func _cuore_cristallo(im: Image, gm: Image, w: int, h: int) -> void:
+	_roots(im, w, h)
+	var c := Vector2(w * 0.5, h * 0.45)
+	for y in h:
+		for x in w:
+			var p := Vector2(x + 0.5, y + 0.5) - c
+			if absf(p.x) / (w * 0.3) + absf(p.y) / (h * 0.4) <= 1.0:
+				Px.put(im, x, y, LINFA[2] if p.x < 0 else LINFA[1])
+				if absf(p.x) / (w * 0.3) + absf(p.y) / (h * 0.4) <= 0.6:
+					Px.put(gm, x, y, LINFA[3])
+	Px.line(im, Vector2(3, h - 4), c + Vector2(-3, 4), 2, BARK[1])
+	Px.line(im, Vector2(w - 4, h - 4), c + Vector2(3, 4), 2, BARK[1])

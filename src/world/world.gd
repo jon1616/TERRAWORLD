@@ -253,8 +253,10 @@ func station_fits(id: String, o: Vector2i) -> bool:
 		return solid(o.x, o.y + 1) or solid(o.x, o.y - 1) or solid(o.x - 1, o.y) or solid(o.x + 1, o.y)
 	if StationsData.role(id) == "lanterna" and solid(o.x, o.y - 1):
 		return true                              # voce 145: la lanterna si appende al soffitto
+	var on_liquid: bool = StationsData.STATIONS[id].get("sul_liquido", false)   # Roadmap 19: il Pozzo di Linfa
 	for dx in size[0]:
-		if not solid(o.x + dx, o.y + size[1]):
+		var fy: int = o.y + int(size[1])
+		if not solid(o.x + dx, fy) and not (on_liquid and liq(o.x + dx, fy) > 0):
 			return false
 	return true
 

@@ -30,6 +30,14 @@ static func make(bh: String) -> MachineBehavior:
 			return MbPiastra.new()
 		"porta":
 			return MbPorta.new()
+		"mulino":
+			return MbMulino.new()
+		"ruota":
+			return MbRuota.new()
+		"fuoco":
+			return MbFuoco.new()
+		"pozzo":
+			return MbPozzo.new()
 	return MachineBehavior.new()
 
 
