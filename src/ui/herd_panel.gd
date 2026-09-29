@@ -42,7 +42,8 @@ func setup(main: Node2D) -> void:
 	add_child(_detail)
 	var x := 780.0
 	for b in [["segue", "Segui"], ["riposo", "Riposa"], ["recinto", "Al recinto"], ["guardia", "Di guardia"], ["vasetto", "Nel vasetto"],
-			["libera", "Libera"], ["coppia", "Coppia…"], ["fiera", "Alla fiera"]]:
+			["libera", "Libera"], ["coppia", "Coppia…"], ["fiera", "Alla fiera"],
+			["lavoro", "Lavoro…"]]:
 		var btn := Button.new()
 		btn.text = b[1]
 		btn.position = Vector2(x, 420)
@@ -64,6 +65,8 @@ func setup(main: Node2D) -> void:
 	(_buttons["coppia"] as Button).size = Vector2(160, 36)
 	(_buttons["fiera"] as Button).position = Vector2(1230, 476)       # voce 242: le fiere della mandria
 	(_buttons["fiera"] as Button).size = Vector2(160, 36)
+	(_buttons["lavoro"] as Button).position = Vector2(780, 526)       # voce 243: i lavori della mandria
+	(_buttons["lavoro"] as Button).size = Vector2(160, 36)
 	var prev := Button.new()
 	prev.text = "‹"
 	prev.position = Vector2(120, 100 + ROWS * ROW + 6)
@@ -208,6 +211,8 @@ func _act(what: String) -> void:
 			selected = -1
 		"fiera":
 			why = Fairs.enter(m, rec)                  # voce 242
+		"lavoro":
+			why = HerdJobs.next_job(rec)               # voce 243
 		"coppia":
 			if rec.has("coppia"):
 				m.herd.unpair(rec)

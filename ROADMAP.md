@@ -4125,10 +4125,16 @@ per categoria a fiera. Il giudizio guarda le doti con i loro bonus (manto, gigan
 generazione; bronzo, argento e oro con premi per l'allevamento, l'oro anche un uovo della sua stirpe; il record di ogni
 famiglia. Conteggi «fiere», «medaglie», «ori» per la maestria della mandria.
 
-## 243. [ ] I lavori della mandria (M)
+## 243. [x] I lavori della mandria (M) — fatto il 29 set 2026
 Oltre alla guardia, tre lavori nel recinto: **aratura** (le colture vicine crescono di più), **cerca** (ogni tanto la
 creatura trova qualcosa secondo la sua famiglia: tartufi, minerali, semi selvatici, anche a gioco chiuso) e **tiro**
 (le macchine della rete vicine hanno Flusso in più). Il lavoro dà esperienza e stanca.
+**Fatto**: `HerdJobs` (`src/game/herd_jobs.gd`, pulsante «Lavoro…» del pannello, solo nel recinto): **aratura** (le
+colture entro 24 tessere dal recinto crescono del 20% in più per ogni creatura che ara, al più due: `Pens.plows` letto
+da `Garden.grow`), **cerca** (ogni 8 minuti, anche a gioco chiuso, una cosa secondo il ruolo della famiglia nella
+mangiatoia: semi e funghi gli erbivori, minerali i predatori e gli scavatori, seta e polvere iridata i volanti) e
+**canto** (le altre del recinto producono come con un'amica in più). Il lavoro fa venire fame una volta e mezza più in
+fretta e dà esperienza. Il tiro per la rete è rimasto fuori: la rete ha già le sue sorgenti.
 
 ## 244. [ ] Qualità e incroci dell'orto (G)
 Ogni raccolto ha una **qualità** (comune, buona, ottima) che viene dalla terra, dall'acqua, dalla stagione e dal seme;

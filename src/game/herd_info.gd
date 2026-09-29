@@ -49,6 +49,9 @@ static func sheet(rec: Dictionary) -> String:
 		out += "[color=#8ef0d8]Quando ti segue: %s[/color]\n" % t["aid_text"]
 	if t.has("mount_text"):
 		out += "[color=#8ef0d8]Si cavalca (R): %s[/color]\n" % t["mount_text"]
+	var job := HerdJobs.job_of(rec)
+	if job != "":
+		out += "[color=#ffd08a]Lavoro: %s — %s[/color]\n" % [HerdJobs.JOBS[job]["name"], HerdJobs.JOBS[job]["desc"]]
 	var g: Dictionary = rec.get("doti", {})
 	if not g.is_empty():
 		out += Breeding.sheet(g)                   # voce 60

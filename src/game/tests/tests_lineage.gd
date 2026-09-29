@@ -15,6 +15,7 @@ func _init(tk: TestKit) -> void:
 func run() -> void:
 	await lineage()
 	await fairs()
+	await jobs()
 
 
 ## Voce 241: sei generazioni della stessa variante fanno una stirpe pura (doti in più); un manto raro nuovo entra nella
@@ -93,3 +94,29 @@ func fairs() -> void:
 			st[k2] = saved[k2]
 	m.day.day = day0
 	m.character.bisaccia.remove("uovo", maxi(m.character.bisaccia.count("uovo") - eggs0, 0))
+
+
+## Voce 243: i lavori girano solo nel recinto; chi cerca trova qualcosa della sua famiglia; l'aratura fa crescere le
+## colture vicine; chi canta conta come un'amica in più.
+func jobs() -> void:
+	var rec: Dictionary = m.herd.new_record("pecora_muschio", "nutrita")
+	var refused := HerdJobs.next_job(rec)                    # riposa: non lavora
+	rec["stato"] = "recinto"
+	var j1 := HerdJobs.next_job(rec)
+	var job1 := HerdJobs.job_of(rec)
+	HerdJobs.next_job(rec)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 3
+	var f := HerdJobs.find(rec, rng)
+	var found: bool = ItemsData.get_item(String(f[0])).has("name") and int(f[1]) >= 1
+	var near := HerdJobs.plow_at([Vector2i(10, 10)], Vector2i(20, 12))
+	var far := HerdJobs.plow_at([Vector2i(10, 10)], Vector2i(100, 12))
+	var two := HerdJobs.plow_at([Vector2i(10, 10), Vector2i(12, 10), Vector2i(14, 10)], Vector2i(10, 10))
+	var singer := {"lavoro": "canto", "fame": 0.2}
+	var s := HerdJobs.singers([rec, singer], rec)
+	var ok: bool = "recinto" in refused and job1 == "aratura" and HerdJobs.job_of(rec) == "cerca" and found and is_equal_approx(near, 1.2) \
+		and is_equal_approx(far, 1.0) and is_equal_approx(two, 1.4) and s == 1
+	print("lavori della mandria: «%s»; poi %s; cerca trova %d %s; aratura ×%.1f vicino, ×%.1f lontano, ×%.1f al massimo; cantanti %d" % [
+		j1, HerdJobs.job_of(rec), int(f[1]), f[0], near, far, two, s])
+	if not ok:
+		print("ATTENZIONE: i lavori della mandria non vanno")

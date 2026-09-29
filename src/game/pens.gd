@@ -104,6 +104,9 @@ func spawn_pos(rec: Dictionary) -> Vector2:
 	return Vector2(x * S + 8, pen_y(rec) - float(d["half"][1]) - 0.1)
 
 
+var plows: Array = []                  # voce 243: una cella di recinto per ogni creatura che ara (`HerdJobs.plow_at`)
+
+
 func _process(dt: float) -> void:
 	if not m.built:
 		return
@@ -118,11 +121,14 @@ func _process(dt: float) -> void:
 	if _t > 0.0:
 		return
 	_t = 1.0
+	plows.clear()
 	for o in pens:
 		if not m.world.stations.has(o):
 			continue
 		for r in members(key(o)):
 			tick(r, 1.0)
+			if HerdJobs.job_of(r) == "aratura" and float(r["fame"]) < 0.8:
+				plows.append(o)
 		breed(key(o), 1.0)
 	for o in incubators:
 		incubate(o)
@@ -160,11 +166,14 @@ func tick(rec: Dictionary, dt: float) -> void:
 				rec["felice"] = minf(float(rec["felice"]) + 0.1, 1.0)
 				m.herd.gain_xp(rec, 1, true)
 				break
+	HerdJobs.work(m, rec, chest, dt, _rng)                 # voce 243: i lavori della mandria
 	var fam := Herd.family_of(rec)
 	var friends := 0
-	for r in members(String(rec["recinto"])):
+	var mates := members(String(rec["recinto"]))
+	for r in mates:
 		if r != rec and Herd.family_of(r) == fam:
 			friends += 1
+	friends += HerdJobs.singers(mates, rec)
 	var mood := (1.0 if float(rec["fame"]) < 0.6 else 0.2) + 0.1 * friends
 	rec["felice"] = clampf(move_toward(float(rec["felice"]), mood, dt / 600.0), 0.0, 1.0)
 	rec["vita"] = minf(float(rec["vita"]) + dt / HerdData.REST_HEAL, 1.0)
