@@ -3379,11 +3379,16 @@ delle stazioni, `LightMap._station_lights` che scorre tutte le stazioni.
   perché.
 
 ## Fase 1 · Le fondamenta
-## 190. [ ] Preparare il terreno (M)
+## 190. [x] Preparare il terreno (M) — fatto il 29 set 2026
 Indice cella → angolo delle stazioni in `World` (`station_at` diretto), contatore `World.stations_rev` che sale a ogni
 cambio di stazione (anche di id); trappole, farm, fonti lo leggono al posto di `stations.size()`; la luce legge solo le
 stazioni nella sua finestra.
 **Pronto quando**: prove di trappole, farm, casse e stazioni passano; `station_at` non scorre più tutte le stazioni.
+**Fatto**: `World.station_at` legge un indice cella → angolo, rifatto da solo quando la firma dell'elenco delle stazioni
+cambia (controllata al più una volta per fotogramma, subito se cambia il numero; durante la generazione resta il modo
+semplice, che regge i thread); `World.stations_rev()` sale a ogni cambio (anche di id, come la leva o il nastro) e lo
+leggono trappole, farm e fonti; `stations_changed()` per un cambio che deve valere nello stesso fotogramma (le fasi
+dell'Albero-Madre).
 
 ## 191. [ ] Lo strato delle vene (M)
 `World.vein` (un byte per cella: grado del Flusso 0-4 nei bit 0-2, isolata nel bit 3, i quattro fili nei bit 4-7),

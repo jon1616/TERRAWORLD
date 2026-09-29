@@ -32,7 +32,7 @@ func rebuild() -> void:
 		var d := TrapsData.info(String(m.world.stations[o]))
 		if not d.is_empty():
 			list.append([o, String(d["type"]), float(d["k"]), (Vector2(o) + Vector2(0.5, 0.5)) * 16.0])
-	_count = m.world.stations.size()
+	_count = m.world.stations_rev()
 
 
 static func _key(o: Vector2i) -> String:
@@ -89,7 +89,7 @@ func _process(dt: float) -> void:
 	if _t > 0.0:
 		return
 	_t = TICK
-	if m.world.stations.size() != _count:
+	if m.world.stations_rev() != _count:
 		rebuild()
 	var pp: Vector2 = m.player.position
 	for e in list:

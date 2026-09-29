@@ -139,6 +139,7 @@ func _apply() -> void:
 		var want := "albero_madre_%d" % ph
 		if o.x >= 0 and String(m.world.stations.get(o, "")) != want:
 			m.world.stations[o] = want
+			m.world.stations_changed()
 			m.view.remove_station(o)
 			m.view.add_station(o)
 			m.light.dirty = true

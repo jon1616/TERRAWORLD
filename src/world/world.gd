@@ -21,6 +21,14 @@ var trees := {}                        # blocco Vector2i -> Array[Vector3i(x, y,
 var crops := {}                        # il giardino (voce 33): cella -> [coltura, secondi che mancano, annaffiata]
 var saplings := {}                     # cella del germoglio Vector2i -> secondi che mancano per diventare albero
 var stations := {}                     # angolo in alto a sinistra Vector2i -> id di `StationsData`
+## Voce 190: l'indice cella -> angolo delle stazioni. `stations` si cambia direttamente in tanti posti: l'indice si
+## rifà da solo quando la firma dell'elenco cambia (controllata al più una volta per fotogramma, o subito se cambia il
+## numero); `stations_rev` sale a ogni cambio, e chi tiene liste di stazioni (trappole, farm, fonti, la rete) lo legge.
+var _st_index := {}
+var _st_sig := -1
+var _st_frame := -1
+var _st_size := -1
+var _stations_rev := 0
 var chests := {}                       # angolo di una stazione con `slots` (cesta, scrigno) -> Bisaccia del contenuto
 var biomes := PackedByteArray()        # bioma di superficie di ogni colonna (indice di `BiomesData.BIOMES`)
 var explored := PackedByteArray()      # mappa: 1 dove il Germogliato ha già visto (vedi `MapReveal`)
@@ -160,11 +168,57 @@ func set_plat(x: int, y: int, on: bool) -> void:
 
 ## La stazione che occupa la cella c: {"origin": angolo, "id": id} oppure {}.
 func station_at(c: Vector2i) -> Dictionary:
+	if gen_rng != null:
+		return _station_scan(c)                 # mentre il mondo nasce (anche su più thread): il modo semplice
+	_ensure_index()
+	var o: Variant = _st_index.get(c)
+	if o == null or not stations.has(o):
+		return {}
+	var size: Array = StationsData.STATIONS[stations[o]]["size"]
+	if not Rect2i(o, Vector2i(size[0], size[1])).has_point(c):
+		return {}
+	return {"origin": o, "id": stations[o]}
+
+
+func _station_scan(c: Vector2i) -> Dictionary:
 	for o in stations:
 		var size: Array = StationsData.STATIONS[stations[o]]["size"]
 		if Rect2i(o, Vector2i(size[0], size[1])).has_point(c):
 			return {"origin": o, "id": stations[o]}
 	return {}
+
+
+## Quante volte sono cambiate le stazioni (per chi tiene liste di stazioni: si rifanno quando cambia).
+func stations_rev() -> int:
+	_ensure_index()
+	return _stations_rev
+
+
+## Da chiamare dopo un cambio che deve valere subito nello stesso fotogramma (una stazione cambiata di misura).
+func stations_changed() -> void:
+	_st_frame = -1
+	_st_size = -1
+
+
+func _ensure_index() -> void:
+	var f := Engine.get_process_frames()
+	if f == _st_frame and stations.size() == _st_size:
+		return
+	_st_frame = f
+	_st_size = stations.size()
+	var sig := stations.size()
+	for o: Vector2i in stations:
+		sig = (sig * 31 + o.x * 73856093 + o.y * 19349663 + String(stations[o]).hash()) & 0xFFFFFFFFFFFF
+	if sig == _st_sig:
+		return
+	_st_sig = sig
+	_stations_rev += 1
+	_st_index.clear()
+	for o: Vector2i in stations:
+		var size: Array = StationsData.STATIONS.get(String(stations[o]), {"size": [1, 1]})["size"]
+		for dy in int(size[1]):
+			for dx in int(size[0]):
+				_st_index[o + Vector2i(dx, dy)] = o
 
 
 ## Si può mettere la stazione con l'angolo in o? Celle libere (aria, niente torce né passerelle) e pavimento sotto.

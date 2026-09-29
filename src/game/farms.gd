@@ -46,7 +46,7 @@ func rebuild() -> void:
 			anchors.append((Vector2(o) + Vector2(0.5, 1.0)) * 16.0)
 		elif id.begins_with("nastro_"):
 			belts.append([Rect2(Vector2(o) * 16.0 + Vector2(0, -4), Vector2(16, 20)), 1.0 if id == "nastro_dx" else -1.0])
-	_count = m.world.stations.size()
+	_count = m.world.stations_rev()
 
 
 ## Un punto è tenuto vivo da una Radice-ancora?
@@ -114,7 +114,7 @@ func _process(dt: float) -> void:
 	if _t > 0.0:
 		return
 	_t = TICK
-	if m.world.stations.size() != _count:
+	if m.world.stations_rev() != _count:
 		rebuild()
 	for h in hoppers:
 		var c := (Vector2(h[0]) + Vector2(0.5, 0.5)) * 16.0

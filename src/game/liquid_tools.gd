@@ -138,8 +138,8 @@ func _process(dt: float) -> void:
 ## Un getto di ogni fonte vicina al Germogliato. Restituisce quante hanno versato (per le prove).
 func tick() -> int:
 	var w: World = m.world
-	if w.stations.size() != _count:
-		_count = w.stations.size()
+	if w.stations_rev() != _count:
+		_count = w.stations_rev()
 		_founts.clear()
 		for o: Vector2i in w.stations:
 			if StationsData.STATIONS.get(String(w.stations[o]), {}).has("fonte"):
