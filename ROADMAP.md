@@ -3925,6 +3925,53 @@ Albero che guarisce con tre cure del suo pilastro: pescare, far scorrere la Linf
 Giardino guarito dona un oggetto unico (una serie nuova) e porta un abitante al Giardino. La via diretta della storia
 passa da **45 a 89 ore** (giocatore medio da 72 a 143); tutto al grado 10 ~390 ore (443 per il giocatore medio).
 
+# Roadmap 22 «Il Giardino vivo» — la base e gli abitanti (dal 29 set 2026)
+
+## L'idea
+Il Giardino è la casa del giocatore, ma oggi finisce presto: si costruisce, si arreda, arrivano gli abitanti, e poi
+non cambia più. Qui il Giardino **cresce** con chi lo cura (isole nuove), si **anima** (visitatori, feste di stagione) e
+gli abitanti diventano **persone** (una storia a capitoli per ognuno, un mestiere, le botteghe). Due pilastri: il
+Giardino e la base (~50 ore) e gli abitanti (~30 ore). Obiettivo: che una serata passata solo in casa porti avanti.
+
+## 227. [ ] La bellezza del Giardino (M)
+`GardenBeauty`: un numero che dice quanto è vivo il Giardino (stanze e il loro comfort, arredi belli, abitanti felici,
+colture, macchine accese, fontane e teche), letto ogni tanto, nel Libro dei pilastri e nella scheda dell'Albero-Madre;
+la maestria del Giardino cresce anche con la bellezza guadagnata. Le soglie della bellezza aprono il resto della Roadmap.
+
+## 228. [ ] Le isole del Giardino (G)
+A certe soglie di bellezza e dell'Albero, accanto all'isola del Giardino nasce un'isola nuova (una passata del
+Giardino eseguita dopo, `GardenIslands`): l'isola dell'orto (terra fertile, acqua), l'isola delle bestie (prati e
+recinti), l'isola della bottega (roccia e minerali poveri), l'isola del cielo (nuvole e correnti). Ogni isola ha un
+ponte di radici verso le altre e una cosa che c'è solo lì.
+
+## 229. [ ] I visitatori (M)
+`VisitorsData`: viandanti che arrivano al Giardino per un giorno, se la bellezza basta (il Mercante dei mondi con merci
+rare che cambiano, il Pellegrino dei Seminatori con una richiesta, il Collezionista che compra trofei e unici, la
+Musicista che fa festa). Dove dormono, che cosa vogliono, che cosa lasciano.
+
+## 230. [ ] Le feste di stagione (M)
+Una festa per stagione nel Giardino (la Fioritura dei semi, la Notte delle lanterne, la Festa del raccolto, il Fuoco
+d'inverno): un giorno con un compito (decorare, cucinare, portare), gli abitanti che partecipano, premi di stagione e
+oggetti decorativi che si ottengono solo lì.
+
+## 231. [ ] Le storie degli abitanti (G)
+Ogni abitante ha una **storia a capitoli** (cinque capitoli, aperti dall'affetto): una richiesta, una scena, un dono;
+l'ultimo capitolo cambia qualcosa per sempre (una merce nuova, un potere piccolo, un luogo). Pannello: la scheda
+«Storia» nella finestra dell'abitante.
+
+## 232. [ ] I mestieri e le botteghe (M)
+Un abitante con un mestiere lavora per te: gli si lasciano i materiali, dopo un tempo (anche mentre sei via) si
+ritirano i prodotti (esche, vene, lingotti, cibo, pozioni, semi). Il tempo e la resa migliorano con l'affetto e la
+casa. `NpcData` campo `craft`.
+
+## 233. [ ] Le grandi opere del Giardino (M)
+Quattro opere enormi (la Torre dell'Albero, la Serra grande, la Fontana dei mondi, l'Arco delle Aiuole) da costruire a
+più riprese con materiali di tutti i pilastri; ognuna dona un potere del Giardino per sempre (viaggio di ritorno dai
+mondi, crescita, tempo sereno, un'Aiuola).
+
+## 234. [ ] Enciclopedia, misura e resoconto (P)
+Capitoli, consigli, `tools/durata.gd` (i pilastri Giardino e abitanti), giro intero, GitHub.
+
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».
 - Grafica: ora nella Roadmap 13 «Il volto del mondo» (armatura e colpo in corsa alla voce 117, creature 114-116).
