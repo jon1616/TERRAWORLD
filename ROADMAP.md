@@ -3822,6 +3822,53 @@ giocatore medio); portare tutti i pilastri al grado 10 chiede ~400 ore, ~425 per
 oggi vengono in gran parte da attività che si ripetono: le Roadmap 21-28 le riempiono di cose nuove, pilastro per
 pilastro.
 
+# Roadmap 21 «Le radici del cosmo» — la storia, Atto II (dal 29 set 2026)
+
+## L'idea
+Sveglio, l'Albero-Madre sente che non è solo: le radici del cosmo che attraversano il cielo del Giardino portano ad
+altri **Giardini**, piantati dagli stessi Seminatori e perduti. In ognuno un Albero è malato. L'Atto II sono dodici stadi
+nuovi dell'Albero-Madre (13-24), tre per ognuno dei **quattro Giardini perduti**, e ognuno guarisce con un pilastro
+diverso: così la storia chiede di pescare, di far scorrere la Linfa, di allevare, di decifrare, e ogni Giardino è un
+luogo che esiste solo lì.
+- **Il Giardino sommerso** (pesca e acque): un Albero sotto un lago; pesci che vivono solo lì.
+- **Il Giardino di ferro** (rete di Linfa): un Albero fuso con le macchine dei Seminatori, da nutrire di pulsi.
+- **Il Giardino selvatico** (mandria e orto): creature e piante tornate selvagge, una bestia da addomesticare.
+- **Il Giardino muto** (misteri e lingua): un Albero che ha dimenticato le sue parole.
+Obiettivo: ~45 ore di storia in più (misura `tools/durata.gd`).
+
+## 220. [ ] Gli Atti dell'Albero-Madre (M)
+`MotherTreeData.ACTS` (gli atti con il loro nome e il primo stadio), il pannello e la riga dell'HUD dicono l'atto;
+l'Atto I resta com'è e finisce con «Il risveglio». Il dono nuovo `seed`: un Seme del cosmo (un Seme di mondo con il
+Giardino perduto nei dati).
+**Pronto quando**: la prova passa dall'Atto I all'Atto II.
+
+## 221. [ ] I Giardini perduti nei dati (M)
+`LostGardensData`: i quattro Giardini (nome, pilastro, geni del mondo, il Seme del cosmo, l'Albero perduto, le tre cure,
+i doni, le pagine). Il parametro `perduto` del generatore passa dal portale come il Seme Nero (`Portal`, `MainBoot`,
+`WorldPregen`); il nome del mondo è il nome del Giardino.
+
+## 222. [ ] I luoghi dei Giardini perduti (G)
+`PassPerduto`: l'Albero perduto (una stazione grande, malata e guarita) nel suo luogo: sotto un lago, dentro una sala
+di macchine, in una radura invasa, in un cerchio di stele. `claim`, collaudo.
+**Pronto quando**: `tools/mappe.gd` con `perduto` mostra i quattro luoghi, collaudo pulito.
+
+## 223. [ ] Le cure dei quattro Alberi (G)
+Ogni Albero perduto guarisce con tre cure del suo pilastro (`LostGardens`, stato in `world_meta["perduto"]` e
+`Character.stats`): pescare i suoi pesci e portargli l'acqua viva; dargli pulsi dalla sua rete e riaccendere la sua
+Centrale; addomesticare la sua bestia e far crescere il suo seme; ritrovare le sue parole e rispondere al suo enigma.
+Guarito dona e apre lo stadio dopo.
+
+## 224. [ ] Ciò che vive nei Giardini perduti (M)
+Il pacchetto `lost_gardens_pack.gd`: pesci, creature, una famiglia da addomesticare, una pianta, materiali e un oggetto
+unico per Giardino; un Custode del Giardino (boss) per ognuno.
+
+## 225. [ ] Gli stadi 13-24 (M)
+I dodici stadi dell'Atto II con le offerte (sempre con una strada alternativa) e i doni (Aiuole, abitanti dei Giardini,
+oggetti, pagine di storia). Quattro abitanti nuovi, uno per Giardino.
+
+## 226. [ ] Racconto, Enciclopedia, misura e resoconto (P)
+Le pagine di storia, il capitolo «Le radici del cosmo», i consigli, la misura delle ore, il giro intero, GitHub.
+
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».
 - Grafica: ora nella Roadmap 13 «Il volto del mondo» (armatura e colpo in corsa alla voce 117, creature 114-116).
