@@ -219,6 +219,8 @@ func touch(c: Vector2i) -> bool:
 	var o: Vector2i = st["origin"]
 	if id == "scrigno_parola" and m.get("word_chests") != null:
 		return m.word_chests.touch(o)                      # Roadmap 17: la ruota dei glifi
+	if id == "cuore_meraviglia" and m.get("atlas") != null:
+		return m.atlas.wonders.touch(o)                  # Roadmap 23: il ricordo di una meraviglia
 	if String(LostGardensData.tree_of(id)[0]) != "" and m.get("lost_gardens") != null:
 		return m.lost_gardens.touch(o)                   # Roadmap 21: l'Albero di un Giardino perduto
 	if MachinesData.is_machine(id):

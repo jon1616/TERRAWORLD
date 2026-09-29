@@ -53,6 +53,8 @@ static func make(id: String) -> Dictionary:
 			_cuore(im, gm, w, h, false)
 		"cuore_vivo":
 			_cuore(im, gm, w, h, true)
+		"cuore_meraviglia":
+			_meraviglia(im, gm, w, h)
 		"portale":
 			_portale(im, gm, w, h)
 		"fagotto":
@@ -153,6 +155,33 @@ static func _portale(im: Image, gm: Image, w: int, h: int) -> void:
 
 ## Aiuola del Giardino (voce 45): un letto di terra scura cerchiato di radici, con tre germogli e rune di Linfa accese
 ## sul bordo. Sopra resta vuota: lì crescerà il portale.
+## Voce 237: il cuore di una meraviglia, un fiore di cristallo iridato su un piedistallo di pietra.
+static func _meraviglia(im: Image, gm: Image, w: int, h: int) -> void:
+	var st := Px.pal(TileDefs.P_STONE)
+	var iri := [Color("#5a3a8a"), Color("#3aa0c8"), Color("#8ef0d8"), Color("#f0c050"), Color("#ffe0f0")]
+	var cx := w / 2.0
+	for y in range(h - 7, h):                               # il piedistallo
+		for x in range(int(cx - 7 + (h - y) * 0.4), int(cx + 7 - (h - y) * 0.4)):
+			Px.put(im, x, y, st[clampi(2 + (1 if x < cx else 0) - (1 if y == h - 1 else 0), 0, 4)])
+	for k in 5:                                             # cinque petali di cristallo
+		var a := -PI / 2.0 + (k - 2) * 0.55
+		var tip := Vector2(cx, h - 9.0) + Vector2(cos(a), sin(a)) * 14.0
+		for s in 12:
+			var p := Vector2(cx, h - 9.0).lerp(tip, s / 11.0)
+			var r := 2.6 * sin(PI * s / 11.0) + 0.6
+			for dy in range(-3, 4):
+				for dx in range(-3, 4):
+					if Vector2(dx, dy).length() <= r:
+						var c: Color = iri[(k + s / 4) % 5]
+						Px.put(im, int(p.x) + dx, int(p.y) + dy, c)
+						Px.put(gm, int(p.x) + dx, int(p.y) + dy, c)
+	for dy in range(-2, 3):                                 # il centro che brilla
+		for dx in range(-2, 3):
+			if absi(dx) + absi(dy) <= 2:
+				Px.put(im, int(cx) + dx, h - 10 + dy, Color("#ffffff"))
+				Px.put(gm, int(cx) + dx, h - 10 + dy, Color("#ffffff"))
+
+
 static func _aiuola(im: Image, gm: Image, w: int, h: int) -> void:
 	var soil := Px.pal(TileDefs.P_DIRT)
 	var root := Px.pal(TileDefs.P_RADICE)

@@ -197,6 +197,9 @@ const _STATIONS := {
 		"light_color": Color(1.3, 0.85, 0.4)},
 	"cuore_vivo": {"name": "Cuore del mondo", "size": [3, 3], "item": "", "fixed": true, "light": true,
 		"light_color": Color(0.6, 1.6, 1.5)},
+	# Roadmap 23, voce 237: il cuore di una meraviglia (clic destro: il suo ricordo, `Wonders.touch`)
+	"cuore_meraviglia": {"name": "Cuore della meraviglia", "size": [2, 2], "item": "", "fixed": true, "light": true,
+		"light_color": Color(1.3, 1.1, 1.6)},
 	"portale": {"name": "Portale di radici", "size": [3, 4], "item": "seme_mondo", "fixed": true, "light": true,
 		"light_color": Color(0.5, 1.3, 1.4)},
 	# voce 58: i nidi e le tane (nascono dal mondo; clic destro: un uovo, o nutrirli; con piccone o ascia si distruggono)

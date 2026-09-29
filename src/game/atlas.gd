@@ -7,6 +7,7 @@ extends Node
 
 var m: Node2D
 var panel: AtlasPanel
+var wonders: Wonders                   # voce 237: le meraviglie del mondo
 var pages: BiomePages                  # voce 236: le pagine dei biomi
 var _t := 1.0
 
@@ -18,6 +19,7 @@ func setup(main: Node2D) -> void:
 	panel.setup(m, self)
 	m.hud.overlays.append(panel)
 	pages = BiomePages.new(m)
+	wonders = Wonders.new(m)
 	if here():
 		_record()
 
@@ -74,6 +76,7 @@ func check() -> Array:
 			fresh.append(id)
 	for id in fresh:
 		_gain(String(id))
+	wonders.check()
 	return fresh
 
 

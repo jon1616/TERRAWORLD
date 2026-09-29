@@ -15,6 +15,7 @@ func _init(tk: TestKit) -> void:
 func run() -> void:
 	await stars()
 	await pages()
+	await wonders()
 
 
 ## Voce 235: le stelle si segnano da sole quando il mondo le dà; ogni cinque stelle un premio; il pannello le mostra.
@@ -107,3 +108,44 @@ func pages() -> void:
 		st[key] = 1
 	else:
 		st.erase(key)
+
+
+## Voce 237: il mondo di prova ha le sue meraviglie con il cuore; vista quando la mappa ne scopre il centro, il cuore dà
+## il ricordo una volta sola.
+func wonders() -> void:
+	var wd: Wonders = m.atlas.wonders
+	var list: Array = wd.list()
+	if list.is_empty():
+		print("ATTENZIONE: il mondo di prova non ha meraviglie")
+		return
+	var e: Dictionary = list[0]
+	var k := String(e["k"])
+	var o := Vector2i(int(e["o"][0]), int(e["o"][1]))
+	var st_ok := true
+	for x in list:
+		var ox := Vector2i(int(x["o"][0]), int(x["o"][1]))
+		st_ok = st_ok and String(m.world.stations.get(ox, "")) == "cuore_meraviglia"
+	var saved_seen := int(m.character.stats.get("mer_" + k, 0))
+	e["vista"] = false
+	var c := Vector2i(int(e["c"][0]), int(e["c"][1]))
+	m.map_reveal.reveal_area(c, 3)
+	var fresh := wd.check()
+	var id := WondersData.memento_id(k)
+	var n0: int = m.character.bisaccia.count(id)
+	e["preso"] = false
+	var t1 := wd.touch(o)
+	var t2 := wd.touch(o)
+	var got: int = m.character.bisaccia.count(id) - n0
+	m.snap_to(o + Vector2i(0, 1))
+	await kit.seconds(0.6)
+	await kit.save("252_meraviglia_" + k)
+	var kinds := []
+	for x in list:
+		kinds.append(String(x["k"]))
+	var ok := st_ok and k in fresh and t1 and t2 and got == 1
+	print("meraviglie: %s; cuori al loro posto %s; vista %s; ricordo %d (una volta sola)" % [str(kinds), st_ok, k in fresh, got])
+	if not ok:
+		print("ATTENZIONE: le meraviglie non vanno")
+	m.character.bisaccia.remove(id, maxi(got, 0))
+	if saved_seen == 0:
+		m.character.stats.erase("mer_" + k)

@@ -55,6 +55,10 @@ func _init() -> void:
 			("\n      " + "\n      ".join(PackedStringArray(probs + fixd))) if not (probs + fixd).is_empty() else ""])
 		if not genes.is_empty():
 			print("   geni: %s" % ", ".join(genes.map(func(g: String) -> String: return String(GenesData.info(g)["name"]))))
+		var wonders := []
+		for e in w.gen_notes.get("meraviglie", []):
+			wonders.append(String(e["k"]))
+		print("   meraviglie: %s" % ", ".join(PackedStringArray(wonders)))       # Roadmap 23, voce 237
 		if w.gen_notes.has("perduto"):
 			print("   Giardino perduto: %s" % str(w.gen_notes["perduto"]))
 		prints.append(_fingerprint(w))

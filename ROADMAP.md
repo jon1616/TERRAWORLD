@@ -4048,10 +4048,19 @@ pesci) e `BiomePages` (`src/game/biome_pages.gd`: la visita, «visto_<bioma>» o
 creature e pesci dall'Erbario; la pagina completa dà polvere iridata e Linfa antica e il conteggio «pagine_biomi» = 60
 punti d'esplorazione). Nell'Atlante la scheda «I biomi»: che cosa manca e dove cercarlo (strati, notte, tempo). Foto 251.
 
-## 237. [ ] Le meraviglie (G)
+## 237. [x] Le meraviglie (G) — fatto il 29 set 2026
 `WondersData` e `PassMeraviglie`: dodici meraviglie naturali generate (l'Arco di pietra, la Cascata di Linfa, l'Albero
 fossile, il Cratere della stella, la Geode gigante, lo Scheletro antico…), da una a tre per mondo secondo geni e biomi,
 alcune rarissime. Vederle le segna nell'Atlante; al loro cuore c'è qualcosa che si trova solo lì.
+**Fatto**: `WondersData` (12 meraviglie: l'Arco di pietra, il Cratere della stella, il Ponte dei giganti, il Pozzo senza
+fondo, la Radice del cosmo in una galleria, l'Albero fossile d'ambra, lo Scheletro del Gigante, la Foresta di cristallo,
+il Lago nascosto, la Coppa di Linfa, la Geode gigante, l'Occhio di brace; pesi, geni che le chiamano ×4), `PassMeraviglie`
+(due per mondo, tre dal vigore 4; una forma che non trova posto lascia il turno a un'altra; sotto terra solo nella
+roccia piena) e le forme in `WonderShapes` (`src/world/gen/`), con al centro la stazione `cuore_meraviglia`. `Wonders`
+(`src/game/wonders.gd`): vista quando la mappa ne scopre il centro (avviso, Atlante, «meraviglie» = 60 punti), il cuore
+dona il ricordo una volta sola. Dodici ricordi per tre accessori al Maglio (Mappamondo dei Seminatori, Bussola del
+cosmo, Sigillo del viandante). Scheda «Le meraviglie» nell'Atlante. `tools/meraviglie.gd` ritaglia ogni forma dalla
+mappa in prove/meraviglie/. Foto 252.
 
 ## 238. [ ] Le spedizioni del Cartografo (M)
 Il Cartografo propone tre spedizioni alla volta, costruite da ciò che il personaggio non ha ancora: una meraviglia da

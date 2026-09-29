@@ -8,7 +8,7 @@ const ROW_H := 52.0
 const LEFT := Vector2(90, 130)
 const ROW_W := 430.0
 const ROWS_SHOWN := 13
-const TABS := [["mondi", "I mondi"], ["biomi", "I biomi"]]
+const TABS := [["mondi", "I mondi"], ["biomi", "I biomi"], ["meraviglie", "Le meraviglie"]]
 
 var m: Node2D
 var at: Atlas
@@ -208,3 +208,44 @@ func _text_biomi(id: String) -> String:
 	if p.is_empty():
 		return ""
 	return at.pages.text_of(p) + "\n\n[color=#6a7a84]Pagine complete: %d su %d[/color]" % [at.pages.done_count(), BiomePagesData.pages().size()]
+
+
+# --- la scheda delle meraviglie (voce 237) ---
+
+func _rows_meraviglie() -> Array:
+	var out := []
+	for k in WondersData.WONDERS:
+		var seen := int(m.character.stats.get("mer_" + String(k), 0)) == 1
+		var d: Dictionary = WondersData.WONDERS[k]
+		var got: bool = m.character.bisaccia.count(WondersData.memento_id(String(k))) > 0 or \
+			(m.character.erbario.get("oggetti", {}) as Dictionary).has(WondersData.memento_id(String(k)))
+		out.append([String(k), String(d["name"]) if seen else "???", "ricordo ✓" if got else ("vista" if seen else ""),
+			1.0 if got else (0.5 if seen else 0.0), Color("#ffd24a") if got else Color("#c8a8ff")])
+	return out
+
+
+func _text_meraviglie(k: String) -> String:
+	var d: Dictionary = WondersData.WONDERS.get(k, {})
+	if d.is_empty():
+		return ""
+	var seen := int(m.character.stats.get("mer_" + k, 0)) == 1
+	var where := "sulla superficie" if str(d["where"]) == "sup" else "nello strato «%s»" % StrataData.STRATA[int(d["where"])]["name"]
+	var t := "[font_size=26][color=#c8a8ff]%s[/color][/font_size]\n" % (d["name"] if seen else "Una meraviglia che non hai ancora visto")
+	if seen:
+		t += "%s\n" % d["desc"]
+	t += "Nasce %s%s.\n" % [where, "; è rara" if int(d["weight"]) <= 1 else ""]
+	var gn := []
+	for g in d.get("genes", []):
+		gn.append(String(GenesData.GENES.get(String(g), {}).get("name", g)) if int(m.character.genario.get(String(g), 0)) > 0 else "?")
+	t += "La chiamano più spesso i geni: %s\n" % ", ".join(gn)
+	var mm: Array = d["memento"]
+	t += "\nNel suo cuore: [b]%s[/b] (%s)\n" % [mm[0] if seen else "???", "un ricordo che esiste solo lì" if not seen else mm[3]]
+	if at.here():
+		var here := []
+		for e in at.wonders.list():
+			here.append("%s%s" % [WondersData.WONDERS[String(e["k"])]["name"] if e.get("vista", false) else "una meraviglia non ancora vista",
+				" (ricordo preso)" if e.get("preso", false) else ""])
+		t += "\n[b]In questo mondo[/b]: %s\n" % (", ".join(here) if not here.is_empty() else "nessuna")
+	t += "\n[color=#6a7a84]Tipi visti: %d su %d · con i ricordi, al Maglio: il Mappamondo dei Seminatori e la Bussola del cosmo[/color]" % [
+		Wonders.kinds_seen(m.character.stats), WondersData.WONDERS.size()]
+	return t
