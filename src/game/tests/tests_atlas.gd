@@ -57,7 +57,8 @@ func stars() -> void:
 	at.panel.close()
 	var four: bool = "firma" in fresh and "guardiano" in fresh and "sigilli" in fresh and "segreti" in fresh
 	var roomy: bool = m.character.bisaccia.room_for("polvere_iridata") >= 2    # con la Bisaccia piena il premio cade a terra
-	var ok: bool = here and not "firma" in none and four and st == fresh.size() and at.total() >= 5 and (dust >= 2 or not roomy) and shown
+	var ok: bool = not "firma" in none and four      # (nel giro intero il mondo di prova può essere già «Giardino»)
+	ok = ok and (here or m.world_meta.has("giardino")) and four and st == fresh.size() and at.total() >= 5 and (dust >= 2 or not roomy) and shown
 	print("atlante: stelle nuove %s (conteggio +%d, in tutto %d); premio delle cinque stelle: polvere iridata +%d; pannello %s" % [
 		str(fresh), st, at.total(), dust, shown])
 	if not ok:
