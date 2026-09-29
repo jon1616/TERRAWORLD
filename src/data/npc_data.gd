@@ -187,6 +187,18 @@ const NPCS := {
 			{"text": "Venti scrigni a parola aperti.", "stat": "scrigni_parola", "n": 20, "reward": {"stilo_seminatori": 2}},
 			{"text": "Dodici Eco di parola, per ridare voce a chi l'ha persa.", "need": {"eco_parola": 12}, "reward": {"lumino": 300}},
 		]},
+	# Roadmap 25, voce 249: il Cacciatore di taglie, dopo il primo Guardiano (le taglie: `Bounties`)
+	"cacciatore": {"name": "Il Cacciatore di taglie", "greet": "Ogni bestia che fa paura ha un nome. Io lo scrivo, tu lo cancelli.",
+		"requires": {"stat": "guardiani", "n": 1},
+		"look": {"cloak": "#2a1a12", "trim": "#e0a040", "skin": "#b88a64", "extra": "#c04030"},
+		"goods": [["dardo_piumato", 30], ["pozione_esca", 2], ["pozione_spine", 2], ["pozione_fortuna", 1]],
+		"likes": ["zanna_lince", "corno_radice", "scheggia_vigore", "polvere_iridata"],
+		"gifts": {2: ["pozione_esca", 3], 4: ["scheggia_vigore", 6]},
+		"quests": [
+			{"text": "Tre taglie riscosse: poi parliamo da cacciatori.", "stat": "taglie", "n": 3, "reward": {"scheggia_vigore": 4}},
+			{"text": "Dieci taglie. Il registro comincia a pesare.", "stat": "taglie", "n": 10, "reward": {"polvere_iridata": 4}},
+			{"text": "Venticinque nomi cancellati: nessuno ne ha tanti.", "stat": "taglie", "n": 25, "reward": {"linfa_antica": 4}},
+		]},
 	# Roadmap 19, voce 208: arriva quando in un mondo ci sono quattro macchine della rete
 	"tessitrice": {"name": "La Tessitrice di vene", "greet": "Le vene non si posano: si ascoltano. Dove la Linfa vuole andare, tu metti la strada.",
 		"requires": {"stat": "macchine", "n": 4},

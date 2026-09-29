@@ -14,6 +14,7 @@ func _init(tk: TestKit) -> void:
 func run() -> void:
 	await mastery()
 	await techniques()
+	await bounties()
 
 
 ## Voce 247: una creatura sconfitta con la lancia in mano dà punti alla lancia; al rango 3 la tecnica si apre; il danno
@@ -80,3 +81,32 @@ func techniques() -> void:
 		print("ATTENZIONE: le tecniche non vanno")
 	for f in saved:
 		st["arte_" + String(f)] = saved[f]
+
+
+## Voce 249: dopo il primo Guardiano tre taglie; la preda nasce, ancestrale e più forte; sconfitta dà il premio, entra
+## nel registro e ne arriva un'altra.
+func bounties() -> void:
+	var bt: Bounties = m.bounties
+	var st: Dictionary = m.character.stats
+	var saved: Dictionary = m.character.taglie.duplicate(true)
+	var g0 := int(st.get("guardiani", 0))
+	st["guardiani"] = maxi(g0, 1)
+	m.character.taglie = {}
+	bt.fill()
+	var n := bt.open_list().size()
+	var b: Dictionary = bt.open_list()[0]
+	var sh0: int = m.character.bisaccia.count("scheggia_vigore")
+	var cr: Creature = bt.spawn(0)
+	var born: bool = cr != null and cr.ancient != null and cr.hp_max > int(CreaturesData.get_data(String(b["cr"]))["hp"]) * 2
+	if cr != null:
+		m.fauna.kill(cr)
+	var got: int = m.character.bisaccia.count("scheggia_vigore") - sh0
+	var reg: Array = m.character.taglie.get("registro", [])
+	var ok: bool = n == 3 and born and reg.size() == 1 and bt.open_list().size() == 3 and (got >= 4 or m.character.bisaccia.room_for("scheggia_vigore") < 4)
+	print("taglie: %d aperte; «%s» in %s; nata %s (Vita %d); registro %d, schegge +%d, di nuovo %d aperte" % [n, bt.title(b),
+		bt.where_text(b), born, cr.hp_max if cr != null else 0, reg.size(), got, bt.open_list().size()])
+	if not ok:
+		print("ATTENZIONE: le taglie non vanno")
+	m.character.bisaccia.remove("scheggia_vigore", maxi(got, 0))
+	m.character.taglie = saved
+	st["guardiani"] = g0

@@ -24,6 +24,7 @@ var seme_nero := ""                    # voce 72: "" · "spezzato" · "curato" (
 var leggende := {}                     # voce 81: leggende compiute (id → 1), "primo_dato", "primo_fatto"
 var sfide := {}                        # voce 82: i record delle sfide (id → {vinte, livello, record})
 var diario := {}                       # voce 83: il diario della partita (tappe e conteggi, vedi `Diary`)
+var taglie := {}                       # voce 249: le taglie del Cacciatore (vedi `Bounties`)
 var spedizioni := {}                   # voce 238: le spedizioni del Cartografo (vedi `Expeditions`)
 var atlante := {}                      # Roadmap 23: l'Atlante, id del mondo → scheda (vedi `Atlas`)
 var maestria := {}                     # Roadmap 20: pilastro → {"p": punti, "t": tempo di gioco dell'ultimo punto}
@@ -46,7 +47,7 @@ func to_dict() -> Dictionary:
 		"albero": albero, "bacheca": bacheca, "lingua": lingua, "catene": catene, "seme_nero": seme_nero,
 		"leggende": leggende, "sfide": sfide, "diario": diario,
 		"guardiani": guardiani, "guida": guida, "maestria": maestria,
-		"atlante": atlante, "spedizioni": spedizioni}
+		"atlante": atlante, "spedizioni": spedizioni, "taglie": taglie}
 
 
 ## Null se i dati vengono da una versione più nuova del gioco (vedi `SaveMigrations`).
@@ -121,6 +122,14 @@ static func from_dict(cid: String, d: Dictionary) -> Character:
 				e["vigore"] = int(e.get("vigore", 1))
 				e["stelle"] = SaveMigrations.ints(e.get("stelle", {}))
 				c.atlante[String(k)] = e
+	var tg: Variant = d.get("taglie", {})
+	if tg is Dictionary:
+		c.taglie = tg
+		c.taglie["fatte"] = int(tg.get("fatte", 0))
+		for e in tg.get("open", []):
+			if e is Dictionary:
+				e["strato"] = int(e.get("strato", 0))
+				e["vigore"] = int(e.get("vigore", 1))
 	var sp: Variant = d.get("spedizioni", {})
 	if sp is Dictionary:
 		c.spedizioni = sp

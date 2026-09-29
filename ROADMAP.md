@@ -4202,10 +4202,15 @@ schivata (`Player.dash_t`), i dardi `Projectiles.fire` senza consumare frecce, l
 Conteggio «tecniche». Nel modello dei numeri (`FightModel`) le tecniche non ci sono: sono un vantaggio in più per chi
 cura la maestria.
 
-## 249. [ ] Le taglie (M)
+## 249. [x] Le taglie (M) — fatto il 30 set 2026
 Il Cacciatore di taglie (un abitante nuovo) propone tre cacce a una creatura con un nome, più forte, con un tratto
 antico, in un bioma e in uno strato precisi; la taglia la fa nascere quando ci si arriva. Premi: schegge, trofei,
 unici; il registro delle cacce.
+**Fatto**: `BountiesData` e `Bounties` (`src/game/bounties.gd`, `Character.taglie`): dopo il primo Guardiano sempre tre
+taglie a una creatura comune con un nome e un soprannome dal suo tratto antico, in uno strato (e in superficie in un
+bioma) e da un vigore; arrivati lì la preda nasce a 22-34 tessere, ancestrale con quel tratto, Vita ×2,5 e danno ×1,3
+oltre al vigore del mondo. Sconfitta: schegge di vigore (una in più ogni 5 taglie, fino al doppio) e polvere iridata,
+il registro, un'altra taglia. Il **Cacciatore di taglie**, abitante nuovo con le sue richieste. Conteggio «taglie» (40).
 
 ## 250. [ ] Le prove del Cerchio (M)
 Al Cerchio dei Seminatori, oltre ai Guardiani, le prove a ondate: dieci ondate sempre più dure delle creature del
