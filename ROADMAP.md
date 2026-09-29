@@ -4115,10 +4115,15 @@ generazioni la variante resta la stessa (`Breeding.child`); dalla quinta la **st
 (`Pens.incubate`), un premio ogni 10; il titolo del pannello della mandria dice a che punto è. Conteggi «stirpi_pure»
 (90 punti) e «collezione_manti» (20). Prova nel gruppo nuovo `stirpi`.
 
-## 242. [ ] Le fiere della mandria (M)
+## 242. [x] Le fiere della mandria (M) — fatto il 29 set 2026
 Una fiera nel Giardino ogni tre giorni: si iscrive una creatura, il giudizio guarda doti, manto, livello e stirpe;
 categorie per ruolo (da latte, da sella, da guardia), medaglie di bronzo, argento e oro, record per famiglia, premi
 che servono all'allevamento (mangimi rari, uova, un laccio migliore).
+**Fatto**: `Fairs` (`src/game/fairs.gd`): nel Giardino un giorno ogni tre; il pulsante «Alla fiera» del pannello della
+mandria iscrive la creatura nella categoria in cui va meglio (da lavoro, da sella, da guardia, bellezza), una creatura
+per categoria a fiera. Il giudizio guarda le doti con i loro bonus (manto, gigante, stirpe pura), il livello, la
+generazione; bronzo, argento e oro con premi per l'allevamento, l'oro anche un uovo della sua stirpe; il record di ogni
+famiglia. Conteggi «fiere», «medaglie», «ori» per la maestria della mandria.
 
 ## 243. [ ] I lavori della mandria (M)
 Oltre alla guardia, tre lavori nel recinto: **aratura** (le colture vicine crescono di più), **cerca** (ogni tanto la

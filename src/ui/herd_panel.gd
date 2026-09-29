@@ -42,7 +42,7 @@ func setup(main: Node2D) -> void:
 	add_child(_detail)
 	var x := 780.0
 	for b in [["segue", "Segui"], ["riposo", "Riposa"], ["recinto", "Al recinto"], ["guardia", "Di guardia"], ["vasetto", "Nel vasetto"],
-			["libera", "Libera"], ["coppia", "Coppia…"]]:
+			["libera", "Libera"], ["coppia", "Coppia…"], ["fiera", "Alla fiera"]]:
 		var btn := Button.new()
 		btn.text = b[1]
 		btn.position = Vector2(x, 420)
@@ -62,6 +62,8 @@ func setup(main: Node2D) -> void:
 	add_child(_name)
 	(_buttons["coppia"] as Button).position = Vector2(1060, 476)      # accanto al nome
 	(_buttons["coppia"] as Button).size = Vector2(160, 36)
+	(_buttons["fiera"] as Button).position = Vector2(1230, 476)       # voce 242: le fiere della mandria
+	(_buttons["fiera"] as Button).size = Vector2(160, 36)
 	var prev := Button.new()
 	prev.text = "‹"
 	prev.position = Vector2(120, 100 + ROWS * ROW + 6)
@@ -188,7 +190,7 @@ func _refresh() -> void:
 		pens += 1
 		room += HerdData.PEN_CAP - m.pens.members(Pens.key(o)).size()
 	_foot.text = "Ti seguono %d su %d · recinti in questo mondo: %d (posti liberi %d) · vasetti vuoti: %d" % [m.herd.followers().size(),
-		HerdData.FOLLOW_MAX, pens, room, m.character.bisaccia.count("vasetto")]
+		HerdData.FOLLOW_MAX, pens, room, m.character.bisaccia.count("vasetto")] + "\n" + Fairs.line(m)
 
 
 func _act(what: String) -> void:
@@ -204,6 +206,8 @@ func _act(what: String) -> void:
 		"libera":
 			m.herd.free_record(rec)
 			selected = -1
+		"fiera":
+			why = Fairs.enter(m, rec)                  # voce 242
 		"coppia":
 			if rec.has("coppia"):
 				m.herd.unpair(rec)
