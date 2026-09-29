@@ -5,6 +5,23 @@ extends RefCounted
 
 const DATA := {
 	"items": {
+		# voce 206: gli unici delle Centrali dei Seminatori (serie «Ingegni dei Seminatori», pool «centrali»)
+		"guanto_tessitore": {"name": "Guanto del tessitore", "kind": "guanti", "icon": ["guanti", "sem"], "unique": true, "stack": 1,
+			"acc": {"dig": 1.15, "luck": 0.05}, "serie": "ingegni_seminatori", "source": "nelle Centrali dei Seminatori risvegliate",
+			"story": "Con questo guanto i Seminatori annodavano le vene senza pinza, a mani nude."},
+		"anello_scintilla": {"name": "Anello della scintilla", "kind": "anello", "icon": ["anello", "linfa"], "unique": true, "stack": 1,
+			"acc": {"magic": 1.1, "linfa_regen": 1.15}, "serie": "ingegni_seminatori", "source": "nelle Centrali dei Seminatori risvegliate",
+			"story": "Dentro la pietra corre ancora un pulso: il primo che la Centrale abbia mai dato."},
+		"amuleto_centrale": {"name": "Amuleto della centrale", "kind": "amuleto", "icon": ["amuleto", "ambra"], "unique": true, "stack": 1,
+			"acc": {"regen": 1.15, "defense": 2}, "serie": "ingegni_seminatori", "source": "nelle Centrali dei Seminatori risvegliate",
+			"story": "Il custode della Centrale lo portava al collo, e lo appese alla porta quando se ne andò."},
+		"mantello_pulsi": {"name": "Mantello dei pulsi", "kind": "mantello", "icon": ["mantello", "linfa"], "unique": true, "stack": 1,
+			"acc": {"run": 1.08, "jump": 1.05}, "serie": "ingegni_seminatori", "source": "nelle Centrali dei Seminatori risvegliate",
+			"story": "Tessuto con filo d'ambra: quando corri, sente il Flusso sotto i piedi."},
+		"martello_seminatore": {"name": "Martello del Seminatore", "kind": "spada", "icon": ["martello", "sem"], "unique": true, "stack": 1,
+			"damage": 24, "speed": 1.8, "knockback": 4.0, "tier": 4, "effects": ["stordisce_colpo", "catena_colpo"],
+			"serie": "ingegni_seminatori", "source": "nelle Centrali dei Seminatori risvegliate",
+			"story": "Batteva le lastre delle Centrali finché non cantavano tutte la stessa nota."},
 		"pinza_vene": {"name": "Pinza delle vene", "kind": "pinza", "icon": ["uncino", "legnoferro"], "stack": 1,
 			"desc": "Posa le vene del Flusso e i fili dell'Impulso: clic e trascina per una linea, clic destro per riprendere. Maiusc+rotella: che cosa posare. In mano mostra i fili."},
 		"vena_radice": {"name": "Vena di radice", "kind": "vena", "icon": ["radice_viaggio", "legno"], "stack": 999,

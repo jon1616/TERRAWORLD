@@ -3543,9 +3543,21 @@ oscilla (14 cambi in 1,5 s, 90 fotogrammi) (foto 239_logica). I nomi a runa sono
 («Nodo E (intreccio)»), perché la logica è già difficile da capire senza dover decifrare anche i pezzi.
 
 ## Fase 5 · Il mondo si collega
-## 206. [ ] Le centrali dei Seminatori (G)
+## 206. [x] Le centrali dei Seminatori (G) — fatto il 29 set 2026
 `PassCentrali`: 3-6 stanze per mondo (Caverne e più giù) con vene spezzate, sorgente spenta e interruttori (a volte in un
 ordine scritto nella lingua); dentro un progetto e un pezzo unico. Firma «La Centrale intatta».
+**Fatto**: `PassCentrali` (dopo i Sigilli; 3 sale più una per punto di vigore oltre il primo, al più 6, due in più con il
+gene «Vene del mondo»; 5 ms per mondo, collaudo pulito): sala di 26×7 di pietra dei Seminatori con il **Cuore della
+centrale** che dorme (`MbCentrale`: un cristallo di Linfa lo sveglia, poi 80 pulsi), la vena d'ambra del pavimento
+spezzata in tre punti (lo scrigno all'ingresso ha vene, una Pinza e un cristallo), tre **leve** con fili turchese, ambra e
+corallo verso un **nodo E**, il filo viola alla **porta** della sala interna (`MbPortaCentrale`): la prima volta che si
+apre dona un progetto dei Seminatori, un unico della serie nuova **«Ingegni dei Seminatori»** (5 pezzi, pool
+«centrali», bonus scavo e Linfa) e Linfa antica, e conta `stats.centrali`. Le macchine del generatore sono righe `gen`
+(nessun oggetto né ricetta) e `fixed` (non si riprendono; `verifica_dati` lo controlla). La firma **«la Centrale
+intatta»** (`PassFirma._centrale_intatta`: cuore già sveglio da 120 pulsi, vene sane, lo scrigno della firma nella sala
+interna, ricordo «Scintilla della Centrale»). Prova nel gruppo `energia` (foto 240_centrale). L'ordine delle leve scritto
+nella lingua è rimasto fuori: tre leve e un nodo E sono già un enigma che insegna la logica, un ordine da decifrare
+sarebbe stato un secondo enigma sopra il primo.
 ## 207. [ ] Geni, creature, evento (M)
 Geni «Vene del mondo», «Vento perenne», «Sole di Linfa», «Terra che conduce», «Tempeste di Linfa»; Succhiavena e Lucciole
 di vena; la Tempesta di Linfa e la Valvola di sfogo.

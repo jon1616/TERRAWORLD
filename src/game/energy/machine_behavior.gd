@@ -78,6 +78,10 @@ static func make(bh: String) -> MachineBehavior:
 			return MbSensore.new()
 		"nodo":
 			return MbNodo.new()
+		"centrale":
+			return MbCentrale.new()
+		"porta_centrale":
+			return MbPortaCentrale.new()
 		"esposizione":
 			return MbEsposizione.new()
 		"rovo":

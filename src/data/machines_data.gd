@@ -170,6 +170,22 @@ const MACHINES := {
 	"scudo_corteccia": {"name": "Scudo di corteccia", "role": "macchina", "size": [1, 1], "bh": "zona", "pulsi": 40,
 		"look": "scudo", "icon": ["scudo", "legnoferro"], "in": {"lingotto_legnoferro": 4, "legno": 10, "gelatina": 2}, "station": "baccello_ardente",
 		"tier": 2, "desc": "Durante un assedio le porte attaccate alla sua rete (una vena che le tocca) reggono il doppio dei morsi. Chiede 40 pulsi."},
+	# ---------------------------------------------------------------- le Centrali dei Seminatori (voce 206)
+	# `gen`: solo del generatore (nessun oggetto, nessuna ricetta); `fixed`: non si riprendono.
+	"cuore_centrale": {"name": "Cuore della centrale", "role": "sorgente", "size": [2, 2], "bh": "centrale", "pulsi": 80,
+		"look": "cuore_cristallo", "gen": true, "fixed": true,
+		"desc": "La sorgente di una Centrale dei Seminatori. Dorme: un cristallo di Linfa la risveglia, e poi dà 80 pulsi per sempre."},
+	"cuore_centrale_vivo": {"name": "Cuore della centrale intatta", "role": "sorgente", "size": [2, 2], "bh": "centrale", "pulsi": 120,
+		"p": {"desto": true}, "look": "cuore_cristallo", "gen": true, "fixed": true,
+		"desc": "La sorgente della Centrale intatta: non si è mai spenta, e dà 120 pulsi."},
+	"porta_centrale": {"name": "Porta della centrale", "role": "macchina", "size": [1, 2], "bh": "porta_centrale", "pulsi": 0, "colpo": 20,
+		"porta": true, "frame": true, "look": "porta", "gen": true, "fixed": true,
+		"desc": "La porta della sala interna di una Centrale: la apre il filo viola del nodo, se la rete ha Linfa."},
+	"leva_centrale": {"name": "Leva della centrale", "role": "comando", "size": [1, 1], "bh": "leva", "look": "leva", "gen": true, "fixed": true,
+		"desc": "Una delle tre leve di una Centrale dei Seminatori: il nodo E vuole tutte e tre alzate."},
+	"nodo_centrale": {"name": "Nodo E della centrale", "role": "nodo", "size": [1, 1], "bh": "nodo", "p": {"kind": "e"}, "look": "nodo_e",
+		"gen": true, "fixed": true,
+		"desc": "Il nodo di una Centrale: accende il filo viola della porta quando i fili delle tre leve sono accesi."},
 	# ---------------------------------------------------------------- i nodi della logica (voce 205)
 	"nodo_e": {"name": "Nodo E (intreccio)", "role": "nodo", "size": [1, 1], "bh": "nodo", "p": {"kind": "e"}, "look": "nodo_e",
 		"icon": ["tavoletta", "ambra"], "in": {"legno": 1, "lingotto_legnoferro": 1, "cristallo_linfa": 1}, "station": "maglio", "qty": 2, "tier": 2,
@@ -282,6 +298,8 @@ static func stations() -> Dictionary:
 			var e := {"name": d["name"], "size": d["size"], "item": id, "macchina": true}
 			if d.has("slots"):
 				e["slots"] = int(d["slots"])             # la cassetta del combustibile (la apre il pannello)
+			if d.get("fixed", false):
+				e["fixed"] = true                        # voce 206: le macchine delle Centrali non si riprendono
 			if d.has("bello"):
 				e["bello"] = int(d["bello"])             # la bellezza nelle stanze (`Rooms`)
 			if d.get("porta", false):
@@ -299,6 +317,8 @@ static func items() -> Dictionary:
 	var out := {}
 	for id in MACHINES:
 		var d: Dictionary = MACHINES[id]
+		if d.get("gen", false):
+			continue                                     # solo del generatore
 		out[id] = {"name": d["name"], "kind": "stazione", "cat": "rete", "place": id, "icon": d.get("icon", ["banco", "linfa"]),
 			"stack": 99, "desc": d["desc"]}
 	return out

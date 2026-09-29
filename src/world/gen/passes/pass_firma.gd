@@ -320,6 +320,17 @@ func _serra_sepolta(w: World, c: GenContext, ctr: Vector2i) -> Vector2i:
 	return _chest_at(w, Vector2i(ctr.x - 1, p.y - 1))
 
 
+## Roadmap 19, voce 206: una Centrale dei Seminatori già viva (`PassCentrali.build`), lo scrigno nella sala interna.
+func _centrale_intatta(w: World, c: GenContext, ctr: Vector2i) -> Vector2i:
+	var x := ctr.x - PassCentrali.W / 2
+	var y := ctr.y - PassCentrali.H / 2
+	PassCentrali.build(w, x, y, c.rng, true)
+	var out: Array = c.notes.get("centrali", [])
+	out.append([Vector2i(x, y), true])
+	c.notes["centrali"] = out
+	return _chest_at(w, Vector2i(x + PassCentrali.W - 4, y + PassCentrali.H - 2))
+
+
 func _colonne_ambra(w: World, c: GenContext, ctr: Vector2i) -> Vector2i:
 	var half := 26
 	var hh := 9

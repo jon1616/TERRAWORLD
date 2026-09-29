@@ -72,7 +72,11 @@ func sensors() -> void:
 	t.lay_row(p.x + 5, p.x + 7, y, T)
 	await t.ticks(3)
 	var quiet := not _on(Vector2i(p.x + 7, y), 0)
-	var foe: Creature = m.fauna.spawn_at_nest("grumo_muschio", Vector2i(p.x + 9, y))
+	(e.machines[ear] as Machine).st["r"] = 16
+	var foe: Creature = m.fauna.spawn_at_nest("grumo_muschio", Vector2i(p.x + 6, y))
+	if is_instance_valid(foe):
+		foe.set_physics_process(false)                     # fermo: non deve scappare dall'orecchio
+		foe.set_process(false)
 	await t.ticks(3)
 	var heard := _on(Vector2i(p.x + 7, y), 0)
 	if is_instance_valid(foe):
@@ -256,3 +260,78 @@ func logic() -> void:
 	if false in ok.values():
 		print("ATTENZIONE: un nodo della logica non fa ciò che deve")
 	_clear(p, 30)
+
+
+## Voce 206: una Centrale dei Seminatori costruita nel posto delle prove: la porta resta chiusa finché il cuore dorme, le
+## vene sono spezzate e le leve abbassate; con il cristallo, le tre vene riparate e le tre leve si apre e dona il premio.
+func centrale() -> void:
+	var e: Energy = m.energy
+	var w: World = m.world
+	var p: Vector2i = await t.clean_spot(-300, 34)
+	var x := p.x
+	var y := p.y - 14
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 206
+	PassCentrali.build(w, x, y, rng, false)
+	var yb := y + PassCentrali.H - 1
+	for yy in range(y - 1, y + PassCentrali.H + 1):
+		for xx in range(x - 1, x + PassCentrali.W + 1):
+			e._on_vein(Vector2i(xx, yy))
+			m.view.refresh_vein(Vector2i(xx, yy))
+	m.view.refresh_rect(Rect2i(x - 1, y - 1, PassCentrali.W + 2, PassCentrali.H + 2))
+	m.snap_to(Vector2i(x + 6, yb))
+	await t.ticks(3)
+	var door := Vector2i(x + PassCentrali.W - 6, yb - 1)
+	var heart := Vector2i(x + 1, yb - 1)
+	var levers: Array[Vector2i] = []
+	for lx in PassCentrali.LEVERS:
+		levers.append(Vector2i(x + int(lx), yb))
+	for o in levers:
+		_lever(o, true)
+	await t.settle(0.6)
+	var shut_asleep := not t.door_open(door)
+	# il cuore: senza cristallo dorme, con il cristallo si sveglia
+	var b: Bisaccia = m.character.bisaccia
+	var had := b.count("cristallo_linfa")
+	if had > 0:
+		b.remove("cristallo_linfa", had)
+	e.touch(heart)
+	var still := not bool((e.machines[heart] as Machine).st.get("desto", false))
+	b.add("cristallo_linfa", 1)
+	e.touch(heart)
+	await t.ticks(3)
+	var awake := bool((e.machines[heart] as Machine).st.get("desto", false))
+	await t.settle(0.6)
+	var shut_broken := not t.door_open(door)
+	# le vene spezzate: si riparano (con una leva abbassata)
+	_lever(levers[1], false)
+	await t.settle(0.4)
+	var gaps := 0
+	for ix in range(1, PassCentrali.W - 5):
+		if VeinsData.tier(w.vein_at(x + ix, yb)) == 0:
+			gaps += 1
+			t.lay(Vector2i(x + ix, yb), 3)
+	await t.ticks(3)
+	var n0 := int(m.character.stats.get("centrali", 0))
+	# con una leva abbassata la porta resta chiusa; alzata, si apre
+	await t.settle(0.6)
+	var shut_lever := not t.door_open(door)
+	_lever(levers[1], true)
+	await t.settle(1.0)
+	var opened := t.door_open(door)
+	var reward := bool((e.machines[door] as Machine).st.get("premio", false)) and int(m.character.stats.get("centrali", 0)) == n0 + 1
+	if not reward:
+		print("  centrale: premio %s, conto %d → %d, porta %s" % [str((e.machines[door] as Machine).st.get("premio", false)), n0,
+			int(m.character.stats.get("centrali", 0)), str((e.machines[door] as Machine).st)])
+	var fixed: bool = StationsData.STATIONS["porta_centrale"].get("fixed", false) and StationsData.STATIONS["leva_centrale"].get("fixed", false)
+	await kit.save("240_centrale")
+	var ok := shut_asleep and still and awake and shut_broken and gaps == 3 and shut_lever and opened and reward and fixed
+	print("centrale: chiusa col cuore spento %s, senza cristallo dorme %s, col cristallo si sveglia %s, chiusa con le vene rotte %s (%d buchi), chiusa con una leva giù %s, si apre %s, premio %s, fissa %s" % [
+		shut_asleep, still, awake, shut_broken, gaps, shut_lever, opened, reward, fixed])
+	if not ok:
+		print("ATTENZIONE: la Centrale dei Seminatori non fa ciò che deve")
+	for o in e.machines.keys():
+		if o.x >= x - 1 and o.x <= x + PassCentrali.W and o.y >= y - 1 and o.y <= yb:
+			if w.chests.has(o):
+				w.chests.erase(o)
+			t.unplace(o)

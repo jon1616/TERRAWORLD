@@ -47,6 +47,7 @@ func run() -> void:
 	var logic := TestsEnergyLogic.new(kit, self)
 	await logic.sensors()
 	await logic.logic()
+	await logic.centrale()
 	m.player.control = ctl
 	m.day.paused = false
 

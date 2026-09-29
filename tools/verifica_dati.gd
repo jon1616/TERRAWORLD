@@ -495,6 +495,9 @@ func _check_biomes() -> void:
 ## nasconde: successo con «cuore_cristallo» e «mietitrice»), ha un comportamento e una ricetta.
 func _check_machines() -> void:
 	for id in MachinesData.MACHINES:
+		if MachinesData.MACHINES[id].get("gen", false):
+			_err(StationsData.STATIONS.get(id, {}).get("fixed", false), "macchina %s: del generatore ma si può riprendere" % id)
+			continue
 		var it := ItemsData.get_item(String(id))
 		_err(String(it.get("place", "")) == String(id) and String(it.get("cat", "")) == "rete",
 			"macchina %s: l'id è già di un altro oggetto (%s)" % [id, it.get("name", "?")])

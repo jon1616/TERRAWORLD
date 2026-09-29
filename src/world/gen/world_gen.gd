@@ -45,6 +45,7 @@ static func passes() -> Array[GenPass]:
 		PassNidi.new(),
 		PassOsservatori.new(),              # voce 163: gli osservatori dei Seminatori e i nidi del cielo
 		PassSigilli.new(),
+		PassCentrali.new(),                 # Roadmap 19, voce 206: le Centrali dei Seminatori (enigmi di Linfa)
 		PassLuoghi.new(),
 		PassCatene.new(),
 		PassStele.new(),

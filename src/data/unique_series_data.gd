@@ -137,6 +137,10 @@ const SERIES := {
 	"tesori_acque": {"name": "Tesori delle acque", "pool": "pesca", "bonus": {"fish_luck": 0.25, "fish_size": 0.1},
 		"desc": "fortuna di pesca +25% e pesci più grandi per sempre", "hint": "nelle casse che abboccano alla lenza",
 		"items": ["canna_primo_pescatore", "amo_luna", "arpione_maree", "anello_marea", "mantello_squame", "amuleto_perla_nera"]},
+	# Roadmap 19, voce 206 (scritta a mano): gli unici delle Centrali dei Seminatori, nel pacchetto della rete
+	"ingegni_seminatori": {"name": "Ingegni dei Seminatori", "pool": "centrali", "bonus": {"dig": 1.1, "linfa_regen": 1.1},
+		"desc": "scavo più rapido e Linfa +10% per sempre", "hint": "nelle Centrali dei Seminatori, quando si risvegliano",
+		"items": ["guanto_tessitore", "anello_scintilla", "amuleto_centrale", "mantello_pulsi", "martello_seminatore"]},
 	"lame_perdute": {"name": "Lame perdute", "pool": "profondo", "bonus": {"damage": 1.08}, "desc": "+8% danno per sempre", "hint": "negli scrigni antichi e nelle arche delle rovine profonde",
 		"items": ["lama_salice", "dente_colosso", "ago_ambra", "falce_radici", "lancia_stellata", "spina_nera", "tizzone_quieto", "remo_lago", "lama_mille_foglie", "ascia_guardiana", "sciabola_brina", "zanna_prima"]},
 	"archi_antichi": {"name": "Archi antichi", "pool": "profondo", "bonus": {"damage": 1.05, "atk_speed": 1.05}, "desc": "+5% danno e colpi più rapidi per sempre", "hint": "negli scrigni antichi e nelle arche delle rovine profonde",
