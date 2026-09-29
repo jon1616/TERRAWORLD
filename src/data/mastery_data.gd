@@ -32,7 +32,7 @@ const PILLARS := {
 	"giardino": {"name": "Il Giardino e la base", "color": Color("#8ef070"), "icon": ["mattoni", "legno"], "hours": 50,
 		"desc": "Costruire, arredare, fare stanze e progetti.",
 		"hint": "costruisci una stanza nuova o un progetto dei Seminatori"},
-	"abitanti": {"name": "Gli abitanti", "color": Color("#ffb0d0"), "icon": ["cuore", "ambra"], "hours": 30,
+	"abitanti": {"name": "Gli abitanti", "color": Color("#ffb0d0"), "icon": ["cuore", "ambra"], "hours": 40,
 		"desc": "Chi vive nel Giardino: legami, richieste, case, la Bacheca.",
 		"hint": "completa una richiesta di un abitante o della Bacheca"},
 	"mandria": {"name": "La mandria", "color": Color("#e0c080"), "icon": ["uovo", "muschio"], "hours": 40,

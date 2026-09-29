@@ -190,6 +190,44 @@ func _pillars(story_h: float) -> void:
 		story_h, extra, story_h + extra, story_h * MEDIO + extra])
 	_p("   (le ore apposta vengono dalle attività di ogni pilastro, che oggi in gran parte si ripetono: le Roadmap 21-28")
 	_p("    aggiungono ciò che le rende nuove; questa misura dice quanta strada c'è, non quanto è varia)")
+	_variety()
+
+
+## Roadmap 22, voce 234: quanta strada di ogni pilastro è fatta di cose **diverse** (scritte una volta: capitoli, opere,
+## isole, feste…) e non di ripetizioni. Minuti stimati per ogni cosa, contati dai dati.
+func _variety() -> void:
+	_p("")
+	_p("5. LA VARIETÀ: le ore di cose diverse (fatte una volta) dentro ogni pilastro")
+	var chapters := 0
+	for nid in NpcStoriesData.STORIES:
+		chapters += (NpcStoriesData.STORIES[nid] as Array).size()
+	var quests := 0
+	var visitors := 0
+	for nid in NpcData.NPCS:
+		quests += (NpcData.NPCS[nid].get("quests", []) as Array).size()
+		if NpcData.NPCS[nid].get("visitor", false):
+			visitors += 1
+	var projects := 0
+	var works := 0
+	for id in ProjectsData.PROJECTS:
+		if ProjectsData.PROJECTS[id].has("opera"):
+			works += 1
+		else:
+			projects += 1
+	var rows := {
+		"giardino": [["isole", GardenIslandsData.ISLANDS.size(), 90.0], ["grandi opere", works, 150.0],
+			["progetti dei Seminatori", projects, 25.0], ["feste", FestivalsData.FESTIVALS.size(), 40.0]],
+		"abitanti": [["capitoli delle storie", chapters, 20.0], ["richieste", quests, 12.0],
+			["botteghe", NpcWork.JOBS.size(), 15.0], ["visitatori", visitors, 20.0]],
+	}
+	for p in rows:
+		var tot := 0.0
+		var parts := []
+		for r in rows[p]:
+			tot += float(r[1]) * float(r[2])
+			parts.append("%s %d" % [r[0], int(r[1])])
+		_p("   %-28s %.0f h di cose diverse (%s) su %d h di strada" % [MasteryData.PILLARS[p]["name"], tot / 60.0,
+			", ".join(parts), int(MasteryData.PILLARS[p]["hours"])])
 
 
 func _stat_points(stat: String, n: float) -> void:

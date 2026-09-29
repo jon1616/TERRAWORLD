@@ -735,6 +735,18 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     `Fauna.lost_pool`; `Fishing.on_catch`; il filo ha la fonte «perduto». `tools/mappe.gd -- --perduto tutti`.
   - Prove: gruppo «perduti» (`TestsLostGardens`, foto 245); `--prova-giardino` fa tutti i 24 stadi. Enciclopedia:
     `EncyCosmosData`.
+- **Roadmap 22 «Il Giardino vivo»** (voci 227-234, 29 set 2026; i pilastri Giardino e abitanti):
+  - `GardenBeauty` (la bellezza, solo nel Giardino: `parts`, `update`, `best` = `stats.bellezza_max`, `home()`),
+    `GardenIslandsData`/`GardenIslands` (quattro isole a soglie di bellezza; `grow_at` per l'orto), `Visitors` (abitanti
+    di `NpcData` con `visitor` e `requires.bellezza`, uno al giorno, in `world_meta["visitatore"]`; `Villagers` li salta),
+    `FestivalsData`/`Festivals` (la festa del primo giorno di stagione).
+  - `NpcStoriesData` (70 capitoli, da `tools/gen_storie.py`; `FINAL` = la merce a storia finita): `NpcBonds.quest`
+    continua con i capitoli (`capitolo`, `chiuso`), `story_done`; la scena con `LorePanel.show_text`. `NpcWork` (le
+    botteghe con l'orologio vero, `world_meta["botteghe"]`), bottone in `TradePanel.work`.
+  - Le grandi opere: progetti di `ProjectsData` con `opera` ed `extra` (solo nel Giardino); poteri in
+    `ProjectsData.WORKS`/`works_built`, letti da `Aiuole.max_aiuole`, `GearEffects`, `Visitors`.
+  - Prove: gruppo «giardino_vivo» (`TestsGardenLife`). Enciclopedia: `EncyGardenData`. `tools/durata.gd` misura anche
+    la varietà (sezione 5: ore di cose diverse per pilastro).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

@@ -11,6 +11,8 @@
   maestria verso ~500 ore di partita. **Fatta la Roadmap 20 «Il motore comune»** (voci 214-219): maestria a gradi,
   Libro dei pilastri (P), strade alternative dell'Albero, misura per pilastro. Resoconto in fondo alla Roadmap 20.
   **Fatta la Roadmap 21 «Le radici del cosmo»** (voci 220-226): l'Atto II della storia, i quattro Giardini perduti.
+  **Fatta la Roadmap 22 «Il Giardino vivo»** (voci 227-234): bellezza, isole, visitatori, feste, storie e botteghe
+  degli abitanti, grandi opere.
 - **Fatta la Roadmap 19 «La Linfa che scorre»** (voci 190-213, 29 set 2026, in autonomia): vene del Flusso e fili
   dell'Impulso, 64 macchine (sorgenti, riserve, macchine che lavorano, sensori, nodi della logica), le Centrali dei
   Seminatori, la Tempesta di Linfa, Succhiavena e Lucciole, la Tessitrice, il primo circuito guidato. Resoconto in fondo
@@ -4004,8 +4006,55 @@ cuore del Re dei rovi: colture ×1,25), la Fontana dei mondi (acqua viva, crista
 `ProjectsData.WORKS` (`works_built`), letti da `Aiuole.max_aiuole`, `GearEffects`, `Visitors`. I progetti li vende il
 Cartografo; `stats.opere` nutre la maestria del Giardino.
 
-## 234. [ ] Enciclopedia, misura e resoconto (P)
+## 234. [x] Enciclopedia, misura e resoconto (P) — fatto il 29 set 2026
 Capitoli, consigli, `tools/durata.gd` (i pilastri Giardino e abitanti), giro intero, GitHub.
+**Fatto**: `EncyGardenData` (Il Giardino vivo, Storie e botteghe, Le grandi opere), tre consigli (bellezza, visitatore,
+storia), `tools/durata.gd` con la sezione «la varietà» (ore di cose diverse per pilastro: Giardino 22 h, abitanti
+36 h); il pilastro degli abitanti sale da 30 a 40 ore perché ora ha contenuto per riempirle.
+
+### Resoconto della Roadmap 22 (29 set 2026)
+Il Giardino **cresce con il giocatore**: una bellezza calcolata da stanze, abitanti felici, colture e macchine, che apre
+quattro isole nuove, quattro visitatori e una festa per stagione. Gli abitanti hanno **una storia a testa** (70
+capitoli con scene e una merce finale) e **botteghe** che lavorano anche a gioco chiuso. Quattro **grandi opere**
+costruite con materiali di tutti i pilastri danno poteri per sempre (Aiuole, crescita, Vita, visitatori). Tutto al
+grado 10: ~400 ore (456 per il giocatore medio). I pilastri Giardino e abitanti hanno ora 22 e 36 ore di cose diverse.
+
+# Roadmap 23 «L'Atlante» — il pilastro dell'esplorazione (dal 29 set 2026)
+
+## Da dove si parte
+Esplorare dà punti di maestria (celle scoperte, firme, segreti, sigilli, scrigni), ma un mondo lasciato non lascia
+traccia: non c'è un posto che dica che cosa si è visto, che cosa manca e dove andare dopo. E i mondi, pur diversi, non
+hanno ancora cose **da non credere** che valga la pena di andare a vedere. Obiettivo: ~50 ore di esplorazione con uno
+scopo (sapere che cosa cercare, perché, e trovare l'imprevisto).
+
+## 235. [ ] L'Atlante dei mondi (M)
+`Atlas` e `Character.atlante`: una scheda per ogni mondo visitato (nome, vigore, geni, firma) con **cinque stelle**
+(mappa scoperta per metà, firma trovata, Guardiano curato o sconfitto, tutti i Sigilli aperti, tutti i segreti). Le
+stelle si segnano da sole mentre si gioca; ogni stella è maestria dell'esplorazione e ogni cinque stelle un premio.
+`AtlantePanel` (tasto O): i mondi con le stelle e che cosa manca a ognuno.
+
+## 236. [ ] Le pagine dei biomi (G)
+Una pagina dell'Atlante per ogni bioma (superficie, sottosuolo, cielo), costruita dai dati: le sue creature, le sue
+piante, i suoi minerali, i suoi pesci. Si riempie da sola con ciò che l'Erbario sa; completata dà un premio del bioma.
+Dice **che cosa manca e dove** (quale bioma, quale strato): il motivo per tornare in un tipo di mondo.
+
+## 237. [ ] Le meraviglie (G)
+`WondersData` e `PassMeraviglie`: dodici meraviglie naturali generate (l'Arco di pietra, la Cascata di Linfa, l'Albero
+fossile, il Cratere della stella, la Geode gigante, lo Scheletro antico…), da una a tre per mondo secondo geni e biomi,
+alcune rarissime. Vederle le segna nell'Atlante; al loro cuore c'è qualcosa che si trova solo lì.
+
+## 238. [ ] Le spedizioni del Cartografo (M)
+Il Cartografo propone tre spedizioni alla volta, costruite da ciò che il personaggio non ha ancora: una meraviglia da
+trovare, un mondo da portare a tre stelle, una pagina di bioma, il Fondo di un mondo con un gene. Premi: Semi con il
+gene che serve per la spedizione dopo, polvere iridata, mappe. Una fonte in più per il filo.
+
+## 239. [ ] Gli attrezzi dell'esploratore (M)
+La Tenda da campo (il punto di rinascita portatile, una per mondo), il Cannocchiale (scopre la mappa lontano, dove
+guardi), la Bussola delle meraviglie (indica la più vicina non ancora vista), la Radice di ritorno (riporta al Giardino).
+Rispettano il tempo del giocatore: meno strada a vuoto, più scoperte.
+
+## 240. [ ] Enciclopedia, misura e resoconto (P)
+Capitoli, consigli, `tools/durata.gd` (il pilastro dell'esplorazione e la sua varietà), giro intero, GitHub.
 
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».

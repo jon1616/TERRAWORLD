@@ -92,6 +92,13 @@ const LIST := [
 	# Roadmap 21 «Le radici del cosmo»
 	{"id": "perduto", "title": "Un Giardino perduto", "cap": "giardini_perduti",
 		"text": "Qui un Albero è malato. Cercalo (il filo lo indica): la sua [b]scheda[/b] dice le tre cure che chiede. Il clic destro gli porta ciò che serve e, alla fine, sveglia il suo Custode."},
+	# Roadmap 22 «Il Giardino vivo»
+	{"id": "bellezza", "title": "Il Giardino si fa bello", "cap": "giardino_vivo",
+		"text": "Stanze comode, abitanti felici, colture e macchine accese fanno la [b]bellezza[/b] del Giardino. Salendo arrivano isole nuove, visitatori e feste: il Libro dei pilastri ({pilastri}) dice a che punto sei."},
+	{"id": "visitatore", "title": "Un visitatore", "cap": "giardino_vivo",
+		"text": "Oggi accanto all'Albero-Madre c'è un [b]visitatore[/b]: resta solo fino a domani. Ha merci che gli abitanti non hanno, e qualcuno anche richieste."},
+	{"id": "storia", "title": "Una storia comincia", "cap": "storie_botteghe",
+		"text": "Un abitante ha finito le sue richieste e comincia a raccontare la sua [b]storia[/b]: cinque capitoli aperti dall'affetto. Molti hanno anche una [b]bottega[/b] che lavora per te mentre sei via."},
 ]
 
 

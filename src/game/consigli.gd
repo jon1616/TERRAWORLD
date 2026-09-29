@@ -344,3 +344,18 @@ func _c_maestria() -> bool:
 
 func _c_perduto() -> bool:
 	return m.get("lost_gardens") != null and m.lost_gardens.active()
+
+
+func _c_bellezza() -> bool:
+	return int(m.character.stats.get("bellezza_max", 0)) >= 20
+
+
+func _c_visitatore() -> bool:
+	return m.get("visitors") != null and m.visitors.npc != null
+
+
+func _c_storia() -> bool:
+	for nid in NpcStoriesData.STORIES:
+		if int(m.character.stats.get("richiesta_" + String(nid), 0)) >= (NpcData.NPCS[nid].get("quests", []) as Array).size():
+			return true
+	return false
