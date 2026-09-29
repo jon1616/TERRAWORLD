@@ -367,3 +367,15 @@ func _c_stella() -> bool:
 
 func _c_meraviglia() -> bool:
 	return int(m.character.stats.get("meraviglie", 0)) >= 1
+
+
+func _c_stirpe() -> bool:
+	return int(m.character.stats.get("uova_allevate", 0)) >= 1
+
+
+func _c_incrocio() -> bool:
+	return int(m.character.stats.get("ibridi", 0)) >= 1
+
+
+func _c_ricettario() -> bool:
+	return int(m.character.stats.get("raccolti", 0)) >= 5

@@ -758,6 +758,14 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     `tools/meraviglie.gd -- --semi 30` ritaglia ogni forma dalla mappa in prove/meraviglie/.
   - I punti delle stelle e delle spedizioni sono bassi apposta: premiano cose già contate (firme, Guardiani, segreti).
   - Prove: gruppo «atlante» (`TestsAtlas`, foto 250-253). Enciclopedia: `EncyAtlasData`.
+- **Roadmap 24 «Stirpi e semi»** (voci 241-246, 29 set 2026; mandria 70 ore, orto 30):
+  - `Lineage` (le stirpi nelle doti: `padri`, `nonni`, `capo`, `pura`; `Breeding.mult` e `Breeding.sheet` le leggono; la
+    collezione dei manti in `stats["manto_<famiglia>_<manto>"]`), `Fairs` (fiere nel Giardino ogni 3 giorni, `score`,
+    medaglie), `HerdJobs` (`rec["lavoro"]`: aratura con `Pens.plows` letto da `Garden.grow`, cerca, canto; `Pens.tick`).
+  - `OrchardData` e in `Garden` `quality`/`tier_of`/`_cross` (la qualità è il quarto campo di `World.crops`, salvato;
+    semi scelti `scelto_<coltura>` riconosciuti da `CropsData.of_seed`; 12 varietà unite a `CropsData.CROPS`).
+    `CookingData` (30 piatti, campo `boons` letto da `PlayerActions.drink`; `ricettario` in `Crafting._discovered`).
+  - Prove: gruppo «stirpi» (`TestsLineage`). Enciclopedia: `EncyBreedData`.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

@@ -13,7 +13,8 @@
   **Fatta la Roadmap 21 «Le radici del cosmo»** (voci 220-226): l'Atto II della storia, i quattro Giardini perduti.
   **Fatta la Roadmap 22 «Il Giardino vivo»** (voci 227-234): bellezza, isole, visitatori, feste, storie e botteghe
   degli abitanti, grandi opere. **Fatta la Roadmap 23 «L'Atlante»** (voci 235-240): stelle dei mondi, pagine dei biomi,
-  meraviglie, spedizioni, attrezzi dell'esploratore.
+  meraviglie, spedizioni, attrezzi dell'esploratore. **Fatta la Roadmap 24 «Stirpi e semi»** (voci 241-246): stirpi,
+  fiere e lavori della mandria; qualità, incroci e cucina dell'orto.
 - **Fatta la Roadmap 19 «La Linfa che scorre»** (voci 190-213, 29 set 2026, in autonomia): vene del Flusso e fili
   dell'Impulso, 64 macchine (sorgenti, riserve, macchine che lavorano, sensori, nodi della logica), le Centrali dei
   Seminatori, la Tempesta di Linfa, Succhiavena e Lucciole, la Tessitrice, il primo circuito guidato. Resoconto in fondo
@@ -4159,8 +4160,18 @@ un piatto compare in Creare solo quando si sono avuti tutti gli ingredienti (`Cr
 `ricettario`). Il conteggio «piatti» per l'orto; la riga del Ricettario nel Libro dei pilastri. La qualità degli
 ingredienti e la cantina sono rimaste fuori: la qualità conta già nel raccolto (quantità e semi scelti).
 
-## 246. [ ] Enciclopedia, misura e resoconto (P)
+## 246. [x] Enciclopedia, misura e resoconto (P) — fatto il 29 set 2026
 Capitoli, consigli, `tools/durata.gd` (i pilastri della mandria e dell'orto e la loro varietà), giro intero, GitHub.
+**Fatto**: `EncyBreedData` (Stirpi, fiere e lavori; Qualità, incroci e cucina), tre consigli (stirpe, incrocio,
+Ricettario), `tools/durata.gd` con la varietà della mandria (71 ore di cose diverse) e dell'orto (20). Il pilastro della
+mandria sale da 40 a 70 ore: stirpi pure e collezione dei manti le riempiono.
+
+### Resoconto della Roadmap 24 (29 set 2026)
+La mandria ha una meta lunga: **stirpi** con genitori, nonni e capostipite, la **stirpe pura** dopo cinque generazioni,
+la **collezione** di 180 manti rari, le **fiere** ogni tre giorni con medaglie e record, e tre **lavori** nel recinto che
+aiutano l'orto e riempiono le mangiatoie anche a gioco chiuso. L'orto ha la **qualità** del raccolto con i semi scelti,
+**dodici varietà** da incrocio e una **cucina** di trenta piatti con effetti diversi per ogni viaggio, in un Ricettario che
+si scopre. Tutto al grado 10: ~434 ore (488 per il giocatore medio).
 
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».

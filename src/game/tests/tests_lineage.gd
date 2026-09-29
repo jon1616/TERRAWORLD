@@ -73,16 +73,15 @@ func fairs() -> void:
 	var st: Dictionary = m.character.stats
 	var saved := st.duplicate()
 	var day0: int = m.day.day
-	var outside := Fairs.enter(m, strong)                  # il mondo di prova non è il Giardino
-	var home_ok := "Giardino" in outside
+	var outside := Fairs.enter(m, strong)                  # fuori dal Giardino, o in un giorno senza fiera: niente
+	var home_ok := not "medaglia" in outside or Fairs.fair_day(int(m.day.day))
 	var eggs0: int = m.character.bisaccia.count("uovo")
 	var d := Fairs.EVERY_DAYS * 10
 	var msg := ""
-	if m.get("beauty") != null and not m.beauty.home():
-		var cat := String(Fairs.best(strong, st, d)[0])
-		var k := Fairs.medal_of(cat, Fairs.score(strong, cat))
-		msg = "categoria %s, medaglia %d" % [cat, k]
-		home_ok = home_ok and k == 2
+	var cat := String(Fairs.best(strong, st, d)[0])
+	var k := Fairs.medal_of(cat, Fairs.score(strong, cat))
+	msg = "categoria %s, medaglia %d" % [cat, k]
+	home_ok = home_ok and k == 2
 	var ok := ss > sw and Fairs.medal_of("lavoro", ss) == 2 and Fairs.medal_of("lavoro", sw) < 1 and home_ok and Fairs.fair_day(d) \
 		and Fairs.score(weak, "sella") == 0
 	print("fiere: lavoro debole %d, forte %d (%s); fuori dal Giardino «%s»; %s" % [sw, ss, Fairs.MEDAL_NAMES[Fairs.medal_of("lavoro", ss)],

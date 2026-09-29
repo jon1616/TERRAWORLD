@@ -223,6 +223,11 @@ func _variety() -> void:
 		"esplorazione": [["meraviglie", WondersData.WONDERS.size(), 90.0], ["pagine dei biomi", BiomePagesData.pages().size(), 40.0],
 			["accessori dei ricordi", WondersData.GEAR.size(), 30.0], ["attrezzi", ExplorerData.ITEMS.size(), 10.0],
 			["firme dei mondi", SignaturesData.SIGNATURES.size(), 20.0]],
+		"mandria": [["famiglie da addomesticare", HerdData.TAME.size(), 25.0], ["stirpi pure (una per famiglia)", HerdData.TAME.size(), 60.0],
+			["manti della collezione", Lineage.total(), 8.0], ["medaglie delle fiere", Fairs.CATS.size() * 3, 20.0],
+			["lavori", HerdJobs.JOBS.size(), 15.0]],
+		"orto": [["colture", CropsData.CROPS.size() - OrchardData.VARIETIES.size(), 20.0], ["varietà da incrocio", OrchardData.VARIETIES.size(), 45.0],
+			["semi scelti", CropsData.CROPS.size(), 10.0], ["piatti del Ricettario", CookingData.DISHES.size(), 12.0]],
 	}
 	for p in rows:
 		var tot := 0.0

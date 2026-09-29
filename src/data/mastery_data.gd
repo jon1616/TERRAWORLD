@@ -35,7 +35,7 @@ const PILLARS := {
 	"abitanti": {"name": "Gli abitanti", "color": Color("#ffb0d0"), "icon": ["cuore", "ambra"], "hours": 40,
 		"desc": "Chi vive nel Giardino: legami, richieste, case, la Bacheca.",
 		"hint": "completa una richiesta di un abitante o della Bacheca"},
-	"mandria": {"name": "La mandria", "color": Color("#e0c080"), "icon": ["uovo", "muschio"], "hours": 40,
+	"mandria": {"name": "La mandria", "color": Color("#e0c080"), "icon": ["uovo", "muschio"], "hours": 70,
 		"desc": "Addomesticare, allevare, cavalcare.",
 		"hint": "addomestica una famiglia nuova, fai nascere un uovo"},
 	"orto": {"name": "L'orto e la cucina", "color": Color("#b0e060"), "icon": ["seme", "muschio"], "hours": 30,

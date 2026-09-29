@@ -104,6 +104,13 @@ const LIST := [
 		"text": "L'[b]Atlante[/b] ({atlante}) ricorda i mondi che visiti: cinque stelle per mondo, un premio ogni cinque. Ha anche le pagine dei biomi, le meraviglie e le spedizioni del Cartografo."},
 	{"id": "meraviglia", "title": "Una meraviglia", "cap": "meraviglie",
 		"text": "Hai visto una [b]meraviglia[/b]: al suo centro c'è un cuore che brilla. Il clic destro ti dona il suo ricordo, che esiste solo lì."},
+	# Roadmap 24 «Stirpi e semi»
+	{"id": "stirpe", "title": "Una stirpe", "cap": "stirpi",
+		"text": "La prima creatura nata da una coppia ricorda i suoi genitori: è l'inizio di una [b]stirpe[/b]. Cinque generazioni della stessa variante fanno una stirpe pura. E ogni tre giorni, nel Giardino, c'è la fiera della mandria."},
+	{"id": "incrocio", "title": "Un incrocio", "cap": "orto_cucina",
+		"text": "Due colture diverse, mature una accanto all'altra, si sono [b]incrociate[/b]: hai il seme di una varietà nuova. Curare le piante (acqua, serra, aratura) dà raccolti migliori e semi scelti."},
+	{"id": "ricettario", "title": "Il Ricettario", "cap": "orto_cucina",
+		"text": "Al [b]Paiolo[/b] ci sono piatti che non avevi mai visto: il Ricettario si apre man mano che trovi gli ingredienti. Ogni piatto ha effetti suoi, per ogni viaggio."},
 ]
 
 
