@@ -23,6 +23,8 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 			_foglia(im, gm, w, h)
 		"otre":
 			_otre(im, gm, w, h, 0.55)
+		"cisterna":
+			_cisterna(im, gm, w, h)
 		"lampada":
 			_lampada(im, gm, w, h)
 		"leva":
@@ -313,3 +315,15 @@ static func _radice_madre(im: Image, gm: Image, w: int, h: int) -> void:
 	for p in [Vector2(w * 0.3, h * 0.35), Vector2(w * 0.65, h * 0.55), Vector2(w * 0.5, h * 0.2)]:
 		Px.disc(im, p.x, p.y, 1.8, LINFA[2])
 		Px.disc(gm, p.x, p.y, 1.6, LINFA[3])
+
+
+## La Cisterna viva: una vasca di corteccia cerchiata di legnoferro con una grande finestra dove sale la Linfa.
+static func _cisterna(im: Image, gm: Image, w: int, h: int) -> void:
+	_rect(im, 1, 2, w - 1, h, BARK[0])
+	_rect(im, 2, 3, w - 2, h - 1, BARK[2])
+	for y in [5, h - 6]:
+		_rect(im, 1, y, w - 1, y + 2, SLATE[1])
+	_rect(im, 6, 9, w - 6, h - 9, SLATE[0])
+	_rect(im, 7, int(h * 0.45), w - 7, h - 10, LINFA[1])
+	_rect(gm, 8, int(h * 0.45) + 1, w - 8, h - 11, LINFA[2])
+	_rect(im, int(w * 0.3), 0, int(w * 0.7), 3, BARK[1])

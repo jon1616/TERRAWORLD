@@ -19,6 +19,9 @@ var nets: Array[Dictionary] = []       # {cells, sources, reserves, users, prod,
 var net_of := {}                       # cella di vena -> indice della rete
 var cells := {}                        # tutte le celle con una vena del Flusso
 var solved := 0                        # quanti conti (per le prove)
+var away_worked := 0.0                 # voce 197: secondi di lavoro fatti mentre si era via (per le prove)
+var _away_done := false
+var _seen_t := 0.0
 var impulse: Impulse                   # voce 193: i fili e i comandi
 var _framed: Array[Machine] = []       # chi va guardato a ogni fotogramma (porte, piastre)
 var panel: MachinePanel                # voce 194: il pannello delle macchine
@@ -100,6 +103,15 @@ func _process(dt: float) -> void:
 	if rev != _rev or _dirty:
 		_rev = rev
 		rebuild()
+	if not _away_done:
+		_away_done = true                   # voce 197: il lavoro fatto mentre si era via
+		var note := EnergyAway.run(self)
+		if note != "":
+			m.hud.toast(note)
+	_seen_t -= dt
+	if _seen_t <= 0.0:
+		_seen_t = 1.0
+		meta()["visto"] = Time.get_unix_time_from_system()
 	for mc in _framed:
 		mc.bh.frame(mc, self, dt)
 	impulse.process(dt)
@@ -369,9 +381,7 @@ func machine_at(c: Vector2i) -> Machine:
 
 
 func _repaint(ni: int) -> void:
-	for c: Vector2i in nets[ni]["cells"]:
-		if m.view.chunks.has(World.chunk_of(c)):
-			m.view.refresh_vein(c)
+	EnergyView.repaint(self, ni)
 
 
 func _repaint_all() -> void:
@@ -379,48 +389,15 @@ func _repaint_all() -> void:
 		_repaint(ni)
 
 
-# ---------------------------------------------------------------- l'aspetto e la luce
+# ---------------------------------------------------------------- l'aspetto e la luce (in `EnergyView`)
 
-## [fa luce, ha energia, trasparenza] di una macchina (per `ViewProps`).
 func look(o: Vector2i) -> Array:
-	var mc: Machine = machines.get(o)
-	if mc == null:
-		return [true, true, 1.0]
-	var needs := float(mc.d.get("pulsi", 0)) > 0.0
-	var powered := mc.role() != "macchina" or not needs or mc.power >= 0.99 or not mc.on()
-	var glow := mc.lit if mc.d.has("light") else (mc.role() != "macchina" or mc.power >= 0.99)
-	var alpha := 1.0
-	match mc.role():
-		"sorgente":
-			glow = mc.made > 0.01
-		"riserva":
-			glow = float(mc.st.get("g", 0.0)) > 1.0
-		"comando", "nodo":
-			glow = bool(mc.st.get("out", false)) or float(mc.get_meta("flash", 0.0)) > 0.0
-	if mc.d.get("porta", false):
-		glow = bool(mc.st.get("open", false))
-		alpha = 0.3 if glow else 1.0
-		powered = true
-	return [glow, powered, alpha]
+	return EnergyView.look(self, o)
 
 
 func refresh_look(mc: Machine) -> void:
-	var lk := look(mc.o)
-	mc.set_meta("look", lk)
-	m.view.props.set_machine_look(mc.o, bool(lk[0]), bool(lk[1]), float(lk[2]))
+	EnergyView.refresh_look(self, mc)
 
 
 func _update_looks() -> void:
-	var lights := []
-	for mc: Machine in machines.values():
-		if mc.has_meta("flash"):
-			mc.set_meta("flash", maxf(float(mc.get_meta("flash")) - TICK, 0.0))
-		var lk := look(mc.o)
-		if mc.get_meta("look", []) != lk:
-			mc.set_meta("look", lk)
-			m.view.props.set_machine_look(mc.o, bool(lk[0]), bool(lk[1]), float(lk[2]))
-		if mc.lit and mc.d.has("light"):
-			lights.append([mc.o, mc.d["light"]])
-	if lights != _lights:
-		_lights = lights
-		m.light.set_extra("rete", lights)
+	EnergyView.update_looks(self)

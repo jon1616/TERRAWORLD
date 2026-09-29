@@ -3465,10 +3465,15 @@ più vicino a 40 tessere, `Energy.on_bolt` versa 3000 gocce nelle riserve con `E
 scelta cura o sconfitta pesa di più), Radice del Giardino (`MbRadiceGiardino`: nel Giardino vicino all'Albero-Madre, 50
 pulsi a stadio). Prove in `TestsEnergyMore`.
 
-## 197. [ ] Le riserve e il tempo altrove (M)
+## 197. [x] Le riserve e il tempo altrove (M) — fatto il 29 set 2026
 Baccello-serbatoio, Cisterna viva, livello visibile, `EnergyAway` (fino a 2 ore reali, metà velocità, solo sorgenti senza
 combustibile e materiali nelle casse; avviso «Mentre eri via»).
 **Pronto quando**: tornando dopo un'ora finta la serra ha lavorato mezz'ora.
+**Fatto**: Baccello-serbatoio (20000 gocce, 120 al secondo) e Cisterna viva (150000, 500); il bagliore di una riserva
+dice quanto è piena; `EnergyAway`: entrando in un mondo il tempo passato da quando lo si è visto (`world_meta["rete"]["visto"]`,
+aggiornato ogni secondo) lavora con il conto vero a passi di 30 s, a metà velocità, al più 2 ore reali (un'ora di
+lavoro), e l'avviso «Mentre eri via la rete ha lavorato N minuti». Per stare sotto le 400 righe: `EnergyView` (aspetto,
+luci, bagliore delle vene). Prova: un'ora finta = 1800 s di lavoro e il serbatoio pieno, dieci ore = 3600 s.
 
 ## Fase 3 · Le macchine
 ## 198. [ ] Muoversi (G)

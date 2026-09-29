@@ -80,3 +80,37 @@ func special() -> void:
 		print("ATTENZIONE: le sorgenti speciali non danno ciò che devono")
 	for o in [wheel, rod, otre, root, groot]:
 		t.unplace(o)
+
+
+## Voce 197: le riserve grandi e il lavoro mentre sei via (un'ora finta = mezz'ora di lavoro; dieci ore = un'ora).
+func reserves() -> void:
+	var e: Energy = m.energy
+	var p: Vector2i = await t.clean_spot(180, 12)
+	var y := p.y
+	var leaf := t.place("foglia_lanterna", Vector2i(p.x, y))
+	var tank := t.place("baccello_serbatoio", Vector2i(p.x + 3, y))
+	t.lay_row(p.x, p.x + 4, y, 2)
+	m.day.time = 0.5
+	m.day.apply(true)
+	await t.ticks(6)
+	var tm: Machine = e.machines[tank]
+	var g0 := float(tm.st.get("g", 0.0))
+	var charging := g0 > 0.0
+	# un'ora via: mezz'ora di lavoro, la foglia (12 pulsi) riempie il serbatoio di 21600 gocce (tetto 20000)
+	tm.st["g"] = 0.0
+	e.meta()["visto"] = Time.get_unix_time_from_system() - 3600.0
+	var w0 := e.away_worked
+	var note := EnergyAway.run(e)
+	var worked := e.away_worked - w0
+	var g1 := float(tm.st.get("g", 0.0))
+	# dieci ore via: al più un'ora di lavoro
+	e.meta()["visto"] = Time.get_unix_time_from_system() - 36000.0
+	var w1 := e.away_worked
+	EnergyAway.run(e)
+	var capped := e.away_worked - w1
+	print("riserve: il serbatoio si carica al sole %s; via un'ora: %d s di lavoro, serbatoio %.0f gocce («%s»); via dieci ore: %d s" % [
+		charging, roundi(worked), g1, note, roundi(capped)])
+	if not (charging and absf(worked - 1800.0) < 31.0 and g1 >= 19999.0 and absf(capped - 3600.0) < 31.0 and note.contains("minuti")):
+		print("ATTENZIONE: le riserve o il lavoro mentre si è via non vanno come dovrebbero")
+	t.unplace(leaf)
+	t.unplace(tank)
