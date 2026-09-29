@@ -247,6 +247,9 @@ func build_blueprint(id: String, c: Vector2i) -> bool:
 	if Vector2(c - m.player_cell()).length() > BuilderData.PLAN_REACH + 6.0:
 		m.hud.toast("Troppo lontano per costruire il progetto")
 		return false
+	if ProjectsData.PROJECTS[id].has("opera") and not (m.get("beauty") != null and m.beauty.home()):
+		m.hud.toast("Le grandi opere si costruiscono solo nel Giardino")        # voce 233
+		return false
 	var need := ProjectsData.needs(id)
 	var miss := []
 	for it in need:
@@ -269,6 +272,15 @@ func build_blueprint(id: String, c: Vector2i) -> bool:
 	m.sfx.play("posa", Vector2(c) * S)
 	blueprints += 1
 	m.objectives.bump("progetti")
+	var extra: Dictionary = ProjectsData.PROJECTS[id].get("extra", {})
+	for it in extra:                                  # voce 233: i materiali in più delle grandi opere
+		b.remove(String(it), int(extra[it]))
+	var opera := String(ProjectsData.PROJECTS[id].get("opera", ""))
+	if opera != "" and int(m.character.stats.get("opera_" + opera, 0)) == 0:
+		m.character.stats["opera_" + opera] = 1
+		m.objectives.bump("opere")
+		m.gear.refresh()
+		m.hud.toast("Grande opera: %s. %s" % [ProjectsData.PROJECTS[id]["name"], ProjectsData.PROJECTS[id]["desc"]])
 	m.hud.toast("%s: costruito (%d pezzi)" % [ProjectsData.PROJECTS[id]["name"], n])
 	return true
 

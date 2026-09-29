@@ -29,10 +29,14 @@ func is_home() -> bool:
 
 
 func max_aiuole() -> int:
+	# voce 233: le grandi opere del Giardino danno Aiuole in più
+	var works := 0
+	for w in ProjectsData.works_built(m.character.stats):
+		works += int((w as Dictionary).get("aiuole", 0))
 	# voce 63: chi ha un Giardino comincia con una sola Aiuola, le altre le dona l'Albero-Madre (`bonus`)
 	if int(m.character.stats.get("giardino", 0)) == 1:
-		return 1 + bonus
-	return BASE_MAX + bonus
+		return 1 + bonus + works
+	return BASE_MAX + bonus + works
 
 
 ## Quante Aiuole ci sono nel Giardino (anche quelle diventate portale).

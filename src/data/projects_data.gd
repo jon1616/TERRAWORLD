@@ -15,6 +15,8 @@ extends RefCounted
 ##   O Otre di Linfa  P Lampada a baccello  Q Leva di radice
 ## Roadmap 19: due griglie in più, facoltative, della stessa misura: "vene" (r radice, l legnoferro, a ambra, c cristallo)
 ## e "fili" (t turchese, y ambra, k corallo, v viola); lo spazio non posa niente.
+## Roadmap 22, voce 233, le **grandi opere** del Giardino: `opera` (l'id dell'opera: costruita, dona per sempre ciò che
+## dice `WORKS`, solo nel Giardino) ed `extra` (materiali in più, da tutti i pilastri, oltre ai blocchi della griglia).
 ## I materiali che servono li conta `needs`.
 
 const BLOCK := {"#": ["mattoni", "seminatori"], "=": ["lastre", "ardesia"], "o": ["levigato", "ambra"],
@@ -145,6 +147,55 @@ const PROJECTS := {
 			"l   ",
 			"lll ",
 		]},
+	# Roadmap 22, voce 233: le grandi opere del Giardino
+	"torre_albero": {"name": "La Torre dell'Albero", "opera": "torre", "desc": "Una torre di pietra dei Seminatori con le radici dell'Albero-Madre che la salgono: il Giardino può ospitare due Aiuole in più.",
+		"extra": {"linfa_antica": 6, "frammento_albero": 2, "lingotto_ambra": 20, "perla_maree": 1},
+		"grid": [
+			"   ^^^^^   ",
+			"  ^^.L.^^  ",
+			"  |.....|  ",
+			"  v.....v  ",
+			"  |_____|  ",
+			"  |.....|  ",
+			"  v.....v  ",
+			"  |_____|  ",
+			"  |.....|  ",
+			"  |.....D  ",
+			"  |......  ",
+			"ooooooooooo",
+		]},
+	"serra_grande": {"name": "La Serra grande", "opera": "serra", "desc": "Una cupola enorme di vetrate: tutte le colture del Giardino crescono il 25% più in fretta.",
+		"extra": {"bacca_rovo": 20, "seme_campanula": 20, "lana_muschio": 20, "cuore_rovo": 1},
+		"grid": [
+			"     vvvvvvvv     ",
+			"   vvv......vvv   ",
+			"  vv..........vv  ",
+			" vv............vv ",
+			"vv..V..V..V..V..vv",
+			"#................D",
+			"#.................",
+			"pppppppppppppppppp",
+		]},
+	"fontana_mondi": {"name": "La Fontana dei mondi", "opera": "fontana", "desc": "Una vasca di Linfa con l'acqua di ogni mondo: la Vita ricresce il 10% più in fretta, per sempre.",
+		"extra": {"goccia_acqua_viva": 20, "cristallo_linfa": 15, "pesce_carpa_radice": 3, "spola_viva": 1},
+		"grid": [
+			"|.....F......|",
+			"|............|",
+			"pp....F.....pp",
+			"pp..........pp",
+			"pppppppppppppp",
+		]},
+	"arco_aiuole": {"name": "L'Arco delle Aiuole", "opera": "arco", "desc": "Un arco di radici e ambra sopra le Aiuole: ogni giorno arriva un visitatore, e un'Aiuola in più.",
+		"extra": {"polvere_iridata": 6, "parola_prima": 1, "eco_parola": 12, "tavoletta_seminatori": 6},
+		"grid": [
+			"  ooooooooooo  ",
+			" oo.........oo ",
+			"oo...........oo",
+			"|.............|",
+			"|.............|",
+			"|.............|",
+			"|.............|",
+		]},
 	"sala_trofei": {"name": "La sala dei trofei", "desc": "Una sala di mattoni con gli scaffali e un armadio: mettici tre trofei.",
 		"grid": [
 			"^^^^^^^^^^^^^^",
@@ -211,6 +262,8 @@ static func needs(id: String) -> Dictionary:
 				item = String(StationsData.STATIONS[STATION[ch]]["item"])
 			if item != "":
 				out[item] = int(out.get(item, 0)) + 1
+	for it in PROJECTS[id].get("extra", {}):                 # voce 233: i materiali delle grandi opere
+		out[String(it)] = int(out.get(String(it), 0)) + int(PROJECTS[id]["extra"][it])
 	for row in PROJECTS[id].get("vene", []):
 		for ch in String(row):
 			if VEIN.has(ch):
@@ -230,3 +283,21 @@ static func size_of(id: String) -> Vector2i:
 	for row in grid:
 		wmax = maxi(wmax, String(row).length())
 	return Vector2i(wmax, grid.size())
+
+
+## Voce 233: che cosa dona per sempre ogni grande opera (la legge chi serve: `Aiuole`, `Garden`, `GearEffects`, `Visitors`).
+const WORKS := {
+	"torre": {"aiuole": 2},
+	"serra": {"grow": 1.25},
+	"fontana": {"regen": 1.1},
+	"arco": {"aiuole": 1, "visitors": true},
+}
+
+
+## Le grandi opere costruite dal personaggio (id dell'opera → dati di `WORKS`).
+static func works_built(stats: Dictionary) -> Array:
+	var out := []
+	for k in WORKS:
+		if int(stats.get("opera_" + k, 0)) == 1:
+			out.append(WORKS[k])
+	return out

@@ -18,6 +18,7 @@ func run() -> void:
 	await festival()
 	await stories()
 	await workshop()
+	await works()
 
 
 ## Voce 227: la bellezza nasce dalle stanze, dai tipi di stanza, dalla felicità degli abitanti; salire dà maestria.
@@ -159,3 +160,31 @@ func workshop() -> void:
 	if not ok:
 		print("ATTENZIONE: le botteghe degli abitanti non vanno")
 	ch.bisaccia.remove("lingotto_legnoferro", maxi(ch.bisaccia.count("lingotto_legnoferro") - ing0, 0))
+
+
+## Voce 233: le grandi opere vogliono i materiali di tutti i pilastri, si costruiscono solo nel Giardino e, fatte, danno
+## Aiuole, crescita, Vita e visitatori per sempre (qui le opere si segnano a mano: il mondo di prova non è il Giardino).
+func works() -> void:
+	var st: Dictionary = m.character.stats
+	var need := ProjectsData.needs("torre_albero")
+	var extra_ok := int(need.get("frammento_albero", 0)) == 2 and int(need.get("perla_maree", 0)) == 1
+	var refused: bool = not m.builder.build_blueprint("torre_albero", m.player_cell() + Vector2i(3, -12))
+	var a0: int = m.aiuole.max_aiuole()
+	var g0: float = m.garden.gear_grow
+	var r0: float = m.vitals.regen_mult
+	var saved := {}
+	for k in ProjectsData.WORKS:
+		saved[k] = int(st.get("opera_" + k, 0))
+		st["opera_" + k] = 1
+	m.gear.refresh()
+	var a1: int = m.aiuole.max_aiuole()
+	var g1: float = m.garden.gear_grow
+	var r1: float = m.vitals.regen_mult
+	for k in saved:
+		st["opera_" + k] = saved[k]
+	m.gear.refresh()
+	var ok := extra_ok and refused and a1 == a0 + 3 and g1 > g0 * 1.2 and r1 > r0 * 1.05
+	print("grandi opere: materiali in più %s; fuori dal Giardino rifiutata %s; Aiuole %d → %d, crescita ×%.2f → ×%.2f, Vita ×%.2f → ×%.2f" % [
+		extra_ok, refused, a0, a1, g0, g1, r0, r1])
+	if not ok:
+		print("ATTENZIONE: le grandi opere del Giardino non vanno")

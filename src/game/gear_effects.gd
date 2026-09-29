@@ -75,6 +75,13 @@ func refresh() -> void:
 	series = UniqueSeriesData.complete(m.character.erbario.get("oggetti", {}))
 	for sr in series:
 		_add(e, UniqueSeriesData.SERIES[sr]["bonus"])
+	# voce 233: le grandi opere del Giardino (crescita dell'orto, Vita)
+	for wk in ProjectsData.works_built(m.character.stats):
+		var eff := {}
+		for k in wk:
+			if k in MULT:
+				eff[k] = wk[k]
+		_add(e, eff)
 	# Roadmap 20: i gradi della maestria dei pilastri, per sempre
 	for mb in MasteryRewards.bonuses(m.character.maestria):
 		_add(e, mb)

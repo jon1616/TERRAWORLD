@@ -3992,10 +3992,17 @@ volte insieme, con l'orologio vero (vanno avanti anche a gioco chiuso), −8% di
 «Bottega» nel commercio (`TradePanel.work`: lascia, dice quanto manca, ritira; il suggerimento elenca i lavori).
 `verifica_dati._check_work`.
 
-## 233. [ ] Le grandi opere del Giardino (M)
+## 233. [x] Le grandi opere del Giardino (M) — fatto il 29 set 2026
 Quattro opere enormi (la Torre dell'Albero, la Serra grande, la Fontana dei mondi, l'Arco delle Aiuole) da costruire a
 più riprese con materiali di tutti i pilastri; ognuna dona un potere del Giardino per sempre (viaggio di ritorno dai
 mondi, crescita, tempo sereno, un'Aiuola).
+**Fatto**: quattro progetti in `ProjectsData` con i campi `opera` ed `extra` (materiali in più, contati da `needs` e
+tolti da `BuilderTools.build_blueprint`, che le costruisce solo nel Giardino): la Torre dell'Albero (Linfa antica,
+Frammenti, ambra, una perla del Sommerso: +2 Aiuole), la Serra grande (bacche, semi, lana del Giardino selvatico, il
+cuore del Re dei rovi: colture ×1,25), la Fontana dei mondi (acqua viva, cristalli, carpe, la spola del Telaio: Vita
+×1,1), l'Arco delle Aiuole (polvere iridata, parole, tavolette: +1 Aiuola e un visitatore ogni giorno). Poteri in
+`ProjectsData.WORKS` (`works_built`), letti da `Aiuole.max_aiuole`, `GearEffects`, `Visitors`. I progetti li vende il
+Cartografo; `stats.opere` nutre la maestria del Giardino.
 
 ## 234. [ ] Enciclopedia, misura e resoconto (P)
 Capitoli, consigli, `tools/durata.gd` (i pilastri Giardino e abitanti), giro intero, GitHub.

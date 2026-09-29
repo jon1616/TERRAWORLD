@@ -36,7 +36,10 @@ func _process(_dt: float) -> void:
 		return
 	_day = day
 	leave()
-	if _rng.randf() < CHANCE:
+	var always := false                              # voce 233: l'Arco delle Aiuole porta un visitatore ogni giorno
+	for wk in ProjectsData.works_built(m.character.stats):
+		always = always or bool((wk as Dictionary).get("visitors", false))
+	if always or _rng.randf() < CHANCE:
 		var who := eligible()
 		if not who.is_empty():
 			arrive(String(who[_rng.randi_range(0, who.size() - 1)]))
