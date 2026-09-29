@@ -146,99 +146,13 @@ func rebuild() -> void:
 	for mc: Machine in machines.values():
 		if mc.d.get("frame", false):
 			_framed.append(mc)
-	# le reti: visita delle celle di vena collegate
-	net_of.clear()
-	nets.clear()
-	for c0: Vector2i in cells:
-		if net_of.has(c0):
-			continue
-		var idx := nets.size()
-		var list: Array[Vector2i] = [c0]
-		net_of[c0] = idx
-		var i := 0
-		while i < list.size():
-			var c: Vector2i = list[i]
-			i += 1
-			var b := w.vein_at(c.x, c.y)
-			for d in [Vector2i(0, -1), Vector2i(1, 0), Vector2i(0, 1), Vector2i(-1, 0)]:
-				var q: Vector2i = c + d
-				if net_of.has(q) or not cells.has(q):
-					continue
-				if VeinsData.joins(b, w.vein_at(q.x, q.y)):
-					net_of[q] = idx
-					list.append(q)
-		nets.append({"cells": list, "sources": [], "reserves": [], "users": [], "prod": 0.0, "used": 0.0, "want": 0.0,
-			"stored": 0.0, "cap": 0.0, "flowing": false})
-	# le macchine: la prima cella della stazione che sta su una vena
-	for o: Vector2i in machines:
-		var mc: Machine = machines[o]
-		for dy in mc.size().y:
-			for dx in mc.size().x:
-				var q := o + Vector2i(dx, dy)
-				if mc.net < 0 and net_of.has(q):
-					mc.net = int(net_of[q])
-					mc.entry = q
-		if mc.net >= 0:
-			var nt: Dictionary = nets[mc.net]
-			match mc.role():
-				"sorgente":
-					nt["sources"].append(mc)
-				"riserva":
-					nt["reserves"].append(mc)
-				"macchina":
-					nt["users"].append(mc)
-	for ni in nets.size():
-		_widest(ni)
+	EnergyGraph.build(self)
 	impulse.rebuild(machines)
 	# il bagliore delle vene si ridisegna secondo chi scorre (al primo conto)
 	for nt in nets:
 		nt["flowing"] = false
 	_repaint_all()
 	rebuilt.emit()
-
-
-## La portata di una cella di vena.
-func _cap_at(c: Vector2i) -> float:
-	return float(VeinsData.TIERS[VeinsData.tier(m.world.vein_at(c.x, c.y))].get("cap", 0))
-
-
-## Per ogni macchina della rete: la vena più stretta sulla strada migliore dalle sorgenti e dalle riserve (la strada
-## più larga: si allarga prima dalle celle più capienti).
-func _widest(ni: int) -> void:
-	var nt: Dictionary = nets[ni]
-	var best := {}
-	var buckets := {}                    # portata -> celle da allargare
-	for mc in nt["sources"] + nt["reserves"]:
-		var v0 := _cap_at(mc.entry)
-		if v0 > float(best.get(mc.entry, 0.0)):
-			best[mc.entry] = v0
-			if not buckets.has(v0):
-				buckets[v0] = []
-			buckets[v0].append(mc.entry)
-	var w: World = m.world
-	while not buckets.is_empty():
-		var top: float = buckets.keys().max()
-		var lst: Array = buckets[top]
-		var c: Vector2i = lst.pop_back()
-		if lst.is_empty():
-			buckets.erase(top)
-		if float(best.get(c, 0.0)) > top:
-			continue
-		var b := w.vein_at(c.x, c.y)
-		for d in [Vector2i(0, -1), Vector2i(1, 0), Vector2i(0, 1), Vector2i(-1, 0)]:
-			var q: Vector2i = c + d
-			if net_of.get(q, -1) != ni or not VeinsData.joins(b, w.vein_at(q.x, q.y)):
-				continue
-			var v := minf(top, _cap_at(q))
-			if v > float(best.get(q, 0.0)):
-				best[q] = v
-				if not buckets.has(v):
-					buckets[v] = []
-				buckets[v].append(q)
-	for mc in nt["users"]:
-		mc.cap = float(best.get(mc.entry, 0.0))
-	for mc in nt["sources"] + nt["reserves"]:
-		mc.cap = _cap_at(mc.entry)
 
 
 # ---------------------------------------------------------------- il conto del Flusso
