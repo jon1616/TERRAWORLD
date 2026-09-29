@@ -21,6 +21,7 @@ var cells := {}                        # tutte le celle con una vena del Flusso
 var solved := 0                        # quanti conti (per le prove)
 var impulse: Impulse                   # voce 193: i fili e i comandi
 var _framed: Array[Machine] = []       # chi va guardato a ogni fotogramma (porte, piastre)
+var panel: MachinePanel                # voce 194: il pannello delle macchine
 var _dirty := true
 var _rev := -1
 var _t := 0.0
@@ -30,10 +31,19 @@ var _lights: Array = []
 func setup(main: Node2D) -> void:
 	m = main
 	impulse = Impulse.new(self)
+	panel = MachinePanel.new()
+	m.hud.add_child(panel)
+	panel.setup(self)
+	m.hud.overlays.append(panel)
 	m.veins.changed.connect(_on_vein)
 	m.view.flow_check = func(c: Vector2i) -> bool: return flows(c)
 	m.view.props.machine_look = func(o: Vector2i) -> Array: return look(o)
 	_scan_cells()
+
+
+## «1 pulso», «12 pulsi».
+static func pulsi(n: float) -> String:
+	return "1 pulso" if roundi(n) == 1 else "%d pulsi" % roundi(n)
 
 
 ## L'Occhio delle vene in mano (mostra i fili e i numeri delle reti, voce 194).
@@ -349,11 +359,21 @@ func touch(o: Vector2i) -> bool:
 	if mc.bh.touch(mc, self):
 		refresh_look(mc)
 		return true
-	if m.get("machine_panel") != null:
-		m.machine_panel.open(mc)
-		return true
-	m.hud.toast("%s: %s" % [mc.d["name"], mc.bh.state_text(mc, self)])
+	panel.open(mc)
 	return true
+
+
+## I numeri di una rete, in parole (per il pannello).
+func net_text(ni: int) -> String:
+	if ni < 0 or ni >= nets.size():
+		return "[color=#ffb070]Non è su una rete: posa una vena sotto di lei con la Pinza delle vene.[/color]"
+	var nt: Dictionary = nets[ni]
+	var t := "[color=#8ef0e8]La rete[/color]: %d vene · %d sorgenti · %d macchine · %d riserve\n" % [(nt["cells"] as Array).size(),
+		(nt["sources"] as Array).size(), (nt["users"] as Array).size(), (nt["reserves"] as Array).size()]
+	t += "Le sorgenti danno [b]%d[/b] pulsi, le macchine ne chiedono [b]%d[/b]" % [roundi(float(nt["prod"])), roundi(float(nt["want"]))]
+	if float(nt["cap"]) > 0.0:
+		t += ", nelle riserve [b]%d[/b] gocce su %d" % [roundi(float(nt["stored"])), roundi(float(nt["cap"]))]
+	return t + "."
 
 
 ## Perché una macchina non ha tutto (per le schede).

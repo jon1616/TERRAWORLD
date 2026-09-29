@@ -68,6 +68,9 @@ func _world_tip(screen: Vector2) -> Array:
 					tc.hint("Clic destro: esamina")
 				return tc]
 		return ["t%d,%d,%d" % [c.x, c.y, t], func() -> Variant: return WorldTip.tile(m, t)]
+	var vb: int = w.vein_at(c.x, c.y)
+	if vb != 0 and (VeinsData.tier(vb) > 0 or m.view.show_wires):   # Roadmap 19: le vene (i fili quando si vedono)
+		return ["vn%d,%d,%d" % [c.x, c.y, vb], func() -> Variant: return MachineTip.vein(m, c)]
 	if w.liq(c.x, c.y) > 0:                                # voce 73: acqua, Linfa, brace
 		var lt := w.liq_type(c.x, c.y)
 		return ["lq%d,%d,%d" % [c.x, c.y, lt], func() -> Variant: return WorldTip.liquid(lt)]

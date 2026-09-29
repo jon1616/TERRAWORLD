@@ -9,6 +9,7 @@ extends Node
 const EVERY := 0.25
 const REPAINT := 2.0
 const SKY := Color("#5f9aa8")
+const VEIN := Color("#5cc8cc")             # Roadmap 19: le vene sulla mappa
 
 var m: Node2D
 var world: World
@@ -56,6 +57,8 @@ func color_at(i: int) -> Color:
 		return _build_col[(k - 1) / BuildData.FORMS.size()] if k > 0 else _tile_col[t]
 	if t != TileDefs.AIR:
 		return _tile_col[t]
+	if world.vein.size() == world.tiles.size() and world.vein[i] & VeinsData.TIER_MASK != 0:
+		return VEIN                                         # Roadmap 19: le vene della rete, turchesi
 	var wl := world.walls[i]
 	return _wall_col[wl] if wl != 0 else SKY
 

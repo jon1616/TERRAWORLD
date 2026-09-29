@@ -10,6 +10,8 @@ static var _recipes := {}              # stazione -> quante ricette (contate una
 
 
 static func card(m: Node2D, o: Vector2i, id: String) -> TipCard:
+	if MachinesData.is_machine(id):
+		return MachineTip.card(m, o, id)                # Roadmap 19: le macchine della rete
 	if id == "portale":
 		return portal(m, o)
 	if id.begins_with("albero_madre"):

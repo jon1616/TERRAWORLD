@@ -23,6 +23,8 @@ const DATA := {
 			"desc": "Porta l'Impulso. I quattro colori passano nella stessa tessera senza toccarsi."},
 		"filo_viola": {"name": "Filo viola", "kind": "filo", "icon": ["seta", "nottilite"], "stack": 999,
 			"desc": "Porta l'Impulso. I quattro colori passano nella stessa tessera senza toccarsi."},
+		"occhio_vene": {"name": "Occhio delle vene", "kind": "occhio", "icon": ["occhio", "linfa"], "stack": 1,
+			"desc": "In mano mostra i fili dell'Impulso; con il mouse su una vena o su una macchina dice tutto della sua rete (quanto danno le sorgenti, quanto chiedono le macchine, le riserve)."},
 		"isolante_resina": {"name": "Isolante di gelatina", "kind": "isolante", "icon": ["gel", "ambra"], "stack": 99,
 			"desc": "Usalo su una vena: non si collega più alle vene vicine di un altro grado (così due reti si incrociano). Di nuovo per togliere."},
 	},
@@ -36,6 +38,7 @@ const DATA := {
 		{"out": "filo_ambra", "qty": 20, "in": {"seta_radice": 1, "tintura_gialla": 1}, "station": "telaio"},
 		{"out": "filo_corallo", "qty": 20, "in": {"seta_radice": 1, "tintura_rossa": 1}, "station": "telaio"},
 		{"out": "filo_viola", "qty": 20, "in": {"seta_radice": 1, "tintura_viola": 1}, "station": "telaio"},
+		{"out": "occhio_vene", "qty": 1, "in": {"cristallo_linfa": 1, "legno": 4, "gelatina": 2}, "station": "ceppo"},
 		{"out": "isolante_resina", "qty": 5, "in": {"gelatina": 2}, "station": "ceppo"},
 	],
 }

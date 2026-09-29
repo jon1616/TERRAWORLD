@@ -15,7 +15,7 @@ const KINDS := {
 	"moneta": "Moneta", "ricordo": "Ricordo di un mondo", "evocatore": "Bastone evocatore", "compagno": "Compagno",
 	"vasetto": "Vasetto", "uovo": "Uovo", "purifica": "Purifica l'Avvizzimento", "provetta": "Provetta",
 	"laccio": "Laccio", "fiala": "Fiala di un gene", "creatura": "Creatura della mandria",
-	"pinza": "Attrezzo della rete", "vena": "Vena del Flusso", "filo": "Filo dell'Impulso", "isolante": "Isolante",
+	"pinza": "Attrezzo della rete", "vena": "Vena del Flusso", "filo": "Filo dell'Impulso", "isolante": "Isolante", "occhio": "Mostra la rete",
 	"tavoletta": "Tavoletta da leggere", "chiave": "Chiave", "secchio": "Secchio", "secchio_pieno": "Secchio pieno", "contenitore": "Contenitore di liquidi", "pesce": "Pesce", "canna": "Canna da pesca", "esca": "Esca da pesca", "cassetta": "Cassa pescata",
 }
 

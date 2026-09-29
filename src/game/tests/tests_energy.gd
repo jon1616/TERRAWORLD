@@ -32,6 +32,7 @@ func run() -> void:
 	await veins()
 	await flux()
 	await impulses()
+	await panel()
 	m.player.control = ctl
 	m.day.paused = false
 
@@ -290,3 +291,38 @@ func impulses() -> void:
 	var clean := w.tile(door.x, door.y) == TileDefs.AIR and w.tile(d2.x, d2.y) == TileDefs.AIR
 	if not clean:
 		print("ATTENZIONE: una porta tolta ha lasciato il suo muro")
+
+
+## Voce 194: il pannello di una macchina e le schede dei suggerimenti.
+func panel() -> void:
+	var e: Energy = m.energy
+	var y := spot.y
+	var x0 := spot.x + 60                                   # un posto pulito (niente fili delle prove di prima)
+	kit.flatten(Vector2i(x0 + 2, y), 6)
+	for x in range(x0 - 2, x0 + 6):
+		for yy in range(y - 14, y - 4):
+			m.world.set_tile(x, yy, TileDefs.AIR)
+	m.snap_to(Vector2i(x0 + 1, y))
+	await kit.frames(3)
+	var leaf := place("foglia_lanterna", Vector2i(x0, y))
+	var lamp := place("lampada_baccello", Vector2i(x0 + 3, y))
+	lay_row(x0, x0 + 3, y, 1)
+	m.day.time = 0.5
+	m.day.apply(true)
+	await ticks(4)
+	var mc: Machine = e.machines[lamp]
+	e.panel.open(mc)
+	await kit.frames(6)
+	await kit.save("233_pannello_macchina")
+	var txt := e.panel._text.get_parsed_text()
+	var panel_ok: bool = e.panel.visible and txt.contains("La rete") and txt.contains("pulsi")
+	e.panel.close()
+	var tip := MachineTip.card(m, lamp, "lampada_baccello").plain()
+	var vtip := MachineTip.vein(m, Vector2i(x0 + 1, y)).plain()
+	var tips_ok := tip.contains("Adesso") and vtip.contains("Porta al più") and vtip.contains("La rete")
+	print("pannello della macchina %s; schede: lampada «%s…», vena «%s…»" % ["sì" if panel_ok else "NO", tip.left(60).replace("\n", " · "),
+		vtip.left(60).replace("\n", " · ")])
+	if not (panel_ok and tips_ok):
+		print("ATTENZIONE: il pannello o le schede della rete non dicono ciò che devono")
+	unplace(lamp)
+	unplace(leaf)

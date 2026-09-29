@@ -68,6 +68,11 @@ func touch(_mc: Machine, _e: Energy) -> bool:
 	return false
 
 
+## Righe in più del pannello: [[titolo, [[testo, premuto, azione], …]], …] (le impostazioni della macchina).
+func panel_rows(_mc: Machine, _e: Energy) -> Array:
+	return []
+
+
 func removed(_mc: Machine, _e: Energy) -> void:
 	pass
 
@@ -88,6 +93,6 @@ func state_text(mc: Machine, e: Energy) -> String:
 			if mc.net < 0:
 				return "ferma: nessuna vena la tocca"
 			if mc.power >= 0.99:
-				return "lavora (%d pulsi)" % roundi(mc.given)
+				return "lavora (%s)" % Energy.pulsi(mc.given)
 			return "ferma: %s" % e.why(mc)
 	return ""

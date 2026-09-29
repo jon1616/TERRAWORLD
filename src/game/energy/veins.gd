@@ -115,6 +115,7 @@ func put(c: Vector2i, md: int) -> bool:
 	m.character.bisaccia.remove(item, 1)
 	w.set_vein(c.x, c.y, nb)
 	m.view.refresh_vein(c)
+	_map(c)
 	placed += 1
 	changed.emit(c)
 	return true
@@ -143,6 +144,7 @@ func take(c: Vector2i, md: int) -> bool:
 	if m.character.bisaccia.add(item, 1) > 0:
 		m.drops.spawn(item, 1, Vector2(c) * 16.0 + Vector2(8, 8))
 	m.view.refresh_vein(c)
+	_map(c)
 	changed.emit(c)
 	return true
 
@@ -156,3 +158,11 @@ func toggle_insulation(c: Vector2i) -> bool:
 	m.view.refresh_vein(c)
 	changed.emit(c)
 	return true
+
+
+## La cella sulla mappa (se è già esplorata).
+func _map(c: Vector2i) -> void:
+	var mr: MapReveal = m.map_reveal
+	var i: int = c.y * m.world.w + c.x
+	if m.world.explored[i] != 0 and mr.ready_img:
+		mr.image.set_pixel(c.x, c.y, mr.color_at(i))    # la mappa la mostra al prossimo ridisegno della zona vista

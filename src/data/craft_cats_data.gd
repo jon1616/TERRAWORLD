@@ -16,7 +16,7 @@ const CATS := [
 	["costruzione", "Costruzione", Color("#7ed67a"), ["blocco", "piattaforma", "parete", "torcia", "stazione"]],
 	["giardino", "Giardino e mandria", Color("#5ee0c8"), ["seme", "coltura", "seme_mondo", "fiala", "provetta", "uovo",
 		"vasetto", "laccio", "creatura"]],
-	["rete", "Linfa e macchine", Color("#8ef0e8"), ["pinza", "vena", "filo", "isolante"]],   # Roadmap 19
+	["rete", "Linfa e macchine", Color("#8ef0e8"), ["pinza", "vena", "filo", "isolante", "occhio"]],   # Roadmap 19
 	["altro", "Altro", Color("#a0b4b0"), []],
 ]
 const WORK := Color("#ffd24a")         # le lavorazioni del Maglio e del Telaio (tratti, innesti, fasce)

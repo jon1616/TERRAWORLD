@@ -3431,10 +3431,15 @@ riprendono scavando. Trovato strada facendo: `Building` trattava la porta come a
 trasformava in porta la tessera del pavimento. Prova: una leva a 40 tessere apre e chiude la porta, il pulsante la
 alterna, la piastra la tiene aperta, senza Linfa resta ferma, la porta senza fili si apre arrivando.
 
-## 194. [ ] Il pannello e le schede (M)
+## 194. [x] Il pannello e le schede (M) — fatto il 29 set 2026
 `MachinePanel` (stato, consumo, priorità, reazione all'impulso, impostazioni), schede dei suggerimenti per vene e
 macchine, la rete sulla mappa.
 **Pronto quando**: la foto del pannello e delle schede; le impostazioni si salvano.
+**Fatto**: `MachinePanel` (clic destro su una macchina senza gesto suo: stato e perché, descrizione, la sua rete in numeri,
+i fili che la toccano accesi o spenti; priorità, accesa o spenta a mano senza fili, «Segue il filo» o «Alterna» con i
+fili, chi preme la piastra; righe in più dai comportamenti con `panel_rows`), `MachineTip` (schede di macchine e vene:
+portata, rete, sorgenti e macchine, riserve, fili), le vene turchesi sulla mappa, l'**Occhio delle vene** (mostra i
+fili; con il mouse dice la rete). Foto 233_pannello_macchina.
 
 ## Fase 2 · Le sorgenti e il mondo
 ## 195. [ ] Le sorgenti del mondo (M)
