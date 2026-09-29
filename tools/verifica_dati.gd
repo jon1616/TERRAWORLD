@@ -206,6 +206,7 @@ func _init() -> void:
 	_check_uniques()
 	_check_machines()
 	_check_mastery(items)
+	_check_npcs(items)
 	print("ESITO: %d errori, %d avvisi" % [errors, warnings])
 	quit()
 
@@ -518,6 +519,23 @@ func _check_mastery(items: Dictionary) -> void:
 	for s in MasteryData.STATS:
 		for e in MasteryData.STATS[s]:
 			_err(MasteryData.PILLARS.has(String(e[0])), "maestria: il conteggio %s nutre un pilastro inesistente" % s)
+
+
+## Roadmap 22: le merci, i gusti, i regali e le richieste degli abitanti nominano oggetti veri.
+func _check_npcs(items: Dictionary) -> void:
+	for nid in NpcData.NPCS:
+		var d: Dictionary = NpcData.NPCS[nid]
+		for g in d.get("goods", []):
+			_err(items.has(String(g[0])), "abitante %s: merce inesistente %s" % [nid, g[0]])
+		for l in d.get("likes", []):
+			_err(items.has(String(l)), "abitante %s: gusto inesistente %s" % [nid, l])
+		for lv in d.get("gifts", {}):
+			_err(items.has(String(d["gifts"][lv][0])), "abitante %s: regalo inesistente %s" % [nid, d["gifts"][lv][0]])
+		for q in d.get("quests", []):
+			for k in (q as Dictionary).get("need", {}):
+				_err(items.has(String(k)), "abitante %s: richiesta di un oggetto inesistente %s" % [nid, k])
+			for k in (q as Dictionary).get("reward", {}):
+				_err(items.has(String(k)), "abitante %s: premio inesistente %s" % [nid, k])
 
 
 func _check_machines() -> void:

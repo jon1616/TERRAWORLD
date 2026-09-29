@@ -14,6 +14,7 @@ func _init(tk: TestKit) -> void:
 func run() -> void:
 	await beauty()
 	await islands()
+	await visitors()
 
 
 ## Voce 227: la bellezza nasce dalle stanze, dai tipi di stanza, dalla felicità degli abitanti; salire dà maestria.
@@ -63,3 +64,23 @@ func islands() -> void:
 		m.world_meta.erase("isole")
 	else:
 		m.world_meta["isole"] = saved
+
+
+## Voce 229: la bellezza apre i visitatori; uno arriva (presente, non salvato tra gli abitanti) e se ne va.
+func visitors() -> void:
+	var vs: Visitors = m.visitors
+	var best0 := int(m.character.stats.get("bellezza_max", 0))
+	m.character.stats["bellezza_max"] = 120
+	var el := vs.eligible()
+	vs.arrive("collezionista")
+	await kit.frames(2)
+	var here: bool = "collezionista" in m.villagers.present()
+	var saved_as_resident: bool = (m.world_meta.get("abitanti", {}) as Dictionary).has("collezionista")
+	vs.leave()
+	await kit.frames(2)
+	var gone: bool = not "collezionista" in m.villagers.present()
+	m.character.stats["bellezza_max"] = best0
+	var ok := "mercante_mondi" in el and "collezionista" in el and not "pellegrino" in el and here and not saved_as_resident and gone
+	print("visitatori: con bellezza 120 %s; il Collezionista arriva %s e se ne va %s" % [str(el), here, gone])
+	if not ok:
+		print("ATTENZIONE: i visitatori non vanno")

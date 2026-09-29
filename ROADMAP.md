@@ -3953,10 +3953,15 @@ giorno una creatura mansueta di una famiglia addomesticabile), della bottega (30
 rimette i minerali ogni giorno), del cielo (500: nuvole, polvere di stelle ogni notte). Le prime due con un ponte di
 passerelle, le altre con una corrente che sale dall'isola grande. `stats.isole` nutre la maestria del Giardino.
 
-## 229. [ ] I visitatori (M)
+## 229. [x] I visitatori (M) — fatto il 29 set 2026
 `VisitorsData`: viandanti che arrivano al Giardino per un giorno, se la bellezza basta (il Mercante dei mondi con merci
 rare che cambiano, il Pellegrino dei Seminatori con una richiesta, il Collezionista che compra trofei e unici, la
 Musicista che fa festa). Dove dormono, che cosa vogliono, che cosa lasciano.
+**Fatto**: `Visitors` (`src/game/visitors.gd`) e quattro visitatori in `NpcData` (`visitor`, `requires.bellezza`): il
+Mercante dei mondi (40: Semi rari, Fiale, Linfa antica), il Collezionista (100: mappe, polvere iridata; ama i trofei), il
+Pellegrino dei Seminatori (150: tavolette, stilo, occhiali; due richieste), la Musicista (250: carillon; arrivando fa
+festa, +5 di affetto a tutti gli abitanti). Ogni giorno del Giardino uno di loro può arrivare (60%) accanto all'Albero e
+resta fino al giorno dopo; non occupa letti. `verifica_dati._check_npcs` controlla merci, gusti, regali e richieste.
 
 ## 230. [ ] Le feste di stagione (M)
 Una festa per stagione nel Giardino (la Fioritura dei semi, la Notte delle lanterne, la Festa del raccolto, il Fuoco

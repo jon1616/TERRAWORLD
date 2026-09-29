@@ -70,8 +70,9 @@ func check() -> String:
 	if beds <= list.size():
 		return ""
 	for nid in NpcData.NPCS:
-		if nid in present() or not _ready_for(String(nid)) or NpcData.NPCS[nid].get("free", false):
-			continue
+		if nid in present() or not _ready_for(String(nid)) or NpcData.NPCS[nid].get("free", false) \
+				or NpcData.NPCS[nid].get("visitor", false):
+			continue                                 # voce 229: i visitatori li porta `Visitors`
 		_spawn(String(nid), hearth)
 		var saved: Dictionary = m.world_meta.get("abitanti", {})
 		saved[nid] = [hearth.x, hearth.y]
@@ -101,6 +102,8 @@ func _ready_for(nid: String) -> bool:
 		return false
 	if req.get("giardino", false) and not m.giardino.active:
 		return false
+	if req.has("bellezza") and int(m.character.stats.get("bellezza_max", 0)) < int(req["bellezza"]):
+		return false                          # voce 229: la bellezza del Giardino
 	if req.has("stat") and int(m.character.stats.get(String(req["stat"]), 0)) < int(req["n"]):
 		return false                          # voce 124: il Pescatore, dopo i primi pesci
 	return true
