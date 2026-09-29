@@ -15,6 +15,7 @@ func run() -> void:
 	await mastery()
 	await techniques()
 	await bounties()
+	await trials()
 
 
 ## Voce 247: una creatura sconfitta con la lancia in mano dà punti alla lancia; al rango 3 la tecnica si apre; il danno
@@ -110,3 +111,37 @@ func bounties() -> void:
 	m.character.bisaccia.remove("scheggia_vigore", maxi(got, 0))
 	m.character.taglie = saved
 	st["guardiani"] = g0
+
+
+## Voce 250: il primo clic destro spiega, il secondo comincia; le ondate crescono (un capo ogni cinque); vinte tutte, il
+## premio e il record.
+func trials() -> void:
+	var tr: Trials = m.trials
+	var st: Dictionary = m.character.stats
+	var rec0 := int(st.get("prova_record", 0))
+	var o: Vector2i = m.player_cell() + Vector2i(-1, 0)
+	m.world.stations[o] = "arena"
+	var first := tr.touch(o) and not tr.active
+	tr.touch(o)
+	var started: bool = tr.active and tr.wave == 1
+	var sizes := []
+	var boss_seen := false
+	for k in Trials.WAVES:
+		sizes.append(tr._list.size())
+		for c in tr._list.duplicate():
+			if is_instance_valid(c) and (c as Creature).ancient != null:
+				boss_seen = true
+			if is_instance_valid(c) and m.fauna.list.has(c):
+				m.fauna.kill_quietly(c)
+		tr._process(0.1)
+	var sh0: int = m.character.bisaccia.count("scheggia_vigore")
+	var won: bool = not tr.active and int(st.get("prova_record", 0)) == Trials.WAVES
+	m.world.stations.erase(o)
+	var ok: bool = first and started and won and boss_seen and int(sizes[Trials.WAVES - 1]) > int(sizes[0])
+	print("prove del Cerchio: cominciata %s; ondate %s; capo %s; vinta %s (record %d)" % [started, str(sizes), boss_seen, won,
+		int(st.get("prova_record", 0))])
+	if not ok:
+		print("ATTENZIONE: le prove del Cerchio non vanno")
+	st["prova_record"] = rec0
+	m.character.bisaccia.remove("scheggia_vigore", Trials.WAVES)
+	m.character.bisaccia.remove("linfa_antica", 3)

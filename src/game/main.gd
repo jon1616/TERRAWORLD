@@ -106,6 +106,7 @@ var atlas: Atlas                       # Roadmap 23: l'Atlante
 var arts: WeaponArts                   # Roadmap 25: la maestria delle armi
 var techniques: Techniques             # Roadmap 25: le tecniche
 var bounties: Bounties                 # Roadmap 25: le taglie
+var trials: Trials                     # Roadmap 25: le prove del Cerchio
 var summons: Summons
 var effects: Effects
 var zones: Zones
@@ -338,6 +339,7 @@ func _build() -> void:
 	arts = _mount(WeaponArts.new())            # Roadmap 25: la maestria delle armi e le tecniche
 	techniques = _mount(Techniques.new())
 	bounties = _mount(Bounties.new())
+	trials = _mount(Trials.new())
 	_mount(PanelButtons.new())                 # voce 101: i pulsanti dei pannelli in basso a sinistra
 	hud.select(character.hotbar)
 	var start := world.spawn

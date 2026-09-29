@@ -4212,9 +4212,14 @@ bioma) e da un vigore; arrivati lì la preda nasce a 22-34 tessere, ancestrale c
 oltre al vigore del mondo. Sconfitta: schegge di vigore (una in più ogni 5 taglie, fino al doppio) e polvere iridata,
 il registro, un'altra taglia. Il **Cacciatore di taglie**, abitante nuovo con le sue richieste. Conteggio «taglie» (40).
 
-## 250. [ ] Le prove del Cerchio (M)
+## 250. [x] Le prove del Cerchio (M) — fatto il 30 set 2026
 Al Cerchio dei Seminatori, oltre ai Guardiani, le prove a ondate: dieci ondate sempre più dure delle creature del
 vigore del mondo, un capo ogni cinque; premio secondo l'ondata raggiunta e il record personale.
+**Fatto**: `Trials` (`src/game/trials.gd`): al Cerchio dei Seminatori, clic destro due volte = dieci ondate delle
+creature comuni dello strato del Cerchio (3, 4, 5… creature, +12% di forza per ondata oltre al vigore del mondo), un
+capo ancestrale alla quinta e alla decima; l'ondata dopo quando la precedente è sconfitta; finisce vincendo, appassendo
+o allontanandosi più di 45 tessere. Premio: schegge di vigore quante le ondate vinte, polvere iridata, Linfa antica
+vincendo tutto; il record personale. Conteggi «prove_ondate» e «prove_vinte».
 
 ## 251. [ ] Il pannello delle arti (P)
 Tasto I: le maestrie delle armi con le tecniche, il registro delle taglie, i record delle prove.
