@@ -38,6 +38,17 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 			return m.portal.plant(c, id)
 		"provetta":
 			return m.sampling.use_vial(id, c)
+		"isolante":
+			# Roadmap 19: una vena isolata non si collega alle vicine di un altro grado
+			if m.veins.toggle_insulation(c):
+				if VeinsData.INSULATED & m.world.vein_at(c.x, c.y):
+					m.character.bisaccia.remove(id, 1)
+					m.hud.toast("Vena isolata: non si collega più alle vene di un altro grado")
+				else:
+					m.character.bisaccia.add(id, 1)
+					m.hud.toast("Isolante tolto")
+				return true
+			return false
 		"dono":
 			return Gifts.absorb(m, id)
 		"richiamo":

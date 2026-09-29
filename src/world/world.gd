@@ -38,6 +38,9 @@ var plats := PackedByteArray()         # passerelle: 1 dove c'è una passerella 
 var tint := PackedByteArray()           # voce 140: i colori delle tinture (4 bit bassi il blocco, 4 alti la parete)
 var build := PackedByteArray()          # voce 128: quale costrutto c'è in una cella (0 = nessuno, vedi `BuildData`)
 var liquid := PackedByteArray()
+## Roadmap 19, voce 191: le vene del Flusso e i fili dell'Impulso (un byte per cella, vedi `VeinsData`). Scavare non
+## le taglia: si tolgono solo con la Pinza.
+var vein := PackedByteArray()
 ## Chiamata quando una tessera cambia (`set_tile`): i liquidi vicini si risvegliano (lo imposta `Liquids`).
 var on_change := Callable()
 var gen_rng: RandomNumberGenerator = null   # il caso del generatore mentre il mondo nasce (casse, vedi `chest_at`)
@@ -62,6 +65,8 @@ func setup(width: int, height: int) -> void:
 	build.fill(0)
 	tint.resize(w * h)
 	tint.fill(0)
+	vein.resize(w * h)
+	vein.fill(0)
 	explored.resize(w * h)
 	explored.fill(0)
 	biomes.resize(w)
@@ -134,6 +139,18 @@ func wall_tint(x: int, y: int) -> int:
 func set_tint(x: int, y: int, block: int, wall: int) -> void:
 	if tint.size() == tiles.size():
 		tint[y * w + x] = (block & 15) | ((wall & 15) << 4)
+
+
+## Voce 191: il byte delle vene e dei fili di una cella (0 fuori dal mondo).
+func vein_at(x: int, y: int) -> int:
+	if x < 0 or y < 0 or x >= w or y >= h or vein.size() != tiles.size():
+		return 0
+	return vein[y * w + x]
+
+
+func set_vein(x: int, y: int, b: int) -> void:
+	if inside(x, y) and vein.size() == tiles.size():
+		vein[y * w + x] = b
 
 
 func build_at(x: int, y: int) -> int:

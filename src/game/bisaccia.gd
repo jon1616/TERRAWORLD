@@ -193,7 +193,8 @@ func swap_with(i: int, held: Dictionary) -> Dictionary:
 ## (attrezzi, armature, accessori, pozioni, materiali…) e poi per nome. I tratti restano ai loro oggetti.
 const SORT_KINDS := ["piccone", "ascia", "spada", "arco", "bastone", "munizione", "elmo", "corazza", "gambali", "guanti",
 	"stivali", "mantello", "amuleto", "anello",
-	"accessorio", "consumabile", "cura", "dono", "purifica", "lanterna", "specchio", "mappa", "richiamo", "stazione",
+	"accessorio", "consumabile", "cura", "dono", "purifica", "lanterna", "specchio", "mappa", "richiamo", "stazione", "pinza",
+	"vena", "filo", "isolante",
 	"torcia", "piattaforma", "seme", "seme_mondo", "blocco", "materiale", "essenza", "trofeo", "reliquia", "ricordo", "provetta", "fiala", "uovo", "creatura", "vasetto", "laccio"]
 
 

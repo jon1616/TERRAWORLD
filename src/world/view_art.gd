@@ -40,7 +40,8 @@ static func get_all() -> Dictionary:
 		_res["stations"] = _stations()            # nel thread principale: possono caricare file
 	if not _res.has("pronte"):
 		# il bordo delle tavole (vedi `_tileset`) si riaccende qui, nel thread principale, a tavole finite
-		for k in ["terrain", "terrain_glow", "misc", "misc_glow", "built", "built_glow", "built_walls"]:
+		for k in ["terrain", "terrain_glow", "misc", "misc_glow", "built", "built_glow", "built_walls", "veins", "veins_glow",
+				"wires"]:
 			((_res[k] as TileSet).get_source(0) as TileSetAtlasSource).use_texture_padding = true
 		_res["pronte"] = true
 	return _res
@@ -57,6 +58,7 @@ static func _prepare() -> Dictionary:
 	var terrain := TerrainPainter.build()
 	var misc := DecorPainter.build()
 	var built := BuildPainter.build()               # voce 128: l'atlante dei costrutti (una riga per costrutto)
+	var veins := VeinPainter.build()                # Roadmap 19: vene del Flusso e fili dell'Impulso
 	var rows := TileDefs.TERRAIN_LAYERS.size()
 	var out := {
 		"terrain": _tileset(ImageTexture.create_from_image(terrain["img"]), 16 * TerrainPainter.VARIANTS, rows),
@@ -67,6 +69,9 @@ static func _prepare() -> Dictionary:
 		"built_glow": _tileset(ImageTexture.create_from_image(built["glow"]), BuildPainter.COLS, BuildData.kinds().size()),
 		"built_walls": _tileset(ImageTexture.create_from_image(BuildPainter.walls()), BuildPainter.WALL_VARIANTS,
 			BuildData.MATERIALS.size()),
+		"veins": _tileset(ImageTexture.create_from_image(veins["img"]), VeinPainter.COLS, 4),
+		"veins_glow": _tileset(ImageTexture.create_from_image(veins["glow"]), VeinPainter.COLS, 4),
+		"wires": _tileset(ImageTexture.create_from_image(veins["wires"]), VeinPainter.COLS, 4),
 	}
 	return out
 

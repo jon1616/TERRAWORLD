@@ -419,6 +419,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsHazards.new(kit).run()
 		"combattimento":
 			await TestsCombat.new(kit).run()
+		"energia":
+			await TestsEnergy.new(kit).run()         # Roadmap 19: la Linfa che scorre
 		"arena":
 			await TestsArena.new(kit).run()          # voce 180: il bot in arena (una misura, non nel giro)
 		"tratti":

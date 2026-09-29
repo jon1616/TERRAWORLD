@@ -81,6 +81,7 @@ static func save(w: World, id: String, meta: Dictionary) -> Error:
 		"w": w.w, "h": w.h, "tiles": w.tiles, "walls": w.walls, "decor": w.decor, "surface": w.surface,
 		"torches": torches, "trees": trees, "saplings": saplings, "stations": stations, "stazioni_v": 3, "plats": w.plats,
 		"chests": chests, "explored": w.explored, "biomes": w.biomes, "crops": crops, "liquid": w.liquid, "build": w.build, "tint": w.tint,
+		"vein": w.vein,
 	}
 	var raw := var_to_bytes(data)
 	var out := MAGIC.to_ascii_buffer()
@@ -170,6 +171,8 @@ static func _decode(bytes: PackedByteArray) -> World:
 		w.build = data["build"]                    # voce 128: i costrutti
 	if data.has("tint") and (data["tint"] as PackedByteArray).size() == w.w * w.h:
 		w.tint = data["tint"]                      # voce 140: i colori
+	if data.has("vein") and (data["vein"] as PackedByteArray).size() == w.w * w.h:
+		w.vein = data["vein"]                      # Roadmap 19: vene e fili (i mondi di prima: nessuna)
 	if data.has("liquid") and (data["liquid"] as PackedByteArray).size() == w.w * w.h:
 		w.liquid = data["liquid"]                  # voce 73 (i mondi di prima: nessun liquido)
 	var saplings: PackedInt32Array = data.get("saplings", PackedInt32Array())

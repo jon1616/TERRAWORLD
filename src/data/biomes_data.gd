@@ -98,6 +98,7 @@ const PACK_FILES := [
 	preload("res://src/data/sky_pack.gd"),                 # Roadmap 16: gli oggetti del cielo
 	preload("res://src/data/bestiary/cielo.gd"),           # voce 160: le creature del cielo (tools/gen_bestiario.py)
 	preload("res://src/data/language_pack.gd"),            # Roadmap 17, voce 176: le ricette scritte nella lingua
+	preload("res://src/data/energy_pack.gd"),              # Roadmap 19: la rete della Linfa (vene, fili, macchine)
 ]
 
 static var BIOMES: Array = _load()

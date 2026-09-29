@@ -32,9 +32,9 @@ const CATEGORIES := [
 	["nulla", "Niente (cassa chiusa)"],
 ]
 const KINDS := {
-	"costruzione": ["blocco", "piattaforma", "parete", "torcia", "stazione"],
+	"costruzione": ["blocco", "piattaforma", "parete", "torcia", "stazione", "vena", "filo", "isolante"],
 	"equipaggiamento": ["piccone", "ascia", "spada", "arco", "bastone", "munizione", "elmo", "corazza", "gambali", "guanti", "stivali", "mantello", "amuleto", "anello",
-		"accessorio", "rampino", "esplosivo", "ricurvo", "giavellotto", "martello", "annaffiatoio", "lanterna",
+		"accessorio", "rampino", "esplosivo", "ricurvo", "giavellotto", "martello", "annaffiatoio", "lanterna", "pinza",
 		"evocatore", "specchio"],
 	"pozioni": ["consumabile", "cura", "dono"],
 	"semi": ["seme", "seme_mondo", "coltura", "purifica", "fiala", "provetta"],

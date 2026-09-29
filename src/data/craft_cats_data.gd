@@ -16,6 +16,7 @@ const CATS := [
 	["costruzione", "Costruzione", Color("#7ed67a"), ["blocco", "piattaforma", "parete", "torcia", "stazione"]],
 	["giardino", "Giardino e mandria", Color("#5ee0c8"), ["seme", "coltura", "seme_mondo", "fiala", "provetta", "uovo",
 		"vasetto", "laccio", "creatura"]],
+	["rete", "Linfa e macchine", Color("#8ef0e8"), ["pinza", "vena", "filo", "isolante"]],   # Roadmap 19
 	["altro", "Altro", Color("#a0b4b0"), []],
 ]
 const WORK := Color("#ffd24a")         # le lavorazioni del Maglio e del Telaio (tratti, innesti, fasce)
@@ -27,10 +28,12 @@ static var _of := {}
 static func of(id: String) -> int:
 	if _of.has(id):
 		return _of[id]
-	var kind := String(ItemsData.get_item(id).get("kind", ""))
+	var it := ItemsData.get_item(id)
+	var kind := String(it.get("kind", ""))
 	var k := CATS.size() - 1
 	for i in CATS.size():
-		if kind in CATS[i][3]:
+		# Roadmap 19: le macchine sono stazioni, ma stanno con la rete («cat»: "rete")
+		if kind in CATS[i][3] or String(it.get("cat", "")) == String(CATS[i][0]):
 			k = i
 			break
 	_of[id] = k

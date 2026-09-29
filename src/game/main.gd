@@ -69,6 +69,7 @@ var senses: Senses                     # voce 129: ciò che le creature sentono
 var wiles: Wiles                       # voce 130: le astuzie delle creature nel mondo
 var tactics: Tactics                   # voce 131: le tattiche di gruppo
 var builder: BuilderTools              # voce 140: gli strumenti del costruttore
+var veins: Veins                       # Roadmap 19: la Pinza delle vene
 var rooms: Rooms                       # voce 142: le stanze
 var homes: Homes                       # voce 143: le case degli abitanti
 var lords: Lords                       # voce 135: i Signori dei luoghi
@@ -314,6 +315,7 @@ func _build() -> void:
 	tides = _mount(Tides.new())                # voce 137: le maree del mondo
 	study = _mount(Study.new())                # voce 138: studiare le creature
 	dwellers = _mount(Dwellers.new())          # voce 146: chi abita le costruzioni
+	veins = _mount(Veins.new())                # Roadmap 19: la Pinza delle vene
 	_mount(PanelButtons.new())                 # voce 101: i pulsanti dei pannelli in basso a sinistra
 	hud.select(character.hotbar)
 	var start := world.spawn

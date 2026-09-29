@@ -25,7 +25,9 @@ const TEAL := Color("#2f7a70")
 const MUTED := Color("#6a8a84")
 const TEXT := Color("#dcefe8")
 const BG := Color("#0a1211")
-const WORK_CAT := 10                   # l'indice della categoria «Lavorazioni»
+## L'indice della categoria «Lavorazioni»: dopo «Tutto» e quelle di `CraftCatsData` (si conta: una categoria nuova
+## spostava il numero scritto a mano, Roadmap 19).
+static var WORK_CAT: int = CraftCatsData.CATS.size() + 1
 const WARM_PER_FRAME := 4
 ## Le categorie: «Tutto», quelle di `CraftCatsData`, «Lavorazioni».
 static var CATS: Array = _tabs()

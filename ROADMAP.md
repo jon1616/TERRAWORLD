@@ -3390,12 +3390,18 @@ semplice, che regge i thread); `World.stations_rev()` sale a ogni cambio (anche 
 leggono trappole, farm e fonti; `stations_changed()` per un cambio che deve valere nello stesso fotogramma (le fasi
 dell'Albero-Madre).
 
-## 191. [ ] Lo strato delle vene (M)
+## 191. [x] Lo strato delle vene (M) — fatto il 29 set 2026
 `World.vein` (un byte per cella: grado del Flusso 0-4 nei bit 0-2, isolata nel bit 3, i quattro fili nei bit 4-7),
 salvataggio in `mondo.bin`, `VeinsData`, `VeinPainter` (radici curve con la maschera dei vicini, fili sottili), due strati
 disegnati nei blocchi di `WorldView`, la **Pinza delle vene** (posa, toglie, linea tenendo premuto, grado e colore) e
 l'**Occhio delle vene**.
 **Pronto quando**: la prova posa e toglie vene e fili, li vede nella foto, li salva e li ricarica uguali.
+**Fatto**: `World.vein` (salvato in `mondo.bin`; i mondi di prima restano senza), `VeinsData` (4 gradi, 4 fili, `joins`),
+`VeinPainter` (radici curve con il bordo scuro, anima luminosa, fili sui loro binari), tre strati nei blocchi di
+`WorldView` (vene a z −8, bagliore a z −7 con uno shader che fa correre un'onda di luce, fili a z 2 visibili con la
+Pinza o l'opzione «Mostra sempre i fili»), `Veins` (la Pinza: linea al rilascio, clic destro riprende, Maiusc+rotella il
+modo, portata 26 tessere), il pacchetto `energy_pack.gd` (Pinza, vene, fili, isolante di gelatina e ricette), la categoria
+«Linfa e macchine» in Creare (e «Lavorazioni» ora contata, non scritta a mano). Prove `--solo=energia` (foto 230_vene).
 
 ## 192. [ ] Le reti e il Flusso (G)
 `EnergyGraph` (reti per visita, macchine attaccate), `EnergySolver` (produzione, domanda, riserve, priorità, portata

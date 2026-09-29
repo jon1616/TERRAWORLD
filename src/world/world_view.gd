@@ -18,6 +18,24 @@ var ts_misc_glow: TileSet
 var ts_built: TileSet                   # voce 128: i costrutti (un atlante a parte, `BuildPainter`)
 var ts_built_glow: TileSet
 var ts_built_walls: TileSet
+var ts_veins: TileSet                   # Roadmap 19: le vene (`VeinPainter`), la loro anima luminosa e i fili
+var ts_veins_glow: TileSet
+var ts_wires: TileSet
+var flow_check := Callable()           # (cella) -> la Linfa scorre lì? (lo imposta `Energy`)
+var show_wires := false                # i fili dell'Impulso si vedono solo con la Pinza o l'Occhio delle vene
+var _vein_mat: ShaderMaterial          # il bagliore delle vene che pulsa lungo il mondo
+## Voce 191: l'anima delle vene pulsa: un'onda di luce corre lungo il mondo (le reti ferme la spengono più avanti,
+## voce 192, disegnando il bagliore solo dove la Linfa scorre).
+const VEIN_SHADER := """
+shader_type canvas_item;
+varying vec2 wpos;
+void vertex() { wpos = (MODEL_MATRIX * vec4(VERTEX, 0.0, 1.0)).xy; }
+void fragment() {
+	vec4 c = texture(TEXTURE, UV);
+	float wave = 0.55 + 0.45 * sin(TIME * 3.2 - (wpos.x + wpos.y) * 0.06);
+	COLOR = vec4(c.rgb * (0.9 + 0.8 * wave), c.a * (0.35 + 0.65 * wave));
+}
+"""
 var props: ViewProps                  # alberi, stazioni, torce, scintille (vedi `view_props.gd`)
 var chunks := {}                      # Vector2i -> Node2D
 var _queue: Array[Vector2i] = []
@@ -37,6 +55,13 @@ func setup(w: World) -> void:
 	ts_built = art["built"]
 	ts_built_glow = art["built_glow"]
 	ts_built_walls = art["built_walls"]
+	ts_veins = art["veins"]
+	ts_veins_glow = art["veins_glow"]
+	ts_wires = art["wires"]
+	var sh := Shader.new()
+	sh.code = VEIN_SHADER
+	_vein_mat = ShaderMaterial.new()
+	_vein_mat.shader = sh
 	for li in TileDefs.TERRAIN_LAYERS.size():
 		var L: Dictionary = TileDefs.TERRAIN_LAYERS[li]
 		var m := PackedByteArray()
@@ -108,6 +133,20 @@ func _build_chunk(k: Vector2i) -> void:
 	var built := _layer(node, ts_built, 0, Vector2.ZERO)          # voce 128: i costrutti, squadrati
 	var built_g := _layer(node, ts_built_glow, 25, Vector2.ZERO)
 	node.set_meta("built", [built, built_g, bwalls])
+	# Roadmap 19: le vene davanti alle pareti e dietro al terreno (una vena nella roccia si vede scavando), i fili sopra
+	var veins := _layer(node, ts_veins, -8, Vector2.ZERO)
+	var veins_g := _layer(node, ts_veins_glow, -7, Vector2.ZERO)
+	veins_g.material = _vein_mat
+	var wires := Node2D.new()
+	wires.z_index = 2
+	wires.visible = show_wires
+	node.add_child(wires)
+	var wl: Array[TileMapLayer] = []
+	for _wi in 4:
+		var lw := _layer(wires, ts_wires, 0, Vector2.ZERO)
+		lw.z_as_relative = true
+		wl.append(lw)
+	node.set_meta("veins", [veins, veins_g, wires, wl])
 	node.set_meta("tints", {})                                  # voce 140: strati colorati, fatti al bisogno
 	var fx := Node2D.new()
 	fx.z_index = 26
@@ -122,6 +161,8 @@ func _build_chunk(k: Vector2i) -> void:
 	var bld := world.build
 	var wls := world.walls
 	var has_build := bld.size() == world.tiles.size()
+	var vn := world.vein
+	var has_vein := vn.size() == world.tiles.size()
 	for y in range(y0, mini(y0 + World.CHUNK, world.h + 1)):
 		for x in range(x0, mini(x0 + World.CHUNK, world.w + 1)):
 			_paint_dual(Vector2i(x, y), terrain, glow_t)
@@ -130,6 +171,8 @@ func _build_chunk(k: Vector2i) -> void:
 				var i := y * world.w + x
 				if has_build and (bld[i] != 0 or wls[i] >= BuildData.WALL_BASE):
 					_paint_built(Vector2i(x, y), node)     # solo dove c'è qualcosa di costruito (voce 128)
+				if has_vein and vn[i] != 0:
+					_paint_vein(Vector2i(x, y), node)
 	node.set_meta("trees", trees)
 	props.fill_chunk(node, k)
 
@@ -230,6 +273,68 @@ func _paint_built(c: Vector2i, node: Node2D) -> void:
 		bwalls.set_cell(c, 0, BuildPainter.wall_coords(wl, c.x, c.y))
 	else:
 		bwalls.erase_cell(c)
+
+
+## Roadmap 19: la vena e i fili di una cella (la forma secondo i vicini collegati).
+func _paint_vein(c: Vector2i, node: Node2D) -> void:
+	var lay: Array = node.get_meta("veins")
+	var veins: TileMapLayer = lay[0]
+	var glow: TileMapLayer = lay[1]
+	var wl: Array = lay[3]
+	var b := world.vein_at(c.x, c.y)
+	var t := VeinsData.tier(b)
+	if t > 0:
+		var mask := 0
+		for d in 4:
+			var q: Vector2i = c + [Vector2i(0, -1), Vector2i(1, 0), Vector2i(0, 1), Vector2i(-1, 0)][d]
+			if VeinsData.joins(b, world.vein_at(q.x, q.y)):
+				mask |= 1 << d
+		veins.set_cell(c, 0, VeinPainter.coords(t - 1, mask))
+		if flowing(c):
+			glow.set_cell(c, 0, VeinPainter.coords(t - 1, mask))
+		else:
+			glow.erase_cell(c)
+	else:
+		veins.erase_cell(c)
+		glow.erase_cell(c)
+	for k in 4:
+		var lw: TileMapLayer = wl[k]
+		if VeinsData.has_wire(b, k):
+			var m2 := 0
+			for d in 4:
+				var q2: Vector2i = c + [Vector2i(0, -1), Vector2i(1, 0), Vector2i(0, 1), Vector2i(-1, 0)][d]
+				if VeinsData.has_wire(world.vein_at(q2.x, q2.y), k):
+					m2 |= 1 << d
+			lw.set_cell(c, 0, VeinPainter.coords(k, m2))
+		else:
+			lw.erase_cell(c)
+
+
+## La Linfa scorre in questa cella? (La rete lo dice con `flow_check`; senza una rete, sempre.)
+func flowing(c: Vector2i) -> bool:
+	return true if not flow_check.is_valid() else bool(flow_check.call(c))
+
+
+## Ridisegna la vena di una cella e dei suoi quattro vicini (dopo averla posata o tolta).
+func refresh_vein(c: Vector2i) -> void:
+	for d in [Vector2i(0, 0), Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
+		var q: Vector2i = c + d
+		if not world.inside(q.x, q.y):
+			continue
+		var node: Node2D = chunks.get(World.chunk_of(q))
+		if node and node.has_meta("veins"):
+			_paint_vein(q, node)
+
+
+## Mostra o nasconde i fili dell'Impulso in tutti i blocchi.
+func set_show_wires(on: bool) -> void:
+	if on == show_wires:
+		return
+	show_wires = on
+	for k in chunks:
+		var node: Node2D = chunks[k]
+		if node.has_meta("veins"):
+			(node.get_meta("veins")[2] as Node2D).visible = on
 
 
 ## Voce 140: lo strato colorato di un blocco (uno per colore, fatto la prima volta che serve).
