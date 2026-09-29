@@ -23,6 +23,7 @@ const ACTIONS := [
 	["quaderno", "Il Quaderno delle parole (la lingua dei Seminatori)", [KEY_U], "Pannelli"],
 	["pilastri", "Il Libro dei pilastri (i gradi della maestria)", [KEY_P], "Pannelli"],
 	["atlante", "L'Atlante (i mondi, le loro stelle e ciò che manca)", [KEY_O], "Pannelli"],
+	["tecnica", "La tecnica dell'arma in mano (si apre con la sua maestria)", [KEY_X], "Azioni"],
 	["vista", "Potere: Vista della Linfa", [KEY_V], "Poteri"],
 	["ponte", "Potere: Radici-ponte", [KEY_F], "Poteri"],
 	["confronta", "Confronta nei suggerimenti", [KEY_SHIFT], "Altro"],

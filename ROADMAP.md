@@ -4190,11 +4190,17 @@ balestra, verga; il rango r vuole 20·r² punti, il 10 a 2000; +2% di danno per 
 alla sua forma (`stats["arte_<forma>"]`); il danno in più passa da `Combat._boon`; avviso e diario a ogni rango,
 conteggio «ranghi_arma» per il combattimento. Prova nel gruppo nuovo `arti`.
 
-## 248. [ ] Le tecniche (G)
+## 248. [x] Le tecniche (G) — fatto il 30 set 2026
 Una tecnica per ogni forma d'arma (tasto «tecnica»): il fendente rotante della spada, l'affondo del pugnale, il colpo
 pesante dello spadone, la carica della lancia, il terremoto del martello, la mietitura del falcione, il laccio della
 frusta, la pioggia di frecce, il colpo perforante della balestra, la saetta caricata della verga. Costano Linfa e hanno
 un'attesa; i ranghi alti le rendono più forti. Tutte scritte come dati (forma, area, danno, spinta, scatto).
+**Fatto**: `ArtsData.TECHS` (dieci tecniche, otto modi: giro, affondo, pesante, terremoto, laccio, raffica, trafiggi,
+saetta; danno × 1,2-3,8 secondo il grado, Linfa 3-8, attesa 3-8 s) e `Techniques` (`src/game/techniques.gd`, tasto
+«tecnica», X): il danno è quello dell'arma in mano con tutti i suoi moltiplicatori; lo scatto usa quello della
+schivata (`Player.dash_t`), i dardi `Projectiles.fire` senza consumare frecce, lo stordimento `Creature.stun`.
+Conteggio «tecniche». Nel modello dei numeri (`FightModel`) le tecniche non ci sono: sono un vantaggio in più per chi
+cura la maestria.
 
 ## 249. [ ] Le taglie (M)
 Il Cacciatore di taglie (un abitante nuovo) propone tre cacce a una creatura con un nome, più forte, con un tratto
