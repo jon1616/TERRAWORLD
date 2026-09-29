@@ -3982,10 +3982,15 @@ abitanti che vivono nel Giardino, dopo le loro richieste di sempre. Ogni capitol
 (`LorePanel.show_text`); a storia finita l'abitante vende una merce in più (`FINAL`). `NpcBonds.quest` continua la
 catena con i capitoli (chiusi finché l'affetto non basta), `stats.capitoli` nutre la maestria degli abitanti.
 
-## 232. [ ] I mestieri e le botteghe (M)
+## 232. [x] I mestieri e le botteghe (M) — fatto il 29 set 2026
 Un abitante con un mestiere lavora per te: gli si lasciano i materiali, dopo un tempo (anche mentre sei via) si
 ritirano i prodotti (esche, vene, lingotti, cibo, pozioni, semi). Il tempo e la resa migliorano con l'affetto e la
 casa. `NpcData` campo `craft`.
+**Fatto**: `NpcWork` (`src/game/npc_work.gd`): quattordici botteghe (torce, pozioni, lingotti a una resa migliore del
+Baccello, semi, provette, vasetti, esche, vene, marmellate, tavolette, fili, Linfa antica dai cristalli, mappe), fino a 5
+volte insieme, con l'orologio vero (vanno avanti anche a gioco chiuso), −8% di tempo per livello d'affetto. Il bottone
+«Bottega» nel commercio (`TradePanel.work`: lascia, dice quanto manca, ritira; il suggerimento elenca i lavori).
+`verifica_dati._check_work`.
 
 ## 233. [ ] Le grandi opere del Giardino (M)
 Quattro opere enormi (la Torre dell'Albero, la Serra grande, la Fontana dei mondi, l'Arco delle Aiuole) da costruire a

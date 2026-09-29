@@ -208,6 +208,7 @@ func _init() -> void:
 	_check_mastery(items)
 	_check_npcs(items)
 	_check_stories(items)
+	_check_work(items)
 	print("ESITO: %d errori, %d avvisi" % [errors, warnings])
 	quit()
 
@@ -537,6 +538,15 @@ func _check_npcs(items: Dictionary) -> void:
 				_err(items.has(String(k)), "abitante %s: richiesta di un oggetto inesistente %s" % [nid, k])
 			for k in (q as Dictionary).get("reward", {}):
 				_err(items.has(String(k)), "abitante %s: premio inesistente %s" % [nid, k])
+
+
+func _check_work(items: Dictionary) -> void:
+	for nid in NpcWork.JOBS:
+		_err(NpcData.NPCS.has(nid), "bottega di un abitante inesistente %s" % nid)
+		for jb in NpcWork.JOBS[nid]:
+			_err(items.has(String(jb[1])), "bottega di %s: prodotto inesistente %s" % [nid, jb[1]])
+			for it in jb[0]:
+				_err(items.has(String(it)), "bottega di %s: materiale inesistente %s" % [nid, it])
 
 
 func _check_stories(items: Dictionary) -> void:

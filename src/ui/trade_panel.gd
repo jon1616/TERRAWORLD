@@ -18,6 +18,7 @@ var m: Node2D                           # voce 65: la scena (personaggio, Albero
 var _quest: Label
 var _deliver: Button
 var _gift: Button
+var _work: Button                       # voce 232: la bottega dell'abitante (`NpcWork`)
 var sold := 0
 var _portrait: TextureRect
 const PORTRAIT := 112.0                 # voce 102: il ritratto (56 px) ingrandito due volte
@@ -94,6 +95,12 @@ func setup(p: BisacciaPanel) -> void:
 	_gift.tooltip_text = "Un dono che gli piace fa crescere l'affetto molto di più. Con l'affetto: sconti e regali"
 	_gift.pressed.connect(gift_held)
 	add_child(_gift)
+	_work = Button.new()
+	_work.position = Vector2(x0 + w - 628, y0 - 116)
+	_work.size = Vector2(150, 28)
+	_work.add_theme_font_size_override("font_size", 12)
+	_work.pressed.connect(work)
+	add_child(_work)
 	for c in COLS:
 		var s := SlotView.new()
 		s.index = c
@@ -160,6 +167,10 @@ func _refresh() -> void:
 	_greet.size.x = w - dx
 	_quest.size.x = w - dx
 	var bonds := m != null and nd.has("quests")
+	_work.visible = m != null and NpcWork.has_shop(npc)
+	if _work.visible:
+		_work.text = NpcWork.label(m.world_meta, m.character, npc)
+		_work.tooltip_text = NpcWork.describe(m.character, npc)
 	_quest.visible = bonds
 	_deliver.visible = bonds
 	_gift.visible = bonds
@@ -304,6 +315,31 @@ func deliver() -> bool:
 	m.hud.toast("%s è contento: la richiesta è fatta" % NpcData.NPCS[npc]["name"])
 	_refresh()
 	return true
+
+
+## Voce 232: la bottega: ritira se è pronto, altrimenti lascia i materiali del primo lavoro che si può fare.
+func work() -> String:
+	if m == null or npc == "":
+		return ""
+	var got := NpcWork.collect(m.world_meta, npc)
+	var msg := ""
+	if not got.is_empty():
+		for id in got:
+			var rest := panel.bisaccia.add(String(id), int(got[id]))
+			if rest > 0:
+				m.drops.spawn(String(id), rest, m.player.position)
+			msg = "Ritirato: %d %s" % [int(got[id]), ItemsData.get_item(String(id)).get("name", id)]
+		m.objectives.bump("botteghe")
+		m.sfx.play("dono")
+	elif NpcWork.left(m.world_meta, npc) < 0.0:
+		msg = NpcWork.start(m.world_meta, m.character, npc)
+		if msg == "":
+			msg = "Non hai i materiali per la bottega (vedi il suggerimento del bottone)"
+	else:
+		msg = "Il lavoro non è ancora pronto"
+	m.hud.toast(msg)
+	_refresh()
+	return msg
 
 
 ## Dona la pila in mano (quella presa con il clic nella Bisaccia).

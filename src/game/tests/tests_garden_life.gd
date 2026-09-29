@@ -17,6 +17,7 @@ func run() -> void:
 	await visitors()
 	await festival()
 	await stories()
+	await workshop()
 
 
 ## Voce 227: la bellezza nasce dalle stanze, dai tipi di stanza, dalla felicità degli abitanti; salire dà maestria.
@@ -139,3 +140,22 @@ func stories() -> void:
 		n, locked, rw.has("lumino"), next, final_ok])
 	if not ok:
 		print("ATTENZIONE: le storie degli abitanti non vanno")
+
+
+## Voce 232: la bottega del Forgiatore: lascia i minerali, il tempo passa (qui: si sposta la fine), si ritirano i lingotti.
+func workshop() -> void:
+	var meta: Dictionary = m.world_meta
+	var ch: Character = m.character
+	var ing0: int = ch.bisaccia.count("lingotto_legnoferro")
+	ch.bisaccia.add("minerale_legnoferro", 12)
+	var msg := NpcWork.start(meta, ch, "forgiatore")
+	var waiting: bool = NpcWork.left(meta, "forgiatore") > 0.0
+	var early := NpcWork.collect(meta, "forgiatore")
+	(meta["botteghe"]["forgiatore"] as Dictionary)["fine"] = Time.get_unix_time_from_system() - 1.0
+	var got := NpcWork.collect(meta, "forgiatore")
+	var n := int(got.get("lingotto_legnoferro", 0))
+	var ok := msg != "" and waiting and early.is_empty() and n == 6
+	print("botteghe: «%s»; aspetta %s; ritirati %d lingotti" % [msg, waiting, n])
+	if not ok:
+		print("ATTENZIONE: le botteghe degli abitanti non vanno")
+	ch.bisaccia.remove("lingotto_legnoferro", maxi(ch.bisaccia.count("lingotto_legnoferro") - ing0, 0))
