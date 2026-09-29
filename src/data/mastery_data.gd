@@ -26,7 +26,7 @@ const PILLARS := {
 	"esplorazione": {"name": "L'esplorazione", "color": Color("#5cf0e0"), "icon": ["mappa", "legno"], "hours": 90,
 		"desc": "I mondi nati dai Semi, le firme, i segreti, il cielo e il profondo.",
 		"hint": "pianta un Seme nuovo, cerca la firma e i segreti del mondo"},
-	"combattimento": {"name": "Il combattimento", "color": Color("#ff8a6a"), "icon": ["spada", "legnoferro"], "hours": 60,
+	"combattimento": {"name": "Il combattimento", "color": Color("#ff8a6a"), "icon": ["spada", "legnoferro"], "hours": 75,
 		"desc": "Le creature, i Guardiani, i Signori, le maree e le sfide.",
 		"hint": "sconfiggi un Signore, respingi una marea, affronta un Guardiano"},
 	"giardino": {"name": "Il Giardino e la base", "color": Color("#8ef070"), "icon": ["mattoni", "legno"], "hours": 50,

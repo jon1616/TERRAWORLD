@@ -215,6 +215,10 @@ func _variety() -> void:
 			works += 1
 		else:
 			projects += 1
+	var rare_coats := 0                    # (i conteggi dai dati: gli script di gioco non si caricano senza finestra)
+	for c in BreedData.COATS:
+		if BreedData.is_rare(c):
+			rare_coats += 1
 	var rows := {
 		"giardino": [["isole", GardenIslandsData.ISLANDS.size(), 90.0], ["grandi opere", works, 150.0],
 			["progetti dei Seminatori", projects, 25.0], ["feste", FestivalsData.FESTIVALS.size(), 40.0]],
@@ -224,8 +228,12 @@ func _variety() -> void:
 			["accessori dei ricordi", WondersData.GEAR.size(), 30.0], ["attrezzi", ExplorerData.ITEMS.size(), 10.0],
 			["firme dei mondi", SignaturesData.SIGNATURES.size(), 20.0]],
 		"mandria": [["famiglie da addomesticare", HerdData.TAME.size(), 25.0], ["stirpi pure (una per famiglia)", HerdData.TAME.size(), 60.0],
-			["manti della collezione", Lineage.total(), 8.0], ["medaglie delle fiere", Fairs.CATS.size() * 3, 20.0],
-			["lavori", HerdJobs.JOBS.size(), 15.0]],
+			["manti della collezione", rare_coats * HerdData.TAME.size(), 8.0], ["medaglie delle fiere (4 categorie × 3)", 12, 20.0],
+			["lavori (aratura, cerca, canto)", 3, 15.0]],
+		"combattimento": [["maestrie delle armi fino al 10", ArtsData.FORMS.size(), 150.0], ["gradi delle tecniche", ArtsData.FORMS.size() * 3, 5.0],
+			["Signori", BiomesData.pack("creatures").keys().filter(func(k: String) -> bool: return BiomesData.pack("creatures")[k].has("lord")).size(), 25.0],
+			["maree", TidesData.TIDES.size(), 35.0], ["sfide", ChallengesData.LIST.size(), 30.0], ["le dieci ondate del Cerchio", 1, 90.0],
+			["taglie (le prime trenta)", 30, 20.0]],
 		"orto": [["colture", CropsData.CROPS.size() - OrchardData.VARIETIES.size(), 20.0], ["varietà da incrocio", OrchardData.VARIETIES.size(), 45.0],
 			["semi scelti", CropsData.CROPS.size(), 10.0], ["piatti del Ricettario", CookingData.DISHES.size(), 12.0]],
 	}

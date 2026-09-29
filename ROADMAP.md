@@ -14,7 +14,8 @@
   **Fatta la Roadmap 22 «Il Giardino vivo»** (voci 227-234): bellezza, isole, visitatori, feste, storie e botteghe
   degli abitanti, grandi opere. **Fatta la Roadmap 23 «L'Atlante»** (voci 235-240): stelle dei mondi, pagine dei biomi,
   meraviglie, spedizioni, attrezzi dell'esploratore. **Fatta la Roadmap 24 «Stirpi e semi»** (voci 241-246): stirpi,
-  fiere e lavori della mandria; qualità, incroci e cucina dell'orto.
+  fiere e lavori della mandria; qualità, incroci e cucina dell'orto. **Fatta la Roadmap 25 «Le arti»** (voci 247-252):
+  maestrie e tecniche delle armi, taglie, prove del Cerchio. Il modello dà ~503 ore al giocatore medio.
 - **Fatta la Roadmap 19 «La Linfa che scorre»** (voci 190-213, 29 set 2026, in autonomia): vene del Flusso e fili
   dell'Impulso, 64 macchine (sorgenti, riserve, macchine che lavorano, sensori, nodi della logica), le Centrali dei
   Seminatori, la Tempesta di Linfa, Succhiavena e Lucciole, la Tessitrice, il primo circuito guidato. Resoconto in fondo
@@ -4226,8 +4227,19 @@ Tasto I: le maestrie delle armi con le tecniche, il registro delle taglie, i rec
 **Fatto**: `ArtsPanel` (`src/ui/arts_panel.gd`, tasto I, montato da `WeaponArts`): le dieci maestrie con il rango e la
 barra, la tecnica con i suoi tre gradi, le taglie aperte (dove, tratto) e il registro, il record delle prove. Foto 254.
 
-## 252. [ ] Enciclopedia, misura e resoconto (P)
+## 252. [x] Enciclopedia, misura e resoconto (P) — fatto il 30 set 2026
 Capitoli, consigli, `tools/durata.gd` (il pilastro del combattimento e la sua varietà), giro intero, GitHub.
+**Fatto**: `EncyArtsData` (Le arti: maestrie e tecniche; Taglie e prove del Cerchio), due consigli (la prima tecnica,
+le taglie), `tools/durata.gd` con la varietà del combattimento (59 ore di cose diverse). Il pilastro del combattimento
+sale da 60 a 75 ore.
+
+### Resoconto della Roadmap 25 (30 set 2026)
+Combattere con una lancia ora è diverso che con un martello: ogni forma d'arma ha una **maestria** a dieci ranghi (danno
+in più con quella forma) e una **tecnica** sua (tasto X) che si apre al rango 3 e si rinforza al 6 e al 9. Il
+**Cacciatore di taglie** propone sempre tre prede con un nome, un tratto antico e un posto preciso; al **Cerchio** ci sono
+le prove a dieci ondate con i capi e il record. Tutto nel pannello delle arti (tasto I). Tutto al grado 10: ~449 ore,
+**503 per il giocatore medio**: l'obiettivo delle 500 ore è raggiunto nel modello; le Roadmap 26-28 aggiungono varietà
+ai pilastri che ne hanno meno (misteri, pesca e rete, la storia).
 
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».

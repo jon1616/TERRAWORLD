@@ -766,6 +766,15 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     semi scelti `scelto_<coltura>` riconosciuti da `CropsData.of_seed`; 12 varietà unite a `CropsData.CROPS`).
     `CookingData` (30 piatti, campo `boons` letto da `PlayerActions.drink`; `ricettario` in `Crafting._discovered`).
   - Prove: gruppo «stirpi» (`TestsLineage`). Enciclopedia: `EncyBreedData`.
+- **Roadmap 25 «Le arti»** (voci 247-252, 30 set 2026; combattimento 75 ore):
+  - `ArtsData` (dieci forme con maestria, ranghi, `TECHS`: le tecniche come dati, otto modi) e `WeaponArts` (punti in
+    `stats["arte_<forma>"]` dalle creature sconfitte con l'arma in mano, `mult_now` letto da `Combat._boon`, `ArtsPanel`
+    tasto I); `Techniques` (tasto X; una funzione `_<modo>` per ogni modo di `TECHS`).
+  - `BountiesData`/`Bounties` (`Character.taglie`, il Cacciatore di taglie in `NpcData`), `Trials` (le prove a ondate
+    al Cerchio «arena»: clic destro due volte).
+  - Prove: gruppo «arti» (`TestsArts`, foto 254). Enciclopedia: `EncyArtsData`.
+  - Gli strumenti senza finestra (`tools/durata.gd`) contano dai **dati**, non dagli script di gioco: questi tirano dentro
+    `Portal` e `Session` e lo strumento non si carica («Compilation failed»).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

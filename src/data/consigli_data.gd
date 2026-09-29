@@ -111,6 +111,11 @@ const LIST := [
 		"text": "Due colture diverse, mature una accanto all'altra, si sono [b]incrociate[/b]: hai il seme di una varietà nuova. Curare le piante (acqua, serra, aratura) dà raccolti migliori e semi scelti."},
 	{"id": "ricettario", "title": "Il Ricettario", "cap": "orto_cucina",
 		"text": "Al [b]Paiolo[/b] ci sono piatti che non avevi mai visto: il Ricettario si apre man mano che trovi gli ingredienti. Ogni piatto ha effetti suoi, per ogni viaggio."},
+	# Roadmap 25 «Le arti»
+	{"id": "tecnica", "title": "Una tecnica", "cap": "arti",
+		"text": "La maestria della tua arma è arrivata al rango 3: si è aperta la sua [b]tecnica[/b] ({tecnica}). Il pannello delle arti ({arti}) mostra tutte le maestrie."},
+	{"id": "taglia", "title": "Le taglie", "cap": "taglie",
+		"text": "È arrivato il [b]Cacciatore di taglie[/b]: tre creature con un nome aspettano in posti precisi. Il pannello delle arti ({arti}) dice dove."},
 ]
 
 

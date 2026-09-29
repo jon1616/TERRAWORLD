@@ -379,3 +379,14 @@ func _c_incrocio() -> bool:
 
 func _c_ricettario() -> bool:
 	return int(m.character.stats.get("raccolti", 0)) >= 5
+
+
+func _c_tecnica() -> bool:
+	for f in ArtsData.FORMS:
+		if int(m.character.stats.get("arte_" + String(f), 0)) >= ArtsData.points_for(int(ArtsData.TECH_RANKS[0])):
+			return true
+	return false
+
+
+func _c_taglia() -> bool:
+	return int(m.character.stats.get("guardiani", 0)) >= 1 and m.get("bounties") != null and not m.bounties.open_list().is_empty()
