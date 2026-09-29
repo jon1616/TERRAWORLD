@@ -126,9 +126,13 @@ func _ready() -> void:
 		var ic := TextureRect.new()
 		ic.texture = st
 		ic.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-		ic.position = Vector2(ex + 8, frame.position.y + 8)
+		ic.position = Vector2(ex + 8, frame.position.y + 10)
 		ic.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		add_child(ic)
+		# la scritta comincia dopo l'icona (29 set 2026: «Scorza 7 (−41% alle ferite)» finiva sotto l'icona)
+		_scorza.position.x = ex + 28
+		_scorza.size.x = ew - 36
+		_scorza.add_theme_font_size_override("font_size", 14)
 	# i set (voce 26): sotto gli accessori, quanti pezzi si indossano e, completo, il bonus
 	_sets = Label.new()
 	_sets.position = Vector2(ex + 2 * (SlotView.SIZE + 12) - 8, frame.position.y + 34 + 2 * (SlotView.SIZE + 12))

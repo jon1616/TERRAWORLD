@@ -6,11 +6,13 @@ extends RefCounted
 
 const S := 16
 const OUT := Color("#050c10")
+## Le tavolozze devono restare lontane tra loro: `tools/icone.gd` + `tools/icone_simili.py` misurano le icone quasi
+## uguali (29 set 2026: stelle blu notte con le luci d'oro, pallidite lilla, tizzonite cremisi, brace giallo-arancio).
 const MATERIALS := {
 	"radicite": ["#5a2414", "#963a22", "#cc6034", "#f8a070"],
 	"legnoferro": ["#3a4250", "#6a7688", "#a2b0c2", "#dce6f2"],
 	"ambra": ["#6a4a0c", "#b0861c", "#eec04a", "#fff2a8"],
-	"brace": ["#5a2a14", "#9a4a22", "#d4783a", "#ffb070"],
+	"brace": ["#601008", "#b02c08", "#ff6a10", "#ffe070"],
 	"cristallo": ["#0a2a36", "#1f8a9a", "#5cc8cc", "#b8f4f0"],
 	"legno": ["#1c1016", "#2e1c26", "#46303a", "#644652", "#86606e"],
 	"humus": ["#34202a", "#4a2e3c", "#62404e", "#7c5262", "#9a6a7a"],
@@ -18,28 +20,28 @@ const MATERIALS := {
 	"muschio": ["#0f3a3a", "#16574f", "#23776a", "#3aa08a", "#72d4b0"],
 	"linfa": ["#5a1024", "#a02040", "#e04a60", "#ff9aa8"],
 	"sem": ["#2c3a3a", "#405656", "#587270", "#74908c", "#9cb6b0"],
-	"nodo": ["#3a3832", "#54524a", "#6e6c60", "#8a887a", "#a8a694"],
+	"nodo": ["#3a3a20", "#5a5a30", "#7e7c40", "#a8a458", "#d0cc80"],
 	"radice": ["#4a2c22", "#6a3e2c", "#8a5638", "#a8704a", "#c89066"],
-	"scisto": ["#263a40", "#34505a", "#446872", "#58848c", "#7aa6aa"],
+	"scisto": ["#1e4048", "#2a6068", "#3e8a8e", "#62b4b0", "#a0e0d8"],
 	"vuotite": ["#261c38", "#34264c", "#463464", "#5c4682", "#9c7ad0"],
 	"lucciola": ["#3a4a10", "#8aa020", "#d8ff70", "#f8ffd0"],
 	"seta": ["#6a6a5e", "#9a9a8a", "#cacabc", "#f4f4ea"],
-	"fungo": ["#6a2a3a", "#a0405a", "#d86a7a", "#ffb0b8"],
+	"fungo": ["#4a2a20", "#7a4a30", "#b07a50", "#e8c098"],
 	"iride": ["#5a3a8a", "#3aa0c8", "#f0c050", "#ffe0f0"],
-	"pallidite": ["#4e4e66", "#8a8aa6", "#c4c4dc", "#f4f4ff"],
-	"tizzonite": ["#4a1010", "#9a2a1a", "#e0582a", "#ffc070"],
-	"brillaluce": ["#2a3a08", "#6a8a10", "#b8e020", "#e8ff70", "#fbffd8"],
+	"pallidite": ["#503a60", "#80609a", "#b490d0", "#ecdcff"],
+	"tizzonite": ["#300810", "#701828", "#b82838", "#ff9070"],
+	"brillaluce": ["#4a3808", "#8a6a10", "#d0b020", "#fff070", "#ffffe0"],
 	"sanguinella": ["#3a0810", "#7a1424", "#c8283c", "#ff6a78", "#ffd0d4"],
 	"lagunite": ["#081a3a", "#12408a", "#2a7ad8", "#78c0ff", "#d8f0ff"],
 	"brina": ["#1c3048", "#2a4a6a", "#44729a", "#7aaed0", "#d0f0ff"],
-	"cenere": ["#3a2a30", "#5a3e44", "#7e565a", "#a8766e", "#e0a888"],
+	"cenere": ["#3a3438", "#5c5458", "#86787c", "#b0a0a0", "#e0d0cc"],
 	"nottilite": ["#1c0a30", "#40186a", "#7a38c0", "#b880ff", "#ecd8ff"],
 	# Roadmap 16: il cielo
 	"cielo": ["#1f5c58", "#2f8a7c", "#58c0a4", "#a8f0d8", "#e8fff6"],
 	"nuvola": ["#6a7a98", "#9aaccc", "#c4d4ec", "#e4eefa", "#ffffff"],
 	"tempesta": ["#1a1e2e", "#2c3248", "#434c68", "#66729a", "#c8d4ff"],
 	"celeste": ["#1a3a5a", "#2a6090", "#4a90c8", "#8ac8f0", "#e0f6ff"],
-	"stelle": ["#1c2450", "#2e3a78", "#6a78c0", "#c8d0ff", "#fffbe0"],
+	"stelle": ["#1a1c48", "#2c3478", "#4c58b0", "#e8c860", "#fff4c0"],
 	"vento": ["#6a5418", "#a08028", "#e0c050", "#fff0a0", "#fffbe8"],
 	"nimbite": ["#34405a", "#5a7090", "#8ea8c8", "#cfe0f4", "#ffffff"],
 	"folgorite": ["#2a2450", "#4a4a9a", "#7a8ae0", "#c0d0ff", "#fffac0"],
@@ -58,29 +60,41 @@ static func of(id: String) -> Image:
 		return FurnitureSeriesArt.icon(String(it["place"]))  # voce 141: gli arredi in serie
 	if int(it.get("wall", 0)) >= BuildData.WALL_BASE:
 		return BuildPainter.wall_icon(int(it["wall"]))
-	var ic: Array = it["icon"]
-	return make(String(ic[0]), String(ic[1]))
+	return IconVariety.of(id, it)                         # icone tutte diverse (29 set 2026)
 
 
 ## C'è una tavolozza per questo materiale? (anche «lega:a:b», voce 52)
 static func has_palette(material: String) -> bool:
-	if material.begins_with("lega:"):
+	if material.begins_with("lega:") or material.begins_with("duo:"):
 		var parts := material.split(":")
 		return parts.size() == 3 and MATERIALS.has(parts[1]) and MATERIALS.has(parts[2])
 	return MATERIALS.has(material)
 
 
 static func pal(material: String) -> Array[Color]:
+	if material.begins_with("duo:"):
+		# 29 set 2026: due materiali in un oggetto (la gemma e la montatura, il gene e la sua categoria)
+		var dp := material.split(":")
+		return duo(pal(dp[1]), pal(dp[2]))
 	if material.begins_with("lega:"):
 		# voce 52: una lega ha la tavolozza a metà tra quelle dei suoi due metalli
 		var parts := material.split(":")
-		var a := pal(parts[1])
-		var b := pal(parts[2])
-		var out: Array[Color] = []
-		for i in mini(a.size(), b.size()):
-			out.append(a[i].lerp(b[i], 0.5))
-		return out
+		return duo(pal(parts[1]), pal(parts[2]))
 	return Px.pal(MATERIALS.get(material, MATERIALS["ardesia"]))
+
+
+## Due tavolozze in una (voce 52, rifatta il 29 set 2026): i toni si alternano, uno del primo materiale e uno del
+## secondo, dal più scuro al più chiaro. La media di prima faceva tutte le leghe grigie e simili; «ombre al primo, luci
+## al secondo» non bastava, perché molte forme sono quasi tutte chiare (due leghe con lo stesso secondo metallo uguali).
+static func duo(a: Array[Color], b: Array[Color]) -> Array[Color]:
+	var n := maxi(a.size(), b.size())
+	var out: Array[Color] = []
+	for i in n:
+		var t := float(i) / float(n - 1)
+		var ca := a[clampi(roundi(t * (a.size() - 1)), 0, a.size() - 1)]
+		var cb := b[clampi(roundi(t * (b.size() - 1)), 0, b.size() - 1)]
+		out.append(ca if i % 2 == 0 else cb)
+	return out
 
 
 static func make(shape: String, material: String) -> Image:
@@ -301,7 +315,9 @@ static func make(shape: String, material: String) -> Image:
 			for y in range(5, 15):
 				for x in range(2, 14):
 					Px.put(im, x, y, w[3] if (x + (y / 2)) % 3 == 0 else w[2])
-			Px.line(im, Vector2(1.5, 5.0), Vector2(14.5, 5.0), 2, w[4])
+			# il coperchio e la fascia del materiale (29 set 2026: prima tutte le ceste erano uguali)
+			Px.line(im, Vector2(1.5, 5.0), Vector2(14.5, 5.0), 2, p[p.size() - 2])
+			Px.line(im, Vector2(2.0, 10.0), Vector2(13.0, 10.0), 1, p[1])
 			Px.put(im, 8, 3, Color(LEAF[2]))
 		"scrigno":
 			# scrigno di pietra dei Seminatori con la runa accesa
@@ -354,7 +370,9 @@ static func make(shape: String, material: String) -> Image:
 			Px.disc(im, 8.0, 14.0, 1.2, Color(MATERIALS["ambra"][1]))
 			for k in 9:
 				var a3 := PI + k / 8.0 * PI
-				Px.line(im, Vector2(8.0, 8.0), Vector2(8.0, 8.0) + Vector2(cos(a3), sin(a3)) * 6.0, 1, Color(0.9, 0.97, 0.95, 0.9))
+				# la peluria prende un velo del materiale (29 set 2026: prima tutti i pappi erano uguali)
+				var fluff := Color(0.9, 0.97, 0.95, 0.9).lerp(p[p.size() - 2], 0.45)
+				Px.line(im, Vector2(8.0, 8.0), Vector2(8.0, 8.0) + Vector2(cos(a3), sin(a3)) * 6.0, 1, fluff)
 		"essenza":
 			# una goccia di luce che gira su sé stessa, con il suo alone
 			Px.disc(im, 8.0, 8.5, 5.5, Color(p[1].r, p[1].g, p[1].b, 0.45))

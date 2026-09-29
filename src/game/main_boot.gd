@@ -78,6 +78,7 @@ static func loading_screen(m: Node2D, text: String) -> CanvasLayer:
 
 ## Le basi della scena: sfondo, vista a blocchi, effetti, giocatore, luce, camera, spore.
 static func build_scene(m: Node2D) -> void:
+	IconVariety.warm()                        # le icone delle stazioni, qui e non mentre si gioca (~0,5 s)
 	m.add_child(Ambience.environment())
 	m.background = Background.new()
 	m.add_child(m.background)

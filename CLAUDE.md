@@ -251,7 +251,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
 - **La grafica di Nano Banana (Roadmap 13)**: disegni originali in `arte_ia/<categoria>/` (con `rifai.sh`), png del gioco
   in `arte/<categoria>/`, fatti da `tools/tavola.py` e `tools/illustrazione.py`; nel gioco li carica `ArtLib`
   (`src/art/art_lib.gd`, null se manca: resta il disegno del codice). Forme d'icona colorate per materiale in
-  `IconTemplates`; stati sopra le creature `StatusMarks`; pulsanti dei pannelli `PanelButtons`. Il metodo e le
+  `IconTemplates`; icone tutte diverse con `IconVariety` (misura: `tools/icone.gd` + `tools/icone_simili.py`, da rifare
+  dopo ogni oggetto o tavolozza nuova: 0 identiche); stati sopra le creature `StatusMarks`; pulsanti dei pannelli `PanelButtons`. Il metodo e le
   lezioni sui prompt sono in ROADMAP.md, Roadmap 13. Claude crea sempre la cartella prima di dare il prompt.
 - `musica/` — le musiche fatte dall'utente con Gemini («crea musica»): `esplorazione` (sottofondo) e `guardiano`
   (scontri con i boss), .mp3/.ogg/.wav; per cambiarne una si sostituisce il file con lo stesso nome (poi `--import`).

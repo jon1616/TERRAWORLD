@@ -2344,6 +2344,21 @@ closed loop); 7 a small barometer: a curled root holding a cloud-shaped glass; 8
 pipe, sap bubbling inside.
 ```
 
+**Le icone tutte diverse (29 set 2026, richiesta dell'utente giocando: «icone identiche o quasi»)**: misura con
+`tools/icone.gd` (atlante di tutte le icone) + `tools/icone_simili.py` (identiche e coppie quasi uguali). Prima: 3256
+oggetti, 2147 disegni diversi (1606 oggetti con un doppione, 11 cerchi rosa di forme sconosciute). Dopo: **3256 su
+3256 diversi**. Come (`IconVariety` in `src/art/`, chiamato da `ItemIcons.of`): forme sconosciute ricondotte (`ALIAS`);
+chi piazza una stazione ha per icona la stazione rimpicciolita (preparate in `warm`, ~0,5 s durante il caricamento del
+mondo); forma più precisa dal nome per chi ha un doppione (`WORDS`); per gli ultimi una variante (tono, specchio,
+tinta). Tavolozze: lo stellare ha la sua (stelle, blu notte con luci d'oro), le leghe alternano i toni dei due metalli
+(`ItemIcons.duo`, prima la media le faceva tutte grigie), icone a due materiali `[forma, a, b]` per gioielli (montatura
+e gemma) e Fiale (gene e categoria), tavolozze vicine allontanate (scisto, pallidite, nodo, cenere, brace, brillaluce,
+fungo, tizzonite), velatura del materiale sulle forme con poco grigio (frusta) e sui disegni di stazione senza grigio
+(i tre gradi delle rune ora si distinguono anche nel mondo). Restano circa 2000 coppie «quasi uguali» a soglia severa,
+sottili ma leggibili: le toglieranno le forme nuove di Nano Banana (palco, zanna, pelliccia, uovo…).
+Da fare con Nano Banana: i ritratti del Pescatore e della Tessitrice, l'icona del rigore «quota» (la prova «grafica» li
+segnala).
+
 ### Resta al codice (Nano Banana non serve)
 Le trame del terreno e delle pareti (doppia griglia, trame 64×64 senza cuciture), la luce, i liquidi, gli
 incantesimi, le esplosioni, le particelle, il tempo atmosferico; le 1906 icone una per una (nascono dalla voce 105).

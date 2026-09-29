@@ -72,22 +72,12 @@ def main() -> None:
         col = ic[membri][:, :, :, :3][:, m].astype(np.float32)        # (k, pixel, 3)
         # unione a catena: i e j nello stesso gruppo se la differenza media per pixel è sotto la soglia
         k = len(membri)
-        padre = list(range(k))
-
-        def trova(a):
-            while padre[a] != a:
-                padre[a] = padre[padre[a]]
-                a = padre[a]
-            return a
+        # coppie vere (non a catena: una fila di colori che cambiano poco alla volta faceva gruppi enormi)
         for a in range(k):
             d = np.abs(col[a + 1:] - col[a]).mean(axis=(1, 2)) if a + 1 < k else []
             for off, v in enumerate(d):
                 if v < args.soglia:
-                    padre[trova(a)] = trova(a + 1 + off)
-        grp = defaultdict(list)
-        for a in range(k):
-            grp[trova(a)].append(membri[a])
-        quasi += [g for g in grp.values() if len(g) > 1]
+                    quasi.append([membri[a], membri[a + 1 + off]])
     # un gruppo «quasi» porta con sé anche i doppioni identici dei suoi membri
     fratelli = defaultdict(list)
     for i in range(n):
@@ -108,7 +98,7 @@ def main() -> None:
     for g in sorted(stessa_spec, key=len, reverse=True):
         out.append("  - [%s · %s] " % (righe[g[0]][3], righe[g[0]][4]) + " | ".join(righe[i][2] for i in g))
     out.append("")
-    out.append("QUASI UGUALI (stessa sagoma, colori quasi uguali, soglia %.0f): %d gruppi" % (args.soglia, len(quasi)))
+    out.append("QUASI UGUALI (stessa sagoma, colori quasi uguali, soglia %.0f): %d coppie" % (args.soglia, len(quasi)))
     for g in sorted(quasi, key=len, reverse=True):
         out.append("  - " + " | ".join(nome(i) for i in g))
     if vuote:
@@ -143,7 +133,7 @@ def main() -> None:
             y += 16 * z + 30
     foglio.save(os.path.join(CARTELLA, "doppie.png"))
     print("\n".join(out[:1]))
-    print("identiche con dati diversi: %d gruppi · identiche con gli stessi dati: %d gruppi · quasi uguali: %d gruppi"
+    print("identiche con dati diversi: %d gruppi · identiche con gli stessi dati: %d gruppi · quasi uguali: %d coppie"
           % (len(spec_diverse), len(stessa_spec), len(quasi)))
     print("elenco in prove/icone/doppie.txt, foglio in prove/icone/doppie.png")
 

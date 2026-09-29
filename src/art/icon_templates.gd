@@ -40,13 +40,20 @@ static func _template(cartella: String, shape: String) -> Variant:
 		var img := rgba(t)
 		var lo := 1.0
 		var hi := 0.0
+		var greys := 0
+		var full := 0
 		for y in img.get_height():
 			for x in img.get_width():
 				var c := img.get_pixel(x, y)
+				if c.a > 0.5 and c.get_luminance() >= 0.12:
+					full += 1
 				if _is_grey(c):
+					greys += 1
 					lo = minf(lo, c.get_luminance())
 					hi = maxf(hi, c.get_luminance())
-		out = {"img": img, "lo": lo, "hi": maxf(hi, lo + 0.01)}
+		# quanta parte dell'icona è del materiale: la frusta (liana verde, punta grigia) quasi niente
+		var frac := float(greys) / float(maxi(full, 1))
+		out = {"img": img, "lo": lo, "hi": maxf(hi, lo + 0.01), "grey": hi >= lo, "frac": frac}
 	_templates[key] = out if not out.is_empty() else null
 	return _templates[key]
 
@@ -63,6 +70,11 @@ static func _tinted(tpl: Dictionary, p: Array[Color]) -> Image:
 	var out := src.duplicate() as Image
 	var lo: float = tpl["lo"]
 	var hi: float = tpl["hi"]
+	if not bool(tpl.get("grey", true)):
+		return _veiled(src, p)
+	# 29 set 2026: se il materiale tocca meno di un terzo dell'icona (frusta, pozione, balestra), il resto prende una
+	# velatura del materiale: altrimenti tutte le fruste erano quasi uguali, qualunque fosse il metallo
+	var veil := clampf((0.34 - float(tpl.get("frac", 1.0))) * 1.3, 0.0, 0.35)
 	for y in src.get_height():
 		for x in src.get_width():
 			var c := src.get_pixel(x, y)
@@ -70,4 +82,21 @@ static func _tinted(tpl: Dictionary, p: Array[Color]) -> Image:
 				var t := (c.get_luminance() - lo) / (hi - lo)
 				var k := p[clampi(int(t * p.size()), 0, p.size() - 1)]
 				out.set_pixel(x, y, Color(k.r, k.g, k.b, c.a))
+			elif veil > 0.0 and c.a > 0.5 and c.get_luminance() >= 0.12:
+				var v := p[clampi(int(c.get_luminance() * p.size()), 0, p.size() - 1)]
+				out.set_pixel(x, y, c.lerp(Color(v.r, v.g, v.b, c.a), veil))
+	return out
+
+
+## Un disegno senza grigi (una runa tutta colorata) non si può colorare col materiale: prende una velatura della
+## tavolozza, un terzo, alla stessa altezza di luce. Così i tre gradi di una stazione si distinguono (29 set 2026).
+static func _veiled(src: Image, p: Array[Color]) -> Image:
+	var out := src.duplicate() as Image
+	for y in src.get_height():
+		for x in src.get_width():
+			var c := src.get_pixel(x, y)
+			if c.a < 0.5 or c.get_luminance() < 0.12:
+				continue
+			var k := p[clampi(int(c.get_luminance() * p.size()), 0, p.size() - 1)]
+			out.set_pixel(x, y, Color(c.r, c.g, c.b, c.a).lerp(Color(k.r, k.g, k.b, c.a), 0.35))
 	return out

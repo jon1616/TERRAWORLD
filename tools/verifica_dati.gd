@@ -28,7 +28,11 @@ func _init() -> void:
 		_err(not it.has("pet") or CompanionsData.PETS.has(it["pet"]), "%s: compagno sconosciuto «%s»" % [id, it.get("pet", "")])
 		_err(not it.has("ally") or CompanionsData.ALLIES.has(it["ally"]), "%s: alleato sconosciuto «%s»" % [id, it.get("ally", "")])
 		_err(not it.has("species") or GenesData.cat_of(String(it["species"])) == "superficie", "%s: gene di superficie sconosciuto «%s»" % [id, it.get("species", "")])
-		_err(it.has("icon") and (it["icon"] as Array).size() == 2, "%s: icona non indicata" % id)
+		# [forma, materiale] o, dal 29 set 2026, [forma, materiale, secondo materiale] (gioielli, Fiale): due tavolozze
+		_err(it.has("icon") and (it["icon"] as Array).size() in [2, 3], "%s: icona non indicata" % id)
+		if it.has("icon") and (it["icon"] as Array).size() == 3:
+			_err(ItemIcons.has_palette(str(it["icon"][1])) and ItemIcons.has_palette(str(it["icon"][2])),
+				"%s: materiale dell'icona senza tavolozza" % id)
 		if it.has("icon"):
 			_err(ItemIcons.has_palette(String(it["icon"][1])), "%s: materiale dell'icona sconosciuto «%s»" % [id, it["icon"][1]])
 		if it.get("kind") == "blocco":

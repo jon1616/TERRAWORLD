@@ -226,10 +226,14 @@ static func draw(shape: String, im: Image, p: Array[Color]) -> bool:
 			Px.line(im, Vector2(2.0, 3.0), Vector2(2.0, 12.0), 1, sem2[1])
 			Px.line(im, Vector2(13.0, 3.0), Vector2(13.0, 12.0), 1, sem2[1])
 			Px.curve(im, Vector2(4.0, 11.0), Vector2(7.0, 4.0), Vector2(10.0, 8.0), 1, Color(ItemIcons.MATERIALS["legno"][2]))
-			Px.put(im, 10, 7, Color("#ffd24a"))
-			Px.put(im, 11, 8, Color("#ffd24a"))
-			Px.put(im, 9, 8, Color("#ffd24a"))
-			Px.put(im, 10, 9, Color("#ffd24a"))
+			# la croce e il bordo del materiale (29 set 2026: prima tutte le mappe erano uguali)
+			var mark := p[p.size() - 1]
+			Px.put(im, 10, 7, mark)
+			Px.put(im, 11, 8, mark)
+			Px.put(im, 9, 8, mark)
+			Px.put(im, 10, 9, p[2])
+			Px.line(im, Vector2(2.0, 3.0), Vector2(2.0, 12.0), 1, p[1])
+			Px.line(im, Vector2(13.0, 3.0), Vector2(13.0, 12.0), 1, p[1])
 		"uncino":
 			# una radice arrotolata a spirale con l'uncino in punta del materiale
 			var w := ItemIcons.pal("legno")

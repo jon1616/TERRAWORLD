@@ -40,11 +40,12 @@ static func items() -> Dictionary:
 			var md: Dictionary = MaterialsData.MATERIALS[mat]
 			var tier := int(md["tier"])
 			var label := String(md["label"])
+			var frame := String(md.get("icon", mat))     # la montatura del metallo nell'icona (29 set 2026)
 			out[amulet_id(gem, mat)] = {"name": "Amuleto di %s %s" % [gd["name"], label], "kind": "amuleto",
-				"icon": ["amuleto", gem], "tier": tier, "stack": 1, "acc": _acc(gem, tier, 1.0), "gen": true,
+				"icon": ["amuleto", frame, gem], "tier": tier, "stack": 1, "acc": _acc(gem, tier, 1.0), "gen": true,
 				"desc": "Una %s incastonata %s." % [gd["name"], label]}
 			out[ring_id(gem, mat)] = {"name": "Anello di %s %s" % [gd["name"], label], "kind": "anello",
-				"icon": ["anello", gem], "tier": tier, "stack": 1, "acc": _acc(gem, tier, 0.4), "effects": [gd["effect"]],
+				"icon": ["anello", frame, gem], "tier": tier, "stack": 1, "acc": _acc(gem, tier, 0.4), "effects": [gd["effect"]],
 				"gen": true, "desc": "Una %s incastonata %s." % [gd["name"], label]}
 	return out
 

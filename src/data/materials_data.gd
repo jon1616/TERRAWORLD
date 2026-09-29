@@ -35,7 +35,7 @@ const MATERIALS := {
 	"tizzonite": {"label": "di tizzonite", "tier": 3, "durezza": 60, "filo": 18, "peso": 15.0, "tenacia": 3.1, "conduzione": 5,
 		"elemento": "brace", "risonanza": 0, "bar": "lingotto_tizzonite"},
 	"stellare": {"label": "stellare", "label_pl": "stellari", "tier": 6, "durezza": 85, "filo": 34, "peso": 5.0, "tenacia": 6.0,
-		"conduzione": 16, "elemento": "luce", "risonanza": 2, "bar": "lingotto_stellare", "icon": "ambra"},
+		"conduzione": 16, "elemento": "luce", "risonanza": 2, "bar": "lingotto_stellare", "icon": "stelle"},
 	# Roadmap 16, voce 159: il metallo del cielo alto. Della forza dell'ambra ma leggerissimo (colpi più svelti), il set
 	# intero fa saltare più in alto e protegge dall'aria sottile
 	"nimbite": {"label": "di nimbite", "tier": 3, "durezza": 55, "filo": 15, "peso": 4.0, "tenacia": 2.4, "conduzione": 9,

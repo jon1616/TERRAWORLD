@@ -268,6 +268,10 @@ const VIAL_MAT := {"superficie": "muschio", "forma": "humus", "grotte": "ardesia
 	"minerali": "radicite", "gemme": "brillaluce", "rovine": "sem", "fauna": "brace", "stirpi": "iride", "flora": "linfa",
 	"cielo": "lagunite", "tempo": "nottilite", "ombra": "nodo"}
 const VIAL_PREFIX := "fiala_"
+## 29 set 2026: ogni Fiala ha, oltre al colore della sua categoria (le ombre), un colore suo (le luci), scelto in ordine
+## dentro la categoria: prima le Fiale di una categoria erano tutte la stessa boccetta.
+const VIAL_TINTS := ["ambra", "lagunite", "sanguinella", "brillaluce", "cristallo", "brace", "nottilite", "brina",
+	"lucciola", "iride", "tizzonite", "pallidite", "celeste", "fungo", "muschio", "vuotite", "folgorite", "cenere"]
 static var _items := {}
 
 
@@ -291,7 +295,7 @@ static func items() -> Dictionary:
 	for g in GENES:
 		var d: Dictionary = GENES[g]
 		_items[vial_of(g)] = {"name": "Fiala di %s" % String(d["name"]).to_lower() if d["cat"] != "superficie" else "Fiala di %s" % d["name"],
-			"kind": "fiala", "icon": ["pozione", VIAL_MAT[d["cat"]]], "stack": 20, "value": 30 + 40 * int(d["rar"]),
+			"kind": "fiala", "icon": ["pozione", _vial_tint(g), VIAL_MAT[d["cat"]]], "stack": 20, "value": 30 + 40 * int(d["rar"]),
 			"source": "con la Provetta di Linfa in un mondo che ha questo gene, dalle piante-seme, dalle creature e negli scrigni",
 			"desc": "Il gene «%s» (%s, %s): %s. Averla fa imparare il gene; all'innesto dei Semi fissa questo gene nel Seme figlio." % [
 				d["name"], String(CAT_INFO[d["cat"]]["name"]).to_lower(), RARITY[int(d["rar"])]["name"], d["desc"]]}
@@ -304,6 +308,18 @@ const MAX_EXTRA := 4
 
 static func info(g: String) -> Dictionary:
 	return GENES.get(g, {})
+
+
+static func _vial_tint(g: String) -> String:
+	var cat := cat_of(g)
+	var k := 0
+	for o in GENES:
+		if o == g:
+			break
+		if cat_of(String(o)) == cat:
+			k += 1
+	var t: String = VIAL_TINTS[k % VIAL_TINTS.size()]
+	return t if t != VIAL_MAT[cat] else String(VIAL_TINTS[(k + 7) % VIAL_TINTS.size()])
 
 
 static func cat_of(g: String) -> String:
