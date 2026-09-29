@@ -7,6 +7,8 @@
 - **In corso: la Roadmap 13 «Il volto del mondo»** (voci 100-117, dal 28 set 2026): la grafica con Nano Banana,
   seguita passo passo con l'utente (Claude scrive i prompt, dice dove salvare le immagini, le adatta con gli script).
   Dopo: un secondo bilancio con il diario delle partite vere.
+- **In corso: la Roadmap 19 «La Linfa che scorre»** (voci 190-213, dal 29 set 2026): vene del Flusso, fili
+  dell'Impulso, sorgenti, riserve, 34 macchine, sensori e nodi, centrali dei Seminatori.
 - **Fatta la Roadmap 18 «Il bilancio»** (voci 179-189, 29 set 2026): modello del combattimento, bot in arena, tre
   giocatori simulati, poi Scorza a percentuale, inizio facile, curva degli strati e del vigore, armi, boss, economia,
   avvisi e Diario delle morti. Resoconto in fondo.
@@ -3348,6 +3350,123 @@ Chi si equipaggia bene sente la partita farsi più dura ma giusta (e passa il 10
 chi resta indietro di un grado appassisce 5-10 volte di più; senza armatura dalle Caverne non si passa. I boss stanno tra
 45 e 120 secondi con l'arma attesa. Il Diario ora conta **di che cosa** si appassisce: la prossima partita dell'utente
 dirà dove i numeri del modello sbagliano ancora (esportandolo dal Semenzaio, scheda Storia).
+
+# Roadmap 19 «La Linfa che scorre» — vene, fili e macchine (piano del 29 set 2026)
+
+Chiesta dall'utente il 29 set 2026 dopo il prospetto (https://claude.ai/artifact/LtM7Mn2dUKXvgizxMpGM17): «prepara una
+dettagliata roadmap e mettila in pratica, senza il mio intervento; lavoro ampio e bilanciato». Le quattro scelte del
+prospetto seguono le proposte: **due reti** (il Flusso, energia in pulsi, e l'Impulso, comandi su quattro fili
+colorati); le macchine **lavorano mentre sei via** fino a 2 ore reali, a metà velocità; solo i Succhiavena rosicchiano
+e solo le vene di radice (più la Tempesta di Linfa sulle vene strozzate); le vene del Flusso **si vedono sempre**
+(radici luminose), i fili solo con l'Occhio delle vene.
+
+## Da dove si parte
+Nessun sistema collegato: l'unico comando a distanza è la leva delle trappole (raggio di 10 tessere). Ci sono le basi:
+stazioni con stato nell'id (bracieri, leve), strati per cella del mondo (`build`, `tint`), luci accendibili da codice
+(`LightMap.set_extra`), liquidi con `Liquids.pour`/`LiquidTools`, tempo passato altrove (`LivingEarth`, `Pens`).
+Limiti da togliere: `World.station_at` lineare, liste di trappole e farm che si rifanno solo quando cambia il numero
+delle stazioni, `LightMap._station_lights` che scorre tutte le stazioni.
+
+## Le regole
+- **Tutto è dato**: `VeinsData`, `SourcesData`, `MachinesData`, `LogicData`, `EnergyItemsData`; il comportamento di una
+  macchina è un file piccolo (`MachineBehavior.make(id)`).
+- **Si calcola per reti, non per celle**: le reti si ricostruiscono solo dove si posa o si toglie; il conto del Flusso ogni
+  0,25 s; l'Impulso si propaga con un passo di ritardo per ogni rimbalzo (niente giri infiniti).
+- **Ogni sorgente viene da un sistema che esiste** (sole, vento, acqua che cade, brace, laghi di Linfa, cristalli,
+  fulmini, mandria, Cuore curato, Albero-Madre), **ogni macchina fa meglio una cosa che il giocatore già fa**.
+- **Non rompe l'economia**: tetti di resa, lavoro altrove limitato, misura con `tools/rete.gd`.
+- **Si impara da soli**: primo circuito guidato, consigli, Enciclopedia, progetti da copiare, suggerimenti che dicono il
+  perché.
+
+## Fase 1 · Le fondamenta
+## 190. [ ] Preparare il terreno (M)
+Indice cella → angolo delle stazioni in `World` (`station_at` diretto), contatore `World.stations_rev` che sale a ogni
+cambio di stazione (anche di id); trappole, farm, fonti lo leggono al posto di `stations.size()`; la luce legge solo le
+stazioni nella sua finestra.
+**Pronto quando**: prove di trappole, farm, casse e stazioni passano; `station_at` non scorre più tutte le stazioni.
+
+## 191. [ ] Lo strato delle vene (M)
+`World.vein` (un byte per cella: grado del Flusso 0-4 nei bit 0-2, isolata nel bit 3, i quattro fili nei bit 4-7),
+salvataggio in `mondo.bin`, `VeinsData`, `VeinPainter` (radici curve con la maschera dei vicini, fili sottili), due strati
+disegnati nei blocchi di `WorldView`, la **Pinza delle vene** (posa, toglie, linea tenendo premuto, grado e colore) e
+l'**Occhio delle vene**.
+**Pronto quando**: la prova posa e toglie vene e fili, li vede nella foto, li salva e li ricarica uguali.
+
+## 192. [ ] Le reti e il Flusso (G)
+`EnergyGraph` (reti per visita, macchine attaccate), `EnergySolver` (produzione, domanda, riserve, priorità, portata
+della vena più stretta), le prime sorgenti (Tamburo di radice, Foglia-lanterna), l'Otre di Linfa, la Lampada a baccello.
+**Pronto quando**: una lampada si accende da una foglia al sole, di notte dall'Otre, si spegne a Otre vuoto; con due
+macchine e poca energia si ferma quella a priorità bassa.
+
+## 193. [ ] L'Impulso (M)
+`Impulse` (reti dei fili per colore, colpo e stato, un passo di ritardo per ogni rimbalzo), Leva, Pulsante, Piastra,
+Porta di radice viva (si apre anche da sola al Germogliato, resta chiusa alle creature).
+**Pronto quando**: una leva apre una porta a 40 tessere; un circuito chiuso su se stesso non blocca il gioco.
+
+## 194. [ ] Il pannello e le schede (M)
+`MachinePanel` (stato, consumo, priorità, reazione all'impulso, impostazioni), schede dei suggerimenti per vene e
+macchine, la rete sulla mappa.
+**Pronto quando**: la foto del pannello e delle schede; le impostazioni si salvano.
+
+## Fase 2 · Le sorgenti e il mondo
+## 195. [ ] Le sorgenti del mondo (M)
+Mulino di semi (vento e quota), Ruota d'acqua (colonne di liquido che cadono accanto, senza simulare i liquidi lontani),
+Baccello di brace (combustibile, doppio accanto alla brace), Pozzo di Linfa (su un lago di Linfa), Cuore di cristallo.
+**Pronto quando**: ogni sorgente dà i suoi pulsi nel posto giusto e zero dove non deve.
+
+## 196. [ ] Le sorgenti speciali (M)
+Ruota della mandria, Parafulmine (i fulmini dei temporali nelle riserve), Radice-madre (sul Cuore curato: 250 pulsi),
+Radice del Giardino (ai piedi dell'Albero-Madre, cresce con gli stadi).
+**Pronto quando**: la prova le accende tutte con le loro condizioni.
+
+## 197. [ ] Le riserve e il tempo altrove (M)
+Baccello-serbatoio, Cisterna viva, livello visibile, `EnergyAway` (fino a 2 ore reali, metà velocità, solo sorgenti senza
+combustibile e materiali nelle casse; avviso «Mentre eri via»).
+**Pronto quando**: tornando dopo un'ora finta la serra ha lavorato mezz'ora.
+
+## Fase 3 · Le macchine
+## 198. [ ] Muoversi (G)
+Ascensore a bolla, Nastro vivo, Catapulta di spore, Porta-seme (coppie).
+## 199. [ ] Luce, liquidi, giardino (G)
+Faro di Linfa, Cupola di quiete, Insegna; Pompa di radice, Chiusa, Irrigatore, Distillatore; Serra, Mietitrice,
+Mungitrice, Culla calda.
+## 200. [ ] Fabbricare e smistare (G)
+Forno a Linfa, Frantoio, Telaio a Linfa, Braccio di radice, Smistatore, Nodo delle casse (`Crafting.pool`), Magazzino vivo.
+## 201. [ ] La Trivella di radice (M)
+Scavo automatico con la forza del piccone nella cassetta, tetto di resa, stop ai liquidi e ai Sigilli.
+## 202. [ ] Difendersi (M)
+Torretta di spine, Rovo vivo, Campana d'allarme, Scudo di corteccia, trappole comandate dall'Impulso.
+## 203. [ ] Giocare e decorare (P)
+Carillon di radice, Fontana di Linfa, Esposizione (comodità e trofei delle stanze).
+
+## Fase 4 · La logica
+## 204. [ ] I sensori (M)
+Occhio di luce, Orecchio di muschio, Sensore d'acqua, Sensore di cassa, Sensore di riserva, Orologio di Linfa, Barometro.
+## 205. [ ] I nodi (M)
+E, O, NON, Ritardo, Contatore, Memoria; i nomi a runa (la parola conosciuta li mostra in chiaro).
+**Pronto quando**: la prova controlla le tabelle di verità e un contatore di 10.
+
+## Fase 5 · Il mondo si collega
+## 206. [ ] Le centrali dei Seminatori (G)
+`PassCentrali`: 3-6 stanze per mondo (Caverne e più giù) con vene spezzate, sorgente spenta e interruttori (a volte in un
+ordine scritto nella lingua); dentro un progetto e un pezzo unico. Firma «La Centrale intatta».
+## 207. [ ] Geni, creature, evento (M)
+Geni «Vene del mondo», «Vento perenne», «Sole di Linfa», «Terra che conduce», «Tempeste di Linfa»; Succhiavena e Lucciole
+di vena; la Tempesta di Linfa e la Valvola di sfogo.
+## 208. [ ] La Tessitrice di vene e il Giardino (M)
+L'abitante (merci, richieste, affetto, progetti), Aiuole alimentate, obiettivi, Bacheca, Diario.
+
+## Fase 6 · Capire, misurare, chiudere
+## 209. [ ] Il primo circuito e i consigli (M)
+Il circuito guidato (Tamburo, Otre, Lampada, Leva) dallo stadio 2 dell'Albero, il filo, i consigli.
+## 210. [ ] Enciclopedia e progetti (M)
+Il gruppo «La Linfa che scorre», il catalogo delle macchine, i progetti nella Tavola del progetto.
+## 211. [ ] Il bilancio della rete (M)
+`tools/rete.gd`: rese all'ora delle costruzioni tipo contro caccia, pesca, scavo; tetti di resa.
+## 212. [ ] Prestazioni (P)
+Una base con 2 000 celle di vena e 200 macchine sotto 0,5 ms per fotogramma (`FrameProbe`); il giro intero.
+## 213. [ ] Grafica e resoconto (P)
+Voci per Nano Banana nella Roadmap 13, CLAUDE.md, resoconto, GitHub.
 
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».
