@@ -189,15 +189,15 @@ func villagers() -> void:
 	var first := vl.check()
 	# un Focolare e sei letti sull'isola, a sinistra della partenza
 	var base := world.spawn + Vector2i(-26, 0)
-	kit.flatten(base, 16)
+	kit.flatten(base, 44)
 	world.stations[base + Vector2i(0, -int(StationsData.STATIONS["focolare"]["size"][1]) + 1)] = "focolare"
-	for k in 6:
-		var o := base + Vector2i(-14 + k * 4 + (5 if k >= 3 else 0), -int(StationsData.STATIONS["letto"]["size"][1]) + 1)
+	for k in 16:                                   # Roadmap 21: con gli abitanti dell'Atto II ne arrivano di più
+		var o := base + Vector2i(-36 + k * 4 + (5 if k >= 8 else 0), -int(StationsData.STATIONS["letto"]["size"][1]) + 1)
 		world.stations[o] = "letto"
 	for o in world.stations:
 		m.view.add_station(o)
 	var came := [first]
-	for k in 8:
+	for k in 18:
 		var n := vl.check()
 		if n == "":
 			break

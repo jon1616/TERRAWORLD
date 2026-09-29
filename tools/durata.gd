@@ -31,13 +31,28 @@ const PER_WORLD := {
 	"linfa_antica": 2.0, "frammento_albero": 2.0, "legno": 60.0, "humus": 120.0, "gelatina": 12.0, "seta_radice": 6.0,
 	"fungo_luminoso": 10.0, "minerale_radicite": 30.0, "minerale_legnoferro": 24.0, "minerale_ambra": 14.0,
 	"minerale_tizzonite": 6.0, "vuotite": 30.0, "cristallo_linfa": 8.0, "squama_brace": 2.0,
+	"stele": 6.0, "centrali": 0.3, "scrigni_parola": 1.0,
 }
+## Roadmap 21: un Giardino perduto è un giro di mondo più lungo (le tre cure e il Custode) e porta ciò che vive solo lì.
+const GARDEN_MULT := 1.5
+const GARDEN := {
+	"sommerso": {"perla_maree": 1.0, "guscio_lago": 12.0, "pesce_carpa_radice": 4.0, "specie_pescate": 4.0, "pesci": 30.0},
+	"ferro": {"spola_viva": 1.0, "ingranaggio_radice": 14.0, "macchine": 6.0},
+	"selvatico": {"cuore_rovo": 1.0, "setola_rovo": 10.0, "bacca_rovo": 20.0, "addomesticate": 1.0},
+	"muto": {"parola_prima": 1.0, "eco_parola": 14.0, "stele": 8.0},
+}
+## Traguardi che non vengono dai giri: minuti per unità (fatti apposta).
+const STAT_RATE := {"pesci": 0.3, "specie_pescate": 8.0, "pesci_leggendari": 120.0, "macchine": 10.0, "centrali": 60.0,
+	"addomesticate": 20.0, "prodotti": 1.5, "raccolti": 1.0, "stele": 3.0, "scrigni_parola": 8.0}
 ## Quanti all'ora cercando solo quello (materiali grezzi e dalle creature).
 const RATE := {
 	"legno": 240.0, "humus": 600.0, "gelatina": 30.0, "seta_radice": 25.0, "fungo_luminoso": 40.0,
 	"minerale_radicite": 90.0, "minerale_legnoferro": 70.0, "minerale_ambra": 45.0, "minerale_tizzonite": 30.0,
 	"vuotite": 150.0, "cristallo_linfa": 25.0, "squama_brace": 8.0, "lana_muschio": 12.0, "miele_lume": 6.0,
 	"linfa_antica": 0.0, "frammento_albero": 0.0,
+	"squama_lume": 20.0, "guscio_lago": 30.0, "ingranaggio_radice": 30.0, "bacca_rovo": 40.0, "eco_parola": 30.0,
+	"setola_rovo": 30.0, "pesce_carpa_radice": 6.0, "tavoletta_seminatori": 4.0,
+	"perla_maree": 0.0, "spola_viva": 0.0, "cuore_rovo": 0.0, "parola_prima": 0.0, "polvere_iridata": 2.0,
 }
 ## Traguardi che non vengono dai giri: minuti la prima volta (poi per ogni altro).
 const STAT_MIN := {"addomesticate": [30.0, 20.0], "uova_allevate": [180.0, 60.0], "manti_rari": [360.0, 120.0]}
@@ -78,6 +93,11 @@ func _init() -> void:
 		var before := minutes
 		var w0 := worlds
 		var notes := []
+		# Roadmap 21: guarire un Albero perduto = il giro del suo Giardino
+		for o0 in st["offers"]:
+			var o: Dictionary = o0["any"][0] if (o0 as Dictionary).has("any") else o0
+			if o.has("stat") and String(o["stat"]).begins_with("perduto_"):
+				_garden(String(o["stat"]).trim_prefix("perduto_"))
 		# i traguardi dai giri di mondo
 		for o0 in st["offers"]:
 			var o: Dictionary = o0["any"][0] if (o0 as Dictionary).has("any") else o0      # la strada principale
@@ -92,6 +112,18 @@ func _init() -> void:
 				var extra := _item(String(o["item"]), float(o["n"]))
 				if extra > 0.5:
 					notes.append("%s %.0f min" % [String(ItemsData.get_item(String(o["item"])).get("name", o["item"])), extra])
+		# i traguardi fatti apposta (pescare, costruire macchine, addomesticare…): quanto manca × minuti per unità
+		for o0 in st["offers"]:
+			var o: Dictionary = o0["any"][0] if (o0 as Dictionary).has("any") else o0
+			var sk := String(o.get("stat", ""))
+			if STAT_RATE.has(sk) and float(have.get(sk, 0.0)) < float(o["n"]):
+				var miss := float(o["n"]) - float(have.get(sk, 0.0))
+				var mm := miss * float(STAT_RATE[sk])
+				minutes += mm
+				focus_min += mm
+				have[sk] = float(o["n"])
+				_stat_points(sk, miss)
+				notes.append("%s %.0f min" % [sk, mm])
 		# i traguardi con un tempo loro
 		for o0 in st["offers"]:
 			var o: Dictionary = o0["any"][0] if (o0 as Dictionary).has("any") else o0      # la strada principale
@@ -163,6 +195,23 @@ func _pillars(story_h: float) -> void:
 func _stat_points(stat: String, n: float) -> void:
 	for e in MasteryData.STATS.get(stat, []):
 		mastery[String(e[0])] = float(mastery.get(String(e[0]), 0.0)) + float(e[1]) * n
+
+
+## Roadmap 21: il giro di un Giardino perduto (una volta sola per Giardino).
+func _garden(id: String) -> void:
+	if have.has("perduto_" + id):
+		return
+	var m := (WORLD_MIN + WORLD_STEP * (int(LostGardensData.GARDENS[id]["vigore"]) - 1)) * GARDEN_MULT
+	minutes += m
+	world_min += m
+	worlds += 1
+	have["perduto_" + id] = 1.0
+	have["perduti"] = float(have.get("perduti", 0.0)) + 1.0
+	_stat_points("perduti", 1.0)
+	for k in GARDEN[id]:
+		have[k] = float(have.get(k, 0.0)) + float(GARDEN[id][k])
+	for p in WORLD_PTS:
+		mastery[p] = float(mastery.get(p, 0.0)) + m * float(WORLD_PTS[p])
 
 
 func _world_minutes() -> float:

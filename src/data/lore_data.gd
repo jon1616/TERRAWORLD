@@ -4,6 +4,25 @@ extends RefCounted
 ## Ogni frammento andrà anche nell'Erbario (vedi UNIVERSO.md, «Da collezionare»).
 
 const PAGES := {
+	# Roadmap 21 «Le radici del cosmo»
+	"atto2_sommerso": {"title": "La radice che beve il mare",
+		"text": "Sveglio, l'Albero-Madre ascolta le sue radici più lunghe, quelle che attraversano il cielo del Giardino. Una scende in un mare che non ha nome.\nLaggiù respira piano un altro Albero, piantato dalle stesse mani: il mare l'ha coperto. L'Albero-Madre ti dona un Seme del cosmo. Piantalo in un'Aiuola: porta a quel Giardino."},
+	"atto2_ferro": {"title": "Il ferro che dorme",
+		"text": "Il fratello sommerso ti ringrazia con le sue acque. Ma le radici del cosmo toccano un secondo Giardino, e là non scorre più niente.\nI Seminatori fusero il suo Albero con le loro macchine, per farlo lavorare. Poi le macchine si fermarono, e lui con loro."},
+	"atto2_selvatico": {"title": "Le bestie senza nome",
+		"text": "La Linfa torna nel fratello di ferro, e le radici del cosmo tremano di nuovo: un terzo Giardino, dove tutto è cresciuto senza nessuno.\nLe bestie non ricordano più il Giardiniere. Un re di spine si è preso la radura."},
+	"atto2_muto": {"title": "Le parole perdute",
+		"text": "Il terzo fratello canta con la radura. Ne resta uno, il più lontano: un Albero che ha dimenticato le sue parole.\nAttorno a lui, un cerchio di stele che nessuno legge più. Qualcosa, là, si nutre del silenzio."},
+	"perduto_sommerso": {"title": "L'Albero sommerso",
+		"text": "Le acque del lago si fanno limpide fino al fondo. L'Albero apre le fronde come chi riemerge, e per la prima volta dopo secoli le sue radici sentono quelle dell'Albero-Madre.\n«Eravamo quattro», dicono le sue foglie, «e poi tre, e poi nessuno.»"},
+	"perduto_ferro": {"title": "L'Albero di ferro",
+		"text": "Gli ingranaggi girano una volta sola, poi si fermano per sempre: non servono più. La Linfa scorre da sola nelle vene di ferro.\n«Ci chiesero di lavorare», dice l'Albero, «e noi lavorammo. Nessuno ci chiese mai se volevamo.»"},
+	"perduto_selvatico": {"title": "L'Albero selvatico",
+		"text": "I rovi si ritirano. I Cervi tornano a brucare vicino al tronco, e uno ti annusa la mano.\n«Il Giardiniere se ne andò una mattina», dice l'Albero, «e noi aspettammo. Poi dimenticammo che cosa aspettavamo.»"},
+	"perduto_muto": {"title": "L'Albero muto",
+		"text": "La prima parola che l'Albero ritrova è il tuo nome, anche se non gliel'hai mai detto.\n«Il Seme che cadde», dice, «non cadde da solo. Qualcuno lo lasciò andare.» Poi tace, ma è un silenzio diverso: quello di chi pensa."},
+	"radici_cosmo": {"title": "Le radici del cosmo",
+		"text": "Quattro Alberi respirano insieme all'Albero-Madre. Le radici del cosmo, sopra il Giardino, si accendono di una luce che non avevi mai visto.\nPiù lontano, oltre i quattro, qualcosa risponde. Non è un Albero. È più vecchio."},
 	"albero_primo_respiro": {
 		"title": "Il primo respiro",
 		"text": "La corteccia si scalda sotto la mano. Una fronda turchese si apre, piano, come chi si stira al mattino.\nL'Albero non parla ancora, ma una radice si sposta e lascia spazio per un'altra Aiuola. Qualcuno, laggiù ai margini del Giardino, ha sentito il respiro e si incammina.",

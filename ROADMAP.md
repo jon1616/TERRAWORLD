@@ -3884,9 +3884,16 @@ famiglie, i Cervi di rovo da addomesticare (e cavalcare), due pesci del lago som
 materiali, trofei, i quattro talismani dei trofei, quattro oggetti dai Custodi (fiocina, guanti, mantello, libro), la
 marmellata di rovo e la serie di unici «Doni dei Giardini perduti».
 
-## 225. [ ] Gli stadi 13-24 (M)
+## 225. [x] Gli stadi 13-24 (M) — fatto il 29 set 2026
 I dodici stadi dell'Atto II con le offerte (sempre con una strada alternativa) e i doni (Aiuole, abitanti dei Giardini,
 oggetti, pagine di storia). Quattro abitanti nuovi, uno per Giardino.
+**Fatto**: dodici stadi nuovi in `MotherTreeData` (tre per Giardino: prepararsi nel pilastro del Giardino, guarire il
+suo Albero con il dono del Custode, portare a casa ciò che vi vive; l'ultimo, «Le radici del cosmo», chiede i quattro
+Alberi guariti), quasi tutti con una strada alternativa; «Il risveglio» dona il primo Seme del cosmo, ogni capitolo il
+Seme del Giardino dopo, e un'Aiuola in più. Nove pagine di storia (`LoreData`). Quattro abitanti nuovi in `NpcData`: la
+Palombara, il Fabbro delle radici, il Guardaboschi (con gli stadi 15, 18, 21) e la Cantastorie (dopo l'Albero muto),
+ognuno con merci, gusti, doni e tre richieste. `tools/durata.gd` conta i giri dei Giardini perduti e i traguardi fatti
+apposta: la storia passa da 45 a **89 ore** di via diretta (da 72 a **143** per il giocatore medio).
 
 ## 226. [ ] Racconto, Enciclopedia, misura e resoconto (P)
 Le pagine di storia, il capitolo «Le radici del cosmo», i consigli, la misura delle ore, il giro intero, GitHub.
