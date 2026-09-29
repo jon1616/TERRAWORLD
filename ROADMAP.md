@@ -3454,10 +3454,16 @@ baccello il doppio accanto alla brace), Pozzo di Linfa (`MbPozzo`: sopra un lago
 vena conta anche per le sorgenti (una vena di radice porta 30 anche dal Cuore di cristallo). Prova: mulino 35/7/0,
 ruota 0/20, baccello che brucia solo se serve, pozzo 80 sopra il lago, cuore 120 con un cristallo.
 
-## 196. [ ] Le sorgenti speciali (M)
+## 196. [x] Le sorgenti speciali (M) — fatto il 29 set 2026
 Ruota della mandria, Parafulmine (i fulmini dei temporali nelle riserve), Radice-madre (sul Cuore curato: 250 pulsi),
 Radice del Giardino (ai piedi dell'Albero-Madre, cresce con gli stadi).
 **Pronto quando**: la prova le accende tutte con le loro condizioni.
+**Fatto**: Ruota della mandria (`MbRuotaMandria`: le creature della mandria che ci corrono dentro, 15 + 5 a livello, non
+se affamate; si mette nel recinto), Parafulmine (`MbParafulmine`: `Weather.strike` manda il fulmine sul parafulmine
+più vicino a 40 tessere, `Energy.on_bolt` versa 3000 gocce nelle riserve con `Energy.charge`), Radice-madre
+(`MbRadiceMadre`: accanto al Cuore del mondo, 250 pulsi con il Guardiano curato, 120 sconfitto, niente se dorme: la
+scelta cura o sconfitta pesa di più), Radice del Giardino (`MbRadiceGiardino`: nel Giardino vicino all'Albero-Madre, 50
+pulsi a stadio). Prove in `TestsEnergyMore`.
 
 ## 197. [ ] Le riserve e il tempo altrove (M)
 Baccello-serbatoio, Cisterna viva, livello visibile, `EnergyAway` (fino a 2 ore reali, metà velocità, solo sorgenti senza

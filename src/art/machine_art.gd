@@ -43,6 +43,12 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 			_pozzo(im, gm, w, h)
 		"cuore_cristallo":
 			_cuore_cristallo(im, gm, w, h)
+		"ruota_mandria":
+			_ruota_mandria(im, gm, w, h)
+		"parafulmine":
+			_parafulmine(im, gm, w, h)
+		"radice_madre":
+			_radice_madre(im, gm, w, h)
 		_:
 			_scatola(im, gm, w, h, d)
 	return true
@@ -268,3 +274,42 @@ static func _cuore_cristallo(im: Image, gm: Image, w: int, h: int) -> void:
 					Px.put(gm, x, y, LINFA[3])
 	Px.line(im, Vector2(3, h - 4), c + Vector2(-3, 4), 2, BARK[1])
 	Px.line(im, Vector2(w - 4, h - 4), c + Vector2(3, 4), 2, BARK[1])
+
+
+## La Ruota della mandria: una grande ruota di corteccia dove corre una creatura, su due piedi di radice.
+static func _ruota_mandria(im: Image, gm: Image, w: int, h: int) -> void:
+	_roots(im, w, h)
+	var c := Vector2(w * 0.5, h * 0.5)
+	var r := h * 0.47
+	for y in h:
+		for x in w:
+			var d := Vector2(x + 0.5, y + 0.5).distance_to(c)
+			if d <= r and d >= r - 2.5:
+				Px.put(im, x, y, BARK[2] if d > r - 1.2 else BARK[1])
+	for k in 6:
+		var a := k * PI / 3.0
+		Px.line(im, c, c + Vector2(cos(a), sin(a)) * (r - 1.0), 1, BARK[0])
+	Px.disc(im, c.x, c.y, 2.0, LINFA[1])
+	Px.disc(gm, c.x, c.y, 1.5, LINFA[3])
+
+
+## Il Parafulmine di radice: un'asta alta di legnoferro con la punta di folgorite.
+static func _parafulmine(im: Image, gm: Image, w: int, h: int) -> void:
+	_roots(im, w, h)
+	Px.line(im, Vector2(w * 0.5, h - 3), Vector2(w * 0.5, 4), 2, SLATE[2])
+	for y in range(8, h - 4, 6):
+		Px.put(im, int(w * 0.5) - 1, y, SLATE[0])
+		Px.put(im, int(w * 0.5) + 1, y + 2, LINFA[1])
+	Px.disc(im, w * 0.5, 3, 2.4, Color("#d8e8ff"))
+	Px.disc(gm, w * 0.5, 3, 2.0, Color("#f0f8ff"))
+
+
+## La Radice-madre: un groviglio di radici grosse con i nodi di Linfa che pulsano.
+static func _radice_madre(im: Image, gm: Image, w: int, h: int) -> void:
+	for k in 5:
+		var a := Vector2(2 + k * (w - 4) / 4.0, h - 1)
+		var b := Vector2(w * 0.5 + (k - 2) * 2.0, 3)
+		Px.curve(im, a, Vector2(w * 0.5 + (2 - k) * 4.0, h * 0.5), b, 2, BARK[1] if k % 2 == 0 else BARK[2])
+	for p in [Vector2(w * 0.3, h * 0.35), Vector2(w * 0.65, h * 0.55), Vector2(w * 0.5, h * 0.2)]:
+		Px.disc(im, p.x, p.y, 1.8, LINFA[2])
+		Px.disc(gm, p.x, p.y, 1.6, LINFA[3])

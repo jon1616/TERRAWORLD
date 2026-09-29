@@ -34,6 +34,7 @@ func run() -> void:
 	await impulses()
 	await panel()
 	await sources()
+	await TestsEnergyMore.new(kit, self).special()
 	m.player.control = ctl
 	m.day.paused = false
 

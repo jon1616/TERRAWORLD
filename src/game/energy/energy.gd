@@ -275,6 +275,42 @@ func needs(mc: Machine) -> bool:
 	return float(nt["want"]) > others + 0.01 or float(nt["stored"]) < float(nt["cap"]) - 1.0
 
 
+## Roadmap 19, voce 196: il parafulmine più vicino alla colonna x (entro 40), o -1. Lo chiede `Weather.strike`.
+func bolt_target(px: int) -> int:
+	var best := -1
+	for mc: Machine in machines.values():
+		if String(mc.d.get("bh", "")) == "parafulmine" and absi(mc.o.x - px) <= 40:
+			if best < 0 or absi(mc.o.x - px) < absi(best - px):
+				best = mc.o.x
+	return best
+
+
+## Un fulmine è caduto sulla cella c: se ha preso un parafulmine, le sue gocce vanno nelle riserve della sua rete.
+func on_bolt(c: Vector2i) -> void:
+	for mc: Machine in machines.values():
+		if String(mc.d.get("bh", "")) == "parafulmine" and mc.o.x == c.x:
+			mc.set_meta("flash", 1.0)
+			mc.st["colpi"] = int(mc.st.get("colpi", 0)) + 1
+			charge(mc.net, float(mc.d.get("bolt", 0.0)))
+			refresh_look(mc)
+			return
+
+
+## Versa gocce nelle riserve di una rete (fino a riempirle); restituisce quante ne sono entrate.
+func charge(ni: int, amount: float) -> float:
+	if ni < 0 or ni >= nets.size():
+		return 0.0
+	var left := amount
+	for r: Machine in nets[ni]["reserves"]:
+		var g := float(r.st.get("g", 0.0))
+		var add := minf(float(r.d["cap"]) - g, left)
+		r.st["g"] = g + add
+		left -= add
+		if left <= 0.0:
+			break
+	return amount - left
+
+
 ## Clic destro su una macchina: il suo comportamento (una leva, un pulsante) o il pannello.
 func touch(o: Vector2i) -> bool:
 	var mc: Machine = machines.get(o)

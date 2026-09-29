@@ -190,6 +190,10 @@ func _rain_drop() -> void:
 func strike() -> Vector2i:
 	var w: World = m.world
 	var x: int = clampi(m.player_cell().x + _rng.randi_range(-40, 40), 1, w.w - 2)
+	if m.get("energy") != null:
+		var px: int = m.energy.bolt_target(m.player_cell().x)
+		if px >= 0:
+			x = px                                  # Roadmap 19: un parafulmine vicino attira il fulmine
 	var y := 0
 	while y < w.h - 1 and not w.solid(x, y + 1):
 		y += 1
@@ -205,6 +209,8 @@ func strike() -> Vector2i:
 			cr.take_hit(WeatherData.BOLT_DAMAGE, float(x * 16), 120.0)
 	if _rng.randf() < 0.35:
 		m.drops.spawn("fulgorite", 1, Vector2(c) * 16.0 + Vector2(8, 0))
+	if m.get("energy") != null:
+		m.energy.on_bolt(c)
 	return c
 
 
