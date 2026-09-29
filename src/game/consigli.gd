@@ -292,3 +292,38 @@ func _c_prima_certa() -> bool:
 func _c_scrigno_parola() -> bool:
 	return m.word_chests != null and m.word_chests.panel.visible
 
+
+
+# ---------------------------------------------------------------- Roadmap 19
+
+func _c_pinza() -> bool:
+	return String(m.hud.current().get("id", "")) == "pinza_vene"
+
+
+func _c_rete_ferma() -> bool:
+	if m.get("energy") == null:
+		return false
+	var p: Vector2 = m.player.position
+	for mc: Machine in m.energy.machines.values():
+		if mc.net < 0 and mc.role() in ["macchina", "sorgente", "riserva"] and not mc.d.get("gen", false) \
+				and mc.center().distance_to(p) < 160.0:
+			return true
+	return false
+
+
+func _c_tempesta_linfa() -> bool:
+	return m.get("events") != null and String(m.events.active) == "tempesta_linfa"
+
+
+func _c_centrale() -> bool:
+	if m.get("energy") == null:
+		return false
+	var p: Vector2 = m.player.position
+	for mc: Machine in m.energy.machines.values():
+		if mc.id == "cuore_centrale" and mc.center().distance_to(p) < 320.0:
+			return true
+	return false
+
+
+func _c_succhiavena() -> bool:
+	return m.get("wiles") != null and m.wiles.sucked > 0

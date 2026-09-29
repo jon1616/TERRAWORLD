@@ -11,7 +11,8 @@ extends RefCounted
 ##                                     imparati…); "text" = come lo dice l'Albero, "hint" = come arrivarci
 ## Doni (`gives`): aiuola (+1 Aiuola nel Giardino), power (un potere del Germogliato, `PowersData`), npc (un abitante
 ## che arriva al Giardino, `NpcData`), phase (il disegno dell'Albero, 0-4), graft (categorie di geni che il Banco
-## dell'Innestatrice sa innestare), lore (la pagina di storia che si apre).
+## dell'Innestatrice sa innestare), lore (la pagina di storia che si apre), items (oggetti che l'Albero mette nella
+## Bisaccia: il corredo della rete, Roadmap 19).
 
 const STAGES := [
 	{"name": "Il primo respiro", "say": "Il legno mi pesa. Portami terra e legno del Giardino, e va' a vedere il primo mondo.",
@@ -27,7 +28,8 @@ const STAGES := [
 			{"item": "gelatina", "n": 10, "hint": "dai grumi"},
 			{"stat": "geni_imparati", "n": 3, "text": "Impara tre geni", "hint": "Provetta di Linfa sulle cose dei mondi, Fiale dalle creature (Genario, tasto K)"},
 		],
-		"gives": {"power": "vista", "phase": 1}},
+		"gives": {"power": "vista", "phase": 1, "items": {"pinza_vene": 1, "vena_radice": 30, "tamburo_radice": 1, "otre_linfa": 1,
+			"lampada_baccello": 2, "leva_radice": 1, "filo_turchese": 20}}},
 	{"name": "La prima Linfa antica", "say": "Nel Fondo di ogni mondo batte un Cuore. La sua Linfa più antica mi farebbe svegliare.",
 		"offers": [
 			{"item": "linfa_antica", "n": 2, "hint": "la dona il Cuore di un mondo quando il suo Guardiano è curato o sconfitto (il Fondo)"},

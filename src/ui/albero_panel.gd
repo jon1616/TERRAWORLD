@@ -132,6 +132,11 @@ func _refresh() -> void:
 		gifts.append("arriva al Giardino %s" % NpcData.name_of(String(gv["npc"])))
 	if gv.has("graft"):
 		gifts.append("il Banco dell'Innestatrice sa innestare i geni di %s" % ", ".join(gv["graft"]))
+	if gv.has("items"):
+		var names := []
+		for id in gv["items"]:
+			names.append("%s ×%d" % [String(ItemsData.get_item(String(id)).get("name", id)), int(gv["items"][id])])
+		gifts.append("il corredo della rete: %s" % ", ".join(names))
 	if gv.has("phase"):
 		gifts.append("l'Albero cresce")
 	t += "\n[color=#8ef0d8]Dona:[/color]\n"

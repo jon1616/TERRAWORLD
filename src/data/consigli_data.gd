@@ -75,6 +75,17 @@ const LIST := [
 		"text": "Una parola dei Seminatori è [b]certa[/b]: ora la leggi in italiano ovunque. Le parole certe si incidono al Maglio e svelano ricette scritte."},
 	{"id": "scrigno_parola", "title": "Uno scrigno a parola", "cap": "scrigni_parola",
 		"text": "Questo scrigno ha un sigillo: una frase con una parola mancante. Scegli la parola giusta tra quelle che hai visto; se sbagli si richiude per un po'."},
+	# Roadmap 19 «La Linfa che scorre»
+	{"id": "pinza", "title": "La Pinza delle vene", "cap": "rete_vene",
+		"text": "Clic e trascina: una linea di vena (o di filo). [b]Maiusc+rotella[/b] sceglie che cosa posare, il clic destro riprende. Le macchine prendono la Linfa dalle vene che toccano con una loro cella."},
+	{"id": "rete_ferma", "title": "Una macchina senza vena", "cap": "rete_flusso",
+		"text": "Questa macchina non tocca nessuna vena: posane una sotto di lei con la Pinza, fino a una sorgente (Tamburo, Foglia-lanterna, Mulino…). L'[b]Occhio delle vene[/b] dice tutto di una rete."},
+	{"id": "tempesta_linfa", "title": "La Tempesta di Linfa", "cap": "rete_tempesta",
+		"text": "Le sorgenti danno di più, ma le vene di radice e di legnoferro tese si spezzano. Una [b]Valvola di sfogo[/b] sulla rete la protegge; le vene isolate con la gelatina non si spezzano."},
+	{"id": "centrale", "title": "Una Centrale dei Seminatori", "cap": "rete_centrali",
+		"text": "Il cuore dorme: un [b]cristallo di Linfa[/b] lo sveglia. Poi ripara la vena d'ambra del pavimento (lo scrigno all'ingresso ha ciò che serve) e alza le tre leve: la porta della sala interna si apre."},
+	{"id": "succhiavena", "title": "Qualcosa beve le vene", "cap": "rete_creature",
+		"text": "Un [b]Succhiavena[/b] ha bevuto una vena di radice. Le vene di legnoferro (e più dure) non le toccano, e nemmeno quelle isolate con la gelatina."},
 ]
 
 

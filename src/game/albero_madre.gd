@@ -115,6 +115,12 @@ func awaken() -> bool:
 		news.append("arriverà %s" % NpcData.name_of(String(gv["npc"])))
 	if gv.has("graft"):
 		news.append("si possono innestare i geni di %s" % ", ".join(gv["graft"]))
+	if gv.has("items"):
+		news.append("il corredo della rete (il filo ti guida al primo circuito)")
+		for id in gv["items"]:
+			var rest: int = m.character.bisaccia.add(String(id), int(gv["items"][id]))
+			if rest > 0:
+				m.drops.spawn(String(id), rest, m.player.position)
 	_apply()
 	m.objectives.bump("albero")
 	Fx.puff(m.fx, _tree_pos(), Color(1.2, 1.8, 1.4))

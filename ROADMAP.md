@@ -3583,8 +3583,14 @@ rete (vene, fili, Linfa rappresa, Luce di vena, polveri, o una Centrale da risve
 passano in `TestsEnergyWorld` (nuovo file). I progetti della Tessitrice sono andati alla voce 210.
 
 ## Fase 6 · Capire, misurare, chiudere
-## 209. [ ] Il primo circuito e i consigli (M)
+## 209. [x] Il primo circuito e i consigli (M) — fatto il 29 set 2026
 Il circuito guidato (Tamburo, Otre, Lampada, Leva) dallo stadio 2 dell'Albero, il filo, i consigli.
+**Fatto**: il secondo stadio dell'Albero-Madre dona il **corredo della rete** (dono nuovo `items` in `MotherTreeData`,
+letto da `AlberoMadre.awaken` e mostrato da `AlberoPanel`: Pinza, 30 vene, Tamburo, Otre, due Lampade, Leva, filo
+turchese). Il **filo** ha una fonte nuova «rete» (`FiloRete`, `src/game/filo_rete.gd`) che porta in cinque passi al primo
+circuito (Tamburo → vena → Otre → Lampada → Leva col filo), con il rombo sul posto; finito, `stats.primo_circuito` (e una
+tappa del diario). Cinque consigli della rete (`ConsigliData`: la Pinza, una macchina senza vena, la Tempesta, una
+Centrale vicina, un Succhiavena) con i capitoli dell'Enciclopedia. Prova nel gruppo `energia`.
 ## 210. [ ] Enciclopedia e progetti (M)
 Il gruppo «La Linfa che scorre», il catalogo delle macchine, i progetti nella Tavola del progetto.
 ## 211. [ ] Il bilancio della rete (M)
