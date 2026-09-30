@@ -220,8 +220,7 @@ func _sort() -> void:
 
 
 ## Maiusc+clic su una casella della Bisaccia mentre la cesta è aperta: la pila passa nella cesta.
-func _from_bag(i: int) -> void:
-	var b := panel.bisaccia
+func _from_bag(b: Bisaccia, i: int) -> void:
 	if b.slots[i].is_empty():
 		return
 	Storage.move_slot(b, i, chest)

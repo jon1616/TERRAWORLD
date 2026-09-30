@@ -57,6 +57,8 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 			return m.keepers.summon(id)
 		"tavoletta":
 			return m.language.use_tablet(id)           # voce 68
+		"bisaccia":
+			return m.backpack.use_bag(id)              # voce 295: le Bisacce a gradi
 		"fagiolo":
 			return m.chiome.plant_bean(c, id)          # Roadmap 16, voce 157: il Fagiolo di nuvola
 		"esca_signore":

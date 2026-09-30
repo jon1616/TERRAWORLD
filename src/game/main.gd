@@ -112,6 +112,7 @@ var angler: AnglerBook                 # Roadmap 27: i record e le gare di pesca
 var contracts: NetContracts            # Roadmap 27: i contratti della rete
 var primo: PrimoGarden                 # Roadmap 28: il Giardino oltre il Vuoto
 var finale: Finale                     # Roadmap 28: il finale
+var backpack: Backpack                 # Roadmap 30: lo zaino
 var evergreen: Evergreen               # Roadmap 28: il dopo (stelle di maestria, Semi d'oro)
 var summons: Summons
 var effects: Effects
@@ -353,6 +354,7 @@ func _build() -> void:
 	contracts = _mount(NetContracts.new())     # Roadmap 27: i contratti della rete
 	primo = _mount(PrimoGarden.new())          # Roadmap 28: il Giardino oltre il Vuoto
 	finale = _mount(Finale.new())
+	backpack = _mount(Backpack.new())
 	evergreen = _mount(Evergreen.new())
 	_mount(PanelButtons.new())                 # voce 101: i pulsanti dei pannelli in basso a sinistra
 	hud.select(character.hotbar)

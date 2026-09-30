@@ -64,7 +64,9 @@ static func from_dict(cid: String, d: Dictionary) -> Character:
 	c.hotbar = int(d.get("barra", 0))
 	c.last_world = String(d.get("ultimo_mondo", ""))
 	# i personaggi salvati prima della Bisaccia ricevono il corredo iniziale
-	c.bisaccia = Bisaccia.from_array(d["bisaccia"]) if d.has("bisaccia") else Bisaccia.starter()
+	# (voce 295: la Bisaccia può essere cresciuta con le Bisacce a gradi: tante caselle quante ne sono state salvate)
+	c.bisaccia = Bisaccia.from_array(d["bisaccia"], maxi(Bisaccia.SIZE, (d["bisaccia"] as Array).size())) \
+		if d.has("bisaccia") else Bisaccia.starter()
 	var eq: Dictionary = d.get("equipaggiamento", {})
 	for k in eq:
 		if k in Bisaccia.EQUIP_SLOTS and ItemsData.has(String(eq[k])):

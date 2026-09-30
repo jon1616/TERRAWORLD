@@ -69,6 +69,23 @@ func data_at(i: int) -> Dictionary:
 	return slots[i].get("dati", {})
 
 
+## Voce 295: la Bisaccia cresce (le Bisacce a gradi); le caselle nuove sono vuote, in fondo.
+func grow(size: int) -> bool:
+	if size <= slots.size():
+		return false
+	var old := slots.size()
+	slots.resize(size)
+	for i in range(old, size):
+		slots[i] = {}
+	changed.emit()
+	return true
+
+
+## Le schede in più del pannello (tasche, basto): [{"t", "bag", "from", "tip", "icon"}]. Le riempiono le voci 296 e 299.
+func extra_views() -> Array:
+	return []
+
+
 ## Un pezzo d'equipaggiamento (una casella a sé, con il suo tratto)?
 static func is_gear(id: String) -> bool:
 	return TraitsData.category_of(id) != "" and ItemsData.stack_of(id) == 1
@@ -195,7 +212,7 @@ const SORT_KINDS := ["piccone", "ascia", "spada", "arco", "bastone", "munizione"
 	"stivali", "mantello", "amuleto", "anello",
 	"accessorio", "consumabile", "cura", "dono", "purifica", "lanterna", "specchio", "mappa", "richiamo", "stazione", "pinza",
 	"vena", "filo", "isolante",
-	"torcia", "piattaforma", "seme", "seme_mondo", "blocco", "materiale", "essenza", "trofeo", "reliquia", "ricordo", "provetta", "fiala", "uovo", "creatura", "vasetto", "laccio"]
+	"bisaccia", "torcia", "piattaforma", "seme", "seme_mondo", "blocco", "materiale", "essenza", "trofeo", "reliquia", "ricordo", "provetta", "fiala", "uovo", "creatura", "vasetto", "laccio"]
 
 
 func sort_bag(from := HOTBAR) -> void:

@@ -37,6 +37,13 @@ var _held_icon: SlotView
 var trash := {}
 var _trash_view: SlotView
 var _toast: Callable = func(_t: String) -> void: pass
+## Voce 295: ciò che la griglia mostra. La Bisaccia cresciuta si sfoglia a pagine di 30 caselle; le tasche (voce 296)
+## e il basto (voce 299) sono altre schede. Ogni vista: {"t": scritta del bottone, "bag": Bisaccia, "from": prima
+## casella, "tip": suggerimento, "icon": oggetto per l'icona}.
+var _views: Array = []
+var view := 0
+var _tabs: HBoxContainer
+var _tabs_key := ""
 
 
 func _ready() -> void:
@@ -67,6 +74,11 @@ func _ready() -> void:
 	title.add_theme_color_override("font_outline_color", Color(0.02, 0.05, 0.07))
 	title.add_theme_constant_override("outline_size", 6)
 	add_child(title)
+	# le schede (pagine, tasche, basto) accanto al titolo: compaiono solo quando ce n'è più d'una
+	_tabs = HBoxContainer.new()
+	_tabs.position = Vector2(x0 + 128, y0 - 38)
+	_tabs.add_theme_constant_override("separation", 4)
+	add_child(_tabs)
 	for r in ROWS:
 		for c in COLS:
 			var s := SlotView.new()
@@ -139,17 +151,17 @@ func _ready() -> void:
 	var sort := Button.new()
 	sort.text = "Riordina"
 	sort.focus_mode = Control.FOCUS_NONE
-	sort.position = Vector2(frame.position.x + frame.size.x - 112, frame.position.y + 8)
-	sort.size = Vector2(98, 28)
+	sort.position = Vector2(frame.position.x + frame.size.x - 96, frame.position.y + 8)
+	sort.size = Vector2(82, 28)
 	sort.add_theme_font_size_override("font_size", 13)
 	sort.tooltip_text = "Mette in ordine la Bisaccia (non la barra rapida): per tipo e per nome, unendo le pile"
 	sort.pressed.connect(func() -> void: bisaccia.sort_bag())
 	add_child(sort)
 	var qs := Button.new()
-	qs.text = "Nelle casse vicine"
+	qs.text = "Nelle casse"
 	qs.focus_mode = Control.FOCUS_NONE
-	qs.position = sort.position - Vector2(162, 0)
-	qs.size = Vector2(154, 28)
+	qs.position = sort.position - Vector2(98, 0)
+	qs.size = Vector2(92, 28)
 	qs.add_theme_font_size_override("font_size", 13)
 	qs.tooltip_text = "Ogni oggetto della Bisaccia (non la barra rapida) va nella cassa vicina che lo contiene già o che raccoglie il suo tipo"
 	qs.pressed.connect(func() -> void:
@@ -165,16 +177,9 @@ func _ready() -> void:
 		if button == MOUSE_BUTTON_LEFT:
 			click_trash())
 	add_child(_trash_view)
-	var tl := Label.new()
-	tl.text = "Cestino"
-	tl.position = _trash_view.position + Vector2(-66, 7)
-	tl.size = Vector2(60, 20)
-	tl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	tl.add_theme_font_size_override("font_size", 13)
-	tl.add_theme_color_override("font_color", Color("#9fc8c0"))
-	tl.mouse_filter = Control.MOUSE_FILTER_STOP
-	tl.tooltip_text = "Cestino: posa qui un oggetto per eliminarlo (clic con l'oggetto in mano, o Ctrl+clic su una casella). Finché non ci butti altro, un clic a mani vuote lo riprende."
-	add_child(tl)
+	# (voce 295: la scritta «Cestino» è diventata la sagoma della casella, per fare posto alle schede)
+	_trash_view.set_ghost("cesta", "Cestino")
+	_trash_view.tooltip_text = "Cestino: posa qui un oggetto per eliminarlo (clic con l'oggetto in mano, o Ctrl+clic su una casella). Finché non ci butti altro, un clic a mani vuote lo riprende."
 	crafting = CraftingPanel.new()
 	add_child(crafting)
 	crafting.setup(bisaccia, stations_near)
@@ -217,21 +222,75 @@ func toggle() -> void:
 		_refresh()
 
 
+## La Bisaccia (o la tasca) che la griglia mostra adesso.
+func bag() -> Bisaccia:
+	if view < _views.size():
+		return _views[view]["bag"]
+	return bisaccia
+
+
 func click_slot(i: int, button: int) -> void:
-	if button == MOUSE_BUTTON_LEFT and Input.is_key_pressed(KEY_CTRL) and held.is_empty() and not bisaccia.slots[i].is_empty():
-		_to_trash(bisaccia.slots[i].duplicate(true))   # Ctrl+clic: la casella intera nel cestino
-		bisaccia.slots[i] = {}
-		bisaccia.changed.emit()
+	var b := bag()
+	if i >= b.slots.size():
+		return
+	if button == MOUSE_BUTTON_LEFT and Input.is_key_pressed(KEY_CTRL) and held.is_empty() and not b.slots[i].is_empty():
+		_to_trash(b.slots[i].duplicate(true))          # Ctrl+clic: la casella intera nel cestino
+		b.slots[i] = {}
+		b.changed.emit()
 	elif button == MOUSE_BUTTON_LEFT and Input.is_key_pressed(KEY_SHIFT) and quick_target.is_valid():
-		quick_target.call(i)
-	elif button == MOUSE_BUTTON_RIGHT and held.is_empty() and bisaccia.count_at(i) > 1:
-		var half := bisaccia.count_at(i) / 2
-		held = {"id": bisaccia.id_at(i), "n": half}
-		bisaccia.slots[i]["n"] = bisaccia.count_at(i) - half
-		bisaccia.changed.emit()
+		quick_target.call(b, i)
+	elif button == MOUSE_BUTTON_RIGHT and held.is_empty() and b.count_at(i) > 1:
+		var half := b.count_at(i) / 2
+		held = {"id": b.id_at(i), "n": half}
+		b.slots[i]["n"] = b.count_at(i) - half
+		b.changed.emit()
 	elif button == MOUSE_BUTTON_LEFT:
-		held = bisaccia.swap_with(i, held)
+		if not held.is_empty() and b.has_meta("accept") and not (b.get_meta("accept") as Callable).call(String(held["id"])):
+			_toast.call("Qui va solo ciò che è del suo tipo")   # voce 296: una tasca prende solo il suo tipo
+		else:
+			held = b.swap_with(i, held)
 	_refresh()
+
+
+## Le viste della griglia: le pagine della Bisaccia, poi le tasche e il basto (`extra_views` della Bisaccia).
+func _build_views() -> void:
+	_views.clear()
+	var pages := ceili(float(bisaccia.slots.size() - Bisaccia.HOTBAR) / float(BackpackData.PAGE))
+	for p in pages:
+		_views.append({"t": str(p + 1) if pages > 1 else "", "bag": bisaccia, "from": Bisaccia.HOTBAR + p * BackpackData.PAGE,
+			"tip": "Bisaccia, pagina %d di %d (%d caselle)" % [p + 1, pages, bisaccia.slots.size()]})
+	for e in bisaccia.extra_views():
+		_views.append(e)
+	if view >= _views.size():
+		view = 0
+	var key := "%d|%d|%s" % [view, _views.size(), ",".join(_views.map(func(v: Dictionary) -> String: return String(v.get("t", "")) + String(v.get("icon", ""))))]
+	if key == _tabs_key:
+		return
+	_tabs_key = key
+	for c in _tabs.get_children():
+		_tabs.remove_child(c)
+		c.queue_free()
+	if _views.size() < 2:
+		return
+	for k in _views.size():
+		var v: Dictionary = _views[k]
+		var b := Button.new()
+		b.toggle_mode = true
+		b.focus_mode = Control.FOCUS_NONE
+		b.custom_minimum_size = Vector2(30, 28)
+		b.text = String(v.get("t", ""))
+		if String(v.get("icon", "")) != "":
+			b.icon = SlotView.icon(String(v["icon"]))
+			b.expand_icon = true
+			b.custom_minimum_size = Vector2(34, 28)
+		b.add_theme_font_size_override("font_size", 13)
+		UiFrames.button(b, UiPalette.AMBRA, k == view)
+		b.button_pressed = k == view
+		b.tooltip_text = String(v.get("tip", ""))
+		b.pressed.connect(func() -> void:
+			view = k
+			_refresh())
+		_tabs.add_child(b)
 
 
 ## Un clic sul cestino: con una pila in mano la si butta; a mani vuote si riprende l'ultima buttata.
@@ -258,8 +317,15 @@ func refresh_held() -> void:
 
 func _refresh() -> void:
 	_dirty = false
-	for s in _slots:
-		s.set_item(bisaccia.id_at(s.index), bisaccia.count_at(s.index), bisaccia.trait_at(s.index), bisaccia.data_at(s.index))
+	_build_views()
+	var b := bag()
+	var from := int(_views[view]["from"]) if view < _views.size() else Bisaccia.HOTBAR
+	for k in _slots.size():
+		var s := _slots[k]
+		s.index = from + k
+		s.visible = s.index < b.slots.size()
+		if s.visible:
+			s.set_item(b.id_at(s.index), b.count_at(s.index), b.trait_at(s.index), b.data_at(s.index))
 	for slot in _equip:
 		var ev := _equip[slot] as SlotView
 		ev.set_item(String(bisaccia.equip.get(slot, "")), 1, String(bisaccia.equip_traits.get(slot, "")),

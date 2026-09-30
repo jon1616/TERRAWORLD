@@ -4538,9 +4538,13 @@ roccia. E con più cose da raccogliere la Bisaccia (40 caselle) non basta. Scelt
 tue possibilità, esplorazione compresa», con le cinque idee per lo zaino.
 
 **Lo zaino**
-- [ ] **295. Bisacce a gradi.** Sei Bisacce (40 → 50 → 60 → 72 → 84 → 100 caselle) da fabbricare con i materiali di
+- [x] **295. Bisacce a gradi.** Sei Bisacce (40 → 50 → 60 → 72 → 84 → 100 caselle) da fabbricare con i materiali di
   strati sempre più profondi; usarla allarga la Bisaccia per sempre (il contenuto resta), `Character` salva quante caselle.
   Il pannello mostra la Bisaccia a pagine di 30 caselle.
+  Fatto il 30 set 2026: `BackpackData` (cinque Bisacce al Telaio, dalla seta alla Linfa), `Backpack.use_bag`,
+  `Bisaccia.grow`, `Character` rilegge tante caselle quante ne ha salvate; nel pannello le schede «1 2 3» accanto al titolo
+  (`BisacciaPanel._views`: pagine, poi tasche e basto), «Nelle casse» e «Riordina» più corti, il Cestino con la sua
+  sagoma. Prova: gruppo «zaino» (foto 300).
 - [ ] **296. Tasche alla cintura.** Tre posti «tasca» nell'equipaggiamento; cinque tasche (minatore, erbario, faretra,
   pescatore, cercatore) in tre gradi (12/24/36 caselle) che prendono da sole ciò che è del loro tipo. Il contenuto vive
   nella tasca (la si toglie piena), conta per creare, si vede in una scheda del pannello.

@@ -283,6 +283,7 @@ static func all() -> Dictionary:
 	out.merge(ArchaeologyData.items())                     # voce 254: fossili, scheletri, pennello
 	out.merge(ChroniclesData.items())                      # voce 255: i frammenti delle cronache
 	out.merge(MuseumData.MILESTONE_ITEMS.duplicate(true))  # voce 256: i premi dei traguardi
+	out.merge(BackpackData.items())                        # Roadmap 30: lo zaino
 	out.merge(PlacesData.ITEMS.duplicate(true))            # voce 70
 	out.merge(NeroData.ITEMS.duplicate(true))              # voce 72
 	out.merge(LiquidsData.ITEMS.duplicate(true))           # voce 73

@@ -261,6 +261,8 @@ func run(main: Node2D) -> void:
 	_mark("TestsMemories")
 	await TestsCurrents.new(kit).run()     # Roadmap 27: acque e correnti
 	_mark("TestsCurrents")
+	await TestsBackpack.new(kit).run()     # Roadmap 30: lo zaino
+	_mark("TestsBackpack")
 	await TestsPrimo.new(kit).run()        # Roadmap 28: il Seme Primo
 	_mark("TestsPrimo")
 	await ob.run()
@@ -463,6 +465,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsMemories.new(kit).run()       # Roadmap 26: memorie
 		"correnti":
 			await TestsCurrents.new(kit).run()       # Roadmap 27: acque e correnti
+		"zaino":
+			await TestsBackpack.new(kit).run()       # Roadmap 30: lo zaino
 		"primo":
 			await TestsPrimo.new(kit).run()          # Roadmap 28: il Seme Primo
 		"arena":
