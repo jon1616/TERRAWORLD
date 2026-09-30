@@ -1,6 +1,9 @@
 # TERRAWORLD — Roadmap
 
-## Dove siamo (aggiornato il 29 set 2026)
+## Dove siamo (aggiornato il 30 set 2026)
+- **In corso: la Roadmap 30 «Lo zaino e le grotte piene»** (voci 295-305, dal 30 set 2026, in autonomia): Bisacce a
+  gradi, tasche, Dispensa, creature da soma; piante che lasciano qualcosa, baccelli da rompere, creature più vive,
+  piccoli incontri e curiosità degli strati.
 - **Fatta la Roadmap 12 «Il mondo si riempie»** (voci 83-99, 28 set 2026): resoconto in fondo alla Roadmap 12. Diario,
   Guardiani da evocare, effetti speciali, dieci posti d'equipaggiamento, totem, trappole, farm, volo, 25 biomi a file,
   i rigori delle terre estreme, i segreti con il contatore, 151 oggetti unici in serie, il bilancio.
@@ -4523,3 +4526,45 @@ nuova. Restano per la grafica di Nano Banana i disegni elencati nella Roadmap 13
 - Voce 6 «Rete a 2».
 - Grafica: ora nella Roadmap 13 «Il volto del mondo» (armatura e colpo in corsa alla voce 117, creature 114-116).
 - Rifinitura del movimento e del combattimento (all'utente sembrano già validi).
+
+
+# Roadmap 30 «Lo zaino e le grotte piene» (dal 30 set 2026, in autonomia)
+
+L'utente, dopo un'ora di gioco in un mondo di vigore 1: «poco da trovare, pochi oggetti raccoglibili, pochi mostri».
+La misura (`tools/densita.gd`, voce 295a) gli ha dato ragione: le ~50 piante dei biomi non lasciano nulla, in superficie
+quasi niente da raccogliere, nelle Caverne d'ardesia ~8 cose ogni 1000 celle d'aria, mancano le piccole cose da rompere;
+creature: di giorno in superficie 2 al più e una nascita ogni ~40 s, nelle grotte due tentativi su tre finiscono nella
+roccia. E con più cose da raccogliere la Bisaccia (40 caselle) non basta. Scelte dell'utente: «fai tutto al meglio delle
+tue possibilità, esplorazione compresa», con le cinque idee per lo zaino.
+
+**Lo zaino**
+- [ ] **295. Bisacce a gradi.** Sei Bisacce (40 → 50 → 60 → 72 → 84 → 100 caselle) da fabbricare con i materiali di
+  strati sempre più profondi; usarla allarga la Bisaccia per sempre (il contenuto resta), `Character` salva quante caselle.
+  Il pannello mostra la Bisaccia a pagine di 30 caselle.
+- [ ] **296. Tasche alla cintura.** Tre posti «tasca» nell'equipaggiamento; cinque tasche (minatore, erbario, faretra,
+  pescatore, cercatore) in tre gradi (12/24/36 caselle) che prendono da sole ciò che è del loro tipo. Il contenuto vive
+  nella tasca (la si toglie piena), conta per creare, si vede in una scheda del pannello.
+- [ ] **297. «Non raccogliere» e «nel Cestino».** Un segno per oggetto, in Esamina: quell'oggetto resta a terra, o va dritto
+  nel Cestino. Si toglie da lì.
+- [ ] **298. La Dispensa del Giardino.** Una cassa grande che appartiene al personaggio (non al mondo), aperta dalla sua
+  stazione nel Giardino; il Seme-dispensa manda una pila alla Dispensa da ogni mondo. Tre gradi: più caselle, «manda
+  tutto il superfluo», aprirla da lontano.
+- [ ] **299. Creature da soma.** Il Basto: una creatura della mandria che ti segue porta caselle in più (secondo la
+  taglia e il livello), che si vedono come una tasca.
+
+**Le grotte piene**
+- [ ] **300. Le piante dei biomi lasciano qualcosa.** Ogni pianta dei biomi (superficie, sottosuolo, cielo) lascia un
+  raccolto del suo bioma (fibre, petali, resine, erbe, spore), a volte due; i raccolti servono a cucina, pozioni, tinture,
+  corde e costrutti.
+- [ ] **301. I baccelli dormienti.** Piccole cose da rompere (baccelli, nidi di radice, urne dei Seminatori, geodi
+  piccoli) sparse in grotte e superficie a decine per strato, con un bottino piccolo secondo strato e bioma: Lumini,
+  torce, dardi, pozioni, semi, ogni tanto un materiale raro o una Fiala.
+- [ ] **302. Le creature.** Le nascite cercano un posto buono vicino al punto scelto invece di fallire nella roccia; tetti
+  e ritmi rivisti (di giorno in superficie 3, grotte più vive); `tools/percorso.gd` per tenere giusta la difficoltà.
+- [ ] **303. Piccoli incontri.** Lo zaino dell'esploratore perduto (bottino e una pagina del suo diario), le tane con il
+  loro tesoro e chi le abita, le sacche di minerale sorvegliate, le camere fungine; si annunciano da lontano (luce, suono,
+  lucciole) così chi esplora ha un motivo per andare di là.
+- [ ] **304. Le curiosità degli strati.** Piccoli ritrovamenti unici per strato e bioma (conchiglie fossili, piume,
+  semi antichi, monete dei Seminatori…), rari, da mettere nel Museo; una sala nuova con un premio per ogni serie completa.
+- [ ] **305. Misura, guida e chiusura.** `tools/densita.gd` con gli obiettivi, consigli ed Enciclopedia, giro intero,
+  resoconto e push.
