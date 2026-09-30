@@ -9,6 +9,8 @@
   Dopo: un secondo bilancio con il diario delle partite vere.
 - **In corso: la Roadmap 29 «Il volto vivo»** (voci 267-294, dal 30 set 2026, in autonomia): ripensare e abbellire
   tutta la grafica (tema unico, HUD, pannelli, mondo vivo, creature, oggetti), vivo ma sobrio, niente tagli.
+  Fatte le fondamenta e il tema (267-273): foto fedeli, galleria con 0 problemi d'impaginazione, `ARTE.md`, cornici di
+  radice in tutti i pannelli, carattere di pixel, movimento. Prossime: barra rapida, Vita e Linfa, suggerimenti (274-277).
 - **In corso: il piano «Le dieci strade»** (Roadmap 20-28, dal 29 set 2026, in autonomia): dieci pilastri con gradi di
   maestria verso ~500 ore di partita. **Fatta la Roadmap 20 «Il motore comune»** (voci 214-219): maestria a gradi,
   Libro dei pilastri (P), strade alternative dell'Albero, misura per pilastro. Resoconto in fondo alla Roadmap 20.
@@ -4454,30 +4456,38 @@ particelle serve tutte le azioni. Niente ritocchi uno per uno dove un sistema ba
   del testo (5 gradini), icone, animazioni (durate e curve), regole «Radici e Linfa».
 
 ## Parte B — Il tema unico
-- 270. [ ] `UiPalette` + `UiTheme`: un Theme del gioco applicato alla finestra principale; tipi base (Panel, PanelContainer,
+- 270. [x] (fatto il 30 set 2026: `UiPalette`, `UiFrames`, `UiTheme` in `src/ui/theme/`, scritti nel tema predefinito
+  del motore; tutti i pannelli passati alle cornici con `UiFrames.box/padded/button`; resta a sé solo `TipView`,
+  voce 277) `UiPalette` + `UiTheme`: un Theme del gioco applicato alla finestra principale; tipi base (Panel, PanelContainer,
   Button, Label, RichTextLabel, LineEdit, CheckBox, OptionButton, ScrollBar, Slider, TabBar, ProgressBar) e varianti
   («Riquadro», «RiquadroForte», «Casella», «Titolo», «Sottotitolo», «Nota», «Pulsante principale»…). I 23 file che
   creano StyleBox a mano passano al tema.
-- 271. [ ] Le cornici di radice: StyleBoxTexture a 9 pezzi disegnate dal codice (angoli di radice intrecciata, filo di
+- 271. [x] (fatto il 30 set 2026: `UiFrames`, nodi di radice agli angoli, foglie sul «forte», filo di Linfa, trama,
+  ombra; il pulsante «principale» d'ambra; foglio in prove/cornici.png con `tools/cornici.gd`) Le cornici di radice: StyleBoxTexture a 9 pezzi disegnate dal codice (angoli di radice intrecciata, filo di
   Linfa, fondo con una trama leggerissima), in tre pesi; ombra morbida.
-- 272. [ ] Il carattere: il testo lungo resta nel carattere morbido di Godot; titoli e numeri in un carattere di pixel
+- 272. [x] (fatto il 30 set 2026: `PixelFont` + `PixelGlyphs` in `src/art/`, alto 11, a 2× e 3×, senza carattere di
+  riserva; titoli dei pannelli e quantità delle caselle; foglio 99_carattere nella galleria) Il carattere: il testo lungo resta nel carattere morbido di Godot; titoli e numeri in un carattere di pixel
   disegnato dal codice (`PixelFont`, FontFile bitmap con le lettere accentate), nitido a 2× e 3×.
-- 273. [ ] Movimento dell'interfaccia (`UiFx`): apertura dei pannelli (dissolvenza + 6 px), pulsanti al passaggio e al
+- 273. [x] (fatto il 30 set 2026: `UiFx` — `appear` per ogni pannello che si apre, guardato dall'HUD; `count`, `flash`;
+  l'avviso scorre; opzione «animazioni»; spente nelle prove, accese nella galleria) Movimento dell'interfaccia (`UiFx`): apertura dei pannelli (dissolvenza + 6 px), pulsanti al passaggio e al
   clic, caselle che rispondono, avvisi che entrano ed escono. Durate 0,08-0,18 s, mai bloccanti.
 
 ## Parte C — Ciò che si vede sempre
 - 274. [ ] La barra rapida: caselle con cornice di radice, sfondo colorato per rarità/tipo, selezione animata, numero del
   tasto, quantità leggibile, nome dell'oggetto con dissolvenza.
 - 275. [ ] Vita, Linfa, Respiro e rigori: liquido animato con shader, tacche, lampo di perdita, testo sempre leggibile.
-- 276. [ ] Minimappa, orologio, obiettivi, filo, avvisi, scritta degli strati: una colonna ordinata, nessuna sovrapposizione.
+- 276. [~] (30 set 2026: l'avviso è una cartolina che sta dove non copre nulla — al centro, in fondo a Esamina con la
+  Bisaccia aperta, in alto a destra sui pannelli; obiettivi più stretti del filo) Minimappa, orologio, obiettivi, filo, avvisi, scritta degli strati: una colonna ordinata, nessuna sovrapposizione.
 - 277. [ ] I suggerimenti: cornice nuova, icona grande, fascia di rarità, larghezza massima con a capo sempre, misura con il
   carattere vero, sezioni con separatori, confronto affiancato.
 
 ## Parte D — I pannelli
-- 278. [ ] Bisaccia ed equipaggiamento (da posizioni fisse a contenitori).
-- 279. [ ] Creare ed Esamina.
-- 280. [ ] Casse, commercio, Mandria, Bacheca, Albero-Madre, Innesto, macchine.
-- 281. [ ] Erbario, Semenzaio (Mondi, Genario, Storia), Quaderno, mappa.
+- 278. [~] (30 set 2026: cornici, sagome dei posti vuoti al posto delle scritte, tinta delle caselle per tipo e qualità,
+  sfondo davvero scuro) Bisaccia ed equipaggiamento (da posizioni fisse a contenitori).
+- 279. [~] (30 set 2026: categorie con il conteggio a destra, caselle e pulsanti del tema, «Crea» principale) Creare ed Esamina.
+- 280. [~] (30 set 2026: commercio riprogettato, mandria su `UiScreen`, Bacheca, Albero e Innesto con i riquadri) Casse, commercio, Mandria, Bacheca, Albero-Madre, Innesto, macchine.
+- 281. [~] (30 set 2026: `UiScreen`, lo scheletro dei pannelli a schermo intero; Erbario con la griglia che scorre;
+  Semenzaio e Quaderno con i riquadri; sfondi opachi) Erbario, Semenzaio (Mondi, Genario, Storia), Quaderno, mappa.
 - 282. [ ] Enciclopedia: pagine impaginate come un libro (titoli, colonne, illustrazioni, schede).
 - 283. [ ] Menu principale, creazione del personaggio e del mondo, pausa, opzioni, schermata d'attesa.
 
