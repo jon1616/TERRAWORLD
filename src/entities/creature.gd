@@ -177,7 +177,7 @@ func _load_art(shape: String, variant: int) -> void:
 		var t_fr := []
 		var t_gl := []
 		for im in fr["frames"]:
-			t_fr.append(ImageTexture.create_from_image(im))
+			t_fr.append(ImageTexture.create_from_image(CreatureFx.shade(im)))   # voce 290: contorno colorato, luce
 		for im in fr["glow"]:
 			t_gl.append(ImageTexture.create_from_image(im))
 		_art_cache[key] = [t_fr, t_gl]

@@ -68,3 +68,72 @@ static func ghost(parent: Node, spr: Sprite2D, at: Vector2) -> void:
 	tw.tween_property(g, "position:y", at.y - 10.0, 0.4).set_ease(Tween.EASE_OUT)
 	tw.tween_property(g, "modulate", Color(1.2, 1.2, 1.2, 0.0), 0.4)
 	tw.chain().tween_callback(g.queue_free)
+
+
+## (voce 290) Il volume, per ogni disegno di creatura (fatto dal codice o da Nano Banana): il contorno nero diventa del
+## colore del corpo molto scurito (come fanno i pixel artist: il nero pieno appiattisce), e il corpo prende la luce da
+## sinistra in alto (un filo più chiaro dove tocca il contorno in alto e a sinistra, più scuro in basso e a destra).
+static func shade(src: Image) -> Image:
+	var img := src.duplicate() as Image
+	if img.is_compressed():
+		return img
+	img.convert(Image.FORMAT_RGBA8)
+	var w := img.get_width()
+	var h := img.get_height()
+	var edge := PackedByteArray()
+	edge.resize(w * h)
+	# 1. il contorno: pixel scuri che toccano il vuoto
+	for y in h:
+		for x in w:
+			var c := img.get_pixel(x, y)
+			if c.a < 0.5 or c.get_luminance() > 0.13:
+				continue
+			if _empty(img, x - 1, y) or _empty(img, x + 1, y) or _empty(img, x, y - 1) or _empty(img, x, y + 1):
+				edge[y * w + x] = 1
+	# 2. il contorno prende il colore del corpo accanto, molto scurito
+	for y in h:
+		for x in w:
+			if edge[y * w + x] == 0:
+				continue
+			var sum := Vector3.ZERO
+			var n := 0
+			for d: Vector2i in [Vector2i(-1, 0), Vector2i(1, 0), Vector2i(0, -1), Vector2i(0, 1)]:
+				var q := Vector2i(x, y) + d
+				if q.x < 0 or q.y < 0 or q.x >= w or q.y >= h or edge[q.y * w + q.x] == 1:
+					continue
+				var b := img.get_pixelv(q)
+				if b.a > 0.5 and b.get_luminance() > 0.13:
+					sum += Vector3(b.r, b.g, b.b)
+					n += 1
+			if n > 0:
+				var avg := sum / n
+				var body := Color(avg.x, avg.y, avg.z)
+				var o := body.darkened(0.72)
+				o = o.lerp(Color(0.06, 0.03, 0.08), 0.35)          # un velo prugna: il contorno dello stile
+				img.set_pixel(x, y, Color(o, img.get_pixel(x, y).a))
+	# 3. la luce da sinistra in alto
+	var out := img.duplicate() as Image
+	for y in h:
+		for x in w:
+			if edge[y * w + x] == 1:
+				continue
+			var c := img.get_pixel(x, y)
+			if c.a < 0.5:
+				continue
+			var lit := _is_edge(edge, w, h, x, y - 1) or _is_edge(edge, w, h, x - 1, y)
+			var dark := _is_edge(edge, w, h, x, y + 1) or _is_edge(edge, w, h, x + 1, y)
+			if lit and not dark:
+				out.set_pixel(x, y, Color(c.lightened(0.14), c.a))
+			elif dark and not lit:
+				out.set_pixel(x, y, Color(c.darkened(0.16), c.a))
+	return out
+
+
+static func _empty(img: Image, x: int, y: int) -> bool:
+	if x < 0 or y < 0 or x >= img.get_width() or y >= img.get_height():
+		return true
+	return img.get_pixel(x, y).a < 0.5
+
+
+static func _is_edge(edge: PackedByteArray, w: int, h: int, x: int, y: int) -> bool:
+	return x >= 0 and y >= 0 and x < w and y < h and edge[y * w + x] == 1
