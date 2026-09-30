@@ -17,6 +17,11 @@ func _init(tk: TestKit) -> void:
 
 func run() -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path("res://prove/galleria"))
+	# le foto di prima se ne vanno: i numeri cambiano quando si aggiunge un pannello, e restavano doppioni
+	var dir := ProjectSettings.globalize_path("res://prove/galleria")
+	for fn in DirAccess.get_files_at(dir):
+		if fn.ends_with(".png"):
+			DirAccess.remove_absolute(dir.path_join(fn))
 	UiFx.enabled = true                   # la galleria prova anche il movimento: ogni foto aspetta che finisca
 	await kit.seconds(0.3)
 	await _shot("00_hud")
@@ -68,7 +73,13 @@ func run() -> void:
 	for ov in m.hud.overlays:
 		if not is_instance_valid(ov):
 			continue
-		if not _call_any(ov, ["toggle", "open", "open_panel", "open_menu"]):
+		# chi vuole un argomento riceve un testo di prova lungo, per vedere se va a capo e scorre
+		var sample := "Le radici del cosmo si intrecciano sotto ogni mondo. " .repeat(12)
+		if ov is ReadPanel:
+			(ov as ReadPanel).show_text("Una stele dei Seminatori", sample)
+		elif ov is FinalePanel:
+			(ov as FinalePanel).show_pages([["La tua partita", sample], ["", sample]])
+		elif not _call_any(ov, ["toggle", "open", "open_panel", "open_menu"]):
 			report.append("(non so aprire %s)" % _cls(ov))
 			continue
 		await kit.frames(3)
