@@ -14,6 +14,7 @@ func _init(tk: TestKit) -> void:
 func run() -> void:
 	await place()
 	await guardian()
+	await ending()
 
 
 ## Voce 263: con il parametro «primo» il generatore fa la radura con l'Albero Antico; senza, no.
@@ -71,3 +72,30 @@ func guardian() -> void:
 		m.world_meta.erase("primo_luogo")
 	else:
 		m.world_meta["primo_luogo"] = had_state
+
+
+## Voce 264: il finale mostra il racconto, l'epilogo con i numeri e i titoli; poi l'Albero-Madre è d'oro.
+func ending() -> void:
+	var fi: Finale = m.finale
+	var st: Dictionary = m.character.stats
+	var had := int(st.get("finale", 0))
+	st.erase("finale")                             # (la prova di prima può averlo già visto)
+	fi.start()
+	await kit.frames(3)
+	await kit.save("255_finale")
+	var pages: int = fi.panel.pages.size()
+	var epi := fi.epilogue()
+	for k in pages:
+		fi.panel.next()
+	var closed: bool = not fi.panel.visible
+	var gold := int(st.get("finale", 0)) >= 1
+	var ph := 5 if gold else 0
+	var ok: bool = pages == FinaleData.STORY.size() + 2 and epi.contains("Ore di gioco") and closed and gold \
+		and StationsData.STATIONS.has("albero_madre_%d" % ph)
+	print("finale: %d pagine, epilogo con i numeri %s, chiuso %s; Albero-Madre d'oro %s" % [pages, epi.contains("Ore di gioco"), closed, gold])
+	if not ok:
+		print("ATTENZIONE: il finale non va")
+	if had == 0:
+		st.erase("finale")
+	else:
+		st["finale"] = had

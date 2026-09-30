@@ -234,6 +234,9 @@ const _STATIONS := {
 		"light_color": Color(0.4, 0.9, 0.8)},
 	"albero_madre_3": {"name": "Albero-Madre", "size": [9, 13], "item": "", "fixed": true, "light": true,
 		"light_color": Color(0.6, 1.0, 0.8)},
+	# Roadmap 28, voce 264: dopo il finale l'Albero-Madre è d'oro
+	"albero_madre_5": {"name": "Albero-Madre", "size": [9, 13], "item": "", "fixed": true, "light": true,
+		"light_color": Color(1.4, 1.2, 0.6)},
 	"albero_madre_4": {"name": "Albero-Madre", "size": [9, 13], "item": "", "fixed": true, "light": true,
 		"light_color": Color(1.0, 1.0, 0.8)},
 	# voce 68: la stele dei Seminatori (una frase nella loro lingua)

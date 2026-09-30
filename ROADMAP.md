@@ -4377,9 +4377,15 @@ e salti) e i suoi Guardiani di Linfa. `PrimoGarden` (`src/game/primo_garden.gd`)
 sveglia; sconfitto lascia il Seme del Seminatore (e una pagina); portato all'Albero, comincia il finale. Scheda
 dell'Albero Antico nei suggerimenti. Prova nel gruppo nuovo `primo`.
 
-## 264. [ ] Il finale (M)
+## 264. [x] Il finale (M) — fatto il 30 set 2026
 Dopo il Custode, l'Albero Antico racconta dove sono andati i Seminatori; l'epilogo con i numeri della partita e i
 titoli di coda; il Giardino cambia (l'Albero-Madre d'oro).
+**Fatto**: `FinaleData` (sei pagine: l'Albero Antico racconta che i Seminatori si piantarono e divennero le radici del
+cosmo, che l'ultimo restò a custodire il seme, che il Seme Primo è un inizio; il ritorno al Giardino; i titoli di coda),
+`Finale` (`src/game/finale.gd`: conteggio «finale», diario, l'epilogo con i numeri della partita: ore, mondi, stelle,
+creature, pesci, Erbario, Museo, mandria, parole, i gradi dei dieci pilastri) e `FinalePanel` (una pagina alla volta).
+Dopo il finale l'**Albero-Madre è d'oro** (stazione `albero_madre_5`, `AlberoMadre._apply`); l'Albero Antico, toccato di
+nuovo, rilegge l'epilogo. Foto 255.
 
 ## 265. [ ] Il dopo (M)
 Dopo il finale: ogni settimana di gioco l'Albero-Madre dona un Seme d'oro (vigore sempre più alto, un gene stellare),

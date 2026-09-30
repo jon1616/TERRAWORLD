@@ -188,7 +188,7 @@ func _apply() -> void:
 	if has_garden():
 		m.aiuole.bonus = MotherTreeData.aiuole(s)
 	if m.giardino.active:
-		var ph := MotherTreeData.phase(s)
+		var ph := 5 if int(m.character.stats.get("finale", 0)) >= 1 else MotherTreeData.phase(s)   # Roadmap 28: d'oro
 		var o: Vector2i = m.giardino.tree_o
 		var want := "albero_madre_%d" % ph
 		if o.x >= 0 and String(m.world.stations.get(o, "")) != want:

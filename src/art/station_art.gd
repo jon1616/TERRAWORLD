@@ -21,16 +21,15 @@ static func make(id: String) -> Dictionary:
 		return drawn
 	var im := Px.img(w, h)
 	var gm := Px.img(w, h)
-	if id.begins_with("albero_madre_"):              # voce 62: l'Albero-Madre, in cinque fasi
-		MotherTreeArt.draw(int(id.get_slice("_", 2)), im, gm, w, h)
+	if id.begins_with("albero_madre_"):              # voce 62: l'Albero-Madre, in cinque fasi (la sesta, d'oro: Roadmap 28)
+		var ph := int(id.get_slice("_", 2))
+		MotherTreeArt.draw(mini(ph, 4), im, gm, w, h)
+		if ph >= 5:
+			_gold(im, w, h)
 		return {"img": im, "glow": gm}
 	if id == "albero_antico":                        # Roadmap 28: l'Albero Antico, dorato
 		MotherTreeArt.draw(4, im, gm, w, h)
-		for y in h:
-			for x in w:
-				var p := im.get_pixel(x, y)
-				if p.a > 0.0:
-					im.set_pixel(x, y, Color(p.r, p.g, p.b, p.a).lerp(Color("#ffd870") * Color(p.v, p.v, p.v), 0.4))
+		_gold(im, w, h)
 		return {"img": im, "glow": gm}
 	var lost := LostGardensData.tree_of(id)
 	if String(lost[0]) != "":                        # Roadmap 21: un Albero perduto, malato o guarito, nel suo colore
@@ -246,6 +245,15 @@ static func _giacimento(im: Image, _gm: Image, w: int, h: int) -> void:
 		Px.put(im, x, h - 6, bone)
 	for p in [Vector2i(3, h - 7), Vector2i(3, h - 5), Vector2i(w - 4, h - 7), Vector2i(w - 4, h - 5)]:
 		Px.put(im, p.x, p.y, bone)
+
+
+## Roadmap 28: un Albero dorato (l'Albero Antico, l'Albero-Madre dopo il finale).
+static func _gold(im: Image, w: int, h: int) -> void:
+	for y in h:
+		for x in w:
+			var p := im.get_pixel(x, y)
+			if p.a > 0.0:
+				im.set_pixel(x, y, Color(p.r, p.g, p.b, p.a).lerp(Color("#ffd870") * Color(p.v, p.v, p.v), 0.4))
 
 
 static func _aiuola(im: Image, gm: Image, w: int, h: int) -> void:

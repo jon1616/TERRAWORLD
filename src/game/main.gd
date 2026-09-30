@@ -111,6 +111,7 @@ var museum: Museum                     # Roadmap 26: il Museo del Giardino
 var angler: AnglerBook                 # Roadmap 27: i record e le gare di pesca
 var contracts: NetContracts            # Roadmap 27: i contratti della rete
 var primo: PrimoGarden                 # Roadmap 28: il Giardino oltre il Vuoto
+var finale: Finale                     # Roadmap 28: il finale
 var summons: Summons
 var effects: Effects
 var zones: Zones
@@ -348,6 +349,7 @@ func _build() -> void:
 	angler = _mount(AnglerBook.new())          # Roadmap 27: i record e le gare di pesca
 	contracts = _mount(NetContracts.new())     # Roadmap 27: i contratti della rete
 	primo = _mount(PrimoGarden.new())          # Roadmap 28: il Giardino oltre il Vuoto
+	finale = _mount(Finale.new())
 	_mount(PanelButtons.new())                 # voce 101: i pulsanti dei pannelli in basso a sinistra
 	hud.select(character.hotbar)
 	var start := world.spawn
