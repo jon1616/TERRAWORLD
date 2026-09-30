@@ -89,7 +89,8 @@ func pregen(o: Vector2i) -> void:
 	if e.get("ritorno", false):
 		return
 	WorldPregen.start(int(dest[2]), WorldGen.WIDTH, WorldGen.HEIGHT,
-		MainBoot.gen_params(dest[3], e.get("geni", []), false, m.character, e.get("nero", false), String(e.get("perduto", ""))))
+		MainBoot.gen_params(dest[3], e.get("geni", []), false, m.character, e.get("nero", false), String(e.get("perduto", "")),
+			bool(e.get("primo", false))))
 
 
 func _add_station(o: Vector2i) -> void:

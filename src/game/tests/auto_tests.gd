@@ -259,6 +259,8 @@ func run(main: Node2D) -> void:
 	_mark("TestsMemories")
 	await TestsCurrents.new(kit).run()     # Roadmap 27: acque e correnti
 	_mark("TestsCurrents")
+	await TestsPrimo.new(kit).run()        # Roadmap 28: il Seme Primo
+	_mark("TestsPrimo")
 	await ob.run()
 	_mark("ob.run")
 	await w.run_and_save()
@@ -457,6 +459,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsMemories.new(kit).run()       # Roadmap 26: memorie
 		"correnti":
 			await TestsCurrents.new(kit).run()       # Roadmap 27: acque e correnti
+		"primo":
+			await TestsPrimo.new(kit).run()          # Roadmap 28: il Seme Primo
 		"arena":
 			await TestsArena.new(kit).run()          # voce 180: il bot in arena (una misura, non nel giro)
 		"tratti":

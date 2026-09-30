@@ -63,6 +63,9 @@ const _STATIONS := {
 	"tavolo": {"name": "Tavolo di radice", "size": [3, 1], "item": "tavolo_radice"},
 	"sedia": {"name": "Sedia di radice", "size": [1, 1], "item": "sedia_radice"},
 	"letto": {"name": "Letto di foglie", "size": [3, 1], "item": "letto_foglie"},
+	# Roadmap 28, voce 263: l'Albero Antico del Giardino oltre il Vuoto (`PrimoGarden`)
+	"albero_antico": {"name": "L'Albero Antico", "size": [9, 13], "item": "", "fixed": true, "light": true,
+		"light_color": Color(1.4, 1.2, 0.6)},
 	# voce 254: un giacimento fossile (con il Pennello: `Archaeology.brush`)
 	"giacimento": {"name": "Giacimento fossile", "size": [1, 1], "item": "", "fixed": true},
 	# voce 253: la vetrina del Museo (un contenitore da una casella; `Museum`)

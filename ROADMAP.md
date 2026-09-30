@@ -4366,9 +4366,16 @@ chiede il grado 7 della storia e dona il Seme Primo (`gives.primo` → `Legends.
 l'Atto III e il Seme Primo. `tools/durata.gd` conta i gradi (un punto ≈ un minuto): la storia diretta passa da 91 a 131
 ore (210 per il giocatore medio). Le prove del Giardino preparano i letti nel raggio della casa.
 
-## 263. [ ] Il Giardino oltre il Vuoto (G)
+## 263. [x] Il Giardino oltre il Vuoto (G) — fatto il 30 set 2026
 Il Primo Mondo ha un luogo scritto a mano: l'Albero Antico, sveglio, in una radura di stele e serre in rovina, e il suo
 Custode, l'ultimo Seminatore rimasto (un Guardiano scritto a mano con due fasi).
+**Fatto**: il parametro `primo` arriva al generatore (`MainBoot.gen_params`, `Portal.pregen`); `PassPrimo` fa, lontano
+dalla partenza, una radura con l'**Albero Antico** (stazione `albero_antico`, l'Albero-Madre dorato), un cerchio di
+colonne dei Seminatori e due serre di vetro spezzate. Il pacchetto `primo_pack.gd`: l'**ultimo Seminatore** (Guardiano
+fluttuante scritto a mano, 4200 di Vita più il vigore del mondo, a metà Vita ventaglio, richiamo dei Guardiani di Linfa
+e salti) e i suoi Guardiani di Linfa. `PrimoGarden` (`src/game/primo_garden.gd`): clic destro sull'Albero Antico lo
+sveglia; sconfitto lascia il Seme del Seminatore (e una pagina); portato all'Albero, comincia il finale. Scheda
+dell'Albero Antico nei suggerimenti. Prova nel gruppo nuovo `primo`.
 
 ## 264. [ ] Il finale (M)
 Dopo il Custode, l'Albero Antico racconta dove sono andati i Seminatori; l'epilogo con i numeri della partita e i

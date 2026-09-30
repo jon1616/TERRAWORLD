@@ -33,7 +33,7 @@ static func new_world(m: Node2D) -> void:
 	m.world = World.new()
 	var sd: int = nw["seme"]
 	var params := gen_params(nw.get("vigore", 1), nw.get("geni", []), nw.get("giardino", false), m.character,
-		nw.get("nero", false), String(nw.get("perduto", "")))
+		nw.get("nero", false), String(nw.get("perduto", "")), bool(nw.get("primo", false)))
 	var gw := WorldGen.GARDEN_W if params["giardino"] else WorldGen.WIDTH
 	var gh := WorldGen.GARDEN_H if params["giardino"] else WorldGen.HEIGHT
 	# preparato in anticipo quando il Seme fu piantato (`WorldPregen`)? allora è già pronto
@@ -52,11 +52,12 @@ static func new_world(m: Node2D) -> void:
 ## I parametri del generatore per un mondo nuovo (li usa anche `Portal.plant` per prepararlo in anticipo: devono
 ## essere gli stessi).
 static func gen_params(vigor: Variant, genes: Variant, garden: Variant, character: Character, nero: Variant,
-		perduto := "") -> Dictionary:
+		perduto := "", primo := false) -> Dictionary:
 	return {"vigore": int(vigor), "geni": genes, "giardino": garden,
 		"catene": Chains.pending(character),   # voce 69: le cripte delle tappe aperte
 		"nero": nero,                          # voce 72
-		"perduto": perduto}                    # Roadmap 21: il Giardino perduto (`PassPerduto`)
+		"perduto": perduto,                    # Roadmap 21: il Giardino perduto (`PassPerduto`)
+		"primo": primo}                        # Roadmap 28: il Giardino oltre il Vuoto (`PassPrimo`)
 
 
 ## La schermata d'attesa mentre il mondo si carica o nasce.

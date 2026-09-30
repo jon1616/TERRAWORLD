@@ -52,6 +52,7 @@ static func passes() -> Array[GenPass]:
 		PassParole.new(),                   # Roadmap 17, voce 174: gli scrigni a parola (dopo le stele)
 		PassMeraviglie.new(),               # Roadmap 23: le meraviglie (dopo i luoghi scritti, prima dell'acqua)
 		PassGiacimenti.new(),               # Roadmap 26: i giacimenti fossili
+		PassPrimo.new(),                    # Roadmap 28: il Giardino oltre il Vuoto (nel mondo del Seme Primo)
 		PassPerduto.new(),                  # Roadmap 21: il luogo di un Giardino perduto (dopo le stele: il cerchio del muto)
 		PassAcqua.new(),
 		PassSegretiStanze.new(),            # voce 96: stanze murate, passaggi, tesori, nidi nascosti

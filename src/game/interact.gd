@@ -254,6 +254,8 @@ func touch(c: Vector2i) -> bool:
 		return m.traps.lever(o)
 	if id.begins_with("nastro_"):
 		return m.farms.flip_belt(o)                      # voce 89
+	if id == "albero_antico" and m.get("primo") != null:
+		return m.primo.touch(o)                          # Roadmap 28: l'Albero Antico
 	if id == "giacimento" and m.get("museum") != null:
 		return m.museum.arch.brush(o)                    # voce 254: l'archeologia
 	if id == "arena" and m.get("trials") != null:

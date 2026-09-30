@@ -16,6 +16,8 @@ static func card(m: Node2D, o: Vector2i, id: String) -> TipCard:
 		return portal(m, o)
 	if String(LostGardensData.tree_of(id)[0]) != "" and m.get("lost_gardens") != null and m.lost_gardens.active():
 		return m.lost_gardens.card()                    # Roadmap 21: l'Albero perduto e le sue cure
+	if id == "albero_antico" and m.get("primo") != null:
+		return m.primo.card()                           # Roadmap 28: l'Albero Antico
 	if id.begins_with("albero_madre"):
 		return mother_tree(m)
 	if id.begins_with("nido_"):

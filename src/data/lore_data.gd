@@ -22,6 +22,8 @@ const PAGES := {
 	"perduto_muto": {"title": "L'Albero muto",
 		"text": "La prima parola che l'Albero ritrova è il tuo nome, anche se non gliel'hai mai detto.\n«Il Seme che cadde», dice, «non cadde da solo. Qualcuno lo lasciò andare.» Poi tace, ma è un silenzio diverso: quello di chi pensa."},
 	# Roadmap 28, l'Atto III «Il Seme Primo»
+	"primo_seminatore": {"title": "L'ultimo Seminatore",
+		"text": "Non era un nemico. Era rimasto indietro per custodire l'Albero Antico, e per tanto tempo aveva difeso il seme da tutto ciò che veniva dal Vuoto.\nPrima di spegnersi ti ha guardato a lungo. Ha visto le venature delle tue mani. Ha sorriso.\nPorta il suo seme all'Albero Antico."},
 	"atto3_eco": {"title": "L'eco oltre il Vuoto",
 		"text": "L'Albero-Madre ascolta. Oltre i quattro Giardini c'è una voce lenta e profonda, come quella di un albero che parla nel sonno.
 Non chiede aiuto. Chiama per nome qualcuno che non c'è più."},
