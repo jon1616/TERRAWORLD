@@ -35,6 +35,7 @@ static func chapters() -> Array:
 	out.append_array(EncyArtsData.CHAPTERS)            # Roadmap 25: le arti
 	out.append_array(EncyMemoriesData.CHAPTERS)        # Roadmap 26: memorie
 	out.append_array(EncyCurrentsData.CHAPTERS)        # Roadmap 27: acque e correnti
+	out.append_array(EncyCavesData.CHAPTERS)           # Roadmap 30: lo zaino e le grotte piene
 	out.append_array(EncyEndingData.CHAPTERS)          # Roadmap 28: l'Atto III e il finale
 	return out
 

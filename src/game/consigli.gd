@@ -411,3 +411,25 @@ func _c_atto_terzo() -> bool:
 
 func _c_seme_oro() -> bool:
 	return int(m.character.stats.get("semi_oro", 0)) >= 1
+
+
+## Roadmap 30: la Bisaccia (non la barra rapida) quasi piena.
+func _c_zaino_pieno() -> bool:
+	var b: Bisaccia = m.character.bisaccia
+	var free := 0
+	for i in range(Bisaccia.HOTBAR, b.slots.size()):
+		if b.slots[i].is_empty():
+			free += 1
+	return free <= 3
+
+
+func _c_baccello() -> bool:
+	return int(m.character.stats.get("baccelli_aperti", 0)) >= 1
+
+
+func _c_incontro() -> bool:
+	return not (m.world_meta.get("incontri", {}) as Dictionary).is_empty()
+
+
+func _c_pagina() -> bool:
+	return m.character.bisaccia.count(EncountersData.PAGE_ITEM) > 0

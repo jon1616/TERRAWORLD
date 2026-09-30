@@ -815,6 +815,25 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     ombra, respiro, `fade_out` alla morte, `aura` dei boss); `BossBar` nuova.
   - Prove: gruppo «galleria» (`TestsGallery` + `LayoutCheck`: ogni pannello fotografato in prove/galleria/, problemi in
     problemi.txt, **obiettivo 0**); foto fedeli con `Photo.take`; `tools/cornici.gd`, `tools/volume_creature.gd`.
+- **Roadmap 30 «Lo zaino e le grotte piene»** (voci 295-305, 30 set - 1 ott 2026, in autonomia; l'utente dopo un'ora di
+  gioco: «poco da trovare, pochi mostri», e lo zaino troppo piccolo):
+  - Lo zaino (`BackpackData` + `Backpack`): Bisacce a gradi (`Bisaccia.grow`, 40 → 100, `Character` salva quante
+    caselle), tasche alla cintura (posti «tasca_1/2»; `Bisaccia.pouch(posto)` è una Bisaccia vera fatta dai dati `c`
+    della tasca; `add` prova prima le tasche che accettano l'oggetto, poi la Bisaccia, poi i `carriers`; `count`,
+    `remove`, `room_for` e `Crafting.counts` contano tutto con `all_bags()`), basto della mandria (`carriers`, aggiornati
+    ogni secondo da `Backpack.update_carriers`), Dispensa del personaggio (`Character.dispensa`, `ChestPanel.personal`,
+    pagine oltre 105 caselle), «Non raccogliere» (`Character.guida["scarta"]` → `Drops.rules`, pulsante in Esamina).
+    Il pannello: `BisacciaPanel._views` (pagine, tasche, basto) e le schede accanto al titolo.
+    **Chi scorre `bisaccia.slots` per contare ciò che si ha deve usare `all_bags()`**, o le tasche restano fuori.
+  - Le grotte: `HarvestData` + `Harvest` (il raccolto di ogni pianta, sul segnale `decor_picked`), `PodsData` +
+    `PassBaccelli` + `PodArt` (decorazioni 92-97 da rompere, `Harvest.open_pod`), `DangerData.SPAWN_TRIES` e
+    `Fauna._room_below` (una nascita prova quattro punti già buoni: spazio, pavimento, buio, niente torce),
+    `EncountersData` + `PassIncontri` + `Encounters` + `EncounterArt` (zaini, tane, vene madri, camere fungine come
+    stazioni; stato in `world_meta["incontri"]`; il diario di Tessa), `CuriositiesData` (30 curiosità, cinque sale del
+    Museo). Misura: `tools/densita.gd` (cose da raccogliere per 1000 celle d'aria, baccelli, nascite per strato),
+    `tools/baccelli.gd` (il foglio dei disegni), `tools/categorie_creare.gd`.
+  - Prove: gruppi «zaino» (`TestsBackpack`, foto 300-302) e «grotte» (`TestsCaves`, foto 303-305), «mappa».
+    Enciclopedia: `EncyCavesData`.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni
@@ -1157,3 +1176,13 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   a capo) si ricolloca a ogni fotogramma.
 - Una funzione di un nodo non può avere il nome di una variabile già dichiarata (`ghost` in `Creature`): «has the same
   name as a previously declared variable».
+
+- **Roadmap 30** (1 ott 2026): una prova veloce che sceglie un punto (la nascita delle creature) deve controllare le
+  **stesse** condizioni del codice che poi lo usa (pavimento, buio, torce): altrimenti le prove si sprecano su punti che
+  verranno scartati (33% → 50% → 77% solo allineando i controlli). Per trovarli: un contatore provvisorio per ogni
+  `return null`, poi tolto. E le luci nuove (i baccelli che brillano) tolgono posti alle nascite al buio.
+- Ancora `_set` (un metodo di Object) come nome di una funzione statica: «The function signature doesn't match the
+  parent». E ancora i `\` a fine riga dentro un heredoc del Bash tool: anche le patch piccole con codice GDScript si
+  scrivono con Write.
+- Una patch che si ferma a metà (un'`assert` fallita) lascia i file già cambiati: si rimettono com'erano con
+  `git checkout` prima di rilanciarla corretta.

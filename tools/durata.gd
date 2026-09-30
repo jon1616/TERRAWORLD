@@ -240,7 +240,9 @@ func _variety() -> void:
 			["botteghe", NpcWork.JOBS.size(), 15.0], ["visitatori", visitors, 20.0]],
 		"esplorazione": [["meraviglie", WondersData.WONDERS.size(), 90.0], ["pagine dei biomi", BiomePagesData.pages().size(), 40.0],
 			["accessori dei ricordi", WondersData.GEAR.size(), 30.0], ["attrezzi", ExplorerData.ITEMS.size(), 10.0],
-			["firme dei mondi", SignaturesData.SIGNATURES.size(), 20.0]],
+			["firme dei mondi", SignaturesData.SIGNATURES.size(), 20.0],
+			["piccoli incontri (i primi di ogni tipo)", EncountersData.KINDS.size(), 25.0], ["tipi di baccelli", PodsData.KINDS.size(), 5.0],
+			["Bisacce, tasche, basti e Dispensa", BackpackData.items().size(), 4.0]],
 		"mandria": [["famiglie da addomesticare", HerdData.TAME.size(), 25.0], ["stirpi pure (una per famiglia)", HerdData.TAME.size(), 60.0],
 			["manti della collezione", rare_coats * HerdData.TAME.size(), 8.0], ["medaglie delle fiere (4 categorie × 3)", 12, 20.0],
 			["lavori (aratura, cerca, canto)", 3, 15.0]],
@@ -251,13 +253,14 @@ func _variety() -> void:
 		"misteri": [["parole dei Seminatori", LanguageData.WORDS.size(), 6.0], ["reliquie", 12, 20.0],
 			["serie di unici", UniqueSeriesData.SERIES.size(), 60.0], ["pezzi del Museo", museum_pieces, 3.0],
 			["fossili", ArchaeologyData.ANIMALS.size() * 3, 12.0], ["cronache", ChroniclesData.STORIES.size(), 40.0],
-			["traguardi", 10, 20.0]],
+			["traguardi", 10, 20.0], ["pagine del diario di Tessa", EncountersData.DIARY.size(), 10.0]],
 		"pesca": [["specie da pescare", FishData.all().size(), 8.0], ["medaglie d'oro", FishData.all().size(), 6.0],
 			["unici della pesca", 6, 20.0], ["gare (le prime trenta)", 30, 10.0]],
 		"rete": [["macchine da costruire", MachinesData.MACHINES.size(), 12.0], ["contratti (cinque gradi ciascuno)", 4 * 5, 25.0],
 			["Centrali dei Seminatori", 6, 30.0]],
 		"orto": [["colture", CropsData.CROPS.size() - OrchardData.VARIETIES.size(), 20.0], ["varietà da incrocio", OrchardData.VARIETIES.size(), 45.0],
-			["semi scelti", CropsData.CROPS.size(), 10.0], ["piatti del Ricettario", CookingData.DISHES.size(), 12.0]],
+			["semi scelti", CropsData.CROPS.size(), 10.0], ["piatti del Ricettario", CookingData.DISHES.size(), 12.0],
+			["raccolti delle piante", HarvestData.ITEMS.size(), 3.0]],
 	}
 	for p in rows:
 		var tot := 0.0

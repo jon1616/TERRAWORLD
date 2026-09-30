@@ -1,0 +1,26 @@
+class_name EncyCavesData
+## Enciclopedia, lo zaino e le grotte piene (Roadmap 30): Bisacce, tasche, Dispensa, basto, «Non raccogliere»; i raccolti
+## delle piante, i baccelli dormienti, i piccoli incontri, il diario di Tessa, le curiosità degli strati.
+## Stesso formato di `EncyGuideData`.
+
+const CHAPTERS := [
+	{"id": "zaino", "group": "La guida", "name": "Lo zaino", "text":
+"""La **Bisaccia** comincia con 40 caselle (le prime 10 sono la barra rapida). Al Telaio si cuciono **Bisacce** più grandi, con i materiali di strati sempre più profondi: di seta (50), cucita di radicite (60), di legnoferro (72), d'ambra (84), della Linfa (100). Usarne una allarga la Bisaccia per sempre, e ciò che contiene resta; nel pannello si sfoglia a pagine con i numeri accanto al titolo.
+Le **tasche** vanno alla cintura (due posti nell'equipaggiamento, sotto gli accessori) e prendono da sole ciò che è del loro tipo: la Sacca del minatore (minerali, pietre, blocchi, lingotti), l'Erbario da cintura (semi, piante, funghi, legno), la Faretra (dardi, esplosivi, giavellotti), il Cesto del pescatore (pesci, filetti, esche), la Borsa del cercatore (Lumini, reliquie, curiosità, pagine). Tre gradi, da 10, 20 e 30 caselle: il grado prima si cuce dentro quello nuovo. Ciò che contengono conta per creare; tolta, una tasca si porta via il suo contenuto. Nel pannello ogni tasca ha la sua scheda, con la sua icona.
+Il **basto** va a una creatura della [url=cap:mandria]mandria[/url] che ti segue (clic con il basto in mano): finché è con te porta altre caselle, una in più ogni due livelli, e ci finisce ciò che non entra più nella Bisaccia.
+La **Dispensa del Giardiniere** (al Ceppo) è una cassa che appartiene a te, non al mondo: quello che ci metti lo ritrovi in ogni Dispensa di ogni mondo. Il Seme della Dispensa (un clic) ci manda da ovunque ciò che contiene già e i materiali; il Cuore della Dispensa la apre dove sei. Ognuno, la prima volta, la fa crescere: 60, 120, 200 caselle.
+Per non riempirti di ciò che non ti serve, posa un oggetto in Esamina e premi il pulsante sotto: **Raccogli**, **Non raccogliere** (resta a terra) o **Dritto nel Cestino**."""},
+	{"id": "raccolti", "group": "Le leggi dei mondi", "name": "I raccolti delle piante", "text":
+"""Ogni pianta dei biomi (le erbe, i cespugli, i fiori, le canne, i funghi, i cristalli di brina…) tolta con un clic lascia il **raccolto** del suo bioma: l'erba bassa una volta su tre, le altre sempre. Ognuno serve a qualcosa: le **fibre** fanno Corda di liana al Telaio, i **petali** e i cardi si pestano a mano in una tintura del loro colore, **bacche e funghi** si mangiano (un po' di Vita o di Linfa), le **resine** e le schegge di vetro fanno vetro, la **carbonella** fa torce, lo **zolfo** fa baccelli esplosivi, i **sassi** fanno mattoni o si vendono, e i raccolti **rari** (fiori di pietra, scintille di stella, semi runici…) fanno, a dodici, una Polvere iridata all'Alambicco."""},
+	{"id": "baccelli", "group": "Le leggi dei mondi", "name": "I baccelli dormienti", "text":
+"""Sparse per le grotte, a centinaia in ogni strato, ci sono **piccole cose da rompere**: baccelli dormienti, nidi di radice, urne dei Seminatori, geodi, bozzoli di Linfa, e in superficie qualche ceppo cavo. Un clic le apre, e dentro c'è sempre qualcosa: Lumini, torce, dardi, pozioni, minerali dello strato; più si scende, più sono ricche. Ogni tanto una cosa rara (Polvere iridata, Scheggia di vigore, Linfa antica) o una [url=cap:curiosita]curiosità[/url]."""},
+	{"id": "incontri", "group": "Le leggi dei mondi", "name": "I piccoli incontri", "text":
+"""Nelle grotte di ogni mondo ti aspettano **piccoli incontri**. Si annunciano quando ti avvicini (una scritta e un suono), e una volta visti hanno un segno sulla mappa.
+• Lo **zaino di un esploratore**: un bottino, torce, a volte una curiosità e sempre una **Pagina strappata**.
+• La **tana**: una camera scavata nella roccia con un mucchio d'ossa pieno di bottino. Chi la abita si sveglia quando entri, e la tana non si apre finché non l'hai sconfitto; se scappi, al ritorno ti aspetta ancora.
+• La **vena madre**: un cristallo che pulsa, circondato dal minerale ricco dello strato e sorvegliato. Sconfitti i guardiani, un clic destro sul cristallo dà il suo dono (una volta sola).
+• La **camera fungina**: una grotta piena di funghi luminosi, con il fungo re al centro. Il suo dono è una manciata di funghi e spore.
+Le **Pagine strappate** sono il diario di Tessa la Cercatrice, che ha fatto questa strada prima di te: usale per leggerle, in ordine. All'ultima delle dieci, la sua lanterna è tua."""},
+	{"id": "curiosita", "group": "Le leggi dei mondi", "name": "Le curiosità degli strati", "text":
+"""Ogni strato nasconde sei **curiosità**: piccoli ritrovamenti che non servono a creare nulla, ma raccontano chi è passato di lì (una chiocciola vuota, un'ammonite d'ardesia, una perla di Linfa, una chiave senza porta…). Si trovano nei [url=cap:baccelli]baccelli[/url] del loro strato, negli zaini e nelle tane, e in superficie qualche volta tra le piante; quelle che ti mancano escono più spesso. Nel Museo del Giardino ogni serie ha la sua sala, e una sala completa dà un piccolo dono per sempre."""},
+]

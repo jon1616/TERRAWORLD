@@ -131,6 +131,15 @@ const LIST := [
 		"text": "L'Albero-Madre sente una voce oltre il Vuoto: comincia il [b]terzo atto[/b]. Ogni stadio chiede un pilastro: il Libro dei pilastri ({pilastri}) dice a che grado sei."},
 	{"id": "seme_oro", "title": "Il Seme d'oro", "cap": "dopo",
 		"text": "L'Albero-Madre d'oro ti ha donato un [b]Seme d'oro[/b]: ne arriverà uno ogni sette giorni del Giardino, sempre più vigoroso."},
+	# Roadmap 30: lo zaino e le grotte piene
+	{"id": "zaino_pieno", "title": "La Bisaccia si riempie", "cap": "zaino",
+		"text": "Al [b]Telaio[/b] si cuciono Bisacce più grandi e le [b]tasche[/b] per la cintura, che prendono da sole minerali, piante, dardi, pesci o reliquie. In Esamina puoi dire di un oggetto: [b]Non raccogliere[/b]."},
+	{"id": "baccello", "title": "Un baccello dormiente", "cap": "baccelli",
+		"text": "Le grotte sono piene di piccole cose da rompere: baccelli, nidi, urne, geodi. Un clic le apre; più scendi, più sono ricche. Ogni tanto dentro c'è una [b]curiosità[/b] per il Museo."},
+	{"id": "incontro", "title": "Un piccolo incontro", "cap": "incontri",
+		"text": "Zaini perduti, tane, vene madri, camere fungine: si annunciano quando ti avvicini e hanno un segno sulla mappa. Le tane e le vene hanno chi le sorveglia: sconfiggilo, e il loro tesoro è tuo."},
+	{"id": "pagina", "title": "Una pagina strappata", "cap": "incontri",
+		"text": "È il diario di [b]Tessa la Cercatrice[/b]: usala per leggerla. Le pagine si leggono in ordine; all'ultima delle dieci, la sua lanterna è tua."},
 ]
 
 
