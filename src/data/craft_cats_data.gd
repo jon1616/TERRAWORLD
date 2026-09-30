@@ -158,7 +158,7 @@ static func place_of(id: String, station: String) -> Array:
 			return ["altro", "Sigilli di sfida"]
 		"trofeo":
 			return ["altro", "Trofei"]
-		"pagina":
+		"pagina", "curiosita":
 			return ["altro", "Altro"]
 		"stazione":
 			return _station_place(id, place)

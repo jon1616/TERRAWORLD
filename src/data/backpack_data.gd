@@ -116,7 +116,7 @@ static func accepts(type: String, id: String) -> bool:
 		"pescatore":
 			return kind in ["pesce", "esca", "cassetta"] or id.begins_with("filetto")
 		"cercatore":
-			return kind in ["moneta", "reliquia", "ricordo", "tavoletta", "trofeo"] or bool(it.get("curiosita", false)) or _known("cercatore").has(id)
+			return kind in ["moneta", "reliquia", "ricordo", "tavoletta", "trofeo", "curiosita", "pagina"] or bool(it.get("curiosita", false)) or _known("cercatore").has(id)
 	return false
 
 

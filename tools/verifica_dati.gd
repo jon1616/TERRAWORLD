@@ -5,7 +5,7 @@ extends SceneTree
 ## ERRORE = qualcosa di rotto (riferimento a un oggetto che non esiste…); AVVISO = probabilmente da sistemare
 ## (oggetto che non si può ottenere, materiale che non serve a nulla…).
 
-const KINDS := ["bisaccia", "tasca", "basto", "dispensa", "pagina", "occhio", "pinza", "vena", "filo", "isolante", "stilo", "fagiolo", "progetto_sem", "richiamo_grande", "esca_signore", "tintura", "progetto", "materiale", "blocco", "piccone", "ascia", "spada", "arco", "munizione", "torcia", "stazione",
+const KINDS := ["bisaccia", "tasca", "basto", "dispensa", "pagina", "curiosita", "occhio", "pinza", "vena", "filo", "isolante", "stilo", "fagiolo", "progetto_sem", "richiamo_grande", "esca_signore", "tintura", "progetto", "materiale", "blocco", "piccone", "ascia", "spada", "arco", "munizione", "torcia", "stazione",
 	"piattaforma", "elmo", "corazza", "gambali", "consumabile", "seme", "lanterna", "cura", "seme_mondo", "accessorio",
 	"purifica", "essenza", "bastone", "dono", "specchio", "trofeo", "richiamo", "reliquia", "mappa", "rampino", "esplosivo", "ricurvo",
 	"giavellotto", "coltura", "annaffiatoio", "parete", "martello", "moneta", "compagno", "evocatore", "ricordo", "provetta", "fiala", "uovo", "creatura", "vasetto", "laccio", "tavoletta", "chiave", "secchio", "secchio_pieno", "contenitore", "pesce", "canna", "esca", "cassetta", "sfida", "guanti", "stivali", "mantello", "amuleto", "anello",
@@ -75,6 +75,8 @@ func _init() -> void:
 		dropped[TileDefs.DECOR_DROP[d]] = true
 	dropped[EncountersData.PAGE_ITEM] = true             # voce 303: negli zaini perduti (e la lanterna, dal diario)
 	dropped[EncountersData.PAGE_REWARD] = true
+	for id in CuriositiesData.items():                   # voce 304: dai baccelli, dagli zaini e dalle tane
+		dropped[id] = true
 	for g in EncountersData.MUSHROOM_GIFT:
 		_err(items.has(String(g[0])), "il fungo re lascia un oggetto inesistente %s" % g[0])
 	for s in EncountersData.VEIN_GIFT:

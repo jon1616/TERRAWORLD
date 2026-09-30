@@ -35,6 +35,12 @@ const HALLS := {
 	"fossili": {"name": "Sala dei fossili", "desc": "le ventiquattro parti degli animali antichi", "bonus": {"dig": 1.08}},
 	"scheletri": {"name": "Sala degli scheletri", "desc": "gli otto animali antichi ricostruiti", "bonus": {"linfa_regen": 1.08}},
 	"cronache": {"name": "Sala delle cronache", "desc": "i quaranta frammenti delle storie dei Seminatori", "bonus": {"luck": 0.05}},
+	# voce 304: le curiosità degli strati (una sala per serie, `CuriositiesData`)
+	"cur_prati": {"name": "Curiosità dei prati", "desc": "i piccoli ritrovamenti della superficie", "bonus": {"jump": 1.03}},
+	"cur_radici": {"name": "Curiosità delle radici", "desc": "i piccoli ritrovamenti del Sottobosco", "bonus": {"regen": 1.05}},
+	"cur_ardesia": {"name": "Curiosità dell'ardesia", "desc": "i piccoli ritrovamenti delle Caverne", "bonus": {"dig": 1.05}},
+	"cur_linfa": {"name": "Curiosità della Linfa", "desc": "i piccoli ritrovamenti delle Profondità", "bonus": {"linfa_regen": 1.05}},
+	"cur_vuoto": {"name": "Curiosità del Vuoto", "desc": "i piccoli ritrovamenti del Fondo", "bonus": {"luck": 0.05}},
 }
 
 static var _pieces := {}
@@ -94,6 +100,8 @@ static func _build() -> void:
 			chr.append(ChroniclesData.fragment_id(String(s), n))
 	_pieces["cronache"] = chr
 	_pieces["scheletri"] = ske
+	for k in CuriositiesData.SERIES.size():            # voce 304
+		_pieces[String(CuriositiesData.SERIES[k]["hall"])] = CuriositiesData.of_stratum(k)
 
 
 ## La sala di un oggetto ("" se non va nel Museo).

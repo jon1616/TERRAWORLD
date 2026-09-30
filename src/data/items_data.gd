@@ -286,6 +286,7 @@ static func all() -> Dictionary:
 	out.merge(BackpackData.items())                        # Roadmap 30: lo zaino
 	out.merge(HarvestData.items())                         # voce 300: i raccolti delle piante
 	out.merge(EncountersData.items())                      # voce 303: il diario di Tessa
+	out.merge(CuriositiesData.items())                     # voce 304: le curiosità degli strati
 	out.merge(PlacesData.ITEMS.duplicate(true))            # voce 70
 	out.merge(NeroData.ITEMS.duplicate(true))              # voce 72
 	out.merge(LiquidsData.ITEMS.duplicate(true))           # voce 73

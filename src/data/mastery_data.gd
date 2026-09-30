@@ -69,7 +69,7 @@ const STATS := {
 	"uova_allevate": [["mandria", 30.0]], "manti_rari": [["mandria", 60.0]], "coppie": [["mandria", 10.0]],
 	"cavalcate": [["mandria", 5.0]], "prodotti": [["mandria", 1.0]], "mandria_prede": [["mandria", 2.0]],
 	"alleati": [["mandria", 3.0]],
-	"semine": [["orto", 1.0]], "piante_raccolte": [["esplorazione", 0.1], ["orto", 0.1]], "baccelli_aperti": [["esplorazione", 0.4]], "incontri": [["esplorazione", 8.0]], "incontri_vinti": [["combattimento", 6.0], ["esplorazione", 4.0]], "pagine_diario": [["misteri", 6.0]], "raccolti": [["orto", 1.5]], "purificate": [["orto", 2.0]],
+	"semine": [["orto", 1.0]], "piante_raccolte": [["esplorazione", 0.1], ["orto", 0.1]], "baccelli_aperti": [["esplorazione", 0.4]], "incontri": [["esplorazione", 8.0]], "incontri_vinti": [["combattimento", 6.0], ["esplorazione", 4.0]], "pagine_diario": [["misteri", 6.0]], "curiosita": [["misteri", 5.0]], "raccolti": [["orto", 1.5]], "purificate": [["orto", 2.0]],
 	"pesci": [["pesca", 0.3]], "specie_pescate": [["pesca", 10.0]], "pesci_leggendari": [["pesca", 60.0]],
 	"macchine": [["rete", 8.0]], "centrali": [["rete", 60.0]], "primo_circuito": [["rete", 20.0]],
 	"stele": [["misteri", 8.0]], "scrigni_parola": [["misteri", 12.0]], "unici": [["misteri", 20.0]],

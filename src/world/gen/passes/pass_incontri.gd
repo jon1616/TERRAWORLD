@@ -60,6 +60,8 @@ static func _build(w: World, c: GenContext, k: String, p: Vector2i, s: int, rng:
 				chest.add(id, int(loot[id]))
 			chest.add("torcia", rng.randi_range(4, 10))
 			chest.add(EncountersData.PAGE_ITEM, 1)
+			if rng.randf() < CuriositiesData.CHEST_CHANCE:
+				chest.add(CuriositiesData.pick(s, rng), 1)     # voce 304
 			c.claim(r, "incontro")
 			return true
 		"osso_tana":
@@ -84,6 +86,8 @@ static func _build(w: World, c: GenContext, k: String, p: Vector2i, s: int, rng:
 			for id in loot:
 				chest.add(id, int(loot[id]))
 			chest.add("lumino", rng.randi_range(15, 40) * (1 + s))
+			if rng.randf() < CuriositiesData.CHEST_CHANCE:
+				chest.add(CuriositiesData.pick(s, rng), 1)     # voce 304
 			c.claim(r, "incontro")
 			return true
 		"vena_madre":

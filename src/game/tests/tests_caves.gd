@@ -17,6 +17,7 @@ func run() -> void:
 	await pods()
 	await spawns()
 	await encounters()
+	await curiosities()
 
 
 func _counts(ids: Array) -> Dictionary:
@@ -231,3 +232,37 @@ func encounters() -> void:
 	_give_back(before)
 	m.fauna.clear(true)
 	m.snap_to(w.spawn)
+
+
+## Voce 304: trenta curiosità in cinque serie, ognuna con la sua sala nel Museo; si trovano più spesso quelle che mancano;
+## una nuova si annuncia e conta.
+func curiosities() -> void:
+	var all := CuriositiesData.items()
+	var halls_ok := true
+	for k in CuriositiesData.SERIES.size():
+		halls_ok = halls_ok and MuseumData.pieces(String(CuriositiesData.SERIES[k]["hall"])).size() == 6 			and MuseumData.HALLS.has(String(CuriositiesData.SERIES[k]["hall"]))
+	var ids := CuriositiesData.of_stratum(2)
+	var known := {}
+	for i in 5:
+		known[ids[i]] = 1
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 5
+	var fresh := 0
+	for i in 400:
+		if CuriositiesData.pick(2, rng, known) == ids[5]:
+			fresh += 1
+	var st: Dictionary = m.character.stats
+	var n0 := int(st.get("curiosita", 0))
+	var er: Dictionary = m.character.erbario["oggetti"]
+	var had := er.has(ids[5])
+	er.erase(ids[5])
+	m.erbario.add("oggetti", String(ids[5]))
+	var bumped := int(st.get("curiosita", 0)) - n0
+	if not had:
+		er.erase(ids[5])
+	st["curiosita"] = n0
+	var ok: bool = all.size() == 30 and halls_ok and fresh > 400 * 0.35 and bumped == 1 and BackpackData.accepts("cercatore", ids[0])
+	print("curiosità: %d in %d serie, sale del Museo %s, la mancante esce %d volte su 400 (le altre cinque già trovate), annunciata e contata %s, nella Borsa del cercatore %s" % [
+		all.size(), CuriositiesData.SERIES.size(), halls_ok, fresh, bumped == 1, BackpackData.accepts("cercatore", ids[0])])
+	if not ok:
+		print("ATTENZIONE: le curiosità degli strati non vanno")

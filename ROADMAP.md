@@ -4607,7 +4607,11 @@ tue possibilità, esplorazione compresa», con le cinque idee per lo zaino.
   13 e si risvegliano se te ne vai; sulla mappa un segno. Il diario di Tessa la Cercatrice: dieci pagine lette in ordine,
   all'ultima la Lanterna di Tessa (+8% fortuna, alone). Conteggi «incontri», «incontri_vinti», «pagine_diario».
   Prova: gruppo «grotte» (foto 304, 305).
-- [ ] **304. Le curiosità degli strati.** Piccoli ritrovamenti unici per strato e bioma (conchiglie fossili, piume,
+- [x] **304. Le curiosità degli strati.** Piccoli ritrovamenti unici per strato e bioma (conchiglie fossili, piume,
   semi antichi, monete dei Seminatori…), rari, da mettere nel Museo; una sala nuova con un premio per ogni serie completa.
+  Fatto il 30 set 2026: `CuriositiesData`, 30 curiosità in cinque serie (una per strato: prati, radici, ardesia,
+  Linfa, Vuoto), cinque sale nuove del Museo con il loro premio (salto, Vita, scavo, Linfa, fortuna). Dai baccelli del
+  loro strato (3,5%), dagli zaini e dalle tane (40%), in superficie dalle piante (0,4%); quelle mancanti escono quattro
+  volte più spesso. Una nuova si annuncia con il conto (`Harvest._on_discovered`). Prova: gruppo «grotte».
 - [ ] **305. Misura, guida e chiusura.** `tools/densita.gd` con gli obiettivi, consigli ed Enciclopedia, giro intero,
   resoconto e push.
