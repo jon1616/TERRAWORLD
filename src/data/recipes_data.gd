@@ -166,6 +166,7 @@ static func all() -> Array:
 	out.append_array(MuseumData.RECIPES.duplicate(true))   # voce 253: il Museo
 	out.append_array(ArchaeologyData.recipes())            # voce 254: l'archeologia
 	out.append_array(BackpackData.recipes())               # Roadmap 30: lo zaino
+	out.append_array(HarvestData.recipes())                # voce 300: i raccolti delle piante
 	out.append_array(MachinesData.recipes())               # Roadmap 19: le macchine della rete
 	out.append_array(SeasonsData.RECIPES.duplicate(true))  # voce 66
 	out.append_array(NeroData.RECIPES.duplicate(true))     # voce 72

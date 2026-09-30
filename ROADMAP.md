@@ -4572,9 +4572,14 @@ tue possibilità, esplorazione compresa», con le cinque idee per lo zaino.
   `count`/`remove` lo contano; una scheda nel pannello e una riga nella scheda della creatura. Prova nel gruppo «zaino».
 
 **Le grotte piene**
-- [ ] **300. Le piante dei biomi lasciano qualcosa.** Ogni pianta dei biomi (superficie, sottosuolo, cielo) lascia un
+- [x] **300. Le piante dei biomi lasciano qualcosa.** Ogni pianta dei biomi (superficie, sottosuolo, cielo) lascia un
   raccolto del suo bioma (fibre, petali, resine, erbe, spore), a volte due; i raccolti servono a cucina, pozioni, tinture,
   corde e costrutti.
+  Fatto il 30 set 2026: `HarvestData` (59 piante dei biomi e del cielo, più muschi, campanule, felci, sassi e radici
+  della base; 62 raccolti nuovi) e `Harvest` (sul segnale `decor_picked`). Fibre → corde, petali → tinture, bacche e
+  funghi si mangiano, resine e schegge → vetro, carbonella → torce, zolfo → esplosivi, sassi → mattoni, i rari → Polvere
+  iridata (12 → 1). L'erba bassa lascia qualcosa una volta su tre. Conteggio «piante_raccolte» (esplorazione e orto).
+  Prova: gruppo «grotte».
 - [ ] **301. I baccelli dormienti.** Piccole cose da rompere (baccelli, nidi di radice, urne dei Seminatori, geodi
   piccoli) sparse in grotte e superficie a decine per strato, con un bottino piccolo secondo strato e bioma: Lumini,
   torce, dardi, pozioni, semi, ogni tanto un materiale raro o una Fiala.

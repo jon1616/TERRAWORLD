@@ -113,6 +113,7 @@ var contracts: NetContracts            # Roadmap 27: i contratti della rete
 var primo: PrimoGarden                 # Roadmap 28: il Giardino oltre il Vuoto
 var finale: Finale                     # Roadmap 28: il finale
 var backpack: Backpack                 # Roadmap 30: lo zaino
+var harvest: Harvest                   # voce 300: i raccolti delle piante
 var evergreen: Evergreen               # Roadmap 28: il dopo (stelle di maestria, Semi d'oro)
 var summons: Summons
 var effects: Effects
@@ -355,6 +356,7 @@ func _build() -> void:
 	primo = _mount(PrimoGarden.new())          # Roadmap 28: il Giardino oltre il Vuoto
 	finale = _mount(Finale.new())
 	backpack = _mount(Backpack.new())
+	harvest = _mount(Harvest.new())
 	evergreen = _mount(Evergreen.new())
 	_mount(PanelButtons.new())                 # voce 101: i pulsanti dei pannelli in basso a sinistra
 	hud.select(character.hotbar)

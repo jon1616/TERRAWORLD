@@ -49,7 +49,7 @@ func _init() -> void:
 					if w.solid(x, y + 1) and not w.solid(x, y - 1) and rng.randf() < 0.02:
 						(floor_cells[s] as Array).append(Vector2i(x, y))
 				var d := w.decor_at(x, y)
-				if d != 0 and TileDefs.DECOR_DROP.has(d):
+				if d != 0 and (TileDefs.DECOR_DROP.has(d) or HarvestData.DECOR.has(d)):
 					decor[s] += 1
 				var t := w.tile(x, y)
 				if t != TileDefs.AIR and TileDefs.DROP.has(t):

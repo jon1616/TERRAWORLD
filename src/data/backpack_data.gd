@@ -108,7 +108,7 @@ static func accepts(type: String, id: String) -> bool:
 		return false
 	match type:
 		"minatore":
-			return kind in ["blocco", "parete"] or id.begins_with("lingotto_") or id.begins_with("gemma") or _known("minatore").has(id)
+			return kind in ["blocco", "parete"] or id.begins_with("lingotto_") or id.begins_with("gemma") or bool(it.get("sasso", false)) or _known("minatore").has(id)
 		"erbario":
 			return kind in ["seme", "coltura"] or id.begins_with("legno") or bool(it.get("erba", false)) or _known("erbario").has(id)
 		"faretra":
