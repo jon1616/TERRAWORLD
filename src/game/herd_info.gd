@@ -55,5 +55,11 @@ static func sheet(rec: Dictionary) -> String:
 	var g: Dictionary = rec.get("doti", {})
 	if not g.is_empty():
 		out += Breeding.sheet(g)                   # voce 60
+	var bs: Dictionary = rec.get("basto", {})
+	if not bs.is_empty():                          # voce 299: il basto
+		var used := ((bs.get("c", []) as Array).filter(func(e: Variant) -> bool: return e is Array and (e as Array).size() >= 2)).size()
+		out += "[color=#e0b878]Porta il %s: %d caselle, %d piene (quando ti segue, ciò che non entra nella Bisaccia va lì)[/color]
+" % [
+			String(ItemsData.get_item(String(bs["id"]))["name"]).to_lower(), BackpackData.basto_slots(String(bs["id"]), int(rec["lvl"])), used]
 	out += "[color=#6a8a84]%s[/color]\n" % BORN.get(String(rec["nato"]), "")
 	return out

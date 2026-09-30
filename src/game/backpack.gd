@@ -7,11 +7,15 @@ extends Node
 ## legge; lo si cambia con il pulsante di Esamina.
 ## Voce 298: la Dispensa del Giardiniere (`Character.dispensa`): la stazione, il Seme (manda il superfluo), il Cuore (la
 ## apre ovunque); il grado in `stats["dispensa_grado"]`.
+## Voce 299: il basto della mandria. Ogni secondo le creature che ti seguono con un basto (`rec["basto"]` = {id, c})
+## diventano `Bisaccia.carriers`; il contenuto resta nella loro scheda anche quando riposano.
 
 const RULES := ["", "lascia", "cestino"]
 const RULE_TEXT := {"": "Raccogli", "lascia": "Non raccogliere", "cestino": "Dritto nel Cestino"}
 
 var m: Node2D
+var _bags := {}                        # uid della creatura -> Bisaccia del suo basto
+var _t := 0.0
 
 
 func setup(main: Node2D) -> void:
@@ -116,6 +120,69 @@ func send_surplus() -> int:
 					bag.slots[i]["n"] = left
 		bag.changed.emit()
 	return moved
+
+
+## Il basto va alla prima creatura che ti segue senza basto, o con uno più piccolo (il contenuto passa al nuovo).
+func use_basto(id: String) -> bool:
+	var bd := BackpackData.basto_of(id)
+	var best: Dictionary = {}
+	for r in m.herd.followers():
+		var old := String((r.get("basto", {}) as Dictionary).get("id", ""))
+		if old == "" or int(BackpackData.basto_of(old).get("slots", 0)) < int(bd["slots"]):
+			best = r
+			break
+	if best.is_empty():
+		m.hud.toast("Serve una creatura della mandria che ti segua senza un basto (o con uno più piccolo): tasto G")
+		return false
+	if not m.character.bisaccia.remove(id, 1):
+		return false
+	var old_c: Array = (best.get("basto", {}) as Dictionary).get("c", [])
+	var old_id := String((best.get("basto", {}) as Dictionary).get("id", ""))
+	best["basto"] = {"id": id, "c": old_c}
+	if old_id != "":
+		m.character.bisaccia.add(old_id, 1)       # il basto vecchio torna a te
+	_bags.erase(int(best["uid"]))
+	update_carriers()
+	m.hud.toast("%s porta il %s: %d caselle in più finché ti segue" % [best["nome"], String(bd["name"]).to_lower(),
+		BackpackData.basto_slots(id, int(best.get("lvl", 1)))])
+	m.sfx.play("dono")
+	return true
+
+
+## Le creature che ti seguono con un basto diventano borse della Bisaccia.
+func update_carriers() -> void:
+	var b: Bisaccia = m.character.bisaccia
+	var list := []
+	var seen := {}
+	for r in m.herd.followers():
+		var bs: Dictionary = r.get("basto", {})
+		if bs.is_empty():
+			continue
+		var uid := int(r["uid"])
+		seen[uid] = true
+		var n := BackpackData.basto_slots(String(bs["id"]), int(r.get("lvl", 1)))
+		var cb: Bisaccia = _bags.get(uid)
+		if cb == null:
+			cb = Bisaccia.from_array(bs.get("c", []), n)
+			var rec: Dictionary = r
+			cb.changed.connect(func() -> void:
+				(rec["basto"] as Dictionary)["c"] = cb.to_array()
+				b.changed.emit())
+			_bags[uid] = cb
+		cb.grow(n)                                 # (una caselle in più quando la creatura sale di livello)
+		list.append({"bag": cb, "icon": String(bs["id"]), "tip": "Il basto di %s · %d caselle" % [r["nome"], n]})
+	for uid in _bags.keys():
+		if not seen.has(uid):
+			_bags.erase(uid)
+	b.carriers = list
+
+
+func _process(dt: float) -> void:
+	_t -= dt
+	if _t > 0.0 or m == null or m.get("herd") == null:
+		return
+	_t = 1.0
+	update_carriers()
 
 
 func use_bag(id: String) -> bool:

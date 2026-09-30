@@ -70,17 +70,21 @@ func pouch(slot: String) -> Bisaccia:
 	return pb
 
 
-## Tutte le borse in più che accettano un oggetto: prima le tasche, poi chi ti segue.
-func _extra_for(id: String) -> Array[Bisaccia]:
+## Le tasche che accettano un oggetto (voce 296).
+func _pouches_for(id: String) -> Array[Bisaccia]:
 	var out: Array[Bisaccia] = []
 	for slot in BackpackData.POUCH_SLOTS:
 		var pb := pouch(slot)
 		if pb != null and BackpackData.accepts(String(pb.get_meta("type")), id):
 			out.append(pb)
+	return out
+
+
+## Tutte le borse in più per un oggetto: prima le tasche, poi chi ti segue (il basto, voce 299).
+func _extra_for(id: String) -> Array[Bisaccia]:
+	var out := _pouches_for(id)
 	for c in carriers:
-		var cb: Bisaccia = c["bag"]
-		if not c.has("accept") or (c["accept"] as Callable).call(id):
-			out.append(cb)
+		out.append(c["bag"] as Bisaccia)
 	return out
 
 
@@ -170,8 +174,8 @@ func count_at(i: int) -> int:
 
 ## Aggiunge: prima riempie le pile uguali, poi le caselle vuote (barra rapida per prima). Restituisce ciò che non entra.
 func add(id: String, n: int) -> int:
-	if not _pouches.is_empty() or not carriers.is_empty() or equip.has("tasca_1") or equip.has("tasca_2"):
-		for pb in _extra_for(id):
+	if equip.has("tasca_1") or equip.has("tasca_2"):
+		for pb in _pouches_for(id):
 			if n <= 0:
 				break
 			if pb.room_for(id) > 0:
@@ -201,6 +205,12 @@ func add(id: String, n: int) -> int:
 				if t != "":
 					slots[i]["tratto"] = t
 			n -= k
+	for c in carriers:                       # voce 299: ciò che non ci sta va sul basto di chi ti segue
+		if n <= 0:
+			break
+		var cb: Bisaccia = c["bag"]
+		if cb.room_for(id) > 0:
+			n = cb.add(id, n)
 	changed.emit()
 	return n
 

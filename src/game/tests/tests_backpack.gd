@@ -17,6 +17,7 @@ func run() -> void:
 	await pouches()
 	await pick_rules()
 	await larder()
+	await pack_beast()
 
 
 ## Lo stato della Bisaccia da rimettere dopo la prova: caselle, contenuto ed equipaggiamento.
@@ -205,4 +206,51 @@ func larder() -> void:
 	if not ok:
 		print("ATTENZIONE: la Dispensa non va")
 	m.character.dispensa = d0
+	_restore_bag(saved)
+
+
+## Voce 299: il basto va a una creatura che ti segue; con la Bisaccia piena ciò che non entra va sul basto, si conta e
+## resta nella scheda della creatura; un basto più grande prende il posto di quello piccolo (il contenuto passa).
+func pack_beast() -> void:
+	var saved := _save_bag()
+	var herd0: Array = (m.character.mandria as Array).duplicate(true)
+	var bk: Backpack = m.backpack
+	var b: Bisaccia = m.character.bisaccia
+	var rec: Dictionary = m.herd.new_record("pecora_muschio", "nutrita")
+	rec["stato"] = "segue"
+	rec["vita"] = 1.0
+	(m.character.mandria as Array).append(rec)
+	for r in m.character.mandria:
+		if r != rec and String(r["stato"]) == "segue":
+			r["stato"] = "riposo"
+	b.add("basto_radice", 1)
+	var put: bool = bk.use_basto("basto_radice")
+	bk.update_carriers()
+	var slots_n := BackpackData.basto_slots("basto_radice", int(rec["lvl"]))
+	for i in b.slots.size():
+		if b.slots[i].is_empty():
+			b.slots[i] = {"id": "spada_radice", "n": 1}
+	var h0 := b.count("humus")
+	for i in b.slots.size():
+		if b.id_at(i) == "humus":
+			b.slots[i] = {"id": "spada_radice", "n": 1}
+	var left := b.add("humus", 30)
+	var on_beast := b.carriers.size() == 1 and (b.carriers[0]["bag"] as Bisaccia).count("humus") == 30
+	var counted := b.count("humus") == 30 and left == 0
+	var in_rec := ((rec["basto"] as Dictionary).get("c", []) as Array).size() > 0
+	var views := b.extra_views().any(func(v: Dictionary) -> bool: return String(v.get("icon", "")) == "basto_radice")
+	b.slots[b.slots.size() - 1] = {"id": "basto_ambra", "n": 1}
+	var upgraded: bool = bk.use_basto("basto_ambra")
+	bk.update_carriers()
+	var kept := b.carriers.size() == 1 and (b.carriers[0]["bag"] as Bisaccia).count("humus") == 30 		and (b.carriers[0]["bag"] as Bisaccia).slots.size() == BackpackData.basto_slots("basto_ambra", int(rec["lvl"]))
+	rec["stato"] = "riposo"
+	bk.update_carriers()
+	var gone := b.carriers.is_empty() and b.count("humus") == 0
+	var ok: bool = put and slots_n >= 8 and on_beast and counted and in_rec and views and upgraded and kept and gone and h0 >= 0
+	print("basto: messo %s (%d caselle), la Bisaccia piena lo usa %s, contato %s, resta nella scheda %s, scheda nel pannello %s, basto più grande %s (contenuto passato %s), a riposo non segue più %s" % [
+		put, slots_n, on_beast, counted, in_rec, views, upgraded, kept, gone])
+	if not ok:
+		print("ATTENZIONE: il basto non va")
+	m.character.mandria = herd0
+	bk.update_carriers()
 	_restore_bag(saved)

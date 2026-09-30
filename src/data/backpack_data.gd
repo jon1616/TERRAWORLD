@@ -10,6 +10,9 @@ extends RefCounted
 ##   DISPENSA  la Dispensa del Giardiniere (voce 298): una cassa che appartiene al personaggio, uguale in ogni mondo.
 ##             La stazione la apre; il Seme della Dispensa (clic) ci manda il superfluo da ovunque, il Cuore della
 ##             Dispensa (clic) la apre da ovunque. Al primo uso ognuno la ingrandisce (`DISPENSA_SLOTS`).
+##   BASTI     il basto della mandria (voce 299): clic = sulla prima creatura che ti segue senza basto (o con uno più
+##             piccolo). Finché ti segue porta `slots` caselle più una ogni due livelli: la Bisaccia ci mette ciò che non
+##             entra più in lei.
 
 const BASE := 40                       # la Bisaccia di partenza (`Bisaccia.SIZE`)
 const PAGE := 30                       # caselle per pagina nel pannello (sopra la barra rapida)
@@ -46,6 +49,28 @@ const POUCH_SLOTS := ["tasca_1", "tasca_2"]
 const DISPENSA_SLOTS := [60, 120, 200]        # grado 1 (la stazione), 2 (il Seme), 3 (il Cuore)
 ## Ciò che il Seme della Dispensa manda sempre (oltre a ciò che la Dispensa contiene già): i tipi che arrivano a mucchi.
 const SURPLUS_KINDS := ["materiale", "blocco", "parete", "pesce", "coltura", "seme", "essenza"]
+const BASTI := [
+	{"id": "basto_radice", "name": "Basto di radice", "slots": 8, "mat": "radice",
+		"in": {"legno": 16, "seta_radice": 6, "corda_liana": 3}, "station": "telaio"},
+	{"id": "basto_legnoferro", "name": "Basto di legnoferro", "slots": 14, "mat": "legnoferro",
+		"in": {"lingotto_legnoferro": 6, "seta_radice": 10, "corda_liana": 4}, "station": "telaio"},
+	{"id": "basto_ambra", "name": "Basto d'ambra", "slots": 20, "mat": "ambra",
+		"in": {"lingotto_ambra": 6, "seta_radice": 14, "cristallo_linfa": 2}, "station": "telaio"},
+]
+
+
+static func basto_of(id: String) -> Dictionary:
+	for b in BASTI:
+		if String(b["id"]) == id:
+			return b
+	return {}
+
+
+## Le caselle del basto di una creatura della mandria: quelle del basto più una ogni due livelli.
+static func basto_slots(id: String, lvl: int) -> int:
+	return int(basto_of(id).get("slots", 0)) + lvl / 2
+
+
 const DISPENSA_ITEMS := {
 	"dispensa": {"name": "Dispensa del Giardiniere", "kind": "stazione", "place": "dispensa", "icon": ["cesta", "cristallo"],
 		"stack": 1, "desc": "Una cassa che è tua, non del mondo: ciò che ci metti lo ritrovi in ogni Dispensa, in ogni mondo. %d caselle." % 60},
@@ -137,6 +162,9 @@ static func items() -> Dictionary:
 				"tasca": p["type"], "slots": t["slots"], "icon": [p["icon"], t["mat"]], "stack": 1,
 				"desc": "Alla cintura (posto «tasca»): %d caselle che prendono da sole %s." % [int(t["slots"]), p["desc"]]}
 	out.merge(DISPENSA_ITEMS.duplicate(true))
+	for b in BASTI:
+		out[b["id"]] = {"name": b["name"], "kind": "basto", "icon": ["velo", b["mat"]], "stack": 1, "slots": b["slots"],
+			"desc": "Clic: lo metti alla prima creatura della mandria che ti segue. Finché ti segue porta %d caselle (una in più ogni due livelli): ciò che non entra nella Bisaccia va lì." % int(b["slots"])}
 	return out
 
 
@@ -151,4 +179,6 @@ static func recipes() -> Array:
 				ins[pouch_id(String(p["type"]), k - 1)] = 1          # il grado prima si cuce dentro quello nuovo
 			out.append({"out": pouch_id(String(p["type"]), k), "qty": 1, "in": ins, "station": "telaio"})
 	out.append_array(DISPENSA_RECIPES.duplicate(true))
+	for b in BASTI:
+		out.append({"out": b["id"], "qty": 1, "in": b["in"], "station": b["station"]})
 	return out

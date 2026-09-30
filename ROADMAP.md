@@ -4564,8 +4564,12 @@ tue possibilità, esplorazione compresa», con le cinque idee per lo zaino.
   il Seme della Dispensa (clic: manda ciò che contiene già e i materiali, dalla Bisaccia e dalle tasche; la porta a 120) e
   il Cuore (clic: la apre ovunque, `ChestPanel.personal`; la porta a 200). Il pannello delle casse si sfoglia a pagine
   di 100 caselle oltre le 105. Prova nel gruppo «zaino» (foto 302).
-- [ ] **299. Creature da soma.** Il Basto: una creatura della mandria che ti segue porta caselle in più (secondo la
+- [x] **299. Creature da soma.** Il Basto: una creatura della mandria che ti segue porta caselle in più (secondo la
   taglia e il livello), che si vedono come una tasca.
+  Fatto il 30 set 2026: tre basti al Telaio (8/14/20 caselle più una ogni due livelli); clic = sulla prima creatura
+  che ti segue senza basto o con uno più piccolo (il contenuto passa, il vecchio torna a te). `Backpack.update_carriers`
+  ogni secondo fa di chi ti segue una borsa (`Bisaccia.carriers`): `add` ci mette ciò che non entra più nella Bisaccia,
+  `count`/`remove` lo contano; una scheda nel pannello e una riga nella scheda della creatura. Prova nel gruppo «zaino».
 
 **Le grotte piene**
 - [ ] **300. Le piante dei biomi lasciano qualcosa.** Ogni pianta dei biomi (superficie, sottosuolo, cielo) lascia un

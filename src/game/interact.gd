@@ -61,6 +61,8 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 			return m.backpack.use_bag(id)              # voce 295: le Bisacce a gradi
 		"dispensa":
 			return m.backpack.use_dispensa(id)         # voce 298: il Seme e il Cuore della Dispensa
+		"basto":
+			return m.backpack.use_basto(id)            # voce 299: il basto della mandria
 		"fagiolo":
 			return m.chiome.plant_bean(c, id)          # Roadmap 16, voce 157: il Fagiolo di nuvola
 		"esca_signore":
