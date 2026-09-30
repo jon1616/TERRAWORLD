@@ -87,6 +87,34 @@ func run() -> void:
 	await kit.seconds(0.5)
 	await kit.save("56_creare_armi")
 	cp._search.text = ""
+	# 30 set 2026: le categorie nuove. I banchi da lavoro stanno da soli; una sottocategoria scelta restringe la griglia
+	cp.all_benches = true
+	cp.cat = 1 + CraftCatsData.index_of("banchi")
+	cp.sub = ""
+	cp.refresh()
+	await kit.frames(3)
+	var bench_ids := []
+	for t in cp.shown_tiles():
+		bench_ids.append(String(t.r["out"]))
+	var benches_ok := "ceppo" in bench_ids and "maglio" in bench_ids and not bench_ids.any(
+		func(x: String) -> bool: return x.begins_with("trappola") or x.begins_with("totem") or MachinesData.is_machine(x))
+	await kit.save("57_creare_banchi")
+	cp.cat = 1 + CraftCatsData.index_of("blocchi")
+	cp.refresh()
+	await kit.frames(3)
+	var all_blocks := cp.shown_rows()
+	var chips := cp._chips.get_child_count()
+	await kit.save("58_creare_blocchi")
+	cp.sub = "Mattoni"
+	cp.refresh()
+	await kit.frames(2)
+	var bricks := cp.shown_rows()
+	print("Creare, categorie nuove: banchi da soli %s (%d), blocchi %d in %d sottocategorie, solo «Mattoni» %d" % [
+		benches_ok, bench_ids.size(), all_blocks, chips - 1, bricks])
+	if not benches_ok or chips < 3 or bricks <= 0 or bricks >= all_blocks:
+		print("ATTENZIONE: le categorie di Creare non vanno")
+	cp.all_benches = false
+	cp.sub = ""
 	cp.cat = 0
 	cp.refresh()
 	if tip.strip_edges().length() <= 3 or not card_ok or made == "NO" or not made.contains("suonato"):

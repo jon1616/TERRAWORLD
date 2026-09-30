@@ -3,10 +3,11 @@ extends Control
 ## «Creare», con la Bisaccia aperta (riprogettato il 28 set 2026, richiesta dell'utente: «impaginazione nettamente
 ## migliore, con sfondo scuro, pratica, intuitiva e chiara»). Un riquadro scuro in alto a sinistra, sopra la Bisaccia:
 ##   in alto       titolo, quante ricette si possono fare, i banchi vicini (icona e nome)
-##   a sinistra    le categorie in colonna, ognuna con il suo colore e «possibili / tutte»; in fondo le Lavorazioni
-##                 del Maglio e del Telaio sull'oggetto in mano (se ce ne sono)
-##   al centro     la ricerca (nome o ingrediente), «Solo possibili», «Anche i banchi lontani»; sotto la griglia delle
-##                 ricette (`RecipeTile`), per categoria, prima quelle possibili
+##   a sinistra    le categorie in colonna, sotto i titoli dei quattro gruppi, ognuna con il suo colore e quante se
+##                 ne possono fare; in fondo le Lavorazioni del Maglio e del Telaio sull'oggetto in mano (se ce ne sono)
+##   al centro     la ricerca (nome o ingrediente), «Solo possibili», «Anche i banchi lontani»; i bottoni delle
+##                 sottocategorie della categoria scelta (30 set 2026); sotto la griglia delle ricette (`RecipeTile`),
+##                 una sezione per sottocategoria, prima quelle possibili
 ## Un clic sceglie la ricetta: la sua scheda (ingredienti, banco, quantità, «Crea») compare in Esamina, a destra.
 ## Doppio clic crea una volta, Maiusc+clic cinque. Con una cassa aperta il riquadro lascia il posto alla cassa.
 ## Le caselle si fanno una volta (poche per fotogramma a Bisaccia chiusa) e si riusano: il pannello decide solo quali si
@@ -38,6 +39,7 @@ var luck: Callable                     # () -> float: la fortuna alza la qualit�
 var held_slot: Callable                # () -> casella dell'oggetto in mano (lavorazioni del Maglio e del Telaio)
 var language: Language                 # Roadmap 17: le parole certe (le incisioni del Maglio); la collega `main`
 var cat := 0
+var sub := ""                          # la sottocategoria scelta ("" = tutte)
 var only_possible := false
 var all_benches := false               # mostra anche le ricette dei banchi lontani (per sapere cosa serve e dove)
 var selected := {}
@@ -50,7 +52,10 @@ var _benches: HBoxContainer
 var _cat_buttons: Array[Button] = []
 var _scroll: ScrollContainer
 var _content: VBoxContainer
-var _sections: Array = []              # per categoria: [intestazione, griglia]
+var _sections: Array = []              # per sottocategoria: [intestazione, griglia, categoria, nome]
+var _sec_index := {}                   # "categoria|sottocategoria" -> indice in `_sections`
+var _chips: Control                    # i bottoni delle sottocategorie
+var _chips_key := ""
 var _work_head: Label
 var _work_box: VBoxContainer
 var _empty: Label
@@ -64,10 +69,10 @@ var _near := {}
 
 
 static func _tabs() -> Array:
-	var out := [["Tutto", AMBER]]
+	var out := [["Tutto", AMBER, -1]]
 	for c in CraftCatsData.CATS:
-		out.append([c[1], c[2]])
-	out.append(["Lavorazioni", CraftCatsData.WORK])
+		out.append([c[1], c[2], c[3]])
+	out.append(["Lavorazioni", CraftCatsData.WORK, -1])
 	return out
 
 
@@ -154,9 +159,13 @@ func _tile(r: Dictionary) -> RecipeTile:
 	t.quick.connect(func(tile: RecipeTile, times: int) -> void:
 		pick(tile.r)
 		craft_times(tile.r, times))
-	(_sections[CraftCatsData.of(String(r["out"]))][1] as GridContainer).add_child(t)
+	(_sections[_section_of(r)][1] as GridContainer).add_child(t)
 	_tiles[r] = t
 	return t
+
+
+func _section_of(r: Dictionary) -> int:
+	return int(_sec_index["%d|%s" % [CraftCatsData.of(String(r["out"])), CraftCatsData.sub_of(r)]])
 
 
 ## Una ricetta passa la ricerca? Guarda il nome e gli ingredienti.
@@ -204,12 +213,15 @@ func refresh() -> void:
 				room[out] = bisaccia.room_for(out)
 			ok = int(room[out]) >= int(r["qty"])
 		_can[r] = ok
-	# per categoria (dopo la ricerca): prima le possibili, poi le altre
+	# per sottocategoria (dopo la ricerca): prima le possibili, poi le altre
 	var groups := []
-	var totals := []
+	var totals := []                              # per categoria: [possibili, tutte]
+	var sec_n := []                               # per sottocategoria: [possibili, tutte]
 	for c in CraftCatsData.CATS:
-		groups.append([[], []])
 		totals.append([0, 0])
+	for s in _sections:
+		groups.append([[], []])
+		sec_n.append([0, 0])
 	var possible := 0
 	for r in pool:
 		var ok: bool = _can[r]
@@ -218,12 +230,16 @@ func refresh() -> void:
 		if not _passes(r):
 			continue
 		var g := CraftCatsData.of(String(r["out"]))
+		var si := _section_of(r)
 		totals[g][1] += 1
+		sec_n[si][1] += 1
 		if ok:
 			totals[g][0] += 1
+			sec_n[si][0] += 1
 		elif only_possible:
 			continue
-		(groups[g][0 if ok else 1] as Array).append(r)
+		(groups[si][0 if ok else 1] as Array).append(r)
+	_show_chips(sec_n)
 	_count.text = "%d possibili su %d%s" % [possible, here.size(), "  ·  %d in tutto" % pool.size() if all_benches else ""]
 	# la colonna delle categorie
 	var work: Array[Button] = []
@@ -253,7 +269,8 @@ func refresh() -> void:
 	for g in groups.size():
 		var head: Label = _sections[g][0]
 		var grid: GridContainer = _sections[g][1]
-		var on := cat == 0 or cat == g + 1
+		var k: int = _sections[g][2]
+		var on: bool = (cat == 0 or cat == k + 1) and (sub == "" or sub == String(_sections[g][3]))
 		var ok_rows: Array = groups[g][0]
 		var no_rows: Array = groups[g][1]
 		var n := ok_rows.size() + no_rows.size()
@@ -261,7 +278,12 @@ func refresh() -> void:
 		grid.visible = on and n > 0
 		if not head.visible:
 			continue
-		head.text = "%s — %d possibili su %d" % [CraftCatsData.CATS[g][1], ok_rows.size(), totals[g][1]]
+		# in «Tutto» anche il nome della categoria; se la sottocategoria è la categoria stessa, una volta sola
+		var title := String(_sections[g][3])
+		if cat == 0 and title != String(CraftCatsData.CATS[k][1]):
+			title = "%s · %s" % [CraftCatsData.CATS[k][1], title]
+		head.text = "%s — %d %s su %d" % [title, ok_rows.size(), "possibile" if ok_rows.size() == 1 else "possibili",
+			int(sec_n[g][1])]
 		var i := 0
 		for r in ok_rows + no_rows:
 			var t: RecipeTile = _tiles.get(r)
@@ -284,6 +306,26 @@ func refresh() -> void:
 			"Nulla da creare qui: avvicinati a un banco, o spunta «Anche i banchi lontani».")
 	_content.move_child(_empty, _content.get_child_count() - 1)
 	refreshed.emit()                             # la scheda in Esamina segue i numeri nuovi (senza cambiare ciò che mostra)
+
+
+## I bottoni delle sottocategorie della categoria scelta (solo se sono almeno due), e la griglia subito sotto.
+func _show_chips(sec_n: Array) -> void:
+	var list := []
+	if cat > 0 and cat != WORK_CAT:
+		for g in _sections.size():
+			if int(_sections[g][2]) == cat - 1 and int(sec_n[g][0 if only_possible else 1]) > 0:
+				list.append([String(_sections[g][3]), int(sec_n[g][0])])
+	var names := list.map(func(e: Array) -> String: return String(e[0]))
+	if sub != "" and not sub in names:
+		sub = ""                                 # (la ricerca o i filtri l'hanno svuotata)
+	var key := "%d|%s|%s" % [cat, sub, str(list)]
+	if key == _chips_key:
+		return
+	_chips_key = key
+	var h := CraftLayout.chips(self, list, CATS[cat][1] if cat > 0 and cat < CATS.size() else AMBER)
+	var top := 96.0 if h <= 0.0 else _chips.position.y + h + 4.0
+	_scroll.position.y = top
+	_scroll.size.y = size.y - top - 34.0
 
 
 ## I banchi vicini: icona e nome breve.

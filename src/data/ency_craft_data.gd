@@ -5,7 +5,7 @@ class_name EncyCraftData
 const CHAPTERS := [
 	{"id": "creare", "group": "Creare ed equipaggiarsi", "name": "Creare", "text":
 """Il pannello [b]Creare[/b] è in alto a sinistra della Bisaccia aperta. Mostra le ricette dei [b]banchi[/b] a portata (entro {craft_reach} tessere) e quelle che si fanno a mano; con «Anche i banchi lontani» anche le altre, per sapere cosa serve e dove.
-• A sinistra le categorie colorate, ognuna con «possibili / tutte»; sopra la ricerca per nome o per ingrediente e «Solo possibili». In fondo alle categorie, le [b]Lavorazioni[/b] del Maglio e del Telaio sull'oggetto in mano (tratti, innesti, fasce), quando ce ne sono.
+• A sinistra le categorie colorate, in quattro gruppi (Equipaggiamento, Consumi e materiali, Costruire, Il mondo), ognuna con quante ricette puoi fare adesso: i [b]banchi da lavoro[/b] stanno in «Banchi e casse», lontani da trappole, totem e macchine. Scelta una categoria, sopra la griglia compaiono le sue [b]sottocategorie[/b] (Spade, Lance, Archi…; Mattoni, Colonne…; le serie di arredi): un clic mostra solo quella, «Tutte» le rimette. Sopra, la ricerca per nome o per ingrediente e «Solo possibili». In fondo alle categorie, le [b]Lavorazioni[/b] del Maglio e del Telaio sull'oggetto in mano (tratti, innesti, fasce), quando ce ne sono.
 • Ogni ricetta è una casella con l'icona e, sotto, una barra: quanto hai già degli ingredienti (piena e verde = si può fare).
 • [b]Clic[/b] la sceglie: nella colonna [b]Esamina[/b], a destra, compaiono il banco, gli ingredienti con «ne hai / ne servono», la quantità (−, +, Max) e il pulsante [b]Crea[/b]. [b]Doppio clic[/b] crea subito una volta, [b]Maiusc+clic[/b] cinque.
 • Gli ingredienti vengono dalla Bisaccia e dalle [url=cap:casse]casse vicine[/url].

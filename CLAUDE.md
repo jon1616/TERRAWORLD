@@ -397,6 +397,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     nella casella (con «Vai alla ricetta»). L'utente vuole i dettagli qui, in uno spazio apposito, non nei suggerimenti.
     `CharacterCard` — la scheda del Germogliato in basso a sinistra (`CharacterSheet`).
     Come è fatto il pannello (cornice, categorie, ricerca, griglia) sta in `CraftLayout` (`src/ui/craft/`).
+    Le categorie (30 set 2026: 15 in 4 gruppi, ognuna con sottocategorie) le decide `CraftCatsData.place_of`: un tipo
+    d'oggetto o una stazione nuova si aggiunge lì. Distribuzione: `tools/categorie_creare.gd` → prove/categorie_creare.txt.
     `RecipeRow` resta per lo stile dei bottoni (`RecipeRow.style`). `MiningCursor`.
 - `src/game/vitals.gd` (`Vitals`) — Vita (100, foglie da 10) e Linfa (20, gocce da 2), Scorza (metà del suo valore
   tolta a ogni ferita), ricrescita della Vita dopo 6 s senza ferite, attesa di 30 s tra due pozioni; segnali `changed` e
