@@ -5,7 +5,7 @@ extends SceneTree
 ## ERRORE = qualcosa di rotto (riferimento a un oggetto che non esiste…); AVVISO = probabilmente da sistemare
 ## (oggetto che non si può ottenere, materiale che non serve a nulla…).
 
-const KINDS := ["bisaccia", "tasca", "basto", "dispensa", "occhio", "pinza", "vena", "filo", "isolante", "stilo", "fagiolo", "progetto_sem", "richiamo_grande", "esca_signore", "tintura", "progetto", "materiale", "blocco", "piccone", "ascia", "spada", "arco", "munizione", "torcia", "stazione",
+const KINDS := ["bisaccia", "tasca", "basto", "dispensa", "pagina", "occhio", "pinza", "vena", "filo", "isolante", "stilo", "fagiolo", "progetto_sem", "richiamo_grande", "esca_signore", "tintura", "progetto", "materiale", "blocco", "piccone", "ascia", "spada", "arco", "munizione", "torcia", "stazione",
 	"piattaforma", "elmo", "corazza", "gambali", "consumabile", "seme", "lanterna", "cura", "seme_mondo", "accessorio",
 	"purifica", "essenza", "bastone", "dono", "specchio", "trofeo", "richiamo", "reliquia", "mappa", "rampino", "esplosivo", "ricurvo",
 	"giavellotto", "coltura", "annaffiatoio", "parete", "martello", "moneta", "compagno", "evocatore", "ricordo", "provetta", "fiala", "uovo", "creatura", "vasetto", "laccio", "tavoletta", "chiave", "secchio", "secchio_pieno", "contenitore", "pesce", "canna", "esca", "cassetta", "sfida", "guanti", "stivali", "mantello", "amuleto", "anello",
@@ -73,6 +73,13 @@ func _init() -> void:
 	for d in TileDefs.DECOR_DROP:
 		_err(items.has(String(TileDefs.DECOR_DROP[d])), "la decorazione %d lascia un oggetto inesistente" % d)
 		dropped[TileDefs.DECOR_DROP[d]] = true
+	dropped[EncountersData.PAGE_ITEM] = true             # voce 303: negli zaini perduti (e la lanterna, dal diario)
+	dropped[EncountersData.PAGE_REWARD] = true
+	for g in EncountersData.MUSHROOM_GIFT:
+		_err(items.has(String(g[0])), "il fungo re lascia un oggetto inesistente %s" % g[0])
+	for s in EncountersData.VEIN_GIFT:
+		for g in EncountersData.VEIN_GIFT[s]:
+			_err(items.has(String(g[0])), "la vena madre lascia un oggetto inesistente %s" % g[0])
 	for d in PodsData.KINDS:                             # voce 301: il bottino dei baccelli dormienti
 		for e in (PodsData.KINDS[d]["extra"] as Array):
 			_err(items.has(String(e[0])), "il baccello %d lascia un oggetto inesistente %s" % [d, e[0]])

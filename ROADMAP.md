@@ -4597,9 +4597,16 @@ tue possibilità, esplorazione compresa», con le cinque idee per lo zaino.
   dal 33% al 77% (una nascita ogni ~2,6 s invece di ~6). Tetti +1 a ogni livello (`CAP`: di giorno in superficie 3),
   anello fino a 40 tessere, ritmo di base invariato. `tools/percorso.gd`: medio 6,0 appassimenti all'ora (come prima),
   attento 1,2 (era 1,1). Prova: gruppo «grotte».
-- [ ] **303. Piccoli incontri.** Lo zaino dell'esploratore perduto (bottino e una pagina del suo diario), le tane con il
+- [x] **303. Piccoli incontri.** Lo zaino dell'esploratore perduto (bottino e una pagina del suo diario), le tane con il
   loro tesoro e chi le abita, le sacche di minerale sorvegliate, le camere fungine; si annunciano da lontano (luce, suono,
   lucciole) così chi esplora ha un motivo per andare di là.
+  Fatto il 30 set 2026: `EncountersData` + `PassIncontri` + `Encounters` + `EncounterArt`; per mondo 12 zaini di un
+  esploratore (bottino e una Pagina strappata), 10 tane (una camera scavata con il mucchio d'ossa, chiusa finché i 2-4
+  guardiani non sono sconfitti), 8 vene madri (minerale ricco attorno e un cristallo che dona una volta), 6 camere
+  fungine (funghi, radici, il fungo re). Si annunciano entro 34 tessere (scritta e suono), i guardiani si svegliano entro
+  13 e si risvegliano se te ne vai; sulla mappa un segno. Il diario di Tessa la Cercatrice: dieci pagine lette in ordine,
+  all'ultima la Lanterna di Tessa (+8% fortuna, alone). Conteggi «incontri», «incontri_vinti», «pagine_diario».
+  Prova: gruppo «grotte» (foto 304, 305).
 - [ ] **304. Le curiosità degli strati.** Piccoli ritrovamenti unici per strato e bioma (conchiglie fossili, piume,
   semi antichi, monete dei Seminatori…), rari, da mettere nel Museo; una sala nuova con un premio per ogni serie completa.
 - [ ] **305. Misura, guida e chiusura.** `tools/densita.gd` con gli obiettivi, consigli ed Enciclopedia, giro intero,

@@ -66,6 +66,8 @@ static func make(id: String) -> Dictionary:
 			_tenda(im, gm, w, h)
 		"vetrina":
 			_vetrina(im, gm, w, h)
+		"zaino_perduto", "osso_tana", "vena_madre", "fungo_re":
+			EncounterArt.draw(id, im, gm, w, h)                  # voce 303: i piccoli incontri
 		"dispensa":
 			CompactArt._cassa(im, gm, w, h, "cristallo")          # voce 298: una cassa con la vena accesa
 		"giacimento":

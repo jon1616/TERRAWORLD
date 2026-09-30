@@ -58,6 +58,7 @@ static func passes() -> Array[GenPass]:
 		PassSegretiStanze.new(),            # voce 96: stanze murate, passaggi, tesori, nidi nascosti
 		PassSegretiAnomalie.new(),          # voce 97: camere-enigma, anomalie, visioni
 		PassSegreti.new(),                  # voce 95: l'elenco dei segreti (non usa il caso, non sposta nulla)
+		PassIncontri.new(),                 # Roadmap 30, voce 303: i piccoli incontri (tane, vene madri, zaini, funghi)
 		PassBaccelli.new(),                 # Roadmap 30, voce 301: i baccelli dormienti (dopo le stanze: niente nei muri)
 		PassPartenza.new(),
 		PassCollaudo.new(),                 # l'ultima: controlla le promesse del mondo e ripara ciò che può

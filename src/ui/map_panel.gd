@@ -10,7 +10,7 @@ const ZOOMS := [0.5, 1.0, 2.0, 4.0, 8.0]
 const MARK := {"player": Color("#ffb84a"), "spawn": Color("#8ef0d8"), "cuore": Color("#ff7a8a"),
 	"portale": Color("#6ff0d8"), "scrigno": Color("#e8fff8"), "fagotto": Color("#ff5a4a"),
 	"reliquiario": Color("#ffd24a"), "tana": Color("#c060ff"), "altare": Color("#5cc8cc"), "firma": Color("#fff08a"),
-	"radice": Color("#72f0d0")}
+	"radice": Color("#72f0d0"), "incontro": Color("#f0c070")}
 
 var m: Node2D
 var reveal: MapReveal
@@ -224,6 +224,8 @@ func _draw() -> void:
 			key = "altare"
 		elif id == "radice_viandante":
 			key = "radice"
+		elif EncountersData.KINDS.has(id):
+			key = "incontro"                           # voce 303: i piccoli incontri (una volta visto il posto)
 		# le radici viandanti le ha piantate il Germogliato: si vedono anche dove la mappa è ancora nera
 		if key != "" and (w.explored[o.y * w.w + o.x] != 0 or key == "radice"):
 			_mark(Vector2(o) + Vector2(1, 1), MARK[key], 8.0 if key == "radice" and travel_from.x >= 0 else 5.0)

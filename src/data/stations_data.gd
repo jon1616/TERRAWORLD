@@ -37,6 +37,7 @@ static func _merged() -> Dictionary:
 	out.merge(FurnitureData.stations())
 	out.merge(MachinesData.stations())                  # Roadmap 19: le macchine della rete
 	out.merge(LostGardensData.stations())               # Roadmap 21: gli Alberi dei Giardini perduti
+	out.merge(EncountersData.stations())                # voce 303: i piccoli incontri delle grotte
 	return out
 
 

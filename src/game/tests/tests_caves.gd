@@ -16,6 +16,7 @@ func run() -> void:
 	await harvest()
 	await pods()
 	await spawns()
+	await encounters()
 
 
 func _counts(ids: Array) -> Dictionary:
@@ -153,3 +154,80 @@ func spawns() -> void:
 		rate * 100.0, DangerData.cap(1.0)])
 	if not ok:
 		print("ATTENZIONE: le nascite delle creature non vanno")
+
+
+## Il più vicino alla partenza tra gli incontri di un tipo.
+func _nearest(k: String) -> Vector2i:
+	var w: World = m.world
+	var best := Vector2i(-1, -1)
+	for o in w.stations:
+		if String(w.stations[o]) == k and (best.x < 0 or Vector2(o).distance_to(Vector2(w.spawn)) < Vector2(best).distance_to(Vector2(w.spawn))):
+			best = o
+	return best
+
+
+## Voce 303: il mondo ha i suoi incontri; lo zaino ha la pagina del diario; la tana sveglia i guardiani e resta chiusa
+## finché non sono sconfitti; la vena madre dà il suo dono una volta; il diario letto tutto dà la lanterna.
+func encounters() -> void:
+	var w: World = m.world
+	var en: Encounters = m.encounters
+	var counts := {}
+	for o in w.stations:
+		var k := String(w.stations[o])
+		if EncountersData.KINDS.has(k):
+			counts[k] = int(counts.get(k, 0)) + 1
+	var zaino := _nearest("zaino_perduto")
+	var page_in := zaino.x >= 0 and w.chest_at(zaino).count(EncountersData.PAGE_ITEM) == 1
+	var ids := ["minerale_legnoferro", "minerale_ambra", "minerale_tizzonite", "cristallo_linfa", "polvere_iridata", "linfa_antica",
+		EncountersData.PAGE_REWARD, EncountersData.PAGE_ITEM]
+	var before := _counts(ids)
+	# la tana
+	var tana := _nearest("osso_tana")
+	var woke := 0
+	var closed := false
+	var opened_after := false
+	if tana.x >= 0:
+		m.snap_to(tana + Vector2i(-6, 0))
+		await kit.seconds(1.2)
+		woke = en.guards_alive(tana)
+		await kit.save("304_tana")
+		closed = en.touch(tana, "osso_tana")
+		for c in m.fauna.list.duplicate():
+			if String(c.get_meta("incontro", "")) == "%d,%d" % [tana.x, tana.y]:
+				m.fauna.kill(c)
+		opened_after = not en.touch(tana, "osso_tana")
+	# la vena madre
+	var vena := _nearest("vena_madre")
+	var gift := false
+	var once := false
+	if vena.x >= 0:
+		m.snap_to(vena + Vector2i(-5, 1))
+		await kit.seconds(1.2)
+		for c in m.fauna.list.duplicate():
+			if String(c.get_meta("incontro", "")) == "%d,%d" % [vena.x, vena.y]:
+				m.fauna.kill(c)
+		gift = en.touch(vena, "vena_madre")
+		await kit.seconds(1.5)
+		var st: Dictionary = en._state(vena)
+		once = st.has("p") and en.touch(vena, "vena_madre")
+	# il diario
+	var pages0 := int(m.character.stats.get("pagine_tessa", 0))
+	m.character.stats["pagine_tessa"] = 0
+	m.character.bisaccia.add(EncountersData.PAGE_ITEM, EncountersData.DIARY.size())
+	var read := 0
+	for i in EncountersData.DIARY.size():
+		if en.read_page(EncountersData.PAGE_ITEM):
+			read += 1
+	await kit.frames(3)
+	await kit.save("305_diario_tessa")
+	m.guardian.lore.visible = false
+	var lantern: bool = m.character.bisaccia.count(EncountersData.PAGE_REWARD) > int(before[EncountersData.PAGE_REWARD])
+	var ok: bool = int(counts.get("zaino_perduto", 0)) >= 6 and int(counts.get("osso_tana", 0)) >= 4 and int(counts.get("vena_madre", 0)) >= 3 		and int(counts.get("fungo_re", 0)) >= 2 and page_in and woke >= 2 and closed and opened_after and gift and once 		and read == EncountersData.DIARY.size() and lantern
+	print("incontri: %s; nello zaino la pagina %s; tana: %d guardiani svegli, chiusa %s, aperta dopo %s; vena madre: dono %s, una volta sola %s; diario letto %d/%d, lanterna %s" % [
+		counts, page_in, woke, closed, opened_after, gift, once, read, EncountersData.DIARY.size(), lantern])
+	if not ok:
+		print("ATTENZIONE: i piccoli incontri non vanno")
+	m.character.stats["pagine_tessa"] = pages0
+	_give_back(before)
+	m.fauna.clear(true)
+	m.snap_to(w.spawn)

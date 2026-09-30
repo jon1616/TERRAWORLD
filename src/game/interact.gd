@@ -63,6 +63,8 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 			return m.backpack.use_dispensa(id)         # voce 298: il Seme e il Cuore della Dispensa
 		"basto":
 			return m.backpack.use_basto(id)            # voce 299: il basto della mandria
+		"pagina":
+			return m.encounters.read_page(id)          # voce 303: il diario di Tessa
 		"fagiolo":
 			return m.chiome.plant_bean(c, id)          # Roadmap 16, voce 157: il Fagiolo di nuvola
 		"esca_signore":
@@ -238,6 +240,8 @@ func touch(c: Vector2i) -> bool:
 		return m.lost_gardens.touch(o)                   # Roadmap 21: l'Albero di un Giardino perduto
 	if id == "dispensa":
 		return m.backpack.open_dispensa(o)               # voce 298: la Dispensa del Giardiniere
+	if EncountersData.KINDS.has(id) and m.encounters.touch(o, id):
+		return true                                      # voce 303: la tana chiusa, il dono della vena o del fungo
 	if MachinesData.is_machine(id):
 		return m.energy.touch(o)                         # Roadmap 19 (anche con la cassetta: il pannello la apre)
 	if StationsData.STATIONS[id].has("slots"):
