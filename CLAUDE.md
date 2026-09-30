@@ -790,6 +790,16 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   - Prove: gruppo «correnti» (`TestsCurrents`). Enciclopedia: `EncyCurrentsData`.
   - Una prova che dà premi o punti di maestria rimette com'erano Bisaccia (le quantità esatte) **e** `Character.maestria`:
     un grado della pesca in più cambiava la fortuna di pesca delle prove della pesca.
+- **Roadmap 28 «Il Seme Primo»** (voci 262-266, 30 set 2026; l'Atto III e il finale):
+  - `MotherTreeData`: `ACTS[2]` e gli stadi 25-34 (uno per pilastro), l'offerta `{"grado": pilastro, "n": g}` (letta da
+    `AlberoMadre._progress_of`, contata da `tools/durata.gd`), il dono `primo` (→ `Legends.give_primo`); pagine `atto3_*`.
+  - Il Primo Mondo: parametro `primo` del generatore (`MainBoot.gen_params`), `PassPrimo` (la radura dell'Albero Antico),
+    `primo_pack.gd` (l'ultimo Seminatore, `primo_boss`), `PrimoGarden` (sveglia, seme, finale); `Finale` + `FinaleData` +
+    `FinalePanel` (racconto, epilogo con i numeri, titoli; `stats["finale"]` ≥ 1 = Albero-Madre d'oro, `albero_madre_5`);
+    `Evergreen` (stelle di maestria oltre il grado 10, Semi d'oro ogni sette giorni).
+  - Prove: gruppo «primo» (`TestsPrimo`, foto 255); `--prova-giardino` percorre tutti i 34 stadi. Enciclopedia:
+    `EncyEndingData`.
+  - Un conteggio di `Objectives.bump` non fa da segno «fatto una volta» con `== 1`: il bump lo porta a 2. Si legge `>= 1`.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

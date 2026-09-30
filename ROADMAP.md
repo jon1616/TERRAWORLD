@@ -17,7 +17,8 @@
   fiere e lavori della mandria; qualità, incroci e cucina dell'orto. **Fatta la Roadmap 25 «Le arti»** (voci 247-252):
   maestrie e tecniche delle armi, taglie, prove del Cerchio. **Fatta la Roadmap 26 «Memorie»** (voci 253-257): Museo,
   archeologia, cronache perdute, traguardi. **Fatta la Roadmap 27 «Acque e correnti»** (voci 258-261): record e gare di
-  pesca, contratti della rete. Il modello dà ~518 ore al giocatore medio.
+  pesca, contratti della rete. **Fatta la Roadmap 28 «Il Seme Primo»** (voci 262-266): l'Atto III, il Giardino oltre il
+  Vuoto, il finale, il dopo. **Il piano «Le dieci strade» è compiuto**: il modello dà ~532 ore al giocatore medio.
 - **Fatta la Roadmap 19 «La Linfa che scorre»** (voci 190-213, 29 set 2026, in autonomia): vene del Flusso e fili
   dell'Impulso, 64 macchine (sorgenti, riserve, macchine che lavorano, sensori, nodi della logica), le Centrali dei
   Seminatori, la Tempesta di Linfa, Succhiavena e Lucciole, la Tessitrice, il primo circuito guidato. Resoconto in fondo
@@ -4397,8 +4398,33 @@ di mondo con vigore due sopra il mondo più forte dell'Atlante e un gene stellar
 «semi_oro». La Bacheca con richieste più grandi è rimasta fuori: i contratti, le taglie e le spedizioni crescono già da
 soli.
 
-## 266. [ ] Enciclopedia, misura e resoconto del piano (P)
+## 266. [x] Enciclopedia, misura e resoconto del piano (P) — fatto il 30 set 2026
 Capitoli, consigli, `tools/durata.gd`, giro intero, GitHub, e il resoconto del piano «Le dieci strade».
+**Fatto**: `EncyEndingData` (Il Seme Primo, Il Giardino oltre il Vuoto, Dopo il finale), due consigli (il terzo atto,
+il Seme d'oro), la misura finale.
+
+### Resoconto della Roadmap 28 (30 set 2026)
+La storia ha un **terzo atto** e una **fine**: dieci stadi dell'Albero-Madre che chiedono ognuno un pilastro, il Seme
+Primo come ultimo dono, il **Giardino oltre il Vuoto** con l'Albero Antico e l'ultimo Seminatore, il **finale** che
+racconta dove sono andati i Seminatori, con l'epilogo dei numeri della partita e i titoli; e un **dopo**: l'Albero-Madre
+d'oro, i Semi d'oro, le stelle di maestria senza limite. La storia diretta passa da 91 a 131 ore.
+
+### Resoconto del piano «Le dieci strade» (Roadmap 20-28, 29-30 set 2026)
+Nove Roadmap, 53 voci, fatte in autonomia come chiesto. Il gioco ora ha **dieci pilastri** con la maestria a gradi
+numerati (e senza limite oltre il 10), e per ognuno cose nuove da fare che moltiplicano gli altri sistemi:
+- **la storia**: l'Atto II (quattro Giardini perduti) e l'Atto III fino al finale e al dopo;
+- **l'esplorazione**: l'Atlante con le stelle dei mondi, 26 pagine dei biomi, 12 meraviglie, le spedizioni, gli attrezzi;
+- **il combattimento**: dieci maestrie d'arma con le loro tecniche, le taglie, le prove del Cerchio;
+- **il Giardino**: la bellezza, le isole, le feste, le grandi opere, il Museo;
+- **gli abitanti**: 70 capitoli di storie, 14 botteghe, i visitatori, il Cacciatore di taglie;
+- **la mandria**: stirpi e stirpi pure, 180 manti da collezionare, le fiere, i lavori;
+- **l'orto e la cucina**: qualità, semi scelti, 12 varietà da incrocio, 30 piatti con effetti diversi;
+- **la pesca**: il libro dei record con 67 specie a tre medaglie, le gare del giorno;
+- **la rete**: i contratti della Tessitrice;
+- **i misteri**: il Museo, l'archeologia, le cronache perdute, i traguardi delle collezioni.
+La misura (`tools/durata.gd`): tutto al grado 10 **~453 ore** di strada, **~532 per il giocatore medio** (obiettivo
+dell'utente: 500), di cui la storia diretta 131 (210). La sezione «varietà» dello strumento dice quante di queste ore
+sono fatte di cose diverse, pilastro per pilastro.
 
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».

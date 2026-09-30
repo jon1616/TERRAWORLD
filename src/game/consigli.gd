@@ -409,3 +409,11 @@ func _c_medaglia_pesca() -> bool:
 
 func _c_contratto() -> bool:
 	return int(m.character.stats.get("contratti", 0)) >= 1
+
+
+func _c_atto_terzo() -> bool:
+	return int(m.character.stats.get("albero", 0)) >= 24
+
+
+func _c_seme_oro() -> bool:
+	return int(m.character.stats.get("semi_oro", 0)) >= 1

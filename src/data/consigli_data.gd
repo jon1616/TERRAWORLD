@@ -126,6 +126,11 @@ const LIST := [
 		"text": "Il tuo pesce più grande di una specie vale una [b]medaglia[/b]: bronzo, argento, oro secondo la misura. E ogni giorno c'è la gara del Pescatore: il Libro dei pilastri ({pilastri}) dice quale."},
 	{"id": "contratto", "title": "Un contratto della Tessitrice", "cap": "contratti_rete",
 		"text": "Hai compiuto un [b]contratto della rete[/b]: la Tessitrice ne ha sempre quattro, e ognuno cresce di grado. Il Libro dei pilastri ({pilastri}) mostra le soglie."},
+	# Roadmap 28 «Il Seme Primo»
+	{"id": "atto_terzo", "title": "Il terzo atto", "cap": "atto_terzo",
+		"text": "L'Albero-Madre sente una voce oltre il Vuoto: comincia il [b]terzo atto[/b]. Ogni stadio chiede un pilastro: il Libro dei pilastri ({pilastri}) dice a che grado sei."},
+	{"id": "seme_oro", "title": "Il Seme d'oro", "cap": "dopo",
+		"text": "L'Albero-Madre d'oro ti ha donato un [b]Seme d'oro[/b]: ne arriverà uno ogni sette giorni del Giardino, sempre più vigoroso."},
 ]
 
 
