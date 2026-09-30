@@ -15,6 +15,7 @@ var panel: BisacciaPanel
 var map: Control                       # la mappa (MapPanel): aperta, il mouse serve a lei
 var overlays: Array[Control] = []      # altri pannelli a schermo intero (Erbario): aperti, il mouse serve a loro
 var _slots: Array[SlotView] = []
+var _strip: Panel                      # (voce 274) il riquadro sotto la barra rapida, a Bisaccia chiusa
 var _name: Label
 var _info: Label
 var _help_hint: Label
@@ -42,20 +43,35 @@ func _ready() -> void:
 			panel.crafting.refresh())
 	var n := Bisaccia.HOTBAR
 	var x0 := (1600 - (n * SlotView.SIZE + (n - 1) * 6)) / 2.0
+	# (voce 274) la barra rapida sta su un suo riquadro: si legge sopra ogni sfondo, cielo o grotta
+	_strip = Panel.new()
+	_strip.add_theme_stylebox_override("panel", UiFrames.box("riquadro"))
+	_strip.position = Vector2(x0 - 10, HOTBAR_Y - 10)
+	_strip.size = Vector2(n * SlotView.SIZE + (n - 1) * 6 + 20, SlotView.SIZE + 20)
+	_strip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_strip.modulate.a = 0.92
+	add_child(_strip)
 	for k in n:
 		var s := SlotView.new()
 		s.index = k
 		s.position = Vector2(x0 + k * (SlotView.SIZE + 6), HOTBAR_Y)
 		s.clicked.connect(_on_slot_clicked)
 		add_child(s)
-		var num := _label(s, Vector2(7, 1), 12)
-		num.add_theme_color_override("font_color", Color("#9fd8c8"))
+		var num := Label.new()
 		num.text = str((k + 1) % 10)
+		num.position = Vector2(6, 2)
+		num.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		PixelFont.apply(num, 1, Color("#9fd8c8"), true)
+		s.add_child(num)
+		s.pivot_offset = Vector2(SlotView.SIZE, SlotView.SIZE) * 0.5
 		_slots.append(s)
-	_name = _label(self, Vector2(0, HOTBAR_Y - 32), 20)
-	_name.size = Vector2(1600, 28)
+	_name = Label.new()
+	_name.position = Vector2(0, HOTBAR_Y - 12 - PixelFont.size(2))
+	_name.size = Vector2(1600, PixelFont.size(2))
 	_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_name.add_theme_color_override("font_color", AMBER)
+	_name.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	PixelFont.apply(_name, 2, AMBER, true)
+	add_child(_name)
 	_info = _label(self, Vector2(16, 6), 13)
 	_info.add_theme_constant_override("line_spacing", -2)
 	_info.add_theme_color_override("font_color", Color("#9fc8c0"))
@@ -160,9 +176,15 @@ func current() -> Dictionary:
 
 
 func select(k: int) -> void:
+	var was := sel
 	sel = posmod(k, Bisaccia.HOTBAR)
 	for i in _slots.size():
 		_slots[i].set_selected(i == sel)
+	if was != sel and UiFx.on():
+		# (voce 274) la casella scelta si solleva un attimo
+		var s := _slots[sel]
+		s.scale = Vector2(1.1, 1.1)
+		s.create_tween().tween_property(s, "scale", Vector2.ONE, 0.14).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	_update_name()
 	selected.emit(current())
 
@@ -171,6 +193,7 @@ func select(k: int) -> void:
 ## scritta: aggiunto prima di altre (la riga dell'Albero-Madre) restava sotto di loro e le scritte gli passavano sopra
 ## (28 set 2026, segnalato dall'utente con il Semenzaio).
 func _process(_dt: float) -> void:
+	_strip.visible = not panel.visible
 	if _toast_box.visible:
 		_place_toast()
 	_fx_watch()
@@ -243,12 +266,16 @@ func send_panel_back() -> void:
 			c.mouse_filter = int(c.get_meta("filtro"))
 			c.remove_meta("filtro")
 	move_child(panel, 0)
+	move_child(_strip, 1)
 	for k in _slots.size():
-		move_child(_slots[k], k + 1)
+		move_child(_slots[k], k + 2)
 
 
 func _update_name() -> void:
-	_name.text = current()["name"]
+	var t: String = current()["name"]
+	if t != _name.text:
+		_name.text = t
+		UiFx.flash(_name, Color(1, 1, 1, 0.0))   # (voce 274) il nome nuovo compare in dissolvenza
 
 
 func _on_slot_clicked(i: int, button: int) -> void:

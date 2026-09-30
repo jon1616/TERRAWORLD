@@ -10,7 +10,14 @@ var _tw: Tween
 func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_title = _label(34, 150)
+	_title = _label(34, 146)
+	# (voce 276) il nome nel carattere di pixel a 4×, con un'ombra netta: un'insegna, non una scritta
+	_title.remove_theme_font_size_override("font_size")
+	_title.remove_theme_constant_override("outline_size")
+	PixelFont.apply(_title, 4, Color(0, 0, 0, 0), true)
+	_title.add_theme_constant_override("shadow_offset_x", 4)
+	_title.add_theme_constant_override("shadow_offset_y", 4)
+	_title.offset_bottom = 146 + PixelFont.size(4)
 	_sub = _label(16, 196)
 	modulate.a = 0.0
 

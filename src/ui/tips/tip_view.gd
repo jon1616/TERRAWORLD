@@ -1,33 +1,22 @@
 class_name TipView
 extends PanelContainer
-## Il disegno di una `TipCard`: riquadro scuro con il bordo del colore della scheda e un filo acceso a sinistra, nome
-## grande con l'icona in una cornicetta, valori in colonna, righe sottili tra le parti, comandi in fondo.
+## Il disegno di una `TipCard` (voce 277): la cornice «suggerimento» del tema tinta del colore della scheda, il nome nel
+## carattere di pixel con l'icona in una casella, una fascia del colore (tipo o rarità) che sfuma sotto il nome, valori
+## in colonna, righe sottili tra le parti, comandi in fondo. Nessun testo più largo di `MAX_W`: va a capo.
 ## Si rifà da capo a ogni scheda nuova (poche decine di nodi, meno di un millisecondo).
 
 const ICON := 36.0
 const MIN_W := 120.0
+const MAX_W := 440.0
 
 static var _icons := {}
 
 var _box: VBoxContainer
-var _style: StyleBoxFlat
+static var _bands := {}
 
 
 func _init() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_style = StyleBoxFlat.new()
-	_style.bg_color = Color(0.015, 0.04, 0.05, 0.96)
-	_style.set_border_width_all(1)
-	_style.border_width_left = 4
-	_style.set_corner_radius_all(8)
-	_style.content_margin_left = 14
-	_style.content_margin_right = 12
-	_style.content_margin_top = 9
-	_style.content_margin_bottom = 9
-	_style.shadow_color = Color(0, 0, 0, 0.45)
-	_style.shadow_size = 6
-	_style.shadow_offset = Vector2(2, 3)
-	add_theme_stylebox_override("panel", _style)
 	_box = VBoxContainer.new()
 	_box.add_theme_constant_override("separation", 4)
 	_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -51,12 +40,13 @@ func show_card(c: TipCard) -> void:
 	for ch in _box.get_children():
 		_box.remove_child(ch)
 		ch.queue_free()
-	_style.border_color = c.accent.darkened(0.25)
+	add_theme_stylebox_override("panel", UiFrames.padded("suggerimento", "normale", Color(c.accent, 0.7), Vector2(14, 10)))
 	var w := c.width
 	for b in c.blocks:
 		match String(b["t"]):
 			"title":
 				_box.add_child(_title(String(b["text"]), c.accent, b.get("icon")))
+				_box.add_child(_band(c.accent))
 			"sub":
 				_box.add_child(_label(String(b["text"]), 13, b["color"]))
 			"stats":
@@ -94,13 +84,7 @@ func _title(s: String, col: Color, icon: Variant) -> Control:
 	var tex := icon_of(icon)
 	if tex != null:
 		var frame := PanelContainer.new()
-		var sb := StyleBoxFlat.new()
-		sb.bg_color = Color(col, 0.10)
-		sb.border_color = Color(col, 0.45)
-		sb.set_border_width_all(1)
-		sb.set_corner_radius_all(6)
-		sb.set_content_margin_all(2)
-		frame.add_theme_stylebox_override("panel", sb)
+		frame.add_theme_stylebox_override("panel", UiFrames.padded("casella", "normale", col, Vector2(4, 4)))
 		frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		var t := TextureRect.new()
 		t.texture = tex
@@ -111,13 +95,39 @@ func _title(s: String, col: Color, icon: Variant) -> Control:
 		t.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		frame.add_child(t)
 		row.add_child(frame)
-	var l := _label(s, 18, col)
-	l.add_theme_color_override("font_outline_color", Color(0.01, 0.02, 0.03))
-	l.add_theme_constant_override("outline_size", 3)
+	var l := Label.new()
+	l.text = s
+	l.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	PixelFont.apply(l, 2, col, true)
 	l.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	l.autowrap_mode = TextServer.AUTOWRAP_OFF
+	# un nome lunghissimo va a capo invece di allargare la scheda oltre `MAX_W`
+	var room := MAX_W - (ICON + 18.0 if tex != null else 0.0)
+	if PixelFont.font().get_string_size(s, HORIZONTAL_ALIGNMENT_LEFT, -1, PixelFont.size(2)).x > room:
+		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		l.custom_minimum_size = Vector2(room, 0)
 	row.add_child(l)
 	return row
+
+
+## La fascia del colore della scheda sotto il nome: piena a sinistra, sfuma verso destra.
+func _band(col: Color) -> Control:
+	var key := col.to_html()
+	if not _bands.has(key):
+		var g := Gradient.new()
+		g.set_color(0, Color(col, 0.75))
+		g.set_color(1, Color(col, 0.0))
+		var gt := GradientTexture2D.new()
+		gt.gradient = g
+		gt.width = 128
+		gt.height = 1
+		_bands[key] = gt
+	var t := TextureRect.new()
+	t.texture = _bands[key]
+	t.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	t.stretch_mode = TextureRect.STRETCH_SCALE
+	t.custom_minimum_size = Vector2(0, 2)
+	t.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return t
 
 
 func _rich(bb: String, w: float, fs := 14) -> RichTextLabel:
@@ -135,7 +145,11 @@ func _rich(bb: String, w: float, fs := 14) -> RichTextLabel:
 		r.autowrap_mode = TextServer.AUTOWRAP_OFF
 	r.text = bb
 	if w <= 0.0:
-		r.custom_minimum_size = Vector2(measure(bb, fs) + 6.0, 0)
+		var mw := measure(bb, fs) + 6.0
+		if mw > MAX_W:
+			mw = MAX_W
+			r.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		r.custom_minimum_size = Vector2(mw, 0)
 	return r
 
 

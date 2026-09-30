@@ -142,6 +142,18 @@ func _branch(c: Vector2, dir: float, inner: float, f: float, trail: float, col: 
 		# un filo di luce che corre lungo il ramo
 		var y_l := c.y - h * 0.28
 		draw_line(Vector2(x0, y_l), Vector2(x0 + dir * BAR_W * f * 0.97, y_l), col.lightened(0.45), 2.0)
+		# (voce 275) il liquido è vivo: un'onda di luce corre dal seme verso la punta, e nella Linfa salgono bollicine
+		var wave := fmod(_t * 0.32 + (0.5 if dir > 0.0 else 0.0), 1.6) - 0.2
+		var w0 := clampf(wave - 0.08, 0.0, f)
+		var w1 := clampf(wave + 0.08, 0.0, f)
+		if w1 > w0 + 0.005:
+			draw_colored_polygon(_shape(x0, dir, c.y - h * 0.1, h * 0.5, w0, w1), Color(col.lightened(0.6), 0.28))
+		if tip == "drop":
+			for i in 5:
+				var u := fmod(float(i) * 0.217 + _t * 0.05, 1.0) * f
+				var bob := fmod(_t * 0.9 + i * 0.37, 1.0)
+				var p := Vector2(x0 + dir * BAR_W * u, c.y + h * 0.3 - bob * h * 0.6)
+				draw_circle(p, 1.5, Color(0.9, 1.0, 1.0, 0.45 * (1.0 - bob)))
 	var edge := shape.duplicate()
 	edge.append(shape[0])
 	draw_polyline(edge, Color("#0a1414"), 3.0)
@@ -265,9 +277,12 @@ func _big_drop(p: Vector2, full: bool) -> void:
 	draw_circle(p + Vector2(-3, 2), 2.0, Color(0.9, 1.0, 1.0, 0.8))
 
 
-## Un testo centrato su `c`, con il contorno scuro.
-func _text(c: Vector2, t: String, fs: int, a := 1.0) -> void:
-	var tw := _font.get_string_size(t, HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x
-	var pos := Vector2(c.x - tw * 0.5, c.y + fs * 0.36)
-	draw_string_outline(_font, pos, t, HORIZONTAL_ALIGNMENT_LEFT, -1, fs, 5, Color(0.02, 0.04, 0.05, a))
-	draw_string(_font, pos, t, HORIZONTAL_ALIGNMENT_LEFT, -1, fs, Color(0.96, 1.0, 0.97, a))
+## Un testo centrato su `c` nel carattere di pixel a 2× (voce 275), con un'ombra di 2 px che lo stacca dal liquido.
+func _text(c: Vector2, t: String, _fs: int, a := 1.0) -> void:
+	var pf := PixelFont.font()
+	var fs := PixelFont.size(2)
+	var tw := pf.get_string_size(t, HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x
+	var pos := Vector2(roundf(c.x - tw * 0.5), roundf(c.y + 7.0))     # le maiuscole (14 px) centrate sul ramo
+	for d in [Vector2(2, 2), Vector2(0, 2), Vector2(2, 0), Vector2(-2, 0), Vector2(0, -2)]:
+		draw_string(pf, pos + d, t, HORIZONTAL_ALIGNMENT_LEFT, -1, fs, Color(0.02, 0.04, 0.05, a * (0.9 if d == Vector2(2, 2) else 0.55)))
+	draw_string(pf, pos, t, HORIZONTAL_ALIGNMENT_LEFT, -1, fs, Color(0.96, 1.0, 0.97, a))
