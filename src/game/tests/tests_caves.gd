@@ -15,6 +15,7 @@ func _init(tk: TestKit) -> void:
 func run() -> void:
 	await harvest()
 	await pods()
+	await spawns()
 
 
 func _counts(ids: Array) -> Dictionary:
@@ -118,3 +119,37 @@ func pods() -> void:
 	_give_back(before)
 	st["baccelli_aperti"] = n0
 	m.snap_to(w.spawn)
+
+
+## Voce 302: in una grotta delle Caverne d'ardesia le prove di nascita riescono quasi sempre (quattro punti per prova), e
+## il tetto di creature è più alto di prima.
+func spawns() -> void:
+	var w: World = m.world
+	var fa: Fauna = m.fauna
+	var spot := Vector2i(-1, -1)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 11
+	for t in 4000:
+		var x := rng.randi_range(40, w.w - 40)
+		var y := rng.randi_range(40, w.h - 40)
+		if StrataData.at(w, x, y) == 2 and not w.solid(x, y) and not w.solid(x, y - 1) and w.solid(x, y + 1) 				and not w.torch_near(Vector2i(x, y), 50.0) and Vector2(x, y).distance_to(Vector2(w.spawn)) > 120.0:
+			spot = Vector2i(x, y)
+			break
+	var made := 0
+	var tries := 60
+	if spot.x >= 0:
+		m.snap_to(spot)
+		await kit.seconds(1.0)                        # (la luce si ricalcola attorno al posto nuovo: si nasce solo al buio)
+		fa.clear(true)
+		for k in tries:
+			var cr := fa.try_spawn()
+			if cr != null:
+				made += 1
+		fa.clear(true)
+		m.snap_to(w.spawn)
+	var rate := float(made) / tries
+	var ok: bool = spot.x >= 0 and rate >= 0.5 and DangerData.cap(1.0) == 3 and DangerData.SPAWN_TRIES >= 4
+	print("nascite nelle Caverne d'ardesia: %d su %d prove (%.0f%%; prima ~33%%), tetto di giorno in superficie %d" % [made, tries,
+		rate * 100.0, DangerData.cap(1.0)])
+	if not ok:
+		print("ATTENZIONE: le nascite delle creature non vanno")

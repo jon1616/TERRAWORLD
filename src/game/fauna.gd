@@ -272,10 +272,17 @@ func try_spawn() -> Creature:
 		var ns: Array = nest_hook.call(pc)
 		if not ns.is_empty():
 			return spawn_at_nest(String(ns[0]), ns[1])
-	var ang := _rng.randf() * TAU
-	var dist := _rng.randf_range(DangerData.SPAWN_MIN, DangerData.SPAWN_MAX)
-	var c := pc + Vector2i(roundi(cos(ang) * dist), roundi(sin(ang) * dist * 0.6))
-	if not world.inside(c.x, c.y) or c.y < 2:
+	# voce 302: fino a `SPAWN_TRIES` punti a caso nell'anello, il primo con uno spazio 2×2 e un pavimento sotto (prima un
+	# punto solo: sotto terra due volte su tre cadeva nella roccia e la grotta restava vuota)
+	var c := Vector2i(-1, -1)
+	for t in DangerData.SPAWN_TRIES:
+		var ang := _rng.randf() * TAU
+		var dist := _rng.randf_range(DangerData.SPAWN_MIN, DangerData.SPAWN_MAX)
+		var q := pc + Vector2i(roundi(cos(ang) * dist), roundi(sin(ang) * dist * 0.6))
+		if world.inside(q.x, q.y) and q.y >= 2 and _room_below(q):
+			c = q
+			break
+	if c.x < 0:
 		return null
 	if quiet_c.x >= 0 and Vector2(c - quiet_c).length() < SummonData.ARENA_R:
 		return null                                     # voce 84: attorno al Cerchio, durante uno scontro evocato
@@ -316,7 +323,7 @@ func try_spawn() -> Creature:
 	var fly: bool = CreaturesData.get_data(id).get("fly", false)
 	# uno spazio d'aria di 2×2; chi non vola ha bisogno anche del terreno sotto (lo si cerca scendendo un poco)
 	for k in 12:
-		var y := c.y + (k if not fly else 0)
+		var y := c.y + k                                    # (voce 302: anche chi vola scende al primo spazio libero)
 		if _free(c.x, y) and (fly or world.solid(c.x, y + 1)):
 			if world.torch_near(Vector2i(c.x, y), 8.0) or near_camp(Vector2i(c.x, y)):
 				return null                # la luce delle torce (e il campo della Tenda) tiene lontane le creature
@@ -339,8 +346,6 @@ func try_spawn() -> Creature:
 				pack(cr, id, mult)
 			_group(cr, id, mult)
 			return cr
-		if fly:
-			break
 	return null
 
 
@@ -402,6 +407,19 @@ func _dark(c: Vector2i) -> bool:
 		return true
 	var v := light.value_at(c)
 	return v < 0.0 or v < DangerData.DARK
+
+
+## C'è uno spazio 2×2 libero con il pavimento sotto entro 12 celle sotto il punto, lontano dalle torce e (sotto terra)
+## al buio? È lo stesso posto che poi cerca la creatura: così una prova non si spreca su un punto che verrà scartato.
+func _room_below(c: Vector2i) -> bool:
+	var under := StrataData.at(world, c.x, c.y) > 0
+	if not under and _free(c.x, c.y) and SkyData.zone_at(world, c.x, c.y) != "":
+		return not world.torch_near(c, 8.0)             # nel cielo aperto nascono anche le creature che volano
+	for k in 12:
+		var q := Vector2i(c.x, c.y + k)
+		if world.inside(q.x + 1, q.y + 1) and _free(q.x, q.y) and world.solid(q.x, q.y + 1):
+			return not world.torch_near(q, 8.0) and not near_camp(q) and (not under or _dark(q))
+	return false
 
 
 func _free(x: int, y: int) -> bool:

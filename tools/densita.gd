@@ -107,17 +107,18 @@ func _init() -> void:
 
 ## Come `Fauna.try_spawn`, senza luce né torce (al buio): il punto nell'anello e lo spazio libero con il pavimento.
 func _spawn_ok(pc: Vector2i, rng: RandomNumberGenerator) -> bool:
-	var ang := rng.randf() * TAU
-	var dist := rng.randf_range(DangerData.SPAWN_MIN, DangerData.SPAWN_MAX)
-	var c := pc + Vector2i(roundi(cos(ang) * dist), roundi(sin(ang) * dist * 0.6))
-	if not w.inside(c.x, c.y) or c.y < 2:
-		return false
-	for k in 12:
-		var y := c.y + k
-		if not w.inside(c.x + 1, y + 1):
-			return false
-		if _free(c.x, y) and w.solid(c.x, y + 1):
-			return true
+	for t in DangerData.SPAWN_TRIES:                     # (voce 302: più punti per ogni prova)
+		var ang := rng.randf() * TAU
+		var dist := rng.randf_range(DangerData.SPAWN_MIN, DangerData.SPAWN_MAX)
+		var c := pc + Vector2i(roundi(cos(ang) * dist), roundi(sin(ang) * dist * 0.6))
+		if not w.inside(c.x, c.y) or c.y < 2:
+			continue
+		for k in 12:
+			var y := c.y + k
+			if not w.inside(c.x + 1, y + 1):
+				break
+			if _free(c.x, y) and w.solid(c.x, y + 1):
+				return true
 	return false
 
 

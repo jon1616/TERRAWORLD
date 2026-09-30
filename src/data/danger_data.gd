@@ -13,12 +13,15 @@ const NIGHT := 1.5                     # di notte, in superficie
 const BLIGHT := 1.5                    # nelle terre avvizzite
 const VIGOR := 1.0                     # per ogni punto di vigore oltre il primo
 ## Quante creature al massimo attorno al giocatore, per livello di pericolo (indice = pericolo arrotondato giù).
-const CAP := [0, 2, 4, 5, 7, 8, 9, 10, 11, 12]
+## Voce 302 (30 set 2026, l'utente: «pochi mostri»): un posto in più a ogni livello, di giorno in superficie 3.
+const CAP := [0, 3, 5, 6, 8, 9, 10, 11, 12, 13]
 ## Ogni quanto si prova a far nascere una creatura: SPAWN_EVERY / pericolo secondi.
 const SPAWN_EVERY := 7.0
-## Distanza in tessere: appena fuori dalla visuale (che è larga circa 50 tessere).
+## Quanti punti prova una nascita prima di rinunciare (voce 302).
+const SPAWN_TRIES := 4
+## Distanza in tessere: appena fuori dalla visuale (che è larga circa 50 tessere; voce 302: fino a 40, prima 44).
 const SPAWN_MIN := 28
-const SPAWN_MAX := 44
+const SPAWN_MAX := 40
 ## Sotto terra le creature nascono solo al buio (luce vista sotto questa soglia): le torce sono un vero riparo.
 const DARK := 0.15
 ## Moltiplicatore del danno delle creature (le ferite di prima erano troppo leggere).

@@ -4589,8 +4589,14 @@ tue possibilità, esplorazione compresa», con le cinque idee per lo zaino.
   strutture e dall'acqua; `Harvest.open_pod`: uno o due tiri dalla tabella dello strato e del tipo, una volta su 25 una
   cosa rara (Polvere iridata, Scheggia di vigore, Linfa antica). Misura: da 7,7 a 41 cose ogni 1000 celle d'aria nelle
   Caverne d'ardesia. Foglio: `tools/baccelli.gd`. Prova: gruppo «grotte» (foto 303).
-- [ ] **302. Le creature.** Le nascite cercano un posto buono vicino al punto scelto invece di fallire nella roccia; tetti
+- [x] **302. Le creature.** Le nascite cercano un posto buono vicino al punto scelto invece di fallire nella roccia; tetti
   e ritmi rivisti (di giorno in superficie 3, grotte più vive); `tools/percorso.gd` per tenere giusta la difficoltà.
+  Fatto il 30 set 2026: `Fauna.try_spawn` prova fino a `DangerData.SPAWN_TRIES` (4) punti dell'anello e sceglie il
+  primo con uno spazio libero e il pavimento, lontano dalle torce e al buio (`_room_below`; nel cielo aperto basta lo
+  spazio libero); anche chi vola scende al primo spazio libero. Nel gioco vero le prove riuscite nelle Caverne passano
+  dal 33% al 77% (una nascita ogni ~2,6 s invece di ~6). Tetti +1 a ogni livello (`CAP`: di giorno in superficie 3),
+  anello fino a 40 tessere, ritmo di base invariato. `tools/percorso.gd`: medio 6,0 appassimenti all'ora (come prima),
+  attento 1,2 (era 1,1). Prova: gruppo «grotte».
 - [ ] **303. Piccoli incontri.** Lo zaino dell'esploratore perduto (bottino e una pagina del suo diario), le tane con il
   loro tesoro e chi le abita, le sacche di minerale sorvegliate, le camere fungine; si annunciano da lontano (luce, suono,
   lucciole) così chi esplora ha un motivo per andare di là.
