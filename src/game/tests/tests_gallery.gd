@@ -88,7 +88,15 @@ func run() -> void:
 ## `roots`: che cosa controllare (il pannello aperto); vuoto = l'interfaccia di gioco.
 func _shot(name: String, roots: Array = []) -> void:
 	await kit.frames(4)
-	var probs := LayoutCheck.scan(roots if not roots.is_empty() else [m.hud])
+	var look: Array = roots.duplicate() if not roots.is_empty() else [m.hud]
+	# ciò che l'interfaccia disegna sopra il pannello aperto (avvisi, barra rapida) si vede e va controllato con lui
+	if not roots.is_empty():
+		for r in roots:
+			if r is CanvasItem and (r as Node).get_parent() == m.hud:
+				for n in m.hud.get_children():
+					if n != r and n is Control and (n as Control).visible and (n as Control).z_index > (r as CanvasItem).z_index:
+						look.append(n)
+	var probs := LayoutCheck.scan(look)
 	total += probs.size()
 	report.append("== %s: %d problemi" % [name, probs.size()])
 	for p in probs:

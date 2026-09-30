@@ -87,6 +87,9 @@ static func _check(c: Control, clip: Rect2, out: Array[String]) -> void:
 	if r.size.x >= SCREEN.size.x - 1.0 and r.size.y >= SCREEN.size.y - 1.0:
 		return
 	var clipped := clip != SCREEN
+	# per una Label conta dove sta davvero il testo: se è più largo del suo spazio e non è tagliato, deborda
+	if c is Label and not (c as Label).clip_text:
+		r = r.merge(_text_rect(c, false))
 	if clipped:
 		r = r.intersection(clip)
 	if r.position.x < SCREEN.position.x - TOL or r.position.y < SCREEN.position.y - TOL \
@@ -134,8 +137,22 @@ static func _text_width(l: Label) -> float:
 	return widest
 
 
-## Il riquadro che contiene l'elemento: il primo Panel o PanelContainer tra gli antenati.
+## Il riquadro che contiene l'elemento: il primo Panel o PanelContainer tra gli antenati; se non c'è, la cornice
+## disegnata come «sorella» (un Panel dello stesso genitore) sotto il punto dove l'elemento comincia: molti pannelli
+## hanno le cornici accanto alle scritte, non attorno.
 static func _box_of(c: Control) -> Control:
+	var p0 := c.get_parent()
+	if p0 != null and not (p0 is Panel or p0 is PanelContainer):
+		var start := c.get_global_rect().position + Vector2(1, 1)
+		var best: Control = null
+		for sib in p0.get_children():
+			if sib == c or not (sib is Panel) or not (sib as Control).visible:
+				continue
+			var rb := (sib as Control).get_global_rect()
+			if rb.has_point(start) and rb.size.x < SCREEN.size.x - 1.0 and (best == null or rb.get_area() < best.get_global_rect().get_area()):
+				best = sib as Control
+		if best != null:
+			return best
 	var p := c.get_parent()
 	while p != null:
 		if p is Panel or p is PanelContainer:
@@ -147,11 +164,13 @@ static func _box_of(c: Control) -> Control:
 
 
 ## Dove sta davvero il testo: per una Label, la parte occupata dalle parole secondo l'allineamento.
-static func _text_rect(c: Control) -> Rect2:
+static func _text_rect(c: Control, clamp_w := true) -> Rect2:
 	var r := c.get_global_rect()
 	if c is Label:
 		var l := c as Label
-		var w := minf(_text_width(l), r.size.x)
+		var w := _text_width(l)
+		if clamp_w or l.autowrap_mode != TextServer.AUTOWRAP_OFF:
+			w = minf(w, r.size.x)
 		var h := minf(l.get_minimum_size().y, r.size.y)
 		var x := r.position.x
 		if l.horizontal_alignment == HORIZONTAL_ALIGNMENT_CENTER:
