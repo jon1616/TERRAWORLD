@@ -28,6 +28,7 @@ static func apply(l: Control, k: int, col := Color(0, 0, 0, 0), shadow := false)
 	l.add_theme_font_override("font", font())
 	l.add_theme_font_size_override("font_size", size(k))
 	l.add_theme_constant_override("line_spacing", 0)
+	l.add_theme_constant_override("outline_size", 0)   # (il contorno non si addice ai pixel: si usa l'ombra)
 	if col.a > 0.0:
 		l.add_theme_color_override("font_color", col)
 	if shadow:

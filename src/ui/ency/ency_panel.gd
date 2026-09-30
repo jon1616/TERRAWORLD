@@ -60,8 +60,8 @@ func _init() -> void:
 	add_child(page)
 	var head := Label.new()
 	head.text = "Enciclopedia"
-	head.position = Vector2(40, 22)
-	head.add_theme_font_size_override("font_size", 30)
+	head.position = Vector2(40, 24)
+	PixelFont.apply(head, 3)                   # (voce 282) il titolo nel carattere di pixel
 	head.add_theme_color_override("font_color", GOLD)
 	add_child(head)
 	_search = LineEdit.new()

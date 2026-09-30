@@ -21,12 +21,13 @@ func setup(main: Node2D, opts: OptionsPanel) -> void:
 	bg.size = size
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(bg)
+	# (voce 283) il menu sta su un riquadro forte, il titolo nel carattere di pixel
+	UiScreen.box(self, Rect2(610, 176, 380, 474), true)
 	var t := Label.new()
 	t.text = "Pausa"
-	t.add_theme_font_size_override("font_size", 40)
-	t.add_theme_color_override("font_color", Color("#ffd08a"))
-	t.position = Vector2(0, 190)
-	t.size = Vector2(1600, 50)
+	PixelFont.apply(t, 4, UiPalette.AMBRA_CHIARA, true)
+	t.position = Vector2(0, 196)
+	t.size = Vector2(1600, PixelFont.size(4))
 	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	add_child(t)
 	_box = VBoxContainer.new()

@@ -51,8 +51,9 @@ func _init() -> void:
 		_tabs[sid] = b
 		y += 54.0
 	_scroll = ScrollContainer.new()
+	UiScreen.box(self, Rect2(362, 94, 1136, 706))        # (voce 283) le righe in un riquadro
 	_scroll.position = Vector2(380, 110)
-	_scroll.size = Vector2(1100, 690)
+	_scroll.size = Vector2(1100, 674)
 	_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	add_child(_scroll)
 	_rows = VBoxContainer.new()
@@ -141,6 +142,7 @@ func _control(o: Dictionary) -> Control:
 	match String(o["type"]):
 		"bool":
 			var cb := CheckButton.new()
+			cb.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 			cb.button_pressed = bool(cur)
 			cb.text = "Sì" if bool(cur) else "No"
 			cb.focus_mode = Control.FOCUS_NONE
@@ -151,6 +153,7 @@ func _control(o: Dictionary) -> Control:
 			return cb
 		"choice":
 			var ob := OptionButton.new()
+			ob.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 			ob.custom_minimum_size = Vector2(380, 40)
 			ob.focus_mode = Control.FOCUS_NONE
 			ob.add_theme_font_size_override("font_size", 16)
@@ -164,6 +167,7 @@ func _control(o: Dictionary) -> Control:
 		_:
 			var box := HBoxContainer.new()
 			box.add_theme_constant_override("separation", 12)
+			box.size_flags_vertical = Control.SIZE_SHRINK_CENTER   # (voce 283) cursore e valore sulla stessa riga
 			var sl := HSlider.new()
 			sl.min_value = float(o["min"])
 			sl.max_value = float(o["max"])
@@ -173,6 +177,8 @@ func _control(o: Dictionary) -> Control:
 			sl.focus_mode = Control.FOCUS_NONE
 			var lab := Label.new()
 			lab.custom_minimum_size = Vector2(80, 0)
+			lab.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+			lab.size_flags_vertical = Control.SIZE_FILL
 			lab.add_theme_font_size_override("font_size", 17)
 			lab.add_theme_color_override("font_color", GOLD)
 			lab.text = _fmt(o, float(cur))

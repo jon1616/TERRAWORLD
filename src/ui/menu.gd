@@ -34,6 +34,7 @@ func _ready() -> void:
 		_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		add_child(_title)
 	var sub := _label("Il Giardino dei Semi", 24, Color("#8ef0d0"))
+	PixelFont.apply(sub, 2, Color("#8ef0d0"), true)
 	sub.position = Vector2(cx - 400, 222 if art else 180)
 	sub.size = Vector2(800, 40)
 	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -65,6 +66,8 @@ func _photos() -> void:
 	if Session.character == null:
 		Session.character = Character.create("Esempio")
 	for s in shots:
+		if _options != null:
+			_options.visible = false            # (le Opzioni restavano aperte sopra le foto dopo)
 		(s[1] as Callable).call()
 		for k in 10:
 			await get_tree().process_frame
@@ -171,7 +174,7 @@ func _show_worlds() -> void:
 		var id: String = m["id"]
 		var vig := int(m.get("vigore", 1))
 		var kids := _children_of(id)
-		var b := _button("%s   ·   %sseme %s   ·   %s di gioco%s" % [m.get("nome", id), ("vigore %d   ·   " % vig) if vig > 1 else "", m.get("seme", "?"), _hours(float(m.get("tempo_di_gioco", 0.0))),
+		var b := _button("%s   ·   %sseme %s   ·   %s di gioco%s" % [m.get("nome", id), ("vigore %d   ·   " % vig) if vig > 1 else "", (str(int(m["seme"])) if m.get("seme") is float or m.get("seme") is int else "?"), _hours(float(m.get("tempo_di_gioco", 0.0))),
 			("   ·   %d mondi nati dai Semi" % kids) if kids > 0 else ""], func() -> void:
 			Session.start_saved_world(id)
 			get_tree().change_scene_to_file(GAME_SCENE))
@@ -334,6 +337,7 @@ func _label(text: String, size: int, col: Color) -> Label:
 
 func _heading(text: String) -> void:
 	var l := _label(text, 26, GOLD)
+	PixelFont.apply(l, 3, GOLD, true)          # (voce 283) le intestazioni nel carattere di pixel
 	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_box.add_child(l)
 
