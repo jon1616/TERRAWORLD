@@ -7,6 +7,9 @@ extends Node
 
 const S := 16
 const REACH := 16.0 * 5.5
+## Il ritmo dello scavo a mano (30 set 2026, l'utente: «troppo veloce anche con il primo piccone, 40% più lento»): la
+## velocità è il 60% di prima, cioè ogni blocco chiede 1/0,6 del tempo. Vale per ogni piccone; la Trivella della rete no.
+const DIG_PACE := 1.0 / 0.6
 
 var world: World
 var view: WorldView
@@ -210,6 +213,7 @@ func _dig(c: Vector2i, item: Dictionary, dt: float) -> float:
 	# più forza = più veloce (la radicite, forza 35, è il riferimento di TileDefs.HARD)
 	var hard: float = (BuildData.hard(bk) if bk > 0 else float(TileDefs.HARD[t])) * 35.0 / float(maxi(power, 1))
 	hard /= float(Gear.stats(item)["dig"]) * dig_mult * boon_dig         # tratto, fascia, trivella (voce 50)
+	hard *= DIG_PACE
 	if _t >= hard:
 		break_tile(c)
 		_t = 0.0
