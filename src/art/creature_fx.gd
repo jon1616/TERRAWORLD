@@ -6,8 +6,10 @@ extends RefCounted
 
 const BREATH := """
 shader_type canvas_item;
+varying float seed;
+// (MODEL_MATRIX c'è solo nel vertex: il seme di ogni creatura passa da qui)
+void vertex() { seed = MODEL_MATRIX[3].x * 0.37; }
 void fragment() {
-	float seed = MODEL_MATRIX[3].x * 0.37;
 	float b = step(0.45, sin(TIME * 2.1 + seed));
 	vec2 uv = UV;
 	if (uv.y < 0.5) {
