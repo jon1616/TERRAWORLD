@@ -7,6 +7,9 @@ extends RefCounted
 ##   POUCHES   le tasche alla cintura (voce 296): due posti «tasca» dell'equipaggiamento; ogni tasca ha caselle sue che
 ##             prendono da sole ciò che è del suo tipo (`accepts`). Tre gradi: 10, 20, 30 caselle. Il contenuto sta nei
 ##             "dati" della tasca (`c`), così la si toglie piena e la si rimette com'era.
+##   DISPENSA  la Dispensa del Giardiniere (voce 298): una cassa che appartiene al personaggio, uguale in ogni mondo.
+##             La stazione la apre; il Seme della Dispensa (clic) ci manda il superfluo da ovunque, il Cuore della
+##             Dispensa (clic) la apre da ovunque. Al primo uso ognuno la ingrandisce (`DISPENSA_SLOTS`).
 
 const BASE := 40                       # la Bisaccia di partenza (`Bisaccia.SIZE`)
 const PAGE := 30                       # caselle per pagina nel pannello (sopra la barra rapida)
@@ -39,6 +42,23 @@ const POUCH_TIERS := [
 	{"slots": 30, "suffix": " d'ambra", "mat": "ambra", "in": {"seta_radice": 18, "lingotto_ambra": 5, "cristallo_linfa": 2}},
 ]
 const POUCH_SLOTS := ["tasca_1", "tasca_2"]
+
+const DISPENSA_SLOTS := [60, 120, 200]        # grado 1 (la stazione), 2 (il Seme), 3 (il Cuore)
+## Ciò che il Seme della Dispensa manda sempre (oltre a ciò che la Dispensa contiene già): i tipi che arrivano a mucchi.
+const SURPLUS_KINDS := ["materiale", "blocco", "parete", "pesce", "coltura", "seme", "essenza"]
+const DISPENSA_ITEMS := {
+	"dispensa": {"name": "Dispensa del Giardiniere", "kind": "stazione", "place": "dispensa", "icon": ["cesta", "cristallo"],
+		"stack": 1, "desc": "Una cassa che è tua, non del mondo: ciò che ci metti lo ritrovi in ogni Dispensa, in ogni mondo. %d caselle." % 60},
+	"seme_dispensa": {"name": "Seme della Dispensa", "kind": "dispensa", "grado": 2, "icon": ["seme", "cristallo"], "stack": 1,
+		"desc": "Clic: da qualunque mondo manda nella Dispensa ciò che contiene già e i materiali (non la barra rapida). La prima volta la porta a 120 caselle."},
+	"cuore_dispensa": {"name": "Cuore della Dispensa", "kind": "dispensa", "grado": 3, "icon": ["cuore", "ambra"], "stack": 1,
+		"desc": "Clic: apre la Dispensa dove sei, in qualunque mondo. La prima volta la porta a 200 caselle."},
+}
+const DISPENSA_RECIPES := [
+	{"out": "dispensa", "qty": 1, "in": {"legno": 30, "lingotto_radicite": 6, "seme_lanterna": 2}, "station": "ceppo"},
+	{"out": "seme_dispensa", "qty": 1, "in": {"lingotto_legnoferro": 6, "cristallo_linfa": 3, "seme_lanterna": 4}, "station": "maglio"},
+	{"out": "cuore_dispensa", "qty": 1, "in": {"lingotto_ambra": 8, "linfa_antica": 2, "polvere_iridata": 2}, "station": "maglio"},
+]
 
 
 static func pouch_id(type: String, tier: int) -> String:
@@ -116,6 +136,7 @@ static func items() -> Dictionary:
 			out[pouch_id(String(p["type"]), k)] = {"name": String(p["name"]) + String(t["suffix"]), "kind": "tasca",
 				"tasca": p["type"], "slots": t["slots"], "icon": [p["icon"], t["mat"]], "stack": 1,
 				"desc": "Alla cintura (posto «tasca»): %d caselle che prendono da sole %s." % [int(t["slots"]), p["desc"]]}
+	out.merge(DISPENSA_ITEMS.duplicate(true))
 	return out
 
 
@@ -129,4 +150,5 @@ static func recipes() -> Array:
 			if k > 0:
 				ins[pouch_id(String(p["type"]), k - 1)] = 1          # il grado prima si cuce dentro quello nuovo
 			out.append({"out": pouch_id(String(p["type"]), k), "qty": 1, "in": ins, "station": "telaio"})
+	out.append_array(DISPENSA_RECIPES.duplicate(true))
 	return out

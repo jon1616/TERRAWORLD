@@ -4557,9 +4557,13 @@ tue possibilità, esplorazione compresa», con le cinque idee per lo zaino.
   nel Cestino. Si toglie da lì.
   Fatto il 30 set 2026: il pulsante in Esamina (Raccogli → Non raccogliere → Dritto nel Cestino), `Backpack.rule`,
   `Drops.rules`: «lascia» non attira l'oggetto, «cestino» lo prende e lo butta. Prova nel gruppo «zaino».
-- [ ] **298. La Dispensa del Giardino.** Una cassa grande che appartiene al personaggio (non al mondo), aperta dalla sua
+- [x] **298. La Dispensa del Giardino.** Una cassa grande che appartiene al personaggio (non al mondo), aperta dalla sua
   stazione nel Giardino; il Seme-dispensa manda una pila alla Dispensa da ogni mondo. Tre gradi: più caselle, «manda
   tutto il superfluo», aprirla da lontano.
+  Fatto il 30 set 2026: la stazione «dispensa» (Ceppo) apre `Character.dispensa` nel pannello delle casse (60 caselle);
+  il Seme della Dispensa (clic: manda ciò che contiene già e i materiali, dalla Bisaccia e dalle tasche; la porta a 120) e
+  il Cuore (clic: la apre ovunque, `ChestPanel.personal`; la porta a 200). Il pannello delle casse si sfoglia a pagine
+  di 100 caselle oltre le 105. Prova nel gruppo «zaino» (foto 302).
 - [ ] **299. Creature da soma.** Il Basto: una creatura della mandria che ti segue porta caselle in più (secondo la
   taglia e il livello), che si vedono come una tasca.
 

@@ -69,6 +69,9 @@ const _STATIONS := {
 	# voce 254: un giacimento fossile (con il Pennello: `Archaeology.brush`)
 	"giacimento": {"name": "Giacimento fossile", "size": [1, 1], "item": "", "fixed": true},
 	# voce 253: la vetrina del Museo (un contenitore da una casella; `Museum`)
+	# voce 298: la Dispensa del Giardiniere (niente "slots": il contenuto è del personaggio, non del mondo)
+	"dispensa": {"name": "Dispensa del Giardiniere", "size": [2, 2], "item": "dispensa", "light": true,
+		"light_color": Color(0.3, 0.9, 0.8)},
 	"vetrina": {"name": "Vetrina del Museo", "size": [1, 2], "item": "vetrina", "slots": 1, "light": true,
 		"light_color": Color(0.9, 1.1, 1.2)},
 	# voce 239: la Tenda da campo (un letto per chi esplora, che tiene lontane le creature: `ExplorerTools.camp`)

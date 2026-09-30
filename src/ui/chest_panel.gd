@@ -17,6 +17,7 @@ var panel: BisacciaPanel
 var storage: Storage
 var chest: Bisaccia
 var origin := Vector2i(-1, -1)
+var personal := false                  # voce 298: la Dispensa aperta con il Cuore (non si chiude allontanandosi)
 var _slots: Array[SlotView] = []
 var _title: Label
 var _frame: Panel
@@ -26,6 +27,11 @@ var _kind: OptionButton
 var _settings: Control
 var _info: Label
 var _buttons: Array[Button] = []
+## Voce 298: oltre le 105 caselle (la Dispensa) la cassa si sfoglia a pagine di `PAGE` caselle.
+const PAGE := 100
+var page := 0
+var _per := 20                          # caselle per pagina della cassa aperta
+var _pages: HBoxContainer
 
 
 func setup(p: BisacciaPanel) -> void:
@@ -46,6 +52,9 @@ func setup(p: BisacciaPanel) -> void:
 	_info.add_theme_font_size_override("font_size", 13)
 	_info.add_theme_color_override("font_color", Color("#9fc8c0"))
 	add_child(_info)
+	_pages = HBoxContainer.new()
+	_pages.add_theme_constant_override("separation", 4)
+	add_child(_pages)
 	# le caselle per la cassa più grande; `_layout` le mette in griglia secondo la capienza
 	for i in MAX_COLS * MAX_ROWS:
 		var s := SlotView.new()
@@ -115,6 +124,8 @@ func setup(p: BisacciaPanel) -> void:
 ## colonne (fino a 15 × 7 = 105). Sopra la Bisaccia, mai sotto la casella Esamina a sinistra; i pulsanti a destra,
 ## le impostazioni in una fascia sopra.
 func _layout(n: int) -> void:
+	_per = n if n <= MAX_COLS * MAX_ROWS else PAGE
+	n = _per
 	var cols := maxi(COLS, ceili(n / float(MAX_ROWS)))
 	var rows := maxi(ceili(n / float(cols)), 1)
 	var w := cols * SlotView.SIZE + (cols - 1) * GAP
@@ -127,8 +138,9 @@ func _layout(n: int) -> void:
 	_title.position = Vector2(x0, y0 - 34)
 	_info.position = Vector2(x0 + 260, y0 - 30)
 	_info.size = Vector2(w - 260, 20)
-	for s in _slots:
-		s.position = Vector2(x0 + (s.index % cols) * (SlotView.SIZE + GAP), y0 + (s.index / cols) * (SlotView.SIZE + GAP))
+	for k in _slots.size():
+		_slots[k].position = Vector2(x0 + (k % cols) * (SlotView.SIZE + GAP), y0 + (k / cols) * (SlotView.SIZE + GAP))
+	_pages.position = Vector2(x0 + 330, y0 - 36)
 	var bx := _frame.position.x + _frame.size.x + 10
 	var by := _frame.position.y
 	for btn in _buttons:
@@ -146,10 +158,12 @@ func typing() -> bool:
 	return visible and _name.has_focus()
 
 
-func open(o: Vector2i, contents: Bisaccia, title: String) -> void:
+func open(o: Vector2i, contents: Bisaccia, title: String, own := false) -> void:
 	if chest != null and chest.changed.is_connected(_refresh):
 		chest.changed.disconnect(_refresh)
 	origin = o
+	personal = own
+	page = 0
 	chest = contents
 	_layout(contents.slots.size())
 	chest.changed.connect(_refresh)
@@ -159,9 +173,9 @@ func open(o: Vector2i, contents: Bisaccia, title: String) -> void:
 		panel.toggle()
 	panel.quick_target = _from_bag
 	panel.crafting.set_tall(false)             # la colonna Creare torna bassa: qui ci sono i pulsanti della cassa
-	var st: Dictionary = storage.settings(o) if storage != null else {}
-	_settings.visible = storage != null
-	if storage != null:
+	var st: Dictionary = storage.settings(o) if storage != null and not own else {}
+	_settings.visible = storage != null and not own        # (la Dispensa non ha nome né «usa per creare»)
+	if storage != null and not own:
 		_name.text = String(st["nome"])
 		_craft.set_pressed_no_signal(bool(st["creare"]))
 		var ks: Array = StorageData.CATEGORIES.map(func(e: Array) -> String: return String(e[0]))
@@ -250,20 +264,55 @@ func _refresh() -> void:
 	if chest == null:
 		return
 	var used := 0
-	for s in _slots:
-		s.visible = s.index < chest.slots.size()
+	for s in chest.slots:
+		if not s.is_empty():
+			used += 1
+	var pages := ceili(chest.slots.size() / float(_per))
+	page = clampi(page, 0, pages - 1)
+	for k in _slots.size():
+		var s := _slots[k]
+		s.index = page * _per + k
+		s.visible = k < _per and s.index < chest.slots.size()
 		if s.visible:
 			s.set_item(chest.id_at(s.index), chest.count_at(s.index), chest.trait_at(s.index), chest.data_at(s.index))
-			if chest.id_at(s.index) != "":
-				used += 1
+	_show_pages(pages)
+	_pages.position.x = _title.position.x + _title.get_combined_minimum_size().x + 14   # subito dopo il titolo
 	var tags := ["%d/%d caselle" % [used, chest.slots.size()]]
-	if storage != null:
+	if storage != null and not _settings.visible:
+		pass                                       # la Dispensa: niente impostazioni da mostrare
+	elif storage != null:
 		var st := storage.settings(origin)
 		if st["creare"]:
 			tags.append("dà gli ingredienti alla creazione")
 		if String(st["tipo"]) != "":
 			tags.append("raccoglie: " + StorageData.category_name(String(st["tipo"])).to_lower())
 	_info.text = " · ".join(tags)
+
+
+## I bottoni delle pagine (solo per le casse che ne hanno più d'una).
+func _show_pages(pages: int) -> void:
+	if _pages.get_child_count() == (pages if pages > 1 else 0) and pages > 1:
+		for k in _pages.get_child_count():
+			(_pages.get_child(k) as Button).button_pressed = k == page
+		return
+	for c in _pages.get_children():
+		_pages.remove_child(c)
+		c.queue_free()
+	if pages < 2:
+		return
+	for k in pages:
+		var b := Button.new()
+		b.text = str(k + 1)
+		b.toggle_mode = true
+		b.focus_mode = Control.FOCUS_NONE
+		b.custom_minimum_size = Vector2(30, 26)
+		b.add_theme_font_size_override("font_size", 13)
+		UiFrames.button(b, UiPalette.LINFA, k == page)
+		b.button_pressed = k == page
+		b.pressed.connect(func() -> void:
+			page = k
+			_refresh())
+		_pages.add_child(b)
 
 
 func _process(_dt: float) -> void:

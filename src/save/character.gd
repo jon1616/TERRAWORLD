@@ -34,6 +34,7 @@ var catene := {}                       # voce 69: le catene di ricerca (tappa de
 var lingua := {}                       # voce 68: le parole dei Seminatori che conosce (parola -> 1)
 var bacheca := {}                      # voce 67: le richieste aperte della Bacheca dei Giardinieri e quante fatte
 var albero := {}                       # voce 63: stadio dell'Albero-Madre e offerte già date (vedi `AlberoMadre`)
+var dispensa: Bisaccia = null          # voce 298: la Dispensa del Giardiniere (del personaggio, in ogni mondo)
 var genario := {}                      # voce 42: geni conosciuti, gene → 1 visto (in un mondo), 2 imparato (voce 46)
 
 
@@ -47,7 +48,8 @@ func to_dict() -> Dictionary:
 		"albero": albero, "bacheca": bacheca, "lingua": lingua, "catene": catene, "seme_nero": seme_nero,
 		"leggende": leggende, "sfide": sfide, "diario": diario,
 		"guardiani": guardiani, "guida": guida, "maestria": maestria,
-		"atlante": atlante, "spedizioni": spedizioni, "taglie": taglie}
+		"atlante": atlante, "spedizioni": spedizioni, "taglie": taglie,
+		"dispensa": dispensa.to_array() if dispensa else []}
 
 
 ## Null se i dati vengono da una versione più nuova del gioco (vedi `SaveMigrations`).
@@ -79,6 +81,9 @@ static func from_dict(cid: String, d: Dictionary) -> Character:
 	for k in ed:
 		if c.bisaccia.equip.has(k) and ed[k] is Dictionary:
 			c.bisaccia.equip_data[k] = SaveMigrations.ints(ed[k])
+	var dsp: Array = d.get("dispensa", [])
+	if not dsp.is_empty():
+		c.dispensa = Bisaccia.from_array(dsp, dsp.size())
 	c.vita_extra = int(d.get("vita_extra", 0))
 	c.linfa_extra = int(d.get("linfa_extra", 0))
 	c.guardiani_curati = d.get("guardiani_curati", [])

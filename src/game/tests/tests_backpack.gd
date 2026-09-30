@@ -16,6 +16,7 @@ func run() -> void:
 	await bags()
 	await pouches()
 	await pick_rules()
+	await larder()
 
 
 ## Lo stato della Bisaccia da rimettere dopo la prova: caselle, contenuto ed equipaggiamento.
@@ -161,4 +162,47 @@ func pick_rules() -> void:
 		picked, cycled])
 	if not ok:
 		print("ATTENZIONE: «Non raccogliere» non va")
+	_restore_bag(saved)
+
+
+## Voce 298: la Dispensa è del personaggio: la stazione la apre, il Seme ci manda il superfluo (e la porta a 120), il
+## Cuore la apre ovunque (e la porta a 200); il salvataggio la tiene.
+func larder() -> void:
+	var saved := _save_bag()
+	var d0: Bisaccia = m.character.dispensa
+	var bk: Backpack = m.backpack
+	m.character.dispensa = null
+	m.character.stats.erase("dispensa_grado")
+	var b: Bisaccia = m.character.bisaccia
+	var dsp := bk.dispensa()
+	var n1 := dsp.slots.size()
+	bk.open_dispensa(m.player_cell())
+	await kit.frames(3)
+	var ip: ChestPanel = m.interact.chest_panel
+	var opened: bool = ip.visible and ip.chest == dsp
+	ip.close()
+	if m.hud.panel.visible:
+		m.hud.panel.toggle()
+	b.slots[b.slots.size() - 1] = {"id": "ardesia", "n": 40}
+	b.slots[b.slots.size() - 2] = {"id": "spada_radice", "n": 1}
+	bk.use_dispensa("seme_dispensa")
+	var sent := dsp.count("ardesia") == 40 and b.id_at(b.slots.size() - 2) == "spada_radice"
+	var n2 := bk.dispensa().slots.size()
+	bk.use_dispensa("cuore_dispensa")
+	await kit.frames(3)
+	var far_open: bool = ip.visible and ip.personal and ip.chest == dsp
+	await kit.save("302_zaino_dispensa")
+	ip.close()
+	if m.hud.panel.visible:
+		m.hud.panel.toggle()
+	var n3 := bk.dispensa().slots.size()
+	var dd: Dictionary = m.character.to_dict()
+	var ch := Character.from_dict("prova_dispensa", JSON.parse_string(JSON.stringify(dd)))
+	var saved_ok: bool = ch != null and ch.dispensa != null and ch.dispensa.count("ardesia") == 40 and ch.dispensa.slots.size() == 200
+	var ok: bool = n1 == 60 and opened and sent and n2 == 120 and far_open and n3 == 200 and saved_ok
+	print("Dispensa: %d → %d → %d caselle, aperta dalla stazione %s, il Seme manda l'ardesia (non la spada) %s, il Cuore la apre ovunque %s, salvataggio %s" % [
+		n1, n2, n3, opened, sent, far_open, saved_ok])
+	if not ok:
+		print("ATTENZIONE: la Dispensa non va")
+	m.character.dispensa = d0
 	_restore_bag(saved)

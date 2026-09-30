@@ -66,6 +66,8 @@ static func make(id: String) -> Dictionary:
 			_tenda(im, gm, w, h)
 		"vetrina":
 			_vetrina(im, gm, w, h)
+		"dispensa":
+			CompactArt._cassa(im, gm, w, h, "cristallo")          # voce 298: una cassa con la vena accesa
 		"giacimento":
 			_giacimento(im, gm, w, h)
 		"portale":

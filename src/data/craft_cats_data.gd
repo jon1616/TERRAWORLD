@@ -116,7 +116,7 @@ static func place_of(id: String, station: String) -> Array:
 			return [KIND_CAT[kind], String(FORM_PLURAL.get(form, KIND_SUB[kind]))]
 		"mantello":
 			return ["armature", "Ali" if it.has("wings") else "Mantelli"]
-		"bisaccia", "tasca", "basto":
+		"bisaccia", "tasca", "basto", "dispensa":
 			return ["attrezzi", "Bisacce e tasche"]         # Roadmap 30: lo zaino
 		"martello", "annaffiatoio":
 			return ["attrezzi", "Attrezzi da lavoro"]
@@ -171,7 +171,7 @@ static func place_of(id: String, station: String) -> Array:
 static func _station_place(id: String, place: String) -> Array:
 	if place in BENCHES:
 		return ["banchi", "Banchi da lavoro"]
-	if ChestsData.is_chest(place) or place == "vetrina":
+	if ChestsData.is_chest(place) or place in ["vetrina", "dispensa"]:
 		return ["banchi", "Casse e vetrine"]
 	if place in PLACES:
 		return ["banchi", "Altari e luoghi"]

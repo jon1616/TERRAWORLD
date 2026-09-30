@@ -59,6 +59,8 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 			return m.language.use_tablet(id)           # voce 68
 		"bisaccia":
 			return m.backpack.use_bag(id)              # voce 295: le Bisacce a gradi
+		"dispensa":
+			return m.backpack.use_dispensa(id)         # voce 298: il Seme e il Cuore della Dispensa
 		"fagiolo":
 			return m.chiome.plant_bean(c, id)          # Roadmap 16, voce 157: il Fagiolo di nuvola
 		"esca_signore":
@@ -232,6 +234,8 @@ func touch(c: Vector2i) -> bool:
 		return m.atlas.wonders.touch(o)                  # Roadmap 23: il ricordo di una meraviglia
 	if String(LostGardensData.tree_of(id)[0]) != "" and m.get("lost_gardens") != null:
 		return m.lost_gardens.touch(o)                   # Roadmap 21: l'Albero di un Giardino perduto
+	if id == "dispensa":
+		return m.backpack.open_dispensa(o)               # voce 298: la Dispensa del Giardiniere
 	if MachinesData.is_machine(id):
 		return m.energy.touch(o)                         # Roadmap 19 (anche con la cassetta: il pannello la apre)
 	if StationsData.STATIONS[id].has("slots"):
@@ -320,7 +324,7 @@ func _process(_dt: float) -> void:
 		m.hud.toast("Bisaccia recuperata")
 		return
 	# allontanandosi dalla cesta aperta, si chiude
-	if chest_panel.visible:
+	if chest_panel.visible and not chest_panel.personal:     # (la Dispensa aperta con il Cuore resta aperta)
 		var o := chest_panel.origin
 		if (Vector2(o) * S + Vector2(S, S)).distance_to(m.player.position) > (StationsData.REACH + 3) * S:
 			chest_panel.close()
