@@ -23,7 +23,7 @@ func _ready() -> void:
 	_title.position = Vector2(200, 150)
 	_title.size = Vector2(1200, 60)
 	_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_title.add_theme_font_size_override("font_size", 38)
+	PixelFont.apply(_title, 4)                  # (voce 272) il titolo nel carattere di pixel
 	_title.add_theme_color_override("font_color", Color("#ffd870"))
 	add_child(_title)
 	_text = RichTextLabel.new()

@@ -44,13 +44,13 @@ func _init() -> void:
 	_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_icon)
 	_count = Label.new()
-	_count.position = Vector2(4, SIZE - 22)
-	_count.size = Vector2(SIZE - 8, 20)
+	# (voce 272) i numeri nel carattere di pixel, a 2×, in basso a destra: la cella è alta quanto la casella e il testo
+	# sta sul fondo, così la linea di base cade 4 px sopra il bordo (le code delle lettere sono vuote nei numeri)
+	_count.position = Vector2(2, 0)
+	_count.size = Vector2(SIZE - 6, SIZE)
 	_count.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	_count.add_theme_font_size_override("font_size", 14)
-	_count.add_theme_color_override("font_color", Color("#eafff6"))
-	_count.add_theme_color_override("font_outline_color", Color(0.02, 0.05, 0.07))
-	_count.add_theme_constant_override("outline_size", 5)
+	_count.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
+	PixelFont.apply(_count, 2, Color("#eafff6"), true)
 	_count.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_count)
 	_restyle()

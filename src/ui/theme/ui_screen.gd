@@ -25,7 +25,7 @@ static func title(parent: Control, text := "") -> Label:
 	var l := Label.new()
 	l.position = Vector2(48, 22)
 	l.text = text
-	l.add_theme_font_size_override("font_size", UiPalette.TITOLO)
+	PixelFont.apply(l, 3)                  # (voce 272) il titolo nel carattere di pixel
 	l.add_theme_color_override("font_color", UiPalette.AMBRA)
 	parent.add_child(l)
 	return l

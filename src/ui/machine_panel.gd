@@ -33,7 +33,7 @@ func setup(energy: Energy) -> void:
 	v.add_theme_constant_override("separation", 12)
 	_box.add_child(v)
 	_title = Label.new()
-	_title.add_theme_font_size_override("font_size", 24)
+	PixelFont.apply(_title, 2)                  # (voce 272) il titolo nel carattere di pixel
 	_title.add_theme_color_override("font_color", Color("#8ef0e8"))
 	v.add_child(_title)
 	_text = RichTextLabel.new()

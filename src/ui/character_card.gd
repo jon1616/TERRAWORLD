@@ -21,14 +21,14 @@ func setup(rect: Rect2, bag: Bisaccia) -> void:
 	var title := Label.new()
 	title.text = "Il Germogliato"
 	title.position = Vector2(14, 8)
-	title.add_theme_font_size_override("font_size", 18)
-	title.add_theme_color_override("font_color", Color("#ffb84a"))
+	PixelFont.apply(title, 3, UiPalette.AMBRA)
+	title.position.y = 10
 	add_child(title)
 	text = RichTextLabel.new()
 	text.bbcode_enabled = true
 	text.scroll_active = true
-	text.position = Vector2(14, 38)
-	text.size = size - Vector2(24, 48)
+	text.position = Vector2(14, 48)
+	text.size = size - Vector2(24, 58)
 	text.add_theme_font_size_override("normal_font_size", 13)
 	text.add_theme_color_override("default_color", Color("#dcefe8"))
 	add_child(text)

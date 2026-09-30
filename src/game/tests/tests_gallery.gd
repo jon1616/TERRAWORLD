@@ -19,6 +19,7 @@ func run() -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path("res://prove/galleria"))
 	await kit.seconds(0.3)
 	await _shot("00_hud")
+	await _font_sheet()
 	# la Bisaccia (con Creare ed Esamina) e la mappa
 	m.hud.panel.toggle()
 	await _shot("01_bisaccia", [m.hud.panel])
@@ -120,3 +121,34 @@ func _call_any(o: Object, names: Array) -> bool:
 func _cls(o: Object) -> String:
 	var s: Script = o.get_script()
 	return s.get_global_name() if s != null and s.get_global_name() != "" else o.get_class()
+
+
+## Il foglio del carattere di pixel (voce 272): tutte le lettere a 2 e a 3 volte, su un riquadro del tema.
+func _font_sheet() -> void:
+	var sheet := Control.new()
+	sheet.set_anchors_preset(Control.PRESET_FULL_RECT)
+	m.hud.add_child(sheet)
+	UiScreen.backdrop(sheet)
+	UiScreen.box(sheet, Rect2(36, 36, 1528, 828), true)
+	var lines := [[3, "Il Giardino dei Semi — Àtrio È", UiPalette.AMBRA], [3, "Bisaccia · Creare · Esamina", UiPalette.LINFA],
+		[2, "ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789", UiPalette.TESTO],
+		[2, "abcdefghijklmnopqrstuvwxyz àèéìòù ÀÈÉÌÒÙ", UiPalette.TESTO],
+		[2, ".,:;!? '\"-–—+=/()[]%×·«»<>✦★➤▸…#&°−_", UiPalette.TESTO_SPENTO],
+		[2, "Vita 100/100 · Linfa 20/20 · Scorza 7 · −41% ferite", UiPalette.BUONO],
+		[2, "Più veloce: già, così, perché? «Sì» — città", UiPalette.AMBRA_CHIARA],
+		[1, "Misura 1: il carattere piccolo resta leggibile? 0123456789", UiPalette.TESTO]]
+	var y := 70.0
+	for ln in lines:
+		var l := Label.new()
+		l.text = String(ln[1])
+		l.position = Vector2(72, y)
+		PixelFont.apply(l, int(ln[0]), ln[2], true)
+		sheet.add_child(l)
+		y += PixelFont.size(int(ln[0])) + 22.0
+	var soft := Label.new()
+	soft.text = "(a confronto, il carattere morbido: Il Giardino dei Semi — Bisaccia 0123456789)"
+	soft.position = Vector2(72, y + 10)
+	soft.add_theme_font_size_override("font_size", 22)
+	sheet.add_child(soft)
+	await _shot("99_carattere", [sheet])
+	sheet.queue_free()

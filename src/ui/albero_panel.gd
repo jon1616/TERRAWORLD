@@ -30,7 +30,7 @@ func setup(main: Node2D, a: AlberoMadre) -> void:
 	UiScreen.box(self, Rect2(544, 90, 952, 710))
 	_title = Label.new()
 	_title.position = Vector2(120, 40)
-	_title.add_theme_font_size_override("font_size", UiPalette.TITOLO)
+	PixelFont.apply(_title, 3)                  # (voce 272) il titolo nel carattere di pixel
 	_title.add_theme_color_override("font_color", UiPalette.AMBRA)
 	add_child(_title)
 	_stages = VBoxContainer.new()

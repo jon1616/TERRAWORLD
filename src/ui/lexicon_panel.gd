@@ -39,7 +39,7 @@ func setup(main: Node2D) -> void:
 	var title := Label.new()
 	title.text = "Il Quaderno delle parole"
 	title.position = Vector2(80, 26)
-	title.add_theme_font_size_override("font_size", UiPalette.TITOLO)
+	PixelFont.apply(title, 3)                  # (voce 272) il titolo nel carattere di pixel
 	title.add_theme_color_override("font_color", UiPalette.AMBRA)
 	add_child(title)
 	_head = RichTextLabel.new()

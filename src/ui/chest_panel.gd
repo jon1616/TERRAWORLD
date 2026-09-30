@@ -38,7 +38,7 @@ func setup(p: BisacciaPanel) -> void:
 	_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_frame)
 	_title = Label.new()
-	_title.add_theme_font_size_override("font_size", 20)
+	PixelFont.apply(_title, 2)
 	_title.add_theme_color_override("font_color", Color("#8ef0d8"))
 	add_child(_title)
 	_info = Label.new()

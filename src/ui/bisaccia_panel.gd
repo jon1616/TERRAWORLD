@@ -62,7 +62,7 @@ func _ready() -> void:
 	var title := Label.new()
 	title.text = "Bisaccia"
 	title.position = Vector2(x0, y0 - 38)
-	title.add_theme_font_size_override("font_size", 22)
+	PixelFont.apply(title, 3)                  # (voce 272) il titolo nel carattere di pixel
 	title.add_theme_color_override("font_color", Color("#ffb84a"))
 	title.add_theme_color_override("font_outline_color", Color(0.02, 0.05, 0.07))
 	title.add_theme_constant_override("outline_size", 6)

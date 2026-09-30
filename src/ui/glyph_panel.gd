@@ -30,7 +30,7 @@ func setup(w: WordChests) -> void:
 	_box.add_child(v)
 	var title := Label.new()
 	title.text = "Scrigno a parola"
-	title.add_theme_font_size_override("font_size", 26)
+	PixelFont.apply(title, 3)                  # (voce 272) il titolo nel carattere di pixel
 	title.add_theme_color_override("font_color", Color("#ffd08a"))
 	v.add_child(title)
 	_text = RichTextLabel.new()

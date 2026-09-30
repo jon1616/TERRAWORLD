@@ -91,7 +91,7 @@ func _init() -> void:
 	add_child(_icon)
 	_title = Label.new()
 	_title.position = Vector2(444, 38)
-	_title.add_theme_font_size_override("font_size", 30)
+	PixelFont.apply(_title, 3)                  # (voce 272) il titolo nel carattere di pixel
 	_title.add_theme_color_override("font_outline_color", Color(0, 0, 0))
 	_title.add_theme_constant_override("outline_size", 4)
 	add_child(_title)

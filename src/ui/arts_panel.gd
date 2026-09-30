@@ -30,7 +30,7 @@ func setup(main: Node2D) -> void:
 	var title := Label.new()
 	title.text = "Le arti del combattimento"
 	title.position = Vector2(90, 34)
-	title.add_theme_font_size_override("font_size", 30)
+	PixelFont.apply(title, 3)                  # (voce 272) il titolo nel carattere di pixel
 	title.add_theme_color_override("font_color", Color("#ff9a6a"))
 	add_child(title)
 	_rows = Control.new()

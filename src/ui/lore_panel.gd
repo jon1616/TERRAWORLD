@@ -27,7 +27,7 @@ func _ready() -> void:
 	_box.add_child(v)
 	_title = Label.new()
 	_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_title.add_theme_font_size_override("font_size", 26)
+	PixelFont.apply(_title, 3)                  # (voce 272) il titolo nel carattere di pixel
 	_title.add_theme_color_override("font_color", Color("#8ef0d8"))
 	v.add_child(_title)
 	_pic = TextureRect.new()

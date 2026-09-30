@@ -53,6 +53,8 @@ func setup(p: BisacciaPanel, c: CraftingPanel) -> void:
 	add_child(frame)
 	var title := _label(self, Vector2(18, 10), 22, AMBER)
 	title.text = "Esamina"
+	PixelFont.apply(title, 3)
+	title.position.y = 12
 	_slot = SlotView.new()
 	_slot.position = Vector2(size.x - 18 - SlotView.SIZE, 10)
 	_slot.clicked.connect(_click)

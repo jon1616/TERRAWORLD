@@ -72,11 +72,11 @@ static func loading_screen(m: Node2D, text: String) -> CanvasLayer:
 	var l := Label.new()
 	l.text = text
 	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	l.add_theme_font_size_override("font_size", 30)
+	PixelFont.apply(l, 3)                  # (voce 272) il titolo nel carattere di pixel
 	l.add_theme_color_override("font_color", Color("#cfe8a0"))
 	l.set_anchors_preset(Control.PRESET_CENTER)
-	l.position = Vector2(-200, -40)
-	l.size = Vector2(400, 80)
+	l.position = Vector2(-600, -40)
+	l.size = Vector2(1200, 80)
 	layer.add_child(l)
 	return layer
 

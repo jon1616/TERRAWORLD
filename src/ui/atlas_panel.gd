@@ -35,7 +35,7 @@ func setup(main: Node2D, atlas: Atlas) -> void:
 	var title := Label.new()
 	title.text = "L'Atlante"
 	title.position = Vector2(90, 30)
-	title.add_theme_font_size_override("font_size", 30)
+	PixelFont.apply(title, 3)                  # (voce 272) il titolo nel carattere di pixel
 	title.add_theme_color_override("font_color", Color("#5cf0e0"))
 	add_child(title)
 	for i in TABS.size():

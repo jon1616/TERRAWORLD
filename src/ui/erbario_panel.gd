@@ -32,7 +32,7 @@ func setup(main: Node2D, e: Erbario) -> void:
 	add_child(bg)
 	_title = Label.new()
 	_title.position = Vector2(48, 22)
-	_title.add_theme_font_size_override("font_size", UiPalette.TITOLO)
+	PixelFont.apply(_title, 3)                  # (voce 272) il titolo nel carattere di pixel
 	_title.add_theme_color_override("font_color", UiPalette.AMBRA)
 	add_child(_title)
 	_sub = Label.new()
