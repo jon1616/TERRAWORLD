@@ -51,6 +51,10 @@ const AMBER := ["#9a4a22", "#ffb040", "#ffe0a0"]
 
 
 static func of(id: String) -> Image:
+	return CreatureFx.shade(_of(id))       # voce 292: contorno del colore dell'oggetto, luce da sinistra in alto
+
+
+static func _of(id: String) -> Image:
 	var it := ItemsData.get_item(id)
 	if it.is_empty():
 		return make("?", "ardesia")
