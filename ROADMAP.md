@@ -1,9 +1,9 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 30 set 2026)
-- **In corso: la Roadmap 30 «Lo zaino e le grotte piene»** (voci 295-305, dal 30 set 2026, in autonomia): Bisacce a
+- **Fatta la Roadmap 30 «Lo zaino e le grotte piene»** (voci 295-305, 30 set - 1 ott 2026, in autonomia): Bisacce a
   gradi, tasche, Dispensa, creature da soma; piante che lasciano qualcosa, baccelli da rompere, creature più vive,
-  piccoli incontri e curiosità degli strati.
+  piccoli incontri e curiosità degli strati. Resoconto in fondo alla Roadmap 30.
 - **Fatta la Roadmap 12 «Il mondo si riempie»** (voci 83-99, 28 set 2026): resoconto in fondo alla Roadmap 12. Diario,
   Guardiani da evocare, effetti speciali, dieci posti d'equipaggiamento, totem, trappole, farm, volo, 25 biomi a file,
   i rigori delle terre estreme, i segreti con il contatore, 151 oggetti unici in serie, il bilancio.
@@ -4613,5 +4613,23 @@ tue possibilità, esplorazione compresa», con le cinque idee per lo zaino.
   Linfa, Vuoto), cinque sale nuove del Museo con il loro premio (salto, Vita, scavo, Linfa, fortuna). Dai baccelli del
   loro strato (3,5%), dagli zaini e dalle tane (40%), in superficie dalle piante (0,4%); quelle mancanti escono quattro
   volte più spesso. Una nuova si annuncia con il conto (`Harvest._on_discovered`). Prova: gruppo «grotte».
-- [ ] **305. Misura, guida e chiusura.** `tools/densita.gd` con gli obiettivi, consigli ed Enciclopedia, giro intero,
+- [x] **305. Misura, guida e chiusura.** `tools/densita.gd` con gli obiettivi, consigli ed Enciclopedia, giro intero,
   resoconto e push.
+  Fatto il 1 ott 2026: capitoli dell'Enciclopedia (`EncyCavesData`: lo zaino, i raccolti, i baccelli, gli incontri, le
+  curiosità), quattro consigli alla prima volta, la varietà in `tools/durata.gd`, icone tutte diverse (3590 su 3590),
+  giro intero pulito (dopo aver aggiornato la prova dei posti dell'equipaggiamento: con le tasche sono dodici).
+
+**Resoconto della Roadmap 30** (30 set - 1 ott 2026). Il problema, misurato con `tools/densita.gd` in mondi di vigore 1:
+le piante non lasciavano niente, mancavano le piccole cose da rompere, e le nascite delle creature nelle grotte fallivano
+due volte su tre. Adesso:
+- **Da raccogliere** (ogni 1000 celle d'aria): Sottobosco da 14 a 58, Caverne d'ardesia da 7,7 a 41, Profondità da 19
+  a 48, il Fondo da 13 a 17 (ma con ~780 baccelli). ~2000 baccelli dormienti per mondo, 62 raccolti nuovi delle piante,
+  36 piccoli incontri per mondo, 30 curiosità, il diario di Tessa.
+- **Creature**: le nascite riuscite nelle Caverne dal 33% al 77% (una ogni ~2,6 s invece di ~6), tetti +1 (di giorno in
+  superficie 3). I giocatori simulati restano dove erano (medio 6,0 appassimenti all'ora, attento 1,2).
+- **Lo zaino**: Bisaccia fino a 100 caselle, due tasche fino a 30 caselle l'una, il basto (fino a 20 e più), la
+  Dispensa del personaggio fino a 200, «Non raccogliere».
+- **Durata**: il totale resta ~453 ore (532 per il giocatore medio): le ore dei pilastri non cambiano, ma la parte fatta
+  di cose diverse cresce (esplorazione 46 h su 90, misteri 58 su 60, orto 23 su 30).
+- Da provare giocando: se le grotte ora sono troppo piene (o troppo pericolose), si abbassano `PodsData.DENSITY` e
+  `DangerData.CAP`; i numeri sono tutti in un posto.

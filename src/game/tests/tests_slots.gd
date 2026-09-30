@@ -57,7 +57,7 @@ func run() -> void:
 		var sv: SlotView = m.hud.panel._equip.get(slot)
 		if sv != null and sv.is_visible_in_tree() and sv.get_global_rect().position.y > 560:
 			shown += 1
-	res["colonna"] = shown == 10
+	res["colonna"] = shown == Bisaccia.EQUIP_SLOTS.size()      # (voce 296: con le due tasche sono dodici)
 	await kit.save("153_dieci_posti")
 	m.hud.panel.toggle()
 	b.equip = eq0
