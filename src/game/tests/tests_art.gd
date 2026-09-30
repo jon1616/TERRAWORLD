@@ -39,6 +39,22 @@ func run() -> void:
 	# i pulsanti dei pannelli e gli stati sopra una creatura (brucia, rallentata, vulnerabile)
 	var pb: Array = m.get_children().filter(func(n: Node) -> bool: return n is PanelButtons)
 	print("pulsanti dei pannelli: %d" % (pb[0].buttons.size() if not pb.is_empty() else 0))
+	# 30 set 2026: ogni pulsante apre il suo pannello (Quaderno, Pilastri, Arti, Atlante erano rimasti senza)
+	if not pb.is_empty():
+		var bad: Array = []
+		for what in ["erbario", "semenzaio", "mandria", "quaderno", "pilastri", "arti", "atlante"]:
+			pb[0].press(what)
+			await kit.frames(2)
+			var open: Array = m.hud.overlays.filter(func(o: Control) -> bool: return o.visible)
+			if open.is_empty():
+				bad.append(what)
+			for o in open:
+				if o.has_method("close"):
+					o.close()
+				else:
+					o.toggle()
+			await kit.frames(2)
+		print("pulsanti che non aprono il loro pannello: %s" % ("nessuno" if bad.is_empty() else "ATTENZIONE: %s" % [bad]))
 	m.combat.god = true
 	var c: Creature = m.fauna.add("grumo_muschio", m.player.position + Vector2(40, -8))
 	c.burn_t = 5.0
