@@ -25,6 +25,7 @@ var _toast_tw: Tween
 var _toast_mode := -1
 var _toast_at := Vector2.ZERO
 var _toast_slide := 0.0
+var _fx_seen := {}                     # pannello -> si vedeva al fotogramma prima (per `UiFx.appear`)
 
 
 func _ready() -> void:
@@ -172,6 +173,7 @@ func select(k: int) -> void:
 func _process(_dt: float) -> void:
 	if _toast_box.visible:
 		_place_toast()
+	_fx_watch()
 	var last := get_child(get_child_count() - 1)
 	for o in overlays:
 		if o.visible:
@@ -180,6 +182,20 @@ func _process(_dt: float) -> void:
 			return
 	if map != null and map.visible and map != last:
 		move_child(map, -1)
+
+
+## (voce 273) un pannello che si apre compare con la sua breve dissolvenza (`UiFx.appear`), qualunque sia chi lo apre.
+func _fx_watch() -> void:
+	var list: Array = overlays.duplicate()
+	list.append(panel)
+	list.append(map)
+	for c in list:
+		if c == null:
+			continue
+		var v := (c as Control).visible
+		if v and not bool(_fx_seen.get(c, false)):
+			UiFx.appear(c)
+		_fx_seen[c] = v
 
 
 func is_open() -> bool:

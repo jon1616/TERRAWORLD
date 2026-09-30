@@ -17,6 +17,7 @@ func _init(tk: TestKit) -> void:
 
 func run() -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path("res://prove/galleria"))
+	UiFx.enabled = true                   # la galleria prova anche il movimento: ogni foto aspetta che finisca
 	await kit.seconds(0.3)
 	await _shot("00_hud")
 	await _font_sheet()
@@ -80,6 +81,7 @@ func run() -> void:
 		await kit.frames(2)
 		if (ov as CanvasItem).visible:
 			(ov as CanvasItem).visible = false
+	UiFx.enabled = false
 	var f := FileAccess.open(ProjectSettings.globalize_path("res://prove/galleria/problemi.txt"), FileAccess.WRITE)
 	f.store_string("\n".join(report))
 	f.close()
@@ -89,6 +91,7 @@ func run() -> void:
 ## `roots`: che cosa controllare (il pannello aperto); vuoto = l'interfaccia di gioco.
 func _shot(name: String, roots: Array = []) -> void:
 	await kit.frames(4)
+	await kit.seconds(UiFx.OPEN + 0.1)
 	var look: Array = roots.duplicate() if not roots.is_empty() else [m.hud]
 	# ciò che l'interfaccia disegna sopra il pannello aperto (avvisi, barra rapida) si vede e va controllato con lui
 	if not roots.is_empty():

@@ -6,6 +6,7 @@ extends Node
 
 func run(main: Node2D) -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path("res://prove"))
+	UiFx.enabled = false                  # le foto e i controlli vogliono l'interfaccia ferma (la galleria la riaccende)
 	main.player.control = false
 	main.actions.enabled = false
 	main.fauna.enabled = false            # le creature a caso disturberebbero le misure
