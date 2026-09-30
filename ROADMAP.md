@@ -4450,7 +4450,7 @@ particelle serve tutte le azioni. Niente ritocchi uno per uno dove un sistema ba
   griglia dell'Erbario fuori schermo, pulsanti della Mandria sopra l'aiuto) La galleria: `--foto-pannelli` apre ogni pannello e ogni scheda in un mondo di prova e li fotografa
   (prove/galleria/), più un controllo automatico dei tagli: ogni Label/RichTextLabel visibile deve stare dentro il suo
   pannello e dentro lo schermo, nessun testo troncato senza «…», nessun Control sovrapposto a un fratello.
-- 269. [ ] La guida di stile `ARTE.md`: tavolozza dell'interfaccia (token), cornici, spaziature a griglia di 4, dimensioni
+- 269. [x] (fatto il 30 set 2026: `ARTE.md`) La guida di stile `ARTE.md`: tavolozza dell'interfaccia (token), cornici, spaziature a griglia di 4, dimensioni
   del testo (5 gradini), icone, animazioni (durate e curve), regole «Radici e Linfa».
 
 ## Parte B — Il tema unico
