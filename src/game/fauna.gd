@@ -125,6 +125,7 @@ func kill_by_predator(prey: Creature, predator: Creature) -> void:
 	if not list.has(prey):
 		return
 	list.erase(prey)
+	prey.fade_out()
 	Fx.puff(self, prey.position, Color(1.1, 0.7, 0.6))
 	hunted.emit(prey, predator)
 	prey.queue_free()
@@ -172,6 +173,7 @@ func kill(c: Creature) -> void:
 	if not list.has(c):
 		return
 	list.erase(c)
+	c.fade_out()
 	kills += 1
 	if is_instance_valid(c.master):
 		c.master.minions -= 1

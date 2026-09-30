@@ -76,6 +76,7 @@ var last_dmg := 0
 var _fury := false                     # voce 135: la furia è già cominciata                      # voce 130: il danno dell'ultimo colpo (chi si divide)
 var mind := Mind.new()                 # voce 129: sensi e stati (calma, allerta, caccia, fuga, ritorno)
 var _spr: Sprite2D
+var _shade: Sprite2D                   # (voce 289) l'ombra di contatto
 var _glow: Sprite2D
 var _frames: Array = []
 var _glows: Array = []
@@ -141,6 +142,11 @@ func setup(cid: String, w: World, tgt: Node2D, sd: int, more_mods := {}) -> void
 		_spr.position = Vector2(0, half.y - h / 2.0)
 	_base_y = _spr.position.y
 	add_child(_spr)
+	if not fly:
+		_shade = CreatureFx.shadow_sprite(half.x * 2.0)
+		_shade.position = Vector2(0, half.y)
+		_spr.add_sibling(_shade)
+		move_child(_shade, _spr.get_index())
 	add_child(TeleMark.new())                  # voce 127: il segnale degli attacchi
 	if data.get("glow", false):
 		_glow = Sprite2D.new()
@@ -358,6 +364,11 @@ func _animate(dt: float) -> void:
 	elif _spr.rotation != 0.0 and not busy:
 		_spr.rotation = 0.0
 	_spr.visible = not buried
+	if _shade:
+		_shade.visible = on_floor and not buried and not upside
+	# (voce 289) da ferma respira: la metà alta scende di un pixel e risale
+	var idle := on_floor and not moving and not busy and not buried and shake <= 0.0
+	_spr.material = CreatureFx.breath() if idle else null
 	if _glow:
 		_glow.scale = _spr.scale
 		_glow.position = _spr.position
@@ -366,6 +377,11 @@ func _animate(dt: float) -> void:
 	_spr.position.x = randf_range(-1.0, 1.0) if shake > 0.0 else 0.0
 	_flash = maxf(_flash - dt, 0.0)
 	_spr.modulate = Color(3, 3, 3) if _flash > 0.0 else (Color(1.35, 0.8, 0.8) if enraged and not calm else Color.WHITE)
+
+
+## Alla morte (la chiama `Fauna`): il disegno si solleva e svanisce.
+func fade_out() -> void:
+	CreatureFx.ghost(get_parent(), _spr, position + _spr.position)
 
 
 ## Colpo subito: toglie Vita (meno metà della difesa), spinge via, fa lampeggiare. True se la creatura muore.
