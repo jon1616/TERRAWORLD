@@ -7,6 +7,8 @@
 - **In corso: la Roadmap 13 «Il volto del mondo»** (voci 100-117, dal 28 set 2026): la grafica con Nano Banana,
   seguita passo passo con l'utente (Claude scrive i prompt, dice dove salvare le immagini, le adatta con gli script).
   Dopo: un secondo bilancio con il diario delle partite vere.
+- **In corso: la Roadmap 29 «Il volto vivo»** (voci 267-294, dal 30 set 2026, in autonomia): ripensare e abbellire
+  tutta la grafica (tema unico, HUD, pannelli, mondo vivo, creature, oggetti), vivo ma sobrio, niente tagli.
 - **In corso: il piano «Le dieci strade»** (Roadmap 20-28, dal 29 set 2026, in autonomia): dieci pilastri con gradi di
   maestria verso ~500 ore di partita. **Fatta la Roadmap 20 «Il motore comune»** (voci 214-219): maestria a gradi,
   Libro dei pilastri (P), strade alternative dell'Albero, misura per pilastro. Resoconto in fondo alla Roadmap 20.
@@ -4425,6 +4427,75 @@ numerati (e senza limite oltre il 10), e per ognuno cose nuove da fare che molti
 La misura (`tools/durata.gd`): tutto al grado 10 **~453 ore** di strada, **~532 per il giocatore medio** (obiettivo
 dell'utente: 500), di cui la storia diretta 131 (210). La sezione «varietà» dello strumento dice quante di queste ore
 sono fatte di cose diverse, pilastro per pilastro.
+
+# Roadmap 29 «Il volto vivo» — ripensare tutta la grafica (dal 29 set 2026)
+
+Chiesta dall'utente il 29 set 2026: «migliora notevolmente tutte le parti grafiche … ripensa e rendi più bello tutto il
+gioco; stiamo lavorando con Godot che offre molte possibilità, sfruttiamole». Scelte dell'utente: movimento **vivo ma
+sobrio**; il carattere lo decide Claude; **nessuna sovrapposizione né taglio di nessun tipo**, impaginazione impeccabile,
+comoda e chiara; sfondo colorato delle caselle per tipo o rarità a scelta di Claude; lavoro a cicli, in autonomia.
+
+**Il principio: moltiplicare.** Un tema unico veste tutti i pannelli; uno shader anima tutte le creature; un sistema di
+particelle serve tutte le azioni. Niente ritocchi uno per uno dove un sistema basta.
+
+**Le regole di ogni voce**: foto prima e dopo affiancate (`--foto-pannelli`), prove `base` + gruppi toccati, 60 fps
+(fotogramma peggiore della corsa sotto 25-28 ms), controllo «niente tagli» automatico, commit per nome.
+
+## Parte A — Le fondamenta
+- 267. [ ] Foto fedeli: `TestKit.save` in sRGB veloce (shader su un SubViewport o conversione in blocco), così si giudica il
+  colore vero. Le misure del buio restano come prima.
+- 268. [ ] La galleria: `--foto-pannelli` apre ogni pannello e ogni scheda in un mondo di prova e li fotografa
+  (prove/galleria/), più un controllo automatico dei tagli: ogni Label/RichTextLabel visibile deve stare dentro il suo
+  pannello e dentro lo schermo, nessun testo troncato senza «…», nessun Control sovrapposto a un fratello.
+- 269. [ ] La guida di stile `ARTE.md`: tavolozza dell'interfaccia (token), cornici, spaziature a griglia di 4, dimensioni
+  del testo (5 gradini), icone, animazioni (durate e curve), regole «Radici e Linfa».
+
+## Parte B — Il tema unico
+- 270. [ ] `UiPalette` + `UiTheme`: un Theme del gioco applicato alla finestra principale; tipi base (Panel, PanelContainer,
+  Button, Label, RichTextLabel, LineEdit, CheckBox, OptionButton, ScrollBar, Slider, TabBar, ProgressBar) e varianti
+  («Riquadro», «RiquadroForte», «Casella», «Titolo», «Sottotitolo», «Nota», «Pulsante principale»…). I 23 file che
+  creano StyleBox a mano passano al tema.
+- 271. [ ] Le cornici di radice: StyleBoxTexture a 9 pezzi disegnate dal codice (angoli di radice intrecciata, filo di
+  Linfa, fondo con una trama leggerissima), in tre pesi; ombra morbida.
+- 272. [ ] Il carattere: il testo lungo resta nel carattere morbido di Godot; titoli e numeri in un carattere di pixel
+  disegnato dal codice (`PixelFont`, FontFile bitmap con le lettere accentate), nitido a 2× e 3×.
+- 273. [ ] Movimento dell'interfaccia (`UiFx`): apertura dei pannelli (dissolvenza + 6 px), pulsanti al passaggio e al
+  clic, caselle che rispondono, avvisi che entrano ed escono. Durate 0,08-0,18 s, mai bloccanti.
+
+## Parte C — Ciò che si vede sempre
+- 274. [ ] La barra rapida: caselle con cornice di radice, sfondo colorato per rarità/tipo, selezione animata, numero del
+  tasto, quantità leggibile, nome dell'oggetto con dissolvenza.
+- 275. [ ] Vita, Linfa, Respiro e rigori: liquido animato con shader, tacche, lampo di perdita, testo sempre leggibile.
+- 276. [ ] Minimappa, orologio, obiettivi, filo, avvisi, scritta degli strati: una colonna ordinata, nessuna sovrapposizione.
+- 277. [ ] I suggerimenti: cornice nuova, icona grande, fascia di rarità, larghezza massima con a capo sempre, misura con il
+  carattere vero, sezioni con separatori, confronto affiancato.
+
+## Parte D — I pannelli
+- 278. [ ] Bisaccia ed equipaggiamento (da posizioni fisse a contenitori).
+- 279. [ ] Creare ed Esamina.
+- 280. [ ] Casse, commercio, Mandria, Bacheca, Albero-Madre, Innesto, macchine.
+- 281. [ ] Erbario, Semenzaio (Mondi, Genario, Storia), Quaderno, mappa.
+- 282. [ ] Enciclopedia: pagine impaginate come un libro (titoli, colonne, illustrazioni, schede).
+- 283. [ ] Menu principale, creazione del personaggio e del mondo, pausa, opzioni, schermata d'attesa.
+
+## Parte E — Il mondo vivo
+- 284. [ ] Vento: erba, cespugli, fronde e baccelli ondeggiano (shader con il vento di `Weather`).
+- 285. [ ] Acqua, Linfa e brace: superficie animata, riflessi, bagliore della Linfa e della brace.
+- 286. [ ] Particelle: una libreria (`FxLib`) per scavo per materiale, colpi, raccolta, passi, atterraggi, lucciole e
+  spore per bioma e stagione.
+- 287. [ ] Luce e atmosfera: tinta per bioma e strato, nebbia di profondità, raggi nelle grotte, sfondo a più piani con
+  Parallax2D.
+- 288. [ ] Oggetti a terra e drop: ondeggiano, brillano secondo la rarità.
+
+## Parte F — Le creature
+- 289. [ ] Shader delle creature: respiro, passo, lampo del colpo, contorno di stato, dissolvenza alla morte, ombra.
+- 290. [ ] `BodyArt` più ricco: volumi, luce da sinistra in alto, contorno colorato, occhi che brillano, 4 fotogrammi.
+- 291. [ ] Boss, Custodi, Signori: presenza (aura, particelle, barra della Vita nuova).
+
+## Parte G — Oggetti e sensazioni di gioco
+- 292. [ ] Icone: luce e volume nei generatori, contorno colorato, rarità nella casella.
+- 293. [ ] Numeri di danno e cure, piccole scosse, pause d'impatto brevissime (vivo ma sobrio).
+- 294. [ ] Bilancio, prove, giro intero, resoconto.
 
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».
