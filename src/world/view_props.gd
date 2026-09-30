@@ -97,6 +97,9 @@ func tree_node(chunk: Node2D, t: Vector3i) -> void:
 	gl.z_as_relative = false
 	gl.z_index = 26
 	pivot.add_child(gl)
+	# (voce 284) la chioma ondeggia al vento; i baccelli luminosi con lei (stesso materiale, stessa fase)
+	sp.material = WindFx.tree_material(t.x)
+	gl.material = sp.material
 	var by_base: Dictionary = chunk.get_meta("tree_nodes", {})
 	by_base[Vector2i(t.x, t.y)] = pivot
 	chunk.set_meta("tree_nodes", by_base)

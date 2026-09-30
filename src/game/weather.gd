@@ -151,6 +151,7 @@ func _process(dt: float) -> void:
 	var out := outdoor()
 	wind = move_toward(wind, _goal_wind, 40.0 * dt)
 	m.player.wind = wind * wind_mult if out else 0.0
+	WindFx.set_wind(wind, not out)                  # (voce 284) le piante e le chiome si piegano
 	Projectiles.wind = wind if out else 0.0
 	apply()
 	_visuals(st, out)

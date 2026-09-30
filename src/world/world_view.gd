@@ -125,11 +125,17 @@ func _build_chunk(k: Vector2i) -> void:
 	for li in TileDefs.TERRAIN_LAYERS.size():
 		terrain.append(_layer(node, ts_terrain, 0, HALF))
 	var decor := _layer(node, ts_misc, 1, Vector2.ZERO)
+	# (voce 284) l'erba, i fiori e le piante dei biomi in uno strato a parte, mosso dal vento (`WindFx`)
+	var sway := _layer(node, ts_misc, 1, Vector2.ZERO)
+	sway.material = WindFx.plant_material()
 	var plats := _layer(node, ts_misc, 1, Vector2.ZERO)
 	var glow_t := _layer(node, ts_terrain_glow, 25, HALF)
 	glow_t.modulate = Color(1.0, 1.0, 1.0)
 	var glow_d := _layer(node, ts_misc_glow, 25, Vector2.ZERO)
 	glow_d.modulate = Color(1.5, 1.5, 1.5)
+	var sway_g := _layer(node, ts_misc_glow, 25, Vector2.ZERO)    # il bagliore dei fiori che ondeggiano, con loro
+	sway_g.modulate = Color(1.5, 1.5, 1.5)
+	sway_g.material = WindFx.plant_material()
 	var built := _layer(node, ts_built, 0, Vector2.ZERO)          # voce 128: i costrutti, squadrati
 	var built_g := _layer(node, ts_built_glow, 25, Vector2.ZERO)
 	node.set_meta("built", [built, built_g, bwalls])
@@ -152,7 +158,7 @@ func _build_chunk(k: Vector2i) -> void:
 	fx.z_index = 26
 	node.add_child(fx)
 	node.set_meta("terrain", terrain)
-	node.set_meta("grid", [walls, decor, glow_d, plats])
+	node.set_meta("grid", [walls, decor, glow_d, plats, sway, sway_g])
 	node.set_meta("glow_t", glow_t)
 	node.set_meta("fx", fx)
 	chunks[k] = node
@@ -167,7 +173,7 @@ func _build_chunk(k: Vector2i) -> void:
 		for x in range(x0, mini(x0 + World.CHUNK, world.w + 1)):
 			_paint_dual(Vector2i(x, y), terrain, glow_t)
 			if x < world.w and y < world.h:
-				_paint_grid(Vector2i(x, y), walls, decor, glow_d, plats)
+				_paint_grid(Vector2i(x, y), walls, decor, glow_d, plats, sway, sway_g)
 				var i := y * world.w + x
 				if has_build and (bld[i] != 0 or wls[i] >= BuildData.WALL_BASE):
 					_paint_built(Vector2i(x, y), node)     # solo dove c'è qualcosa di costruito (voce 128)
@@ -214,7 +220,8 @@ func _paint_dual(c: Vector2i, terrain: Array[TileMapLayer], glow: TileMapLayer) 
 				glow.set_cell(c, 0, TerrainPainter.coords(li, v, k))
 
 
-func _paint_grid(c: Vector2i, walls: TileMapLayer, decor: TileMapLayer, glow: TileMapLayer, plats: TileMapLayer) -> void:
+func _paint_grid(c: Vector2i, walls: TileMapLayer, decor: TileMapLayer, glow: TileMapLayer, plats: TileMapLayer,
+		sway: TileMapLayer, sway_g: TileMapLayer) -> void:
 	if world.plat(c.x, c.y):
 		plats.set_cell(c, 0, DecorPainter.plat_coords(c.x))
 	else:
@@ -229,14 +236,20 @@ func _paint_grid(c: Vector2i, walls: TileMapLayer, decor: TileMapLayer, glow: Ti
 		walls.erase_cell(c)
 	var d := world.decor_at(c.x, c.y)
 	if d > 0:
-		decor.set_cell(c, 0, DecorPainter.decor_coords(d))
+		var soft := TileDefs.is_soft_decor(d)
+		(sway if soft else decor).set_cell(c, 0, DecorPainter.decor_coords(d))
+		(decor if soft else sway).erase_cell(c)
+		var gl := sway_g if soft else glow
+		(glow if soft else sway_g).erase_cell(c)
 		if TileDefs.DECOR_LIGHT.has(d):
-			glow.set_cell(c, 0, DecorPainter.decor_coords(d))
+			gl.set_cell(c, 0, DecorPainter.decor_coords(d))
 		else:
-			glow.erase_cell(c)
+			gl.erase_cell(c)
 	else:
 		decor.erase_cell(c)
+		sway.erase_cell(c)
 		glow.erase_cell(c)
+		sway_g.erase_cell(c)
 
 
 ## Voce 128: un costrutto (i bordi secondo i 4 vicini costruiti) e la parete costruita della cella c.
@@ -361,7 +374,7 @@ func refresh_around(c: Vector2i) -> void:
 		var node: Node2D = chunks.get(World.chunk_of(q))
 		if node:
 			var g: Array = node.get_meta("grid")
-			_paint_grid(q, g[0], g[1], g[2], g[3])
+			_paint_grid(q, g[0], g[1], g[2], g[3], g[4], g[5])
 	# voce 128: il costrutto e i suoi 4 vicini (i bordi cambiano)
 	for d2 in [Vector2i(0, 0), Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
 		var q2: Vector2i = c + d2
