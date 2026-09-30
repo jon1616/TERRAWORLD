@@ -8,7 +8,8 @@ extends Node
 const S := 16
 const REACH := 16.0 * 5.5
 ## Il ritmo dello scavo a mano (30 set 2026, l'utente: «troppo veloce anche con il primo piccone, 40% più lento»): la
-## velocità è il 60% di prima, cioè ogni blocco chiede 1/0,6 del tempo. Vale per ogni piccone; la Trivella della rete no.
+## velocità è il 60% di prima, cioè ogni blocco chiede 1/0,6 del tempo. Vale per ogni piccone e per l'ascia (poi, stessa
+## richiesta: ogni colpo toglie il 60% della forza); la Trivella della rete no.
 const DIG_PACE := 1.0 / 0.6
 
 var world: World
@@ -272,7 +273,8 @@ func _chop(c: Vector2i, item: Dictionary, dt: float) -> void:
 	_chop_t = 0.32
 	var base := Vector2i(t.x, t.y)
 	var power := int(ItemsData.get_item(item["id"]).get("power", 0))
-	power = roundi(power * float(Gear.stats(item)["dig"]) * dig_mult * boon_dig)
+	# (il colpo resta a ritmo del gesto: è la forza di ogni colpo a calare con DIG_PACE)
+	power = maxi(roundi(power * float(Gear.stats(item)["dig"]) * dig_mult * boon_dig / DIG_PACE), 1)
 	var hp: int = _tree_hp.get(base, int(TreesData.size_of(t.z)["hp"])) - power     # i grandi reggono più colpi
 	var hit_at := fx_parent.get_global_mouse_position()
 	Fx.dust(fx_parent, hit_at, Px.pal(["#241624", "#362234", "#4c3246", "#62c4a4"]))
