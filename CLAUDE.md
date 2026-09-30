@@ -139,7 +139,8 @@ Godot_console.exe --path . -- --prove --prova-giardino
 # biomi, biomi_nuovi, luoghi, corsa, raccolta, musica, germogliato, interfaccia, geni, forme, ecologia, mandria, casse, alberi,
 # base (il cuore del gioco, da lanciare sempre), sigilli, stagioni, suggerimenti, opzioni, enciclopedia, lingua, catene, luoghi_scritti, enigmi, seme_nero, acqua,
 # liquidi, meteo, gravita, terra_viva, tempo_mondi, vigore, guardiani_generati, leggende, sfide, grafica, vivo, cielo,
-# comodita, energia (la rete della Roadmap 19, ~3 minuti), maestria, perduti
+# comodita, energia (la rete della Roadmap 19, ~3 minuti), galleria (Roadmap 29: ogni pannello fotografato in
+# prove/galleria/ e il controllo dell'impaginazione LayoutCheck: tagli, fuori schermo, testi sovrapposti; obiettivo 0), maestria, perduti
 # (elenco in `AutoTests._group`)
 Godot_console.exe --path . -- --prove --solo=doni,antiche
 # suoni generati: prove/suoni/*.wav da ascoltare, con durata, picco e volume medio (segnala muti e distorti)

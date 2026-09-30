@@ -348,6 +348,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsInterface.new(kit).run()
 		"grafica":
 			await TestsArt.new(kit).run()
+		"galleria":
+			await TestsGallery.new(kit).run()
 		"torcia":
 			await TestsTorch.new(kit).run()
 		"mobilita":

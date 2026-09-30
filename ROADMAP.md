@@ -4445,7 +4445,9 @@ particelle serve tutte le azioni. Niente ritocchi uno per uno dove un sistema ba
 - 267. [x] (fatto il 30 set 2026: `Photo.take` in `src/core/`, shader di conversione su una finestra invisibile che rilegge
   l'immagine lineare; si chiama con `await`; colori identici allo schermo; prove e foto del menu) Foto fedeli: `TestKit.save` in sRGB veloce (shader su un SubViewport o conversione in blocco), così si giudica il
   colore vero. Le misure del buio restano come prima.
-- 268. [ ] La galleria: `--foto-pannelli` apre ogni pannello e ogni scheda in un mondo di prova e li fotografa
+- 268. [x] (fatto il 30 set 2026: gruppo «galleria», `TestsGallery` + `LayoutCheck` in `src/game/tests/`; foto in
+  prove/galleria/, problemi in prove/galleria/problemi.txt; prima misura: 21 problemi veri — filo sopra gli obiettivi,
+  griglia dell'Erbario fuori schermo, pulsanti della Mandria sopra l'aiuto) La galleria: `--foto-pannelli` apre ogni pannello e ogni scheda in un mondo di prova e li fotografa
   (prove/galleria/), più un controllo automatico dei tagli: ogni Label/RichTextLabel visibile deve stare dentro il suo
   pannello e dentro lo schermo, nessun testo troncato senza «…», nessun Control sovrapposto a un fratello.
 - 269. [ ] La guida di stile `ARTE.md`: tavolozza dell'interfaccia (token), cornici, spaziature a griglia di 4, dimensioni
