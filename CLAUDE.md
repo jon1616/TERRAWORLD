@@ -801,6 +801,18 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   - Prove: gruppo «primo» (`TestsPrimo`, foto 255); `--prova-giardino` percorre tutti i 34 stadi. Enciclopedia:
     `EncyEndingData`.
   - Un conteggio di `Objectives.bump` non fa da segno «fatto una volta» con `== 1`: il bump lo porta a 2. Si legge `>= 1`.
+- **Roadmap 29 «Il volto vivo»** (voci 267-294, 30 set 2026, in autonomia; la guida è `ARTE.md`):
+  - Il tema (`src/ui/theme/`): `UiPalette` (colori e misure del testo), `UiFrames` (cornici a 9 pezzi disegnate dal
+    codice: riquadro, forte, suggerimento, casella, pulsante, principale, campo; `box`, `padded`, `button`), `UiTheme`
+    (le scrive nel tema predefinito del motore), `UiScreen` (lo scheletro dei pannelli a schermo intero), `UiFx`
+    (`appear`, `count`, `flash`; l'HUD fa comparire da solo ogni pannello). **Un pannello nuovo non crea StyleBoxFlat.**
+  - `PixelFont` + `PixelGlyphs` (`src/art/`): il carattere di pixel dei titoli e dei numeri, `PixelFont.apply(l, k)`.
+  - Il mondo: `WindFx` (vento nelle piante e nelle chiome), lo shader di `LiquidView`, `AmbientFx` (`src/game/`: aria
+    di ogni strato, polvere dei passi, vignettatura), `Juice` (scosse, pause d'impatto), l'alone degli oggetti a terra.
+  - Le creature: `CreatureFx` (`src/art/`: `shade` = contorno colorato e luce, anche per le icone in `ItemIcons.of`;
+    ombra, respiro, `fade_out` alla morte, `aura` dei boss); `BossBar` nuova.
+  - Prove: gruppo «galleria» (`TestsGallery` + `LayoutCheck`: ogni pannello fotografato in prove/galleria/, problemi in
+    problemi.txt, **obiettivo 0**); foto fedeli con `Photo.take`; `tools/cornici.gd`, `tools/volume_creature.gd`.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni
@@ -1129,3 +1141,15 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   ripiego (meno distanza, più tentativi), non contare sulla fortuna del seme.
 - `String(x)` con un numero è un errore: per un campo che può essere numero o testo («place» è un numero per i blocchi)
   si usa `str(x)`. Trappole e totem lo sbagliavano a ogni fotogramma con un blocco in mano.
+
+
+- **Roadmap 29** (30 set 2026): con `hdr_2d` la fusione dei colori è lineare: uno sfondo nero al 97% lascia vedere il
+  mondo come se fosse al 20%, e uno scuro al 78% scurisce appena a metà. Gli sfondi che devono coprire sono opachi.
+- Un carattere a bitmap con un carattere di riserva (`fallbacks`) prende le misure della riserva: le righe si
+  allargavano di un terzo e i titoli si sovrapponevano a ciò che stava sotto. `PixelFont` non ha riserva.
+- Le prove chiamano `LayoutCheck`, ma un difetto si vede solo se la galleria apre il pannello **com'è in gioco**: un
+  avviso rimasto a metà schermo, uno sfondo trasparente, un'insegna che la barra del boss raggiunge dopo. Si guardano
+  sempre le foto, non solo il conteggio; ciò che si muove dopo la comparsa (la barra del boss scende quando il filo va
+  a capo) si ricolloca a ogni fotogramma.
+- Una funzione di un nodo non può avere il nome di una variabile già dichiarata (`ghost` in `Creature`): «has the same
+  name as a previously declared variable».

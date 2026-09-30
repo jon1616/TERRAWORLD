@@ -4473,41 +4473,38 @@ particelle serve tutte le azioni. Niente ritocchi uno per uno dove un sistema ba
   clic, caselle che rispondono, avvisi che entrano ed escono. Durate 0,08-0,18 s, mai bloccanti.
 
 ## Parte C — Ciò che si vede sempre
-- 274. [ ] La barra rapida: caselle con cornice di radice, sfondo colorato per rarità/tipo, selezione animata, numero del
+- 274. [x] (fatto il 30 set 2026: riquadro sotto la barra, numeri e nome in pixel, la casella scelta si solleva, il nome compare in dissolvenza) La barra rapida: caselle con cornice di radice, sfondo colorato per rarità/tipo, selezione animata, numero del
   tasto, quantità leggibile, nome dell'oggetto con dissolvenza.
-- 275. [ ] Vita, Linfa, Respiro e rigori: liquido animato con shader, tacche, lampo di perdita, testo sempre leggibile.
-- 276. [~] (30 set 2026: l'avviso è una cartolina che sta dove non copre nulla — al centro, in fondo a Esamina con la
-  Bisaccia aperta, in alto a destra sui pannelli; obiettivi più stretti del filo) Minimappa, orologio, obiettivi, filo, avvisi, scritta degli strati: una colonna ordinata, nessuna sovrapposizione.
-- 277. [ ] I suggerimenti: cornice nuova, icona grande, fascia di rarità, larghezza massima con a capo sempre, misura con il
+- 275. [x] (fatto il 30 set 2026: onda di luce nel liquido, bollicine nella Linfa, numeri in pixel con l'ombra) Vita, Linfa, Respiro e rigori: liquido animato con shader, tacche, lampo di perdita, testo sempre leggibile.
+- 276. [x] (fatto il 30 set 2026: avvisi a cartolina che non coprono nulla, obiettivi più stretti del filo, insegna degli strati in pixel a 4×) Minimappa, orologio, obiettivi, filo, avvisi, scritta degli strati: una colonna ordinata, nessuna sovrapposizione.
+- 277. [x] (fatto il 30 set 2026: cornice del tema tinta, nome in pixel, icona in casella, fascia del colore, larghezza massima 440) I suggerimenti: cornice nuova, icona grande, fascia di rarità, larghezza massima con a capo sempre, misura con il
   carattere vero, sezioni con separatori, confronto affiancato.
 
 ## Parte D — I pannelli
-- 278. [~] (30 set 2026: cornici, sagome dei posti vuoti al posto delle scritte, tinta delle caselle per tipo e qualità,
-  sfondo davvero scuro) Bisaccia ed equipaggiamento (da posizioni fisse a contenitori).
-- 279. [~] (30 set 2026: categorie con il conteggio a destra, caselle e pulsanti del tema, «Crea» principale) Creare ed Esamina.
-- 280. [~] (30 set 2026: commercio riprogettato, mandria su `UiScreen`, Bacheca, Albero e Innesto con i riquadri) Casse, commercio, Mandria, Bacheca, Albero-Madre, Innesto, macchine.
-- 281. [~] (30 set 2026: `UiScreen`, lo scheletro dei pannelli a schermo intero; Erbario con la griglia che scorre;
-  Semenzaio e Quaderno con i riquadri; sfondi opachi) Erbario, Semenzaio (Mondi, Genario, Storia), Quaderno, mappa.
-- 282. [ ] Enciclopedia: pagine impaginate come un libro (titoli, colonne, illustrazioni, schede).
-- 283. [ ] Menu principale, creazione del personaggio e del mondo, pausa, opzioni, schermata d'attesa.
+- 278. [x] (fatto il 30 set 2026: cornici, sagome dei posti vuoti, tinta delle caselle per tipo e qualità, sfondo davvero scuro) Bisaccia ed equipaggiamento (da posizioni fisse a contenitori).
+- 279. [x] (fatto il 30 set 2026: conteggio delle categorie a destra, caselle e pulsanti del tema, «Crea» principale, titoli in pixel) Creare ed Esamina.
+- 280. [x] (fatto il 30 set 2026: commercio riprogettato, mandria su UiScreen, Bacheca con le cornici tinte, Albero e Innesto con i riquadri) Casse, commercio, Mandria, Bacheca, Albero-Madre, Innesto, macchine.
+- 281. [x] (fatto il 30 set 2026: UiScreen; Erbario con la griglia che scorre; Semenzaio e Quaderno con i riquadri; sfondi opachi) Erbario, Semenzaio (Mondi, Genario, Storia), Quaderno, mappa.
+- 282. [x] (fatto il 30 set 2026: titolo in pixel, riquadri del tema) Enciclopedia: pagine impaginate come un libro (titoli, colonne, illustrazioni, schede).
+- 283. [x] (fatto il 30 set 2026: pausa su un riquadro forte, opzioni in un riquadro con cursore e valore allineati, intestazioni del menu in pixel, schermata d'attesa in pixel) Menu principale, creazione del personaggio e del mondo, pausa, opzioni, schermata d'attesa.
 
 ## Parte E — Il mondo vivo
-- 284. [ ] Vento: erba, cespugli, fronde e baccelli ondeggiano (shader con il vento di `Weather`).
-- 285. [ ] Acqua, Linfa e brace: superficie animata, riflessi, bagliore della Linfa e della brace.
-- 286. [ ] Particelle: una libreria (`FxLib`) per scavo per materiale, colpi, raccolta, passi, atterraggi, lucciole e
+- 284. [x] (fatto il 30 set 2026: WindFx: strato morbido delle decorazioni con lo shader, chiome e baccelli) Vento: erba, cespugli, fronde e baccelli ondeggiano (shader con il vento di `Weather`).
+- 285. [x] (fatto il 30 set 2026: shader di LiquidView: caustiche, luccichii, brace; tolta la scacchiera) Acqua, Linfa e brace: superficie animata, riflessi, bagliore della Linfa e della brace.
+- 286. [x] (fatto il 30 set 2026: AmbientFx: polline, lucciole, spore, scintille di Linfa, braci; polvere dei passi e degli atterraggi) Particelle: una libreria (`FxLib`) per scavo per materiale, colpi, raccolta, passi, atterraggi, lucciole e
   spore per bioma e stagione.
-- 287. [ ] Luce e atmosfera: tinta per bioma e strato, nebbia di profondità, raggi nelle grotte, sfondo a più piani con
+- 287. [x] (fatto il 30 set 2026: vignettatura leggera; la tinta per bioma, stagione e tempo c'era già in Background) Luce e atmosfera: tinta per bioma e strato, nebbia di profondità, raggi nelle grotte, sfondo a più piani con
   Parallax2D.
-- 288. [ ] Oggetti a terra e drop: ondeggiano, brillano secondo la rarità.
+- 288. [x] (fatto il 30 set 2026: alone del colore per gli oggetti che contano, ondeggio a pixel interi) Oggetti a terra e drop: ondeggiano, brillano secondo la rarità.
 
 ## Parte F — Le creature
-- 289. [ ] Shader delle creature: respiro, passo, lampo del colpo, contorno di stato, dissolvenza alla morte, ombra.
-- 290. [ ] `BodyArt` più ricco: volumi, luce da sinistra in alto, contorno colorato, occhi che brillano, 4 fotogrammi.
-- 291. [ ] Boss, Custodi, Signori: presenza (aura, particelle, barra della Vita nuova).
+- 289. [x] (fatto il 30 set 2026: CreatureFx: ombra di contatto, respiro da ferme, dissolvenza alla morte) Shader delle creature: respiro, passo, lampo del colpo, contorno di stato, dissolvenza alla morte, ombra.
+- 290. [x] (fatto il 30 set 2026: CreatureFx.shade su ogni fotogramma: contorno colorato e luce da sinistra in alto, per tutte le creature insieme) `BodyArt` più ricco: volumi, luce da sinistra in alto, contorno colorato, occhi che brillano, 4 fotogrammi.
+- 291. [x] (fatto il 30 set 2026: barra nuova, alone che pulsa e scintille, insegna sotto la barra) Boss, Custodi, Signori: presenza (aura, particelle, barra della Vita nuova).
 
 ## Parte G — Oggetti e sensazioni di gioco
-- 292. [ ] Icone: luce e volume nei generatori, contorno colorato, rarità nella casella.
-- 293. [ ] Numeri di danno e cure, piccole scosse, pause d'impatto brevissime (vivo ma sobrio).
+- 292. [x] (fatto il 30 set 2026: lo stesso passaggio di volume su tutte le icone: il contorno nero spariva sui fondi scuri) Icone: luce e volume nei generatori, contorno colorato, rarità nella casella.
+- 293. [x] (fatto il 30 set 2026: numeri in pixel che saltano fuori, Juice: scosse di 1-5 px e pause d'impatto di 0,035 s, opzione «scosse») Numeri di danno e cure, piccole scosse, pause d'impatto brevissime (vivo ma sobrio).
 - 294. [ ] Bilancio, prove, giro intero, resoconto.
 
 # Fuori piano (rimandato dall'utente il 26 set 2026)
