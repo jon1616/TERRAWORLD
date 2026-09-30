@@ -877,6 +877,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
 
 - `rendering/viewport/hdr_2d` è attivo (serve al bagliore): la grafica 2D lavora in spazio lineare, quindi l'immagine
   della luce va codificata con `linear_to_srgb()` o il buio si raddoppia.
+  Anche la foto della finestra è lineare: salvata così viene molto più scura dello schermo. Si fotografa con
+  `await Photo.take(viewport)` (`src/core/photo.gd`, voce 267), che converte con uno shader.
 - Colori di base troppo scuri + luce = tutto nero: le tavolozze di roccia e terra devono essere di tono medio; le pareti
   di fondo circa al 50% delle tessere.
 - Un blocco che tocca l'aria prende quasi la luce dell'aria davanti, altrimenti le facce delle grotte risultano più scure

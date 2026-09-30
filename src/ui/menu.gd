@@ -70,19 +70,9 @@ func _photos() -> void:
 			await get_tree().process_frame
 		# con hdr_2d l'immagine della finestra è in spazio lineare: senza la conversione la foto viene molto più scura
 		# di ciò che si vede sullo schermo (voce 103: lo sfondo sembrava quasi nero)
-		var img := _srgb(get_viewport().get_texture().get_image())
+		var img: Image = await Photo.take(get_viewport())
 		img.save_png(ProjectSettings.globalize_path("res://prove/%s.png" % s[0]))
 	get_tree().quit()
-
-
-## La foto della finestra in sRGB: l'immagine è a virgola mobile e lineare (hdr_2d). `Image.linear_to_srgb` vuole
-## 8 bit, e convertire prima schiaccia i toni scuri a gradini: si converte pixel per pixel (~1 s, solo per le foto).
-static func _srgb(img: Image) -> Image:
-	var out := Image.create(img.get_width(), img.get_height(), false, Image.FORMAT_RGB8)
-	for y in img.get_height():
-		for x in img.get_width():
-			out.set_pixel(x, y, img.get_pixel(x, y).linear_to_srgb())
-	return out
 
 
 func _start_tests() -> void:

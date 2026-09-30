@@ -4442,7 +4442,8 @@ particelle serve tutte le azioni. Niente ritocchi uno per uno dove un sistema ba
 (fotogramma peggiore della corsa sotto 25-28 ms), controllo «niente tagli» automatico, commit per nome.
 
 ## Parte A — Le fondamenta
-- 267. [ ] Foto fedeli: `TestKit.save` in sRGB veloce (shader su un SubViewport o conversione in blocco), così si giudica il
+- 267. [x] (fatto il 30 set 2026: `Photo.take` in `src/core/`, shader di conversione su una finestra invisibile che rilegge
+  l'immagine lineare; si chiama con `await`; colori identici allo schermo; prove e foto del menu) Foto fedeli: `TestKit.save` in sRGB veloce (shader su un SubViewport o conversione in blocco), così si giudica il
   colore vero. Le misure del buio restano come prima.
 - 268. [ ] La galleria: `--foto-pannelli` apre ogni pannello e ogni scheda in un mondo di prova e li fotografa
   (prove/galleria/), più un controllo automatico dei tagli: ogni Label/RichTextLabel visibile deve stare dentro il suo

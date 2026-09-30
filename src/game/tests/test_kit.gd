@@ -121,7 +121,7 @@ func save(name: String) -> void:
 	# si obbliga il motore a disegnare ora: nel giro lungo di prove l'immagine della finestra arrivava in ritardo
 	# anche di secondi (la foto mostrava la scena di prima)
 	RenderingServer.force_draw(false)
-	var img := node.get_viewport().get_texture().get_image()
+	var img: Image = await Photo.take(node.get_viewport())   # voce 267: i colori dello schermo, non quelli lineari
 	img.save_png(ProjectSettings.globalize_path("res://prove/%s.png" % name))
 	print("salvato ", name)
 
