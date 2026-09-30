@@ -57,6 +57,8 @@ const OPTIONS := [
 		"desc": "A destra: le ricette segnate in Esamina e che cosa manca per farle."},
 	{"id": "consigli", "sec": "interfaccia", "name": "Consigli alla prima volta", "type": "bool", "def": true,
 		"desc": "Una scheda breve la prima volta che succede una cosa nuova (la notte, il buio, la Bisaccia piena…)."},
+	{"id": "scosse", "sec": "interfaccia", "name": "Scosse e pause d'impatto", "type": "bool", "def": true,
+		"desc": "La visuale trema appena quando sei ferito; un attimo di pausa quando una creatura cade."},
 	{"id": "animazioni", "sec": "interfaccia", "name": "Animazioni dell'interfaccia", "type": "bool", "def": true,
 		"desc": "I pannelli compaiono con una breve dissolvenza, gli avvisi scorrono, i numeri contano. Spento: tutto di colpo."},
 	{"id": "minimappa", "sec": "interfaccia", "name": "Minimappa", "type": "bool", "def": true,

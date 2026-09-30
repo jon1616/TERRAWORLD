@@ -45,22 +45,24 @@ static func dust(parent: Node, pos: Vector2, cols: Array[Color]) -> void:
 static func float_text(parent: Node, pos: Vector2, text: String, col: Color) -> void:
 	if parent == null:
 		return
+	# (voce 293) nel carattere di pixel: nel mondo ingrandito 2× ogni pixel della cifra è un pixel del mondo
 	var l := Label.new()
 	l.text = text
-	l.position = pos - Vector2(20, 10)
-	l.size = Vector2(40, 16)
+	l.position = pos - Vector2(30, 10)
+	l.size = Vector2(60, PixelFont.size(1))
 	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	l.add_theme_font_size_override("font_size", 10)
-	l.add_theme_color_override("font_color", col)
-	l.add_theme_color_override("font_outline_color", Color(0.02, 0.03, 0.05))
-	l.add_theme_constant_override("outline_size", 4)
+	PixelFont.apply(l, 1, col, true)
 	l.z_as_relative = false
 	l.z_index = 30
+	l.pivot_offset = l.size * 0.5
 	parent.add_child(l)
+	# salta fuori (un attimo più grande), sale rallentando, svanisce
+	l.scale = Vector2(1.5, 1.5)
 	var tw := l.create_tween()
 	tw.set_parallel(true)
-	tw.tween_property(l, "position:y", l.position.y - 18.0, 0.8).set_ease(Tween.EASE_OUT)
-	tw.tween_property(l, "modulate:a", 0.0, 0.8).set_delay(0.3)
+	tw.tween_property(l, "scale", Vector2.ONE, 0.12).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(l, "position:y", l.position.y - 18.0, 0.8).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tw.tween_property(l, "modulate:a", 0.0, 0.5).set_delay(0.4)
 	tw.chain().tween_callback(l.queue_free)
 
 

@@ -295,6 +295,8 @@ func _build() -> void:
 	hb.setup(harsh)
 	gear.refresh()                         # le protezioni dai rigori arrivano a `Harshness`
 	diary = _mount(Diary.new())            # voce 83: il diario della partita
+	_mount(Juice.new())                    # voce 293: scosse piccole e pause d'impatto brevissime
+	_mount(AmbientFx.new())                # voce 286: l'aria viva (polline, lucciole, spore, braci) e la polvere dei passi
 	hud.panel.quick_stack = storage.quick_stack
 	hud.panel._toast = hud.toast
 	interact.chest_panel.storage = storage
