@@ -237,7 +237,15 @@ static func seal(m: Node2D, kind: String) -> TipCard:
 
 
 static func decor(d: int) -> TipCard:
+	if PodsData.KINDS.has(d):                          # voce 301: un baccello dormiente
+		var pc := TipCard.new()
+		pc.title(String(PodsData.KINDS[d]["name"]), Color("#f0d8a0"))
+		pc.sub("si apre: dentro c'è sempre qualcosa")
+		pc.hint("Clic per aprirlo")
+		return pc
 	var it := String(TileDefs.DECOR_DROP.get(d, ""))
+	if it == "" and HarvestData.DECOR.has(d):
+		it = String(HarvestData.DECOR[d][0])        # voce 300: il raccolto della pianta
 	if it == "":
 		return null
 	var c := TipCard.new()

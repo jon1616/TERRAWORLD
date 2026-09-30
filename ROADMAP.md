@@ -4580,9 +4580,15 @@ tue possibilità, esplorazione compresa», con le cinque idee per lo zaino.
   funghi si mangiano, resine e schegge → vetro, carbonella → torce, zolfo → esplosivi, sassi → mattoni, i rari → Polvere
   iridata (12 → 1). L'erba bassa lascia qualcosa una volta su tre. Conteggio «piante_raccolte» (esplorazione e orto).
   Prova: gruppo «grotte».
-- [ ] **301. I baccelli dormienti.** Piccole cose da rompere (baccelli, nidi di radice, urne dei Seminatori, geodi
+- [x] **301. I baccelli dormienti.** Piccole cose da rompere (baccelli, nidi di radice, urne dei Seminatori, geodi
   piccoli) sparse in grotte e superficie a decine per strato, con un bottino piccolo secondo strato e bioma: Lumini,
   torce, dardi, pozioni, semi, ogni tanto un materiale raro o una Fiala.
+  Fatto il 30 set 2026: sei tipi (`PodsData`: baccello dormiente, nido di radice, urna dei Seminatori, geode
+  dormiente, bozzolo di Linfa, ceppo cavo in superficie), decorazioni 92-97 disegnate da `PodArt`; `PassBaccelli` ne
+  mette ~2000 per mondo (180 nel Sottobosco, ~500 nelle Caverne e nelle Profondità, ~780 nel Fondo) fuori dalle
+  strutture e dall'acqua; `Harvest.open_pod`: uno o due tiri dalla tabella dello strato e del tipo, una volta su 25 una
+  cosa rara (Polvere iridata, Scheggia di vigore, Linfa antica). Misura: da 7,7 a 41 cose ogni 1000 celle d'aria nelle
+  Caverne d'ardesia. Foglio: `tools/baccelli.gd`. Prova: gruppo «grotte» (foto 303).
 - [ ] **302. Le creature.** Le nascite cercano un posto buono vicino al punto scelto invece di fallire nella roccia; tetti
   e ritmi rivisti (di giorno in superficie 3, grotte più vive); `tools/percorso.gd` per tenere giusta la difficoltà.
 - [ ] **303. Piccoli incontri.** Lo zaino dell'esploratore perduto (bottino e una pagina del suo diario), le tane con il

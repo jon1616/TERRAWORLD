@@ -14,6 +14,7 @@ func _init(tk: TestKit) -> void:
 
 func run() -> void:
 	await harvest()
+	await pods()
 
 
 func _counts(ids: Array) -> Dictionary:
@@ -65,3 +66,55 @@ func harvest() -> void:
 	w.set_decor(c.x, c.y, old)
 	_give_back(before)
 	st["piante_raccolte"] = n0
+
+
+## Voce 301: il mondo ha i suoi baccelli dormienti (a centinaia per strato); aperto, uno lascia il bottino del suo strato;
+## ogni tipo ha il suo disegno.
+func pods() -> void:
+	var w: World = m.world
+	var st: Dictionary = m.character.stats
+	var n0 := int(st.get("baccelli_aperti", 0))
+	var count := 0
+	var near := Vector2i(-1, -1)
+	var best := 1e9
+	var sp := Vector2(w.spawn)
+	for y in range(0, w.h):
+		for x in range(0, w.w):
+			var d := w.decor_at(x, y)
+			if d >= PodsData.FIRST and d <= PodsData.LAST:
+				count += 1
+				var dist := Vector2(x, y).distance_to(sp)
+				if dist < best and StrataData.at(w, x, y) >= 1:
+					best = dist
+					near = Vector2i(x, y)
+	var drawn := true
+	for id in range(PodsData.FIRST, PodsData.LAST + 1):
+		var img: Image = DecorPainter.decor(id)["img"]
+		drawn = drawn and not img.get_used_rect().size.x < 4
+	var ids := ["lumino", "torcia", "dardo", "gelatina", "pozione_rugiada", "minerale_radicite", "humus", "seta_radice",
+		"fibra_radice", "minerale_legnoferro", "pozione_bagliore", "scisto", "pietra_seminatori", "polvere_iridata",
+		"scheggia_vigore", "linfa_antica", "seme_lanterna", "bacche_lanterna"]
+	var before := _counts(ids)
+	var loot := []
+	if near.x >= 0:
+		m.snap_to(near + Vector2i(-2, 0))
+		await kit.seconds(0.5)
+		await kit.save("303_baccello")
+		var d := w.decor_at(near.x, near.y)
+		m.actions.pick_decor(near)
+		loot = m.harvest.last_loot
+		await kit.seconds(1.5)
+		w.set_decor(near.x, near.y, d)
+		m.view.refresh_around(near)
+	var gained := 0
+	for id in ids:
+		gained += m.character.bisaccia.count(String(id)) - int(before[id])
+	var opened := int(st.get("baccelli_aperti", 0)) - n0
+	var ok: bool = count >= 300 and near.x >= 0 and drawn and opened == 1 and not loot.is_empty() and gained >= 1
+	print("baccelli dormienti: %d nel mondo di prova, disegni %s, aperto il più vicino (%s): %s → nella Bisaccia +%d" % [count, drawn,
+		near, loot, gained])
+	if not ok:
+		print("ATTENZIONE: i baccelli dormienti non vanno")
+	_give_back(before)
+	st["baccelli_aperti"] = n0
+	m.snap_to(w.spawn)

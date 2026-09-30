@@ -23,6 +23,8 @@ func _init() -> void:
 	var decor := []
 	var stations := []
 	var rich := []
+	var pods := []
+	var floors := []
 	var tries := []
 	var ok := []
 	for s in n_strata:
@@ -30,6 +32,8 @@ func _init() -> void:
 		decor.append(0)
 		stations.append(0)
 		rich.append(0)
+		pods.append(0)
+		floors.append(0)
 		tries.append(0)
 		ok.append(0)
 	var st_kinds := {}
@@ -49,7 +53,11 @@ func _init() -> void:
 					if w.solid(x, y + 1) and not w.solid(x, y - 1) and rng.randf() < 0.02:
 						(floor_cells[s] as Array).append(Vector2i(x, y))
 				var d := w.decor_at(x, y)
-				if d != 0 and (TileDefs.DECOR_DROP.has(d) or HarvestData.DECOR.has(d)):
+				if PodsData.KINDS.has(d):
+					pods[s] += 1
+				if not w.solid(x, y) and w.solid(x, y + 1):
+					floors[s] += 1
+				if d != 0 and (TileDefs.DECOR_DROP.has(d) or HarvestData.DECOR.has(d) or PodsData.KINDS.has(d)):
 					decor[s] += 1
 				var t := w.tile(x, y)
 				if t != TileDefs.AIR and TileDefs.DROP.has(t):
@@ -81,6 +89,9 @@ func _init() -> void:
 		lines.append("%-26s %9d   %11.2f  %8.2f  %16.2f    %5d  %12.1f s  %7.0f%%  %13.1f s" % [
 			String(StrataData.STRATA[s]["name"]), air[s] / seeds, 1000.0 * decor[s] / a, 1000.0 * stations[s] / a,
 			1000.0 * rich[s] / a, DangerData.cap(danger), every, 100.0 * rate, every / maxf(rate, 0.001)])
+	lines.append("")
+	for s in n_strata:
+		lines.append("%-26s baccelli per mondo %6d · pavimenti %7d" % [String(StrataData.STRATA[s]["name"]), pods[s] / seeds, floors[s] / seeds])
 	lines.append("")
 	var ks := st_kinds.keys()
 	ks.sort_custom(func(a, b) -> bool: return int(st_kinds[a]) > int(st_kinds[b]))

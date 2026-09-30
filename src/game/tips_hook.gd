@@ -78,7 +78,7 @@ func _world_tip(screen: Vector2) -> Array:
 	if tr.x >= 0:
 		return ["tr%d,%d" % [tr.x, tr.y], func() -> Variant: return WorldTip.tree(tr)]
 	var dc := w.decor_at(c.x, c.y)
-	if TileDefs.DECOR_DROP.has(dc):
+	if TileDefs.DECOR_DROP.has(dc) or HarvestData.DECOR.has(dc) or PodsData.KINDS.has(dc):   # (Roadmap 30)
 		return ["dc%d,%d" % [c.x, c.y], func() -> Variant: return WorldTip.decor(dc)]
 	return []
 

@@ -109,4 +109,4 @@ static func draw(id: int, im: Image, gm: Image, rng: RandomNumberGenerator) -> V
 				Px.put(im, q.x, q.y, Color("#ffe890"))
 				Px.put(gm, q.x, q.y, Color(0.9, 0.8, 0.4))
 			return true
-	return null
+	return PodArt.draw(id, im, gm, rng)                  # voce 301: i baccelli dormienti

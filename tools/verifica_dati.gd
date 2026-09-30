@@ -73,6 +73,14 @@ func _init() -> void:
 	for d in TileDefs.DECOR_DROP:
 		_err(items.has(String(TileDefs.DECOR_DROP[d])), "la decorazione %d lascia un oggetto inesistente" % d)
 		dropped[TileDefs.DECOR_DROP[d]] = true
+	for d in PodsData.KINDS:                             # voce 301: il bottino dei baccelli dormienti
+		for e in (PodsData.KINDS[d]["extra"] as Array):
+			_err(items.has(String(e[0])), "il baccello %d lascia un oggetto inesistente %s" % [d, e[0]])
+			dropped[String(e[0])] = true
+	for tab in PodsData.COMMON + [PodsData.RARE]:
+		for e in tab:
+			_err(items.has(String(e[0])), "i baccelli lasciano un oggetto inesistente %s" % e[0])
+			dropped[String(e[0])] = true
 	for d in HarvestData.DECOR:                          # voce 300: i raccolti delle piante
 		_err(items.has(String(HarvestData.DECOR[d][0])), "la pianta %d lascia un oggetto inesistente" % d)
 		dropped[String(HarvestData.DECOR[d][0])] = true

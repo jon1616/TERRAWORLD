@@ -405,7 +405,7 @@ static func _biome_decor(soft: String) -> Array:
 
 
 static func _decor_count() -> int:
-	var n := DECOR_BASE
+	var n := maxi(DECOR_BASE, PodsData.LAST)            # voce 301: i baccelli dormienti (92-97)
 	for d in _all_decor():
 		n = maxi(n, int(d))
 	return n
@@ -413,6 +413,9 @@ static func _decor_count() -> int:
 
 static func _decor_light() -> Dictionary:
 	var out := _DECOR_LIGHT.duplicate()
+	for d in PodsData.KINDS:                            # voce 301: i baccelli che brillano appena
+		if PodsData.KINDS[d].has("light"):
+			out[int(d)] = PodsData.KINDS[d]["light"]
 	var all := _all_decor()
 	for d in all:
 		if all[d].has("light"):
