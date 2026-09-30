@@ -137,3 +137,46 @@ static func _empty(img: Image, x: int, y: int) -> bool:
 
 static func _is_edge(edge: PackedByteArray, w: int, h: int, x: int, y: int) -> bool:
 	return x >= 0 and y >= 0 and x < w and y < h and edge[y * w + x] == 1
+
+
+## (voce 291) La presenza di un boss: un alone che pulsa lento sotto di lui e qualche scintilla che sale, del colore
+## della sua ira (ambra; rossa quando è infuriato, lo cambia `Creature._animate`).
+static func aura(c: Node2D, size: Vector2) -> Node2D:
+	var root := Node2D.new()
+	root.z_index = -1
+	var g := Gradient.new()
+	g.set_color(0, Color(1, 1, 1, 0.55))
+	g.set_color(1, Color(1, 1, 1, 0.0))
+	var gt := GradientTexture2D.new()
+	gt.gradient = g
+	gt.fill = GradientTexture2D.FILL_RADIAL
+	gt.fill_from = Vector2(0.5, 0.5)
+	gt.fill_to = Vector2(0.5, 0.0)
+	gt.width = 64
+	gt.height = 64
+	var halo := Sprite2D.new()
+	halo.name = "alone"
+	halo.texture = gt
+	halo.scale = Vector2(size.x * 2.6 / 64.0, size.y * 1.6 / 64.0)
+	halo.modulate = Color(1.6, 0.9, 0.4, 0.35)
+	root.add_child(halo)
+	var tw := halo.create_tween().set_loops()
+	tw.tween_property(halo, "modulate:a", 0.55, 1.2).set_trans(Tween.TRANS_SINE)
+	tw.tween_property(halo, "modulate:a", 0.25, 1.2).set_trans(Tween.TRANS_SINE)
+	var p := CPUParticles2D.new()
+	p.name = "scintille"
+	p.amount = 10
+	p.lifetime = 1.6
+	p.emission_shape = CPUParticles2D.EMISSION_SHAPE_RECTANGLE
+	p.emission_rect_extents = Vector2(size.x, size.y * 0.5)
+	p.direction = Vector2(0, -1)
+	p.spread = 20.0
+	p.gravity = Vector2(0, -20)
+	p.initial_velocity_min = 8.0
+	p.initial_velocity_max = 22.0
+	p.color_ramp = Fx.fade(Color(2.0, 1.1, 0.5))
+	p.local_coords = false
+	root.add_child(p)
+	c.add_child(root)
+	c.move_child(root, 0)
+	return root

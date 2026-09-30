@@ -77,6 +77,7 @@ var _fury := false                     # voce 135: la furia è già cominciata  
 var mind := Mind.new()                 # voce 129: sensi e stati (calma, allerta, caccia, fuga, ritorno)
 var _spr: Sprite2D
 var _shade: Sprite2D                   # (voce 289) l'ombra di contatto
+var _aura: Node2D                       # (voce 291) l'alone e le scintille dei boss
 var _glow: Sprite2D
 var _frames: Array = []
 var _glows: Array = []
@@ -147,6 +148,8 @@ func setup(cid: String, w: World, tgt: Node2D, sd: int, more_mods := {}) -> void
 		_shade.position = Vector2(0, half.y)
 		_spr.add_sibling(_shade)
 		move_child(_shade, _spr.get_index())
+	if boss and bool(Settings.v("particelle")):
+		_aura = CreatureFx.aura(self, half)   # voce 291: la presenza dei boss
 	add_child(TeleMark.new())                  # voce 127: il segnale degli attacchi
 	if data.get("glow", false):
 		_glow = Sprite2D.new()
@@ -377,6 +380,14 @@ func _animate(dt: float) -> void:
 	_spr.position.x = randf_range(-1.0, 1.0) if shake > 0.0 else 0.0
 	_flash = maxf(_flash - dt, 0.0)
 	_spr.modulate = Color(3, 3, 3) if _flash > 0.0 else (Color(1.35, 0.8, 0.8) if enraged and not calm else Color.WHITE)
+	if _aura:
+		_aura.visible = not calm and not buried
+		var rage := enraged and not calm
+		if rage != bool(_aura.get_meta("rage", false)):
+			_aura.set_meta("rage", rage)
+			var sparks := _aura.get_node("scintille") as CPUParticles2D
+			sparks.color_ramp = Fx.fade(Color(2.4, 0.6, 0.4) if rage else Color(2.0, 1.1, 0.5))
+			(_aura.get_node("alone") as Sprite2D).self_modulate = Color(1.3, 0.6, 0.6) if rage else Color.WHITE
 
 
 ## Alla morte (la chiama `Fauna`): il disegno si solleva e svanisce.

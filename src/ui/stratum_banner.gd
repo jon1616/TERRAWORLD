@@ -42,6 +42,7 @@ func show_stratum(title: String, sub: String, col: Color) -> void:
 	for l in [_title, _sub]:
 		(l as Label).position.x = 0.0
 		(l as Label).size.x = w
+	_place()
 	_title.text = title
 	_title.add_theme_color_override("font_color", col)
 	_sub.text = sub
@@ -52,3 +53,22 @@ func show_stratum(title: String, sub: String, col: Color) -> void:
 	_tw.tween_property(self, "modulate:a", 1.0, 0.6)
 	_tw.tween_interval(2.6)
 	_tw.tween_property(self, "modulate:a", 0.0, 1.4)
+
+
+## (voce 291) sotto le barre dei boss, se ce ne sono (prima l'insegna passava sopra la barra della Regina). Si ricontrolla
+## a ogni fotogramma mentre si vede: la barra scende quando il filo va a capo.
+func _place() -> void:
+	var dy := 0.0
+	for n in get_tree().get_nodes_in_group("boss_bar"):
+		var bb := n as Control
+		if bb != null and bb.visible:
+			dy = maxf(dy, bb.global_position.y - global_position.y + 34.0 - 146.0)
+	_title.offset_top = 146.0 + dy
+	_title.offset_bottom = _title.offset_top + PixelFont.size(4)
+	_sub.offset_top = 196.0 + dy
+	_sub.offset_bottom = _sub.offset_top + 24.0
+
+
+func _process(_dt: float) -> void:
+	if modulate.a > 0.01:
+		_place()

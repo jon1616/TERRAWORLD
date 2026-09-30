@@ -7,6 +7,8 @@ const W := 520.0
 
 var boss: Creature
 var _name: Label
+var _trail := 1.0                       # (voce 291) la Vita appena persa, che si svuota con un attimo di ritardo
+var _t := 0.0
 
 
 func _ready() -> void:
@@ -15,12 +17,9 @@ func _ready() -> void:
 	visible = false
 	_name = Label.new()
 	_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_name.size = Vector2(W, 24)
-	_name.position = Vector2(0, -26)
-	_name.add_theme_font_size_override("font_size", 18)
-	_name.add_theme_color_override("font_color", Color("#e8d8b0"))
-	_name.add_theme_color_override("font_outline_color", Color(0.02, 0.03, 0.05))
-	_name.add_theme_constant_override("outline_size", 6)
+	_name.size = Vector2(W, PixelFont.size(2))
+	_name.position = Vector2(0, -PixelFont.size(2) - 6)
+	PixelFont.apply(_name, 2, Color("#f0dcb0"), true)          # (voce 291) il nome nel carattere di pixel
 	add_child(_name)
 
 
@@ -32,7 +31,11 @@ func follow(c: Creature) -> void:
 	position = Vector2((get_viewport_rect().size.x - W) * 0.5, top_y() if is_inside_tree() else 96.0)
 
 
-func _process(_dt: float) -> void:
+func _process(dt: float) -> void:
+	_t += dt
+	if visible and is_instance_valid(boss):
+		var f := clampf(float(boss.hp) / boss.hp_max, 0.0, 1.0)
+		_trail = f if _trail < f else move_toward(_trail, f, dt * 0.35)
 	if visible and (boss == null or not is_instance_valid(boss) or boss.calm):
 		visible = false
 	if visible:
@@ -62,7 +65,21 @@ func _draw() -> void:
 	if not visible or not is_instance_valid(boss):
 		return
 	var f := clampf(float(boss.hp) / boss.hp_max, 0.0, 1.0)
-	draw_rect(Rect2(-3, -3, W + 6, 18), Color(0.02, 0.03, 0.05, 0.9))
+	# (voce 291) una cornice del tema, la parte persa che si svuota piano, il liquido con un'onda di luce, le tacche dei
+	# quarti e il segno della seconda fase a metà
+	draw_style_box(UiFrames.box("campo", "normale", Color("#e04a40") if boss.enraged else Color(0, 0, 0, 0)),
+		Rect2(-8, -6, W + 16, 26))
 	var col := Color("#d88a30") if not boss.enraged else Color("#e04a40")
-	draw_rect(Rect2(0, 0, W * f, 12), col)
-	draw_rect(Rect2(0, 0, W * f, 3), col.lightened(0.35))
+	if _trail > f:
+		draw_rect(Rect2(W * f, 0, W * (_trail - f), 14), Color(1.0, 0.92, 0.75, 0.75))
+	draw_rect(Rect2(0, 0, W * f, 14), col.darkened(0.2))
+	draw_rect(Rect2(0, 0, W * f, 4), col.lightened(0.35))
+	var wave := fmod(_t * 0.4, 1.4) - 0.2
+	if wave > 0.0 and wave < f:
+		draw_rect(Rect2(W * wave - 12.0, 4, 24, 10), Color(col.lightened(0.6), 0.25))
+	for q in [0.25, 0.5, 0.75]:
+		draw_rect(Rect2(W * q - 1.0, 0, 2, 14), Color(0.02, 0.03, 0.05, 0.7 if q != 0.5 else 0.95))
+	# il segno della seconda fase: un piccolo rombo sopra la metà
+	var mx := W * 0.5
+	var dia := PackedVector2Array([Vector2(mx, -7), Vector2(mx + 4, -3), Vector2(mx, 1), Vector2(mx - 4, -3)])
+	draw_colored_polygon(dia, Color("#e04a40") if boss.enraged else Color("#8a6a50"))
