@@ -59,6 +59,10 @@ func _draw() -> void:
 		var id := String(w.stations[o])
 		if MARK.has(id) and area.has_point(o) and w.explored[o.y * w.w + o.x] != 0:
 			_dot(Vector2(o) + Vector2(1, 1), MARK[id], 2.5)
+	for s in MapSignals.list(m.world_meta):                   # i segnali del giocatore (30 set 2026)
+		var sp := MapSignals.pos_of(s)
+		if area.has_point(Vector2i(sp)):
+			MapSignals.triangle(self, Vector2(2, 2) + (sp - Vector2(_origin)) * Z, Color(String(s.get("c", "ffb84a"))), 3.0)
 	_dot(m.player.position / 16.0, Color("#ffb84a"), 3.0)
 	draw_rect(Rect2(Vector2.ZERO, size), Color("#3aa08a"), false, 1.5)
 

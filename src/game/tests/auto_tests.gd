@@ -497,6 +497,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsSeasons.new(kit).run()
 		"suggerimenti":
 			await TestsTips.new(kit).run()
+		"mappa":
+			await TestsMap.new(kit).run()
 		"opzioni":
 			await TestsOptions.new(kit).run()
 		"enciclopedia":

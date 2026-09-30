@@ -828,6 +828,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   Linfa, spine, fortuna, scavo, ombra, danno, colpi, incantesimi, Scorza dei set; ricalcolati a ogni cambio della Bisaccia.
 - `src/game/map_reveal.gd` (`MapReveal`) — mappa esplorata: segna viste le celle illuminate (`World.explored`) e le
   dipinge in un'immagine 1 pixel = 1 tessera; `MapPanel` in `src/ui/` (tasto M, rotella, trascinare, segni).
+  I segnali del giocatore (30 set 2026): clic destro sulla mappa → `MapSignals` (triangolo, 20 colori, nome), in
+  `world_meta["segnali"]`; ogni segno disegnato ha il suo nome in `MapPanel._hits` e la scheda al passaggio del mouse.
 - `src/game/erbario.gd` (`Erbario`) — le scoperte del personaggio (`Character.erbario`: creature sconfitte con il
   conteggio, oggetti, pagine lette), `percent()`; `ErbarioPanel` in `src/ui/` (tasto L). Pannelli a schermo intero
   come questo vanno in `Hud.overlays` (così il mouse non scava mentre sono aperti).
