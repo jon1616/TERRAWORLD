@@ -6,6 +6,9 @@ extends Node2D
 const HALF := Vector2(4, 4)
 const MAGNET := 16.0 * 5.0            # raggio in cui gli oggetti vengono attirati
 var magnet_mult := 1.0                 # il Grumetto (voce 37) li attira da più lontano
+## Voce 297: che cosa fare di un oggetto (id -> "lascia": resta a terra; "cestino": raccolto e buttato). Lo tiene
+## aggiornato `Backpack` (è `Character.guida["scarta"]`).
+var rules := {}
 const PICK := 12.0                    # distanza a cui entrano nella Bisaccia
 const LIFE := 600.0                   # secondi prima di sparire, se nessuno li raccoglie
 
@@ -102,7 +105,8 @@ func _process(dt: float) -> void:
 		var dist := sp.position.distance_to(target)
 		# il posto nella Bisaccia (40 caselle da guardare) si chiede solo per chi è abbastanza vicino da essere attirato:
 		# con centinaia di oggetti a terra lo si chiedeva per tutti a ogni fotogramma
-		var room := dist < MAGNET * magnet_mult and bisaccia.room_for(d["id"]) > 0
+		var rule := String(rules.get(d["id"], ""))
+		var room := rule != "lascia" and dist < MAGNET * magnet_mult and (rule == "cestino" or bisaccia.room_for(d["id"]) > 0)
 		if room:
 			# attratto: vola verso il giocatore, senza badare ai blocchi
 			vel = vel.move_toward((target - sp.position).normalized() * 220.0, 900.0 * dt)
@@ -119,6 +123,11 @@ func _process(dt: float) -> void:
 			d["rest"] = bool(r["floor"]) and absf(vel.x) < 1.0
 		d["vel"] = vel
 		sp.offset.y = roundf(sin(float(d["t"]) * 3.0) * 1.4)     # (a pixel interi)
+		if room and dist < PICK and rule == "cestino":
+			picked.emit(d["id"], 0)                  # voce 297: raccolto e buttato (l'Erbario lo vede, la Bisaccia no)
+			sp.queue_free()
+			_items.remove_at(i)
+			continue
 		if room and dist < PICK:
 			var n: int = d["n"]
 			var left := bisaccia.add_stack({"id": d["id"], "n": n, "dati": d["dati"]}) if d.has("dati") else bisaccia.add(d["id"], n)

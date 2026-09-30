@@ -31,6 +31,8 @@ var quick_target: Callable
 var quick_stack: Callable
 var mark_toggle: Callable              # (ricetta) -> bool: segna o toglie dalla lista della spesa (`Spesa`)
 var mark_has: Callable                 # (ricetta) -> bool: è nella lista?
+var pick_rule: Callable                # voce 297: (id) -> "" / "lascia" / "cestino" (`Backpack.rule`)
+var pick_rule_next: Callable           # (id) -> il segno dopo
 var _slots: Array[SlotView] = []
 var _held_icon: SlotView
 ## Il cestino (28 set 2026, richiesta dell'utente): ciò che ci si butta resta lì finché non si butta altro (o si esce

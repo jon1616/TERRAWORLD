@@ -4553,8 +4553,10 @@ tue possibilità, esplorazione compresa», con le cinque idee per lo zaino.
   `add` prova prima le tasche che accettano l'oggetto (`BackpackData.accepts`), `count`/`remove`/`room_for` e
   `Crafting.counts` le contano (`all_bags`); nel pannello una scheda con l'icona della tasca; nella tasca si posa solo il
   suo tipo. Prova nel gruppo «zaino» (foto 301).
-- [ ] **297. «Non raccogliere» e «nel Cestino».** Un segno per oggetto, in Esamina: quell'oggetto resta a terra, o va dritto
+- [x] **297. «Non raccogliere» e «nel Cestino».** Un segno per oggetto, in Esamina: quell'oggetto resta a terra, o va dritto
   nel Cestino. Si toglie da lì.
+  Fatto il 30 set 2026: il pulsante in Esamina (Raccogli → Non raccogliere → Dritto nel Cestino), `Backpack.rule`,
+  `Drops.rules`: «lascia» non attira l'oggetto, «cestino» lo prende e lo butta. Prova nel gruppo «zaino».
 - [ ] **298. La Dispensa del Giardino.** Una cassa grande che appartiene al personaggio (non al mondo), aperta dalla sua
   stazione nel Giardino; il Seme-dispensa manda una pila alla Dispensa da ogni mondo. Tre gradi: più caselle, «manda
   tutto il superfluo», aprirla da lontano.

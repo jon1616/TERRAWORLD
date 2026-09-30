@@ -35,6 +35,7 @@ var _qty_label: Label
 var _max_label: Label
 var _make: Button
 var _goto: Button
+var _pick: Button                       # voce 297: «Raccogli» / «Non raccogliere» / «Dritto nel Cestino»
 var _text: RichTextLabel
 var _dirty := false
 var _mode_recipe := false              # la scheda mostra la ricetta scelta (non l'oggetto posato)
@@ -150,6 +151,17 @@ func setup(p: BisacciaPanel, c: CraftingPanel) -> void:
 		if not rs.is_empty():
 			crafting.pick(rs[0]))
 	add_child(_goto)
+	_pick = Button.new()
+	_pick.focus_mode = Control.FOCUS_NONE
+	_pick.position = Vector2(204, 76)
+	_pick.size = Vector2(size.x - 220, 32)
+	_pick.add_theme_font_size_override("font_size", 14)
+	_pick.tooltip_text = "Che cosa fare di questo oggetto quando lo trovi a terra: raccoglierlo, lasciarlo dov'è o buttarlo subito nel Cestino. Un clic cambia."
+	_pick.pressed.connect(func() -> void:
+		if panel.pick_rule_next.is_valid() and not held.is_empty():
+			panel.pick_rule_next.call(String(held["id"]))
+			refresh())
+	add_child(_pick)
 	_text = RichTextLabel.new()
 	_text.bbcode_enabled = true
 	_text.scroll_active = true
@@ -236,6 +248,7 @@ func refresh() -> void:
 	var rec := _mode_recipe and not recipe.is_empty()
 	_card.visible = rec
 	_goto.visible = false
+	_pick.visible = false
 	if rec:
 		_fill_recipe()
 		return
@@ -250,7 +263,18 @@ func refresh() -> void:
 			held["dati"] = fresh
 	var makes := not RecipesData.making(String(held["id"])).is_empty()
 	_goto.visible = makes
-	if makes:
+	_pick.visible = panel.pick_rule.is_valid()
+	if _pick.visible:
+		var r := String(panel.pick_rule.call(String(held["id"])))
+		_pick.text = String(Backpack.RULE_TEXT[r])
+		RecipeRow.style(_pick, true, {"": Color("#2f7a70"), "lascia": Color("#8a7a60"), "cestino": Color("#c05a4a")}[r])
+		if not makes:
+			_pick.position.x = 16
+			_pick.size.x = size.x - 32
+		else:
+			_pick.position.x = 204
+			_pick.size.x = size.x - 220
+	if makes or _pick.visible:
 		_text.position = Vector2(16, 116)
 		_text.size = Vector2(size.x - 32, size.y - 132)
 	show_item(String(held["id"]), String(held.get("tratto", "")), held.get("dati", {}))

@@ -15,6 +15,7 @@ func _init(tk: TestKit) -> void:
 func run() -> void:
 	await bags()
 	await pouches()
+	await pick_rules()
 
 
 ## Lo stato della Bisaccia da rimettere dopo la prova: caselle, contenuto ed equipaggiamento.
@@ -128,4 +129,36 @@ func pouches() -> void:
 		in_pouch == 30, main0, main1, counted, sword_refused, took, saved_ok, tab_ok, off_full, again])
 	if not ok:
 		print("ATTENZIONE: le tasche non vanno")
+	_restore_bag(saved)
+
+
+## Voce 297: un oggetto segnato «Non raccogliere» resta a terra; «Dritto nel Cestino» sparisce senza entrare nella Bisaccia.
+func pick_rules() -> void:
+	var saved := _save_bag()
+	var b: Bisaccia = m.character.bisaccia
+	var bk: Backpack = m.backpack
+	var id := "humus"
+	var r0 := bk.rule(id)
+	var n0 := b.count(id)
+	var d0: int = m.drops.count()
+	bk.set_rule(id, "lascia")
+	m.drops.spawn(id, 3, m.player.position + Vector2(0, -8))
+	await kit.seconds(1.5)
+	var left_there: bool = m.drops.count() == d0 + 1 and b.count(id) == n0
+	bk.set_rule(id, "cestino")
+	await kit.seconds(1.5)
+	var trashed: bool = m.drops.count() == d0 and b.count(id) == n0
+	bk.set_rule(id, "")
+	m.drops.spawn(id, 2, m.player.position + Vector2(0, -8))
+	await kit.seconds(1.5)
+	var picked := b.count(id) == n0 + 2
+	var bp: BisacciaPanel = m.hud.panel
+	var text := String(Backpack.RULE_TEXT[bk.next_rule(id)])
+	var cycled := bk.rule(id) == "lascia" and text == "Non raccogliere"
+	bk.set_rule(id, r0)
+	var ok: bool = left_there and trashed and picked and cycled and bp.pick_rule.is_valid()
+	print("non raccogliere: resta a terra %s, nel Cestino %s, di nuovo raccolto %s, il pulsante cambia %s" % [left_there, trashed,
+		picked, cycled])
+	if not ok:
+		print("ATTENZIONE: «Non raccogliere» non va")
 	_restore_bag(saved)
