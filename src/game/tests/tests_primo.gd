@@ -15,6 +15,7 @@ func run() -> void:
 	await place()
 	await guardian()
 	await ending()
+	await after()
 
 
 ## Voce 263: con il parametro «primo» il generatore fa la radura con l'Albero Antico; senza, no.
@@ -99,3 +100,23 @@ func ending() -> void:
 		st.erase("finale")
 	else:
 		st["finale"] = had
+
+
+## Voce 265: oltre il grado 10 le stelle di maestria (senza limite); dopo il finale, nel Giardino, un Seme d'oro ogni sette
+## giorni, più vigoroso del mondo più forte.
+func after() -> void:
+	var ev: Evergreen = m.evergreen
+	var p := "pesca"
+	var top := MasteryData.points_for(p, MasteryData.GRADES)
+	var step := float(MasteryData.PILLARS[p]["hours"]) * 60.0 * Evergreen.STAR_FRAC
+	var s0 := Evergreen.stars_of(p, top - 1.0)
+	var s1 := Evergreen.stars_of(p, top + step * 2.5)
+	var s2 := Evergreen.stars_of(p, top + step * 50.0)
+	var g := ev.golden_genome()
+	var stellar := false
+	for x in g["geni"]:
+		stellar = stellar or int(GenesData.info(String(x)).get("rar", 0)) == 3
+	var ok: bool = s0 == 0 and s1 == 2 and s2 == 50 and int(g["vigore"]) >= 3 and stellar
+	print("il dopo: stelle oltre il 10 %d/%d/%d (nessun limite); Seme d'oro vigore %d, gene stellare %s" % [s0, s1, s2, int(g["vigore"]), stellar])
+	if not ok:
+		print("ATTENZIONE: il dopo non va")

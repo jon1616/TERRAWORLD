@@ -153,6 +153,9 @@ func text_of(p: String) -> String:
 		t += "[color=#9a8aa4]Non l'hai ancora cominciato.[/color]\n"
 	elif idle > 1800.0:
 		t += "[color=#9a8aa4]Non lo curi da %d minuti di gioco.[/color]\n" % int(idle / 60.0)
+	if m.get("evergreen") != null and ms.grade(p) >= MasteryData.GRADES:
+		t += "[color=#ffd24a]Oltre il grado 10: %d stelle (una ogni %d punti in più)[/color]\n" % [m.evergreen.stars(p),
+			roundi(float(MasteryData.PILLARS[p]["hours"]) * 60.0 * Evergreen.STAR_FRAC)]          # Roadmap 28: nessun limite
 	t += "\n[b]I gradi[/b]\n"
 	for k in range(1, MasteryData.GRADES + 1):
 		var r := MasteryData.reward(p, k)

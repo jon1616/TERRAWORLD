@@ -4387,9 +4387,15 @@ creature, pesci, Erbario, Museo, mandria, parole, i gradi dei dieci pilastri) e 
 Dopo il finale l'**Albero-Madre è d'oro** (stazione `albero_madre_5`, `AlberoMadre._apply`); l'Albero Antico, toccato di
 nuovo, rilegge l'epilogo. Foto 255.
 
-## 265. [ ] Il dopo (M)
+## 265. [x] Il dopo (M) — fatto il 30 set 2026
 Dopo il finale: ogni settimana di gioco l'Albero-Madre dona un Seme d'oro (vigore sempre più alto, un gene stellare),
 la Bacheca dell'Albero con richieste più grandi, e tutti i pilastri restano aperti.
+**Fatto**: `Evergreen` (`src/game/evergreen.gd`): le **stelle di maestria** oltre il grado 10 (una ogni 10% delle ore
+del pilastro di punti in più, senza limite, `stats["stelle_<pilastro>"]`, con polvere iridata e Linfa antica; la riga nel
+Libro dei pilastri) e i **Semi d'oro**: dopo il finale, nel Giardino, ogni sette giorni l'Albero-Madre d'oro dona un Seme
+di mondo con vigore due sopra il mondo più forte dell'Atlante e un gene stellare. Conteggi «stelle_maestria» e
+«semi_oro». La Bacheca con richieste più grandi è rimasta fuori: i contratti, le taglie e le spedizioni crescono già da
+soli.
 
 ## 266. [ ] Enciclopedia, misura e resoconto del piano (P)
 Capitoli, consigli, `tools/durata.gd`, giro intero, GitHub, e il resoconto del piano «Le dieci strade».
