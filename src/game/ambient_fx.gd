@@ -12,6 +12,13 @@ const KINDS := {
 	"linfa": {"col": Color(0.6, 1.9, 1.8), "amount": 22, "life": 6.0, "grav": Vector2(0, -5), "vel": [3.0, 9.0], "size": [1.0, 2.0]},
 	"braci": {"col": Color(2.2, 0.9, 0.35), "amount": 22, "life": 4.0, "grav": Vector2(0, -14), "vel": [6.0, 16.0], "size": [1.0, 2.0]},
 }
+const VIGNETTE := """
+shader_type canvas_item;
+void fragment() {
+	vec2 d = (UV - 0.5) * vec2(1.0, 0.72);
+	COLOR = vec4(0.0, 0.01, 0.02, smoothstep(0.34, 0.72, length(d)) * 0.42);
+}
+"""
 const STEP := 0.28                      # secondi tra due sbuffi di polvere correndo
 
 var m: Node2D
@@ -33,6 +40,20 @@ func setup(main: Node2D) -> void:
 	_air.emitting = false
 	m.fx.add_child(_air)
 	m.player.landed.connect(_on_landed)
+	# (voce 287) la vignettatura: gli angoli dello schermo appena più scuri, sotto l'interfaccia; lo sguardo va al centro
+	var layer := CanvasLayer.new()
+	layer.layer = 5
+	add_child(layer)
+	var v := ColorRect.new()
+	v.set_anchors_preset(Control.PRESET_FULL_RECT)
+	v.size = Vector2(1600, 900)
+	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var sh := Shader.new()
+	sh.code = VIGNETTE
+	var mat := ShaderMaterial.new()
+	mat.shader = sh
+	v.material = mat
+	layer.add_child(v)
 
 
 func _process(dt: float) -> void:

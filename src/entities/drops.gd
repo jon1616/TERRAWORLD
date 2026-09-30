@@ -41,10 +41,37 @@ func spawn(id: String, n: int, pos: Vector2, dati := {}) -> void:
 	sp.texture = _icons[id]
 	sp.scale = Vector2(0.75, 0.75)
 	sp.position = pos
+	# (voce 288) gli oggetti che contano (tipo o qualità, come la tinta delle caselle) brillano del loro colore
+	var tint := SlotView.tint_of({"id": id, "n": n, "dati": dati})
+	if tint.a > 0.0:
+		var gl := Sprite2D.new()
+		gl.texture = _halo()
+		gl.modulate = Color(tint.r * 1.6, tint.g * 1.6, tint.b * 1.6, 0.55)
+		gl.show_behind_parent = true
+		gl.scale = Vector2(1.6, 1.6)
+		sp.add_child(gl)
 	add_child(sp)
 	_items.append({"node": sp, "id": id, "n": n, "vel": Vector2(_rng.randf_range(-40, 40), -_rng.randf_range(60, 120)), "t": 0.0})
 	if not dati.is_empty():
 		_items[-1]["dati"] = dati.duplicate(true)
+
+
+## L'alone dietro gli oggetti che brillano: un disco morbido, lo stesso per tutti (tinto dal colore).
+static var _halo_tex: Texture2D
+static func _halo() -> Texture2D:
+	if _halo_tex == null:
+		var g := Gradient.new()
+		g.set_color(0, Color(1, 1, 1, 0.9))
+		g.set_color(1, Color(1, 1, 1, 0.0))
+		var gt := GradientTexture2D.new()
+		gt.gradient = g
+		gt.fill = GradientTexture2D.FILL_RADIAL
+		gt.fill_from = Vector2(0.5, 0.5)
+		gt.fill_to = Vector2(0.5, 0.0)
+		gt.width = 24
+		gt.height = 24
+		_halo_tex = gt
+	return _halo_tex
 
 
 ## L'oggetto a terra più vicino a un punto, entro `r` pixel (per i suggerimenti): {"id", "n", "dati", "key"} o {}.
@@ -91,7 +118,7 @@ func _process(dt: float) -> void:
 			vel = r["vel"]
 			d["rest"] = bool(r["floor"]) and absf(vel.x) < 1.0
 		d["vel"] = vel
-		sp.offset.y = sin(float(d["t"]) * 3.0) * 1.0
+		sp.offset.y = roundf(sin(float(d["t"]) * 3.0) * 1.4)     # (a pixel interi)
 		if room and dist < PICK:
 			var n: int = d["n"]
 			var left := bisaccia.add_stack({"id": d["id"], "n": n, "dati": d["dati"]}) if d.has("dati") else bisaccia.add(d["id"], n)
