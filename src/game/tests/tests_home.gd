@@ -121,6 +121,9 @@ func stages() -> void:
 			var o: Dictionary = o0["any"][0] if (o0 as Dictionary).has("any") else o0
 			if o.has("item"):
 				b.add(String(o["item"]), int(o["n"]))
+			elif o.has("grado"):                     # Roadmap 28: il grado di un pilastro
+				var pl := String(o["grado"])
+				m.mastery.add(pl, maxf(MasteryData.points_for(pl, int(o["n"])) - m.mastery.points(pl), 0.0) + 1.0)
 			else:
 				m.character.stats[String(o["stat"])] = maxi(int(m.character.stats.get(String(o["stat"]), 0)), int(o["n"]))
 		am.offer()
@@ -191,13 +194,14 @@ func villagers() -> void:
 	var base := world.spawn + Vector2i(-26, 0)
 	kit.flatten(base, 44)
 	world.stations[base + Vector2i(0, -int(StationsData.STATIONS["focolare"]["size"][1]) + 1)] = "focolare"
-	for k in 16:                                   # Roadmap 21: con gli abitanti dell'Atto II ne arrivano di più
-		var o := base + Vector2i(-36 + k * 4 + (5 if k >= 8 else 0), -int(StationsData.STATIONS["letto"]["size"][1]) + 1)
+	for k in 16:                                   # Roadmap 21 e 25: con gli abitanti nuovi ne arrivano di più
+		# (tutti entro `NpcData.HOME_RANGE` dal Focolare, a destra e a sinistra)
+		var o := base + Vector2i(-25 + k * 3 if k < 8 else 3 + (k - 8) * 3, -int(StationsData.STATIONS["letto"]["size"][1]) + 1)
 		world.stations[o] = "letto"
 	for o in world.stations:
 		m.view.add_station(o)
 	var came := [first]
-	for k in 18:
+	for k in 22:
 		var n := vl.check()
 		if n == "":
 			break

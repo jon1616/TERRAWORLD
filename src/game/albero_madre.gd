@@ -91,6 +91,8 @@ func _progress_of(i: int, j: int) -> Array:
 	var need := int(o["n"])
 	if o.has("stat"):
 		return [mini(int(m.character.stats.get(String(o["stat"]), 0)), need), need]
+	if o.has("grado"):                                # Roadmap 28: il grado di un pilastro
+		return [mini(m.mastery.grade(String(o["grado"])) if m.get("mastery") != null else 0, need), need]
 	var key := str(i) if j < 0 else "%d:%d" % [i, j]
 	return [mini(int((m.character.albero["offerte"] as Dictionary).get(key, 0)), need), need]
 
@@ -157,6 +159,9 @@ func awaken() -> bool:
 		if m.character.bisaccia.add_stack({"id": item, "n": 1, "dati": gen}) > 0:
 			m.drops.spawn(item, 1, m.player.position, gen)
 		news.append("un Seme del cosmo: %s" % LostGardensData.name_of(sid))
+	if gv.get("primo", false) and m.get("legends") != null and not m.character.leggende.has("primo_dato"):
+		m.legends.give_primo()                     # Roadmap 28: l'ultimo dono dell'Atto III
+		news.append("il Seme Primo")
 	if gv.has("items"):
 		news.append("il corredo della rete (il filo ti guida al primo circuito)" if (gv["items"] as Dictionary).has("pinza_vene")
 			else "dei doni")

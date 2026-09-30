@@ -21,6 +21,34 @@ const PAGES := {
 		"text": "I rovi si ritirano. I Cervi tornano a brucare vicino al tronco, e uno ti annusa la mano.\n«Il Giardiniere se ne andò una mattina», dice l'Albero, «e noi aspettammo. Poi dimenticammo che cosa aspettavamo.»"},
 	"perduto_muto": {"title": "L'Albero muto",
 		"text": "La prima parola che l'Albero ritrova è il tuo nome, anche se non gliel'hai mai detto.\n«Il Seme che cadde», dice, «non cadde da solo. Qualcuno lo lasciò andare.» Poi tace, ma è un silenzio diverso: quello di chi pensa."},
+	# Roadmap 28, l'Atto III «Il Seme Primo»
+	"atto3_eco": {"title": "L'eco oltre il Vuoto",
+		"text": "L'Albero-Madre ascolta. Oltre i quattro Giardini c'è una voce lenta e profonda, come quella di un albero che parla nel sonno.
+Non chiede aiuto. Chiama per nome qualcuno che non c'è più."},
+	"atto3_parole": {"title": "Le parole antiche",
+		"text": "La voce parla la lingua dei Seminatori, ma con parole che nessuna stele ricorda. L'Albero-Madre le ripete piano, una per una.
+«Radice. Ritorno. Promessa.» Poi tace, come chi ha capito qualcosa che fa male."},
+	"atto3_forza": {"title": "La forza del Giardino",
+		"text": "Lungo la radice più lunga qualcosa ha combattuto, tanto tempo fa: la corteccia è segnata da ferite chiuse male.
+Chi c'è oltre il Vuoto ha difeso la radice da solo. Ora tocca a te difendere la strada."},
+	"atto3_stirpi": {"title": "Le stirpi",
+		"text": "Le creature del Giardino si voltano tutte insieme verso il cielo, la stessa notte, senza un suono.
+Le stirpi più antiche ricordano la radice: i loro avi la attraversarono con i Seminatori."},
+	"atto3_raccolto": {"title": "Il raccolto",
+		"text": "L'Albero-Madre assaggia ciò che hai coltivato e trema di piacere. «Così facevano loro», dice. «Seminavano per chi sarebbe venuto dopo.»
+Oltre il Vuoto, dice, la terra non ha più nessuno che semini."},
+	"atto3_acque": {"title": "Le acque",
+		"text": "Nelle radici del cosmo scorre di nuovo un filo d'acqua. Porta con sé il sapore di un lago che non conosci: freddo, fermo, antichissimo.
+L'acqua oltre il Vuoto aspetta da troppo tempo qualcuno che la faccia muovere."},
+	"atto3_linfa": {"title": "La Linfa dei mondi",
+		"text": "Tutta la Linfa delle tue reti scorre verso l'Albero-Madre e da lì lungo la radice più lunga, come in una Centrale grande quanto il cosmo.
+La radice si scalda. In fondo, qualcosa si apre."},
+	"atto3_casa": {"title": "La casa",
+		"text": "«Se tornano», dice l'Albero-Madre, «devono trovare una casa.» Guarda il Giardino che hai costruito e per la prima volta sorride davvero.
+Non dice chi dovrebbe tornare. Lo sai già."},
+	"atto3_amici": {"title": "Gli amici",
+		"text": "Gli abitanti del Giardino si radunano attorno all'Albero-Madre. Nessuno ha paura: hanno visto che cosa sai fare.
+«Vai», dicono. «Noi teniamo accese le luci finché torni.»"},
 	"radici_cosmo": {"title": "Le radici del cosmo",
 		"text": "Quattro Alberi respirano insieme all'Albero-Madre. Le radici del cosmo, sopra il Giardino, si accendono di una luce che non avevi mai visto.\nPiù lontano, oltre i quattro, qualcosa risponde. Non è un Albero. È più vecchio."},
 	"albero_primo_respiro": {

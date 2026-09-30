@@ -137,6 +137,17 @@ func _init() -> void:
 				minutes += m
 				stat_min += m
 				notes.append("%s %.0f min" % [sid, m])
+		# Roadmap 28: il grado di un pilastro (un punto ≈ un minuto di quell'attività)
+		for o0 in st["offers"]:
+			var o: Dictionary = o0["any"][0] if (o0 as Dictionary).has("any") else o0
+			if o.has("grado"):
+				var pl := String(o["grado"])
+				var miss := maxf(MasteryData.points_for(pl, int(o["n"])) - float(mastery.get(pl, 0.0)), 0.0)
+				if miss > 0.0:
+					minutes += miss
+					focus_min += miss
+					mastery[pl] = float(mastery.get(pl, 0.0)) + miss
+					notes.append("%s al grado %d %.0f min" % [pl, int(o["n"]), miss])
 		_stat_points("albero", 1.0)
 		var h := (minutes - before) / 60.0
 		_p("   %2d «%s»: %5.1f h (%5.1f) · giri di mondo %d%s" % [k + 1, st["name"], h, h * MEDIO, worlds - w0,

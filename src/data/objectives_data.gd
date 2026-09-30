@@ -143,6 +143,13 @@ const LIST := [
 		"reward": {"linfa_antica": 2}},
 	{"id": "albero_12", "text": "Sveglia l'Albero-Madre", "check": {"stat": "albero", "n": 12},
 		"reward": {"polvere_iridata": 5}},
+	# Roadmap 28: gli atti dopo il risveglio
+	{"id": "albero_24", "text": "Fai respirare le radici del cosmo (l'Atto II dell'Albero-Madre)", "check": {"stat": "albero", "n": 24},
+		"reward": {"linfa_antica": 5}},
+	{"id": "albero_34", "text": "Ricevi il Seme Primo dall'Albero-Madre (l'Atto III)", "check": {"stat": "albero", "n": 34},
+		"reward": {"polvere_iridata": 8}},
+	{"id": "seme_primo", "text": "Pianta il Seme Primo e compi ciò che trovi oltre il Vuoto", "check": {"stat": "seme_primo", "n": 1},
+		"reward": {"linfa_antica": 8}},
 	{"id": "sigillo", "text": "Apri un Sigillo con un potere dell'Albero-Madre (clic destro sul Sigillo)",
 		"check": {"stat": "sigilli", "n": 1}, "reward": {"linfa_antica": 1}},
 	{"id": "richiesta", "text": "Compi la richiesta personale di un abitante del Giardino",

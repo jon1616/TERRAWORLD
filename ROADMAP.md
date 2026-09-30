@@ -4345,6 +4345,42 @@ La pesca ha una meta lunga: il **libro dei record** con bronzo, argento e oro pe
 giorno** del Pescatore con la sua serie. La rete ha i **contratti della Tessitrice**, quattro richieste che crescono di
 grado e chiedono reti sempre più grandi. Tutto al grado 10: ~464 ore (518 per il giocatore medio).
 
+# Roadmap 28 «Il Seme Primo» — l'Atto III e il finale (dal 30 set 2026)
+
+## Da dove si parte
+La storia ha due atti (il risveglio, le radici del cosmo). Il Seme Primo arriva da sé quando l'Albero è sveglio del
+tutto, e il suo mondo è un mondo generato come gli altri; non esiste un finale. Le cronache perdute dicono che i
+Seminatori partirono lungo la radice più lunga, verso un Giardino oltre il Vuoto. Obiettivo: un Atto III che chieda
+tutti i pilastri, un luogo e un Guardiano scritti a mano per il Primo Mondo, un finale con l'epilogo, e un dopo.
+
+## 262. [x] L'Atto III dell'Albero-Madre (G) — fatto il 30 set 2026
+Dieci stadi nuovi («Il Seme Primo»): ognuno chiede un pilastro (il suo grado, un'offerta nuova `grado`, e le cose delle
+Roadmap 22-27), con le sue pagine; l'ultimo dona il Seme Primo. Obiettivi per gli atti.
+**Fatto**: `MotherTreeData.ACTS[2]` e gli stadi 25-34: l'eco oltre il Vuoto (esplorazione), le parole antiche (misteri),
+la forza del Giardino (combattimento), le stirpi (mandria), il raccolto (orto), le acque (pesca), la Linfa dei mondi
+(rete), la casa (Giardino), gli amici (abitanti), il Seme Primo (storia). Ognuno chiede il grado 4 del suo pilastro
+(offerta nuova `{"grado": pilastro, "n": g}`, letta da `AlberoMadre._progress_of`) e le cose nuove delle Roadmap 22-27
+(meraviglie, stelle, cronache, Museo, taglie, stirpi pure, varietà, piatti, ori di pesca, gare, contratti, bellezza,
+opere, capitoli, botteghe…), con strade alternative; nove pagine di storia (`atto3_*` in `LoreData`); l'ultimo stadio
+chiede il grado 7 della storia e dona il Seme Primo (`gives.primo` → `Legends.give_primo`). Obiettivi per l'Atto II,
+l'Atto III e il Seme Primo. `tools/durata.gd` conta i gradi (un punto ≈ un minuto): la storia diretta passa da 91 a 131
+ore (210 per il giocatore medio). Le prove del Giardino preparano i letti nel raggio della casa.
+
+## 263. [ ] Il Giardino oltre il Vuoto (G)
+Il Primo Mondo ha un luogo scritto a mano: l'Albero Antico, sveglio, in una radura di stele e serre in rovina, e il suo
+Custode, l'ultimo Seminatore rimasto (un Guardiano scritto a mano con due fasi).
+
+## 264. [ ] Il finale (M)
+Dopo il Custode, l'Albero Antico racconta dove sono andati i Seminatori; l'epilogo con i numeri della partita e i
+titoli di coda; il Giardino cambia (l'Albero-Madre d'oro).
+
+## 265. [ ] Il dopo (M)
+Dopo il finale: ogni settimana di gioco l'Albero-Madre dona un Seme d'oro (vigore sempre più alto, un gene stellare),
+la Bacheca dell'Albero con richieste più grandi, e tutti i pilastri restano aperti.
+
+## 266. [ ] Enciclopedia, misura e resoconto del piano (P)
+Capitoli, consigli, `tools/durata.gd`, giro intero, GitHub, e il resoconto del piano «Le dieci strade».
+
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».
 - Grafica: ora nella Roadmap 13 «Il volto del mondo» (armatura e colpo in corsa alla voce 117, creature 114-116).

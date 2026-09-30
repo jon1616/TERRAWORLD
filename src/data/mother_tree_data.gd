@@ -15,12 +15,15 @@ extends RefCounted
 ## Bisaccia: il corredo della rete, Roadmap 19).
 ## Roadmap 20, voce 217, **strade alternative**: {"any": [offerta, offerta, …]} = basta una di queste (le strade di
 ## pilastri diversi: chi costruisce, chi esplora, chi alleva avanza ognuno a modo suo). `AlberoMadre.alt`.
+## Roadmap 28: {"grado": pilastro, "n": g} = il grado di un pilastro della maestria (`Mastery.grade`); il dono
+## "primo": true = il Seme Primo (`Legends.give_primo`).
 
 ## Roadmap 21: gli **atti** della storia dell'Albero (il primo stadio di ognuno e il nome). Il dono `seed` di uno stadio
 ## = il Seme del cosmo di un Giardino perduto (`LostGardensData`).
 const ACTS := [
 	{"first": 0, "name": "Il risveglio"},
 	{"first": 12, "name": "Le radici del cosmo"},
+	{"first": 24, "name": "Il Seme Primo"},
 ]
 
 
@@ -230,6 +233,75 @@ const STAGES := [
 			{"item": "polvere_iridata", "n": 4, "hint": "dalle creature iridate, dai Custodi, dagli Alberi guariti"},
 		],
 		"gives": {"aiuola": 1, "lore": "radici_cosmo", "items": {"linfa_antica": 5, "polvere_iridata": 3}}},
+	# Roadmap 28, l'Atto III «Il Seme Primo»: ogni stadio chiede un pilastro (il suo grado e le sue cose nuove)
+	{"name": "L'eco oltre il Vuoto", "say": "Oltre i quattro fratelli qualcosa risponde, più vecchio di me. Per sentirlo devo conoscere i mondi come li conosci tu.",
+		"offers": [
+			{"grado": "esplorazione", "n": 4, "text": "L'esplorazione al grado 4", "hint": "il Libro dei pilastri: scoprire, trovare firme, meraviglie e segreti"},
+			{"stat": "meraviglie", "n": 6, "text": "Vedi sei meraviglie", "hint": "la Bussola delle meraviglie e l'Atlante"},
+			{"stat": "stelle", "n": 20, "text": "Venti stelle nell'Atlante", "hint": "firme, Guardiani, Sigilli, segreti e mappe dei mondi"},
+		],
+		"gives": {"lore": "atto3_eco", "items": {"linfa_antica": 3}}},
+	{"name": "Le parole antiche", "say": "La voce oltre il Vuoto parla la lingua dei Seminatori, ma più antica. Ricorda per me le loro storie.",
+		"offers": [
+			{"grado": "misteri", "n": 4, "text": "I misteri al grado 4", "hint": "stele, reliquie, unici, cronache e il Museo"},
+			{"stat": "cronache", "n": 3, "text": "Ricomponi tre cronache perdute", "hint": "i frammenti negli scrigni delle rovine"},
+			{"stat": "museo", "n": 25, "text": "Venticinque pezzi nel Museo", "hint": "le Vetrine del Giardino"},
+		],
+		"gives": {"lore": "atto3_parole", "items": {"tavoletta_seminatori": 3}}},
+	{"name": "La forza del Giardino", "say": "Chi c'è oltre il Vuoto è stato ferito. Per andare da lui serve una forza che non ho: la tua.",
+		"offers": [
+			{"grado": "combattimento", "n": 4, "text": "Il combattimento al grado 4", "hint": "Guardiani, Signori, taglie, prove del Cerchio"},
+			{"stat": "taglie", "n": 6, "text": "Riscuoti sei taglie", "hint": "il Cacciatore di taglie"},
+			{"any": [{"stat": "prove_vinte", "n": 1, "text": "Vinci tutte le ondate di una prova del Cerchio", "hint": "il Cerchio dei Seminatori"}, {"stat": "signori", "n": 8, "text": "Sconfiggi otto Signori", "hint": "con le loro esche rituali, nei loro luoghi"}]},
+		],
+		"gives": {"lore": "atto3_forza", "items": {"scheggia_vigore": 10}}},
+	{"name": "Le stirpi", "say": "Le creature che vivono con te hanno una memoria lunga. Nelle loro stirpi c'è la strada.",
+		"offers": [
+			{"grado": "mandria", "n": 4, "text": "La mandria al grado 4", "hint": "addomesticare, allevare, le fiere"},
+			{"any": [{"stat": "stirpi_pure", "n": 1, "text": "Una stirpe pura", "hint": "cinque generazioni della stessa variante"}, {"stat": "medaglie", "n": 5, "text": "Cinque medaglie alle fiere", "hint": "le fiere della mandria, nel Giardino"}]},
+		],
+		"gives": {"lore": "atto3_stirpi", "items": {"vasetto": 3, "polvere_iridata": 2}}},
+	{"name": "Il raccolto", "say": "Oltre il Vuoto la terra ha fame. Portami il meglio del tuo orto.",
+		"offers": [
+			{"grado": "orto", "n": 4, "text": "L'orto al grado 4", "hint": "seminare, raccogliere, incrociare, cucinare"},
+			{"stat": "ibridi", "n": 4, "text": "Scopri quattro varietà da incrocio", "hint": "colture diverse mature una accanto all'altra"},
+			{"stat": "piatti", "n": 20, "text": "Cucina venti piatti", "hint": "il Paiolo e il Ricettario"},
+		],
+		"gives": {"lore": "atto3_raccolto", "items": {"linfa_antica": 3}}},
+	{"name": "Le acque", "say": "Le radici bevono. Oltre il Vuoto le acque sono ferme da troppo tempo.",
+		"offers": [
+			{"grado": "pesca", "n": 4, "text": "La pesca al grado 4", "hint": "record, gare, pesci di tutti i mondi"},
+			{"stat": "ori_pesca", "n": 5, "text": "Cinque medaglie d'oro di pesca", "hint": "il pesce più grande di una specie"},
+			{"stat": "gare_pesca", "n": 5, "text": "Vinci cinque gare del Pescatore", "hint": "la gara del giorno"},
+		],
+		"gives": {"lore": "atto3_acque", "items": {"forziere_sommerso": 1}}},
+	{"name": "La Linfa dei mondi", "say": "Per aprire la radice più lunga serve tanta Linfa che scorra insieme, come nelle Centrali dei Seminatori.",
+		"offers": [
+			{"grado": "rete", "n": 4, "text": "La rete di Linfa al grado 4", "hint": "vene, fili, macchine, Centrali"},
+			{"stat": "contratti", "n": 6, "text": "Compi sei contratti della Tessitrice", "hint": "reti sempre più grandi"},
+		],
+		"gives": {"lore": "atto3_linfa", "items": {"cristallo_linfa": 6}}},
+	{"name": "La casa", "say": "Chi tornerà con te dovrà trovare una casa bella. Fai del Giardino un luogo dove si vuole restare.",
+		"offers": [
+			{"grado": "giardino", "n": 4, "text": "Il Giardino e la base al grado 4", "hint": "costruire, stanze, opere"},
+			{"stat": "bellezza_max", "n": 250, "text": "La bellezza del Giardino a 250", "hint": "stanze, abitanti felici, orto, macchine, Museo"},
+			{"stat": "opere", "n": 1, "text": "Una grande opera del Giardino", "hint": "i progetti del Cartografo"},
+		],
+		"gives": {"aiuola": 1, "lore": "atto3_casa"}},
+	{"name": "Gli amici", "say": "Nessuno parte da solo per il Vuoto. Chi vive nel Giardino deve fidarsi di te.",
+		"offers": [
+			{"grado": "abitanti", "n": 4, "text": "Gli abitanti al grado 4", "hint": "richieste, storie, botteghe, visitatori"},
+			{"stat": "capitoli", "n": 15, "text": "Quindici capitoli delle storie degli abitanti", "hint": "l'affetto apre le loro storie"},
+			{"any": [{"stat": "botteghe", "n": 20, "text": "Venti lavori delle botteghe", "hint": "i mestieri degli abitanti"}, {"stat": "visitatori", "n": 12, "text": "Dodici visitatori nel Giardino", "hint": "la bellezza li attira"}]},
+		],
+		"gives": {"lore": "atto3_amici", "items": {"polvere_iridata": 3}}},
+	{"name": "Il Seme Primo", "say": "Ho sentito tutto. La radice più lunga si apre: alla sua punta c'è un seme che nessuno ha piantato. È tuo.",
+		"offers": [
+			{"grado": "storia", "n": 7, "text": "La storia al grado 7", "hint": "l'Albero-Madre, i Giardini perduti, le catene"},
+			{"item": "linfa_antica", "n": 6, "hint": "dai Cuori dei mondi"},
+			{"item": "polvere_iridata", "n": 5, "hint": "dalle creature iridate, dai Custodi, dagli Alberi guariti"},
+		],
+		"gives": {"primo": true}},
 ]
 
 ## Le categorie di geni che il Banco sa innestare prima di ogni dono (le altre si aprono con gli stadi).
