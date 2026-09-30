@@ -33,6 +33,8 @@ static func scan(roots: Array) -> Array[String]:
 			var b := texts[j]
 			if a.is_ancestor_of(b) or b.is_ancestor_of(a):
 				continue
+			if _floats(a) != _floats(b):
+				continue                     # una cartolina che galleggia sopra tutto (avvisi) copre, non si mescola
 			var rb := _text_rect(b).intersection(clips[b])
 			var inter := ra.intersection(rb)
 			if inter.size.x > 2.0 and inter.size.y > 2.0:
@@ -66,10 +68,18 @@ static func _visit(ctl: Control, clip: Rect2, out: Array[String], texts: Array[C
 		if vis.size.x <= 0.0 or vis.size.y <= 0.0:
 			return false
 	_check(ctl, clip, out)
-	if _is_text(ctl) and ctl.size.x > 0.0 and ctl.size.y > 0.0:
+	if _is_text(ctl) and ctl.size.x > 0.0 and ctl.size.y > 0.0 and not clips.has(ctl):    # (un ramo dato due volte)
 		texts.append(ctl)
 		clips[ctl] = clip
 	return true
+
+
+static func _floats(c: Node) -> bool:
+	while c != null:
+		if c.has_meta("fluttua"):
+			return true
+		c = c.get_parent()
+	return false
 
 
 static func _is_text(c: Control) -> bool:
@@ -90,6 +100,11 @@ static func _check(c: Control, clip: Rect2, out: Array[String]) -> void:
 	# per una Label conta dove sta davvero il testo: se è più largo del suo spazio e non è tagliato, deborda
 	if c is Label and not (c as Label).clip_text:
 		r = r.merge(_text_rect(c, false))
+	# ritagliato di lato: le liste scorrono in verticale, mai in orizzontale, quindi un testo tagliato a destra o a
+	# sinistra è un taglio vero (la categoria «Giardino e mandria 0/» di Creare)
+	if clipped and _is_text(c) and r.intersection(clip).size.y > 0.0 \
+			and (r.end.x > clip.end.x + TOL or r.position.x < clip.position.x - TOL):
+		out.append("TAGLIO: %s — tagliato di lato da chi lo contiene" % _name(c))
 	if clipped:
 		r = r.intersection(clip)
 	if r.position.x < SCREEN.position.x - TOL or r.position.y < SCREEN.position.y - TOL \
@@ -125,6 +140,12 @@ static func _cut(c: Control) -> String:
 		var ms2 := b.get_minimum_size()
 		if b.text != "" and b.clip_text and (b.size.x + 1.0 < ms2.x or b.size.y + 1.0 < ms2.y):
 			return "pulsante più piccolo del suo testo"
+		if b.text != "" and b.icon == null:
+			var sb := b.get_theme_stylebox("normal")
+			var tw := b.get_theme_font("font").get_string_size(b.text, HORIZONTAL_ALIGNMENT_LEFT, -1,
+				b.get_theme_font_size("font_size")).x + sb.content_margin_left + sb.content_margin_right
+			if tw > b.size.x + 2.0:
+				return "il testo è largo %d, il pulsante %d («%s»)" % [tw, b.size.x, b.text.left(30)]
 	return ""
 
 

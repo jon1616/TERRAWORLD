@@ -81,15 +81,8 @@ func setup(b: Bisaccia, near: Callable) -> void:
 
 
 ## La cornice scura dei riquadri della Bisaccia aperta (Creare, Esamina, la scheda del Germogliato).
-static func panel_box(border: Color) -> StyleBoxFlat:
-	var sb := StyleBoxFlat.new()
-	sb.bg_color = BG
-	sb.border_color = border
-	sb.set_border_width_all(2)
-	sb.set_corner_radius_all(14)
-	sb.shadow_color = Color(0, 0, 0, 0.5)
-	sb.shadow_size = 6
-	return sb
+static func panel_box(border: Color) -> StyleBox:
+	return UiFrames.box("forte", "normale", Color(0, 0, 0, 0) if border == UiPalette.BORDO else border)
 
 
 ## Con una cassa aperta il riquadro lascia il posto alla cassa (il nome viene dalla colonna alta di prima).
@@ -239,13 +232,14 @@ func refresh() -> void:
 	for k in _cat_buttons.size():
 		var b := _cat_buttons[k]
 		b.button_pressed = k == cat
-		if k == 0:
-			b.text = "Tutto   %d" % possible
-		elif k == WORK_CAT:
-			b.text = "Lavorazioni   %d" % work.size()
+		# il nome a sinistra, a destra quante ricette si possono fare adesso (voce 279: «nome  0/40» non ci stava)
+		var n := possible if k == 0 else (work.size() if k == WORK_CAT else int(totals[k - 1][0]))
+		b.text = "Tutto" if k == 0 else ("Lavorazioni" if k == WORK_CAT else String(CATS[k][0]))
+		var badge := b.get_node("n") as Label
+		badge.text = str(n)
+		badge.add_theme_color_override("font_color", UiPalette.BUONO if n > 0 else UiPalette.TESTO_MUTO)
+		if k == WORK_CAT:
 			b.visible = not work.is_empty() or cat == WORK_CAT
-		else:
-			b.text = "%s   %d/%d" % [CATS[k][0], totals[k - 1][0], totals[k - 1][1]]
 	# le lavorazioni (in «Tutto» e nella loro categoria)
 	for c in _work_box.get_children():
 		c.queue_free()

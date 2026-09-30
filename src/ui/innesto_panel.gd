@@ -25,15 +25,18 @@ func setup(main: Node2D) -> void:
 	visible = false
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var bg := ColorRect.new()
-	bg.color = Color(0.01, 0.03, 0.04)
+	bg.color = UiPalette.FONDO                 # opaco: la fusione è lineare, al 97% il mondo si vedeva ancora
 	bg.size = Vector2(1600, 900)
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(bg)
+	# (voce 281) i riquadri delle colonne
+	UiScreen.box(self, Rect2(104, 100, 652, 742))
+	UiScreen.box(self, Rect2(764, 100, 752, 742))
 	_title = Label.new()
 	_title.position = Vector2(120, 40)
 	_title.text = "Banco dell'Innestatrice — due Semi di mondo, una Linfa antica, e nasce un Seme nuovo"
-	_title.add_theme_font_size_override("font_size", 26)
-	_title.add_theme_color_override("font_color", Color("#8ef0d8"))
+	_title.add_theme_font_size_override("font_size", UiPalette.TITOLO)
+	_title.add_theme_color_override("font_color", UiPalette.AMBRA)
 	add_child(_title)
 	var scroll := ScrollContainer.new()
 	scroll.position = Vector2(120, 110)

@@ -29,15 +29,18 @@ func setup(main: Node2D) -> void:
 	visible = false
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var bg := ColorRect.new()
-	bg.color = Color(0.01, 0.03, 0.04)
+	bg.color = UiPalette.FONDO                 # opaco: la fusione è lineare, al 97% il mondo si vedeva ancora
 	bg.size = Vector2(1600, 900)
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(bg)
+	# (voce 281) i riquadri delle colonne
+	UiScreen.box(self, Rect2(60, 220, 684, 624))
+	UiScreen.box(self, Rect2(748, 220, 792, 624))
 	var title := Label.new()
 	title.text = "Il Quaderno delle parole"
 	title.position = Vector2(80, 26)
-	title.add_theme_font_size_override("font_size", 30)
-	title.add_theme_color_override("font_color", Color("#6ff0b8"))
+	title.add_theme_font_size_override("font_size", UiPalette.TITOLO)
+	title.add_theme_color_override("font_color", UiPalette.AMBRA)
 	add_child(title)
 	_head = RichTextLabel.new()
 	_head.bbcode_enabled = true
@@ -194,15 +197,7 @@ func _show_word() -> void:
 					b.text = "«%s»?" % LanguageData.it(String(o))
 					b.add_theme_font_size_override("font_size", 16)
 					b.custom_minimum_size = Vector2(150, 40)
-					var sb := StyleBoxFlat.new()
-					sb.bg_color = Color(0.12, 0.09, 0.03)
-					sb.border_color = Color("#e0b060")
-					sb.set_border_width_all(2)
-					sb.set_corner_radius_all(8)
-					b.add_theme_stylebox_override("normal", sb)
-					var sh := sb.duplicate() as StyleBoxFlat
-					sh.bg_color = Color(0.22, 0.16, 0.05)
-					b.add_theme_stylebox_override("hover", sh)
+					UiFrames.button(b, Color(0, 0, 0, 0), false, "principale")
 					var meaning := String(o)
 					b.pressed.connect(func() -> void:
 						var r := lg.guess(w, meaning)

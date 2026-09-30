@@ -13,6 +13,8 @@ var section := "creature"
 var selected := ""
 var _grid: Control
 var _title: Label
+var _sub: Label                        # le percentuali per scheda, sotto il titolo
+var _scroll: ScrollContainer           # la griglia scorre: le voci sono centinaia (voce 281: uscivano dallo schermo)
 var _detail: RichTextLabel
 var _tabs: Array[Button] = []
 var _creature_tex := {}
@@ -24,22 +26,27 @@ func setup(main: Node2D, e: Erbario) -> void:
 	visible = false
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var bg := ColorRect.new()
-	bg.color = Color(0.01, 0.03, 0.04)
+	bg.color = UiPalette.FONDO
 	bg.size = Vector2(1600, 900)
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(bg)
 	_title = Label.new()
-	_title.position = Vector2(120, 40)
-	_title.add_theme_font_size_override("font_size", 30)
-	_title.add_theme_color_override("font_color", Color("#8ef0d8"))
+	_title.position = Vector2(48, 22)
+	_title.add_theme_font_size_override("font_size", UiPalette.TITOLO)
+	_title.add_theme_color_override("font_color", UiPalette.AMBRA)
 	add_child(_title)
-	var x := 120.0
+	_sub = Label.new()
+	_sub.position = Vector2(48, 62)
+	_sub.add_theme_font_size_override("font_size", UiPalette.TESTO_PX)
+	_sub.add_theme_color_override("font_color", UiPalette.TESTO_SPENTO)
+	add_child(_sub)
+	var x := 48.0
 	for sec in [["creature", "Creature"], ["famiglie", "Famiglie"], ["oggetti", "Oggetti"], ["pagine", "Pagine di storia"],
 			["pesci", "Pesci"]]:
 		var b := Button.new()
 		b.text = sec[1]
-		b.position = Vector2(x, 96)
-		b.size = Vector2(170, 34)
+		b.position = Vector2(x, 92)
+		b.size = Vector2(170, 36)
 		_frame(b, Color("#2f7a70"))
 		var id: String = sec[0]
 		b.pressed.connect(func() -> void:
@@ -49,19 +56,36 @@ func setup(main: Node2D, e: Erbario) -> void:
 		add_child(b)
 		_tabs.append(b)
 		x += 180.0
+	# a sinistra la griglia (scorre), a destra la scheda della voce: due riquadri
+	var left := Panel.new()
+	left.position = Vector2(36, 140)
+	left.size = Vector2(COLS * (CELL + GAP) - GAP + 60, 700)
+	left.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(left)
+	_scroll = ScrollContainer.new()
+	_scroll.position = left.position + Vector2(18, 18)
+	_scroll.size = left.size - Vector2(30, 36)
+	_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	add_child(_scroll)
 	_grid = Control.new()
-	_grid.position = Vector2(120, 150)
-	add_child(_grid)
+	_scroll.add_child(_grid)
+	var right := Panel.new()
+	right.position = Vector2(left.position.x + left.size.x + 20, 140)
+	right.size = Vector2(1600 - 36 - right.position.x, 700)
+	right.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(right)
 	_detail = RichTextLabel.new()
 	_detail.bbcode_enabled = true
-	_detail.position = Vector2(780, 150)
-	_detail.size = Vector2(680, 640)
-	_detail.add_theme_font_size_override("normal_font_size", 16)
+	_detail.position = right.position + Vector2(20, 18)
+	_detail.size = right.size - Vector2(40, 36)
+	_detail.scroll_active = true
+	_detail.add_theme_font_size_override("normal_font_size", UiPalette.GRANDE)
 	add_child(_detail)
 	var hint := Label.new()
 	hint.text = "L o Esc per chiudere · clic su una voce per leggerla"
-	hint.position = Vector2(120, 850)
-	hint.add_theme_color_override("font_color", Color("#6a8a84"))
+	hint.position = Vector2(48, 858)
+	hint.add_theme_font_size_override("font_size", UiPalette.NOTA + 1)
+	hint.add_theme_color_override("font_color", UiPalette.TESTO_MUTO)
 	add_child(hint)
 
 
@@ -103,14 +127,11 @@ func _icon(id: String) -> Texture2D:
 
 ## Cornice nello stile della Bisaccia (fondo scuro, bordo turchese, angoli tondi) per un bottone.
 static func _frame(b: Button, border: Color) -> void:
-	for state in ["normal", "hover", "pressed", "focus"]:
-		var sb := StyleBoxFlat.new()
-		sb.bg_color = Color(0.03, 0.08, 0.09) if state != "hover" else Color(0.06, 0.14, 0.15)
-		sb.border_color = border
-		sb.set_border_width_all(2)
-		sb.set_corner_radius_all(10)
-		sb.set_content_margin_all(6)
-		b.add_theme_stylebox_override(state, sb)
+	var ac := Color(0, 0, 0, 0) if border == UiPalette.BORDO else border
+	for state in ["normal", "hover", "pressed"]:
+		var st := {"normal": "normale", "hover": "sopra", "pressed": "premuto"}[state] as String
+		b.add_theme_stylebox_override(state, UiFrames.padded("pulsante", st, ac, Vector2(6, 6)))
+	b.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
 
 
 ## Il suggerimento di una cella (26 set 2026): la scheda di un oggetto come nelle caselle, di una creatura quante ne hai
@@ -144,11 +165,11 @@ func _cell_tip(sec: String, id: String, known: bool) -> Variant:
 func _refresh() -> void:
 	for k in _tabs.size():
 		_frame(_tabs[k], Color("#ffb84a") if ["creature", "famiglie", "oggetti", "pagine", "pesci"][k] == section else Color("#2f7a70"))
-	_title.text = "Erbario — %d%% scoperto  (creature %d%% · famiglie %d%% · oggetti %d%% · pagine %d%%)" % [roundi(erbario.percent()),
-		roundi(erbario.percent("creature")), roundi(erbario.percent("famiglie")), roundi(erbario.percent("oggetti")),
-		roundi(erbario.percent("pagine"))]
+	_title.text = "Erbario — %d%% scoperto" % roundi(erbario.percent())
 	var fish := (erbario.data.get("pesci", {}) as Dictionary).size()
-	_title.text += "   · pesci %d su %d, a parte" % [fish, FishData.all().size()]
+	_sub.text = "Creature %d%%  ·  famiglie %d%%  ·  oggetti %d%%  ·  pagine %d%%  ·  pesci %d su %d, a parte" % [
+		roundi(erbario.percent("creature")), roundi(erbario.percent("famiglie")), roundi(erbario.percent("oggetti")),
+		roundi(erbario.percent("pagine")), fish, FishData.all().size()]
 	for c in _grid.get_children():
 		c.queue_free()
 	var list := Erbario.entries(section)
@@ -172,6 +193,8 @@ func _refresh() -> void:
 			selected = id
 			_refresh())
 		_grid.add_child(cell)
+	var rows := ceili(list.size() / float(COLS))
+	_grid.custom_minimum_size = Vector2(COLS * (CELL + GAP) - GAP, maxi(rows, 1) * (CELL + GAP) - GAP)
 	_show_detail()
 
 

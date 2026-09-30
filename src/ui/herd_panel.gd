@@ -5,7 +5,7 @@ extends Control
 ## In basso: quante ti seguono, i recinti di questo mondo, i vasetti vuoti. Si ridisegna quando la mandria cambia.
 
 const ROW := 52
-const ROWS := 14
+const ROWS := 12
 
 var m: Node2D
 var selected := -1                     # uid della creatura scelta
@@ -25,67 +25,72 @@ func setup(main: Node2D) -> void:
 	m = main
 	visible = false
 	mouse_filter = Control.MOUSE_FILTER_STOP
-	var bg := ColorRect.new()
-	bg.color = Color(0.01, 0.03, 0.04)
-	bg.size = Vector2(1600, 900)
-	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(bg)
-	_title = _label(Vector2(120, 40), 30, Color("#8ef0d8"))
+	# (voce 281) lo scheletro comune: a sinistra l'elenco con le pagine e i conti, a destra la scheda con i comandi
+	UiScreen.backdrop(self)
+	_title = UiScreen.title(self)
+	UiScreen.box(self, Rect2(UiScreen.SIDE, UiScreen.TOP, 700, UiScreen.BOTTOM - UiScreen.TOP))
+	UiScreen.box(self, Rect2(756, UiScreen.TOP, 1600 - UiScreen.SIDE - 756, UiScreen.BOTTOM - UiScreen.TOP))
 	_list = Control.new()
-	_list.position = Vector2(120, 100)
+	_list.position = Vector2(56, 110)
 	add_child(_list)
 	_detail = RichTextLabel.new()
 	_detail.bbcode_enabled = true
-	_detail.position = Vector2(780, 100)
-	_detail.size = Vector2(700, 300)
-	_detail.add_theme_font_size_override("normal_font_size", 16)
+	_detail.position = Vector2(776, 110)
+	_detail.size = Vector2(768, 300)
+	_detail.scroll_active = true
+	_detail.add_theme_font_size_override("normal_font_size", UiPalette.GRANDE)
 	add_child(_detail)
-	var x := 780.0
+	var x := 776.0
 	for b in [["segue", "Segui"], ["riposo", "Riposa"], ["recinto", "Al recinto"], ["guardia", "Di guardia"], ["vasetto", "Nel vasetto"],
 			["libera", "Libera"], ["coppia", "Coppia…"], ["fiera", "Alla fiera"],
 			["lavoro", "Lavoro…"]]:
 		var btn := Button.new()
 		btn.text = b[1]
-		btn.position = Vector2(x, 420)
-		btn.size = Vector2(128, 36)
-		ErbarioPanel._frame(btn, Color("#2f7a70"))
+		btn.position = Vector2(x, 426)
+		btn.size = Vector2(120, 36)
+		btn.focus_mode = Control.FOCUS_NONE
+		btn.add_theme_font_size_override("font_size", UiPalette.TESTO_PX)
 		var what: String = b[0]
 		btn.pressed.connect(func() -> void: _act(what))
 		add_child(btn)
 		_buttons[what] = btn
-		x += 138.0
+		x += 128.0
 	_name = LineEdit.new()
-	_name.position = Vector2(780, 476)
+	_name.position = Vector2(776, 474)
 	_name.size = Vector2(260, 36)
 	_name.max_length = 18
 	_name.placeholder_text = "Nuovo nome (Invio)"
 	_name.text_submitted.connect(_rename)
 	add_child(_name)
-	(_buttons["coppia"] as Button).position = Vector2(1060, 476)      # accanto al nome
+	(_buttons["coppia"] as Button).position = Vector2(1048, 474)      # accanto al nome
 	(_buttons["coppia"] as Button).size = Vector2(160, 36)
-	(_buttons["fiera"] as Button).position = Vector2(1230, 476)       # voce 242: le fiere della mandria
+	(_buttons["fiera"] as Button).position = Vector2(1216, 474)       # voce 242: le fiere della mandria
 	(_buttons["fiera"] as Button).size = Vector2(160, 36)
-	(_buttons["lavoro"] as Button).position = Vector2(780, 526)       # voce 243: i lavori della mandria
+	(_buttons["lavoro"] as Button).position = Vector2(776, 522)       # voce 243: i lavori della mandria
 	(_buttons["lavoro"] as Button).size = Vector2(160, 36)
+	var foot_y := 110.0 + ROWS * ROW + 8
 	var prev := Button.new()
 	prev.text = "‹"
-	prev.position = Vector2(120, 100 + ROWS * ROW + 6)
-	prev.size = Vector2(40, 30)
+	prev.position = Vector2(56, foot_y)
+	prev.size = Vector2(40, 34)
+	prev.focus_mode = Control.FOCUS_NONE
 	prev.pressed.connect(func() -> void:
 		_page = maxi(_page - 1, 0)
 		_dirty = true)
 	add_child(prev)
 	var nxt := Button.new()
 	nxt.text = "›"
-	nxt.position = Vector2(170, 100 + ROWS * ROW + 6)
-	nxt.size = Vector2(40, 30)
+	nxt.position = Vector2(104, foot_y)
+	nxt.size = Vector2(40, 34)
+	nxt.focus_mode = Control.FOCUS_NONE
 	nxt.pressed.connect(func() -> void:
 		_page += 1
 		_dirty = true)
 	add_child(nxt)
-	_foot = _label(Vector2(230, 100 + ROWS * ROW + 10), 16, Color("#9fc8c0"))
-	var hint := _label(Vector2(120, 850), 16, Color("#6a8a84"))
-	hint.text = "G o Esc per chiudere · clic destro con il suo cibo per nutrirla · R per cavalcare · il Recinto e l'Incubatrice si fanno al Ceppo"
+	_foot = _label(Vector2(160, foot_y - 2), UiPalette.TESTO_PX, UiPalette.TESTO_SPENTO)
+	_foot.size = Vector2(560, 44)
+	_foot.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	UiScreen.hint(self, "G o Esc per chiudere · clic destro con il suo cibo per nutrirla · R per cavalcare · il Recinto e l'Incubatrice si fanno al Ceppo")
 	m.herd.changed.connect(func() -> void: _dirty = true)
 
 
@@ -151,7 +156,7 @@ func _refresh() -> void:
 		var r: Dictionary = recs[k]
 		var b := Button.new()
 		b.position = Vector2(0, (k - _page * ROWS) * ROW)
-		b.size = Vector2(620, ROW - 6)
+		b.size = Vector2(660, ROW - 6)
 		b.icon = _icon(r)
 		b.expand_icon = false
 		b.alignment = HORIZONTAL_ALIGNMENT_LEFT

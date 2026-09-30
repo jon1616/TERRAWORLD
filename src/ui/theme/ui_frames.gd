@@ -12,8 +12,10 @@ extends RefCounted
 ##   suggerimento le schede che seguono il mouse (compatta, senza nodi)
 ##   casella      le caselle degli oggetti (stati: normale, sopra, scelto)
 ##   pulsante     i pulsanti (stati: normale, sopra, premuto, spento, scelto)
+##   principale   il pulsante che conta (Crea, Conferma): fondo d'ambra scura, bordo ambra; stati come pulsante
 ##   campo        i campi di testo (stato "scelto" quando si scrive)
-## L'accento (facoltativo) tinge bordo e fondo: le categorie di Creare, i tipi d'oggetto nelle caselle.
+## L'accento (facoltativo) tinge bordo e fondo: le categorie di Creare, i tipi d'oggetto nelle caselle; il suo alfa è
+## la forza della tinta (1 = piena). `padded` dà la stessa cornice con margini interni diversi.
 
 const S := 2                  # pixel dello schermo per pixel della cornice
 
@@ -41,11 +43,36 @@ static func box(kind: String, state := "normale", accent := Color(0, 0, 0, 0)) -
 	sb.content_margin_right = pad.x
 	sb.content_margin_top = pad.y
 	sb.content_margin_bottom = pad.y
-	if kind == "pulsante" and state == "premuto":
+	if kind in ["pulsante", "principale"] and state == "premuto":
 		sb.content_margin_top = pad.y + 2
 		sb.content_margin_bottom = pad.y - 2
 	_cache[key] = sb
 	return sb
+
+
+## La stessa cornice con i margini interni `pad` (orizzontale, verticale): per i pannelli che ne vogliono di più larghi.
+static func padded(kind: String, state: String, accent: Color, pad: Vector2) -> StyleBoxTexture:
+	var key := "%s|%s|%s|%s" % [kind, state, accent.to_html(), pad]
+	if not _cache.has(key):
+		var sb := box(kind, state, accent).duplicate() as StyleBoxTexture
+		sb.content_margin_left = pad.x
+		sb.content_margin_right = pad.x
+		sb.content_margin_top = pad.y
+		sb.content_margin_bottom = pad.y
+		_cache[key] = sb
+	return _cache[key]
+
+
+## Gli stili di un pulsante (normale, sopra, premuto, spento; il fuoco non si disegna) con un accento: `scelto` = il
+## pulsante resta acceso (una categoria scelta, una scheda aperta).
+static func button(b: Button, accent := Color(0, 0, 0, 0), chosen := false, kind := "pulsante") -> void:
+	var base := "scelto" if chosen else "normale"
+	b.add_theme_stylebox_override("normal", box(kind, base, accent))
+	b.add_theme_stylebox_override("hover", box(kind, "scelto" if chosen else "sopra", accent))
+	b.add_theme_stylebox_override("pressed", box(kind, "premuto", accent))
+	b.add_theme_stylebox_override("hover_pressed", box(kind, "premuto", accent))
+	b.add_theme_stylebox_override("disabled", box(kind, "spento", accent))
+	b.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
 
 
 ## Le scelte di ogni tipo e stato.
@@ -68,7 +95,7 @@ static func _spec(kind: String, state: String, accent: Color) -> Dictionary:
 			s["thread"] = Color(P.LINFA, 0.25)
 			s["fill"] = Color(P.PANNELLO, 0.97)
 			s["pad"] = Vector2(12, 9)
-		"casella", "pulsante", "campo":
+		"casella", "pulsante", "principale", "campo":
 			s["b"] = 16
 			s["m"] = 5
 			s["r"] = 2
@@ -88,6 +115,25 @@ static func _spec(kind: String, state: String, accent: Color) -> Dictionary:
 				s["border"] = P.AMBRA
 				s["fill"] = P.PANNELLO_VIVO
 				s["glow"] = Color(P.AMBRA, 0.4)
+	elif kind == "principale":
+		s["fill"] = Color("#3a2812")
+		s["border"] = P.AMBRA
+		s["thread"] = Color(P.AMBRA_CHIARA, 0.25)
+		s["pad"] = Vector2(16, 6)
+		match state:
+			"sopra", "scelto":
+				s["fill"] = Color("#5a3c16")
+				s["border"] = P.AMBRA_CHIARA
+				s["thread"] = Color(P.AMBRA_CHIARA, 0.45)
+			"premuto":
+				s["fill"] = Color("#2a1c0c")
+				s["bevel"] = -1.0
+				s["thread"] = Color(0, 0, 0, 0)
+			"spento":
+				s["fill"] = Color("#2a2218", 0.6)
+				s["border"] = Color("#5a4a30")
+				s["bevel"] = 0.3
+				s["thread"] = Color(0, 0, 0, 0)
 	elif kind == "pulsante":
 		s["thread"] = Color(P.LINFA, 0.10)
 		match state:
@@ -114,9 +160,12 @@ static func _spec(kind: String, state: String, accent: Color) -> Dictionary:
 		s["border"] = Color(P.BORDO, 0.6) if state != "scelto" else P.LINFA
 		s["bevel"] = -1.0
 	if accent.a > 0.0:
-		s["fill"] = (s["fill"] as Color).lerp(accent, 0.10 if kind != "casella" else 0.16)
+		var ac := Color(accent, 1.0)
+		var f: Color = s["fill"]
+		s["fill"] = Color(f.lerp(ac, (0.10 if kind != "casella" else 0.16) * accent.a), f.a)
 		if kind != "casella" or state == "normale":
-			s["border"] = (s["border"] as Color).lerp(accent, 0.55)
+			var bc: Color = s["border"]
+			s["border"] = Color(bc.lerp(ac, 0.55 * accent.a), bc.a)
 	s["kind"] = kind
 	return s
 
@@ -154,8 +203,8 @@ static func _paint(s: Dictionary) -> Image:
 				c = border2
 			else:
 				# la trama di fibre (solo nella parte che si ripete, così combacia da una ripetizione all'altra)
-				if bool(s["pattern"]) and (x * 3 + y * 5) % 9 == 0:
-					c = c.lightened(0.03)
+				if bool(s["pattern"]) and ((x * 7 + y * 13) ^ (x * y)) % 11 == 0:
+					c = c.lightened(0.025)
 				# la testata del riquadro forte
 				if band.a > 0.0 and y < m - 1 and d > 1:
 					c = band

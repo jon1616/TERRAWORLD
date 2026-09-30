@@ -2,7 +2,7 @@ class_name TradePanel
 extends Control
 ## Il commercio con un abitante (voce 36), sopra la Bisaccia aperta come le ceste: in alto le merci dell'abitante
 ## (clic = compri, se hai i Lumini e il posto), sotto il prezzo; Maiusc+clic su una casella della Bisaccia vende la
-## pila, «Vendi ciò che hai in mano» vende la pila presa con il clic. Prezzi da `ValueData`.
+## pila, «Vendi ciò che tieni» vende la pila presa con il clic. Prezzi da `ValueData`.
 
 const COLS := 10
 const GAP := 6
@@ -18,6 +18,7 @@ var m: Node2D                           # voce 65: la scena (personaggio, Albero
 var _quest: Label
 var _deliver: Button
 var _gift: Button
+var _sell: Button
 var _work: Button                       # voce 232: la bottega dell'abitante (`NpcWork`)
 var sold := 0
 var _portrait: TextureRect
@@ -32,20 +33,18 @@ func setup(p: BisacciaPanel) -> void:
 	var w := COLS * SlotView.SIZE + (COLS - 1) * GAP
 	var x0 := (1600 - w) / 2.0
 	var bag_top := Hud.HOTBAR_Y - 16 - 3 * (SlotView.SIZE + GAP) - 44
-	var y0 := bag_top - 40 - SlotView.SIZE - 20
+	# (voce 280) dall'alto: testata con ritratto, nome, saluto e richiesta; una fila di pulsanti; la bottega; le merci
+	# con il prezzo. Il commercio prende il posto di «Creare», quindi c'è tutto lo spazio sopra la Bisaccia.
+	var fy := bag_top - 16 - 352
+	var y0 := fy + 260                                      # la fila delle merci
 	var frame := Panel.new()
-	var sb := StyleBoxFlat.new()
-	sb.bg_color = CraftingPanel.BG
-	sb.border_color = Color("#ffd08a")
-	sb.set_border_width_all(2)
-	sb.set_corner_radius_all(18)
-	frame.add_theme_stylebox_override("panel", sb)
-	frame.position = Vector2(x0 - 14, y0 - 124)
-	frame.size = Vector2(w + 28, SlotView.SIZE + 166)
+	frame.add_theme_stylebox_override("panel", UiFrames.box("forte", "normale", UiPalette.AMBRA_CHIARA))
+	frame.position = Vector2(x0 - 18, fy)
+	frame.size = Vector2(w + 36, 352)
 	frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(frame)
 	_portrait = TextureRect.new()
-	_portrait.position = Vector2(x0, y0 - PORTRAIT - 6.0)
+	_portrait.position = Vector2(x0, fy + 20)
 	_portrait.size = Vector2(PORTRAIT, PORTRAIT)
 	_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
@@ -53,54 +52,39 @@ func setup(p: BisacciaPanel) -> void:
 	_portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_portrait)
 	_title = Label.new()
-	_title.position = Vector2(x0, y0 - 58)
-	_title.add_theme_font_size_override("font_size", 20)
-	_title.add_theme_color_override("font_color", Color("#ffd08a"))
+	_title.position = Vector2(x0, fy + 20)
+	_title.add_theme_font_size_override("font_size", UiPalette.SOTTOTITOLO)
+	_title.add_theme_color_override("font_color", UiPalette.AMBRA_CHIARA)
 	add_child(_title)
 	_greet = Label.new()
-	_greet.position = Vector2(x0, y0 - 32)
-	_greet.size = Vector2(w, 20)
-	_greet.clip_text = true
-	_greet.add_theme_font_size_override("font_size", 13)
-	_greet.add_theme_color_override("font_color", Color("#cfeee4"))
+	_greet.position = Vector2(x0, fy + 54)
+	_greet.size = Vector2(w, 40)
+	_greet.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_greet.max_lines_visible = 2
+	_greet.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	_greet.add_theme_font_size_override("font_size", UiPalette.TESTO_PX)
+	_greet.add_theme_color_override("font_color", UiPalette.TESTO)
 	add_child(_greet)
-	var sell := Button.new()
-	sell.text = "Vendi ciò che hai in mano"
-	sell.position = Vector2(x0 + w - 150, y0 - 116)          # (voce 65: in fila con Consegna e Dona)
-	sell.size = Vector2(150, 28)
-	sell.add_theme_font_size_override("font_size", 12)
-	sell.pressed.connect(sell_held)
-	sell.tooltip_text = "Vende la pila presa con il clic. Per vendere una pila della Bisaccia: Maiusc+clic sulla sua casella"
-	add_child(sell)
 	# voce 65: la richiesta personale, «Consegna» e «Dona ciò che hai in mano»
 	_quest = Label.new()
-	_quest.position = Vector2(x0, y0 - 84)
-	_quest.size = Vector2(w, 24)
+	_quest.position = Vector2(x0, fy + 104)
+	_quest.size = Vector2(w, 22)
 	_quest.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	_quest.add_theme_font_size_override("font_size", 13)
-	_quest.add_theme_color_override("font_color", Color("#8ef0d8"))
+	_quest.add_theme_font_size_override("font_size", UiPalette.TESTO_PX)
+	_quest.add_theme_color_override("font_color", UiPalette.LINFA)
 	add_child(_quest)
-	_deliver = Button.new()
-	_deliver.text = "Consegna la richiesta"
-	_deliver.position = Vector2(x0 + w - 470, y0 - 116)
-	_deliver.size = Vector2(150, 28)
-	_deliver.add_theme_font_size_override("font_size", 12)
+	var bw := (w - 16) / 3.0
+	_deliver = _act("Consegna la richiesta", Vector2(x0, fy + 148), bw)
 	_deliver.pressed.connect(deliver)
-	add_child(_deliver)
-	_gift = Button.new()
-	_gift.text = "Dona ciò che hai in mano"
-	_gift.position = Vector2(x0 + w - 312, y0 - 116)
-	_gift.size = Vector2(152, 28)
-	_gift.add_theme_font_size_override("font_size", 12)
+	_gift = _act("Dona ciò che tieni", Vector2(x0 + bw + 8, fy + 148), bw)
 	_gift.tooltip_text = "Un dono che gli piace fa crescere l'affetto molto di più. Con l'affetto: sconti e regali"
 	_gift.pressed.connect(gift_held)
-	add_child(_gift)
-	_work = Button.new()
-	_work.position = Vector2(x0 + w - 628, y0 - 116)
-	_work.size = Vector2(150, 28)
-	_work.add_theme_font_size_override("font_size", 12)
+	_sell = _act("Vendi ciò che tieni", Vector2(x0 + 2 * (bw + 8), fy + 148), bw)
+	var sell := _sell
+	sell.pressed.connect(sell_held)
+	sell.tooltip_text = "Vende la pila presa con il clic. Per vendere una pila della Bisaccia: Maiusc+clic sulla sua casella"
+	_work = _act("", Vector2(x0, fy + 192), w)
 	_work.pressed.connect(work)
-	add_child(_work)
 	for c in COLS:
 		var s := SlotView.new()
 		s.index = c
@@ -115,6 +99,17 @@ func setup(p: BisacciaPanel) -> void:
 		pl.add_theme_font_size_override("font_size", 12)
 		add_child(pl)
 		_prices.append(pl)
+
+
+func _act(t: String, pos: Vector2, wd: float) -> Button:
+	var b := Button.new()
+	b.text = t
+	b.position = pos
+	b.size = Vector2(wd, 34)
+	b.focus_mode = Control.FOCUS_NONE
+	b.add_theme_font_size_override("font_size", UiPalette.TESTO_PX - 1)
+	add_child(b)
+	return b
 
 
 func lumini() -> int:
@@ -174,6 +169,15 @@ func _refresh() -> void:
 	_quest.visible = bonds
 	_deliver.visible = bonds
 	_gift.visible = bonds
+	# i pulsanti che si vedono, in fila da sinistra, larghi uguali
+	var acts: Array[Button] = []
+	for b: Button in [_deliver, _gift, _sell]:
+		if b.visible:
+			acts.append(b)
+	var bw := (w - 8.0 * 2) / 3.0
+	for k in acts.size():
+		acts[k].position.x = x0 + k * (bw + 8.0)
+		acts[k].size.x = bw
 	if bonds:
 		_quest.text = "Richiesta: " + NpcBonds.quest_text(m.character, npc)
 		_deliver.disabled = not NpcBonds.quest_ready(m.character, npc)

@@ -137,13 +137,8 @@ func _layout(n: int) -> void:
 	_settings.position = Vector2(_frame.position.x, _frame.position.y - 50)
 
 
-static func _box() -> StyleBoxFlat:
-	var sb := StyleBoxFlat.new()
-	sb.bg_color = CraftingPanel.BG
-	sb.border_color = Color("#6ff0d8")
-	sb.set_border_width_all(2)
-	sb.set_corner_radius_all(18)
-	return sb
+static func _box() -> StyleBox:
+	return UiFrames.box("forte", "normale", Color(UiPalette.LINFA, 0.6))
 
 
 ## Scrivere nel nome non deve muovere il Germogliato né aprire pannelli (come la ricerca di Creare).

@@ -128,33 +128,9 @@ static func style(b: Button, possible: bool, col := TEAL) -> void:
 	b.add_theme_color_override("font_color", TEXT if possible else Color("#6f8a86"))
 	b.add_theme_color_override("font_hover_color", AMBER if possible else Color("#8fa8a4"))
 	b.modulate = Color(1, 1, 1, 1) if possible else Color(1, 1, 1, 0.55)
-	for st in ["normal", "hover", "pressed", "focus"]:
-		b.add_theme_stylebox_override(st, _style(possible, st, col))
+	UiFrames.button(b, Color(0, 0, 0, 0) if col == UiPalette.BORDO else col)
+	b.add_theme_color_override("font_pressed_color", AMBER if possible else Color("#8fa8a4"))
 
 
-## Gli stili delle righe: pochi per colore, si fanno una volta e si condividono.
-static func _style(possible: bool, st: String, col: Color) -> StyleBoxFlat:
-	var key := "%s:%s:%s" % [col.to_html(false), possible, st]
-	if not _styles.has(key):
-		var sb := StyleBoxFlat.new()
-		var base := Color(0.03, 0.09, 0.1, 0.92).lerp(col, 0.07)
-		sb.bg_color = base if st != "hover" else base.lerp(col, 0.14)
-		sb.border_color = col if st == "hover" and possible else Color(col, 0.35)
-		sb.set_border_width_all(1)
-		sb.border_width_left = 0
-		sb.set_corner_radius_all(10)
-		sb.content_margin_left = 12
-		_styles[key] = sb
-	return _styles[key]
-
-
-static func _icon_box(col: Color) -> StyleBoxFlat:
-	var key := "box:" + col.to_html(false)
-	if not _styles.has(key):
-		var sb := StyleBoxFlat.new()
-		sb.bg_color = Color(0.02, 0.05, 0.06).lerp(col, 0.22)
-		sb.border_color = Color(col, 0.7)
-		sb.set_border_width_all(1)
-		sb.set_corner_radius_all(8)
-		_styles[key] = sb
-	return _styles[key]
+static func _icon_box(col: Color) -> StyleBox:
+	return UiFrames.box("casella", "normale", col)

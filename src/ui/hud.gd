@@ -20,6 +20,11 @@ var _info: Label
 var _help_hint: Label
 var help := true                      # l'aiuto dei tasti in alto a sinistra (F1); spento per chi gioca da un po'
 var _toast: Label
+var _toast_box: PanelContainer         # la cartolina dell'avviso (voce 276): fondo proprio, scorre dall'alto
+var _toast_tw: Tween
+var _toast_mode := -1
+var _toast_at := Vector2.ZERO
+var _toast_slide := 0.0
 
 
 func _ready() -> void:
@@ -60,11 +65,20 @@ func _ready() -> void:
 	_help_hint.visible = not help
 	_info.text = Keys.help_text()           # con i tasti scelti nelle Opzioni
 	# gli avvisi al centro, sotto la scritta degli strati: possono essere lunghi (obiettivi, Erbario)
-	_toast = _label(self, Vector2(0, 236), 18)
-	_toast.size = Vector2(1600, 30)
+	# (voce 276) una cartolina con il suo fondo: sopra i pannelli resta leggibile e non si mescola con le loro scritte
+	_toast_box = PanelContainer.new()
+	_toast_box.add_theme_stylebox_override("panel", UiFrames.padded("suggerimento", "normale", Color(UiPalette.AMBRA, 0.5), Vector2(18, 8)))
+	_toast_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_toast_box.visible = false
+	_toast_box.z_index = 6                     # gli avvisi restano leggibili anche con la Bisaccia aperta
+	_toast_box.set_meta("fluttua", true)       # `LayoutCheck`: una cartolina sopra tutto, non una scritta sovrapposta
+	add_child(_toast_box)
+	_toast = Label.new()
+	_toast.add_theme_font_size_override("font_size", UiPalette.GRANDE)
+	_toast.add_theme_color_override("font_color", UiPalette.TESTO)
 	_toast.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_toast.modulate.a = 0.0
-	_toast.z_index = 6                         # gli avvisi restano leggibili anche con la Bisaccia aperta
+	_toast.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_toast_box.add_child(_toast)
 	bisaccia.changed.connect(_refresh)
 	_refresh()
 	select(0)
@@ -85,8 +99,52 @@ func _label(parent: Node, pos: Vector2, size: int) -> Label:
 ## Messaggio breve in alto al centro che svanisce da solo.
 func toast(text: String) -> void:
 	_toast.text = text
-	_toast.modulate.a = 1.0
-	create_tween().tween_property(_toast, "modulate:a", 0.0, 1.2).set_delay(float(Settings.v("avvisi")))
+	_toast_mode = -1                           # da misurare e posare (in `_place_toast`)
+	_place_toast()
+	_toast_box.visible = true
+	if _toast_tw != null:
+		_toast_tw.kill()
+	# entra in 0,18 s scendendo di 6 px, resta, esce in 0,30 (ARTE.md §6)
+	_toast_box.modulate.a = 0.0
+	_toast_slide = -6.0
+	_toast_tw = create_tween()
+	_toast_tw.tween_property(_toast_box, "modulate:a", 1.0, 0.18)
+	_toast_tw.parallel().tween_property(self, "_toast_slide", 0.0, 0.18).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	_toast_tw.tween_interval(float(Settings.v("avvisi")))
+	_toast_tw.tween_property(_toast_box, "modulate:a", 0.0, 0.30)
+	_toast_tw.tween_callback(func() -> void: _toast_box.visible = false)
+
+
+## Dove sta l'avviso: 0 = al centro, sotto la scritta degli strati; 1 = con la Bisaccia aperta lo schermo è tutto
+## occupato, in fondo alla colonna di Esamina, dove di solito non c'è nulla (voce 276: al centro copriva le impostazioni
+## della cassa); 2 = con un pannello a schermo intero (Semenzaio, Erbario…), in alto a destra accanto al titolo.
+## Si ricontrolla a ogni fotogramma: un pannello aperto mentre l'avviso è in vista lo sposta.
+func _place_toast() -> void:
+	var mode := 0
+	if panel != null and panel.visible:
+		mode = 1
+	else:
+		for o in overlays:
+			if (o as Control).visible:
+				mode = 2
+		if map != null and map.visible:
+			mode = 2
+	if mode != _toast_mode:
+		_toast_mode = mode
+		var max_w := 900.0 if mode == 0 else 360.0
+		var f := _toast.get_theme_font("font")
+		var wide := f.get_string_size(_toast.text, HORIZONTAL_ALIGNMENT_LEFT, -1, UiPalette.GRANDE).x > max_w
+		_toast.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART if wide else TextServer.AUTOWRAP_OFF
+		_toast.custom_minimum_size = Vector2(max_w if wide else 0.0, 0)
+		_toast_box.size = Vector2.ZERO
+		_toast_box.size = _toast_box.get_combined_minimum_size()
+		_toast_at = Vector2(roundf((1600.0 - _toast_box.size.x) * 0.5), 236.0)
+		if mode == 1:
+			var col := panel.examine.get_global_rect()
+			_toast_at = Vector2(roundf(col.position.x + (col.size.x - _toast_box.size.x) * 0.5), col.end.y - 20.0 - _toast_box.size.y)
+		elif mode == 2:
+			_toast_at = Vector2(1600.0 - 36.0 - _toast_box.size.x, 20.0)
+	_toast_box.position = _toast_at + Vector2(0, _toast_slide)
 
 
 ## L'oggetto in mano: {"id", "name", "use", "tex"} (id vuoto = mani nude).
@@ -112,6 +170,8 @@ func select(k: int) -> void:
 ## scritta: aggiunto prima di altre (la riga dell'Albero-Madre) restava sotto di loro e le scritte gli passavano sopra
 ## (28 set 2026, segnalato dall'utente con il Semenzaio).
 func _process(_dt: float) -> void:
+	if _toast_box.visible:
+		_place_toast()
 	var last := get_child(get_child_count() - 1)
 	for o in overlays:
 		if o.visible:
@@ -156,7 +216,7 @@ func bring_panel_forward() -> void:
 			move_child(c, -1)
 	for s in _slots:
 		move_child(s, -1)
-	move_child(_toast, -1)
+	move_child(_toast_box, -1)
 
 
 ## Chiusa la Bisaccia, lei e la barra rapida tornano in fondo all'ordine: i pannelli a schermo intero (Semenzaio,

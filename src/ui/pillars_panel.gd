@@ -22,7 +22,7 @@ func setup(main: Node2D, mastery: Mastery) -> void:
 	visible = false
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var bg := ColorRect.new()
-	bg.color = Color(0.03, 0.02, 0.04, 0.97)
+	bg.color = Color(0.03, 0.02, 0.04)
 	bg.size = Vector2(1600, 900)
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(bg)

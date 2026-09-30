@@ -17,7 +17,7 @@ func setup(main: Node2D, opts: OptionsPanel) -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	size = Vector2(1600, 900)
 	var bg := ColorRect.new()
-	bg.color = Color(0.0, 0.02, 0.03, 0.72)
+	bg.color = Color(0.0, 0.02, 0.03, 0.9)
 	bg.size = size
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(bg)

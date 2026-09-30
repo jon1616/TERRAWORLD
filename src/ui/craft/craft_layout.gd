@@ -34,6 +34,16 @@ static func build(p: CraftingPanel) -> void:
 		cb.clip_text = true
 		cb.add_theme_font_size_override("font_size", 14)
 		_side_style(p, cb, CraftingPanel.CATS[k][1])
+		var badge := Label.new()
+		badge.name = "n"
+		badge.set_anchors_preset(Control.PRESET_RIGHT_WIDE)
+		badge.offset_left = -44
+		badge.offset_right = -10
+		badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		badge.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		badge.add_theme_font_size_override("font_size", 13)
+		badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		cb.add_child(badge)
 		cb.pressed.connect(func() -> void:
 			p.cat = k
 			p._scroll.scroll_vertical = 0
@@ -138,15 +148,10 @@ static func _head(p: CraftingPanel, col: Color) -> Label:
 
 ## Il bottone di una categoria: striscia del colore a sinistra, fondo acceso quando è scelta.
 static func _side_style(p: CraftingPanel, b: Button, col: Color) -> void:
-	for st in ["normal", "hover", "pressed", "hover_pressed"]:
-		var s := StyleBoxFlat.new()
-		var on: bool = String(st).contains("pressed")
-		s.bg_color = CraftingPanel.BG.lerp(col, 0.34 if on else (0.12 if st == "hover" else 0.04))
-		s.border_color = col
-		s.border_width_left = 5
-		s.set_corner_radius_all(6)
-		s.content_margin_left = 14
-		b.add_theme_stylebox_override(st, s)
+	UiFrames.button(b, Color(col, 0.7))
+	# la categoria scelta resta accesa (il bottone è a interruttore: «pressed» = scelta)
+	b.add_theme_stylebox_override("pressed", UiFrames.box("pulsante", "scelto", col))
+	b.add_theme_stylebox_override("hover_pressed", UiFrames.box("pulsante", "scelto", col))
 	b.add_theme_color_override("font_color", col.lerp(Color.WHITE, 0.3))
 	b.add_theme_color_override("font_hover_color", Color.WHITE)
 	b.add_theme_color_override("font_pressed_color", Color.WHITE)

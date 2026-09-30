@@ -46,6 +46,10 @@ static func apply() -> void:
 	t.set_icon("unchecked", "CheckBox", _check(false))
 	t.set_icon("checked_disabled", "CheckBox", _check(true))
 	t.set_icon("unchecked_disabled", "CheckBox", _check(false))
+	for k in ["checked", "checked_disabled"]:
+		t.set_icon(k, "CheckButton", _switch(true))
+	for k in ["unchecked", "unchecked_disabled"]:
+		t.set_icon(k, "CheckButton", _switch(false))
 	# campi di testo
 	t.set_stylebox("normal", "LineEdit", UiFrames.box("campo"))
 	t.set_stylebox("focus", "LineEdit", UiFrames.box("campo", "scelto"))
@@ -130,6 +134,32 @@ static func _check(on: bool) -> Texture2D:
 		for p in [Vector2i(2, 5), Vector2i(3, 6), Vector2i(5, 4), Vector2i(6, 2)]:
 			img.set_pixel(p.x, p.y, UiPalette.FOGLIA)
 	img.resize(n * 2, n * 2, Image.INTERPOLATE_NEAREST)
+	return ImageTexture.create_from_image(img)
+
+
+## L'interruttore (CheckButton): una scanalatura di radice, il seme scivola a destra e la Linfa si accende.
+static func _switch(on: bool) -> Texture2D:
+	var w := 16
+	var h := 9
+	var img := Image.create(w, h, false, Image.FORMAT_RGBA8)
+	var groove := Color("#1a3a36") if on else Color("#081211")
+	for y in range(1, h - 1):
+		for x in range(1, w - 1):
+			var edge := y == 1 or y == h - 2 or x == 1 or x == w - 2
+			var corner := (x == 1 or x == w - 2) and (y == 1 or y == h - 2)
+			if not corner:
+				img.set_pixel(x, y, UiPalette.BORDO if edge else groove)
+	if on:
+		for x in range(3, w - 7):
+			img.set_pixel(x, 4, Color(UiPalette.LINFA, 0.7))
+	var cx := w - 5 if on else 4
+	var knob := UiPalette.AMBRA if on else UiPalette.TESTO_MUTO
+	for y in h:
+		for x in range(cx - 4, cx + 5):
+			var d := Vector2(x - cx, y - 4).length()
+			if d <= 4.1:
+				img.set_pixel(x, y, Color("#2a1428") if d > 3.2 else (knob.lightened(0.35) if x < cx and y < 4 else knob))
+	img.resize(w * 2, h * 2, Image.INTERPOLATE_NEAREST)
 	return ImageTexture.create_from_image(img)
 
 

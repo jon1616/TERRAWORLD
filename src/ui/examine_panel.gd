@@ -73,12 +73,7 @@ func setup(p: BisacciaPanel, c: CraftingPanel) -> void:
 	_card.add_child(head)
 	var box := Panel.new()
 	box.custom_minimum_size = Vector2(64, 64)
-	var sb := StyleBoxFlat.new()
-	sb.bg_color = Color("#0f1c1a")
-	sb.border_color = Color("#2f7a70")
-	sb.set_border_width_all(1)
-	sb.set_corner_radius_all(10)
-	box.add_theme_stylebox_override("panel", sb)
+	box.add_theme_stylebox_override("panel", UiFrames.box("casella"))
 	head.add_child(box)
 	_big = TextureRect.new()
 	_big.position = Vector2(8, 8)
@@ -194,16 +189,10 @@ func _small(t: String, f: Callable) -> Button:
 
 
 static func _make_style(b: Button) -> void:
-	for st in ["normal", "hover", "pressed", "disabled"]:
-		var s := StyleBoxFlat.new()
-		var off: bool = st == "disabled"
-		s.bg_color = Color("#3a2a10") if off else (Color("#b8741e") if st == "hover" else Color("#9a5e14"))
-		s.border_color = Color("#5a4a30") if off else AMBER
-		s.set_border_width_all(2)
-		s.set_corner_radius_all(10)
-		b.add_theme_stylebox_override(st, s)
-	b.add_theme_color_override("font_color", Color.WHITE)
+	UiFrames.button(b, Color(0, 0, 0, 0), false, "principale")
+	b.add_theme_color_override("font_color", UiPalette.AMBRA_CHIARA)
 	b.add_theme_color_override("font_hover_color", Color.WHITE)
+	b.add_theme_color_override("font_pressed_color", UiPalette.AMBRA)
 	b.add_theme_color_override("font_disabled_color", Color("#8a7a60"))
 
 

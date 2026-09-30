@@ -92,18 +92,8 @@ func _draw() -> void:
 	draw_rect(Rect2(7, size.y - 9, bw * fill, 4), OK if can else (PART if fill >= 0.5 else NONE))
 
 
-static func _box(col: Color, possible: bool, sel: bool, hover: bool) -> StyleBoxFlat:
-	var key := "%s:%s:%s:%s" % [col.to_html(false), possible, sel, hover]
-	if not _styles.has(key):
-		var sb := StyleBoxFlat.new()
-		sb.bg_color = Color("#0c1614").lerp(col, 0.16 if possible else 0.05)
-		if hover:
-			sb.bg_color = sb.bg_color.lerp(col, 0.18)
-		sb.border_color = AMBER if sel else (col if possible else Color(col, 0.35))
-		sb.set_border_width_all(3 if sel else 1)
-		sb.set_corner_radius_all(8)
-		_styles[key] = sb
-	return _styles[key]
+static func _box(col: Color, possible: bool, sel: bool, hover: bool) -> StyleBox:
+	return UiFrames.box("casella", "scelto" if sel else ("sopra" if hover else "normale"), Color(col, 1.0 if possible else 0.3))
 
 
 func _notification(what: int) -> void:

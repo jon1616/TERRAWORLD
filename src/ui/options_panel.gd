@@ -27,7 +27,7 @@ func _init() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	size = Vector2(1600, 900)
 	var bg := ColorRect.new()
-	bg.color = Color(0.01, 0.03, 0.04, 0.97)
+	bg.color = UiPalette.FONDO                 # opaco: la fusione è lineare, al 97% il mondo si vedeva ancora
 	bg.size = size
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(bg)

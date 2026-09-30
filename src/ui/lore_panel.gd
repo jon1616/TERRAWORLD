@@ -20,13 +20,7 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	visible = false
 	_box = PanelContainer.new()
-	var sb := StyleBoxFlat.new()
-	sb.bg_color = Color(0.05, 0.07, 0.09, 0.92)
-	sb.border_color = Color("#3aa08a")
-	sb.set_border_width_all(2)
-	sb.set_corner_radius_all(10)
-	sb.set_content_margin_all(22)
-	_box.add_theme_stylebox_override("panel", sb)
+	_box.add_theme_stylebox_override("panel", UiFrames.padded("forte", "normale", Color("#3aa08a"), Vector2(22, 20)))
 	add_child(_box)
 	var v := VBoxContainer.new()
 	v.add_theme_constant_override("separation", 12)

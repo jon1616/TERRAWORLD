@@ -40,7 +40,7 @@ func _init() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	size = Vector2(1600, 900)
 	var bg := ColorRect.new()
-	bg.color = Color(0.0, 0.0, 0.0, 1.0)
+	bg.color = UiPalette.FONDO
 	bg.position = Vector2(-2000, -2000)          # ben oltre lo schermo, anche in una finestra più grande
 	bg.size = Vector2(6000, 5000)
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -50,13 +50,13 @@ func _init() -> void:
 	side.position = Vector2(24, 12)
 	side.size = Vector2(380, 820)
 	side.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	side.add_theme_stylebox_override("panel", _box(Color("#070d0c"), Color("#2f7a70"), 2, 8))
+	side.add_theme_stylebox_override("panel", UiFrames.box("riquadro"))
 	add_child(side)
 	var page := Panel.new()
 	page.position = Vector2(420, 12)
 	page.size = Vector2(1160, 820)
 	page.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	page.add_theme_stylebox_override("panel", _box(Color("#040807"), Color("#1d3b37"), 1, 8))
+	page.add_theme_stylebox_override("panel", UiFrames.box("campo"))
 	add_child(page)
 	var head := Label.new()
 	head.text = "Enciclopedia"
@@ -125,15 +125,6 @@ func _init() -> void:
 	add_child(_spoil)
 	var close := _button("Chiudi (Esc)", Vector2(1400, 842), Vector2(160, 40))
 	close.pressed.connect(close_panel)
-
-
-static func _box(bg: Color, border: Color, bw: int, radius: int) -> StyleBoxFlat:
-	var sb := StyleBoxFlat.new()
-	sb.bg_color = bg
-	sb.border_color = border
-	sb.set_border_width_all(bw)
-	sb.set_corner_radius_all(radius)
-	return sb
 
 
 func _button(t: String, pos: Vector2, sz: Vector2) -> Button:

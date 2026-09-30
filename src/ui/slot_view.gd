@@ -17,7 +17,11 @@ var index := 0
 var _icon: TextureRect
 var _count: Label
 var _selected := false
+var _hover := false
+var _accent := Color(0, 0, 0, 0)       # la tinta della casella: il tipo dell'oggetto o la sua qualità (ARTE.md §2)
 var slot_data := {}                    # l'oggetto intero della casella: {"id", "n", "tratto", "dati"}
+var ghost_name := ""                   # un posto dell'equipaggiamento: il suo nome, per la scheda della casella vuota
+var _ghost: TextureRect                # vuota, la casella mostra in trasparenza la sagoma di ciò che ci va
 var tip_extra := {}                    # per questa casella: {"price": "buy", "cost": N} o {"equipped": true}
 
 
@@ -50,12 +54,16 @@ func _init() -> void:
 	_count.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_count)
 	_restyle()
+	mouse_entered.connect(func() -> void: _hover = true; _restyle())
+	mouse_exited.connect(func() -> void: _hover = false; _restyle())
 	Tips.attach(self, _tip)
 
 
 ## La scheda dell'oggetto nella casella (26 set 2026: suggerimenti ricchi, ricette e provenienza in Esamina).
 func _tip() -> Variant:
 	if slot_data.is_empty():
+		if ghost_name != "":
+			return TipCard.new().title(ghost_name, UiPalette.LINFA).line("Vuoto: posa qui un oggetto di questo tipo.", TipCard.SOFT)
 		return null
 	var ctx: Dictionary = (context.call() as Dictionary).duplicate() if context.is_valid() else {}
 	ctx.merge(tip_extra, true)
@@ -70,6 +78,52 @@ func set_item(id: String, n: int, tratto := "", dati := {}) -> void:
 	_count.add_theme_color_override("font_color", Color("#ffd08a") if tratto != "" else Color.WHITE)
 	if tratto != "" and n <= 1:
 		_count.text = "✦"
+	if _ghost != null:
+		_ghost.visible = id == ""
+	var ac := tint_of(slot_data)
+	if ac != _accent:
+		_accent = ac
+		_restyle()
+
+
+## La tinta del fondo di una casella: gli attrezzi e le armi fini o capolavoro prendono il colore della qualità, gli
+## altri oggetti quello del loro tipo (trofei, semi, fiale…); materiali e blocchi restano neutri, così i colori
+## segnano ciò che conta.
+static func tint_of(slot: Dictionary) -> Color:
+	if slot.is_empty():
+		return Color(0, 0, 0, 0)
+	var id := String(slot.get("id", ""))
+	if Bisaccia.is_gear(id):
+		var q := Gear.quality(slot)
+		return Color(String(TraitsData.QUALITY[q]["color"])) if q >= 2 else Color(0, 0, 0, 0)
+	var kind := String(ItemsData.get_item(id).get("kind", ""))
+	if kind in ["materiale", "blocco", ""] or not TipWordsData.KIND_COLORS.has(kind):
+		return Color(0, 0, 0, 0)
+	return TipWordsData.kind_color(kind)
+
+
+## La sagoma dei posti dell'equipaggiamento (voce 278): la forma d'icona `shape` come un'ombra chiara.
+func set_ghost(shape: String, label: String) -> void:
+	ghost_name = label
+	if _ghost == null:
+		_ghost = TextureRect.new()
+		_ghost.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		_ghost.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		_ghost.position = Vector2(4, 4)
+		_ghost.size = Vector2(48, 48)
+		_ghost.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(_ghost)
+		move_child(_ghost, 0)
+	var key := "ghost:" + shape
+	if not _icons.has(key):
+		var img := ItemIcons.make(shape, "radicite")
+		for y in img.get_height():
+			for x in img.get_width():
+				if img.get_pixel(x, y).a > 0.1:
+					img.set_pixel(x, y, Color(UiPalette.TESTO_MUTO, 0.22))
+		_icons[key] = ImageTexture.create_from_image(img)
+	_ghost.texture = _icons[key]
+	_ghost.visible = slot_data.is_empty()
 
 
 func set_selected(on: bool) -> void:
@@ -79,15 +133,7 @@ func set_selected(on: bool) -> void:
 
 
 func _restyle() -> void:
-	var sb := StyleBoxFlat.new()
-	sb.bg_color = Color(0.1, 0.2, 0.22, 0.92) if _selected else Color(0.03, 0.09, 0.11, 0.8)
-	sb.set_border_width_all(3 if _selected else 2)
-	sb.border_color = AMBER if _selected else TEAL
-	sb.set_corner_radius_all(18)
-	if _selected:
-		sb.shadow_color = Color(1.0, 0.72, 0.3, 0.35)
-		sb.shadow_size = 8
-	add_theme_stylebox_override("panel", sb)
+	add_theme_stylebox_override("panel", UiFrames.box("casella", "scelto" if _selected else ("sopra" if _hover else "normale"), _accent))
 
 
 func _gui_input(e: InputEvent) -> void:

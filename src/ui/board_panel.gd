@@ -34,14 +34,14 @@ func setup(main: Node2D, b: Board) -> void:
 	visible = false
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var bg := ColorRect.new()
-	bg.color = Color(0.01, 0.03, 0.04, 0.96)
+	bg.color = UiPalette.FONDO                 # opaco: la fusione è lineare, al 97% il mondo si vedeva ancora
 	bg.size = Vector2(1600, 900)
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(bg)
 	_title = Label.new()
 	_title.position = Vector2(120, 40)
-	_title.add_theme_font_size_override("font_size", 30)
-	_title.add_theme_color_override("font_color", Color("#ffd08a"))
+	_title.add_theme_font_size_override("font_size", UiPalette.TITOLO)
+	_title.add_theme_color_override("font_color", UiPalette.AMBRA)
 	add_child(_title)
 	_cards = Control.new()
 	_cards.position = Vector2(120, 110)
@@ -105,13 +105,9 @@ func _card(i: int, r: Dictionary) -> void:
 	var col: Color = kind[1]
 	var ok_now := board.can_deliver(r)
 	var card := Panel.new()
-	var sb := StyleBoxFlat.new()
-	sb.bg_color = Color(0.1, 0.08, 0.05, 0.95)
-	sb.border_color = Color("#ffd08a") if ok_now else col.darkened(0.55)
-	sb.set_border_width_all(3 if ok_now else 2)
-	sb.border_width_left = 8
-	sb.set_corner_radius_all(10)
-	card.add_theme_stylebox_override("panel", sb)
+	# (voce 280) la cornice del tema tinta del tipo; quella che si può consegnare adesso è «forte» e d'ambra
+	card.add_theme_stylebox_override("panel", UiFrames.box("forte", "normale", UiPalette.AMBRA_CHIARA) if ok_now
+		else UiFrames.box("riquadro", "normale", Color(col, 0.8)))
 	card.position = Vector2((i % 2) * 690, (i / 2) * 330)
 	card.size = Vector2(660, 300)
 	_cards.add_child(card)

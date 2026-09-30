@@ -44,7 +44,7 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	# lo sfondo scuro: il mondo resta dietro, appena visibile
 	var dim := ColorRect.new()
-	dim.color = Color(0.0, 0.015, 0.015, 0.78)
+	dim.color = Color(0.0, 0.015, 0.015, 0.92)   # (la fusione è lineare: 0,78 scuriva appena a metà)
 	dim.position = Vector2(-400, -400)
 	dim.size = Vector2(2400, 1700)
 	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -53,13 +53,8 @@ func _ready() -> void:
 	var x0 := (1600 - w) / 2.0
 	var y0 := Hud.HOTBAR_Y - 16 - ROWS * (SlotView.SIZE + GAP)
 	var frame := Panel.new()
-	var sb := StyleBoxFlat.new()
 	# (la stessa cornice serve anche alla colonna dell'equipaggiamento)
-	sb.bg_color = CraftingPanel.BG
-	sb.border_color = Color("#2f7a70")
-	sb.set_border_width_all(2)
-	sb.set_corner_radius_all(14)
-	frame.add_theme_stylebox_override("panel", sb)
+	frame.add_theme_stylebox_override("panel", UiFrames.box("forte"))
 	frame.position = Vector2(x0 - 14, y0 - 44)
 	frame.size = Vector2(w + 28, ROWS * (SlotView.SIZE + GAP) + 44 + 8 + SlotView.SIZE + 18)
 	frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -86,7 +81,7 @@ func _ready() -> void:
 	var ew := 3 * SlotView.SIZE + 2 * 12 + 24
 	var ex := frame.position.x - 16 - ew + 12
 	var eframe := Panel.new()
-	eframe.add_theme_stylebox_override("panel", sb)
+	eframe.add_theme_stylebox_override("panel", UiFrames.box("forte"))
 	eframe.position = Vector2(ex - 12, frame.position.y)
 	eframe.size = Vector2(ew, frame.size.y)
 	eframe.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -95,23 +90,18 @@ func _ready() -> void:
 		var slot: String = Bisaccia.EQUIP_SLOTS[k]
 		var s := SlotView.new()
 		var cr: Array = EQUIP_POS.get(slot, [0, 0])
-		s.position = Vector2(ex + int(cr[0]) * (SlotView.SIZE + 12), frame.position.y + 34 + int(cr[1]) * (SlotView.SIZE + 12))
+		s.position = Vector2(ex + int(cr[0]) * (SlotView.SIZE + 12), frame.position.y + 40 + int(cr[1]) * (SlotView.SIZE + GAP))
 		s.clicked.connect(func(_i: int, button: int) -> void:
 			if button == MOUSE_BUTTON_LEFT:
 				held = bisaccia.wear(slot, held)
 				_refresh())
 		add_child(s)
-		var tag := Label.new()
-		tag.text = "Accessorio" if Bisaccia.kind_of_slot(slot) == "accessorio" else slot.capitalize()
-		tag.position = s.position + Vector2(-6, SlotView.SIZE - 3)
-		tag.size = Vector2(SlotView.SIZE + 12, 14)
-		tag.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		tag.add_theme_font_size_override("font_size", 10)
-		tag.add_theme_color_override("font_color", Color("#9fc8c0"))
-		add_child(tag)
+		# vuota, la casella mostra la sagoma di ciò che ci va (voce 278: le scritte sotto uscivano dalla cornice)
+		var kind := Bisaccia.kind_of_slot(slot)
+		s.set_ghost("foglia" if kind == "accessorio" else kind, "Accessorio" if kind == "accessorio" else slot.capitalize())
 		_equip[slot] = s
 	_scorza = Label.new()
-	_scorza.position = Vector2(ex - 6, frame.position.y + 6)
+	_scorza.position = Vector2(ex - 6, frame.position.y + 10)
 	_scorza.size = Vector2(ew - 12, 24)
 	_scorza.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_scorza.add_theme_font_size_override("font_size", 16)
@@ -126,20 +116,21 @@ func _ready() -> void:
 		var ic := TextureRect.new()
 		ic.texture = st
 		ic.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-		ic.position = Vector2(ex + 8, frame.position.y + 10)
+		ic.position = Vector2(ex + 2, frame.position.y + 14)
 		ic.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		add_child(ic)
 		# la scritta comincia dopo l'icona (29 set 2026: «Scorza 7 (−41% alle ferite)» finiva sotto l'icona)
-		_scorza.position.x = ex + 28
-		_scorza.size.x = ew - 36
+		_scorza.position.x = ex + 22
+		_scorza.size.x = ew - 40
+		_scorza.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 		_scorza.add_theme_font_size_override("font_size", 14)
 	# i set (voce 26): sotto gli accessori, quanti pezzi si indossano e, completo, il bonus
 	_sets = Label.new()
-	_sets.position = Vector2(ex + 2 * (SlotView.SIZE + 12) - 8, frame.position.y + 34 + 2 * (SlotView.SIZE + 12))
-	_sets.size = Vector2(SlotView.SIZE + 16, 2 * SlotView.SIZE + 12)
+	_sets.position = Vector2(ex + 2 * (SlotView.SIZE + 12) - 6, frame.position.y + 40 + 2 * (SlotView.SIZE + GAP))
+	_sets.size = Vector2(SlotView.SIZE + 12, 2 * SlotView.SIZE + GAP)
 	_sets.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_sets.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_sets.add_theme_font_size_override("font_size", 11)
+	_sets.add_theme_font_size_override("font_size", 12)
 	_sets.add_theme_color_override("font_outline_color", Color(0.02, 0.05, 0.07))
 	_sets.add_theme_constant_override("outline_size", 4)
 	_sets.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -280,7 +271,7 @@ func _refresh() -> void:
 		for s in done:
 			extra += int((SetsData.all()[s]["bonus"] as Dictionary).get("defense", 0))
 		var sc := bisaccia.scorza() + extra
-		_scorza.text = "Scorza %d  (−%d%% alle ferite)" % [sc, roundi(Vitals.scorza_share(sc) * 100.0)]
+		_scorza.text = ("Scorza %d · −%d%% ferite" % [sc, roundi(Vitals.scorza_share(sc) * 100.0)]) if sc > 0 else "Scorza 0"
 		_show_sets(done)
 	if _trash_view:
 		_trash_view.set_item(String(trash.get("id", "")), int(trash.get("n", 0)), String(trash.get("tratto", "")),

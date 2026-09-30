@@ -39,7 +39,7 @@ func _ready() -> void:
 	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	add_child(sub)
 	var panel := PanelContainer.new()
-	panel.add_theme_stylebox_override("panel", _style(Color(0.02, 0.08, 0.1, 0.85), TEAL, 18))
+	panel.add_theme_stylebox_override("panel", UiFrames.box("forte"))
 	panel.position = Vector2(cx - 280, 290)
 	panel.custom_minimum_size = Vector2(560, 0)
 	add_child(panel)
@@ -242,10 +242,7 @@ func _with_delete(b: Button, on_delete: Callable) -> void:
 	d.add_theme_font_size_override("font_size", 16)
 	d.add_theme_color_override("font_color", DANGER)
 	d.add_theme_color_override("font_hover_color", Color("#ffb0a0"))
-	d.add_theme_stylebox_override("normal", _style(Color(0.1, 0.04, 0.04, 0.9), DANGER.darkened(0.3), 20))
-	d.add_theme_stylebox_override("hover", _style(Color(0.2, 0.06, 0.05, 0.95), DANGER, 20))
-	d.add_theme_stylebox_override("pressed", _style(Color(0.28, 0.08, 0.06, 1.0), DANGER, 20))
-	d.add_theme_stylebox_override("focus", _style(Color(0, 0, 0, 0), DANGER, 20))
+	UiFrames.button(d, DANGER)
 	d.pressed.connect(on_delete)
 	row.add_child(d)
 	_box.add_child(row)
@@ -347,19 +344,6 @@ func _note(text: String) -> void:
 	_box.add_child(l)
 
 
-func _style(bg: Color, border: Color, radius: int) -> StyleBoxFlat:
-	var sb := StyleBoxFlat.new()
-	sb.bg_color = bg
-	sb.border_color = border
-	sb.set_border_width_all(2)
-	sb.set_corner_radius_all(radius)
-	sb.content_margin_left = 14
-	sb.content_margin_right = 14
-	sb.content_margin_top = 8
-	sb.content_margin_bottom = 8
-	return sb
-
-
 func _button(text: String, action: Callable, col := TEXT) -> Button:
 	var b := Button.new()
 	b.text = text
@@ -367,10 +351,7 @@ func _button(text: String, action: Callable, col := TEXT) -> Button:
 	b.add_theme_font_size_override("font_size", 20)
 	b.add_theme_color_override("font_color", col)
 	b.add_theme_color_override("font_hover_color", GOLD)
-	b.add_theme_stylebox_override("normal", _style(Color(0.04, 0.14, 0.16, 0.9), TEAL, 20))
-	b.add_theme_stylebox_override("hover", _style(Color(0.08, 0.22, 0.24, 0.95), GOLD, 20))
-	b.add_theme_stylebox_override("pressed", _style(Color(0.12, 0.3, 0.3, 1.0), GOLD, 20))
-	b.add_theme_stylebox_override("focus", _style(Color(0, 0, 0, 0), GOLD, 20))
+	UiFrames.button(b)
 	if action.is_valid():
 		b.pressed.connect(action)
 	_box.add_child(b)
@@ -383,8 +364,6 @@ func _field(placeholder: String, text: String) -> LineEdit:
 	e.text = text
 	e.custom_minimum_size = Vector2(0, 44)
 	e.add_theme_font_size_override("font_size", 20)
-	e.add_theme_stylebox_override("normal", _style(Color(0.01, 0.05, 0.06, 0.9), TEAL, 12))
-	e.add_theme_stylebox_override("focus", _style(Color(0.01, 0.05, 0.06, 0.9), GOLD, 12))
 	_box.add_child(e)
 	return e
 
