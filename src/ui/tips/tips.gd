@@ -16,6 +16,7 @@ extends CanvasLayer
 const WARM := 0.35                     # appena chiusa una scheda, la successiva compare subito
 const REFRESH := 0.45                  # le schede si rifanno ogni tanto (Vita di una creatura, crescita…)
 const OFFSET := Vector2(20, 22)
+const STILL := 4.0                     # pixel: il mouse che si sposta di meno è «fermo»
 
 static var inst: Tips
 static var shift := false
@@ -31,6 +32,8 @@ var _cold := 99.0                      # da quanto non c'è una scheda
 var _builder := Callable()
 var _card_ms := 0.0                    # quanto è costata l'ultima scheda (per le prove)
 var _last := ""                        # il testo dell'ultima scheda: se non è cambiato non si ridisegna
+var _is_world := false                 # la scheda che si aspetta è di una cosa del mondo
+var _still_at := Vector2.ZERO          # dove il mouse ha cominciato ad aspettare
 
 
 func _ready() -> void:
@@ -122,15 +125,25 @@ func _process(dt: float) -> void:
 		_key = key
 		_builder = builder
 		_age = 0.0
-		_wait = 0.0 if _cold < WARM else float(Settings.v("tip_ritardo_mondo" if world else "tip_ritardo"))
-		if view.visible:
-			_wait = 0.0
+		_is_world = world
+		_still_at = _mouse()
+		# Nell'interfaccia una scheda tira l'altra (appena aperta o chiusa, la successiva è subito). Nel mondo no: quasi
+		# ogni cella ha la sua scheda, e passando il mouse sul terreno il ritardo non si vedeva mai (30 set 2026, l'utente).
+		if world:
+			_wait = float(Settings.v("tip_ritardo_mondo"))
+		else:
+			_wait = 0.0 if _cold < WARM or view.visible else float(Settings.v("tip_ritardo"))
 		if _wait <= 0.0:
 			_build()
 		else:
 			view.visible = false
 		return
 	if not view.visible:
+		# nel mondo il ritardo conta a mouse fermo: muovendolo si ricomincia
+		if _is_world and _mouse().distance_to(_still_at) > STILL:
+			_still_at = _mouse()
+			_wait = float(Settings.v("tip_ritardo_mondo"))
+			return
 		_wait -= dt
 		if _wait <= 0.0:
 			_build()
@@ -194,6 +207,10 @@ func _place() -> void:
 		if p.y < 6.0:
 			p.y = maxf(vs.y - sz.y - 6.0, 6.0)
 	view.position = Vector2(maxf(p.x, 6.0), maxf(p.y, 6.0))
+
+
+func _mouse() -> Vector2:
+	return mouse_at if mouse_at != Vector2.INF else get_viewport().get_mouse_position()
 
 
 ## Per le prove: mostra una scheda in un punto preciso, senza il mouse.
