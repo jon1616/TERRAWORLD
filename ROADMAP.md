@@ -10,7 +10,7 @@
 - **In corso: la Roadmap 29 «Il volto vivo»** (voci 267-294, dal 30 set 2026, in autonomia): ripensare e abbellire
   tutta la grafica (tema unico, HUD, pannelli, mondo vivo, creature, oggetti), vivo ma sobrio, niente tagli.
   Fatte le fondamenta e il tema (267-273): foto fedeli, galleria con 0 problemi d'impaginazione, `ARTE.md`, cornici di
-  radice in tutti i pannelli, carattere di pixel, movimento. Prossime: barra rapida, Vita e Linfa, suggerimenti (274-277).
+  radice in tutti i pannelli, carattere di pixel, movimento. **Compiuta** (voci 267-294): resoconto in fondo alla Roadmap 29.
 - **In corso: il piano «Le dieci strade»** (Roadmap 20-28, dal 29 set 2026, in autonomia): dieci pilastri con gradi di
   maestria verso ~500 ore di partita. **Fatta la Roadmap 20 «Il motore comune»** (voci 214-219): maestria a gradi,
   Libro dei pilastri (P), strade alternative dell'Albero, misura per pilastro. Resoconto in fondo alla Roadmap 20.
@@ -4505,7 +4505,19 @@ particelle serve tutte le azioni. Niente ritocchi uno per uno dove un sistema ba
 ## Parte G — Oggetti e sensazioni di gioco
 - 292. [x] (fatto il 30 set 2026: lo stesso passaggio di volume su tutte le icone: il contorno nero spariva sui fondi scuri) Icone: luce e volume nei generatori, contorno colorato, rarità nella casella.
 - 293. [x] (fatto il 30 set 2026: numeri in pixel che saltano fuori, Juice: scosse di 1-5 px e pause d'impatto di 0,035 s, opzione «scosse») Numeri di danno e cure, piccole scosse, pause d'impatto brevissime (vivo ma sobrio).
-- 294. [ ] Bilancio, prove, giro intero, resoconto.
+- 294. [x] (fatto il 30 set 2026: giro intero pulito in 867 s, una sola nota già nota — «nessun posto piano per le
+  comodità», che ricade sulla cella del Germogliato —; corsa a 59,3 fps, fotogramma peggiore 38 ms come prima della
+  Roadmap; galleria a 0 problemi d'impaginazione su 26 foto; resoconto qui sotto) Bilancio, prove, giro intero, resoconto.
+
+**Resoconto della Roadmap 29** (30 set 2026). Un tema unico veste tutto: cornici di radice disegnate dal codice
+(`UiFrames`) scritte nel tema del motore, lo scheletro dei pannelli a schermo intero (`UiScreen`), il carattere di pixel
+per titoli e numeri (`PixelFont`), il movimento breve (`UiFx`). L'interfaccia che si vede sempre (barra rapida, Vita e
+Linfa, suggerimenti, avvisi, insegne) e tutti i pannelli sono stati rifatti con quelle parti; la galleria li fotografa e
+`LayoutCheck` controlla tagli, uscite e sovrapposizioni: da 66 problemi a 0. Il mondo si muove: vento nelle piante e nelle
+chiome (`WindFx`), liquidi vivi, aria di ogni strato e polvere dei passi (`AmbientFx`), oggetti preziosi con l'alone,
+scosse e pause d'impatto (`Juice`). Le creature e le icone hanno il contorno colorato e la luce da sinistra in alto per
+tutte insieme (`CreatureFx.shade`), le creature respirano, hanno l'ombra e svaniscono, i boss hanno presenza e una barra
+nuova. Restano per la grafica di Nano Banana i disegni elencati nella Roadmap 13 (ritratti, forme nuove, boss).
 
 # Fuori piano (rimandato dall'utente il 26 set 2026)
 - Voce 6 «Rete a 2».
