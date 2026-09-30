@@ -12,7 +12,8 @@ const ROWS := 3
 const GAP := 6
 ## Voce 86: dove sta ogni posto dell'equipaggiamento [colonna, riga].
 const EQUIP_POS := {"elmo": [0, 0], "corazza": [0, 1], "gambali": [0, 2], "stivali": [0, 3], "guanti": [1, 0],
-	"mantello": [1, 1], "amuleto": [1, 2], "anello": [1, 3], "accessorio_1": [2, 0], "accessorio_2": [2, 1]}
+	"mantello": [1, 1], "amuleto": [1, 2], "anello": [1, 3], "accessorio_1": [2, 0], "accessorio_2": [2, 1],
+	"tasca_1": [2, 2], "tasca_2": [2, 3]}                                 # voce 296: le tasche alla cintura
 
 var bisaccia: Bisaccia
 var stations_near: Callable            # () -> stazioni a portata del giocatore, per la colonna «Creare»
@@ -106,11 +107,14 @@ func _ready() -> void:
 		s.clicked.connect(func(_i: int, button: int) -> void:
 			if button == MOUSE_BUTTON_LEFT:
 				held = bisaccia.wear(slot, held)
+				if Bisaccia.kind_of_slot(slot) == "tasca":
+					view = 0                           # la scheda della tasca cambia: si torna alla Bisaccia
 				_refresh())
 		add_child(s)
 		# vuota, la casella mostra la sagoma di ciò che ci va (voce 278: le scritte sotto uscivano dalla cornice)
 		var kind := Bisaccia.kind_of_slot(slot)
-		s.set_ghost("foglia" if kind == "accessorio" else kind, "Accessorio" if kind == "accessorio" else slot.capitalize())
+		var ghost := {"accessorio": ["foglia", "Accessorio"], "tasca": ["sacca", "Tasca"]}.get(kind, [kind, slot.capitalize()]) as Array
+		s.set_ghost(String(ghost[0]), String(ghost[1]))
 		_equip[slot] = s
 	_scorza = Label.new()
 	_scorza.position = Vector2(ex - 6, frame.position.y + 10)
@@ -138,8 +142,9 @@ func _ready() -> void:
 		_scorza.add_theme_font_size_override("font_size", 14)
 	# i set (voce 26): sotto gli accessori, quanti pezzi si indossano e, completo, il bonus
 	_sets = Label.new()
-	_sets.position = Vector2(ex + 2 * (SlotView.SIZE + 12) - 6, frame.position.y + 40 + 2 * (SlotView.SIZE + GAP))
-	_sets.size = Vector2(SlotView.SIZE + 12, 2 * SlotView.SIZE + GAP)
+	# (voce 296: sotto le quattro righe, dove prima stavano le tasche c'era questa scritta)
+	_sets.position = Vector2(ex - 6, frame.position.y + 40 + 4 * (SlotView.SIZE + GAP) - 2)
+	_sets.size = Vector2(ew - 12, 20)
 	_sets.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_sets.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_sets.add_theme_font_size_override("font_size", 12)
@@ -151,24 +156,29 @@ func _ready() -> void:
 	var sort := Button.new()
 	sort.text = "Riordina"
 	sort.focus_mode = Control.FOCUS_NONE
-	sort.position = Vector2(frame.position.x + frame.size.x - 96, frame.position.y + 8)
-	sort.size = Vector2(82, 28)
-	sort.add_theme_font_size_override("font_size", 13)
+	sort.position = Vector2(frame.position.x + frame.size.x - 90, frame.position.y + 8)
+	sort.size = Vector2(76, 28)
+	sort.add_theme_font_size_override("font_size", 12)
 	sort.tooltip_text = "Mette in ordine la Bisaccia (non la barra rapida): per tipo e per nome, unendo le pile"
 	sort.pressed.connect(func() -> void: bisaccia.sort_bag())
 	add_child(sort)
 	var qs := Button.new()
 	qs.text = "Nelle casse"
 	qs.focus_mode = Control.FOCUS_NONE
-	qs.position = sort.position - Vector2(98, 0)
-	qs.size = Vector2(92, 28)
-	qs.add_theme_font_size_override("font_size", 13)
+	qs.position = sort.position - Vector2(106, 0)
+	qs.size = Vector2(100, 28)
+	qs.add_theme_font_size_override("font_size", 12)
 	qs.tooltip_text = "Ogni oggetto della Bisaccia (non la barra rapida) va nella cassa vicina che lo contiene già o che raccoglie il suo tipo"
 	qs.pressed.connect(func() -> void:
 		if quick_stack.is_valid():
 			var r: Dictionary = quick_stack.call()
 			_toast.call(Storage.stash_text(r)))
 	add_child(qs)
+	# le misure vere dei due pulsanti (la cornice ha i suoi margini): da destra, uno accanto all'altro
+	sort.size.x = maxf(sort.size.x, sort.get_combined_minimum_size().x)
+	sort.position.x = frame.position.x + frame.size.x - 14 - sort.size.x
+	qs.size.x = maxf(qs.size.x, qs.get_combined_minimum_size().x)
+	qs.position.x = sort.position.x - 6 - qs.size.x
 	# il cestino: nella riga del titolo, a sinistra dei pulsanti
 	_trash_view = SlotView.new()
 	_trash_view.scale = Vector2(0.6, 0.6)
@@ -257,7 +267,7 @@ func _build_views() -> void:
 	_views.clear()
 	var pages := ceili(float(bisaccia.slots.size() - Bisaccia.HOTBAR) / float(BackpackData.PAGE))
 	for p in pages:
-		_views.append({"t": str(p + 1) if pages > 1 else "", "bag": bisaccia, "from": Bisaccia.HOTBAR + p * BackpackData.PAGE,
+		_views.append({"t": str(p + 1) if pages > 1 else "Bisaccia", "bag": bisaccia, "from": Bisaccia.HOTBAR + p * BackpackData.PAGE,
 			"tip": "Bisaccia, pagina %d di %d (%d caselle)" % [p + 1, pages, bisaccia.slots.size()]})
 	for e in bisaccia.extra_views():
 		_views.append(e)
@@ -280,9 +290,11 @@ func _build_views() -> void:
 		b.custom_minimum_size = Vector2(30, 28)
 		b.text = String(v.get("t", ""))
 		if String(v.get("icon", "")) != "":
-			b.icon = SlotView.icon(String(v["icon"]))
-			b.expand_icon = true
-			b.custom_minimum_size = Vector2(34, 28)
+			var img := ItemIcons.of(String(v["icon"]))            # l'icona a 24 pixel: a 16 non si riconosceva
+			img.resize(24, 24, Image.INTERPOLATE_NEAREST)
+			b.icon = ImageTexture.create_from_image(img)
+			b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			b.custom_minimum_size = Vector2(44, 28)
 		b.add_theme_font_size_override("font_size", 13)
 		UiFrames.button(b, UiPalette.AMBRA, k == view)
 		b.button_pressed = k == view

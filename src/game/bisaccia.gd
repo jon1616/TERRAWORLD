@@ -17,7 +17,7 @@ const STARTER := [["piccone_radicite", 1], ["ascia_radicite", 1], ["spada_radice
 ## Voce 86: dieci posti (guanti, stivali, mantello, amuleto e anello oltre a quelli di prima). Il posto ha il nome del
 ## tipo di oggetto che prende, tranne «accessorio_N».
 const EQUIP_SLOTS := ["elmo", "corazza", "gambali", "guanti", "stivali", "mantello", "amuleto", "anello", "accessorio_1",
-	"accessorio_2"]
+	"accessorio_2", "tasca_1", "tasca_2"]                              # voce 296: le tasche alla cintura
 
 var slots: Array[Dictionary] = []
 ## Il caso per i tratti e i genomi degli oggetti che entrano (null = il caso di sempre). Il generatore del mondo ci
@@ -26,6 +26,10 @@ var rng: RandomNumberGenerator = null
 var equip := {}                        # "elmo"/"corazza"/"gambali"/"accessorio_N" -> id dell'oggetto indossato
 var equip_traits := {}                 # posto -> tratto del pezzo indossato ("" o assente = nessuno)
 var equip_data := {}                   # posto -> "dati" del pezzo indossato (voce 50)
+## Voce 296: le tasche indossate come Bisacce vere (posto -> Bisaccia), fatte dai "dati" della tasca (`c`) e riscritte lì a
+## ogni cambio. Le altre borse che ti seguono (il basto, voce 299): [{"t", "bag", "icon", "tip", "accept"}].
+var _pouches := {}
+var carriers: Array = []
 
 
 ## `size`: 40 per la Bisaccia; le ceste e gli scrigni usano la stessa classe con meno caselle.
@@ -37,7 +41,59 @@ func _init(size := SIZE) -> void:
 
 ## Che tipo di oggetto va in un posto dell'equipaggiamento («accessorio_1» e «accessorio_2» prendono gli accessori).
 static func kind_of_slot(slot: String) -> String:
+	if slot.begins_with("tasca"):
+		return "tasca"
 	return "accessorio" if slot.begins_with("accessorio") else slot
+
+
+## Voce 296: la tasca indossata in un posto, come Bisaccia (null se il posto è vuoto o non è una tasca).
+func pouch(slot: String) -> Bisaccia:
+	if not equip.has(slot):
+		return null
+	var pd := BackpackData.pouch_of(String(equip[slot]))
+	if pd.is_empty():
+		return null
+	if _pouches.has(slot):
+		return _pouches[slot]
+	var data: Dictionary = equip_data.get(slot, {})
+	var pb := Bisaccia.from_array(data.get("c", []), int(pd["slots"]))
+	var type := String(pd["type"])
+	pb.set_meta("accept", func(id: String) -> bool: return BackpackData.accepts(type, id))
+	pb.set_meta("type", type)
+	pb.changed.connect(func() -> void:
+		if equip.has(slot) and _pouches.get(slot) == pb:
+			if not equip_data.has(slot):
+				equip_data[slot] = {}
+			equip_data[slot]["c"] = pb.to_array()
+			changed.emit())
+	_pouches[slot] = pb
+	return pb
+
+
+## Tutte le borse in più che accettano un oggetto: prima le tasche, poi chi ti segue.
+func _extra_for(id: String) -> Array[Bisaccia]:
+	var out: Array[Bisaccia] = []
+	for slot in BackpackData.POUCH_SLOTS:
+		var pb := pouch(slot)
+		if pb != null and BackpackData.accepts(String(pb.get_meta("type")), id):
+			out.append(pb)
+	for c in carriers:
+		var cb: Bisaccia = c["bag"]
+		if not c.has("accept") or (c["accept"] as Callable).call(id):
+			out.append(cb)
+	return out
+
+
+## La Bisaccia e tutte le borse in più (tasche, basto): per contare ciò che si ha.
+func all_bags() -> Array[Bisaccia]:
+	var out: Array[Bisaccia] = [self]
+	for slot in BackpackData.POUCH_SLOTS:
+		var pb := pouch(slot)
+		if pb != null:
+			out.append(pb)
+	for c in carriers:
+		out.append(c["bag"] as Bisaccia)
+	return out
 
 
 func is_empty() -> bool:
@@ -83,7 +139,20 @@ func grow(size: int) -> bool:
 
 ## Le schede in più del pannello (tasche, basto): [{"t", "bag", "from", "tip", "icon"}]. Le riempiono le voci 296 e 299.
 func extra_views() -> Array:
-	return []
+	var out := []
+	for slot in BackpackData.POUCH_SLOTS:
+		var pb := pouch(slot)
+		if pb != null:
+			var used := 0
+			for s in pb.slots:
+				if not s.is_empty():
+					used += 1
+			var name := String(ItemsData.get_item(String(equip[slot]))["name"])
+			out.append({"t": "", "icon": String(equip[slot]), "bag": pb, "from": 0,
+				"tip": "%s · %d caselle su %d" % [name, used, pb.slots.size()]})
+	for c in carriers:
+		out.append({"t": "", "icon": String(c.get("icon", "")), "bag": c["bag"], "from": 0, "tip": String(c.get("tip", ""))})
+	return out
 
 
 ## Un pezzo d'equipaggiamento (una casella a sé, con il suo tratto)?
@@ -101,6 +170,15 @@ func count_at(i: int) -> int:
 
 ## Aggiunge: prima riempie le pile uguali, poi le caselle vuote (barra rapida per prima). Restituisce ciò che non entra.
 func add(id: String, n: int) -> int:
+	if not _pouches.is_empty() or not carriers.is_empty() or equip.has("tasca_1") or equip.has("tasca_2"):
+		for pb in _extra_for(id):
+			if n <= 0:
+				break
+			if pb.room_for(id) > 0:
+				n = pb.add(id, n)             # voce 296: ciò che è del tipo di una tasca ci va da solo
+		if n <= 0:
+			changed.emit()
+			return 0
 	var cap := ItemsData.stack_of(id)
 	for i in slots.size():
 		if n <= 0:
@@ -146,6 +224,9 @@ func add_stack(s: Dictionary) -> int:
 func room_for(id: String) -> int:
 	var cap := ItemsData.stack_of(id)
 	var r := 0
+	if (equip.has("tasca_1") or equip.has("tasca_2") or not carriers.is_empty()):
+		for pb in _extra_for(id):
+			r += pb.room_for(id)
 	for i in slots.size():
 		if slots[i].is_empty():
 			r += cap
@@ -159,6 +240,10 @@ func count(id: String) -> int:
 	for i in slots.size():
 		if id_at(i) == id:
 			c += count_at(i)
+	if equip.has("tasca_1") or equip.has("tasca_2") or not carriers.is_empty():
+		for b in all_bags():
+			if b != self:
+				c += b.count(id)              # voce 296: anche ciò che sta nelle tasche
 	return c
 
 
@@ -175,6 +260,15 @@ func remove(id: String, n: int) -> bool:
 			n -= k
 			if count_at(i) <= 0:
 				slots[i] = {}
+	# voce 296: ciò che manca si prende dalle tasche (e dal basto)
+	if n > 0:
+		for b in all_bags():
+			if b == self or n <= 0:
+				continue
+			var k := mini(b.count(id), n)
+			if k > 0:
+				b.remove(id, k)
+				n -= k
 	changed.emit()
 	return true
 
@@ -253,6 +347,7 @@ func scorza() -> int:
 ## Indossa ciò che si tiene in mano nel posto giusto; restituisce ciò che torna in mano (il pezzo tolto, o la pila se
 ## non va lì).
 func wear(slot: String, held: Dictionary) -> Dictionary:
+	_pouches.erase(slot)                       # voce 296: la tasca si rifà dai dati del pezzo che c'è adesso
 	if held.is_empty():
 		if equip.has(slot):
 			var off := _worn(slot)

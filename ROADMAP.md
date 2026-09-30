@@ -4545,9 +4545,14 @@ tue possibilità, esplorazione compresa», con le cinque idee per lo zaino.
   `Bisaccia.grow`, `Character` rilegge tante caselle quante ne ha salvate; nel pannello le schede «1 2 3» accanto al titolo
   (`BisacciaPanel._views`: pagine, poi tasche e basto), «Nelle casse» e «Riordina» più corti, il Cestino con la sua
   sagoma. Prova: gruppo «zaino» (foto 300).
-- [ ] **296. Tasche alla cintura.** Tre posti «tasca» nell'equipaggiamento; cinque tasche (minatore, erbario, faretra,
+- [x] **296. Tasche alla cintura.** Due posti «tasca» nell'equipaggiamento; cinque tasche (minatore, erbario, faretra,
   pescatore, cercatore) in tre gradi (12/24/36 caselle) che prendono da sole ciò che è del loro tipo. Il contenuto vive
   nella tasca (la si toglie piena), conta per creare, si vede in una scheda del pannello.
+  Fatto il 30 set 2026: tre gradi da 10/20/30 caselle (il grado prima si cuce nel nuovo), due posti nella terza
+  colonna dell'equipaggiamento (i set scendono sotto). `Bisaccia.pouch(posto)` è una Bisaccia vera fatta dai dati `c`;
+  `add` prova prima le tasche che accettano l'oggetto (`BackpackData.accepts`), `count`/`remove`/`room_for` e
+  `Crafting.counts` le contano (`all_bags`); nel pannello una scheda con l'icona della tasca; nella tasca si posa solo il
+  suo tipo. Prova nel gruppo «zaino» (foto 301).
 - [ ] **297. «Non raccogliere» e «nel Cestino».** Un segno per oggetto, in Esamina: quell'oggetto resta a terra, o va dritto
   nel Cestino. Si toglie da lì.
 - [ ] **298. La Dispensa del Giardino.** Una cassa grande che appartiene al personaggio (non al mondo), aperta dalla sua

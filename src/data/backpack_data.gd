@@ -4,6 +4,9 @@ extends RefCounted
 ## Solo dati; le regole stanno in `Bisaccia` (caselle, tasche) e in `Backpack` (`src/game/`).
 ##   BAGS      le Bisacce a gradi (voce 295): usarne una porta la Bisaccia a `slots` caselle, per sempre; il contenuto
 ##             resta. Si fanno al Telaio con i materiali di strati sempre più profondi.
+##   POUCHES   le tasche alla cintura (voce 296): due posti «tasca» dell'equipaggiamento; ogni tasca ha caselle sue che
+##             prendono da sole ciò che è del suo tipo (`accepts`). Tre gradi: 10, 20, 30 caselle. Il contenuto sta nei
+##             "dati" della tasca (`c`), così la si toglie piena e la si rimette com'era.
 
 const BASE := 40                       # la Bisaccia di partenza (`Bisaccia.SIZE`)
 const PAGE := 30                       # caselle per pagina nel pannello (sopra la barra rapida)
@@ -22,6 +25,79 @@ const BAGS := [
 ]
 
 
+const POUCHES := [
+	{"type": "minatore", "name": "Sacca del minatore", "icon": "sacca", "desc": "minerali, gemme, pietre, blocchi e lingotti"},
+	{"type": "erbario", "name": "Erbario da cintura", "icon": "foglia", "desc": "semi, piante, funghi, fiori e legno"},
+	{"type": "faretra", "name": "Faretra", "icon": "freccia", "desc": "dardi, esplosivi e giavellotti"},
+	{"type": "pescatore", "name": "Cesto del pescatore", "icon": "cesta", "desc": "pesci, filetti, esche e casse pescate"},
+	{"type": "cercatore", "name": "Borsa del cercatore", "icon": "scrigno", "desc": "Lumini, reliquie, ricordi, fossili, frammenti e curiosità"},
+]
+## I gradi delle tasche: caselle, aggiunta al nome, materiale dell'icona, ingredienti al Telaio.
+const POUCH_TIERS := [
+	{"slots": 10, "suffix": "", "mat": "seta", "in": {"seta_radice": 6, "corda_liana": 2, "gelatina": 3}},
+	{"slots": 20, "suffix": " rinforzata", "mat": "legnoferro", "in": {"seta_radice": 12, "corda_liana": 4, "lingotto_legnoferro": 4}},
+	{"slots": 30, "suffix": " d'ambra", "mat": "ambra", "in": {"seta_radice": 18, "lingotto_ambra": 5, "cristallo_linfa": 2}},
+]
+const POUCH_SLOTS := ["tasca_1", "tasca_2"]
+
+
+static func pouch_id(type: String, tier: int) -> String:
+	return "tasca_%s_%d" % [type, tier + 1]
+
+
+static func pouch_of(id: String) -> Dictionary:
+	var it := ItemsData.get_item(id)
+	if String(it.get("kind", "")) != "tasca":
+		return {}
+	return {"type": String(it["tasca"]), "slots": int(it["slots"]), "name": String(it["name"])}
+
+
+static var _sets := {}
+
+
+## Una tasca di questo tipo prende questo oggetto?
+static func accepts(type: String, id: String) -> bool:
+	var it := ItemsData.get_item(id)
+	var kind := String(it.get("kind", ""))
+	if kind in ["tasca", "bisaccia"] or it.is_empty():
+		return false
+	match type:
+		"minatore":
+			return kind in ["blocco", "parete"] or id.begins_with("lingotto_") or id.begins_with("gemma") or _known("minatore").has(id)
+		"erbario":
+			return kind in ["seme", "coltura"] or id.begins_with("legno") or bool(it.get("erba", false)) or _known("erbario").has(id)
+		"faretra":
+			return kind in ["munizione", "esplosivo", "giavellotto"]
+		"pescatore":
+			return kind in ["pesce", "esca", "cassetta"] or id.begins_with("filetto")
+		"cercatore":
+			return kind in ["moneta", "reliquia", "ricordo", "tavoletta", "trofeo"] or bool(it.get("curiosita", false)) or _known("cercatore").has(id)
+	return false
+
+
+## Gli oggetti che un tipo di tasca riconosce dagli altri dati (ciò che lascia il terreno, le piante, l'archeologia).
+static func _known(type: String) -> Dictionary:
+	if _sets.has(type):
+		return _sets[type]
+	var out := {}
+	match type:
+		"minatore":
+			for t in TileDefs.DROP:
+				out[String(TileDefs.DROP[t])] = true
+		"erbario":
+			for d in TileDefs.DECOR_DROP:
+				out[String(TileDefs.DECOR_DROP[d])] = true
+		"cercatore":
+			for k in ArchaeologyData.items():
+				if k != "pennello":
+					out[k] = true
+			for k in ChroniclesData.items():
+				out[k] = true
+	out.erase("")
+	_sets[type] = out
+	return out
+
+
 static func bag_of(id: String) -> Dictionary:
 	for b in BAGS:
 		if String(b["id"]) == id:
@@ -34,6 +110,12 @@ static func items() -> Dictionary:
 	for b in BAGS:
 		out[b["id"]] = {"name": b["name"], "kind": "bisaccia", "icon": ["sacca", b["mat"]], "stack": 1, "slots": b["slots"],
 			"desc": "Usala: la tua Bisaccia diventa di %d caselle, per sempre (ciò che contiene resta)." % int(b["slots"])}
+	for p in POUCHES:
+		for k in POUCH_TIERS.size():
+			var t: Dictionary = POUCH_TIERS[k]
+			out[pouch_id(String(p["type"]), k)] = {"name": String(p["name"]) + String(t["suffix"]), "kind": "tasca",
+				"tasca": p["type"], "slots": t["slots"], "icon": [p["icon"], t["mat"]], "stack": 1,
+				"desc": "Alla cintura (posto «tasca»): %d caselle che prendono da sole %s." % [int(t["slots"]), p["desc"]]}
 	return out
 
 
@@ -41,4 +123,10 @@ static func recipes() -> Array:
 	var out := []
 	for b in BAGS:
 		out.append({"out": b["id"], "qty": 1, "in": b["in"], "station": "telaio"})
+	for p in POUCHES:
+		for k in POUCH_TIERS.size():
+			var ins: Dictionary = (POUCH_TIERS[k]["in"] as Dictionary).duplicate()
+			if k > 0:
+				ins[pouch_id(String(p["type"]), k - 1)] = 1          # il grado prima si cuce dentro quello nuovo
+			out.append({"out": pouch_id(String(p["type"]), k), "qty": 1, "in": ins, "station": "telaio"})
 	return out

@@ -22,9 +22,10 @@ static func have(b: Bisaccia, id: String) -> int:
 ## contava gli stessi oggetti per ogni ingrediente di ogni ricetta.
 static func counts(b: Bisaccia) -> Dictionary:
 	var out := {}
-	for s in b.slots:
-		if not s.is_empty():
-			out[s["id"]] = int(out.get(s["id"], 0)) + int(s["n"])
+	for bb in b.all_bags():                       # voce 296: anche le tasche e il basto
+		for s in bb.slots:
+			if not s.is_empty():
+				out[s["id"]] = int(out.get(s["id"], 0)) + int(s["n"])
 	for c in pool:
 		for s in (c as Bisaccia).slots:
 			if not s.is_empty():

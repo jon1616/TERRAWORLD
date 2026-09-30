@@ -14,6 +14,7 @@ func _init(tk: TestKit) -> void:
 
 func run() -> void:
 	await bags()
+	await pouches()
 
 
 ## Lo stato della Bisaccia da rimettere dopo la prova: caselle, contenuto ed equipaggiamento.
@@ -78,4 +79,53 @@ func bags() -> void:
 		n0, n1, grown, not smaller, kept, saved_ok, pages, last_seen])
 	if not ok:
 		print("ATTENZIONE: le Bisacce a gradi non vanno")
+	_restore_bag(saved)
+
+
+## Voce 296: una tasca alla cintura prende da sola il suo tipo; ciò che contiene si conta per creare, si toglie, resta nella
+## tasca quando la si leva e torna quando la si rimette; il salvataggio la tiene.
+func pouches() -> void:
+	var saved := _save_bag()
+	var b: Bisaccia = m.character.bisaccia
+	b.equip.erase("tasca_1")
+	b.equip.erase("tasca_2")
+	var back0 := b.wear("tasca_1", {"id": "tasca_minatore_1", "n": 1})
+	var main0 := 0
+	for s in b.slots:
+		if String(s.get("id", "")) == "ardesia":
+			main0 += int(s["n"])
+	var pb := b.pouch("tasca_1")
+	var rest := b.add("ardesia", 30)
+	var in_pouch := pb.count("ardesia") if pb != null else -1
+	var main1 := 0
+	for s in b.slots:
+		if String(s.get("id", "")) == "ardesia":
+			main1 += int(s["n"])
+	var counted := b.count("ardesia") == main0 + 30 and int(Crafting.counts(b).get("ardesia", 0)) >= main0 + 30
+	b.add("dardo", 5)
+	var sword_refused := pb != null and not BackpackData.accepts("minatore", "spada_radice") and pb.count("dardo") == 0
+	b.remove("ardesia", main0 + 5)
+	var took := pb != null and pb.count("ardesia") == 25
+	var d: Dictionary = m.character.to_dict()
+	var ch := Character.from_dict("prova_tasche", JSON.parse_string(JSON.stringify(d)))
+	var saved_ok: bool = ch != null and ch.bisaccia.pouch("tasca_1") != null and ch.bisaccia.pouch("tasca_1").count("ardesia") == 25
+	var bp: BisacciaPanel = m.hud.panel
+	bp.toggle()
+	await kit.frames(2)
+	bp.view = bp._views.size() - 1
+	bp._refresh()
+	await kit.frames(3)
+	var tab_ok: bool = bp.bag() == pb
+	await kit.save("301_zaino_tasca")
+	bp.view = 0
+	bp.toggle()
+	var off := b.wear("tasca_1", {})
+	var off_full := (off.get("dati", {}) as Dictionary).has("c") and b.count("ardesia") == 0
+	b.wear("tasca_1", off)
+	var again := b.count("ardesia") == 25
+	var ok: bool = back0.is_empty() and rest == 0 and in_pouch == 30 and main1 == main0 and counted and sword_refused and took 		and saved_ok and tab_ok and off_full and again
+	print("tasche: 30 ardesie nella Sacca del minatore %s (fuori %d → %d), contate per creare %s, dardi rifiutati %s, tolte %s, salvataggio %s, scheda %s, tolta piena %s, rimessa %s" % [
+		in_pouch == 30, main0, main1, counted, sword_refused, took, saved_ok, tab_ok, off_full, again])
+	if not ok:
+		print("ATTENZIONE: le tasche non vanno")
 	_restore_bag(saved)
