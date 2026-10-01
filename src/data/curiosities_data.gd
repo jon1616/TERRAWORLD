@@ -28,7 +28,7 @@ const SERIES := [
 		["cur_lucciola_ambra", "Lucciola nell'ambra", "goccia", "Brilla ancora, dopo mille anni."]]},
 	{"hall": "cur_ardesia", "name": "Curiosità dell'ardesia", "bonus": {"dig": 1.05}, "items": [
 		["cur_ammonite", "Ammonite d'ardesia", "guscio", "Una spirale perfetta, di quando qui c'era un mare."],
-		["cur_punta_antica", "Punta di freccia antica", "freccia", "Selce scheggiata: qualcuno cacciava qui, prima dei Seminatori?"],
+		["cur_punta_antica", "Punta di freccia antica", "aculeo", "Selce scheggiata: qualcuno cacciava qui, prima dei Seminatori?"],
 		["cur_dado_pietra", "Dado di pietra", "gemma", "Sei facce, sei segni della lingua comune."],
 		["cur_specchio_mica", "Specchietto di mica", "specchio", "Rimanda la luce di una torcia che non c'è."],
 		["cur_osso_inciso", "Osso inciso", "artiglio", "Qualcuno ci ha contato i giorni: trecentoventi tacche."],
