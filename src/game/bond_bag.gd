@@ -204,6 +204,35 @@ func _emit() -> void:
 	herd().changed_now()
 
 
+# ---- voce 317: il Libro dei legami ----------------------------------------------------------------------------------
+
+## Una scheda nuova nella mandria (da `Herd.add_record`): la specie entra nel Libro dei legami; ai traguardi un premio.
+func bound(rec: Dictionary) -> void:
+	var st: Dictionary = m.character.stats
+	var base := CreaturesData.base_of(String(rec["specie"]))
+	if int(st.get("legata_" + base, 0)) >= 1:
+		return
+	st["legata_" + base] = 1
+	m.objectives.bump("specie_legate")
+	var n := int(st.get("specie_legate", 0))
+	for g in BondsData.BOOK_GOALS:
+		if n >= int(g[0]) and int(st.get("libro_legami_%d" % int(g[0]), 0)) < 1:
+			st["libro_legami_%d" % int(g[0])] = 1
+			var what := []
+			for id in g[1]:
+				var rest: int = m.character.bisaccia.add(String(id), int(g[1][id]))
+				if rest > 0:
+					m.drops.spawn(String(id), rest, m.player.position)
+				what.append("%s ×%d" % [ItemsData.get_item(String(id)).get("name", id), int(g[1][id])])
+			m.hud.toast("Libro dei legami: %d specie! In dono: %s" % [int(g[0]), ", ".join(what)])
+			m.sfx.play("dono")
+
+
+## Quante specie legate, su quante.
+func book_count() -> Array:
+	return [int(m.character.stats.get("specie_legate", 0)), BondsData.all_species().size()]
+
+
 # ---- voce 314: gli oggetti dei compagni ----------------------------------------------------------------------------
 
 ## Dare un oggetto al compagno in campo (clic sopra di lui con l'oggetto in mano). False se non c'entra (un'essenza

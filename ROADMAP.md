@@ -4787,8 +4787,17 @@ Le scelte di fondo:
   i posti, ciondolo, tratti, dono, i cinque gradi dell'affiatamento) e i comandi (in campo, richiama, al Giardino o
   nella sacca, atteggiamento, dimentica una mossa, togli il ciondolo: l'oggetto torna nella Bisaccia). Nomi delle mosse
   in `BondsData.MOVE_NAMES`. Nella galleria (16_bonds_panel: 0 problemi); prova nel gruppo «legami» (foto 323).
-- [ ] **317. Il Libro dei legami e il resto del gioco.** La collezione delle specie legate (pagine come l'Erbario) con
+- [x] **317. Il Libro dei legami e il resto del gioco.** La collezione delle specie legate (pagine come l'Erbario) con
   traguardi per famiglie e numeri; la maestria della mandria; richieste della Bacheca e taglie insieme al compagno; la
   Prova dei legami al Cerchio; consigli, filo, Enciclopedia.
+  Fatto il 2 ott 2026: il Libro dei legami (`BondBag.bound` da `Herd.add_record`: `stats["legata_<specie>"]`,
+  `specie_legate`, sei traguardi `BondsData.BOOK_GOALS` con i loro doni; nel pannello la vista con le 175 specie, le
+  legate a colori, le viste in ombra, le altre «?», e il prossimo traguardo). Pilastro della mandria: `specie_legate`,
+  `istinti_imparati`, `affiatamento`, `livelli_compagni` in `MasteryData.STATS`. Bacheca: «Lega una specie nuova» e «Fai
+  crescere un compagno fino al livello N» (`compagno_lvl_max`). Tre consigli (primo compagno, KO, un oggetto per i
+  compagni), la fonte «compagni» del filo (il primo da legare; tutti KO: torna al Giardino), la scheda di una creatura
+  selvatica dice come si lega e se è nuova per il Libro, cinque capitoli in `EncyBondsData` e il capitolo della mandria
+  aggiornato. Prova nel gruppo «legami» (foto 324_libro_legami). Le taglie e le prove del Cerchio contano già le
+  creature abbattute dal compagno (passano da `Fauna.kill`).
 - [ ] **318. Bilancio e chiusura.** `tools/compagni.gd` (forza del compagno per livello contro le creature di ogni
   strato, quanto aiuta il Germogliato), `tools/percorso.gd` con il compagno, galleria, giro intero, resoconto.

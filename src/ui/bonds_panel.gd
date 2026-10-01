@@ -23,6 +23,12 @@ var _actions: HBoxContainer
 var _stances: HBoxContainer
 var _moves: HBoxContainer
 var _sub: Label
+var book := false                       # voce 317: il Libro dei legami al posto della scheda
+var _book_btn: Button
+var _grid: Control
+var _book_head: Label
+var _card_nodes: Array = []
+const CELL := 52.0
 
 
 func setup(main: Node2D, bag: BondBag) -> void:
@@ -75,6 +81,30 @@ func setup(main: Node2D, bag: BondBag) -> void:
 	_stances = _row(CARD.position + Vector2(150, CARD.size.y - 110))
 	_label("Mosse imparate", CARD.position + Vector2(20, CARD.size.y - 56), UiPalette.TESTO_SPENTO, UiPalette.TESTO_PX)
 	_moves = _row(CARD.position + Vector2(150, CARD.size.y - 62))
+	_card_nodes = [_pic, _actions, _body, _stances, _moves]
+	for n in get_children():
+		if n is Label and (n.text == "Atteggiamento" or n.text == "Mosse imparate"):
+			_card_nodes.append(n)
+	# voce 317: il Libro dei legami
+	_book_btn = Button.new()
+	_book_btn.focus_mode = Control.FOCUS_NONE
+	_book_btn.position = Vector2(CARD.end.x - 280, CARD.position.y + 14)     # (in alto a destra ci sono gli avvisi)
+	_book_btn.custom_minimum_size = Vector2(260, 36)
+	_book_btn.add_theme_font_size_override("font_size", UiPalette.TESTO_PX)
+	_book_btn.pressed.connect(func() -> void:
+		book = not book
+		_dirty = true)
+	add_child(_book_btn)
+	_book_head = _label("", CARD.position + Vector2(20, 14), UiPalette.AMBRA_CHIARA, UiPalette.GRANDE)
+	_book_head.size = Vector2(CARD.size.x - 330, 52)
+	_book_head.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_grid = Control.new()
+	_grid.position = CARD.position + Vector2(20, 76)
+	_grid.size = Vector2(CARD.size.x - 40, CARD.size.y - 90)
+	_grid.mouse_filter = Control.MOUSE_FILTER_STOP
+	_grid.draw.connect(_draw_book)
+	add_child(_grid)
+	Tips.attach(_grid, _book_tip)
 	UiScreen.hint(self, "Esc o %s per chiudere · %s evoca o richiama, %s cambia · gli oggetti (frutti, istinti, pietre, ciondoli) si danno con un clic sul compagno in campo · nome, recinti e coppie: Mandria (%s)" % [
 		Keys.label("compagni"), Keys.label("compagno"), Keys.label("cambia_compagno"), Keys.label("mandria")])
 	bag.changed.connect(func() -> void: _dirty = true)       # (in `setup` di `BondBag`: `m.bonds` non c'è ancora)
@@ -233,6 +263,17 @@ func _refresh() -> void:
 			sel = uid
 			_dirty = true)
 		_reserve.add_child(b)
+	var bc: Array = m.bonds.book_count()
+	_book_btn.text = ("Torna alla scheda" if book else "Libro dei legami %d/%d" % [bc[0], bc[1]])
+	UiFrames.button(_book_btn, UiPalette.AMBRA, book)
+	for n in _card_nodes:
+		(n as CanvasItem).visible = not book
+	_grid.visible = book
+	_book_head.visible = book
+	if book:
+		_book_head.text = book_head()
+		_grid.queue_redraw()
+		return
 	var rec: Dictionary = m.herd.rec_of(sel)
 	_card(rec)
 
@@ -393,3 +434,64 @@ func take_charm(rec: Dictionary) -> void:
 	rec.erase("ciondolo")
 	m.character.bisaccia.add(cd, 1)
 	m.herd.refresh(rec)
+
+
+# ---- voce 317: il Libro dei legami ---------------------------------------------------------------------------------
+
+## La riga in cima al Libro: quante specie, il prossimo traguardo e il suo dono.
+func book_head() -> String:
+	var bc: Array = m.bonds.book_count()
+	var t := "Specie legate: %d su %d." % [bc[0], bc[1]]
+	for g in BondsData.BOOK_GOALS:
+		if int(bc[0]) < int(g[0]):
+			var what := []
+			for id in g[1]:
+				what.append("%s ×%d" % [ItemsData.get_item(String(id)).get("name", id), int(g[1][id])])
+			t += " Al traguardo di %d: %s." % [int(g[0]), ", ".join(what)]
+			break
+	return t
+
+
+func _cell_of(p: Vector2) -> int:
+	var cols := floori(_grid.size.x / CELL)
+	var i := floori(p.y / CELL) * cols + floori(p.x / CELL)
+	return i if p.x >= 0.0 and p.x < cols * CELL and i < BondsData.all_species().size() else -1
+
+
+func _draw_book() -> void:
+	var all := BondsData.all_species()
+	var cols := floori(_grid.size.x / CELL)
+	var seen: Dictionary = m.character.erbario.get("creature", {})
+	var f: Font = PixelFont.font()
+	for i in all.size():
+		var sp := String(all[i])
+		var r := Rect2(Vector2((i % cols) * CELL, (i / cols) * CELL), Vector2(CELL - 6, CELL - 6))
+		var got := int(m.character.stats.get("legata_" + sp, 0)) >= 1
+		_grid.draw_style_box(UiFrames.box("casella", "scelto" if got else "normale"), r)
+		if got or seen.has(sp):
+			var tex := BondBar.portrait({"specie": sp})
+			var ts := tex.get_size()
+			var k := minf((r.size.x - 8) / ts.x, (r.size.y - 8) / ts.y)
+			if k >= 1.0:
+				k = floorf(k)
+			var sz := ts * k
+			_grid.draw_texture_rect(tex, Rect2(r.position + (r.size - sz) * 0.5, sz), false,
+				Color(1, 1, 1, 1) if got else Color(0.05, 0.08, 0.08, 0.85))
+		else:
+			_grid.draw_string(f, r.position + Vector2(r.size.x * 0.5 - 4, r.size.y * 0.5 + 6), "?", HORIZONTAL_ALIGNMENT_LEFT, -1,
+				PixelFont.size(2), UiPalette.TESTO_MUTO)
+
+
+func _book_tip() -> Variant:
+	var i := _cell_of(_grid.get_local_mouse_position())
+	if i < 0:
+		return null
+	var sp := String(BondsData.all_species()[i])
+	var got := int(m.character.stats.get("legata_" + sp, 0)) >= 1
+	var seen: bool = (m.character.erbario.get("creature", {}) as Dictionary).has(sp)
+	if not got and not seen:
+		return TipCard.simple("Una specie che non hai ancora incontrato")
+	var nat := BondsData.nature_of(sp)
+	var how := String(BondsData.NATURE_TEXT[nat]) if nat != "" else "con il Laccio quando è stremata, o con il suo cibo"
+	return TipCard.simple("%s — %s · %s" % [CreaturesData.get_data(sp).get("name", sp), "legata" if got else "non ancora legata", how])
+

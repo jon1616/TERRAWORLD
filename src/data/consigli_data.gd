@@ -134,6 +134,12 @@ const LIST := [
 	# Roadmap 30: lo zaino e le grotte piene
 	{"id": "zaino_pieno", "title": "La Bisaccia si riempie", "cap": "zaino",
 		"text": "Al [b]Telaio[/b] si cuciono Bisacce più grandi e le [b]tasche[/b] per la cintura, che prendono da sole minerali, piante, dardi, pesci o reliquie. In Esamina puoi dire di un oggetto: [b]Non raccogliere[/b]."},
+	{"id": "primo_compagno", "title": "Il primo compagno", "cap": "compagni_battaglia",
+		"text": "La creatura legata è nella [b]Sacca dei legami[/b]: in campo ti segue e combatte con il suo stile. {compagno} la evoca o la richiama, {cambia_compagno} manda in campo un'altra, {compagni} apre il pannello."},
+	{"id": "compagno_ko", "title": "Un compagno KO", "cap": "compagni_battaglia",
+		"text": "Un compagno KO torna nella sacca e guarisce [b]solo nel Giardino[/b]. Intanto mandane in campo un altro ({cambia_compagno}); nel pannello l'atteggiamento [b]prudente[/b] lo fa tornare da solo prima di cadere."},
+	{"id": "oggetto_compagno", "title": "Un dono per i compagni", "cap": "crescere_compagni",
+		"text": "Frutti, semi, istinti, pietre e ciondoli si danno al compagno in campo: tienili in mano e fai clic sopra di lui. Gli istinti gli insegnano mosse nuove (i posti si aprono ai livelli 10, 25 e 40)."},
 	{"id": "baccello", "title": "Un baccello dormiente", "cap": "baccelli",
 		"text": "Le grotte sono piene di piccole cose da rompere: baccelli, nidi, urne, geodi. Un clic le apre; più scendi, più sono ricche. Ogni tanto dentro c'è una [b]curiosità[/b] per il Museo."},
 	{"id": "incontro", "title": "Un piccolo incontro", "cap": "incontri",

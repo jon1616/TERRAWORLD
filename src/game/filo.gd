@@ -7,11 +7,11 @@ extends Node
 ## blocco del minerale più vicino già visto, l'albero più vicino per il legno, il banco giusto, l'Albero-Madre; se
 ## serve scendere, una freccia in basso con lo strato.
 
-const SOURCES := ["lista", "perduto", "albero", "rete", "pilastro", "obiettivo", "bacheca", "spedizione", "studio", "stanza", "cielo",
-	"stele"]
+const SOURCES := ["lista", "perduto", "albero", "rete", "pilastro", "obiettivo", "bacheca", "compagni", "spedizione", "studio", "stanza",
+	"cielo", "stele"]
 const SOURCE_NAME := {"lista": "La tua lista", "albero": "Albero-Madre", "obiettivo": "Obiettivo", "bacheca": "Bacheca",
 	"studio": "Studio", "stanza": "La casa", "cielo": "Il cielo", "stele": "La lingua dei Seminatori",
-	"spedizione": "Spedizione"}
+	"spedizione": "Spedizione", "compagni": "I compagni"}
 const SCAN_X := 110                      # quanto lontano si cerca un blocco già visto (tessere)
 const SCAN_Y := 70
 const S := 16
@@ -281,6 +281,20 @@ func _from_stele() -> Dictionary:
 
 
 ## Voce 138: la specie più vicina a essere studiata.
+## Roadmap 32: il primo compagno da legare; i compagni tutti KO da portare a guarire nel Giardino.
+func _from_compagni() -> Dictionary:
+	if m.get("bonds") == null:
+		return {}
+	var bag: Array = m.bonds.bag()
+	if m.character.mandria.is_empty() and int(m.character.stats.get("notti", 0)) >= 1:
+		return {"text": "Lega il tuo primo compagno: il Laccio su una creatura stremata",
+			"hint": "il Laccio si fa al Telaio; ogni creatura tranne i boss si lega e combatte con te (Enciclopedia: I compagni di battaglia)"}
+	if not bag.is_empty() and m.bonds.field().is_empty() and m.bonds.next_ready().is_empty() and not m.giardino.active:
+		return {"text": "Torna al Giardino: i tuoi compagni sono KO e guariscono solo lì",
+			"hint": "la Radice di ritorno o un portale ti riportano a casa"}
+	return {}
+
+
 func _from_studio() -> Dictionary:
 	return m.study.next_to_study() if m.get("study") != null else {}
 

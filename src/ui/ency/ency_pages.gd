@@ -36,6 +36,7 @@ static func chapters() -> Array:
 	out.append_array(EncyMemoriesData.CHAPTERS)        # Roadmap 26: memorie
 	out.append_array(EncyCurrentsData.CHAPTERS)        # Roadmap 27: acque e correnti
 	out.append_array(EncyCavesData.CHAPTERS)           # Roadmap 30: lo zaino e le grotte piene
+	out.append_array(EncyBondsData.CHAPTERS)           # Roadmap 32: i compagni di battaglia
 	out.append_array(EncyEndingData.CHAPTERS)          # Roadmap 28: l'Atto III e il finale
 	return out
 
@@ -92,7 +93,7 @@ static func numbers() -> Dictionary:
 	return {"hp": Vitals.HP_MAX, "linfa": Vitals.LINFA_MAX, "regen_delay": roundi(Vitals.REGEN_DELAY),
 		"regen": ItemTip.num(Vitals.REGEN, 1), "linfa_regen": ItemTip.num(Vitals.LINFA_REGEN, 1),
 		"potion_cd": roundi(Vitals.POTION_COOLDOWN), "fall_safe": roundi(Life.FALL_SAFE), "fall_hurt": Life.FALL_HURT,
-		"bag": 40, "min_specchio": roundi(WaterBody.MIN_VOLUME), "day_min": roundi(DayCycle.DAY / 60.0), "season_days": SeasonsData.DAYS, "chest_reach": roundi(StorageData.craft_reach),
+		"bag": 40, "lvl_max": HerdData.LVL_MAX, "book_all": BondsData.all_species().size(), "min_specchio": roundi(WaterBody.MIN_VOLUME), "day_min": roundi(DayCycle.DAY / 60.0), "season_days": SeasonsData.DAYS, "chest_reach": roundi(StorageData.craft_reach),
 		"craft_reach": StationsData.craft_reach, "max_slots": TraitsData.MAX_SLOTS, "weak": ItemTip.num(ElementsData.WEAK, 1),
 		"resist": ItemTip.num(ElementsData.RESIST, 1), "vigor_pct": roundi(VigorData.CREATURE_STEP * 100.0),
 		"vigor_pct2": roundi(VigorData.CREATURE_STEP_HIGH * 100.0), "vigor_soft": VigorData.CREATURE_SOFT,

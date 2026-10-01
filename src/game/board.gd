@@ -85,6 +85,8 @@ func make() -> Dictionary:
 		kinds.append("cielo")                       # Roadmap 16: una richiesta dal cielo
 	if int(ch.stats.get("macchine", 0)) > 0:
 		kinds.append("rete")                        # Roadmap 19: vene, fili e ciò che vive attorno alla rete
+	if not ch.mandria.is_empty():
+		kinds.append_array(["legame", "compagno"])  # Roadmap 32: i compagni di battaglia
 	var k := String(kinds[_rng.randi_range(0, kinds.size() - 1)])
 	var r := {"tipo": k}
 	match k:
@@ -174,6 +176,16 @@ func make() -> Dictionary:
 				r["n"] = int(a[1])
 				r["testo"] = "Portami %d %s per la rete del Giardino" % [int(a[1]), String(ItemsData.get_item(String(a[0]))["name"])]
 				r["premio"] = {"lumino": 50 + int(a[1]) * 2, "isolante_resina": 3}
+		"legame":
+			r["n"] = 1
+			r["base"] = int(ch.stats.get("specie_legate", 0))
+			r["testo"] = "Lega una creatura di una specie che non hai mai legato"
+			r["premio"] = {"lumino": 70, String(BondsData.FRUITS.keys()[_rng.randi_range(0, BondsData.FRUITS.size() - 1)]): 1}
+		"compagno":
+			var top := int(ch.stats.get("compagno_lvl_max", 1))
+			r["n"] = mini(top + _rng.randi_range(2, 4), HerdData.LVL_MAX)
+			r["testo"] = "Fai crescere un compagno fino al livello %d" % int(r["n"])
+			r["premio"] = {"lumino": 40 + int(r["n"]) * 4, "seme_ricordo": 2}
 		"studio":
 			r["n"] = 1
 			r["base"] = int(ch.stats.get("studiate", 0))
@@ -255,6 +267,10 @@ func progress(r: Dictionary) -> Array:
 			return [mini(int(ch.stats.get("studiate", 0)) - int(r["base"]), n), n]
 		"centrale":
 			return [mini(int(ch.stats.get("centrali", 0)) - int(r["base"]), n), n]
+		"legame":
+			return [mini(int(ch.stats.get("specie_legate", 0)) - int(r["base"]), n), n]
+		"compagno":
+			return [mini(int(ch.stats.get("compagno_lvl_max", 1)), n), n]
 	return [0, n]
 
 

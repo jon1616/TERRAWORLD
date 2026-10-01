@@ -39,6 +39,7 @@ func run() -> void:
 	await gifts(spot, h)
 	await stances(spot, h)
 	await panel(spot, h)
+	await book(spot, h)
 	for uid in h.beasts.keys():
 		h.despawn(int(uid))
 	m.character.mandria.clear()
@@ -499,3 +500,65 @@ func panel(spot: Vector2i, h: Herd) -> void:
 		probs.slice(0, 3)])
 	if not text.contains("Livello 27") or not back or not probs.is_empty():
 		print("ATTENZIONE: il pannello dei compagni non va")
+
+
+## Voce 317: il Libro dei legami (una specie nuova conta una volta; al traguardo il dono), la Bacheca, i consigli, il
+## pilastro della mandria, la scheda di una creatura selvatica.
+func book(spot: Vector2i, h: Herd) -> void:
+	m.fauna.clear()
+	m.snap_to(spot)
+	var st: Dictionary = m.character.stats
+	var ms0: Dictionary = m.character.maestria.duplicate(true)       # (la prova rimette la maestria com'era)
+	var keep := {}
+	for k in st.keys():
+		if String(k).begins_with("legata_") or String(k).begins_with("libro_legami") or k == "specie_legate":
+			keep[k] = st[k]
+	for k in keep:
+		st.erase(k)
+	st["specie_legate"] = 9
+	var b := kit.bisaccia()
+	var l0 := b.count("laccio_intrecciato")
+	var mp0: float = m.mastery.points("mandria")
+	var r1 := h.new_record("volpe_ambra", "laccio")
+	h.add_record(r1)
+	var r2 := h.new_record("volpe_ambra~grande~~", "laccio")
+	h.add_record(r2)
+	var counted := int(st.get("specie_legate", 0)) == 10
+	var gift := b.count("laccio_intrecciato") == l0 + 5
+	var mastery: bool = m.mastery.points("mandria") > mp0
+	# la Bacheca
+	var bd: Board = m.board
+	var req := {}
+	for i in 60:
+		var r := bd.make()
+		if String(r["tipo"]) == "legame":
+			req = r
+			break
+	var before: Array = bd.progress(req) if not req.is_empty() else [0, 1]
+	h.add_record(h.new_record("talpone", "laccio"))
+	var after: Array = bd.progress(req) if not req.is_empty() else [0, 1]
+	# i consigli e il Libro aperto
+	var tips: bool = m.consigli._c_primo_compagno()
+	m.bonds.panel.open()
+	m.bonds.panel.book = true
+	await kit.seconds(0.5)
+	await kit.save("324_libro_legami")
+	var probs := LayoutCheck.scan([m.bonds.panel])
+	var head: String = m.bonds.panel.book_head()
+	m.bonds.panel.book = false
+	m.bonds.panel.close()
+	b.remove("laccio_intrecciato", b.count("laccio_intrecciato") - l0)
+	for k in ["frutto_cuore", "frutto_zanna"]:
+		b.remove(k, 2)
+	for k in st.keys():
+		if String(k).begins_with("legata_") or String(k).begins_with("libro_legami"):
+			st.erase(k)
+	st.erase("specie_legate")
+	for k in keep:
+		st[k] = keep[k]
+	m.character.maestria = ms0
+	print("Libro dei legami: una specie nuova conta una volta %s, dono a 10 %s, pilastro della mandria %s; Bacheca «%s» %s → %s; consiglio %s; «%s»; problemi d'impaginazione %d" % [
+		"sì" if counted else "NO", "sì" if gift else "NO", "sì" if mastery else "NO", req.get("testo", "nessuna"), before, after,
+		"sì" if tips else "NO", head, probs.size()])
+	if not counted or not gift or not mastery or req.is_empty() or int(after[0]) < 1 or not tips or not probs.is_empty():
+		print("ATTENZIONE: il Libro dei legami non va")

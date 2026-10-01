@@ -93,7 +93,8 @@ Cacciare troppo una specie la fa diminuire in quella zona; lasciarla in pace la 
 • il [b]cibo[/b] della sua famiglia (clic destro con il cibo in mano) su una creatura che si fida: docile e mai colpita, oppure affamata, stordita o indebolita. Ogni pasto dà affetto; a 100 è tua. La dieta la scopri dandole il cibo giusto o dopo averne sconfitte alcune;
 • il [b]Laccio[/b] su una creatura stremata (meno del 40% della Vita);
 • le [b]uova[/b] nell'[b]Incubatrice[/b], che si schiudono in vasetti con la creatura già tua.
-Le creature della mandria stanno nel personaggio e passano da un mondo all'altro. Ognuna può [b]seguirti[/b] (combatte, ti dà il suo dono, va nutrita), vivere in un [b]Recinto[/b] (mangia dalla mangiatoia e produce: lana, seta, miele…) o [b]riposare[/b] nel Giardino. Crescono di livello combattendo, mangiando e producendo. Alcune si [b]cavalcano[/b] ({k_cavalca}). Il [b]Vasetto[/b] porta una creatura come oggetto.
+Dal 2 ott 2026 ogni creatura (tranne i boss) si lega: vedi [url=cap:legare]Legare le creature[/url] e [url=cap:compagni_battaglia]I compagni di battaglia[/url].
+Le creature della mandria stanno nel personaggio e passano da un mondo all'altro. Cinque possono stare nella [b]Sacca dei legami[/b] (una in campo combatte con il suo stile e ti dà il suo dono), vivere in un [b]Recinto[/b] (mangia dalla mangiatoia e produce: lana, seta, miele…) o [b]riposare[/b] nel Giardino. Crescono di livello combattendo, mangiando e producendo. Alcune si [b]cavalcano[/b] ({k_cavalca}). Il [b]Vasetto[/b] porta una creatura come oggetto.
 Tutto nel pannello Mandria ({k_mandria}). Vedi anche [url=cap:allevamento]Allevamento[/url]."""},
 	{"id": "allevamento", "group": "La vita del mondo", "name": "L'allevamento", "text":
 """Due creature della stessa famiglia, messe in [b]coppia[/b] nel pannello Mandria, nello stesso recinto, sazie e contente, dopo un po' fanno un [b]uovo[/b] nella mangiatoia.

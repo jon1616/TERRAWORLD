@@ -86,6 +86,8 @@ func add_record(rec: Dictionary) -> void:
 	records().append(rec)
 	if rec["stato"] == "segue" and float(rec["vita"]) > 0.0 and m.get("bonds") != null and m.bonds.field().is_empty():
 		rec["campo"] = true
+	if m.get("bonds") != null:
+		m.bonds.bound(rec)                     # voce 317: il Libro dei legami
 	changed_now()
 
 
@@ -295,6 +297,8 @@ func gain_xp(rec: Dictionary, n: int, quiet := false) -> void:
 		rec["lvl"] = int(rec["lvl"]) + 1
 		if not quiet or bool(rec.get("campo", false)):
 			m.hud.toast("%s sale al livello %d" % [rec["nome"], int(rec["lvl"])])
+		m.objectives.bump("livelli_compagni")
+		m.character.stats["compagno_lvl_max"] = maxi(int(m.character.stats.get("compagno_lvl_max", 1)), int(rec["lvl"]))
 		if beasts.has(int(rec["uid"])):
 			var c: Creature = beasts[int(rec["uid"])]
 			Fx.puff(m.fx, c.position, Color(1.6, 1.5, 0.7))

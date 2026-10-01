@@ -518,3 +518,26 @@ static func aid_now(fam: String, grade: int) -> Dictionary:
 		else:
 			a[k] = 1.0 + (float(a[k]) - 1.0) * 2.0
 	return a
+
+
+# ---- voce 317: il Libro dei legami ---------------------------------------------------------------------------------
+
+## Le specie legate almeno una volta (`stats["legata_<specie>"]`, `stats["specie_legate"]`): a questi numeri un premio
+## (una volta sola, `stats["libro_legami_<n>"]`).
+const BOOK_GOALS := [
+	[10, {"laccio_intrecciato": 5, "frutto_cuore": 2, "frutto_zanna": 2}],
+	[25, {"ciondolo_lume": 1, "seme_ricordo": 5, "laccio_seminatori": 2}],
+	[50, {"istinto_cura_legame": 1, "frutto_guscio": 4, "frutto_vento": 4, "sigillo_legame": 3}],
+	[80, {"ciondolo_cuore": 1, "seme_ricordo": 10, "linfa_antica": 3}],
+	[120, {"polvere_iridata": 5, "laccio_seminatori": 6, "seme_ricordo": 15}],
+	[175, {"scheggia_vigore": 10, "polvere_iridata": 10, "seme_ricordo": 25}],
+]
+
+
+## Tutte le specie che si possono legare (le creature dei dati senza le boss e senza le varianti).
+static func all_species() -> Array:
+	var out := []
+	for id in CreaturesData.CREATURES:
+		if bindable(String(id)) and not String(id).contains("~"):
+			out.append(String(id))
+	return out

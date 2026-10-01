@@ -128,7 +128,7 @@ func card_text() -> String:
 
 
 static func _fill(t: String) -> String:
-	for a in ["filo", "semenzaio", "bisaccia", "enciclopedia"]:
+	for a in ["filo", "semenzaio", "bisaccia", "enciclopedia", "compagno", "cambia_compagno", "compagni"]:
 		t = t.replace("{%s}" % a, Keys.label(a))
 	return t
 
@@ -433,3 +433,26 @@ func _c_incontro() -> bool:
 
 func _c_pagina() -> bool:
 	return m.character.bisaccia.count(EncountersData.PAGE_ITEM) > 0
+
+
+## Roadmap 32: la prima creatura nella Sacca dei legami, il primo KO, il primo oggetto per i compagni.
+func _c_primo_compagno() -> bool:
+	return m.get("bonds") != null and not m.bonds.bag().is_empty()
+
+
+func _c_compagno_ko() -> bool:
+	if m.get("bonds") == null:
+		return false
+	for r in m.bonds.bag():
+		if bool(r.get("ko", false)):
+			return true
+	return false
+
+
+func _c_oggetto_compagno() -> bool:
+	var b: Bisaccia = m.character.bisaccia
+	for i in b.slots.size():
+		var id := b.id_at(i)
+		if id != "" and BondsData.items().has(id) and String(BondsData.items()[id].get("kind", "")) == "legame":
+			return true
+	return false

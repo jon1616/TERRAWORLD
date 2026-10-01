@@ -93,9 +93,13 @@ static func creature(m: Node2D, cr: Creature) -> TipCard:
 	if cr.tame != null:
 		c.sep()
 		c.line(HerdInfo.short(cr.tame.rec), Color("#b8e070"))
-	elif cr.family != "" and not HerdData.tame_of(cr.family).is_empty():
+	elif cr.family != "" and not cr.boss and not HerdData.tame_of(cr.family).is_empty():
 		c.sep()
-		c.pair("Si addomestica", "con %s" % HerdInfo.diet_text(cr.family), Color("#b8e070"))
+		# Roadmap 32: ogni creatura si lega; la natura dice quando e come
+		var nat := BondsData.nature_of(cr.id)
+		c.pair("Si lega", String(BondsData.NATURE_TEXT[nat]) if nat != "" else "con il Laccio quando è stremata, o con %s" % HerdInfo.diet_text(cr.family), Color("#b8e070"))
+		if int(m.character.stats.get("legata_" + (cr.base if cr.base != "" else cr.id), 0)) < 1:
+			c.line("Non l'hai mai legata: una specie nuova per il Libro dei legami", Color("#ffd08a"))
 		if cr.affection > 0.0:
 			c.bar("Affetto %d%%" % roundi(cr.affection), cr.affection / 100.0, Color("#b8e070"))
 	# che cosa ne sai (l'Erbario)
