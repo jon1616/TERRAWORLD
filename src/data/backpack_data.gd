@@ -68,7 +68,7 @@ static func basto_of(id: String) -> Dictionary:
 
 ## Le caselle del basto di una creatura della mandria: quelle del basto più una ogni due livelli.
 static func basto_slots(id: String, lvl: int) -> int:
-	return int(basto_of(id).get("slots", 0)) + lvl / 2
+	return int(basto_of(id).get("slots", 0)) + mini(lvl, 20) / 2       # (Roadmap 32: oltre il 20 non cresce)
 
 
 const DISPENSA_ITEMS := {

@@ -4744,9 +4744,17 @@ Le scelte di fondo:
   (`rec["antico"]`, aura e tratti con `Ancient` in `Herd.spawn`). 175 specie su 175 si legano (49 boss escluse).
   Prova nel gruppo «legami» (foto 321_compagno_ancestrale). In lotta, un compagno che non si avvicina al nemico per
   2,5 s (una carica finita in una buca) ricompare accanto al Germogliato.
-- [ ] **313. Crescere.** Livello 1-50 con l'esperienza delle battaglie (anche una parte di quella delle creature
+- [x] **313. Crescere.** Livello 1-50 con l'esperienza delle battaglie (anche una parte di quella delle creature
   sconfitte dal Germogliato mentre è in campo); Vita, danno, difesa e velocità dal livello e dal profilo della specie;
   la forza di quando è stata presa e le doti dell'allevamento contano ancora; al livello 20 diventa «grande» (si vede).
+  Fatto il 1 ott 2026: `BondsData.stats` (la forza di specie portata verso `TOTAL` con `SHAPE` 0,75, crescita 1,047 a
+  livello, `HP_K`/`DMG_K` per pareggiare le creature selvatiche, rarità e tratti, Frutti), `level_of` e `xp_from`
+  (l'esperienza secondo la forza vera della creatura sconfitta, di più se è più forte), `xp_for` = 30 + 12 × livello,
+  `scale_at` (più grande al 20 e al 40, `Herd._regrow`); `Herd.stats_of` la usa, `_on_killed` dà metà dell'esperienza
+  delle creature sconfitte dal Germogliato. `HerdData.LVL_MAX` 50, `LVL_WORK` 20 per recinto, sella, basto, fiere e
+  ruota. Misura nuova: `tools/compagni.gd` → prove/compagni.txt (Superficie = livello 1, Fondo del primo mondo 21, Fondo
+  al vigore 12 44; alla pari il compagno vince da solo in 3 colpi reggendone 3-4; 294 creature alla pari dal 1 al 50).
+  Prova nel gruppo «legami» (foto 322_compagno_cresciuto).
 - [ ] **314. Gli oggetti dei compagni.** Da trovare: Frutti del legame (Vita, forza, scorza, slancio: crescita per
   sempre, con un tetto), Semi d'esperienza; gli **Istinti** (una mossa nuova da imparare: carica, scatto, spari a
   ventaglio, guscio, scudo, cura, richiamo, folgore… sono i comportamenti delle creature, lasciati raramente da chi li

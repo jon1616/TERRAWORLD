@@ -35,6 +35,7 @@ func run() -> void:
 	await follow(spot, h)
 	await sack(spot, h)
 	await binding(spot, h)
+	await growth(spot, h)
 	for uid in h.beasts.keys():
 		h.despawn(int(uid))
 	m.character.mandria.clear()
@@ -296,3 +297,39 @@ func binding(spot: Vector2i, h: Herd) -> void:
 	m.fauna.clear()
 	for it in ["rugiada_linfa", "laccio", "sigillo_legame", "laccio_seminatori"]:
 		b.remove(it, b.count(it))
+
+
+## Voce 313: crescere. L'esperienza dipende da quanto era forte la creatura; quella sconfitta dal Germogliato ne dà
+## metà; al livello 20 il compagno si vede più grande; Vita e danno seguono il livello e non la specie sola.
+func growth(spot: Vector2i, h: Herd) -> void:
+	m.fauna.clear()
+	m.snap_to(spot)
+	var rec := _companion(h, "grumo_muschio", 1)
+	await kit.seconds(0.5)
+	var weak := BondsData.xp_from(1.0, 10)
+	var strong := BondsData.xp_from(20.0, 10)
+	# una creatura sconfitta dal Germogliato: metà dell'esperienza al compagno in campo
+	var xp0 := int(rec["xp"])
+	var foe: Creature = m.fauna.add("lupo_lunare", m.player.position + Vector2(10 * S, -8))
+	m.fauna.kill(foe)
+	await kit.frames(2)
+	var shared := int(rec["xp"]) > xp0
+	# fino al 20: si vede più grande
+	var st1 := Herd.stats_of(rec)
+	var half1: float = (h.beasts[int(rec["uid"])] as Creature).half.y
+	while int(rec["lvl"]) < 20:
+		h.gain_xp(rec, BondsData.xp_for(int(rec["lvl"])), true)
+	await kit.frames(3)
+	var c: Creature = h.beasts.get(int(rec["uid"]))
+	var st20 := Herd.stats_of(rec)
+	var bigger: bool = c != null and c.half.y > half1 + 0.5
+	await kit.save("322_compagno_cresciuto")
+	# la forma: allo stesso livello un grumo e un lupo hanno forze vicine (la specie conta, ma poco)
+	var g := BondsData.stats("grumo_muschio", 30, 1.0, 1.0, 1.0, {}, {})
+	var l := BondsData.stats("lupo_lunare", 30, 1.0, 1.0, 1.0, {}, {})
+	var pg := float(g["hp"]) / 5.0 + float(g["damage"])
+	var pl := float(l["hp"]) / 5.0 + float(l["damage"])
+	print("crescita: esperienza da una creatura debole %d, da una forte %d; dal Germogliato %s; livello 1 → 20: Vita %d → %d, danno %d → %d, più grande %s; al 30 grumo %.0f e lupo %.0f di forza" % [
+		weak, strong, "sì" if shared else "NO", st1["hp"], st20["hp"], st1["damage"], st20["damage"], "sì" if bigger else "NO", pg, pl])
+	if weak >= strong or not shared or int(st20["hp"]) <= int(st1["hp"]) * 2 or not bigger or absf(pg - pl) / pl > 0.35:
+		print("ATTENZIONE: la crescita dei compagni non va")

@@ -72,7 +72,8 @@ const PEN_CAP := 4                     # creature per recinto
 const PEN_LEFT := 4                    # il recinto va da `PEN_LEFT` tessere a sinistra della stazione…
 const PEN_RIGHT := 7                   # …a `PEN_RIGHT` a destra
 const HATCH := 150.0                   # secondi di cova nell'Incubatrice
-const LVL_MAX := 20
+const LVL_MAX := 50                    # Roadmap 32: i compagni crescono fino al 50 (`BondsData`)
+const LVL_WORK := 20                   # oltre questo livello il lavoro (recinto, sella, basto, fiere) non cresce più
 const LVL_DAMAGE := 0.12               # danno in più per livello
 const HUNGER_RATE := 1.0 / 600.0       # fame al secondo (0 sazia, 1 affamata): dieci minuti
 const CAPTURE_HP := 0.4                # il Laccio prende solo chi ha meno di questa frazione di Vita
@@ -152,6 +153,6 @@ static func capture_chance(fam: String, hp_ratio: float) -> float:
 	return clampf((1.0 - hp_ratio) * 1.1 / (0.6 + float(t["diff"]) * 0.25), 0.05, 0.95)
 
 
-## I punti per salire dal livello `lvl` al successivo.
+## I punti per salire dal livello `lvl` al successivo (Roadmap 32: la curva dei compagni).
 static func xp_for(lvl: int) -> int:
-	return 40 * lvl
+	return BondsData.xp_for(lvl)

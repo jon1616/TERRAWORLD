@@ -34,7 +34,7 @@ static func days_to_fair(day: int) -> int:
 ## Il punteggio di una creatura in una categoria (0 se non può gareggiare lì).
 static func score(rec: Dictionary, cat: String) -> int:
 	var g: Dictionary = rec.get("doti", {})
-	var lvl := int(rec.get("lvl", 1))
+	var lvl := mini(int(rec.get("lvl", 1)), HerdData.LVL_WORK)
 	var coat := String(g.get("manto", ""))
 	match cat:
 		"lavoro":

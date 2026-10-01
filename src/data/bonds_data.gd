@@ -189,3 +189,100 @@ static func aid_of(fam: String) -> Array:
 		return [t["aid"], String(t.get("aid_text", ""))]
 	var role := String(FamiliesData.FAMILIES.get(fam, {}).get("role", "neutro"))
 	return AIDS.get(role, AIDS["neutro"])
+
+
+# ---- voce 313: crescere ------------------------------------------------------------------------------------------
+
+## La forza viene dal livello, la specie dà la forma. Ogni specie ha una «forza di specie» (Vita/5 + danno + difesa×2):
+## un compagno la porta verso `TOTAL` (con `SHAPE` = 0,75: le specie forti restano un poco più forti), poi cresce di
+## `GROWTH` a livello. Misurato con `tools/compagni.gd`: la creatura tipica della Superficie vale un compagno di livello
+## 1, quella del Fondo del primo mondo il 21, quella del Fondo al vigore 12 il 44; al 50 un compagno vale ~1,3 volte
+## quest'ultima. `HP_K` e `DMG_K` lo pareggiano con le creature selvatiche, che feriscono `DangerData.DAMAGE` volte di
+## più: alla pari un compagno da solo vince, ma ne esce ferito. Così un grumo allevato bene vale quanto una lince del
+## profondo.
+const LVL_MAX := 50
+const GROWTH := 1.047
+const HP_K := 1.3
+const DMG_K := 1.35
+const TOTAL := 20.0
+const SHAPE := 0.75
+const DEF_PER_LVL := 0.12              # difesa che si aggiunge a ogni livello
+const SPEED_PER_LVL := 0.004           # velocità in più a ogni livello
+const GROW_LVLS := [[20, 1.15], [40, 1.3]]   # al livello 20 e 40 si vede più grande
+const FRUIT_STEP := 0.03               # voce 314: ogni Frutto del legame (+3%, o +1 di difesa per la scorza)
+const FRUIT_MAX := 10                  # al più dieci frutti di ogni tipo per compagno
+## Le rare legate: quanto valgono in più (i loro tratti si aggiungono, da `AncientData.TRAITS`).
+const RARE_STATS := {"antica": 1.25, "ancestrale": 1.5, "capobranco": 1.15, "iridata": 1.2}
+## L'esperienza: una creatura sconfitta vale secondo il suo «livello» (la sua forza vera rispetto a `TOTAL`), di più se
+## è più forte del compagno, di meno se è più debole. Quella sconfitta dal Germogliato mentre il compagno è in campo
+## ne dà `SHARE_PLAYER`.
+const XP_BASE := 6.0
+const XP_PER_LVL := 2.0
+const XP_GAP := 0.1
+const SHARE_PLAYER := 0.5
+
+
+## Quanto la specie viene portata verso la forza di riferimento.
+static func species_k(sp: String) -> float:
+	var d := CreaturesData.get_data(sp)
+	var t := float(d.get("hp", 20)) / 5.0 + maxf(float(d.get("damage", 3)), 3.0) + float(d.get("defense", 0)) * 2.0
+	return pow(TOTAL / maxf(t, 1.0), SHAPE)
+
+
+## Vita, danno, difesa e velocità di un compagno. `m_hp`/`m_dmg`: doti dell'allevamento; `rare`: {"r", "t"} della rara
+## legata; `fruits`: i Frutti del legame mangiati (voce 314).
+static func stats(sp: String, lvl: int, forza: float, m_hp: float, m_dmg: float, rare: Dictionary, fruits: Dictionary) -> Dictionary:
+	var d := CreaturesData.get_data(sp)
+	var k := species_k(sp)
+	var g := pow(GROWTH, float(clampi(lvl, 1, LVL_MAX) - 1))
+	var f := sqrt(clampf(forza, 1.0, 4.0))
+	var hp_m := 1.0
+	var dmg_m := 1.0
+	var spd_m := 1.0
+	var def_add := 0
+	if not rare.is_empty():
+		var rm := float(RARE_STATS.get(String(rare.get("r", "")), 1.0))
+		hp_m *= rm
+		dmg_m *= rm
+		for t in rare.get("t", []):
+			var td: Dictionary = AncientData.TRAITS.get(String(t), {})
+			hp_m *= sqrt(float(td.get("hp", 1.0)))
+			dmg_m *= sqrt(float(td.get("damage", 1.0)))
+			spd_m *= float(td.get("speed", 1.0))
+			def_add += int(td.get("defense", 0))
+	hp_m *= 1.0 + FRUIT_STEP * int(fruits.get("vita", 0))
+	dmg_m *= 1.0 + FRUIT_STEP * int(fruits.get("forza", 0))
+	spd_m *= 1.0 + FRUIT_STEP * 0.5 * int(fruits.get("slancio", 0))
+	def_add += int(fruits.get("scorza", 0))
+	return {
+		"hp": maxi(roundi(float(d.get("hp", 20)) * k * g * f * m_hp * hp_m * HP_K), 1),
+		"damage": maxi(roundi(maxf(float(d.get("damage", 3)), 3.0) * k * g * f * m_dmg * dmg_m * DMG_K), 1),
+		"defense": roundi(float(d.get("defense", 0)) * sqrt(k) + DEF_PER_LVL * (lvl - 1)) + def_add,
+		"speed": float(d.get("speed", 60)) * (1.0 + SPEED_PER_LVL * (lvl - 1)) * spd_m,
+	}
+
+
+## Il «livello» di una creatura qualunque, dalla sua forza vera (Vita e danno di adesso, già cresciuti con lo strato).
+static func level_of(hp_max: int, damage: int, defense: int) -> float:
+	var t := float(hp_max) / 5.0 + maxf(float(damage), 3.0) + float(defense) * 2.0
+	return clampf(1.0 + log(maxf(t, 1.0) / TOTAL) / log(GROWTH), 1.0, 80.0)
+
+
+## L'esperienza che un compagno di livello `lvl` prende da una creatura di livello `foe_lvl`.
+static func xp_from(foe_lvl: float, lvl: int) -> int:
+	var gap := clampf(1.0 + XP_GAP * (foe_lvl - float(lvl)), 0.25, 2.0)
+	return maxi(roundi((XP_BASE + XP_PER_LVL * foe_lvl) * gap), 1)
+
+
+## I punti per salire dal livello `lvl` al successivo.
+static func xp_for(lvl: int) -> int:
+	return 30 + 12 * lvl
+
+
+## Quanto si vede grande al suo livello.
+static func scale_at(lvl: int) -> float:
+	var s := 1.0
+	for e in GROW_LVLS:
+		if lvl >= int(e[0]):
+			s = float(e[1])
+	return s

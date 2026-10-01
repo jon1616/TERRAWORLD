@@ -195,7 +195,7 @@ func tick(rec: Dictionary, dt: float) -> void:
 ## Quanto in fretta produce (1 = il tempo di `produce`).
 static func rate(rec: Dictionary, friends: int) -> float:
 	var g: Dictionary = rec.get("doti", {})
-	return (0.4 + 0.8 * float(rec["felice"])) * (1.0 + 0.04 * (int(rec["lvl"]) - 1)) * (1.0 + 0.15 * friends) \
+	return (0.4 + 0.8 * float(rec["felice"])) * (1.0 + 0.04 * (mini(int(rec["lvl"]), HerdData.LVL_WORK) - 1)) * (1.0 + 0.15 * friends) \
 		* Breeding.mult(g, "resa")
 
 

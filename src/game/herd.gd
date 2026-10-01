@@ -28,6 +28,7 @@ signal changed                         # la mandria è cambiata (il pannello si 
 func setup(main: Node2D) -> void:
 	m = main
 	fight = BondFight.new(self)
+	m.fauna.killed.connect(_on_killed)      # voce 313: l'esperienza delle creature sconfitte dal Germogliato
 	z_index = 3
 	_rng.randomize()
 
@@ -222,15 +223,12 @@ func faint(rec: Dictionary) -> void:
 
 # ---- valori e crescita ---------------------------------------------------------------------------------------------
 
-## Vita e danno di una creatura della mandria (livello, forza di quando è stata presa, doti dell'allevamento).
+## Vita, danno, difesa e velocità di una creatura della mandria (Roadmap 32, voce 313: dal livello, con la forma
+## della specie, la forza di quando è stata presa, le doti dell'allevamento, la rarità e i Frutti; `BondsData.stats`).
 static func stats_of(rec: Dictionary) -> Dictionary:
-	var d := CreaturesData.get_data(String(rec["specie"]))
-	var lvl := int(rec["lvl"])
-	var f := float(rec.get("forza", 1.0))
 	var g: Dictionary = rec.get("doti", {})
-	var hp := roundi(int(d["hp"]) * f * (1.0 + 0.1 * (lvl - 1)) * Breeding.mult(g, "vita"))
-	var dmg := roundi(maxi(int(d["damage"]), 3) * f * (1.0 + HerdData.LVL_DAMAGE * (lvl - 1)) * Breeding.mult(g, "danno"))
-	return {"hp": maxi(hp, 1), "damage": dmg}
+	return BondsData.stats(String(rec["specie"]), int(rec["lvl"]), float(rec.get("forza", 1.0)), Breeding.mult(g, "vita"),
+		Breeding.mult(g, "danno"), rec.get("antico", {}), rec.get("frutti", {}))
 
 
 ## Il danno di adesso: di più se è contenta, di meno se ha fame.
@@ -246,10 +244,22 @@ static func fights(_rec: Dictionary) -> bool:
 	return true
 
 
-## Una creatura abbattuta da una della mandria: esperienza.
+## Una creatura abbattuta da una della mandria: esperienza secondo quanto era forte rispetto a lei (voce 313).
 func credit(rec: Dictionary, foe: Creature) -> void:
-	gain_xp(rec, maxi(2, foe.hp_max / 8))
+	foe.set_meta("bond_kill", true)
+	gain_xp(rec, BondsData.xp_from(BondsData.level_of(foe.hp_max, foe.damage, foe.defense), int(rec["lvl"])))
 	m.objectives.bump("mandria_prede")
+
+
+## Voce 313: una creatura sconfitta dal Germogliato mentre un compagno è in campo gli dà una parte dell'esperienza.
+func _on_killed(foe: Creature) -> void:
+	if foe.has_meta("bond_kill") or foe.calm:
+		return
+	var rec: Dictionary = m.bonds.field() if m.get("bonds") != null else {}
+	if rec.is_empty() or not beasts.has(int(rec["uid"])):
+		return
+	var xp := BondsData.xp_from(BondsData.level_of(foe.hp_max, foe.damage, foe.defense), int(rec["lvl"]))
+	gain_xp(rec, maxi(1, roundi(xp * BondsData.SHARE_PLAYER)), true)
 
 
 func gain_xp(rec: Dictionary, n: int, quiet := false) -> void:
@@ -257,10 +267,15 @@ func gain_xp(rec: Dictionary, n: int, quiet := false) -> void:
 	while int(rec["lvl"]) < HerdData.LVL_MAX and int(rec["xp"]) >= HerdData.xp_for(int(rec["lvl"])):
 		rec["xp"] = int(rec["xp"]) - HerdData.xp_for(int(rec["lvl"]))
 		rec["lvl"] = int(rec["lvl"]) + 1
-		if not quiet:
+		if not quiet or bool(rec.get("campo", false)):
 			m.hud.toast("%s sale al livello %d" % [rec["nome"], int(rec["lvl"])])
 		if beasts.has(int(rec["uid"])):
-			_apply_stats(beasts[int(rec["uid"])], rec)
+			var c: Creature = beasts[int(rec["uid"])]
+			Fx.puff(m.fx, c.position, Color(1.6, 1.5, 0.7))
+			if BondsData.scale_at(int(rec["lvl"])) != BondsData.scale_at(int(rec["lvl"]) - 1):
+				_regrow(rec, c)                    # voce 313: al 20 e al 40 si vede più grande
+			else:
+				_apply_stats(c, rec)
 	if int(rec["lvl"]) >= HerdData.LVL_MAX:
 		rec["xp"] = mini(int(rec["xp"]), HerdData.xp_for(HerdData.LVL_MAX))
 
@@ -277,7 +292,7 @@ func bonuses() -> Array:
 	var rr := rec_of(riding)
 	if not rr.is_empty():
 		var mt: Dictionary = tame_data(rr).get("mount", {}).duplicate()
-		var lv := 1.0 + 0.02 * (int(rr["lvl"]) - 1)          # più è cresciuta, più corre
+		var lv := 1.0 + 0.02 * (mini(int(rr["lvl"]), HerdData.LVL_WORK) - 1)          # più è cresciuta, più corre
 		for k in mt:
 			if mt[k] is float:
 				mt[k] = 1.0 + (float(mt[k]) - 1.0) * lv
@@ -330,7 +345,13 @@ func spawn(rec: Dictionary, mode: String) -> Creature:
 	if beasts.has(uid):
 		return beasts[uid]
 	var c := Creature.new()
-	c.setup(String(rec["specie"]), m.world, m.player, uid, Breeding.mods(rec.get("doti", {})))
+	var mods := Breeding.mods(rec.get("doti", {}))
+	var grown := BondsData.scale_at(int(rec["lvl"]))
+	if grown > 1.0:
+		mods["scale"] = grown                  # voce 313: cresciuta si vede più grande
+	c.setup(String(rec["specie"]), m.world, m.player, uid, mods)
+	if grown > 1.0:
+		c.half *= grown
 	c.behaviors.clear()
 	c.docile = false
 	var bh := BhMandria.new()
@@ -359,8 +380,20 @@ func spawn(rec: Dictionary, mode: String) -> Creature:
 	return c
 
 
+## Voce 313: rifatta più grande (la stessa scheda, nello stesso posto).
+func _regrow(rec: Dictionary, c: Creature) -> void:
+	var pos := c.position
+	var old_half := c.half.y
+	var mode: String = c.tame.mode
+	despawn(int(rec["uid"]))
+	var n := spawn(rec, mode)
+	n.position = pos - Vector2(0, n.half.y - old_half)
+
+
 func _apply_stats(c: Creature, rec: Dictionary) -> void:
 	var st := stats_of(rec)
+	c.defense = int(st["defense"])
+	c.speed = float(st["speed"])
 	c.hp_max = int(st["hp"])
 	c.hp = maxi(1, roundi(c.hp_max * clampf(float(rec["vita"]), 0.05, 1.0)))
 	c.damage = damage_now(rec)              # voce 310: lo leggono i suoi comportamenti; il Germogliato non lo tocca

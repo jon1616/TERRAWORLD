@@ -19,7 +19,7 @@ func produce(mc: Machine, e: Energy) -> float:
 		var rec: Dictionary = c.tame.rec
 		if float(rec.get("fame", 0.0)) > HUNGRY:
 			continue
-		sum += BASE + PER_LVL * (int(rec.get("lvl", 1)) - 1)
+		sum += BASE + PER_LVL * (mini(int(rec.get("lvl", 1)), HerdData.LVL_WORK) - 1)
 	return minf(sum, float(mc.d["pulsi"]))
 
 
