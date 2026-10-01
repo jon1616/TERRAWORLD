@@ -4655,8 +4655,12 @@ armature cambiano di poco. Scelta dell'utente: la proposta così com'è, «in ma
   Un'armatura intera dà 1,75 volte il carattere (pallidite: corsa +10,5%). La scheda dice «In mano: …»; le parti di
   Scorza si scrivono «+0,25» e si arrotondano sul totale (anche nel pannello); i nomi delle protezioni dai rigori.
   Prova: gruppo «carattere» (`TestsMaterials`).
-- [ ] **307. I set delle leghe e dei materiali dei geni.** Ogni lega ha il suo set (i bonus dei set dei due metalli, ridotti
-  al 60%), ogni materiale dei geni un set scritto apposta: 48 set nuovi, cinque pezzi ciascuno.
+- [x] **307. I set delle leghe e dei materiali dei geni.** Ogni lega ha il suo set (i bonus dei set dei due metalli, ridotti
+  a metà ciascuno: insieme valgono quanto un set di metallo puro), ogni materiale dei geni un set scritto apposta: 48 set
+  nuovi, cinque pezzi ciascuno.
+  Fatto il 1 ott 2026: `SetsData.all()` aggiunge un set per ogni lega (`blend` dei set dei due metalli a metà, il
+  nome della lega) e per ogni materiale dei geni (`GENE_BONUS`); la descrizione nasce dalle righe delle schede
+  (`describe`). 74 set in tutto. Prova nel gruppo «carattere» (armatura intera di ferrobruno: set completo).
 - [ ] **308. Anelli e amuleti.** Il metallo della montatura aggiunge il suo carattere (metà nell'amuleto, tre decimi
   nell'anello) all'effetto della gemma.
 - [ ] **309. Schede, misure e chiusura.** Il carattere nelle schede degli oggetti e dei materiali, la Scorza dei pezzi nel

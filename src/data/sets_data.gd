@@ -22,6 +22,25 @@ const METAL_BONUS := {
 	"stellare": {"name": "Stella del Giardino", "bonus": {"defense": 6, "damage": 1.15, "run": 1.1, "luck": 0.2}, "desc": "+6 Scorza, +15% danno, corsa +10%, più fortuna"},
 }
 
+## Roadmap 31, voce 307: i set dei **materiali dei geni** (cinque pezzi come quelli dei metalli), scritti apposta.
+const GENE_BONUS := {
+	"ferro_brina": {"name": "Brina d'acciaio", "bonus": {"fresco": 0.5, "regen": 1.15, "defense": 2}},
+	"ossidiana_brace": {"name": "Cuore d'ossidiana", "bonus": {"caldo": 0.5, "damage": 1.08, "thorns": 6}},
+	"micelio_duro": {"name": "Trama di micelio", "bonus": {"filtro": 0.5, "regen": 1.25, "defense": 1}},
+	"linfite": {"name": "Vena di linfite", "bonus": {"magic": 1.15, "linfa_regen": 1.3}},
+	"radicite_pura": {"name": "Radice pura", "bonus": {"dig": 1.2, "defense": 3}},
+	"ambra_dorata": {"name": "Oro fossile", "bonus": {"luck": 0.15, "halo": 1.3, "defense": 2}},
+	"ferro_stellato": {"name": "Cielo di ferro", "bonus": {"luck": 0.15, "run": 1.08, "defense": 4}},
+	"vuoto_cavo": {"name": "Guscio vuoto", "bonus": {"stealth": 0.7, "magic": 1.1, "defense": 3}},
+	"sospesite": {"name": "Passo sospeso", "bonus": {"jump": 1.2, "glide": true, "quota": 0.5}},
+	"nerume": {"name": "Ombra avvizzita", "bonus": {"damage": 1.12, "thorns": 8, "defense": 3}},
+	"chitina": {"name": "Guscio brulicante", "bonus": {"defense": 6, "thorns": 6}},
+	"osso_antico": {"name": "Ossa degli antichi", "bonus": {"damage": 1.08, "atk_speed": 1.08, "defense": 3}},
+}
+## I set delle **leghe**: i bonus dei set dei due metalli insieme, ridotti a questa parte.
+const ALLOY_SHARE := 0.5                 # (metà di ciascuno: insieme valgono quanto un set di metallo puro)
+const ARMOR_FORMS := ["elmo", "corazza", "gambali", "guanti", "stivali"]
+
 ## Gli altri set: vesti e coppie di accessori.
 const SETS := {
 	"seta": {"name": "Tessitore di Linfa", "pieces": ["cappuccio_seta", "veste_seta", "calzari_seta"],
@@ -52,11 +71,54 @@ static func all() -> Dictionary:
 	for m in METAL_BONUS:
 		var mb: Dictionary = METAL_BONUS[m]
 		# voce 86: i set dei metalli sono di cinque pezzi (con guanti e stivali)
-		out[m] = {"name": mb["name"], "pieces": ["elmo_" + m, "corazza_" + m, "gambali_" + m, "guanti_" + m, "stivali_" + m],
-			"bonus": mb["bonus"],
-			"desc": mb["desc"]}
+		out[m] = {"name": mb["name"], "pieces": _pieces(m), "bonus": mb["bonus"], "desc": mb["desc"]}
+	# voce 307: una lega ha il set dei suoi due metalli insieme (ridotti), un materiale dei geni il suo
+	for mat in MaterialsData.all():
+		var md: Dictionary = MaterialsData.all()[mat]
+		var bonus := {}
+		var name := ""
+		if md.has("alloy"):
+			bonus = blend(METAL_BONUS[md["alloy"][0]]["bonus"], METAL_BONUS[md["alloy"][1]]["bonus"], ALLOY_SHARE)
+			name = String(md["short"]).substr(0, 1).to_upper() + String(md["short"]).substr(1)
+		elif GENE_BONUS.has(mat):
+			bonus = GENE_BONUS[mat]["bonus"]
+			name = String(GENE_BONUS[mat]["name"])
+		else:
+			continue
+		out[String(mat)] = {"name": name, "pieces": _pieces(String(mat)), "bonus": bonus, "desc": describe(bonus)}
 	_all = out
 	return _all
+
+
+static func _pieces(mat: String) -> Array:
+	return ARMOR_FORMS.map(func(f: String) -> String: return "%s_%s" % [f, mat])
+
+
+## Due bonus di set in uno, ciascuno ridotto a `share` (i moltiplicatori verso 1, le somme in proporzione; la Scorza a
+## numeri interi; ciò che c'è o non c'è resta).
+static func blend(a: Dictionary, b: Dictionary, share: float) -> Dictionary:
+	var out := {}
+	for src in [a, b]:
+		for k in src:
+			var v: Variant = src[k]
+			if v is bool:
+				out[k] = bool(out.get(k, false)) or bool(v)
+			elif k in MaterialsData.ADDITIVE:
+				out[k] = float(out.get(k, 0.0)) + float(v) * share
+			else:
+				out[k] = float(out.get(k, 1.0)) * (1.0 + (float(v) - 1.0) * share)
+	for k in out:
+		if out[k] is float:
+			out[k] = float(roundi(float(out[k]))) if k in ["defense", "thorns"] else snappedf(float(out[k]), 0.01)
+	return out
+
+
+## Un bonus in parole: «+3 Scorza, corsa +12%…» (dalle righe delle schede, `TipWordsData.acc_line`).
+static func describe(bonus: Dictionary) -> String:
+	var parts := []
+	for k in bonus:
+		parts.append(String(TipWordsData.acc_line(String(k), bonus[k])[0]))
+	return ", ".join(parts)
 
 
 ## I set di cui fa parte un oggetto.
