@@ -66,6 +66,11 @@ const WRAPPABLE := ["piccone", "ascia", "spada", "pugnale", "spadone", "lancia",
 ## Le forme che c'erano prima della voce 50 (i loro oggetti di metallo contano nell'Erbario).
 const BASE := ["piccone", "ascia", "spada", "elmo", "corazza", "gambali", "arco"]
 
+## Voce 306: quale parte del carattere del materiale (`MaterialsData.SHARE`) prende ogni forma: le armature e gli
+## accessori quando si indossano (nel loro `acc`), le armi e gli attrezzi quando si tengono in mano (nel loro `mano`).
+const TRAIT_PART := {"elmo": "armatura", "corazza": "armatura", "gambali": "armatura", "guanti": "accessorio",
+	"stivali": "accessorio", "mantello": "accessorio"}
+
 ## La Scorza di un pezzo d'armatura = tenacia del materiale × questo.
 const ARMOR := {"elmo": 1.0, "corazza": 1.6, "gambali": 1.0}
 ## Velocità dei colpi di una spada = SPEED_BASE − SPEED_PESO × peso (più pesante = più lenta).
@@ -168,6 +173,11 @@ static func item(form: String, mat: String) -> Dictionary:
 	if not form in BASE or md.has("alloy") or md.has("gene"):
 		it["gen"] = true                     # l'Erbario non li conta (sono centinaia): vedi `Erbario.entries`
 	it.merge(stats(form, mat))
+	# voce 306: il carattere del materiale, indossato o in mano
+	if TRAIT_PART.has(form):
+		it["acc"] = MaterialsData.merge_acc(it.get("acc", {}), MaterialsData.trait_acc(mat, float(MaterialsData.SHARE[TRAIT_PART[form]])))
+	elif not MaterialsData.trait_of(mat).is_empty():
+		it["mano"] = MaterialsData.trait_acc(mat, float(MaterialsData.SHARE["mano"]))
 	return it
 
 

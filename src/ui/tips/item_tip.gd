@@ -169,6 +169,13 @@ static func _effects(c: TipCard, it: Dictionary) -> void:
 		c.text("[color=#8ef0d8]Volo:[/color] " + FlightData.line(String(it["wings"])))   # voce 90
 	for e in it.get("effects", []):
 		c.text("[color=#ffd24a]✦ %s[/color]" % EffectsData.line(String(e)))       # voce 85: gli effetti speciali
+	var held: Dictionary = it.get("mano", {})          # voce 306: il carattere del materiale, in mano
+	if not held.is_empty():
+		var hl := []
+		for k in held:
+			var l := TipWordsData.acc_line(String(k), held[k])
+			hl.append("[color=#%s]%s[/color]" % [(TipCard.GOOD if l[1] else TipCard.BAD).to_html(false), l[0]])
+		c.text("[color=#%s]In mano:[/color] %s" % [Color("#80c8ff").to_html(false), " · ".join(hl)])
 	var acc: Dictionary = it.get("acc", {})
 	if acc.is_empty():
 		return

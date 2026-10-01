@@ -347,9 +347,12 @@ func _refresh() -> void:
 		ev.tip_extra = {"equipped": true}
 	if _scorza:
 		var done := SetsData.complete(bisaccia.equip)
-		var extra := 0
+		var extra_f := 0.0
 		for s in done:
-			extra += int((SetsData.all()[s]["bonus"] as Dictionary).get("defense", 0))
+			extra_f += float((SetsData.all()[s]["bonus"] as Dictionary).get("defense", 0))
+		for slot in bisaccia.equip:                    # voce 306: anche la Scorza del carattere e dei gioielli
+			extra_f += float(ItemsData.get_item(String(bisaccia.equip[slot])).get("acc", {}).get("defense", 0.0))
+		var extra := roundi(extra_f)
 		var sc := bisaccia.scorza() + extra
 		_scorza.text = ("Scorza %d · −%d%% ferite" % [sc, roundi(Vitals.scorza_share(sc) * 100.0)]) if sc > 0 else "Scorza 0"
 		_show_sets(done)

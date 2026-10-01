@@ -4645,10 +4645,16 @@ d'ambra, di tizzonite e di nimbite sono identici); anelli e amuleti prendono il 
 solo la forza; i set esistono solo per i nove metali (le 36 leghe e i 12 materiali dei geni non ne hanno); armi e
 armature cambiano di poco. Scelta dell'utente: la proposta così com'è, «in maniera impeccabile».
 
-- [ ] **306. Il carattere dei materiali.** Ogni metallo e ogni materiale dei geni ha un carattere (un bonus suo, scelto
+- [x] **306. Il carattere dei materiali.** Ogni metallo e ogni materiale dei geni ha un carattere (un bonus suo, scelto
   dal tema del suo set e dalle sue proprietà); le leghe prendono metà del carattere di ciascuno dei due metalli. Il
   carattere va in ogni pezzo fatto con quel materiale: armature (un quarto), guanti, stivali e mantelli (metà, oltre al
   bonus della loro forma), armi e attrezzi tenuti in mano (metà).
+  Fatto il 1 ott 2026: `MaterialsData.TRAITS` (9 metalli, 12 materiali dei geni), `trait_of`/`trait_acc`/`merge_acc`,
+  `SHARE` (armatura un quarto, guanti/stivali/mantello metà, in mano metà); `FormsData.item` lo mette nell'`acc` dei pezzi
+  indossati o nel campo `mano` di armi e attrezzi, che `GearEffects` legge dall'oggetto scelto nella barra rapida.
+  Un'armatura intera dà 1,75 volte il carattere (pallidite: corsa +10,5%). La scheda dice «In mano: …»; le parti di
+  Scorza si scrivono «+0,25» e si arrotondano sul totale (anche nel pannello); i nomi delle protezioni dai rigori.
+  Prova: gruppo «carattere» (`TestsMaterials`).
 - [ ] **307. I set delle leghe e dei materiali dei geni.** Ogni lega ha il suo set (i bonus dei set dei due metalli, ridotti
   al 60%), ogni materiale dei geni un set scritto apposta: 48 set nuovi, cinque pezzi ciascuno.
 - [ ] **308. Anelli e amuleti.** Il metallo della montatura aggiunge il suo carattere (metà nell'amuleto, tre decimi

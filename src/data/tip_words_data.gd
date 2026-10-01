@@ -39,6 +39,10 @@ const ACC := {
 	"wall": ["Scivoli e salti sulle pareti", "flag"], "fall_safe": ["Nessuna ferita da caduta", "flag"],
 	"resist": ["Resistenza", "pct_add"], "weak": ["Indebolisce chi colpisci", "flag"], "respiro": ["Respiro sott'acqua", "pct"], "dash": ["Sblocca la schivata (tasto C)", "flag"], "dash_cd": ["Ricarica della schivata", "pct"], "fish_luck": ["Fortuna di pesca", "pct_add"], "fish_wait": ["Attesa della pesca", "pct"], "fish_size": ["Taglia dei pesci", "pct_add"], "fish_double": ["Due pesci in una volta", "pct_add"], "fish_any": ["La lenza regge ogni liquido", "flag"],
 	"vento": ["Il vento ti spinge", "less"],
+	# voce 306: le protezioni dai rigori (`HarshData`), che ora hanno anche i materiali
+	"caldo": ["Protezione dal freddo", "pct_add"], "fresco": ["Protezione dal calore", "pct_add"],
+	"acqua": ["Protezione dalla sete", "pct_add"], "filtro": ["Protezione dalla polvere", "pct_add"],
+	"quota": ["Protezione dall'aria sottile", "pct_add"],
 }
 
 
@@ -68,7 +72,11 @@ static func acc_line(k: String, v: Variant) -> Array:
 			return ["%s %+d%%" % [d[0], roundi(float(v) * 100.0)], float(v) >= 0.0]
 		"flag":
 			return [String(d[0]), true]
-	return ["%s %+d" % [d[0], roundi(float(v))], float(v) >= 0.0]
+	# (voce 306: il carattere dei materiali dà anche parti di Scorza o di spine: «Scorza +0,25»)
+	var f := float(v)
+	if is_equal_approx(f, roundf(f)):
+		return ["%s %+d" % [d[0], roundi(f)], f >= 0.0]
+	return ["%s %s%s" % [d[0], "+" if f >= 0.0 else "", ("%.2f" % f).rstrip("0").replace(".", ",")], f >= 0.0]
 
 ## Che cosa fa ogni stazione, in una riga (le schede delle stazioni in `StationTip`).
 const STATION_USE := {

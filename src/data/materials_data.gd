@@ -109,8 +109,78 @@ const GENE_MATERIALS := {
 		"conduzione": 8, "elemento": "", "risonanza": 2, "icon": "seta", "genes": ["ancestrale"],
 		"raw": {"id": "osso_antico_grezzo", "name": "Osso antico", "shape": "aculeo", "kill": "ancient", "chance": 0.5}},
 }
+## Roadmap 31, voce 306: il **carattere** di ogni materiale (l'utente: «oggetti dello stesso tipo e grado ma di materiali
+## diversi danno gli stessi bonus»). Un bonus suo, scelto dal tema del suo set e dalle sue proprietà, con le chiavi di
+## `GearEffects` (i moltiplicatori come differenza da 1: 0,06 = +6%). Il valore è quello di un pezzo «intero»; ogni pezzo
+## ne prende la sua parte (`SHARE`). Le leghe prendono metà del carattere di ciascuno dei due metalli (`trait_of`).
+const TRAITS := {
+	"radicite": {"regen": 0.08},                     # Radici salde: la Vita ricresce
+	"legnoferro": {"defense": 1.0},                  # Corteccia di ferro: Scorza
+	"pallidite": {"run": 0.06},                      # Passo di luna: corsa
+	"ambra": {"halo": 0.12},                         # Luce fossile: alone
+	"tizzonite": {"thorns": 4.0},                    # Brace viva: chi ti tocca si brucia
+	"linfa": {"linfa_regen": 0.10},                  # Linfa che scorre
+	"vuoto": {"stealth": -0.08},                     # Ombra del Vuoto: le creature ti vedono più tardi
+	"stellare": {"luck": 0.05},                      # Stella del Giardino: fortuna
+	"nimbite": {"jump": 0.06},                       # Passo di nembo: salto
+	# i materiali dei geni
+	"ferro_brina": {"fresco": 0.15, "regen": 0.04},
+	"ossidiana_brace": {"caldo": 0.15, "damage": 0.03},
+	"micelio_duro": {"filtro": 0.15, "regen": 0.06},
+	"linfite": {"magic": 0.07},
+	"radicite_pura": {"dig": 0.08},
+	"ambra_dorata": {"luck": 0.04, "halo": 0.06},
+	"ferro_stellato": {"luck": 0.04, "run": 0.04},
+	"vuoto_cavo": {"stealth": -0.08, "magic": 0.04},
+	"sospesite": {"jump": 0.08, "quota": 0.15},
+	"nerume": {"damage": 0.04, "thorns": 2.0},
+	"chitina": {"defense": 1.0, "thorns": 2.0},
+	"osso_antico": {"damage": 0.03, "atk_speed": 0.03},
+}
+## Quanto del carattere prende ogni pezzo: un'armatura intera di cinque pezzi ne prende 1,75 (tre pezzi da un quarto,
+## guanti e stivali da metà); l'arma o l'attrezzo in mano metà; l'amuleto metà, l'anello tre decimi (voce 308).
+const SHARE := {"armatura": 0.25, "accessorio": 0.5, "mano": 0.5, "amuleto": 0.5, "anello": 0.3}
+## Le chiavi del carattere che si sommano (le altre moltiplicano; come in `GearEffects._add`).
+const ADDITIVE := ["luck", "thorns", "defense", "caldo", "acqua", "fresco", "filtro", "quota"]
+
 static var _all := {}
 static var _items := {}
+
+
+## Il carattere di un materiale (le leghe: metà di ciascuno dei due metalli). {} se non ne ha.
+static func trait_of(mat: String) -> Dictionary:
+	var md := get_mat(mat)
+	if md.has("alloy"):
+		var out := {}
+		for part in md["alloy"]:
+			var t: Dictionary = TRAITS.get(String(part), {})
+			for k in t:
+				out[k] = float(out.get(k, 0.0)) + float(t[k]) * 0.5
+		return out
+	return TRAITS.get(mat, {})
+
+
+## Il carattere come effetti di un pezzo (`acc`), per la sua parte: {"run": 1.03, "luck": 0.025…}.
+static func trait_acc(mat: String, share: float) -> Dictionary:
+	var out := {}
+	var t := trait_of(mat)
+	for k in t:
+		var v := float(t[k]) * share
+		out[k] = snappedf(v, 0.001) if k in ADDITIVE else snappedf(1.0 + v, 0.001)
+	return out
+
+
+## Due gruppi di effetti in uno (i moltiplicatori si moltiplicano, le somme si sommano).
+static func merge_acc(a: Dictionary, b: Dictionary) -> Dictionary:
+	var out := a.duplicate()
+	for k in b:
+		if not out.has(k):
+			out[k] = b[k]
+		elif k in ADDITIVE:
+			out[k] = snappedf(float(out[k]) + float(b[k]), 0.001)
+		else:
+			out[k] = snappedf(float(out[k]) * float(b[k]), 0.001)
+	return out
 
 
 ## Le proprietà numeriche (per le leghe e per le schede).
@@ -220,3 +290,12 @@ static func describe(id: String) -> String:
 	for p in PROPS:
 		parts.append("%s %s" % [PROP_NAMES[p], str(md[p]) if not md[p] is float else ("%.1f" % md[p]).trim_suffix(".0")])
 	return " · ".join(parts)
+
+
+## Voce 306: il carattere in parole, per un pezzo intero: «Corsa +6%» (o «» se il materiale non ne ha).
+static func trait_text(id: String) -> String:
+	var acc := trait_acc(id, 1.0)
+	var parts := []
+	for k in acc:
+		parts.append(String(TipWordsData.acc_line(String(k), acc[k])[0]))
+	return ", ".join(parts)

@@ -18,8 +18,10 @@ extends Node
 ##   fish_*     voce 122, la pesca (`Fishing.gear`): fish_luck +, fish_wait ×, fish_size +, fish_double +, fish_any
 ##   grow, herd, pulsi  Roadmap 20 (i gradi dei pilastri): l'orto cresce ×, la mandria prende esperienza ×, le sorgenti
 ##              della rete danno × (`Garden.gear_grow`, `Herd.xp_mult`, `EnergyStorm.gear_pulsi`)
-##   defense    (solo nei bonus dei set) Scorza in più (`Vitals.set_scorza`); quella dei pezzi la somma
-##              `Bisaccia.scorza`
+##   defense    Scorza in più (`Vitals.set_scorza`: set, gioielli, il carattere dei materiali); quella dei pezzi la
+##              somma `Bisaccia.scorza`
+## Voce 306: anche l'arma o l'attrezzo in mano dà il carattere del suo materiale (campo `mano`, `FormsData.item`): si
+## ricalcola quando cambia l'oggetto scelto nella barra rapida.
 
 const MULT := ["run", "jump", "halo", "regen", "dig", "stealth", "damage", "atk_speed", "linfa_regen", "magic", "respiro", "vento",
 	"fish_wait", "dash_cd", "grow", "herd", "pulsi"]
@@ -34,6 +36,8 @@ var allies := 0                        # alleati in più insieme (voce 37, letto
 func setup(main: Node2D) -> void:
 	m = main
 	m.character.bisaccia.changed.connect(refresh)
+	if m.get("hud") != null:
+		m.hud.selected.connect(func(_it: Dictionary) -> void: refresh())     # voce 306: l'oggetto in mano
 	refresh()
 
 
@@ -64,6 +68,9 @@ func refresh() -> void:
 			e[k] = float(e[k]) * Gear.effect(worn, k)
 		e["luck"] = float(e["luck"]) + Gear.effect(worn, "luck")
 		e["thorns"] = float(e["thorns"]) + Gear.effect(worn, "thorns")
+	# voce 306: il carattere del materiale dell'arma o dell'attrezzo in mano
+	if m.get("hud") != null:
+		_add(e, ItemsData.get_item(b.id_at(m.hud.sel)).get("mano", {}))
 	sets = SetsData.complete(b.equip)
 	for s in sets:
 		_add(e, SetsData.all()[s]["bonus"])
@@ -124,7 +131,7 @@ func refresh() -> void:
 	if m.get("herd") != null:
 		m.herd.xp_mult = e["herd"]
 	EnergyStorm.gear_pulsi = e["pulsi"]
-	m.vitals.set_scorza = int(e["defense"])
+	m.vitals.set_scorza = roundi(float(e["defense"]))        # (voce 306: i pezzi ne danno anche un quarto)
 	if m.get("fishing") != null:
 		m.fishing.gear = {"luck": e["fish_luck"], "wait": e["fish_wait"], "size": e["fish_size"], "double": e["fish_double"],
 			"any": e["fish_any"]}
