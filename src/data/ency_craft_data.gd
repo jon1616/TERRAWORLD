@@ -15,6 +15,7 @@ Le ricette delle [b]leghe[/b] si scoprono trovando i loro materiali (vedi [url=c
 	{"id": "materiali", "group": "Creare ed equipaggiarsi", "name": "Materiali e leghe", "text":
 """Armi, attrezzi e armature nascono da una [url=cap:forme]forma[/url] e da un [b]materiale[/b]. Il materiale ha delle proprietà: [b]durezza[/b] (forza del piccone, difesa), [b]filo[/b] (danno), [b]peso[/b] (lento o veloce), [b]tenacia[/b], [b]conduzione[/b] (i bastoni), a volte un [url=cap:elementi]elemento[/url] e la [b]risonanza[/b] (posti d'innesto in più).
 Le [b]leghe[/b] uniscono due metalli al Baccello ardente e ne mescolano le proprietà (e gli elementi, che si alternano a ogni colpo). I materiali dei [url=cap:geni]geni[/url] si trovano solo nei mondi con quel gene.
+Ogni materiale ha anche un [b]carattere[/b], un bonus tutto suo: la radicite fa ricrescere la Vita, il legnoferro dà Scorza, la pallidite corsa, l'ambra luce, la tizzonite spine, la Linfa Linfa, la vuotite ti nasconde, la nimbite fa saltare, lo stellare porta fortuna; i materiali dei geni hanno i loro. Le leghe prendono metà del carattere di ciascuno dei due metalli. Ogni pezzo ne prende una parte: un quarto elmo, corazza e gambali, metà guanti, stivali e mantello, metà l'arma o l'attrezzo che tieni in mano (la sua scheda dice «In mano»). Così due pezzi dello stesso grado di materiali diversi non sono mai uguali.
 {cat_materiali_breve}
 Il catalogo completo: [url=cat:materiali]tutti i materiali[/url]."""},
 	{"id": "forme", "group": "Creare ed equipaggiarsi", "name": "Le forme", "text":
@@ -32,7 +33,7 @@ Tutti i tratti: [url=cat:tratti]catalogo dei tratti[/url]."""},
 """Al [b]Telaio di foglie[/b] si avvolge una [b]fascia[/b] sul manico di un'arma o di un attrezzo: cambia un poco i suoi valori (più spinta, più velocità, più danno…) e prende il posto della fascia di prima.
 {cat_fasce}"""},
 	{"id": "set", "group": "Creare ed equipaggiarsi", "name": "I set", "text":
-"""Elmo, corazza e gambali dello stesso metallo (o le vesti e le coppie di accessori dello stesso set) dati insieme danno un [b]bonus di set[/b]. La scheda di un pezzo dice quanti pezzi del set indossi.
+"""Elmo, corazza, gambali, guanti e stivali dello stesso materiale (o le vesti e le coppie di accessori dello stesso set) indossati insieme danno un [b]bonus di set[/b]. Ogni metallo, ogni [url=cap:materiali]lega[/url] e ogni materiale dei geni ha il suo: quello di una lega unisce i set dei suoi due metalli, a metà ciascuno. La scheda di un pezzo dice quanti pezzi del set indossi.
 {cat_set}"""},
 	{"id": "accessori", "group": "Creare ed equipaggiarsi", "name": "Gli accessori", "text":
 """Due posti per gli accessori. Danno effetti che cambiano il modo di muoversi e combattere: correre più veloci, saltare più in alto, [b]planare[/b] tenendo il salto, [b]salti in aria[/b], scivolare e saltare sulle [b]pareti[/b], niente ferite da caduta, alone più ampio, fortuna nel bottino, spine, Linfa più rapida, alleati in più.
@@ -112,7 +113,7 @@ Gli [b]oggetti unici[/b] sono scritti a mano, ognuno con la sua storia e i suoi 
 	{"id": "equipaggiamento", "group": "Creare ed equipaggiarsi", "name": "I dieci posti dell'equipaggiamento", "text":
 """Nella Bisaccia aperta, a sinistra, ci sono [b]dieci posti[/b]: elmo, corazza, gambali e stivali; guanti, mantello, amuleto e anello; due accessori.
 • [b]Guanti[/b], [b]stivali[/b] e [b]mantello[/b] si fanno al Maglio con ogni metallo, lega o materiale dei geni, come le armature: i guanti rendono i colpi più rapidi e lo scavo più svelto, gli stivali allungano corsa e salto, il mantello fa ricrescere la Vita più in fretta; tutti danno un po' di Scorza. Più il metallo è di grado alto, più rendono.
-• [b]Amuleti[/b] e [b]anelli[/b] si fanno alla Mola del gemmaio: una gemma incastonata in un metallo. L'amuleto dà la qualità della gemma, l'anello il suo [url=cap:effetti]effetto speciale[/url]:
+• [b]Amuleti[/b] e [b]anelli[/b] si fanno alla Mola del gemmaio: una gemma incastonata in un metallo. L'amuleto dà la qualità della gemma, l'anello il suo [url=cap:effetti]effetto speciale[/url]; la montatura aggiunge il [url=cap:materiali]carattere[/url] del suo metallo (metà nell'amuleto, tre decimi nell'anello):
 {cat_gemme}
 • I [b]set dei metalli[/b] sono di cinque pezzi: elmo, corazza, gambali, guanti e stivali dello stesso metallo."""},
 ]

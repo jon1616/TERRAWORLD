@@ -834,6 +834,15 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     `tools/baccelli.gd` (il foglio dei disegni), `tools/categorie_creare.gd`.
   - Prove: gruppi «zaino» (`TestsBackpack`, foto 300-302) e «grotte» (`TestsCaves`, foto 303-305), «mappa».
     Enciclopedia: `EncyCavesData`.
+- **Roadmap 31 «Il carattere dei materiali»** (voci 306-309, 1 ott 2026; l'utente: «oggetti dello stesso tipo e grado ma
+  di materiali diversi danno gli stessi bonus»): `MaterialsData.TRAITS` (il carattere di ogni metallo e materiale dei
+  geni; le leghe metà di ciascuno con `trait_of`), `trait_acc(mat, parte)`, `merge_acc`, `SHARE` (armatura 0,25,
+  guanti/stivali/mantello 0,5, in mano 0,5, amuleto 0,5, anello 0,3). `FormsData.item` lo mette nell'`acc` dei pezzi
+  indossati (`TRAIT_PART`) o nel campo `mano` di armi e attrezzi, letto da `GearEffects` per l'oggetto scelto nella
+  barra rapida (`Hud.selected`). `SetsData.all()` ha un set per ogni lega (`blend` a metà dei due metalli) e per ogni
+  materiale dei geni (`GENE_BONUS`), con la descrizione fatta da `describe`; `JewelsData` aggiunge il carattere della
+  montatura. Prove: gruppo «carattere» (`TestsMaterials`). **Un materiale nuovo ha sempre un carattere** (la prova
+  segnala quelli che ne sono senza).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

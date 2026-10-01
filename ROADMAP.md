@@ -1,8 +1,8 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 1 ott 2026)
-- **In corso: la Roadmap 31 «Il carattere dei materiali»** (voci 306-309): ogni materiale dà un bonus suo, set per
-  le leghe e i materiali dei geni, gioielli con il carattere del metallo.
+- **Fatta la Roadmap 31 «Il carattere dei materiali»** (voci 306-309, 1 ott 2026): ogni materiale dà un bonus suo,
+  set per le leghe e i materiali dei geni, gioielli con il carattere del metallo. Resoconto in fondo alla Roadmap 31.
 - **Fatta la Roadmap 30 «Lo zaino e le grotte piene»** (voci 295-305, 30 set - 1 ott 2026, in autonomia): Bisacce a
   gradi, tasche, Dispensa, creature da soma; piante che lasciano qualcosa, baccelli da rompere, creature più vive,
   piccoli incontri e curiosità degli strati. Resoconto in fondo alla Roadmap 30.
@@ -4665,5 +4665,16 @@ armature cambiano di poco. Scelta dell'utente: la proposta così com'è, «in ma
   nell'anello) all'effetto della gemma.
   Fatto il 1 ott 2026: `JewelsData.items` unisce l'effetto della gemma al carattere del metallo
   (`MaterialsData.merge_acc`); nessuno dei 72 gioielli è più uguale a un altro. Prova nel gruppo «carattere».
-- [ ] **309. Schede, misure e chiusura.** Il carattere nelle schede degli oggetti e dei materiali, la Scorza dei pezzi nel
+- [x] **309. Schede, misure e chiusura.** Il carattere nelle schede degli oggetti e dei materiali, la Scorza dei pezzi nel
   pannello, i nomi delle protezioni dai rigori; `tools/armi.gd` e `tools/percorso.gd`; Enciclopedia; prove; resoconto.
+  Fatto il 1 ott 2026: «Carattere del materiale» nella scheda di ogni pezzo forgiato e nella descrizione dei lingotti,
+  carattere e set nel catalogo dei materiali dell'Enciclopedia, capitoli «Materiali e leghe», «I set» e «Gli accessori»
+  aggiornati. Misure: `tools/armi.gd` cambia solo il set di legnoferro (Scorza 12 → 13), `tools/percorso.gd` medio 5,9
+  appassimenti all'ora (era 6,0), attento 1,2 (uguale). Prove verdi (carattere, posti, forme, tratti, enciclopedia,
+  suggerimenti, interfaccia, galleria con 0 problemi).
+
+**Resoconto della Roadmap 31.** Prima un materiale contava quasi solo per il grado: guanti, stivali e mantelli dello
+stesso grado erano identici, i gioielli dipendevano solo dalla gemma, e 48 materiali su 57 non avevano un set. Adesso
+ogni materiale ha un carattere suo (21 scritti, 36 leghe che uniscono quelli dei loro metalli) che passa in ogni pezzo,
+anche nell'arma in mano; ci sono 74 set (48 nuovi); nessuno dei 72 gioielli è uguale a un altro. Il bilancio della
+difficoltà resta dove era.

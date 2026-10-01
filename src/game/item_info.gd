@@ -48,6 +48,10 @@ static func bbcode(id: String, tratto := "", dati := {}) -> String:
 		var md := MaterialsData.get_mat(String(it["mat"]))
 		if md.has("alloy"):
 			t += "[color=#9fc8c0]Lega di %s e %s, risonanza %d.[/color]\n" % [md["alloy"][0], md["alloy"][1], int(md["risonanza"])]
+		# voce 306: il carattere del materiale (per un pezzo intero: ogni forma ne prende la sua parte)
+		var ct := MaterialsData.trait_text(String(it["mat"]))
+		if ct != "":
+			t += "[color=#8ef0d8]Carattere del materiale:[/color] [color=#9fc8c0]%s[/color] [color=#6a8a84](un'armatura ne prende un quarto per pezzo, guanti, stivali e mantelli metà, in mano metà)[/color]\n" % ct
 	if Bisaccia.is_gear(id):
 		# voce 54: qualità e posti d'innesto
 		var q := Gear.quality(slot)

@@ -380,6 +380,10 @@ static func catalog(id: String) -> Array:
 					var el := String(md.get("elemento", ""))
 					t += "• [color=#ffe8b0]%s[/color]  [color=%s](grado %d%s)[/color] — [color=%s]%s[/color]\n" % [link, D,
 						int(md.get("tier", 0)), (", " + el) if el != "" else "", T, MaterialsData.describe(String(k))]
+					# voce 306-307: il carattere del materiale e il suo set
+					var sd: Dictionary = SetsData.all().get(String(k), {})
+					t += "   [color=%s]carattere: %s%s[/color]\n" % [D, MaterialsData.trait_text(String(k)),
+						(" · set «%s»: %s" % [sd["name"], sd["desc"]]) if not sd.is_empty() else ""]
 				t += "\n"
 			return ["Materiali", t, ""]
 		"forme":

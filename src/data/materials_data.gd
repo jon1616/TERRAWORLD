@@ -250,14 +250,15 @@ static func items() -> Dictionary:
 			"value": 6 * int(gd["tier"]), "source": "%s, nei mondi con il gene %s" % [where, genes],
 			"desc": "Un materiale che esiste solo nei mondi con il gene %s. Al Baccello ardente, tre ne fanno un lingotto di %s." % [genes, gd["short"]]}
 		_items["lingotto_" + g] = {"name": "Lingotto di %s" % gd["short"], "kind": "materiale", "icon": ["lingotto", gd["icon"]],
-			"desc": "%s. %s." % [String(gd["short"]).substr(0, 1).to_upper() + String(gd["short"]).substr(1), describe(g)]}
+			"desc": "%s. %s. Carattere: %s." % [String(gd["short"]).substr(0, 1).to_upper() + String(gd["short"]).substr(1), describe(g),
+				_trait_words(g)]}
 	for id in all():
 		var md: Dictionary = all()[id]
 		if md.has("alloy"):
 			_items[String(md["bar"])] = {"name": "Lingotto di %s" % md["short"], "kind": "materiale",
 				"icon": ["lingotto", md["icon"]], "gen": true,
-				"desc": "Lega di %s e %s, fusa al Baccello ardente: %s." % [String(MATERIALS[md["alloy"][0]]["label"]).trim_prefix("di ").trim_prefix("d'"),
-					String(MATERIALS[md["alloy"][1]]["label"]).trim_prefix("di ").trim_prefix("d'"), describe(id)]}
+				"desc": "Lega di %s e %s, fusa al Baccello ardente: %s. Carattere: %s." % [String(MATERIALS[md["alloy"][0]]["label"]).trim_prefix("di ").trim_prefix("d'"),
+					String(MATERIALS[md["alloy"][1]]["label"]).trim_prefix("di ").trim_prefix("d'"), describe(id), _trait_words(id)]}
 	return _items
 
 
@@ -290,6 +291,20 @@ static func describe(id: String) -> String:
 	for p in PROPS:
 		parts.append("%s %s" % [PROP_NAMES[p], str(md[p]) if not md[p] is float else ("%.1f" % md[p]).trim_suffix(".0")])
 	return " · ".join(parts)
+
+
+## Il carattere in parole minuscole, per le descrizioni dei lingotti (che si scrivono quando i dati si caricano: qui
+## niente `TipWordsData`, che nomina `FormsData` e farebbe un giro di dipendenze).
+static func _trait_words(id: String) -> String:
+	var names := {"regen": "la Vita ricresce", "defense": "Scorza", "run": "corsa", "halo": "alone", "thorns": "spine",
+		"linfa_regen": "la Linfa ricresce", "stealth": "le creature ti vedono più tardi", "luck": "fortuna", "jump": "salto",
+		"fresco": "protezione dal calore", "caldo": "protezione dal freddo", "filtro": "protezione dalla polvere",
+		"quota": "protezione dall'aria sottile", "magic": "incantesimi", "dig": "scavo", "damage": "danno", "atk_speed": "colpi"}
+	var parts := []
+	var t := trait_of(id)
+	for k in t:
+		parts.append(String(names.get(k, k)))
+	return ", ".join(parts) if not parts.is_empty() else "nessuno"
 
 
 ## Voce 306: il carattere in parole, per un pezzo intero: «Corsa +6%» (o «» se il materiale non ne ha).
