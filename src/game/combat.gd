@@ -49,6 +49,10 @@ func setup(main: Node2D) -> void:
 ## Il colpo di un proiettile: i dardi prendono le creature, le spore il Germogliato.
 func on_shot(s: Dictionary) -> bool:
 	var pos: Vector2 = (s["node"] as Node2D).position
+	if int(s.get("ally", -1)) >= 0:
+		return m.herd.fight.shot(s, pos)        # Roadmap 32: il colpo di un compagno
+	if not s["player"] and m.herd.fight.shot_hits_ally(s, pos):
+		return true                             # un colpo selvatico preso da un compagno
 	if s["player"]:
 		var hits: Dictionary = s["hits"]
 		for c in fauna.list.duplicate():

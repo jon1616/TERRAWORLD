@@ -4706,12 +4706,19 @@ Le scelte di fondo:
   profondo: si sceglie chi piace, non solo chi è forte.
 - I Guardiani, i Custodi e i Signori (le creature `boss`) restano esclusi.
 
-- [ ] **310. Il motore del compagno.** Una creatura alleata (`Creature.ally`) usa i suoi comportamenti contro il
+- [x] **310. Il motore del compagno.** Una creatura alleata (`Creature.ally`) usa i suoi comportamenti contro il
   nemico più vicino (bersaglio = una creatura), spara colpi amici, ferisce al contatto; le creature selvatiche la
   vedono, la prendono di mira e la colpiscono (contatto e proiettili). Senza nemici segue il Germogliato: corre più di
   lui se è indietro, salta muri e dislivelli, e se resta bloccata o lontana ricompare accanto a lui con uno sbuffo;
   viaggia con lui nei portali. Le specie che non attaccano (docili, timide, d'acqua, ferme) hanno uno stile di riserva
   secondo la famiglia; i comportamenti che danneggerebbero il giocatore (ladro, rosicchia, succhia, fuga) sono tolti.
+  Fatto il 1 ott 2026: `BondsData` (lo stile = i comportamenti della specie senza quelli di `SKIP`, più un modo di
+  muoversi se manca; chi nuota vola; `bindable` esclude le creature `boss`), `BondFight` (contatto, colpi amici con
+  "ally" in `Projectiles`, scoppi e fulmini dei compagni, ferite, `retarget` delle creature selvatiche, `release`,
+  `beside`), `BhMandria` riscritto (stile contro `c.target` = il nemico, `_catch_up`: lontano o bloccato ricompare
+  accanto), `Mind.sees` per i compagni, `Combat.on_shot` e `SkyStrikes.bolt` con i colpi dei compagni. Prova: gruppo
+  «legami» (`TestsBonds`: volpe, sputaspore che spara, talpone che scava, anguilla in volo, grumo; il nemico lo prende
+  di mira e lo ferisce; dopo un salto di 40 tessere e chiuso dietro un muro torna accanto).
 - [ ] **311. La Sacca dei legami.** Cinque posti nella Bisaccia (una scheda «Compagni»), uno in campo. Tasti: evoca o
   richiama, passa al prossimo. KO: torna nella sacca stremato e non si evoca più finché non si torna nel Giardino, dove
   guariscono tutti; l'avviso dice chi può prenderne il posto. Nell'HUD il ritratto di chi è in campo con Vita ed

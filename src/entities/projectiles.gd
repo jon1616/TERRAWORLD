@@ -62,7 +62,8 @@ func fire(from: Vector2, vel: Vector2, grav: float, damage: int, from_player: bo
 	_shots.append({"node": sp, "vel": vel, "grav": grav, "damage": damage, "player": from_player, "t": 0.0,
 		"knock": knock, "pierce": int(opts.get("pierce", 0)), "homing": float(opts.get("homing", 0.0)),
 		"through": bool(opts.get("through", false)), "glow": opts.get("light", Color.BLACK), "hits": {},
-		"slow": float(opts.get("slow", 0.0)), "chill": float(opts.get("chill", 0.0)), "elem": String(opts.get("elem", ""))})
+		"slow": float(opts.get("slow", 0.0)), "chill": float(opts.get("chill", 0.0)), "elem": String(opts.get("elem", "")),
+		"ally": int(opts.get("ally", -1))})          # Roadmap 32: il colpo di un compagno (uid della scheda)
 
 
 func count() -> int:

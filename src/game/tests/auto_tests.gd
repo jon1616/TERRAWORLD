@@ -267,6 +267,8 @@ func run(main: Node2D) -> void:
 	_mark("TestsCaves")
 	await TestsMaterials.new(kit).run()     # Roadmap 31: il carattere dei materiali
 	_mark("TestsMaterials")
+	await TestsBonds.new(kit).run()         # Roadmap 32: i compagni di battaglia
+	_mark("TestsBonds")
 	await TestsPrimo.new(kit).run()        # Roadmap 28: il Seme Primo
 	_mark("TestsPrimo")
 	await ob.run()
@@ -475,6 +477,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsCaves.new(kit).run()          # Roadmap 30: le grotte piene
 		"carattere":
 			await TestsMaterials.new(kit).run()      # Roadmap 31: il carattere dei materiali
+		"legami":
+			await TestsBonds.new(kit).run()          # Roadmap 32: i compagni di battaglia
 		"primo":
 			await TestsPrimo.new(kit).run()          # Roadmap 28: il Seme Primo
 		"arena":

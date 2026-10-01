@@ -72,6 +72,9 @@ static func noise(pos: Vector2, tiles: float) -> void:
 
 ## Il cuore di `Behavior.sees`: vede il bersaglio entro `tiles` tessere?
 func sees(c: Creature, tiles: float) -> bool:
+	if c.tame != null:
+		# Roadmap 32: un compagno vede il nemico che ha scelto (non ha paura del buio, non lo perde di vista)
+		return c.target.position.distance_to(c.position) < tiles * 16.0 * BondsData.SIGHT_MULT
 	var tp := c.target.position
 	var d := tp.distance_to(c.position)
 	var r := tiles * 16.0 * Behavior.stealth * Behavior.fog * Behavior.effect_stealth

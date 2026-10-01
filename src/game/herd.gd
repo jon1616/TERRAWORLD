@@ -19,11 +19,14 @@ var _t := 1.0
 var _light_t := 0.0
 var _rng := RandomNumberGenerator.new()
 var xp_mult := 1.0                     # Roadmap 20: il grado della mandria (`GearEffects`, chiave «herd»)
+var fight: BondFight                   # Roadmap 32: il combattimento dei compagni
+var _aim_t := 0.0
 signal changed                         # la mandria è cambiata (il pannello si ridisegna)
 
 
 func setup(main: Node2D) -> void:
 	m = main
+	fight = BondFight.new(self)
 	z_index = 3
 	_rng.randomize()
 
@@ -228,10 +231,9 @@ static func damage_now(rec: Dictionary) -> int:
 	return maxi(roundi(dmg), 1)
 
 
-## Combatte? Tutte tranne gli erbivori gentili che non si cavalcano.
-static func fights(rec: Dictionary) -> bool:
-	var fd: Dictionary = FamiliesData.FAMILIES.get(family_of(rec), {})
-	return String(fd.get("role", "")) != "erbivoro" or tame_data(rec).has("mount")
+## Combatte? Roadmap 32: tutte, ognuna con il suo stile (prima gli erbivori gentili no).
+static func fights(_rec: Dictionary) -> bool:
+	return true
 
 
 ## Una creatura abbattuta da una della mandria: esperienza.
@@ -323,7 +325,9 @@ func spawn(rec: Dictionary, mode: String) -> Creature:
 	bh.herd = self
 	bh.rec = rec
 	bh.mode = mode
+	bh.setup_style(String(rec["specie"]))       # voce 310: combatte con lo stile della sua specie
 	c.tame = bh
+	c.fly = BondsData.flies(String(rec["specie"]))   # chi nuota, fuori dall'acqua nuota nell'aria
 	_apply_stats(c, rec)
 	c.position = m.player.position + Vector2(-20.0 * m.player.facing, -6.0)
 	add_child(c)
@@ -342,7 +346,8 @@ func _apply_stats(c: Creature, rec: Dictionary) -> void:
 	var st := stats_of(rec)
 	c.hp_max = int(st["hp"])
 	c.hp = maxi(1, roundi(c.hp_max * clampf(float(rec["vita"]), 0.05, 1.0)))
-	c.damage = 0                           # non ferisce il Germogliato: i suoi colpi li dà `BhMandria`
+	c.damage = damage_now(rec)              # voce 310: lo leggono i suoi comportamenti; il Germogliato non lo tocca
+	                                       # (le creature della mandria non stanno in `Fauna.list`)
 	c._bar.set_value(float(c.hp) / float(c.hp_max))
 
 
@@ -351,6 +356,7 @@ func despawn(uid: int) -> void:
 		var c: Creature = beasts[uid]
 		beasts.erase(uid)
 		if is_instance_valid(c):
+			fight.release(c)                   # voce 310: chi lo inseguiva torna sul Germogliato
 			c.queue_free()
 
 
@@ -393,6 +399,10 @@ func _process(dt: float) -> void:
 	if riding >= 0 and (not beasts.has(riding) or m.life.dead):
 		ride(false)
 	_lights(dt)
+	_aim_t -= dt
+	if _aim_t <= 0.0:
+		_aim_t = 0.3
+		fight.retarget()                   # voce 310: chi prende di mira i compagni
 	_t -= dt
 	if _t > 0.0:
 		return

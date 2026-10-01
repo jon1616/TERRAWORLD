@@ -22,9 +22,10 @@ func setup(main: Node2D) -> void:
 
 
 ## Un fulmine sulla colonna x (px) tra `delay` secondi.
-func bolt(x: float, delay: float, damage: int) -> void:
+## `ally`: l'uid della scheda del compagno che lo chiama (Roadmap 32): ferisce le creature sotto, non il Germogliato.
+func bolt(x: float, delay: float, damage: int, ally := -1) -> void:
 	var cam_y: float = m.cam.get_screen_center_position().y
-	pending.append({"x": x, "t": delay, "t0": delay, "damage": damage, "y0": cam_y - 400.0})
+	pending.append({"x": x, "t": delay, "t0": delay, "damage": damage, "y0": cam_y - 400.0, "ally": ally})
 	queue_redraw()
 
 
@@ -56,6 +57,12 @@ func _fall(b: Dictionary) -> void:
 	flashes.append({"x": float(b["x"]), "t": FLASH, "y0": float(b["y0"]), "y1": at.y})
 	m.sfx.play("scoppio", at)
 	Fx.puff(m.fx, at, Color(1.6, 1.7, 2.2))
+	if int(b.get("ally", -1)) >= 0:
+		var uid := int(b["ally"])
+		for o in m.fauna.list.duplicate():
+			if absf(o.position.x - float(b["x"])) <= HIT_R and o.position.y <= at.y + 8.0:
+				m.herd.fight.strike(m.herd.beasts.get(uid), m.herd.rec_of(uid), o, int(b["damage"]), float(b["x"]), "")
+		return
 	var p: Player = m.player
 	var roofed: bool = m.weather != null and m.weather.roofed
 	if absf(p.position.x - float(b["x"])) <= HIT_R and p.position.y <= at.y + 8.0 and not roofed:
