@@ -3,9 +3,10 @@ extends Node2D
 ## La mandria (voce 59, dati in `HerdData`): le creature addomesticate del Germogliato. Stanno nel personaggio
 ## (`Character.mandria`, una scheda per creatura) e lo seguono da un mondo all'altro. Come entrano nella mandria:
 ## `Taming`; recinti e Incubatrice: `Pens`; testi: `HerdInfo`; pannello: `HerdPanel` (tasto G).
-## Una scheda ha uno stato: «segue» (fino a `FOLLOW_MAX`: combatte con te, ti aiuta con il suo dono, ha fame e va
-## nutrita con clic destro), «recinto» (vive in un Recinto di questo mondo e produce), «riposo» (riposa nel Giardino e
-## guarisce). Stremata in battaglia, torna a riposare. Cresce di livello combattendo, mangiando e producendo.
+## Una scheda ha uno stato: «segue» = nella **Sacca dei legami** (Roadmap 32, fino a `FOLLOW_MAX`: una sola in campo,
+## "campo" = true, combatte con il suo stile e ti aiuta con il suo dono; KO torna nella sacca e guarisce nel Giardino,
+## `BondBag`), «recinto» (vive in un Recinto di questo mondo e produce), «riposo» (riposa nel Giardino e guarisce),
+## «guardia» (alla sua cuccia). Cresce di livello combattendo, mangiando e producendo.
 ## Tasto R: in sella alla prima che si cavalca (i suoi bonus passano da `GearEffects`, come gli accessori).
 ## Le creature in scena sono `Creature` con un `BhMandria` al posto dei comportamenti selvatici (`beasts`).
 
@@ -73,12 +74,16 @@ static func new_name(rng: RandomNumberGenerator) -> String:
 	return String(a[rng.randi_range(0, a.size() - 1)]) + String(b[rng.randi_range(0, b.size() - 1)])
 
 
-## Una scheda entra nella mandria: segue se c'è posto, altrimenti riposa.
+## Una scheda entra nella mandria: nella Sacca dei legami se c'è posto (e in campo se il campo è vuoto), altrimenti
+## riposa nel Giardino.
 func add_record(rec: Dictionary) -> void:
-	rec["stato"] = "segue" if followers().size() < HerdData.FOLLOW_MAX and float(rec["vita"]) >= 0.3 else "riposo"
+	rec["stato"] = "segue" if followers().size() < HerdData.FOLLOW_MAX else "riposo"
 	rec["mondo"] = ""
 	rec["recinto"] = ""
+	rec["campo"] = false
 	records().append(rec)
+	if rec["stato"] == "segue" and float(rec["vita"]) > 0.0 and m.get("bonds") != null and m.bonds.field().is_empty():
+		rec["campo"] = true
 	changed_now()
 
 
@@ -102,10 +107,8 @@ func creature_at(pos: Vector2, wild := true) -> Creature:
 func set_state(rec: Dictionary, stato: String) -> String:
 	match stato:
 		"segue":
-			if followers().size() >= HerdData.FOLLOW_MAX:
-				return "Ti seguono già in %d" % HerdData.FOLLOW_MAX
-			if float(rec["vita"]) < 0.3:
-				return "%s è ancora stremata: lasciala riposare" % rec["nome"]
+			if rec["stato"] != "segue" and followers().size() >= HerdData.FOLLOW_MAX:
+				return "La Sacca dei legami è piena (%d)" % HerdData.FOLLOW_MAX
 		"guardia":
 			# voce 148: di guardia alla sua cuccia (in questo mondo): difende la casa, anche durante le maree
 			var cu := free_kennel(m.player.position)
@@ -124,6 +127,8 @@ func set_state(rec: Dictionary, stato: String) -> String:
 			rec["t"] = Time.get_unix_time_from_system()
 	if int(rec["uid"]) == riding:
 		ride(false)
+	if stato != "segue":
+		rec["campo"] = false
 	rec["stato"] = stato
 	if stato != "recinto":
 		rec["recinto"] = ""
@@ -196,7 +201,8 @@ func unpair(a: Dictionary) -> void:
 	a.erase("amore")
 
 
-## Stremata: si ritira a riposare nel Giardino e guarisce piano.
+## Stremata: quella in campo va KO e torna nella sacca (`BondBag.knocked_out`, guarisce nel Giardino); quella di
+## guardia si ritira a riposare nel Giardino e guarisce piano.
 func faint(rec: Dictionary) -> void:
 	rec["vita"] = 0.0
 	var uid := int(rec["uid"])
@@ -204,6 +210,10 @@ func faint(rec: Dictionary) -> void:
 		ride(false)
 	if beasts.has(uid):
 		Fx.puff(m.fx, (beasts[uid] as Creature).position, Color(1.2, 1.2, 1.2))
+	if rec["stato"] == "segue":
+		despawn(uid)
+		m.bonds.knocked_out(rec)
+		return
 	rec["stato"] = "riposo"
 	despawn(uid)
 	m.hud.toast("%s è stremata e torna a riposare nel Giardino (G)" % rec["nome"])
@@ -255,10 +265,12 @@ func gain_xp(rec: Dictionary, n: int, quiet := false) -> void:
 		rec["xp"] = mini(int(rec["xp"]), HerdData.xp_for(HerdData.LVL_MAX))
 
 
-## I doni di chi ti segue e di chi cavalchi, per `GearEffects` (gruppi di effetti come quelli degli accessori).
+## I doni di chi è in campo e di chi cavalchi, per `GearEffects` (gruppi di effetti come quelli degli accessori).
 func bonuses() -> Array:
 	var out := []
 	for r in followers():
+		if not bool(r.get("campo", false)):
+			continue                           # Roadmap 32: il dono lo dà solo chi è in campo
 		var aid: Dictionary = tame_data(r).get("aid", {}).duplicate()
 		aid.erase("light")
 		out.append(aid)
@@ -288,7 +300,7 @@ func ride(on: bool) -> bool:
 			changed_now()
 		return true
 	for r in followers():
-		if tame_data(r).has("mount") and beasts.has(int(r["uid"])):
+		if bool(r.get("campo", false)) and tame_data(r).has("mount") and beasts.has(int(r["uid"])):
 			riding = int(r["uid"])
 			var c: Creature = beasts[riding]
 			c.tame.mode = "cavalcata"
@@ -298,7 +310,7 @@ func ride(on: bool) -> bool:
 			m.hud.toast("In sella a %s (R per scendere)" % r["nome"])
 			changed_now()
 			return true
-	m.hud.toast("Nessuna creatura che ti segue si lascia cavalcare (cornoradici, cervi, linci, salamandre, talponi)")
+	m.hud.toast("Il compagno in campo non si lascia cavalcare (cornoradici, cervi, linci, salamandre, talponi)")
 	return false
 
 
@@ -368,7 +380,7 @@ func _process(dt: float) -> void:
 	for r in records():
 		var uid := int(r["uid"])
 		var mode := ""
-		if r["stato"] == "segue" and not m.life.dead:
+		if r["stato"] == "segue" and bool(r.get("campo", false)) and not bool(r.get("ko", false)) and not m.life.dead:
 			mode = "cavalcata" if uid == riding else "segue"
 		elif r["stato"] == "recinto" and m.pens.shows(r):
 			mode = "recinto"
@@ -414,8 +426,9 @@ func _process(dt: float) -> void:
 				r["fame"] = minf(float(r["fame"]) + HerdData.HUNGER_RATE, 1.0)
 				r["felice"] = move_toward(float(r["felice"]), 1.0 if float(r["fame"]) < 0.8 else 0.2, 1.0 / 600.0)
 				var c: Creature = beasts.get(int(r["uid"]))
-				if c != null and c.hp < c.hp_max:
-					c.hp = mini(c.hp + maxi(1, c.hp_max / 60), c.hp_max)      # guarisce piano anche seguendoti
+				if c != null and c.hp < c.hp_max and c.tame.foe == null:
+					# Roadmap 32: le ferite si richiudono piano fuori dalla lotta; chi va KO guarisce solo nel Giardino
+					c.hp = mini(c.hp + maxi(1, c.hp_max / 120), c.hp_max)
 					c._bar.set_value(float(c.hp) / float(c.hp_max))
 			"riposo", "guardia":
 				r["vita"] = minf(float(r["vita"]) + 1.0 / HerdData.REST_HEAL, 1.0)

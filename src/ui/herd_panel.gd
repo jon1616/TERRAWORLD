@@ -41,7 +41,7 @@ func setup(main: Node2D) -> void:
 	_detail.add_theme_font_size_override("normal_font_size", UiPalette.GRANDE)
 	add_child(_detail)
 	var x := 776.0
-	for b in [["segue", "Segui"], ["riposo", "Riposa"], ["recinto", "Al recinto"], ["guardia", "Di guardia"], ["vasetto", "Nel vasetto"],
+	for b in [["segue", "Nella sacca"], ["riposo", "Riposa"], ["recinto", "Al recinto"], ["guardia", "Di guardia"], ["vasetto", "Nel vasetto"],
 			["libera", "Libera"], ["coppia", "Coppia…"], ["fiera", "Alla fiera"],
 			["lavoro", "Lavoro…"]]:
 		var btn := Button.new()
@@ -197,7 +197,7 @@ func _refresh() -> void:
 	for o in m.pens.pens:
 		pens += 1
 		room += HerdData.PEN_CAP - m.pens.members(Pens.key(o)).size()
-	_foot.text = "Ti seguono %d su %d · recinti in questo mondo: %d (posti liberi %d) · vasetti vuoti: %d" % [m.herd.followers().size(),
+	_foot.text = "Nella Sacca dei legami %d su %d · recinti in questo mondo: %d (posti liberi %d) · vasetti vuoti: %d" % [m.herd.followers().size(),
 		HerdData.FOLLOW_MAX, pens, room, m.character.bisaccia.count("vasetto")] + "\n" + Fairs.line(m)
 
 

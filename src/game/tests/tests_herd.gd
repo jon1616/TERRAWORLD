@@ -105,6 +105,8 @@ func follow_and_fight(spot: Vector2i, h: Herd) -> void:
 	for r in h.records():
 		if Herd.family_of(r) == "volpi":
 			fox_rec = r
+	m.bonds.summon(fox_rec)                    # Roadmap 32: in campo ce n'è una sola
+	await kit.seconds(0.6)
 	var xp0 := int(fox_rec.get("xp", 0)) + int(fox_rec.get("lvl", 1)) * 1000
 	var foe: Creature = m.fauna.add("grumo_muschio", m.player.position + Vector2(40, -8))
 	var hp0: int = m.vitals.hp
@@ -128,6 +130,7 @@ func riding(spot: Vector2i, h: Herd) -> void:
 			h.set_state(r, "riposo")
 	var horn := h.new_record("cornoradice", "nutrita")
 	h.add_record(horn)
+	m.bonds.summon(horn)                       # Roadmap 32: si cavalca quella in campo
 	await kit.frames(3)
 	var run0: float = m.player.run_mult
 	var ok := h.ride(true)
@@ -220,14 +223,14 @@ func jars_and_saves(h: Herd) -> void:
 	var f: Dictionary = h.followers()[0]
 	h.faint(f)
 	var st := String(f["stato"])
-	var back := h.set_state(f, "segue")
+	var back: String = m.bonds.summon(f)          # Roadmap 32: KO resta nella sacca e non si evoca
 	# salvataggio
 	var d: Dictionary = m.character.to_dict()
 	var copy := Character.from_dict("prova", JSON.parse_string(JSON.stringify(d)))
 	var same: bool = copy.mandria.size() == h.records().size() and copy.mandria[0]["uid"] is int
 	print("stremata: %s, richiamarla subito: «%s»; salvate e riprese %d schede %s; la scheda: %s" % [HerdInfo.STATES.get(st, st), back,
 		copy.mandria.size(), "identiche" if same else "DIVERSE", HerdInfo.short(h.records()[0])])
-	if not ok or st != "riposo" or back == "" or not same:
+	if not ok or st != "segue" or not bool(f.get("ko", false)) or back == "" or not same:
 		print("ATTENZIONE: vasetti o salvataggio della mandria non funzionano")
 
 

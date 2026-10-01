@@ -127,6 +127,7 @@ var secrets: Secrets
 var board: Board
 var storage: Storage
 var herd: Herd
+var bonds: BondBag                     # Roadmap 32: la Sacca dei legami
 var taming: Taming
 var pens: Pens
 var _spores: CPUParticles2D
@@ -304,6 +305,10 @@ func _build() -> void:
 	hud.panel._toast = hud.toast
 	interact.chest_panel.storage = storage
 	herd = _mount(Herd.new())              # voce 59: la mandria, come si addomestica, recinti e Incubatrice
+	bonds = _mount(BondBag.new())          # Roadmap 32: la Sacca dei legami (uno in campo, cinque con te)
+	var bbar := BondBar.new()
+	hud.add_child(bbar)
+	bbar.setup(self)
 	taming = _mount(Taming.new())
 	pens = _mount(Pens.new())
 	var hpn := HerdPanel.new()

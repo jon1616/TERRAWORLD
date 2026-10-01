@@ -4719,11 +4719,17 @@ Le scelte di fondo:
   accanto), `Mind.sees` per i compagni, `Combat.on_shot` e `SkyStrikes.bolt` con i colpi dei compagni. Prova: gruppo
   «legami» (`TestsBonds`: volpe, sputaspore che spara, talpone che scava, anguilla in volo, grumo; il nemico lo prende
   di mira e lo ferisce; dopo un salto di 40 tessere e chiuso dietro un muro torna accanto).
-- [ ] **311. La Sacca dei legami.** Cinque posti nella Bisaccia (una scheda «Compagni»), uno in campo. Tasti: evoca o
+- [x] **311. La Sacca dei legami.** Cinque posti nella Bisaccia (una scheda «Compagni»), uno in campo. Tasti: evoca o
   richiama, passa al prossimo. KO: torna nella sacca stremato e non si evoca più finché non si torna nel Giardino, dove
   guariscono tutti; l'avviso dice chi può prenderne il posto. Nell'HUD il ritratto di chi è in campo con Vita ed
   esperienza, e cinque segni per la sacca. La mandria come riserva (recinti, riposo, guardia); le schede «segue» di
   prima entrano nella sacca.
+  Fatto il 1 ott 2026: `BondBag` (`src/game/bond_bag.gd`: `bag`, `field`, `summon`, `recall`, `next_ready`,
+  `knocked_out`, tasti «compagno» T e «cambia_compagno» B, guarigione nel Giardino, ordine con `_tidy`) e `BondBar`
+  (`src/ui/bond_bar.gd`, in basso a destra: ritratto, nome, livello, Vita, esperienza, i cinque posti; nascosta con la
+  sacca vuota o la Bisaccia aperta). La sacca sono le schede «segue» della mandria (`HerdData.FOLLOW_MAX` = 5) con
+  "campo" e "ko"; `Herd.faint` di chi è in campo chiama `knocked_out`; il dono e la cavalcatura solo da chi è in campo;
+  le ferite si richiudono piano fuori dalla lotta. Prove: gruppo «legami» (foto 320_sacca_legami), «mandria» aggiornata.
 - [ ] **312. Legare ogni creatura.** Il Laccio funziona su ogni creatura non boss stremata; poi modi speciali secondo
   la natura: cibo (le famiglie della mandria di prima), uova dai nidi, gli Avvizziti vanno prima curati, le creature
   del Vuoto si legano solo al buio, i mimi solo scoperti, gli spiriti solo di notte; le antiche e le ancestrali sono

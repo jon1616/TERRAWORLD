@@ -24,6 +24,8 @@ const ACTIONS := [
 	["pilastri", "Il Libro dei pilastri (i gradi della maestria)", [KEY_P], "Pannelli"],
 	["atlante", "L'Atlante (i mondi, le loro stelle e ciò che manca)", [KEY_O], "Pannelli"],
 	["tecnica", "La tecnica dell'arma in mano (si apre con la sua maestria)", [KEY_X], "Azioni"],
+	["compagno", "Compagno: evoca o richiama (dalla Sacca dei legami)", [KEY_T], "Azioni"],
+	["cambia_compagno", "Compagno: manda in campo il prossimo della sacca", [KEY_B], "Azioni"],
 	["arti", "Le arti del combattimento (maestrie, tecniche, taglie, prove)", [KEY_I], "Pannelli"],
 	["vista", "Potere: Vista della Linfa", [KEY_V], "Poteri"],
 	["ponte", "Potere: Radici-ponte", [KEY_F], "Poteri"],

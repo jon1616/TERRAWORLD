@@ -67,7 +67,7 @@ const _TAME := {
 static var TAME: Dictionary = _TAME.merged(BiomesData.pack("tame"))
 
 ## Le regole in numeri.
-const FOLLOW_MAX := 3                  # creature che ti seguono insieme
+const FOLLOW_MAX := 5                  # Roadmap 32: la Sacca dei legami (una sola in campo, `BondBag`)
 const PEN_CAP := 4                     # creature per recinto
 const PEN_LEFT := 4                    # il recinto va da `PEN_LEFT` tessere a sinistra della stazione…
 const PEN_RIGHT := 7                   # …a `PEN_RIGHT` a destra

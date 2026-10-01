@@ -33,6 +33,7 @@ func run() -> void:
 	await styles(spot, h)
 	await aggro(spot, h)
 	await follow(spot, h)
+	await sack(spot, h)
 	for uid in h.beasts.keys():
 		h.despawn(int(uid))
 	m.character.mandria.clear()
@@ -50,6 +51,7 @@ func _companion(h: Herd, sp: String, lvl: int) -> Dictionary:
 	rec["lvl"] = lvl
 	h.add_record(rec)
 	rec["stato"] = "segue"
+	rec["campo"] = true
 	return rec
 
 
@@ -165,3 +167,55 @@ func follow(spot: Vector2i, h: Herd) -> void:
 	print("il compagno non resta indietro: dopo un salto di 40 tessere a %.1f tessere, chiuso dietro un muro a %.1f" % [far1, far2])
 	if far1 > 4.0 or far2 > 6.0:
 		print("ATTENZIONE: il compagno resta indietro")
+
+
+## Voce 311: la Sacca dei legami. Cinque posti (la sesta va a riposare), una sola in campo, richiamare e cambiare;
+## KO torna nella sacca e non si evoca, la prossima pronta prende il suo posto; nel Giardino guariscono tutte.
+func sack(spot: Vector2i, h: Herd) -> void:
+	m.fauna.clear()
+	m.snap_to(spot)
+	for uid in h.beasts.keys():
+		h.despawn(int(uid))
+	m.character.mandria.clear()
+	var bb: BondBag = m.bonds
+	var recs := []
+	for sp in ["volpe_ambra", "lupo_lunare", "falena_brace", "talpone", "pecora_muschio", "grumo_muschio"]:
+		var r := h.new_record(sp, "allevata")
+		r["lvl"] = 6
+		h.add_record(r)
+		recs.append(r)
+	await kit.seconds(0.6)
+	var in_bag: int = bb.bag().size()
+	var sixth := String(recs[5]["stato"])
+	var first_field: bool = bb.field() == recs[0]
+	var in_scene: int = h.beasts.size()
+	bb.recall()
+	await kit.seconds(0.3)
+	var after_recall: int = h.beasts.size()
+	var nx := bb.next_ready()
+	bb.summon(nx)
+	await kit.seconds(0.4)
+	var switched: bool = bb.field() == nx and h.beasts.size() == 1
+	await kit.save("320_sacca_legami")
+	# KO: un colpo enorme
+	var cur := bb.field()
+	var c: Creature = h.beasts.get(int(cur["uid"]))
+	h.fight.hurt(c, cur, 99999, c.position.x - 10.0)
+	await kit.seconds(0.3)
+	var ko: bool = bool(cur.get("ko", false)) and not bool(cur.get("campo", false)) and String(cur["stato"]) == "segue"
+	var refused: String = bb.summon(cur)
+	var other := bb.next_ready()
+	bb.summon(other)
+	await kit.seconds(0.4)
+	var replaced: bool = not bb.field().is_empty() and bb.field() != cur and h.beasts.size() == 1
+	# nel Giardino guariscono
+	var was: bool = m.giardino.active
+	m.giardino.active = true
+	await kit.seconds(1.3)
+	var healed: bool = not bool(cur.get("ko", false)) and float(cur["vita"]) >= 1.0
+	m.giardino.active = was
+	print("Sacca dei legami: %d nella sacca (la sesta: %s), in campo la prima %s, in scena %d; richiamata: in scena %d; cambio %s; KO %s («%s»), sostituita %s; nel Giardino guarisce %s" % [
+		in_bag, sixth, "sì" if first_field else "NO", in_scene, after_recall, "sì" if switched else "NO", "sì" if ko else "NO",
+		refused, "sì" if replaced else "NO", "sì" if healed else "NO"])
+	if in_bag != 5 or sixth != "riposo" or not first_field or in_scene != 1 or after_recall != 0 or not switched or not ko 			or refused == "" or not replaced or not healed:
+		print("ATTENZIONE: la Sacca dei legami non va")

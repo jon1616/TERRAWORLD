@@ -147,11 +147,11 @@ func tame(c: Creature, how: String) -> Dictionary:
 	h.add_record(rec)
 	m.objectives.bump("addomesticate")
 	m.erbario.note_tamed(FamiliesData.family_of(c.base))       # voce 61
-	var b := h.spawn(rec, "segue" if rec["stato"] == "segue" else "")
+	var b := h.spawn(rec, "segue" if rec["stato"] == "segue" and bool(rec.get("campo", false)) else "")
 	if b != null:
 		b.position = pos
 	m.hud.toast("%s è tua! Si chiama %s (G: la mandria)%s" % [cname, rec["nome"],
-		"" if rec["stato"] == "segue" else ". Ti seguono già in tre: riposa nel Giardino"])
+		"" if rec["stato"] == "segue" else ". La Sacca dei legami è piena: riposa nel Giardino"])
 	return rec
 
 
@@ -200,9 +200,9 @@ func release() -> bool:
 	b.add("vasetto", 1)
 	rec["t"] = Time.get_unix_time_from_system()
 	h.add_record(rec)
-	var c := h.spawn(rec, "segue" if rec["stato"] == "segue" else "")
+	var c := h.spawn(rec, "segue" if rec["stato"] == "segue" and bool(rec.get("campo", false)) else "")
 	if c != null:
 		c.position = m.player.position + Vector2(18.0 * m.player.facing, 0)
 		Fx.puff(m.fx, c.position, Herd.HEARTS)
-	m.hud.toast("%s esce dal vasetto%s" % [rec["nome"], "" if rec["stato"] == "segue" else " e va a riposare (ti seguono già in tre)"])
+	m.hud.toast("%s esce dal vasetto%s" % [rec["nome"], "" if rec["stato"] == "segue" else " e va a riposare (la Sacca dei legami è piena)"])
 	return true
