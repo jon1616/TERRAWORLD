@@ -1,6 +1,8 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 1 ott 2026)
+- **In corso: la Roadmap 32 «I compagni di battaglia»** (voci 310-318, dal 1 ott 2026): ogni creatura si lega,
+  una in campo con il suo stile, cinque nella Sacca dei legami, livelli e oggetti per crescere.
 - **Fatta la Roadmap 31 «Il carattere dei materiali»** (voci 306-309, 1 ott 2026): ogni materiale dà un bonus suo,
   set per le leghe e i materiali dei geni, gioielli con il carattere del metallo. Resoconto in fondo alla Roadmap 31.
 - **Fatta la Roadmap 30 «Lo zaino e le grotte piene»** (voci 295-305, 30 set - 1 ott 2026, in autonomia): Bisacce a
@@ -4678,3 +4680,66 @@ stesso grado erano identici, i gioielli dipendevano solo dalla gemma, e 48 mater
 ogni materiale ha un carattere suo (21 scritti, 36 leghe che uniscono quelli dei loro metalli) che passa in ogni pezzo,
 anche nell'arma in mano; ci sono 74 set (48 nuovi); nessuno dei 72 gioielli è uguale a un altro. Il bilancio della
 difficoltà resta dove era.
+
+# Roadmap 32 «I compagni di battaglia» (dal 1 ott 2026)
+
+L'utente: «sarebbe possibile un sistema articolato per addomesticare ogni creatura del gioco, Guardiani esclusi, e
+usarne una in battaglia?». Le sue scelte: **una sola in campo, cinque insieme in un'apposita sacca dell'inventario**;
+quella evocata **segue il Germogliato** (senza restare indietro) e **combatte da sola con lo stile della sua specie**;
+le creature **salgono di livello e di forza con l'esperienza e con oggetti da trovare**; **tutte le creature comprese**;
+**una creatura KO torna nella sacca e guarisce solo tornando al Giardino**, e intanto la sostituisce una delle altre
+quattro. «Voglio questa meccanica vasta, avvincente e ben studiata».
+
+Che cosa c'è già: la mandria (voce 59 e Roadmap 24: schede in `Character.mandria`, cibo, Laccio, uova, recinti,
+livelli fino a 20, doti e stirpi, cavalcature, doni a chi si segue), ma solo 30 famiglie su 168 si addomesticano, chi
+segue combatte con un colpo da mischia uguale per tutti (`BhMandria._attack`) e ne seguono tre. Le creature (175 specie
+non boss) sono dati con i loro comportamenti (35 modi di muoversi e di attaccare).
+
+Le scelte di fondo:
+- **Un motore solo**: il compagno è una `Creature` vera con i **suoi comportamenti selvatici**, che prende come
+  bersaglio le creature nemiche invece del Germogliato; i suoi colpi feriscono i nemici, i nemici lo prendono di mira.
+  Così ogni specie combatte «a modo suo» senza scrivere 175 stili.
+- **La mandria resta la riserva**: ogni creatura legata è una scheda della mandria. Lo stato «segue» diventa la
+  **Sacca dei legami** (cinque posti); le altre stanno nei recinti, a riposo nel Giardino o di guardia.
+- **La forza viene dal livello, la specie dà la forma**: Vita, danno, difesa e velocità seguono una curva del livello
+  (1-50) divisa secondo il profilo della specie. Un grumo di superficie allevato bene vale quanto una lince del
+  profondo: si sceglie chi piace, non solo chi è forte.
+- I Guardiani, i Custodi e i Signori (le creature `boss`) restano esclusi.
+
+- [ ] **310. Il motore del compagno.** Una creatura alleata (`Creature.ally`) usa i suoi comportamenti contro il
+  nemico più vicino (bersaglio = una creatura), spara colpi amici, ferisce al contatto; le creature selvatiche la
+  vedono, la prendono di mira e la colpiscono (contatto e proiettili). Senza nemici segue il Germogliato: corre più di
+  lui se è indietro, salta muri e dislivelli, e se resta bloccata o lontana ricompare accanto a lui con uno sbuffo;
+  viaggia con lui nei portali. Le specie che non attaccano (docili, timide, d'acqua, ferme) hanno uno stile di riserva
+  secondo la famiglia; i comportamenti che danneggerebbero il giocatore (ladro, rosicchia, succhia, fuga) sono tolti.
+- [ ] **311. La Sacca dei legami.** Cinque posti nella Bisaccia (una scheda «Compagni»), uno in campo. Tasti: evoca o
+  richiama, passa al prossimo. KO: torna nella sacca stremato e non si evoca più finché non si torna nel Giardino, dove
+  guariscono tutti; l'avviso dice chi può prenderne il posto. Nell'HUD il ritratto di chi è in campo con Vita ed
+  esperienza, e cinque segni per la sacca. La mandria come riserva (recinti, riposo, guardia); le schede «segue» di
+  prima entrano nella sacca.
+- [ ] **312. Legare ogni creatura.** Il Laccio funziona su ogni creatura non boss stremata; poi modi speciali secondo
+  la natura: cibo (le famiglie della mandria di prima), uova dai nidi, gli Avvizziti vanno prima curati, le creature
+  del Vuoto si legano solo al buio, i mimi solo scoperti, gli spiriti solo di notte; le antiche e le ancestrali sono
+  più difficili e portano il loro tratto. Lacci migliori (legnoferro, dei Seminatori). Dati in `BondsData`, calcolati
+  dalla natura della creatura (strato, elemento, famiglia, comportamenti), non scritti 175 volte. Nel recinto ogni
+  specie produce qualcosa del suo bottino.
+- [ ] **313. Crescere.** Livello 1-50 con l'esperienza delle battaglie (anche una parte di quella delle creature
+  sconfitte dal Germogliato mentre è in campo); Vita, danno, difesa e velocità dal livello e dal profilo della specie;
+  la forza di quando è stata presa e le doti dell'allevamento contano ancora; al livello 20 diventa «grande» (si vede).
+- [ ] **314. Gli oggetti dei compagni.** Da trovare: Frutti del legame (Vita, forza, scorza, slancio: crescita per
+  sempre, con un tetto), Semi d'esperienza; gli **Istinti** (una mossa nuova da imparare: carica, scatto, spari a
+  ventaglio, guscio, scudo, cura, richiamo, folgore… sono i comportamenti delle creature, lasciati raramente da chi li
+  ha e trovati negli scrigni), con posti che si aprono ai livelli 10, 25 e 40; le **Essenze** delle antiche danno un
+  tratto antico al compagno; le Pietre d'elemento cambiano il suo elemento; un collare (un posto) con un dono.
+- [ ] **315. Indole e affiatamento.** Atteggiamento scelto nel pannello (feroce, protettivo, prudente: rientra nella
+  sacca prima del KO, fermo: solo il dono); l'affiatamento sale combattendo insieme e apre aiuti (attacca chi colpisci
+  tu, reazioni degli elementi con la tua arma, un'ultima resistenza per visita al Giardino). I doni di chi è in campo
+  come prima (`HerdData.aid`), per ogni famiglia.
+- [ ] **316. Il pannello dei compagni.** La scheda «Compagni» della Bisaccia: sacca, scheda della creatura (livello,
+  statistiche, stile, mosse e posti, oggetti, affiatamento, atteggiamento), trascinare tra sacca e riserva; suggerimenti
+  ed Esamina; la Mandria (G) mostra anche la sacca.
+- [ ] **317. Il Libro dei legami e il resto del gioco.** La collezione delle specie legate (pagine come l'Erbario) con
+  traguardi per famiglie e numeri; la maestria della mandria; richieste della Bacheca e taglie insieme al compagno; la
+  Prova dei legami al Cerchio; consigli, filo, Enciclopedia.
+- [ ] **318. Bilancio e chiusura.** `tools/compagni.gd` (forza del compagno per livello contro le creature di ogni
+  strato, quanto aiuta il Germogliato), `tools/percorso.gd` con il compagno, galleria, giro intero, resoconto.
