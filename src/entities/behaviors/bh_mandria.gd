@@ -181,14 +181,29 @@ func _go(c: Creature, goal: Vector2) -> void:
 		_jump_cd = 0.5
 
 
-## La creatura più vicina che minaccia il Germogliato (entro `BondsData.SIGHT` tessere da lui).
+## Il nemico, secondo l'atteggiamento (voce 315): il protettivo e il prudente la creatura più vicina che minaccia il
+## Germogliato (entro `BondsData.SIGHT` tessere da lui), il feroce quella più vicina a sé, il fermo nessuna. Con
+## l'affiatamento al grado 1 attacca la creatura che il Germogliato ha appena colpito.
 func _find_foe(c: Creature, m: Node2D) -> Creature:
+	var stance := String(rec.get("indole", "protettivo"))
+	if stance == "fermo":
+		return null
+	var focus = herd.fight.focus
+	if BondsData.bond_grade(rec) >= 1 and _alive(m, focus) and focus.position.distance_to(m.player.position) < BondsData.LEASH * 16.0:
+		return focus
 	if _alive(m, foe) and foe.position.distance_to(m.player.position) < BondsData.SIGHT * 16.0:
 		return foe                                      # non cambia nemico a ogni passo
 	var best := BondsData.SIGHT * 16.0
+	var best_f := BondsData.FEROCE_SIGHT * 16.0
 	var out: Creature = null
 	for o in m.fauna.list:
 		if o.calm or o.damage <= 0 or o.buried:
+			continue
+		if stance == "feroce":
+			var dc: float = o.position.distance_to(c.position)
+			if dc < best_f and o.position.distance_to(m.player.position) < BondsData.LEASH * 16.0:
+				best_f = dc
+				out = o
 			continue
 		var d: float = o.position.distance_to(m.player.position)
 		if d < best and o.position.distance_to(c.position) < (BondsData.SIGHT + 6.0) * 16.0:

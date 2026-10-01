@@ -456,3 +456,61 @@ static func pod_loot(kind: int, stratum: int, rng: RandomNumberGenerator) -> Arr
 	if kind == 95 and rng.randf() < float(DROP["geode_stone"]):   # il Geode dormiente
 		out.append(["pietra_elem_" + String(ELEM_STONES.keys()[rng.randi_range(0, ELEM_STONES.size() - 1)]), 1])
 	return out
+
+
+# ---- voce 315: indole in battaglia e affiatamento -------------------------------------------------------------------
+
+## L'atteggiamento (si sceglie nel pannello; `rec["indole"]`, «protettivo» se manca).
+##   feroce      attacca ogni creatura ostile che vede (anche quelle che non ti minacciano), più lontano
+##   protettivo  attacca chi minaccia il Germogliato
+##   prudente    come protettivo, ma sotto `PRUDENT_HP` della Vita torna da sé nella sacca (niente KO)
+##   fermo       non combatte: ti segue e ti dà il suo dono
+const STANCES := {
+	"feroce": ["Feroce", "attacca ogni creatura ostile che vede, anche lontano da te"],
+	"protettivo": ["Protettivo", "attacca chi ti minaccia"],
+	"prudente": ["Prudente", "come protettivo, ma prima di cadere torna da sé nella sacca"],
+	"fermo": ["Fermo", "non combatte: ti segue e ti dà il suo dono"],
+}
+const STANCE_ORDER := ["protettivo", "feroce", "prudente", "fermo"]
+const FEROCE_SIGHT := 16.0             # tessere attorno al compagno in cui il feroce cerca nemici
+const PRUDENT_HP := 0.3
+
+## L'affiatamento (`rec["legame"]`, punti): cresce combattendo insieme (una creatura sconfitta, dal compagno o dal
+## Germogliato mentre è in campo: `BOND_KILL`) e stando in campo (`BOND_MINUTE` al minuto). Cinque gradi.
+const BOND_KILL := 1.0
+const BOND_MINUTE := 1.0
+const BOND_GRADES := [30, 100, 250, 600, 1200]
+const BOND_TEXT := [
+	"attacca la creatura che colpisci tu",
+	"colpi più forti del 10%",
+	"sulle creature segnate dal tuo elemento colpisce il 25% più forte",
+	"il suo dono vale il doppio",
+	"una volta per visita al Giardino resiste a un colpo che lo manderebbe KO",
+]
+const BOND_DAMAGE := 1.1               # grado 2
+const BOND_MARK := 1.25                # grado 3
+
+
+## Il grado dell'affiatamento (0-5) di una scheda.
+static func bond_grade(rec: Dictionary) -> int:
+	var p := float(rec.get("legame", 0.0))
+	var g := 0
+	for t in BOND_GRADES:
+		if p >= float(t):
+			g += 1
+	return g
+
+
+## Il dono di chi è in campo, con l'affiatamento (al grado 4 vale il doppio).
+static func aid_now(fam: String, grade: int) -> Dictionary:
+	var a: Dictionary = (aid_of(fam)[0] as Dictionary).duplicate()
+	if grade < 4:
+		return a
+	for k in a:
+		if k == "light":
+			continue
+		if k in ["luck", "defense", "thorns"]:
+			a[k] = a[k] * 2 if a[k] is int else float(a[k]) * 2.0
+		else:
+			a[k] = 1.0 + (float(a[k]) - 1.0) * 2.0
+	return a

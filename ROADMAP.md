@@ -4768,10 +4768,16 @@ Le scelte di fondo:
   danno ~1,2 a testa, gli istinti da chi ha la mossa) e `pod_loot` (in `Harvest.open_pod`: Urne e Geodi dormienti);
   mai nelle casse del generatore (sposterebbero i mondi). Prova nel gruppo «legami». Verifica dei dati 0 errori, icone
   0 identiche.
-- [ ] **315. Indole e affiatamento.** Atteggiamento scelto nel pannello (feroce, protettivo, prudente: rientra nella
+- [x] **315. Indole e affiatamento.** Atteggiamento scelto nel pannello (feroce, protettivo, prudente: rientra nella
   sacca prima del KO, fermo: solo il dono); l'affiatamento sale combattendo insieme e apre aiuti (attacca chi colpisci
   tu, reazioni degli elementi con la tua arma, un'ultima resistenza per visita al Giardino). I doni di chi è in campo
   come prima (`HerdData.aid`), per ogni famiglia.
+  Fatto il 1 ott 2026: `BondsData.STANCES` (feroce, protettivo, prudente, fermo; `rec["indole"]`, `BondBag.set_stance`),
+  scelta del nemico in `BhMandria._find_foe`, il prudente torna nella sacca sotto il 30% (`BondFight.hurt`).
+  L'affiatamento `rec["legame"]` (`Herd.bond`: +1 a creatura sconfitta insieme, +1 al minuto in campo; cinque gradi
+  `BOND_GRADES`): attacca chi colpisci tu (`Combat.struck` → `BondFight.focus`), +10% di danno, +25% sulle creature
+  segnate dal tuo elemento, dono doppio (`aid_now`), un'ultima resistenza per visita al Giardino. Prova nel gruppo
+  «legami».
 - [ ] **316. Il pannello dei compagni.** La scheda «Compagni» della Bisaccia: sacca, scheda della creatura (livello,
   statistiche, stile, mosse e posti, oggetti, affiatamento, atteggiamento), trascinare tra sacca e riserva; suggerimenti
   ed Esamina; la Mandria (G) mostra anche la sacca.

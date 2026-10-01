@@ -12,12 +12,18 @@ extends RefCounted
 var herd: Node2D                       # il modulo `Herd`
 var m: Node2D
 var _cd := {}                          # "uid:id del nemico" -> millisecondi in cui può colpirlo di nuovo
+var focus = null                       # voce 315: l'ultima creatura colpita dal Germogliato (senza tipo: può sparire)
 var _clean := 0
 
 
 func _init(h: Node2D) -> void:
 	herd = h
 	m = h.m
+
+
+## Voce 315: il Germogliato ha colpito una creatura (`Combat.struck`): con l'affiatamento il compagno la attacca.
+func on_player_struck(c: Creature, _dmg: int) -> void:
+	focus = c
 
 
 ## Le creature in scena che combattono (che seguono o fanno la guardia).
@@ -56,6 +62,11 @@ func contact(c: Creature, rec: Dictionary) -> void:
 func strike(c: Creature, rec: Dictionary, o: Creature, dmg: int, from_x: float, elem: String) -> void:
 	if elem == "" and c != null:
 		elem = String(FamiliesData.parts(c.id)[2])
+	var grade := BondsData.bond_grade(rec) if not rec.is_empty() else 0
+	if grade >= 2:
+		dmg = roundi(dmg * BondsData.BOND_DAMAGE)               # voce 315: l'affiatamento
+	if grade >= 3 and o.elem != "" and o.elem_t > 0.0:
+		dmg = roundi(dmg * BondsData.BOND_MARK)                 # segnata dal tuo elemento
 	if elem != "":
 		dmg = Elements.hit(m.combat, o, elem, dmg)
 		if not is_instance_valid(o) or not m.fauna.list.has(o):
@@ -136,12 +147,24 @@ func shot_hits_ally(s: Dictionary, pos: Vector2) -> bool:
 	return false
 
 
-## Il compagno è ferito: se la Vita finisce si ritira (`Herd.faint`).
+## Il compagno è ferito: se la Vita finisce va KO (`Herd.faint`). Voce 315: all'affiatamento 5 resiste una volta per
+## visita al Giardino; il prudente torna da sé nella sacca prima di cadere.
 func hurt(c: Creature, rec: Dictionary, dmg: int, from_x: float) -> void:
 	if c.take_hit(dmg, from_x, 0.6):
+		if BondsData.bond_grade(rec) >= 5 and not bool(rec.get("resistito", false)) and String(rec["stato"]) == "segue":
+			rec["resistito"] = true
+			c.hp = 1
+			c._bar.set_value(1.0 / float(c.hp_max))
+			Fx.float_text(m.fx, c.position + Vector2(0, -c.half.y - 14), "Resiste!", Color("#ffd08a"))
+			m.hud.toast("%s resiste per te (si rifà nel Giardino)" % rec["nome"])
+			rec["vita"] = 1.0 / float(c.hp_max)
+			return
 		herd.faint(rec)
-	else:
-		rec["vita"] = float(c.hp) / float(c.hp_max)
+		return
+	rec["vita"] = float(c.hp) / float(c.hp_max)
+	if String(rec.get("indole", "")) == "prudente" and bool(rec.get("campo", false)) and rec["vita"] < BondsData.PRUDENT_HP:
+		m.hud.toast("%s è prudente: torna nella sacca prima di cadere" % rec["nome"])
+		m.bonds.recall()
 
 
 ## Chi prende di mira chi: una creatura colpita da poco da un compagno, o molto più vicina a lui che al Germogliato,

@@ -176,6 +176,7 @@ func _heal_home() -> void:
 		return
 	var healed := 0
 	for r in bag():
+		r.erase("resistito")                            # voce 315: l'ultima resistenza torna
 		if bool(r.get("ko", false)) or float(r.get("vita", 1.0)) < 1.0:
 			r["ko"] = false
 			r["vita"] = 1.0
@@ -219,6 +220,18 @@ func use_item(id: String, at: Vector2) -> bool:
 	m.sfx.play("dono", c.position)
 	_emit()
 	return true
+
+
+## Voce 315: l'atteggiamento in battaglia (dal pannello).
+func set_stance(rec: Dictionary, s: String) -> void:
+	if not BondsData.STANCES.has(s):
+		return
+	rec["indole"] = s
+	var c: Creature = herd().beasts.get(int(rec["uid"]))
+	if c != null and is_instance_valid(c) and s == "fermo":
+		c.tame.foe = null
+	m.hud.toast("%s: %s (%s)" % [rec["nome"], String(BondsData.STANCES[s][0]).to_lower(), BondsData.STANCES[s][1]])
+	_emit()
 
 
 ## L'effetto di un oggetto su una scheda. "" se è andato (l'oggetto va tolto), altrimenti il perché. Lo usano anche le

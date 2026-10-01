@@ -29,6 +29,7 @@ func setup(main: Node2D) -> void:
 	m = main
 	fight = BondFight.new(self)
 	m.fauna.killed.connect(_on_killed)      # voce 313: l'esperienza delle creature sconfitte dal Germogliato
+	m.combat.struck.connect(fight.on_player_struck)   # voce 315: attacca la creatura che colpisci tu
 	z_index = 3
 	_rng.randomize()
 
@@ -259,6 +260,7 @@ static func fights(_rec: Dictionary) -> bool:
 ## Una creatura abbattuta da una della mandria: esperienza secondo quanto era forte rispetto a lei (voce 313).
 func credit(rec: Dictionary, foe: Creature) -> void:
 	foe.set_meta("bond_kill", true)
+	bond(rec, BondsData.BOND_KILL)
 	gain_xp(rec, BondsData.xp_from(BondsData.level_of(foe.hp_max, foe.damage, foe.defense), int(rec["lvl"])))
 	m.objectives.bump("mandria_prede")
 
@@ -271,7 +273,19 @@ func _on_killed(foe: Creature) -> void:
 	if rec.is_empty() or not beasts.has(int(rec["uid"])):
 		return
 	var xp := BondsData.xp_from(BondsData.level_of(foe.hp_max, foe.damage, foe.defense), int(rec["lvl"]))
+	bond(rec, BondsData.BOND_KILL)
 	gain_xp(rec, maxi(1, roundi(xp * BondsData.SHARE_PLAYER)), true)
+
+
+## Voce 315: l'affiatamento cresce; a ogni grado nuovo un avviso con ciò che apre.
+func bond(rec: Dictionary, n: float) -> void:
+	var g0 := BondsData.bond_grade(rec)
+	rec["legame"] = float(rec.get("legame", 0.0)) + n
+	var g1 := BondsData.bond_grade(rec)
+	if g1 > g0:
+		m.hud.toast("Affiatamento con %s: grado %d — %s" % [rec["nome"], g1, BondsData.BOND_TEXT[g1 - 1]])
+		m.objectives.bump("affiatamento")
+		changed_now()
 
 
 func gain_xp(rec: Dictionary, n: int, quiet := false) -> void:
@@ -298,7 +312,7 @@ func bonuses() -> Array:
 	for r in followers():
 		if not bool(r.get("campo", false)):
 			continue                           # Roadmap 32: il dono lo dà solo chi è in campo
-		var aid: Dictionary = (BondsData.aid_of(family_of(r))[0] as Dictionary).duplicate()   # (ognuno ne ha uno)
+		var aid: Dictionary = BondsData.aid_now(family_of(r), BondsData.bond_grade(r))   # (ognuno ne ha uno; voce 315)
 		aid.erase("light")
 		out.append(aid)
 	var rr := rec_of(riding)
@@ -490,6 +504,8 @@ func _process(dt: float) -> void:
 				r["fame"] = minf(float(r["fame"]) + HerdData.HUNGER_RATE, 1.0)
 				r["felice"] = move_toward(float(r["felice"]), 1.0 if float(r["fame"]) < 0.8 else 0.2, 1.0 / 600.0)
 				var c: Creature = beasts.get(int(r["uid"]))
+				if c != null and bool(r.get("campo", false)):
+					bond(r, BondsData.BOND_MINUTE / 60.0)       # voce 315: stare insieme
 				if c != null and c.hp < c.hp_max and c.tame.foe == null:
 					# Roadmap 32: le ferite si richiudono piano fuori dalla lotta; chi va KO guarisce solo nel Giardino
 					c.hp = mini(c.hp + maxi(1, roundi(c.hp_max / 120.0 * charm(r, "cura"))), c.hp_max)

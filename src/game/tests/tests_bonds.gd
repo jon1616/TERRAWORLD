@@ -37,6 +37,7 @@ func run() -> void:
 	await binding(spot, h)
 	await growth(spot, h)
 	await gifts(spot, h)
+	await stances(spot, h)
 	for uid in h.beasts.keys():
 		h.despawn(int(uid))
 	m.character.mandria.clear()
@@ -395,3 +396,57 @@ func gifts(spot: Vector2i, h: Herd) -> void:
 		"sì" if clicked else "NO", rare_n, pod_n])
 	if not ok_fruit or hp1 <= hp0 or not capped or not seeded or early == "" or not learned or not has_shot or full == "" 			or not stone or not back or not ess or dmg1 <= dmg0 or not clicked or rare_n < 200 or pod_n < 40:
 		print("ATTENZIONE: gli oggetti dei compagni non vanno")
+
+
+## Voce 315: l'atteggiamento (fermo non combatte, il feroce attacca anche lontano da te, il prudente torna nella sacca
+## prima di cadere) e l'affiatamento (attacca chi colpisci tu, al grado 5 resiste una volta).
+func stances(spot: Vector2i, h: Herd) -> void:
+	var bb: BondBag = m.bonds
+	var res := {}
+	for st in ["fermo", "protettivo", "feroce"]:
+		m.fauna.clear()
+		m.snap_to(spot)
+		var rec := _companion(h, "volpe_ambra", 20)
+		rec["indole"] = st
+		await kit.seconds(0.5)
+		var foe: Creature = m.fauna.add("lupo_lunare", m.player.position + Vector2(14 * S, -8))
+		foe.set_process(false)                 # (fermo: non viene verso di te)
+		foe.hp_max = 500
+		foe.hp = 500
+		await kit.seconds(3.0)
+		res[st] = foe.hp < foe.hp_max
+	m.fauna.clear()
+	# il prudente
+	var rp := _companion(h, "volpe_ambra", 10)
+	rp["indole"] = "prudente"
+	await kit.seconds(0.5)
+	var c: Creature = h.beasts.get(int(rp["uid"]))
+	h.fight.hurt(c, rp, roundi(c.hp_max * 0.8), c.position.x - 10.0)
+	await kit.frames(2)
+	var prudent: bool = bb.field().is_empty() and not bool(rp.get("ko", false))
+	# l'affiatamento: attacca chi colpisci tu; al grado 5 resiste una volta
+	var ra := _companion(h, "volpe_ambra", 20)
+	ra["legame"] = 1300.0
+	await kit.seconds(0.5)
+	var grade := BondsData.bond_grade(ra)
+	var foe2: Creature = m.fauna.add("lupo_lunare", m.player.position + Vector2(15 * S, -8))
+	foe2.set_process(false)
+	foe2.hp_max = 500
+	foe2.hp = 500
+	m.combat._strike(foe2, 1, m.player.position.x, 0.1)
+	await kit.seconds(0.6)
+	c = h.beasts.get(int(ra["uid"]))
+	var focused: bool = c != null and c.tame.foe == foe2
+	h.fight.hurt(c, ra, 99999, c.position.x - 10.0)
+	await kit.frames(2)
+	var stood: bool = bool(ra.get("campo", false)) and not bool(ra.get("ko", false))
+	h.fight.hurt(c, ra, 99999, c.position.x - 10.0)
+	await kit.frames(2)
+	var then_ko := bool(ra.get("ko", false))
+	var aid := BondsData.aid_now("volpi", 4)
+	m.fauna.clear()
+	print("atteggiamento: un nemico a 14 tessere ferito dal fermo %s, dal protettivo %s, dal feroce %s; il prudente torna nella sacca %s; affiatamento grado %d: attacca chi colpisci %s, resiste %s, poi KO %s; dono al grado 4 %s" % [
+		"sì" if res["fermo"] else "no", "sì" if res["protettivo"] else "no", "sì" if res["feroce"] else "no", "sì" if prudent else "NO",
+		grade, "sì" if focused else "NO", "sì" if stood else "NO", "sì" if then_ko else "NO", aid])
+	if res["fermo"] or res["protettivo"] or not res["feroce"] or not prudent or grade != 5 or not focused or not stood or not then_ko:
+		print("ATTENZIONE: atteggiamento o affiatamento dei compagni non vanno")
