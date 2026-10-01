@@ -64,7 +64,7 @@ func make() -> Dictionary:
 	var fams := _families()
 	if not fams.is_empty():
 		kinds.append_array(["caccia", "caccia"])
-	var tame := fams.filter(func(f: String) -> bool: return not HerdData.tame_of(f).is_empty())
+	var tame := fams.filter(func(f: String) -> bool: return HerdData.TAME.has(f))   # (le famiglie con un prodotto scritto)
 	if not tame.is_empty():
 		kinds.append_array(["mandria", "prodotto"])
 	if m.powers.has("canto") or m.powers.has("vista") or m.powers.has("passo") or m.powers.has("brace"):

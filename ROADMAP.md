@@ -4730,12 +4730,20 @@ Le scelte di fondo:
   sacca vuota o la Bisaccia aperta). La sacca sono le schede «segue» della mandria (`HerdData.FOLLOW_MAX` = 5) con
   "campo" e "ko"; `Herd.faint` di chi è in campo chiama `knocked_out`; il dono e la cavalcatura solo da chi è in campo;
   le ferite si richiudono piano fuori dalla lotta. Prove: gruppo «legami» (foto 320_sacca_legami), «mandria» aggiornata.
-- [ ] **312. Legare ogni creatura.** Il Laccio funziona su ogni creatura non boss stremata; poi modi speciali secondo
+- [x] **312. Legare ogni creatura.** Il Laccio funziona su ogni creatura non boss stremata; poi modi speciali secondo
   la natura: cibo (le famiglie della mandria di prima), uova dai nidi, gli Avvizziti vanno prima curati, le creature
   del Vuoto si legano solo al buio, i mimi solo scoperti, gli spiriti solo di notte; le antiche e le ancestrali sono
   più difficili e portano il loro tratto. Lacci migliori (legnoferro, dei Seminatori). Dati in `BondsData`, calcolati
   dalla natura della creatura (strato, elemento, famiglia, comportamenti), non scritti 175 volte. Nel recinto ogni
   specie produce qualcosa del suo bottino.
+  Fatto il 1 ott 2026: `BondsData` (le nature `NATURES`/`nature_of`: avvizzita, vuoto, spirito, mimo, costrutto; i
+  lacci `LACCI` con soglia di Vita e bontà; `RARE_CHANCE`; cibo, dono e prodotto delle famiglie senza riga in
+  `HerdData.TAME` con `default_tame`, letto da `HerdData.tame_of`; `aid_of`: ogni compagno ha un dono). Oggetti nuovi:
+  Laccio intrecciato (Telaio), Laccio dei Seminatori e Sigillo del legame (Maglio). `Taming.nature_block`, `purify` (la
+  Rugiada di Linfa su un'avvizzita, da `Interact`), `lasso_chance(c, laccio)`; le rare legate restano rare
+  (`rec["antico"]`, aura e tratti con `Ancient` in `Herd.spawn`). 175 specie su 175 si legano (49 boss escluse).
+  Prova nel gruppo «legami» (foto 321_compagno_ancestrale). In lotta, un compagno che non si avvicina al nemico per
+  2,5 s (una carica finita in una buca) ricompare accanto al Germogliato.
 - [ ] **313. Crescere.** Livello 1-50 con l'esperienza delle battaglie (anche una parte di quella delle creature
   sconfitte dal Germogliato mentre è in campo); Vita, danno, difesa e velocità dal livello e dal profilo della specie;
   la forza di quando è stata presa e le doti dell'allevamento contano ancora; al livello 20 diventa «grande» (si vede).

@@ -131,27 +131,34 @@ func _calm(c: Creature, m: Node2D) -> void:
 	c.summons.clear()
 
 
-## Voce 310: non resta mai indietro. Lontano (fuori dalla visuale) o fermo senza avvicinarsi: ricompare accanto.
+## Voce 310: non resta mai indietro. Lontano (fuori dalla visuale) ricompare accanto al Germogliato; se non si
+## avvicina al suo obiettivo (il posto accanto al Germogliato, o il nemico) per un po', anche: una carica finita in
+## una buca, un muro che non sa saltare. In lotta aspetta di più (`STUCK_FIGHT`).
 func _catch_up(c: Creature, p: Player, dt: float) -> void:
 	var d := c.position.distance_to(p.position)
 	if d > BondsData.FAR * 16.0:
-		herd.fight.beside(c)
-		_best = INF
-		_stuck = 0.0
+		_reset_stuck(c, true)
 		return
-	if d < BondsData.STUCK_FROM * 16.0 or foe != null:
-		_best = INF
-		_stuck = 0.0
+	var goal: Vector2 = foe.position if _alive(herd.m, foe) else p.position
+	var g := c.position.distance_to(goal)
+	if g < BondsData.STUCK_FROM * 16.0:
+		_reset_stuck(c, false)
 		return
-	if d < _best - 8.0:
-		_best = d
+	if g < _best - 8.0:
+		_best = g
 		_stuck = 0.0
 	else:
 		_stuck += dt
-		if _stuck > BondsData.STUCK_TIME:
-			herd.fight.beside(c)
-			_best = INF
-			_stuck = 0.0
+		if _stuck > (BondsData.STUCK_FIGHT if foe != null else BondsData.STUCK_TIME):
+			_reset_stuck(c, true)
+
+
+func _reset_stuck(c: Creature, move: bool) -> void:
+	if move:
+		_calm(c, herd.m)
+		herd.fight.beside(c)
+	_best = INF
+	_stuck = 0.0
 
 
 ## Va verso un punto: chi vola (o scava) ci vola, un po' sopra; chi cammina corre e salta muri e dislivelli.

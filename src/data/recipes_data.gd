@@ -160,6 +160,7 @@ static func all() -> Array:
 	out.append_array(RelicsData.RECIPES.duplicate(true))
 	out.append_array(FaunaItemsData.RECIPES.duplicate(true))
 	out.append_array(HerdData.RECIPES.duplicate(true))     # voce 59
+	out.append_array(BondsData.RECIPES.duplicate(true))    # Roadmap 32
 	out.append_array(WondersData.RECIPES.duplicate(true))  # Roadmap 23: gli oggetti dell'esploratore
 	out.append_array(ExplorerData.RECIPES.duplicate(true)) # voce 239: gli attrezzi dell'esploratore
 	out.append_array(CookingData.recipes())                # voce 245: il Ricettario

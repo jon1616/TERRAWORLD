@@ -34,6 +34,7 @@ func run() -> void:
 	await aggro(spot, h)
 	await follow(spot, h)
 	await sack(spot, h)
+	await binding(spot, h)
 	for uid in h.beasts.keys():
 		h.despawn(int(uid))
 	m.character.mandria.clear()
@@ -219,3 +220,79 @@ func sack(spot: Vector2i, h: Herd) -> void:
 		refused, "sì" if replaced else "NO", "sì" if healed else "NO"])
 	if in_bag != 5 or sixth != "riposo" or not first_field or in_scene != 1 or after_recall != 0 or not switched or not ko 			or refused == "" or not replaced or not healed:
 		print("ATTENZIONE: la Sacca dei legami non va")
+
+
+## Voce 312: si lega ogni creatura non boss. La natura chiede il suo modo: l'avvizzita va prima curata con la Rugiada,
+## il costrutto vuole il Sigillo, l'ancestrale il Laccio dei Seminatori; i lacci migliori prendono prima; la rara legata
+## resta rara (aura, tratti).
+func binding(spot: Vector2i, h: Herd) -> void:
+	m.fauna.clear()
+	m.snap_to(spot)
+	for uid in h.beasts.keys():
+		h.despawn(int(uid))
+	m.character.mandria.clear()
+	var tm: Taming = m.taming
+	var all := 0
+	var ok_all := 0
+	var bosses := 0
+	for id in CreaturesData.CREATURES:
+		if not BondsData.bindable(String(id)):
+			bosses += 1
+			continue
+		all += 1
+		var t := HerdData.tame_of(FamiliesData.family_of(String(id)))
+		if not t.is_empty() and t.has("produce") and t.has("diet") and not (BondsData.aid_of(FamiliesData.family_of(String(id)))[0] as Dictionary).is_empty():
+			ok_all += 1
+		elif ok_all + 12 > all:
+			print("  senza dati di legame: %s (famiglia «%s»)" % [id, FamiliesData.family_of(String(id))])
+	var b := kit.bisaccia()
+	b.add("rugiada_linfa", 2)
+	b.add("laccio", 5)
+	b.add("sigillo_legame", 3)
+	b.add("laccio_seminatori", 3)
+	var at: Vector2 = m.player.position + Vector2(3 * S, -8)
+	# l'avvizzita: rifiuta il laccio, la Rugiada la cura, poi si lega
+	var av: Creature = m.fauna.add("avvizzito_errante", at)
+	av.set_process(false)
+	av.hp = maxi(1, av.hp_max / 10)
+	var av_no := tm.nature_block(av, "laccio")
+	var cured := tm.purify("rugiada_linfa", av.position)
+	var av_yes := tm.nature_block(av, "laccio")
+	# il costrutto: il laccio non lo tiene, il Sigillo sì
+	var go: Creature = m.fauna.add("golem_muschio", at + Vector2(40, 0))
+	go.set_process(false)
+	go.hp = maxi(1, go.hp_max / 10)
+	var go_no := tm.nature_block(go, "laccio")
+	var go_yes := tm.nature_block(go, "sigillo_legame")
+	var go_ch := Taming.lasso_chance(go, "sigillo_legame")
+	# l'ancestrale: solo il Laccio dei Seminatori; legata resta rara
+	var an: Creature = m.fauna.add("lupo_lunare", at + Vector2(-40, 0))
+	an.set_process(false)
+	m.fauna.make_ancient(an, "ancestrale")
+	an.hp = maxi(1, an.hp_max / 10)
+	var an_no := tm.nature_block(an, "laccio")
+	var an_yes := tm.nature_block(an, "laccio_seminatori")
+	var ch_seta := Taming.lasso_chance(an, "laccio")
+	var ch_sem := Taming.lasso_chance(an, "laccio_seminatori")
+	var rec := tm.tame(an, "laccio")
+	m.bonds.summon(rec)
+	await kit.seconds(0.6)
+	var c: Creature = h.beasts.get(int(rec["uid"]))
+	var rare: bool = c != null and c.ancient != null and c.ancient.rarity == "ancestrale" and not rec.get("antico", {}).is_empty()
+	await kit.save("321_compagno_ancestrale")
+	# un laccio migliore prende prima (stessa creatura a un terzo della Vita)
+	var fx: Creature = m.fauna.add("volpe_ambra", at + Vector2(0, -40))
+	fx.set_process(false)
+	fx.hp = maxi(1, fx.hp_max / 3)
+	var c1 := Taming.lasso_chance(fx, "laccio")
+	var c2 := Taming.lasso_chance(fx, "laccio_intrecciato")
+	var c3 := Taming.lasso_chance(fx, "laccio_seminatori")
+	print("legare ogni creatura: %d specie su %d con cibo, dono e prodotto (%d boss escluse); avvizzita «%s» → curata %s → %s; costrutto «%s», col Sigillo %s (%.0f%%); ancestrale «%s», col Laccio dei Seminatori %s (seta %.0f%%, Seminatori %.0f%%), legata resta rara %s; volpe a un terzo: seta %.0f%%, intrecciato %.0f%%, Seminatori %.0f%%" % [
+		ok_all, all, bosses, av_no, "sì" if cured else "NO", "si lega" if av_yes == "" else av_yes, go_no,
+		"sì" if go_yes == "" else go_yes, go_ch * 100.0, an_no, "sì" if an_yes == "" else an_yes, ch_seta * 100.0,
+		ch_sem * 100.0, "sì" if rare else "NO", c1 * 100.0, c2 * 100.0, c3 * 100.0])
+	if ok_all != all or av_no == "" or not cured or av_yes != "" or go_no == "" or go_yes != "" or go_ch <= 0.0 			or an_no == "" or an_yes != "" or not rare or not (c1 < c2 and c2 < c3):
+		print("ATTENZIONE: legare ogni creatura non va")
+	m.fauna.clear()
+	for it in ["rugiada_linfa", "laccio", "sigillo_legame", "laccio_seminatori"]:
+		b.remove(it, b.count(it))

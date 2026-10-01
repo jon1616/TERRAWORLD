@@ -47,13 +47,68 @@ func touch(pos: Vector2) -> bool:
 	return true
 
 
-## Perché una creatura non si lascia addomesticare affatto ("" = si può).
+## Perché una creatura non si lascia addomesticare affatto ("" = si può). Roadmap 32: si legano tutte, tranne
+## Guardiani, Custodi e Signori.
 static func untamable(c: Creature) -> String:
-	if c.boss or c.ancient != null:
+	if c.boss or not BondsData.bindable(c.id):
 		return "Una creatura così non accetta padroni"
 	if HerdData.tame_of(FamiliesData.family_of(c.base)).is_empty():
 		return "%s non si lascia addomesticare" % c.data["name"]
 	return ""
+
+
+## Roadmap 32, voce 312: la natura della creatura chiede un momento o un modo ("" = va bene adesso). `item` è il laccio
+## (o "" per il cibo).
+func nature_block(c: Creature, item: String) -> String:
+	var nat := BondsData.nature_of(c.id)
+	match nat:
+		"avvizzita":
+			if not c.has_meta("purificata"):
+				return "È malata d'Avvizzimento: versale sopra una Rugiada di Linfa, poi legala"
+		"vuoto":
+			if _light_on(c) > BondsData.DARK:
+				return "Le creature del Vuoto si legano solo al buio: allontanati dalle luci"
+		"spirito":
+			if not m.day.is_night() and (_light_on(c) > BondsData.DARK or c.position.y < m.world.surface[clampi(floori(c.position.x / 16.0), 0, m.world.w - 1)] * 16.0):
+				return "Gli spiriti si legano solo di notte, o nel buio sotto terra"
+		"mimo":
+			if c.anchored:
+				return "È ancora travestita: scoprila prima di legarla"
+		"costrutto":
+			if item == "":
+				return "Una creatura di pietra non mangia"
+			if item != "sigillo_legame":
+				return "Un laccio non tiene la pietra: serve un Sigillo del legame (al Maglio)"
+	if item == "sigillo_legame" and nat != "costrutto":
+		return "Il Sigillo del legame lega solo le creature di pietra e d'ingranaggio"
+	if c.ancient != null and c.ancient.rarity == "ancestrale" and item != "laccio_seminatori":
+		return "Una creatura ancestrale si lega solo con il Laccio dei Seminatori"
+	return ""
+
+
+func _light_on(c: Creature) -> float:
+	return float(m.light.value_at(Vector2i(floori(c.position.x / 16.0), floori(c.position.y / 16.0))))
+
+
+## Roadmap 32: la Rugiada di Linfa su una creatura avvizzita la cura (non attacca più, e si può legare).
+func purify(id: String, pos: Vector2) -> bool:
+	var c := h.creature_at(pos, true)
+	if c == null or BondsData.nature_of(c.id) != "avvizzita" or c.has_meta("purificata"):
+		return false
+	if c.position.distance_to(m.player.position) > PlayerActions.REACH + 24.0:
+		m.hud.toast("Troppo lontana: avvicinati con la Rugiada")
+		return true
+	if not m.character.bisaccia.remove(id, 1):
+		return false
+	c.set_meta("purificata", true)
+	c.docile = true
+	c.provoked = false
+	c.damage = 0
+	c.modulate = Color(1.25, 1.35, 1.2)
+	Fx.puff(m.fx, c.position, Color(0.8, 1.7, 1.4))
+	m.sfx.play("incanto", c.position)
+	m.hud.toast("L'Avvizzimento la lascia: ora %s si può legare (Laccio o cibo)" % String(c.data["name"]).to_lower())
+	return true
 
 
 ## Perché una creatura selvatica non accetta il cibo adesso ("" = lo accetta).
@@ -68,6 +123,8 @@ static func refuses(c: Creature) -> String:
 ## Dare da mangiare a una creatura selvatica: affetto, e a 100 è tua.
 func feed(c: Creature, item: String) -> bool:
 	var no := untamable(c)
+	if no == "":
+		no = nature_block(c, "")
 	if no != "":
 		m.hud.toast(no)
 		return false
@@ -109,15 +166,18 @@ func lasso(item: String, pos: Vector2) -> bool:
 		m.hud.toast("Lancia il laccio su una creatura (clic sopra)")
 		return false
 	var no := untamable(c)
+	if no == "":
+		no = nature_block(c, item)
 	if no != "":
 		m.hud.toast(no)
 		return false
 	if c.position.distance_to(m.player.position) > PlayerActions.REACH + 24.0:
 		m.hud.toast("Troppo lontana per il laccio")
 		return false
-	var ch := lasso_chance(c)
+	var ch := lasso_chance(c, item)
 	if ch <= 0.0:
-		m.hud.toast("È ancora troppo in forze: indeboliscila (meno del %d%% della Vita)" % roundi(HerdData.CAPTURE_HP * 100.0))
+		var ld: Dictionary = BondsData.LACCI.get(item, BondsData.LACCI["laccio"])
+		m.hud.toast("È ancora troppo in forze: indeboliscila (meno del %d%% della Vita)" % roundi(float(ld["hp"]) * 100.0))
 		return false
 	m.character.bisaccia.remove(item, 1)
 	if _rng.randf() < ch:
@@ -129,14 +189,27 @@ func lasso(item: String, pos: Vector2) -> bool:
 	return true
 
 
-static func lasso_chance(c: Creature) -> float:
-	var ch := HerdData.capture_chance(FamiliesData.family_of(c.base), float(c.hp) / float(c.hp_max))
-	return ch * float({"feroce": 0.6, "docile": 1.3, "timida": 1.2}.get(String(FamiliesData.parts(c.id)[3]), 1.0))
+## La probabilità che il laccio la prenda: la Vita che le resta (sotto la soglia del laccio), la difficoltà della
+## famiglia, l'indole, la rarità (Roadmap 32) e la bontà del laccio.
+static func lasso_chance(c: Creature, item := "laccio") -> float:
+	var ld: Dictionary = BondsData.LACCI.get(item, BondsData.LACCI["laccio"])
+	var ratio := float(c.hp) / float(maxi(c.hp_max, 1))
+	if ratio > float(ld["hp"]):
+		return 0.0
+	var t := HerdData.tame_of(FamiliesData.family_of(c.base))
+	var ch := clampf((1.0 - ratio) * 1.1 / (0.6 + float(t.get("diff", 3)) * 0.25), 0.05, 0.95)
+	ch *= float({"feroce": 0.6, "docile": 1.3, "timida": 1.2}.get(String(FamiliesData.parts(c.id)[3]), 1.0))
+	if c.ancient != null:
+		ch *= float(BondsData.RARE_CHANCE.get(c.ancient.rarity, 0.5))
+	return clampf(ch * float(ld["mult"]), 0.02, 0.97)
 
 
 ## La creatura diventa tua: una scheda nuova, e al suo posto la creatura della mandria.
 func tame(c: Creature, how: String) -> Dictionary:
 	var rec := h.new_record(c.id, how, float(c.hp_max) / maxf(float(c.data["hp"]), 1.0))
+	if c.ancient != null:
+		rec["antico"] = {"r": c.ancient.rarity, "t": c.ancient.traits.duplicate()}   # Roadmap 32: la rara resta rara
+		rec["forza"] = 1.0                     # (la sua forza in più la dà la rarità, non la Vita da rara)
 	var pos := c.position
 	var cname := String(c.data["name"])
 	m.fauna.list.erase(c)

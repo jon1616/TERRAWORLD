@@ -21,6 +21,8 @@ func setup(main: Node2D) -> void:
 func _use(kind: String, id: String, c: Vector2i) -> bool:
 	match kind:
 		"cura":
+			if m.taming.purify(id, m.fx.get_global_mouse_position()):
+				return true                            # Roadmap 32: una creatura avvizzita guarisce e si può legare
 			if m.world.tile(c.x, c.y) == TileDefs.NODO:
 				return m.guardian.cure_at(c)
 			# la Rugiada di Linfa purifica anche un grande cerchio di terra avvizzita

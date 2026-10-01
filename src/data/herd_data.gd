@@ -113,8 +113,12 @@ const RECIPES := [
 static var _food := {}
 
 
+## Roadmap 32: ogni famiglia si lega; quelle senza una riga qui prendono cibo, dono e prodotto dal loro ruolo
+## (`BondsData.default_tame`).
 static func tame_of(fam: String) -> Dictionary:
-	return TAME.get(fam, {})
+	if TAME.has(fam):
+		return TAME[fam]
+	return BondsData.default_tame(fam)
 
 
 ## È il cibo di qualche famiglia?

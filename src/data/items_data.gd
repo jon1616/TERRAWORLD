@@ -269,6 +269,7 @@ static func all() -> Dictionary:
 	out.merge(MaterialsData.items().duplicate(true))
 	out.merge(FaunaItemsData.ITEMS.duplicate(true))
 	out.merge(HerdData.ITEMS.duplicate(true))              # voce 59
+	out.merge(BondsData.ITEMS.duplicate(true))             # Roadmap 32: i lacci e il Sigillo del legame
 	out.merge(PowersData.ITEMS.duplicate(true))            # voce 64
 	out.merge(SeasonsData.ITEMS.duplicate(true))           # voce 66
 	out.merge(LanguageData.ITEMS.duplicate(true))          # voce 68

@@ -271,7 +271,7 @@ func bonuses() -> Array:
 	for r in followers():
 		if not bool(r.get("campo", false)):
 			continue                           # Roadmap 32: il dono lo dà solo chi è in campo
-		var aid: Dictionary = tame_data(r).get("aid", {}).duplicate()
+		var aid: Dictionary = (BondsData.aid_of(family_of(r))[0] as Dictionary).duplicate()   # (ognuno ne ha uno)
 		aid.erase("light")
 		out.append(aid)
 	var rr := rec_of(riding)
@@ -340,9 +340,14 @@ func spawn(rec: Dictionary, mode: String) -> Creature:
 	bh.setup_style(String(rec["specie"]))       # voce 310: combatte con lo stile della sua specie
 	c.tame = bh
 	c.fly = BondsData.flies(String(rec["specie"]))   # chi nuota, fuori dall'acqua nuota nell'aria
-	_apply_stats(c, rec)
 	c.position = m.player.position + Vector2(-20.0 * m.player.facing, -6.0)
 	add_child(c)
+	var an: Dictionary = rec.get("antico", {})
+	if not an.is_empty() and AncientData.RARITIES.has(String(an["r"])):
+		c.ancient = Ancient.new()              # Roadmap 32: una rara legata resta rara (aura, tratti, nome)
+		c.ancient.apply(c, String(an["r"]), an.get("t", []))
+		c.ancient.life = -1.0                  # (un'iridata legata non svanisce più)
+	_apply_stats(c, rec)
 	# un segno per riconoscerla: una fogliolina turchese sopra la testa (come i compagni)
 	var leaf := Sprite2D.new()
 	var li := Image.create_empty(3, 2, false, Image.FORMAT_RGBA8)
