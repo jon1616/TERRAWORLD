@@ -18,6 +18,10 @@ extends SceneTree
 ## è scritta come «riposo».
 ## L'obiettivo della Roadmap 18: «attento» con pressione bassa all'inizio che sale piano; «medio» con qualche
 ## appassimento all'ora dalle Caverne in poi; «jon» senza armatura che sente il muro.
+## Roadmap 32, voce 318: con `--compagno` ogni profilo ha anche una Sacca di `BAG` compagni al livello della zona (una
+## volpe d'ambra, `BondsData.stats`): il compagno in campo colpisce (danno ogni `HIT_EVERY` secondi: lo scontro finisce
+## prima) e attira su di sé `AGGRO` dei colpi; ferito oltre la sua Vita va KO e lo sostituisce il prossimo della sacca;
+## tutti KO, si continua da soli fino alla tappa dopo (si torna al Giardino).
 
 const MATS := ["", "radicite", "legnoferro", "ambra", "linfa", "vuoto", "stellare"]
 ## Le tappe: nome, zone [[strato, vigore, notte, parte del tempo]], minuti, grado del metallo che si ha, Vita massima
@@ -41,6 +45,8 @@ const STAGES := [
 ## Superficie e nel Sottobosco); crescono con la radice del pericolo della zona.
 const PACE := 1.1
 const POTION := 50                     # la Pozione di rugiada
+const BAG := 3                         # voce 318: compagni pronti nella sacca (su cinque: gli altri crescono indietro)
+const AGGRO := 0.25                     # la parte dei colpi che il compagno attira su di sé
 
 const PROFILES := {
 	"jon": {"weapon": "pugnale", "armor": -99, "potions": 0.0, "rest": 0.2},
@@ -51,6 +57,7 @@ const PROFILES := {
 var out := ""
 var rng := RandomNumberGenerator.new()
 var _zone_cache := {}
+var with_bond := false
 
 
 func _init() -> void:
@@ -60,6 +67,9 @@ func _init() -> void:
 	if i >= 0 and i + 1 < args.size():
 		runs = int(args[i + 1])
 	rng.seed = 181
+	with_bond = args.has("--compagno")
+	if with_bond:
+		_p("CON IL COMPAGNO (voce 318): una sacca di %d compagni al livello della zona, %d%% dei colpi su di loro" % [BAG, roundi(AGGRO * 100.0)])
 	_p("PERCORSO (voce 181): %d giri per tappa. Per profilo: pressione media (Vita persa per creatura, %% della Vita)," % runs)
 	_p("   appassimenti all'ora, secondi per abbattere, creature al minuto; «!» = sopra la fascia voluta")
 	for pr in PROFILES:
@@ -137,7 +147,7 @@ func _zone(pr: String, lo: Dictionary, z: Array) -> Array:
 			var du := FightModel.duel(w, sc, float(lo["hp"]), f, skill)
 			var lost := float(du["lost"]) * crowd * (1.0 + 0.5 * (size - 1.0) / size)
 			list.append([float(pl[id]) * size / 8.0, {"lost": lost, "ttk": float(du["ttk"]), "hit": maxf(float(du["hit"]), 1.0),
-				"size": size, "rare": rr != ""}])
+				"size": size, "rare": rr != "", "hp": float(f["hp"]), "def": int(f["def"])}])
 	_zone_cache[key] = list
 	return list
 
@@ -185,11 +195,21 @@ func _stage(pr: String, st: Array, runs: int) -> Dictionary:
 	var rare_n := 0
 	var cause := {"rara": 0, "sciame": 0, "comune": 0}
 	var rest_t := 0.0
+	var kos := 0
 	for run in runs:
+		var bag_left := BAG if with_bond else 0
+		var c_hp := 0.0
 		for z in st[1]:
 			var list := _zone(pr, lo, z)
 			if list.is_empty():
 				continue
+			# voce 318: il compagno al livello della zona (la creatura tipica di `tools/compagni.gd`)
+			var cst := {}
+			if bag_left > 0:
+				var lv := clampi(roundi(_zone_level(int(z[0]), int(z[1]))), 1, BondsData.LVL_MAX)
+				cst = BondsData.stats("volpe_ambra", lv, 1.0, 1.0, 1.0, {}, {})
+				if c_hp <= 0.0:
+					c_hp = float(cst["hp"])
 			var secs := float(st[2]) * 60.0 * float(z[3])
 			var dz := ZoneModel.danger(int(z[0]), int(z[1]), bool(z[2]))
 			var rate := PACE * sqrt(dz) / 60.0          # creature al secondo
@@ -203,14 +223,30 @@ func _stage(pr: String, st: Array, runs: int) -> Dictionary:
 				t += gap
 				potion_t -= gap
 				var e := _pick(list)
-				var hits := _poisson(float(e["lost"]) / float(e["hit"]))
+				var ttk := float(e["ttk"])
+				var mean := float(e["lost"]) / float(e["hit"])
+				if bag_left > 0 and not cst.is_empty():
+					# il compagno colpisce anche lui (lo scontro dura meno) e prende una parte dei colpi
+					var cdps := float(maxi(int(cst["damage"]) - int(e["def"]) / 2, 1)) / BondsData.HIT_EVERY
+					var pdps := float(e["hp"]) / maxf(ttk, 0.1)
+					var ttk2 := float(e["hp"]) / (pdps + cdps)
+					mean *= ttk2 / maxf(ttk, 0.1) * (1.0 - AGGRO)
+					var taken := float(e["lost"]) * ttk2 / maxf(ttk, 0.1) * AGGRO
+					c_hp -= taken * float(lo["hp"]) / maxf(float(lo["hp"]), 1.0)
+					c_hp = minf(c_hp + maxf(-log(maxf(rng.randf(), 0.0001)) / rate - 5.0, 0.0) * float(cst["hp"]) / 120.0, float(cst["hp"]))
+					ttk = ttk2
+					if c_hp <= 0.0:
+						kos += 1
+						bag_left -= 1
+						c_hp = float(cst["hp"])
+				var hits := _poisson(mean)
 				var lost := hits * float(e["hit"])
 				lost_sum += lost / float(e["size"])
 				fights += 1
-				ttk_sum += float(e["ttk"])
+				ttk_sum += ttk
 				if bool(e["rare"]):
 					rare_n += 1
-				t += float(e["ttk"]) * float(e["size"])
+				t += ttk * float(e["size"])
 				# a un terzo della Vita, chi ha pozioni beve (una ogni 30 s)
 				var left := hp - lost
 				if left > 0.0 and left < hp_max / 3.0 and potion_t <= 0.0 and rng.randf() < float(prof["potions"]):
@@ -232,6 +268,26 @@ func _stage(pr: String, st: Array, runs: int) -> Dictionary:
 					hp = hp_max
 					t += 20.0                           # si torna al punto di rinascita
 	return {"pressure": lost_sum / maxi(fights, 1) / hp_max, "deaths": float(deaths) / runs, "ttk": ttk_sum / maxi(fights, 1),
-		"gear": lo["gear"], "rest": rest_t / (runs * float(st[2]) * 60.0), "note": "%.1f creature/min, rare %.0f%%; appassimenti da rare %d, sciami %d, comuni %d" % [
+		"gear": lo["gear"], "rest": rest_t / (runs * float(st[2]) * 60.0), "note": "%.1f creature/min, rare %.0f%%; appassimenti da rare %d, sciami %d, comuni %d%s" % [
 			float(fights) / runs / float(st[2]), 100.0 * rare_n / maxi(fights, 1), int(cause["rara"]), int(cause["sciame"]),
-			int(cause["comune"])]}
+			int(cause["comune"]), ("; compagni KO %.1f a tappa" % (float(kos) / runs)) if with_bond else ""]}
+
+
+## Voce 318: il livello della creatura tipica di una zona (come in `tools/compagni.gd`).
+func _zone_level(stratum: int, vigor: int) -> float:
+	var w := 0.0
+	var hp := 0.0
+	var dmg := 0.0
+	var df := 0.0
+	CreaturesData.now_vigor = vigor
+	for e in CreaturesData.of_stratum(stratum, false, "foresta" if stratum == 0 else ""):
+		var d := CreaturesData.get_data(String(e[0]))
+		if d.get("boss", false) or d.get("docile", false):
+			continue
+		hp += float(d["hp"]) * float(e[1])
+		dmg += float(d["damage"]) * float(e[1])
+		df += float(d.get("defense", 0)) * float(e[1])
+		w += float(e[1])
+	var mult := float(StrataData.STRATA[stratum]["danger"]) * VigorData.creature_mult(vigor)
+	w = maxf(w, 1.0)
+	return BondsData.level_of(roundi(hp / w * mult), roundi(dmg / w * mult), roundi(df / w))

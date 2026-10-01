@@ -140,16 +140,17 @@ func pick_rules() -> void:
 	var b: Bisaccia = m.character.bisaccia
 	var bk: Backpack = m.backpack
 	var id := "humus"
+	b.slots[b.slots.size() - 1] = {}                 # (le prove di prima possono riempire la Bisaccia: un posto libero)
 	var r0 := bk.rule(id)
 	var n0 := b.count(id)
-	var d0: int = m.drops.count()
+	var d0 := _drops_of(id)                          # (solo i suoi: le prove di prima lasciano altro a terra)
 	bk.set_rule(id, "lascia")
 	m.drops.spawn(id, 3, m.player.position + Vector2(0, -8))
 	await kit.seconds(1.5)
-	var left_there: bool = m.drops.count() == d0 + 1 and b.count(id) == n0
+	var left_there: bool = _drops_of(id) == d0 + 1 and b.count(id) == n0
 	bk.set_rule(id, "cestino")
 	await kit.seconds(1.5)
-	var trashed: bool = m.drops.count() == d0 and b.count(id) == n0
+	var trashed: bool = _drops_of(id) == d0 and b.count(id) == n0
 	bk.set_rule(id, "")
 	m.drops.spawn(id, 2, m.player.position + Vector2(0, -8))
 	await kit.seconds(1.5)
@@ -164,6 +165,14 @@ func pick_rules() -> void:
 	if not ok:
 		print("ATTENZIONE: «Non raccogliere» non va")
 	_restore_bag(saved)
+
+
+func _drops_of(id: String) -> int:
+	var n := 0
+	for e in m.drops._items:
+		if String(e["id"]) == id:
+			n += 1
+	return n
 
 
 ## Voce 298: la Dispensa è del personaggio: la stazione la apre, il Seme ci manda il superfluo (e la porta a 120), il
@@ -223,8 +232,12 @@ func pack_beast() -> void:
 	for r in m.character.mandria:
 		if r != rec and String(r["stato"]) == "segue":
 			r["stato"] = "riposo"
+	b.slots[b.slots.size() - 1] = {}                 # (le prove di prima possono averla riempita: un posto per il basto)
 	b.add("basto_radice", 1)
 	var put: bool = bk.use_basto("basto_radice")
+	if not put:
+		print("ATTENZIONE: il basto non è andato alla creatura (nella Bisaccia %d, che seguono %d)" % [b.count("basto_radice"),
+			m.herd.followers().size()])
 	bk.update_carriers()
 	var slots_n := BackpackData.basto_slots("basto_radice", int(rec["lvl"]))
 	for i in b.slots.size():

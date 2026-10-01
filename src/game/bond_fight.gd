@@ -181,7 +181,7 @@ func retarget() -> void:
 		var aggro: bool = o.has_meta("bond_aggro") and now - int(o.get_meta("bond_aggro")) < int(BondsData.AGGRO_TIME * 1000.0)
 		for a in allies:
 			var da: float = o.position.distance_to(a.position)
-			if (aggro and da < BondsData.LEASH * 16.0) or da < bd * BondsData.AGGRO_NEAR:
+			if (aggro and da < bd) or da < bd * BondsData.AGGRO_NEAR:      # voce 318: colpita da lui e più vicina a lui
 				best = a
 				bd = da
 		if o.target != best:

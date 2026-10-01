@@ -26,8 +26,8 @@ const STUCK_FROM := 5.0
 const STUCK_FIGHT := 2.5               # in lotta: secondi senza avvicinarsi al nemico prima di ricomparire
 const SIGHT_MULT := 1.3                # il compagno vede un poco più lontano del suo stile selvatico (non ha paura del buio)
 const HIT_EVERY := 0.7                 # secondi tra due colpi al contatto sullo stesso nemico
-const AGGRO_TIME := 4.0                # secondi in cui una creatura colpita dal compagno lo prende di mira
-const AGGRO_NEAR := 0.7                # o se il compagno le è più vicino di così (rispetto al Germogliato)
+const AGGRO_TIME := 4.0                # secondi in cui una creatura colpita dal compagno lo prende di mira (se lui le è più vicino del Germogliato)
+const AGGRO_NEAR := 0.6                # o se il compagno le è più vicino di così (rispetto al Germogliato)
 const SHOT_MIN := 0.6                  # i colpi a distanza valgono tra queste frazioni del danno del compagno
 const SHOT_MAX := 1.4
 const BLAST_MULT := 2.5                # lo scoppio di un compagno (non muore: lo rifà dopo `PAUSE`)
@@ -197,13 +197,17 @@ static func aid_of(fam: String) -> Array:
 ## un compagno la porta verso `TOTAL` (con `SHAPE` = 0,75: le specie forti restano un poco più forti), poi cresce di
 ## `GROWTH` a livello. Misurato con `tools/compagni.gd`: la creatura tipica della Superficie vale un compagno di livello
 ## 1, quella del Fondo del primo mondo il 21, quella del Fondo al vigore 12 il 44; al 50 un compagno vale ~1,3 volte
-## quest'ultima. `HP_K` e `DMG_K` lo pareggiano con le creature selvatiche, che feriscono `DangerData.DAMAGE` volte di
-## più: alla pari un compagno da solo vince, ma ne esce ferito. Così un grumo allevato bene vale quanto una lince del
-## profondo.
+## quest'ultima. Così un grumo allevato bene vale quanto una lince del profondo.
+## Voce 318 (`tools/percorso.gd -- --compagno`): il compagno è un aiutante **resistente ma meno dannoso** del
+## Germogliato (`HP_K` 1,8, `DMG_K` 0,6): alla pari da solo vince di poco una creatura della sua zona; accanto al
+## giocatore medio gli appassimenti all'ora scendono da ~6 a ~1,7 (attento da 1,1 a 0,2). Con il danno pieno (1,35)
+## faceva più danno dell'arma del giocatore e gli appassimenti scendevano a 0,4: la sfida spariva. `power` è l'opzione
+## «Forza dei compagni» (la scrive `Settings`).
 const LVL_MAX := 50
 const GROWTH := 1.047
-const HP_K := 1.3
-const DMG_K := 1.35
+const HP_K := 1.8
+static var power := 1.0
+const DMG_K := 0.6
 const TOTAL := 20.0
 const SHAPE := 0.75
 const DEF_PER_LVL := 0.12              # difesa che si aggiunge a ogni livello
@@ -255,8 +259,8 @@ static func stats(sp: String, lvl: int, forza: float, m_hp: float, m_dmg: float,
 	spd_m *= 1.0 + FRUIT_STEP * 0.5 * int(fruits.get("slancio", 0))
 	def_add += int(fruits.get("scorza", 0))
 	return {
-		"hp": maxi(roundi(float(d.get("hp", 20)) * k * g * f * m_hp * hp_m * HP_K), 1),
-		"damage": maxi(roundi(maxf(float(d.get("damage", 3)), 3.0) * k * g * f * m_dmg * dmg_m * DMG_K), 1),
+		"hp": maxi(roundi(float(d.get("hp", 20)) * k * g * f * m_hp * hp_m * HP_K * power), 1),
+		"damage": maxi(roundi(maxf(float(d.get("damage", 3)), 3.0) * k * g * f * m_dmg * dmg_m * DMG_K * power), 1),
 		"defense": roundi(float(d.get("defense", 0)) * sqrt(k) + DEF_PER_LVL * (lvl - 1)) + def_add,
 		"speed": float(d.get("speed", 60)) * (1.0 + SPEED_PER_LVL * (lvl - 1)) * spd_m,
 	}

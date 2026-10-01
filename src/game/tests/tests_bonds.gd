@@ -68,7 +68,7 @@ func styles(spot: Vector2i, h: Herd) -> void:
 	for sp in ["volpe_ambra", "sputaspore", "talpone", "anguilla_linfa", "grumo_muschio"]:
 		m.fauna.clear()
 		m.snap_to(spot)
-		var rec := _companion(h, sp, 12)
+		var rec := _companion(h, sp, 16)
 		await kit.seconds(0.6)
 		var c: Creature = h.beasts.get(int(rec["uid"]))
 		if c == null:
@@ -121,7 +121,9 @@ func aggro(spot: Vector2i, h: Herd) -> void:
 	var rec := _companion(h, "volpe_ambra", 3)
 	await kit.seconds(0.6)
 	var c: Creature = h.beasts.get(int(rec["uid"]))
-	var foe: Creature = m.fauna.add("lupo_lunare", c.position + Vector2(4 * S, -8))
+	# (dalla parte del compagno, lontano dal Germogliato: voce 318, lo insegue chi è più vicino a lui)
+	var away := signf(c.position.x - m.player.position.x) if c.position.x != m.player.position.x else -1.0
+	var foe: Creature = m.fauna.add("lupo_lunare", c.position + Vector2(away * 4 * S, -8))
 	foe.hp_max = 400
 	foe.hp = 400
 	var targeted := false

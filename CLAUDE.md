@@ -139,7 +139,7 @@ Godot_console.exe --path . -- --prove --prova-giardino
 # biomi, biomi_nuovi, luoghi, corsa, raccolta, musica, germogliato, interfaccia, geni, forme, ecologia, mandria, casse, alberi,
 # base (il cuore del gioco, da lanciare sempre), sigilli, stagioni, suggerimenti, opzioni, enciclopedia, lingua, catene, luoghi_scritti, enigmi, seme_nero, acqua,
 # liquidi, meteo, gravita, terra_viva, tempo_mondi, vigore, guardiani_generati, leggende, sfide, grafica, vivo, cielo,
-# comodita, energia (la rete della Roadmap 19, ~3 minuti), galleria (Roadmap 29: ogni pannello fotografato in
+# comodita, legami (i compagni di battaglia, Roadmap 32), energia (la rete della Roadmap 19, ~3 minuti), galleria (Roadmap 29: ogni pannello fotografato in
 # prove/galleria/ e il controllo dell'impaginazione LayoutCheck: tagli, fuori schermo, testi sovrapposti; obiettivo 0), maestria, perduti
 # (elenco in `AutoTests._group`)
 Godot_console.exe --path . -- --prove --solo=doni,antiche
@@ -165,6 +165,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 20
 Godot_console.exe --headless --path . --script res://tools/curva.gd
 # i tre giocatori simulati attraverso la partita (appassimenti all'ora, riposo, pressione) → prove/percorso.txt
 Godot_console.exe --headless --path . --script res://tools/percorso.gd -- --giri 40
+# Roadmap 32: i compagni di battaglia (livello di ogni zona, duelli alla pari, forma delle specie) → prove/compagni.txt;
+# il percorso con un compagno alla pari: tools/percorso.gd -- --compagno
+Godot_console.exe --headless --path . --script res://tools/compagni.gd
 # armi e armature a confronto, boss, progressioni ed economia → prove/armi.txt, prove/boss.txt, prove/progressioni.txt
 Godot_console.exe --headless --path . --script res://tools/armi.gd
 # il bot in arena contro creature vere (tara il modello; ~3 minuti) → prove/arena.txt
@@ -843,6 +846,28 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   materiale dei geni (`GENE_BONUS`), con la descrizione fatta da `describe`; `JewelsData` aggiunge il carattere della
   montatura. Prove: gruppo «carattere» (`TestsMaterials`). **Un materiale nuovo ha sempre un carattere** (la prova
   segnala quelli che ne sono senza).
+- **Roadmap 32 «I compagni di battaglia»** (voci 310-318, 1-2 ott 2026; scelte dell'utente: ogni creatura tranne i
+  Guardiani, una in campo e cinque in un'apposita sacca, segue senza restare indietro, combatte da sola con il suo stile,
+  cresce con l'esperienza e con oggetti da trovare, KO torna nella sacca e guarisce solo nel Giardino):
+  - Dati in `BondsData` (`src/data/bonds_data.gd`): lo stile (`style_of`: i comportamenti della specie meno `SKIP`),
+    `bindable` (niente `boss`), le nature (`nature_of`: avvizzita, vuoto, spirito, mimo, costrutto), i lacci `LACCI`,
+    `default_tame` e `aid_of` (ogni famiglia si lega e ha un dono), la crescita (`stats`, `level_of`, `xp_from`, `xp_for`,
+    `scale_at`; `HP_K`/`DMG_K` e `power` = opzione «forza_compagni»), gli oggetti (`items()`: frutti, Seme del ricordo,
+    14 istinti, pietre d'elemento, ciondoli; `creature_loot`, `pod_loot`), atteggiamenti e affiatamento (`STANCES`,
+    `BOND_GRADES`, `aid_now`), il Libro dei legami (`BOOK_GOALS`, `all_species`).
+  - Il compagno è una `Creature` della mandria (`Herd.beasts`, non in `Fauna.list`) con un `BhMandria` che usa lo stile
+    contro `c.target` = il nemico; `BondFight` (`Herd.fight`) fa contatto, colpi amici ("ally" in `Projectiles`, smistati
+    da `Combat.on_shot`), scoppi, fulmini (`SkyStrikes.bolt(…, uid)`), cure, ferite, `retarget` delle creature selvatiche
+    e `release` (chi lo inseguiva torna sul Germogliato prima che sparisca). `Mind.sees` per i compagni.
+  - La Sacca dei legami è lo stato «segue» della mandria (`HerdData.FOLLOW_MAX` 5) con "campo" e "ko": `BondBag`
+    (`m.bonds`: tasti «compagno» T e «cambia_compagno» B, guarigione nel Giardino, `use_item`/`give` degli oggetti con un
+    clic sul compagno, `bound` per il Libro), `BondBar` (in basso a destra), `BondsPanel` (tasto «compagni» Y).
+    `HerdData.LVL_MAX` 50, `LVL_WORK` 20 per recinto, sella, basto, fiere e ruota.
+  - Prove: gruppo «legami» (`TestsBonds`, foto 320-324). Misure: `tools/compagni.gd` (prove/compagni.txt: la creatura
+    tipica di ogni zona e il suo livello, i duelli alla pari, la forma delle specie, quante creature per livello) e
+    `tools/percorso.gd -- --compagno`. Enciclopedia: `EncyBondsData`.
+  - **Una specie nuova o un comportamento nuovo** non chiedono nulla ai compagni: lo stile e il legame nascono dai dati.
+    Un comportamento che danneggerebbe il Germogliato se usato da un compagno va in `BondsData.SKIP`.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

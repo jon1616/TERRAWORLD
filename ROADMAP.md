@@ -1,8 +1,9 @@
 # TERRAWORLD — Roadmap
 
-## Dove siamo (aggiornato il 1 ott 2026)
-- **In corso: la Roadmap 32 «I compagni di battaglia»** (voci 310-318, dal 1 ott 2026): ogni creatura si lega,
-  una in campo con il suo stile, cinque nella Sacca dei legami, livelli e oggetti per crescere.
+## Dove siamo (aggiornato il 2 ott 2026)
+- **Fatta la Roadmap 32 «I compagni di battaglia»** (voci 310-318, 1-2 ott 2026): ogni creatura si lega, una in campo
+  con il suo stile, cinque nella Sacca dei legami, livelli fino al 50, 31 oggetti per crescere (e tre lacci nuovi), atteggiamento,
+  affiatamento, Libro dei legami. Resoconto in fondo alla Roadmap 32.
 - **Fatta la Roadmap 31 «Il carattere dei materiali»** (voci 306-309, 1 ott 2026): ogni materiale dà un bonus suo,
   set per le leghe e i materiali dei geni, gioielli con il carattere del metallo. Resoconto in fondo alla Roadmap 31.
 - **Fatta la Roadmap 30 «Lo zaino e le grotte piene»** (voci 295-305, 30 set - 1 ott 2026, in autonomia): Bisacce a
@@ -4799,5 +4800,24 @@ Le scelte di fondo:
   selvatica dice come si lega e se è nuova per il Libro, cinque capitoli in `EncyBondsData` e il capitolo della mandria
   aggiornato. Prova nel gruppo «legami» (foto 324_libro_legami). Le taglie e le prove del Cerchio contano già le
   creature abbattute dal compagno (passano da `Fauna.kill`).
-- [ ] **318. Bilancio e chiusura.** `tools/compagni.gd` (forza del compagno per livello contro le creature di ogni
+- [x] **318. Bilancio e chiusura.** `tools/compagni.gd` (forza del compagno per livello contro le creature di ogni
   strato, quanto aiuta il Germogliato), `tools/percorso.gd` con il compagno, galleria, giro intero, resoconto.
+  Fatto il 2 ott 2026: `tools/percorso.gd -- --compagno` (una sacca di tre compagni al livello della zona, una parte dei
+  colpi su di loro, i KO). Prima misura: con il danno pieno il compagno faceva più danno dell'arma del giocatore e il
+  medio passava da 6 a 0,4 appassimenti all'ora. Ritarato: il compagno è un aiutante resistente ma meno dannoso
+  (`HP_K` 1,8, `DMG_K` 0,6), e una creatura insegue il compagno solo se lui le è più vicino del Germogliato. Ora: medio
+  da 5,9 a 1,7 appassimenti all'ora, attento da 1,2 a 0,2, jon da 26,5 a 15,3; alla pari, da solo, il compagno vince
+  di poco una creatura della sua zona. L'opzione «Forza dei compagni» (metà … una volta e mezza, `BondsData.power`)
+  lascia scegliere al giocatore. Senza compagno nulla cambia. Galleria con 0 problemi, giro intero delle prove.
+
+**Resoconto della Roadmap 32.** Prima si addomesticavano 30 famiglie su 168, ne seguivano tre e combattevano tutte con
+lo stesso colpo. Adesso ogni creatura tranne i boss (175 specie) si lega, ognuna con il suo modo (Laccio, cibo, uova; le
+avvizzite curate, quelle del Vuoto al buio, gli spiriti di notte, i mimi scoperti, le creature di pietra con il Sigillo,
+le ancestrali con il Laccio dei Seminatori). Cinque stanno nella Sacca dei legami e una è in campo: combatte con i
+comportamenti veri della sua specie, le creature selvatiche la prendono di mira, non resta mai indietro. KO torna nella
+sacca e guarisce solo nel Giardino. Cresce fino al livello 50 (la forza dal livello, la forma dalla specie) e con 31
+oggetti da trovare (frutti, semi, 14 istinti che insegnano mosse, pietre d'elemento, ciondoli, essenze). Ha un
+atteggiamento, un affiatamento a cinque gradi e un dono; il Libro dei legami conta le specie con sei traguardi; Bacheca,
+filo, consigli, pilastro della mandria ed Enciclopedia la conoscono. Tutto passa da dati (`BondsData`) e dal motore
+delle creature: una specie nuova è subito un compagno possibile.
+
