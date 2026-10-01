@@ -92,6 +92,8 @@ static func make(id: String) -> Behavior:
 			return BhFolgore.new()
 		"deriva":
 			return BhDeriva.new()
+		"cura_legame":
+			return BhCuraLegame.new()             # Roadmap 32: un istinto dei compagni
 		"fermo":
 			return Behavior.new()
 	push_error("comportamento sconosciuto: %s" % id)

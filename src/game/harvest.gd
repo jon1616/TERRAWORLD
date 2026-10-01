@@ -39,6 +39,7 @@ func open_pod(c: Vector2i, d: int) -> Array:
 	var at := Vector2(c) * 16.0 + Vector2(8, 8)
 	var s := StrataData.at(m.world, c.x, c.y)
 	var loot := PodsData.roll(d, s, _rng)
+	loot.append_array(BondsData.pod_loot(d, s, _rng))                            # Roadmap 32: per i compagni
 	if _rng.randf() < CuriositiesData.POD_CHANCE:
 		loot.append([CuriositiesData.pick(s, _rng, _known()), 1])                 # voce 304: una curiosità dello strato
 	for e in loot:

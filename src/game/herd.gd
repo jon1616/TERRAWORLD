@@ -227,8 +227,20 @@ func faint(rec: Dictionary) -> void:
 ## della specie, la forza di quando è stata presa, le doti dell'allevamento, la rarità e i Frutti; `BondsData.stats`).
 static func stats_of(rec: Dictionary) -> Dictionary:
 	var g: Dictionary = rec.get("doti", {})
+	var fr: Dictionary = (rec.get("frutti", {}) as Dictionary).duplicate()
+	var cd: Array = BondsData.CIONDOLI.get(String(rec.get("ciondolo", "")), [])
+	if not cd.is_empty():
+		for k in cd[1]:
+			if k in ["vita", "forza", "scorza", "slancio"]:
+				fr[k] = int(fr.get(k, 0)) + int(cd[1][k])      # voce 314: il ciondolo conta come frutti in più
 	return BondsData.stats(String(rec["specie"]), int(rec["lvl"]), float(rec.get("forza", 1.0)), Breeding.mult(g, "vita"),
-		Breeding.mult(g, "danno"), rec.get("antico", {}), rec.get("frutti", {}))
+		Breeding.mult(g, "danno"), rec.get("antico", {}), fr)
+
+
+## Voce 314: un dono del ciondolo (esperienza «xp», cura «cura»), 1 se non c'è.
+static func charm(rec: Dictionary, k: String) -> float:
+	var cd: Array = BondsData.CIONDOLI.get(String(rec.get("ciondolo", "")), [])
+	return float(cd[1].get(k, 1.0)) if not cd.is_empty() else 1.0
 
 
 ## Il danno di adesso: di più se è contenta, di meno se ha fame.
@@ -263,7 +275,7 @@ func _on_killed(foe: Creature) -> void:
 
 
 func gain_xp(rec: Dictionary, n: int, quiet := false) -> void:
-	rec["xp"] = int(rec["xp"]) + maxi(n, roundi(n * xp_mult))     # Roadmap 20: il grado della mandria
+	rec["xp"] = int(rec["xp"]) + maxi(n, roundi(n * xp_mult * charm(rec, "xp")))     # Roadmap 20: il grado della mandria
 	while int(rec["lvl"]) < HerdData.LVL_MAX and int(rec["xp"]) >= HerdData.xp_for(int(rec["lvl"])):
 		rec["xp"] = int(rec["xp"]) - HerdData.xp_for(int(rec["lvl"]))
 		rec["lvl"] = int(rec["lvl"]) + 1
@@ -359,6 +371,8 @@ func spawn(rec: Dictionary, mode: String) -> Creature:
 	bh.rec = rec
 	bh.mode = mode
 	bh.setup_style(String(rec["specie"]))       # voce 310: combatte con lo stile della sua specie
+	for b in rec.get("istinti", []):
+		bh.style.append(Behavior.make(String(b)))     # voce 314: le mosse imparate con gli istinti
 	c.tame = bh
 	c.fly = BondsData.flies(String(rec["specie"]))   # chi nuota, fuori dall'acqua nuota nell'aria
 	c.position = m.player.position + Vector2(-20.0 * m.player.facing, -6.0)
@@ -388,6 +402,18 @@ func _regrow(rec: Dictionary, c: Creature) -> void:
 	despawn(int(rec["uid"]))
 	var n := spawn(rec, mode)
 	n.position = pos - Vector2(0, n.half.y - old_half)
+
+
+## Voce 314: rifà i valori di chi è in scena (dopo un frutto o un ciondolo); con `redraw` la rifà da capo (elemento,
+## tratti).
+func refresh(rec: Dictionary, redraw := false) -> void:
+	var c: Creature = beasts.get(int(rec["uid"]))
+	if c == null or not is_instance_valid(c):
+		return
+	if redraw:
+		_regrow(rec, c)
+	else:
+		_apply_stats(c, rec)
 
 
 func _apply_stats(c: Creature, rec: Dictionary) -> void:
@@ -466,7 +492,7 @@ func _process(dt: float) -> void:
 				var c: Creature = beasts.get(int(r["uid"]))
 				if c != null and c.hp < c.hp_max and c.tame.foe == null:
 					# Roadmap 32: le ferite si richiudono piano fuori dalla lotta; chi va KO guarisce solo nel Giardino
-					c.hp = mini(c.hp + maxi(1, c.hp_max / 120), c.hp_max)
+					c.hp = mini(c.hp + maxi(1, roundi(c.hp_max / 120.0 * charm(r, "cura"))), c.hp_max)
 					c._bar.set_value(float(c.hp) / float(c.hp_max))
 			"riposo", "guardia":
 				r["vita"] = minf(float(r["vita"]) + 1.0 / HerdData.REST_HEAL, 1.0)

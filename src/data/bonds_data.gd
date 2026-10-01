@@ -286,3 +286,173 @@ static func scale_at(lvl: int) -> float:
 		if lvl >= int(e[0]):
 			s = float(e[1])
 	return s
+
+
+# ---- voce 314: gli oggetti dei compagni ----------------------------------------------------------------------------
+
+## Si danno al compagno in campo con un clic sopra di lui (l'oggetto in mano). Si trovano: nei baccelli dormienti,
+## dalle creature (le rare di più), e gli istinti da chi ha quella mossa (`creature_loot`, `pod_loot`).
+##   Frutti del legame: +3% (o +1 di difesa) per sempre, al più `FRUIT_MAX` di ogni tipo
+##   Seme del ricordo: metà di un livello di esperienza
+##   Istinti: una mossa nuova (un comportamento delle creature); i posti si aprono ai livelli di `SLOT_LVLS`
+##   Pietre d'elemento: cambiano l'elemento (colori, debolezze, il segno dei suoi colpi)
+##   Ciondoli: un posto, un dono
+##   Essenze delle rare (`AncientData.TRAITS`): un tratto antico, al più `ESSENCE_MAX`
+const FRUITS := {
+	"frutto_cuore": ["vita", "Bacca del cuore", "Vita del compagno +3% per sempre", ["seme", "sanguinella"]],
+	"frutto_zanna": ["forza", "Bacca della zanna", "danno del compagno +3% per sempre", ["seme", "brace"]],
+	"frutto_guscio": ["scorza", "Bacca del guscio", "difesa del compagno +1 per sempre", ["seme", "ardesia"]],
+	"frutto_vento": ["slancio", "Bacca del vento", "velocità del compagno +1,5% per sempre", ["seme", "muschio"]],
+}
+const XP_SEED := "seme_ricordo"
+const SLOT_LVLS := [10, 25, 40]
+## Gli istinti: comportamento -> [nome, che cosa fa, solo chi vola (1) / solo chi cammina (-1) / tutti (0)].
+const ISTINTI := {
+	"carica": ["Istinto della carica", "corre addosso al nemico a testa bassa", 0],
+	"scatto": ["Istinto dello scatto", "scatti improvvisi verso il nemico", 0],
+	"salta_verso": ["Istinto del balzo", "balza addosso al nemico", -1],
+	"spara": ["Istinto dello sputo", "lancia colpi da lontano", 0],
+	"ventaglio": ["Istinto del ventaglio", "colpi a ventaglio", 0],
+	"bombarda": ["Istinto della pioggia", "lascia cadere colpi dall'alto", 1],
+	"picchiata": ["Istinto della picchiata", "cala dall'alto in linea retta", 1],
+	"guscio": ["Istinto del guscio", "si chiude nel guscio quando è colpito", 0],
+	"scudo": ["Istinto dello scudo", "para i colpi davanti", 0],
+	"teletrasporto": ["Istinto del passo d'ombra", "svanisce e ricompare accanto al nemico", 0],
+	"sbuca": ["Istinto della talpa", "scava sotto il nemico e salta fuori", -1],
+	"scoppia": ["Istinto dello scoppio", "si gonfia e scoppia sui nemici (non si fa male)", 0],
+	"folgore": ["Istinto della folgore", "chiama un fulmine sul nemico", 0],
+	"cura_legame": ["Istinto della cura", "ogni tanto cura sé stesso e il Germogliato", 0],
+}
+## Le pietre d'elemento (una per elemento di `ElementsData`).
+const ELEM_STONES := {"brace": "ardente", "gelo": "gelida", "spora": "sporigena", "linfa": "linfatica", "vuoto": "cava",
+	"luce": "lucente"}
+## I ciondoli: id -> [nome, effetti, testo, icona]. Effetti: vita/forza/scorza/slancio come i frutti (in numero di
+## frutti), "xp" (esperienza ×), "cura" (le ferite si richiudono × più in fretta fuori dalla lotta).
+const CIONDOLI := {
+	"ciondolo_zanna": ["Ciondolo di zanna", {"forza": 4}, "danno del compagno +12%", ["amuleto", "brace"]],
+	"ciondolo_muschio": ["Ciondolo di muschio", {"vita": 4}, "Vita del compagno +12%", ["amuleto", "muschio"]],
+	"ciondolo_guscio": ["Ciondolo di guscio", {"scorza": 3}, "difesa del compagno +3", ["amuleto", "ardesia"]],
+	"ciondolo_vento": ["Ciondolo di vento", {"slancio": 5}, "velocità del compagno +7,5%", ["amuleto", "linfa"]],
+	"ciondolo_lume": ["Campanello di lume", {"xp": 1.3}, "esperienza del compagno +30%", ["amuleto", "ambra"]],
+	"ciondolo_cuore": ["Ciondolo del cuore", {"cura": 3.0}, "le sue ferite si richiudono tre volte più in fretta", ["amuleto", "sanguinella"]],
+}
+const ESSENCE_MAX := 2
+## Le probabilità (per creatura sconfitta, per baccello aperto).
+const DROP := {"fruit": 0.012, "seed": 0.01, "istinto": 0.02, "stone": 0.03,
+	"rare_fruit": 0.5, "rare_seed": 0.3, "rare_istinto": 0.25, "rare_ciondolo": 0.15,
+	"pod_fruit": 0.05, "pod_seed": 0.03, "urna_istinto": 0.08, "urna_ciondolo": 0.04, "geode_stone": 0.1}
+
+static var _items := {}
+
+
+## Tutti gli oggetti dei compagni (lacci e oggetti della voce 314), costruiti una volta.
+static func items() -> Dictionary:
+	if not _items.is_empty():
+		return _items
+	_items = ITEMS.duplicate(true)
+	for id in FRUITS:
+		var f: Array = FRUITS[id]
+		_items[id] = {"name": f[1], "kind": "legame", "icon": f[3], "stack": 99, "source": "baccelli dormienti e creature (le rare di più)",
+			"desc": "Dalla al compagno in campo (clic sopra di lui): %s (al più %d)." % [f[2], FRUIT_MAX]}
+	_items[XP_SEED] = {"name": "Seme del ricordo", "kind": "legame", "icon": ["seme", "linfa"], "stack": 99, "source": "baccelli dormienti e creature (le rare di più)",
+		"desc": "Un seme che ricorda le battaglie degli altri: dato al compagno in campo, gli dà metà di un livello di esperienza."}
+	var lv := []
+	for l in SLOT_LVLS:
+		lv.append(str(l))
+	for b in ISTINTI:
+		var it: Array = ISTINTI[b]
+		var only := ""
+		if int(it[2]) == 1:
+			only = " Solo per chi vola."
+		elif int(it[2]) == -1:
+			only = " Solo per chi cammina."
+		_items["istinto_" + b] = {"name": it[0], "kind": "legame", "icon": ["tavoletta", "linfa"], "stack": 20,
+			"source": "le creature che hanno questa mossa (raramente), le Urne dei Seminatori",
+			"desc": "Insegna una mossa al compagno in campo: %s. Ogni mossa nuova prende un posto (si aprono ai livelli %s).%s" % [
+				it[1], ", ".join(lv), only]}
+	for e in ELEM_STONES:
+		_items["pietra_elem_" + e] = {"name": "Pietra %s" % ELEM_STONES[e], "kind": "legame", "icon": ["gemma", _stone_mat(e)],
+			"stack": 20, "source": "i Geodi dormienti e le creature %s" % ELEM_STONES[e], "desc": "Cambia l'elemento del compagno in campo: diventa %s (colori, debolezze e il segno dei suoi colpi)." % ELEM_STONES[e]}
+	for id in CIONDOLI:
+		var cd: Array = CIONDOLI[id]
+		_items[id] = {"name": cd[0], "kind": "legame", "icon": cd[3], "stack": 1, "source": "le creature rare e le Urne dei Seminatori",
+			"desc": "Un ciondolo per il compagno in campo (un posto solo: il vecchio torna nella Bisaccia): %s." % cd[2]}
+	return _items
+
+
+static func _stone_mat(e: String) -> String:
+	return String({"brace": "brace", "gelo": "brina", "spora": "fungo", "linfa": "linfa", "vuoto": "vuotite", "luce": "brillaluce"}.get(e, "linfa"))
+
+
+## Le essenze delle rare: oggetto -> tratto ("" se non è un'essenza).
+static func essence_trait(id: String) -> String:
+	for t in AncientData.TRAITS:
+		if String(AncientData.TRAITS[t].get("essence", "")) == id:
+			return String(t)
+	return ""
+
+
+## È un oggetto che si dà al compagno?
+static func is_bond_item(id: String) -> bool:
+	if items().has(id) and String(items()[id].get("kind", "")) == "legame":
+		return true
+	return essence_trait(id) != ""
+
+
+## Può imparare questa mossa? "" se sì, altrimenti il perché.
+static func can_learn(cid: String, b: String, known: Array) -> String:
+	if not ISTINTI.has(b):
+		return "Non è una mossa"
+	if b in style_of(cid) or b in known:
+		return "La conosce già"
+	var only := int(ISTINTI[b][2])
+	if only == 1 and not flies(cid):
+		return "È una mossa per chi vola"
+	if only == -1 and flies(cid):
+		return "È una mossa per chi cammina"
+	return ""
+
+
+## I posti per le mosse al livello `lvl`.
+static func slots_at(lvl: int) -> int:
+	var n := 0
+	for l in SLOT_LVLS:
+		if lvl >= int(l):
+			n += 1
+	return n
+
+
+## Il bottino in più di una creatura sconfitta: [[oggetto, quanti], …].
+static func creature_loot(behaviors: Array, elem: String, rarity: String, rng: RandomNumberGenerator) -> Array:
+	var out := []
+	var rare := rarity != ""
+	for b in behaviors:
+		if ISTINTI.has(b) and rng.randf() < float(DROP["rare_istinto" if rare else "istinto"]):
+			out.append(["istinto_" + String(b), 1])
+			break
+	if rng.randf() < float(DROP["rare_fruit" if rare else "fruit"]):
+		out.append([FRUITS.keys()[rng.randi_range(0, FRUITS.size() - 1)], 1])
+	if rng.randf() < float(DROP["rare_seed" if rare else "seed"]):
+		out.append([XP_SEED, 1])
+	if elem != "" and ELEM_STONES.has(elem) and rng.randf() < float(DROP["stone"]):
+		out.append(["pietra_elem_" + elem, 1])
+	if rare and rng.randf() < float(DROP["rare_ciondolo"]):
+		out.append([CIONDOLI.keys()[rng.randi_range(0, CIONDOLI.size() - 1)], 1])
+	return out
+
+
+## Il bottino in più di un baccello dormiente (decorazione `kind`, vedi `PodsData`).
+static func pod_loot(kind: int, stratum: int, rng: RandomNumberGenerator) -> Array:
+	var out := []
+	if rng.randf() < float(DROP["pod_fruit"]) * (1.0 + 0.25 * stratum):
+		out.append([FRUITS.keys()[rng.randi_range(0, FRUITS.size() - 1)], 1])
+	if rng.randf() < float(DROP["pod_seed"]) * (1.0 + 0.25 * stratum):
+		out.append([XP_SEED, 1])
+	if kind == 94:                                         # l'Urna dei Seminatori
+		if rng.randf() < float(DROP["urna_istinto"]):
+			out.append(["istinto_" + String(ISTINTI.keys()[rng.randi_range(0, ISTINTI.size() - 1)]), 1])
+		if rng.randf() < float(DROP["urna_ciondolo"]):
+			out.append([CIONDOLI.keys()[rng.randi_range(0, CIONDOLI.size() - 1)], 1])
+	if kind == 95 and rng.randf() < float(DROP["geode_stone"]):   # il Geode dormiente
+		out.append(["pietra_elem_" + String(ELEM_STONES.keys()[rng.randi_range(0, ELEM_STONES.size() - 1)]), 1])
+	return out

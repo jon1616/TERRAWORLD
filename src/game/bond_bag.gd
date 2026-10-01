@@ -194,3 +194,107 @@ func _heal_home() -> void:
 func _emit() -> void:
 	changed.emit()
 	herd().changed_now()
+
+
+# ---- voce 314: gli oggetti dei compagni ----------------------------------------------------------------------------
+
+## Dare un oggetto al compagno in campo (clic sopra di lui con l'oggetto in mano). False se non c'entra (un'essenza
+## cliccata altrove resta per gli innesti).
+func use_item(id: String, at: Vector2) -> bool:
+	var rec := field()
+	var c: Creature = herd().beasts.get(int(rec.get("uid", -1))) if not rec.is_empty() else null
+	var on_it: bool = c != null and is_instance_valid(c) and c.rect().grow(8.0).has_point(at)
+	var essence := BondsData.essence_trait(id)
+	if not on_it:
+		if essence != "":
+			return false
+		m.hud.toast("Clic sul compagno in campo con l'oggetto in mano" if c != null else "Serve un compagno in campo (%s)" % Keys.label("compagno"))
+		return true
+	var why := give(rec, id)
+	if why != "":
+		m.hud.toast(why)
+		return true
+	m.character.bisaccia.remove(id, 1)
+	Fx.puff(m.fx, c.position + Vector2(0, -c.half.y), Herd.HEARTS)
+	m.sfx.play("dono", c.position)
+	_emit()
+	return true
+
+
+## L'effetto di un oggetto su una scheda. "" se è andato (l'oggetto va tolto), altrimenti il perché. Lo usano anche le
+## prove e il pannello (voce 316).
+func give(rec: Dictionary, id: String) -> String:
+	var name := String(rec["nome"])
+	var sp := String(rec["specie"])
+	if BondsData.FRUITS.has(id):
+		var k := String(BondsData.FRUITS[id][0])
+		if not rec.has("frutti"):
+			rec["frutti"] = {}
+		var n := int(rec["frutti"].get(k, 0))
+		if n >= BondsData.FRUIT_MAX:
+			return "%s ne ha già mangiate %d: di più non le fanno nulla" % [name, BondsData.FRUIT_MAX]
+		rec["frutti"][k] = n + 1
+		herd().refresh(rec)
+		m.hud.toast("%s: %s (%d/%d)" % [name, BondsData.FRUITS[id][2], n + 1, BondsData.FRUIT_MAX])
+		return ""
+	if id == BondsData.XP_SEED:
+		if int(rec["lvl"]) >= HerdData.LVL_MAX:
+			return "%s è già al livello più alto" % name
+		herd().gain_xp(rec, BondsData.xp_for(int(rec["lvl"])) / 2)
+		return ""
+	if id.begins_with("istinto_"):
+		var b := id.trim_prefix("istinto_")
+		var known: Array = rec.get("istinti", [])
+		var no := BondsData.can_learn(sp, b, known)
+		if no != "":
+			return "%s: %s" % [name, no.to_lower()]
+		var slots := BondsData.slots_at(int(rec["lvl"]))
+		if known.size() >= slots:
+			var nx := -1
+			for l in BondsData.SLOT_LVLS:
+				if int(rec["lvl"]) < int(l) and nx < 0:
+					nx = int(l)
+			return "%s non ha posti liberi per le mosse%s" % [name,
+				(": il prossimo si apre al livello %d" % nx) if nx > 0 else " (ne ha già %d: dimenticane una nel pannello)" % slots]
+		known.append(b)
+		rec["istinti"] = known
+		herd().refresh(rec, true)
+		m.hud.toast("%s impara: %s" % [name, String(BondsData.ISTINTI[b][1])])
+		m.objectives.bump("istinti_imparati")
+		return ""
+	if id.begins_with("pietra_elem_"):
+		var e := id.trim_prefix("pietra_elem_")
+		var pt := FamiliesData.parts(sp)
+		if String(pt[2]) == e:
+			return "%s è già %s" % [name, BondsData.ELEM_STONES[e]]
+		rec["specie"] = FamiliesData.variant_id(String(pt[0]), String(pt[1]), e, String(pt[3]))
+		herd().refresh(rec, true)
+		m.hud.toast("%s diventa %s" % [name, BondsData.ELEM_STONES[e]])
+		return ""
+	if BondsData.CIONDOLI.has(id):
+		var old := String(rec.get("ciondolo", ""))
+		if old == id:
+			return "%s porta già questo ciondolo" % name
+		rec["ciondolo"] = id
+		if old != "":
+			m.character.bisaccia.add(old, 1)
+		herd().refresh(rec)
+		m.hud.toast("%s porta il %s: %s" % [name, String(BondsData.CIONDOLI[id][0]).to_lower(), BondsData.CIONDOLI[id][2]])
+		return ""
+	var tr := BondsData.essence_trait(id)
+	if tr != "":
+		var an: Dictionary = rec.get("antico", {"r": "", "t": []})
+		if tr in (an.get("t", []) as Array):
+			return "%s ha già il tratto %s" % [name, String(AncientData.TRAITS[tr]["name"]).to_lower()]
+		if int(rec.get("essenze", 0)) >= BondsData.ESSENCE_MAX:
+			return "%s ha già preso %d essenze: di più non ne regge" % [name, BondsData.ESSENCE_MAX]
+		var ts: Array = an.get("t", [])
+		ts.append(tr)
+		an["t"] = ts
+		rec["antico"] = an
+		rec["essenze"] = int(rec.get("essenze", 0)) + 1
+		herd().refresh(rec, true)
+		m.hud.toast("%s prende il tratto %s: %s" % [name, String(AncientData.TRAITS[tr]["name"]).to_lower(),
+			String(AncientData.TRAITS[tr]["desc"])])
+		return ""
+	return "Non è un oggetto per i compagni"

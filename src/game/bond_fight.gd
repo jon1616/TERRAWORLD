@@ -87,6 +87,13 @@ func collect(c: Creature, rec: Dictionary) -> void:
 				_blast(c, rec, float(a.get("r", 2.5)), roundi(dmg * BondsData.BLAST_MULT))
 			"folgore":
 				m.strikes.bolt(float(a["x"]), float(a.get("delay", 0.6)), dmg, int(rec["uid"]))
+			"cura":
+				# voce 314: l'Istinto della cura: un quinto della sua Vita, e un poco al Germogliato
+				c.hp = mini(c.hp + maxi(1, c.hp_max / 5), c.hp_max)
+				c._bar.set_value(float(c.hp) / float(c.hp_max))
+				m.vitals.heal(maxi(4, m.vitals.hp_max / 12))
+				Fx.puff(m.fx, c.position, Color(0.8, 1.8, 1.2))
+				Fx.puff(m.fx, m.player.position, Color(0.8, 1.8, 1.2))
 	c.acts.clear()
 
 

@@ -33,6 +33,10 @@ static func drop(f: Fauna, c: Creature, _rng: RandomNumberGenerator) -> void:
 		var loot := LootData.roll(String(c.data["loot"]), _rng)
 		for id in loot:
 			f.drops.spawn(id, int(loot[id]), c.position)
+	# Roadmap 32, voce 314: frutti, semi, istinti, pietre e ciondoli per i compagni
+	for e in BondsData.creature_loot(c.data.get("behaviors", []), String(FamiliesData.parts(c.id)[2]),
+			c.ancient.rarity if c.ancient else "", _rng):
+		f.drops.spawn(String(e[0]), int(e[1]), c.position + Vector2(_rng.randf_range(-6, 6), -6))
 	if c.ancient:
 		for t in c.ancient.traits:
 			f.drops.spawn(String(AncientData.TRAITS[t]["essence"]), 1, c.position + Vector2(_rng.randf_range(-8, 8), -6))

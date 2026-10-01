@@ -36,6 +36,7 @@ func run() -> void:
 	await sack(spot, h)
 	await binding(spot, h)
 	await growth(spot, h)
+	await gifts(spot, h)
 	for uid in h.beasts.keys():
 		h.despawn(int(uid))
 	m.character.mandria.clear()
@@ -333,3 +334,64 @@ func growth(spot: Vector2i, h: Herd) -> void:
 		weak, strong, "sì" if shared else "NO", st1["hp"], st20["hp"], st1["damage"], st20["damage"], "sì" if bigger else "NO", pg, pl])
 	if weak >= strong or not shared or int(st20["hp"]) <= int(st1["hp"]) * 2 or not bigger or absf(pg - pl) / pl > 0.35:
 		print("ATTENZIONE: la crescita dei compagni non va")
+
+
+## Voce 314: gli oggetti dei compagni. Frutti (con il tetto), Seme del ricordo, istinti (i posti si aprono con il
+## livello, la mossa nuova entra nello stile), pietre d'elemento, ciondoli (il vecchio torna nella Bisaccia), essenze;
+## e da dove arrivano (creature rare, baccelli).
+func gifts(spot: Vector2i, h: Herd) -> void:
+	m.fauna.clear()
+	m.snap_to(spot)
+	var rec := _companion(h, "volpe_ambra", 5)
+	await kit.seconds(0.5)
+	var bb: BondBag = m.bonds
+	var b := kit.bisaccia()
+	var hp0 := int(Herd.stats_of(rec)["hp"])
+	var ok_fruit := bb.give(rec, "frutto_cuore") == ""
+	var hp1 := int(Herd.stats_of(rec)["hp"])
+	for i in 12:
+		bb.give(rec, "frutto_cuore")
+	var capped := int(rec["frutti"]["vita"]) == BondsData.FRUIT_MAX
+	var xp0 := int(rec["xp"]) + int(rec["lvl"]) * 10000
+	bb.give(rec, BondsData.XP_SEED)
+	var seeded := int(rec["xp"]) + int(rec["lvl"]) * 10000 > xp0
+	var early := bb.give(rec, "istinto_spara")
+	rec["lvl"] = 10
+	var learned := bb.give(rec, "istinto_spara") == ""
+	await kit.frames(3)
+	var c: Creature = h.beasts.get(int(rec["uid"]))
+	var has_shot := false
+	for bh in c.tame.style:
+		if bh is BhSpara:
+			has_shot = true
+	var full := bb.give(rec, "istinto_scatto")
+	var stone := bb.give(rec, "pietra_elem_gelo") == "" and String(FamiliesData.parts(String(rec["specie"]))[2]) == "gelo"
+	bb.give(rec, "ciondolo_zanna")
+	var n0 := b.count("ciondolo_zanna")
+	bb.give(rec, "ciondolo_lume")
+	var back := b.count("ciondolo_zanna") == n0 + 1
+	var dmg0 := int(Herd.stats_of(rec)["damage"])
+	var ess := bb.give(rec, "essenza_furia") == ""
+	var dmg1 := int(Herd.stats_of(rec)["damage"])
+	await kit.frames(3)
+	# il clic vero sul compagno con un frutto in mano
+	c = h.beasts.get(int(rec["uid"]))
+	b.add("frutto_zanna", 1)
+	var f0 := int((rec["frutti"] as Dictionary).get("forza", 0))
+	m.bonds.use_item("frutto_zanna", c.position)
+	var clicked := int((rec["frutti"] as Dictionary).get("forza", 0)) == f0 + 1 and b.count("frutto_zanna") == 0
+	# da dove arrivano
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 7
+	var rare_n := 0
+	var pod_n := 0
+	for i in 400:
+		rare_n += BondsData.creature_loot(["cammina", "carica"], "gelo", "antica", rng).size()
+		pod_n += BondsData.pod_loot(94, 3, rng).size()
+	b.remove("ciondolo_zanna", b.count("ciondolo_zanna"))
+	print("oggetti dei compagni: frutto %s (Vita %d → %d), tetto %s, Seme del ricordo %s; istinto al livello 5 «%s», al 10 %s (spara %s), il secondo «%s»; pietra gelida %s; ciondolo scambiato %s; essenza furiosa %s (danno %d → %d); clic sul compagno %s; in 400 rare %d oggetti, in 400 urne %d" % [
+		"sì" if ok_fruit else "NO", hp0, hp1, "sì" if capped else "NO", "sì" if seeded else "NO", early, "sì" if learned else "NO",
+		"sì" if has_shot else "NO", full, "sì" if stone else "NO", "sì" if back else "NO", "sì" if ess else "NO", dmg0, dmg1,
+		"sì" if clicked else "NO", rare_n, pod_n])
+	if not ok_fruit or hp1 <= hp0 or not capped or not seeded or early == "" or not learned or not has_shot or full == "" 			or not stone or not back or not ess or dmg1 <= dmg0 or not clicked or rare_n < 200 or pod_n < 40:
+		print("ATTENZIONE: gli oggetti dei compagni non vanno")

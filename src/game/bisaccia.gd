@@ -316,7 +316,7 @@ const SORT_KINDS := ["piccone", "ascia", "spada", "arco", "bastone", "munizione"
 	"stivali", "mantello", "amuleto", "anello",
 	"accessorio", "consumabile", "cura", "dono", "purifica", "lanterna", "specchio", "mappa", "richiamo", "stazione", "pinza",
 	"vena", "filo", "isolante",
-	"bisaccia", "torcia", "piattaforma", "seme", "seme_mondo", "blocco", "materiale", "essenza", "trofeo", "reliquia", "ricordo", "provetta", "fiala", "uovo", "creatura", "vasetto", "laccio"]
+	"bisaccia", "torcia", "piattaforma", "seme", "seme_mondo", "blocco", "materiale", "essenza", "trofeo", "reliquia", "ricordo", "provetta", "fiala", "uovo", "creatura", "vasetto", "laccio", "legame"]
 
 
 func sort_bag(from := HOTBAR) -> void:

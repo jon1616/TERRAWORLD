@@ -19,6 +19,8 @@ func setup(main: Node2D) -> void:
 
 
 func _use(kind: String, id: String, c: Vector2i) -> bool:
+	if BondsData.is_bond_item(id) and m.bonds.use_item(id, m.fx.get_global_mouse_position()):
+		return true                                    # Roadmap 32: un oggetto dato al compagno in campo
 	match kind:
 		"cura":
 			if m.taming.purify(id, m.fx.get_global_mouse_position()):

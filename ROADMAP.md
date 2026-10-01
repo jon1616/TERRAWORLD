@@ -4755,11 +4755,19 @@ Le scelte di fondo:
   ruota. Misura nuova: `tools/compagni.gd` → prove/compagni.txt (Superficie = livello 1, Fondo del primo mondo 21, Fondo
   al vigore 12 44; alla pari il compagno vince da solo in 3 colpi reggendone 3-4; 294 creature alla pari dal 1 al 50).
   Prova nel gruppo «legami» (foto 322_compagno_cresciuto).
-- [ ] **314. Gli oggetti dei compagni.** Da trovare: Frutti del legame (Vita, forza, scorza, slancio: crescita per
+- [x] **314. Gli oggetti dei compagni.** Da trovare: Frutti del legame (Vita, forza, scorza, slancio: crescita per
   sempre, con un tetto), Semi d'esperienza; gli **Istinti** (una mossa nuova da imparare: carica, scatto, spari a
   ventaglio, guscio, scudo, cura, richiamo, folgore… sono i comportamenti delle creature, lasciati raramente da chi li
   ha e trovati negli scrigni), con posti che si aprono ai livelli 10, 25 e 40; le **Essenze** delle antiche danno un
   tratto antico al compagno; le Pietre d'elemento cambiano il suo elemento; un collare (un posto) con un dono.
+  Fatto il 1 ott 2026: `BondsData.items()` (lacci e oggetti nuovi, tipo «legame»): 4 Frutti del legame (+3% o +1 di
+  difesa, al più 10 di ogni tipo), Seme del ricordo, 14 istinti (13 comportamenti delle creature più l'Istinto della
+  cura, `BhCuraLegame`; `can_learn`, posti ai livelli 10, 25 e 40), 6 pietre d'elemento (la variante cambia elemento),
+  6 ciondoli (un posto), le essenze delle rare (al più 2 tratti). Si danno con un clic sul compagno in campo
+  (`BondBag.use_item`/`give`, da `Interact._use`). Da dove arrivano: `creature_loot` (in `FaunaExtra.drop`: le rare ne
+  danno ~1,2 a testa, gli istinti da chi ha la mossa) e `pod_loot` (in `Harvest.open_pod`: Urne e Geodi dormienti);
+  mai nelle casse del generatore (sposterebbero i mondi). Prova nel gruppo «legami». Verifica dei dati 0 errori, icone
+  0 identiche.
 - [ ] **315. Indole e affiatamento.** Atteggiamento scelto nel pannello (feroce, protettivo, prudente: rientra nella
   sacca prima del KO, fermo: solo il dono); l'affiatamento sale combattendo insieme e apre aiuti (attacca chi colpisci
   tu, reazioni degli elementi con la tua arma, un'ultima resistenza per visita al Giardino). I doni di chi è in campo
