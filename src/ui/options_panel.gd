@@ -202,6 +202,8 @@ static func _fmt(o: Dictionary, val: float) -> String:
 			return "%d%%" % roundi(val * 100.0)
 		"s":
 			return ("%.2f s" % val).replace(".", ",")
+		"tessere":
+			return "%d tessere" % roundi(val)
 	return str(val)
 
 

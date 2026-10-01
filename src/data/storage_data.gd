@@ -10,7 +10,9 @@ extends RefCounted
 ##   tipo     che cosa raccoglie da «Nelle casse vicine» oltre agli oggetti che contiene già ("" = solo quelli;
 ##            "nulla" = niente, nemmeno quelli: una cassa chiusa)
 
-const CRAFT_REACH := 10                # tessere: le casse entro questa distanza danno gli ingredienti
+const CRAFT_REACH := 20                # tessere: le casse entro questa distanza danno gli ingredienti (1 ott 2026: da 10)
+## Il raggio vero, scelto nelle Opzioni («raggio_casse»; lo imposta `Settings`): la partenza è `CRAFT_REACH`.
+static var craft_reach := float(CRAFT_REACH)
 const STACK_REACH := 12                # tessere: «Nelle casse vicine»
 const LABEL_REACH := 18                # tessere: si vede il nome delle casse
 

@@ -875,7 +875,7 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   materiali bastano?, fabbrica. Gli ingredienti vengono dalla Bisaccia e dalle casse
   vicine (`pool`, `have`, `take`): ogni nuovo costo va contato con `have` e tolto con `take`, non con `Bisaccia.count`.
 - `src/game/storage.gd` (`Storage`, dati in `StorageData`) — le casse (26 set 2026, richiesta dell'utente): le casse
-  entro 10 tessere con «usa per creare» danno gli ingredienti (`Crafting.pool`); impostazioni per cassa in
+  entro `StorageData.craft_reach` tessere (20, opzione «raggio_casse») con «usa per creare» danno gli ingredienti (`Crafting.pool`); impostazioni per cassa in
   `world_meta["casse"]` (nome scritto sopra la cassa, usa per creare, tipo che raccoglie); Deposita tutto/simili,
   Rifornisci, Riordina (in `ChestPanel`) e «Nelle casse vicine» (nella Bisaccia). I pulsanti non toccano mai la barra
   rapida (tranne Rifornisci, che completa le pile). Prove `--solo=casse`, foto 99_casse.

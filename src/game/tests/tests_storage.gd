@@ -59,7 +59,7 @@ func run() -> void:
 		out0, b.count(String(rec["out"]))])
 	# spente tutte le casse vicine (nel giro lungo ce ne sono altre delle prove di prima): la ricetta non si fa più
 	var was := {}
-	for o in st.chests_near(StorageData.CRAFT_REACH):
+	for o in st.chests_near(StorageData.craft_reach):
 		was[o] = st.settings(o)["creare"]
 		st.set_setting(o, "creare", false)
 	await kit.seconds(0.6)

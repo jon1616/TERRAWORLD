@@ -5,13 +5,13 @@ extends RefCounted
 ## perché di una macchina ferma (il pannello e le schede).
 
 
-## Voce 200: le casse delle reti dei Nodi delle casse accesi vicini al Germogliato (a `CRAFT_REACH`): per `Storage`.
+## Voce 200: le casse delle reti dei Nodi delle casse accesi vicini al Germogliato (a `craft_reach`): per `Storage`.
 static func linked_chests(e: Energy) -> Array[Vector2i]:
 	var nets_on := {}
 	var p: Vector2 = e.m.player.position
 	for mc: Machine in e.machines.values():
 		if String(mc.id) == "nodo_casse" and mc.net >= 0 and mc.power >= 0.99 and mc.on() \
-				and mc.center().distance_to(p) <= StorageData.CRAFT_REACH * 16.0:
+				and mc.center().distance_to(p) <= StorageData.craft_reach * 16.0:
 			nets_on[mc.net] = true
 	var out: Array[Vector2i] = []
 	if nets_on.is_empty():

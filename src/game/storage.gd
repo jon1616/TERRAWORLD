@@ -82,7 +82,7 @@ func _process(dt: float) -> void:
 ## Le casse che danno gli ingredienti alla creazione.
 func _update_pool() -> void:
 	var pool: Array = []
-	var near := chests_near(StorageData.CRAFT_REACH)
+	var near := chests_near(StorageData.craft_reach)
 	if m.get("energy") != null:
 		for o in EnergyLinks.linked_chests(m.energy):            # Roadmap 19: le casse della rete di un Nodo delle casse
 			if not o in near:
