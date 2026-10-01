@@ -75,7 +75,7 @@ static func stations_near(world: World, c: Vector2i) -> Dictionary:
 		if sd.has("slots") or sd.get("fixed", false):
 			continue                           # ceste, scrigni, Cuore e portale non sono stazioni di lavoro
 		var size: Array = sd["size"]
-		var r := Rect2i(o, Vector2i(size[0], size[1])).grow(StationsData.REACH)
+		var r := Rect2i(o, Vector2i(size[0], size[1])).grow(StationsData.craft_reach)
 		if r.has_point(c):
 			out[id] = true
 	return out

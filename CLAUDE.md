@@ -871,7 +871,7 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   cielo e creature. `paused` nelle prove.
 - `src/game/depth_watch.gd` (`DepthWatch`) — in che strato è il giocatore (con un margine sul confine): sfuma il
   chiarore della luce e mostra la scritta dello strato (`StratumBanner` in `src/ui/`).
-- `src/game/crafting.gd` (`Crafting`) — regole della fabbricazione: stazioni a portata (5 tessere), ricette usabili,
+- `src/game/crafting.gd` (`Crafting`) — regole della fabbricazione: stazioni a portata (`StationsData.craft_reach`, 10 tessere, opzione «raggio_banchi»), ricette usabili,
   materiali bastano?, fabbrica. Gli ingredienti vengono dalla Bisaccia e dalle casse
   vicine (`pool`, `have`, `take`): ogni nuovo costo va contato con `have` e tolto con `take`, non con `Bisaccia.count`.
 - `src/game/storage.gd` (`Storage`, dati in `StorageData`) — le casse (26 set 2026, richiesta dell'utente): le casse

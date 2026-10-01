@@ -271,3 +271,7 @@ const _STATIONS := {
 
 ## Distanza massima (in tessere) per usare una stazione.
 const REACH := 5
+## Quanto lontano un banco da lavoro dà le sue ricette a Creare (1 ott 2026, richiesta dell'utente: da 5 a 10 tessere;
+## si sceglie nelle Opzioni, «raggio_banchi», e lo imposta `Settings`). `REACH` resta per gli altri usi (altare, casse).
+const CRAFT_REACH := 10
+static var craft_reach := CRAFT_REACH

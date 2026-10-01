@@ -110,6 +110,7 @@ static func _sync() -> void:
 	_master = float(values.get("volume", 1.0))
 	ItemsData.stack_mult = float(values.get("pile", 1.0))      # 28 set 2026: la grandezza delle pile
 	StorageData.craft_reach = float(values.get("raggio_casse", StorageData.CRAFT_REACH))   # 1 ott 2026
+	StationsData.craft_reach = roundi(float(values.get("raggio_banchi", StationsData.CRAFT_REACH)))
 
 
 ## Applica ciò che vale per tutto il gioco (schermo, fotogrammi); il resto lo leggono i moduli quando serve.
