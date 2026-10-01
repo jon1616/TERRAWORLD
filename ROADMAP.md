@@ -1,6 +1,8 @@
 # TERRAWORLD — Roadmap
 
-## Dove siamo (aggiornato il 30 set 2026)
+## Dove siamo (aggiornato il 1 ott 2026)
+- **In corso: la Roadmap 31 «Il carattere dei materiali»** (voci 306-309): ogni materiale dà un bonus suo, set per
+  le leghe e i materiali dei geni, gioielli con il carattere del metallo.
 - **Fatta la Roadmap 30 «Lo zaino e le grotte piene»** (voci 295-305, 30 set - 1 ott 2026, in autonomia): Bisacce a
   gradi, tasche, Dispensa, creature da soma; piante che lasciano qualcosa, baccelli da rompere, creature più vive,
   piccoli incontri e curiosità degli strati. Resoconto in fondo alla Roadmap 30.
@@ -4633,3 +4635,23 @@ due volte su tre. Adesso:
   di cose diverse cresce (esplorazione 46 h su 90, misteri 58 su 60, orto 23 su 30).
 - Da provare giocando: se le grotte ora sono troppo piene (o troppo pericolose), si abbassano `PodsData.DENSITY` e
   `DangerData.CAP`; i numeri sono tutti in un posto.
+
+
+# Roadmap 31 «Il carattere dei materiali» (dal 1 ott 2026)
+
+L'utente: «i bonus dei set, oppure di molti oggetti dello stesso tipo e grado ma di materiali diversi, danno gli stessi
+bonus». Verificato nei dati: guanti, stivali e mantelli forgiati danno un bonus che dipende solo dal grado (i guanti
+d'ambra, di tizzonite e di nimbite sono identici); anelli e amuleti prendono il tipo di bonus dalla gemma e dal metallo
+solo la forza; i set esistono solo per i nove metali (le 36 leghe e i 12 materiali dei geni non ne hanno); armi e
+armature cambiano di poco. Scelta dell'utente: la proposta così com'è, «in maniera impeccabile».
+
+- [ ] **306. Il carattere dei materiali.** Ogni metallo e ogni materiale dei geni ha un carattere (un bonus suo, scelto
+  dal tema del suo set e dalle sue proprietà); le leghe prendono metà del carattere di ciascuno dei due metalli. Il
+  carattere va in ogni pezzo fatto con quel materiale: armature (un quarto), guanti, stivali e mantelli (metà, oltre al
+  bonus della loro forma), armi e attrezzi tenuti in mano (metà).
+- [ ] **307. I set delle leghe e dei materiali dei geni.** Ogni lega ha il suo set (i bonus dei set dei due metalli, ridotti
+  al 60%), ogni materiale dei geni un set scritto apposta: 48 set nuovi, cinque pezzi ciascuno.
+- [ ] **308. Anelli e amuleti.** Il metallo della montatura aggiunge il suo carattere (metà nell'amuleto, tre decimi
+  nell'anello) all'effetto della gemma.
+- [ ] **309. Schede, misure e chiusura.** Il carattere nelle schede degli oggetti e dei materiali, la Scorza dei pezzi nel
+  pannello, i nomi delle protezioni dai rigori; `tools/armi.gd` e `tools/percorso.gd`; Enciclopedia; prove; resoconto.
