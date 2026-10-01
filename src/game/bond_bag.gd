@@ -15,9 +15,16 @@ var _cool := 0.0                       # un attimo tra un cambio e l'altro
 signal changed                         # la sacca è cambiata (la barra si ridisegna)
 
 
+var panel: BondsPanel                  # voce 316: il pannello dei compagni (tasto «compagni»)
+
+
 func setup(main: Node2D) -> void:
 	m = main
 	process_mode = Node.PROCESS_MODE_PAUSABLE
+	panel = BondsPanel.new()
+	m.hud.add_child(panel)
+	panel.setup(m, self)
+	m.hud.overlays.append(panel)
 
 
 func herd() -> Herd:

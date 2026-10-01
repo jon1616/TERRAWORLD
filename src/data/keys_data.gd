@@ -17,6 +17,7 @@ const ACTIONS := [
 	["erbario", "Erbario", [KEY_L], "Pannelli"],
 	["semenzaio", "Semenzaio (mondi e Genario)", [KEY_K], "Pannelli"],
 	["mandria", "Mandria", [KEY_G], "Pannelli"],
+	["compagni", "I compagni (la Sacca dei legami)", [KEY_Y], "Pannelli"],
 	["enciclopedia", "Enciclopedia", [KEY_H], "Pannelli"],
 	["aiuto", "Mostra o nascondi l'aiuto dei tasti", [KEY_F1], "Pannelli"],
 	["filo", "Il filo da seguire: passa a un altro", [KEY_J], "Pannelli"],

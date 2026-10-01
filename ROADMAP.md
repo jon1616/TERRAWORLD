@@ -4778,9 +4778,15 @@ Le scelte di fondo:
   `BOND_GRADES`): attacca chi colpisci tu (`Combat.struck` → `BondFight.focus`), +10% di danno, +25% sulle creature
   segnate dal tuo elemento, dono doppio (`aid_now`), un'ultima resistenza per visita al Giardino. Prova nel gruppo
   «legami».
-- [ ] **316. Il pannello dei compagni.** La scheda «Compagni» della Bisaccia: sacca, scheda della creatura (livello,
+- [x] **316. Il pannello dei compagni.** La scheda «Compagni» della Bisaccia: sacca, scheda della creatura (livello,
   statistiche, stile, mosse e posti, oggetti, affiatamento, atteggiamento), trascinare tra sacca e riserva; suggerimenti
   ed Esamina; la Mandria (G) mostra anche la sacca.
+  Fatto il 1-2 ott 2026: `BondsPanel` (`src/ui/bonds_panel.gd`, tasto «compagni» Y, o un clic sulla barra del
+  compagno): a sinistra i cinque posti della sacca (ritratto, stato, livello, affiatamento, Vita) e la riserva; a
+  destra la scheda di battaglia (livello ed esperienza, Vita/danno/difesa/velocità, Frutti, stile e mosse imparate con
+  i posti, ciondolo, tratti, dono, i cinque gradi dell'affiatamento) e i comandi (in campo, richiama, al Giardino o
+  nella sacca, atteggiamento, dimentica una mossa, togli il ciondolo: l'oggetto torna nella Bisaccia). Nomi delle mosse
+  in `BondsData.MOVE_NAMES`. Nella galleria (16_bonds_panel: 0 problemi); prova nel gruppo «legami» (foto 323).
 - [ ] **317. Il Libro dei legami e il resto del gioco.** La collezione delle specie legate (pagine come l'Erbario) con
   traguardi per famiglie e numeri; la maestria della mandria; richieste della Bacheca e taglie insieme al compagno; la
   Prova dei legami al Cerchio; consigli, filo, Enciclopedia.

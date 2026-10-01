@@ -38,6 +38,7 @@ func run() -> void:
 	await growth(spot, h)
 	await gifts(spot, h)
 	await stances(spot, h)
+	await panel(spot, h)
 	for uid in h.beasts.keys():
 		h.despawn(int(uid))
 	m.character.mandria.clear()
@@ -450,3 +451,51 @@ func stances(spot: Vector2i, h: Herd) -> void:
 		grade, "sì" if focused else "NO", "sì" if stood else "NO", "sì" if then_ko else "NO", aid])
 	if res["fermo"] or res["protettivo"] or not res["feroce"] or not prudent or grade != 5 or not focused or not stood or not then_ko:
 		print("ATTENZIONE: atteggiamento o affiatamento dei compagni non vanno")
+
+
+## Voce 316: il pannello dei compagni (foto 323): la sacca, la riserva, la scheda; dimenticare una mossa e togliere il
+## ciondolo rimettono l'oggetto nella Bisaccia; impaginazione senza problemi.
+func panel(spot: Vector2i, h: Herd) -> void:
+	m.fauna.clear()
+	m.snap_to(spot)
+	for uid in h.beasts.keys():
+		h.despawn(int(uid))
+	m.character.mandria.clear()
+	var bb: BondBag = m.bonds
+	var main := h.new_record("lupo_lunare", "allevata")
+	main["lvl"] = 27
+	main["legame"] = 260.0
+	h.add_record(main)
+	for sp in ["sputaspore", "falena_brace~grande~brace~", "talpone"]:
+		var r := h.new_record(sp, "laccio")
+		r["lvl"] = 8
+		h.add_record(r)
+	var res := h.new_record("pecora_muschio", "nutrita")
+	h.add_record(res)
+	h.set_state(res, "riposo")
+	(bb.bag()[2] as Dictionary)["ko"] = true
+	bb.give(main, "istinto_scatto")
+	bb.give(main, "ciondolo_zanna")
+	bb.give(main, "essenza_guscio")
+	await kit.seconds(0.4)
+	bb.panel.sel = int(main["uid"])
+	bb.panel.open()
+	await kit.seconds(0.5)
+	await kit.save("323_pannello_compagni")
+	var probs := LayoutCheck.scan([bb.panel])
+	var text: String = bb.panel._body.get_parsed_text()
+	var b := kit.bisaccia()
+	var i0 := b.count("istinto_scatto")
+	var c0 := b.count("ciondolo_zanna")
+	bb.panel.forget(main, "scatto")
+	bb.panel.take_charm(main)
+	var back: bool = b.count("istinto_scatto") == i0 + 1 and b.count("ciondolo_zanna") == c0 + 1
+	b.remove("istinto_scatto", 1)
+	b.remove("ciondolo_zanna", 1)
+	bb.panel.close()
+	print("pannello dei compagni: %d nella sacca, riserva %d; scheda con livello %s, stile %s, affiatamento %s; dimentica e toglie %s; problemi d'impaginazione %d %s" % [
+		bb.bag().size(), h.records().size() - bb.bag().size(), "sì" if text.contains("Livello 27") else "NO",
+		"sì" if text.contains("Stile") else "NO", "sì" if text.contains("grado 3") else "NO", "sì" if back else "NO", probs.size(),
+		probs.slice(0, 3)])
+	if not text.contains("Livello 27") or not back or not probs.is_empty():
+		print("ATTENZIONE: il pannello dei compagni non va")

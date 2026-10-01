@@ -305,6 +305,10 @@ const FRUITS := {
 	"frutto_vento": ["slancio", "Bacca del vento", "velocità del compagno +1,5% per sempre", ["seme", "muschio"]],
 }
 const XP_SEED := "seme_ricordo"
+## I nomi delle mosse dello stile (i comportamenti che non sono istinti), per le schede.
+const MOVE_NAMES := {"cammina": "cammina e morde", "vola": "vola e colpisce", "scava": "scava nella terra e la attraversa",
+	"agguato": "si appende al soffitto e si lascia cadere", "bombarda": "lascia cadere colpi dall'alto",
+	"picchiata": "cala dall'alto in linea retta"}
 const SLOT_LVLS := [10, 25, 40]
 ## Gli istinti: comportamento -> [nome, che cosa fa, solo chi vola (1) / solo chi cammina (-1) / tutti (0)].
 const ISTINTI := {

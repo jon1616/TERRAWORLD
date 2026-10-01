@@ -18,7 +18,12 @@ func setup(main: Node2D) -> void:
 	m = main
 	size = Vector2(W, H)
 	position = Vector2(1600.0 - 16.0 - W, Hud.HOTBAR_Y + SlotView.SIZE - H + 4.0)   # a destra (a sinistra ci sono i pulsanti dei pannelli)
-	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	mouse_filter = Control.MOUSE_FILTER_STOP              # voce 316: un clic apre il pannello dei compagni
+	Tips.attach(self, func() -> Variant: return TipCard.simple("I compagni: un clic (o %s) apre la Sacca dei legami" % Keys.label("compagni")))
+	gui_input.connect(func(e: InputEvent) -> void:
+		if e is InputEventMouseButton and e.pressed and e.button_index == MOUSE_BUTTON_LEFT:
+			m.bonds.panel.open()
+			accept_event())
 	m.bonds.changed.connect(queue_redraw)
 	m.herd.changed.connect(queue_redraw)
 
