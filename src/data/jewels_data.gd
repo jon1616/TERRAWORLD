@@ -1,9 +1,11 @@
 class_name JewelsData
 ## Amuleti e anelli (voce 86, Roadmap 12): una gemma incastonata in un metallo. Solo dati; gli oggetti e le ricette
-## nascono da GEMS × i metalli di `MaterialsData.MATERIALS` (4 × 8 × 2 = 64 oggetti).
+## nascono da GEMS × i metalli di `MaterialsData.MATERIALS` (4 × 9 × 2 = 72 oggetti).
 ##   l'**amuleto** dà la qualità della gemma, più forte più il metallo è di grado alto ("amulet": per grado)
 ##   l'**anello** dà l'effetto speciale della gemma (`EffectsData`, uguale per tutti i metalli) e un po' della qualità
 ## Si fanno alla Mola del gemmaio: lingotti del metallo e la gemma.
+## Roadmap 31, voce 308: la montatura aggiunge il **carattere** del suo metallo (`MaterialsData.trait_acc`: metà
+## nell'amuleto, tre decimi nell'anello), così due gioielli della stessa gemma e dello stesso grado non sono uguali.
 
 const GEMS := {
 	"brillaluce": {"name": "brillaluce", "amulet": {"halo": 0.08, "luck": 0.02}, "effect": "cielo_aperto"},
@@ -42,10 +44,12 @@ static func items() -> Dictionary:
 			var label := String(md["label"])
 			var frame := String(md.get("icon", mat))     # la montatura del metallo nell'icona (29 set 2026)
 			out[amulet_id(gem, mat)] = {"name": "Amuleto di %s %s" % [gd["name"], label], "kind": "amuleto",
-				"icon": ["amuleto", frame, gem], "tier": tier, "stack": 1, "acc": _acc(gem, tier, 1.0), "gen": true,
+				"icon": ["amuleto", frame, gem], "tier": tier, "stack": 1, "gen": true,
+				"acc": MaterialsData.merge_acc(_acc(gem, tier, 1.0), MaterialsData.trait_acc(mat, float(MaterialsData.SHARE["amuleto"]))),
 				"desc": "Una %s incastonata %s." % [gd["name"], label]}
 			out[ring_id(gem, mat)] = {"name": "Anello di %s %s" % [gd["name"], label], "kind": "anello",
-				"icon": ["anello", frame, gem], "tier": tier, "stack": 1, "acc": _acc(gem, tier, 0.4), "effects": [gd["effect"]],
+				"icon": ["anello", frame, gem], "tier": tier, "stack": 1, "effects": [gd["effect"]],
+				"acc": MaterialsData.merge_acc(_acc(gem, tier, 0.4), MaterialsData.trait_acc(mat, float(MaterialsData.SHARE["anello"]))),
 				"gen": true, "desc": "Una %s incastonata %s." % [gd["name"], label]}
 	return out
 

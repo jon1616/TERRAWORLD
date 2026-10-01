@@ -4661,7 +4661,9 @@ armature cambiano di poco. Scelta dell'utente: la proposta così com'è, «in ma
   Fatto il 1 ott 2026: `SetsData.all()` aggiunge un set per ogni lega (`blend` dei set dei due metalli a metà, il
   nome della lega) e per ogni materiale dei geni (`GENE_BONUS`); la descrizione nasce dalle righe delle schede
   (`describe`). 74 set in tutto. Prova nel gruppo «carattere» (armatura intera di ferrobruno: set completo).
-- [ ] **308. Anelli e amuleti.** Il metallo della montatura aggiunge il suo carattere (metà nell'amuleto, tre decimi
+- [x] **308. Anelli e amuleti.** Il metallo della montatura aggiunge il suo carattere (metà nell'amuleto, tre decimi
   nell'anello) all'effetto della gemma.
+  Fatto il 1 ott 2026: `JewelsData.items` unisce l'effetto della gemma al carattere del metallo
+  (`MaterialsData.merge_acc`); nessuno dei 72 gioielli è più uguale a un altro. Prova nel gruppo «carattere».
 - [ ] **309. Schede, misure e chiusura.** Il carattere nelle schede degli oggetti e dei materiali, la Scorza dei pezzi nel
   pannello, i nomi delle protezioni dai rigori; `tools/armi.gd` e `tools/percorso.gd`; Enciclopedia; prove; resoconto.

@@ -15,6 +15,7 @@ func _init(tk: TestKit) -> void:
 func run() -> void:
 	await traits()
 	await sets()
+	await jewels()
 
 
 ## Voce 306: pezzi dello stesso tipo e grado di materiali diversi non sono più uguali; ogni pezzo forgiato porta il
@@ -106,3 +107,25 @@ func sets() -> void:
 		all.size(), alloys, genes, broken.slice(0, 4), done, bonus, regen])
 	if not ok:
 		print("ATTENZIONE: i set delle leghe e dei geni non vanno")
+
+
+## Voce 308: due gioielli della stessa gemma e dello stesso grado, in metalli diversi, non sono più uguali; la gemma resta.
+func jewels() -> void:
+	var a: Dictionary = ItemsData.get_item("amuleto_brillaluce_ambra")["acc"]
+	var t: Dictionary = ItemsData.get_item("amuleto_brillaluce_tizzonite")["acc"]
+	var n: Dictionary = ItemsData.get_item("amuleto_brillaluce_nimbite")["acc"]
+	var r: Dictionary = ItemsData.get_item("anello_sanguinella_pallidite")["acc"]
+	var same := 0
+	for gem in JewelsData.GEMS:
+		var seen := {}
+		for mat in MaterialsData.MATERIALS:
+			for id in [JewelsData.amulet_id(String(gem), String(mat)), JewelsData.ring_id(String(gem), String(mat))]:
+				var key := JSON.stringify(ItemsData.get_item(id)["acc"])
+				if seen.has(key):
+					same += 1
+				seen[key] = 1
+	var ok: bool = a != t and t != n and a.has("luck") and t.has("thorns") and n.has("jump") and r.has("damage") and r.has("run") and same == 0
+	print("gioielli: amuleto di brillaluce d'ambra %s · di tizzonite %s · di nimbite %s; anello di sanguinella di pallidite %s; gioielli uguali tra loro %d" % [
+		a, t, n, r, same])
+	if not ok:
+		print("ATTENZIONE: il carattere dei gioielli non va")
