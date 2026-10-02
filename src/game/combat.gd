@@ -177,6 +177,10 @@ func _boon() -> float:
 
 func _strike(c: Creature, dmg: int, from_x: float, force: float, elem := "") -> void:
 	m.sfx.play("colpito", c.position)
+	# voce 334: il colpo fa un lampo breve (del colore dell'elemento); voce 335: lo schizzo
+	var gl := Projectiles.glow_of(elem)
+	m.light.pulse(Vector2i(floori(c.position.x / 16.0), floori(c.position.y / 16.0)),
+		gl * 0.7 if gl != Color.BLACK else Color(0.9, 0.75, 0.55), 0.1)
 	if hit_mult.is_valid():
 		dmg = maxi(roundi(dmg * float(hit_mult.call())), 1)
 	dmg = maxi(roundi(dmg * fauna._zm(c.position, "guardia")), 1)   # voce 87: lo Stendardo di guardia

@@ -55,6 +55,8 @@ func _fall(b: Dictionary) -> void:
 	var at := Vector2(float(b["x"]), (y + 1) * S)
 	fallen += 1
 	flashes.append({"x": float(b["x"]), "t": FLASH, "y0": float(b["y0"]), "y1": at.y})
+	m.light.bolt(0.7)                               # voce 334
+	m.light.pulse(Vector2i(floori(at.x / S), y), Color(2.6, 2.6, 3.2), 0.3)
 	m.sfx.play("scoppio", at)
 	Fx.puff(m.fx, at, Color(1.6, 1.7, 2.2))
 	if int(b.get("ally", -1)) >= 0:

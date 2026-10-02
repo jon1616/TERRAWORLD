@@ -45,6 +45,14 @@ var ambient := AMBIENT                # chiarore minimo, secondo lo strato in cu
 var dirty := true                     # il mondo è cambiato (scavo, torcia): va ricalcolata
 var flicker_time := 0.0
 var ambient_boost := Color.BLACK      # Pozione di notte (voce 33): chiarore in più ovunque               # orologio del tremolio delle torce piantate (lo manda avanti `Boons`)
+# Roadmap 35, voce 334: le luci di un attimo. Il fulmine (`bolt`) accende il cielo aperto (e le grotte aperte verso il
+# cielo, perché la luce del cielo vi scende da sola); i lampi
+# (`pulse`) sono luci brevi in una cella (colpi, scintille), che si spengono da sole.
+const BOLT_MS := 260.0
+const BOLT_SKY := Color(2.4, 2.4, 2.9)
+var _bolt := 0.0
+var _bolt_at := 0
+var _pulses: Array = []                # [cella, colore, inizio ms, durata ms]
 var _center := Vector2i(-9999, -9999)
 var _player := Vector2i(-9999, -9999)
 var _task := -1
@@ -58,8 +66,51 @@ func setup(w: World) -> void:
 	shape_tex = ImageTexture.create_from_image(Image.create_empty(LW, LH, false, Image.FORMAT_RG8))
 
 
+## Il lampo di un fulmine (`power` 0-1): per un attimo il cielo aperto diventa bianco-azzurro.
+func bolt(power := 1.0) -> void:
+	_bolt = maxf(power, _bolt_now())
+	_bolt_at = Time.get_ticks_msec()
+	dirty = true
+
+
+func _bolt_now() -> float:
+	if _bolt <= 0.0:
+		return 0.0
+	var k := 1.0 - (Time.get_ticks_msec() - _bolt_at) / BOLT_MS
+	return _bolt * clampf(k, 0.0, 1.0)
+
+
+## Una luce breve in una cella (un colpo, una scintilla): si spegne da sola in `dur` secondi.
+func pulse(cell: Vector2i, col: Color, dur := 0.12) -> void:
+	if _pulses.size() < 24:
+		_pulses.append([cell, col, Time.get_ticks_msec(), dur * 1000.0])
+
+
+func _tick_flashes() -> void:
+	if _bolt > 0.0:
+		dirty = true
+		if _bolt_now() <= 0.0:
+			_bolt = 0.0
+	if _pulses.is_empty():
+		if extra.has("lampi") and not (extra["lampi"] as Array).is_empty():
+			set_extra("lampi", [])
+		return
+	var now := Time.get_ticks_msec()
+	var ls := []
+	var keep: Array = []
+	for p in _pulses:
+		var k := 1.0 - (now - int(p[2])) / float(p[3])
+		if k > 0.0:
+			keep.append(p)
+			ls.append([p[0], (p[1] as Color) * k])
+	_pulses = keep
+	extra["lampi"] = ls
+	dirty = true
+
+
 ## Chiamata ogni fotogramma. Restituisce true quando è pronta un'immagine nuova (l'origine può essere cambiata).
 func update(view_center: Vector2i, player_cell: Vector2i) -> bool:
+	_tick_flashes()
 	var ready := false
 	if _task >= 0 and WorkerThreadPool.is_task_completed(_task):
 		WorkerThreadPool.wait_for_task_completion(_task)
@@ -107,7 +158,7 @@ func _start(center: Vector2i, player_cell: Vector2i) -> void:
 	o.y = clampi(o.y, -LH / 4, maxi(world.h - LH, 0))
 	var job := {
 		"origin": o, "tiles": world.tiles, "walls": world.walls, "decor": world.decor, "w": world.w, "h": world.h,
-		"torches": world.torches_in(Rect2i(o, Vector2i(LW, LH))), "player": player_cell, "player_light": player_light, "sky": sky,
+		"torches": world.torches_in(Rect2i(o, Vector2i(LW, LH))), "player": player_cell, "player_light": player_light, "sky": sky + BOLT_SKY * _bolt_now(),
 		"decor_light": _decor_light(), "lights": _station_lights(Rect2i(o, Vector2i(LW, LH))) + _extra(Rect2i(o, Vector2i(LW, LH))),
 		"ambient": ambient + ambient_boost, "time": flicker_time, "liquid": world.liquid,
 		"liq_light": PackedColorArray(LiquidsData.TYPES.map(func(t: Dictionary) -> Color: return t["light"])),

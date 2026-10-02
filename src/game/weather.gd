@@ -202,6 +202,7 @@ func strike() -> Vector2i:
 		y += 1
 	var c := Vector2i(x, y)
 	m.life.flash(Color(1, 1, 1, 0.35), 0.25)
+	m.light.bolt(1.0)                               # voce 334: il lampo illumina davvero il mondo
 	m.sfx.play("scoppio", Vector2(c) * 16.0)
 	Fx.puff(m.fx, Vector2(c) * 16.0 + Vector2(8, 8), Color(1.8, 1.8, 2.2))
 	if Vector2(m.player_cell() - c).length() <= WeatherData.BOLT_RANGE and not roofed \

@@ -5006,9 +5006,15 @@ campo `light`), il lampo bianco dei fulmini sullo schermo (`Life.flash`), la pol
   `python tools/foglio_sfondi.py prove/atmosfera prove/atmosfera_foglio.png`). Che cosa dicono: lo scavo fa un pizzico di
   polvere uguale per roccia e minerale, il colpo di fuoco e la sconfitta quasi non si vedono, l'acqua è una lastra
   piatta anche sotto la pioggia, la bufera non imbianca niente, il fulmine non lascia luce sul mondo.
-- [ ] **334. La luce che si muove.** Il fulmine illumina davvero il mondo per un istante (cielo e grotte aperte); ogni
+- [x] **334. La luce che si muove.** Il fulmine illumina davvero il mondo per un istante (cielo e grotte aperte); ogni
   colpo d'elemento e ogni incantesimo porta la sua luce; le scintille dei colpi e degli scavi fanno un lampo breve; la
   torcia in mano oscilla con il passo.
+  Fatto il 2 ott 2026: `LightMap.bolt` (il cielo aperto diventa bianco-azzurro per un quarto di secondo; le grotte
+  aperte verso il cielo si accendono da sole perché la luce del cielo vi scende; il fulmine di `Weather` e quelli di
+  `SkyStrikes`), `LightMap.pulse` (luci brevi in una cella, nello strato «lampi»: ogni colpo in mischia, del colore
+  dell'elemento), `Projectiles.glow_of` (ogni colpo con un elemento fa la luce del suo colore: dardi delle leghe,
+  tecniche, colpi delle creature). La torcia che oscilla con il passo non l'ho fatta: la luce è calcolata a tessere, uno
+  spostamento di un pixel non si vedrebbe (il tremolio della fiamma in mano c'era già).
 - [ ] **335. Colpi e scavo.** Frammenti diversi per materiale (terra che si sbriciola, pietra che fa scintille,
   cristalli e minerali che luccicano, legno a schegge), uno schizzo dell'elemento a ogni colpo, le creature che si
   disfano secondo la loro natura (foglie, cenere, gocce, spore, scintille).

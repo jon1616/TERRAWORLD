@@ -3,7 +3,7 @@ extends RefCounted
 ## Le foto fisse dell'atmosfera (gruppo `atmosfera`, Roadmap 35): sempre le stesse scene, per confrontare prima e dopo.
 ## Foto in prove/atmosfera/ (senza HUD né schede), la partenza in prove/atmosfera_prima/:
 ##   a01 grotta con le torce · a02 un blocco di roccia che si rompe · a03 un minerale che si rompe · a04 un colpo di
-##   fuoco · a05 una creatura sconfitta · a06 uno specchio d'acqua · a07 lo stesso con la pioggia · a08 il Germogliato
+##   brace · a05 una creatura sconfitta · a06 uno specchio d'acqua · a07 lo stesso con la pioggia · a08 il Germogliato
 ##   che ci entra · a09 la bufera in un bioma freddo · a10 dopo la pioggia · a11 il tramonto in un prato · a12 un fulmine
 ## Le scene si cercano con le stesse regole a ogni giro (stesso mondo di prova, stesse scene).
 
@@ -65,9 +65,9 @@ func run() -> void:
 			cr.damage = 0
 			cr.hp = 9999
 			await kit.seconds(0.3)
-			m.combat._strike(cr, 3, m.player.position.x, 0.2, "fuoco")
+			m.combat._strike(cr, 3, m.player.position.x, 0.2, "brace")
 			await kit.seconds(0.06)
-			await kit.save("atmosfera/a04_colpo_fuoco")
+			await kit.save("atmosfera/a04_colpo_brace")
 			cr.hp = 1
 			m.fauna.kill(cr)
 			await kit.seconds(0.12)

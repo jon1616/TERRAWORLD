@@ -61,7 +61,7 @@ func fire(from: Vector2, vel: Vector2, grav: float, damage: int, from_player: bo
 	add_child(sp)
 	_shots.append({"node": sp, "vel": vel, "grav": grav, "damage": damage, "player": from_player, "t": 0.0,
 		"knock": knock, "pierce": int(opts.get("pierce", 0)), "homing": float(opts.get("homing", 0.0)),
-		"through": bool(opts.get("through", false)), "glow": opts.get("light", Color.BLACK), "hits": {},
+		"through": bool(opts.get("through", false)), "glow": opts.get("light", glow_of(String(opts.get("elem", "")))), "hits": {},
 		"slow": float(opts.get("slow", 0.0)), "chill": float(opts.get("chill", 0.0)), "elem": String(opts.get("elem", "")),
 		"ally": int(opts.get("ally", -1))})          # Roadmap 32: il colpo di un compagno (uid della scheda)
 
@@ -106,6 +106,16 @@ func _process(dt: float) -> void:
 				var p: Vector2 = (s["node"] as Node2D).position
 				ls.append([Vector2i(floori(p.x / 16.0), floori(p.y / 16.0)), s["glow"]])
 		light.set_extra("colpi", ls)
+
+
+## Roadmap 35, voce 334: un colpo con un elemento fa la luce del suo colore (se chi lo tira non ne dà una sua).
+static func glow_of(elem: String) -> Color:
+	if elem == "":
+		return Color.BLACK
+	var e: Dictionary = ElementsData.ELEMENTS.get(elem.get_slice("+", 0), {})
+	if e.is_empty():
+		return Color.BLACK
+	return Color(String(e["color"])) * 1.5
 
 
 static func _dart() -> Image:
