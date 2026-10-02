@@ -22,8 +22,9 @@ func run() -> void:
 	await esc_by_keys()
 	var spot := kit.flat_spot(world.spawn + Vector2i(80, 0), 10)
 	if spot.x < 0:
-		print("ATTENZIONE: nessun posto per le prove dei compagni")
-		return
+		# (nel giro intero le prove di prima occupano il terreno piano: il posto lo prepara la prova, spianandolo)
+		var x := world.spawn.x + 80
+		spot = Vector2i(x, world.surface[x] - 1)
 	kit.flatten(spot, 22)
 	m.fauna.clear()
 	m.snap_to(spot)
@@ -383,10 +384,11 @@ func gifts(spot: Vector2i, h: Herd) -> void:
 	await kit.frames(3)
 	# il clic vero sul compagno con un frutto in mano
 	c = h.beasts.get(int(rec["uid"]))
+	var z0 := b.count("frutto_zanna")              # (le creature sconfitte prima possono averne lasciate)
 	b.add("frutto_zanna", 1)
 	var f0 := int((rec["frutti"] as Dictionary).get("forza", 0))
 	m.bonds.use_item("frutto_zanna", c.position)
-	var clicked := int((rec["frutti"] as Dictionary).get("forza", 0)) == f0 + 1 and b.count("frutto_zanna") == 0
+	var clicked := int((rec["frutti"] as Dictionary).get("forza", 0)) == f0 + 1 and b.count("frutto_zanna") == z0
 	# da dove arrivano
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 7
@@ -419,7 +421,7 @@ func stances(spot: Vector2i, h: Herd) -> void:
 		foe.set_process(false)                 # (fermo: non viene verso di te)
 		foe.hp_max = 500
 		foe.hp = 500
-		await kit.seconds(3.0)
+		await kit.seconds(5.0)                      # (14 tessere di strada, anche per chi cammina piano)
 		res[st] = foe.hp < foe.hp_max
 	m.fauna.clear()
 	# il prudente

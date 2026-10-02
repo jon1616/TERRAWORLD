@@ -65,6 +65,9 @@ func _process(_dt: float) -> void:
 	# avvisi del sistema, e se il «tornato in primo piano» non arrivava il gioco restava in pausa per sempre, in silenzio.
 	if not _focus and get_window().has_focus():
 		_focus = true
+	var fo := get_viewport().gui_get_focus_owner()
+	if fo != null and not fo.is_visible_in_tree():
+		fo.release_focus()                    # un campo nascosto non tiene il cursore (né i tasti del Germogliato)
 	get_tree().paused = want_pause()
 	_show_why()
 	var z := float(Settings.v("zoom"))
@@ -119,6 +122,17 @@ func pause_reasons() -> Array:
 			if o.visible:
 				out.append("pannello %s" % String(o.get_script().get_global_name()))
 	return out
+
+
+## 2 ott 2026, trovato dal giro intero (il blocco segnalato dall'utente): con il cursore in un campo di testo (il nome
+## nella Mandria, la ricerca di Creare) Esc lo prendeva il campo, il pannello restava aperto e il gioco in pausa, e il
+## Germogliato non camminava perché «si scriveva». Ora Esc toglie prima il cursore dal campo e prosegue: lo stesso Esc
+## chiude anche il pannello.
+func _input(e: InputEvent) -> void:
+	if e is InputEventKey and e.pressed and not e.echo and e.keycode == KEY_ESCAPE:
+		var fo := get_viewport().gui_get_focus_owner()
+		if fo is LineEdit or fo is TextEdit:
+			fo.release_focus()
 
 
 ## Esc senza nulla di aperto: se il gioco è fermo senza un motivo che si veda, riparte (qui e non in `main`, che in

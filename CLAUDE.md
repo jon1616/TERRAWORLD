@@ -868,6 +868,19 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     `tools/percorso.gd -- --compagno`. Enciclopedia: `EncyBondsData`.
   - **Una specie nuova o un comportamento nuovo** non chiedono nulla ai compagni: lo stile e il legame nascono dai dati.
     Un comportamento che danneggerebbe il Germogliato se usato da un compagno va in `BondsData.SKIP`.
+- **Roadmap 33 «La luce e la profondità»** (voci 319-327, 2 ott 2026; la grafica solo dal codice, giudicata con nove
+  foto fisse prima e dopo):
+  - Le foto: gruppo «volto» (`TestsLook`: nove scene senza HUD né schede in prove/volto/, più la Caverna senza luce),
+    `tools/foglio_volto.py` (il foglio 3×3), `tools/confronto_volto.py` (prima e dopo da prove/volto_prima/).
+    **Ogni cambio alla grafica del mondo si guarda così**, non a occhio su una scena a caso.
+  - La luce: `LightFx` (`src/art/light_fx.gd`: lo shader dell'immagine della luce, bicubico; il rilievo del terreno e
+    l'ombra d'angolo sulle pareti da `LightMap.shape_tex`, la forma della finestra: rosso = pieno, verde = parete);
+    `LightMap.SEEP` (la luce entra nella roccia solo per disegnarla). Le pareti: `WallFx` (macchie nello spazio del
+    mondo) e `DecorPainter.WALL_CONTRAST`. La tinta delle zone: `GradeData` + `ZoneGrade` (livello 4, opzione
+    «tinta_zone»; i toni si correggono come li vede l'occhio, il nero resta nero). Le creature: `Creature._life_motion`.
+    I bordi: `OrnamentArt` + lo strato «orn» di `WorldView` (solo vista). Il pulviscolo in `AmbientFx` (sotto la luce).
+  - Provati e scartati: il velo d'aria luminosa (la luce ridisegnata in somma: colonne di nebbia) e il filo di luce sul
+    contorno delle creature (toglierebbe il nascondersi nel buio).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

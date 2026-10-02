@@ -137,7 +137,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	var dir := auto_dir
 	var held := auto_jump
-	var typing := get_viewport().gui_get_focus_owner() is LineEdit   # si scrive nella ricerca delle ricette
+	var fo := get_viewport().gui_get_focus_owner()
+	var typing: bool = fo is LineEdit and fo.is_visible_in_tree()   # si scrive nella ricerca delle ricette (se si vede)
 	if control and not typing:
 		dir = 0.0
 		if Keys.held("sinistra"):

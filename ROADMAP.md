@@ -1,8 +1,9 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 2 ott 2026)
-- **In corso: la Roadmap 33 «La luce e la profondità»** (voci 319-327, dal 2 ott 2026): la grafica fatta dal codice,
-  confrontata a ogni voce con nove foto fisse (gruppo «volto»).
+- **Fatta la Roadmap 33 «La luce e la profondità»** (voci 319-327, 2 ott 2026): luce morbida e nella roccia, rilievo,
+  pareti vive, tinta delle zone, creature che si muovono, bordi delle grotte; nove foto fisse prima e dopo (gruppo
+  «volto», prove/volto_confronto.png). Resoconto in fondo alla Roadmap 33.
 - **Fatta la Roadmap 32 «I compagni di battaglia»** (voci 310-318, 1-2 ott 2026): ogni creatura si lega, una in campo
   con il suo stile, cinque nella Sacca dei legami, livelli fino al 50, 31 oggetti per crescere (e tre lacci nuovi), atteggiamento,
   affiatamento, Libro dei legami. Resoconto in fondo alla Roadmap 32.
@@ -4909,5 +4910,19 @@ fotogrammi resta sotto i 25 ms; il gruppo «base» e la galleria a ogni passo):
   scavando): solo sotto terra, nell'aria con una parete dietro, accanto a roccia naturale (mai sotto le costruzioni), senza
   decorazioni. Solo vista: non si raccolgono, non si salvano. Le tessere rare diverse nella trama non le ho fatte: il
   terreno ha già sedici varianti e i minerali, e dopo le voci 320-322 la ripetizione non si nota più.
-- [ ] **327. Chiusura.** Le nove foto prima e dopo affiancate (prove/volto_confronto.png), la corsa e la sonda dei
+- [x] **327. Chiusura.** Le nove foto prima e dopo affiancate (prove/volto_confronto.png), la corsa e la sonda dei
   fotogrammi, la galleria, il giro intero, il resoconto con le foto.
+  Fatto il 2 ott 2026: `tools/confronto_volto.py` (prove/volto_confronto.png: le nove scene prima e dopo), giro intero.
+  Il giro intero ha trovato **il blocco segnalato dall'utente**: con il cursore nel campo del nome della Mandria, Esc lo
+  prendeva il campo, il pannello restava aperto, il gioco in pausa e il Germogliato fermo «perché si scriveva». Ora
+  `GameOptions._input` toglie il cursore dal campo e lascia proseguire Esc (che chiude il pannello), un campo nascosto non
+  tiene mai il cursore, e il Germogliato si ferma per la scrittura solo se il campo si vede. La prova «Esc sui pannelli»
+  mette apposta il cursore nei campi di testo.
+
+**Resoconto della Roadmap 33.** Con il solo codice la grafica del mondo ha fatto un passo misurato ma vero, giudicato
+su nove scene fisse: la luce è morbida e non mostra più le tessere; la roccia ha una massa visibile attorno alle luci
+(prima le grotte sembravano piattaforme nel nulla); il terreno prende luce sui bordi in alto e le pareti si scuriscono
+negli angoli; la carta da parati delle pareti non si vede più; ogni strato e ogni terra ha la sua tinta; le creature
+camminano, saltano, volano e sobbalzano; i bordi delle grotte hanno radichette, stalattiti, gocce e ciottoli. Due idee
+provate e scartate (il velo d'aria luminosa, il contorno luminoso delle creature). Nessun costo visibile nella corsa. Dove
+il codice non arriva (creature e boss come disegni, icone, illustrazioni) il passo dopo è Nano Banana.
