@@ -4867,9 +4867,14 @@ fotogrammi resta sotto i 25 ms; il gruppo «base» e la galleria a ogni passo):
   stessa origine della luce), letta morbida anch'essa: il terreno con aria sopra prende un filo di luce (`RIM` 0,38),
   quello con aria sotto un'ombra (`SHADE` 0,32), le pareti si scuriscono accanto al terreno (`AO` 0,5). Moltiplica la
   luce: al buio resta buio. Foto: tetti e pavimenti delle grotte si leggono, i cunicoli hanno un bordo scuro.
-- [ ] **322. Le pareti vive.** La carta da parati sparisce: le pareti prendono una variazione grande (macchie di colore
+- [x] **322. Le pareti vive.** La carta da parati sparisce: le pareti prendono una variazione grande (macchie di colore
   e di tono che cambiano su decine di tessere, da un rumore nello spazio del mondo), sono più scure e più fredde del
   terreno davanti (la distanza), e più scure ancora accanto al terreno.
+  Fatto il 2 ott 2026: `WallFx` (shader sullo strato delle pareti di ogni blocco di `WorldView`: macchie di tono da
+  0,62 a 1,18 e una tinta fredda-calda da un rumore nello spazio del mondo, su scale da una a diciannove tessere che non
+  coincidono con il periodo di quattro della trama) e `DecorPainter.WALL_CONTRAST` 0,42 (le pareti naturali verso il loro
+  colore medio; quelle dei Seminatori, le assi e i mattoni restano nitide). Le pareti più scure e più fredde accanto al
+  terreno le fa già l'ombra d'angolo della voce 321. Foto: la carta da parati non si vede più, ogni grotta ha i suoi toni.
 - [ ] **323. Gli aloni e l'aria.** Gli aloni delle luci (torce, cristalli, stazioni, Linfa) sommati con morbidezza,
   la polvere che brilla solo nella luce, una foschia leggera del colore dello strato lontano dal Germogliato.
 - [ ] **324. La tinta delle zone.** Una correzione di colore a tutto schermo, diversa per strato e bioma (ombre

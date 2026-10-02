@@ -31,6 +31,12 @@ const WALL_SRC := {
 }
 
 
+## Roadmap 33, voce 322: le pareti naturali con meno contrasto (verso il loro colore medio): il motivo della trama di 64
+## pixel si sentiva ripetuto su tutta la visuale. Le pareti dei Seminatori, le assi e i mattoni restano nitidi.
+const WALL_CONTRAST := 0.42
+const NATURAL_WALLS := [TileDefs.WALL_DIRT, TileDefs.WALL_STONE, TileDefs.WALL_ROOT, TileDefs.WALL_SCISTO, TileDefs.WALL_VOID]
+
+
 static func wall_coords(kind: int, x: int, y: int) -> Vector2i:
 	return Vector2i(TerrainPainter.variant_of(x, y), kind - 1)
 
@@ -53,6 +59,13 @@ static func build() -> Dictionary:
 			var d := Px.sh(c, 0.46)
 			dark.append(d.lerp(Color(d.v * 0.8, d.v * 0.9, d.v * 1.1), 0.35))
 		var tex := TerrainPainter.material(String(src[0]), dark, 300 + kind)
+		if kind in NATURAL_WALLS:
+			var mean := Color(0, 0, 0, 0)
+			for c in tex:
+				mean += c
+			mean /= float(tex.size())
+			for i in tex.size():
+				tex[i] = mean.lerp(tex[i], WALL_CONTRAST)
 		for v in TerrainPainter.VARIANTS:
 			var vx := v % TerrainPainter.REP
 			var vy := v / TerrainPainter.REP

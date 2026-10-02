@@ -117,6 +117,7 @@ func _build_chunk(k: Vector2i) -> void:
 	node.name = "blocco_%d_%d" % [k.x, k.y]
 	add_child(node)
 	var walls := _layer(node, ts_misc, -10, Vector2.ZERO)
+	walls.material = WallFx.material()          # Roadmap 33, voce 322: le macchie grandi che rompono la ripetizione
 	var bwalls := _layer(node, ts_built_walls, -10, Vector2.ZERO)   # voce 128: le pareti costruite
 	var trees := Node2D.new()
 	trees.z_index = -5
