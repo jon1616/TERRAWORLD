@@ -1,6 +1,8 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 2 ott 2026)
+- **In corso: la Roadmap 34 «Gli sfondi»** (voci 328-332, dal 2 ott 2026): uno sfondo per ogni bioma, nuvole e stormi;
+  il generatore dei mondi non si tocca.
 - **Fatta la Roadmap 33 «La luce e la profondità»** (voci 319-327, 2 ott 2026): luce morbida e nella roccia, rilievo,
   pareti vive, tinta delle zone, creature che si muovono, bordi delle grotte; nove foto fisse prima e dopo (gruppo
   «volto», prove/volto_confronto.png). Resoconto in fondo alla Roadmap 33.
@@ -4926,3 +4928,28 @@ negli angoli; la carta da parati delle pareti non si vede più; ogni strato e og
 camminano, saltano, volano e sobbalzano; i bordi delle grotte hanno radichette, stalattiti, gocce e ciottoli. Due idee
 provate e scartate (il velo d'aria luminosa, il contorno luminoso delle creature). Nessun costo visibile nella corsa. Dove
 il codice non arriva (creature e boss come disegni, icone, illustrazioni) il passo dopo è Nano Banana.
+
+# Roadmap 34 «Gli sfondi» (dal 2 ott 2026)
+
+L'utente: «sei in grado di aggiungere anche gli sfondi, quelli che scorrono in lontananza?»; scelti i punti 1 e 2 della
+proposta (uno sfondo per ogni bioma, il cielo che si muove), **senza toccare il generatore dei mondi** (lo sfondo sotto
+terra, che vuole caverne senza pareti, resta per dopo).
+
+**Le foto di partenza** (gruppo di prove nuovo «sfondi», `TestsBackdrop`: la superficie di ogni bioma del mondo di prova
+a mezzogiorno dal centro della sua striscia, più notte e pioggia alla partenza; prove/sfondi/, partenza in
+prove/sfondi_prima/, foglio con `python tools/foglio_sfondi.py`). Che cosa dicono: dodici biomi, **un solo sfondo**: lo
+stesso cielo turchese-corallo, le stesse colline, le stesse due file di alberi-lanterna dietro i ghiacciai, i deserti di
+vetro, le terre di brace e i funghi giganti (cambia solo una tinta); con la pioggia il cielo resta sereno, senza nuvole.
+
+- [ ] **328. Le foto fisse degli sfondi.** `TestsBackdrop` (gruppo «sfondi»), `tools/foglio_sfondi.py`.
+- [ ] **329. I piani per bioma.** `BackdropData` (per ogni bioma: il cielo, quattro piani con il loro disegno, la
+  parallasse, i colori, i lontani più vicini al colore del cielo) e `BackdropArt` (i disegni fatti dal codice: creste,
+  picchi di cristallo, dune e archi di vetro, coni fumanti, cappelli giganti, file di alberi della forma del bioma: pini,
+  alberi secchi, pagode di corteccia, ombrelli, canne, cactus, lanterne). `Background` tiene un insieme di piani per ogni
+  bioma (fatti in un thread la prima volta che servono) e passando da un bioma all'altro li sfuma, cielo compreso.
+- [ ] **330. Le nuvole.** Due piani di nuvole che scorrono con il vento (`Weather.wind`), più fitte e più scure con la
+  pioggia e la bufera, chiare con la nebbia, rade col sereno; di notte prendono la luce della luna.
+- [ ] **331. Gli stormi.** Ogni tanto, di giorno, uno stormo lontano attraversa il cielo (piccole sagome che battono le
+  ali, dei colori del bioma); al tramonto i pipistrelli; nelle terre di brace le faville che salgono lontano.
+- [ ] **332. Chiusura.** Le foto prima e dopo (prove/sfondi_confronto.png), i fotogrammi, l'ingresso nel mondo (quanto
+  costa fare i piani), il giro, il resoconto.
