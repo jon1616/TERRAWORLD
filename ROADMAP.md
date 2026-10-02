@@ -1,8 +1,9 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 2 ott 2026)
-- **In corso: la Roadmap 35 «Atmosfera»** (voci 333-340, dal 2 ott 2026): luce che si muove, colpi e scavo, acqua
-  viva, il tempo che si posa, il suono dello spazio, la superficie viva; solo vista e suono.
+- **Fatta la Roadmap 35 «Atmosfera»** (voci 333-340, 2 ott 2026): luce che si muove, colpi e scavo, acqua viva, il
+  tempo che si posa, il suono dello spazio, la superficie viva; solo vista e suono. Foto in
+  prove/atmosfera_confronto.png. Resoconto in fondo alla Roadmap 35.
 - **Fatta la Roadmap 34 «Gli sfondi»** (voci 328-332, 2 ott 2026): uno sfondo per ogni bioma, nuvole che seguono il
   tempo e il vento, stormi, pipistrelli e faville; tolti due scatti (traguardi del Museo, blocchi del mondo). Foto prima e
   dopo in prove/sfondi_confronto.png. Resoconto in fondo alla Roadmap 34.
@@ -5052,5 +5053,18 @@ campo `light`), il lampo bianco dei fulmini sullo schermo (`Life.flash`), la pol
   prati (spinto dal vento), foglie dagli alberi della visuale (svolazzano, si posano e svaniscono; i tizzoni lasciano
   cenere; ghiacciaio e vetro niente), l'erba che si piega via da chi passa (shader delle piante di `WindFx`: fino a otto
   «spinte», il Germogliato e le creature vicine). Solo vicino alla superficie. Prova: 17 lucciole e 11 foglie al tramonto.
-- [ ] **340. Chiusura.** Foto prima e dopo, fotogrammi, giro intero, resoconto.
+- [x] **340. Chiusura.** Foto prima e dopo, fotogrammi, giro intero, resoconto.
+  Fatto il 2 ott 2026: prove/atmosfera_confronto.png e prove/atmosfera_foglio.png; `verifica_dati` 0 errori; giro
+  intero senza errori (solo l'avviso noto del posto piano delle comodità); corsa: fotogramma peggiore 16 ms.
+
+**Resoconto della Roadmap 35.** Il mondo reagisce di più a ciò che succede. Il fulmine illumina davvero il paesaggio e
+le grotte aperte verso il cielo; ogni colpo fa un lampo breve, i colpi d'elemento e gli incantesimi portano la loro luce.
+Scavare fa frammenti diversi (la terra si sbriciola, la roccia fa scintille, il minerale luccica, il cristallo si accende
+di azzurro, il legno si scheggia); ogni colpo schizza del suo elemento e le creature si disfano secondo la loro natura.
+L'acqua riflette il cielo, la pioggia la increspa, chi ci entra schizza e lascia anelli, le cascate scendono a strisce
+con la schiuma in fondo. La bufera imbianca le cime e la neve si scioglie piano; dopo la pioggia il terreno resta lucido;
+la cenere lascia un velo. Nelle grandi caverne c'è l'eco, nei cunicoli il suono è asciutto, sott'acqua è attutito, in
+alto fischia il vento. Al tramonto si accendono le lucciole, di giorno il polline galleggia nei prati, dagli alberi
+cadono foglie e l'erba si piega al passaggio. Tutto è solo vista e suono: niente cambia il mondo o i salvataggi, e il
+generatore non è stato toccato. Il suono è stato misurato, non ascoltato: va sentito giocando.
 

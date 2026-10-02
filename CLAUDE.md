@@ -894,6 +894,19 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   - `SkyLife` (`src/game/sky_life.gd`): stormi, pipistrelli, faville dei biomi in `EMBERS`.
   - `WorldView` dipinge un blocco nuovo a righe (`_make_chunk`, `_paint_rows`, `_job`, `BUDGET_US`): costava 17 ms in
     un fotogramma. Chi vuole tutti i blocchi pronti subito usa `set_view(…, true)`.
+- **Roadmap 35 «Atmosfera»** (voci 333-340, 2 ott 2026; solo vista e suono, niente cambia le tessere né i salvataggi):
+  - Le foto: gruppo «atmosfera» (`TestsAtmosphere`: dodici scene, partenza in prove/atmosfera_prima/; confronto con
+    `python tools/confronto_volto.py prove/atmosfera_prima prove/atmosfera prove/atmosfera_confronto.png`), con le misure
+    in testo (increspature, neve, suono, lucciole).
+  - La luce: `LightMap.bolt` (il lampo del fulmine sul cielo aperto) e `LightMap.pulse` (luci brevi, strato «lampi»);
+    `Projectiles.glow_of` (la luce dei colpi d'elemento).
+  - I frammenti: ricette in `ImpactData` (`DIG`, `CHIP`, `HIT`, `DEATH`, `SPLASH`, `FOAM`), eseguite da `ImpactFx`
+    (`src/art/`). **Un elemento o una natura nuova di creatura** ha la sua riga in `HIT`/`DEATH` (altrimenti quella vuota).
+  - L'acqua: in `LiquidView` il riflesso del cielo e le cascate (riconosciuti dall'alfa: il corpo arriva al più a 0,98);
+    `WaterFx` (increspature, spruzzi, schiuma, colore del cielo riflesso).
+  - `WeatherCover` (neve, bagnato, cenere sulle cime che vedono il cielo), `SoundSpace` (`src/audio/`: bus «Spazio» con
+    riverbero e filtro, il vento), `SurfaceLife` + `SurfaceLifeData` (lucciole, polline, foglie; l'erba che si piega con
+    `WindFx.set_push`).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni
