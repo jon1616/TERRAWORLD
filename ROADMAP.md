@@ -5083,3 +5083,10 @@ Prova nel gruppo «zaino».
 partenza). Spenta, la fame della mandria e dei compagni resta a zero (`Herd.hunger_k`, letta da `Herd`, `Pens`,
 `HerdJobs`): non serve dar loro da mangiare e la mangiatoia dei recinti non si consuma; addomesticare con il cibo le
 creature selvatiche non cambia. Prova nel gruppo «mandria».
+
+**Correzione del 2 ott 2026 (segnalata dall'utente): il crash dello Stormo.** Le pavoncelle dello Stormo hanno l'astuzia
+«richiamo» (chiamano due rinforzi della loro specie, due volte), e ogni rinforzo era una pavoncella che richiamava a
+sua volta: le creature crescevano a valanga (una pavoncella diventava 15 in 5 secondi, e oltre) fino a bloccare il gioco.
+Ora chi arriva da un richiamo non chiama più (meta «chiamata» messa da `Fauna`, letta da `BhRichiamo`), e nessun
+rinforzo nasce se ci sono già `Fauna.SUMMON_CAP` (45) creature vive. Prova nel gruppo «vivo»: una pavoncella vera,
+al più tre creature in 5 s (prima della correzione 15).

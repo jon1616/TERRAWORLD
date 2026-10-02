@@ -244,6 +244,27 @@ func wiles() -> void:
 	await kit.seconds(1.2)
 	res["richiamo"] = m.fauna.list.size() >= 3
 	m.fauna.clear()
+	# (2 ott 2026, il crash dello Stormo) una pavoncella vera, che chiama la sua specie: i rinforzi non richiamano
+	var pv: Creature = m.fauna.add("pavoncella", P + Vector2(90, -20))
+	pv.p = pv.p.duplicate(true)
+	pv.p.merge({"call_time": 0.3, "call_cool": 0.4}, true)
+	pv.mind.brave = true
+	for bh in pv.behaviors:
+		if bh is BhRichiamo:
+			(bh as BhRichiamo).cool = 0.0
+	var most := 0
+	var tc := Time.get_ticks_msec()
+	while Time.get_ticks_msec() - tc < 5000:
+		most = maxi(most, m.fauna.list.size())
+		for c in m.fauna.list:
+			for bh in c.behaviors:
+				if bh is BhRichiamo:
+					(bh as BhRichiamo).cool = minf((bh as BhRichiamo).cool, 0.4)
+		await kit.frames(1)
+	var calls: int = int(pv.p.get("calls", 2)) * int(pv.p.get("call_n", 2))
+	res["richiamo_senza_valanga"] = most <= 1 + calls
+	print("richiamo della pavoncella: al più %d creature in 5 s (una più %d rinforzi al massimo)" % [most, calls])
+	m.fauna.clear()
 	# parassita
 	m.vitals.refill()
 	var l0: int = m.vitals.linfa

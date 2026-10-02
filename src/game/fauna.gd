@@ -7,6 +7,9 @@ extends Node2D
 ## Chi colpisce chi lo decide `Combat`; qui c'è solo la popolazione.
 
 const S := 16
+## Il tetto dei rinforzi: le creature chiamate in aiuto (richiamo, evocazioni) non nascono se ce ne sono già tante vive.
+## Prima una pavoncella chiamata ne chiamava altre, e lo Stormo cresceva a valanga fino a bloccare il gioco.
+const SUMMON_CAP := 45
 
 var world: World
 var player: Player
@@ -220,7 +223,12 @@ func _process(dt: float) -> void:
 				sfx.play("spora", f["from"])
 		c.fire.clear()
 		for id in c.summons:
+			# (2 ott 2026, il crash dello Stormo) un tetto di sicurezza: oltre `SUMMON_CAP` creature vive non nasce più
+			# nessun rinforzo, qualunque cosa lo chieda
+			if list.size() >= SUMMON_CAP:
+				break
 			var mn := add(id, c.position + Vector2(_rng.randf_range(-30, 30), c.half.y))
+			mn.set_meta("chiamata", true)          # chi è stato chiamato non chiama a sua volta (`BhRichiamo`)
 			mn.master = c
 			c.minions += 1
 			Fx.puff(self, mn.position, Color(1.4, 0.9, 1.8))
