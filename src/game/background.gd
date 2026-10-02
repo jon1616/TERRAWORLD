@@ -42,6 +42,7 @@ var _grad: Gradient
 var _sky_from: PackedColorArray
 var _sky_to: PackedColorArray
 var clouds := SkyClouds.new()         # voce 330: i due piani di nuvole
+var life: SkyLife                      # voce 331: stormi, pipistrelli, faville
 var void_mode := false                 # voce 62: il Giardino sospeso nel Vuoto (niente colline né foreste, sempre le stelle)
 
 
@@ -62,6 +63,9 @@ func setup(w: World) -> void:
 	var d0: Array = LAYERS[0]
 	_layers.append(_make_layer(self, _layer_image(String(d0[3]), int(d0[2]), w.world_seed + 50), d0[0], d0[1], int(d0[2])))
 	_layers.append_array(clouds.build(self, w.world_seed))          # voce 330: davanti alle radici, dietro ai monti
+	life = SkyLife.new()
+	add_child(life)
+	life.setup(self, w.world_seed)
 	var b0 := _biome_id(w.spawn.x)
 	_install(b0, _set_images(b0, w.world_seed))
 	_cur = b0
@@ -178,6 +182,10 @@ func _process(dt: float) -> void:
 		_paint_sky(_fade)
 	if _grad != null:
 		clouds.update(dt, _grad.colors[1])
+	if life != null and life.biome != _cur:
+		life.biome = _cur
+		var far: Array = BackdropData.of(_cur)["layers"][1]
+		life.col = Color(String(far[4])).darkened(0.3)
 	if _grad != null and not _layers.is_empty():
 		# le radici del cosmo prendono il colore del cielo del bioma (in un cielo rosso non restano turchesi)
 		var sk: Color = _grad.colors[1]
@@ -259,6 +267,10 @@ func set_time(t: float, tint: Color, night: float, star_gain := Color.WHITE) -> 
 	# voce 330: le nuvole prendono il colore dell'ora, ma di notte le schiarisce la luna (lo fa `SkyClouds`)
 	clouds.night = night
 	clouds.moon = star_gain
+	if life != null:
+		life.time = t
+		life.tint = tint
+		life.gain = star_gain
 	for L in clouds.layers:
 		(L["node"] as Node2D).modulate = tint.lerp(Color.WHITE, 0.15).lerp(Color.WHITE, night * 0.9)
 	_sun.visible = t > 0.18 and t < 0.82 and not no_lights
@@ -283,6 +295,9 @@ func follow(cp: Vector2, view: Vector2, dt: float, snap := false) -> void:
 	# sole e luna fanno un arco da sinistra a destra: il sole di giorno (0,2-0,8), la luna di notte
 	_sun.position = _arc(cp, view, (_time - 0.2) / 0.6)
 	_moon.position = _arc(cp, view, fposmod(_time - 0.7, 1.0) / 0.6) + Vector2(0, view.y * 0.1)
+	if life != null:
+		life.visible = not void_mode
+		life.follow(cp, view, _horizon)
 	for L in _all_layers():
 		if not (L["node"] as Node2D).is_visible_in_tree():
 			continue

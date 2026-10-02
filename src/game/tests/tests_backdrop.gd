@@ -37,9 +37,25 @@ func run() -> void:
 			done[id] = true
 			var cx := (x + x1) / 2
 			await _shot(cx, id)
+			if id in SkyLife.EMBERS:
+				print("sfondi: %d faville lontane nel bioma %s" % [int(m.background.life.count()["faville"]), id])
 		x = x1 + 1
-	# la notte e la pioggia, alla partenza
+	# voce 331: uno stormo di giorno e i pipistrelli al tramonto, alla partenza
+	var life: SkyLife = m.background.life
+	m.snap_to(world.spawn)                 # lo stormo nasce dove guarda la visuale: prima ci si sposta
+	await kit.frames(2)
+	life.flock(true)
+	await _shot(world.spawn.x, "zz_stormo")
 	var t0: float = m.day.time
+	m.day.time = 0.8
+	m.day.apply(true)
+	await kit.frames(2)
+	life.bats(true)
+	await _shot(world.spawn.x, "zz_pipistrelli")
+	var n: Dictionary = life.count()
+	print("sfondi: in cielo %d uccelli e %d pipistrelli" % [n["uccelli"], n["pipistrelli"]] if n["uccelli"] > 0 and n["pipistrelli"] > 0
+		else "ATTENZIONE: stormo o pipistrelli mancanti (%s)" % str(n))
+	# la notte e la pioggia, alla partenza
 	m.day.time = 0.92
 	m.day.apply(true)
 	await _shot(world.spawn.x, "zz_notte")

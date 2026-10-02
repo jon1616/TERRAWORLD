@@ -4961,7 +4961,11 @@ vetro, le terre di brace e i funghi giganti (cambia solo una tinta); con la piog
   tempo; scorrono anche senza vento (~6 px/s) e più in fretta con il vento; di notte grigio-azzurre di luna. Lezioni: in
   Godot 4 il `COLOR` del fragment contiene già il colore dell'immagine (il colore del nodo si prende nel vertex); con
   `hdr_2d` l'immagine arriva in lineare, quindi le misure scritte nei canali si rileggono con `pow(…, 1/2,2)`.
-- [ ] **331. Gli stormi.** Ogni tanto, di giorno, uno stormo lontano attraversa il cielo (piccole sagome che battono le
+- [x] **331. Gli stormi.** Ogni tanto, di giorno, uno stormo lontano attraversa il cielo (piccole sagome che battono le
   ali, dei colori del bioma); al tramonto i pipistrelli; nelle terre di brace le faville che salgono lontano.
+  Fatto il 2 ott 2026: `SkyLife` (`src/game/sky_life.gd`), un piano a parallasse tra le nuvole e i monti che disegna da
+  sé: stormi a V o sparsi ogni 35-80 s di giorno, del colore dei monti lontani; pipistrelli a zig-zag al tramonto;
+  faville con la scia nei biomi «brace» e «cenere» (`EMBERS`), che brillano anche di notte. Prova: foto zz_stormo e
+  zz_pipistrelli, conteggi di uccelli, pipistrelli e faville.
 - [ ] **332. Chiusura.** Le foto prima e dopo (prove/sfondi_confronto.png), i fotogrammi, l'ingresso nel mondo (quanto
   costa fare i piani), il giro, il resoconto.
