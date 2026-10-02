@@ -4891,9 +4891,15 @@ fotogrammi resta sotto i 25 ms; il gruppo «base» e la galleria a ogni passo):
   le foto). La prima versione lavorava sui colori lineari e schiacciava i toni scuri (le pareti in penombra sparivano):
   ora saturazione e contrasto si fanno sui toni come li vede l'occhio, la tinta delle ombre non toglie luce e il nero
   resta nero. Opzione «Tinta delle zone» (Video). Galleria con 0 problemi.
-- [ ] **325. Le creature vive.** Un'animazione fatta dal codice per tutte: il corpo ondeggia camminando, si inclina
+- [x] **325. Le creature vive.** Un'animazione fatta dal codice per tutte: il corpo ondeggia camminando, si inclina
   nella corsa, si allunga nel salto e si schiaccia atterrando, chi vola sbatte e ondeggia, colpita sobbalza; e un filo
   di luce sul contorno, perché si leggano nel buio senza toglierlo.
+  Fatto il 2 ott 2026: `Creature._life_motion` (per tutte tranne i grumi, che avevano già il loro, chi rotola, le
+  appese e le sepolte): a terra un sobbalzo a ogni passo (il passo cresce con la strada fatta) e l'inclinazione nella
+  corsa; in aria allungata salendo e schiacciata cadendo; atterrando schiacciata e poi di nuovo dritta; in volo
+  ondeggia, batte e si inclina dove va; colpita sobbalza (`_flash`). Misura nel gruppo «volto»: sobbalzo 1,5 px,
+  inclinazione fino a 0,06. **Il filo di luce sul contorno scartato apposta**: le creature che si nascondono nel buio sono
+  una meccanica (la vista delle creature, le sorprese), e farle brillare cambierebbe la sfida.
 - [ ] **326. I bordi del mondo.** Piccoli dettagli disegnati solo nella vista dove il terreno tocca l'aria: radichette
   che pendono dai soffitti, ciottoli sui pavimenti, gocce e muschio che cola, scelti dalla tessera e dallo strato e
   sempre uguali per la stessa cella; e qualche tessera rara diversa nella trama.

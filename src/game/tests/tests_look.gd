@@ -80,6 +80,21 @@ func run() -> void:
 			cr.docile = true
 			cr.damage = 0
 		await kit.seconds(0.6)
+		# voce 325: chi cammina sobbalza e si inclina (si misura il disegno per un secondo)
+		var lo := 99.0
+		var hi := -99.0
+		var tilt := 0.0
+		var w0 := Time.get_ticks_msec()
+		while Time.get_ticks_msec() - w0 < 1000:
+			for cr in m.fauna.list:
+				if absf(cr.vel.x) > 5.0 and cr.on_floor:
+					lo = minf(lo, cr._spr.position.y - cr._base_y)
+					hi = maxf(hi, cr._spr.position.y - cr._base_y)
+					tilt = maxf(tilt, absf(cr._spr.rotation))
+			await kit.frames(1)
+		print("creature vive: sobbalzo %.1f px, inclinazione fino a %.2f" % [maxf(hi - lo, 0.0), tilt])
+		if hi - lo < 0.5 or tilt < 0.01:
+			print("ATTENZIONE: le creature che camminano non si muovono nel disegno")
 		await kit.save("volto/08_creature_a")
 		await kit.seconds(0.18)
 		await kit.save("volto/09_creature_b")

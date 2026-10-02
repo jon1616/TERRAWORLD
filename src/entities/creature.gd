@@ -82,6 +82,8 @@ var _glow: Sprite2D
 var _frames: Array = []
 var _glows: Array = []
 var _anim := 0.0
+var _walk := 0.0                       # Roadmap 33, voce 325: il passo (cresce con la strada fatta)
+var _dy := 0.0                         # lo scarto in alto del disegno di questo fotogramma (passo, volo)
 var _flash := 0.0
 var _bar: HpBar
 var _regen := 0.0                      # voce 79: le rigeneranti
@@ -352,6 +354,8 @@ func _animate(dt: float) -> void:
 		_glow.texture = _glows[f]
 	var sx := float(facing)
 	var sq := Vector2.ONE
+	var lean := 0.0
+	_dy = 0.0
 	if id.begins_with("grumo"):
 		if not on_floor:
 			sq = Vector2(0.85, 1.18)
@@ -360,12 +364,18 @@ func _animate(dt: float) -> void:
 			sq = Vector2(1.0 + c * 0.3, 1.0 - c * 0.3)
 			if crouch < 0.0:
 				crouch = move_toward(crouch, 0.0, dt * 4.0)
+	elif not anchored and not buried and shell <= 0.0 and not data.get("roll", false):
+		_life_motion(dt)
+		sq = _sq
+		lean = _lean
+	if _flash > 0.0:
+		sq *= 1.0 + _flash * 0.9                # colpita: un sobbalzo (voce 325)
 	_spr.scale = Vector2(sx * sq.x, sq.y * (-1.0 if upside and anchored else 1.0))
-	_spr.position.y = -half.y if upside and anchored else _base_y
+	_spr.position.y = (-half.y if upside and anchored else _base_y) + _dy
 	if data.get("roll", false) and busy and absf(vel.x) > 20.0:
 		_spr.rotation += vel.x * dt / maxf(half.x, 1.0)
-	elif _spr.rotation != 0.0 and not busy:
-		_spr.rotation = 0.0
+	elif not busy or lean != 0.0:
+		_spr.rotation = lean
 	_spr.visible = not buried
 	if _shade:
 		_shade.visible = on_floor and not buried and not upside
@@ -388,6 +398,39 @@ func _animate(dt: float) -> void:
 			var sparks := _aura.get_node("scintille") as CPUParticles2D
 			sparks.color_ramp = Fx.fade(Color(2.4, 0.6, 0.4) if rage else Color(2.0, 1.1, 0.5))
 			(_aura.get_node("alone") as Sprite2D).self_modulate = Color(1.3, 0.6, 0.6) if rage else Color.WHITE
+
+
+var _sq := Vector2.ONE
+var _lean := 0.0
+
+
+## Roadmap 33, voce 325: il movimento fatto dal codice, per tutte le creature (avevano due fotogrammi quasi uguali).
+## A terra il corpo sobbalza a ogni passo e si inclina nella corsa; in aria si allunga salendo e si schiaccia cadendo;
+## atterrando si schiaccia e torna; chi vola ondeggia, batte e si inclina dove va. Scrive `_sq`, `_lean`, `_dy`.
+func _life_motion(dt: float) -> void:
+	_sq = Vector2.ONE
+	var run := clampf(vel.x / maxf(speed, 1.0), -1.3, 1.3)
+	_lean = 0.0
+	if fly:
+		var ph := float(get_instance_id() % 97)
+		_dy = sin(_anim * 3.0 + ph) * clampf(half.y * 0.18, 0.8, 2.0)
+		_lean = clampf(vel.x / maxf(speed, 1.0), -1.0, 1.0) * 0.14
+		_sq = Vector2(1.0 - sin(_anim * 17.0 + ph) * 0.04, 1.0 + sin(_anim * 17.0 + ph) * 0.06)
+		return
+	if not on_floor:
+		_sq = Vector2(0.9, 1.12) if vel.y < -30.0 else (Vector2(1.05, 0.96) if vel.y > 120.0 else Vector2.ONE)
+		_lean = run * 0.05
+		return
+	if absf(vel.x) > 5.0:
+		_walk += absf(vel.x) * dt / maxf(half.x * 1.4, 4.0)
+		_dy = -absf(sin(_walk * PI)) * clampf(half.y * 0.14, 0.6, 2.2)
+		_lean = run * 0.07
+	if crouch < 0.0:
+		var c := -crouch
+		_sq = Vector2(1.0 + c * 0.22, 1.0 - c * 0.22)
+		crouch = move_toward(crouch, 0.0, dt * 4.0)
+	elif crouch > 0.0:
+		_sq = Vector2(1.0 + crouch * 0.18, 1.0 - crouch * 0.18)
 
 
 ## Alla morte (la chiama `Fauna`): il disegno si solleva e svanisce.
