@@ -12,6 +12,7 @@ var options: OptionsPanel
 var menu_wanted := false               # il menu di pausa (o le Opzioni aperte da lì)
 var _focus := true
 var _fps: Label
+var _why: Label                        # 2 ott 2026: perché il gioco è fermo, quando nessun pannello lo dice
 var _last := {}
 
 
@@ -28,6 +29,17 @@ func setup(main: Node2D) -> void:
 	menu.setup(m, options)
 	m.hud.overlays.append(menu)
 	m.hud.overlays.append(options)
+	_why = Label.new()
+	_why.position = Vector2(0, 150)
+	_why.size = Vector2(1600, 30)
+	_why.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_why.add_theme_font_size_override("font_size", UiPalette.GRANDE)
+	_why.add_theme_color_override("font_color", UiPalette.AMBRA_CHIARA)
+	_why.add_theme_color_override("font_outline_color", UiPalette.FONDO)
+	_why.add_theme_constant_override("outline_size", 6)
+	_why.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_why.visible = false
+	m.hud.add_child(_why)
 	_fps = Label.new()
 	_fps.position = Vector2(16, 876)
 	_fps.add_theme_font_size_override("font_size", 12)
@@ -48,7 +60,13 @@ func _notification(what: int) -> void:
 func _process(_dt: float) -> void:
 	if not m.built:
 		return
+	# 2 ott 2026 (l'utente: «a volte, uscendo da un pannello con Esc, il gioco si blocca: il Germogliato non si muove, si
+	# può solo aprire la Bisaccia»): il primo piano si legge anche dalla finestra a ogni fotogramma. Contava solo sugli
+	# avvisi del sistema, e se il «tornato in primo piano» non arrivava il gioco restava in pausa per sempre, in silenzio.
+	if not _focus and get_window().has_focus():
+		_focus = true
 	get_tree().paused = want_pause()
+	_show_why()
 	var z := float(Settings.v("zoom"))
 	if m.cam != null and absf(m.cam.zoom.x - z) > 0.001:
 		m.cam.zoom = Vector2(z, z)
@@ -66,6 +84,60 @@ func _changed(id: String, f: Callable) -> void:
 	if _last.has(id) and _last[id] != val:
 		f.call(val)
 	_last[id] = val
+
+
+## Una scritta con il perché, quando il gioco è fermo. Sta sotto i pannelli (che vanno in cima all'HUD): si vede solo
+## se il gioco è fermo e nulla lo mostra, cioè proprio quando sembrerebbe bloccato.
+func _show_why() -> void:
+	var t := ""
+	if get_tree().paused and not menu.visible and not options.visible:      # (il menu di pausa si spiega da sé)
+		t = "In pausa: %s · Esc per riprendere" % ", ".join(pause_reasons())
+	if t != _why.text:
+		_why.text = t
+	_why.visible = t != ""
+	if _why.visible and _why.get_index() != 0:
+		m.hud.move_child(_why, 0)               # sotto tutto il resto dell'HUD
+
+
+## I motivi della pausa di adesso, in parole.
+func pause_reasons() -> Array:
+	var out := []
+	if menu_wanted:
+		out.append("menu di pausa")
+	if options.visible:
+		out.append("Opzioni")
+	if m.get("encyclopedia") != null and m.encyclopedia.panel.visible:
+		out.append("Enciclopedia")
+	if bool(Settings.v("pausa_fuoco")) and not _focus:
+		out.append("la finestra non è in primo piano (un clic sul gioco)")
+	if bool(Settings.v("pausa_bisaccia")) and m.hud.panel.visible:
+		out.append("Bisaccia aperta")
+	if bool(Settings.v("pausa_pannelli")):
+		if m.hud.map != null and m.hud.map.visible:
+			out.append("mappa")
+		for o in m.hud.overlays:
+			if o.visible:
+				out.append("pannello %s" % String(o.get_script().get_global_name()))
+	return out
+
+
+## Esc senza nulla di aperto: se il gioco è fermo senza un motivo che si veda, riparte (qui e non in `main`, che in
+## pausa non riceve i tasti).
+func _unhandled_input(e: InputEvent) -> void:
+	if e is InputEventKey and e.pressed and not e.echo and e.keycode == KEY_ESCAPE and m != null and m.built and unstick():
+		get_viewport().set_input_as_handled()
+
+
+## Esc senza nulla di aperto che lo prenda: se il gioco è fermo senza un motivo che si veda, riparte.
+func unstick() -> bool:
+	if not get_tree().paused or m.hud.is_open() or menu.visible or options.visible:
+		return false
+	_focus = true
+	menu_wanted = false
+	if m.get("encyclopedia") != null and m.encyclopedia.panel.visible:
+		return false
+	get_tree().paused = want_pause()
+	return not get_tree().paused
 
 
 func want_pause() -> bool:

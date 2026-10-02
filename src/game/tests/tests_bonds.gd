@@ -18,6 +18,8 @@ func _init(tk: TestKit) -> void:
 
 
 func run() -> void:
+	await esc_overlays()
+	await esc_by_keys()
 	var spot := kit.flat_spot(world.spawn + Vector2i(80, 0), 10)
 	if spot.x < 0:
 		print("ATTENZIONE: nessun posto per le prove dei compagni")
@@ -564,3 +566,132 @@ func book(spot: Vector2i, h: Herd) -> void:
 		"sì" if tips else "NO", head, probs.size()])
 	if not counted or not gift or not mastery or req.is_empty() or int(after[0]) < 1 or not tips or not probs.is_empty():
 		print("ATTENZIONE: il Libro dei legami non va")
+
+
+## Esc su ogni pannello a schermo intero: dopo, il gioco non deve restare in pausa né con un pannello «aperto».
+func esc_overlays() -> void:
+	var stuck := []
+	var pp0: Variant = Settings.values.get("pausa_pannelli", true)
+	Settings.values["pausa_pannelli"] = true                 # com'è nel gioco vero (nelle prove è spenta)
+	for ov in m.hud.overlays:
+		if not is_instance_valid(ov) or ov is ReadPanel or ov is FinalePanel or ov is GlyphPanel or ov is LorePanel:
+			continue
+		var opened := false
+		for f in ["open", "toggle", "open_panel", "open_menu"]:
+			if ov.has_method(f) and ov.get_method_argument_count(f) == 0:
+				ov.call(f)
+				opened = true
+				break
+		if not opened:
+			continue
+		await kit.frames(4)
+		if not (ov as CanvasItem).visible:
+			continue
+		for le in ov.find_children("*", "LineEdit", true, false):
+			if (le as LineEdit).is_visible_in_tree():
+				(le as LineEdit).grab_focus()           # come chi ha cliccato nel campo del nome o della ricerca
+				break
+		var ev := InputEventKey.new()
+		ev.keycode = KEY_ESCAPE
+		ev.physical_keycode = KEY_ESCAPE
+		ev.pressed = true
+		Input.parse_input_event(ev)
+		await kit.frames(2)
+		var up := ev.duplicate()
+		up.pressed = false
+		Input.parse_input_event(up)
+		await kit.frames(4)
+		var why := []
+		if m.get_tree().paused:
+			why.append("in pausa")
+		var fo := m.get_viewport().gui_get_focus_owner()
+		if fo != null:
+			why.append("a fuoco: %s (visibile %s)" % [fo.get_class(), fo.is_visible_in_tree()])
+		if m.game_options.menu_wanted:
+			why.append("menu di pausa voluto")
+		if m.game_options.menu.visible:
+			why.append("menu di pausa aperto")
+		if m.hud.is_open():
+			for o in m.hud.overlays:
+				if o.visible:
+					why.append("aperto: " + o.get_class() + " " + str(o.get_script().get_global_name()))
+		if not why.is_empty():
+			stuck.append("%s → %s" % [ov.get_script().get_global_name(), why])
+		m.game_options.menu.close_menu()
+		for o in m.hud.overlays:
+			if o.visible and o.has_method("close"):
+				o.close()
+			elif o.visible:
+				o.visible = false
+		await kit.frames(3)
+	Settings.values["pausa_pannelli"] = pp0
+	await kit.frames(3)
+	print("Esc sui pannelli: %s" % ("nessun blocco" if stuck.is_empty() else str(stuck)))
+	if not stuck.is_empty():
+		print("ATTENZIONE: Esc lascia il gioco bloccato")
+
+
+
+func _key(code: int) -> void:
+	var ev := InputEventKey.new()
+	ev.keycode = code
+	ev.physical_keycode = code
+	ev.pressed = true
+	Input.parse_input_event(ev)
+	await kit.frames(2)
+	var up := ev.duplicate()
+	up.pressed = false
+	Input.parse_input_event(up)
+	await kit.frames(3)
+
+
+## Come il giocatore: le sue impostazioni (tutte le pause accese), i pannelli aperti con i tasti veri, chiusi con Esc,
+## poi un passo a destra.
+func esc_by_keys() -> void:
+	var saved := {}
+	for k in ["pausa_pannelli", "pausa_bisaccia"]:
+		saved[k] = Settings.values.get(k)
+		Settings.values[k] = true
+	var out := []
+	for k in ["mandria", "compagni", "pilastri", "erbario", "semenzaio", "arti", "atlante", "quaderno", "mappa", "bisaccia"]:
+		var code := int(Settings.keys_of(k)[0])
+		await _key(code)
+		var opened: bool = m.hud.is_open()
+		await kit.seconds(0.3)
+		await _key(KEY_ESCAPE)
+		await kit.seconds(0.2)
+		var st := []
+		if m.get_tree().paused:
+			st.append("pausa")
+		if m.hud.is_open():
+			st.append("aperto")
+		if m.game_options.menu_wanted:
+			st.append("menu")
+		out.append("%s %s→%s" % [k, "aperto" if opened else "NON aperto", "ok" if st.is_empty() else str(st)])
+		m.game_options.menu.close_menu()
+		for o in m.hud.overlays:
+			if o.visible and o.has_method("close"):
+				o.close()
+		if m.hud.panel.visible:
+			m.hud.panel.toggle()
+		await kit.frames(3)
+	for k in saved:
+		Settings.values[k] = saved[k]
+	print("Esc con i tasti veri: %s" % ", ".join(out))
+	# il primo piano perso (l'avviso del sistema non torna): la scritta lo dice, Esc fa ripartire
+	var go: GameOptions = m.game_options
+	var pf: Variant = Settings.values.get("pausa_fuoco")
+	Settings.values["pausa_fuoco"] = true
+	go._focus = false
+	await kit.frames(3)
+	var said: String = go._why.text if go._why.visible else ""
+	var stuck: bool = m.get_tree().paused
+	if stuck:
+		await _key(KEY_ESCAPE)
+	var freed: bool = not m.get_tree().paused
+	Settings.values["pausa_fuoco"] = pf
+	go._focus = true
+	await kit.frames(2)
+	print("primo piano perso: in pausa %s, scritta «%s», dopo Esc riparte %s" % [stuck, said, freed])
+	if not freed or m.game_options.menu.visible:
+		print("ATTENZIONE: il gioco resta fermo dopo aver perso il primo piano")
