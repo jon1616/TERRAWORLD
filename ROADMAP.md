@@ -5015,9 +5015,14 @@ campo `light`), il lampo bianco dei fulmini sullo schermo (`Life.flash`), la pol
   dell'elemento), `Projectiles.glow_of` (ogni colpo con un elemento fa la luce del suo colore: dardi delle leghe,
   tecniche, colpi delle creature). La torcia che oscilla con il passo non l'ho fatta: la luce è calcolata a tessere, uno
   spostamento di un pixel non si vedrebbe (il tremolio della fiamma in mano c'era già).
-- [ ] **335. Colpi e scavo.** Frammenti diversi per materiale (terra che si sbriciola, pietra che fa scintille,
+- [x] **335. Colpi e scavo.** Frammenti diversi per materiale (terra che si sbriciola, pietra che fa scintille,
   cristalli e minerali che luccicano, legno a schegge), uno schizzo dell'elemento a ogni colpo, le creature che si
   disfano secondo la loro natura (foglie, cenere, gocce, spore, scintille).
+  Fatto il 2 ott 2026: le ricette come dati in `ImpactData` (`DIG` per terra, roccia, minerale, cristallo, legno;
+  `CHIP` a ogni colpo di piccone; `HIT` per elemento; `DEATH` per natura ed elemento), eseguite da `ImpactFx`
+  (`src/art/`: un `CPUParticles2D` per getto, colori oltre 1 che brillano, `lit` = sopra il buio). Lo scavo della
+  roccia e dei minerali fa un lampo caldo, il cristallo una luce azzurra (`LightMap.pulse`). L'opzione «particelle» le
+  spegne tutte.
 - [ ] **336. L'acqua viva.** Il riflesso del cielo sotto la superficie, increspature (pioggia, chi entra, chi nuota),
   le cascate dove il liquido scende, gli spruzzi.
 - [ ] **337. Il tempo che si posa.** Neve che imbianca le cime dei blocchi in superficie con la bufera e si scioglie,

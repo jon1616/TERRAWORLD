@@ -211,6 +211,10 @@ func _dig(c: Vector2i, item: Dictionary, dt: float) -> float:
 	if _dig_snd <= 0.0 and sfx:
 		_dig_snd = 0.25
 		sfx.play("scavo_terra" if t in [TileDefs.DIRT, TileDefs.RADICE] or TileDefs.is_grass(t) else "scavo_roccia")
+		# voce 335: le briciole di ogni colpo di piccone, dal lato del Germogliato
+		var side := (player.position - (Vector2(c) * S + Vector2(8, 8))).limit_length(7.0)
+		ImpactFx.chip(fx_parent, Vector2(c) * S + Vector2(8, 8) + side,
+			t, Px.pal(BuildData.material_of(bk)["pal"]) if bk > 0 else TileDefs.dust_colors(t))
 	# più forza = più veloce (la radicite, forza 35, è il riferimento di TileDefs.HARD)
 	var hard: float = (BuildData.hard(bk) if bk > 0 else float(TileDefs.HARD[t])) * 35.0 / float(maxi(power, 1))
 	hard /= float(Gear.stats(item)["dig"]) * dig_mult * boon_dig         # tratto, fascia, trivella (voce 50)
@@ -236,7 +240,14 @@ func break_tile(c: Vector2i) -> void:
 	view.refresh_around(c)
 	light.dirty = true
 	var center := Vector2(c) * S + Vector2(8, 8)
-	Fx.dust(fx_parent, center, Px.pal(BuildData.material_of(bk)["pal"]) if bk > 0 else TileDefs.dust_colors(t))
+	# voce 335: i frammenti del suo materiale (terra, roccia con scintille, minerale che luccica, cristallo, legno)
+	var pal: Array[Color] = Px.pal(BuildData.material_of(bk)["pal"]) if bk > 0 else TileDefs.dust_colors(t)
+	var kind := ImpactFx.dig_kind(t, String(BuildData.material_of(bk).get("raw", "pietra")) if bk > 0 else "")
+	ImpactFx.dig(fx_parent, center, t, pal, String(BuildData.material_of(bk).get("raw", "pietra")) if bk > 0 else "")
+	if kind == "cristallo":
+		light.pulse(c, Color(0.6, 1.1, 1.3), 0.35)
+	elif kind in ["roccia", "minerale"]:
+		light.pulse(c, Color(0.9, 0.7, 0.4), 0.1)
 	drops.spawn(BuildData.item_of(bk) if bk > 0 else String(TileDefs.DROP.get(t, "")), 1, center)
 	if dig_hook.is_valid():
 		dig_hook.call(t, c)
@@ -277,7 +288,7 @@ func _chop(c: Vector2i, item: Dictionary, dt: float) -> void:
 	power = maxi(roundi(power * float(Gear.stats(item)["dig"]) * dig_mult * boon_dig / DIG_PACE), 1)
 	var hp: int = _tree_hp.get(base, int(TreesData.size_of(t.z)["hp"])) - power     # i grandi reggono più colpi
 	var hit_at := fx_parent.get_global_mouse_position()
-	Fx.dust(fx_parent, hit_at, Px.pal(["#241624", "#362234", "#4c3246", "#62c4a4"]))
+	ImpactFx.burst(fx_parent, hit_at, ImpactData.DIG["legno"], Px.pal(["#241624", "#362234", "#4c3246", "#8a6474", "#62c4a4"]))   # voce 335
 	if sfx:
 		sfx.play("legno", hit_at)
 	if hp > 0:

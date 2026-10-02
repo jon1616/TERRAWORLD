@@ -191,7 +191,7 @@ func kill(c: Creature) -> void:
 		c.queue_free()
 		return
 	FaunaExtra.drop(self, c, _rng)                # il bottino (voce 23, 36, 87…): `FaunaExtra`
-	Fx.puff(self, c.position, Color(1.3, 1.2, 1.0))
+	ImpactFx.death(self, c.position, c.id, c.data)  # voce 335: si disfa secondo la sua natura
 	killed.emit(c)
 	c.queue_free()
 
