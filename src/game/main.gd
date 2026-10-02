@@ -117,6 +117,7 @@ var harvest: Harvest                   # voce 300: i raccolti delle piante
 var encounters: Encounters             # voce 303: i piccoli incontri delle grotte
 var water_fx: WaterFx                  # Roadmap 35, voce 336
 var weather_cover: WeatherCover        # voce 337
+var surface_life: SurfaceLife          # voce 339
 var evergreen: Evergreen               # Roadmap 28: il dopo (stelle di maestria, Semi d'oro)
 var summons: Summons
 var effects: Effects
@@ -371,6 +372,7 @@ func _build() -> void:
 	evergreen = _mount(Evergreen.new())
 	water_fx = _mount(WaterFx.new())           # Roadmap 35, voce 336: increspature, spruzzi, cascate
 	weather_cover = _mount(WeatherCover.new())   # voce 337: neve, bagnato e cenere sulle cime
+	surface_life = _mount(SurfaceLife.new())     # voce 339: lucciole, polline, foglie, erba che si piega
 	_mount(PanelButtons.new())                 # voce 101: i pulsanti dei pannelli in basso a sinistra
 	hud.select(character.hotbar)
 	var start := world.spawn

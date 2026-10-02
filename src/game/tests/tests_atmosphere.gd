@@ -131,6 +131,11 @@ func run() -> void:
 		m.day.time = 0.8
 		m.day.apply(true)
 		await _shot("a11_tramonto_prato", 2.5)
+		if m.get("surface_life") != null:
+			var n: Dictionary = m.surface_life.counts()
+			print("superficie al tramonto: %d lucciole, %d foglie che cadono" % [n["lucciole"], n["foglie"]])
+			if int(n["lucciole"]) == 0:
+				print("ATTENZIONE: nessuna lucciola al tramonto")
 		m.day.time = t0
 		m.day.apply(true)
 	# a12 un fulmine

@@ -11,6 +11,7 @@ const PLANT_SHADER := """
 shader_type canvas_item;
 uniform float wind = 0.0;       // -2..2: il vento di Weather (segno = verso)
 uniform float breeze = 1.0;     // 0..1: quanto si muove anche senza vento
+uniform vec3 push[8];           // voce 339: chi passa (x, y dei piedi nel mondo, forza): l'erba si piega via da lui
 varying vec2 wpos;
 void vertex() {
 	wpos = VERTEX;
@@ -20,6 +21,15 @@ void fragment() {
 	float up = 1.0 - local.y;                       // 1 in cima alla tessera, 0 alla base
 	float phase = TIME * (1.4 + abs(wind) * 0.8) + floor(wpos.x / 16.0) * 0.83;
 	float sway = (sin(phase) * (0.55 + abs(wind) * 0.45) * breeze + wind * 0.9) * up * up * 2.0;
+	vec2 tc = floor(wpos / 16.0) * 16.0 + vec2(8.0);
+	float bend = 0.0;
+	for (int i = 0; i < 8; i++) {
+		float ddx = tc.x - push[i].x;
+		if (abs(ddx) < 14.0 && abs(tc.y - push[i].y) < 14.0) {
+			bend += (ddx >= 0.0 ? 1.0 : -1.0) * (1.0 - abs(ddx) / 14.0) * push[i].z;
+		}
+	}
+	sway += clamp(bend, -1.2, 1.2) * 3.0 * up;
 	float dx = floor(sway + 0.5);                   // pixel interi
 	float sx = local.x * 16.0 - dx;
 	if (sx < 0.0 || sx >= 16.0) {
@@ -76,6 +86,11 @@ static func tree_material(x: int) -> ShaderMaterial:
 		m.set_shader_parameter("seed", float(_trees.size()) * 0.79)
 		_trees.append(m)
 	return _trees[k]
+
+
+## Voce 339: chi spinge l'erba (al più 8: x, y dei piedi, forza), da `SurfaceLife` a ogni fotogramma.
+static func set_push(arr: Array[Vector3]) -> void:
+	plant_material().set_shader_parameter("push", arr)
 
 
 ## Il vento di `Weather` (px/s², 0-200) diventa la spinta degli shader; `under` = sotto terra (solo brezza leggera).

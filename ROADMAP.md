@@ -5045,7 +5045,12 @@ campo `light`), il lampo bianco dei fulmini sullo schermo (`Life.flash`), la pol
   nell'acqua taglia sopra 650 Hz; il fischio del vento (`SoundsData.WIND`, generato come i sottofondi) cresce col vento
   e con l'altezza sopra la superficie. I valori si avvicinano piano (niente scatti). Misure della prova: grotta eco
   0,30 · aperto 0,04 · sott'acqua filtro 650 Hz. (Il suono non si può fotografare: va ascoltato giocando.)
-- [ ] **339. La superficie viva.** Lucciole al tramonto e di notte, foglie che cadono dagli alberi, polline nei prati,
+- [x] **339. La superficie viva.** Lucciole al tramonto e di notte, foglie che cadono dagli alberi, polline nei prati,
   l'erba che si piega al passaggio del Germogliato e delle creature.
+  Fatto il 2 ott 2026: `SurfaceLife` (`src/game/surface_life.gd`) con i dati in `SurfaceLifeData`: lucciole (nei biomi
+  di `FIREFLIES`, dal tramonto all'alba, che vagano attorno a casa e lampeggiano sopra il buio), polline di giorno nei
+  prati (spinto dal vento), foglie dagli alberi della visuale (svolazzano, si posano e svaniscono; i tizzoni lasciano
+  cenere; ghiacciaio e vetro niente), l'erba che si piega via da chi passa (shader delle piante di `WindFx`: fino a otto
+  «spinte», il Germogliato e le creature vicine). Solo vicino alla superficie. Prova: 17 lucciole e 11 foglie al tramonto.
 - [ ] **340. Chiusura.** Foto prima e dopo, fotogrammi, giro intero, resoconto.
 
