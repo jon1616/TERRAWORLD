@@ -1,6 +1,8 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 2 ott 2026)
+- **In corso: la Roadmap 33 «La luce e la profondità»** (voci 319-327, dal 2 ott 2026): la grafica fatta dal codice,
+  confrontata a ogni voce con nove foto fisse (gruppo «volto»).
 - **Fatta la Roadmap 32 «I compagni di battaglia»** (voci 310-318, 1-2 ott 2026): ogni creatura si lega, una in campo
   con il suo stile, cinque nella Sacca dei legami, livelli fino al 50, 31 oggetti per crescere (e tre lacci nuovi), atteggiamento,
   affiatamento, Libro dei legami. Resoconto in fondo alla Roadmap 32.
@@ -4821,3 +4823,50 @@ atteggiamento, un affiatamento a cinque gradi e un dono; il Libro dei legami con
 filo, consigli, pilastro della mandria ed Enciclopedia la conoscono. Tutto passa da dati (`BondsData`) e dal motore
 delle creature: una specie nuova è subito un compagno possibile.
 
+
+# Roadmap 33 «La luce e la profondità» (dal 2 ott 2026)
+
+L'utente: «in tutta sincerità, lavorando solo di codice si può fare un ulteriore passo avanti nella grafica generale?»,
+poi: «prepara il piano dettagliato con le foto, crea la roadmap ed eseguila al meglio delle tue possibilità».
+Il giudizio dato: sì, soprattutto su luce, profondità degli sfondi e movimento delle creature; il codice arriva al suo
+limite su creature come disegni, icone e illustrazioni (lì serve Nano Banana, dopo).
+
+**Le foto di partenza** (gruppo di prove nuovo «volto», `TestsLook`: sempre le stesse nove scene senza HUD, in
+prove/volto/; il foglio 3×3 con `python tools/foglio_volto.py`; quelle di partenza in prove/volto_prima/). Che cosa
+dicono, guardate una per una:
+- le **pareti di fondo** delle grotte sono una carta da parati: lo stesso motivo di ciottoli si ripete ogni 64 pixel,
+  uguale e piatto in tutta la visuale (05, 07, 08 su tutte);
+- la **luce** è fatta a macchie quadrate (l'immagine di un pixel per tessera stirata con il filtro lineare): attorno
+  alle torce si vedono gli angoli delle tessere;
+- la **roccia** diventa nera una tessera sotto la superficie illuminata: le grotte sembrano piattaforme sottili sospese
+  nel nulla, e non si capisce la massa della terra (04, 05, 08);
+- il **terreno** non ha rilievo: il bordo in alto e quello in basso di un blocco hanno lo stesso colore;
+- le **creature** sono ferme (due fotogrammi, quasi tutte uguali tra 08 e 09) e piccole nel buio.
+
+Il piano, in ordine di resa (ogni voce rifà le nove foto e le confronta con quelle di partenza; la corsa con la sonda dei
+fotogrammi resta sotto i 25 ms; il gruppo «base» e la galleria a ogni passo):
+
+- [ ] **319. Le foto fisse.** `TestsLook` (gruppo «volto»), `tools/foglio_volto.py`, le foto di partenza.
+- [ ] **320. La luce morbida.** L'immagine della luce si legge con un filtro bicubico in uno shader (niente più angoli
+  delle tessere), e la luce entra un poco nella roccia: le tessere piene vicine all'aria prendono una parte della luce
+  dell'aria accanto che cala con la distanza (2-3 tessere), così la massa della terra si vede attorno a ogni luce e il
+  buio resta pieno lontano dalle luci (la scelta dell'utente del 25 set 2026).
+- [ ] **321. Il rilievo del terreno.** I contorni morbidi del terreno prendono luce dall'alto: un filo più chiaro sul
+  bordo superiore di ogni massa, uno più scuro sotto e ai lati (disegnati dal pittore del terreno nelle sue forme), e
+  un'ombra morbida dove il terreno tocca la parete dietro (occlusione), letta dallo stesso shader della luce.
+- [ ] **322. Le pareti vive.** La carta da parati sparisce: le pareti prendono una variazione grande (macchie di colore
+  e di tono che cambiano su decine di tessere, da un rumore nello spazio del mondo), sono più scure e più fredde del
+  terreno davanti (la distanza), e più scure ancora accanto al terreno.
+- [ ] **323. Gli aloni e l'aria.** Gli aloni delle luci (torce, cristalli, stazioni, Linfa) sommati con morbidezza,
+  la polvere che brilla solo nella luce, una foschia leggera del colore dello strato lontano dal Germogliato.
+- [ ] **324. La tinta delle zone.** Una correzione di colore a tutto schermo, diversa per strato e bioma (ombre
+  colorate, saturazione, contrasto), sfumata nel passaggio; più fredda nelle Caverne, viola nel Fondo, calda nelle
+  terre di brace. Un'opzione per spegnerla.
+- [ ] **325. Le creature vive.** Un'animazione fatta dal codice per tutte: il corpo ondeggia camminando, si inclina
+  nella corsa, si allunga nel salto e si schiaccia atterrando, chi vola sbatte e ondeggia, colpita sobbalza; e un filo
+  di luce sul contorno, perché si leggano nel buio senza toglierlo.
+- [ ] **326. I bordi del mondo.** Piccoli dettagli disegnati solo nella vista dove il terreno tocca l'aria: radichette
+  che pendono dai soffitti, ciottoli sui pavimenti, gocce e muschio che cola, scelti dalla tessera e dallo strato e
+  sempre uguali per la stessa cella; e qualche tessera rara diversa nella trama.
+- [ ] **327. Chiusura.** Le nove foto prima e dopo affiancate (prove/volto_confronto.png), la corsa e la sonda dei
+  fotogrammi, la galleria, il giro intero, il resoconto con le foto.
