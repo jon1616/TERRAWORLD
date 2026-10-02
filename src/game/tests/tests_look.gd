@@ -27,6 +27,8 @@ func run() -> void:
 	m.fauna.clear()
 	_hud = m.hud.visible
 	m.hud.visible = false
+	var tips0: Variant = Settings.values.get("tip_attivi", true)
+	Settings.values["tip_attivi"] = false            # (nessuna scheda nelle foto)
 	var t0: float = m.day.time
 	# 01 superficie di giorno
 	m.snap_to(world.spawn)
@@ -62,6 +64,10 @@ func run() -> void:
 		await _shot(String(names[s]))
 		if s == 2:
 			cave = c
+			m.overlay.visible = false              # la stessa scena senza luce: la forma vera (per capire, non per giudicare)
+			await kit.seconds(0.3)
+			await kit.save("volto_forma_caverne")
+			m.overlay.visible = true
 	# 08-09 creature da vicino
 	if cave.x >= 0:
 		m.snap_to(cave)
@@ -79,6 +85,7 @@ func run() -> void:
 		await kit.save("volto/09_creature_b")
 		m.fauna.clear()
 	m.hud.visible = _hud
+	Settings.values["tip_attivi"] = tips0
 	m.snap_to(world.spawn)
 	print("volto: foto delle scene fisse in prove/volto/")
 

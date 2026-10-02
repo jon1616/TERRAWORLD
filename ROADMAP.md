@@ -4846,11 +4846,19 @@ dicono, guardate una per una:
 Il piano, in ordine di resa (ogni voce rifà le nove foto e le confronta con quelle di partenza; la corsa con la sonda dei
 fotogrammi resta sotto i 25 ms; il gruppo «base» e la galleria a ogni passo):
 
-- [ ] **319. Le foto fisse.** `TestsLook` (gruppo «volto»), `tools/foglio_volto.py`, le foto di partenza.
-- [ ] **320. La luce morbida.** L'immagine della luce si legge con un filtro bicubico in uno shader (niente più angoli
+- [x] **319. Le foto fisse.** `TestsLook` (gruppo «volto»), `tools/foglio_volto.py`, le foto di partenza.
+  Fatto il 2 ott 2026: `TestsLook` (gruppo «volto»: nove scene senza HUD e senza schede, torce messe dalla prova,
+  più una foto della Caverna senza luce per vedere la forma vera), `tools/foglio_volto.py`, foto di partenza in
+  prove/volto_prima/.
+- [x] **320. La luce morbida.** L'immagine della luce si legge con un filtro bicubico in uno shader (niente più angoli
   delle tessere), e la luce entra un poco nella roccia: le tessere piene vicine all'aria prendono una parte della luce
   dell'aria accanto che cala con la distanza (2-3 tessere), così la massa della terra si vede attorno a ogni luce e il
   buio resta pieno lontano dalle luci (la scelta dell'utente del 25 set 2026).
+  Fatto il 2 ott 2026: `LightFx.overlay_material` (B-spline bicubica con quattro letture bilineari, `blend_mul`) al
+  posto del materiale di prima in `MainBoot`; in `LightMap._solve` la luce che entra nella roccia (`SEEP` 0,7 a tessera,
+  quattro passaggi solo sul pieno, l'aria resta com'è: niente luce attraverso le pareti). Le foto: la massa della roccia
+  si vede per tre-quattro tessere attorno alle luci e sfuma nel buio; nessun angolo delle tessere. Corsa invariata
+  (fotogramma peggiore 32 ms, come prima: attesa del disegno).
 - [ ] **321. Il rilievo del terreno.** I contorni morbidi del terreno prendono luce dall'alto: un filo più chiaro sul
   bordo superiore di ogni massa, uno più scuro sotto e ai lati (disegnati dal pittore del terreno nelle sue forme), e
   un'ombra morbida dove il terreno tocca la parete dietro (occlusione), letta dallo stesso shader della luce.

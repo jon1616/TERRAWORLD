@@ -20,6 +20,10 @@ const CURVE := 0.85                     # < 1 schiarisce un poco i toni medi sen
 ## (appunto dell'utente del 25 set 2026, con un'immagine di riferimento: dove la luce non arriva deve essere nero pieno).
 ## Sotto CUT è nero, sopra si riscala: il confine tra luce e buio diventa netto.
 const CUT := 0.1
+## Roadmap 33, voce 320: la luce entra un poco nella roccia, solo per disegnarla (non passa le pareti verso le altre
+## grotte): da ogni cella d'aria illuminata cala di `SEEP` a tessera dentro il pieno. Prima la roccia era nera già una
+## tessera sotto un pavimento illuminato, e le grotte sembravano piattaforme sospese nel nulla.
+const SEEP := 0.7
 const FLICKER := 0.12                   # quanto tremola la luce delle torce piantate (vedi `flicker_time`)
 const LW := 128                       # finestra in tessere (la visuale è circa 50×28)
 const LH := 96
@@ -295,6 +299,45 @@ static func _solve(job: Dictionary) -> void:
 				v = b[i + LW] * dd
 				if v > b[i]:
 					b[i] = v
+	# voce 320: la luce che entra nella roccia (solo per l'immagine): l'aria resta com'è, il pieno la riceve dai vicini
+	var sr := PackedFloat32Array()
+	var sg := PackedFloat32Array()
+	var sb := PackedFloat32Array()
+	sr.resize(n)
+	sg.resize(n)
+	sb.resize(n)
+	for i in n:
+		if solid[i] == 0:
+			sr[i] = r[i]
+			sg[i] = g[i]
+			sb[i] = b[i]
+	for y in LH:
+		var row := y * LW
+		for x in range(1, LW):
+			var i := row + x
+			if solid[i] == 1:
+				sr[i] = maxf(sr[i], sr[i - 1] * SEEP)
+				sg[i] = maxf(sg[i], sg[i - 1] * SEEP)
+				sb[i] = maxf(sb[i], sb[i - 1] * SEEP)
+		for x in range(LW - 2, -1, -1):
+			var i := row + x
+			if solid[i] == 1:
+				sr[i] = maxf(sr[i], sr[i + 1] * SEEP)
+				sg[i] = maxf(sg[i], sg[i + 1] * SEEP)
+				sb[i] = maxf(sb[i], sb[i + 1] * SEEP)
+	for x in LW:
+		for y in range(1, LH):
+			var i := y * LW + x
+			if solid[i] == 1:
+				sr[i] = maxf(sr[i], sr[i - LW] * SEEP)
+				sg[i] = maxf(sg[i], sg[i - LW] * SEEP)
+				sb[i] = maxf(sb[i], sb[i - LW] * SEEP)
+		for y in range(LH - 2, -1, -1):
+			var i := y * LW + x
+			if solid[i] == 1:
+				sr[i] = maxf(sr[i], sr[i + LW] * SEEP)
+				sg[i] = maxf(sg[i], sg[i + LW] * SEEP)
+				sb[i] = maxf(sb[i], sb[i + LW] * SEEP)
 	# immagine: la faccia di un blocco che tocca l'aria prende quasi la luce dell'aria davanti; poi una curva che
 	# schiarisce i toni medi e la codifica sRGB (la grafica 2D lavora in spazio lineare, vedi CLAUDE.md)
 	var img := Image.create_empty(LW, LH, false, Image.FORMAT_RGB8)
@@ -305,6 +348,9 @@ static func _solve(job: Dictionary) -> void:
 			var vg := g[i]
 			var vb := b[i]
 			if solid[i] == 1:
+				vr = maxf(vr, sr[i])                       # voce 320
+				vg = maxf(vg, sg[i])
+				vb = maxf(vb, sb[i])
 				for k in [i - 1, i + 1, i - LW, i + LW]:
 					if k >= 0 and k < n and solid[k] == 0 and absi((k % LW) - x) <= 1:
 						vr = maxf(vr, r[k] * 0.92)

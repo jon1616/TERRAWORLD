@@ -106,9 +106,7 @@ static func build_scene(m: Node2D) -> void:
 	m.overlay.centered = false
 	m.overlay.scale = Vector2(S, S)
 	m.overlay.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
-	var mat := CanvasItemMaterial.new()
-	mat.blend_mode = CanvasItemMaterial.BLEND_MODE_MUL
-	m.overlay.material = mat
+	m.overlay.material = LightFx.overlay_material()     # Roadmap 33: la luce letta con un filtro bicubico
 	m.overlay.z_index = 20
 	m.overlay.visible = not ("--senza-luce" in OS.get_cmdline_user_args())
 	m.add_child(m.overlay)
