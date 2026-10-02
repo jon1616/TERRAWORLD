@@ -7,8 +7,12 @@ extends Node2D
 
 ## (voce 285) i liquidi vivi: riflessi che scorrono dentro, luccichii che corrono sulla superficie (la riga di superficie
 ## ha l'alfa pieno: così lo shader la riconosce), la brace che tremola. Pixel interi, niente sfocature.
+## Roadmap 35, voce 336: due disegni in più, riconosciuti dall'alfa (il corpo del liquido arriva al più a 0,98):
+##   0,983-0,992  il riflesso del cielo sotto la superficie, in quattro righe (più chiaro in alto); solo all'aperto
+##   0,996        una cella che cade (cascata): strisce che scendono
 const SHADER := """
 shader_type canvas_item;
+uniform vec4 sky_tint : source_color = vec4(0.55, 0.78, 0.86, 1.0);
 varying vec2 wpos;
 void vertex() {
 	wpos = VERTEX;
@@ -17,10 +21,21 @@ void fragment() {
 	vec2 p = floor(wpos);
 	vec4 c = COLOR;
 	float heat = clamp(c.r - c.b, 0.0, 1.0);
-	if (c.a > 0.99) {
+	if (c.a > 0.999) {
 		// la superficie: un luccichio che corre, a tratti
 		float g = step(0.82, sin(p.x * 0.35 - TIME * 2.6) * 0.5 + sin(p.x * 0.11 + TIME * 1.3) * 0.5);
 		c.rgb = mix(c.rgb, vec3(1.0), g * 0.45);
+	} else if (c.a > 0.994) {
+		// la cascata: strisce chiare che scendono, ogni corsia alla sua velocità
+		float lane = floor(p.x / 2.0);
+		float h = fract(sin(lane * 12.9898) * 43758.5453);
+		float s = step(0.58, fract(p.y * 0.06 - TIME * (2.0 + h * 1.5) + h));
+		c = vec4(c.rgb * 1.3, 0.1 + 0.32 * s);
+	} else if (c.a > 0.9815) {
+		// il riflesso del cielo: quattro righe dalla superficie in giù, che ondeggiano appena
+		float row = clamp((c.a - 0.983) / 0.003, 0.0, 3.0);
+		float sh = 0.7 + 0.3 * sin(p.x * 0.31 + TIME * 1.6 + row * 2.0);
+		c = vec4(sky_tint.rgb, (1.0 - row / 4.0) * 0.5 * sh);
 	} else {
 		// dentro: bande di luce lente che si incrociano (caustiche), più calde e veloci nella brace
 		float w = sin(p.x * 0.19 + p.y * 0.07 + TIME * (1.1 + heat * 2.5)) + sin(p.x * 0.07 - p.y * 0.23 - TIME * 0.8);
@@ -107,3 +122,15 @@ class LiquidChunk extends Node2D:
 					var top: Color = td["top"]
 					top.a = 1.0                            # alfa pieno = superficie, per lo shader
 					draw_rect(Rect2(r.position, Vector2(16.0, 2.0)), top)
+					# voce 336: il cielo si riflette sotto la superficie, all'aperto (non nella brace)
+					if ty != LiquidsData.BRACE and world.wall(x, y) == 0 and hgt >= 6.0:
+						for row in 4:
+							draw_rect(Rect2(r.position + Vector2(0, 2 + row), Vector2(16.0, 1.0)), Color(1, 1, 1, 0.983 + row * 0.003))
+				elif _falling(x, y):
+					var fc: Color = td["top"]
+					fc.a = 0.996                           # voce 336: una cascata (le strisce le fa lo shader)
+					draw_rect(r, fc)
+
+	## Voce 336: una cella che cade: liquido sopra, e né a destra né a sinistra (un filo che scende, non un lago).
+	func _falling(x: int, y: int) -> bool:
+		return world.liq(x - 1, y) == 0 and world.liq(x + 1, y) == 0

@@ -38,6 +38,10 @@ const DIG := {
 const CHIP := {"n": 4, "life": 0.45, "v": [30.0, 80.0], "g": 560.0, "spread": 120.0, "size": [1.0, 1.8], "rect": [4, 4], "cols": "pal"}
 const CHIP_SPARK := {"n": 2, "life": 0.2, "v": [70.0, 140.0], "g": 200.0, "spread": 150.0, "size": [1.0, 1.0], "rect": [2, 2], "cols": SPARK, "glow": 2.6, "lit": true}
 
+## Voce 336: lo spruzzo di chi entra o esce da un liquido (i colori del liquido) e la schiuma ai piedi delle cascate.
+const SPLASH := {"n": 16, "life": 0.6, "v": [60.0, 150.0], "g": 520.0, "spread": 40.0, "size": [1.0, 2.0], "rect": [6, 1], "cols": "pal", "glow": 1.1}
+const FOAM := {"n": 3, "life": 0.4, "v": [20.0, 60.0], "g": 300.0, "spread": 70.0, "size": [1.0, 1.6], "rect": [3, 1], "cols": "pal", "fade": 0.8}
+
 ## Il colpo: uno schizzo dell'elemento (senza elemento: due scintille).
 const HIT := {
 	"": [{"n": 5, "life": 0.22, "v": [60.0, 130.0], "g": 200.0, "spread": 120.0, "size": [1.0, 1.0], "rect": [3, 3], "cols": SPARK, "glow": 2.2, "lit": true}],

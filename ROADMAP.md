@@ -5023,8 +5023,14 @@ campo `light`), il lampo bianco dei fulmini sullo schermo (`Life.flash`), la pol
   (`src/art/`: un `CPUParticles2D` per getto, colori oltre 1 che brillano, `lit` = sopra il buio). Lo scavo della
   roccia e dei minerali fa un lampo caldo, il cristallo una luce azzurra (`LightMap.pulse`). L'opzione «particelle» le
   spegne tutte.
-- [ ] **336. L'acqua viva.** Il riflesso del cielo sotto la superficie, increspature (pioggia, chi entra, chi nuota),
+- [x] **336. L'acqua viva.** Il riflesso del cielo sotto la superficie, increspature (pioggia, chi entra, chi nuota),
   le cascate dove il liquido scende, gli spruzzi.
+  Fatto il 2 ott 2026: in `LiquidView` il riflesso del cielo (quattro righe sotto la superficie, solo all'aperto e non
+  nella brace; il colore lo dà `WaterFx` dal cielo del bioma e dall'ora) e le cascate (una cella con liquido sopra e
+  niente ai lati: strisce che scendono), riconosciuti dallo shader con l'alfa. `WaterFx` (`src/game/water_fx.gd`):
+  increspature della pioggia sugli specchi all'aperto (~1,5 al secondo per cella), spruzzi e anelli di chi entra o
+  esce (Germogliato e creature vicine, `ImpactData.SPLASH`, il suono «tuffo»), anelli di chi nuota, schiuma ai piedi
+  delle cascate. La prova conta le increspature sotto la pioggia (15 su 13 celle di superficie).
 - [ ] **337. Il tempo che si posa.** Neve che imbianca le cime dei blocchi in superficie con la bufera e si scioglie,
   terreno lucido dopo la pioggia, velo di cenere: un disegno sopra il terreno, che cresce e cala piano.
 - [ ] **338. Il suono dello spazio.** Eco nelle grandi caverne, suono asciutto nei cunicoli (misurato dall'aria attorno

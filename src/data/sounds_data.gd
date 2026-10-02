@@ -35,6 +35,11 @@ const SOUNDS := {
 	"torcia": {"gain": -12.0, "var": 0.1, "layers": [
 		{"wave": "noise", "f0": 4000, "f1": 2500, "dur": 0.25, "att": 0.01, "dec": 10.0, "vol": 0.6},
 		{"wave": "sine", "f0": 300, "f1": 420, "dur": 0.15, "att": 0.02, "dec": 12.0, "vol": 0.3}]},
+	# voce 336: entrare o uscire dall'acqua (un tonfo morbido e lo spruzzo)
+	"tuffo": {"gain": -10.0, "var": 0.12, "layers": [
+		{"wave": "noise", "f0": 1600, "f1": 500, "dur": 0.32, "att": 0.004, "dec": 9.0, "vol": 0.8},
+		{"wave": "sine", "f0": 220, "f1": 90, "dur": 0.16, "att": 0.003, "dec": 18.0, "vol": 0.6},
+		{"wave": "noise", "f0": 3800, "f1": 2200, "dur": 0.18, "att": 0.02, "dec": 14.0, "vol": 0.35, "delay": 0.06}]},
 	# combattere
 	"colpo": {"gain": -12.0, "var": 0.1, "layers": [
 		{"wave": "noise", "f0": 500, "f1": 2400, "dur": 0.13, "att": 0.03, "dec": 14.0, "vol": 0.8}]},

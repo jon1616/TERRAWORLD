@@ -83,9 +83,14 @@ func run() -> void:
 		await _shot("a06_acqua")
 		m.weather.set_weather("pioggia")
 		await _shot("a07_acqua_pioggia", 2.0)
+		if m.get("water_fx") != null:
+			var n: Dictionary = m.water_fx.counts()
+			print("acqua: %d celle di superficie in vista, %d increspature sotto la pioggia" % [n["superfici"], n["increspature"]])
+			if n["increspature"] == 0:
+				print("ATTENZIONE: la pioggia non increspa l'acqua")
 		m.weather.set_weather("sereno")
-		m.snap_to(pond + Vector2i(0, -2))
-		await kit.seconds(0.25)
+		m.snap_to(pond + Vector2i(0, -3))
+		await kit.seconds(0.4)
 		await kit.save("atmosfera/a08_tuffo")
 		await kit.seconds(0.8)
 	# a09 la bufera in un bioma freddo
