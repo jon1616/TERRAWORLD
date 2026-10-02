@@ -42,6 +42,7 @@ func run() -> void:
 				look._torch(f)
 		m.snap_to(cave)
 		await _shot("a01_grotta_torce")
+		_space("grotta")
 		var rock := _solid_near(cave, false)
 		if rock.x >= 0:
 			m.actions.break_tile(rock)
@@ -92,6 +93,14 @@ func run() -> void:
 		m.snap_to(pond + Vector2i(0, -3))
 		await kit.seconds(0.4)
 		await kit.save("atmosfera/a08_tuffo")
+		# sott'acqua: il Germogliato tenuto giù per un attimo (il filtro attutisce)
+		var deep := pond + Vector2i(0, 2)
+		if world.liq(deep.x, deep.y) > 0:
+			m.snap_to(deep)
+			await kit.seconds(0.4)
+			_space("sott'acqua")
+			if m.sfx.space != null and float(m.sfx.space.state()["filtro"]) > 2000.0:
+				print("ATTENZIONE: sott'acqua il suono non è attutito")
 		await kit.seconds(0.8)
 	# a09 la bufera in un bioma freddo
 	var cold := _biome_x(["brina", "ghiacciaio"])
@@ -111,6 +120,9 @@ func run() -> void:
 	await _settle()
 	m.weather.set_weather("sereno")
 	await _shot("a10_dopo_pioggia")
+	_space("all'aperto")
+	if m.sfx.get("space") != null and String(m.sfx.space.state()["luogo"]) != "aperto":
+		print("ATTENZIONE: alla partenza il suono non è quello dell'aperto")
 	_cover("dopo la pioggia")
 	# a11 il tramonto in un prato
 	var meadow := _biome_x(["prati", "foresta"])
@@ -145,6 +157,15 @@ func _shot(name: String, wait := 1.0) -> void:
 		m.background.clouds.snap()
 	await kit.frames(2)
 	await kit.save("atmosfera/" + name)
+
+
+## Voce 338: che suono ha il posto.
+func _space(what: String) -> void:
+	if m.sfx.get("space") == null:
+		return
+	var s: Dictionary = m.sfx.space.state()
+	print("suono, %s: %s, aria %.1f tessere, eco %.2f, stanza %.2f, filtro %d Hz, vento %.2f" % [what, s["luogo"], s["aria"],
+		s["eco"], s["stanza"], int(s["filtro"]), s["vento"]])
 
 
 func _cover(what: String) -> void:

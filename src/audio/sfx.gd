@@ -21,6 +21,8 @@ var _amb_tasks := {}
 var _amb_now := -1
 var _amb_cur := 0
 var _task := -1
+var space: SoundSpace                  # Roadmap 35, voce 338: eco, acqua, vento
+var _wind_stream: AudioStreamWAV
 
 
 func setup(main: Node2D) -> void:
@@ -33,16 +35,24 @@ func setup(main: Node2D) -> void:
 		for id in SoundsData.SOUNDS:
 			made[id] = SfxSynth.make(SoundsData.SOUNDS[id], k)
 			k += 1
+		_wind_stream = SfxSynth.ambient(SoundsData.WIND, 91)
 		streams = made, false, "suoni")
+	space = SoundSpace.new(main)
 	for i in VOICES:
 		var p := AudioStreamPlayer.new()
+		p.bus = SoundSpace.BUS
 		add_child(p)
 		_players.append(p)
 	for i in 2:
 		var a := AudioStreamPlayer.new()
 		a.volume_db = -80.0
+		a.bus = SoundSpace.BUS
 		add_child(a)
 		_amb.append(a)
+	var wp := AudioStreamPlayer.new()
+	wp.volume_db = -80.0
+	add_child(wp)
+	space.wind_player = wp
 
 
 ## Suona un effetto; `at` = punto del mondo da cui viene (INF = dal Germogliato stesso).
@@ -76,6 +86,9 @@ func play(id: String, at := Vector2.INF, pitch := 0.0) -> void:
 func _process(dt: float) -> void:
 	if m == null or not m.built:
 		return
+	if space.wind_player.stream == null and (_task < 0 or WorkerThreadPool.is_task_completed(_task)) and _wind_stream != null:
+		space.wind_player.stream = _wind_stream
+	space.update(dt)
 	var s: int = m.depth_watch.stratum
 	if s < 0:
 		return

@@ -5037,8 +5037,14 @@ campo `light`), il lampo bianco dei fulmini sullo schermo (`Life.flash`), la pol
   prima cima piena dall'alto; la neve (fino a 4 pixel, bordo irregolare, ciuffi sui gradini; mai nei biomi con il
   rigore «calore»), il bagnato (più scuro, con riflessi che corrono), la cenere (puntini grigi). Ognuno sale e cala con
   i suoi tempi (`RATES`: la neve in 80 s, si scioglie in 150), sotto il tetto del Guscio niente; non si salva.
-- [ ] **338. Il suono dello spazio.** Eco nelle grandi caverne, suono asciutto nei cunicoli (misurato dall'aria attorno
+- [x] **338. Il suono dello spazio.** Eco nelle grandi caverne, suono asciutto nei cunicoli (misurato dall'aria attorno
   al Germogliato), suoni attutiti sott'acqua, il fischio del vento in alto e in cielo.
+  Fatto il 2 ott 2026: `SoundSpace` (`src/audio/sound_space.gd`): un bus «Spazio» (riverbero + filtro passa-basso)
+  per tutti gli effetti e i sottofondi; ogni quarto di secondo 16 raggi misurano l'aria attorno (all'aperto se sopra
+  la testa non c'è roccia; «cunicolo» sotto 3,5 tessere, «caverna» con l'eco che cresce fino a 0,44); la testa
+  nell'acqua taglia sopra 650 Hz; il fischio del vento (`SoundsData.WIND`, generato come i sottofondi) cresce col vento
+  e con l'altezza sopra la superficie. I valori si avvicinano piano (niente scatti). Misure della prova: grotta eco
+  0,30 · aperto 0,04 · sott'acqua filtro 650 Hz. (Il suono non si può fotografare: va ascoltato giocando.)
 - [ ] **339. La superficie viva.** Lucciole al tramonto e di notte, foglie che cadono dagli alberi, polline nei prati,
   l'erba che si piega al passaggio del Germogliato e delle creature.
 - [ ] **340. Chiusura.** Foto prima e dopo, fotogrammi, giro intero, resoconto.

@@ -125,3 +125,5 @@ const AMBIENT := [
 	{"tones": [[55.0, 0.3], [58.25, 0.2]], "noise": [250.0, 0.15], "lfo": 0.25, "gain": -19.0},
 ]
 const AMBIENT_LOOP := 4.0
+## Roadmap 35, voce 338: il fischio del vento all'aperto (lo suona `SoundSpace`, più forte in alto e col vento forte).
+const WIND := {"tones": [[620.0, 0.025], [930.0, 0.018], [1240.0, 0.01]], "noise": [1500.0, 0.34], "lfo": 0.25, "gain": -17.0}
