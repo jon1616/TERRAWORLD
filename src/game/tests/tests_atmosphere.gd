@@ -100,14 +100,18 @@ func run() -> void:
 		m.weather.set_weather("bufera")
 		await _settle()
 		await _shot("a09_bufera", 1.5)
+		_cover("bufera")
 	else:
 		print("ATTENZIONE: nessun bioma freddo per la foto della bufera")
-	# a10 dopo la pioggia, alla partenza
+	# a10 dopo la pioggia, alla partenza (senza la neve della bufera di prima, che nel gioco resterebbe)
+	if m.get("weather_cover") != null:
+		m.weather_cover.amount["neve"] = 0.0
 	m.snap_to(world.spawn)
 	m.weather.set_weather("pioggia")
 	await _settle()
 	m.weather.set_weather("sereno")
 	await _shot("a10_dopo_pioggia")
+	_cover("dopo la pioggia")
 	# a11 il tramonto in un prato
 	var meadow := _biome_x(["prati", "foresta"])
 	if meadow >= 0:
@@ -141,6 +145,15 @@ func _shot(name: String, wait := 1.0) -> void:
 		m.background.clouds.snap()
 	await kit.frames(2)
 	await kit.save("atmosfera/" + name)
+
+
+func _cover(what: String) -> void:
+	if m.get("weather_cover") == null:
+		return
+	var n: Dictionary = m.weather_cover.counts()
+	print("tempo che si posa, %s: neve %.2f, bagnato %.2f, cenere %.2f su %d cime" % [what, n["neve"], n["bagnato"], n["cenere"], n["cime"]])
+	if int(n["cime"]) == 0:
+		print("ATTENZIONE: nessuna cima per il tempo che si posa")
 
 
 ## Il tempo che si posa (voce 337) arriva subito, non dopo minuti di bufera o di pioggia.

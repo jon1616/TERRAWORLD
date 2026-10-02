@@ -5031,8 +5031,12 @@ campo `light`), il lampo bianco dei fulmini sullo schermo (`Life.flash`), la pol
   increspature della pioggia sugli specchi all'aperto (~1,5 al secondo per cella), spruzzi e anelli di chi entra o
   esce (Germogliato e creature vicine, `ImpactData.SPLASH`, il suono «tuffo»), anelli di chi nuota, schiuma ai piedi
   delle cascate. La prova conta le increspature sotto la pioggia (15 su 13 celle di superficie).
-- [ ] **337. Il tempo che si posa.** Neve che imbianca le cime dei blocchi in superficie con la bufera e si scioglie,
+- [x] **337. Il tempo che si posa.** Neve che imbianca le cime dei blocchi in superficie con la bufera e si scioglie,
   terreno lucido dopo la pioggia, velo di cenere: un disegno sopra il terreno, che cresce e cala piano.
+  Fatto il 2 ott 2026: `WeatherCover` (`src/game/weather_cover.gd`, sotto la luce): per ogni colonna della visuale la
+  prima cima piena dall'alto; la neve (fino a 4 pixel, bordo irregolare, ciuffi sui gradini; mai nei biomi con il
+  rigore «calore»), il bagnato (più scuro, con riflessi che corrono), la cenere (puntini grigi). Ognuno sale e cala con
+  i suoi tempi (`RATES`: la neve in 80 s, si scioglie in 150), sotto il tetto del Guscio niente; non si salva.
 - [ ] **338. Il suono dello spazio.** Eco nelle grandi caverne, suono asciutto nei cunicoli (misurato dall'aria attorno
   al Germogliato), suoni attutiti sott'acqua, il fischio del vento in alto e in cielo.
 - [ ] **339. La superficie viva.** Lucciole al tramonto e di notte, foglie che cadono dagli alberi, polline nei prati,
