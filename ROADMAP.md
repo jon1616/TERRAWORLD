@@ -1,6 +1,8 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 2 ott 2026)
+- **In corso: la Roadmap 35 «Atmosfera»** (voci 333-340, dal 2 ott 2026): luce che si muove, colpi e scavo, acqua
+  viva, il tempo che si posa, il suono dello spazio, la superficie viva; solo vista e suono.
 - **Fatta la Roadmap 34 «Gli sfondi»** (voci 328-332, 2 ott 2026): uno sfondo per ogni bioma, nuvole che seguono il
   tempo e il vento, stormi, pipistrelli e faville; tolti due scatti (traguardi del Museo, blocchi del mondo). Foto prima e
   dopo in prove/sfondi_confronto.png. Resoconto in fondo alla Roadmap 34.
@@ -4988,3 +4990,35 @@ vento, poche col sereno, fitte e grigie con la pioggia, scure col temporale, azz
 di giorno, pipistrelli al tramonto e faville lontane sopra le terre di fuoco. Il generatore dei mondi non è stato
 toccato. In più sono spariti due scatti che si sentivano esplorando. Resta per dopo lo sfondo sotto terra, che vorrebbe
 caverne senza pareti (cioè cambiare il generatore).
+
+
+# Roadmap 35 «Atmosfera» (dal 2 ott 2026)
+
+L'utente, dopo gli sfondi: «altri miglioramenti solo di codice?»; scelti i punti 1-6 della proposta: luce che si muove,
+colpi e scavo, acqua viva, il tempo che si posa sul mondo, il suono dello spazio, la superficie viva. Il generatore dei
+mondi non si tocca; tutto è solo vista e suono (niente cambia le tessere né i salvataggi).
+C'era già: il tremolio delle torce piantate nella luce (`LightMap.FLICKER`), la luce di alcuni colpi (`Projectiles`,
+campo `light`), il lampo bianco dei fulmini sullo schermo (`Life.flash`), la polvere di scavo (`Fx.dust`).
+
+- [x] **333. Le foto fisse dell'atmosfera.** Gruppo di prove «atmosfera» (`TestsAtmosphere`): scene fisse prima e dopo
+  (grotta con torcia, scavo e colpo, specchio d'acqua con la pioggia, bufera, tramonto in un prato), misure in testo.
+  Fatto il 2 ott 2026: dodici scene in prove/atmosfera/ (partenza in prove/atmosfera_prima/; foglio con
+  `python tools/foglio_sfondi.py prove/atmosfera prove/atmosfera_foglio.png`). Che cosa dicono: lo scavo fa un pizzico di
+  polvere uguale per roccia e minerale, il colpo di fuoco e la sconfitta quasi non si vedono, l'acqua è una lastra
+  piatta anche sotto la pioggia, la bufera non imbianca niente, il fulmine non lascia luce sul mondo.
+- [ ] **334. La luce che si muove.** Il fulmine illumina davvero il mondo per un istante (cielo e grotte aperte); ogni
+  colpo d'elemento e ogni incantesimo porta la sua luce; le scintille dei colpi e degli scavi fanno un lampo breve; la
+  torcia in mano oscilla con il passo.
+- [ ] **335. Colpi e scavo.** Frammenti diversi per materiale (terra che si sbriciola, pietra che fa scintille,
+  cristalli e minerali che luccicano, legno a schegge), uno schizzo dell'elemento a ogni colpo, le creature che si
+  disfano secondo la loro natura (foglie, cenere, gocce, spore, scintille).
+- [ ] **336. L'acqua viva.** Il riflesso del cielo sotto la superficie, increspature (pioggia, chi entra, chi nuota),
+  le cascate dove il liquido scende, gli spruzzi.
+- [ ] **337. Il tempo che si posa.** Neve che imbianca le cime dei blocchi in superficie con la bufera e si scioglie,
+  terreno lucido dopo la pioggia, velo di cenere: un disegno sopra il terreno, che cresce e cala piano.
+- [ ] **338. Il suono dello spazio.** Eco nelle grandi caverne, suono asciutto nei cunicoli (misurato dall'aria attorno
+  al Germogliato), suoni attutiti sott'acqua, il fischio del vento in alto e in cielo.
+- [ ] **339. La superficie viva.** Lucciole al tramonto e di notte, foglie che cadono dagli alberi, polline nei prati,
+  l'erba che si piega al passaggio del Germogliato e delle creature.
+- [ ] **340. Chiusura.** Foto prima e dopo, fotogrammi, giro intero, resoconto.
+

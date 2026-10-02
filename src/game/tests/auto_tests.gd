@@ -482,7 +482,9 @@ func _group(kit: TestKit, g: String) -> void:
 		"volto":
 			await TestsLook.new(kit).run()           # Roadmap 33: le scene fisse della grafica (prove/volto/)
 		"sfondi":
-			await TestsBackdrop.new(kit).run()       # Roadmap 34: le foto fisse degli sfondi (prove/sfondi/)          # Roadmap 32: i compagni di battaglia
+			await TestsBackdrop.new(kit).run()       # Roadmap 34: le foto fisse degli sfondi (prove/sfondi/)
+		"atmosfera":
+			await TestsAtmosphere.new(kit).run()     # Roadmap 35: le foto fisse dell'atmosfera (prove/atmosfera/)          # Roadmap 32: i compagni di battaglia
 		"primo":
 			await TestsPrimo.new(kit).run()          # Roadmap 28: il Seme Primo
 		"arena":
