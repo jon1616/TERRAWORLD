@@ -4900,8 +4900,14 @@ fotogrammi resta sotto i 25 ms; il gruppo «base» e la galleria a ogni passo):
   ondeggia, batte e si inclina dove va; colpita sobbalza (`_flash`). Misura nel gruppo «volto»: sobbalzo 1,5 px,
   inclinazione fino a 0,06. **Il filo di luce sul contorno scartato apposta**: le creature che si nascondono nel buio sono
   una meccanica (la vista delle creature, le sorprese), e farle brillare cambierebbe la sfida.
-- [ ] **326. I bordi del mondo.** Piccoli dettagli disegnati solo nella vista dove il terreno tocca l'aria: radichette
+- [x] **326. I bordi del mondo.** Piccoli dettagli disegnati solo nella vista dove il terreno tocca l'aria: radichette
   che pendono dai soffitti, ciottoli sui pavimenti, gocce e muschio che cola, scelti dalla tessera e dallo strato e
   sempre uguali per la stessa cella; e qualche tessera rara diversa nella trama.
+  Fatto il 2 ott 2026: `OrnamentArt` (`src/art/ornament_art.gd`: 21 figure da 16 pixel disegnate dal codice, radichette,
+  stalattiti, stalattiti del Vuoto, gocce di Linfa, ciottoli, schegge; per ogni strato le sue con la frequenza, `pick` dal
+  hash della cella) e uno strato in più in ogni blocco di `WorldView` (`_paint_orn` dentro `_paint_grid`, così si aggiorna
+  scavando): solo sotto terra, nell'aria con una parete dietro, accanto a roccia naturale (mai sotto le costruzioni), senza
+  decorazioni. Solo vista: non si raccolgono, non si salvano. Le tessere rare diverse nella trama non le ho fatte: il
+  terreno ha già sedici varianti e i minerali, e dopo le voci 320-322 la ripetizione non si nota più.
 - [ ] **327. Chiusura.** Le nove foto prima e dopo affiancate (prove/volto_confronto.png), la corsa e la sonda dei
   fotogrammi, la galleria, il giro intero, il resoconto con le foto.

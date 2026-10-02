@@ -130,6 +130,8 @@ func _build_chunk(k: Vector2i) -> void:
 	var sway := _layer(node, ts_misc, 1, Vector2.ZERO)
 	sway.material = WindFx.plant_material()
 	var plats := _layer(node, ts_misc, 1, Vector2.ZERO)
+	var orn := _layer(node, OrnamentArt.tileset(), 1, Vector2.ZERO)   # Roadmap 33, voce 326: i dettagli dei bordi
+	node.set_meta("orn", orn)
 	var glow_t := _layer(node, ts_terrain_glow, 25, HALF)
 	glow_t.modulate = Color(1.0, 1.0, 1.0)
 	var glow_d := _layer(node, ts_misc_glow, 25, Vector2.ZERO)
@@ -174,7 +176,7 @@ func _build_chunk(k: Vector2i) -> void:
 		for x in range(x0, mini(x0 + World.CHUNK, world.w + 1)):
 			_paint_dual(Vector2i(x, y), terrain, glow_t)
 			if x < world.w and y < world.h:
-				_paint_grid(Vector2i(x, y), walls, decor, glow_d, plats, sway, sway_g)
+				_paint_grid(Vector2i(x, y), walls, decor, glow_d, plats, sway, sway_g, orn)
 				var i := y * world.w + x
 				if has_build and (bld[i] != 0 or wls[i] >= BuildData.WALL_BASE):
 					_paint_built(Vector2i(x, y), node)     # solo dove c'è qualcosa di costruito (voce 128)
@@ -222,7 +224,9 @@ func _paint_dual(c: Vector2i, terrain: Array[TileMapLayer], glow: TileMapLayer) 
 
 
 func _paint_grid(c: Vector2i, walls: TileMapLayer, decor: TileMapLayer, glow: TileMapLayer, plats: TileMapLayer,
-		sway: TileMapLayer, sway_g: TileMapLayer) -> void:
+		sway: TileMapLayer, sway_g: TileMapLayer, orn: TileMapLayer = null) -> void:
+	if orn != null:
+		_paint_orn(c, orn)
 	if world.plat(c.x, c.y):
 		plats.set_cell(c, 0, DecorPainter.plat_coords(c.x))
 	else:
@@ -251,6 +255,31 @@ func _paint_grid(c: Vector2i, walls: TileMapLayer, decor: TileMapLayer, glow: Ti
 		sway.erase_cell(c)
 		glow.erase_cell(c)
 		sway_g.erase_cell(c)
+
+
+## Roadmap 33, voce 326: un dettaglio del bordo (`OrnamentArt`) in una cella d'aria sotto terra, con una parete dietro,
+## senza decorazione né passerella, che tocca la roccia naturale sopra o sotto. Solo vista: niente si salva.
+func _paint_orn(c: Vector2i, orn: TileMapLayer) -> void:
+	var o := -1
+	if not world.solid(c.x, c.y) and world.wall(c.x, c.y) > 0 and world.wall(c.x, c.y) < BuildData.WALL_BASE \
+			and world.decor_at(c.x, c.y) == 0 and not world.plat(c.x, c.y):
+		var up := _natural(c.x, c.y - 1)
+		var dn := _natural(c.x, c.y + 1)
+		if up or dn:
+			o = OrnamentArt.pick(c.x, c.y, StrataData.at(world, c.x, c.y), up, dn)
+	if o >= 0:
+		orn.set_cell(c, 0, Vector2i(o, 0))
+	else:
+		orn.erase_cell(c)
+
+
+## Roccia o terra naturale (non costruita, non vetro, non assi o mattoni).
+func _natural(x: int, y: int) -> bool:
+	if not world.solid(x, y):
+		return false
+	var t := world.tile(x, y)
+	return t != TileDefs.COSTRUTTO and t != TileDefs.COSTRUTTO_T and t != TileDefs.ASSI and t != TileDefs.MATTONI \
+		and t != TileDefs.VETRO and t != TileDefs.PIETRA_SEM
 
 
 ## Voce 128: un costrutto (i bordi secondo i 4 vicini costruiti) e la parete costruita della cella c.
@@ -375,7 +404,7 @@ func refresh_around(c: Vector2i) -> void:
 		var node: Node2D = chunks.get(World.chunk_of(q))
 		if node:
 			var g: Array = node.get_meta("grid")
-			_paint_grid(q, g[0], g[1], g[2], g[3], g[4], g[5])
+			_paint_grid(q, g[0], g[1], g[2], g[3], g[4], g[5], node.get_meta("orn", null))
 	# voce 128: il costrutto e i suoi 4 vicini (i bordi cambiano)
 	for d2 in [Vector2i(0, 0), Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
 		var q2: Vector2i = c + d2
