@@ -4953,8 +4953,14 @@ vetro, le terre di brace e i funghi giganti (cambia solo una tinta); con la piog
   cactus, funghi. Ogni sfondo costa 25-85 ms in un thread; quello della partenza si fa subito, i salti (portale, rinascita)
   lo mettono senza sfumare (`_snap_set`). Corsa del gruppo «base»: lo sfondo non compare tra i colpevoli del fotogramma
   peggiore.
-- [ ] **330. Le nuvole.** Due piani di nuvole che scorrono con il vento (`Weather.wind`), più fitte e più scure con la
+- [x] **330. Le nuvole.** Due piani di nuvole che scorrono con il vento (`Weather.wind`), più fitte e più scure con la
   pioggia e la bufera, chiare con la nebbia, rade col sereno; di notte prendono la luce della luna.
+  Fatto il 2 ott 2026: `CloudArt` (le nuvole a sbuffi in tre toni, due file per piano, mai sovrapposte) e `SkyClouds`
+  (due piani tra le radici del cosmo e i monti; uno shader le fa comparire una alla volta secondo la copertura, perché
+  ogni nuvola ha il suo turno scritto nell'immagine). Il campo `cloud` di `WeatherData` dà copertura e scurezza di ogni
+  tempo; scorrono anche senza vento (~6 px/s) e più in fretta con il vento; di notte grigio-azzurre di luna. Lezioni: in
+  Godot 4 il `COLOR` del fragment contiene già il colore dell'immagine (il colore del nodo si prende nel vertex); con
+  `hdr_2d` l'immagine arriva in lineare, quindi le misure scritte nei canali si rileggono con `pow(…, 1/2,2)`.
 - [ ] **331. Gli stormi.** Ogni tanto, di giorno, uno stormo lontano attraversa il cielo (piccole sagome che battono le
   ali, dei colori del bioma); al tramonto i pipistrelli; nelle terre di brace le faville che salgono lontano.
 - [ ] **332. Chiusura.** Le foto prima e dopo (prove/sfondi_confronto.png), i fotogrammi, l'ingresso nel mondo (quanto

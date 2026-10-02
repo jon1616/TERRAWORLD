@@ -137,6 +137,7 @@ func apply() -> void:
 	Behavior.fog = float(st.get("sight", 1.0)) if out else 1.0
 	m.player.weather_run = float(st.get("slow", 1.0)) if out else 1.0
 	m.background.weather_tint = (st["tint"] as Color) if out else Color.WHITE
+	m.background.clouds.set_weather(st)                # voce 330
 
 
 func _process(dt: float) -> void:
@@ -153,6 +154,7 @@ func _process(dt: float) -> void:
 	m.player.wind = wind * wind_mult if out else 0.0
 	WindFx.set_wind(wind, not out)                  # (voce 284) le piante e le chiome si piegano
 	Projectiles.wind = wind if out else 0.0
+	m.background.clouds.wind = wind                    # voce 330: le nuvole scorrono con il vento
 	apply()
 	_visuals(st, out)
 	if not out:

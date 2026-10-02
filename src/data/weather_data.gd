@@ -9,32 +9,33 @@ class_name WeatherData
 ##   wind     forza del vento [min, max] in px/s²: spinge chi è in aria, le planate, i dardi e gli incantesimi
 ##   tint     colore del cielo; weights: quanto è probabile in ogni stagione (indice di `SeasonsData.SEASONS`)
 
+## cloud: [copertura, scurezza] delle nuvole dello sfondo (voce 330; 0-1, senza = [0,3, 0])
 ## senza_bioma: il moltiplicatore di un tempo che porta un bioma (campo `weather` dei biomi) quando il mondo non l'ha.
 const STATES := {
-	"sereno": {"name": "Sereno", "desc": "cielo pulito", "wind": [0.0, 30.0], "tint": Color(1, 1, 1),
+	"sereno": {"cloud": [0.3, 0.0], "name": "Sereno", "desc": "cielo pulito", "wind": [0.0, 30.0], "tint": Color(1, 1, 1),
 		"weights": [4, 5, 3, 3]},
-	"pioggia": {"name": "Pioggia", "desc": "le pozze si riempiono e l'orto cresce di più", "rain": 1.0, "grow": 1.4,
+	"pioggia": {"cloud": [0.85, 0.55], "name": "Pioggia", "desc": "le pozze si riempiono e l'orto cresce di più", "rain": 1.0, "grow": 1.4,
 		"wind": [20.0, 70.0], "tint": Color(0.78, 0.84, 0.92), "weights": [3, 1, 2, 0]},
-	"temporale": {"name": "Temporale", "desc": "pioggia fitta, vento forte e fulmini", "rain": 1.8, "grow": 1.4, "storm": true,
+	"temporale": {"cloud": [1.05, 0.9], "name": "Temporale", "desc": "pioggia fitta, vento forte e fulmini", "rain": 1.8, "grow": 1.4, "storm": true,
 		"wind": [80.0, 160.0], "tint": Color(0.55, 0.6, 0.72), "weights": [1, 2, 1, 0]},
-	"nebbia": {"name": "Nebbia", "desc": "si vede poco, e anche le creature vedono meno", "fog": 0.45, "sight": 0.6,
+	"nebbia": {"cloud": [0.75, 0.05], "name": "Nebbia", "desc": "si vede poco, e anche le creature vedono meno", "fog": 0.45, "sight": 0.6,
 		"wind": [0.0, 15.0], "tint": Color(0.82, 0.86, 0.86), "weights": [2, 0, 3, 2]},
-	"bufera": {"name": "Bufera di brina", "desc": "neve e vento gelato: si corre più piano", "snow": 1.5, "slow": 0.8,
+	"bufera": {"cloud": [0.95, 0.3], "name": "Bufera di brina", "desc": "neve e vento gelato: si corre più piano", "snow": 1.5, "slow": 0.8,
 		"wind": [120.0, 200.0], "tint": Color(0.8, 0.88, 1.0), "weights": [0, 0, 0, 3], "senza_bioma": 0.5},
 	# voce 93: le tempeste delle terre estreme (solo dove c'è il loro bioma; «rigore» = la barra del rigore sale più in fretta)
-	"tempesta_vetro": {"name": "Tempesta di vetro", "desc": "schegge di vetro nel vento: ferisce allo scoperto e si vede poco",
+	"tempesta_vetro": {"cloud": [0.6, 0.15], "name": "Tempesta di vetro", "desc": "schegge di vetro nel vento: ferisce allo scoperto e si vede poco",
 		"ash": 1.0, "fog": 0.35, "sight": 0.7, "wind": [130.0, 210.0], "tint": Color(1.0, 0.95, 0.75), "weights": [1, 2, 2, 1],
 		"senza_bioma": 0.0, "rigore": 2.0},
-	"gelicidio": {"name": "Gelicidio", "desc": "pioggia che gela appena tocca terra: si corre piano e il freddo morde",
+	"gelicidio": {"cloud": [0.95, 0.45], "name": "Gelicidio", "desc": "pioggia che gela appena tocca terra: si corre piano e il freddo morde",
 		"snow": 2.0, "slow": 0.7, "wind": [60.0, 140.0], "tint": Color(0.8, 0.9, 1.05), "weights": [1, 0, 1, 3],
 		"senza_bioma": 0.0, "rigore": 2.0},
-	"nube_pietra": {"name": "Nube di pietra", "desc": "una polvere grigia che si posa su tutto: non si vede quasi niente",
+	"nube_pietra": {"cloud": [0.95, 0.35], "name": "Nube di pietra", "desc": "una polvere grigia che si posa su tutto: non si vede quasi niente",
 		"fog": 0.65, "sight": 0.5, "wind": [20.0, 60.0], "tint": Color(0.85, 0.84, 0.8), "weights": [1, 1, 2, 1],
 		"senza_bioma": 0.0, "rigore": 2.0},
-	"pioggia_brace": {"name": "Pioggia di brace", "desc": "scintille che cadono dal cielo: riparati sotto un tetto",
+	"pioggia_brace": {"cloud": [0.85, 0.65], "name": "Pioggia di brace", "desc": "scintille che cadono dal cielo: riparati sotto un tetto",
 		"ash": 1.6, "fog": 0.2, "wind": [70.0, 150.0], "tint": Color(1.1, 0.7, 0.55), "weights": [1, 3, 1, 0],
 		"senza_bioma": 0.0, "rigore": 2.0},
-	"cenere": {"name": "Tempesta di cenere", "desc": "la cenere ferisce chi resta allo scoperto: riparati sotto un tetto",
+	"cenere": {"cloud": [0.95, 0.6], "name": "Tempesta di cenere", "desc": "la cenere ferisce chi resta allo scoperto: riparati sotto un tetto",
 		"ash": 1.0, "fog": 0.3, "sight": 0.8, "wind": [90.0, 170.0], "tint": Color(0.85, 0.66, 0.6), "weights": [1, 2, 1, 0],
 		"senza_bioma": 0.0},
 }

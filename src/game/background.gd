@@ -41,6 +41,7 @@ var _fade := 1.0                       # 0 → 1 durante il passaggio
 var _grad: Gradient
 var _sky_from: PackedColorArray
 var _sky_to: PackedColorArray
+var clouds := SkyClouds.new()         # voce 330: i due piani di nuvole
 var void_mode := false                 # voce 62: il Giardino sospeso nel Vuoto (niente colline né foreste, sempre le stelle)
 
 
@@ -60,6 +61,7 @@ func setup(w: World) -> void:
 	# le radici del cosmo, di tutti i biomi (gli altri piani li ha ogni bioma: voce 329)
 	var d0: Array = LAYERS[0]
 	_layers.append(_make_layer(self, _layer_image(String(d0[3]), int(d0[2]), w.world_seed + 50), d0[0], d0[1], int(d0[2])))
+	_layers.append_array(clouds.build(self, w.world_seed))          # voce 330: davanti alle radici, dietro ai monti
 	var b0 := _biome_id(w.spawn.x)
 	_install(b0, _set_images(b0, w.world_seed))
 	_cur = b0
@@ -174,6 +176,8 @@ func _process(dt: float) -> void:
 	if _fade < 1.0:
 		_fade = minf(_fade + dt / BackdropData.FADE, 1.0)
 		_paint_sky(_fade)
+	if _grad != null:
+		clouds.update(dt, _grad.colors[1])
 	if _grad != null and not _layers.is_empty():
 		# le radici del cosmo prendono il colore del cielo del bioma (in un cielo rosso non restano turchesi)
 		var sk: Color = _grad.colors[1]
@@ -252,6 +256,11 @@ func set_time(t: float, tint: Color, night: float, star_gain := Color.WHITE) -> 
 	_moon.modulate = Color(0.95, 1.05, 1.1) * Color(minf(star_gain.r, 2.5), minf(star_gain.g, 2.5), minf(star_gain.b, 2.5))
 	for L in _all_layers():
 		(L["node"] as Node2D).modulate = tint.lerp(Color.WHITE, 0.15)
+	# voce 330: le nuvole prendono il colore dell'ora, ma di notte le schiarisce la luna (lo fa `SkyClouds`)
+	clouds.night = night
+	clouds.moon = star_gain
+	for L in clouds.layers:
+		(L["node"] as Node2D).modulate = tint.lerp(Color.WHITE, 0.15).lerp(Color.WHITE, night * 0.9)
 	_sun.visible = t > 0.18 and t < 0.82 and not no_lights
 	_moon.visible = (not (t > 0.18 and t < 0.82) or t < 0.22 or t > 0.78) and not no_lights
 	_sun.modulate = Color(2.2, 2.1, 1.8).lerp(Color(0.04, 0.03, 0.07), eclipse)
@@ -265,6 +274,7 @@ func follow(cp: Vector2, view: Vector2, dt: float, snap := false) -> void:
 	_biome_goal = Color(0.7, 0.7, 0.66) if Blight.surface_blighted(world, cx) else Color.WHITE
 	if not void_mode:
 		if snap:
+			clouds.snap()
 			_snap_set(_biome_id(cx))
 		else:
 			_want(_biome_id(cx))
@@ -280,7 +290,7 @@ func follow(cp: Vector2, view: Vector2, dt: float, snap := false) -> void:
 		var node: Node2D = L["node"]
 		var iw: float = L["w"]
 		var off: float = L["off"]
-		node.position = Vector2(cp.x * (1.0 - f), _horizon - 190.0 + off + (cp.y - _horizon) * (1.0 - f))
+		node.position = Vector2(cp.x * (1.0 - f) + float(L.get("drift", 0.0)), _horizon - 190.0 + off + (cp.y - _horizon) * (1.0 - f))
 		var k0 := floorf((cp.x - view.x * 0.5 - node.position.x) / iw)
 		var sprites: Array = L["sprites"]
 		for i in sprites.size():
@@ -306,5 +316,7 @@ func _arc(cp: Vector2, view: Vector2, p: float) -> Vector2:
 ## cosmo) e le stelle si vedono anche di giorno.
 func set_void() -> void:
 	void_mode = true
+	for L in clouds.layers:
+		(L["node"] as Node2D).visible = false
 	for id in _sets:
 		(_sets[id]["root"] as Node2D).visible = false

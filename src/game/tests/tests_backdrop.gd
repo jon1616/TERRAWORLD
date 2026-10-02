@@ -43,13 +43,29 @@ func run() -> void:
 	m.day.time = 0.92
 	m.day.apply(true)
 	await _shot(world.spawn.x, "zz_notte")
+	if m.get("weather") != null:
+		var wn: String = m.weather.id
+		m.weather.set_weather("pioggia")
+		m.background.clouds.snap()
+		await _shot(world.spawn.x, "zz_notte_pioggia")
+		m.weather.set_weather(wn)
 	m.day.time = t0
 	m.day.apply(true)
 	if m.get("weather") != null:
 		var w0: String = m.weather.id
-		m.weather.set_weather("pioggia")
-		await _shot(world.spawn.x, "zz_pioggia")
+		# voce 330: le nuvole di ogni tempo
+		for wid in ["pioggia", "temporale", "nebbia", "bufera", "cenere"]:
+			m.weather.set_weather(wid)
+			m.background.clouds.snap()
+			await _shot(world.spawn.x, "zz_" + wid)
 		m.weather.set_weather(w0)
+		m.background.clouds.snap()
+	# voce 330: le nuvole scorrono (anche senza vento)
+	var cl: Dictionary = m.background.clouds.layers[1]
+	var d0: float = cl["drift"]
+	await kit.seconds(1.0)
+	var moved := absf(float(cl["drift"]) - d0)
+	print("sfondi: le nuvole scorrono di %.1f px al secondo" % moved if moved > 0.5 else "ATTENZIONE: le nuvole sono ferme")
 	m.hud.visible = hud0
 	Settings.values["tip_attivi"] = tips0
 	m.snap_to(world.spawn)
