@@ -107,6 +107,7 @@ static func build_scene(m: Node2D) -> void:
 	m.overlay.scale = Vector2(S, S)
 	m.overlay.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	m.overlay.material = LightFx.overlay_material()     # Roadmap 33: la luce letta con un filtro bicubico
+	(m.overlay.material as ShaderMaterial).set_shader_parameter("shape", m.light.shape_tex)   # e il rilievo (voce 321)
 	m.overlay.z_index = 20
 	m.overlay.visible = not ("--senza-luce" in OS.get_cmdline_user_args())
 	m.add_child(m.overlay)

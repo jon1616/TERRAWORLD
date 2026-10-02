@@ -4859,9 +4859,14 @@ fotogrammi resta sotto i 25 ms; il gruppo «base» e la galleria a ogni passo):
   quattro passaggi solo sul pieno, l'aria resta com'è: niente luce attraverso le pareti). Le foto: la massa della roccia
   si vede per tre-quattro tessere attorno alle luci e sfuma nel buio; nessun angolo delle tessere. Corsa invariata
   (fotogramma peggiore 32 ms, come prima: attesa del disegno).
-- [ ] **321. Il rilievo del terreno.** I contorni morbidi del terreno prendono luce dall'alto: un filo più chiaro sul
+- [x] **321. Il rilievo del terreno.** I contorni morbidi del terreno prendono luce dall'alto: un filo più chiaro sul
   bordo superiore di ogni massa, uno più scuro sotto e ai lati (disegnati dal pittore del terreno nelle sue forme), e
   un'ombra morbida dove il terreno tocca la parete dietro (occlusione), letta dallo stesso shader della luce.
+  Fatto il 2 ott 2026: invece di ridisegnare le 16 forme del terreno, il rilievo nasce nello shader della luce
+  (`LightFx`) da una seconda immagine della finestra, la forma (`LightMap.shape_tex`: rosso = pieno, verde = parete,
+  stessa origine della luce), letta morbida anch'essa: il terreno con aria sopra prende un filo di luce (`RIM` 0,38),
+  quello con aria sotto un'ombra (`SHADE` 0,32), le pareti si scuriscono accanto al terreno (`AO` 0,5). Moltiplica la
+  luce: al buio resta buio. Foto: tetti e pavimenti delle grotte si leggono, i cunicoli hanno un bordo scuro.
 - [ ] **322. Le pareti vive.** La carta da parati sparisce: le pareti prendono una variazione grande (macchie di colore
   e di tono che cambiano su decine di tessere, da un rumore nello spazio del mondo), sono più scure e più fredde del
   terreno davanti (la distanza), e più scure ancora accanto al terreno.

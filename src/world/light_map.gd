@@ -34,6 +34,9 @@ static var floor_light := 0.0           # Opzioni, «Chiarore del buio»: un fil
 var world: World
 var image: Image
 var tex: ImageTexture
+## Roadmap 33, voce 321: la forma della finestra, un pixel per tessera (rosso = pieno, verde = parete di fondo), con la
+## stessa origine dell'immagine della luce: lo shader della luce ne ricava il rilievo del terreno e l'ombra sulle pareti.
+var shape_tex: ImageTexture
 var origin := Vector2i.ZERO           # cella del mondo nell'angolo in alto a sinistra dell'immagine mostrata
 var extra := {}                        # luci in movimento per fonte: {"guardiano": [[cella, colore], …], "antiche": …}
 var sky := SKY                        # luce del cielo aperto, secondo l'ora (vedi `DayCycle`)
@@ -52,6 +55,7 @@ func setup(w: World) -> void:
 	world = w
 	image = Image.create_empty(LW, LH, false, Image.FORMAT_RGB8)
 	tex = ImageTexture.create_from_image(image)
+	shape_tex = ImageTexture.create_from_image(Image.create_empty(LW, LH, false, Image.FORMAT_RG8))
 
 
 ## Chiamata ogni fotogramma. Restituisce true quando è pronta un'immagine nuova (l'origine può essere cambiata).
@@ -63,6 +67,7 @@ func update(view_center: Vector2i, player_cell: Vector2i) -> bool:
 		origin = _job["origin"]
 		image = _job["image"]
 		tex.update(image)
+		shape_tex.update(_job["shape"])
 		ready = true
 	if _task < 0:
 		var moved := absi(view_center.x - _center.x) >= RECENTER or absi(view_center.y - _center.y) >= RECENTER
@@ -82,6 +87,7 @@ func compute_now(view_center: Vector2i, player_cell: Vector2i) -> void:
 	origin = _job["origin"]
 	image = _job["image"]
 	tex.update(image)
+	shape_tex.update(_job["shape"])
 
 
 ## Luminosità (0-1, come si vede) di una cella nell'ultima immagine calcolata; -1 se è fuori dalla finestra.
@@ -341,6 +347,20 @@ static func _solve(job: Dictionary) -> void:
 	# immagine: la faccia di un blocco che tocca l'aria prende quasi la luce dell'aria davanti; poi una curva che
 	# schiarisce i toni medi e la codifica sRGB (la grafica 2D lavora in spazio lineare, vedi CLAUDE.md)
 	var img := Image.create_empty(LW, LH, false, Image.FORMAT_RGB8)
+	# voce 321: la forma (pieno, parete) per il rilievo e l'ombra delle pareti
+	var shp := PackedByteArray()
+	shp.resize(n * 2)
+	for y in LH:
+		var wy := o.y + y
+		for x in LW:
+			var i := y * LW + x
+			shp[i * 2] = 255 if solid[i] == 1 else 0
+			var wx := o.x + x
+			if wy >= 0 and wy < wh and wx >= 0 and wx < ww:
+				shp[i * 2 + 1] = 255 if walls[wy * ww + wx] != 0 else 0
+			elif wy >= wh:
+				shp[i * 2 + 1] = 255
+	job["shape"] = Image.create_from_data(LW, LH, false, Image.FORMAT_RG8, shp)
 	for y in LH:
 		for x in LW:
 			var i := y * LW + x
