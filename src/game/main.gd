@@ -128,6 +128,7 @@ var board: Board
 var storage: Storage
 var herd: Herd
 var bonds: BondBag                     # Roadmap 32: la Sacca dei legami
+var zone_grade: ZoneGrade              # Roadmap 33: la tinta delle zone
 var taming: Taming
 var pens: Pens
 var _spores: CPUParticles2D
@@ -301,6 +302,7 @@ func _build() -> void:
 	diary = _mount(Diary.new())            # voce 83: il diario della partita
 	_mount(Juice.new())                    # voce 293: scosse piccole e pause d'impatto brevissime
 	_mount(AmbientFx.new())                # voce 286: l'aria viva (polline, lucciole, spore, braci) e la polvere dei passi
+	zone_grade = _mount(ZoneGrade.new())   # Roadmap 33, voce 324: la tinta delle zone
 	hud.panel.quick_stack = storage.quick_stack
 	hud.panel._toast = hud.toast
 	interact.chest_panel.storage = storage

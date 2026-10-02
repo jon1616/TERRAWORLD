@@ -39,6 +39,8 @@ const OPTIONS := [
 		"desc": "Dove la luce non arriva il gioco è nero. Per chi fatica a vedere, un filo di chiarore ovunque."},
 	{"id": "tremolio", "sec": "video", "name": "Fiamma della torcia che tremola", "type": "bool", "def": true,
 		"desc": "La luce della torcia in mano cambia un poco d'intensità, come una fiamma vera."},
+	{"id": "tinta_zone", "sec": "video", "name": "Tinta delle zone", "type": "bool", "def": true,
+		"desc": "Ogni strato e ogni terra ha i suoi colori: ombre fredde nelle Caverne, viola nel Fondo, calde nelle terre di brace. Il buio resta buio."},
 	{"id": "particelle", "sec": "video", "name": "Polvere e scintille", "type": "bool", "def": true,
 		"desc": "La polvere dello scavo, gli sbuffi e le scintille. Spente: più leggero."},
 	{"id": "contatore_fps", "sec": "video", "name": "Mostra i fotogrammi al secondo", "type": "bool", "def": false,

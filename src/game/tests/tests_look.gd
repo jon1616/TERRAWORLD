@@ -103,6 +103,8 @@ func _torch(c: Vector2i) -> void:
 func _shot(name: String) -> void:
 	m.light.dirty = true
 	await kit.seconds(1.0)
+	m.zone_grade.snap()                         # (la tinta della zona subito, non a metà della sfumatura)
+	await kit.frames(2)
 	await kit.save("volto/" + name)
 
 

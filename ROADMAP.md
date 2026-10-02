@@ -4882,9 +4882,15 @@ fotogrammi resta sotto i 25 ms; il gruppo «base» e la galleria a ogni passo):
   della luce ridisegnata in somma nell'aria delle grotte faceva colonne di nebbia grigiastra fino al soffitto (vicino
   alle torce la luce è al massimo su un'area larga) e sporcava la scena anche a un terzo della forza; gli aloni delle torce
   e il bagliore che c'erano già bastano. La foschia del colore dello strato passa alla voce 324 (tinta delle zone).
-- [ ] **324. La tinta delle zone.** Una correzione di colore a tutto schermo, diversa per strato e bioma (ombre
+- [x] **324. La tinta delle zone.** Una correzione di colore a tutto schermo, diversa per strato e bioma (ombre
   colorate, saturazione, contrasto), sfumata nel passaggio; più fredda nelle Caverne, viola nel Fondo, calda nelle
   terre di brace. Un'opzione per spegnerla.
+  Fatto il 2 ott 2026: `GradeData` (tinte dei cinque strati e degli elementi dei biomi di superficie: colore delle ombre,
+  delle luci, saturazione, contrasto) e `ZoneGrade` (`src/game/zone_grade.gd`, un rettangolo a tutto schermo sul livello
+  4, sopra il mondo e sotto vignettatura e interfaccia, che rilegge lo schermo; sfuma in 2 s al cambio di zona; `snap` per
+  le foto). La prima versione lavorava sui colori lineari e schiacciava i toni scuri (le pareti in penombra sparivano):
+  ora saturazione e contrasto si fanno sui toni come li vede l'occhio, la tinta delle ombre non toglie luce e il nero
+  resta nero. Opzione «Tinta delle zone» (Video). Galleria con 0 problemi.
 - [ ] **325. Le creature vive.** Un'animazione fatta dal codice per tutte: il corpo ondeggia camminando, si inclina
   nella corsa, si allunga nel salto e si schiaccia atterrando, chi vola sbatte e ondeggia, colpita sobbalza; e un filo
   di luce sul contorno, perché si leggano nel buio senza toglierlo.
