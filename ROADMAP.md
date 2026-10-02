@@ -5072,3 +5072,9 @@ generatore non è stato toccato. Il suono è stato misurato, non ascoltato: va s
 mondo già visitato si ricompariva dove si era l'ultima volta in quel mondo; ora si compare davanti al portale che
 riporta al mondo da cui si arriva (`Session.arrive_from`, `Portal.arrival`). Entrando dal menu resta la posizione
 salvata. La prova del viaggio (`--prova-portale`) parte lontana dal portale e controlla l'arrivo (0 tessere).
+
+**Correzione del 2 ott 2026 (segnalata dall'utente): la Dispensa dà gli ingredienti.** La creazione prendeva gli
+ingredienti solo dalle casse del mondo (`world.chests`), e il contenuto della Dispensa è del personaggio
+(`Character.dispensa`): con «usa per creare» acceso non contava. Ora `Storage._update_pool` aggiunge la Dispensa
+quando una sua stazione è a portata con la spunta (`_dispense`, cercate di nuovo solo quando le stazioni cambiano).
+Prova nel gruppo «zaino».

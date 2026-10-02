@@ -209,7 +209,17 @@ func larder() -> void:
 	var dd: Dictionary = m.character.to_dict()
 	var ch := Character.from_dict("prova_dispensa", JSON.parse_string(JSON.stringify(dd)))
 	var saved_ok: bool = ch != null and ch.dispensa != null and ch.dispensa.count("ardesia") == 40 and ch.dispensa.slots.size() == 200
-	var ok: bool = n1 == 60 and opened and sent and n2 == 120 and far_open and n3 == 200 and saved_ok
+	# la Dispensa vicina con «usa per creare» dà gli ingredienti alla creazione (2 ott 2026, segnalato dall'utente)
+	var at: Vector2i = m.player_cell() + Vector2i(2, -1)
+	m.world.stations[at] = "dispensa"
+	m.world.stations_changed()
+	m.storage._update_pool()
+	var crafts: bool = dsp in Crafting.pool and Crafting.in_pool("ardesia") >= 40
+	m.world.stations.erase(at)
+	m.world.stations_changed()
+	m.storage._update_pool()
+	print("Dispensa vicina negli ingredienti della creazione: %s" % crafts)
+	var ok: bool = n1 == 60 and opened and sent and n2 == 120 and far_open and n3 == 200 and saved_ok and crafts
 	print("Dispensa: %d → %d → %d caselle, aperta dalla stazione %s, il Seme manda l'ardesia (non la spada) %s, il Cuore la apre ovunque %s, salvataggio %s" % [
 		n1, n2, n3, opened, sent, far_open, saved_ok])
 	if not ok:

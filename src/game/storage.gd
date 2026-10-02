@@ -79,6 +79,20 @@ func _process(dt: float) -> void:
 		_update_labels()
 
 
+## Le stazioni «dispensa» del mondo (si cercano di nuovo solo quando le stazioni cambiano).
+var _disp: Array[Vector2i] = []
+var _disp_rev := -1
+func _dispense() -> Array[Vector2i]:
+	var rev: int = m.world.stations_rev()
+	if rev != _disp_rev:
+		_disp_rev = rev
+		_disp.clear()
+		for o in m.world.stations:
+			if String(m.world.stations[o]) == "dispensa":
+				_disp.append(o)
+	return _disp
+
+
 ## Le casse che danno gli ingredienti alla creazione.
 func _update_pool() -> void:
 	var pool: Array = []
@@ -90,6 +104,13 @@ func _update_pool() -> void:
 	for o in near:
 		if settings(o)["creare"]:
 			pool.append(m.world.chests[o])
+	# la Dispensa del Giardiniere: il suo contenuto è del personaggio (non sta in `world.chests`), ma la stazione vicina
+	# con «usa per creare» lo dà alla creazione come una cassa (segnalato dall'utente, 2 ott 2026)
+	if m.get("backpack") != null:
+		for o in _dispense():
+			if settings(o)["creare"] and _center(o).distance_to(m.player.position) <= StorageData.craft_reach * S:
+				pool.append(m.backpack.dispensa())
+				break
 	var changed := pool.size() != Crafting.pool.size()
 	if not changed:
 		for i in pool.size():
