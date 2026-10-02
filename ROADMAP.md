@@ -4875,8 +4875,13 @@ fotogrammi resta sotto i 25 ms; il gruppo «base» e la galleria a ogni passo):
   coincidono con il periodo di quattro della trama) e `DecorPainter.WALL_CONTRAST` 0,42 (le pareti naturali verso il loro
   colore medio; quelle dei Seminatori, le assi e i mattoni restano nitide). Le pareti più scure e più fredde accanto al
   terreno le fa già l'ombra d'angolo della voce 321. Foto: la carta da parati non si vede più, ogni grotta ha i suoi toni.
-- [ ] **323. Gli aloni e l'aria.** Gli aloni delle luci (torce, cristalli, stazioni, Linfa) sommati con morbidezza,
+- [x] **323. Gli aloni e l'aria.** Gli aloni delle luci (torce, cristalli, stazioni, Linfa) sommati con morbidezza,
   la polvere che brilla solo nella luce, una foschia leggera del colore dello strato lontano dal Germogliato.
+  Fatto il 2 ott 2026, in parte: il **pulviscolo** sotto terra (`AmbientFx`, un emettitore che segue la visuale, disegnato
+  sotto l'immagine della luce: si vede solo dove c'è luce). **Il velo d'aria luminosa provato e scartato**: l'immagine
+  della luce ridisegnata in somma nell'aria delle grotte faceva colonne di nebbia grigiastra fino al soffitto (vicino
+  alle torce la luce è al massimo su un'area larga) e sporcava la scena anche a un terzo della forza; gli aloni delle torce
+  e il bagliore che c'erano già bastano. La foschia del colore dello strato passa alla voce 324 (tinta delle zone).
 - [ ] **324. La tinta delle zone.** Una correzione di colore a tutto schermo, diversa per strato e bioma (ombre
   colorate, saturazione, contrasto), sfumata nel passaggio; più fredda nelle Caverne, viola nel Fondo, calda nelle
   terre di brace. Un'opzione per spegnerla.

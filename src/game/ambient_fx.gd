@@ -20,9 +20,13 @@ void fragment() {
 }
 """
 const STEP := 0.28                      # secondi tra due sbuffi di polvere correndo
+## Roadmap 33, voce 323: il pulviscolo sotto terra. È disegnato **sotto** l'immagine della luce (z 15, la luce è a 20):
+## si vede solo dove c'è luce, come polvere in un raggio, e al buio sparisce da sé.
+const DUST := {"col": Color(1.0, 0.92, 0.78, 0.55), "amount": 46, "life": 9.0}
 
 var m: Node2D
 var _air: CPUParticles2D
+var _dust: CPUParticles2D
 var _kind := ""
 var _t := 0.0
 var _step_t := 0.0
@@ -39,6 +43,28 @@ func setup(main: Node2D) -> void:
 	_air.z_index = 24
 	_air.emitting = false
 	m.fx.add_child(_air)
+	_dust = CPUParticles2D.new()
+	_dust.local_coords = false
+	_dust.emission_shape = CPUParticles2D.EMISSION_SHAPE_RECTANGLE
+	_dust.direction = Vector2(1, 0)
+	_dust.spread = 180.0
+	_dust.gravity = Vector2(0, 1.5)
+	_dust.initial_velocity_min = 1.5
+	_dust.initial_velocity_max = 5.0
+	_dust.amount = int(DUST["amount"])
+	_dust.lifetime = float(DUST["life"])
+	_dust.preprocess = float(DUST["life"])            # c'è già quando si scende, non nasce davanti agli occhi
+	_dust.scale_amount_min = 1.0
+	_dust.scale_amount_max = 1.0
+	var g := Gradient.new()
+	g.offsets = PackedFloat32Array([0.0, 0.2, 0.8, 1.0])
+	var dc: Color = DUST["col"]
+	g.colors = PackedColorArray([Color(dc, 0.0), dc, dc, Color(dc, 0.0)])
+	_dust.color_ramp = g
+	_dust.z_as_relative = false
+	_dust.z_index = 15
+	_dust.emitting = false
+	m.fx.add_child(_dust)
 	m.player.landed.connect(_on_landed)
 	# (voce 287) la vignettatura: gli angoli dello schermo appena più scuri, sotto l'interfaccia; lo sguardo va al centro
 	var layer := CanvasLayer.new()
@@ -71,6 +97,11 @@ func _update_air(on: bool) -> void:
 	var view: Vector2 = get_viewport().get_visible_rect().size / (m.cam as Camera2D).zoom
 	_air.position = m.cam.get_screen_center_position()
 	_air.emission_rect_extents = view * 0.55
+	_dust.position = _air.position
+	_dust.emission_rect_extents = view * 0.55
+	var under := on and StrataData.at(m.world, floori(m.player.position.x / 16.0), floori(m.player.position.y / 16.0)) >= 1
+	if _dust.emitting != under:
+		_dust.emitting = under
 	var kind := _kind_here() if on else ""
 	if kind == _kind:
 		return
