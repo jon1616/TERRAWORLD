@@ -95,6 +95,8 @@ const OPTIONS := [
 	{"id": "raggio_casse", "sec": "gioco", "name": "Raggio delle casse per creare", "type": "slider", "min": 5.0,
 		"max": 60.0, "step": 1.0, "fmt": "tessere", "def": 20.0,
 		"desc": "Quanto lontano Creare prende gli ingredienti dalle casse con «usa per creare» (e dalle reti dei Nodi delle casse). Si misura dal Germogliato. Normale: 20 tessere."},
+	{"id": "fame_mandria", "sec": "gioco", "name": "La mandria ha fame", "type": "bool", "def": true,
+		"desc": "Spenta: la mandria e i compagni di battaglia non hanno mai fame, non serve dar loro da mangiare e nei recinti la mangiatoia non si consuma (producono e lavorano come se fossero sempre sazi). Addomesticare con il cibo le creature selvatiche resta com'è."},
 	{"id": "forza_compagni", "sec": "gioco", "name": "Forza dei compagni", "type": "choice", "def": 1.0,
 		"choices": [[0.5, "Deboli (metà)"], [0.75, "Ridotta"], [1.0, "Normale"], [1.25, "Forti"], [1.5, "Molto forti"]],
 		"desc": "Vita e danno dei compagni di battaglia. Normale: aiutano molto ma non combattono al posto tuo (accanto a un compagno alla pari le cadute si dimezzano e più). Vale subito, anche per chi è già in campo quando lo richiami."},

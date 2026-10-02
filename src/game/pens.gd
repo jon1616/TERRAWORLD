@@ -157,7 +157,8 @@ func tick(rec: Dictionary, dt: float) -> void:
 		return
 	var chest: Bisaccia = m.world.chest_at(o)
 	var t := Herd.tame_data(rec)
-	rec["fame"] = minf(float(rec["fame"]) + HerdData.HUNGER_RATE * dt, 1.0)
+	var hk := Herd.hunger_k()
+	rec["fame"] = minf(float(rec["fame"]) + HerdData.HUNGER_RATE * dt, 1.0) if hk > 0.0 else 0.0
 	if float(rec["fame"]) >= 0.5:
 		for food in t["diet"]:
 			if chest.count(String(food)) > 0:

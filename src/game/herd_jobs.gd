@@ -50,7 +50,7 @@ static func work(m: Node2D, rec: Dictionary, chest: Bisaccia, dt: float, rng: Ra
 	var j := job_of(rec)
 	if j == "":
 		return
-	rec["fame"] = minf(float(rec["fame"]) + HerdData.HUNGER_RATE * dt * (HUNGER - 1.0), 1.0)
+	rec["fame"] = minf(float(rec["fame"]) + HerdData.HUNGER_RATE * dt * (HUNGER - 1.0) * Herd.hunger_k(), 1.0)
 	if float(rec["fame"]) >= 0.8:
 		return                                  # affamata non lavora
 	if j == "cerca":

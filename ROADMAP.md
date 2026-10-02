@@ -5078,3 +5078,8 @@ ingredienti solo dalle casse del mondo (`world.chests`), e il contenuto della Di
 (`Character.dispensa`): con «usa per creare» acceso non contava. Ora `Storage._update_pool` aggiunge la Dispensa
 quando una sua stazione è a portata con la spunta (`_dispense`, cercate di nuovo solo quando le stazioni cambiano).
 Prova nel gruppo «zaino».
+
+**Opzione del 2 ott 2026 (richiesta dell'utente): «La mandria ha fame».** Nelle Opzioni, sezione Gioco (accesa di
+partenza). Spenta, la fame della mandria e dei compagni resta a zero (`Herd.hunger_k`, letta da `Herd`, `Pens`,
+`HerdJobs`): non serve dar loro da mangiare e la mangiatoia dei recinti non si consuma; addomesticare con il cibo le
+creature selvatiche non cambia. Prova nel gruppo «mandria».

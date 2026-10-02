@@ -246,6 +246,11 @@ static func charm(rec: Dictionary, k: String) -> float:
 	return float(cd[1].get(k, 1.0)) if not cd.is_empty() else 1.0
 
 
+## Opzione «La mandria ha fame» (2 ott 2026, richiesta dell'utente): 1 = normale, 0 = la fame non sale mai.
+static func hunger_k() -> float:
+	return 1.0 if bool(Settings.v("fame_mandria")) else 0.0
+
+
 ## Il danno di adesso: di più se è contenta, di meno se ha fame.
 static func damage_now(rec: Dictionary) -> int:
 	var dmg := float(stats_of(rec)["damage"]) * (0.75 + 0.5 * float(rec["felice"]))
@@ -502,10 +507,13 @@ func _process(dt: float) -> void:
 		return
 	_t = 1.0
 	# fame e umore di chi segue, riposo di chi è a casa (i recinti li fa `Pens`)
+	var hk := hunger_k()
 	for r in records():
+		if hk <= 0.0:
+			r["fame"] = 0.0                     # opzione spenta: sempre sazi
 		match String(r["stato"]):
 			"segue":
-				r["fame"] = minf(float(r["fame"]) + HerdData.HUNGER_RATE, 1.0)
+				r["fame"] = minf(float(r["fame"]) + HerdData.HUNGER_RATE * hk, 1.0)
 				r["felice"] = move_toward(float(r["felice"]), 1.0 if float(r["fame"]) < 0.8 else 0.2, 1.0 / 600.0)
 				var c: Creature = beasts.get(int(r["uid"]))
 				if c != null and bool(r.get("campo", false)):
@@ -516,7 +524,7 @@ func _process(dt: float) -> void:
 					c._bar.set_value(float(c.hp) / float(c.hp_max))
 			"riposo", "guardia":
 				r["vita"] = minf(float(r["vita"]) + 1.0 / HerdData.REST_HEAL, 1.0)
-				r["fame"] = move_toward(float(r["fame"]), 0.3, 0.01)
+				r["fame"] = move_toward(float(r["fame"]), 0.3 * hk, 0.01)
 				r["felice"] = move_toward(float(r["felice"]), 0.7, 1.0 / 600.0)
 
 

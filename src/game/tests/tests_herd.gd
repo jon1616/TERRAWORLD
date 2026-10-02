@@ -38,6 +38,7 @@ func run() -> void:
 	await jars_and_saves(h)
 	await breeding(spot, h)
 	await bestiary()
+	await no_hunger(h)
 	# si rimette la mandria com'era
 	h.ride(false)
 	for uid in h.beasts.keys():
@@ -321,6 +322,29 @@ func breeding(spot: Vector2i, h: Herd) -> void:
 
 
 ## Voce 61: l'Erbario vivo — la scheda Famiglie con quello che si è scoperto giocando (foto 98_erbario_famiglie).
+## Opzione «La mandria ha fame» (2 ott 2026): spenta, la fame torna a zero; accesa, risale.
+func no_hunger(h: Herd) -> void:
+	var v0: Variant = Settings.values.get("fame_mandria", true)
+	# a riposo (non compare in scena): spenta la fame va a zero, accesa risale verso il riposo
+	var rec := h.new_record("pecora_muschio", "nutrita")
+	rec["stato"] = "riposo"
+	rec["fame"] = 0.6
+	h.add_record(rec)
+	Settings.values["fame_mandria"] = false
+	h._t = 0.0
+	await kit.frames(3)
+	var off := float(rec["fame"])
+	Settings.values["fame_mandria"] = true
+	h._t = 0.0
+	await kit.frames(3)
+	var on := float(rec["fame"])                 # da 0 risale verso 0,3
+	Settings.values["fame_mandria"] = v0
+	print("mandria senza fame: %.2f (spenta), %.3f dopo un passo (accesa)" % [off, on])
+	if off > 0.0 or on <= 0.0:
+		print("ATTENZIONE: l'opzione «La mandria ha fame» non funziona")
+	m.character.mandria.erase(rec)
+
+
 func bestiary() -> void:
 	var ep: ErbarioPanel = null
 	for o in m.hud.overlays:
