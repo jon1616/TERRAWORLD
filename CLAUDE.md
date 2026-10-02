@@ -881,6 +881,19 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     I bordi: `OrnamentArt` + lo strato «orn» di `WorldView` (solo vista). Il pulviscolo in `AmbientFx` (sotto la luce).
   - Provati e scartati: il velo d'aria luminosa (la luce ridisegnata in somma: colonne di nebbia) e il filo di luce sul
     contorno delle creature (toglierebbe il nascondersi nel buio).
+- **Roadmap 34 «Gli sfondi»** (voci 328-332, 2 ott 2026; scelta dell'utente: solo ciò che non tocca il generatore):
+  - Le foto: gruppo «sfondi» (`TestsBackdrop`: la superficie di ogni bioma del mondo di prova, notte, i tempi, stormo,
+    pipistrelli; prove/sfondi/, partenza in prove/sfondi_prima/), `tools/foglio_sfondi.py`,
+    `python tools/confronto_volto.py prove/sfondi_prima prove/sfondi prove/sfondi_confronto.png`.
+  - `BackdropData` (per ogni bioma il cielo a quattro colori e tre piani [disegno, parallasse, spostamento, larghezza,
+    colore, accento]) e `BackdropArt` (i disegni); `Background` fa i piani di un bioma in un thread la prima volta
+    (`_want`), li sfuma (`BackdropData.FADE`), `_snap_set` nei salti; le radici del cosmo restano di tutti. **Un bioma
+    nuovo = una riga in `BackdropData.SETS`** (senza riga ha lo sfondo della foresta).
+  - Le nuvole: `CloudArt` (le immagini: tono in R, turno in G) e `SkyClouds` (due piani, shader, campo `cloud` di
+    `WeatherData` = [copertura, scurezza]; `Weather` passa il vento). Un tempo nuovo ha il suo campo `cloud`.
+  - `SkyLife` (`src/game/sky_life.gd`): stormi, pipistrelli, faville dei biomi in `EMBERS`.
+  - `WorldView` dipinge un blocco nuovo a righe (`_make_chunk`, `_paint_rows`, `_job`, `BUDGET_US`): costava 17 ms in
+    un fotogramma. Chi vuole tutti i blocchi pronti subito usa `set_view(…, true)`.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni
@@ -1224,6 +1237,10 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
 - Una funzione di un nodo non può avere il nome di una variabile già dichiarata (`ghost` in `Creature`): «has the same
   name as a previously declared variable».
 
+- **Roadmap 34** (2 ott 2026): in uno shader `canvas_item` di Godot 4 il `COLOR` del fragment contiene già il colore
+  dell'immagine (il colore del nodo si prende nel vertex con una `varying`); con `hdr_2d` l'immagine arriva in lineare,
+  quindi i numeri scritti nei canali di un'immagine si rileggono con `pow(x, 1/2,2)`. Una prova che crea qualcosa
+  «dove guarda la visuale» sposta prima la visuale: lo stormo nasceva nel bioma della foto di prima e veniva tolto.
 - **Roadmap 30** (1 ott 2026): una prova veloce che sceglie un punto (la nascita delle creature) deve controllare le
   **stesse** condizioni del codice che poi lo usa (pavimento, buio, torce): altrimenti le prove si sprecano su punti che
   verranno scartati (33% → 50% → 77% solo allineando i controlli). Per trovarli: un contatore provvisorio per ogni

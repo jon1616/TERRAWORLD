@@ -1,8 +1,10 @@
 """Roadmap 33: le scene fisse prima e dopo, affiancate (prove/volto_prima/ e prove/volto/) in prove/volto_confronto.png.
-Uso: python tools/confronto_volto.py"""
+Uso: python tools/confronto_volto.py
+Anche per altre foto (Roadmap 34): python tools/confronto_volto.py prove/sfondi_prima prove/sfondi prove/sfondi_confronto.png"""
 import os
+import sys
 from PIL import Image, ImageDraw
-A, B, OUT = "prove/volto_prima", "prove/volto", "prove/volto_confronto.png"
+A, B, OUT = (sys.argv[1:4] if len(sys.argv) >= 4 else ("prove/volto_prima", "prove/volto", "prove/volto_confronto.png"))
 files = sorted(f for f in os.listdir(B) if f.endswith(".png") and os.path.exists(os.path.join(A, f)))
 W, H = 800, 450
 sheet = Image.new("RGB", (W * 2 + 12, (H + 8) * len(files)), (8, 12, 14))

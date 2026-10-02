@@ -20,6 +20,7 @@ const LIST := [
 ]
 
 var m: Node2D
+var _pct := -1.0                       # la percentuale dell'Erbario di questo controllo (costa: si calcola una volta)
 
 
 func _init(main: Node2D) -> void:
@@ -30,7 +31,9 @@ func _init(main: Node2D) -> void:
 func reached(id: String) -> bool:
 	match id:
 		"erbario_25", "erbario_50", "erbario_75", "erbario_100":
-			return m.erbario.percent() >= float(id.get_slice("_", 1)) - 0.001
+			if _pct < 0.0:
+				_pct = m.erbario.percent()
+			return _pct >= float(id.get_slice("_", 1)) - 0.001
 		"lingua_comune", "lingua_antica", "lingua_nera":
 			if m.get("language") == null:
 				return false
@@ -54,6 +57,7 @@ func reached(id: String) -> bool:
 ## I traguardi raggiunti adesso (e i premi).
 func check() -> Array:
 	var fresh := []
+	_pct = -1.0
 	var st: Dictionary = m.character.stats
 	for e in LIST:
 		var id := String(e[0])

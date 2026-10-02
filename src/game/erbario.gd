@@ -66,6 +66,9 @@ func add_variant(id: String) -> void:
 	data["varianti"][id] = int(data["varianti"].get(id, 0)) + 1
 
 
+static var _items: Array = []
+
+
 static func entries(section: String) -> Array:
 	match section:
 		"creature":
@@ -73,9 +76,12 @@ static func entries(section: String) -> Array:
 		"oggetti":
 			# gli oggetti generati a centinaia (forme nuove, leghe), le Fiale (che conta il Genario) e i pesci (voce 120:
 			# la loro sezione, fuori dalla percentuale: la pesca non è indispensabile) restano fuori
-			return ItemsData.all().keys().filter(func(k: String) -> bool:
-				var it := ItemsData.get_item(k)
-				return not it.get("gen", false) and not String(it.get("kind", "")) in ["fiala", "pesce"])
+			# (l'elenco non cambia durante la partita: si fa una volta, costava ~30 ms a ogni percentuale)
+			if _items.is_empty():
+				_items = ItemsData.all().keys().filter(func(k: String) -> bool:
+					var it := ItemsData.get_item(k)
+					return not it.get("gen", false) and not String(it.get("kind", "")) in ["fiala", "pesce"])
+			return _items
 		"pesci":
 			return FishData.all().keys()
 		"pagine":

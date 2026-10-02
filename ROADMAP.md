@@ -1,8 +1,9 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 2 ott 2026)
-- **In corso: la Roadmap 34 «Gli sfondi»** (voci 328-332, dal 2 ott 2026): uno sfondo per ogni bioma, nuvole e stormi;
-  il generatore dei mondi non si tocca.
+- **Fatta la Roadmap 34 «Gli sfondi»** (voci 328-332, 2 ott 2026): uno sfondo per ogni bioma, nuvole che seguono il
+  tempo e il vento, stormi, pipistrelli e faville; tolti due scatti (traguardi del Museo, blocchi del mondo). Foto prima e
+  dopo in prove/sfondi_confronto.png. Resoconto in fondo alla Roadmap 34.
 - **Fatta la Roadmap 33 «La luce e la profondità»** (voci 319-327, 2 ott 2026): luce morbida e nella roccia, rilievo,
   pareti vive, tinta delle zone, creature che si muovono, bordi delle grotte; nove foto fisse prima e dopo (gruppo
   «volto», prove/volto_confronto.png). Resoconto in fondo alla Roadmap 33.
@@ -4967,5 +4968,23 @@ vetro, le terre di brace e i funghi giganti (cambia solo una tinta); con la piog
   sé: stormi a V o sparsi ogni 35-80 s di giorno, del colore dei monti lontani; pipistrelli a zig-zag al tramonto;
   faville con la scia nei biomi «brace» e «cenere» (`EMBERS`), che brillano anche di notte. Prova: foto zz_stormo e
   zz_pipistrelli, conteggi di uccelli, pipistrelli e faville.
-- [ ] **332. Chiusura.** Le foto prima e dopo (prove/sfondi_confronto.png), i fotogrammi, l'ingresso nel mondo (quanto
+- [x] **332. Chiusura.** Le foto prima e dopo (prove/sfondi_confronto.png), i fotogrammi, l'ingresso nel mondo (quanto
   costa fare i piani), il giro, il resoconto.
+  Fatto il 2 ott 2026: confronto con `python tools/confronto_volto.py prove/sfondi_prima prove/sfondi
+  prove/sfondi_confronto.png` (lo script ora accetta le cartelle). Ingresso nel mondo: nuvole ~22 ms, sfondo del bioma di
+  partenza 25-85 ms (gli altri in un thread). I fotogrammi: la sonda della corsa ha trovato due scatti che c'erano già
+  prima degli sfondi e li ho tolti. (1) Il controllo dei traguardi del Museo, ogni 10 s, rifaceva quattro volte
+  l'elenco di tutti gli oggetti dell'Erbario (31 ms): ora l'elenco si fa una volta (`Erbario._items`) e la percentuale
+  una volta per controllo. (2) Un blocco nuovo del mondo costava ~17 ms tutto in un fotogramma: ora si crea e si dipinge
+  a righe, al più 4 ms per fotogramma (`WorldView._job`), e un blocco nuovo non cancella celle vuote. Corsa del giro
+  intero: fotogramma peggiore da 34 a 21 ms (il WorldView da 18 a 5 ms). Giro intero: 0 errori, solo l'avviso noto del
+  posto piano delle comodità.
+
+**Resoconto della Roadmap 34.** Prima ogni bioma aveva lo stesso cielo turchese, le stesse colline e gli stessi
+alberi-lanterna; ora ognuno dei 16 biomi di superficie ha il suo cielo e tre piani di sagome (altipiani d'ambra, coni
+fumanti nelle terre di brace e di cenere, punte di ghiaccio sopra monti innevati, funghi giganti, pagode, dune e archi di
+vetro, alberi secchi…), che sfumano l'uno nell'altro camminando. Il cielo si muove: due piani di nuvole scorrono con il
+vento, poche col sereno, fitte e grigie con la pioggia, scure col temporale, azzurrine di luna la notte; passano stormi
+di giorno, pipistrelli al tramonto e faville lontane sopra le terre di fuoco. Il generatore dei mondi non è stato
+toccato. In più sono spariti due scatti che si sentivano esplorando. Resta per dopo lo sfondo sotto terra, che vorrebbe
+caverne senza pareti (cioè cambiare il generatore).

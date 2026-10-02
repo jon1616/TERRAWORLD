@@ -6,9 +6,12 @@ extends Node2D
 ## sue torce (gli oggetti sono costruiti da `ViewProps`).
 
 const S := 16
-const BUILD_PER_FRAME := 1
+
 const KEEP_MARGIN := 2                # blocchi tenuti oltre la visuale prima di liberarli
 const HALF := Vector2(-8, -8)         # spostamento della doppia griglia
+var _job := {}                         # voce 332: il blocco che si sta dipingendo a righe {k, node, y}
+const BUDGET_US := 4000                # quanto tempo per fotogramma per dipingere un blocco nuovo
+var _fresh := false                    # si sta dipingendo un blocco nuovo: gli strati sono vuoti, niente da cancellare
 
 var world: World
 var ts_terrain: TileSet
@@ -92,6 +95,7 @@ func set_view(view_cells: Rect2i, immediate := false) -> void:
 				_queue.append(k)
 	_queue.sort_custom(func(a: Vector2i, b: Vector2i) -> bool: return Vector2(a - mid).length_squared() < Vector2(b - mid).length_squared())
 	if immediate:
+		_finish_job()
 		while not _queue.is_empty():
 			_build_chunk(_queue.pop_front())
 
@@ -100,19 +104,46 @@ func _valid(k: Vector2i) -> bool:
 	return k.x >= 0 and k.y >= 0 and k.x * World.CHUNK < world.w and k.y * World.CHUNK < world.h
 
 
+## Roadmap 34, voce 332: un blocco nuovo costava ~17 ms tutto in un fotogramma (uno scatto a 60 fps). Ora si crea (nodi,
+## alberi, torce, stazioni) e poi le sue celle si dipingono a righe, al più `BUDGET_US` per fotogramma.
 func _process(dt: float) -> void:
-	for n in BUILD_PER_FRAME:
-		if _queue.is_empty():
-			break
-		var k: Vector2i = _queue.pop_front()
-		if not chunks.has(k):
-			_build_chunk(k)
+	var t0 := Time.get_ticks_usec()
+	if _job.is_empty():
+		while not _queue.is_empty():
+			var k: Vector2i = _queue.pop_front()
+			if not chunks.has(k):
+				_job = {"k": k, "node": _make_chunk(k), "y": k.y * World.CHUNK}
+				break
+	while not _job.is_empty() and Time.get_ticks_usec() - t0 < BUDGET_US:
+		var k2: Vector2i = _job["k"]
+		var y: int = _job["y"]
+		var y_end := mini(k2.y * World.CHUNK + World.CHUNK, world.h + 1)
+		var y1 := mini(y + 4, y_end)
+		_paint_rows(_job["node"], k2, y, y1)
+		_job["y"] = y1
+		if y1 >= y_end:
+			_job = {}
 	props.animate(dt)
+
+
+## Il blocco a metà si finisce subito (la vista chiesta «subito»: ingresso, salti).
+func _finish_job() -> void:
+	if _job.is_empty():
+		return
+	var k: Vector2i = _job["k"]
+	_paint_rows(_job["node"], k, int(_job["y"]), mini(k.y * World.CHUNK + World.CHUNK, world.h + 1))
+	_job = {}
 
 
 # ---------------------------------------------------------------- blocchi
 
 func _build_chunk(k: Vector2i) -> void:
+	var node := _make_chunk(k)
+	_paint_rows(node, k, k.y * World.CHUNK, mini(k.y * World.CHUNK + World.CHUNK, world.h + 1))
+
+
+## I nodi di un blocco, con le cose di scena (alberi, torce, stazioni); le celle le dipinge `_paint_rows`.
+func _make_chunk(k: Vector2i) -> Node2D:
 	var node := Node2D.new()
 	node.name = "blocco_%d_%d" % [k.x, k.y]
 	add_child(node)
@@ -165,14 +196,33 @@ func _build_chunk(k: Vector2i) -> void:
 	node.set_meta("glow_t", glow_t)
 	node.set_meta("fx", fx)
 	chunks[k] = node
+	node.set_meta("trees", trees)
+	props.fill_chunk(node, k)
+	return node
+
+
+## Dipinge le righe da `ya` a `yb` (esclusa) di un blocco appena creato.
+func _paint_rows(node: Node2D, k: Vector2i, ya: int, yb: int) -> void:
+	var terrain: Array[TileMapLayer] = []
+	terrain.assign(node.get_meta("terrain"))
+	var glow_t: TileMapLayer = node.get_meta("glow_t")
+	var g: Array = node.get_meta("grid")
+	var walls: TileMapLayer = g[0]
+	var decor: TileMapLayer = g[1]
+	var glow_d: TileMapLayer = g[2]
+	var plats: TileMapLayer = g[3]
+	var sway: TileMapLayer = g[4]
+	var sway_g: TileMapLayer = g[5]
+	var orn: TileMapLayer = node.get_meta("orn")
 	var x0 := k.x * World.CHUNK
-	var y0 := k.y * World.CHUNK
 	var bld := world.build
 	var wls := world.walls
 	var has_build := bld.size() == world.tiles.size()
 	var vn := world.vein
 	var has_vein := vn.size() == world.tiles.size()
-	for y in range(y0, mini(y0 + World.CHUNK, world.h + 1)):
+	# Roadmap 34, voce 332: un blocco nuovo non cancella celle che non ci sono (13 000 chiamate in meno)
+	_fresh = true
+	for y in range(ya, yb):
 		for x in range(x0, mini(x0 + World.CHUNK, world.w + 1)):
 			_paint_dual(Vector2i(x, y), terrain, glow_t)
 			if x < world.w and y < world.h:
@@ -182,11 +232,12 @@ func _build_chunk(k: Vector2i) -> void:
 					_paint_built(Vector2i(x, y), node)     # solo dove c'è qualcosa di costruito (voce 128)
 				if has_vein and vn[i] != 0:
 					_paint_vein(Vector2i(x, y), node)
-	node.set_meta("trees", trees)
-	props.fill_chunk(node, k)
+	_fresh = false
 
 
 func _free_chunk(k: Vector2i) -> void:
+	if not _job.is_empty() and _job["k"] == k:
+		_job = {}
 	var node: Node2D = chunks[k]
 	chunks.erase(k)
 	props.forget_chunk(node)
@@ -213,12 +264,14 @@ func _paint_dual(c: Vector2i, terrain: Array[TileMapLayer], glow: TileMapLayer) 
 		var m := _member[li]
 		var k := m[t0] | (m[t1] << 1) | (m[t2] << 2) | (m[t3] << 3)
 		if k == 0:
-			terrain[li].erase_cell(c)
+			if not _fresh:
+				terrain[li].erase_cell(c)
 		else:
 			terrain[li].set_cell(c, 0, TerrainPainter.coords(li, v, k))
 		if li == _glow_layer:
 			if k == 0:
-				glow.erase_cell(c)
+				if not _fresh:
+					glow.erase_cell(c)
 			else:
 				glow.set_cell(c, 0, TerrainPainter.coords(li, v, k))
 
@@ -229,7 +282,7 @@ func _paint_grid(c: Vector2i, walls: TileMapLayer, decor: TileMapLayer, glow: Ti
 		_paint_orn(c, orn)
 	if world.plat(c.x, c.y):
 		plats.set_cell(c, 0, DecorPainter.plat_coords(c.x))
-	else:
+	elif not _fresh:
 		plats.erase_cell(c)
 	# la parete si mette anche dietro i blocchi: i bordi morbidi del terreno lasciano scoperti gli angoli
 	var wl := world.wall(c.x, c.y)
@@ -237,7 +290,7 @@ func _paint_grid(c: Vector2i, walls: TileMapLayer, decor: TileMapLayer, glow: Ti
 		walls.erase_cell(c)                        # voce 128: le pareti costruite stanno nel loro strato
 	elif wl > 0:
 		walls.set_cell(c, 0, DecorPainter.wall_coords(wl, c.x, c.y))
-	else:
+	elif not _fresh:
 		walls.erase_cell(c)
 	var d := world.decor_at(c.x, c.y)
 	if d > 0:
@@ -250,7 +303,7 @@ func _paint_grid(c: Vector2i, walls: TileMapLayer, decor: TileMapLayer, glow: Ti
 			gl.set_cell(c, 0, DecorPainter.decor_coords(d))
 		else:
 			gl.erase_cell(c)
-	else:
+	elif not _fresh:
 		decor.erase_cell(c)
 		sway.erase_cell(c)
 		glow.erase_cell(c)
@@ -269,7 +322,7 @@ func _paint_orn(c: Vector2i, orn: TileMapLayer) -> void:
 			o = OrnamentArt.pick(c.x, c.y, StrataData.at(world, c.x, c.y), up, dn)
 	if o >= 0:
 		orn.set_cell(c, 0, Vector2i(o, 0))
-	else:
+	elif not _fresh:
 		orn.erase_cell(c)
 
 
