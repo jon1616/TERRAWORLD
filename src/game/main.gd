@@ -379,6 +379,12 @@ func _build() -> void:
 	var pos: Array = (world_meta.get("giocatori", {}) as Dictionary).get(character.id, [])
 	if pos.size() == 2:
 		start = Vector2i(int(pos[0]), int(pos[1]))
+	if Session.arrive_from != "":
+		# arrivati da un portale: davanti al portale che riporta indietro, non dove si era l'ultima volta
+		var at := portal.arrival(Session.arrive_from)
+		if at.x >= 0:
+			start = at
+		Session.arrive_from = ""
 	snap_to(start)
 	_loading.queue_free()
 	built = true

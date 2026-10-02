@@ -5068,3 +5068,7 @@ alto fischia il vento. Al tramonto si accendono le lucciole, di giorno il pollin
 cadono foglie e l'erba si piega al passaggio. Tutto è solo vista e suono: niente cambia il mondo o i salvataggi, e il
 generatore non è stato toccato. Il suono è stato misurato, non ascoltato: va sentito giocando.
 
+**Correzione del 2 ott 2026 (segnalata dall'utente): dai portali si arriva ai portali.** Passando da un portale verso un
+mondo già visitato si ricompariva dove si era l'ultima volta in quel mondo; ora si compare davanti al portale che
+riporta al mondo da cui si arriva (`Session.arrive_from`, `Portal.arrival`). Entrando dal menu resta la posizione
+salvata. La prova del viaggio (`--prova-portale`) parte lontana dal portale e controlla l'arrivo (0 tessere).

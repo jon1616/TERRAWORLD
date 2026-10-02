@@ -164,6 +164,24 @@ func place_return(back_id: String) -> Vector2i:
 	return o
 
 
+## Dove si compare arrivando da `from_id`: davanti al portale di questo mondo che porta là (in mezzo, sul suo
+## pavimento; altrimenti accanto). (-1, -1) se non c'è più.
+func arrival(from_id: String) -> Vector2i:
+	var p: Dictionary = _portals()
+	for k in p:
+		if String(p[k].get("mondo", "")) != from_id:
+			continue
+		var o := Vector2i(int(String(k).get_slice(",", 0)), int(String(k).get_slice(",", 1)))
+		if String(m.world.stations.get(o, "")) != "portale":
+			continue
+		var sz: Array = StationsData.STATIONS["portale"]["size"]
+		for x in [o.x + int(sz[0]) / 2, o.x + int(sz[0]), o.x - 1]:
+			for y in range(o.y + int(sz[1]) - 1, o.y + int(sz[1]) + 6):
+				if not m.world.solid(x, y) and not m.world.solid(x, y - 1) and m.world.solid(x, y + 1):
+					return Vector2i(x, y)
+	return Vector2i(-1, -1)
+
+
 ## Dove porta il portale con l'angolo in o: [id, nome, seme, vigore]; l'id è vuoto se il mondo va ancora creato.
 func destination(o: Vector2i) -> Array:
 	var e: Dictionary = _portals().get(_key(o), {})
@@ -193,7 +211,7 @@ func travel(o: Vector2i) -> void:
 	var dest := destination(o)
 	var e: Dictionary = _portals()[_key(o)]
 	if String(dest[0]) != "":
-		Session.start_saved_world(String(dest[0]))
+		Session.start_saved_world(String(dest[0]), m.world_id)   # si arriva davanti al portale che porta qui
 	elif e.get("ritorno", false):
 		m.hud.toast("Il mondo dall'altra parte non esiste più")
 		return

@@ -10,6 +10,9 @@ var new_world := {}
 var test_mode := false
 ## Prova del viaggio tra i mondi: a che tappa si è (sopravvive al cambio di scena).
 var test_hops := 0
+## Il mondo da cui si arriva passando da un portale ("" = dal menu): si compare davanti al portale che porta là,
+## non dove si era l'ultima volta (richiesta dell'utente, 2 ott 2026).
+var arrive_from := ""
 
 
 func _ready() -> void:
@@ -33,10 +36,13 @@ func _exit_tree() -> void:
 ## `extra`: dati in più per il mondo nuovo (dal portale: "vigore" e "ritorno" = id del mondo d'origine).
 func start_new_world(world_name: String, sd: int, id := "", extra := {}) -> void:
 	world_id = ""
+	arrive_from = ""
 	new_world = {"id": id if id != "" else SavePaths.new_id(world_name), "nome": world_name, "seme": sd}
 	new_world.merge(extra)
 
 
-func start_saved_world(id: String) -> void:
+## `from` = il mondo da cui si parte con un portale (vedi `arrive_from`).
+func start_saved_world(id: String, from := "") -> void:
 	world_id = id
+	arrive_from = from
 	new_world = {}
