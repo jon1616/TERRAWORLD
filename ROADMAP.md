@@ -4941,12 +4941,18 @@ prove/sfondi_prima/, foglio con `python tools/foglio_sfondi.py`). Che cosa dicon
 stesso cielo turchese-corallo, le stesse colline, le stesse due file di alberi-lanterna dietro i ghiacciai, i deserti di
 vetro, le terre di brace e i funghi giganti (cambia solo una tinta); con la pioggia il cielo resta sereno, senza nuvole.
 
-- [ ] **328. Le foto fisse degli sfondi.** `TestsBackdrop` (gruppo «sfondi»), `tools/foglio_sfondi.py`.
-- [ ] **329. I piani per bioma.** `BackdropData` (per ogni bioma: il cielo, quattro piani con il loro disegno, la
+- [x] **328. Le foto fisse degli sfondi.** `TestsBackdrop` (gruppo «sfondi»), `tools/foglio_sfondi.py`.
+- [x] **329. I piani per bioma.** `BackdropData` (per ogni bioma: il cielo, quattro piani con il loro disegno, la
   parallasse, i colori, i lontani più vicini al colore del cielo) e `BackdropArt` (i disegni fatti dal codice: creste,
   picchi di cristallo, dune e archi di vetro, coni fumanti, cappelli giganti, file di alberi della forma del bioma: pini,
   alberi secchi, pagode di corteccia, ombrelli, canne, cactus, lanterne). `Background` tiene un insieme di piani per ogni
   bioma (fatti in un thread la prima volta che servono) e passando da un bioma all'altro li sfuma, cielo compreso.
+  Fatto il 2 ott 2026: 16 sfondi (cielo a quattro colori e tre piani ciascuno; le radici del cosmo restano di tutti e
+  prendono il colore del cielo del bioma). Disegni: creste, altipiani, punte di cristallo sopra monti innevati, dune,
+  archi di vetro, coni fumanti con il cratere acceso, file di lanterne, pini, alberi secchi, pagode, ombrelli, canne,
+  cactus, funghi. Ogni sfondo costa 25-85 ms in un thread; quello della partenza si fa subito, i salti (portale, rinascita)
+  lo mettono senza sfumare (`_snap_set`). Corsa del gruppo «base»: lo sfondo non compare tra i colpevoli del fotogramma
+  peggiore.
 - [ ] **330. Le nuvole.** Due piani di nuvole che scorrono con il vento (`Weather.wind`), più fitte e più scure con la
   pioggia e la bufera, chiare con la nebbia, rade col sereno; di notte prendono la luce della luna.
 - [ ] **331. Gli stormi.** Ogni tanto, di giorno, uno stormo lontano attraversa il cielo (piccole sagome che battono le
