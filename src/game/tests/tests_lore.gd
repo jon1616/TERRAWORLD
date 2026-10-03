@@ -21,8 +21,38 @@ func run() -> void:
 	await truth()
 	refs()
 	myths()
+	await voice()
 	m.character.stats = st0
 	m.character.maestria = ma0
+
+
+## Voce 347: in un luogo sano la Bocca tace; nel mondo del Seme Nero parla (prima le frasi mai lette, la più avanti).
+func voice() -> void:
+	var vv: VoidVoice = m.void_voice
+	vv.paused = true
+	var st: Dictionary = m.character.stats
+	for k in st.keys():
+		if String(k).begins_with("bocca"):
+			st.erase(k)
+	m.snap_to(kit.world.spawn)
+	await kit.frames(2)
+	var healthy := not vv.sick_here()
+	var n0: Variant = m.world_meta.get("nero", null)
+	m.world_meta["nero"] = true
+	var sick := vv.sick_here()
+	var line := vv.speak()
+	await kit.seconds(1.6)
+	await kit.save("storia_bocca")
+	if n0 == null:
+		m.world_meta.erase("nero")
+	else:
+		m.world_meta["nero"] = n0
+	var ok: bool = healthy and sick and line != "" and int(st.get("bocca", 0)) == 1
+	print("la Bocca: alla partenza tace %s, nel mondo del Seme Nero parla %s: «%s»" % ["sì" if healthy else "NO",
+		"sì" if sick else "NO", line])
+	if not ok:
+		print("ATTENZIONE: la Bocca non va")
+	vv.paused = false
 
 
 ## Voce 346: ogni bioma ha la sua leggenda, e la pagina dell'Atlante la mostra solo a bioma visitato.
@@ -62,6 +92,8 @@ func refs() -> void:
 		for l in e[1]:
 			if String(l[0]) != "albero" and not SowersData.SOWERS.has(String(l[0])):
 				bad.append("eco %s: chi è «%s»?" % [e[0], l[0]])
+	for l in VoidVoiceData.LINES:
+		all.append(["Bocca «%s»" % l[1], l[2]])
 	for q in TruthData.QUESTIONS:
 		all.append(["verità " + String(q["id"]), q["proof"]])
 		for v in q["versions"]:

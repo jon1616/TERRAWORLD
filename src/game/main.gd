@@ -122,6 +122,7 @@ var sowers: Sowers                     # Roadmap 36, voce 342
 var dreams: Dreams                     # voce 343
 var echoes: Echoes                     # voce 344
 var truth: Truth                       # voce 345
+var void_voice: VoidVoice              # voce 347
 var evergreen: Evergreen               # Roadmap 28: il dopo (stelle di maestria, Semi d'oro)
 var summons: Summons
 var effects: Effects
@@ -381,6 +382,7 @@ func _build() -> void:
 	dreams = _mount(Dreams.new())                # voce 343: i sogni (usando un letto)
 	echoes = _mount(Echoes.new())                # voce 344: gli echi negli scrigni delle rovine
 	truth = _mount(Truth.new())                  # voce 345: il Taccuino della verità
+	void_voice = _mount(VoidVoice.new())         # voce 347: la Bocca, nei luoghi malati
 	_mount(PanelButtons.new())                 # voce 101: i pulsanti dei pannelli in basso a sinistra
 	hud.select(character.hotbar)
 	var start := world.spawn

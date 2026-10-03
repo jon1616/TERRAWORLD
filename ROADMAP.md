@@ -5157,8 +5157,13 @@ possibilità senza il mio intervento». Regola: ogni pezzo di storia è anche un
   pagine dell'Atlante quando il bioma è stato visitato.
   Fatto il 3 ott 2026: `MythsData` (26 leggende, una per bioma di superficie, del sottosuolo e del cielo), mostrate da
   `BiomePages.text_of` sotto «Visitare il bioma» solo quando il bioma è stato visitato.
-- [ ] **347. La Bocca.** `VoidVoiceData` e `VoidVoice`: nei luoghi malati e nel mondo del Seme Nero, rare scritte che si
+- [x] **347. La Bocca.** `VoidVoiceData` e `VoidVoice`: nei luoghi malati e nel mondo del Seme Nero, rare scritte che si
   rivolgono al Germogliato; dopo la scelta sul Seme Nero, a volte con la voce di Saréth.
+  Fatto il 3 ott 2026: `VoidVoiceData` (14 frasi della Bocca, legate alla storia — «Ogni nome che spegni, lo tengo
+  io», «Più sai, più mi assomigli» — e 4 di Saréth dopo la cura, l'ultima solo dopo il segreto dei segreti) e
+  `VoidVoice` (luogo malato: Avvizzimento entro 7 tessere, il mondo del Seme Nero, il Fondo; una scritta lenta a metà
+  schermo ogni 3-7 minuti; prima le frasi mai lette legate alla storia, poi quelle di sempre; il diario; «bocca» per i
+  misteri). Foto prove/storia_bocca.png.
 - [ ] **348. La riscrittura.** Cronache, pagine dell'Albero, del Seme Nero e del finale messe d'accordo con il canone (le
   contraddizioni elencate in `UNIVERSO.md`).
 - [ ] **349. Chiusura.** Enciclopedia (senza svelare), consigli, maestria dei misteri, prove (gruppo «storia»), giro
