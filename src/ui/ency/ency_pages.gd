@@ -34,6 +34,7 @@ static func chapters() -> Array:
 	out.append_array(EncyBreedData.CHAPTERS)           # Roadmap 24: stirpi e semi
 	out.append_array(EncyArtsData.CHAPTERS)            # Roadmap 25: le arti
 	out.append_array(EncyMemoriesData.CHAPTERS)        # Roadmap 26: memorie
+	out.append_array(EncyLoreData.CHAPTERS)            # Roadmap 36: le tracce della storia
 	out.append_array(EncyCurrentsData.CHAPTERS)        # Roadmap 27: acque e correnti
 	out.append_array(EncyCavesData.CHAPTERS)           # Roadmap 30: lo zaino e le grotte piene
 	out.append_array(EncyBondsData.CHAPTERS)           # Roadmap 32: i compagni di battaglia

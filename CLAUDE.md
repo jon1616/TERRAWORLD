@@ -909,6 +909,18 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   - `WeatherCover` (neve, bagnato, cenere sulle cime che vedono il cielo), `SoundSpace` (`src/audio/`: bus «Spazio» con
     riverbero e filtro, il vento), `SurfaceLife` + `SurfaceLifeData` (lucciole, polline, foglie; l'erba che si piega con
     `WindFx.set_push`).
+- **Roadmap 36 «La storia vera»** (voci 341-349, 3 ott 2026; il canone è in `UNIVERSO.md`, «La storia vera»: i
+  Seminatori sono i Guardiani; tono cupo, poco testo). **Ogni testo nuovo di storia segue quel canone.**
+  - `LoreConds` (`src/game/`): le condizioni della storia come dati (`stat`, `sower`, `spent`, `nero`, `albero`, `page`,
+    `dream`, `echo`, `truth`, `truths`, `all`/`any`), lette da tutti i moduli qui sotto.
+  - `SowersData` + `Sowers` (i Seminatori nei Cuori: `stats["risveglio_<id>"]`/`["spento_<id>"]`, da
+    `Guardian.resolved` e dal `primo_boss`), `DreamsData` + `Dreams` (i sogni, da `Masonry.slept`), `EchoesData` +
+    `Echoes` + `EchoFx` (gli echi, dal primo scrigno delle rovine aperto in `Interact`), `TruthData` + `Truth` (il
+    Taccuino della verità), `MythsData` (le leggende dei biomi in `BiomePages.text_of`), `VoidVoiceData` + `VoidVoice`
+    (la Bocca nei luoghi malati). Le pagine «storia:…» del Taccuino le dà `Chains._story_modules` (ogni modulo ha
+    `rows(selected)` e `detail()`). Enciclopedia: `EncyLoreData` (senza svelare).
+  - Prove: gruppo «storia» (`TestsLore`, anche nel giro intero; `refs` controlla che ogni condizione nomini cose che
+    esistono: un sogno con un nome sbagliato sarebbe impossibile da trovare, in silenzio).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

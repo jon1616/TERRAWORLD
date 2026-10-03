@@ -1,8 +1,9 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 2 ott 2026)
-- **In corso: la Roadmap 36 «La storia vera»** (voci 341-349, dal 3 ott 2026): il canone (i Seminatori sono i
-  Guardiani) portato nel gioco: nomi dei Guardiani, sogni, echi, Taccuino della verità, leggende, la Bocca.
+- **Fatta la Roadmap 36 «La storia vera»** (voci 341-349, 3 ott 2026): il canone (i Seminatori sono i Guardiani) nel
+  gioco: nomi e ricordi dei Guardiani, sogni, echi, Taccuino della verità, leggende dei luoghi, la Bocca; testi
+  riscritti. Resoconto in fondo alla Roadmap 36.
 - **Fatta la Roadmap 35 «Atmosfera»** (voci 333-340, 2 ott 2026): luce che si muove, colpi e scavo, acqua viva, il
   tempo che si posa, il suono dello spazio, la superficie viva; solo vista e suono. Foto in
   prove/atmosfera_confronto.png. Resoconto in fondo alla Roadmap 35.
@@ -5174,5 +5175,20 @@ possibilità senza il mio intervento». Regola: ogni pezzo di storia è anche un
   riconosce dalle mani e dalla voce; «nel buio tra i mondi qualcosa ascolta». Cronache: compaiono Odràn, Ilvenna e
   Saréth; «nessuno scrisse di che cosa erano fatti» i Guardiani; «le stele le scrissero loro». Le frasi delle stele
   (vincolate alle parole della lingua) restano: il canone le legge come ciò che i Seminatori vollero far credere.
-- [ ] **349. Chiusura.** Enciclopedia (senza svelare), consigli, maestria dei misteri, prove (gruppo «storia»), giro
+- [x] **349. Chiusura.** Enciclopedia (senza svelare), consigli, maestria dei misteri, prove (gruppo «storia»), giro
   intero, resoconto.
+  Fatto il 3 ott 2026: `EncyLoreData` («Le tracce della storia»: dove si trovano i pezzi, senza svelarli), punti dei
+  misteri per risvegli, sogni, echi, verità e Bocca (`MasteryData.STATS`), `verifica_dati` 0 errori, enciclopedia 0
+  problemi, giro intero senza errori (solo l'avviso noto delle comodità), corsa a 17 ms.
+
+**Resoconto della Roadmap 36.** La storia ora ha una verità sola sotto tutto, e il giocatore la ricompone a pezzi. I
+Seminatori non se ne sono andati: sono i Guardiani dei Cuori. Curarne uno gli restituisce il nome e, una volta dopo
+l'altra, un ricordo (Odràn che guardava il Vuoto, Ilvenna che dava un nome ai semi, Varèk che costruì i Sigilli e
+ruppe gli Alberi); abbatterlo ne spegne una parte, contata senza punizioni. Dormendo si sogna ciò che l'Albero-Madre
+ricorda (15 sogni; l'ultimo, il segreto dei segreti, solo per chi ha trovato tutto). Negli scrigni delle rovine
+rivivono 12 scene del passato come sagome di luce. Il Taccuino della verità mette in fila le versioni dei fatti (8
+domande) e dice quali erano bugie quando si trova la prova. Ogni bioma ha la sua leggenda. Nei luoghi malati parla la
+Bocca, e dopo la cura del Seme Nero a volte risponde Saréth. Pagine, finale e Cronache non si contraddicono più.
+Restano come prima le frasi delle stele (legate alle parole della lingua): il canone le legge come ciò che i
+Seminatori vollero far credere.
+
