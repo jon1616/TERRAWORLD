@@ -1,6 +1,8 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 2 ott 2026)
+- **In corso: la Roadmap 36 «La storia vera»** (voci 341-349, dal 3 ott 2026): il canone (i Seminatori sono i
+  Guardiani) portato nel gioco: nomi dei Guardiani, sogni, echi, Taccuino della verità, leggende, la Bocca.
 - **Fatta la Roadmap 35 «Atmosfera»** (voci 333-340, 2 ott 2026): luce che si muove, colpi e scavo, acqua viva, il
   tempo che si posa, il suono dello spazio, la superficie viva; solo vista e suono. Foto in
   prove/atmosfera_confronto.png. Resoconto in fondo alla Roadmap 35.
@@ -5109,3 +5111,31 @@ suggerimento (`CraftingPanel._show_benches`). Prova nel gruppo «interfaccia» c
 Nello stesso giorno: tra i «banchi vicini» comparivano stazioni dove non si crea niente (Tamburo di radice, Lampada a
 baccello, Bacheca, Focolare, Otre…). Ora `Crafting.stations_near` tiene solo i banchi di almeno una ricetta, più Maglio
 e Telaio per le Lavorazioni (`Crafting.craft_stations`: 11 stazioni su 365).
+
+
+# Roadmap 36 «La storia vera» (dal 3 ott 2026)
+
+L'utente: «dobbiamo parlare di come aggiungere una lore profonda al gioco»; scelte: il segreto di fondo **i Seminatori
+non se ne sono mai andati: sono i Guardiani**, tono **cupo e misterioso**, **poco testo** da scoprire; approvati il canone
+(`UNIVERSO.md`, «La storia vera»), il segreto dei segreti (il Germogliato è fatto della Linfa dei Seminatori, la parte
+più grande di Saréth) e i nomi (Odràn, Ilvenna, Varèk, Saréth, Maesh, la Bocca). Poi: «procedi al meglio delle tue
+possibilità senza il mio intervento». Regola: ogni pezzo di storia è anche una meccanica; frasi brevi, molto non detto.
+
+- [ ] **341. Il canone e il piano.** `UNIVERSO.md` approvato; questo piano.
+- [ ] **342. I Seminatori nei Cuori.** `SowersData` (i cinque con nome, i senza nome, i ricordi che tornano) e `Sowers`:
+  ogni Guardiano curato risveglia una parte del suo Seminatore (il nome, poi un ricordo alla volta); ogni Guardiano
+  abbattuto ne spegne una (contata, senza punizioni). Il Taccuino ha la pagina «I Seminatori».
+- [ ] **343. I sogni.** `DreamsData` e `Dreams`: usando un letto, a volte, un ricordo dell'Albero-Madre (due righe), quando
+  è successo qualcosa di preciso. L'ultimo sogno è il segreto dei segreti.
+- [ ] **344. Gli echi.** `EchoesData` e `Echoes`: aprendo per la prima volta uno scrigno delle rovine, a volte due sagome di
+  luce rivivono per un attimo una scena del passato.
+- [ ] **345. Il Taccuino della verità.** `TruthData` e `Truth`: le domande della storia, le versioni (abitanti, Cronache,
+  stele, sogni), la prova che dice qual è vera; premi e punti dei misteri.
+- [ ] **346. Le leggende dei luoghi.** `MythsData`: una riga di mito per ogni bioma (superficie, sottosuolo, cielo), nelle
+  pagine dell'Atlante quando il bioma è stato visitato.
+- [ ] **347. La Bocca.** `VoidVoiceData` e `VoidVoice`: nei luoghi malati e nel mondo del Seme Nero, rare scritte che si
+  rivolgono al Germogliato; dopo la scelta sul Seme Nero, a volte con la voce di Saréth.
+- [ ] **348. La riscrittura.** Cronache, pagine dell'Albero, del Seme Nero e del finale messe d'accordo con il canone (le
+  contraddizioni elencate in `UNIVERSO.md`).
+- [ ] **349. Chiusura.** Enciclopedia (senza svelare), consigli, maestria dei misteri, prove (gruppo «storia»), giro
+  intero, resoconto.

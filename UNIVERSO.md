@@ -96,7 +96,7 @@ Arrivano attraverso i portali quando il Giardino cresce:
 - **L'Erborista** — pozioni e il catalogo di piante e creature.
 - **Il Cartografo dei Seminatori** — decifra le scritte antiche, porta avanti la storia.
 
-## La storia vera (canone, 3 ott 2026 — bozza da approvare)
+## La storia vera (canone, approvato dall'utente il 3 ott 2026)
 
 Scelte dell'utente (3 ott 2026): il segreto di fondo è **«i Seminatori non se ne sono mai andati: sono i Guardiani»**;
 tono **cupo e misterioso**; **poco testo**, frasi brevi, molto non detto. Questa sezione è il riferimento per ogni
@@ -157,7 +157,7 @@ roccia), lasciate senza padroni. Il Mietitore cavo è della Bocca.
 3. **Ciò che è vero (raro, tardo: sogni, echi, lingua nera, i quattro Giardini guariti, l'Avvizzitore).** I Guardiani
    **sono** i Seminatori. Saréth è l'Avvizzitore. La Bocca chiama ancora, e chiama anche te.
 
-Un quarto livello, **il segreto dei segreti** (da decidere: vedi sotto), resta per chi trova tutto.
+Un quarto livello, **il segreto dei segreti** (vedi sotto), resta per chi trova tutto.
 
 ### Le contraddizioni di oggi, e come si sciolgono
 
@@ -180,7 +180,7 @@ Un quarto livello, **il segreto dei segreti** (da decidere: vedi sotto), resta p
 - **Dove è il Seme Nero**: nel Vuoto vicino, raggiungibile con la catena; «oltre il Vuoto» c'è soltanto il Primo Mondo.
 - **«Eravamo quattro»**: i quattro Alberi fratelli; l'Albero-Madre non è tra loro, è la loro madre.
 
-### Come la storia diventa gioco (da fare dopo l'approvazione)
+### Come la storia diventa gioco (Roadmap 36)
 
 - **I nomi dei Guardiani**: curato, un Guardiano dice il suo nome (e ricorda una cosa); abbattuto, il nome resta «?».
   Un posto (il Taccuino) tiene i Seminatori **risvegliati** e quelli **spenti**. Nessuna punizione: solo il peso.
@@ -192,13 +192,13 @@ Un quarto livello, **il segreto dei segreti** (da decidere: vedi sotto), resta p
 - **La Bocca**: nei mondi malati, rare scritte che si rivolgono a te.
 - Le Cronache, le stele, le cripte e le pagine dell'Albero si **riscrivono** per puntare tutte a questa verità.
 
-### Da decidere con l'utente
+### Decisi con l'utente (3 ott 2026)
 
-- **Il segreto dei segreti** (il quarto livello). Proposta: il Germogliato è fatto della Linfa dei Seminatori che si
+- **Il segreto dei segreti** (il quarto livello), approvato: il Germogliato è fatto della Linfa dei Seminatori che si
   sono seminati — l'Albero-Madre l'ha raccolta da loro. E la parte più grande, quella che lo fa muovere, viene da
   Saréth: l'Albero ha provato a far rinascere buona la sola che non poteva salvare. La Bocca chiama anche te perché
   riconosce la sua voce. (Si scopre solo alla fine, e non cambia il finale: cambia come lo si legge.)
-- I **nomi** (Odràn, Ilvenna, Varèk, Saréth, Maesh) e la **Bocca** come nome della cosa nel Vuoto.
+- I **nomi** (Odràn, Ilvenna, Varèk, Saréth, Maesh) e la **Bocca** come nome della cosa nel Vuoto: approvati.
 
 ## Nomi delle cose
 
