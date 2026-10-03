@@ -17,8 +17,41 @@ func run() -> void:
 	var ma0: Variant = m.character.maestria.duplicate(true)       # (i conteggi danno punti di maestria: si rimettono)
 	await sowers()
 	await dreams()
+	await echoes()
 	m.character.stats = st0
 	m.character.maestria = ma0
+
+
+## Voce 344: un eco sopra uno scrigno (le sagome e la prima battuta), la pagina del Taccuino con le voci senza nome.
+func echoes() -> void:
+	var ec: Echoes = m.echoes
+	var st: Dictionary = m.character.stats
+	for e in EchoesData.ECHOES:
+		st.erase("eco_" + String(e[0]))
+	for k in SowersData.ORDER:
+		st.erase("risveglio_" + k)
+	m.fauna.clear()
+	var hud0: bool = m.hud.visible
+	m.hud.visible = false
+	var at: Vector2i = kit.floor_near(kit.world.spawn + Vector2i(3, 0), 6)
+	if at.x < 0:
+		at = kit.world.spawn
+	m.snap_to(kit.world.spawn)
+	var id := ec.on_chest(at + Vector2i(0, -1), true)
+	await kit.seconds(2.0)
+	var fxs := 0
+	for c in m.fx.get_children():
+		if c is EchoFx:
+			fxs += 1
+	await kit.save("storia_eco")
+	var det := ec.detail()
+	var ok: bool = id == "conta" and fxs == 1 and int(st.get("eco_conta", 0)) == 1 and det.contains("una voce") \
+		and ec.rows("").size() == 1
+	print("echi: «%s» sopra lo scrigno (%d sagome in scena), nel Taccuino le voci senza nome %s" % [
+		id, fxs, "sì" if det.contains("una voce") else "NO"])
+	if not ok:
+		print("ATTENZIONE: gli echi non vanno")
+	m.hud.visible = hud0
 
 
 ## Voce 343: il primo sogno, poi solo quando la sua condizione è vera e l'attesa è passata; l'ultimo resta nascosto.

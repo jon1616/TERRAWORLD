@@ -120,6 +120,7 @@ var weather_cover: WeatherCover        # voce 337
 var surface_life: SurfaceLife          # voce 339
 var sowers: Sowers                     # Roadmap 36, voce 342
 var dreams: Dreams                     # voce 343
+var echoes: Echoes                     # voce 344
 var evergreen: Evergreen               # Roadmap 28: il dopo (stelle di maestria, Semi d'oro)
 var summons: Summons
 var effects: Effects
@@ -377,6 +378,7 @@ func _build() -> void:
 	surface_life = _mount(SurfaceLife.new())     # voce 339: lucciole, polline, foglie, erba che si piega
 	sowers = _mount(Sowers.new())                # Roadmap 36, voce 342: i Seminatori nei Cuori
 	dreams = _mount(Dreams.new())                # voce 343: i sogni (usando un letto)
+	echoes = _mount(Echoes.new())                # voce 344: gli echi negli scrigni delle rovine
 	_mount(PanelButtons.new())                 # voce 101: i pulsanti dei pannelli in basso a sinistra
 	hud.select(character.hotbar)
 	var start := world.spawn

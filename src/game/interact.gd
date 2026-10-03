@@ -263,6 +263,8 @@ func touch(c: Vector2i) -> bool:
 				opened.append("%d,%d" % [o.x, o.y])
 				m.world_meta["scrigni_aperti"] = opened
 				m.objectives.bump("scrigni")
+				if m.get("echoes") != null:
+					m.echoes.on_chest(o)                   # Roadmap 36, voce 344: a volte un eco del passato
 		return true
 	if TrapsData.is_trap(id):
 		return m.traps.toggle(o)                         # voce 88: disarma e riarma

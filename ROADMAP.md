@@ -5138,8 +5138,13 @@ possibilità senza il mio intervento». Regola: ogni pezzo di storia è anche un
   Seminatori risvegliati, la scelta sul Seme Nero, Maesh e sei verità) e `Dreams` (segnale `Masonry.slept`; al più un
   sogno ogni 5 minuti di gioco; la pagina della storia, il diario, «sogni» per i misteri; la pagina «I sogni» nel
   Taccuino).
-- [ ] **344. Gli echi.** `EchoesData` e `Echoes`: aprendo per la prima volta uno scrigno delle rovine, a volte due sagome di
+- [x] **344. Gli echi.** `EchoesData` e `Echoes`: aprendo per la prima volta uno scrigno delle rovine, a volte due sagome di
   luce rivivono per un attimo una scena del passato.
+  Fatto il 3 ott 2026: `EchoesData` (12 scene di due-quattro battute tra Odràn, Ilvenna, Varèk, Saréth, Maesh e la voce
+  del legno, dalla conta dei frutti alla risposta di Saréth), `EchoFx` (`src/art/`: due sagome di Linfa alte e sottili
+  con le dita a radice, la battuta sopra chi parla nel suo colore, sopra il buio) ed `Echoes` (da `Interact` al primo
+  scrigno delle rovine aperto: probabilità 0,4, al più uno ogni due minuti; «echi» per i misteri; la pagina «Gli echi»
+  del Taccuino, dove chi non è ancora stato risvegliato resta «una voce»). Foto prove/storia_eco.png.
 - [ ] **345. Il Taccuino della verità.** `TruthData` e `Truth`: le domande della storia, le versioni (abitanti, Cronache,
   stele, sogni), la prova che dice qual è vera; premi e punti dei misteri.
 - [ ] **346. Le leggende dei luoghi.** `MythsData`: una riga di mito per ogni bioma (superficie, sottosuolo, cielo), nelle
