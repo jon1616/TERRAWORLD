@@ -5090,3 +5090,14 @@ sua volta: le creature crescevano a valanga (una pavoncella diventava 15 in 5 se
 Ora chi arriva da un richiamo non chiama più (meta «chiamata» messa da `Fauna`, letta da `BhRichiamo`), e nessun
 rinforzo nasce se ci sono già `Fauna.SUMMON_CAP` (45) creature vive. Prova nel gruppo «vivo»: una pavoncella vera,
 al più tre creature in 5 s (prima della correzione 15).
+
+**Lo sfondo del Giardino (2 ott 2026, richiesta dell'utente: «quando salto lo sfondo si muove in verticale con me… lo
+voglio rilassante e armonioso»).** Nel Vuoto restavano solo le radici del cosmo (parallasse 0,05: seguivano la visuale
+al 95%), il sole e la luna agganciati alla visuale e le stelle ferme sullo schermo: saltando sembrava tutto incollato.
+Ora il Giardino ha uno sfondo suo, `GardenBackdrop` (`src/game/`) con i disegni di `GardenBackdropArt` (`src/art/`, fatti
+in un thread e sfumati): cielo indaco che scende al lilla e al pesca (`SKY`), stelle, veli di nebulosa che scorrono
+adagio, mondi-seme lontani (piccole sfere luminose, qualcuna con l'anello) che ondeggiano, radici del cosmo tenui,
+isolette con le lanterne, pulviscolo turchese che sale. Ogni piano ha una parallasse orizzontale piccola e una
+verticale molto più grande: con un salto di 54 px i piani scorrono sullo schermo di 16-32 px (prima 3), cioè restano
+al loro posto nel mondo. Niente sole né luna nel Giardino. Prova: gruppo «sfondi» (foto zz_giardino_giorno/notte, la
+misura del salto; prima in prove/giardino_prima/). `Background.set_void(on)` ora si spegne anche.

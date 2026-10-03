@@ -82,10 +82,52 @@ func run() -> void:
 	await kit.seconds(1.0)
 	var moved := absf(float(cl["drift"]) - d0)
 	print("sfondi: le nuvole scorrono di %.1f px al secondo" % moved if moved > 0.5 else "ATTENZIONE: le nuvole sono ferme")
+	await _garden()
 	m.hud.visible = hud0
 	Settings.values["tip_attivi"] = tips0
 	m.snap_to(world.spawn)
 	print("sfondi: %d biomi fotografati in prove/sfondi/ (%s)" % [done.size(), ", ".join(done.keys())])
+
+
+## Lo sfondo del Giardino (sospeso nel Vuoto), acceso nel mondo di prova: di giorno, di notte, e quanto scorre sullo
+## schermo con un salto (2 ott 2026, l'utente: «quando salto lo sfondo si muove in verticale con me»).
+func _garden() -> void:
+	var bg: Background = m.background
+	bg.set_void(true)
+	if bg.garden != null:
+		bg.garden.snap()
+	var t0: float = m.day.time
+	await _shot(world.spawn.x, "zz_giardino_giorno")
+	var jump := 54.0                                  # un salto pieno (3,4 tessere)
+	var cam: Camera2D = m.cam
+	var view: Vector2 = m.get_viewport_rect().size / cam.zoom
+	var cp := cam.get_screen_center_position()
+	var moved := []
+	for node in _garden_nodes(bg):
+		bg.follow(cp, view, 0.0, true)
+		var y0: float = (node as Node2D).global_position.y - cp.y
+		bg.follow(cp + Vector2(0, -jump), view, 0.0, true)
+		var y1: float = (node as Node2D).global_position.y - (cp.y - jump)
+		moved.append(absf(y1 - y0))
+	bg.follow(cp, view, 0.0, true)
+	var most := 0.0
+	for v in moved:
+		most = maxf(most, float(v))
+	print("sfondo del Giardino: con un salto di %d px i piani scorrono sullo schermo di %s px (il più lento %.0f)" % [
+		int(jump), str(moved.map(func(v: float) -> int: return roundi(v))), moved.min() if not moved.is_empty() else 0.0])
+	m.day.time = 0.92
+	m.day.apply(true)
+	await _shot(world.spawn.x, "zz_giardino_notte")
+	m.day.time = t0
+	m.day.apply(true)
+	bg.set_void(false)
+
+
+## I piani che si vedono nel Giardino (quelli del Giardino se ci sono, altrimenti le radici del cosmo).
+func _garden_nodes(bg: Background) -> Array:
+	if bg.get("garden") != null and bg.garden != null:
+		return bg.garden.nodes()
+	return [bg._layers[0]["node"]]
 
 
 func _shot(cx: int, name: String) -> void:

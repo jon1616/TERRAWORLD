@@ -43,6 +43,7 @@ var _sky_from: PackedColorArray
 var _sky_to: PackedColorArray
 var clouds := SkyClouds.new()         # voce 330: i due piani di nuvole
 var life: SkyLife                      # voce 331: stormi, pipistrelli, faville
+var garden: GardenBackdrop             # lo sfondo del Giardino (2 ott 2026: rilassante, non segue i salti)
 var void_mode := false                 # voce 62: il Giardino sospeso nel Vuoto (niente colline né foreste, sempre le stelle)
 
 
@@ -259,8 +260,11 @@ func set_time(t: float, tint: Color, night: float, star_gain := Color.WHITE) -> 
 	_time = t
 	tint *= biome_tint * season_tint * weather_tint
 	_sky_rect.modulate = tint
+	# (nel Giardino le stelle sono un piano di `GardenBackdrop`, nel mondo: quelle ferme sullo schermo si spengono)
 	_stars.modulate = Color(minf(star_gain.r, 6.0), minf(star_gain.g, 6.0), minf(star_gain.b, 6.0),
-		maxf(night, 0.55) if void_mode else night)
+		0.0 if void_mode else night)
+	if garden != null:
+		garden.set_time(tint, night)
 	_moon.modulate = Color(0.95, 1.05, 1.1) * Color(minf(star_gain.r, 2.5), minf(star_gain.g, 2.5), minf(star_gain.b, 2.5))
 	for L in _all_layers():
 		(L["node"] as Node2D).modulate = tint.lerp(Color.WHITE, 0.15)
@@ -273,8 +277,8 @@ func set_time(t: float, tint: Color, night: float, star_gain := Color.WHITE) -> 
 		life.gain = star_gain
 	for L in clouds.layers:
 		(L["node"] as Node2D).modulate = tint.lerp(Color.WHITE, 0.15).lerp(Color.WHITE, night * 0.9)
-	_sun.visible = t > 0.18 and t < 0.82 and not no_lights
-	_moon.visible = (not (t > 0.18 and t < 0.82) or t < 0.22 or t > 0.78) and not no_lights
+	_sun.visible = t > 0.18 and t < 0.82 and not no_lights and not void_mode
+	_moon.visible = (not (t > 0.18 and t < 0.82) or t < 0.22 or t > 0.78) and not no_lights and not void_mode
 	_sun.modulate = Color(2.2, 2.1, 1.8).lerp(Color(0.04, 0.03, 0.07), eclipse)
 
 
@@ -298,6 +302,8 @@ func follow(cp: Vector2, view: Vector2, dt: float, snap := false) -> void:
 	if life != null:
 		life.visible = not void_mode
 		life.follow(cp, view, _horizon)
+	if garden != null and void_mode:
+		garden.follow(cp, view)
 	for L in _all_layers():
 		if not (L["node"] as Node2D).is_visible_in_tree():
 			continue
@@ -329,9 +335,26 @@ func _arc(cp: Vector2, view: Vector2, p: float) -> Vector2:
 
 ## Il Giardino (voce 62): galleggia nel Vuoto, quindi niente colline né foreste all'orizzonte (solo le radici del
 ## cosmo) e le stelle si vedono anche di giorno.
-func set_void() -> void:
-	void_mode = true
+func set_void(on := true) -> void:
+	void_mode = on
 	for L in clouds.layers:
-		(L["node"] as Node2D).visible = false
+		(L["node"] as Node2D).visible = not on
+	# il Giardino ha il suo cielo e i suoi piani (`GardenBackdrop`); le radici del cosmo di tutti i mondi si nascondono
+	(_layers[0]["node"] as Node2D).visible = not on
+	if on and garden == null:
+		garden = GardenBackdrop.new()
+		add_child(garden)
+		garden.setup(self, world)
+	if garden != null:
+		garden.visible = on
+	_sun.visible = _sun.visible and not on
+	_moon.visible = _moon.visible and not on
+	if on:
+		_sky_to = PackedColorArray(GardenBackdropArt.SKY.map(func(h: String) -> Color: return Color(h)))
+	else:
+		_sky_to = _sky_colors(_cur)
+	_sky_from = _sky_to
+	_fade = 1.0
+	_paint_sky(1.0)
 	for id in _sets:
 		(_sets[id]["root"] as Node2D).visible = false

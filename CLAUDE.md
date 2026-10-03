@@ -892,6 +892,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   - Le nuvole: `CloudArt` (le immagini: tono in R, turno in G) e `SkyClouds` (due piani, shader, campo `cloud` di
     `WeatherData` = [copertura, scurezza]; `Weather` passa il vento). Un tempo nuovo ha il suo campo `cloud`.
   - `SkyLife` (`src/game/sky_life.gd`): stormi, pipistrelli, faville dei biomi in `EMBERS`.
+  - Il Giardino ha uno sfondo suo (2 ott 2026): `GardenBackdrop` + `GardenBackdropArt` (piani con parallasse verticale
+    grande: con un salto lo sfondo resta nel mondo, non segue il Germogliato), acceso da `Background.set_void`.
   - `WorldView` dipinge un blocco nuovo a righe (`_make_chunk`, `_paint_rows`, `_job`, `BUDGET_US`): costava 17 ms in
     un fotogramma. Chi vuole tutti i blocchi pronti subito usa `set_view(…, true)`.
 - **Roadmap 35 «Atmosfera»** (voci 333-340, 2 ott 2026; solo vista e suono, niente cambia le tessere né i salvataggi):
