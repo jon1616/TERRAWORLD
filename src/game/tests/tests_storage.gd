@@ -99,6 +99,28 @@ func run() -> void:
 	m.boons.add("bagliore", 5.0)
 	await kit.seconds(0.8)
 	await kit.save("99_casse")
+	# 3 ott 2026: la ricerca nella cassa (mentre si scrive restano solo gli oggetti con quelle lettere nel nome)
+	var cp: ChestPanel = m.interact.chest_panel
+	c2.slots[0] = {"id": "legno", "n": 3}
+	c2.slots[1] = {"id": "humus", "n": 4}
+	c2.slots[2] = {"id": "legno_lanterna", "n": 2}
+	c2.changed.emit()
+	cp._search.text = "legn"
+	cp._refresh()
+	await kit.frames(2)
+	var shown := []
+	for s in cp._slots:
+		if s.visible:
+			shown.append(c2.id_at(s.index))
+	var want := cp.matches("legn")
+	var search_ok: bool = not shown.is_empty() and shown.size() == want.size() and not "humus" in shown \
+		and shown.all(func(x: String) -> bool: return String(ItemsData.get_item(x).get("name", x)).to_lower().contains("legn"))
+	await kit.save("99_casse_ricerca")
+	cp._search.text = ""
+	cp._refresh()
+	print("ricerca nella cassa «legn»: %d caselle mostrate %s, niente humus %s" % [shown.size(), str(shown), "sì" if not "humus" in shown else "NO"])
+	if not search_ok:
+		print("ATTENZIONE: la ricerca nella cassa non va")
 	m.interact.chest_panel.close()
 	if m.hud.panel.visible:
 		m.hud.panel.toggle()

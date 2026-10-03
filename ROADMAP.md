@@ -5199,3 +5199,10 @@ esplosivi, giavellotti), due per le torce, due per i Lumini (`BackpackData.COMPA
 quando quella pila finisce si riempie dallo scomparto. Appassendo restano addosso: il fagotto prende solo le caselle
 grandi. Nei personaggi salvati prima, la prima volta gli scomparti si riempiono da ciò che c'è già nella Bisaccia.
 Prova nel gruppo «zaino» (foto 306), capitolo dello zaino nell'Enciclopedia.
+
+**La ricerca nelle casse e nella Dispensa (3 ott 2026, richiesta dell'utente).** Il pannello delle casse non aveva una
+ricerca (l'unico campo era il nome della cassa). Ora c'è «Cerca nella cassa…» in alto a destra: mentre si scrive restano
+solo le caselle il cui oggetto ha quelle lettere nel nome (anche il nome con il tratto), una dopo l'altra e da tutte le
+pagine della Dispensa; la scritta dice quanti sono. Si svuota aprendo un'altra cassa (`ChestPanel.matches`). Prova nel
+gruppo «casse» (foto 99_casse_ricerca).
+

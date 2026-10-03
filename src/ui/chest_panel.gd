@@ -26,6 +26,7 @@ var _craft: CheckBox
 var _kind: OptionButton
 var _settings: Control
 var _info: Label
+var _search: LineEdit                   # (3 ott 2026, richiesta dell'utente) la ricerca nella cassa e nella Dispensa
 var _buttons: Array[Button] = []
 ## Voce 298: oltre le 105 caselle (la Dispensa) la cassa si sfoglia a pagine di `PAGE` caselle.
 const PAGE := 100
@@ -55,6 +56,15 @@ func setup(p: BisacciaPanel) -> void:
 	_pages = HBoxContainer.new()
 	_pages.add_theme_constant_override("separation", 4)
 	add_child(_pages)
+	# la ricerca: mentre si scrive restano solo gli oggetti il cui nome contiene quelle lettere (in tutte le pagine)
+	_search = LineEdit.new()
+	_search.placeholder_text = "Cerca nella cassa…"
+	_search.size = Vector2(190, 28)
+	_search.clear_button_enabled = true
+	_search.add_theme_font_size_override("font_size", 14)
+	_search.text_changed.connect(func(_t: String) -> void: _refresh())
+	_search.text_submitted.connect(func(_t: String) -> void: _search.release_focus())
+	add_child(_search)
 	# le caselle per la cassa più grande; `_layout` le mette in griglia secondo la capienza
 	for i in MAX_COLS * MAX_ROWS:
 		var s := SlotView.new()
@@ -136,8 +146,9 @@ func _layout(n: int) -> void:
 	_frame.position = Vector2(x0 - 14, y0 - 40)
 	_frame.size = Vector2(w + 28, rows * (SlotView.SIZE + GAP) + 44)
 	_title.position = Vector2(x0, y0 - 34)
+	_search.position = Vector2(x0 + w - _search.size.x, y0 - 36)
 	_info.position = Vector2(x0 + 260, y0 - 30)
-	_info.size = Vector2(w - 260, 20)
+	_info.size = Vector2(maxf(w - 260 - _search.size.x - 12, 40), 20)
 	for k in _slots.size():
 		_slots[k].position = Vector2(x0 + (k % cols) * (SlotView.SIZE + GAP), y0 + (k / cols) * (SlotView.SIZE + GAP))
 	_pages.position = Vector2(x0 + 330, y0 - 36)
@@ -155,7 +166,7 @@ static func _box() -> StyleBox:
 
 ## Scrivere nel nome non deve muovere il Germogliato né aprire pannelli (come la ricerca di Creare).
 func typing() -> bool:
-	return visible and _name.has_focus()
+	return visible and (_name.has_focus() or _search.has_focus())
 
 
 func open(o: Vector2i, contents: Bisaccia, title: String, own := false) -> void:
@@ -164,6 +175,7 @@ func open(o: Vector2i, contents: Bisaccia, title: String, own := false) -> void:
 	origin = o
 	personal = own
 	page = 0
+	_search.text = ""                          # una cassa nuova si apre senza filtro
 	chest = contents
 	_layout(contents.slots.size())
 	chest.changed.connect(_refresh)
@@ -269,13 +281,20 @@ func _refresh() -> void:
 			used += 1
 	var pages := ceili(chest.slots.size() / float(_per))
 	page = clampi(page, 0, pages - 1)
+	var q := _search.text.strip_edges().to_lower()
+	var found := matches(q)
 	for k in _slots.size():
 		var s := _slots[k]
-		s.index = page * _per + k
-		s.visible = k < _per and s.index < chest.slots.size()
+		if q != "":
+			# la ricerca: le caselle che corrispondono, una dopo l'altra (anche dalle altre pagine)
+			s.visible = k < _per and k < found.size()
+			s.index = int(found[k]) if s.visible else 0
+		else:
+			s.index = page * _per + k
+			s.visible = k < _per and s.index < chest.slots.size()
 		if s.visible:
 			s.set_item(chest.id_at(s.index), chest.count_at(s.index), chest.trait_at(s.index), chest.data_at(s.index))
-	_show_pages(pages)
+	_show_pages(pages if q == "" else 1)
 	_pages.position.x = _title.position.x + _title.get_combined_minimum_size().x + 14   # subito dopo il titolo
 	var tags := ["%d/%d caselle" % [used, chest.slots.size()]]
 	if storage != null and not _settings.visible:
@@ -286,7 +305,24 @@ func _refresh() -> void:
 			tags.append("dà gli ingredienti alla creazione")
 		if String(st["tipo"]) != "":
 			tags.append("raccoglie: " + StorageData.category_name(String(st["tipo"])).to_lower())
+	if q != "":
+		tags = ["%d trovat%s" % [found.size(), "o" if found.size() == 1 else "i"]]
 	_info.text = " · ".join(tags)
+
+
+## Le caselle della cassa il cui oggetto ha nel nome le lettere cercate (minuscole), in ordine.
+func matches(q: String) -> Array:
+	var out := []
+	if q == "" or chest == null:
+		return out
+	for i in chest.slots.size():
+		var id := chest.id_at(i)
+		if id == "":
+			continue
+		var name := String(ItemsData.get_item(id).get("name", id)).to_lower()
+		if name.contains(q) or Gear.full_name(chest.slots[i]).to_lower().contains(q):
+			out.append(i)
+	return out
 
 
 ## I bottoni delle pagine (solo per le casse che ne hanno più d'una).
