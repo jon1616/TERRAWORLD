@@ -5106,3 +5106,6 @@ misura del salto; prima in prove/giardino_prima/). `Background.set_void(on)` ora
 nomi uscivano dal pannello e coprivano «possibili su…». Ora la riga ha solo le icone (il nome nel suggerimento, passando
 con il mouse) e, se non entrano tutte prima del conteggio, l'ultima casella è «+N» con l'elenco degli altri nel suo
 suggerimento (`CraftingPanel._show_benches`). Prova nel gruppo «interfaccia» con 40 banchi (foto 59).
+Nello stesso giorno: tra i «banchi vicini» comparivano stazioni dove non si crea niente (Tamburo di radice, Lampada a
+baccello, Bacheca, Focolare, Otre…). Ora `Crafting.stations_near` tiene solo i banchi di almeno una ricetta, più Maglio
+e Telaio per le Lavorazioni (`Crafting.craft_stations`: 11 stazioni su 365).

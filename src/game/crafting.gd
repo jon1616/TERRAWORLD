@@ -66,6 +66,20 @@ static func take(b: Bisaccia, id: String, n: int) -> bool:
 	return true
 
 
+## I banchi dove si crea qualcosa: il banco di almeno una ricetta, più Maglio e Telaio (le Lavorazioni). Le altre
+## stazioni (lampade, tamburi, arredi, macchine) non sono «banchi vicini» (3 ott 2026, segnalato dall'utente).
+static var _craft_st := {}
+static func craft_stations() -> Dictionary:
+	if _craft_st.is_empty():
+		for r in RecipesData.all():
+			var st := String(r["station"])
+			if st != "":
+				_craft_st[st] = true
+		_craft_st["maglio"] = true
+		_craft_st["telaio"] = true
+	return _craft_st
+
+
 ## Stazioni a portata della cella c: {id: true}.
 static func stations_near(world: World, c: Vector2i) -> Dictionary:
 	var out := {}
@@ -74,6 +88,8 @@ static func stations_near(world: World, c: Vector2i) -> Dictionary:
 		var sd: Dictionary = StationsData.STATIONS[id]
 		if sd.has("slots") or sd.get("fixed", false):
 			continue                           # ceste, scrigni, Cuore e portale non sono stazioni di lavoro
+		if not craft_stations().has(id):
+			continue                           # (3 ott 2026) lampade, tamburi, arredi: non si crea niente lì
 		var size: Array = sd["size"]
 		var r := Rect2i(o, Vector2i(size[0], size[1])).grow(StationsData.craft_reach)
 		if r.has_point(c):
