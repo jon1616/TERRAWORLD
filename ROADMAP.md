@@ -5206,3 +5206,10 @@ solo le caselle il cui oggetto ha quelle lettere nel nome (anche il nome con il 
 pagine della Dispensa; la scritta dice quanti sono. Si svuota aprendo un'altra cassa (`ChestPanel.matches`). Prova nel
 gruppo «casse» (foto 99_casse_ricerca).
 
+**Le caselle bloccate (3 ott 2026, richiesta dell'utente: «bloccare alcuni oggetti nella bisaccia ed impedire che vengano
+spostati con il tasto q oppure con il seme della dispensa»).** Alt+clic su una casella della Bisaccia la blocca (un
+lucchetto nell'angolo, `SlotView.set_locked`) e un altro la sblocca. Il tasto Q e «Nelle casse», «Deposita tutto» e
+«Deposita simili», il Seme della Dispensa saltano le caselle bloccate; «Riordina» le lascia al loro posto e ordina le
+altre attorno. Il segno segue l'oggetto spostato a mano. Nello stesso giro il Seme della Dispensa non prende più nulla
+dagli scomparti. Prova nel gruppo «zaino» (foto 307), capitolo dello zaino nell'Enciclopedia.
+

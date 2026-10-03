@@ -151,7 +151,8 @@ func deposit_all(chest: Bisaccia) -> int:
 	var b: Bisaccia = m.character.bisaccia
 	var moved := 0
 	for i in range(Bisaccia.HOTBAR, b.slots.size()):
-		moved += move_slot(b, i, chest)
+		if not b.locked(i):
+			moved += move_slot(b, i, chest)
 	b.changed.emit()
 	chest.changed.emit()
 	return moved
@@ -162,7 +163,7 @@ func deposit_similar(chest: Bisaccia) -> int:
 	var b: Bisaccia = m.character.bisaccia
 	var moved := 0
 	for i in range(Bisaccia.HOTBAR, b.slots.size()):
-		if b.id_at(i) != "" and chest.count(b.id_at(i)) > 0:
+		if b.id_at(i) != "" and not b.locked(i) and chest.count(b.id_at(i)) > 0:
 			moved += move_slot(b, i, chest)
 	b.changed.emit()
 	chest.changed.emit()
@@ -210,8 +211,8 @@ func quick_stack() -> Dictionary:
 	var used := {}
 	for i in range(Bisaccia.HOTBAR, b.slots.size()):
 		var id := b.id_at(i)
-		if id == "":
-			continue
+		if id == "" or b.locked(i):
+			continue                       # (3 ott 2026) le caselle bloccate restano nella Bisaccia
 		var cat := StorageData.category_of(id)
 		for pass_n in 2:                   # prima chi lo contiene già, poi chi raccoglie il suo tipo
 			for o in chests:

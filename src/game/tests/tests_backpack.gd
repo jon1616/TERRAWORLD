@@ -19,6 +19,7 @@ func run() -> void:
 	await larder()
 	await pack_beast()
 	await compartments()
+	await locks()
 
 
 ## Lo stato della Bisaccia da rimettere dopo la prova: caselle, contenuto ed equipaggiamento.
@@ -83,6 +84,49 @@ func bags() -> void:
 		n0, n1, grown, not smaller, kept, saved_ok, pages, last_seen])
 	if not ok:
 		print("ATTENZIONE: le Bisacce a gradi non vanno")
+	_restore_bag(saved)
+
+
+## 3 ott 2026: le caselle bloccate (Alt+clic). «Deposita tutto», il Seme della Dispensa e «Riordina» non le toccano;
+## le altre si spostano come sempre; il lucchetto si vede nella casella.
+func locks() -> void:
+	var saved := _save_bag()
+	var b: Bisaccia = m.character.bisaccia
+	var d0: Bisaccia = m.character.dispensa
+	for i in b.slots.size():
+		b.slots[i] = {}
+	var a := Bisaccia.HOTBAR + 4
+	b.slots[a] = {"id": "humus", "n": 30}
+	b.slots[Bisaccia.HOTBAR + 1] = {"id": "humus", "n": 20}
+	b.slots[Bisaccia.HOTBAR + 7] = {"id": "legno", "n": 9}
+	var on := b.toggle_lock(a)
+	var chest := Bisaccia.new(20)
+	var moved: int = m.storage.deposit_all(chest)
+	var kept_dep: bool = b.id_at(a) == "humus" and b.count_at(a) == 30 and chest.count("humus") == 20 and chest.count("legno") == 9
+	b.slots[Bisaccia.HOTBAR + 2] = {"id": "humus", "n": 5}
+	var dsp: Bisaccia = m.backpack.dispensa()
+	dsp.add("humus", 1)                                # la Dispensa lo contiene già: il Seme lo manderebbe
+	m.backpack.send_surplus()
+	var kept_seed: bool = b.count_at(a) == 30 and b.id_at(Bisaccia.HOTBAR + 2) == ""
+	b.slots[Bisaccia.HOTBAR + 9] = {"id": "legno", "n": 3}
+	b.sort_bag()
+	var kept_sort: bool = b.locked(a) and b.id_at(a) == "humus" and b.id_at(Bisaccia.HOTBAR) == "legno"
+	var bp: BisacciaPanel = m.hud.panel
+	bp.toggle()
+	await kit.frames(3)
+	var shown := false
+	for s in bp._slots:
+		if s.visible and s.index == a and s._lock != null and s._lock.visible:
+			shown = true
+	await kit.save("307_bloccati")
+	bp.toggle()
+	var off := not b.toggle_lock(a)
+	var ok: bool = on and moved > 0 and kept_dep and kept_seed and kept_sort and shown and off
+	print("caselle bloccate: Deposita tutto %s, Seme della Dispensa %s, Riordina %s, lucchetto %s, si sblocca %s" % [
+		kept_dep, kept_seed, kept_sort, shown, off])
+	if not ok:
+		print("ATTENZIONE: le caselle bloccate non vanno")
+	m.character.dispensa = d0
 	_restore_bag(saved)
 
 

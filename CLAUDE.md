@@ -832,6 +832,8 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     caselle per tipo: `BackpackData.COMPARTMENTS`, regole in `Compartments`): `add` completa la pila della barra rapida,
     poi lo scomparto; `take_one` riempie dallo scomparto la pila finita della barra rapida; `all_bags` li include;
     appassendo restano (il fagotto prende solo le caselle grandi); salvati in `Character` («scomparti»).
+    Le **caselle bloccate** (Alt+clic, 3 ott 2026): la chiave «bloccato» nella casella (`Bisaccia.locked`/`toggle_lock`);
+    chi sposta oggetti da solo (Q, depositi, Seme della Dispensa, `sort_bag`) salta le caselle bloccate.
   - Le grotte: `HarvestData` + `Harvest` (il raccolto di ogni pianta, sul segnale `decor_picked`), `PodsData` +
     `PassBaccelli` + `PodArt` (decorazioni 92-97 da rompere, `Harvest.open_pod`), `DangerData.SPAWN_TRIES` e
     `Fauna._room_below` (una nascita prova quattro punti già buoni: spazio, pavimento, buio, niente torce),

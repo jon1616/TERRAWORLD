@@ -352,9 +352,29 @@ const SORT_KINDS := ["piccone", "ascia", "spada", "arco", "bastone", "munizione"
 	"bisaccia", "torcia", "piattaforma", "seme", "seme_mondo", "blocco", "materiale", "essenza", "trofeo", "reliquia", "ricordo", "provetta", "fiala", "uovo", "creatura", "vasetto", "laccio", "legame"]
 
 
+## Una casella bloccata (Alt+clic nella Bisaccia, 3 ott 2026): non la spostano il tasto Q, «Nelle casse», «Deposita
+## tutto/simili», il Seme della Dispensa, e «Riordina» la lascia dov'è. Il segno sta nella casella («bloccato») e
+## segue l'oggetto spostato a mano dentro la Bisaccia.
+func locked(i: int) -> bool:
+	return i >= 0 and i < slots.size() and bool(slots[i].get("bloccato", false))
+
+
+func toggle_lock(i: int) -> bool:
+	if slots[i].is_empty():
+		return false
+	if locked(i):
+		slots[i].erase("bloccato")
+	else:
+		slots[i]["bloccato"] = true
+	changed.emit()
+	return locked(i)
+
+
 func sort_bag(from := HOTBAR) -> void:
 	var items: Array = []
 	for i in range(from, slots.size()):
+		if locked(i):
+			continue                               # le caselle bloccate restano al loro posto
 		if not slots[i].is_empty():
 			items.append(slots[i])
 		slots[i] = {}
@@ -366,8 +386,10 @@ func sort_bag(from := HOTBAR) -> void:
 		return String(ItemsData.get_item(String(a["id"])).get("name", "")) < String(ItemsData.get_item(String(b["id"])).get("name", "")))
 	var k := from
 	for it in items:
+		while k < slots.size() and locked(k):
+			k += 1                                 # (si salta la casella bloccata)
 		# le pile uguali (senza tratto né dati) si uniscono finché c'è posto
-		if k > from and slots[k - 1].get("id", "") == it["id"] and not it.has("tratto") and not slots[k - 1].has("tratto") \
+		if k > from and not locked(k - 1) and slots[k - 1].get("id", "") == it["id"] and not it.has("tratto") and not slots[k - 1].has("tratto") \
 				and not it.has("dati") and not slots[k - 1].has("dati"):
 			var room := ItemsData.stack_of(String(it["id"])) - int(slots[k - 1]["n"])
 			var moved := maxi(mini(room, int(it["n"])), 0)

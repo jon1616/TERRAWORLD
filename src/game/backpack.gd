@@ -103,9 +103,11 @@ func send_surplus() -> int:
 	var moved := 0
 	var b: Bisaccia = m.character.bisaccia
 	for bag in b.all_bags():
+		if bag == b.comps:
+			continue                           # (3 ott 2026) gli scomparti restano addosso: munizioni, torce, Lumini
 		for i in range(Bisaccia.HOTBAR if bag == b else 0, bag.slots.size()):
 			var s: Dictionary = bag.slots[i]
-			if s.is_empty() or s.has("dati") or s.has("tratto"):
+			if s.is_empty() or s.has("dati") or s.has("tratto") or s.get("bloccato", false):
 				continue
 			var id := String(s["id"])
 			if not have.has(id) and not String(ItemsData.get_item(id).get("kind", "")) in BackpackData.SURPLUS_KINDS:

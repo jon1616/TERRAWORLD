@@ -126,6 +126,43 @@ func set_ghost(shape: String, label: String) -> void:
 	_ghost.visible = slot_data.is_empty()
 
 
+## Il lucchetto di una casella bloccata (Alt+clic nella Bisaccia): un segno piccolo nell'angolo in alto a destra.
+var _lock: TextureRect
+static var _lock_tex: ImageTexture
+
+
+func set_locked(on: bool) -> void:
+	if not on:
+		if _lock != null:
+			_lock.visible = false
+		return
+	if _lock_tex == null:
+		var im := Image.create(7, 8, false, Image.FORMAT_RGBA8)
+		var c := Color("#ffd08a")
+		var d := Color("#8a5a20")
+		for x in range(1, 6):                      # l'arco
+			im.set_pixel(x, 0, c if x in [2, 3, 4] else Color(0, 0, 0, 0))
+		for y in range(1, 3):
+			im.set_pixel(1, y, c)
+			im.set_pixel(5, y, c)
+		for y in range(3, 8):                      # il corpo, con il buco della chiave
+			for x in 7:
+				im.set_pixel(x, y, c if y > 3 or (x > 0 and x < 6) else c)
+		im.set_pixel(3, 5, d)
+		im.set_pixel(3, 6, d)
+		_lock_tex = ImageTexture.create_from_image(im)
+	if _lock == null:
+		_lock = TextureRect.new()
+		_lock.texture = _lock_tex
+		_lock.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		_lock.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		_lock.size = Vector2(14, 16)
+		_lock.position = Vector2(SIZE - 17, 3)
+		_lock.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(_lock)
+	_lock.visible = true
+
+
 ## Toglie la sagoma (le caselle della griglia sono riusate tra le viste: solo gli scomparti ne hanno una).
 func clear_ghost() -> void:
 	if _ghost != null:

@@ -163,6 +163,7 @@ func _ready() -> void:
 	sort.add_theme_font_size_override("font_size", 12)
 	sort.tooltip_text = "Mette in ordine la Bisaccia (non la barra rapida): per tipo e per nome, unendo le pile"
 	sort.pressed.connect(func() -> void: bisaccia.sort_bag())
+	sort.tooltip_text += " (le caselle bloccate con Alt+clic restano dove sono)"
 	add_child(sort)
 	var qs := Button.new()
 	qs.text = "Nelle casse"
@@ -245,7 +246,13 @@ func click_slot(i: int, button: int) -> void:
 	var b := bag()
 	if i >= b.slots.size():
 		return
-	if button == MOUSE_BUTTON_LEFT and Input.is_key_pressed(KEY_CTRL) and held.is_empty() and not b.slots[i].is_empty():
+	if button == MOUSE_BUTTON_LEFT and Input.is_key_pressed(KEY_ALT) and held.is_empty() and b == bisaccia \
+			and not b.slots[i].is_empty():
+		# Alt+clic: blocca o sblocca la casella (Q, «Nelle casse», «Deposita», il Seme della Dispensa non la toccano)
+		var on := b.toggle_lock(i)
+		_toast.call("%s: %s" % [String(ItemsData.get_item(b.id_at(i)).get("name", b.id_at(i))),
+			"bloccato, resta nella Bisaccia" if on else "sbloccato"])
+	elif button == MOUSE_BUTTON_LEFT and Input.is_key_pressed(KEY_CTRL) and held.is_empty() and not b.slots[i].is_empty():
 		_to_trash(b.slots[i].duplicate(true))          # Ctrl+clic: la casella intera nel cestino
 		b.slots[i] = {}
 		b.changed.emit()
@@ -341,6 +348,7 @@ func _refresh() -> void:
 		s.visible = s.index < b.slots.size()
 		if s.visible:
 			s.set_item(b.id_at(s.index), b.count_at(s.index), b.trait_at(s.index), b.data_at(s.index))
+			s.set_locked(b == bisaccia and b.locked(s.index))
 			# gli scomparti mostrano la sagoma di ciò che ci va; le altre viste no
 			var gh: Array = _views[view].get("ghosts", []) if view < _views.size() else []
 			if s.index < gh.size():
