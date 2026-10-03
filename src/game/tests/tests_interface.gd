@@ -113,6 +113,22 @@ func run() -> void:
 		benches_ok, bench_ids.size(), all_blocks, chips - 1, bricks])
 	if not benches_ok or chips < 3 or bricks <= 0 or bricks >= all_blocks:
 		print("ATTENZIONE: le categorie di Creare non vanno")
+	# 3 ott 2026: con tanti banchi vicini la riga resta dentro il pannello (solo icone, «+N» per gli altri)
+	var many := {}
+	for id in StationsData.STATIONS.keys().slice(0, 40):
+		many[id] = true
+	cp._show_benches(many)
+	await kit.frames(3)
+	var right := 0.0
+	for c in cp._benches.get_children():
+		if not c.is_queued_for_deletion():
+			right = maxf(right, (c as Control).position.x + (c as Control).size.x)
+	var bench_end: float = cp._benches.position.x + right
+	await kit.save("59_creare_tanti_banchi")
+	print("Creare con 40 banchi vicini: la riga finisce a %.0f px, il conteggio comincia a %.0f" % [bench_end, cp._count.position.x])
+	if bench_end > cp._count.position.x:
+		print("ATTENZIONE: i banchi vicini coprono il conteggio di Creare")
+	cp._show_benches(cp._near)
 	cp.all_benches = false
 	cp.sub = ""
 	cp.cat = 0

@@ -5101,3 +5101,8 @@ isolette con le lanterne, pulviscolo turchese che sale. Ogni piano ha una parall
 verticale molto più grande: con un salto di 54 px i piani scorrono sullo schermo di 16-32 px (prima 3), cioè restano
 al loro posto nel mondo. Niente sole né luna nel Giardino. Prova: gruppo «sfondi» (foto zz_giardino_giorno/notte, la
 misura del salto; prima in prove/giardino_prima/). `Background.set_void(on)` ora si spegne anche.
+
+**Correzione del 3 ott 2026 (segnalata dall'utente): i banchi vicini di «Creare».** Con tanti banchi a portata i loro
+nomi uscivano dal pannello e coprivano «possibili su…». Ora la riga ha solo le icone (il nome nel suggerimento, passando
+con il mouse) e, se non entrano tutte prima del conteggio, l'ultima casella è «+N» con l'elenco degli altri nel suo
+suggerimento (`CraftingPanel._show_benches`). Prova nel gruppo «interfaccia» con 40 banchi (foto 59).

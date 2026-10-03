@@ -328,10 +328,16 @@ func _show_chips(sec_n: Array) -> void:
 	_scroll.size.y = size.y - top - 34.0
 
 
-## I banchi vicini: icona e nome breve.
+## I banchi vicini: solo le icone, il nome passandoci sopra (3 ott 2026, l'utente: con tanti banchi i nomi uscivano dal
+## pannello e coprivano «possibili su…»). Se non entrano tutte prima di quella scritta, l'ultima casella è «+N» e il suo
+## suggerimento elenca gli altri.
+const BENCH_ICON := 26
+const BENCH_GAP := 5
+
 func _show_benches(near: Dictionary) -> void:
 	for c in _benches.get_children():
 		c.queue_free()
+	_benches.add_theme_constant_override("separation", BENCH_GAP)
 	if near.is_empty():
 		var l := Label.new()
 		l.text = "nessuno — solo ciò che si fa a mano"
@@ -339,24 +345,36 @@ func _show_benches(near: Dictionary) -> void:
 		l.add_theme_color_override("font_color", MUTED)
 		_benches.add_child(l)
 		return
-	for id in near:
+	# quante icone entrano tra «Banchi vicini:» e la scritta del conteggio (a destra)
+	var room := _count.position.x - 12.0 - _benches.position.x
+	var fit := maxi(int((room + BENCH_GAP) / float(BENCH_ICON + BENCH_GAP)), 1)
+	var ids: Array = near.keys()
+	var shown := ids.size() if ids.size() <= fit else fit - 1
+	for i in shown:
+		var id := String(ids[i])
 		var sd: Dictionary = StationsData.STATIONS[id]
-		var box := HBoxContainer.new()
-		box.add_theme_constant_override("separation", 3)
-		box.tooltip_text = String(sd["name"])
 		var ic := TextureRect.new()
 		var item := String(sd.get("item", ""))
 		ic.texture = SlotView.icon(item if item != "" else id)
 		ic.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		ic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		ic.custom_minimum_size = Vector2(24, 24)
-		box.add_child(ic)
-		var l := Label.new()
-		l.text = CraftCatsData.short_station(String(id))
-		l.add_theme_font_size_override("font_size", 13)
-		l.add_theme_color_override("font_color", TEXT)
-		box.add_child(l)
-		_benches.add_child(box)
+		ic.custom_minimum_size = Vector2(BENCH_ICON, BENCH_ICON)
+		ic.mouse_filter = Control.MOUSE_FILTER_STOP
+		ic.tooltip_text = String(sd["name"])
+		_benches.add_child(ic)
+	if shown < ids.size():
+		var more := Label.new()
+		more.text = "+%d" % (ids.size() - shown)
+		more.custom_minimum_size = Vector2(BENCH_ICON, BENCH_ICON)
+		more.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		more.add_theme_font_size_override("font_size", 13)
+		more.add_theme_color_override("font_color", TEXT)
+		more.mouse_filter = Control.MOUSE_FILTER_STOP
+		var rest := PackedStringArray()
+		for i in range(shown, ids.size()):
+			rest.append(String(StationsData.STATIONS[String(ids[i])]["name"]))
+		more.tooltip_text = "Anche: " + ", ".join(rest)
+		_benches.add_child(more)
 
 
 ## Sceglie una ricetta: si evidenzia e la sua scheda compare in Esamina.
