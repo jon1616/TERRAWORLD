@@ -5153,8 +5153,10 @@ possibilità senza il mio intervento». Regola: ogni pezzo di storia è anche un
   conosciute, una domanda si risolve con la versione vera vista **e** la prova; premio, scritta «Ora sai», «verita»
   per i misteri; la pagina «La verità» del Taccuino segna, a domanda risolta, vera, mezza verità, falsa). La prova
   `refs` controlla che le 59 condizioni della storia nominino cose che esistono.
-- [ ] **346. Le leggende dei luoghi.** `MythsData`: una riga di mito per ogni bioma (superficie, sottosuolo, cielo), nelle
+- [x] **346. Le leggende dei luoghi.** `MythsData`: una riga di mito per ogni bioma (superficie, sottosuolo, cielo), nelle
   pagine dell'Atlante quando il bioma è stato visitato.
+  Fatto il 3 ott 2026: `MythsData` (26 leggende, una per bioma di superficie, del sottosuolo e del cielo), mostrate da
+  `BiomePages.text_of` sotto «Visitare il bioma» solo quando il bioma è stato visitato.
 - [ ] **347. La Bocca.** `VoidVoiceData` e `VoidVoice`: nei luoghi malati e nel mondo del Seme Nero, rare scritte che si
   rivolgono al Germogliato; dopo la scelta sul Seme Nero, a volte con la voce di Saréth.
 - [ ] **348. La riscrittura.** Cronache, pagine dell'Albero, del Seme Nero e del finale messe d'accordo con il canone (le

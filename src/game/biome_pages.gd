@@ -92,6 +92,9 @@ func text_of(p: Dictionary) -> String:
 	var t := "[font_size=26][color=#8ef0a0]%s[/color][/font_size]\n%s · %d su %d%s\n\n" % [p["name"], p["where"], int(pr[0]),
 		int(pr[1]), " · [color=#ffd24a]completa[/color]" if done(p) else ""]
 	t += "%s [color=%s]Visitare il bioma[/color]\n" % ["✓" if visited(p) else "·", "#cfeee4" if visited(p) else "#9a8aa4"]
+	# Roadmap 36, voce 346: la leggenda del luogo, a bioma visitato
+	if visited(p) and MythsData.of(String(p["biome"])) != "":
+		t += "\n[i][color=#c8b8e8]%s[/color][/i]\n" % MythsData.of(String(p["biome"]))
 	if not (p["creature"] as Array).is_empty():
 		t += "\n[b]Le creature[/b] (da sconfiggere almeno una volta)\n"
 		for cid in p["creature"]:

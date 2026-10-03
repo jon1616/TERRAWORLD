@@ -20,8 +20,34 @@ func run() -> void:
 	await echoes()
 	await truth()
 	refs()
+	myths()
 	m.character.stats = st0
 	m.character.maestria = ma0
+
+
+## Voce 346: ogni bioma ha la sua leggenda, e la pagina dell'Atlante la mostra solo a bioma visitato.
+func myths() -> void:
+	var missing := []
+	for b in BiomesData.BIOMES + BiomesData.UNDER + BiomesData.SKY:
+		if MythsData.of(String(b["id"])) == "":
+			missing.append(String(b["id"]))
+	var shown_ok := true
+	var pages: Array = BiomePagesData.pages()
+	if not pages.is_empty():
+		var p: Dictionary = pages[0]
+		var bp: BiomePages = m.atlas.pages
+		var key := bp.visit_key(p)
+		var v0 := int(m.character.stats.get(key, 0))
+		m.character.stats.erase(key)
+		var before := bp.text_of(p).contains(MythsData.of(String(p["biome"])))
+		m.character.stats[key] = 1
+		var after := bp.text_of(p).contains(MythsData.of(String(p["biome"])))
+		m.character.stats[key] = v0
+		shown_ok = not before and after
+	print("leggende: %d biomi senza leggenda %s; nella pagina solo a bioma visitato %s" % [missing.size(), str(missing),
+		"sì" if shown_ok else "NO"])
+	if not missing.is_empty() or not shown_ok:
+		print("ATTENZIONE: le leggende dei luoghi non vanno")
 
 
 ## Ogni condizione della storia nomina cose che esistono (sogni, echi, domande, pagine, Seminatori): un nome sbagliato
