@@ -96,6 +96,110 @@ Arrivano attraverso i portali quando il Giardino cresce:
 - **L'Erborista** — pozioni e il catalogo di piante e creature.
 - **Il Cartografo dei Seminatori** — decifra le scritte antiche, porta avanti la storia.
 
+## La storia vera (canone, 3 ott 2026 — bozza da approvare)
+
+Scelte dell'utente (3 ott 2026): il segreto di fondo è **«i Seminatori non se ne sono mai andati: sono i Guardiani»**;
+tono **cupo e misterioso**; **poco testo**, frasi brevi, molto non detto. Questa sezione è il riferimento per ogni
+testo del gioco: Cronache, stele, cripte, pagine dell'Albero, abitanti, sogni, echi. Il giocatore non la legge mai
+intera: la ricompone.
+
+### In una frase
+
+I Seminatori non partirono. Quando il Seme Nero cominciò a divorare i mondi, si seminarono **dentro i Cuori**: ogni
+Guardiano è uno di loro, che trattiene l'Avvizzimento con il proprio corpo e intanto dimentica il proprio nome. Ogni
+Guardiano che curi si ricorda chi era. Ogni Guardiano che abbatti è un Seminatore spento per sempre.
+
+### Le ere
+
+1. **La Semina.** I Seminatori — Linfa che aveva imparato a camminare, mani lunghe come radici — piantano l'Albero-Madre
+   nel Vuoto giovane, e dai suoi frutti i mondi. Ogni mondo ha un Cuore. Sono pochi: ognuno ha un nome, e il nome conta
+   (la lingua comune è la loro; la corona di cristallo «protegge il nome»).
+2. **La Fame.** Nel Vuoto c'è qualcosa: non un luogo, non una creatura. Le stele nere la chiamano **la Bocca**. Non ha
+   forma; ha fame, e chiama. Pochi la sentono. Una la ascolta.
+3. **La Lite.** Saréth, la Voce, propone di piantare un seme nato dal Vuoto: un mondo più grande di tutti. Gli altri
+   dicono di no. La lite dura finché le Aiuole restano vuote e l'Albero si stanca. Una notte Saréth **lascia andare**
+   il seme: non cade dal cielo, viene piantato. Dopo, gli altri Seminatori diranno che «cadde» e che «lo accolsero»:
+   è la loro vergogna, e la loro bugia.
+4. **L'Avvizzimento.** Il seme non beve Linfa: beve **memoria e fame**, e la Linfa che gli si versa la inghiotte senza
+   saziarsi. L'Avvizzimento cammina lungo le radici da un mondo all'altro. Varèk il Costruttore prova a far «cantare
+   insieme» i quattro Alberi fratelli per coprire la chiamata della Bocca: li fonde, li lega, sbaglia. Gli Alberi si
+   ammalano e si perdono (i Giardini perduti).
+5. **L'Ultima Semina.** Non potendo fermare il seme, i Seminatori fanno l'unica cosa che sanno fare: **seminano se
+   stessi**. Ognuno si divide in tanti semi quanti sono i Cuori e si pianta in ognuno, per trattenere l'Avvizzimento con il
+   proprio corpo. Più mondi custodisce, più la sua Linfa è sottile: nei mondi forti (vigore alto) i Guardiani non
+   ricordano più nemmeno di aver avuto un nome — sono «anticorpi», gusci. Poi chiudono i Sigilli su ciò che amavano e su
+   ciò che temevano. Saréth non si semina: il seme la prende. **L'Avvizzitore è lei.**
+6. **Il Sonno.** L'Albero-Madre, svuotato, lascia cadere un ultimo frutto e si addormenta per non vedere. Da quel frutto
+   nasci tu. Tre Seminatori — Maesh e altri due — seguono la radice più lunga fino all'Albero Antico per chiedere aiuto;
+   l'Albero Antico è troppo stanco. Due si piantano e diventano radici del cosmo; Maesh resta a custodire l'ultimo seme.
+7. **Adesso.** Il Germogliato cammina tra i Cuori. La Bocca chiama ancora.
+
+### I Seminatori che il giocatore impara a riconoscere
+
+| Nome | Chi era | Che cosa è adesso |
+|---|---|---|
+| **Odràn**, il Custode che non dormiva | vide per primo qualcosa muoversi nel Vuoto; nessuno lo ascoltò | il **Nodo Avvizzito**: il primo a combattere, il primo ad ammalarsi |
+| **Ilvenna**, la Giardiniera delle serre | parlava ai semi uno per uno, per nome | la **Regina delle Spore**: ti chiama con un nome che non conosci (il nome che ti aveva scelto) |
+| **Varèk**, il Costruttore | fece Centrali, Sigilli, i corpi dei Guardiani; fuse gli Alberi fratelli | il **Colosso d'Ardesia**: «chi ha fatto ammalare anche loro?» — lui stesso |
+| **Saréth**, la Voce | ascoltò la Bocca e lasciò andare il seme | l'**Avvizzitore**, nel mondo del Seme Nero |
+| **Maesh**, l'Ultimo | restò oltre il Vuoto a custodire l'ultimo seme | l'**ultimo Seminatore** del Primo Mondo |
+| I senza nome | tutti gli altri | i Guardiani generati dei mondi forti: troppo divisi per ricordarsi |
+
+I Custodi degli strati **non** sono Seminatori: sono le loro creature (la Tessitrice cucì le radici dell'Albero alla
+roccia), lasciate senza padroni. Il Mietitore cavo è della Bocca.
+
+### I tre livelli di verità
+
+1. **Ciò che si crede (inizio).** I Seminatori se ne sono andati. L'Avvizzimento è una malattia caduta dal cielo. I
+   Guardiani sono guardie costruite.
+2. **Ciò che si scopre (Atti I-II, Cronache delle rovine 2-3, catena delle cripte).** Il seme non cadde: qualcuno lo
+   piantò. I Guardiani sono malati perché trattengono l'Avvizzimento. I Seminatori mentirono.
+3. **Ciò che è vero (raro, tardo: sogni, echi, lingua nera, i quattro Giardini guariti, l'Avvizzitore).** I Guardiani
+   **sono** i Seminatori. Saréth è l'Avvizzitore. La Bocca chiama ancora, e chiama anche te.
+
+Un quarto livello, **il segreto dei segreti** (da decidere: vedi sotto), resta per chi trova tutto.
+
+### Le contraddizioni di oggi, e come si sciolgono
+
+- **Come arrivò il Seme Nero** (cinque versioni): sono tutte bugie o mezze verità dei Seminatori, tranne la cripta
+  («fu chiamato») e il Giardino muto («qualcuno lo lasciò andare»). Il giocatore le mette in fila nel Taccuino.
+- **Linfa**: il seme «beve» la Linfa ma non se ne nutre: la inghiotte e resta affamato. Si nutre di fame e di memoria.
+- **Curarlo o spezzarlo**: tutte e due costano.
+  - **Spezzato**: l'Avvizzimento si ferma («una rinascita»), ma Saréth muore per sempre e con lei la verità su che cosa
+    le promise la Bocca.
+  - **Curato**: l'Avvizzimento si ritira, ma Saréth vive legata al seme («una catena») e la Bocca continua a chiamarla:
+    dopo, nei mondi malati, le scritte parlano con la sua voce.
+- **«L'ultimo giardiniere ritorna»**: i Seminatori lo scrissero sperando di tornare loro. Non possono: sono nei Cuori.
+  La profezia parla di te, e loro non lo sapevano.
+- **Perché «se ne andarono»** (Albero, Giardino selvatico): è ciò che vide chi restò. Non se ne andarono: si piantarono.
+- **I Seminatori diventati radici** (finale): solo i due che seguirono Maesh. Gli altri sono nei Cuori.
+- **Il Seme Primo e il Seme del Seminatore**: il **Seme Primo** (dall'Albero-Madre) apre la strada lungo la radice più
+  lunga; il **Seme del Seminatore** è l'ultimo seme che Maesh custodiva, quello che porti all'Albero Antico.
+- **L'Albero di ferro**: Varèk lo fuse «per farlo lavorare» **e** per farli cantare insieme: lo scopo era coprire la
+  chiamata. Sbagliò lui.
+- **Dove è il Seme Nero**: nel Vuoto vicino, raggiungibile con la catena; «oltre il Vuoto» c'è soltanto il Primo Mondo.
+- **«Eravamo quattro»**: i quattro Alberi fratelli; l'Albero-Madre non è tra loro, è la loro madre.
+
+### Come la storia diventa gioco (da fare dopo l'approvazione)
+
+- **I nomi dei Guardiani**: curato, un Guardiano dice il suo nome (e ricorda una cosa); abbattuto, il nome resta «?».
+  Un posto (il Taccuino) tiene i Seminatori **risvegliati** e quelli **spenti**. Nessuna punizione: solo il peso.
+- **I sogni**: dormendo, a volte, un ricordo dell'Albero-Madre (due righe), quando succede qualcosa di preciso.
+- **Gli echi**: in certe rovine, un punto che mostra per un attimo due sagome di luce (Saréth e Odràn che litigano…).
+- **Il Taccuino della verità**: le versioni dei fatti (abitanti, Cronache, stele) messe una accanto all'altra; una
+  prova le conferma o le smentisce.
+- **Le leggende**: una riga di mito per ogni bioma e ogni famiglia di creature, che si svela studiandole.
+- **La Bocca**: nei mondi malati, rare scritte che si rivolgono a te.
+- Le Cronache, le stele, le cripte e le pagine dell'Albero si **riscrivono** per puntare tutte a questa verità.
+
+### Da decidere con l'utente
+
+- **Il segreto dei segreti** (il quarto livello). Proposta: il Germogliato è fatto della Linfa dei Seminatori che si
+  sono seminati — l'Albero-Madre l'ha raccolta da loro. E la parte più grande, quella che lo fa muovere, viene da
+  Saréth: l'Albero ha provato a far rinascere buona la sola che non poteva salvare. La Bocca chiama anche te perché
+  riconosce la sua voce. (Si scopre solo alla fine, e non cambia il finale: cambia come lo si legge.)
+- I **nomi** (Odràn, Ilvenna, Varèk, Saréth, Maesh) e la **Bocca** come nome della cosa nel Vuoto.
+
 ## Nomi delle cose
 
 Regola (utente, 24 set 2026): **le funzioni possono somigliare a quelle di Terraria, i nomi no**. Ogni cosa ha un nome
