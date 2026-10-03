@@ -5192,3 +5192,10 @@ Bocca, e dopo la cura del Seme Nero a volte risponde Saréth. Pagine, finale e C
 Restano come prima le frasi delle stele (legate alle parole della lingua): il canone le legge come ciò che i
 Seminatori vollero far credere.
 
+**Gli scomparti della Bisaccia (3 ott 2026, richiesta dell'utente: «slot dedicati alle munizioni, alle torce ed ai
+soldi; se muori non li perdi»).** Otto caselle fisse nella scheda «Scomparti»: quattro per le munizioni (dardi,
+esplosivi, giavellotti), due per le torce, due per i Lumini (`BackpackData.COMPARTMENTS`, `Compartments`,
+`Bisaccia.comps`). Ciò che è del loro tipo ci va da solo, dopo aver completato la pila che si ha già nella barra rapida;
+quando quella pila finisce si riempie dallo scomparto. Appassendo restano addosso: il fagotto prende solo le caselle
+grandi. Nei personaggi salvati prima, la prima volta gli scomparti si riempiono da ciò che c'è già nella Bisaccia.
+Prova nel gruppo «zaino» (foto 306), capitolo dello zaino nell'Enciclopedia.

@@ -41,7 +41,8 @@ var genario := {}                      # voce 42: geni conosciuti, gene → 1 vi
 func to_dict() -> Dictionary:
 	return {"formato": SaveMigrations.CHARACTER, "nome": name, "creato": created, "ultimo_salvataggio": last_save,
 		"tempo_di_gioco": play_time, "barra": hotbar, "ultimo_mondo": last_world,
-		"bisaccia": bisaccia.to_array() if bisaccia else [], "equipaggiamento": bisaccia.equip if bisaccia else {},
+		"bisaccia": bisaccia.to_array() if bisaccia else [],
+		"scomparti": bisaccia.comps.to_array() if bisaccia and bisaccia.comps else [], "equipaggiamento": bisaccia.equip if bisaccia else {},
 		"tratti_equip": bisaccia.equip_traits if bisaccia else {}, "dati_equip": bisaccia.equip_data if bisaccia else {},
 		"vita": hp, "linfa": linfa, "vita_extra": vita_extra, "linfa_extra": linfa_extra, "guardiani_curati": guardiani_curati,
 		"erbario": erbario, "stats": stats, "obiettivi": obiettivi, "genario": genario, "mandria": mandria,
@@ -69,6 +70,12 @@ static func from_dict(cid: String, d: Dictionary) -> Character:
 	# (voce 295: la Bisaccia può essere cresciuta con le Bisacce a gradi: tante caselle quante ne sono state salvate)
 	c.bisaccia = Bisaccia.from_array(d["bisaccia"], maxi(Bisaccia.SIZE, (d["bisaccia"] as Array).size())) \
 		if d.has("bisaccia") else Bisaccia.starter()
+	# 3 ott 2026: gli scomparti (munizioni, torce, Lumini); la prima volta si riempiono da ciò che c'è già nella Bisaccia
+	c.bisaccia.comps = Compartments.make(d.get("scomparti", []))
+	if not d.has("scomparti"):
+		Compartments.gather(c.bisaccia, c.bisaccia.comps)
+	var cb: Bisaccia = c.bisaccia
+	cb.comps.changed.connect(func() -> void: cb.changed.emit())
 	var eq: Dictionary = d.get("equipaggiamento", {})
 	for k in eq:
 		if k in Bisaccia.EQUIP_SLOTS and ItemsData.has(String(eq[k])):
@@ -181,6 +188,10 @@ static func create(char_name: String) -> Character:
 	c.id = SavePaths.new_id(char_name)
 	c.created = SavePaths.now_text()
 	c.bisaccia = Bisaccia.starter()
+	c.bisaccia.comps = Compartments.make([])
+	Compartments.gather(c.bisaccia, c.bisaccia.comps)
+	var cb2: Bisaccia = c.bisaccia
+	cb2.comps.changed.connect(func() -> void: cb2.changed.emit())
 	return c
 
 

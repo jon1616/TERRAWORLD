@@ -126,6 +126,14 @@ func set_ghost(shape: String, label: String) -> void:
 	_ghost.visible = slot_data.is_empty()
 
 
+## Toglie la sagoma (le caselle della griglia sono riusate tra le viste: solo gli scomparti ne hanno una).
+func clear_ghost() -> void:
+	if _ghost != null:
+		_ghost.queue_free()
+		_ghost = null
+		ghost_name = ""
+
+
 func set_selected(on: bool) -> void:
 	if on != _selected:
 		_selected = on

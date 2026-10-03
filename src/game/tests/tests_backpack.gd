@@ -18,6 +18,7 @@ func run() -> void:
 	await pick_rules()
 	await larder()
 	await pack_beast()
+	await compartments()
 
 
 ## Lo stato della Bisaccia da rimettere dopo la prova: caselle, contenuto ed equipaggiamento.
@@ -66,7 +67,7 @@ func bags() -> void:
 	var bp: BisacciaPanel = m.hud.panel
 	bp.toggle()
 	await kit.frames(3)
-	var pages := bp._views.size()
+	var pages := bp._views.filter(func(v: Dictionary) -> bool: return v["bag"] == b).size()   # (dopo le pagine, gli scomparti)
 	bp.view = pages - 1
 	bp._refresh()
 	await kit.frames(3)
@@ -83,6 +84,64 @@ func bags() -> void:
 	if not ok:
 		print("ATTENZIONE: le Bisacce a gradi non vanno")
 	_restore_bag(saved)
+
+
+## 3 ott 2026: gli scomparti. Munizioni, torce e Lumini ci vanno da soli (dopo la pila della barra rapida), si contano e
+## si spendono; la pila della barra rapida finita si riempie da lì; appassendo restano addosso; il salvataggio li tiene.
+func compartments() -> void:
+	var saved := _save_bag()
+	var b: Bisaccia = m.character.bisaccia
+	var c0: Array = b.comps.to_array()
+	for i in b.slots.size():
+		b.slots[i] = {}
+	for i in b.comps.slots.size():
+		b.comps.slots[i] = {}
+	b.slots[0] = {"id": "torcia", "n": 2}
+	b.add("dardo", 30)
+	b.add("torcia", 40)
+	b.add("lumino", 120)
+	b.slots[Bisaccia.HOTBAR + 2] = {"id": "legno", "n": 5}   # nelle caselle grandi: appassendo va nel fagotto
+	var in_comps: bool = b.comps.count("dardo") == 30 and b.comps.count("lumino") == 120 and b.count_at(0) == 42 \
+		and b.count("dardo") == 30 and b.count("legno") == 5
+	b.add("torcia", 999)                               # la pila in mano è piena: il resto va nello scomparto
+	var torch_comp := b.comps.count("torcia")
+	b.slots[0]["n"] = 1
+	b.take_one(0)                                      # finita la pila in mano: si riempie dallo scomparto
+	var refilled := b.id_at(0) == "torcia" and b.count_at(0) > 0 and b.comps.count("torcia") < torch_comp
+	var paid := b.remove("lumino", 20) and b.comps.count("lumino") == 100
+	m.life._drop_bundle()                              # appassire: il fagotto prende solo le caselle grandi
+	var kept_ok: bool = b.comps.count("dardo") == 30 and b.comps.count("lumino") == 100 and b.count("legno") == 0
+	if m.life.bundle.x >= 0:
+		m.world.stations.erase(m.life.bundle)
+		m.world.chests.erase(m.life.bundle)
+		m.view.remove_station(m.life.bundle)
+		m.life.bundle = Vector2i(-1, -1)
+	var back := Character.from_dict("prova_scomparti", JSON.parse_string(JSON.stringify(m.character.to_dict())))
+	var saved_ok: bool = back != null and back.bisaccia.comps != null and back.bisaccia.comps.count("dardo") == 30
+	var bp: BisacciaPanel = m.hud.panel
+	bp.toggle()
+	await kit.frames(2)
+	var tab := -1
+	for k in bp._views.size():
+		if bp._views[k]["bag"] == b.comps:
+			tab = k
+	if tab >= 0:
+		bp.view = tab
+		bp._refresh()
+		await kit.frames(3)
+		await kit.save("306_scomparti")
+	bp.view = 0
+	bp.toggle()
+	var ok: bool = in_comps and torch_comp > 0 and refilled and paid and kept_ok and saved_ok and tab >= 0
+	print("scomparti: ci vanno da soli %s, la pila in mano si riempie %s, i Lumini si spendono %s, appassendo restano %s, salvataggio %s, scheda %s" % [
+		in_comps, refilled, paid, kept_ok, saved_ok, tab >= 0])
+	if not ok:
+		print("ATTENZIONE: gli scomparti della Bisaccia non vanno")
+	_restore_bag(saved)
+	var cb: Bisaccia = Compartments.make(c0)
+	for i in b.comps.slots.size():
+		b.comps.slots[i] = cb.slots[i]
+	b.comps.changed.emit()
 
 
 ## Voce 296: una tasca alla cintura prende da sola il suo tipo; ciò che contiene si conta per creare, si toglie, resta nella

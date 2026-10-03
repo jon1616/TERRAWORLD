@@ -30,6 +30,8 @@ var equip_data := {}                   # posto -> "dati" del pezzo indossato (vo
 ## ogni cambio. Le altre borse che ti seguono (il basto, voce 299): [{"t", "bag", "icon", "tip", "accept"}].
 var _pouches := {}
 var carriers: Array = []
+## Gli scomparti (munizioni, torce, Lumini: `Compartments`), solo nella Bisaccia del personaggio; null altrove.
+var comps: Bisaccia = null
 
 
 ## `size`: 40 per la Bisaccia; le ceste e gli scrigni usano la stessa classe con meno caselle.
@@ -91,6 +93,8 @@ func _extra_for(id: String) -> Array[Bisaccia]:
 ## La Bisaccia e tutte le borse in più (tasche, basto): per contare ciò che si ha.
 func all_bags() -> Array[Bisaccia]:
 	var out: Array[Bisaccia] = [self]
+	if comps != null:
+		out.append(comps)
 	for slot in BackpackData.POUCH_SLOTS:
 		var pb := pouch(slot)
 		if pb != null:
@@ -144,6 +148,15 @@ func grow(size: int) -> bool:
 ## Le schede in più del pannello (tasche, basto): [{"t", "bag", "from", "tip", "icon"}]. Le riempiono le voci 296 e 299.
 func extra_views() -> Array:
 	var out := []
+	if comps != null:
+		var ghosts := []
+		var tip := []
+		for c in BackpackData.COMPARTMENTS:
+			tip.append("%s %d" % [c["name"], int(c["slots"])])
+			for k in int(c["slots"]):
+				ghosts.append([String(c["ghost"]), String(c["name"])])
+		out.append({"t": "Scomparti", "icon": "", "bag": comps, "from": 0, "ghosts": ghosts,
+			"tip": "Scomparti: %s caselle. Ciò che è del loro tipo ci va da solo, e appassendo resta addosso." % ", ".join(tip)})
 	for slot in BackpackData.POUCH_SLOTS:
 		var pb := pouch(slot)
 		if pb != null:
@@ -174,6 +187,18 @@ func count_at(i: int) -> int:
 
 ## Aggiunge: prima riempie le pile uguali, poi le caselle vuote (barra rapida per prima). Restituisce ciò che non entra.
 func add(id: String, n: int) -> int:
+	# gli scomparti: prima si completa la pila che hai già nella barra rapida, poi la casella del suo tipo
+	if comps != null and Compartments.kind_of(id) != "":
+		var cap0 := ItemsData.stack_of(id)
+		for i in HOTBAR:
+			if n > 0 and id_at(i) == id and count_at(i) < cap0 and not slots[i].has("dati"):
+				var k0 := mini(cap0 - count_at(i), n)
+				slots[i]["n"] = count_at(i) + k0
+				n -= k0
+		n = Compartments.add(comps, id, n)
+		if n <= 0:
+			changed.emit()
+			return 0
 	if equip.has("tasca_1") or equip.has("tasca_2"):
 		for pb in _pouches_for(id):
 			if n <= 0:
@@ -234,6 +259,8 @@ func add_stack(s: Dictionary) -> int:
 func room_for(id: String) -> int:
 	var cap := ItemsData.stack_of(id)
 	var r := 0
+	if comps != null:
+		r += Compartments.room_for(comps, id)
 	if (equip.has("tasca_1") or equip.has("tasca_2") or not carriers.is_empty()):
 		for pb in _extra_for(id):
 			r += pb.room_for(id)
@@ -250,10 +277,10 @@ func count(id: String) -> int:
 	for i in slots.size():
 		if id_at(i) == id:
 			c += count_at(i)
-	if equip.has("tasca_1") or equip.has("tasca_2") or not carriers.is_empty():
+	if equip.has("tasca_1") or equip.has("tasca_2") or not carriers.is_empty() or comps != null:
 		for b in all_bags():
 			if b != self:
-				c += b.count(id)              # voce 296: anche ciò che sta nelle tasche
+				c += b.count(id)              # voce 296: anche ciò che sta nelle tasche (e negli scomparti)
 	return c
 
 
@@ -287,9 +314,15 @@ func remove(id: String, n: int) -> bool:
 func take_one(i: int) -> void:
 	if slots[i].is_empty():
 		return
+	var id := id_at(i)
 	slots[i]["n"] = count_at(i) - 1
 	if count_at(i) <= 0:
 		slots[i] = {}
+		# la pila della barra rapida è finita: si riempie dallo scomparto (munizioni, torce, Lumini)
+		if comps != null and i < HOTBAR:
+			var got := Compartments.take(comps, id, ItemsData.stack_of(id))
+			if got > 0:
+				slots[i] = {"id": id, "n": got}
 	changed.emit()
 
 

@@ -257,7 +257,8 @@ func click_slot(i: int, button: int) -> void:
 		b.slots[i]["n"] = b.count_at(i) - half
 		b.changed.emit()
 	elif button == MOUSE_BUTTON_LEFT:
-		if not held.is_empty() and b.has_meta("accept") and not (b.get_meta("accept") as Callable).call(String(held["id"])):
+		if not held.is_empty() and ((b.has_meta("accept") and not (b.get_meta("accept") as Callable).call(String(held["id"]))) \
+				or (b.has_meta("accept_at") and not (b.get_meta("accept_at") as Callable).call(i, String(held["id"])))):
 			_toast.call("Qui va solo ciò che è del suo tipo")   # voce 296: una tasca prende solo il suo tipo
 		else:
 			held = b.swap_with(i, held)
@@ -340,6 +341,12 @@ func _refresh() -> void:
 		s.visible = s.index < b.slots.size()
 		if s.visible:
 			s.set_item(b.id_at(s.index), b.count_at(s.index), b.trait_at(s.index), b.data_at(s.index))
+			# gli scomparti mostrano la sagoma di ciò che ci va; le altre viste no
+			var gh: Array = _views[view].get("ghosts", []) if view < _views.size() else []
+			if s.index < gh.size():
+				s.set_ghost(String(gh[s.index][0]), String(gh[s.index][1]))
+			else:
+				s.clear_ghost()
 	for slot in _equip:
 		var ev := _equip[slot] as SlotView
 		ev.set_item(String(bisaccia.equip.get(slot, "")), 1, String(bisaccia.equip_traits.get(slot, "")),

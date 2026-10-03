@@ -45,6 +45,13 @@ const POUCH_TIERS := [
 	{"slots": 30, "suffix": " d'ambra", "mat": "ambra", "in": {"seta_radice": 18, "lingotto_ambra": 5, "cristallo_linfa": 2}},
 ]
 const POUCH_SLOTS := ["tasca_1", "tasca_2"]
+## Gli scomparti della Bisaccia (3 ott 2026, richiesta dell'utente): caselle fisse per tipo che restano addosso quando si
+## appassisce (regole in `Compartments`). kinds = i tipi d'oggetto che prendono; ghost = la sagoma della casella vuota.
+const COMPARTMENTS := [
+	{"id": "munizioni", "name": "Munizioni", "slots": 4, "kinds": ["munizione", "esplosivo", "giavellotto"], "ghost": "freccia"},
+	{"id": "torce", "name": "Torce", "slots": 2, "kinds": ["torcia"], "ghost": "torcia"},
+	{"id": "soldi", "name": "Lumini", "slots": 2, "kinds": ["moneta"], "ghost": "lumino"},
+]
 
 const DISPENSA_SLOTS := [60, 120, 200]        # grado 1 (la stazione), 2 (il Seme), 3 (il Cuore)
 ## Ciò che il Seme della Dispensa manda sempre (oltre a ciò che la Dispensa contiene già): i tipi che arrivano a mucchi.

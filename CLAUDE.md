@@ -828,6 +828,10 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     pagine oltre 105 caselle), «Non raccogliere» (`Character.guida["scarta"]` → `Drops.rules`, pulsante in Esamina).
     Il pannello: `BisacciaPanel._views` (pagine, tasche, basto) e le schede accanto al titolo.
     **Chi scorre `bisaccia.slots` per contare ciò che si ha deve usare `all_bags()`**, o le tasche restano fuori.
+    Gli **scomparti** (3 ott 2026, richiesta dell'utente): `Bisaccia.comps` (solo nella Bisaccia del personaggio, otto
+    caselle per tipo: `BackpackData.COMPARTMENTS`, regole in `Compartments`): `add` completa la pila della barra rapida,
+    poi lo scomparto; `take_one` riempie dallo scomparto la pila finita della barra rapida; `all_bags` li include;
+    appassendo restano (il fagotto prende solo le caselle grandi); salvati in `Character` («scomparti»).
   - Le grotte: `HarvestData` + `Harvest` (il raccolto di ogni pianta, sul segnale `decor_picked`), `PodsData` +
     `PassBaccelli` + `PodArt` (decorazioni 92-97 da rompere, `Harvest.open_pod`), `DangerData.SPAWN_TRIES` e
     `Fauna._room_below` (una nascita prova quattro punti già buoni: spazio, pavimento, buio, niente torce),
