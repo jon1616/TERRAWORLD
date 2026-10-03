@@ -271,6 +271,8 @@ func run(main: Node2D) -> void:
 	_mark("TestsBonds")
 	await TestsPrimo.new(kit).run()        # Roadmap 28: il Seme Primo
 	_mark("TestsPrimo")
+	await TestsLore.new(kit).run()         # Roadmap 36: la storia vera
+	_mark("TestsLore")
 	await ob.run()
 	_mark("ob.run")
 	await w.run_and_save()
@@ -483,6 +485,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsLook.new(kit).run()           # Roadmap 33: le scene fisse della grafica (prove/volto/)
 		"sfondi":
 			await TestsBackdrop.new(kit).run()       # Roadmap 34: le foto fisse degli sfondi (prove/sfondi/)
+		"storia":
+			await TestsLore.new(kit).run()           # Roadmap 36: la storia vera
 		"atmosfera":
 			await TestsAtmosphere.new(kit).run()     # Roadmap 35: le foto fisse dell'atmosfera (prove/atmosfera/)          # Roadmap 32: i compagni di battaglia
 		"primo":

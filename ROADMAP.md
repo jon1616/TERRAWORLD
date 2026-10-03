@@ -5121,10 +5121,16 @@ non se ne sono mai andati: sono i Guardiani**, tono **cupo e misterioso**, **poc
 più grande di Saréth) e i nomi (Odràn, Ilvenna, Varèk, Saréth, Maesh, la Bocca). Poi: «procedi al meglio delle tue
 possibilità senza il mio intervento». Regola: ogni pezzo di storia è anche una meccanica; frasi brevi, molto non detto.
 
-- [ ] **341. Il canone e il piano.** `UNIVERSO.md` approvato; questo piano.
-- [ ] **342. I Seminatori nei Cuori.** `SowersData` (i cinque con nome, i senza nome, i ricordi che tornano) e `Sowers`:
+- [x] **341. Il canone e il piano.** `UNIVERSO.md` approvato; questo piano. Fatto il 3 ott 2026.
+- [x] **342. I Seminatori nei Cuori.** `SowersData` (i cinque con nome, i senza nome, i ricordi che tornano) e `Sowers`:
   ogni Guardiano curato risveglia una parte del suo Seminatore (il nome, poi un ricordo alla volta); ogni Guardiano
   abbattuto ne spegne una (contata, senza punizioni). Il Taccuino ha la pagina «I Seminatori».
+  Fatto il 3 ott 2026: `SowersData` (Odràn ↔ Nodo, Ilvenna ↔ Regina, Varèk ↔ Colosso, Saréth ↔ Avvizzitore, Maesh ↔
+  l'ultimo Seminatore, i senza nome ↔ i Guardiani generati; cinque ricordi ciascuno, uno per Saréth e Maesh) e `Sowers`
+  (ascolta `Guardian.resolved` e la morte del `primo_boss`; `stats["risveglio_<id>"]`/`["spento_<id>"]`; il nome e il
+  ricordo nella scritta grande dopo la pagina del Guardiano, e nel diario; chi è stato solo abbattuto resta «?»). Il
+  Taccuino delle catene ha le righe «storia:…» dei moduli della storia (`Chains._story_modules`). «risvegli» dà punti
+  ai misteri e alla storia. Gruppo di prove nuovo «storia» (`TestsLore`), anche nel giro intero.
 - [ ] **343. I sogni.** `DreamsData` e `Dreams`: usando un letto, a volte, un ricordo dell'Albero-Madre (due righe), quando
   è successo qualcosa di preciso. L'ultimo sogno è il segreto dei segreti.
 - [ ] **344. Gli echi.** `EchoesData` e `Echoes`: aprendo per la prima volta uno scrigno delle rovine, a volte due sagome di

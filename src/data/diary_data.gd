@@ -53,5 +53,5 @@ const EVERY := {
 
 const COLORS := {
 	"guardiano": "#ffd08a", "vigore": "#8ef0d8", "albero": "#9fe070", "morte": "#ff8a78", "metallo": "#e0c080",
-	"leggende": "#ffd24a", "leggenda": "#ffd24a", "sfide": "#ffb070", "seme_primo": "#ffe8a0", "viaggi": "#6ff0d8",
+	"storia": "#d8c8ff", "leggende": "#ffd24a", "leggenda": "#ffd24a", "sfide": "#ffb070", "seme_primo": "#ffe8a0", "viaggi": "#6ff0d8",
 }

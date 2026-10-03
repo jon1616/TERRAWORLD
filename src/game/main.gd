@@ -118,6 +118,7 @@ var encounters: Encounters             # voce 303: i piccoli incontri delle grot
 var water_fx: WaterFx                  # Roadmap 35, voce 336
 var weather_cover: WeatherCover        # voce 337
 var surface_life: SurfaceLife          # voce 339
+var sowers: Sowers                     # Roadmap 36, voce 342
 var evergreen: Evergreen               # Roadmap 28: il dopo (stelle di maestria, Semi d'oro)
 var summons: Summons
 var effects: Effects
@@ -373,6 +374,7 @@ func _build() -> void:
 	water_fx = _mount(WaterFx.new())           # Roadmap 35, voce 336: increspature, spruzzi, cascate
 	weather_cover = _mount(WeatherCover.new())   # voce 337: neve, bagnato e cenere sulle cime
 	surface_life = _mount(SurfaceLife.new())     # voce 339: lucciole, polline, foglie, erba che si piega
+	sowers = _mount(Sowers.new())                # Roadmap 36, voce 342: i Seminatori nei Cuori
 	_mount(PanelButtons.new())                 # voce 101: i pulsanti dei pannelli in basso a sinistra
 	hud.select(character.hotbar)
 	var start := world.spawn

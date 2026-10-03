@@ -230,6 +230,9 @@ func view(selected: String) -> Array:
 		rows.append(["lunga", txt, "#ffd08a" if selected == "lunga" else "#ffe8b0"])
 	for b in ch.catene["brevi"]:
 		rows.append([String(b["id"]), String(b["name"]), "#ffd08a" if selected == String(b["id"]) else "#cfeee4"])
+	# Roadmap 36: le pagine della storia vera (i Seminatori, i sogni, la verità), ognuna appena c'è qualcosa da dire
+	for mod in _story_modules():
+		rows.append_array(mod.rows(selected))
 	var nf := int(ch.catene.get("fatte", 0))
 	var title := "Taccuino delle catene — %d %s" % [nf, "tappa compiuta" if nf == 1 else "tappe compiute"]
 	return [title, rows, _detail(selected)]
@@ -262,7 +265,22 @@ func records_text() -> String:
 	return t
 
 
+## I moduli della storia che hanno una pagina nel Taccuino (Roadmap 36): ognuno ha `rows(selected)` e `detail()`, e le sue
+## righe hanno l'id «storia:<pagina>».
+func _story_modules() -> Array:
+	var out := []
+	for k in ["sowers", "dreams", "truth"]:
+		if m.get(k) != null:
+			out.append(m.get(k))
+	return out
+
+
 func _detail0(id: String) -> String:
+	if id.begins_with("storia:"):
+		for mod in _story_modules():
+			for r in mod.rows(id):
+				if String(r[0]) == id:
+					return mod.detail()
 	var ch: Character = m.character
 	if id == "":
 		if rows_empty():
