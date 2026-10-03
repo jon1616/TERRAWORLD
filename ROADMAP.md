@@ -5164,7 +5164,15 @@ possibilità senza il mio intervento». Regola: ogni pezzo di storia è anche un
   `VoidVoice` (luogo malato: Avvizzimento entro 7 tessere, il mondo del Seme Nero, il Fondo; una scritta lenta a metà
   schermo ogni 3-7 minuti; prima le frasi mai lette legate alla storia, poi quelle di sempre; il diario; «bocca» per i
   misteri). Foto prove/storia_bocca.png.
-- [ ] **348. La riscrittura.** Cronache, pagine dell'Albero, del Seme Nero e del finale messe d'accordo con il canone (le
+- [x] **348. La riscrittura.** Cronache, pagine dell'Albero, del Seme Nero e del finale messe d'accordo con il canone (le
   contraddizioni elencate in `UNIVERSO.md`).
+  Fatto il 3 ott 2026: pagine (`LoreData`): l'Albero non dice più che i Seminatori «se ne andarono» (si addormentò
+  «per non chiedersi dove fossero»); il Seme Nero aspetta «nel Vuoto», non «oltre»; il Seme Primo è «una strada»; i
+  Guardiani generati sono senza nome perché «divisi in troppi pezzi»; spezzato, il seme «dice un nome prima di
+  spegnersi»; curato, dentro «c'è qualcuno» e la Bocca continua a chiamarla. Finale (`FinaleData`): tre andarono
+  dall'Albero Antico, due si piantarono e divennero radici, «gli altri li hai incontrati in ogni Cuore»; Maesh ti
+  riconosce dalle mani e dalla voce; «nel buio tra i mondi qualcosa ascolta». Cronache: compaiono Odràn, Ilvenna e
+  Saréth; «nessuno scrisse di che cosa erano fatti» i Guardiani; «le stele le scrissero loro». Le frasi delle stele
+  (vincolate alle parole della lingua) restano: il canone le legge come ciò che i Seminatori vollero far credere.
 - [ ] **349. Chiusura.** Enciclopedia (senza svelare), consigli, maestria dei misteri, prove (gruppo «storia»), giro
   intero, resoconto.

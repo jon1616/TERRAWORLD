@@ -63,11 +63,11 @@ Non dice chi dovrebbe tornare. Lo sai già."},
 	},
 	"albero_memoria": {
 		"title": "Ambra e memoria",
-		"text": "I Seminatori piantarono l'Albero quando il Vuoto era ancora giovane. Poi se ne andarono, e l'Albero si addormentò ad aspettare.\nLe reliquie gli ricordano le loro mani. Tra le radici si apre un passaggio che prima non c'era: il Vuoto, per te, non è più un muro.",
+		"text": "I Seminatori piantarono l'Albero quando il Vuoto era ancora giovane. Un giorno non vennero più, e l'Albero si addormentò per non chiedersi dove fossero.\nLe reliquie gli ricordano le loro mani. Tra le radici si apre un passaggio che prima non c'era: il Vuoto, per te, non è più un muro.",
 	},
 	"albero_sveglio": {
 		"title": "Il risveglio",
-		"text": "L'Albero-Madre apre gli occhi. Sono d'ambra, come i tuoi.\nTi riconosce: sei il suo germoglio, quello che è andato a cercare. Il Giardino si riempie di luce, e ogni Seme che l'Albero lascerà cadere porterà un mondo più vivo. Ma lontano, oltre il Vuoto, un altro seme aspetta: nero, e sveglio da molto più tempo.",
+		"text": "L'Albero-Madre apre gli occhi. Sono d'ambra, come i tuoi.\nTi riconosce: sei il suo germoglio, quello che è andato a cercare. Il Giardino si riempie di luce, e ogni Seme che l'Albero lascerà cadere porterà un mondo più vivo. Ma da qualche parte nel Vuoto un altro seme aspetta: nero, e sveglio da molto più tempo.",
 	},
 	"albero_addormentato": {
 		"title": "L'Albero-Madre",
@@ -80,31 +80,31 @@ Non dice chi dovrebbe tornare. Lo sai già."},
 	# voce 81: il Seme Primo
 	"seme_primo": {
 		"title": "Il Seme Primo",
-		"text": "L'Albero-Madre apre una fronda e ti lascia cadere in mano un seme caldo, grande come un pugno. Non è un seme come gli altri: dentro ci sono tutti i biomi, tutte le stelle che hai visto, tutti i geni che hai imparato.\nÈ il seme da cui nacque il primo mondo, quando i Seminatori erano ancora qui. Piantalo, e il Giardino avrà di nuovo un mondo come quelli di allora.",
+		"text": "L'Albero-Madre apre una fronda e ti lascia cadere in mano un seme caldo, grande come un pugno. Non è un seme come gli altri: dentro ci sono tutti i biomi, tutte le stelle che hai visto, tutti i geni che hai imparato.\nNon è un mondo: è una strada. Dentro batte qualcosa che segue la radice più lunga, oltre il Vuoto. Piantalo, e la strada si aprirà.",
 	},
 	"primo_compiuto": {
 		"title": "Il Primo Mondo",
-		"text": "Il Cuore del Primo Mondo batte forte, e da ogni radice del Giardino risponde un battito. Hai fatto quello che i Seminatori avevano smesso di fare.\nNon è una fine. I Semi continuano a crescere, i mondi continuano a nascere, e il vigore non ha tetto: da qui in poi ogni mondo è tuo da inventare.",
+		"text": "Il Cuore del Primo Mondo batte forte, e da ogni radice del Giardino risponde un battito. Dai Cuori dei mondi non risponde nessuno: loro non possono.\nNon è una fine. I Semi continuano a crescere, i mondi continuano a nascere, e il vigore non ha tetto: da qui in poi ogni mondo è tuo da inventare.",
 	},
 	# voce 80: i Guardiani generati
 	"generato_sconfitto": {
 		"title": "Un Guardiano che non ha nome",
-		"text": "Il gigante crolla e il Cuore si libera. Nessun Seminatore l'aveva disegnato: è nato da questo mondo, dalle sue creature e dal suo elemento, come un anticorpo.\nNel suo petto resta un Nucleo, ancora vivo. I mondi più vigorosi si difendono da soli.",
+		"text": "Il gigante crolla e il Cuore si libera. Non ha un nome. Forse l'ha avuto: era diviso in troppi pezzi per ricordarlo.\nNel suo petto resta un Nucleo, ancora vivo. I mondi più vigorosi si difendono da soli.",
 	},
 	"generato_curato": {
 		"title": "Il Guardiano si calma",
-		"text": "La Rugiada scende sui nodi e il gigante si ferma, confuso. Guarda il Cuore come se lo vedesse per la prima volta, poi si accuccia accanto a lui.\nLascia una Linfa densa, che ricorda il suo elemento. Ogni mondo che nasce dai tuoi Semi ha il suo Guardiano: uno diverso per ogni mondo.",
+		"text": "La Rugiada scende sui nodi e il gigante si ferma, confuso. Guarda il Cuore come se lo vedesse per la prima volta, poi guarda te. Cerca una parola e non la trova.\nLascia una Linfa densa, che ricorda il suo elemento, e si accuccia accanto al Cuore.",
 	},
 	# voce 72: il Seme Nero
 	"nero_spezzato": {
 		"title": "Il Seme Nero si spezza",
 		"text": "Il guscio cede con un suono che non è un suono: è il Vuoto che se ne va. Dalle crepe non esce più niente. In tutti i mondi l'Avvizzimento si ferma dov'è, come una mano che ha perso la presa.
-Non guarirà da solo: quello che è malato resta malato. Ma non si allargherà più. Le schegge del seme sono fredde e dure: i Seminatori non avevano avuto il coraggio. Tu sì.",
+Non guarirà da solo: quello che è malato resta malato. Ma non si allargherà più. Le schegge del seme sono fredde e dure: i Seminatori non avevano avuto il coraggio. Tu sì. Dentro, qualcuno ha detto un nome prima di spegnersi.",
 	},
 	"nero_curato": {
 		"title": "Il Seme Nero guarisce",
 		"text": "La Rugiada scende nelle crepe e il viola si spegne, piano. Il seme trema, poi si apre: dentro c'è linfa chiara, come quella del primo giorno.
-Non era cattivo: aveva fame, e il Vuoto gliel'aveva insegnata. In tutti i mondi l'Avvizzimento comincia a ritirarsi, un poco alla volta. L'ultimo giardiniere è tornato.",
+Dentro c'è qualcuno. Ti guarda con i tuoi stessi occhi e non dice niente. In tutti i mondi l'Avvizzimento comincia a ritirarsi, un poco alla volta. Ma nel Vuoto qualcosa continua a chiamarla.",
 	},
 	"guardiano_sconfitto": {
 		"title": "Il Nodo si spezza",
@@ -112,7 +112,7 @@ Non era cattivo: aveva fame, e il Vuoto gliel'aveva insegnata. In tutti i mondi 
 	},
 	"guardiano_curato": {
 		"title": "Il Nodo guarisce",
-		"text": "L'ultimo nodo beve la Linfa e la muffa scivola via. Il Guardiano si ferma, apre l'occhio: non è più ambra malata, è Linfa limpida.\nTi riconosce: sei un germoglio dell'Albero-Madre. Ti lascia la sua Linfa più antica e una foglia in più ti cresce sul petto. Poi torna ad avvolgere il Cuore, e questa volta lo protegge davvero.",
+		"text": "L'ultimo nodo beve la Linfa e la muffa scivola via. Il Guardiano si ferma, apre l'occhio: non è più ambra malata, è Linfa limpida.\nHa l'aria di chi è rimasto sveglio troppo a lungo. Ti riconosce: sei un germoglio dell'Albero-Madre. Ti lascia la sua Linfa più antica e una foglia in più ti cresce sul petto. Poi torna ad avvolgere il Cuore, e questa volta lo protegge davvero.",
 	},
 	"regina_sconfitta": {
 		"title": "La Regina cade",

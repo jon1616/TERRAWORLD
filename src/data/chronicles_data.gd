@@ -18,13 +18,13 @@ const STORIES := {
 	"serra_vetro": ["La serra di vetro", "rovina_1", {"vetro_resina": 20, "polvere_iridata": 1}, [
 		"Tra un mondo e l'altro i Seminatori costruirono serre di vetro, sospese nel Vuoto come lanterne.",
 		"Nelle serre i semi riposavano prima di partire: al caldo, al buio, ascoltando il canto delle radici.",
-		"Ogni serra aveva un custode, un giardiniere che parlava ai semi uno per uno, per nome.",
+		"Nelle serre c'era Ilvenna, che parlava ai semi uno per uno, per nome.",
 		"Quando un seme era pronto, il custode lo portava all'Aiuola più vicina e lo lasciava andare.",
 		"Delle serre oggi restano i vetri spezzati nelle rovine. Ma se li metti al sole, cantano ancora."]],
 	"custode_sveglio": ["Il Custode che non dormiva", "rovina_2", {"scheggia_vigore": 6}, [
 		"Ogni mondo ebbe un Cuore, e ogni Cuore un Guardiano che doveva proteggerlo dal Vuoto.",
 		"I Guardiani dormivano: si svegliavano soltanto quando qualcosa si avvicinava al Cuore.",
-		"Uno solo non dormiva mai. Guardava il Vuoto giorno e notte, e nel Vuoto vide qualcosa muoversi.",
+		"Uno solo, Odràn, non dormiva mai. Guardava il Vuoto giorno e notte, e nel Vuoto vide qualcosa muoversi.",
 		"Lo disse ai Seminatori, ma nessuno lo ascoltò: nel Vuoto, dicevano, non si muove niente.",
 		"Quando l'Avvizzimento arrivò, fu il primo a combatterlo, e il primo ad ammalarsi. Ancora oggi aspetta chi lo curi."]],
 	"lingua_radici": ["La lingua delle radici", "rovina_2", {"tavoletta_seminatori": 4}, [
@@ -35,14 +35,14 @@ const STORIES := {
 		"Chi legge le stele non impara soltanto una lingua: ascolta i Seminatori che parlano ancora."]],
 	"lite": ["La lite dei giardinieri", "rovina_3", {"linfa_antica": 3}, [
 		"Venne il giorno in cui i Seminatori non furono più d'accordo.",
-		"Alcuni volevano piantare solo semi sani; altri volevano provare un seme nato dal Vuoto, nero come la notte.",
+		"Alcuni volevano piantare solo semi sani. Saréth voleva provare un seme nato dal Vuoto, nero come la notte.",
 		"«Un seme che nasce dal Vuoto può dare un mondo più grande di tutti», dicevano. «O divorarli tutti», rispondevano gli altri.",
 		"La lite durò tanto che le Aiuole restarono vuote, e l'Albero-Madre cominciò a stancarsi.",
 		"Una notte, senza dirlo a nessuno, qualcuno piantò il seme nero."]],
 	"ultima_semina": ["L'ultima semina", "rovina_3", {"polvere_iridata": 4}, [
 		"L'Avvizzimento partì dal mondo del seme nero e si mise a camminare lungo le radici.",
 		"I Seminatori capirono che non potevano fermarlo con le mani: potevano solo rallentarlo.",
-		"Per l'ultima volta seminarono insieme: non mondi, ma Guardiani, uno in ogni Cuore.",
+		"Per l'ultima volta seminarono insieme. Non mondi: Guardiani, uno in ogni Cuore. Nessuno scrisse di che cosa erano fatti.",
 		"Poi chiusero i Sigilli, perché nessuno trovasse la strada verso ciò che avevano nascosto.",
 		"L'Albero-Madre, stanco, lasciò cadere un ultimo frutto e si addormentò. Da quel frutto nascesti tu."]],
 	"mani_linfa": ["Le mani di Linfa", "rovina_4", {"cristallo_linfa": 8}, [
@@ -52,9 +52,9 @@ const STORIES := {
 		"Forse i Seminatori non avevano un corpo come il nostro: forse erano Linfa che aveva imparato a camminare.",
 		"Guarda le tue mani, Germogliato. Guarda le venature. Forse non sei così diverso da loro."]],
 	"viaggio_vuoto": ["Il viaggio nel Vuoto", "rovina_4", {"linfa_antica": 5}, [
-		"Dove sono andati i Seminatori? Le ultime stele non lo dicono: dicono soltanto «oltre».",
+		"Dove sono andati i Seminatori? Le stele dicono «oltre». Ma le stele le scrissero loro.",
 		"Oltre il Vuoto, raccontano i canti, c'è un altro Giardino, più grande, con un Albero ancora sveglio.",
-		"I Seminatori partirono per chiedere aiuto a quell'Albero, seguendo la radice più lunga di tutte.",
+		"Tre di loro partirono per chiedere aiuto a quell'Albero, seguendo la radice più lunga di tutte.",
 		"Non sono tornati. Ma la radice c'è ancora, e dove finisce qualcuno ha lasciato un seme che nessuno ha piantato.",
 		"Lo chiamano il Seme Primo. Chi lo pianterà saprà, forse, dove sono andati."]],
 }
