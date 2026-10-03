@@ -18,8 +18,81 @@ func run() -> void:
 	await sowers()
 	await dreams()
 	await echoes()
+	await truth()
+	refs()
 	m.character.stats = st0
 	m.character.maestria = ma0
+
+
+## Ogni condizione della storia nomina cose che esistono (sogni, echi, domande, pagine, Seminatori): un nome sbagliato
+## lascerebbe un sogno o una verità impossibili da trovare, in silenzio.
+func refs() -> void:
+	var bad := []
+	var all := []
+	for d in DreamsData.DREAMS:
+		all.append(["sogno " + String(d[0]), d[3]])
+	for e in EchoesData.ECHOES:
+		all.append(["eco " + String(e[0]), e[2]])
+		for l in e[1]:
+			if String(l[0]) != "albero" and not SowersData.SOWERS.has(String(l[0])):
+				bad.append("eco %s: chi è «%s»?" % [e[0], l[0]])
+	for q in TruthData.QUESTIONS:
+		all.append(["verità " + String(q["id"]), q["proof"]])
+		for v in q["versions"]:
+			all.append(["verità " + String(q["id"]), v[2]])
+	for a in all:
+		_check_cond(String(a[0]), a[1], bad)
+	print("storia: %d condizioni controllate, %d nomi sbagliati %s" % [all.size(), bad.size(), str(bad) if not bad.is_empty() else ""])
+	if not bad.is_empty():
+		print("ATTENZIONE: condizioni della storia con nomi che non esistono")
+
+
+func _check_cond(who: String, c: Dictionary, bad: Array) -> void:
+	for k in ["all", "any"]:
+		if c.has(k):
+			for x in c[k]:
+				_check_cond(who, x, bad)
+	if c.has("dream") and DreamsData.index_of(String(c["dream"])) < 0:
+		bad.append("%s: sogno %s" % [who, c["dream"]])
+	if c.has("echo") and not EchoesData.ECHOES.any(func(e: Array) -> bool: return String(e[0]) == String(c["echo"])):
+		bad.append("%s: eco %s" % [who, c["echo"]])
+	if c.has("truth") and TruthData.get_q(String(c["truth"])).is_empty():
+		bad.append("%s: verità %s" % [who, c["truth"]])
+	if c.has("page") and not LoreData.PAGES.has(String(c["page"])):
+		bad.append("%s: pagina %s" % [who, c["page"]])
+	if c.has("sower") and not SowersData.SOWERS.has(String(c["sower"])):
+		bad.append("%s: Seminatore %s" % [who, c["sower"]])
+
+
+## Voce 345: la domanda «Come arrivò il Seme Nero?» compare con la prima versione, si risolve con la versione vera e la
+## prova; il Taccuino dice allora quale era vera e quale falsa.
+func truth() -> void:
+	var tr: Truth = m.truth
+	tr.paused = true
+	var st: Dictionary = m.character.stats
+	for k in st.keys():
+		if String(k).begins_with("verita") or String(k).begins_with("eco_"):
+			st.erase(k)
+	for k in ["stele", "catene", "perduto_muto"]:
+		st[k] = 0
+	var q := TruthData.get_q("seme")
+	var none := tr.known(q).is_empty()
+	st["stele"] = 1                                  # la prima versione: «cadde dal cielo»
+	var one := tr.known(q).size()
+	var early := tr.check()
+	st["eco_nome"] = 1                               # la versione vera (un eco)…
+	var no_proof := tr.check()
+	st["eco_bugia"] = 1                              # …e la prova
+	var done := tr.check()
+	var det := tr.detail()
+	var ok: bool = none and one == 1 and not "seme" in early and not "seme" in no_proof and "seme" in done \
+		and int(st.get("verita", 0)) >= 1 and det.contains("falsa") and det.contains("vera")
+	print("verità: «%s» con %d versione, senza prova %s, con la prova %s; il Taccuino segna vera e falsa %s" % [
+		q["q"], one, "aperta" if not "seme" in no_proof else "RISOLTA", "risolta" if "seme" in done else "NO",
+		"sì" if det.contains("falsa") else "NO"])
+	if not ok:
+		print("ATTENZIONE: il Taccuino della verità non va")
+	tr.paused = false
 
 
 ## Voce 344: un eco sopra uno scrigno (le sagome e la prima battuta), la pagina del Taccuino con le voci senza nome.

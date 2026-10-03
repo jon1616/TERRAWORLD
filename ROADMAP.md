@@ -5145,8 +5145,14 @@ possibilità senza il mio intervento». Regola: ogni pezzo di storia è anche un
   con le dita a radice, la battuta sopra chi parla nel suo colore, sopra il buio) ed `Echoes` (da `Interact` al primo
   scrigno delle rovine aperto: probabilità 0,4, al più uno ogni due minuti; «echi» per i misteri; la pagina «Gli echi»
   del Taccuino, dove chi non è ancora stato risvegliato resta «una voce»). Foto prove/storia_eco.png.
-- [ ] **345. Il Taccuino della verità.** `TruthData` e `Truth`: le domande della storia, le versioni (abitanti, Cronache,
+- [x] **345. Il Taccuino della verità.** `TruthData` e `Truth`: le domande della storia, le versioni (abitanti, Cronache,
   stele, sogni), la prova che dice qual è vera; premi e punti dei misteri.
+  Fatto il 3 ott 2026: `TruthData` (8 domande: come arrivò il Seme Nero, dove sono i Seminatori, che cos'è
+  l'Avvizzimento, chi fece ammalare i Guardiani, perché si persero gli Alberi fratelli, chi è l'ultimo giardiniere, chi è
+  l'Avvizzitore, di che cosa sei fatto; 2-5 versioni ciascuna con la fonte e il giudizio) e `Truth` (ogni 3 s: versioni
+  conosciute, una domanda si risolve con la versione vera vista **e** la prova; premio, scritta «Ora sai», «verita»
+  per i misteri; la pagina «La verità» del Taccuino segna, a domanda risolta, vera, mezza verità, falsa). La prova
+  `refs` controlla che le 59 condizioni della storia nominino cose che esistono.
 - [ ] **346. Le leggende dei luoghi.** `MythsData`: una riga di mito per ogni bioma (superficie, sottosuolo, cielo), nelle
   pagine dell'Atlante quando il bioma è stato visitato.
 - [ ] **347. La Bocca.** `VoidVoiceData` e `VoidVoice`: nei luoghi malati e nel mondo del Seme Nero, rare scritte che si
