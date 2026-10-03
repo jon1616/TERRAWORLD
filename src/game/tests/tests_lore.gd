@@ -16,8 +16,44 @@ func run() -> void:
 	var st0: Dictionary = (m.character.stats as Dictionary).duplicate(true)
 	var ma0: Variant = m.character.maestria.duplicate(true)       # (i conteggi danno punti di maestria: si rimettono)
 	await sowers()
+	await dreams()
 	m.character.stats = st0
 	m.character.maestria = ma0
+
+
+## Voce 343: il primo sogno, poi solo quando la sua condizione è vera e l'attesa è passata; l'ultimo resta nascosto.
+func dreams() -> void:
+	var dr: Dreams = m.dreams
+	dr.paused = true
+	var st: Dictionary = m.character.stats
+	for d in DreamsData.DREAMS:
+		st.erase("sogno_" + String(d[0]))
+	# un personaggio a cui non è ancora successo niente (le prove di prima hanno contato viaggi, catene, risvegli…)
+	for k in ["viaggi", "guardiani", "cronache", "catene", "perduti", "ultimo_seminatore"]:
+		st[k] = 0
+	for k in SowersData.ORDER + ["senza_nome"]:
+		st.erase("risveglio_" + k)
+		st.erase("spento_" + k)
+	var sn0: String = m.character.seme_nero
+	m.character.seme_nero = ""
+	var first := dr.sleep(true)
+	await kit.frames(2)
+	var shown: bool = m.guardian.lore.visible
+	m.guardian.lore.visible = false
+	var too_soon := dr.sleep()                       # subito dopo: niente (l'attesa)
+	var none_ready := dr.sleep(true)                 # niente di nuovo è successo
+	st["viaggi"] = 2
+	var hands := dr.sleep(true)
+	m.guardian.lore.visible = false
+	var secret_hidden := dr.next() != "linfa"
+	var ok: bool = first == "frutto" and shown and too_soon == "" and none_ready == "" and hands == "mani" and secret_hidden \
+		and dr.rows("").size() == 1 and dr.detail().contains("Il ramo")
+	print("sogni: il primo «%s» (pagina %s), subito dopo «%s», senza novità «%s», dopo due viaggi «%s»; il segreto nascosto %s" % [
+		first, "sì" if shown else "NO", too_soon, none_ready, hands, "sì" if secret_hidden else "NO"])
+	if not ok:
+		print("ATTENZIONE: i sogni non vanno (prossimo pronto: «%s»)" % dr.next())
+	m.character.seme_nero = sn0
+	dr.paused = false
 
 
 ## Voce 342: curare risveglia (il nome, poi un ricordo alla volta), abbattere spegne; il Taccuino ne parla.

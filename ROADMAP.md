@@ -5131,8 +5131,13 @@ possibilità senza il mio intervento». Regola: ogni pezzo di storia è anche un
   ricordo nella scritta grande dopo la pagina del Guardiano, e nel diario; chi è stato solo abbattuto resta «?»). Il
   Taccuino delle catene ha le righe «storia:…» dei moduli della storia (`Chains._story_modules`). «risvegli» dà punti
   ai misteri e alla storia. Gruppo di prove nuovo «storia» (`TestsLore`), anche nel giro intero.
-- [ ] **343. I sogni.** `DreamsData` e `Dreams`: usando un letto, a volte, un ricordo dell'Albero-Madre (due righe), quando
+- [x] **343. I sogni.** `DreamsData` e `Dreams`: usando un letto, a volte, un ricordo dell'Albero-Madre (due righe), quando
   è successo qualcosa di preciso. L'ultimo sogno è il segreto dei segreti.
+  Fatto il 3 ott 2026: `LoreConds` (le condizioni della storia come dati, condivise da sogni, echi e verità),
+  `DreamsData` (15 sogni di due righe, dal ramo al buio fino alla «raccolta», il segreto dei segreti, che chiede i tre
+  Seminatori risvegliati, la scelta sul Seme Nero, Maesh e sei verità) e `Dreams` (segnale `Masonry.slept`; al più un
+  sogno ogni 5 minuti di gioco; la pagina della storia, il diario, «sogni» per i misteri; la pagina «I sogni» nel
+  Taccuino).
 - [ ] **344. Gli echi.** `EchoesData` e `Echoes`: aprendo per la prima volta uno scrigno delle rovine, a volte due sagome di
   luce rivivono per un attimo una scena del passato.
 - [ ] **345. Il Taccuino della verità.** `TruthData` e `Truth`: le domande della storia, le versioni (abitanti, Cronache,

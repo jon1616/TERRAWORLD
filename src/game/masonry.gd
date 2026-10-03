@@ -115,6 +115,10 @@ func toggle_door(o: Vector2i) -> bool:
 	return true
 
 
+## Roadmap 36: chi usa un letto, a volte, sogna (`Dreams`).
+signal slept(o: Vector2i)
+
+
 ## Clic destro sul letto: da ora il Germogliato rinasce qui (in questo mondo).
 func use_bed(o: Vector2i) -> bool:
 	var beds: Dictionary = m.world_meta.get("letti", {})
@@ -124,6 +128,7 @@ func use_bed(o: Vector2i) -> bool:
 	m.world_meta["letti"] = beds
 	m.hud.toast("Da ora rinasci qui, al tuo letto di foglie")
 	m.sfx.play("dono")
+	slept.emit(o)
 	return true
 
 
