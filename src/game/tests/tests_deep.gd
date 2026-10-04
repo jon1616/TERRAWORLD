@@ -131,6 +131,7 @@ func run() -> void:
 		grows, str(counts.get(1, [])), str(counts.get(4, [])), amb.size(), behind, meter_up, meter_down, loot_ok])
 	if not grows or not pack_ok or amb.size() < 2 or not behind or not rigor_ok or not loot_ok:
 		print("ATTENZIONE: le regole del profondo non vanno come dovrebbero")
+	await awaken()
 
 
 ## [punti buoni su 300, luce sul posto].
@@ -147,4 +148,86 @@ func _diagnose_n(pc: Vector2i) -> Array:
 		if w.inside(q.x, q.y) and q.y >= 2 and fa._room_below(q):
 			good += 1
 	return [good, m.light.value_at(pc)]
+
+
+## Voce 355: il risveglio al Maglio. Costa i materiali del profondo del grado giusto, dà il modo della forma e più forza;
+## la spada lancia l'onda ogni terzo colpo, lo spadone schianta attorno, la lancia trafigge chi sta dietro; un pezzo
+## d'armatura indossato porta il suo modo; la riga del Maglio e la scheda di Esamina lo dicono (foto 355_risveglio).
+func awaken() -> void:
+	var b: Bisaccia = m.character.bisaccia
+	var fa: Fauna = m.fauna
+	var saved := b.slots.duplicate(true)
+	var eq0: Dictionary = b.equip.duplicate(true)
+	var eqd0: Dictionary = b.equip_data.duplicate(true)
+	var missing := []
+	for f in AwakenData.FORM:
+		if EffectsData.info(String(AwakenData.FORM[f])).is_empty():
+			missing.append(f)
+	var res := {}
+	# la spada di radicite: Midollo di radice e Linfa antica
+	var si := kit.hold("spada_radicite")
+	m.hud.select(si)
+	var cost := AwakenData.cost_of("spada_radicite")
+	for k in cost:
+		b.add(String(k), int(cost[k]))
+	var d0 := float(Gear.stats(b.slots[si])["damage"])
+	var rows := CraftWork.rows(m.hud.panel.crafting, si, {"maglio": true})
+	res["riga"] = not rows.is_empty() and rows[0].text.begins_with("Risveglia")
+	for r in rows:
+		r.free()
+	var ok := Crafting.awaken(b, si)
+	res["risvegliata"] = ok and String((b.slots[si].get("dati", {}) as Dictionary).get("risveglio", "")) == "ris_onda" \
+		and b.count("midollo_radice") == 0 and is_equal_approx(float(Gear.stats(b.slots[si])["damage"]), d0 * AwakenData.DAMAGE)
+	res["di_nuovo_no"] = not Crafting.awaken(b, si)
+	m.effects.refresh()
+	res["attiva"] = m.effects.has("ris_onda")
+	# l'onda, ogni terzo colpo
+	m.snap_to(m.world.spawn)
+	await kit.frames(3)
+	fa.clear(true)
+	var target := fa.add("grumo_muschio", m.player.position + Vector2(30, -4))
+	target.set_process(false)
+	var shots0: int = m.shots.count()
+	for k in 3:
+		m.effects._on_struck(target, 10)
+	res["onda"] = m.shots.count() > shots0
+	# lo schianto e la trafittura (i modi, uno per uno)
+	var near := fa.add("grumo_muschio", target.position + Vector2(20, 0))
+	near.set_process(false)
+	var hp0: int = near.hp
+	m.effects._do(EffectsData.info("ris_schianto"), target, 20)
+	res["schianto"] = not is_instance_valid(near) or near.hp < hp0
+	fa.clear(true)
+	var t2 := fa.add("grumo_muschio", m.player.position + Vector2(24, -4))
+	var back := fa.add("grumo_muschio", m.player.position + Vector2(48, -4))
+	t2.set_process(false)
+	back.set_process(false)
+	var hb: int = back.hp
+	m.effects._do(EffectsData.info("ris_trafigge"), t2, 20)
+	res["trafigge"] = not is_instance_valid(back) or back.hp < hb
+	fa.clear(true)
+	# un pezzo d'armatura indossato e risvegliato
+	b.equip["corazza"] = "corazza_radicite"
+	b.equip_data["corazza"] = {"risveglio": "ris_rovo"}
+	m.effects.refresh()
+	res["armatura"] = m.effects.has("ris_rovo")
+	# la scheda
+	var info := ItemInfo.bbcode("spada_radicite", "", b.slots[si].get("dati", {}))
+	res["scheda"] = info.contains("Risvegliato") and Gear.full_name(b.slots[si]).begins_with("✦")
+	m.hud.panel.toggle()
+	m.hud.panel.examine.show_item("spada_radicite", "", b.slots[si].get("dati", {}))
+	await kit.frames(4)
+	await kit.save("355_risveglio")
+	m.hud.panel.toggle()
+	# com'era
+	for i in b.slots.size():
+		b.slots[i] = saved[i]
+	b.equip = eq0
+	b.equip_data = eqd0
+	b.changed.emit()
+	m.effects.refresh()
+	var all_ok: bool = res.values().all(func(x: bool) -> bool: return x) and missing.is_empty()
+	print("risveglio: %s; forme senza modo %s" % [str(res), str(missing)])
+	if not all_ok:
+		print("ATTENZIONE: il risveglio dell'equipaggiamento non va come dovrebbe")
 

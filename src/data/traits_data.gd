@@ -57,10 +57,11 @@ static var TRAITS: Dictionary = _TRAITS.merged(IncisionsData.traits())
 ## (`MaterialsData`), al più `MAX_SLOTS`. Gli oggetti non fabbricati (bottino, doni) valgono «buono».
 ## Pesi del tiro secondo la stazione (il Maglio lavora meglio del Ceppo); la fortuna li sposta verso l'alto.
 const QUALITY := [
-	{"name": "grezzo", "color": "#9a8a80", "mult": 0.9, "speed": 0.97},
+	# voce 355: le qualità si sentono di più (prima 0,9 / 1 / 1,08 / 1,18: un capolavoro valeva poco)
+	{"name": "grezzo", "color": "#9a8a80", "mult": 0.85, "speed": 0.96},
 	{"name": "buono", "color": "#cfeee4", "mult": 1.0, "speed": 1.0},
-	{"name": "fine", "color": "#8ef0d8", "mult": 1.08, "speed": 1.03},
-	{"name": "capolavoro", "color": "#ffd24a", "mult": 1.18, "speed": 1.06},
+	{"name": "fine", "color": "#8ef0d8", "mult": 1.12, "speed": 1.04},
+	{"name": "capolavoro", "color": "#ffd24a", "mult": 1.3, "speed": 1.08},
 ]
 const QUALITY_WEIGHTS := {"maglio": [25, 45, 23, 7], "": [40, 45, 13, 2]}
 const MAX_SLOTS := 4

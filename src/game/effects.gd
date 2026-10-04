@@ -24,6 +24,7 @@ func setup(main: Node2D) -> void:
 	m.fauna.killed.connect(_on_killed)
 	m.vitals.wounded.connect(_on_wounded)
 	m.vitals.death_guard = _guard
+	Crafting.awakened_hook = func() -> void: m.objectives.bump("risvegliati")      # voce 355
 	refresh()
 
 
@@ -33,11 +34,18 @@ func refresh() -> void:
 	var b: Bisaccia = m.character.bisaccia
 	for slot in b.equip:
 		active.append_array(ItemsData.get_item(String(b.equip[slot])).get("effects", []))
+		var r := String((b.equip_data.get(slot, {}) as Dictionary).get("risveglio", ""))
+		if r != "":
+			active.append(r)                       # voce 355: il modo del pezzo risvegliato
 	var held := String(m.hud.current().get("id", ""))
 	var it := ItemsData.get_item(held)
-	if it.has("effects") and not String(it.get("kind", "")) in ["accessorio", "elmo", "corazza", "gambali", "guanti",
-			"stivali", "mantello", "amuleto", "anello"]:
+	var worn_kind := String(it.get("kind", "")) in ["accessorio", "elmo", "corazza", "gambali", "guanti",
+			"stivali", "mantello", "amuleto", "anello"]
+	if it.has("effects") and not worn_kind:
 		active.append_array(it["effects"])
+	var hr := String((m.hud.current().get("dati", {}) as Dictionary).get("risveglio", ""))
+	if hr != "" and not worn_kind:
+		active.append(hr)                          # voce 355: il modo dell'arma risvegliata in mano
 
 
 func has(id: String) -> bool:
@@ -155,6 +163,47 @@ func _do(e: Dictionary, c: Creature, amount: int) -> void:
 				m.drops.spawn("lumino", int(e["n"]), c.position)
 		"corsa", "ombra":
 			_timed[String(e["do"])] = [float(e["mult"]), float(e["t"])]
+		# voce 355: i modi del risveglio
+		"onda":
+			var dir := Vector2(float(m.player.facing), 0.0)
+			m.shots.fire(m.player.position + Vector2(dir.x * 12.0, -8.0), dir * 300.0, 0.0, maxi(roundi(amount * float(e["dmg"])), 1),
+				true, 1.2, {"look": "scheggia", "pierce": int(e.get("pierce", 2)), "light": Color(0.6, 1.4, 1.3)})
+		"sanguina":
+			if is_instance_valid(c):
+				c.burn_t = maxf(c.burn_t, float(e["t"]))
+				c.burn_dps = minf(c.burn_dps + maxf(amount * float(e["dps"]), 1.0), maxf(amount * 0.6, 3.0))
+		"scoppio":
+			if is_instance_valid(c):
+				Fx.puff(m.fx, c.position, Color(1.8, 1.4, 0.8))
+				if m.get("juice") != null:
+					m.juice.shake(3.0, 0.15)
+				for o in m.fauna.list.duplicate():
+					if o != c and is_instance_valid(o) and o.tame == null and o.position.distance_to(c.position) < float(e["r"]) * 16.0:
+						if o.take_hit(maxi(roundi(amount * float(e["dmg"])), 1), c.position.x, 1.6):
+							m.fauna.kill(o)
+		"trapassa":
+			if is_instance_valid(c):
+				var d: Vector2 = (c.position - m.player.position).normalized()
+				for o in m.fauna.list.duplicate():
+					if o == c or not is_instance_valid(o) or o.tame != null:
+						continue
+					var rel: Vector2 = o.position - c.position
+					var along := rel.dot(d)
+					if along > 0.0 and along < float(e["len"]) * 16.0 and absf(rel.cross(d)) < 18.0:
+						if o.take_hit(maxi(roundi(amount * float(e["dmg"])), 1), m.player.position.x, 0.6):
+							m.fauna.kill(o)
+		"scossa":
+			Fx.puff(m.fx, m.player.position + Vector2(0, 10), Color(1.4, 1.2, 0.9))
+			for o in m.fauna.list:
+				if is_instance_valid(o) and o.tame == null and o.position.distance_to(m.player.position) < float(e["r"]) * 16.0:
+					o.stun = maxf(o.stun, float(e["t"]) / (3.0 if o.boss else 1.0))
+		"tira":
+			if is_instance_valid(c) and not c.boss:
+				c.vel += (m.player.position - c.position).normalized() * 240.0
+				c.stun = maxf(c.stun, 0.25)
+		"linfa":
+			m.vitals.linfa = mini(m.vitals.linfa + int(e["n"]), m.vitals.linfa_max)
+			m.vitals.changed.emit()
 		"riflesso":
 			var best: Creature = null
 			for o in m.fauna.list:

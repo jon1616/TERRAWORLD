@@ -10,6 +10,8 @@ static func rows(p: CraftingPanel, hs: int, near: Dictionary) -> Array[Button]:
 	var out: Array[Button] = []
 	var bag := p.bisaccia
 	if near.has("maglio") and Bisaccia.is_gear(bag.id_at(hs)):
+		if AwakenData.effect_of(bag.id_at(hs)) != "" and String((bag.slots[hs].get("dati", {}) as Dictionary).get("risveglio", "")) == "":
+			out.append(_awaken(p, hs))                 # voce 355: il risveglio, per primo
 		out.append(_reforge(p, hs))
 		if Refusion.partner(bag, hs) >= 0:
 			out.append(_refuse(p, hs))                 # la rifusione dei doppioni (29 set 2026)
@@ -33,6 +35,25 @@ static func rows(p: CraftingPanel, hs: int, near: Dictionary) -> Array[Button]:
 		for f in FormsData.FASCE:
 			out.append(_wrap(p, hs, f))
 	return out
+
+
+static func _awaken(p: CraftingPanel, i: int) -> Button:
+	var bag := p.bisaccia
+	var id := bag.id_at(i)
+	var e := EffectsData.info(AwakenData.effect_of(id))
+	var cost := ""
+	var can := true
+	var c := AwakenData.cost_of(id)
+	for k in c:
+		cost += "%s%d %s" % [", " if cost != "" else "", int(c[k]), ItemsData.get_item(String(k))["name"]]
+		can = can and Crafting.have(bag, String(k)) >= int(c[k])
+	var b := _row(id, can, "Risveglia: «%s», %s" % [e.get("name", ""), e.get("desc", "")], cost)
+	b.tooltip_text = "Al Maglio, una volta sola: l'oggetto prende il modo della sua forma (%s) e diventa più forte (+12%% di danno, o +2 di Scorza).\nCosta %s: i materiali del profondo si trovano solo nel loro strato." % [e.get("name", ""), cost]
+	b.pressed.connect(func() -> void:
+		if Crafting.awaken(bag, i):
+			p.crafted.emit(id, 1)
+		p.refresh())
+	return b
 
 
 static func _reforge(p: CraftingPanel, i: int) -> Button:

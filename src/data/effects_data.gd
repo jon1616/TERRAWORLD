@@ -16,6 +16,9 @@ class_name EffectsData
 ##   cura (frac: del colpo, o min)  ·  lumini (n)  ·  corsa (mult, t: per qualche secondo)  ·  ombra (mult, t: le
 ##   creature ti vedono meno)  ·  riflesso (frac: del colpo ricevuto, alla creatura più vicina)  ·  salva (frac: della
 ##   Vita piena che resta)  ·  danno (mult)  ·  rigenera (mult)  ·  respiro (mult)
+##   (voce 355, i modi del risveglio) onda (dmg, pierce: un'onda che vola dritta davanti)  ·  sanguina (dps, t: si somma)
+##   scoppio (r, dmg: attorno alla creatura colpita)  ·  trapassa (len, dmg: chi sta dietro, in fila)  ·  scossa (r, t:
+##   stordisce attorno al Germogliato)  ·  tira (la creatura verso il Germogliato)  ·  linfa (n)
 
 const EFFECTS := {
 	"brace_colpo": {"name": "Tizzone", "when": "colpo", "chance": 0.35, "do": "brucia", "t": 3.0,
@@ -79,6 +82,37 @@ const EFFECTS := {
 		"desc": "sotto terra la Vita ricresce quasi il doppio"},
 	"cielo_aperto": {"name": "Vento alle spalle", "when": "se", "cond": "superficie", "do": "corsa", "mult": 1.12,
 		"desc": "in superficie corri più svelto"},
+	# voce 355: i modi del risveglio, uno per forma (`AwakenData.FORM`)
+	"ris_onda": {"name": "Lama del vento", "when": "ogni", "n": 3, "do": "onda", "dmg": 0.8, "pierce": 3,
+		"desc": "ogni terzo colpo un'onda vola dritta davanti e attraversa tre creature"},
+	"ris_sangue": {"name": "Mille tagli", "when": "colpo", "chance": 1.0, "do": "sanguina", "dps": 0.12, "t": 4.0,
+		"desc": "ogni colpo apre una ferita che sanguina per 4 secondi, e le ferite si sommano"},
+	"ris_schianto": {"name": "Schianto", "when": "ogni", "n": 3, "do": "scoppio", "r": 3, "dmg": 0.6,
+		"desc": "ogni terzo colpo schianta: ferisce e spinge via chi sta attorno alla creatura colpita"},
+	"ris_trafigge": {"name": "Trafittura", "when": "colpo", "chance": 1.0, "do": "trapassa", "len": 4, "dmg": 0.6,
+		"desc": "ogni colpo trafigge anche le creature dietro, in fila, fino a quattro tessere"},
+	"ris_scossa": {"name": "Terremoto", "when": "ogni", "n": 4, "do": "scossa", "r": 5, "t": 1.0,
+		"desc": "ogni quarto colpo la terra trema: stordisce tutto ciò che sta entro cinque tessere"},
+	"ris_mietitura": {"name": "Mietitura larga", "when": "colpo", "chance": 0.5, "do": "catena", "targets": 2, "dmg": 0.5, "r": 4,
+		"desc": "un colpo su due raggiunge anche altre due creature vicine"},
+	"ris_strappo": {"name": "Strappo", "when": "colpo", "chance": 1.0, "do": "tira",
+		"desc": "ogni colpo tira la creatura verso di te"},
+	"ris_divide": {"name": "Dardo che si divide", "when": "colpo", "chance": 0.5, "do": "schegge", "n": 3, "dmg": 0.45,
+		"desc": "un colpo su due si divide in tre schegge"},
+	"ris_eco": {"name": "Eco di Linfa", "when": "uccisione", "do": "linfa", "n": 3,
+		"desc": "ogni creatura sconfitta ti rende 3 di Linfa"},
+	"ris_vigile": {"name": "Occhio vigile", "when": "ferita", "chance": 1.0, "sotto": 0.4, "do": "ombra", "mult": 0.35, "t": 3.0,
+		"cool": 15.0, "desc": "ferito sotto due quinti della Vita, per 3 secondi le creature quasi non ti vedono"},
+	"ris_rovo": {"name": "Scorza di rovo", "when": "ferita", "chance": 1.0, "do": "riflesso", "frac": 0.4,
+		"desc": "chi ti ferisce riceve il 40% del colpo"},
+	"ris_fuga": {"name": "Gambe leste", "when": "ferita", "chance": 1.0, "do": "corsa", "mult": 1.35, "t": 2.0, "cool": 8.0,
+		"desc": "ferito, per 2 secondi corri molto più svelto"},
+	"ris_presa": {"name": "Presa viva", "when": "colpo", "chance": 1.0, "do": "cura", "frac": 0.04,
+		"desc": "ogni colpo ti rende un po' di Vita (4% del danno)"},
+	"ris_slancio": {"name": "Passo che slancia", "when": "uccisione", "do": "corsa", "mult": 1.3, "t": 3.0,
+		"desc": "dopo ogni creatura sconfitta corri più svelto per 3 secondi"},
+	"ris_nebbia": {"name": "Mantello di nebbia", "when": "uccisione", "do": "ombra", "mult": 0.6, "t": 3.0,
+		"desc": "dopo ogni creatura sconfitta, per 3 secondi le altre ti vedono a fatica"},
 }
 
 

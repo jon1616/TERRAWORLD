@@ -5241,7 +5241,7 @@ nuovi: dare profondità e senso a ciò che c'è. Ordine scelto dall'utente:
 - [x] **353. Gli abitanti come servizi.** Ogni abitante offre un servizio che solo lui sa fare, pagato in Lumini.
 - [x] **354. Gli strati che fanno paura.** Il pericolo nelle regole, non solo nei numeri: creature scelte, imboscate,
   premi che esistono solo in fondo.
-- [ ] **355. L'equipaggiamento che conta.** Armi con un modo loro, effetti che cambiano il gioco, salti netti tra i
+- [x] **355. L'equipaggiamento che conta.** Armi con un modo loro, effetti che cambiano il gioco, salti netti tra i
   metalli.
 
 **Fatto il 4 ott 2026 (voce 350).** La correzione dello studio, con la prova nel gruppo «vivo».
@@ -5298,4 +5298,16 @@ comuni): Midollo di radice, Cuore d'ardesia, Linfa nera, Frammento di Vuoto, con
 Cuore-lanterna d'ardesia, Tonico di Linfa nera, Amuleto della quiete: protezione «quieto»). Conteggio «imboscate» per il
 combattimento. Capitolo «Gli strati». Prove: «profondo» (foto 354_imboscata, 354_fondo), grotte, vivo, guardiani,
 antiche, pericoli, galleria 0 problemi.
+
+**Fatto il 4 ott 2026 (voce 355).** **Il risveglio** al Maglio (`AwakenData`, `Crafting.awaken`, la prima riga delle
+lavorazioni in `CraftWork`): una volta per oggetto, con sei pezzi del materiale del profondo del grado del metallo e una
+Linfa antica, l'arma o il pezzo d'armatura prende il **modo della sua forma** (un effetto «ris_…» di `EffectsData`,
+salvato in "dati.risveglio" e letto da `Effects` in mano e indossato) e diventa più forte (+12% danno o +2 Scorza; nome con
+✦). Sei «cosa» nuovi nel motore degli effetti: onda (spada), sanguina (pugnale), scoppio (spadone), trapassa (lancia),
+scossa (martello), tira (frusta), linfa (bastoni); falce e arco con catena e schegge; sei modi difensivi per elmo,
+corazza, gambali, guanti, stivali, mantello. Esamina dice che modo prenderebbe un oggetto e quanto costa. **La qualità
+conta di più** (grezzo 0,85, fine 1,12, capolavoro 1,30: prima 0,9/1,08/1,18), e si sale con la rifusione o con la
+Rifinitura del Forgiatore. Conteggio «risvegliati» per il combattimento; consiglio al primo materiale del profondo;
+capitolo dell'equipaggiamento. `tools/percorso.gd`: attento 1,2 appassimenti all'ora, medio 5,9 (nei limiti). Prove nel
+gruppo «profondo» (foto 355_risveglio).
 

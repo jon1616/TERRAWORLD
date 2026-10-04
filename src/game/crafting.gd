@@ -293,6 +293,33 @@ static func engrave(b: Bisaccia, i: int, word: String) -> bool:
 	return true
 
 
+## Voce 355: risveglia un oggetto (una volta sola): il modo della sua forma, con i materiali del profondo.
+static func awaken(b: Bisaccia, i: int) -> bool:
+	var id := b.id_at(i)
+	var fx := AwakenData.effect_of(id)
+	if id == "" or fx == "" or not Bisaccia.is_gear(id):
+		return false
+	var dati: Dictionary = b.slots[i].get("dati", {}).duplicate(true)
+	if String(dati.get("risveglio", "")) != "":
+		return false
+	var cost := AwakenData.cost_of(id)
+	for k in cost:
+		if have(b, String(k)) < int(cost[k]):
+			return false
+	for k in cost:
+		take(b, String(k), int(cost[k]))
+	dati["risveglio"] = fx
+	b.slots[i]["dati"] = dati
+	b.changed.emit()
+	if awakened_hook.is_valid():
+		awakened_hook.call()
+	return true
+
+
+## Chi conta i risvegli (lo collega `Effects`: obiettivi e maestria del combattimento).
+static var awakened_hook: Callable
+
+
 ## Roadmap 17: tutte queste parole sono certe?
 static func words_known(list: Array) -> bool:
 	for w in list:

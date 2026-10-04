@@ -135,6 +135,14 @@ static func _fill(t: String) -> String:
 
 # ---------------------------------------------------------------- le condizioni (una per consiglio)
 
+## Voce 355: il primo materiale del profondo nella Bisaccia.
+func _c_risveglio() -> bool:
+	for id in AwakenData.DEEP.values():
+		if m.character.bisaccia.count(String(id)) > 0:
+			return true
+	return false
+
+
 ## Voce 353: il commercio aperto con un abitante che ha dei servizi.
 func _c_servizi() -> bool:
 	var tp: TradePanel = m.villagers.panel if m.get("villagers") != null else null

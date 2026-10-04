@@ -123,5 +123,26 @@ Gli [b]oggetti unici[/b] sono scritti a mano, ognuno con la sua storia e i suoi 
 • [b]Guanti[/b], [b]stivali[/b] e [b]mantello[/b] si fanno al Maglio con ogni metallo, lega o materiale dei geni, come le armature: i guanti rendono i colpi più rapidi e lo scavo più svelto, gli stivali allungano corsa e salto, il mantello fa ricrescere la Vita più in fretta; tutti danno un po' di Scorza. Più il metallo è di grado alto, più rendono.
 • [b]Amuleti[/b] e [b]anelli[/b] si fanno alla Mola del gemmaio: una gemma incastonata in un metallo. L'amuleto dà la qualità della gemma, l'anello il suo [url=cap:effetti]effetto speciale[/url]; la montatura aggiunge il [url=cap:materiali]carattere[/url] del suo metallo (metà nell'amuleto, tre decimi nell'anello):
 {cat_gemme}
-• I [b]set dei metalli[/b] sono di cinque pezzi: elmo, corazza, gambali, guanti e stivali dello stesso metallo."""},
+• I [b]set dei metalli[/b] sono di cinque pezzi: elmo, corazza, gambali, guanti e stivali dello stesso metallo.
+
+[b]Il risveglio[/b]
+Al [b]Maglio dei Seminatori[/b], con l'oggetto in mano, la prima lavorazione è [b]Risveglia[/b]: una volta sola, l'arma o il pezzo d'armatura prende il [b]modo della sua forma[/b] e diventa più forte (+12% di danno, o +2 di Scorza). Il nome si segna con ✦.
+• Spada: [i]Lama del vento[/i], ogni terzo colpo un'onda vola dritta e attraversa tre creature.
+• Pugnale: [i]Mille tagli[/i], ogni colpo apre una ferita che sanguina, e le ferite si sommano.
+• Spadone: [i]Schianto[/i], ogni terzo colpo ferisce e spinge via chi sta attorno.
+• Lancia: [i]Trafittura[/i], ogni colpo raggiunge anche chi sta dietro, in fila.
+• Martello: [i]Terremoto[/i], ogni quarto colpo stordisce tutto attorno a te.
+• Falce: [i]Mietitura larga[/i], un colpo su due raggiunge altre due creature.
+• Frusta: [i]Strappo[/i], tira la creatura verso di te.
+• Arco e balestra: [i]Dardo che si divide[/i], un colpo su due si divide in tre schegge.
+• Bastoni e verghe: [i]Eco di Linfa[/i], ogni creatura sconfitta rende Linfa.
+• Armatura: elmo [i]Occhio vigile[/i], corazza [i]Scorza di rovo[/i], gambali [i]Gambe leste[/i], guanti [i]Presa viva[/i], stivali [i]Passo che slancia[/i], mantello [i]Mantello di nebbia[/i].
+Costa sei pezzi del [url=cap:strati]materiale del profondo[/url] del grado del metallo e una Linfa antica:
+• radicite e legnoferro: il Midollo di radice;
+• ambra: il Cuore d'ardesia;
+• Linfa: la Linfa nera;
+• vuotite e stellare: il Frammento di Vuoto.
+Esamina dice, per ogni oggetto, che modo prenderebbe e quanto costa.
+
+[b]La qualità conta[/b]: un oggetto grezzo fa l'85% del danno, uno fine il 112%, un capolavoro il 130%. La qualità si sale rifondendo due doppioni al Maglio, o con la [b]Rifinitura[/b] del Forgiatore (un servizio pagato in Lumini)."""},
 ]

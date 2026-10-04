@@ -36,6 +36,11 @@ static func stats(slot: Dictionary) -> Dictionary:
 		for k in MULT:
 			out[k] = float(out[k]) * float(md.get(MULT[k], 1.0))
 		out["defense"] = float(out["defense"]) + float(md.get("scorza", 0.0))
+	# voce 355: il risveglio (più forza; il modo lo applica `Effects`)
+	if String(dati.get("risveglio", "")) != "":
+		out["damage"] = float(out["damage"]) * AwakenData.DAMAGE
+		if float(out["defense"]) > 0.0:
+			out["defense"] = float(out["defense"]) + AwakenData.DEFENSE
 	# voce 79: la tempra del Maglio
 	var tp := int(dati.get("tempra", 0))
 	if tp > 0:
@@ -93,6 +98,8 @@ static func free_slots(slot: Dictionary) -> int:
 ## Il nome completo: «Lancia di legnoferro con fascia di seta [Spina]».
 static func full_name(slot: Dictionary) -> String:
 	var n0 := _full_name(slot)
+	if String((slot.get("dati", {}) as Dictionary).get("risveglio", "")) != "":
+		n0 = "✦ " + n0                             # voce 355: risvegliato
 	var tp := int((slot.get("dati", {}) as Dictionary).get("tempra", 0))
 	return n0 + (" +%d" % tp if tp > 0 else "")
 

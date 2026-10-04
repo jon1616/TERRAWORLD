@@ -64,7 +64,7 @@ const STATS := {
 	"maree_vinte": [["combattimento", 40.0]], "evocati": [["combattimento", 30.0]], "sfide": [["combattimento", 30.0]],
 	"occhio_tempesta": [["combattimento", 90.0]], "eventi_vinti": [["combattimento", 15.0]],
 	"stanze": [["giardino", 20.0]], "progetti": [["giardino", 40.0]], "isole": [["giardino", 60.0]], "opere": [["giardino", 120.0]], "feste": [["giardino", 30.0], ["abitanti", 15.0]],
-	"abitanti": [["abitanti", 60.0]], "visitatori": [["abitanti", 10.0]], "richieste": [["abitanti", 25.0]], "capitoli": [["abitanti", 30.0]], "botteghe": [["abitanti", 3.0]], "servizi": [["abitanti", 5.0]], "imboscate": [["combattimento", 6.0]], "bacheca": [["abitanti", 20.0]],
+	"abitanti": [["abitanti", 60.0]], "visitatori": [["abitanti", 10.0]], "richieste": [["abitanti", 25.0]], "capitoli": [["abitanti", 30.0]], "botteghe": [["abitanti", 3.0]], "servizi": [["abitanti", 5.0]], "imboscate": [["combattimento", 6.0]], "risvegliati": [["combattimento", 30.0]], "bacheca": [["abitanti", 20.0]],
 	"addomesticate": [["mandria", 20.0]], "specie_legate": [["mandria", 25.0]], "istinti_imparati": [["mandria", 10.0]],
 	"affiatamento": [["mandria", 15.0]], "livelli_compagni": [["mandria", 2.0], ["combattimento", 1.0]], "uova": [["mandria", 5.0]], "schiuse": [["mandria", 15.0]],
 	"uova_allevate": [["mandria", 30.0]], "manti_rari": [["mandria", 60.0]], "coppie": [["mandria", 10.0]],

@@ -52,6 +52,18 @@ static func bbcode(id: String, tratto := "", dati := {}) -> String:
 		var ct := MaterialsData.trait_text(String(it["mat"]))
 		if ct != "":
 			t += "[color=#8ef0d8]Carattere del materiale:[/color] [color=#9fc8c0]%s[/color] [color=#6a8a84](un'armatura ne prende un quarto per pezzo, guanti, stivali e mantelli metà, in mano metà)[/color]\n" % ct
+	if Bisaccia.is_gear(id) and AwakenData.effect_of(id) != "":
+		# voce 355: il risveglio (fatto, o che cosa darebbe e quanto costa)
+		var fx := EffectsData.info(AwakenData.effect_of(id))
+		if String(dati.get("risveglio", "")) != "":
+			t += "[color=#ffd24a]✦ Risvegliato — %s:[/color] [color=#d8f0e8]%s[/color]\n" % [fx.get("name", ""), fx.get("desc", "")]
+		else:
+			var parts := []
+			var c := AwakenData.cost_of(id)
+			for k in c:
+				parts.append("%d %s" % [int(c[k]), ItemsData.get_item(String(k)).get("name", k)])
+			t += "[color=#b8a0d8]Si può risvegliare al Maglio[/color] [color=#9fc8c0](%s): «%s», %s.[/color]\n" % [", ".join(parts),
+				fx.get("name", ""), fx.get("desc", "")]
 	if Bisaccia.is_gear(id):
 		# voce 54: qualità e posti d'innesto
 		var q := Gear.quality(slot)

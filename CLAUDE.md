@@ -941,6 +941,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   - Le regole del profondo: `DeepRulesData` (una riga per strato: udito, rare, branchi, imboscate, rigore, `spawn_dark`,
     materiale) + `DeepRules` (imboscate, materiali dalle rare, riga sopra l'orologio, `lit_by_player`). **Nel profondo la
     luce naturale non ripara dalle nascite**: prima Profondità e Fondo erano quasi vuoti (misura nel gruppo «profondo»).
+  - Il risveglio: `AwakenData` (forma → effetto «ris_…» di `EffectsData`, costo dal grado del metallo) + `Crafting.awaken`;
+    `Effects` legge "dati.risveglio" dell'oggetto in mano e dei pezzi indossati. **Una forma nuova = una riga in
+    `AwakenData.FORM`** (la prova «profondo» segnala le forme senza modo).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

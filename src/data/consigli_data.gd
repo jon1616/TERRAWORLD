@@ -148,6 +148,8 @@ const LIST := [
 		"text": "È il diario di [b]Tessa la Cercatrice[/b]: usala per leggerla. Le pagine si leggono in ordine; all'ultima delle dieci, la sua lanterna è tua."},
 	{"id": "servizi", "title": "I servizi degli abitanti", "cap": "abitanti",
 		"text": "Ogni abitante sa fare qualcosa che nessun altro fa: lo vedi a [b]sinistra del commercio[/b], con il prezzo in Lumini. Segni sulla mappa, oggetti migliori, Semi su ordinazione, compagni addestrati…"},
+	{"id": "risveglio", "title": "Un materiale del profondo", "cap": "equipaggiamento",
+		"text": "Solo questo strato lo dà. Al [b]Maglio[/b], con un'arma o un'armatura in mano, la prima lavorazione è [b]Risveglia[/b]: l'oggetto prende un modo suo (la spada lancia onde, la lancia trafigge…) e diventa più forte."},
 ]
 
 
