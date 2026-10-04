@@ -234,6 +234,14 @@ func show_recipe(r: Dictionary) -> void:
 ## Mostra un oggetto senza toglierlo dalla Bisaccia (prove). `dati`: quelli propri della casella.
 func show_item(id: String, tratto := "", dati := {}) -> void:
 	_text.text = ItemInfo.bbcode(id, tratto, dati)
+	if where_fn.is_valid():
+		var w := String(where_fn.call(id))          # (voce 352) dove ce l'hai: addosso, nella Dispensa, nelle casse
+		if w != "":
+			_text.text += "\n" + w
+
+
+## (Voce 352) Chi sa dove sono le cose: lo imposta `Storage` («Dove ce l'hai»).
+var where_fn: Callable
 
 
 func _set_qty(n: int) -> void:

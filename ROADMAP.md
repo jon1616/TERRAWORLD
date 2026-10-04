@@ -5237,7 +5237,7 @@ nuovi: dare profondità e senso a ciò che c'è. Ordine scelto dall'utente:
 - [x] **351. Le spiegazioni.** «A cosa serve» per ogni oggetto in Esamina (ricette, offerte dell'Albero, richieste,
   abitanti, uso con il clic, dove si porta), e le richieste dell'Albero e del filo che dicono che cosa sono e dove
   cercarle.
-- [ ] **352. La Dispensa.** Più grande, schede per categoria, riordino per tipo, ricerca ovunque.
+- [x] **352. La Dispensa.** Più grande, schede per categoria, riordino per tipo, ricerca ovunque.
 - [ ] **353. Gli abitanti come servizi.** Ogni abitante offre un servizio che solo lui sa fare, pagato in Lumini.
 - [ ] **354. Gli strati che fanno paura.** Il pericolo nelle regole, non solo nei numeri: creature scelte, imboscate,
   premi che esistono solo in fondo.
@@ -5262,4 +5262,11 @@ Bacheca «per la rete» non si potevano consegnare (mancava il conteggio) e quel
 ricordi delle firme non servivano a niente: ora hanno la loro sala nel Museo («Sala delle firme»); nella cassa la scritta
 passava sotto la ricerca. Prove: gruppo «guida» (foto 350_albero_spiega, 351_esamina_serve); galleria 0 problemi.
 Nota: la prova dell'arco nel gruppo «combattimento» dice «NON abbattuto» già da prima (un albero tra l'arco e il grumo).
+
+**Fatto il 4 ott 2026 (voce 352).** La Dispensa cresce oltre 200: Radice (320, lingotti di Linfa), Geode (480, vuotite
+forgiata) e Stella della Dispensa (720, lingotti stellari), al Maglio, ognuno dal precedente (`DISPENSA_SLOTS`).
+Le **schede per tipo** in ogni cassa (`ChestPanel._cats`: «Tutto» e i tipi presenti con quante pile, dai tipi di
+`StorageData` con la nuova «Pesca»; sotto i pulsanti nelle casse grandi, a sinistra in quelle piccole), insieme alla
+ricerca. **Dove ce l'hai** in Esamina (`Storage.where_text`): addosso, nella Dispensa, nelle quattro casse più vicine del
+mondo con il nome e la distanza. Prove nel gruppo «casse» (foto 352_cassa_schede).
 

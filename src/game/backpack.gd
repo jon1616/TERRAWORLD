@@ -61,7 +61,8 @@ func _sync_rules() -> void:
 
 ## La Dispensa del personaggio (nasce alla prima apertura, grande quanto il suo grado).
 func dispensa() -> Bisaccia:
-	var n := int(BackpackData.DISPENSA_SLOTS[clampi(int(m.character.stats.get("dispensa_grado", 1)) - 1, 0, 2)])
+	var n := int(BackpackData.DISPENSA_SLOTS[clampi(int(m.character.stats.get("dispensa_grado", 1)) - 1, 0,
+		BackpackData.DISPENSA_SLOTS.size() - 1)])
 	if m.character.dispensa == null:
 		m.character.dispensa = Bisaccia.new(n)
 	else:

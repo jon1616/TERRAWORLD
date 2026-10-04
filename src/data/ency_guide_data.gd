@@ -158,6 +158,8 @@ Un [b]Focolare[/b] con un Letto di foglie libero vicino chiama un [url=cap:abita
 """Le casse tengono gli oggetti. Clic destro per aprirle; con una cassa aperta ci sono i pulsanti:
 • [b]Prendi tutto[/b], [b]Deposita tutto[/b] (non la barra rapida), [b]Deposita simili[/b] (solo ciò che la cassa tiene già), [b]Rifornisci[/b] (completa le pile della Bisaccia), [b]Riordina[/b].
 • Ogni cassa ha un [b]nome[/b] (scritto sopra), «usa per creare» e che cosa [b]raccoglie[/b] (minerali, materiali, costruzione…).
+• [b]Cerca nella cassa[/b]: mentre scrivi restano solo gli oggetti con quelle lettere nel nome. Le [b]schede per tipo[/b] (Tutto, Minerali, Materiali, Costruire, Equipaggiamento, Pozioni e cibo, Semi e geni, Mandria, Tesori, Pesca), accanto alla cassa, mostrano solo quel tipo, con quante pile ce ne sono; ricerca e scheda insieme restringono ancora.
+• In Esamina, [b]Dove ce l'hai[/b] dice quanti ne hai addosso, nella Dispensa e in quali casse di questo mondo (le più vicine, con il nome e la distanza).
 • Il pannello [url=cap:creare]Creare[/url] usa gli ingredienti delle casse entro {chest_reach} tessere che hanno «usa per creare».
 • Nella Bisaccia, «Nelle casse vicine» manda ogni oggetto nella cassa giusta; il tasto {k_riponi} fa lo stesso senza aprire la Bisaccia (si spegne nelle Opzioni).
 Le casse hanno dei [b]gradi[/b]: più il materiale è raro, più caselle. Le prime si fanno al Ceppo, le altre al Maglio; gli scrigni dei Seminatori si trovano soltanto, pieni, nelle rovine (più grandi più si scende) e, vuoti, si portano via e si riusano.

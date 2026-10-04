@@ -24,6 +24,43 @@ func setup(main: Node2D) -> void:
 	m = main
 	if not m.world_meta.has("casse"):
 		m.world_meta["casse"] = {}
+	_hook_where.call_deferred()
+
+
+func _hook_where() -> void:
+	if m != null and m.get("hud") != null and m.hud.panel != null:
+		m.hud.panel.examine.where_fn = where_text
+
+
+## (Voce 352, l'utente: «fatico a trovare ciò che mi serve») Dove ce l'hai: addosso, nella Dispensa, e nelle casse di
+## questo mondo, dalla più vicina (al più quattro), con il nome della cassa e la distanza in tessere.
+func where_text(id: String) -> String:
+	var parts := []
+	var on: int = m.character.bisaccia.count(id)
+	if on > 0:
+		parts.append("[color=#ffe8c0]%d[/color] addosso" % on)
+	var dsp: Bisaccia = m.character.dispensa
+	if dsp != null and dsp.count(id) > 0:
+		parts.append("[color=#ffe8c0]%d[/color] nella Dispensa" % dsp.count(id))
+	var found := []
+	var me: Vector2 = m.player.position / 16.0
+	for o in m.world.chests:
+		var c: Bisaccia = m.world.chests[o]
+		var n := c.count(id) if c != null else 0
+		if n > 0:
+			found.append([Vector2(o).distance_to(me), o, n])
+	found.sort_custom(func(a: Array, b: Array) -> bool: return float(a[0]) < float(b[0]))
+	for f in found.slice(0, 4):
+		var o: Vector2i = f[1]
+		var name := String(settings(o)["nome"])
+		if name == "":
+			name = String(StationsData.STATIONS.get(String(m.world.stations.get(o, "")), {}).get("name", "cassa"))
+		parts.append("[color=#ffe8c0]%d[/color] in «%s» (%d tessere)" % [int(f[2]), name, roundi(float(f[0]))])
+	if found.size() > 4:
+		parts.append("e in altre %d casse" % (found.size() - 4))
+	if parts.is_empty():
+		return "[color=#8ef0d8]Dove ce l'hai:[/color] [color=#6a8a84]da nessuna parte, in questo mondo.[/color]"
+	return "[color=#8ef0d8]Dove ce l'hai:[/color] [color=#9fc8c0]%s.[/color]" % " · ".join(parts)
 
 
 static func key(o: Vector2i) -> String:

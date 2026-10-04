@@ -121,6 +121,35 @@ func run() -> void:
 	print("ricerca nella cassa «legn»: %d caselle mostrate %s, niente humus %s" % [shown.size(), str(shown), "sì" if not "humus" in shown else "NO"])
 	if not search_ok:
 		print("ATTENZIONE: la ricerca nella cassa non va")
+	# voce 352: le schede per tipo (solo i blocchi), dove ce l'hai, i gradi nuovi della Dispensa
+	cp.cat = "costruzione"
+	cp._refresh()
+	await kit.frames(2)
+	var by_cat := []
+	for s in cp._slots:
+		if s.visible:
+			by_cat.append(c2.id_at(s.index))
+	var tabs := 0
+	for tb in cp._cats.get_children():
+		if tb is Button and not tb.is_queued_for_deletion():
+			tabs += 1
+	await kit.save("352_cassa_schede")
+	cp.cat = ""
+	cp._refresh()
+	var cat_ok: bool = by_cat == ["humus"] and tabs >= 3 and cp._cats.visible
+	var where: String = m.storage.where_text("legno")
+	var where_ok := where.contains("Dove ce l'hai") and where.contains("tessere")
+	var g0 := int(m.character.stats.get("dispensa_grado", 1))
+	var d0: Bisaccia = m.character.dispensa
+	m.character.dispensa = null
+	m.character.stats["dispensa_grado"] = 6
+	var big: int = m.backpack.dispensa().slots.size()
+	m.character.dispensa = d0
+	m.character.stats["dispensa_grado"] = g0
+	print("schede della cassa: «Costruire» mostra %s (%d schede); dove ce l'hai: %s; Dispensa al grado 6: %d caselle" % [
+		str(by_cat), tabs, where.substr(0, 90), big])
+	if not cat_ok or not where_ok or big != 720:
+		print("ATTENZIONE: le schede della cassa, «dove ce l'hai» o i gradi della Dispensa non vanno")
 	m.interact.chest_panel.close()
 	if m.hud.panel.visible:
 		m.hud.panel.toggle()

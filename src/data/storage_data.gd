@@ -31,6 +31,7 @@ const CATEGORIES := [
 	["semi", "Semi, colture, Fiale e Provette"],
 	["mandria", "Uova, vasetti e lacci"],
 	["tesori", "Trofei, Essenze, reliquie e ricordi"],
+	["pesca", "Pesci, esche e canne"],                 # voce 352
 	["nulla", "Niente (cassa chiusa)"],
 ]
 const KINDS := {
@@ -42,7 +43,11 @@ const KINDS := {
 	"semi": ["seme", "seme_mondo", "coltura", "purifica", "fiala", "provetta"],
 	"mandria": ["uovo", "vasetto", "creatura", "laccio", "compagno"],
 	"tesori": ["trofeo", "essenza", "reliquia", "ricordo", "richiamo", "mappa", "moneta"],
+	"pesca": ["pesce", "esca", "canna", "cassetta"],
 }
+## Il nome breve di ogni tipo, per le schede della cassa (voce 352).
+const SHORT := {"minerali": "Minerali", "materiali": "Materiali", "costruzione": "Costruire", "equipaggiamento": "Equipaggiamento",
+	"pozioni": "Pozioni e cibo", "semi": "Semi e geni", "mandria": "Mandria", "tesori": "Tesori", "pesca": "Pesca"}
 const ORE_PREFIX := ["minerale_", "lingotto_", "gemma_"]
 
 

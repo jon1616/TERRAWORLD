@@ -33,6 +33,10 @@ const PAGE := 100
 var page := 0
 var _per := 20                          # caselle per pagina della cassa aperta
 var _pages: HBoxContainer
+## Voce 352: le schede per tipo (colonna sotto i pulsanti): «Tutto» e i tipi che la cassa contiene, con quante pile.
+var _cats: VBoxContainer
+var cat := ""                           # "" = tutto; altrimenti una chiave di `StorageData.CATEGORIES`
+var _cats_below := Vector2.ZERO         # sotto i pulsanti, se nella cornice c'è posto (`_place_cats`)
 
 
 func setup(p: BisacciaPanel) -> void:
@@ -90,6 +94,9 @@ func setup(p: BisacciaPanel) -> void:
 		btn.pressed.connect(b[2])
 		add_child(btn)
 		_buttons.append(btn)
+	_cats = VBoxContainer.new()
+	_cats.add_theme_constant_override("separation", 2)
+	add_child(_cats)
 	# le impostazioni, in una fascia sopra la cassa
 	_settings = Panel.new()
 	(_settings as Panel).add_theme_stylebox_override("panel", _box())
@@ -160,11 +167,73 @@ func _layout(n: int) -> void:
 	for btn in _buttons:
 		btn.position = Vector2(bx, by)
 		by += 34.0
+	_cats_below = Vector2(bx, by + 6)
 	_settings.position = Vector2(_frame.position.x, _frame.position.y - 50)
 
 
 static func _box() -> StyleBox:
 	return UiFrames.box("forte", "normale", Color(UiPalette.LINFA, 0.6))
+
+
+## Quante pile di ogni tipo ci sono nella cassa.
+func _cat_counts() -> Dictionary:
+	var out := {}
+	if chest == null:
+		return out
+	for s in chest.slots:
+		if not s.is_empty():
+			var c := StorageData.category_of(String(s["id"]))
+			out[c] = int(out.get(c, 0)) + 1
+	return out
+
+
+## Le schede: «Tutto» e i tipi presenti, nell'ordine di `StorageData.CATEGORIES`. Si rifanno solo se cambiano.
+var _cats_key := ""
+
+
+func _fill_cats(counts: Dictionary) -> void:
+	var rows := [["", "Tutto", 0]]
+	var tot := 0
+	for e in StorageData.CATEGORIES:
+		var k := String(e[0])
+		if counts.has(k):
+			rows.append([k, String(StorageData.SHORT.get(k, e[1])), int(counts[k])])
+			tot += int(counts[k])
+	rows[0][2] = tot
+	var key := "%s|%s" % [cat, str(rows)]
+	if key == _cats_key:
+		return
+	_cats_key = key
+	for c in _cats.get_children():
+		c.queue_free()
+	_cats.visible = rows.size() > 2                # con un tipo solo le schede non servono
+	for r in rows:
+		var b := Button.new()
+		b.text = "%s  %d" % [r[1], int(r[2])]
+		b.custom_minimum_size = Vector2(150, 22)
+		b.add_theme_font_size_override("font_size", 12)
+		b.focus_mode = Control.FOCUS_NONE
+		b.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		b.toggle_mode = true
+		b.button_pressed = String(r[0]) == cat
+		b.tooltip_text = "Mostra solo: %s" % StorageData.category_name(String(r[0])) if String(r[0]) != "" else "Mostra tutta la cassa"
+		var k := String(r[0])
+		b.pressed.connect(func() -> void:
+			cat = k
+			_refresh())
+		_cats.add_child(b)
+	_place_cats(rows.size())
+
+
+## Sotto i pulsanti se ci stanno dentro l'altezza della cassa; altrimenti a sinistra della cassa (le casse piccole):
+## mai sopra i pulsanti della Bisaccia.
+func _place_cats(n: int) -> void:
+	var need := n * 24.0
+	var bottom := _frame.position.y + _frame.size.y
+	if _cats_below.y + need <= bottom + 4.0 or _frame.position.x < 170.0:
+		_cats.position = _cats_below
+	else:
+		_cats.position = Vector2(_frame.position.x - 160.0, _frame.position.y)
 
 
 ## Scrivere nel nome non deve muovere il Germogliato né aprire pannelli (come la ricerca di Creare).
@@ -179,6 +248,8 @@ func open(o: Vector2i, contents: Bisaccia, title: String, own := false) -> void:
 	personal = own
 	page = 0
 	_search.text = ""                          # una cassa nuova si apre senza filtro
+	cat = ""
+	_cats_key = ""                             # (la cassa nuova può avere un'altra misura: le schede si rimettono)
 	chest = contents
 	_layout(contents.slots.size())
 	chest.changed.connect(_refresh)
@@ -285,10 +356,15 @@ func _refresh() -> void:
 	var pages := ceili(chest.slots.size() / float(_per))
 	page = clampi(page, 0, pages - 1)
 	var q := _search.text.strip_edges().to_lower()
+	var counts := _cat_counts()
+	if cat != "" and not counts.has(cat):
+		cat = ""                                # il tipo scelto non c'è più: si torna a tutto
+	var filtered := q != "" or cat != ""
 	var found := matches(q)
+	_fill_cats(counts)
 	for k in _slots.size():
 		var s := _slots[k]
-		if q != "":
+		if filtered:
 			# la ricerca: le caselle che corrispondono, una dopo l'altra (anche dalle altre pagine)
 			s.visible = k < _per and k < found.size()
 			s.index = int(found[k]) if s.visible else 0
@@ -297,7 +373,7 @@ func _refresh() -> void:
 			s.visible = k < _per and s.index < chest.slots.size()
 		if s.visible:
 			s.set_item(chest.id_at(s.index), chest.count_at(s.index), chest.trait_at(s.index), chest.data_at(s.index))
-	_show_pages(pages if q == "" else 1)
+	_show_pages(pages if not filtered else 1)
 	_pages.position.x = _title.position.x + _title.get_combined_minimum_size().x + 14   # subito dopo il titolo
 	var tags := ["%d/%d caselle" % [used, chest.slots.size()]]
 	if storage != null and not _settings.visible:
@@ -308,20 +384,26 @@ func _refresh() -> void:
 			tags.append("dà gli ingredienti alla creazione")
 		if String(st["tipo"]) != "":
 			tags.append("raccoglie: " + StorageData.category_name(String(st["tipo"])).to_lower())
-	if q != "":
+	if filtered:
 		tags = ["%d trovat%s" % [found.size(), "o" if found.size() == 1 else "i"]]
 	_info.text = " · ".join(tags)
 	_info.tooltip_text = _info.text
 
 
-## Le caselle della cassa il cui oggetto ha nel nome le lettere cercate (minuscole), in ordine.
+## Le caselle della cassa il cui oggetto ha nel nome le lettere cercate (minuscole) e, con una scheda scelta, è di quel
+## tipo; in ordine.
 func matches(q: String) -> Array:
 	var out := []
-	if q == "" or chest == null:
+	if (q == "" and cat == "") or chest == null:
 		return out
 	for i in chest.slots.size():
 		var id := chest.id_at(i)
 		if id == "":
+			continue
+		if cat != "" and StorageData.category_of(id) != cat:
+			continue
+		if q == "":
+			out.append(i)
 			continue
 		var name := String(ItemsData.get_item(id).get("name", id)).to_lower()
 		if name.contains(q) or Gear.full_name(chest.slots[i]).to_lower().contains(q):
