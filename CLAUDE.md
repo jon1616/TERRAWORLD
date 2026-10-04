@@ -934,6 +934,10 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   - `HowToData` + `HowTo`: che cos'è e come si fa ogni conteggio che una richiesta chiede (Albero-Madre, Bacheca, filo).
     **Un conteggio nuovo chiesto dall'Albero = una riga in `HowToData`** (`verifica_dati` lo controlla).
   - `Combat.AMMO` nasce dai dati (ogni «munizione», dal danno più alto).
+  - La Dispensa fino a 720 caselle (`BackpackData.DISPENSA_SLOTS`), le schede per tipo in ogni cassa (`ChestPanel._cats`,
+    tipi di `StorageData`), «Dove ce l'hai» in Esamina (`Storage.where_text`, collegato con `ExaminePanel.where_fn`).
+  - I servizi degli abitanti: `ServicesData` (una riga per servizio) + `Services` (una funzione `_<kind>`, "!" davanti =
+    non riuscito e non si paga), mostrati a sinistra del commercio (`TradePanel._fill_services`).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

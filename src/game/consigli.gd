@@ -135,6 +135,12 @@ static func _fill(t: String) -> String:
 
 # ---------------------------------------------------------------- le condizioni (una per consiglio)
 
+## Voce 353: il commercio aperto con un abitante che ha dei servizi.
+func _c_servizi() -> bool:
+	var tp: TradePanel = m.villagers.panel if m.get("villagers") != null else null
+	return tp != null and tp.visible and tp.npc != "" and not ServicesData.of_npc(tp.npc).is_empty()
+
+
 func _c_benvenuto() -> bool:
 	return _built_t > 3.0
 

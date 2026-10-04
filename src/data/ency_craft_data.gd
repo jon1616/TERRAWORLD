@@ -106,6 +106,13 @@ Gli [b]alleati[/b] dei bastoni evocatori combattono per te finché non appassisc
 """Gli abitanti arrivano quando c'è un [b]Focolare[/b] con un letto libero vicino e la loro condizione è rispettata (un banco, dei Custodi sconfitti, uno stadio dell'Albero-Madre…). Nel Giardino alcuni arrivano con gli stadi dell'Albero.
 Clic destro: [b]commercio[/b] in Lumini (vendi ciò che hai in mano, o Maiusc+clic su una casella). Ognuno ha un mestiere e merci sue.
 [b]Affetto[/b]: cresce con i doni (molto di più con ciò che gli piace) e con le sue richieste. Ogni livello (un cuore) dà uno sconto; a certi livelli un regalo. Ogni abitante ha tre richieste in fila.
+[b]I servizi[/b]: ogni abitante sa fare una o due cose che nessun altro fa, pagate in [b]Lumini[/b]. Si vedono a sinistra del commercio, con il prezzo e quante volte si possono chiedere oggi. Alcuni esempi:
+• la Viandante segna sulla mappa i tre segreti più vicini; la Vecchia Radice dice dov'è la firma del mondo;
+• il Forgiatore alza la qualità dell'oggetto che tieni in mano; il Fabbro delle radici lo tempra senza Schegge;
+• il Mercante di Semi fa un Seme di mondo con il gene della Fiala che tieni in mano, e legge i geni nascosti di un Seme; l'Innestatrice estrae una Fiala da un Seme;
+• il Mandriano addestra il tuo compagno e sfama tutta la mandria; il Pescatore dà fortuna alla canna; il Pellegrino e la Cantastorie traducono parole dei Seminatori;
+• la Tessitrice riempie le riserve della rete; il Cartografo segna Sigilli e reliquiari; il Cacciatore scrive taglie nuove.
+Ciò che non riesce non si paga. Ogni servizio fa crescere un poco l'affetto.
 {cat_abitanti}"""},
 	{"id": "effetti", "group": "Creare ed equipaggiarsi", "name": "Effetti speciali e oggetti unici", "text":
 """Alcuni oggetti non sono solo più forti: [b]fanno qualcosa[/b]. Gli [b]effetti speciali[/b] (✦ nella scheda) scattano a ogni colpo o ogni tanti colpi, quando sconfiggi una creatura, quando sei ferito, quando la Vita finirebbe, oppure valgono finché è vera una condizione (di notte, nell'acqua, sotto terra, da fermo, con poca Vita) o di continuo attorno a te. Valgono indossati (armature, accessori) o in mano (armi).

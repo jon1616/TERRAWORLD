@@ -375,15 +375,8 @@ func _refresh() -> void:
 			s.set_item(chest.id_at(s.index), chest.count_at(s.index), chest.trait_at(s.index), chest.data_at(s.index))
 	_show_pages(pages if not filtered else 1)
 	_pages.position.x = _title.position.x + _title.get_combined_minimum_size().x + 14   # subito dopo il titolo
+	# (voce 353) solo il conto: «usa per creare» e «raccoglie» si leggono già nella fascia delle impostazioni
 	var tags := ["%d/%d caselle" % [used, chest.slots.size()]]
-	if storage != null and not _settings.visible:
-		pass                                       # la Dispensa: niente impostazioni da mostrare
-	elif storage != null:
-		var st := storage.settings(origin)
-		if st["creare"]:
-			tags.append("dà gli ingredienti alla creazione")
-		if String(st["tipo"]) != "":
-			tags.append("raccoglie: " + StorageData.category_name(String(st["tipo"])).to_lower())
 	if filtered:
 		tags = ["%d trovat%s" % [found.size(), "o" if found.size() == 1 else "i"]]
 	_info.text = " · ".join(tags)

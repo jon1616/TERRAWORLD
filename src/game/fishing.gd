@@ -85,8 +85,15 @@ func wait_mult(rod: String) -> float:
 
 
 ## La fortuna di pesca: la canna, la migliore esca e gli accessori (voce 122).
+## (Voce 353) Il segreto dello stagno del Pescatore: fortuna in più fino a `service_until` (secondi di gioco).
+var service_luck := 0.0
+var service_until := 0.0
+
+
 func luck_now(rod: String) -> float:
 	var k: float = float(ItemsData.get_item(rod).get("fish", 0.0)) + float(gear["luck"]) + (m.rooms.fish_luck() if m.rooms else 0.0)   # voce 142
+	if m.character.play_time < service_until:
+		k += service_luck
 	var bi := FishingData.best_bait(m.character.bisaccia)
 	if bi >= 0:
 		k += float(ItemsData.get_item(m.character.bisaccia.id_at(bi))["bait"]["luck"])

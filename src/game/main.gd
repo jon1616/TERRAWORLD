@@ -106,6 +106,7 @@ var atlas: Atlas                       # Roadmap 23: l'Atlante
 var arts: WeaponArts                   # Roadmap 25: la maestria delle armi
 var techniques: Techniques             # Roadmap 25: le tecniche
 var bounties: Bounties                 # Roadmap 25: le taglie
+var services: Services                 # voce 353: i servizi degli abitanti
 var trials: Trials                     # Roadmap 25: le prove del Cerchio
 var museum: Museum                     # Roadmap 26: il Museo del Giardino
 var angler: AnglerBook                 # Roadmap 27: i record e le gare di pesca
@@ -367,6 +368,7 @@ func _build() -> void:
 	bounties = _mount(Bounties.new())
 	trials = _mount(Trials.new())
 	museum = _mount(Museum.new())              # Roadmap 26: il Museo del Giardino
+	services = _mount(Services.new())          # voce 353: i servizi degli abitanti, pagati in Lumini
 	angler = _mount(AnglerBook.new())          # Roadmap 27: i record e le gare di pesca
 	contracts = _mount(NetContracts.new())     # Roadmap 27: i contratti della rete
 	primo = _mount(PrimoGarden.new())          # Roadmap 28: il Giardino oltre il Vuoto

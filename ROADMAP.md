@@ -5238,7 +5238,7 @@ nuovi: dare profondità e senso a ciò che c'è. Ordine scelto dall'utente:
   abitanti, uso con il clic, dove si porta), e le richieste dell'Albero e del filo che dicono che cosa sono e dove
   cercarle.
 - [x] **352. La Dispensa.** Più grande, schede per categoria, riordino per tipo, ricerca ovunque.
-- [ ] **353. Gli abitanti come servizi.** Ogni abitante offre un servizio che solo lui sa fare, pagato in Lumini.
+- [x] **353. Gli abitanti come servizi.** Ogni abitante offre un servizio che solo lui sa fare, pagato in Lumini.
 - [ ] **354. Gli strati che fanno paura.** Il pericolo nelle regole, non solo nei numeri: creature scelte, imboscate,
   premi che esistono solo in fondo.
 - [ ] **355. L'equipaggiamento che conta.** Armi con un modo loro, effetti che cambiano il gioco, salti netti tra i
@@ -5269,4 +5269,16 @@ Le **schede per tipo** in ogni cassa (`ChestPanel._cats`: «Tutto» e i tipi pre
 `StorageData` con la nuova «Pesca»; sotto i pulsanti nelle casse grandi, a sinistra in quelle piccole), insieme alla
 ricerca. **Dove ce l'hai** in Esamina (`Storage.where_text`): addosso, nella Dispensa, nelle quattro casse più vicine del
 mondo con il nome e la distanza. Prove nel gruppo «casse» (foto 352_cassa_schede).
+
+**Fatto il 4 ott 2026 (voce 353).** `ServicesData` (21 servizi per 19 abitanti) + `Services` (`src/game/services.gd`, una
+funzione per tipo): segni sulla mappa (segreti, firma, Sigilli e reliquiari, la mappa dei dintorni), la qualità e la
+tempra dell'oggetto in mano, il Seme su ordinazione dalla Fiala, la lettura dei geni di un Seme, la Fiala dal Seme,
+l'addestramento del compagno, il pasto della mandria, la fortuna della canna, effetti a tempo lunghi (tisana, pista
+delle bestie rare, occhi del fondo, serata di musica), traduzioni della lingua comune e antica, la stima del Museo, la
+ricarica delle riserve della rete, taglie nuove. Prezzi in Lumini (alcuni crescono con l'oggetto o il compagno),
+sconti dell'affetto, un limite di volte al giorno per i più forti, «ciò che non riesce non si paga», ogni servizio dà
+un poco d'affetto. Nel pannello del commercio, a sinistra («I servizi di …»). Conteggio «servizi» per il pilastro degli
+abitanti; consiglio alla prima volta; capitolo degli abitanti. Per strada: la scritta degli effetti a tempo scende sotto
+la minimappa (il filo ha una riga in più dalla voce 351), la scritta della cassa dice solo il conto delle caselle.
+Prove: gruppo «abitanti» (foto 353_servizi); galleria 0 problemi.
 

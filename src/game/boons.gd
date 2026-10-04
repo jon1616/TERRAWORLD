@@ -37,7 +37,7 @@ func setup(main: Node2D) -> void:
 	m = main
 	m.actions.boon.connect(add)
 	_label = Label.new()
-	_label.position = Vector2(1600 - 660, 96)       # a sinistra della minimappa, che sta sotto Vita e Linfa
+	_label.position = Vector2(1600 - 660, 150)      # sotto la minimappa e il filo (voce 353: il filo ora ha una riga in più)
 	_label.size = Vector2(400, 40)
 	_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_label.add_theme_font_size_override("font_size", 13)

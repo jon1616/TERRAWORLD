@@ -76,7 +76,7 @@ const KIND_USE := {
 	"progetto": "La Tavola del progetto: copia una tua costruzione e, con il clic, la ricostruisce altrove con i materiali che porti (clic destro la svuota).",
 	"progetto_sem": "Un progetto dei Seminatori: in mano, clic dove vuoi e la costruzione si alza con i materiali che porti.",
 	"ricordo": "Un ricordo: si tiene, o si espone nel Museo del Giardino.",
-	"lumino": "La moneta: con i Lumini compri dagli abitanti e paghi i loro servizi.",
+	"lumino": "La moneta: con i Lumini compri dagli abitanti e paghi i loro servizi (ogni abitante sa fare qualcosa che nessun altro fa: parlaci).",
 }
 
 static var _index := {}            # id → Array[String] (righe già pronte)

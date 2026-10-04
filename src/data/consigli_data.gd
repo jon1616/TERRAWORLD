@@ -146,6 +146,8 @@ const LIST := [
 		"text": "Zaini perduti, tane, vene madri, camere fungine: si annunciano quando ti avvicini e hanno un segno sulla mappa. Le tane e le vene hanno chi le sorveglia: sconfiggilo, e il loro tesoro è tuo."},
 	{"id": "pagina", "title": "Una pagina strappata", "cap": "incontri",
 		"text": "È il diario di [b]Tessa la Cercatrice[/b]: usala per leggerla. Le pagine si leggono in ordine; all'ultima delle dieci, la sua lanterna è tua."},
+	{"id": "servizi", "title": "I servizi degli abitanti", "cap": "abitanti",
+		"text": "Ogni abitante sa fare qualcosa che nessun altro fa: lo vedi a [b]sinistra del commercio[/b], con il prezzo in Lumini. Segni sulla mappa, oggetti migliori, Semi su ordinazione, compagni addestrati…"},
 ]
 
 

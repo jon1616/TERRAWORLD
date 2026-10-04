@@ -22,6 +22,10 @@ var _sell: Button
 var _work: Button                       # voce 232: la bottega dell'abitante (`NpcWork`)
 var sold := 0
 var _portrait: TextureRect
+## Voce 353: i servizi dell'abitante (`Services`), in un riquadro a sinistra del commercio.
+var _svc_frame: Panel
+var _svc_box: VBoxContainer
+var _svc_key := ""
 const PORTRAIT := 112.0                 # voce 102: il ritratto (56 px) ingrandito due volte
 
 
@@ -85,6 +89,18 @@ func setup(p: BisacciaPanel) -> void:
 	sell.tooltip_text = "Vende la pila presa con il clic. Per vendere una pila della Bisaccia: Maiusc+clic sulla sua casella"
 	_work = _act("", Vector2(x0, fy + 192), w)
 	_work.pressed.connect(work)
+	# voce 353: i servizi, nel posto libero a sinistra (dove senza commercio sta «Creare»)
+	_svc_frame = Panel.new()
+	_svc_frame.add_theme_stylebox_override("panel", UiFrames.box("forte", "normale", UiPalette.LINFA))
+	_svc_frame.position = Vector2(16, fy)
+	_svc_frame.size = Vector2(x0 - 18 - 16 - 12, 352)
+	_svc_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_svc_frame)
+	_svc_box = VBoxContainer.new()
+	_svc_box.position = Vector2(14, 12)
+	_svc_box.size = Vector2(_svc_frame.size.x - 28, 330)
+	_svc_box.add_theme_constant_override("separation", 6)
+	_svc_frame.add_child(_svc_box)
 	for c in COLS:
 		var s := SlotView.new()
 		s.index = c
@@ -181,6 +197,7 @@ func _refresh() -> void:
 	if bonds:
 		_quest.text = "Richiesta: " + NpcBonds.quest_text(m.character, npc)
 		_deliver.disabled = not NpcBonds.quest_ready(m.character, npc)
+	_fill_services()
 	var goods := _goods()
 	for k in COLS:
 		var has := k < goods.size()
@@ -194,6 +211,54 @@ func _refresh() -> void:
 			_slots[k].tip_extra = {"price": "buy", "cost": price}
 			_prices[k].text = "%d L" % price
 			_prices[k].add_theme_color_override("font_color", Color("#ffd08a") if lumini() >= price else Color("#8a6a5a"))
+
+
+## I servizi dell'abitante: titolo, poi per ognuno il pulsante (nome e prezzo) e che cosa fa. Si rifà solo se cambia.
+func _fill_services() -> void:
+	var rows: Array = m.services.rows(npc) if m != null and m.get("services") != null else []
+	_svc_frame.visible = not rows.is_empty()
+	var key := "%s|%s|%d" % [npc, str(rows), lumini()]
+	if key == _svc_key:
+		return
+	_svc_key = key
+	for c in _svc_box.get_children():
+		c.queue_free()
+	if rows.is_empty():
+		return
+	var t := Label.new()
+	t.text = "I servizi %s" % ItemUses._prep("di", String(NpcData.NPCS[npc]["name"]))
+	t.add_theme_font_size_override("font_size", UiPalette.SOTTOTITOLO - 2)
+	t.add_theme_color_override("font_color", UiPalette.LINFA)
+	_svc_box.add_child(t)
+	var sub := Label.new()
+	sub.text = "Cose che sa fare solo lui, pagate in Lumini."
+	sub.add_theme_font_size_override("font_size", 13)
+	sub.add_theme_color_override("font_color", Color("#9fc8c0"))
+	_svc_box.add_child(sub)
+	for r in rows:
+		var b := Button.new()
+		var left := "" if int(r[5]) < 0 else "  ·  %d oggi" % int(r[5])
+		b.text = "%s — %d Lumini%s" % [r[1], int(r[2]), left]
+		b.custom_minimum_size = Vector2(0, 34)
+		b.focus_mode = Control.FOCUS_NONE
+		b.add_theme_font_size_override("font_size", UiPalette.TESTO_PX - 1)
+		b.disabled = String(r[4]) != ""
+		b.tooltip_text = String(r[3]) if String(r[4]) == "" else "%s\n(%s)" % [r[3], r[4]]
+		var id := String(r[0])
+		b.pressed.connect(func() -> void:
+			var msg: String = m.services.use(id)
+			if msg != "":
+				m.hud.toast(msg)
+			_svc_key = ""
+			_refresh())
+		_svc_box.add_child(b)
+		var d := Label.new()
+		d.text = String(r[3]) if String(r[4]) == "" else "%s  [%s]" % [r[3], r[4]]
+		d.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		d.custom_minimum_size = Vector2(_svc_box.size.x, 0)
+		d.add_theme_font_size_override("font_size", 13)
+		d.add_theme_color_override("font_color", Color("#cfeee4") if String(r[4]) == "" else Color("#8a9a94"))
+		_svc_box.add_child(d)
 
 
 ## Clic su una merce: la si compra.
