@@ -112,14 +112,19 @@ func run() -> void:
 		meter_down = float(m.harsh.meters["vuoto"])
 		m.world.remove_torch(tc)
 		m.harsh.meters["vuoto"] = 0.0
-		# 5. una rara del Fondo lascia il suo materiale
+		# 5. una rara del Fondo lascia il suo materiale (con posto nella Bisaccia: nel giro intero arriva piena)
+		var bag_keep: Array = m.character.bisaccia.slots.duplicate(true)
+		for i in range(Bisaccia.HOTBAR, m.character.bisaccia.slots.size()):
+			m.character.bisaccia.slots[i] = {}
 		var have: int = m.character.bisaccia.count("frammento_vuoto")
 		var cr: Creature = fa.add(String(CreaturesData.of_stratum(4, false, "")[0][0]), m.player.position + Vector2(18, -4))
 		fa.make_ancient(cr, "antica")
 		fa.kill(cr)
 		await kit.seconds(2.5)
 		loot_ok = m.character.bisaccia.count("frammento_vuoto") > have
-		m.character.bisaccia.remove("frammento_vuoto", m.character.bisaccia.count("frammento_vuoto") - have)
+		for i in m.character.bisaccia.slots.size():
+			m.character.bisaccia.slots[i] = bag_keep[i]
+		m.character.bisaccia.changed.emit()
 	else:
 		print("ATTENZIONE: nessun posto nel Fondo per la prova del profondo")
 	m.senses.paused = false
@@ -164,6 +169,9 @@ func awaken() -> void:
 		if EffectsData.info(String(AwakenData.FORM[f])).is_empty():
 			missing.append(f)
 	var res := {}
+	for i in range(Bisaccia.HOTBAR, b.slots.size()):
+		b.slots[i] = {}                        # (nel giro intero la Bisaccia arriva piena: i materiali non entravano)
+	b.changed.emit()
 	# la spada di radicite: Midollo di radice e Linfa antica
 	var si := kit.hold("spada_radicite")
 	m.hud.select(si)

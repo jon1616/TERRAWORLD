@@ -1,8 +1,9 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 4 ott 2026)
-- **In corso: la Roadmap 37 «Ciò che conta»** (dal 4 ott 2026): nata dalla prima partita vera dell'utente (6,6 ore).
-  Correzioni, spiegazioni, Dispensa, abitanti come servizi, strati che fanno paura, equipaggiamento che conta.
+- **Fatta la Roadmap 37 «Ciò che conta»** (voci 350-355, 4 ott 2026): nata dalla prima partita vera dell'utente (6,6 ore).
+  Correzioni, spiegazioni, Dispensa, abitanti come servizi, strati che fanno paura, equipaggiamento che conta. Resoconto in
+  fondo alla Roadmap 37. Prossimo passo: l'utente rigioca la sua partita e dice che cosa si sente diverso.
 - **Fatta la Roadmap 36 «La storia vera»** (voci 341-349, 3 ott 2026): il canone (i Seminatori sono i Guardiani) nel
   gioco: nomi e ricordi dei Guardiani, sogni, echi, Taccuino della verità, leggende dei luoghi, la Bocca; testi
   riscritti. Resoconto in fondo alla Roadmap 36.
@@ -5310,4 +5311,14 @@ conta di più** (grezzo 0,85, fine 1,12, capolavoro 1,30: prima 0,9/1,08/1,18), 
 Rifinitura del Forgiatore. Conteggio «risvegliati» per il combattimento; consiglio al primo materiale del profondo;
 capitolo dell'equipaggiamento. `tools/percorso.gd`: attento 1,2 appassimenti all'ora, medio 5,9 (nei limiti). Prove nel
 gruppo «profondo» (foto 355_risveglio).
+
+**Resoconto della Roadmap 37 (4 ott 2026).** Sei voci, tutte nate dalla partita vera e dalle parole dell'utente. Le
+scoperte più importanti sono venute dalle **misure**, non dalle idee: lo studio che dava il premio a ogni sconfitta
+(459 «studiate» su 61 specie), sei dardi che l'arco non tirava mai, le richieste della rete della Bacheca impossibili da
+consegnare, e soprattutto **il profondo quasi vuoto di nascite** (la luce di funghi e cristalli: 3-10 punti buoni su 300,
+contro 98 nelle Caverne), che spiegava da solo «scendendo non si avverte nessun aumento di pericolo». Il giro intero:
+pulito tranne tre cose. «Posto piano comodità» c'era già. La prova «piedi» delle terre estreme e il costo della raccolta
+(un fotogramma di 8 ms di `WeatherCover`) sbagliano a volte, solo nel giro intero, e passano rifatti da soli. Il gioco si
+chiudeva con un crash (la funzione statica dei risvegli): corretto. La Bisaccia «diversa» era il confronto della prova
+(posti accessorio vuoti): corretto. Da guardare dopo: perché `WeatherCover` a volte prende 8 ms in un fotogramma.
 
