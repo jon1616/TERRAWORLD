@@ -28,6 +28,12 @@ func setup(main: Node2D) -> void:
 	refresh()
 
 
+## (Voce 355) La funzione statica che conta i risvegli tiene la scena: si toglie quando la scena esce, altrimenti alla
+## chiusura del gioco resta a puntare a un nodo già liberato (il gioco si chiudeva con un crash).
+func _exit_tree() -> void:
+	Crafting.awakened_hook = Callable()
+
+
 ## Gli effetti degli oggetti indossati e di quello in mano.
 func refresh() -> void:
 	active.clear()

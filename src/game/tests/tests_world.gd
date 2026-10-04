@@ -148,6 +148,19 @@ func run_and_save() -> void:
 	var saved := Character.load_id(kit.m.character.id)
 	var bis_ok: bool = saved != null and saved.bisaccia.to_array() == kit.m.character.bisaccia.to_array() 			and saved.bisaccia.equip == kit.m.character.bisaccia.equip 			and saved.bisaccia.equip_traits == kit.m.character.bisaccia.equip_traits
 	print("Bisaccia salvata e ricaricata: %s" % ("identica" if bis_ok else "DIVERSA"))
+	if not bis_ok and saved != null:
+		# (4 ott 2026) che cosa cambia: le caselle diverse, l'equipaggiamento
+		var a: Array = saved.bisaccia.to_array()
+		var b2: Array = kit.m.character.bisaccia.to_array()
+		for i in maxi(a.size(), b2.size()):
+			var x: Variant = a[i] if i < a.size() else null
+			var y: Variant = b2[i] if i < b2.size() else null
+			if x != y:
+				print("  casella %d: salvata %s, in memoria %s" % [i, str(x), str(y)])
+		if saved.bisaccia.equip != kit.m.character.bisaccia.equip:
+			print("  equipaggiamento: salvato %s, in memoria %s" % [str(saved.bisaccia.equip), str(kit.m.character.bisaccia.equip)])
+		if saved.bisaccia.equip_traits != kit.m.character.bisaccia.equip_traits:
+			print("  tratti: salvati %s, in memoria %s" % [str(saved.bisaccia.equip_traits), str(kit.m.character.bisaccia.equip_traits)])
 
 
 ## Ciò che si scava cade, viene raccolto nella Bisaccia, e con il blocco in mano lo si rimette dov'era.

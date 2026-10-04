@@ -1300,3 +1300,10 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   scrivono con Write.
 - Una patch che si ferma a metà (un'`assert` fallita) lascia i file già cambiati: si rimettono com'erano con
   `git checkout` prima di rilanciarla corretta.
+
+- **Roadmap 37** (4 ott 2026): una `static var` che tiene una funzione anonima con dentro un nodo (`Crafting.awakened_hook`)
+  fa andare in crash il gioco **alla chiusura** (signal 11 dopo l'ultima prova): la si svuota in `_exit_tree` del nodo.
+  Il crash si vede solo in fondo al registro: dopo un giro si cerca «signal 11», non solo «ATTENZIONE».
+- Una regola del mondo che dipende dalla luce va **misurata nel posto vero**: nelle Profondità e nel Fondo la luce di funghi
+  e cristalli impediva quasi tutte le nascite (3 punti buoni su 300), e nessuna prova se n'era accorta per settimane.
+
