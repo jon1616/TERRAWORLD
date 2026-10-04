@@ -150,6 +150,20 @@ func run() -> void:
 		str(by_cat), tabs, where.substr(0, 90), big])
 	if not cat_ok or not where_ok or big != 720:
 		print("ATTENZIONE: le schede della cassa, «dove ce l'hai» o i gradi della Dispensa non vanno")
+	# 4 ott 2026: in Esamina, con una ricetta scelta, dove sono gli ingredienti che mancano (e come si ottengono)
+	var ex: ExaminePanel = m.hud.panel.examine
+	var rr: Dictionary = RecipesData.making("richiamo_nodo")[0]
+	if not m.hud.panel.visible:
+		m.hud.panel.toggle()
+	ex.show_recipe(rr)
+	await kit.frames(3)
+	var miss: String = ex._text.text
+	var miss_ok := miss.contains("Dove sono gli ingredienti") and miss.contains("Frammento del Nodo") and miss.contains("Si ottiene")
+	await kit.save("352_ingredienti_dove")
+	m.hud.panel.toggle()
+	print("ingredienti che mancano in Esamina: %s" % miss_ok)
+	if not miss_ok:
+		print("ATTENZIONE: Esamina non dice dove sono gli ingredienti che mancano")
 	m.interact.chest_panel.close()
 	if m.hud.panel.visible:
 		m.hud.panel.toggle()

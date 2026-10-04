@@ -331,6 +331,11 @@ func _fill_recipe() -> void:
 		cnt.add_theme_color_override("font_color", OK if have >= need else BAD)
 		line.add_child(cnt)
 		_ings.add_child(line)
+		# (4 ott 2026, l'utente: «come metto un frammento in Esamina se non ne ho?») passando sopra un ingrediente:
+		# dove ce l'hai e come si ottiene
+		var ing := String(k)
+		line.mouse_filter = Control.MOUSE_FILTER_STOP
+		Tips.attach(line, func() -> Variant: return _ingredient_tip(ing))
 	var can_n := crafting.times_possible(r)
 	_qty_label.text = str(qty)
 	_make.disabled = can_n < qty
@@ -347,6 +352,42 @@ func _fill_recipe() -> void:
 	var cut := _text.text.find("\n")
 	if cut >= 0:
 		_text.text = _text.text.substr(cut + 1)
+	_text.text += _missing_text(r)
+
+
+## Gli ingredienti che mancano: dove ce l'hai (anche lontano) e, se non ne hai da nessuna parte, come si ottengono.
+func _missing_text(r: Dictionary) -> String:
+	if not where_fn.is_valid():
+		return ""
+	var t := ""
+	for k in r["in"]:
+		var id := String(k)
+		if Crafting.have(panel.bisaccia, id) >= int(r["in"][k]) * qty:
+			continue
+		t += "• [color=#ffe8c0]%s[/color]: %s\n" % [String(ItemsData.get_item(id).get("name", id)), _where_short(id)]
+	if t == "":
+		return ""
+	return "\n[color=#8ef0d8]Dove sono gli ingredienti che mancano:[/color]\n" + t
+
+
+func _where_short(id: String) -> String:
+	var w := String(where_fn.call(id))
+	var body := w.get_slice(":[/color] ", 1) if w.contains(":[/color] ") else w
+	if w.contains("da nessuna parte"):
+		var how := ItemInfo.how_to_get(id)
+		if how != "":
+			body += " [color=#9fc8c0]Si ottiene: %s.[/color]" % how
+	return body
+
+
+func _ingredient_tip(id: String) -> TipCard:
+	var c := TipCard.new().title(String(ItemsData.get_item(id).get("name", id)), Color(0, 0, 0, 0), id)
+	if where_fn.is_valid():
+		c.text(_where_short(id))
+	var how := ItemInfo.how_to_get(id)
+	if how != "" and not String(where_fn.call(id) if where_fn.is_valid() else "").contains("da nessuna parte"):
+		c.text("[color=#9fc8c0]Si ottiene: %s.[/color]" % how)
+	return c
 
 
 func _process(_dt: float) -> void:
