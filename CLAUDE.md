@@ -938,6 +938,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     tipi di `StorageData`), «Dove ce l'hai» in Esamina (`Storage.where_text`, collegato con `ExaminePanel.where_fn`).
   - I servizi degli abitanti: `ServicesData` (una riga per servizio) + `Services` (una funzione `_<kind>`, "!" davanti =
     non riuscito e non si paga), mostrati a sinistra del commercio (`TradePanel._fill_services`).
+  - Le regole del profondo: `DeepRulesData` (una riga per strato: udito, rare, branchi, imboscate, rigore, `spawn_dark`,
+    materiale) + `DeepRules` (imboscate, materiali dalle rare, riga sopra l'orologio, `lit_by_player`). **Nel profondo la
+    luce naturale non ripara dalle nascite**: prima Profondità e Fondo erano quasi vuoti (misura nel gruppo «profondo»).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

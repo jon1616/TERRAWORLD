@@ -65,9 +65,13 @@ func setup(c: Creature) -> void:
 
 
 ## Un rumore nel mondo: chi è entro `tiles` tessere (per l'Ombra, meno) lo sente e va a vedere.
+## (Voce 354) Negli strati profondi i rumori arrivano più lontano (`DeepRulesData`, lo scrive `DeepRules`).
+static var hear_mult := 1.0
+
+
 static func noise(pos: Vector2, tiles: float) -> void:
 	_count += 1
-	noises.append({"pos": pos, "r": tiles * 16.0 * Behavior.stealth, "t": 0.6, "n": _count})
+	noises.append({"pos": pos, "r": tiles * 16.0 * Behavior.stealth * hear_mult, "t": 0.6, "n": _count})
 
 
 ## Il cuore di `Behavior.sees`: vede il bersaglio entro `tiles` tessere?

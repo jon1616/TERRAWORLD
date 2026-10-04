@@ -141,7 +141,7 @@ const TRAITS := {
 ## guanti e stivali da metà); l'arma o l'attrezzo in mano metà; l'amuleto metà, l'anello tre decimi (voce 308).
 const SHARE := {"armatura": 0.25, "accessorio": 0.5, "mano": 0.5, "amuleto": 0.5, "anello": 0.3}
 ## Le chiavi del carattere che si sommano (le altre moltiplicano; come in `GearEffects._add`).
-const ADDITIVE := ["luck", "thorns", "defense", "caldo", "acqua", "fresco", "filtro", "quota"]
+const ADDITIVE := ["luck", "thorns", "defense", "caldo", "acqua", "fresco", "filtro", "quota", "quieto"]
 
 static var _all := {}
 static var _items := {}
@@ -299,7 +299,7 @@ static func _trait_words(id: String) -> String:
 	var names := {"regen": "la Vita ricresce", "defense": "Scorza", "run": "corsa", "halo": "alone", "thorns": "spine",
 		"linfa_regen": "la Linfa ricresce", "stealth": "le creature ti vedono più tardi", "luck": "fortuna", "jump": "salto",
 		"fresco": "protezione dal calore", "caldo": "protezione dal freddo", "filtro": "protezione dalla polvere",
-		"quota": "protezione dall'aria sottile", "magic": "incantesimi", "dig": "scavo", "damage": "danno", "atk_speed": "colpi"}
+		"quota": "protezione dall'aria sottile", "quieto": "protezione dal peso del Vuoto", "magic": "incantesimi", "dig": "scavo", "damage": "danno", "atk_speed": "colpi"}
 	var parts := []
 	var t := trait_of(id)
 	for k in t:

@@ -52,6 +52,10 @@ func _process(dt: float) -> void:
 	var thin := float(SkyData.get_biome(m.chiome.here).get("thin", 0.0)) if m.get("chiome") != null and m.chiome.here != "" else 0.0
 	if thin > 0.0:
 		h = {"kind": "quota", "rate": HarshData.QUOTA_RATE * thin}
+	# voce 354: il rigore dello strato (il Fondo), solo lontano dalla luce
+	var deep := DeepRulesData.of(int(m.depth_watch.stratum))
+	if deep.has("rigor") and not m.giardino.active and not DeepRules.lit_by_player(m.world, pc, DeepRules.SHELTER):
+		h = {"kind": String(deep["rigor"]), "rate": float(deep["rate"])}
 	kind = String(h.get("kind", ""))
 	for k in meters:
 		var v := float(meters[k])

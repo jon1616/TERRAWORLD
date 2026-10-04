@@ -5239,7 +5239,7 @@ nuovi: dare profondità e senso a ciò che c'è. Ordine scelto dall'utente:
   cercarle.
 - [x] **352. La Dispensa.** Più grande, schede per categoria, riordino per tipo, ricerca ovunque.
 - [x] **353. Gli abitanti come servizi.** Ogni abitante offre un servizio che solo lui sa fare, pagato in Lumini.
-- [ ] **354. Gli strati che fanno paura.** Il pericolo nelle regole, non solo nei numeri: creature scelte, imboscate,
+- [x] **354. Gli strati che fanno paura.** Il pericolo nelle regole, non solo nei numeri: creature scelte, imboscate,
   premi che esistono solo in fondo.
 - [ ] **355. L'equipaggiamento che conta.** Armi con un modo loro, effetti che cambiano il gioco, salti netti tra i
   metalli.
@@ -5281,4 +5281,21 @@ un poco d'affetto. Nel pannello del commercio, a sinistra («I servizi di …»)
 abitanti; consiglio alla prima volta; capitolo degli abitanti. Per strada: la scritta degli effetti a tempo scende sotto
 la minimappa (il filo ha una riga in più dalla voce 351), la scritta della cassa dice solo il conto delle caselle.
 Prove: gruppo «abitanti» (foto 353_servizi); galleria 0 problemi.
+
+**Fatto il 4 ott 2026 (voce 354).** Prima di tutto una misura (gruppo «profondo», `TestsDeep`): sui punti dove una
+creatura può nascere attorno al Germogliato (300 punti dell'anello delle nascite, sei posti per strato), il Sottobosco ne
+aveva 71 buoni, le Caverne 98, le Profondità **10** e il Fondo **3**. Funghi, cristalli e pavimenti di vuotite rendono il
+profondo luminoso quasi ovunque, e le creature nascevano solo al buio: **scendendo nascevano meno creature, non di più**.
+Ora (`DeepRulesData.spawn_dark` + `DeepRules.lit_by_player`) nel profondo la luce naturale non ripara, solo torce e
+lampade posate: Profondità 78, Fondo 70.
+Poi una **regola per strato** (`DeepRulesData`, `DeepRules`): Sottobosco «Le radici ascoltano» (i rumori arrivano 1,7
+volte più lontano, `Mind.hear_mult`), Caverne «Il buio caccia» (branchi: 35% delle comuni con 1-2 compagne), Profondità
+«Le imboscate della Linfa» (lontano dalle tue luci, ogni 75-130 s un gruppo sbuca alle spalle, annunciato da un fruscio),
+Fondo «Il Vuoto preme» (il rigore «Peso del Vuoto» di `HarshData` sale lontano da torce e lampade; branchi e imboscate più
+fitti). Le rare crescono un poco scendendo (Fondo: 24% delle nascite). L'insegna e un avviso dicono la regola entrando, e
+una riga sopra l'orologio la ricorda (con la scheda). **I materiali del profondo**, solo lì, dalle rare (e a volte dalle
+comuni): Midollo di radice, Cuore d'ardesia, Linfa nera, Frammento di Vuoto, con le prime ricette (Calzari di radice muta,
+Cuore-lanterna d'ardesia, Tonico di Linfa nera, Amuleto della quiete: protezione «quieto»). Conteggio «imboscate» per il
+combattimento. Capitolo «Gli strati». Prove: «profondo» (foto 354_imboscata, 354_fondo), grotte, vivo, guardiani,
+antiche, pericoli, galleria 0 problemi.
 

@@ -52,7 +52,11 @@ func _process(dt: float) -> void:
 		var stats: Dictionary = m.character.stats
 		stats["strato_max"] = maxi(int(stats.get("strato_max", 0)), k)
 		var st: Dictionary = StrataData.STRATA[k]
-		banner.show_stratum(String(st["name"]), String(st["desc"]), Color(st["color"]))
+		var rule := DeepRulesData.of(k)                   # voce 354: la regola dello strato, entrando
+		banner.show_stratum(String(st["name"]), String(st["desc"]) + ((" · " + String(rule["name"])) if not rule.is_empty() else ""),
+			Color(st["color"]))
+		if not rule.is_empty():
+			m.hud.toast(String(rule["desc"]))
 		# voce 188: entrando in uno strato con una Scorza troppo bassa per quel punto della partita, un avviso
 		var warn := DangerData.scorza_warning(scorza(), k, m.fauna.vigor)
 		if warn != "":

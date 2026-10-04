@@ -99,7 +99,23 @@ Il gioco [b]si salva da solo[/b] ogni pochi minuti, passando da un portale e usc
 	{"id": "strati", "group": "Il mondo", "name": "Gli strati", "text":
 """Ogni mondo scende per strati, ognuno con la sua roccia, le sue creature, i suoi minerali e un pericolo più alto. Il confine tra uno strato e l'altro ondeggia; entrando in uno strato nuovo compare il suo nome.
 {cat_strati}
-Più in basso: minerali migliori (serve un [url=cap:scavare]piccone[/url] più forte), creature più forti, rovine più ricche. In fondo a ogni mondo c'è la cupola del [url=cap:guardiani]Cuore del mondo[/url]."""},
+Più in basso: minerali migliori (serve un [url=cap:scavare]piccone[/url] più forte), creature più forti, rovine più ricche. In fondo a ogni mondo c'è la cupola del [url=cap:guardiani]Cuore del mondo[/url].
+
+[b]Le regole del profondo[/b]
+Ogni strato sotto la superficie ha una regola sua, che cambia il modo di muoversi. Entrando la leggi nell'insegna, e resta scritta in alto a sinistra, sopra l'orologio.
+• [b]Sottobosco di radici — Le radici ascoltano[/b]: le creature sentono da molto più lontano. Correre, scavare e combattere le chiama.
+• [b]Caverne d'ardesia — Il buio caccia[/b]: le creature girano spesso in branchi.
+• [b]Profondità della Linfa — Le imboscate[/b]: lontano dalle tue torce, a volte un gruppo sbuca alle tue spalle (un fruscio lo annuncia un attimo prima).
+• [b]Il Fondo — Il Vuoto preme[/b]: lontano da torce e lampade sale la barra del [b]peso del Vuoto[/b]; piena, la Vita non ricresce, la Linfa cala e fa male. Branchi, imboscate e creature rare ovunque.
+Nel profondo la luce di funghi e cristalli [b]non ripara[/b]: le creature ci nascono lo stesso. Riparano solo le luci che posi tu (torce, lampade, il baccello ardente).
+
+[b]I materiali del profondo[/b]
+Le creature rare di ogni strato (e qualche volta le altre) lasciano un materiale che esiste solo lì: [b]Midollo di radice[/b] (Sottobosco), [b]Cuore d'ardesia[/b] (Caverne), [b]Linfa nera[/b] (Profondità), [b]Frammento di Vuoto[/b] (Fondo). Servono per:
+• i [b]Calzari di radice muta[/b] (le creature ti sentono e vedono più tardi);
+• il [b]Cuore-lanterna d'ardesia[/b];
+• il [b]Tonico di Linfa nera[/b] (cinque minuti senza peso del Vuoto);
+• l'[b]Amuleto della quiete[/b] (il peso del Vuoto sale molto più piano).
+Servono anche per risvegliare le armi."""},
 	{"id": "biomi", "group": "Il mondo", "name": "I biomi", "text":
 """La superficie di un mondo è divisa in biomi, ognuno con erba, alberi, piante, colline, cielo e creature suoi:
 {cat_biomi}

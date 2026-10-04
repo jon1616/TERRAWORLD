@@ -53,7 +53,7 @@ func refresh() -> void:
 	e["allies"] = 0.0
 	e["wall"] = false
 	e["fall_safe"] = false
-	for k in ["caldo", "acqua", "fresco", "filtro", "quota"]:
+	for k in ["caldo", "acqua", "fresco", "filtro", "quota", "quieto"]:
 		e[k] = 0.0                                 # voce 93: le protezioni dai rigori
 	e["passo"] = false
 	for k in ["fish_luck", "fish_size", "fish_double"]:
@@ -137,7 +137,7 @@ func refresh() -> void:
 			"any": e["fish_any"]}
 	if m.get("harsh") != null:
 		m.harsh.protect = {"caldo": e["caldo"], "acqua": e["acqua"], "fresco": e["fresco"], "filtro": e["filtro"],
-			"quota": e["quota"]}
+			"quota": e["quota"], "quieto": e["quieto"]}
 		m.harsh.passo = e["passo"]
 
 
@@ -146,7 +146,7 @@ static func _add(e: Dictionary, acc: Dictionary) -> void:
 	for k in acc:
 		if k in MULT:
 			e[k] = float(e[k]) * float(acc[k])
-		elif k in ["luck", "thorns", "defense", "air_jumps", "allies", "caldo", "acqua", "fresco", "filtro", "quota", "fish_luck", "fish_size",
+		elif k in ["luck", "thorns", "defense", "air_jumps", "allies", "caldo", "acqua", "fresco", "filtro", "quota", "quieto", "fish_luck", "fish_size",
 				"fish_double"]:
 			e[k] = float(e[k]) + float(acc[k])
 		elif k in ["glide", "fall_safe", "wall", "passo", "fish_any", "dash"]:

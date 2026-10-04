@@ -42,7 +42,7 @@ const ACC := {
 	# voce 306: le protezioni dai rigori (`HarshData`), che ora hanno anche i materiali
 	"caldo": ["Protezione dal freddo", "pct_add"], "fresco": ["Protezione dal calore", "pct_add"],
 	"acqua": ["Protezione dalla sete", "pct_add"], "filtro": ["Protezione dalla polvere", "pct_add"],
-	"quota": ["Protezione dall'aria sottile", "pct_add"],
+	"quota": ["Protezione dall'aria sottile", "pct_add"], "quieto": ["Protezione dal peso del Vuoto", "pct_add"],
 }
 
 

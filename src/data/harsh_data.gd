@@ -25,6 +25,10 @@ const KINDS := {
 	"quota": {"name": "Aria sottile", "color": "#c8d0ff", "acc": "quota", "boon": "respiro_alto", "hurt": 4, "every": 2.5,
 		"boon_name": "Respiro alto", "penalty": {"jump": 0.8, "linfa": 0.6},
 		"desc": "lassù l'aria manca: a barra piena salti meno, la Linfa cala e il fiato ferisce"},
+	# voce 354: nel Fondo, lontano dalla luce (`DeepRulesData`: rigor, rate, lit)
+	"vuoto": {"name": "Peso del Vuoto", "color": "#c08aff", "acc": "quieto", "boon": "riparo_vuoto", "hurt": 5, "every": 2.5,
+		"boon_name": "Quiete del Vuoto", "penalty": {"regen": 0.0, "linfa": 0.5},
+		"desc": "nel Fondo il buio pesa: a barra piena la Vita non ricresce, la Linfa cala e fa male. La luce lo tiene lontano"},
 }
 
 const QUOTA_RATE := 1.0 / 45.0         # voce 158: nel cielo alto la barra si riempie in 45 s (× `thin` del bioma)
