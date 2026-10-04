@@ -1,6 +1,8 @@
 # TERRAWORLD — Roadmap
 
-## Dove siamo (aggiornato il 2 ott 2026)
+## Dove siamo (aggiornato il 4 ott 2026)
+- **In corso: la Roadmap 37 «Ciò che conta»** (dal 4 ott 2026): nata dalla prima partita vera dell'utente (6,6 ore).
+  Correzioni, spiegazioni, Dispensa, abitanti come servizi, strati che fanno paura, equipaggiamento che conta.
 - **Fatta la Roadmap 36 «La storia vera»** (voci 341-349, 3 ott 2026): il canone (i Seminatori sono i Guardiani) nel
   gioco: nomi e ricordi dei Guardiani, sogni, echi, Taccuino della verità, leggende dei luoghi, la Bocca; testi
   riscritti. Resoconto in fondo alla Roadmap 36.
@@ -5213,3 +5215,33 @@ lucchetto nell'angolo, `SlotView.set_locked`) e un altro la sblocca. Il tasto Q 
 altre attorno. Il segno segue l'oggetto spostato a mano. Nello stesso giro il Seme della Dispensa non prende più nulla
 dagli scomparti. Prova nel gruppo «zaino» (foto 307), capitolo dello zaino nell'Enciclopedia.
 
+
+
+# Roadmap 37 «Ciò che conta» (dal 4 ott 2026)
+
+Nata dalla **prima partita vera** dell'utente (personaggio JON, 6 ore e 38 minuti, Giardino LUMINAX e tre mondi fino al
+vigore 3). Ciò che il salvataggio diceva: 62% del tempo in Superficie, mondi esplorati al 7-10%, 8 appassimenti
+(1,2 all'ora), il primo Guardiano in 2 minuti con il terreno, **7.688 Lumini** senza uso, l'orto e la pesca quasi
+fermi, 41 consigli in sei ore; il pilastro dei Misteri al grado 10 in tre ore per un errore. Ciò che l'utente ha detto:
+la libertà tra esplorazione e base piace; i Lumini non servono; scendendo il pericolo non si sente; molti oggetti
+senza sapere a cosa servono; «5 segreti su 6» senza sapere che cosa sono i segreti; gli abitanti vendono ciò che si
+fabbrica da sé; la Dispensa da 200 è piena e non si trova nulla; l'equipaggiamento è piatto.
+
+La richiesta: «il gioco deve essere lungo, vasto ed impegnativo, ma il giocatore deve continuamente sapere cosa e come
+fare, e il senso di esplorazione e cura dell'equipaggiamento e della base devono essere soddisfacenti». Non sistemi
+nuovi: dare profondità e senso a ciò che c'è. Ordine scelto dall'utente:
+
+- [x] **350. Le correzioni.** Lo studio dava il premio a ogni sconfitta di una specie già studiata (459 «studiate» su 61
+  specie, 9.180 punti dei Misteri in più). `erbario["studiate"]` lo dà una volta per specie; `Study.repair` corregge i
+  personaggi di prima (conteggio, punti, stelle; i premi dei gradi restano).
+- [ ] **351. Le spiegazioni.** «A cosa serve» per ogni oggetto in Esamina (ricette, offerte dell'Albero, richieste,
+  abitanti, uso con il clic, dove si porta), e le richieste dell'Albero e del filo che dicono che cosa sono e dove
+  cercarle.
+- [ ] **352. La Dispensa.** Più grande, schede per categoria, riordino per tipo, ricerca ovunque.
+- [ ] **353. Gli abitanti come servizi.** Ogni abitante offre un servizio che solo lui sa fare, pagato in Lumini.
+- [ ] **354. Gli strati che fanno paura.** Il pericolo nelle regole, non solo nei numeri: creature scelte, imboscate,
+  premi che esistono solo in fondo.
+- [ ] **355. L'equipaggiamento che conta.** Armi con un modo loro, effetti che cambiano il gioco, salti netti tra i
+  metalli.
+
+**Fatto il 4 ott 2026 (voce 350).** La correzione dello studio, con la prova nel gruppo «vivo».

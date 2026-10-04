@@ -21,10 +21,46 @@ var _t := 0.0
 
 func setup(main: Node2D) -> void:
 	m = main
+	if not m.character.erbario.has("studiate"):
+		m.character.erbario["studiate"] = {}
+		repair()
 	for k in ["viste", "studio"]:
 		if not m.character.erbario.has(k):
 			m.character.erbario[k] = {}
 	m.fauna.killed.connect(_on_killed)
+
+
+## (Voce 350, 4 ott 2026) Fino ad oggi `_check` dava il premio dello studio a **ogni** sconfitta di una specie già
+## studiata: nella partita dell'utente 459 «studiate» su 61 specie, e i Misteri al grado 10 in tre ore. Le specie
+## studiate ora stanno in `erbario["studiate"]` (una volta sola); i personaggi di prima si correggono qui: il conteggio
+## torna vero, i punti dei Misteri dati in più (`MasteryData.STATS`) si tolgono, le stelle si ricontano. I premi dei
+## gradi già ricevuti restano.
+func repair() -> void:
+	var done: Dictionary = m.character.erbario["studiate"]
+	for k in ["viste", "studio"]:
+		if not m.character.erbario.has(k):
+			m.character.erbario[k] = {}
+	for base in m.character.erbario.get("creature", {}):
+		if grade(String(base)) >= 3:
+			done[String(base)] = 1
+	var st: Dictionary = m.character.stats
+	var extra := int(st.get("studiate", 0)) - done.size()
+	if extra <= 0:
+		return
+	st["studiate"] = done.size()
+	for e in MasteryData.STATS.get("studiate", []):
+		var pillar := String(e[0])
+		var md: Dictionary = m.character.maestria
+		if not md.has(pillar):
+			continue
+		var rec: Dictionary = md[pillar]
+		rec["p"] = maxf(float(rec.get("p", 0.0)) - float(e[1]) * extra, 0.0)
+		var old := int(st.get("stelle_" + pillar, 0))
+		var now := Evergreen.stars_of(pillar, float(rec["p"]))
+		if now < old:
+			st["stelle_" + pillar] = now
+			st["stelle_maestria"] = maxi(int(st.get("stelle_maestria", 0)) - (old - now), 0)
+	print("Studio: corretto il conteggio delle specie studiate (%d in più tolte)" % extra)
 
 
 func _process(dt: float) -> void:
@@ -87,8 +123,12 @@ func _on_killed(c: Creature) -> void:
 	call_deferred("_check", base, was)
 
 
-func _check(base: String, was: int) -> void:
-	if was < 3 and grade(base) >= 3:
+func _check(base: String, _was: int) -> void:
+	if not m.character.erbario.has("studiate"):
+		m.character.erbario["studiate"] = {}
+	var done: Dictionary = m.character.erbario["studiate"]
+	if grade(base) >= 3 and not done.has(base):
+		done[base] = 1                         # una volta sola per specie (prima: a ogni sconfitta)
 		m.hud.toast("Hai studiato %s: +%d%% di danno contro di lei, per sempre" % [String(CreaturesData.get_data(base).get("name", base)), roundi(BONUS * 100.0)])
 		m.objectives.bump("studiate")
 		m.sfx.play("dono")

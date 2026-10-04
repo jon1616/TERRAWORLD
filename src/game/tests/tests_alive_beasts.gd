@@ -217,6 +217,9 @@ func study() -> void:
 	er["creature"].erase(base)
 	er["viste"].erase(base)
 	er["studio"].erase(base)
+	if er.has("studiate"):
+		er["studiate"].erase(base)
+	var n0 := int(m.character.stats.get("studiate", 0))
 	m.snap_to(w.spawn)
 	await kit.frames(2)
 	var g0 := st.grade(base)
@@ -236,6 +239,36 @@ func study() -> void:
 	var g3 := st.grade(base)
 	var tip3: String = WorldTip.creature(m, cr2).plain()
 	var mult: float = st.mult(base)
+	# (voce 350) le sconfitte dopo lo studio non ridanno il premio: prima ogni sconfitta contava una specie studiata
+	m.fauna.kill(cr2)
+	for k in 3:
+		m.fauna.kill(m.fauna.add(base, m.player.position + Vector2(30, -8)))
+	await kit.frames(3)
+	var once: bool = int(m.character.stats.get("studiate", 0)) == n0 + 1
+	# e la correzione dei personaggi di prima: il conteggio torna vero, i punti in più dei Misteri si tolgono
+	var st0: Dictionary = m.character.stats.duplicate(true)
+	var ma0: Dictionary = m.character.maestria.duplicate(true)
+	var er0: Variant = er.get("studiate", {}).duplicate()
+	var real := 0
+	for b in er["creature"]:
+		if st.grade(String(b)) >= 3:
+			real += 1
+	m.character.stats["studiate"] = real + 50
+	if not m.character.maestria.has("misteri"):
+		m.character.maestria["misteri"] = {"p": 0.0, "t": 0.0}
+	m.character.maestria["misteri"]["p"] = 5000.0
+	er.erase("studiate")
+	er["studiate"] = {}
+	st.repair()
+	var fixed: bool = int(m.character.stats["studiate"]) == real and is_equal_approx(float(m.character.maestria["misteri"]["p"]), 4000.0)
+	m.character.stats.clear()
+	m.character.stats.merge(st0)
+	m.character.maestria.clear()
+	m.character.maestria.merge(ma0)
+	er["studiate"] = er0
+	print("studio una volta sola per specie: %s; correzione dei personaggi di prima: %s" % [once, fixed])
+	if not once or not fixed:
+		print("ATTENZIONE: lo studio dà il premio più volte, o la correzione non va")
 	m.fauna.clear()
 	print("studio: %s da %d a %d (vista), %d (sconfitta), %d (studiata con la Provetta %s); prima la scheda nasconde %s, dopo mostra %s; danno ×%.2f" % [
 		base, g0, g1, g2, g3, "sì" if sampled else "NO", "sì" if tip1.contains("studiala") else "NO",
