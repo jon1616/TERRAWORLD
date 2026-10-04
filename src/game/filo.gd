@@ -115,6 +115,8 @@ func text() -> String:
 	var t := "[center][color=#ffd08a]➤[/color] [b]%s[/b]" % current["text"]
 	if String(current.get("hint", "")) != "":
 		t += "\n[font_size=14][color=#cfe8e2]%s[/color][/font_size]" % current["hint"]
+	if String(current.get("what", "")) != "":
+		t += "\n[font_size=13][color=#9fbfb8]%s[/color][/font_size]" % current["what"]
 	t += "\n[font_size=12][color=#9fbfb8]%s%s[/color][/font_size][/center]" % [SOURCE_NAME.get(current["src"], ""),
 		(" · %s: un altro filo (%d)" % [Keys.label("filo"), _count]) if _count > 1 else ""]
 	return t
@@ -174,8 +176,12 @@ func _from_albero() -> Dictionary:
 					"hint": "clic destro sull'Albero, nel Giardino", "tree": true}
 			return {"text": "Per l'Albero-Madre: %s  %d/%d" % [_name(id), int(p[0]) + Crafting.have(m.character.bisaccia, id), int(p[1])],
 				"hint": String(o.get("hint", "")), "item": id}
-		return {"text": "Per l'Albero-Madre: %s  %d/%d" % [String(o.get("text", "")), int(p[0]), int(p[1])],
+		var c := {"text": "Per l'Albero-Madre: %s  %d/%d" % [String(o.get("text", "")), int(p[0]), int(p[1])],
 			"hint": String(o.get("hint", ""))}
+		var d := HowToData.of(String(o.get("stat", "")))
+		if not d.is_empty():
+			c["what"] = String(d["what"])               # (voce 351) che cos'è, sotto il consiglio
+		return c
 	return {}
 
 

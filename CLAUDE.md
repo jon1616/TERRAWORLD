@@ -927,6 +927,13 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     `rows(selected)` e `detail()`). Enciclopedia: `EncyLoreData` (senza svelare).
   - Prove: gruppo «storia» (`TestsLore`, anche nel giro intero; `refs` controlla che ogni condizione nomini cose che
     esistono: un sogno con un nome sbagliato sarebbe impossibile da trovare, in silenzio).
+- **Roadmap 37 «Ciò che conta»** (dal 4 ott 2026; dalla prima partita vera dell'utente):
+  - `ItemUses` (`src/game/item_uses.gd`): «A cosa serve» di ogni oggetto in Esamina, letto dai dati di ogni sistema.
+    **Un sistema nuovo che consuma, chiede o mostra oggetti aggiunge la sua funzione `_from_…`**; un tipo d'oggetto
+    nuovo con un uso al clic ha la sua frase in `KIND_USE` (la prova «guida» scrive prove/oggetti_senza_uso.txt: 0).
+  - `HowToData` + `HowTo`: che cos'è e come si fa ogni conteggio che una richiesta chiede (Albero-Madre, Bacheca, filo).
+    **Un conteggio nuovo chiesto dall'Albero = una riga in `HowToData`** (`verifica_dati` lo controlla).
+  - `Combat.AMMO` nasce dai dati (ogni «munizione», dal danno più alto).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

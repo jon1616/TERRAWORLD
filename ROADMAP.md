@@ -5234,7 +5234,7 @@ nuovi: dare profondità e senso a ciò che c'è. Ordine scelto dall'utente:
 - [x] **350. Le correzioni.** Lo studio dava il premio a ogni sconfitta di una specie già studiata (459 «studiate» su 61
   specie, 9.180 punti dei Misteri in più). `erbario["studiate"]` lo dà una volta per specie; `Study.repair` corregge i
   personaggi di prima (conteggio, punti, stelle; i premi dei gradi restano).
-- [ ] **351. Le spiegazioni.** «A cosa serve» per ogni oggetto in Esamina (ricette, offerte dell'Albero, richieste,
+- [x] **351. Le spiegazioni.** «A cosa serve» per ogni oggetto in Esamina (ricette, offerte dell'Albero, richieste,
   abitanti, uso con il clic, dove si porta), e le richieste dell'Albero e del filo che dicono che cosa sono e dove
   cercarle.
 - [ ] **352. La Dispensa.** Più grande, schede per categoria, riordino per tipo, ricerca ovunque.
@@ -5245,3 +5245,21 @@ nuovi: dare profondità e senso a ciò che c'è. Ordine scelto dall'utente:
   metalli.
 
 **Fatto il 4 ott 2026 (voce 350).** La correzione dello studio, con la prova nel gruppo «vivo».
+
+**Fatto il 4 ott 2026 (voce 351).** `ItemUses` (`src/game/item_uses.gd`) raccoglie per ogni oggetto tutti gli usi fuori
+dalle ricette, letti dai dati di ogni sistema: il clic (per tipo, `KIND_USE`), posarlo, indossarlo, l'Albero-Madre, gli
+abitanti (richieste, storie, gusti, botteghe), i Giardini perduti, richiami ed esche, il Maglio e il Telaio (innesti,
+incisioni, fasce, togliere e rifare i tratti, rifusione, tempra), la mandria e i compagni, la pesca, il Museo, le
+macchine, i progetti, la vendita. Esamina mostra «A cosa serve» con questi usi e poi le ricette (al più 12 elencate).
+La misura (prove/oggetti_senza_uso.txt): prima 55 oggetti su 3.624 senza nessuna spiegazione, ora 0. `HowToData` +
+`HowTo`: per ognuno dei 49 conteggi che l'Albero-Madre e la Bacheca chiedono, che cos'è, come si fa, gli attrezzi che
+aiutano (con «ce l'hai» o dove si prendono) e il capitolo dell'Enciclopedia; il pannello dell'Albero lo mostra sotto ogni
+richiesta non compiuta, anche sotto le strade «oppure»; il filo ripete che cos'è; ogni carta della Bacheca ha la sua riga
+«dove / come». `verifica_dati` controlla che ogni conteggio dell'Albero abbia la sua spiegazione.
+Errori trovati per strada e corretti: **sei dardi** (gelo, folgore, prisma, nubi, falco, stella) si fabbricavano ma
+l'arco non li tirava mai (`Combat.AMMO` era scritto a mano: ora nasce dai dati, dal danno più alto); le richieste della
+Bacheca «per la rete» non si potevano consegnare (mancava il conteggio) e quelle dei pesci non toglievano i pesci; i
+ricordi delle firme non servivano a niente: ora hanno la loro sala nel Museo («Sala delle firme»); nella cassa la scritta
+passava sotto la ricerca. Prove: gruppo «guida» (foto 350_albero_spiega, 351_esamina_serve); galleria 0 problemi.
+Nota: la prova dell'arco nel gruppo «combattimento» dice «NON abbattuto» già da prima (un albero tra l'arco e il grumo).
+

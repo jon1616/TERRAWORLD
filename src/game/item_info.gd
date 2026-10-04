@@ -75,12 +75,21 @@ static func bbcode(id: String, tratto := "", dati := {}) -> String:
 	if col != "":
 		var cd: Dictionary = RelicsData.COLLECTIONS[col]
 		t += "[color=#ffd24a]Collezione «%s»:[/color] [color=#9fc8c0]completa, per sempre: %s[/color]\n" % [cd["name"], cd["desc"]]
+	# (voce 351) a cosa serve: prima gli usi fuori dalle ricette (il clic, l'Albero, gli abitanti, il Maglio…), poi le
+	# ricette. Un oggetto senza nessun uso lo dice chiaro: è da vendere o da collezione.
+	var other := ItemUses.lines(id)
 	var uses := uses_of(id)
-	t += "\n[color=#8ef0d8]Serve per:[/color]\n"
-	if uses.is_empty():
-		t += "[color=#6a8a84]nessuna ricetta[/color]\n"
-	for u in uses:
+	t += "\n[color=#8ef0d8]A cosa serve:[/color]\n"
+	for u in other:
+		t += "• [color=#d8f0e8]%s[/color]\n" % u
+	if not uses.is_empty():
+		t += "[color=#9fc8c0]Negli ingredienti di %d ricett%s:[/color]\n" % [uses.size(), "a" if uses.size() == 1 else "e"]
+	for u in uses.slice(0, 12):
 		t += "• %s\n" % u
+	if uses.size() > 12:
+		t += "[color=#6a8a84]… e altre %d ricette (cercale in Creare scrivendo il suo nome)[/color]\n" % (uses.size() - 12)
+	if other.is_empty() and uses.is_empty():
+		t += "[color=#6a8a84]Per ora niente: si tiene come ricordo o si vende.[/color]\n"
 	var how := how_to_get(id)
 	if how != "":
 		t += "\n[color=#8ef0d8]Come si ottiene:[/color] %s" % how
@@ -135,7 +144,9 @@ static func how_to_get(id: String) -> String:
 					chests = true
 	var parts := []
 	if not from.is_empty():
-		parts.append("dalle creature (%s)" % ", ".join(from))
+		# (voce 351) al più cinque nomi: un elenco lungo copriva il resto
+		var more := from.size() - 5
+		parts.append("dalle creature (%s%s)" % [", ".join(from.slice(0, 5)), (" e altre %d" % more) if more > 0 else ""])
 	if chests:
 		parts.append("negli Scrigni dei Seminatori")
 	if ItemsData.OTHER_SOURCES.has(id):

@@ -12,7 +12,23 @@ const DIG_PERIOD := 0.3
 ## Voce 185 (Roadmap 18): piccone e ascia colpiscono le creature a metà (facevano l'85% della spada dello stesso metallo:
 ## un attrezzo non deve fare da arma).
 const TOOL_HIT := 0.5                # il gesto di piccone e ascia
-const AMMO := ["dardo_vuoto", "dardo_aculeo", "dardo_libellula", "dardo_piumato", "dardo"]  # l'arco usa i dardi migliori che ci sono
+## L'arco usa i dardi migliori che ci sono. (Voce 351, 4 ott 2026) L'elenco nasce dai dati: tutti gli oggetti di tipo
+## «munizione», dal danno più alto. Prima era scritto a mano con cinque dardi, e i sei dardi dei biomi e del cielo
+## (gelo, folgore, prisma, nubi, falco, stella) si fabbricavano ma l'arco non li tirava mai.
+static var AMMO: Array = _ammo_list()
+
+
+static func _ammo_list() -> Array:
+	var all: Dictionary = ItemsData.all()
+	var out := []
+	for id in all:
+		if String(all[id].get("kind", "")) == "munizione":
+			out.append(String(id))
+	out.sort_custom(func(a: String, b: String) -> bool:
+		var da := int(all[a].get("damage", 0))
+		var db := int(all[b].get("damage", 0))
+		return da > db if da != db else a < b)
+	return out
 
 signal struck(c: Creature, dmg: int)        # voce 85: un colpo andato a segno (gli effetti)
 var m: Node2D                          # la scena di gioco

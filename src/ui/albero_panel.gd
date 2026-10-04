@@ -42,6 +42,9 @@ func setup(main: Node2D, a: AlberoMadre) -> void:
 	_body.position = Vector2(560, 100)
 	_body.size = Vector2(920, 620)
 	_body.add_theme_font_size_override("normal_font_size", 17)
+	_body.meta_clicked.connect(func(meta: Variant) -> void:
+		visible = false                           # (voce 351) l'Enciclopedia si apre sopra il Giardino
+		HowTo.open_link(m, meta))
 	add_child(_body)
 	_offer = Button.new()
 	_offer.text = "Offri ciò che hai"
@@ -126,6 +129,7 @@ func _refresh() -> void:
 		t += "  %s [color=%s]%s  %d/%d[/color]%s\n" % ["✓" if ok else "•", "#9ff0b8" if ok else "#ffffff", what, int(p[0]), int(p[1]), extra]
 		if not ok:
 			t += "     [color=#6a8a84]%s[/color]\n" % o["hint"]
+			t += HowTo.offer_text(m, o)                      # (voce 351) che cos'è, come si fa, che cosa aiuta
 		if (offers[i] as Dictionary).has("any"):               # voce 217: le altre strade
 			for j in (offers[i]["any"] as Array).size():
 				if j == am.alt(i):
@@ -134,6 +138,8 @@ func _refresh() -> void:
 				var wa := String(oa["text"]) if oa.has("text") else String(ItemsData.get_item(String(oa["item"]))["name"])
 				var pa := am._progress_of(i, j)
 				t += "     [color=#b8a0d8]oppure[/color] [color=#cfeee4]%s  %d/%d[/color]\n" % [wa, int(pa[0]), int(pa[1])]
+				if not ok and int(pa[0]) < int(pa[1]):
+					t += HowTo.offer_text(m, oa, "         ")      # (voce 351) anche la strada alternativa si spiega
 	var gv: Dictionary = st["gives"]
 	var gifts := []
 	if gv.has("aiuola"):

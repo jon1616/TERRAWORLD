@@ -33,7 +33,13 @@ Quando il posto è noto compare un segno: un rombo sopra di lui se lo vedi, una 
 In [url=cap:creare]Esamina[/url], accanto a «Crea», il pulsante [b]Segna[/b] mette la ricetta nella lista a destra (al più tre). La lista conta Bisaccia e casse vicine, e sotto un ingrediente che si fabbrica mostra i suoi ingredienti per la parte che manca. Il filo ti porta alla prossima cosa da raccogliere o da creare; fatta la ricetta, esce dalla lista da sola.
 
 [b]I consigli alla prima volta[/b]
-La prima volta che succede una cosa nuova (la notte, il buio sotto terra, un blocco troppo duro, la Bisaccia piena, un Seme di mondo…) compare a destra una scheda breve. Mentre si vede, il tasto dell'Enciclopedia apre il capitolo che ne parla."""},
+La prima volta che succede una cosa nuova (la notte, il buio sotto terra, un blocco troppo duro, la Bisaccia piena, un Seme di mondo…) compare a destra una scheda breve. Mentre si vede, il tasto dell'Enciclopedia apre il capitolo che ne parla.
+
+[b]A cosa serve un oggetto[/b]
+Posa un oggetto nella casella di Esamina (nella Bisaccia, in alto a destra): sotto [b]A cosa serve[/b] trovi tutto ciò che se ne fa. Che cosa fa il clic, dove si posa o si indossa. Chi lo chiede (l'Albero-Madre, gli abitanti e le loro storie, i Giardini perduti), a cosa serve al Maglio e al Telaio. Quali creature lo mangiano, in quale sala del Museo si espone, quale macchina lo brucia, per quanti Lumini si vende. E poi le ricette in cui entra.
+
+[b]Che cosa chiede l'Albero, e come si fa[/b]
+Nel pannello dell'Albero-Madre, sotto ogni richiesta non ancora compiuta (anche sotto le strade «oppure»), c'è [b]che cos'è[/b], [b]come si fa[/b], gli attrezzi che aiutano (e se li hai già) e un collegamento al capitolo che ne parla. Il filo ripete in una riga che cos'è; ogni carta della [url=cap:bacheca]Bacheca[/url] dice dove si trova o come si fa ciò che chiede."""},
 	{"id": "comandi", "group": "Primi passi", "name": "I comandi", "text":
 """I tasti si cambiano nelle [url=cap:opzioni]Opzioni[/url], sezione Comandi.
 

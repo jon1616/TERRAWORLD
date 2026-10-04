@@ -26,6 +26,8 @@ const RECIPES := [
 const HALLS := {
 	"reliquie": {"name": "Sala delle reliquie", "desc": "gli attrezzi, i canti e i semi dei Seminatori", "bonus": {"luck": 0.1}},
 	"meraviglie": {"name": "Sala delle meraviglie", "desc": "i ricordi dei luoghi più grandi dei mondi", "bonus": {"run": 1.04}},
+	# voce 351: i ricordi delle firme (uno per luogo unico) non servivano a niente; ora hanno la loro sala
+	"firme": {"name": "Sala delle firme", "desc": "i ricordi dei luoghi unici di ogni mondo", "bonus": {"luck": 0.05}},
 	"trofei": {"name": "Sala dei trofei di caccia", "desc": "i trofei delle creature rare", "bonus": {"damage": 1.03}},
 	"pesci": {"name": "Sala delle acque", "desc": "i pesci rari e leggendari", "bonus": {"fish_luck": 0.1}},
 	"orto": {"name": "Sala dell'orto", "desc": "i prodotti delle varietà nate dagli incroci", "bonus": {"grow": 1.1}},
@@ -59,6 +61,12 @@ static func _build() -> void:
 		rel.append_array(RelicsData.COLLECTIONS[c]["pieces"])
 	_pieces["reliquie"] = rel
 	_pieces["meraviglie"] = WondersData.WONDERS.keys().map(func(k: String) -> String: return WondersData.memento_id(k))
+	var sig := []
+	for s in SignaturesData.SIGNATURES:
+		var r := String(SignaturesData.SIGNATURES[s].get("ricordo", ""))
+		if r != "" and ItemsData.get_item(r).has("name") and not r in sig:
+			sig.append(r)
+	_pieces["firme"] = sig
 	var tro: Array = TrophyItemsData.TROPHY_OF.values().duplicate()
 	tro = tro.filter(func(t: Variant) -> bool: return ItemsData.get_item(String(t)).has("name"))
 	tro.sort()

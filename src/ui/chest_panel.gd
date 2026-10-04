@@ -52,6 +52,9 @@ func setup(p: BisacciaPanel) -> void:
 	_info.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_info.add_theme_font_size_override("font_size", 13)
 	_info.add_theme_color_override("font_color", Color("#9fc8c0"))
+	_info.clip_text = true                          # (voce 351) non deve passare sotto la ricerca
+	_info.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	_info.mouse_filter = Control.MOUSE_FILTER_PASS
 	add_child(_info)
 	_pages = HBoxContainer.new()
 	_pages.add_theme_constant_override("separation", 4)
@@ -308,6 +311,7 @@ func _refresh() -> void:
 	if q != "":
 		tags = ["%d trovat%s" % [found.size(), "o" if found.size() == 1 else "i"]]
 	_info.text = " · ".join(tags)
+	_info.tooltip_text = _info.text
 
 
 ## Le caselle della cassa il cui oggetto ha nel nome le lettere cercate (minuscole), in ordine.

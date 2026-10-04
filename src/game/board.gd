@@ -245,7 +245,7 @@ func progress(r: Dictionary) -> Array:
 	var ch: Character = m.character
 	var n := int(r["n"])
 	match String(r["tipo"]):
-		"gene", "prodotto", "fornitura", "pesce", "cielo":
+		"gene", "prodotto", "fornitura", "pesce", "cielo", "rete":
 			return [mini(Crafting.have(ch.bisaccia, String(r["cosa"])), n), n]
 		"caccia":
 			return [mini(_kills(String(r["cosa"])) - int(r["base"]), n), n]
@@ -284,7 +284,7 @@ func deliver(i: int) -> bool:
 	var r: Dictionary = open_list()[i]
 	if not can_deliver(r):
 		return false
-	if String(r["tipo"]) in ["gene", "prodotto", "fornitura", "cielo", "rete"]:
+	if String(r["tipo"]) in ["gene", "prodotto", "fornitura", "cielo", "rete", "pesce"]:
 		Crafting.take(m.character.bisaccia, String(r["cosa"]), int(r["n"]))
 	for k in r["premio"]:
 		if k == "seme":

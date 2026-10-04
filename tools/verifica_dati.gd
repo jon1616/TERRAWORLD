@@ -230,6 +230,7 @@ func _init() -> void:
 	_check_npcs(items)
 	_check_stories(items)
 	_check_work(items)
+	_check_howto(items)
 	print("ESITO: %d errori, %d avvisi" % [errors, warnings])
 	quit()
 
@@ -542,6 +543,21 @@ func _check_mastery(items: Dictionary) -> void:
 	for s in MasteryData.STATS:
 		for e in MasteryData.STATS[s]:
 			_err(MasteryData.PILLARS.has(String(e[0])), "maestria: il conteggio %s nutre un pilastro inesistente" % s)
+
+
+## Voce 351: ogni conteggio che l'Albero-Madre chiede ha la sua spiegazione in `HowToData`, con oggetti veri.
+func _check_howto(items: Dictionary) -> void:
+	for st in MotherTreeData.STAGES:
+		for o in st["offers"]:
+			var alts: Array = o["any"] if (o as Dictionary).has("any") else [o]
+			for a in alts:
+				if (a as Dictionary).has("stat"):
+					_err(HowToData.STATS.has(String(a["stat"])), "spiegazioni: il conteggio %s dell'Albero non ha una riga in HowToData" % a["stat"])
+	for k in HowToData.STATS:
+		var d: Dictionary = HowToData.STATS[k]
+		_err(d.has("what") and d.has("how") and d.has("cap") and not (d["how"] as Array).is_empty(), "spiegazioni: %s incompleta" % k)
+		for id in d.get("tools", []):
+			_err(items.has(String(id)), "spiegazioni: %s nomina un oggetto inesistente %s" % [k, id])
 
 
 ## Roadmap 22: le merci, i gusti, i regali e le richieste degli abitanti nominano oggetti veri.

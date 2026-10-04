@@ -120,12 +120,27 @@ func _card(i: int, r: Dictionary) -> void:
 	card.add_child(ic)
 	var body := Label.new()
 	body.text = String(r["testo"])
-	body.position = Vector2(110, 44)
-	body.size = Vector2(520, 70)
+	body.position = Vector2(110, 40)
+	body.size = Vector2(520, 50)
 	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	body.add_theme_font_size_override("font_size", 19)
+	body.add_theme_font_size_override("font_size", 18)
 	body.add_theme_color_override("font_color", Color("#ffe8c0"))
 	card.add_child(body)
+	# (voce 351) dove si trova o come si fa: il giocatore deve sapere sempre come compiere una richiesta
+	var how := HowTo.board_text(r)
+	if how != "":
+		var hl := Label.new()
+		hl.text = how
+		hl.position = Vector2(110, 90)
+		hl.size = Vector2(520, 36)
+		hl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		hl.max_lines_visible = 2
+		hl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		hl.add_theme_font_size_override("font_size", 13)
+		hl.add_theme_color_override("font_color", Color("#9fc8c0"))
+		hl.mouse_filter = Control.MOUSE_FILTER_PASS
+		hl.tooltip_text = how
+		card.add_child(hl)
 	# la barra di quanto manca
 	var p := board.progress(r)
 	var frac := clampf(float(p[0]) / maxf(float(p[1]), 1.0), 0.0, 1.0)

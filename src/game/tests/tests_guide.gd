@@ -99,6 +99,7 @@ func run() -> void:
 	if first == "" or not list_ok or not filo_list or not clicked or not auto_out or not mark_ok or not once \
 			or addr != "cap:inizio":
 		print("ATTENZIONE: la guida del giocatore non funziona come dovrebbe")
+	await howto()
 
 
 ## Una ricetta con un ingrediente che manca e che si fabbrica a sua volta (niente leghe, che vanno scoperte).
@@ -108,3 +109,73 @@ static func _recipe_with_sub(b: Bisaccia) -> Dictionary:
 			if Crafting.have(b, String(id)) < int(r["in"][id]) and not RecipesData.making(String(id)).is_empty():
 				return r
 	return {}
+
+
+## Voce 351 (Roadmap 37): ogni richiesta dice che cos'è e come si fa. Ogni offerta dell'Albero-Madre fatta di un
+## conteggio o di un grado ha la sua spiegazione con un capitolo vero dell'Enciclopedia; ogni tipo di richiesta della
+## Bacheca ha la sua riga «dove / come»; il pannello dell'Albero la mostra (foto 350_albero_spiega).
+func howto() -> void:
+	var missing := []
+	for st in MotherTreeData.STAGES:
+		for o in st["offers"]:
+			var alts: Array = o["any"] if (o as Dictionary).has("any") else [o]
+			for a in alts:
+				var ad: Dictionary = a
+				if not (ad.has("stat") or ad.has("grado")):
+					continue
+				var t := HowTo.offer_text(m, ad)
+				var cap := String(HowToData.of(String(ad.get("stat", ""))).get("cap", "pilastri"))
+				if t == "" or not t.contains("Enciclopedia") or EncyPages.chapter(cap).is_empty():
+					missing.append(String(ad.get("stat", ad.get("grado", "?"))))
+	var fam := String(FamiliesData.FAMILIES.keys()[0])
+	var reqs := [{"tipo": "caccia", "cosa": fam}, {"tipo": "mandria", "cosa": fam}, {"tipo": "fornitura", "cosa": "lingotto_radicite"},
+		{"tipo": "prodotto", "cosa": "seta_radice"}, {"tipo": "cielo", "cosa": "nuvola"}, {"tipo": "rete", "cosa": "vena_legnoferro"}]
+	for k in HowTo.BOARD_STAT:
+		reqs.append({"tipo": k})
+	var empty := []
+	for r in reqs:
+		if HowTo.board_text(r) == "":
+			empty.append(String(r["tipo"]))
+	# il pannello dell'Albero sullo stadio dei segreti
+	var al: Dictionary = m.character.albero
+	var stadio0 := int(al.get("stadio", 0))
+	var idx := 0
+	for i in MotherTreeData.STAGES.size():
+		if str(MotherTreeData.STAGES[i]["offers"]).contains("\"segreti\""):
+			idx = i
+			break
+	al["stadio"] = idx
+	var ap: AlberoPanel = m.albero.panel
+	ap.open()
+	await kit.frames(4)
+	var shown: String = ap._body.get_parsed_text()
+	var panel_ok := shown.contains("pareti finte") and shown.contains("Bacchetta rabdomante")
+	await kit.save("350_albero_spiega")
+	ap.visible = false
+	al["stadio"] = stadio0
+	# «a cosa serve»: gli oggetti che non servono a niente (né clic, né ricette, né richieste) finiscono in un file
+	var useless := []
+	var all: Dictionary = ItemsData.all()
+	for id in all:
+		if all[id].has("gen"):
+			continue
+		var other := ItemUses.lines(String(id)).filter(func(x: String) -> bool: return not x.begins_with("Si vende"))
+		if other.is_empty() and ItemInfo.uses_of(String(id)).is_empty():
+			useless.append("%s (%s, %s)" % [id, all[id].get("name", id), all[id].get("kind", "?")])
+	var f := FileAccess.open("res://prove/oggetti_senza_uso.txt", FileAccess.WRITE)
+	if f != null:
+		f.store_string("Oggetti senza nessun uso (né clic, né ricette, né richieste): %d su %d\n\n%s\n" % [useless.size(), all.size(),
+			"\n".join(useless)])
+		f.close()
+	var info := ItemInfo.bbcode("seta_radice")
+	var esamina_ok := info.contains("A cosa serve") and info.contains("Al Telaio")
+	m.hud.panel.toggle()
+	m.hud.panel.examine.show_item("seta_radice")
+	await kit.frames(4)
+	await kit.save("351_esamina_serve")
+	m.hud.panel.toggle()
+	print("spiegazioni: offerte dell'Albero senza spiegazione %s; tipi della Bacheca senza riga %s; pannello dell'Albero %s; Esamina %s; oggetti senza uso %d su %d (prove/oggetti_senza_uso.txt)" % [
+		str(missing), str(empty), panel_ok, esamina_ok, useless.size(), all.size()])
+	if not missing.is_empty() or not empty.is_empty() or not panel_ok or not esamina_ok:
+		print("ATTENZIONE: qualche richiesta non spiega che cos'è o come si fa")
+
