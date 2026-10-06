@@ -945,6 +945,20 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   - Il risveglio: `AwakenData` (forma → effetto «ris_…» di `EffectsData`, costo dal grado del metallo) + `Crafting.awaken`;
     `Effects` legge "dati.risveglio" dell'oggetto in mano e dei pezzi indossati. **Una forma nuova = una riga in
     `AwakenData.FORM`** (la prova «profondo» segnala le forme senza modo).
+- **Il piano «La vastità»** (`VASTITA.md`, Roadmap 38-51, dal 6 ott 2026; scelte dell'utente: niente estetica pura,
+  calibrare tutti i numeri). **Regole per ogni voce del piano**: un oggetto, un gesto (un'arma o un accessorio nuovo
+  senza un comportamento che lo distingua è una gemella); ogni fonte ha i suoi oggetti e ogni oggetto la sua fonte; ogni
+  fase porta qualcosa a ogni stile; le soglie cambiano il mondo; quantità dalle tabelle, sapore dalla mano; i nostri
+  sistemi (geni, ecologia, mandria, rete, lingua, pilastri) ricevono e danno. **Ogni Roadmap si chiude con
+  `tools/vastita.gd`** (i buchi per blocco di fasi, accanto a Terraria + Calamity + Thorium), `tools/percorso.gd` e la
+  calibrazione.
+  - Roadmap 38 «Le fondamenta»: `GesturesData` (moduli dei colpi: rimbalzo, divisione, scoppio, ritorno, onda; il gesto
+    di ogni materiale, effetti «mat_…»; le leghe portano i due gesti; `single_bonus` per `FightModel`), `PhasesData`
+    (24 fasi provvisorie, fase calcolata dai dati con `of(id)`, 12 rarità con il colore del nome; il campo `fase` vince),
+    `LootData.roll` con `group`/`w` («uno a scelta tra») e `first` («prima volta», `Fauna.first_hook`),
+    `tools/vastita.gd`, `tools/confronto.gd` (lo stesso conteggio di Terraria), il generatore `tools/gen_comune.py` +
+    `tools/gen_vastita.py` (un modulo per famiglia in `tools/vastita_gen/`, pacchetti in `src/data/vastita/` da
+    aggiungere a `BiomesData.PACK_FILES`). Prove: gruppo «vastita».
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

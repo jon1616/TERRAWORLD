@@ -232,6 +232,7 @@ func _init() -> void:
 	_check_work(items)
 	_check_howto(items)
 	_check_gestures()
+	_check_vastita(items)
 	print("ESITO: %d errori, %d avvisi" % [errors, warnings])
 	quit()
 
@@ -544,6 +545,38 @@ func _check_mastery(items: Dictionary) -> void:
 	for s in MasteryData.STATS:
 		for e in MasteryData.STATS[s]:
 			_err(MasteryData.PILLARS.has(String(e[0])), "maestria: il conteggio %s nutre un pilastro inesistente" % s)
+
+
+## Voce 361 (Roadmap 38): le regole del piano «La vastità».
+## - ogni pacchetto generato in src/data/vastita/ è collegato al gioco (`BiomesData.PACK_FILES`);
+## - le voci «uno a scelta tra» di un gruppo hanno la stessa probabilità e un peso positivo; «prima volta» è un sì;
+## - ogni oggetto ha una fase della spina (0-23) e una rarità.
+func _check_vastita(items: Dictionary) -> void:
+	var listed := {}
+	for f in BiomesData.PACK_FILES:
+		listed[String((f as Script).resource_path)] = true
+	var d := DirAccess.open("res://src/data/vastita")
+	if d != null:
+		for fn in d.get_files():
+			if fn.ends_with(".gd"):
+				_err(listed.has("res://src/data/vastita/" + fn), "vastità: il pacchetto %s non è in BiomesData.PACK_FILES" % fn)
+	for t in LootData.TABLES:
+		var chance := {}
+		for e in LootData.TABLES[t]:
+			if (e as Dictionary).has("group"):
+				var g := String(e["group"])
+				if chance.has(g):
+					_err(is_equal_approx(float(chance[g]), float(e["chance"])), "bottino %s: il gruppo %s ha probabilità diverse" % [t, g])
+				chance[g] = float(e["chance"])
+				_err(float(e.get("w", 1.0)) > 0.0, "bottino %s: peso non positivo nel gruppo %s" % [t, g])
+			if (e as Dictionary).has("first"):
+				_err(e["first"] is bool, "bottino %s: «first» deve essere vero o falso" % t)
+	var out := 0
+	for id in items:
+		var f := PhasesData.of(String(id))
+		if f < 0 or f >= PhasesData.PHASES.size():
+			out += 1
+	_err(out == 0, "vastità: %d oggetti con una fase fuori dalla spina" % out)
 
 
 ## Voce 356: ogni materiale (anche le leghe) ha il suo gesto, e gli effetti nominati esistono.

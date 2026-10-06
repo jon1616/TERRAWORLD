@@ -5337,8 +5337,8 @@ La prima Roadmap del piano «La vastità» (`VASTITA.md`, Roadmap 38-51). Scelte
 - [x] **357. Le fasi e le rarità.**
 - [x] **358. Le tabelle del bottino per fonte.**
 - [x] **359. Lo strumento della vastità.**
-- [ ] **360. Il generatore di contenuti.**
-- [ ] **361. La verifica allargata.**
+- [x] **360. Il generatore di contenuti.**
+- [x] **361. La verifica allargata.**
 
 **Fatto il 6 ott 2026 (voci 356 + 369).**
 
@@ -5386,4 +5386,29 @@ Calamity + Thorium e scrive i buchi in cima. I buchi di oggi:
 - 12 specie nel Fondo, 14 biomi sotto le 8 specie.
 
 Prove nel gruppo «vastita».
+
+**Fatto il 6 ott 2026 (voci 360, 361): chiusa la Roadmap 38.**
+
+Il generatore di contenuti è `tools/gen_comune.py` + `tools/gen_vastita.py`:
+- un modulo per famiglia in `tools/vastita_gen/`, con `build()`;
+- i pacchetti scritti in `src/data/vastita/`, ognuno con la riga «fatto da … non a mano»;
+- ogni id nuovo controllato contro i 2.451 già presenti, per non farne sparire uno in silenzio.
+
+`verifica_dati` controlla anche:
+- che ogni pacchetto generato sia in `BiomesData.PACK_FILES`;
+- che i gruppi «uno a scelta tra» abbiano la stessa probabilità e pesi positivi;
+- che ogni oggetto abbia una fase della spina.
+
+Risultato: 0 errori. Regole del piano in CLAUDE.md; il colore della rarità nell'Enciclopedia.
+
+**Resoconto della Roadmap 38.** Le fondamenta del piano «La vastità» sono pronte:
+- un motore che compone i gesti dai dati: da 59 a **621** comportamenti d'arma, gemelle da 185 a 11;
+- la fase e la rarità di ogni oggetto calcolate dai dati;
+- tabelle del bottino con «uno a scelta tra» e «prima volta»;
+- lo strumento che misura i buchi accanto a Terraria;
+- il generatore per le famiglie grandi.
+
+La difficoltà resta nei limiti (`tools/percorso.gd`: attento 1,1 appassimenti all'ora, medio 5,6).
+
+Prossima: la Roadmap 39 «La spina della partita» (24 fasi, 16 metalli, la prima grande soglia, la scala dei numeri).
 

@@ -35,6 +35,9 @@ In [url=cap:creare]Esamina[/url], accanto a «Crea», il pulsante [b]Segna[/b] m
 [b]I consigli alla prima volta[/b]
 La prima volta che succede una cosa nuova (la notte, il buio sotto terra, un blocco troppo duro, la Bisaccia piena, un Seme di mondo…) compare a destra una scheda breve. Mentre si vede, il tasto dell'Enciclopedia apre il capitolo che ne parla.
 
+[b]Il colore del nome[/b]
+Il nome di ogni oggetto ha il colore della sua [b]rarità[/b], che dice in che punto della partita arriva: Comune, Germoglio, Radice, Muschio, Ardesia, Ambra, Brace, Linfa, Vuoto, Stelle, Cosmo, Primo. Gli oggetti unici sono d'oro. Esamina dice anche la fase della partita.
+
 [b]A cosa serve un oggetto[/b]
 Posa un oggetto nella casella di Esamina (nella Bisaccia, in alto a destra): sotto [b]A cosa serve[/b] trovi tutto ciò che se ne fa. Che cosa fa il clic, dove si posa o si indossa. Chi lo chiede (l'Albero-Madre, gli abitanti e le loro storie, i Giardini perduti), a cosa serve al Maglio e al Telaio. Quali creature lo mangiano, in quale sala del Museo si espone, quale macchina lo brucia, per quanti Lumini si vende. E poi le ricette in cui entra.
 
