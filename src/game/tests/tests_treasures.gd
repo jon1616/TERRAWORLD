@@ -19,6 +19,8 @@ func run() -> void:
 	spine_list()
 	await second_phase()
 	bags()
+	await chiefs()
+	optional()
 	print("tesori: %s" % str(res))
 	if not res.values().all(func(x: Variant) -> bool: return x == true):
 		print("ATTENZIONE: i boss come tesori non vanno come dovrebbero")
@@ -96,3 +98,64 @@ func bags() -> void:
 		m.character.stats.erase("aperti_sacchetto_falena")
 	res["sacchetto"] = ok and firma >= 1 and got_call and got_gem
 	print("tesori, il Sacchetto della Falena: aperto %s, armi firma della fase 9: %d, Richiamo %s, gioiello %s" % [ok, firma, got_call, got_gem])
+
+
+## Voce 375: i capi erranti: 24, uno compare nello strato giusto del mondo del suo vigore, una volta per mondo; la prima
+## volta lascia di sicuro la sua arma.
+func chiefs() -> void:
+	var list: Array = Chiefs.LIST
+	var v0: Variant = m.world_meta.get("vigore", null)
+	var seen0: Variant = m.world_meta.get("capi", null)
+	m.world_meta["vigore"] = 1
+	m.world_meta.erase("capi")
+	var pc: Vector2i = m.player_cell()
+	var s := StrataData.at(m.world, pc.x, pc.y)
+	var c: Dictionary = m.chiefs.candidate()
+	var right := c.is_empty() or (int(c["vigor"]) <= 1 and int(c["stratum"]) == s)
+	var cr: Creature = null
+	if not c.is_empty():
+		cr = m.chiefs.spawn(c)
+	var spawned := cr != null
+	var once: bool = m.chiefs.candidate().is_empty() or String(m.chiefs.candidate().get("id", "")) != String(c.get("id", ""))
+	if cr != null and is_instance_valid(cr):
+		m.fauna.kill_quietly(cr)
+	m.chiefs.active = null
+	m.lords.bar.follow(null)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 5
+	var first := LootData.roll("capo_cinghiale", rng, true)
+	if v0 == null:
+		m.world_meta.erase("vigore")
+	else:
+		m.world_meta["vigore"] = v0
+	if seen0 == null:
+		m.world_meta.erase("capi")
+	else:
+		m.world_meta["capi"] = seen0
+	await kit.frames(2)
+	res["capi"] = list.size() == 24 and right and (c.is_empty() or (spawned and once)) and first.has("arma_capo_cinghiale")
+	print("tesori, i capi erranti: %d; qui (strato %d, vigore 1): %s; compare %s, una volta sola %s; la prima volta l'arma %s" % [
+		list.size(), s, String(c.get("id", "nessuno")), spawned, once, first.has("arma_capo_cinghiale")])
+
+
+## Voci 376-377: i boss facoltativi e i superboss si chiamano senza averli affrontati, con un'esca fatta al Cerchio;
+## lasciano il loro Sacchetto; la corsa dei Guardiani ha il suo Corno e il suo premio.
+func optional() -> void:
+	var bad := []
+	var n := 0
+	for k in SummonData.CALLS:
+		var cd: Dictionary = SummonData.CALLS[k]
+		if not bool(cd.get("free", false)):
+			continue
+		n += 1
+		if RecipesData.making(String(k)).is_empty():
+			bad.append("esca %s" % k)
+		if not ItemsData.has("sacchetto_" + String(cd["creature"])):
+			bad.append("sacchetto %s" % cd["creature"])
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 9
+	var prize := LootData.roll("premio_corsa", rng, true)
+	res["facoltativi"] = n == 13 and bad.is_empty() and not RecipesData.making("corno_corsa").is_empty() 		and prize.has("corona_corsa") and m.get("rush") != null
+	print("tesori, boss facoltativi e superboss: %d; problemi %s; la corsa: Corno %s, premio %s" % [n, str(bad),
+		not RecipesData.making("corno_corsa").is_empty(), str(prize.keys())])
+

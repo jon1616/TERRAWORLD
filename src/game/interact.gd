@@ -58,6 +58,8 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 		"sacchetto":
 			return m.firma.open_bag(id)                # voce 374: i Sacchetti dei Guardiani
 		"richiamo":
+			if id == "corno_corsa":
+				return m.rush.start()                  # voce 377: la corsa dei Guardiani
 			if SummonData.CALLS.has(id) or id == "sigillo_guardiano":
 				return m.summons.summon(id, m.character.bisaccia.data_at(m.hud.sel))   # voce 84
 			return m.keepers.summon(id)

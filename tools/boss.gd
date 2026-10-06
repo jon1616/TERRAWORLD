@@ -43,6 +43,24 @@ func _init() -> void:
 		_row(String(rows[0][1]), v, _bhp(v), VigorData.creature_dmg(v), AT[v])
 		_row(String(rows[rows.size() / 2][1]), v, _bhp(v), VigorData.creature_dmg(v), AT[v])
 		_row(String(rows[-1][1]), v, _bhp(v), VigorData.creature_dmg(v), AT[v])
+	# voce 375: i capi erranti, nel loro strato e al loro vigore, con la Vita × `Chiefs.HP`
+	_p("")
+	_p("I capi erranti (voce 375: la loro zona, Vita ×3)")
+	for c in BiomesData.pack_list("chiefs"):
+		var v := int(c["vigor"])
+		var st := int(c["stratum"])
+		var mult := float(StrataData.STRATA[st]["danger"])
+		var cid := String(c["creature"])
+		_row(cid, v, mult * VigorData.creature_mult(v) * 3.0, mult * VigorData.creature_dmg(v) * DangerData.DAMAGE, AT.get(v, AT[_near(v)]))
+	# voce 376: i boss facoltativi e i superboss, al loro vigore, con l'equipaggiamento di quel vigore
+	_p("")
+	_p("I boss facoltativi e i superboss (voce 376-377: la forza del loro vigore)")
+	var calls: Dictionary = BiomesData.pack("calls")
+	for k in calls:
+		if not bool(calls[k].get("free", false)):
+			continue
+		var v := int(calls[k]["vigor"])
+		_row(String(calls[k]["creature"]), v, _bhp(v), VigorData.creature_dmg(v), AT.get(mini(v, 12), AT[_near(mini(v, 12))]))
 	_p("")
 	_p("I Custodi degli strati (vigore 1, l'equipaggiamento dello strato)")
 	for k in KeepersData.KEEPERS:

@@ -70,7 +70,8 @@ func summon(item: String, dati := {}) -> bool:
 			return false
 	else:
 		cid = String(SummonData.CALLS.get(item, {}).get("creature", ""))
-	if cid == "" or not m.character.guardiani.has(cid):
+	# voce 376: i boss facoltativi («free») si chiamano senza averli già affrontati
+	if cid == "" or (not m.character.guardiani.has(cid) and not bool(SummonData.CALLS.get(item, {}).get("free", false))):
 		m.hud.toast("Si evocano solo i Guardiani che hai già affrontato")
 		return false
 	if item == "sigillo_guardiano":
@@ -91,7 +92,10 @@ func start(cid: String, o: Vector2i) -> Creature:
 		if is_instance_valid(c) and (c as Creature).position.distance_to(at) < SummonData.ARENA_R * 16.0:
 			m.fauna.kill_quietly(c)
 	active = m.fauna.add(cid, at)
-	active.strengthen(m.fauna.boss_mult, m.fauna.vigor_dmg)
+	# voce 376: un boss facoltativo combatte almeno con la forza del suo vigore (anche in un mondo più facile)
+	var call := SummonData.of_creature(cid)
+	var v := maxi(int(m.world_meta.get("vigore", 1)), int(SummonData.CALLS.get(call, {}).get("vigor", 0)))
+	active.strengthen(Portal.boss_mult(v), Portal.vigor_dmg(v))
 	active.set_meta("evocato", true)
 	m.fauna.quiet_c = o
 	m.guardian.bar.follow(active)

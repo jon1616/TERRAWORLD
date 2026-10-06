@@ -1,6 +1,8 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 6 ott 2026)
+- **Fatta la Roadmap 41 «I boss come tesori»** (voci 373-377, 6 ott 2026): nove Guardiani nuovi (vigori 4-12), i
+  Sacchetti, 24 capi erranti, 10 boss facoltativi, 3 superboss, la corsa dei Guardiani. Resoconto in fondo.
 - **Fatta la Roadmap 40 «Le armi»** (voci 367-372, 6 ott 2026): otto stili con le loro risorse, 19 forme nuove, 34
   munizioni, 230 armi firma (dieci per fase) e otto linee d'arma fino alle armi supreme. Resoconto in fondo.
 - **Fatta la Roadmap 39 «La spina della partita»** (voci 362-366, 6 ott 2026): 24 fasi, dodici metalli (sei nuovi dopo
@@ -8,7 +10,7 @@
 - **Fatta la Roadmap 38 «Le fondamenta della vastità»** (voci 356-361, 6 ott 2026): gesti dei materiali, fasi e rarità,
   bottino «uno a scelta tra» e «prima volta», `tools/vastita.gd`, il generatore di contenuti.
 - **Il piano «La vastità» (Roadmap 38-51, voci 356-411)** in `VASTITA.md`: portare TERRAWORLD verso la profondità
-  di Terraria + Calamity + Thorium (confronto sui dati reali: `tools/confronto.gd`). Prossima: la Roadmap 41 «I boss come tesori».
+  di Terraria + Calamity + Thorium (confronto sui dati reali: `tools/confronto.gd`). Prossima: la Roadmap 42 «Le creature».
 - **Fatta la Roadmap 37 «Ciò che conta»** (voci 350-355, 4 ott 2026): nata dalla prima partita vera dell'utente (6,6 ore).
   Correzioni, spiegazioni, Dispensa, abitanti come servizi, strati che fanno paura, equipaggiamento che conta. Resoconto in
   fondo alla Roadmap 37. Prossimo passo: l'utente rigioca la sua partita e dice che cosa si sente diverso.
@@ -5506,4 +5508,46 @@ Icone: 4.582, nessuna identica. I buchi che restano sono gli accessori e le arma
 Roadmap 43 e 44.
 
 Prove: gruppo «stili» (le risorse in partita, le munizioni, lo scettro, le armi firma che cadono e le linee).
+
+# Roadmap 41 «I boss come tesori» (6 ott 2026)
+
+Quarta Roadmap del piano «La vastità»: ogni boss un incontro da ricordare e un bottino ricco.
+
+- [x] **373. I Guardiani scritti a mano.** Nove Guardiani per i vigori 4-12:
+  - la Falena del primo buio, il Tessitore delle radici, la Marea muta, il Mietitore di stelle, l'Ospite del Vuoto, la
+    Madre di brace, la Voce della bufera, il Giardiniere spento, l'Eco del Seminatore.
+
+  Ognuno ha un corpo da una specie, due fasi (a metà Vita arrivano attacchi nuovi e cambia elemento) e un'arena che si
+  muove: pilastri, maree, correnti. Nel canone sono pezzi senza nome dei Seminatori, con le loro pagine di storia. Dal
+  vigore 13 tornano i Guardiani generati. Tarati con `tools/boss.gd`: tolgono 2,4-3,9 Vite al giocatore attento in uno o
+  due minuti (prima della taratura l'Eco ne toglieva 21,7).
+- [x] **374. I Sacchetti dei Guardiani.** Ogni Guardiano lascia un Sacchetto (anche i tre di prima e i generati), con:
+  - una o due armi firma della sua fase;
+  - il suo Richiamo;
+  - lingotti e Lumini;
+  - il suo gioiello, sicuro la prima volta;
+  - raramente il trofeo.
+
+  Lo lascia anche ogni rievocazione al Cerchio. Così il Richiamo arriva da solo: è la risposta al dubbio dell'utente su
+  come rievocare un Guardiano.
+- [x] **375. I capi erranti.** Ventiquattro, due per vigore. Compaiono una volta per mondo nello strato giusto (`Chiefs`),
+  con la furia a metà Vita. Ognuno lascia la sua arma, due gioielli (che crescono con la fase), la sua reliquia e il
+  trofeo. Tarati in automatico (`tools/tara_capi.py`): circa una Vita, in 20-70 secondi.
+- [x] **376. I boss facoltativi.** Dieci. Si chiamano al Cerchio con esche fatte dalle reliquie dei capi, e combattono
+  con la forza del loro vigore. Lasciano un Sacchetto con le armi firma della fase dopo e il loro gioiello. Tolgono 1,7-3,5
+  Vite.
+- [x] **377. La corsa e i superboss.** La corsa dei Guardiani (`BossRush`, con il Corno della corsa fatto dei dodici
+  Richiami): i dodici in fila, e la Corona della corsa la prima volta. Tre superboss del dopo (vigori 15, 18, 21), di tre-quattro
+  minuti e circa cinque Vite, con i gioielli più forti.
+
+**Resoconto della Roadmap 41.**
+- Oggetti: 4.802 (+220).
+- Creature: 270 (+46).
+- Ogni boss ha oggetti suoi: il Sacchetto, il gioiello, il trofeo, il Richiamo o l'esca.
+- I gioielli dei capi riempiono un po' gli accessori delle fasi alte.
+
+Da sistemare più avanti (Roadmap 46): le pozioni curano una quantità fissa (50). Nei boss dei vigori alti lo strumento
+conta 20-40 pozioni, quindi le cure devono crescere con la partita.
+
+Prove: gruppo «tesori».
 

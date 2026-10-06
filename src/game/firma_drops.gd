@@ -78,6 +78,10 @@ func _on_killed(c: Creature) -> void:
 		if GuardianGen.is_gen(c.id):
 			bag("generato", c.position)
 			return
+		if ItemsData.has("sacchetto_" + c.id):              # voce 376: i boss facoltativi e i superboss
+			m.drops.spawn("sacchetto_" + c.id, 1, c.position)
+			dropped += 1
+			return
 	if not is_chief(c):
 		return
 	if _rng.randf() < BOSS:

@@ -103,6 +103,7 @@ const PACK_FILES := [
 	preload("res://src/data/primo_pack.gd"),               # Roadmap 28: il Giardino oltre il Vuoto
 	preload("res://src/data/vastita/armi_firma.gd"),       # Roadmap 40, voce 370: le armi firma (tools/gen_vastita.py)
 	preload("res://src/data/vastita/guardiani.gd"),        # Roadmap 41, voci 373-374: i Guardiani della spina e i Sacchetti
+	preload("res://src/data/vastita/capi.gd"),             # voci 375-377: capi erranti, boss facoltativi, superboss, corsa
 ]
 
 static var BIOMES: Array = _load()

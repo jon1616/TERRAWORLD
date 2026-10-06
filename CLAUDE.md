@@ -981,6 +981,16 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     (Guardiani, capi) e dagli scrigni di `PassRovine`. Gli effetti dei pacchetti stanno in `EffectsData.PACK`; un effetto
     «colpo» o «ogni» può avere una "cond". **Un'arma nuova: si sceglie lo stile e si guarda `tools/armi.gd`.**
     Prove: gruppo «stili» (`TestsStyles`). Enciclopedia: capitolo «stili».
+  - Roadmap 41 «I boss come tesori» (voci 373-377): due pacchetti generati. `src/data/vastita/guardiani.gd`
+    (`tools/vastita_gen/guardiani.py`): nove Guardiani per i vigori 4-12 (campo «guardians» → `GuardiansData.LIST`, campo
+    «calls» → `SummonData.CALLS`, il corpo da una specie con «body», due fasi con «fury» e «phase_elem»), i Sacchetti
+    di tutti i Guardiani (tipo «sacchetto», `FirmaDrops.bag`/`open_bag`, tabella in «table»), gioielli, trofei, Richiami.
+    `src/data/vastita/capi.gd` (`tools/vastita_gen/capi.py`): 24 capi erranti (campo «chiefs», li fa comparire `Chiefs`
+    una volta per mondo nello strato giusto), 10 boss facoltativi e 3 superboss (esche al Cerchio con «free» e «vigor»
+    in `SummonData.CALLS`: `Summons` li chiama senza averli affrontati, con la forza del loro vigore), la corsa dei
+    Guardiani (`BossRush`, il Corno della corsa). La taratura del danno dei capi è in
+    `tools/vastita_gen/capi_taratura.json`, scritta da `python tools/tara_capi.py` con `tools/boss.gd`.
+    Prove: gruppo «tesori» (`TestsTreasures`). Enciclopedia: «Capi erranti e boss facoltativi».
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni
