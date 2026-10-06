@@ -93,6 +93,9 @@ static func weapon(cell: Dictionary, fx: Dictionary = {}) -> Dictionary:
 		_:
 			w["dmg"] = 0.0
 			w["rate"] = 0.0
+	# voce 356: il gesto del materiale (fiamme, veleno, stelle: il danno in più contro una creatura)
+	if use in ["colpo", "tira", "incanta"]:
+		w["dmg"] = float(w["dmg"]) * (1.0 + GesturesData.single_bonus(String(st["mat"])))
 	return w
 
 

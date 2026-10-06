@@ -38,9 +38,10 @@ func _init() -> void:
 		var f := String(it.get("form", it.get("kind", "")))
 		forms[f] = int(forms.get(f, 0)) + 1
 		# il comportamento: la forma (o il tipo), l'incantesimo, gli effetti speciali propri
-		var b := "%s|%s|%s" % [f, String(it.get("spell", "")), ",".join(it.get("effects", []))]
+		var b := "%s|%s|%s|%s" % [f, String(it.get("spell", "")), ",".join(it.get("effects", [])),
+			String(GesturesData.of_mat(String(it.get("mat", ""))).get("name", ""))]      # voce 356: il gesto del materiale
 		behaviours[b] = int(behaviours.get(b, 0)) + 1
-		var sig := "%s|%s|%s" % [f, str(it.get("damage", 0)), str(it.get("speed", 0))]
+		var sig := "%s|%s|%s|%s" % [f, str(it.get("damage", 0)), str(it.get("speed", 0)), String(GesturesData.of_mat(String(it.get("mat", ""))).get("name", ""))]
 		twins[sig] = int(twins.get(sig, 0)) + 1
 	out["armi_per_forma"] = forms
 	out["armi_comportamenti_diversi"] = behaviours.size()

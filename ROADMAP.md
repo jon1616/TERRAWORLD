@@ -5325,3 +5325,42 @@ pulito tranne tre cose. «Posto piano comodità» c'era già. La prova «piedi»
 chiudeva con un crash (la funzione statica dei risvegli): corretto. La Bisaccia «diversa» era il confronto della prova
 (posti accessorio vuoti): corretto. Da guardare dopo: perché `WeatherCover` a volte prende 8 ms in un fotogramma.
 
+
+
+# Roadmap 38 «Le fondamenta della vastità» (dal 6 ott 2026)
+
+La prima Roadmap del piano «La vastità» (`VASTITA.md`, Roadmap 38-51). Scelte dell'utente:
+- «procedi come ritieni opportuno; lavora al meglio e calibra tutti i numeri, dalle armi, oggetti, mostri, boss»;
+- niente estetica pura: vanità, abiti, tinture per abiti, carillon, quadri, arredi senza funzione.
+
+- [x] **356. Il motore dei gesti** (con la **369, il gesto del materiale**, anticipata).
+- [ ] **357. Le fasi e le rarità.**
+- [ ] **358. Le tabelle del bottino per fonte.**
+- [ ] **359. Lo strumento della vastità.**
+- [ ] **360. Il generatore di contenuti.**
+- [ ] **361. La verifica allargata.**
+
+**Fatto il 6 ott 2026 (voci 356 + 369).**
+
+`GesturesData` (`src/data/gestures_data.gd`) contiene:
+- **i moduli dei colpi**, applicati da `Projectiles` e `Combat._gesture_hit`: rimbalzo sulla roccia, divisione in
+  schegge, scoppio attorno, ritorno come un boomerang, onda, attraversare, inseguire, velocità;
+- **il gesto di ognuno dei 21 materiali** (9 metalli, 12 dei geni): un effetto al colpo (righe «mat_…» di
+  `EffectsData`, letti da `Effects` per l'arma in mano) e un modo di volare per archi, balestre e verghe
+  (`Combat.gesture_opts`). Ogni lega porta i gesti dei suoi due metalli: 36 combinazioni diverse.
+
+Effetti nuovi del motore: pioggia (stelle che cadono), avvelena, vulnera.
+
+La misura (`tools/confronto.gd`):
+
+| | Prima | Dopo |
+|---|---:|---:|
+| Comportamenti d'arma diversi | 59 | **621** |
+| Armi con un comportamento proprio | 41 (6%) | **611 (94%)** |
+| Armi gemelle | 185 | **11** |
+
+La calibrazione: `GesturesData.single_bonus` (fiamme, veleno, stelle, vulnerabilità contro una creatura) entra in
+`FightModel.weapon`. `tools/percorso.gd`: attento 1,1 appassimenti all'ora, medio 5,6 (prima 1,2 e 5,9).
+
+Esamina mostra il gesto di ogni arma; capitolo dei materiali aggiornato. Prova: gruppo «vastita» (`TestsVastita`:
+dati, effetto in mano, rimbalzo, divisione, ritorno); `verifica_dati` segnala i materiali senza gesto.

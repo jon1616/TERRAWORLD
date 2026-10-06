@@ -77,6 +77,7 @@ func on_shot(s: Dictionary) -> bool:
 				if float(s["chill"]) > 0.0:
 					c.chill_t = maxf(c.chill_t, float(s["chill"]))   # onda di lagunite: rallenta
 				_strike(c, int(s["damage"]), pos.x - signf(s["vel"].x) * 10.0, float(s["knock"]), String(s.get("elem", "")))
+				_gesture_hit(s, c, pos)                    # voce 356: si divide, scoppia
 				if int(s["pierce"]) <= 0:
 					return true
 				s["pierce"] = int(s["pierce"]) - 1
@@ -90,6 +91,46 @@ func on_shot(s: Dictionary) -> bool:
 		hurt_player(int(s["damage"]), pos.x, "un proiettile")
 		return true
 	return false
+
+
+var shards_made := 0                    # voce 356: schegge nate dai colpi che si dividono (per le prove)
+
+
+## Voce 356: i moduli di un colpo che ha preso una creatura (`GesturesData`): le schegge e lo scoppio attorno.
+func _gesture_hit(s: Dictionary, c: Creature, pos: Vector2) -> void:
+	var sp: Array = s.get("split", [])
+	if sp.size() == 2:
+		var v: Vector2 = s["vel"]
+		var n := int(sp[0])
+		shards_made += n
+		for k in n:
+			var dir := v.normalized().rotated((k - (n - 1) / 2.0) * 0.6 + PI * 0.15 * (1 if k % 2 else -1))
+			shots.fire(pos + dir * 10.0, dir * maxf(v.length() * 0.8, 200.0), 0.0, maxi(roundi(int(s["damage"]) * float(sp[1])), 1),
+				true, 0.4, {"look": "scheggia", "elem": String(s.get("elem", ""))})
+	var bm: Array = s.get("boom", [])
+	if bm.size() == 2:
+		Fx.puff(m.fx, pos, Color(1.8, 1.3, 0.7))
+		for o in fauna.list.duplicate():
+			if o != c and is_instance_valid(o) and o.position.distance_to(pos) < float(bm[0]) * 16.0:
+				_strike(o, maxi(roundi(int(s["damage"]) * float(bm[1])), 1), pos.x, 0.6, String(s.get("elem", "")))
+
+
+## Voce 356: le opzioni di un colpo con i moduli del materiale dell'arma (pierce e homing si sommano, gli altri si
+## aggiungono). Restituisce [opzioni, moltiplicatore della velocità].
+static func gesture_opts(opts: Dictionary, mat: String) -> Array:
+	var mods: Dictionary = GesturesData.of_mat(mat).get("mods", {})
+	var out := opts.duplicate()
+	for k in mods:
+		match String(k):
+			"pierce":
+				out["pierce"] = int(out.get("pierce", 0)) + int(mods[k])
+			"homing":
+				out["homing"] = maxf(float(out.get("homing", 0.0)), float(mods[k]))
+			"speed":
+				pass
+			_:
+				out[k] = mods[k]
+	return [out, float(mods.get("speed", 1.0))]
 
 
 func _process(dt: float) -> void:
@@ -180,9 +221,10 @@ func _bow(it: Dictionary, st: Dictionary, use: String, active: bool, dt: float, 
 	var dg := DART_GRAV * Creature.grav           # voce 76: in un mondo leggero il dardo cade meno
 	v.y -= 0.5 * dg * minf(flight, 0.8)
 	var n := int(it.get("multishot", 1))       # l'Arco iridato tira più dardi a ventaglio con un dardo solo
+	var go := gesture_opts({"pierce": int(st["pierce"]), "elem": String(st["elem"])}, String(st["mat"]))   # voce 356
 	for k in n:
-		shots.fire(from + d.normalized() * 8.0, v.rotated((k - (n - 1) / 2.0) * 0.12), dg, dmg, true,
-				float(st["knockback"]) / 3.0, {"pierce": int(st["pierce"]), "elem": String(st["elem"])})
+		shots.fire(from + d.normalized() * 8.0, v.rotated((k - (n - 1) / 2.0) * 0.12) * float(go[1]), dg, dmg, true,
+				float(st["knockback"]) / 3.0, go[0])
 
 
 ## Danno ×1,2 con la Pozione di vigore attiva, e il danno in più degli accessori.

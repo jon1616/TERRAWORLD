@@ -15,6 +15,7 @@ var hit: Callable
 ## seek.call(punto) -> posizione della creatura più vicina (Vector2.INF se nessuna): per i colpi che inseguono
 var seek: Callable
 var light: LightMap
+var back_to: Callable                  # voce 356: dove tornano i colpi con il ritorno (il Germogliato)
 var _shots: Array[Dictionary] = []    # {node, vel, grav, damage, player, t, knock, pierce, homing, through, glow, hits}
 var _tex := {}
 var _light_t := 0.0
@@ -63,7 +64,10 @@ func fire(from: Vector2, vel: Vector2, grav: float, damage: int, from_player: bo
 		"knock": knock, "pierce": int(opts.get("pierce", 0)), "homing": float(opts.get("homing", 0.0)),
 		"through": bool(opts.get("through", false)), "glow": opts.get("light", glow_of(String(opts.get("elem", "")))), "hits": {},
 		"slow": float(opts.get("slow", 0.0)), "chill": float(opts.get("chill", 0.0)), "elem": String(opts.get("elem", "")),
-		"ally": int(opts.get("ally", -1))})          # Roadmap 32: il colpo di un compagno (uid della scheda)
+		"ally": int(opts.get("ally", -1)),          # Roadmap 32: il colpo di un compagno (uid della scheda)
+		# voce 356: i moduli del motore dei gesti (`GesturesData`)
+		"bounce": int(opts.get("bounce", 0)), "split": opts.get("split", []), "boom": opts.get("boom", []),
+		"ret": float(opts.get("ret", 0.0)), "wave": float(opts.get("wave", 0.0)), "woff": Vector2.ZERO, "back": false})
 
 
 func count() -> int:
@@ -85,11 +89,40 @@ func _process(dt: float) -> void:
 				# gira verso la creatura a velocità costante (hm = radianti al secondo)
 				var ang := v.angle_to(goal - sp.position)
 				v = v.rotated(clampf(ang, -hm * dt, hm * dt))
+		# voce 356: il ritorno (boomerang): dopo `ret` secondi gira verso il Germogliato e può colpire di nuovo
+		if float(s["ret"]) > 0.0 and float(s["t"]) > float(s["ret"]) and back_to.is_valid():
+			var home: Vector2 = back_to.call()
+			if not bool(s["back"]):
+				s["back"] = true
+				(s["hits"] as Dictionary).clear()
+			v = (home - sp.position).normalized() * maxf(v.length(), 260.0)
+			if sp.position.distance_to(home) < 14.0:
+				sp.queue_free()
+				_shots.remove_at(i)
+				continue
 		s["vel"] = v
+		var before := sp.position
 		sp.position += v * dt
+		# voce 356: l'onda (spostamento di lato che va e viene)
+		if float(s["wave"]) > 0.0:
+			var side := Vector2(-v.y, v.x).normalized() * sin(float(s["t"]) * 14.0) * float(s["wave"])
+			sp.position += side - (s["woff"] as Vector2)
+			s["woff"] = side
 		sp.rotation = v.angle()
 		s["t"] = float(s["t"]) + dt
 		var c := Vector2i(floori(sp.position.x / 16.0), floori(sp.position.y / 16.0))
+		# voce 356: il rimbalzo sulla roccia
+		if int(s["bounce"]) > 0 and not s["through"] and world.inside(c.x, c.y) and world.solid(c.x, c.y):
+			var bx := world.solid(floori(sp.position.x / 16.0), floori(before.y / 16.0))
+			var by := world.solid(floori(before.x / 16.0), floori(sp.position.y / 16.0))
+			if bx or not by:
+				v.x = -v.x
+			if by or not bx:
+				v.y = -v.y
+			s["vel"] = v * 0.85
+			sp.position = before
+			s["bounce"] = int(s["bounce"]) - 1
+			c = Vector2i(floori(sp.position.x / 16.0), floori(sp.position.y / 16.0))
 		var gone: bool = float(s["t"]) > LIFE or not world.inside(c.x, c.y) or (world.solid(c.x, c.y) and not s["through"])
 		if not gone and hit.is_valid():
 			gone = hit.call(s)

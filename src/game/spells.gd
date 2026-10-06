@@ -58,9 +58,10 @@ func _process(dt: float) -> void:
 	var opts := sd.duplicate()
 	if not opts.has("elem"):
 		opts["elem"] = String(st["elem"])        # la saetta delle verghe: l'elemento del metallo (voce 51)
+	var go := Combat.gesture_opts(opts, String(st["mat"]))      # voce 356: il gesto del metallo della verga
 	for k in n:
 		var dir := d.normalized().rotated((k - (n - 1) / 2.0) * float(sd["spread"]))
-		m.shots.fire(from + dir * 8.0, dir * float(sd["speed"]), float(sd["grav"]), dmg, true, knock, opts)
+		m.shots.fire(from + dir * 8.0, dir * float(sd["speed"]) * float(go[1]), float(sd["grav"]), dmg, true, knock, go[0])
 	m.sfx.play("incanto")
 	casts += 1
 

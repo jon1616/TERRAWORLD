@@ -15,6 +15,12 @@ voci.
 
 ---
 
+> **Scelta dell'utente (6 ott 2026): niente estetica pura.** «La parte dell'estetica, sia indumenti, che mobili puramente
+> estetici, senza alcuna funzione non li voglio.» Dal piano sono tolte vanità, abiti, maschere, tinture per gli abiti,
+> carillon, quadri e serie di arredi decorativi: **ogni oggetto nuovo ha una funzione** (un effetto, un uso, un bonus di
+> stanza, un ingrediente). E: «calibrare tutti i numeri, dalle armi, oggetti, mostri, boss»: ogni Roadmap si chiude con
+> la calibrazione misurata (`tools/percorso.gd`, `tools/curva.gd`, `tools/armi.gd`, `tools/boss.gd`, `tools/vastita.gd`).
+
 ## 1. Che cosa dicono i dati
 
 ### 1.1 Dove siamo
@@ -125,7 +131,7 @@ non con codice nuovo per ogni oggetto.
 | Catena più lunga | 3 | **8-10** | 9 |
 | Danno inizio → fine | ×4,8 | **×25-40** | ×38 |
 | Fasi della spina | 6 metalli | **≥ 24 fasi** | 23 |
-| Famiglie da collezione (ali, rampini…) | poche | **≥ 15 famiglie da 30-100** | ~20 |
+| Famiglie con una funzione (ali, rampini, cavalcature, stendardi…) | poche | **≥ 12 famiglie da 30-100** | ~20 |
 
 ---
 
@@ -142,7 +148,7 @@ Quattro regole di architettura, da scrivere in CLAUDE.md quando il piano parte:
 3. **Ogni fonte ha una tabella.** Boss, mini-boss, eventi, casse, pesca, nidi, scrigni: ognuno ha la sua tabella di
    bottino con oggetti propri. Un oggetto senza fonte, o una fonte senza oggetti propri, è un errore di `verifica_dati`.
 4. **Le famiglie si scrivono a tabelle, i pezzi speciali a mano.** Armi generate (forma × materiale × modulo), set
-   generati, arredi in serie, tinture, stendardi, trofei: le tabelle danno la quantità. Armi uniche, boss, accessori
+   generati, arredi funzionali in serie, stendardi, trofei: le tabelle danno la quantità. Armi uniche, boss, accessori
    firma, ritrovamenti: scritti a mano, danno il sapore. È la regola «generato + scritto a mano» della filosofia.
 
 ---
@@ -190,7 +196,7 @@ vasto e dove ha buchi.
   Lo confronta con le curve di Terraria (che stanno già nei dati della cartella) e scrive i **buchi** in cima.
   Da qui in poi **ogni Roadmap del piano si chiude con questa misura**.
 - **360. Il generatore di contenuti.** Gli script che scrivono i dati da tabelle compatte (come `gen_bestiario.py`), per
-  tutte le famiglie del piano: armi (forma × materiale × modulo), set, accessori a gradi, stendardi, trofei, tinture,
+  tutte le famiglie del piano: armi (forma × materiale × modulo), set, accessori a gradi, stendardi, trofei,
   arredi, pesci. Ogni file generato porta in cima «generato da …: non toccare a mano».
 - **361. La verifica allargata.** `verifica_dati` controlla anche:
   - ogni oggetto ha una fase e una fonte; ogni fonte ha oggetti propri;
@@ -312,10 +318,10 @@ Obiettivo: ogni boss un incontro ricordabile e un bottino ricco.
 - **374. I sacchetti dei Guardiani.** Ogni Guardiano lascia un **Sacchetto** (come i Treasure Bag):
   - 1-2 armi a scelta tra 5-6 (una per stile);
   - 1 accessorio firma;
-  - materiali;
-  - la sua vanità, maschera, trofeo, reliquia, animaletto (raro) e carillon.
+  - materiali e un ingrediente unico per le armi supreme;
+  - il trofeo (bonus nella sala dei trofei), un animaletto con un dono (raro), un richiamo.
 
-  **15-25 oggetti propri per Guardiano.** Rifarlo al Cerchio ha senso finché la collezione non è piena.
+  **12-20 oggetti propri per Guardiano**, tutti con una funzione. Rifarlo al Cerchio ha senso finché la collezione non è piena.
 - **375. I mini-boss e i boss di evento.** Per ogni fase 2-3 mini-boss che si incontrano esplorando (nelle grandi
   caverne, sopra le meraviglie, nel cielo), più i capi delle maree e degli eventi. Ognuno lascia 5-10 oggetti propri.
 - **376. I boss facoltativi.** Una decina di boss fuori dalla spina, che si chiamano con un oggetto da costruire
@@ -375,7 +381,7 @@ Obiettivo: 900 accessori, di cui 600 con un effetto diverso; il movimento come f
 - **388. Gli animaletti e le luci.** **~60 animaletti** e luci da compagnia (dai boss, dalla pesca, dai segreti), con
   piccoli doni (luce, magnete, fortuna).
 
-### Roadmap 44 «Le armature e i set»
+### Roadmap 44 «Le armature e i set» (senza vanità)
 
 - **389. I set per stile e per fase.** Per ogni grado di metallo un set per ogni stile (testa diversa per stile, come in
   Terraria): 16 gradi × 8 stili = **128 set** generati, più ~40 set scritti a mano (dai boss, dagli eventi, dai Giardini
@@ -386,9 +392,9 @@ Obiettivo: 900 accessori, di cui 600 con un effetto diverso; il movimento come f
   - quello del Vuoto ti fa diventare ombra per un attimo dopo un colpo critico.
 
   Una riga di dati per set, con i moduli del motore delle abilità.
-- **391. La vanità e le tinture.** Ogni set ha la sua vanità (si indossa sopra senza cambiare i valori), ~150 maschere
-  e vesti dai boss e dagli abitanti. Le **tinture** (oggi per i costrutti) si allargano agli abiti: ~150 tinture da
-  piante, creature, pesci, mischiate a due a due.
+- **391. ~~La vanità e le tinture~~** — tolta (scelta dell'utente: niente estetica pura). Al suo posto: **la forgiatura
+  dei pezzi d'armatura** (ogni pezzo ha 1-2 posti per gemme e Essenze, come le armi, e i pezzi trovati hanno tratti
+  propri), così anche l'armatura si cura e si migliora.
 
 ### Roadmap 45 «I ritrovamenti» (esplorare paga sempre)
 
@@ -426,19 +432,18 @@ Obiettivo: 900 accessori, di cui 600 con un effetto diverso; il movimento come f
 - **400. Le casse da pesca e le missioni.** **~40 casse da pesca** (una per bioma e per fase, con oggetti propri) e il
   libro del Pescatore con **missioni giornaliere** (un pesce strano al giorno, premi a collezione, come l'Angler).
 
-### Roadmap 47 «Collezionare e costruire»
+### Roadmap 47 «Costruire con uno scopo» (niente arredi solo belli)
 
-- **401. Trofei, reliquie, carillon.** Per ogni boss (80+):
-  - un **trofeo** e una **reliquia** (solo in una modalità più dura, voce 405);
-  - un **carillon** con la sua musica.
-
-  Per ogni bioma un carillon. La musica viene da Gemini con la procedura di oggi.
-- **402. Gli arredi in serie a gradi.** Gli arredi in serie (oggi forme × materiali) si allargano a **~60 serie**
-  (una per legno, metallo, pietra, creatura, bioma) × 30 pezzi = **~1.800 arredi**. Più quadri (le meraviglie, i
-  Guardiani, i paesaggi dei mondi visitati, fatti dalla mappa) e tappeti.
-- **403. I blocchi.** Da ~600 a **~2.000 blocchi e pareti**: ogni roccia, minerale, legno e materiale dei geni con le sue
-  forme (mattoni, lastre, levigato, scolpito), più i blocchi speciali (che brillano, che si muovono con la Linfa, che
-  suonano).
+- **401. Trofei e reliquie che servono.** Per ogni boss un **trofeo** (nella sala dei trofei: più danno contro quel
+  boss e la sua famiglia) e una **reliquia** (solo nella modalità più dura, voce 405: un piccolo bonus per sempre).
+  Niente carillon né quadri.
+- **402. Gli arredi funzionali.** Gli arredi esistono solo se servono: definiscono il tipo di una stanza (comfort,
+  bonus), sono stazioni, contenitori, luci, letti, sedili che curano, scaffali che conservano, altari che danno un
+  effetto. Le serie di oggi restano; se ne aggiungono solo con una funzione nuova (stanze nuove: officina, forgia,
+  laboratorio di Linfa, serra calda, sala d'armi).
+- **403. I blocchi che fanno qualcosa.** Più materiali da costruzione solo dove hanno una **proprietà** (isolano dal
+  freddo, resistono alle esplosioni, fanno luce, conducono la Linfa, rallentano le creature, sono trasparenti alla
+  luce): la costruzione diventa una scelta, non un catalogo di colori.
 
 ### Roadmap 48 «Il commercio e gli abitanti»
 
@@ -492,7 +497,8 @@ Obiettivo: 900 accessori, di cui 600 con un effetto diverso; il movimento come f
 2. **Roadmap 39** (la spina) e **40** (le armi): danno la sensazione di crescita e la varietà nelle mani del giocatore.
 3. **Roadmap 41** (boss come tesori) e **42** (creature): danno la ragione di esplorare e di tornare.
 4. **Roadmap 43-45** (accessori, armature, ritrovamenti): la larghezza.
-5. **Roadmap 46-51**: la collezione, l'economia, le modalità, la fabbricazione profonda, il dopo.
+5. **Roadmap 46-51**: consumabili e pesca, costruzione con uno scopo, l'economia, le modalità, la fabbricazione
+   profonda, il dopo.
 
 Ogni Roadmap:
 - si chiude con `tools/vastita.gd` (i buchi), `tools/percorso.gd` (la difficoltà) e il giro intero delle prove;

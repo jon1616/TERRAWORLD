@@ -200,6 +200,7 @@ func _build() -> void:
 	shots = Projectiles.new()
 	add_child(shots)
 	shots.setup(world, Callable())       # chi viene colpito lo decide `Combat`, collegato più sotto
+	shots.back_to = func() -> Vector2: return player.position       # voce 356: dove tornano i colpi con il ritorno
 	fauna = Fauna.new()
 	add_child(fauna)
 	fauna.setup(world, player, drops, shots)

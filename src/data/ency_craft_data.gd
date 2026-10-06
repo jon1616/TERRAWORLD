@@ -16,6 +16,12 @@ Le ricette delle [b]leghe[/b] si scoprono trovando i loro materiali (vedi [url=c
 """Armi, attrezzi e armature nascono da una [url=cap:forme]forma[/url] e da un [b]materiale[/b]. Il materiale ha delle proprietà: [b]durezza[/b] (forza del piccone, difesa), [b]filo[/b] (danno), [b]peso[/b] (lento o veloce), [b]tenacia[/b], [b]conduzione[/b] (i bastoni), a volte un [url=cap:elementi]elemento[/url] e la [b]risonanza[/b] (posti d'innesto in più).
 Le [b]leghe[/b] uniscono due metalli al Baccello ardente e ne mescolano le proprietà (e gli elementi, che si alternano a ogni colpo). I materiali dei [url=cap:geni]geni[/url] si trovano solo nei mondi con quel gene.
 Ogni materiale ha anche un [b]carattere[/b], un bonus tutto suo: la radicite fa ricrescere la Vita, il legnoferro dà Scorza, la pallidite corsa, l'ambra luce, la tizzonite spine, la Linfa Linfa, la vuotite ti nasconde, la nimbite fa saltare, lo stellare porta fortuna; i materiali dei geni hanno i loro. Le leghe prendono metà del carattere di ciascuno dei due metalli. Ogni pezzo ne prende una parte: un quarto elmo, corazza e gambali, metà guanti, stivali e mantello, metà l'arma o l'attrezzo che tieni in mano (la sua scheda dice «In mano»). Così due pezzi dello stesso grado di materiali diversi non sono mai uguali.
+Ogni materiale ha poi un [b]gesto[/b]: tutte le armi fatte di quel materiale lo portano. Al colpo fanno qualcosa in più:
+• la radicite trattiene, il legnoferro trapassa, l'ambra rallenta;
+• la Linfa rende Vita, il vuoto lancia schegge, la tizzonite incendia;
+• la stellare fa cadere stelle, la nimbite chiama fulmini.
+E i colpi a distanza (archi, verghe) volano in modo diverso: rimbalzano, si dividono, scoppiano, inseguono, ondeggiano o tornano indietro.
+Una [b]lega[/b] porta i gesti dei suoi due metalli insieme. Esamina dice il gesto di ogni arma.
 {cat_materiali_breve}
 Il catalogo completo: [url=cat:materiali]tutti i materiali[/url]."""},
 	{"id": "forme", "group": "Creare ed equipaggiarsi", "name": "Le forme", "text":

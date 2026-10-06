@@ -19,6 +19,8 @@ class_name EffectsData
 ##   (voce 355, i modi del risveglio) onda (dmg, pierce: un'onda che vola dritta davanti)  ·  sanguina (dps, t: si somma)
 ##   scoppio (r, dmg: attorno alla creatura colpita)  ·  trapassa (len, dmg: chi sta dietro, in fila)  ·  scossa (r, t:
 ##   stordisce attorno al Germogliato)  ·  tira (la creatura verso il Germogliato)  ·  linfa (n)
+##   (voce 356, i gesti dei materiali) pioggia (n, dmg: stelle che cadono sulla creatura)  ·  avvelena (t)  ·  vulnera (t:
+##   la creatura prende più danno)
 
 const EFFECTS := {
 	"brace_colpo": {"name": "Tizzone", "when": "colpo", "chance": 0.35, "do": "brucia", "t": 3.0,
@@ -82,6 +84,49 @@ const EFFECTS := {
 		"desc": "sotto terra la Vita ricresce quasi il doppio"},
 	"cielo_aperto": {"name": "Vento alle spalle", "when": "se", "cond": "superficie", "do": "corsa", "mult": 1.12,
 		"desc": "in superficie corri più svelto"},
+	# voce 356: i gesti dei materiali (`GesturesData.MATERIAL`): valgono per ogni arma di quel materiale, in mano
+	"mat_radicite": {"name": "Radice che trattiene", "when": "colpo", "chance": 0.2, "do": "stordisce", "t": 0.35,
+		"desc": "un colpo su cinque trattiene la creatura un attimo"},
+	"mat_legnoferro": {"name": "Fibra che trapassa", "when": "colpo", "chance": 0.3, "do": "trapassa", "len": 2, "dmg": 0.4,
+		"desc": "un colpo su tre passa anche a chi sta dietro"},
+	"mat_ambra": {"name": "Ambra che imprigiona", "when": "colpo", "chance": 0.3, "do": "gela", "t": 1.5,
+		"desc": "un colpo su tre rallenta la creatura"},
+	"mat_linfa": {"name": "Linfa che cerca", "when": "colpo", "chance": 1.0, "do": "cura", "frac": 0.03,
+		"desc": "ogni colpo rende il 3% del danno in Vita"},
+	"mat_vuoto": {"name": "Vuoto che si spezza", "when": "colpo", "chance": 0.2, "do": "schegge", "n": 3, "dmg": 0.3,
+		"desc": "un colpo su cinque lancia tre schegge attorno"},
+	"mat_pallidite": {"name": "Gelo pallido", "when": "colpo", "chance": 0.4, "do": "gela", "t": 1.2,
+		"desc": "spesso rallenta la creatura"},
+	"mat_tizzonite": {"name": "Tizzone", "when": "colpo", "chance": 0.3, "do": "brucia", "t": 3.0,
+		"desc": "un colpo su tre incendia"},
+	"mat_stellare": {"name": "Stelle cadenti", "when": "ogni", "n": 5, "do": "pioggia", "shards": 3, "dmg": 0.5,
+		"desc": "ogni quinto colpo tre stelle cadono sulla creatura"},
+	"mat_nimbite": {"name": "Folgore", "when": "ogni", "n": 6, "do": "catena", "targets": 2, "dmg": 0.5, "r": 6,
+		"desc": "ogni sesto colpo un fulmine salta su altre due creature"},
+	"mat_ferro_brina": {"name": "Morso di brina", "when": "colpo", "chance": 0.2, "do": "gela", "t": 3.0,
+		"desc": "un colpo su cinque gela la creatura a lungo"},
+	"mat_ossidiana": {"name": "Cuore di brace", "when": "colpo", "chance": 0.4, "do": "brucia", "t": 4.0,
+		"desc": "spesso incendia, a lungo"},
+	"mat_micelio": {"name": "Spore che restano", "when": "colpo", "chance": 0.35, "do": "avvelena", "t": 4.0,
+		"desc": "un colpo su tre avvelena"},
+	"mat_linfite": {"name": "Linfa che risponde", "when": "colpo", "chance": 1.0, "do": "cura", "frac": 0.05,
+		"desc": "ogni colpo rende il 5% del danno in Vita"},
+	"mat_radicite_pura": {"name": "Radice che stringe", "when": "colpo", "chance": 0.3, "do": "stordisce", "t": 0.45,
+		"desc": "un colpo su tre trattiene la creatura"},
+	"mat_ambra_dorata": {"name": "Ambra che paga", "when": "colpo", "chance": 0.1, "do": "lumini", "n": 1,
+		"desc": "un colpo su dieci fa cadere un Lumino"},
+	"mat_ferro_stellato": {"name": "Pioggia di stelle", "when": "ogni", "n": 4, "do": "pioggia", "shards": 4, "dmg": 0.5,
+		"desc": "ogni quarto colpo quattro stelle cadono sulla creatura"},
+	"mat_vuoto_cavo": {"name": "Eco del vuoto", "when": "colpo", "chance": 0.2, "do": "catena", "targets": 1, "dmg": 0.5, "r": 5,
+		"desc": "un colpo su cinque rimbalza su un'altra creatura"},
+	"mat_sospesite": {"name": "Leggerezza", "when": "uccisione", "do": "corsa", "mult": 1.25, "t": 3.0,
+		"desc": "dopo ogni creatura sconfitta corri più svelto per 3 secondi"},
+	"mat_nerume": {"name": "Ombra che morde", "when": "colpo", "chance": 0.3, "do": "vulnera", "t": 3.0,
+		"desc": "un colpo su tre rende la creatura vulnerabile per 3 secondi"},
+	"mat_chitina": {"name": "Guscio che respinge", "when": "ferita", "chance": 1.0, "do": "riflesso", "frac": 0.3,
+		"desc": "chi ti ferisce mentre la impugni riceve il 30% del colpo"},
+	"mat_osso": {"name": "Memoria antica", "when": "ogni", "n": 8, "do": "scossa", "r": 4, "t": 0.8,
+		"desc": "ogni ottavo colpo stordisce tutto ciò che ti sta attorno"},
 	# voce 355: i modi del risveglio, uno per forma (`AwakenData.FORM`)
 	"ris_onda": {"name": "Lama del vento", "when": "ogni", "n": 3, "do": "onda", "dmg": 0.8, "pierce": 3,
 		"desc": "ogni terzo colpo un'onda vola dritta davanti e attraversa tre creature"},

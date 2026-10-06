@@ -267,6 +267,8 @@ func run(main: Node2D) -> void:
 	_mark("TestsCaves")
 	await TestsDeep.new(kit).run()         # voce 354: le regole del profondo
 	_mark("TestsDeep")
+	await TestsVastita.new(kit).run()      # Roadmap 38: il piano «La vastità»
+	_mark("TestsVastita")
 	await TestsMaterials.new(kit).run()     # Roadmap 31: il carattere dei materiali
 	_mark("TestsMaterials")
 	await TestsBonds.new(kit).run()         # Roadmap 32: i compagni di battaglia
@@ -481,6 +483,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsCaves.new(kit).run()          # Roadmap 30: le grotte piene
 		"profondo":
 			await TestsDeep.new(kit).run()           # voce 354: le regole del profondo
+		"vastita":
+			await TestsVastita.new(kit).run()        # Roadmap 38: il piano «La vastità»
 		"carattere":
 			await TestsMaterials.new(kit).run()      # Roadmap 31: il carattere dei materiali
 		"legami":

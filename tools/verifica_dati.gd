@@ -231,6 +231,7 @@ func _init() -> void:
 	_check_stories(items)
 	_check_work(items)
 	_check_howto(items)
+	_check_gestures()
 	print("ESITO: %d errori, %d avvisi" % [errors, warnings])
 	quit()
 
@@ -543,6 +544,15 @@ func _check_mastery(items: Dictionary) -> void:
 	for s in MasteryData.STATS:
 		for e in MasteryData.STATS[s]:
 			_err(MasteryData.PILLARS.has(String(e[0])), "maestria: il conteggio %s nutre un pilastro inesistente" % s)
+
+
+## Voce 356: ogni materiale (anche le leghe) ha il suo gesto, e gli effetti nominati esistono.
+func _check_gestures() -> void:
+	for mat in MaterialsData.all():
+		var g := GesturesData.of_mat(String(mat))
+		_err(not g.is_empty(), "gesti: il materiale %s non ha un gesto (GesturesData.MATERIAL)" % mat)
+		for fx in g.get("fx", []):
+			_err(not EffectsData.info(String(fx)).is_empty(), "gesti: %s nomina un effetto inesistente %s" % [mat, fx])
 
 
 ## Voce 351: ogni conteggio che l'Albero-Madre chiede ha la sua spiegazione in `HowToData`, con oggetti veri.

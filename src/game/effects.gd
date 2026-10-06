@@ -52,6 +52,8 @@ func refresh() -> void:
 	var hr := String((m.hud.current().get("dati", {}) as Dictionary).get("risveglio", ""))
 	if hr != "" and not worn_kind:
 		active.append(hr)                          # voce 355: il modo dell'arma risvegliata in mano
+	if not worn_kind and int(it.get("damage", 0)) > 0:
+		active.append_array(GesturesData.of_mat(String(it.get("mat", ""))).get("fx", []))   # voce 356: il gesto del materiale
 
 
 func has(id: String) -> bool:
@@ -210,6 +212,19 @@ func _do(e: Dictionary, c: Creature, amount: int) -> void:
 		"linfa":
 			m.vitals.linfa = mini(m.vitals.linfa + int(e["n"]), m.vitals.linfa_max)
 			m.vitals.changed.emit()
+		# voce 356: i gesti dei materiali
+		"pioggia":
+			if is_instance_valid(c):
+				for k in int(e.get("shards", 3)):
+					var o := c.position + Vector2(randf_range(-28.0, 28.0), -150.0 - k * 18.0)
+					m.shots.fire(o, Vector2(randf_range(-20.0, 20.0), 420.0), 0.0, maxi(roundi(amount * float(e["dmg"])), 1), true, 0.4,
+						{"look": "polline", "through": true, "light": Color(1.3, 1.2, 0.6)})
+		"avvelena":
+			if is_instance_valid(c):
+				c.poison_t = maxf(c.poison_t, float(e["t"]))
+		"vulnera":
+			if is_instance_valid(c):
+				c.weak_t = maxf(c.weak_t, float(e["t"]))
 		"riflesso":
 			var best: Creature = null
 			for o in m.fauna.list:
