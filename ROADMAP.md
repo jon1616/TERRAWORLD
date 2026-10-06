@@ -1,6 +1,9 @@
 # TERRAWORLD — Roadmap
 
-## Dove siamo (aggiornato il 4 ott 2026)
+## Dove siamo (aggiornato il 6 ott 2026)
+- **Scritto il piano «La vastità» (Roadmap 38-51, voci 356-411)** in `VASTITA.md`: portare TERRAWORLD verso la profondità
+  di Terraria + Calamity + Thorium (confronto sui dati reali: `tools/confronto.gd`). Si parte dalla Roadmap 38 «Le
+  fondamenta della vastità» quando l'utente lo chiede.
 - **Fatta la Roadmap 37 «Ciò che conta»** (voci 350-355, 4 ott 2026): nata dalla prima partita vera dell'utente (6,6 ore).
   Correzioni, spiegazioni, Dispensa, abitanti come servizi, strati che fanno paura, equipaggiamento che conta. Resoconto in
   fondo alla Roadmap 37. Prossimo passo: l'utente rigioca la sua partita e dice che cosa si sente diverso.

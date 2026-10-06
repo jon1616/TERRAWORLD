@@ -4,7 +4,8 @@ Gioco d'esplorazione e costruzione a tessere ispirato a Terraria, in Godot 4.6.1
 (`Desktop\CLAUDE\AUTOBATTLE GODOT`): contenuti come dati, strumenti di verifica, screenshot automatici, Roadmap a voci piccole.
 Solo PC, solo italiano. Obiettivo: profondità e longevità altissime (esplorazione, equipaggiamento profondo, obiettivi sempre nuovi).
 Documenti: `ARTE.md` (la guida di stile: colori, misure, cornici, carattere, movimento), `UNIVERSO.md` (ambientazione «Il Giardino dei Semi»), `ROADMAP.md` (lavori in corso e fatti; in cima «Dove
-siamo»).
+siamo»), `VASTITA.md` (il piano «La vastità», Roadmap 38-51: la profondità di Terraria + Calamity + Thorium misurata sui
+dati reali e i numeri da raggiungere).
 
 ## Come si lavora (per riprendere dopo una pausa o una compattazione)
 - **Lo stato** è in cima a `ROADMAP.md` («Dove siamo»); la direzione in «La filosofia del gioco» qui sotto; le
