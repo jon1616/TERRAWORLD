@@ -12,6 +12,9 @@ class_name EffectsData
 ##   se          finché vale una condizione ("cond": vita_bassa, notte, acqua, fermo, sottoterra, superficie)
 ##               (voce 370: anche «colpo» e «ogni» possono avere una "cond": valgono solo quando è vera)
 ##   aura        di continuo, attorno al Germogliato ("r" tessere)
+##   (voce 383, `Abilities`) salto · salto_aria · atterraggio ("da" tessere) · scatto · raccolta · volo (ogni secondo) ·
+##               aggancio; con "cool" (secondi tra una volta e l'altra). Cose nuove: scia (t, dmg) · scudo (n, t) ·
+##               magnete (mult, t) · slancio (n) · ispira (n) · mira; la condizione «volando»
 ## Cosa ("do"), con i suoi parametri:
 ##   brucia (t)  ·  gela (t: rallenta)  ·  stordisce (t)  ·  schegge (n, dmg: frazione del colpo)  ·  catena (n, dmg, r)
 ##   cura (frac: del colpo, o min)  ·  lumini (n)  ·  corsa (mult, t: per qualche secondo)  ·  ombra (mult, t: le

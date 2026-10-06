@@ -1001,6 +1001,13 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     d'oro al Telaio con i trofei. Il pacchetto `eventi.gd` (`tools/vastita_gen/eventi.py`): otto eventi con «boss» (lo fa
     arrivare `Chiefs.place` all'obiettivo), «vmin», «awake» e il segnale (tipo «segnale», `Events.call_event`);
     `EventsData.EVENTS` ora unisce i pacchetti. Prove: gruppo «bestie» (`TestsCreatures42`).
+  - Roadmap 43 «Gli accessori e il movimento» (voci 383-388): `Abilities` (`src/game/abilities.gd`: i «quando» del
+    movimento salto, salto_aria, atterraggio, scatto, raccolta, volo, aggancio; le cose nuove scia, scudo
+    `Vitals.ability_scorza`, magnete `Drops.ability_magnet`, slancio, ispira, mira; il resto passa da `Effects._do`).
+    Il pacchetto `src/data/vastita/accessori.gd` (`tools/vastita_gen/accessori.py`): 138 accessori firma (tabelle
+    «accessori_f<fase>», da `FirmaDrops` e dagli scrigni), 30 linee dell'Officina (120 passi al Maglio), 22 ali (campo
+    «wings» → `FlightData.WINGS`, con «effects»), 22 rampini, 48 animaletti (campo «pets» → `CompanionsData.PETS`; il
+    dono «acc» lo somma `GearEffects`; tabella «animaletti»). Prove: gruppo «accessori» (`TestsAccessories`).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

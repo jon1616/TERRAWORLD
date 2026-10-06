@@ -25,6 +25,7 @@ var scorza := 0
 var scorza_bonus := 0
 var set_scorza := 0                    # Scorza in più dei set completi (vedi `GearEffects`)
 var song_scorza := 0                   # voce 367: il Canto della scorza del tamburo (`Styles`)
+var ability_scorza := 0                # voce 383: lo scudo di un'abilità (`Abilities`)
 var regen_mult := 1.0
 var effect_regen := 1.0                # voce 85: gli effetti (Radicato)
 var zone_regen := 1.0                  # voce 87: lo Stendardo del riposo
@@ -50,7 +51,7 @@ func hurt(amount: int, why := "altro") -> int:
 	if hp <= 0:
 		return 0
 	cause = why
-	var real := reduce(amount, scorza + scorza_bonus + set_scorza + song_scorza)
+	var real := reduce(amount, scorza + scorza_bonus + set_scorza + song_scorza + ability_scorza)
 	_since_hit = 0.0
 	if hp - real <= 0 and death_guard.is_valid() and bool(death_guard.call()):
 		changed.emit()

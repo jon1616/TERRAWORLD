@@ -130,6 +130,7 @@ var firma: FirmaDrops                  # voce 370: da dove vengono le armi firma
 var chiefs: Chiefs                     # voce 375: i capi erranti
 var rush: BossRush                     # voce 377: la corsa dei Guardiani
 var banners: Banners                   # Roadmap 42, voce 381: gli stendardi
+var abilities: Abilities               # Roadmap 43, voce 383: le abilità del movimento
 var void_voice: VoidVoice              # voce 347
 var evergreen: Evergreen               # Roadmap 28: il dopo (stelle di maestria, Semi d'oro)
 var summons: Summons
@@ -401,6 +402,7 @@ func _build() -> void:
 	chiefs = _mount(Chiefs.new())                # voce 375: i capi erranti
 	rush = _mount(BossRush.new())                # voce 377: la corsa dei Guardiani
 	banners = _mount(Banners.new())              # Roadmap 42, voce 381: gli stendardi
+	abilities = _mount(Abilities.new())          # Roadmap 43, voce 383: le abilità degli accessori
 	_mount(PanelButtons.new())                 # voce 101: i pulsanti dei pannelli in basso a sinistra
 	hud.select(character.hotbar)
 	var start := world.spawn

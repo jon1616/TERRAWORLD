@@ -8,6 +8,8 @@ extends Node
 ##   - gli scrigni delle rovine ne hanno una a volte (`PassRovine`, `SpineData.FIRMA_CHEST`).
 
 const BOSS := 0.35
+const ACC := 0.4                         # voce 383: un accessorio firma dai capi
+const PET := 0.06                        # voce 388: un animaletto dai capi
 
 var m: Node2D
 var dropped := 0                         # per le prove
@@ -84,9 +86,24 @@ func _on_killed(c: Creature) -> void:
 			return
 	if not is_chief(c):
 		return
+	var s := StrataData.at(m.world, floori(c.position.x / 16.0), floori(c.position.y / 16.0))
+	var ph := SpineData.zone_phase(int(m.world_meta.get("vigore", 1)), s)
 	if _rng.randf() < BOSS:
-		var s := StrataData.at(m.world, floori(c.position.x / 16.0), floori(c.position.y / 16.0))
-		drop(SpineData.zone_phase(int(m.world_meta.get("vigore", 1)), s), c.position)
+		drop(ph, c.position)
+	# Roadmap 43: un accessorio firma della fase (voce 383) e, raro, un animaletto (voce 388)
+	if _rng.randf() < ACC:
+		_roll("accessori_f%d" % clampi(ph, 1, 23), c.position)
+	if _rng.randf() < PET:
+		_roll("animaletti", c.position)
+
+
+func _roll(table: String, at: Vector2) -> void:
+	if not LootData.TABLES.has(table):
+		return
+	var got := LootData.roll(table, _rng)
+	for id in got:
+		m.drops.spawn(String(id), 1, at)
+		dropped += 1
 
 
 ## Fa cadere un'arma firma della fase. Restituisce il suo id ("" se la fase non ne ha).

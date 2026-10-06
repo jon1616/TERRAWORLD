@@ -74,6 +74,8 @@ func _cond(c: String) -> bool:
 			return m.depth_watch.stratum >= 1
 		"superficie":
 			return m.depth_watch.stratum == 0
+		"volando":
+			return m.player.flying                    # voce 383
 	return false
 
 

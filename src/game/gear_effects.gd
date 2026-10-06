@@ -103,6 +103,9 @@ func refresh() -> void:
 	if m.herd != null:
 		for hb in m.herd.bonuses():
 			_add(e, hb)
+	# voce 388: il dono piccolo dell'animaletto che ti segue
+	if m.get("companions") != null and m.companions.pet != null:
+		_add(e, CompanionsData.PETS.get(m.companions.pet.id, {}).get("acc", {}))
 	m.player.run_mult = e["run"]
 	m.player.jump_mult = e["jump"]
 	m.player.glide = e["glide"]

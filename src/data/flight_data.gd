@@ -10,7 +10,10 @@ class_name FlightData
 ## dei biomi e del profondo, fino alle stellari: un volo vero. Finita la barra si cade: la planata e il rampino restano
 ## utili per scendere e agganciarsi.
 
-const WINGS := {
+## Roadmap 43, voce 385: più le ali dei pacchetti (campo «wings», con le loro abilità in «effects»).
+static var WINGS: Dictionary = _WINGS.merged(BiomesData.pack("wings"))
+
+const _WINGS := {
 	"ali_foglia": {"name": "Ali di foglia", "speed": 1.05, "rise": 90.0, "time": 0.5, "recharge": 0.9, "mat": "muschio",
 		"color": "#7ed67a", "in": {"foglia_planante": 1, "seta_radice": 8, "lingotto_legnoferro": 4}, "station": "maglio",
 		"desc": "Tenendo Salto dopo il salto si sale ancora un poco: più un lungo salto che un volo."},
@@ -55,6 +58,8 @@ static func items() -> Dictionary:
 		out[id] = {"name": w["name"], "kind": "mantello", "icon": ["ali", String(w["mat"])], "wings": id,
 			"desc": "%s Salita %d, autonomia %s s, velocità in volo ×%s." % [w["desc"], int(w["rise"]),
 				String.num(float(w["time"]), 2), String.num(float(w["speed"]), 2)]}
+		if w.has("effects"):
+			out[id]["effects"] = (w["effects"] as Array).duplicate()     # voce 385: l'abilità in volo
 	return out
 
 

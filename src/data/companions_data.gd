@@ -9,7 +9,10 @@ extends RefCounted
 ## Campi degli alleati: art [forma, variante] di `CreatureArt`, tint (colore), fly, speed, damage, hp (solo per la
 ## barra), shoot (secondi tra un colpo e l'altro, 0 = mischia), size.
 
-const PETS := {
+## Roadmap 43, voce 388: più gli animaletti dei pacchetti (campo «pets»; un dono anche in «acc», sommato da `GearEffects`).
+static var PETS: Dictionary = _PETS.merged(BiomesData.pack("pets"))
+
+const _PETS := {
 	"lucciolina": {"name": "Lucciolina", "art": ["lucciola", 0], "light": Color(1.3, 1.4, 0.7), "fly": true},
 	"grumetto": {"name": "Grumetto", "art": ["grumo", 0], "magnet": 2.2, "fly": false},
 	"spiritello": {"name": "Spiritello di Linfa", "art": ["guizzalinfa", 0], "linfa": 1.3, "fly": true},

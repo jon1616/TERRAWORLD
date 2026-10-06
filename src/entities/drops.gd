@@ -6,6 +6,7 @@ extends Node2D
 const HALF := Vector2(4, 4)
 const MAGNET := 16.0 * 5.0            # raggio in cui gli oggetti vengono attirati
 var magnet_mult := 1.0                 # il Grumetto (voce 37) li attira da più lontano
+var ability_magnet := 1.0              # voce 383: il magnete di un'abilità (`Abilities`), per qualche secondo
 ## Voce 297: che cosa fare di un oggetto (id -> "lascia": resta a terra; "cestino": raccolto e buttato). Lo tiene
 ## aggiornato `Backpack` (è `Character.guida["scarta"]`).
 var rules := {}
@@ -106,7 +107,7 @@ func _process(dt: float) -> void:
 		# il posto nella Bisaccia (40 caselle da guardare) si chiede solo per chi è abbastanza vicino da essere attirato:
 		# con centinaia di oggetti a terra lo si chiedeva per tutti a ogni fotogramma
 		var rule := String(rules.get(d["id"], ""))
-		var room := rule != "lascia" and dist < MAGNET * magnet_mult and (rule == "cestino" or bisaccia.room_for(d["id"]) > 0)
+		var room := rule != "lascia" and dist < MAGNET * magnet_mult * ability_magnet and (rule == "cestino" or bisaccia.room_for(d["id"]) > 0)
 		if room:
 			# attratto: vola verso il giocatore, senza badare ai blocchi
 			vel = vel.move_toward((target - sp.position).normalized() * 220.0, 900.0 * dt)

@@ -51,6 +51,11 @@ Per ogni fase della partita ci sono dieci armi uniche, una per stile più due: n
 
 [b]Le linee d'arma[/b]
 Al Maglio dei Seminatori le armi firma di uno stile si fondono in una [b]linea[/b] di sei passi. Ogni passo porta gli effetti delle armi che l'hanno fatto. L'ultimo è l'[b]arma suprema[/b] dello stile, per esempio la Radice del mondo per la mischia o l'Arco del firmamento per la distanza."""},
+	{"id": "abilita", "group": "Creare ed equipaggiarsi", "name": "Accessori, abilità e Officina", "text":
+"""Molti accessori hanno un'[b]abilità[/b]: una cosa che fanno da soli quando succede qualcosa. Saltando, con il doppio salto, atterrando da in alto, con uno scatto, raccogliendo un oggetto, volando o agganciando il rampino. Lasciano una scia che ferisce, ti coprono di Scorza per un attimo, attirano gli oggetti, chiamano stelle e fulmini, danno Slancio o Ispirazione, rendono pronta la Mira ferma. Esamina scrive l'abilità di ogni accessorio.
+Gli [b]accessori firma[/b] sono sei per ogni fase della partita, tutti diversi: cadono dai capi e dai Guardiani insieme alle armi firma, e si trovano negli scrigni delle rovine.
+All'[b]Officina[/b] del Maglio trenta [b]linee[/b] (Passo del vento, Mano del minatore, Corteccia viva…) fondono gli accessori firma in quattro passi: ogni passo tiene le abilità di quelli che l'hanno fatto, e il quarto ne ha una sua.
+Ci sono ali per ogni fase (le veloci e le lunghe, ognuna con un'abilità in volo), rampini sempre più lunghi e svelti con un'abilità all'aggancio, e quarantotto [b]animaletti[/b] nuovi da trovare dai capi: ognuno ha un dono piccolo (luce, oggetti attirati, Linfa, un poco di fortuna o di Scorza…)."""},
 	{"id": "forme", "group": "Creare ed equipaggiarsi", "name": "Le forme", "text":
 """La forma decide come si usa un oggetto: la sua area di colpo, la velocità, a che cosa serve. Ogni forma esiste in ogni materiale.
 {cat_forme}"""},

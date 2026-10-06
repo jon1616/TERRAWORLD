@@ -1,6 +1,8 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 6 ott 2026)
+- **Fatta la Roadmap 43 «Gli accessori e il movimento»** (voci 383-388, 7 ott 2026): il motore delle abilità, 138
+  accessori firma, 30 linee dell'Officina, ali, rampini e 48 animaletti. Resoconto in fondo.
 - **Fatta la Roadmap 42 «Le creature»** (voci 378-382, 7 ott 2026): 13 comportamenti nuovi, 104 creature risvegliate,
   42 specie firma, gli stendardi di ogni famiglia, otto eventi con un capo. Resoconto in fondo.
 - **Fatta la Roadmap 41 «I boss come tesori»** (voci 373-377, 6 ott 2026): nove Guardiani nuovi (vigori 4-12), i
@@ -12,7 +14,7 @@
 - **Fatta la Roadmap 38 «Le fondamenta della vastità»** (voci 356-361, 6 ott 2026): gesti dei materiali, fasi e rarità,
   bottino «uno a scelta tra» e «prima volta», `tools/vastita.gd`, il generatore di contenuti.
 - **Il piano «La vastità» (Roadmap 38-51, voci 356-411)** in `VASTITA.md`: portare TERRAWORLD verso la profondità
-  di Terraria + Calamity + Thorium (confronto sui dati reali: `tools/confronto.gd`). Prossima: la Roadmap 43 «Gli accessori e il movimento».
+  di Terraria + Calamity + Thorium (confronto sui dati reali: `tools/confronto.gd`). Prossima: la Roadmap 44 «Le armature e i set».
 - **Fatta la Roadmap 37 «Ciò che conta»** (voci 350-355, 4 ott 2026): nata dalla prima partita vera dell'utente (6,6 ore).
   Correzioni, spiegazioni, Dispensa, abitanti come servizi, strati che fanno paura, equipaggiamento che conta. Resoconto in
   fondo alla Roadmap 37. Prossimo passo: l'utente rigioca la sua partita e dice che cosa si sente diverso.
@@ -5585,4 +5587,28 @@ Quinta Roadmap del piano «La vastità».
 **Resoconto della Roadmap 42.** Creature: 424 (+154). Nessun bioma ha meno di 8 specie proprie: prima erano 14 (la mediana di Terraria è 8). Bilancio con le risvegliate (`tools/percorso.gd`): attento 1,2 appassimenti all'ora, medio 6,1. Il giro intero dopo la Roadmap 41 è passato; gli avvisi rimasti (il costo di `WeatherCover` al raccogliere e il «posto piano») c'erano già.
 
 Prove: gruppo «bestie».
+
+# Roadmap 43 «Gli accessori e il movimento» (7 ott 2026)
+
+- [x] **383. Il motore delle abilità.** `Abilities`: gli effetti scattano anche dal movimento (salto, doppio salto,
+  atterraggio, scatto, raccolta, volo, aggancio) e fanno cose nuove (scia che ferisce, scudo di Scorza, magnete, Slancio,
+  Ispirazione, Mira ferma). 138 accessori firma, sei per fase, ognuno con due bonus che crescono con la fase e
+  un'abilità; nessun gemello. Cadono dai capi e dai Guardiani (40%) e negli scrigni delle rovine.
+- [x] **384. Le linee dell'Officina.** Trenta linee di quattro passi al Maglio (movimento, scavo, fortuna, Scorza,
+  spine, Vita, luce, lama, Linfa, canto…): ogni passo fonde il precedente con un accessorio firma e ne tiene le abilità.
+- [x] **385. Le ali.** Ventidue ali nuove (veloci e lunghe per ogni fase dispari dalla 3), ognuna con un'abilità in volo:
+  in tutto 29.
+- [x] **386. I rampini.** Ventidue rampini nuovi (portata da 13 a 34, velocità da 374 a 836), ognuno con un'abilità.
+- [~] **387. Le cavalcature.** Rimandata: le cavalcature restano quelle della mandria. Quelle uniche dei boss vanno fatte
+  con la mandria (sella, volo, compagni) in una voce sua.
+- [x] **388. Gli animaletti.** Quarantotto animaletti nuovi (51 in tutto), ognuno con un dono piccolo; cadono dai capi
+  (6%).
+
+**Resoconto della Roadmap 43.** Accessori per blocco di fasi (`tools/vastita.gd`; Terraria con le due mod tra parentesi):
+- fasi 0-5: 433 (427);
+- fasi 6-11: 163 (320);
+- fasi 12-17: 87 (149);
+- fasi 18-23: 123 (53).
+
+Il buco degli accessori delle fasi alte è chiuso. Oggetti: 5.918, icone tutte diverse. Prove: gruppo «accessori».
 

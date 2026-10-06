@@ -56,6 +56,8 @@ func _apply_pet() -> void:
 	var pd: Dictionary = CompanionsData.PETS.get(pet.id, {}) if pet != null else {}
 	m.drops.magnet_mult = float(pd.get("magnet", 1.0))
 	m.vitals.pet_linfa = float(pd.get("linfa", 1.0))
+	if m.get("gear") != null:
+		m.gear.refresh()                             # voce 388: il dono in «acc»
 
 
 ## Un bastone evocatore: una creatura alleata in più (il richiamo costa Linfa).

@@ -43,6 +43,8 @@ func fire(item: String, target: Vector2) -> bool:
 		if m.world.solid(floori(p.x / S), floori(p.y / S)):
 			_cell = Vector2i(floori(p.x / S), floori(p.y / S))
 			m.player.hook = p - dir * 3.0
+			if m.get("abilities") != null:
+				m.abilities.trigger("aggancio")       # voce 383: le abilità del rampino
 			m.player.hook_speed = float(hk["speed"])
 			m.player.jump_buf = 0.0
 			hits += 1

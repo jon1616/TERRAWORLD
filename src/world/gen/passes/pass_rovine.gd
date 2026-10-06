@@ -108,6 +108,10 @@ func _build(w: World, rng: RandomNumberGenerator, p: Vector2i, s: int, rich := 0
 		var fl := LootData.roll("firma_f%d" % SpineData.zone_phase(_vigor, s), r3)
 		for id in fl:
 			chest.add(String(id), 1)
+	if r3.randf() < SpineData.FIRMA_CHEST * 1.5:                # voce 383: un accessorio firma della fase
+		var al := LootData.roll("accessori_f%d" % SpineData.zone_phase(_vigor, s), r3)
+		for id in al:
+			chest.add(String(id), 1)
 	if rng.randf() < 0.25:                    # voce 46: una Fiala di un gene qualunque, anche di altri mondi
 		var g := Genome.random_gene(rng, 2 + s)
 		if g != "":
