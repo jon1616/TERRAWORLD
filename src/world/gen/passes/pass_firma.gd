@@ -19,8 +19,8 @@ func run(w: World, c: GenContext) -> void:
 	if not SignaturesData.SIGNATURES.has(id):
 		id = SignaturesData.choose(w.world_seed, c.params.get("geni", []))
 	var sd: Dictionary = SignaturesData.SIGNATURES[id]
-	for tries in 120:
-		var strict := tries < 60                # le prime 60 prove solo in un posto libero (`GenContext.is_free`)
+	for tries in 200:
+		var strict := tries < 150               # le prime 150 prove solo in un posto libero (`GenContext.is_free`)
 		var x := _column(w, c)
 		if x < 0:
 			continue

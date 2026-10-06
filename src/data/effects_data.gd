@@ -204,7 +204,7 @@ static var PACK: Dictionary = BiomesData.pack("effects")
 
 
 static func info(id: String) -> Dictionary:
-	return EFFECTS.get(id, PACK.get(id, {}))
+	return EFFECTS.get(id, PACK.get(id, ArmorData.EFFECTS.get(id, {})))     # Roadmap 44: le abilità dei set
 
 
 ## «Tizzone: un colpo su tre incendia…» per le schede.

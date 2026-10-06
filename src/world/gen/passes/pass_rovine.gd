@@ -108,6 +108,9 @@ func _build(w: World, rng: RandomNumberGenerator, p: Vector2i, s: int, rich := 0
 		var fl := LootData.roll("firma_f%d" % SpineData.zone_phase(_vigor, s), r3)
 		for id in fl:
 			chest.add(String(id), 1)
+	if r3.randf() < SpineData.FIRMA_CHEST:                      # voce 391: un'essenza della forgia
+		for id in LootData.roll("essenze_forgia", r3):
+			chest.add(String(id), 1)
 	if r3.randf() < SpineData.FIRMA_CHEST * 1.5:                # voce 383: un accessorio firma della fase
 		var al := LootData.roll("accessori_f%d" % SpineData.zone_phase(_vigor, s), r3)
 		for id in al:

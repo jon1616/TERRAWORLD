@@ -49,6 +49,8 @@ var dmg_mult := 1.0                    # accessori: danno × (vedi `GearEffects`
 var hit_mult: Callable                 # voce 85: () -> moltiplicatore delle condizioni (`Effects.hit_mult`)
 var spd_mult := 1.0                    # accessori: colpi più rapidi
 var magic_mult := 1.0                  # vesti di seta: incantesimi più forti
+var style_mult := 1.0                  # voce 389: l'elmo e il set dello stile dell'arma in mano (`GearEffects`)
+var ally_mult := 1.0                   # voce 389: gli alleati degli scettri (Maschera del branco)
 var boon_thorns := 0                   # Pozione di spine
 var thorns := 0                        # tratto Spine dell'equipaggiamento: danno a chi ti tocca                       # per le prove: il Germogliato non si ferisce
 
@@ -260,7 +262,8 @@ func _bow(it: Dictionary, st: Dictionary, use: String, active: bool, dt: float, 
 func _boon() -> float:
 	return (Boons.VIGORE if m.boons.active.has("vigore") else 1.0) * dmg_mult * (Boons.SAZIO if m.boons.active.has("sazio") else 1.0) \
 		* (m.arts.mult_now() if m.get("arts") != null else 1.0) \
-		* (m.styles.dmg_now() if m.get("styles") != null else 1.0)    # voce 367: il Canto di guerra
+		* (m.styles.dmg_now() if m.get("styles") != null else 1.0) \
+		* style_mult                                                    # voce 389: elmi e set degli stili
 
 
 func _strike(c: Creature, dmg: int, from_x: float, force: float, elem := "") -> void:

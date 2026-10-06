@@ -303,7 +303,7 @@ static func items_of(table: String) -> Array:
 
 
 ## Voce 92: più quelle dei pacchetti dei biomi (`BiomesData`).
-static var TABLES: Dictionary = _with_chronicles(_TABLES.merged(BiomesData.pack("loot")))
+static var TABLES: Dictionary = _with_chronicles(_TABLES.merged(BiomesData.pack("loot")).merged(ArmorData.loot()))
 
 
 ## Voce 255: i frammenti delle cronache nelle tabelle delle rovine.

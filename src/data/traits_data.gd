@@ -50,7 +50,7 @@ const _TRAITS := {
 }
 
 ## Roadmap 17: più le incisioni (`IncisionsData`: tratti che non si tirano mai e non prendono un posto d'innesto).
-static var TRAITS: Dictionary = _TRAITS.merged(IncisionsData.traits())
+static var TRAITS: Dictionary = _TRAITS.merged(IncisionsData.traits()).merged(ArmorData.traits())   # voce 391: le essenze della forgia
 
 ## Voce 54: la **qualità** di fabbricazione (nei "dati" della casella, "q"): moltiplica danno, Scorza e (poco) la
 ## velocità, e dà i **posti d'innesto**: 1, più uno per ogni grado oltre «buono», più la risonanza del materiale

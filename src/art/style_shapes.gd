@@ -145,5 +145,5 @@ static func draw(shape: String, im: Image, p: Array[Color]) -> bool:
 			Px.put(im, 12, 1, Color("#ffd040"))
 			Px.put(im, 6, 7, hi)
 		_:
-			return false
+			return HelmShapes.draw(shape, im, p)          # Roadmap 44: gli elmi degli stili
 	return true

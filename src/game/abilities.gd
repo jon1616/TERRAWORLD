@@ -110,10 +110,10 @@ func run(e: Dictionary) -> void:
 			m.drops.ability_magnet = _magnet_k
 		"slancio":
 			if m.get("styles") != null:
-				m.styles.slancio = mini(m.styles.slancio + int(e.get("n", 1)), StylesData.SLANCIO_MAX)
+				m.styles.slancio = mini(m.styles.slancio + int(e.get("n_slancio", e.get("n", 1))), StylesData.SLANCIO_MAX)
 		"ispira":
 			if m.get("styles") != null and m.styles.song == "":
-				m.styles.ispirazione = mini(m.styles.ispirazione + int(e.get("n", 2)), StylesData.ISPIRAZIONE_MAX - 1)
+				m.styles.ispirazione = mini(m.styles.ispirazione + int(e.get("n_ispira", e.get("n", 2))), StylesData.ISPIRAZIONE_MAX - 1)
 		"mira":
 			if m.get("styles") != null:
 				m.styles.mira_ready = true

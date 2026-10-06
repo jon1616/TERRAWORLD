@@ -80,12 +80,30 @@ const FORMS := {
 		"desc": "piantato sul campo cresce e tira spine da solo per 12 secondi"},
 	"semebomba": {"name": "Seme-bomba", "kind": "semeguerra", "bars": 5, "wood": 2, "extra": {"gelatina": 3}, "icon": "semebomba",
 		"desc": "lanciato ad arco, scoppia e ferisce tutto attorno"},
+	# Roadmap 44, voce 389: gli elmi degli stili (`ArmorData.HELMS`): meno Scorza, più danno del loro stile
+	"celata": {"name": "Celata", "kind": "elmo", "bars": 15, "wood": 0, "icon": "celata",
+		"desc": "chiusa e pesante: la mischia ferisce di più"},
+	"cappuccio_mira": {"name": "Cappuccio da tiro", "kind": "elmo", "bars": 8, "wood": 0, "extra": {"seta_radice": 3},
+		"icon": "cappuccio_mira", "desc": "tiene la vista sul bersaglio: archi, fionde e cerbottane feriscono di più"},
+	"tiara": {"name": "Diadema", "kind": "elmo", "bars": 10, "wood": 0, "extra": {"cristallo_linfa": 2}, "icon": "tiara",
+		"desc": "una corona sottile che porta la Linfa: gli incantesimi feriscono di più"},
+	"maschera": {"name": "Maschera del branco", "kind": "elmo", "bars": 12, "wood": 0, "extra": {"seta_radice": 2},
+		"icon": "maschera", "desc": "il volto di una bestia: gli alleati degli scettri feriscono di più"},
+	"benda": {"name": "Benda del lanciatore", "kind": "elmo", "bars": 6, "wood": 0, "extra": {"seta_radice": 4}, "icon": "benda",
+		"desc": "lascia libero lo sguardo: dischi e girandole feriscono di più"},
+	"ghirlanda": {"name": "Ghirlanda", "kind": "elmo", "bars": 10, "wood": 0, "extra": {"seta_radice": 2}, "icon": "ghirlanda",
+		"desc": "foglie di metallo che vibrano: le note feriscono di più"},
+	"velo": {"name": "Velo di rugiada", "kind": "elmo", "bars": 8, "wood": 0, "extra": {"gelatina": 2}, "icon": "velo",
+		"desc": "trattiene la Rugiada: i virgulti feriscono (e curano) di più"},
+	"cappello_radice": {"name": "Cappello di radice", "kind": "elmo", "bars": 10, "wood": 3, "extra": {"humus": 4},
+		"icon": "cappello_radice", "desc": "fa germogliare i semi: semi-torre e semi-bomba feriscono di più"},
 }
 
 ## Voce 368: le forme degli stili si fanno solo con i materiali puri (metalli, metalli del Risveglio, materiali dei geni):
 ## con le 36 leghe sarebbero 684 oggetti in più senza nulla di nuovo da fare.
 const PURE := ["falcelunga", "manopole", "egida", "bipenne", "randello", "fionda", "cerbottana", "lanciaspore", "tomo",
-	"sfera", "scettro", "dischi", "girandola", "buccina", "flauto", "tamburo", "virgulto", "semetorre", "semebomba"]
+	"sfera", "scettro", "dischi", "girandola", "buccina", "flauto", "tamburo", "virgulto", "semetorre", "semebomba",
+	"celata", "cappuccio_mira", "tiara", "maschera", "benda", "ghirlanda", "velo", "cappello_radice"]
 
 ## Voce 368: gli effetti propri di alcune forme (righe di `EffectsData`), che valgono tenendola in mano.
 const FORM_FX := {"randello": ["forma_randello"], "cerbottana": ["forma_cerbottana"], "manopole": ["forma_manopole"],
@@ -127,7 +145,9 @@ const BASE := ["piccone", "ascia", "spada", "elmo", "corazza", "gambali", "arco"
 ## Voce 306: quale parte del carattere del materiale (`MaterialsData.SHARE`) prende ogni forma: le armature e gli
 ## accessori quando si indossano (nel loro `acc`), le armi e gli attrezzi quando si tengono in mano (nel loro `mano`).
 const TRAIT_PART := {"elmo": "armatura", "corazza": "armatura", "gambali": "armatura", "guanti": "accessorio",
-	"stivali": "accessorio", "mantello": "accessorio"}
+	"stivali": "accessorio", "mantello": "accessorio", "celata": "armatura", "cappuccio_mira": "armatura",
+	"tiara": "armatura", "maschera": "armatura", "benda": "armatura", "ghirlanda": "armatura", "velo": "armatura",
+	"cappello_radice": "armatura"}
 
 ## La Scorza di un pezzo d'armatura = tenacia del materiale × questo.
 const ARMOR := {"elmo": 1.0, "corazza": 1.6, "gambali": 1.0}
@@ -182,6 +202,10 @@ static func stats_md(form: String, md: Dictionary) -> Dictionary:
 			out["knockback"] = 4.0
 		"elmo", "corazza", "gambali":
 			out["defense"] = roundi(float(md["tenacia"]) * float(ARMOR[form]))
+		"celata", "cappuccio_mira", "tiara", "maschera", "benda", "ghirlanda", "velo", "cappello_radice":
+			# Roadmap 44, voce 389: l'elmo di uno stile
+			out["defense"] = maxi(roundi(float(md["tenacia"]) * ArmorData.HELM_DEF), 1)
+			out["acc"] = {"st_" + String(ArmorData.HELMS[form][0]): ArmorData.helm_bonus(int(md["tier"]))}
 		"arco":
 			out["damage"] = int(filo * 0.55)
 			out["speed"] = snappedf(1.6 + 0.15 * float(md["tier"]), 0.01)

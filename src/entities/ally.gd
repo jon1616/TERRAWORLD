@@ -120,7 +120,7 @@ func _find_target() -> void:
 func _attack(dt: float) -> void:
 	if target == null:
 		return
-	var dmg := roundi(int(data["damage"]) * m.combat.magic_mult * power)
+	var dmg := roundi(int(data["damage"]) * m.combat.magic_mult * power * m.combat.ally_mult)
 	if float(data["shoot"]) > 0.0:
 		_shot -= dt
 		if _shot <= 0.0:

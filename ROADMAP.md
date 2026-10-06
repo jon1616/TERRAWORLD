@@ -1,6 +1,8 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 6 ott 2026)
+- **Fatta la Roadmap 44 «Le armature e i set»** (voci 389-391, 7 ott 2026): elmi degli stili, set con un'abilità, le
+  spoglie dei boss, la forgia delle armature. Resoconto in fondo.
 - **Fatta la Roadmap 43 «Gli accessori e il movimento»** (voci 383-388, 7 ott 2026): il motore delle abilità, 138
   accessori firma, 30 linee dell'Officina, ali, rampini e 48 animaletti. Resoconto in fondo.
 - **Fatta la Roadmap 42 «Le creature»** (voci 378-382, 7 ott 2026): 13 comportamenti nuovi, 104 creature risvegliate,
@@ -14,7 +16,7 @@
 - **Fatta la Roadmap 38 «Le fondamenta della vastità»** (voci 356-361, 6 ott 2026): gesti dei materiali, fasi e rarità,
   bottino «uno a scelta tra» e «prima volta», `tools/vastita.gd`, il generatore di contenuti.
 - **Il piano «La vastità» (Roadmap 38-51, voci 356-411)** in `VASTITA.md`: portare TERRAWORLD verso la profondità
-  di Terraria + Calamity + Thorium (confronto sui dati reali: `tools/confronto.gd`). Prossima: la Roadmap 44 «Le armature e i set».
+  di Terraria + Calamity + Thorium (confronto sui dati reali: `tools/confronto.gd`). Prossima: la Roadmap 45 «I ritrovamenti».
 - **Fatta la Roadmap 37 «Ciò che conta»** (voci 350-355, 4 ott 2026): nata dalla prima partita vera dell'utente (6,6 ore).
   Correzioni, spiegazioni, Dispensa, abitanti come servizi, strati che fanno paura, equipaggiamento che conta. Resoconto in
   fondo alla Roadmap 37. Prossimo passo: l'utente rigioca la sua partita e dice che cosa si sente diverso.
@@ -5611,4 +5613,30 @@ Prove: gruppo «bestie».
 - fasi 18-23: 123 (53).
 
 Il buco degli accessori delle fasi alte è chiuso. Oggetti: 5.918, icone tutte diverse. Prove: gruppo «accessori».
+
+# Roadmap 44 «Le armature e i set» (7 ott 2026)
+
+- [x] **389. I set per stile e per fase.** Un elmo per ognuno degli otto stili in ognuno dei 27 materiali puri (216
+  elmi): meno Scorza dell'elmo comune (×0,8), ma l'arma del suo stile in mano ferisce di più (+7% al grado 1, +18% al
+  12). Con la corazza e i gambali dello stesso materiale fa il set dello stile (216 set): altrettanto in più e
+  un'abilità dello stile. Al posto dei ~40 set scritti a mano: le **spoglie** di 54 boss (9 Guardiani della spina, 24
+  capi erranti, 10 sfidanti, 3 superboss, 8 capi degli eventi), tre pezzi ciascuno con i bonus del loro elemento e un
+  set con la sua abilità; un pezzo a ogni capo sconfitto o Sacchetto aperto.
+- [x] **390. I bonus dei set come gesti.** Ogni set di metallo, di materiale dei geni, del Risveglio e i set scritti
+  prima hanno un'abilità (31 righe in `ArmorData`; le leghe portano quelle dei due metalli): l'ambra stordisce chi ti
+  ferisce, la nimbite chiama un fulmine quando salti, il Vuoto ti fa ombra ogni sei colpi, la radicite scuote il
+  terreno all'atterraggio… Le abilità «ferita» ora rispondono a chi ti ha ferito (prima non avevano un bersaglio: anche
+  due abilità degli accessori firma della Roadmap 43, scia e Mira da feriti, non facevano nulla).
+- [x] **391. La forgia delle armature.** Otto essenze della forgia (danno, colpi, incantesimi, salto, Scorza, Linfa,
+  alleati, canto) da innestare al Maglio sui pezzi d'armatura; dai capi (30%), dai Sacchetti (60%) e dagli scrigni
+  delle rovine. Gli stessi tratti nascono a volte anche sui pezzi trovati o fabbricati.
+
+**Resoconto della Roadmap 44.** Armature per blocco di fasi (`tools/vastita.gd`; Terraria con le due mod tra parentesi):
+- fasi 0-5: 292 (229);
+- fasi 6-11: 372 (172);
+- fasi 12-17: 90 (135), prima 48;
+- fasi 18-23: 102 (46).
+
+Le fasi 12-17 restano il buco del gioco (anche per le armi, 26%): ci tornerà la fabbricazione profonda (Roadmap 50).
+Oggetti 6.304, icone tutte diverse. Prove: gruppo «armature».
 

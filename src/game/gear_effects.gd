@@ -24,7 +24,9 @@ extends Node
 ## ricalcola quando cambia l'oggetto scelto nella barra rapida.
 
 const MULT := ["run", "jump", "halo", "regen", "dig", "stealth", "damage", "atk_speed", "linfa_regen", "magic", "respiro", "vento",
-	"fish_wait", "dash_cd", "grow", "herd", "pulsi"]
+	"fish_wait", "dash_cd", "grow", "herd", "pulsi",
+	# Roadmap 44, voce 389: il danno di ogni stile (elmi e set degli stili), moltiplica l'arma di quello stile in mano
+	"st_mischia", "st_distanza", "st_linfa", "st_evocazione", "st_lancio", "st_canto", "st_cura", "st_radice"]
 
 var m: Node2D
 var sets: Array = []                   # i set completi indossati (per l'interfaccia)
@@ -67,6 +69,9 @@ func refresh() -> void:
 		for k in ["run", "halo", "regen", "stealth"]:
 			e[k] = float(e[k]) * Gear.effect(worn, k)
 		e["luck"] = float(e["luck"]) + Gear.effect(worn, "luck")
+		for k in ArmorData.WORN_KEYS:                # voce 391: le essenze della forgia sui pezzi d'armatura
+			var ek := String(ArmorData.WORN_KEYS[k])
+			e[ek] = float(e[ek]) * Gear.effect(worn, String(k))
 		e["thorns"] = float(e["thorns"]) + Gear.effect(worn, "thorns")
 	# voce 306: il carattere del materiale dell'arma o dell'attrezzo in mano
 	if m.get("hud") != null:
@@ -129,6 +134,10 @@ func refresh() -> void:
 	m.combat.spd_mult = e["atk_speed"]
 	m.vitals.linfa_regen_mult = e["linfa_regen"]
 	m.combat.magic_mult = e["magic"]
+	# voce 389: lo stile dell'arma in mano decide quale bonus di stile vale; gli alleati degli scettri il loro
+	var held_style := StylesData.of_item(ItemsData.get_item(b.id_at(m.hud.sel))) if m.get("hud") != null else ""
+	m.combat.style_mult = float(e.get("st_" + held_style, 1.0)) if held_style != "" else 1.0
+	m.combat.ally_mult = e["st_evocazione"]
 	if m.get("garden") != null:
 		m.garden.gear_grow = e["grow"]           # Roadmap 20: i gradi dei pilastri
 	if m.get("herd") != null:

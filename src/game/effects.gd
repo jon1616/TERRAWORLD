@@ -12,6 +12,7 @@ var _t := 0.0
 var _still := 0.0
 var _cool := {}                        # id -> secondi prima di poter tornare
 var _timed := {}                       # "corsa"/"ombra" -> [moltiplicatore, secondi che restano]
+var bolts := 0                         # voce 390: i fulmini dei set (per le prove)
 var saved := 0                         # per le prove: quante volte «Seconda radice» ha salvato
 
 
@@ -54,6 +55,8 @@ func refresh() -> void:
 		active.append(hr)                          # voce 355: il modo dell'arma risvegliata in mano
 	if not worn_kind and int(it.get("damage", 0)) > 0:
 		active.append_array(GesturesData.of_mat(String(it.get("mat", ""))).get("fx", []))   # voce 356: il gesto del materiale
+	for s in SetsData.complete(b.equip):
+		active.append_array(SetsData.all()[s].get("effects", []))     # voce 390: le abilità dei set interi
 
 
 func has(id: String) -> bool:
@@ -119,9 +122,25 @@ func _on_wounded(amount: int) -> void:
 		if e.has("sotto") and m.vitals.hp > m.vitals.hp_max * float(e["sotto"]):
 			continue
 		if randf() < float(e.get("chance", 1.0)):
-			_do(e, null, amount)
+			_do(e, _attacker(), amount)                # voce 390: le abilità dei set rispondono a chi ti ha ferito
 			if e.has("cool"):
 				_cool[id] = float(e["cool"])
+
+
+## Chi ti ha appena ferito (la creatura più vicina entro `ATTACKER_R` tessere), per le abilità «ferita».
+const ATTACKER_R := 4.0
+
+
+func _attacker() -> Creature:
+	var best: Creature = null
+	var bd := ATTACKER_R * 16.0
+	for c in m.fauna.list:
+		if is_instance_valid(c) and c.tame == null:
+			var d: float = c.position.distance_to(m.player.position)
+			if d < bd:
+				bd = d
+				best = c
+	return best
 
 
 ## La Vita finirebbe: «Seconda radice» salva (una volta ogni tanto). True se ha salvato.
@@ -214,8 +233,15 @@ func _do(e: Dictionary, c: Creature, amount: int) -> void:
 				c.vel += (m.player.position - c.position).normalized() * 240.0
 				c.stun = maxf(c.stun, 0.25)
 		"linfa":
-			m.vitals.linfa = mini(m.vitals.linfa + int(e["n"]), m.vitals.linfa_max)
+			m.vitals.linfa = mini(m.vitals.linfa + int(e.get("n_linfa", e["n"])), m.vitals.linfa_max)
 			m.vitals.changed.emit()
+		# Roadmap 44, voce 390: le abilità dei set
+		"scia", "scudo", "magnete", "slancio", "ispira", "mira":
+			if m.get("abilities") != null:
+				m.abilities.run(e)
+		"fulmine":
+			if is_instance_valid(c):
+				_bolt(c, maxi(roundi(maxf(amount, 4.0) * float(e["dmg"])), 1))
 		# voce 356: i gesti dei materiali
 		"pioggia":
 			if is_instance_valid(c):
@@ -286,3 +312,18 @@ func _process(dt: float) -> void:
 			for o in m.fauna.list:
 				if is_instance_valid(o) and o.position.distance_to(p.position) < float(e["r"]) * 16.0:
 					_do(e, o, 0)
+
+
+## Voce 390: un fulmine che cade sulla creatura (e su chi le sta sotto la stessa colonna), con il lampo di `SkyStrikes`.
+func _bolt(c: Creature, dmg: int) -> void:
+	var at: Vector2 = c.position
+	if m.get("strikes") != null:
+		m.strikes.flashes.append({"x": at.x, "t": SkyStrikes.FLASH, "y0": at.y - 320.0, "y1": at.y + 8.0})
+	m.light.pulse(Vector2i(floori(at.x / 16.0), floori(at.y / 16.0)), Color(2.6, 2.6, 3.2), 0.3)
+	m.sfx.play("scoppio", at)
+	Fx.puff(m.fx, at, Color(1.6, 1.7, 2.2))
+	bolts += 1
+	for o in m.fauna.list.duplicate():
+		if is_instance_valid(o) and o.tame == null and absf(o.position.x - at.x) <= SkyStrikes.HIT_R and absf(o.position.y - at.y) < 48.0:
+			if o.take_hit(dmg, at.x, 0.6):
+				m.fauna.kill(o)

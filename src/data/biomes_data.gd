@@ -107,6 +107,7 @@ const PACK_FILES := [
 	preload("res://src/data/vastita/bestiario.gd"),        # Roadmap 42, voci 379-380: le risvegliate e le specie firma
 	preload("res://src/data/vastita/eventi.gd"),           # voce 382: gli eventi con il loro capo
 	preload("res://src/data/vastita/accessori.gd"),        # Roadmap 43: accessori firma, Officina, ali, rampini, animaletti
+	preload("res://src/data/vastita/armature.gd"),         # Roadmap 44: le spoglie dei boss
 ]
 
 static var BIOMES: Array = _load()

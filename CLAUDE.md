@@ -1008,6 +1008,16 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     «accessori_f<fase>», da `FirmaDrops` e dagli scrigni), 30 linee dell'Officina (120 passi al Maglio), 22 ali (campo
     «wings» → `FlightData.WINGS`, con «effects»), 22 rampini, 48 animaletti (campo «pets» → `CompanionsData.PETS`; il
     dono «acc» lo somma `GearEffects`; tabella «animaletti»). Prove: gruppo «accessori» (`TestsAccessories`).
+  - Roadmap 44 «Le armature e i set» (voci 389-391): `ArmorData` (`src/data/armor_data.gd`): gli otto elmi degli stili
+    (`HELMS`, forme pure di `FormsData` di tipo «elmo», bonus «st_<stile>»: chiavi di `GearEffects.MULT`; vale quello
+    dell'arma in mano, `Combat.style_mult`, e `Combat.ally_mult` per gli alleati), i set degli stili («stile_<stile>_<mat>»
+    in `SetsData.all()`), le abilità dei set (`SET_FX`, `STYLE_FX`, righe in `EFFECTS` lette da `EffectsData.info`;
+    `Effects.refresh` le aggiunge per i set completi; le abilità «ferita» colpiscono `Effects._attacker()`; la cosa nuova
+    «fulmine», `Effects._bolt`) e le essenze della forgia (`ESSENCES` → `TraitsData.TRAITS`, tabella «essenze_forgia»;
+    `WORN_KEYS` = i tratti dei pezzi indossati letti da `GearEffects`). Le spoglie dei boss: il pacchetto
+    `src/data/vastita/armature.gd` (`tools/vastita_gen/armature.py`): set di tre pezzi per Guardiani, capi, sfidanti,
+    superboss ed eventi, tabelle «armatura_<creatura>» tirate da `FirmaDrops`. Icone in `HelmShapes`. Prove: gruppo
+    «armature» (`TestsArmor`).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

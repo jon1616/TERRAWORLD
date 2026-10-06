@@ -67,7 +67,7 @@ static func all() -> Dictionary:
 	if not _all.is_empty():
 		return _all
 	var out := SETS.duplicate(true)
-	out.merge(BiomesData.pack("sets"))                  # voce 92: i set dei biomi
+	out.merge(BiomesData.pack("sets").duplicate(true))  # voce 92: i set dei biomi (copiati: le abilità scrivono la descrizione)
 	for m in METAL_BONUS:
 		var mb: Dictionary = METAL_BONUS[m]
 		# voce 86: i set dei metalli sono di cinque pezzi (con guanti e stivali)
@@ -89,6 +89,34 @@ static func all() -> Dictionary:
 		else:
 			continue
 		out[String(mat)] = {"name": name, "pieces": _pieces(String(mat)), "bonus": bonus, "desc": describe(bonus)}
+	# Roadmap 44, voce 389: i set degli stili (l'elmo dello stile, la corazza e i gambali dello stesso materiale puro)
+	for mat in MaterialsData.all():
+		var md2: Dictionary = MaterialsData.all()[mat]
+		if md2.has("alloy"):
+			continue
+		for f in ArmorData.HELMS:
+			var st := String(ArmorData.HELMS[f][0])
+			var sb := {"st_" + st: ArmorData.set_bonus(int(md2["tier"]))}
+			out["stile_%s_%s" % [st, mat]] = {"name": "%s %s" % [ArmorData.HELMS[f][1], md2["label"]],
+				"pieces": ["%s_%s" % [f, mat], "corazza_%s" % mat, "gambali_%s" % mat], "bonus": sb, "desc": describe(sb),
+				"effects": [ArmorData.STYLE_FX[st]], "style": st}
+	# voce 390: l'abilità di ogni set (una lega porta quelle dei suoi due metalli)
+	for sid in out:
+		if out[sid].has("effects"):
+			continue
+		var fx: Array = []
+		var mdd: Dictionary = MaterialsData.all().get(sid, {})
+		if mdd.has("alloy"):
+			for a in mdd["alloy"]:
+				fx.append_array(ArmorData.SET_FX.get(String(a), []))
+		else:
+			fx.append_array(ArmorData.SET_FX.get(String(sid), []))
+		if not fx.is_empty():
+			out[sid]["effects"] = fx
+	for sid in out:
+		for fx_id in out[sid].get("effects", []):
+			out[sid]["desc"] = "%s; abilità «%s»: %s" % [out[sid]["desc"], EffectsData.info(String(fx_id)).get("name", fx_id),
+				EffectsData.info(String(fx_id)).get("desc", "")]
 	_all = out
 	return _all
 

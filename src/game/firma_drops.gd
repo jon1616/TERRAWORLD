@@ -10,6 +10,7 @@ extends Node
 const BOSS := 0.35
 const ACC := 0.4                         # voce 383: un accessorio firma dai capi
 const PET := 0.06                        # voce 388: un animaletto dai capi
+const ESS := 0.3                         # voce 391: un'essenza della forgia dai capi e dai Sacchetti
 
 var m: Node2D
 var dropped := 0                         # per le prove
@@ -43,6 +44,13 @@ func open_bag(id: String) -> bool:
 	var first := int(m.character.stats.get(key, 0)) == 0
 	m.character.stats[key] = int(m.character.stats.get(key, 0)) + 1
 	var got := LootData.roll(String(ItemsData.get_item(id).get("table", id)), _rng, first)
+	var arm := "armatura_" + id.trim_prefix("sacchetto_")       # voce 389: un pezzo delle spoglie del Guardiano
+	if LootData.TABLES.has(arm):
+		for k in LootData.roll(arm, _rng):
+			got[k] = int(got.get(k, 0)) + 1
+	if _rng.randf() < ESS * 2.0:                       # voce 391: un'essenza della forgia
+		for k in LootData.roll("essenze_forgia", _rng):
+			got[k] = int(got.get(k, 0)) + 1
 	var names := []
 	for it in got:
 		var n := int(got[it])
@@ -95,6 +103,9 @@ func _on_killed(c: Creature) -> void:
 		_roll("accessori_f%d" % clampi(ph, 1, 23), c.position)
 	if _rng.randf() < PET:
 		_roll("animaletti", c.position)
+	if _rng.randf() < ESS:
+		_roll("essenze_forgia", c.position)
+	_roll("armatura_" + c.id, c.position)               # voce 389: un pezzo delle spoglie del capo (se ne ha)
 
 
 func _roll(table: String, at: Vector2) -> void:
