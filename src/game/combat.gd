@@ -277,6 +277,8 @@ func _strike(c: Creature, dmg: int, from_x: float, force: float, elem := "") -> 
 		dmg = maxi(roundi(dmg * m.rooms.trophy_mult(c.family)), 1)     # voce 142: la sala dei trofei
 	if m.study:
 		dmg = maxi(roundi(dmg * m.study.mult(c.base)), 1)              # voce 138: le specie studiate
+	if m.get("banners") != null:
+		dmg = maxi(roundi(dmg * m.banners.mult(c.family)), 1)          # voce 381: lo stendardo della famiglia
 	if elem.contains("+"):
 		# una lega con due elementi (voce 52): uno per colpo, alternati
 		_alt += 1
@@ -329,7 +331,8 @@ func _contact() -> void:
 	var pr := Rect2(player.position - Player.HALF, Player.HALF * 2.0).grow(-1.0)
 	for c in fauna.list:
 		if c.damage > 0 and pr.intersects(c.rect().grow(-1.0)):
-			hurt_player(c.damage, c.position.x, String(c.data.get("name", "una creatura")))
+			var gk: float = m.banners.guard(c.family) if m.get("banners") != null else 1.0   # voce 381
+			hurt_player(maxi(roundi(c.damage * gk), 1), c.position.x, String(c.data.get("name", "una creatura")))
 			if c.ancient and c.ancient.has("velenosa"):
 				vitals.poison_t = maxf(vitals.poison_t, c.ancient.value("poison"))
 				m.hud.toast("Avvelenato!")

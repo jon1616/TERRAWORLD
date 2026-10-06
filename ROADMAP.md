@@ -1,6 +1,8 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 6 ott 2026)
+- **Fatta la Roadmap 42 «Le creature»** (voci 378-382, 7 ott 2026): 13 comportamenti nuovi, 104 creature risvegliate,
+  42 specie firma, gli stendardi di ogni famiglia, otto eventi con un capo. Resoconto in fondo.
 - **Fatta la Roadmap 41 «I boss come tesori»** (voci 373-377, 6 ott 2026): nove Guardiani nuovi (vigori 4-12), i
   Sacchetti, 24 capi erranti, 10 boss facoltativi, 3 superboss, la corsa dei Guardiani. Resoconto in fondo.
 - **Fatta la Roadmap 40 «Le armi»** (voci 367-372, 6 ott 2026): otto stili con le loro risorse, 19 forme nuove, 34
@@ -10,7 +12,7 @@
 - **Fatta la Roadmap 38 «Le fondamenta della vastità»** (voci 356-361, 6 ott 2026): gesti dei materiali, fasi e rarità,
   bottino «uno a scelta tra» e «prima volta», `tools/vastita.gd`, il generatore di contenuti.
 - **Il piano «La vastità» (Roadmap 38-51, voci 356-411)** in `VASTITA.md`: portare TERRAWORLD verso la profondità
-  di Terraria + Calamity + Thorium (confronto sui dati reali: `tools/confronto.gd`). Prossima: la Roadmap 42 «Le creature».
+  di Terraria + Calamity + Thorium (confronto sui dati reali: `tools/confronto.gd`). Prossima: la Roadmap 43 «Gli accessori e il movimento».
 - **Fatta la Roadmap 37 «Ciò che conta»** (voci 350-355, 4 ott 2026): nata dalla prima partita vera dell'utente (6,6 ore).
   Correzioni, spiegazioni, Dispensa, abitanti come servizi, strati che fanno paura, equipaggiamento che conta. Resoconto in
   fondo alla Roadmap 37. Prossimo passo: l'utente rigioca la sua partita e dice che cosa si sente diverso.
@@ -5550,4 +5552,37 @@ Da sistemare più avanti (Roadmap 46): le pozioni curano una quantità fissa (50
 conta 20-40 pozioni, quindi le cure devono crescere con la partita.
 
 Prove: gruppo «tesori».
+
+# Roadmap 42 «Le creature» (6-7 ott 2026)
+
+Quinta Roadmap del piano «La vastità».
+
+- [x] **378. La libreria dei comportamenti.** Tredici mattoni nuovi, un file ciascuno, che usano tante specie:
+  - onda d'urto, pioggia di colpi dall'alto, raggio, cerchio di spine;
+  - salto a molla, rotolare (poi resta stordita), tonfo dall'alto che scuote il terreno;
+  - specchio (a metà Vita si sdoppia);
+  - orbita e zigzag per chi vola;
+  - arrampicarsi sui muri;
+  - raffica di tre colpi, balzo indietro.
+- [x] **379. Le risvegliate.** 104 creature nuove che nascono solo dopo il Risveglio del Cuore:
+  - quattro per bioma di superficie e per strato;
+  - due per bioma del sottosuolo e del cielo.
+
+  Sono più forti (grado 4), con i mattoni nuovi; il modello del bilancio le conta dal vigore 5.
+- [x] **380. Le specie firma.** 42, due per bioma di superficie e una per bioma del sottosuolo e del cielo. Ognuna ha una
+  combinazione di comportamenti che non ha nessun'altra creatura (la prova lo controlla). Ci sono dall'inizio.
+- [x] **381. Gli stendardi.** Uno per ogni famiglia (più di cento), che cade ogni 50 sconfitte. Issato vale per sempre:
+  +10% di danno e −10% di ferite contro quella famiglia. Lo stendardo d'oro si fa al Telaio con i trofei delle specie e
+  vale +20% / −18%. I trofei delle specie nuove servono qui.
+- [x] **382. Gli eventi.** Otto eventi nuovi, con creature, capo e bottino loro (l'arma, un ricordo da indossare, il
+  segnale):
+  - l'assalto dei rovi, la notte delle falene, la migrazione dei cervi;
+  - la pioggia di stelle viva, lo sciame di metallo;
+  - la marea di Linfa nera, i Seminatori caduti, l'eclissi del Vuoto: questi tre dopo il Risveglio.
+
+  Il segnale chiama l'evento quando si vuole. Gli eventi si tirano in ordine casuale.
+
+**Resoconto della Roadmap 42.** Creature: 424 (+154). Nessun bioma ha meno di 8 specie proprie: prima erano 14 (la mediana di Terraria è 8). Bilancio con le risvegliate (`tools/percorso.gd`): attento 1,2 appassimenti all'ora, medio 6,1. Il giro intero dopo la Roadmap 41 è passato; gli avvisi rimasti (il costo di `WeatherCover` al raccogliere e il «posto piano») c'erano già.
+
+Prove: gruppo «bestie».
 

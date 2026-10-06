@@ -94,6 +94,33 @@ static func make(id: String) -> Behavior:
 			return BhDeriva.new()
 		"cura_legame":
 			return BhCuraLegame.new()             # Roadmap 32: un istinto dei compagni
+		# Roadmap 42, voce 378: i mattoni nuovi
+		"onda":
+			return BhOnda.new()
+		"pioggia":
+			return BhPioggia.new()
+		"raggio":
+			return BhRaggio.new()
+		"spine":
+			return BhSpine.new()
+		"molla":
+			return BhMolla.new()
+		"rotola":
+			return BhRotola.new()
+		"tonfo":
+			return BhTonfo.new()
+		"specchio":
+			return BhSpecchio.new()
+		"orbita":
+			return BhOrbita.new()
+		"zigzag":
+			return BhZigzag.new()
+		"arrampica":
+			return BhArrampica.new()
+		"raffica":
+			return BhRaffica.new()
+		"balzo":
+			return BhBalzo.new()
 		"fermo":
 			return Behavior.new()
 	push_error("comportamento sconosciuto: %s" % id)

@@ -991,6 +991,16 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     Guardiani (`BossRush`, il Corno della corsa). La taratura del danno dei capi è in
     `tools/vastita_gen/capi_taratura.json`, scritta da `python tools/tara_capi.py` con `tools/boss.gd`.
     Prove: gruppo «tesori» (`TestsTreasures`). Enciclopedia: «Capi erranti e boss facoltativi».
+  - Roadmap 42 «Le creature» (voci 378-382): 13 mattoni nuovi dei comportamenti (`onda`, `pioggia`, `raggio`, `spine`,
+    `molla`, `rotola`, `tonfo`, `specchio`, `orbita` e `zigzag` dopo «vola», `arrampica`, `raffica`, `balzo`; parametri in
+    cima a ogni file). Il pacchetto `src/data/vastita/bestiario.gd` (`tools/vastita_gen/bestiario.py`): 104 risvegliate
+    (campo «awake»: nascono solo con `CreaturesData.awake_on`, acceso da `CuoreDesto.apply`; lo leggono anche
+    `UnderBiomesData.pool_at`, `SkyData.pool_of` e `ZoneModel.pool` dal vigore 5) e 42 specie firma (una combinazione di
+    comportamenti che hanno solo loro). `BannersData` + `Banners`: lo stendardo di ogni famiglia ogni 50 sconfitte
+    (`stats["uccisi_fam_…"]`), issato per sempre (`stats["stendardo_…"]`; `Combat._strike` e `Fauna.guard_hook`), quello
+    d'oro al Telaio con i trofei. Il pacchetto `eventi.gd` (`tools/vastita_gen/eventi.py`): otto eventi con «boss» (lo fa
+    arrivare `Chiefs.place` all'obiettivo), «vmin», «awake» e il segnale (tipo «segnale», `Events.call_event`);
+    `EventsData.EVENTS` ora unisce i pacchetti. Prove: gruppo «bestie» (`TestsCreatures42`).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

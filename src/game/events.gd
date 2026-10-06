@@ -16,6 +16,7 @@ var chance_mult := 1.0                 # tratto «Stellato» del mondo (voce 39)
 var room_mult := 1.0                   # voce 142: un osservatorio nel mondo (`Rooms`)
 var season_mult := 1.0                 # voce 66: la stagione
 var stars := 0                         # stelle cadute (per le prove)
+var boss_out := false                  # voce 382: il capo dell'evento è arrivato (per le prove)
 var _night := false
 var _star_t := 5.0
 var _label: Label
@@ -48,8 +49,11 @@ func _process(dt: float) -> void:
 		_night = night
 		stop()
 		var pool := EventsData.for_time("notte" if night else "giorno")
+		pool.shuffle()                                 # voce 382: con tanti eventi, nessuno viene sempre per primo
 		for id in pool:
 			var ev0: Dictionary = EventsData.EVENTS[id]
+			if not allowed(String(id)):
+				continue
 			var ch := float(ev0["chance"]) * chance_mult * season_mult * room_mult
 			if ev0.get("rete", false) and (m.get("energy") == null or m.energy.machines.is_empty()):
 				continue                               # voce 207: la Tempesta di Linfa solo dove c'è una rete
@@ -73,6 +77,28 @@ func _process(dt: float) -> void:
 			var span: Array = ev["stars"]
 			_star_t = _rng.randf_range(float(span[0]), float(span[1]))
 			fall_star()
+
+
+## Voce 382: un evento può venire in questo mondo adesso? (vigore minimo, dopo il Risveglio)
+func allowed(id: String) -> bool:
+	var ev: Dictionary = EventsData.EVENTS.get(id, {})
+	if int(m.world_meta.get("vigore", 1)) < int(ev.get("vmin", 1)):
+		return false
+	return not bool(ev.get("awake", false)) or CuoreDesto.awake(m.character)
+
+
+## Voce 382: il segnale di un evento, dalla mano. True se l'evento è cominciato.
+func call_event(item: String) -> bool:
+	var id := String(ItemsData.get_item(item).get("event", ""))
+	if not EventsData.EVENTS.has(id):
+		return false
+	if active != "":
+		m.hud.toast("C'è già un evento in corso")
+		return false
+	if not m.character.bisaccia.remove(item, 1):
+		return false
+	start(id)
+	return true
 
 
 ## Comincia un evento: scritta, suono, effetti sulla fauna e sul giardino.
@@ -141,6 +167,12 @@ func _on_killed(c: Creature) -> void:
 	kills += 1
 	if kills >= int(ev["goal"]):
 		won = true
+		if ev.has("boss") and m.get("chiefs") != null:
+			# voce 382: arriva il capo dell'evento; il premio è il suo bottino
+			var cr: Creature = m.chiefs.place(String(ev["boss"]), 4.0, true)
+			if cr != null:
+				m.depth_watch.banner.show_stratum(String(cr.data["name"]), "Il capo dell'evento è arrivato", Color(ev["color"]))
+				boss_out = true
 		for r in int(ev.get("rolls", 1)):
 			var loot := LootData.roll(String(ev["reward"]), _rng)
 			for id in loot:

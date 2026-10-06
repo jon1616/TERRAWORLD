@@ -33,11 +33,18 @@ static func surface_biomes() -> Array:
 	return out
 
 
+## Roadmap 42: da questo vigore il modello conta anche le creature risvegliate (il Risveglio viene dal Guardiano del
+## vigore 4: nei mondi dal 5 in poi il giocatore tipico le incontra).
+const AWAKE_VIGOR := 5
+
+
 ## Le specie di uno strato con il loro peso (in superficie: la media dei biomi).
 static func pool(stratum: int, night := false, vigor := 1) -> Dictionary:
 	var out := {}
 	var v0 := CreaturesData.now_vigor
+	var a0 := CreaturesData.awake_on
 	CreaturesData.now_vigor = vigor
+	CreaturesData.awake_on = vigor >= AWAKE_VIGOR          # Roadmap 42: dopo il Risveglio, le risvegliate
 	if stratum == 0:
 		var bs := surface_biomes()
 		for b in bs:
@@ -47,6 +54,7 @@ static func pool(stratum: int, night := false, vigor := 1) -> Dictionary:
 		for e in CreaturesData.of_stratum(stratum, night, ""):
 			out[String(e[0])] = float(out.get(String(e[0]), 0.0)) + float(e[1])
 	CreaturesData.now_vigor = v0
+	CreaturesData.awake_on = a0
 	return out
 
 

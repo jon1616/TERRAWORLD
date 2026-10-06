@@ -279,6 +279,9 @@ static var now_eclipse := false
 ## arrivano di notte e nei mondi di vigore 2 o più: salire di vigore porta creature nuove. Il vigore lo scrive `main`.
 const SURFACE_STRONG := 480
 static var now_vigor := 1
+## Roadmap 42, voce 379: le creature «risvegliate» («awake») nascono solo dopo il Risveglio del Cuore (lo scrive
+## `CuoreDesto.apply`); le leggono anche `UnderBiomesData.pool_at` e `SkyData.pool_of`.
+static var awake_on := false
 
 
 static func of_stratum(s: int, night := false, biome := "") -> Array:
@@ -295,6 +298,8 @@ static func of_stratum(s: int, night := false, biome := "") -> Array:
 		if c.has("weather") and not now_weather in (c["weather"] as Array):
 			continue
 		if c.get("eclipse", false) and not now_eclipse:
+			continue
+		if c.get("awake", false) and not awake_on:
 			continue
 		# nelle terre avvizzite gli Avvizziti erranti camminano anche di giorno
 		if s in c["strata"] and (night or not c.get("night", false) or biome == "avvizzito"):

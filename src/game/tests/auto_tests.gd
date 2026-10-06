@@ -275,6 +275,8 @@ func run(main: Node2D) -> void:
 	_mark("TestsStyles")
 	await TestsTreasures.new(kit).run()    # Roadmap 41: i boss come tesori
 	_mark("TestsTreasures")
+	await TestsCreatures42.new(kit).run()  # Roadmap 42: le creature
+	_mark("TestsCreatures42")
 	await TestsMaterials.new(kit).run()     # Roadmap 31: il carattere dei materiali
 	_mark("TestsMaterials")
 	await TestsBonds.new(kit).run()         # Roadmap 32: i compagni di battaglia
@@ -497,6 +499,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsStyles.new(kit).run()         # Roadmap 40: gli stili del Giardiniere
 		"tesori":
 			await TestsTreasures.new(kit).run()      # Roadmap 41: i boss come tesori
+		"bestie":
+			await TestsCreatures42.new(kit).run()    # Roadmap 42: le creature
 		"carattere":
 			await TestsMaterials.new(kit).run()      # Roadmap 31: il carattere dei materiali
 		"legami":

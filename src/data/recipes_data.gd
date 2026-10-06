@@ -200,6 +200,7 @@ static func all() -> Array:
 				out.append(FormsData.recipe(f, m))
 	out.append_array(MaterialsData.recipes())
 	out.append_array(AmmoData.recipes())                     # voce 372: le munizioni
+	out.append_array(BannersData.recipes())                  # voce 381: gli stendardi d'oro
 	_all = out
 	return _all
 

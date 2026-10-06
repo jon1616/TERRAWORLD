@@ -163,7 +163,7 @@ static func pool_of(id: String, night: bool) -> Array:
 				(_pools[sid] as Array).append([cid, int(cd.get("sw", 1)), bool(cd.get("night", false))])
 	var out := []
 	for e in _pools.get(id, []):
-		if night or not bool(e[2]):
+		if (night or not bool(e[2])) and (CreaturesData.awake_on or not bool(CreaturesData.CREATURES.get(String(e[0]), {}).get("awake", false))):
 			out.append([e[0], e[1]])
 	return out
 

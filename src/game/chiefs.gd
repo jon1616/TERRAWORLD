@@ -59,7 +59,22 @@ func candidate() -> Dictionary:
 
 ## Fa comparire un capo vicino al Germogliato (in un posto libero, a terra se non vola). La creatura o null.
 func spawn(c: Dictionary) -> Creature:
-	var cid := String(c["creature"])
+	var cr := place(String(c["creature"]), HP)
+	if cr == null:
+		return null
+	active = cr
+	met += 1
+	var seen: Dictionary = m.world_meta.get("capi", {})
+	seen[String(c["id"])] = 1
+	m.world_meta["capi"] = seen
+	m.lords.bar.follow(cr)
+	m.sfx.play("presenza")
+	m.depth_watch.banner.show_stratum(String(cr.data["name"]), "Un capo errante ti ha sentito", Color("#ffb040"))
+	return cr
+
+
+## Una creatura forte vicino al Germogliato, con la forza del posto per `hp_k` (anche i capi degli eventi, voce 382).
+func place(cid: String, hp_k: float, bar := false) -> Creature:
 	var d := CreaturesData.get_data(cid)
 	var pc: Vector2i = m.player_cell()
 	for k in 40:
@@ -74,16 +89,10 @@ func spawn(c: Dictionary) -> Creature:
 			var cr: Creature = m.fauna.add(cid, Vector2(x * 16 + 8, (y + 1) * 16 - float(d["half"][1]) - 0.1))
 			var st := StrataData.at(m.world, x, y)
 			var mult: float = float(StrataData.STRATA[st]["danger"]) * m.fauna.vigor_mult
-			cr.strengthen(mult * HP, m.fauna.dmg_for(mult) * DangerData.DAMAGE)
+			cr.strengthen(mult * hp_k, m.fauna.dmg_for(mult) * DangerData.DAMAGE)
 			cr.extra = true
 			cr.provoke()
-			active = cr
-			met += 1
-			var seen: Dictionary = m.world_meta.get("capi", {})
-			seen[String(c["id"])] = 1
-			m.world_meta["capi"] = seen
-			m.lords.bar.follow(cr)
-			m.sfx.play("presenza")
-			m.depth_watch.banner.show_stratum(String(d["name"]), "Un capo errante ti ha sentito", Color("#ffb040"))
+			if bar:
+				m.lords.bar.follow(cr)
 			return cr
 	return null

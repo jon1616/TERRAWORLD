@@ -288,6 +288,7 @@ static func all() -> Dictionary:
 	out.merge(DeepRulesData.items())                       # voce 354: i materiali del profondo
 	out.merge(SpineData.ITEMS.duplicate(true))             # voce 364: la Linfa del Cuore
 	out.merge(AmmoData.items())                            # voce 372: le munizioni
+	out.merge(BannersData.items())                         # voce 381: gli stendardi delle famiglie
 	out.merge(HarvestData.items())                         # voce 300: i raccolti delle piante
 	out.merge(EncountersData.items())                      # voce 303: il diario di Tessa
 	out.merge(CuriositiesData.items())                     # voce 304: le curiosità degli strati
@@ -432,6 +433,10 @@ static func use_of(id: String) -> String:
 			return "pianta"
 		"sacchetto":
 			return "apri"                             # voce 374: i Sacchetti dei Guardiani
+		"stendardo":
+			return "issa"                             # voce 381: gli stendardi
+		"segnale":
+			return "chiama"                           # voce 382: i segnali degli eventi
 		"coltura":
 			return "coltiva"
 		"parete":

@@ -10,8 +10,14 @@ extends RefCounted
 ##   stars     secondi tra una stella cadente e l'altra ([min, max]): la Pioggia di stelle
 ##   goal      creature da sconfiggere per vincere l'evento; reward = tabella di bottino (tirata `rolls` volte)
 ##   wild      moltiplicatore dei semi selvatici del giardino
+## Roadmap 42, voce 382 (gli eventi dei pacchetti, campo «events»):
+##   boss      il capo dell'evento: raggiunto l'obiettivo arriva lui, e il premio è il suo bottino («rolls» 0)
+##   vmin      solo nei mondi di almeno questo vigore · awake   solo dopo il Risveglio del Cuore
+## Ogni evento con un capo ha anche il suo segnale (tipo «segnale»): usato, lo chiama subito.
 
-const EVENTS := {
+static var EVENTS: Dictionary = _EVENTS.merged(BiomesData.pack("events"))
+
+const _EVENTS := {
 	"pioggia_stelle": {"name": "Pioggia di stelle", "desc": "Il cielo del Giardino lascia cadere le sue stelle: raccoglile",
 		"when": "notte", "chance": 0.3, "color": "#fff2a8", "stars": [8.0, 18.0]},
 	"notte_avvizzita": {"name": "Notte dell'Avvizzimento", "desc": "Gli Avvizziti si svegliano tutti insieme. Resisti fino all'alba",

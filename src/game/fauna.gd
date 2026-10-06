@@ -36,6 +36,7 @@ var luck := 0.0                        # tratto Fortuna dell'equipaggiamento: pr
 var boon_luck := 0.0                   # Pozione di fortuna
 var rare_mult := 1.0                   # Pozione dell'esca: creature rare più frequenti
 var first_hook: Callable               # voce 358: «è la prima volta che si sconfigge questa specie?» (lo collega `main`)
+var guard_hook: Callable               # voce 381: (famiglia) -> quanto dei colpi arriva (gli stendardi, `Banners.guard`)
 # eventi del mondo (voce 34, vedi `Events`)
 var event_danger := 0.0
 var world_danger := 0.0                # tratti del mondo (voce 39, `WorldTraits`)
@@ -221,7 +222,8 @@ func _process(dt: float) -> void:
 			vanished.emit(c)
 			continue
 		for f in c.fire:
-			shots.fire(f["from"], f["vel"], f["grav"], roundi(float(f["damage"]) * c.shot_k), false, 1.0,
+			shots.fire(f["from"], f["vel"], f["grav"], roundi(float(f["damage"]) * c.shot_k
+				* (float(guard_hook.call(c.family)) if guard_hook.is_valid() else 1.0)), false, 1.0,
 				{"look": f.get("look", "spora"), "slow": f.get("slow", 0.0)})
 			if sfx:
 				sfx.play("spora", f["from"])

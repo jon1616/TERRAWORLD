@@ -104,6 +104,8 @@ const PACK_FILES := [
 	preload("res://src/data/vastita/armi_firma.gd"),       # Roadmap 40, voce 370: le armi firma (tools/gen_vastita.py)
 	preload("res://src/data/vastita/guardiani.gd"),        # Roadmap 41, voci 373-374: i Guardiani della spina e i Sacchetti
 	preload("res://src/data/vastita/capi.gd"),             # voci 375-377: capi erranti, boss facoltativi, superboss, corsa
+	preload("res://src/data/vastita/bestiario.gd"),        # Roadmap 42, voci 379-380: le risvegliate e le specie firma
+	preload("res://src/data/vastita/eventi.gd"),           # voce 382: gli eventi con il loro capo
 ]
 
 static var BIOMES: Array = _load()

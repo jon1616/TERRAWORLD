@@ -57,6 +57,10 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 			return Gifts.absorb(m, id)
 		"sacchetto":
 			return m.firma.open_bag(id)                # voce 374: i Sacchetti dei Guardiani
+		"stendardo":
+			return m.banners.raise(id)                 # voce 381: gli stendardi
+		"segnale":
+			return m.events.call_event(id)             # voce 382: chiama un evento
 		"richiamo":
 			if id == "corno_corsa":
 				return m.rush.start()                  # voce 377: la corsa dei Guardiani

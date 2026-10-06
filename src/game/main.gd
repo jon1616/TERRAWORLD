@@ -129,6 +129,7 @@ var styles: Styles                     # Roadmap 40, voce 367: gli stili del Gia
 var firma: FirmaDrops                  # voce 370: da dove vengono le armi firma
 var chiefs: Chiefs                     # voce 375: i capi erranti
 var rush: BossRush                     # voce 377: la corsa dei Guardiani
+var banners: Banners                   # Roadmap 42, voce 381: gli stendardi
 var void_voice: VoidVoice              # voce 347
 var evergreen: Evergreen               # Roadmap 28: il dopo (stelle di maestria, Semi d'oro)
 var summons: Summons
@@ -399,6 +400,7 @@ func _build() -> void:
 	firma = _mount(FirmaDrops.new())             # voce 370: le armi firma dai Guardiani e dai capi
 	chiefs = _mount(Chiefs.new())                # voce 375: i capi erranti
 	rush = _mount(BossRush.new())                # voce 377: la corsa dei Guardiani
+	banners = _mount(Banners.new())              # Roadmap 42, voce 381: gli stendardi
 	_mount(PanelButtons.new())                 # voce 101: i pulsanti dei pannelli in basso a sinistra
 	hud.select(character.hotbar)
 	var start := world.spawn

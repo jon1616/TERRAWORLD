@@ -33,6 +33,7 @@ static func awake(ch: Character) -> bool:
 ## Le leve del mondo dopo il Risveglio (a ogni ingresso e quando avviene).
 func apply() -> void:
 	m.fauna.awake_rare = RARE if awake(m.character) else 1.0
+	CreaturesData.awake_on = awake(m.character)       # Roadmap 42: le creature risvegliate
 	if m.get("gene_mats") != null:
 		m.gene_mats.refresh()
 

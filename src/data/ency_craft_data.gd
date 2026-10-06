@@ -107,6 +107,9 @@ Le creature sono [b]deboli[/b] ad alcuni elementi (danno ×{weak}) e ne [b]resis
 Ogni specie esiste in varianti: [b]taglia[/b], [b]elemento[/b] e [b]indole[/b] (docile, aggressiva…). Le docili non attaccano finché non le colpisci.
 [b]Rare[/b]: le [b]antiche[/b] (più forti, con uno o più tratti, contorno acceso; lasciano Essenze e trofei), le [b]ancestrali[/b] (rarissime, più tratti) e le [b]iridate[/b] (non attaccano, fuggono e svaniscono; lasciano la Polvere iridata). I [b]capobranco[/b] guidano un branco.
 I [b]trofei[/b] (solo dalle rare) si trasformano in oggetti unici.
+[b]Le specie firma[/b]: ogni bioma, ogni bioma del sottosuolo e del cielo ha le sue (una o due), con un modo di combattere che non ha nessun'altra creatura. Sono la ragione per andarci.
+[b]Le risvegliate[/b]: dopo il [url=cap:spina]Risveglio del Cuore[/url], in ogni bioma e in ogni strato nascono creature nuove e più forti: saltano a molla, rotolano, ricadono dall'alto scuotendo il terreno, chiamano piogge di colpi, girano attorno, si sdoppiano.
+[b]Gli stendardi[/b]: ogni cinquanta creature di una famiglia sconfitte ne cade lo [b]stendardo[/b]. Issato (clic), vale per sempre e ovunque: contro quella famiglia fai il 10% di danno in più e prendi il 10% di ferite in meno. Al Telaio, con lo stendardo e un trofeo di ogni specie della famiglia, si fa lo [b]stendardo d'oro[/b] (+20% e −18%).
 [url=cat:creature]Tutte le creature[/url] · [url=cat:famiglie]tutte le famiglie[/url]."""},
 	{"id": "guardiani", "group": "Combattere", "name": "I Guardiani e il Cuore", "text":
 """In fondo a ogni mondo c'è la cupola del [b]Cuore del mondo[/b], malato, difeso da un [b]Guardiano[/b] che si sveglia quando entri. Nel Fondo un battito ti dice da che parte è il Cuore.

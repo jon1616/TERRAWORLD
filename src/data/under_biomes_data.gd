@@ -51,5 +51,8 @@ static func pool_at(w: World, c: Vector2i) -> Array:
 		_pools[-1] = []
 	for dy in 12:
 		if w.solid(c.x, c.y + dy):
-			return _pools.get(w.tile(c.x, c.y + dy), [])
+			var pool: Array = _pools.get(w.tile(c.x, c.y + dy), [])
+			if CreaturesData.awake_on:
+				return pool
+			return pool.filter(func(e: Array) -> bool: return not bool(CreaturesData.CREATURES.get(String(e[0]), {}).get("awake", false)))
 	return []

@@ -205,8 +205,8 @@ func firma() -> void:
 	var bad := []
 	for id in ItemsData.all():
 		var it := ItemsData.get_item(String(id))
-		if not it.has("firma") or it.has("linea"):
-			continue
+		if not String(id).begins_with("firma_f") or not it.has("firma"):
+			continue                                  # (solo le armi firma delle fasi: capi ed eventi hanno le loro)
 		per_phase[int(it["fase"])] = int(per_phase.get(int(it["fase"]), 0)) + 1
 		var sig := "%s|%s|%s" % [it["form"], str(it.get("mods", {})), str((it["effects"] as Array).map(func(e: String) -> Dictionary:
 			var d := EffectsData.info(e).duplicate()
@@ -231,11 +231,10 @@ func firma() -> void:
 	var got: String = m.firma.drop(5, m.player.position + Vector2(0, -20))
 	await kit.seconds(0.6)
 	var held := false
-	if got != "":
-		_hold(got)
-		await kit.frames(2)
-		m.effects.refresh()
-		held = m.effects.has(String((ItemsData.get_item(got)["effects"] as Array)[0]))
+	_hold("firma_f5_0")
+	await kit.frames(2)
+	m.effects.refresh()
+	held = m.effects.has(String((ItemsData.get_item("firma_f5_0")["effects"] as Array)[0]))
 	# le linee
 	var lines := 0
 	for st in StylesData.ORDER:
