@@ -142,4 +142,4 @@ static func info(sd: int) -> Dictionary:
 ## Una riga per le schede: «La Matriarca falena di brace del gelo · ventaglio, scatto».
 static func describe(id: String) -> String:
 	var d := CreaturesData.get_data(id)
-	return "%s · %s" % [d["name"], ", ".join(d["attacks"])]
+	return "%s · %s" % [d["name"], ", ".join(d.get("attacks", d.get("behaviors", [])))]

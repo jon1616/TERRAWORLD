@@ -55,6 +55,8 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 			return false
 		"dono":
 			return Gifts.absorb(m, id)
+		"sacchetto":
+			return m.firma.open_bag(id)                # voce 374: i Sacchetti dei Guardiani
 		"richiamo":
 			if SummonData.CALLS.has(id) or id == "sigillo_guardiano":
 				return m.summons.summon(id, m.character.bisaccia.data_at(m.hud.sel))   # voce 84

@@ -46,6 +46,7 @@ const KIND_USE := {
 	"strumento": "In mano: suona verso il mouse; ogni nota che colpisce dà Ispirazione, e piena parte il canto dello strumento.",
 	"ramo": "In mano: tira semi di Rugiada; ferire ti cura, e ogni sei colpi un'onda cura te e i compagni.",
 	"semeguerra": "In mano: si pianta sul campo (seme-torre) o si lancia ad arco (seme-bomba).",
+	"sacchetto": "Si apre con il clic: armi firma, il Richiamo del Guardiano, lingotti e, a volte, il suo gioiello e il suo trofeo.",
 	"esca": "Esca per la pesca: la canna usa da sola la migliore che hai.",
 	"cassetta": "Si apre con il clic: dentro c'è un po' di tutto.",
 	"compagno": "Chiama o rimanda il compagno che ti segue (luce, oggetti attirati).",

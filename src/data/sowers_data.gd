@@ -68,6 +68,9 @@ const ORDER := ["odran", "ilvenna", "varek", "sareth", "maesh"]
 static func of_guardian(gid: String) -> String:
 	if gid == "generato":
 		return "senza_nome"
+	for g in GuardiansData.LIST:                       # voce 373: i Guardiani della spina sono pezzi senza nome
+		if String(g["id"]) == gid and g.has("sower"):
+			return String(g["sower"])
 	for k in SOWERS:
 		if String(SOWERS[k]["guardian"]) == gid:
 			return k

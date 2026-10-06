@@ -8,7 +8,20 @@ extends RefCounted
 ## Campi: creature (id di `CreaturesData`), cure {oggetto: quantità} dal Guardiano curato, pages (pagine di `LoreData`
 ## per sconfitto e curato), color (della scritta al risveglio), wake (frase del risveglio).
 
-const LIST := [
+## Voce 373: i tre di prima e i nove dei pacchetti (`src/data/vastita/guardiani.gd`, vigori 4-12), in ordine di vigore;
+## oltre il dodicesimo i Guardiani tornano generati (`GuardianGen`).
+static var LIST: Array = _with_pack()
+
+
+static func _with_pack() -> Array:
+	var out := _LIST.duplicate(true)
+	var more := BiomesData.pack_list("guardians")
+	more.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return int(a["vigor"]) < int(b["vigor"]))
+	out.append_array(more)
+	return out
+
+
+const _LIST := [
 	{"id": "nodo", "creature": "guardiano_nodo", "cure": {"linfa_guardiano": 30},
 		"pages": {"sconfitto": "guardiano_sconfitto", "curato": "guardiano_curato"}, "color": "#d8b070",
 		"wake": "Il Guardiano del Cuore si risveglia"},

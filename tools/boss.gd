@@ -9,8 +9,8 @@ extends SceneTree
 const MATS := ["", "radicite", "legnoferro", "ambra", "linfa", "vuoto", "stellare", "corallite", "sanguinite", "cuorelegno",
 	"eterite", "astrite", "primambra"]
 ## Il momento della partita: vigore → [grado del metallo, Vita massima, tempra] (come `tools/percorso.gd`).
-const AT := {1: [3, 130, 0], 2: [4, 160, 0], 3: [5, 190, 0], 4: [5, 220, 0], 5: [6, 250, 2], 6: [7, 300, 2], 8: [9, 360, 2],
-	10: [11, 420, 4], 12: [12, 480, 4]}
+const AT := {1: [3, 130, 0], 2: [4, 160, 0], 3: [5, 190, 0], 4: [5, 220, 0], 5: [6, 250, 2], 6: [7, 300, 2], 7: [8, 330, 2], 8: [9, 360, 2], 9: [10, 390, 2],
+	10: [11, 420, 4], 11: [12, 450, 4], 12: [12, 480, 4]}
 ## Roadmap 39: i Guardiani hanno la Vita delle creature per `SpineData.boss_time` (scontri più lunghi più si sale), il
 ## danno di `VigorData.creature_dmg`; la fascia voluta dei secondi cresce con lo stesso fattore.
 ## Il grado atteso nello strato (vigore 1).
@@ -23,13 +23,13 @@ var out := ""
 func _init() -> void:
 	_p("BOSS (voce 186): secondi per batterlo | Vita persa in Vite | pozioni | colpi per cadere — attento / medio")
 	_p("")
-	_p("I Guardiani del Cuore (vigore 1-3 scritti, poi generati)")
+	_p("I Guardiani del Cuore (vigore 1-12 scritti a mano, voce 373; poi generati)")
 	var gl: Array = GuardiansData.LIST
-	for v in [1, 2, 3]:
-		var cid := String(gl[posmod(v - 1, gl.size())]["creature"])
-		_row(cid, v, _bhp(v), VigorData.creature_dmg(v), AT[v])
-	# i Guardiani generati cambiano con il seme del mondo: dodici semi per vigore, il più facile e il più difficile
-	for v in [4, 6, 8, 10, 12]:
+	for v in range(1, gl.size() + 1):
+		var cid := String(gl[v - 1]["creature"])
+		_row(cid, v, _bhp(v), VigorData.creature_dmg(v), AT.get(v, AT[_near(v)]))
+	# i Guardiani generati (dal vigore 13) cambiano con il seme del mondo: il più facile, il medio e il più difficile
+	for v in [12]:
 		var rows := []
 		for k in 12:
 			var gid := "gg~%d" % (1000 + v * 97 + k * 7919)
@@ -117,6 +117,14 @@ func _row(cid: String, v: int, mult: float, dmg: float, at: Array) -> void:
 	var name := String(d.get("name", cid))
 	_p("   v%-2d %-30s Vita %5.0f  | %s | %s" % [v, name.left(30), float(d["hp"]) * mult, _one(cid, mult, dmg, at, 0, FightModel.SKILL["attento"], SpineData.boss_time(v)),
 		_one(cid, mult, dmg, at, 1, FightModel.SKILL["medio"], SpineData.boss_time(v))])
+
+
+func _near(v: int) -> int:
+	var best := 1
+	for k in AT:
+		if int(k) <= v:
+			best = maxi(best, int(k))
+	return best
 
 
 func _bhp(v: int) -> float:

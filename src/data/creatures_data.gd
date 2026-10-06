@@ -309,6 +309,18 @@ static var CREATURES: Dictionary = _merged()
 static func _merged() -> Dictionary:
 	var out := _CREATURES.duplicate()
 	out.merge(BiomesData.pack("creatures"))
+	# voce 373: i Guardiani scritti a mano dei pacchetti prendono il corpo da una specie («body»): il suo disegno, la sua
+	# misura per `art_mods.scale`, la sua velocità per «speed_k»
+	for cid in out:
+		var cd: Dictionary = out[cid]
+		if cd.has("body") and not cd.has("art") and out.has(String(cd["body"])):
+			var src: Dictionary = out[String(cd["body"])]
+			var k := float((cd.get("art_mods", {}) as Dictionary).get("scale", 1.0))
+			cd = cd.duplicate()
+			cd["art"] = src["art"]
+			cd["half"] = [maxi(roundi(float(src["half"][0]) * k), 12), maxi(roundi(float(src["half"][1]) * k), 12)]
+			cd["speed"] = float(src.get("speed", 60)) * float(cd.get("speed_k", 1.0))
+			out[cid] = cd
 	# le creature che vivono anche nei biomi nuovi (campo `fauna` dei biomi)
 	for b in BiomesData.BIOMES:
 		for cid in b.get("fauna", []):

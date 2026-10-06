@@ -38,7 +38,7 @@ func run() -> void:
 	var v0: int = m.world_meta.get("vigore", 1)
 	m.world_meta["vigore"] = 2
 	var g2 := String(m.guardian.info()["creature"])
-	m.world_meta["vigore"] = 6
+	m.world_meta["vigore"] = GuardiansData.LIST.size() + 1      # voce 373: i generati dopo i dodici della spina
 	var g6: Dictionary = m.guardian.info()
 	m.world_meta["vigore"] = v0
 	var items_ok := ItemsData.get_item(String(g6["defeat"].keys()[0])).has("name") and ItemsData.get_item("linfa_gg").has("name")
@@ -64,7 +64,7 @@ func run() -> void:
 	if is_instance_valid(cr):
 		m.fauna.kill_quietly(cr)
 	m.vitals.refill()
-	print("guardiani generati: %d nomi diversi su 30, %d corpi, %d combinazioni di attacchi; stesso seme uguale %s; vigore 2 → %s, vigore 6 → %s (%s); materiali %s; in battaglia: elemento %s → %s, fase %s; problemi %s" % [
+	print("guardiani generati: %d nomi diversi su 30, %d corpi, %d combinazioni di attacchi; stesso seme uguale %s; vigore 2 → %s, vigore 13 → %s (%s); materiali %s; in battaglia: elemento %s → %s, fase %s; problemi %s" % [
 		names.size(), bodies.size(), combos.size(), "sì" if same else "NO", g2, g6["creature"],
 		GuardianGen.describe(gid), "sì" if items_ok else "NO", elem0, elem1, "sì" if phased else "NO", bad])
 	if names.size() < 25 or bodies.size() < 8 or combos.size() < 8 or not same or g2 != "regina_spore" \

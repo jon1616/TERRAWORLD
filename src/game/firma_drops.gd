@@ -18,8 +18,41 @@ func setup(main: Node2D) -> void:
 	m = main
 	_rng.randomize()
 	m.guardian.resolved.connect(func(_how: String) -> void:
-		drop(SpineData.zone_phase(int(m.world_meta.get("vigore", 1)), 4), m.guardian.heart_pos() + Vector2(16, -32)))
+		bag(String(m.guardian.info().get("id", "")), m.guardian.heart_pos() + Vector2(16, -32)))
 	m.fauna.killed.connect(_on_killed)
+
+
+## Voce 374: il Sacchetto di un Guardiano (quello dei Guardiani generati per chi non ne ha uno suo).
+func bag(gid: String, at: Vector2) -> String:
+	var id := "sacchetto_" + gid
+	if not ItemsData.has(id):
+		id = "sacchetto_generato"
+	m.drops.spawn(id, 1, at)
+	dropped += 1
+	return id
+
+
+## Apre un Sacchetto dalla mano: tutto nella Bisaccia (o a terra se non c'è posto). La prima volta il gioiello è sicuro.
+func open_bag(id: String) -> bool:
+	var b: Bisaccia = m.character.bisaccia
+	if not b.remove(id, 1):
+		return false
+	var key := "aperti_" + id
+	var first := int(m.character.stats.get(key, 0)) == 0
+	m.character.stats[key] = int(m.character.stats.get(key, 0)) + 1
+	var got := LootData.roll(String(ItemsData.get_item(id).get("table", id)), _rng, first)
+	var names := []
+	for it in got:
+		var n := int(got[it])
+		var left := b.add(String(it), n)                 # (restituisce quanti non ci stavano)
+		if left > 0:
+			m.drops.spawn(String(it), left, m.player.position + Vector2(0, -16))
+		if not String(it) in ["lumino"] and not String(it).begins_with("lingotto_"):
+			names.append(String(ItemsData.get_item(String(it)).get("name", it)))
+	Fx.puff(m.fx, m.player.position + Vector2(0, -20), Color(1.8, 1.5, 0.8))
+	m.sfx.play("dono")
+	m.hud.toast("Nel Sacchetto: %s" % ", ".join(names))
+	return true
 
 
 ## Le creature che contano come capi (non i Guardiani del Cuore: per loro c'è `resolved`).
@@ -34,7 +67,18 @@ static func is_chief(c: Creature) -> bool:
 
 
 func _on_killed(c: Creature) -> void:
-	if not is_instance_valid(c) or c.tame != null or not is_chief(c):
+	if not is_instance_valid(c) or c.tame != null:
+		return
+	# voce 374: un Guardiano rievocato al Cerchio lascia di nuovo il suo Sacchetto
+	if c.has_meta("evocato"):
+		for g in GuardiansData.LIST:
+			if String(g["creature"]) == c.id:
+				bag(String(g["id"]), c.position)
+				return
+		if GuardianGen.is_gen(c.id):
+			bag("generato", c.position)
+			return
+	if not is_chief(c):
 		return
 	if _rng.randf() < BOSS:
 		var s := StrataData.at(m.world, floori(c.position.x / 16.0), floori(c.position.y / 16.0))

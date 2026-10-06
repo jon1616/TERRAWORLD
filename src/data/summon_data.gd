@@ -6,7 +6,9 @@ class_name SummonData
 ##   nei "dati") e un **Seme d'eco** che si consuma
 ##   ARENA   il Cerchio dei Seminatori: l'evocazione si fa lì vicino, e durante lo scontro attorno non nasce niente
 
-const CALLS := {
+## Voce 373: più i Richiami dei Guardiani della spina (pacchetto `guardiani.gd`, campo «calls»).
+static var CALLS: Dictionary = _CALLS.merged(BiomesData.pack("calls"))
+const _CALLS := {
 	"richiamo_nodo": {"creature": "guardiano_nodo",
 		"loot": {"frammento_nodo": [10, 14], "scheggia_vuoto": [3, 6], "lumino": [60, 90]}},
 	"richiamo_regina": {"creature": "regina_spore",

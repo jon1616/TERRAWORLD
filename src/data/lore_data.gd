@@ -114,6 +114,79 @@ Dentro c'è qualcuno. Ti guarda con i tuoi stessi occhi e non dice niente. In tu
 		"title": "Il Risveglio del Cuore",
 		"text": "Il quarto Cuore torna a battere e gli altri gli rispondono. Lo senti sotto i piedi in ogni mondo, anche in quelli che hai lasciato: un colpo sordo, poi un altro.\nNelle rocce dei mondi più vigorosi la Linfa si rapprende in metalli che prima non c'erano. Le creature antiche se li portano dentro. Nel Giardino, accanto all'Albero-Madre, spunta una radice nuova.\nI Seminatori lo sapevano: un Cuore sveglio sveglia tutti gli altri. Per questo li avevano lasciati dormire.",
 	},
+	# voce 373: i Guardiani della spina (pezzi senza nome dei Seminatori, `UNIVERSO.md`)
+	"g_falena_sconfitto": {
+		"title": "La Falena si spegne",
+		"text": "La Falena si sfalda in polvere luminosa che non illumina niente. Per un attimo il Cuore resta al buio, poi riprende a battere da solo.",
+	},
+	"g_falena_curato": {
+		"title": "La Falena chiude le ali",
+		"text": "Le ali si chiudono piano. Dentro c'era un pezzo di qualcuno che aveva paura del buio, e per questo lo portava addosso. Ti lascia passare.",
+	},
+	"g_tessitore_sconfitto": {
+		"title": "Il Tessitore si ferma",
+		"text": "Le radici smettono di muoversi e tornano legno. Chi le tesseva non c'è più: restano i nodi, ben fatti, che nessuno scioglierà.",
+	},
+	"g_tessitore_curato": {
+		"title": "Il Tessitore lascia i fili",
+		"text": "Il Tessitore lascia andare i fili. Ne tiene uno solo e te lo mette in mano, come si fa con un apprendista.",
+	},
+	"g_marea_sconfitto": {
+		"title": "La Marea si ritira",
+		"text": "L'acqua se ne va e lascia il Cuore bagnato e vuoto. Sul fondo c'è una conchiglia che non suona.",
+	},
+	"g_marea_curato": {
+		"title": "La Marea si calma",
+		"text": "Per la prima volta da secoli si sente il rumore dell'acqua. Qualcuno, là dentro, aveva dimenticato come si parla.",
+	},
+	"g_mietistelle_sconfitto": {
+		"title": "Il Mietitore cade",
+		"text": "Il Mietitore cade sulle stelle che aveva raccolto. Si spengono una a una, come se aspettassero solo lui.",
+	},
+	"g_mietistelle_curato": {
+		"title": "Il Mietitore posa le stelle",
+		"text": "Lascia cadere le stelle. Non le raccoglieva per sé: le teneva da parte per qualcuno che non è mai tornato.",
+	},
+	"g_ospite_sconfitto": {
+		"title": "L'Ospite se ne va",
+		"text": "L'Ospite si dissolve senza un grido. Il Vuoto non lo reclama: era davvero soltanto un ospite.",
+	},
+	"g_ospite_curato": {
+		"title": "L'Ospite si ricorda",
+		"text": "La Linfa entra in lui e qualcosa si ricorda di essere stato invitato, un tempo. Lascia il Cuore in silenzio, con un inchino.",
+	},
+	"g_salamandra_sconfitto": {
+		"title": "La Madre si raffredda",
+		"text": "La Madre si raffredda e diventa pietra. Sotto di lei le uova sono cenere da tanto tempo.",
+	},
+	"g_salamandra_curato": {
+		"title": "La Madre si accuccia",
+		"text": "Il calore diventa tiepido. La Madre ti guarda come guarda i suoi piccoli, poi si accuccia attorno al Cuore.",
+	},
+	"g_bufera_sconfitto": {
+		"title": "Il tuono si spezza",
+		"text": "Il tuono si spezza a metà. Nel Cuore smette di nevicare, ma il freddo resta.",
+	},
+	"g_bufera_curato": {
+		"title": "La bufera diventa brezza",
+		"text": "La Voce canta una cosa sola, sempre la stessa: il nome di un mondo che non esiste più.",
+	},
+	"g_giardiniere_sconfitto": {
+		"title": "Il Giardiniere crolla",
+		"text": "Il Giardiniere crolla tra le aiuole morte. Nessuno le curerà più: era l'ultimo a ricordare che cosa ci cresceva.",
+	},
+	"g_giardiniere_curato": {
+		"title": "Il Giardiniere mostra le aiuole",
+		"text": "Ti mostra le aiuole una per una, come si mostra un giardino a un ospite. Poi si siede in mezzo, contento, e non si muove più.",
+	},
+	"g_eco_sconfitto": {
+		"title": "L'Eco si spegne",
+		"text": "L'Eco si spegne con la tua voce. Per un momento hai paura che fosse davvero la tua.",
+	},
+	"g_eco_curato": {
+		"title": "L'Eco dice un nome",
+		"text": "L'Eco smette di copiarti. Dice una parola sola, che non è tua: un nome corto, che finisce con una vocale.",
+	},
 	"guardiano_curato": {
 		"title": "Il Nodo guarisce",
 		"text": "L'ultimo nodo beve la Linfa e la muffa scivola via. Il Guardiano si ferma, apre l'occhio: non è più ambra malata, è Linfa limpida.\nHa l'aria di chi è rimasto sveglio troppo a lungo. Ti riconosce: sei un germoglio dell'Albero-Madre. Ti lascia la sua Linfa più antica e una foglia in più ti cresce sul petto. Poi torna ad avvolgere il Cuore, e questa volta lo protegge davvero.",

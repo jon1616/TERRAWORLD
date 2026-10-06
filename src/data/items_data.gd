@@ -430,6 +430,8 @@ static func use_of(id: String) -> String:
 			return "risana"
 		"semeguerra":
 			return "pianta"
+		"sacchetto":
+			return "apri"                             # voce 374: i Sacchetti dei Guardiani
 		"coltura":
 			return "coltiva"
 		"parete":
