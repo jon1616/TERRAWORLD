@@ -29,8 +29,10 @@ const WORK := Color("#ffd24a")         # le lavorazioni del Maglio e del Telaio 
 
 ## L'ordine delle sottocategorie fisse dentro la loro categoria (quelle fatte dai dati, come le serie di arredi o i
 ## materiali dei costrutti, vengono dopo, nell'ordine in cui compaiono).
-const SUB_ORDER := ["Spade", "Pugnali", "Spadoni", "Lance", "Martelli", "Falci", "Fruste", "Armi uniche",
-	"Archi", "Balestre", "Munizioni", "Bastoni", "Verghe", "Evocatori", "Da lancio",
+const SUB_ORDER := ["Spade", "Pugnali", "Spadoni", "Lance", "Martelli", "Falci", "Fruste", "Falci lunghe", "Manopole",
+	"Egide", "Bipenni", "Randelli", "Armi uniche",
+	"Archi", "Balestre", "Fionde", "Cerbottane", "Lanciaspore", "Munizioni", "Bastoni", "Verghe", "Tomi", "Sfere",
+	"Evocatori", "Scettri", "Da lancio", "Dischi", "Girandole", "Strumenti", "Virgulti", "Semi da combattimento",
 	"Elmi", "Corazze", "Gambali", "Guanti", "Stivali", "Mantelli", "Ali",
 	"Accessori", "Anelli", "Amuleti", "Compagni",
 	"Picconi", "Trivelle", "Asce", "Bisacce e tasche", "Esplorazione", "Attrezzi da lavoro",
@@ -54,13 +56,19 @@ const HERD := ["recinto", "incubatrice", "cuccia", "alveare_costruito"]
 const FARMS := ["esca", "esca_legnoferro", "esca_ambra", "tramoggia", "tramoggia_ambra", "nastro", "radice_ancora"]
 const FORM_PLURAL := {"spada": "Spade", "pugnale": "Pugnali", "spadone": "Spadoni", "lancia": "Lance",
 	"martello": "Martelli", "falcione": "Falci", "frusta": "Fruste", "balestra": "Balestre", "verga": "Verghe",
-	"trivella": "Trivelle"}
+	"trivella": "Trivelle",
+	# Roadmap 40, voce 368
+	"falcelunga": "Falci lunghe", "manopole": "Manopole", "egida": "Egide", "bipenne": "Bipenni", "randello": "Randelli",
+	"fionda": "Fionde", "cerbottana": "Cerbottane", "lanciaspore": "Lanciaspore", "tomo": "Tomi", "sfera": "Sfere",
+	"scettro": "Scettri", "dischi": "Dischi", "girandola": "Girandole"}
 const KIND_SUB := {"arco": "Archi", "bastone": "Bastoni", "evocatore": "Evocatori", "munizione": "Munizioni",
+	"lancio": "Da lancio", "strumento": "Strumenti", "ramo": "Virgulti", "semeguerra": "Semi da combattimento",
 	"esplosivo": "Da lancio", "ricurvo": "Da lancio", "giavellotto": "Da lancio",
 	"elmo": "Elmi", "corazza": "Corazze", "gambali": "Gambali", "guanti": "Guanti", "stivali": "Stivali",
 	"accessorio": "Accessori", "anello": "Anelli", "amuleto": "Amuleti", "compagno": "Compagni",
 	"piccone": "Picconi", "ascia": "Asce"}
 const KIND_CAT := {"arco": "armi", "bastone": "armi", "evocatore": "armi", "munizione": "armi", "esplosivo": "armi",
+	"lancio": "armi", "strumento": "armi", "ramo": "armi", "semeguerra": "armi",
 	"ricurvo": "armi", "giavellotto": "armi", "elmo": "armature", "corazza": "armature", "gambali": "armature",
 	"guanti": "armature", "stivali": "armature", "accessorio": "accessori", "anello": "accessori",
 	"amuleto": "accessori", "compagno": "accessori", "piccone": "attrezzi", "ascia": "attrezzi"}
@@ -112,7 +120,7 @@ static func place_of(id: String, station: String) -> Array:
 	match kind:
 		"spada":
 			return ["armi", String(FORM_PLURAL.get(form, "Armi uniche"))]
-		"arco", "bastone", "piccone":
+		"arco", "bastone", "piccone", "evocatore", "lancio":
 			return [KIND_CAT[kind], String(FORM_PLURAL.get(form, KIND_SUB[kind]))]
 		"mantello":
 			return ["armature", "Ali" if it.has("wings") else "Mantelli"]

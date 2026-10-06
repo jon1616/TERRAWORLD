@@ -81,8 +81,29 @@ static func weapon(cell: Dictionary, fx: Dictionary = {}) -> Dictionary:
 			w["dmg"] = float(st["damage"]) * dmg_k * Combat.TOOL_HIT
 			w["rate"] = 1.0 / Combat.DIG_PERIOD
 		"tira":
-			w["dmg"] = (float(st["damage"]) + DART) * dmg_k
+			# voce 372: la munizione conta un poco da sola e un poco con l'arma; più colpi a ventaglio ne prendono metà
+			w["dmg"] = (float(st["damage"]) * (1.0 + DART * AmmoData.K) + DART) * dmg_k 				* (1.0 + 0.5 * (int(it.get("multishot", 1)) - 1))
 			w["rate"] = maxf(float(st["speed"]), 0.1) * spd_k
+			w["ranged"] = true
+		# Roadmap 40, voce 367: gli stili nuovi, contro una creatura sola (la media dei loro modi)
+		"scaglia":
+			# tre dischi: ne prendono due; la girandola prende due volte (andata e ritorno); la Mira ferma ogni tanto
+			w["dmg"] = float(st["damage"]) * dmg_k * (1.6 if String(it.get("form", "")) == "girandola" else 2.0) * 1.08
+			w["rate"] = maxf(float(st["speed"]), 0.1) * spd_k
+			w["ranged"] = true
+		"suona":
+			# il canto (+25% per 12 secondi ogni dodici note a segno) vale in media un decimo
+			w["dmg"] = float(st["damage"]) * dmg_k * 1.1
+			w["rate"] = maxf(float(st["speed"]), 0.1) * spd_k
+			w["ranged"] = String(it.get("form", "")) != "tamburo"
+		"risana":
+			w["dmg"] = float(st["damage"]) * dmg_k
+			w["rate"] = maxf(float(st["speed"]), 0.1) * spd_k
+			w["ranged"] = true
+		"pianta":
+			# il seme-torre: due torri sempre in campo che tirano ogni `TURRET_EVERY`; il seme-bomba come un colpo
+			w["dmg"] = float(st["damage"]) * dmg_k
+			w["rate"] = float(StylesData.TURRET_MAX) / StylesData.TURRET_EVERY if String(it.get("form", "")) == "semetorre" 				else maxf(float(st["speed"]), 0.1) * spd_k
 			w["ranged"] = true
 		"incanta":
 			var sp: Dictionary = SpellsData.SPELLS.get(String(it.get("spell", "")), {})
@@ -94,8 +115,10 @@ static func weapon(cell: Dictionary, fx: Dictionary = {}) -> Dictionary:
 			w["dmg"] = 0.0
 			w["rate"] = 0.0
 	# voce 356: il gesto del materiale (fiamme, veleno, stelle: il danno in più contro una creatura)
-	if use in ["colpo", "tira", "incanta"]:
+	if use in ["colpo", "tira", "incanta", "scaglia", "suona", "risana", "pianta"]:
 		w["dmg"] = float(w["dmg"]) * (1.0 + GesturesData.single_bonus(String(st["mat"])))
+		# voce 368: gli effetti propri della forma (il veleno della cerbottana, il sangue della bipenne)
+		w["dmg"] = float(w["dmg"]) * (1.0 + GesturesData.fx_bonus(FormsData.FORM_FX.get(String(it.get("form", "")), [])))
 	return w
 
 

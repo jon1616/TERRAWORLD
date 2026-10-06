@@ -9,7 +9,7 @@ const KINDS := ["bisaccia", "tasca", "basto", "dispensa", "pagina", "curiosita",
 	"piattaforma", "elmo", "corazza", "gambali", "consumabile", "seme", "lanterna", "cura", "seme_mondo", "accessorio",
 	"purifica", "essenza", "bastone", "dono", "specchio", "trofeo", "richiamo", "reliquia", "mappa", "rampino", "esplosivo", "ricurvo",
 	"giavellotto", "coltura", "annaffiatoio", "parete", "martello", "moneta", "compagno", "evocatore", "ricordo", "provetta", "fiala", "uovo", "creatura", "vasetto", "laccio", "tavoletta", "chiave", "secchio", "secchio_pieno", "contenitore", "pesce", "canna", "esca", "cassetta", "sfida", "guanti", "stivali", "mantello", "amuleto", "anello",
-	"cannocchiale", "bussola", "radice_ritorno", "pennello", "legame"]
+	"cannocchiale", "bussola", "radice_ritorno", "pennello", "legame", "lancio", "strumento", "ramo", "semeguerra"]
 ## Forza di piccone oltre cui una tessera è voluta indistruttibile (i nodi avvizziti: si curano, non si scavano).
 const UNBREAKABLE := 999
 
@@ -387,7 +387,8 @@ func _check_materials() -> void:
 		var im := ItemIcons.make(f, "radicite")
 		_err(im.get_pixel(8, 8) != Color("#ff2080"), "forma %s: nessuna icona" % f)
 		for m in MaterialsData.all():
-			_err(ItemsData.has(FormsData.item_id(f, m)), "manca %s" % FormsData.item_id(f, m))
+			if FormsData.makes(f, m):                 # voce 368: le forme degli stili solo con i materiali puri
+				_err(ItemsData.has(FormsData.item_id(f, m)), "manca %s" % FormsData.item_id(f, m))
 	# voce 51: elementi validi, ogni creatura con debolezze e resistenze scritte
 	for m in MaterialsData.all():
 		var e := String(MaterialsData.get_mat(m)["elemento"])

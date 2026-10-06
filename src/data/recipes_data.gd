@@ -196,8 +196,10 @@ static func all() -> Array:
 	out.append_array(SecretsData.RECIPES.duplicate(true))   # voce 95
 	for m in MaterialsData.all():
 		for f in FormsData.FORMS:
-			out.append(FormsData.recipe(f, m))
+			if FormsData.makes(f, m):
+				out.append(FormsData.recipe(f, m))
 	out.append_array(MaterialsData.recipes())
+	out.append_array(AmmoData.recipes())                     # voce 372: le munizioni
 	_all = out
 	return _all
 

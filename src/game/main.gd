@@ -125,6 +125,7 @@ var dreams: Dreams                     # voce 343
 var echoes: Echoes                     # voce 344
 var truth: Truth                       # voce 345
 var cuore_desto: CuoreDesto            # Roadmap 39, voce 364: il Risveglio del Cuore e il Diario della spina
+var styles: Styles                     # Roadmap 40, voce 367: gli stili del Giardiniere
 var void_voice: VoidVoice              # voce 347
 var evergreen: Evergreen               # Roadmap 28: il dopo (stelle di maestria, Semi d'oro)
 var summons: Summons
@@ -391,6 +392,7 @@ func _build() -> void:
 	truth = _mount(Truth.new())                  # voce 345: il Taccuino della verità
 	void_voice = _mount(VoidVoice.new())         # voce 347: la Bocca, nei luoghi malati
 	cuore_desto = _mount(CuoreDesto.new())       # Roadmap 39, voce 364: il Risveglio del Cuore
+	styles = _mount(Styles.new())                # Roadmap 40, voce 367: gli stili e le loro risorse
 	_mount(PanelButtons.new())                 # voce 101: i pulsanti dei pannelli in basso a sinistra
 	hud.select(character.hotbar)
 	var start := world.spawn

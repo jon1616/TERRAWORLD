@@ -287,6 +287,7 @@ static func all() -> Dictionary:
 	out.merge(BackpackData.items())                        # Roadmap 30: lo zaino
 	out.merge(DeepRulesData.items())                       # voce 354: i materiali del profondo
 	out.merge(SpineData.ITEMS.duplicate(true))             # voce 364: la Linfa del Cuore
+	out.merge(AmmoData.items())                            # voce 372: le munizioni
 	out.merge(HarvestData.items())                         # voce 300: i raccolti delle piante
 	out.merge(EncountersData.items())                      # voce 303: il diario di Tessa
 	out.merge(CuriositiesData.items())                     # voce 304: le curiosità degli strati
@@ -322,7 +323,8 @@ static func all() -> Dictionary:
 	# le famiglie di equipaggiamento: forma × materiale (voce 49, `FormsData` e `MaterialsData`)
 	for m in MaterialsData.all():
 		for f in FormsData.FORMS:
-			out[FormsData.item_id(f, m)] = FormsData.item(f, m)
+			if FormsData.makes(f, m):
+				out[FormsData.item_id(f, m)] = FormsData.item(f, m)
 	_all = out
 	return _all
 
@@ -401,6 +403,15 @@ static func use_of(id: String) -> String:
 			return "aggancia"
 		"esplosivo", "ricurvo", "giavellotto":
 			return "lancia"
+		# Roadmap 40, voce 368: gli stili nuovi (`Styles`)
+		"lancio":
+			return "scaglia"
+		"strumento":
+			return "suona"
+		"ramo":
+			return "risana"
+		"semeguerra":
+			return "pianta"
 		"coltura":
 			return "coltiva"
 		"parete":

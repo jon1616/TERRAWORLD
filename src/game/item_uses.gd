@@ -41,6 +41,11 @@ const KIND_USE := {
 	"secchio_pieno": "Versa il liquido che contiene.",
 	"contenitore": "Raccoglie e versa liquidi, più di un secchio.",
 	"canna": "In mano: si pesca cliccando su uno specchio d'acqua (o Linfa, o brace).",
+	# Roadmap 40, voce 368: gli stili nuovi
+	"lancio": "In mano: si lancia verso il mouse (clic sinistro tenuto). Stando fermi un attimo il lancio dopo è perfetto.",
+	"strumento": "In mano: suona verso il mouse; ogni nota che colpisce dà Ispirazione, e piena parte il canto dello strumento.",
+	"ramo": "In mano: tira semi di Rugiada; ferire ti cura, e ogni sei colpi un'onda cura te e i compagni.",
+	"semeguerra": "In mano: si pianta sul campo (seme-torre) o si lancia ad arco (seme-bomba).",
 	"esca": "Esca per la pesca: la canna usa da sola la migliore che hai.",
 	"cassetta": "Si apre con il clic: dentro c'è un po' di tutto.",
 	"compagno": "Chiama o rimanda il compagno che ti segue (luce, oggetti attirati).",

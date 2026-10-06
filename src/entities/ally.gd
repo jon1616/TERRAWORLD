@@ -24,6 +24,8 @@ var _hit := {}                          # creatura -> secondi prima di poterla c
 var _slot := 0                          # posto attorno al Germogliato (per non stare tutti uguali)
 
 
+var power := 1.0                        # voce 367: la forza dello scettro che l'ha richiamato
+
 func setup(aid: String, is_pet: bool, main: Node2D, slot: int) -> void:
 	id = aid
 	pet = is_pet
@@ -118,7 +120,7 @@ func _find_target() -> void:
 func _attack(dt: float) -> void:
 	if target == null:
 		return
-	var dmg := roundi(int(data["damage"]) * m.combat.magic_mult)
+	var dmg := roundi(int(data["damage"]) * m.combat.magic_mult * power)
 	if float(data["shoot"]) > 0.0:
 		_shot -= dt
 		if _shot <= 0.0:

@@ -79,7 +79,7 @@ static func draw(shape: String, im: Image, p: Array[Color]) -> bool:
 			Px.put(im, 9, 9, p[0])
 			Px.put(im, 7, 12, p[0])
 		_:
-			return false
+			return StyleShapes.draw(shape, im, p)              # Roadmap 40: le forme degli stili
 	return true
 
 

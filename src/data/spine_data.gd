@@ -62,7 +62,7 @@ static func filo_of_tier(t: int) -> float:
 ## per esteso: i file di dati non nominano altre classi che si caricano dopo).
 const KEEP := 4
 const METALS := {
-	"corallite": {"label": "di corallite", "short": "corallite", "tier": 7, "durezza": 95, "filo": 53, "peso": 9.0,
+	"corallite": {"label": "di corallite", "short": "corallite", "tier": 7, "durezza": 95, "filo": 55, "peso": 6.0,
 		"tenacia": 7.2, "conduzione": 12, "elemento": "linfa", "risonanza": 2, "icon": "corallite",
 		"raw": {"id": "corallite_grezza", "name": "Corallite grezza", "shape": "minerale", "tiles": [3, 9], "stratum": 2,
 			"vigor": 6, "chance": 0.05, "ancient": 0.5},

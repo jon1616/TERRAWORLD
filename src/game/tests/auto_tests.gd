@@ -271,6 +271,8 @@ func run(main: Node2D) -> void:
 	_mark("TestsVastita")
 	TestsSpine.new(kit).run()              # Roadmap 39: la spina della partita
 	_mark("TestsSpine")
+	await TestsStyles.new(kit).run()       # Roadmap 40: gli stili del Giardiniere
+	_mark("TestsStyles")
 	await TestsMaterials.new(kit).run()     # Roadmap 31: il carattere dei materiali
 	_mark("TestsMaterials")
 	await TestsBonds.new(kit).run()         # Roadmap 32: i compagni di battaglia
@@ -489,6 +491,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsVastita.new(kit).run()        # Roadmap 38: il piano «La vastità»
 		"spina":
 			TestsSpine.new(kit).run()                # Roadmap 39: la spina della partita
+		"stili":
+			await TestsStyles.new(kit).run()         # Roadmap 40: gli stili del Giardiniere
 		"carattere":
 			await TestsMaterials.new(kit).run()      # Roadmap 31: il carattere dei materiali
 		"legami":

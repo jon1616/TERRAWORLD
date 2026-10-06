@@ -67,7 +67,8 @@ func fire(from: Vector2, vel: Vector2, grav: float, damage: int, from_player: bo
 		"ally": int(opts.get("ally", -1)),          # Roadmap 32: il colpo di un compagno (uid della scheda)
 		# voce 356: i moduli del motore dei gesti (`GesturesData`)
 		"bounce": int(opts.get("bounce", 0)), "split": opts.get("split", []), "boom": opts.get("boom", []),
-		"ret": float(opts.get("ret", 0.0)), "wave": float(opts.get("wave", 0.0)), "woff": Vector2.ZERO, "back": false})
+		"ret": float(opts.get("ret", 0.0)), "wave": float(opts.get("wave", 0.0)), "woff": Vector2.ZERO, "back": false,
+		"style": String(opts.get("style", ""))})      # voce 367: lo stile del colpo (`Styles.note_hit`)
 
 
 func count() -> int:

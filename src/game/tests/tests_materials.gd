@@ -36,6 +36,8 @@ func traits() -> void:
 			continue
 		var key := String(tr.keys()[0])
 		for f in FormsData.FORMS:
+			if not FormsData.makes(String(f), String(mat)):
+				continue                                  # voce 368: le forme degli stili non si fanno con le leghe
 			var it := ItemsData.get_item(FormsData.item_id(String(f), String(mat)))
 			var where: Dictionary = it.get("acc", {}) if FormsData.TRAIT_PART.has(f) else it.get("mano", {})
 			if not where.has(key):

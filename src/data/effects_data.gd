@@ -127,6 +127,15 @@ const EFFECTS := {
 		"desc": "chi ti ferisce mentre la impugni riceve il 30% del colpo"},
 	"mat_osso": {"name": "Memoria antica", "when": "ogni", "n": 8, "do": "scossa", "r": 4, "t": 0.8,
 		"desc": "ogni ottavo colpo stordisce tutto ciò che ti sta attorno"},
+	# Roadmap 40, voce 368: gli effetti propri di alcune forme (`FormsData.FORM_FX`)
+	"forma_randello": {"name": "Colpo sordo", "when": "colpo", "chance": 0.25, "do": "stordisce", "t": 0.5,
+		"desc": "un colpo su quattro stordisce"},
+	"forma_cerbottana": {"name": "Spora che morde", "when": "colpo", "chance": 0.5, "do": "avvelena", "t": 4.0,
+		"desc": "un colpo su due avvelena"},
+	"forma_manopole": {"name": "Raffica", "when": "ogni", "n": 8, "do": "scossa", "r": 2, "t": 0.4,
+		"desc": "ogni ottavo pugno stordisce chi ti sta addosso"},
+	"forma_bipenne": {"name": "Fendente", "when": "colpo", "chance": 0.2, "do": "sanguina", "t": 3.0, "dps": 0.25,
+		"desc": "un colpo su cinque fa sanguinare"},
 	# Roadmap 39, voce 363: i gesti dei metalli del Risveglio (`SpineData.GESTURES`), due effetti ciascuno
 	"mat_corallite": {"name": "Corallo che cresce", "when": "colpo", "chance": 1.0, "do": "cura", "frac": 0.03,
 		"desc": "ogni colpo rende il 3% del danno in Vita"},

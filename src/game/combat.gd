@@ -78,6 +78,8 @@ func on_shot(s: Dictionary) -> bool:
 					c.chill_t = maxf(c.chill_t, float(s["chill"]))   # onda di lagunite: rallenta
 				_strike(c, int(s["damage"]), pos.x - signf(s["vel"].x) * 10.0, float(s["knock"]), String(s.get("elem", "")))
 				_gesture_hit(s, c, pos)                    # voce 356: si divide, scoppia
+				if String(s.get("style", "")) != "" and m.get("styles") != null:
+					m.styles.note_hit(String(s["style"]), c, int(s["damage"]))   # voce 367: Ispirazione, Rugiada
 				if int(s["pierce"]) <= 0:
 					return true
 				s["pierce"] = int(s["pierce"]) - 1
@@ -94,6 +96,7 @@ func on_shot(s: Dictionary) -> bool:
 
 
 var shards_made := 0                    # voce 356: schegge nate dai colpi che si dividono (per le prove)
+var _last_dmg := 0                      # voce 367: il danno dell'ultimo giro (la scossa dello Slancio)
 
 
 ## Voce 356: i moduli di un colpo che ha preso una creatura (`GesturesData`): le schegge e lo scoppio attorno.
@@ -162,6 +165,9 @@ func _melee(st: Dictionary, use: String, tr := "") -> void:
 		return
 	var cyc := int(player.swing_t / player.swing_period)
 	if cyc != _cycle:
+		# voce 367: lo Slancio della mischia (il giro appena finito ha colpito qualcosa?)
+		if _cycle >= 0 and use == "colpo" and m.get("styles") != null:
+			m.styles.melee_cycle(not _hit_set.is_empty(), _last_dmg)
 		_cycle = cyc
 		_hit_set.clear()
 		if use == "colpo":
@@ -171,6 +177,9 @@ func _melee(st: Dictionary, use: String, tr := "") -> void:
 	if ph < 0.15:
 		return                             # l'attrezzo è ancora alzato
 	var area := melee_area(String(st["form"]) if use == "colpo" else "")
+	if use == "colpo" and m.get("styles") != null:
+		dmg = roundi(dmg * float(m.styles.melee_mult()))      # voce 367: lo Slancio pieno
+	_last_dmg = dmg
 	for c in fauna.list.duplicate():
 		if not _hit_set.has(c) and area.intersects(c.rect()):
 			_hit_set[c] = true
@@ -203,25 +212,43 @@ func _bow(it: Dictionary, st: Dictionary, use: String, active: bool, dt: float, 
 	if _bow_t > 0.0:
 		return
 	var ammo := ""
+	var want := String(it.get("ammo", "dardo"))           # voce 368: dardi, sassi o spore secondo l'arma
 	for a in AMMO:
-		if bisaccia.count(a) > 0:
+		if String(ItemsData.get_item(a).get("ammo", "dardo")) == want and bisaccia.count(a) > 0:
 			ammo = a
 			break
 	if ammo == "":
-		m.hud.toast("Niente dardi")
+		m.hud.toast({"dardo": "Niente dardi", "sasso": "Niente sassi da fionda", "spora": "Niente spore da soffiare"}.get(want, "Niente munizioni"))
 		_bow_t = 1.0
 		return
 	_bow_t = 1.0 / (maxf(float(st["speed"]), 0.1) * spd_mult)
 	bisaccia.remove(ammo, 1)
 	m.sfx.play("tira")
-	var dmg := roundi((float(st["damage"]) + int(ItemsData.get_item(ammo).get("damage", 0))) * _boon())
+	# voce 372: la munizione conta un poco da sola e un poco con l'arma (`AmmoData.K`), e porta il suo modo
+	var ad := float(ItemsData.get_item(ammo).get("damage", 0))
+	var dmg := roundi((float(st["damage"]) * (1.0 + ad * AmmoData.K) + ad) * _boon())
 	# un po' di anticipo sulla caduta, così il dardo va dove si mira anche lontano
 	var flight := d.length() / DART_SPEED
 	var v := d.normalized() * DART_SPEED
 	var dg := DART_GRAV * Creature.grav           # voce 76: in un mondo leggero il dardo cade meno
 	v.y -= 0.5 * dg * minf(flight, 0.8)
-	var n := int(it.get("multishot", 1))       # l'Arco iridato tira più dardi a ventaglio con un dardo solo
+	var n := int(it.get("multishot", 1))       # l'Arco iridato (e il Lanciaspore) tira più colpi a ventaglio con uno solo
 	var go := gesture_opts({"pierce": int(st["pierce"]), "elem": String(st["elem"])}, String(st["mat"]))   # voce 356
+	var am: Dictionary = AmmoData.MODS.get(ammo, {})
+	if not am.is_empty():
+		var pure := am.duplicate()
+		for k in ["elem", "chill", "speed"]:
+			pure.erase(k)
+		var mo := GesturesData.merge_mods(go[0], pure)
+		if am.has("elem") and String(st["elem"]) == "":
+			mo["elem"] = am["elem"]
+		elif String(st["elem"]) != "":
+			mo["elem"] = String(st["elem"])
+		if am.has("chill"):
+			mo["chill"] = float(am["chill"])
+		go = [mo, float(go[1]) * float(am.get("speed", 1.0))]
+	if want != "dardo":
+		(go[0] as Dictionary)["look"] = "scheggia" if want == "sasso" else "spora_amica"
 	for k in n:
 		shots.fire(from + d.normalized() * 8.0, v.rotated((k - (n - 1) / 2.0) * 0.12) * float(go[1]), dg, dmg, true,
 				float(st["knockback"]) / 3.0, go[0])
@@ -230,7 +257,8 @@ func _bow(it: Dictionary, st: Dictionary, use: String, active: bool, dt: float, 
 ## Danno ×1,2 con la Pozione di vigore attiva, e il danno in più degli accessori.
 func _boon() -> float:
 	return (Boons.VIGORE if m.boons.active.has("vigore") else 1.0) * dmg_mult * (Boons.SAZIO if m.boons.active.has("sazio") else 1.0) \
-		* (m.arts.mult_now() if m.get("arts") != null else 1.0)      # Roadmap 25: la maestria dell'arma in mano
+		* (m.arts.mult_now() if m.get("arts") != null else 1.0) \
+		* (m.styles.dmg_now() if m.get("styles") != null else 1.0)    # voce 367: il Canto di guerra
 
 
 func _strike(c: Creature, dmg: int, from_x: float, force: float, elem := "") -> void:

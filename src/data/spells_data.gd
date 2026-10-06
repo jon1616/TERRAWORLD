@@ -15,6 +15,11 @@ extends RefCounted
 ##   elem     l'elemento dei colpi (voce 51, `ElementsData`); la saetta delle verghe prende quello del metallo
 
 const SPELLS := {
+	# Roadmap 40, voce 368: il tomo (tre pagine che inseguono) e la sfera (un globo lento che attraversa tutto)
+	"pagine": {"look": "iride", "speed": 300.0, "grav": 0.0, "n": 3, "spread": 0.45, "pierce": 0, "homing": 3.5,
+		"light": Color(1.0, 0.9, 1.2)},
+	"globo": {"look": "orbita", "speed": 160.0, "grav": 0.0, "n": 1, "spread": 0.0, "pierce": 6, "homing": 0.0,
+		"light": Color(1.1, 0.8, 1.5)},
 	# voce 50: la saetta delle verghe di metallo (il danno viene dalla conduzione del metallo)
 	"saetta": {"look": "scheggia", "speed": 440.0, "grav": 0.0, "n": 1, "spread": 0.0, "pierce": 0, "homing": 0.0,
 		"light": Color(0.5, 1.2, 1.1)},

@@ -110,8 +110,13 @@ static func merge_mods(a: Dictionary, b: Dictionary) -> Dictionary:
 ## le fiamme, il veleno, le stelle che cadono, la vulnerabilità. Ciò che colpisce altre creature (schegge, catene,
 ## trapassare, scoppi) o difende (rallentare, trattenere) qui non conta: rende di più nei gruppi e nelle ferite evitate.
 static func single_bonus(mat: String) -> float:
+	return fx_bonus(of_mat(mat).get("fx", []))
+
+
+## Lo stesso per un elenco di effetti (anche quelli delle forme, voce 368).
+static func fx_bonus(fxs: Array) -> float:
 	var k := 0.0
-	for id in of_mat(mat).get("fx", []):
+	for id in fxs:
 		var e: Dictionary = EffectsData.info(String(id))
 		var ch := float(e.get("chance", 1.0))
 		match String(e.get("do", "")):
@@ -123,5 +128,7 @@ static func single_bonus(mat: String) -> float:
 				k += ch * 0.15
 			"pioggia":
 				k += float(e.get("shards", 3)) * float(e.get("dmg", 0.5)) / float(e.get("n", 5)) * 0.8
+			"sanguina":
+				k += ch * float(e.get("dps", 0.25)) * float(e.get("t", 3.0)) * 0.5
 	return k
 

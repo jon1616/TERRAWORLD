@@ -9,11 +9,15 @@ extends SceneTree
 ##   4. le leghe e i materiali dei geni: danno al secondo della spada rispetto ai metalli del loro grado
 ##   5. la qualità, i tratti e la tempra: quanto cambiano
 
-const BASE := ["radicite", "legnoferro", "ambra", "linfa", "vuoto", "stellare"]
+const BASE := ["radicite", "legnoferro", "ambra", "linfa", "vuoto", "stellare", "corallite", "primambra"]
 const FORMS := ["spada", "pugnale", "spadone", "lancia", "martello", "falcione", "frusta", "arco", "balestra", "verga",
-	"piccone", "ascia", "trivella"]
+	"piccone", "ascia", "trivella",
+	# Roadmap 40, voce 368: le forme degli stili
+	"falcelunga", "manopole", "egida", "bipenne", "randello", "fionda", "cerbottana", "lanciaspore", "tomo", "sfera",
+	"dischi", "girandola", "buccina", "flauto", "tamburo", "virgulto", "semetorre", "semebomba"]
 ## Il colpo tipico dello strato del metallo (media di `ZoneModel` a vigore 1 con danno × pericolo × 1,35).
-const STRATUM_OF := {"radicite": 1, "legnoferro": 2, "ambra": 3, "linfa": 4, "vuoto": 4, "stellare": 4}
+const STRATUM_OF := {"radicite": 1, "legnoferro": 2, "ambra": 3, "linfa": 4, "vuoto": 4, "stellare": 4, "corallite": 4,
+	"primambra": 4}
 
 var out := ""
 

@@ -74,6 +74,7 @@ func summon(item: String) -> bool:
 		Fx.puff(m.fx, old.position, Color(0.8, 1.6, 1.4))
 		old.queue_free()
 	var a := _make(aid, false, allies.size() + 1)
+	a.power = float(ItemsData.get_item(item).get("ally_power", 1.0))     # voce 367: lo scettro del branco
 	allies.append(a)
 	Fx.puff(m.fx, a.position, Color(0.8, 1.6, 1.4))
 	m.sfx.play("incanto", a.position)
