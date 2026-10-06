@@ -24,6 +24,16 @@ E i colpi a distanza (archi, verghe) volano in modo diverso: rimbalzano, si divi
 Una [b]lega[/b] porta i gesti dei suoi due metalli insieme. Esamina dice il gesto di ogni arma.
 {cat_materiali_breve}
 Il catalogo completo: [url=cat:materiali]tutti i materiali[/url]."""},
+	{"id": "spina", "group": "Creare ed equipaggiarsi", "name": "La spina della partita", "text":
+"""La partita ha ventiquattro [b]fasi[/b]: le dispari sono i dodici metalli, le pari i Guardiani e le soglie. Il colore del nome di ogni oggetto dice in che fase arriva. Dove sei arrivato lo dice la pagina [b]La spina[/b] nel Taccuino del Semenzaio, con tutti i metalli e dove si trovano.
+Ogni mondo di vigore più alto ha creature con molta più Vita (un terzo in più a ogni vigore) e che colpiscono più forte. Per questo ogni metallo nuovo fa un terzo di danno in più del precedente: dalla radicite alla primambra il danno cresce di ventisei volte. I Guardiani durano di più a ogni vigore: da un minuto a tre.
+[b]Il Risveglio del Cuore[/b] è la prima grande soglia. Quando risolvi il Guardiano di un mondo di vigore 4 o più, curato o abbattuto, tutti i mondi cambiano, anche quelli già visitati:
+• nelle rocce dei mondi più vigorosi compaiono sei metalli nuovi: corallite (vigore 6), sanguinite (7), cuorelegno (8, nelle radici giganti), eterite (9), astrite (10, nel Fondo) e primambra (11). Ognuno si trova per qualche vigore, poi lascia il posto al successivo; la primambra resta per sempre;
+• le creature antiche nascono più spesso e a volte lasciano il metallo del loro mondo;
+• nel Giardino spunta una radice nuova: un'Aiuola in più;
+• i Guardiani dei mondi di vigore 5 e oltre lasciano la [b]Linfa del Cuore[/b]: +15 Vita massima per sempre, fino a dodici volte.
+I metalli nuovi si fondono al Baccello ardente come gli altri (tre grezzi per un lingotto) e danno armi, attrezzi, armature e un set ciascuno, con il loro gesto e il loro carattere. Non fanno leghe.
+Oltre il vigore 11 le creature crescono piano: lì contano la [url=cap:vigore]tempra[/url] al Maglio, i set e le arti."""},
 	{"id": "forme", "group": "Creare ed equipaggiarsi", "name": "Le forme", "text":
 """La forma decide come si usa un oggetto: la sua area di colpo, la velocità, a che cosa serve. Ogni forma esiste in ogni materiale.
 {cat_forme}"""},

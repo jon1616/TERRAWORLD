@@ -102,9 +102,8 @@ static func weapon(cell: Dictionary, fx: Dictionary = {}) -> Dictionary:
 ## Una creatura come la fa nascere `Fauna` in uno strato (0-4) e a un vigore; `extra` = pericolo del cielo o dei totem.
 static func foe(id: String, stratum: int, vigor: int, extra := 1.0) -> Dictionary:
 	var d := CreaturesData.get_data(id)
-	var mult := float(StrataData.STRATA[clampi(stratum, 0, StrataData.STRATA.size() - 1)]["danger"]) \
-		* VigorData.creature_mult(vigor) * extra
-	var f := stats_of(d, mult, mult * DangerData.DAMAGE)
+	var mult := float(StrataData.STRATA[clampi(stratum, 0, StrataData.STRATA.size() - 1)]["danger"]) * extra
+	var f := stats_of(d, mult * VigorData.creature_mult(vigor), mult * VigorData.creature_dmg(vigor) * DangerData.DAMAGE)
 	f["id"] = id
 	return f
 

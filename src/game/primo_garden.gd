@@ -64,8 +64,8 @@ func wake() -> Creature:
 				and not CreaturesData.get_data((c as Creature).id).get("boss", false):
 			m.fauna.kill_quietly(c)
 	boss = m.fauna.add("ultimo_seminatore", at)
-	var vm := Portal.vigor_mult(int(m.world_meta.get("vigore", 1)))
-	boss.strengthen(vm, vm * DangerData.DAMAGE)
+	var v := int(m.world_meta.get("vigore", 1))
+	boss.strengthen(Portal.boss_mult(v), Portal.vigor_dmg(v) * DangerData.DAMAGE)
 	state()["sveglio"] = true
 	m.hud.toast("Dall'Albero Antico si alza l'ultimo Seminatore: «Nessuno toccherà il seme.»")
 	m.sfx.play("guardiano")

@@ -110,6 +110,10 @@ Dentro c'è qualcuno. Ti guarda con i tuoi stessi occhi e non dice niente. In tu
 		"title": "Il Nodo si spezza",
 		"text": "Il Guardiano si sfalda in schegge di legno duro come pietra. Era malato, e ora non c'è più: il Cuore è libero, ma il mondo ha perso chi lo custodiva.\nDai frammenti del Nodo si può forgiare il metallo della Linfa. Il Cuore, sollevato, ti dona un seme.",
 	},
+	"risveglio_cuore": {
+		"title": "Il Risveglio del Cuore",
+		"text": "Il quarto Cuore torna a battere e gli altri gli rispondono. Lo senti sotto i piedi in ogni mondo, anche in quelli che hai lasciato: un colpo sordo, poi un altro.\nNelle rocce dei mondi più vigorosi la Linfa si rapprende in metalli che prima non c'erano. Le creature antiche se li portano dentro. Nel Giardino, accanto all'Albero-Madre, spunta una radice nuova.\nI Seminatori lo sapevano: un Cuore sveglio sveglia tutti gli altri. Per questo li avevano lasciati dormire.",
+	},
 	"guardiano_curato": {
 		"title": "Il Nodo guarisce",
 		"text": "L'ultimo nodo beve la Linfa e la muffa scivola via. Il Guardiano si ferma, apre l'occhio: non è più ambra malata, è Linfa limpida.\nHa l'aria di chi è rimasto sveglio troppo a lungo. Ti riconosce: sei un germoglio dell'Albero-Madre. Ti lascia la sua Linfa più antica e una foglia in più ti cresce sul petto. Poi torna ad avvolgere il Cuore, e questa volta lo protegge davvero.",

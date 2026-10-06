@@ -269,7 +269,7 @@ func records_text() -> String:
 ## righe hanno l'id «storia:<pagina>».
 func _story_modules() -> Array:
 	var out := []
-	for k in ["sowers", "dreams", "echoes", "truth"]:
+	for k in ["cuore_desto", "sowers", "dreams", "echoes", "truth"]:
 		if m.get(k) != null:
 			out.append(m.get(k))
 	return out

@@ -83,6 +83,9 @@ static func all() -> Dictionary:
 		elif GENE_BONUS.has(mat):
 			bonus = GENE_BONUS[mat]["bonus"]
 			name = String(GENE_BONUS[mat]["name"])
+		elif SpineData.SETS.has(mat):                    # voce 363: i metalli del Risveglio
+			bonus = SpineData.SETS[mat]["bonus"]
+			name = String(SpineData.SETS[mat]["name"])
 		else:
 			continue
 		out[String(mat)] = {"name": name, "pieces": _pieces(String(mat)), "bonus": bonus, "desc": describe(bonus)}

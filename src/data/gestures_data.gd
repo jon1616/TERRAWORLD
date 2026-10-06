@@ -69,6 +69,8 @@ const MATERIAL := {
 static func of_mat(mat: String) -> Dictionary:
 	if MATERIAL.has(mat):
 		return MATERIAL[mat]
+	if SpineData.GESTURES.has(mat):                      # Roadmap 39: i metalli del Risveglio
+		return SpineData.GESTURES[mat]
 	if mat.begins_with("lega_"):
 		var parts := _alloy_parts(mat)
 		if parts.size() == 2 and MATERIAL.has(parts[0]) and MATERIAL.has(parts[1]):

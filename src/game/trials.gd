@@ -80,12 +80,12 @@ func _next() -> void:
 	for k in n:
 		var cr := _spawn(String(p[_rng.randi_range(0, p.size() - 1)]))
 		if cr != null:
-			cr.strengthen(mult)
+			cr.strengthen(mult, m.fauna.dmg_for(mult))
 	if wave % BOSS_EVERY == 0:
 		var b := _spawn(String(p[_rng.randi_range(0, p.size() - 1)]))
 		if b != null:
 			m.fauna.make_ancient(b, "ancestrale")
-			b.strengthen(mult)
+			b.strengthen(mult, m.fauna.dmg_for(mult))
 	m.hud.toast("Prova del Cerchio: ondata %d di %d%s" % [wave, WAVES, " · un capo!" if wave % BOSS_EVERY == 0 else ""])
 	m.sfx.play("guardiano" if wave % BOSS_EVERY == 0 else "presenza")
 

@@ -155,7 +155,7 @@ func _bait(o: Vector2i, id: String) -> void:
 	var vid := FamiliesData.roll_variant(sp, _rng, m.fauna.elem_bias(stratum, ""), m.fauna.danger, m.fauna.grade)
 	var cr: Creature = m.fauna.add(vid, Vector2(cell.x * 16 + 8, (cell.y + 1) * 16 - CreaturesData.get_data(vid)["half"][1] - 0.1))
 	var mult: float = float(StrataData.STRATA[stratum]["danger"]) * m.fauna.vigor_mult
-	cr.strengthen(mult, mult * DangerData.DAMAGE)
+	cr.strengthen(mult, m.fauna.dmg_for(mult) * DangerData.DAMAGE)
 	cr.extra = true                        # non conta nel tetto delle nascite normali
 	cr.set_meta("farm", k)
 	called += 1

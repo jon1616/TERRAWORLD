@@ -62,7 +62,7 @@ static func group(f: Fauna, first: Creature, id: String, mult: float, _rng: Rand
 		if f.world.solid(q.x, q.y):
 			continue
 		var mb := f.add(id, o)
-		mb.strengthen(mult, mult * DangerData.DAMAGE)
+		mb.strengthen(mult, f.dmg_for(mult) * DangerData.DAMAGE)
 		mb.extra = true
 		mb.set_meta("grp", first.get_instance_id())   # voce 131: un gruppo (`Tactics`)
 	first.set_meta("grp", first.get_instance_id())
@@ -76,7 +76,7 @@ static func pack(f: Fauna, leader: Creature, id: String, mult: float, _rng: Rand
 		if f.world.solid(floori(o.x / S), floori(o.y / S)):
 			o = leader.position
 		var mb := f.add(id, o)
-		mb.strengthen(mult, mult * DangerData.DAMAGE)
+		mb.strengthen(mult, f.dmg_for(mult) * DangerData.DAMAGE)
 		mb.extra = true
 		mb.set_meta("grp", leader.get_instance_id())  # voce 131: il branco segue il capo; se cade, fugge
 		mb.mind.lead = leader

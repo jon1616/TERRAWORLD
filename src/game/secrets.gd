@@ -195,7 +195,7 @@ func _wake_nest(s: Dictionary) -> void:
 	var id := String(ok[_rng.randi_range(0, ok.size() - 1)][0])
 	var cr: Creature = m.fauna.add(id, (Vector2(r.get_center()) + Vector2(0.5, 0.0)) * 16.0)
 	var mult := float(StrataData.STRATA[st]["danger"]) * float(m.fauna.vigor_mult)
-	cr.strengthen(mult, mult * DangerData.DAMAGE)
+	cr.strengthen(mult, m.fauna.dmg_for(mult) * DangerData.DAMAGE)
 	m.fauna.make_ancient(cr, "antica")
 	m.hud.toast("Nel nido dormiva qualcosa di raro…")
 

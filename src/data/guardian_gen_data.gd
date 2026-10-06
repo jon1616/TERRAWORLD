@@ -18,6 +18,11 @@ const DROP := 14                       # Nuclei o Linfe che lascia
 const SHOOTERS := ["ventaglio", "spara", "bombarda"]
 const MANY_SHOTS_SLOW := 1.6
 const NO_SHOTS_DAMAGE := 1.4
+## Roadmap 39, voce 365: la pericolosità comune (`GuardianGen.threat`, danno al secondo stimato) e quanto ci si può
+## allontanare; quanto arriva a segno di ogni attacco (frazioni a occhio, tarate con `tools/boss.gd`).
+const THREAT := 12.0
+const THREAT_K := [0.55, 1.4]
+const HIT := {"contatto": 0.25, "move": 0.35, "ventaglio": 0.2, "spara": 0.45, "bombarda": 0.4, "evoca": 8.0}
 
 ## Le specie che non fanno da corpo: troppo piccole per leggersi, o fatte per l'acqua.
 const NO_BODY := ["pesce_lume", "anguilla_linfa", "sciame_schegge", "geomimo"]

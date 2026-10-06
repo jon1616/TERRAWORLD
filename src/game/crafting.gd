@@ -132,12 +132,12 @@ static func _discovered(r: Dictionary) -> bool:
 	var it := ItemsData.get_item(String(r["out"]))
 	var mat := String(it.get("mat", ""))
 	var md := MaterialsData.get_mat(mat)
-	if mat != "" and (md.has("alloy") or md.has("gene")):
+	if mat != "" and (md.has("alloy") or md.has("gene") or md.has("spina")):
 		return known.has(String(md["bar"]))       # le armi di una lega o di un materiale dei geni (voci 52-53)
 	var out := String(r["out"])
 	if out.begins_with("lingotto_") and MaterialsData.all().has(out.trim_prefix("lingotto_")):
 		var bm := MaterialsData.get_mat(out.trim_prefix("lingotto_"))
-		if bm.has("alloy") or bm.has("gene"):
+		if bm.has("alloy") or bm.has("gene") or bm.has("spina"):
 			for k in r["in"]:
 				if not known.has(k):
 					return false

@@ -187,7 +187,7 @@ func _next_wave() -> void:
 			continue
 		var cid := String(pool[_rng.randi_range(0, pool.size() - 1)])
 		var cr: Creature = m.fauna.add(cid, at)
-		cr.strengthen(m.fauna.vigor_mult * (1.0 + 0.1 * wave))
+		cr.strengthen(m.fauna.vigor_mult * (1.0 + 0.1 * wave), m.fauna.vigor_dmg * (1.0 + 0.1 * wave))
 		cr.provoke()
 		cr.mind.brave = true
 		cr.mind.alarm(m.player.position)
@@ -213,7 +213,7 @@ func _spawn_boss() -> void:
 	if at.x < 0.0:
 		at = m.player.position + Vector2(10.0 * S, -3.0 * S)
 	boss = m.fauna.add(String(td["boss"]), at)
-	boss.strengthen(m.fauna.vigor_mult)
+	boss.strengthen(m.fauna.boss_mult, m.fauna.vigor_dmg)
 	boss.provoke()
 	m.lords.bar.follow(boss)
 	m.depth_watch.banner.show_stratum(String(boss.data["name"]), "Il capo della marea", Color(td["color"]))

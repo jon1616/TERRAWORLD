@@ -99,7 +99,7 @@ func wake() -> void:
 	var at := heart_pos() + (Vector2(0, -8 * S) if fly else Vector2(-6 * S, 0))
 	boss = m.fauna.add(cid, at)
 	# oltre il terzo mondo i Guardiani tornano, ma più forti (il vigore lo sa già `Fauna.vigor_mult`)
-	boss.strengthen(m.fauna.vigor_mult)
+	boss.strengthen(m.fauna.boss_mult, m.fauna.vigor_dmg)
 	m.sfx.play("guardiano")
 	bar.follow(boss)
 	m.depth_watch.banner.show_stratum(String(CreaturesData.get_data(cid)["name"]), String(g["wake"]), Color(g["color"]))

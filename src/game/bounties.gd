@@ -120,7 +120,7 @@ func spawn(i: int) -> Creature:
 				var cr: Creature = m.fauna.add(String(b["cr"]), Vector2(q.x * 16 + 8, (q.y + 1) * 16 - CreaturesData.get_data(String(b["cr"]))["half"][1] - 0.1))
 				m.fauna.make_ancient(cr, "ancestrale", [String(b["tratto"])])
 				var vm: float = m.fauna.vigor_mult           # come le altre creature del mondo
-				cr.strengthen(BountiesData.HP * vm, BountiesData.DAMAGE * vm)
+				cr.strengthen(BountiesData.HP * vm, BountiesData.DAMAGE * float(m.fauna.vigor_dmg))
 				cr.set_meta("taglia", String(b["nome"]))
 				if cr.ancient and cr.ancient.get("_label") != null:
 					cr.ancient._label.text = "Taglia · %s" % b["nome"]

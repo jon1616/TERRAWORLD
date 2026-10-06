@@ -23,7 +23,8 @@ extends SceneTree
 ## prima) e attira su di sé `AGGRO` dei colpi; ferito oltre la sua Vita va KO e lo sostituisce il prossimo della sacca;
 ## tutti KO, si continua da soli fino alla tappa dopo (si torna al Giardino).
 
-const MATS := ["", "radicite", "legnoferro", "ambra", "linfa", "vuoto", "stellare"]
+const MATS := ["", "radicite", "legnoferro", "ambra", "linfa", "vuoto", "stellare", "corallite", "sanguinite", "cuorelegno",
+	"eterite", "astrite", "primambra"]
 ## Le tappe: nome, zone [[strato, vigore, notte, parte del tempo]], minuti, grado del metallo che si ha, Vita massima
 ## attesa (doni del Cuore di bocciolo, Guardiani curati), livelli di tempra. Il metallo: la linfa e il vuoto vogliono un
 ## materiale dei Guardiani (linfa dopo il primo, vuoto dopo il secondo), lo stellare le Schegge dei mondi di grado 1
@@ -37,9 +38,15 @@ const STAGES := [
 	["Fondo (vigore 1)", [[4, 1, false, 0.7], [3, 1, false, 0.3]], 20, 3, 130, 0],
 	["Mondo di vigore 2", [[2, 2, false, 0.3], [3, 2, false, 0.3], [4, 2, false, 0.4]], 40, 4, 160, 0],
 	["Mondo di vigore 3", [[3, 3, false, 0.4], [4, 3, false, 0.6]], 40, 5, 190, 0],
-	["Mondo di vigore 5", [[3, 5, false, 0.4], [4, 5, false, 0.6]], 40, 5, 240, 2],
-	["Mondo di vigore 8", [[4, 8, false, 1.0]], 40, 6, 290, 2],
-	["Mondo di vigore 12", [[4, 12, false, 1.0]], 40, 6, 350, 4],
+	# Roadmap 39, voce 365: la spina lunga. Dal vigore 5 il metallo migliore è di grado v+1 (`SpineData`): lo stellare con
+	# le Schegge del vigore 5, poi un metallo del Risveglio per vigore; la Vita cresce con i Guardiani curati, i doni e la Linfa del Cuore (dal vigore 5)
+	["Mondo di vigore 4", [[3, 4, false, 0.4], [4, 4, false, 0.6]], 40, 5, 220, 0],
+	["Mondo di vigore 5", [[3, 5, false, 0.4], [4, 5, false, 0.6]], 40, 6, 250, 2],
+	["Mondo di vigore 6", [[3, 6, false, 0.4], [4, 6, false, 0.6]], 40, 7, 300, 2],
+	["Mondo di vigore 8", [[3, 8, false, 0.4], [4, 8, false, 0.6]], 40, 9, 360, 2],
+	["Mondo di vigore 10", [[3, 10, false, 0.4], [4, 10, false, 0.6]], 40, 11, 420, 4],
+	["Mondo di vigore 12", [[4, 12, false, 1.0]], 40, 12, 480, 4],
+	["Mondo di vigore 15", [[4, 15, false, 1.0]], 40, 12, 560, 6],
 ]
 ## Creature affrontate al minuto con pericolo 1 (tarato sull'utente: 80 creature in 67 minuti, quasi tutte in
 ## Superficie e nel Sottobosco); crescono con la radice del pericolo della zona.
@@ -288,6 +295,6 @@ func _zone_level(stratum: int, vigor: int) -> float:
 		dmg += float(d["damage"]) * float(e[1])
 		df += float(d.get("defense", 0)) * float(e[1])
 		w += float(e[1])
-	var mult := float(StrataData.STRATA[stratum]["danger"]) * VigorData.creature_mult(vigor)
+	var mult := float(StrataData.STRATA[stratum]["danger"])
 	w = maxf(w, 1.0)
-	return BondsData.level_of(roundi(hp / w * mult), roundi(dmg / w * mult), roundi(df / w))
+	return BondsData.level_of(roundi(hp / w * mult * VigorData.creature_mult(vigor)), roundi(dmg / w * mult * VigorData.creature_dmg(vigor)), roundi(df / w))

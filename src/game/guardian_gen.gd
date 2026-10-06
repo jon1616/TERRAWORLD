@@ -87,17 +87,45 @@ static func make(id: String) -> Dictionary:
 			if p.has(k):
 				p[k] = float(p[k]) * GuardianGenData.MANY_SHOTS_SLOW
 	var dmg_k := GuardianGenData.NO_SHOTS_DAMAGE if shooters == 0 else 1.0
+	# Roadmap 39, voce 365 (`tools/boss.gd`): il più pericoloso dei Guardiani dello stesso vigore toglieva dieci Vite, il
+	# più mite mezza: il danno (al contatto e dei colpi) si riporta verso una pericolosità comune, entro `THREAT_K`
+	var dmg := float(r.randi_range(GuardianGenData.DAMAGE[0], GuardianGenData.DAMAGE[1])) * dmg_k
+	var tk := clampf(GuardianGenData.THREAT / threat(picks, p, dmg), GuardianGenData.THREAT_K[0], GuardianGenData.THREAT_K[1])
+	dmg *= tk
+	if p.has("shot_damage"):
+		p["shot_damage"] = maxi(roundi(float(p["shot_damage"]) * tk), 1)
 	var titles: Array = GuardianGenData.TITLES[r.randi_range(0, GuardianGenData.TITLES.size() - 1)]
 	var name := "%s %s %s" % [titles[1 if fem else 0], String(src["name"]).to_lower(), GuardianGenData.ELEM_NAME[elem]]
 	var half := [maxi(roundi(float(src["half"][0]) * GuardianGenData.SCALE), 12),
 		maxi(roundi(float(src["half"][1]) * GuardianGenData.SCALE), 12)]
 	return {"name": name, "hp": r.randi_range(GuardianGenData.HP[0], GuardianGenData.HP[1]),
-		"damage": roundi(r.randi_range(GuardianGenData.DAMAGE[0], GuardianGenData.DAMAGE[1]) * dmg_k),
+		"damage": roundi(dmg),
 		"defense": r.randi_range(GuardianGenData.DEFENSE[0], GuardianGenData.DEFENSE[1]), "knock": 1.0, "half": half,
 		"speed": float(src.get("speed", 60)) * 1.1, "fly": fly, "behaviors": behaviors, "p": p, "loot": "",
 		"art": src["art"], "strata": [], "weight": 0, "glow": true, "boss": true, "elem": elem, "weak": [FamiliesData.OPPOSITE[elem]],
 		"resist": [elem], "phase_elem": elem2, "attacks": picks, "body": body, "base": body,
 		"art_mods": {"elem": elem, "scale": GuardianGenData.SCALE, "temper": "feroce", "glow_body": true}}
+
+
+## Quanto ferisce un Guardiano al secondo, a grandi linee: il contatto (di più se si muove di scatto) e i colpi, che
+## arrivano a segno in parte (`GuardianGenData.HIT`). Serve solo a confrontare due Guardiani tra loro.
+static func threat(picks: Array, p: Dictionary, dmg: float) -> float:
+	var move := 1.0
+	var t := 0.0
+	var sd := float(p.get("shot_damage", 0))
+	for a in picks:
+		match String(a):
+			"carica", "scatto", "salto", "lampo":
+				move += GuardianGenData.HIT["move"]
+			"ventaglio":
+				t += sd * float(p["fan_n"]) * GuardianGenData.HIT["ventaglio"] / float(p["fan_rate"])
+			"spara":
+				t += sd * GuardianGenData.HIT["spara"] / float(p["rate"])
+			"bombarda":
+				t += sd * GuardianGenData.HIT["bombarda"] / float(p["rate"])
+			"evoca":
+				t += float(p["summon_max"]) * GuardianGenData.HIT["evoca"] / float(p["summon_every"])
+	return maxf(t + dmg * GuardianGenData.HIT["contatto"] * move, 0.1)
 
 
 ## Le voci di `GuardiansData` per un Guardiano generato (cura, pagine, colore, frase del risveglio).

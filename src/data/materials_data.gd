@@ -27,14 +27,14 @@ const MATERIALS := {
 		"elemento": "luce", "risonanza": 1, "bar": "lingotto_ambra"},
 	"linfa": {"label": "di Linfa", "tier": 4, "durezza": 65, "filo": 21, "peso": 10.0, "tenacia": 3.8, "conduzione": 14,
 		"elemento": "linfa", "risonanza": 1, "bar": "lingotto_linfa", "icon": "cristallo"},
-	"vuoto": {"label": "di vuotite forgiata", "tier": 5, "durezza": 75, "filo": 27, "peso": 7.5, "tenacia": 5.0, "conduzione": 10,
+	"vuoto": {"label": "di vuotite forgiata", "tier": 5, "durezza": 75, "filo": 30, "peso": 7.5, "tenacia": 5.0, "conduzione": 10,
 		"elemento": "vuoto", "risonanza": 1, "bar": "lingotto_vuoto", "icon": "vuotite"},
 	# voce 24: metalli laterali, per chi vuole una strada diversa (più veloce, o più forte prima della Linfa)
 	"pallidite": {"label": "di pallidite", "tier": 2, "durezza": 42, "filo": 11, "peso": 7.5, "tenacia": 1.6, "conduzione": 6,
 		"elemento": "gelo", "risonanza": 0, "bar": "lingotto_pallidite"},
 	"tizzonite": {"label": "di tizzonite", "tier": 3, "durezza": 60, "filo": 18, "peso": 15.0, "tenacia": 3.1, "conduzione": 5,
 		"elemento": "brace", "risonanza": 0, "bar": "lingotto_tizzonite"},
-	"stellare": {"label": "stellare", "label_pl": "stellari", "tier": 6, "durezza": 85, "filo": 34, "peso": 5.0, "tenacia": 6.0,
+	"stellare": {"label": "stellare", "label_pl": "stellari", "tier": 6, "durezza": 85, "filo": 40, "peso": 5.0, "tenacia": 6.0,
 		"conduzione": 16, "elemento": "luce", "risonanza": 2, "bar": "lingotto_stellare", "icon": "stelle"},
 	# Roadmap 16, voce 159: il metallo del cielo alto. Della forza dell'ambra ma leggerissimo (colpi più svelti), il set
 	# intero fa saltare più in alto e protegge dall'aria sottile
@@ -153,11 +153,11 @@ static func trait_of(mat: String) -> Dictionary:
 	if md.has("alloy"):
 		var out := {}
 		for part in md["alloy"]:
-			var t: Dictionary = TRAITS.get(String(part), {})
+			var t: Dictionary = TRAITS.get(String(part), SpineData.TRAITS.get(String(part), {}))
 			for k in t:
 				out[k] = float(out.get(k, 0.0)) + float(t[k]) * 0.5
 		return out
-	return TRAITS.get(mat, {})
+	return TRAITS.get(mat, SpineData.TRAITS.get(mat, {}))
 
 
 ## Il carattere come effetti di un pezzo (`acc`), per la sua parte: {"run": 1.03, "luck": 0.025…}.
@@ -205,6 +205,12 @@ static func all() -> Dictionary:
 		md["bar"] = "lingotto_" + g
 		md["gene"] = true
 		_all[g] = md
+	# Roadmap 39, voce 363: i metalli del Risveglio (dati in `SpineData`), come i materiali dei geni ma senza gene
+	for g in SpineData.METALS:
+		var md: Dictionary = SpineData.METALS[g].duplicate(true)
+		md["bar"] = "lingotto_" + g
+		md["spina"] = true
+		_all[g] = md
 	return _all
 
 
@@ -246,11 +252,24 @@ static func items() -> Dictionary:
 		var raw: Dictionary = gd["raw"]
 		var genes := ", ".join((gd["genes"] as Array).map(func(x: String) -> String: return String(GenesData.GENES[x]["name"])))
 		var where := "dalle creature" if raw.has("kill") else "scavando"
-		_items[String(raw["id"])] = {"name": raw["name"], "kind": "materiale", "icon": [raw["shape"], gd["icon"]],
+		_items[String(raw["id"])] = {"name": raw["name"], "kind": "materiale", "icon": [raw["shape"], gd["icon"]], "tier": gd["tier"],
 			"value": 6 * int(gd["tier"]), "source": "%s, nei mondi con il gene %s" % [where, genes],
 			"desc": "Un materiale che esiste solo nei mondi con il gene %s. Al Baccello ardente, tre ne fanno un lingotto di %s." % [genes, gd["short"]]}
 		_items["lingotto_" + g] = {"name": "Lingotto di %s" % gd["short"], "kind": "materiale", "icon": ["lingotto", gd["icon"]],
+			"tier": gd["tier"],
 			"desc": "%s. %s. Carattere: %s." % [String(gd["short"]).substr(0, 1).to_upper() + String(gd["short"]).substr(1), describe(g),
+				_trait_words(g)]}
+	for g in SpineData.METALS:
+		var sd: Dictionary = SpineData.METALS[g]
+		var sr: Dictionary = sd["raw"]
+		var deep: String = ["", "dal Sottobosco in giù", "dalle Caverne in giù", "dalle Profondità in giù", "nel Fondo"][int(sr["stratum"])]
+		_items[String(sr["id"])] = {"name": sr["name"], "kind": "materiale", "icon": [sr["shape"], sd["icon"]], "tier": sd["tier"],
+			"value": 8 * int(sd["tier"]),
+			"source": "scavando la roccia %s nei mondi di vigore %d e oltre, dopo il Risveglio del Cuore; dalle creature antiche di quei mondi" % [deep, int(sr["vigor"])],
+			"desc": "%s Al Baccello ardente, tre ne fanno un lingotto." % sd["desc"]}
+		_items["lingotto_" + g] = {"name": "Lingotto di %s" % sd["short"], "kind": "materiale", "icon": ["lingotto", sd["icon"]],
+			"tier": sd["tier"],
+			"desc": "%s. %s. Carattere: %s." % [String(sd["short"]).substr(0, 1).to_upper() + String(sd["short"]).substr(1), describe(g),
 				_trait_words(g)]}
 	for id in all():
 		var md: Dictionary = all()[id]
@@ -267,6 +286,8 @@ static func recipes() -> Array:
 	var out := []
 	for g in GENE_MATERIALS:
 		out.append({"out": "lingotto_" + g, "qty": 1, "in": {String(GENE_MATERIALS[g]["raw"]["id"]): 3}, "station": "baccello_ardente"})
+	for g in SpineData.METALS:
+		out.append({"out": "lingotto_" + g, "qty": 1, "in": {String(SpineData.METALS[g]["raw"]["id"]): 3}, "station": "baccello_ardente"})
 	for id in all():
 		var md: Dictionary = all()[id]
 		if md.has("alloy"):

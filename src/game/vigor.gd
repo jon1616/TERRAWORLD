@@ -59,7 +59,7 @@ func split(c: Creature) -> Array:
 		var cd := CreaturesData.get_data(id)
 		var at: Vector2 = c.position + Vector2(-10.0 if k == 0 else 10.0, float(c.half.y) - float(cd["half"][1]))
 		var cr: Creature = m.fauna.add(id, at)
-		cr.strengthen(m.fauna.vigor_mult, m.fauna.vigor_mult * DangerData.DAMAGE)
+		cr.strengthen(m.fauna.vigor_mult, m.fauna.vigor_dmg * DangerData.DAMAGE)
 		cr.vel = Vector2(-80.0 if k == 0 else 80.0, -160.0)
 		out.append(cr)
 	return out

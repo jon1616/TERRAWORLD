@@ -238,7 +238,8 @@ func _wake_boss() -> void:
 	if boss == "":
 		return
 	var c: Creature = m.fauna.add(boss, Vector2(tree()) * 16.0 + Vector2(72, 40))
-	c.strengthen(Portal.vigor_mult(int(m.world_meta.get("vigore", 1))), Portal.vigor_mult(int(m.world_meta.get("vigore", 1))) * DangerData.DAMAGE)
+	var v := int(m.world_meta.get("vigore", 1))
+	c.strengthen(Portal.boss_mult(v), Portal.vigor_dmg(v) * DangerData.DAMAGE)
 	meta()["sveglio"] = true
 	m.hud.toast("Dall'Albero esce %s!" % String(CreaturesData.CREATURES[boss]["name"]))
 	m.sfx.play("presenza")

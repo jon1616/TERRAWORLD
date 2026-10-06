@@ -20,8 +20,14 @@ const CREATURE_SOFT := 5
 const CREATURE_STEP_HIGH := 0.15
 
 
+## Roadmap 39, voce 365: la curva sta in `SpineData` (Vita ×1,3456 per vigore, il danno a parte con `creature_dmg`);
+## le costanti qui sopra restano per la storia dei numeri.
 static func creature_mult(v: int) -> float:
-	return 1.0 + CREATURE_STEP * mini(v - 1, CREATURE_SOFT - 1) + CREATURE_STEP_HIGH * maxi(v - CREATURE_SOFT, 0)
+	return SpineData.creature_hp(v)
+
+
+static func creature_dmg(v: int) -> float:
+	return SpineData.creature_dmg(v)
 
 ## Le indoli dei gradi (le legge `FamiliesData.make`): hp, damage, speed, sight moltiplicano; regen = Vita al secondo
 ## (frazione della Vita piena); split = sconfitta, si divide in due piccole.

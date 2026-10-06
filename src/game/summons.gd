@@ -91,7 +91,7 @@ func start(cid: String, o: Vector2i) -> Creature:
 		if is_instance_valid(c) and (c as Creature).position.distance_to(at) < SummonData.ARENA_R * 16.0:
 			m.fauna.kill_quietly(c)
 	active = m.fauna.add(cid, at)
-	active.strengthen(m.fauna.vigor_mult)
+	active.strengthen(m.fauna.boss_mult, m.fauna.vigor_dmg)
 	active.set_meta("evocato", true)
 	m.fauna.quiet_c = o
 	m.guardian.bar.follow(active)

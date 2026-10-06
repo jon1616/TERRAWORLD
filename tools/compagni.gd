@@ -80,6 +80,6 @@ func _typical(stratum: int, vigor: int) -> Array:
 		dmg += float(d["damage"]) * k
 		df += float(d.get("defense", 0)) * k
 		w += k
-	var mult := float(StrataData.STRATA[stratum]["danger"]) * VigorData.creature_mult(vigor)
+	var mult := float(StrataData.STRATA[stratum]["danger"])
 	w = maxf(w, 1.0)
-	return [roundi(hp / w * mult), roundi(dmg / w * mult), roundi(df / w)]
+	return [roundi(hp / w * mult * VigorData.creature_mult(vigor)), roundi(dmg / w * mult * VigorData.creature_dmg(vigor)), roundi(df / w)]

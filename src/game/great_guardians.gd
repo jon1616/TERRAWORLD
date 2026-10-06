@@ -89,7 +89,7 @@ func spawn(key: String, at: Vector2) -> Creature:
 	var cid: String = {"leviatano": "leviatano_lago", "scavatrice": "grande_scavatrice", "correnti": "signora_correnti",
 		"tempesta": "occhio_tempesta"}[key]
 	active = m.fauna.add(cid, at)
-	active.strengthen(m.fauna.vigor_mult)
+	active.strengthen(m.fauna.boss_mult, m.fauna.vigor_dmg)
 	active.provoke()
 	active.mind.brave = true
 	bar.follow(active)

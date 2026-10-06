@@ -959,6 +959,17 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     `tools/vastita.gd`, `tools/confronto.gd` (lo stesso conteggio di Terraria), il generatore `tools/gen_comune.py` +
     `tools/gen_vastita.py` (un modulo per famiglia in `tools/vastita_gen/`, pacchetti in `src/data/vastita/` da
     aggiungere a `BiomesData.PACK_FILES`). Prove: gruppo «vastita».
+  - Roadmap 39 «La spina della partita» (voci 362-366): `SpineData` (le curve: Vita delle creature ×1,3456 per vigore
+    fino al vigore `SOFT` 11, il danno a parte `DMG_STEP`, la Vita dei Guardiani × `boss_time`; la fase di un vigore 2v-1 e
+    di un grado di metallo 2t-1; il filo di ogni grado `filo_of_tier`; i sei **metalli del Risveglio** `METALS` con
+    grezzo, vigore, strato e tessere, i loro `TRAITS`, `SETS`, `GESTURES`; la Linfa del Cuore `ITEMS`).
+    `VigorData.creature_mult`/`creature_dmg`, `Portal.vigor_mult`/`vigor_dmg`/`boss_mult`, `Fauna.vigor_dmg`,
+    `Fauna.boss_mult` e `Fauna.dmg_for(hp_mult)`: **ogni creatura nuova si rafforza con `strengthen(Vita, danno)`**, mai
+    con un solo moltiplicatore. I metalli del Risveglio passano da `MaterialsData.all()` (campo "spina") e cadono con
+    `GeneMaterials.spine_for`; `CuoreDesto` (`src/game/cuore_desto.gd`): il Risveglio (`stats["risveglio_cuore"]`,
+    `Fauna.awake_rare`, un'Aiuola in più) e la pagina «La spina» del Taccuino. I Guardiani generati hanno una
+    pericolosità comune (`GuardianGen.threat`, `GuardianGenData.THREAT`). Misure: `tools/percorso.gd` (fino al vigore 15),
+    `tools/boss.gd`. Prove: gruppo «spina» (`TestsSpine`). Enciclopedia: capitolo «spina».
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

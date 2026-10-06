@@ -36,6 +36,16 @@ static func vigor_mult(v: int) -> float:
 	return VigorData.creature_mult(v)                # voce 99: la curva sta nei dati
 
 
+## Roadmap 39, voce 365: il danno delle creature cresce meno della loro Vita.
+static func vigor_dmg(v: int) -> float:
+	return VigorData.creature_dmg(v)
+
+
+## La Vita dei Guardiani e dei capi: quella delle creature per scontri sempre più lunghi.
+static func boss_mult(v: int) -> float:
+	return VigorData.creature_mult(v) * SpineData.boss_time(v)
+
+
 static func _key(o: Vector2i) -> String:
 	return "%d,%d" % [o.x, o.y]
 

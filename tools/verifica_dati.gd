@@ -354,9 +354,10 @@ func _check_species() -> void:
 ## tabella scritta a mano fino alla voce 48): entro il 10%, o di un punto sui numeri piccoli.
 const OLD_METALS := {
 	"radicite": [35, 9, 2.2, [1, 2, 1]], "legnoferro": [45, 12, 2.3, [2, 3, 2]], "ambra": [55, 16, 2.4, [3, 4, 3]],
-	"linfa": [65, 21, 2.6, [4, 6, 4]], "vuoto": [75, 27, 2.7, [5, 8, 5]], "pallidite": [42, 11, 2.7, [2, 2, 2]],
-	"tizzonite": [60, 18, 2.4, [3, 5, 3]], "stellare": [85, 34, 2.8, [6, 10, 6]],
+	"linfa": [65, 21, 2.6, [4, 6, 4]], "vuoto": [75, 30, 2.7, [5, 8, 5]], "pallidite": [42, 11, 2.7, [2, 2, 2]],
+	"tizzonite": [60, 18, 2.4, [3, 5, 3]], "stellare": [85, 40, 2.8, [6, 10, 6]],
 }
+## (Roadmap 39, voce 365: il filo della vuotite e dello stellare alzato alla curva della spina, 30 e 40.)
 
 
 func _check_materials() -> void:

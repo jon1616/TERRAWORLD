@@ -5,18 +5,19 @@ class_name PhasesData
 ## dati di Terraria: dal materiale, poi dalle ricette (un oggetto non viene prima dei suoi ingredienti), poi da chi lo
 ## lascia (strato delle creature, Guardiano del vigore). Un campo `fase` nell'oggetto vince su tutto.
 ## La **rarità** (12 colori) viene dalla fase, due fasi per rarità; gli unici e le leggende hanno il loro colore.
-## Le fasi dei metalli e degli strati sono provvisorie finché la Roadmap 39 non scrive la spina (24 fasi, 16 metalli).
+## Roadmap 39: le fasi dispari sono i dodici metalli (grado t = fase 2t-1), le pari i Guardiani e le soglie
+## (`SpineData`, il Diario della spina in `CuoreDesto`).
 
 ## Le fasi: [nome, che cosa la chiude] (per il Diario della spina e lo strumento della vastità).
 const PHASES := [
-	["Il Giardino", "il primo Seme"], ["Le prime radici", "la radicite"], ["Il Sottobosco", "il Nodo Avvizzito"],
-	["Le Caverne", "il legnoferro"], ["Il legnoferro", "la Regina delle Spore"], ["Le spore", "le Profondità"],
-	["Le Profondità", "il Colosso d'Ardesia"], ["L'ambra", "l'ambra fossile"], ["Il Fondo", "il Risveglio del Cuore"],
-	["Il Cuore risvegliato", "la Linfa cristallina"], ["I mondi vivi", "i Giardini perduti"], ["La Linfa", "il Giardino sommerso"],
-	["Il Giardino di ferro", "il cielo alto"], ["Il cielo alto", "il Giardino selvatico"], ["Il Giardino selvatico", "la vuotite"],
-	["La vuotite", "il Giardino muto"], ["Il Giardino muto", "la Radice del cosmo"], ["Le radici del cosmo", "le stelle"],
-	["Le stelle", "il Seme Nero"], ["Il Seme Nero", "il Primo Mondo"], ["Il Primo Mondo", "l'Albero Antico"],
-	["L'Albero Antico", "l'ultimo Seminatore"], ["L'ultimo Seminatore", "il Seme Primo"], ["Il dopo", ""],
+	["Il Giardino", "la radicite"], ["La radicite", "il Nodo Avvizzito"], ["Il Nodo Avvizzito", "il legnoferro"],
+	["Il legnoferro", "la Regina delle Spore"], ["La Regina delle Spore", "l'ambra"], ["L'ambra", "il Colosso d'Ardesia"],
+	["Il Colosso d'Ardesia", "la Linfa"], ["La Linfa", "il Risveglio del Cuore"], ["Il Risveglio del Cuore", "la vuotite"],
+	["La vuotite", "i Giardini perduti"], ["I Giardini perduti", "lo stellare"], ["Lo stellare", "la corallite"],
+	["Le rocce risvegliate", "la corallite"], ["La corallite", "il Seme Nero"], ["Il Seme Nero", "la sanguinite"],
+	["La sanguinite", "i mondi lontani"], ["I mondi lontani", "il cuorelegno"], ["Il cuorelegno", "le radici del cosmo"],
+	["Le radici del cosmo", "l'eterite"], ["L'eterite", "il Primo Mondo"], ["Il Primo Mondo", "l'astrite"],
+	["L'astrite", "l'ultimo Seminatore"], ["L'ultimo Seminatore", "la primambra"], ["La primambra", "il Seme Primo e il dopo"],
 ]
 
 ## Le rarità: [nome, colore]. Indice = fase / 2.
@@ -27,10 +28,9 @@ const RARITIES := [
 ]
 const UNIQUE := ["Unico", "#ffd24a"]
 
-## Provvisorie fino alla Roadmap 39: la fase di ogni grado di metallo, di ogni strato (creature) e di ogni vigore.
-const TIER_PHASE := {0: 0, 1: 1, 2: 4, 3: 7, 4: 11, 5: 15, 6: 19}
-const STRATUM_PHASE := [0, 2, 4, 6, 8]
-const VIGOR_PHASE := {1: 3, 2: 5, 3: 8}
+## Roadmap 39: la fase di un grado di metallo è 2t-1 e quella di un vigore 2v-1 (`SpineData`); gli strati ne
+## aggiungono (le creature del primo mondo: dalla Superficie al Fondo).
+const STRATUM_PHASE := [0, 1, 2, 3, 4]
 
 static var _memo := {}
 
@@ -52,9 +52,9 @@ static func _compute(id: String) -> int:
 	if it.has("fase"):
 		return int(it["fase"])
 	if it.has("mat"):
-		return int(TIER_PHASE.get(int(MaterialsData.get_mat(String(it["mat"])).get("tier", 1)), 1))
+		return SpineData.phase_of_tier(int(MaterialsData.get_mat(String(it["mat"])).get("tier", 1)))
 	if it.has("tier"):
-		return int(TIER_PHASE.get(clampi(int(it["tier"]), 0, 6), 1))
+		return SpineData.phase_of_tier(int(it["tier"]))
 	var best := 99
 	# dalle ricette: la più presto tra le ricette, e ognuna non prima del suo ingrediente più avanzato
 	for r in RecipesData.making(id):
@@ -81,7 +81,7 @@ static func _build_drops() -> void:
 	_drops["__"] = 0
 	var guard := {}
 	for i in GuardiansData.LIST.size():
-		guard[String(GuardiansData.LIST[i]["creature"])] = int(VIGOR_PHASE.get(i + 1, 8))
+		guard[String(GuardiansData.LIST[i]["creature"])] = SpineData.phase_of_vigor(i + 1) + 1
 	for cid in CreaturesData.CREATURES:
 		var cd: Dictionary = CreaturesData.CREATURES[cid]
 		var p := 0

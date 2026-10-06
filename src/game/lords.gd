@@ -94,7 +94,7 @@ func spawn(cid: String) -> Creature:
 	active = m.fauna.add(cid, at)
 	var st := StrataData.at(m.world, m.player_cell().x, m.player_cell().y)
 	var sky := SkyData.zone_at(m.world, m.player_cell().x, m.player_cell().y)
-	active.strengthen(strength(m.fauna.vigor_mult, st, sky))
+	active.strengthen(strength(m.fauna.vigor_mult, st, sky), strength(m.fauna.vigor_dmg, st, sky))
 	active.provoke()
 	bar.follow(active)
 	m.sfx.play("guardiano")

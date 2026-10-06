@@ -96,7 +96,7 @@ func _spawn(k: String, at: Vector2) -> void:
 	var cid := String(kd["creature"])
 	active_id = k
 	active = m.fauna.add(cid, at)
-	active.strengthen(m.fauna.vigor_mult)
+	active.strengthen(m.fauna.boss_mult, m.fauna.vigor_dmg)
 	bar.follow(active)
 	m.sfx.play("guardiano")
 	m.depth_watch.banner.show_stratum(String(CreaturesData.CREATURES[cid]["name"]), String(kd["wake"]), Color(kd["color"]))

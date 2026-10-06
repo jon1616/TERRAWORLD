@@ -286,6 +286,7 @@ static func all() -> Dictionary:
 	out.merge(MuseumData.MILESTONE_ITEMS.duplicate(true))  # voce 256: i premi dei traguardi
 	out.merge(BackpackData.items())                        # Roadmap 30: lo zaino
 	out.merge(DeepRulesData.items())                       # voce 354: i materiali del profondo
+	out.merge(SpineData.ITEMS.duplicate(true))             # voce 364: la Linfa del Cuore
 	out.merge(HarvestData.items())                         # voce 300: i raccolti delle piante
 	out.merge(EncountersData.items())                      # voce 303: il diario di Tessa
 	out.merge(CuriositiesData.items())                     # voce 304: le curiosità degli strati

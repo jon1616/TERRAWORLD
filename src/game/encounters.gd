@@ -95,7 +95,7 @@ func wake(o: Vector2i) -> int:
 		var id := _pick(pool)
 		var at := _spot_near(o, i)
 		var cr: Creature = m.fauna.add(id, at)
-		cr.strengthen(mult, mult * DangerData.DAMAGE)
+		cr.strengthen(mult, m.fauna.dmg_for(mult) * DangerData.DAMAGE)
 		cr.set_meta("incontro", "%d,%d" % [o.x, o.y])
 		if i == 0 and _rng.randf() < 0.35:
 			m.fauna.make_ancient(cr, "antica")

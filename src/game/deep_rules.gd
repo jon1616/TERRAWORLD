@@ -110,7 +110,7 @@ func ambush(a: Dictionary, stratum: int) -> Array:
 			if m.fauna._free(c.x, y) and (CreaturesData.get_data(id).get("fly", false) or m.world.solid(c.x, y + 1)):
 				var cr: Creature = m.fauna.add(id, Vector2(c.x * 16 + 8, (y + 1) * 16 - CreaturesData.get_data(id)["half"][1] - 0.1))
 				var mult: float = float(StrataData.STRATA[stratum]["danger"]) * m.fauna.vigor_mult
-				cr.strengthen(mult, mult * DangerData.DAMAGE)
+				cr.strengthen(mult, m.fauna.dmg_for(mult) * DangerData.DAMAGE)
 				cr.extra = true
 				if cr.mind != null:
 					cr.mind.state = Mind.HUNT

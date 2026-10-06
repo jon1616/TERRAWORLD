@@ -21,7 +21,9 @@ var night := false                     # lo aggiorna `DayCycle`: di notte la sup
 var sfx: Sfx
 var light: LightMap                    # per nascere solo al buio
 var vigor := 1                         # vigore del mondo (voce 12)
-var vigor_mult := 1.0                  # creature più forti nei mondi oltre i portali
+var vigor_mult := 1.0                  # creature più forti nei mondi oltre i portali (la Vita)
+var vigor_dmg := 1.0                   # voce 365: il loro danno (cresce meno della Vita)
+var boss_mult := 1.0                   # voce 365: la Vita dei Guardiani e dei capi (scontri più lunghi)
 var zone_mult: Callable                # voce 87: (punto, chiave) -> moltiplicatore dei totem (`Zones.mult_at`)
 var zone_add: Callable                 # voce 87: (punto, chiave) -> aggiunta dei totem (`Zones.add_at`)
 var keep_alive: Callable               # voce 89: (punto) -> vero se una Radice-ancora lo tiene vivo (`Farms.anchored`)
@@ -39,6 +41,7 @@ var event_danger := 0.0
 var world_danger := 0.0                # tratti del mondo (voce 39, `WorldTraits`)
 var world_lumini := 1.0
 var world_rare := 1.0
+var awake_rare := 1.0                  # voce 364: dopo il Risveglio del Cuore le antiche nascono più spesso
 var event_rare := 1.0
 var event_pool: Array = []
 var _light_t := 0.0
@@ -119,7 +122,7 @@ func spawn_at_nest(species: String, cell: Vector2i) -> Creature:
 		x = cell.x
 	var cr := add(id, Vector2(x * S + 8, (cell.y + 1) * S - float(cd["half"][1]) - 0.1))
 	var mult := float(StrataData.STRATA[stratum]["danger"]) * vigor_mult
-	cr.strengthen(mult, mult * DangerData.DAMAGE)
+	cr.strengthen(mult, dmg_for(mult) * DangerData.DAMAGE)
 	_group(cr, id, mult)
 	return cr
 
@@ -343,11 +346,11 @@ func try_spawn() -> Creature:
 			var mult := float(StrataData.STRATA[stratum]["danger"]) * vigor_mult * _zm(zp, "forza")
 			if sky_id != "":
 				mult *= float(SkyData.get_biome(sky_id).get("danger", 1.0))     # il cielo alto è più pericoloso
-			cr.strengthen(mult, mult * DangerData.DAMAGE)
+			cr.strengthen(mult, dmg_for(mult) * DangerData.DAMAGE)
 			var grouped: bool = CreaturesData.get_data(id).has("group")
 			var deep := DeepRulesData.of(stratum)                 # voce 354: la regola dello strato
 			var rarity := AncientData.roll_rarity(DangerData.at(world, Vector2i(c.x, y), night, vigor) + event_danger
-				+ _za(zp, "pericolo"), _rng, grouped, rare_mult * event_rare * world_rare * _zm(zp, "rare") * float(deep.get("rare", 1.0)))
+				+ _za(zp, "pericolo"), _rng, grouped, rare_mult * event_rare * world_rare * awake_rare * _zm(zp, "rare") * float(deep.get("rare", 1.0)))
 			if rarity == "" and force_ancient:
 				rarity = "antica"
 			if rarity != "":
@@ -368,7 +371,7 @@ func _deep_pack(first: Creature, id: String, mult: float, span: Array) -> void:
 		if world.solid(floori(o.x / S), floori(o.y / S)):
 			o = first.position
 		var mb := add(id, o)
-		mb.strengthen(mult, mult * DangerData.DAMAGE)
+		mb.strengthen(mult, dmg_for(mult) * DangerData.DAMAGE)
 		mb.extra = true
 		mb.set_meta("grp", first.get_instance_id())
 	first.set_meta("grp", first.get_instance_id())
@@ -399,7 +402,7 @@ func _spawn_water(c: Vector2i) -> Creature:
 		return null
 	var cr := add(_pick(choices), Vector2(c.x * S + 8, c.y * S + 8))
 	var mult := float(StrataData.STRATA[StrataData.at(world, c.x, c.y)]["danger"]) * vigor_mult
-	cr.strengthen(mult, mult * DangerData.DAMAGE)
+	cr.strengthen(mult, dmg_for(mult) * DangerData.DAMAGE)
 	return cr
 
 
@@ -413,6 +416,11 @@ func pack(leader: Creature, id: String, mult: float) -> void:
 
 
 ## Rende rara una creatura (e la annuncia se ancestrale o iridata e vicina): `FaunaExtra`.
+## Voce 365: il danno che va con una Vita moltiplicata `hp_mult` (la parte del vigore cresce meno).
+func dmg_for(hp_mult: float) -> float:
+	return hp_mult / maxf(vigor_mult, 0.001) * vigor_dmg
+
+
 func make_ancient(cr: Creature, rarity: String, traits: Array = []) -> void:
 	FaunaExtra.make_ancient(self, cr, rarity, traits, _rng)
 

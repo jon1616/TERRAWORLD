@@ -1,9 +1,12 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 6 ott 2026)
-- **Scritto il piano «La vastità» (Roadmap 38-51, voci 356-411)** in `VASTITA.md`: portare TERRAWORLD verso la profondità
-  di Terraria + Calamity + Thorium (confronto sui dati reali: `tools/confronto.gd`). Si parte dalla Roadmap 38 «Le
-  fondamenta della vastità» quando l'utente lo chiede.
+- **Fatta la Roadmap 39 «La spina della partita»** (voci 362-366, 6 ott 2026): 24 fasi, dodici metalli (sei nuovi dopo
+  il Risveglio del Cuore), la scala dei numeri ×26 tarata con i giocatori simulati fino al vigore 15. Resoconto in fondo.
+- **Fatta la Roadmap 38 «Le fondamenta della vastità»** (voci 356-361, 6 ott 2026): gesti dei materiali, fasi e rarità,
+  bottino «uno a scelta tra» e «prima volta», `tools/vastita.gd`, il generatore di contenuti.
+- **Il piano «La vastità» (Roadmap 38-51, voci 356-411)** in `VASTITA.md`: portare TERRAWORLD verso la profondità
+  di Terraria + Calamity + Thorium (confronto sui dati reali: `tools/confronto.gd`). Prossima: la Roadmap 40.
 - **Fatta la Roadmap 37 «Ciò che conta»** (voci 350-355, 4 ott 2026): nata dalla prima partita vera dell'utente (6,6 ore).
   Correzioni, spiegazioni, Dispensa, abitanti come servizi, strati che fanno paura, equipaggiamento che conta. Resoconto in
   fondo alla Roadmap 37. Prossimo passo: l'utente rigioca la sua partita e dice che cosa si sente diverso.
@@ -5411,4 +5414,36 @@ Risultato: 0 errori. Regole del piano in CLAUDE.md; il colore della rarità nell
 La difficoltà resta nei limiti (`tools/percorso.gd`: attento 1,1 appassimenti all'ora, medio 5,6).
 
 Prossima: la Roadmap 39 «La spina della partita» (24 fasi, 16 metalli, la prima grande soglia, la scala dei numeri).
+
+# Roadmap 39 «La spina della partita» (6 ott 2026)
+
+Seconda Roadmap del piano «La vastità» (`VASTITA.md`). Prima la scala dei numeri cresceva poco (danno delle armi ×4,8 su
+tutta la partita, creature ×3,25 al vigore 12) e finiva presto: dopo lo stellare non c'era più niente da forgiare.
+
+- [x] **362. Le fasi.** Ventiquattro fasi: le dispari sono i dodici metalli (grado t = fase 2t-1), le pari i Guardiani e le
+  soglie (`PhasesData.PHASES` riscritte; la fase della Superficie di un mondo di vigore v è 2v-1, `SpineData`).
+- [x] **363. I metalli per fase.** Sei metalli del Risveglio in `SpineData.METALS`: corallite (vigore 6, Caverne),
+  sanguinite (7), cuorelegno (8, nelle radici giganti e nel legnoferro), eterite (9, Profondità), astrite (10, Fondo),
+  primambra (11, nell'ambra e nella vuotite). Cadono scavando come i materiali dei geni (niente tessere nuove), per
+  `KEEP` vigori, la primambra per sempre; e dalle creature antiche. Ognuno con grezzo, lingotto, tutta la famiglia di
+  forme, set, carattere, gesto a due effetti (12 effetti «mat_…» nuovi), tavolozza delle icone. Niente leghe.
+- [x] **364. Il Risveglio del Cuore.** `CuoreDesto`: risolto il Guardiano di un mondo di vigore 4 o più, tutti i mondi
+  cambiano: metalli nuovi, antiche ×1,25, un'Aiuola in più nel Giardino, la Linfa del Cuore dai Guardiani (+15 Vita per
+  sempre, 12 volte), una pagina di storia.
+- [x] **365. La scala dei numeri.** `SpineData`: armi ×1,3456 per grado (radicite 9 → primambra 236, ×26; vuotite e
+  stellare alzate a 30 e 40), creature con Vita ×1,3456 e danno ×1,2 per vigore fino all'11 (poi +4% e +3%), Guardiani con
+  la Vita × (1 + 0,12 per vigore). La Vita e il danno delle creature ora si separano ovunque (`strengthen(Vita, danno)`,
+  quindici punti del codice). I Guardiani generati hanno una pericolosità comune (`GuardianGen.threat`).
+- [x] **366. Il Diario della spina.** La pagina «La spina» nel Taccuino del Semenzaio: la fase raggiunta, i dodici metalli
+  (trovati, dove), le ventiquattro fasi e la prossima soglia. Capitolo «spina» nell'Enciclopedia.
+
+**Resoconto della Roadmap 39.** Misure con `tools/percorso.gd` (30 giri per tappa, ora fino al vigore 15):
+- attento: 0,9 appassimenti all'ora in tutto, mai sopra 2,4 in una tappa;
+- medio: 5,7 all'ora, la curva sale da 1-3 all'inizio a 8-10 ai vigori 12-15.
+
+`tools/boss.gd`: il Nodo in 54 secondi, il Colosso in 2 minuti, i Guardiani generati in 2-2,5 minuti. Il più duro dei
+Guardiani generati toglieva 10,7 Vite al giocatore attento; ora 5,2 (il tipico circa 3, come i Guardiani scritti a mano).
+
+Prove: gruppo «spina» (curve, metalli completi, Risveglio, scavo nelle Caverne e non in superficie, Linfa del Cuore,
+pericolosità dei Guardiani generati). `verifica_dati`: 0 errori.
 

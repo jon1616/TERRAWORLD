@@ -45,6 +45,13 @@ const MATERIALS := {
 	"vento": ["#6a5418", "#a08028", "#e0c050", "#fff0a0", "#fffbe8"],
 	"nimbite": ["#34405a", "#5a7090", "#8ea8c8", "#cfe0f4", "#ffffff"],
 	"folgorite": ["#2a2450", "#4a4a9a", "#7a8ae0", "#c0d0ff", "#fffac0"],
+	# Roadmap 39: i metalli del Risveglio
+	"corallite": ["#4a1428", "#a03050", "#e8607a", "#ffa8b0", "#fff0e8"],
+	"sanguinite": ["#20040a", "#560a18", "#9a1428", "#e0384a", "#ffb0a0"],
+	"cuorelegno": ["#2a1a08", "#5a3a14", "#8a6a2a", "#c0a050", "#e8f0a0"],
+	"eterite": ["#183048", "#3a6a8a", "#78b0d0", "#c0f0ff", "#ffffff"],
+	"astrite": ["#0c0c30", "#202a70", "#4a60c8", "#a8b8ff", "#fff8d0"],
+	"primambra": ["#5a2a04", "#b06010", "#f0a830", "#ffe080", "#fffff0"],
 }
 const LEAF := ["#16574f", "#3aa08a", "#72d4b0"]
 const AMBER := ["#9a4a22", "#ffb040", "#ffe0a0"]
