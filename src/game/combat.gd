@@ -120,8 +120,10 @@ func _gesture_hit(s: Dictionary, c: Creature, pos: Vector2) -> void:
 
 ## Voce 356: le opzioni di un colpo con i moduli del materiale dell'arma (pierce e homing si sommano, gli altri si
 ## aggiungono). Restituisce [opzioni, moltiplicatore della velocità].
-static func gesture_opts(opts: Dictionary, mat: String) -> Array:
+static func gesture_opts(opts: Dictionary, mat: String, extra: Dictionary = {}) -> Array:
 	var mods: Dictionary = GesturesData.of_mat(mat).get("mods", {})
+	if not extra.is_empty():
+		mods = GesturesData.merge_mods(mods, extra)     # voce 370: i moduli propri di un'arma firma
 	var out := opts.duplicate()
 	for k in mods:
 		match String(k):
@@ -233,7 +235,7 @@ func _bow(it: Dictionary, st: Dictionary, use: String, active: bool, dt: float, 
 	var dg := DART_GRAV * Creature.grav           # voce 76: in un mondo leggero il dardo cade meno
 	v.y -= 0.5 * dg * minf(flight, 0.8)
 	var n := int(it.get("multishot", 1))       # l'Arco iridato (e il Lanciaspore) tira più colpi a ventaglio con uno solo
-	var go := gesture_opts({"pierce": int(st["pierce"]), "elem": String(st["elem"])}, String(st["mat"]))   # voce 356
+	var go := gesture_opts({"pierce": int(st["pierce"]), "elem": String(st["elem"])}, String(st["mat"]), it.get("mods", {}))   # voce 356
 	var am: Dictionary = AmmoData.MODS.get(ammo, {})
 	if not am.is_empty():
 		var pure := am.duplicate()

@@ -34,6 +34,23 @@ Ogni mondo di vigore più alto ha creature con molta più Vita (un terzo in più
 • i Guardiani dei mondi di vigore 5 e oltre lasciano la [b]Linfa del Cuore[/b]: +15 Vita massima per sempre, fino a dodici volte.
 I metalli nuovi si fondono al Baccello ardente come gli altri (tre grezzi per un lingotto) e danno armi, attrezzi, armature e un set ciascuno, con il loro gesto e il loro carattere. Non fanno leghe.
 Oltre il vigore 11 le creature crescono piano: lì contano la [url=cap:vigore]tempra[/url] al Maglio, i set e le arti."""},
+	{"id": "stili", "group": "Combattere", "name": "Gli otto stili", "text":
+"""Ogni arma appartiene a uno [b]stile[/b], e ogni stile ha una [b]risorsa[/b] che cresce mentre lo usi. La sua riga compare sopra la barra rapida.
+• [b]Mischia[/b] (spade, pugnali, falci lunghe, manopole, egide, bipenni, randelli…): lo [b]Slancio[/b]. Ogni giro che colpisce ne dà uno. Quando è pieno, il giro dopo fa il doppio e scuote chi sta attorno. L'egida in mano dà anche Scorza.
+• [b]Distanza[/b] (archi, balestre, fionde, cerbottane, lanciaspore): le [b]munizioni[/b]. Archi e balestre tirano dardi, le fionde sassi, cerbottane e lanciaspore spore. Ogni munizione ha il suo modo: rimbalza, si divide, scoppia, insegue, gela, brucia. L'arma tira quella del suo tipo che fa più danno.
+• [b]Linfa[/b] (verghe, tomi, sfere): incantesimi che spendono Linfa. Il tomo tira tre pagine che inseguono, la sfera un globo lento che attraversa tutto.
+• [b]Evocazione[/b] (scettri del branco): richiamano un alleato forte come il metallo dello scettro.
+• [b]Lancio[/b] (dischi, girandole): la [b]Mira ferma[/b]. Se resti fermo un attimo, il lancio dopo è perfetto: quasi doppio e attraversa.
+• [b]Canto[/b] (buccine, flauti, tamburi): l'[b]Ispirazione[/b]. Ogni nota che colpisce ne dà una. Quando è piena parte il canto dello strumento: la buccina dà più danno, il flauto cura te e i compagni, il tamburo dà Scorza.
+• [b]Cura[/b] (virgulti): ferire ti cura. Ogni sei colpi un'onda di [b]Rugiada[/b] cura te e i compagni in campo.
+• [b]Radice[/b] (semi-torre e semi-bomba): il seme-torre si pianta su un pavimento vicino e tira spine da solo per dodici secondi; puoi cambiare arma intanto. Il seme-bomba si lancia ad arco e scoppia.
+Le forme nuove si fanno al Maglio con i metalli e i materiali dei geni, non con le leghe.
+
+[b]Le armi firma[/b]
+Per ogni fase della partita ci sono dieci armi uniche, una per stile più due: nome proprio, elemento, effetti tutti loro e, se tirano, il loro modo di volare. Non si fabbricano. Le lasciano i Guardiani (sempre una), i Signori, i Custodi, i capi delle maree e delle prove (a volte), e si trovano negli scrigni delle rovine. Sono della fase del posto in cui le trovi.
+
+[b]Le linee d'arma[/b]
+Al Maglio dei Seminatori le armi firma di uno stile si fondono in una [b]linea[/b] di sei passi. Ogni passo porta gli effetti delle armi che l'hanno fatto. L'ultimo è l'[b]arma suprema[/b] dello stile, per esempio la Radice del mondo per la mischia o l'Arco del firmamento per la distanza."""},
 	{"id": "forme", "group": "Creare ed equipaggiarsi", "name": "Le forme", "text":
 """La forma decide come si usa un oggetto: la sua area di colpo, la velocità, a che cosa serve. Ogni forma esiste in ogni materiale.
 {cat_forme}"""},

@@ -92,6 +92,8 @@ func _on_struck(c: Creature, dmg: int) -> void:
 	for id in active:
 		var e := EffectsData.info(String(id))
 		var when := String(e.get("when", ""))
+		if e.has("cond") and when != "se" and not _cond(String(e["cond"])):
+			continue                                   # voce 370: «di notte», «sotto terra»…
 		if when == "colpo" and randf() < float(e.get("chance", 1.0)):
 			_do(e, c, dmg)
 		elif when == "ogni" and _hits % int(e["n"]) == 0:

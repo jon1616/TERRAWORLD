@@ -10,6 +10,7 @@ class_name EffectsData
 ##   ferita      quando il Germogliato è ferito (con "chance"; "sotto" = solo sotto questa frazione di Vita)
 ##   morte       quando la Vita finirebbe ("cool" secondi tra una volta e l'altra)
 ##   se          finché vale una condizione ("cond": vita_bassa, notte, acqua, fermo, sottoterra, superficie)
+##               (voce 370: anche «colpo» e «ogni» possono avere una "cond": valgono solo quando è vera)
 ##   aura        di continuo, attorno al Germogliato ("r" tessere)
 ## Cosa ("do"), con i suoi parametri:
 ##   brucia (t)  ·  gela (t: rallenta)  ·  stordisce (t)  ·  schegge (n, dmg: frazione del colpo)  ·  catena (n, dmg, r)
@@ -195,8 +196,12 @@ const EFFECTS := {
 }
 
 
+## Roadmap 40: più quelli dei pacchetti generati (le armi firma, `src/data/vastita/`).
+static var PACK: Dictionary = BiomesData.pack("effects")
+
+
 static func info(id: String) -> Dictionary:
-	return EFFECTS.get(id, {})
+	return EFFECTS.get(id, PACK.get(id, {}))
 
 
 ## «Tizzone: un colpo su tre incendia…» per le schede.

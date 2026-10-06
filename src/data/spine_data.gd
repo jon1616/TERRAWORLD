@@ -43,6 +43,15 @@ static func phase_of_vigor(v: int) -> int:
 	return clampi(2 * maxi(v, 1) - 1, 0, 23)
 
 
+## Voce 370: la probabilità che uno scrigno delle rovine abbia un'arma firma (la legge `PassRovine`; i capi in `FirmaDrops`).
+const FIRMA_CHEST := 0.08
+
+
+## La fase di un posto: il vigore del mondo e lo strato (0 Superficie … 4 Fondo). Per le armi firma (`FirmaDrops`).
+static func zone_phase(v: int, stratum: int) -> int:
+	return clampi(2 * maxi(v, 1) - 1 + clampi(stratum, 0, 4), 1, 23)
+
+
 ## La fase di un grado di metallo (1 radicite … 12 primambra).
 static func phase_of_tier(t: int) -> int:
 	return 0 if t <= 0 else clampi(2 * t - 1, 1, 23)

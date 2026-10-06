@@ -71,7 +71,7 @@ func _process(dt: float) -> void:
 	_t = 1.0 / (maxf(float(st["speed"]), 0.1) * m.combat.spd_mult)
 	var dmg := roundi(float(st["damage"]) * m.combat._boon())
 	var opts := {"elem": String(st["elem"]), "pierce": int(st.get("pierce", 0)), "style": style}
-	var go := Combat.gesture_opts(opts, String(st["mat"]))      # voce 356: il gesto del materiale
+	var go := Combat.gesture_opts(opts, String(st["mat"]), it.get("mods", {}))   # voce 356: il gesto del materiale
 	var o: Dictionary = go[0]
 	var sp := float(go[1])
 	var form := String(it.get("form", ""))

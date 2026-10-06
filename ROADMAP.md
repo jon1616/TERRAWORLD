@@ -1,12 +1,14 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 6 ott 2026)
+- **Fatta la Roadmap 40 «Le armi»** (voci 367-372, 6 ott 2026): otto stili con le loro risorse, 19 forme nuove, 34
+  munizioni, 230 armi firma (dieci per fase) e otto linee d'arma fino alle armi supreme. Resoconto in fondo.
 - **Fatta la Roadmap 39 «La spina della partita»** (voci 362-366, 6 ott 2026): 24 fasi, dodici metalli (sei nuovi dopo
   il Risveglio del Cuore), la scala dei numeri ×26 tarata con i giocatori simulati fino al vigore 15. Resoconto in fondo.
 - **Fatta la Roadmap 38 «Le fondamenta della vastità»** (voci 356-361, 6 ott 2026): gesti dei materiali, fasi e rarità,
   bottino «uno a scelta tra» e «prima volta», `tools/vastita.gd`, il generatore di contenuti.
 - **Il piano «La vastità» (Roadmap 38-51, voci 356-411)** in `VASTITA.md`: portare TERRAWORLD verso la profondità
-  di Terraria + Calamity + Thorium (confronto sui dati reali: `tools/confronto.gd`). Prossima: la Roadmap 40.
+  di Terraria + Calamity + Thorium (confronto sui dati reali: `tools/confronto.gd`). Prossima: la Roadmap 41 «I boss come tesori».
 - **Fatta la Roadmap 37 «Ciò che conta»** (voci 350-355, 4 ott 2026): nata dalla prima partita vera dell'utente (6,6 ore).
   Correzioni, spiegazioni, Dispensa, abitanti come servizi, strati che fanno paura, equipaggiamento che conta. Resoconto in
   fondo alla Roadmap 37. Prossimo passo: l'utente rigioca la sua partita e dice che cosa si sente diverso.
@@ -5446,4 +5448,62 @@ Guardiani generati toglieva 10,7 Vite al giocatore attento; ora 5,2 (il tipico c
 
 Prove: gruppo «spina» (curve, metalli completi, Risveglio, scavo nelle Caverne e non in superficie, Linfa del Cuore,
 pericolosità dei Guardiani generati). `verifica_dati`: 0 errori.
+
+# Roadmap 40 «Le armi» (6 ott 2026)
+
+Terza Roadmap del piano «La vastità». Ogni arma con un gesto suo, in ogni fase e per ogni modo di combattere.
+
+- [x] **367. Gli stili del Giardiniere.** `StylesData` + `Styles`: otto stili, ognuno con la sua risorsa:
+  - mischia, lo Slancio: cinque giri che colpiscono, poi un colpo doppio che scuote;
+  - distanza, le munizioni;
+  - Linfa;
+  - evocazione: lo scettro, con l'alleato forte come il suo metallo;
+  - lancio, la Mira ferma;
+  - canto, l'Ispirazione: tre canti, che valgono anche per i compagni;
+  - cura, la Rugiada: ferire cura, e l'onda cura anche i compagni;
+  - radice: i semi-torre di `StyleTurrets`.
+- [x] **368. Le forme nuove.** 19 forme:
+  - falce lunga, manopole, egida (in mano dà Scorza), bipenne, randello;
+  - fionda, cerbottana, lanciaspore;
+  - tomo, sfera;
+  - scettro;
+  - dischi, girandola;
+  - buccina, flauto, tamburo;
+  - virgulto;
+  - seme-torre, seme-bomba.
+
+  Si fanno solo dei materiali puri: 537 oggetti, icone in `StyleShapes`. Tarate con `tools/armi.gd` contro la spada:
+  - mischia 0,6-1,0;
+  - distanza 0,65-0,9;
+  - Linfa 0,6-0,7;
+  - lancio ~0,8;
+  - canto e cura ~0,55, perché hanno canti e cure;
+  - radice 0,4-0,6, perché le torri si sommano a un'altra arma.
+
+  La verga ora cresce con il filo: prima la verga di primambra faceva 54.
+- [x] **369. Il gesto del materiale.** Già fatto nella Roadmap 38 (voce 356).
+- [x] **370. Le armi firma.** 230 armi uniche, dieci per fase:
+  - nome, elemento ed effetti loro, da una libreria di 31 effetti, anche con condizioni («di notte», «sotto terra»);
+  - moduli di volo per quelle che tirano;
+  - nessuna gemella.
+
+  Cadono da `FirmaDrops`: sempre una dai Guardiani, a volte (35%) dai capi, a volte (8%) negli scrigni delle rovine. Le
+  genera `tools/vastita_gen/armi_firma.py`.
+- [x] **371. Le linee d'arma.** Otto linee di sei passi al Maglio. Ogni passo fonde il precedente con due armi firma
+  dello stile e ne porta gli effetti. In fondo c'è l'arma suprema: la Radice del mondo fa 393 contro i 236 della spada
+  di primambra, e porta quattro effetti.
+- [x] **372. Le munizioni.** `AmmoData`: 34 munizioni (dardi, sassi, spore), ognuna con il suo modo. Il danno conta un
+  poco anche insieme all'arma, così le munizioni buone servono fino alla fine.
+
+**Resoconto della Roadmap 40.** `tools/vastita.gd` dopo la Roadmap 40:
+- armi delle fasi 0-5: 423 (Terraria 554);
+- fasi 6-11: 529 (583);
+- fasi 12-17: 107 (433);
+- fasi 18-23: 107 (215);
+- tutte con un gesto diverso.
+
+Icone: 4.582, nessuna identica. I buchi che restano sono gli accessori e le armature delle fasi alte: il lavoro delle
+Roadmap 43 e 44.
+
+Prove: gruppo «stili» (le risorse in partita, le munizioni, lo scettro, le armi firma che cadono e le linee).
 

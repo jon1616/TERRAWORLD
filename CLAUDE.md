@@ -970,6 +970,17 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     `Fauna.awake_rare`, un'Aiuola in più) e la pagina «La spina» del Taccuino. I Guardiani generati hanno una
     pericolosità comune (`GuardianGen.threat`, `GuardianGenData.THREAT`). Misure: `tools/percorso.gd` (fino al vigore 15),
     `tools/boss.gd`. Prove: gruppo «spina» (`TestsSpine`). Enciclopedia: capitolo «spina».
+  - Roadmap 40 «Le armi» (voci 367-372): `StylesData` (otto stili, la risorsa di ognuno, lo stile di ogni forma
+    `of_item`) e `Styles` (`src/game/styles.gd`: Slancio, Mira ferma, Ispirazione e canti, Rugiada, la riga sopra la barra
+    rapida; i colpi con "style" tornano da `Combat.on_shot` in `note_hit`) + `StyleTurrets` (i semi-torre). 19 forme
+    nuove in `FormsData` (`PURE`: niente leghe; `FORM_FX` effetti propri; `AMMO_OF` munizione), icone in `StyleShapes`.
+    `AmmoData` (34 munizioni a tre tipi, `MODS`, danno che conta con l'arma `K`). Le armi firma e le linee d'arma sono il
+    pacchetto generato `src/data/vastita/armi_firma.gd` (`tools/vastita_gen/armi_firma.py`): campo "firma" = i valori
+    li fa `FormsData.firma_stats(forma, fase)` (il metallo virtuale della fase), "mods" = i loro moduli
+    (`Combat.gesture_opts(…, extra)`), "power_mult" per le linee; tabelle «firma_f<fase>» tirate da `FirmaDrops`
+    (Guardiani, capi) e dagli scrigni di `PassRovine`. Gli effetti dei pacchetti stanno in `EffectsData.PACK`; un effetto
+    «colpo» o «ogni» può avere una "cond". **Un'arma nuova: si sceglie lo stile e si guarda `tools/armi.gd`.**
+    Prove: gruppo «stili» (`TestsStyles`). Enciclopedia: capitolo «stili».
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

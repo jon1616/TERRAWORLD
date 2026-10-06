@@ -143,7 +143,31 @@ static func item_id(form: String, mat: String) -> String:
 
 ## I valori di una forma fatta di un materiale.
 static func stats(form: String, mat: String) -> Dictionary:
-	var md := MaterialsData.get_mat(mat)
+	return stats_md(form, MaterialsData.get_mat(mat))
+
+
+## Voce 370: il metallo «virtuale» di una fase della spina, per le armi firma (`firma_stats`): il filo della curva
+## (`SpineData`) un po' sopra quello del metallo della fase (le armi firma si trovano, non si fabbricano), e le altre
+## proprietà dal metallo della fase.
+const FIRMA_BONUS := 1.15
+const PHASE_METALS := ["radicite", "legnoferro", "ambra", "linfa", "vuoto", "stellare", "corallite", "sanguinite",
+	"cuorelegno", "eterite", "astrite", "primambra"]
+
+
+static func virtual_mat(phase: int) -> Dictionary:
+	var t := clampi((phase + 1) / 2, 1, 12)
+	var md := MaterialsData.get_mat(String(PHASE_METALS[t - 1])).duplicate()
+	md["filo"] = 9.0 * pow(1.16, maxi(phase, 1) - 1) * FIRMA_BONUS
+	md["conduzione"] = float(md["conduzione"]) * FIRMA_BONUS
+	return md
+
+
+## I valori di un'arma firma: la sua forma fatta del metallo virtuale della sua fase.
+static func firma_stats(form: String, phase: int) -> Dictionary:
+	return stats_md(form, virtual_mat(phase))
+
+
+static func stats_md(form: String, md: Dictionary) -> Dictionary:
 	var filo := float(md["filo"])
 	var peso := float(md["peso"])
 	var out := {}

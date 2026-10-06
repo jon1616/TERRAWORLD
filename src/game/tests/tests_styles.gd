@@ -28,6 +28,7 @@ func run() -> void:
 	await radice()
 	await distanza()
 	evocazione()
+	await firma()
 	m.styles.auto_fire = false
 	m.styles.auto_aim = Vector2.INF
 	m.combat.auto_fire = false
@@ -194,3 +195,54 @@ func evocazione() -> void:
 	m.companions.dismiss_allies()
 	m.vitals.linfa = lin
 	res["evocazione"] = ok and pw > 5.0
+
+
+## Voci 370 e 371: dieci armi firma per fase, tutte diverse, più forti delle armi fabbricate della loro fase; una cade
+## davvero; tenuta in mano porta i suoi effetti; le linee d'arma arrivano all'arma suprema di ogni stile.
+func firma() -> void:
+	var per_phase := {}
+	var sigs := {}
+	var bad := []
+	for id in ItemsData.all():
+		var it := ItemsData.get_item(String(id))
+		if not it.has("firma") or it.has("linea"):
+			continue
+		per_phase[int(it["fase"])] = int(per_phase.get(int(it["fase"]), 0)) + 1
+		var sig := "%s|%s|%s" % [it["form"], str(it.get("mods", {})), str((it["effects"] as Array).map(func(e: String) -> Dictionary:
+			var d := EffectsData.info(e).duplicate()
+			d.erase("name")
+			d.erase("desc")
+			return d))]
+		if sigs.has(sig):
+			bad.append("gemella: %s e %s" % [id, sigs[sig]])
+		sigs[sig] = id
+		for e in it["effects"]:
+			if EffectsData.info(String(e)).is_empty():
+				bad.append("%s: effetto %s" % [id, e])
+	var tens := per_phase.size() == 23 and per_phase.values().all(func(n: int) -> bool: return n == 10)
+	# più forte della spada fabbricata della sua fase (la fase 13 = corallite)
+	var f13 := ""
+	for id in ItemsData.all():
+		var it := ItemsData.get_item(String(id))
+		if it.has("firma") and int(it.get("fase", 0)) == 13 and String(it["form"]) == "spada" and not it.has("linea"):
+			f13 = String(id)
+	var stronger := f13 == "" or int(ItemsData.get_item(f13)["damage"]) > int(ItemsData.get_item("spada_corallite")["damage"])
+	# una cade, e in mano porta i suoi effetti
+	var got: String = m.firma.drop(5, m.player.position + Vector2(0, -20))
+	await kit.seconds(0.6)
+	var held := false
+	if got != "":
+		_hold(got)
+		await kit.frames(2)
+		m.effects.refresh()
+		held = m.effects.has(String((ItemsData.get_item(got)["effects"] as Array)[0]))
+	# le linee
+	var lines := 0
+	for st in StylesData.ORDER:
+		if ItemsData.has("linea_%s_6" % st) and not RecipesData.making("linea_%s_6" % st).is_empty():
+			lines += 1
+	var sup := int(ItemsData.get_item("linea_mischia_6").get("damage", 0))
+	res["firma"] = tens and bad.is_empty() and stronger and got != "" and held and lines == 8 and sup > int(ItemsData.get_item("spada_primambra")["damage"])
+	print("stili, le armi firma: per fase %s; gemelle e difetti %s; più forte della spada di corallite %s; caduta «%s», effetti in mano %s; linee complete %d, la Radice del mondo %d (spada di primambra %d)" % [
+		str(per_phase.values()), str(bad.slice(0, 4)), stronger, got, held, lines, sup, int(ItemsData.get_item("spada_primambra")["damage"])])
+

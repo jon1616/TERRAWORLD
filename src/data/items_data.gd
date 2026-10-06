@@ -320,6 +320,24 @@ static func all() -> Dictionary:
 	out.merge(FlightData.items())                          # voce 90: le ali
 	out.merge(SecretsData.ITEMS.duplicate(true))           # voce 95: gli attrezzi per i segreti
 	out.merge(UniqueSeriesData.ITEMS.duplicate(true))      # voce 98: gli oggetti unici
+	# voce 370: le armi firma dei pacchetti prendono i valori della loro forma nella loro fase (i campi scritti vincono)
+	for id in out:
+		var fi: Dictionary = out[id]
+		if fi.has("firma"):
+			var fs := FormsData.firma_stats(String(fi["form"]), int(fi["fase"]))
+			fs.merge({"tier": clampi((int(fi["fase"]) + 1) / 2, 1, 12)})
+			fi.merge(fs, false)
+			if fi.has("power_mult"):                     # voce 371: le linee d'arma e le armi supreme
+				fi["damage"] = roundi(float(fi["damage"]) * float(fi["power_mult"]))
+				if fi.has("ally_power"):
+					fi["ally_power"] = snappedf(float(fi["ally_power"]) * float(fi["power_mult"]), 0.01)
+			if fi.has("guard"):
+				fi["mano"] = {"defense": int(fi["guard"])}
+			var form := String(fi["form"])
+			if FormsData.FORM_FX.has(form):
+				fi["effects"] = (fi.get("effects", []) as Array) + (FormsData.FORM_FX[form] as Array)
+			if FormsData.AMMO_OF.has(form):
+				fi["ammo"] = FormsData.AMMO_OF[form]
 	# le famiglie di equipaggiamento: forma × materiale (voce 49, `FormsData` e `MaterialsData`)
 	for m in MaterialsData.all():
 		for f in FormsData.FORMS:

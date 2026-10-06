@@ -101,6 +101,7 @@ const PACK_FILES := [
 	preload("res://src/data/energy_pack.gd"),              # Roadmap 19: la rete della Linfa (vene, fili, macchine)
 	preload("res://src/data/lost_gardens_pack.gd"),        # Roadmap 21: i Giardini perduti
 	preload("res://src/data/primo_pack.gd"),               # Roadmap 28: il Giardino oltre il Vuoto
+	preload("res://src/data/vastita/armi_firma.gd"),       # Roadmap 40, voce 370: le armi firma (tools/gen_vastita.py)
 ]
 
 static var BIOMES: Array = _load()

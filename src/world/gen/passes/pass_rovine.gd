@@ -12,7 +12,10 @@ func title() -> String:
 	return "Rovine"
 
 
+var _vigor := 1                          # voce 370: per le armi firma degli scrigni
+
 func run(w: World, c: GenContext) -> void:
+	_vigor = int(c.params.get("vigore", 1))
 	var rng := c.rng
 	var placed: Array[Vector2i] = []
 	var cuore: Vector2i = c.notes.get("cuore", Vector2i(-9999, -9999))
@@ -99,6 +102,12 @@ func _build(w: World, rng: RandomNumberGenerator, p: Vector2i, s: int, rich := 0
 		r2.seed = hash([o.x, o.y, w.world_seed])
 		if r2.randf() < float(UniqueSeriesData.POOL_CHANCE["profondo"]):
 			chest.add(UniquesData.roll("profondo", r2), 1)
+	var r3 := RandomNumberGenerator.new()                    # voce 370: un'arma firma della fase del posto
+	r3.seed = hash([o.x, o.y, w.world_seed, "firma"])
+	if r3.randf() < SpineData.FIRMA_CHEST:
+		var fl := LootData.roll("firma_f%d" % SpineData.zone_phase(_vigor, s), r3)
+		for id in fl:
+			chest.add(String(id), 1)
 	if rng.randf() < 0.25:                    # voce 46: una Fiala di un gene qualunque, anche di altri mondi
 		var g := Genome.random_gene(rng, 2 + s)
 		if g != "":
