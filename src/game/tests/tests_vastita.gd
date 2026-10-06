@@ -15,6 +15,8 @@ func _init(tk: TestKit) -> void:
 
 func run() -> void:
 	await gestures()
+	loot_rules()
+	phases()
 
 
 func gestures() -> void:
@@ -69,3 +71,53 @@ func gestures() -> void:
 	print("gesti: %s; materiali senza gesto %s" % [str(res), str(missing)])
 	if not res.values().all(func(x: bool) -> bool: return x):
 		print("ATTENZIONE: il motore dei gesti non va come dovrebbe")
+
+
+## Voce 358: «uno a scelta tra» (ne cade sempre uno solo del gruppo) e «solo la prima volta».
+func loot_rules() -> void:
+	LootData.TABLES["__prova"] = [
+		{"item": "legno", "min": 1, "max": 1, "chance": 1.0, "group": "arma"},
+		{"item": "humus", "min": 1, "max": 1, "chance": 1.0, "group": "arma"},
+		{"item": "gelatina", "min": 1, "max": 1, "chance": 1.0, "group": "arma", "w": 2.0},
+		{"item": "torcia", "min": 2, "max": 2, "chance": 1.0, "first": true},
+	]
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 3
+	var one := true
+	var seen := {}
+	for k in 60:
+		var got := LootData.roll("__prova", rng, k == 0)
+		var n := 0
+		for id in ["legno", "humus", "gelatina"]:
+			if got.has(id):
+				n += 1
+				seen[id] = true
+		if n != 1 or (got.has("torcia") != (k == 0)):
+			one = false
+	LootData.TABLES.erase("__prova")
+	var ok := one and seen.size() == 3
+	print("bottino: uno solo del gruppo e «prima volta» solo la prima %s; usciti %s" % [one, str(seen.keys())])
+	if not ok:
+		print("ATTENZIONE: le regole nuove delle tabelle del bottino non vanno")
+
+
+## Voce 357: ogni oggetto ha una fase e una rarità; i metalli salgono di fase con il grado; ciò che si fabbrica non
+## arriva prima dei suoi ingredienti.
+func phases() -> void:
+	var p1 := PhasesData.of("spada_radicite")
+	var p6 := PhasesData.of("spada_stellare")
+	var order_ok := p1 < PhasesData.of("spada_legnoferro") and PhasesData.of("spada_legnoferro") < PhasesData.of("spada_ambra") and p6 > p1
+	var bad := []
+	for r in RecipesData.all():
+		var out := String(r["out"])
+		if ItemsData.get_item(out).has("fase") or ItemsData.get_item(out).has("mat") or ItemsData.get_item(out).has("tier"):
+			continue
+		for k in (r["in"] as Dictionary):
+			if PhasesData.of(String(k)) > PhasesData.of(out) and RecipesData.making(out).size() == 1:
+				bad.append("%s<%s" % [out, k])
+	var rar := PhasesData.rarity("spada_stellare")
+	print("fasi: radicite %d, stellare %d, in ordine %s; rarità della spada stellare «%s»; ricette prima dei loro ingredienti %d %s" % [
+		p1, p6, order_ok, rar[0], bad.size(), str(bad.slice(0, 5))])
+	if not order_ok or not bad.is_empty():
+		print("ATTENZIONE: le fasi degli oggetti non tornano")
+

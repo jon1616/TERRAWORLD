@@ -33,6 +33,7 @@ var danger := 1.0                      # pericolo attorno al giocatore, aggiorna
 var luck := 0.0                        # tratto Fortuna dell'equipaggiamento: probabilità di un giro di bottino in più
 var boon_luck := 0.0                   # Pozione di fortuna
 var rare_mult := 1.0                   # Pozione dell'esca: creature rare più frequenti
+var first_hook: Callable               # voce 358: «è la prima volta che si sconfigge questa specie?» (lo collega `main`)
 # eventi del mondo (voce 34, vedi `Events`)
 var event_danger := 0.0
 var world_danger := 0.0                # tratti del mondo (voce 39, `WorldTraits`)

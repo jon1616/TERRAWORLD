@@ -5334,9 +5334,9 @@ La prima Roadmap del piano «La vastità» (`VASTITA.md`, Roadmap 38-51). Scelte
 - niente estetica pura: vanità, abiti, tinture per abiti, carillon, quadri, arredi senza funzione.
 
 - [x] **356. Il motore dei gesti** (con la **369, il gesto del materiale**, anticipata).
-- [ ] **357. Le fasi e le rarità.**
-- [ ] **358. Le tabelle del bottino per fonte.**
-- [ ] **359. Lo strumento della vastità.**
+- [x] **357. Le fasi e le rarità.**
+- [x] **358. Le tabelle del bottino per fonte.**
+- [x] **359. Lo strumento della vastità.**
 - [ ] **360. Il generatore di contenuti.**
 - [ ] **361. La verifica allargata.**
 
@@ -5364,3 +5364,26 @@ La calibrazione: `GesturesData.single_bonus` (fiamme, veleno, stelle, vulnerabil
 
 Esamina mostra il gesto di ogni arma; capitolo dei materiali aggiornato. Prova: gruppo «vastita» (`TestsVastita`:
 dati, effetto in mano, rimbalzo, divisione, ritorno); `verifica_dati` segnala i materiali senza gesto.
+
+**Fatto il 6 ott 2026 (voci 357, 358, 359).**
+
+`PhasesData` (`src/data/phases_data.gd`):
+- **24 fasi** della spina (provvisorie fino alla Roadmap 39);
+- la fase di ogni oggetto **calcolata dai dati**: dal materiale, dalle ricette (mai prima dei suoi ingredienti) e da chi
+  lo lascia (strato delle creature, vigore dei Guardiani), con il campo `fase` che vince su tutto;
+- **12 rarità** con il loro colore (Comune, Germoglio, Radice, Muschio, Ardesia, Ambra, Brace, Linfa, Vuoto, Stelle,
+  Cosmo, Primo) più Unico. Il nome di ogni oggetto ha il colore della rarità nei suggerimenti e in Esamina, con la fase
+  in cui arriva.
+
+`LootData.roll` (voce 358) ha due regole nuove: **«uno a scelta tra»** (`group`, con il peso `w`) e **«solo la prima
+volta»** (`first`, con `Fauna.first_hook`). `LootData.items_of` dà gli oggetti di una tabella.
+
+`tools/vastita.gd` → prove/vastita.txt (voce 359) mette TERRAWORLD per blocchi di fasi accanto alle curve di Terraria +
+Calamity + Thorium e scrive i buchi in cima. I buchi di oggi:
+- poche armi nelle fasi 0-5 (100 contro 554);
+- quasi nessun accessorio nelle fasi 12-23;
+- i Guardiani lasciano 3 oggetti l'uno (Terraria ~20);
+- 12 specie nel Fondo, 14 biomi sotto le 8 specie.
+
+Prove nel gruppo «vastita».
+

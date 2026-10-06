@@ -15,7 +15,10 @@ static func bbcode(id: String, tratto := "", dati := {}) -> String:
 	if it.is_empty():
 		return ""
 	var slot := {"id": id, "tratto": tratto, "dati": dati}
-	var t := "[font_size=20][color=#ffd08a]%s[/color][/font_size]\n" % Gear.full_name(slot)
+	var rar := PhasesData.rarity(id)                 # voce 357: il colore della rarità, e la fase della partita
+	var t := "[font_size=20][color=#%s]%s[/color][/font_size]\n" % [(rar[1] as Color).to_html(false), Gear.full_name(slot)]
+	t += "[color=#%s]Rarità %s[/color] [color=#6a8a84]· arriva nella fase %d, «%s»[/color]\n" % [(rar[1] as Color).to_html(false),
+		rar[0], PhasesData.of(id), PhasesData.phase_name(PhasesData.of(id))]
 	if dati.has("geni"):
 		t += Genome.sheet(dati)
 	if id == "creatura" and dati.has("specie"):

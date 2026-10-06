@@ -20,15 +20,15 @@ static func card(slot: Dictionary, ctx := {}) -> TipCard:
 	var kind := String(it.get("kind", ""))
 	var gear := Bisaccia.is_gear(id)
 	var c := TipCard.new()
-	var col := TipWordsData.kind_color(kind)
-	if gear and dati.has("q"):
-		col = Color(String(TraitsData.QUALITY[Gear.quality(slot)]["color"]))
+	# voce 357: il nome ha il colore della rarità (dalla fase della partita in cui l'oggetto arriva)
+	var rar := PhasesData.rarity(id)
+	var col: Color = rar[1]
 	var title := Gear.full_name(slot)
 	if title.ends_with("]") and title.contains(" ["):
 		title = title.substr(0, title.rfind(" ["))   # i tratti sono scritti sotto, uno per riga
 	c.title(title, col, id)
 	# che cos'è: tipo, grado, materiale, quanti
-	var what := [TipWordsData.kind_name(kind, String(it.get("form", "")))]
+	var what := [TipWordsData.kind_name(kind, String(it.get("form", ""))), "rarità %s" % rar[0]]
 	if int(it.get("tier", 0)) > 0:
 		what.append("grado %d" % int(it["tier"]))
 	if gear and dati.has("q"):

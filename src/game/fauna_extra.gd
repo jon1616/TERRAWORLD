@@ -29,8 +29,10 @@ static func drop(f: Fauna, c: Creature, _rng: RandomNumberGenerator) -> void:
 		lum = maxi(lum, roundi(c.hp_max / 6.0))
 	lum = maxi(1, roundi(lum * f.world_lumini))
 	f.drops.spawn("lumino", lum, c.position + Vector2(_rng.randf_range(-6, 6), -4))
+	# voce 358: la prima volta che si sconfigge una specie la sua tabella dà anche le voci «first»
+	var first: bool = f.first_hook.is_valid() and bool(f.first_hook.call(c.base))
 	for r in rolls:
-		var loot := LootData.roll(String(c.data["loot"]), _rng)
+		var loot := LootData.roll(String(c.data["loot"]), _rng, first and r == 0)
 		for id in loot:
 			f.drops.spawn(id, int(loot[id]), c.position)
 	# Roadmap 32, voce 314: frutti, semi, istinti, pietre e ciondoli per i compagni

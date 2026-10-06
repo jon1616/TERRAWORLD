@@ -204,6 +204,7 @@ func _build() -> void:
 	fauna = Fauna.new()
 	add_child(fauna)
 	fauna.setup(world, player, drops, shots)
+	fauna.first_hook = func(base: String) -> bool: return int((character.erbario.get("creature", {}) as Dictionary).get(base, 0)) == 0   # voce 358
 	hud = Hud.new()
 	hud.bisaccia = character.bisaccia
 	match String(Settings.v("aiuto_tasti")):     # l'aiuto dei tasti: nelle prime ore (venti minuti), sempre o mai

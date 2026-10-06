@@ -259,11 +259,46 @@ static func roll_chest(table: String, rng: RandomNumberGenerator, rolls := 2) ->
 
 
 ## Tira il bottino di una tabella: {oggetto: quantità}.
-static func roll(table: String, rng: RandomNumberGenerator) -> Dictionary:
+## Voce 358 (Roadmap 38): due regole in più per i bottini ricchi dei boss, come i sacchetti di Terraria.
+##   "group": nome  — le voci con lo stesso gruppo sono «uno a scelta tra»: se il gruppo esce (con il "chance" della
+##                    sua prima voce) ne cade **una sola**, scelta con il peso "w" (1 se manca);
+##   "first": true  — la voce esce solo la **prima volta** che si sconfigge quella creatura (`first`).
+static func roll(table: String, rng: RandomNumberGenerator, first := false) -> Dictionary:
 	var out := {}
+	var groups := {}
 	for e in TABLES.get(table, SeasonsData.LOOT.get(table, [])):       # voce 66: il bottino delle creature delle stagioni
+		if e.get("first", false) and not first:
+			continue
+		if e.has("group"):
+			var g := String(e["group"])
+			if not groups.has(g):
+				groups[g] = []
+			(groups[g] as Array).append(e)
+			continue
 		if rng.randf() <= float(e["chance"]):
 			out[e["item"]] = int(out.get(e["item"], 0)) + rng.randi_range(int(e["min"]), int(e["max"]))
+	for g in groups:
+		var list: Array = groups[g]
+		if rng.randf() > float(list[0]["chance"]):
+			continue
+		var tot := 0.0
+		for e in list:
+			tot += float(e.get("w", 1.0))
+		var r := rng.randf() * tot
+		for e in list:
+			r -= float(e.get("w", 1.0))
+			if r <= 0.0:
+				out[e["item"]] = int(out.get(e["item"], 0)) + rng.randi_range(int(e["min"]), int(e["max"]))
+				break
+	return out
+
+
+## Voce 358: gli oggetti diversi che una tabella può dare (per lo strumento della vastità e per Esamina).
+static func items_of(table: String) -> Array:
+	var out := []
+	for e in TABLES.get(table, []):
+		if not String(e["item"]) in out:
+			out.append(String(e["item"]))
 	return out
 
 
