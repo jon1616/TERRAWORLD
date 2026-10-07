@@ -7,7 +7,9 @@ class_name JewelsData
 ## Roadmap 31, voce 308: la montatura aggiunge il **carattere** del suo metallo (`MaterialsData.trait_acc`: metà
 ## nell'amuleto, tre decimi nell'anello), così due gioielli della stessa gemma e dello stesso grado non sono uguali.
 
-const GEMS := {
+## Roadmap 52, voce 414: più le gemme dei pacchetti (campo «gems»: candorina, muschiata, fiammina, ombrina).
+static var GEMS: Dictionary = _GEMS.merged(BiomesData.pack("gems"))
+const _GEMS := {
 	"brillaluce": {"name": "brillaluce", "amulet": {"halo": 0.08, "luck": 0.02}, "effect": "cielo_aperto"},
 	"sanguinella": {"name": "sanguinella", "amulet": {"damage": 0.03}, "effect": "furia_bassa"},
 	"lagunite": {"name": "lagunite", "amulet": {"regen": 0.06, "respiro": 0.2}, "effect": "rigenera_fermo"},

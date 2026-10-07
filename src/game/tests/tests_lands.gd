@@ -25,6 +25,7 @@ func run() -> void:
 	garden_and_fossils()
 	blast()
 	veins()
+	gems()
 	await photos()
 	print("terre: %s" % str(res))
 	if not res.values().all(func(x: Variant) -> bool: return x == true):
@@ -267,6 +268,23 @@ func veins() -> void:
 	print("terre, le vene dei metalli (%d): per vigore %s; la vena dorme: %s, sveglia: %s" % [n, str(by_v), asleep, woke])
 
 
+## Voce 414: otto gemme in vena, ognuna nei suoi strati; le quattro nuove hanno amuleti e anelli.
+func gems() -> void:
+	var tiles := []
+	for t in TileDefs.KIND:
+		if TileDefs.kind_of(int(t)) == "gemma":
+			tiles.append(String(TileDefs.DROP[int(t)]))
+	var in_rock := 0
+	for o in TileDefs.ORES:
+		if TileDefs.kind_of(int(o["type"])) == "gemma":
+			in_rock += 1
+	var jewels := true
+	for g in JewelsData.GEMS:
+		jewels = jewels and ItemsData.has(String(g)) and ItemsData.has(JewelsData.amulet_id(String(g), "radicite")) 			and ItemsData.has(JewelsData.ring_id(String(g), "ambra")) and String(g) in tiles
+	res["gemme"] = tiles.size() == 8 and in_rock == 8 and JewelsData.GEMS.size() == 8 and jewels 		and GroupsData.members("@gemma").has("ombrina")
+	print("terre, le gemme nella roccia: %s; gioielli per ognuna %s" % [str(tiles), jewels])
+
+
 ## La sezione della terra di alcuni biomi, senza il buio.
 func photos() -> void:
 	var w: World = m.world
@@ -285,4 +303,17 @@ func photos() -> void:
 		await kit.seconds(0.6)
 		await kit.save("260_terre_%s" % bid)
 	m.overlay.visible = true
+	# una gemma che tocca una grotta, con il buio vero: deve brillare
+	var gem := Vector2i(-1, -1)
+	for y in range(w.surface[w.spawn.x] + 30, w.h - 60, 3):
+		for x in range(60, w.w - 60, 3):
+			if TileDefs.kind_of(w.tile(x, y)) == "gemma" and not w.solid(x, y - 1) and not w.solid(x, y - 2) and w.solid(x, y + 2):
+				gem = Vector2i(x, y - 1)
+				break
+		if gem.x >= 0:
+			break
+	if gem.x >= 0:
+		m.snap_to(gem + Vector2i(-6, 0))
+		await kit.seconds(0.6)
+		await kit.save("261_terre_gemma")
 	m.snap_to(Vector2i(floori(back.x / 16.0), floori(back.y / 16.0)))

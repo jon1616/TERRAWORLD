@@ -152,6 +152,43 @@ def veins(start):
     return tiles, ores
 
 
+# ---------------------------------------------------------------- voce 414: le gemme nella roccia
+
+# id, nome, tavolozza (None = quella che ha già), rocce, strati, forza, nuova?, amuleto, effetto dell'anello, descrizione
+GEMS = [
+    ('candorina', "Candorina", ["#3a4a5a", "#7a90a8", "#c0d4e8", "#eef6ff", "#ffffff"], [3], [0, 1], 0, True,
+     {'linfa_regen': 0.06}, 'aura_gelo', "Gemma bianca come la brina, la prima che si trova: tiene fresca la Linfa."),
+    ('muschiata', "Muschiata", ["#0a2a1a", "#16573a", "#2a9a5a", "#6ad890", "#d0ffe0"], [8, 3], [1], 0, True,
+     {'grow': 0.05, 'herd': 0.03}, 'spine_vive', "Gemma verde del Sottobosco, nata nelle radici: fa crescere ciò che cura chi la porta."),
+    ('sanguinella', "Sanguinella", None, [3, 8], [1, 2], 0, False, None, None, None),
+    ('brillaluce', "Brillaluce", None, [3], [2, 3], 35, False, None, None, None),
+    ('lagunite', "Lagunite", None, [9], [3], 45, False, None, None, None),
+    ('fiammina', "Fiammina", ["#3a1004", "#8a2a08", "#e0601a", "#ffb040", "#fff0b0"], [9, 10], [3, 4], 45, True,
+     {'atk_speed': 0.03}, 'braciere_addosso', "Gemma arancio dove lo scisto tocca la vuotite: dentro ci arde una brace."),
+    ('nottilite', "Nottilite", None, [10], [4], 55, False, None, None, None),
+    ('ombrina', "Ombrina", ["#06060a", "#1a1a26", "#34344a", "#5a5a78", "#a0a0c8"], [10], [4], 55, True,
+     {'dig': 0.05, 'luck': 0.01}, 'ombra_ferito', "Gemma fumosa del Fondo: chi la porta scava più in fretta e trova di più."),
+]
+
+
+def gems(start):
+    """Otto gemme in vena: le quattro dei grappoli di prima e quattro nuove (con amuleti e anelli: campo «gems», unito a
+    `JewelsData.GEMS`)."""
+    tiles, ores, items, jew, pals = {}, [], {}, {}, {}
+    icons = open(os.path.join(ROOT, 'src', 'art', 'item_icons.gd'), encoding='utf-8').read()
+    for i, (gid, name, pal, hosts, strata, power, new, amulet, effect, desc) in enumerate(GEMS):
+        tid = start + i
+        p = pal or icon_pal(gid)
+        tiles[tid] = {'name': 'Roccia di %s' % name.lower(), 'hard': 0.6, 'power': power, 'drop': gid, 'pal': p,
+                      'layer': 'gemma_' + gid, 'specks': 0, 'look': 'gemma', 'kind': 'gemma', 'glow': True}
+        ores.append({'type': tid, 'min_depth': 6, 'strata': strata, 'in': hosts, 'freq': 0.22, 'threshold': 0.77, 'oct': 1})
+        if new:
+            items[gid] = {'name': name, 'kind': 'materiale', 'icon': ['gemma', gid], 'desc': desc}
+            jew[gid] = {'name': name.lower(), 'amulet': amulet, 'effect': effect}
+            pals[gid] = p
+    return tiles, ores, items, jew, pals
+
+
 def _tile(tid, iid, name, pal, look, hard, power, phys, kind, ids):
     t = {'name': name, 'hard': hard, 'power': power, 'drop': iid, 'pal': pal, 'layer': 'terra_' + iid,
          'specks': 0, 'look': look, 'kind': kind}
@@ -193,6 +230,11 @@ def build():
     vt, vo = veins(T0 + len(order))
     tiles.update(vt)
     ores += vo
+    gt, go, gi, gj, gp = gems(T0 + len(order) + len(vt))
+    tiles.update(gt)
+    ores += go
+    items.update(gi)
+    pals.update(gp)
     # gli usi: le seconde strade per cose che ci sono già, e tre cose nuove (concime, anfora d'argilla, conserva)
     items['concime'] = {'name': "Concime", 'kind': 'concime', 'icon': ['polvere', 'terra_grassa'], 'stack': 99,
                         'desc': "Clic su una coltura: cresce di colpo, come se fosse passato un terzo del tempo che le manca."}
@@ -213,4 +255,4 @@ def build():
         {'out': 'pesce_sotto_sale', 'qty': 2, 'in': {'salgemma': 2, '@pesce': 1}, 'station': 'paiolo'},
     ]
     return [('terre.gd', 'Roadmap 52, voci 412-416: le terre dei biomi, le rocce e le terre comuni con i loro usi, le vene',
-             {'tiles': tiles, 'veins': ores, 'soils': soils, 'icon_pals': pals, 'items': items, 'recipes': recipes})]
+             {'tiles': tiles, 'veins': ores, 'soils': soils, 'icon_pals': pals, 'gems': gj, 'items': items, 'recipes': recipes})]

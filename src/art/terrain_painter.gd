@@ -138,6 +138,8 @@ static func _shape(img: Image, glow: Image, ox: int, oy: int, vx: int, vy: int, 
 			if c.a < 0.99:
 				c.a = 1.0                  # pixel del minerale che non vuole bordi
 				img.set_pixel(ox + px, oy + py, c)
+				if glow and c.get_luminance() > 0.8:
+					glow.set_pixel(ox + px, oy + py, c)       # Roadmap 52: la punta delle gemme brilla nel buio
 				continue
 			if d < 1.0:
 				c = Px.sh(c, 0.4 if silhouette else 0.72)

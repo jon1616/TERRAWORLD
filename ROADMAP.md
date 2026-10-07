@@ -5826,7 +5826,12 @@ pacchetto generato `src/data/vastita/terre.gd` (`tools/vastita_gen/terre.py`); v
   `awake_on` (acceso da `CuoreDesto.apply`) e `drop_of` (scavo, Trivella); la scheda della tessera dice se dorme e che
   cosa fa una terra sotto i piedi. La caduta a caso dalla roccia resta. Il generatore: un mondo da ~3,3 a ~3,9 s (le
   vene sono più del doppio).
-- [ ] **414. Le gemme nella roccia.** Otto gemme in vena (le quattro di oggi e quattro nuove, con amuleti e anelli).
+- [x] **414. Le gemme nella roccia.** Otto gemme in vena (le quattro di oggi e quattro nuove, con amuleti e anelli).
+  Fatto il 7 ott 2026: tessere 105-112 («Roccia di …», piccole vene rade; la punta della gemma brilla nel buio, così si
+  vede da lontano), ognuna nei suoi strati: candorina (Superficie e Sottobosco), muschiata (radici del Sottobosco),
+  sanguinella, brillaluce, lagunite, fiammina (Profondità e Fondo), nottilite, ombrina (il Fondo). Le quattro nuove (campo
+  «gems» → `JewelsData.GEMS`) hanno amuleti (scorta di Linfa, orto e mandria, colpi più rapidi, scavo e fortuna) e anelli
+  con un effetto (Inverno addosso, Rovo vivo, Braciere addosso, Muschio che nasconde): 72 gioielli in più.
 - [ ] **415. I blocchi con una fisica.** Cadere, scivolare, appiccicare, rimbalzare, attutire, crollare, pungere,
   scaldare, lasciar passare i liquidi; corde, liane e catene su cui ci si arrampica.
 - [ ] **416. Le passerelle.** Cinque passerelle con una proprietà (radice, nuvola, bava, spine, ghiaccio).
