@@ -88,19 +88,19 @@ ROCKS = [
 COMMON = [
     ('argilla', "Argilla", ["#5a2e2a", "#7a4038", "#9a5848", "#ba7660", "#d8a088"], 'fango', 0.25, 0, {},
      "Argilla rossa nella terra: al Baccello ardente diventa un'anfora per spostare l'acqua.",
-     {'in': [1], 'strata': [0], 'min_depth': 2, 'freq': 0.09, 'threshold': 0.55}),
+     {'in': [1], 'strata': [0], 'min_depth': 2, 'freq': 0.09, 'threshold': 0.6}),
     ('ghiaia', "Ghiaia", ["#2e3440", "#464e5c", "#62697a", "#828a9a", "#a8b0c0"], 'ghiaia', 0.2, 0,
      {'cade': True, 'support': None}, "Sassi tondi e sciolti: frana, e se ne tirano fuori ciottoli da fionda.",
-     {'in': [3], 'strata': [0, 1], 'min_depth': 10, 'freq': 0.1, 'threshold': 0.6}),
+     {'in': [3], 'strata': [0, 1], 'min_depth': 10, 'freq': 0.1, 'threshold': 0.64}),
     ('pietra_nera', "Pietra nera", ["#06060a", "#101016", "#1c1c24", "#2a2a34", "#3e3e4c"], 'colonne', 0.8, 35,
      {'blast': True}, "Roccia nerissima delle caverne: le esplosioni non la scalfiscono, e ci si fanno rifugi.",
-     {'in': [3, 9], 'strata': [2, 3], 'min_depth': 150, 'freq': 0.08, 'threshold': 0.6}),
+     {'in': [3, 9], 'strata': [2, 3], 'min_depth': 150, 'freq': 0.08, 'threshold': 0.69}),
     ('calcite', "Calcite di Linfa", ["#1a3a3a", "#2a5a58", "#3e807a", "#62aca0", "#a8e8d8"], 'cristallo', 0.5, 35,
      {'emit': [0.08, 0.24, 0.22], 'pass': 0.6}, "Cristalli di calcite imbevuti di Linfa: fanno luce per sempre, senza torce.",
-     {'in': [9], 'strata': [3], 'min_depth': 250, 'freq': 0.1, 'threshold': 0.6}),
+     {'in': [9], 'strata': [3], 'min_depth': 250, 'freq': 0.1, 'threshold': 0.66}),
     ('salgemma', "Salgemma", ["#5a4a52", "#806a74", "#a8909a", "#d0b8c0", "#f4e4ea"], 'cristallo', 0.4, 0, {},
      "Sale di roccia rosato: con un pesce al Paiolo fa una conserva che sazia il doppio.",
-     {'in': [3], 'strata': [2], 'min_depth': 120, 'freq': 0.09, 'threshold': 0.62}),
+     {'in': [3], 'strata': [2], 'min_depth': 120, 'freq': 0.09, 'threshold': 0.67}),
 ]
 
 
@@ -142,9 +142,11 @@ def veins(start):
         tiles[tid] = {'name': 'Vena di %s' % mt['id'], 'hard': round(0.7 + 0.03 * (mt['tier'] - 7), 2), 'power': prev,
                       'drop': mt['raw'], 'pal': icon_pal(mt['id']), 'layer': 'vena_' + mt['id'], 'specks': 0, 'look': 'vena',
                       'kind': 'minerale', 'dorme': True}
+        hosts = [t for t in mt['tiles'] if t not in (5, 6, 7)] or [3]
+        # nelle sole radici giganti (cuorelegno, memorite) la roccia che le ospita è poca: vene più larghe
         o = {'type': tid, 'min_depth': 20, 'strata': list(range(mt['stratum'], 5)),
-             'in': [t for t in mt['tiles'] if t not in (5, 6, 7)] or [3], 'freq': 0.12, 'threshold': 0.6,
-             'vmin': mt['vigor'], 'oct': 1}
+             'in': hosts, 'freq': 0.12, 'threshold': 0.5 if hosts == [8] else 0.66,
+             'vmin': mt['vigor'], 'oct': 1, 'rich': False}
         if not last:
             o['vmax'] = mt['vigor'] + mt['keep'] - 1
         ores.append(o)
@@ -181,7 +183,7 @@ def gems(start):
         p = pal or icon_pal(gid)
         tiles[tid] = {'name': 'Roccia di %s' % name.lower(), 'hard': 0.6, 'power': power, 'drop': gid, 'pal': p,
                       'layer': 'gemma_' + gid, 'specks': 0, 'look': 'gemma', 'kind': 'gemma', 'glow': True}
-        ores.append({'type': tid, 'min_depth': 6, 'strata': strata, 'in': hosts, 'freq': 0.22, 'threshold': 0.77, 'oct': 1})
+        ores.append({'type': tid, 'min_depth': 6, 'strata': strata, 'in': hosts, 'freq': 0.22, 'threshold': 0.79, 'oct': 1, 'rich': False})
         if new:
             items[gid] = {'name': name, 'kind': 'materiale', 'icon': ['gemma', gid], 'desc': desc}
             jew[gid] = {'name': name.lower(), 'amulet': amulet, 'effect': effect}
@@ -256,6 +258,34 @@ def plats():
     return out, items, recipes
 
 
+# ---------------------------------------------------------------- voce 418: le spine e le ragnatele dei biomi
+
+# decorazione, id, nome, biomi (vuoto = le grotte del Sottobosco e delle Caverne), comportamento, ciò che lascia
+# tagliata, descrizione. Comportamenti (letti da `Hazards`): mult (della ferita dei rovi), slow (secondi a metà corsa),
+# poison (secondi di veleno), shatter (si spezza al primo tocco), web (nessuna ferita: invischia).
+THORNS = [
+    (101, 'rovo_brace', "Rovo di brace", ['brace', 'cenere'], {'mult': 1.6}, '',
+     "Rami neri con la brace dentro: pungono e bruciano più dei rovi comuni."),
+    (102, 'spine_brina', "Spine di brina", ['brina', 'ghiacciaio'], {'mult': 0.8, 'slow': 2.0}, '',
+     "Aghi di ghiaccio: pungono poco, ma il freddo fa correre a metà per un po'."),
+    (103, 'rovo_spore', "Rovo di spore", ['palude', 'funghi', 'torba'], {'mult': 0.8, 'poison': 4.0}, '',
+     "Spine coperte di spore: la ferita è piccola, ma avvelena."),
+    (104, 'spine_vetro', "Spine di vetro", ['vetro', 'ambra'], {'mult': 1.3, 'shatter': True}, '',
+     "Schegge di vetro piantate nella sabbia: tagliano, e al primo tocco si spezzano."),
+    (105, 'ragnatela', "Ragnatela", [], {'mult': 0.0, 'slow': 2.5, 'web': True}, 'seta_radice',
+     "Fili tesi negli angoli delle grotte: non feriscono, ma invischiano. Tagliata, lascia seta."),
+]
+
+
+def thorns():
+    out = {}
+    for decor, tid, name, biomes, phys, drop, desc in THORNS:
+        d = {'id': tid, 'name': name, 'biomes': biomes, 'drop': drop, 'desc': desc}
+        d.update(phys)
+        out[decor] = d
+    return out
+
+
 def blocks(start):
     tiles, items, recipes, pals = {}, {}, [], {}
     for i, (bid, name, pal, look, hard, phys, rec, square, desc) in enumerate(BLOCKS):
@@ -315,6 +345,7 @@ def build():
         o = dict(ore)
         o['type'] = ids[iid]
         o['oct'] = 1                      # le sacche: un'ottava di rumore basta (la passata costa metà)
+        o['rich'] = False                 # e non si allargano nei mondi più vigorosi
         ores.append(o)
     vt, vo = veins(T0 + len(order))
     tiles.update(vt)
@@ -354,4 +385,4 @@ def build():
         {'out': 'pesce_sotto_sale', 'qty': 2, 'in': {'salgemma': 2, '@pesce': 1}, 'station': 'paiolo'},
     ]
     return [('terre.gd', 'Roadmap 52, voci 412-416: le terre dei biomi, le rocce e le terre comuni con i loro usi, le vene',
-             {'tiles': tiles, 'veins': ores, 'soils': soils, 'icon_pals': pals, 'gems': gj, 'climbs': climbs, 'plats': pl, 'items': items, 'recipes': recipes})]
+             {'tiles': tiles, 'veins': ores, 'soils': soils, 'icon_pals': pals, 'gems': gj, 'climbs': climbs, 'plats': pl, 'thorns': thorns(), 'items': items, 'recipes': recipes})]

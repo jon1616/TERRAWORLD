@@ -207,7 +207,21 @@ static func all() -> Array:
 
 ## Ricette che producono un oggetto.
 static func making(id: String) -> Array:
-	return all().filter(func(r: Dictionary) -> bool: return r["out"] == id)
+	# Roadmap 52: un indice per oggetto prodotto (prima ogni chiamata scorreva tutte le ricette, e il prezzo di una scheda
+	# la chiama per ogni ingrediente: 3 ms a scheda con ottomila oggetti)
+	if _by_out.is_empty() or _by_out_n != all().size():
+		_by_out = {}
+		for r in all():
+			var o := String(r["out"])
+			if not _by_out.has(o):
+				_by_out[o] = []
+			(_by_out[o] as Array).append(r)
+		_by_out_n = all().size()
+	return (_by_out.get(id, []) as Array).duplicate()
+
+
+static var _by_out := {}
+static var _by_out_n := 0
 
 
 ## Ricette che usano un oggetto.

@@ -1,9 +1,9 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 6 ott 2026)
-- **In corso la Roadmap 52 «La terra dei mondi»** (voci 412-417, dal 7 ott 2026): le tessere a confronto con
-  Terraria (66 terreni, 22 minerali, 8 gemme, 21 blocchi con un effetto): una terra e una roccia per bioma, le vene
-  visibili dei metalli della spina e del dopo, le gemme nella roccia, i blocchi con una fisica, le passerelle. Piano in fondo.
+- **Fatta la Roadmap 52 «La terra dei mondi»** (voci 412-418, 7 ott 2026): le tessere a confronto con Terraria. Una
+  terra e una roccia per bioma, le vene visibili dei metalli della spina e del dopo, otto gemme nella roccia, blocchi con
+  una fisica, corde, sei passerelle, spine dei biomi e ragnatele. Resoconto in fondo.
 - **Fatto il piano «La vastità» (Roadmap 38-51)**: con la Roadmap 51 «Il dopo senza fine» (voci 409-411, 7 ott 2026):
   sei metalli del dopo, 60 armi del dopo, 24 leggendarie, la misura finale. Resoconto del piano in fondo.
 - **Fatta la Roadmap 50 «La fabbricazione profonda»** (voci 406-408, 7 ott 2026): 20 banchi a gradi, ingredienti a
@@ -5847,6 +5847,30 @@ pacchetto generato `src/data/vastita/terre.gd` (`tools/vastita_gen/terre.py`); v
   `PLAT_BOUNCE`, `PLAT_SPIKE`, `PLAT_SLIP`, `PLAT_JUMP`: nuvola (cadute senza ferite), bava (rimbalzo), rovo (punge le
   creature), ghiaccio (scivola), vento (salto da 3,4 a 4,9 tessere). Disegni in `DecorPainter.plank_kind`, una riga per
   tipo; `Building.take_plat` lascia l'oggetto giusto.
-- [ ] **417. La misura.** `tools/blocchi.gd` per categorie accanto a Terraria, il capitolo dell'Enciclopedia, il giro
-  intero.
+- [x] **417. La misura.** `tools/blocchi.gd` per categorie accanto a Terraria, il capitolo dell'Enciclopedia, il giro
+  intero. Fatto il 7 ott 2026: capitolo «terre» (gruppo «Scavare e costruire»), consigli «terra_viva» e «corde». Il
+  giro intero ha trovato due cose: la prova dei gioielli contava ancora quattro gemme, e le schede degli oggetti
+  costavano 3,3 ms l'una perché `RecipesData.making` scorreva tutte le 4.600 ricette a ogni chiamata (ora un indice:
+  0,36 ms; vale per prezzi ed Esamina).
+- [x] **418. Le spine e le ragnatele dei biomi.** (Aggiunta dopo la misura: corde e spine erano 5 contro 20.) Rovo di
+  brace (ferisce di più), Spine di brina (rallentano), Rovo di spore (avvelena), Spine di vetro (si spezzano al primo
+  tocco), la Ragnatela negli angoli delle grotte (invischia senza ferire, lascia seta). Campo «thorns» →
+  `TileDefs.THORNS`, letto da `Hazards._thorn`; messe da `PassSpine`, disegni in `ThornArt` (decorazioni 101-105).
+
+**Resoconto della Roadmap 52.** `tools/blocchi.gd`, accanto a Terraria (solo ciò che ha una funzione):
+
+| categoria | noi prima | noi ora | Terraria |
+|---|---|---|---|
+| terreni e rocce naturali | 33 (19 erano solo erbe) | 67 | 66 |
+| minerali in vena visibile | 10 | 22 | 22 |
+| gemme nella roccia | 0 (4 grappoli) | 8 | 8 |
+| blocchi con un effetto | ~10 | 56 | 21 |
+| liane, corde, spine | 2 | 10 | 20 |
+| piattaforme | 1 | 6 | 7 |
+| postazioni, contenitori, mobili con una funzione | 31, 61, 380 | uguali | 38, 9, 171 |
+
+Ogni tessera nuova fa qualcosa (frana, scivola, appiccica, attutisce, rimbalza, crolla, punge, scalda, lascia passare i
+liquidi, regge le esplosioni, spegne i passi, nutre l'orto, nasconde fossili, fa luce) o dà un materiale che serve. Un
+mondo nasce in ~4,3 s invece di ~3,3 (le vene sono più del doppio; i mondi dei Semi si preparano in sottofondo). Resta
+indietro il conto di corde e spine (Terraria conta anche molte varianti solo di colore). Vale per i mondi generati da ora.
 

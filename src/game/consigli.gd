@@ -143,6 +143,25 @@ func _c_risveglio() -> bool:
 	return false
 
 
+## Roadmap 52: in piedi su una terra che fa qualcosa (frana, scivola, appiccica, attutisce).
+func _c_terra_viva() -> bool:
+	var p: Player = m.player
+	if not p.on_floor:
+		return false
+	var t: int = m.world.tile(floori(p.position.x / 16.0), floori((p.position.y + Player.HALF.y + 2.0) / 16.0))
+	return TileDefs.FALLS[t] == 1 or TileDefs.SLIP[t] < 1.0 or TileDefs.STICK[t] < 1.0 or TileDefs.SOFT[t] < 1.0
+
+
+## Roadmap 52: una corda, una liana o una catena nella Bisaccia, o aggrappato a una.
+func _c_corde() -> bool:
+	if m.player.climbing:
+		return true
+	for d in TileDefs.CLIMBS:
+		if m.character.bisaccia.count(String(TileDefs.CLIMBS[d]["item"])) > 0:
+			return true
+	return false
+
+
 ## Voce 353: il commercio aperto con un abitante che ha dei servizi.
 func _c_servizi() -> bool:
 	var tp: TradePanel = m.villagers.panel if m.get("villagers") != null else null

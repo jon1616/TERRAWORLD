@@ -1066,6 +1066,28 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     60 armi del dopo, 24 leggendarie (campo «leggendaria», con la storia nella descrizione), i Sacchetti del dopo
     («sacchetto_dopo_<k>», da `FirmaDrops.bag` oltre il vigore 12; `FirmaDrops.after_phase`, `LEGEND`).
     `tools/vastita.gd` sezione 6: la misura finale. Prove: gruppo «dopo» (`TestsAfter`).
+- **Roadmap 52 «La terra dei mondi»** (voci 412-418, 7 ott 2026; richiesta dell'utente: i blocchi a confronto con
+  Terraria). Tutto nel pacchetto generato `src/data/vastita/terre.gd` (`tools/vastita_gen/terre.py`; tessere 59-119):
+  - Campi nuovi delle tessere dei pacchetti: «kind» (suolo, roccia, comune, minerale, gemma, blocco), «look» (il disegno
+    in `TerrainPainter._look`) e i comportamenti, letti in tabelle per numero di tessera di `TileDefs`: FALLS (frana,
+    `LivingEarth`), SLIP e STICK (`Player._step`, `Creature._floor_slow`), SOFT (`Life._on_landed`), FERTILE (`Garden`),
+    WARM (`Harshness.near_warm`), QUIET (`Senses`), BLAST (`Throwing`), FOSSIL (`GeneMaterials`), BOUNCE (`Player`),
+    FRAGILE e SPIKE (`Grounds`), LIQ_PASS (`Liquids._solid`), DORMANT con `awake_on` e `drop_of` (le vene dei metalli
+    dormono fino al Risveglio). **Chi rompe una tessera usa `TileDefs.drop_of`**, non `DROP`.
+  - Campi nuovi dei pacchetti: «soils» (terra e roccia di ogni bioma, `PassTerre`), «veins» (vene e sacche, unite a
+    `TileDefs.ORES`; «vmin»/«vmax» = i vigori, «oct» = ottave del rumore), «icon_pals» (`ItemIcons.MATERIALS`), «gems»
+    (`JewelsData.GEMS`), «climbs» (le corde: decorazioni 98-100, `TileDefs.CLIMB_SPEED`), «plats» (le passerelle: il byte
+    di `World.plats` è il tipo, `plat_kind`, `TileDefs.PLATS` e le tabelle `PLAT_*`).
+  - Il disegno del terreno: la tavola è divisa in sorgenti da 8 righe (`TerrainPainter.source_of`) e ogni blocco crea lo
+    strato di un materiale solo quando serve (`WorldView._terrain_layer`); una cella guarda solo gli strati delle sue
+    quattro tessere. **Un materiale nuovo del terreno non costa più nulla a chi non lo vede.**
+  - Le spine dei biomi e la ragnatela (voce 418): campo «thorns» → `TileDefs.THORNS` (decorazioni 101-105), lette da
+    `Hazards._thorn` (mult, slow, poison, shatter, web), messe da `PassSpine`, disegnate da `ThornArt`. Le sacche e le
+    vene nuove hanno «rich»: false (non si allargano con il vigore: nei mondi alti la pietra nera diventava enorme).
+  - `Grounds` (`src/game/grounds.gd`): lastre che crollano, rovi che pungono, `place_rope`. L'arrampicata è
+    `Player._climb_step` (`climbing`, `auto_down` per le prove). `PassLiane` (le liane del Sottobosco).
+  - Misura: `tools/blocchi.gd` (prove/blocchi.txt: le categorie accanto a Terraria). Prove: gruppo «terre» (`TestsLands`,
+    foto 260-263). Enciclopedia: capitolo «terre»; consigli «terra_viva» e «corde».
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni
@@ -1423,6 +1445,16 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
 - Una patch che si ferma a metà (un'`assert` fallita) lascia i file già cambiati: si rimettono com'erano con
   `git checkout` prima di rilanciarla corretta.
 
+- **Roadmap 52** (7 ott 2026): un campo nuovo dei pacchetti deve avere un nome che nessun tipo di pacchetto usa già: i
+  biomi del cielo hanno «ores» (un elenco di elenchi), e le vene nuove con lo stesso nome rompevano `PassMinerali` in
+  silenzio (la passata si fermava e il mondo nasceva senza minerali). Prima di scegliere il nome: `grep '"nome":' src/data`.
+- `RecipesData.making` ora usa un indice per oggetto prodotto: prima scorreva tutte le ricette a ogni chiamata, e ogni
+  scheda di un oggetto (il prezzo, `ValueData.value`) la chiamava per ogni ingrediente: 3,3 ms a scheda. Con migliaia di
+  dati, **una ricerca lineare dentro una funzione chiamata per ogni oggetto va indicizzata**.
+- Una prova che misura il movimento cerca un posto **asciutto**: nell'acqua si corre a 0,6 e i numeri cambiavano a seconda
+  delle pozze lasciate dalle prove di prima (o dalla pioggia). E toglie i rigori (`Harshness.meters`): a barra piena il
+  caldo ferisce e spinge, e la prova passava o no secondo il bioma. `kit.flat_spot` guarda la superficie generata: un
+  tratto spianato da `kit.flatten` non lo vede più, lo si ricorda.
 - **Roadmap 37** (4 ott 2026): una `static var` che tiene una funzione anonima con dentro un nodo (`Crafting.awakened_hook`)
   fa andare in crash il gioco **alla chiusura** (signal 11 dopo l'ultima prova): la si svuota in `_exit_tree` del nodo.
   Il crash si vede solo in fondo al registro: dopo un giro si cerca «signal 11», non solo «ATTENZIONE».

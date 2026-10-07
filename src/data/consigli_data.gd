@@ -150,6 +150,11 @@ const LIST := [
 		"text": "Ogni abitante sa fare qualcosa che nessun altro fa: lo vedi a [b]sinistra del commercio[/b], con il prezzo in Lumini. Segni sulla mappa, oggetti migliori, Semi su ordinazione, compagni addestrati…"},
 	{"id": "risveglio", "title": "Un materiale del profondo", "cap": "equipaggiamento",
 		"text": "Solo questo strato lo dà. Al [b]Maglio[/b], con un'arma o un'armatura in mano, la prima lavorazione è [b]Risveglia[/b]: l'oggetto prende un modo suo (la spada lancia onde, la lancia trafigge…) e diventa più forte."},
+	# Roadmap 52: la terra dei mondi
+	{"id": "terra_viva", "title": "Questa terra fa qualcosa", "cap": "terre",
+		"text": "Ogni bioma ha la sua terra: le sabbie franano, sul ghiaccio si scivola, nel fango si corre a fatica, la neve attutisce le cadute. Il mouse sopra una tessera dice che cosa fa."},
+	{"id": "corde", "title": "Corde e liane", "cap": "terre",
+		"text": "Una corda si appende sotto un blocco; clic sulla corda per allungarla. Tenendo [b]Salto[/b] ci si arrampica, con [b]Giù[/b] si scende, fermi si resta appesi."},
 ]
 
 

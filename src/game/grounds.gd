@@ -33,6 +33,8 @@ func _process(dt: float) -> void:
 		_step_on(_feet(p.position, Player.HALF))
 	var reach := NEAR * S
 	for c in m.fauna.list:
+		if not is_instance_valid(c):
+			continue
 		var cr := c as Creature
 		if cr == null or cr.position.distance_to(p.position) > reach:
 			continue
@@ -73,6 +75,8 @@ func _step_on(q: Vector2i) -> void:
 func _spikes(reach: float) -> void:
 	var w: World = m.world
 	for c in m.fauna.list.duplicate():
+		if not is_instance_valid(c):
+			continue
 		var cr := c as Creature
 		if cr == null or cr.tame != null or cr.position.distance_to(m.player.position) > reach:
 			continue

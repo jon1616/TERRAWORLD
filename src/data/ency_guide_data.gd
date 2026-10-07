@@ -156,6 +156,18 @@ I minerali, dal più facile:
 {cat_minerali}
 [b]Lo scavo intelligente[/b]: tenendo premuto il piccone con il mouse su una cella vuota, scavi da solo i blocchi a portata, prima i più vicini al mouse; mai ciò che hai costruito, mai il blocco sotto i piedi, mai accanto a un liquido. Tenendo {k_vena} all'inizio segui una vena: solo lo stesso blocco del primo. Si spegne nelle [url=cap:opzioni]Opzioni[/url].
 I minerali si fondono in lingotti al [b]Baccello ardente[/b]; con i lingotti si fanno attrezzi, armi e armature migliori (vedi [url=cap:materiali]Materiali[/url]). Il potere [url=cap:poteri]Canto delle radici[/url] fa scavare un quarto più in fretta."""},
+	{"id": "terre", "group": "Scavare e costruire", "name": "La terra dei mondi", "text":
+"""Sotto l'erba ogni bioma ha la sua [b]terra[/b] e, più in basso, la sua [b]roccia[/b]: sabbie, nevi, ceneri, fanghi, torba, terra grassa, arenarie, basalto, ghiacci, marmo. Non sono solo colori: ognuna [b]fa qualcosa[/b], e la scheda della tessera (mouse sopra) lo dice.
+• Le [b]sabbie[/b], le ceneri, il limo e la ghiaia [b]franano[/b] se togli ciò che le regge (e cadono in testa a chi sta sotto). Sopra le grotte le regge la roccia del loro bioma.
+• Sul [b]ghiaccio[/b] ci si scivola; nel [b]fango[/b] si corre a fatica, e anche le creature; la [b]neve[/b], la torba e la pietra spugnosa [b]attutiscono[/b] le cadute.
+• La [b]terra grassa[/b], la torba e il terriccio di micelio fanno crescere l'orto piantato sopra. Il [b]Concime[/b] (cinque terre qualsiasi e un raccolto) fa crescere di colpo una coltura.
+• La [b]cenere calda[/b] scalda chi le sta vicino nel freddo; sulla [b]terra muta[/b] e sul marmo pallido i passi non fanno rumore; la [b]pietra nera[/b] regge le esplosioni; la [b]pietra fossile[/b] nasconde fossili per il Museo; alcune terre fanno luce da sé.
+• In sacche, in tutti i biomi: [b]argilla[/b] (un'anfora per l'acqua), [b]ghiaia[/b] (ciottoli da fionda), [b]salgemma[/b] (conserve di pesce), [b]calcite[/b] che fa luce.
+[b]Le vene dei metalli del Risveglio e del dopo[/b] si vedono nella roccia dei mondi del loro vigore. Prima del Risveglio del Cuore [b]dormono[/b]: danno solo roccia.
+[b]Le gemme[/b] stanno in piccole vene, ognuna nei suoi strati, e la loro punta brilla nel buio: candorina, muschiata, sanguinella, brillaluce, lagunite, fiammina, nottilite, ombrina. Tutte fanno amuleti e anelli alla Mola.
+[b]I blocchi con una fisica[/b] si fabbricano: il Cuscino di bava (si rimbalza), la Resina appiccicosa, la Grata di radice (i liquidi passano), il Ghiaccio levigato, la Lastra fragile (crolla sotto chi ci sale: trappole a buca), il Rovo murato (punge le creature), la Pietra calda.
+[b]Corde, liane e catene[/b]: si appendono sotto un blocco (clic sulla corda per allungarla); ci si arrampica tenendo Salto, si scende con Giù, fermi si resta appesi. Le liane pendono dai soffitti del Sottobosco.
+[b]Le passerelle[/b]: oltre a quella di radice, di nuvola (cadute senza ferite), di bava (si rimbalza), di rovo (punge le creature), di ghiaccio (si scivola) e del vento (si salta più in alto)."""},
 	{"id": "alberi", "group": "Scavare e costruire", "name": "Alberi e legno", "text":
 """Ogni bioma ha la sua specie d'albero, in quattro grandezze (piccolo, medio, grande e il raro antico): i grandi reggono più colpi di [b]ascia[/b] e danno più legno.
 {cat_alberi}

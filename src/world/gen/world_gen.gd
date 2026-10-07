@@ -37,6 +37,7 @@ static func passes() -> Array[GenPass]:
 		PassRovine.new(),
 		PassPozza.new(),                    # Roadmap 45, voce 396: la Pozza di Linfa antica
 		PassPericoli.new(),
+		PassSpine.new(),                    # Roadmap 52, voce 418: le spine dei biomi e le ragnatele
 		PassDoni.new(),
 		PassGemme.new(),
 		PassTane.new(),

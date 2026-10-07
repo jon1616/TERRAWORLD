@@ -315,6 +315,9 @@ static var DECOR_DROP: Dictionary = _decor_drop()
 ## Voce 416: le passerelle (campo «plats»: {tipo: {item, name, pal, soft, bounce, spike, slip, jump}}); il tipo 1 è la
 ## Passerella di radice di sempre. Tabelle per tipo, lette come quelle delle tessere.
 static var PLATS: Dictionary = BiomesData.pack("plats")
+## Voce 418: le spine dei biomi e la ragnatela (campo «thorns»: {decorazione: {id, name, biomes, mult, slow, poison,
+## shatter, web, drop}}), toccate da `Hazards`, messe da `PassSpine`, disegnate da `ThornArt`.
+static var THORNS: Dictionary = BiomesData.pack("thorns")
 static var PLAT_SOFT: PackedFloat32Array = _plat_num("soft", 1.0)
 static var PLAT_BOUNCE: PackedFloat32Array = _plat_num("bounce", 0.0)
 static var PLAT_SPIKE: PackedFloat32Array = _plat_num("spike", 0.0)
@@ -350,6 +353,10 @@ static func _decor_drop() -> Dictionary:
 	var out := _DECOR_DROP.duplicate()
 	for d in CLIMBS:
 		out[int(d)] = String(CLIMBS[d]["item"])
+	var th: Dictionary = BiomesData.pack("thorns")
+	for d in th:
+		if String(th[d].get("drop", "")) != "":
+			out[int(d)] = String(th[d]["drop"])         # voce 418: la ragnatela lascia seta
 	return out
 static var awake_on := false
 
@@ -443,6 +450,14 @@ static func _extra() -> Dictionary:
 	return out
 
 
+static func _tile_of() -> Dictionary:
+	var out := {}
+	for t in DROP:
+		if not out.has(String(DROP[t])):
+			out[String(DROP[t])] = int(t)
+	return out
+
+
 static func _types() -> int:
 	var n := maxi(TYPES_BASE, COSTRUTTO_T)
 	for t in _extra():
@@ -472,6 +487,8 @@ static var HARD: Dictionary = _with_tiles(_HARD, "hard")
 static var POWER: Dictionary = _with_tiles(_POWER, "power")
 static var DROP: Dictionary = _with_tiles(_DROP, "drop")
 static var NAMES: Dictionary = _with_tiles(_NAMES, "name")
+## Roadmap 52: la tessera che lascia un oggetto (il contrario di DROP, per le schede: le tessere sono più di cento).
+static var TILE_OF: Dictionary = _tile_of()
 static var MAP_COLOR: Dictionary = _with_tiles(_MAP_COLOR, "map")
 static var TERRAIN_LAYERS: Array = _layers()
 ## Roadmap 16: quanto la luce attraversa ogni tessera solida (0,5 la roccia; le nuvole la lasciano passare) e la luce
@@ -535,6 +552,8 @@ static func _biome_decor(soft: String) -> Array:
 static func _decor_count() -> int:
 	var n := maxi(DECOR_BASE, PodsData.LAST)            # voce 301: i baccelli dormienti (92-97)
 	for d in BiomesData.pack("climbs"):                 # voce 415: le corde (98-100)
+		n = maxi(n, int(d))
+	for d in BiomesData.pack("thorns"):                 # voce 418: le spine e la ragnatela (101-105)
 		n = maxi(n, int(d))
 	for d in _all_decor():
 		n = maxi(n, int(d))

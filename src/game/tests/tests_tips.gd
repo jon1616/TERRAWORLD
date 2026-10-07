@@ -95,10 +95,16 @@ func run() -> void:
 	if not shown and m.character.bisaccia.id_at(0) != "":
 		print("ATTENZIONE: la scheda non compare con il mouse sopra una casella")
 	# quanto costa: la scheda di ogni oggetto del gioco, e il disegno di qualcuna
+	# (Roadmap 52) prima si scaldano le cache che le schede costruiscono una volta sola (fasi, set, rarità): la prima
+	# scheda le paga tutte, e con ottomila oggetti la media superava la soglia senza che una scheda costasse di più
+	var all_ids := ItemsData.all().keys()
+	for k in mini(all_ids.size(), 50):
+		ItemTip.card({"id": String(all_ids[k * 7 % all_ids.size()]), "n": 1}, _ctx())
+	var cx := _ctx()                              # il gioco lo prende una volta per scheda mostrata, non per oggetto
 	var t0 := Time.get_ticks_usec()
 	var nall := 0
-	for id in ItemsData.all():
-		if ItemTip.card({"id": String(id), "n": 1}, _ctx()) != null:
+	for id in all_ids:
+		if ItemTip.card({"id": String(id), "n": 1}, cx) != null:
 			nall += 1
 	var per := (Time.get_ticks_usec() - t0) / 1000.0 / maxf(nall, 1)
 	var v := TipView.new()

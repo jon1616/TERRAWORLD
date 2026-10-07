@@ -152,6 +152,10 @@ static func decor(id: int) -> Dictionary:
 	var outline := true
 	if ClimbArt.draw(id, im, gm):
 		return {"img": im, "glow": gm}           # Roadmap 52, voce 415: le corde
+	if ThornArt.draw(id, im, gm, rng):
+		if id != 105:
+			Px.outline(im, Color(0.04, 0.05, 0.08, 0.9))
+		return {"img": im, "glow": gm}           # voce 418: le spine dei biomi e la ragnatela
 	# la vegetazione dei biomi (26 set 2026) sta in un file suo
 	var bd: Variant = BiomeDecorArt.draw(id, im, gm, rng)
 	if bd != null:

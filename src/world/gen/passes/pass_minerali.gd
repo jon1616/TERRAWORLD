@@ -40,7 +40,8 @@ func run(w: World, c: GenContext) -> void:
 	var mind := PackedFloat64Array()
 	var kind := PackedByteArray()
 	for o in ores:
-		th.append(float(o["threshold"]) - richer - float(boost.get(o["type"], 0.0)))
+		# Roadmap 52: le sacche, le gemme e le vene della spina non si allargano con il vigore («rich»: false)
+		th.append(float(o["threshold"]) - (richer if o.get("rich", true) else 0.0) - float(boost.get(o["type"], 0.0)))
 		mind.append(int(o["min_depth"]) * shallow)
 		kind.append(int(o["type"]))
 	var n_ores := ores.size()

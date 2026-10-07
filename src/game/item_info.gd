@@ -141,9 +141,9 @@ static func how_to_get(id: String) -> String:
 	if not rs.is_empty():
 		var st := String(rs[0]["station"])
 		return "si fabbrica %s" % ("a mano" if st == "" else "al %s" % StationsData.STATIONS[st]["name"])
-	for t in TileDefs.DROP:
-		if TileDefs.DROP[t] == id:
-			return "scavando %s" % TileDefs.NAMES.get(t, "")
+	var tile := int(TileDefs.TILE_OF.get(id, -1))
+	if tile >= 0:
+		return "scavando %s" % TileDefs.NAMES.get(tile, "")
 	var from := []
 	for cid in CreaturesData.CREATURES:
 		for e in LootData.TABLES.get(String(CreaturesData.CREATURES[cid]["loot"]), []):

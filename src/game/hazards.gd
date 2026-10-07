@@ -4,6 +4,8 @@ extends Node
 ##   rovo spinoso   punge (più forte scendendo); si può tagliare con un attrezzo come ogni decorazione
 ##   runa trappola  una scarica di spore: ferita e veleno, poi la runa si spegne
 ## Le ferite passano da `Combat.hurt_player` (con l'invulnerabilità breve dopo ogni colpo).
+## Voce 418: le spine dei biomi e la ragnatela (`TileDefs.THORNS`): la ferita dei rovi per «mult», il freddo che
+## rallenta («slow»), il veleno («poison»), il vetro che si spezza al primo tocco («shatter»), la ragnatela che invischia.
 
 const S := 16
 const ROVO_DMG := 6                    # più 4 per ogni strato sotto la superficie
@@ -37,6 +39,26 @@ func _process(_dt: float) -> void:
 				TileDefs.DECOR_TRAP:
 					_spring(Vector2i(x, y))
 					return
+			var d: int = m.world.decor_at(x, y)
+			if TileDefs.THORNS.has(d):
+				_thorn(Vector2i(x, y), TileDefs.THORNS[d])
+				return
+
+
+func _thorn(c: Vector2i, th: Dictionary) -> void:
+	var st := StrataData.at(m.world, c.x, c.y)
+	var mult := float(th.get("mult", 1.0))
+	if mult > 0.0:
+		m.combat.hurt_player(maxi(int((ROVO_DMG + 4 * st) * mult), 1), c.x * S + 8, String(th["name"]).to_lower())
+	if th.has("slow"):
+		m.player.slow_t = maxf(m.player.slow_t, float(th["slow"]))
+	if th.has("poison"):
+		m.vitals.poison_t = maxf(m.vitals.poison_t, float(th["poison"]))
+	if th.get("shatter", false):
+		m.world.set_decor(c.x, c.y, 0)
+		m.view.refresh_around(c)
+		Fx.dust(m.fx, Vector2(c) * S + Vector2(8, 12), Px.pal(TileDefs.P_VETRO))
+		m.sfx.play("rompi", Vector2(c) * S)
 
 
 func _spring(c: Vector2i) -> void:

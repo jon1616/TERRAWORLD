@@ -28,7 +28,7 @@ func run() -> void:
 		elif k in ["amuleto", "anello"] and JewelsData.items().has(String(id)):   # (non gli unici della voce 98)
 			n_jewel += 1
 	res["forme"] = n_gear >= 3 * 40
-	res["gioielli"] = n_jewel == 8 * MaterialsData.MATERIALS.size()        # 8 per metallo (la nimbite della Roadmap 16 compresa)
+	res["gioielli"] = n_jewel == 2 * JewelsData.GEMS.size() * MaterialsData.MATERIALS.size()   # amuleto e anello per gemma e metallo
 	res["ricette"] = not RecipesData.making("guanti_legnoferro").is_empty() and not RecipesData.making("anello_lagunite_ambra").is_empty()
 	# i posti: ogni pezzo nel suo
 	b.equip = {}

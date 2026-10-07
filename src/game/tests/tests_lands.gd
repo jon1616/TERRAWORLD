@@ -30,6 +30,7 @@ func run() -> void:
 	await physics()
 	await climbing()
 	await platforms()
+	await thorns()
 	await photos()
 	print("terre: %s" % str(res))
 	if not res.values().all(func(x: Variant) -> bool: return x == true):
@@ -512,6 +513,69 @@ func platforms() -> void:
 		and TileDefs.PLAT_BOUNCE[3] > 0.0 and TileDefs.PLAT_SPIKE[4] > 0.0 and TileDefs.PLAT_SLIP[5] < 1.0
 	print("terre, le passerelle (%d tipi): salto %s tessere (radice e vento); dalla nuvola senza ferite %s; oggetti %s" % [
 		kinds.size(), str(jumps), safe, items_ok])
+
+
+## Voce 418: le spine dei biomi e la ragnatela. Il Germogliato sta su ognuna: la brace ferisce di più, la brina e la
+## ragnatela rallentano (la ragnatela senza ferite), le spore avvelenano, il vetro si spezza.
+func thorns() -> void:
+	var w: World = m.world
+	_calm()
+	var spot := _flat if _flat.x >= 0 else _dry_spot(24)
+	kit.flatten(spot, 12)
+	var was: bool = m.hazards.paused
+	var god: bool = m.combat.god
+	m.hazards.paused = false
+	m.combat.god = false
+	var got := {}
+	for d in TileDefs.THORNS:
+		var id := String(TileDefs.THORNS[d]["id"])
+		m.vitals.refill()
+		m.vitals.poison_t = 0.0
+		m.player.slow_t = 0.0
+		m.combat.invuln = 0.0
+		var h0: int = m.vitals.hp
+		w.set_decor(spot.x, spot.y, int(d))
+		m.view.refresh_around(spot)
+		m.snap_to(spot)
+		await kit.seconds(0.25)
+		got[id] = {"ferita": h0 - int(m.vitals.hp), "lento": m.player.slow_t > 0.0, "veleno": m.vitals.poison_t > 0.0,
+			"rotta": w.decor_at(spot.x, spot.y) == 0}
+		w.set_decor(spot.x, spot.y, 0)
+		m.view.refresh_around(spot)
+		await kit.seconds(0.7)                     # l'invulnerabilità dopo una ferita passa
+	m.hazards.paused = was
+	m.combat.god = god
+	# la foto: le cinque in fila sul pavimento (la ragnatela sotto una passerella, come in un angolo)
+	var i := 0
+	for d in TileDefs.THORNS:
+		var q := spot + Vector2i(-8 + i * 3, 0)
+		if TileDefs.THORNS[d].get("web", false):
+			q.y -= 3
+			w.set_tile(q.x, q.y - 1, TileDefs.STONE)
+			w.set_tile(q.x - 1, q.y, TileDefs.STONE)
+		w.set_decor(q.x, q.y, int(d))
+		i += 1
+	m.view.refresh_rect(Rect2i(spot.x - 11, spot.y - 6, 18, 8))
+	m.snap_to(spot + Vector2i(6, 0))
+	await kit.seconds(0.5)
+	await kit.save("264_terre_spine")
+	kit.flatten(spot, 12)
+	m.vitals.refill()
+	m.vitals.poison_t = 0.0
+	m.player.slow_t = 0.0
+	var spines := 0
+	var webs := 0
+	for k in range(0, w.decor.size(), 2):
+		var dv := int(w.decor[k])
+		if TileDefs.THORNS.has(dv):
+			if TileDefs.THORNS[dv].get("web", false):
+				webs += 1
+			else:
+				spines += 1
+	res["spine"] = TileDefs.THORNS.size() == 5 and int(got["rovo_brace"]["ferita"]) > 0 and bool(got["spine_brina"]["lento"]) \
+		and bool(got["rovo_spore"]["veleno"]) and bool(got["spine_vetro"]["rotta"]) and int(got["ragnatela"]["ferita"]) == 0 \
+		and bool(got["ragnatela"]["lento"]) and spines > 20 and webs > 20
+	print("terre, le spine e la ragnatela: %s; nel mondo (una cella su due) %d spine, %d ragnatele" % [str(got), spines, webs])
 
 
 ## La sezione della terra di alcuni biomi, senza il buio.

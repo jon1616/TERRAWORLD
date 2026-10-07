@@ -19,7 +19,7 @@ import re
 ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), '..'))
 DATA = os.path.join(ROOT, 'src', 'data')
 OUT = os.path.join(DATA, 'vastita')
-KEYS = ('creatures', 'families', 'loot', 'items', 'recipes', 'sets', 'effects', 'calls', 'guardians', 'chiefs', 'events', 'wings', 'pets', 'chests', 'mimics', 'places', 'grids', 'genes', 'gene_adj', 'boons', 'stations', 'crates', 'angler', 'shops', 'merchant', 'tiles', 'veins', 'soils', 'icon_pals', 'gems', 'climbs', 'plats')
+KEYS = ('creatures', 'families', 'loot', 'items', 'recipes', 'sets', 'effects', 'calls', 'guardians', 'chiefs', 'events', 'wings', 'pets', 'chests', 'mimics', 'places', 'grids', 'genes', 'gene_adj', 'boons', 'stations', 'crates', 'angler', 'shops', 'merchant', 'tiles', 'veins', 'soils', 'icon_pals', 'gems', 'climbs', 'plats', 'thorns')
 
 
 def gd(v):
