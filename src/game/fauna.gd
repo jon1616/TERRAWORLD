@@ -160,6 +160,7 @@ func setup(w: World, p: Player, d: Drops, pr: Projectiles) -> void:
 ## Fa nascere una creatura in un punto (centro del corpo).
 func add(id: String, pos: Vector2, sd: int = -1) -> Creature:
 	var c := Creature.new()
+	c.wild = true                                   # Roadmap 49: la modalità vale per le selvatiche
 	c.setup(id, world, player, sd if sd >= 0 else _rng.randi())
 	c.position = pos
 	add_child(c)

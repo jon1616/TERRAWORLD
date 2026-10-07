@@ -51,6 +51,11 @@ Per ogni fase della partita ci sono dieci armi uniche, una per stile più due: n
 
 [b]Le linee d'arma[/b]
 Al Maglio dei Seminatori le armi firma di uno stile si fondono in una [b]linea[/b] di sei passi. Ogni passo porta gli effetti delle armi che l'hanno fatto. L'ultimo è l'[b]arma suprema[/b] dello stile, per esempio la Radice del mondo per la mischia o l'Arco del firmamento per la distanza."""},
+	{"id": "modalita", "group": "Creare ed equipaggiarsi", "name": "Le modalità: Normale, Radice dura, Vuoto", "text":
+"""Creando un Giardino si sceglie la [b]modalità[/b], che vale per tutti i mondi che nasceranno da lui.
+[b]Normale[/b]: la partita com'è pensata.
+[b]Radice dura[/b]: le creature hanno più Vita e feriscono di più, i boss si infuriano prima. In cambio ogni Sacchetto e ogni capo lascia un oggetto in più, scelto tra trenta accessori e dodici armi che si trovano solo qui.
+[b]Vuoto[/b]: ancora più duro, ma con due cose sue. La [b]Furia del Giardiniere[/b]: ogni ferita la carica, e piena si scatena per dieci secondi (più danno, colpi più svelti, ogni colpo cura un poco). E i [b]cimeli[/b]: ogni boss, la prima volta, lascia il suo cimelio, che dà un piccolo bonus per sempre anche lasciato in una cassa. Dieci accessori escono solo dal Vuoto."""},
 	{"id": "commercio", "group": "Creare ed equipaggiarsi", "name": "Le merci del momento e il Mercante dei mondi", "text":
 """Gli abitanti non vendono sempre le stesse cose: oltre alle merci di sempre hanno quelle adatte al [b]vigore del mondo[/b] (più il mondo è vigoroso, più sono avanti), alla [b]stagione[/b], alla [b]notte[/b] e a un [b]evento[/b] in corso. Le merci si sfogliano a pagine.
 Il [b]Mercante dei mondi[/b] viene nel Giardino un giorno sì e uno no (quando il Giardino è abbastanza bello): ogni volta porta merci diverse, e tre oggetti che vende solo lui, da migliaia di Lumini."""},

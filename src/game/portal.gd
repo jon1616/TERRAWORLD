@@ -230,6 +230,7 @@ func travel(o: Vector2i) -> void:
 		e["mondo"] = nid
 		Session.start_new_world(String(dest[1]), int(dest[2]), nid, {"vigore": int(dest[3]), "ritorno": m.world_id,
 			"geni": e.get("geni", []), "casa": m.aiuole.home_id(), "nero": e.get("nero", false),
+			"modalita": int(m.world_meta.get("modalita", 0)),
 			"primo": e.get("primo", false), "perduto": String(e.get("perduto", "")), "sfida": String(e.get("sfida", "")),
 			"sfida_livello": m.challenges.next_level(String(e["sfida"])) if String(e.get("sfida", "")) != "" else 0})
 	m.objectives.bump("viaggi")

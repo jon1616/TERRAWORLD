@@ -77,6 +77,8 @@ var _zone_cache := {}
 var with_bond := false
 
 
+var mode := 0                          # Roadmap 49: `--modo`
+
 func _init() -> void:
 	var args := OS.get_cmdline_user_args()
 	var runs := 20
@@ -85,6 +87,9 @@ func _init() -> void:
 		runs = int(args[i + 1])
 	rng.seed = 181
 	with_bond = args.has("--compagno")
+	var mi := args.find("--modo")                # Roadmap 49: la modalità (0 Normale, 1 Radice dura, 2 Vuoto)
+	if mi >= 0 and mi + 1 < args.size():
+		mode = int(args[mi + 1])
 	if with_bond:
 		_p("CON IL COMPAGNO (voce 318): una sacca di %d compagni al livello della zona, %d%% dei colpi su di loro" % [BAG, roundi(AGGRO * 100.0)])
 	_p("PERCORSO (voce 181): %d giri per tappa. Per profilo: pressione media (Vita persa per creatura, %% della Vita)," % runs)
@@ -241,6 +246,13 @@ func _stage(pr: String, st: Array, runs: int) -> Dictionary:
 				t += gap
 				potion_t -= gap
 				var e := _pick(list)
+				if mode > 0:
+					# la modalità: le creature durano di più e feriscono di più (ogni colpo e per più tempo)
+					var md := ModesData.of(mode)
+					e = e.duplicate()
+					e["ttk"] = float(e["ttk"]) * float(md["hp"])
+					e["hp"] = float(e["hp"]) * float(md["hp"])
+					e["lost"] = float(e["lost"]) * float(md["hp"]) * float(md["dmg"])
 				var ttk := float(e["ttk"])
 				var mean := float(e["lost"]) / float(e["hit"])
 				if bag_left > 0 and not cst.is_empty():

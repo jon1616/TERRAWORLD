@@ -44,7 +44,10 @@ func open_bag(id: String) -> bool:
 	var first := int(m.character.stats.get(key, 0)) == 0
 	m.character.stats[key] = int(m.character.stats.get(key, 0)) + 1
 	var got := LootData.roll(String(ItemsData.get_item(id).get("table", id)), _rng, first)
-	var arm := "armatura_" + id.trim_prefix("sacchetto_")       # voce 389: un pezzo delle spoglie del Guardiano
+	var bkey := id.trim_prefix("sacchetto_")
+	for k in _mode_loot(bkey, 1.0):                             # Roadmap 49, voce 405: le modalità dure
+		got[k] = int(got.get(k, 0)) + 1
+	var arm := "armatura_" + bkey                               # voce 389: un pezzo delle spoglie del Guardiano
 	if LootData.TABLES.has(arm):
 		for k in LootData.roll(arm, _rng):
 			got[k] = int(got.get(k, 0)) + 1
@@ -106,6 +109,8 @@ func _on_killed(c: Creature) -> void:
 	if _rng.randf() < ESS:
 		_roll("essenze_forgia", c.position)
 	_roll("armatura_" + c.id, c.position)               # voce 389: un pezzo delle spoglie del capo (se ne ha)
+	for k in _mode_loot(c.id, ModesData.BAG_CHANCE):    # Roadmap 49, voce 405: le modalità dure
+		m.drops.spawn(String(k), 1, c.position)
 	if c.id.begins_with("evento_") and ItemsData.has("trofeo_" + c.id) and _rng.randf() < 0.5:
 		m.drops.spawn("trofeo_" + c.id, 1, c.position)    # voce 401: il trofeo del capo dell'evento
 
@@ -131,3 +136,21 @@ func drop(phase: int, at: Vector2) -> String:
 		m.hud.toast("Un'arma firma: %s" % String(ItemsData.get_item(String(id)).get("name", id)))
 		return String(id)
 	return ""
+
+
+## Roadmap 49, voce 405: ciò che un boss dà in più nelle modalità dure (`key` = il suo id, o quello del Sacchetto):
+## un oggetto della Radice dura per ogni punto di «bag» (con probabilità `chance`), uno del Vuoto e il suo cimelio la
+## prima volta (nel Vuoto).
+func _mode_loot(key: String, chance: float) -> Array:
+	var out := []
+	if m.get("modes") == null or m.modes.mode <= 0:
+		return out
+	var md := ModesData.of(m.modes.mode)
+	for k in int(md["bag"]):
+		if _rng.randf() < chance:
+			out.append_array(LootData.roll("modo_vuoto" if k >= 1 else "modo_dura", _rng).keys())
+	if md.get("cimeli", false) and ItemsData.has("cimelio_" + key) \
+			and not (m.character.erbario.get("oggetti", {}) as Dictionary).has("cimelio_" + key):
+		out.append("cimelio_" + key)
+	return out
+

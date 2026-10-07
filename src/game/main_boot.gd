@@ -15,6 +15,8 @@ static func new_world(m: Node2D) -> void:
 		"vigore": int(nw.get("vigore", 1)), "geni": nw.get("geni", []), "formato": SaveMigrations.WORLD}
 	if nw.has("casa"):
 		m.world_meta["casa"] = nw["casa"]
+	if int(nw.get("modalita", 0)) > 0:
+		m.world_meta["modalita"] = int(nw["modalita"])   # Roadmap 49: la modalità del Giardino, in tutti i suoi mondi
 	if nw.get("nero", false):
 		m.world_meta["nero"] = true              # voce 72: il mondo dove cadde il Seme Nero
 	if nw.get("primo", false):

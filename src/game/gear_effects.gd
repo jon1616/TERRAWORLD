@@ -108,6 +108,11 @@ func refresh() -> void:
 	if m.herd != null:
 		for hb in m.herd.bonuses():
 			_add(e, hb)
+	# Roadmap 49, voce 405: i cimeli dei boss trovati (per sempre)
+	var seen: Dictionary = m.character.erbario.get("oggetti", {})
+	for cid in cimeli():
+		if seen.has(cid):
+			_add(e, ItemsData.get_item(cid).get("cimelio", {}))
 	# voce 398: le pozioni, le fiale e i piatti scritti come dati (`BoonsData`)
 	if m.get("boons") != null:
 		for ba in m.boons.data_accs():
@@ -167,3 +172,16 @@ static func _add(e: Dictionary, acc: Dictionary) -> void:
 			e[k] = float(e[k]) + float(acc[k])
 		elif k in ["glide", "fall_safe", "wall", "passo", "fish_any", "dash"]:
 			e[k] = bool(e[k]) or bool(acc[k])
+
+
+## Voce 405: gli id dei cimeli (calcolati una volta).
+static var _cimeli: Array = []
+
+
+static func cimeli() -> Array:
+	if _cimeli.is_empty():
+		for id in ItemsData.all():
+			if String(id).begins_with("cimelio_"):
+				_cimeli.append(String(id))
+	return _cimeli
+

@@ -217,6 +217,16 @@ func _show_new_world() -> void:
 	kind_btn.pressed.connect(func() -> void:
 		pick[0] = (pick[0] + 1) % kinds.size()
 		show_kind.call())
+	# Roadmap 49, voce 405: la modalità del Giardino (a ogni clic la seguente)
+	var mode := [0]
+	var mode_btn := _button("", Callable(), TEXT)
+	var show_mode := func() -> void:
+		mode_btn.text = "Modalità: %s" % ModesData.name_of(mode[0])
+		mode_btn.tooltip_text = String(ModesData.of(mode[0])["desc"])
+	show_mode.call()
+	mode_btn.pressed.connect(func() -> void:
+		mode[0] = (mode[0] + 1) % ModesData.MODES.size()
+		show_mode.call())
 	_button("Pianta il seme", func() -> void:
 		var n := name_edit.text.strip_edges()
 		if n == "":
@@ -224,7 +234,10 @@ func _show_new_world() -> void:
 		var s := seed_edit.text.strip_edges()
 		var sd := int(s) if s.is_valid_int() else (s.hash() & 0x7fffffff if s != "" else randi() & 0x7fffffff)
 		var g := String(kinds[pick[0]])
-		Session.start_new_world(n, sd, "", {"giardino": true} if g == "" else {"giardino": true, "geni": [g]})
+		var ex := {"giardino": true, "modalita": mode[0]}
+		if g != "":
+			ex["geni"] = [g]
+		Session.start_new_world(n, sd, "", ex)
 		get_tree().change_scene_to_file(GAME_SCENE), GOLD)
 	_button("Indietro", _show_worlds, DIM)
 	name_edit.grab_focus()

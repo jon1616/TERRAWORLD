@@ -48,6 +48,12 @@ var minions := 0                       # quante di quelle chiamate sono ancora v
 var master: Creature                   # chi l'ha chiamata in aiuto (se qualcuno l'ha fatto)
 var boss := false                      # un Guardiano (vedi `CreaturesData`)
 var enraged := false                   # seconda fase: sotto `p.phase2` della Vita
+## Roadmap 49, voce 405: le creature selvatiche (nate da `Fauna.add`) prendono la Vita e il danno della modalità, e i boss
+## la seconda fase prima (`Modes`).
+var wild := false
+static var mode_hp := 1.0
+static var mode_dmg := 1.0
+static var mode_phase := 1.0
 var calm := false                      # guarito: non attacca più, non fa danno
 var stun := 0.0
 var ancient: Ancient                   # creatura antica o ancestrale (voce 20b); null per le comuni
@@ -203,10 +209,14 @@ func make_calm() -> void:
 
 ## Più forte negli strati profondi: Vita e danno moltiplicati.
 func strengthen(mult: float, dmg_mult := -1.0) -> void:
+	var dm := mult if dmg_mult < 0.0 else dmg_mult
+	if wild:
+		mult *= mode_hp                     # Roadmap 49, voce 405: la modalità del Giardino
+		dm *= mode_dmg
 	shot_k *= mult                          # voce 185: anche i proiettili crescono con lo strato e il vigore
 	hp_max = int(round(hp_max * mult))
 	hp = hp_max
-	damage = int(round(damage * (mult if dmg_mult < 0.0 else dmg_mult)))
+	damage = int(round(damage * dm))
 
 
 func rect() -> Rect2:
@@ -236,7 +246,7 @@ func _process(dt: float) -> void:
 			hp = mini(hp + int(_regen), hp_max)
 			_regen -= int(_regen)
 			_bar.set_value(float(hp) / hp_max)
-	enraged = boss and hp < hp_max * float(p.get("phase2", 0.0))
+	enraged = boss and hp < hp_max * minf(float(p.get("phase2", 0.0)) * mode_phase, ModesData.PHASE_MAX)
 	if enraged and not _fury and data.has("fury"):
 		_fury = true                               # voce 135: la furia di un Signore, a metà Vita
 		for b in data["fury"]:

@@ -283,6 +283,7 @@ func run(main: Node2D) -> void:
 	await TestsConsumables.new(kit).run()  # Roadmap 46: consumabili, pesca e cucina
 	await TestsPurpose.new(kit).run()      # Roadmap 47: costruire con uno scopo
 	await TestsTrade.new(kit).run()        # Roadmap 48: il commercio
+	await TestsModes.new(kit).run()        # Roadmap 49: le modalità
 	_mark("TestsAccessories")
 	await TestsMaterials.new(kit).run()     # Roadmap 31: il carattere dei materiali
 	_mark("TestsMaterials")
@@ -520,6 +521,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsPurpose.new(kit).run()        # Roadmap 47: costruire con uno scopo
 		"commercio":
 			await TestsTrade.new(kit).run()          # Roadmap 48: il commercio
+		"modalita":
+			await TestsModes.new(kit).run()          # Roadmap 49: le modalità
 		"carattere":
 			await TestsMaterials.new(kit).run()      # Roadmap 31: il carattere dei materiali
 		"legami":

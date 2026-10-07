@@ -1,6 +1,8 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 6 ott 2026)
+- **Fatta la Roadmap 49 «La difficoltà come contenuto»** (voce 405, 7 ott 2026): Normale, Radice dura e Vuoto, con 109
+  oggetti propri, la Furia del Giardiniere e i cimeli dei boss. Resoconto in fondo.
 - **Fatta la Roadmap 48 «Il commercio e gli abitanti»** (voce 404, 7 ott 2026): merci secondo fascia del mondo,
   stagione, notte ed evento (1.162 voci in più), il Mercante dei mondi a giorni alterni con merci a rotazione e 20 oggetti
   solo suoi. Resoconto in fondo.
@@ -25,7 +27,7 @@
 - **Fatta la Roadmap 38 «Le fondamenta della vastità»** (voci 356-361, 6 ott 2026): gesti dei materiali, fasi e rarità,
   bottino «uno a scelta tra» e «prima volta», `tools/vastita.gd`, il generatore di contenuti.
 - **Il piano «La vastità» (Roadmap 38-51, voci 356-411)** in `VASTITA.md`: portare TERRAWORLD verso la profondità
-  di Terraria + Calamity + Thorium (confronto sui dati reali: `tools/confronto.gd`). Prossima: la Roadmap 49 «La difficoltà come contenuto».
+  di Terraria + Calamity + Thorium (confronto sui dati reali: `tools/confronto.gd`). Prossima: la Roadmap 50 «La fabbricazione profonda».
 - **Fatta la Roadmap 37 «Ciò che conta»** (voci 350-355, 4 ott 2026): nata dalla prima partita vera dell'utente (6,6 ore).
   Correzioni, spiegazioni, Dispensa, abitanti come servizi, strati che fanno paura, equipaggiamento che conta. Resoconto in
   fondo alla Roadmap 37. Prossimo passo: l'utente rigioca la sua partita e dice che cosa si sente diverso.
@@ -5723,4 +5725,19 @@ giocatore simulato beve di rado). Prove: gruppo «consumabili».
 
 **Resoconto della Roadmap 48.** Niente unici, armi firma, rari, spoglie, trofei, reliquie, accessori firma o dell'Officina
 nei negozi: si trovano o si fabbricano. Prove: gruppo «commercio».
+
+# Roadmap 49 «La difficoltà come contenuto» (7 ott 2026)
+
+- [x] **405. Le modalità.** Si sceglie nel menu creando il Giardino e vale per tutti i suoi mondi:
+  - Normale;
+  - Radice dura: creature selvatiche ×1,35 di Vita e ×1,25 di danno, la seconda fase dei boss prima; un oggetto in più da
+    ogni Sacchetto e (una volta su due) da ogni capo, tra 30 accessori e 12 armi solo suoi;
+  - Vuoto: ×1,7 e ×1,5, due oggetti in più (anche dai 10 accessori del Vuoto), la **Furia del Giardiniere** (le ferite la
+    caricano; piena: dieci secondi di danno ×1,5, colpi più svelti, ogni colpo cura) e il **cimelio** di ogni boss (57:
+    trovato una volta, un piccolo bonus per sempre; sono le «reliquie» della voce 401).
+  Le creature più «intelligenti» non ci sono: il cervello delle creature (`Mind`) è uguale in tutte le modalità.
+
+**Resoconto della Roadmap 49.** `tools/percorso.gd -- --modo` (appassimenti all'ora, attento / medio): Normale 1,1 / 6,0;
+Radice dura 2,8 / 10,5; Vuoto 4,7 / 15,6 (senza contare la Furia). Oggetti propri delle modalità dure: 109. Prove:
+gruppo «modalita».
 

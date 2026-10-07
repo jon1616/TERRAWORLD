@@ -1046,6 +1046,13 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     pacchetto `commercio.gd` da `tools/vastita_gen/commercio.py`, che sceglie dal catalogo `tools/vastita_gen/catalogo.json`
     scritto da `tools/catalogo.gd`, secondo il mestiere `TRADES` e la fase). `TradePanel` a pagine (`pages`, `turn`);
     `Visitors` porta il Mercante un giorno sì e uno no. Prove: gruppo «commercio» (`TestsTrade`).
+  - Roadmap 49 «La difficoltà come contenuto» (voce 405): `ModesData` (le tre modalità: Vita, danno, fase dei boss,
+    oggetti in più, Furia, cimeli) e `Modes` (`src/game/modes.gd`: `world_meta["modalita"]` scelta nel menu creando il
+    Giardino e passata dai portali; `Creature.mode_hp/mode_dmg/mode_phase` applicati da `strengthen` alle creature con
+    `wild`, cioè nate da `Fauna.add`; la Furia sulle ferite, un effetto dei dati «furia_giardiniere»). Il pacchetto
+    `modalita.gd` (`tools/vastita_gen/modalita.py`): 42 oggetti della Radice dura («modo_dura»), 10 del Vuoto
+    («modo_vuoto») e 57 cimeli (tipo «cimelio», campo "cimelio" sommato da `GearEffects` dall'Erbario), dati da
+    `FirmaDrops._mode_loot`. `tools/percorso.gd -- --modo 1|2`. Prove: gruppo «modalita» (`TestsModes`).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni
