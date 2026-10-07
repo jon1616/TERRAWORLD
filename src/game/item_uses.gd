@@ -139,6 +139,7 @@ static func _build() -> void:
 	_from_machines()
 	_from_projects()
 	_from_misc()
+	_from_finds()
 
 
 ## «a» / «di» con l'articolo del nome: «alla Viandante», «dell'Erborista», «al Pescatore».
@@ -276,3 +277,15 @@ static func _from_misc() -> void:
 	_add("chiave_seminatori", "Apre le porte chiuse degli enigmi dei Seminatori.")
 	_add("cristallo_linfa", "Risveglia una Centrale dei Seminatori (clic destro sulla sua porta).")
 	_add("seme_eco", "Al Cerchio dei richiami: serve per richiamare un Guardiano generato.")
+
+
+## Roadmap 45: le chiavi dei biomi aprono le casse sigillate; la Pozza di Linfa antica trasforma.
+static func _from_finds() -> void:
+	for e in ChestsData.FOUND:
+		if e.has("key"):
+			_add(String(e["key"]), "Apre (e si consuma) la %s: si trova %s." % [String(e["name"]).to_lower(),
+				"negli osservatori del cielo" if String(e["where"]) == "cielo" else "nelle rovine sotto il suo bioma"])
+	for id in ItemsData.all():
+		if TransmuteData.of(String(id)) != "":
+			_add(String(id), "Nella Pozza di Linfa antica si trasforma in un altro oggetto della sua famiglia (dopo il primo Guardiano).")
+

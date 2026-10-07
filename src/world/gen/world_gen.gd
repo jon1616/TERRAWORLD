@@ -33,6 +33,7 @@ static func passes() -> Array[GenPass]:
 		PassCuore.new(),
 		PassNero.new(),
 		PassRovine.new(),
+		PassPozza.new(),                    # Roadmap 45, voce 396: la Pozza di Linfa antica
 		PassPericoli.new(),
 		PassDoni.new(),
 		PassGemme.new(),

@@ -108,6 +108,8 @@ const PACK_FILES := [
 	preload("res://src/data/vastita/eventi.gd"),           # voce 382: gli eventi con il loro capo
 	preload("res://src/data/vastita/accessori.gd"),        # Roadmap 43: accessori firma, Officina, ali, rampini, animaletti
 	preload("res://src/data/vastita/armature.gd"),         # Roadmap 44: le spoglie dei boss
+	preload("res://src/data/vastita/rari.gd"),             # voce 395: un raro per ogni specie
+	preload("res://src/data/vastita/ritrovamenti.gd"),     # voci 392-393: casse dei biomi, chiavi, mimi
 ]
 
 static var BIOMES: Array = _load()

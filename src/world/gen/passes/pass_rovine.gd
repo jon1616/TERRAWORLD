@@ -92,8 +92,20 @@ func _build(w: World, rng: RandomNumberGenerator, p: Vector2i, s: int, rich := 0
 	for e in ChestsData.FOUND:
 		if e.has("strata") and s >= int(e["strata"]) and rng.randf() < float(e["chance"]):
 			sid = String(e["id"])
+	# Roadmap 45, voci 392-393: a volte la cassa del bioma, la sigillata o un mimo (un caso suo: non sposta il resto)
+	var rb := RandomNumberGenerator.new()
+	rb.seed = hash([o.x, o.y, w.world_seed, "bioma"])
+	var bc := ChestsData.biome_roll(w, o, s, rb)
+	if bc != "":
+		sid = bc
 	w.stations[o] = sid
+	if not ChestsData.mimic_of(sid).is_empty():
+		return                                    # il mimo non ha niente dentro: il bottino è suo
 	var chest := w.chest_at(o)
+	if bc != "":
+		var bl := LootData.roll(bc, rb)
+		for id in bl:
+			chest.add(String(id), int(bl[id]))
 	var loot := LootData.roll_chest("rovina_%d" % clampi(s, 1, 4), rng, 2 + s / 2 + rich)
 	for id in loot:
 		chest.add(id, int(loot[id]))

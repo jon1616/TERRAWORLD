@@ -1,0 +1,4896 @@
+{
+	"airone_torba": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"scatto"
+		],
+		"elem": "",
+		"hp": 34,
+		"name": "Airone di torba",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 4
+	},
+	"ala_ardesia": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"scatto"
+		],
+		"elem": "",
+		"hp": 28,
+		"name": "Ala d'ardesia",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			2,
+			3
+		],
+		"water": false,
+		"weight": 6
+	},
+	"allocco_radici": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"picchiata"
+		],
+		"elem": "",
+		"hp": 40,
+		"name": "Allocco delle radici",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"anguilla_brace": {
+		"awake": false,
+		"bh": [
+			"nuota",
+			"tuffatore"
+		],
+		"elem": "",
+		"hp": 69,
+		"name": "Anguilla di brace",
+		"perduto": false,
+		"sky": false,
+		"strata": [],
+		"water": true,
+		"weight": 3
+	},
+	"anguilla_linfa": {
+		"awake": false,
+		"bh": [
+			"nuota"
+		],
+		"elem": "",
+		"hp": 48,
+		"name": "Anguilla di Linfa",
+		"perduto": false,
+		"sky": false,
+		"strata": [],
+		"water": true,
+		"weight": 4
+	},
+	"anguilla_vento": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"scatto"
+		],
+		"elem": "",
+		"hp": 58,
+		"name": "Anguilla del vento",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"ape_lume": {
+		"awake": false,
+		"bh": [
+			"vola"
+		],
+		"elem": "",
+		"hp": 8,
+		"name": "Ape di lume",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 4
+	},
+	"ape_turchese": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"richiamo"
+		],
+		"elem": "",
+		"hp": 24,
+		"name": "Ape turchese",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"aquila_tempesta": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"picchiata"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Aquila della tempesta",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"avvizzito_errante": {
+		"awake": false,
+		"bh": [
+			"cammina"
+		],
+		"elem": "",
+		"hp": 32,
+		"name": "Avvizzito errante",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 12
+	},
+	"balena_stelle": {
+		"awake": false,
+		"bh": [
+			"deriva"
+		],
+		"elem": "",
+		"hp": 240,
+		"name": "Balena delle stelle",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"bolla_vuoto": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"scoppia"
+		],
+		"elem": "",
+		"hp": 40,
+		"name": "Bolla del Vuoto",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			4
+		],
+		"water": false,
+		"weight": 4
+	},
+	"brillo_stellare": {
+		"awake": false,
+		"bh": [
+			"salta_verso",
+			"fugge"
+		],
+		"elem": "",
+		"hp": 40,
+		"name": "Brillo stellare",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"brucatore_profondo": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"fugge"
+		],
+		"elem": "",
+		"hp": 75,
+		"name": "Brucatore dei funghi profondi",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			3
+		],
+		"water": false,
+		"weight": 4
+	},
+	"bruco_germoglio": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"fugge"
+		],
+		"elem": "",
+		"hp": 31,
+		"name": "Bruco del Germoglio",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"bruco_lanterna": {
+		"awake": false,
+		"bh": [
+			"cammina"
+		],
+		"elem": "",
+		"hp": 16,
+		"name": "Bruco di lanterna",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0,
+			1
+		],
+		"water": false,
+		"weight": 5
+	},
+	"bruco_pendente": {
+		"awake": false,
+		"bh": [
+			"cammina"
+		],
+		"elem": "",
+		"hp": 31,
+		"name": "Bruco delle radici pendenti",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"campanula_errante": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"bombarda"
+		],
+		"elem": "",
+		"hp": 40,
+		"name": "Campanula errante",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			3,
+			4
+		],
+		"water": false,
+		"weight": 5
+	},
+	"cappelletto": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"ladro"
+		],
+		"elem": "",
+		"hp": 28,
+		"name": "Cappelletto ladro",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"carapace_ardesia": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"carica",
+			"scudo"
+		],
+		"elem": "",
+		"hp": 56,
+		"name": "Carapace d'ardesia",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			2,
+			3
+		],
+		"water": false,
+		"weight": 4
+	},
+	"carpa_brucatrice": {
+		"awake": false,
+		"bh": [
+			"nuota",
+			"fugge"
+		],
+		"elem": "",
+		"hp": 40,
+		"name": "Carpa brucatrice",
+		"perduto": false,
+		"sky": false,
+		"strata": [],
+		"water": true,
+		"weight": 5
+	},
+	"cavalletta_oro": {
+		"awake": false,
+		"bh": [
+			"salta_verso"
+		],
+		"elem": "",
+		"hp": 24,
+		"name": "Cavalletta dorata",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"cerbiatto_ombra": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"fugge"
+		],
+		"elem": "",
+		"hp": 58,
+		"name": "Cerbiatto d'ombra",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"cerva_guida": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"fugge",
+			"pastore"
+		],
+		"elem": "",
+		"hp": 92,
+		"name": "Cerva guida iridata",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"cervo_brina": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"carica"
+		],
+		"elem": "",
+		"hp": 64,
+		"name": "Cervo di brina",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 6
+	},
+	"cervo_iridato": {
+		"awake": false,
+		"bh": [
+			"fugge"
+		],
+		"elem": "",
+		"hp": 60,
+		"name": "Cervo iridato",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"cervo_iride": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"fugge"
+		],
+		"elem": "",
+		"hp": 69,
+		"name": "Cervo iridato",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"chiocciola_cristallo": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"guscio"
+		],
+		"elem": "",
+		"hp": 60,
+		"name": "Chiocciola di cristallo",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			2,
+			3
+		],
+		"water": false,
+		"weight": 4
+	},
+	"cinghiale_raccolto": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"carica"
+		],
+		"elem": "",
+		"hp": 56,
+		"name": "Cinghiale del Raccolto",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 4
+	},
+	"codarossa": {
+		"awake": false,
+		"bh": [
+			"fugge"
+		],
+		"elem": "",
+		"hp": 12,
+		"name": "Codarossa",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 7
+	},
+	"cornoradice": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"carica"
+		],
+		"elem": "",
+		"hp": 70,
+		"name": "Cornoradice",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"corvo_corteccia": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"scatto"
+		],
+		"elem": "",
+		"hp": 18,
+		"name": "Corvo di corteccia",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 6
+	},
+	"corvo_nembo": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"richiamo",
+			"folgore"
+		],
+		"elem": "",
+		"hp": 58,
+		"name": "Corvo del nembo",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"custode_orbita": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"bombarda"
+		],
+		"elem": "",
+		"hp": 112,
+		"name": "Custode d'orbita",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"damigella_rigoglio": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"scatto"
+		],
+		"elem": "",
+		"hp": 28,
+		"name": "Damigella del Rigoglio",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"draghetto_eco": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"ventaglio"
+		],
+		"elem": "",
+		"hp": 58,
+		"name": "Draghetto dell'eco",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"eclissimo": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"mimetico",
+			"divide"
+		],
+		"elem": "",
+		"hp": 58,
+		"name": "Eclissimo",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 8
+	},
+	"ermellino": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"ladro"
+		],
+		"elem": "",
+		"hp": 32,
+		"name": "Ermellino di brina",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"falco_brace": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"bombarda"
+		],
+		"elem": "",
+		"hp": 58,
+		"name": "Falco di brace",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"falco_vento": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"picchiata"
+		],
+		"elem": "",
+		"hp": 58,
+		"name": "Falco del vento",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"falena_brace": {
+		"awake": false,
+		"bh": [
+			"vola"
+		],
+		"elem": "",
+		"hp": 12,
+		"name": "Falena di brace",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0,
+			1,
+			2
+		],
+		"water": false,
+		"weight": 5
+	},
+	"falena_firmamento": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"fotofobo"
+		],
+		"elem": "",
+		"hp": 46,
+		"name": "Falena del firmamento",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"falena_vampira": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"parassita"
+		],
+		"elem": "",
+		"hp": 28,
+		"name": "Falena vampira",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"farfalla_iride": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"fugge"
+		],
+		"elem": "",
+		"hp": 29,
+		"name": "Farfalla iridata",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"farfalla_prisma": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"teletrasporto"
+		],
+		"elem": "",
+		"hp": 34,
+		"name": "Farfalla prisma",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"fatuo_cenere": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"scatto"
+		],
+		"elem": "",
+		"hp": 20,
+		"name": "Fatuo di cenere",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"fenice_cenere": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"spara"
+		],
+		"elem": "",
+		"hp": 40,
+		"name": "Fenice di cenere",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 4
+	},
+	"firma_ambra_0": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"orbita",
+			"pioggia",
+			"specchio"
+		],
+		"elem": "",
+		"hp": 56,
+		"name": "Chiocciola d'ambra col mantello",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_ambra_1": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"arrampica",
+			"raggio"
+		],
+		"elem": "",
+		"hp": 56,
+		"name": "Corvo d'ambra senz'ombra",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_brace_0": {
+		"awake": false,
+		"bh": [
+			"molla",
+			"tonfo"
+		],
+		"elem": "",
+		"hp": 81,
+		"name": "Chiocciola di brace col mantello",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_brace_1": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"rotola",
+			"spine"
+		],
+		"elem": "",
+		"hp": 81,
+		"name": "Corvo di brace senz'ombra",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_brina_0": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"zigzag",
+			"raggio",
+			"specchio"
+		],
+		"elem": "",
+		"hp": 56,
+		"name": "Chiocciola di brina col mantello",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_brina_1": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"balzo",
+			"pioggia",
+			"arrampica"
+		],
+		"elem": "",
+		"hp": 56,
+		"name": "Corvo di brina senz'ombra",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_cenere_0": {
+		"awake": false,
+		"bh": [
+			"molla",
+			"onda",
+			"specchio"
+		],
+		"elem": "",
+		"hp": 81,
+		"name": "Lanterna delle ceneri dalle mille zampe",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_cenere_1": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"mimetico",
+			"raggio"
+		],
+		"elem": "",
+		"hp": 81,
+		"name": "Cicala delle ceneri del filo d'oro",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_firmamento_0": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"orbita",
+			"raggio",
+			"richiamo"
+		],
+		"elem": "",
+		"hp": 112,
+		"name": "Corvo del firmamento dagli occhi di vetro",
+		"perduto": false,
+		"sky": true,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"firma_foresta_0": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"orbita",
+			"richiamo"
+		],
+		"elem": "",
+		"hp": 36,
+		"name": "Daino della foresta che ricorda",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_foresta_1": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"sbuca",
+			"onda"
+		],
+		"elem": "",
+		"hp": 36,
+		"name": "Salamandra della foresta che canta",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_funghi_0": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"deriva",
+			"pioggia"
+		],
+		"elem": "",
+		"hp": 56,
+		"name": "Lanterna dei funghi dalle mille zampe",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_funghi_1": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"guscio",
+			"spine"
+		],
+		"elem": "",
+		"hp": 56,
+		"name": "Cicala dei funghi del filo d'oro",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_ghiacciaio_0": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"ladro",
+			"balzo"
+		],
+		"elem": "",
+		"hp": 81,
+		"name": "Salamandra del ghiacciaio dagli occhi di vetro",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_ghiacciaio_1": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"picchiata",
+			"spine"
+		],
+		"elem": "",
+		"hp": 81,
+		"name": "Medusa del ghiacciaio a due teste",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_giardini_vento_0": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"rotola",
+			"spine"
+		],
+		"elem": "",
+		"hp": 81,
+		"name": "Civetta dei giardini del vento che canta",
+		"perduto": false,
+		"sky": true,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"firma_iridato_0": {
+		"awake": false,
+		"bh": [
+			"molla",
+			"raffica",
+			"specchio"
+		],
+		"elem": "",
+		"hp": 81,
+		"name": "Daino dell'iride che ricorda",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_iridato_1": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"tonfo",
+			"richiamo"
+		],
+		"elem": "",
+		"hp": 81,
+		"name": "Salamandra dell'iride che canta",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_mare_nubi_0": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"orbita",
+			"pioggia",
+			"specchio"
+		],
+		"elem": "",
+		"hp": 81,
+		"name": "Upupa del mare di nubi che ride",
+		"perduto": false,
+		"sky": true,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"firma_nidi_tempesta_0": {
+		"awake": false,
+		"bh": [
+			"molla",
+			"tonfo"
+		],
+		"elem": "",
+		"hp": 112,
+		"name": "Picchio dei nidi di tempesta del filo d'oro",
+		"perduto": false,
+		"sky": true,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"firma_palude_0": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"teletrasporto",
+			"raggio"
+		],
+		"elem": "",
+		"hp": 56,
+		"name": "Lanterna della palude dalle mille zampe",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_palude_1": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"scudo",
+			"onda",
+			"arrampica"
+		],
+		"elem": "",
+		"hp": 56,
+		"name": "Cicala della palude del filo d'oro",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_pietra_0": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"zigzag",
+			"raffica",
+			"orbita"
+		],
+		"elem": "",
+		"hp": 56,
+		"name": "Lanterna di pietra dalle mille zampe",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_pietra_1": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"rotola",
+			"raffica"
+		],
+		"elem": "",
+		"hp": 56,
+		"name": "Cicala di pietra del filo d'oro",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_prati_0": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"fotofobo",
+			"raggio"
+		],
+		"elem": "",
+		"hp": 36,
+		"name": "Chiocciola dei prati col mantello",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_prati_1": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"divide",
+			"molla"
+		],
+		"elem": "",
+		"hp": 36,
+		"name": "Corvo dei prati senz'ombra",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_radici_sospese_0": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"arrampica",
+			"raggio"
+		],
+		"elem": "",
+		"hp": 81,
+		"name": "Civetta delle radici sospese che canta",
+		"perduto": false,
+		"sky": true,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"firma_rossa_0": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"orbita",
+			"raggio"
+		],
+		"elem": "",
+		"hp": 56,
+		"name": "Chiocciola della selva rossa col mantello",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_rossa_1": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"arrampica",
+			"tonfo"
+		],
+		"elem": "",
+		"hp": 56,
+		"name": "Corvo della selva rossa senz'ombra",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_s1_0": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"carica",
+			"specchio",
+			"onda"
+		],
+		"elem": "",
+		"hp": 56,
+		"name": "Orso del sottobosco che piange",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			1
+		],
+		"water": false,
+		"weight": 3
+	},
+	"firma_s2_0": {
+		"awake": false,
+		"bh": [
+			"molla",
+			"spine",
+			"richiamo"
+		],
+		"elem": "",
+		"hp": 81,
+		"name": "Orso delle caverne che piange",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			2
+		],
+		"water": false,
+		"weight": 3
+	},
+	"firma_s3_0": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"picchiata",
+			"pioggia"
+		],
+		"elem": "",
+		"hp": 81,
+		"name": "Orso delle profondità che piange",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			3
+		],
+		"water": false,
+		"weight": 3
+	},
+	"firma_s4_0": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"rotola",
+			"arrampica",
+			"spine"
+		],
+		"elem": "",
+		"hp": 112,
+		"name": "Orso del Fondo che piange",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			4
+		],
+		"water": false,
+		"weight": 3
+	},
+	"firma_scogliere_cristallo_0": {
+		"awake": false,
+		"bh": [
+			"molla",
+			"tonfo",
+			"spine"
+		],
+		"elem": "",
+		"hp": 81,
+		"name": "Upupa delle scogliere col mantello",
+		"perduto": false,
+		"sky": true,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"firma_stellare_0": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"pioggia",
+			"teletrasporto"
+		],
+		"elem": "",
+		"hp": 81,
+		"name": "Airone delle stelle che conta",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_stellare_1": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"specchio",
+			"spine",
+			"balzo"
+		],
+		"elem": "",
+		"hp": 81,
+		"name": "Biscia delle stelle dal cuore acceso",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_sussurri_0": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"raffica",
+			"deriva"
+		],
+		"elem": "",
+		"hp": 81,
+		"name": "Airone dei sussurri che conta",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_sussurri_1": {
+		"awake": false,
+		"bh": [
+			"molla",
+			"pioggia"
+		],
+		"elem": "",
+		"hp": 81,
+		"name": "Biscia dei sussurri dal cuore acceso",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_torba_0": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"guaritore",
+			"raffica"
+		],
+		"elem": "",
+		"hp": 56,
+		"name": "Chiocciola della torba col mantello",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_torba_1": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"zigzag",
+			"richiamo"
+		],
+		"elem": "",
+		"hp": 56,
+		"name": "Corvo della torba senz'ombra",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_vetro_0": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"onda",
+			"balzo"
+		],
+		"elem": "",
+		"hp": 81,
+		"name": "Chiocciola di vetro col mantello",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"firma_vetro_1": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"orbita",
+			"raffica",
+			"specchio"
+		],
+		"elem": "",
+		"hp": 81,
+		"name": "Corvo di vetro senz'ombra",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"foca_linfa": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"fugge"
+		],
+		"elem": "",
+		"hp": 81,
+		"name": "Foca di Linfa gelata",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"formica_ladra": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"ladro"
+		],
+		"elem": "",
+		"hp": 24,
+		"name": "Formica ladra d'ambra",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"formica_resina": {
+		"awake": false,
+		"bh": [
+			"cammina"
+		],
+		"elem": "",
+		"hp": 7,
+		"name": "Formica di resina",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			1,
+			2
+		],
+		"water": false,
+		"weight": 5
+	},
+	"gargolla": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"scatto"
+		],
+		"elem": "",
+		"hp": 42,
+		"name": "Gargolla",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"garzetta_nubi": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"picchiata"
+		],
+		"elem": "",
+		"hp": 40,
+		"name": "Garzetta delle nubi",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"gazza_vento": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"ladro"
+		],
+		"elem": "",
+		"hp": 32,
+		"name": "Gazza ladra del vento",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"geco_cristallo": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"mimetico"
+		],
+		"elem": "",
+		"hp": 58,
+		"name": "Geco di cristallo",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"geomimo": {
+		"awake": false,
+		"bh": [
+			"mimo",
+			"salta_verso"
+		],
+		"elem": "",
+		"hp": 70,
+		"name": "Geomimo",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			2,
+			3,
+			4
+		],
+		"water": false,
+		"weight": 3
+	},
+	"girandola_viva": {
+		"awake": false,
+		"bh": [
+			"deriva",
+			"ventaglio"
+		],
+		"elem": "",
+		"hp": 40,
+		"name": "Girandola viva",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"goccia_divisa": {
+		"awake": false,
+		"bh": [
+			"salta_verso",
+			"divide"
+		],
+		"elem": "",
+		"hp": 58,
+		"name": "Goccia di Linfa che si divide",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			3
+		],
+		"water": false,
+		"weight": 5
+	},
+	"golem_muschio": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"carica"
+		],
+		"elem": "",
+		"hp": 110,
+		"name": "Golem di muschio",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"grumo_diviso": {
+		"awake": false,
+		"bh": [
+			"salta_verso",
+			"divide"
+		],
+		"elem": "",
+		"hp": 58,
+		"name": "Grumo di brace che si divide",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"grumo_muschio": {
+		"awake": false,
+		"bh": [
+			"salta_verso"
+		],
+		"elem": "",
+		"hp": 14,
+		"name": "Grumo di muschio",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0,
+			1
+		],
+		"water": false,
+		"weight": 10
+	},
+	"grumo_resina": {
+		"awake": false,
+		"bh": [
+			"salta_verso"
+		],
+		"elem": "",
+		"hp": 22,
+		"name": "Grumo di resina",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			1,
+			2
+		],
+		"water": false,
+		"weight": 8
+	},
+	"grumo_spore": {
+		"awake": false,
+		"bh": [
+			"salta_verso"
+		],
+		"elem": "",
+		"hp": 30,
+		"name": "Grumo di spore",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0,
+			2,
+			3
+		],
+		"water": false,
+		"weight": 6
+	},
+	"gufo_gelo": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"spara"
+		],
+		"elem": "",
+		"hp": 30,
+		"name": "Gufo del gelo",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"gufo_stellare": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"spara"
+		],
+		"elem": "",
+		"hp": 58,
+		"name": "Gufo delle radure",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"guizzalinfa": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"teletrasporto"
+		],
+		"elem": "",
+		"hp": 35,
+		"name": "Guizzalinfa",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			3,
+			4
+		],
+		"water": false,
+		"weight": 5
+	},
+	"lepre_linfa": {
+		"awake": false,
+		"bh": [
+			"fugge"
+		],
+		"elem": "",
+		"hp": 12,
+		"name": "Lepre di Linfa",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 6
+	},
+	"lepre_vento": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"fugge"
+		],
+		"elem": "",
+		"hp": 26,
+		"name": "Lepre del vento",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"libellula_brina": {
+		"awake": false,
+		"bh": [
+			"vola"
+		],
+		"elem": "",
+		"hp": 10,
+		"name": "Libellula di brina",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"lince_ardesia": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"carica"
+		],
+		"elem": "",
+		"hp": 50,
+		"name": "Lince d'ardesia",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			2,
+			3
+		],
+		"water": false,
+		"weight": 3
+	},
+	"lombrico_radice": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"sbuca"
+		],
+		"elem": "",
+		"hp": 52,
+		"name": "Lombrico di radice",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			1,
+			2
+		],
+		"water": false,
+		"weight": 4
+	},
+	"luccio_stagno": {
+		"awake": false,
+		"bh": [
+			"nuota",
+			"tuffatore"
+		],
+		"elem": "",
+		"hp": 40,
+		"name": "Luccio degli stagni",
+		"perduto": false,
+		"sky": false,
+		"strata": [],
+		"water": true,
+		"weight": 4
+	},
+	"lucciola_guaritrice": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"guaritore"
+		],
+		"elem": "",
+		"hp": 34,
+		"name": "Lucciola guaritrice",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			3
+		],
+		"water": false,
+		"weight": 4
+	},
+	"lucciola_vena": {
+		"awake": false,
+		"bh": [
+			"deriva",
+			"lucciola_vena"
+		],
+		"elem": "",
+		"hp": 10,
+		"name": "Lucciola di vena",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0,
+			1,
+			2
+		],
+		"water": false,
+		"weight": 2
+	},
+	"lucciola_vorace": {
+		"awake": false,
+		"bh": [
+			"vola"
+		],
+		"elem": "",
+		"hp": 7,
+		"name": "Lucciola vorace",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 8
+	},
+	"lucertola_vetro": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"mimetico",
+			"scatto"
+		],
+		"elem": "",
+		"hp": 58,
+		"name": "Lucertola di vetro",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"lumacone": {
+		"awake": false,
+		"bh": [
+			"cammina"
+		],
+		"elem": "",
+		"hp": 44,
+		"name": "Lumacone dei cappelli",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 7
+	},
+	"lumacone_pioggia": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"fugge"
+		],
+		"elem": "",
+		"hp": 36,
+		"name": "Lumacone della pioggia",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 6
+	},
+	"lumacone_sospeso": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"guaritore"
+		],
+		"elem": "",
+		"hp": 56,
+		"name": "Lumacone sospeso",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"lupo_gelo": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"carica"
+		],
+		"elem": "",
+		"hp": 58,
+		"name": "Lupo del gelo",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 4
+	},
+	"lupo_ghiaccio": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"carica"
+		],
+		"elem": "",
+		"hp": 58,
+		"name": "Lupo del ghiacciaio",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"lupo_lunare": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"carica"
+		],
+		"elem": "",
+		"hp": 58,
+		"name": "Lupo lunare",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"mangiastelle": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"sbuca"
+		],
+		"elem": "",
+		"hp": 104,
+		"name": "Mangiastelle",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"medusa_nuvola": {
+		"awake": false,
+		"bh": [
+			"deriva"
+		],
+		"elem": "",
+		"hp": 36,
+		"name": "Medusa di nuvola",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"mietivuoto": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"scatto"
+		],
+		"elem": "",
+		"hp": 60,
+		"name": "Mietivuoto",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			4
+		],
+		"water": false,
+		"weight": 5
+	},
+	"muschiolo": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"guaritore"
+		],
+		"elem": "",
+		"hp": 46,
+		"name": "Muschiolo guaritore",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"nube_tuono": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"folgore"
+		],
+		"elem": "",
+		"hp": 58,
+		"name": "Nube del tuono",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"nuvolo_vivo": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"divide"
+		],
+		"elem": "",
+		"hp": 40,
+		"name": "Nuvolo vivo",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"ombra_seminatore": {
+		"awake": false,
+		"bh": [
+			"vola"
+		],
+		"elem": "",
+		"hp": 70,
+		"name": "Ombra di Seminatore",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 2
+	},
+	"orso_corteccia": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"carica"
+		],
+		"elem": "",
+		"hp": 90,
+		"name": "Orso di corteccia",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"pascolante_vuoto": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"fugge"
+		],
+		"elem": "",
+		"hp": 81,
+		"name": "Pascolante del Vuoto",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			4
+		],
+		"water": false,
+		"weight": 4
+	},
+	"pavoncella": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"richiamo"
+		],
+		"elem": "",
+		"hp": 26,
+		"name": "Pavoncella del vento",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"pecora_muschio": {
+		"awake": false,
+		"bh": [
+			"cammina"
+		],
+		"elem": "",
+		"hp": 30,
+		"name": "Pecora di muschio",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 7
+	},
+	"pecora_nuvola": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"fugge"
+		],
+		"elem": "",
+		"hp": 33,
+		"name": "Pecora di nuvola",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"pesce_lume": {
+		"awake": false,
+		"bh": [
+			"nuota"
+		],
+		"elem": "",
+		"hp": 16,
+		"name": "Pesce lume",
+		"perduto": false,
+		"sky": false,
+		"strata": [],
+		"water": true,
+		"weight": 8
+	},
+	"picchio_rame": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"spara"
+		],
+		"elem": "",
+		"hp": 22,
+		"name": "Picchio di rame",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"pipistrello_corteccia": {
+		"awake": false,
+		"bh": [
+			"vola"
+		],
+		"elem": "",
+		"hp": 14,
+		"name": "Pipistrello di corteccia",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			1,
+			2
+		],
+		"water": false,
+		"weight": 5
+	},
+	"pipistrello_eco": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"fotofobo"
+		],
+		"elem": "",
+		"hp": 24,
+		"name": "Pipistrello dell'eco",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			2
+		],
+		"water": false,
+		"weight": 5
+	},
+	"planavento": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"scatto"
+		],
+		"elem": "",
+		"hp": 20,
+		"name": "Planavento",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 6
+	},
+	"polpo_stagno": {
+		"awake": false,
+		"bh": [
+			"nuota",
+			"ladro"
+		],
+		"elem": "",
+		"hp": 36,
+		"name": "Polpo degli stagni",
+		"perduto": false,
+		"sky": false,
+		"strata": [],
+		"water": true,
+		"weight": 3
+	},
+	"radicello_ladro": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"ladro"
+		],
+		"elem": "",
+		"hp": 28,
+		"name": "Radicello ladro",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			1
+		],
+		"water": false,
+		"weight": 4
+	},
+	"rana_torba": {
+		"awake": false,
+		"bh": [
+			"salta_verso"
+		],
+		"elem": "",
+		"hp": 20,
+		"name": "Rana di torba",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 8
+	},
+	"rana_tuono": {
+		"awake": false,
+		"bh": [
+			"salta_verso",
+			"scoppia"
+		],
+		"elem": "",
+		"hp": 40,
+		"name": "Rana del tuono",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 6
+	},
+	"riccio_cristallo": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"guscio"
+		],
+		"elem": "",
+		"hp": 69,
+		"name": "Riccio di cristallo",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"ris_ambra_0": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"onda"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Chiocciola risvegliata d'ambra",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_ambra_1": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"pioggia"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Corvo risvegliato d'ambra",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_ambra_2": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"rotola"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Serpe risvegliata d'ambra",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_ambra_3": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"arrampica",
+			"spine"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Orso risvegliato d'ambra",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_brace_0": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"onda"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Chiocciola risvegliata di brace",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_brace_1": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"pioggia"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Corvo risvegliato di brace",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_brace_2": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"rotola"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Serpe risvegliata di brace",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_brace_3": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"arrampica",
+			"spine"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Orso risvegliato di brace",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_brina_0": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"onda"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Chiocciola risvegliata di brina",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_brina_1": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"pioggia"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Corvo risvegliato di brina",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_brina_2": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"rotola"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Serpe risvegliata di brina",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_brina_3": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"arrampica",
+			"spine"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Orso risvegliato di brina",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_canto_0": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"onda"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Tritone risvegliato delle grotte che cantano",
+		"perduto": false,
+		"sky": false,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"ris_canto_1": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"pioggia"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Mantide risvegliata delle grotte che cantano",
+		"perduto": false,
+		"sky": false,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"ris_catacombe_0": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"zigzag",
+			"spara"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Bolla risvegliata delle catacombe",
+		"perduto": false,
+		"sky": false,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"ris_catacombe_1": {
+		"awake": true,
+		"bh": [
+			"molla",
+			"spine"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Limaccia risvegliata delle catacombe",
+		"perduto": false,
+		"sky": false,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"ris_cenere_0": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"zigzag",
+			"raggio"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Lanterna risvegliata delle ceneri",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_cenere_1": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"raggio"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Cicala risvegliata delle ceneri",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_cenere_2": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"raffica",
+			"balzo"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Lumaca risvegliata delle ceneri",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_cenere_3": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"orbita",
+			"spine"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Gazza risvegliata delle ceneri",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_firmamento_0": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"pioggia"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Corvo risvegliato del firmamento",
+		"perduto": false,
+		"sky": true,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"ris_firmamento_1": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"orbita",
+			"pioggia"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Medusa risvegliata del firmamento",
+		"perduto": false,
+		"sky": true,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"ris_foresta_0": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"specchio",
+			"carica"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Daino risvegliato della foresta",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_foresta_1": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"carica",
+			"arrampica"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Salamandra risvegliata della foresta",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_foresta_2": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"zigzag",
+			"spara"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Spirito risvegliato della foresta",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_foresta_3": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"zigzag",
+			"raggio"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Formica risvegliata della foresta",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_funghi_0": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"zigzag",
+			"raggio"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Lanterna risvegliata dei funghi",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_funghi_1": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"raggio"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Cicala risvegliata dei funghi",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_funghi_2": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"raffica",
+			"balzo"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Lumaca risvegliata dei funghi",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_funghi_3": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"orbita",
+			"spine"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Gazza risvegliata dei funghi",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_ghiacciaio_0": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"balzo",
+			"pioggia"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Salamandra risvegliata del ghiacciaio",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_ghiacciaio_1": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"orbita",
+			"pioggia"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Medusa risvegliata del ghiacciaio",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_ghiacciaio_2": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"arrampica",
+			"spine"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Mantide risvegliata del ghiacciaio",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_ghiacciaio_3": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"tonfo"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Chiocciola risvegliata del ghiacciaio",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_giardini_vento_0": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"zigzag",
+			"raggio"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Civetta risvegliata dei giardini del vento",
+		"perduto": false,
+		"sky": true,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"ris_giardini_vento_1": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"raggio"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Bolla risvegliata dei giardini del vento",
+		"perduto": false,
+		"sky": true,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"ris_giungla_0": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"specchio",
+			"carica"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Vipera risvegliata della giungla sepolta",
+		"perduto": false,
+		"sky": false,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"ris_giungla_1": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"carica",
+			"arrampica"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Cinghiale risvegliato della giungla sepolta",
+		"perduto": false,
+		"sky": false,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"ris_iridato_0": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"specchio",
+			"carica"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Daino risvegliato dell'iride",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_iridato_1": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"carica",
+			"arrampica"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Salamandra risvegliata dell'iride",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_iridato_2": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"zigzag",
+			"spara"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Spirito risvegliato dell'iride",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_iridato_3": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"zigzag",
+			"raggio"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Formica risvegliata dell'iride",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_lago_0": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"raffica",
+			"balzo"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Chiocciola risvegliata del lago nero",
+		"perduto": false,
+		"sky": false,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"ris_lago_1": {
+		"awake": true,
+		"bh": [
+			"molla",
+			"raffica"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Rana risvegliata del lago nero",
+		"perduto": false,
+		"sky": false,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"ris_mare_nubi_0": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"zigzag",
+			"spara"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Upupa risvegliata del mare di nubi",
+		"perduto": false,
+		"sky": true,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"ris_mare_nubi_1": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"zigzag",
+			"raggio"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Bolla risvegliata del mare di nubi",
+		"perduto": false,
+		"sky": true,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"ris_nidi_tempesta_0": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"orbita",
+			"spine"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Picchio risvegliato dei nidi di tempesta",
+		"perduto": false,
+		"sky": true,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"ris_nidi_tempesta_1": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"pioggia"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Fuoco fatuo risvegliato dei nidi di tempesta",
+		"perduto": false,
+		"sky": true,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"ris_palude_0": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"zigzag",
+			"raggio"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Lanterna risvegliata della palude",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_palude_1": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"raggio"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Cicala risvegliata della palude",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_palude_2": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"raffica",
+			"balzo"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Lumaca risvegliata della palude",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_palude_3": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"orbita",
+			"spine"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Gazza risvegliata della palude",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_pietra_0": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"zigzag",
+			"raggio"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Lanterna risvegliata di pietra",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_pietra_1": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"raggio"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Cicala risvegliata di pietra",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_pietra_2": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"raffica",
+			"balzo"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Lumaca risvegliata di pietra",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_pietra_3": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"orbita",
+			"spine"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Gazza risvegliata di pietra",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_prati_0": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"onda"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Chiocciola risvegliata dei prati",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_prati_1": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"pioggia"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Corvo risvegliato dei prati",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_prati_2": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"rotola"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Serpe risvegliata dei prati",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_prati_3": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"arrampica",
+			"spine"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Orso risvegliato dei prati",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_radici_sospese_0": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"zigzag",
+			"raggio"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Civetta risvegliata delle radici sospese",
+		"perduto": false,
+		"sky": true,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"ris_radici_sospese_1": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"raggio"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Bolla risvegliata delle radici sospese",
+		"perduto": false,
+		"sky": true,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"ris_rossa_0": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"onda"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Chiocciola risvegliata della selva rossa",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_rossa_1": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"pioggia"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Corvo risvegliato della selva rossa",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_rossa_2": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"rotola"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Serpe risvegliata della selva rossa",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_rossa_3": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"arrampica",
+			"spine"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Orso risvegliato della selva rossa",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_s1_0": {
+		"awake": true,
+		"bh": [
+			"molla",
+			"spine"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Orso risvegliato del sottobosco",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			1
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_s1_1": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"orbita",
+			"pioggia"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Spirito risvegliato del sottobosco",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			1
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_s1_2": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"carica",
+			"arrampica"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Lumaca risvegliata del sottobosco",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			1
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_s1_3": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"onda"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Rana risvegliata del sottobosco",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			1
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_s2_0": {
+		"awake": true,
+		"bh": [
+			"molla",
+			"spine"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Orso risvegliato delle caverne",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			2
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_s2_1": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"orbita",
+			"pioggia"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Spirito risvegliato delle caverne",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			2
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_s2_2": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"carica",
+			"arrampica"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Lumaca risvegliata delle caverne",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			2
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_s2_3": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"onda"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Rana risvegliata delle caverne",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			2
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_s3_0": {
+		"awake": true,
+		"bh": [
+			"molla",
+			"spine"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Orso risvegliato delle profondità",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			3
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_s3_1": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"orbita",
+			"pioggia"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Spirito risvegliato delle profondità",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			3
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_s3_2": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"carica",
+			"arrampica"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Lumaca risvegliata delle profondità",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			3
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_s3_3": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"onda"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Rana risvegliata delle profondità",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			3
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_s4_0": {
+		"awake": true,
+		"bh": [
+			"molla",
+			"spine"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Orso risvegliato del Fondo",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			4
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_s4_1": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"orbita",
+			"pioggia"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Spirito risvegliato del Fondo",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			4
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_s4_2": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"carica",
+			"arrampica"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Lumaca risvegliata del Fondo",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			4
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_s4_3": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"onda"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Rana risvegliata del Fondo",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			4
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_scogliere_cristallo_0": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"raggio"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Upupa risvegliata delle scogliere",
+		"perduto": false,
+		"sky": true,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"ris_scogliere_cristallo_1": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"orbita",
+			"raffica"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Bolla risvegliata delle scogliere",
+		"perduto": false,
+		"sky": true,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"ris_stellare_0": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"orbita",
+			"raffica"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Airone risvegliato delle stelle",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_stellare_1": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"tonfo"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Biscia risvegliata delle stelle",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_stellare_2": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"scudo",
+			"raffica"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Puma risvegliato delle stelle",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_stellare_3": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"rotola",
+			"onda"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Tritone risvegliato delle stelle",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_sussurri_0": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"orbita",
+			"raffica"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Airone risvegliato dei sussurri",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_sussurri_1": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"tonfo"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Biscia risvegliata dei sussurri",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_sussurri_2": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"scudo",
+			"raffica"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Puma risvegliato dei sussurri",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_sussurri_3": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"rotola",
+			"onda"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Tritone risvegliato dei sussurri",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_torba_0": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"onda"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Chiocciola risvegliata della torba",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_torba_1": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"pioggia"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Corvo risvegliato della torba",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_torba_2": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"rotola"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Serpe risvegliata della torba",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_torba_3": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"arrampica",
+			"spine"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Orso risvegliato della torba",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_vetro_0": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"onda"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Chiocciola risvegliata di vetro",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_vetro_1": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"pioggia"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Corvo risvegliato di vetro",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_vetro_2": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"rotola"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Serpe risvegliata di vetro",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"ris_vetro_3": {
+		"awake": true,
+		"bh": [
+			"cammina",
+			"arrampica",
+			"spine"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Orso risvegliato di vetro",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"rospo_torba": {
+		"awake": false,
+		"bh": [
+			"salta_verso",
+			"scoppia"
+		],
+		"elem": "",
+		"hp": 40,
+		"name": "Rospo gonfio di torba",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"salamandra_brace": {
+		"awake": false,
+		"bh": [
+			"salta_verso"
+		],
+		"elem": "",
+		"hp": 46,
+		"name": "Salamandra di brace",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 6
+	},
+	"salamandra_linfa": {
+		"awake": false,
+		"bh": [
+			"nuota",
+			"tuffatore"
+		],
+		"elem": "",
+		"hp": 58,
+		"name": "Salamandra di Linfa",
+		"perduto": false,
+		"sky": false,
+		"strata": [],
+		"water": true,
+		"weight": 3
+	},
+	"saltafungo": {
+		"awake": false,
+		"bh": [
+			"salta_verso"
+		],
+		"elem": "",
+		"hp": 24,
+		"name": "Saltafungo",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			1,
+			2
+		],
+		"water": false,
+		"weight": 6
+	},
+	"saltagrillo": {
+		"awake": false,
+		"bh": [
+			"salta_verso"
+		],
+		"elem": "",
+		"hp": 16,
+		"name": "Saltagrillo",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 8
+	},
+	"scarabeo_ardesia": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"carica"
+		],
+		"elem": "",
+		"hp": 45,
+		"name": "Scarabeo d'ardesia",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0,
+			2,
+			3,
+			4
+		],
+		"water": false,
+		"weight": 4
+	},
+	"scarabeo_cenere": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"guscio"
+		],
+		"elem": "",
+		"hp": 63,
+		"name": "Scarabeo delle ceneri",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"scarabeo_sabbia": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"fugge"
+		],
+		"elem": "",
+		"hp": 58,
+		"name": "Scarabeo della sabbia fusa",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"sciame_schegge": {
+		"awake": false,
+		"bh": [
+			"vola"
+		],
+		"elem": "",
+		"hp": 12,
+		"name": "Sciame di schegge",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			4
+		],
+		"water": false,
+		"weight": 4
+	},
+	"scintilla_viva": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"scoppia"
+		],
+		"elem": "",
+		"hp": 29,
+		"name": "Scintilla viva",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"scorpione_vetro": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"carica"
+		],
+		"elem": "",
+		"hp": 48,
+		"name": "Scorpione di vetro",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 6
+	},
+	"scudato_pietra": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"carica",
+			"scudo"
+		],
+		"elem": "",
+		"hp": 75,
+		"name": "Scudato di pietra",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"segugio_brace": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"carica"
+		],
+		"elem": "",
+		"hp": 52,
+		"name": "Segugio di brace",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 4
+	},
+	"sentinella_cristallo": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"scudo",
+			"spara"
+		],
+		"elem": "",
+		"hp": 92,
+		"name": "Sentinella di cristallo",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"serpe_linfa": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"scatto"
+		],
+		"elem": "",
+		"hp": 45,
+		"name": "Serpe di Linfa",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			3
+		],
+		"water": false,
+		"weight": 6
+	},
+	"spinoriccio": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"carica"
+		],
+		"elem": "",
+		"hp": 26,
+		"name": "Spinoriccio",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0,
+			1
+		],
+		"water": false,
+		"weight": 5
+	},
+	"spiritello_pioggia": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"spara"
+		],
+		"elem": "",
+		"hp": 32,
+		"name": "Spiritello della pioggia",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"spirito_bufera": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"spara"
+		],
+		"elem": "",
+		"hp": 58,
+		"name": "Spirito della bufera",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 6
+	},
+	"spirito_gelo": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"spara"
+		],
+		"elem": "",
+		"hp": 36,
+		"name": "Spirito del gelo",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"spolverino": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"spara"
+		],
+		"elem": "",
+		"hp": 16,
+		"name": "Spolverino",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 6
+	},
+	"sputaspore": {
+		"awake": false,
+		"bh": [
+			"fermo",
+			"spara"
+		],
+		"elem": "",
+		"hp": 28,
+		"name": "Sputaspore",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0,
+			3,
+			4
+		],
+		"water": false,
+		"weight": 4
+	},
+	"stella_errante": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"teletrasporto",
+			"spara"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Stella errante",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"stellamimo": {
+		"awake": false,
+		"bh": [
+			"salta_verso",
+			"mimetico"
+		],
+		"elem": "",
+		"hp": 63,
+		"name": "Stellamimo",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"stellino": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"fugge"
+		],
+		"elem": "",
+		"hp": 40,
+		"name": "Stellino",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"strisciaradice": {
+		"awake": false,
+		"bh": [
+			"cammina"
+		],
+		"elem": "",
+		"hp": 20,
+		"name": "Strisciaradice",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			1,
+			2
+		],
+		"water": false,
+		"weight": 6
+	},
+	"succhiavena": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"succhia"
+		],
+		"elem": "",
+		"hp": 34,
+		"name": "Succhiavena",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			1,
+			2
+		],
+		"water": false,
+		"weight": 3
+	},
+	"sussurratore": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"fotofobo"
+		],
+		"elem": "",
+		"hp": 63,
+		"name": "Sussurratore",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"talpa_cenere": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"sbuca"
+		],
+		"elem": "",
+		"hp": 58,
+		"name": "Talpa di cenere",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"talpa_vuoto": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"sbuca"
+		],
+		"elem": "",
+		"hp": 58,
+		"name": "Talpa del Vuoto",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			4
+		],
+		"water": false,
+		"weight": 4
+	},
+	"talpone": {
+		"awake": false,
+		"bh": [
+			"scava"
+		],
+		"elem": "",
+		"hp": 34,
+		"name": "Talpone di humus",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			1,
+			2
+		],
+		"water": false,
+		"weight": 4
+	},
+	"tessiradice": {
+		"awake": false,
+		"bh": [
+			"agguato",
+			"cammina",
+			"spara"
+		],
+		"elem": "",
+		"hp": 30,
+		"name": "Tessiradice",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			1,
+			2
+		],
+		"water": false,
+		"weight": 6
+	},
+	"tessispore": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"tessitore"
+		],
+		"elem": "",
+		"hp": 40,
+		"name": "Tessispore",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	},
+	"tessivuoto": {
+		"awake": false,
+		"bh": [
+			"agguato",
+			"cammina",
+			"spara"
+		],
+		"elem": "",
+		"hp": 55,
+		"name": "Tessivuoto",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			4
+		],
+		"water": false,
+		"weight": 4
+	},
+	"vagavuoto": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"spara"
+		],
+		"elem": "",
+		"hp": 40,
+		"name": "Vagavuoto",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			4
+		],
+		"water": false,
+		"weight": 6
+	},
+	"velo_nebbia": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"fotofobo"
+		],
+		"elem": "",
+		"hp": 40,
+		"name": "Velo di nebbia",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 6
+	},
+	"verme_dune": {
+		"awake": false,
+		"bh": [
+			"scava"
+		],
+		"elem": "",
+		"hp": 60,
+		"name": "Verme delle dune",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"volpe_ambra": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"carica"
+		],
+		"elem": "",
+		"hp": 36,
+		"name": "Volpe d'ambra",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 3
+	},
+	"volpe_gelo": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"ladro"
+		],
+		"elem": "",
+		"hp": 36,
+		"name": "Volpe del Gelo",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 4
+	},
+	"volpe_planante": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"salta_verso"
+		],
+		"elem": "",
+		"hp": 40,
+		"name": "Volpe planante",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"zecca_sussurri": {
+		"awake": false,
+		"bh": [
+			"salta_verso",
+			"parassita"
+		],
+		"elem": "",
+		"hp": 34,
+		"name": "Zecca dei sussurri",
+		"perduto": false,
+		"sky": false,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 5
+	}
+}

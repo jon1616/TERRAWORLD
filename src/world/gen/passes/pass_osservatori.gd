@@ -81,6 +81,16 @@ func _build(w: World, c: GenContext, x0: int, top: int, biome: String) -> void:
 	var loot := LootData.roll_chest("rovina_cielo", c.rng, 3)
 	for id in loot:
 		w.chest_at(o).add(id, int(loot[id]))
+	# Roadmap 45, voce 392: a volte la cassa del bioma del cielo (con un caso suo, che non sposta il resto della passata)
+	var rb := RandomNumberGenerator.new()
+	rb.seed = hash([o.x, o.y, w.world_seed, "bioma"])
+	var sky_b := ChestsData.biome_at(w, o, 0)
+	var cid := "cassa_%s%s" % [sky_b, "_sigillata" if rb.randf() < 0.3 else ""]
+	if rb.randf() < 0.5 and ChestsData.is_found(cid):
+		w.stations[o] = cid
+		var bl := LootData.roll(cid, rb)
+		for id in bl:
+			w.chest_at(o).add(String(id), int(bl[id]))
 	# niente `claim`: l'isola sotto è già segnata da `PassCielo` (la cupola sta dentro il suo posto)
 
 

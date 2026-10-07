@@ -256,6 +256,8 @@ func touch(c: Vector2i) -> bool:
 		return true                                      # voce 303: la tana chiusa, il dono della vena o del fungo
 	if MachinesData.is_machine(id):
 		return m.energy.touch(o)                         # Roadmap 19 (anche con la cassetta: il pannello la apre)
+	if m.get("finds") != null and m.finds.touch(o, id):
+		return true                                      # Roadmap 45: casse sigillate, mimi, la Pozza
 	if StationsData.STATIONS[id].has("slots"):
 		chest_panel.open(o, m.world.chest_at(o), String(StationsData.STATIONS[id]["name"]))
 		m.sfx.play("apri", Vector2(o) * 16.0)

@@ -279,6 +279,7 @@ func run(main: Node2D) -> void:
 	_mark("TestsCreatures42")
 	await TestsAccessories.new(kit).run()  # Roadmap 43: gli accessori e il movimento
 	await TestsArmor.new(kit).run()        # Roadmap 44: le armature e i set
+	await TestsFinds.new(kit).run()        # Roadmap 45: i ritrovamenti
 	_mark("TestsAccessories")
 	await TestsMaterials.new(kit).run()     # Roadmap 31: il carattere dei materiali
 	_mark("TestsMaterials")
@@ -508,6 +509,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsAccessories.new(kit).run()    # Roadmap 43: gli accessori e il movimento
 		"armature":
 			await TestsArmor.new(kit).run()          # Roadmap 44: le armature e i set
+		"ritrovamenti":
+			await TestsFinds.new(kit).run()          # Roadmap 45: i ritrovamenti
 		"carattere":
 			await TestsMaterials.new(kit).run()      # Roadmap 31: il carattere dei materiali
 		"legami":

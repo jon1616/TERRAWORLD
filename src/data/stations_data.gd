@@ -38,6 +38,7 @@ static func _merged() -> Dictionary:
 	out.merge(MachinesData.stations())                  # Roadmap 19: le macchine della rete
 	out.merge(LostGardensData.stations())               # Roadmap 21: gli Alberi dei Giardini perduti
 	out.merge(EncountersData.stations())                # voce 303: i piccoli incontri delle grotte
+	out.merge(ChestsData.stations())                    # Roadmap 45, voci 392-393: le casse dei biomi e i mimi
 	return out
 
 
@@ -202,6 +203,9 @@ const _STATIONS := {
 		"light": true, "light_color": Color(0.7, 0.65, 0.35)},
 	"scrigno": {"name": "Scrigno dei Seminatori", "size": [2, 2], "item": "scrigno", "slots": 20, "light": true,
 		"light_color": Color(0.2, 0.6, 0.55)},
+	# Roadmap 45, voce 396: la Pozza di Linfa antica (`Finds`, `PassPozza`)
+	"pozza_linfa": {"name": "Pozza di Linfa antica", "size": [3, 1], "item": "", "fixed": true, "light": true,
+		"light_color": Color(0.25, 0.85, 0.75)},
 	# Roadmap 17, voce 174: lo scrigno sigillato da una parola (si apre con la ruota dei glifi, `WordChests`)
 	"scrigno_parola": {"name": "Scrigno a parola", "size": [2, 2], "item": "", "fixed": true, "slots": 20, "light": true,
 		"light_color": Color(0.9, 0.65, 0.25)},

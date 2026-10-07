@@ -54,12 +54,18 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 			_trap(im, gm, w, h, TrapsData.info(id))
 		_ when ZonesData.is_totem(id):
 			_totem(im, gm, w, h, ZonesData.info(id))
+		"pozza_linfa":
+			_pozza(im, gm, w, h)                          # Roadmap 45, voce 396
 		_:
+			if not ChestsData.mimic_of(id).is_empty():
+				id = String(ChestsData.mimic_of(id)["chest"])   # voce 393: il mimo ha l'aspetto della cassa del bioma
 			if not ChestsData.is_chest(id):
 				return false
 			if ChestsData.is_found(id):
 				_scrigno(im, gm, w, h)
 				_trim(im, gm, w, h, String(ChestsData.info(id)["mat"]))
+				if ChestsData.info(id).has("key"):
+					_lock(im, gm, w, h)                       # voce 392: la cassa sigillata
 			else:
 				_cassa(im, gm, w, h, String(ChestsData.info(id)["mat"]))
 	return true
@@ -456,4 +462,36 @@ static func _word_seal(im: Image, gm: Image, w: int) -> void:
 		if x % 3 == 0:
 			Px.put(im, x, 4, gold)
 			Px.put(gm, x, 4, Color(0.6, 0.4, 0.15))
+
+
+## Voce 392: il sigillo della cassa sigillata (una serratura d'ambra al centro, che brilla).
+static func _lock(im: Image, gm: Image, w: int, h: int) -> void:
+	var amb := Px.pal(TileDefs.P_AMBRA)
+	var cx := w / 2
+	for y in range(h / 2 - 2, h / 2 + 4):
+		for x in range(cx - 2, cx + 2):
+			Px.put(im, x, y, amb[2] if y < h / 2 + 1 else amb[1])
+	Px.put(im, cx - 1, h / 2, Color("#1a0e14"))
+	Px.put(im, cx - 1, h / 2 + 1, Color("#1a0e14"))
+	Px.put(gm, cx - 2, h / 2 - 2, amb[3])
+	Px.put(gm, cx + 1, h / 2 - 2, amb[3])
+
+
+## Voce 396: la Pozza di Linfa antica (3×1): un bacino di pietra dei Seminatori pieno di Linfa che brilla.
+static func _pozza(im: Image, gm: Image, w: int, h: int) -> void:
+	var st := Px.pal(TileDefs.P_SEM)
+	for x in range(1, w - 1):
+		for y in range(h - 7, h):
+			var rim := x <= 2 or x >= w - 3 or y >= h - 2
+			if rim:
+				Px.put(im, x, y, st[3] if y == h - 7 else st[2])
+	for x in range(3, w - 3):
+		for y in range(h - 6, h - 2):
+			var c := Color("#2ec8b0") if y == h - 6 else Color("#14806e")
+			Px.put(im, x, y, c)
+			Px.put(gm, x, y, Color("#5cf0d8") if y == h - 6 else Color("#1a8a78"))
+	for x in [6, 14, 25, 37]:
+		if x < w - 3:
+			Px.put(im, x, h - 7, Color("#c8fff0"))
+			Px.put(gm, x, h - 7, Color("#c8fff0"))
 
