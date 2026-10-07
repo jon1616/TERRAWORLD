@@ -110,8 +110,9 @@ func sections() -> void:
 	var saved := _save_bag()
 	var b: Bisaccia = m.character.bisaccia
 	for i in b.slots.size():
-		if i >= Bisaccia.HOTBAR:
-			b.slots[i] = {}
+		b.slots[i] = {}                         # (da vuota: nel giro intero le prove di prima lasciano minerali e tavolette)
+	for i in b.raccolta.slots.size():
+		b.raccolta.slots[i] = {}
 	var hot := b.slots.slice(0, Bisaccia.HOTBAR).duplicate(true)
 	b.add("minerale_radicite", 12)
 	b.add("legno", 20)

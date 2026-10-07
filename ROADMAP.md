@@ -1,8 +1,9 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 6 ott 2026)
-- **In corso la Roadmap 53 «La Bisaccia a scomparti»** (voci 419-422, dal 7 ott 2026): la Bisaccia divisa in nove
-  scomparti per tipo più la Raccolta. Piano in fondo.
+- **Fatta la Roadmap 53 «La Bisaccia a scomparti»** (voci 419-422, 7 ott 2026): la barra rapida più nove scomparti
+  per tipo da 30 caselle (fino a 90 con le Bisacce a gradi), la Raccolta senza limite per ciò che si legge e si
+  colleziona, gli scomparti fissi di munizioni, torce e Lumini. Resoconto in fondo.
 - **Fatta la Roadmap 52 «La terra dei mondi»** (voci 412-418, 7 ott 2026): le tessere a confronto con Terraria. Una
   terra e una roccia per bioma, le vene visibili dei metalli della spina e del dopo, otto gemme nella roccia, blocchi con
   una fisica, corde, sei passerelle, spine dei biomi e ragnatele. Resoconto in fondo.
@@ -5911,5 +5912,13 @@ Lumini restano nei loro scomparti fissi, che il tasto Q non svuota e che restano
   scomparti per tipo (gli scomparti fissi e la Raccolta sono borse a parte); il Seme della Dispensa salta anche la
   Raccolta. «Dove ce l'hai» dice lo scomparto; capitoli «bisaccia» e «zaino», consigli «piena», «zaino_pieno»,
   «raccolta»; le schede di Bisacce a gradi e tasche. Prova `stash` (gruppo «zaino»).
-- [ ] **422. La misura.** La prova «zaino» rifatta, il giro intero.
+- [x] **422. La misura.** La prova «zaino» rifatta, il giro intero.
+  Fatto il 7 ott 2026: il giro intero è passato con due avvisi nuovi, entrambi delle prove (la prova degli scomparti
+  partiva da una Bisaccia già usata dalle prove di prima; la prova dei piedi nei Deserti di vetro a volte veniva morsa
+  da una creatura lasciata da un'altra prova): corrette e rifatte da sole, pulite.
+
+**Resoconto della Roadmap 53.** Prima: 40 caselle (30 oltre la barra rapida), che si riempivano con venti oggetti diversi.
+Ora: la barra rapida, nove scomparti da 30 caselle (270 in tutto, fino a 810 con la Bisaccia della Linfa), la Raccolta
+senza limite e gli scomparti fissi. Uno scomparto pieno ferma solo il suo tipo, e anche allora ciò che entra va nella
+barra rapida. Ciò che si raccoglie non va più da solo nella barra rapida: ci si mette ciò che si vuole in mano.
 

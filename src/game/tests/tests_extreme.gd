@@ -150,6 +150,7 @@ func run() -> void:
 	var xv := _find("vetro")
 	if xv >= 0:
 		var c3 := kit.floor_near(Vector2i(xv, world.surface[xv] - 1), 8)
+		m.fauna.clear()                          # (nel giro intero una creatura lasciata da un'altra prova a volte mordeva)
 		m.snap_to(c3)
 		m.combat.god = false
 		m.vitals.refill()
