@@ -1041,6 +1041,11 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     stanze nuove in `RoomsData.TYPES/ORDER` (forgia, alchimia, officina, serra calda, sala d'armi) con
     `Crafting.room_extra`/`room_temper` e `WeaponArts.room_mult`; le proprietà «blast» e «slow» dei materiali di
     `BuildData` (`Throwing.explode`, `Creature._floor_slow`). Prove: gruppo «scopo» (`TestsPurpose`).
+  - Roadmap 48 «Il commercio e gli abitanti» (voce 404): `ShopsData` (`src/data/shops_data.gd`: le merci del momento
+    `extra(npc, vigore, stagione, notte, evento)` e quelle a rotazione del Mercante dei mondi `rotating(giorno)`; dati nel
+    pacchetto `commercio.gd` da `tools/vastita_gen/commercio.py`, che sceglie dal catalogo `tools/vastita_gen/catalogo.json`
+    scritto da `tools/catalogo.gd`, secondo il mestiere `TRADES` e la fase). `TradePanel` a pagine (`pages`, `turn`);
+    `Visitors` porta il Mercante un giorno sì e uno no. Prove: gruppo «commercio» (`TestsTrade`).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

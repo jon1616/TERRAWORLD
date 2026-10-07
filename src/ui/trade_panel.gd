@@ -26,6 +26,11 @@ var _portrait: TextureRect
 var _svc_frame: Panel
 var _svc_box: VBoxContainer
 var _svc_key := ""
+## Roadmap 48, voce 404: le merci a pagine (dieci per pagina): quelle di sempre più quelle del momento (`ShopsData`).
+var page := 0
+var _page_lbl: Label
+var _prev: Button
+var _next: Button
 const PORTRAIT := 112.0                 # voce 102: il ritratto (56 px) ingrandito due volte
 
 
@@ -89,6 +94,19 @@ func setup(p: BisacciaPanel) -> void:
 	sell.tooltip_text = "Vende la pila presa con il clic. Per vendere una pila della Bisaccia: Maiusc+clic sulla sua casella"
 	_work = _act("", Vector2(x0, fy + 192), w)
 	_work.pressed.connect(work)
+	# voce 404: le pagine delle merci
+	_page_lbl = Label.new()
+	_page_lbl.position = Vector2(x0, fy + 232)
+	_page_lbl.size = Vector2(w - 120, 22)
+	_page_lbl.add_theme_font_size_override("font_size", UiPalette.TESTO_PX - 1)
+	_page_lbl.add_theme_color_override("font_color", UiPalette.AMBRA_CHIARA)
+	add_child(_page_lbl)
+	_prev = _act("◀", Vector2(x0 + w - 110, fy + 228), 50)
+	_prev.size.y = 28
+	_prev.pressed.connect(func() -> void: turn(-1))
+	_next = _act("▶", Vector2(x0 + w - 52, fy + 228), 50)
+	_next.size.y = 28
+	_next.pressed.connect(func() -> void: turn(1))
 	# voce 353: i servizi, nel posto libero a sinistra (dove senza commercio sta «Creare»)
 	_svc_frame = Panel.new()
 	_svc_frame.add_theme_stylebox_override("panel", UiFrames.box("forte", "normale", UiPalette.LINFA))
@@ -133,6 +151,7 @@ func lumini() -> int:
 
 
 func open(id: String) -> void:
+	page = 0
 	npc = id
 	visible = true
 	if not panel.visible:
@@ -155,7 +174,25 @@ func _goods() -> Array:
 	var g: Array = (NpcData.NPCS[npc]["goods"] as Array).duplicate()
 	if m != null and NpcStoriesData.FINAL.has(npc) and NpcBonds.story_done(m.character, npc):
 		g.append(NpcStoriesData.FINAL[npc])          # voce 231: la merce in più a storia finita
+	if m != null:
+		# voce 404: le merci del momento (fascia del mondo, stagione, notte, evento) e quelle del Mercante dei mondi
+		var season: int = int(m.seasons.current) if m.get("seasons") != null else -1
+		var night: bool = m.day.is_night() if m.get("day") != null else false
+		var ev: bool = m.get("events") != null and String(m.events.active) != ""
+		g.append_array(ShopsData.extra(npc, int(m.world_meta.get("vigore", 1)), season, night, ev))
+		if npc == ShopsData.MERCHANT_ID:
+			g.append_array(ShopsData.rotating(int(m.day.day) if m.get("day") != null else 0))
 	return g
+
+
+## Voce 404: le pagine delle merci.
+func pages() -> int:
+	return maxi(1, ceili(float(_goods().size()) / COLS))
+
+
+func turn(d: int) -> void:
+	page = clampi(page + d, 0, pages() - 1)
+	_refresh()
 
 
 func _refresh() -> void:
@@ -199,6 +236,12 @@ func _refresh() -> void:
 		_deliver.disabled = not NpcBonds.quest_ready(m.character, npc)
 	_fill_services()
 	var goods := _goods()
+	page = clampi(page, 0, pages() - 1)
+	var np := pages()
+	_page_lbl.text = "Merci: pagina %d di %d (%d)" % [page + 1, np, goods.size()]
+	_prev.disabled = page <= 0
+	_next.disabled = page >= np - 1
+	goods = goods.slice(page * COLS, page * COLS + COLS)
 	for k in COLS:
 		var has := k < goods.size()
 		_slots[k].visible = has
@@ -269,7 +312,7 @@ func _click(i: int, button: int) -> void:
 
 
 func buy(i: int) -> bool:
-	var goods := _goods()
+	var goods := _goods().slice(page * COLS, page * COLS + COLS)
 	if i >= goods.size():
 		return false
 	var id := String(goods[i][0])

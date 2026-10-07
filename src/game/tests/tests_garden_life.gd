@@ -130,7 +130,7 @@ func stories() -> void:
 	tp.npc = "viandante"
 	var goods: Array = tp._goods()
 	tp.npc = ""
-	var final_ok: bool = NpcBonds.story_done(ch, "viandante") and String(goods[goods.size() - 1][0]) == String(NpcStoriesData.FINAL["viandante"][0])
+	var final_ok: bool = NpcBonds.story_done(ch, "viandante") and goods.any(func(g: Array) -> bool: return String(g[0]) == String(NpcStoriesData.FINAL["viandante"][0]))
 	for k in keep:
 		ch.stats[k] = keep[k]
 	var ok: bool = locked and int(q.get("capitolo", 0)) == 1 and not q.get("chiuso", false) and rw.has("lumino") and next == 2 and final_ok

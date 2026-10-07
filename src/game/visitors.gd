@@ -39,6 +39,10 @@ func _process(_dt: float) -> void:
 	var always := false                              # voce 233: l'Arco delle Aiuole porta un visitatore ogni giorno
 	for wk in ProjectsData.works_built(m.character.stats):
 		always = always or bool((wk as Dictionary).get("visitors", false))
+	# Roadmap 48, voce 404: il Mercante dei mondi viene un giorno sì e uno no (con le sue merci a rotazione)
+	if day % 2 == 0 and eligible().has(ShopsData.MERCHANT_ID):
+		arrive(ShopsData.MERCHANT_ID)
+		return
 	if always or _rng.randf() < CHANCE:
 		var who := eligible()
 		if not who.is_empty():

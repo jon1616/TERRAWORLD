@@ -1,6 +1,9 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 6 ott 2026)
+- **Fatta la Roadmap 48 «Il commercio e gli abitanti»** (voce 404, 7 ott 2026): merci secondo fascia del mondo,
+  stagione, notte ed evento (1.162 voci in più), il Mercante dei mondi a giorni alterni con merci a rotazione e 20 oggetti
+  solo suoi. Resoconto in fondo.
 - **Fatta la Roadmap 47 «Costruire con uno scopo»** (voci 401-403, 7 ott 2026): i trofei dei boss, cinque stanze con un
   mestiere, blocchi che reggono le esplosioni o rallentano le creature. Resoconto in fondo.
 - **Fatta la Roadmap 46 «Consumabili, pesca e cucina»** (voci 398-400, 7 ott 2026): 120 pozioni a gradi, cure fino a
@@ -22,7 +25,7 @@
 - **Fatta la Roadmap 38 «Le fondamenta della vastità»** (voci 356-361, 6 ott 2026): gesti dei materiali, fasi e rarità,
   bottino «uno a scelta tra» e «prima volta», `tools/vastita.gd`, il generatore di contenuti.
 - **Il piano «La vastità» (Roadmap 38-51, voci 356-411)** in `VASTITA.md`: portare TERRAWORLD verso la profondità
-  di Terraria + Calamity + Thorium (confronto sui dati reali: `tools/confronto.gd`). Prossima: la Roadmap 48 «Il commercio e gli abitanti».
+  di Terraria + Calamity + Thorium (confronto sui dati reali: `tools/confronto.gd`). Prossima: la Roadmap 49 «La difficoltà come contenuto».
 - **Fatta la Roadmap 37 «Ciò che conta»** (voci 350-355, 4 ott 2026): nata dalla prima partita vera dell'utente (6,6 ore).
   Correzioni, spiegazioni, Dispensa, abitanti come servizi, strati che fanno paura, equipaggiamento che conta. Resoconto in
   fondo alla Roadmap 37. Prossimo passo: l'utente rigioca la sua partita e dice che cosa si sente diverso.
@@ -5709,4 +5712,15 @@ giocatore simulato beve di rado). Prove: gruppo «consumabili».
 
 **Resoconto della Roadmap 47.** Nessun numero di combattimento toccato tranne il trofeo del boss (+15%); prove: gruppo
 «scopo».
+
+# Roadmap 48 «Il commercio e gli abitanti» (7 ott 2026)
+
+- [x] **404. Il mercante viandante e le merci rare.** Diciotto abitanti vendono, oltre alle merci di sempre, dieci cose del
+  loro mestiere per ogni fascia di vigore del mondo (1-3, 4-6, 7-9, 10 e oltre), tre per stagione, quattro di notte e tre
+  durante un evento: 1.162 voci in più (circa 1.300 in tutto). Il commercio va a pagine. Il Mercante dei mondi viene nel
+  Giardino un giorno sì e uno no, con dieci merci al giorno da un catalogo di 80 e tre dei suoi venti oggetti unici (armi
+  con un effetto e accessori con un'abilità, da 3.000 a 18.000 Lumini). Niente vanità (scelta dell'utente).
+
+**Resoconto della Roadmap 48.** Niente unici, armi firma, rari, spoglie, trofei, reliquie, accessori firma o dell'Officina
+nei negozi: si trovano o si fabbricano. Prove: gruppo «commercio».
 

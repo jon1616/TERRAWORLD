@@ -51,6 +51,9 @@ Per ogni fase della partita ci sono dieci armi uniche, una per stile più due: n
 
 [b]Le linee d'arma[/b]
 Al Maglio dei Seminatori le armi firma di uno stile si fondono in una [b]linea[/b] di sei passi. Ogni passo porta gli effetti delle armi che l'hanno fatto. L'ultimo è l'[b]arma suprema[/b] dello stile, per esempio la Radice del mondo per la mischia o l'Arco del firmamento per la distanza."""},
+	{"id": "commercio", "group": "Creare ed equipaggiarsi", "name": "Le merci del momento e il Mercante dei mondi", "text":
+"""Gli abitanti non vendono sempre le stesse cose: oltre alle merci di sempre hanno quelle adatte al [b]vigore del mondo[/b] (più il mondo è vigoroso, più sono avanti), alla [b]stagione[/b], alla [b]notte[/b] e a un [b]evento[/b] in corso. Le merci si sfogliano a pagine.
+Il [b]Mercante dei mondi[/b] viene nel Giardino un giorno sì e uno no (quando il Giardino è abbastanza bello): ogni volta porta merci diverse, e tre oggetti che vende solo lui, da migliaia di Lumini."""},
 	{"id": "scopo", "group": "Creare ed equipaggiarsi", "name": "Trofei, stanze con un mestiere e blocchi", "text":
 """Ogni boss ha il suo [b]trofeo[/b]: i Guardiani, i capi erranti, gli sfidanti, i superboss e i capi degli eventi. Messo in una cassa della sala dei trofei, ferisce di più quel boss quando lo richiami o lo ritrovi.
 Le stanze con un [b]mestiere[/b]: la [b]Forgia[/b] (un Baccello ardente e un Maglio: a volte i lingotti sono di più), il [b]Laboratorio di Linfa[/b] (un Alambicco e due luci: a volte una pozione o un piatto in più), l'[b]Officina[/b] (tre banchi del Maglio, del Telaio, della Mola, dello Scalpellino o degli innesti: la tempra costa meno), la [b]Serra calda[/b] (colture e un camino: crescono ancora più in fretta) e la [b]Sala d'armi[/b] (sei armi diverse nei contenitori: le arti delle armi crescono più in fretta in tutto il mondo). Più la stanza è bella, più rende.
