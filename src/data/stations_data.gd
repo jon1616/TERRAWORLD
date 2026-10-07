@@ -39,6 +39,7 @@ static func _merged() -> Dictionary:
 	out.merge(LostGardensData.stations())               # Roadmap 21: gli Alberi dei Giardini perduti
 	out.merge(EncountersData.stations())                # voce 303: i piccoli incontri delle grotte
 	out.merge(ChestsData.stations())                    # Roadmap 45, voci 392-393: le casse dei biomi e i mimi
+	out.merge(BiomesData.pack("stations"))              # Roadmap 46, voce 398: le fonti (pozioni di stazione)
 	return out
 
 

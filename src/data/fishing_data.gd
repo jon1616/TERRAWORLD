@@ -184,6 +184,29 @@ static func fillet_recipes() -> Array:
 	return out
 
 
+## Roadmap 46, voce 400: le casse da pesca dei biomi e dei gradi del mondo (campo «crates» dei pacchetti) e i premi del
+## Pescatore a collezione delle gare vinte (campo «angler»: [{n, item}]).
+static var CRATES: Array = BiomesData.pack_list("crates")
+static var ANGLER_PRIZES: Array = BiomesData.pack_list("angler")
+const BIOME_CRATE := 0.5                  # una cassa che abbocca in superficie: quella del bioma, una volta su due
+const VIGOR_CRATE := 0.35                 # nei mondi dal vigore 4: quella del grado del mondo
+
+
+## La cassa più ricca che si può pescare: quella del bioma (in superficie) o del grado del mondo, se tocca.
+static func special_crate(ctx: Dictionary, vigor: int, rng: RandomNumberGenerator) -> String:
+	if int(ctx["liq"]) == 0 and int(ctx["stratum"]) == 0 and rng.randf() < BIOME_CRATE:
+		for e in CRATES:
+			if String(e.get("biome", "")) == String(ctx.get("biome", "")):
+				return String(e["id"])
+	var best := ""
+	for e in CRATES:
+		if e.has("vigor") and vigor >= int(e["vigor"]):
+			best = String(e["id"])
+	if best != "" and rng.randf() < VIGOR_CRATE:
+		return best
+	return ""
+
+
 ## La cassa che abbocca in uno specchio: dalla profondità (strato) e dal liquido.
 static func crate_for(ctx: Dictionary) -> String:
 	if int(ctx["liq"]) > 0 or int(ctx["stratum"]) >= 4:

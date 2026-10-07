@@ -258,6 +258,11 @@ func touch(c: Vector2i) -> bool:
 		return m.energy.touch(o)                         # Roadmap 19 (anche con la cassetta: il pannello la apre)
 	if m.get("finds") != null and m.finds.touch(o, id):
 		return true                                      # Roadmap 45: casse sigillate, mimi, la Pozza
+	if StationsData.STATIONS[id].has("boon"):
+		var bn: Array = StationsData.STATIONS[id]["boon"]  # voce 398: le fonti, un effetto lungo un'ora
+		m.boons.add(String(bn[0]), float(bn[1]))
+		m.sfx.play("pozione", Vector2(o) * 16.0)
+		return true
 	if StationsData.STATIONS[id].has("slots"):
 		chest_panel.open(o, m.world.chest_at(o), String(StationsData.STATIONS[id]["name"]))
 		m.sfx.play("apri", Vector2(o) * 16.0)

@@ -31,6 +31,8 @@ var _flick_t := 0.0
 var _flick_clock := 0.0
 var _flick := 1.0
 var _torch_t := 0.0
+var _vis_t := 0.0
+var visions := 0                       # voce 398: quante cose le viste hanno fatto brillare (per le prove)
 
 
 func setup(main: Node2D) -> void:
@@ -49,6 +51,8 @@ func setup(main: Node2D) -> void:
 
 func add(boon_name: String, secs: float) -> void:
 	active[boon_name] = maxf(float(active.get(boon_name, 0.0)), secs)
+	if BoonsData.has(boon_name):
+		_refresh()                                   # voce 398: gli effetti scritti come dati
 	var span := "%d minuti" % roundi(secs / 60.0) if secs >= 90.0 else "%d secondi" % roundi(secs)
 	m.hud.toast("%s per %s" % [label(boon_name), span])
 
@@ -70,14 +74,22 @@ func _process(dt: float) -> void:
 	if not m.built:
 		return
 	var text := ""
+	var gone := false
 	for k in active.keys():
 		active[k] = float(active[k]) - dt
 		if float(active[k]) <= 0.0:
 			active.erase(k)
+			gone = gone or BoonsData.has(String(k))
 			continue
 		var t := int(active[k])
 		text += "%s %d:%02d   " % [label(k), t / 60, t % 60]
 	_label.text = text
+	if gone:
+		_refresh()
+	_vis_t -= dt
+	if _vis_t <= 0.0:
+		_vis_t = 1.0
+		_visions()
 	m.vitals.scorza_bonus = SCORZA if active.has("scorza") else 0
 	m.vitals.boon_regen = (RIGOGLIO if active.has("rigoglio") else 1.0) * (1.25 if active.has("sazio") else 1.0)
 	m.light.ambient_boost = VISTA if active.has("vista") else Color.BLACK
@@ -112,6 +124,62 @@ func _process(dt: float) -> void:
 
 
 
-## Il nome di un effetto a tempo (voce 93: anche i rimedi dei rigori, `HarshData`).
+## Il nome di un effetto a tempo (voce 93: anche i rimedi dei rigori, `HarshData`; voce 398: quelli dei dati).
 static func label(k: String) -> String:
-	return String(NAMES.get(k, HarshData.boon_names().get(k, k)))
+	return String(NAMES.get(k, BoonsData.info(k).get("name", HarshData.boon_names().get(k, k))))
+
+
+## Voce 398: gli effetti dei dati cambiano ciò che vale (come indossare un accessorio).
+func _refresh() -> void:
+	if m.get("gear") != null:
+		m.gear.refresh()
+	if m.get("effects") != null:
+		m.effects.refresh()
+
+
+## Gli «acc» degli effetti dei dati attivi adesso (li somma `GearEffects`).
+func data_accs() -> Array:
+	var out := []
+	for k in active:
+		if BoonsData.has(String(k)):
+			out.append(BoonsData.info(String(k)).get("acc", {}))
+	return out
+
+
+func data_effects() -> Array:
+	var out := []
+	for k in active:
+		out.append_array(BoonsData.info(String(k)).get("effects", []))
+	return out
+
+
+## Voce 398: le viste. Ogni secondo fanno brillare nel buio ciò che cercano (e i tesori e le trappole li segnano sulla
+## mappa): scrigni e casse, creature, trappole e mimi, entro `VISION_R` tessere.
+const VISION_R := 50.0
+
+
+func _visions() -> void:
+	var kinds := {}
+	for k in active:
+		var sp := String(BoonsData.info(String(k)).get("special", ""))
+		if sp != "":
+			kinds[sp] = true
+	if kinds.is_empty():
+		return
+	var pc: Vector2i = m.player_cell()
+	if kinds.has("creature"):
+		for c in m.fauna.list:
+			if is_instance_valid(c) and c.tame == null and c.position.distance_to(m.player.position) < VISION_R * 16.0:
+				m.light.pulse(Vector2i(floori(c.position.x / 16.0), floori(c.position.y / 16.0)), Color(1.8, 0.6, 0.5), 1.1)
+				visions += 1
+	if kinds.has("tesori") or kinds.has("trappole"):
+		for o in m.world.stations:
+			if Vector2(o - pc).length() > VISION_R:
+				continue
+			var sid := String(m.world.stations[o])
+			var treasure := ChestsData.is_found(sid) or sid == "reliquiario"
+			var trap := TrapsData.is_trap(sid) or not ChestsData.mimic_of(sid).is_empty()
+			if (treasure and kinds.has("tesori")) or (trap and kinds.has("trappole")):
+				m.light.pulse(o, Color(2.0, 1.6, 0.6) if treasure else Color(2.0, 0.5, 0.4), 1.1)
+				m.map_reveal.reveal_area(o, 2)
+				visions += 1

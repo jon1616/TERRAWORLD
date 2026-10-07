@@ -51,7 +51,17 @@ const STAGES := [
 ## Creature affrontate al minuto con pericolo 1 (tarato sull'utente: 80 creature in 67 minuti, quasi tutte in
 ## Superficie e nel Sottobosco); crescono con la radice del pericolo della zona.
 const PACE := 1.1
-const POTION := 50                     # la Pozione di rugiada
+## Roadmap 46, voce 398: la pozione di cura migliore della fase (la fase di un grado di metallo t è 2t-1): la Pozione di
+## rugiada, quella di radice, poi le cinque della Roadmap 46 (`consumabili.gd`).
+const POTIONS := [[0, 50], [3, 90], [5, 120], [9, 170], [13, 240], [17, 330], [21, 450]]
+
+
+static func potion_for(tier: int) -> float:
+	var v := 50.0
+	for e in POTIONS:
+		if 2 * tier - 1 >= int(e[0]):
+			v = float(e[1])
+	return v
 const BAG := 3                         # voce 318: compagni pronti nella sacca (su cinque: gli altri crescono indietro)
 const AGGRO := 0.25                     # la parte dei colpi che il compagno attira su di sé
 
@@ -195,6 +205,7 @@ func _stage(pr: String, st: Array, runs: int) -> Dictionary:
 	var fx := FightModel.effects(lo["equip"])
 	var regen := Vitals.REGEN * float(lo["hp"]) / Vitals.HP_MAX * float(fx["regen"])
 	var hp_max := float(lo["hp"])
+	var pot := potion_for(int(st[3]))
 	var deaths := 0
 	var lost_sum := 0.0
 	var fights := 0
@@ -257,10 +268,10 @@ func _stage(pr: String, st: Array, runs: int) -> Dictionary:
 				# a un terzo della Vita, chi ha pozioni beve (una ogni 30 s)
 				var left := hp - lost
 				if left > 0.0 and left < hp_max / 3.0 and potion_t <= 0.0 and rng.randf() < float(prof["potions"]):
-					left = minf(left + POTION, hp_max)
+					left = minf(left + pot, hp_max)
 					potion_t = Vitals.POTION_COOLDOWN
 				elif left <= 0.0 and potion_t <= 0.0 and rng.randf() < float(prof["potions"]) * 0.5:
-					left = minf(hp - lost * 0.5 + POTION, hp_max)   # a volte la pozione arriva in tempo, a metà scontro
+					left = minf(hp - lost * 0.5 + pot, hp_max)   # a volte la pozione arriva in tempo, a metà scontro
 					potion_t = Vitals.POTION_COOLDOWN
 				hp = left
 				if hp > 0.0 and hp < hp_max * float(prof["rest"]):

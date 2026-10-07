@@ -90,6 +90,10 @@ func _contest(id: String, size: int) -> void:
 	var gift := {"cassetta_alga": 1, "polvere_iridata": mini(serie, 3)}
 	if serie % 5 == 0:
 		gift["forziere_sommerso"] = 1
+	# voce 400: i premi del Pescatore a collezione delle gare vinte
+	for pz in FishingData.ANGLER_PRIZES:
+		if int(st.get("gare_pesca", 0)) == int(pz["n"]):
+			gift[String(pz["item"])] = 1
 	m.hud.toast("Gara del Pescatore vinta! Serie di %d · %s" % [serie, Lineage._give(m, gift)])
 	m.sfx.play("dono")
 

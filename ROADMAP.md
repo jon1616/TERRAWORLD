@@ -1,6 +1,8 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 6 ott 2026)
+- **Fatta la Roadmap 46 «Consumabili, pesca e cucina»** (voci 398-400, 7 ott 2026): 120 pozioni a gradi, cure fino a
+  450, fiale, fonti, 90 piatti a tre gradi di sazietà, 20 casse da pesca, premi del Pescatore. Resoconto in fondo.
 - **Fatta la Roadmap 45 «I ritrovamenti»** (voci 392-397, 7 ott 2026): casse dei biomi con le chiavi, mimi, 104
   strutture, un raro per ogni specie, la Pozza di Linfa antica, cinque semi segreti. Resoconto in fondo.
 - **Fatta la Roadmap 44 «Le armature e i set»** (voci 389-391, 7 ott 2026): elmi degli stili, set con un'abilità, le
@@ -18,7 +20,7 @@
 - **Fatta la Roadmap 38 «Le fondamenta della vastità»** (voci 356-361, 6 ott 2026): gesti dei materiali, fasi e rarità,
   bottino «uno a scelta tra» e «prima volta», `tools/vastita.gd`, il generatore di contenuti.
 - **Il piano «La vastità» (Roadmap 38-51, voci 356-411)** in `VASTITA.md`: portare TERRAWORLD verso la profondità
-  di Terraria + Calamity + Thorium (confronto sui dati reali: `tools/confronto.gd`). Prossima: la Roadmap 46 «Consumabili, pesca e cucina».
+  di Terraria + Calamity + Thorium (confronto sui dati reali: `tools/confronto.gd`). Prossima: la Roadmap 47 «Costruire con uno scopo».
 - **Fatta la Roadmap 37 «Ciò che conta»** (voci 350-355, 4 ott 2026): nata dalla prima partita vera dell'utente (6,6 ore).
   Correzioni, spiegazioni, Dispensa, abitanti come servizi, strati che fanno paura, equipaggiamento che conta. Resoconto in
   fondo alla Roadmap 37. Prossimo passo: l'utente rigioca la sua partita e dice che cosa si sente diverso.
@@ -5673,3 +5675,21 @@ Il buco resta nelle fasi 12-17 (armi 48%, armature 67%): ci torna la Roadmap 50.
 Prove: gruppo «ritrovamenti»; il giro intero ha trovato un difetto vecchio, corretto: vicino a un nido in un punto
 illuminato le nascite fallivano tutte (ora si prova la nascita normale). Da vedere poi: 195 oggetti senza nessun uso
 (soprattutto le essenze delle creature della Roadmap 42).
+
+# Roadmap 46 «Consumabili, pesca e cucina» (7 ott 2026)
+
+- [x] **398. Le pozioni.** Gli effetti a tempo diventano dati (`BoonsData`): quaranta linee in tre gradi (120 pozioni),
+  con gli effetti nuovi (respiro, salto, pesca, mandria, scatto, gli otto stili, i ripari dei rigori, le viste dei
+  tesori, delle creature e delle trappole). Cinque cure nuove da 120 a 450 (la Vita massima arriva a ~560: la cura da
+  50 non bastava più); quattordici fiale per l'arma; otto fonti da posare che danno un effetto per un'ora.
+- [x] **399. Il cibo a gradi.** Novanta piatti nuovi dell'orto, della mandria e della pesca (120 in tutto), in tre gradi di
+  sazietà (Sazio, Ben nutrito, Rifocillato) secondo la fase degli ingredienti, ognuno con un effetto in più.
+- [x] **400. Le casse da pesca e il Pescatore.** Sedici casse da pesca dei biomi di superficie (due oggetti propri:
+  un amo con un'abilità e un arpione) e quattro dei gradi del mondo (vigore 4, 7, 10, 13: Lumini, Linfa antica, armi
+  firma); i premi del Pescatore a 3, 8, 15, 25 e 40 gare vinte. Le missioni giornaliere erano già la gara del giorno
+  (voce 259).
+
+**Resoconto della Roadmap 46.** Consumabili: 315 (prima ~90; con Terraria e le due mod ~250 nelle fasi 0-5).
+`tools/percorso.gd` beve la cura migliore della fase: medio 6,0 e attento 1,1 appassimenti all'ora (invariati: il
+giocatore simulato beve di rado). Prove: gruppo «consumabili».
+

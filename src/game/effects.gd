@@ -57,6 +57,8 @@ func refresh() -> void:
 		active.append_array(GesturesData.of_mat(String(it.get("mat", ""))).get("fx", []))   # voce 356: il gesto del materiale
 	for s in SetsData.complete(b.equip):
 		active.append_array(SetsData.all()[s].get("effects", []))     # voce 390: le abilità dei set interi
+	if m.get("boons") != null:
+		active.append_array(m.boons.data_effects())                   # voce 398: le fiale per l'arma
 
 
 func has(id: String) -> bool:

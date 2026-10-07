@@ -108,6 +108,10 @@ func refresh() -> void:
 	if m.herd != null:
 		for hb in m.herd.bonuses():
 			_add(e, hb)
+	# voce 398: le pozioni, le fiale e i piatti scritti come dati (`BoonsData`)
+	if m.get("boons") != null:
+		for ba in m.boons.data_accs():
+			_add(e, ba)
 	# voce 388: il dono piccolo dell'animaletto che ti segue
 	if m.get("companions") != null and m.companions.pet != null:
 		_add(e, CompanionsData.PETS.get(m.companions.pet.id, {}).get("acc", {}))

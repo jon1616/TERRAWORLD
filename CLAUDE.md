@@ -1027,6 +1027,15 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     `PlacesData.PLACES/GRIDS` con "struttura": true, messe da `PassStrutture`, appunti `notes["strutture"]` letti da
     `Places`), `segreti.gd` (cinque geni «segreto» con «combo», oggetti «segreto_<gene>»). La Pozza: `PassPozza`,
     `TransmuteData` (famiglie calcolate dagli altri dati). Prove: gruppo «ritrovamenti» (`TestsFinds`).
+  - Roadmap 46 «Consumabili, pesca e cucina» (voci 398-400): `BoonsData` (`src/data/boons_data.gd`: gli effetti a tempo
+    scritti come dati, campo «boons» dei pacchetti: "acc" sommati da `GearEffects` con `Boons.data_accs`, "effects" letti da
+    `Effects` con `Boons.data_effects`, "special" = le viste di `Boons._visions`). Il pacchetto
+    `src/data/vastita/consumabili.gd` (`tools/vastita_gen/consumabili.py`, ingredienti da `tools/vastita_gen/materiali.json`
+    scritto da `tools/materiali.gd`): 40 linee × 3 gradi di pozioni, cinque cure, 14 fiale, otto fonti (campo «stations» →
+    `StationsData`; la stazione con "boon" la tocca `Interact`, disegno `CompactArt._fonte`), 90 piatti, le casse da pesca
+    (campo «crates» → `FishingData.CRATES`, `special_crate`; "table" e "firma_f" in `Fishing.open_crate`) e i premi del
+    Pescatore (campo «angler», `AnglerBook._contest`). `tools/percorso.gd` beve la cura migliore della fase
+    (`potion_for`). Prove: gruppo «consumabili» (`TestsConsumables`).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

@@ -51,6 +51,13 @@ Per ogni fase della partita ci sono dieci armi uniche, una per stile più due: n
 
 [b]Le linee d'arma[/b]
 Al Maglio dei Seminatori le armi firma di uno stile si fondono in una [b]linea[/b] di sei passi. Ogni passo porta gli effetti delle armi che l'hanno fatto. L'ultimo è l'[b]arma suprema[/b] dello stile, per esempio la Radice del mondo per la mischia o l'Arco del firmamento per la distanza."""},
+	{"id": "pozioni", "group": "Creare ed equipaggiarsi", "name": "Pozioni, fiale, fonti e piatti", "text":
+"""All'Alambicco quaranta [b]pozioni[/b] a tempo, ognuna in tre gradi (minore, normale, maggiore: più forte e più lunga, con ingredienti di fasi più avanti): corsa, salto, scavo, respiro, pesca, mandria, la forza di ognuno degli otto stili, i ripari dal caldo, dal freddo, dalla polvere e dall'aria sottile, e tre [b]viste[/b] che fanno brillare nel buio i tesori, le creature o le trappole (anche i mimi).
+La Vita massima cresce con la partita, e con lei le [b]pozioni di cura[/b]: dopo quella di rugiada e quella di radice ce ne sono cinque più forti, fino a quella della prima Linfa.
+Le [b]fiale[/b] si versano sull'arma: per qualche minuto i colpi bruciano, gelano, avvelenano, curano, fanno cadere stelle, rendono fragili o fanno sanguinare.
+Le [b]fonti[/b] si posano nella base: toccandole, l'effetto della loro pozione dura un'ora.
+Al Paiolo i [b]piatti[/b] hanno tre gradi di sazietà (Sazio, Ben nutrito, Rifocillato): più gli ingredienti sono avanti, più il piatto rende, e ognuno aggiunge un effetto suo.
+Pescando negli stagni di ogni bioma abbocca a volte la sua [b]cassa da pesca[/b], con oggetti che si trovano solo lì; nei mondi più vigorosi le casse dei gradi del mondo. Il Pescatore premia chi vince molte gare del giorno."""},
 	{"id": "armature", "group": "Creare ed equipaggiarsi", "name": "Elmi degli stili, set e forgia", "text":
 """Ogni stile ha il suo [b]elmo[/b], in ogni metallo puro e materiale dei geni: la Celata per la mischia, il Cappuccio da tiro per la distanza, il Diadema per la Linfa, la Maschera del branco per gli alleati, la Benda del lanciatore, la Ghirlanda per il canto, il Velo di rugiada per la cura e il Cappello di radice per i semi. Ha meno Scorza dell'elmo comune, ma l'arma del suo stile ferisce di più (solo quella: con un'arma di un altro stile in mano non conta).
 Con la corazza e i gambali dello stesso materiale l'elmo fa il [b]set dello stile[/b]: il bonus cresce ancora e arriva un'abilità dello stile.

@@ -56,6 +56,8 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 			_totem(im, gm, w, h, ZonesData.info(id))
 		"pozza_linfa":
 			_pozza(im, gm, w, h)                          # Roadmap 45, voce 396
+		_ when StationsData.STATIONS.get(id, {}).has("brew"):
+			_fonte(im, gm, w, h, Color(String(StationsData.STATIONS[id]["brew"])))   # voce 398: le fonti
 		_:
 			if not ChestsData.mimic_of(id).is_empty():
 				id = String(ChestsData.mimic_of(id)["chest"])   # voce 393: il mimo ha l'aspetto della cassa del bioma
@@ -494,4 +496,23 @@ static func _pozza(im: Image, gm: Image, w: int, h: int) -> void:
 		if x < w - 3:
 			Px.put(im, x, h - 7, Color("#c8fff0"))
 			Px.put(gm, x, h - 7, Color("#c8fff0"))
+
+
+## Voce 398: una fonte (1×2): un piedistallo di pietra dei Seminatori con una coppa piena di pozione che brilla.
+static func _fonte(im: Image, gm: Image, w: int, h: int, col: Color) -> void:
+	var st := Px.pal(TileDefs.P_SEM)
+	var cx := w / 2
+	for y in range(h - 14, h):
+		for x in range(cx - 2, cx + 2):
+			Px.put(im, x, y, st[2] if x < cx else st[1])
+	for x in range(cx - 4, cx + 4):
+		Px.put(im, x, h - 1, st[3])
+		Px.put(im, x, h - 15, st[3])
+	for y in range(h - 20, h - 15):
+		var hw := 6 - (h - 15 - y) / 2
+		for x in range(cx - hw, cx + hw):
+			Px.put(im, x, y, st[3] if y == h - 20 or absi(x - cx) >= hw - 1 else col)
+			if absi(x - cx) < hw - 1 and y > h - 20:
+				Px.put(gm, x, y, col)
+	Px.put(im, cx - 2, h - 19, Color.WHITE)
 

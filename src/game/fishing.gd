@@ -171,6 +171,9 @@ func catch() -> String:
 	# voce 123: a volte abbocca una cassa al posto del pesce
 	if _rng.randf() < FishingData.CRATE + luck * FishingData.CRATE_LUCK:
 		id = FishingData.crate_for(ctx)
+		var sp := FishingData.special_crate(ctx, int(m.world_meta.get("vigore", 1)), _rng)   # voce 400
+		if sp != "":
+			id = sp
 	# l'esca migliore si consuma (voce 122)
 	var b: Bisaccia = m.character.bisaccia
 	var bi := FishingData.best_bait(b)
@@ -255,6 +258,14 @@ func open_crate(id: String) -> bool:
 	var cr: Array = ItemsData.get_item(id)["crate"]
 	b.take_one(i)
 	var got := LootData.roll_chest("rovina_%d" % _rng.randi_range(int(cr[0]), int(cr[1])), _rng, 1)
+	var cit := ItemsData.get_item(id)
+	if cit.has("table"):                                   # voce 400: le casse dei biomi e dei gradi
+		var tl := LootData.roll(String(cit["table"]), _rng)
+		for k in tl:
+			got[k] = int(got.get(k, 0)) + int(tl[k])
+	if cit.has("firma_f") and _rng.randf() < 0.4:
+		for k in LootData.roll("firma_f%d" % int(cit["firma_f"]), _rng):
+			got[k] = int(got.get(k, 0)) + 1
 	if _rng.randf() < 0.25:
 		got["perla_stagno"] = int(got.get("perla_stagno", 0)) + 1
 	if _rng.randf() < float(FishingData.UNIQUE_IN_CRATE.get(id, 0.0)):
