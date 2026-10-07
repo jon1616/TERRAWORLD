@@ -34,6 +34,7 @@ static func awake(ch: Character) -> bool:
 func apply() -> void:
 	m.fauna.awake_rare = RARE if awake(m.character) else 1.0
 	CreaturesData.awake_on = awake(m.character)       # Roadmap 42: le creature risvegliate
+	TileDefs.awake_on = awake(m.character)            # Roadmap 52, voce 413: le vene dei metalli si svegliano
 	if m.get("gene_mats") != null:
 		m.gene_mats.refresh()
 

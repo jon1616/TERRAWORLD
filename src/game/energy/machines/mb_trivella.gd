@@ -90,7 +90,7 @@ func tick(mc: Machine, e: Energy, dt: float) -> void:
 		mc.st["p"] = prog
 		return
 	mc.st["p"] = 0.0
-	var drop := String(TileDefs.DROP.get(tile, ""))
+	var drop := TileDefs.drop_of(tile)                 # voce 413: le vene che dormono danno roccia
 	w.set_tile(c.x, c.y, TileDefs.AIR)
 	if w.decor_at(c.x, c.y) != 0:
 		w.set_decor(c.x, c.y, 0)

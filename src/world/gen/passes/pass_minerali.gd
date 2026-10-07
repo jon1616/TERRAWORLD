@@ -21,7 +21,7 @@ func run(w: World, c: GenContext) -> void:
 	var hosts: Array[PackedByteArray] = []
 	var in_stratum: Array[PackedByteArray] = []
 	for o in ores:
-		noises.append(c.noise("minerale_%d" % o["type"], o["freq"], 2))
+		noises.append(c.noise("minerale_%d" % o["type"], o["freq"], int(o.get("oct", 2))))   # Roadmap 52: «oct» 1 costa metà
 		var h := PackedByteArray()
 		h.resize(TileDefs.TYPES + 1)
 		for t in o["in"]:

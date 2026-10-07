@@ -13,7 +13,11 @@
 - `soils`: {bioma: {suolo, roccia}} letto da `PassTerre`; `veins`: le sacche delle terre comuni per `PassMinerali`.
 """
 
+import os
+import re
+
 T0 = 59                                   # il primo numero libero di tessera (le tessere arrivano a 58)
+ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', '..'))
 
 # id, nome, bioma, tavolozza, look, durezza, forza, comportamento, descrizione dell'oggetto
 SOILS = [
@@ -100,6 +104,54 @@ COMMON = [
 ]
 
 
+# ---------------------------------------------------------------- voce 413: le vene del Risveglio e del dopo
+
+def spine_metals():
+    """I dodici metalli di `SpineData.METALS` (letti dal file: restano uguali da soli): id, grado, durezza, grezzo,
+    nome del grezzo, tessere che li ospitano, strato, vigore, per quanti vigori."""
+    src = open(os.path.join(ROOT, 'src', 'data', 'spine_data.gd'), encoding='utf-8').read()
+    out = []
+    for m in re.finditer(r'"(\w+)": \{"label".*?"tier": (\d+), "durezza": (\d+).*?"raw": \{"id": "(\w+)", "name": "([^"]+)", '
+                         r'"shape": "\w+", "tiles": \[([0-9, ]+)\], "stratum": (\d),\s*"vigor": (\d+)(?:, "keep": (\d+))?', src, re.S):
+        g = m.groups()
+        out.append({'id': g[0], 'tier': int(g[1]), 'dur': int(g[2]), 'raw': g[3], 'raw_name': g[4],
+                    'tiles': [int(x) for x in g[5].split(',')], 'stratum': int(g[6]), 'vigor': int(g[7]),
+                    'keep': int(g[8]) if g[8] else 4})
+    return out
+
+
+def icon_pal(name):
+    """La tavolozza di un materiale in `ItemIcons` (per le vene: lo stesso colore del lingotto)."""
+    src = open(os.path.join(ROOT, 'src', 'art', 'item_icons.gd'), encoding='utf-8').read()
+    m = re.search(r'^	"%s": (\[[^\]]*\])' % name, src, re.M)
+    return eval(m.group(1))
+
+
+VEIN_DUR_BEFORE = 85                      # la durezza del metallo stellare (grado 6): serve per la prima vena
+
+
+def veins(start):
+    """Le vene dei metalli della spina e del dopo: visibili, nei mondi del loro vigore, nelle rocce del loro grezzo.
+    Prima del Risveglio del Cuore «dormono» (`dorme`: danno solo la roccia, `TileDefs.drop_of`)."""
+    tiles, ores = {}, []
+    ms = spine_metals()
+    prev = VEIN_DUR_BEFORE
+    for i, mt in enumerate(ms):
+        tid = start + i
+        last = i == len(ms) - 1
+        tiles[tid] = {'name': 'Vena di %s' % mt['id'], 'hard': round(0.7 + 0.03 * (mt['tier'] - 7), 2), 'power': prev,
+                      'drop': mt['raw'], 'pal': icon_pal(mt['id']), 'layer': 'vena_' + mt['id'], 'specks': 0, 'look': 'vena',
+                      'kind': 'minerale', 'dorme': True}
+        o = {'type': tid, 'min_depth': 20, 'strata': list(range(mt['stratum'], 5)),
+             'in': [t for t in mt['tiles'] if t not in (5, 6, 7)] or [3], 'freq': 0.12, 'threshold': 0.6,
+             'vmin': mt['vigor'], 'oct': 1}
+        if not last:
+            o['vmax'] = mt['vigor'] + mt['keep'] - 1
+        ores.append(o)
+        prev = mt['dur']
+    return tiles, ores
+
+
 def _tile(tid, iid, name, pal, look, hard, power, phys, kind, ids):
     t = {'name': name, 'hard': hard, 'power': power, 'drop': iid, 'pal': pal, 'layer': 'terra_' + iid,
          'specks': 0, 'look': look, 'kind': kind}
@@ -136,7 +188,11 @@ def build():
         pals[iid] = pal
         o = dict(ore)
         o['type'] = ids[iid]
+        o['oct'] = 1                      # le sacche: un'ottava di rumore basta (la passata costa metà)
         ores.append(o)
+    vt, vo = veins(T0 + len(order))
+    tiles.update(vt)
+    ores += vo
     # gli usi: le seconde strade per cose che ci sono già, e tre cose nuove (concime, anfora d'argilla, conserva)
     items['concime'] = {'name': "Concime", 'kind': 'concime', 'icon': ['polvere', 'terra_grassa'], 'stack': 99,
                         'desc': "Clic su una coltura: cresce di colpo, come se fosse passato un terzo del tempo che le manca."}
@@ -156,5 +212,5 @@ def build():
         {'out': 'anfora_argilla', 'qty': 1, 'in': {'argilla': 8}, 'station': 'baccello_ardente'},
         {'out': 'pesce_sotto_sale', 'qty': 2, 'in': {'salgemma': 2, '@pesce': 1}, 'station': 'paiolo'},
     ]
-    return [('terre.gd', 'Roadmap 52, voce 412: le terre dei biomi, le rocce e le terre comuni, con i loro usi',
+    return [('terre.gd', 'Roadmap 52, voci 412-416: le terre dei biomi, le rocce e le terre comuni con i loro usi, le vene',
              {'tiles': tiles, 'veins': ores, 'soils': soils, 'icon_pals': pals, 'items': items, 'recipes': recipes})]

@@ -24,6 +24,7 @@ func run() -> void:
 	soft_and_warm()
 	garden_and_fossils()
 	blast()
+	veins()
 	await photos()
 	print("terre: %s" % str(res))
 	if not res.values().all(func(x: Variant) -> bool: return x == true):
@@ -117,8 +118,22 @@ func falls() -> void:
 ## Sul ghiaccio ci si ferma tardi; sul fango si corre a fatica. Il Germogliato corre e lascia i tasti su tre pavimenti.
 func floors() -> void:
 	var w: World = m.world
-	var spot := kit.flat_spot(m.player_cell(), 30)
+	# un tratto piano lontano dall'acqua: nell'acqua si corre a 0,6 (le prove di prima lasciano pozze vicino alla partenza)
+	var spot := Vector2i(-1, -1)
+	for off in [0, 90, -90, 180, -180, 270]:
+		var q := kit.flat_spot(m.player_cell() + Vector2i(off, 0), 30)
+		if q.x < 0:
+			continue
+		var wet := false
+		for xx in range(q.x - 16, q.x + 17):
+			for yy in range(q.y - 8, q.y + 2):
+				if w.liq(xx, yy) > 0:
+					wet = true
+		if not wet:
+			spot = q
+			break
 	if spot.x < 0:
+		print("ATTENZIONE: nessun tratto piano e asciutto per la prova dei pavimenti")
 		spot = m.player_cell()
 	kit.flatten(spot, 14)
 	var y := spot.y + 1
@@ -221,6 +236,35 @@ func blast() -> void:
 	m.view.refresh_around(a)
 	res["pietra_nera"] = ok
 	print("terre, uno scoppio: l'ardesia salta, la pietra nera resta %s" % ok)
+
+
+## Voce 413: dodici vene di metallo, ognuna nei mondi del suo vigore; prima del Risveglio danno solo ardesia.
+func veins() -> void:
+	var by_v := {}
+	var n := 0
+	for o in TileDefs.ORES:
+		if o.has("vmin"):
+			n += 1
+	for v in [1, 6, 9, 12, 13, 40]:
+		var names := []
+		for o in TileDefs.ORES:
+			if o.has("vmin") and v >= int(o["vmin"]) and v <= int(o.get("vmax", 9999)):
+				names.append(String(TileDefs.NAMES[int(o["type"])]).trim_prefix("Vena di "))
+		by_v[v] = names
+	var vein := 0
+	for t in TileDefs.KIND:
+		if TileDefs.kind_of(int(t)) == "minerale" and TileDefs.DORMANT[int(t)] == 1:
+			vein = int(t)
+			break
+	var was := TileDefs.awake_on
+	TileDefs.awake_on = false
+	var asleep := TileDefs.drop_of(vein)
+	TileDefs.awake_on = true
+	var woke := TileDefs.drop_of(vein)
+	TileDefs.awake_on = was
+	res["vene"] = n == 12 and (by_v[1] as Array).is_empty() and "corallite" in by_v[6] and "seminite" in by_v[40] \
+		and (by_v[40] as Array).size() == 1 and asleep == "ardesia" and woke == String(TileDefs.DROP[vein])
+	print("terre, le vene dei metalli (%d): per vigore %s; la vena dorme: %s, sveglia: %s" % [n, str(by_v), asleep, woke])
 
 
 ## La sezione della terra di alcuni biomi, senza il buio.

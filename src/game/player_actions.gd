@@ -249,7 +249,9 @@ func break_tile(c: Vector2i) -> void:
 		light.pulse(c, Color(0.6, 1.1, 1.3), 0.35)
 	elif kind in ["roccia", "minerale"]:
 		light.pulse(c, Color(0.9, 0.7, 0.4), 0.1)
-	drops.spawn(BuildData.item_of(bk) if bk > 0 else String(TileDefs.DROP.get(t, "")), 1, center)
+	drops.spawn(BuildData.item_of(bk) if bk > 0 else TileDefs.drop_of(t), 1, center)
+	if bk == 0 and TileDefs.DORMANT[t] == 1 and not TileDefs.awake_on:
+		hud.toast("La vena dorme: si sveglierà con il Risveglio del Cuore")     # voce 413
 	if dig_hook.is_valid():
 		dig_hook.call(t, c)
 	dug.emit(t, c)

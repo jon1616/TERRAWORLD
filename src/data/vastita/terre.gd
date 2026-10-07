@@ -1,5 +1,5 @@
 extends RefCounted
-## Roadmap 52, voce 412: le terre dei biomi, le rocce e le terre comuni, con i loro usi
+## Roadmap 52, voci 412-416: le terre dei biomi, le rocce e le terre comuni con i loro usi, le vene
 ## Fatto da `tools/vastita_gen/terre.py` (non a mano): si cambia la tabella là e si rilancia `python tools/gen_vastita.py`.
 ## Non nomina altre classi.
 
@@ -86,16 +86,40 @@ const DATA := {
 		87: {"name": "Marmo pallido", "hard": 0.45, "power": 0, "drop": "marmo_pallido", "pal": ["#6a6a70", "#8c8c92", "#b0b0b4", "#d4d4d6", "#f4f4f6"], "layer": "terra_marmo_pallido", "specks": 0, "look": "marmo", "kind": "roccia", "quiet": true},
 		88: {"name": "Argilla", "hard": 0.25, "power": 0, "drop": "argilla", "pal": ["#5a2e2a", "#7a4038", "#9a5848", "#ba7660", "#d8a088"], "layer": "terra_argilla", "specks": 0, "look": "fango", "kind": "comune"},
 		89: {"name": "Ghiaia", "hard": 0.2, "power": 0, "drop": "ghiaia", "pal": ["#2e3440", "#464e5c", "#62697a", "#828a9a", "#a8b0c0"], "layer": "terra_ghiaia", "specks": 0, "look": "ghiaia", "kind": "comune", "cade": true},
-		90: {"name": "Pietra nera", "hard": 0.8, "power": 45, "drop": "pietra_nera", "pal": ["#06060a", "#101016", "#1c1c24", "#2a2a34", "#3e3e4c"], "layer": "terra_pietra_nera", "specks": 0, "look": "colonne", "kind": "comune", "blast": true},
+		90: {"name": "Pietra nera", "hard": 0.8, "power": 35, "drop": "pietra_nera", "pal": ["#06060a", "#101016", "#1c1c24", "#2a2a34", "#3e3e4c"], "layer": "terra_pietra_nera", "specks": 0, "look": "colonne", "kind": "comune", "blast": true},
 		91: {"name": "Calcite di Linfa", "hard": 0.5, "power": 35, "drop": "calcite", "pal": ["#1a3a3a", "#2a5a58", "#3e807a", "#62aca0", "#a8e8d8"], "layer": "terra_calcite", "specks": 0, "look": "cristallo", "kind": "comune", "emit": [0.08, 0.24, 0.22], "pass": 0.6},
 		92: {"name": "Salgemma", "hard": 0.4, "power": 0, "drop": "salgemma", "pal": ["#5a4a52", "#806a74", "#a8909a", "#d0b8c0", "#f4e4ea"], "layer": "terra_salgemma", "specks": 0, "look": "cristallo", "kind": "comune"},
+		93: {"name": "Vena di corallite", "hard": 0.7, "power": 85, "drop": "corallite_grezza", "pal": ["#4a1428", "#a03050", "#e8607a", "#ffa8b0", "#fff0e8"], "layer": "vena_corallite", "specks": 0, "look": "vena", "kind": "minerale", "dorme": true},
+		94: {"name": "Vena di sanguinite", "hard": 0.73, "power": 95, "drop": "sanguinite_grezza", "pal": ["#20040a", "#560a18", "#9a1428", "#e0384a", "#ffb0a0"], "layer": "vena_sanguinite", "specks": 0, "look": "vena", "kind": "minerale", "dorme": true},
+		95: {"name": "Vena di cuorelegno", "hard": 0.76, "power": 105, "drop": "cuorelegno_grezzo", "pal": ["#2a1a08", "#5a3a14", "#8a6a2a", "#c0a050", "#e8f0a0"], "layer": "vena_cuorelegno", "specks": 0, "look": "vena", "kind": "minerale", "dorme": true},
+		96: {"name": "Vena di eterite", "hard": 0.79, "power": 115, "drop": "eterite_grezza", "pal": ["#183048", "#3a6a8a", "#78b0d0", "#c0f0ff", "#ffffff"], "layer": "vena_eterite", "specks": 0, "look": "vena", "kind": "minerale", "dorme": true},
+		97: {"name": "Vena di astrite", "hard": 0.82, "power": 125, "drop": "astrite_grezza", "pal": ["#0c0c30", "#202a70", "#4a60c8", "#a8b8ff", "#fff8d0"], "layer": "vena_astrite", "specks": 0, "look": "vena", "kind": "minerale", "dorme": true},
+		98: {"name": "Vena di primambra", "hard": 0.85, "power": 135, "drop": "primambra_grezza", "pal": ["#5a2a04", "#b06010", "#f0a830", "#ffe080", "#fffff0"], "layer": "vena_primambra", "specks": 0, "look": "vena", "kind": "minerale", "dorme": true},
+		99: {"name": "Vena di aurorite", "hard": 0.88, "power": 150, "drop": "aurorite_grezza", "pal": ["#2a3a5a", "#4a8ab0", "#8ae0d0", "#f0f8a0", "#ffffff"], "layer": "vena_aurorite", "specks": 0, "look": "vena", "kind": "minerale", "dorme": true},
+		100: {"name": "Vena di sognite", "hard": 0.91, "power": 165, "drop": "sognite_grezza", "pal": ["#2a1a4a", "#5a3a9a", "#9a7ae0", "#d0c0ff", "#fff0ff"], "layer": "vena_sognite", "specks": 0, "look": "vena", "kind": "minerale", "dorme": true},
+		101: {"name": "Vena di abissite", "hard": 0.94, "power": 180, "drop": "abissite_grezza", "pal": ["#06040c", "#1a1430", "#3a2a5a", "#6a5a8a", "#b0a0d0"], "layer": "vena_abissite", "specks": 0, "look": "vena", "kind": "minerale", "dorme": true},
+		102: {"name": "Vena di memorite", "hard": 0.97, "power": 195, "drop": "memorite_grezza", "pal": ["#2a2414", "#5a4a2a", "#8a7a4a", "#c0b07a", "#f0e8c0"], "layer": "vena_memorite", "specks": 0, "look": "vena", "kind": "minerale", "dorme": true},
+		103: {"name": "Vena di crepuscolite", "hard": 1.0, "power": 210, "drop": "crepuscolite_grezza", "pal": ["#3a0a14", "#7a1a20", "#c04a2a", "#f08a4a", "#ffd0a0"], "layer": "vena_crepuscolite", "specks": 0, "look": "vena", "kind": "minerale", "dorme": true},
+		104: {"name": "Vena di seminite", "hard": 1.03, "power": 225, "drop": "seminite_grezza", "pal": ["#14303a", "#2a6070", "#5aa0b0", "#a0e0f0", "#f0ffff"], "layer": "vena_seminite", "specks": 0, "look": "vena", "kind": "minerale", "dorme": true},
 	},
 	"veins": [
-		{"in": [1], "strata": [0], "min_depth": 2, "freq": 0.09, "threshold": 0.55, "type": 88},
-		{"in": [3], "strata": [0, 1], "min_depth": 10, "freq": 0.1, "threshold": 0.6, "type": 89},
-		{"in": [3, 9], "strata": [2, 3], "min_depth": 150, "freq": 0.08, "threshold": 0.6, "type": 90},
-		{"in": [9], "strata": [3], "min_depth": 250, "freq": 0.1, "threshold": 0.6, "type": 91},
-		{"in": [3], "strata": [2], "min_depth": 120, "freq": 0.09, "threshold": 0.62, "type": 92},
+		{"in": [1], "strata": [0], "min_depth": 2, "freq": 0.09, "threshold": 0.55, "type": 88, "oct": 1},
+		{"in": [3], "strata": [0, 1], "min_depth": 10, "freq": 0.1, "threshold": 0.6, "type": 89, "oct": 1},
+		{"in": [3, 9], "strata": [2, 3], "min_depth": 150, "freq": 0.08, "threshold": 0.6, "type": 90, "oct": 1},
+		{"in": [9], "strata": [3], "min_depth": 250, "freq": 0.1, "threshold": 0.6, "type": 91, "oct": 1},
+		{"in": [3], "strata": [2], "min_depth": 120, "freq": 0.09, "threshold": 0.62, "type": 92, "oct": 1},
+		{"type": 93, "min_depth": 20, "strata": [2, 3, 4], "in": [3, 9], "freq": 0.12, "threshold": 0.6, "vmin": 6, "oct": 1, "vmax": 9},
+		{"type": 94, "min_depth": 20, "strata": [2, 3, 4], "in": [3, 9, 10], "freq": 0.12, "threshold": 0.6, "vmin": 7, "oct": 1, "vmax": 10},
+		{"type": 95, "min_depth": 20, "strata": [1, 2, 3, 4], "in": [8], "freq": 0.12, "threshold": 0.6, "vmin": 8, "oct": 1, "vmax": 11},
+		{"type": 96, "min_depth": 20, "strata": [3, 4], "in": [9], "freq": 0.12, "threshold": 0.6, "vmin": 9, "oct": 1, "vmax": 12},
+		{"type": 97, "min_depth": 20, "strata": [4], "in": [10], "freq": 0.12, "threshold": 0.6, "vmin": 10, "oct": 1, "vmax": 13},
+		{"type": 98, "min_depth": 20, "strata": [3, 4], "in": [10], "freq": 0.12, "threshold": 0.6, "vmin": 11, "oct": 1, "vmax": 14},
+		{"type": 99, "min_depth": 20, "strata": [2, 3, 4], "in": [3, 9], "freq": 0.12, "threshold": 0.6, "vmin": 13, "oct": 1, "vmax": 17},
+		{"type": 100, "min_depth": 20, "strata": [2, 3, 4], "in": [9, 8], "freq": 0.12, "threshold": 0.6, "vmin": 18, "oct": 1, "vmax": 22},
+		{"type": 101, "min_depth": 20, "strata": [4], "in": [10], "freq": 0.12, "threshold": 0.6, "vmin": 23, "oct": 1, "vmax": 27},
+		{"type": 102, "min_depth": 20, "strata": [1, 2, 3, 4], "in": [8], "freq": 0.12, "threshold": 0.6, "vmin": 28, "oct": 1, "vmax": 32},
+		{"type": 103, "min_depth": 20, "strata": [3, 4], "in": [3, 10], "freq": 0.12, "threshold": 0.6, "vmin": 33, "oct": 1, "vmax": 37},
+		{"type": 104, "min_depth": 20, "strata": [4], "in": [10], "freq": 0.12, "threshold": 0.6, "vmin": 38, "oct": 1},
 	],
 	"soils": {
 		"ambra": {"suolo": 59, "roccia": 74},

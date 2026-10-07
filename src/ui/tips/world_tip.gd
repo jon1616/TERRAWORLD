@@ -220,7 +220,37 @@ static func tile(m: Node2D, t: int) -> TipCard:
 		c.line("Il tuo piccone la rompe" if have >= need else "Ti serve un piccone più forte", TipCard.GOOD if have >= need else TipCard.BAD)
 	if drop_id != "" and ItemsData.get_item(drop_id).has("name"):
 		c.pair("Lascia", String(ItemsData.get_item(drop_id)["name"]), Color("#ffd24a"))
+	var tt: int = m.world.tile(m.actions.mouse_cell().x, m.actions.mouse_cell().y)
+	if TileDefs.DORMANT[tt] == 1 and not TileDefs.awake_on:
+		c.line("Dorme: dà il metallo solo dopo il Risveglio del Cuore", TipCard.BAD)      # voce 413
+	_ground(c, tt)
 	return c
+
+
+## Roadmap 52: che cosa fa una terra sotto i piedi (le stesse tabelle che leggono il movimento e le cadute).
+static func _ground(c: TipCard, t: int) -> void:
+	var notes := []
+	if TileDefs.FALLS[t] == 1:
+		notes.append("frana senza appoggio")
+	if TileDefs.SLIP[t] < 1.0:
+		notes.append("ci si scivola")
+	if TileDefs.STICK[t] < 1.0:
+		notes.append("rallenta chi ci cammina")
+	if TileDefs.SOFT[t] < 1.0:
+		notes.append("attutisce le cadute")
+	if TileDefs.FERTILE[t] > 1.0:
+		notes.append("l'orto ci cresce ×%.1f" % TileDefs.FERTILE[t])
+	if TileDefs.WARM[t] == 1:
+		notes.append("scalda chi le sta vicino")
+	if TileDefs.QUIET[t] == 1:
+		notes.append("i passi non fanno rumore")
+	if TileDefs.BLAST[t] == 1:
+		notes.append("regge le esplosioni")
+	if TileDefs.FOSSIL[t] > 0.0:
+		notes.append("nasconde fossili")
+	if not notes.is_empty():
+		var txt := ", ".join(notes)
+		c.line(txt.left(1).to_upper() + txt.substr(1), TipCard.GOOD)
 
 
 static func seal(m: Node2D, kind: String) -> TipCard:

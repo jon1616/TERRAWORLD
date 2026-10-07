@@ -5818,8 +5818,14 @@ pacchetto generato `src/data/vastita/terre.gd` (`tools/vastita_gen/terre.py`); v
   da `Player`, `Creature`, `Life`, `Garden`, `Harshness`, `Senses`, `LivingEarth`, `Throwing`, `GeneMaterials`. Usi:
   vetro dalle sabbie, torce dalla cenere calda, mattoni dalla terra rossa, ciottoli da ghiaia e polvere di pietra, il
   Concime (gruppo «@terra»), l'Anfora d'argilla, il Pesce sotto sale. Prove: gruppo «terre» (foto 260_terre_<bioma>).
-- [ ] **413. Le vene del Risveglio e del dopo.** I dodici metalli della spina e del dopo hanno la loro vena visibile
+- [x] **413. Le vene del Risveglio e del dopo.** I dodici metalli della spina e del dopo hanno la loro vena visibile
   nei mondi del loro vigore; prima del Risveglio del Cuore la vena «dorme» e dà solo roccia.
+  Fatto il 7 ott 2026: tessere 93-104 («Vena di …», disegno a noduli del colore del lingotto), lette dal file di
+  `SpineData` da `terre.py`; in `PassMinerali` con «vmin»/«vmax» (dal vigore del metallo per i suoi vigori, l'ultimo per
+  sempre), nelle rocce e negli strati del suo grezzo, forza del piccone del metallo prima. `TileDefs.DORMANT`,
+  `awake_on` (acceso da `CuoreDesto.apply`) e `drop_of` (scavo, Trivella); la scheda della tessera dice se dorme e che
+  cosa fa una terra sotto i piedi. La caduta a caso dalla roccia resta. Il generatore: un mondo da ~3,3 a ~3,9 s (le
+  vene sono più del doppio).
 - [ ] **414. Le gemme nella roccia.** Otto gemme in vena (le quattro di oggi e quattro nuove, con amuleti e anelli).
 - [ ] **415. I blocchi con una fisica.** Cadere, scivolare, appiccicare, rimbalzare, attutire, crollare, pungere,
   scaldare, lasciar passare i liquidi; corde, liane e catene su cui ci si arrampica.

@@ -300,6 +300,17 @@ static var SOFT: PackedFloat32Array = _num("soft", 1.0)    # quanto resta della 
 static var FERTILE: PackedFloat32Array = _num("fertile", 1.0)   # la crescita dell'orto piantato sopra
 static var FOSSIL: PackedFloat32Array = _num("fossil", 0.0)     # la probabilità di un fossile scavandola
 static var SUPPORT: Dictionary = _support()                # la roccia che regge una terra che frana
+## Voce 413: le vene dei metalli della spina e del dopo «dormono» finché il Cuore non si risveglia (`CuoreDesto.apply`
+## accende `awake_on`, come `CreaturesData.awake_on`): si vedono, ma danno solo la roccia.
+static var DORMANT: PackedByteArray = _flag("dorme")
+static var awake_on := false
+
+
+## Ciò che lascia una tessera rotta adesso (le vene che dormono danno l'ardesia).
+static func drop_of(t: int) -> String:
+	if DORMANT[t] == 1 and not awake_on:
+		return "ardesia"
+	return String(DROP.get(t, ""))
 
 
 static func kind_of(t: int) -> String:
