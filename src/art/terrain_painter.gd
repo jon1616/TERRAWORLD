@@ -14,8 +14,18 @@ const REP := 4                         # TEX / S
 const VARIANTS := 16                   # REP × REP
 
 
+## Roadmap 52, voce 412: la tavola del terreno è divisa in sorgenti da `SRC_ROWS` strati (con tutte le righe in una
+## sorgente sola il motore impiegava 3,2 s a farla con 54 strati, e il tempo cresceva più che in proporzione; a pezzi
+## da 8 righe 0,34 s). Un'atlante = la sorgente `source_of(strato)`, la riga `strato % SRC_ROWS`.
+const SRC_ROWS := 8
+
+
 static func coords(layer: int, variant: int, mask: int) -> Vector2i:
-	return Vector2i(variant * 16 + mask, layer)
+	return Vector2i(variant * 16 + mask, layer % SRC_ROWS)
+
+
+static func source_of(layer: int) -> int:
+	return layer / SRC_ROWS
 
 
 ## Variante di una cella: quale pezzo della trama da 64 le tocca, così la trama continua da una cella all'altra.

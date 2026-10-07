@@ -1,6 +1,9 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 6 ott 2026)
+- **In corso la Roadmap 52 «La terra dei mondi»** (voci 412-417, dal 7 ott 2026): le tessere a confronto con
+  Terraria (66 terreni, 22 minerali, 8 gemme, 21 blocchi con un effetto): una terra e una roccia per bioma, le vene
+  visibili dei metalli della spina e del dopo, le gemme nella roccia, i blocchi con una fisica, le passerelle. Piano in fondo.
 - **Fatto il piano «La vastità» (Roadmap 38-51)**: con la Roadmap 51 «Il dopo senza fine» (voci 409-411, 7 ott 2026):
   sei metalli del dopo, 60 armi del dopo, 24 leggendarie, la misura finale. Resoconto del piano in fondo.
 - **Fatta la Roadmap 50 «La fabbricazione profonda»** (voci 406-408, 7 ott 2026): 20 banchi a gradi, ingredienti a
@@ -5792,4 +5795,29 @@ rendeva il dopo facile (attento 0,0 al vigore 40); ora la sfida resta piatta.
 Il punto più debole resta il blocco delle fasi 12-17 (armi al 57%, armature all'80%): lì Terraria ha l'hardmode
 completo. La difficoltà (`tools/percorso.gd`): attento 0,9-2,3 e medio 5-10 appassimenti all'ora in tutta la partita,
 Radice dura e Vuoto più dure (2,8 e 4,7 per l'attento).
+
+# Roadmap 52 «La terra dei mondi» (dal 7 ott 2026)
+
+Richiesta dell'utente: confrontare i blocchi del gioco con quelli di Terraria e delle due mod (tabella dell'EstrattoreDati:
+66 terreni e rocce, 22 minerali, 8 gemme, 21 blocchi con un effetto, 20 tra liane, corde e spine, 7 piattaforme), poi
+«procedi con la roadmap, lavora a cicli fino alla fine». La misura è `tools/blocchi.gd` (prove/blocchi.txt).
+Partenza: 33 terreni (di cui 19 erbe, che sono solo la pelle del bioma: sotto c'è sempre humus e ardesia), 10 minerali
+visibili (i 12 metalli della spina e del dopo cadono a caso dalla roccia, non si vedono), 4 gemme solo come decorazioni,
+una decina di blocchi con un effetto, una sola passerella, nessuna corda.
+
+Regole: ogni tessera nuova ha un comportamento o un materiale che serve (niente estetica pura); i dati stanno nel
+pacchetto generato `src/data/vastita/terre.gd` (`tools/vastita_gen/terre.py`); vale per i mondi generati da adesso.
+
+- [ ] **412. Le terre dei biomi.** Ogni bioma di superficie ha la sua terra sotto l'erba (al posto dell'humus) e quasi
+  tutti la loro roccia nei primi strati: sabbie che cadono, nevi che attutiscono, fanghi che appiccicano, terre fertili,
+  terre che fanno luce, la terra muta che non fa rumore. Cinque terre comuni in sacche (argilla, ghiaia, pietra nera,
+  calcite, salgemma). Il disegno del terreno regge il doppio degli strati (tavole divise, strati creati al bisogno).
+- [ ] **413. Le vene del Risveglio e del dopo.** I dodici metalli della spina e del dopo hanno la loro vena visibile
+  nei mondi del loro vigore; prima del Risveglio del Cuore la vena «dorme» e dà solo roccia.
+- [ ] **414. Le gemme nella roccia.** Otto gemme in vena (le quattro di oggi e quattro nuove, con amuleti e anelli).
+- [ ] **415. I blocchi con una fisica.** Cadere, scivolare, appiccicare, rimbalzare, attutire, crollare, pungere,
+  scaldare, lasciar passare i liquidi; corde, liane e catene su cui ci si arrampica.
+- [ ] **416. Le passerelle.** Cinque passerelle con una proprietà (radice, nuvola, bava, spine, ghiaccio).
+- [ ] **417. La misura.** `tools/blocchi.gd` per categorie accanto a Terraria, il capitolo dell'Enciclopedia, il giro
+  intero.
 

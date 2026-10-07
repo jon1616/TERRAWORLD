@@ -44,7 +44,12 @@ var chunks := {}                      # Vector2i -> Node2D
 var _queue: Array[Vector2i] = []
 var _want := Rect2i()
 var _member: Array[PackedByteArray] = []   # per ogni strato del terreno: 1 se il tipo di tessera ne fa parte
-var _glow_layer := -1                 # strato del terreno che ha anche la versione luminosa
+## Roadmap 52, voce 412: per ogni tipo di tessera gli strati del terreno di cui fa parte. Una cella guarda solo gli strati
+## delle sue quattro tessere (prima tutti, uno per uno: con il doppio degli strati il doppio del lavoro), e un blocco crea
+## lo strato di un materiale solo quando ne dipinge la prima cella.
+var _layers_of: Array[PackedInt32Array] = []
+var _is_glow := PackedByteArray()      # gli strati che hanno anche la versione luminosa
+var _cand := PackedInt32Array()        # gli strati della cella che si sta dipingendo (riusato)
 
 
 func setup(w: World) -> void:
@@ -65,15 +70,18 @@ func setup(w: World) -> void:
 	sh.code = VEIN_SHADER
 	_vein_mat = ShaderMaterial.new()
 	_vein_mat.shader = sh
+	_layers_of.resize(TileDefs.TYPES + 1)
+	_is_glow.resize(TileDefs.TERRAIN_LAYERS.size())
 	for li in TileDefs.TERRAIN_LAYERS.size():
 		var L: Dictionary = TileDefs.TERRAIN_LAYERS[li]
 		var m := PackedByteArray()
 		m.resize(TileDefs.TYPES + 1)
 		for t in L["types"]:
 			m[t] = 1
+			_layers_of[int(t)].append(li)
 		_member.append(m)
 		if L.get("glow", false):
-			_glow_layer = li
+			_is_glow[li] = 1
 	props = ViewProps.new()
 	props.setup(self, w)
 
@@ -153,9 +161,12 @@ func _make_chunk(k: Vector2i) -> Node2D:
 	var trees := Node2D.new()
 	trees.z_index = -5
 	node.add_child(trees)
-	var terrain: Array[TileMapLayer] = []
-	for li in TileDefs.TERRAIN_LAYERS.size():
-		terrain.append(_layer(node, ts_terrain, 0, HALF))
+	# voce 412: gli strati del terreno stanno qui dentro, in ordine, e nascono al bisogno (`_terrain_layer`)
+	var troot := Node2D.new()
+	troot.position = HALF
+	node.add_child(troot)
+	node.set_meta("troot", troot)
+	node.set_meta("terrain", {})
 	var decor := _layer(node, ts_misc, 1, Vector2.ZERO)
 	# (voce 284) l'erba, i fiori e le piante dei biomi in uno strato a parte, mosso dal vento (`WindFx`)
 	var sway := _layer(node, ts_misc, 1, Vector2.ZERO)
@@ -191,7 +202,6 @@ func _make_chunk(k: Vector2i) -> Node2D:
 	var fx := Node2D.new()
 	fx.z_index = 26
 	node.add_child(fx)
-	node.set_meta("terrain", terrain)
 	node.set_meta("grid", [walls, decor, glow_d, plats, sway, sway_g])
 	node.set_meta("glow_t", glow_t)
 	node.set_meta("fx", fx)
@@ -203,8 +213,6 @@ func _make_chunk(k: Vector2i) -> Node2D:
 
 ## Dipinge le righe da `ya` a `yb` (esclusa) di un blocco appena creato.
 func _paint_rows(node: Node2D, k: Vector2i, ya: int, yb: int) -> void:
-	var terrain: Array[TileMapLayer] = []
-	terrain.assign(node.get_meta("terrain"))
 	var glow_t: TileMapLayer = node.get_meta("glow_t")
 	var g: Array = node.get_meta("grid")
 	var walls: TileMapLayer = g[0]
@@ -224,7 +232,7 @@ func _paint_rows(node: Node2D, k: Vector2i, ya: int, yb: int) -> void:
 	_fresh = true
 	for y in range(ya, yb):
 		for x in range(x0, mini(x0 + World.CHUNK, world.w + 1)):
-			_paint_dual(Vector2i(x, y), terrain, glow_t)
+			_paint_dual(Vector2i(x, y), node, glow_t)
 			if x < world.w and y < world.h:
 				_paint_grid(Vector2i(x, y), walls, decor, glow_d, plats, sway, sway_g, orn)
 				var i := y * world.w + x
@@ -253,27 +261,61 @@ func _layer(parent: Node, ts: TileSet, z: int, offset: Vector2) -> TileMapLayer:
 	return l
 
 
+## Lo strato del terreno `li` di un blocco, creato la prima volta che serve e messo al suo posto nell'ordine.
+func _terrain_layer(node: Node2D, li: int) -> TileMapLayer:
+	var lays: Dictionary = node.get_meta("terrain")
+	if lays.has(li):
+		return lays[li]
+	var troot: Node2D = node.get_meta("troot")
+	var l := TileMapLayer.new()
+	l.tile_set = ts_terrain
+	troot.add_child(l)
+	var idx := 0
+	for o in lays:
+		if int(o) < li:
+			idx += 1
+	troot.move_child(l, idx)
+	lays[li] = l
+	return l
+
+
 ## Cella della doppia griglia (X, Y): tocca i centri delle tessere (X-1, Y-1), (X, Y-1), (X-1, Y), (X, Y).
-func _paint_dual(c: Vector2i, terrain: Array[TileMapLayer], glow: TileMapLayer) -> void:
+func _paint_dual(c: Vector2i, node: Node2D, glow: TileMapLayer) -> void:
 	var t0 := world.tile(c.x - 1, c.y - 1)
 	var t1 := world.tile(c.x, c.y - 1)
 	var t2 := world.tile(c.x - 1, c.y)
 	var t3 := world.tile(c.x, c.y)
 	var v := TerrainPainter.variant_of(c.x, c.y)
-	for li in terrain.size():
+	_cand.clear()
+	_cand.append_array(_layers_of[t0])
+	for li in _layers_of[t1]:
+		if not _cand.has(li):
+			_cand.append(li)
+	for li in _layers_of[t2]:
+		if not _cand.has(li):
+			_cand.append(li)
+	for li in _layers_of[t3]:
+		if not _cand.has(li):
+			_cand.append(li)
+	if not _fresh:
+		# gli strati che c'erano e ora non toccano più questa cella
+		var lays: Dictionary = node.get_meta("terrain")
+		for li in lays:
+			if not _cand.has(int(li)):
+				(lays[li] as TileMapLayer).erase_cell(c)
+	var glow_li := -1
+	var glow_k := 0
+	for li in _cand:
 		var m := _member[li]
 		var k := m[t0] | (m[t1] << 1) | (m[t2] << 2) | (m[t3] << 3)
-		if k == 0:
-			if not _fresh:
-				terrain[li].erase_cell(c)
-		else:
-			terrain[li].set_cell(c, 0, TerrainPainter.coords(li, v, k))
-		if li == _glow_layer:
-			if k == 0:
-				if not _fresh:
-					glow.erase_cell(c)
-			else:
-				glow.set_cell(c, 0, TerrainPainter.coords(li, v, k))
+		_terrain_layer(node, li).set_cell(c, TerrainPainter.source_of(li), TerrainPainter.coords(li, v, k))
+		if _is_glow[li] == 1:
+			glow_li = li
+			glow_k = k
+	if glow_li >= 0:
+		glow.set_cell(c, TerrainPainter.source_of(glow_li), TerrainPainter.coords(glow_li, v, glow_k))
+	elif not _fresh:
+		glow.erase_cell(c)
 
 
 func _paint_grid(c: Vector2i, walls: TileMapLayer, decor: TileMapLayer, glow: TileMapLayer, plats: TileMapLayer,
@@ -449,7 +491,7 @@ func refresh_around(c: Vector2i) -> void:
 		var q: Vector2i = c + d
 		var node: Node2D = chunks.get(World.chunk_of(q))
 		if node:
-			_paint_dual(q, node.get_meta("terrain"), node.get_meta("glow_t"))
+			_paint_dual(q, node, node.get_meta("glow_t"))
 	for dy in range(-1, 2):
 		var q := c + Vector2i(0, dy)
 		if not world.inside(q.x, q.y):

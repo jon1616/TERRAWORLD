@@ -42,7 +42,9 @@ static func get_all() -> Dictionary:
 		# il bordo delle tavole (vedi `_tileset`) si riaccende qui, nel thread principale, a tavole finite
 		for k in ["terrain", "terrain_glow", "misc", "misc_glow", "built", "built_glow", "built_walls", "veins", "veins_glow",
 				"wires"]:
-			((_res[k] as TileSet).get_source(0) as TileSetAtlasSource).use_texture_padding = true
+			var ts: TileSet = _res[k]
+			for si in ts.get_source_count():
+				(ts.get_source(ts.get_source_id(si)) as TileSetAtlasSource).use_texture_padding = true
 		_res["pronte"] = true
 	return _res
 
@@ -61,8 +63,8 @@ static func _prepare() -> Dictionary:
 	var veins := VeinPainter.build()                # Roadmap 19: vene del Flusso e fili dell'Impulso
 	var rows := TileDefs.TERRAIN_LAYERS.size()
 	var out := {
-		"terrain": _tileset(ImageTexture.create_from_image(terrain["img"]), 16 * TerrainPainter.VARIANTS, rows),
-		"terrain_glow": _tileset(ImageTexture.create_from_image(terrain["glow"]), 16 * TerrainPainter.VARIANTS, rows),
+		"terrain": _tileset_split(terrain["img"], 16 * TerrainPainter.VARIANTS, rows),
+		"terrain_glow": _tileset_split(terrain["glow"], 16 * TerrainPainter.VARIANTS, rows),
 		"misc": _tileset(ImageTexture.create_from_image(misc["img"]), DecorPainter.COLS, DecorPainter.ROWS),
 		"misc_glow": _tileset(ImageTexture.create_from_image(misc["glow"]), DecorPainter.COLS, DecorPainter.ROWS),
 		"built": _tileset(ImageTexture.create_from_image(built["img"]), BuildPainter.COLS, BuildData.kinds().size()),
@@ -87,6 +89,28 @@ static func _stations() -> Dictionary:
 			st[id]["shadow"] = ImageTexture.create_from_image(sh["img"])
 			st[id]["shadow_x"] = sh["x"]
 	return st
+
+
+## Roadmap 52, voce 412: la tavola del terreno a pezzi di `TerrainPainter.SRC_ROWS` righe, una sorgente per pezzo
+## (id = numero del pezzo): il motore riordina le tessere di una sorgente a ogni aggiunta, e una sola sorgente con
+## tutte le righe costava 3,2 s.
+static func _tileset_split(img: Image, cols: int, rows: int) -> TileSet:
+	var ts := TileSet.new()
+	ts.tile_size = Vector2i(S, S)
+	var per := TerrainPainter.SRC_ROWS
+	var done := 0
+	while done < rows:
+		var r := mini(per, rows - done)
+		var src := TileSetAtlasSource.new()
+		src.use_texture_padding = false
+		src.texture = ImageTexture.create_from_image(img.get_region(Rect2i(0, done * S, img.get_width(), r * S)))
+		src.texture_region_size = Vector2i(S, S)
+		for y in r:
+			for c in cols:
+				src.create_tile(Vector2i(c, y))
+		ts.add_source(src, done / per)
+		done += r
+	return ts
 
 
 static func _tileset(tex: Texture2D, cols: int, rows: int) -> TileSet:
