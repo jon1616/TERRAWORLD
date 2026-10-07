@@ -30,6 +30,7 @@ static func passes() -> Array[GenPass]:
 		PassCielo.new(),                    # Roadmap 16: le Chiome del cielo (isole, radici pendenti, correnti)
 		PassAlberi.new(),
 		PassDecorazioni.new(),
+		PassLiane.new(),                    # Roadmap 52, voce 415: le liane che pendono nel Sottobosco
 		PassAvvizzimento.new(),
 		PassCuore.new(),
 		PassNero.new(),

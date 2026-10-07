@@ -189,6 +189,66 @@ def gems(start):
     return tiles, ores, items, jew, pals
 
 
+# ---------------------------------------------------------------- voce 415: i blocchi con una fisica e le corde
+
+# id, nome, tavolozza, disegno, durezza, comportamento, ricetta (quanti, ingredienti, banco), quadrato, descrizione
+BLOCKS = [
+    ('cuscino_bava', "Cuscino di bava", ["#0e3a34", "#1e6a5a", "#3aa088", "#7ad8bc", "#d8fff0"], 'gel', 0.2,
+     {'bounce': 0.85}, (2, {'gelatina': 3}, 'ceppo'), False,
+     "Un blocco molle e lucido: chi ci cade sopra rimbalza in alto, senza farsi male."),
+    ('resina_appiccicosa', "Resina appiccicosa", ["#3a2208", "#7a4a10", "#c08020", "#f0b840", "#fff0b0"], 'gel', 0.25,
+     {'stick': 0.3}, (4, {'resina_dolce': 1, 'gelatina': 1}, 'ceppo'), False,
+     "Resina che non si stacca: chi ci cammina sopra quasi si ferma, creature comprese. Per i corridoi delle difese."),
+    ('grata_radice', "Grata di radice", ["#2a1a14", "#4a2e20", "#6e4630", "#946444", "#c08a60"], 'grata', 0.25,
+     {'liq': True, 'pass': 0.9}, (4, {'legno': 2, 'fibra_radice': 1}, 'ceppo'), True,
+     "Radici intrecciate a rete: ci si cammina sopra, ma l'acqua, la Linfa e la brace ci passano attraverso."),
+    ('ghiaccio_levigato', "Ghiaccio levigato", ["#2a5070", "#4a80a8", "#7ab0d4", "#b8e0f4", "#f4fcff"], 'ghiaccio', 0.3,
+     {'slip': 0.06, 'pass': 0.85}, (2, {'ghiaccio_brina': 2}, 'mola'), True,
+     "Ghiaccio passato alla mola: liscio come l'aria, ci si scivola lontanissimo."),
+    ('lastra_fragile', "Lastra fragile", ["#3a3430", "#5a524a", "#7a7066", "#9a9084", "#c0b6a8"], 'crepe', 0.12,
+     {'fragile': 0.7}, (4, {'tufo': 2}, 'ceppo'), True,
+     "Pietra piena di crepe: poco dopo che qualcosa ci sale sopra, crolla. Per le trappole a buca."),
+    ('rovo_murato', "Rovo murato", ["#1a2410", "#2e3e1a", "#4a5e28", "#6e8a3a", "#b8d070"], 'spine', 0.35,
+     {'spike': 12}, (2, {'fibra_radice': 3, 'ardesia': 2}, 'ceppo'), False,
+     "Un blocco irto di spine: punge le creature che lo toccano. Al Germogliato non fa niente."),
+    ('pietra_calda', "Pietra calda", ["#2a0e08", "#5a1e10", "#9a3a18", "#e0702a", "#ffd080"], 'brace', 0.5,
+     {'warm': True, 'emit': [0.3, 0.12, 0.04]}, (2, {'basalto': 2, 'cenere_calda': 2}, 'baccello_ardente'), False,
+     "Basalto che tiene la brace: scalda chi le sta vicino nel freddo, e fa un po' di luce."),
+]
+
+# le corde: decorazioni su cui ci si arrampica (`TileDefs.CLIMB_SPEED`), numero di decorazione, velocità, ricetta
+CLIMBS = [
+    ('corda', "Corda di fibra", 98, 1.0, ['seta', 'legno'], (6, {'fibra_radice': 2}, ''),
+     "Clic: la appendi sotto un blocco; clic sulla corda la allunghi. Ci si arrampica tenendo Salto, si scende con Giù."),
+    ('liana', "Liana", 99, 0.8, ['seta', 'muschio'], None,
+     "Pende dai soffitti del Sottobosco: si arrampica come una corda, un po' più piano. Si riprende e si appende altrove."),
+    ('catena', "Catena di legnoferro", 100, 1.5, ['seta', 'legnoferro'], (6, {'lingotto_legnoferro': 1}, 'maglio'),
+     "Una catena di anelli: ci si arrampica una volta e mezza più in fretta che su una corda."),
+]
+
+
+def blocks(start):
+    tiles, items, recipes, pals = {}, {}, [], {}
+    for i, (bid, name, pal, look, hard, phys, rec, square, desc) in enumerate(BLOCKS):
+        tid = start + i
+        t = {'name': name, 'hard': hard, 'power': 0, 'drop': bid, 'pal': pal, 'layer': 'blocco_' + bid, 'specks': 0,
+             'look': look, 'kind': 'blocco'}
+        if square:
+            t['square'] = True
+        t.update(phys)
+        tiles[tid] = t
+        items[bid] = {'name': name, 'kind': 'blocco', 'icon': ['zolla', bid], 'place': tid, 'desc': desc}
+        pals[bid] = pal
+        recipes.append({'out': bid, 'qty': rec[0], 'in': rec[1], 'station': rec[2]})
+    climbs = {}
+    for cid, name, decor, speed, icon, rec, desc in CLIMBS:
+        items[cid] = {'name': name, 'kind': 'corda', 'icon': icon, 'stack': 999, 'decor': decor, 'desc': desc}
+        climbs[decor] = {'item': cid, 'speed': speed}
+        if rec:
+            recipes.append({'out': cid, 'qty': rec[0], 'in': rec[1], 'station': rec[2]})
+    return tiles, items, recipes, pals, climbs
+
+
 def _tile(tid, iid, name, pal, look, hard, power, phys, kind, ids):
     t = {'name': name, 'hard': hard, 'power': power, 'drop': iid, 'pal': pal, 'layer': 'terra_' + iid,
          'specks': 0, 'look': look, 'kind': kind}
@@ -235,6 +295,11 @@ def build():
     ores += go
     items.update(gi)
     pals.update(gp)
+    bt, bi, br, bp, climbs = blocks(T0 + len(order) + len(vt) + len(gt))
+    tiles.update(bt)
+    items.update(bi)
+    recipes += br
+    pals.update(bp)
     # gli usi: le seconde strade per cose che ci sono già, e tre cose nuove (concime, anfora d'argilla, conserva)
     items['concime'] = {'name': "Concime", 'kind': 'concime', 'icon': ['polvere', 'terra_grassa'], 'stack': 99,
                         'desc': "Clic su una coltura: cresce di colpo, come se fosse passato un terzo del tempo che le manca."}
@@ -255,4 +320,4 @@ def build():
         {'out': 'pesce_sotto_sale', 'qty': 2, 'in': {'salgemma': 2, '@pesce': 1}, 'station': 'paiolo'},
     ]
     return [('terre.gd', 'Roadmap 52, voci 412-416: le terre dei biomi, le rocce e le terre comuni con i loro usi, le vene',
-             {'tiles': tiles, 'veins': ores, 'soils': soils, 'icon_pals': pals, 'gems': gj, 'items': items, 'recipes': recipes})]
+             {'tiles': tiles, 'veins': ores, 'soils': soils, 'icon_pals': pals, 'gems': gj, 'climbs': climbs, 'items': items, 'recipes': recipes})]

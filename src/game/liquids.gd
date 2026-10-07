@@ -48,7 +48,7 @@ func _exit_tree() -> void:
 ## Una tessera cambiata: se è diventata piena il liquido lì sparisce; le celle attorno tornano attive.
 func _changed(x: int, y: int) -> void:
 	var w: World = m.world
-	if w.solid(x, y) and w.liq(x, y) > 0:
+	if w.solid(x, y) and w.liq(x, y) > 0 and TileDefs.LIQ_PASS[w.tile(x, y)] == 0:
 		w.set_liq(x, y, 0, 0)
 		view.touch(Vector2i(x, y))
 	for d in [Vector2i(0, 0), Vector2i(0, -1), Vector2i(-1, 0), Vector2i(1, 0), Vector2i(0, 1)]:
@@ -64,7 +64,7 @@ func wake(x: int, y: int) -> void:
 ## Versa del liquido (secchio, prove): livello 1-8.
 func pour(c: Vector2i, level: int, type: int) -> void:
 	var w: World = m.world
-	if w.solid(c.x, c.y):
+	if _solid(w.tile(c.x, c.y)):
 		return
 	w.set_liq(c.x, c.y, mini(w.liq(c.x, c.y) + level, 8), type)
 	wake(c.x, c.y)
@@ -294,15 +294,16 @@ static func _supported(liq: PackedByteArray, tiles: PackedByteArray, i: int, W: 
 	var b := i + W
 	if b >= W * H:
 		return true
-	if tiles[b] != TileDefs.AIR:
+	if _solid(tiles[b]):
 		return true
 	var bv := liq[b]
 	return (bv & 15) == 8 and (bv >> 4) == ty
 
 
-## Pieno per un liquido: ogni tessera che non è aria (le passerelle sono aria: il liquido ci passa).
+## Pieno per un liquido: ogni tessera che non è aria (le passerelle sono aria: il liquido ci passa), tranne le grate
+## (voce 415, `TileDefs.LIQ_PASS`).
 static func _solid(t: int) -> bool:
-	return t != TileDefs.AIR
+	return t != TileDefs.AIR and TileDefs.LIQ_PASS[t] == 0
 
 
 ## Il Germogliato nel liquido: respiro, cura della Linfa, brace che brucia.

@@ -117,6 +117,8 @@ static func decor(id: int) -> Dictionary:
 	var moss := Px.pal(TileDefs.P_GRASS)
 	var root := Px.pal(TileDefs.P_ROOT)
 	var outline := true
+	if ClimbArt.draw(id, im, gm):
+		return {"img": im, "glow": gm}           # Roadmap 52, voce 415: le corde
 	# la vegetazione dei biomi (26 set 2026) sta in un file suo
 	var bd: Variant = BiomeDecorArt.draw(id, im, gm, rng)
 	if bd != null:

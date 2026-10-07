@@ -309,6 +309,20 @@ static func _look(col: PackedColorArray, rng: RandomNumberGenerator, p: Array[Co
 			_facets(col, rng, p)
 		"vena":
 			_nuggets(col, rng, p)
+		"gel":
+			_blobs(col, rng, p[mini(3, n - 1)], 6, 3.0)
+			_specks(col, rng, p[n - 1], 30)
+		"grata":
+			# voce 415: una rete di radici con i buchi trasparenti (si vede il liquido che passa)
+			for y in TEX:
+				for x in TEX:
+					var bar := x % 8 < 2 or y % 8 < 2
+					col[y * TEX + x] = (p[mini(3, n - 1)] if (x % 8 == 0 or y % 8 == 0) else p[2]) if bar else Color(0, 0, 0, 0)
+		"crepe":
+			_fibers(col, rng, [p[0]], 10, 14)
+		"spine":
+			_specks(col, rng, p[0], 80)
+			_fibers(col, rng, [p[n - 1]], 26, 3)
 		"gemma":
 			_gems(col, rng, p)
 

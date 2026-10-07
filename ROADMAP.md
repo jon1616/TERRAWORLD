@@ -5832,8 +5832,15 @@ pacchetto generato `src/data/vastita/terre.gd` (`tools/vastita_gen/terre.py`); v
   sanguinella, brillaluce, lagunite, fiammina (Profondità e Fondo), nottilite, ombrina (il Fondo). Le quattro nuove (campo
   «gems» → `JewelsData.GEMS`) hanno amuleti (scorta di Linfa, orto e mandria, colpi più rapidi, scavo e fortuna) e anelli
   con un effetto (Inverno addosso, Rovo vivo, Braciere addosso, Muschio che nasconde): 72 gioielli in più.
-- [ ] **415. I blocchi con una fisica.** Cadere, scivolare, appiccicare, rimbalzare, attutire, crollare, pungere,
+- [x] **415. I blocchi con una fisica.** Cadere, scivolare, appiccicare, rimbalzare, attutire, crollare, pungere,
   scaldare, lasciar passare i liquidi; corde, liane e catene su cui ci si arrampica.
+  Fatto il 7 ott 2026: sette blocchi da fabbricare (tessere 113-119): Cuscino di bava (si rimbalza senza ferite), Resina
+  appiccicosa (si corre a 0,3, creature comprese), Grata di radice (i liquidi passano, `Liquids._solid`), Ghiaccio
+  levigato (alla Mola), Lastra fragile (crolla sotto chi ci sale: trappole a buca), Rovo murato (punge le creature
+  selvatiche), Pietra calda (scalda nel freddo, fa luce). Le corde sono decorazioni (98 corda di fibra, 99 liana, 100
+  catena; campo «climbs» → `TileDefs.CLIMB_SPEED`): `Player._climb_step` (Salto sale, Giù scende, fermi si resta appesi,
+  in cima un balzo sul bordo), `Grounds.place_rope` (sotto un blocco o in fondo a una corda), le liane del Sottobosco
+  da `PassLiane` (~160 per mondo). `Grounds` (`src/game/grounds.gd`) fa crollare le lastre e pungere i rovi.
 - [ ] **416. Le passerelle.** Cinque passerelle con una proprietà (radice, nuvola, bava, spine, ghiaccio).
 - [ ] **417. La misura.** `tools/blocchi.gd` per categorie accanto a Terraria, il capitolo dell'Enciclopedia, il giro
   intero.

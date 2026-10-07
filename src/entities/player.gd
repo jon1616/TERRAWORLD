@@ -74,6 +74,11 @@ var _look_key_source := ""             # l'equipaggiamento da cui è stato calco
 var _look_key := ""
 ## Caduta: altezza massima raggiunta in aria, per le ferite da caduta (segnale `landed` con le tessere di caduta).
 var _air_top := 0.0
+## Roadmap 52, voce 415: le corde. `climbing` = aggrappato; `auto_down` = Giù per le prove (come `auto_jump`).
+var climbing := false
+var auto_down := false
+const CLIMB_UP := 72.0                 # px/s su una corda (la catena ×1,5, la liana ×0,8: `TileDefs.CLIMB_SPEED`)
+const CLIMB_SIDE := 45.0               # di lato, aggrappati: spostandosi fuori dalla corda la si lascia
 var _was_floor := true
 signal landed(tiles: float)
 signal jumped
@@ -206,6 +211,8 @@ func _step(dt: float, dir: float, held: bool) -> void:
 	if hook != Vector2.INF:
 		_hook_step(dt)
 		return
+	if _climb_step(dt, dir, held):
+		return
 	if on_floor:
 		_air_left = air_jumps
 	var target := dir * RUN * run_mult * boon_run * (0.45 if slow_t > 0.0 else 1.0)
@@ -289,6 +296,7 @@ func _step(dt: float, dir: float, held: bool) -> void:
 		if vel.y < 0.0 and not held:
 			vel.y += GRAV * grav_mult * (JUMP_CUT - 1.0) * dt
 	var through := control and Keys.held("giu")
+	var vy_fall := vel.y                    # voce 415: la velocità di caduta prima di toccare (il rimbalzo)
 	var avg := Vector2((vx0 + vel.x) * 0.5, (vy0 + vel.y) * 0.5)
 	var r := TileBody.move(world, position, HALF, avg, dt, on_floor, through)
 	position = r["pos"]
@@ -309,6 +317,15 @@ func _step(dt: float, dir: float, held: bool) -> void:
 			vel.y = minf(vel.y, 70.0)
 			_air_top = position.y              # scivolando non ci si fa male
 			_air_left = air_jumps
+	if on_floor and not _was_floor and vy_fall > 110.0:
+		# voce 415: il Cuscino di bava rimanda in alto chi ci cade, e non fa male
+		var bt := world.tile(floori(position.x / 16.0), floori((position.y + HALF.y + 2.0) / 16.0))
+		if TileDefs.BOUNCE[bt] > 0.0:
+			vel.y = -vy_fall * TileDefs.BOUNCE[bt]
+			on_floor = false
+			_air_top = position.y
+			_was_floor = false
+			return
 	if not on_floor:
 		_air_top = position.y if _was_floor else minf(_air_top, position.y)
 	elif not _was_floor:
@@ -316,6 +333,37 @@ func _step(dt: float, dir: float, held: bool) -> void:
 		_land_t = 0.14 if position.y - _air_top > 24.0 else 0.07
 		landed.emit((position.y - _air_top) / 16.0 * grav_mult)   # voce 76: in un mondo leggero si cade più piano
 	_was_floor = on_floor
+
+
+## Roadmap 52, voce 415: corde, liane e catene. Toccandone una e tenendo Salto (su) o Giù ci si aggrappa: si sale, si
+## scende, o si resta appesi senza cadere; spostandosi di lato si lascia la corda. In cima, tenendo Salto, un piccolo
+## balzo porta sul bordo.
+func _climb_step(dt: float, dir: float, held: bool) -> bool:
+	var cx := floori(position.x / 16.0)
+	var sp := maxf(TileDefs.CLIMB_SPEED[world.decor_at(cx, floori(position.y / 16.0))],
+		TileDefs.CLIMB_SPEED[world.decor_at(cx, floori((position.y + HALF.y - 2.0) / 16.0))])
+	var down := Keys.held("giu") if control else auto_down
+	if sp <= 0.0:
+		if climbing and held:
+			vel.y = -JUMP * 0.62
+		climbing = false
+		return false
+	if not climbing and not (held or down):
+		return false
+	climbing = true
+	vel.x = dir * CLIMB_SIDE
+	vel.y = -CLIMB_UP * sp if held else (CLIMB_UP * sp if down else 0.0)
+	var r := TileBody.move(world, position, HALF, vel, dt, false, true)
+	position = r["pos"]
+	on_floor = r["floor"]
+	_air_top = position.y                  # aggrappati non si cade
+	_air_left = air_jumps
+	_was_floor = on_floor
+	jump_buf = 0.0
+	coyote = 0.0
+	if on_floor and down:
+		climbing = false
+	return true
 
 
 ## Appeso al rampino: tirato verso il punto d'aggancio, senza gravità; arrivato resta appeso. Il salto sgancia.

@@ -89,7 +89,7 @@ static var DECOR_BIOME_GRASS: Array = _biome_decor("erba")
 static var DECOR_BIOME_PLANTS: Array = _biome_decor("pianta")
 const DECOR_BASE := 32
 static var DECOR_COUNT: int = _decor_count()
-const DECOR_CEILING := [11, 12, 17, 22]        # queste pendono dal blocco sopra
+const DECOR_CEILING := [11, 12, 17, 22, 98, 99, 100]   # queste pendono dal blocco sopra (98-100: le corde, voce 415)
 
 ## Luce emessa dalle decorazioni (indice = id della decorazione): piccole pozze di luce nel buio, non lampioni
 ## (con il buio vero del 25 set 2026 una luce di 0,3 si vede per ~6 tessere).
@@ -128,7 +128,7 @@ const _DROP := {FINTA: "ardesia", PIETRA_BRACE: "pietra_brace", DIRT: "humus", S
 	AVV_TERRA: "cenere_avvizzita", AVV_MUSCHIO: "cenere_avvizzita", AVV_PIETRA: "ardesia",
 	PALLIDITE: "minerale_pallidite", TIZZONITE: "minerale_tizzonite", ASSI: "assi_lanterna", MATTONI: "mattoni_ardesia",
 	VETRO: "vetro_resina", PORTA: "porta_lanterna"}
-const DECOR_DROP := {9: "fungo_brace", 10: "fungo_luminoso", 15: "seme_lanterna", 16: "scheggia_vuoto",
+const _DECOR_DROP := {9: "fungo_brace", 10: "fungo_luminoso", 15: "seme_lanterna", 16: "scheggia_vuoto",
 	21: "cuore_bocciolo", 22: "stilla_perenne", 23: "brillaluce", 24: "sanguinella", 25: "lagunite", 26: "nottilite"}
 
 ## Vene di minerale (lette da `PassMinerali`): tessera, profondità minima, strati in cui compare (vedi `StrataData`),
@@ -303,6 +303,31 @@ static var SUPPORT: Dictionary = _support()                # la roccia che regge
 ## Voce 413: le vene dei metalli della spina e del dopo «dormono» finché il Cuore non si risveglia (`CuoreDesto.apply`
 ## accende `awake_on`, come `CreaturesData.awake_on`): si vedono, ma danno solo la roccia.
 static var DORMANT: PackedByteArray = _flag("dorme")
+## Voce 415: i blocchi con una fisica (i campi dei blocchi in `tools/vastita_gen/terre.py`).
+static var BOUNCE: PackedFloat32Array = _num("bounce", 0.0)     # chi ci cade sopra rimbalza (`Player`)
+static var FRAGILE: PackedFloat32Array = _num("fragile", 0.0)   # secondi prima che crolli sotto chi ci sta (`Grounds`)
+static var SPIKE: PackedFloat32Array = _num("spike", 0.0)       # la ferita alle creature che lo toccano (`Grounds`)
+static var LIQ_PASS: PackedByteArray = _flag("liq")             # i liquidi ci passano attraverso (`Liquids`)
+## Le corde (campo «climbs» dei pacchetti: {decorazione: {item, speed}}): ci si arrampica (`Player._climb_step`).
+static var CLIMBS: Dictionary = BiomesData.pack("climbs")
+static var CLIMB_SPEED: PackedFloat32Array = _climb_speed()
+static var DECOR_DROP: Dictionary = _decor_drop()
+
+
+static func _climb_speed() -> PackedFloat32Array:
+	var out := PackedFloat32Array()
+	out.resize(256)
+	for d in CLIMBS:
+		out[int(d)] = float(CLIMBS[d]["speed"])
+	return out
+
+
+## Ciò che lascia ogni decorazione tolta: quelle scritte qui più le corde.
+static func _decor_drop() -> Dictionary:
+	var out := _DECOR_DROP.duplicate()
+	for d in CLIMBS:
+		out[int(d)] = String(CLIMBS[d]["item"])
+	return out
 static var awake_on := false
 
 
@@ -486,6 +511,8 @@ static func _biome_decor(soft: String) -> Array:
 
 static func _decor_count() -> int:
 	var n := maxi(DECOR_BASE, PodsData.LAST)            # voce 301: i baccelli dormienti (92-97)
+	for d in BiomesData.pack("climbs"):                 # voce 415: le corde (98-100)
+		n = maxi(n, int(d))
 	for d in _all_decor():
 		n = maxi(n, int(d))
 	return n

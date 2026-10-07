@@ -134,6 +134,7 @@ var abilities: Abilities               # Roadmap 43, voce 383: le abilità del m
 var rares: Rares                       # Roadmap 45, voce 395: i rari dei nemici
 var finds: Finds                       # Roadmap 45, voci 392-396: casse dei biomi, mimi, chiavi, la Pozza
 var modes: Modes                       # Roadmap 49, voce 405: le modalità
+var grounds: Grounds                   # Roadmap 52, voce 415: lastre che crollano, rovi murati, corde
 var void_voice: VoidVoice              # voce 347
 var evergreen: Evergreen               # Roadmap 28: il dopo (stelle di maestria, Semi d'oro)
 var summons: Summons
@@ -409,6 +410,7 @@ func _build() -> void:
 	rares = _mount(Rares.new())                  # Roadmap 45, voce 395: i rari dei nemici
 	finds = _mount(Finds.new())                  # Roadmap 45: casse dei biomi, mimi, chiavi, la Pozza
 	modes = _mount(Modes.new())                  # Roadmap 49: le modalità
+	grounds = _mount(Grounds.new())              # Roadmap 52: i blocchi con una fisica e le corde
 	_mount(PanelButtons.new())                 # voce 101: i pulsanti dei pannelli in basso a sinistra
 	hud.select(character.hotbar)
 	var start := world.spawn
