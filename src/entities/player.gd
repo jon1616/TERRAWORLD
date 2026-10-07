@@ -211,6 +211,10 @@ func _step(dt: float, dir: float, held: bool) -> void:
 	var target := dir * RUN * run_mult * boon_run * (0.45 if slow_t > 0.0 else 1.0)
 	var cx := floori(position.x / 16.0)
 	var cy := floori(position.y / 16.0)
+	# Roadmap 52, voce 412: il pavimento sotto i piedi (il ghiaccio scivola, il fango appiccica)
+	var ft := world.tile(cx, floori((position.y + HALF.y + 2.0) / 16.0)) if on_floor else 0
+	var stick := TileDefs.STICK[ft] if ft > 0 else 1.0
+	target *= stick
 	in_liquid = world.liq(cx, cy) >= 3 and bool(LiquidsData.TYPES[world.liq_type(cx, cy)]["swim"])
 	if in_liquid:
 		target *= LiquidsData.SWIM_RUN
@@ -228,6 +232,9 @@ func _step(dt: float, dir: float, held: bool) -> void:
 	var accel := ACCEL_AIR
 	if on_floor:
 		accel = ACCEL_GROUND if dir != 0.0 and signf(dir) == signf(vel.x if vel.x != 0.0 else dir) else DECEL_GROUND
+		if ft > 0 and TileDefs.SLIP[ft] < 1.0:
+			# sul ghiaccio si parte quasi come sempre, ma per fermarsi o girarsi la presa è poca
+			accel *= minf(TileDefs.SLIP[ft] * 4.0, 1.0) if accel == ACCEL_GROUND else TileDefs.SLIP[ft]
 	if not on_floor and not in_liquid and wind != 0.0:
 		target += wind * 0.35 * (2.2 if gliding or flying else 1.0)    # voce 75: il vento porta chi è in aria, e chi plana o vola di più
 	var vx0 := vel.x
@@ -239,7 +246,7 @@ func _step(dt: float, dir: float, held: bool) -> void:
 		vel.y = minf(vel.y, 20.0)
 	jump_buf -= dt
 	if jump_buf > 0.0 and coyote > 0.0:
-		vel.y = -JUMP * sqrt(jump_mult * harsh_jump)   # l'altezza cresce col quadrato della velocità: ×jump in altezza
+		vel.y = -JUMP * sqrt(jump_mult * harsh_jump * stick)   # l'altezza cresce col quadrato della velocità: ×jump in altezza
 		_takeoff_t = 0.1
 		jumped.emit()
 		jump_buf = 0.0

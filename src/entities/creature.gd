@@ -531,6 +531,6 @@ func _floor_slow() -> float:
 		return 1.0
 	var t: int = world.tile(fx, fy)
 	if t != TileDefs.COSTRUTTO and t != TileDefs.COSTRUTTO_T:
-		return 1.0
+		return TileDefs.STICK[t]                   # Roadmap 52: anche il fango delle paludi
 	return BuildData.slow_of(world.build[fy * world.w + fx])
 

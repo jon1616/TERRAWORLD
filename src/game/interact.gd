@@ -128,6 +128,8 @@ func _use(kind: String, id: String, c: Vector2i) -> bool:
 			return m.companions.summon(id)
 		"annaffiatoio":
 			return m.garden.water(c)
+		"concime":
+			return m.garden.fertilize(c, id)            # Roadmap 52
 		"parete":
 			return m.masonry.place_wall(c, id)
 		"esplosivo", "ricurvo", "giavellotto":

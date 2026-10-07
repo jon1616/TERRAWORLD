@@ -14,6 +14,7 @@ const KIND_USE := {
 	"cimelio": "Trovato una volta, il suo piccolo bonus vale per sempre (anche se lo lasci in una cassa).",
 	"piccone": "In mano: scava i blocchi (clic sinistro tenuto). La forza decide quali rocce e minerali cede.",
 	"ascia": "In mano: abbatte gli alberi a colpi.",
+	"concime": "Clic su una coltura dell'orto: cresce di colpo di un terzo del tempo che le manca.",
 	"martello": "In mano: toglie le pareti di fondo e, con lo scalpello, cambia la forma dei costrutti.",
 	"spada": "In mano: colpisce le creature (clic sinistro).",
 	"arco": "In mano: tira dardi verso il mouse; i dardi stanno nello scomparto delle munizioni.",

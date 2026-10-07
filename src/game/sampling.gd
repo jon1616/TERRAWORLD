@@ -57,7 +57,9 @@ func category_at(c: Vector2i) -> String:
 		return "rovine"
 	if t in [TileDefs.RADICITE, TileDefs.LEGNOFERRO, TileDefs.AMBRA, TileDefs.PALLIDITE, TileDefs.TIZZONITE]:
 		return "minerali"
-	if t == TileDefs.CRYSTAL or w.decor_at(c.x, c.y) in TileDefs.DECOR_GEMS:
+	if TileDefs.kind_of(t) == "minerale":
+		return "minerali"
+	if t == TileDefs.CRYSTAL or TileDefs.kind_of(t) == "gemma" or w.decor_at(c.x, c.y) in TileDefs.DECOR_GEMS:
 		return "gemme"
 	if TileDefs.is_grass(t) and dep < 6:
 		return "superficie"

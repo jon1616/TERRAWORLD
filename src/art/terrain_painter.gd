@@ -249,7 +249,126 @@ static func material(id: String, p: Array[Color], sd: int) -> PackedColorArray:
 			_glass(col, p)
 		"cristallo":
 			_facets(col, rng, p)
+	# Roadmap 52: le tessere dei pacchetti dicono il loro disegno (campo «look»)
+	var look := String(TileDefs.turf_of_layer(id).get("look", ""))
+	if look != "":
+		_look(col, rng, p, look)
 	return col
+
+
+## Roadmap 52, voce 412: i disegni delle terre, delle rocce, delle vene e delle gemme dei pacchetti.
+static func _look(col: PackedColorArray, rng: RandomNumberGenerator, p: Array[Color], look: String) -> void:
+	var n := p.size()
+	match look:
+		"sabbia":
+			_ripples(col, p, 9, false)
+			_specks(col, rng, p[n - 1], 90)
+			_specks(col, rng, p[0], 60)
+		"brace":
+			_specks(col, rng, p[0], 70)
+			_specks(col, rng, p[n - 1], 34)
+		"neve":
+			_specks(col, rng, p[n - 1], 120)
+			_specks(col, rng, p[mini(2, n - 1)], 30)
+		"fibre":
+			_fibers(col, rng, [p[n - 1], p[0]], 6, 20)
+			_specks(col, rng, p[mini(3, n - 1)], 30)
+		"fango":
+			_blobs(col, rng, p[0], 9, 3.5)
+			_specks(col, rng, p[n - 1], 22)
+		"stelle":
+			_specks(col, rng, p[n - 1], 40)
+			_specks(col, rng, p[mini(3, n - 1)], 30)
+		"strati":
+			_ripples(col, p, 8, true)
+		"colonne":
+			for y in TEX:
+				var off := int(2.0 * sin(y * TAU / TEX * 2.0))
+				for x in TEX:
+					var i := y * TEX + x
+					if posmod(x + off, 12) == 0 or (posmod(x + off, 12) < 11 and y % 21 == 0):
+						col[i] = p[0]
+					elif posmod(x + off, 12) == 1:
+						col[i] = p[mini(3, n - 1)]
+		"ghiaccio":
+			for y in TEX:
+				for x in TEX:
+					if posmod(x - y, 21) < 2:
+						col[y * TEX + x] = p[n - 1]
+			_specks(col, rng, p[n - 1], 24)
+		"fossili":
+			_fibers(col, rng, [p[n - 1]], 7, 6)
+			_specks(col, rng, p[n - 1], 16)
+		"marmo":
+			_fibers(col, rng, [p[0], p[1]], 6, 30)
+		"ghiaia":
+			_pebbles(col, rng, p)
+		"cristallo":
+			_facets(col, rng, p)
+		"vena":
+			_nuggets(col, rng, p)
+		"gemma":
+			_gems(col, rng, p)
+
+
+## Strati orizzontali che ondeggiano appena (arenarie, tufo): una riga scura e una chiara ogni `every` pixel; nelle
+## sabbie solo la riga chiara (le increspature del vento).
+static func _ripples(col: PackedColorArray, p: Array[Color], every: int, dark: bool) -> void:
+	for y in TEX:
+		for x in TEX:
+			var yy := posmod(y + int(1.6 * sin(x * TAU / TEX * 2.0)), every)
+			if yy == 0 and dark:
+				col[y * TEX + x] = p[1]
+			elif yy == 1:
+				col[y * TEX + x] = p[mini(3, p.size() - 1)]
+
+
+## Macchie tonde più scure (i fanghi, la pietra spugnosa).
+static func _blobs(col: PackedColorArray, rng: RandomNumberGenerator, c: Color, count: int, r: float) -> void:
+	for k in count:
+		var cx := rng.randf() * TEX
+		var cy := rng.randf() * TEX
+		var rr := r * rng.randf_range(0.6, 1.2)
+		for dy in range(-5, 6):
+			for dx in range(-5, 6):
+				if Vector2(dx, dy).length() <= rr:
+					col[posmod(int(cy) + dy, TEX) * TEX + posmod(int(cx) + dx, TEX)] = c
+
+
+## Ciottoli tondi e pieni, con il lato in luce (la ghiaia).
+static func _pebbles(col: PackedColorArray, rng: RandomNumberGenerator, p: Array[Color]) -> void:
+	for i in col.size():
+		col[i] = p[0]
+	for k in 46:
+		var cx := rng.randf() * TEX
+		var cy := rng.randf() * TEX
+		var r := rng.randf_range(2.0, 3.6)
+		for dy in range(-4, 5):
+			for dx in range(-4, 5):
+				var d := Vector2(dx + 0.5, dy + 0.5).length()
+				if d <= r:
+					var t := 0.5 + (-dx - dy) / (2.6 * r)
+					col[posmod(int(cy) + dy, TEX) * TEX + posmod(int(cx) + dx, TEX)] = p[clampi(int(t * p.size()), 1, p.size() - 1)]
+
+
+## Le gemme nella roccia: poche punte di cristallo lucenti (trasparente intorno: si vede la roccia che le tiene).
+static func _gems(col: PackedColorArray, rng: RandomNumberGenerator, p: Array[Color]) -> void:
+	for i in col.size():
+		col[i] = Color(0, 0, 0, 0)
+	for k in 14:
+		var cx := rng.randi_range(0, TEX - 1)
+		var cy := rng.randi_range(0, TEX - 1)
+		var h := rng.randi_range(3, 5)
+		for s in h:
+			for w2 in range(-1, 2):
+				if w2 != 0 and s >= h - 2:
+					continue                       # la punta è larga un pixel
+				var c := p[clampi(2 + (1 if w2 < 0 else 0) + (1 if s == h - 1 else 0), 0, p.size() - 1)]
+				c.a = 0.9
+				col[posmod(cy - s, TEX) * TEX + posmod(cx + w2, TEX)] = c
+		var gl := p[p.size() - 1]
+		gl.a = 0.9
+		col[posmod(cy - h + 1, TEX) * TEX + posmod(cx, TEX)] = gl
 
 
 ## Pietra lavorata: blocchi sfalsati con i giunti scuri e lo spigolo alto chiaro (le rovine dei Seminatori).

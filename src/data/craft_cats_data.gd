@@ -126,7 +126,7 @@ static func place_of(id: String, station: String) -> Array:
 			return ["armature", "Ali" if it.has("wings") else "Mantelli"]
 		"bisaccia", "tasca", "basto", "dispensa":
 			return ["attrezzi", "Bisacce e tasche"]         # Roadmap 30: lo zaino
-		"martello", "annaffiatoio":
+		"martello", "annaffiatoio", "concime":
 			return ["attrezzi", "Attrezzi da lavoro"]
 		"canna":
 			return ["pesca", "Canne"]

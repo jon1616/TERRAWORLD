@@ -57,9 +57,10 @@ func _process(dt: float) -> void:
 	if deep.has("rigor") and not m.giardino.active and not DeepRules.lit_by_player(m.world, pc, DeepRules.SHELTER):
 		h = {"kind": String(deep["rigor"]), "rate": float(deep["rate"])}
 	kind = String(h.get("kind", ""))
+	var warm := kind == "freddo" and near_warm(pc)        # Roadmap 52: la cenere calda scalda
 	for k in meters:
 		var v := float(meters[k])
-		if k == kind:
+		if k == kind and not warm:
 			var rate := float(h["rate"]) * (float(h.get("night", 1.0)) if m.day.is_night() else 1.0)
 			if m.weather != null and m.weather.roofed:
 				rate *= HarshData.ROOF
@@ -77,6 +78,18 @@ func _process(dt: float) -> void:
 	m.player.harsh_jump = jump_mult
 	m.vitals.harsh_regen = regen_mult
 	_hurt_tile(dt, pc, outside)
+
+
+## Roadmap 52, voce 412: c'è una tessera che scalda (`TileDefs.WARM`, la cenere calda) entro `WARM_R` tessere?
+const WARM_R := 3
+
+
+func near_warm(pc: Vector2i) -> bool:
+	for y in range(pc.y - WARM_R, pc.y + WARM_R + 1):
+		for x in range(pc.x - WARM_R, pc.x + WARM_R + 1):
+			if TileDefs.WARM[m.world.tile(x, y)] == 1:
+				return true
+	return false
 
 
 ## A barra piena: ferite e penalità (una sola barra alla volta può essere piena davvero: quella del luogo).

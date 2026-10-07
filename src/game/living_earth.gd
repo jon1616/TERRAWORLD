@@ -26,6 +26,7 @@ var _queue: Array[Vector2i] = []       # zolle che forse cadono
 func setup(main: Node2D) -> void:
 	m = main
 	m.actions.dug.connect(_on_dug)
+	m.actions.placed.connect(_on_placed)
 	apply()
 	var now := Time.get_unix_time_from_system()
 	var seen := float(m.world_meta.get("visto", 0.0))
@@ -57,8 +58,15 @@ func _on_dug(_t: int, c: Vector2i) -> void:
 		if list.size() < LivingData.MAX_WOUNDS:
 			list.append([c.x, c.y, clock() + LivingData.REGROW])
 			m.world_meta["ferite"] = list
-	if falling:
+	# Roadmap 52: le sabbie, le ceneri, il limo e la ghiaia franano sempre; il resto solo con il gene «Frane»
+	if falling or TileDefs.FALLS[w.tile(c.x, c.y - 1)] == 1:
 		_queue.append(c + Vector2i(0, -1))
+
+
+## Roadmap 52: una sabbia posata nel vuoto cade subito.
+func _on_placed(c: Vector2i, _id: String) -> void:
+	if TileDefs.FALLS[m.world.tile(c.x, c.y)] == 1:
+		_queue.append(c)
 
 
 func _process(dt: float) -> void:
@@ -189,7 +197,7 @@ func _fall_step() -> void:
 			continue
 		seen[q] = true
 		var t := w.tile(q.x, q.y)
-		if not (t in LivingData.FALLING or TileDefs.is_grass(t)) or w.solid(q.x, q.y + 1) or w.plat(q.x, q.y + 1) or w.liq(q.x, q.y + 1) > 0:
+		if not ((falling and (t in LivingData.FALLING or TileDefs.is_grass(t))) or TileDefs.FALLS[t] == 1) or w.solid(q.x, q.y + 1) or w.plat(q.x, q.y + 1) or w.liq(q.x, q.y + 1) > 0:
 			continue
 		if not w.station_at(q + Vector2i(0, -1)).is_empty() or w.tree_at(q + Vector2i(0, -1)).x >= 0:
 			continue                              # le radici degli alberi e le stazioni tengono la terra

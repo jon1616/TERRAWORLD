@@ -5808,10 +5808,16 @@ una decina di blocchi con un effetto, una sola passerella, nessuna corda.
 Regole: ogni tessera nuova ha un comportamento o un materiale che serve (niente estetica pura); i dati stanno nel
 pacchetto generato `src/data/vastita/terre.gd` (`tools/vastita_gen/terre.py`); vale per i mondi generati da adesso.
 
-- [ ] **412. Le terre dei biomi.** Ogni bioma di superficie ha la sua terra sotto l'erba (al posto dell'humus) e quasi
+- [x] **412. Le terre dei biomi.** Ogni bioma di superficie ha la sua terra sotto l'erba (al posto dell'humus) e quasi
   tutti la loro roccia nei primi strati: sabbie che cadono, nevi che attutiscono, fanghi che appiccicano, terre fertili,
   terre che fanno luce, la terra muta che non fa rumore. Cinque terre comuni in sacche (argilla, ghiaia, pietra nera,
   calcite, salgemma). Il disegno del terreno regge il doppio degli strati (tavole divise, strati creati al bisogno).
+  Fatto il 7 ott 2026: 15 terre (tessere 59-73), 14 rocce (74-87), 5 terre comuni (88-92) nel pacchetto `terre.gd`,
+  messe da `PassTerre` (dopo gli stagni) e da `PassMinerali` (le sacche, campo «veins»); le sabbie sospese diventano la
+  roccia che le regge. Comportamenti in `TileDefs` (FALLS, SLIP, STICK, SOFT, FERTILE, WARM, QUIET, BLAST, FOSSIL), letti
+  da `Player`, `Creature`, `Life`, `Garden`, `Harshness`, `Senses`, `LivingEarth`, `Throwing`, `GeneMaterials`. Usi:
+  vetro dalle sabbie, torce dalla cenere calda, mattoni dalla terra rossa, ciottoli da ghiaia e polvere di pietra, il
+  Concime (gruppo «@terra»), l'Anfora d'argilla, il Pesce sotto sale. Prove: gruppo «terre» (foto 260_terre_<bioma>).
 - [ ] **413. Le vene del Risveglio e del dopo.** I dodici metalli della spina e del dopo hanno la loro vena visibile
   nei mondi del loro vigore; prima del Risveglio del Cuore la vena «dorme» e dà solo roccia.
 - [ ] **414. Le gemme nella roccia.** Otto gemme in vena (le quattro di oggi e quattro nuove, con amuleti e anelli).

@@ -12,6 +12,7 @@ const GROUPS := {
 	"@raccolto": {"name": "Qualsiasi raccolto dell'orto", "icon": ["foglia", "muschio"]},
 	"@minerale": {"name": "Qualsiasi minerale grezzo", "icon": ["minerale", "ardesia"]},
 	"@parte_rara": {"name": "Qualsiasi parte di creatura risvegliata o firma", "icon": ["essenza", "sanguinite"]},
+	"@terra": {"name": "Qualsiasi terra dei biomi", "icon": ["zolla", "terra_grassa"]},      # Roadmap 52
 }
 
 static var _members := {}
@@ -49,6 +50,8 @@ static func _build() -> void:
 			(_members["@essenza_creatura"] as Array).append(s)
 		if kind == "trofeo" and RoomsData.boss_of_trophy(s) == "":
 			(_members["@trofeo_creatura"] as Array).append(s)
+		if it.get("terra", false):
+			(_members["@terra"] as Array).append(s)
 		if crops.has(s):
 			(_members["@raccolto"] as Array).append(s)
 		if kind == "materiale" and (s.contains("_ris_") or s.contains("_firma_")) and not s.begins_with("essenza_"):

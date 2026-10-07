@@ -44,7 +44,8 @@ func grow(secs: float) -> void:
 			* m.zones.mult_at((Vector2(c) + Vector2(0.5, 0.5)) * 16.0, "crescita") \
 			* (m.rooms.grow_at(c) if m.rooms else 1.0) \
 			* (m.garden_islands.grow_at(c) if m.get("garden_islands") != null else 1.0) \
-			* (HerdJobs.plow_at(m.pens.plows, c) if m.get("pens") != null else 1.0)   # voci 74, 78, 87, 142, 228 e 243
+			* (HerdJobs.plow_at(m.pens.plows, c) if m.get("pens") != null else 1.0) \
+			* TileDefs.FERTILE[w.tile(c.x, c.y + 1)]   # voci 74, 78, 87, 142, 228, 243 e 412 (la terra grassa)
 		if float(e[1]) <= 0.0:
 			w.set_decor(c.x, c.y, int(CropsData.CROPS[String(e[0])]["decor"]))
 			m.view.refresh_around(c)
@@ -158,6 +159,20 @@ func water(c: Vector2i) -> bool:
 	e[2] = true
 	Fx.puff(m.fx, Vector2(c) * S + Vector2(8, 6), Color(0.6, 1.2, 1.6))
 	m.sfx.play("pozione", Vector2(c) * S)
+	return true
+
+
+## Roadmap 52, voce 412: il Concime fa crescere di colpo una coltura di un terzo del tempo che le manca.
+const FERTILIZE := 0.34
+
+
+func fertilize(c: Vector2i, id: String) -> bool:
+	var e: Array = m.world.crops.get(c, [])
+	if e.is_empty() or float(e[1]) <= 0.0 or not m.actions.in_reach(c):
+		return false
+	e[1] = float(e[1]) * (1.0 - FERTILIZE)
+	m.character.bisaccia.remove(id, 1)
+	Fx.puff(m.fx, Vector2(c) * S + Vector2(8, 10), Color(0.7, 0.5, 0.6))
 	return true
 
 

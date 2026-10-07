@@ -138,6 +138,8 @@ func explode(at: Vector2, bl: Dictionary) -> void:
 			var t: int = m.world.tile(x, y)
 			if bl.get("natural", false) and (t in TileDefs.BUILT or t == TileDefs.FINTA):
 				continue                           # voce 130: chi scoppia non rompe le costruzioni
+			if TileDefs.BLAST[t] == 1:
+				continue                               # Roadmap 52: la pietra nera regge le esplosioni
 			if t == TileDefs.COSTRUTTO or t == TileDefs.COSTRUTTO_T:
 				var bk: int = m.world.build[y * m.world.w + x]
 				if BuildData.blast_proof(bk) or BuildData.power(bk) > power:

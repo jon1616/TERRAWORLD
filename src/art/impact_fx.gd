@@ -20,8 +20,12 @@ static func chip(parent: Node, pos: Vector2, t: int, pal: Array[Color]) -> void:
 static func dig_kind(t: int, built := "") -> String:
 	if built != "":
 		return "legno" if built.contains("legn") or built.contains("tronc") else "roccia"
-	if t == TileDefs.CRYSTAL:
+	if t == TileDefs.CRYSTAL or TileDefs.kind_of(t) == "gemma":
 		return "cristallo"
+	if TileDefs.kind_of(t) == "minerale":
+		return "minerale"
+	if TileDefs.kind_of(t) == "suolo":
+		return "terra"
 	for o in TileDefs.ORES:
 		if int(o["type"]) == t:
 			return "minerale"

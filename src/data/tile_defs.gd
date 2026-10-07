@@ -133,13 +133,16 @@ const DECOR_DROP := {9: "fungo_brace", 10: "fungo_luminoso", 15: "seme_lanterna"
 
 ## Vene di minerale (lette da `PassMinerali`): tessera, profondità minima, strati in cui compare (vedi `StrataData`),
 ## in quali rocce, frequenza e soglia del rumore (soglia più alta = vene più rare).
-const ORES := [
+const _ORES := [
 	{"type": RADICITE, "min_depth": 4, "strata": [0, 1, 2], "in": [DIRT, STONE], "freq": 0.11, "threshold": 0.5},
 	{"type": LEGNOFERRO, "min_depth": 60, "strata": [1, 2, 3], "in": [STONE, SCISTO], "freq": 0.12, "threshold": 0.52},
 	{"type": AMBRA, "min_depth": 200, "strata": [2, 3, 4], "in": [STONE, SCISTO, VUOTITE], "freq": 0.13, "threshold": 0.54},
 	{"type": PALLIDITE, "min_depth": 30, "strata": [1, 2], "in": [STONE, RADICE], "freq": 0.12, "threshold": 0.56},
 	{"type": TIZZONITE, "min_depth": 300, "strata": [3, 4], "in": [SCISTO, VUOTITE, STONE], "freq": 0.13, "threshold": 0.57},
 ]
+## Roadmap 52: più le vene e le sacche dei pacchetti (campo «veins»: le terre comuni, i metalli della spina e del dopo con
+## «vmin»/«vmax» = i vigori dei mondi in cui ci sono, le gemme).
+static var ORES: Array = _ORES + BiomesData.pack_list("veins")
 const _NAMES := {COSTRUTTO: "Costruzione", COSTRUTTO_T: "Vetrata", FINTA: "Ardesia", DIRT: "Humus", STONE: "Ardesia", RADICITE: "Radicite", LEGNOFERRO: "Legnoferro", AMBRA: "Ambra fossile", CRYSTAL: "Cristallo di Linfa",
 	RADICE: "Radice antica", SCISTO: "Scisto di Linfa", VUOTITE: "Vuotite", NODO: "Nodo avvizzito",
 	PIETRA_SEM: "Pietra dei Seminatori",
@@ -281,6 +284,67 @@ static func dust_colors(type: int) -> Array[Color]:
 	return palette_of(type)
 
 
+# ---------------------------------------------------------------- Roadmap 52: il tipo e il comportamento delle tessere
+
+## Il tipo di una tessera dei pacchetti: suolo, roccia, comune (le terre in sacche), minerale, gemma, blocco ("" le altre).
+static var KIND: Dictionary = _kinds()
+## Il comportamento (campi in cima a `tools/vastita_gen/terre.py`), in tabelle per numero di tessera: le leggono il
+## movimento a ogni passo (`Player`, `Creature`), le cadute (`Life`), l'orto, le frane, il freddo, i passi, gli scoppi.
+static var FALLS: PackedByteArray = _flag("cade")          # frana senza appoggio (`LivingEarth`)
+static var QUIET: PackedByteArray = _flag("quiet")         # i passi non fanno rumore (`Senses`)
+static var WARM: PackedByteArray = _flag("warm")           # scalda chi le sta vicino nel freddo (`Harshness`)
+static var BLAST: PackedByteArray = _flag("blast")         # le esplosioni non la rompono (`Throwing`)
+static var SLIP: PackedFloat32Array = _num("slip", 1.0)    # la presa del pavimento (il ghiaccio 0,12)
+static var STICK: PackedFloat32Array = _num("stick", 1.0)  # la corsa sopra (il fango 0,55)
+static var SOFT: PackedFloat32Array = _num("soft", 1.0)    # quanto resta della ferita di una caduta (la neve 0,35)
+static var FERTILE: PackedFloat32Array = _num("fertile", 1.0)   # la crescita dell'orto piantato sopra
+static var FOSSIL: PackedFloat32Array = _num("fossil", 0.0)     # la probabilità di un fossile scavandola
+static var SUPPORT: Dictionary = _support()                # la roccia che regge una terra che frana
+
+
+static func kind_of(t: int) -> String:
+	return String(KIND.get(t, ""))
+
+
+static func _kinds() -> Dictionary:
+	var out := {}
+	var ex := _extra()
+	for t in ex:
+		if ex[t].has("kind"):
+			out[int(t)] = String(ex[t]["kind"])
+	return out
+
+
+static func _flag(key: String) -> PackedByteArray:
+	var out := PackedByteArray()
+	out.resize(256)
+	var ex := _extra()
+	for t in ex:
+		if ex[t].get(key, false):
+			out[int(t)] = 1
+	return out
+
+
+static func _num(key: String, def: float) -> PackedFloat32Array:
+	var out := PackedFloat32Array()
+	out.resize(256)
+	out.fill(def)
+	var ex := _extra()
+	for t in ex:
+		if ex[t].has(key):
+			out[int(t)] = float(ex[t][key])
+	return out
+
+
+static func _support() -> Dictionary:
+	var out := {}
+	var ex := _extra()
+	for t in ex:
+		if ex[t].has("support"):
+			out[int(t)] = int(ex[t]["support"])
+	return out
+
+
 ## È una delle erbe (muschio, muschio di spore, erba d'ambra)? Ci crescono alberi e germogli.
 static func is_grass(t: int) -> bool:
 	return t in GRASSES
@@ -290,6 +354,11 @@ static func is_grass(t: int) -> bool:
 static func blighted_of(t: int) -> int:
 	if is_grass(t):
 		return AVV_MUSCHIO
+	var k := kind_of(t)                       # Roadmap 52: le terre e le rocce dei biomi si ammalano come humus e ardesia
+	if k == "suolo":
+		return AVV_TERRA
+	if k == "roccia" or k == "comune":
+		return AVV_PIETRA
 	match t:
 		DIRT:
 			return AVV_TERRA

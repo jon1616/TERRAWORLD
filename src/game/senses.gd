@@ -30,7 +30,8 @@ func _process(dt: float) -> void:
 	Mind.noises = Mind.noises.filter(func(n: Dictionary) -> bool: return float(n["t"]) > 0.0)
 	var p: Player = m.player
 	_step -= dt
-	if _step <= 0.0 and p.on_floor and absf(p.vel.x) > 70.0:
+	if _step <= 0.0 and p.on_floor and absf(p.vel.x) > 70.0 \
+			and TileDefs.QUIET[m.world.tile(floori(p.position.x / 16.0), floori((p.position.y + Player.HALF.y + 2.0) / 16.0))] == 0:
 		_step = 0.6
 		Mind.noise(p.position, RUN_NOISE)
 	_t -= dt

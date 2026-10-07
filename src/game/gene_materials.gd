@@ -50,6 +50,8 @@ static func spine_for(v: int, awake: bool) -> Array:
 
 
 func on_dig(t: int, c: Vector2i) -> void:
+	if TileDefs.FOSSIL[t] > 0.0 and _rng.randf() < TileDefs.FOSSIL[t]:
+		_drop(fossil(), Vector2(c) * S + Vector2(8, 8))    # Roadmap 52: la pietra fossile
 	var dep: int = c.y - m.world.surface[clampi(c.x, 0, m.world.w - 1)]
 	for g in active:
 		var raw: Dictionary = MaterialsData.GENE_MATERIALS[g]["raw"]
@@ -69,6 +71,16 @@ func on_dig(t: int, c: Vector2i) -> void:
 		var sr: Dictionary = SpineData.METALS[g]["raw"]
 		if t in sr["tiles"] and st >= int(sr["stratum"]) and _rng.randf() < float(sr["chance"]):
 			_drop(String(sr["id"]), Vector2(c) * S + Vector2(8, 8))
+
+
+## Un fossile a caso dei primi animali antichi (strati 1-2 di `ArchaeologyData`): la pietra fossile sta in superficie.
+func fossil() -> String:
+	var pool := []
+	for a in ArchaeologyData.ANIMALS:
+		if int(ArchaeologyData.ANIMALS[a][1]) <= 2:
+			pool.append(String(a))
+	var part: Array = ArchaeologyData.PARTS[_rng.randi_range(0, ArchaeologyData.PARTS.size() - 1)]
+	return ArchaeologyData.fossil_id(String(pool[_rng.randi_range(0, pool.size() - 1)]), String(part[0]))
 
 
 func on_kill(c: Creature) -> void:

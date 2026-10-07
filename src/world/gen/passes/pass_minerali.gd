@@ -9,7 +9,10 @@ func title() -> String:
 
 
 func run(w: World, c: GenContext) -> void:
-	var ores: Array = TileDefs.ORES
+	# Roadmap 52, voce 413: le vene con «vmin»/«vmax» ci sono solo nei mondi di quei vigori
+	var vig := int(c.params.get("vigore", 1))
+	var ores: Array = TileDefs.ORES.filter(func(o: Dictionary) -> bool:
+		return vig >= int(o.get("vmin", 0)) and vig <= int(o.get("vmax", 9999)))
 	var richer := 0.025 * (int(c.params.get("vigore", 1)) - 1)   # vene più grandi nei mondi più vigorosi
 	richer += float(c.genes()["ore"])                               # gene «Vene ricche»
 	var shallow := float(c.genes()["shallow"])                      # gene «Vene affioranti»

@@ -211,7 +211,7 @@ func _dig(c: Vector2i, item: Dictionary, dt: float) -> float:
 	_dig_snd -= dt
 	if _dig_snd <= 0.0 and sfx:
 		_dig_snd = 0.25
-		sfx.play("scavo_terra" if t in [TileDefs.DIRT, TileDefs.RADICE] or TileDefs.is_grass(t) else "scavo_roccia")
+		sfx.play("scavo_terra" if t in [TileDefs.DIRT, TileDefs.RADICE] or TileDefs.is_grass(t) or TileDefs.kind_of(t) == "suolo" else "scavo_roccia")
 		# voce 335: le briciole di ogni colpo di piccone, dal lato del Germogliato
 		var side := (player.position - (Vector2(c) * S + Vector2(8, 8))).limit_length(7.0)
 		ImpactFx.chip(fx_parent, Vector2(c) * S + Vector2(8, 8) + side,
