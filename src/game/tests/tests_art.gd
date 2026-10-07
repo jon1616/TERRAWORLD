@@ -66,6 +66,7 @@ func run() -> void:
 	m.fauna.clear()
 	m.combat.god = false
 	await _ground_row()
+	await _posed_creatures()
 
 
 ## 29 set 2026: una fila di stazioni su un tratto piano (affondo nel terreno, ombra di contatto, niente contorno sotto;
@@ -94,3 +95,51 @@ func _ground_row() -> void:
 		w.stations.erase(o)
 		w.chests.erase(o)
 		m.view.remove_station(o)
+
+
+## 7 ott 2026: le creature con le pose di Nano Banana (`CreaturePosesData`): ogni stato sceglie una posa che esiste, e
+## le quattro creature in fila sul terreno. Foto 163_pose_creature.
+func _posed_creatures() -> void:
+	var w: World = kit.world
+	var ids := ["grumo_muschio", "pecora_muschio", "lepre_linfa", "corvo_corteccia"]
+	var c := kit.flat_spot(w.spawn + Vector2i(60, 0), 12)
+	if c.x < 0:
+		c = Vector2i(w.spawn.x + 60, w.surface[w.spawn.x + 60] - 1)
+	kit.flatten(c, 12)
+	m.snap_to(c)
+	await kit.seconds(0.3)
+	m.combat.god = true
+	var made: Array[Creature] = []
+	var bad: Array = []
+	for i in ids.size():
+		var cr: Creature = m.fauna.add(ids[i], Vector2(c.x * 16 + (i - 1.5) * 48 + 8, (c.y - 2) * 16))
+		made.append(cr)
+		if cr._poses.is_empty():
+			bad.append("%s senza pose" % ids[i])
+			continue
+		# ogni stato deve dare un fotogramma esistente
+		var n: int = cr._frames.size()
+		for st in [[true, Vector2(0, -200), 0.0, 0.0], [false, Vector2(0, 200), 0.0, 0.0], [true, Vector2(90, 0), 0.0, 0.0],
+				[true, Vector2.ZERO, 0.6, 0.0], [true, Vector2.ZERO, -0.6, 0.0], [true, Vector2.ZERO, 0.0, 0.3]]:
+			cr.on_floor = st[0]
+			cr.vel = st[1]
+			cr.crouch = st[2]
+			cr._hurt_t = st[3]
+			var f := cr._pose_frame(0.05)
+			if f < 0 or f >= n:
+				bad.append("%s: fotogramma %d su %d" % [ids[i], f, n])
+		cr.vel = Vector2.ZERO
+		cr.crouch = 0.0
+		cr._hurt_t = 0.0
+	print("creature con le pose: %s" % ("tutte (%d)" % ids.size() if bad.is_empty() else "ATTENZIONE: %s" % [bad]))
+	await kit.seconds(1.2)
+	await kit.save("163_pose_creature")
+	await kit.seconds(0.9)
+	var poses := []
+	for cr in made:
+		if is_instance_valid(cr):
+			poses.append("%s=%s" % [cr.id, cr._pose])
+	print("pose del momento: %s" % ", ".join(poses))
+	await kit.save("163_pose_creature_b")
+	m.fauna.clear()
+	m.combat.god = false

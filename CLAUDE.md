@@ -288,6 +288,14 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   `IconTemplates`; icone tutte diverse con `IconVariety` (misura: `tools/icone.gd` + `tools/icone_simili.py`, da rifare
   dopo ogni oggetto o tavolozza nuova: 0 identiche); stati sopra le creature `StatusMarks`; pulsanti dei pannelli `PanelButtons`. Il metodo e le
   lezioni sui prompt sono in ROADMAP.md, Roadmap 13. Claude crea sempre la cartella prima di dare il prompt.
+  **Le pose delle creature** (7 ott 2026): una tavola 4×2 di Nano Banana per creatura (`arte_ia/creature/`, con il
+  riferimento `00_<nome>_riferimento.png` fatto da `tools/esporta_creatura.gd -- <id>`), ridotta da
+  `tools/importa_creatura.py` (stessa finestra e tavolozza per tutte le pose; `--ancora occhio` per chi vola, `cella`
+  per chi cammina o salta; `--schiarisci` per le creature quasi nere; `--luce` per le maschere di luce) in
+  `arte/creature/<forma>_<n>.png`. La riga in `CreaturePosesData` (punto d'appoggio stampato dallo script, nomi delle
+  pose) e `CreatureArt._posed` le caricano; `Creature._pose_name` sceglie la posa dallo stato (salto, carica, scatto,
+  pascolo, colpita…) e il codice smette di schiacciare il disegno. Fatte: grumo, corvo, pecora di muschio, lepre di
+  Linfa (prova nel gruppo «grafica», foto 163_pose_creature).
 - `musica/` — le musiche fatte dall'utente con Gemini («crea musica»): `esplorazione` (sottofondo) e `guardiano`
   (scontri con i boss), .mp3/.ogg/.wav; per cambiarne una si sostituisce il file con lo stesso nome (poi `--import`).
   Le suona l'autoload `Musica` (`src/audio/music.gd`): già nel menu e senza interruzioni nel mondo; brano del boss

@@ -94,6 +94,10 @@ var _flash := 0.0
 var _bar: HpBar
 var _regen := 0.0                      # voce 79: le rigeneranti
 var _base_y := 0.0
+var _poses := {}                       # 7 ott 2026: le pose di Nano Banana (`CreaturePosesData`), vuoto = due fotogrammi
+var _pose := ""
+var _pose_t := 0.0
+var _hurt_t := 0.0
 
 static var _art_cache := {}
 var _more := {}
@@ -149,6 +153,12 @@ func setup(cid: String, w: World, tgt: Node2D, sd: int, more_mods := {}) -> void
 		# chi rotola gira attorno al proprio centro, non ai piedi
 		_spr.offset = Vector2.ZERO
 		_spr.position = Vector2(0, half.y - h / 2.0)
+	if not _poses.is_empty():
+		# le pose: il punto d'appoggio del disegno (i piedi, o il centro di chi vola) va sui piedi del corpo (o al centro)
+		var fw: int = (_frames[0] as Texture2D).get_width()
+		var anc: Vector2 = _poses["anchor_px"]
+		_spr.offset = Vector2(fw / 2.0 - anc.x, h / 2.0 - anc.y)
+		_spr.position = Vector2(0, 0.0 if _poses.get("center", false) else half.y)
 	_base_y = _spr.position.y
 	add_child(_spr)
 	if not fly:
@@ -183,17 +193,26 @@ func _load_art(shape: String, variant: int) -> void:
 	var key := "%s_%d_%s" % [shape, variant, str(mods)]
 	if not _art_cache.has(key):
 		var fr := CreatureArt.frames(shape, variant)
+		var poses: Dictionary = fr.get("poses", {}).duplicate()
+		var w0: int = (fr["frames"][0] as Image).get_width()
+		var h0: int = (fr["frames"][0] as Image).get_height()
 		if not mods.is_empty():
 			fr = VariantArt.apply(fr, mods)            # voce 55: colori, misura e segni della variante
+		if not poses.is_empty():
+			# il punto d'appoggio segue la misura della variante
+			var im0: Image = fr["frames"][0]
+			var anc: Array = poses["anchor"]
+			poses["anchor_px"] = Vector2(float(anc[0]) * im0.get_width() / w0, float(anc[1]) * im0.get_height() / h0)
 		var t_fr := []
 		var t_gl := []
 		for im in fr["frames"]:
 			t_fr.append(ImageTexture.create_from_image(CreatureFx.shade(im)))   # voce 290: contorno colorato, luce
 		for im in fr["glow"]:
 			t_gl.append(ImageTexture.create_from_image(im))
-		_art_cache[key] = [t_fr, t_gl]
+		_art_cache[key] = [t_fr, t_gl, poses]
 	_frames = _art_cache[key][0]
 	_glows = _art_cache[key][1]
+	_poses = _art_cache[key][2]
 
 
 ## Il Guardiano guarito: smette di attaccare, cambia aspetto (variante 1) e sale piano verso il Cuore.
@@ -349,7 +368,10 @@ func _animate(dt: float) -> void:
 	_anim += dt
 	var f := 0
 	var moving := fly or absf(vel.x) > 5.0
-	if data.get("disguise", false):
+	_hurt_t = maxf(_hurt_t - dt, 0.0)
+	if not _poses.is_empty():
+		f = _pose_frame(dt)
+	elif data.get("disguise", false):
 		# il primo fotogramma è il travestimento (una roccia); sveglia cammina con gli altri due
 		f = 0 if anchored else 1 + (int(_anim * 7.0) % 2 if moving else 0)
 	elif shell > 0.0 and _frames.size() > 2:
@@ -366,7 +388,11 @@ func _animate(dt: float) -> void:
 	var sq := Vector2.ONE
 	var lean := 0.0
 	_dy = 0.0
-	if id.begins_with("grumo"):
+	if not _poses.is_empty():
+		# le pose disegnano già salti, schiacciate e passi: il codice aggiunge solo l'inclinazione di chi vola
+		if fly:
+			lean = clampf(vel.x / maxf(speed, 1.0), -1.0, 1.0) * 0.08 * float(facing)
+	elif id.begins_with("grumo"):
 		if not on_floor:
 			sq = Vector2(0.85, 1.18)
 		else:
@@ -391,7 +417,7 @@ func _animate(dt: float) -> void:
 		_shade.visible = on_floor and not buried and not upside
 	# (voce 289) da ferma respira: la metà alta scende di un pixel e risale
 	var idle := on_floor and not moving and not busy and not buried and shake <= 0.0
-	_spr.material = CreatureFx.breath() if idle else null
+	_spr.material = CreatureFx.breath() if idle and _poses.is_empty() else null
 	if _glow:
 		_glow.scale = _spr.scale
 		_glow.position = _spr.position
@@ -412,6 +438,70 @@ func _animate(dt: float) -> void:
 
 var _sq := Vector2.ONE
 var _lean := 0.0
+
+
+## Le pose disegnate (`CreaturePosesData`): sceglie la posa dallo stato della creatura e il fotogramma del suo ciclo.
+func _pose_frame(dt: float) -> int:
+	var name := _pose_name()
+	if name != _pose:
+		_pose = name
+		_pose_t = 0.0
+	var list: Array = _poses["poses"][name]
+	var fps: float = float((_poses.get("fps", {}) as Dictionary).get(name, 8.0))
+	if name == "cammina" or name == "corsa":
+		fps *= clampf(absf(vel.x) / maxf(speed * (1.4 if name == "corsa" else 0.6), 1.0), 0.6, 1.6)
+	_pose_t += dt
+	return int(list[int(_pose_t * fps) % list.size()])
+
+
+## Che cosa sta facendo la creatura, nel nome di una posa che ha (le mancanti ripiegano su «fermo» o «vola»).
+func _pose_name() -> String:
+	var ps: Dictionary = _poses["poses"]
+	var want := ""
+	if _hurt_t > 0.0 and ps.has("colpita"):
+		want = "colpita"
+	elif tele > 0.0 and ps.has("carica"):
+		want = "carica"
+	elif fly:
+		var sp := vel.length()
+		if busy and sp > speed * 1.4:
+			want = "scatto"
+		elif sp < speed * 0.25:
+			want = "sospeso"
+		elif vel.y > 30.0:
+			want = "planata"
+		else:
+			want = "vola"
+	elif crouch > 0.15:
+		want = "carica"
+	elif not on_floor:
+		want = "stacco" if vel.y < -90.0 else ("discesa" if vel.y > 90.0 else "aria")
+	elif crouch < -0.25:
+		want = "atterra"
+	elif _grazing():
+		want = "bruca"
+	elif absf(vel.x) > speed * 1.1:
+		want = "corsa"
+	elif absf(vel.x) > 5.0:
+		want = "cammina"
+	elif mind.state == Mind.ALERT:
+		want = "allerta"
+	else:
+		want = "fermo"
+	if ps.has(want):
+		return want
+	if want == "corsa" and ps.has("cammina"):
+		return "cammina"
+	if want in ["stacco", "discesa"] and ps.has("aria"):
+		return "aria"
+	return "vola" if ps.has("vola") else "fermo"
+
+
+func _grazing() -> bool:
+	for b in behaviors:
+		if b is BhPascola:
+			return (b as BhPascola).eating()
+	return false
 
 
 ## Roadmap 33, voce 325: il movimento fatto dal codice, per tutte le creature (avevano due fotogrammi quasi uguali).
@@ -502,6 +592,7 @@ func take_hit(dmg: int, from_x: float, force: float) -> bool:
 	elif "guscio" in data["behaviors"]:
 		shell = float(p.get("shell_time", 2.5))   # si chiude dopo il primo colpo (lo tiene aperto `BhGuscio`)
 	just_hit = true
+	_hurt_t = 0.3                          # la posa «colpita» (CreaturePosesData)
 	hp -= real
 	_flash = 0.12
 	stun = maxf(stun, HIT_STUN)             # non accorcia uno stordimento più lungo (reazioni, voce 51)

@@ -17,6 +17,11 @@ var _run := 0.0
 var _tired := 0.0                      # stanca dopo una fuga: per un po' non può scappare
 
 
+## Sta mangiando (la posa «bruca» di chi ha le pose disegnate).
+func eating() -> bool:
+	return _eat > 0.0 and _goal.x >= 0
+
+
 func tick(c: Creature, dt: float) -> void:
 	c.hunger = minf(c.hunger + dt / 70.0, 1.5)
 	var fauna := c.get_parent()

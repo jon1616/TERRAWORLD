@@ -12,6 +12,9 @@ const GRUMI := [
 
 
 static func frames(shape: String, variant: int) -> Dictionary:
+	var posed := _posed(shape, variant)
+	if not posed.is_empty():
+		return posed
 	match shape:
 		"grumo":
 			var k: Array = GRUMI[variant % GRUMI.size()]
@@ -114,6 +117,25 @@ static func frames(shape: String, variant: int) -> Dictionary:
 			var body: Dictionary = CreaturesData.CREATURES[shape]["body"]            # voce 92: le creature dei biomi
 			return _pair(func(f: int) -> Array: return BodyArt.draw(body, f))
 	return {"frames": [Px.img(8, 8)], "glow": [Px.img(8, 8)]}
+
+
+## Le pose di Nano Banana (`CreaturePosesData`), se la forma ne ha e i file ci sono tutti: i fotogrammi, le maschere
+## di luce (vuote se la forma non brilla) e le pose ("poses"), che `Creature` legge per scegliere il fotogramma.
+static func _posed(shape: String, variant: int) -> Dictionary:
+	var d := CreaturePosesData.of(shape, variant)
+	if d.is_empty():
+		return {}
+	var fr: Array = []
+	var gl: Array = []
+	for i in int(d["n"]):
+		var im := ArtLib.image("creature", "%s_%d" % [shape, i + 1])
+		if im == null:
+			return {}
+		fr.append(im.duplicate())
+		var g: Image = ArtLib.image("creature", "%s_%d_luce" % [shape, i + 1]) if d.get("glow", false) else null
+		gl.append(g.duplicate() if g != null else Image.create_empty(im.get_width(), im.get_height(), false,
+			Image.FORMAT_RGBA8))
+	return {"frames": fr, "glow": gl, "poses": d}
 
 
 ## I fotogrammi di una creatura (di solito due; tre per chi ha un guscio o un travestimento).
