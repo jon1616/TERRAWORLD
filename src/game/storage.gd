@@ -38,7 +38,7 @@ func where_text(id: String) -> String:
 	var parts := []
 	var on: int = m.character.bisaccia.count(id)
 	if on > 0:
-		parts.append("[color=#ffe8c0]%d[/color] addosso" % on)
+		parts.append("[color=#ffe8c0]%d[/color] addosso (%s)" % [on, _bag_place(id)])
 	var dsp: Bisaccia = m.character.dispensa
 	if dsp != null and dsp.count(id) > 0:
 		parts.append("[color=#ffe8c0]%d[/color] nella Dispensa" % dsp.count(id))
@@ -61,6 +61,28 @@ func where_text(id: String) -> String:
 	if parts.is_empty():
 		return "[color=#8ef0d8]Dove ce l'hai:[/color] [color=#6a8a84]da nessuna parte, in questo mondo.[/color]"
 	return "[color=#8ef0d8]Dove ce l'hai:[/color] [color=#9fc8c0]%s.[/color]" % " · ".join(parts)
+
+
+## Roadmap 53: dove sta nella Bisaccia: la barra rapida, lo scomparto del suo tipo, la Raccolta, gli scomparti fissi.
+func _bag_place(id: String) -> String:
+	var b: Bisaccia = m.character.bisaccia
+	var where := []
+	for i in Bisaccia.HOTBAR:
+		if b.id_at(i) == id:
+			where.append("barra rapida")
+			break
+	for sct in b.sections:
+		for i in range(int(sct[1]), int(sct[2])):
+			if b.id_at(i) == id:
+				where.append("scomparto %s" % BagData.name_of(String(sct[0])))
+				break
+	if b.raccolta != null and b.raccolta.count(id) > 0:
+		where.append("Raccolta")
+	if b.comps != null and b.comps.count(id) > 0:
+		where.append("scomparti fissi")
+	if where.is_empty():
+		where.append("tasche o basto")
+	return ", ".join(where)
 
 
 static func key(o: Vector2i) -> String:

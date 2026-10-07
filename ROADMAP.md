@@ -5905,7 +5905,11 @@ Lumini restano nei loro scomparti fissi, che il tasto Q non svuota e che restano
   riempimento nel suggerimento), accanto al titolo lo scomparto aperto con «usati/caselle» e la pagina; un altro clic
   sulla scheda o la rotella sfogliano; il clic destro nella Raccolta usa l'oggetto (`use_item`, collegato da `Backpack`
   a `Interact`); «Riordina» lo scomparto aperto. Foto 300, 301, 308.
-- [ ] **421. Attorno.** Q, «Nelle casse», «Deposita», il Seme della Dispensa e il fagotto lavorano sugli scomparti (mai
+- [x] **421. Attorno.** Q, «Nelle casse», «Deposita», il Seme della Dispensa e il fagotto lavorano sugli scomparti (mai
   la barra rapida, gli scomparti fissi e la Raccolta); Esamina, l'Enciclopedia e i consigli lo spiegano.
+  Fatto il 7 ott 2026: Q, «Nelle casse», «Deposita» e il fagotto scorrono le caselle oltre la barra rapida, cioè gli
+  scomparti per tipo (gli scomparti fissi e la Raccolta sono borse a parte); il Seme della Dispensa salta anche la
+  Raccolta. «Dove ce l'hai» dice lo scomparto; capitoli «bisaccia» e «zaino», consigli «piena», «zaino_pieno»,
+  «raccolta»; le schede di Bisacce a gradi e tasche. Prova `stash` (gruppo «zaino»).
 - [ ] **422. La misura.** La prova «zaino» rifatta, il giro intero.
 

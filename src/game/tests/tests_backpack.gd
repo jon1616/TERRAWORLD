@@ -14,6 +14,7 @@ func _init(tk: TestKit) -> void:
 
 func run() -> void:
 	await sections()
+	stash()
 	await bags()
 	await pouches()
 	await pick_rules()
@@ -169,6 +170,40 @@ func sections() -> void:
 		routed, overflow, grows, r0, b.raccolta.slots.size(), counted, saved_ok, migrated, tabs])
 	if not ok:
 		print("ATTENZIONE: gli scomparti per tipo non vanno")
+	_restore_bag(saved)
+
+
+## Roadmap 53: il tasto Q («Nelle casse vicine») svuota gli scomparti per tipo, mai la barra rapida, gli scomparti fissi
+## (munizioni, torce, Lumini) e la Raccolta.
+func stash() -> void:
+	var saved := _save_bag()
+	var b: Bisaccia = m.character.bisaccia
+	var c0: Array = b.comps.to_array()
+	b.add("minerale_radicite", 5)
+	b.add("dardo", 7)
+	b.add("tavoletta_seminatori", 1)
+	var o: Vector2i = m.player_cell() + Vector2i(3, -1)
+	var had: bool = m.world.stations.has(o)
+	m.world.stations[o] = "cesta"
+	m.world.stations_changed()
+	var chest: Bisaccia = m.world.chest_at(o)
+	for id in ["minerale_radicite", "dardo", "tavoletta_seminatori"]:
+		chest.add(id, 1)                       # la cassa li contiene già tutti: Q li manderebbe
+	var hot0 := b.slots.slice(0, Bisaccia.HOTBAR).duplicate(true)
+	var r: Dictionary = m.storage.quick_stack()
+	var ok: bool = chest.count("minerale_radicite") >= 6 and b.comps.count("dardo") >= 7 and b.raccolta.count("tavoletta_seminatori") >= 1 		and b.slots.slice(0, Bisaccia.HOTBAR) == hot0 and int(r.get("n", 0)) > 0
+	print("tasto Q: i minerali nella cassa %s, i dardi restano nello scomparto fisso %s, la tavoletta nella Raccolta %s, la barra rapida ferma %s" % [
+		chest.count("minerale_radicite") >= 6, b.comps.count("dardo") >= 7, b.raccolta.count("tavoletta_seminatori") >= 1,
+		b.slots.slice(0, Bisaccia.HOTBAR) == hot0])
+	if not ok:
+		print("ATTENZIONE: il tasto Q non rispetta gli scomparti")
+	m.world.chests.erase(o)
+	if not had:
+		m.world.stations.erase(o)
+	m.world.stations_changed()
+	b.comps.slots.clear()
+	for e in Bisaccia.from_array(c0, Compartments.size()).slots:
+		b.comps.slots.append(e)
 	_restore_bag(saved)
 
 

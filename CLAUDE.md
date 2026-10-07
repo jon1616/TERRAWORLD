@@ -1096,6 +1096,17 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     `Player._climb_step` (`climbing`, `auto_down` per le prove). `PassLiane` (le liane del Sottobosco).
   - Misura: `tools/blocchi.gd` (prove/blocchi.txt: le categorie accanto a Terraria). Prove: gruppo «terre» (`TestsLands`,
     foto 260-263). Enciclopedia: capitolo «terre»; consigli «terra_viva» e «corde».
+- **Roadmap 53 «La Bisaccia a scomparti»** (voci 419-422, 7 ott 2026; l'utente: «la bisaccia si riempie troppo spesso
+  all'inizio»): `BagData` (i nove scomparti = i tipi di `StorageData.category_of`, `section_of`, `is_collection`, le
+  grandezze `GRADES`, `POUCH_SECTION`). Nella Bisaccia del personaggio gli scomparti sono **tratti contigui di `slots`**
+  dopo la barra rapida (`sections` = [[id, da, a]], `section_size`, `section_range`, `setup_sections(size, keep)`,
+  `restore_sections`): chi scorre le caselle da `HOTBAR` in poi lavora già sugli scomparti. `add` con gli scomparti
+  (`_add_sections`): la pila uguale della barra rapida, gli scomparti fissi (`comps`), la Raccolta o lo scomparto del tipo,
+  poi la barra rapida, poi il basto. La Raccolta (`raccolta`) è una Bisaccia a parte in `all_bags`, senza limite.
+  **Un oggetto nuovo non sceglie lo scomparto: lo decide il suo tipo** (`StorageData`), e ciò che si legge o si
+  colleziona va nella Raccolta (`BagData.RACCOLTA_KINDS`). Le prove che vogliono un oggetto in mano usano `kit.hold`
+  (prende anche dagli scomparti e dalla Raccolta). Pannello: schede in colonna (`BisacciaPanel._section_views`, `page`).
+  Prove: gruppo «zaino» (`sections`, `stash`, foto 300, 301, 308).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni
