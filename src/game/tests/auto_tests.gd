@@ -267,6 +267,7 @@ func run(main: Node2D) -> void:
 	_mark("TestsCaves")
 	await TestsDeep.new(kit).run()         # voce 354: le regole del profondo
 	_mark("TestsDeep")
+	kit.make_room()                        # (le prove del piano prendono armi e doni: la Bisaccia qui è spesso piena)
 	await TestsVastita.new(kit).run()      # Roadmap 38: il piano «La vastità»
 	_mark("TestsVastita")
 	TestsSpine.new(kit).run()              # Roadmap 39: la spina della partita
@@ -285,6 +286,7 @@ func run(main: Node2D) -> void:
 	await TestsTrade.new(kit).run()        # Roadmap 48: il commercio
 	await TestsModes.new(kit).run()        # Roadmap 49: le modalità
 	await TestsDeepCraft.new(kit).run()    # Roadmap 50: la fabbricazione profonda
+	await TestsAfter.new(kit).run()        # Roadmap 51: il dopo senza fine
 	_mark("TestsAccessories")
 	await TestsMaterials.new(kit).run()     # Roadmap 31: il carattere dei materiali
 	_mark("TestsMaterials")
@@ -526,6 +528,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsModes.new(kit).run()          # Roadmap 49: le modalità
 		"fabbricazione":
 			await TestsDeepCraft.new(kit).run()      # Roadmap 50: la fabbricazione profonda
+		"dopo":
+			await TestsAfter.new(kit).run()          # Roadmap 51: il dopo senza fine
 		"carattere":
 			await TestsMaterials.new(kit).run()      # Roadmap 31: il carattere dei materiali
 		"legami":

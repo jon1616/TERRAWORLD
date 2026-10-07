@@ -59,6 +59,10 @@ const SET_FX := {
 	"nerume": ["set_nerume"], "chitina": ["set_chitina"], "osso_antico": ["set_osso_antico"],
 	"corallite": ["set_corallite"], "sanguinite": ["set_sanguinite"], "cuorelegno": ["set_cuorelegno"],
 	"eterite": ["set_eterite"], "astrite": ["set_astrite"], "primambra": ["set_primambra"],
+	# Roadmap 51: i metalli del dopo (abilità già scritte, più forti dei loro gemelli)
+	"aurorite": ["set_stellare", "set_corallite"], "sognite": ["set_linfa", "set_eterite"],
+	"abissite": ["set_vuoto", "set_ossidiana_brace"], "memorite": ["set_micelio_duro", "set_astrite"],
+	"crepuscolite": ["set_tizzonite", "set_cuorelegno"], "seminite": ["set_ferro_brina", "set_primambra"],
 	# i set scritti a mano di prima
 	"seta": ["set_seta"], "seta_vuoto": ["set_seta_vuoto"], "scaglie": ["set_scaglie"], "cielo": ["set_cielo"],
 }

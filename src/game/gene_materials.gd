@@ -44,7 +44,7 @@ static func spine_for(v: int, awake: bool) -> Array:
 		last = String(g)
 	for g in SpineData.METALS:
 		var v0 := int(SpineData.METALS[g]["raw"]["vigor"])
-		if v >= v0 and (v < v0 + SpineData.KEEP or g == last):
+		if v >= v0 and (v < v0 + int(SpineData.METALS[g]["raw"].get("keep", SpineData.KEEP)) or g == last):
 			out.append(String(g))
 	return out
 

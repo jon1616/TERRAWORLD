@@ -93,6 +93,38 @@ func _init() -> void:
 			for e in LootData.TABLES.get(t, []):
 				items[String(e["item"])] = true
 		_p("   %-28s %2d oggetti" % [String(cd.get("name", g["creature"])), items.size()])
+	# Roadmap 51, voce 411: la misura finale del piano
+	_p("")
+	_p("6. LA MISURA FINALE (voce 411)")
+	var behaviors := 0
+	var dir := DirAccess.open("res://src/entities/behaviors")
+	if dir:
+		for fn in dir.get_files():
+			if fn.ends_with(".gd") and fn.begins_with("bh_"):
+				behaviors += 1
+	var bosses := 0
+	var species := 0
+	for cid in CreaturesData.CREATURES:
+		if CreaturesData.CREATURES[cid].get("boss", false):
+			bosses += 1
+		else:
+			species += 1
+	var stations := {}
+	for r in RecipesData.all():
+		stations[String(r.get("station", ""))] = true
+	var after := 0
+	var legends := 0
+	for id in all:
+		if all[id].has("dopo"):
+			after += 1
+		if all[id].get("leggendaria", false):
+			legends += 1
+	_p("   oggetti %d · ricette %d · stazioni con ricette %d · voci nei negozi in più %d" % [all.size(), RecipesData.all().size(),
+		stations.size(), ShopsData.count()])
+	_p("   comportamenti delle creature %d · specie %d · boss %d (Guardiani %d, capi erranti %d)" % [behaviors, species, bosses,
+		GuardiansData.LIST.size(), BiomesData.pack_list("chiefs").size()])
+	_p("   modalità %d · metalli %d (del Risveglio e del dopo %d) · oggetti del dopo %d · armi leggendarie %d" % [ModesData.MODES.size(),
+		MaterialsData.all().size(), SpineData.METALS.size(), after, legends])
 	var f := FileAccess.open("res://prove/vastita.txt", FileAccess.WRITE)
 	f.store_string("\n".join(_lines) + "\n")
 	f.close()

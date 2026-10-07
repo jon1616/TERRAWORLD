@@ -28,8 +28,8 @@ func curves() -> void:
 	var off := []
 	for mat in MaterialsData.MATERIALS.keys() + SpineData.METALS.keys():
 		var md := MaterialsData.get_mat(String(mat))
-		if String(mat) in ["pallidite", "tizzonite", "nimbite"]:
-			continue                                     # i metalli laterali hanno altri pregi (peso, elemento)
+		if String(mat) in ["pallidite", "tizzonite", "nimbite"] or md.has("dopo"):
+			continue                                     # i metalli laterali hanno altri pregi; quelli del dopo la loro curva
 		var want := SpineData.filo_of_tier(int(md["tier"]))
 		if absf(float(md["filo"]) - want) > want * 0.12:
 			off.append("%s %s/%d" % [mat, md["filo"], roundi(want)])
@@ -58,6 +58,8 @@ func metals() -> void:
 		if not SetsData.all().has(g) or not ItemsData.has("corazza_" + g) or not ItemsData.has("arco_" + g):
 			bad.append(g + ": set o famiglia")
 		var f := PhasesData.of("spada_" + g)
+		if SpineData.METALS[g].has("dopo"):
+			continue                                     # Roadmap 51: oltre la fase 23 c'è il dopo (stessa fase, più forza)
 		if f <= last:
 			bad.append("%s: fase %d" % [g, f])
 		last = f
@@ -109,7 +111,7 @@ func awakening() -> void:
 	else:
 		m.world_meta["vigore"] = v0
 	m.cuore_desto.apply()
-	var ok := before.is_empty() and at6 == ["corallite"] and at12.has("primambra") and at12.size() >= 3 and at30 == ["primambra"] \
+	var ok := before.is_empty() and at6 == ["corallite"] and at12.has("primambra") and at12.size() >= 3 and at30 == ["memorite"] \
 		and spine == ["corallite"] and rare > 1.0 and aiu1 == aiu0 + 1 and f_top == 0 and f_deep > 5 and f_deep < 50 \
 		and not rows.is_empty() and det.contains("corallite") and det.contains("fase")
 	print("spina, il Risveglio: prima %s, vigore 6 %s, 12 %s, 30 %s; antiche ×%.2f; Aiuole %d → %d; corallite scavando 400 volte: in superficie %d, nelle Caverne %d; Diario «%s»" % [

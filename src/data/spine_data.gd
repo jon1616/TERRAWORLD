@@ -101,6 +101,38 @@ const METALS := {
 		"raw": {"id": "primambra_grezza", "name": "Primambra", "shape": "gemma", "tiles": [6, 10], "stratum": 3,
 			"vigor": 11, "chance": 0.04, "ancient": 0.5},
 		"desc": "L'ambra della prima linfa, colata quando l'Albero-Madre era un seme."},
+	# Roadmap 51, voce 409: **i metalli del dopo**, uno ogni cinque vigori oltre la spina (13, 18, 23, 28, 33, 38). Le
+	# creature oltre il vigore 11 crescono piano (`HIGH_HP`, `HIGH_DMG`): il filo sale di ~22% per metallo, non di più.
+	"aurorite": {"label": "d'aurorite", "short": "aurorite", "tier": 13, "durezza": 165, "filo": 271, "peso": 5.0,
+		"tenacia": 15.1, "conduzione": 26, "elemento": "luce", "risonanza": 3, "icon": "aurorite", "dopo": 1,
+		"raw": {"id": "aurorite_grezza", "name": "Aurorite grezza", "shape": "cristallo", "tiles": [3, 9], "stratum": 2,
+			"vigor": 13, "keep": 5, "chance": 0.04, "ancient": 0.5},
+		"desc": "Luce che non si è mai spenta, cresciuta nelle rocce dei mondi più vecchi."},
+	"sognite": {"label": "di sognite", "short": "sognite", "tier": 14, "durezza": 180, "filo": 312, "peso": 4.0,
+		"tenacia": 16.3, "conduzione": 30, "elemento": "linfa", "risonanza": 3, "icon": "sognite", "dopo": 2,
+		"raw": {"id": "sognite_grezza", "name": "Sognite grezza", "shape": "gemma", "tiles": [9, 8], "stratum": 2,
+			"vigor": 18, "keep": 5, "chance": 0.04, "ancient": 0.5},
+		"desc": "Linfa rappresa nel sonno dei mondi: chi la tocca sogna qualcuno che non conosce."},
+	"abissite": {"label": "d'abissite", "short": "abissite", "tier": 15, "durezza": 195, "filo": 359, "peso": 9.0,
+		"tenacia": 17.6, "conduzione": 24, "elemento": "vuoto", "risonanza": 3, "icon": "abissite", "dopo": 3,
+		"raw": {"id": "abissite_grezza", "name": "Abissite grezza", "shape": "minerale", "tiles": [10], "stratum": 4,
+			"vigor": 23, "keep": 5, "chance": 0.04, "ancient": 0.5},
+		"desc": "Il fondo del Vuoto, diventato pietra. Pesa più di quanto dovrebbe."},
+	"memorite": {"label": "di memorite", "short": "memorite", "tier": 16, "durezza": 210, "filo": 413, "peso": 7.0,
+		"tenacia": 19.0, "conduzione": 28, "elemento": "spora", "risonanza": 3, "icon": "memorite", "dopo": 4,
+		"raw": {"id": "memorite_grezza", "name": "Memorite grezza", "shape": "zolla", "tiles": [8, 5], "stratum": 1,
+			"vigor": 28, "keep": 5, "chance": 0.05, "ancient": 0.5},
+		"desc": "Radici così vecchie da ricordare i Seminatori. Non dicono quello che ricordano."},
+	"crepuscolite": {"label": "di crepuscolite", "short": "crepuscolite", "tier": 17, "durezza": 225, "filo": 475, "peso": 10.0,
+		"tenacia": 20.5, "conduzione": 22, "elemento": "brace", "risonanza": 3, "icon": "crepuscolite", "dopo": 5,
+		"raw": {"id": "crepuscolite_grezza", "name": "Crepuscolite grezza", "shape": "gemma", "tiles": [3, 10], "stratum": 3,
+			"vigor": 33, "keep": 5, "chance": 0.04, "ancient": 0.5},
+		"desc": "L'ultima brace dei mondi che si spengono, prima del buio."},
+	"seminite": {"label": "di seminite", "short": "seminite", "tier": 18, "durezza": 240, "filo": 546, "peso": 6.0,
+		"tenacia": 22.2, "conduzione": 36, "elemento": "gelo", "risonanza": 3, "icon": "seminite", "dopo": 6,
+		"raw": {"id": "seminite_grezza", "name": "Seminite", "shape": "stella", "tiles": [6, 10], "stratum": 4,
+			"vigor": 38, "keep": 5, "chance": 0.04, "ancient": 0.5},
+		"desc": "Il metallo con cui i Seminatori legavano i semi. Freddo come chi l'ha usato."},
 }
 
 ## Il carattere (`MaterialsData.TRAITS`) e il set (`SetsData`) dei metalli del Risveglio.
@@ -111,6 +143,12 @@ const TRAITS := {
 	"eterite": {"atk_speed": 0.06, "run": 0.04},
 	"astrite": {"luck": 0.06, "magic": 0.06},
 	"primambra": {"damage": 0.04, "defense": 1.5, "halo": 0.1},
+	"aurorite": {"halo": 0.15, "regen": 0.08},
+	"sognite": {"linfa_regen": 0.1, "magic": 0.06},
+	"abissite": {"stealth": -0.08, "damage": 0.05},
+	"memorite": {"luck": 0.06, "regen": 0.06},
+	"crepuscolite": {"thorns": 6.0, "damage": 0.05},
+	"seminite": {"atk_speed": 0.06, "defense": 2.5},
 }
 const SETS := {
 	"corallite": {"name": "Barriera di corallo", "bonus": {"defense": 6, "regen": 1.3, "acqua": 0.5}},
@@ -119,6 +157,13 @@ const SETS := {
 	"eterite": {"name": "Passo d'etere", "bonus": {"atk_speed": 1.14, "run": 1.12, "jump": 1.1}},
 	"astrite": {"name": "Cielo stellato", "bonus": {"magic": 1.18, "luck": 0.1, "defense": 6}},
 	"primambra": {"name": "Prima luce", "bonus": {"damage": 1.12, "defense": 10, "halo": 1.3}},
+	# Roadmap 51, voce 409
+	"aurorite": {"name": "Aurora che resta", "bonus": {"defense": 12, "regen": 1.3, "halo": 1.4}},
+	"sognite": {"name": "Sonno vigile", "bonus": {"magic": 1.2, "linfa_regen": 1.4, "defense": 10}},
+	"abissite": {"name": "Peso dell'abisso", "bonus": {"damage": 1.15, "defense": 14}},
+	"memorite": {"name": "Ciò che si ricorda", "bonus": {"luck": 0.15, "regen": 1.3, "defense": 12}},
+	"crepuscolite": {"name": "Ultima brace", "bonus": {"damage": 1.18, "thorns": 20}},
+	"seminite": {"name": "Mano del Seminatore", "bonus": {"atk_speed": 1.15, "damage": 1.1, "defense": 16}}
 }
 
 ## Il gesto di ogni metallo del Risveglio (`GesturesData.MATERIAL`, effetti «mat_…» in `EffectsData`).
@@ -135,6 +180,19 @@ const GESTURES := {
 		"desc": "ogni quarto colpo cade una pioggia di stelle e un fulmine salta su tre creature; i colpi a distanza inseguono e si aprono in quattro"},
 	"primambra": {"name": "Prima luce", "fx": ["mat_primambra", "mat_primambra_b"], "mods": {"ret": 0.5, "boom": [3.0, 0.5]},
 		"desc": "ogni colpo acceca un attimo e ogni quinto colpo esplode di luce; i colpi tornano indietro e scoppiano"},
+	# Roadmap 51, voce 409: i metalli del dopo
+	"aurorite": {"name": "Aurora", "fx": ["mat_aurorite", "mat_aurorite_b"], "mods": {"split": [5, 0.3], "speed": 1.2},
+		"desc": "a volte cadono stelle e ogni colpo cura; i colpi a distanza si aprono in cinque"},
+	"sognite": {"name": "Sogno", "fx": ["mat_sognite", "mat_sognite_b"], "mods": {"homing": 4.0, "pierce": 2},
+		"desc": "ogni colpo rende Linfa e a volte addormenta; i colpi a distanza inseguono e attraversano"},
+	"abissite": {"name": "Abisso", "fx": ["mat_abissite", "mat_abissite_b"], "mods": {"boom": [3.5, 0.6], "bounce": 2},
+		"desc": "i colpi rendono fragili e tirano a sé; i colpi a distanza rimbalzano e scoppiano"},
+	"memorite": {"name": "Memoria", "fx": ["mat_memorite", "mat_memorite_b"], "mods": {"ret": 0.6, "split": [3, 0.4]},
+		"desc": "ogni quarto colpo ripete il colpo come un'eco e a volte fa sanguinare; i colpi tornano e si dividono"},
+	"crepuscolite": {"name": "Crepuscolo", "fx": ["mat_crepuscolite", "mat_crepuscolite_b"], "mods": {"pierce": 3, "boom": [2.5, 0.5]},
+		"desc": "incendia spesso e ogni quinto colpo esplode; i colpi a distanza attraversano tre creature"},
+	"seminite": {"name": "Seme legato", "fx": ["mat_seminite", "mat_seminite_b"], "mods": {"wave": 14.0, "homing": 3.0, "split": [3, 0.35]},
+		"desc": "gela spesso e ogni terzo colpo un fulmine salta su quattro creature; i colpi ondeggiano, inseguono e si dividono"},
 }
 
 ## Il dono dei Guardiani dopo il Risveglio (voce 364): Vita per sempre, perché la Vita del Germogliato segua la spina.

@@ -52,6 +52,13 @@ const MATERIALS := {
 	"eterite": ["#183048", "#3a6a8a", "#78b0d0", "#c0f0ff", "#ffffff"],
 	"astrite": ["#0c0c30", "#202a70", "#4a60c8", "#a8b8ff", "#fff8d0"],
 	"primambra": ["#5a2a04", "#b06010", "#f0a830", "#ffe080", "#fffff0"],
+	# Roadmap 51, voce 409: i metalli del dopo
+	"aurorite": ["#2a3a5a", "#4a8ab0", "#8ae0d0", "#f0f8a0", "#ffffff"],
+	"sognite": ["#2a1a4a", "#5a3a9a", "#9a7ae0", "#d0c0ff", "#fff0ff"],
+	"abissite": ["#06040c", "#1a1430", "#3a2a5a", "#6a5a8a", "#b0a0d0"],
+	"memorite": ["#2a2414", "#5a4a2a", "#8a7a4a", "#c0b07a", "#f0e8c0"],
+	"crepuscolite": ["#3a0a14", "#7a1a20", "#c04a2a", "#f08a4a", "#ffd0a0"],
+	"seminite": ["#14303a", "#2a6070", "#5aa0b0", "#a0e0f0", "#f0ffff"],
 }
 const LEAF := ["#16574f", "#3aa08a", "#72d4b0"]
 const AMBER := ["#9a4a22", "#ffb040", "#ffe0a0"]

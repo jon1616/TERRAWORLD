@@ -1,6 +1,8 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 6 ott 2026)
+- **Fatto il piano «La vastità» (Roadmap 38-51)**: con la Roadmap 51 «Il dopo senza fine» (voci 409-411, 7 ott 2026):
+  sei metalli del dopo, 60 armi del dopo, 24 leggendarie, la misura finale. Resoconto del piano in fondo.
 - **Fatta la Roadmap 50 «La fabbricazione profonda»** (voci 406-408, 7 ott 2026): 20 banchi a gradi, ingredienti a
   gruppi, seconde strade; 0 oggetti senza uso. Resoconto in fondo.
 - **Fatta la Roadmap 49 «La difficoltà come contenuto»** (voce 405, 7 ott 2026): Normale, Radice dura e Vuoto, con 109
@@ -29,7 +31,8 @@
 - **Fatta la Roadmap 38 «Le fondamenta della vastità»** (voci 356-361, 6 ott 2026): gesti dei materiali, fasi e rarità,
   bottino «uno a scelta tra» e «prima volta», `tools/vastita.gd`, il generatore di contenuti.
 - **Il piano «La vastità» (Roadmap 38-51, voci 356-411)** in `VASTITA.md`: portare TERRAWORLD verso la profondità
-  di Terraria + Calamity + Thorium (confronto sui dati reali: `tools/confronto.gd`). Prossima: la Roadmap 51 «Il dopo senza fine».
+  di Terraria + Calamity + Thorium (confronto sui dati reali: `tools/confronto.gd`). Il piano «La vastità» è finito: ora l'utente rigioca (come dice `VASTITA.md`, la partita vera trova ciò che le prove
+non vedono).
 - **Fatta la Roadmap 37 «Ciò che conta»** (voci 350-355, 4 ott 2026): nata dalla prima partita vera dell'utente (6,6 ore).
   Correzioni, spiegazioni, Dispensa, abitanti come servizi, strati che fanno paura, equipaggiamento che conta. Resoconto in
   fondo alla Roadmap 37. Prossimo passo: l'utente rigioca la sua partita e dice che cosa si sente diverso.
@@ -5757,4 +5760,36 @@ gruppo «modalita».
 **Resoconto della Roadmap 50.** Oggetti senza nessun uso: da 178 a **0** (i trofei dei boss servono alla sala dei trofei,
 le parti e le essenze delle creature rare entrano nei gruppi). Fasi 12-17 (`tools/vastita.gd`): armi 246 (433), accessori
 145 (149), armature 108 (135). Prove: gruppo «fabbricazione».
+
+# Roadmap 51 «Il dopo senza fine» (7 ott 2026)
+
+- [x] **409. Le fasi del dopo.** Oltre la spina, ogni cinque vigori una fase con il suo metallo (aurorite 13, sognite 18,
+  abissite 23, memorite 28, crepuscolite 33, seminite 38), con tutta la famiglia di oggetti, carattere, set e gesto; dieci
+  armi del dopo per fase con due moduli rari; il Sacchetto del dopo che lasciano i Guardiani generati di quei mondi.
+  I metalli si scavano come quelli del Risveglio (ognuno per cinque vigori). Al posto di un materiale diverso per ogni
+  genoma (il piano diceva «dai geni del mondo»): un metallo per fase, perché ognuno porta 47 oggetti e il suo gesto.
+- [x] **410. Le armi leggendarie.** Ventiquattro, quattro per fase del dopo: un nome, una storia breve nel canone (i
+  Seminatori sono i Guardiani), tre moduli rari e due effetti, il 30% sopra le armi del dopo. Dal Sacchetto del dopo
+  (una volta su cinque) e dai capi dei mondi del dopo (6%).
+- [x] **411. La misura finale.** `tools/vastita.gd` sezione 6 (sotto).
+
+**Resoconto della Roadmap 51.** `tools/percorso.gd` fino al vigore 40, appassimenti all'ora (attento / medio): vigore 15
+1,1 / 10,4; vigore 20 1,7 / 7,3; vigore 30 2,1 / 6,0; vigore 40 0,9 / 10,2. La prima taratura (filo +22% per metallo)
+rendeva il dopo facile (attento 0,0 al vigore 40); ora la sfida resta piatta.
+
+# Resoconto del piano «La vastità» (Roadmap 38-51, 6-7 ott 2026)
+
+`tools/vastita.gd`, accanto a Terraria + Calamity + Thorium (tra parentesi):
+- **nessun buco** sotto il 30% di Terraria in nessun blocco di fasi;
+- armi per blocco di fasi: 709 (554), 775 (583), 246 (433), 444 (215); gesti diversi quasi quanti le armi (gemelle quasi
+  zero);
+- accessori: 529 (427), 259 (320), 145 (149), 138 (53); armature: 292 (229), 372 (172), 108 (135), 192 (46);
+- oggetti 7.849, ricette 4.614, 32 stazioni con ricette, 1.162 voci in più nei negozi; 55 comportamenti, 347 specie,
+  103 boss (12 Guardiani della spina, 24 capi erranti, 13 sfidanti e superboss, 8 capi degli eventi e i Guardiani generati);
+- tre modalità con 109 oggetti propri; 12 metalli del Risveglio e del dopo; 24 armi leggendarie; 0 oggetti senza uso;
+- la partita a obiettivi (`tools/durata.gd`): giocatore medio 532 ore con i pilastri (obiettivo 500).
+
+Il punto più debole resta il blocco delle fasi 12-17 (armi al 57%, armature all'80%): lì Terraria ha l'hardmode
+completo. La difficoltà (`tools/percorso.gd`): attento 0,9-2,3 e medio 5-10 appassimenti all'ora in tutta la partita,
+Radice dura e Vuoto più dure (2,8 e 4,7 per l'attento).
 

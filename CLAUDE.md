@@ -1060,6 +1060,12 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     `CompactArt._banco` dal campo «bench»), 40 armi, 24 pezzi d'armatura in 8 set con abilità, 20 accessori, seconde
     ricette di Linfa antica, essenze, cure e chiavi. `ItemUses._from_purpose` (trofei dei boss, membri dei gruppi):
     0 oggetti senza uso. Prove: gruppo «fabbricazione» (`TestsDeepCraft`).
+  - Roadmap 51 «Il dopo senza fine» (voci 409-411): i sei metalli del dopo stanno in `SpineData.METALS` (campo «dopo»,
+    «keep» = per quanti vigori si scavano; carattere, set e gesto come gli altri; filo +15% e tenacia +8% per metallo,
+    tarati con `tools/percorso.gd`, che ora arriva al vigore 40). Il pacchetto `dopo.gd` (`tools/vastita_gen/dopo.py`):
+    60 armi del dopo, 24 leggendarie (campo «leggendaria», con la storia nella descrizione), i Sacchetti del dopo
+    («sacchetto_dopo_<k>», da `FirmaDrops.bag` oltre il vigore 12; `FirmaDrops.after_phase`, `LEGEND`).
+    `tools/vastita.gd` sezione 6: la misura finale. Prove: gruppo «dopo» (`TestsAfter`).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

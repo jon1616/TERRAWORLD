@@ -24,7 +24,7 @@ extends SceneTree
 ## tutti KO, si continua da soli fino alla tappa dopo (si torna al Giardino).
 
 const MATS := ["", "radicite", "legnoferro", "ambra", "linfa", "vuoto", "stellare", "corallite", "sanguinite", "cuorelegno",
-	"eterite", "astrite", "primambra"]
+	"eterite", "astrite", "primambra", "aurorite", "sognite", "abissite", "memorite", "crepuscolite", "seminite"]
 ## Le tappe: nome, zone [[strato, vigore, notte, parte del tempo]], minuti, grado del metallo che si ha, Vita massima
 ## attesa (doni del Cuore di bocciolo, Guardiani curati), livelli di tempra. Il metallo: la linfa e il vuoto vogliono un
 ## materiale dei Guardiani (linfa dopo il primo, vuoto dopo il secondo), lo stellare le Schegge dei mondi di grado 1
@@ -47,6 +47,10 @@ const STAGES := [
 	["Mondo di vigore 10", [[3, 10, false, 0.4], [4, 10, false, 0.6]], 40, 11, 420, 4],
 	["Mondo di vigore 12", [[4, 12, false, 1.0]], 40, 12, 480, 4],
 	["Mondo di vigore 15", [[4, 15, false, 1.0]], 40, 12, 560, 6],
+	# Roadmap 51, voce 409: il dopo (un metallo nuovo ogni cinque vigori)
+	["Mondo di vigore 20", [[4, 20, false, 1.0]], 40, 14, 580, 6],
+	["Mondo di vigore 30", [[4, 30, false, 1.0]], 40, 16, 600, 8],
+	["Mondo di vigore 40", [[4, 40, false, 1.0]], 40, 18, 620, 8],
 ]
 ## Creature affrontate al minuto con pericolo 1 (tarato sull'utente: 80 creature in 67 minuti, quasi tutte in
 ## Superficie e nel Sottobosco); crescono con la radice del pericolo della zona.
