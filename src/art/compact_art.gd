@@ -56,6 +56,8 @@ static func draw(id: String, im: Image, gm: Image, w: int, h: int) -> bool:
 			_totem(im, gm, w, h, ZonesData.info(id))
 		"pozza_linfa":
 			_pozza(im, gm, w, h)                          # Roadmap 45, voce 396
+		_ when StationsData.STATIONS.get(id, {}).has("bench"):
+			_banco(im, gm, w, h, Color(String(StationsData.STATIONS[id]["brew_color"])), int(StationsData.STATIONS[id]["bench"][1]))
 		_ when StationsData.STATIONS.get(id, {}).has("brew"):
 			_fonte(im, gm, w, h, Color(String(StationsData.STATIONS[id]["brew"])))   # voce 398: le fonti
 		_:
@@ -515,4 +517,28 @@ static func _fonte(im: Image, gm: Image, w: int, h: int, col: Color) -> void:
 			if absi(x - cx) < hw - 1 and y > h - 20:
 				Px.put(gm, x, y, col)
 	Px.put(im, cx - 2, h - 19, Color.WHITE)
+
+
+## Voce 406: un banco delle famiglie nuove (2×2): un piano di legno su gambe di pietra dei Seminatori, una lampada del
+## colore della famiglia e tante rune quanti sono i gradi.
+static func _banco(im: Image, gm: Image, w: int, h: int, col: Color, tier: int) -> void:
+	var wood := _wood()
+	var st := Px.pal(TileDefs.P_SEM)
+	for x in range(2, w - 2):
+		for y in range(h - 14, h - 10):
+			Px.put(im, x, y, wood[3] if y == h - 14 else wood[2])
+	for lx in [4, w - 6]:
+		for y in range(h - 10, h):
+			Px.put(im, lx, y, st[2])
+			Px.put(im, lx + 1, y, st[1])
+	for y in range(h - 22, h - 14):
+		for x in range(w / 2 - 3, w / 2 + 3):
+			var edge := y == h - 22 or x == w / 2 - 3 or x == w / 2 + 2
+			Px.put(im, x, y, st[3] if edge else col)
+			if not edge:
+				Px.put(gm, x, y, col)
+	for k in clampi(tier, 1, 4):
+		var x := 7 + k * 4
+		Px.put(im, x, h - 12, col.lightened(0.4))
+		Px.put(gm, x, h - 12, col)
 

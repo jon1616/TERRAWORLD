@@ -1053,6 +1053,13 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     `modalita.gd` (`tools/vastita_gen/modalita.py`): 42 oggetti della Radice dura («modo_dura»), 10 del Vuoto
     («modo_vuoto») e 57 cimeli (tipo «cimelio», campo "cimelio" sommato da `GearEffects` dall'Erbario), dati da
     `FirmaDrops._mode_loot`. `tools/percorso.gd -- --modo 1|2`. Prove: gruppo «modalita» (`TestsModes`).
+  - Roadmap 50 «La fabbricazione profonda» (voci 406-408): `GroupsData` (gli ingredienti «@gruppo», membri calcolati dagli
+    altri dati; letti da `Crafting.have/take/counts`; oggetti finti di tipo «gruppo» per Creare ed Esamina; `verifica_dati`
+    vuole almeno due membri). Il pacchetto `fabbricazione.gd` (`tools/vastita_gen/fabbricazione.py`): 20 stazioni in cinque
+    famiglie × quattro gradi (campo «also» = le stazioni sotto, letto da `Crafting.stations_near`; disegno
+    `CompactArt._banco` dal campo «bench»), 40 armi, 24 pezzi d'armatura in 8 set con abilità, 20 accessori, seconde
+    ricette di Linfa antica, essenze, cure e chiavi. `ItemUses._from_purpose` (trofei dei boss, membri dei gruppi):
+    0 oggetti senza uso. Prove: gruppo «fabbricazione» (`TestsDeepCraft`).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

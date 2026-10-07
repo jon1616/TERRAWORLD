@@ -290,6 +290,7 @@ static func all() -> Dictionary:
 	out.merge(AmmoData.items())                            # voce 372: le munizioni
 	out.merge(BannersData.items())                         # voce 381: gli stendardi delle famiglie
 	out.merge(ArmorData.items())                           # voce 391: le essenze della forgia
+	out.merge(GroupsData.items())                          # voce 407: gli ingredienti a gruppi (oggetti finti)
 	out.merge(HarvestData.items())                         # voce 300: i raccolti delle piante
 	out.merge(EncountersData.items())                      # voce 303: il diario di Tessa
 	out.merge(CuriositiesData.items())                     # voce 304: le curiosità degli strati

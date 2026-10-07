@@ -12,6 +12,11 @@ static var pool: Array = []
 
 ## Quanti ne hai, contando anche le casse vicine.
 static func have(b: Bisaccia, id: String) -> int:
+	if GroupsData.is_group(id):                  # voce 407: qualsiasi oggetto del gruppo
+		var g := 0
+		for mid in GroupsData.members(id):
+			g += have(b, String(mid))
+		return g
 	var n := b.count(id)
 	for c in pool:
 		n += (c as Bisaccia).count(id)
@@ -30,6 +35,12 @@ static func counts(b: Bisaccia) -> Dictionary:
 		for s in (c as Bisaccia).slots:
 			if not s.is_empty():
 				out[s["id"]] = int(out.get(s["id"], 0)) + int(s["n"])
+	for g in GroupsData.GROUPS:                   # voce 407: i gruppi
+		var n := 0
+		for mid in GroupsData.members(g):
+			n += int(out.get(mid, 0))
+		if n > 0:
+			out[g] = n
 	return out
 
 
@@ -52,6 +63,18 @@ static func in_pool(id: String) -> int:
 static func take(b: Bisaccia, id: String, n: int) -> bool:
 	if have(b, id) < n:
 		return false
+	if GroupsData.is_group(id):
+		# voce 407: prima i membri di cui se ne ha di più
+		var ms: Array = GroupsData.members(id).duplicate()
+		ms.sort_custom(func(x: String, y: String) -> bool: return have(b, x) > have(b, y))
+		for mid in ms:
+			if n <= 0:
+				break
+			var k := mini(have(b, String(mid)), n)
+			if k > 0:
+				take(b, String(mid), k)
+				n -= k
+		return true
 	var from_bag := mini(b.count(id), n)
 	if from_bag > 0:
 		b.remove(id, from_bag)
@@ -94,6 +117,8 @@ static func stations_near(world: World, c: Vector2i) -> Dictionary:
 		var r := Rect2i(o, Vector2i(size[0], size[1])).grow(StationsData.craft_reach)
 		if r.has_point(c):
 			out[id] = true
+			for a in sd.get("also", []):
+				out[String(a)] = true             # voce 406: un banco di grado alto fa anche le ricette dei gradi sotto
 	return out
 
 

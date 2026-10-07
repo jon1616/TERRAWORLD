@@ -5,7 +5,7 @@ extends SceneTree
 ## ERRORE = qualcosa di rotto (riferimento a un oggetto che non esiste…); AVVISO = probabilmente da sistemare
 ## (oggetto che non si può ottenere, materiale che non serve a nulla…).
 
-const KINDS := ["cimelio", "bisaccia", "tasca", "basto", "dispensa", "pagina", "curiosita", "occhio", "pinza", "vena", "filo", "isolante", "stilo", "fagiolo", "progetto_sem", "richiamo_grande", "esca_signore", "tintura", "progetto", "materiale", "blocco", "piccone", "ascia", "spada", "arco", "munizione", "torcia", "stazione",
+const KINDS := ["gruppo", "cimelio", "bisaccia", "tasca", "basto", "dispensa", "pagina", "curiosita", "occhio", "pinza", "vena", "filo", "isolante", "stilo", "fagiolo", "progetto_sem", "richiamo_grande", "esca_signore", "tintura", "progetto", "materiale", "blocco", "piccone", "ascia", "spada", "arco", "munizione", "torcia", "stazione",
 	"piattaforma", "elmo", "corazza", "gambali", "consumabile", "seme", "lanterna", "cura", "seme_mondo", "accessorio",
 	"purifica", "essenza", "bastone", "dono", "specchio", "trofeo", "richiamo", "reliquia", "mappa", "rampino", "esplosivo", "ricurvo",
 	"giavellotto", "coltura", "annaffiatoio", "parete", "martello", "moneta", "compagno", "evocatore", "ricordo", "provetta", "fiala", "uovo", "creatura", "vasetto", "laccio", "tavoletta", "chiave", "secchio", "secchio_pieno", "contenitore", "pesce", "canna", "esca", "cassetta", "sfida", "guanti", "stivali", "mantello", "amuleto", "anello",
@@ -186,6 +186,9 @@ func _init() -> void:
 			_err(UniquesData.ITEMS.has(uid), "raccolta %s: unico inesistente %s" % [pool, uid])
 	# 5. ogni oggetto si può ottenere; ogni materiale serve a qualcosa
 	for id in items:
+		if GroupsData.is_group(String(id)):
+			_err(GroupsData.members(String(id)).size() >= 2, "il gruppo %s ha meno di due oggetti" % id)   # voce 407
+			continue
 		var ok: bool = made.has(id) or dropped.has(id) or ItemsData.OTHER_SOURCES.has(id) or items[id].has("source")
 		_warn(ok, "%s non si può ottenere (né ricetta, né scavo, né bottino)" % id)
 		if items[id].get("kind") == "materiale":

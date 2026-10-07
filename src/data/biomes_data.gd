@@ -116,6 +116,7 @@ const PACK_FILES := [
 	preload("res://src/data/vastita/costruire.gd"),        # Roadmap 47: i trofei dei capi degli eventi
 	preload("res://src/data/vastita/commercio.gd"),        # Roadmap 48: le merci secondo il momento e il Mercante
 	preload("res://src/data/vastita/modalita.gd"),         # Roadmap 49: gli oggetti delle modalità dure e i cimeli
+	preload("res://src/data/vastita/fabbricazione.gd"),    # Roadmap 50: le stazioni a gradi e le loro ricette
 ]
 
 static var BIOMES: Array = _load()

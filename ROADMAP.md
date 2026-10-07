@@ -1,6 +1,8 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 6 ott 2026)
+- **Fatta la Roadmap 50 «La fabbricazione profonda»** (voci 406-408, 7 ott 2026): 20 banchi a gradi, ingredienti a
+  gruppi, seconde strade; 0 oggetti senza uso. Resoconto in fondo.
 - **Fatta la Roadmap 49 «La difficoltà come contenuto»** (voce 405, 7 ott 2026): Normale, Radice dura e Vuoto, con 109
   oggetti propri, la Furia del Giardiniere e i cimeli dei boss. Resoconto in fondo.
 - **Fatta la Roadmap 48 «Il commercio e gli abitanti»** (voce 404, 7 ott 2026): merci secondo fascia del mondo,
@@ -27,7 +29,7 @@
 - **Fatta la Roadmap 38 «Le fondamenta della vastità»** (voci 356-361, 6 ott 2026): gesti dei materiali, fasi e rarità,
   bottino «uno a scelta tra» e «prima volta», `tools/vastita.gd`, il generatore di contenuti.
 - **Il piano «La vastità» (Roadmap 38-51, voci 356-411)** in `VASTITA.md`: portare TERRAWORLD verso la profondità
-  di Terraria + Calamity + Thorium (confronto sui dati reali: `tools/confronto.gd`). Prossima: la Roadmap 50 «La fabbricazione profonda».
+  di Terraria + Calamity + Thorium (confronto sui dati reali: `tools/confronto.gd`). Prossima: la Roadmap 51 «Il dopo senza fine».
 - **Fatta la Roadmap 37 «Ciò che conta»** (voci 350-355, 4 ott 2026): nata dalla prima partita vera dell'utente (6,6 ore).
   Correzioni, spiegazioni, Dispensa, abitanti come servizi, strati che fanno paura, equipaggiamento che conta. Resoconto in
   fondo alla Roadmap 37. Prossimo passo: l'utente rigioca la sua partita e dice che cosa si sente diverso.
@@ -5740,4 +5742,19 @@ nei negozi: si trovano o si fabbricano. Prove: gruppo «commercio».
 **Resoconto della Roadmap 49.** `tools/percorso.gd -- --modo` (appassimenti all'ora, attento / medio): Normale 1,1 / 6,0;
 Radice dura 2,8 / 10,5; Vuoto 4,7 / 15,6 (senza contare la Furia). Oggetti propri delle modalità dure: 109. Prove:
 gruppo «modalita».
+
+# Roadmap 50 «La fabbricazione profonda» (7 ott 2026)
+
+- [x] **406. Le stazioni.** Cinque famiglie di banchi in quattro gradi (20 stazioni nuove, 32 stazioni con ricette in
+  tutto): Distillatore di Linfa, Forgia del Cuore (40 armi delle fasi 12-19), Armeria dei Seminatori (24 pezzi in 8 set
+  con abilità), Banco del gioielliere (20 accessori), Scrittoio del cartografo. Ogni grado si fa dal grado prima e fa
+  anche le sue ricette.
+- [x] **407. Gli ingredienti alternativi.** Sette gruppi («qualsiasi pesce», «gemma», «essenza di creatura», «parte di
+  creatura rara», «trofeo di creatura», «raccolto», «minerale grezzo»): si prende prima ciò di cui se ne ha di più.
+- [x] **408. Più strade per lo stesso oggetto.** Linfa antica (due ricette), le otto essenze della forgia, quattro cure,
+  le 26 chiavi dei biomi e la Mappa dei Seminatori si possono anche fabbricare.
+
+**Resoconto della Roadmap 50.** Oggetti senza nessun uso: da 178 a **0** (i trofei dei boss servono alla sala dei trofei,
+le parti e le essenze delle creature rare entrano nei gruppi). Fasi 12-17 (`tools/vastita.gd`): armi 246 (433), accessori
+145 (149), armature 108 (135). Prove: gruppo «fabbricazione».
 

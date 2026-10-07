@@ -51,6 +51,10 @@ Per ogni fase della partita ci sono dieci armi uniche, una per stile più due: n
 
 [b]Le linee d'arma[/b]
 Al Maglio dei Seminatori le armi firma di uno stile si fondono in una [b]linea[/b] di sei passi. Ogni passo porta gli effetti delle armi che l'hanno fatto. L'ultimo è l'[b]arma suprema[/b] dello stile, per esempio la Radice del mondo per la mischia o l'Arco del firmamento per la distanza."""},
+	{"id": "banchi", "group": "Creare ed equipaggiarsi", "name": "I banchi a gradi e gli ingredienti a scelta", "text":
+"""Cinque famiglie di [b]banchi[/b] crescono in quattro gradi (I-IV), ognuno costruito sul grado prima con un metallo del Risveglio: il [b]Distillatore di Linfa[/b] (Linfa antica, essenze della forgia e cure da ciò che peschi e coltivi), la [b]Forgia del Cuore[/b] (armi), l'[b]Armeria dei Seminatori[/b] (armature a set con la loro abilità), il [b]Banco del gioielliere[/b] (accessori) e lo [b]Scrittoio del cartografo[/b] (le chiavi dei biomi e le mappe). Un banco di grado alto fa anche tutto ciò che fanno quelli sotto.
+Molte ricette chiedono un ingrediente [b]a scelta[/b]: «qualsiasi pesce», «qualsiasi gemma», «qualsiasi trofeo di creatura», «qualsiasi essenza» o «parte» di creatura rara, «qualsiasi raccolto», «qualsiasi minerale grezzo». Va bene uno qualunque del gruppo: si prende prima quello di cui ne hai di più.
+Alcune cose importanti hanno [b]più strade[/b]: la Linfa antica, le essenze della forgia, le cure e le chiavi dei biomi si trovano, ma si possono anche fabbricare."""},
 	{"id": "modalita", "group": "Creare ed equipaggiarsi", "name": "Le modalità: Normale, Radice dura, Vuoto", "text":
 """Creando un Giardino si sceglie la [b]modalità[/b], che vale per tutti i mondi che nasceranno da lui.
 [b]Normale[/b]: la partita com'è pensata.

@@ -141,6 +141,7 @@ static func _build() -> void:
 	_from_projects()
 	_from_misc()
 	_from_finds()
+	_from_purpose()
 
 
 ## «a» / «di» con l'articolo del nome: «alla Viandante», «dell'Erborista», «al Pescatore».
@@ -289,4 +290,21 @@ static func _from_finds() -> void:
 	for id in ItemsData.all():
 		if TransmuteData.of(String(id)) != "":
 			_add(String(id), "Nella Pozza di Linfa antica si trasforma in un altro oggetto della sua famiglia (dopo il primo Guardiano).")
+
+
+## Roadmap 47 e 50: i trofei dei boss nella sala dei trofei; gli oggetti che valgono come ingrediente a gruppi.
+static func _from_purpose() -> void:
+	for id in ItemsData.all():
+		var bo := RoomsData.boss_of_trophy(String(id))
+		if bo != "":
+			_add(String(id), "Esposto in una cassa della sala dei trofei: +%d%% di danno contro %s." % [
+				roundi(RoomsData.BOSS_TROPHY * 100.0), CreaturesData.get_data(bo).get("name", bo)])
+	var uses := {}
+	for r in RecipesData.all():
+		for k in r["in"]:
+			if GroupsData.is_group(String(k)):
+				uses[String(k)] = int(uses.get(String(k), 0)) + 1
+	for g in uses:
+		for mid in GroupsData.members(String(g)):
+			_add(String(mid), "Vale come «%s» in %d ricette." % [String(GroupsData.GROUPS[g]["name"]).to_lower(), int(uses[g])])
 
