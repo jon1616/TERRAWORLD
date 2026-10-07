@@ -19,6 +19,7 @@ func run() -> void:
 	data()
 	world()
 	await sealed_and_mimic()
+	structures()
 	pool()
 	rare()
 	print("ritrovamenti: %s" % str(res))
@@ -63,6 +64,35 @@ func world() -> void:
 			biome_chests += 1
 	res["mondo"] = biome_chests >= 3 and pools == 1
 	print("ritrovamenti, il mondo di prova: casse dei biomi %d, mimi %d, Pozza %d" % [biome_chests, mimics, pools])
+
+
+## Voce 394: le strutture del mondo di prova (con il tesoro del bioma) e il guardiano che si sveglia.
+func structures() -> void:
+	var list: Array = m.world.gen_notes.get("strutture", [])
+	var with_treasure := 0
+	for e in list:
+		var b := String(PlacesData.PLACES[String(e["id"])]["biome"])
+		var rect := Rect2i(int(e["x"]), int(e["y"]), int(e["w"]), int(e["h"]))
+		for o in m.world.stations:
+			if String(m.world.stations[o]) == "scrigno" and rect.has_point(o):
+				for it in LootData.items_of("cassa_" + b):
+					if m.world.chest_at(o).count(String(it)) > 0:
+						with_treasure += 1
+						break
+	var n_all := 0
+	for id in PlacesData.PLACES:
+		if PlacesData.PLACES[id].get("struttura", false):
+			n_all += 1
+	var pc := Vector2i(floori(m.player.position.x / 16.0), floori(m.player.position.y / 16.0))
+	var fake := {"id": "str_foresta_1", "x": pc.x + 2, "y": pc.y - 6, "w": 20, "h": 8}
+	var g: Creature = m.finds.guard(fake)
+	var guard_ok := g != null and g.ancient != null
+	if g != null:
+		m.fauna.kill(g)
+	res["strutture"] = n_all >= 100 and list.size() >= 2 and with_treasure == list.size() and guard_ok
+	print("ritrovamenti, le strutture: %d in tutto, %d nel mondo di prova (%s), con il tesoro del bioma %d; il guardiano %s" % [
+		n_all, list.size(), str(list.map(func(e: Dictionary) -> String: return String(e["id"]))), with_treasure,
+		Finds.strongest_of("foresta")])
 
 
 ## Una cassa sigillata chiede la chiave e la consuma; un mimo si sveglia quando lo tocchi.

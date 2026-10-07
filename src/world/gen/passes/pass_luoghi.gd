@@ -20,7 +20,8 @@ func run(w: World, c: GenContext) -> void:
 				cand.append(String(id))
 				break
 	if bool(c.params.get("luoghi_tutti", false)):          # prove e strumenti: tutti (non le camere-enigma)
-		cand = PlacesData.PLACES.keys().filter(func(k: String) -> bool: return not PlacesData.PLACES[k].get("camera", false))
+		cand = PlacesData.PLACES.keys().filter(func(k: String) -> bool: return not PlacesData.PLACES[k].get("camera", false) \
+			and not PlacesData.PLACES[k].get("struttura", false))
 	var out := []
 	for id in cand:
 		if out.size() >= PlacesData.MAX_PER_WORLD and not bool(c.params.get("luoghi_tutti", false)):

@@ -115,3 +115,51 @@ func transmute(id: String, to: String) -> void:
 	m.sfx.play("dono")
 	m.hud.toast("%s diventa %s%s" % [ItemsData.get_item(id).get("name", id), ItemsData.get_item(to).get("name", to),
 		" (nuova trasformazione)" if first else ""])
+
+
+## Voce 394: il guardiano di una struttura (la creatura più forte del suo bioma, antica e più robusta) si sveglia
+## nella stanza del tesoro.
+const GUARD_HP := 2.0
+var guards := 0                          # per le prove
+
+
+func guard(e: Dictionary) -> Creature:
+	var b := String(PlacesData.PLACES[String(e["id"])].get("biome", ""))
+	var cid := strongest_of(b)
+	if cid == "":
+		return null
+	var d := CreaturesData.get_data(cid)
+	var at := Vector2(float(e["x"]) + float(e["w"]) * 0.7, float(e["y"]) + float(e["h"]) - 2.0) * 16.0
+	var cr: Creature = m.fauna.add(cid, at - Vector2(0, float(d["half"][1])))
+	var st := StrataData.at(m.world, floori(at.x / 16.0), floori(at.y / 16.0))
+	var mult: float = float(StrataData.STRATA[st]["danger"]) * m.fauna.vigor_mult
+	cr.strengthen(mult * GUARD_HP, m.fauna.dmg_for(mult) * DangerData.DAMAGE)
+	m.fauna.make_ancient(cr, "antica")
+	cr.extra = true
+	guards += 1
+	m.hud.toast("Qualcosa si sveglia nella stanza del tesoro.")
+	return cr
+
+
+## La creatura più forte che vive in un bioma (di superficie, del sottosuolo o del cielo); il suo mimo se non ce n'è.
+static var _strongest := {}
+
+
+static func strongest_of(b: String) -> String:
+	if _strongest.has(b):
+		return String(_strongest[b])
+	var best := ""
+	var hp := -1
+	for id in CreaturesData.CREATURES:
+		var d: Dictionary = CreaturesData.CREATURES[id]
+		if d.get("boss", false) or d.get("awake", false) or int(d.get("weight", 0)) <= 0 and not d.has("under") and not d.has("sky"):
+			continue
+		var here: bool = b in (d.get("biomes", []) as Array) or String(d.get("under", "")) == b or String(d.get("sky", "")) == b
+		if here and int(d.get("hp", 0)) > hp:
+			hp = int(d.get("hp", 0))
+			best = String(id)
+	if best == "" and CreaturesData.CREATURES.has("mimo_" + b):
+		best = "mimo_" + b
+	_strongest[b] = best
+	return best
+

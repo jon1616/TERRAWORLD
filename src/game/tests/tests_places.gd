@@ -48,7 +48,8 @@ func run() -> void:
 	var ids1: Array = (w1.gen_notes.get("luoghi", []) as Array).map(func(e: Dictionary) -> String: return String(e["id"]))
 	var n2: int = (w2.gen_notes.get("luoghi", []) as Array).size()
 	# gli otto disegni nel mondo di prova
-	var all: Array = PlacesData.PLACES.keys().filter(func(k: String) -> bool: return not PlacesData.PLACES[k].get("camera", false))   # (le camere-enigma della voce 97 non hanno l'oggetto unico)
+	var all: Array = PlacesData.PLACES.keys().filter(func(k: String) -> bool: return not PlacesData.PLACES[k].get("camera", false) \
+		and not PlacesData.PLACES[k].get("struttura", false))   # (le camere-enigma della voce 97 non hanno l'oggetto unico)
 	var built := build_row(all)
 	var ok := 0
 	for e in built:

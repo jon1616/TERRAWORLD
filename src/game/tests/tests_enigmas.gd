@@ -38,7 +38,8 @@ func _weapon_of(elem: String) -> String:
 
 func run() -> void:
 	var mech: Mechanisms = m.mechanisms
-	var built: Array = TestsPlaces.new(kit).build_row(PlacesData.PLACES.keys(), 70)
+	var built: Array = TestsPlaces.new(kit).build_row(PlacesData.PLACES.keys().filter(
+		func(k: String) -> bool: return not PlacesData.PLACES[k].get("struttura", false)), 70)
 	for e in built:
 		e["enigma"] = Mechanisms.make(e, world.world_seed)
 	(m.world_meta["luoghi"] as Array).append_array(built)
@@ -93,7 +94,7 @@ func run() -> void:
 	await kit.save("134_porta_aperta")
 	m.snap_to(world.spawn)
 	m.character.lingua = had_lingua
-	var opened: int = PlacesData.PLACES.keys().filter(func(k: String) -> bool: return bool(res.get(k, false))).size()
+	var opened: int = PlacesData.PLACES.keys().filter(func(k: String) -> bool: return bool(res.get(k, false))).size()   # (le strutture non sono costruite qui)
 	var lever_hint: String = mech.lore_extra(built[1])
 	print("enigmi: porte aperte %d su %d %s; senza chiave resta chiusa %s; il leggio della serra scrive le leve %s" % [
 		opened, built.size(), res, "sì" if res.get("chiave_prima_chiusa", false) else "NO",

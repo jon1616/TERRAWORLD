@@ -48,6 +48,7 @@ static func passes() -> Array[GenPass]:
 		PassSigilli.new(),
 		PassCentrali.new(),                 # Roadmap 19, voce 206: le Centrali dei Seminatori (enigmi di Linfa)
 		PassLuoghi.new(),
+		PassStrutture.new(),                # Roadmap 45, voce 394: le strutture dei biomi
 		PassCatene.new(),
 		PassStele.new(),
 		PassParole.new(),                   # Roadmap 17, voce 174: gli scrigni a parola (dopo le stele)

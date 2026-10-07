@@ -145,6 +145,8 @@ static func inline(key: String) -> String:
 		"cat_luoghi":
 			for id in PlacesData.PLACES:
 				var pd: Dictionary = PlacesData.PLACES[id]
+				if pd.get("struttura", false):
+					continue                               # voce 394: le strutture hanno il loro capitolo
 				var seen: bool = EncyPages.show_all or (EncyPages.ch != null and EncyPages.ch.stats.has("luogo_" + String(id)))
 				if not seen:
 					rows.append("• [color=%s]un luogo che non hai ancora trovato[/color]" % D)

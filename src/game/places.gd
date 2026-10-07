@@ -13,7 +13,8 @@ func setup(main: Node2D) -> void:
 	m = main
 	if not m.world_meta.has("luoghi"):
 		var out := []
-		for e in (m.world.gen_notes.get("luoghi", []) as Array) + (m.world.gen_notes.get("camere", []) as Array):   # voce 97: le camere-enigma
+		for e in (m.world.gen_notes.get("luoghi", []) as Array) + (m.world.gen_notes.get("camere", []) as Array) \
+				+ (m.world.gen_notes.get("strutture", []) as Array):   # voce 97: le camere-enigma; voce 394: le strutture
 			var d: Dictionary = (e as Dictionary).duplicate(true)
 			var lg: Vector2i = d.get("leggio", Vector2i(-1, -1))
 			d["leggio"] = [lg.x, lg.y]
@@ -52,6 +53,8 @@ func _process(dt: float) -> void:
 	e["trovato"] = true
 	var pd: Dictionary = PlacesData.PLACES[String(e["id"])]
 	m.depth_watch.banner.show_stratum(String(pd["name"]), String(pd["banner"]), Color(String(pd["color"])))
+	if pd.get("guard", false) and m.get("finds") != null:
+		m.finds.guard(e)                            # voce 394: il guardiano della struttura si sveglia
 	var st: Dictionary = m.character.stats
 	st["luoghi"] = int(st.get("luoghi", 0)) + 1
 	if not st.has("luogo_" + String(e["id"])):

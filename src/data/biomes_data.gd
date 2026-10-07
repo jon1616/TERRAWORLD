@@ -110,6 +110,7 @@ const PACK_FILES := [
 	preload("res://src/data/vastita/armature.gd"),         # Roadmap 44: le spoglie dei boss
 	preload("res://src/data/vastita/rari.gd"),             # voce 395: un raro per ogni specie
 	preload("res://src/data/vastita/ritrovamenti.gd"),     # voci 392-393: casse dei biomi, chiavi, mimi
+	preload("res://src/data/vastita/strutture.gd"),        # voce 394: le strutture dei biomi
 ]
 
 static var BIOMES: Array = _load()

@@ -20,7 +20,10 @@ const MECH := {"leve": "leva", "bracieri": "braciere", "piastre": "piastra", "cr
 ## Secondi per premere tutte le piastre.
 const PLATE_TIME := 5.0
 
-const GRIDS := {
+## Roadmap 45, voce 394: più le strutture dei biomi dei pacchetti (campi «grids» e «places», con "struttura": true).
+static var GRIDS: Dictionary = _GRIDS.merged(BiomesData.pack("grids"))
+
+const _GRIDS := {
 	# voce 97: le camere-enigma, piccole e uguali: a sinistra il leggio e i tre meccanismi, dietro la porta lo scrigno
 	"camera_bracieri": [
 		"################",
@@ -162,7 +165,9 @@ const GRIDS := {
 
 ## Ogni luogo: nome, dove (strati, o "superficie"), i geni che lo chiamano (ne basta uno), la scritta del ritrovamento,
 ## la storia del leggio, l'oggetto unico dello scrigno, il colore, l'enigma (voce 71).
-const PLACES := {
+static var PLACES: Dictionary = _PLACES.merged(BiomesData.pack("places"))
+
+const _PLACES := {
 	# voce 97: le camere-enigma (niente geni: le mette `PassSegretiAnomalie` in ogni mondo, niente oggetto unico)
 	"camera_bracieri": {"name": "Camera dei bracieri", "strata": [1, 3], "genes": [], "camera": true,
 		"banner": "Tre bracieri spenti davanti a una porta", "color": "#ffb070", "unique": "",
