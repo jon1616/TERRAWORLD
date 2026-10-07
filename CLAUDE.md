@@ -1018,6 +1018,15 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     `src/data/vastita/armature.gd` (`tools/vastita_gen/armature.py`): set di tre pezzi per Guardiani, capi, sfidanti,
     superboss ed eventi, tabelle «armatura_<creatura>» tirate da `FirmaDrops`. Icone in `HelmShapes`. Prove: gruppo
     «armature» (`TestsArmor`).
+  - Roadmap 45 «I ritrovamenti» (voci 392-397): `Finds` (`src/game/finds.gd`: casse sigillate e chiavi, mimi, la Pozza,
+    i guardiani delle strutture `guard`, il dono del Cuore dei mondi segreti) e `Rares` (`src/game/rares.gd`: il raro di
+    ogni specie, campi «raro_di»/«raro_p»). I pacchetti generati: `rari.gd` (`tools/vastita_gen/rari.py`, dall'elenco
+    `tools/vastita_gen/specie.json` scritto da `tools/specie.gd`: **da rifare dopo specie nuove**), `ritrovamenti.gd`
+    (casse dei biomi: campo «chests» → `ChestsData.FOUND`, «mimics» → `ChestsData.MIMICS`; `ChestsData.biome_at` e
+    `biome_roll` le mettono in `PassRovine` e `PassOsservatori`), `strutture.gd` (campi «places» e «grids» →
+    `PlacesData.PLACES/GRIDS` con "struttura": true, messe da `PassStrutture`, appunti `notes["strutture"]` letti da
+    `Places`), `segreti.gd` (cinque geni «segreto» con «combo», oggetti «segreto_<gene>»). La Pozza: `PassPozza`,
+    `TransmuteData` (famiglie calcolate dagli altri dati). Prove: gruppo «ritrovamenti» (`TestsFinds`).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

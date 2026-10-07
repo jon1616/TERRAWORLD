@@ -285,7 +285,9 @@ func try_spawn() -> Creature:
 	if nest_hook.is_valid():
 		var ns: Array = nest_hook.call(pc)
 		if not ns.is_empty():
-			return spawn_at_nest(String(ns[0]), ns[1])
+			var at_nest := spawn_at_nest(String(ns[0]), ns[1])
+			if at_nest != null:
+				return at_nest                          # (7 ott 2026: un nido nella luce non teneva più vuota la grotta attorno)
 	# voce 302: fino a `SPAWN_TRIES` punti a caso nell'anello, il primo con uno spazio 2×2 e un pavimento sotto (prima un
 	# punto solo: sotto terra due volte su tre cadeva nella roccia e la grotta restava vuota)
 	var c := Vector2i(-1, -1)

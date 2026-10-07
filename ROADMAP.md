@@ -1,6 +1,8 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 6 ott 2026)
+- **Fatta la Roadmap 45 «I ritrovamenti»** (voci 392-397, 7 ott 2026): casse dei biomi con le chiavi, mimi, 104
+  strutture, un raro per ogni specie, la Pozza di Linfa antica, cinque semi segreti. Resoconto in fondo.
 - **Fatta la Roadmap 44 «Le armature e i set»** (voci 389-391, 7 ott 2026): elmi degli stili, set con un'abilità, le
   spoglie dei boss, la forgia delle armature. Resoconto in fondo.
 - **Fatta la Roadmap 43 «Gli accessori e il movimento»** (voci 383-388, 7 ott 2026): il motore delle abilità, 138
@@ -16,7 +18,7 @@
 - **Fatta la Roadmap 38 «Le fondamenta della vastità»** (voci 356-361, 6 ott 2026): gesti dei materiali, fasi e rarità,
   bottino «uno a scelta tra» e «prima volta», `tools/vastita.gd`, il generatore di contenuti.
 - **Il piano «La vastità» (Roadmap 38-51, voci 356-411)** in `VASTITA.md`: portare TERRAWORLD verso la profondità
-  di Terraria + Calamity + Thorium (confronto sui dati reali: `tools/confronto.gd`). Prossima: la Roadmap 45 «I ritrovamenti».
+  di Terraria + Calamity + Thorium (confronto sui dati reali: `tools/confronto.gd`). Prossima: la Roadmap 46 «Consumabili, pesca e cucina».
 - **Fatta la Roadmap 37 «Ciò che conta»** (voci 350-355, 4 ott 2026): nata dalla prima partita vera dell'utente (6,6 ore).
   Correzioni, spiegazioni, Dispensa, abitanti come servizi, strati che fanno paura, equipaggiamento che conta. Resoconto in
   fondo alla Roadmap 37. Prossimo passo: l'utente rigioca la sua partita e dice che cosa si sente diverso.
@@ -5640,3 +5642,34 @@ Il buco degli accessori delle fasi alte è chiuso. Oggetti: 5.918, icone tutte d
 Le fasi 12-17 restano il buco del gioco (anche per le armi, 26%): ci tornerà la fabbricazione profonda (Roadmap 50).
 Oggetti 6.304, icone tutte diverse. Prove: gruppo «armature».
 
+# Roadmap 45 «I ritrovamenti» (7 ott 2026)
+
+- [x] **392. Le casse dei biomi.** 26 biomi, ognuno con la sua cassa (cinque oggetti: tre armi, un accessorio, un
+  attrezzo) e la sua cassa sigillata (tre oggetti di sette fasi più in là), nelle rovine sotto il bioma o negli
+  osservatori del cielo. La chiave del bioma la lasciano le sue creature (1/150) dopo il primo Guardiano.
+- [x] **393. I mimi.** Un mimo per bioma con l'aspetto della sua cassa (6% degli scrigni delle rovine): si sveglia
+  toccandolo e lascia le cose della sua cassa (a volte di quella sigillata); trofeo e stendardo dei mimi.
+- [x] **394. Le strutture.** 104 strutture (26 biomi × 4 gradi: villaggi abbandonati, nidi giganti, templi, fucine
+  sepolte, tane antiche, navi di radice nel cielo), quattro per mondo, del grado del mondo e dei suoi biomi. Due stanze,
+  il leggio, lo scrigno con gli oggetti della cassa del bioma e un'arma firma; la sorpresa è un enigma (leve, bracieri,
+  piastre, cristalli) o un guardiano antico del bioma. L'abitante da salvare non c'è: chiede un sistema degli abitanti
+  in pericolo (va con la Roadmap 48).
+- [x] **395. I rari dei nemici.** 285 rari, uno per specie (da 1/150 a 1/50): armi con un effetto e un modulo propri
+  o accessori con un'abilità; nessuna terna ripetuta.
+- [x] **396. La Pozza di Linfa antica.** Una per mondo nelle Profondità; dopo il primo Guardiano trasforma l'oggetto in
+  mano nel seguente della sua famiglia: 1.247 trasformazioni (armi firma, accessori firma, rari, casse dei biomi, spoglie,
+  elmi degli stili, essenze). Le creature che ci cadono dentro non cambiano: rimandato.
+- [x] **397. I semi segreti.** Cinque geni che nascono solo innestando la coppia giusta (la notte che non finisce, il
+  mondo dei Seminatori, il mondo cavo, il mondo d'acqua, il mondo dei giganti), ognuno con tre oggetti propri negli
+  scrigni e dal Cuore.
+
+**Resoconto della Roadmap 45.** Per blocco di fasi (`tools/vastita.gd`, corretto: ora conta come armi anche lanci,
+strumenti, rami e semi da guerra, e per i Guardiani anche il Sacchetto e le spoglie; Terraria con le due mod tra parentesi):
+- armi: 692 (554), 767 (583), 206 (433), 173 (215);
+- accessori: 524 (427), 227 (320), 106 (149), 123 (53);
+- oggetti diversi da ogni Guardiano: 18 (Terraria ~20).
+
+Il buco resta nelle fasi 12-17 (armi 48%, armature 67%): ci torna la Roadmap 50. Oggetti 6.918, icone tutte diverse.
+Prove: gruppo «ritrovamenti»; il giro intero ha trovato un difetto vecchio, corretto: vicino a un nido in un punto
+illuminato le nascite fallivano tutte (ora si prova la nascita normale). Da vedere poi: 195 oggetti senza nessun uso
+(soprattutto le essenze delle creature della Roadmap 42).

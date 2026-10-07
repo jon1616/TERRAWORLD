@@ -15,7 +15,12 @@ func _init(tk: TestKit) -> void:
 	m = tk.m
 
 
+static func jobs() -> Array:
+	return [[5150, 1600, 900, {"vigore": 4, "geni": ["seminatori_vivi"]}]]
+
+
 func run() -> void:
+	await secret_seed()
 	data()
 	world()
 	await sealed_and_mimic()
@@ -66,6 +71,25 @@ func world() -> void:
 	print("ritrovamenti, il mondo di prova: casse dei biomi %d, mimi %d, Pozza %d" % [biome_chests, mimics, pools])
 
 
+## Voce 397: due Semi con la coppia giusta di geni possono dare il gene segreto; il mondo segreto ha i suoi oggetti
+## negli scrigni.
+func secret_seed() -> void:
+	var a := {"geni": ["cuore_cavo", "lanterna"], "vigore": 4}
+	var b := {"geni": ["voragini", "resina"], "vigore": 4}
+	var mc := Genome.mutation_chance(a, b)
+	var ws: Array[World] = await kit.gen_many(jobs())
+	var w := ws[0]
+	var found := 0
+	for o in w.chests:
+		var ch: Bisaccia = w.chests[o]
+		for i in ch.slots.size():
+			if ch.id_at(i).begins_with("segreto_seminatori_vivi"):
+				found += 1
+	res["seme_segreto"] = String(mc[1]) == "mondo_cavo" and found >= 1
+	print("ritrovamenti, i semi segreti: cuore cavo × voragini → %s; oggetti del mondo dei Seminatori nei suoi scrigni %d" % [
+		str(mc), found])
+
+
 ## Voce 394: le strutture del mondo di prova (con il tesoro del bioma) e il guardiano che si sveglia.
 func structures() -> void:
 	var list: Array = m.world.gen_notes.get("strutture", [])
@@ -97,6 +121,7 @@ func structures() -> void:
 
 ## Una cassa sigillata chiede la chiave e la consuma; un mimo si sveglia quando lo tocchi.
 func sealed_and_mimic() -> void:
+	kit.make_room()                              # (nel giro intero la Bisaccia è piena)
 	var b: Bisaccia = m.character.bisaccia
 	var at: Vector2i = Vector2i(floori(m.player.position.x / 16.0) + 4, floori(m.player.position.y / 16.0) - 1)
 	m.world.stations[at] = "cassa_foresta_sigillata"
@@ -129,6 +154,7 @@ func sealed_and_mimic() -> void:
 
 ## La Pozza: dopo il primo Guardiano un'arma firma diventa la seguente della sua fase.
 func pool() -> void:
+	kit.make_room()                              # (nel giro intero la Bisaccia è piena)
 	var b: Bisaccia = m.character.bisaccia
 	var g0 := int(m.character.stats.get("guardiani", 0))
 	m.character.stats["guardiani"] = 0

@@ -87,8 +87,11 @@ func _init() -> void:
 	for g in GuardiansData.LIST:
 		var cd: Dictionary = CreaturesData.CREATURES.get(String(g["creature"]), {})
 		var items := {}
-		for e in LootData.TABLES.get(String(cd.get("loot", "")), []):
-			items[String(e["item"])] = true
+		# la tabella della creatura, il suo Sacchetto e le spoglie (Roadmap 41 e 44)
+		var bag := ItemsData.get_item("sacchetto_" + String(g["id"]))
+		for t in [String(cd.get("loot", "")), String(bag.get("table", "")), "armatura_" + String(g["id"])]:
+			for e in LootData.TABLES.get(t, []):
+				items[String(e["item"])] = true
 		_p("   %-28s %2d oggetti" % [String(cd.get("name", g["creature"])), items.size()])
 	var f := FileAccess.open("res://prove/vastita.txt", FileAccess.WRITE)
 	f.store_string("\n".join(_lines) + "\n")
@@ -103,7 +106,8 @@ func _p(s: String) -> void:
 
 static func _cat(it: Dictionary) -> String:
 	var k := String(it.get("kind", ""))
-	if k in ["spada", "arco", "bastone", "evocatore", "esplosivo", "giavellotto", "ricurvo"] or String(it.get("form", "")) in ["spada", "pugnale", "spadone", "lancia", "martello", "falcione", "frusta", "arco", "balestra", "verga"]:
+	if k in ["spada", "arco", "bastone", "evocatore", "esplosivo", "giavellotto", "ricurvo", "lancio", "strumento", "ramo",
+			"semeguerra"] or String(it.get("form", "")) in ["spada", "pugnale", "spadone", "lancia", "martello", "falcione", "frusta", "arco", "balestra", "verga"]:
 		return "armi"
 	if k in ["accessorio", "amuleto", "anello", "tasca"]:
 		return "accessori"

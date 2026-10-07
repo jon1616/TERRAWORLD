@@ -54,6 +54,7 @@ func data() -> void:
 
 ## La Celata alza il danno della spada, non quello dell'arco.
 func style_helm() -> void:
+	kit.make_room()                              # (nel giro intero la Bisaccia è piena)
 	var b: Bisaccia = m.character.bisaccia
 	var eq0 := b.equip.duplicate()
 	b.equip.erase("elmo")

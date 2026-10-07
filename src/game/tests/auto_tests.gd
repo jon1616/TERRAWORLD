@@ -75,7 +75,7 @@ func run(main: Node2D) -> void:
 	_mark("c.run")
 	# i mondi delle prove pesanti, tutti insieme in sottofondo (pulizia del 28 set 2026: il giro era salito a 12 minuti)
 	kit.prefetch(TestsLanguage.jobs() + TestsSeeds.jobs() + TestsTemperate.jobs() + TestsExtreme.jobs() + TestsRareBiomes.jobs()
-		+ TestsAnomalies.jobs() + TestsGenes.jobs() + TestsGravity.jobs())
+		+ TestsAnomalies.jobs() + TestsGenes.jobs() + TestsGravity.jobs() + TestsFinds.jobs())
 	await st.run()
 	_mark("st.run")
 	await gd.run()

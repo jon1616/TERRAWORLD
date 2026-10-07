@@ -22,6 +22,7 @@ func setup(main: Node2D) -> void:
 	m = main
 	_rng.randomize()
 	m.fauna.killed.connect(_on_killed)
+	m.guardian.resolved.connect(func(_how: String) -> void: secret_gift())
 
 
 ## Il clic destro su una stazione: true se è stato gestito qui (e non va aperta come una cassa qualunque).
@@ -162,4 +163,26 @@ static func strongest_of(b: String) -> String:
 		best = "mimo_" + b
 	_strongest[b] = best
 	return best
+
+
+## Voce 397: il gene segreto del mondo ("" se non è un mondo segreto).
+func secret() -> String:
+	for g in m.world_meta.get("geni", []):
+		if GenesData.info(String(g)).get("segreto", false):
+			return String(g)
+	return ""
+
+
+## Il dono del Cuore di un mondo segreto: il primo dei suoi oggetti che il personaggio non ha ancora trovato.
+func secret_gift() -> String:
+	var g := secret()
+	if g == "":
+		return ""
+	for e in LootData.TABLES.get("segreto_" + g, []):
+		var id := String(e["item"])
+		if not (m.character.erbario.get("oggetti", {}) as Dictionary).has(id):
+			m.drops.spawn(id, 1, m.player.position + Vector2(0, -20))
+			m.hud.toast("Il Cuore di questo mondo segreto ti dona: %s" % ItemsData.get_item(id).get("name", id))
+			return id
+	return ""
 

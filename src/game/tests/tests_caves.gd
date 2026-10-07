@@ -135,6 +135,14 @@ func spawns() -> void:
 		var x := rng.randi_range(40, w.w - 40)
 		var y := rng.randi_range(40, w.h - 40)
 		if StrataData.at(w, x, y) == 2 and not w.solid(x, y) and not w.solid(x, y - 1) and w.solid(x, y + 1) 				and not w.torch_near(Vector2i(x, y), 50.0) and Vector2(x, y).distance_to(Vector2(w.spawn)) > 120.0:
+			# lontano dalle stazioni che fanno luce (scrigni, casse dei biomi, Pozza): la prova misura le nascite al buio
+			var lit := false
+			for so in w.stations:
+				if Vector2(so - Vector2i(x, y)).length() < 30.0 and StationsData.STATIONS.get(String(w.stations[so]), {}).get("light", false):
+					lit = true
+					break
+			if lit:
+				continue
 			spot = Vector2i(x, y)
 			break
 	var made := 0
@@ -143,10 +151,13 @@ func spawns() -> void:
 		m.snap_to(spot)
 		await kit.seconds(1.0)                        # (la luce si ricalcola attorno al posto nuovo: si nasce solo al buio)
 		fa.clear(true)
+		var fm0: Dictionary = fa.family_mult
+		fa.family_mult = {}                           # (non dipende dalle famiglie assenti del mondo di prova)
 		for k in tries:
 			var cr := fa.try_spawn()
 			if cr != null:
 				made += 1
+		fa.family_mult = fm0
 		fa.clear(true)
 		m.snap_to(w.spawn)
 	var rate := float(made) / tries

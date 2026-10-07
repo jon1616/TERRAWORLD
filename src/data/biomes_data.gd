@@ -111,6 +111,7 @@ const PACK_FILES := [
 	preload("res://src/data/vastita/rari.gd"),             # voce 395: un raro per ogni specie
 	preload("res://src/data/vastita/ritrovamenti.gd"),     # voci 392-393: casse dei biomi, chiavi, mimi
 	preload("res://src/data/vastita/strutture.gd"),        # voce 394: le strutture dei biomi
+	preload("res://src/data/vastita/segreti.gd"),          # voce 397: i semi segreti dei mondi
 ]
 
 static var BIOMES: Array = _load()

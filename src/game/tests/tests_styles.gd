@@ -59,6 +59,8 @@ func data() -> void:
 			no_style.append(f)
 	var grow := true
 	for f in FormsData.PURE:
+		if ArmorData.HELMS.has(String(f)):
+			continue                                   # Roadmap 44: gli elmi degli stili non hanno danno
 		var a := ItemsData.get_item(FormsData.item_id(String(f), "radicite"))
 		var b := ItemsData.get_item(FormsData.item_id(String(f), "primambra"))
 		if a.is_empty() or b.is_empty() or ItemsData.has(FormsData.item_id(String(f), "lega_radicite_ambra")):

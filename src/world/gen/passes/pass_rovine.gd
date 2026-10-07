@@ -13,9 +13,15 @@ func title() -> String:
 
 
 var _vigor := 1                          # voce 370: per le armi firma degli scrigni
+var _secret := ""                        # voce 397: il gene segreto del mondo (i suoi oggetti negli scrigni)
+const SECRET_CHEST := 0.1
 
 func run(w: World, c: GenContext) -> void:
 	_vigor = int(c.params.get("vigore", 1))
+	_secret = ""
+	for g in c.params.get("geni", []):
+		if GenesData.info(String(g)).get("segreto", false):
+			_secret = String(g)
 	var rng := c.rng
 	var placed: Array[Vector2i] = []
 	var cuore: Vector2i = c.notes.get("cuore", Vector2i(-9999, -9999))
@@ -119,6 +125,9 @@ func _build(w: World, rng: RandomNumberGenerator, p: Vector2i, s: int, rich := 0
 	if r3.randf() < SpineData.FIRMA_CHEST:
 		var fl := LootData.roll("firma_f%d" % SpineData.zone_phase(_vigor, s), r3)
 		for id in fl:
+			chest.add(String(id), 1)
+	if _secret != "" and r3.randf() < SECRET_CHEST:             # voce 397: gli oggetti del mondo segreto
+		for id in LootData.roll("segreto_" + _secret, r3):
 			chest.add(String(id), 1)
 	if r3.randf() < SpineData.FIRMA_CHEST:                      # voce 391: un'essenza della forgia
 		for id in LootData.roll("essenze_forgia", r3):
