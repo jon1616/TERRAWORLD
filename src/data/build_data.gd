@@ -29,6 +29,8 @@ const WALL_BASE := 64
 ## di piccone che serve e che le creature degli assedi devono superare), iso (isolamento, 0-3: i rigori della voce 93),
 ## luce (0 = la ferma, 1 = la lascia passare), bello (0-5: il comfort delle stanze), glow (fa luce), raw (l'ingrediente
 ## grezzo), n (quanti grezzi per ricetta), icon (la tavolozza di `ItemIcons`), pal (5 colori dal più scuro), label.
+## Roadmap 47, voce 403: blast (le esplosioni non lo rompono, `Throwing.explode`), slow (le creature che ci camminano
+## sopra vanno a questa velocità, `Creature`: le cere, le sete, l'argilla e il muschio sono appiccicosi).
 const MATERIALS := [
 	{"id": "ardesia", "label": "ardesia", "pal": ["#3a4866", "#4c5e80", "#62779c", "#7a90b4", "#9cb0d0"], "icon": "ardesia",
 		"raw": "ardesia", "n": 2, "hard": 0.45, "power": 0, "iso": 1, "luce": 0, "bello": 1},
@@ -41,11 +43,11 @@ const MATERIALS := [
 	{"id": "scisto", "label": "scisto di Linfa", "pal": ["#1e3a40", "#2c5058", "#3e6a70", "#56888c", "#7cb0b0"], "icon": "scisto",
 		"raw": "scisto", "n": 2, "hard": 0.5, "power": 0, "iso": 1, "luce": 0, "bello": 2},
 	{"id": "vuotite", "label": "vuotite", "pal": ["#1a1428", "#2a2040", "#3c2e58", "#524078", "#7a64a8"], "icon": "vuotite",
-		"raw": "vuotite", "n": 2, "hard": 0.8, "power": 45, "iso": 1, "luce": 0, "bello": 3},
+		"raw": "vuotite", "n": 2, "hard": 0.8, "power": 45, "iso": 1, "luce": 0, "bello": 3, "blast": true},
 	{"id": "brace", "label": "pietra di brace", "pal": ["#3a1a14", "#5a2618", "#823a1e", "#b05a28", "#e08a3a"], "icon": "brace",
 		"raw": "pietra_brace", "n": 2, "hard": 0.6, "power": 35, "iso": 3, "luce": 0, "bello": 2, "glow": true},
 	{"id": "seminatori", "label": "pietra dei Seminatori", "pal": ["#2c3a3a", "#40504e", "#586a66", "#768a84", "#a0b8ae"], "icon": "sem",
-		"raw": "pietra_seminatori", "n": 2, "hard": 0.7, "power": 35, "iso": 1, "luce": 0, "bello": 4},
+		"raw": "pietra_seminatori", "n": 2, "hard": 0.7, "power": 35, "iso": 1, "luce": 0, "bello": 4, "blast": true},
 	{"id": "radicite", "label": "radicite", "pal": ["#4a2a1a", "#6e4028", "#965a38", "#bc7a4c", "#e0a070"], "icon": "radicite",
 		"raw": "lingotto_radicite", "n": 1, "hard": 0.6, "power": 35, "iso": 0, "luce": 0, "bello": 2},
 	{"id": "legnoferro", "label": "legnoferro", "pal": ["#303844", "#4a5666", "#6a7688", "#a2b0c2", "#dce6f2"], "icon": "legnoferro",
@@ -57,17 +59,17 @@ const MATERIALS := [
 	{"id": "linfa", "label": "cristallo di Linfa", "pal": ["#0c3a3a", "#146060", "#1e8a88", "#3ab8b0", "#90f0e0"], "icon": "linfa",
 		"raw": "cristallo_linfa", "n": 1, "hard": 0.8, "power": 55, "iso": 0, "luce": 1, "bello": 4, "glow": true},
 	{"id": "stellare", "label": "metallo stellare", "pal": ["#1a1a3a", "#2e2e60", "#4a4a90", "#8080c8", "#e0e0ff"], "icon": "brillaluce",
-		"raw": "lingotto_stellare", "n": 1, "hard": 0.9, "power": 55, "iso": 1, "luce": 0, "bello": 5, "glow": true},
+		"raw": "lingotto_stellare", "n": 1, "hard": 0.9, "power": 55, "iso": 1, "luce": 0, "bello": 5, "glow": true, "blast": true},
 	{"id": "vetro", "label": "vetro di sabbia", "pal": ["#5a7a80", "#7aa0a8", "#a0c8cc", "#c8e8ea", "#f0ffff"], "icon": "cristallo",
 		"raw": "sabbia_fusa", "n": 1, "hard": 0.3, "power": 0, "iso": 0, "luce": 1, "bello": 3},
 	{"id": "argilla", "label": "argilla del lago", "pal": ["#3e2c22", "#5a4030", "#765642", "#94705a", "#b89478"], "icon": "humus",
-		"raw": "fango_lago", "n": 2, "hard": 0.35, "power": 0, "iso": 3, "luce": 0, "bello": 1},
+		"raw": "fango_lago", "n": 2, "hard": 0.35, "power": 0, "iso": 3, "luce": 0, "bello": 1, "slow": 0.5},
 	{"id": "terra", "label": "terra battuta", "pal": ["#2e2226", "#44323a", "#5c4450", "#765a68", "#9a7a8a"], "icon": "humus",
 		"raw": "humus", "n": 2, "hard": 0.3, "power": 0, "iso": 2, "luce": 0, "bello": 0},
 	{"id": "catacomba", "label": "pietra di catacomba", "pal": ["#3a3630", "#54504a", "#706a62", "#8e887e", "#b4aea2"], "icon": "ardesia",
-		"raw": "mattone_catacomba", "n": 1, "hard": 0.6, "power": 35, "iso": 1, "luce": 0, "bello": 3},
+		"raw": "mattone_catacomba", "n": 1, "hard": 0.6, "power": 35, "iso": 1, "luce": 0, "bello": 3, "blast": true},
 	{"id": "muschio", "label": "muschio antico", "pal": ["#12302a", "#1c4a3e", "#286656", "#3a8870", "#5cb094"], "icon": "muschio",
-		"raw": "muschio_antico", "n": 1, "hard": 0.3, "power": 0, "iso": 2, "luce": 0, "bello": 3},
+		"raw": "muschio_antico", "n": 1, "hard": 0.3, "power": 0, "iso": 2, "luce": 0, "bello": 3, "slow": 0.5},
 	{"id": "ghiaccio", "label": "Linfa gelata", "pal": ["#3a6a80", "#5a8aa0", "#80b0c4", "#a8d4e4", "#e0f6ff"], "icon": "brina",
 		"raw": "linfa_gelata", "n": 1, "hard": 0.35, "power": 0, "iso": 0, "luce": 1, "bello": 3},
 	{"id": "cenere", "label": "cenere antica", "pal": ["#2a2a2c", "#3e3e42", "#56565a", "#727278", "#9a9aa0"], "icon": "cenere",
@@ -78,13 +80,13 @@ const MATERIALS := [
 	{"id": "chitina", "label": "chitina", "pal": ["#1e2a1a", "#34462a", "#52683c", "#7a9254", "#b0c880"], "icon": "muschio",
 		"raw": "chitina_grezza", "n": 1, "hard": 0.55, "power": 35, "iso": 1, "luce": 0, "bello": 2},
 	{"id": "cera", "label": "cera di lume", "pal": ["#6a4a10", "#a0741a", "#d0a030", "#f0cc60", "#fff4b0"], "icon": "ambra",
-		"raw": "miele_lume", "n": 1, "hard": 0.25, "power": 0, "iso": 2, "luce": 1, "bello": 3, "glow": true},
+		"raw": "miele_lume", "n": 1, "hard": 0.25, "power": 0, "iso": 2, "luce": 1, "bello": 3, "glow": true, "slow": 0.5},
 	{"id": "seta", "label": "seta intrecciata", "pal": ["#6a6a60", "#9a9a8a", "#c8c8b8", "#e8e8dc", "#ffffff"], "icon": "seta",
-		"raw": "seta_radice", "n": 2, "hard": 0.2, "power": 0, "iso": 3, "luce": 0, "bello": 2},
+		"raw": "seta_radice", "n": 2, "hard": 0.2, "power": 0, "iso": 3, "luce": 0, "bello": 2, "slow": 0.5},
 	{"id": "squama", "label": "squame di salamandra", "pal": ["#3a1008", "#6a1c0c", "#a83414", "#e06a24", "#ffc070"], "icon": "brace",
 		"raw": "squama_brace", "n": 1, "hard": 0.6, "power": 35, "iso": 3, "luce": 0, "bello": 3},
 	{"id": "carapace", "label": "carapace di granchio", "pal": ["#1a2a30", "#2e4650", "#4a6a78", "#7aa0b0", "#c0e0e8"], "icon": "lagunite",
-		"raw": "carapace_lago", "n": 1, "hard": 0.6, "power": 35, "iso": 1, "luce": 0, "bello": 2},
+		"raw": "carapace_lago", "n": 1, "hard": 0.6, "power": 35, "iso": 1, "luce": 0, "bello": 2, "blast": true},
 	# Roadmap 16, voce 159: il cielo (l'ultimo posto: 28 materiali × 9 forme stanno in un byte)
 	{"id": "celeste", "label": "cristallo celeste", "pal": ["#1a3a5a", "#2a6090", "#4a90c8", "#8ac8f0", "#e0f6ff"], "icon": "celeste",
 		"raw": "cristallo_celeste", "n": 1, "hard": 0.6, "power": 35, "iso": 0, "luce": 1, "bello": 5, "glow": true},
@@ -193,4 +195,18 @@ static func _props_text(md: Dictionary) -> String:
 		t.append("brilla appena")
 	if int(md.get("bello", 0)) >= 3:
 		t.append("bello da vedere")
+	if md.get("blast", false):
+		t.append("le esplosioni non lo rompono")
+	if md.has("slow"):
+		t.append("le creature ci camminano sopra lente")
 	return ", ".join(t)
+
+
+## Voce 403: le proprietà di un costrutto in una cella (k = il byte di `World.build`).
+static func blast_proof(k: int) -> bool:
+	return bool(material_of(k).get("blast", false))
+
+
+static func slow_of(k: int) -> float:
+	return float(material_of(k).get("slow", 1.0))
+

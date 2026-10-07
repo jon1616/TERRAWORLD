@@ -95,7 +95,7 @@ func temper(slot: Dictionary) -> String:
 		if grade == 0:
 			return "Il Maglio tempra solo nei mondi di vigore %d e oltre." % VigorData.STEP
 		return "In un mondo di %s il Maglio tempra fino a +%d: serve un mondo più vigoroso." % [VigorData.grade_name(grade), cap]
-	var cost := lv * VigorData.TEMPER_COST
+	var cost := maxi(1, roundi(lv * VigorData.TEMPER_COST * Crafting.room_temper))   # voce 402: l'officina
 	if Crafting.have(m.character.bisaccia, "scheggia_vigore") < cost:
 		return "Per la tempra +%d servono %d Schegge di vigore." % [lv, cost]
 	Crafting.take(m.character.bisaccia, "scheggia_vigore", cost)

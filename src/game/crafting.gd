@@ -171,13 +171,19 @@ static func craft(r: Dictionary, b: Bisaccia, luck := 0.0) -> bool:
 			s["tratto"] = t
 		if b.add_stack(s) == 0:
 			return true
-	b.add(out, int(r["qty"]))
+	var qty := int(r["qty"])
+	if randf() < float(room_extra.get(String(r.get("station", "")), 0.0)):
+		qty += maxi(1, qty / 2)
+	b.add(out, qty)
 	return true
 
 
 ## La qualità di un oggetto fabbricato a una stazione (0 grezzo … 3 capolavoro); la fortuna sposta il tiro in alto.
 ## Voce 142: la fortuna della qualità dentro un laboratorio (la scrive `Rooms`).
 static var room_luck := 0.0
+## Roadmap 47, voce 402: forgia e laboratorio di Linfa (metà in più, a volte, per stazione) e officina (la tempra).
+static var room_extra := {}
+static var room_temper := 1.0
 
 
 static func roll_quality(station: String, luck := 0.0) -> int:

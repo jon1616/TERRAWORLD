@@ -1036,6 +1036,11 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     (campo «crates» → `FishingData.CRATES`, `special_crate`; "table" e "firma_f" in `Fishing.open_crate`) e i premi del
     Pescatore (campo «angler», `AnglerBook._contest`). `tools/percorso.gd` beve la cura migliore della fase
     (`potion_for`). Prove: gruppo «consumabili» (`TestsConsumables`).
+  - Roadmap 47 «Costruire con uno scopo» (voci 401-403): `RoomsData.boss_of_trophy` (il trofeo di ogni boss; quelli
+    degli eventi nel pacchetto `costruire.gd`, da `FirmaDrops`) e `Rooms.trophy_vs` (letto da `Combat._strike`); le
+    stanze nuove in `RoomsData.TYPES/ORDER` (forgia, alchimia, officina, serra calda, sala d'armi) con
+    `Crafting.room_extra`/`room_temper` e `WeaponArts.room_mult`; le proprietà «blast» e «slow» dei materiali di
+    `BuildData` (`Throwing.explode`, `Creature._floor_slow`). Prove: gruppo «scopo» (`TestsPurpose`).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

@@ -106,6 +106,8 @@ func _on_killed(c: Creature) -> void:
 	if _rng.randf() < ESS:
 		_roll("essenze_forgia", c.position)
 	_roll("armatura_" + c.id, c.position)               # voce 389: un pezzo delle spoglie del capo (se ne ha)
+	if c.id.begins_with("evento_") and ItemsData.has("trofeo_" + c.id) and _rng.randf() < 0.5:
+		m.drops.spawn("trofeo_" + c.id, 1, c.position)    # voce 401: il trofeo del capo dell'evento
 
 
 func _roll(table: String, at: Vector2) -> void:

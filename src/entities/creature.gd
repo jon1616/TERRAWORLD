@@ -296,7 +296,7 @@ func _process(dt: float) -> void:
 		else:
 			vel.y = minf(vel.y + 900.0 * grav * dt, 520.0)
 			if on_floor and not busy:
-				vel.x = move_toward(vel.x, want_x * speed if stun <= 0.0 else 0.0, 700.0 * dt)
+				vel.x = move_toward(vel.x, want_x * speed * _floor_slow() if stun <= 0.0 else 0.0, 700.0 * dt)
 		var was := on_floor
 		var r := TileBody.move(world, position, half, vel, dt, on_floor and not fly)
 		position = r["pos"]
@@ -511,4 +511,16 @@ func take_hit(dmg: int, from_x: float, force: float) -> bool:
 ## Voce 127: un attacco sta per partire. Il «!» resta acceso almeno `t` secondi (`TeleMark`).
 func telegraph(t: float) -> void:
 	tele = maxf(tele, t)
+
+
+## Voce 403: sopra un costrutto appiccicoso (cera, seta, argilla, muschio) si cammina più lenti.
+func _floor_slow() -> float:
+	var fx := floori(position.x / 16.0)
+	var fy := floori((position.y + half.y + 2.0) / 16.0)
+	if not world.inside(fx, fy):
+		return 1.0
+	var t: int = world.tile(fx, fy)
+	if t != TileDefs.COSTRUTTO and t != TileDefs.COSTRUTTO_T:
+		return 1.0
+	return BuildData.slow_of(world.build[fy * world.w + fx])
 

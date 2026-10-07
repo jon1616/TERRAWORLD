@@ -138,6 +138,10 @@ func explode(at: Vector2, bl: Dictionary) -> void:
 			var t: int = m.world.tile(x, y)
 			if bl.get("natural", false) and (t in TileDefs.BUILT or t == TileDefs.FINTA):
 				continue                           # voce 130: chi scoppia non rompe le costruzioni
+			if t == TileDefs.COSTRUTTO or t == TileDefs.COSTRUTTO_T:
+				var bk: int = m.world.build[y * m.world.w + x]
+				if BuildData.blast_proof(bk) or BuildData.power(bk) > power:
+					continue                           # voce 403: i blocchi che reggono le esplosioni
 			if t != TileDefs.AIR and int(TileDefs.POWER.get(t, 999)) <= power and m.world.tree_at(q + Vector2i(0, -1)).x < 0:
 				m.actions.break_tile(q)
 	var dmg := int(bl["damage"])

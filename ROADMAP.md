@@ -1,6 +1,8 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 6 ott 2026)
+- **Fatta la Roadmap 47 «Costruire con uno scopo»** (voci 401-403, 7 ott 2026): i trofei dei boss, cinque stanze con un
+  mestiere, blocchi che reggono le esplosioni o rallentano le creature. Resoconto in fondo.
 - **Fatta la Roadmap 46 «Consumabili, pesca e cucina»** (voci 398-400, 7 ott 2026): 120 pozioni a gradi, cure fino a
   450, fiale, fonti, 90 piatti a tre gradi di sazietà, 20 casse da pesca, premi del Pescatore. Resoconto in fondo.
 - **Fatta la Roadmap 45 «I ritrovamenti»** (voci 392-397, 7 ott 2026): casse dei biomi con le chiavi, mimi, 104
@@ -20,7 +22,7 @@
 - **Fatta la Roadmap 38 «Le fondamenta della vastità»** (voci 356-361, 6 ott 2026): gesti dei materiali, fasi e rarità,
   bottino «uno a scelta tra» e «prima volta», `tools/vastita.gd`, il generatore di contenuti.
 - **Il piano «La vastità» (Roadmap 38-51, voci 356-411)** in `VASTITA.md`: portare TERRAWORLD verso la profondità
-  di Terraria + Calamity + Thorium (confronto sui dati reali: `tools/confronto.gd`). Prossima: la Roadmap 47 «Costruire con uno scopo».
+  di Terraria + Calamity + Thorium (confronto sui dati reali: `tools/confronto.gd`). Prossima: la Roadmap 48 «Il commercio e gli abitanti».
 - **Fatta la Roadmap 37 «Ciò che conta»** (voci 350-355, 4 ott 2026): nata dalla prima partita vera dell'utente (6,6 ore).
   Correzioni, spiegazioni, Dispensa, abitanti come servizi, strati che fanno paura, equipaggiamento che conta. Resoconto in
   fondo alla Roadmap 37. Prossimo passo: l'utente rigioca la sua partita e dice che cosa si sente diverso.
@@ -5692,4 +5694,19 @@ illuminato le nascite fallivano tutte (ora si prova la nascita normale). Da vede
 **Resoconto della Roadmap 46.** Consumabili: 315 (prima ~90; con Terraria e le due mod ~250 nelle fasi 0-5).
 `tools/percorso.gd` beve la cura migliore della fase: medio 6,0 e attento 1,1 appassimenti all'ora (invariati: il
 giocatore simulato beve di rado). Prove: gruppo «consumabili».
+
+# Roadmap 47 «Costruire con uno scopo» (7 ott 2026)
+
+- [x] **401. Trofei che servono.** Ogni boss ha il suo trofeo (12 Guardiani, 37 capi, sfidanti e superboss, e gli otto
+  capi degli eventi, nuovi): esposto nella sala dei trofei dà +15% di danno contro quel boss (× il comfort). Le reliquie
+  della modalità più dura vanno con la Roadmap 49.
+- [x] **402. Gli arredi funzionali.** Cinque stanze con un mestiere: forgia (lingotti in più), laboratorio di Linfa
+  (pozioni e piatti in più), officina (tempra meno cara), serra calda (crescita più forte), sala d'armi (arti delle
+  armi più svelte in tutto il mondo). Nessun arredo nuovo: le stanze si riconoscono dai banchi e dai contenitori che ci
+  sono già.
+- [x] **403. I blocchi che fanno qualcosa.** Oltre a isolamento, luce e durezza: cinque materiali reggono le esplosioni,
+  quattro sono appiccicosi e rallentano a metà le creature che ci camminano sopra.
+
+**Resoconto della Roadmap 47.** Nessun numero di combattimento toccato tranne il trofeo del boss (+15%); prove: gruppo
+«scopo».
 

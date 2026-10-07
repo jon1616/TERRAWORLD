@@ -8,6 +8,9 @@ var m: Node2D
 var panel: ArtsPanel                   # voce 251: il pannello delle arti
 
 
+## Roadmap 47, voce 402: la sala d'armi fa crescere le arti più in fretta (la scrive `Rooms`).
+static var room_mult := 1.0
+
 func setup(main: Node2D) -> void:
 	m = main
 	m.fauna.killed.connect(_on_kill)
@@ -54,6 +57,7 @@ func _on_kill(c: Creature) -> void:
 
 
 func add(form: String, pts: int) -> void:
+	pts = maxi(1, roundi(pts * room_mult))         # voce 402: la sala d'armi
 	var r0 := rank(form)
 	m.character.stats["arte_" + form] = points(form) + pts
 	var r1 := rank(form)

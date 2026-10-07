@@ -277,7 +277,7 @@ func _strike(c: Creature, dmg: int, from_x: float, force: float, elem := "") -> 
 		dmg = maxi(roundi(dmg * float(hit_mult.call())), 1)
 	dmg = maxi(roundi(dmg * fauna._zm(c.position, "guardia")), 1)   # voce 87: lo Stendardo di guardia
 	if m.rooms:
-		dmg = maxi(roundi(dmg * m.rooms.trophy_mult(c.family)), 1)     # voce 142: la sala dei trofei
+		dmg = maxi(roundi(dmg * m.rooms.trophy_vs(c)), 1)              # voce 142: la sala dei trofei (voce 401: anche i boss)
 	if m.study:
 		dmg = maxi(roundi(dmg * m.study.mult(c.base)), 1)              # voce 138: le specie studiate
 	if m.get("banners") != null:

@@ -23,9 +23,18 @@ const TYPES := {
 	"osservatorio": {"name": "Osservatorio", "need": "due finestre e un tavolo, sopra la terra", "gives": "gli eventi e le stelle cadenti arrivano più spesso"},
 	"cantina": {"name": "Cantina", "need": "due contenitori con cibo o pozioni", "gives": "cibi e pozioni bevuti qui durano di più"},
 	"casa": {"name": "Casa", "need": "un letto", "gives": "qui dentro la Vita ricresce più in fretta; gli abitanti ci stanno più volentieri"},
+	# Roadmap 47, voce 402: le stanze con un mestiere
+	"forgia": {"name": "Forgia", "need": "un Baccello ardente e un Maglio", "gives": "fondendo qui, a volte i lingotti sono di più"},
+	"alchimia": {"name": "Laboratorio di Linfa", "need": "un Alambicco e due luci", "gives": "pozioni e piatti fatti qui, a volte uno in più"},
+	"officina": {"name": "Officina", "need": "tre banchi tra Maglio, Telaio, Mola, Scalpellino e Banco degli innesti",
+		"gives": "la tempra al Maglio costa meno Schegge"},
+	"serra_calda": {"name": "Serra calda", "need": "almeno tre colture e un camino", "gives": "le colture crescono ancora più in fretta, anche al freddo"},
+	"sala_armi": {"name": "Sala d'armi", "need": "almeno sei armi diverse nei contenitori",
+		"gives": "le arti delle armi crescono più in fretta (in tutto il mondo)"},
 	"stanza": {"name": "Stanza", "need": "", "gives": "nessun bonus: aggiungi degli arredi per darle un tipo"},
 }
-const ORDER := ["stalla", "laboratorio", "serra", "acquario", "trofei", "biblioteca", "osservatorio", "cantina", "casa"]
+const ORDER := ["stalla", "forgia", "alchimia", "officina", "laboratorio", "serra_calda", "serra", "acquario", "trofei", "sala_armi",
+	"biblioteca", "osservatorio", "cantina", "casa"]
 
 ## Il comfort: quanto conta ogni cosa, e i nomi dei livelli.
 const PER_LIGHT := 3
@@ -44,6 +53,28 @@ const FISH := 0.05                       # acquario: fortuna di pesca
 const TROPHY := 0.08                     # sala dei trofei: + danno contro quelle famiglie
 const EVENTS := 0.25                     # osservatorio: + probabilità degli eventi
 const BOON := 0.3                        # cantina: + la durata di cibi e pozioni
+## Roadmap 47 (voci 401-402).
+const BOSS_TROPHY := 0.15                # sala dei trofei: + danno contro il boss del trofeo esposto
+const FORGE := 0.2                       # forgia: probabilità di metà lingotti in più al Baccello ardente
+const ALCHEMY := 0.25                    # laboratorio di Linfa: probabilità di metà in più all'Alambicco e al Paiolo
+const WORKSHOP := 0.2                    # officina: la tempra costa questa parte in meno (× comfort)
+const WARM := 1.0                        # serra calda: + la crescita (più della serra)
+const ARMS := 0.25                       # sala d'armi: + i punti delle arti
+const WORKSHOP_BENCHES := ["maglio", "telaio", "mola", "scalpellino", "banco_innesti"]
+
+
+## Voce 401: il boss di un trofeo («trofeo_<creatura>», o «trofeo_<id del Guardiano>»; "" se non è il trofeo di un boss).
+static func boss_of_trophy(id: String) -> String:
+	if not id.begins_with("trofeo_"):
+		return ""
+	var rest := id.substr(7)
+	var cd: Dictionary = CreaturesData.CREATURES.get(rest, {})
+	if cd.get("boss", false):
+		return rest
+	for g in GuardiansData.LIST:
+		if String(g["id"]) == rest:
+			return String(g["creature"])
+	return ""
 ## Voce 144: il riparo dai rigori dentro una stanza (× questo), meno `PER_ISO` per ogni punto d'isolamento medio del
 ## contorno (0-3); un camino ferma il freddo.
 const SHELTER := 0.5

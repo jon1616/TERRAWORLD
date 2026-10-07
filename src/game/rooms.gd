@@ -14,6 +14,7 @@ var m: Node2D
 var current := {}                        # la stanza dove sei (vuota se non sei in una stanza)
 var _t := 0.0
 var _trophy := {}                        # famiglia → moltiplicatore del danno
+var _boss := {}                         # voce 401: boss → danno in più
 var _fish := 0.0
 var scans := 0                           # (prove)
 
@@ -161,6 +162,7 @@ func _contents(r: Dictionary, cells: Dictionary, edge_beauty: int, edge_n: int) 
 	var food := 0
 	var fish := {}
 	var trophies := {}
+	var weapons := {}
 	for o in w.stations:
 		if not cells.has(o):
 			continue
@@ -187,6 +189,8 @@ func _contents(r: Dictionary, cells: Dictionary, edge_beauty: int, edge_n: int) 
 						trophies[s["id"]] = true
 					"consumabile":
 						has_food = true
+				if TraitsData.category_of(String(s["id"])) == "arma":
+					weapons[s["id"]] = true                 # voce 402: la sala d'armi
 			if has_food:
 				food += 1
 	var crops := 0
@@ -211,6 +215,12 @@ func _contents(r: Dictionary, cells: Dictionary, edge_beauty: int, edge_n: int) 
 		"osservatorio": int(roles.get("finestra", 0)) >= 2 and roles.has("tavolo") and above,
 		"cantina": food >= RoomsData.CONTAINERS_MIN,
 		"casa": roles.has("letto"),
+		# Roadmap 47, voce 402
+		"forgia": roles.has("baccello_ardente") and roles.has("maglio"),
+		"alchimia": roles.has("alambicco") and lights >= 2,
+		"officina": RoomsData.WORKSHOP_BENCHES.filter(func(b: String) -> bool: return roles.has(b)).size() >= 3,
+		"serra_calda": (crops >= 3 or int(roles.get("vaso", 0)) >= 3) and roles.has("camino"),
+		"sala_armi": weapons.size() >= 6,
 	}
 	r["type"] = "stanza"
 	for t in RoomsData.ORDER:
@@ -225,6 +235,12 @@ func _contents(r: Dictionary, cells: Dictionary, edge_beauty: int, edge_n: int) 
 				if f != "":
 					fams[f] = true
 		r["fams"] = fams.keys()
+		var bosses := []
+		for t in trophies:
+			var bo := RoomsData.boss_of_trophy(String(t))
+			if bo != "":
+				bosses.append(bo)                   # voce 401: i trofei dei boss
+		r["bosses"] = bosses
 	r["lights"] = lights                             # voce 146: al buio arrivano i ragni
 	var comfort := beauty * 2 + mini(lights * RoomsData.PER_LIGHT, RoomsData.LIGHT_MAX)
 	comfort += FurnitureData.series_of(ids).size() * RoomsData.PER_SERIES
@@ -242,6 +258,15 @@ func _apply_here() -> void:
 	m.vitals.room_regen = 1.0 + RoomsData.REGEN * f if t == "casa" else 1.0
 	Crafting.room_luck = RoomsData.QUALITY * f if t == "laboratorio" else 0.0
 	PlayerActions.room_boon = 1.0 + RoomsData.BOON * f if t == "cantina" else 1.0
+	# Roadmap 47, voce 402: le stanze con un mestiere lavorano dove sei
+	var extra := {}
+	if t == "forgia":
+		extra["baccello_ardente"] = RoomsData.FORGE * f
+	elif t == "alchimia":
+		extra["alambicco"] = RoomsData.ALCHEMY * f
+		extra["paiolo"] = RoomsData.ALCHEMY * f
+	Crafting.room_extra = extra
+	Crafting.room_temper = maxf(1.0 - RoomsData.WORKSHOP * f, 0.4) if t == "officina" else 1.0
 
 
 ## I bonus delle stanze ricordate, in tutto il mondo.
@@ -251,6 +276,8 @@ func _apply_world() -> void:
 	var words := 0
 	_fish = 0.0
 	_trophy = {}
+	_boss = {}
+	var arms := 1.0
 	for e in list():
 		var f := 1.0 + float(e.get("comfort", 0)) / 100.0
 		match String(e["type"]):
@@ -265,7 +292,12 @@ func _apply_world() -> void:
 			"trofei":
 				for fam in e.get("fams", []):
 					_trophy[fam] = maxf(float(_trophy.get(fam, 1.0)), 1.0 + RoomsData.TROPHY * f)
+				for bo in e.get("bosses", []):
+					_boss[bo] = maxf(float(_boss.get(bo, 1.0)), 1.0 + RoomsData.BOSS_TROPHY * f)
+			"sala_armi":
+				arms = maxf(arms, 1.0 + RoomsData.ARMS * f)
 	Pens.room_mult = herd
+	WeaponArts.room_mult = arms
 	m.events.room_mult = events
 	m.language.extra_words = words
 
@@ -273,8 +305,9 @@ func _apply_world() -> void:
 ## La crescita delle colture in una cella: più in fretta dentro una serra.
 func grow_at(c: Vector2i) -> float:
 	for e in list():
-		if String(e["type"]) == "serra" and Rect2i(int(e["x"]), int(e["y"]), int(e["w"]), int(e["h"])).has_point(c):
-			return 1.0 + RoomsData.GROW * (1.0 + float(e.get("comfort", 0)) / 100.0)
+		if String(e["type"]) in ["serra", "serra_calda"] and Rect2i(int(e["x"]), int(e["y"]), int(e["w"]), int(e["h"])).has_point(c):
+			var k := RoomsData.WARM if String(e["type"]) == "serra_calda" else RoomsData.GROW
+			return 1.0 + k * (1.0 + float(e.get("comfort", 0)) / 100.0)
 	return 1.0
 
 
@@ -284,6 +317,11 @@ func fish_luck() -> float:
 
 func trophy_mult(family: String) -> float:
 	return float(_trophy.get(family, 1.0))
+
+
+## Voce 401: il danno in più contro una creatura dai trofei esposti (della sua famiglia, o di lei se è un boss).
+func trophy_vs(c: Creature) -> float:
+	return maxf(trophy_mult(c.family), float(_boss.get(c.base, 1.0)))
 
 
 ## Voce 144: il riparo di dove sei contro un rigore («freddo», «calore», «sete», «polvere»): moltiplica quanto sale.
