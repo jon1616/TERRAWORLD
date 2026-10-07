@@ -219,8 +219,11 @@ func _step(dt: float, dir: float, held: bool) -> void:
 	var cx := floori(position.x / 16.0)
 	var cy := floori(position.y / 16.0)
 	# Roadmap 52, voce 412: il pavimento sotto i piedi (il ghiaccio scivola, il fango appiccica)
-	var ft := world.tile(cx, floori((position.y + HALF.y + 2.0) / 16.0)) if on_floor else 0
+	var fy := floori((position.y + HALF.y + 2.0) / 16.0)
+	var ft := world.tile(cx, fy) if on_floor else 0
+	var pk := world.plat_kind(cx, fy) if on_floor and ft == 0 else 0     # voce 416: la passerella sotto i piedi
 	var stick := TileDefs.STICK[ft] if ft > 0 else 1.0
+	var slip := TileDefs.SLIP[ft] if ft > 0 else TileDefs.PLAT_SLIP[pk]
 	target *= stick
 	in_liquid = world.liq(cx, cy) >= 3 and bool(LiquidsData.TYPES[world.liq_type(cx, cy)]["swim"])
 	if in_liquid:
@@ -239,9 +242,9 @@ func _step(dt: float, dir: float, held: bool) -> void:
 	var accel := ACCEL_AIR
 	if on_floor:
 		accel = ACCEL_GROUND if dir != 0.0 and signf(dir) == signf(vel.x if vel.x != 0.0 else dir) else DECEL_GROUND
-		if ft > 0 and TileDefs.SLIP[ft] < 1.0:
+		if slip < 1.0:
 			# sul ghiaccio si parte quasi come sempre, ma per fermarsi o girarsi la presa è poca
-			accel *= minf(TileDefs.SLIP[ft] * 4.0, 1.0) if accel == ACCEL_GROUND else TileDefs.SLIP[ft]
+			accel *= minf(slip * 4.0, 1.0) if accel == ACCEL_GROUND else slip
 	if not on_floor and not in_liquid and wind != 0.0:
 		target += wind * 0.35 * (2.2 if gliding or flying else 1.0)    # voce 75: il vento porta chi è in aria, e chi plana o vola di più
 	var vx0 := vel.x
@@ -253,7 +256,7 @@ func _step(dt: float, dir: float, held: bool) -> void:
 		vel.y = minf(vel.y, 20.0)
 	jump_buf -= dt
 	if jump_buf > 0.0 and coyote > 0.0:
-		vel.y = -JUMP * sqrt(jump_mult * harsh_jump * stick)   # l'altezza cresce col quadrato della velocità: ×jump in altezza
+		vel.y = -JUMP * sqrt(jump_mult * harsh_jump * stick * TileDefs.PLAT_JUMP[pk])   # ×jump in altezza (e la Passerella del vento)
 		_takeoff_t = 0.1
 		jumped.emit()
 		jump_buf = 0.0
@@ -319,9 +322,11 @@ func _step(dt: float, dir: float, held: bool) -> void:
 			_air_left = air_jumps
 	if on_floor and not _was_floor and vy_fall > 110.0:
 		# voce 415: il Cuscino di bava rimanda in alto chi ci cade, e non fa male
-		var bt := world.tile(floori(position.x / 16.0), floori((position.y + HALF.y + 2.0) / 16.0))
-		if TileDefs.BOUNCE[bt] > 0.0:
-			vel.y = -vy_fall * TileDefs.BOUNCE[bt]
+		var bc := Vector2i(floori(position.x / 16.0), floori((position.y + HALF.y + 2.0) / 16.0))
+		var bt := world.tile(bc.x, bc.y)
+		var bb := TileDefs.BOUNCE[bt] if bt > 0 else TileDefs.PLAT_BOUNCE[world.plat_kind(bc.x, bc.y)]
+		if bb > 0.0:
+			vel.y = -vy_fall * bb
 			on_floor = false
 			_air_top = position.y
 			_was_floor = false

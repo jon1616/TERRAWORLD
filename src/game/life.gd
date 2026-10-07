@@ -24,7 +24,9 @@ func _on_landed(tiles: float) -> void:
 	if tiles > FALL_SAFE and not dead and not fall_safe:
 		# Roadmap 52: la neve, la torba e la pietra spugnosa attutiscono (`TileDefs.SOFT`)
 		var pp: Vector2 = m.player.position
-		var soft: float = TileDefs.SOFT[m.world.tile(floori(pp.x / 16.0), floori((pp.y + Player.HALF.y + 2.0) / 16.0))]
+		var fc := Vector2i(floori(pp.x / 16.0), floori((pp.y + Player.HALF.y + 2.0) / 16.0))
+		var ftile: int = m.world.tile(fc.x, fc.y)
+		var soft: float = TileDefs.SOFT[ftile] if ftile > 0 else TileDefs.PLAT_SOFT[m.world.plat_kind(fc.x, fc.y)]   # voce 416
 		var dmg := int((tiles - FALL_SAFE) * FALL_HURT * soft)
 		if dmg <= 0:
 			return

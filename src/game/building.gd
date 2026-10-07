@@ -74,13 +74,14 @@ func place_plat(c: Vector2i, id: String) -> bool:
 		return false
 	if a.world.decor_at(c.x, c.y) != 0:
 		a.pick_decor(c)
-	a.world.set_plat(c.x, c.y, true)
+	a.world.set_plat(c.x, c.y, true, int(ItemsData.get_item(id).get("plat", 1)))   # voce 416: il tipo
 	a.bisaccia.take_one(slot)
 	a.view.refresh_around(c)
 	return true
 
 
 func take_plat(c: Vector2i) -> void:
+	var item := TileDefs.plat_item(a.world.plat_kind(c.x, c.y))
 	a.world.set_plat(c.x, c.y, false)
 	a.view.refresh_around(c)
-	a.drops.spawn("passerella", 1, Vector2(c) * S + Vector2(8, 8))
+	a.drops.spawn(item, 1, Vector2(c) * S + Vector2(8, 8))

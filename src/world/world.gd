@@ -174,11 +174,16 @@ func set_decor(x: int, y: int, d: int) -> void:
 
 
 func plat(x: int, y: int) -> bool:
-	return inside(x, y) and plats[y * w + x] == 1
+	return inside(x, y) and plats[y * w + x] > 0
 
 
-func set_plat(x: int, y: int, on: bool) -> void:
-	plats[y * w + x] = 1 if on else 0
+## Roadmap 52, voce 416: il byte della passerella dice anche quale (1 radice, poi `TileDefs.PLATS`). 0 = nessuna.
+func plat_kind(x: int, y: int) -> int:
+	return plats[y * w + x] if inside(x, y) else 0
+
+
+func set_plat(x: int, y: int, on: bool, kind := 1) -> void:
+	plats[y * w + x] = kind if on else 0
 
 
 # ---------------------------------------------------------------- stazioni

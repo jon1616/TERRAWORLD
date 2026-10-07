@@ -5841,7 +5841,12 @@ pacchetto generato `src/data/vastita/terre.gd` (`tools/vastita_gen/terre.py`); v
   catena; campo «climbs» → `TileDefs.CLIMB_SPEED`): `Player._climb_step` (Salto sale, Giù scende, fermi si resta appesi,
   in cima un balzo sul bordo), `Grounds.place_rope` (sotto un blocco o in fondo a una corda), le liane del Sottobosco
   da `PassLiane` (~160 per mondo). `Grounds` (`src/game/grounds.gd`) fa crollare le lastre e pungere i rovi.
-- [ ] **416. Le passerelle.** Cinque passerelle con una proprietà (radice, nuvola, bava, spine, ghiaccio).
+- [x] **416. Le passerelle.** Cinque passerelle con una proprietà (radice, nuvola, bava, spine, ghiaccio).
+  Fatto il 7 ott 2026: sei in tutto. Il byte di `World.plats` dice il tipo (`plat_kind`, `set_plat(…, kind)`; 1 = la
+  Passerella di radice, i mondi salvati restano uguali); campo «plats» → `TileDefs.PLATS` e le tabelle `PLAT_SOFT`,
+  `PLAT_BOUNCE`, `PLAT_SPIKE`, `PLAT_SLIP`, `PLAT_JUMP`: nuvola (cadute senza ferite), bava (rimbalzo), rovo (punge le
+  creature), ghiaccio (scivola), vento (salto da 3,4 a 4,9 tessere). Disegni in `DecorPainter.plank_kind`, una riga per
+  tipo; `Building.take_plat` lascia l'oggetto giusto.
 - [ ] **417. La misura.** `tools/blocchi.gd` per categorie accanto a Terraria, il capitolo dell'Enciclopedia, il giro
   intero.
 

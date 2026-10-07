@@ -78,7 +78,7 @@ func _spikes(reach: float) -> void:
 			continue
 		var f := _feet(cr.position, cr.half)
 		var mid := floori(cr.position.y / S)
-		var best := 0.0
+		var best: float = TileDefs.PLAT_SPIKE[w.plat_kind(f.x, f.y)] if w.tile(f.x, f.y) == TileDefs.AIR else 0.0   # voce 416
 		for q in [f, Vector2i(floori((cr.position.x - cr.half.x - 2.0) / S), mid), Vector2i(floori((cr.position.x + cr.half.x + 2.0) / S), mid)]:
 			best = maxf(best, TileDefs.SPIKE[w.tile(q.x, q.y)])
 		if best > 0.0:

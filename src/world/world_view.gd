@@ -323,7 +323,7 @@ func _paint_grid(c: Vector2i, walls: TileMapLayer, decor: TileMapLayer, glow: Ti
 	if orn != null:
 		_paint_orn(c, orn)
 	if world.plat(c.x, c.y):
-		plats.set_cell(c, 0, DecorPainter.plat_coords(c.x))
+		plats.set_cell(c, 0, DecorPainter.plat_coords(c.x, world.plat_kind(c.x, c.y)))
 	elif not _fresh:
 		plats.erase_cell(c)
 	# la parete si mette anche dietro i blocchi: i bordi morbidi del terreno lasciano scoperti gli angoli

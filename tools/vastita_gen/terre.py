@@ -227,6 +227,35 @@ CLIMBS = [
 ]
 
 
+# ---------------------------------------------------------------- voce 416: le passerelle
+
+# tipo (il byte di `World.plats`; 1 è la Passerella di radice di sempre), id, nome, tavolozza, comportamento, ricetta,
+# descrizione. Comportamenti: soft (quanto resta della ferita di una caduta), bounce, spike (alle creature), slip, jump.
+PLATS = [
+    (2, 'passerella_nuvola', "Passerella di nuvola", ["#7a90b0", "#b8cce4", "#e0ecf8", "#ffffff"], {'soft': 0.0},
+     (2, {'nuvola': 2}, 'ceppo'), "Una passerella morbida come una nuvola: chi ci cade sopra non si fa niente."),
+    (3, 'passerella_bava', "Passerella di bava", ["#1e6a5a", "#3aa088", "#7ad8bc", "#d8fff0"], {'bounce': 0.8},
+     (2, {'gelatina': 1, 'legno': 1}, 'ceppo'), "Una passerella elastica: chi ci cade sopra rimbalza in alto."),
+    (4, 'passerella_rovo', "Passerella di rovo", ["#2e3e1a", "#4a5e28", "#6e8a3a", "#b8d070"], {'spike': 8},
+     (2, {'fibra_radice': 2, 'legno': 1}, 'ceppo'), "Una passerella irta di spine: punge le creature che ci camminano."),
+    (5, 'passerella_ghiaccio', "Passerella di ghiaccio", ["#3e6a90", "#7ab0d4", "#b8e0f4", "#f4fcff"], {'slip': 0.1},
+     (2, {'ghiaccio_brina': 1}, 'ceppo'), "Una passerella di ghiaccio: ci si scivola sopra lontano."),
+    (6, 'passerella_vento', "Passerella del vento", ["#8a7a3a", "#c8b060", "#f0e0a0", "#fffff0"], {'jump': 1.45},
+     (2, {'legno': 1, 'nuvola_tempesta': 1}, 'ceppo'), "Una passerella che soffia verso l'alto: saltandoci sopra si sale molto di più."),
+]
+
+
+def plats():
+    out, items, recipes = {}, {}, []
+    for kind, pid, name, pal, phys, rec, desc in PLATS:
+        d = {'item': pid, 'name': name, 'pal': pal}
+        d.update(phys)
+        out[kind] = d
+        items[pid] = {'name': name, 'kind': 'piattaforma', 'icon': ['piattaforma', pid], 'plat': kind, 'desc': desc}
+        recipes.append({'out': pid, 'qty': rec[0], 'in': rec[1], 'station': rec[2]})
+    return out, items, recipes
+
+
 def blocks(start):
     tiles, items, recipes, pals = {}, {}, [], {}
     for i, (bid, name, pal, look, hard, phys, rec, square, desc) in enumerate(BLOCKS):
@@ -295,6 +324,11 @@ def build():
     ores += go
     items.update(gi)
     pals.update(gp)
+    pl, pi, pr = plats()
+    items.update(pi)
+    recipes += pr
+    for kind, pid, name, pal, phys, rec, desc in PLATS:
+        pals[pid] = pal
     bt, bi, br, bp, climbs = blocks(T0 + len(order) + len(vt) + len(gt))
     tiles.update(bt)
     items.update(bi)
@@ -320,4 +354,4 @@ def build():
         {'out': 'pesce_sotto_sale', 'qty': 2, 'in': {'salgemma': 2, '@pesce': 1}, 'station': 'paiolo'},
     ]
     return [('terre.gd', 'Roadmap 52, voci 412-416: le terre dei biomi, le rocce e le terre comuni con i loro usi, le vene',
-             {'tiles': tiles, 'veins': ores, 'soils': soils, 'icon_pals': pals, 'gems': gj, 'climbs': climbs, 'items': items, 'recipes': recipes})]
+             {'tiles': tiles, 'veins': ores, 'soils': soils, 'icon_pals': pals, 'gems': gj, 'climbs': climbs, 'plats': pl, 'items': items, 'recipes': recipes})]

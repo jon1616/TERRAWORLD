@@ -312,6 +312,29 @@ static var LIQ_PASS: PackedByteArray = _flag("liq")             # i liquidi ci p
 static var CLIMBS: Dictionary = BiomesData.pack("climbs")
 static var CLIMB_SPEED: PackedFloat32Array = _climb_speed()
 static var DECOR_DROP: Dictionary = _decor_drop()
+## Voce 416: le passerelle (campo «plats»: {tipo: {item, name, pal, soft, bounce, spike, slip, jump}}); il tipo 1 è la
+## Passerella di radice di sempre. Tabelle per tipo, lette come quelle delle tessere.
+static var PLATS: Dictionary = BiomesData.pack("plats")
+static var PLAT_SOFT: PackedFloat32Array = _plat_num("soft", 1.0)
+static var PLAT_BOUNCE: PackedFloat32Array = _plat_num("bounce", 0.0)
+static var PLAT_SPIKE: PackedFloat32Array = _plat_num("spike", 0.0)
+static var PLAT_SLIP: PackedFloat32Array = _plat_num("slip", 1.0)
+static var PLAT_JUMP: PackedFloat32Array = _plat_num("jump", 1.0)
+
+
+static func _plat_num(key: String, def: float) -> PackedFloat32Array:
+	var out := PackedFloat32Array()
+	out.resize(16)
+	out.fill(def)
+	for k in PLATS:
+		if PLATS[k].has(key):
+			out[int(k)] = float(PLATS[k][key])
+	return out
+
+
+## L'oggetto che lascia una passerella di questo tipo.
+static func plat_item(kind: int) -> String:
+	return String(PLATS.get(kind, {}).get("item", "passerella"))
 
 
 static func _climb_speed() -> PackedFloat32Array:

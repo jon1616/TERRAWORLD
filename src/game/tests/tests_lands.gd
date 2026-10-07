@@ -29,6 +29,7 @@ func run() -> void:
 	gems()
 	await physics()
 	await climbing()
+	await platforms()
 	await photos()
 	print("terre: %s" % str(res))
 	if not res.values().all(func(x: Variant) -> bool: return x == true):
@@ -454,6 +455,63 @@ func climbing() -> void:
 	res["corde"] = y1 < y0 - 30.0 and absf(y2 - y1) < 4.0 and hung and y3 > y2 + 12.0 and liane > 100
 	print("terre, la corda: salito di %.0f px in 0,8 s, appeso (si muove di %.0f) %s, sceso di %.0f; liane nel mondo %d celle" % [
 		y0 - y1, absf(y2 - y1), hung, y3 - y2, liane])
+
+
+## Voce 416: le passerelle. Cadendo su quella di nuvola non ci si fa male, su quella di bava si rimbalza, da quella del
+## vento si salta più in alto; ognuna lascia il suo oggetto. Foto 263_terre_passerelle.
+func platforms() -> void:
+	var w: World = m.world
+	_calm()
+	var spot := _flat if _flat.x >= 0 else _dry_spot(24)
+	kit.flatten(spot, 12)
+	var py := spot.y - 3                    # la fila delle passerelle, tre tessere sopra il pavimento
+	var kinds := [1] + TileDefs.PLATS.keys()
+	var x0 := spot.x - 10
+	for i in kinds.size():
+		for dx in 3:
+			w.set_plat(x0 + i * 4 + dx, py, true, int(kinds[i]))
+	m.view.refresh_rect(Rect2i(x0 - 1, py - 1, kinds.size() * 4 + 2, 3))
+	var items_ok := true
+	for k in TileDefs.PLATS:
+		items_ok = items_ok and ItemsData.has(TileDefs.plat_item(int(k))) and int(ItemsData.get_item(TileDefs.plat_item(int(k)))["plat"]) == int(k)
+	var had_control: bool = m.player.control
+	m.player.control = false
+	# il salto da una passerella di radice e da quella del vento
+	var jumps := {}
+	for k in [1, 6]:
+		var cx: int = x0 + kinds.find(k) * 4 + 1
+		m.snap_to(Vector2i(cx, py - 1))
+		await kit.seconds(0.3)
+		var y0: float = m.player.position.y
+		var top := y0
+		m.player.auto_jump = true
+		var t0 := Time.get_ticks_msec()
+		while Time.get_ticks_msec() - t0 < 900:
+			await m.get_tree().process_frame
+			top = minf(top, m.player.position.y)
+		m.player.auto_jump = false
+		jumps[k] = (y0 - top) / 16.0
+		await kit.seconds(0.6)
+	# la caduta sulla nuvola: dieci tessere senza ferite
+	var nx: int = x0 + kinds.find(2) * 4 + 1
+	for yy in range(py - 12, py):
+		w.set_tile(nx, yy, TileDefs.AIR)
+	m.vitals.refill()
+	var h0: int = m.vitals.hp
+	m.snap_to(Vector2i(nx, py - 12))
+	await kit.seconds(1.2)
+	var safe: bool = int(m.vitals.hp) == h0 and absf(m.player.position.y - float(py * 16 - 15)) < 20.0
+	m.player.control = had_control
+	await kit.save("263_terre_passerelle")
+	for i in kinds.size():
+		for dx in 3:
+			w.set_plat(x0 + i * 4 + dx, py, false)
+	m.view.refresh_rect(Rect2i(x0 - 1, py - 1, kinds.size() * 4 + 2, 3))
+	m.snap_to(spot)
+	res["passerelle"] = items_ok and TileDefs.PLATS.size() == 5 and float(jumps[6]) > float(jumps[1]) * 1.25 and safe \
+		and TileDefs.PLAT_BOUNCE[3] > 0.0 and TileDefs.PLAT_SPIKE[4] > 0.0 and TileDefs.PLAT_SLIP[5] < 1.0
+	print("terre, le passerelle (%d tipi): salto %s tessere (radice e vento); dalla nuvola senza ferite %s; oggetti %s" % [
+		kinds.size(), str(jumps), safe, items_ok])
 
 
 ## La sezione della terra di alcuni biomi, senza il buio.

@@ -20,7 +20,7 @@ const GEM_PAL := [
 	["#081a3a", "#12408a", "#2a7ad8", "#78c0ff", "#d8f0ff"],
 	["#1c0a30", "#40186a", "#7a38c0", "#b880ff", "#ecd8ff"],
 ]
-static var ROWS: int = PLAT_ROW + 1
+static var ROWS: int = PLAT_ROW + 1 + TileDefs.PLATS.size()      # voce 416: una riga per tipo di passerella
 ## Parete di fondo: materiale e tavolozza da cui nasce (scurita e raffreddata).
 const WALL_SRC := {
 	TileDefs.WALL_DIRT: ["humus", TileDefs.P_DIRT], TileDefs.WALL_STONE: ["ardesia", TileDefs.P_STONE],
@@ -45,8 +45,8 @@ static func decor_coords(id: int) -> Vector2i:
 	return Vector2i((id - 1) % COLS, DECOR_ROW + (id - 1) / COLS)
 
 
-static func plat_coords(x: int) -> Vector2i:
-	return Vector2i(posmod(x, 4), PLAT_ROW)
+static func plat_coords(x: int, kind := 1) -> Vector2i:
+	return Vector2i(posmod(x, 4), PLAT_ROW + maxi(kind, 1) - 1)
 
 
 static func build() -> Dictionary:
@@ -79,6 +79,8 @@ static func build() -> Dictionary:
 		glow.blit_rect(r["glow"], Rect2i(0, 0, S, S), dc * S)
 	for v in 4:
 		img.blit_rect(plank(v), Rect2i(0, 0, S, S), Vector2i(v * S, PLAT_ROW * S))
+		for k in TileDefs.PLATS:
+			img.blit_rect(plank_kind(v, int(k)), Rect2i(0, 0, S, S), Vector2i(v * S, (PLAT_ROW + int(k) - 1) * S))
 	return {"img": img, "glow": glow}
 
 
@@ -95,6 +97,37 @@ static func plank(v: int) -> Image:
 	var lash := (v * 5 + 6) % 12 + 2
 	for y in range(0, 6):
 		im.set_pixel(lash, y, Color("#3aa08a") if y % 2 == 0 else Color("#16574f"))
+	return im
+
+
+## Voce 416: le passerelle con una proprietà, della loro tavolozza: la nuvola gonfia, la bava lucida, il rovo con le
+## spine sopra, il ghiaccio con il riflesso, il vento con i riccioli.
+static func plank_kind(v: int, kind: int) -> Image:
+	var im := Px.img(S, S)
+	var p := Px.pal(TileDefs.PLATS[kind]["pal"])
+	var item := String(TileDefs.PLATS[kind]["item"])
+	for y in range(1, 5):
+		for x in S:
+			var c := p[3] if y == 1 else (p[2] if y < 4 else p[1])
+			if item == "passerella_nuvola" and (y == 1 and (x + v * 3) % 5 == 0):
+				c = p[2]
+			elif item == "passerella_ghiaccio" and (x + y + v * 4) % 9 == 0:
+				c = Color.WHITE
+			elif item == "passerella_vento" and y == 2 and (x + v * 5) % 6 < 2:
+				c = p[0]
+			elif item != "passerella_nuvola" and (x + v * 5) % 7 == 0 and y > 1:
+				c = p[0]
+			im.set_pixel(x, y, c)
+	if item == "passerella_nuvola":
+		for x in S:
+			if (x + v * 2) % 4 != 0:
+				im.set_pixel(x, 0, p[3])            # il bordo gonfio
+	elif item == "passerella_rovo":
+		for x in range((v * 3) % 4, S, 4):
+			im.set_pixel(x, 0, p[3])               # le spine
+			im.set_pixel(x, 5, p[0])
+	elif item == "passerella_bava":
+		im.set_pixel((v * 5 + 3) % 14 + 1, 2, Color.WHITE)
 	return im
 
 
