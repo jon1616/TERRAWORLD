@@ -24,6 +24,12 @@ func setup(main: Node2D) -> void:
 	var bp: BisacciaPanel = m.hud.panel
 	bp.pick_rule = rule
 	bp.pick_rule_next = next_rule
+	# Roadmap 53: il clic destro nella Raccolta usa l'oggetto come dalla barra rapida (tavolette, pagine)
+	bp.use_item = func(id: String) -> bool:
+		var kind := String(ItemsData.get_item(id).get("kind", ""))
+		if m.actions.use_hook.is_valid():
+			return bool(m.actions.use_hook.call(kind, id, m.player_cell()))
+		return false
 
 
 ## Voce 297: che cosa si fa di un oggetto a terra: "" (raccoglierlo), "lascia", "cestino".
@@ -104,8 +110,8 @@ func send_surplus() -> int:
 	var moved := 0
 	var b: Bisaccia = m.character.bisaccia
 	for bag in b.all_bags():
-		if bag == b.comps:
-			continue                           # (3 ott 2026) gli scomparti restano addosso: munizioni, torce, Lumini
+		if bag == b.comps or bag == b.raccolta:
+			continue                           # (3 ott 2026) gli scomparti fissi e la Raccolta (Roadmap 53) restano addosso
 		for i in range(Bisaccia.HOTBAR if bag == b else 0, bag.slots.size()):
 			var s: Dictionary = bag.slots[i]
 			if s.is_empty() or s.has("dati") or s.has("tratto") or s.get("bloccato", false):
@@ -194,13 +200,14 @@ func use_bag(id: String) -> bool:
 		return false
 	var b: Bisaccia = m.character.bisaccia
 	var n := int(bd["slots"])
-	if n <= b.slots.size():
-		m.hud.toast("La tua Bisaccia ha già %d caselle: questa ne ha %d" % [b.slots.size(), n])
+	var now := b.section_size if not b.sections.is_empty() else b.slots.size()
+	if n <= now:
+		m.hud.toast("I tuoi scomparti hanno già %d caselle: questa Bisaccia ne dà %d" % [now, n])
 		return false
 	if not b.remove(id, 1):
 		return false
 	b.grow(n)
 	m.character.stats["bisaccia_caselle"] = n
-	m.hud.toast("%s: ora la Bisaccia ha %d caselle (le pagine in alto, accanto al titolo)" % [bd["name"], n])
+	m.hud.toast("%s: ora ogni scomparto della Bisaccia ha %d caselle" % [bd["name"], n])
 	m.sfx.play("dono")
 	return true

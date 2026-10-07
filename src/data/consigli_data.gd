@@ -24,8 +24,8 @@ const LIST := [
 		"text": "La Vita ricresce da sola dopo qualche secondo senza ferite. Le [b]pozioni[/b] curano subito (poi va aspettato un poco prima della prossima). Allontanati, o cura e riprova."},
 	{"id": "appassito", "title": "Sei appassito", "cap": "appassire",
 		"text": "Si rinasce al letto (o alla partenza) con la Bisaccia intatta. Per non ricominciare lontano, metti un letto vicino a dove esplori."},
-	{"id": "piena", "title": "La Bisaccia è piena", "cap": "bisaccia",
-		"text": "Metti le cose nelle [b]casse[/b] («Nelle casse vicine» le smista da sola), o buttale nel [b]Cestino[/b] accanto al titolo della Bisaccia (Ctrl+clic su una casella)."},
+	{"id": "piena", "title": "Uno scomparto è pieno", "cap": "bisaccia",
+		"text": "Ogni tipo di oggetto ha il suo scomparto (le schede a destra della Bisaccia): quando uno è pieno, ciò che è del suo tipo va nella barra rapida. Svuotalo nelle [b]casse[/b] («Nelle casse vicine» le smista da sola) o nel [b]Cestino[/b] (Ctrl+clic)."},
 	{"id": "stazione", "title": "Il primo banco", "cap": "creare",
 		"text": "Vicino a un banco la Bisaccia mostra le sue ricette in [b]Creare[/b]. Ogni banco apre ricette nuove: guarda la categoria e il conto «possibili su tutte»."},
 	{"id": "cassa", "title": "Le casse", "cap": "casse",
@@ -133,7 +133,7 @@ const LIST := [
 		"text": "L'Albero-Madre d'oro ti ha donato un [b]Seme d'oro[/b]: ne arriverà uno ogni sette giorni del Giardino, sempre più vigoroso."},
 	# Roadmap 30: lo zaino e le grotte piene
 	{"id": "zaino_pieno", "title": "La Bisaccia si riempie", "cap": "zaino",
-		"text": "Al [b]Telaio[/b] si cuciono Bisacce più grandi e le [b]tasche[/b] per la cintura, che prendono da sole minerali, piante, dardi, pesci o reliquie. In Esamina puoi dire di un oggetto: [b]Non raccogliere[/b]."},
+		"text": "Al [b]Telaio[/b] si cuciono Bisacce più grandi (ingrandiscono tutti gli scomparti) e le [b]tasche[/b] per la cintura, che ingrandiscono lo scomparto del loro tipo. In Esamina puoi dire di un oggetto: [b]Non raccogliere[/b]."},
 	{"id": "primo_compagno", "title": "Il primo compagno", "cap": "compagni_battaglia",
 		"text": "La creatura legata è nella [b]Sacca dei legami[/b]: in campo ti segue e combatte con il suo stile. {compagno} la evoca o la richiama, {cambia_compagno} manda in campo un'altra, {compagni} apre il pannello."},
 	{"id": "compagno_ko", "title": "Un compagno KO", "cap": "compagni_battaglia",
@@ -155,6 +155,9 @@ const LIST := [
 		"text": "Ogni bioma ha la sua terra: le sabbie franano, sul ghiaccio si scivola, nel fango si corre a fatica, la neve attutisce le cadute. Il mouse sopra una tessera dice che cosa fa."},
 	{"id": "corde", "title": "Corde e liane", "cap": "terre",
 		"text": "Una corda si appende sotto un blocco; clic sulla corda per allungarla. Tenendo [b]Salto[/b] ci si arrampica, con [b]Giù[/b] si scende, fermi si resta appesi."},
+	# Roadmap 53: la Bisaccia a scomparti
+	{"id": "raccolta", "title": "La Raccolta", "cap": "bisaccia",
+		"text": "Tavolette, pagine, cronache, ricordi, curiosità, fossili e reliquie vanno nella [b]Raccolta[/b] (la scheda con la tavoletta, a destra della Bisaccia): non si riempie mai e resta addosso. Clic destro su una tavoletta o una pagina per leggerla."},
 ]
 
 

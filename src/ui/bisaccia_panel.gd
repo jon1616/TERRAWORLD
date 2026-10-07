@@ -45,8 +45,14 @@ var _toast: Callable = func(_t: String) -> void: pass
 ## casella, "tip": suggerimento, "icon": oggetto per l'icona}.
 var _views: Array = []
 var view := 0
-var _tabs: HBoxContainer
+var _tabs: Container
 var _tabs_key := ""
+## Roadmap 53: con gli scomparti le schede stanno in colonna a destra della griglia (una per scomparto, più la Raccolta,
+## gli scomparti fissi e il basto); uno scomparto più grande di una pagina si sfoglia cliccando di nuovo la sua scheda o
+## con la rotella sulla griglia. `use_item` (id) -> bool: il clic destro nella Raccolta legge o usa l'oggetto.
+var page := 0
+var use_item: Callable
+var _where: Label
 
 
 func _ready() -> void:
@@ -77,11 +83,25 @@ func _ready() -> void:
 	title.add_theme_color_override("font_outline_color", Color(0.02, 0.05, 0.07))
 	title.add_theme_constant_override("outline_size", 6)
 	add_child(title)
-	# le schede (pagine, tasche, basto) accanto al titolo: compaiono solo quando ce n'è più d'una
-	_tabs = HBoxContainer.new()
-	_tabs.position = Vector2(x0 + 128, y0 - 38)
-	_tabs.add_theme_constant_override("separation", 4)
+	# le schede: con gli scomparti (Roadmap 53) in colonna a destra della cornice; senza, accanto al titolo
+	if bisaccia != null and not bisaccia.sections.is_empty():
+		_tabs = VBoxContainer.new()
+		_tabs.position = Vector2(frame.position.x + frame.size.x + 4, frame.position.y)
+		_tabs.add_theme_constant_override("separation", 2)
+	else:
+		_tabs = HBoxContainer.new()
+		_tabs.position = Vector2(x0 + 128, y0 - 38)
+		_tabs.add_theme_constant_override("separation", 4)
 	add_child(_tabs)
+	# lo scomparto aperto, il suo riempimento e la pagina, accanto al titolo
+	_where = Label.new()
+	_where.position = Vector2(x0 + 128, y0 - 34)
+	_where.add_theme_font_size_override("font_size", 14)
+	_where.add_theme_color_override("font_color", Color("#e8d8b0"))
+	_where.add_theme_color_override("font_outline_color", Color(0.02, 0.05, 0.07))
+	_where.add_theme_constant_override("outline_size", 4)
+	_where.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_where)
 	for r in ROWS:
 		for c in COLS:
 			var s := SlotView.new()
@@ -161,8 +181,8 @@ func _ready() -> void:
 	sort.position = Vector2(frame.position.x + frame.size.x - 90, frame.position.y + 8)
 	sort.size = Vector2(76, 28)
 	sort.add_theme_font_size_override("font_size", 12)
-	sort.tooltip_text = "Mette in ordine la Bisaccia (non la barra rapida): per tipo e per nome, unendo le pile"
-	sort.pressed.connect(func() -> void: bisaccia.sort_bag())
+	sort.tooltip_text = "Mette in ordine lo scomparto aperto: per tipo e per nome, unendo le pile"
+	sort.pressed.connect(sort_view)
 	sort.tooltip_text += " (le caselle bloccate con Alt+clic restano dove sono)"
 	add_child(sort)
 	var qs := Button.new()
@@ -246,6 +266,11 @@ func click_slot(i: int, button: int) -> void:
 	var b := bag()
 	if i >= b.slots.size():
 		return
+	if button == MOUSE_BUTTON_RIGHT and held.is_empty() and b == bisaccia.raccolta and not b.slots[i].is_empty() \
+			and use_item.is_valid():
+		use_item.call(b.id_at(i))                  # Roadmap 53: nella Raccolta il clic destro legge (tavolette, pagine)
+		_refresh()
+		return
 	if button == MOUSE_BUTTON_LEFT and Input.is_key_pressed(KEY_ALT) and held.is_empty() and b == bisaccia \
 			and not b.slots[i].is_empty():
 		# Alt+clic: blocca o sblocca la casella (Q, «Nelle casse», «Deposita», il Seme della Dispensa non la toccano)
@@ -272,18 +297,57 @@ func click_slot(i: int, button: int) -> void:
 	_refresh()
 
 
+## Roadmap 53: le viste degli scomparti, poi la Raccolta, gli scomparti fissi e il basto.
+func _section_views() -> void:
+	for s in bisaccia.sections:
+		var sec := String(s[0])
+		var a := int(s[1])
+		var z := int(s[2])
+		var used := 0
+		for i in range(a, z):
+			if not bisaccia.slots[i].is_empty():
+				used += 1
+		var inf := BagData.info(sec)
+		_views.append({"t": "", "shape": inf[2], "bag": bisaccia, "from": a, "to": z, "sec": sec, "used": used,
+			"ghost": String(inf[3]),
+			"tip": "%s · %d caselle su %d%s" % [inf[1], used, z - a, " (clic di nuovo: pagina dopo)" if z - a > BagData.PAGE else ""]})
+	var r := bisaccia.raccolta
+	if r != null:
+		var used2 := 0
+		for st in r.slots:
+			if not st.is_empty():
+				used2 += 1
+		_views.append({"t": "", "shape": BagData.RACCOLTA[2], "bag": r, "from": 0, "to": r.slots.size(), "sec": "raccolta",
+			"used": used2, "tip": "Raccolta · %d: tavolette, pagine, cronache, ricordi, curiosità, fossili e reliquie. Non si riempie mai e resta addosso. Clic destro: leggi." % used2})
+	for e in bisaccia.extra_views():
+		var v: Dictionary = (e as Dictionary).duplicate()
+		v["to"] = (v["bag"] as Bisaccia).slots.size()
+		if String(v.get("t", "")) == "Scomparti":
+			v["t"] = ""
+			v["shape"] = ["freccia", "legno"]
+		_views.append(v)
+
+
 ## Le viste della griglia: le pagine della Bisaccia, poi le tasche e il basto (`extra_views` della Bisaccia).
 func _build_views() -> void:
 	_views.clear()
+	if not bisaccia.sections.is_empty():
+		_section_views()
+		_build_tabs()
+		return
 	var pages := ceili(float(bisaccia.slots.size() - Bisaccia.HOTBAR) / float(BackpackData.PAGE))
 	for p in pages:
 		_views.append({"t": str(p + 1) if pages > 1 else "Bisaccia", "bag": bisaccia, "from": Bisaccia.HOTBAR + p * BackpackData.PAGE,
 			"tip": "Bisaccia, pagina %d di %d (%d caselle)" % [p + 1, pages, bisaccia.slots.size()]})
 	for e in bisaccia.extra_views():
 		_views.append(e)
+	_build_tabs()
+
+
+func _build_tabs() -> void:
 	if view >= _views.size():
 		view = 0
-	var key := "%d|%d|%s" % [view, _views.size(), ",".join(_views.map(func(v: Dictionary) -> String: return String(v.get("t", "")) + String(v.get("icon", ""))))]
+	var key := "%d|%d|%d|%s" % [view, page, _views.size(), ",".join(_views.map(func(v: Dictionary) -> String: return String(v.get("t", "")) + String(v.get("icon", "")) + str(v.get("used", ""))))]
 	if key == _tabs_key:
 		return
 	_tabs_key = key
@@ -299,7 +363,16 @@ func _build_views() -> void:
 		b.focus_mode = Control.FOCUS_NONE
 		b.custom_minimum_size = Vector2(30, 28)
 		b.text = String(v.get("t", ""))
-		if String(v.get("icon", "")) != "":
+		if v.has("shape"):
+			# Roadmap 53: la scheda di uno scomparto (icona della sua forma) con il riempimento scritto piccolo sotto
+			var sh: Array = v["shape"]
+			var img0 := ItemIcons.make(String(sh[0]), String(sh[1]))
+			img0.resize(20, 20, Image.INTERPOLATE_NEAREST)
+			b.icon = ImageTexture.create_from_image(img0)
+			b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			b.custom_minimum_size = Vector2(38, 22)
+			b.text = ""                                 # (il riempimento sta accanto al titolo e nel suggerimento)
+		elif String(v.get("icon", "")) != "":
 			var img := ItemIcons.of(String(v["icon"]))            # l'icona a 24 pixel: a 16 non si riconosceva
 			img.resize(24, 24, Image.INTERPOLATE_NEAREST)
 			b.icon = ImageTexture.create_from_image(img)
@@ -307,10 +380,30 @@ func _build_views() -> void:
 			b.custom_minimum_size = Vector2(44, 28)
 		b.add_theme_font_size_override("font_size", 13)
 		UiFrames.button(b, UiPalette.AMBRA, k == view)
+		if not bisaccia.sections.is_empty():
+			# Roadmap 53: le schede in colonna, piccole, tra la Bisaccia ed Esamina
+			b.custom_minimum_size = Vector2(38, 22)
+			b.expand_icon = true
+			for st_name in ["normal", "hover", "pressed", "disabled", "focus", "hover_pressed"]:
+				var sb := b.get_theme_stylebox(st_name)
+				if sb != null:
+					var sb2: StyleBox = sb.duplicate()
+					sb2.content_margin_top = 2
+					sb2.content_margin_bottom = 2
+					sb2.content_margin_left = 6
+					sb2.content_margin_right = 6
+					b.add_theme_stylebox_override(st_name, sb2)
 		b.button_pressed = k == view
 		b.tooltip_text = String(v.get("tip", ""))
 		b.pressed.connect(func() -> void:
-			view = k
+			if view == k:
+				# di nuovo la stessa scheda: la pagina dopo (uno scomparto più grande di una pagina)
+				var span := int(_views[k].get("to", 0)) - int(_views[k].get("from", 0))
+				page = (page + 1) % maxi(ceili(float(span) / float(BagData.PAGE)), 1)
+			else:
+				view = k
+				page = 0
+			_tabs_key = ""
 			_refresh())
 		_tabs.add_child(b)
 
@@ -342,10 +435,18 @@ func _refresh() -> void:
 	_build_views()
 	var b := bag()
 	var from := int(_views[view]["from"]) if view < _views.size() else Bisaccia.HOTBAR
+	var to := b.slots.size()
+	if view < _views.size() and _views[view].has("to"):
+		to = mini(int(_views[view]["to"]), b.slots.size())
+		var span := to - from
+		if page * BagData.PAGE >= span:
+			page = 0
+		from += page * BagData.PAGE
+	_show_where(to)
 	for k in _slots.size():
 		var s := _slots[k]
 		s.index = from + k
-		s.visible = s.index < b.slots.size()
+		s.visible = s.index < to
 		if s.visible:
 			s.set_item(b.id_at(s.index), b.count_at(s.index), b.trait_at(s.index), b.data_at(s.index))
 			s.set_locked(b == bisaccia and b.locked(s.index))
@@ -377,6 +478,57 @@ func _refresh() -> void:
 	_held_icon.visible = not held.is_empty()
 	if not held.is_empty():
 		_held_icon.set_item(held["id"], held["n"], String(held.get("tratto", "")), held.get("dati", {}))
+
+
+## Roadmap 53: accanto al titolo, lo scomparto aperto, quanto è pieno e la pagina.
+func _show_where(to: int) -> void:
+	if _where == null:
+		return
+	if bisaccia.sections.is_empty() or view >= _views.size() or not _views[view].has("to"):
+		_where.text = ""
+		return
+	var v: Dictionary = _views[view]
+	var span := int(v["to"]) - int(v["from"])
+	var pages := maxi(ceili(float(span) / float(BagData.PAGE)), 1)
+	var sec := String(v.get("sec", ""))
+	var name := BagData.name_of(sec) if sec != "" else String(v.get("tip", "")).get_slice(" ·", 0)
+	_where.text = "%s · %s%s" % [name, ("%d/%d" % [int(v.get("used", 0)), span]) if sec != "raccolta" else str(int(v.get("used", 0))),
+		("  · pagina %d/%d" % [page + 1, pages]) if pages > 1 else ""]
+
+
+## Riordina lo scomparto aperto (o la Bisaccia intera, senza scomparti).
+func sort_view() -> void:
+	if bisaccia.sections.is_empty() or view >= _views.size():
+		bisaccia.sort_bag()
+		return
+	var v: Dictionary = _views[view]
+	var b: Bisaccia = v["bag"]
+	if b == bisaccia:
+		bisaccia._sort_range(int(v["from"]), int(v["to"]))
+		bisaccia.changed.emit()
+	elif b == bisaccia.raccolta:
+		b.sort_bag(0)
+
+
+## La rotella sulla griglia sfoglia le pagine dello scomparto aperto.
+func _unhandled_input(e: InputEvent) -> void:
+	if not visible or bisaccia.sections.is_empty() or not (e is InputEventMouseButton) or not e.pressed:
+		return
+	var mb := e as InputEventMouseButton
+	if mb.button_index != MOUSE_BUTTON_WHEEL_UP and mb.button_index != MOUSE_BUTTON_WHEEL_DOWN:
+		return
+	if _slots.is_empty() or view >= _views.size():
+		return
+	var r := Rect2(_slots[0].position, _slots[_slots.size() - 1].position + Vector2(SlotView.SIZE, SlotView.SIZE) - _slots[0].position)
+	if not r.has_point(get_viewport().get_mouse_position()):
+		return
+	var span := int(_views[view].get("to", 0)) - int(_views[view].get("from", 0))
+	var pages := maxi(ceili(float(span) / float(BagData.PAGE)), 1)
+	if pages > 1:
+		page = posmod(page + (1 if mb.button_index == MOUSE_BUTTON_WHEEL_DOWN else -1), pages)
+		_tabs_key = ""
+		_refresh()
+		get_viewport().set_input_as_handled()
 
 
 ## Il set più avanti tra quelli di cui si indossa qualcosa: nome e pezzi (dorato se completo); il bonus nel

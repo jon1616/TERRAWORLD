@@ -1,6 +1,8 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato il 6 ott 2026)
+- **In corso la Roadmap 53 «La Bisaccia a scomparti»** (voci 419-422, dal 7 ott 2026): la Bisaccia divisa in nove
+  scomparti per tipo più la Raccolta. Piano in fondo.
 - **Fatta la Roadmap 52 «La terra dei mondi»** (voci 412-418, 7 ott 2026): le tessere a confronto con Terraria. Una
   terra e una roccia per bioma, le vene visibili dei metalli della spina e del dopo, otto gemme nella roccia, blocchi con
   una fisica, corde, sei passerelle, spine dei biomi e ragnatele. Resoconto in fondo.
@@ -5873,4 +5875,37 @@ Ogni tessera nuova fa qualcosa (frana, scivola, appiccica, attutisce, rimbalza, 
 liquidi, regge le esplosioni, spegne i passi, nutre l'orto, nasconde fossili, fa luce) o dà un materiale che serve. Un
 mondo nasce in ~4,3 s invece di ~3,3 (le vene sono più del doppio; i mondi dei Semi si preparano in sottofondo). Resta
 indietro il conto di corde e spine (Terraria conta anche molte varianti solo di colore). Vale per i mondi generati da ora.
+
+# Roadmap 53 «La Bisaccia a scomparti» (dal 7 ott 2026)
+
+Richiesta dell'utente giocando: «la bisaccia si riempie troppo spesso all'inizio, obbligandomi a fare spedizioni brevi»;
+le tavolette, le pagine e tutto ciò che si colleziona in una sezione apposita; poi «ripenserei completamente alla
+bisaccia, che sarà divisa in scomparti, ognuno grande come la bisaccia attuale». Scelte dell'utente: i nove tipi delle
+casse più la Raccolta (fossili e reliquie compresi), gli scomparti crescono con le Bisacce a gradi; munizioni, torce e
+Lumini restano nei loro scomparti fissi, che il tasto Q non svuota e che restano addosso.
+
+- [x] **419. Il motore.** La Bisaccia del personaggio è la barra rapida (10) più nove scomparti contigui (Minerali,
+  Materiali, Costruire, Equipaggiamento, Pozioni e cibo, Semi e geni, Mandria, Pesca, Tesori) di 30 caselle ciascuno
+  (una pagina, quanto la Bisaccia di prima sopra la barra rapida); ciò che si raccoglie va da solo nel suo. La Raccolta
+  (tavolette, pagine, cronache, ricordi, curiosità, fossili, reliquie) è una borsa a parte senza limite, che resta
+  addosso. Le Bisacce a gradi ingrandiscono tutti gli scomparti (40, 50, 60, 75, 90); le tasche alla cintura
+  ingrandiscono lo scomparto del loro tipo. I salvataggi di prima si ridistribuiscono da soli.
+  Fatto il 7 ott 2026: `BagData` (i nove scomparti = i tipi di `StorageData`, la Raccolta, le grandezze); in `Bisaccia`
+  gli scomparti sono tratti contigui di `slots` (`sections`, `section_size`, `section_range`, `section_at`,
+  `setup_sections`, `restore_sections`, `_add_sections`), così tutto ciò che scorreva le caselle oltre la barra rapida
+  (Q, «Nelle casse», «Deposita», il Seme della Dispensa, il fagotto) continua a funzionare; la Raccolta è `raccolta`,
+  una Bisaccia a parte (in `all_bags`, cresce di una pagina quando è piena). Pieno lo scomparto, ciò che entra va nella
+  barra rapida, poi sul basto. Le tasche allargano il loro scomparto; togliendole ciò che non ci sta resta nei loro dati.
+  `Character` salva «sezioni» e «raccolta»; un personaggio di prima si ridistribuisce (scomparti grandi secondo la
+  Bisaccia a gradi che aveva, il contenuto delle tasche esce). Il fagotto è grande quanto ciò che contiene (prima 30
+  caselle: con una Bisaccia da 100 il resto si perdeva).
+- [x] **420. Il pannello.** Le schede degli scomparti in colonna accanto alla griglia, con il riempimento; un altro clic
+  sulla scheda gira pagina; la Raccolta si legge con il clic destro; «Riordina» per scomparto.
+  Fatto il 7 ott 2026: in `BisacciaPanel` le schede in colonna tra la Bisaccia ed Esamina (icona della forma, il
+  riempimento nel suggerimento), accanto al titolo lo scomparto aperto con «usati/caselle» e la pagina; un altro clic
+  sulla scheda o la rotella sfogliano; il clic destro nella Raccolta usa l'oggetto (`use_item`, collegato da `Backpack`
+  a `Interact`); «Riordina» lo scomparto aperto. Foto 300, 301, 308.
+- [ ] **421. Attorno.** Q, «Nelle casse», «Deposita», il Seme della Dispensa e il fagotto lavorano sugli scomparti (mai
+  la barra rapida, gli scomparti fissi e la Raccolta); Esamina, l'Enciclopedia e i consigli lo spiegano.
+- [ ] **422. La misura.** La prova «zaino» rifatta, il giro intero.
 

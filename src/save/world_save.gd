@@ -160,7 +160,9 @@ static func _decode(bytes: PackedByteArray) -> World:
 		var o := Vector2i(int(ch[0]), int(ch[1]))
 		o = moved.get(o, o)
 		if w.stations.has(o):
-			w.chests[o] = Bisaccia.from_array(ch[2], int(StationsData.STATIONS[w.stations[o]].get("slots", 20)))
+			# (Roadmap 53: il fagotto è grande quanto ciò che contiene: la Bisaccia a scomparti ha centinaia di caselle)
+			w.chests[o] = Bisaccia.from_array(ch[2], maxi(int(StationsData.STATIONS[w.stations[o]].get("slots", 20)),
+				(ch[2] as Array).size() if String(w.stations[o]) == "fagotto" else 0))
 	if data.has("biomes") and (data["biomes"] as PackedByteArray).size() == w.w:
 		w.biomes = data["biomes"]
 	if data.has("explored") and (data["explored"] as PackedByteArray).size() == w.w * w.h:

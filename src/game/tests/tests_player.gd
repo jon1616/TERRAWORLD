@@ -57,10 +57,7 @@ func trees() -> void:
 	# un seme dove c'era l'albero, fatto crescere subito
 	if b.count("seme_lanterna") == 0:
 		b.add("seme_lanterna", 1)
-	var slot := -1
-	for i in Bisaccia.HOTBAR:
-		if b.id_at(i) == "seme_lanterna":
-			slot = i
+	var slot := kit.hold("seme_lanterna")        # (Roadmap 53: ciò che si raccoglie va nel suo scomparto)
 	if slot < 0:
 		print("ATTENZIONE: il seme non è nella barra rapida")
 		return

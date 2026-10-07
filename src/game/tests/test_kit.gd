@@ -262,6 +262,19 @@ func hold(id: String) -> int:
 					b.changed.emit()
 					s = last
 					break
+		if s < 0 and b.raccolta != null:
+			# (Roadmap 53) nella Raccolta: una casella in mano, quella di prima torna al suo posto
+			for i in b.raccolta.slots.size():
+				if b.raccolta.id_at(i) == id:
+					var last2 := Bisaccia.HOTBAR - 1
+					var prev := b.slots[last2]
+					b.slots[last2] = b.raccolta.slots[i]
+					b.raccolta.slots[i] = {}
+					if not prev.is_empty():
+						b.add_stack(prev)
+					b.changed.emit()
+					s = last2
+					break
 	if s >= 0:
 		m.hud.select(s)
 	return s

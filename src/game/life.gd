@@ -86,6 +86,13 @@ func _drop_bundle() -> void:
 		if found:
 			break
 	w.stations[c] = "fagotto"
+	# Roadmap 53: grande quanto serve (gli scomparti della Bisaccia sono centinaia di caselle; prima ne prendeva 30 e il
+	# resto andava perso)
+	var need := 0
+	for i in range(Bisaccia.HOTBAR, b.slots.size()):
+		if not b.slots[i].is_empty():
+			need += 1
+	w.chests[c] = Bisaccia.new(maxi(int(StationsData.STATIONS["fagotto"].get("slots", 30)), need))
 	var bag := w.chest_at(c)
 	for i in range(Bisaccia.HOTBAR, b.slots.size()):
 		if not b.slots[i].is_empty():

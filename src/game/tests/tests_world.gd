@@ -178,11 +178,10 @@ func pickup_and_place(id: String, cell: Vector2i, before: int) -> void:
 		if b.count(id) > before:
 			break
 	print("raccolta: %s %s" % [id, "nella Bisaccia" if b.count(id) > before else "NON raccolto"])
-	var slot := -1
-	for i in Bisaccia.HOTBAR:
-		if b.id_at(i) == id:
-			slot = i
-	if slot < 0 or String(ItemsData.get_item(id).get("kind", "")) != "blocco":
+	if String(ItemsData.get_item(id).get("kind", "")) != "blocco" or b.count(id) <= before:
+		return
+	var slot := kit.hold(id)                     # (Roadmap 53: ciò che si raccoglie va nel suo scomparto)
+	if slot < 0:
 		return
 	kit.m.hud.select(slot)
 	var ok: bool = kit.m.actions.place_block(cell, id)

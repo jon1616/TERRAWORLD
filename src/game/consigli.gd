@@ -143,6 +143,12 @@ func _c_risveglio() -> bool:
 	return false
 
 
+## Roadmap 53: qualcosa è finito nella Raccolta.
+func _c_raccolta() -> bool:
+	var r: Bisaccia = m.character.bisaccia.raccolta
+	return r != null and not r.is_empty()
+
+
 ## Roadmap 52: in piedi su una terra che fa qualcosa (frana, scivola, appiccica, attutisce).
 func _c_terra_viva() -> bool:
 	var p: Player = m.player
@@ -207,7 +213,26 @@ func _c_appassito() -> bool:
 
 
 func _c_piena() -> bool:
-	return m.character.bisaccia.slots.all(func(s: Dictionary) -> bool: return not s.is_empty())
+	return _section_free(0)                     # (Roadmap 53: uno scomparto pieno)
+
+
+## Roadmap 53: c'è uno scomparto con al più `left` caselle libere?
+func _section_free(left: int) -> bool:
+	var b: Bisaccia = m.character.bisaccia
+	if b.sections.is_empty():
+		var free0 := 0
+		for i in range(Bisaccia.HOTBAR, b.slots.size()):
+			if b.slots[i].is_empty():
+				free0 += 1
+		return free0 <= left
+	for s in b.sections:
+		var free := 0
+		for i in range(int(s[1]), int(s[2])):
+			if b.slots[i].is_empty():
+				free += 1
+		if free <= left:
+			return true
+	return false
 
 
 func _c_stazione() -> bool:
@@ -448,12 +473,7 @@ func _c_seme_oro() -> bool:
 
 ## Roadmap 30: la Bisaccia (non la barra rapida) quasi piena.
 func _c_zaino_pieno() -> bool:
-	var b: Bisaccia = m.character.bisaccia
-	var free := 0
-	for i in range(Bisaccia.HOTBAR, b.slots.size()):
-		if b.slots[i].is_empty():
-			free += 1
-	return free <= 3
+	return _section_free(3)
 
 
 func _c_baccello() -> bool:

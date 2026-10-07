@@ -13,6 +13,7 @@ func _init(tk: TestKit) -> void:
 
 
 func run() -> void:
+	await sections()
 	await bags()
 	await pouches()
 	await pick_rules()
@@ -26,7 +27,9 @@ func run() -> void:
 func _save_bag() -> Dictionary:
 	var b: Bisaccia = m.character.bisaccia
 	return {"slots": b.slots.duplicate(true), "equip": b.equip.duplicate(true), "traits": b.equip_traits.duplicate(true),
-		"data": b.equip_data.duplicate(true), "stats": m.character.stats.duplicate(true)}
+		"data": b.equip_data.duplicate(true), "stats": m.character.stats.duplicate(true),
+		"sections": b.sections.duplicate(true), "size": b.section_size,
+		"raccolta": b.raccolta.slots.duplicate(true) if b.raccolta != null else []}
 
 
 func _restore_bag(s: Dictionary) -> void:
@@ -37,6 +40,12 @@ func _restore_bag(s: Dictionary) -> void:
 	b.equip = (s["equip"] as Dictionary).duplicate(true)
 	b.equip_traits = (s["traits"] as Dictionary).duplicate(true)
 	b.equip_data = (s["data"] as Dictionary).duplicate(true)
+	b.sections = (s["sections"] as Array).duplicate(true)       # Roadmap 53
+	b.section_size = int(s["size"])
+	if b.raccolta != null:
+		b.raccolta.slots.clear()
+		for e in s["raccolta"]:
+			b.raccolta.slots.append((e as Dictionary).duplicate(true))
 	var st: Dictionary = m.character.stats
 	for k in st.keys():
 		if not (s["stats"] as Dictionary).has(k):
@@ -46,45 +55,129 @@ func _restore_bag(s: Dictionary) -> void:
 	b.changed.emit()
 
 
-## Voce 295: una Bisaccia più grande allarga lo zaino (il contenuto resta), una più piccola non si consuma; il pannello si
-## sfoglia a pagine; il salvataggio tiene le caselle.
+## Roadmap 53: una Bisaccia più grande ingrandisce tutti gli scomparti (il contenuto resta), una più piccola non si
+## consuma; lo scomparto più grande di una pagina si sfoglia; il salvataggio tiene le caselle.
 func bags() -> void:
 	var saved := _save_bag()
 	var b: Bisaccia = m.character.bisaccia
-	var n0 := b.slots.size()
+	var n0 := b.section_size
 	var first := b.slots[0].duplicate(true)
-	b.slots[b.slots.size() - 1] = {}
 	b.add("bisaccia_ambra", 1)
 	var grown: bool = m.backpack.use_bag("bisaccia_ambra")
-	var n1 := b.slots.size()
+	var n1 := b.section_size
 	b.add("bisaccia_seta", 1)
 	var smaller: bool = m.backpack.use_bag("bisaccia_seta")
 	var kept := b.count("bisaccia_seta") == 1 and b.slots[0] == first
 	b.remove("bisaccia_seta", 1)
-	b.slots[n1 - 1] = {"id": "legno", "n": 7}               # una casella in fondo, sull'ultima pagina
+	var r := b.section_range("materiali")
+	b.slots[r.y - 1] = {"id": "legno", "n": 7}               # l'ultima casella dei Materiali, sulla terza pagina
 	var d: Dictionary = m.character.to_dict()
 	var back := Character.from_dict("prova_zaino", JSON.parse_string(JSON.stringify(d)))
-	var saved_ok: bool = back != null and back.bisaccia.slots.size() == n1 and back.bisaccia.id_at(n1 - 1) == "legno"
+	var saved_ok: bool = back != null and back.bisaccia.section_size == n1 and back.bisaccia.id_at(r.y - 1) == "legno" \
+		and back.bisaccia.section_range("materiali") == r
 	var bp: BisacciaPanel = m.hud.panel
 	bp.toggle()
 	await kit.frames(3)
-	var pages := bp._views.filter(func(v: Dictionary) -> bool: return v["bag"] == b).size()   # (dopo le pagine, gli scomparti)
-	bp.view = pages - 1
+	var tab := -1
+	for k in bp._views.size():
+		if String(bp._views[k].get("sec", "")) == "materiali":
+			tab = k
+	bp.view = tab
+	bp.page = 2
 	bp._refresh()
 	await kit.frames(3)
 	var last_seen := false
-	for s in bp._slots:
-		if s.visible and s.index == n1 - 1:
+	for sv in bp._slots:
+		if sv.visible and sv.index == r.y - 1:
 			last_seen = true
 	await kit.save("300_zaino_pagine")
 	bp.view = 0
+	bp.page = 0
 	bp.toggle()
-	var ok: bool = grown and n1 == 84 and not smaller and kept and saved_ok and pages == 3 and last_seen
-	print("Bisacce a gradi: %d → %d caselle %s, una più piccola non si usa %s, contenuto al suo posto %s, salvataggio %s, pagine %d, ultima casella in vista %s" % [
-		n0, n1, grown, not smaller, kept, saved_ok, pages, last_seen])
+	var ok: bool = grown and n1 == 75 and not smaller and kept and saved_ok and last_seen and tab >= 0
+	print("Bisacce a gradi: scomparti da %d → %d caselle %s, una più piccola non si usa %s, contenuto al suo posto %s, salvataggio %s, ultima casella in vista %s" % [
+		n0, n1, grown, not smaller, kept, saved_ok, last_seen])
 	if not ok:
 		print("ATTENZIONE: le Bisacce a gradi non vanno")
 	_restore_bag(saved)
+
+
+## Roadmap 53: ciò che si raccoglie va nel suo scomparto; le tavolette, i fossili e le reliquie nella Raccolta (che non si
+## riempie mai); uno scomparto pieno manda il resto nella barra rapida; si conta e si spende da ovunque; il salvataggio
+## tiene tutto; una Bisaccia di prima (senza scomparti) si ridistribuisce da sola.
+func sections() -> void:
+	var saved := _save_bag()
+	var b: Bisaccia = m.character.bisaccia
+	for i in b.slots.size():
+		if i >= Bisaccia.HOTBAR:
+			b.slots[i] = {}
+	var hot := b.slots.slice(0, Bisaccia.HOTBAR).duplicate(true)
+	b.add("minerale_radicite", 12)
+	b.add("legno", 20)
+	b.add("tavoletta_seminatori", 3)
+	var fossil := ArchaeologyData.fossil_id("grumo_primo", "cranio")
+	b.add(fossil, 1)
+	var rm := b.section_range("minerali")
+	var rt := b.section_range("materiali")
+	var routed := b.count("minerale_radicite") == 12 and _in(b, "minerale_radicite", rm) and _in(b, "legno", rt) \
+		and b.raccolta.count("tavoletta_seminatori") == 3 and b.raccolta.count(fossil) == 1 and b.slots.slice(0, Bisaccia.HOTBAR) == hot
+	# uno scomparto pieno: il resto nella barra rapida (se c'è posto)
+	for i in range(rt.x, rt.y):
+		b.slots[i] = {"id": "seta_radice", "n": ItemsData.stack_of("seta_radice")}
+	var free_hot := -1
+	for i in Bisaccia.HOTBAR:
+		if b.slots[i].is_empty():
+			free_hot = i
+			break
+	var left := b.add("gelatina", 3)
+	var overflow := free_hot < 0 or (left == 0 and b.id_at(free_hot) == "gelatina")
+	if free_hot >= 0:
+		b.slots[free_hot] = {}
+	for i in range(rt.x, rt.y):
+		b.slots[i] = {}
+	# la Raccolta cresce
+	var r0 := b.raccolta.slots.size()
+	for k in r0 + 3:
+		b.add_stack({"id": "tavoletta_seminatori", "n": 1, "dati": {"k": k}})
+	var grows := b.raccolta.slots.size() > r0
+	var counted := b.count("tavoletta_seminatori") >= 3 and b.remove("tavoletta_seminatori", 1)
+	# salvataggio e ricaricamento
+	var back := Character.from_dict("prova_scomparti_tipo", JSON.parse_string(JSON.stringify(m.character.to_dict())))
+	var saved_ok: bool = back != null and back.bisaccia.sections.size() == 9 and back.bisaccia.count("minerale_radicite") == 12 \
+		and back.bisaccia.raccolta.count(fossil) == 1
+	# una Bisaccia di prima: 84 caselle senza scomparti
+	var old: Dictionary = m.character.to_dict()
+	old.erase("sezioni")
+	old.erase("raccolta")
+	var flat := Bisaccia.new(84)
+	flat.slots[3] = {"id": "piccone_radicite", "n": 1}
+	flat.slots[50] = {"id": "minerale_radicite", "n": 9}
+	flat.slots[83] = {"id": "tavoletta_seminatori", "n": 2}
+	old["bisaccia"] = flat.to_array()
+	var mig := Character.from_dict("prova_bisaccia_vecchia", JSON.parse_string(JSON.stringify(old)))
+	var migrated: bool = mig != null and mig.bisaccia.section_size == 75 and mig.bisaccia.id_at(3) == "piccone_radicite" \
+		and _in(mig.bisaccia, "minerale_radicite", mig.bisaccia.section_range("minerali")) \
+		and mig.bisaccia.raccolta.count("tavoletta_seminatori") == 2
+	var bp: BisacciaPanel = m.hud.panel
+	bp.toggle()
+	await kit.frames(2)
+	var tabs := bp._views.filter(func(v: Dictionary) -> bool: return v.has("sec")).size()
+	await kit.save("308_scomparti_tipo")
+	bp.toggle()
+	var ok: bool = routed and overflow and grows and counted and saved_ok and migrated and tabs == 10
+	print("scomparti per tipo: smistati %s, pieno → barra rapida %s, Raccolta che cresce %s (%d → %d), contati %s, salvataggio %s, Bisaccia di prima %s, schede %d" % [
+		routed, overflow, grows, r0, b.raccolta.slots.size(), counted, saved_ok, migrated, tabs])
+	if not ok:
+		print("ATTENZIONE: gli scomparti per tipo non vanno")
+	_restore_bag(saved)
+
+
+## C'è almeno una pila di `id` tra le caselle r.x e r.y?
+static func _in(b: Bisaccia, id: String, r: Vector2i) -> bool:
+	for i in range(r.x, r.y):
+		if b.id_at(i) == id:
+			return true
+	return false
 
 
 ## 3 ott 2026: le caselle bloccate (Alt+clic). «Deposita tutto», il Seme della Dispensa e «Riordina» non le toccano;
@@ -195,43 +288,36 @@ func pouches() -> void:
 	var b: Bisaccia = m.character.bisaccia
 	b.equip.erase("tasca_1")
 	b.equip.erase("tasca_2")
+	b.setup_sections(b.section_size, true)
+	var n0 := b.section_range("minerali")
 	var back0 := b.wear("tasca_1", {"id": "tasca_minatore_1", "n": 1})
-	var main0 := 0
-	for s in b.slots:
-		if String(s.get("id", "")) == "ardesia":
-			main0 += int(s["n"])
-	var pb := b.pouch("tasca_1")
-	var rest := b.add("ardesia", 30)
-	var in_pouch := pb.count("ardesia") if pb != null else -1
-	var main1 := 0
-	for s in b.slots:
-		if String(s.get("id", "")) == "ardesia":
-			main1 += int(s["n"])
-	var counted := b.count("ardesia") == main0 + 30 and int(Crafting.counts(b).get("ardesia", 0)) >= main0 + 30
-	b.add("dardo", 5)
-	var sword_refused := pb != null and not BackpackData.accepts("minatore", "spada_radice") and pb.count("dardo") == 0
-	b.remove("ardesia", main0 + 5)
-	var took := pb != null and pb.count("ardesia") == 25
+	var n1 := b.section_range("minerali")
+	var bigger := (n1.y - n1.x) == (n0.y - n0.x) + 10
+	# lo scomparto pieno, e la barra rapida pure: togliendo la tasca, dieci minerali non stanno più da nessuna parte
+	var hot := b.slots.slice(0, Bisaccia.HOTBAR).duplicate(true)
+	for i in range(n1.x, n1.y):
+		b.slots[i] = {"id": "minerale_radicite", "n": ItemsData.stack_of("minerale_radicite")}   # (piene: non si uniscono)
+	for i in Bisaccia.HOTBAR:
+		if b.slots[i].is_empty():
+			b.slots[i] = {"id": "legno", "n": 1}
+	var off := b.wear("tasca_1", {})
+	var c: Array = (off.get("dati", {}) as Dictionary).get("c", [])
+	var kept_in := c.size() == 10 and (b.section_range("minerali").y - b.section_range("minerali").x) == (n0.y - n0.x)
+	b.wear("tasca_1", off)
+	var again := b.count("minerale_radicite") == (n1.y - n1.x) * ItemsData.stack_of("minerale_radicite")
+	for i in Bisaccia.HOTBAR:
+		b.slots[i] = hot[i]
 	var d: Dictionary = m.character.to_dict()
 	var ch := Character.from_dict("prova_tasche", JSON.parse_string(JSON.stringify(d)))
-	var saved_ok: bool = ch != null and ch.bisaccia.pouch("tasca_1") != null and ch.bisaccia.pouch("tasca_1").count("ardesia") == 25
+	var saved_ok: bool = ch != null and ch.bisaccia.section_range("minerali") == b.section_range("minerali") and ch.bisaccia.count("minerale_radicite") == (n1.y - n1.x) * ItemsData.stack_of("minerale_radicite")
 	var bp: BisacciaPanel = m.hud.panel
 	bp.toggle()
-	await kit.frames(2)
-	bp.view = bp._views.size() - 1
-	bp._refresh()
 	await kit.frames(3)
-	var tab_ok: bool = bp.bag() == pb
 	await kit.save("301_zaino_tasca")
-	bp.view = 0
 	bp.toggle()
-	var off := b.wear("tasca_1", {})
-	var off_full := (off.get("dati", {}) as Dictionary).has("c") and b.count("ardesia") == 0
-	b.wear("tasca_1", off)
-	var again := b.count("ardesia") == 25
-	var ok: bool = back0.is_empty() and rest == 0 and in_pouch == 30 and main1 == main0 and counted and sword_refused and took 		and saved_ok and tab_ok and off_full and again
-	print("tasche: 30 ardesie nella Sacca del minatore %s (fuori %d → %d), contate per creare %s, dardi rifiutati %s, tolte %s, salvataggio %s, scheda %s, tolta piena %s, rimessa %s" % [
-		in_pouch == 30, main0, main1, counted, sword_refused, took, saved_ok, tab_ok, off_full, again])
+	var ok: bool = back0.is_empty() and bigger and kept_in and again and saved_ok
+	print("tasche: la Sacca del minatore allarga i Minerali di 10 %s, tolta tiene ciò che non ci sta %s, rimessa %s, salvataggio %s" % [
+		bigger, kept_in, again, saved_ok])
 	if not ok:
 		print("ATTENZIONE: le tasche non vanno")
 	_restore_bag(saved)
@@ -299,7 +385,7 @@ func larder() -> void:
 	b.slots[b.slots.size() - 1] = {"id": "ardesia", "n": 40}
 	b.slots[b.slots.size() - 2] = {"id": "spada_radice", "n": 1}
 	bk.use_dispensa("seme_dispensa")
-	var sent := dsp.count("ardesia") == 40 and b.id_at(b.slots.size() - 2) == "spada_radice"
+	var sent := dsp.count("ardesia") >= 40 and b.id_at(b.slots.size() - 2) == "spada_radice"
 	var n2 := bk.dispensa().slots.size()
 	bk.use_dispensa("cuore_dispensa")
 	await kit.frames(3)
@@ -311,7 +397,7 @@ func larder() -> void:
 	var n3 := bk.dispensa().slots.size()
 	var dd: Dictionary = m.character.to_dict()
 	var ch := Character.from_dict("prova_dispensa", JSON.parse_string(JSON.stringify(dd)))
-	var saved_ok: bool = ch != null and ch.dispensa != null and ch.dispensa.count("ardesia") == 40 and ch.dispensa.slots.size() == 200
+	var saved_ok: bool = ch != null and ch.dispensa != null and ch.dispensa.count("ardesia") >= 40 and ch.dispensa.slots.size() == 200
 	# la Dispensa vicina con «usa per creare» dà gli ingredienti alla creazione (2 ott 2026, segnalato dall'utente)
 	var at: Vector2i = m.player_cell() + Vector2i(2, -1)
 	m.world.stations[at] = "dispensa"

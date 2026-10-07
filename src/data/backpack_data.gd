@@ -17,16 +17,17 @@ extends RefCounted
 const BASE := 40                       # la Bisaccia di partenza (`Bisaccia.SIZE`)
 const PAGE := 30                       # caselle per pagina nel pannello (sopra la barra rapida)
 
+## Roadmap 53: «slots» = le caselle di ogni scomparto (`BagData.GRADES`), non più di tutta la Bisaccia.
 const BAGS := [
-	{"id": "bisaccia_seta", "name": "Bisaccia di seta", "slots": 50, "mat": "seta",
+	{"id": "bisaccia_seta", "name": "Bisaccia di seta", "slots": 40, "mat": "seta",
 		"in": {"seta_radice": 12, "legno": 20, "gelatina": 6}},
-	{"id": "bisaccia_radicite", "name": "Bisaccia cucita di radicite", "slots": 60, "mat": "radicite",
+	{"id": "bisaccia_radicite", "name": "Bisaccia cucita di radicite", "slots": 50, "mat": "radicite",
 		"in": {"seta_radice": 16, "lingotto_radicite": 8, "corda_liana": 4}},
-	{"id": "bisaccia_legnoferro", "name": "Bisaccia di legnoferro", "slots": 72, "mat": "legnoferro",
+	{"id": "bisaccia_legnoferro", "name": "Bisaccia di legnoferro", "slots": 60, "mat": "legnoferro",
 		"in": {"seta_radice": 20, "lingotto_legnoferro": 10, "corda_liana": 6}},
-	{"id": "bisaccia_ambra", "name": "Bisaccia d'ambra", "slots": 84, "mat": "ambra",
+	{"id": "bisaccia_ambra", "name": "Bisaccia d'ambra", "slots": 75, "mat": "ambra",
 		"in": {"seta_radice": 24, "lingotto_ambra": 10, "cristallo_linfa": 4}},
-	{"id": "bisaccia_linfa", "name": "Bisaccia della Linfa", "slots": 100, "mat": "linfa",
+	{"id": "bisaccia_linfa", "name": "Bisaccia della Linfa", "slots": 90, "mat": "linfa",
 		"in": {"seta_radice": 30, "lingotto_linfa": 10, "polvere_iridata": 2, "linfa_antica": 1}},
 ]
 
@@ -172,13 +173,14 @@ static func items() -> Dictionary:
 	var out := {}
 	for b in BAGS:
 		out[b["id"]] = {"name": b["name"], "kind": "bisaccia", "icon": ["sacca", b["mat"]], "stack": 1, "slots": b["slots"],
-			"desc": "Usala: la tua Bisaccia diventa di %d caselle, per sempre (ciò che contiene resta)." % int(b["slots"])}
+			"desc": "Usala: ogni scomparto della tua Bisaccia diventa di %d caselle, per sempre (ciò che contiene resta)." % int(b["slots"])}
 	for p in POUCHES:
 		for k in POUCH_TIERS.size():
 			var t: Dictionary = POUCH_TIERS[k]
 			out[pouch_id(String(p["type"]), k)] = {"name": String(p["name"]) + String(t["suffix"]), "kind": "tasca",
 				"tasca": p["type"], "slots": t["slots"], "icon": [p["icon"], t["mat"]], "stack": 1,
-				"desc": "Alla cintura (posto «tasca»): %d caselle che prendono da sole %s." % [int(t["slots"]), p["desc"]]}
+				"desc": "Alla cintura (posto «tasca»): %d caselle in più nello scomparto %s della Bisaccia (%s)." % [int(t["slots"]),
+					BagData.name_of(String(BagData.POUCH_SECTION.get(String(p["type"]), ""))), p["desc"]]}
 	out.merge(DISPENSA_ITEMS.duplicate(true))
 	for b in BASTI:
 		out[b["id"]] = {"name": b["name"], "kind": "basto", "icon": ["velo", b["mat"]], "stack": 1, "slots": b["slots"],

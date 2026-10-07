@@ -81,11 +81,13 @@ Nel Giardino cadere nel Vuoto non uccide: riporta sull'isola con una piccola fer
 • Le creature del sottosuolo nascono solo al buio e mai vicino alle torce: illuminare una grotta la rende più sicura.
 Se fatichi a vedere, nelle [url=cap:opzioni]Opzioni[/url] c'è il «Chiarore del buio»."""},
 	{"id": "bisaccia", "group": "Primi passi", "name": "La Bisaccia", "text":
-"""La [b]Bisaccia[/b] ({bag} caselle; le prime 10 sono la [b]barra rapida[/b] in basso). Si apre con {k_bisaccia}.
+"""La [b]Bisaccia[/b] si apre con {k_bisaccia}. Le prime 10 caselle sono la [b]barra rapida[/b] in basso: ciò che tieni in mano, scelto da te. Il resto è diviso in [b]nove scomparti[/b], uno per tipo (Minerali, Materiali, Costruire, Equipaggiamento, Pozioni e cibo, Semi e geni, Mandria, Pesca, Tesori), da 30 caselle ciascuno: ciò che raccogli va da solo nel suo, e se è pieno nella barra rapida. Le schede degli scomparti sono in colonna a destra della griglia; uno scomparto più grande di una pagina si sfoglia cliccando di nuovo la sua scheda, o con la rotella.
+• La [b]Raccolta[/b] (la scheda con la tavoletta) tiene ciò che si legge o si colleziona: tavolette, pagine, cronache, ricordi, curiosità, fossili, reliquie. Non si riempie mai e resta addosso; il [b]clic destro[/b] legge una tavoletta o una pagina.
+• Le munizioni, le torce e i Lumini hanno i loro [b]scomparti fissi[/b] (la scheda con la freccia): il tasto Q e le casse non li toccano, e appassendo restano addosso.
 • [b]Clic[/b] prende o posa una pila; [b]clic destro[/b] ne prende metà; [b]Maiusc+clic[/b] la manda nella cassa aperta.
 • A sinistra l'[b]equipaggiamento[/b]: elmo, corazza, gambali e due accessori, con la Scorza totale e il set più avanti.
 • Aperta, il mondo si scurisce dietro: in alto a sinistra il pannello [url=cap:creare]Creare[/url], a destra la colonna [b]Esamina[/b] (la ricetta scelta, o l'oggetto che ci posi: a cosa serve, in quali ricette, come si ottiene), in basso a sinistra la scheda del [b]Germogliato[/b].
-• «Riordina» mette in ordine (non tocca la barra rapida); «Nelle casse vicine» manda ogni oggetto nella [url=cap:casse]cassa[/url] che lo tiene già.
+• «Riordina» mette in ordine lo scomparto aperto; «Nelle casse vicine» manda ogni oggetto degli scomparti nella [url=cap:casse]cassa[/url] che lo tiene già o che raccoglie il suo tipo (mai la barra rapida, gli scomparti fissi e la Raccolta).
 • Il [b]Cestino[/b] (accanto al titolo della Bisaccia) elimina gli oggetti: clic sul cestino con l'oggetto in mano, o [b]Ctrl+clic[/b] su una casella. L'ultimo oggetto buttato resta nel cestino finché non ne butti un altro: un clic a mani vuote lo riprende.
 Gli oggetti a terra vengono attirati quando ti avvicini, se c'è posto."""},
 	{"id": "diario", "group": "Primi passi", "name": "Il diario della partita", "text":

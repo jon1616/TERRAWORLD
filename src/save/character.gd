@@ -43,6 +43,8 @@ func to_dict() -> Dictionary:
 		"tempo_di_gioco": play_time, "barra": hotbar, "ultimo_mondo": last_world,
 		"bisaccia": bisaccia.to_array() if bisaccia else [],
 		"scomparti": bisaccia.comps.to_array() if bisaccia and bisaccia.comps else [], "equipaggiamento": bisaccia.equip if bisaccia else {},
+		"sezioni": bisaccia.section_size if bisaccia else 0,                       # Roadmap 53
+		"raccolta": bisaccia.raccolta.to_array() if bisaccia and bisaccia.raccolta else [],
 		"tratti_equip": bisaccia.equip_traits if bisaccia else {}, "dati_equip": bisaccia.equip_data if bisaccia else {},
 		"vita": hp, "linfa": linfa, "vita_extra": vita_extra, "linfa_extra": linfa_extra, "guardiani_curati": guardiani_curati,
 		"erbario": erbario, "stats": stats, "obiettivi": obiettivi, "genario": genario, "mandria": mandria,
@@ -88,6 +90,24 @@ static func from_dict(cid: String, d: Dictionary) -> Character:
 	for k in ed:
 		if c.bisaccia.equip.has(k) and ed[k] is Dictionary:
 			c.bisaccia.equip_data[k] = SaveMigrations.ints(ed[k])
+	# Roadmap 53: gli scomparti e la Raccolta. Un personaggio di prima: la Bisaccia si ridistribuisce nei suoi scomparti
+	# (grandi secondo la Bisaccia a gradi che aveva), e ciò che stava nelle tasche esce e va al suo posto.
+	var rac: Array = d.get("raccolta", [])
+	cb.raccolta = Bisaccia.from_array(rac, maxi(BagData.RACCOLTA_BASE, rac.size()))
+	cb.raccolta.changed.connect(func() -> void: cb.changed.emit())
+	if int(d.get("sezioni", 0)) > 0:
+		cb.restore_sections(int(d["sezioni"]))
+	else:
+		var loose: Array = []
+		for k in BackpackData.POUCH_SLOTS:
+			var pdat: Dictionary = cb.equip_data.get(k, {})
+			if pdat.has("c"):
+				loose.append_array(Bisaccia.from_array(pdat["c"], (pdat["c"] as Array).size()).slots)
+				pdat.erase("c")
+		cb.setup_sections(BagData.size_for_old(cb.slots.size()), false)
+		for st in loose:
+			if not (st as Dictionary).is_empty():
+				cb.add_stack(st)
 	var dsp: Array = d.get("dispensa", [])
 	if not dsp.is_empty():
 		c.dispensa = Bisaccia.from_array(dsp, dsp.size())
@@ -192,6 +212,9 @@ static func create(char_name: String) -> Character:
 	Compartments.gather(c.bisaccia, c.bisaccia.comps)
 	var cb2: Bisaccia = c.bisaccia
 	cb2.comps.changed.connect(func() -> void: cb2.changed.emit())
+	cb2.raccolta = Bisaccia.new(BagData.RACCOLTA_BASE)                       # Roadmap 53
+	cb2.raccolta.changed.connect(func() -> void: cb2.changed.emit())
+	cb2.setup_sections(BagData.BASE, false)
 	return c
 
 
