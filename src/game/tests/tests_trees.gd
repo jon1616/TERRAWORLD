@@ -27,8 +27,13 @@ func run() -> void:
 			var sp := String(TreesData.SPECIES[d[0]]["id"])
 			per_species[sp] = int(per_species.get(sp, 0)) + 1
 			per_size[d[1]] += 1
-			var b := world.biomes[t.x]
-			if TreesData.species_of_biome(b) != d[0] and t.y < world.surface[t.x] + 2:
+			# (voce 462) nei passaggi tra due biomi vale anche la specie del vicino (entro `BiomesData.MIX` colonne)
+			var ok_sp := false
+			for dx in [0, -BiomesData.MIX, BiomesData.MIX]:
+				var b := world.biomes[clampi(t.x + dx, 0, world.w - 1)]
+				if TreesData.species_of_biome(b) == d[0]:
+					ok_sp = true
+			if not ok_sp and t.y < world.surface[t.x] + 2:
 				wrong += 1
 	# per ogni bioma, il tratto di 60 colonne con più alberi (per la foto)
 	for x in range(40, world.w - 40, 20):

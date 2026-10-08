@@ -131,6 +131,32 @@ const SPAWN_SAFE := 160                # colonne di foresta attorno alla partenz
 const SEG_MIN := 220                   # lunghezza di un tratto di bioma, in colonne
 const SEG_MAX := 440
 const BLEND := 30                      # colonne di passaggio morbido del terreno tra due biomi
+## Voce 462 (Roadmap 59): il carattere dei biomi. Le larghezze dei tratti (moltiplicatori di SEG_MIN-SEG_MAX: un bioma
+## minuscolo, uno normale, uno enorme), il clima dall'elemento (il freddo non tocca il caldo, il simile sta col simile),
+## le colonne del passaggio sfumato (`mix_at`: erba, vegetazione e alberi del vicino si mescolano a chiazze).
+const WIDTHS := [0.45, 1.0, 1.0, 1.0, 1.0, 2.0]
+const CLIMATE := {"gelo": "freddo", "brace": "caldo"}
+const MIX := 34
+
+
+static func climate_of(k: int) -> String:
+	return str(CLIMATE.get(str(BIOMES[k].get("elem", "")), "mite"))
+
+
+## Il bioma di una colonna con il passaggio sfumato: vicino a un confine (entro `MIX` colonne) a chiazze quello del
+## vicino, più spesso quanto più il confine è vicino. `n` = un rumore del generatore (le chiazze), `w` = il mondo.
+static func mix_at(w: Object, x: int, n: FastNoiseLite) -> int:
+	var b: int = w.biomes[x]
+	for d in range(1, MIX + 1):
+		for s in [-1, 1]:
+			var xx: int = x + d * s
+			if xx < 0 or xx >= w.w:
+				continue
+			var o: int = w.biomes[xx]
+			if o != b:
+				var p := 0.5 * (1.0 - float(d) / MIX)
+				return o if (n.get_noise_1d(x) + 1.0) * 0.5 < p else b
+	return b
 
 
 static func _load() -> Array:

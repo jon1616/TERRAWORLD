@@ -6311,6 +6311,13 @@ La quarta del piano «Il generatore eccellente» (`GENERATORE.md`). Scelta dell'
   scogli) vivono solo in mare, e in mare vivono solo loro; `Fishing.is_sea` (acqua di superficie grande entro
   `SEA_EDGE` colonne da un bordo, o il gene Sommerso). La mappa di `tools/mappe.gd` disegna i liquidi. La prova
   «pesca» pesca nel mare del mondo di prova.
-- [ ] **462. Il carattere dei biomi di superficie.**
+- [x] **462. Il carattere dei biomi di superficie.**
+  Fatto l'8 ott 2026: `BiomesData.WIDTHS` (un tratto su sei minuscolo, uno su sei doppio), il clima dall'elemento
+  (`CLIMATE`: il freddo non nasce accanto al caldo, peso / 20; il simile accanto al simile, × 2), il passaggio sfumato
+  (`mix_at`: entro 34 colonne da un confine erba, vegetazione e specie degli alberi del vicino a chiazze, più fitte
+  vicino al confine), radure e boschetti dentro i biomi (`PassAlberi`, da un rumore lento). `_ensure_all` contava un
+  avanzo di 5 colonne in fondo al mondo come un tratto e si riprendeva il tratto appena dato: ora contano solo i tratti
+  di 80 colonne fuori dalla partenza (il mondo di prova ha di nuovo tutti i 13 biomi). La prova degli alberi accetta la
+  specie del vicino nei passaggi.
 - [ ] **463. Le tracce del passato.**
 - [ ] **464. La misura della varietà.**

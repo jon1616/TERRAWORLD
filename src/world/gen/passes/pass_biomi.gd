@@ -29,10 +29,11 @@ func run(w: World, c: GenContext) -> void:
 	var segs := []                          # [inizio, fine, bioma] di ogni tratto
 	while x < w.w:
 		var len := rng.randi_range(BiomesData.SEG_MIN, BiomesData.SEG_MAX)
+		len = int(len * float(BiomesData.WIDTHS[rng.randi_range(0, BiomesData.WIDTHS.size() - 1)]))   # voce 462
 		if bool(c.genes()["mosaic"]):
 			len /= 4                         # gene «Mosaico» (voce 48): tratti brevi, tutti i biomi
 		# con una specie lo stesso bioma può tornare di fila (così domina davvero); senza, mai due uguali
-		var b := _pick(rng, -1 if home_set else prev, weights)
+		var b := _pick(rng, -1 if home_set else prev, weights, prev)
 		for k in range(x, mini(x + len, w.w)):
 			w.biomes[k] = b
 		segs.append([x, mini(x + len, w.w), b])
@@ -71,13 +72,23 @@ func run(w: World, c: GenContext) -> void:
 ## bioma che ne ha più di uno, lontano dalla partenza (con cinque biomi il mondo di prova aveva perso le paludi).
 func _ensure_all(w: World, segs: Array, weights: Array, rng: RandomNumberGenerator) -> void:
 	var safe := Vector2i(w.spawn.x - BiomesData.SPAWN_SAFE, w.spawn.x + BiomesData.SPAWN_SAFE)
+	# (voce 462) un bioma c'è se ha almeno 80 colonne fuori dalla zona della partenza: con i tratti minuscoli uno poteva
+	# finire tutto sotto la foresta della partenza, e il mondo di prova perdeva le Cenerarie
+	var cols := {}
+	for x in w.w:
+		if x < safe.x or x > safe.y:
+			cols[w.biomes[x]] = int(cols.get(w.biomes[x], 0)) + 1
 	for k in weights.size():
-		if int(weights[k]) <= 0 or segs.any(func(sg: Array) -> bool: return int(sg[2]) == k):
+		if int(weights[k]) <= 0 or int(cols.get(k, 0)) >= 80:
 			continue
 		var free := []
-		for sg in segs:
-			var many := segs.filter(func(o: Array) -> bool: return int(o[2]) == int(sg[2])).size() > 1
-			if many and (int(sg[1]) < safe.x or int(sg[0]) > safe.y):
+		# (voce 462) contano solo i tratti veri (80 colonne, fuori dalla partenza): un avanzo di 5 colonne in fondo al
+		# mondo faceva sembrare «doppio» un bioma, e il tratto appena dato gli veniva ripreso
+		var real := segs.filter(func(o: Array) -> bool:
+			return int(o[1]) - int(o[0]) >= 80 and (int(o[1]) < safe.x or int(o[0]) > safe.y))
+		for sg in real:
+			var many := real.filter(func(o: Array) -> bool: return int(o[2]) == int(sg[2])).size() > 1
+			if many:
 				free.append(sg)
 		if free.is_empty():
 			# nessun bioma ripetuto da cui prendere un tratto: si divide in due il tratto più largo lontano dalla
@@ -114,7 +125,20 @@ func _weights(sg: String) -> Array:
 	return out
 
 
-func _pick(rng: RandomNumberGenerator, prev: int, weights: Array) -> int:
+## Voce 462: `near` = il bioma accanto: il freddo non va vicino al caldo (peso / 20), il simile al simile (× 2).
+func _pick(rng: RandomNumberGenerator, prev: int, weights: Array, near := -1) -> int:
+	var ws := weights.duplicate()
+	if near >= 0:
+		var cn := BiomesData.climate_of(near)
+		for k in ws.size():
+			var ck := BiomesData.climate_of(k)
+			if cn != "mite" and ck != "mite" and ck != cn:
+				ws[k] = maxi(int(ws[k]) / 20, 0)
+			elif cn != "mite" and ck == cn:
+				ws[k] = int(ws[k]) * 2
+	if ws.all(func(v: int) -> bool: return v <= 0):
+		ws = weights
+	weights = ws
 	var tot := 0
 	for k in weights.size():
 		if k != prev:
