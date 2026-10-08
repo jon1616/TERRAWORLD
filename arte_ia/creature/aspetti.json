@@ -53,5 +53,16 @@
 			"#ffffff"
 		],
 		"polvere": false
+	},
+	"formica_ladra": {
+		"name_en": "Amber Thief Ant",
+		"noun": "ant",
+		"plan": "insetto",
+		"look": "a big ant of the amber woods, about the size of a cat, a sneaky little thief: three clearly separated body parts (a round head with two long bent antennae and strong mandibles, a slim middle with six thin jointed legs, and a big drop-shaped abdomen), the abdomen made of translucent glossy AMBER with two pale golden stripes across it, like a drop of resin. Shiny armour, alert antennae, cheeky look.",
+		"colors": "dark brown head and legs (#3a2208, #6a3e10), glossy amber body (#a0621a, #d8962a), pale golden stripes and shine (#fff0a8)",
+		"eye": "one small round black eye (#101010) with a white glint",
+		"accents": [
+			"#fff0a8"
+		]
 	}
 }

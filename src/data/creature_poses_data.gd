@@ -60,6 +60,10 @@ const POSES := {
 	"ermellino": {"n": 8, "anchor": [12, 22],
 		"poses": {"cammina": [0, 1, 2, 3], "fermo": [4], "corsa": [5], "colpita": [6], "allerta": [7]},
 		"fps": {"cammina": 6.0}},
+	# Formica ladra d'ambra (tavola di Nano Banana, tools/installa_creatura.py)
+	"formica_ladra": {"n": 8, "anchor": [11, 21],
+		"poses": {"cammina": [0, 1, 2, 3], "fermo": [4], "corsa": [5], "colpita": [6], "allerta": [7]},
+		"fps": {"cammina": 6.0}},
 }
 
 

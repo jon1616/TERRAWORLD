@@ -114,6 +114,7 @@ def main() -> None:
     ap.add_argument("id", nargs="?")
     ap.add_argument("immagine", nargs="?")
     ap.add_argument("--senza-prova", action="store_true")
+    ap.add_argument("--specchia", action="store_true", help="Nano Banana l'ha girata a sinistra: si rigira")
     args = ap.parse_args()
     cid = args.id
     if not cid:
@@ -137,6 +138,8 @@ def main() -> None:
            "--misura-da", str(r["misura_da"]), "--cartella", os.path.join("arte", "creature")]
     if r.get("fly"):
         cmd.append("--vola")
+    if args.specchia:
+        cmd.append("--specchia")
     if r.get("togli_polvere"):
         cmd.append("--togli-polvere")
     if r.get("accenti"):

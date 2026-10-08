@@ -68,6 +68,7 @@ def main() -> None:
     ap.add_argument("--misura-da", type=int, default=0)
     ap.add_argument("--colori", type=int, default=10)
     ap.add_argument("--accenti", default="", help="colori fissi in più (occhio, vene), es. #E8902C,#2FA08C")
+    ap.add_argument("--specchia", action="store_true", help="rigira ogni posa (la creatura guarda a sinistra)")
     ap.add_argument("--togli-polvere", action="store_true", help="toglie le nuvole di polvere e vapore staccate")
     ap.add_argument("--togli-linee", action="store_true", help="toglie la linea del suolo disegnata sotto i piedi")
     ap.add_argument("--vola", action="store_true",
@@ -175,6 +176,9 @@ def main() -> None:
     # (--scuro) e si toglie largo un pixel del gioco
     f = pixela.ritaglia(win[args.misura_da]).shape[1] / float(args.lungo + 2)
     spess = f * 1.1
+    if args.specchia:
+        # Nano Banana a volte gira la creatura a sinistra anche se il prompt dice destra: si rigira ogni posa
+        win = [np.ascontiguousarray(w[:, ::-1]) for w in win]
     win = [senza_contorno(w, spess, args.scuro) for w in win]
     pal, n_base = pixela.tavolozza(win, args.colori, [x for x in args.accenti.split(",") if x])
     # le creature scure: il corpo quasi nero si confonde con il contorno del gioco (#1A1020); --schiarisci alza i
