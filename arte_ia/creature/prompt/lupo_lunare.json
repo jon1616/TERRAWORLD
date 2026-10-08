@@ -1,0 +1,56 @@
+{
+ "id": "lupo_lunare",
+ "key": "lupo_lunare",
+ "name": "Lupo lunare",
+ "grid": "4x2",
+ "n": 8,
+ "cells": [
+  "cammina",
+  "cammina",
+  "cammina",
+  "cammina",
+  "fermo",
+  "carica",
+  "scatto",
+  "colpita"
+ ],
+ "poses": {
+  "cammina": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "fermo": [
+   4
+  ],
+  "carica": [
+   5
+  ],
+  "scatto": [
+   6
+  ],
+  "colpita": [
+   7
+  ]
+ },
+ "fps": {
+  "cammina": 6.0
+ },
+ "center": false,
+ "roll_center": false,
+ "fly": false,
+ "lungo": 28,
+ "misura_da": 4,
+ "accenti": [
+  "#f0f0a0",
+  "#e0e8ff"
+ ],
+ "luce": [
+  "#e0ebff",
+  "#f5f5a3"
+ ],
+ "togli_polvere": false,
+ "schiarisci": 1.0,
+ "glow": true
+}

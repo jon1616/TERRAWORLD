@@ -1,0 +1,68 @@
+{
+ "id": "cervo_brina",
+ "key": "cervo_brina",
+ "name": "Cervo di brina",
+ "grid": "4x3",
+ "n": 12,
+ "cells": [
+  "cammina",
+  "cammina",
+  "cammina",
+  "cammina",
+  "fermo",
+  "carica",
+  "scatto",
+  "bruca",
+  "colpita",
+  "allerta",
+  "fermo",
+  "fermo"
+ ],
+ "poses": {
+  "cammina": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "fermo": [
+   4,
+   4,
+   4,
+   4,
+   11
+  ],
+  "carica": [
+   5
+  ],
+  "scatto": [
+   6
+  ],
+  "bruca": [
+   7
+  ],
+  "colpita": [
+   8
+  ],
+  "allerta": [
+   9
+  ]
+ },
+ "fps": {
+  "cammina": 6.0,
+  "fermo": 2.0
+ },
+ "center": false,
+ "roll_center": false,
+ "fly": false,
+ "lungo": 28,
+ "misura_da": 4,
+ "accenti": [
+  "#8ff5d6",
+  "#ccf5ff"
+ ],
+ "luce": [],
+ "togli_polvere": false,
+ "schiarisci": 1.0,
+ "glow": false
+}

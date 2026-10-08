@@ -1,0 +1,54 @@
+{
+ "id": "spinoriccio",
+ "key": "spinoriccio",
+ "name": "Spinoriccio",
+ "grid": "4x2",
+ "n": 8,
+ "cells": [
+  "cammina",
+  "cammina",
+  "cammina",
+  "cammina",
+  "fermo",
+  "carica",
+  "scatto",
+  "colpita"
+ ],
+ "poses": {
+  "cammina": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "fermo": [
+   4
+  ],
+  "carica": [
+   5
+  ],
+  "scatto": [
+   6
+  ],
+  "colpita": [
+   7
+  ]
+ },
+ "fps": {
+  "cammina": 6.0
+ },
+ "center": false,
+ "roll_center": true,
+ "fly": false,
+ "lungo": 18,
+ "misura_da": 4,
+ "accenti": [
+  "#ffb040",
+  "#f5d67a",
+  "#eba3a3"
+ ],
+ "luce": [],
+ "togli_polvere": true,
+ "schiarisci": 1.0,
+ "glow": false
+}

@@ -1,0 +1,54 @@
+{
+ "id": "lucciola_vena",
+ "key": "lucciola_vena",
+ "name": "Lucciola di vena",
+ "grid": "4x2",
+ "n": 8,
+ "cells": [
+  "vola",
+  "vola",
+  "vola",
+  "vola",
+  "sospeso",
+  "planata",
+  "colpita",
+  "sospeso"
+ ],
+ "poses": {
+  "vola": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "sospeso": [
+   0,
+   3
+  ],
+  "planata": [
+   5
+  ],
+  "colpita": [
+   6
+  ]
+ },
+ "fps": {
+  "vola": 11.0,
+  "sospeso": 10.0
+ },
+ "center": true,
+ "roll_center": false,
+ "fly": true,
+ "lungo": 16,
+ "misura_da": 0,
+ "accenti": [
+  "#d8fff4",
+  "#50d0c0"
+ ],
+ "luce": [
+  "#ebfff5"
+ ],
+ "togli_polvere": false,
+ "schiarisci": 1.0,
+ "glow": true
+}

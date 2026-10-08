@@ -1,0 +1,86 @@
+{
+	"art_mods": {
+
+	},
+	"awake": false,
+	"base": "lucciola_vena",
+	"behaviors": [
+		"deriva",
+		"lucciola_vena"
+	],
+	"biomes": [],
+	"body": {
+		"eye": "#e8fff8",
+		"glow": true,
+		"h": 10,
+		"pal": [
+			"#0a2a2a",
+			"#145050",
+			"#208080",
+			"#50d0c0",
+			"#d8fff4"
+		],
+		"plan": "insetto",
+		"w": 12,
+		"wings": "#9ef0e0"
+	},
+	"boss": false,
+	"chief": false,
+	"damage": 0,
+	"disguise": false,
+	"docile": true,
+	"elem": "",
+	"family": "lucciole_vena",
+	"family_name": "Lucciole di vena",
+	"fly": true,
+	"frames": 2,
+	"fury": [],
+	"glow": true,
+	"glow_cols": [
+		"#ebfff5"
+	],
+	"great": false,
+	"h": 10,
+	"half": [
+		5,
+		4
+	],
+	"hp": 10,
+	"id": "lucciola_vena",
+	"lord": false,
+	"name": "Lucciola di vena",
+	"night": false,
+	"p": {
+		"bob": 16.0,
+		"drift": 14.0,
+		"leash": 30,
+		"sight": 10,
+		"smell": 12
+	},
+	"palette": [
+		"#145252",
+		"#1f8585",
+		"#52ccc2",
+		"#99f5e0",
+		"#d6fff5",
+		"#ebfff5"
+	],
+	"role": "volante",
+	"roll": false,
+	"season": "",
+	"shape": "lucciola_vena",
+	"sky": [],
+	"speed": 60,
+	"strata": [
+		0,
+		1,
+		2
+	],
+	"under": [],
+	"upside": false,
+	"variant": 0,
+	"w": 12,
+	"water": false,
+	"weak": [],
+	"weather": ""
+}

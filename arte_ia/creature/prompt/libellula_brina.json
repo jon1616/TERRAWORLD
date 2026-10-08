@@ -1,0 +1,54 @@
+{
+ "id": "libellula_brina",
+ "key": "libellula_brina",
+ "name": "Libellula di brina",
+ "grid": "4x2",
+ "n": 8,
+ "cells": [
+  "vola",
+  "vola",
+  "vola",
+  "vola",
+  "sospeso",
+  "planata",
+  "colpita",
+  "sospeso"
+ ],
+ "poses": {
+  "vola": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "sospeso": [
+   0,
+   1
+  ],
+  "planata": [
+   5
+  ],
+  "colpita": [
+   6
+  ]
+ },
+ "fps": {
+  "vola": 11.0,
+  "sospeso": 12.0
+ },
+ "center": true,
+ "roll_center": false,
+ "fly": true,
+ "lungo": 26,
+ "misura_da": 0,
+ "accenti": [
+  "#8ff5d6",
+  "#ccf5ff"
+ ],
+ "luce": [
+  "#8ff5d6"
+ ],
+ "togli_polvere": false,
+ "schiarisci": 1.0,
+ "glow": true
+}

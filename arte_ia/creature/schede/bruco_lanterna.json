@@ -1,0 +1,70 @@
+{
+	"art_mods": {
+
+	},
+	"awake": false,
+	"base": "bruco_lanterna",
+	"behaviors": [
+		"cammina"
+	],
+	"biomes": [
+		"foresta"
+	],
+	"body": {
+
+	},
+	"boss": false,
+	"chief": false,
+	"damage": 4,
+	"disguise": false,
+	"docile": true,
+	"elem": "",
+	"family": "bruchi",
+	"family_name": "Bruchi di lanterna",
+	"fly": false,
+	"frames": 2,
+	"fury": [],
+	"glow": true,
+	"glow_cols": [
+		"#fff5a3"
+	],
+	"great": false,
+	"h": 12,
+	"half": [
+		9,
+		4
+	],
+	"hp": 16,
+	"id": "bruco_lanterna",
+	"lord": false,
+	"name": "Bruco di lanterna",
+	"night": false,
+	"p": {
+		"sight": 8
+	},
+	"palette": [
+		"#141414",
+		"#145c52",
+		"#1f7a66",
+		"#3da38f",
+		"#70d6ad",
+		"#ebc247"
+	],
+	"role": "erbivoro",
+	"roll": false,
+	"season": "",
+	"shape": "bruco_lanterna",
+	"sky": [],
+	"speed": 20,
+	"strata": [
+		0,
+		1
+	],
+	"under": [],
+	"upside": false,
+	"variant": 0,
+	"w": 22,
+	"water": false,
+	"weak": [],
+	"weather": ""
+}

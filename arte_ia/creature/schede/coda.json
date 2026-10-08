@@ -1,0 +1,7202 @@
+[
+	{
+		"boss": false,
+		"chief": false,
+		"id": "grumo_muschio",
+		"key": [
+			0,
+			0,
+			0,
+			0,
+			0,
+			-10
+		],
+		"name": "Grumo di muschio",
+		"shape": "grumo",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "pecora_muschio",
+		"key": [
+			0,
+			0,
+			0,
+			0,
+			0,
+			-7
+		],
+		"name": "Pecora di muschio",
+		"shape": "pecora_muschio",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "cervo_brina",
+		"key": [
+			0,
+			0,
+			0,
+			0,
+			0,
+			-6
+		],
+		"name": "Cervo di brina",
+		"shape": "cervo_brina",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "corvo_corteccia",
+		"key": [
+			0,
+			0,
+			0,
+			0,
+			0,
+			-6
+		],
+		"name": "Corvo di corteccia",
+		"shape": "corvo",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "grumo_spore",
+		"key": [
+			0,
+			0,
+			0,
+			0,
+			0,
+			-6
+		],
+		"name": "Grumo di spore",
+		"shape": "grumo",
+		"variant": 2
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "lepre_linfa",
+		"key": [
+			0,
+			0,
+			0,
+			0,
+			0,
+			-6
+		],
+		"name": "Lepre di Linfa",
+		"shape": "lepre_linfa",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "bruco_lanterna",
+		"key": [
+			0,
+			0,
+			0,
+			0,
+			0,
+			-5
+		],
+		"name": "Bruco di lanterna",
+		"shape": "bruco_lanterna",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ermellino",
+		"key": [
+			0,
+			0,
+			0,
+			0,
+			0,
+			-5
+		],
+		"name": "Ermellino di brina",
+		"shape": "ermellino",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "falena_brace",
+		"key": [
+			0,
+			0,
+			0,
+			0,
+			0,
+			-5
+		],
+		"name": "Falena di brace",
+		"shape": "falena",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "formica_ladra",
+		"key": [
+			0,
+			0,
+			0,
+			0,
+			0,
+			-5
+		],
+		"name": "Formica ladra d'ambra",
+		"shape": "formica_ladra",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "gufo_gelo",
+		"key": [
+			0,
+			0,
+			0,
+			0,
+			0,
+			-5
+		],
+		"name": "Gufo del gelo",
+		"shape": "gufo_gelo",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "libellula_brina",
+		"key": [
+			0,
+			0,
+			0,
+			0,
+			0,
+			-5
+		],
+		"name": "Libellula di brina",
+		"shape": "libellula_brina",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "spinoriccio",
+		"key": [
+			0,
+			0,
+			0,
+			0,
+			0,
+			-5
+		],
+		"name": "Spinoriccio",
+		"shape": "spinoriccio",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ape_lume",
+		"key": [
+			0,
+			0,
+			0,
+			0,
+			0,
+			-4
+		],
+		"name": "Ape di lume",
+		"shape": "ape_lume",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "scarabeo_ardesia",
+		"key": [
+			0,
+			0,
+			0,
+			0,
+			0,
+			-4
+		],
+		"name": "Scarabeo d'ardesia",
+		"shape": "scarabeo",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "sputaspore",
+		"key": [
+			0,
+			0,
+			0,
+			0,
+			0,
+			-4
+		],
+		"name": "Sputaspore",
+		"shape": "sputaspore",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "cornoradice",
+		"key": [
+			0,
+			0,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Cornoradice",
+		"shape": "cornoradice",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "volpe_ambra",
+		"key": [
+			0,
+			0,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Volpe d'ambra",
+		"shape": "volpe_ambra",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "lucciola_vena",
+		"key": [
+			0,
+			0,
+			0,
+			0,
+			0,
+			-2
+		],
+		"name": "Lucciola di vena",
+		"shape": "lucciola_vena",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "avvizzito_errante",
+		"key": [
+			0,
+			0,
+			0,
+			0,
+			1,
+			-12
+		],
+		"name": "Avvizzito errante",
+		"shape": "avvizzito",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "lucciola_vorace",
+		"key": [
+			0,
+			0,
+			0,
+			0,
+			1,
+			-8
+		],
+		"name": "Lucciola vorace",
+		"shape": "lucciola",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "falena_vampira",
+		"key": [
+			0,
+			0,
+			0,
+			0,
+			1,
+			-3
+		],
+		"name": "Falena vampira",
+		"shape": "falena_vampira",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "lupo_lunare",
+		"key": [
+			0,
+			0,
+			0,
+			0,
+			1,
+			-3
+		],
+		"name": "Lupo lunare",
+		"shape": "lupo_lunare",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "rana_torba",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-8
+		],
+		"name": "Rana di torba",
+		"shape": "rana_torba",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "saltagrillo",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-8
+		],
+		"name": "Saltagrillo",
+		"shape": "saltagrillo",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "codarossa",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-7
+		],
+		"name": "Codarossa",
+		"shape": "codarossa",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "lumacone",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-7
+		],
+		"name": "Lumacone dei cappelli",
+		"shape": "lumacone",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "planavento",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-6
+		],
+		"name": "Planavento",
+		"shape": "planavento",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "salamandra_brace",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-6
+		],
+		"name": "Salamandra di brace",
+		"shape": "salamandra",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "scorpione_vetro",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-6
+		],
+		"name": "Scorpione di vetro",
+		"shape": "scorpione_vetro",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "spolverino",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-6
+		],
+		"name": "Spolverino",
+		"shape": "spolverino",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "cappelletto",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-5
+		],
+		"name": "Cappelletto ladro",
+		"shape": "cappelletto",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "cerbiatto_ombra",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-5
+		],
+		"name": "Cerbiatto d'ombra",
+		"shape": "cerbiatto_ombra",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "cervo_iride",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-5
+		],
+		"name": "Cervo iridato",
+		"shape": "cervo_iride",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "falco_brace",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-5
+		],
+		"name": "Falco di brace",
+		"shape": "falco_brace",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "farfalla_iride",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-5
+		],
+		"name": "Farfalla iridata",
+		"shape": "farfalla_iride",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "fatuo_cenere",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-5
+		],
+		"name": "Fatuo di cenere",
+		"shape": "fatuo_cenere",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "foca_linfa",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-5
+		],
+		"name": "Foca di Linfa gelata",
+		"shape": "foca_linfa",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "gargolla",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-5
+		],
+		"name": "Gargolla",
+		"shape": "gargolla",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "grumo_diviso",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-5
+		],
+		"name": "Grumo di brace che si divide",
+		"shape": "grumo_diviso",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "lucertola_vetro",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-5
+		],
+		"name": "Lucertola di vetro",
+		"shape": "lucertola_vetro",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "lupo_ghiaccio",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-5
+		],
+		"name": "Lupo del ghiacciaio",
+		"shape": "lupo_ghiaccio",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "muschiolo",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-5
+		],
+		"name": "Muschiolo guaritore",
+		"shape": "muschiolo",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "pavoncella",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-5
+		],
+		"name": "Pavoncella del vento",
+		"shape": "pavoncella",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "picchio_rame",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-5
+		],
+		"name": "Picchio di rame",
+		"shape": "picchio_rame",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "rospo_torba",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-5
+		],
+		"name": "Rospo gonfio di torba",
+		"shape": "rospo_torba",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "scarabeo_cenere",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-5
+		],
+		"name": "Scarabeo delle ceneri",
+		"shape": "scarabeo_cenere",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "scarabeo_sabbia",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-5
+		],
+		"name": "Scarabeo della sabbia fusa",
+		"shape": "scarabeo_sabbia",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "scudato_pietra",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-5
+		],
+		"name": "Scudato di pietra",
+		"shape": "scudato_pietra",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "spirito_gelo",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-5
+		],
+		"name": "Spirito del gelo",
+		"shape": "spirito_gelo",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "stellamimo",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-5
+		],
+		"name": "Stellamimo",
+		"shape": "stellamimo",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "talpa_cenere",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-5
+		],
+		"name": "Talpa di cenere",
+		"shape": "talpa_cenere",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "tessispore",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-5
+		],
+		"name": "Tessispore",
+		"shape": "tessispore",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "zecca_sussurri",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-5
+		],
+		"name": "Zecca dei sussurri",
+		"shape": "zecca_sussurri",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "airone_torba",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-4
+		],
+		"name": "Airone di torba",
+		"shape": "airone_torba",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "fenice_cenere",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-4
+		],
+		"name": "Fenice di cenere",
+		"shape": "fenice_cenere",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "lupo_gelo",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-4
+		],
+		"name": "Lupo del gelo",
+		"shape": "lupo_gelo",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "segugio_brace",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-4
+		],
+		"name": "Segugio di brace",
+		"shape": "segugio_brace",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "orso_corteccia",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Orso di corteccia",
+		"shape": "orso_corteccia",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "stellino",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Stellino",
+		"shape": "stellino",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "verme_dune",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Verme delle dune",
+		"shape": "verme_dune",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "cerva_guida",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-2
+		],
+		"name": "Cerva guida iridata",
+		"shape": "cerva_guida",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "cervo_iridato",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-2
+		],
+		"name": "Cervo iridato",
+		"shape": "cervo_iridato",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "golem_muschio",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-2
+		],
+		"name": "Golem di muschio",
+		"shape": "golem_muschio",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ombra_seminatore",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			0,
+			-2
+		],
+		"name": "Ombra di Seminatore",
+		"shape": "ombra_seminatore",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "brillo_stellare",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			1,
+			-5
+		],
+		"name": "Brillo stellare",
+		"shape": "brillo_stellare",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "gufo_stellare",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			1,
+			-5
+		],
+		"name": "Gufo delle radure",
+		"shape": "gufo_stellare",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "sussurratore",
+		"key": [
+			0,
+			0,
+			0,
+			1,
+			1,
+			-5
+		],
+		"name": "Sussurratore",
+		"shape": "sussurratore",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "eclissimo",
+		"key": [
+			0,
+			0,
+			1,
+			0,
+			0,
+			-8
+		],
+		"name": "Eclissimo",
+		"shape": "eclissimo",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "lumacone_pioggia",
+		"key": [
+			0,
+			0,
+			1,
+			0,
+			0,
+			-6
+		],
+		"name": "Lumacone della pioggia",
+		"shape": "lumacone_pioggia",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "rana_tuono",
+		"key": [
+			0,
+			0,
+			1,
+			0,
+			0,
+			-6
+		],
+		"name": "Rana del tuono",
+		"shape": "rana_tuono",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "spirito_bufera",
+		"key": [
+			0,
+			0,
+			1,
+			0,
+			0,
+			-6
+		],
+		"name": "Spirito della bufera",
+		"shape": "spirito_bufera",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "velo_nebbia",
+		"key": [
+			0,
+			0,
+			1,
+			0,
+			0,
+			-6
+		],
+		"name": "Velo di nebbia",
+		"shape": "velo_nebbia",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "bruco_germoglio",
+		"key": [
+			0,
+			0,
+			1,
+			0,
+			0,
+			-5
+		],
+		"name": "Bruco del Germoglio",
+		"shape": "bruco_germoglio",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "damigella_rigoglio",
+		"key": [
+			0,
+			0,
+			1,
+			0,
+			0,
+			-5
+		],
+		"name": "Damigella del Rigoglio",
+		"shape": "damigella_rigoglio",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "cinghiale_raccolto",
+		"key": [
+			0,
+			0,
+			1,
+			0,
+			0,
+			-4
+		],
+		"name": "Cinghiale del Raccolto",
+		"shape": "cinghiale_raccolto",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "volpe_gelo",
+		"key": [
+			0,
+			0,
+			1,
+			0,
+			0,
+			-4
+		],
+		"name": "Volpe del Gelo",
+		"shape": "volpe_gelo",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_ambra_0",
+		"key": [
+			0,
+			0,
+			1,
+			0,
+			0,
+			-2
+		],
+		"name": "Chiocciola d'ambra col mantello",
+		"shape": "firma_ambra_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_ambra_1",
+		"key": [
+			0,
+			0,
+			1,
+			0,
+			0,
+			-2
+		],
+		"name": "Corvo d'ambra senz'ombra",
+		"shape": "firma_ambra_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_brina_0",
+		"key": [
+			0,
+			0,
+			1,
+			0,
+			0,
+			-2
+		],
+		"name": "Chiocciola di brina col mantello",
+		"shape": "firma_brina_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_brina_1",
+		"key": [
+			0,
+			0,
+			1,
+			0,
+			0,
+			-2
+		],
+		"name": "Corvo di brina senz'ombra",
+		"shape": "firma_brina_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_foresta_0",
+		"key": [
+			0,
+			0,
+			1,
+			0,
+			0,
+			-2
+		],
+		"name": "Daino della foresta che ricorda",
+		"shape": "firma_foresta_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_foresta_1",
+		"key": [
+			0,
+			0,
+			1,
+			0,
+			0,
+			-2
+		],
+		"name": "Salamandra della foresta che canta",
+		"shape": "firma_foresta_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_palude_0",
+		"key": [
+			0,
+			0,
+			1,
+			0,
+			0,
+			-2
+		],
+		"name": "Lanterna della palude dalle mille zampe",
+		"shape": "firma_palude_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_palude_1",
+		"key": [
+			0,
+			0,
+			1,
+			0,
+			0,
+			-2
+		],
+		"name": "Cicala della palude del filo d'oro",
+		"shape": "firma_palude_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "cervo_gelo_bianco",
+		"key": [
+			0,
+			0,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Cervo bianco del Gelo",
+		"shape": "cervo_gelo_bianco",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "lucciola_mezzanotte",
+		"key": [
+			0,
+			0,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Lucciola di mezzanotte",
+		"shape": "lucciola_mezzanotte",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "spirito_temporale",
+		"key": [
+			0,
+			0,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Spirito del temporale",
+		"shape": "spirito_temporale",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_brace_0",
+		"key": [
+			0,
+			0,
+			1,
+			1,
+			0,
+			-2
+		],
+		"name": "Chiocciola di brace col mantello",
+		"shape": "firma_brace_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_brace_1",
+		"key": [
+			0,
+			0,
+			1,
+			1,
+			0,
+			-2
+		],
+		"name": "Corvo di brace senz'ombra",
+		"shape": "firma_brace_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_cenere_0",
+		"key": [
+			0,
+			0,
+			1,
+			1,
+			0,
+			-2
+		],
+		"name": "Lanterna delle ceneri dalle mille zampe",
+		"shape": "firma_cenere_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_cenere_1",
+		"key": [
+			0,
+			0,
+			1,
+			1,
+			0,
+			-2
+		],
+		"name": "Cicala delle ceneri del filo d'oro",
+		"shape": "firma_cenere_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_funghi_0",
+		"key": [
+			0,
+			0,
+			1,
+			1,
+			0,
+			-2
+		],
+		"name": "Lanterna dei funghi dalle mille zampe",
+		"shape": "firma_funghi_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_funghi_1",
+		"key": [
+			0,
+			0,
+			1,
+			1,
+			0,
+			-2
+		],
+		"name": "Cicala dei funghi del filo d'oro",
+		"shape": "firma_funghi_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_ghiacciaio_0",
+		"key": [
+			0,
+			0,
+			1,
+			1,
+			0,
+			-2
+		],
+		"name": "Salamandra del ghiacciaio dagli occhi di vetro",
+		"shape": "firma_ghiacciaio_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_ghiacciaio_1",
+		"key": [
+			0,
+			0,
+			1,
+			1,
+			0,
+			-2
+		],
+		"name": "Medusa del ghiacciaio a due teste",
+		"shape": "firma_ghiacciaio_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_iridato_0",
+		"key": [
+			0,
+			0,
+			1,
+			1,
+			0,
+			-2
+		],
+		"name": "Daino dell'iride che ricorda",
+		"shape": "firma_iridato_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_iridato_1",
+		"key": [
+			0,
+			0,
+			1,
+			1,
+			0,
+			-2
+		],
+		"name": "Salamandra dell'iride che canta",
+		"shape": "firma_iridato_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_pietra_0",
+		"key": [
+			0,
+			0,
+			1,
+			1,
+			0,
+			-2
+		],
+		"name": "Lanterna di pietra dalle mille zampe",
+		"shape": "firma_pietra_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_pietra_1",
+		"key": [
+			0,
+			0,
+			1,
+			1,
+			0,
+			-2
+		],
+		"name": "Cicala di pietra del filo d'oro",
+		"shape": "firma_pietra_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_prati_0",
+		"key": [
+			0,
+			0,
+			1,
+			1,
+			0,
+			-2
+		],
+		"name": "Chiocciola dei prati col mantello",
+		"shape": "firma_prati_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_prati_1",
+		"key": [
+			0,
+			0,
+			1,
+			1,
+			0,
+			-2
+		],
+		"name": "Corvo dei prati senz'ombra",
+		"shape": "firma_prati_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_rossa_0",
+		"key": [
+			0,
+			0,
+			1,
+			1,
+			0,
+			-2
+		],
+		"name": "Chiocciola della selva rossa col mantello",
+		"shape": "firma_rossa_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_rossa_1",
+		"key": [
+			0,
+			0,
+			1,
+			1,
+			0,
+			-2
+		],
+		"name": "Corvo della selva rossa senz'ombra",
+		"shape": "firma_rossa_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_stellare_0",
+		"key": [
+			0,
+			0,
+			1,
+			1,
+			0,
+			-2
+		],
+		"name": "Airone delle stelle che conta",
+		"shape": "firma_stellare_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_stellare_1",
+		"key": [
+			0,
+			0,
+			1,
+			1,
+			0,
+			-2
+		],
+		"name": "Biscia delle stelle dal cuore acceso",
+		"shape": "firma_stellare_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_sussurri_0",
+		"key": [
+			0,
+			0,
+			1,
+			1,
+			0,
+			-2
+		],
+		"name": "Airone dei sussurri che conta",
+		"shape": "firma_sussurri_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_sussurri_1",
+		"key": [
+			0,
+			0,
+			1,
+			1,
+			0,
+			-2
+		],
+		"name": "Biscia dei sussurri dal cuore acceso",
+		"shape": "firma_sussurri_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_torba_0",
+		"key": [
+			0,
+			0,
+			1,
+			1,
+			0,
+			-2
+		],
+		"name": "Chiocciola della torba col mantello",
+		"shape": "firma_torba_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_torba_1",
+		"key": [
+			0,
+			0,
+			1,
+			1,
+			0,
+			-2
+		],
+		"name": "Corvo della torba senz'ombra",
+		"shape": "firma_torba_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_vetro_0",
+		"key": [
+			0,
+			0,
+			1,
+			1,
+			0,
+			-2
+		],
+		"name": "Chiocciola di vetro col mantello",
+		"shape": "firma_vetro_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_vetro_1",
+		"key": [
+			0,
+			0,
+			1,
+			1,
+			0,
+			-2
+		],
+		"name": "Corvo di vetro senz'ombra",
+		"shape": "firma_vetro_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "grumo_resina",
+		"key": [
+			0,
+			1,
+			0,
+			0,
+			0,
+			-8
+		],
+		"name": "Grumo di resina",
+		"shape": "grumo",
+		"variant": 1
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "strisciaradice",
+		"key": [
+			0,
+			1,
+			0,
+			0,
+			0,
+			-6
+		],
+		"name": "Strisciaradice",
+		"shape": "strisciaradice",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "tessiradice",
+		"key": [
+			0,
+			1,
+			0,
+			0,
+			0,
+			-6
+		],
+		"name": "Tessiradice",
+		"shape": "tessiradice",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "formica_resina",
+		"key": [
+			0,
+			1,
+			0,
+			0,
+			0,
+			-5
+		],
+		"name": "Formica di resina",
+		"shape": "formica_resina",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "pipistrello_corteccia",
+		"key": [
+			0,
+			1,
+			0,
+			0,
+			0,
+			-5
+		],
+		"name": "Pipistrello di corteccia",
+		"shape": "pipistrello",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "lombrico_radice",
+		"key": [
+			0,
+			1,
+			0,
+			0,
+			0,
+			-4
+		],
+		"name": "Lombrico di radice",
+		"shape": "lombrico_radice",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "radicello_ladro",
+		"key": [
+			0,
+			1,
+			0,
+			0,
+			0,
+			-4
+		],
+		"name": "Radicello ladro",
+		"shape": "radicello_ladro",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "talpone",
+		"key": [
+			0,
+			1,
+			0,
+			0,
+			0,
+			-4
+		],
+		"name": "Talpone di humus",
+		"shape": "talpone",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "succhiavena",
+		"key": [
+			0,
+			1,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Succhiavena",
+		"shape": "succhiavena",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "saltafungo",
+		"key": [
+			0,
+			1,
+			0,
+			1,
+			0,
+			-6
+		],
+		"name": "Saltafungo",
+		"shape": "saltafungo",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_s1_0",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			-3
+		],
+		"name": "Orso del sottobosco che piange",
+		"shape": "firma_s1_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "anguilla_vento",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Anguilla del vento",
+		"shape": "anguilla_vento",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ape_turchese",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Ape turchese",
+		"shape": "ape_turchese",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "aquila_tempesta",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Aquila della tempesta",
+		"shape": "aquila_tempesta",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "balena_stelle",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Balena delle stelle",
+		"shape": "balena_stelle",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "bruco_pendente",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Bruco delle radici pendenti",
+		"shape": "bruco_pendente",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "bufalo_radice",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Bufalo di radice",
+		"shape": "bufalo_radice",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "cavalletta_oro",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Cavalletta dorata",
+		"shape": "cavalletta_oro",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "corvo_nembo",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Corvo del nembo",
+		"shape": "corvo_nembo",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "custode_orbita",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Custode d'orbita",
+		"shape": "custode_orbita",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "draghetto_eco",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Draghetto dell'eco",
+		"shape": "draghetto_eco",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "falco_vento",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Falco del vento",
+		"shape": "falco_vento",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "falena_firmamento",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Falena del firmamento",
+		"shape": "falena_firmamento",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "farfalla_prisma",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Farfalla prisma",
+		"shape": "farfalla_prisma",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "garzetta_nubi",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Garzetta delle nubi",
+		"shape": "garzetta_nubi",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "gatto_lanterna",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Gatto delle lanterne",
+		"shape": "gatto_lanterna",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "gazza_vento",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Gazza ladra del vento",
+		"shape": "gazza_vento",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "geco_cristallo",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Geco di cristallo",
+		"shape": "geco_cristallo",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "girandola_viva",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Girandola viva",
+		"shape": "girandola_viva",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "lepre_vento",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Lepre del vento",
+		"shape": "lepre_vento",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "liana_predatrice",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Liana predatrice",
+		"shape": "liana_predatrice",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "lumacone_sospeso",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Lumacone sospeso",
+		"shape": "lumacone_sospeso",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mangiastelle",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Mangiastelle",
+		"shape": "mangiastelle",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "medusa_nuvola",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Medusa di nuvola",
+		"shape": "medusa_nuvola",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "nube_tuono",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Nube del tuono",
+		"shape": "nube_tuono",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "nuvolo_vivo",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Nuvolo vivo",
+		"shape": "nuvolo_vivo",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "pecora_nuvola",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Pecora di nuvola",
+		"shape": "pecora_nuvola",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ragno_giungla",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Ragno della giungla",
+		"shape": "ragno_giungla",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "riccio_cristallo",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Riccio di cristallo",
+		"shape": "riccio_cristallo",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "scimmia_liana",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Scimmia di liana",
+		"shape": "scimmia_liana",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "scimmia_radice",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Scimmia di radice",
+		"shape": "scimmia_radice",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "scintilla_viva",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Scintilla viva",
+		"shape": "scintilla_viva",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "sentinella_cristallo",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Sentinella di cristallo",
+		"shape": "sentinella_cristallo",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "spiritello_pioggia",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Spiritello della pioggia",
+		"shape": "spiritello_pioggia",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "stella_errante",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Stella errante",
+		"shape": "stella_errante",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "volpe_planante",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Volpe planante",
+		"shape": "volpe_planante",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "allocco_radici",
+		"key": [
+			0,
+			1,
+			1,
+			0,
+			1,
+			0
+		],
+		"name": "Allocco delle radici",
+		"shape": "allocco_radici",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ala_ardesia",
+		"key": [
+			0,
+			2,
+			0,
+			0,
+			0,
+			-6
+		],
+		"name": "Ala d'ardesia",
+		"shape": "ala_ardesia",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "pipistrello_eco",
+		"key": [
+			0,
+			2,
+			0,
+			0,
+			0,
+			-5
+		],
+		"name": "Pipistrello dell'eco",
+		"shape": "pipistrello_eco",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "carapace_ardesia",
+		"key": [
+			0,
+			2,
+			0,
+			0,
+			0,
+			-4
+		],
+		"name": "Carapace d'ardesia",
+		"shape": "carapace_ardesia",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "chiocciola_cristallo",
+		"key": [
+			0,
+			2,
+			0,
+			0,
+			0,
+			-4
+		],
+		"name": "Chiocciola di cristallo",
+		"shape": "chiocciola",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "geomimo",
+		"key": [
+			0,
+			2,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Geomimo",
+		"shape": "geomimo",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "lince_ardesia",
+		"key": [
+			0,
+			2,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Lince d'ardesia",
+		"shape": "lince_ardesia",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_s2_0",
+		"key": [
+			0,
+			2,
+			1,
+			0,
+			0,
+			-3
+		],
+		"name": "Orso delle caverne che piange",
+		"shape": "firma_s2_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "brucacristalli",
+		"key": [
+			0,
+			2,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Brucacristalli",
+		"shape": "brucacristalli",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "cantore_cristallo",
+		"key": [
+			0,
+			2,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Cantore di cristallo",
+		"shape": "cantore_cristallo",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "corista_cristallo",
+		"key": [
+			0,
+			2,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Corista di cristallo",
+		"shape": "corista_cristallo",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "granchio_lago",
+		"key": [
+			0,
+			2,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Granchio di lago",
+		"shape": "granchio_lago",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "grillo_eco",
+		"key": [
+			0,
+			2,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Grillo d'eco",
+		"shape": "grillo_eco",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "lontra_lago",
+		"key": [
+			0,
+			2,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Lontra di lago",
+		"shape": "lontra_lago",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "medusa_grotta",
+		"key": [
+			0,
+			2,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Medusa di grotta",
+		"shape": "medusa_grotta",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mimo_cantante",
+		"key": [
+			0,
+			2,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Grappolo che morde",
+		"shape": "mimo_cantante",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ossuto_scudato",
+		"key": [
+			0,
+			2,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Ossuto scudato",
+		"shape": "ossuto_scudato",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ratto_catacomba",
+		"key": [
+			0,
+			2,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Ratto delle catacombe",
+		"shape": "ratto_catacomba",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "spirito_catacomba",
+		"key": [
+			0,
+			2,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Spirito delle catacombe",
+		"shape": "spirito_catacomba",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "tartaruga_lago",
+		"key": [
+			0,
+			2,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Tartaruga di lago",
+		"shape": "tartaruga_lago",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "serpe_linfa",
+		"key": [
+			0,
+			3,
+			0,
+			0,
+			0,
+			-6
+		],
+		"name": "Serpe di Linfa",
+		"shape": "serpe",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "campanula_errante",
+		"key": [
+			0,
+			3,
+			0,
+			0,
+			0,
+			-5
+		],
+		"name": "Campanula errante",
+		"shape": "campanula",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "goccia_divisa",
+		"key": [
+			0,
+			3,
+			0,
+			0,
+			0,
+			-5
+		],
+		"name": "Goccia di Linfa che si divide",
+		"shape": "goccia_divisa",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "guizzalinfa",
+		"key": [
+			0,
+			3,
+			0,
+			0,
+			0,
+			-5
+		],
+		"name": "Guizzalinfa",
+		"shape": "guizzalinfa",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "brucatore_profondo",
+		"key": [
+			0,
+			3,
+			0,
+			0,
+			0,
+			-4
+		],
+		"name": "Brucatore dei funghi profondi",
+		"shape": "brucatore_profondo",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "lucciola_guaritrice",
+		"key": [
+			0,
+			3,
+			0,
+			0,
+			0,
+			-4
+		],
+		"name": "Lucciola guaritrice",
+		"shape": "lucciola_guaritrice",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_s3_0",
+		"key": [
+			0,
+			3,
+			1,
+			0,
+			0,
+			-3
+		],
+		"name": "Orso delle profondità che piange",
+		"shape": "firma_s3_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "anima_errante",
+		"key": [
+			0,
+			3,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Anima errante",
+		"shape": "anima_errante",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "sentinella_sem",
+		"key": [
+			0,
+			3,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Sentinella dei Seminatori",
+		"shape": "sentinella_sem",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "vagavuoto",
+		"key": [
+			0,
+			4,
+			0,
+			0,
+			0,
+			-6
+		],
+		"name": "Vagavuoto",
+		"shape": "vagavuoto",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mietivuoto",
+		"key": [
+			0,
+			4,
+			0,
+			0,
+			0,
+			-5
+		],
+		"name": "Mietivuoto",
+		"shape": "mietivuoto",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "bolla_vuoto",
+		"key": [
+			0,
+			4,
+			0,
+			0,
+			0,
+			-4
+		],
+		"name": "Bolla del Vuoto",
+		"shape": "bolla_vuoto",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "pascolante_vuoto",
+		"key": [
+			0,
+			4,
+			0,
+			0,
+			0,
+			-4
+		],
+		"name": "Pascolante del Vuoto",
+		"shape": "pascolante_vuoto",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "sciame_schegge",
+		"key": [
+			0,
+			4,
+			0,
+			0,
+			0,
+			-4
+		],
+		"name": "Sciame di schegge",
+		"shape": "sciame",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "talpa_vuoto",
+		"key": [
+			0,
+			4,
+			0,
+			0,
+			0,
+			-4
+		],
+		"name": "Talpa del Vuoto",
+		"shape": "talpa_vuoto",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "tessivuoto",
+		"key": [
+			0,
+			4,
+			0,
+			0,
+			0,
+			-4
+		],
+		"name": "Tessivuoto",
+		"shape": "tessivuoto",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_s4_0",
+		"key": [
+			0,
+			4,
+			1,
+			0,
+			0,
+			-3
+		],
+		"name": "Orso del Fondo che piange",
+		"shape": "firma_s4_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "pesce_lume",
+		"key": [
+			0,
+			9,
+			0,
+			0,
+			0,
+			-8
+		],
+		"name": "Pesce lume",
+		"shape": "pesce",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "carpa_brucatrice",
+		"key": [
+			0,
+			9,
+			0,
+			0,
+			0,
+			-5
+		],
+		"name": "Carpa brucatrice",
+		"shape": "carpa_brucatrice",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "anguilla_linfa",
+		"key": [
+			0,
+			9,
+			0,
+			0,
+			0,
+			-4
+		],
+		"name": "Anguilla di Linfa",
+		"shape": "anguilla",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "luccio_stagno",
+		"key": [
+			0,
+			9,
+			0,
+			0,
+			0,
+			-4
+		],
+		"name": "Luccio degli stagni",
+		"shape": "luccio_stagno",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "anguilla_brace",
+		"key": [
+			0,
+			9,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Anguilla di brace",
+		"shape": "anguilla_brace",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "polpo_stagno",
+		"key": [
+			0,
+			9,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Polpo degli stagni",
+		"shape": "polpo_stagno",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "salamandra_linfa",
+		"key": [
+			0,
+			9,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Salamandra di Linfa",
+		"shape": "salamandra_linfa",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "avvizzitore",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "L'Avvizzitore",
+		"shape": "avvizzitore",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": true,
+		"id": "capo_aquila",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "L'Aquila della tempesta",
+		"shape": "aquila_tempesta",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": true,
+		"id": "capo_balena",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Balena delle stelle",
+		"shape": "balena_stelle",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": true,
+		"id": "capo_brucacristalli",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Il Brucacristalli antico",
+		"shape": "brucacristalli",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": true,
+		"id": "capo_cervo",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Il Cervo dalle corna di ferro",
+		"shape": "cervo_rovo",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": true,
+		"id": "capo_cinghiale",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Il Vecchio Zannarossa",
+		"shape": "cinghiale_rovo",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": true,
+		"id": "capo_drago",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Il Draghetto d'eco cresciuto",
+		"shape": "draghetto_eco",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": true,
+		"id": "capo_falco",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Il Falco della brace",
+		"shape": "falco_brace",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": true,
+		"id": "capo_fenice",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Fenice di cenere",
+		"shape": "fenice_cenere",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": true,
+		"id": "capo_gargolla",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Gargolla muta",
+		"shape": "gargolla",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": true,
+		"id": "capo_golem",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Il Golem del muschio antico",
+		"shape": "golem_muschio",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": true,
+		"id": "capo_gufo",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Il Gufo dei sette occhi",
+		"shape": "gufo_gelo",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": true,
+		"id": "capo_lince",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Lince d'ardesia",
+		"shape": "lince_ardesia",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": true,
+		"id": "capo_lupo",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Il Lupo della luna",
+		"shape": "lupo_lunare",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": true,
+		"id": "capo_medusa",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Medusa delle grotte",
+		"shape": "medusa_grotta",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": true,
+		"id": "capo_mietivuoto",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Il Mietivuoto",
+		"shape": "mietivuoto",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": true,
+		"id": "capo_ombra",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "L'Ombra della parola",
+		"shape": "ombra_parola",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": true,
+		"id": "capo_orso",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Il Grande Orso di corteccia",
+		"shape": "orso_corteccia",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": true,
+		"id": "capo_ragno",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Madre delle gallerie",
+		"shape": "ragno_giungla",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": true,
+		"id": "capo_salamandra",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Salamandra di Linfa",
+		"shape": "salamandra_linfa",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": true,
+		"id": "capo_scorpione",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Lo Scorpione di vetro",
+		"shape": "scorpione_vetro",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": true,
+		"id": "capo_sentinella",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Sentinella di cristallo",
+		"shape": "sentinella_cristallo",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": true,
+		"id": "capo_spirito",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Lo Spirito delle catacombe",
+		"shape": "spirito_catacomba",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": true,
+		"id": "capo_talpa",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Talpa cieca",
+		"shape": "talpone",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": true,
+		"id": "capo_verme",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Il Verme delle dune",
+		"shape": "verme_dune",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "cervo_rovo",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Cervo di rovo",
+		"shape": "cervo_rovo",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "cinghiale_rovo",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Cinghiale di rovo",
+		"shape": "cinghiale_rovo",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "colosso_ardesia",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Il Colosso d'Ardesia",
+		"shape": "colosso",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "custode_silenzio",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Il Silenzio",
+		"shape": "custode_silenzio",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "evento_assalto_rovi",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Madre dei rovi",
+		"shape": "cervo_rovo",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "evento_caduti",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "L'Ombra che ricorda",
+		"shape": "ombra_seminatore",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "evento_eclissi_vuoto",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Bocca del Vuoto",
+		"shape": "vagavuoto",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "evento_marea_nera",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Goccia nera",
+		"shape": "goccia_divisa",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "evento_migrazione",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Il Cervo che guida",
+		"shape": "cervo_iridato",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "evento_notte_falene",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Falena regina",
+		"shape": "falena_firmamento",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "evento_sciame_metallo",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Il Ragno maestro",
+		"shape": "ragno_ingranaggio",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "evento_stelle_vive",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Stella che cammina",
+		"shape": "stellamimo",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_canto_0",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Tritone delle grotte che cantano col mantello",
+		"shape": "firma_canto_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_catacombe_0",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Bolla delle catacombe che ride",
+		"shape": "firma_catacombe_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_firmamento_0",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Corvo del firmamento dagli occhi di vetro",
+		"shape": "firma_firmamento_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_giardini_vento_0",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Civetta dei giardini del vento che canta",
+		"shape": "firma_giardini_vento_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_giungla_0",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Vipera della giungla sepolta che ricorda",
+		"shape": "firma_giungla_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_lago_0",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Chiocciola del lago nero che non dorme",
+		"shape": "firma_lago_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_mare_nubi_0",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Upupa del mare di nubi che ride",
+		"shape": "firma_mare_nubi_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_nidi_tempesta_0",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Picchio dei nidi di tempesta del filo d'oro",
+		"shape": "firma_nidi_tempesta_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_radici_sospese_0",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Civetta delle radici sospese che canta",
+		"shape": "firma_radici_sospese_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "firma_scogliere_cristallo_0",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Upupa delle scogliere col mantello",
+		"shape": "firma_scogliere_cristallo_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "granchio_sommerso",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Granchio del lago",
+		"shape": "granchio_sommerso",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "grande_cervo",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Il Grande Cervo di brina",
+		"shape": "cervo_brina",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "grande_scavatrice",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Grande Scavatrice",
+		"shape": "grande_scavatrice",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "guardastele",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Guardastele",
+		"shape": "guardastele",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "guardia_linfa",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Guardiano di Linfa",
+		"shape": "guardia_linfa",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "guardiano_bufera",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Voce della bufera",
+		"shape": "spirito_bufera",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "guardiano_eco",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "L'Eco del Seminatore",
+		"shape": "ombra_seminatore",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "guardiano_falena",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Falena del primo buio",
+		"shape": "falena_firmamento",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "guardiano_giardiniere",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Il Giardiniere spento",
+		"shape": "golem_muschio",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "guardiano_marea",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Marea muta",
+		"shape": "polpo_stagno",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "guardiano_mietistelle",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Il Mietitore di stelle",
+		"shape": "mangiastelle",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "guardiano_nodo",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Il Nodo Avvizzito",
+		"shape": "guardiano",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "guardiano_ospite",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "L'Ospite del Vuoto",
+		"shape": "vagavuoto",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "guardiano_salamandra",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Madre di brace",
+		"shape": "salamandra",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "guardiano_tessitore",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Il Tessitore delle radici",
+		"shape": "tessiradice",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "leviatano_lago",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Leviatano del lago",
+		"shape": "leviatano_lago",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "lontra_radice",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Lontra di radice",
+		"shape": "lontra_radice",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "madre_grumi",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Madre dei grumi",
+		"shape": "madre_grumi",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "madre_maree",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Madre delle maree",
+		"shape": "madre_maree",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "madre_salamandre",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Madre delle salamandre",
+		"shape": "salamandra",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "mietitore_cavo",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Il Mietitore cavo",
+		"shape": "mietitore",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mimo_ambra",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Mimo delle Distese d'ambra",
+		"shape": "mimo_ambra",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mimo_brace",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Mimo delle Lande di brace viva",
+		"shape": "mimo_brace",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mimo_brina",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Mimo dei Boschi di brina",
+		"shape": "mimo_brina",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mimo_canto",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Mimo delle Caverne del cristallo cantante",
+		"shape": "mimo_canto",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mimo_catacombe",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Mimo delle Catacombe dei Seminatori",
+		"shape": "mimo_catacombe",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mimo_cenere",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Mimo delle Cenerarie",
+		"shape": "mimo_cenere",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mimo_firmamento",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Mimo del Firmamento",
+		"shape": "mimo_firmamento",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mimo_foresta",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Mimo della Foresta-lanterna",
+		"shape": "mimo_foresta",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mimo_funghi",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Mimo delle Colline dei cappelli",
+		"shape": "mimo_funghi",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mimo_ghiacciaio",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Mimo dei Ghiacciai di Linfa",
+		"shape": "mimo_ghiacciaio",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mimo_giardini_vento",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Mimo dei Giardini del vento",
+		"shape": "mimo_giardini_vento",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mimo_giungla",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Mimo delle Giungle di radici",
+		"shape": "mimo_giungla",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mimo_iridato",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Mimo dei Prati iridati",
+		"shape": "mimo_iridato",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mimo_lago",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Mimo dei Laghi sotterranei",
+		"shape": "mimo_lago",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mimo_mare_nubi",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Mimo del Mare di nuvole",
+		"shape": "mimo_mare_nubi",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mimo_nidi_tempesta",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Mimo dei Nidi di tempesta",
+		"shape": "mimo_nidi_tempesta",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mimo_palude",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Mimo delle Paludi di spore",
+		"shape": "mimo_palude",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mimo_pietra",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Mimo delle Foreste pietrificate",
+		"shape": "mimo_pietra",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mimo_prati",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Mimo dei Prati di vento",
+		"shape": "mimo_prati",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mimo_radici_sospese",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Mimo delle Radici sospese",
+		"shape": "mimo_radici_sospese",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mimo_rossa",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Mimo delle Selve di corteccia rossa",
+		"shape": "mimo_rossa",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mimo_scogliere_cristallo",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Mimo delle Scogliere di cristallo",
+		"shape": "mimo_scogliere_cristallo",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mimo_stellare",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Mimo delle Radure stellari",
+		"shape": "mimo_stellare",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mimo_sussurri",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Mimo dei Boschi dei sussurri",
+		"shape": "mimo_sussurri",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mimo_torba",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Mimo delle Torbiere di Linfa",
+		"shape": "mimo_torba",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "mimo_vetro",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Mimo dei Deserti di vetro",
+		"shape": "mimo_vetro",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "occhio_tempesta",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Occhio della Tempesta",
+		"shape": "occhio_tempesta",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ombra_parola",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Ombra di parola",
+		"shape": "ombra_parola",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ragno_ingranaggio",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Ragno d'ingranaggio",
+		"shape": "ragno_ingranaggio",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "re_rovi",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Il Re dei rovi",
+		"shape": "re_rovi",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "regina_spore",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Regina delle Spore",
+		"shape": "regina",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "sentinella_radice",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Sentinella di radice",
+		"shape": "sentinella_radice",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "serpe_madre",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Serpe madre",
+		"shape": "serpe_madre",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "sfidante_abisso",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Madre dell'abisso",
+		"shape": "medusa_grotta",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "sfidante_antico",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "L'Antico della foresta",
+		"shape": "orso_corteccia",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "sfidante_campana",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Campana di cristallo",
+		"shape": "sentinella_cristallo",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "sfidante_eclisse",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Bestia dell'eclissi",
+		"shape": "lupo_lunare",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "sfidante_fornace",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Fornace che cammina",
+		"shape": "golem_muschio",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "sfidante_occhio",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "L'Occhio senza palpebra",
+		"shape": "gufo_stellare",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "sfidante_primo_sogno",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Il Primo Sogno",
+		"shape": "ombra_seminatore",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "sfidante_radice_vuoto",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Radice del Vuoto",
+		"shape": "tessivuoto",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "sfidante_re_rovi",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Il Re dei rovi",
+		"shape": "cinghiale_rovo",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "sfidante_rogo",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Il Rogo che vola",
+		"shape": "fenice_cenere",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "sfidante_silenzio",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Il Silenzio",
+		"shape": "ombra_seminatore",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "sfidante_stella_nera",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Stella nera",
+		"shape": "balena_stelle",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "sfidante_vedova",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Vedova di pietra",
+		"shape": "ragno_giungla",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signora_correnti",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Signora delle correnti",
+		"shape": "signora_correnti",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_ambra",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Scarabeo regale d'ambra",
+		"shape": "signore_ambra",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_brace",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Drago di brace",
+		"shape": "signore_brace",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_brina",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Alce della brina",
+		"shape": "signore_brina",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_canto",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Coro di cristallo",
+		"shape": "signore_canto",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_catacombe",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Custode delle ossa",
+		"shape": "signore_catacombe",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_caverne",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Pipistrello re dell'eco",
+		"shape": "signore_caverne",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_cenere",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Salamandra madre",
+		"shape": "signore_cenere",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_firmamento",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Balena madre delle stelle",
+		"shape": "signore_firmamento",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_fondo",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Ombra del Fondo",
+		"shape": "signore_fondo",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_foresta",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Cervo-lanterna antico",
+		"shape": "signore_foresta",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_funghi",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Re dei cappelli",
+		"shape": "signore_funghi",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_ghiacciaio",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Orca dei ghiacci",
+		"shape": "signore_ghiacciaio",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_giardini_vento",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Falco re dei venti",
+		"shape": "signore_giardini_vento",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_giungla",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Madre della giungla",
+		"shape": "signore_giungla",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_iridato",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Cervo del prisma",
+		"shape": "signore_iridato",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_lago",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Granchio re del lago",
+		"shape": "signore_lago",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_mare_nubi",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Grande Nuvolo",
+		"shape": "signore_mare_nubi",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_nidi_tempesta",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Signore del tuono",
+		"shape": "signore_nidi_tempesta",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_palude",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Madre delle spore",
+		"shape": "signore_palude",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_pietra",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Golem antico di pietra",
+		"shape": "signore_pietra",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_prati",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Aquila del vento",
+		"shape": "signore_prati",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_profondita",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Anguilla madre della Linfa",
+		"shape": "signore_profondita",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_radici_sospese",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Regina turchese",
+		"shape": "signore_radici_sospese",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_rossa",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Orso rosso antico",
+		"shape": "signore_rossa",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_scogliere_cristallo",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Drago di cristallo",
+		"shape": "signore_scogliere_cristallo",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_sottobosco",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Talpone delle radici",
+		"shape": "signore_sottobosco",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_stellare",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Gufo della notte senza fine",
+		"shape": "signore_stellare",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_sussurri",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Voce del bosco",
+		"shape": "signore_sussurri",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_torba",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Rospo re della torbiera",
+		"shape": "signore_torba",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "signore_vetro",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Verme di vetro",
+		"shape": "signore_vetro",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "telaio_vivo",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Il Telaio vivo",
+		"shape": "telaio_vivo",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "tessitrice_radici",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "La Tessitrice delle radici",
+		"shape": "tessitrice",
+		"variant": 0
+	},
+	{
+		"boss": true,
+		"chief": false,
+		"id": "ultimo_seminatore",
+		"key": [
+			0,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "L'ultimo Seminatore",
+		"shape": "ultimo_seminatore",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_ambra_0",
+		"key": [
+			1,
+			0,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Chiocciola risvegliata d'ambra",
+		"shape": "ris_ambra_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_ambra_1",
+		"key": [
+			1,
+			0,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Corvo risvegliato d'ambra",
+		"shape": "ris_ambra_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_ambra_2",
+		"key": [
+			1,
+			0,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Serpe risvegliata d'ambra",
+		"shape": "ris_ambra_2",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_ambra_3",
+		"key": [
+			1,
+			0,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Orso risvegliato d'ambra",
+		"shape": "ris_ambra_3",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_brina_0",
+		"key": [
+			1,
+			0,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Chiocciola risvegliata di brina",
+		"shape": "ris_brina_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_brina_1",
+		"key": [
+			1,
+			0,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Corvo risvegliato di brina",
+		"shape": "ris_brina_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_brina_2",
+		"key": [
+			1,
+			0,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Serpe risvegliata di brina",
+		"shape": "ris_brina_2",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_brina_3",
+		"key": [
+			1,
+			0,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Orso risvegliato di brina",
+		"shape": "ris_brina_3",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_foresta_0",
+		"key": [
+			1,
+			0,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Daino risvegliato della foresta",
+		"shape": "ris_foresta_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_foresta_1",
+		"key": [
+			1,
+			0,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Salamandra risvegliata della foresta",
+		"shape": "ris_foresta_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_foresta_2",
+		"key": [
+			1,
+			0,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Spirito risvegliato della foresta",
+		"shape": "ris_foresta_2",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_foresta_3",
+		"key": [
+			1,
+			0,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Formica risvegliata della foresta",
+		"shape": "ris_foresta_3",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_palude_0",
+		"key": [
+			1,
+			0,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Lanterna risvegliata della palude",
+		"shape": "ris_palude_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_palude_1",
+		"key": [
+			1,
+			0,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Cicala risvegliata della palude",
+		"shape": "ris_palude_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_palude_2",
+		"key": [
+			1,
+			0,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Lumaca risvegliata della palude",
+		"shape": "ris_palude_2",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_palude_3",
+		"key": [
+			1,
+			0,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Gazza risvegliata della palude",
+		"shape": "ris_palude_3",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_brace_0",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Chiocciola risvegliata di brace",
+		"shape": "ris_brace_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_brace_1",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Corvo risvegliato di brace",
+		"shape": "ris_brace_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_brace_2",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Serpe risvegliata di brace",
+		"shape": "ris_brace_2",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_brace_3",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Orso risvegliato di brace",
+		"shape": "ris_brace_3",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_cenere_0",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Lanterna risvegliata delle ceneri",
+		"shape": "ris_cenere_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_cenere_1",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Cicala risvegliata delle ceneri",
+		"shape": "ris_cenere_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_cenere_2",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Lumaca risvegliata delle ceneri",
+		"shape": "ris_cenere_2",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_cenere_3",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Gazza risvegliata delle ceneri",
+		"shape": "ris_cenere_3",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_funghi_0",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Lanterna risvegliata dei funghi",
+		"shape": "ris_funghi_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_funghi_1",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Cicala risvegliata dei funghi",
+		"shape": "ris_funghi_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_funghi_2",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Lumaca risvegliata dei funghi",
+		"shape": "ris_funghi_2",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_funghi_3",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Gazza risvegliata dei funghi",
+		"shape": "ris_funghi_3",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_ghiacciaio_0",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Salamandra risvegliata del ghiacciaio",
+		"shape": "ris_ghiacciaio_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_ghiacciaio_1",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Medusa risvegliata del ghiacciaio",
+		"shape": "ris_ghiacciaio_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_ghiacciaio_2",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Mantide risvegliata del ghiacciaio",
+		"shape": "ris_ghiacciaio_2",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_ghiacciaio_3",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Chiocciola risvegliata del ghiacciaio",
+		"shape": "ris_ghiacciaio_3",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_iridato_0",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Daino risvegliato dell'iride",
+		"shape": "ris_iridato_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_iridato_1",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Salamandra risvegliata dell'iride",
+		"shape": "ris_iridato_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_iridato_2",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Spirito risvegliato dell'iride",
+		"shape": "ris_iridato_2",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_iridato_3",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Formica risvegliata dell'iride",
+		"shape": "ris_iridato_3",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_pietra_0",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Lanterna risvegliata di pietra",
+		"shape": "ris_pietra_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_pietra_1",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Cicala risvegliata di pietra",
+		"shape": "ris_pietra_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_pietra_2",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Lumaca risvegliata di pietra",
+		"shape": "ris_pietra_2",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_pietra_3",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Gazza risvegliata di pietra",
+		"shape": "ris_pietra_3",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_prati_0",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Chiocciola risvegliata dei prati",
+		"shape": "ris_prati_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_prati_1",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Corvo risvegliato dei prati",
+		"shape": "ris_prati_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_prati_2",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Serpe risvegliata dei prati",
+		"shape": "ris_prati_2",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_prati_3",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Orso risvegliato dei prati",
+		"shape": "ris_prati_3",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_rossa_0",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Chiocciola risvegliata della selva rossa",
+		"shape": "ris_rossa_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_rossa_1",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Corvo risvegliato della selva rossa",
+		"shape": "ris_rossa_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_rossa_2",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Serpe risvegliata della selva rossa",
+		"shape": "ris_rossa_2",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_rossa_3",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Orso risvegliato della selva rossa",
+		"shape": "ris_rossa_3",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_stellare_0",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Airone risvegliato delle stelle",
+		"shape": "ris_stellare_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_stellare_1",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Biscia risvegliata delle stelle",
+		"shape": "ris_stellare_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_stellare_2",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Puma risvegliato delle stelle",
+		"shape": "ris_stellare_2",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_stellare_3",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Tritone risvegliato delle stelle",
+		"shape": "ris_stellare_3",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_sussurri_0",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Airone risvegliato dei sussurri",
+		"shape": "ris_sussurri_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_sussurri_1",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Biscia risvegliata dei sussurri",
+		"shape": "ris_sussurri_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_sussurri_2",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Puma risvegliato dei sussurri",
+		"shape": "ris_sussurri_2",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_sussurri_3",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Tritone risvegliato dei sussurri",
+		"shape": "ris_sussurri_3",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_torba_0",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Chiocciola risvegliata della torba",
+		"shape": "ris_torba_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_torba_1",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Corvo risvegliato della torba",
+		"shape": "ris_torba_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_torba_2",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Serpe risvegliata della torba",
+		"shape": "ris_torba_2",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_torba_3",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Orso risvegliato della torba",
+		"shape": "ris_torba_3",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_vetro_0",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Chiocciola risvegliata di vetro",
+		"shape": "ris_vetro_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_vetro_1",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Corvo risvegliato di vetro",
+		"shape": "ris_vetro_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_vetro_2",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Serpe risvegliata di vetro",
+		"shape": "ris_vetro_2",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_vetro_3",
+		"key": [
+			1,
+			0,
+			0,
+			1,
+			0,
+			-3
+		],
+		"name": "Orso risvegliato di vetro",
+		"shape": "ris_vetro_3",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_s1_0",
+		"key": [
+			1,
+			1,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Orso risvegliato del sottobosco",
+		"shape": "ris_s1_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_s1_1",
+		"key": [
+			1,
+			1,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Spirito risvegliato del sottobosco",
+		"shape": "ris_s1_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_s1_2",
+		"key": [
+			1,
+			1,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Lumaca risvegliata del sottobosco",
+		"shape": "ris_s1_2",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_s1_3",
+		"key": [
+			1,
+			1,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Rana risvegliata del sottobosco",
+		"shape": "ris_s1_3",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_s2_0",
+		"key": [
+			1,
+			2,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Orso risvegliato delle caverne",
+		"shape": "ris_s2_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_s2_1",
+		"key": [
+			1,
+			2,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Spirito risvegliato delle caverne",
+		"shape": "ris_s2_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_s2_2",
+		"key": [
+			1,
+			2,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Lumaca risvegliata delle caverne",
+		"shape": "ris_s2_2",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_s2_3",
+		"key": [
+			1,
+			2,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Rana risvegliata delle caverne",
+		"shape": "ris_s2_3",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_s3_0",
+		"key": [
+			1,
+			3,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Orso risvegliato delle profondità",
+		"shape": "ris_s3_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_s3_1",
+		"key": [
+			1,
+			3,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Spirito risvegliato delle profondità",
+		"shape": "ris_s3_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_s3_2",
+		"key": [
+			1,
+			3,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Lumaca risvegliata delle profondità",
+		"shape": "ris_s3_2",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_s3_3",
+		"key": [
+			1,
+			3,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Rana risvegliata delle profondità",
+		"shape": "ris_s3_3",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_s4_0",
+		"key": [
+			1,
+			4,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Orso risvegliato del Fondo",
+		"shape": "ris_s4_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_s4_1",
+		"key": [
+			1,
+			4,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Spirito risvegliato del Fondo",
+		"shape": "ris_s4_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_s4_2",
+		"key": [
+			1,
+			4,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Lumaca risvegliata del Fondo",
+		"shape": "ris_s4_2",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_s4_3",
+		"key": [
+			1,
+			4,
+			0,
+			0,
+			0,
+			-3
+		],
+		"name": "Rana risvegliata del Fondo",
+		"shape": "ris_s4_3",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_canto_0",
+		"key": [
+			1,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Tritone risvegliato delle grotte che cantano",
+		"shape": "ris_canto_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_canto_1",
+		"key": [
+			1,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Mantide risvegliata delle grotte che cantano",
+		"shape": "ris_canto_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_catacombe_0",
+		"key": [
+			1,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Bolla risvegliata delle catacombe",
+		"shape": "ris_catacombe_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_catacombe_1",
+		"key": [
+			1,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Limaccia risvegliata delle catacombe",
+		"shape": "ris_catacombe_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_firmamento_0",
+		"key": [
+			1,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Corvo risvegliato del firmamento",
+		"shape": "ris_firmamento_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_firmamento_1",
+		"key": [
+			1,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Medusa risvegliata del firmamento",
+		"shape": "ris_firmamento_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_giardini_vento_0",
+		"key": [
+			1,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Civetta risvegliata dei giardini del vento",
+		"shape": "ris_giardini_vento_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_giardini_vento_1",
+		"key": [
+			1,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Bolla risvegliata dei giardini del vento",
+		"shape": "ris_giardini_vento_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_giungla_0",
+		"key": [
+			1,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Vipera risvegliata della giungla sepolta",
+		"shape": "ris_giungla_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_giungla_1",
+		"key": [
+			1,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Cinghiale risvegliato della giungla sepolta",
+		"shape": "ris_giungla_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_lago_0",
+		"key": [
+			1,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Chiocciola risvegliata del lago nero",
+		"shape": "ris_lago_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_lago_1",
+		"key": [
+			1,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Rana risvegliata del lago nero",
+		"shape": "ris_lago_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_mare_nubi_0",
+		"key": [
+			1,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Upupa risvegliata del mare di nubi",
+		"shape": "ris_mare_nubi_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_mare_nubi_1",
+		"key": [
+			1,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Bolla risvegliata del mare di nubi",
+		"shape": "ris_mare_nubi_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_nidi_tempesta_0",
+		"key": [
+			1,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Picchio risvegliato dei nidi di tempesta",
+		"shape": "ris_nidi_tempesta_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_nidi_tempesta_1",
+		"key": [
+			1,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Fuoco fatuo risvegliato dei nidi di tempesta",
+		"shape": "ris_nidi_tempesta_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_radici_sospese_0",
+		"key": [
+			1,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Civetta risvegliata delle radici sospese",
+		"shape": "ris_radici_sospese_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_radici_sospese_1",
+		"key": [
+			1,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Bolla risvegliata delle radici sospese",
+		"shape": "ris_radici_sospese_1",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_scogliere_cristallo_0",
+		"key": [
+			1,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Upupa risvegliata delle scogliere",
+		"shape": "ris_scogliere_cristallo_0",
+		"variant": 0
+	},
+	{
+		"boss": false,
+		"chief": false,
+		"id": "ris_scogliere_cristallo_1",
+		"key": [
+			1,
+			9,
+			1,
+			0,
+			0,
+			0
+		],
+		"name": "Bolla risvegliata delle scogliere",
+		"shape": "ris_scogliere_cristallo_1",
+		"variant": 0
+	}
+]

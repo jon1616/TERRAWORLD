@@ -1,0 +1,54 @@
+{
+ "id": "ape_lume",
+ "key": "ape_lume",
+ "name": "Ape di lume",
+ "grid": "4x2",
+ "n": 8,
+ "cells": [
+  "vola",
+  "vola",
+  "vola",
+  "vola",
+  "sospeso",
+  "planata",
+  "colpita",
+  "sospeso"
+ ],
+ "poses": {
+  "vola": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "sospeso": [
+   4,
+   3
+  ],
+  "planata": [
+   5
+  ],
+  "colpita": [
+   6
+  ]
+ },
+ "fps": {
+  "vola": 11.0,
+  "sospeso": 8.0
+ },
+ "center": true,
+ "roll_center": false,
+ "fly": true,
+ "lungo": 18,
+ "misura_da": 4,
+ "accenti": [
+  "#fff5a3",
+  "#d6f5ff"
+ ],
+ "luce": [
+  "#fff5a3"
+ ],
+ "togli_polvere": false,
+ "schiarisci": 1.0,
+ "glow": true
+}

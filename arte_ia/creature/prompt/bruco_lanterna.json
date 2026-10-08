@@ -1,0 +1,54 @@
+{
+ "id": "bruco_lanterna",
+ "key": "bruco_lanterna",
+ "name": "Bruco di lanterna",
+ "grid": "4x2",
+ "n": 8,
+ "cells": [
+  "cammina",
+  "cammina",
+  "cammina",
+  "cammina",
+  "fermo",
+  "bruca",
+  "colpita",
+  "allerta"
+ ],
+ "poses": {
+  "cammina": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "fermo": [
+   4
+  ],
+  "bruca": [
+   5
+  ],
+  "colpita": [
+   6
+  ],
+  "allerta": [
+   7
+  ]
+ },
+ "fps": {
+  "cammina": 6.0
+ },
+ "center": false,
+ "roll_center": false,
+ "fly": false,
+ "lungo": 22,
+ "misura_da": 4,
+ "accenti": [
+  "#fff5a3"
+ ],
+ "luce": [
+  "#fff5a3"
+ ],
+ "togli_polvere": true,
+ "schiarisci": 1.0,
+ "glow": true
+}

@@ -1,0 +1,76 @@
+{
+	"art_mods": {
+
+	},
+	"awake": false,
+	"base": "cornoradice",
+	"behaviors": [
+		"cammina",
+		"carica"
+	],
+	"biomes": [
+		"foresta",
+		"ambra"
+	],
+	"body": {
+
+	},
+	"boss": false,
+	"chief": false,
+	"damage": 14,
+	"disguise": false,
+	"docile": true,
+	"elem": "",
+	"family": "cornoradici",
+	"family_name": "Cornoradici",
+	"fly": false,
+	"frames": 2,
+	"fury": [],
+	"glow": false,
+	"glow_cols": [
+		"#8ff5d6"
+	],
+	"great": false,
+	"h": 22,
+	"half": [
+		11,
+		8
+	],
+	"hp": 70,
+	"id": "cornoradice",
+	"lord": false,
+	"name": "Cornoradice",
+	"night": false,
+	"p": {
+		"charge": 240.0,
+		"charge_cool": 3.5,
+		"charge_range": 10,
+		"charge_time": 0.9,
+		"sight": 18
+	},
+	"palette": [
+		"#47291f",
+		"#663d29",
+		"#8f5233",
+		"#a37047",
+		"#3da38f",
+		"#cc8f66",
+		"#8ff5d6"
+	],
+	"role": "erbivoro",
+	"roll": false,
+	"season": "",
+	"shape": "cornoradice",
+	"sky": [],
+	"speed": 50,
+	"strata": [
+		0
+	],
+	"under": [],
+	"upside": false,
+	"variant": 0,
+	"w": 28,
+	"water": false,
+	"weak": [],
+	"weather": ""
+}

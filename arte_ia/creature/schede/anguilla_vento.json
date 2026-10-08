@@ -1,0 +1,83 @@
+{
+	"art_mods": {
+
+	},
+	"awake": false,
+	"base": "anguilla_vento",
+	"behaviors": [
+		"vola",
+		"scatto"
+	],
+	"biomes": [],
+	"body": {
+		"eye": "#fffac0",
+		"h": 10,
+		"mark": "#c0d0ff",
+		"marks": "strisce",
+		"pal": [
+			"#101828",
+			"#243450",
+			"#3a5480",
+			"#7a98c8",
+			"#c0d0ff"
+		],
+		"plan": "serpe",
+		"w": 28
+	},
+	"boss": false,
+	"chief": false,
+	"damage": 14,
+	"disguise": false,
+	"docile": false,
+	"elem": "",
+	"family": "anguille_vento",
+	"family_name": "Anguille del vento",
+	"fly": true,
+	"frames": 2,
+	"fury": [],
+	"glow": false,
+	"glow_cols": [
+		"#ffffc2"
+	],
+	"great": false,
+	"h": 10,
+	"half": [
+		11,
+		4
+	],
+	"hp": 58,
+	"id": "anguilla_vento",
+	"lord": false,
+	"name": "Anguilla del vento",
+	"night": false,
+	"p": {
+		"dash_every": 3.5,
+		"dash_speed": 330.0,
+		"dash_time": 0.45,
+		"hover": 30.0,
+		"sight": 26,
+		"wobble": 60.0
+	},
+	"palette": [
+		"#3d5285",
+		"#7a99cc",
+		"#c2ccff",
+		"#ffffc2"
+	],
+	"role": "neutro",
+	"roll": false,
+	"season": "",
+	"shape": "anguilla_vento",
+	"sky": "nidi_tempesta",
+	"speed": 120,
+	"strata": [
+		0
+	],
+	"under": [],
+	"upside": false,
+	"variant": 0,
+	"w": 28,
+	"water": false,
+	"weak": [],
+	"weather": ""
+}

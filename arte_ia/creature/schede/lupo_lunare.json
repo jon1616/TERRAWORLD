@@ -1,0 +1,86 @@
+{
+	"art_mods": {
+
+	},
+	"awake": false,
+	"base": "lupo_lunare",
+	"behaviors": [
+		"cammina",
+		"carica"
+	],
+	"biomes": [],
+	"body": {
+		"eye": "#f0f0a0",
+		"glow": true,
+		"h": 18,
+		"mark": "#e0e8ff",
+		"marks": "strisce",
+		"pal": [
+			"#1a1e2e",
+			"#2c3450",
+			"#46547a",
+			"#7a8cb8",
+			"#e0e8ff"
+		],
+		"plan": "quadrupede",
+		"tail": true,
+		"w": 24
+	},
+	"boss": false,
+	"chief": false,
+	"damage": 14,
+	"disguise": false,
+	"docile": false,
+	"elem": "",
+	"family": "lupi_lunari",
+	"family_name": "Lupi lunari",
+	"fly": false,
+	"frames": 2,
+	"fury": [],
+	"glow": true,
+	"glow_cols": [
+		"#e0ebff",
+		"#f5f5a3"
+	],
+	"great": false,
+	"h": 18,
+	"half": [
+		10,
+		7
+	],
+	"hp": 58,
+	"id": "lupo_lunare",
+	"lord": false,
+	"name": "Lupo lunare",
+	"night": true,
+	"p": {
+		"charge": 250.0,
+		"charge_cool": 3.5,
+		"charge_range": 8,
+		"charge_time": 0.6,
+		"sight": 26
+	},
+	"palette": [
+		"#293352",
+		"#47527a",
+		"#7a8fb8",
+		"#e0ebff",
+		"#f5f5a3"
+	],
+	"role": "predatore",
+	"roll": false,
+	"season": "",
+	"shape": "lupo_lunare",
+	"sky": [],
+	"speed": 115,
+	"strata": [
+		0
+	],
+	"under": [],
+	"upside": false,
+	"variant": 0,
+	"w": 24,
+	"water": false,
+	"weak": [],
+	"weather": ""
+}

@@ -1,0 +1,74 @@
+{
+	"art_mods": {
+
+	},
+	"awake": false,
+	"base": "cervo_brina",
+	"behaviors": [
+		"cammina",
+		"carica"
+	],
+	"biomes": [
+		"brina"
+	],
+	"body": {
+
+	},
+	"boss": false,
+	"chief": false,
+	"damage": 15,
+	"disguise": false,
+	"docile": false,
+	"elem": "",
+	"family": "cervi",
+	"family_name": "Cervi di brina",
+	"fly": false,
+	"frames": 2,
+	"fury": [],
+	"glow": false,
+	"glow_cols": [
+		"#8ff5d6",
+		"#ccf5ff"
+	],
+	"great": false,
+	"h": 22,
+	"half": [
+		9,
+		8
+	],
+	"hp": 64,
+	"id": "cervo_brina",
+	"lord": false,
+	"name": "Cervo di brina",
+	"night": false,
+	"p": {
+		"charge": 250.0,
+		"charge_cool": 3.2,
+		"charge_range": 12,
+		"charge_time": 1.0,
+		"sight": 22
+	},
+	"palette": [
+		"#294766",
+		"#477099",
+		"#7aadcc",
+		"#8ff5d6",
+		"#ccf5ff"
+	],
+	"role": "erbivoro",
+	"roll": false,
+	"season": "",
+	"shape": "cervo_brina",
+	"sky": [],
+	"speed": 55,
+	"strata": [
+		0
+	],
+	"under": [],
+	"upside": false,
+	"variant": 0,
+	"w": 24,
+	"water": false,
+	"weak": [],
+	"weather": ""
+}

@@ -1,0 +1,59 @@
+{
+ "id": "rana_torba",
+ "key": "rana_torba",
+ "name": "Rana di torba",
+ "grid": "4x2",
+ "n": 8,
+ "cells": [
+  "fermo",
+  "fermo",
+  "carica",
+  "stacco",
+  "aria",
+  "discesa",
+  "atterra",
+  "colpita"
+ ],
+ "poses": {
+  "fermo": [
+   0,
+   1
+  ],
+  "carica": [
+   2
+  ],
+  "stacco": [
+   3
+  ],
+  "aria": [
+   4
+  ],
+  "discesa": [
+   5
+  ],
+  "atterra": [
+   6
+  ],
+  "colpita": [
+   7
+  ]
+ },
+ "fps": {
+  "fermo": 1.6
+ },
+ "center": false,
+ "roll_center": false,
+ "fly": false,
+ "lungo": 20,
+ "misura_da": 0,
+ "accenti": [
+  "#5cf0d8",
+  "#90d0a0"
+ ],
+ "luce": [
+  "#5cf5d6"
+ ],
+ "togli_polvere": false,
+ "schiarisci": 1.0,
+ "glow": true
+}

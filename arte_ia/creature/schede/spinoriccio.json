@@ -1,0 +1,75 @@
+{
+	"art_mods": {
+
+	},
+	"awake": false,
+	"base": "spinoriccio",
+	"behaviors": [
+		"cammina",
+		"carica"
+	],
+	"biomes": [
+		"ambra",
+		"foresta"
+	],
+	"body": {
+
+	},
+	"boss": false,
+	"chief": false,
+	"damage": 10,
+	"disguise": false,
+	"docile": false,
+	"elem": "",
+	"family": "spinoricci",
+	"family_name": "Spinoricci",
+	"fly": false,
+	"frames": 2,
+	"fury": [],
+	"glow": false,
+	"glow_cols": [],
+	"great": false,
+	"h": 14,
+	"half": [
+		7,
+		6
+	],
+	"hp": 26,
+	"id": "spinoriccio",
+	"lord": false,
+	"name": "Spinoriccio",
+	"night": false,
+	"p": {
+		"charge": 210.0,
+		"charge_cool": 3.5,
+		"charge_range": 9,
+		"charge_time": 1.1,
+		"sight": 18
+	},
+	"palette": [
+		"#3d2914",
+		"#5c3d29",
+		"#7a5233",
+		"#cc993d",
+		"#eba3a3",
+		"#f5d67a",
+		"#fff5a3"
+	],
+	"role": "neutro",
+	"roll": true,
+	"season": "",
+	"shape": "spinoriccio",
+	"sky": [],
+	"speed": 40,
+	"strata": [
+		0,
+		1
+	],
+	"under": [],
+	"upside": false,
+	"variant": 0,
+	"w": 16,
+	"water": false,
+	"weak": [],
+	"weather": ""
+}

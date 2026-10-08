@@ -1,0 +1,84 @@
+{
+	"art_mods": {
+
+	},
+	"awake": false,
+	"base": "falena_vampira",
+	"behaviors": [
+		"vola",
+		"parassita"
+	],
+	"biomes": [],
+	"body": {
+		"eye": "#ff3050",
+		"h": 14,
+		"mark": "#e080a0",
+		"marks": "macchie",
+		"pal": [
+			"#200a14",
+			"#3a1224",
+			"#5e1e3a",
+			"#9a3a60",
+			"#e080a0"
+		],
+		"plan": "insetto",
+		"w": 18,
+		"wings": "#5e1e3a"
+	},
+	"boss": false,
+	"chief": false,
+	"damage": 11,
+	"disguise": false,
+	"docile": false,
+	"elem": "",
+	"family": "falene_vampire",
+	"family_name": "Falene vampire",
+	"fly": true,
+	"frames": 2,
+	"fury": [],
+	"glow": false,
+	"glow_cols": [
+		"#ff3352"
+	],
+	"great": false,
+	"h": 14,
+	"half": [
+		7,
+		6
+	],
+	"hp": 28,
+	"id": "falena_vampira",
+	"lord": false,
+	"name": "Falena vampira",
+	"night": true,
+	"p": {
+		"drain": 2,
+		"hold": 6.0,
+		"hover": 10.0,
+		"sight": 20,
+		"wobble": 40.0
+	},
+	"palette": [
+		"#3d1429",
+		"#5c1f3d",
+		"#993d5c",
+		"#ff3352",
+		"#e085a3"
+	],
+	"role": "volante",
+	"roll": false,
+	"season": "",
+	"shape": "falena_vampira",
+	"sky": [],
+	"speed": 90,
+	"strata": [
+		0
+	],
+	"under": [],
+	"upside": false,
+	"variant": 0,
+	"w": 18,
+	"water": false,
+	"weak": [],
+	"weather": ""
+}

@@ -1,0 +1,79 @@
+{
+	"art_mods": {
+
+	},
+	"awake": false,
+	"base": "gufo_gelo",
+	"behaviors": [
+		"vola",
+		"spara"
+	],
+	"biomes": [
+		"brina"
+	],
+	"body": {
+
+	},
+	"boss": false,
+	"chief": false,
+	"damage": 10,
+	"disguise": false,
+	"docile": false,
+	"elem": "",
+	"family": "gufi",
+	"family_name": "Gufi del gelo",
+	"fly": true,
+	"frames": 2,
+	"fury": [],
+	"glow": true,
+	"glow_cols": [
+		"#8ff5d6"
+	],
+	"great": false,
+	"h": 16,
+	"half": [
+		7,
+		6
+	],
+	"hp": 30,
+	"id": "gufo_gelo",
+	"lord": false,
+	"name": "Gufo del gelo",
+	"night": false,
+	"p": {
+		"hover": 70.0,
+		"rate": 2.4,
+		"shot_damage": 8,
+		"shot_grav": 0.0,
+		"shot_look": "gelo",
+		"shot_speed": 230.0,
+		"sight": 28,
+		"slow": 1.5,
+		"wobble": 20.0
+	},
+	"palette": [
+		"#0a2933",
+		"#294766",
+		"#477099",
+		"#7aadcc",
+		"#ebc247",
+		"#8ff5d6",
+		"#ccf5ff"
+	],
+	"role": "predatore",
+	"roll": false,
+	"season": "",
+	"shape": "gufo_gelo",
+	"sky": [],
+	"speed": 80,
+	"strata": [
+		0
+	],
+	"under": [],
+	"upside": false,
+	"variant": 0,
+	"w": 20,
+	"water": false,
+	"weak": [],
+	"weather": ""
+}

@@ -1,0 +1,73 @@
+{
+	"art_mods": {
+
+	},
+	"awake": false,
+	"base": "ape_lume",
+	"behaviors": [
+		"vola"
+	],
+	"biomes": [
+		"foresta",
+		"palude",
+		"ambra",
+		"prati"
+	],
+	"body": {
+
+	},
+	"boss": false,
+	"chief": false,
+	"damage": 5,
+	"disguise": false,
+	"docile": false,
+	"elem": "",
+	"family": "api",
+	"family_name": "Api di lume",
+	"fly": true,
+	"frames": 2,
+	"fury": [],
+	"glow": true,
+	"glow_cols": [
+		"#fff5a3"
+	],
+	"great": false,
+	"h": 12,
+	"half": [
+		5,
+		4
+	],
+	"hp": 8,
+	"id": "ape_lume",
+	"lord": false,
+	"name": "Ape di lume",
+	"night": false,
+	"p": {
+		"sight": 14,
+		"wobble": 30.0
+	},
+	"palette": [
+		"#141414",
+		"#291f14",
+		"#ad851f",
+		"#ebc247",
+		"#d6f5ff",
+		"#fff5a3"
+	],
+	"role": "colonia",
+	"roll": false,
+	"season": "",
+	"shape": "ape_lume",
+	"sky": [],
+	"speed": 90,
+	"strata": [
+		0
+	],
+	"under": [],
+	"upside": false,
+	"variant": 0,
+	"w": 14,
+	"water": false,
+	"weak": [],
+	"weather": ""
+}

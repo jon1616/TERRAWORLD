@@ -1,0 +1,73 @@
+{
+	"art_mods": {
+
+	},
+	"awake": false,
+	"base": "volpe_ambra",
+	"behaviors": [
+		"cammina",
+		"carica"
+	],
+	"biomes": [
+		"ambra",
+		"foresta",
+		"rossa"
+	],
+	"body": {
+
+	},
+	"boss": false,
+	"chief": false,
+	"damage": 12,
+	"disguise": false,
+	"docile": false,
+	"elem": "",
+	"family": "volpi",
+	"family_name": "Volpi d'ambra",
+	"fly": false,
+	"frames": 2,
+	"fury": [],
+	"glow": false,
+	"glow_cols": [],
+	"great": false,
+	"h": 16,
+	"half": [
+		9,
+		6
+	],
+	"hp": 36,
+	"id": "volpe_ambra",
+	"lord": false,
+	"name": "Volpe d'ambra",
+	"night": false,
+	"p": {
+		"charge": 270.0,
+		"charge_cool": 2.6,
+		"charge_range": 9,
+		"charge_time": 0.6,
+		"sight": 22
+	},
+	"palette": [
+		"#141414",
+		"#663314",
+		"#ad5c1f",
+		"#eb993d",
+		"#ffcc8f"
+	],
+	"role": "predatore",
+	"roll": false,
+	"season": "",
+	"shape": "volpe_ambra",
+	"sky": [],
+	"speed": 95,
+	"strata": [
+		0
+	],
+	"under": [],
+	"upside": false,
+	"variant": 0,
+	"w": 24,
+	"water": false,
+	"weak": [],
+	"weather": ""
+}

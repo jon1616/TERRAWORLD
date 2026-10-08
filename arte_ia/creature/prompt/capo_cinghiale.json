@@ -1,0 +1,74 @@
+{
+ "id": "capo_cinghiale",
+ "key": "capo_cinghiale",
+ "name": "Il Vecchio Zannarossa",
+ "grid": "4x3",
+ "n": 12,
+ "cells": [
+  "cammina",
+  "cammina",
+  "cammina",
+  "cammina",
+  "fermo",
+  "carica",
+  "scatto",
+  "colpita",
+  "furia_fermo",
+  "furia_sputa",
+  "furia_carica",
+  "furia_scatto"
+ ],
+ "poses": {
+  "cammina": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "fermo": [
+   4
+  ],
+  "carica": [
+   5
+  ],
+  "scatto": [
+   6
+  ],
+  "colpita": [
+   7
+  ],
+  "furia_fermo": [
+   8
+  ],
+  "furia_sputa": [
+   9
+  ],
+  "furia_carica": [
+   10
+  ],
+  "furia_scatto": [
+   11
+  ]
+ },
+ "fps": {
+  "cammina": 6.0
+ },
+ "center": false,
+ "roll_center": false,
+ "fly": false,
+ "lungo": 55,
+ "misura_da": 4,
+ "accenti": [
+  "#b84733",
+  "#995229",
+  "#cc5c47"
+ ],
+ "luce": [
+  "#b84733",
+  "#995229",
+  "#cc5c47"
+ ],
+ "togli_polvere": true,
+ "schiarisci": 1.0,
+ "glow": true
+}

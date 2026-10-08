@@ -1,0 +1,53 @@
+{
+ "id": "avvizzito_errante",
+ "key": "avvizzito",
+ "name": "Avvizzito errante",
+ "grid": "4x2",
+ "n": 8,
+ "cells": [
+  "cammina",
+  "cammina",
+  "cammina",
+  "cammina",
+  "fermo",
+  "colpita",
+  "allerta",
+  "fermo"
+ ],
+ "poses": {
+  "cammina": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "fermo": [
+   4,
+   7
+  ],
+  "colpita": [
+   5
+  ],
+  "allerta": [
+   6
+  ]
+ },
+ "fps": {
+  "cammina": 6.0,
+  "fermo": 1.6
+ },
+ "center": false,
+ "roll_center": false,
+ "fly": false,
+ "lungo": 16,
+ "misura_da": 4,
+ "accenti": [
+  "#f5ad3d"
+ ],
+ "luce": [
+  "#f5ad3d"
+ ],
+ "togli_polvere": false,
+ "schiarisci": 1.0,
+ "glow": true
+}

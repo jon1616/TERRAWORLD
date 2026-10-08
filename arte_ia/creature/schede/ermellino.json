@@ -1,0 +1,80 @@
+{
+	"art_mods": {
+
+	},
+	"awake": false,
+	"base": "ermellino",
+	"behaviors": [
+		"cammina",
+		"ladro"
+	],
+	"biomes": [
+		"brina"
+	],
+	"body": {
+		"eye": "#101820",
+		"h": 12,
+		"pal": [
+			"#6a7a88",
+			"#9ab0c0",
+			"#c8dce8",
+			"#eef8ff",
+			"#ffffff"
+		],
+		"plan": "quadrupede",
+		"tail": true,
+		"w": 20
+	},
+	"boss": false,
+	"chief": false,
+	"damage": 6,
+	"disguise": false,
+	"docile": false,
+	"elem": "",
+	"family": "ermellini",
+	"family_name": "Ermellini",
+	"fly": false,
+	"frames": 2,
+	"fury": [],
+	"glow": false,
+	"glow_cols": [
+		"#14141f"
+	],
+	"great": false,
+	"h": 12,
+	"half": [
+		7,
+		4
+	],
+	"hp": 32,
+	"id": "ermellino",
+	"lord": false,
+	"name": "Ermellino di brina",
+	"night": false,
+	"p": {
+		"sight": 22,
+		"steal": 5
+	},
+	"palette": [
+		"#14141f",
+		"#99adc2",
+		"#cce0eb",
+		"#ebf5ff"
+	],
+	"role": "neutro",
+	"roll": false,
+	"season": "",
+	"shape": "ermellino",
+	"sky": [],
+	"speed": 105,
+	"strata": [
+		0
+	],
+	"under": [],
+	"upside": false,
+	"variant": 0,
+	"w": 20,
+	"water": false,
+	"weak": [],
+	"weather": ""
+}

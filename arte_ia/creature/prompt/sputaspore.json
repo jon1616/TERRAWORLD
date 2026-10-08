@@ -1,0 +1,53 @@
+{
+ "id": "sputaspore",
+ "key": "sputaspore",
+ "name": "Sputaspore",
+ "grid": "4x2",
+ "n": 8,
+ "cells": [
+  "fermo",
+  "fermo",
+  "fermo",
+  "sputa",
+  "sputa",
+  "fermo",
+  "colpita",
+  "fermo"
+ ],
+ "poses": {
+  "fermo": [
+   0,
+   1,
+   2,
+   5,
+   7
+  ],
+  "sputa": [
+   3,
+   4
+  ],
+  "colpita": [
+   6
+  ]
+ },
+ "fps": {
+  "fermo": 1.6,
+  "sputa": 6.0
+ },
+ "center": false,
+ "roll_center": false,
+ "fly": false,
+ "lungo": 18,
+ "misura_da": 0,
+ "accenti": [
+  "#e8ecff",
+  "#9aa8ff"
+ ],
+ "luce": [
+  "#b88fff",
+  "#e0e4ff"
+ ],
+ "togli_polvere": false,
+ "schiarisci": 1.0,
+ "glow": true
+}

@@ -1,0 +1,80 @@
+{
+	"art_mods": {
+
+	},
+	"awake": false,
+	"base": "scarabeo_ardesia",
+	"behaviors": [
+		"cammina",
+		"carica"
+	],
+	"biomes": [
+		"ambra"
+	],
+	"body": {
+
+	},
+	"boss": false,
+	"chief": false,
+	"damage": 14,
+	"disguise": false,
+	"docile": false,
+	"elem": "",
+	"family": "scarabei",
+	"family_name": "Scarabei d'ardesia",
+	"fly": false,
+	"frames": 2,
+	"fury": [],
+	"glow": false,
+	"glow_cols": [
+		"#99471f",
+		"#d67a3d",
+		"#ffad70"
+	],
+	"great": false,
+	"h": 16,
+	"half": [
+		9,
+		6
+	],
+	"hp": 45,
+	"id": "scarabeo_ardesia",
+	"lord": false,
+	"name": "Scarabeo d'ardesia",
+	"night": false,
+	"p": {
+		"charge": 230.0,
+		"charge_cool": 3.0,
+		"charge_range": 10,
+		"charge_time": 0.8,
+		"sight": 20
+	},
+	"palette": [
+		"#293352",
+		"#3d4766",
+		"#99471f",
+		"#475c85",
+		"#667a99",
+		"#d67a3d",
+		"#8599b8"
+	],
+	"role": "neutro",
+	"roll": false,
+	"season": "",
+	"shape": "scarabeo",
+	"sky": [],
+	"speed": 40,
+	"strata": [
+		0,
+		2,
+		3,
+		4
+	],
+	"under": [],
+	"upside": false,
+	"variant": 0,
+	"w": 24,
+	"water": false,
+	"weak": [],
+	"weather": ""
+}

@@ -1,0 +1,81 @@
+{
+	"art_mods": {
+
+	},
+	"awake": false,
+	"base": "rana_torba",
+	"behaviors": [
+		"salta_verso"
+	],
+	"biomes": [
+		"torba"
+	],
+	"body": {
+		"eye": "#5cf0d8",
+		"glow": true,
+		"h": 12,
+		"mark": "#5cf0d8",
+		"marks": "macchie",
+		"pal": [
+			"#0e2018",
+			"#1a3a2a",
+			"#2a5a40",
+			"#4a8a60",
+			"#90d0a0"
+		],
+		"plan": "anfibio",
+		"w": 16
+	},
+	"boss": false,
+	"chief": false,
+	"damage": 7,
+	"disguise": false,
+	"docile": false,
+	"elem": "",
+	"family": "rane",
+	"family_name": "Rane di torba",
+	"fly": false,
+	"frames": 2,
+	"fury": [],
+	"glow": true,
+	"glow_cols": [
+		"#5cf5d6"
+	],
+	"great": false,
+	"h": 12,
+	"half": [
+		6,
+		5
+	],
+	"hp": 20,
+	"id": "rana_torba",
+	"lord": false,
+	"name": "Rana di torba",
+	"night": false,
+	"p": {
+		"jump": 280.0,
+		"sight": 16
+	},
+	"palette": [
+		"#1f3d29",
+		"#295c3d",
+		"#478f5c",
+		"#5cf5d6"
+	],
+	"role": "neutro",
+	"roll": false,
+	"season": "",
+	"shape": "rana_torba",
+	"sky": [],
+	"speed": 70,
+	"strata": [
+		0
+	],
+	"under": [],
+	"upside": false,
+	"variant": 0,
+	"w": 16,
+	"water": false,
+	"weak": [],
+	"weather": ""
+}

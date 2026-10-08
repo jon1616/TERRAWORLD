@@ -1,0 +1,70 @@
+{
+	"art_mods": {
+
+	},
+	"awake": false,
+	"base": "libellula_brina",
+	"behaviors": [
+		"vola"
+	],
+	"biomes": [
+		"brina",
+		"palude",
+		"torba"
+	],
+	"body": {
+
+	},
+	"boss": false,
+	"chief": false,
+	"damage": 6,
+	"disguise": false,
+	"docile": false,
+	"elem": "",
+	"family": "libellule",
+	"family_name": "Libellule di brina",
+	"fly": true,
+	"frames": 2,
+	"fury": [],
+	"glow": true,
+	"glow_cols": [
+		"#8ff5d6"
+	],
+	"great": false,
+	"h": 12,
+	"half": [
+		8,
+		4
+	],
+	"hp": 10,
+	"id": "libellula_brina",
+	"lord": false,
+	"name": "Libellula di brina",
+	"night": false,
+	"p": {
+		"sight": 18,
+		"wobble": 20.0
+	},
+	"palette": [
+		"#477099",
+		"#7aadcc",
+		"#8ff5d6",
+		"#ccf5ff"
+	],
+	"role": "volante",
+	"roll": false,
+	"season": "",
+	"shape": "libellula_brina",
+	"sky": [],
+	"speed": 120,
+	"strata": [
+		0
+	],
+	"under": [],
+	"upside": false,
+	"variant": 0,
+	"w": 22,
+	"water": false,
+	"weak": [],
+	"weather": ""
+}

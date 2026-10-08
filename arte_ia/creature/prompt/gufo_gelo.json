@@ -1,0 +1,56 @@
+{
+ "id": "gufo_gelo",
+ "key": "gufo_gelo",
+ "name": "Gufo del gelo",
+ "grid": "4x2",
+ "n": 8,
+ "cells": [
+  "vola",
+  "vola",
+  "vola",
+  "vola",
+  "sospeso",
+  "planata",
+  "sputa",
+  "colpita"
+ ],
+ "poses": {
+  "vola": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "sospeso": [
+   4
+  ],
+  "planata": [
+   5
+  ],
+  "sputa": [
+   6
+  ],
+  "colpita": [
+   7
+  ]
+ },
+ "fps": {
+  "vola": 11.0
+ },
+ "center": true,
+ "roll_center": false,
+ "fly": true,
+ "lungo": 23,
+ "misura_da": 4,
+ "accenti": [
+  "#8ff5d6",
+  "#ebc247",
+  "#ccf5ff"
+ ],
+ "luce": [
+  "#8ff5d6"
+ ],
+ "togli_polvere": false,
+ "schiarisci": 1.0,
+ "glow": true
+}

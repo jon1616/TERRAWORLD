@@ -1,0 +1,70 @@
+{
+	"art_mods": {
+
+	},
+	"awake": false,
+	"base": "grumo_spore",
+	"behaviors": [
+		"salta_verso"
+	],
+	"biomes": [
+		"palude"
+	],
+	"body": {
+
+	},
+	"boss": false,
+	"chief": false,
+	"damage": 11,
+	"disguise": false,
+	"docile": false,
+	"elem": "",
+	"family": "grumi",
+	"family_name": "Grumi",
+	"fly": false,
+	"frames": 1,
+	"fury": [],
+	"glow": false,
+	"glow_cols": [],
+	"great": false,
+	"h": 14,
+	"half": [
+		6,
+		5
+	],
+	"hp": 30,
+	"id": "grumo_spore",
+	"lord": false,
+	"name": "Grumo di spore",
+	"night": false,
+	"p": {
+		"jump": 300.0,
+		"sight": 24
+	},
+	"palette": [
+		"#1f0a3d",
+		"#14141f",
+		"#521f85",
+		"#9947d6",
+		"#d6a3ff",
+		"#ffffff"
+	],
+	"role": "neutro",
+	"roll": false,
+	"season": "",
+	"shape": "grumo",
+	"sky": [],
+	"speed": 95,
+	"strata": [
+		0,
+		2,
+		3
+	],
+	"under": [],
+	"upside": false,
+	"variant": 2,
+	"w": 16,
+	"water": false,
+	"weak": [],
+	"weather": ""
+}

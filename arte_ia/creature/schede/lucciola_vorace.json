@@ -1,0 +1,67 @@
+{
+	"art_mods": {
+
+	},
+	"awake": false,
+	"base": "lucciola_vorace",
+	"behaviors": [
+		"vola"
+	],
+	"biomes": [],
+	"body": {
+
+	},
+	"boss": false,
+	"chief": false,
+	"damage": 5,
+	"disguise": false,
+	"docile": false,
+	"elem": "",
+	"family": "lucciole",
+	"family_name": "Lucciole voraci",
+	"fly": true,
+	"frames": 2,
+	"fury": [],
+	"glow": true,
+	"glow_cols": [
+		"#ff523d",
+		"#d6ff70"
+	],
+	"great": false,
+	"h": 9,
+	"half": [
+		4,
+		3
+	],
+	"hp": 7,
+	"id": "lucciola_vorace",
+	"lord": false,
+	"name": "Lucciola vorace",
+	"night": true,
+	"p": {
+		"sight": 30,
+		"wobble": 45.0
+	},
+	"palette": [
+		"#29291f",
+		"#ff523d",
+		"#d6ff70",
+		"#ccf5ff"
+	],
+	"role": "volante",
+	"roll": false,
+	"season": "",
+	"shape": "lucciola",
+	"sky": [],
+	"speed": 85,
+	"strata": [
+		0
+	],
+	"under": [],
+	"upside": false,
+	"variant": 0,
+	"w": 10,
+	"water": false,
+	"weak": [],
+	"weather": ""
+}

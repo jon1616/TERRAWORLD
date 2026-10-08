@@ -1,0 +1,52 @@
+{
+ "id": "formica_ladra",
+ "key": "formica_ladra",
+ "name": "Formica ladra d'ambra",
+ "grid": "4x2",
+ "n": 8,
+ "cells": [
+  "cammina",
+  "cammina",
+  "cammina",
+  "cammina",
+  "fermo",
+  "corsa",
+  "colpita",
+  "allerta"
+ ],
+ "poses": {
+  "cammina": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "fermo": [
+   4
+  ],
+  "corsa": [
+   5
+  ],
+  "colpita": [
+   6
+  ],
+  "allerta": [
+   7
+  ]
+ },
+ "fps": {
+  "cammina": 6.0
+ },
+ "center": false,
+ "roll_center": false,
+ "fly": false,
+ "lungo": 18,
+ "misura_da": 4,
+ "accenti": [
+  "#fff0a8"
+ ],
+ "luce": [],
+ "togli_polvere": true,
+ "schiarisci": 1.0,
+ "glow": false
+}

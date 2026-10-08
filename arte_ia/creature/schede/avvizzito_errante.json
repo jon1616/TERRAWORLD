@@ -1,0 +1,66 @@
+{
+	"art_mods": {
+
+	},
+	"awake": false,
+	"base": "avvizzito_errante",
+	"behaviors": [
+		"cammina"
+	],
+	"biomes": [],
+	"body": {
+
+	},
+	"boss": false,
+	"chief": false,
+	"damage": 11,
+	"disguise": false,
+	"docile": false,
+	"elem": "",
+	"family": "avvizziti",
+	"family_name": "Avvizziti erranti",
+	"fly": false,
+	"frames": 2,
+	"fury": [],
+	"glow": true,
+	"glow_cols": [
+		"#f5ad3d"
+	],
+	"great": false,
+	"h": 24,
+	"half": [
+		5,
+		11
+	],
+	"hp": 32,
+	"id": "avvizzito_errante",
+	"lord": false,
+	"name": "Avvizzito errante",
+	"night": true,
+	"p": {
+		"sight": 30
+	},
+	"palette": [
+		"#525247",
+		"#66663d",
+		"#70705c",
+		"#8f857a",
+		"#f5ad3d"
+	],
+	"role": "neutro",
+	"roll": false,
+	"season": "",
+	"shape": "avvizzito",
+	"sky": [],
+	"speed": 42,
+	"strata": [
+		0
+	],
+	"under": [],
+	"upside": false,
+	"variant": 0,
+	"w": 14,
+	"water": false,
+	"weak": [],
+	"weather": ""
+}

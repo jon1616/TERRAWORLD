@@ -1,0 +1,95 @@
+{
+	"art_mods": {
+		"elem": "brace",
+		"glow_body": true,
+		"scale": 2.0,
+		"temper": "feroce"
+	},
+	"awake": false,
+	"base": "capo_cinghiale",
+	"behaviors": [
+		"cammina",
+		"carica"
+	],
+	"biomes": [],
+	"body": "cinghiale_rovo",
+	"boss": true,
+	"chief": true,
+	"damage": 45,
+	"disguise": false,
+	"docile": false,
+	"elem": "brace",
+	"family": "",
+	"family_name": "",
+	"fly": false,
+	"frames": 2,
+	"fury": [
+		"spara"
+	],
+	"glow": true,
+	"glow_cols": [
+		"#b84733",
+		"#995229",
+		"#cc5c47",
+		"#ff7a3d"
+	],
+	"great": false,
+	"h": 36,
+	"half": [
+		24,
+		18
+	],
+	"hp": 260,
+	"id": "capo_cinghiale",
+	"lord": false,
+	"name": "Il Vecchio Zannarossa",
+	"night": false,
+	"p": {
+		"blink_every": 5.0,
+		"charge": 270.0,
+		"charge_cool": 4.0,
+		"charge_range": 18,
+		"charge_time": 0.9,
+		"dash_every": 5.5,
+		"dash_speed": 290.0,
+		"dash_time": 0.5,
+		"fan_n": 5,
+		"fan_rate": 2.6,
+		"fan_spread": 0.9,
+		"jump": 300.0,
+		"leash": 30,
+		"phase2": 0.5,
+		"rate": 2.4,
+		"shot_damage": 27,
+		"shot_grav": 120.0,
+		"shot_speed": 190.0,
+		"sight": 40,
+		"summon_every": 9.0,
+		"summon_max": 2
+	},
+	"palette": [
+		"#290a14",
+		"#5c1f1f",
+		"#472914",
+		"#663d1f",
+		"#b84733",
+		"#995229",
+		"#cc5c47"
+	],
+	"role": "",
+	"roll": false,
+	"season": "",
+	"shape": "cinghiale_rovo",
+	"sky": [],
+	"speed": 97.75,
+	"strata": [],
+	"under": [],
+	"upside": false,
+	"variant": 0,
+	"w": 52,
+	"water": false,
+	"weak": [
+		"gelo"
+	],
+	"weather": ""
+}

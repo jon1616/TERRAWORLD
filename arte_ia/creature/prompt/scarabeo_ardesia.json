@@ -1,0 +1,53 @@
+{
+ "id": "scarabeo_ardesia",
+ "key": "scarabeo",
+ "name": "Scarabeo d'ardesia",
+ "grid": "4x2",
+ "n": 8,
+ "cells": [
+  "cammina",
+  "cammina",
+  "cammina",
+  "cammina",
+  "fermo",
+  "carica",
+  "scatto",
+  "colpita"
+ ],
+ "poses": {
+  "cammina": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "fermo": [
+   4
+  ],
+  "carica": [
+   5
+  ],
+  "scatto": [
+   6
+  ],
+  "colpita": [
+   7
+  ]
+ },
+ "fps": {
+  "cammina": 6.0
+ },
+ "center": false,
+ "roll_center": false,
+ "fly": false,
+ "lungo": 28,
+ "misura_da": 4,
+ "accenti": [
+  "#ffad70",
+  "#d67a3d"
+ ],
+ "luce": [],
+ "togli_polvere": false,
+ "schiarisci": 1.0,
+ "glow": false
+}

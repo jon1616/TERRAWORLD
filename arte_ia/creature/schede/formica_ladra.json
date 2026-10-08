@@ -1,0 +1,82 @@
+{
+	"art_mods": {
+
+	},
+	"awake": false,
+	"base": "formica_ladra",
+	"behaviors": [
+		"cammina",
+		"ladro"
+	],
+	"biomes": [
+		"ambra"
+	],
+	"body": {
+		"eye": "#101010",
+		"h": 10,
+		"mark": "#fff0a8",
+		"marks": "strisce",
+		"pal": [
+			"#3a2208",
+			"#6a3e10",
+			"#a0621a",
+			"#d8962a",
+			"#fff0a8"
+		],
+		"plan": "insetto",
+		"w": 16
+	},
+	"boss": false,
+	"chief": false,
+	"damage": 6,
+	"disguise": false,
+	"docile": false,
+	"elem": "",
+	"family": "formiche_ladre",
+	"family_name": "Formiche ladre",
+	"fly": false,
+	"frames": 2,
+	"fury": [],
+	"glow": false,
+	"glow_cols": [
+		"#141414"
+	],
+	"great": false,
+	"h": 10,
+	"half": [
+		6,
+		4
+	],
+	"hp": 24,
+	"id": "formica_ladra",
+	"lord": false,
+	"name": "Formica ladra d'ambra",
+	"night": false,
+	"p": {
+		"sight": 18,
+		"steal": 3
+	},
+	"palette": [
+		"#141414",
+		"#663d14",
+		"#a3661f",
+		"#d69929",
+		"#fff5a3"
+	],
+	"role": "colonia",
+	"roll": false,
+	"season": "",
+	"shape": "formica_ladra",
+	"sky": [],
+	"speed": 80,
+	"strata": [
+		0
+	],
+	"under": [],
+	"upside": false,
+	"variant": 0,
+	"w": 16,
+	"water": false,
+	"weak": [],
+	"weather": ""
+}

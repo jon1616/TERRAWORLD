@@ -1,0 +1,57 @@
+{
+ "id": "lucciola_vorace",
+ "key": "lucciola",
+ "name": "Lucciola vorace",
+ "grid": "4x2",
+ "n": 8,
+ "cells": [
+  "vola",
+  "vola",
+  "vola",
+  "vola",
+  "sospeso",
+  "planata",
+  "colpita",
+  "sospeso"
+ ],
+ "poses": {
+  "vola": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "sospeso": [
+   0,
+   3,
+   7
+  ],
+  "planata": [
+   5
+  ],
+  "colpita": [
+   6
+  ]
+ },
+ "fps": {
+  "vola": 11.0,
+  "sospeso": 12.0
+ },
+ "center": true,
+ "roll_center": false,
+ "fly": true,
+ "lungo": 16,
+ "misura_da": 0,
+ "accenti": [
+  "#d6ff70",
+  "#ff523d",
+  "#ccf5ff"
+ ],
+ "luce": [
+  "#ff523d",
+  "#d6ff70"
+ ],
+ "togli_polvere": false,
+ "schiarisci": 1.0,
+ "glow": true
+}

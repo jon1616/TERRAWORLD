@@ -1,0 +1,78 @@
+{
+	"art_mods": {
+
+	},
+	"awake": false,
+	"base": "cervo_gelo_bianco",
+	"behaviors": [
+		"fugge"
+	],
+	"biomes": [],
+	"body": {
+		"eye": "#5cf0d8",
+		"glow": true,
+		"h": 22,
+		"horns": 2,
+		"pal": [
+			"#8aa0b0",
+			"#b8d0dc",
+			"#e0f0f8",
+			"#f8ffff",
+			"#ffffff"
+		],
+		"plan": "quadrupede",
+		"w": 26
+	},
+	"boss": false,
+	"chief": false,
+	"damage": 0,
+	"disguise": false,
+	"docile": false,
+	"elem": "",
+	"family": "nascoste",
+	"family_name": "Creature nascoste",
+	"fly": false,
+	"frames": 2,
+	"fury": [],
+	"glow": true,
+	"glow_cols": [
+		"#5cf5d6"
+	],
+	"great": false,
+	"h": 22,
+	"half": [
+		11,
+		9
+	],
+	"hp": 80,
+	"id": "cervo_gelo_bianco",
+	"lord": false,
+	"name": "Cervo bianco del Gelo",
+	"night": false,
+	"p": {
+		"flee": 20
+	},
+	"palette": [
+		"#b8cce0",
+		"#5cf5d6",
+		"#e0f5f5",
+		"#f5ffff",
+		"#ffffff"
+	],
+	"role": "neutro",
+	"roll": false,
+	"season": "",
+	"shape": "cervo_gelo_bianco",
+	"sky": [],
+	"speed": 130,
+	"strata": [
+		0
+	],
+	"under": [],
+	"upside": false,
+	"variant": 0,
+	"w": 26,
+	"water": false,
+	"weak": [],
+	"weather": ""
+}

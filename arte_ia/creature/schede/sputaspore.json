@@ -1,0 +1,77 @@
+{
+	"art_mods": {
+
+	},
+	"awake": false,
+	"base": "sputaspore",
+	"behaviors": [
+		"fermo",
+		"spara"
+	],
+	"biomes": [
+		"palude"
+	],
+	"body": {
+
+	},
+	"boss": false,
+	"chief": false,
+	"damage": 6,
+	"disguise": false,
+	"docile": false,
+	"elem": "",
+	"family": "sputaspore",
+	"family_name": "Sputaspore",
+	"fly": false,
+	"frames": 2,
+	"fury": [],
+	"glow": true,
+	"glow_cols": [
+		"#b88fff",
+		"#f5e0ff"
+	],
+	"great": false,
+	"h": 18,
+	"half": [
+		6,
+		7
+	],
+	"hp": 28,
+	"id": "sputaspore",
+	"lord": false,
+	"name": "Sputaspore",
+	"night": false,
+	"p": {
+		"rate": 2.4,
+		"shot_damage": 12,
+		"shot_grav": 180.0,
+		"shot_speed": 190.0,
+		"sight": 18
+	},
+	"palette": [
+		"#29143d",
+		"#47291f",
+		"#521f85",
+		"#7a47b8",
+		"#b88fff",
+		"#f5e0ff"
+	],
+	"role": "neutro",
+	"roll": false,
+	"season": "",
+	"shape": "sputaspore",
+	"sky": [],
+	"speed": 0,
+	"strata": [
+		0,
+		3,
+		4
+	],
+	"under": [],
+	"upside": false,
+	"variant": 0,
+	"w": 16,
+	"water": false,
+	"weak": [],
+	"weather": ""
+}
