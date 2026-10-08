@@ -1,0 +1,18 @@
+{
+ "lotto": "lotto_13",
+ "grid": "4x3",
+ "shapes": [
+  "trappola_spuntoni",
+  "trappola_lama",
+  "trappola_runa_brace",
+  "trappola_runa_gelo",
+  "trappola_runa_spora",
+  "trappola_runa_vuoto",
+  "trappola_pressa",
+  "trappola_rete",
+  "trappola_getto_acqua",
+  "trappola_getto_brace",
+  "trappola_esca",
+  "trappola_tramoggia"
+ ]
+}

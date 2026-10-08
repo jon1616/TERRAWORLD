@@ -69,7 +69,8 @@ static func items() -> Dictionary:
 		if id in ["cesta", "scrigno"]:
 			continue
 		var found := is_found(id)
-		var d := {"name": e["name"], "kind": "stazione", "icon": ["scrigno" if found else "cesta", e["mat"]], "place": id,
+		# 8 ott 2026: le casse fabbricate hanno la cassa di assi dipinta, quelle trovate lo scrigno (prima un cestino)
+		var d := {"name": e["name"], "kind": "stazione", "icon": ["scrigno" if found else "cassa", e["mat"]], "place": id,
 			"stack": 99, "desc": "%s: tiene %d pile di oggetti." % [
 				"Si trova nelle rovine profonde. Vuoto, si porta via e si riusa" if found else "Una cassa", int(e["slots"])]}
 		if found and e.has("biome"):

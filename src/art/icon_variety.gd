@@ -56,6 +56,17 @@ static func of(id: String, it: Dictionary) -> Image:
 static func of_ui(id: String, it: Dictionary) -> Image:
 	_prepare()
 	if _station_of.has(id):
+		# 8 ott 2026 (l'utente: «molte icone ancora sono da fare… banchi e casse»): una stazione con una forma d'icona
+		# dipinta usa quella (lo scrigno, l'incudine del Maglio…); le altre il loro disegno del mondo ingrandito
+		var ss := spec_of(id, it)
+		# trappole, totem e macchine hanno nei dati forme segnaposto (una gemma, un mantello, un'incudine): tengono il
+		# disegno del mondo finché non hanno la forma loro (che comincia con il nome della categoria)
+		var holder := String(CraftCatsData.place_of(id, "")[0]) in ["trappole", "totem", "rete"] \
+				and not (String(ss[0]).begins_with("trappola_") or String(ss[0]).begins_with("totem_"))
+		if ArtLib.has("icone48", ss[0]) and not holder:
+			var si := ItemIcons.make_ui(ss[0], ss[1])
+			var sk := _station_dup(id, ss[0] + "|" + ss[1])
+			return vary(si, sk) if sk > 0 else si
 		if OS.get_thread_caller_id() == OS.get_main_thread_id():
 			warm()
 			return ItemIcons.up3(CreatureFx.shade(_station_icons[_station_of[id]]))
@@ -90,7 +101,9 @@ static func warm() -> void:
 ## La forma e il materiale con cui si disegna l'oggetto (alias e parole del nome comprese).
 static func spec_of(id: String, it: Dictionary) -> Array:
 	var ic: Array = it.get("icon", ["?", "ardesia"])
-	var shape := String(ALIAS.get(str(ic[0]), str(ic[0])))
+	var shape := str(ic[0])
+	if not ArtLib.has("icone48", shape):
+		shape = String(ALIAS.get(shape, shape))   # il soprannome solo per le forme ancora senza disegno (8 ott 2026)
 	var mat := str(ic[1]) if ic.size() > 1 else "ardesia"
 	if ic.size() > 2:
 		mat = "duo:%s:%s" % [ic[1], ic[2]]
@@ -136,6 +149,27 @@ static func _prepare() -> void:
 
 
 ## Chi non passa di qui: costrutti, pareti, arredi in serie (hanno icone loro) e chi piazza una stazione.
+static var _station_groups := {}
+
+
+## Le stazioni con la stessa forma e lo stesso materiale (la cassa di un bioma e la sua sigillata): il posto nel
+## gruppo, in ordine di id, per la variante di `vary` (0 = la prima, uguale).
+static func _station_dup(id: String, key: String) -> int:
+	if _station_groups.is_empty():
+		var all := ItemsData.all()
+		var ids: Array = _station_of.keys()
+		ids.sort()
+		for sid in ids:
+			if not all.has(sid):
+				continue
+			var sp := spec_of(String(sid), all[sid])
+			var kk := String(sp[0]) + "|" + String(sp[1])
+			if not _station_groups.has(kk):
+				_station_groups[kk] = []
+			(_station_groups[kk] as Array).append(sid)
+	return (_station_groups.get(key, []) as Array).find(id)
+
+
 static func _skip(id: String, it: Dictionary) -> bool:
 	return it.has("build") or str(it.get("place", "")).begins_with("arredo_") or _station_of.has(id) \
 			or int(it.get("wall", 0)) >= BuildData.WALL_BASE

@@ -468,5 +468,53 @@
 	"lampada": {
 		"en": "oil lamp",
 		"desc": "a small oil lamp [GREY] shaped like a curved seed pod with a handle loop, a lively amber flame at its spout"
+	},
+	"trappola_spuntoni": {
+		"en": "spike trap",
+		"desc": "a low floor trap seen at a 3/4 angle: a flat base plate [GREY] with a row of sharp upward spikes [GREY] sticking out of it"
+	},
+	"trappola_lama": {
+		"en": "spinning blade trap",
+		"desc": "a round circular saw blade with curved teeth [GREY] mounted on a small post on a base plate [GREY], with motion swirl lines showing it spins"
+	},
+	"trappola_runa_brace": {
+		"en": "fire rune trap",
+		"desc": "a small square floor PLATE [GREY] carved with one big glowing rune symbol shaped like a FLAME, the rune glowing warm orange (#ff7a3a), a few embers above it"
+	},
+	"trappola_runa_gelo": {
+		"en": "frost rune trap",
+		"desc": "a small square floor PLATE [GREY] carved with one big glowing rune symbol shaped like a SNOWFLAKE, the rune glowing ice blue (#8ad8ff), a little cold mist above it"
+	},
+	"trappola_runa_spora": {
+		"en": "spore rune trap",
+		"desc": "a small square floor PLATE [GREY] carved with one big glowing rune symbol shaped like a MUSHROOM, the rune glowing violet (#b070f0), a few spores floating above it"
+	},
+	"trappola_runa_vuoto": {
+		"en": "void rune trap",
+		"desc": "a small square floor PLATE [GREY] carved with one big glowing rune symbol shaped like a SPIRAL EYE, the rune glowing deep purple (#8a50e0), a dark swirl above it"
+	},
+	"trappola_pressa": {
+		"en": "stone crusher trap",
+		"desc": "a heavy square stone crusher block [GREY] with a grim carved face, hanging from two chains, ready to drop, a small crack line below it"
+	},
+	"trappola_rete": {
+		"en": "root net trap",
+		"desc": "a coiled net of woven roots [GREY] folded on a small base plate [GREY], with a spring lever, ready to snap up"
+	},
+	"trappola_getto_acqua": {
+		"en": "water jet trap",
+		"desc": "a small nozzle / vent block [GREY] on the floor shooting a strong jet of WATER straight up (water drawn in light blue #8ad8ff)"
+	},
+	"trappola_getto_brace": {
+		"en": "fire jet trap",
+		"desc": "a small nozzle / vent block [GREY] on the floor shooting a roaring jet of FIRE straight up (flame drawn in orange #ff7a3a and amber)"
+	},
+	"trappola_esca": {
+		"en": "creature lure",
+		"desc": "a small baited lure post: a little cage-lantern [GREY] on a short stake holding a glowing chunk of bait (amber), with a sweet-smell wisp curling out"
+	},
+	"trappola_tramoggia": {
+		"en": "collection hopper",
+		"desc": "a funnel-shaped hopper [GREY] seen at a 3/4 angle, wide open top narrowing to a spout, standing on short legs, a few dropped items (a leaf and a pebble) falling in"
 	}
 }
