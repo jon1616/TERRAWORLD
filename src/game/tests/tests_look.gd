@@ -87,7 +87,8 @@ func run() -> void:
 		var w0 := Time.get_ticks_msec()
 		while Time.get_ticks_msec() - w0 < 1000:
 			for cr in m.fauna.list:
-				if absf(cr.vel.x) > 5.0 and cr.on_floor:
+				# (le creature con le pose di Nano Banana hanno i passi nel disegno: il codice non le muove)
+				if absf(cr.vel.x) > 5.0 and cr.on_floor and cr._poses.is_empty():
 					lo = minf(lo, cr._spr.position.y - cr._base_y)
 					hi = maxf(hi, cr._spr.position.y - cr._base_y)
 					tilt = maxf(tilt, absf(cr._spr.rotation))
