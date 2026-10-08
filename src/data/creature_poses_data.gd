@@ -64,6 +64,10 @@ const POSES := {
 	"formica_ladra": {"n": 8, "anchor": [11, 21],
 		"poses": {"cammina": [0, 1, 2, 3], "fermo": [4], "corsa": [5], "colpita": [6], "allerta": [7]},
 		"fps": {"cammina": 6.0}},
+	# Gufo del gelo (tavola di Nano Banana, tools/installa_creatura.py)
+	"gufo_gelo": {"n": 8, "anchor": [14, 12], "center": true, "glow": true,
+		"poses": {"vola": [0, 1, 2, 3], "sospeso": [4], "planata": [5], "sputa": [6], "colpita": [7]},
+		"fps": {"vola": 11.0}},
 }
 
 

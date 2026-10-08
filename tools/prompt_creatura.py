@@ -136,7 +136,8 @@ def build_poses(s: dict, look: dict) -> tuple[list, dict, dict, bool]:
     """Le celle della tavola: [(nome della posa, descrizione)], le pose del gioco {nome: [celle]}, i fps, il centro."""
     beh = set(s["behaviors"]) | set(s.get("fury") or [])
     plan = walker_plan(s, look)
-    shot = look.get("shot") or ELEM_SHOT.get(s.get("elem") or "", "a burst of glowing projectiles")
+    shot = look.get("shot") or ELEM_SHOT.get(s.get("elem") or str((s.get("p") or {}).get("shot_look", "")),
+                                               "a burst of glowing projectiles")
     boss = s["boss"] or s["chief"] or s["lord"] or s["great"]
     cells: list[tuple[str, str]] = []
     center = bool(s["fly"])

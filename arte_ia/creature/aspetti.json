@@ -64,5 +64,21 @@
 		"accents": [
 			"#fff0a8"
 		]
+	},
+	"gufo_gelo": {
+		"name_en": "Frost Owl",
+		"noun": "owl",
+		"plan": "uccello",
+		"look": "a round stocky owl of the frozen lands, seen from the side: a big round head with two short feathery EAR TUFTS, a wide face disc with one huge glowing round eye, a small golden hooked beak, a plump body with soft scale-like feathers, big broad rounded wings and short talons. Frost-blue plumage, darker on the wings, lighter on the chest, with a few white frost speckles on the belly. A night hunter that spits shards of ice.",
+		"colors": "dark frost blue wings (#294766, #0a2933 for the darkest feathers), frost blue body (#477099), light blue-grey chest (#7aadcc), pale ice-white speckles and ear tufts (#ccf5ff), golden beak and talons (#ebc247)",
+		"eye": "one HUGE round glowing mint-green eye (#8ff5d6) with a dark pupil, the brightest thing on the owl",
+		"glow": "the big mint-green eye (#8ff5d6)",
+		"shot": "a fan of sharp pale-blue ICE SHARDS from its open beak",
+		"accents": [
+			"#8ff5d6",
+			"#ebc247",
+			"#ccf5ff"
+		],
+		"polvere": false
 	}
 }

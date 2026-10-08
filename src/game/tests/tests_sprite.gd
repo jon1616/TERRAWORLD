@@ -21,6 +21,8 @@ func run() -> void:
 	var ids := _ids()
 	print("pose da guardare: %s" % ", ".join(ids))
 	m.combat.god = true
+	var hud_was: bool = m.hud.visible
+	m.hud.visible = false                       # l'interfaccia copriva chi vola (sta più in alto sullo schermo)
 	var mk: Node = m.filo.get("_marker") if m.get("filo") != null else null
 	if mk is CanvasItem:
 		(mk as CanvasItem).visible = false        # il rombo del filo copriva le creature nelle foto
@@ -33,6 +35,7 @@ func run() -> void:
 	for id in ids:
 		await _one(id, c)
 	m.combat.god = false
+	m.hud.visible = hud_was
 
 
 ## Le creature da guardare: quelle di `--creatura=`, altrimenti una per ogni riga di `CreaturePosesData`.
