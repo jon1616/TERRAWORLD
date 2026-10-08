@@ -148,6 +148,9 @@ func bodies() -> void:
 		await kit.save("180_stagno")
 	# 2. un laghetto fatto a mano: una conca scavata e riempita
 	var spot := kit.flat_spot(w.spawn + Vector2i(70, 0), 17)
+	if spot.x < 0:                     # il mondo di prova cambia: se non c'è un tratto piano, lo si fa (voce 452)
+		spot = Vector2i(w.spawn.x + 70, w.surface[w.spawn.x + 70] - 1)
+		kit.flatten(spot, 10)
 	var made := {}
 	var saved := []
 	if spot.x < 0:
