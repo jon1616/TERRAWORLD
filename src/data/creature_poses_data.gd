@@ -92,6 +92,10 @@ const POSES := {
 	"volpe_ambra": {"n": 8, "anchor": [18, 27],
 		"poses": {"cammina": [0, 1, 2, 3], "fermo": [4], "carica": [5], "scatto": [6], "colpita": [7]},
 		"fps": {"cammina": 6.0}},
+	# Lucciola di vena (tavola di Nano Banana, tools/installa_creatura.py)
+	"lucciola_vena": {"n": 8, "anchor": [13, 10], "center": true, "glow": true,
+		"poses": {"vola": [0, 1, 2, 3], "sospeso": [0, 3], "planata": [5], "colpita": [6]},
+		"fps": {"vola": 11.0, "sospeso": 10.0}},
 }
 
 

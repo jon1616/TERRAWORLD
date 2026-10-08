@@ -163,5 +163,20 @@
 			"#ffd060"
 		],
 		"polvere": false
+	},
+	"lucciola_vena": {
+		"name_en": "Vein Firefly",
+		"noun": "firefly",
+		"plan": "insetto",
+		"look": "a small plump firefly that drinks from the glowing sap veins in the rock, seen from the side: a short dark-teal head with two thin antennae, a small body with six tiny legs, two small translucent wings on top, and a big round glowing ABDOMEN full of turquoise SAP light, the brightest part of the creature, like a little lamp. Gentle, drifting slowly.",
+		"colors": "dark teal head and body (#145050, #208080), translucent pale aqua wings (#9ef0e0), glowing turquoise abdomen (#50d0c0 with a very bright #d8fff4 core)",
+		"eye": "one small bright pale eye (#e8fff8)",
+		"glow": "the big turquoise abdomen (#50d0c0, #d8fff4)",
+		"accents": [
+			"#d8fff4",
+			"#50d0c0"
+		],
+		"scale": 1.5,
+		"polvere": false
 	}
 }
