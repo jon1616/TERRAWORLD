@@ -42,7 +42,7 @@ func pick_tab(id: String) -> void:
 	tab_id = id
 	sel = ""
 	for i in TABS.size():
-		if String(TABS[i][0]) == id and tab != i:
+		if String(TABS[i][0]) == id and tab_i != i:
 			choose_tab(i)
 	detail_top()
 	mark_dirty()

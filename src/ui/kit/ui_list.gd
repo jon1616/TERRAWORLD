@@ -3,8 +3,9 @@ extends ScrollContainer
 ## L'elenco a sinistra dei pannelli (Roadmap 55): schedine tutte uguali, una per cosa (un pilastro, un mondo, una
 ## creatura…): la striscia del suo colore, l'icona, il nome, una riga sotto, un'etichetta a destra (il grado, «nuovo»,
 ## «sei qui»), una barra di avanzamento. Disegnate da sé (centinaia di righe costano poco), scorrono con la rotella.
-## `set_items([{id, title, sub, badge, badge_col, frac, color, icon, dim}, …])`; `selected` = l'id scelto; un clic
-## manda `chosen(id)`.
+## `set_items([{id, title, sub, badge, badge_col, frac, color, icon, dim, on, header}, …])`; `selected` = l'id scelto;
+## un clic manda `chosen(id)`. «header» = un titoletto tra le righe (non si sceglie); «on» = la riga è accesa anche se
+## non è quella scelta (le scelte multiple: i due Semi del Banco dell'Innestatrice).
 
 signal chosen(id: String)
 
@@ -16,6 +17,8 @@ var selected := ""
 var row_h := ROW
 var _canvas: Control
 var _hover := -1
+var _tops: Array = []                     # dove comincia ogni riga (le righe-titolo sono più basse)
+const HEAD_H := 34.0
 static var _icons := {}
 
 
@@ -39,8 +42,21 @@ func set_items(list: Array, sel := "") -> void:
 			it["icon"] = TipView.icon_of(it["icon"])
 	if sel != "":
 		selected = sel
-	_canvas.custom_minimum_size = Vector2(size.x - 12.0, maxf(items.size() * (row_h + GAP), 1.0))
+	_tops.clear()
+	var y := 0.0
+	for it in items:
+		_tops.append(y)
+		y += (HEAD_H if it.get("header", false) else row_h) + GAP
+	_canvas.custom_minimum_size = Vector2(size.x - 12.0, maxf(y, 1.0))
 	_canvas.queue_redraw()
+
+
+func _row_at(py: float) -> int:
+	for i in range(_tops.size() - 1, -1, -1):
+		if py >= float(_tops[i]):
+			var h := HEAD_H if items[i].get("header", false) else row_h
+			return i if py <= float(_tops[i]) + h else -1
+	return -1
 
 
 func _notification(what: int) -> void:
@@ -51,13 +67,13 @@ func _notification(what: int) -> void:
 
 func _on_input(e: InputEvent) -> void:
 	if e is InputEventMouseMotion:
-		var i := int(e.position.y / (row_h + GAP))
+		var i := _row_at(e.position.y)
 		if i != _hover:
 			_hover = i
 			_canvas.queue_redraw()
 	elif e is InputEventMouseButton and e.pressed and e.button_index == MOUSE_BUTTON_LEFT:
-		var i := int(e.position.y / (row_h + GAP))
-		if i >= 0 and i < items.size():
+		var i := _row_at(e.position.y)
+		if i >= 0 and i < items.size() and not items[i].get("header", false):
 			selected = String(items[i].get("id", ""))
 			_canvas.queue_redraw()
 			chosen.emit(selected)
@@ -86,9 +102,16 @@ func _draw_rows() -> void:
 	var f_sub := UiFonts.get_font("chiaro")
 	for i in items.size():
 		var it: Dictionary = items[i]
-		var y := i * (row_h + GAP)
+		var y: float = _tops[i] if i < _tops.size() else i * (row_h + GAP)
+		if it.get("header", false):
+			var hf := UiFonts.get_font("forte")
+			var ht := String(it.get("title", "")).to_upper()
+			_canvas.draw_string(hf, Vector2(4, y + 22.0), ht, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, it.get("color", UiPalette.TESTO_MUTO))
+			var tx := hf.get_string_size(ht, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x + 16.0
+			_canvas.draw_line(Vector2(tx, y + 17.5), Vector2(w - 4.0, y + 17.5), Color(UiPalette.BORDO_CHIARO, 0.3), 1.0, true)
+			continue
 		var col: Color = it.get("color", UiPalette.BORDO_CHIARO)
-		var sel := String(it.get("id", "")) == selected
+		var sel := String(it.get("id", "")) == selected or bool(it.get("on", false))
 		var dim := bool(it.get("dim", false))
 		var r := Rect2(0, y, w, row_h)
 		var tint := 0.30 if sel else (0.2 if i == _hover else 0.1)

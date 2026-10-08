@@ -6013,7 +6013,12 @@ nel titolo e i comandi in una riga grigia minuscola.
 - [x] **431. Le strade.** Libro dei pilastri, Arti, Atlante.
   Fatto l'8 ott 2026: i tre pannelli sullo scheletro nuovo; i gradi dei pilastri e i gradi delle tecniche come tappe,
   il prossimo passo in evidenza, i numeri chiave nell'intestazione.
-- [ ] **432. Il Giardino.** Albero-Madre, Bacheca, Semenzaio (mondi, Genario, catene, storia), Innesto.
+- [x] **432. Il Giardino.** Albero-Madre, Bacheca, Semenzaio (mondi, Genario, catene, storia), Innesto.
+  Fatto l'8 ott 2026: l'Albero-Madre con gli stadi come tappe, le parole in corsivo, ogni offerta in una scheda (barra,
+  «ne hai», dove cercare, come si fa, le altre strade) e i doni come elenco; la Bacheca a quattro fogli con il medaglione
+  della cosa chiesta, i premi in etichette e il vuoto spiegato; il Semenzaio con le quattro schede, i mondi come
+  schedine (esplorato, «sei qui») e il genoma; il Banco dell'Innestatrice con i titoletti nell'elenco (`UiList`:
+  «header», scelte multiple con «on»), i geni del figlio, la mutazione in evidenza e il costo.
 - [ ] **433. Le creature.** Erbario, Mandria, Compagni.
 - [ ] **434. Le parole.** Quaderno, letture (pagine, racconti, scrigni a parola), Finale, Enciclopedia.
 - [ ] **435. Il lavoro.** Bisaccia, Creare, Esamina, casse, commercio, macchine, la scheda del Germogliato.

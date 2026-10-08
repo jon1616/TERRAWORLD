@@ -1,8 +1,8 @@
 class_name BoardPanel
-extends Control
-## La Bacheca dei Giardinieri aperta (voce 67): quattro richieste come fogli appesi, ognuna con il suo tipo (colore),
-## l'oggetto o la meta, una barra di quanto manca, i premi con le loro icone, «Consegna» (quando è pronta; gli oggetti
-## anche dalle casse vicine) e «Cambia» (un'altra al suo posto).
+extends UiPage
+## La Bacheca dei Giardinieri aperta (voce 67; rifatta nella Roadmap 55 «Il volto chiaro»): quattro richieste come fogli
+## appesi, ognuna con il suo tipo (l'etichetta del colore), la cosa chiesta nel medaglione, come si fa, una barra di quanto
+## manca, i premi con le loro icone, «Consegna» (quando è pronta; gli oggetti anche dalle casse vicine) e «Cambia».
 
 ## Nome e colore di ogni tipo di richiesta.
 const KINDS := {
@@ -20,42 +20,25 @@ const KINDS := {
 const GOAL_ICON := {"firma": "mappa_firma", "viaggio": "provetta", "sigillo": "frammento_albero", "caccia": "lumino",
 	"mandria": "vasetto"}
 
-var m: Node2D
+const BOARD := Color("#d8b070")
+
 var board: Board
-var _cards: Control
-var _title: Label
-var _dirty := true
-var _tex := {}
+var _grid: GridContainer
 
 
 func setup(main: Node2D, b: Board) -> void:
 	m = main
 	board = b
 	visible = false
-	mouse_filter = Control.MOUSE_FILTER_STOP
-	var bg := ColorRect.new()
-	bg.color = UiPalette.FONDO                 # opaco: la fusione è lineare, al 97% il mondo si vedeva ancora
-	bg.size = Vector2(1600, 900)
-	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(bg)
-	_title = Label.new()
-	_title.position = Vector2(120, 40)
-	UiFonts.apply(_title, 3)                  # (Roadmap 55) il titolo in Alegreya
-	_title.add_theme_color_override("font_color", UiPalette.AMBRA)
-	add_child(_title)
-	_cards = Control.new()
-	_cards.position = Vector2(120, 110)
-	add_child(_cards)
-	var hint := Label.new()
-	hint.text = "Esc per chiudere · le richieste nascono da ciò che conosci (geni, famiglie, materiali, poteri): più scopri, più sono varie"
-	hint.position = Vector2(120, 850)
-	hint.add_theme_color_override("font_color", Color("#6a8a84"))
-	add_child(hint)
-
-
-func open() -> void:
-	visible = true
-	_dirty = true
+	build_page("La Bacheca dei Giardinieri", "Le richieste nascono da ciò che conosci (geni, famiglie, materiali, poteri): più scopri, più sono varie.",
+		ArtLib.tex("interfaccia", "pannello_bacheca") if ArtLib.has("interfaccia", "pannello_bacheca") else null, BOARD)
+	set_hints([["Consegna", "quando è pronta: anche dalle casse vicine"], ["Cambia", "un'altra richiesta al suo posto"]])
+	_grid = GridContainer.new()
+	_grid.columns = 2
+	_grid.add_theme_constant_override("h_separation", 24)
+	_grid.add_theme_constant_override("v_separation", 22)
+	_grid.size = body.size
+	body.add_child(_grid)
 
 
 func _unhandled_input(e: InputEvent) -> void:
@@ -64,129 +47,105 @@ func _unhandled_input(e: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 
-func _process(_dt: float) -> void:
-	if visible and _dirty:
-		_dirty = false
-		_refresh()
-
-
-func _icon(id: String) -> TextureRect:
-	if not _tex.has(id):
-		_tex[id] = ImageTexture.create_from_image(ItemIcons.ui(id))
-	var t := TextureRect.new()
-	t.texture = _tex[id]
-	t.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
-	t.stretch_mode = TextureRect.STRETCH_SCALE
-	t.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	return t
-
-
-func _label(text: String, pos: Vector2, size: int, col: Color) -> Label:
-	var l := Label.new()
-	l.text = text
-	l.position = pos
-	l.add_theme_font_size_override("font_size", size)
-	l.add_theme_color_override("font_color", col)
-	return l
-
-
-func _refresh() -> void:
-	_title.text = "La Bacheca dei Giardinieri — richieste fatte: %d" % int(m.character.bacheca.get("fatte", 0))
-	for c in _cards.get_children():
-		c.queue_free()
+func refresh() -> void:
+	set_chips([["%d richieste fatte" % int(m.character.bacheca.get("fatte", 0)), UiPalette.AMBRA]])
+	UiKit.clear(_grid)
 	var list: Array = board.open_list()
 	for i in list.size():
-		_card(i, list[i])
+		_grid.add_child(_card(i, list[i]))
+	if list.is_empty():
+		_grid.columns = 1
+		var e := UiKit.empty(ArtLib.tex("interfaccia", "pannello_bacheca") if ArtLib.has("interfaccia", "pannello_bacheca") else null,
+			"Nessuna richiesta appesa", "La Bacheca si riempie nel Giardino: quattro richieste alla volta, fatte con ciò che conosci.",
+			[["lumino", "I premi: Lumini, materiali, e a volte un Seme di mondo con un gene raro."]], 560.0)
+		e.custom_minimum_size = Vector2(body.size.x, body.size.y - 40.0)
+		_grid.add_child(e)
+	else:
+		_grid.columns = 2
 
 
-func _card(i: int, r: Dictionary) -> void:
+func _card(i: int, r: Dictionary) -> Control:
 	var tipo := String(r["tipo"])
-	var kind: Array = KINDS.get(tipo, ["Richiesta", Color("#d8b070")])
+	var kind: Array = KINDS.get(tipo, ["Richiesta", BOARD])
 	var col: Color = kind[1]
 	var ok_now := board.can_deliver(r)
-	var card := Panel.new()
-	# (voce 280) la cornice del tema tinta del tipo; quella che si può consegnare adesso è «forte» e d'ambra
+	var w := (body.size.x - 24.0) * 0.5
+	var card := PanelContainer.new()
+	# (voce 280) la cornice tinta del tipo; quella che si può consegnare adesso è «forte» e d'ambra
 	card.add_theme_stylebox_override("panel", UiFrames.box("forte", "normale", UiPalette.AMBRA_CHIARA) if ok_now
 		else UiFrames.box("riquadro", "normale", Color(col, 0.8)))
-	card.position = Vector2((i % 2) * 690, (i / 2) * 330)
-	card.size = Vector2(660, 300)
-	_cards.add_child(card)
-	# il tipo, l'icona grande della cosa chiesta e il testo
-	card.add_child(_label(String(kind[0]).to_upper(), Vector2(28, 14), 13, col))
+	card.custom_minimum_size = Vector2(w, (body.size.y - 22.0) * 0.5)
+	var vb := VBoxContainer.new()
+	vb.add_theme_constant_override("separation", 10)
+	card.add_child(vb)
+	var top := UiKit.row(8)
+	top.add_child(UiKit.chip(String(kind[0]), col))
+	if ok_now:
+		top.add_child(UiKit.chip("pronta", UiPalette.BUONO))
+	vb.add_child(top)
+	var row := UiKit.row(16)
 	var what := String(r.get("cosa", "")) if tipo in ["fornitura", "gene", "prodotto", "cielo"] else String(GOAL_ICON.get(tipo, "lumino"))
-	var ic := _icon(what)
-	ic.position = Vector2(28, 44)
-	ic.size = Vector2(64, 64)
-	card.add_child(ic)
-	var body := Label.new()
-	body.text = String(r["testo"])
-	body.position = Vector2(110, 40)
-	body.size = Vector2(520, 50)
-	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	body.add_theme_font_size_override("font_size", 20)
-	body.add_theme_color_override("font_color", Color("#ffe8c0"))
-	card.add_child(body)
+	var md := UiMedal.new()
+	md.ring = col
+	md.glow = false
+	md.icon = TipView.icon_of(what)
+	md.custom_minimum_size = Vector2(72, 72)
+	row.add_child(md)
+	var tv := VBoxContainer.new()
+	tv.add_theme_constant_override("separation", 4)
+	tv.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	tv.add_child(UiKit.para(String(r["testo"]), w - 130.0, 20, UiPalette.TESTO, "forte"))
 	# (voce 351) dove si trova o come si fa: il giocatore deve sapere sempre come compiere una richiesta
 	var how := HowTo.board_text(r)
 	if how != "":
-		var hl := Label.new()
-		hl.text = how
-		hl.position = Vector2(110, 90)
-		hl.size = Vector2(520, 36)
-		hl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		hl.max_lines_visible = 2
+		var hl := UiKit.para(how, w - 130.0, UiPalette.TESTO_PX - 1, UiPalette.TESTO_SPENTO)
+		hl.max_lines_visible = 3
 		hl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		hl.add_theme_font_size_override("font_size", 15)
-		hl.add_theme_color_override("font_color", Color("#9fc8c0"))
-		hl.mouse_filter = Control.MOUSE_FILTER_PASS
-		hl.tooltip_text = how
-		card.add_child(hl)
-	# la barra di quanto manca
+		tv.add_child(hl)
+	row.add_child(tv)
+	vb.add_child(row)
 	var p := board.progress(r)
 	var frac := clampf(float(p[0]) / maxf(float(p[1]), 1.0), 0.0, 1.0)
-	var bar_bg := ColorRect.new()
-	bar_bg.color = col.darkened(0.72)
-	bar_bg.position = Vector2(28, 130)
-	bar_bg.size = Vector2(500, 14)
-	card.add_child(bar_bg)
-	var bar := ColorRect.new()
-	bar.color = Color("#9ff0b8") if ok_now else col
-	bar.position = bar_bg.position
-	bar.size = Vector2(500 * frac, 14)
-	card.add_child(bar)
-	card.add_child(_label("%d / %d" % [int(p[0]), int(p[1])], Vector2(544, 124), 17,
-		Color("#9ff0b8") if ok_now else Color("#e0c8a0")))
-	# i premi, ognuno con la sua icona
-	card.add_child(_label("Premio", Vector2(28, 166), 14, Color("#9fc8c0")))
-	var x := 28.0
+	var pr := UiKit.row(12)
+	var bar := UiKit.bar(frac, UiPalette.BUONO if ok_now else col, w - 140.0, 9.0)
+	bar.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	pr.add_child(bar)
+	pr.add_child(UiKit.label("%d / %d" % [int(p[0]), int(p[1])], UiPalette.GRANDE, UiPalette.BUONO if ok_now else UiPalette.AMBRA_CHIARA, "numeri"))
+	vb.add_child(pr)
+	var gifts := HFlowContainer.new()
+	gifts.add_theme_constant_override("h_separation", 8)
+	gifts.add_theme_constant_override("v_separation", 6)
+	gifts.add_child(UiKit.caps("Premio"))
 	for k in r["premio"]:
 		var id := "seme_mondo" if k == "seme" else String(k)
 		if not ItemsData.get_item(id).has("name"):
 			id = "lumino"
-		var pic := _icon(id)
-		pic.position = Vector2(x, 192)
-		pic.size = Vector2(32, 32)
-		card.add_child(pic)
 		var txt := "Seme con un gene raro" if k == "seme" else "%d %s" % [int(r["premio"][k]), ItemsData.get_item(id)["name"]]
-		var l := _label(txt, Vector2(x + 38, 196), 15, Color("#d8f0e8"))
-		card.add_child(l)
-		x += 38 + l.get_minimum_size().x + 24
+		gifts.add_child(UiKit.chip(txt, Color(0, 0, 0, 0), TipView.icon_of(id), UiPalette.NOTA + 1))
+	vb.add_child(gifts)
+	var sp := Control.new()
+	sp.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	vb.add_child(sp)
+	var btns := UiKit.row(12)
 	var ok := Button.new()
 	ok.text = "Consegna"
-	ok.position = Vector2(28, 246)
-	ok.size = Vector2(180, 40)
+	ok.custom_minimum_size = Vector2(180, 40)
 	ok.disabled = not ok_now
+	ok.focus_mode = Control.FOCUS_NONE
+	UiFrames.button(ok, Color(0, 0, 0, 0), false, "principale")
 	ok.pressed.connect(func() -> void:
 		if board.deliver(i):
 			m.hud.toast("Richiesta fatta: il premio è nella Bisaccia")
-		_dirty = true)
-	card.add_child(ok)
+		mark_dirty())
+	btns.add_child(ok)
 	var sw := Button.new()
 	sw.text = "Cambia"
-	sw.position = Vector2(226, 246)
-	sw.size = Vector2(140, 40)
-	sw.tooltip_text = "Toglie questa richiesta e ne appende un'altra"
+	sw.custom_minimum_size = Vector2(140, 40)
+	sw.focus_mode = Control.FOCUS_NONE
+	Tips.attach(sw, func() -> Variant: return TipCard.simple("Toglie questa richiesta e ne appende un'altra"))
 	sw.pressed.connect(func() -> void:
 		board.swap(i)
-		_dirty = true)
-	card.add_child(sw)
+		mark_dirty())
+	btns.add_child(sw)
+	vb.add_child(btns)
+	return card

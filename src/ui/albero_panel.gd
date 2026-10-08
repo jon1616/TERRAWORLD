@@ -1,83 +1,71 @@
 class_name AlberoPanel
-extends Control
-## Il pannello dell'Albero-Madre (voce 63; si apre con il clic destro sull'Albero nel Giardino): a sinistra gli stadi
-## (fatti, quello di adesso, quelli che verranno), a destra lo stadio di adesso con le parole dell'Albero, le offerte con
-## quanto manca e dove cercarle, i doni che darà, e i bottoni «Offri» (porta tutto ciò che hai, anche dalle casse
-## vicine) e «Risveglia» (quando c'è tutto).
+extends UiPage
+## Il pannello dell'Albero-Madre (voce 63; si apre con il clic destro sull'Albero nel Giardino). Rifatto nella Roadmap
+## 55 «Il volto chiaro»: a sinistra gli stadi dell'atto come strada a tappe; a destra lo stadio di adesso: le parole
+## dell'Albero, le offerte come schede (icona, quanto ne hai portato, la barra, dove cercarle, come si fa, le altre strade),
+## i doni che darà; sotto i bottoni «Offri ciò che hai» (anche dalle casse vicine) e «Risveglia l'Albero».
 
-var m: Node2D
+const TREE := Color("#8ef0d8")
+const STAGES_W := 380.0
+
 var am: AlberoMadre
-var _stages: VBoxContainer
-var _body: RichTextLabel
+var _stages: UiTimeline
+var _stages_scroll: ScrollContainer
 var _offer: Button
 var _wake: Button
-var _title: Label
-var _dirty := true
+var _body: UiDetail
+var _scroll: ScrollContainer
 
 
 func setup(main: Node2D, a: AlberoMadre) -> void:
 	m = main
 	am = a
 	visible = false
-	mouse_filter = Control.MOUSE_FILTER_STOP
-	var bg := ColorRect.new()
-	bg.color = UiPalette.FONDO                 # opaco: la fusione è lineare, al 97% il mondo si vedeva ancora
-	bg.size = Vector2(1600, 900)
-	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(bg)
-	# (voce 281) i riquadri delle colonne
-	UiScreen.box(self, Rect2(104, 90, 432, 710))
-	UiScreen.box(self, Rect2(544, 90, 952, 710))
-	_title = Label.new()
-	_title.position = Vector2(120, 40)
-	UiFonts.apply(_title, 3)                  # (Roadmap 55) il titolo in Alegreya
-	_title.add_theme_color_override("font_color", UiPalette.AMBRA)
-	add_child(_title)
-	_stages = VBoxContainer.new()
-	_stages.position = Vector2(120, 100)
-	_stages.add_theme_constant_override("separation", 4)
-	add_child(_stages)
-	_body = RichTextLabel.new()
-	_body.bbcode_enabled = true
-	_body.position = Vector2(560, 100)
-	_body.size = Vector2(920, 620)
-	_body.add_theme_font_size_override("normal_font_size", 19)
-	_body.meta_clicked.connect(func(meta: Variant) -> void:
-		visible = false                           # (voce 351) l'Enciclopedia si apre sopra il Giardino
-		HowTo.open_link(m, meta))
-	add_child(_body)
+	build_page("L'Albero-Madre", "", ItemIcons.make_ui("seme", "sem"), TREE)
+	set_hints([["Clic destro", "sull'Albero: apri"], ["Offri", "porta tutto ciò che hai, anche dalle casse vicine"]])
+	var r := body_rect()
+	_stages_scroll = ScrollContainer.new()
+	_stages_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_stages_scroll.size = Vector2(STAGES_W, r.size.y)
+	body.add_child(_stages_scroll)
+	_stages = UiTimeline.new()
+	_stages.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_stages_scroll.add_child(_stages)
+	_scroll = ScrollContainer.new()
+	_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_scroll.position = Vector2(STAGES_W + 40.0, 0)
+	_scroll.size = Vector2(r.size.x - STAGES_W - 40.0, r.size.y - 64.0)
+	body.add_child(_scroll)
+	var pad := MarginContainer.new()
+	pad.add_theme_constant_override("margin_right", 22)
+	pad.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_scroll.add_child(pad)
+	_body = UiDetail.new()
+	pad.add_child(_body)
+	var bar := UiKit.row(14)
+	bar.position = Vector2(STAGES_W + 40.0, r.size.y - 48.0)
+	bar.size = Vector2(r.size.x - STAGES_W - 40.0, 46)
+	body.add_child(bar)
 	_offer = Button.new()
 	_offer.text = "Offri ciò che hai"
-	_offer.position = Vector2(560, 740)
-	_offer.size = Vector2(240, 44)
+	_offer.custom_minimum_size = Vector2(240, 44)
 	_offer.focus_mode = Control.FOCUS_NONE
-	ErbarioPanel._frame(_offer, Color("#2f7a70"))
+	UiFrames.button(_offer, TREE)
 	_offer.pressed.connect(func() -> void:
 		var n := am.offer()
 		m.hud.toast("Hai offerto %d oggetti all'Albero-Madre" % n if n > 0 else "Non hai niente di ciò che chiede adesso")
-		_dirty = true)
-	add_child(_offer)
+		mark_dirty())
+	bar.add_child(_offer)
 	_wake = Button.new()
 	_wake.text = "Risveglia l'Albero"
-	_wake.position = Vector2(820, 740)
-	_wake.size = Vector2(240, 44)
+	_wake.custom_minimum_size = Vector2(240, 44)
 	_wake.focus_mode = Control.FOCUS_NONE
-	ErbarioPanel._frame(_wake, Color("#ffb84a"))
+	UiFrames.button(_wake, Color(0, 0, 0, 0), false, "principale")
 	_wake.pressed.connect(func() -> void:
 		if am.awaken():
 			visible = false
-		_dirty = true)
-	add_child(_wake)
-	var hint := Label.new()
-	hint.text = "Esc per chiudere · le offerte si portano anche a più riprese · la riga in alto a sinistra ricorda sempre che cosa chiede l'Albero"
-	hint.position = Vector2(120, 850)
-	hint.add_theme_color_override("font_color", Color("#6a8a84"))
-	add_child(hint)
-
-
-func open() -> void:
-	visible = true
-	_dirty = true
+		mark_dirty())
+	bar.add_child(_wake)
 
 
 func _unhandled_input(e: InputEvent) -> void:
@@ -86,61 +74,112 @@ func _unhandled_input(e: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 
-func _process(_dt: float) -> void:
-	if visible and _dirty:
-		_dirty = false
-		_refresh()
+## Un testo con i collegamenti all'Enciclopedia (voce 351): un clic chiude il pannello e apre la pagina.
+func _linked(bb: String, w: float) -> RichTextLabel:
+	var rt := UiKit.rich(bb, w)
+	rt.mouse_filter = Control.MOUSE_FILTER_PASS
+	rt.meta_clicked.connect(func(meta: Variant) -> void:
+		visible = false
+		HowTo.open_link(m, meta))
+	return rt
 
 
-func _refresh() -> void:
+func refresh() -> void:
 	var s := am.stage()
 	var n := MotherTreeData.STAGES.size()
 	var act := MotherTreeData.act_of(mini(s, n - 1))
-	_title.text = "L'Albero-Madre — Atto %s «%s» — stadio %d su %d" % [["I", "II", "III"][act], MotherTreeData.ACTS[act]["name"], s, n]
-	for c in _stages.get_children():
-		c.queue_free()
+	page_sub.text = "Atto %s «%s» · stadio %d di %d" % [["I", "II", "III"][act], MotherTreeData.ACTS[act]["name"], mini(s + 1, n), n]
+	set_chips([["Atto %s" % ["I", "II", "III"][act], UiPalette.AMBRA], ["%d stadi compiuti" % s, TREE]])
+	var steps := []
 	for i in n:
 		if MotherTreeData.act_of(i) != act:
 			continue                                  # Roadmap 21: si vedono gli stadi dell'atto di adesso
-		var l := Label.new()
-		var st: Dictionary = MotherTreeData.STAGES[i]
-		l.text = ("✓ " if i < s else ("▶ " if i == s else "   ")) + String(st["name"])
-		l.add_theme_font_size_override("font_size", 20 if i == s else 16)
-		l.add_theme_color_override("font_color", Color("#8ef0d8") if i < s else (Color("#ffb84a") if i == s else Color("#4a6a64")))
-		_stages.add_child(l)
+		var st0: Dictionary = MotherTreeData.STAGES[i]
+		steps.append({"num": i + 1, "title": String(st0["name"]), "state": "fatto" if i < s else ("ora" if i == s else "poi")})
+	_stages.set_steps(steps, TREE, STAGES_W - 30.0)
+	var w := _scroll.size.x - 40.0
+	_body.reset(TREE, w)
 	if am.done():
-		_body.text = "[font_size=24][color=#ffd08a]L'Albero-Madre è sveglio.[/color][/font_size]\n\n[color=#cfeee4]Ti guarda con occhi d'ambra. Il Giardino respira con lui, e ogni Seme che lascia cadere porta un mondo un po' più vivo.[/color]"
+		_body.head("L'Albero-Madre è sveglio", "", ItemIcons.make_ui("seme", "sem"))
+		_body.text("", "[i]Ti guarda con occhi d'ambra. Il Giardino respira con lui, e ogni Seme che lascia cadere porta un mondo un po' più vivo.[/i]")
 		_offer.visible = false
 		_wake.visible = false
 		return
 	var st: Dictionary = am.current()
-	var t := "[font_size=24][color=#ffd08a]%s[/color][/font_size]\n[i][color=#cfeee4]«%s»[/color][/i]\n\n" % [st["name"], st["say"]]
-	t += "[color=#8ef0d8]Chiede:[/color]\n"
+	_body.head(String(st["name"]), "", ItemIcons.make_ui("seme", "sem"), str(s + 1), "stadio")
+	var q := UiKit.label("«%s»" % st["say"], UiPalette.GRANDE, Color("#d8eee4"), "racconto")
+	q.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	q.custom_minimum_size = Vector2(w, 0)
+	_body.add_child(q)
+	if not m.giardino.active:
+		_body.callout("Lontano dall'Albero", "Le offerte si portano all'Albero, nel Giardino.", UiPalette.AMBRA)
+	var asks := _body.section("Chiede")
 	var offers: Array = st["offers"]
 	for i in offers.size():
-		var o: Dictionary = am.offer_of(i)
-		var p := am.progress(i)
-		var ok := int(p[0]) >= int(p[1])
-		var what := String(o["text"]) if o.has("text") else String(ItemsData.get_item(String(o["item"]))["name"])
-		var extra := ""
-		if o.has("item") and not ok:
-			var have := Crafting.have(m.character.bisaccia, String(o["item"]))
-			extra = "  [color=#9ff0b8](ne hai %d)[/color]" % have if have > 0 else ""
-		t += "  %s [color=%s]%s  %d/%d[/color]%s\n" % ["✓" if ok else "•", "#9ff0b8" if ok else "#ffffff", what, int(p[0]), int(p[1]), extra]
-		if not ok:
-			t += "     [color=#6a8a84]%s[/color]\n" % o["hint"]
-			t += HowTo.offer_text(m, o)                      # (voce 351) che cos'è, come si fa, che cosa aiuta
-		if (offers[i] as Dictionary).has("any"):               # voce 217: le altre strade
-			for j in (offers[i]["any"] as Array).size():
-				if j == am.alt(i):
-					continue
-				var oa: Dictionary = offers[i]["any"][j]
-				var wa := String(oa["text"]) if oa.has("text") else String(ItemsData.get_item(String(oa["item"]))["name"])
-				var pa := am._progress_of(i, j)
-				t += "     [color=#b8a0d8]oppure[/color] [color=#cfeee4]%s  %d/%d[/color]\n" % [wa, int(pa[0]), int(pa[1])]
-				if not ok and int(pa[0]) < int(pa[1]):
-					t += HowTo.offer_text(m, oa, "         ")      # (voce 351) anche la strada alternativa si spiega
-	var gv: Dictionary = st["gives"]
+		asks.add_child(_offer_card(i, offers[i], w))
+	var gifts := _gifts(st["gives"])
+	var rows := []
+	for g in gifts:
+		rows.append(["fatto", g])
+	_body.checklist("Quando si risveglia, dona", rows)
+	_offer.visible = true
+	_wake.visible = true
+	_wake.disabled = not am.ready_to_wake()
+	_offer.disabled = not m.giardino.active
+
+
+## Una scheda per offerta: icona, nome, quanto ne hai portato, la barra, dove cercare, come si fa, le altre strade.
+func _offer_card(i: int, raw: Dictionary, w: float) -> Control:
+	var o: Dictionary = am.offer_of(i)
+	var p := am.progress(i)
+	var ok := int(p[0]) >= int(p[1])
+	var pc := PanelContainer.new()
+	pc.add_theme_stylebox_override("panel", UiFrames.box("sezione", "normale", Color(UiPalette.BUONO if ok else TREE, 0.35)))
+	pc.custom_minimum_size = Vector2(w, 0)
+	var vb := VBoxContainer.new()
+	vb.add_theme_constant_override("separation", 6)
+	pc.add_child(vb)
+	var top := UiKit.row(10)
+	if o.has("item"):
+		top.add_child(UiKit.icon_rect(String(o["item"]), 34))
+	var what := String(o["text"]) if o.has("text") else String(ItemsData.get_item(String(o["item"]))["name"])
+	var nm := UiKit.label(what, UiPalette.GRANDE, UiPalette.TESTO, "forte")
+	nm.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	nm.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	top.add_child(nm)
+	if o.has("item") and not ok:
+		var have := Crafting.have(m.character.bisaccia, String(o["item"]))
+		if have > 0:
+			top.add_child(UiKit.chip("ne hai %d" % have, UiPalette.BUONO))
+	var cnt := UiKit.label("%d / %d" % [int(p[0]), int(p[1])], UiPalette.GRANDE, UiPalette.BUONO if ok else UiPalette.AMBRA_CHIARA, "numeri")
+	cnt.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	top.add_child(cnt)
+	vb.add_child(top)
+	vb.add_child(UiKit.bar(float(p[0]) / maxf(float(p[1]), 1.0), UiPalette.BUONO if ok else TREE, w - 30.0, 7.0))
+	if not ok:
+		vb.add_child(UiKit.para(String(o["hint"]), w - 30.0, UiPalette.TESTO_PX - 1, UiPalette.TESTO_SPENTO))
+		var how := HowTo.offer_text(m, o).strip_edges()        # (voce 351) che cos'è, come si fa, che cosa aiuta
+		if how != "":
+			vb.add_child(_linked(how, w - 30.0))
+	if raw.has("any"):                                         # voce 217: le altre strade
+		for j in (raw["any"] as Array).size():
+			if j == am.alt(i):
+				continue
+			var oa: Dictionary = raw["any"][j]
+			var wa := String(oa["text"]) if oa.has("text") else String(ItemsData.get_item(String(oa["item"]))["name"])
+			var pa := am._progress_of(i, j)
+			var alt := UiKit.row(8)
+			alt.add_child(UiKit.chip("oppure", Color("#b8a0d8")))
+			alt.add_child(UiKit.label("%s  %d/%d" % [wa, int(pa[0]), int(pa[1])], UiPalette.TESTO_PX, UiPalette.TESTO, "chiaro"))
+			vb.add_child(alt)
+			if not ok and int(pa[0]) < int(pa[1]):
+				var how2 := HowTo.offer_text(m, oa, "").strip_edges()
+				if how2 != "":
+					vb.add_child(_linked(how2, w - 30.0))
+	return pc
+
+
+func _gifts(gv: Dictionary) -> Array:
 	var gifts := []
 	if gv.has("aiuola"):
 		gifts.append("un'Aiuola in più nel Giardino")
@@ -161,13 +200,4 @@ func _refresh() -> void:
 		gifts.append("il corredo della rete: %s" % ", ".join(names))
 	if gv.has("phase"):
 		gifts.append("l'Albero cresce")
-	t += "\n[color=#8ef0d8]Dona:[/color]\n"
-	for g in gifts:
-		t += "  • [color=#cfeee4]%s[/color]\n" % g
-	_body.text = t
-	_offer.visible = true
-	_wake.visible = true
-	_wake.disabled = not am.ready_to_wake()
-	_offer.disabled = not m.giardino.active
-	if not m.giardino.active:
-		_body.text += "\n[color=#ffb84a]Le offerte si portano all'Albero, nel Giardino.[/color]"
+	return gifts

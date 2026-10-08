@@ -1,165 +1,132 @@
 class_name SemenzaioPanel
-extends Control
-## Il Semenzaio (tasto K, voce 45): i mondi della rete del Giardino. A sinistra l'elenco (il Giardino per primo, poi i
-## mondi per vigore; ★ = dove sei), a destra la scheda del mondo scelto: genoma (i geni mai visti come «?»), firma,
-## Cuore e Guardiano, quanto è esplorato. Dal Giardino un mondo nato da un'Aiuola si può chiudere (`Aiuole.close`).
-## Seconda scheda (voce 46): il Genario, i geni conosciuti.
+extends UiPage
+## Il Semenzaio (tasto K, voce 45; rifatto nella Roadmap 55 «Il volto chiaro»): i mondi della rete del Giardino. A
+## sinistra l'elenco (il Giardino per primo, poi i mondi per vigore; «sei qui» = dove sei), a destra la scheda del mondo
+## scelto: genoma (i geni mai visti come «?»), firma, Cuore e Guardiano, quanto è esplorato. Dal Giardino un mondo nato da
+## un'Aiuola si può chiudere (`Aiuole.close`). Le altre schede: il Genario (voce 46), le Catene (voce 69), la Storia
+## (voce 83); il loro contenuto lo danno i moduli (`genario_view`, `chains_view`, `diary_view`).
 
-const ROW_H := 44
+const TABS := [["mondi", "Mondi"], ["genario", "Genario"], ["catene", "Catene"], ["storia", "Storia"]]
+const SEED := Color("#8ef0c0")
 
-var m: Node2D
 var tab := "mondi"
 var selected := ""
 var _title: Label
-var _list: VBoxContainer
-var _detail: RichTextLabel
 var _close: Button
-var _tabs: Array[Button] = []
+var _export: Button
 var _worlds: Array[Dictionary] = []
-## Il contenuto della scheda del Genario, se c'è (voce 46): () -> [righe dell'elenco, testo a destra].
+## Il contenuto della scheda del Genario, se c'è (voce 46): () -> [titolo, righe dell'elenco, testo a destra].
 var genario_view: Callable
 var chains_view: Callable                  # voce 69: il Taccuino delle catene
 var diary_view: Callable                   # voce 83: il diario della partita («Storia»)
 var diary_export: Callable                 # () -> percorso del file scritto
-var _export: Button
+var _note := ""
 
 
 func setup(main: Node2D) -> void:
 	m = main
+	key_action = "semenzaio"
 	visible = false
-	mouse_filter = Control.MOUSE_FILTER_STOP
-	var bg := ColorRect.new()
-	bg.color = UiPalette.FONDO                 # opaco: la fusione è lineare, al 97% il mondo si vedeva ancora
-	bg.size = Vector2(1600, 900)
-	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(bg)
-	# (voce 281) i riquadri delle colonne
-	UiScreen.box(self, Rect2(104, 138, 652, 706))
-	UiScreen.box(self, Rect2(764, 138, 732, 706))
-	_title = Label.new()
-	_title.position = Vector2(120, 40)
-	UiFonts.apply(_title, 3)                  # (Roadmap 55) il titolo in Alegreya
-	_title.add_theme_color_override("font_color", UiPalette.AMBRA)
-	add_child(_title)
-	var x := 120.0
-	for t in [["mondi", "Mondi"], ["genario", "Genario"], ["catene", "Catene"], ["storia", "Storia"]]:
-		var b := Button.new()
-		b.text = t[1]
-		b.position = Vector2(x, 96)
-		b.size = Vector2(170, 34)
-		var id: String = t[0]
-		b.pressed.connect(func() -> void:
-			tab = id
-			selected = ""
-			refresh())
-		add_child(b)
-		_tabs.append(b)
-		x += 180.0
-	var scroll := ScrollContainer.new()
-	scroll.position = Vector2(120, 150)
-	scroll.size = Vector2(620, 680)
-	add_child(scroll)
-	_list = VBoxContainer.new()
-	_list.custom_minimum_size = Vector2(600, 0)
-	_list.add_theme_constant_override("separation", 6)
-	scroll.add_child(_list)
-	_detail = RichTextLabel.new()
-	_detail.bbcode_enabled = true
-	_detail.position = Vector2(780, 150)
-	_detail.size = Vector2(700, 620)
-	_detail.add_theme_font_size_override("normal_font_size", 18)
-	add_child(_detail)
+	build_page("Il Semenzaio", "", ArtLib.tex("interfaccia", "pannello_semenzaio") if ArtLib.has("interfaccia", "pannello_semenzaio") else null, SEED)
+	_title = page_title
+	set_tabs(TABS.map(func(t: Array) -> String: return String(t[1])), 0)
+	tab_changed.connect(func(i: int) -> void:
+		tab = String(TABS[i][0])
+		selected = ""
+		refresh())
+	set_hints([[Keys.label("semenzaio"), "apri e chiudi"], ["Clic", "leggi la scheda"]])
+	split(440.0)
+	_detail_scroll.size.y -= 56.0
+	list.chosen.connect(func(id: String) -> void:
+		selected = id
+		detail_top()
+		refresh())
+	var bar := UiKit.row(14)
+	bar.position = Vector2(_detail_scroll.position.x, body.size.y - 44.0)
+	body.add_child(bar)
 	_close = Button.new()
 	_close.text = "Chiudi questo mondo (torna Aiuola, ti resta il Seme dormiente)"
-	_close.position = Vector2(780, 790)
-	_close.size = Vector2(520, 38)
-	ErbarioPanel._frame(_close, Color("#ff9a7a"))
+	_close.custom_minimum_size = Vector2(0, 40)
+	_close.focus_mode = Control.FOCUS_NONE
+	UiFrames.button(_close, UiPalette.PERICOLO)
 	_close.pressed.connect(_close_selected)
-	add_child(_close)
+	bar.add_child(_close)
 	_export = Button.new()
 	_export.text = "Esporta il diario in un file di testo"
-	_export.position = Vector2(780, 790)
-	_export.size = Vector2(420, 38)
-	ErbarioPanel._frame(_export, Color("#8ef0d8"))
+	_export.custom_minimum_size = Vector2(0, 40)
+	_export.focus_mode = Control.FOCUS_NONE
+	UiFrames.button(_export, SEED)
 	_export.pressed.connect(func() -> void:
 		if diary_export.is_valid():
 			var p := String(diary_export.call())
-			_detail.text = ("[color=#9fe070]Diario scritto in:[/color]\n%s\n\n" % p if p != "" else "[color=#ff8a78]Non si è potuto scrivere il file.[/color]\n\n") + _detail.text)
-	add_child(_export)
-	var hint := Label.new()
-	hint.text = "K o Esc per chiudere · clic su un mondo per leggerne la scheda"
-	hint.position = Vector2(120, 850)
-	hint.add_theme_color_override("font_color", Color("#6a8a84"))
-	add_child(hint)
+			_note = ("[color=#9fe070]Diario scritto in:[/color] %s" % p) if p != "" else "[color=#ff8a78]Non si è potuto scrivere il file.[/color]"
+			refresh())
+	bar.add_child(_export)
 
 
 func toggle() -> void:
-	visible = not visible
 	if visible:
+		close()
+	else:
+		open()
 		refresh()
 
 
-func _unhandled_input(e: InputEvent) -> void:
-	if e is InputEventKey and e.pressed and not e.echo:
-		if Keys.pressed(e, "semenzaio") and not m.hud.panel.visible:
-			toggle()
-			get_viewport().set_input_as_handled()
-		elif e.keycode == KEY_ESCAPE and visible:
-			toggle()
-			get_viewport().set_input_as_handled()
-
-
 func refresh() -> void:
-	for k in _tabs.size():
-		ErbarioPanel._frame(_tabs[k], Color("#ffb84a") if ["mondi", "genario", "catene", "storia"][k] == tab else Color("#2f7a70"))
-	for c in _list.get_children():
-		c.queue_free()
+	for i in TABS.size():
+		if String(TABS[i][0]) == tab:
+			select_tab(i)
 	_close.visible = false
 	_export.visible = tab == "storia"
+	var ai: Aiuole = m.aiuole
+	_worlds = ai.network()
+	var home_name := String(_worlds[0].get("nome", "")) if not _worlds.is_empty() else ""
+	var aiu := ai.count() if ai.is_home() else int(_worlds[0].get("aiuole", 0)) if not _worlds.is_empty() else 0
+	set_chips([["%d mondi" % _worlds.size(), SEED], ["Aiuole %d su %d" % [aiu, ai.max_aiuole()], UiPalette.AMBRA],
+		["%d geni conosciuti" % m.character.genario.size()]])
+	page_sub.text = "Il Giardino «%s»: i mondi nati dai Semi, i geni che conosci, le catene dei Seminatori, la storia della partita." % home_name
 	var views := {"genario": genario_view, "catene": chains_view, "storia": diary_view}
 	if views.has(tab) and (views[tab] as Callable).is_valid():
 		var view: Array = (views[tab] as Callable).call(selected)
-		_title.text = String(view[0])
+		var items := []
 		for row in view[1]:
-			_row(String(row[0]), String(row[1]), Color(String(row[2])))
-		_detail.text = String(view[2])
+			items.append({"id": String(row[0]), "title": _plain(String(row[1])), "color": Color(String(row[2]))})
+		list.row_h = 50.0
+		list.set_items(items, selected)
+		detail.reset(SEED, detail_w())
+		if _note != "" and tab == "storia":
+			detail.callout("Il diario", _note, SEED)
+		var txt := String(view[2])
+		if txt.strip_edges() == "":
+			detail.empty(null, String(view[0]), "Scegli una voce a sinistra.")
+		else:
+			detail.bbcode(txt)
 		return
-	if tab == "genario":
-		_title.text = "Genario"
-		_detail.text = "[color=#6a8a84]Arriverà presto.[/color]"
-		return
-	var ai: Aiuole = m.aiuole
-	_worlds = ai.network()
-	var home: String = ai.home_id()
-	var home_name := String(_worlds[0].get("nome", "")) if not _worlds.is_empty() else ""
-	_title.text = "Semenzaio — il Giardino «%s» · %d mondi · Aiuole %d su %d" % [home_name, _worlds.size(),
-		ai.count() if ai.is_home() else int(_worlds[0].get("aiuole", 0)), ai.max_aiuole()]
+	_note = ""
 	if selected == "" and not _worlds.is_empty():
 		selected = m.world_id
+	var home: String = ai.home_id()
+	var items := []
 	for w in _worlds:
 		var id := String(w["id"])
-		var star := "★ " if id == m.world_id else ""
 		var f: Dictionary = w.get("firma", {})
 		var sgc := Secrets.counts_of(w)
-		var text := "%s%s   ·   %s%s%s" % [star, w.get("nome", id), "il Giardino" if id == home else "vigore %d" % int(w.get("vigore", 1)),
-			"   ·   firma trovata" if bool(f.get("trovata", false)) else "",
-			("   ·   segreti %d/%d" % [sgc[0], sgc[1]]) if int(sgc[1]) > 0 else ""]
-		_row(id, text, Color("#ffd08a") if id == selected else Color("#cfeee4"))
+		var sub := "il Giardino" if id == home else "vigore %d" % int(w.get("vigore", 1))
+		if bool(f.get("trovata", false)):
+			sub += " · firma trovata"
+		if int(sgc[1]) > 0:
+			sub += " · segreti %d/%d" % [sgc[0], sgc[1]]
+		items.append({"id": id, "title": String(w.get("nome", id)), "sub": sub, "badge": "sei qui" if id == m.world_id else "",
+			"badge_col": UiPalette.AMBRA, "color": SEED if id == home else Color("#8ad0ff"),
+			"frac": float(w.get("esplorato", 0)) / 100.0})
+	list.row_h = 72.0
+	list.set_items(items, selected)
 	_show_world()
 
 
-func _row(id: String, text: String, col: Color) -> void:
-	var b := Button.new()
-	b.text = text
-	b.alignment = HORIZONTAL_ALIGNMENT_LEFT
-	b.custom_minimum_size = Vector2(600, ROW_H)
-	b.add_theme_color_override("font_color", col)
-	b.add_theme_font_size_override("font_size", 18)
-	ErbarioPanel._frame(b, Color("#ffb84a") if id == selected else Color("#2f7a70"))
-	b.pressed.connect(func() -> void:
-		selected = id
-		refresh())
-	_list.add_child(b)
+static func _plain(s: String) -> String:
+	var re := RegEx.create_from_string("\\[[^\\]]*\\]")
+	return re.sub(s, "", true)
 
 
 func _show_world() -> void:
@@ -167,33 +134,35 @@ func _show_world() -> void:
 	for x in _worlds:
 		if String(x["id"]) == selected:
 			w = x
+	detail.reset(SEED, detail_w())
 	if w.is_empty():
-		_detail.text = "[color=#6a8a84]Scegli un mondo.[/color]"
+		detail.empty(null, "Scegli un mondo", "A sinistra i mondi della rete del tuo Giardino.")
 		return
 	var ai: Aiuole = m.aiuole
 	var home := String(w["id"]) == ai.home_id()
-	var t := "[font_size=24][color=#ffd08a]%s[/color][/font_size]\n" % w.get("nome", "")
-	t += "[color=#9fc8c0]%s[/color]\n\n" % ("Il Giardino: il mondo di partenza, dove crescono le Aiuole" if home
-		else "Vigore %d · creature più forti del %d%%" % [int(w.get("vigore", 1)), roundi((VigorData.creature_mult(int(w.get("vigore", 1))) - 1.0) * 100.0)])
-	var genes: Array = w.get("geni", [])
-	if genes.is_empty():
-		t += "[color=#9fc8c0]Nessun gene particolare: tutti i biomi.[/color]\n"
-	else:
-		t += Genome.sheet({"geni": genes, "vigore": int(w.get("vigore", 1))})
+	var vig := int(w.get("vigore", 1))
+	detail.head(String(w.get("nome", "")), "Il Giardino: il mondo di partenza, dove crescono le Aiuole" if home
+		else "Creature più forti del %d%%" % roundi((VigorData.creature_mult(vig) - 1.0) * 100.0),
+		null, "" if home else str(vig), "" if home else "vigore")
+	var g := String(w.get("guardiano", "dorme"))
 	var f: Dictionary = w.get("firma", {})
 	var sd: Dictionary = SignaturesData.SIGNATURES.get(String(f.get("id", "")), {})
-	if f.is_empty():
-		t += "\n[color=#ffd24a]Firma:[/color] —\n"
-	elif bool(f.get("trovata", false)):
-		t += "\n[color=#ffd24a]Firma:[/color] %s — %s\n" % [Signature._cap(String(sd["name"])), sd["desc"]]
+	var firma := "—"
+	if bool(f.get("trovata", false)) and not sd.is_empty():
+		firma = Signature._cap(String(sd["name"]))
+	elif not f.is_empty():
+		firma = "non ancora trovata"
+	detail.stats("Il mondo", [["Cuore", {"dorme": "il Guardiano dorme ancora", "sconfitto": "Guardiano sconfitto",
+		"curato": "Guardiano curato"}.get(g, g), UiPalette.BUONO if g == "curato" else UiPalette.TESTO],
+		["Firma", firma, UiPalette.AMBRA_CHIARA if bool(f.get("trovata", false)) else UiPalette.TESTO_SPENTO],
+		["Esplorato", "%d%%" % int(w.get("esplorato", 0))], ["Tempo di gioco", "%d minuti" % roundi(float(w.get("tempo_di_gioco", 0.0)) / 60.0)]])
+	if bool(f.get("trovata", false)) and not sd.is_empty():
+		detail.text("La firma", String(sd["desc"]))
+	var genes: Array = w.get("geni", [])
+	if genes.is_empty():
+		detail.text("Il genoma", "Nessun gene particolare: tutti i biomi.")
 	else:
-		t += "\n[color=#ffd24a]Firma:[/color] [color=#6a8a84]non ancora trovata[/color]\n"
-	var g := String(w.get("guardiano", "dorme"))
-	t += "[color=#8ef0d8]Cuore del mondo:[/color] %s\n" % {"dorme": "il Guardiano dorme ancora", "sconfitto": "Guardiano sconfitto",
-		"curato": "Guardiano curato"}.get(g, g)
-	t += "[color=#8ef0d8]Esplorato:[/color] %d%% · [color=#8ef0d8]tempo di gioco:[/color] %d minuti\n" % [int(w.get("esplorato", 0)),
-		roundi(float(w.get("tempo_di_gioco", 0.0)) / 60.0)]
-	_detail.text = t
+		detail.text("Il genoma", Genome.sheet({"geni": genes, "vigore": vig}))
 	_close.visible = ai.is_home() and ai.portal_to(String(w["id"])).x >= 0
 
 

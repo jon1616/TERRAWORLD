@@ -148,7 +148,7 @@ func howto() -> void:
 	var ap: AlberoPanel = m.albero.panel
 	ap.open()
 	await kit.frames(4)
-	var shown: String = ap._body.get_parsed_text()
+	var shown: String = ap.shown_text()
 	var panel_ok := shown.contains("pareti finte") and shown.contains("Bacchetta rabdomante")
 	await kit.save("350_albero_spiega")
 	ap.visible = false

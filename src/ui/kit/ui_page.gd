@@ -22,11 +22,11 @@ var page_title: Label
 var page_sub: Label
 var medal: UiMedal
 var body: Control
-var tab := 0
+var tab_i := 0
 var _chips: HBoxContainer
 var _tabs: HBoxContainer
 var _hints: HBoxContainer
-var _close: HBoxContainer
+var _esc_hint: HBoxContainer
 var _tab_names: Array = []
 var accent := UiPalette.AMBRA
 ## (facoltativi) il gioco, il tasto che apre e chiude, l'elenco e il dettaglio di `split`
@@ -93,8 +93,8 @@ func build_page(title: String, sub: String, icon: Variant = null, col := UiPalet
 	_hints.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_hints.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	foot.add_child(_hints)
-	_close = UiKit.hint("Esc", "chiudi")
-	foot.add_child(_close)
+	_esc_hint = UiKit.hint("Esc", "chiudi")
+	foot.add_child(_esc_hint)
 	var frule := UiRule.new()
 	frule.fade_both = true
 	frule.color = Color(UiPalette.BORDO_CHIARO, 0.25)
@@ -128,7 +128,7 @@ func set_chips(list: Array) -> void:
 ## Le schede (nomi, o [nome, contatore]); `tab` = quella aperta. Un clic manda `tab_changed`.
 func set_tabs(names: Array, current := 0) -> void:
 	_tab_names = names
-	tab = current
+	tab_i = current
 	_tabs.visible = not names.is_empty()
 	_place_body()
 	_draw_tabs()
@@ -144,8 +144,8 @@ func _draw_tabs() -> void:
 			b.text += "  ·  " + String(n[1])
 		b.focus_mode = Control.FOCUS_NONE
 		b.custom_minimum_size = Vector2(150, 36)
-		UiFrames.button(b, Color(0, 0, 0, 0), i == tab)
-		b.add_theme_color_override("font_color", UiPalette.AMBRA_CHIARA if i == tab else UiPalette.TESTO_SPENTO)
+		UiFrames.button(b, Color(0, 0, 0, 0), i == tab_i)
+		b.add_theme_color_override("font_color", UiPalette.AMBRA_CHIARA if i == tab_i else UiPalette.TESTO_SPENTO)
 		b.add_theme_font_override("font", UiFonts.get_font("forte"))
 		b.add_theme_font_size_override("font_size", UiPalette.TESTO_PX)
 		var k := i
@@ -154,9 +154,9 @@ func _draw_tabs() -> void:
 
 
 func choose_tab(i: int) -> void:
-	if i == tab or i < 0 or i >= _tab_names.size():
+	if i == tab_i or i < 0 or i >= _tab_names.size():
 		return
-	tab = i
+	tab_i = i
 	_draw_tabs()
 	tab_changed.emit(i)
 
@@ -271,3 +271,10 @@ static func _collect(n: Node, out: Array) -> void:
 	for ch in n.get_children():
 		_collect(ch, out)
 
+
+
+## Accende una scheda senza mandare `tab_changed` (quando la sceglie il codice, non il giocatore).
+func select_tab(i: int) -> void:
+	if i != tab_i and i >= 0 and i < _tab_names.size():
+		tab_i = i
+		_draw_tabs()
