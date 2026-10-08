@@ -106,7 +106,11 @@ func pods() -> void:
 		var d := w.decor_at(near.x, near.y)
 		m.actions.pick_decor(near)
 		loot = m.harvest.last_loot
-		await kit.seconds(1.5)
+		# il Germogliato resta accanto al baccello (dove il mondo di prova non ha pavimento accanto cadeva via
+		# e il bottino restava a terra, lontano)
+		for k in 5:
+			m.snap_to(near)
+			await kit.seconds(0.3)
 		w.set_decor(near.x, near.y, d)
 		m.view.refresh_around(near)
 	var gained := 0

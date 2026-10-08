@@ -6252,5 +6252,12 @@ La terza del piano «Il generatore eccellente» (`GENERATORE.md`). Scelta dell'u
   cima del terreno, al più una ogni 40 colonne e mai sopra la partenza; nelle grotte, sul pavimento sopra il cuore di un
   giacimento, sassi luccicanti. Seme 7: 17 affioramenti, 27 luccichii (appunti «affioramenti», «luccichii»). Una frase
   nel capitolo «scavare» dell'Enciclopedia. Le piante-segno restano un'idea: i sassi bastano a leggere la grotta.
-- [ ] **457. Gemme e rarità al posto giusto.** Cristalli nelle grotte di cristallo, gemme nei geodi.
+- [x] **457. Gemme e rarità al posto giusto.** Cristalli nelle grotte di cristallo, gemme nei geodi.
+  Fatto l'8 ott 2026: `PassCristalli.MASK`: i cristalli di Linfa nascono solo dentro una maschera lenta (le **grotte di
+  cristallo**), più fitti verso il cuore; `PassGemme` prende sempre un posto nelle zone della stessa maschera (negli
+  strati alti senza cristalli, ma con le gemme) o in una grande caverna, gli altri una volta su dieci. Misura
+  `tools/tesori.gd` (seme 7, prima → ora): cristalli 33.307 → 24.850 tessere ma in 1.073 → 321 gruppi (in media 31 →
+  77), **gemme al posto giusto 31% → 72%**. I metalli della spina restano legati ai loro strati (le regioni del
+  sottosuolo nascono dopo i minerali: legarli lì vorrebbe dire spostare la passata, non serve). La prova dei baccelli
+  tiene il Germogliato accanto al baccello aperto (nel mondo nuovo cadeva via e il bottino restava a terra).
 - [ ] **458. Il bilancio dei tesori.** Tempi dei metalli con i giocatori simulati.

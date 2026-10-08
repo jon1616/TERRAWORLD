@@ -1,8 +1,11 @@
 class_name PassCristalli
 extends GenPass
-## Cristalli di Linfa sulle pareti delle caverne dalle Profondità della Linfa in giù, a grappoli.
+## Cristalli di Linfa sulle pareti delle caverne dalle Profondità della Linfa in giù, a grappoli. Voce 457: raccolti in
+## **grotte di cristallo** (una maschera lenta, `MASK`: fuori niente, dentro le pareti fitte) invece che su ogni parete.
+## Il parametro «senza_giacimenti» rifà la regola di prima (per le misure).
 
 const HOSTS := [TileDefs.STONE, TileDefs.SCISTO, TileDefs.VUOTITE]
+const MASK := {"freq": 0.01, "at": 0.18, "bonus": 0.42, "core": 0.25}
 
 
 func title() -> String:
@@ -12,6 +15,11 @@ func title() -> String:
 func run(w: World, c: GenContext) -> void:
 	var n_cr := c.noise("cristalli", 0.08, 2)
 	var th := 0.3 - float(c.genes()["crystal"])                     # gene «Cristalli giganti» (voce 43)
+	var old := bool(c.params.get("senza_giacimenti", false))
+	var mask := c.noise("grotte_cristallo", float(MASK["freq"]), 2)
+	var m_at := float(MASK["at"])
+	var m_bonus := float(MASK["bonus"])
+	var m_core := float(MASK["core"])
 	var min_depth := StrataData.top(3)
 	var off := c.strata_off(w)
 	var tiles := w.tiles
@@ -31,7 +39,13 @@ func run(w: World, c: GenContext) -> void:
 				var i := row + x
 				if host[tiles[i]] == 0 or y - surf[x] - off[x] <= min_depth:
 					continue
-				if n_cr.get_noise_2d(x, y) > th and (tiles[i - 1] == TileDefs.AIR or tiles[i + 1] == TileDefs.AIR \
+				var thr := th
+				if not old:
+					var mv := mask.get_noise_2d(x, y)
+					if mv < m_at:
+						continue
+					thr -= m_bonus * clampf((mv - m_at) / m_core, 0.0, 1.0)
+				if n_cr.get_noise_2d(x, y) > thr and (tiles[i - 1] == TileDefs.AIR or tiles[i + 1] == TileDefs.AIR \
 						or tiles[i - ww] == TileDefs.AIR or tiles[i + ww] == TileDefs.AIR):
 					found.append(Vector2i(x, y))
 		return [found])
