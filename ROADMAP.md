@@ -5922,3 +5922,28 @@ Ora: la barra rapida, nove scomparti da 30 caselle (270 in tutto, fino a 810 con
 senza limite e gli scomparti fissi. Uno scomparto pieno ferma solo il suo tipo, e anche allora ciò che entra va nella
 barra rapida. Ciò che si raccoglie non va più da solo nella barra rapida: ci si mette ciò che si vuole in mano.
 
+
+# Roadmap 54 «Il passo delle creature» (dall'8 ott 2026)
+
+L'utente giocando: «a volte sembra innaturale, a volte di punto in bianco scappano passando attraverso il terreno».
+L'analisi del codice: le creature che vivono nella terra («sbuca») si immergono nel pavimento senza segnale; la fuga non
+finisce mai e sbatte contro i muri; chi insegue salta all'infinito contro un muro troppo alto; l'agguato appende il corpo
+dentro il soffitto; più comportamenti di movimento litigano per la stessa creatura. Prima si misura, poi si corregge.
+
+- [x] **423. La misura.** Il gruppo «moto» (`TestsMotion`): recinti scavati sotto terra che rifanno ogni difetto (muro,
+  sporgenza, fuga, angolo, sbuca, sbuca nel cielo, incastro, folla di 24 specie), con i numeri di salti a vuoto,
+  tremolii, fotogrammi incastrate.
+  Fatto l'8 ott 2026. Prima delle correzioni: davanti a un muro di 7 tessere 13 salti a vuoto in 6 s (su 15 salti);
+  la creatura ferita fugge per sempre (79 tessere lontano, ancora «in fuga», 9 salti a vuoto contro il muro in fondo,
+  non si cura); all'angolo 11 salti a vuoto e non si difende; le creature della terra 3 volte su 9 spariscono nel
+  pavimento senza segnale; l'agguato appende il corpo nel soffitto 8 volte su 8; nella folla 6,7 salti a vuoto e 6,5
+  tremolii al minuto per creatura, incastrate lo 0,36% del tempo. Bene già prima: sotto una sporgenza nessun tremolio,
+  il teletrasporto non mette il corpo nella roccia, chi finisce in un masso ne esce, il Mangiastelle non cade dall'isola.
+- [ ] **424. Le creature della terra.** «Sbuca»: nasce già sotto terra; prima di immergersi trema e scava (polvere,
+  segnale); ferita si immerge per fuggire, con il segnale; nella terra la paura conta.
+- [ ] **425. La fuga vera.** Fugge finché ti perde di vista, poi si nasconde e si cura piano; all'angolo si difende;
+  non salta contro i muri.
+- [ ] **426. I passi.** Chi insegue misura il muro: salta solo se ce la fa, altrimenti aspetta o cerca un'altra strada;
+  l'agguato si appende sotto il soffitto, non dentro; chi resta incastrato esce nel punto libero più vicino.
+- [ ] **427. Un'intenzione alla volta.** I comportamenti di movimento non litigano: chi carica o scatta guida il corpo
+  finché ha finito; la misura finale.

@@ -288,6 +288,7 @@ func run(main: Node2D) -> void:
 	await TestsDeepCraft.new(kit).run()    # Roadmap 50: la fabbricazione profonda
 	await TestsAfter.new(kit).run()        # Roadmap 51: il dopo senza fine
 	await TestsLands.new(kit).run()        # Roadmap 52: la terra dei mondi
+	await TestsMotion.new(kit).run()       # Roadmap 54: il passo delle creature
 	_mark("TestsAccessories")
 	await TestsMaterials.new(kit).run()     # Roadmap 31: il carattere dei materiali
 	_mark("TestsMaterials")
@@ -535,6 +536,8 @@ func _group(kit: TestKit, g: String) -> void:
 			await TestsAfter.new(kit).run()          # Roadmap 51: il dopo senza fine
 		"terre":
 			await TestsLands.new(kit).run()          # Roadmap 52: la terra dei mondi
+		"moto":
+			await TestsMotion.new(kit).run()         # Roadmap 54: il passo delle creature
 		"carattere":
 			await TestsMaterials.new(kit).run()      # Roadmap 31: il carattere dei materiali
 		"legami":
