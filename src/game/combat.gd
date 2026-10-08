@@ -272,7 +272,8 @@ func _strike(c: Creature, dmg: int, from_x: float, force: float, elem := "") -> 
 	var gl := Projectiles.glow_of(elem)
 	m.light.pulse(Vector2i(floori(c.position.x / 16.0), floori(c.position.y / 16.0)),
 		gl * 0.7 if gl != Color.BLACK else Color(0.9, 0.75, 0.55), 0.1)
-	ImpactFx.hit(m.fx, c.position, elem, c.half.y * 2.0)
+	var aim := HitFlash.aim(c)                  # il centro del disegno, non del corpo degli urti
+	ImpactFx.hit(m.fx, aim[0], elem, float(aim[1]))
 	if hit_mult.is_valid():
 		dmg = maxi(roundi(dmg * float(hit_mult.call())), 1)
 	dmg = maxi(roundi(dmg * fauna._zm(c.position, "guardia")), 1)   # voce 87: lo Stendardo di guardia

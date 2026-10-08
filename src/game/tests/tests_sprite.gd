@@ -107,7 +107,8 @@ func _flash(id: String, c: Vector2i, elem: String) -> void:
 		m.day.time = 0.95 if night else 0.5
 		m.day.apply(true)
 		await kit.seconds(0.2)
-		ImpactFx.hit(m.fx, cr.position, e, cr.half.y * 2.0)
+		var aim := HitFlash.aim(cr)
+		ImpactFx.hit(m.fx, aim[0], e, float(aim[1]))
 		for k in 6:
 			shots.append(await _crop(cr, 1.2))
 			await kit.seconds(0.035)

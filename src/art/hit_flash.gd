@@ -16,6 +16,20 @@ var _frames: Array = []
 var _t := 0.0
 
 
+## Dove e quanto grande colpire una creatura: il centro e l'altezza della parte DISEGNATA (il corpo degli urti è più
+## piccolo del disegno: sul cervo lo scoppio partiva dalle zampe). [centro nel mondo, altezza].
+static func aim(c: Creature) -> Array:
+	var spr: Sprite2D = c._spr
+	if spr == null or spr.texture == null:
+		return [c.position, c.half.y * 2.0]
+	var r := Halo._box(spr.texture)
+	var sc := spr.scale.abs()
+	var ts := Vector2(spr.texture.get_size())
+	var top := spr.position.y + (spr.offset.y + r.position.y - ts.y / 2.0) * sc.y
+	var h := r.size.y * sc.y
+	return [c.position + Vector2(0, top + h / 2.0), h]
+
+
 ## `elem` = l'elemento del colpo («» = senza), `size` = l'altezza della creatura colpita. Niente se non c'è il disegno.
 static func play(parent: Node, pos: Vector2, elem: String, size: float) -> void:
 	var nome := "colpo_" + (elem if elem != "" else "fisico")
@@ -35,7 +49,7 @@ static func play(parent: Node, pos: Vector2, elem: String, size: float) -> void:
 	if ElementsData.ELEMENTS.has(elem):
 		col = Color(String(ElementsData.ELEMENTS[elem]["color"])) * 1.35
 	f.modulate = col
-	var px := clampf(size * 1.15, MIN_PX, MAX_PX)
+	var px := clampf(size * 0.95, MIN_PX, MAX_PX)
 	f.scale = Vector2.ONE * px / float((f._frames[0] as Texture2D).get_width())
 	f.rotation = randf_range(-0.35, 0.35)
 	f.position = pos
