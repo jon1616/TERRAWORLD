@@ -41,6 +41,7 @@ static func passes() -> Array[GenPass]:
 		PassCuore.new(),
 		PassNero.new(),
 		PassRovine.new(),
+		PassTracce.new(),                   # voce 463: le tracce del passato (radice cosmica, città, cratere)
 		PassPozza.new(),                    # Roadmap 45, voce 396: la Pozza di Linfa antica
 		PassPericoli.new(),
 		PassSpine.new(),                    # Roadmap 52, voce 418: le spine dei biomi e le ragnatele

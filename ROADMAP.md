@@ -6319,5 +6319,12 @@ La quarta del piano «Il generatore eccellente» (`GENERATORE.md`). Scelta dell'
   avanzo di 5 colonne in fondo al mondo come un tratto e si riprendeva il tratto appena dato: ora contano solo i tratti
   di 80 colonne fuori dalla partenza (il mondo di prova ha di nuovo tutti i 13 biomi). La prova degli alberi accetta la
   specie del vicino nei passaggi.
-- [ ] **463. Le tracce del passato.**
+- [x] **463. Le tracce del passato.**
+  Fatto il 9 ott 2026: `PassTracce` (dopo le Rovine), una per mondo a 350-1000 colonne dalla partenza e fuori dai mari:
+  la **radice cosmica** (un tronco di radice che sale dalla superficie fin sotto la prima isola o il primo continente
+  del cielo e scende fino al Fondo, cavo dentro con le liane, con le finestre sulle grotte; non tocca stazioni, nodi,
+  sigilli e porte), la **città sepolta** (quella del gene, o una nuova, con il pozzo dalla superficie a passerelle e
+  l'arco dei Seminatori sopra l'imbocco), il **cratere** (conca di 60-90 colonne con la stella caduta: un nocciolo di
+  cristallo e uno scrigno con stelline, Schegge e Polvere iridata). Il gene «Città sepolta» sceglie la città; il
+  parametro «traccia» la sceglie per le misure. Appunti "traccia".
 - [ ] **464. La misura della varietà.**
