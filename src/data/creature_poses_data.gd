@@ -68,6 +68,10 @@ const POSES := {
 	"gufo_gelo": {"n": 8, "anchor": [14, 12], "center": true, "glow": true,
 		"poses": {"vola": [0, 1, 2, 3], "sospeso": [4], "planata": [5], "sputa": [6], "colpita": [7]},
 		"fps": {"vola": 11.0}},
+	# Libellula di brina (tavola di Nano Banana, tools/installa_creatura.py)
+	"libellula_brina": {"n": 8, "anchor": [18, 12], "center": true, "glow": true,
+		"poses": {"vola": [0, 1, 2, 3], "sospeso": [0, 1], "planata": [5], "colpita": [6]},
+		"fps": {"vola": 11.0, "sospeso": 12.0}},
 }
 
 

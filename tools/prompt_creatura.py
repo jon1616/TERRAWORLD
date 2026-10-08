@@ -187,6 +187,9 @@ def build_poses(s: dict, look: dict) -> tuple[list, dict, dict, bool]:
     # le pose che mancano per riempire la griglia: altre del respiro e dell'attenzione
     fillers = [("allerta", "alert: standing taller, looking right, ears/antennae up"),
                ("fermo", "idle variant: blinking, head slightly turned")]
+    if s["fly"]:
+        # chi vola non sta mai fermo: le celle in più sono un secondo tempo della posa sospesa (il ciclo del volo sul posto)
+        fillers = [("sospeso", "hovering variant: wings (or fins) slightly LOWER than in the other hovering pose")]
     n = 8 if len(cells) <= 8 and not boss else 12
     if boss:
         fury = [("furia_fermo", "ENRAGED standing: the same creature, but its glowing parts blaze much brighter, eyes burning")]
@@ -204,7 +207,7 @@ def build_poses(s: dict, look: dict) -> tuple[list, dict, dict, bool]:
             break
         cells.append(f)
     while len(cells) < n:
-        cells.append(("fermo", "idle variant: breathing, slightly different from the other idle pose"))
+        cells.append(fillers[-1] if s["fly"] else ("fermo", "idle variant: breathing, slightly different from the other idle pose"))
     cells = cells[:n]
     poses: dict = {}
     for i, (name, _) in enumerate(cells):
@@ -212,7 +215,7 @@ def build_poses(s: dict, look: dict) -> tuple[list, dict, dict, bool]:
     fps = {}
     for name, idx in poses.items():
         if len(idx) > 1:
-            fps[name] = {"vola": 11.0, "cammina": 6.0, "corsa": 10.0, "fermo": 1.6}.get(name, 6.0)
+            fps[name] = {"vola": 11.0, "cammina": 6.0, "corsa": 10.0, "fermo": 1.6, "sospeso": 8.0}.get(name, 6.0)
     if "vola" in poses and "furia_vola" in poses:
         poses["furia_vola"] = poses["furia_vola"] + [poses["vola"][1], poses["vola"][2], poses["vola"][3]]
         fps["furia_vola"] = 11.0

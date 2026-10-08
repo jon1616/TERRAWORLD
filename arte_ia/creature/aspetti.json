@@ -80,5 +80,19 @@
 			"#ccf5ff"
 		],
 		"polvere": false
+	},
+	"libellula_brina": {
+		"name_en": "Frost Dragonfly",
+		"noun": "dragonfly",
+		"plan": "insetto",
+		"look": "a big graceful dragonfly of the frozen marshes, seen from the side: a long thin segmented tail (make it THICK enough to read), a short chest, a big round head with one huge glowing compound eye, and two pairs of long narrow transparent wings like thin sheets of frost, with a few bold pale vein lines. Delicate but fast.",
+		"colors": "frost-blue body and tail (#477099, lighter #7aadcc on the segments), pale ice-white wings with light blue veins (#ccf5ff, #7aadcc)",
+		"eye": "one huge round glowing mint-green compound eye (#8ff5d6)",
+		"glow": "the big mint-green eye (#8ff5d6)",
+		"accents": [
+			"#8ff5d6",
+			"#ccf5ff"
+		],
+		"polvere": false
 	}
 }
