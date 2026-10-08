@@ -43,7 +43,7 @@ func run(w: World, c: GenContext) -> void:
 	if not home_set:
 		_ensure_all(w, segs, weights, rng)
 	# il terreno: colline più o meno mosse e superficie più alta o più bassa, sfumate tra un bioma e l'altro
-	var base := w.h * float(c.params["surface_base"])
+	var base := PassTerreno.base_of(w, c)
 	var hills := PackedFloat32Array()
 	var lift := PackedFloat32Array()
 	hills.resize(w.w)

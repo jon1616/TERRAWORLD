@@ -6087,7 +6087,16 @@ solide (isole di 15-30 colonne), la varietà fra due Semi è sotto il rumore (0,
   dopo i Biomi (il rimodellamento schiacciava le voragini e lasciava le correnti sulla superficie di prima). I luoghi del
   sottosuolo si prenotano (`PassSottosuolo._rect` + `claim`). Il Guscio è un tetto di ~60 righe (`THICK`), non tutto il
   cielo pieno di pietra. Gruppi «base», «geni», «gravita», «mobilita» senza avvisi.
-- [ ] **441. Il mondo più alto.** 1200 righe, la superficie come distanza dal fondo.
+- [x] **441. Il mondo più alto.** 1200 righe, la superficie come distanza dal fondo.
+  Fatto l'8 ott 2026: `WorldGen.HEIGHT` 1200; la superficie media sta a `ground_depth` 730 righe dal fondo
+  (`PassTerreno.base_of`; i geni «surface» restano in frazione di un mondo da 1000: altopiano 50 righe più su), quindi le
+  200 righe vanno tutte al cielo (superficie media da 270 a 470) e il sottosuolo è identico, anche nei mondi più bassi
+  delle prove. La stella della mappa dell'Atlante al 5% (`AtlasData.MAP_FRAC`: le stesse ~180.000 celle). Il mondo nasce
+  in ~4,6 s, si salva in 35 ms (0,64 MB) e si carica in 50 ms. Trovati e riparati nel farlo: le casse dei biomi negli
+  osservatori nascevano con 20 caselle e si ricaricavano con 30 (`prova_salvataggi`: 2 errori già prima); una pianta-seme
+  e uno zaino perduto nella stessa cella (le piante-seme non si prenotavano); l'insegna dello strato con la riga sotto il
+  titolo che lo toccava (il titolo più alto dalla Roadmap 55). Gruppi «base», «galleria» (0 problemi), «cielo»,
+  «atlante», «mappa» senza avvisi; il cielo alto per ora prende tutte le righe nuove (le tre fasce sono la voce 442).
 - [ ] **442. Tre fasce di cielo.** Basso, medio, alto, larghe tutta la mappa; due biomi nuovi per la fascia media.
 - [ ] **443. I continenti sospesi.** 1-2 per zona, con grotte (e pareti), vene, cascate.
 - [ ] **444. Le strade verso l'alto.** Mari di nuvole, correnti per fascia, liane, il Fagiolo fino a un'isola.

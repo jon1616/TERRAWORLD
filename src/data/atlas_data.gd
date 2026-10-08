@@ -11,7 +11,7 @@ const STARS := [
 	["sigilli", "I Sigilli", "apri metà dei luoghi sigillati"],
 	["segreti", "I segreti", "trova tutti i segreti del mondo"],
 ]
-const MAP_FRAC := 0.06                 # la stella della mappa: il 6% delle celle (un mondo è di 3 milioni di celle)
+const MAP_FRAC := 0.05                 # la stella della mappa: il 5% delle celle (voce 441: un mondo è di 3,6 milioni di celle, le stesse ~180.000 di prima)
 const SEALS_FRAC := 0.5
 const TICK := 5.0                      # ogni quanti secondi si guardano le stelle
 

@@ -7,7 +7,10 @@ var world_seed := 0
 var rng := RandomNumberGenerator.new()
 var pass_seed := 0                     # il seme della passata in corso (`begin`)
 var params := {
-	"surface_base": 0.27,       # altezza media della superficie, in frazione dell'altezza del mondo
+	# voce 441 (8 ott 2026): la superficie media sta a questa distanza dal FONDO del mondo (prima era una frazione
+	# dell'altezza, 0,27): così le 200 righe del mondo alto 1200 vanno tutte al cielo e il sottosuolo resta uguale, anche
+	# nei mondi più bassi delle prove. 730 = la profondità di prima (1000 − 270).
+	"ground_depth": 730,
 	"hills": 55.0,              # ampiezza delle colline grandi, in tessere
 	"vigore": 1,                # dal Seme (voce 12): più vigore = minerali più ricchi (vedi `PassMinerali`)
 	"geni": [],                 # dal Seme (voce 42): il genoma; senza gene di superficie = tutti i biomi (il mondo casa)

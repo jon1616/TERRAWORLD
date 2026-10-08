@@ -86,7 +86,8 @@ la base o altro, e nessuna scelta è tempo perso. Regole per ogni voce, insieme 
 
 - **Mondi a portale**: un mondo casa più una serie infinita di mondi generati, finiti, con tema e difficoltà crescenti.
   Nell'universo: ogni mondo nasce da un Seme piantato nel Giardino (specie, vigore, tratti = parametri del generatore).
-- **Mondi medi**: 3000×1000 tessere da 16 px.
+- **Mondi medi**: 3000×1200 tessere da 16 px (1000 fino all'8 ott 2026: le 200 righe in più sono cielo, voce 441;
+  la superficie sta a `ground_depth` 730 righe dal fondo, `PassTerreno.base_of`).
 - **Solo uso personale** (26 set 2026): il gioco non sarà mai venduto né pubblicato, lo useranno l'utente e 2-3 amici.
   Le licenze degli asset di terzi non contano: le grafiche si scelgono solo per stile e prospettiva (vista di lato).
 - **Rete a 2 giocatori** (single player giocabile con un amico in collegamento diretto), host autoritativo come in Inkblood.
@@ -366,7 +367,7 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     Seminatori con uno scrigno pieno secondo lo strato), Pericoli (rovi spinosi e rune trappola, vedi `Hazards`), Doni (Boccioli del cuore e Stille perenni), Gemme (grappoli nelle grotte, per strato), Tane (dei Custodi), Nascondigli (reliquiari murati), Geodi, Isole (sospese, gene raro), Firma (il
     luogo unico del mondo, `PassFirma`), Piante-seme, Partenza (le torce
     già accese della vecchia passata provvisoria sono state tolte il 25 set 2026: le torce le mette il giocatore),
-    Collaudo (l'ultima). Un mondo 3000×1000 si genera in **~3 s** (28 set 2026, prima 10), in un thread suo con la
+    Collaudo (l'ultima). Un mondo 3000×1200 si genera in **~4,6 s** (28 set 2026, prima 10), in un thread suo con la
     schermata d'attesa. Le regole del generatore (28 set 2026):
     - **un caso per passata**: `GenContext.begin(nome)` riparte da seme del mondo + nome della passata, così cambiare
       una passata non sposta le altre; le casse si riempiono con il caso del generatore (`World.gen_rng`,

@@ -47,5 +47,6 @@ func _scatter(w: World, c: GenContext, n: int, surface: bool, placed: Array[Vect
 		w.set_decor(o.x, o.y, 0)
 		w.set_decor(o.x, o.y + 1, 0)
 		w.stations[o] = "pianta_seme"
+		c.claim(Rect2i(o.x, o.y, 1, 2), "pianta_seme")    # voce 441: un incontro nato dopo le finiva sopra
 		placed.append(o)
 		got += 1

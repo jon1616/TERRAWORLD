@@ -4,7 +4,7 @@ extends RefCounted
 ## Per aggiungere qualcosa al mondo (un bioma, una struttura…) si scrive una passata nuova e la si mette qui.
 
 const WIDTH := 3000
-const HEIGHT := 1000
+const HEIGHT := 1200                  # voce 441: 200 righe in più, tutte di cielo
 ## Il Giardino (voce 62): piccolo, sospeso nel Vuoto.
 const GARDEN_W := 480
 const GARDEN_H := 240

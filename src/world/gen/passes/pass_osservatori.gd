@@ -88,6 +88,8 @@ func _build(w: World, c: GenContext, x0: int, top: int, biome: String) -> void:
 	var cid := "cassa_%s%s" % [sky_b, "_sigillata" if rb.randf() < 0.3 else ""]
 	if rb.randf() < 0.5 and ChestsData.is_found(cid):
 		w.stations[o] = cid
+		# lo scrigno era già pieno (20 caselle): diventa grande quanto la cassa del bioma, come la ricrea il caricamento
+		w.chest_at(o).grow(int(StationsData.STATIONS[cid].get("slots", 20)))
 		var bl := LootData.roll(cid, rb)
 		for id in bl:
 			w.chest_at(o).add(String(id), int(bl[id]))

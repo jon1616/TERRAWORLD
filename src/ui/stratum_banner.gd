@@ -42,11 +42,11 @@ func show_stratum(title: String, sub: String, col: Color) -> void:
 	for l in [_title, _sub]:
 		(l as Label).position.x = 0.0
 		(l as Label).size.x = w
-	_place()
 	_title.text = title
 	_title.add_theme_color_override("font_color", col)
 	_sub.text = sub
 	_sub.add_theme_color_override("font_color", Color(0.85, 0.88, 0.9))
+	_place()
 	if _tw:
 		_tw.kill()
 	_tw = create_tween()
@@ -64,8 +64,9 @@ func _place() -> void:
 		if bb != null and bb.visible:
 			dy = maxf(dy, bb.global_position.y - global_position.y + 34.0 - 146.0)
 	_title.offset_top = 146.0 + dy
-	_title.offset_bottom = _title.offset_top + UiFonts.size(4)
-	_sub.offset_top = 196.0 + dy
+	# l'altezza vera della scritta (il carattere più l'interlinea): con Alegreya grande la riga sotto la toccava
+	_title.offset_bottom = _title.offset_top + maxf(float(UiFonts.size(4)), _title.get_minimum_size().y)
+	_sub.offset_top = _title.offset_bottom + 2.0
 	_sub.offset_bottom = _sub.offset_top + 24.0
 
 
