@@ -108,6 +108,10 @@ const POSES := {
 	"falena_vampira": {"n": 8, "anchor": [16, 12], "center": true,
 		"poses": {"vola": [0, 1, 2, 3], "sospeso": [0, 3], "planata": [5], "colpita": [6]},
 		"fps": {"vola": 11.0, "sospeso": 10.0}},
+	# Lupo lunare (tavola di Nano Banana, tools/installa_creatura.py)
+	"lupo_lunare": {"n": 8, "anchor": [16, 20], "glow": true,
+		"poses": {"cammina": [0, 1, 2, 3], "fermo": [4], "carica": [5], "scatto": [6], "colpita": [7]},
+		"fps": {"cammina": 6.0}},
 }
 
 

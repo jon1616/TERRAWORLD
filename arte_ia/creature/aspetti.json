@@ -219,5 +219,19 @@
 			"#ff3040",
 			"#e8d8c8"
 		]
+	},
+	"lupo_lunare": {
+		"name_en": "Moon Wolf",
+		"noun": "wolf",
+		"plan": "quadrupede",
+		"look": "a lean powerful night wolf, a dangerous predator: a long muscular body, long legs, a thick ruff of fur on the neck, a long snout with bared fangs, pointed ears, a long bushy tail. Its fur is dark night-blue with GLOWING pale moonlight STRIPES across the back and flanks (like moonlight through branches), shining in the dark. Fierce and silent.",
+		"colors": "dark night-blue fur (#2c3450, darker #1a1e2e underneath, lighter #46547a on the back), blue-grey muzzle and legs (#7a8cb8), glowing pale moonlight stripes (#e0e8ff), white fangs",
+		"eye": "one narrow glowing pale-yellow eye (#f0f0a0)",
+		"glow": "the moonlight stripes (#e0e8ff) and the eye (#f0f0a0)",
+		"accents": [
+			"#f0f0a0",
+			"#e0e8ff"
+		],
+		"polvere": false
 	}
 }
