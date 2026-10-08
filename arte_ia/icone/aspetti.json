@@ -1,0 +1,148 @@
+{
+	"_nota": "Le forme d'icona per tools/prompt_icone.py: en = il nome in inglese (in maiuscolo nel prompt), desc = com'è fatta, con [GREY] sulle parti del materiale (il gioco le colora). _salta = forme da non rifare.",
+	"_salta": [],
+	"zolla": {
+		"en": "clod",
+		"desc": "a chunky rounded cube of earth or stone, the WHOLE block [GREY] (NOT brown: neutral grey only), with soft cracks and a few small pebbles in it, two little roots poking out of its sides (plum wood) and a small tuft of moss on top (leaf green)"
+	},
+	"ciotola": {
+		"en": "bowl of food",
+		"desc": "a round wooden bowl (plum wood) seen from slightly above, full of a hearty stew or soup [GREY] with a few chunks and a sprig of herbs (leaf green) on top, a little steam curl"
+	},
+	"essenza": {
+		"en": "essence",
+		"desc": "a small floating orb of magical essence [GREY] like a swirling drop of liquid light, with a bright core and a few sparkling motes orbiting it"
+	},
+	"arco": {
+		"en": "bow",
+		"desc": "a curved bow drawn DIAGONALLY, its limbs [GREY] shaped like a bent branch with leaf-shaped tips, a leather grip in the middle (warm leather), a thin taut string"
+	},
+	"lancia": {
+		"en": "spear",
+		"desc": "a long spear drawn DIAGONALLY: a straight shaft of root wood (plum wood) wrapped with a leaf binding (leaf green) near the head, and a long leaf-shaped blade [GREY] at the top end"
+	},
+	"seta": {
+		"en": "silk",
+		"desc": "a neat skein / bundle of fine silk thread [GREY], wound in soft loops and tied with a small band (warm leather), one loose thread curling out"
+	},
+	"spada": {
+		"en": "sword",
+		"desc": "a one-handed sword drawn DIAGONALLY: a straight leaf-shaped blade [GREY] with a central ridge, a small curved crossguard [GREY], a grip wrapped in leather (warm leather) and a round pommel with a tiny turquoise sap bead"
+	},
+	"balestra": {
+		"en": "crossbow",
+		"desc": "a crossbow drawn DIAGONALLY: a wooden stock (plum wood), a short curved bow [GREY] across the front, a loaded bolt with a [GREY] tip, a small trigger"
+	},
+	"mantello": {
+		"en": "cloak",
+		"desc": "a long flowing cloak [GREY] hanging as if worn by an invisible person, with a high collar and soft folds, fastened by a round clasp (amber)"
+	},
+	"frusta": {
+		"en": "whip",
+		"desc": "a whip coiled in loops: a long braided lash [GREY] ending in a thin tip, attached to a short handle of root wood (plum wood) wrapped in leather (warm leather)"
+	},
+	"spadone": {
+		"en": "greatsword",
+		"desc": "a huge two-handed greatsword drawn DIAGONALLY: a very wide long blade [GREY] with a notch near the guard, a broad crossguard [GREY], a long grip wrapped in leather (warm leather)"
+	},
+	"mazza": {
+		"en": "war hammer",
+		"desc": "a heavy war hammer drawn DIAGONALLY: a big blocky hammer head [GREY] with one flat face and one short spike, on a sturdy handle of root wood (plum wood) with a leather grip (warm leather)"
+	},
+	"tavoletta": {
+		"en": "stone tablet",
+		"desc": "an upright rounded stone tablet [GREY] slightly tilted, carved with a few glowing turquoise sap runes (#5ff0e0), a chipped corner and a little root (plum wood) curling around its base"
+	},
+	"scaglia": {
+		"en": "scale shard",
+		"desc": "a large single curved scale or flake [GREY] shaped like a rounded shield-leaf, with fine growth ridges, a glossy highlight and a sharp tip"
+	},
+	"pugnale": {
+		"en": "dagger",
+		"desc": "a short dagger drawn DIAGONALLY: a narrow thorn-shaped blade [GREY], a tiny curved guard [GREY], a short leather-wrapped grip (warm leather) and a small amber pommel"
+	},
+	"virgulto": {
+		"en": "sprout branch",
+		"desc": "a young living branch drawn DIAGONALLY: a slender twig [GREY] with two or three fresh leaves (leaf green) and a tiny glowing sap bud (turquoise) at the tip"
+	},
+	"penna": {
+		"en": "feather",
+		"desc": "a single long feather drawn DIAGONALLY [GREY], with soft barbs, a few separated strands and a thin central quill"
+	},
+	"falcione": {
+		"en": "scythe-blade",
+		"desc": "a long curved falchion / scythe-sword drawn DIAGONALLY: a wide crescent blade [GREY] curving like a moon, a leather-wrapped handle (warm leather) and a small root-shaped guard (plum wood)"
+	},
+	"verga": {
+		"en": "magic rod",
+		"desc": "a magic staff drawn DIAGONALLY: a twisted shaft of root wood (plum wood) whose top splits into curling roots holding a round crystal orb [GREY] that glows softly"
+	},
+	"stivali": {
+		"en": "boots",
+		"desc": "a pair of sturdy boots seen from the side, one slightly behind the other [GREY], with folded cuffs, laces and a thick sole of root wood (plum wood)"
+	},
+	"scettro": {
+		"en": "summoning sceptre",
+		"desc": "a short ornate sceptre drawn DIAGONALLY: a root-wood handle (plum wood) topped by a crown-like head [GREY] of three curling prongs cradling a small glowing amber gem"
+	},
+	"girandola": {
+		"en": "boomerang",
+		"desc": "a curved boomerang shaped like a bent seed-wing [GREY], seen flat, with a leather wrap (warm leather) at the elbow and two small motion curls"
+	},
+	"piccone": {
+		"en": "pickaxe",
+		"desc": "a pickaxe drawn DIAGONALLY: a handle of root wood (plum wood) with a leaf binding (leaf green), and a curved double-pointed pick head [GREY] across the top"
+	},
+	"guanti": {
+		"en": "gloves",
+		"desc": "a pair of work gloves [GREY] one overlapping the other, with stitched seams, a cuff strap (warm leather) and slightly curled fingers"
+	},
+	"ascia": {
+		"en": "axe",
+		"desc": "a woodcutter's axe drawn DIAGONALLY: a handle of root wood (plum wood) with a leather grip (warm leather), and a broad curved leaf-shaped axe head [GREY] on one side of the top"
+	},
+	"tomo": {
+		"en": "spell book",
+		"desc": "a thick closed spell book seen slightly from the front, its cover [GREY] with embossed root patterns and metal corners [GREY], a glowing turquoise sap rune on the cover, a leather spine (warm leather) and a ribbon bookmark (leaf green)"
+	},
+	"trivella": {
+		"en": "hand drill",
+		"desc": "a big hand drill drawn DIAGONALLY: a spiral auger bit [GREY] like a twisted horn pointing up-right, mounted on a root-wood crank handle (plum wood) with a leather grip (warm leather)"
+	},
+	"flauto": {
+		"en": "flute",
+		"desc": "a wooden pan-pipe / flute drawn DIAGONALLY: a slender pipe [GREY] with finger holes, bound with a leaf binding (leaf green), a small leaf dangling from a cord"
+	},
+	"semebomba": {
+		"en": "seed bomb",
+		"desc": "a round explosive seed pod [GREY] with ridged husk segments, a short curly fuse of dry root (plum wood) on top with a little amber spark"
+	},
+	"canna": {
+		"en": "fishing rod",
+		"desc": "a fishing rod drawn DIAGONALLY: a long flexible rod [GREY] with a small reel near the leather grip (warm leather), a thin line curving down to a small hook and an amber bobber"
+	},
+	"artiglio": {
+		"en": "claw",
+		"desc": "a big curved beast claw [GREY], hooked and sharp, with a rough base where it joined the paw and a couple of growth lines"
+	},
+	"lingotto": {
+		"en": "ingot",
+		"desc": "a metal ingot [GREY] shaped like a plump seed or almond, lying on its side, with bevelled edges, a stamped leaf mark on top and a bright metallic highlight"
+	},
+	"pesce": {
+		"en": "fish",
+		"desc": "a whole fish seen from the side facing right [GREY], with fins, scales, a curved tail and a round eye; mouth slightly open"
+	},
+	"vasetto": {
+		"en": "glass jar",
+		"desc": "a small glass jar [GREY] with a cork stopper (plum wood) tied with string, a soft glow of turquoise sap inside and a highlight on the glass"
+	},
+	"goccia": {
+		"en": "drop",
+		"desc": "a single big glossy liquid drop [GREY], teardrop shaped, with a bright highlight and a little splash ring at its base"
+	},
+	"scrigno": {
+		"en": "chest",
+		"desc": "a small treasure chest seen from a 3/4 front view, its body of root wood (plum wood), the metal bands, corners and lock [GREY], the lid slightly domed"
+	}
+}

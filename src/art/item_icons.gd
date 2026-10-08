@@ -66,8 +66,36 @@ const LEAF := ["#16574f", "#3aa08a", "#72d4b0"]
 const AMBER := ["#9a4a22", "#ffb040", "#ffe0a0"]
 
 
+## L'icona del MONDO (16 pixel, pixel art come il resto del mondo): l'attrezzo in mano, gli oggetti a terra e lanciati.
 static func of(id: String) -> Image:
 	return CreatureFx.shade(_of(id))       # voce 292: contorno del colore dell'oggetto, luce da sinistra in alto
+
+
+## L'icona dell'INTERFACCIA (48 pixel, la misura delle caselle): dipinta se la forma ha il disegno nuovo
+## (`IconTemplates.make_ui`), altrimenti quella del mondo ingrandita ×3 a pixel pieni (8 ott 2026).
+static func ui(id: String) -> Image:
+	var it := ItemsData.get_item(id)
+	if it.is_empty() or it.has("build") or str(it.get("place", "")).begins_with("arredo_") \
+			or int(it.get("wall", 0)) >= BuildData.WALL_BASE:
+		return up3(of(id))
+	return IconVariety.of_ui(id, it)
+
+
+## Una forma per l'interfaccia: il disegno dipinto, o la forma del mondo ingrandita.
+static func make_ui(shape: String, material: String) -> Image:
+	var drawn := IconTemplates.make_ui(shape, pal(material))
+	if drawn != null:
+		return drawn
+	return up3(CreatureFx.shade(make(shape, material)))
+
+
+## Un'icona da 16 pixel portata a 48 (a pixel pieni). Quelle già grandi restano come sono.
+static func up3(img: Image) -> Image:
+	if img.get_width() > 24:
+		return img
+	var out := img.duplicate() as Image
+	out.resize(img.get_width() * 3, img.get_height() * 3, Image.INTERPOLATE_NEAREST)
+	return out
 
 
 static func _of(id: String) -> Image:

@@ -35,6 +35,7 @@ func setup(recipe: Dictionary, b: Bisaccia) -> void:
 	_qty = int(r["qty"])
 	color = CraftCatsData.color_of(out)
 	_tex = SlotView.icon(out)
+	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR    # l'icona da 48 disegnata a 40: morbida, non a scalini
 	custom_minimum_size = Vector2(SIZE, SIZE)
 	focus_mode = Control.FOCUS_NONE
 	flat = true

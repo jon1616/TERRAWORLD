@@ -161,6 +161,10 @@ func _place_toast() -> void:
 			_toast_at = Vector2(roundf(col.position.x + (col.size.x - _toast_box.size.x) * 0.5), col.end.y - 20.0 - _toast_box.size.y)
 		elif mode == 2:
 			_toast_at = Vector2(1600.0 - 36.0 - _toast_box.size.x, 20.0)
+	if mode == 1:
+		# il testo che va a capo cresce un fotogramma dopo la misura: l'avviso resta appoggiato al fondo della colonna
+		var bottom := panel.examine.get_global_rect().end.y - 20.0
+		_toast_at.y = bottom - _toast_box.size.y
 	_toast_box.position = _toast_at + Vector2(0, _toast_slide)
 
 
@@ -172,7 +176,7 @@ func current() -> Dictionary:
 	var tr := bisaccia.trait_at(sel)
 	var dati: Dictionary = bisaccia.slots[sel].get("dati", {})
 	return {"id": id, "name": Gear.full_name({"id": id, "tratto": tr, "dati": dati}), "use": ItemsData.use_of(id),
-		"tex": SlotView.icon(id), "tratto": tr, "dati": dati}
+		"tex": SlotView.world_icon(id), "tratto": tr, "dati": dati}     # l'attrezzo in mano: pixel art del mondo
 
 
 func select(k: int) -> void:

@@ -1,0 +1,18 @@
+{
+ "lotto": "lotto_04",
+ "grid": "4x3",
+ "shapes": [
+  "ascia",
+  "tomo",
+  "trivella",
+  "flauto",
+  "semebomba",
+  "canna",
+  "artiglio",
+  "lingotto",
+  "pesce",
+  "vasetto",
+  "goccia",
+  "scrigno"
+ ]
+}

@@ -356,7 +356,7 @@ func _show_benches(near: Dictionary) -> void:
 		var ic := TextureRect.new()
 		var item := String(sd.get("item", ""))
 		ic.texture = SlotView.icon(item if item != "" else id)
-		ic.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		ic.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 		ic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		ic.custom_minimum_size = Vector2(BENCH_ICON, BENCH_ICON)
 		ic.mouse_filter = Control.MOUSE_FILTER_STOP

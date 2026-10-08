@@ -1,0 +1,2788 @@
+[
+	{
+		"count": 526,
+		"drawn": true,
+		"examples": [
+			"Velo d'ombra",
+			"Rete del Vuoto",
+			"Velo di piume",
+			"Manto di brina fresca",
+			"Velo di sussurro",
+			"Mantello di filo di spore"
+		],
+		"kinds": [
+			"stendardo",
+			"elmo",
+			"accessorio",
+			"stazione"
+		],
+		"mats": [
+			"seta",
+			"brillaluce",
+			"nottilite",
+			"vuotite"
+		],
+		"shape": "velo"
+	},
+	{
+		"count": 378,
+		"drawn": true,
+		"examples": [
+			"Amuleto di corteccia",
+			"Pendente di stelle",
+			"Fischietto del branco",
+			"Amuleto dell'errante",
+			"Amuleto del palco",
+			"Cuore di brace"
+		],
+		"kinds": [
+			"amuleto",
+			"accessorio",
+			"legame",
+			"trofeo"
+		],
+		"mats": [
+			"ardesia",
+			"vuotite",
+			"ambra",
+			"brillaluce"
+		],
+		"shape": "amuleto"
+	},
+	{
+		"count": 306,
+		"drawn": true,
+		"examples": [
+			"Corona del Giardino",
+			"Corona gelatinosa",
+			"Corona di palchi",
+			"Cappello del vecchio fungaio",
+			"Corno del branco",
+			"Corona d'iride"
+		],
+		"kinds": [
+			"trofeo",
+			"cimelio",
+			"accessorio",
+			"elmo"
+		],
+		"mats": [
+			"brillaluce",
+			"vuotite",
+			"cristallo",
+			"brina"
+		],
+		"shape": "corona"
+	},
+	{
+		"count": 295,
+		"drawn": true,
+		"examples": [
+			"Cuore di muschio",
+			"Pietra che batte",
+			"Cuore di bocciolo",
+			"Cuore dell'errante",
+			"Cuore di grumo",
+			"Cuore cavo"
+		],
+		"kinds": [
+			"accessorio",
+			"materiale",
+			"trofeo",
+			"dispensa"
+		],
+		"mats": [
+			"ardesia",
+			"stelle",
+			"ambra",
+			"primambra"
+		],
+		"shape": "cuore"
+	},
+	{
+		"count": 282,
+		"drawn": true,
+		"examples": [
+			"Humus",
+			"Ardesia",
+			"Radice antica",
+			"Scisto di Linfa",
+			"Pietra dei Seminatori",
+			"Vuotite"
+		],
+		"kinds": [
+			"blocco",
+			"materiale",
+			"gruppo",
+			"richiamo"
+		],
+		"mats": [
+			"ardesia",
+			"humus",
+			"muschio",
+			"brace"
+		],
+		"shape": "zolla"
+	},
+	{
+		"count": 274,
+		"drawn": true,
+		"examples": [
+			"Pozione del passo lungo",
+			"Pozione del minatore",
+			"Pozione di spine",
+			"Pozione dell'esca",
+			"Pozione di fortuna",
+			"Pozione di rugiada"
+		],
+		"kinds": [
+			"consumabile",
+			"fiala",
+			"stazione",
+			"provetta"
+		],
+		"mats": [
+			"ambra",
+			"sanguinella",
+			"lagunite",
+			"iride"
+		],
+		"shape": "pozione"
+	},
+	{
+		"count": 243,
+		"drawn": true,
+		"examples": [
+			"Anello di brillaluce",
+			"Anello di sanguinella",
+			"Anello di lagunite",
+			"Anello di nottilite",
+			"Anello di lucciola",
+			"Anello del geode"
+		],
+		"kinds": [
+			"anello",
+			"accessorio",
+			"trofeo",
+			"materiale"
+		],
+		"mats": [
+			"ardesia",
+			"vuotite",
+			"tizzonite",
+			"cristallo"
+		],
+		"shape": "anello"
+	},
+	{
+		"count": 168,
+		"drawn": true,
+		"examples": [
+			"Seme di muschio",
+			"Seme d'albero-lanterna",
+			"Seme di tempesta",
+			"Semi d'erba di rugiada",
+			"Seme di campanula lume",
+			"Occhio di tubero"
+		],
+		"kinds": [
+			"seme",
+			"esca_signore",
+			"richiamo",
+			"seme_mondo"
+		],
+		"mats": [
+			"iride",
+			"ambra",
+			"vuotite",
+			"fungo"
+		],
+		"shape": "seme"
+	},
+	{
+		"count": 156,
+		"drawn": true,
+		"examples": [
+			"Brillaluce",
+			"Sanguinella",
+			"Lagunite",
+			"Nottilite",
+			"Frammento di stella",
+			"Scheggia cantante"
+		],
+		"kinds": [
+			"stazione",
+			"materiale",
+			"blocco",
+			"trofeo"
+		],
+		"mats": [
+			"ambra",
+			"brillaluce",
+			"legnoferro",
+			"vuotite"
+		],
+		"shape": "gemma"
+	},
+	{
+		"count": 151,
+		"drawn": true,
+		"examples": [
+			"Cappuccio di seta",
+			"Cappuccio del Vuoto",
+			"Cappuccio di brina",
+			"Elmo di squame",
+			"Cappuccio del vento",
+			"Elmo di corteccia"
+		],
+		"kinds": [
+			"elmo",
+			"accessorio"
+		],
+		"mats": [
+			"vuotite",
+			"brillaluce",
+			"brina",
+			"fungo"
+		],
+		"shape": "elmo"
+	},
+	{
+		"count": 148,
+		"drawn": true,
+		"examples": [
+			"Corazza di scaglie",
+			"Veste di seta",
+			"Veste del Vuoto",
+			"Manto di brina",
+			"Corazza di squame",
+			"Veste del vento"
+		],
+		"kinds": [
+			"corazza"
+		],
+		"mats": [
+			"vuotite",
+			"brillaluce",
+			"brina",
+			"fungo"
+		],
+		"shape": "corazza"
+	},
+	{
+		"count": 145,
+		"drawn": true,
+		"examples": [
+			"Calzari di seta",
+			"Calzari del Vuoto",
+			"Gambali di brina",
+			"Gambali di squame",
+			"Calzari del vento",
+			"Gambali di corteccia"
+		],
+		"kinds": [
+			"gambali"
+		],
+		"mats": [
+			"vuotite",
+			"brillaluce",
+			"brina",
+			"fungo"
+		],
+		"shape": "gambali"
+	},
+	{
+		"count": 128,
+		"drawn": true,
+		"examples": [
+			"Zuppa di funghi",
+			"Pane di tubero",
+			"Insalata di lume",
+			"Stufato regale",
+			"Spiedo di cappellino con petali di vento",
+			"Stufato di pesce di cristallo e nettare di rugiada"
+		],
+		"kinds": [
+			"consumabile"
+		],
+		"mats": [
+			"muschio",
+			"ambra",
+			"brace",
+			"linfa"
+		],
+		"shape": "ciotola"
+	},
+	{
+		"count": 121,
+		"drawn": true,
+		"examples": [
+			"Essenza di furia",
+			"Essenza di guscio",
+			"Essenza di fulmine",
+			"Essenza di vastità",
+			"Essenza di veleno",
+			"Essenza di spine"
+		],
+		"kinds": [
+			"trofeo",
+			"materiale",
+			"essenza",
+			"accessorio"
+		],
+		"mats": [
+			"brillaluce",
+			"muschio",
+			"linfa",
+			"vuotite"
+		],
+		"shape": "essenza"
+	},
+	{
+		"count": 121,
+		"drawn": true,
+		"examples": [
+			"Arco di radice",
+			"Arco iridato",
+			"Arco di seta regale",
+			"Arco del gelo",
+			"Arco di seta della giungla",
+			"Arco lungo della goccia d'oro"
+		],
+		"kinds": [
+			"arco",
+			"stazione"
+		],
+		"mats": [
+			"ardesia",
+			"ambra",
+			"iride",
+			"brillaluce"
+		],
+		"shape": "arco"
+	},
+	{
+		"count": 114,
+		"drawn": true,
+		"examples": [
+			"Fiocina delle maree",
+			"Asta delle spore",
+			"Asta delle stelle",
+			"Asta del viandante",
+			"Asta della primambra",
+			"Lancia della Lince d'ardesia"
+		],
+		"kinds": [
+			"spada"
+		],
+		"mats": [
+			"ardesia",
+			"lagunite",
+			"brina",
+			"iride"
+		],
+		"shape": "lancia"
+	},
+	{
+		"count": 100,
+		"drawn": true,
+		"examples": [
+			"Seta di radice",
+			"Seta del Vuoto",
+			"Filiera di tessiradice",
+			"Filiera del Vuoto",
+			"Seta regale",
+			"Filo di richiamo"
+		],
+		"kinds": [
+			"materiale",
+			"stazione",
+			"accessorio",
+			"trofeo"
+		],
+		"mats": [
+			"brillaluce",
+			"muschio",
+			"radice",
+			"brina"
+		],
+		"shape": "seta"
+	},
+	{
+		"count": 97,
+		"drawn": true,
+		"examples": [
+			"Spada di radice",
+			"Pugnale di becco",
+			"Lama della salamandra",
+			"Fendente del Nodo",
+			"Fendente della sorgente",
+			"Fendente del Seme Nero"
+		],
+		"kinds": [
+			"spada"
+		],
+		"mats": [
+			"ardesia",
+			"tizzonite",
+			"ambra",
+			"nottilite"
+		],
+		"shape": "spada"
+	},
+	{
+		"count": 95,
+		"drawn": true,
+		"examples": [
+			"Trafiggitrice del legno malato",
+			"Arbalesta del nodo spezzato",
+			"Balestra del lago chiaro",
+			"Trafiggitrice dell'acqua che canta",
+			"Arbalesta della vena calda",
+			"Balestra della terra che pulsa"
+		],
+		"kinds": [
+			"arco"
+		],
+		"mats": [
+			"ardesia",
+			"lagunite",
+			"iride",
+			"cuorelegno"
+		],
+		"shape": "balestra"
+	},
+	{
+		"count": 93,
+		"drawn": true,
+		"examples": [
+			"Mantello di penne",
+			"Mantello iridato",
+			"Manto della Tessitrice",
+			"Mantello di pelliccia",
+			"Mantello della Regina turchese",
+			"Mantello del Firmamento"
+		],
+		"kinds": [
+			"mantello",
+			"accessorio"
+		],
+		"mats": [
+			"muschio",
+			"ambra",
+			"cielo",
+			"vuotite"
+		],
+		"shape": "mantello"
+	},
+	{
+		"count": 93,
+		"drawn": true,
+		"examples": [
+			"Coda d'anguilla",
+			"Liana del germoglio",
+			"Liana del Risveglio",
+			"Liana della barriera",
+			"Liana del Primo Mondo",
+			"Coda di anguilla di brace"
+		],
+		"kinds": [
+			"spada",
+			"laccio",
+			"trofeo"
+		],
+		"mats": [
+			"ardesia",
+			"muschio",
+			"cristallo",
+			"sanguinella"
+		],
+		"shape": "frusta"
+	},
+	{
+		"count": 91,
+		"drawn": true,
+		"examples": [
+			"Spadone della luce fossile",
+			"Spadone delle rocce sveglie",
+			"Spadone della radice gigante",
+			"Spadone di ermellino di brina",
+			"Spadone di cicala delle ceneri del filo d'oro",
+			"Spadone di daino dell'iride che ricorda"
+		],
+		"kinds": [
+			"spada"
+		],
+		"mats": [
+			"ardesia",
+			"iride",
+			"brillaluce",
+			"seminite"
+		],
+		"shape": "spadone"
+	},
+	{
+		"count": 90,
+		"drawn": true,
+		"examples": [
+			"Martello delle Caverne",
+			"Martello dei Giardini perduti",
+			"Martello della sanguinite",
+			"Martello dell'ultimo Seminatore",
+			"Maglio della Salamandra di Linfa",
+			"Maglio di bruco delle radici pendenti"
+		],
+		"kinds": [
+			"spada"
+		],
+		"mats": [
+			"ardesia",
+			"seminite",
+			"iride",
+			"crepuscolite"
+		],
+		"shape": "mazza"
+	},
+	{
+		"count": 90,
+		"drawn": true,
+		"examples": [
+			"Bacheca dei Giardinieri",
+			"Tavoletta dell'alba",
+			"Tavoletta del giorno",
+			"Tavoletta del tramonto",
+			"Tavoletta della notte",
+			"Sigillo della Notte delle spore"
+		],
+		"kinds": [
+			"ricordo",
+			"stazione",
+			"legame",
+			"materiale"
+		],
+		"mats": [
+			"sem",
+			"linfa",
+			"ambra",
+			"brace"
+		],
+		"shape": "tavoletta"
+	},
+	{
+		"count": 89,
+		"drawn": true,
+		"examples": [
+			"Scaglia d'ardesia",
+			"Frammento del Nodo",
+			"Scaglia di serpe",
+			"Scaglia della Serpe madre",
+			"Scaglia di richiamo",
+			"Squama di salamandra"
+		],
+		"kinds": [
+			"materiale",
+			"trofeo",
+			"accessorio",
+			"richiamo"
+		],
+		"mats": [
+			"brillaluce",
+			"muschio",
+			"ardesia",
+			"lagunite"
+		],
+		"shape": "scaglia"
+	},
+	{
+		"count": 87,
+		"drawn": true,
+		"examples": [
+			"Spina delle prime radici",
+			"Spina della montagna",
+			"Spina del corallo",
+			"Spina dell'Albero-Madre",
+			"Zanna di cervo iridato",
+			"Zanna di salamandra della foresta che canta"
+		],
+		"kinds": [
+			"spada"
+		],
+		"mats": [
+			"ardesia",
+			"fungo",
+			"legnoferro",
+			"sanguinella"
+		],
+		"shape": "pugnale"
+	},
+	{
+		"count": 86,
+		"drawn": false,
+		"examples": [
+			"Ramo di Rugiada del sottobosco",
+			"Virgulto del primo Guardiano",
+			"Germoglio della lunga discesa",
+			"Ramo di Rugiada della fungaia",
+			"Virgulto della lucciola",
+			"Germoglio del gigante"
+		],
+		"kinds": [
+			"ramo"
+		],
+		"mats": [
+			"ardesia",
+			"iride",
+			"nottilite",
+			"brillaluce"
+		],
+		"shape": "virgulto"
+	},
+	{
+		"count": 85,
+		"drawn": true,
+		"examples": [
+			"Penna di corteccia",
+			"Piuma del gelo",
+			"Piuma del vento",
+			"Coda del Planavento",
+			"Piuma di rame",
+			"Coda di codarossa"
+		],
+		"kinds": [
+			"materiale",
+			"trofeo",
+			"accessorio",
+			"richiamo_grande"
+		],
+		"mats": [
+			"brillaluce",
+			"muschio",
+			"seta",
+			"brace"
+		],
+		"shape": "penna"
+	},
+	{
+		"count": 85,
+		"drawn": true,
+		"examples": [
+			"Falce della muffa",
+			"Falce del Vuoto",
+			"Falce del guscio spezzato",
+			"Falce dell'astrite",
+			"Falce di farfalla prisma",
+			"Falce di corvo del firmamento dagli occhi di vetro"
+		],
+		"kinds": [
+			"spada"
+		],
+		"mats": [
+			"ardesia",
+			"vuotite",
+			"nodo",
+			"astrite"
+		],
+		"shape": "falcione"
+	},
+	{
+		"count": 83,
+		"drawn": true,
+		"examples": [
+			"Verga intrecciata",
+			"Verga delle due radici",
+			"Verga dei tre Cuori",
+			"Verga dei quattro Giardini",
+			"Verga delle cinque stelle",
+			"La Verga dell'Albero-Madre"
+		],
+		"kinds": [
+			"bastone"
+		],
+		"mats": [
+			"legnoferro",
+			"stelle",
+			"sanguinite",
+			"eterite"
+		],
+		"shape": "verga"
+	},
+	{
+		"count": 82,
+		"drawn": true,
+		"examples": [
+			"Stivali di radice svelta",
+			"Stivali della serpe",
+			"Passo di guizzo",
+			"Stivali di scaglie",
+			"Stivali di pelo di lepre",
+			"Molle di cavalletta"
+		],
+		"kinds": [
+			"stivali",
+			"accessorio"
+		],
+		"mats": [
+			"cristallo",
+			"seta",
+			"cenere",
+			"ambra"
+		],
+		"shape": "stivali"
+	},
+	{
+		"count": 81,
+		"drawn": false,
+		"examples": [
+			"Bastone del branco della terra smossa",
+			"Scettro dell'avvizzito",
+			"Richiamo della galleria",
+			"Bastone del branco della palude",
+			"Scettro della resina antica",
+			"Richiamo della pietra che batte"
+		],
+		"kinds": [
+			"evocatore"
+		],
+		"mats": [
+			"ardesia",
+			"eterite",
+			"sanguinite",
+			"legnoferro"
+		],
+		"shape": "scettro"
+	},
+	{
+		"count": 81,
+		"drawn": false,
+		"examples": [
+			"Girandola dei primi passi",
+			"Ritorno della corteccia nera",
+			"Ala ricurva del minatore",
+			"Girandola del polline nero",
+			"Ritorno dell'insetto prigioniero",
+			"Ala ricurva del terzo Guardiano"
+		],
+		"kinds": [
+			"lancio"
+		],
+		"mats": [
+			"ardesia",
+			"nottilite",
+			"iride",
+			"stelle"
+		],
+		"shape": "girandola"
+	},
+	{
+		"count": 81,
+		"drawn": true,
+		"examples": [
+			"Zappa dei Seminatori",
+			"Piccone della Grande Scavatrice",
+			"Piccone delle Distese d'ambra",
+			"Piccone delle Cenerarie",
+			"Piccone del Mare di nuvole",
+			"Piccone dei Giardini del vento"
+		],
+		"kinds": [
+			"piccone",
+			"reliquia",
+			"stazione"
+		],
+		"mats": [
+			"ambra",
+			"cenere",
+			"lagunite",
+			"cristallo"
+		],
+		"shape": "piccone"
+	},
+	{
+		"count": 79,
+		"drawn": true,
+		"examples": [
+			"Guanti del talpone",
+			"Guanti di seta",
+			"Guanti di pelle d'anguilla",
+			"Guanto del tessitore",
+			"Guanti della spola",
+			"Guanti di resina"
+		],
+		"kinds": [
+			"guanti",
+			"accessorio"
+		],
+		"mats": [
+			"seta",
+			"legnoferro",
+			"brace",
+			"tizzonite"
+		],
+		"shape": "guanti"
+	},
+	{
+		"count": 78,
+		"drawn": true,
+		"examples": [
+			"Ascia delle Lande di brace viva",
+			"Ascia delle Scogliere di cristallo",
+			"Ascia delle Radici sospese",
+			"Ascia della Foresta-lanterna",
+			"Ascia dei Prati iridati",
+			"Ascia dei Prati di vento"
+		],
+		"kinds": [
+			"ascia"
+		],
+		"mats": [
+			"tizzonite",
+			"muschio",
+			"iride",
+			"brillaluce"
+		],
+		"shape": "ascia"
+	},
+	{
+		"count": 77,
+		"drawn": false,
+		"examples": [
+			"Libro del primo mattino",
+			"Erbario della radice storta",
+			"Tomo della vena dura",
+			"Libro del velo viola",
+			"Erbario del tempo fermo",
+			"Tomo della frana"
+		],
+		"kinds": [
+			"bastone"
+		],
+		"mats": [
+			"iride",
+			"ardesia",
+			"nottilite",
+			"brillaluce"
+		],
+		"shape": "tomo"
+	},
+	{
+		"count": 77,
+		"drawn": true,
+		"examples": [
+			"Trivella dei Boschi di brina",
+			"Trivella del Firmamento",
+			"Trivella dei Nidi di tempesta",
+			"Trivella delle Colline dei cappelli",
+			"Trivella delle Paludi di spore",
+			"Trivella delle Selve di corteccia rossa"
+		],
+		"kinds": [
+			"piccone"
+		],
+		"mats": [
+			"brina",
+			"stelle",
+			"fungo",
+			"nodo"
+		],
+		"shape": "trivella"
+	},
+	{
+		"count": 73,
+		"drawn": false,
+		"examples": [
+			"Zufolo della radice bassa",
+			"Canna del Cuore stanco",
+			"Flauto della roccia blu",
+			"Zufolo dell'alveare",
+			"Canna del tramonto",
+			"Flauto della valanga"
+		],
+		"kinds": [
+			"strumento"
+		],
+		"mats": [
+			"ardesia",
+			"nodo",
+			"brillaluce",
+			"eterite"
+		],
+		"shape": "flauto"
+	},
+	{
+		"count": 72,
+		"drawn": false,
+		"examples": [
+			"Seme-bomba della lanterna",
+			"Baccello della linfa spenta",
+			"Noce di fuoco del pozzo",
+			"Seme-bomba del ronzio",
+			"Baccello del miele",
+			"Noce di fuoco della roccia viva"
+		],
+		"kinds": [
+			"semeguerra"
+		],
+		"mats": [
+			"ardesia",
+			"tizzonite",
+			"eterite",
+			"cristallo"
+		],
+		"shape": "semebomba"
+	},
+	{
+		"count": 71,
+		"drawn": false,
+		"examples": [
+			"Canna del primo pescatore",
+			"Canna di radice"
+		],
+		"kinds": [
+			"canna"
+		],
+		"mats": [
+			"iride",
+			"brillaluce",
+			"brace",
+			"lagunite"
+		],
+		"shape": "canna"
+	},
+	{
+		"count": 70,
+		"drawn": true,
+		"examples": [
+			"Artigli di corteccia",
+			"Artiglio di talpone",
+			"Muso di talpone",
+			"Muso del talpone",
+			"Palco di brina",
+			"Coda di brace"
+		],
+		"kinds": [
+			"trofeo",
+			"materiale",
+			"accessorio",
+			"richiamo_grande"
+		],
+		"mats": [
+			"brina",
+			"lagunite",
+			"iride",
+			"radice"
+		],
+		"shape": "artiglio"
+	},
+	{
+		"count": 70,
+		"drawn": true,
+		"examples": [
+			"Lingotto di radicite",
+			"Lingotto di legnoferro",
+			"Lingotto d'ambra",
+			"Lingotto di pallidite",
+			"Lingotto di tizzonite",
+			"Lingotto di Linfa"
+		],
+		"kinds": [
+			"materiale"
+		],
+		"mats": [
+			"ambra",
+			"lega:ambra:tizzonite",
+			"lega:ambra:pallidite",
+			"lega:ambra:vuotite"
+		],
+		"shape": "lingotto"
+	},
+	{
+		"count": 68,
+		"drawn": false,
+		"examples": [
+			"Qualsiasi pesce",
+			"Avannotto di muschio",
+			"Carpa-lanterna",
+			"Lasca di radice",
+			"Persico di lume",
+			"Radicola"
+		],
+		"kinds": [
+			"pesce",
+			"gruppo"
+		],
+		"mats": [
+			"lagunite",
+			"fungo",
+			"nottilite",
+			"iride"
+		],
+		"shape": "pesce"
+	},
+	{
+		"count": 67,
+		"drawn": true,
+		"examples": [
+			"Vasetto della Lucciolina",
+			"Gelatina viva",
+			"Goccia dello Spiritello",
+			"Aiuola del Giardino",
+			"Vasetto di miele di cielo",
+			"Marmellata di rovo"
+		],
+		"kinds": [
+			"compagno",
+			"stazione",
+			"contenitore",
+			"secchio_pieno"
+		],
+		"mats": [
+			"muschio",
+			"brace",
+			"ambra",
+			"brina"
+		],
+		"shape": "vasetto"
+	},
+	{
+		"count": 66,
+		"drawn": true,
+		"examples": [
+			"Rugiada di Linfa",
+			"Linfa del Guardiano",
+			"Stilla perenne",
+			"Goccia di richiamo",
+			"Annaffiatoio dei Seminatori",
+			"Resina rubata"
+		],
+		"kinds": [
+			"materiale",
+			"consumabile",
+			"stazione",
+			"tintura"
+		],
+		"mats": [
+			"linfa",
+			"ambra",
+			"lagunite",
+			"vuotite"
+		],
+		"shape": "goccia"
+	},
+	{
+		"count": 64,
+		"drawn": false,
+		"examples": [
+			"Scrigno dei Seminatori",
+			"Cassa da pesca di corallo",
+			"Cassa da pesca di cuorelegno",
+			"Cassa da pesca d'astrite",
+			"Cassa da pesca di primambra",
+			"Borsa del cercatore"
+		],
+		"kinds": [
+			"stazione",
+			"cassetta",
+			"tasca"
+		],
+		"mats": [
+			"ambra",
+			"sem",
+			"ardesia",
+			"brillaluce"
+		],
+		"shape": "scrigno"
+	},
+	{
+		"count": 63,
+		"drawn": false,
+		"examples": [
+			"Fionda del muschio",
+			"Frombola del seme caduto",
+			"Tirasassi del passo pesante",
+			"Fionda del masso",
+			"Frombola del cratere",
+			"Tirasassi del cielo alto"
+		],
+		"kinds": [
+			"arco"
+		],
+		"mats": [
+			"ardesia",
+			"stelle",
+			"iride",
+			"pallidite"
+		],
+		"shape": "fionda"
+	},
+	{
+		"count": 58,
+		"drawn": false,
+		"examples": [
+			"Mietitore della Linfa",
+			"Mietitore della brace",
+			"Mietitore dell'etere",
+			"Falce della Fenice di cenere",
+			"Falce dei rovi",
+			"Falce lunga di falena vampira"
+		],
+		"kinds": [
+			"spada"
+		],
+		"mats": [
+			"ardesia",
+			"eterite",
+			"iride",
+			"seminite"
+		],
+		"shape": "falcelunga"
+	},
+	{
+		"count": 58,
+		"drawn": false,
+		"examples": [
+			"Buccina intrecciata",
+			"Buccina delle due radici",
+			"Buccina dei tre Cuori",
+			"Buccina dei quattro Giardini",
+			"Buccina delle cinque stelle",
+			"La Buccina dei Seminatori"
+		],
+		"kinds": [
+			"strumento"
+		],
+		"mats": [
+			"ardesia",
+			"iride",
+			"abissite",
+			"sognite"
+		],
+		"shape": "buccina"
+	},
+	{
+		"count": 56,
+		"drawn": false,
+		"examples": [
+			"Brocchiere dell'ambra",
+			"Brocchiere del Giardino sommerso",
+			"Brocchiere del cuorelegno",
+			"Brocchiere di Maesh",
+			"Scudo del Brucacristalli antico",
+			"Guscio di chiocciola di cristallo"
+		],
+		"kinds": [
+			"spada"
+		],
+		"mats": [
+			"ardesia",
+			"iride",
+			"memorite",
+			"abissite"
+		],
+		"shape": "egida"
+	},
+	{
+		"count": 56,
+		"drawn": true,
+		"examples": [
+			"Lanterna di brillaluce",
+			"Lanterna di Linfa",
+			"Lanterna di lucciola",
+			"Lume di falena",
+			"Lume di lucciola",
+			"Lanterna fatua"
+		],
+		"kinds": [
+			"stazione",
+			"accessorio",
+			"trofeo",
+			"lanterna"
+		],
+		"mats": [
+			"ambra",
+			"linfa",
+			"brillaluce",
+			"sem"
+		],
+		"shape": "lanterna"
+	},
+	{
+		"count": 55,
+		"drawn": true,
+		"examples": [
+			"Sacca di spore",
+			"Baccello di vento",
+			"Bocca di sputaspore",
+			"Sacca d'aria",
+			"Sacca dei grumi",
+			"Sementiera dei Seminatori"
+		],
+		"kinds": [
+			"sacchetto",
+			"accessorio",
+			"bisaccia",
+			"trofeo"
+		],
+		"mats": [
+			"vuotite",
+			"fungo",
+			"brillaluce",
+			"tizzonite"
+		],
+		"shape": "sacca"
+	},
+	{
+		"count": 55,
+		"drawn": false,
+		"examples": [
+			"Scure della Regina",
+			"Scure della vuotite",
+			"Scure dei mondi lontani",
+			"Scure degli astri",
+			"Ascia di allocco delle radici",
+			"Ascia di chiocciola di brace col mantello"
+		],
+		"kinds": [
+			"spada"
+		],
+		"mats": [
+			"ardesia",
+			"fungo",
+			"stelle",
+			"seminite"
+		],
+		"shape": "bipenne"
+	},
+	{
+		"count": 55,
+		"drawn": false,
+		"examples": [
+			"Dischi del Mietivuoto",
+			"Dischi dello sciame",
+			"Scaglie di cappelletto ladro",
+			"Scaglie di falco del vento",
+			"Scaglie di corvo di vetro senz'ombra",
+			"Scaglie di corvo risvegliato di brace"
+		],
+		"kinds": [
+			"lancio"
+		],
+		"mats": [
+			"ardesia",
+			"iride",
+			"crepuscolite",
+			"memorite"
+		],
+		"shape": "dischi"
+	},
+	{
+		"count": 54,
+		"drawn": false,
+		"examples": [
+			"Canna da soffio dell'ardesia",
+			"Cerbottana dell'eco di pietra",
+			"Soffio del battito",
+			"Canna da soffio della Linfa del Cuore",
+			"Cerbottana del mare di Linfa",
+			"Soffio dell'abisso rosa"
+		],
+		"kinds": [
+			"arco"
+		],
+		"mats": [
+			"iride",
+			"seminite",
+			"crepuscolite",
+			"memorite"
+		],
+		"shape": "cerbottana"
+	},
+	{
+		"count": 54,
+		"drawn": false,
+		"examples": [
+			"Seme intrecciato",
+			"Seme delle due radici",
+			"Seme dei tre Cuori",
+			"Seme dei quattro Giardini",
+			"Seme delle cinque stelle",
+			"Il Seme del primo bosco"
+		],
+		"kinds": [
+			"semeguerra"
+		],
+		"mats": [
+			"ardesia",
+			"crepuscolite",
+			"iride",
+			"memorite"
+		],
+		"shape": "semetorre"
+	},
+	{
+		"count": 54,
+		"drawn": false,
+		"examples": [
+			"Occhio del Verme delle dune",
+			"Sfera delle stelle vive",
+			"Occhio di cicala della palude del filo d'oro",
+			"Occhio di orso del sottobosco che piange",
+			"Occhio di orso di corteccia",
+			"Occhio di picchio di rame"
+		],
+		"kinds": [
+			"bastone"
+		],
+		"mats": [
+			"ardesia",
+			"iride",
+			"seminite",
+			"sognite"
+		],
+		"shape": "sfera"
+	},
+	{
+		"count": 52,
+		"drawn": false,
+		"examples": [
+			"Lanciaspore dello sciame",
+			"Bocca di spore della seconda corona",
+			"Soffione dell'abisso",
+			"Lanciaspore del Fondo",
+			"Bocca di spore dell'Avvizzitore",
+			"Soffione del perdono"
+		],
+		"kinds": [
+			"arco"
+		],
+		"mats": [
+			"ardesia",
+			"nottilite",
+			"vuotite",
+			"fungo"
+		],
+		"shape": "lanciaspore"
+	},
+	{
+		"count": 51,
+		"drawn": false,
+		"examples": [
+			"Tamburo dell'Aquila della tempesta",
+			"Tamburo di airone di torba",
+			"Tamburo di falena del firmamento",
+			"Tamburo di formica risvegliata dell'iride",
+			"Tamburo di saltagrillo",
+			"Tamburo di stella errante"
+		],
+		"kinds": [
+			"strumento"
+		],
+		"mats": [
+			"ardesia",
+			"crepuscolite",
+			"memorite",
+			"iride"
+		],
+		"shape": "tamburo"
+	},
+	{
+		"count": 49,
+		"drawn": false,
+		"examples": [
+			"Randello del legnoferro",
+			"Randello del Cuore desto",
+			"Randello del sangue",
+			"Randello del principio",
+			"Clava del Draghetto d'eco cresciuto",
+			"Osso di aquila della tempesta"
+		],
+		"kinds": [
+			"spada"
+		],
+		"mats": [
+			"ardesia",
+			"legnoferro",
+			"iride",
+			"sanguinite"
+		],
+		"shape": "randello"
+	},
+	{
+		"count": 48,
+		"drawn": true,
+		"examples": [
+			"Foglia planante",
+			"Velo di spora",
+			"Foglia di rugiada",
+			"Petali di lume",
+			"Ala intatta di falena",
+			"Petali di vento"
+		],
+		"kinds": [
+			"materiale",
+			"accessorio",
+			"trofeo",
+			"tasca"
+		],
+		"mats": [
+			"muschio",
+			"brace",
+			"ambra",
+			"linfa"
+		],
+		"shape": "foglia"
+	},
+	{
+		"count": 48,
+		"drawn": false,
+		"examples": [
+			"Manopole del Colosso",
+			"Manopole della stella caduta",
+			"Manopole delle radici del cosmo",
+			"Manopole del Seme Primo",
+			"Pugni della Balena delle stelle",
+			"Artigli di bruco del Germoglio"
+		],
+		"kinds": [
+			"spada"
+		],
+		"mats": [
+			"ardesia",
+			"brillaluce",
+			"celeste",
+			"sanguinite"
+		],
+		"shape": "manopole"
+	},
+	{
+		"count": 48,
+		"drawn": true,
+		"examples": [
+			"Gelatina di muschio",
+			"Pelle di resina",
+			"Gelatina regale",
+			"Sacca di torba",
+			"Grasso di foca",
+			"Gelatina di stelle"
+		],
+		"kinds": [
+			"materiale",
+			"esca",
+			"trofeo",
+			"accessorio"
+		],
+		"mats": [
+			"brillaluce",
+			"muschio",
+			"linfa",
+			"ambra"
+		],
+		"shape": "gel"
+	},
+	{
+		"count": 47,
+		"drawn": true,
+		"examples": [
+			"Polvere di brace",
+			"Cenere avvizzita",
+			"Polline della Regina",
+			"Spore di brace",
+			"Spore luminose",
+			"Polvere di lucciola"
+		],
+		"kinds": [
+			"materiale",
+			"munizione",
+			"coltura",
+			"consumabile"
+		],
+		"mats": [
+			"ambra",
+			"stelle",
+			"brace",
+			"cristallo"
+		],
+		"shape": "polvere"
+	},
+	{
+		"count": 41,
+		"drawn": true,
+		"examples": [
+			"Guscio di cristallo",
+			"Spirale di cristallo",
+			"Guscio a spirale",
+			"Bozzolo turchese",
+			"Guscio sospeso",
+			"Vertebra del Gigante"
+		],
+		"kinds": [
+			"materiale",
+			"trofeo",
+			"curiosita",
+			"accessorio"
+		],
+		"mats": [
+			"sem",
+			"cristallo",
+			"muschio",
+			"pallidite"
+		],
+		"shape": "guscio"
+	},
+	{
+		"count": 38,
+		"drawn": true,
+		"examples": [
+			"Membrana d'ardesia",
+			"Ala maestra d'ardesia",
+			"Ala iridata intera",
+			"Membrana dell'eco",
+			"Pellicola del Vuoto",
+			"Pelle di salamandra di Linfa"
+		],
+		"kinds": [
+			"materiale",
+			"accessorio",
+			"trofeo"
+		],
+		"mats": [
+			"brillaluce",
+			"ardesia",
+			"muschio",
+			"linfa"
+		],
+		"shape": "membrana"
+	},
+	{
+		"count": 35,
+		"drawn": false,
+		"examples": [
+			"Benda di seta",
+			"Pennello dell'archeologo"
+		],
+		"kinds": [
+			"elmo",
+			"consumabile",
+			"pennello"
+		],
+		"mats": [
+			"seta",
+			"nottilite",
+			"muschio",
+			"nodo"
+		],
+		"shape": "benda"
+	},
+	{
+		"count": 35,
+		"drawn": true,
+		"examples": [
+			"Ali di membrana",
+			"Ali d'ardesia",
+			"Aquilone del vento",
+			"Ali del re dei venti",
+			"Ali di libellula",
+			"Ali del rigoglio"
+		],
+		"kinds": [
+			"mantello",
+			"accessorio"
+		],
+		"mats": [
+			"ambra",
+			"vuotite",
+			"primambra",
+			"astrite"
+		],
+		"shape": "ali"
+	},
+	{
+		"count": 34,
+		"drawn": false,
+		"examples": [
+			"Cesta di radici",
+			"Nido pieno di gazza",
+			"Cassa da pesca delle Distese d'ambra",
+			"Cassa da pesca delle Lande di brace viva",
+			"Cassa da pesca dei Boschi di brina",
+			"Cassa da pesca delle Cenerarie"
+		],
+		"kinds": [
+			"cassetta",
+			"stazione",
+			"tasca",
+			"trofeo"
+		],
+		"mats": [
+			"ambra",
+			"legno",
+			"cristallo",
+			"legnoferro"
+		],
+		"shape": "cesta"
+	},
+	{
+		"count": 33,
+		"drawn": false,
+		"examples": [],
+		"kinds": [
+			"elmo"
+		],
+		"mats": [
+			"seminite",
+			"crepuscolite",
+			"memorite",
+			"abissite"
+		],
+		"shape": "cappello_radice"
+	},
+	{
+		"count": 33,
+		"drawn": false,
+		"examples": [],
+		"kinds": [
+			"elmo"
+		],
+		"mats": [
+			"seminite",
+			"crepuscolite",
+			"memorite",
+			"abissite"
+		],
+		"shape": "ghirlanda"
+	},
+	{
+		"count": 33,
+		"drawn": false,
+		"examples": [],
+		"kinds": [
+			"elmo"
+		],
+		"mats": [
+			"seminite",
+			"crepuscolite",
+			"memorite",
+			"abissite"
+		],
+		"shape": "maschera"
+	},
+	{
+		"count": 33,
+		"drawn": false,
+		"examples": [],
+		"kinds": [
+			"elmo"
+		],
+		"mats": [
+			"seminite",
+			"crepuscolite",
+			"memorite",
+			"abissite"
+		],
+		"shape": "tiara"
+	},
+	{
+		"count": 33,
+		"drawn": false,
+		"examples": [],
+		"kinds": [
+			"elmo"
+		],
+		"mats": [
+			"seminite",
+			"crepuscolite",
+			"memorite",
+			"abissite"
+		],
+		"shape": "cappuccio_mira"
+	},
+	{
+		"count": 33,
+		"drawn": false,
+		"examples": [],
+		"kinds": [
+			"elmo"
+		],
+		"mats": [
+			"seminite",
+			"crepuscolite",
+			"memorite",
+			"abissite"
+		],
+		"shape": "celata"
+	},
+	{
+		"count": 32,
+		"drawn": false,
+		"examples": [
+			"Parete di assi",
+			"Parete di mattoni",
+			"Parete dei Seminatori",
+			"Recinto di radici"
+		],
+		"kinds": [
+			"parete",
+			"stazione"
+		],
+		"mats": [
+			"ardesia",
+			"legno",
+			"sem",
+			"radice"
+		],
+		"shape": "parete"
+	},
+	{
+		"count": 32,
+		"drawn": true,
+		"examples": [
+			"Aculeo d'ambra",
+			"Corno di scarabeo",
+			"Becco di corvo",
+			"Aculeo maestro",
+			"Dente di serpe",
+			"Corno di carica"
+		],
+		"kinds": [
+			"trofeo",
+			"materiale",
+			"stazione",
+			"accessorio"
+		],
+		"mats": [
+			"ambra",
+			"ardesia",
+			"legnoferro",
+			"radicite"
+		],
+		"shape": "aculeo"
+	},
+	{
+		"count": 31,
+		"drawn": false,
+		"examples": [
+			"Chiave delle Distese d'ambra",
+			"Chiave delle Lande di brace viva",
+			"Chiave dei Boschi di brina",
+			"Chiave delle Cenerarie",
+			"Chiave delle Scogliere di cristallo",
+			"Chiave del Firmamento"
+		],
+		"kinds": [
+			"chiave",
+			"stazione",
+			"materiale",
+			"curiosita"
+		],
+		"mats": [
+			"ardesia",
+			"linfa",
+			"legno",
+			"vuotite"
+		],
+		"shape": "chiave"
+	},
+	{
+		"count": 26,
+		"drawn": true,
+		"examples": [
+			"Occhio di guizzo",
+			"Occhio del Vagavuoto",
+			"Occhio di geode",
+			"Occhio del Vuoto",
+			"Occhio del gelo",
+			"Sguardo del gelo"
+		],
+		"kinds": [
+			"trofeo",
+			"accessorio",
+			"materiale",
+			"occhio"
+		],
+		"mats": [
+			"vuotite",
+			"ambra",
+			"cristallo",
+			"brina"
+		],
+		"shape": "occhio"
+	},
+	{
+		"count": 26,
+		"drawn": false,
+		"examples": [
+			"Radice uncino",
+			"Uncino di cristallo",
+			"Pinza delle vene",
+			"Rampino del primo Guardiano",
+			"Rampino della lunga discesa",
+			"Rampino della fungaia"
+		],
+		"kinds": [
+			"rampino",
+			"pinza",
+			"stazione"
+		],
+		"mats": [
+			"legnoferro",
+			"legno",
+			"ambra",
+			"linfa"
+		],
+		"shape": "uncino"
+	},
+	{
+		"count": 24,
+		"drawn": false,
+		"examples": [
+			"Cuccia",
+			"Alveare costruito"
+		],
+		"kinds": [
+			"stazione"
+		],
+		"mats": [
+			"ardesia",
+			"legno",
+			"ambra",
+			"radice"
+		],
+		"shape": "cassa"
+	},
+	{
+		"count": 22,
+		"drawn": false,
+		"examples": [
+			"Maglio dei Seminatori",
+			"Distillatore di Linfa I",
+			"Distillatore di Linfa II",
+			"Distillatore di Linfa III",
+			"Distillatore di Linfa IV",
+			"Forgia del Cuore I"
+		],
+		"kinds": [
+			"stazione"
+		],
+		"mats": [
+			"corallite",
+			"sanguinite",
+			"cuorelegno",
+			"eterite"
+		],
+		"shape": "incudine"
+	},
+	{
+		"count": 19,
+		"drawn": false,
+		"examples": [
+			"Mappa dei Seminatori",
+			"Bussola delle stele",
+			"Mappa dei Sigilli",
+			"Mappa della firma",
+			"Tavola del progetto",
+			"Progetto: Il ponte dei Seminatori"
+		],
+		"kinds": [
+			"progetto_sem",
+			"mappa",
+			"progetto"
+		],
+		"mats": [
+			"sem",
+			"legno",
+			"linfa",
+			"ambra"
+		],
+		"shape": "mappa"
+	},
+	{
+		"count": 19,
+		"drawn": true,
+		"examples": [
+			"Dardo di spina",
+			"Dardo di vuotite",
+			"Dardo piumato",
+			"Dardo d'aculeo",
+			"Dardo del gelo",
+			"Dardo di folgore"
+		],
+		"kinds": [
+			"munizione",
+			"tasca"
+		],
+		"mats": [
+			"ambra",
+			"brina",
+			"primambra",
+			"astrite"
+		],
+		"shape": "freccia"
+	},
+	{
+		"count": 19,
+		"drawn": false,
+		"examples": [
+			"Pappo di seme",
+			"Pistillo d'oro",
+			"Coda della volpe planante",
+			"Antenna della falena",
+			"Petali di campanula",
+			"Petali di campanula d'ambra"
+		],
+		"kinds": [
+			"materiale",
+			"trofeo",
+			"accessorio",
+			"curiosita"
+		],
+		"mats": [
+			"muschio",
+			"ambra",
+			"stelle",
+			"linfa"
+		],
+		"shape": "pappo"
+	},
+	{
+		"count": 18,
+		"drawn": true,
+		"examples": [
+			"Baccello esplosivo",
+			"Baccello tonante",
+			"Sacca esplosiva di torba",
+			"Baccello del tuono",
+			"Pressa di pietra",
+			"Pressa di pietra di legnoferro"
+		],
+		"kinds": [
+			"stazione",
+			"esplosivo"
+		],
+		"mats": [
+			"muschio",
+			"ardesia",
+			"ambra",
+			"legnoferro"
+		],
+		"shape": "bomba"
+	},
+	{
+		"count": 18,
+		"drawn": false,
+		"examples": [
+			"Tubero di Linfa",
+			"Boccone",
+			"Spiedino di boccone",
+			"Nettare di rugiada",
+			"Tubero dolce",
+			"Cappello di fiammafredda"
+		],
+		"kinds": [
+			"materiale",
+			"consumabile"
+		],
+		"mats": [
+			"iride",
+			"sanguinella",
+			"brace",
+			"cristallo"
+		],
+		"shape": "tubero"
+	},
+	{
+		"count": 17,
+		"drawn": false,
+		"examples": [
+			"Stellina caduta",
+			"Nucleo del tuono",
+			"Richiamo della tempesta",
+			"Scintilla di tuono",
+			"Nucleo di scintilla",
+			"Scheggia di stella"
+		],
+		"kinds": [
+			"materiale",
+			"stazione",
+			"accessorio",
+			"richiamo_grande"
+		],
+		"mats": [
+			"folgorite",
+			"ambra",
+			"stelle",
+			"vento"
+		],
+		"shape": "stella"
+	},
+	{
+		"count": 16,
+		"drawn": true,
+		"examples": [
+			"Bastone di sanguinella",
+			"Bastone di lagunite",
+			"Bastone di brace",
+			"Bastone di spore",
+			"Bastone di cristallo",
+			"Bastone del Vuoto"
+		],
+		"kinds": [
+			"bastone",
+			"materiale",
+			"trofeo",
+			"stazione"
+		],
+		"mats": [
+			"muschio",
+			"ambra",
+			"legno",
+			"sanguinella"
+		],
+		"shape": "bastone"
+	},
+	{
+		"count": 14,
+		"drawn": true,
+		"examples": [
+			"Cristallo di Linfa",
+			"Scheggia del Vuoto",
+			"Nucleo del Colosso",
+			"Coda di cristallo",
+			"Linfite grezza",
+			"Scheggia di vuoto cavo"
+		],
+		"kinds": [
+			"materiale",
+			"trofeo",
+			"curiosita",
+			"stazione"
+		],
+		"mats": [
+			"cristallo",
+			"ardesia",
+			"lagunite",
+			"linfa"
+		],
+		"shape": "cristallo"
+	},
+	{
+		"count": 13,
+		"drawn": true,
+		"examples": [
+			"Torcia di resina",
+			"Totem del germoglio",
+			"Totem del germoglio di legnoferro",
+			"Totem del germoglio d'ambra",
+			"Totem della quiete",
+			"Totem della quiete di legnoferro"
+		],
+		"kinds": [
+			"stazione",
+			"torcia"
+		],
+		"mats": [
+			"legnoferro",
+			"radicite",
+			"ambra",
+			"brillaluce"
+		],
+		"shape": "torcia"
+	},
+	{
+		"count": 13,
+		"drawn": true,
+		"examples": [
+			"Fungo di brace",
+			"Fungo luminoso",
+			"Lamella di saltafungo",
+			"Cappello di saltafungo",
+			"Spore saltellanti",
+			"Micelio duro"
+		],
+		"kinds": [
+			"consumabile",
+			"materiale",
+			"stazione",
+			"trofeo"
+		],
+		"mats": [
+			"fungo",
+			"muschio",
+			"brace",
+			"cristallo"
+		],
+		"shape": "fungo"
+	},
+	{
+		"count": 13,
+		"drawn": true,
+		"examples": [
+			"Radicite grezza",
+			"Legnoferro grezzo",
+			"Ambra fossile",
+			"Pallidite grezza",
+			"Tizzonite grezza",
+			"Nimbite grezza"
+		],
+		"kinds": [
+			"materiale",
+			"curiosita",
+			"gruppo"
+		],
+		"mats": [
+			"ardesia",
+			"radicite",
+			"legnoferro",
+			"ambra"
+		],
+		"shape": "minerale"
+	},
+	{
+		"count": 13,
+		"drawn": false,
+		"examples": [
+			"Collana d'aculei",
+			"Cintura di radice",
+			"Emblema delle radici sospese",
+			"Emblema del mare di nuvole",
+			"Emblema dei giardini del vento",
+			"Emblema delle scogliere"
+		],
+		"kinds": [
+			"accessorio",
+			"curiosita"
+		],
+		"mats": [
+			"ambra",
+			"radice",
+			"stelle",
+			"cielo"
+		],
+		"shape": "collana"
+	},
+	{
+		"count": 13,
+		"drawn": false,
+		"examples": [
+			"Scudo di guscio",
+			"Guscio di riccio",
+			"Scudo d'elitra",
+			"Scudo di placche",
+			"Scudo di carapace",
+			"Corpetto di cuoio di bufalo"
+		],
+		"kinds": [
+			"accessorio",
+			"trofeo",
+			"stazione"
+		],
+		"mats": [
+			"ambra",
+			"ardesia",
+			"lagunite",
+			"cristallo"
+		],
+		"shape": "scudo"
+	},
+	{
+		"count": 13,
+		"drawn": false,
+		"examples": [
+			"Letto di foglie",
+			"Tenda da campo"
+		],
+		"kinds": [
+			"stazione"
+		],
+		"mats": [
+			"muschio",
+			"ardesia",
+			"seta",
+			"legno"
+		],
+		"shape": "letto"
+	},
+	{
+		"count": 12,
+		"drawn": false,
+		"examples": [
+			"Radice viandante",
+			"Vena di radice",
+			"Vena di legnoferro",
+			"Vena d'ambra",
+			"Vena di cristallo",
+			"Midollo della Radice"
+		],
+		"kinds": [
+			"stazione",
+			"vena",
+			"materiale",
+			"radice_ritorno"
+		],
+		"mats": [
+			"radice",
+			"linfa",
+			"ambra",
+			"legno"
+		],
+		"shape": "radice_viaggio"
+	},
+	{
+		"count": 12,
+		"drawn": false,
+		"examples": [
+			"Tavolo di radice"
+		],
+		"kinds": [
+			"stazione"
+		],
+		"mats": [
+			"legno",
+			"ardesia",
+			"radice",
+			"ambra"
+		],
+		"shape": "tavolo"
+	},
+	{
+		"count": 12,
+		"drawn": false,
+		"examples": [
+			"Sedia di radice"
+		],
+		"kinds": [
+			"stazione"
+		],
+		"mats": [
+			"legno",
+			"ardesia",
+			"radice",
+			"ambra"
+		],
+		"shape": "sedia"
+	},
+	{
+		"count": 12,
+		"drawn": true,
+		"examples": [
+			"Lama di nottilite",
+			"Lama del Mietivuoto",
+			"Falce maestra",
+			"Zanna di serpe",
+			"Frusta di coda",
+			"Lama di dente di cristallo"
+		],
+		"kinds": [
+			"spada",
+			"materiale",
+			"trofeo"
+		],
+		"mats": [
+			"vuotite",
+			"cristallo",
+			"nottilite",
+			"brace"
+		],
+		"shape": "lama"
+	},
+	{
+		"count": 10,
+		"drawn": false,
+		"examples": [
+			"Altare dei Seminatori",
+			"Piccolo idolo",
+			"Cerchio dei Seminatori",
+			"Altarino della fortuna",
+			"Altarino della fortuna di legnoferro",
+			"Altarino della fortuna d'ambra"
+		],
+		"kinds": [
+			"stazione",
+			"curiosita"
+		],
+		"mats": [
+			"brillaluce",
+			"radicite",
+			"legnoferro",
+			"ambra"
+		],
+		"shape": "altare"
+	},
+	{
+		"count": 9,
+		"drawn": true,
+		"examples": [
+			"Falce del Vuoto",
+			"Mietitrice",
+			"Falce del Mietitore",
+			"Falcetto dei Seminatori",
+			"Falciatrice di radice",
+			"Falce della sete"
+		],
+		"kinds": [
+			"spada",
+			"reliquia",
+			"stazione"
+		],
+		"mats": [
+			"vuotite",
+			"nottilite",
+			"sem",
+			"legnoferro"
+		],
+		"shape": "falce"
+	},
+	{
+		"count": 8,
+		"drawn": false,
+		"examples": [
+			"Manicotto d'ermellino",
+			"Guanti del Vuoto",
+			"Guanti di pelo di lontra",
+			"Guanti di setola",
+			"Guanti della Salamandra madre",
+			"Zampe dell'Orso rosso"
+		],
+		"kinds": [
+			"accessorio"
+		],
+		"mats": [
+			"radice",
+			"brina",
+			"vuotite",
+			"humus"
+		],
+		"shape": "guanto"
+	},
+	{
+		"count": 8,
+		"drawn": true,
+		"examples": [
+			"Martello di radice",
+			"Martello del Seminatore",
+			"Campana di rovo",
+			"Leva delle trappole",
+			"Dente del Colosso",
+			"Remo del lago"
+		],
+		"kinds": [
+			"spada",
+			"martello",
+			"stazione"
+		],
+		"mats": [
+			"radice",
+			"radicite",
+			"legno",
+			"sem"
+		],
+		"shape": "martello"
+	},
+	{
+		"count": 7,
+		"drawn": false,
+		"examples": [
+			"Passerella di radice",
+			"Passerella di nuvola",
+			"Passerella di bava",
+			"Passerella di rovo",
+			"Passerella di ghiaccio",
+			"Passerella del vento"
+		],
+		"kinds": [
+			"piattaforma",
+			"stazione"
+		],
+		"mats": [
+			"legno",
+			"passerella_nuvola",
+			"passerella_bava",
+			"passerella_rovo"
+		],
+		"shape": "piattaforma"
+	},
+	{
+		"count": 6,
+		"drawn": true,
+		"examples": [
+			"Cuore di geode",
+			"Nucleo di sciame",
+			"Pietra del mimo",
+			"Nucleo cavo",
+			"Scaglia dell'Arco",
+			"Cuore della Geode"
+		],
+		"kinds": [
+			"materiale",
+			"trofeo",
+			"accessorio"
+		],
+		"mats": [
+			"vuotite",
+			"cristallo",
+			"nottilite",
+			"ardesia"
+		],
+		"shape": "geode"
+	},
+	{
+		"count": 5,
+		"drawn": false,
+		"examples": [
+			"Specchio del guizzo",
+			"Occhiali di prisma",
+			"Occhiali del decifratore",
+			"Specchietto di mica",
+			"Barometro di radice"
+		],
+		"kinds": [
+			"accessorio",
+			"specchio",
+			"curiosita",
+			"stazione"
+		],
+		"mats": [
+			"celeste",
+			"cristallo",
+			"ardesia",
+			"cielo"
+		],
+		"shape": "specchio"
+	},
+	{
+		"count": 5,
+		"drawn": false,
+		"examples": [
+			"Mola del gemmaio",
+			"Ingranaggio di radice",
+			"Ruota d'acqua",
+			"Ruota della mandria",
+			"Frantoio"
+		],
+		"kinds": [
+			"stazione",
+			"materiale"
+		],
+		"mats": [
+			"ardesia",
+			"legnoferro",
+			"legno"
+		],
+		"shape": "mola"
+	},
+	{
+		"count": 4,
+		"drawn": false,
+		"examples": [
+			"Assi di lanterna",
+			"Mattoni d'ardesia",
+			"Chiusa di radice",
+			"Piastra di radice"
+		],
+		"kinds": [
+			"blocco",
+			"stazione"
+		],
+		"mats": [
+			"legno",
+			"ardesia",
+			"legnoferro"
+		],
+		"shape": "mattoni"
+	},
+	{
+		"count": 3,
+		"drawn": false,
+		"examples": [
+			"Ceppo del Giardiniere",
+			"Banco dell'Innestatrice",
+			"Tamburo di radice"
+		],
+		"kinds": [
+			"stazione"
+		],
+		"mats": [
+			"legno",
+			"linfa"
+		],
+		"shape": "banco"
+	},
+	{
+		"count": 3,
+		"drawn": false,
+		"examples": [
+			"Baccello ardente",
+			"Baccello di brace",
+			"Forno a Linfa"
+		],
+		"kinds": [
+			"stazione"
+		],
+		"mats": [
+			"ardesia",
+			"brace",
+			"linfa"
+		],
+		"shape": "fornace"
+	},
+	{
+		"count": 3,
+		"drawn": false,
+		"examples": [
+			"Legno di lanterna",
+			"Nodo di strisciaradice",
+			"Radice di richiamo"
+		],
+		"kinds": [
+			"materiale",
+			"trofeo",
+			"richiamo"
+		],
+		"mats": [
+			"legno",
+			"radice",
+			"nodo"
+		],
+		"shape": "tronco"
+	},
+	{
+		"count": 3,
+		"drawn": false,
+		"examples": [
+			"Telaio di foglie",
+			"Spola viva",
+			"Telaio a Linfa"
+		],
+		"kinds": [
+			"stazione",
+			"materiale"
+		],
+		"mats": [
+			"seta",
+			"legnoferro",
+			"linfa"
+		],
+		"shape": "telaio"
+	},
+	{
+		"count": 3,
+		"drawn": false,
+		"examples": [
+			"Lumino",
+			"Moneta del viandante",
+			"Bottone dei Seminatori"
+		],
+		"kinds": [
+			"curiosita",
+			"moneta"
+		],
+		"mats": [
+			"ambra",
+			"seta",
+			"linfa"
+		],
+		"shape": "lumino"
+	},
+	{
+		"count": 3,
+		"drawn": false,
+		"examples": [
+			"Bastone dei grumi amici",
+			"Bastone della falena amica",
+			"Bastone del Vagavuoto domato"
+		],
+		"kinds": [
+			"evocatore"
+		],
+		"mats": [
+			"muschio",
+			"brace",
+			"vuotite"
+		],
+		"shape": "evocatore"
+	},
+	{
+		"count": 3,
+		"drawn": false,
+		"examples": [
+			"Seme ricurvo",
+			"Seme ricurvo d'ambra",
+			"Seme ricurvo del Vuoto"
+		],
+		"kinds": [
+			"ricurvo"
+		],
+		"mats": [
+			"legno",
+			"ambra",
+			"vuotite"
+		],
+		"shape": "ricurvo"
+	},
+	{
+		"count": 3,
+		"drawn": false,
+		"examples": [
+			"Vetro di resina",
+			"Vetrina del Museo",
+			"Clessidra vuota"
+		],
+		"kinds": [
+			"blocco",
+			"stazione",
+			"curiosita"
+		],
+		"mats": [
+			"cristallo",
+			"vuotite"
+		],
+		"shape": "vetro"
+	},
+	{
+		"count": 2,
+		"drawn": false,
+		"examples": [
+			"Alambicco di Linfa",
+			"Distillatore"
+		],
+		"kinds": [
+			"stazione"
+		],
+		"mats": [
+			"cristallo",
+			"linfa"
+		],
+		"shape": "alambicco"
+	},
+	{
+		"count": 2,
+		"drawn": false,
+		"examples": [
+			"Giavellotto d'aculeo",
+			"Giavellotto di cristallo"
+		],
+		"kinds": [
+			"giavellotto"
+		],
+		"mats": [
+			"ambra",
+			"cristallo"
+		],
+		"shape": "giavellotto"
+	},
+	{
+		"count": 2,
+		"drawn": false,
+		"examples": [
+			"Annaffiatoio di zucca",
+			"Irrigatore"
+		],
+		"kinds": [
+			"annaffiatoio",
+			"stazione"
+		],
+		"mats": [
+			"legno",
+			"legnoferro"
+		],
+		"shape": "annaffiatoio"
+	},
+	{
+		"count": 2,
+		"drawn": false,
+		"examples": [
+			"Porta di lanterna",
+			"Porta di radice viva"
+		],
+		"kinds": [
+			"stazione"
+		],
+		"mats": [
+			"legno",
+			"linfa"
+		],
+		"shape": "porta"
+	},
+	{
+		"count": 1,
+		"drawn": false,
+		"examples": [
+			"Focolare del Giardino"
+		],
+		"kinds": [
+			"stazione"
+		],
+		"mats": [
+			"brace"
+		],
+		"shape": "focolare"
+	},
+	{
+		"count": 1,
+		"drawn": false,
+		"examples": [
+			"Uovo"
+		],
+		"kinds": [
+			"uovo"
+		],
+		"mats": [
+			"seta"
+		],
+		"shape": "uovo"
+	},
+	{
+		"count": 1,
+		"drawn": false,
+		"examples": [
+			"Midollo di radice"
+		],
+		"kinds": [
+			"materiale"
+		],
+		"mats": [
+			"radice"
+		],
+		"shape": "radice"
+	},
+	{
+		"count": 1,
+		"drawn": false,
+		"examples": [
+			"Corno del cacciatore"
+		],
+		"kinds": [
+			"accessorio"
+		],
+		"mats": [
+			"ambra"
+		],
+		"shape": "corno"
+	},
+	{
+		"count": 1,
+		"drawn": false,
+		"examples": [
+			"Paiolo di radice"
+		],
+		"kinds": [
+			"stazione"
+		],
+		"mats": [
+			"ardesia"
+		],
+		"shape": "paiolo"
+	},
+	{
+		"count": 1,
+		"drawn": false,
+		"examples": [
+			"Lampada di lanterna"
+		],
+		"kinds": [
+			"stazione"
+		],
+		"mats": [
+			"brace"
+		],
+		"shape": "lampada"
+	}
+]

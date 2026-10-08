@@ -81,7 +81,7 @@ func setup(p: BisacciaPanel, c: CraftingPanel) -> void:
 	_big = TextureRect.new()
 	_big.position = Vector2(8, 8)
 	_big.size = Vector2(48, 48)
-	_big.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_big.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	_big.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	box.add_child(_big)
 	var names := VBoxContainer.new()
@@ -314,7 +314,7 @@ func _fill_recipe() -> void:
 		line.add_theme_constant_override("separation", 8)
 		var ic := TextureRect.new()
 		ic.texture = SlotView.icon(String(k))
-		ic.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		ic.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 		ic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		ic.custom_minimum_size = Vector2(28, 28)
 		line.add_child(ic)

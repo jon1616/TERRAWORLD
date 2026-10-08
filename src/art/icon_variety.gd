@@ -52,6 +52,20 @@ static func of(id: String, it: Dictionary) -> Image:
 	return vary(img, k) if k > 0 else img
 
 
+## L'icona dell'interfaccia (48 pixel: `ItemIcons.ui`), con le stesse varianti di quella del mondo.
+static func of_ui(id: String, it: Dictionary) -> Image:
+	_prepare()
+	if _station_of.has(id):
+		if OS.get_thread_caller_id() == OS.get_main_thread_id():
+			warm()
+			return ItemIcons.up3(CreatureFx.shade(_station_icons[_station_of[id]]))
+	var spec := spec_of(id, it)
+	var img := ItemIcons.make_ui(spec[0], spec[1])
+	var g: Array = _groups.get(spec[0] + "|" + spec[1], [])
+	var k := g.find(id)
+	return vary(img, k) if k > 0 else img
+
+
 ## Le icone di tutte le stazioni che si piazzano, preparate una volta (~0,5 s): due stazioni con lo stesso disegno
 ## (tre gradi di una runa colorata, due radici, alcune macchine della rete) danno all'icona una variante. Si chiama
 ## durante il caricamento del mondo (`MainBoot.build_scene`), così giocando non si sente; solo nel thread principale

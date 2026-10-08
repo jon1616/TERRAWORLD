@@ -1,0 +1,18 @@
+{
+ "lotto": "lotto_03",
+ "grid": "4x3",
+ "shapes": [
+  "tavoletta",
+  "scaglia",
+  "pugnale",
+  "virgulto",
+  "penna",
+  "falcione",
+  "verga",
+  "stivali",
+  "scettro",
+  "girandola",
+  "piccone",
+  "guanti"
+ ]
+}

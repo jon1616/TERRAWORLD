@@ -300,6 +300,14 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   `TestsSprite`: il mondo di prova salvato, la creatura subito, il foglio di tutte le pose con il nome in
   prove/sprite/<id>.png, gli stati che non scelgono mai una posa, la foto dal vivo). Il gruppo «grafica» resta la prova
   di tutte insieme (foto 163_pose_creature).
+  **Le icone dipinte** (8 ott 2026, stile «A» scelto dall'utente): ogni forma d'icona ha due disegni dalla stessa tavola
+  di Nano Banana, `arte/icone48/<forma>.png` (dipinta, 48 pixel: l'interfaccia, `ItemIcons.ui` → `IconVariety.of_ui` →
+  `IconTemplates.make_ui`; `SlotView.icon`) e `arte/forme/<forma>.png` (pixel art da 16: il mondo, `ItemIcons.of`;
+  `SlotView.world_icon` per l'attrezzo in mano, i lanci, le stelle). I grigi neutri prendono il materiale come prima.
+  Il giro: descrizioni in `arte_ia/icone/aspetti.json` → `python tools/prompt_icone.py` (12 forme, le più usate prima,
+  prompt negli appunti) → l'utente salva la tavola in `arte_ia/icone` → `python tools/installa_icone.py` (nome, taglio,
+  scritte tolte, foglio prove/icone/<lotto>.png; `--salta forma` per le venute male). Elenco delle forme:
+  `tools/scheda_icone.gd` → `arte_ia/icone/forme.json`.
 - `musica/` — le musiche fatte dall'utente con Gemini («crea musica»): `esplorazione` (sottofondo) e `guardiano`
   (scontri con i boss), .mp3/.ogg/.wav; per cambiarne una si sostituisce il file con lo stesso nome (poi `--import`).
   Le suona l'autoload `Musica` (`src/audio/music.gd`): già nel menu e senza interruzioni nel mondo; brano del boss

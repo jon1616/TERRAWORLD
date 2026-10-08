@@ -366,15 +366,15 @@ func _build_tabs() -> void:
 		if v.has("shape"):
 			# Roadmap 53: la scheda di uno scomparto (icona della sua forma) con il riempimento scritto piccolo sotto
 			var sh: Array = v["shape"]
-			var img0 := ItemIcons.make(String(sh[0]), String(sh[1]))
-			img0.resize(20, 20, Image.INTERPOLATE_NEAREST)
+			var img0 := ItemIcons.make_ui(String(sh[0]), String(sh[1]))
+			img0.resize(20, 20, Image.INTERPOLATE_LANCZOS)
 			b.icon = ImageTexture.create_from_image(img0)
 			b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			b.custom_minimum_size = Vector2(38, 22)
 			b.text = ""                                 # (il riempimento sta accanto al titolo e nel suggerimento)
 		elif String(v.get("icon", "")) != "":
-			var img := ItemIcons.of(String(v["icon"]))            # l'icona a 24 pixel: a 16 non si riconosceva
-			img.resize(24, 24, Image.INTERPOLATE_NEAREST)
+			var img := ItemIcons.ui(String(v["icon"]))            # l'icona a 24 pixel: a 16 non si riconosceva
+			img.resize(24, 24, Image.INTERPOLATE_LANCZOS)
 			b.icon = ImageTexture.create_from_image(img)
 			b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			b.custom_minimum_size = Vector2(44, 28)

@@ -140,7 +140,7 @@ func fall_star() -> void:
 		gy -= 1
 	var land := Vector2(px * S + 8, gy * S - 6)
 	var sp := Sprite2D.new()
-	sp.texture = SlotView.icon("stellina")
+	sp.texture = SlotView.world_icon("stellina")
 	sp.modulate = Color(2.4, 2.2, 1.4)
 	sp.z_as_relative = false
 	sp.z_index = 26

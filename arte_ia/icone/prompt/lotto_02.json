@@ -1,0 +1,18 @@
+{
+ "lotto": "lotto_02",
+ "grid": "4x3",
+ "shapes": [
+  "zolla",
+  "ciotola",
+  "essenza",
+  "arco",
+  "lancia",
+  "seta",
+  "spada",
+  "balestra",
+  "mantello",
+  "frusta",
+  "spadone",
+  "mazza"
+ ]
+}

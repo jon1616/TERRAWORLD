@@ -47,6 +47,7 @@ func setup(recipe: Dictionary, b: Bisaccia) -> void:
 	style(self, true, color)
 	modulate = Color(1, 1, 1, 0.55)
 	_out_tex = SlotView.icon(out)
+	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR    # le icone da 48 disegnate più piccole (8 ott 2026)
 	_title = "%s%s" % [ItemsData.get_item(out)["name"], ("  ×%d" % n) if n > 1 else ""]
 	_where = CraftCatsData.short_station(String(r["station"]))
 	for k in r["in"]:

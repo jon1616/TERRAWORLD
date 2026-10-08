@@ -25,10 +25,21 @@ var _ghost: TextureRect                # vuota, la casella mostra in trasparenza
 var tip_extra := {}                    # per questa casella: {"price": "buy", "cost": N} o {"equipped": true}
 
 
+## L'icona dell'interfaccia (48 pixel, dipinta se c'è: `ItemIcons.ui`).
 static func icon(id: String) -> Texture2D:
 	if not _icons.has(id):
-		_icons[id] = ImageTexture.create_from_image(ItemIcons.of(id))
+		_icons[id] = ImageTexture.create_from_image(ItemIcons.ui(id))
 	return _icons[id]
+
+
+static var _world_icons := {}
+
+
+## L'icona del mondo (16 pixel, pixel art): l'attrezzo in mano, gli oggetti lanciati, le stelle cadenti.
+static func world_icon(id: String) -> Texture2D:
+	if not _world_icons.has(id):
+		_world_icons[id] = ImageTexture.create_from_image(ItemIcons.of(id))
+	return _world_icons[id]
 
 
 func _init() -> void:

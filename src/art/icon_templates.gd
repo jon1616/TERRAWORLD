@@ -11,6 +11,13 @@ static func make(shape: String, p: Array[Color]) -> Image:
 	return tinted("forme", shape, p)
 
 
+## 8 ott 2026 (l'utente: «uniformiamo lo stile, lo voglio bello, non per forza in pixel art»): l'icona DIPINTA a 48
+## pixel per l'interfaccia (`arte/icone48/<forma>.png`, fatta da `tools/installa_icone.py`), con la stessa regola dei
+## grigi; null se la forma non ha ancora il disegno nuovo.
+static func make_ui(shape: String, p: Array[Color]) -> Image:
+	return tinted("icone48", shape, p)
+
+
 ## Un disegno qualunque di `arte/<cartella>/` con i grigi colorati dalla tavolozza `p` (voce 106: le stazioni a gradi).
 static func tinted(cartella: String, nome: String, p: Array[Color]) -> Image:
 	var tpl: Variant = _template(cartella, nome)

@@ -72,10 +72,10 @@ func _process(_dt: float) -> void:
 
 func _icon(id: String) -> TextureRect:
 	if not _tex.has(id):
-		_tex[id] = ImageTexture.create_from_image(ItemIcons.of(id))
+		_tex[id] = ImageTexture.create_from_image(ItemIcons.ui(id))
 	var t := TextureRect.new()
 	t.texture = _tex[id]
-	t.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	t.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	t.stretch_mode = TextureRect.STRETCH_SCALE
 	t.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return t

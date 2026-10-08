@@ -32,7 +32,7 @@ static func icon_of(v: Variant) -> Texture2D:
 	if id == "" or ItemsData.get_item(id).is_empty():
 		return null
 	if not _icons.has(id):
-		_icons[id] = ImageTexture.create_from_image(ItemIcons.of(id))
+		_icons[id] = ImageTexture.create_from_image(ItemIcons.ui(id))
 	return _icons[id]
 
 
@@ -88,7 +88,7 @@ func _title(s: String, col: Color, icon: Variant) -> Control:
 		frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		var t := TextureRect.new()
 		t.texture = tex
-		t.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		t.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR     # le icone dipinte (8 ott 2026)
 		t.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		t.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		t.custom_minimum_size = Vector2(ICON, ICON)

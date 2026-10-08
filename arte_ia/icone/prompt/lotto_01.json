@@ -1,0 +1,18 @@
+{
+ "lotto": "lotto_01",
+ "grid": "4x3",
+ "shapes": [
+  "velo",
+  "amuleto",
+  "corona",
+  "cuore",
+  "zolla",
+  "pozione",
+  "anello",
+  "seme",
+  "gemma",
+  "elmo",
+  "corazza",
+  "gambali"
+ ]
+}

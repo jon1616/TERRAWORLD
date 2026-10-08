@@ -60,7 +60,7 @@ func throw(id: String, target: Vector2) -> bool:
 
 func _sprite(id: String) -> Sprite2D:
 	var sp := Sprite2D.new()
-	sp.texture = SlotView.icon(id)
+	sp.texture = SlotView.world_icon(id)
 	sp.scale = Vector2(0.75, 0.75)
 	sp.z_index = 6
 	m.fx.add_child(sp)
