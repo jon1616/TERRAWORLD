@@ -37,7 +37,10 @@ func _jump(c: Creature) -> void:
 			if not c.world.solid(q.x, q.y) and not c.world.solid(q.x, q.y - 1) and c.world.solid(q.x, q.y + 1):
 				if c.get_parent():
 					Fx.puff(c.get_parent(), c.position, Color(0.8, 1.6, 1.7))
-				c.position = Vector2(q.x * 16 + 8, (q.y + 1) * 16 - c.half.y - 0.1)
+				var to := Vector2(q.x * 16 + 8, (q.y + 1) * 16 - c.half.y - 0.1)
+				if not c.fly and TileBody.collides(c.world, to, c.half - Vector2(1, 1)):
+					continue                          # (voce 426) il corpo intero non ci sta
+				c.position = to
 				c.vel = Vector2.ZERO
 				c.facing = 1 if tc.x > q.x else -1
 				if c.get_parent():

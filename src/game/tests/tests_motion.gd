@@ -388,9 +388,9 @@ func stuck() -> void:
 	if not ids.is_empty():
 		var o3 := _box(20, 8)
 		var fy3 := o3.y + 7
-		_fill(Vector2i(o3.x + 8, fy3 - 2), Vector2i(o3.x + 10, fy3))
+		_fill(Vector2i(o3.x + 6, fy3 - 4), Vector2i(o3.x + 12, fy3))      # un masso 7 × 5: la fisica da sola non la spinge fuori
 		await _stand(Vector2i(o3.x + 16, fy3))
-		var cr3 := _spawn(String(ids[0]), Vector2i(o3.x + 9, fy3))
+		var cr3 := _spawn(String(ids[0]), Vector2i(o3.x + 9, fy3 - 2))
 		cr3.mind.brave = true
 		await kit.seconds(1.5)
 		freed = is_instance_valid(cr3) and not _inside(cr3)

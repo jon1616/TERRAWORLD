@@ -5955,7 +5955,14 @@ dentro il soffitto; più comportamenti di movimento litigano per la stessa creat
   entro 10 tessere la mette all'angolo: si difende per 5 s (`_cornered`). Anche le iridate (`BhFugge`: tornano indietro
   e ti scartano), le prede e i cacciatori dell'ecologia non saltano più contro muri troppo alti. Misura: la fuga finisce
   nascosta a 42 tessere e si cura, 0 salti a vuoto (prima 9); all'angolo 0 salti a vuoto (prima 11) e si difende.
-- [ ] **426. I passi.** Chi insegue misura il muro: salta solo se ce la fa, altrimenti aspetta o cerca un'altra strada;
+- [x] **426. I passi.** Chi insegue misura il muro: salta solo se ce la fa, altrimenti aspetta o cerca un'altra strada;
   l'agguato si appende sotto il soffitto, non dentro; chi resta incastrato esce nel punto libero più vicino.
+  Fatto l'8 ott 2026: `BhCammina` salta solo ciò che `can_hop` dice superabile; davanti a un muro troppo alto ti aspetta
+  sotto guardandoti per 3 s, poi lascia perdere e gironzola per 5 s prima di riprovare; gironzolando un muro troppo alto
+  la fa girare come un burrone. Anche le migrazioni aspettano invece di saltare. `BhAgguato` cerca il soffitto in tutta la
+  larghezza del corpo e si appende proprio sotto; `BhTeletrasporto` controlla il corpo intero; `Creature._unstick`: chi
+  resta nella roccia per mezzo secondo esce nel punto libero più vicino (entro tre tessere). Misura: davanti al muro 1
+  salto a vuoto (prima 13), agguato nel soffitto 0 su 8 (prima 8), dal centro di un masso 7×5 esce; nella folla 1,3
+  salti a vuoto e 1 tremolio al minuto per creatura (prima 6,7 e 6,5), 0% del tempo incastrate.
 - [ ] **427. Un'intenzione alla volta.** I comportamenti di movimento non litigano: chi carica o scatta guida il corpo
   finché ha finito; la misura finale.

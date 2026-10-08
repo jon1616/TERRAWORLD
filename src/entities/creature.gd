@@ -300,6 +300,39 @@ func can_hop(dir: int, v := HOP) -> bool:
 	return true
 
 
+## Roadmap 54, voce 426: una creatura rimasta con il corpo nella roccia (un blocco piazzato addosso, una frana, una
+## spinta) dopo `STUCK_AFTER` secondi esce nel punto libero più vicino, entro tre tessere.
+const STUCK_AFTER := 0.5
+var _stuck := 0.0
+var _stuck_check := 0.0
+
+
+func _unstick(dt: float) -> void:
+	_stuck_check -= dt
+	if _stuck_check > 0.0:
+		return
+	_stuck_check = 0.25
+	if ghost or anchored or tame != null or not TileBody.collides(world, position, half - Vector2(1, 1)):
+		_stuck = 0.0
+		return
+	_stuck += 0.25
+	if _stuck < STUCK_AFTER:
+		return
+	_stuck = 0.0
+	var best := Vector2.INF
+	for r in range(1, 49, 4):
+		for k in 16:
+			var a := TAU * k / 16.0
+			var q := position + Vector2(cos(a), sin(a)) * r
+			if not TileBody.collides(world, q, half) and (best == Vector2.INF or q.distance_to(position) < best.distance_to(position)):
+				best = q
+		if best != Vector2.INF:
+			break
+	if best != Vector2.INF:
+		position = best
+		vel = Vector2.ZERO
+
+
 ## Roadmap 54: guarisce (si nasconde e si cura, `Mind`).
 func heal(n: int) -> void:
 	if n <= 0 or hp <= 0:
@@ -361,8 +394,11 @@ func _process(dt: float) -> void:
 			want_x = dir * 0.8
 			facing = int(dir)
 			if on_floor and wall_ahead(facing):
-				vel.y = -260.0
-				on_floor = false
+				if can_hop(facing):
+					vel.y = -HOP
+					on_floor = false
+				else:
+					want_x = 0.0               # (voce 426) un muro troppo alto: la migrazione aspetta
 	if chill_t > 0.0:
 		chill_t -= dt
 		want_x *= 0.45
@@ -392,6 +428,7 @@ func _process(dt: float) -> void:
 		on_floor = r["floor"]
 		if on_floor and not was:
 			crouch = -0.6                  # si schiaccia atterrando
+	_unstick(dt)
 	_animate(dt)
 	if ancient:
 		ancient.tick(self, dt)

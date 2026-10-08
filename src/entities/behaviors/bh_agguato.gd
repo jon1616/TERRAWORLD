@@ -10,15 +10,22 @@ var _ready := false
 func tick(c: Creature, _dt: float) -> void:
 	if not _ready:
 		_ready = true
-		var start := c.position
-		for k in 14:
-			var top := floori((c.position.y - c.half.y - 1.0) / 16.0)
-			if c.world.solid(floori(c.position.x / 16.0), top):
+		# (Roadmap 54, voce 426) sale finché una tessera sopra il corpo, in tutta la sua larghezza, è roccia, e si
+		# appende proprio sotto: prima guardava solo la colonna di mezzo e saliva a scatti di una tessera, così il
+		# corpo finiva fino a 15 px dentro il soffitto
+		var x0 := floori((c.position.x - c.half.x) / 16.0)
+		var x1 := floori((c.position.x + c.half.x - 0.01) / 16.0)
+		var head := floori((c.position.y - c.half.y) / 16.0)
+		for k in range(1, 15):
+			var row := head - k
+			var hit := false
+			for x in range(x0, x1 + 1):
+				if c.world.solid(x, row):
+					hit = true
+			if hit:
+				c.position.y = (row + 1) * 16.0 + c.half.y + 0.01
 				c.anchored = true
 				break
-			c.position.y -= 16.0
-		if not c.anchored:
-			c.position = start
 	if not c.anchored:
 		return
 	c.busy = true
