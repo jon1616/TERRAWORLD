@@ -1,0 +1,18 @@
+{
+ "lotto": "lotto_16",
+ "grid": "4x3",
+ "shapes": [
+  "arredo_armadio",
+  "arredo_scaffale",
+  "arredo_finestra",
+  "arredo_tappeto",
+  "arredo_quadro",
+  "arredo_vaso",
+  "arredo_camino",
+  "arredo_lampada",
+  "totem_saccheggio",
+  "costr_grezzo",
+  "costr_mattoni",
+  "costr_lastre"
+ ]
+}

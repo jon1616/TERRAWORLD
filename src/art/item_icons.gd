@@ -75,10 +75,25 @@ static func of(id: String) -> Image:
 ## (`IconTemplates.make_ui`), altrimenti quella del mondo ingrandita ×3 a pixel pieni (8 ott 2026).
 static func ui(id: String) -> Image:
 	var it := ItemsData.get_item(id)
-	if it.is_empty() or it.has("build") or str(it.get("place", "")).begins_with("arredo_") \
-			or int(it.get("wall", 0)) >= BuildData.WALL_BASE:
+	if it.is_empty():
+		return up3(of(id))
+	if it.has("build") or str(it.get("place", "")).begins_with("arredo_") or int(it.get("wall", 0)) >= BuildData.WALL_BASE:
+		# costrutti, arredi in serie e pareti (8 ott 2026): la loro forma dipinta se c'è (sono di un materiale solo,
+		# senza doppioni da variare), altrimenti il disegno del mondo ingrandito
+		var ic: Array = it.get("icon", [])
+		if ic.size() >= 2 and ArtLib.has("icone48", str(ic[0])) and _own_shape(it, str(ic[0])):
+			return make_ui(str(ic[0]), str(ic[1]))
 		return up3(of(id))
 	return IconVariety.of_ui(id, it)
+
+
+## La forma d'icona di un costrutto, un arredo o una parete è davvero la sua (non un ripiego dei dati: la zolla per
+## tutti i blocchi, la bomba per il camino…): «costr_…», «arredo_…», «parete», o il nome stesso del mobile.
+static func _own_shape(it: Dictionary, shape: String) -> bool:
+	if shape.begins_with("costr_") or shape.begins_with("arredo_") or shape == "parete":
+		return true
+	var pl := str(it.get("place", ""))
+	return pl.begins_with("arredo_%s_" % shape)
 
 
 ## Una forma per l'interfaccia: il disegno dipinto, o la forma del mondo ingrandita.

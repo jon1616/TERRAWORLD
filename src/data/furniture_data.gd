@@ -113,7 +113,12 @@ static func series_of(station_ids: Array) -> Array:
 const SERIES_MIN := 5
 
 
+## La forma d'icona di un mobile: quella dipinta «arredo_<mobile>» (8 ott 2026) se c'è; altrimenti quella di prima
+## (tavolo, sedia, letto e lanterna hanno già la loro; per gli altri un ripiego: l'icona dell'interfaccia allora resta il
+## disegno del mondo, vedi `ItemIcons.ui`). Si guarda il file: questo file di dati non nomina altre classi.
 static func _icon(form: String) -> String:
+	if ResourceLoader.exists("res://arte/icone48/arredo_%s.png" % form):
+		return "arredo_" + form
 	return {"tavolo": "tavolo", "sedia": "sedia", "letto": "letto", "armadio": "cassa", "scaffale": "cassa", "lampada": "lanterna",
 		"lanterna": "lanterna", "finestra": "gemma", "tappeto": "seta", "quadro": "tavoletta", "vaso": "seme", "camino": "bomba"}.get(form, "cassa")
 

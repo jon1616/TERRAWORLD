@@ -98,6 +98,14 @@ static var _by_id := {}
 
 
 ## Tutti i costrutti: [{kind, form, mat, id, name, clear}] (l'indice + 1 è il numero salvato nel mondo).
+
+## La forma d'icona di un costrutto: quella dipinta «costr_<forma>» (8 ott 2026) se c'è, altrimenti la zolla (la gemma
+## per la vetrata), come prima. Si guarda il file: questo file di dati non nomina altre classi.
+static func icon_of(form: String) -> String:
+	if ResourceLoader.exists("res://arte/icone48/costr_%s.png" % form):
+		return "costr_" + form
+	return "zolla" if form != "vetrata" else "gemma"
+
 static func kinds() -> Array:
 	if _kinds.is_empty():
 		for mi in MATERIALS.size():
@@ -148,7 +156,7 @@ static func items() -> Dictionary:
 	for e in kinds():
 		var md := material_of(int(e["kind"]))
 		out[e["id"]] = {"name": String(e["name"]), "kind": "blocco", "build": int(e["kind"]), "place": tile_of(int(e["kind"])), "stack": 999,
-			"icon": ["zolla" if e["form"] != "vetrata" else "gemma", String(md["icon"])], "gen": true,
+			"icon": [icon_of(String(e["form"])), String(md["icon"])], "gen": true,
 			"desc": "Un blocco da costruzione: %s." % _props_text(md)}
 	for mi in MATERIALS.size():
 		var md: Dictionary = MATERIALS[mi]

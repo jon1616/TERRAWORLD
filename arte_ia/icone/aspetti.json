@@ -539,7 +539,7 @@
 	},
 	"totem_saccheggio": {
 		"en": "plunder banner",
-		"desc": "a tall narrow cloth banner [GREY] hanging from a crossbar on a pole [GREY], the banner ragged and torn at the bottom, embroidered with a SACK OF COINS symbol, a couple of coins (amber) at its foot"
+		"desc": "a tall narrow cloth banner [GREY] hanging from a crossbar on a pole [GREY], ragged and torn at the bottom, with an embroidered PICTURE of a bulging coin sack (a drawing, NOT words, NO letters), two gold coins (amber) at its foot"
 	},
 	"totem_fortuna": {
 		"en": "shrine of luck",
@@ -564,5 +564,49 @@
 	"tenda": {
 		"en": "camping tent",
 		"desc": "a small A-frame camping tent [GREY] seen at a 3/4 angle with the front flap tied open, held by a root-wood pole (plum wood) and two pegs"
+	},
+	"arredo_armadio": {
+		"en": "wardrobe",
+		"desc": "a tall two-door wardrobe seen at a 3/4 angle, with small round knobs, carved top trim and short feet. The WHOLE piece of furniture is [GREY] (neutral grey only, NOT brown wood: the game colours it with its material)."
+	},
+	"arredo_scaffale": {
+		"en": "shelf",
+		"desc": "an open bookshelf / display shelf with three shelves, a couple of small objects on it (a little jar and a book, amber and leaf green). The WHOLE piece of furniture is [GREY] (neutral grey only, NOT brown wood: the game colours it with its material)."
+	},
+	"arredo_finestra": {
+		"en": "window",
+		"desc": "a square window with a frame and a cross-shaped mullion, four glass panes showing a hint of sky blue (#8ad8ff), a small sill. The WHOLE piece of furniture is [GREY] (neutral grey only, NOT brown wood: the game colours it with its material)."
+	},
+	"arredo_tappeto": {
+		"en": "rug",
+		"desc": "a rectangular woven rug seen at a slight angle lying flat, with a border pattern and tassels at both short ends. The WHOLE piece of furniture is [GREY] (neutral grey only, NOT brown wood: the game colours it with its material)."
+	},
+	"arredo_quadro": {
+		"en": "framed painting",
+		"desc": "a framed painting with an ornate frame, the picture showing a tiny landscape of green hills (leaf green) and a turquoise sky (#5ff0e0). The WHOLE frame is [GREY] (neutral grey only, NOT brown wood: the game colours it with its material)."
+	},
+	"arredo_vaso": {
+		"en": "flower pot",
+		"desc": "a round decorated flower pot holding a small leafy plant with two little flowers (leaf green leaves, amber flowers). The WHOLE pot is [GREY] (neutral grey only, NOT brown wood: the game colours it with its material)."
+	},
+	"arredo_camino": {
+		"en": "fireplace",
+		"desc": "a stone fireplace seen from the front with a mantel shelf on top and a cosy amber fire burning inside the hearth. The WHOLE fireplace (not the fire) is [GREY] (neutral grey only, NOT brown wood: the game colours it with its material)."
+	},
+	"arredo_lampada": {
+		"en": "floor lamp",
+		"desc": "a tall standing floor lamp: a slim pole on a round base with a lampshade on top glowing warm amber light underneath. The WHOLE lamp (not the light) is [GREY] (neutral grey only, NOT brown wood: the game colours it with its material)."
+	},
+	"costr_grezzo": {
+		"en": "rough stone block",
+		"desc": "a single cube-shaped BUILDING BLOCK seen at a 3/4 angle (top and two sides visible), the WHOLE block [GREY] (neutral grey only, NOT brown), rough hewn and chipped, uneven faces with chisel marks"
+	},
+	"costr_mattoni": {
+		"en": "brick block",
+		"desc": "a single cube-shaped BUILDING BLOCK seen at a 3/4 angle (top and two sides visible), the WHOLE block [GREY] (neutral grey only, NOT brown), made of neat rows of bricks with mortar lines"
+	},
+	"costr_lastre": {
+		"en": "slab block",
+		"desc": "a single cube-shaped BUILDING BLOCK seen at a 3/4 angle (top and two sides visible), the WHOLE block [GREY] (neutral grey only, NOT brown), made of thin stacked flat slabs, horizontal layers"
 	}
 }
