@@ -48,16 +48,13 @@ func run(w: World, c: GenContext) -> void:
 
 func _lakes(w: World, c: GenContext, keep: PackedByteArray) -> Array:
 	# il livello dell'acqua che la superficie trattiene in ogni colonna (come la pioggia tra due muri)
+	# (voce 472) il minimo su una finestra di RIM colonne con una coda monotona, da sinistra e da destra: prima ~0,3 s
+	var left := _window_min(w.surface, RIM, 1)
+	var right := _window_min(w.surface, RIM, -1)
 	var level := PackedInt32Array()
 	level.resize(w.w)
 	for x in w.w:
-		var left := int(w.surface[x])
-		for k in range(maxi(x - RIM, 0), x):
-			left = mini(left, int(w.surface[k]))
-		var right := int(w.surface[x])
-		for k in range(x + 1, mini(x + RIM + 1, w.w)):
-			right = mini(right, int(w.surface[k]))
-		level[x] = maxi(left, right) + 1                    # una riga sotto la riva più bassa (si esce con un salto)
+		level[x] = maxi(left[x], right[x]) + 1              # una riga sotto la riva più bassa (si esce con un salto)
 	# i tratti allagabili
 	var spans := []
 	var x := 0
@@ -138,3 +135,21 @@ static func _drown_trees(w: World, x0: int, x1: int, level: int) -> void:
 			if tv.x < x0 - 2 or tv.x >= x1 + 2 or tv.y < level - 1:
 				keep.append(tv)
 		w.trees[k] = keep
+
+
+## Per ogni colonna il valore più piccolo di `v` tra lei e le `span` colonne prima (dir 1) o dopo (dir −1).
+static func _window_min(v: PackedInt32Array, span: int, dir: int) -> PackedInt32Array:
+	var n := v.size()
+	var out := PackedInt32Array()
+	out.resize(n)
+	var dq := PackedInt32Array()
+	var head := 0
+	for k in n:
+		var x := k if dir > 0 else n - 1 - k
+		while dq.size() > head and v[dq[dq.size() - 1]] >= v[x]:
+			dq.resize(dq.size() - 1)
+		dq.append(x)
+		while absi(dq[head] - x) > span:
+			head += 1
+		out[x] = v[dq[head]]
+	return out

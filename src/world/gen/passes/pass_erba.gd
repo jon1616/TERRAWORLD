@@ -13,7 +13,9 @@ func run(w: World, c: GenContext) -> void:
 	var n := c.noise("biomi_chiazze", 0.09, 2)
 	for x in w.w:
 		var grass: int = BiomesData.BIOMES[BiomesData.mix_at(w, x, n)]["grass"]
-		for y in w.h:
+		# (voce 472) la prima tessera dall'alto si cerca da poco sopra la superficie: il cielo, a quest'ora, è vuoto (le isole
+		# le fa `PassCielo` dopo; i pilastri e il tetto del guscio sono di roccia) e scorrerlo tutto costava ~0,4 s
+		for y in range(maxi(int(w.surface[x]) - 4, 0), w.h):
 			var t := w.tile(x, y)
 			if t != TileDefs.AIR:
 				if t == TileDefs.DIRT:

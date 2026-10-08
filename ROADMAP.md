@@ -6422,7 +6422,13 @@ L'ultima del piano «Il generatore eccellente» (`GENERATORE.md`).
   (2.941 colonne su 3.000 nel seme 2), tutti i punti di riferimento, il cielo basso 22-48% e il medio 15-23% delle isole
   e dei continenti, il sottosuolo 5-20% senza scavare (il resto si scava, com'è giusto), un quinto degli scrigni (molti
   stanno apposta in stanze murate) a 136-268 passi alla mediana.
-- [ ] **472. Le prestazioni.**
+- [x] **472. Le prestazioni.** ≤ 6 s a 3000 × 1200.
+  Fatto il 9 ott 2026: `PassErba` cercava la prima tessera di ogni colonna dalla cima del mondo (~0,48 s → 0,07: parte
+  poco sopra la superficie, il cielo a quell'ora è vuoto), `PassNidi` fa prima i controlli economici e solo dopo
+  `station_fits`, che durante la generazione scorre tutte le stazioni (0,39 → 0,12 s), i laghi di valle prendono il
+  minimo con una finestra scorrevole. Un mondo nasce in **5,6-5,9 s** (seme 7, senza finestra; prima 6,1-6,4). Le passate
+  lente restano Grotte e Minerali (~1 s l'una, già a fasce su tutti i processori), Strati e Cielo (~0,5). `WorldPregen`
+  prepara il mondo in sottofondo piantando il Seme, come prima.
 - [ ] **473. Le prove riallineate.**
 - [ ] **474. La connettività come prova.**
 - [ ] **475. L'Atlante e le schede.**

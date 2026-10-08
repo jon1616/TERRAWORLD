@@ -50,14 +50,15 @@ func run(w: World, c: GenContext) -> void:
 			var size: Array = StationsData.STATIONS[kind]["size"]
 			var o := Vector2i(x, y - int(size[1]) + 1)
 			var spot := Rect2i(o.x - 1, o.y - 1, int(size[0]) + 2, int(size[1]) + 2)
-			if not w.station_fits(kind, o) or not c.is_free(spot):
+			# (voce 472) prima i controlli che costano poco: `station_fits` durante la generazione scorre tutte le stazioni
+			if not c.is_free(spot):
 				continue
 			var far := true
 			for q in placed:
 				if Vector2(q - o).length() < MIN_DIST:
 					far = false
 					break
-			if not far:
+			if not far or not w.station_fits(kind, o):
 				continue
 			for dy in size[1]:
 				for dx in size[0]:
