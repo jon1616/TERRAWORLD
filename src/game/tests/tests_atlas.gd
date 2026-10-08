@@ -53,7 +53,7 @@ func stars() -> void:
 	at.panel.open()
 	await kit.frames(3)
 	await kit.save("250_atlante")
-	var shown: bool = "★" in at.panel._body.text and at.panel._rows.size() == 2
+	var shown: bool = "stelle" in at.panel.shown_text().to_lower() and at.panel._rows.size() == 2
 	at.panel.close()
 	var four: bool = "firma" in fresh and "guardiano" in fresh and "sigilli" in fresh and "segreti" in fresh
 	var roomy: bool = m.character.bisaccia.room_for("polvere_iridata") >= 2    # con la Bisaccia piena il premio cade a terra

@@ -52,21 +52,16 @@ func _draw(ci: RID, rect: Rect2) -> void:
 		_glow_box.draw(ci, rect)
 	flat.draw(ci, rect)
 	var r := float(flat.corner_radius_top_left)
-	if sheen > 0.0 and rect.size.y > r * 2.0 + 4.0:
-		# la luce dall'alto: dal bordo sotto gli angoli fino a un terzo dell'altezza (al più 90 px)
-		var y0 := rect.position.y + 1.0
-		var y1 := rect.position.y + minf(rect.size.y * 0.35, 90.0)
+	if sheen > 0.0 and rect.size.y >= 80.0:
+		# la luce dall'alto (solo i riquadri alti: sui pulsanti faceva una banda): sotto gli angoli, sfuma in 90 px
+		var ya := rect.position.y + r * 0.6
+		var y1 := rect.position.y + minf(rect.size.y * 0.4, 110.0)
 		var x0 := rect.position.x + 1.0
 		var x1 := rect.end.x - 1.0
 		var top := Color(1, 1, 1, sheen)
 		var bot := Color(1, 1, 1, 0)
-		var ya := y0 + r
-		RenderingServer.canvas_item_add_polygon(ci, PackedVector2Array([Vector2(x0 + r, y0), Vector2(x1 - r, y0),
-			Vector2(x1 - r, ya), Vector2(x0 + r, ya)]), PackedColorArray([top, top, top, top]))
-		var mid := Color(1, 1, 1, sheen * (1.0 - (ya - y0) / maxf(y1 - y0, 1.0)))
-		if y1 > ya:
-			RenderingServer.canvas_item_add_polygon(ci, PackedVector2Array([Vector2(x0, ya), Vector2(x1, ya),
-				Vector2(x1, y1), Vector2(x0, y1)]), PackedColorArray([mid, mid, bot, bot]))
+		RenderingServer.canvas_item_add_polygon(ci, PackedVector2Array([Vector2(x0 + r * 0.5, ya), Vector2(x1 - r * 0.5, ya),
+			Vector2(x1, y1), Vector2(x0, y1)]), PackedColorArray([top, top, bot, bot]))
 	if thread.a > 0.0 and rect.size.x > r * 2.0 + 8.0:
 		# il filo: trasparente ai lati, pieno al centro
 		var y := rect.position.y + float(flat.border_width_top) * 0.5

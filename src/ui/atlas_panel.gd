@@ -1,152 +1,70 @@
 class_name AtlasPanel
-extends Control
-## L'Atlante (Roadmap 23; tasto «atlante», O): schede in alto (i mondi, e con le voci dopo i biomi, le meraviglie, le
-## spedizioni); a sinistra l'elenco con una barra di quanto è completo, a destra la voce scelta. Ogni scheda è una coppia
-## di funzioni `_rows_<scheda>` (elenco di [chiave, titolo, sotto, 0..1, colore]) e `_text_<scheda>` (BBCode).
+extends UiPage
+## L'Atlante (Roadmap 23; tasto «atlante», O). Rifatto nella Roadmap 55 «Il volto chiaro»: le schede in alto (i mondi,
+## i biomi, le meraviglie, le spedizioni); a sinistra l'elenco a schedine con quanto è completo, a destra la voce scelta.
+## Ogni scheda è una coppia di funzioni `_rows_<scheda>` (elenco di [chiave, titolo, sotto, 0..1, colore]) e
+## `_text_<scheda>` (il testo, impaginato da `UiDetail.bbcode`).
 
-const ROW_H := 52.0
-const LEFT := Vector2(90, 130)
-const ROW_W := 430.0
-const ROWS_SHOWN := 13
 const TABS := [["mondi", "I mondi"], ["biomi", "I biomi"], ["meraviglie", "Le meraviglie"], ["spedizioni", "Le spedizioni"]]
+const SEA := Color("#5cf0e0")
 
-var m: Node2D
 var at: Atlas
-var tab := "mondi"
+var tab_id := "mondi"
 var sel := ""
-var scroll := 0
-var _body: RichTextLabel
-var _rows_box: Control
-var _tabs: Array[Button] = []
 var _rows: Array = []
-var _dirty := true
 
 
 func setup(main: Node2D, atlas: Atlas) -> void:
 	m = main
 	at = atlas
+	key_action = "atlante"
 	visible = false
-	mouse_filter = Control.MOUSE_FILTER_STOP
-	var bg := ColorRect.new()
-	bg.color = UiPalette.FONDO                 # opaco: la fusione è lineare, al 97% il mondo si vedeva ancora
-	bg.size = Vector2(1600, 900)
-	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(bg)
-	var title := Label.new()
-	title.text = "L'Atlante"
-	title.position = Vector2(90, 30)
-	UiFonts.apply(title, 3)                  # (Roadmap 55) il titolo in Alegreya
-	title.add_theme_color_override("font_color", Color("#5cf0e0"))
-	add_child(title)
-	for i in TABS.size():
-		var b := Button.new()
-		b.text = String(TABS[i][1])
-		b.position = Vector2(90 + i * 160, 80)
-		b.size = Vector2(150, 32)
-		var id := String(TABS[i][0])
-		b.pressed.connect(func() -> void: pick_tab(id))
-		add_child(b)
-		_tabs.append(b)
-	_rows_box = Control.new()
-	_rows_box.position = LEFT
-	_rows_box.size = Vector2(ROW_W, ROW_H * ROWS_SHOWN)
-	_rows_box.mouse_filter = Control.MOUSE_FILTER_STOP
-	_rows_box.draw.connect(_draw_rows)
-	_rows_box.gui_input.connect(_on_rows_input)
-	add_child(_rows_box)
-	_body = RichTextLabel.new()
-	_body.bbcode_enabled = true
-	_body.position = Vector2(580, 130)
-	_body.size = Vector2(930, 690)
-	_body.add_theme_font_size_override("normal_font_size", 19)
-	_body.add_theme_font_size_override("bold_font_size", 19)
-	add_child(_body)
-	var hint := Label.new()
-	hint.text = "Esc o %s per chiudere · rotella per scorrere l'elenco" % Keys.label("atlante")
-	hint.position = Vector2(90, 850)
-	hint.add_theme_color_override("font_color", Color("#6a7a84"))
-	add_child(hint)
+	build_page("L'Atlante", "I mondi che hai visto, le pagine dei biomi, le meraviglie e le spedizioni del Cartografo.",
+		ArtLib.tex("interfaccia", "pannello_atlante") if ArtLib.has("interfaccia", "pannello_atlante") else null, SEA)
+	set_tabs(TABS.map(func(t: Array) -> String: return String(t[1])), 0)
+	tab_changed.connect(func(i: int) -> void: pick_tab(String(TABS[i][0])))
+	set_hints([[Keys.label("atlante"), "apri e chiudi"], ["Clic", "scegli"], ["Rotella", "scorri l'elenco"]])
+	split()
+	list.chosen.connect(func(id: String) -> void:
+		sel = id
+		detail_top()
+		mark_dirty())
 
 
-func open() -> void:
-	visible = true
-	_dirty = true
+func on_open() -> void:
 	if at.here():
 		at.check()
-		if tab == "mondi":
+		if tab_id == "mondi":
 			sel = m.world_id
-	get_parent().move_child(self, -1)
-
-
-func close() -> void:
-	visible = false
-
-
-func toggle() -> void:
-	if visible:
-		close()
-	else:
-		open()
 
 
 func pick_tab(id: String) -> void:
-	tab = id
+	tab_id = id
 	sel = ""
-	scroll = 0
-	_dirty = true
+	for i in TABS.size():
+		if String(TABS[i][0]) == id and tab != i:
+			choose_tab(i)
+	detail_top()
+	mark_dirty()
 
 
-func _unhandled_input(e: InputEvent) -> void:
-	if not (e is InputEventKey and e.pressed and not e.echo):
-		return
-	if visible and (e.keycode == KEY_ESCAPE or Keys.pressed(e, "atlante")):
-		close()
-		get_viewport().set_input_as_handled()
-	elif not visible and Keys.pressed(e, "atlante") and not m.hud.panel.visible:
-		open()
-		get_viewport().set_input_as_handled()
-
-
-func _process(_dt: float) -> void:
-	if not visible or not _dirty:
-		return
-	_dirty = false
-	_rows = call("_rows_" + tab)
+func refresh() -> void:
+	_rows = call("_rows_" + tab_id)
 	if sel == "" and not _rows.is_empty():
 		sel = String(_rows[0][0])
-	scroll = clampi(scroll, 0, maxi(_rows.size() - ROWS_SHOWN, 0))
-	for i in _tabs.size():
-		_tabs[i].modulate = Color(1.3, 1.2, 0.8) if String(TABS[i][0]) == tab else Color(0.8, 0.8, 0.85)
-	_rows_box.queue_redraw()
-	_body.text = call("_text_" + tab, sel) if sel != "" else "[color=#7a8a94]Qui non c'è ancora niente.[/color]"
-
-
-func _on_rows_input(e: InputEvent) -> void:
-	if not (e is InputEventMouseButton and e.pressed):
+	var items := []
+	for r in _rows:
+		items.append({"id": String(r[0]), "title": String(r[1]), "badge": String(r[2]), "frac": float(r[3]), "color": r[4],
+			"dim": float(r[3]) <= 0.0})
+	list.row_h = 58.0
+	list.set_items(items, sel)
+	set_chips([["%d stelle" % at.total(), Color("#ffd24a")], ["%d pagine complete" % at.pages.done_count(), Color("#8ef0a0")],
+		["%d meraviglie" % Wonders.kinds_seen(m.character.stats), Color("#c8a8ff")]])
+	detail.reset(SEA, detail_w())
+	if sel == "":
+		detail.empty(null, "Qui non c'è ancora niente", "Esplora i mondi nati dai Semi: l'Atlante si riempie da solo.")
 		return
-	if e.button_index == MOUSE_BUTTON_WHEEL_DOWN or e.button_index == MOUSE_BUTTON_WHEEL_UP:
-		scroll += 1 if e.button_index == MOUSE_BUTTON_WHEEL_DOWN else -1
-		_dirty = true
-	elif e.button_index == MOUSE_BUTTON_LEFT:
-		var i := int(e.position.y / ROW_H) + scroll
-		if i >= 0 and i < _rows.size():
-			sel = String(_rows[i][0])
-			_dirty = true
-	_rows_box.accept_event()
-
-
-func _draw_rows() -> void:
-	var font := get_theme_default_font()
-	for k in mini(ROWS_SHOWN, _rows.size() - scroll):
-		var r: Array = _rows[k + scroll]
-		var y := k * ROW_H
-		var col: Color = r[4]
-		_rows_box.draw_rect(Rect2(0, y, ROW_W, ROW_H - 6), Color(0.2, 0.13, 0.22) if String(r[0]) == sel else Color(0.1, 0.1, 0.13))
-		_rows_box.draw_rect(Rect2(0, y, 5, ROW_H - 6), col)
-		_rows_box.draw_string(font, Vector2(14, y + 20), String(r[1]), HORIZONTAL_ALIGNMENT_LEFT, ROW_W - 104, 16, Color("#ece4ea"))
-		_rows_box.draw_string(font, Vector2(ROW_W - 84, y + 20), String(r[2]), HORIZONTAL_ALIGNMENT_RIGHT, 72, 15, col)
-		_rows_box.draw_rect(Rect2(14, y + 30, ROW_W - 28, 6), Color(0.2, 0.2, 0.24))
-		_rows_box.draw_rect(Rect2(14, y + 30, (ROW_W - 28) * clampf(float(r[3]), 0.0, 1.0), 6), col)
+	detail.bbcode(String(call("_text_" + tab_id, sel)))
 
 
 # --- la scheda dei mondi (voce 235) ---

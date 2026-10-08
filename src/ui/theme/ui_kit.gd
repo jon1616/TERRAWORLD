@@ -102,6 +102,7 @@ static func keycap(key: String) -> PanelContainer:
 	sb.content_margin_top = 0
 	sb.content_margin_bottom = 1
 	pc.add_theme_stylebox_override("panel", sb)
+	pc.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	pc.add_child(label(key, UiPalette.NOTA, UiPalette.TESTO, "forte"))
 	return pc
 

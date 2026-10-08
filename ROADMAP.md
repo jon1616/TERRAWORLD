@@ -5997,12 +5997,18 @@ nel titolo e i comandi in una riga grigia minuscola.
 - [x] **428. Le fondamenta.** I caratteri Alegreya (titoli, nomi) e Alegreya Sans (testo), una scala del testo, la
   tavolozza rivista, cornici disegnate a vettori, le icone dei controlli morbide, il filtro morbido per l'interfaccia;
   via il carattere a pixel.
-- [ ] **429. Il kit.** I pezzi comuni (`UiKit`: titoletti, etichette tonde, tasti disegnati, riquadri evidenziati,
+- [x] **429. Il kit.** I pezzi comuni (`UiKit`: titoletti, etichette tonde, tasti disegnati, riquadri evidenziati,
   valori in colonna, barre, medaglioni, il vuoto spiegato) e lo scheletro dei pannelli (`UiPage`: intestazione con
   medaglione e numeri chiave, schede, corpo, piede con i tasti), le righe d'elenco (`UiRow`), le tappe (`UiTimeline`).
+  Fatto l'8 ott 2026: `UiKit` (src/ui/theme), e in src/ui/kit `UiPage` (lo scheletro, con `split` = elenco e dettaglio,
+  apertura, chiusura e tasto comuni, `shown_text` per le prove), `UiList` (le schedine disegnate da sé), `UiDetail` (la
+  colonna del dettaglio, con `bbcode` che impagina i testi dei moduli: titolo, sezioni, elenchi con lo stato),
+  `UiTimeline`, `UiMedal`, `UiBar`, `UiRule`, `UiBackdrop`.
 - [ ] **430. I suggerimenti.** La scheda rifatta: intestazione con l'icona e le etichette, sezioni, valori allineati,
   tasti disegnati; tutte le schede di sole parole (portali, Vita, orologio…) diventano schede vere.
-- [ ] **431. Le strade.** Libro dei pilastri, Arti, Atlante.
+- [x] **431. Le strade.** Libro dei pilastri, Arti, Atlante.
+  Fatto l'8 ott 2026: i tre pannelli sullo scheletro nuovo; i gradi dei pilastri e i gradi delle tecniche come tappe,
+  il prossimo passo in evidenza, i numeri chiave nell'intestazione.
 - [ ] **432. Il Giardino.** Albero-Madre, Bacheca, Semenzaio (mondi, Genario, catene, storia), Innesto.
 - [ ] **433. Le creature.** Erbario, Mandria, Compagni.
 - [ ] **434. Le parole.** Quaderno, letture (pagine, racconti, scrigni a parola), Finale, Enciclopedia.
