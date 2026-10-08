@@ -36,7 +36,8 @@ static func roll(rng: RandomNumberGenerator, vigor: int, surface := "") -> Dicti
 	var out := [surface]
 	var cats := GenesData.CATEGORIES.duplicate()
 	cats.erase("superficie")
-	var shape := String(SHAPE_CATS[rng.randi_range(0, SHAPE_CATS.size() - 1)])
+	# voce 460: una volta su due la forma (la sagoma si vede subito sulla mappa), se no grotte o sottosuolo
+	var shape := "forma" if rng.randf() < 0.5 else String(SHAPE_CATS[rng.randi_range(1, SHAPE_CATS.size() - 1)])
 	var sg := _pick(rng, GenesData.of_cat(shape), vigor)
 	if sg != "":
 		out.append(sg)

@@ -18,7 +18,7 @@ const _ADJ := {
 	"nebbioso": ["nebbiosi", "nebbiose"],
 	"lieve": ["lievi", "lievi"], "giorni_brevi": ["fugaci", "fugaci"], "giorno_lento": ["lenti", "lente"],
 	"notte_eterna": ["notturni", "notturne"], "senza_sole": ["spenti", "spente"], "radici_vive": ["radicati", "radicate"],
-	"cristalli_vivi": ["cristallini", "cristalline"], "frane": ["franosi", "franose"], "guscio": ["racchiusi", "racchiuse"], "arcipelago": ["sparsi", "sparse"], "canyon": ["squarciati", "squarciate"], "terrazze": ["digradanti", "digradanti"], "sprofondato": ["sprofondati", "sprofondate"], "pilastri": ["colonnati", "colonnate"], "sorgenti": ["sorgivi", "sorgive"],
+	"cristalli_vivi": ["cristallini", "cristalline"], "frane": ["franosi", "franose"], "guscio": ["racchiusi", "racchiuse"], "arcipelago": ["sparsi", "sparse"], "canyon": ["squarciati", "squarciate"], "terrazze": ["digradanti", "digradanti"], "sprofondato": ["sprofondati", "sprofondate"], "pilastri": ["colonnati", "colonnate"], "scalinata_celeste": ["celesti", "celesti"], "gola_delle_fonti": ["sorgivi", "sorgive"], "selva_di_pilastri": ["svettanti", "svettanti"], "sorgenti": ["sorgivi", "sorgive"],
 	"compatto": ["sordi", "sorde"], "gallerie": ["traforati", "traforate"], "alveare": ["alveolati", "alveolate"],
 	"voragini": ["squarciati", "squarciate"], "abissale": ["abissali", "abissali"], "fungaie": ["fungosi", "fungose"],
 	"geodi_brina": ["gelidi", "gelide"], "fiumi_brace": ["ardenti", "ardenti"], "radici_giganti": ["radicati", "radicate"],

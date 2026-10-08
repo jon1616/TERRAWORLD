@@ -241,6 +241,16 @@ const _GENES := {
 		"desc": "la terra è sprofondata in una conca immensa sotto un cielo altissimo", "gen": {"shape": "sprofondato"}},
 	"pilastri": {"cat": "forma", "name": "Pilastri", "rar": 2, "dom": 1, "good": true, "vmin": 2,
 		"desc": "colonne di roccia salgono dalla terra fino al cielo, coperte di liane", "gen": {"shape": "pilastri"}},
+	# voce 460: le sagome in combinazione (nascono per mutazione da due geni dei genitori)
+	"scalinata_celeste": {"cat": "forma", "name": "Scalinata celeste", "rar": 3, "dom": 1, "good": true, "only": "mutazione",
+		"combo": ["terrazze", "cieli_alti"], "desc": "gradoni che salgono verso un cielo altissimo e pieno di isole",
+		"gen": {"shape": "terrazze", "hills": 1.4, "sky_scale": 1.5, "sky_isles": 2.0}},
+	"gola_delle_fonti": {"cat": "forma", "name": "Gola delle fonti", "rar": 3, "dom": 1, "good": true, "only": "mutazione",
+		"combo": ["canyon", "sorgenti"], "desc": "una gola immensa e sotto di lei grotte piene di acqua",
+		"gen": {"shape": "canyon", "pools": 4.0, "worm": 1.2}},
+	"selva_di_pilastri": {"cat": "forma", "name": "Selva di pilastri", "rar": 3, "dom": 1, "good": true, "only": "mutazione",
+		"combo": ["pilastri", "montagne"], "desc": "montagne altissime e colonne di roccia fino al cielo",
+		"gen": {"shape": "pilastri", "hills": 2.0}},
 	# voce 75: il tempo atmosferico
 	"piovoso": {"cat": "cielo", "name": "Piovoso", "rar": 0, "dom": 2, "good": true,
 		"desc": "piove spesso: pozze, orti rigogliosi e temporali", "run": {"rain": 3.0}},

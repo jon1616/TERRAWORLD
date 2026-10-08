@@ -6296,7 +6296,11 @@ La quarta del piano «Il generatore eccellente» (`GENERATORE.md`). Scelta dell'
   Strati): 6-9 colonne di roccia larghe 14-22 fino al cielo di mezzo, con cenge e una tenda di liane; le liane su ogni
   alzata del canyon. Gli strati si misurano dalla superficie: nessuna sagoma la abbassa più di 110 righe (sotto resta
   il Fondo). `Genome.effects` ora tiene i valori di testo. Foglio `tools/foglio_sagome.py` → prove/sagome.png.
-- [ ] **460. I geni che cambiano la forma.**
+- [x] **460. I geni che cambiano la forma.**
+  Fatto l'8 ott 2026: i quattro geni delle sagome (voce 459) e tre combinazioni con un nome che nascono per mutazione
+  (Scalinata celeste = terrazze + cieli alti, Gola delle fonti = canyon + sorgenti, Selva di pilastri = pilastri +
+  montagne). `Genome.roll` prende la forma una volta su due (prima una su tre), grotte o sottosuolo le altre: i geni di
+  grotte e sottosuolo cambiano già la grande scala dalla Roadmap 57 (stili di grotta, regioni).
 - [ ] **461. I mari ai bordi.**
 - [ ] **462. Il carattere dei biomi di superficie.**
 - [ ] **463. Le tracce del passato.**
