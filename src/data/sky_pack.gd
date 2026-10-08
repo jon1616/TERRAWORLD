@@ -73,6 +73,11 @@ const DATA := {
 	},
 	# voce 165: i pesci delle pozze del cielo (campo "sky"; i campi in cima a `FishData`)
 	"fish": {
+		# voce 442: i pesci del cielo medio
+		"trota_cascata": {"name": "Trota delle cascate", "rar": "comune", "size": [12, 26], "color": "lagunite",
+			"sky": ["fonti_sospese"], "desc": "Risale le cascate del cielo, anche quelle che cadono nel vuoto."},
+		"pesce_lanterna_selve": {"name": "Pesce-lanterna delle selve", "rar": "non_comune", "size": [10, 22], "color": "muschio",
+			"sky": ["selve_pensili", "fonti_sospese"], "desc": "Di notte accende la pancia: le pozze delle selve brillano verdi."},
 		"pesce_nuvola": {"name": "Pesce nuvola", "rar": "comune", "size": [8, 16], "color": "nuvola",
 			"sky": ["mare_nubi", "radici_sospese", "giardini_vento"], "desc": "Bianco e morbido: nuota come una nuvola che passa."},
 		"guizzo_pioggia": {"name": "Guizzo di pioggia", "rar": "non_comune", "size": [6, 12], "color": "lagunite",
@@ -84,7 +89,7 @@ const DATA := {
 		"pesce_fulmine": {"name": "Pesce fulmine", "rar": "raro", "size": [15, 30], "color": "folgorite",
 			"sky": ["nidi_tempesta", "mare_nubi"], "time": "notte", "desc": "Di notte illumina la pozza a ogni guizzo."},
 		"pesce_stella_cielo": {"name": "Pesce stella del cielo", "rar": "leggendario", "size": [20, 45], "color": "stelle",
-			"sky": ["mare_nubi", "radici_sospese", "giardini_vento", "nidi_tempesta"], "time": "notte",
+			"sky": ["mare_nubi", "radici_sospese", "giardini_vento", "nidi_tempesta", "selve_pensili", "fonti_sospese"], "time": "notte",
 			"desc": "Dicono che sia una stella caduta in una pozza, che ha imparato a nuotare."},
 	},
 	# voce 165: chi si addomestica tra le famiglie del cielo (campi di `HerdData.TAME`); la Balena delle stelle vola

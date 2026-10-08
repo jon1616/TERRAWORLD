@@ -5,25 +5,29 @@ class_name EncySkyData
 
 const CHAPTERS := [
 	{"id": "cielo", "group": "Le Chiome del cielo", "name": "Il cielo dei mondi", "text":
-"""Sopra la superficie di ogni mondo (non nel Giardino, non sotto il Guscio) ci sono le [b]Chiome del cielo[/b]: isole di terra, nuvole e cristallo che galleggiano, divise in zone lungo il mondo. Ogni zona ha due fasce:
+"""Sopra la superficie di ogni mondo (non nel Giardino, non sotto il Guscio) ci sono le [b]Chiome del cielo[/b]: isole di terra, nuvole e cristallo che galleggiano, divise in zone lungo tutto il mondo. Ogni zona ha tre fasce:
 • il [b]cielo basso[/b], una trentina di tessere sopra le colline più alte: si raggiunge dal primo giorno;
+• il [b]cielo di mezzo[/b], il cuore del cielo: isole grandi, foreste e laghi sospesi;
 • il [b]cielo alto[/b], sopra, fino al bordo del mondo: l'[url=cap:aria_sottile]aria sottile[/url] e le creature più forti chiedono di prepararsi.
 [b]Come si sale[/b]:
-• le [b]correnti[/b]: colonne d'aria (foglie e scintille che salgono) che partono dalla terra e portano su fino a un'isola bassa, finché tieni premuto {k_salto} (lasciandolo ci passi attraverso); altre portano dalle isole basse a quelle alte;
+• le [b]correnti[/b]: colonne d'aria (foglie e scintille che salgono) che partono dalla terra e portano su fino a un'isola bassa, finché tieni premuto {k_salto} (lasciandolo ci passi attraverso); altre portano da una fascia a quella sopra;
 • le [b]radici pendenti[/b]: file di passerelle che scendono da molte isole basse fin quasi a terra (ci si sale saltando);
 • il [b]Fagiolo di nuvola[/b] (al Ceppo: legno, gelatina, humus): piantato all'aperto, in un minuto sale una liana di passerelle, 40 tessere;
 • le ali, la planata e il rampino.
 [b]Si cade[/b]: la [b]Piuma lenta[/b] (al Ceppo, con le penne di corteccia) toglie il danno delle cadute, e le [b]nuvole[/b] accolgono chi ci cade sopra. Tra isole vicine a volte c'è un [b]ponte di liane[/b]."""},
-	{"id": "biomi_cielo", "group": "Le Chiome del cielo", "name": "I sei biomi del cielo", "text":
+	{"id": "biomi_cielo", "group": "Le Chiome del cielo", "name": "Gli otto biomi del cielo", "text":
 """[b]Nel cielo basso[/b]
 • [b]Radici sospese[/b]: zolle di terra di cielo tenute insieme dalle radici, felci d'aria, api turchesi e volpi plananti.
 • [b]Mare di nuvole[/b]: banchi di nuvola su cui si cammina (la nuvola si scava in un attimo e si posa come un blocco), pozze di pioggia, pecore di nuvola.
 • [b]Giardini del vento[/b]: erba dorata, correnti ovunque, fiori-girandola; ogni tanto una [b]raffica[/b] ti spinge.
-[b]Nel cielo alto[/b]
+[b]Nel cielo di mezzo[/b]
 • [b]Scogliere di cristallo[/b]: scogli di [b]cristallo celeste[/b] che brilla (un blocco che fa luce).
+• [b]Selve pensili[/b]: foreste sospese di alberi-lanterna, liane che pendono nel vuoto, fiori-lanterna; tucani-lanterna e saltaliane.
+• [b]Fonti sospese[/b]: laghi nel cielo che traboccano, felci d'acqua e gigli che brillano; aironi, salamandre e spiriti delle cascate. Le pozze più grandi del cielo, e i loro pesci.
+[b]Nel cielo alto[/b]
 • [b]Nidi di tempesta[/b]: nuvole scure dove i [b]fulmini[/b] cadono da soli: la colonna si accende prima, spostati. Nella roccia la [b]folgorite[/b].
 • [b]Il Firmamento[/b]: polvere di stelle e silenzio; lì il cielo si fa notte anche di giorno.
-Nelle isole alte ci sono le vene di [url=cap:nimbite]nimbite[/url]. Su un'isola alta di ogni zona c'è un [b]osservatorio dei Seminatori[/b]: una cupola di cristallo con uno scrigno e una stele (e, a volte, il suo progetto)."""},
+Nelle isole del cielo di mezzo e alto ci sono le vene di [url=cap:nimbite]nimbite[/url]. Su un'isola alta di ogni zona c'è un [b]osservatorio dei Seminatori[/b]: una cupola di cristallo con uno scrigno e una stele (e, a volte, il suo progetto)."""},
 	{"id": "aria_sottile", "group": "Le Chiome del cielo", "name": "L'aria sottile", "text":
 """Nel cielo alto, allo scoperto, sale la barra dell'[b]aria sottile[/b] (più svelta nel Firmamento). Piena: salti meno, la Linfa cala e il fiato ferisce.
 Proteggono: la [b]Maschera di nuvola[/b] (al Ceppo: nuvola e terra di cielo), il [b]Mantello di piume del cielo[/b], il set intero di [url=cap:nimbite]nimbite[/url], alcuni talismani e i Signori del cielo; l'[b]Elisir del respiro alto[/b] (all'Alambicco) la ferma per cinque minuti. Anche una stanza costruita lassù ripara."""},

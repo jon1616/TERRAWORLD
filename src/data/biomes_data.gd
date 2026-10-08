@@ -84,6 +84,8 @@ const SKY_FILES := [
 	preload("res://src/data/biomes/cielo_cristallo.gd"),
 	preload("res://src/data/biomes/cielo_tempesta.gd"),
 	preload("res://src/data/biomes/cielo_firmamento.gd"),
+	preload("res://src/data/biomes/cielo_selve.gd"),           # voce 442: il cielo medio
+	preload("res://src/data/biomes/cielo_fonti.gd"),
 ]
 
 ## Voce 97: pacchetti di contenuto che non sono biomi (le creature nascoste): stessi campi del pacchetto.

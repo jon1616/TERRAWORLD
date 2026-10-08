@@ -1,4 +1,21 @@
 {
+	"airone_fonti": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"picchiata"
+		],
+		"elem": "",
+		"hp": 58,
+		"name": "Airone delle fonti",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
 	"airone_torba": {
 		"awake": false,
 		"bh": [
@@ -195,6 +212,23 @@
 		],
 		"water": false,
 		"weight": 4
+	},
+	"bradipo_muschio": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"guaritore"
+		],
+		"elem": "",
+		"hp": 72,
+		"name": "Bradipo di muschio",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
 	},
 	"brillo_stellare": {
 		"awake": false,
@@ -956,6 +990,23 @@
 		"water": false,
 		"weight": 0
 	},
+	"firma_fonti_sospese_0": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"balzo",
+			"pioggia",
+			"arrampica"
+		],
+		"elem": "",
+		"hp": 81,
+		"name": "Picchio delle fonti sospese del filo d'oro",
+		"perduto": false,
+		"sky": true,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
 	"firma_foresta_0": {
 		"awake": false,
 		"bh": [
@@ -1394,6 +1445,23 @@
 		"elem": "",
 		"hp": 81,
 		"name": "Upupa delle scogliere col mantello",
+		"perduto": false,
+		"sky": true,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"firma_selve_pensili_0": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"zigzag",
+			"raggio",
+			"specchio"
+		],
+		"elem": "",
+		"hp": 81,
+		"name": "Picchio delle selve pensili del filo d'oro",
 		"perduto": false,
 		"sky": true,
 		"strata": [],
@@ -1940,6 +2008,23 @@
 		"water": false,
 		"weight": 4
 	},
+	"lontra_fonti": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"fugge"
+		],
+		"elem": "",
+		"hp": 48,
+		"name": "Lontra delle fonti",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
 	"luccio_stagno": {
 		"awake": false,
 		"bh": [
@@ -2006,6 +2091,23 @@
 		],
 		"water": false,
 		"weight": 8
+	},
+	"lucciolone_selve": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"richiamo"
+		],
+		"elem": "",
+		"hp": 24,
+		"name": "Lucciolone delle selve",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
 	},
 	"lucertola_vetro": {
 		"awake": false,
@@ -2135,6 +2237,22 @@
 		"elem": "",
 		"hp": 104,
 		"name": "Mangiastelle",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
+	"medusa_iridata": {
+		"awake": false,
+		"bh": [
+			"deriva"
+		],
+		"elem": "",
+		"hp": 58,
+		"name": "Medusa iridata",
 		"perduto": false,
 		"sky": true,
 		"strata": [
@@ -2855,6 +2973,37 @@
 		"elem": "",
 		"hp": 80,
 		"name": "Medusa risvegliata del firmamento",
+		"perduto": false,
+		"sky": true,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"ris_fonti_sospese_0": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"orbita",
+			"spine"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Picchio risvegliato delle fonti sospese",
+		"perduto": false,
+		"sky": true,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"ris_fonti_sospese_1": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"pioggia"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Fuoco fatuo risvegliato delle fonti sospese",
 		"perduto": false,
 		"sky": true,
 		"strata": [],
@@ -3926,6 +4075,37 @@
 		"water": false,
 		"weight": 0
 	},
+	"ris_selve_pensili_0": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"orbita",
+			"spine"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Picchio risvegliato delle selve pensili",
+		"perduto": false,
+		"sky": true,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
+	"ris_selve_pensili_1": {
+		"awake": true,
+		"bh": [
+			"vola",
+			"pioggia"
+		],
+		"elem": "",
+		"hp": 80,
+		"name": "Fuoco fatuo risvegliato delle selve pensili",
+		"perduto": false,
+		"sky": true,
+		"strata": [],
+		"water": false,
+		"weight": 0
+	},
 	"ris_stellare_0": {
 		"awake": true,
 		"bh": [
@@ -4239,6 +4419,23 @@
 		"water": false,
 		"weight": 6
 	},
+	"salamandra_fonti": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"salta_verso"
+		],
+		"elem": "",
+		"hp": 40,
+		"name": "Salamandra delle cascate",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
 	"salamandra_linfa": {
 		"awake": false,
 		"bh": [
@@ -4286,6 +4483,23 @@
 		],
 		"water": false,
 		"weight": 8
+	},
+	"saltaliane": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"salta_verso"
+		],
+		"elem": "",
+		"hp": 58,
+		"name": "Saltaliane",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
 	},
 	"scarabeo_ardesia": {
 		"awake": false,
@@ -4444,6 +4658,23 @@
 		"water": false,
 		"weight": 0
 	},
+	"serpe_liane": {
+		"awake": false,
+		"bh": [
+			"cammina",
+			"salta_verso"
+		],
+		"elem": "",
+		"hp": 58,
+		"name": "Serpe delle liane",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
+	},
 	"serpe_linfa": {
 		"awake": false,
 		"bh": [
@@ -4512,6 +4743,23 @@
 		],
 		"water": false,
 		"weight": 6
+	},
+	"spirito_cascata": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"spara"
+		],
+		"elem": "",
+		"hp": 58,
+		"name": "Spirito della cascata",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
 	},
 	"spirito_gelo": {
 		"awake": false,
@@ -4774,6 +5022,23 @@
 		],
 		"water": false,
 		"weight": 4
+	},
+	"tucano_lanterna": {
+		"awake": false,
+		"bh": [
+			"vola",
+			"picchiata"
+		],
+		"elem": "",
+		"hp": 58,
+		"name": "Tucano-lanterna",
+		"perduto": false,
+		"sky": true,
+		"strata": [
+			0
+		],
+		"water": false,
+		"weight": 0
 	},
 	"vagavuoto": {
 		"awake": false,

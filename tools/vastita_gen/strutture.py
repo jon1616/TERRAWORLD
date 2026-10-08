@@ -14,7 +14,8 @@ from vastita_gen.ritrovamenti import _biomes, _of
 
 WALL = {'ambra': 'a', 'vetro': 'g', 'canto': 'c', 'scogliere_cristallo': 'c', 'ghiacciaio': 'c', 'stellare': 'a',
         'brace': '#', 'cenere': '#', 'catacombe': '#', 'pietra': '#', 'giungla': 'r', 'foresta': 'r', 'rossa': 'r',
-        'radici_sospese': 'r', 'sussurri': 'v', 'firmamento': 'a', 'iridato': 'g'}
+        'radici_sospese': 'r', 'sussurri': 'v', 'firmamento': 'a', 'iridato': 'g', 'selve_pensili': 'r',
+        'fonti_sospese': 'c'}
 # i quattro gradi: per dove sta il bioma, quale struttura
 KINDS = {'superficie': ['villaggio', 'nido', 'tempio', 'fucina'], 'sotto': ['nido', 'tempio', 'fucina', 'nido_grande'],
          'cielo': ['nave', 'nave', 'nave', 'nave']}

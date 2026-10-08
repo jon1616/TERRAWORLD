@@ -8,10 +8,43 @@ extends RefCounted
 ##   86-87  Scogliere di cristallo: germoglio di cristallo celeste, eco di cristallo
 ##   88-89  Nidi di tempesta: ciuffo scuro con scintille, roccia carica
 ##   90-91  Il Firmamento: erba di stelle, stella caduta
+##   106-107 Selve pensili (voce 442): liana pendente, fiore-lanterna
+##   108-109 Fonti sospese (voce 442): felce d'acqua, giglio delle fonti
 
 
 static func draw(id: int, im: Image, gm: Image, rng: RandomNumberGenerator) -> Variant:
 	match id:
+		106:
+			# liana: due fili verdi che scendono da una foglia, arricciati in fondo
+			for s in [-1, 1]:
+				Px.curve(im, Vector2(8, 15), Vector2(8 + s * 3, 9), Vector2(8 + s * 2, 3), 1, Color("#2e7a48"))
+				Px.put(im, 8 + s * 2, 3, Color("#a8f0b8"))
+			Px.disc(im, 8, 13, 1.6, Color("#56b070"))
+			return true
+		107:
+			# fiore-lanterna: una campanella ambra accesa su un gambo curvo
+			Px.curve(im, Vector2(8, 15), Vector2(6, 10), Vector2(9, 7), 1, Color("#1e5232"))
+			Px.disc(im, 9, 7, 2.4, Color("#ffb040"))
+			Px.disc(im, 9, 7, 1.2, Color("#fff0a0"))
+			Px.put(gm, 9, 7, Color(0.7, 0.55, 0.2))
+			Px.put(gm, 9, 8, Color(0.45, 0.35, 0.12))
+			return true
+		108:
+			# felce d'acqua: fronde azzurre larghe, con una goccia in punta
+			for s in [-1.0, -0.3, 0.3, 1.0]:
+				var tip := Vector2(8 + s * 6.0, 5 + absf(s) * 3.0)
+				Px.curve(im, Vector2(8, 15), Vector2(8 + s * 3.0, 10), tip, 1, Color("#2a8aa0"))
+				Px.put(im, int(tip.x), int(tip.y), Color("#c8f8ff"))
+			return true
+		109:
+			# giglio delle fonti: tre petali bianchi che brillano azzurri
+			Px.line(im, Vector2(8, 15), Vector2(8, 9), 1, Color("#16506a"))
+			for d in [Vector2(-2, -1), Vector2(2, -1), Vector2(0, -3)]:
+				Px.disc(im, 8 + int(d.x), 8 + int(d.y), 1.5, Color("#e8fbff"))
+			Px.put(im, 8, 7, Color("#5ac8d8"))
+			Px.put(gm, 8, 7, Color(0.3, 0.6, 0.7))
+			Px.put(gm, 8, 6, Color(0.2, 0.45, 0.55))
+			return true
 		80:
 			# felce d'aria: fronde lunghe e sottili che si piegano verso l'alto, a volte una radichetta che pende
 			for s in [-1.0, -0.4, 0.4, 1.0]:

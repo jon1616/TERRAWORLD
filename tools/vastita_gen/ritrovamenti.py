@@ -21,13 +21,14 @@ OF = {'ambra': 'delle', 'brace': 'delle', 'brina': 'dei', 'cenere': 'delle', 'sc
       'firmamento': 'del', 'mare_nubi': 'del', 'radici_sospese': 'delle', 'nidi_tempesta': 'dei',
       'giardini_vento': 'dei', 'foresta': 'della', 'funghi': 'delle', 'ghiacciaio': 'dei', 'iridato': 'dei',
       'palude': 'delle', 'pietra': 'delle', 'prati': 'dei', 'rossa': 'delle', 'canto': 'delle', 'catacombe': 'delle',
-      'giungla': 'delle', 'lago': 'dei', 'stellare': 'delle', 'sussurri': 'dei', 'torba': 'delle', 'vetro': 'dei'}
+      'giungla': 'delle', 'lago': 'dei', 'stellare': 'delle', 'sussurri': 'dei', 'torba': 'delle', 'vetro': 'dei',
+      'selve_pensili': 'delle', 'fonti_sospese': 'delle'}
 PAL = {'ambra': 'ambra', 'brace': 'tizzonite', 'brina': 'brina', 'cenere': 'cenere', 'scogliere_cristallo': 'celeste',
        'firmamento': 'stelle', 'mare_nubi': 'nuvola', 'radici_sospese': 'radice', 'nidi_tempesta': 'tempesta',
        'giardini_vento': 'vento', 'foresta': 'muschio', 'funghi': 'fungo', 'ghiacciaio': 'lagunite', 'iridato': 'iride',
        'palude': 'nodo', 'pietra': 'ardesia', 'prati': 'lucciola', 'rossa': 'radicite', 'canto': 'cristallo',
        'catacombe': 'sem', 'giungla': 'legno', 'lago': 'linfa', 'stellare': 'brillaluce', 'sussurri': 'nottilite',
-       'torba': 'humus', 'vetro': 'pallidite'}
+       'torba': 'humus', 'vetro': 'pallidite', 'selve_pensili': 'muschio', 'fonti_sospese': 'lagunite'}
 OPP = {'brace': 'gelo', 'gelo': 'brace', 'spora': 'linfa', 'linfa': 'spora', 'vuoto': 'luce', 'luce': 'vuoto'}
 TOOLS = [('piccone', 'piccone', 'Piccone'), ('ascia', 'ascia', 'Ascia'), ('trivella', 'piccone', 'Trivella')]
 WEAPON_ORDER = ['spada', 'arco', 'verga', 'girandola', 'buccina', 'virgulto', 'scettro', 'semebomba', 'lancia', 'fionda',

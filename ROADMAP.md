@@ -6097,13 +6097,22 @@ solide (isole di 15-30 colonne), la varietà fra due Semi è sotto il rumore (0,
   e uno zaino perduto nella stessa cella (le piante-seme non si prenotavano); l'insegna dello strato con la riga sotto il
   titolo che lo toccava (il titolo più alto dalla Roadmap 55). Gruppi «base», «galleria» (0 problemi), «cielo»,
   «atlante», «mappa» senza avvisi; il cielo alto per ora prende tutte le righe nuove (le tre fasce sono la voce 442).
-- [~] **442. Tre fasce di cielo.** Basso, medio, alto, larghe tutta la mappa; due biomi nuovi per la fascia media.
+- [x] **442. Tre fasce di cielo.** Basso, medio, alto, larghe tutta la mappa; due biomi nuovi per la fascia media.
   Fatto l'8 ott 2026 (il motore): `SkyData.BANDS` e `BAND_FRAC` (basso 24%, medio 44%, alto il resto del cielo di una
   zona: ~90/165/120 righe a 1200), zone `{low, mid, high, base, split, split_mh}`, `band_biome`, `band_rows`,
   `band_level`; le zone salvate prima (senza `mid`) si leggono come allora. `PassCielo`: isole in tre fasce (le medie
   più grandi, `half` 8-20), correnti superficie→basso, basso→medio, medio→alto (`_link`), sopra la partenza isole piccole
   invece del buco di 60 colonne. Le Scogliere di cristallo passano al medio. `cielo_max` 1/2/3, obiettivo «Raggiungi il
   cielo di mezzo». Gruppo «cielo» rifatto per tre fasce: 6 biomi su 6 fotografati, nessun avviso.
+  Poi i due biomi del cielo medio: **Selve pensili** (muschio pensile, liane, fiori-lanterna, alberi; saltaliane, bradipo
+  di muschio, serpe delle liane, tucano-lanterna, luccioloni) e **Fonti sospese** (laghi che traboccano, felci d'acqua,
+  gigli; airone, salamandra delle cascate, medusa iridata, lontra, spirito della cascata): file `cielo_selve.gd` e
+  `cielo_fonti.gd` (tessere 120-121, decorazioni 106-109 disegnate in `SkyDecorArt`), 10 creature in
+  `tools/bestiario_cielo.py` con materiali, trofei, talismano, emblema e un oggetto per ogni materiale, due pesci, due geni
+  («Selve sospese», «Fonti del cielo»); nei generatori della vastità (casse dei biomi, strutture, risvegliate e firma) e i
+  rari delle specie nuove (`tools/specie.gd`). Enciclopedia: tre fasce, otto biomi. Gruppi «base», «cielo» (8 biomi su
+  8), «enciclopedia», «guida» (0 oggetti senza uso su 8095), «ritrovamenti», «bestie», «galleria» senza avvisi. I Signori
+  dei due biomi nuovi con la voce 445.
 - [ ] **443. I continenti sospesi.** 1-2 per zona, con grotte (e pareti), vene, cascate.
 - [ ] **444. Le strade verso l'alto.** Mari di nuvole, correnti per fascia, liane, il Fagiolo fino a un'isola.
 - [ ] **445. I luoghi del cielo.** Templi, osservatori, nidi dei Signori, la firma del mondo.

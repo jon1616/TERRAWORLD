@@ -43,6 +43,9 @@ PLACES = [
     ('radici_sospese', 'sky', 'delle radici sospese', 'spora', ['#1c2414', '#30401e', '#4c642e', '#7a9a4c', '#c8e090'], '#ffd060', 3),
     ('nidi_tempesta', 'sky', 'dei nidi di tempesta', 'luce', ['#1a1e2e', '#2c3248', '#464e6c', '#6c78a0', '#c8d4ff'], '#fffac0', 4),
     ('giardini_vento', 'sky', 'dei giardini del vento', 'gelo', ['#2a3a24', '#40583a', '#628458', '#94bc84', '#e8ffd8'], '#ffffff', 3),
+    # voce 442: il cielo medio
+    ('selve_pensili', 'sky', 'delle selve pensili', 'linfa', ['#12301e', '#1e5232', '#2e7a48', '#56b070', '#a8f0b8'], '#ffb040', 3),
+    ('fonti_sospese', 'sky', 'delle fonti sospese', 'luce', ['#0e2a3a', '#16506a', '#2a8aa0', '#5ac8d8', '#c8f8ff'], '#ffffff', 3),
 ]
 OPP = {'brace': 'gelo', 'gelo': 'brace', 'spora': 'linfa', 'linfa': 'spora', 'vuoto': 'luce', 'luce': 'vuoto'}
 
