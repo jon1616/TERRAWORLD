@@ -65,6 +65,28 @@ def neutral_greys(img: Image.Image) -> Image.Image:
     return Image.fromarray(a.clip(0, 255).astype(np.uint8), "RGBA")
 
 
+def grey_part(img: Image.Image) -> float:
+    """Quanta parte della figura prende il colore del materiale (i grigi neutri, come `IconTemplates._is_grey`)."""
+    a = np.asarray(img.convert("RGBA")).astype(np.float32)
+    on = a[:, :, 3] > 128
+    rgb = a[:, :, :3]
+    grey = on & (rgb.max(axis=2) - rgb.min(axis=2) <= 18) & (rgb @ np.array([0.3, 0.59, 0.11]) > 41)
+    return grey.sum() / max(1, on.sum())
+
+
+def soft_small(big: Image.Image) -> Image.Image:
+    """La versione da 16 pixel ridotta dall'icona dipinta con una media (alfa premoltiplicato), per gli oggetti sottili
+    (ghirlanda, chiave, rampino: lotto 7): la pixelatura li faceva quasi tutti di contorno nero."""
+    a = np.asarray(big.convert("RGBA")).astype(np.float32)
+    pm = a.copy()
+    pm[..., :3] *= a[..., 3:4] / 255
+    sm = np.asarray(Image.fromarray(pm.clip(0, 255).astype(np.uint8)).resize((16, 16), Image.BOX)).astype(np.float32)
+    al = sm[..., 3:4]
+    rgb = np.where(al > 0, sm[..., :3] * 255 / np.maximum(al, 1), 0)
+    out = np.concatenate([rgb, np.where(al > 70, 255, 0)], axis=2)
+    return neutral_greys(Image.fromarray(out.clip(0, 255).astype(np.uint8), "RGBA"))
+
+
 def main() -> None:
     sys.stdout.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser()
@@ -98,8 +120,11 @@ def main() -> None:
             continue
         big = neutral_greys(prova_icone.painted(f, 48))
         big.save(os.path.join(ROOT, "arte", "icone48", name + ".png"))
-        small = tavola.riduci_a(pixela.ritaglia(f), 16, pal, n_base)
-        neutral_greys(Image.fromarray(small, "RGBA")).save(os.path.join(ROOT, "arte", "forme", name + ".png"))
+        small = neutral_greys(Image.fromarray(tavola.riduci_a(pixela.ritaglia(f), 16, pal, n_base), "RGBA"))
+        if grey_part(small) < 0.5 * grey_part(big):
+            small = soft_small(big)      # oggetto sottile: il contorno scuro della pixelatura copriva tutto
+            print("  %s: versione del mondo dalla riduzione morbida (oggetto sottile)" % name)
+        small.save(os.path.join(ROOT, "arte", "forme", name + ".png"))
         done.append(name)
     print("installate: %s" % ", ".join(done))
     subprocess.run([GODOT, "--headless", "--path", ROOT, "--import"], capture_output=True, timeout=300)

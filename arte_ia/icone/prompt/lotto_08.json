@@ -1,0 +1,18 @@
+{
+ "lotto": "lotto_08",
+ "grid": "4x3",
+ "shapes": [
+  "mappa",
+  "freccia",
+  "pappo",
+  "bomba",
+  "tubero",
+  "stella",
+  "bastone",
+  "cristallo",
+  "torcia",
+  "fungo",
+  "minerale",
+  "collana"
+ ]
+}

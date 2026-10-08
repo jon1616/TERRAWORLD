@@ -288,5 +288,53 @@
 	"incudine": {
 		"en": "anvil",
 		"desc": "a heavy blacksmith's anvil [GREY] with a pointed horn on one side, standing on a thick stump of root wood (plum wood), a small hammer resting on top"
+	},
+	"mappa": {
+		"en": "map scroll",
+		"desc": "a partly unrolled map scroll [GREY] with curled ends, a dotted path and a little X drawn on it in dark lines, tied with a leather cord (warm leather)"
+	},
+	"freccia": {
+		"en": "arrows",
+		"desc": "two crossed arrows drawn DIAGONALLY: thin root-wood shafts (plum wood), leaf-shaped arrowheads [GREY] and green leaf fletching (leaf green)"
+	},
+	"pappo": {
+		"en": "seed fluff",
+		"desc": "a dandelion-like seed with a fluffy parachute tuft [GREY] of fine radiating filaments on a thin stalk, a tiny dark seed at the bottom"
+	},
+	"bomba": {
+		"en": "bomb pod",
+		"desc": "a round bulbous explosive pod [GREY] with metal bands around it, a short root fuse (plum wood) on top with a crackling amber spark"
+	},
+	"tubero": {
+		"en": "tuber",
+		"desc": "a plump knobbly root tuber [GREY] like a potato or ginger root, with a couple of small eyes and two little sprouting leaves (leaf green)"
+	},
+	"stella": {
+		"en": "fallen star",
+		"desc": "a chunky five-pointed star [GREY] with rounded tips and a faceted crystal look, glowing with a soft halo and two little sparkles"
+	},
+	"bastone": {
+		"en": "staff",
+		"desc": "a long wizard staff drawn DIAGONALLY: a straight shaft [GREY] with a curled spiral top like a fern head, a leather grip (warm leather) in the middle"
+	},
+	"cristallo": {
+		"en": "crystal cluster",
+		"desc": "a cluster of three sharp hexagonal crystals [GREY] growing from a small rock base, the tallest in the middle, with bright facets"
+	},
+	"torcia": {
+		"en": "torch",
+		"desc": "a torch drawn slightly DIAGONALLY: a root-wood handle (plum wood) wrapped with a band [GREY] at the top, holding a lively amber flame"
+	},
+	"fungo": {
+		"en": "mushroom",
+		"desc": "a plump mushroom with a big round cap [GREY] covered in a few spots, gills underneath and a thick short stem (pale cream)"
+	},
+	"minerale": {
+		"en": "raw ore chunk",
+		"desc": "a rough chunk of raw ore [GREY]: an irregular rock with several shiny embedded nuggets and crystal faces catching the light"
+	},
+	"collana": {
+		"en": "necklace",
+		"desc": "a necklace laid in a loop: a chain of small beads and links [GREY] with a teardrop pendant [GREY] holding a small amber gem"
 	}
 }
