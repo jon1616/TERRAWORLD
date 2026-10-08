@@ -6301,7 +6301,16 @@ La quarta del piano «Il generatore eccellente» (`GENERATORE.md`). Scelta dell'
   (Scalinata celeste = terrazze + cieli alti, Gola delle fonti = canyon + sorgenti, Selva di pilastri = pilastri +
   montagne). `Genome.roll` prende la forma una volta su due (prima una su tre), grotte o sottosuolo le altre: i geni di
   grotte e sottosuolo cambiano già la grande scala dalla Roadmap 57 (stili di grotta, regioni).
-- [ ] **461. I mari ai bordi.**
+- [x] **461. I mari ai bordi.**
+  Fatto l'8 ott 2026: `PassMari` (dopo la Sagoma, solo la superficie): in ogni sagoma con il mare (non guscio e
+  pilastri, `WorldShapesData.has_sea`) a ogni bordo 150-250 colonne: una spiaggia di 46 colonne fino al livello del
+  mare, il fondale che scende di 40-60 righe, uno o due isolotti; il posto è preso (`claim`), così le strutture di
+  superficie non ci cadono dentro. `PassAcqua._seas` versa l'acqua, toglie gli alberi sommersi e posa in ogni mare un
+  **relitto** (scafo di assi con uno scrigno: bottino delle rovine e un Forziere sommerso). I pesci di mare (campo
+  «sea» di `FishData`: i quattro del Sommerso più Sardella di schiuma, Cefalo di riva, Polpo dei relitti, Murena degli
+  scogli) vivono solo in mare, e in mare vivono solo loro; `Fishing.is_sea` (acqua di superficie grande entro
+  `SEA_EDGE` colonne da un bordo, o il gene Sommerso). La mappa di `tools/mappe.gd` disegna i liquidi. La prova
+  «pesca» pesca nel mare del mondo di prova.
 - [ ] **462. Il carattere dei biomi di superficie.**
 - [ ] **463. Le tracce del passato.**
 - [ ] **464. La misura della varietà.**

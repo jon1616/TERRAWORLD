@@ -303,6 +303,9 @@ func _save_ref(w: World, ref: String, sd: int) -> void:
 		im.get_region(Rect2i(x0, y0, 900, y1 - y0)).save_png(ProjectSettings.globalize_path("%s_%s.png" % [base, part[0]]))
 
 
+const LIQ_COLORS := [Color("#3a6fb8"), Color("#3ccfc0"), Color("#e0602a"), Color("#3a6fb8")]
+
+
 func _save_map(w: World, path: String, full: bool) -> void:
 	var im := Image.create_empty(w.w, w.h, false, Image.FORMAT_RGB8)
 	var cols := {}
@@ -315,6 +318,9 @@ func _save_map(w: World, path: String, full: bool) -> void:
 			var i := y * w.w + x
 			var t := w.tiles[i]
 			var c: Color = cols[t] if t != TileDefs.AIR else (wall if w.walls[i] != 0 else sky)
+			var lq := w.liquid[i]
+			if t == TileDefs.AIR and lq & 15 > 0:
+				c = LIQ_COLORS[(lq >> 4) & 3]                  # voce 461: i liquidi (il mare si vede)
 			im.set_pixel(x, y, c)
 	for t in w.torches:
 		im.set_pixelv(t, Color("#ffcc40"))

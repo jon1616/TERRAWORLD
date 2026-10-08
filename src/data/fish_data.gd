@@ -16,6 +16,8 @@ extends RefCounted
 ##   season          le stagioni (id di `SeasonsData`)
 ##   weather         i tempi (id di `WeatherData`)
 ##   gene            un gene che il mondo deve avere
+##   sea             vive solo in mare (i mari ai bordi della voce 461, o il mare del gene Sommerso); nel mare vivono
+##                   solo loro
 ##   rar             comune, non_comune, raro, leggendario (`RARITY`)
 ##   size            [min, max] in centimetri (la taglia si tira tra i due; i record stanno nell'Erbario)
 ##   color           il materiale che colora l'icona (`ItemIcons.MATERIALS`)
@@ -91,15 +93,23 @@ const FISH := {
 		"strata": [4], "time": "notte", "desc": "Un solo occhio enorme, che non si chiude mai."},
 	"pesce_cuore_fondo": {"name": "Cuore del Fondo", "rar": "leggendario", "size": [90, 200], "color": "brace", "liq": 2,
 		"strata": [4], "depth": 4, "desc": "Il calore del Fondo nasce da lui, raccontano i Seminatori."},
-	# ---- il mare del gene Sommerso
+	# ---- il mare (voce 461: i mari ai bordi; prima solo il mare del gene Sommerso)
 	"pesce_sgombro": {"name": "Sgombro dei mari sommersi", "rar": "comune", "size": [20, 40], "color": "lagunite", "big": 400.0,
-		"gene": "sommerso", "desc": "A branchi di mille, sotto la superficie del mare."},
+		"sea": true, "desc": "A branchi di mille, sotto la superficie del mare."},
 	"pesce_razza": {"name": "Razza velata", "rar": "non_comune", "size": [60, 140], "color": "seta", "big": 400.0,
-		"gene": "sommerso", "depth": 5, "desc": "Scivola sul fondo come un velo steso."},
+		"sea": true, "depth": 5, "desc": "Scivola sul fondo come un velo steso."},
 	"pesce_spada_onda": {"name": "Spada d'onda", "rar": "raro", "size": [100, 200], "color": "cristallo", "big": 400.0,
-		"gene": "sommerso", "depth": 6, "desc": "Taglia le onde col suo naso d'argento."},
+		"sea": true, "depth": 6, "desc": "Taglia le onde col suo naso d'argento."},
 	"pesce_custode_maree": {"name": "Custode delle maree", "rar": "leggendario", "size": [300, 600], "color": "lagunite",
-		"big": 400.0, "gene": "sommerso", "depth": 8, "desc": "Quando si gira, il mare sale."},
+		"big": 400.0, "sea": true, "depth": 8, "desc": "Quando si gira, il mare sale."},
+	"pesce_sardella_schiuma": {"name": "Sardella di schiuma", "rar": "comune", "size": [8, 16], "color": "seta", "sea": true,
+		"desc": "Salta fuori dalle onde a centinaia quando arriva la schiuma della riva."},
+	"pesce_cefalo_riva": {"name": "Cefalo di riva", "rar": "comune", "size": [25, 50], "color": "ardesia", "sea": true,
+		"desc": "Grufola nella sabbia sotto la spiaggia: abbocca vicino a riva."},
+	"pesce_polpo_relitto": {"name": "Polpo dei relitti", "rar": "non_comune", "size": [30, 90], "color": "legno",
+		"sea": true, "depth": 6, "desc": "Abita gli scafi affondati e ne ruba i chiodi d'ambra."},
+	"pesce_murena_scoglio": {"name": "Murena degli scogli", "rar": "raro", "size": [60, 150], "color": "brace",
+		"sea": true, "depth": 5, "time": "notte", "desc": "Di notte esce dalle fessure degli isolotti a cacciare."},
 	# ---- leggendari di tutti i mondi
 	"pesce_primo": {"name": "Il Primo Pesce", "rar": "leggendario", "size": [50, 90], "color": "iride", "weather": ["temporale"],
 		"time": "notte", "desc": "Abbocca solo nelle notti di temporale. Nessuno sa da quale mondo venga."},
@@ -151,6 +161,8 @@ static func fits(f: Dictionary, ctx: Dictionary) -> bool:
 		return false
 	if f.has("weather") and not String(ctx.get("weather", "")) in (f["weather"] as Array):
 		return false
+	if bool(f.get("sea", false)) != bool(ctx.get("sea", false)):
+		return false                                   # voce 461: nel mare solo i pesci di mare
 	if f.has("gene") and not String(f["gene"]) in (ctx.get("genes", []) as Array):
 		return false
 	if String(f.get("perduto", "")) != String(ctx.get("perduto", "")) and f.has("perduto"):

@@ -29,6 +29,7 @@ func run() -> void:
 	await rewards()
 	await village()
 	await balance()
+	sea()
 	for i in slots0.size():
 		b.slots[i] = slots0[i]
 	b.equip = equip0
@@ -218,7 +219,8 @@ func species() -> void:
 			"season": String((f.get("season", ["germoglio"]) as Array)[0]),
 			"weather": String((f.get("weather", ["sereno"]) as Array)[0]), "genes": [f.get("gene", "")],
 			"sky": String((f.get("sky", [""]) as Array)[0]),      # Roadmap 16: i pesci delle pozze del cielo
-			"perduto": String(f.get("perduto", ""))}               # Roadmap 21: i pesci dei Giardini perduti
+			"perduto": String(f.get("perduto", "")),              # Roadmap 21: i pesci dei Giardini perduti
+			"sea": bool(f.get("sea", false))}                       # voce 461: i pesci di mare
 		if FishData.pool(ctx).any(func(e: Array) -> bool: return String(e[0]) == String(id)):
 			reach += 1
 		else:
@@ -279,6 +281,34 @@ func species() -> void:
 	if not bad.is_empty() or not right or not fresh or rec or not same_pct or int(by.get("raro", 0)) == 0 \
 			or int(lucky.get("raro", 0)) <= int(by.get("raro", 0)):
 		print("ATTENZIONE: i pesci non sono come dovrebbero")
+
+
+## Voce 461: il mare ai bordi del mondo di prova. Uno specchio d'acqua grande vicino al bordo è mare (`Fishing.is_sea`),
+## e lì abboccano solo i pesci di mare; uno stagno lontano dal bordo non lo è.
+func sea() -> void:
+	var w: World = m.world
+	var body := {}
+	# lo specchio più grande lungo la fascia (gli isolotti dividono il mare in pezzi)
+	for x in range(10, WorldShapesData.SEA_EDGE, 6):
+		for y in range(maxi(int(w.surface[x]) - 80, 0), int(w.surface[x]) + 1):
+			if w.liq(x, y) > 0 and not w.solid(x, y):
+				var b := WaterBody.at(w, Vector2i(x, y + 2))
+				if int(b.get("cells", 0)) > int(body.get("cells", 0)):
+					body = b
+				break
+	var ok: bool = not body.is_empty() and m.fishing.is_sea(body)
+	var ids := []
+	if ok:
+		var ctx: Dictionary = m.fishing.context(body)
+		ctx["night"] = false
+		ids = FishData.pool(ctx).map(func(e: Array) -> String: return String(e[0]))
+		ok = not ids.is_empty() and ids.all(func(i: String) -> bool: return bool(FishData.info(i).get("sea", false)))
+	var inland := {"type": 0, "stratum": 0, "volume": 900.0, "x0": w.w / 2 - 20, "x1": w.w / 2 + 20}
+	ok = ok and not m.fishing.is_sea(inland)
+	print("mare (mondo %d×%d, mari %s): specchio %s celle da %s a %s, è mare %s, pesci %s" % [w.w, w.h, w.gen_notes.get("mari", "?"), body.get("cells", 0), body.get("x0", -1), body.get("x1", -1), "sì" if not body.is_empty() and m.fishing.is_sea(body) else "NO",
+		", ".join(ids.map(func(i: String) -> String: return String(FishData.info(i)["name"])))])
+	if not ok:
+		print("ATTENZIONE: il mare ai bordi non pesca i pesci di mare")
 
 
 ## Voce 121: il gesto. Con la canna in mano, un clic sullo stagno: la lenza parte, un pesce abbocca e sale da solo nella

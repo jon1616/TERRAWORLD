@@ -124,7 +124,18 @@ func context(body: Dictionary) -> Dictionary:
 		"season": String(m.seasons.info().get("id", "")), "weather": String(m.weather.id),
 		"genes": m.world_meta.get("geni", []),
 		"perduto": String((m.world_meta.get("perduto", {}) as Dictionary).get("id", "")) if m.world_meta.get("perduto") is Dictionary else "",
-		"sky": SkyData.zone_at(m.world, (body["center"] as Vector2i).x, (body["center"] as Vector2i).y)}
+		"sky": SkyData.zone_at(m.world, (body["center"] as Vector2i).x, (body["center"] as Vector2i).y),
+		"sea": is_sea(body)}
+
+
+## Voce 461: uno specchio è mare se è acqua di superficie grande e tocca la fascia dei mari ai bordi (o il mondo ha il
+## gene Sommerso).
+func is_sea(body: Dictionary) -> bool:
+	if int(body["type"]) != 0 or int(body["stratum"]) != 0 or float(body["volume"]) < 400.0:
+		return false
+	if "sommerso" in (m.world_meta.get("geni", []) as Array):
+		return true
+	return int(body["x0"]) < WorldShapesData.SEA_EDGE or int(body["x1"]) > m.world.w - WorldShapesData.SEA_EDGE
 
 
 func stop() -> void:

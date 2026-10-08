@@ -21,6 +21,7 @@ func run(w: World, c: GenContext) -> void:
 	_chasms(w, c)
 	if bool(c.params.get("giardino", false)):
 		return
+	_seas(w, c)                                     # voce 461: i mari ai bordi (`PassMari`)
 	var g := c.genes()
 	var rng := c.rng
 	var n := roundi(POOLS * float(g.get("pools", 1.0)))
@@ -125,6 +126,54 @@ static func _sea(w: World) -> void:
 				w.set_liq(x, y, 8, LiquidsData.ACQUA)
 			elif y > w.surface[x] + 2:
 				break                                         # sotto il fondo solo le grotte che si aprono sul mare
+
+
+## Voce 461: l'acqua dei mari ai bordi (`PassMari`), gli alberi sott'acqua tolti, e in ogni mare un relitto: uno scafo
+## di assi rovesciato sul fondale, con uno scrigno dentro (il bottino delle rovine più un Forziere sommerso).
+func _seas(w: World, c: GenContext) -> void:
+	var wrecks := []
+	for sea in c.notes.get("mari", []):
+		var x0 := int(sea[0])
+		var x1 := int(sea[1])
+		var level := int(sea[2])
+		for x in range(x0, x1):
+			for y in range(level, mini(w.surface[x] + 1, w.h)):
+				if not w.solid(x, y):
+					w.set_liq(x, y, 8, LiquidsData.ACQUA)
+					w.set_decor(x, y, 0)
+		for k in w.trees.keys():
+			var keep: Array[Vector3i] = []
+			for t in w.trees[k]:
+				var tv: Vector3i = t
+				if tv.x < x0 or tv.x >= x1 or tv.y < level:
+					keep.append(tv)
+			w.trees[k] = keep
+		# il relitto: verso il largo, dove il fondale è profondo
+		var wx := x0 + (x1 - x0) / 3 if x0 == 0 else x1 - (x1 - x0) / 3
+		var fy := int(w.surface[wx])
+		if fy - level < 8:
+			continue
+		for dx in range(-9, 10):
+			for dy in range(-6, 1):
+				var x := wx + dx
+				var y := fy - 1 + dy
+				var edge := absi(dx) == 9 or dy == 0 or (dy == -6 and absi(dx) < 3)
+				var inside := absi(dx) < 9 and dy < 0 and dy > -6
+				if edge and c.rng.randf() < 0.85:
+					w.set_tile(x, y, TileDefs.ASSI)
+				elif inside:
+					w.set_tile(x, y, TileDefs.AIR)
+					w.walls[y * w.w + x] = TileDefs.WALL_ASSI
+					w.set_liq(x, y, 8, LiquidsData.ACQUA)
+		var o := Vector2i(wx - 1, fy - 3)
+		if w.station_fits("scrigno", o):
+			w.stations[o] = "scrigno"
+			var loot := LootData.roll_chest("rovina_1", c.rng, 3)
+			for id in loot:
+				w.chest_at(o).add(id, int(loot[id]))
+			w.chest_at(o).add("forziere_sommerso", 1)
+			wrecks.append([o.x, o.y])
+	c.notes["relitti"] = wrecks
 
 
 ## Voce 76: il fondo delle voragini dell'Arcipelago è un lago (chi ci cade non si ferisce).

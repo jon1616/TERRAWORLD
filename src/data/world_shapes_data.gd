@@ -21,6 +21,8 @@ const SHAPES := {
 	"pilastri": {"name": "Pilastri", "desc": "colonne di roccia salgono dalla terra fino al cielo", "sea": false,
 		"n": [6, 9], "w": [14, 22], "gap": 260, "rise": [40, 90]},
 }
+## Voce 461: entro tante colonne da un bordo un'acqua grande di superficie è mare (`Fishing.is_sea`).
+const SEA_EDGE := 260
 const ORDER := ["continente", "arcipelago", "guscio", "canyon", "terrazze", "sprofondato", "pilastri"]
 
 

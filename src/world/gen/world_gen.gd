@@ -15,6 +15,7 @@ static func passes() -> Array[GenPass]:
 		PassTerreno.new(),
 		PassBiomi.new(),
 		PassSagoma.new(),                   # voce 459: la sagoma del mondo (canyon, terrazze, sprofondato)
+		PassMari.new(),                     # voce 461: i mari ai bordi (la superficie; l'acqua la versa PassAcqua)
 		PassArcipelago.new(),          # voce 440: dopo i Biomi, che rimodellando il terreno schiacciavano le voragini
 		PassStrati.new(),
 		PassGuscio.new(),
