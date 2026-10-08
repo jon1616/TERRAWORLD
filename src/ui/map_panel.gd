@@ -17,7 +17,8 @@ var reveal: MapReveal
 var zoom := 1
 var center := Vector2.ZERO            # cella al centro dello schermo
 var _drag := false
-var _legend: RichTextLabel
+var _legend: Control
+var _secrets: HBoxContainer            # (Roadmap 55) il contatore dei segreti in alto a destra
 var travel_from := Vector2i(-1, -1)    # voce 38: aperta da una Radice viandante, un clic su un'altra ci porta
 var _hint: Label
 var _press := Vector2.ZERO
@@ -33,20 +34,39 @@ func setup(main: Node2D, r: MapReveal) -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	visible = false
 	mouse_filter = Control.MOUSE_FILTER_STOP
-	_legend = RichTextLabel.new()
-	_legend.bbcode_enabled = true
-	_legend.fit_content = true
-	_legend.position = Vector2(20, 860)
-	_legend.size = Vector2(1560, 30)
-	_legend.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_legend.add_theme_font_size_override("normal_font_size", 16)
-	var t := "[color=#cfeee4]Rotella: zoom · trascina: spostati · clic destro: segnale · M/Esc: chiudi[/color]    "
+	# (Roadmap 55) in alto il titolo e il contatore dei segreti; in basso la legenda (etichette con il colore del segno)
+	# e i comandi come tasti, su una fascia scura che si legge sopra ogni mappa
+	var title := UiKit.title("La mappa", 30, UiPalette.AMBRA_CHIARA)
+	title.position = Vector2(28, 14)
+	UiFonts.on_world(title)
+	add_child(title)
+	_secrets = HBoxContainer.new()
+	_secrets.alignment = BoxContainer.ALIGNMENT_END
+	_secrets.position = Vector2(1600 - 28 - 400, 24)
+	_secrets.size = Vector2(400, 30)
+	_secrets.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_secrets)
+	var bar := PanelContainer.new()
+	bar.add_theme_stylebox_override("panel", UiFrames.padded("suggerimento", "normale", Color(0, 0, 0, 0), Vector2(16, 10)))
+	bar.position = Vector2(16, 790)
+	bar.custom_minimum_size = Vector2(1568, 0)
+	bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(bar)
+	var col := VBoxContainer.new()
+	col.add_theme_constant_override("separation", 8)
+	bar.add_child(col)
+	var fl := HFlowContainer.new()
+	fl.add_theme_constant_override("h_separation", 6)
+	fl.add_theme_constant_override("v_separation", 6)
 	for k in [["player", "tu"], ["spawn", "partenza"], ["cuore", "Cuore"], ["portale", "portale"], ["scrigno", "scrigni e ceste"], ["fagotto", "il tuo fagotto"], ["reliquiario", "reliquiari"], ["tana", "tane dei Custodi"], ["altare", "altari"], ["radice", "radici"], ["firma", "firma del mondo"]]:
-		t += "[color=#%s]●[/color] [color=#cfeee4]%s[/color]   " % [(MARK[k[0]] as Color).to_html(false), k[1]]
-	_legend.text = t + "[color=#ffd24a]▲[/color] [color=#cfeee4]i tuoi segnali[/color]"
-	add_child(_legend)
+		fl.add_child(UiKit.chip("●  " + String(k[1]), MARK[k[0]], null, 13))
+	fl.add_child(UiKit.chip("▲  i tuoi segnali", Color("#ffd24a"), null, 13))
+	col.add_child(fl)
+	col.add_child(UiKit.hints([["Rotella", "ingrandisci"], ["Trascina", "spostati"], ["Clic destro", "metti un segnale"],
+		[Keys.label("mappa") + "/Esc", "chiudi"]]))
+	_legend = bar
 	_hint = Label.new()
-	_hint.position = Vector2(20, 20)
+	_hint.position = Vector2(28, 60)
 	_hint.add_theme_font_size_override("font_size", 22)
 	_hint.add_theme_color_override("font_color", Color("#8ef0d8"))
 	_hint.add_theme_color_override("font_outline_color", Color("#050c10"))
@@ -89,6 +109,16 @@ func toggle() -> void:
 		reveal.refresh_texture()
 		center = m.player.position / 16.0
 		queue_redraw()
+		_update_secrets()
+
+
+## Voce 95: il contatore dei segreti (Roadmap 55: un'etichetta in alto a destra).
+func _update_secrets() -> void:
+	UiKit.clear(_secrets)
+	if m.secrets != null and m.secrets.counts()[1] > 0:
+		var sc2: Array = m.secrets.counts()
+		_secrets.add_child(UiKit.chip("Segreti trovati %d su %d" % [sc2[0], sc2[1]], Color("#ffd24a") if sc2[0] == sc2[1] else Color("#8ef0d8"),
+			null, UiPalette.TESTO_PX))
 
 
 func _gui_input(e: InputEvent) -> void:
@@ -241,7 +271,9 @@ func _draw() -> void:
 		draw_colored_polygon(PackedVector2Array([sc + Vector2(0, -9), sc + Vector2(8, 0), sc + Vector2(0, 9), sc + Vector2(-8, 0)]),
 			Color(0.02, 0.03, 0.05))
 		draw_colored_polygon(PackedVector2Array([sc + Vector2(0, -7), sc + Vector2(6, 0), sc + Vector2(0, 7), sc + Vector2(-6, 0)]), col)
-		draw_string(ThemeDB.fallback_font, sc + Vector2(11, 5), String(sg[2]), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, col)
+		var sf := UiFonts.get_font("forte")
+		draw_string_outline(sf, sc + Vector2(11, 5), String(sg[2]), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color(0.01, 0.02, 0.03, 0.9))
+		draw_string(sf, sc + Vector2(11, 5), String(sg[2]), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, col)
 		_hit(Vector2(float(sg[0]), float(sg[1])), String(sg[2]), 8.0)
 	# i segnali del giocatore: triangoli, visibili anche dove la mappa è nera
 	for s in MapSignals.list(m.world_meta):
@@ -251,11 +283,7 @@ func _draw() -> void:
 	_hit(Vector2(w.spawn), "La partenza", 6.0)
 	_mark(m.player.position / 16.0, MARK["player"], 7.0)
 	_hit(m.player.position / 16.0, "Tu", 7.0)
-	# voce 95: il contatore dei segreti
-	if m.secrets != null and m.secrets.counts()[1] > 0:
-		var sc2: Array = m.secrets.counts()
-		draw_string(ThemeDB.fallback_font, Vector2(size.x - 318, 34), "Segreti trovati: %d su %d" % [sc2[0], sc2[1]],
-			HORIZONTAL_ALIGNMENT_RIGHT, 300, 18, Color("#ffd24a") if sc2[0] == sc2[1] else Color("#8ef0d8"))
+
 
 
 ## Il nome di una stazione segnata: una cassa con un nome dato dal giocatore lo mostra.

@@ -6035,7 +6035,10 @@ nel titolo e i comandi in una riga grigia minuscola.
   sovrapponevano a ciò che sta sotto); la scheda del Germogliato a pezzi (`CharacterSheet.parts`: Vita, Linfa e Scorza in
   etichette, gli effetti in colonna, set e firma, i doni in fondo). Con un pannello a schermo intero aperto la barra
   rapida si nasconde (era coperta, e l'avviso le finiva sopra). Galleria: 0 problemi d'impaginazione.
-- [ ] **436. Le porte.** Pausa, Opzioni, Mappa, il menu principale e la creazione.
+- [x] **436. Le porte.** Pausa, Opzioni, Mappa, il menu principale e la creazione.
+  Fatto l'8 ott 2026: il pulsante che porta avanti (Gioca, Crea, Pianta il seme, Riprendi) in ambra; le Opzioni con la
+  luce morbida dei pannelli; la mappa con il titolo, il contatore dei segreti in un'etichetta, la legenda come
+  etichette del colore di ogni segno e i comandi come tasti su una fascia scura in basso.
 - [ ] **437. Sopra il mondo.** Vita e Linfa, barra rapida, filo, obiettivi, avvisi, consigli, insegne degli strati,
   barra dei Guardiani, i numeri nel mondo; gli avvisi non coprono più i pannelli aperti.
 - [ ] **438. La misura.** La galleria completa prima e dopo, il foglio di confronto, 0 problemi d'impaginazione,

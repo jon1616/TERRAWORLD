@@ -65,6 +65,9 @@ func _add(text: String, f: Callable) -> void:
 	b.focus_mode = Control.FOCUS_NONE
 	b.add_theme_font_size_override("font_size", 21)
 	RecipeRow.style(b, true, Color("#2f7a70"))
+	if text == "Riprendi":
+		UiFrames.button(b, Color(0, 0, 0, 0), false, "principale")      # (Roadmap 55) il pulsante che conta
+		b.add_theme_color_override("font_color", UiPalette.AMBRA_CHIARA)
 	b.pressed.connect(f)
 	_box.add_child(b)
 

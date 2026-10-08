@@ -28,6 +28,9 @@ func _init() -> void:
 	size = Vector2(1600, 900)
 	var bg := ColorRect.new()
 	bg.color = UiPalette.FONDO                 # opaco: la fusione è lineare, al 97% il mondo si vedeva ancora
+	var glow := UiBackdrop.new()               # (Roadmap 55) la luce morbida dei pannelli
+	glow.size = Vector2(1600, 900)
+	bg.add_child(glow)
 	bg.size = size
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(bg)

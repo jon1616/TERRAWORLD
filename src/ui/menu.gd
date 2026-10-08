@@ -374,6 +374,11 @@ func _button(text: String, action: Callable, col := TEXT) -> Button:
 	b.add_theme_color_override("font_color", col)
 	b.add_theme_color_override("font_hover_color", GOLD)
 	UiFrames.button(b)
+	if text in ["Gioca", "Crea", "Pianta il seme"]:
+		# (Roadmap 55) il pulsante che porta avanti, in ambra
+		UiFrames.button(b, Color(0, 0, 0, 0), false, "principale")
+		b.add_theme_color_override("font_color", UiPalette.AMBRA_CHIARA)
+		b.add_theme_font_override("font", UiFonts.get_font("forte"))
 	if action.is_valid():
 		b.pressed.connect(action)
 	_box.add_child(b)
