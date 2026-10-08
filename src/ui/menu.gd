@@ -18,6 +18,10 @@ var _title: Label
 func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	if "--prove" in OS.get_cmdline_user_args():
+		# 8 ott 2026 (l'utente): le prove in silenzio. Il bus principale è muto: musica e suoni suonano lo stesso (le
+		# prove che li contano o li misurano vanno come prima), ma non si sentono. `--con-suoni` li riaccende.
+		if not "--con-suoni" in OS.get_cmdline_user_args():
+			AudioServer.set_bus_mute(0, true)
 		_start_tests.call_deferred()
 		return
 	# voce 103: sfondo e logo di Nano Banana, con il menu nella metà sinistra (l'Albero-Madre resta libero a destra);
