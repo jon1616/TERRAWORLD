@@ -1,9 +1,10 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato l'8 ott 2026)
-- **In corso la Roadmap 56 «Il cielo grande»** (voci 439-447, dall'8 ott 2026), la prima del piano «Il generatore
-  eccellente» (`GENERATORE.md`, Roadmap 56-61, voci 439-478; scelte dell'utente: mondo alto 1200, minerali in giacimenti,
-  mari ai bordi in quasi tutte le sagome). Il cielo grande come la mappa, in tre fasce, con continenti sospesi.
+- **Fatta la Roadmap 56 «Il cielo grande»** (voci 439-447, 8 ott 2026), la prima del piano «Il generatore eccellente»
+  (`GENERATORE.md`, Roadmap 56-61, voci 439-478; scelte dell'utente: mondo alto 1200, minerali in giacimenti, mari ai
+  bordi in quasi tutte le sagome). Mondo alto 1200, cielo in tre fasce largo tutta la mappa, continenti sospesi con i
+  luoghi dei Seminatori, due biomi del cielo di mezzo. Resoconto in fondo. Prossima: la 57 «Le profondità vere».
 - **Fatta la Roadmap 55 «Il volto chiaro»** (voci 428-438, 8 ott 2026): tutta l'interfaccia rifatta in uno stile solo.
   Via i caratteri a pixel: Alegreya e Alegreya Sans; cornici a vettori; lo scheletro comune dei pannelli (`UiPage`) con
   medaglione, numeri chiave, schede, elenco e dettaglio, tasti disegnati; suggerimenti, letture, HUD e scritte nel mondo
@@ -6146,4 +6147,24 @@ solide (isole di 15-30 colonne), la varietà fra due Semi è sotto il rumore (0,
   cielo si fa più profondo (`Chiome._altitude_dark`, fino a `SkyData.ALT_DARK` 0,15 al bordo, con il meccanismo del
   Firmamento). L'aria sottile è del cielo alto: le Scogliere di cristallo, passate al medio, da 1,0 a 0,4. Gruppi «base»,
   «cielo» senza avvisi.
-- [ ] **447. La misura del cielo.** Terra per fascia, raggiungibilità, mappe prima e dopo, resoconto.
+- [x] **447. La misura del cielo.** Terra per fascia, raggiungibilità, mappe prima e dopo, resoconto.
+  Fatto l'8 ott 2026: `tools/cielo.gd` rifatto per tre fasce (terra calpestabile per fascia, isole, continenti, luoghi,
+  correnti) con la **raggiungibilità**: una ricerca di percorso dalla superficie senza ali né scavo (camminare, saltare 3
+  su e 4 di lato, nuotare, cadere, passerelle, correnti). La misura ha trovato due cose: le correnti verso il cielo di
+  mezzo partivano da un'isoletta di nuvola nel vuoto, irraggiungibile, e arrivavano all'altezza del centro dei
+  continenti invece che del bordo. Ora una corrente parte da un'isola sotto, o da terra se la colonna è libera, o dalla
+  cima di ciò che sta in mezzo (`PassCielo._link`, `_edge_top`), e ogni continente ne ha due. Anche: le piante-seme non
+  nascono più dentro il posto di un'altra struttura (`is_free`). Misure su 4 semi: terra calpestabile basso ~50%, medio
+  ~75%, alto ~26% delle colonne; continenti raggiunti senza ali 4-7 su 8-11 (gli altri con il Fagiolo, che li attraversa,
+  o con le ali); 35-50 correnti del cielo per mondo. «Cieli alti» ×1,3 di tessere. Mappe dopo in
+  `prove/generatore_56/`, confronto del cielo in `prove/cielo_prima_dopo.png`.
+
+**Resoconto della Roadmap 56.** Prima: un cielo di ~270 righe con il 2-2,5% di celle solide, due fasce, isole di 15-30
+colonne sparse come briciole, un buco di 60 colonne sopra la partenza, nessun luogo grande. Ora: il mondo è alto 1200
+(le 200 righe nuove tutte di cielo: la superficie a 730 righe dal fondo), il cielo ha ~470 righe in **tre fasce** larghe
+tutta la mappa, il 5-7,6% di celle solide (tre volte di più), **continenti sospesi** di 100-280 colonne con grotte buie,
+vene, scrigni e alberi, un **luogo dei Seminatori** su ognuno (serra, pozzo, faro, torre), **mari di nuvole**, correnti
+che collegano superficie, basso, medio e alto, il Fagiolo che attraversa le isole fino a 120 tessere. Due biomi nuovi nel
+cielo di mezzo (Selve pensili, Fonti sospese) con dieci creature, due Signori, oggetti, pesci e geni. Riparati strada
+facendo cinque guasti del generatore (mondo cavo, Arcipelago, sottosuolo, Guscio, casse dei biomi) e tre sovrapposizioni.
+Il mondo nasce in ~5,2 s (prima 4,4). La varietà fra due Semi resta sotto il rumore (0,85): è la Roadmap 59.

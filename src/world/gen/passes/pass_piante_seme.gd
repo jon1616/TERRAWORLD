@@ -35,7 +35,7 @@ func _scatter(w: World, c: GenContext, n: int, surface: bool, placed: Array[Vect
 				break
 			y += 1
 		var o := Vector2i(x, y - 1)
-		if not w.station_fits("pianta_seme", o) or (surface and not TileDefs.is_grass(w.tile(x, y + 1))):
+		if not w.station_fits("pianta_seme", o) or not c.is_free(Rect2i(o.x, o.y, 1, 2)) or (surface and not TileDefs.is_grass(w.tile(x, y + 1))):
 			continue
 		var far := true
 		for q in placed:

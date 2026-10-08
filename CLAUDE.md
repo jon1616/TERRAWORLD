@@ -1104,6 +1104,16 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     60 armi del dopo, 24 leggendarie (campo «leggendaria», con la storia nella descrizione), i Sacchetti del dopo
     («sacchetto_dopo_<k>», da `FirmaDrops.bag` oltre il vigore 12; `FirmaDrops.after_phase`, `LEGEND`).
     `tools/vastita.gd` sezione 6: la misura finale. Prove: gruppo «dopo» (`TestsAfter`).
+- **Roadmap 56 «Il cielo grande»** (voci 439-447, 8 ott 2026; prima del piano `GENERATORE.md`, Roadmap 56-61): il mondo
+  alto 1200 (`ground_depth`); il cielo in tre fasce (`SkyData.BANDS`, `BAND_FRAC`, zone `{low, mid, high, base, split,
+  split_mh}`, `band_biome`/`band_rows`/`band_level`; le zone salvate senza `mid` si leggono come prima); i continenti
+  sospesi (`SkyContinents`, `SkyData.CONTINENT`, con il luogo dei Seminatori `SANCTUARY`), i mari di nuvole
+  (`CLOUD_SEA`), le correnti fra le fasce (`PassCielo._link`: da un'isola, da terra o dalla cima di ciò che sta in mezzo),
+  il Fagiolo che attraversa le isole (`SkyData.is_sky_tile`); i biomi del cielo di mezzo `cielo_selve.gd` e
+  `cielo_fonti.gd`. Misure: `tools/mappe.gd -- --lista … --prima <cartella>` (vigore 1, rumore su più coppie, mappe e
+  `numeri.txt`; riferimento in prove/generatore_prima/) e `tools/cielo.gd` (terra per fascia, raggiungibilità senza ali).
+  **Un bioma del cielo nuovo** va anche in `tools/vastita_gen/ritrovamenti.py` (OF, PAL), `strutture.py` e `bestiario.py`,
+  poi `tools/specie.gd` e `python tools/gen_vastita.py` finché i pacchetti non cambiano più.
 - **Roadmap 52 «La terra dei mondi»** (voci 412-418, 7 ott 2026; richiesta dell'utente: i blocchi a confronto con
   Terraria). Tutto nel pacchetto generato `src/data/vastita/terre.gd` (`tools/vastita_gen/terre.py`; tessere 59-119):
   - Campi nuovi delle tessere dei pacchetti: «kind» (suolo, roccia, comune, minerale, gemma, blocco), «look» (il disegno

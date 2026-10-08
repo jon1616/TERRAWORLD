@@ -39,7 +39,8 @@ func run(w: World, c: GenContext) -> void:
 		_bridges(w, c, lows)
 		_bridges(w, c, mids)
 		_currents(w, c, z, lows, currents)
-		for e in conts:                                     # voce 444: ogni continente ha la sua corrente dal basso
+		for e in conts:                                     # voce 444: ogni continente ha le sue correnti dal basso (due: 447)
+			_link(w, c, lows, [e], int(z["split"]) + 8, currents)
 			_link(w, c, lows, [e], int(z["split"]) + 8, currents)
 		_link(w, c, lows, mids, int(z["split"]) + 8, currents)
 		var upper := conts + mids
@@ -341,26 +342,60 @@ func _currents(w: World, c: GenContext, z: Dictionary, lows: Array, currents: Ar
 			ups -= 1
 
 
-## Voce 442: una corrente da una fascia alla fascia sopra: parte da un'isola sotto (o da un'isoletta di nuvola messa
-## apposta a `pad_y`, nella fascia sotto) e arriva accanto a un'isola sopra.
+## Voce 442: una corrente da una fascia alla fascia sopra, che arriva accanto a un'isola (o a un continente) sopra.
+## Parte da un'isola sotto; se sotto non ce n'è e la colonna è libera **parte da terra** (voce 447: un'isoletta di nuvola
+## nel vuoto, come prima, dalla superficie non si raggiunge); altrimenti dall'isoletta di nuvola a `pad_y`. Prova più
+## isole e tutti e due i lati prima di arrendersi.
 func _link(w: World, c: GenContext, lows: Array, highs: Array, pad_y: int, currents: Array) -> void:
 	if highs.is_empty():
 		return
-	var h: Dictionary = highs[c.rng.randi_range(0, highs.size() - 1)]
-	var side := -1 if c.rng.randf() < 0.5 else 1
-	var hx := int(h["x"]) + side * (int(h["half"]) + 2)
-	if hx < 4 or hx >= w.w - 4:
+	for tries in 6:
+		var h: Dictionary = highs[c.rng.randi_range(0, highs.size() - 1)]
+		var side := -1 if c.rng.randf() < 0.5 else 1
+		for turn in 2:
+			var hx := int(h["x"]) + side * (int(h["half"]) + 2)
+			side = -side
+			if hx < 4 or hx >= w.w - 4:
+				continue
+			var y0 := _edge_top(w, hx - (hx - int(h["x"])) / maxi(absi(hx - int(h["x"])), 1) * 3, int(h["top"])) - 2
+			var foot := -1
+			for e in lows:
+				if absi(int(e["x"]) - hx) <= int(e["half"]) - 1 and int(e["top"]) > y0 + 4:
+					foot = int(e["top"])
+			if foot < 0 and _column_clear(w, hx, y0 + 1, int(w.surface[hx]) - 1):
+				foot = int(w.surface[hx])
+			if foot < 0:
+				# qualcosa in mezzo (un'isola, un mare di nuvole): la corrente parte dalla sua cima
+				for y in range(y0 + 1, int(w.surface[hx])):
+					if w.solid(hx - 1, y) or w.solid(hx, y) or w.solid(hx + 1, y):
+						foot = y if y - y0 >= 8 and w.solid(hx, y) else -1
+						break
+			if foot < 0:
+				continue
+			if _column_clear(w, hx, y0 + 1, foot - 1):
+				currents.append({"x": hx, "w": 1, "y0": y0, "y1": foot - 1, "cielo": true})
+				return
+	# nessuna colonna libera fino a un'isola o a terra: l'isoletta di nuvola, come prima
+	var h2: Dictionary = highs[c.rng.randi_range(0, highs.size() - 1)]
+	var hx2 := int(h2["x"]) + (int(h2["half"]) + 2)
+	if hx2 < 4 or hx2 >= w.w - 4:
 		return
-	var y0 := int(h["top"]) - 2
-	for e in lows:
-		if absi(int(e["x"]) - hx) <= int(e["half"]) - 1:
-			pad_y = int(e["top"])
-	if not w.solid(hx, pad_y):
+	var y02 := int(h2["top"]) - 2
+	if not w.solid(hx2, pad_y):
 		for dx in range(-3, 4):
 			for dy in 2:
-				w.set_tile(hx + dx, pad_y + dy, 52)                # Nuvola (la tessera del Mare di nuvole)
-	if _column_clear(w, hx, y0 + 1, pad_y - 1):
-		currents.append({"x": hx, "w": 1, "y0": y0, "y1": pad_y - 1, "cielo": true})
+				w.set_tile(hx2 + dx, pad_y + dy, 52)               # Nuvola (la tessera del Mare di nuvole)
+	if _column_clear(w, hx2, y02 + 1, pad_y - 1):
+		currents.append({"x": hx2, "w": 1, "y0": y02, "y1": pad_y - 1, "cielo": true})
+
+
+## Voce 447: la cima vera di un'isola o di un continente nella colonna x (il bordo di un continente è più basso del
+## centro): la prima tessera piena scendendo da poco sopra la cima segnata.
+func _edge_top(w: World, x: int, top: int) -> int:
+	for y in range(top - 12, top + 24):
+		if w.solid(x, y):
+			return y
+	return top
 
 
 func _column_clear(w: World, x: int, y0: int, y1: int) -> bool:
