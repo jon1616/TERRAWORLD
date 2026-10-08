@@ -395,18 +395,78 @@
 	},
 	"mattoni": {
 		"en": "brick stack",
-		"desc": "a small neat stack of rectangular bricks [GREY] seen at a 3/4 angle, three layers, with chipped edges"
+		"desc": "a small neat stack of rectangular bricks seen at a 3/4 angle, three layers, with chipped edges. The WHOLE object is [GREY] (neutral grey only: NOT brown, NOT beige, NOT pink, NOT coloured)."
 	},
 	"banco": {
-		"en": "work bench",
-		"desc": "a sturdy work bench / chopping stump seen at a 3/4 angle: a wide tree-stump top [GREY] with growth rings, an axe stuck in it (plum wood handle), roots spreading at the base"
+		"en": "work stump",
+		"desc": "a wide tree-stump work bench seen at a 3/4 angle, with growth rings on top and roots spreading at the base; an axe with a plum-wood handle stuck in the top. The stump is [GREY] (neutral grey only: NOT brown, NOT beige)"
 	},
 	"fornace": {
 		"en": "furnace",
-		"desc": "a small round furnace shaped like a big seed pod [GREY], with an open glowing mouth full of amber fire and a short chimney with a puff of smoke"
+		"desc": "a small round furnace shaped like a big seed pod with a short chimney and a puff of smoke, its open mouth full of glowing amber fire. The furnace body is [GREY] (neutral grey only: NOT brown, NOT beige)"
 	},
 	"tronco": {
 		"en": "log",
-		"desc": "a short cut log lying on its side [GREY], bark texture on the side, the cut end showing growth rings, a small leafy twig (leaf green) sprouting"
+		"desc": "a short cut log lying on its side, bark texture on the side, the cut end showing growth rings, a small leafy twig (leaf green) sprouting. The log (bark AND cut end) is [GREY] (neutral grey only: NOT brown, NOT beige)"
+	},
+	"telaio": {
+		"en": "weaving loom",
+		"desc": "a small upright weaving loom seen at a 3/4 angle: a frame of root wood (plum wood) with taut threads and a half-woven cloth [GREY], a shuttle [GREY] resting on it"
+	},
+	"lumino": {
+		"en": "glowing coin",
+		"desc": "a round thick coin [GREY] with a stamped seed-and-leaf emblem and a rim of dots, softly glowing, slightly tilted"
+	},
+	"evocatore": {
+		"en": "summoner's staff",
+		"desc": "a short summoning staff drawn DIAGONALLY: a root-wood shaft (plum wood) topped by a small cage of curled tendrils [GREY] holding a tiny glowing turquoise sap wisp"
+	},
+	"ricurvo": {
+		"en": "boomerang seed",
+		"desc": "a curved crescent-shaped seed like a winged maple seed bent into a boomerang [GREY], with fine veins on the wing and a round seed knob at one end"
+	},
+	"vetro": {
+		"en": "glass pane",
+		"desc": "a square pane of glass [GREY] seen at a slight angle, thick bevelled edges, two diagonal shine streaks, slightly translucent"
+	},
+	"alambicco": {
+		"en": "alembic",
+		"desc": "an alchemist's alembic: a round glass flask [GREY] with a long curved spout tube, bubbling turquoise sap inside, sitting on a small root-wood stand (plum wood)"
+	},
+	"giavellotto": {
+		"en": "javelin",
+		"desc": "a light throwing javelin drawn DIAGONALLY: a thin straight shaft [GREY] with a narrow barbed point [GREY] and a leather grip (warm leather) at the middle"
+	},
+	"annaffiatoio": {
+		"en": "watering can",
+		"desc": "a round watering can [GREY] with a long spout ending in a rose sprinkler, a curved handle on top, a few water drops falling from the spout"
+	},
+	"porta": {
+		"en": "door",
+		"desc": "a small arched door seen from the front [GREY], made of vertical planks with two metal hinges and a round ring handle, a root (plum wood) growing around the arch"
+	},
+	"focolare": {
+		"en": "hearth",
+		"desc": "a cosy stone hearth / fire pit seen at a 3/4 angle: a ring of rounded stones [GREY] around a lively amber fire with a few logs (plum wood)"
+	},
+	"uovo": {
+		"en": "egg",
+		"desc": "a single large egg [GREY] standing upright, with a few speckles and a soft highlight, a tiny crack near the top"
+	},
+	"radice": {
+		"en": "root piece",
+		"desc": "a thick twisted piece of root [GREY] with knots and small rootlets, one end cut showing a glowing turquoise sap core"
+	},
+	"corno": {
+		"en": "horn",
+		"desc": "a single large curved animal horn [GREY], ridged with growth rings, wide at the base and curving to a point"
+	},
+	"paiolo": {
+		"en": "cooking pot",
+		"desc": "a round-bellied cooking cauldron [GREY] with a wide rim and two small handles, bubbling stew inside with a curl of steam, sitting over two small logs (plum wood)"
+	},
+	"lampada": {
+		"en": "oil lamp",
+		"desc": "a small oil lamp [GREY] shaped like a curved seed pod with a handle loop, a lively amber flame at its spout"
 	}
 }

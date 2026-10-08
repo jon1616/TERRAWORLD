@@ -1,0 +1,18 @@
+{
+ "lotto": "lotto_11",
+ "grid": "4x3",
+ "shapes": [
+  "mattoni",
+  "banco",
+  "fornace",
+  "tronco",
+  "telaio",
+  "lumino",
+  "evocatore",
+  "ricurvo",
+  "vetro",
+  "alambicco",
+  "giavellotto",
+  "annaffiatoio"
+ ]
+}
