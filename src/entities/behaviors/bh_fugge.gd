@@ -5,11 +5,15 @@ extends Behavior
 
 var wander := 0.0
 var dir := 1.0
+var _back := 0.0                       # (voce 425) torna indietro da un muro troppo alto per tanto
 
 
 func tick(c: Creature, dt: float) -> void:
 	var scared := Behavior.sees(c, float(c.p.get("flee", 16)))
-	if scared:
+	_back = maxf(_back - dt, 0.0)
+	if scared and _back > 0.0:
+		pass
+	elif scared:
 		dir = -signf(c.target.position.x - c.position.x)
 		if dir == 0.0:
 			dir = 1.0
@@ -23,6 +27,10 @@ func tick(c: Creature, dt: float) -> void:
 		var away := Vector2(dir, -0.6 if scared else c.rng.randf_range(-0.3, 0.3)).normalized()
 		c.want_fly = away * c.speed * (1.3 if scared else 0.5)
 		return
+	if c.on_floor and dir != 0.0 and c.wall_ahead(int(dir)) and not c.can_hop(int(dir), 300.0):
+		dir = -dir                             # (voce 425) un muro troppo alto: torna indietro, ti scarta di lato
+		c.facing = int(dir)
+		_back = 1.5
 	c.want_x = dir * (1.3 if scared else 0.5)
 	if c.on_floor and dir != 0.0 and (c.wall_ahead(int(dir)) or (scared and c.rng.randf() < dt * 1.5)):
 		c.vel.y = -300.0

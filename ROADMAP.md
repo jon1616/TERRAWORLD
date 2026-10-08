@@ -5946,8 +5946,15 @@ dentro il soffitto; più comportamenti di movimento litigano per la stessa creat
   nata, se sotto ci sono due tessere di terra; in fuga scava appena può (dopo 1,2 s fuori) e sotto terra nuota lontano;
   nuotando non esce mai da un lato che dà sull'aria (`_stay_in`). Misura: nate nella terra 3 su 3, 0 immersioni senza
   segnale su 5 (prima 3 su 9).
-- [ ] **425. La fuga vera.** Fugge finché ti perde di vista, poi si nasconde e si cura piano; all'angolo si difende;
+- [x] **425. La fuga vera.** Fugge finché ti perde di vista, poi si nasconde e si cura piano; all'angolo si difende;
   non salta contro i muri.
+  Fatto l'8 ott 2026: in `Mind` la fuga delle ferite non ha più un tempo (prima ricominciava ogni 4 s, cioè durava per
+  sempre): dura finché la creatura ti vede o ti ricorda, poi lo stato `REST` («si nasconde e si cura»: ferma, ricresce
+  del 3% della Vita al secondo fino al 60%); se ti rivede fugge di nuovo, o ti attacca se è già guarita a metà. Un muro
+  che non sa saltare (`Creature.can_hop`: l'altezza dal salto vero, lo spazio sopra il muro e sopra la testa) con te
+  entro 10 tessere la mette all'angolo: si difende per 5 s (`_cornered`). Anche le iridate (`BhFugge`: tornano indietro
+  e ti scartano), le prede e i cacciatori dell'ecologia non saltano più contro muri troppo alti. Misura: la fuga finisce
+  nascosta a 42 tessere e si cura, 0 salti a vuoto (prima 9); all'angolo 0 salti a vuoto (prima 11) e si difende.
 - [ ] **426. I passi.** Chi insegue misura il muro: salta solo se ce la fa, altrimenti aspetta o cerca un'altra strada;
   l'agguato si appende sotto il soffitto, non dentro; chi resta incastrato esce nel punto libero più vicino.
 - [ ] **427. Un'intenzione alla volta.** I comportamenti di movimento non litigano: chi carica o scatta guida il corpo

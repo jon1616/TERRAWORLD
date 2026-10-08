@@ -264,6 +264,50 @@ func ground_ahead(dir: int) -> bool:
 	return world.solid(x, y) or world.solid(x, y + 1)
 
 
+## Roadmap 54: la spinta di un salto normale (cammina, fuga, migrazione). Con la gravità 900 px/s² sale di ~37 px.
+const HOP := 260.0
+
+
+## Quante tessere è alto il muro davanti ai piedi (fino a `most`)?
+func wall_tiles(dir: int, most := 8) -> int:
+	var x := floori((position.x + dir * (half.x + 2.0)) / 16.0)
+	var y := floori((position.y + half.y - 1.0) / 16.0)
+	var n := 0
+	while n < most and world.solid(x, y - n):
+		n += 1
+	return n
+
+
+## Roadmap 54, voce 425: il muro davanti si supera con un salto di spinta `v` (alto quanto basta, e con lo spazio sopra
+## la testa per salire e sopra il muro per passare)? Chi non ce la fa non ci salta contro all'infinito.
+func can_hop(dir: int, v := HOP) -> bool:
+	var h := wall_tiles(dir)
+	if h <= 1:
+		return true                              # una tessera la supera il gradino
+	var rise := v * v / (1800.0 * maxf(grav, 0.05))
+	if h * 16.0 > rise + 4.0:
+		return false
+	var body := ceili(half.y * 2.0 / 16.0)
+	var x0 := floori(position.x / 16.0)
+	var x1 := floori((position.x + dir * (half.x + 2.0)) / 16.0)
+	var feet := floori((position.y + half.y - 1.0) / 16.0)
+	for k in body:
+		if world.solid(x1, feet - h - k):
+			return false                         # niente spazio sopra il muro
+	for y in range(feet - h - body + 1, feet - body + 1):
+		if world.solid(x0, y):
+			return false                         # un soffitto sopra di lei
+	return true
+
+
+## Roadmap 54: guarisce (si nasconde e si cura, `Mind`).
+func heal(n: int) -> void:
+	if n <= 0 or hp <= 0:
+		return
+	hp = mini(hp + n, hp_max)
+	_bar.set_value(float(hp) / float(hp_max))
+
+
 ## C'è un muro davanti (alto almeno due tessere, perché una la supera il gradino automatico)?
 func wall_ahead(dir: int) -> bool:
 	var x := floori((position.x + dir * (half.x + 2.0)) / 16.0)

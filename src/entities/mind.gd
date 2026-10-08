@@ -8,13 +8,18 @@ extends RefCounted
 ## - Olfatto: il Germogliato ferito (`blood`) si fiuta da lontano, anche al buio; un'esca in mano attira.
 ## - Stati: calma, allerta (va a vedere un punto), caccia (ti vede), fuga (ferita grave), ritorno (troppo lontana da casa).
 ## - Memoria: persa di vista, ti insegue ancora un poco, poi ti cerca dove ti ha visto l'ultima volta.
+## - Roadmap 54, voce 425 (la fuga vera): ferita grave, una paurosa fugge finché ti perde di vista, poi si nasconde e si
+##   cura piano (`REST`); se ti rivede torna a fuggire (o, guarita a metà, ad attaccarti); messa all'angolo (un muro che
+##   non sa saltare alle spalle, tu vicino) si difende per qualche secondo invece di sbattere contro il muro.
 
 const CALM := "calma"
 const ALERT := "allerta"
 const HUNT := "caccia"
 const FLEE := "fuga"
 const HOME := "ritorno"
-const NAMES := {CALM: "tranquilla", ALERT: "all'erta", HUNT: "a caccia", FLEE: "in fuga", HOME: "torna a casa"}
+const REST := "riposo"
+const NAMES := {CALM: "tranquilla", ALERT: "all'erta", HUNT: "a caccia", FLEE: "in fuga", HOME: "torna a casa",
+	REST: "si nasconde e si cura"}
 
 const DARK_SIGHT := 0.55                 # al buio pieno si vede a questa frazione della distanza
 const MEMORY := 3.0                      # secondi in cui insegue ancora chi ha perso di vista
@@ -25,6 +30,11 @@ const BLOOD_BELOW := 0.35                # … sotto questa frazione della Vita
 const BAIT_REACH := 10.0                 # tessere: un'esca in mano attira chi la fiuta
 const FLEE_BELOW := 0.2                  # sotto questa frazione della Vita alcune fuggono
 const FLEE_TIME := 4.0
+const REST_HEAL := 0.03                  # nascosta, ricresce di questa frazione della Vita al secondo (voce 425)
+const REST_UNTIL := 0.6                  # … fino a qui, poi torna tranquilla
+const BRAVE_AGAIN := 0.5                 # se ti rivede con almeno tanta Vita non fugge più: attacca
+const CORNER_NEAR := 10.0                # tessere: all'angolo con te così vicino si difende
+const CORNER_TIME := 5.0                 # … per tanti secondi, poi riprova a fuggire
 const HOME_LEASH := 60.0                 # tessere dal punto in cui è nata oltre cui torna indietro
 const LISTEN := 0.25                     # ogni quanto ascolta i rumori
 
@@ -48,7 +58,9 @@ var last_hp := 0                         # voce 131: per accorgersi di una ferit
 var warned := false                      # voce 131: ha già avvisato le compagne
 var _mem := 0.0
 var _search := 0.0
-var _flee := 0.0
+var _flee := 0.0                         # la fuga a tempo (`force_flee`); quella delle ferite dura finché ti vede
+var _corner := 0.0                       # voce 425: all'angolo, si difende
+var _heal := 0.0
 var _listen := 0.0
 var _heard := -1                         # l'ultimo rumore sentito (numero)
 static var _count := 0                   # quanti rumori sono stati fatti (per non sentire due volte lo stesso)
@@ -91,7 +103,9 @@ func sees(c: Creature, tiles: float) -> bool:
 	if d < r:
 		last_seen = tp
 		_mem = MEMORY
-		if state != FLEE:
+		if state == REST:
+			state = HUNT if c.hp >= c.hp_max * BRAVE_AGAIN else FLEE   # nascosta e scoperta
+		elif state != FLEE:
 			state = HUNT
 		return true
 	if _mem > 0.0 and d < r * MEMORY_REACH:
@@ -113,14 +127,22 @@ func tick(c: Creature, dt: float) -> void:
 		if _search <= 0.0 and state == ALERT:
 			state = CALM
 			goal = Vector2.INF
+	_corner = maxf(_corner - dt, 0.0)
 	if _flee > 0.0:
 		_flee -= dt
 		if _flee <= 0.0:
 			state = CALM
 			warned = false
-	elif not brave and c.hp < c.hp_max * FLEE_BELOW and c.hp > 0 and c.tame == null:
-		_flee = FLEE_TIME
+	elif state == REST:
+		_rest(c, dt)
+	elif state == FLEE:
+		# voce 425: la fuga delle ferite dura finché ti vede (o ti ricorda); poi si nasconde
+		sees(c, float(c.p.get("sight", 20)))
+		if _mem <= 0.0:
+			state = REST
+	elif not brave and c.hp < c.hp_max * FLEE_BELOW and c.hp > 0 and c.tame == null and _corner <= 0.0:
 		state = FLEE
+		_mem = MEMORY
 	_listen -= dt
 	if _listen <= 0.0:
 		_listen = LISTEN
@@ -135,6 +157,21 @@ func tick(c: Creature, dt: float) -> void:
 		elif state == HOME and c.position.distance_to(home) < 6.0 * 16.0:
 			state = CALM
 			goal = Vector2.INF
+
+
+## Voce 425: nascosta, si cura piano e guarda attorno; guarita torna tranquilla.
+func _rest(c: Creature, dt: float) -> void:
+	if c.target != null:
+		sees(c, float(c.p.get("sight", 20)))
+		if state != REST:
+			return
+	_heal += c.hp_max * REST_HEAL * dt
+	if _heal >= 1.0:
+		c.heal(int(_heal))
+		_heal -= int(_heal)
+	if c.hp >= c.hp_max * REST_UNTIL:
+		state = CALM
+		warned = false
 
 
 ## Voce 130: fugge per `t` secondi, anche se è coraggiosa (un ladro con il bottino, il gregge senza pastore, la luce).
@@ -154,8 +191,14 @@ func _look(at: Vector2) -> void:
 	_search = SEARCH
 
 
-## Dopo i comportamenti: chi fugge va via dal bersaglio (vince su tutto il resto).
+## Dopo i comportamenti: chi fugge va via dal bersaglio (vince su tutto il resto); chi si nasconde sta ferma.
 func after(c: Creature) -> void:
+	if state == REST:
+		if c.fly:
+			c.want_fly = Vector2.ZERO
+		elif not c.ghost:
+			c.want_x = 0.0
+		return
 	if state != FLEE or c.target == null:
 		return
 	var away := signf(c.position.x - c.target.position.x)
@@ -163,12 +206,27 @@ func after(c: Creature) -> void:
 		away = float(c.facing)
 	if c.fly:
 		c.want_fly = Vector2(away * c.speed, -c.speed * 0.4)
-	else:
+	elif not c.ghost:
 		c.want_x = away
 		c.facing = int(away)
 		if c.on_floor and c.wall_ahead(c.facing):
-			c.vel.y = -260.0
-			c.on_floor = false
+			if c.can_hop(c.facing):
+				c.vel.y = -Creature.HOP
+				c.on_floor = false
+			else:
+				_cornered(c)
+
+
+## Voce 425: un muro alle spalle che non sa saltare. Con te vicino si gira e si difende; lontano sta ferma e aspetta
+## (un'altra volta, se ti allontani, si nasconde).
+func _cornered(c: Creature) -> void:
+	c.want_x = 0.0
+	if _flee > 0.0:
+		return                                   # una fuga a tempo (un ladro, la luce): aspetta che passi
+	if c.position.distance_to(c.target.position) < CORNER_NEAR * 16.0:
+		_corner = CORNER_TIME
+		state = HUNT
+		_mem = MEMORY
 
 
 ## Per i comportamenti che gironzolano: se c'è un punto da guardare (allerta, ritorno) la direzione verso di esso,

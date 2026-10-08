@@ -5,7 +5,7 @@ class_name EncyWorldData
 
 const CHAPTERS := [
 	{"id": "creature_vive", "group": "Il mondo abitato", "name": "Come pensano le creature", "text":
-"""Le creature hanno [b]sensi[/b]: ti vedono meno lontano al buio, [b]sentono[/b] lo scavo, i colpi, le esplosioni e i passi di corsa (e vengono a guardare: un [b]?[/b] sopra la testa), [b]fiutano[/b] il sangue quando sei ferito e un'esca che tieni in mano. Persa di vista, una creatura ti cerca dove ti ha visto l'ultima volta; ferita gravemente, una paurosa fugge; troppo lontana da casa, torna indietro.
+"""Le creature hanno [b]sensi[/b]: ti vedono meno lontano al buio, [b]sentono[/b] lo scavo, i colpi, le esplosioni e i passi di corsa (e vengono a guardare: un [b]?[/b] sopra la testa), [b]fiutano[/b] il sangue quando sei ferito e un'esca che tieni in mano. Persa di vista, una creatura ti cerca dove ti ha visto l'ultima volta; ferita gravemente, una paurosa fugge finché ti perde di vista, poi si nasconde e si cura piano (se la ritrovi presto è ancora debole; messa all'angolo si difende); quelle che vivono nella terra, prima di immergersi, si fermano e scavano sollevando polvere; troppo lontana da casa, torna indietro.
 [b]I gruppi[/b]: i branchi ti accerchiano (uno davanti, gli altri ai lati), gli sciami girano in cerchio e scendono a ondate, le colonie difendono i nidi, le prede ferite avvisano le compagne e fuggono insieme. Se cade il capobranco o il pastore, il gruppo si sbanda.
 [b]Le astuzie[/b] (vedi [url=cap:combattere]Combattere[/url]): ognuna si annuncia e ha una contromossa, che la scheda della creatura mostra quando l'hai studiata."""},
 	{"id": "bestiario_nuovo", "group": "Il mondo abitato", "name": "Le creature di ogni luogo", "text":

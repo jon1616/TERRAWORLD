@@ -35,7 +35,7 @@ func tick(c: Creature, dt: float) -> void:
 		c.want_fly = d.normalized() * c.speed
 	else:
 		c.want_x = signf(d.x) * 1.5                # lo scatto della caccia
-		if c.on_floor and c.wall_ahead(c.facing):
+		if c.on_floor and c.wall_ahead(c.facing) and c.can_hop(c.facing, 280.0):
 			c.vel.y = -280.0
 			c.on_floor = false
 	if _bite <= 0.0 and c.rect().grow(4.0).intersects(h.rect()):

@@ -40,8 +40,11 @@ func tick(c: Creature, dt: float) -> void:
 			_run += dt * 1.6
 			c.facing = int(signf(c.want_x))
 			if c.on_floor and c.wall_ahead(c.facing):
-				c.vel.y = -280.0
-				c.on_floor = false
+				if c.can_hop(c.facing, 280.0):
+					c.vel.y = -280.0
+					c.on_floor = false
+				else:
+					c.want_x = 0.0               # (voce 425) un muro troppo alto: non ci salta contro
 			_goal = Vector2i(-1, -1)
 			return
 	if (c.docile and c.provoked) or c.hunger < 0.4 or c.fly:
