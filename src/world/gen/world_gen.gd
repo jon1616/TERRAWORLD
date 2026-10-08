@@ -29,6 +29,7 @@ static func passes() -> Array[GenPass]:
 		PassErba.new(),
 		PassStagni.new(),                   # voce 118: laghi e stagni di superficie (la pesca)
 		PassTerre.new(),                    # Roadmap 52, voce 412: la terra e la roccia di ogni bioma
+		PassAffioramenti.new(),             # voce 456: i segni dei giacimenti (dopo l'erba e le terre dei biomi)
 		PassCielo.new(),                    # Roadmap 16: le Chiome del cielo (isole, radici pendenti, correnti)
 		PassAlberi.new(),
 		PassDecorazioni.new(),

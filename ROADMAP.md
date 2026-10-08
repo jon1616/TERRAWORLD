@@ -6246,6 +6246,11 @@ La terza del piano «Il generatore eccellente» (`GENERATORE.md`). Scelta dell'u
   tessere, giacimenti 2.374 → 667 (in media 15 → 26 tessere), **resa vicino alla vena 9% → 13%**; legnoferro e ambra
   uguali in proporzione. Chi trova un giacimento scava meno e trova di più. Gruppi «base», «terre», «grotte», «spina»,
   «raccolta» senza avvisi.
-- [ ] **456. I segni dei giacimenti.** Affioramenti e piante che li annunciano.
+- [x] **456. I segni dei giacimenti.** Affioramenti e piante che li annunciano.
+  Fatto l'8 ott 2026: `PassAffioramenti` (dopo le terre dei biomi): dove entro 50 righe sotto la superficie c'è un
+  giacimento ricco (22+ tessere di metallo in una finestra di 9 colonne), 2-4 tessere di quel metallo affiorano nella
+  cima del terreno, al più una ogni 40 colonne e mai sopra la partenza; nelle grotte, sul pavimento sopra il cuore di un
+  giacimento, sassi luccicanti. Seme 7: 17 affioramenti, 27 luccichii (appunti «affioramenti», «luccichii»). Una frase
+  nel capitolo «scavare» dell'Enciclopedia. Le piante-segno restano un'idea: i sassi bastano a leggere la grotta.
 - [ ] **457. Gemme e rarità al posto giusto.** Cristalli nelle grotte di cristallo, gemme nei geodi.
 - [ ] **458. Il bilancio dei tesori.** Tempi dei metalli con i giocatori simulati.

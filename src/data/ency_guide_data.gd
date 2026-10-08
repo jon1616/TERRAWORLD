@@ -157,6 +157,7 @@ Le [b]radici viandanti[/b] sono passaggi dentro lo stesso mondo: clic destro su 
 I minerali, dal più facile:
 {cat_minerali}
 [b]Lo scavo intelligente[/b]: tenendo premuto il piccone con il mouse su una cella vuota, scavi da solo i blocchi a portata, prima i più vicini al mouse; mai ciò che hai costruito, mai il blocco sotto i piedi, mai accanto a un liquido. Tenendo {k_vena} all'inizio segui una vena: solo lo stesso blocco del primo. Si spegne nelle [url=cap:opzioni]Opzioni[/url].
+[b]I giacimenti[/b]: i metalli non sono sparsi ovunque ma raccolti in giacimenti, a filoni che si seguono. Li annunciano gli [b]affioramenti[/b] (qualche tessera di metallo nella cima del terreno: scava lì sotto) e, nelle grotte, i [b]sassi luccicanti[/b] sul pavimento accanto al cuore di un giacimento.
 I minerali si fondono in lingotti al [b]Baccello ardente[/b]; con i lingotti si fanno attrezzi, armi e armature migliori (vedi [url=cap:materiali]Materiali[/url]). Il potere [url=cap:poteri]Canto delle radici[/url] fa scavare un quarto più in fretta."""},
 	{"id": "terre", "group": "Scavare e costruire", "name": "La terra dei mondi", "text":
 """Sotto l'erba ogni bioma ha la sua [b]terra[/b] e, più in basso, la sua [b]roccia[/b]: sabbie, nevi, ceneri, fanghi, torba, terra grassa, arenarie, basalto, ghiacci, marmo. Non sono solo colori: ognuna [b]fa qualcosa[/b], e la scheda della tessera (mouse sopra) lo dice.
