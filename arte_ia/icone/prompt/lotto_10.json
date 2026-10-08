@@ -1,0 +1,18 @@
+{
+ "lotto": "lotto_10",
+ "grid": "4x3",
+ "shapes": [
+  "altare",
+  "falce",
+  "guanto",
+  "martello",
+  "piattaforma",
+  "geode",
+  "specchio",
+  "mola",
+  "mattoni",
+  "banco",
+  "fornace",
+  "tronco"
+ ]
+}

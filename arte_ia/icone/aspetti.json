@@ -360,5 +360,53 @@
 	"lama": {
 		"en": "curved blade",
 		"desc": "a single long curved sabre-like blade drawn DIAGONALLY [GREY] with no handle, only a short tang wrapped in leather (warm leather), sharp and gleaming"
+	},
+	"altare": {
+		"en": "small altar",
+		"desc": "a small ancient stone altar [GREY] with stepped sides and carved runes glowing turquoise sap (#5ff0e0), a little amber flame burning on top"
+	},
+	"falce": {
+		"en": "sickle",
+		"desc": "a small hand sickle drawn DIAGONALLY: a strongly curved hook-shaped blade [GREY] on a short root-wood handle (plum wood) with a leather wrap (warm leather)"
+	},
+	"guanto": {
+		"en": "single glove",
+		"desc": "a single furry mitten-like glove [GREY] with a fluffy fur cuff [GREY] and a small leather strap (warm leather)"
+	},
+	"martello": {
+		"en": "builder's hammer",
+		"desc": "a builder's hammer drawn DIAGONALLY: a small blocky hammer head [GREY] with a claw on the back, on a root-wood handle (plum wood) with a leaf binding (leaf green)"
+	},
+	"piattaforma": {
+		"en": "plank platform",
+		"desc": "a short horizontal platform / walkway of three planks [GREY] seen at a slight angle, bound together with root ties (plum wood)"
+	},
+	"geode": {
+		"en": "geode",
+		"desc": "a geode cracked open in half: a rough round rock shell [GREY] whose hollow inside is lined with sparkling crystal points [GREY], a bright glint"
+	},
+	"specchio": {
+		"en": "hand mirror",
+		"desc": "a round hand mirror with an ornate frame and handle [GREY], the glass reflecting a pale shine with a diagonal highlight streak"
+	},
+	"mola": {
+		"en": "grinding wheel",
+		"desc": "a round stone grinding wheel / cogwheel [GREY] standing upright on a small root-wood frame (plum wood) with a crank handle"
+	},
+	"mattoni": {
+		"en": "brick stack",
+		"desc": "a small neat stack of rectangular bricks [GREY] seen at a 3/4 angle, three layers, with chipped edges"
+	},
+	"banco": {
+		"en": "work bench",
+		"desc": "a sturdy work bench / chopping stump seen at a 3/4 angle: a wide tree-stump top [GREY] with growth rings, an axe stuck in it (plum wood handle), roots spreading at the base"
+	},
+	"fornace": {
+		"en": "furnace",
+		"desc": "a small round furnace shaped like a big seed pod [GREY], with an open glowing mouth full of amber fire and a short chimney with a puff of smoke"
+	},
+	"tronco": {
+		"en": "log",
+		"desc": "a short cut log lying on its side [GREY], bark texture on the side, the cut end showing growth rings, a small leafy twig (leaf green) sprouting"
 	}
 }
