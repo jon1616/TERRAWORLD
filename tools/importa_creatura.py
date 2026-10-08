@@ -68,6 +68,7 @@ def main() -> None:
     ap.add_argument("--misura-da", type=int, default=0)
     ap.add_argument("--colori", type=int, default=10)
     ap.add_argument("--accenti", default="", help="colori fissi in più (occhio, vene), es. #E8902C,#2FA08C")
+    ap.add_argument("--togli-linee", action="store_true", help="toglie la linea del suolo disegnata sotto i piedi")
     ap.add_argument("--vola", action="store_true",
                     help="chi vola: il punto d'appoggio è il centro anche con --ancora cella (l'occhio non si trova)")
     ap.add_argument("--luce", default="", help="colori che brillano al buio (maschera <nome>_<n>_luce.png)")
@@ -90,6 +91,25 @@ def main() -> None:
     rgb[fam] = (255, 0, 255)
     src = Image.fromarray(rgb.astype(np.uint8), "RGB")
     a = tavola.togli_magenta(src)
+    if args.togli_linee:
+        # la linea del suolo che Nano Banana disegna sotto i piedi anche se vietata: tratti scuri orizzontali lunghi
+        # più di metà cella e alti pochi pixel (i contorni delle figure sono curvi, i loro tratti dritti sono corti)
+        lum = a[:, :, :3] @ np.array([0.3, 0.59, 0.11])
+        dark = (lum < 70) & (a[:, :, 3] > 0.5)
+        cw0 = a.shape[1] / col
+        for y in range(a.shape[0]):
+            row = dark[y]
+            x = 0
+            while x < len(row):
+                if row[x]:
+                    x1 = x
+                    while x1 < len(row) and row[x1]:
+                        x1 += 1
+                    if x1 - x > cw0 * 0.5:
+                        a[y, x:x1, 3] = 0.0
+                    x = x1
+                else:
+                    x += 1
     pezzi = tavola.pezzi_griglia(a, col, righe)
     print("pose trovate: %d" % len(pezzi))
     pose = []
