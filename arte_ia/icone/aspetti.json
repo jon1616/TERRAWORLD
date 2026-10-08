@@ -144,5 +144,53 @@
 	"scrigno": {
 		"en": "chest",
 		"desc": "a small treasure chest seen from a 3/4 front view, its body of root wood (plum wood), the metal bands, corners and lock [GREY], the lid slightly domed"
+	},
+	"fionda": {
+		"en": "slingshot",
+		"desc": "a Y-shaped slingshot drawn slightly DIAGONALLY: a forked frame [GREY] like a split branch, a leather pouch (warm leather) on a stretched band holding a small round stone"
+	},
+	"falcelunga": {
+		"en": "war scythe",
+		"desc": "a big reaper's war scythe drawn DIAGONALLY: a long root-wood shaft (plum wood) with a small side grip, and a long curved crescent blade [GREY] sweeping out from the top"
+	},
+	"buccina": {
+		"en": "war horn",
+		"desc": "a curved spiral horn [GREY] like a ram's horn, wide flared mouth facing right, bound with leather bands (warm leather) and a carry strap"
+	},
+	"egida": {
+		"en": "round shield",
+		"desc": "a round shield seen from the front [GREY], with a raised central boss, a rim of rivets and an embossed leaf pattern; a few root tendrils (plum wood) wrap the rim"
+	},
+	"lanterna": {
+		"en": "lantern",
+		"desc": "a hanging lantern with a ring on top, its frame and cap [GREY], glass panes showing a warm glowing amber flame inside"
+	},
+	"sacca": {
+		"en": "pouch",
+		"desc": "a plump drawstring pouch / sack [GREY] tied at the neck with a cord (warm leather), soft folds and a small patch stitched on its side"
+	},
+	"bipenne": {
+		"en": "double axe",
+		"desc": "a battle axe with two crescent blades drawn DIAGONALLY: a twin-bladed head [GREY] like two moon halves back to back on a root-wood handle (plum wood) with a leather grip (warm leather)"
+	},
+	"dischi": {
+		"en": "throwing discs",
+		"desc": "three thin round throwing discs [GREY] fanned out and overlapping, each with a sharp serrated rim and a hole in the centre"
+	},
+	"cerbottana": {
+		"en": "blowpipe",
+		"desc": "a long blowpipe drawn DIAGONALLY: a straight hollow tube [GREY] with leaf bindings (leaf green) at both ends, and a small feathered dart beside it"
+	},
+	"semetorre": {
+		"en": "turret seed",
+		"desc": "a big seed planted upright with a little sprouting turret on top: a ribbed seed body [GREY], two small leaves (leaf green) and a tiny glowing turquoise sap eye at the top"
+	},
+	"sfera": {
+		"en": "magic orb",
+		"desc": "a crystal orb [GREY] glowing from inside with swirling light, held in a cradle of curled roots (plum wood) at its base"
+	},
+	"lanciaspore": {
+		"en": "spore launcher",
+		"desc": "a launcher drawn DIAGONALLY made from a big bulbous mushroom-like pod [GREY] with a tube muzzle at the front, a root-wood stock (plum wood) and a puff of spores coming out"
 	}
 }

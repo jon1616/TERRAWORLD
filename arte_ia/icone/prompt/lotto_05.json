@@ -1,0 +1,18 @@
+{
+ "lotto": "lotto_05",
+ "grid": "4x3",
+ "shapes": [
+  "fionda",
+  "falcelunga",
+  "buccina",
+  "egida",
+  "lanterna",
+  "sacca",
+  "bipenne",
+  "dischi",
+  "cerbottana",
+  "semetorre",
+  "sfera",
+  "lanciaspore"
+ ]
+}
