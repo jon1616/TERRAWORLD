@@ -300,14 +300,40 @@ func _measure(w: World, sd: int, ms: int, counts: Dictionary) -> String:
 		if nn > 0:
 			ores.append("%s %d" % [TileDefs.NAMES.get(t, str(t)), nn])
 	var isles: Array = w.gen_notes.get("isole_cielo", [])
+	# voce 470: il cielo per fascia (un campione ogni 2 celle), la grande scala, i luoghi per 1000 colonne
+	var band := {"basso": [0, 0], "medio": [0, 0], "alto": [0, 0]}
+	for y in range(0, w.h, 2):
+		for x in range(0, w.w, 2):
+			if y >= int(w.surface[x]):
+				continue
+			var bd := SkyData.band_at(w, x, y)
+			if band.has(bd):
+				band[bd][1] += 1
+				if w.solid(x, y):
+					band[bd][0] += 1
+	var bands := []
+	for bd in band:
+		bands.append("%s %.1f%% solido" % [bd, 100.0 * int(band[bd][0]) / maxi(int(band[bd][1]), 1)])
+	var n: Dictionary = w.gen_notes
+	var regions := (n.get("regioni", []) as Array).map(func(r: Dictionary) -> String: return String(r["id"]))
+	var big := "sagoma %s · mari %d · caverne %d · voragini %d · regioni %s · falde %d · laghi di valle %d · fiumi %d · massicci %d · archi %d · traccia %s" % [
+		str(n.get("sagoma", "?")), (n.get("mari", []) as Array).size(), (n.get("caverne", []) as Array).size(),
+		(n.get("voragini", []) as Array).size(), str(regions), int(n.get("falde", 0)), (n.get("laghi_valle", []) as Array).size(),
+		(n.get("fiumi", []) as Array).size(), (n.get("massicci", []) as Array).size(), (n.get("archi", []) as Array).size(),
+		str((n.get("traccia", {}) as Dictionary).get("id", "-"))]
+	var k1000 := 1000.0 / w.w
+	var places := "per 1000 colonne: scrigni %.1f · riferimenti %.1f · ingressi %.1f · affioramenti %.1f" % [
+		w.stations.values().filter(func(v: String) -> bool: return ChestsData.is_chest(v)).size() * k1000,
+		(n.get("riferimenti", []) as Array).size() * k1000, (n.get("ingressi", []) as Array).size() * k1000,
+		(n.get("affioramenti", []) as Array).size() * k1000]
 	var biomes := {}
 	for x in w.w:
 		var b := String(BiomesData.BIOMES[int(w.biomes[x])]["id"])
 		biomes[b] = int(biomes.get(b, 0)) + 1
-	return "seme %d · %d ms · %d×%d · superficie più alta %d, media %d\n  aria per strato %s · celle di liquido sotto %d\n  cielo: %d celle solide, %d d'aria (%.2f%%), %d isole, %d zone\n  minerali: %s · cristalli %d\n  biomi: %s" % [
+	return "seme %d · %d ms · %d×%d · superficie più alta %d, media %d\n  aria per strato %s · celle di liquido sotto %d\n  cielo: %d celle solide, %d d'aria (%.2f%%), %d isole, %d zone\n  cielo per fascia: %s\n  grande scala: %s\n  %s\n  minerali: %s · cristalli %d\n  biomi: %s" % [
 		sd, ms, w.w, w.h, top, _mean_surface(w), " ".join(PackedStringArray(pct)), water, sky_solid, sky_air,
 		100.0 * sky_solid / maxf(sky_solid + sky_air, 1.0), isles.size(), (w.gen_notes.get("cielo", []) as Array).size(),
-		", ".join(PackedStringArray(ores)), counts[TileDefs.CRYSTAL], str(biomes)]
+		", ".join(PackedStringArray(bands)), big, places, ", ".join(PackedStringArray(ores)), counts[TileDefs.CRYSTAL], str(biomes)]
 
 
 func _mean_surface(w: World) -> int:

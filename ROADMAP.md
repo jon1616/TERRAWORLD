@@ -6399,3 +6399,22 @@ lontano, l'acqua solo negli stagni dei biomi. Ora: 1-3 massicci per mondo a pare
 liana su ogni parete più alta del salto (la superficie si percorre sempre senza scavare); un punto di riferimento per
 bioma (guglia, rovina sul colle, cerchio di pietre) segnato sulla mappa; ingressi di quattro forme ogni ~200 colonne,
 scritti come dati; laghi nelle valli e fiumi brevi. Rimandate: le cascate (vogliono una sorgente che non allaghi).
+
+# Roadmap 61 «Il collaudo del generatore» (dal 9 ott 2026)
+
+L'ultima del piano «Il generatore eccellente» (`GENERATORE.md`).
+
+- [x] **470. Le misure nuove.** In `tools/mappe.gd` (con `--prima <cartella>`): il cielo per fascia (solido nel basso,
+  medio e alto), la grande scala (sagoma, mari, caverne, voragini, regioni, falde, laghi di valle, fiumi, massicci,
+  archi, traccia) e i luoghi per 1000 colonne (scrigni, riferimenti, ingressi, affioramenti). Riferimento in
+  prove/generatore_61 (semi 1, 7, 13, 42, 20260924), da confrontare con prove/generatore_prima: cielo solido 2,1-2,6% →
+  6,5-6,9% (medio 13-15%), liquidi sotto terra 3.500-4.600 → 8.700-8.800 celle, l'aria del Fondo 46-47% → 49-53%.
+  Il mondo ora nasce in 6,1-6,4 s (voce 472).
+- [ ] **471. La connettività.**
+- [ ] **472. Le prestazioni.**
+- [ ] **473. Le prove riallineate.**
+- [ ] **474. La connettività come prova.**
+- [ ] **475. L'Atlante e le schede.**
+- [ ] **476. I mondi vecchi.**
+- [ ] **477. Il giro completo.**
+- [ ] **478. Il resoconto del piano.**
