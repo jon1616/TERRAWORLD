@@ -90,7 +90,7 @@ def lum(hexc: str) -> float:
 
 # ------------------------------------------------------------------------------------------------- piani e pose
 
-PLAN_NOUN = {"quadrupede": "animal", "uccello": "bird", "insetto": "insect", "lumaca": "snail", "anfibio": "amphibian",
+PLAN_NOUN = {"bipede": "figure", "quadrupede": "animal", "uccello": "bird", "insetto": "insect", "lumaca": "snail", "anfibio": "amphibian",
              "serpe": "serpent", "fluttuante": "floating creature", "grumo": "blob"}
 
 WALK = {
@@ -104,6 +104,8 @@ WALK = {
                "gliding cycle 3/4: body pulled shorter", "gliding cycle 4/4: stretching again, head reaching forward"],
     "serpe": ["slithering cycle 1/4: body in an S curve", "slithering cycle 2/4: the curves move back",
               "slithering cycle 3/4: the opposite S curve", "slithering cycle 4/4: the curves move back again"],
+    "bipede": ["walking cycle 1/4: front leg forward, arms swinging", "walking cycle 2/4: legs passing under the body",
+               "walking cycle 3/4: the other leg forward", "walking cycle 4/4: legs passing again"],
     "grumo": ["hopping-in-place cycle 1/4: relaxed", "2/4: slightly squashed", "3/4: slightly stretched up",
               "4/4: relaxed again"],
 }
@@ -196,7 +198,7 @@ def build_poses(s: dict, look: dict) -> tuple[list, dict, dict, bool]:
         cells.append(("sputa", "attacking: head raised, mouth (or its glowing organ) wide open, firing %s" % shot))
     cells.append(("colpita", look.get("hurt") or "hurt: flinching back, squeezed, eyes shut (if it has eyes)"))
     # le pose che mancano per riempire la griglia: altre del respiro e dell'attenzione
-    fillers = [("allerta", "alert: standing taller, looking right, ears/antennae up"),
+    fillers = [("allerta", "alert: standing taller, head raised, looking right, tense"),
                ("fermo", "idle variant: blinking, head slightly turned")]
     if "fermo" in beh:
         fillers = [("fermo", "idle variant: tilted slightly to the other side")]

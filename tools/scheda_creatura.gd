@@ -129,12 +129,12 @@ func _coda() -> void:
 			st = mini(st, int(s))
 		var sky: Variant = cd.get("sky", [])
 		if (sky is Array and not (sky as Array).is_empty()) or (sky is String and sky != "") or sky is Dictionary:
-			st = mini(st, 1)
+			st = maxi(st, 1)                     # il cielo dopo la superficie (anche le sue notti)
 		var bv: Variant = cd.get("biomes", [])
 		var biomes: Array = bv if bv is Array else []
 		var common := biomes.is_empty() or biomes.any(func(b: Variant) -> bool: return String(b) in first_biomes)
 		# le creature che chiedono un'occasione (eclissi, stagione, tempo, un luogo, la firma del mondo) dopo le altre
-		var cond: bool = cd.get("eclipse", false) or str(cd.get("season", "")) != "" or str(cd.get("weather", "")) != "" 			or cd.get("lord", false) or cd.get("great", false) or String(id).begins_with("firma_")
+		var cond: bool = cd.get("eclipse", false) or str(cd.get("season", "")) != "" or str(cd.get("weather", "")) != "" 			or cd.get("lord", false) or cd.get("great", false) or String(id).begins_with("firma_") 			or int(cd.get("weight", 0)) == 0
 		var key := [1 if cd.get("awake", false) else 0, st, 1 if cond else 0, 0 if common else 1,
 			1 if cd.get("night", false) else 0,
 			-int(cd.get("weight", 0))]

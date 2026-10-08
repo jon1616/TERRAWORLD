@@ -178,5 +178,18 @@
 		],
 		"scale": 1.5,
 		"polvere": false
+	},
+	"avvizzito_errante": {
+		"name_en": "Withered Wanderer",
+		"noun": "husk",
+		"plan": "bipede",
+		"look": "a tall thin shambling HUSK that wanders at night: a humanoid shape made of dry dead ROOTS and grey withered bark, twisted together like a dried-up scarecrow, hunched forward, with long thin arms hanging down to the knees ending in twig-like claws, thin legs, and a lumpy head like a dead knot of wood with TWO small glowing AMBER eyes in a dark hollow. Grey-olive, cracked and dusty, sad and creepy (not gory). It walks slowly, dragging its feet.",
+		"colors": "withered grey-olive bark (#70705c, lighter #8f857a, darker #525247), dead mossy patches (#66663d), very dark hollow face (#1a1a14)",
+		"eye": "two small glowing amber eyes (#f5ad3d) deep in a dark hollow",
+		"glow": "the two amber eyes (#f5ad3d)",
+		"hurt": "hurt: recoiling backwards, bark chips flying off, eyes flickering",
+		"accents": [
+			"#f5ad3d"
+		]
 	}
 }
