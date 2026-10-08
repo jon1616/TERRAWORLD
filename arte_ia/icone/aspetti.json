@@ -240,5 +240,53 @@
 	"cappello_radice": {
 		"en": "root hat",
 		"desc": "a wide-brimmed hat [GREY] woven from roots, with a slightly pointed crown, a band (warm leather) and a small sprout with two leaves (leaf green) growing from the top"
+	},
+	"ghirlanda": {
+		"en": "metal leaf wreath",
+		"desc": "a circular wreath / garland worn on the head, made of small metal leaves [GREY] woven around a thin root band (plum wood), seen at a slight 3/4 angle"
+	},
+	"maschera": {
+		"en": "beast mask",
+		"desc": "a tribal beast face mask seen from the front [GREY], shaped like a wolf or fox face with pointed ears, empty eye holes, carved snout lines and two leather straps (warm leather) at the sides"
+	},
+	"tiara": {
+		"en": "diadem",
+		"desc": "a slender diadem / circlet seen at a 3/4 angle [GREY], thin and elegant, rising to a central point that holds a small glowing turquoise sap crystal"
+	},
+	"cappuccio_mira": {
+		"en": "archer's hood",
+		"desc": "a pointed archer's hood [GREY] with a deep face opening in shadow, a short shoulder cape and a small leather strap (warm leather) with a feather"
+	},
+	"celata": {
+		"en": "closed helmet",
+		"desc": "a heavy closed knight's helmet [GREY] in side 3/4 view, with a narrow eye slit visor, rivets, and a small crest of root fibres (plum wood) on top"
+	},
+	"parete": {
+		"en": "wall panel",
+		"desc": "a square section of a built wall seen from the front [GREY], made of interlocking stone blocks / bricks with mortar lines and a small root (plum wood) creeping across a corner"
+	},
+	"aculeo": {
+		"en": "spike",
+		"desc": "a single long curved horn-like spike / stinger [GREY], thick at the base and very sharp at the tip, with ring ridges near the base"
+	},
+	"chiave": {
+		"en": "key",
+		"desc": "an ornate old key drawn DIAGONALLY [GREY], with a round looped bow shaped like a curled root, a long shaft and bold teeth, a tiny amber gem in the bow"
+	},
+	"occhio": {
+		"en": "creature eye",
+		"desc": "a single large round creature eyeball [GREY] with a big glossy iris and a dark slit pupil, a bright highlight, and a few thin veins at the edge"
+	},
+	"uncino": {
+		"en": "grappling hook",
+		"desc": "a grappling hook [GREY] with three curved claws at the bottom, a ring at the top, and a coil of rope (warm leather) attached to the ring"
+	},
+	"cassa": {
+		"en": "wooden crate",
+		"desc": "a sturdy square crate seen at a 3/4 angle, its planks [GREY] with nail heads and cross braces, a bit of straw (amber) sticking out of a gap"
+	},
+	"incudine": {
+		"en": "anvil",
+		"desc": "a heavy blacksmith's anvil [GREY] with a pointed horn on one side, standing on a thick stump of root wood (plum wood), a small hammer resting on top"
 	}
 }

@@ -1,0 +1,18 @@
+{
+ "lotto": "lotto_07",
+ "grid": "4x3",
+ "shapes": [
+  "ghirlanda",
+  "maschera",
+  "tiara",
+  "cappuccio_mira",
+  "celata",
+  "parete",
+  "aculeo",
+  "chiave",
+  "occhio",
+  "uncino",
+  "cassa",
+  "incudine"
+ ]
+}
