@@ -192,5 +192,53 @@
 	"lanciaspore": {
 		"en": "spore launcher",
 		"desc": "a launcher drawn DIAGONALLY made from a big bulbous mushroom-like pod [GREY] with a tube muzzle at the front, a root-wood stock (plum wood) and a puff of spores coming out"
+	},
+	"tamburo": {
+		"en": "hand drum",
+		"desc": "a small round hand drum seen at a 3/4 angle: the drum body [GREY] with carved root patterns, a stretched skin top (warm leather) laced with cords, and one drumstick of root wood (plum wood) leaning on it"
+	},
+	"randello": {
+		"en": "club",
+		"desc": "a heavy club drawn DIAGONALLY: a thick knotted cudgel [GREY] widening toward the top, studded with a few knobs, a leather-wrapped grip (warm leather) at the bottom"
+	},
+	"foglia": {
+		"en": "leaf",
+		"desc": "one big broad leaf [GREY] with a curled tip, clear veins and a short stem, gently tilted"
+	},
+	"manopole": {
+		"en": "battle gauntlets",
+		"desc": "a pair of armoured fist gauntlets [GREY], clenched, one in front of the other, with knuckle plates, short spikes on the knuckles and leather cuffs (warm leather)"
+	},
+	"gel": {
+		"en": "gel blob",
+		"desc": "a wobbly translucent blob of gel [GREY] sitting on the ground, with a glossy highlight, a couple of bubbles inside and a small drip"
+	},
+	"polvere": {
+		"en": "pile of dust",
+		"desc": "a small heap of fine powder / dust [GREY] with a few sparkling grains floating above it and a little puff of dust"
+	},
+	"guscio": {
+		"en": "spiral shell",
+		"desc": "a spiral snail-like shell [GREY] with ridged whorls and a pearly opening, seen from the side"
+	},
+	"membrana": {
+		"en": "wing membrane",
+		"desc": "a stretched bat-like wing membrane [GREY] between a few thin finger bones (plum wood), semi-translucent with fine veins, slightly ragged edge"
+	},
+	"benda": {
+		"en": "bandage roll",
+		"desc": "a rolled-up bandage of cloth [GREY] with a loose end unrolling in a soft curl, tied with a small leaf (leaf green)"
+	},
+	"ali": {
+		"en": "pair of wings",
+		"desc": "a pair of spread feathered wings [GREY] seen from behind, joined in the middle by a leather harness (warm leather), feathers layered in rows"
+	},
+	"cesta": {
+		"en": "woven basket",
+		"desc": "a round woven basket [GREY] with a sturdy arched handle, weave of interlaced strips, a few fresh leaves (leaf green) peeking out of the top"
+	},
+	"cappello_radice": {
+		"en": "root hat",
+		"desc": "a wide-brimmed hat [GREY] woven from roots, with a slightly pointed crown, a band (warm leather) and a small sprout with two leaves (leaf green) growing from the top"
 	}
 }

@@ -1,0 +1,18 @@
+{
+ "lotto": "lotto_06",
+ "grid": "4x3",
+ "shapes": [
+  "tamburo",
+  "randello",
+  "foglia",
+  "manopole",
+  "gel",
+  "polvere",
+  "guscio",
+  "membrana",
+  "benda",
+  "ali",
+  "cesta",
+  "cappello_radice"
+ ]
+}
