@@ -1,0 +1,18 @@
+{
+ "lotto": "lotto_21",
+ "grid": "4x3",
+ "shapes": [
+  "macchina_campana_allarme",
+  "macchina_scudo_corteccia",
+  "macchina_valvola_sfogo",
+  "macchina_nodo_e",
+  "macchina_nodo_o",
+  "macchina_nodo_non",
+  "macchina_nodo_ritardo",
+  "macchina_nodo_contatore",
+  "macchina_nodo_memoria",
+  "macchina_occhio_luce",
+  "macchina_orecchio_muschio",
+  "macchina_sensore_acqua"
+ ]
+}
