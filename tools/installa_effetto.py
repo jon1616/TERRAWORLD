@@ -36,11 +36,16 @@ def main() -> None:
         os.replace(src, dst)
         src = dst
     print("tavola: %s" % os.path.relpath(src, ROOT))
-    subprocess.run([sys.executable, os.path.join(ROOT, "tools", "importa_effetto.py"), src, "--nome", nome], check=True)
+    subprocess.run([sys.executable, os.path.join(ROOT, "tools", "importa_effetto.py"), src, "--nome", nome]
+                   + (["--centro"] if nome.startswith("colpo_") else []), check=True)
     if nome.startswith("alone_"):
         res = subprocess.run(["sh", "tools/sprite.sh", SHAPES, nome[len("alone_"):]], cwd=ROOT, capture_output=True,
                              text=True, encoding="utf-8", errors="replace", timeout=400)
         print("\n".join(l for l in res.stdout.splitlines() if "alone" in l or "ERROR" in l or "ATTENZIONE" in l))
+    if nome.startswith("colpo_"):
+        res = subprocess.run(["sh", "tools/sprite.sh", SHAPES, "colpo:" + nome[len("colpo_"):]], cwd=ROOT,
+                             capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=400)
+        print("\n".join(l for l in res.stdout.splitlines() if "colpo" in l or "ERROR" in l or "ATTENZIONE" in l))
 
 
 if __name__ == "__main__":

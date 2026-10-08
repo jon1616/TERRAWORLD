@@ -16,5 +16,5 @@ arg=""
 [ -n "${2:-}" ] && arg="$arg --rara=$2"
 timeout 300 "$G" --path . -- --prove --carica --solo=sprite $arg > "$log" 2>&1
 echo "durata $(( $(date +%s) - start )) s"
-grep -aE "alone|pose|dal vivo|fotogrammi|ATTENZIONE|SCRIPT ERROR" "$log" | cut -c1-300
+grep -aE "alone|colpo|pose|dal vivo|fotogrammi|ATTENZIONE|SCRIPT ERROR" "$log" | cut -c1-300
 echo "registro completo: $log"

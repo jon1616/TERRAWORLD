@@ -43,12 +43,19 @@ def main() -> None:
     ap.add_argument("--griglia", default="4x2")
     ap.add_argument("--nome", required=True)
     ap.add_argument("--largo", type=int, default=96)
+    ap.add_argument("--centro", action="store_true", help="scoppi: la finestra centrata sul centro della cella (il punto del colpo)")
     args = ap.parse_args()
     cols, rows = (int(x) for x in args.griglia.split("x"))
     fs = frames(args.tavola, cols, rows)
     union = np.max(fs, axis=0) > 0.04
     ys, xs = np.where(union)
     y0, y1, x0, x1 = ys.min(), ys.max() + 1, xs.min(), xs.max() + 1
+    if args.centro:
+        # lo scoppio nasce nel centro della cella: una finestra quadrata attorno al centro, che contiene tutto
+        h, w = fs[0].shape
+        r = int(max(h / 2 - y0, y1 - h / 2, w / 2 - x0, x1 - w / 2))
+        y0, y1 = max(0, h // 2 - r), min(h, h // 2 + r)
+        x0, x1 = max(0, w // 2 - r), min(w, w // 2 + r)
     # centrata in orizzontale: la creatura sta nel mezzo
     cx = (x0 + x1) / 2
     half = max(cx - x0, x1 - cx)

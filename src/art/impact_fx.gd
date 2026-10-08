@@ -35,9 +35,11 @@ static func dig_kind(t: int, built := "") -> String:
 
 
 ## Lo schizzo di un colpo con l'elemento `elem` (anche «brace+gelo»: il primo).
-static func hit(parent: Node, pos: Vector2, elem: String) -> void:
+## `size` = l'altezza della creatura colpita: lo scoppio dipinto (`HitFlash`, 8 ott 2026) è grande quanto lei.
+static func hit(parent: Node, pos: Vector2, elem: String, size := 24.0) -> void:
 	var e := elem.get_slice("+", 0)
 	burst(parent, pos, ImpactData.HIT.get(e, ImpactData.HIT[""]), [])
+	HitFlash.play(parent, pos, e, size)
 
 
 ## Una creatura sconfitta si disfa secondo la sua natura o il suo elemento.

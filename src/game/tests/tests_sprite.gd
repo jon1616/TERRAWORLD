@@ -34,7 +34,9 @@ func run() -> void:
 	kit.flatten(c, 10)
 	var rara := _arg("--rara=")
 	for id in ids:
-		if rara != "":
+		if rara.begins_with("colpo:"):
+			await _flash(id, c, rara.trim_prefix("colpo:"))
+		elif rara != "":
 			await _halo(id, c, rara)
 		else:
 			await _one(id, c)
@@ -81,6 +83,39 @@ func _halo(id: String, c: Vector2i, rara: String) -> void:
 	_sheet(shots, "res://prove/sprite/%s_%s.png" % [id, rara])
 	print("%s %s: alone %s → prove/sprite/%s_%s.png" % [id, rara,
 		"dipinto" if cr.ancient._halo != null else "di prima (contorno)", id, rara])
+	m.fauna.clear()
+
+
+## Con `--rara=colpo:<elemento>` (8 ott 2026): lo scoppio del colpo sulla creatura, sei momenti di un colpo, di
+## giorno e di notte → prove/sprite/<id>_colpo_<elemento>.png («fisico» = senza elemento).
+func _flash(id: String, c: Vector2i, elem: String) -> void:
+	m.fauna.clear()
+	m.snap_to(c + Vector2i(-6, 0))
+	await kit.seconds(0.3)
+	var cd: Dictionary = CreaturesData.get_data(id)
+	var lift := 3 * 16 if cd.get("fly", false) else 0
+	var cr: Creature = m.fauna.add(id, Vector2((c.x + 2) * 16 + 8, (c.y - 2) * 16 - lift))
+	if cr == null:
+		print("ATTENZIONE: %s non compare" % id)
+		return
+	await kit.seconds(0.8)
+	cr.set_process(false)
+	var e := "" if elem == "fisico" else elem
+	var t0: float = m.day.time
+	var shots: Array[Image] = []
+	for night in [false, true]:
+		m.day.time = 0.95 if night else 0.5
+		m.day.apply(true)
+		await kit.seconds(0.2)
+		ImpactFx.hit(m.fx, cr.position, e, cr.half.y * 2.0)
+		for k in 6:
+			shots.append(await _crop(cr, 1.2))
+			await kit.seconds(0.035)
+	m.day.time = t0
+	m.day.apply(true)
+	_sheet(shots, "res://prove/sprite/%s_colpo_%s.png" % [id, elem])
+	print("%s colpo %s: %s → prove/sprite/%s_colpo_%s.png" % [id, elem,
+		"dipinto" if not Halo.frames_of("colpo_" + elem).is_empty() else "solo scintille", id, elem])
 	m.fauna.clear()
 
 
