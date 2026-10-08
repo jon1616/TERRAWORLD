@@ -4,7 +4,9 @@ extends RefCounted
 ## (`SkyData.CONTINENT`), fatte come la superficie: una cima mossa da un rumore, una «chiglia» sotto che si assottiglia
 ## verso i bordi. Dentro: il pavimento del bioma, un corpo di terra, il cuore di roccia, **grotte con le pareti di fondo**
 ## (senza parete la luce del cielo le illuminerebbe come fuori, `LightMap`), le vene del bioma, uno scrigno del cielo.
-## Sopra alberi e pozze (`PassCielo._extras`), sotto stalattiti e radichette. Li chiama `PassCielo` prima delle isole,
+## Sopra alberi e pozze (`PassCielo._extras`), sotto stalattiti e radichette; al centro della cima il luogo dei
+## Seminatori (voce 445: `SkyData.SANCTUARY`, un progetto di `ProjectsData` con uno scrigno e una stele; appunti
+## "luoghi_cielo" [progetto, x, cima], la stele in "rovine" per `PassStele`). Li chiama `PassCielo` prima delle isole,
 ## che così si sistemano attorno; ognuno fa `claim` e finisce negli appunti "isole_cielo" con "continente": true.
 
 
@@ -102,10 +104,64 @@ static func _make(p: PassCielo, w: World, c: GenContext, b: Dictionary, id: Stri
 	# alberi e pozze lungo la cima, a tratti
 	var step := int(SkyData.CONTINENT["extras_every"])
 	for x in range(cx - half + 10, cx + half - 10, step):
-		p._extras(w, c, b, Vector2i(x, int(tops[x])), mini(step / 2, 14))
+		if absi(x - cx) > 12:                     # il centro resta al luogo dei Seminatori
+			p._extras(w, c, b, Vector2i(x, int(tops[x])), mini(step / 2, 14))
+	_sanctuary(w, c, b, id, cx, int(tops[cx]))
 	_chest(w, c, caves)
 	return {"rect": [cx - half, y0, 2 * half + 1, thick], "biome": id, "band": "medio", "top": y0, "x": cx, "half": half,
 		"continente": true}
+
+
+## Voce 445: il luogo dei Seminatori al centro della cima (spianata sotto, aria sopra), con lo scrigno e la stele.
+static func _sanctuary(w: World, c: GenContext, b: Dictionary, id: String, cx: int, top: int) -> void:
+	var pid := String(SkyData.SANCTUARY.get(id, SkyData.SANCTUARY["_"]))
+	var grid: Array = ProjectsData.PROJECTS[pid]["grid"]
+	var gw := String(grid[0]).length()
+	var gh := grid.size()
+	var x0 := cx - gw / 2
+	var y0 := top - gh + 1                            # l'ultima riga (il pavimento) sulla cima
+	if y0 - 3 < SkyData.TOP:
+		return
+	var body_t := int(b.get("body", b.get("floor", TileDefs.STONE)))
+	for x in range(x0 - 1, x0 + gw + 1):
+		for y in range(y0 - 3, top):
+			w.set_tile(x, y, TileDefs.AIR)
+			w.set_decor(x, y, 0)
+			w.set_plat(x, y, false)
+		for y in range(top, top + 3):
+			if not w.solid(x, y):
+				w.set_tile(x, y, body_t)
+	var wall := ProjectsData.wall_id()
+	for r in gh:
+		var row := String(grid[r])
+		for i in row.length():
+			var ch := row[i]
+			var q := Vector2i(x0 + i, y0 + r)
+			var k := ProjectsData.kind_of(ch)
+			if k > 0:
+				w.set_build(q.x, q.y, k)
+			elif ch == ".":
+				w.walls[q.y * w.w + q.x] = wall
+			elif ProjectsData.STATION.has(ch):
+				w.walls[q.y * w.w + q.x] = wall
+				if w.station_fits(String(ProjectsData.STATION[ch]), q):
+					w.stations[q] = String(ProjectsData.STATION[ch])
+	# lo scrigno: sul pavimento, dove c'è posto (dentro o accanto)
+	var floor_y := top - 1
+	for dx in [0, -3, 3, -5, 5, -(gw / 2 + 3), gw / 2 + 2]:
+		var o := Vector2i(cx + int(dx), floor_y - 1)
+		if w.station_fits("scrigno", o) and w.solid(o.x, floor_y + 1) and w.solid(o.x + 1, floor_y + 1):
+			w.stations[o] = "scrigno"
+			var loot := LootData.roll_chest("rovina_cielo", c.rng, 3)
+			for it in loot:
+				w.chest_at(o).add(it, int(loot[it]))
+			break
+	var rovine: Array = c.notes.get("rovine", [])
+	rovine.append(Vector2i(x0 - 2, floor_y))           # la stele accanto all'ingresso (la mette `PassStele`)
+	c.notes["rovine"] = rovine
+	var luoghi: Array = c.notes.get("luoghi_cielo", [])
+	luoghi.append([pid, cx, top])
+	c.notes["luoghi_cielo"] = luoghi
 
 
 ## Lo scrigno del cielo in una grotta del continente: su un pavimento, con due celle libere sopra.

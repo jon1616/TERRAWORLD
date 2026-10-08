@@ -60,7 +60,8 @@ func _find(w: World, c: GenContext, id: String) -> Vector2i:
 		var y := 0
 		if where == "cielo":
 			var z := SkyData.zone_of(w, x + gw / 2)
-			if z.is_empty() or not b in [String(z["low"]), String(z["high"])]:
+			# voce 445: anche la fascia di mezzo (prima solo basso e alto: le strutture dei biomi medi non nascevano mai)
+			if z.is_empty() or not b in [String(z["low"]), String(z.get("mid", "")), String(z["high"])]:
 				continue
 			y = c.rng.randi_range(SkyData.TOP + 4, maxi(int(z["base"]) - gh - 6, SkyData.TOP + 5))
 			if SkyData.zone_at(w, x + gw / 2, y + gh / 2) != b:

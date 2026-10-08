@@ -44,6 +44,9 @@ const SPAWN_NEAR := 140                # entro tante colonne dalla partenza le i
 ## Voce 444: i mari di nuvole (strisce di tessera 52 su cui si cammina e si cade morbidi): probabilità per fascia
 ## (nel Mare di nuvole sempre), lunghezza, spessore.
 const CLOUD_SEA := {"basso": 0.65, "medio": 0.35, "len": [50, 140], "thick": [2, 4]}
+## Voce 445: il luogo dei Seminatori sulla cima di ogni continente: un progetto di `ProjectsData` secondo il bioma
+## ("_" = gli altri), con uno scrigno del cielo e una stele.
+const SANCTUARY := {"selve_pensili": "serra", "fonti_sospese": "pozzo", "scogliere_cristallo": "faro", "_": "torre"}
 const CONTINENT := {"per_zone": [1, 2], "min_zone": 380, "half": [50, 140], "thick": [30, 62], "cave": 0.4,
 	"worm": 0.03, "extras_every": 26}
 const SKY_SHARE := 0.85                # voce 160: quante nascite in cielo sono creature del cielo

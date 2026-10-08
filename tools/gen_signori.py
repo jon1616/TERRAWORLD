@@ -169,6 +169,17 @@ L = [
      {'sight': 30, 'hover': 100.0, 'wobble': 15.0, 'rate': 2.2, 'shot_look': 'stella', 'blink_every': 4.0, 'fan_n': 7, 'fan_rate': 2.4, 'shot_speed': 190.0},
      'stella_errante', ('vuoto', 'luce'), ('lacrima_stelle', 'Lacrima di stelle', ['goccia', 'stelle']), ('canto_madre', 'Canto della balena madre', ['essenza', 'stelle']),
      ('mantello_firmamento', 'Mantello del Firmamento', 'accessorio', ['mantello', 'stelle'], {'acc': {'quota': 1.0, 'magic': 1.1}, 'desc': "L'aria sottile non ti tocca; incantesimi +10%."}), {'ambra_stelle': 4, 'polvere_stelle': 10}),
+    # voce 445: i Signori dei due biomi del cielo di mezzo
+    ('selve_pensili', {'sky': 'selve_pensili'}, 4, 'Serpente delle mille liane', 'serpe', 58, 24, ['#0e2a1a', '#1a4a2c', '#2a7a44', '#5ab070', '#c8f0a0'], '#ffd060',
+     {'marks': 'strisce', 'mark': '#ffd060'}, ['vola', 'scatto'], ['richiamo', 'evoca'],
+     {'sight': 30, 'hover': 50.0, 'wobble': 35.0, 'dash_every': 2.4, 'dash_speed': 330.0, 'dash_time': 0.45, 'call_time': 1.2, 'call_n': 3, 'calls': 3, 'summon_every': 6.0, 'summon_max': 4},
+     'serpe_liane', ('gelo', 'linfa'), ('linfa_liane', 'Linfa delle mille liane', ['goccia', 'muschio']), ('corona_liane', 'Corona di liane', ['corona', 'muschio']),
+     ('fascia_re_liane', 'Fascia del re delle liane', 'accessorio', ['benda', 'muschio'], {'acc': {'jump': 1.12, 'regen': 1.12}, 'desc': 'Salto +12%; la Vita ricresce +12%.'}), {'muta_serpe_liane': 4, 'pelo_saltaliane': 3}),
+    ('fonti_sospese', {'sky': 'fonti_sospese'}, 4, 'Airone madre delle fonti', 'uccello', 50, 40, ['#2a3a48', '#4a6478', '#7a9ab0', '#c0dcec', '#ffffff'], '#ffd060',
+     {'wings': '#7a9ab0', 'marks': 'macchie', 'mark': '#ffffff'}, ['vola', 'picchiata'], ['bombarda', 'richiamo'],
+     {'sight': 32, 'hover': 90.0, 'wobble': 20.0, 'rise': 8, 'dive_speed': 360.0, 'dive_every': 3.6, 'rate': 2.4, 'call_time': 1.2, 'call_n': 2, 'calls': 3},
+     'airone_fonti', ('brace', 'gelo'), ('perla_fonti', 'Perla delle fonti', ['gemma', 'lagunite']), ('piuma_madre_fonti', 'Piuma della madre delle fonti', ['penna', 'lagunite']),
+     ('mantello_fonti', 'Mantello delle fonti', 'accessorio', ['mantello', 'lagunite'], {'acc': {'respiro': 2.0, 'glide': True, 'linfa_regen': 1.15}, 'desc': "Respiro sott'acqua doppio; si plana; Linfa +15%."}), {'piuma_airone_fonti': 4, 'pelle_salamandra': 3}),
 ]
 
 

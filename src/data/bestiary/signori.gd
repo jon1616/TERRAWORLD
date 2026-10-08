@@ -35,6 +35,8 @@ const DATA := {
 		"signore_scogliere_cristallo": {"name": "Drago di cristallo", "hp": 1200, "damage": 32, "defense": 10, "knock": 0.9, "half": [22, 9], "speed": 85, "behaviors": ["vola", "ventaglio"], "fury": ["teletrasporto", "evoca"], "p": {"sight": 30, "hover": 60.0, "wobble": 30.0, "fan_n": 5, "fan_rate": 2.4, "fan_spread": 0.7, "shot_speed": 200.0, "blink_every": 3.5, "summon_every": 6.0, "summon_max": 3, "phase2": 0.5, "summon": "draghetto_eco"}, "loot": "signore_scogliere_cristallo", "art": ["signore_scogliere_cristallo", 0], "strata": [], "weight": 0, "boss": true, "lord": "scogliere_cristallo", "no_trophy": true, "glow": true, "body": {"plan": "serpe", "w": 56, "h": 26, "pal": ["#14304a", "#1f5078", "#3a80b0", "#8ac8f0", "#e0f6ff"], "eye": "#ffd24a", "wings": "#8ac8f0", "marks": "punte", "mark": "#e0f6ff", "glow": true}, "affinity": {"weak": ["brace"], "resist": ["gelo"]}, "fly": true},
 		"signore_nidi_tempesta": {"name": "Signore del tuono", "hp": 1200, "damage": 32, "defense": 10, "knock": 0.9, "half": [17, 17], "speed": 85, "behaviors": ["vola", "folgore"], "fury": ["scatto", "evoca"], "p": {"sight": 30, "hover": 80.0, "wobble": 20.0, "bolt_every": 3.5, "bolt_delay": 1.0, "bolts": 3, "dash_every": 2.8, "dash_speed": 320.0, "dash_time": 0.4, "summon_every": 6.0, "summon_max": 4, "phase2": 0.5, "summon": "scintilla_viva"}, "loot": "signore_nidi_tempesta", "art": ["signore_nidi_tempesta", 0], "strata": [], "weight": 0, "boss": true, "lord": "nidi_tempesta", "no_trophy": true, "glow": true, "body": {"plan": "fluttuante", "w": 46, "h": 42, "pal": ["#14182a", "#2a3048", "#4a5478", "#8a98c8", "#fffac0"], "eye": "#fffac0", "marks": "punte", "mark": "#fffac0", "glow": true}, "affinity": {"weak": ["spora"], "resist": ["luce"]}, "fly": true},
 		"signore_firmamento": {"name": "Balena madre delle stelle", "hp": 1200, "damage": 32, "defense": 10, "knock": 0.9, "half": [24, 11], "speed": 85, "behaviors": ["vola", "bombarda"], "fury": ["teletrasporto", "ventaglio"], "p": {"sight": 30, "hover": 100.0, "wobble": 15.0, "rate": 2.2, "shot_look": "stella", "blink_every": 4.0, "fan_n": 7, "fan_rate": 2.4, "shot_speed": 190.0, "phase2": 0.5, "summon": "stella_errante"}, "loot": "signore_firmamento", "art": ["signore_firmamento", 0], "strata": [], "weight": 0, "boss": true, "lord": "firmamento", "no_trophy": true, "glow": true, "body": {"plan": "fluttuante", "w": 60, "h": 30, "pal": ["#101430", "#1c2450", "#2e3a78", "#6a78c0", "#f0f0ff"], "eye": "#fff0a0", "marks": "macchie", "mark": "#fffbe0", "glow": true}, "affinity": {"weak": ["vuoto"], "resist": ["luce"]}, "fly": true},
+		"signore_selve_pensili": {"name": "Serpente delle mille liane", "hp": 1200, "damage": 32, "defense": 10, "knock": 0.9, "half": [23, 8], "speed": 85, "behaviors": ["vola", "scatto"], "fury": ["richiamo", "evoca"], "p": {"sight": 30, "hover": 50.0, "wobble": 35.0, "dash_every": 2.4, "dash_speed": 330.0, "dash_time": 0.45, "call_time": 1.2, "call_n": 3, "calls": 3, "summon_every": 6.0, "summon_max": 4, "phase2": 0.5, "summon": "serpe_liane"}, "loot": "signore_selve_pensili", "art": ["signore_selve_pensili", 0], "strata": [], "weight": 0, "boss": true, "lord": "selve_pensili", "no_trophy": true, "glow": false, "body": {"plan": "serpe", "w": 58, "h": 24, "pal": ["#0e2a1a", "#1a4a2c", "#2a7a44", "#5ab070", "#c8f0a0"], "eye": "#ffd060", "marks": "strisce", "mark": "#ffd060"}, "affinity": {"weak": ["gelo"], "resist": ["linfa"]}, "fly": true},
+		"signore_fonti_sospese": {"name": "Airone madre delle fonti", "hp": 1200, "damage": 32, "defense": 10, "knock": 0.9, "half": [19, 16], "speed": 85, "behaviors": ["vola", "picchiata"], "fury": ["bombarda", "richiamo"], "p": {"sight": 32, "hover": 90.0, "wobble": 20.0, "rise": 8, "dive_speed": 360.0, "dive_every": 3.6, "rate": 2.4, "call_time": 1.2, "call_n": 2, "calls": 3, "phase2": 0.5, "summon": "airone_fonti"}, "loot": "signore_fonti_sospese", "art": ["signore_fonti_sospese", 0], "strata": [], "weight": 0, "boss": true, "lord": "fonti_sospese", "no_trophy": true, "glow": false, "body": {"plan": "uccello", "w": 50, "h": 40, "pal": ["#2a3a48", "#4a6478", "#7a9ab0", "#c0dcec", "#ffffff"], "eye": "#ffd060", "wings": "#7a9ab0", "marks": "macchie", "mark": "#ffffff"}, "affinity": {"weak": ["brace"], "resist": ["gelo"]}, "fly": true},
 	},
 	"loot": {
 		"signore_foresta": [{"item": "palco_lanterna", "min": 3, "max": 5, "chance": 1.0}, {"item": "corona_lanterna", "min": 1, "max": 1, "chance": 1.0}],
@@ -67,6 +69,8 @@ const DATA := {
 		"signore_scogliere_cristallo": [{"item": "scaglia_drago_cristallo", "min": 3, "max": 5, "chance": 1.0}, {"item": "corno_cristallo", "min": 1, "max": 1, "chance": 1.0}],
 		"signore_nidi_tempesta": [{"item": "nucleo_tuono", "min": 3, "max": 5, "chance": 1.0}, {"item": "corona_tuono", "min": 1, "max": 1, "chance": 1.0}],
 		"signore_firmamento": [{"item": "lacrima_stelle", "min": 3, "max": 5, "chance": 1.0}, {"item": "canto_madre", "min": 1, "max": 1, "chance": 1.0}],
+		"signore_selve_pensili": [{"item": "linfa_liane", "min": 3, "max": 5, "chance": 1.0}, {"item": "corona_liane", "min": 1, "max": 1, "chance": 1.0}],
+		"signore_fonti_sospese": [{"item": "perla_fonti", "min": 3, "max": 5, "chance": 1.0}, {"item": "piuma_madre_fonti", "min": 1, "max": 1, "chance": 1.0}],
 	},
 	"items": {
 		"palco_lanterna": {"name": "Palco-lanterna", "kind": "materiale", "icon": ["artiglio", "lucciola"], "desc": "Lo lascia solo il Cervo-lanterna antico: non c'è altro posto dove trovarlo."},
@@ -189,6 +193,14 @@ const DATA := {
 		"canto_madre": {"name": "Canto della balena madre", "kind": "trofeo", "icon": ["essenza", "stelle"], "desc": "Il trofeo del Balena madre delle stelle: esposto in una sala dei trofei, rende più forti contro la sua famiglia."},
 		"mantello_firmamento": {"name": "Mantello del Firmamento", "kind": "accessorio", "icon": ["mantello", "stelle"], "stack": 1, "acc": {"quota": 1.0, "magic": 1.1}, "desc": "L'aria sottile non ti tocca; incantesimi +10%."},
 		"esca_signore_firmamento": {"name": "Esca rituale del Balena madre delle stelle", "kind": "esca_signore", "icon": ["seme", "stelle"], "stack": 5, "lord": "signore_firmamento", "desc": "Usala nel suo luogo e il Balena madre delle stelle viene a cercarti."},
+		"linfa_liane": {"name": "Linfa delle mille liane", "kind": "materiale", "icon": ["goccia", "muschio"], "desc": "Lo lascia solo il Serpente delle mille liane: non c'è altro posto dove trovarlo."},
+		"corona_liane": {"name": "Corona di liane", "kind": "trofeo", "icon": ["corona", "muschio"], "desc": "Il trofeo del Serpente delle mille liane: esposto in una sala dei trofei, rende più forti contro la sua famiglia."},
+		"fascia_re_liane": {"name": "Fascia del re delle liane", "kind": "accessorio", "icon": ["benda", "muschio"], "stack": 1, "acc": {"jump": 1.12, "regen": 1.12}, "desc": "Salto +12%; la Vita ricresce +12%."},
+		"esca_signore_selve_pensili": {"name": "Esca rituale del Serpente delle mille liane", "kind": "esca_signore", "icon": ["seme", "muschio"], "stack": 5, "lord": "signore_selve_pensili", "desc": "Usala nel suo luogo e il Serpente delle mille liane viene a cercarti."},
+		"perla_fonti": {"name": "Perla delle fonti", "kind": "materiale", "icon": ["gemma", "lagunite"], "desc": "Lo lascia solo il Airone madre delle fonti: non c'è altro posto dove trovarlo."},
+		"piuma_madre_fonti": {"name": "Piuma della madre delle fonti", "kind": "trofeo", "icon": ["penna", "lagunite"], "desc": "Il trofeo del Airone madre delle fonti: esposto in una sala dei trofei, rende più forti contro la sua famiglia."},
+		"mantello_fonti": {"name": "Mantello delle fonti", "kind": "accessorio", "icon": ["mantello", "lagunite"], "stack": 1, "acc": {"respiro": 2.0, "glide": true, "linfa_regen": 1.15}, "desc": "Respiro sott'acqua doppio; si plana; Linfa +15%."},
+		"esca_signore_fonti_sospese": {"name": "Esca rituale del Airone madre delle fonti", "kind": "esca_signore", "icon": ["seme", "lagunite"], "stack": 5, "lord": "signore_fonti_sospese", "desc": "Usala nel suo luogo e il Airone madre delle fonti viene a cercarti."},
 	},
 	"recipes": [
 		{"out": "lanterna_signore", "qty": 1, "in": {"palco_lanterna": 6, "corona_lanterna": 1, "lingotto_ambra": 3}, "station": "maglio"},
@@ -251,6 +263,10 @@ const DATA := {
 		{"out": "esca_signore_nidi_tempesta", "qty": 1, "in": {"scintilla_tuono": 4, "folgorite": 3, "lingotto_ambra": 2}, "station": "altare"},
 		{"out": "mantello_firmamento", "qty": 1, "in": {"lacrima_stelle": 6, "canto_madre": 1, "lingotto_ambra": 3}, "station": "maglio"},
 		{"out": "esca_signore_firmamento", "qty": 1, "in": {"ambra_stelle": 4, "polvere_stelle": 10, "lingotto_ambra": 2}, "station": "altare"},
+		{"out": "fascia_re_liane", "qty": 1, "in": {"linfa_liane": 6, "corona_liane": 1, "lingotto_ambra": 3}, "station": "maglio"},
+		{"out": "esca_signore_selve_pensili", "qty": 1, "in": {"muta_serpe_liane": 4, "pelo_saltaliane": 3, "lingotto_ambra": 2}, "station": "altare"},
+		{"out": "mantello_fonti", "qty": 1, "in": {"perla_fonti": 6, "piuma_madre_fonti": 1, "lingotto_ambra": 3}, "station": "maglio"},
+		{"out": "esca_signore_fonti_sospese", "qty": 1, "in": {"piuma_airone_fonti": 4, "pelle_salamandra": 3, "lingotto_ambra": 2}, "station": "altare"},
 	],
 	"lords": {
 		"foresta": {"creature": "signore_foresta", "where": {"biomes": ["foresta"]}, "bait": "esca_signore_foresta"},
@@ -283,5 +299,7 @@ const DATA := {
 		"scogliere_cristallo": {"creature": "signore_scogliere_cristallo", "where": {"sky": "scogliere_cristallo"}, "bait": "esca_signore_scogliere_cristallo"},
 		"nidi_tempesta": {"creature": "signore_nidi_tempesta", "where": {"sky": "nidi_tempesta"}, "bait": "esca_signore_nidi_tempesta"},
 		"firmamento": {"creature": "signore_firmamento", "where": {"sky": "firmamento"}, "bait": "esca_signore_firmamento"},
+		"selve_pensili": {"creature": "signore_selve_pensili", "where": {"sky": "selve_pensili"}, "bait": "esca_signore_selve_pensili"},
+		"fonti_sospese": {"creature": "signore_fonti_sospese", "where": {"sky": "fonti_sospese"}, "bait": "esca_signore_fonti_sospese"},
 	},
 }

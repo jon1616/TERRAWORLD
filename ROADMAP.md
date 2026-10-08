@@ -6131,6 +6131,14 @@ solide (isole di 15-30 colonne), la varietà fra due Semi è sotto il rumore (0,
   roccia o una stazione si ferma. Enciclopedia aggiornata. Gruppi «base», «cielo» (Fagiolo 20 passerelle), «gravita»
   senza avvisi. Le cascate vere non ci sono ancora: i liquidi si muovono solo vicino al Germogliato e un getto nel vuoto si
   svuoterebbe (da pensare con `LiquidView`, che le cascate le riconosce già).
-- [ ] **445. I luoghi del cielo.** Templi, osservatori, nidi dei Signori, la firma del mondo.
+- [x] **445. I luoghi del cielo.** Templi, osservatori, nidi dei Signori, la firma del mondo.
+  Fatto l'8 ott 2026: su ogni continente, al centro della cima, un **luogo dei Seminatori** fatto con un progetto di
+  `ProjectsData` secondo il bioma (`SkyData.SANCTUARY`: la serra a cupola nelle Selve pensili, il pozzo delle fonti nelle
+  Fonti sospese, il faro sulle Scogliere, la torre di vedetta altrove), con uno scrigno del cielo e una stele (appunti
+  "luoghi_cielo"). I **Signori** dei due biomi nuovi (`tools/gen_signori.py`): il Serpente delle mille liane e l'Airone
+  madre delle fonti, con le loro esche, trofei e accessori (32 Signori). Le strutture del cielo (`PassStrutture`) trovano
+  anche la fascia di mezzo (prima le strutture dei biomi medi non nascevano mai). Le meraviglie del cielo nell'Atlante
+  restano da fare (`WondersData`, `WonderShapes`). Gruppi «base», «cielo», «lingua», «ritrovamenti», «vivo» senza
+  avvisi.
 - [ ] **446. La vita e la luce del cielo.** Creature e pericolo per fascia, sfondo che cambia salendo.
 - [ ] **447. La misura del cielo.** Terra per fascia, raggiungibilità, mappe prima e dopo, resoconto.
