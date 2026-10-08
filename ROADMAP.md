@@ -6188,7 +6188,13 @@ Fondo, strati a fasce, biomi del sottosuolo solo con un gene.
   cristallo); 2-4 voragini larghe 8-16 dal Sottobosco giù per 240-420 righe, con le cenge alterne ogni 14 righe. Lontane
   dalla partenza, `claim`, appunti "caverne" e "voragini". Gruppi «base», «grotte», «ecologia», «acqua», «liquidi»
   senza avvisi.
-- [ ] **450. Le regioni sotterranee.** I biomi del sottosuolo come regioni grandi in ogni mondo.
+- [x] **450. Le regioni sotterranee.** I biomi del sottosuolo come regioni grandi in ogni mondo.
+  Fatto l'8 ott 2026: ogni mondo ha almeno tre **regioni sotterranee** (`PassSottosuolo._regions`: prima i biomi dei geni,
+  poi a caso fra tutti tranne il Cuore cavo), una striscia di 200-500 colonne nel loro strato con i luoghi fitti (2,5
+  volte la densità del gene); i geni del sottosuolo continuano a spargere il loro bioma in tutto il mondo. Appunti
+  "regioni"; `tools/mappe.gd` conta anche i pavimenti 40-43. Trovati e riparati: lo scrigno antico delle catacombe metà
+  dentro il pavimento (vuoto, lo liberava il collaudatore), una caverna del Fondo dove nasce il Cuore, la prova delle
+  creature in fila che usciva dal mondo con le specie nuove. Gruppi «base», «grotte», «biomi_nuovi», «ecologia», «geni».
 - [ ] **451. Confini vivi.** Lingue e sacche fra gli strati.
 - [ ] **452. Le acque profonde.** Laghi sotterranei grandi, falde.
 - [ ] **453. Le strade del sottosuolo.** Una via garantita fino al Fondo.

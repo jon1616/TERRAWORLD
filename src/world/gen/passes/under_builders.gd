@@ -156,7 +156,7 @@ static func _catacombe(p: PassSottosuolo, w: World, c: GenContext, u: Dictionary
 			w.set_tile(xx, cy0 + 4 if up else cy0, TileDefs.AIR)
 		x += c.rng.randi_range(10, 16)
 	# uno scrigno antico in fondo alla galleria, con il bottino del profondo
-	var o := Vector2i(x0 + length - 4, ctr.y + 1)
+	var o := Vector2i(x0 + length - 4, ctr.y)            # alto 2: sulle righe ctr e ctr+1, il pavimento sotto (voce 450)
 	if w.inside(o.x, o.y) and not w.stations.has(o):
 		w.stations[o] = "scrigno_antico"
 		var chest := w.chest_at(o)

@@ -110,6 +110,7 @@ func run() -> void:
 	var dx := -8
 	for id in CreaturesData.CREATURES:
 		var cell := spot + Vector2i(dx, 0)
+		cell.x = 4 + posmod(cell.x - 4, world.w - 8)        # tante creature: la fila ricomincia dall'altro lato del mondo
 		var pos := _feet(Vector2i(cell.x, world.surface[cell.x] - 1), id)
 		if CreaturesData.CREATURES[id].get("fly", false):
 			pos.y -= 20

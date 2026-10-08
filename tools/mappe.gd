@@ -144,7 +144,8 @@ func _fingerprint(w: World) -> Array:
 	var cells := [0.0, 0.0, 0.0, 0.0, 0.0]
 	var ores := {TileDefs.RADICITE: 0.0, TileDefs.LEGNOFERRO: 0.0, TileDefs.AMBRA: 0.0, TileDefs.PALLIDITE: 0.0,
 		TileDefs.TIZZONITE: 0.0, TileDefs.CRYSTAL: 0.0}
-	var feat := {TileDefs.GRASS_SPORE: 0.0, TileDefs.GRASS_BRINA: 0.0, TileDefs.GRASS_CENERE: 0.0, TileDefs.RADICE: 0.0}
+	var feat := {TileDefs.GRASS_SPORE: 0.0, TileDefs.GRASS_BRINA: 0.0, TileDefs.GRASS_CENERE: 0.0, TileDefs.RADICE: 0.0,
+		40: 0.0, 41: 0.0, 42: 0.0, 43: 0.0}                # voce 450: i pavimenti dei biomi del sottosuolo scritti come file
 	for y in range(0, w.h, 2):
 		for x in range(0, w.w, 2):
 			var dep := y - w.surface[x]

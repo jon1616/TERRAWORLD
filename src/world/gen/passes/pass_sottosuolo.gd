@@ -9,11 +9,19 @@ extends GenPass
 ## - **laghi di Linfa**: caverne larghe nel profondo con un lago di cristallo di Linfa rappreso sul fondo;
 ## - **cuore cavo** (voce 48): una caverna immensa nel Fondo, pavimento di cristallo e schegge del Vuoto.
 ## Viene prima delle Decorazioni, che vestono da sole i pavimenti di spore, brina e cenere (vedi `PassDecorazioni`).
+## Voce 450 (Roadmap 57): ogni mondo ha anche almeno `REGIONS` **regioni sotterranee**, una striscia di 200-500 colonne nello
+## strato del bioma dove i suoi luoghi sono fitti (`_column` sceglie dentro `region`): sulla mappa si vedono, e senza geni
+## il sottosuolo non è più tutto uguale. Appunti "regioni" [{id, x0, x1, strato}].
 
 const SPAWN_FREE := 80                 # colonne libere attorno alla partenza
 const NONE := Vector2i(-1, -1)
 
 var _rect := Rect2i()                  # voce 440: lo spazio scavato dall'ultimo luogo (per il `claim`)
+var region := Vector2i(-1, -1)          # voce 450: le colonne della regione in costruzione (-1 = tutto il mondo)
+
+const REGIONS := 3
+const REGION_W := [200, 500]
+const REGION_DENSITY := 2.5             # i luoghi di una regione: questo × la densità che il gene dà a tutto il mondo
 
 
 func title() -> String:
@@ -30,7 +38,55 @@ func run(w: World, c: GenContext) -> void:
 			var build := Callable(self, bname) if has_method(bname) else \
 				func(w2: World, c2: GenContext) -> Vector2i: return UnderBuilders.build(bname, self, w2, c2, u)   # voce 94
 			made[f] = _many(w, c, int(u["count"]), build, f)
+	_regions(w, c, made)
 	c.notes["sottosuolo"] = made
+
+
+## Voce 450: le regioni sotterranee: almeno `REGIONS` biomi del sottosuolo (prima quelli dei geni), ognuno in una striscia
+## del suo strato che non tocca le altre dello stesso strato.
+func _regions(w: World, c: GenContext, made: Dictionary) -> void:
+	var picked: Array = []
+	for f in c.genes().get("under", []):
+		if UnderBiomesData.UNDER.has(String(f)) and not String(f) in picked and String(f) != "cuore_cavo":
+			picked.append(String(f))
+	var pool: Array = UnderBiomesData.UNDER.keys().filter(func(k: Variant) -> bool: return String(k) != "cuore_cavo")
+	pool.sort()
+	while picked.size() < REGIONS and picked.size() < pool.size():
+		var k := String(pool[c.rng.randi_range(0, pool.size() - 1)])
+		if not k in picked:
+			picked.append(k)
+	var spans := {}
+	var out := []
+	for f in picked:
+		var u: Dictionary = UnderBiomesData.UNDER[f]
+		var st := int(u["stratum"])
+		var span := c.rng.randi_range(REGION_W[0], REGION_W[1])
+		var x0 := -1
+		for tries in 30:
+			var cand := c.rng.randi_range(40, w.w - span - 40)
+			if absi(cand + span / 2 - w.spawn.x) < SPAWN_FREE + span / 2:
+				continue
+			var ok := true
+			for s in spans.get(st, []):
+				if cand < int(s[1]) + 40 and cand + span > int(s[0]) - 40:
+					ok = false
+			if ok:
+				x0 = cand
+				break
+		if x0 < 0:
+			continue
+		if not spans.has(st):
+			spans[st] = []
+		(spans[st] as Array).append([x0, x0 + span])
+		region = Vector2i(x0, x0 + span)
+		var bname := String(u["build"])
+		var build := Callable(self, bname) if has_method(bname) else \
+			func(w2: World, c2: GenContext) -> Vector2i: return UnderBuilders.build(bname, self, w2, c2, u)
+		var n := maxi(3, int(roundf(float(u["count"]) * REGION_DENSITY * span / float(w.w))))
+		made[f + "_regione"] = _many(w, c, n, build, f + "_regione")
+		out.append({"id": f, "x0": x0, "x1": x0 + span, "strato": st})
+	region = Vector2i(-1, -1)
+	c.notes["regioni"] = out
 
 
 ## Prova a costruire n volte un luogo; restituisce quanti ne sono riusciti. Il centro di ognuno finisce negli appunti
@@ -55,6 +111,8 @@ func _many(w: World, c: GenContext, n: int, build: Callable, what: String) -> in
 func _column(w: World, c: GenContext, margin: int) -> int:
 	for k in 30:
 		var x := c.rng.randi_range(margin, w.w - margin - 1)
+		if region.x >= 0:
+			x = c.rng.randi_range(region.x + mini(margin / 3, 40), maxi(region.y - mini(margin / 3, 40), region.x + 1))
 		if absi(x - w.spawn.x) > SPAWN_FREE:
 			return x
 	return -1

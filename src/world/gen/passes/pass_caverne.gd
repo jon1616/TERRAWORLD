@@ -40,6 +40,8 @@ func _cavern(w: World, c: GenContext, st: int) -> void:
 		var x0 := c.rng.randi_range(20, w.w - cw - 20)
 		if absi(x0 + cw / 2 - w.spawn.x) < SPAWN_FREE:
 			continue
+		if st >= 4 and absi(x0 + cw / 2 - w.spawn.x) < 780:
+			continue                                     # nel Fondo, 350-650 colonne dalla partenza, nasce il Cuore (`PassCuore`)
 		var t0 := StrataData.top(st) + 10
 		var t1 := (StrataData.top(st + 1) if st + 1 < StrataData.STRATA.size() else t0 + 150) - ch - 6
 		var y0 := int(w.surface[x0 + cw / 2]) + c.rng.randi_range(t0, maxi(t1, t0 + 1))
