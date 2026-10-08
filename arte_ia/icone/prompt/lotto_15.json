@@ -1,0 +1,18 @@
+{
+ "lotto": "lotto_15",
+ "grid": "4x3",
+ "shapes": [
+  "totem_germoglio",
+  "totem_quiete",
+  "totem_purezza",
+  "totem_riposo",
+  "totem_guardia",
+  "totem_saccheggio",
+  "totem_fortuna",
+  "totem_stirpi",
+  "totem_luce",
+  "totem_rifugio",
+  "scrigno_sigillato",
+  "tenda"
+ ]
+}

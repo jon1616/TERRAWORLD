@@ -516,5 +516,53 @@
 	"trappola_tramoggia": {
 		"en": "collection hopper",
 		"desc": "a funnel-shaped hopper [GREY] seen at a 3/4 angle, wide open top narrowing to a spout, standing on short legs, a few dropped items (a leaf and a pebble) falling in"
+	},
+	"totem_germoglio": {
+		"en": "sprout totem",
+		"desc": "a small carved totem pole [GREY] standing on a little base, topped by a big curled SPROUT with two fresh leaves (leaf green), little green growth sparkles around it"
+	},
+	"totem_quiete": {
+		"en": "totem of quiet",
+		"desc": "a small carved totem pole [GREY] standing on a little base, with a calm closed-eyed carved face and a soft turquoise sap glow (#5ff0e0) around its top like a hush"
+	},
+	"totem_purezza": {
+		"en": "pure root totem",
+		"desc": "a small carved totem pole [GREY] standing on a little base, made of clean straight roots bound together, topped by a pure white glowing seed with a small protective ring of light"
+	},
+	"totem_riposo": {
+		"en": "banner of rest",
+		"desc": "a tall narrow cloth banner [GREY] hanging from a crossbar on a pole [GREY], the banner embroidered with a HEART-shaped leaf symbol, soft and peaceful"
+	},
+	"totem_guardia": {
+		"en": "guard banner",
+		"desc": "a tall narrow cloth banner [GREY] hanging from a crossbar on a pole [GREY], the banner pointed at the bottom and embroidered with a crossed SWORD-and-SHIELD symbol, war-like"
+	},
+	"totem_saccheggio": {
+		"en": "plunder banner",
+		"desc": "a tall narrow cloth banner [GREY] hanging from a crossbar on a pole [GREY], the banner ragged and torn at the bottom, embroidered with a SACK OF COINS symbol, a couple of coins (amber) at its foot"
+	},
+	"totem_fortuna": {
+		"en": "shrine of luck",
+		"desc": "a small stepped stone shrine [GREY] with a glowing four-leaf clover (leaf green) and a gold coin (amber) placed on top as an offering"
+	},
+	"totem_stirpi": {
+		"en": "altar of bloodlines",
+		"desc": "a small dark stone altar [GREY] with a carved creature skull on the front and a glowing purple-blue gem (#6a70ff) on top, a little ominous"
+	},
+	"totem_luce": {
+		"en": "lantern totem",
+		"desc": "a tall post [GREY] carrying a big bright lantern at the top, glowing strong warm light (amber) with rays"
+	},
+	"totem_rifugio": {
+		"en": "traveller's refuge",
+		"desc": "a small wayside shelter: a tiny peaked roof [GREY] on two posts sheltering a warm little lantern (amber), a cozy refuge sign"
+	},
+	"scrigno_sigillato": {
+		"en": "sealed chest",
+		"desc": "a treasure chest [GREY] wrapped tightly with crossing CHAINS [GREY] and a big round glowing SEAL / padlock with a rune on its front (turquoise sap glow #5ff0e0)"
+	},
+	"tenda": {
+		"en": "camping tent",
+		"desc": "a small A-frame camping tent [GREY] seen at a 3/4 angle with the front flap tied open, held by a root-wood pole (plum wood) and two pegs"
 	}
 }
