@@ -5,6 +5,8 @@ extends GenPass
 ## ondeggia, e dove due strati si toccano le rocce si mescolano un poco.
 
 
+const LOBE := 40                       # voce 451: la fascia dei confini vivi, in righe
+
 func title() -> String:
 	return "Strati"
 
@@ -23,6 +25,8 @@ func run(w: World, c: GenContext) -> void:
 		wall.append(int(st["wall"]))
 	var tops := c.strata_tops()
 	var last := strata.size() - 1
+	var n_lobe := c.noise("lingue_strati", 0.018, 2)
+	var n_colm := c.noise("colonne_strati", 0.012, 1)
 	var off := c.strata_off(w)
 	var ww := w.w
 	var surf := w.surface
@@ -48,9 +52,14 @@ func run(w: World, c: GenContext) -> void:
 				var k := last
 				while k > 0 and d < tops[k]:
 					k -= 1
-				# confini sfrangiati tra gli strati (il rumore serve solo vicino a un confine)
-				if (k > 0 and d - tops[k] < 9) or (k < last and tops[k + 1] - d < 9):
+				# confini sfrangiati tra gli strati (il rumore serve solo vicino a un confine). Voce 451: dalle Caverne in giù
+				# la fascia di confine è larga `LOBE` righe, con lingue e sacche (un rumore lento in 2D) e, qua e là, colonne
+				# della roccia di sotto che salgono (`n_colm`): cambia la roccia, non lo strato del gioco.
+				var near := LOBE if k >= 2 or (k + 1 <= last and k + 1 >= 2 and tops[k + 1] - d < LOBE) else 9
+				if (k > 0 and d - tops[k] < near) or (k < last and tops[k + 1] - d < near):
 					d += int(n_mix.get_noise_2d(x, y) * 8.0)
+					if near == LOBE:
+						d += int(n_lobe.get_noise_2d(x, y * 1.6) * 30.0) + int(maxf(n_colm.get_noise_1d(x) - 0.35, 0.0) * 110.0)
 					k = last
 					while k > 0 and d < tops[k]:
 						k -= 1

@@ -6195,7 +6195,12 @@ Fondo, strati a fasce, biomi del sottosuolo solo con un gene.
   "regioni"; `tools/mappe.gd` conta anche i pavimenti 40-43. Trovati e riparati: lo scrigno antico delle catacombe metà
   dentro il pavimento (vuoto, lo liberava il collaudatore), una caverna del Fondo dove nasce il Cuore, la prova delle
   creature in fila che usciva dal mondo con le specie nuove. Gruppi «base», «grotte», «biomi_nuovi», «ecologia», «geni».
-- [ ] **451. Confini vivi.** Lingue e sacche fra gli strati.
+- [x] **451. Confini vivi.** Lingue e sacche fra gli strati.
+  Fatto l'8 ott 2026: in `PassStrati`, dalle Caverne in giù, la fascia di confine è larga 40 righe (`LOBE`) con lingue e
+  sacche (un rumore lento in 2D, ±30 righe) e colonne della roccia di sotto che salgono (fino a 70 righe): sulla mappa i
+  confini non sono più linee ondulate. Cambia la roccia (e quindi dove stanno i minerali), non lo strato del gioco: il
+  pericolo e la scritta degli strati restano quelli di prima, senza sfarfallio. Strati 0,5 s (prima 0,26). Gruppi «base»,
+  «grotte», «terre» senza avvisi.
 - [ ] **452. Le acque profonde.** Laghi sotterranei grandi, falde.
 - [ ] **453. Le strade del sottosuolo.** Una via garantita fino al Fondo.
 - [ ] **454. La misura del sottosuolo.** Mappe prima e dopo, resoconto.
