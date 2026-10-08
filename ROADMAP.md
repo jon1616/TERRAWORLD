@@ -6361,7 +6361,14 @@ prove/volto_r60_prima.
   42 restano 0-2 pareti senza, sul bordo dei mari), gli **archi** sotto le creste (uno quasi in ogni mondo, in cima ai
   massicci), le **sporgenze** in cima alle pareti di 7+ righe (5-14 per mondo). La prova dei pavimenti cerca più lontano e,
   se non trova un tratto piano, lo spiana senza allarme.
-- [ ] **466. I punti di riferimento.**
+- [x] **466. I punti di riferimento.** Cose che si vedono da lontano, almeno una per bioma, segnate sulla mappa.
+  Fatto il 9 ott 2026: `PassRiferimenti` (dopo le Rocce): in ogni tratto di bioma di 120+ colonne fuori dai mari e dalla
+  partenza, sul punto più alto con il posto libero (fino a dodici tentativi), una **guglia** della roccia del bioma (con
+  la liana), una **rovina sul colle** (colonne di pietra dei Seminatori, architrave spezzato, uno scrigno) o un **cerchio
+  di pietre**. Sono punti di riferimento anche i massicci, gli archi e la traccia del passato (`PassTracce` aggiunge la
+  sua). Appunti «riferimenti» → `world_meta["riferimenti"]` (li copia `MapReveal` la prima volta) → la mappa li segna
+  con il loro nome una volta visti (`MARK["riferimento"]`). Semi 7 e 13: 12 e 10 biomi con il loro riferimento (gli
+  altri sono la foresta della partenza o tratti più corti).
 - [ ] **467. Gli ingressi.**
 - [ ] **468. Le acque di superficie.**
 - [ ] **469. La misura della superficie.**

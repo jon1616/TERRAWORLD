@@ -39,6 +39,7 @@ static func passes() -> Array[GenPass]:
 		PassDecorazioni.new(),
 		PassLiane.new(),                    # Roadmap 52, voce 415: le liane che pendono nel Sottobosco
 		PassRocce.new(),                    # voce 465: archi, sporgenze e le liane sulle pareti (dopo le Decorazioni)
+		PassRiferimenti.new(),              # voce 466: guglie, rovine sul colle, cerchi di pietre
 		PassAvvizzimento.new(),
 		PassCuore.new(),
 		PassNero.new(),

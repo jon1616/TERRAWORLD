@@ -49,6 +49,9 @@ func setup(main: Node2D) -> void:
 		_wall_col[BuildData.WALL_BASE + mi] = Px.sh(Color(String(pal[2])), 0.6)
 		_build_col[mi] = Color(String(pal[3]))
 	image = Image.create_empty(world.w, world.h, false, Image.FORMAT_RGB8)
+	# voce 466: i punti di riferimento del generatore, una volta per mondo (poi si salvano con il mondo)
+	if not m.world_meta.has("riferimenti") and world.gen_notes.has("riferimenti"):
+		m.world_meta["riferimenti"] = (world.gen_notes["riferimenti"] as Array).duplicate(true)
 	_task = WorkerThreadPool.add_task(_build, false, "mappa")
 
 

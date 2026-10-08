@@ -42,6 +42,10 @@ func run(w: World, c: GenContext) -> void:
 			"cratere":
 				done = _crater(w, c, x)
 		if done:
+			# voce 466: la traccia è anche un punto di riferimento sulla mappa
+			var t: Dictionary = c.notes["traccia"]
+			(c.notes.get("riferimenti", []) as Array).append([int(t["x"]), int(t["y"]) - 2, {"radice": "La radice cosmica",
+				"citta": "La città sepolta", "cratere": "Il cratere della stella"}[kind]])
 			return
 
 

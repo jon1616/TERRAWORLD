@@ -10,7 +10,7 @@ const ZOOMS := [0.5, 1.0, 2.0, 4.0, 8.0]
 const MARK := {"player": Color("#ffb84a"), "spawn": Color("#8ef0d8"), "cuore": Color("#ff7a8a"),
 	"portale": Color("#6ff0d8"), "scrigno": Color("#e8fff8"), "fagotto": Color("#ff5a4a"),
 	"reliquiario": Color("#ffd24a"), "tana": Color("#c060ff"), "altare": Color("#5cc8cc"), "firma": Color("#fff08a"),
-	"radice": Color("#72f0d0"), "incontro": Color("#f0c070")}
+	"radice": Color("#72f0d0"), "incontro": Color("#f0c070"), "riferimento": Color("#e0d0a8")}   # voce 466
 
 var m: Node2D
 var reveal: MapReveal
@@ -264,6 +264,13 @@ func _draw() -> void:
 	if m.signature != null and m.signature.found():
 		_mark(Vector2(m.signature.center()), MARK["firma"], 9.0)
 		_hit(Vector2(m.signature.center()), "La firma del mondo", 9.0)
+	# voce 466: i punti di riferimento, una volta visti
+	for rf in m.world_meta.get("riferimenti", []):
+		var rx := int(rf[0])
+		var ry := int(rf[1])
+		if w.inside(rx, ry) and w.explored[ry * w.w + rx] != 0:
+			_mark(Vector2(rx, ry), MARK["riferimento"], 6.0)
+			_hit(Vector2(rx, ry), String(rf[2]), 7.0)
 	# i segni delle stele e delle catene (voce 68): si vedono anche dove la mappa è ancora nera, con il nome
 	for sg in m.world_meta.get("segni", []):
 		var sc := to_screen(Vector2(float(sg[0]), float(sg[1])))
