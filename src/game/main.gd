@@ -256,6 +256,7 @@ func _build() -> void:
 	hud.map = mp
 	erbario = _mount(Erbario.new())
 	hud.panel.examine.sheet = func() -> String: return CharacterSheet.bbcode(self)
+	hud.panel.card.parts = func() -> Dictionary: return CharacterSheet.parts(self)        # (Roadmap 55)
 	hud.panel.crafting.luck = func() -> float: return fauna.luck + fauna.boon_luck
 	var ep := ErbarioPanel.new()
 	hud.add_child(ep)

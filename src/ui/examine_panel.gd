@@ -54,7 +54,7 @@ func setup(p: BisacciaPanel, c: CraftingPanel) -> void:
 	add_child(frame)
 	var title := _label(self, Vector2(18, 10), 22, AMBER)
 	title.text = "Esamina"
-	UiFonts.apply(title, 3)
+	UiFonts.set_role(title, "titolo", 26, AMBER)
 	title.position.y = 12
 	_slot = SlotView.new()
 	_slot.position = Vector2(size.x - 18 - SlotView.SIZE, 10)

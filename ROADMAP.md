@@ -6030,7 +6030,11 @@ nel titolo e i comandi in una riga grigia minuscola.
   in Alegreya «da libro» (`UiFonts` ruolo «libro», `UiKit.book`), con la riga sotto il titolo e il tasto disegnato;
   l'Enciclopedia con il gruppo in maiuscoletto, il grassetto vero e il testo arioso. Gli avvisi, a pannello aperto,
   stanno sulla fascia del piede (in alto a destra coprivano i numeri chiave).
-- [ ] **435. Il lavoro.** Bisaccia, Creare, Esamina, casse, commercio, macchine, la scheda del Germogliato.
+- [x] **435. Il lavoro.** Bisaccia, Creare, Esamina, casse, commercio, macchine, la scheda del Germogliato.
+  Fatto l'8 ott 2026: i titoli di Creare, Esamina e Bisaccia in Alegreya alla misura dei loro riquadri (prima si
+  sovrapponevano a ciò che sta sotto); la scheda del Germogliato a pezzi (`CharacterSheet.parts`: Vita, Linfa e Scorza in
+  etichette, gli effetti in colonna, set e firma, i doni in fondo). Con un pannello a schermo intero aperto la barra
+  rapida si nasconde (era coperta, e l'avviso le finiva sopra). Galleria: 0 problemi d'impaginazione.
 - [ ] **436. Le porte.** Pausa, Opzioni, Mappa, il menu principale e la creazione.
 - [ ] **437. Sopra il mondo.** Vita e Linfa, barra rapida, filo, obiettivi, avvisi, consigli, insegne degli strati,
   barra dei Guardiani, i numeri nel mondo; gli avvisi non coprono più i pannelli aperti.

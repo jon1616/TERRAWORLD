@@ -13,8 +13,8 @@ static func build(p: CraftingPanel) -> void:
 	p.add_child(frame)
 	var title := _label(p, Vector2(20, 10), 24, CraftingPanel.AMBER)
 	title.text = "Creare"
-	UiFonts.apply(title, 3)
-	title.position.y = 12
+	UiFonts.set_role(title, "titolo", 25, CraftingPanel.AMBER)
+	title.position.y = 8
 	p._count = _label(p, Vector2(p.size.x - 330, 18), 14, CraftingPanel.TEXT)
 	p._count.size = Vector2(310, 20)
 	p._count.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT

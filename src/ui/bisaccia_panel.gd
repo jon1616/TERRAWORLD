@@ -78,10 +78,7 @@ func _ready() -> void:
 	var title := Label.new()
 	title.text = "Bisaccia"
 	title.position = Vector2(x0, y0 - 38)
-	UiFonts.apply(title, 3)                  # (Roadmap 55) il titolo in Alegreya
-	title.add_theme_color_override("font_color", Color("#ffb84a"))
-	title.add_theme_color_override("font_outline_color", Color(0.02, 0.05, 0.07))
-	title.add_theme_constant_override("outline_size", 6)
+	UiFonts.set_role(title, "titolo", 26, Color("#ffb84a"))      # (Roadmap 55) il titolo in Alegreya
 	add_child(title)
 	# le schede: con gli scomparti (Roadmap 53) in colonna a destra della cornice; senza, accanto al titolo
 	if bisaccia != null and not bisaccia.sections.is_empty():

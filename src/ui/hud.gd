@@ -149,7 +149,7 @@ func _place_toast() -> void:
 			mode = 2
 	if mode != _toast_mode:
 		_toast_mode = mode
-		var max_w := 900.0 if mode == 0 else (360.0 if mode == 1 else 560.0)
+		var max_w := 900.0 if mode == 0 else (360.0 if mode == 1 else 1100.0)
 		var f := _toast.get_theme_font("font")
 		var wide := f.get_string_size(_toast.text, HORIZONTAL_ALIGNMENT_LEFT, -1, UiPalette.GRANDE).x > max_w
 		_toast.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART if wide else TextServer.AUTOWRAP_OFF
@@ -168,6 +168,8 @@ func _place_toast() -> void:
 		# il testo che va a capo cresce un fotogramma dopo la misura: l'avviso resta appoggiato al fondo della colonna
 		var bottom := panel.examine.get_global_rect().end.y - 20.0
 		_toast_at.y = bottom - _toast_box.size.y
+	elif mode == 2:
+		_toast_at = Vector2(roundf((1600.0 - _toast_box.size.x) * 0.5), 897.0 - _toast_box.size.y)
 	_toast_box.position = _toast_at + Vector2(0, _toast_slide)
 
 
@@ -200,7 +202,12 @@ func select(k: int) -> void:
 ## scritta: aggiunto prima di altre (la riga dell'Albero-Madre) restava sotto di loro e le scritte gli passavano sopra
 ## (28 set 2026, segnalato dall'utente con il Semenzaio).
 func _process(_dt: float) -> void:
-	_strip.visible = not panel.visible
+	# (Roadmap 55) con un pannello a schermo intero la barra rapida resta coperta: si nasconde (l'avviso, che ora sta in
+	# basso al centro, non le finisce sopra)
+	var full := overlays.any(func(o: Control) -> bool: return o.visible) or (map != null and map.visible)
+	_strip.visible = not panel.visible and not full
+	for s in _slots:
+		s.visible = not full
 	if _toast_box.visible:
 		_place_toast()
 	_fx_watch()
