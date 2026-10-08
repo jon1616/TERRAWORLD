@@ -6019,7 +6019,11 @@ nel titolo e i comandi in una riga grigia minuscola.
   della cosa chiesta, i premi in etichette e il vuoto spiegato; il Semenzaio con le quattro schede, i mondi come
   schedine (esplorato, «sei qui») e il genoma; il Banco dell'Innestatrice con i titoletti nell'elenco (`UiList`:
   «header», scelte multiple con «on»), i geni del figlio, la mutazione in evidenza e il costo.
-- [ ] **433. Le creature.** Erbario, Mandria, Compagni.
+- [x] **433. Le creature.** Erbario, Mandria, Compagni.
+  Fatto l'8 ott 2026: l'Erbario con le cinque schede, la collezione come griglia di caselle (scoperte accese, le altre con
+  il punto di domanda) e le percentuali nell'intestazione; la Mandria a schedine con i comandi e il nome dentro la scheda,
+  il vuoto spiegato con i tre modi di addomesticare; i Compagni sullo scheletro (sacca e riserva a sinistra, la scheda
+  impaginata, atteggiamento e mosse in basso).
 - [ ] **434. Le parole.** Quaderno, letture (pagine, racconti, scrigni a parola), Finale, Enciclopedia.
 - [ ] **435. Il lavoro.** Bisaccia, Creare, Esamina, casse, commercio, macchine, la scheda del Germogliato.
 - [ ] **436. Le porte.** Pausa, Opzioni, Mappa, il menu principale e la creazione.

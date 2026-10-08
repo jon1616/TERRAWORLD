@@ -490,7 +490,7 @@ func panel(spot: Vector2i, h: Herd) -> void:
 	await kit.seconds(0.5)
 	await kit.save("323_pannello_compagni")
 	var probs := LayoutCheck.scan([bb.panel])
-	var text: String = bb.panel._body.get_parsed_text()
+	var text: String = bb.panel.shown_text()
 	var b := kit.bisaccia()
 	var i0 := b.count("istinto_scatto")
 	var c0 := b.count("ciondolo_zanna")

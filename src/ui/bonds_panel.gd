@@ -1,5 +1,5 @@
 class_name BondsPanel
-extends Control
+extends UiPage
 ## I compagni (Roadmap 32, voce 316; tasto «compagni», Y; anche un clic sulla barra del compagno): la Sacca dei
 ## legami e la scheda di battaglia di ogni creatura. A sinistra i cinque posti della sacca e sotto la riserva (le altre
 ## creature della mandria); a destra la creatura scelta: livello ed esperienza, Vita, danno, difesa e velocità (con i
@@ -7,17 +7,18 @@ extends Control
 ## l'affiatamento con i suoi cinque gradi, l'atteggiamento, il dono. I comandi: in campo, richiama, nella sacca o al
 ## Giardino, l'atteggiamento, dimenticare una mossa (l'istinto torna nella Bisaccia), togliere il ciondolo.
 ## Nome, recinti, coppie e fiere restano nella Mandria (G).
+## Roadmap 55 «Il volto chiaro»: sullo scheletro comune (`UiPage`); la scheda a destra impaginata da `UiDetail`.
 
 const ROW := 86.0
-const LIST := Rect2(UiScreen.SIDE, UiScreen.TOP, 560, UiScreen.BOTTOM - UiScreen.TOP)
-const CARD := Rect2(620, UiScreen.TOP, 1600 - UiScreen.SIDE - 620, UiScreen.BOTTOM - UiScreen.TOP)
+const BOND := Color("#ffb070")
 
-var m: Node2D
+var LIST := Rect2()
+var CARD := Rect2()
 var sel := -1                           # uid della scheda scelta
-var _dirty := true
 var _rows: Control
 var _reserve: VBoxContainer
-var _body: RichTextLabel
+var _body: UiDetail
+var _body_scroll: ScrollContainer
 var _pic: TextureRect
 var _actions: HBoxContainer
 var _stances: HBoxContainer
@@ -33,15 +34,25 @@ const CELL := 52.0
 
 func setup(main: Node2D, bag: BondBag) -> void:
 	m = main
+	key_action = "compagni"
 	visible = false
-	mouse_filter = Control.MOUSE_FILTER_STOP
-	UiScreen.backdrop(self)
-	UiScreen.title(self, "I compagni")
-	_sub = UiScreen.subtitle(self, "")
-	UiScreen.box(self, LIST)
-	UiScreen.box(self, CARD)
-	var lt := _label("Nella Sacca dei legami", Vector2(LIST.position.x + 18, LIST.position.y + 12), UiPalette.AMBRA_CHIARA, UiPalette.GRANDE)
-	lt.size.x = LIST.size.x - 36
+	build_page("I compagni", "", ArtLib.tex("interfaccia", "pannello_mandria") if ArtLib.has("interfaccia", "pannello_mandria") else null, BOND)
+	_sub = page_sub
+	set_hints([[Keys.label("compagni"), "apri e chiudi"], [Keys.label("compagno"), "evoca o richiama"], [Keys.label("cambia_compagno"), "cambia"],
+		["Clic", "sul compagno in campo: dagli un oggetto"], [Keys.label("mandria"), "nome, recinti, coppie"]])
+	var br := body_rect()
+	body.visible = false                     # (qui le parti stanno direttamente nel pannello)
+	LIST = Rect2(br.position, Vector2(560, br.size.y))
+	CARD = Rect2(br.position + Vector2(600, 0), Vector2(br.size.x - 600, br.size.y))
+	var lb := Panel.new()
+	lb.add_theme_stylebox_override("panel", UiFrames.box("sezione"))
+	lb.position = LIST.position
+	lb.size = LIST.size
+	lb.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(lb)
+	var lt := UiKit.caps("Nella Sacca dei legami", BOND)
+	lt.position = Vector2(LIST.position.x + 18, LIST.position.y + 16)
+	add_child(lt)
 	_rows = Control.new()
 	_rows.position = LIST.position + Vector2(18, 42)
 	_rows.size = Vector2(LIST.size.x - 36, ROW * HerdData.FOLLOW_MAX)
@@ -49,9 +60,9 @@ func setup(main: Node2D, bag: BondBag) -> void:
 	_rows.draw.connect(_draw_rows)
 	_rows.gui_input.connect(_on_rows)
 	add_child(_rows)
-	var rt := _label("Nel Giardino, nei recinti, di guardia", Vector2(LIST.position.x + 18, _rows.position.y + _rows.size.y + 10),
-		UiPalette.AMBRA_CHIARA, UiPalette.GRANDE)
-	rt.size.x = LIST.size.x - 36
+	var rt := UiKit.caps("Nel Giardino, nei recinti, di guardia", BOND)
+	rt.position = Vector2(LIST.position.x + 18, _rows.position.y + _rows.size.y + 12)
+	add_child(rt)
 	var sc := ScrollContainer.new()
 	sc.position = Vector2(LIST.position.x + 18, rt.position.y + 30)
 	sc.size = Vector2(LIST.size.x - 36, LIST.end.y - rt.position.y - 44)
@@ -60,55 +71,52 @@ func setup(main: Node2D, bag: BondBag) -> void:
 	_reserve.custom_minimum_size = Vector2(sc.size.x - 14, 0)
 	_reserve.add_theme_constant_override("separation", 4)
 	sc.add_child(_reserve)
-	_pic = TextureRect.new()
-	_pic.position = CARD.position + Vector2(20, 18)
-	_pic.size = Vector2(120, 120)
-	_pic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	_pic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	_pic.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	_pic.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_pic = TextureRect.new()                 # (resta per chi lo cerca: il ritratto ora sta nel medaglione della scheda)
+	_pic.visible = false
 	add_child(_pic)
-	_actions = _row(CARD.position + Vector2(160, 104))
-	_body = RichTextLabel.new()
-	_body.bbcode_enabled = true
-	_body.position = CARD.position + Vector2(20, 150)
-	_body.size = Vector2(CARD.size.x - 40, CARD.size.y - 150 - 110)
-	_body.scroll_active = true
-	_body.add_theme_font_size_override("normal_font_size", UiPalette.TESTO_PX + 1)
-	_body.add_theme_font_size_override("bold_font_size", UiPalette.TESTO_PX + 1)
-	add_child(_body)
-	_label("Atteggiamento", CARD.position + Vector2(20, CARD.size.y - 104), UiPalette.TESTO_SPENTO, UiPalette.TESTO_PX)
-	_stances = _row(CARD.position + Vector2(150, CARD.size.y - 110))
-	_label("Mosse imparate", CARD.position + Vector2(20, CARD.size.y - 56), UiPalette.TESTO_SPENTO, UiPalette.TESTO_PX)
-	_moves = _row(CARD.position + Vector2(150, CARD.size.y - 62))
-	_card_nodes = [_pic, _actions, _body, _stances, _moves]
-	for n in get_children():
-		if n is Label and (n.text == "Atteggiamento" or n.text == "Mosse imparate"):
-			_card_nodes.append(n)
+	_actions = _row(CARD.position + Vector2(0, 0))
+	_body_scroll = ScrollContainer.new()
+	_body_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_body_scroll.position = CARD.position + Vector2(0, 52)
+	_body_scroll.size = Vector2(CARD.size.x, CARD.size.y - 52 - 104)
+	add_child(_body_scroll)
+	var bpad := MarginContainer.new()
+	bpad.add_theme_constant_override("margin_right", 22)
+	bpad.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_body_scroll.add_child(bpad)
+	_body = UiDetail.new()
+	bpad.add_child(_body)
+	var sl := UiKit.caps("Atteggiamento")
+	sl.position = CARD.position + Vector2(0, CARD.size.y - 92)
+	add_child(sl)
+	_stances = _row(CARD.position + Vector2(150, CARD.size.y - 100))
+	var ml := UiKit.caps("Mosse imparate")
+	ml.position = CARD.position + Vector2(0, CARD.size.y - 40)
+	add_child(ml)
+	_moves = _row(CARD.position + Vector2(150, CARD.size.y - 48))
+	_card_nodes = [_actions, _body_scroll, _stances, _moves, sl, ml]
 	# voce 317: il Libro dei legami
 	_book_btn = Button.new()
 	_book_btn.focus_mode = Control.FOCUS_NONE
-	_book_btn.position = Vector2(CARD.end.x - 280, CARD.position.y + 14)     # (in alto a destra ci sono gli avvisi)
+	_book_btn.position = Vector2(CARD.end.x - 280, CARD.position.y)
 	_book_btn.custom_minimum_size = Vector2(260, 36)
 	_book_btn.add_theme_font_size_override("font_size", UiPalette.TESTO_PX)
 	_book_btn.pressed.connect(func() -> void:
 		book = not book
-		_dirty = true)
+		mark_dirty())
 	add_child(_book_btn)
-	_book_head = _label("", CARD.position + Vector2(20, 14), UiPalette.AMBRA_CHIARA, UiPalette.GRANDE)
-	_book_head.size = Vector2(CARD.size.x - 330, 52)
+	_book_head = _label("", CARD.position + Vector2(0, 4), UiPalette.AMBRA_CHIARA, UiPalette.GRANDE)
+	_book_head.size = Vector2(CARD.size.x - 310, 52)
 	_book_head.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_grid = Control.new()
-	_grid.position = CARD.position + Vector2(20, 76)
-	_grid.size = Vector2(CARD.size.x - 40, CARD.size.y - 90)
+	_grid.position = CARD.position + Vector2(0, 66)
+	_grid.size = Vector2(CARD.size.x, CARD.size.y - 70)
 	_grid.mouse_filter = Control.MOUSE_FILTER_STOP
 	_grid.draw.connect(_draw_book)
 	add_child(_grid)
 	Tips.attach(_grid, _book_tip)
-	UiScreen.hint(self, "Esc o %s per chiudere · %s evoca o richiama, %s cambia · gli oggetti (frutti, istinti, pietre, ciondoli) si danno con un clic sul compagno in campo · nome, recinti e coppie: Mandria (%s)" % [
-		Keys.label("compagni"), Keys.label("compagno"), Keys.label("cambia_compagno"), Keys.label("mandria")])
-	bag.changed.connect(func() -> void: _dirty = true)       # (in `setup` di `BondBag`: `m.bonds` non c'è ancora)
-	m.herd.changed.connect(func() -> void: _dirty = true)
+	bag.changed.connect(func() -> void: mark_dirty())       # (in `setup` di `BondBag`: `m.bonds` non c'è ancora)
+	m.herd.changed.connect(func() -> void: mark_dirty())
 
 
 func _label(t: String, at: Vector2, col: Color, fs: int) -> Label:
@@ -130,42 +138,19 @@ func _row(at: Vector2) -> HBoxContainer:
 	return h
 
 
-func open() -> void:
-	visible = true
-	_dirty = true
+func on_open() -> void:
 	if sel < 0 or m.herd.rec_of(sel).is_empty():
 		var f: Dictionary = m.bonds.field()
 		var bag: Array = m.bonds.bag()
 		sel = int(f["uid"]) if not f.is_empty() else (int(bag[0]["uid"]) if not bag.is_empty() else -1)
-	get_parent().move_child(self, -1)
 
 
-func close() -> void:
-	visible = false
+func can_open() -> bool:
+	return not m.hud.is_open()
 
 
-func toggle() -> void:
-	if visible:
-		close()
-	else:
-		open()
-
-
-func _unhandled_input(e: InputEvent) -> void:
-	if not (e is InputEventKey and e.pressed and not e.echo):
-		return
-	if visible and (e.keycode == KEY_ESCAPE or Keys.pressed(e, "compagni")):
-		close()
-		get_viewport().set_input_as_handled()
-	elif not visible and Keys.pressed(e, "compagni") and not m.hud.is_open():
-		open()
-		get_viewport().set_input_as_handled()
-
-
-func _process(_dt: float) -> void:
-	if visible and _dirty:
-		_dirty = false
-		_refresh()
+func refresh() -> void:
+	_refresh()
 
 
 func _on_rows(e: InputEvent) -> void:
@@ -174,14 +159,15 @@ func _on_rows(e: InputEvent) -> void:
 		var bag: Array = m.bonds.bag()
 		if i >= 0 and i < bag.size():
 			sel = int(bag[i]["uid"])
-			_dirty = true
+			mark_dirty()
 			_rows.accept_event()
 
 
 func _draw_rows() -> void:
-	var f: Font = UiFonts.font()
-	var fs := UiFonts.size(2)
-	var fs1 := UiFonts.size(1)
+	var f: Font = UiFonts.get_font("forte")
+	var fc: Font = UiFonts.get_font("chiaro")
+	var fs := 18
+	var fs1 := 14
 	var bag: Array = m.bonds.bag()
 	for i in HerdData.FOLLOW_MAX:
 		var r := Rect2(0, i * ROW, _rows.size.x, ROW - 8)
@@ -203,11 +189,20 @@ func _draw_rows() -> void:
 		_rows.draw_string(f, Vector2(r.end.x - 12 - f.get_string_size(st, HORIZONTAL_ALIGNMENT_LEFT, -1, fs1).x, r.position.y + 24), st,
 			HORIZONTAL_ALIGNMENT_LEFT, -1, fs1, col)
 		var info := "%s · liv. %d · affiatamento %d" % [_species(rec), int(rec["lvl"]), BondsData.bond_grade(rec)]
-		_rows.draw_string(f, Vector2(x, r.position.y + 46), info, HORIZONTAL_ALIGNMENT_LEFT, r.end.x - x - 12, fs1, UiPalette.TESTO_SPENTO)
+		_rows.draw_string(fc, Vector2(x, r.position.y + 46), info, HORIZONTAL_ALIGNMENT_LEFT, r.end.x - x - 12, fs1, UiPalette.TESTO_SPENTO)
 		var hp := _hp(rec)
 		var bw := r.end.x - x - 12
-		_rows.draw_rect(Rect2(x, r.position.y + 56, bw, 8), UiPalette.FONDO)
-		_rows.draw_rect(Rect2(x, r.position.y + 56, bw * hp, 8), VitalsView.hp_color(hp))
+		var tr := StyleBoxFlat.new()
+		tr.bg_color = Color(0, 0, 0, 0.45)
+		tr.set_corner_radius_all(4)
+		tr.anti_aliasing = true
+		_rows.draw_style_box(tr, Rect2(x, r.position.y + 56, bw, 8))
+		if hp > 0.0:
+			var fl := StyleBoxFlat.new()
+			fl.bg_color = VitalsView.hp_color(hp)
+			fl.set_corner_radius_all(4)
+			fl.anti_aliasing = true
+			_rows.draw_style_box(fl, Rect2(x, r.position.y + 56, maxf(bw * hp, 8.0), 8))
 
 
 func _pic_in(tex: Texture2D, r: Rect2, alpha: float) -> void:
@@ -261,7 +256,7 @@ func _refresh() -> void:
 		var uid := int(r["uid"])
 		b.pressed.connect(func() -> void:
 			sel = uid
-			_dirty = true)
+			mark_dirty())
 		_reserve.add_child(b)
 	var bc: Array = m.bonds.book_count()
 	_book_btn.text = ("Torna alla scheda" if book else "Libro dei legami %d/%d" % [bc[0], bc[1]])
@@ -295,7 +290,7 @@ func _button(box: HBoxContainer, t: String, tip: String, act: Callable, chosen :
 		Tips.attach(b, func() -> Variant: return TipCard.simple(tip))
 	b.pressed.connect(func() -> void:
 		act.call()
-		_dirty = true)
+		mark_dirty())
 	box.add_child(b)
 	return b
 
@@ -305,11 +300,13 @@ func _card(rec: Dictionary) -> void:
 	_clear(_actions)
 	_clear(_stances)
 	_clear(_moves)
+	_body.reset(BOND, _body_scroll.size.x - 40.0)
 	if rec.is_empty():
-		_pic.texture = null
-		_body.text = "[color=#9fc8c0]La Sacca dei legami è vuota. Lega una creatura: il Laccio su una creatura stremata (ogni creatura tranne i boss), il cibo che le piace, un uovo nell'Incubatrice. Alcune vogliono il loro momento: le creature del Vuoto al buio, gli spiriti di notte, quelle di pietra il Sigillo del legame.[/color]"
+		_body.empty(null, "La Sacca dei legami è vuota", "Lega una creatura (ogni creatura tranne i boss):",
+			[["laccio_intrecciato", "Il Laccio su una creatura stremata."], ["gelatina", "Il cibo che le piace."],
+			["vasetto", "Un uovo nell'Incubatrice."]])
+		_body.note("Alcune vogliono il loro momento: le creature del Vuoto al buio, gli spiriti di notte, quelle di pietra il Sigillo del legame.")
 		return
-	_pic.texture = BondBar.portrait(rec)
 	var in_bag := String(rec["stato"]) == "segue"
 	var on := bool(rec.get("campo", false))
 	var ko := bool(rec.get("ko", false))
@@ -350,7 +347,7 @@ func _card(rec: Dictionary) -> void:
 		_moves.add_child(l)
 	if String(rec.get("ciondolo", "")) != "":
 		_button(_moves, "Togli il ciondolo", "Il ciondolo torna nella Bisaccia", func() -> void: take_charm(rec))
-	_body.text = sheet(rec)
+	_body.bbcode(sheet(rec), BondBar.portrait(rec))
 
 
 ## Il testo della scheda (BBCode).
@@ -462,7 +459,7 @@ func _draw_book() -> void:
 	var all := BondsData.all_species()
 	var cols := floori(_grid.size.x / CELL)
 	var seen: Dictionary = m.character.erbario.get("creature", {})
-	var f: Font = UiFonts.font()
+	var f: Font = UiFonts.get_font("nome")
 	for i in all.size():
 		var sp := String(all[i])
 		var r := Rect2(Vector2((i % cols) * CELL, (i / cols) * CELL), Vector2(CELL - 6, CELL - 6))
@@ -479,7 +476,7 @@ func _draw_book() -> void:
 				Color(1, 1, 1, 1) if got else Color(0.05, 0.08, 0.08, 0.85))
 		else:
 			_grid.draw_string(f, r.position + Vector2(r.size.x * 0.5 - 4, r.size.y * 0.5 + 6), "?", HORIZONTAL_ALIGNMENT_LEFT, -1,
-				UiFonts.size(2), UiPalette.TESTO_MUTO)
+				20, UiPalette.TESTO_MUTO)
 
 
 func _book_tip() -> Variant:

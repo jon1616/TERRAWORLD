@@ -54,10 +54,10 @@ func build_page(title: String, sub: String, icon: Variant = null, col := UiPalet
 		medal.icon = TipView.icon_of(icon) if not (icon is Texture2D) else icon
 	add_child(medal)
 	page_title = UiKit.title(title, 34, UiPalette.AMBRA_CHIARA.lerp(col, 0.35))
-	page_title.position = Vector2(M + 82, 18)
+	page_title.position = Vector2(M + 82, 14)
 	add_child(page_title)
 	page_sub = UiKit.label(sub, UiPalette.TESTO_PX, UiPalette.TESTO_SPENTO, "chiaro")
-	page_sub.position = Vector2(M + 84, 62)
+	page_sub.position = Vector2(M + 84, 64)
 	page_sub.size = Vector2(820, 24)
 	page_sub.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	add_child(page_sub)

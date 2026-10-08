@@ -1,127 +1,72 @@
 class_name HerdPanel
-extends Control
-## La mandria aperta (tasto G, voce 59): a sinistra le creature (icona, nome, livello, stato), a destra la scheda di
-## quella scelta con i comandi — Segui, Riposa, Al recinto, Nel vasetto, Libera — e il nome da cambiare.
-## In basso: quante ti seguono, i recinti di questo mondo, i vasetti vuoti. Si ridisegna quando la mandria cambia.
+extends UiPage
+## La mandria aperta (tasto G, voce 59; rifatta nella Roadmap 55 «Il volto chiaro»): a sinistra le creature come
+## schedine (il disegno, il nome, il livello, lo stato, la fame), a destra la scheda di quella scelta con i comandi —
+## Nella sacca, Riposa, Al recinto, Di guardia, Nel vasetto, Libera, Coppia, Alla fiera, Lavoro — e il nome da cambiare.
+## Nell'intestazione: quante ti seguono, i recinti di questo mondo, i vasetti vuoti, i manti.
 
-const ROW := 52
-const ROWS := 12
+const HERD := Color("#b8e070")
+const ACTS := [["segue", "Nella sacca"], ["riposo", "Riposa"], ["recinto", "Al recinto"], ["guardia", "Di guardia"],
+	["vasetto", "Nel vasetto"], ["libera", "Libera"], ["coppia", "Coppia…"], ["fiera", "Alla fiera"], ["lavoro", "Lavoro…"]]
 
-var m: Node2D
 var selected := -1                     # uid della creatura scelta
-var _list: Control
-var _detail: RichTextLabel
 var _title: Label
-var _foot: Label
 var _name: LineEdit
 var _buttons := {}
 var _tex := {}
-var _dirty := true
-var _page := 0
 var _pairing := false                  # voce 60: il prossimo clic nell'elenco sceglie la compagna
 
 
 func setup(main: Node2D) -> void:
 	m = main
+	key_action = "mandria"
 	visible = false
-	mouse_filter = Control.MOUSE_FILTER_STOP
-	# (voce 281) lo scheletro comune: a sinistra l'elenco con le pagine e i conti, a destra la scheda con i comandi
-	UiScreen.backdrop(self)
-	_title = UiScreen.title(self)
-	UiScreen.box(self, Rect2(UiScreen.SIDE, UiScreen.TOP, 700, UiScreen.BOTTOM - UiScreen.TOP))
-	UiScreen.box(self, Rect2(756, UiScreen.TOP, 1600 - UiScreen.SIDE - 756, UiScreen.BOTTOM - UiScreen.TOP))
-	_list = Control.new()
-	_list.position = Vector2(56, 110)
-	add_child(_list)
-	_detail = RichTextLabel.new()
-	_detail.bbcode_enabled = true
-	_detail.position = Vector2(776, 110)
-	_detail.size = Vector2(768, 300)
-	_detail.scroll_active = true
-	_detail.add_theme_font_size_override("normal_font_size", UiPalette.GRANDE)
-	add_child(_detail)
-	var x := 776.0
-	for b in [["segue", "Nella sacca"], ["riposo", "Riposa"], ["recinto", "Al recinto"], ["guardia", "Di guardia"], ["vasetto", "Nel vasetto"],
-			["libera", "Libera"], ["coppia", "Coppia…"], ["fiera", "Alla fiera"],
-			["lavoro", "Lavoro…"]]:
-		var btn := Button.new()
-		btn.text = b[1]
-		btn.position = Vector2(x, 426)
-		btn.size = Vector2(120, 36)
-		btn.focus_mode = Control.FOCUS_NONE
-		btn.add_theme_font_size_override("font_size", UiPalette.TESTO_PX)
-		var what: String = b[0]
-		btn.pressed.connect(func() -> void: _act(what))
-		add_child(btn)
-		_buttons[what] = btn
-		x += 128.0
+	build_page("La mandria", "Le creature che hai addomesticato: nutrile, falle crescere, mettile al recinto, in coppia o al lavoro.",
+		ArtLib.tex("interfaccia", "pannello_mandria") if ArtLib.has("interfaccia", "pannello_mandria") else null, HERD)
+	_title = page_title
+	set_hints([[Keys.label("mandria"), "apri e chiudi"], ["Clic destro", "con il suo cibo: nutrila"], ["R", "cavalca"],
+		["Ceppo", "il Recinto e l'Incubatrice"]])
+	split(470.0)
+	list.chosen.connect(_on_pick)
 	_name = LineEdit.new()
-	_name.position = Vector2(776, 474)
-	_name.size = Vector2(260, 36)
 	_name.max_length = 18
 	_name.placeholder_text = "Nuovo nome (Invio)"
+	_name.custom_minimum_size = Vector2(260, 38)
 	_name.text_submitted.connect(_rename)
-	add_child(_name)
-	(_buttons["coppia"] as Button).position = Vector2(1048, 474)      # accanto al nome
-	(_buttons["coppia"] as Button).size = Vector2(160, 36)
-	(_buttons["fiera"] as Button).position = Vector2(1216, 474)       # voce 242: le fiere della mandria
-	(_buttons["fiera"] as Button).size = Vector2(160, 36)
-	(_buttons["lavoro"] as Button).position = Vector2(776, 522)       # voce 243: i lavori della mandria
-	(_buttons["lavoro"] as Button).size = Vector2(160, 36)
-	var foot_y := 110.0 + ROWS * ROW + 8
-	var prev := Button.new()
-	prev.text = "‹"
-	prev.position = Vector2(56, foot_y)
-	prev.size = Vector2(40, 34)
-	prev.focus_mode = Control.FOCUS_NONE
-	prev.pressed.connect(func() -> void:
-		_page = maxi(_page - 1, 0)
-		_dirty = true)
-	add_child(prev)
-	var nxt := Button.new()
-	nxt.text = "›"
-	nxt.position = Vector2(104, foot_y)
-	nxt.size = Vector2(40, 34)
-	nxt.focus_mode = Control.FOCUS_NONE
-	nxt.pressed.connect(func() -> void:
-		_page += 1
-		_dirty = true)
-	add_child(nxt)
-	_foot = _label(Vector2(160, foot_y - 2), UiPalette.TESTO_PX, UiPalette.TESTO_SPENTO)
-	_foot.size = Vector2(560, 44)
-	_foot.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	UiScreen.hint(self, "G o Esc per chiudere · clic destro con il suo cibo per nutrirla · R per cavalcare · il Recinto e l'Incubatrice si fanno al Ceppo")
-	m.herd.changed.connect(func() -> void: _dirty = true)
-
-
-func _label(pos: Vector2, size: int, col: Color) -> Label:
-	var l := Label.new()
-	l.position = pos
-	l.add_theme_font_size_override("font_size", size)
-	l.add_theme_color_override("font_color", col)
-	add_child(l)
-	return l
+	for b in ACTS:
+		var btn := Button.new()
+		btn.text = String(b[1])
+		btn.custom_minimum_size = Vector2(140, 38)
+		btn.focus_mode = Control.FOCUS_NONE
+		UiFrames.button(btn, UiPalette.PERICOLO if String(b[0]) == "libera" else Color(0, 0, 0, 0))
+		var what: String = b[0]
+		btn.pressed.connect(func() -> void: _act(what))
+		_buttons[what] = btn
+	m.herd.changed.connect(func() -> void: mark_dirty())
 
 
 func toggle() -> void:
-	visible = not visible
-	_dirty = true
+	if visible:
+		close()
+	else:
+		open()
 
 
-func _unhandled_input(e: InputEvent) -> void:
-	if e is InputEventKey and e.pressed and not e.echo:
-		if Keys.pressed(e, "mandria") and not m.hud.panel.visible and not _name.has_focus():
-			toggle()
-			get_viewport().set_input_as_handled()
-		elif e.keycode == KEY_ESCAPE and visible:
-			toggle()
-			get_viewport().set_input_as_handled()
+func can_open() -> bool:
+	return super.can_open() and not _name.has_focus()
 
 
-func _process(_dt: float) -> void:
-	if visible and _dirty:
-		_dirty = false
-		_refresh()
+func _on_pick(id: String) -> void:
+	var uid := int(id)
+	if _pairing:
+		_pairing = false
+		var why: String = m.herd.pair(m.herd.rec_of(selected), m.herd.rec_of(uid))
+		if why != "":
+			m.hud.toast(why)
+	else:
+		selected = uid
+		detail_top()
+	mark_dirty()
 
 
 func _icon(rec: Dictionary) -> Texture2D:
@@ -140,65 +85,69 @@ func _icon(rec: Dictionary) -> Texture2D:
 	return _tex[k]
 
 
-func _refresh() -> void:
+func refresh() -> void:
 	var recs: Array = m.herd.records()
 	var jars: int = m.character.bisaccia.count("creatura")
-	_title.text = "La mandria — %d creature%s · manti %d/%d" % [recs.size(), (" (e %d nei vasetti)" % jars) if jars > 0 else "",
-		Lineage.collected(m.character.stats), Lineage.total()]
-	for c in _list.get_children():
-		c.queue_free()
-	_page = clampi(_page, 0, maxi((recs.size() - 1) / ROWS, 0))
-	if selected >= 0 and m.herd.rec_of(selected).is_empty():
-		selected = -1
-	if selected < 0 and not recs.is_empty():
-		selected = int(recs[0]["uid"])
-	for k in range(_page * ROWS, mini(recs.size(), (_page + 1) * ROWS)):
-		var r: Dictionary = recs[k]
-		var b := Button.new()
-		b.position = Vector2(0, (k - _page * ROWS) * ROW)
-		b.size = Vector2(660, ROW - 6)
-		b.icon = _icon(r)
-		b.expand_icon = false
-		b.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		b.text = "  %s · liv. %d · %s · %s" % [r["nome"], int(r["lvl"]), HerdInfo.STATES.get(String(r["stato"]), ""),
-			HerdInfo.hunger_text(r)]
-		ErbarioPanel._frame(b, Color("#ffb84a") if int(r["uid"]) == selected else Color("#2f7a70"))
-		var uid := int(r["uid"])
-		b.pressed.connect(func() -> void:
-			if _pairing:
-				_pairing = false
-				var why: String = m.herd.pair(m.herd.rec_of(selected), m.herd.rec_of(uid))
-				if why != "":
-					m.hud.toast(why)
-			else:
-				selected = uid
-			_dirty = true)
-		_list.add_child(b)
-	var rec: Dictionary = m.herd.rec_of(selected)
-	for k in _buttons:
-		(_buttons[k] as Button).visible = not rec.is_empty()
-	_name.visible = not rec.is_empty()
-	if rec.is_empty():
-		_detail.text = "[color=#9fc8c0]La mandria è vuota.\n\nPer addomesticare una creatura: dalle il suo cibo con il clic destro quando si fida di te (le docili sempre; le altre quando hanno fame, sono stordite o indebolite), oppure prendila con il Laccio quando è stremata, o fai schiudere un uovo nell'Incubatrice.[/color]"
-	else:
-		_detail.text = HerdInfo.sheet(rec)
-		var mate: Dictionary = m.herd.rec_of(int(rec.get("coppia", -1)))
-		if not mate.is_empty():
-			_detail.text += "\n" + Breeding.preview(rec, mate)
-		if _pairing:
-			_detail.text += "\n[color=#ffb84a]Scegli nell'elenco con chi fare coppia (stessa famiglia, livello %d o più)[/color]" % BreedData.MIN_LVL
-		(_buttons["coppia"] as Button).text = "Sciogli coppia" if not mate.is_empty() else "Coppia…"
-		(_buttons["segue"] as Button).disabled = rec["stato"] == "segue"
-		(_buttons["riposo"] as Button).disabled = rec["stato"] == "riposo"
-		(_buttons["recinto"] as Button).disabled = rec["stato"] == "recinto" and rec["mondo"] == m.world_id
-		(_buttons["vasetto"] as Button).disabled = m.character.bisaccia.count("vasetto") <= 0
 	var pens := 0
 	var room := 0
 	for o in m.pens.pens:
 		pens += 1
 		room += HerdData.PEN_CAP - m.pens.members(Pens.key(o)).size()
-	_foot.text = "Nella Sacca dei legami %d su %d · recinti in questo mondo: %d (posti liberi %d) · vasetti vuoti: %d" % [m.herd.followers().size(),
-		HerdData.FOLLOW_MAX, pens, room, m.character.bisaccia.count("vasetto")] + "\n" + Fairs.line(m)
+	set_chips([["%d creature" % recs.size() + ((" · %d nei vasetti" % jars) if jars > 0 else ""), HERD],
+		["Sacca %d/%d" % [m.herd.followers().size(), HerdData.FOLLOW_MAX], UiPalette.LINFA],
+		["recinti %d · liberi %d" % [pens, room]], ["vasetti %d" % m.character.bisaccia.count("vasetto")],
+		["manti %d/%d" % [Lineage.collected(m.character.stats), Lineage.total()], UiPalette.AMBRA]])
+	if selected >= 0 and m.herd.rec_of(selected).is_empty():
+		selected = -1
+	if selected < 0 and not recs.is_empty():
+		selected = int(recs[0]["uid"])
+	var items := []
+	for r in recs:
+		var st := String(r["stato"])
+		items.append({"id": str(int(r["uid"])), "title": String(r["nome"]), "sub": "liv. %d · %s" % [int(r["lvl"]), HerdInfo.hunger_text(r)],
+			"badge": String(HerdInfo.STATES.get(st, "")), "badge_col": UiPalette.LINFA if st == "segue" else HERD,
+			"color": HERD, "icon": _icon(r), "on": _pairing and int(r["uid"]) == selected})
+	list.set_items(items, str(selected))
+	# i comandi e il nome si staccano prima di svuotare il dettaglio (svuotandolo verrebbero liberati con lui)
+	if _name.get_parent() != null:
+		_name.get_parent().remove_child(_name)
+	for k in _buttons:
+		var bt: Button = _buttons[k]
+		if bt.get_parent() != null:
+			bt.get_parent().remove_child(bt)
+	detail.reset(HERD, detail_w())
+	var rec: Dictionary = m.herd.rec_of(selected)
+	if rec.is_empty():
+		detail.empty(ArtLib.tex("interfaccia", "pannello_mandria") if ArtLib.has("interfaccia", "pannello_mandria") else null,
+			"La mandria è vuota", "Ogni creatura si può addomesticare, in tre modi:",
+			[["gelatina", "Dalle il suo cibo con il clic destro quando si fida di te: le docili sempre, le altre quando hanno fame, sono stordite o indebolite."],
+			["laccio_intrecciato", "Prendila con il Laccio quando è stremata."],
+			["vasetto", "Fai schiudere un uovo nell'Incubatrice."]])
+		detail.note(Fairs.line(m))
+		return
+	detail.bbcode(HerdInfo.sheet(rec), _icon(rec))
+	var mate: Dictionary = m.herd.rec_of(int(rec.get("coppia", -1)))
+	if not mate.is_empty():
+		detail.text("La coppia", Breeding.preview(rec, mate))
+	if _pairing:
+		detail.callout("Scegli la compagna", "Clic nell'elenco su con chi fare coppia (stessa famiglia, livello %d o più)." % BreedData.MIN_LVL)
+	(_buttons["coppia"] as Button).text = "Sciogli coppia" if not mate.is_empty() else "Coppia…"
+	(_buttons["segue"] as Button).disabled = rec["stato"] == "segue"
+	(_buttons["riposo"] as Button).disabled = rec["stato"] == "riposo"
+	(_buttons["recinto"] as Button).disabled = rec["stato"] == "recinto" and rec["mondo"] == m.world_id
+	(_buttons["vasetto"] as Button).disabled = m.character.bisaccia.count("vasetto") <= 0
+	var sec := detail.section("I comandi")
+	var fl := HFlowContainer.new()
+	fl.add_theme_constant_override("h_separation", 8)
+	fl.add_theme_constant_override("v_separation", 8)
+	for b in ACTS:
+		fl.add_child(_buttons[String(b[0])])
+	sec.add_child(fl)
+	var nm := UiKit.row(10)
+	nm.add_child(UiKit.label("Il nome", UiPalette.TESTO_PX, UiPalette.TESTO_MUTO, "chiaro"))
+	nm.add_child(_name)
+	sec.add_child(nm)
+	detail.note(Fairs.line(m))
 
 
 func _act(what: String) -> void:
@@ -225,7 +174,7 @@ func _act(what: String) -> void:
 				_pairing = true
 	if why != "":
 		m.hud.toast(why)
-	_dirty = true
+	mark_dirty()
 
 
 func _rename(t: String) -> void:
@@ -235,4 +184,4 @@ func _rename(t: String) -> void:
 		rec["nome"] = t
 		_name.text = ""
 		_name.release_focus()
-		_dirty = true
+		mark_dirty()

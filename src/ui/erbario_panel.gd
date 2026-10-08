@@ -1,108 +1,74 @@
 class_name ErbarioPanel
-extends Control
-## L'Erbario aperto (tasto L): tre schede (Creature, Oggetti, Pagine di storia), una griglia di caselle — scoperte con
-## l'icona, le altre con un punto di domanda — e a destra la scheda della voce scelta. In alto la percentuale.
+extends UiPage
+## L'Erbario aperto (tasto L; rifatto nella Roadmap 55 «Il volto chiaro»): cinque schede (Creature, Famiglie, Oggetti,
+## Pagine di storia, Pesci), a sinistra la collezione come griglia di caselle — scoperte con l'icona, le altre spente con
+## il punto di domanda — e a destra la scheda della voce scelta. Nell'intestazione le percentuali.
 
 const COLS := 10
-const CELL := 56
+const CELL := 60
 const GAP := 6
+const SECTIONS := [["creature", "Creature"], ["famiglie", "Famiglie"], ["oggetti", "Oggetti"], ["pagine", "Pagine di storia"],
+	["pesci", "Pesci"]]
+const LEAF := Color("#9ff0a0")
 
-var m: Node2D
 var erbario: Erbario
 var section := "creature"
 var selected := ""
 var _grid: Control
 var _title: Label
-var _sub: Label                        # le percentuali per scheda, sotto il titolo
 var _scroll: ScrollContainer           # la griglia scorre: le voci sono centinaia (voce 281: uscivano dallo schermo)
-var _detail: RichTextLabel
-var _tabs: Array[Button] = []
 var _creature_tex := {}
 
 
 func setup(main: Node2D, e: Erbario) -> void:
 	m = main
 	erbario = e
+	key_action = "erbario"
 	visible = false
-	mouse_filter = Control.MOUSE_FILTER_STOP
-	var bg := ColorRect.new()
-	bg.color = UiPalette.FONDO
-	bg.size = Vector2(1600, 900)
-	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(bg)
-	_title = Label.new()
-	_title.position = Vector2(48, 22)
-	UiFonts.apply(_title, 3)                  # (Roadmap 55) il titolo in Alegreya
-	_title.add_theme_color_override("font_color", UiPalette.AMBRA)
-	add_child(_title)
-	_sub = Label.new()
-	_sub.position = Vector2(48, 62)
-	_sub.add_theme_font_size_override("font_size", UiPalette.TESTO_PX)
-	_sub.add_theme_color_override("font_color", UiPalette.TESTO_SPENTO)
-	add_child(_sub)
-	var x := 48.0
-	for sec in [["creature", "Creature"], ["famiglie", "Famiglie"], ["oggetti", "Oggetti"], ["pagine", "Pagine di storia"],
-			["pesci", "Pesci"]]:
-		var b := Button.new()
-		b.text = sec[1]
-		b.position = Vector2(x, 92)
-		b.size = Vector2(170, 36)
-		_frame(b, Color("#2f7a70"))
-		var id: String = sec[0]
-		b.pressed.connect(func() -> void:
-			section = id
-			selected = ""
-			_refresh())
-		add_child(b)
-		_tabs.append(b)
-		x += 180.0
-	# a sinistra la griglia (scorre), a destra la scheda della voce: due riquadri
+	build_page("L'Erbario", "Tutto ciò che hai scoperto: le creature sconfitte, le famiglie, gli oggetti, le pagine di storia, i pesci.",
+		ArtLib.tex("interfaccia", "pannello_erbario") if ArtLib.has("interfaccia", "pannello_erbario") else null, LEAF)
+	_title = page_title
+	set_tabs(SECTIONS.map(func(t: Array) -> String: return String(t[1])), 0)
+	tab_changed.connect(func(i: int) -> void:
+		section = String(SECTIONS[i][0])
+		selected = ""
+		_refresh())
+	set_hints([[Keys.label("erbario"), "apri e chiudi"], ["Clic", "leggi una voce"], ["Mouse", "sopra una casella: la scheda breve"]])
+	var gw := COLS * (CELL + GAP) - GAP + 34.0
 	var left := Panel.new()
-	left.position = Vector2(36, 140)
-	left.size = Vector2(COLS * (CELL + GAP) - GAP + 60, 700)
+	left.add_theme_stylebox_override("panel", UiFrames.box("sezione"))
+	left.size = Vector2(gw, body.size.y)
 	left.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(left)
+	body.add_child(left)
 	_scroll = ScrollContainer.new()
-	_scroll.position = left.position + Vector2(18, 18)
-	_scroll.size = left.size - Vector2(30, 36)
+	_scroll.position = Vector2(14, 14)
+	_scroll.size = left.size - Vector2(20, 28)
 	_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	add_child(_scroll)
+	body.add_child(_scroll)
 	_grid = Control.new()
 	_scroll.add_child(_grid)
-	var right := Panel.new()
-	right.position = Vector2(left.position.x + left.size.x + 20, 140)
-	right.size = Vector2(1600 - 36 - right.position.x, 700)
-	right.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(right)
-	_detail = RichTextLabel.new()
-	_detail.bbcode_enabled = true
-	_detail.position = right.position + Vector2(20, 18)
-	_detail.size = right.size - Vector2(40, 36)
-	_detail.scroll_active = true
-	_detail.add_theme_font_size_override("normal_font_size", UiPalette.GRANDE)
-	add_child(_detail)
-	var hint := Label.new()
-	hint.text = "L o Esc per chiudere · clic su una voce per leggerla"
-	hint.position = Vector2(48, 858)
-	hint.add_theme_font_size_override("font_size", UiPalette.NOTA + 1)
-	hint.add_theme_color_override("font_color", UiPalette.TESTO_MUTO)
-	add_child(hint)
+	_detail_scroll = ScrollContainer.new()
+	_detail_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_detail_scroll.position = Vector2(gw + 36.0, 0)
+	_detail_scroll.size = Vector2(body.size.x - gw - 36.0, body.size.y)
+	body.add_child(_detail_scroll)
+	var pad := MarginContainer.new()
+	pad.add_theme_constant_override("margin_right", 22)
+	pad.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_detail_scroll.add_child(pad)
+	detail = UiDetail.new()
+	pad.add_child(detail)
 
 
 func toggle() -> void:
-	visible = not visible
 	if visible:
-		_refresh()
+		close()
+	else:
+		open()
 
 
-func _unhandled_input(e: InputEvent) -> void:
-	if e is InputEventKey and e.pressed and not e.echo:
-		if Keys.pressed(e, "erbario") and not m.hud.panel.visible:
-			toggle()
-			get_viewport().set_input_as_handled()
-		elif e.keycode == KEY_ESCAPE and visible:
-			toggle()
-			get_viewport().set_input_as_handled()
+func refresh() -> void:
+	_refresh()
 
 
 func _icon(id: String) -> Texture2D:
@@ -161,15 +127,14 @@ func _cell_tip(sec: String, id: String, known: bool) -> Variant:
 
 
 func _refresh() -> void:
-	for k in _tabs.size():
-		_frame(_tabs[k], Color("#ffb84a") if ["creature", "famiglie", "oggetti", "pagine", "pesci"][k] == section else Color("#2f7a70"))
-	_title.text = "Erbario — %d%% scoperto" % roundi(erbario.percent())
+	for i in SECTIONS.size():
+		if String(SECTIONS[i][0]) == section:
+			select_tab(i)
 	var fish := (erbario.data.get("pesci", {}) as Dictionary).size()
-	_sub.text = "Creature %d%%  ·  famiglie %d%%  ·  oggetti %d%%  ·  pagine %d%%  ·  pesci %d su %d, a parte" % [
-		roundi(erbario.percent("creature")), roundi(erbario.percent("famiglie")), roundi(erbario.percent("oggetti")),
-		roundi(erbario.percent("pagine")), fish, FishData.all().size()]
-	for c in _grid.get_children():
-		c.queue_free()
+	set_chips([["%d%% scoperto" % roundi(erbario.percent()), LEAF], ["creature %d%%" % roundi(erbario.percent("creature"))],
+		["famiglie %d%%" % roundi(erbario.percent("famiglie"))], ["oggetti %d%%" % roundi(erbario.percent("oggetti"))],
+		["pesci %d/%d" % [fish, FishData.all().size()]]])
+	UiKit.clear(_grid)
 	var list := Erbario.entries(section)
 	for k in list.size():
 		var id: String = list[k]
@@ -177,18 +142,29 @@ func _refresh() -> void:
 		var cell := Button.new()
 		cell.position = Vector2((k % COLS) * (CELL + GAP), (k / COLS) * (CELL + GAP))
 		cell.size = Vector2(CELL, CELL)
+		cell.focus_mode = Control.FOCUS_NONE
 		var sec := section
 		Tips.attach(cell, func() -> Variant: return _cell_tip(sec, id, known))
 		if known:
 			cell.icon = _icon(id)
 			cell.expand_icon = true
+			cell.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			cell.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST if cell.icon != null and cell.icon.get_width() <= 24 \
+				else CanvasItem.TEXTURE_FILTER_LINEAR
 		else:
 			cell.text = "?"
-		_frame(cell, Color("#ffb84a") if id == selected else Color("#2f7a70"))
+			cell.add_theme_color_override("font_color", UiPalette.TESTO_MUTO)
+		var st := "scelto" if id == selected else "normale"
+		for s in ["normal", "hover", "pressed", "hover_pressed"]:
+			cell.add_theme_stylebox_override(s, UiFrames.padded("casella", st if s == "normal" else ("scelto" if id == selected else "sopra"),
+				Color(LEAF, 0.35) if known else Color(0, 0, 0, 0), Vector2(6, 6)))
+		cell.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
+		cell.add_theme_font_override("font", UiFonts.get_font("nome"))
 		cell.add_theme_font_size_override("font_size", 24)
-		cell.modulate = Color.WHITE if known else Color(0.45, 0.5, 0.5)
+		cell.modulate = Color.WHITE if known else Color(0.75, 0.8, 0.8)
 		cell.pressed.connect(func() -> void:
 			selected = id
+			detail_top()
 			_refresh())
 		_grid.add_child(cell)
 	var rows := ceili(list.size() / float(COLS))
@@ -197,12 +173,17 @@ func _refresh() -> void:
 
 
 func _show_detail() -> void:
+	detail.reset(LEAF, detail_w())
 	if selected == "":
-		_detail.text = "[color=#6a8a84]Scegli una voce.[/color]"
+		detail.empty(ArtLib.tex("interfaccia", "pannello_erbario") if ArtLib.has("interfaccia", "pannello_erbario") else null,
+			"Scegli una voce", "Le caselle accese sono ciò che hai scoperto; quelle con il punto di domanda ti aspettano.")
 		return
 	if not erbario.known(section, selected):
 		# voce 61: una famiglia mai incontrata dice dove cercarla
-		_detail.text = BestiaryInfo.hint(selected) if section == "famiglie" else ("[color=#6a8a84]Non l'hai ancora pescato.[/color]\n\n%s" % FishData.where(selected) if section == "pesci" else "[color=#6a8a84]Non l'hai ancora scoperta.[/color]")
+		var why := BestiaryInfo.hint(selected) if section == "famiglie" else (FishData.where(selected) if section == "pesci" else "")
+		detail.head("Non ancora scoperta" if section != "pesci" else "Non l'hai ancora pescato", "", null)
+		if why != "":
+			detail.callout("Dove cercare", why, UiPalette.AMBRA)
 		return
 	var t := "[font_size=24][color=#ffd08a]%s[/color][/font_size]\n\n" % Erbario.title_of(section, selected)
 	match section:
@@ -246,4 +227,4 @@ func _show_detail() -> void:
 				int(f["size"][0]), int(f["size"][1])]
 			t += "Dove: %s\n" % FishData.where(selected)
 			t += "Pescati: %d · il più grande: %d cm" % [int(e.get("n", 0)), int(e.get("max", 0))]
-	_detail.text = t
+	detail.bbcode(t, _icon(selected))
