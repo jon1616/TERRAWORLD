@@ -26,6 +26,11 @@ def main() -> None:
     with open(os.path.join(DIR, "aspetti.json"), encoding="utf-8") as f:
         a = json.load(f)[nome]
     text = STYLE.format(what=a["what"], desc=a["desc"], loop=a["loop"])
+    if a.get("burst"):
+        # uno scoppio (i colpi): una sequenza che nasce e svanisce, non un ciclo
+        text = text.replace("A looping animated", "An animated").replace(
+            "The 8 frames form a smooth seamless LOOP: ", "The 8 frames are ONE short explosion from start to end, in reading order: "
+        ).replace(" Frame 8 flows back into frame 1.", "")
     os.makedirs(PROMPT, exist_ok=True)
     with open(os.path.join(PROMPT, nome + ".txt"), "w", encoding="utf-8") as f:
         f.write(text)

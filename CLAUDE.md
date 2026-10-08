@@ -308,6 +308,13 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   prompt negli appunti) → l'utente salva la tavola in `arte_ia/icone` → `python tools/installa_icone.py` (nome, taglio,
   scritte tolte, foglio prove/icone/<lotto>.png; `--salta forma` per le venute male). Elenco delle forme:
   `tools/scheda_icone.gd` → `arte_ia/icone/forme.json`.
+  **Gli effetti** (8 ott 2026): Nano Banana li disegna BIANCHI su fondo NERO (sul magenta la luce sfumata si sporca), la
+  luminosità diventa l'alfa e il gioco li colora e li somma come luce (`CanvasItemMaterial` ADD). Giro: descrizione in
+  `arte_ia/effetti/aspetti.json` → `python tools/prompt_effetto.py <nome>` → l'utente salva in `arte_ia/effetti` →
+  `python tools/installa_effetto.py` (`importa_effetto.py`: `arte/effetti/<nome>_<n>.png` + `<nome>.json` con la
+  «base»; per gli aloni la prova su quattro creature, `sh tools/sprite.sh <id> <grado>`). Gli aloni dei gradi rari
+  (`alone_<grado>`) li disegna `Halo` (`src/art/halo.gd`, da `Ancient.apply`): fotogrammi sfumati, misura sulla parte
+  disegnata della figura (larghezza e altezza separate); un grado senza disegno tiene il contorno di `Ancient.ring`.
 - `musica/` — le musiche fatte dall'utente con Gemini («crea musica»): `esplorazione` (sottofondo) e `guardiano`
   (scontri con i boss), .mp3/.ogg/.wav; per cambiarne una si sostituisce il file con lo stesso nome (poi `--import`).
   Le suona l'autoload `Musica` (`src/audio/music.gd`): già nel menu e senza interruzioni nel mondo; brano del boss

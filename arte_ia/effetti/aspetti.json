@@ -1,15 +1,65 @@
 {
 	"_nota": "Gli effetti per tools/prompt_effetto.py: what = che cos'è, desc = come è fatto (la parte vuota al centro dove sta la creatura), loop = come si muove nel ciclo di 8 fotogrammi.",
-	"alone_antica": {"what": "MAGIC AURA effect: the glowing aura that surrounds a rare, ANCIENT creature",
+	"alone_antica": {
+		"what": "MAGIC AURA effect: the glowing aura that surrounds a rare, ANCIENT creature",
 		"desc": "A flat glowing ELLIPSE ring lying on the ground at the bottom (a wide thin oval), and from it soft tongues of spectral flame and wisps of light rise on the LEFT and RIGHT sides, curling and flickering, forming a tall arch-shaped halo around an EMPTY space in the middle (where the creature stands: the middle stays BLACK and empty). A few small sparks drift upward. Wider than tall.",
-		"loop": "the flame tongues rise, curl and flicker; the base ring stays in place."},
-	"alone_ancestrale": {"what": "MAGIC AURA effect: the solemn, mystical aura of an ANCESTRAL creature, older than the world",
+		"loop": "the flame tongues rise, curl and flicker; the base ring stays in place."
+	},
+	"alone_ancestrale": {
+		"what": "MAGIC AURA effect: the solemn, mystical aura of an ANCESTRAL creature, older than the world",
 		"desc": "A flat glowing ELLIPSE ring on the ground at the bottom (a wide thin oval) engraved with a band of small angular RUNES (simple carved glyphs like ancient seed-script, no real letters), and around the EMPTY middle a tall arch made of floating rune glyphs and thin concentric arcs of light that orbit around the creature's space, like a slow magic circle seen from the side, with a soft veil of light rising behind. The middle stays BLACK and empty (the creature stands there). Wider than tall, elegant and solemn, not fiery.",
-		"loop": "the runes and arcs slowly ORBIT around the empty middle (the glyphs on the front pass in front, then go around behind and come back), the ground ring slowly turns, the light breathes softly; all at the same size in every frame."},
-	"alone_capobranco": {"what": "MAGIC AURA effect: the fierce aura of a PACK LEADER beast",
+		"loop": "the runes and arcs slowly ORBIT around the empty middle (the glyphs on the front pass in front, then go around behind and come back), the ground ring slowly turns, the light breathes softly; all at the same size in every frame."
+	},
+	"alone_capobranco": {
+		"what": "MAGIC AURA effect: the fierce aura of a PACK LEADER beast",
 		"desc": "A flat glowing ELLIPSE ring on the ground at the bottom (a wide thin oval), and rising from it on the LEFT and RIGHT sides sharp jagged shapes of light like huge spectral CLAW SLASHES and FANGS curving inward over the EMPTY middle, forming a wild, aggressive arch; a faint ghostly wolf-like snarl shape at the top made of wisps (only suggested, not a full animal). The middle stays BLACK and empty (the creature stands there). Wider than tall.",
-		"loop": "the claw and fang shapes pulse outward and snap back like a heartbeat or a growl, flaring brighter in the middle of the loop; the base ring stays in place."},
-	"alone_iridata": {"what": "MAGIC AURA effect: the dreamy, shimmering aura of a rare IRIDESCENT creature that may vanish at any moment",
+		"loop": "the claw and fang shapes pulse outward and snap back like a heartbeat or a growl, flaring brighter in the middle of the loop; the base ring stays in place."
+	},
+	"alone_iridata": {
+		"what": "MAGIC AURA effect: the dreamy, shimmering aura of a rare IRIDESCENT creature that may vanish at any moment",
 		"desc": "A flat glowing ELLIPSE ring on the ground at the bottom (a wide thin oval), and around the EMPTY middle a delicate arch of floating PRISM SHARDS, tiny crystal facets, soap-bubble rings and twinkling star sparkles, like light refracted through glass; light and airy, very different from fire. The middle stays BLACK and empty (the creature stands there). Wider than tall.",
-		"loop": "the shards and bubbles float upward and twinkle on and off one after another, new sparkles appear at the bottom as old ones fade at the top; the base ring shimmers."}
+		"loop": "the shards and bubbles float upward and twinkle on and off one after another, new sparkles appear at the bottom as old ones fade at the top; the base ring shimmers."
+	},
+	"colpo_brace": {
+		"burst": true,
+		"what": "HIT IMPACT effect of a FIRE (embers) attack striking a creature",
+		"desc": "The burst is centred exactly in the middle of each cell (the point of impact), roughly round, NOT a ring on the ground. An explosive burst of fire: a bright white-hot core, licking tongues of flame bursting outward in all directions, curling smoke wisps and flying embers.",
+		"loop": "frame 1 a small bright flash, frames 2-3 the flames burst outward to full size, frames 4-6 the flames curl and break apart into embers and smoke, frames 7-8 only a few fading embers and a wisp of smoke remain (frame 8 almost empty)."
+	},
+	"colpo_gelo": {
+		"burst": true,
+		"what": "HIT IMPACT effect of an ICE / FROST attack striking a creature",
+		"desc": "The burst is centred exactly in the middle of each cell (the point of impact), roughly round, NOT a ring on the ground. A burst of frost: sharp angular ICE SHARDS and crystal spikes exploding outward from the centre like a shattered star, with a cold misty puff and tiny snowflake glints.",
+		"loop": "frame 1 a sharp flash, frames 2-3 the crystal spikes shoot out to full size, frames 4-6 the shards crack and fly apart, frames 7-8 only a few falling ice glints and fading mist remain (frame 8 almost empty)."
+	},
+	"colpo_spora": {
+		"burst": true,
+		"what": "HIT IMPACT effect of a SPORE / POISON attack striking a creature",
+		"desc": "The burst is centred exactly in the middle of each cell (the point of impact), roughly round, NOT a ring on the ground. A soft bursting puff of spores: round billowing clouds of dust, little floating spore balls and tiny mushroom-cap specks spreading out lazily, organic and soft (no sharp edges).",
+		"loop": "frame 1 a small puff, frames 2-4 the spore cloud swells and billows outward, frames 5-7 it drifts apart into slow floating spore balls, frame 8 only a few faint spores remain."
+	},
+	"colpo_linfa": {
+		"burst": true,
+		"what": "HIT IMPACT effect of a SAP (liquid living light) attack striking a creature",
+		"desc": "The burst is centred exactly in the middle of each cell (the point of impact), roughly round, NOT a ring on the ground. A splash of glowing liquid light: a crown-shaped SPLASH of thick luminous liquid with round droplets flying outward and a little ring ripple, like a drop of glowing sap hitting hard.",
+		"loop": "frame 1 a bright drop flash, frames 2-3 the liquid crown splashes outward, frames 4-6 the droplets fly and fall in arcs, frames 7-8 only a few small falling droplets remain (frame 8 almost empty)."
+	},
+	"colpo_vuoto": {
+		"burst": true,
+		"what": "HIT IMPACT effect of a VOID (dark cosmic emptiness) attack striking a creature",
+		"desc": "The burst is centred exactly in the middle of each cell (the point of impact), roughly round, NOT a ring on the ground. An implosion of the void: a bright outline ring around a DARK hole in the middle, swirling spiral streaks of light being SUCKED INWARD, little shards of light pulled toward the centre, eerie and cosmic.",
+		"loop": "frame 1 a ring flash, frames 2-4 the swirl spins and sucks streaks of light inward, frames 5-6 it collapses to a small bright point, frame 7 a last small burst, frame 8 almost empty."
+	},
+	"colpo_luce": {
+		"burst": true,
+		"what": "HIT IMPACT effect of a radiant LIGHT attack striking a creature",
+		"desc": "The burst is centred exactly in the middle of each cell (the point of impact), roughly round, NOT a ring on the ground. A dazzling star flash: a brilliant white star with long thin sharp RAYS shooting out in a cross and diagonals, a glowing halo disc and tiny twinkles, like a camera flash or a sunburst.",
+		"loop": "frame 1 a tiny bright point, frame 2 the full dazzling star with long rays, frames 3-5 the rays shrink and the halo fades, frames 6-8 a few small twinkles fade away (frame 8 almost empty)."
+	},
+	"colpo_fisico": {
+		"burst": true,
+		"what": "HIT IMPACT effect of a plain physical blow (sword, club, claw) striking a creature",
+		"desc": "The burst is centred exactly in the middle of each cell (the point of impact), roughly round, NOT a ring on the ground. A punchy impact: a jagged comic-style IMPACT STAR shape with a bright core, two or three curved slash streaks crossing it and small sparks flying out, crisp and energetic.",
+		"loop": "frame 1 a small flash, frames 2-3 the impact star and slash streaks at full size, frames 4-6 they break into flying sparks, frames 7-8 only a few fading sparks remain (frame 8 almost empty)."
+	}
 }
