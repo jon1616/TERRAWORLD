@@ -315,6 +315,10 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   «base»; per gli aloni la prova su quattro creature, `sh tools/sprite.sh <id> <grado>`). Gli aloni dei gradi rari
   (`alone_<grado>`) li disegna `Halo` (`src/art/halo.gd`, da `Ancient.apply`): fotogrammi sfumati, misura sulla parte
   disegnata della figura (larghezza e altezza separate); un grado senza disegno tiene il contorno di `Ancient.ring`.
+  Gli scoppi dei colpi (`colpo_<elemento>`, «fisico» = senza elemento; importati con `--centro`) li fa `HitFlash`
+  (da `ImpactFx.hit`, sopra le scintille): al centro della parte disegnata della creatura (`HitFlash.aim`), grandi
+  quanto lei; durate e grandezze per elemento in `LIFE_OF`/`SIZE_OF`; il colpo senza elemento solo la stella, piccolo e
+  breve (scelta dell'utente). Prova: `sh tools/sprite.sh <id> colpo:<elemento>`.
 - `musica/` — le musiche fatte dall'utente con Gemini («crea musica»): `esplorazione` (sottofondo) e `guardiano`
   (scontri con i boss), .mp3/.ogg/.wav; per cambiarne una si sostituisce il file con lo stesso nome (poi `--import`).
   Le suona l'autoload `Musica` (`src/audio/music.gd`): già nel menu e senza interruzioni nel mondo; brano del boss
