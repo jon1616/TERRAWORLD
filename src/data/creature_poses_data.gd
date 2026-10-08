@@ -104,6 +104,10 @@ const POSES := {
 	"lucciola": {"n": 8, "anchor": [12, 10], "center": true, "glow": true,
 		"poses": {"vola": [0, 1, 2, 3], "sospeso": [0, 3, 7], "planata": [5], "colpita": [6]},
 		"fps": {"vola": 11.0, "sospeso": 12.0}},
+	# Falena vampira (tavola di Nano Banana, tools/installa_creatura.py)
+	"falena_vampira": {"n": 8, "anchor": [16, 12], "center": true,
+		"poses": {"vola": [0, 1, 2, 3], "sospeso": [0, 3], "planata": [5], "colpita": [6]},
+		"fps": {"vola": 11.0, "sospeso": 10.0}},
 }
 
 

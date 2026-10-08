@@ -207,5 +207,17 @@
 		],
 		"scale": 1.8,
 		"polvere": false
+	},
+	"falena_vampira": {
+		"name_en": "Vampire Moth",
+		"noun": "moth",
+		"plan": "insetto",
+		"look": "a sinister night moth that latches onto its prey and drinks its life, seen from the side: a furry dark body, a small head with a long sharp curled PROBOSCIS like a needle, two feathery antennae, thin legs with hooked tips, and big ragged wings with torn edges and two pale bone-coloured EYE-SPOTS on each wing. Dark crimson and black, creepy.",
+		"colors": "very dark crimson-black body and wing bases (#200a0e, #3a1218), deep blood-red wings (#6a1a24, lighter #9a2a34 at the edges), pale bone-white eye-spots on the wings (#e8d8c8)",
+		"eye": "one small glowing bright red eye (#ff3040)",
+		"accents": [
+			"#ff3040",
+			"#e8d8c8"
+		]
 	}
 }

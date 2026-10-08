@@ -244,7 +244,9 @@ def describe(s: dict, look: dict) -> tuple[str, list[str], list[str]]:
     pal = [c for c in s["palette"] if lum(c) > 18]
     glow = [c for c in s.get("glow_cols", []) if lum(c) > 60]
     notes = []
-    risky = [c for c in pal + glow if is_magenta_risk(c)]
+    # con i colori scritti a mano si controllano quelli (la scheda ha i colori vecchi del disegno del codice)
+    given = re.findall(r"#[0-9a-fA-F]{6}", " ".join(str(look.get(k, "")) for k in ("colors", "glow", "eye")))
+    risky = [c for c in (given if given else pal + glow) if is_magenta_risk(c)]
     if risky:
         notes.append("NO purple, NO pink, NO magenta anywhere (they vanish on the background): use indigo-blue instead.")
         pal = [to_indigo(c) if is_magenta_risk(c) else c for c in pal]
