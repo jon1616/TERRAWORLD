@@ -100,6 +100,10 @@ const POSES := {
 	"avvizzito": {"n": 8, "anchor": [14, 42], "glow": true,
 		"poses": {"cammina": [0, 1, 2, 3], "fermo": [4, 7], "colpita": [5], "allerta": [6]},
 		"fps": {"cammina": 6.0, "fermo": 1.6}},
+	# Lucciola vorace (tavola di Nano Banana, tools/installa_creatura.py)
+	"lucciola": {"n": 8, "anchor": [12, 10], "center": true, "glow": true,
+		"poses": {"vola": [0, 1, 2, 3], "sospeso": [0, 3, 7], "planata": [5], "colpita": [6]},
+		"fps": {"vola": 11.0, "sospeso": 12.0}},
 }
 
 

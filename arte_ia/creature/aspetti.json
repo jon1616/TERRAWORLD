@@ -191,5 +191,21 @@
 		"accents": [
 			"#f5ad3d"
 		]
+	},
+	"lucciola_vorace": {
+		"name_en": "Ravenous Firefly",
+		"noun": "firefly",
+		"plan": "insetto",
+		"look": "a small aggressive night firefly that hunts in swarms, seen from the side: a dark armoured head with big hooked MANDIBLES and two thin antennae, a short dark body, two small pale translucent wings, and a big round glowing LIME-GREEN abdomen. Mean, hungry look.",
+		"colors": "dark olive-black head and body (#29291f), glowing lime-green abdomen (#d6ff70 with a brighter #f0ffb0 core), pale bluish wings (#ccf5ff)",
+		"eye": "one small glowing RED eye (#ff523d)",
+		"glow": "the lime-green abdomen (#d6ff70) and the red eye (#ff523d)",
+		"accents": [
+			"#d6ff70",
+			"#ff523d",
+			"#ccf5ff"
+		],
+		"scale": 1.8,
+		"polvere": false
 	}
 }

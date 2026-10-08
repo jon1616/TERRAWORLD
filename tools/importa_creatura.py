@@ -89,7 +89,8 @@ def main() -> None:
     # tutti magenta pieno: altrimenti lo sfondo stimato sarebbe quello delle linee
     rgb = np.asarray(Image.open(args.file).convert("RGB")).astype(np.int32)
     r, g, b = rgb[:, :, 0], rgb[:, :, 1], rgb[:, :, 2]
-    fam = (np.minimum(r, b) - g > 80) & (np.abs(r - b) < 70)
+    # (anche il bordo quasi nero che Nano Banana a volte disegna attorno: magenta scuro, rosso e blu ben sopra il verde)
+    fam = ((np.minimum(r, b) - g > 80) | ((np.minimum(r, b) - g > 30) & (np.minimum(r, b) > 2.2 * g + 20)))         & (np.abs(r - b) < 70)
     rgb[fam] = (255, 0, 255)
     src = Image.fromarray(rgb.astype(np.uint8), "RGB")
     a = tavola.togli_magenta(src)
