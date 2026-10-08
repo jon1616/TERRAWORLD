@@ -84,17 +84,21 @@ func run() -> void:
 		var lo := 99.0
 		var hi := -99.0
 		var tilt := 0.0
+		var seen := 0
 		var w0 := Time.get_ticks_msec()
 		while Time.get_ticks_msec() - w0 < 1000:
 			for cr in m.fauna.list:
 				# (le creature con le pose di Nano Banana hanno i passi nel disegno: il codice non le muove)
 				if absf(cr.vel.x) > 5.0 and cr.on_floor and cr._poses.is_empty():
+					seen += 1
 					lo = minf(lo, cr._spr.position.y - cr._base_y)
 					hi = maxf(hi, cr._spr.position.y - cr._base_y)
 					tilt = maxf(tilt, absf(cr._spr.rotation))
 			await kit.frames(1)
 		print("creature vive: sobbalzo %.1f px, inclinazione fino a %.2f" % [maxf(hi - lo, 0.0), tilt])
-		if hi - lo < 0.5 or tilt < 0.01:
+		if seen == 0:
+			print("creature vive: nessuna creatura senza pose in cammino (le altre hanno i passi nel disegno)")
+		elif hi - lo < 0.5 or tilt < 0.01:
 			print("ATTENZIONE: le creature che camminano non si muovono nel disegno")
 		await kit.save("volto/08_creature_a")
 		await kit.seconds(0.18)

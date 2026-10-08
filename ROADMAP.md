@@ -10,8 +10,10 @@
 - **Fatta la Roadmap 58 «I tesori della roccia»** (voci 455-458, 8 ott 2026): metalli in giacimenti con i loro segni,
   cristalli in grotte di cristallo, gemme al posto giusto; il minatore simulato.
 - **Fatta la Roadmap 59 «Mondi che non si somigliano»** (voci 459-464, 8-9 ott 2026): sette sagome, i mari ai bordi, il
-  carattere dei biomi, le tracce del passato; il 97% delle coppie di Semi oltre il doppio del rumore. In corso le
-  Roadmap 60-61 (l'utente: «completa tutte le roadmap consecutivamente»).
+  carattere dei biomi, le tracce del passato; il 97% delle coppie di Semi oltre il doppio del rumore.
+- **Fatta la Roadmap 60 «La superficie da cartolina»** (voci 465-469, 9 ott 2026): massicci a pareti e cenge con archi,
+  sporgenze e liane; punti di riferimento sulla mappa; ingressi come dati; laghi e fiumi. In corso la Roadmap 61
+  (l'utente: «completa tutte le roadmap consecutivamente»).
 - **Fatta la Roadmap 55 «Il volto chiaro»** (voci 428-438, 8 ott 2026): tutta l'interfaccia rifatta in uno stile solo.
   Via i caratteri a pixel: Alegreya e Alegreya Sans; cornici a vettori; lo scheletro comune dei pannelli (`UiPage`) con
   medaglione, numeri chiave, schede, elenco e dettaglio, tasti disegnati; suggerimenti, letture, HUD e scritte nel mondo
@@ -6384,4 +6386,16 @@ prove/volto_r60_prima.
   alberi sommersi se ne vanno. Semi 7, 13, 42: 1-3 laghi e 0-3 fiumi. **Le cascate no**: l'acqua che cade sempre vuole una
   sorgente che non allaghi la valle, e i liquidi lavorano solo vicino al Germogliato; restano una voce per dopo. La prova
   della pioggia conta l'acqua di tutta la colonna (con il cielo grande della Roadmap 56 le gocce cadevano sulle isole).
-- [ ] **469. La misura della superficie.**
+- [x] **469. La misura della superficie.**
+  Fatto il 9 ott 2026: le foto «sfondi» e «volto» prima (prove/sfondi_r60_prima, prove/volto_r60_prima) e dopo, a
+  confronto in prove/sfondi_r60_confronto.png e prove/volto_r60_confronto.png: nelle stesse inquadrature ora si vedono
+  la guglia delle Lande di brace, il massiccio a gradoni con le liane nei Boschi di brina, la rovina sul colle tra i
+  funghi, il lago nella valle del ghiacciaio. Gruppi «biomi», «alberi», «terre», «pesca», «meteo» senza avvisi. La prova
+  del volto dice senza allarme quando nessuna creatura senza pose cammina (quelle di Nano Banana hanno i passi nel
+  disegno).
+
+**Resoconto della Roadmap 60.** Prima: colline lisce, pochissime pareti, ingressi tutti uguali, niente da riconoscere da
+lontano, l'acqua solo negli stagni dei biomi. Ora: 1-3 massicci per mondo a pareti e cenge, con archi e sporgenze, e una
+liana su ogni parete più alta del salto (la superficie si percorre sempre senza scavare); un punto di riferimento per
+bioma (guglia, rovina sul colle, cerchio di pietre) segnato sulla mappa; ingressi di quattro forme ogni ~200 colonne,
+scritti come dati; laghi nelle valli e fiumi brevi. Rimandate: le cascate (vogliono una sorgente che non allaghi).

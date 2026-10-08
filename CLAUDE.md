@@ -1132,6 +1132,12 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   cratere; parametro «traccia»). Varietà: `tools/mappe.gd -- --semi 30 --caso --vigore 7` (gruppo «sagoma»); foglio
   delle sagome `tools/foglio_sagome.py`. **Un gene nuovo con un valore di testo** passa da `Genome.effects` (il caso
   String).
+- **Roadmap 60 «La superficie da cartolina»** (voci 465-469, 9 ott 2026): `PassRilievo` (massicci a pareti e cenge,
+  erosione; solo la superficie), `PassRocce` (archi, sporgenze e **tutte le liane**: va dopo `PassDecorazioni`, che
+  riscrive ogni cella d'aria e cancella le decorazioni messe prima), `PassRiferimenti` (guglie, rovine sul colle, cerchi
+  di pietre; appunti «riferimenti» → `world_meta` da `MapReveal` → la mappa), `EntrancesData` + `PassIngressi` (quattro
+  forme d'ingresso), `PassAcqueSuperficie` (laghi nelle valli, fiumi; mai entro 150 colonne dalla partenza, dove le
+  prove costruiscono). Foto prima e dopo: gruppi «sfondi» e «volto» con `tools/confronto_volto.py`.
 - **Roadmap 52 «La terra dei mondi»** (voci 412-418, 7 ott 2026; richiesta dell'utente: i blocchi a confronto con
   Terraria). Tutto nel pacchetto generato `src/data/vastita/terre.gd` (`tools/vastita_gen/terre.py`; tessere 59-119):
   - Campi nuovi delle tessere dei pacchetti: «kind» (suolo, roccia, comune, minerale, gemma, blocco), «look» (il disegno
