@@ -1,0 +1,18 @@
+{
+ "lotto": "lotto_22",
+ "grid": "4x3",
+ "shapes": [
+  "macchina_sensore_cassa",
+  "macchina_sensore_riserva",
+  "macchina_orologio_linfa",
+  "macchina_barometro",
+  "macchina_leva_radice",
+  "macchina_pulsante_radice",
+  "macchina_piastra_radice",
+  "macchina_carillon_radice",
+  "macchina_fontana_linfa",
+  "macchina_esposizione",
+  "macchina_trivella_radice",
+  "macchina_ascensore_bolla"
+ ]
+}
