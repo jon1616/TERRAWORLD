@@ -6232,3 +6232,20 @@ sotterranee in ogni mondo, confini vivi con lingue e colonne di roccia, falde gr
 zig-zag con i ponti che porta al Fondo senza scavare. Riparati: lo scrigno delle catacombe nel pavimento, una caverna
 dove nasce il Cuore, due prove che non si adattavano al mondo nuovo. La varietà fra due Semi è ancora vicina al rumore
 (0,91): la Roadmap 59.
+
+
+# Roadmap 58 «I tesori della roccia» (dall'8 ott 2026)
+
+La terza del piano «Il generatore eccellente» (`GENERATORE.md`). Scelta dell'utente: «minerali in giacimenti».
+
+- [x] **455. Giacimenti invece di puntini.** Metalli in giacimenti a filoni, circa metà delle tessere.
+  Fatto l'8 ott 2026: `TileDefs.DEPOSIT` + `PassMinerali`: per ogni metallo (i cinque di base e le vene «minerale» dei
+  pacchetti) una maschera lenta e allungata in orizzontale dice dove c'è il giacimento; fuori niente, dentro la vena è
+  più fitta verso il cuore. La maschera si campiona su una griglia ogni 8 celle e la vena si guarda per prima (la
+  passata resta sotto il secondo). Misura `tools/giacimenti.gd` (seme 7, prima → ora): radicite 35.678 → 17.879
+  tessere, giacimenti 2.374 → 667 (in media 15 → 26 tessere), **resa vicino alla vena 9% → 13%**; legnoferro e ambra
+  uguali in proporzione. Chi trova un giacimento scava meno e trova di più. Gruppi «base», «terre», «grotte», «spina»,
+  «raccolta» senza avvisi.
+- [ ] **456. I segni dei giacimenti.** Affioramenti e piante che li annunciano.
+- [ ] **457. Gemme e rarità al posto giusto.** Cristalli nelle grotte di cristallo, gemme nei geodi.
+- [ ] **458. Il bilancio dei tesori.** Tempi dei metalli con i giocatori simulati.

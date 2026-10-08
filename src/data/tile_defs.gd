@@ -140,6 +140,12 @@ const _ORES := [
 	{"type": PALLIDITE, "min_depth": 30, "strata": [1, 2], "in": [STONE, RADICE], "freq": 0.12, "threshold": 0.56},
 	{"type": TIZZONITE, "min_depth": 300, "strata": [3, 4], "in": [SCISTO, VUOTITE, STONE], "freq": 0.13, "threshold": 0.57},
 ]
+## Voce 455 (Roadmap 58 «I tesori della roccia», scelta dell'utente: «minerali in giacimenti»): i metalli non sono più
+## puntini sparsi ovunque ma **giacimenti**: una maschera lenta e allungata in orizzontale (`stretch`: filoni da seguire)
+## dice dove c'è il giacimento; fuori niente, dentro la vena è più fitta (la soglia scende fino a `bonus` verso il cuore).
+## Vale per i cinque metalli di base e per le vene dei pacchetti di tipo «minerale» (`PassMinerali`).
+const DEPOSIT := {"mask_freq": 0.012, "mask": 0.2, "bonus": 0.12, "core": 0.3, "stretch": 0.45}
+const DEPOSIT_BASE := [RADICITE, LEGNOFERRO, AMBRA, PALLIDITE, TIZZONITE]
 ## Roadmap 52: più le vene e le sacche dei pacchetti (campo «veins»: le terre comuni, i metalli della spina e del dopo con
 ## «vmin»/«vmax» = i vigori dei mondi in cui ci sono, le gemme).
 static var ORES: Array = _ORES + BiomesData.pack_list("veins")
