@@ -6,6 +6,10 @@ extends SceneTree
 ## (con `--vigore N`, di base 5). Sotto ogni mondo si stampa il genoma, e alla fine la **misura della varietà**: la
 ## distanza tra ogni coppia di mondi (biomi, forma della superficie, grotte per strato, minerali, luoghi del
 ## sottosuolo, alberi e rovine), confrontata con il «rumore» di due mondi con lo stesso genoma e semi diversi.
+## Voce 439 (8 ott 2026, piano «Il generatore eccellente», GENERATORE.md): vigore 1 di base (a 5 i minerali risultavano
+## gonfiati), il rumore è la media di `--rumore N` coppie (10; prima era un confronto solo), `--lista 1,7,13` per semi
+## scelti, e `--prima <cartella>` salva in prove/<cartella>/ la mappa intera di ogni seme, i ritagli (cielo, superficie,
+## sottosuolo) e `numeri.txt` con le misure: il riferimento con cui si confronta ogni voce del piano.
 
 const NAMES := ["biomi", "superficie", "grotte", "minerali", "sottosuolo", "vita"]
 
@@ -16,7 +20,21 @@ func _init() -> void:
 	var first := int(_arg(args, "--da", "1"))
 	var full := "--intera" in args
 	var random := "--caso" in args
-	var vigor := int(_arg(args, "--vigore", "5"))
+	var vigor := int(_arg(args, "--vigore", "1"))
+	var noise_n := int(_arg(args, "--rumore", "10"))
+	var ref := _arg(args, "--prima", "")
+	var seeds: Array = []
+	var lista := _arg(args, "--lista", "")
+	if lista != "":
+		for x in lista.split(",", false):
+			seeds.append(int(x))
+		n = seeds.size()
+	else:
+		for k in n:
+			seeds.append(first + k)
+	var report: Array[String] = []
+	if ref != "":
+		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path("res://prove/" + ref))
 	var fixed := _arg(args, "--geni", "")
 	var lost := _arg(args, "--perduto", "")          # Roadmap 21: `--perduto sommerso` o `--perduto tutti` (uno per mondo)
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path("res://mappe"))
@@ -24,7 +42,7 @@ func _init() -> void:
 	var prints: Array = []
 	var genomes: Array = []
 	for k in n:
-		var sd := first + k
+		var sd: int = seeds[k]
 		var genes: Array = []
 		if fixed != "":
 			genes = Array(fixed.split(","))
@@ -64,12 +82,20 @@ func _init() -> void:
 		prints.append(_fingerprint(w))
 		genomes.append(genes)
 		_save_map(w, "res://mappe/mondo_%d.png" % sd, full)
+		if ref != "":
+			report.append(_measure(w, sd, ms, counts))
+			_save_ref(w, ref, sd)
 	var line := "media per passata:"
 	for key in totals:
 		line += " %s %d ms ·" % [key, int(totals[key]) / n]
 	print(line)
 	if n >= 2:
-		_variety(prints, genomes, first, vigor)
+		report.append(_variety(prints, genomes, seeds, vigor, noise_n))
+	if ref != "":
+		var f := FileAccess.open(ProjectSettings.globalize_path("res://prove/%s/numeri.txt" % ref), FileAccess.WRITE)
+		f.store_string("\n".join(report) + "\n")
+		f.close()
+		print("riferimento: prove/%s/ (mappe, ritagli, numeri.txt)" % ref)
 	quit()
 
 
@@ -164,7 +190,7 @@ static func _dist(a: Array, b: Array) -> Array:
 	return [tot, parts]
 
 
-func _variety(prints: Array, genomes: Array, first: int, vigor: int) -> void:
+func _variety(prints: Array, genomes: Array, seeds: Array, vigor: int, noise_n: int) -> String:
 	var ds := []
 	var closest := [999.0, 0, 0]
 	for i in prints.size():
@@ -178,16 +204,102 @@ func _variety(prints: Array, genomes: Array, first: int, vigor: int) -> void:
 	for d in ds:
 		mean += d
 	mean /= ds.size()
-	# il rumore: lo stesso genoma del primo mondo con un seme diverso
-	var w := World.new()
-	WorldGen.generate(w, first + 9001, WorldGen.WIDTH, WorldGen.HEIGHT, {"vigore": vigor, "geni": genomes[0]})
-	var noise: Array = _dist(prints[0], _fingerprint(w))
-	print("VARIETÀ: distanza media %.2f, minima %.2f (semi %d e %d), mediana %.2f; rumore dello stesso genoma %.2f (%s)" % [
-		mean, closest[0], first + closest[1], first + closest[2], ds[ds.size() / 2], noise[0],
-		", ".join(range(NAMES.size()).map(func(k: int) -> String: return "%s %.2f" % [NAMES[k], noise[1][k]]))])
+	# il rumore: lo stesso genoma di un mondo con un seme diverso, in media su più coppie (voce 439: uno solo era un
+	# campione troppo piccolo per dire se due Semi si somigliano)
+	var noise := [0.0, [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]
+	var k_n := mini(noise_n, prints.size())
+	for i in k_n:
+		var w := World.new()
+		WorldGen.generate(w, int(seeds[i]) + 9001, WorldGen.WIDTH, WorldGen.HEIGHT, {"vigore": vigor, "geni": genomes[i]})
+		var d: Array = _dist(prints[i], _fingerprint(w))
+		noise[0] += float(d[0]) / k_n
+		for g in NAMES.size():
+			noise[1][g] += float(d[1][g]) / k_n
+	var line := "VARIETÀ: distanza media %.2f, minima %.2f (semi %d e %d), mediana %.2f; rumore dello stesso genoma %.2f su %d coppie (%s); rapporto minima/rumore %.2f" % [
+		mean, closest[0], int(seeds[closest[1]]), int(seeds[closest[2]]), ds[ds.size() / 2], noise[0], k_n,
+		", ".join(range(NAMES.size()).map(func(k: int) -> String: return "%s %.2f" % [NAMES[k], noise[1][k]])),
+		closest[0] / maxf(noise[0], 0.001)]
+	print(line)
 	var worst: Array = _dist(prints[closest[1]], prints[closest[2]])[1]
-	print("   i due mondi più simili differiscono per: %s" % ", ".join(range(NAMES.size()).map(func(k: int) -> String:
-		return "%s %.2f" % [NAMES[k], worst[k]])))
+	var line2 := "   i due mondi più simili differiscono per: %s" % ", ".join(range(NAMES.size()).map(func(k: int) -> String:
+		return "%s %.2f" % [NAMES[k], worst[k]]))
+	print(line2)
+	return line + "\n" + line2
+
+
+## Le misure di un mondo per il riferimento del piano (voce 439): una riga per seme, da confrontare voce per voce.
+func _measure(w: World, sd: int, ms: int, counts: Dictionary) -> String:
+	var air := [0, 0, 0, 0, 0]
+	var cells := [0, 0, 0, 0, 0]
+	var water := 0
+	var sky_solid := 0
+	var sky_air := 0
+	var top := w.h
+	for x in w.w:
+		top = mini(top, int(w.surface[x]))
+	for y in w.h:
+		for x in w.w:
+			var i := y * w.w + x
+			var t := w.tiles[i]
+			var dep := y - int(w.surface[x])
+			if dep < 0:
+				if t == TileDefs.AIR:
+					sky_air += 1
+				else:
+					sky_solid += 1
+				continue
+			if dep < 8:
+				continue
+			var st := StrataData.index(x, dep, w.world_seed)
+			cells[st] += 1
+			if t == TileDefs.AIR:
+				air[st] += 1
+			if w.liquid[i] & 15 > 0:
+				water += 1
+	var pct := []
+	for k in 5:
+		pct.append("%d%%" % (100 * air[k] / maxi(cells[k], 1)))
+	var ores := []
+	for o in TileDefs.ORES:
+		var t: int = int(o["type"])
+		var nn := w.tiles.count(t)
+		if nn > 0:
+			ores.append("%s %d" % [TileDefs.NAMES.get(t, str(t)), nn])
+	var isles: Array = w.gen_notes.get("isole_cielo", [])
+	var biomes := {}
+	for x in w.w:
+		var b := String(BiomesData.BIOMES[int(w.biomes[x])]["id"])
+		biomes[b] = int(biomes.get(b, 0)) + 1
+	return "seme %d · %d ms · %d×%d · superficie più alta %d, media %d\n  aria per strato %s · celle di liquido sotto %d\n  cielo: %d celle solide, %d d'aria (%.2f%%), %d isole, %d zone\n  minerali: %s · cristalli %d\n  biomi: %s" % [
+		sd, ms, w.w, w.h, top, _mean_surface(w), " ".join(PackedStringArray(pct)), water, sky_solid, sky_air,
+		100.0 * sky_solid / maxf(sky_solid + sky_air, 1.0), isles.size(), (w.gen_notes.get("cielo", []) as Array).size(),
+		", ".join(PackedStringArray(ores)), counts[TileDefs.CRYSTAL], str(biomes)]
+
+
+func _mean_surface(w: World) -> int:
+	var s := 0
+	for x in w.w:
+		s += int(w.surface[x])
+	return s / w.w
+
+
+## Il riferimento visivo: la mappa intera e tre ritagli a grandezza vera (cielo sopra la superficie più alta, la fascia
+## della superficie, il sottosuolo fino al Fondo) di un tratto di 900 colonne attorno alla partenza.
+func _save_ref(w: World, ref: String, sd: int) -> void:
+	var base := "res://prove/%s/mondo_%d" % [ref, sd]
+	_save_map(w, base + ".png", true)
+	var im := Image.load_from_file(ProjectSettings.globalize_path(base + ".png"))
+	var top := w.h
+	for x in w.w:
+		top = mini(top, int(w.surface[x]))
+	var x0 := clampi(w.spawn.x - 450, 0, w.w - 900)
+	var s := int(w.surface[w.spawn.x])
+	for part in [["cielo", 0, top + 10], ["superficie", maxi(s - 60, 0), mini(s + 80, w.h)], ["sottosuolo", mini(s + 80, w.h - 1), w.h]]:
+		var y0: int = part[1]
+		var y1: int = part[2]
+		if y1 - y0 < 4:
+			continue
+		im.get_region(Rect2i(x0, y0, 900, y1 - y0)).save_png(ProjectSettings.globalize_path("%s_%s.png" % [base, part[0]]))
 
 
 func _save_map(w: World, path: String, full: bool) -> void:

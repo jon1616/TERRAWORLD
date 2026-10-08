@@ -1,6 +1,9 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato l'8 ott 2026)
+- **In corso la Roadmap 56 «Il cielo grande»** (voci 439-447, dall'8 ott 2026), la prima del piano «Il generatore
+  eccellente» (`GENERATORE.md`, Roadmap 56-61, voci 439-478; scelte dell'utente: mondo alto 1200, minerali in giacimenti,
+  mari ai bordi in quasi tutte le sagome). Il cielo grande come la mappa, in tre fasce, con continenti sospesi.
 - **Fatta la Roadmap 55 «Il volto chiaro»** (voci 428-438, 8 ott 2026): tutta l'interfaccia rifatta in uno stile solo.
   Via i caratteri a pixel: Alegreya e Alegreya Sans; cornici a vettori; lo scheletro comune dei pannelli (`UiPage`) con
   medaglione, numeri chiave, schede, elenco e dettaglio, tasti disegnati; suggerimenti, letture, HUD e scritte nel mondo
@@ -6065,3 +6068,24 @@ per pannelli e suggerimenti. Rifatti: Pilastri, Arti, Atlante, Albero-Madre, Bac
 Mandria, Compagni, Quaderno, letture, Enciclopedia, la scheda del Germogliato, mappa, menu e pausa; l'HUD e le scritte
 nel mondo ammorbidite o a campo di distanza. Galleria: 0 problemi d'impaginazione.
 
+
+# Roadmap 56 «Il cielo grande» (dall'8 ott 2026)
+
+La prima del piano «Il generatore eccellente» (`GENERATORE.md`: lì per ogni voce i file, chi tocca e quando è fatta).
+L'utente: «il cielo è da migliorare nettamente, deve essere grande come la mappa». Oggi il cielo ha il 2-2,5% di celle
+solide (isole di 15-30 colonne), la varietà fra due Semi è sotto il rumore (0,89).
+
+- [x] **439. La misura di partenza.** `tools/mappe.gd`: vigore 1 di base, rumore medio su più coppie, `--lista`,
+  `--prima <cartella>` → mappe, ritagli e `numeri.txt` di cinque Semi fissi (1, 7, 13, 42, 20260924).
+  Fatto l'8 ott 2026: riferimento in `prove/generatore_prima/`. A vigore 1: ~39.000 radicite, ~44.000 legnoferro,
+  ~35.000 ambra, ~36.000 cristalli (gli 80.000 di prima erano a vigore 5); aria per strato 15/16/28/35/47%; cielo 2-2,5%
+  di celle solide, ~110 isole in 7-8 zone; varietà: coppia più simile 0,70 contro un rumore di 0,79 (rapporto 0,89).
+  Rifatta due volte: numeri e mappe identici.
+- [ ] **440. I guasti trovati.** «Mondo cavo», Arcipelago dopo i Biomi, `claim` del sottosuolo, il Guscio sopra il tetto.
+- [ ] **441. Il mondo più alto.** 1200 righe, la superficie come distanza dal fondo.
+- [ ] **442. Tre fasce di cielo.** Basso, medio, alto, larghe tutta la mappa; due biomi nuovi per la fascia media.
+- [ ] **443. I continenti sospesi.** 1-2 per zona, con grotte (e pareti), vene, cascate.
+- [ ] **444. Le strade verso l'alto.** Mari di nuvole, correnti per fascia, liane, il Fagiolo fino a un'isola.
+- [ ] **445. I luoghi del cielo.** Templi, osservatori, nidi dei Signori, la firma del mondo.
+- [ ] **446. La vita e la luce del cielo.** Creature e pericolo per fascia, sfondo che cambia salendo.
+- [ ] **447. La misura del cielo.** Terra per fascia, raggiungibilità, mappe prima e dopo, resoconto.
