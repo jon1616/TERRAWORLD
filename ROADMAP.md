@@ -6375,5 +6375,13 @@ prove/volto_r60_prima.
   bocca a valle), **dolina** (un imbuto che si stringe in un pozzo) e **pozzo** (dritto, con l'orlo di pietra); se il
   posto è preso diventa una galleria. Le liane di doline e pozzi le mette `PassRocce` (appunti «liane_ingressi»).
   Semi 7, 13, 42: 11-12 ingressi per mondo; il Fondo si raggiunge senza scavare.
-- [ ] **468. Le acque di superficie.**
+- [x] **468. Le acque di superficie.** Laghi nelle valli, fiumi brevi (le cascate restano da fare).
+  Fatto il 9 ott 2026: `PassAcqueSuperficie` (dopo l'Acqua): i **laghi nelle valli** (il livello che la superficie
+  trattiene tra due rive entro 90 colonne, due righe sotto la riva più bassa; i 3-6 più grandi profondi almeno 6 e larghi
+  al più 110) e i **fiumi brevi** (un letto piatto scavato tre righe sotto la colonna più bassa di un tratto di 30-90
+  colonne quasi piano, pieno d'acqua, le rive più alte). Mai nei mari, nel canyon, entro 150 colonne dalla partenza (le
+  prove ci costruiscono le loro conche: un lago lì confondeva otre e pioggia), sotto il guscio e nei mondi Sommersi; gli
+  alberi sommersi se ne vanno. Semi 7, 13, 42: 1-3 laghi e 0-3 fiumi. **Le cascate no**: l'acqua che cade sempre vuole una
+  sorgente che non allaghi la valle, e i liquidi lavorano solo vicino al Germogliato; restano una voce per dopo. La prova
+  della pioggia conta l'acqua di tutta la colonna (con il cielo grande della Roadmap 56 le gocce cadevano sulle isole).
 - [ ] **469. La misura della superficie.**

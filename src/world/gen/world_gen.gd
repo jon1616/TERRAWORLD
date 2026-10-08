@@ -70,6 +70,7 @@ static func passes() -> Array[GenPass]:
 		PassPrimo.new(),                    # Roadmap 28: il Giardino oltre il Vuoto (nel mondo del Seme Primo)
 		PassPerduto.new(),                  # Roadmap 21: il luogo di un Giardino perduto (dopo le stele: il cerchio del muto)
 		PassAcqua.new(),
+		PassAcqueSuperficie.new(),          # voce 468: laghi nelle valli e fiumi brevi
 		PassSegretiStanze.new(),            # voce 96: stanze murate, passaggi, tesori, nidi nascosti
 		PassSegretiAnomalie.new(),          # voce 97: camere-enigma, anomalie, visioni
 		PassSegreti.new(),                  # voce 95: l'elenco dei segreti (non usa il caso, non sposta nulla)

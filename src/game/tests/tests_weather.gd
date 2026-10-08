@@ -108,7 +108,9 @@ func run() -> void:
 func _water_near() -> int:
 	var pc: Vector2i = m.player_cell()
 	var n := 0
-	for y in range(pc.y - 30, pc.y + 30):
+	# (9 ott 2026) tutta la colonna sopra il Germogliato: con il cielo grande della Roadmap 56 molte gocce cadono sulle
+	# isole del cielo, che stanno più in alto di 30 righe
+	for y in range(0, mini(pc.y + 30, world.h)):
 		for x in range(pc.x - 55, pc.x + 55):
 			n += world.liq(x, y)
 	return n
