@@ -7,6 +7,7 @@ extends Node2D
 ## girato e specchiato a caso perché due colpi di fila non siano uguali.
 
 const LIFE := 0.42
+const LIFE_OF := {"spora": 0.7}    # le spore restano nell'aria un po' di più
 const MIN_PX := 22.0
 const MAX_PX := 72.0
 const PHYSICAL := Color(1.25, 1.0, 0.7)       # il colpo senza elemento: bianco caldo
@@ -14,6 +15,7 @@ const PHYSICAL := Color(1.25, 1.0, 0.7)       # il colpo senza elemento: bianco 
 var _spr: Sprite2D
 var _frames: Array = []
 var _t := 0.0
+var _life := LIFE
 
 
 ## Dove e quanto grande colpire una creatura: il centro e l'altezza della parte DISEGNATA (il corpo degli urti è più
@@ -38,6 +40,7 @@ static func play(parent: Node, pos: Vector2, elem: String, size: float) -> void:
 		return
 	var f := HitFlash.new()
 	f._frames = s["frames"]
+	f._life = float(LIFE_OF.get(elem, LIFE))
 	f._spr = Sprite2D.new()
 	var mat := CanvasItemMaterial.new()
 	mat.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
@@ -60,7 +63,7 @@ static func play(parent: Node, pos: Vector2, elem: String, size: float) -> void:
 
 func _process(dt: float) -> void:
 	_t += dt
-	var k := int(_t / LIFE * _frames.size())
+	var k := int(_t / _life * _frames.size())
 	if k >= _frames.size():
 		queue_free()
 		return
