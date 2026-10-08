@@ -308,6 +308,12 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   prompt negli appunti) → l'utente salva la tavola in `arte_ia/icone` → `python tools/installa_icone.py` (nome, taglio,
   scritte tolte, foglio prove/icone/<lotto>.png; `--salta forma` per le venute male). Elenco delle forme:
   `tools/scheda_icone.gd` → `arte_ia/icone/forme.json`.
+  Gli oggetti che si piazzano (stazioni, macchine, costrutti, arredi, pareti) usano la forma dipinta dei loro dati
+  (`IconVariety.of_ui`, `ItemIcons.ui`); trappole, totem, macchine, costrutti e mobili hanno forme loro («trappola_…»,
+  «totem_…», «macchina_<id>», «costr_<forma>», «arredo_<mobile>») scelte dai dati solo se il disegno c'è
+  (`ZonesData.icon_of`, `MachinesData.icon_of`, `BuildData.icon_of`, `FurnitureData._icon`); senza, resta il disegno
+  del mondo ingrandito. Quali oggetti e con che disegno: `tools/icone_mondo.gd -- --cat <categoria di Creare>` →
+  prove/icone/mondo_<cat>.png. Le luci e i vetri dipinti sul magenta vengono rosa: si rendono grigi o si tolgono.
   **Gli effetti** (8 ott 2026): Nano Banana li disegna BIANCHI su fondo NERO (sul magenta la luce sfumata si sporca), la
   luminosità diventa l'alfa e il gioco li colora e li somma come luce (`CanvasItemMaterial` ADD). Giro: descrizione in
   `arte_ia/effetti/aspetti.json` → `python tools/prompt_effetto.py <nome>` → l'utente salva in `arte_ia/effetti` →
