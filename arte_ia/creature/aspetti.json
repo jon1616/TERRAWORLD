@@ -109,5 +109,18 @@
 		],
 		"scale": 1.4,
 		"polvere": false
+	},
+	"scarabeo_ardesia": {
+		"name_en": "Slate Beetle",
+		"noun": "beetle",
+		"plan": "insetto",
+		"look": "a heavy armoured beetle made of SLATE STONE, seen from the side: a big domed shell of layered blue-grey slate plates with sharp edges, crossed by thin glowing EMBER-ORANGE cracks (like hot seams between the stone plates), a low head with a short thick HORN pointing forward for charging, two short antennae, six short sturdy legs. Heavy, slow, but it charges like a battering ram.",
+		"colors": "blue-grey slate shell (#475c85, light #8599b8 on top edges, dark #293352 underneath), orange ember cracks (#d67a3d, bright #ffad70), dark legs and head (#3d4766)",
+		"eye": "one small glowing orange eye (#ffad70)",
+		"glow": "the orange cracks and the eye (#ffad70)",
+		"accents": [
+			"#ffad70",
+			"#d67a3d"
+		]
 	}
 }

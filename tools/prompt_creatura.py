@@ -36,7 +36,7 @@ STYLE = ("[STYLE SHEET «Roots and Sap»] Side-view pixel-art game creature for 
 RULES = ("Draw it LARGE with big clear shapes and flat colours: it will be pixelated later by a script to about {px} "
          "pixels wide, so every detail must be BIG and readable at that size (no thin lines, no tiny details, no "
          "texture noise, no soft gradients, at most 2-3 tones per colour). No shadows on the ground, NO ground line, "
-         "no dust clouds, no text, no numbers, no letters, no grid lines, no frames, no borders.")
+         "no dust clouds, no motion blur, no speed lines, no sparkles around the creature, no text, no numbers, no letters, no grid lines, no frames, no borders.")
 GRID = ("Solid flat magenta #FF00FF background everywhere. EXACTLY {rows} rows and 4 columns: {n} equal cells, "
         "NO extra row, NO extra copies, ONE {noun} per cell, ALWAYS facing RIGHT (head on the right), ALWAYS the same "
         "size and the same colours in every cell. {anchor}")

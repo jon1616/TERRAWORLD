@@ -76,6 +76,10 @@ const POSES := {
 	"ape_lume": {"n": 8, "anchor": [10, 10], "center": true, "glow": true,
 		"poses": {"vola": [0, 1, 2, 3], "sospeso": [4, 3], "planata": [5], "colpita": [6]},
 		"fps": {"vola": 11.0, "sospeso": 8.0}},
+	# Scarabeo d'ardesia (tavola di Nano Banana, tools/installa_creatura.py)
+	"scarabeo": {"n": 8, "anchor": [21, 28],
+		"poses": {"cammina": [0, 1, 2, 3], "fermo": [4], "carica": [5], "scatto": [6], "colpita": [7]},
+		"fps": {"cammina": 6.0}},
 }
 
 
