@@ -60,6 +60,10 @@ func _pile(at: Vector2i, n: int) -> Array:
 	for d in m.drops._items:
 		d["vel"] = Vector2.ZERO
 	await kit.seconds(1.5)
+	# prima accanto, fuori dalla calamita (5 tessere): liquidi e mappa si svegliano nel posto nuovo (8 ott 2026: il loro
+	# risveglio cadeva nello stesso fotogramma della raccolta e la prova lo contava come costo della Bisaccia)
+	m.snap_to(at + Vector2i(-7, 0))
+	await kit.seconds(0.5)
 	m.snap_to(at)
 	var worst := 0.0
 	var scripts := 0.0                        # il tempo degli script (tutto tranne disegno, fisica e attesa)
@@ -111,6 +115,12 @@ func run() -> void:
 	await kit.seconds(1.5)                   # le righe dell'elenco si preparano da sole a Bisaccia chiusa
 	# l'elenco Creare con tutti i banchi: la prima volta (righe da costruire) e poi a regime
 	var cp: CraftingPanel = m.hud.panel.crafting
+	# (8 ott 2026) si aspetta che le caselle siano tutte pronte: la prima icona di un oggetto costa 10-25 ms, e nel
+	# gruppo da solo la preparazione cadeva nel fotogramma della raccolta
+	var tw := 0.0
+	while not cp.warm_done() and tw < 30.0:
+		await kit.seconds(0.5)
+		tw += 0.5
 	var first := _ms(cp.refresh)
 	var again := _ms(cp.refresh)
 	print("raccolta, con %d banchi attorno: un cambio della Bisaccia costa %s; l'elenco Creare (%d righe) si rifà in %.1f ms la prima volta (righe già preparate), %.1f ms poi" % [

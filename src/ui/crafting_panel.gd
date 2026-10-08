@@ -30,6 +30,9 @@ const BG := Color("#0a1211")
 ## spostava il numero scritto a mano, Roadmap 19).
 static var WORK_CAT: int = CraftCatsData.CATS.size() + 1
 const WARM_PER_FRAME := 4
+## (8 ott 2026) e al più `WARM_US` microsecondi: la prima icona di certi oggetti costa molto, e quattro caselle in un
+## fotogramma arrivavano a 30 ms
+const WARM_US := 1500
 ## Le categorie: «Tutto», quelle di `CraftCatsData`, «Lavorazioni».
 static var CATS: Array = _tabs()
 
@@ -135,7 +138,8 @@ func _process(dt: float) -> void:
 		# a Bisaccia chiusa si preparano le caselle poco alla volta: la prima apertura non deve costruirle tutte insieme
 		var all := RecipesData.all()
 		var made := 0
-		while _warm < all.size() and made < WARM_PER_FRAME:
+		var t0 := Time.get_ticks_usec()
+		while _warm < all.size() and made < WARM_PER_FRAME and Time.get_ticks_usec() - t0 < WARM_US:
 			var r: Dictionary = all[_warm]
 			_warm += 1
 			if not _tiles.has(r):
@@ -150,6 +154,11 @@ func _process(dt: float) -> void:
 		var near: Dictionary = stations_near.call()
 		if ",".join(near.keys()) != _near_key:
 			refresh()
+
+
+## Le caselle di tutte le ricette sono pronte (per le prove).
+func warm_done() -> bool:
+	return _warm >= RecipesData.all().size()
 
 
 func _tile(r: Dictionary) -> RecipeTile:

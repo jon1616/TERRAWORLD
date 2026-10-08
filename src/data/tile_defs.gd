@@ -144,7 +144,7 @@ const _ORES := [
 ## puntini sparsi ovunque ma **giacimenti**: una maschera lenta e allungata in orizzontale (`stretch`: filoni da seguire)
 ## dice dove c'è il giacimento; fuori niente, dentro la vena è più fitta (la soglia scende fino a `bonus` verso il cuore).
 ## Vale per i cinque metalli di base e per le vene dei pacchetti di tipo «minerale» (`PassMinerali`).
-const DEPOSIT := {"mask_freq": 0.012, "mask": 0.2, "bonus": 0.12, "core": 0.3, "stretch": 0.45}
+const DEPOSIT := {"mask_freq": 0.012, "mask": 0.11, "bonus": 0.15, "core": 0.3, "stretch": 0.45}
 const DEPOSIT_BASE := [RADICITE, LEGNOFERRO, AMBRA, PALLIDITE, TIZZONITE]
 ## Roadmap 52: più le vene e le sacche dei pacchetti (campo «veins»: le terre comuni, i metalli della spina e del dopo con
 ## «vmin»/«vmax» = i vigori dei mondi in cui ci sono, le gemme).

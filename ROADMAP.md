@@ -6,7 +6,9 @@
   bordi in quasi tutte le sagome). Mondo alto 1200, cielo in tre fasce largo tutta la mappa, continenti sospesi con i
   luoghi dei Seminatori, due biomi del cielo di mezzo. Resoconto in fondo.
 - **Fatta la Roadmap 57 «Le profondità vere»** (voci 448-454, 8 ott 2026): stili di grotta per strato, grandi caverne e
-  voragini, regioni sotterranee, confini vivi, falde, la strada fino al Fondo. In corso le Roadmap 58-61 (l'utente:
+  voragini, regioni sotterranee, confini vivi, falde, la strada fino al Fondo.
+- **Fatta la Roadmap 58 «I tesori della roccia»** (voci 455-458, 8 ott 2026): metalli in giacimenti con i loro segni,
+  cristalli in grotte di cristallo, gemme al posto giusto; il minatore simulato. In corso le Roadmap 59-61 (l'utente:
   «completa tutte le roadmap consecutivamente»).
 - **Fatta la Roadmap 55 «Il volto chiaro»** (voci 428-438, 8 ott 2026): tutta l'interfaccia rifatta in uno stile solo.
   Via i caratteri a pixel: Alegreya e Alegreya Sans; cornici a vettori; lo scheletro comune dei pannelli (`UiPage`) con
@@ -6260,4 +6262,23 @@ La terza del piano «Il generatore eccellente» (`GENERATORE.md`). Scelta dell'u
   77), **gemme al posto giusto 31% → 72%**. I metalli della spina restano legati ai loro strati (le regioni del
   sottosuolo nascono dopo i minerali: legarli lì vorrebbe dire spostare la passata, non serve). La prova dei baccelli
   tiene il Germogliato accanto al baccello aperto (nel mondo nuovo cadeva via e il bottino restava a terra).
-- [ ] **458. Il bilancio dei tesori.** Tempi dei metalli con i giocatori simulati.
+- [x] **458. Il bilancio dei tesori.** Tempi dei metalli con i giocatori simulati.
+  Fatto l'8 ott 2026: `tools/minatore.gd`, il minatore simulato (120 gallerie da 400 passi per metallo, vede il metallo
+  entro 5 tessere, lo raggiunge e segue il filone; misura il metallo per 100 tessere scavate e i minuti per un set). Con
+  i giacimenti della voce 455 il minatore **cieco** (che non legge i segni) rendeva il 24-34% in meno: la maschera dei
+  giacimenti si allarga (`TileDefs.DEPOSIT` «mask» 0,2 → 0,11, «bonus» 0,15). Ora, seme 7, prima → ora: radicite 19,0 →
+  20,5 (+8%), legnoferro 16,0 → 15,5 (−3%), ambra 14,0 → 13,4 (−5%); un set di radicite in 2,2 minuti di scavo. I
+  giacimenti sono un quarto di prima e tre volte più grandi (radicite 2.385 → 651, in media 15 → 43 tessere): chi segue
+  i segni scava meno. `tools/percorso.gd` e `tools/durata.gd` contano dai dati e non cambiano.
+  Nel giro delle prove tre costi trovati e tolti: la mappa ridipingeva 12.000 celle insieme ogni 2 s (ora a strisce,
+  `MapReveal.STRIPES`), la percentuale dell'Erbario scorreva migliaia di oggetti per i traguardi del Museo (ora conta
+  le voci conosciute e si ricorda, `Erbario.percent`), Creare preparava a Bisaccia chiusa caselle da 10-25 ms l'una (la
+  prima icona di un oggetto: ora con un tetto di 1,5 ms, `CraftingPanel.WARM_US`; resta lo scatto di una casella sola
+  nei primi secondi di gioco, per la voce delle prestazioni della Roadmap 61). La prova della raccolta aspetta che le
+  caselle siano pronte e si avvicina al mucchio in due tempi.
+
+**Resoconto della Roadmap 58.** Prima: i metalli erano puntini sparsi ovunque, i cristalli su ogni parete delle
+Profondità, le gemme a caso. Ora: i metalli stanno in giacimenti a filoni (un quarto, tre volte più grandi, la stessa
+resa per chi scava a caso e di più per chi li cerca), annunciati in superficie dagli affioramenti e nelle grotte dai
+sassi luccicanti; i cristalli in grotte di cristallo; le gemme per tre quarti nelle zone delle grotte di cristallo o
+nelle grandi caverne. Strumenti nuovi: `tools/giacimenti.gd`, `tools/tesori.gd`, `tools/minatore.gd`.

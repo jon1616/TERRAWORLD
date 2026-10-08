@@ -111,15 +111,49 @@ func known(section: String, id: String) -> bool:
 
 
 ## Percentuale di completamento (0-100) di una sezione, o di tutto se `section` è vuota.
+## (8 ott 2026) Si ricorda finché restano lo stesso dizionario e lo stesso numero di voci conosciute: scorrere migliaia
+## di oggetti costava ~4 ms, e i traguardi del Museo la chiedono ogni 10 s.
 func percent(section := "") -> float:
+	var sizes := []
+	for sec in ["creature", "oggetti", "pagine", "famiglie"]:
+		sizes.append((data.get(sec, {}) as Dictionary).size())
+	if not is_same(_pct_of, data) or sizes != _pct_sizes:
+		_pct_of = data
+		_pct_sizes = sizes
+		_pct_cache.clear()
+	if not _pct_cache.has(section):
+		_pct_cache[section] = _percent(section)
+	return float(_pct_cache[section])
+
+
+var _pct_cache := {}
+var _pct_sizes := []
+var _pct_of: Dictionary
+
+
+func _percent(section: String) -> float:
 	var tot := 0
 	var got := 0
 	for sec in (["creature", "oggetti", "pagine", "famiglie"] if section == "" else [section]):
-		for id in entries(sec):
-			tot += 1
-			if known(sec, id):
+		# si contano le voci conosciute (poche centinaia) che stanno nell'elenco, non tutto l'elenco (migliaia)
+		var ids := _entry_set(sec)
+		tot += ids.size()
+		for id in (data.get(sec, {}) as Dictionary):
+			if ids.has(id):
 				got += 1
 	return 100.0 * got / maxi(tot, 1)
+
+
+static var _sets := {}
+
+
+static func _entry_set(sec: String) -> Dictionary:
+	if not _sets.has(sec):
+		var d := {}
+		for id in entries(sec):
+			d[id] = true
+		_sets[sec] = d
+	return _sets[sec]
 
 
 ## Voce 120: un pesce pescato: quanti e il più grande (centimetri). Restituisce vero se è il primo o un record.

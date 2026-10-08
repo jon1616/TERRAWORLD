@@ -1119,6 +1119,11 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   "caverne", "voragini"), le regioni sotterranee (`PassSottosuolo._regions`, appunti "regioni"), i confini vivi
   (`PassStrati.LOBE`: cambia la roccia, non lo strato del gioco), le falde (`PassAcqua.FALDE`), la strada al Fondo
   (`PassStrade` con i ponti di passerelle, riaperta da `PassStradeRiapri`). Misura: `tools/sottosuolo.gd`.
+- **Roadmap 58 «I tesori della roccia»** (voci 455-458, 8 ott 2026): i metalli in giacimenti (`TileDefs.DEPOSIT`, una
+  maschera per metallo in `PassMinerali`), i segni (`PassAffioramenti`: affioramenti e sassi luccicanti), le grotte di
+  cristallo (`PassCristalli.MASK`, la stessa maschera sceglie i posti delle gemme in `PassGemme`). Il parametro
+  «senza_giacimenti» rifà la regola di prima per le misure: `tools/giacimenti.gd`, `tools/tesori.gd`,
+  `tools/minatore.gd` (il minatore simulato: **dopo ogni cambio ai minerali** il cieco deve rendere come prima, ±15%).
 - **Roadmap 52 «La terra dei mondi»** (voci 412-418, 7 ott 2026; richiesta dell'utente: i blocchi a confronto con
   Terraria). Tutto nel pacchetto generato `src/data/vastita/terre.gd` (`tools/vastita_gen/terre.py`; tessere 59-119):
   - Campi nuovi delle tessere dei pacchetti: «kind» (suolo, roccia, comune, minerale, gemma, blocco), «look» (il disegno
