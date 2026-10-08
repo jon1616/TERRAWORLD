@@ -1,0 +1,18 @@
+{
+ "lotto": "lotto_20",
+ "grid": "4x3",
+ "shapes": [
+  "macchina_falciatrice_radice",
+  "macchina_mungitrice",
+  "macchina_culla_calda",
+  "macchina_forno_linfa",
+  "macchina_frantoio",
+  "macchina_telaio_linfa",
+  "macchina_braccio_radice",
+  "macchina_smistatore",
+  "macchina_nodo_casse",
+  "macchina_magazzino_vivo",
+  "macchina_torretta_spine",
+  "macchina_siepe_spine"
+ ]
+}
