@@ -8,6 +8,7 @@ extends Node2D
 
 const LIFE := 0.42
 const LIFE_OF := {"spora": 0.7}    # le spore restano nell'aria un po' di più
+const SIZE_OF := {"luce": 1.6}     # i raggi della stella devono uscire dalla creatura
 const MIN_PX := 22.0
 const MAX_PX := 72.0
 const PHYSICAL := Color(1.25, 1.0, 0.7)       # il colpo senza elemento: bianco caldo
@@ -52,7 +53,7 @@ static func play(parent: Node, pos: Vector2, elem: String, size: float) -> void:
 	if ElementsData.ELEMENTS.has(elem):
 		col = Color(String(ElementsData.ELEMENTS[elem]["color"])) * 1.35
 	f.modulate = col
-	var px := clampf(size * 0.95, MIN_PX, MAX_PX)
+	var px := clampf(size * 0.95, MIN_PX, MAX_PX) * float(SIZE_OF.get(elem, 1.0))
 	f.scale = Vector2.ONE * px / float((f._frames[0] as Texture2D).get_width())
 	f.rotation = randf_range(-0.35, 0.35)
 	f.position = pos
