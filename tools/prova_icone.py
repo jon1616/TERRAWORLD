@@ -77,7 +77,7 @@ def togli_scritte(rgb: np.ndarray, cols: int, rows: int) -> None:
                 tall = a1 - a0
                 edge = a1 <= (y1 - y0) * 0.3 or a0 >= (y1 - y0) * 0.7
                 xs = np.where(wb[a0:a1].any(axis=0))[0]
-                if not (6 <= tall <= (y1 - y0) * 0.2 and edge and xs.size and xs.max() - xs.min() > cw * 0.25):
+                if not (6 <= tall <= (y1 - y0) * 0.2 and edge and xs.size and xs.max() - xs.min() > cw * 0.08):
                     continue
                 b0, b1 = max(0, a0 - 5), min(y1 - y0, a1 + 5)
                 band = wb[b0:b1]

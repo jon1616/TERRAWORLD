@@ -608,5 +608,37 @@
 	"costr_lastre": {
 		"en": "slab block",
 		"desc": "a single cube-shaped BUILDING BLOCK seen at a 3/4 angle (top and two sides visible), the WHOLE block [GREY] (neutral grey only, NOT brown), made of thin stacked flat slabs, horizontal layers"
+	},
+	"costr_levigato": {
+		"en": "polished block",
+		"desc": "a single cube-shaped BUILDING BLOCK seen at a 3/4 angle (top and two sides visible), the WHOLE block [GREY] (neutral grey only, NOT brown), perfectly smooth and polished, with a bright glossy highlight and bevelled edges"
+	},
+	"costr_colonna": {
+		"en": "column block",
+		"desc": "a short segment of a classical COLUMN [GREY] (neutral grey only) seen at a 3/4 angle, with vertical fluting and a carved capital on top"
+	},
+	"costr_travi": {
+		"en": "beam block",
+		"desc": "a single cube-shaped BUILDING BLOCK seen at a 3/4 angle (top and two sides visible), the WHOLE block [GREY] (neutral grey only, NOT brown), made of thick timber BEAMS laid side by side, showing the end grain rings on the front face"
+	},
+	"costr_tegole": {
+		"en": "roof tile block",
+		"desc": "a single cube-shaped BUILDING BLOCK seen at a 3/4 angle (top and two sides visible), the WHOLE block [GREY] (neutral grey only, NOT brown), its top and front covered in overlapping curved ROOF TILES in rows, like a piece of roof"
+	},
+	"costr_piastrelle": {
+		"en": "tiled block",
+		"desc": "a single cube-shaped BUILDING BLOCK seen at a 3/4 angle (top and two sides visible), the WHOLE block [GREY] (neutral grey only, NOT brown), every face covered in a neat grid of small square TILES with thin grout lines"
+	},
+	"costr_vetrata": {
+		"en": "stained glass block",
+		"desc": "a square STAINED GLASS panel seen at a slight angle: a lead frame [GREY] holding glass pieces in a simple leaf pattern, the glass panes [GREY] lighter and slightly translucent, all neutral grey (NOT coloured)"
+	},
+	"trappola_ancora": {
+		"en": "root anchor",
+		"desc": "a thick living root [GREY] driven into the ground like a stake / anchor, with roots spreading at its base and a glowing turquoise sap ring (#5ff0e0) around its top"
+	},
+	"trappola_nastro": {
+		"en": "root conveyor belt",
+		"desc": "a short conveyor belt seen at a 3/4 angle: a band of woven roots [GREY] stretched over two round rollers [GREY], small arrows of motion showing it moves to the right"
 	}
 }

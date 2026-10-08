@@ -1,0 +1,14 @@
+{
+ "lotto": "lotto_17",
+ "grid": "4x2",
+ "shapes": [
+  "costr_levigato",
+  "costr_colonna",
+  "costr_travi",
+  "costr_tegole",
+  "costr_piastrelle",
+  "costr_vetrata",
+  "trappola_ancora",
+  "trappola_nastro"
+ ]
+}
