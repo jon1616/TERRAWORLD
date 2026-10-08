@@ -137,5 +137,17 @@
 			"#9aa8ff"
 		],
 		"polvere": false
+	},
+	"cornoradice": {
+		"name_en": "Rootgoat",
+		"noun": "goat",
+		"plan": "quadrupede",
+		"look": "a sturdy wild goat-like beast of the lantern forest: a stocky body with a hump of thick shaggy brown fur on the shoulders, strong legs with dark hooves, a short tail, a long head with a short beard; on its head two big curved HORNS made of twisted living ROOT wood (lighter tan bark with a few tiny turquoise sap buds), curving back and up. Usually calm and grazing, but when provoked it lowers its root horns and charges.",
+		"colors": "brown fur (#8f5233, darker #663d29 on the hump, #47291f underneath), light tan muzzle and belly (#cc8f66), root-wood horns (#a37047, tips #cc8f66) with tiny turquoise sap buds (#3da38f), dark hooves (#2a1810)",
+		"eye": "one round glowing mint-turquoise eye (#8ff5d6)",
+		"accents": [
+			"#8ff5d6",
+			"#3da38f"
+		]
 	}
 }

@@ -84,6 +84,10 @@ const POSES := {
 	"sputaspore": {"n": 8, "anchor": [14, 34], "glow": true,
 		"poses": {"fermo": [0, 2], "sputa": [3, 4], "colpita": [6]},
 		"fps": {"fermo": 1.2, "sputa": 6.0}},
+	# Cornoradice (tavola di Nano Banana, tools/installa_creatura.py)
+	"cornoradice": {"n": 12, "anchor": [22, 42],
+		"poses": {"cammina": [0, 1, 2, 3], "fermo": [4, 10, 11], "carica": [5], "scatto": [6], "bruca": [7], "colpita": [8], "allerta": [9]},
+		"fps": {"cammina": 6.0, "fermo": 1.6}},
 }
 
 

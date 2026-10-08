@@ -68,7 +68,11 @@ func _one(id: String, c: Vector2i) -> void:
 		return
 	if cr._poses.is_empty():
 		print("ATTENZIONE: %s non ha pose disegnate (manca la riga in CreaturePosesData o i file in arte/creature)" % id)
-	await kit.seconds(0.6)                      # che tocchi terra
+	await kit.seconds(0.6)                      # che tocchi terra (chi cammina: finché non appoggia, al più 3 s)
+	var waited := 0.0
+	while not cd.get("fly", false) and is_instance_valid(cr) and not cr.on_floor and waited < 3.0:
+		await kit.seconds(0.1)
+		waited += 0.1
 	_check_states(cr, id)
 	# ogni posa, ferma, con il suo nome sopra
 	cr.set_process(false)
