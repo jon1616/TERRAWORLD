@@ -640,5 +640,261 @@
 	"trappola_nastro": {
 		"en": "root conveyor belt",
 		"desc": "a short conveyor belt seen at a 3/4 angle: a band of woven roots [GREY] stretched over two round rollers [GREY], small arrows of motion showing it moves to the right"
+	},
+	"macchina_tamburo_radice": {
+		"en": "treadmill drum",
+		"desc": "a wide wooden treadmill DRUM wheel [GREY] lying on its side on a low frame, with ridges on its rolling surface and a small sap gem on the axle Glowing turquoise sap (#5ff0e0) flows in thin veins on it."
+	},
+	"macchina_foglia_lanterna": {
+		"en": "lantern leaf solar collector",
+		"desc": "a big upright glowing LEAF [GREY] like a solar panel on a short stem, its veins shining turquoise, a little sun glint above it"
+	},
+	"macchina_mulino_semi": {
+		"en": "seed windmill",
+		"desc": "a small WINDMILL tower [GREY] whose four blades are fluffy dandelion-seed sails (white), turning in the wind with motion curls Glowing turquoise sap (#5ff0e0) flows in thin veins on it."
+	},
+	"macchina_ruota_acqua": {
+		"en": "water wheel",
+		"desc": "a WATER WHEEL [GREY] with paddles, water splashing off it in light blue drops (#8ad8ff) Glowing turquoise sap (#5ff0e0) flows in thin veins on it."
+	},
+	"macchina_baccello_brace": {
+		"en": "ember pod generator",
+		"desc": "a round furnace pod [GREY] with an open grate full of glowing amber embers and a short chimney puffing smoke Glowing turquoise sap (#5ff0e0) flows in thin veins on it."
+	},
+	"macchina_pozzo_linfa": {
+		"en": "sap well",
+		"desc": "a round stone WELL [GREY] with a small crank and bucket, glowing turquoise sap liquid inside it"
+	},
+	"macchina_nucleo_cristallo": {
+		"en": "crystal core generator",
+		"desc": "a big faceted CRYSTAL [GREY] held in a cage of curved root claws, pulsing with turquoise light at its heart"
+	},
+	"macchina_ruota_mandria": {
+		"en": "herd wheel",
+		"desc": "a big upright hamster-WHEEL [GREY] for beasts, with rungs inside, standing on a sturdy base Glowing turquoise sap (#5ff0e0) flows in thin veins on it."
+	},
+	"macchina_parafulmine": {
+		"en": "lightning rod",
+		"desc": "a tall thin LIGHTNING ROD [GREY] made of twisted root with a sharp tip, a small lightning bolt (pale yellow #fff08a) striking its top"
+	},
+	"macchina_radice_madre": {
+		"en": "mother root tap",
+		"desc": "a thick ancient ROOT [GREY] curling down into the ground like a tap, with a bulb that glows turquoise where it drinks sap"
+	},
+	"macchina_radice_giardino": {
+		"en": "garden root tap",
+		"desc": "a graceful living ROOT [GREY] with a few small leaves (leaf green) and a tiny blossom, drinking glowing turquoise sap from the ground"
+	},
+	"macchina_otre_linfa": {
+		"en": "sap flask",
+		"desc": "a round leather-like FLASK / waterskin [GREY] with a cork, glowing turquoise sap visible through a small window, a carrying strap"
+	},
+	"macchina_baccello_serbatoio": {
+		"en": "sap tank pod",
+		"desc": "a big bulging seed-pod TANK [GREY] with metal bands, a gauge window showing glowing turquoise sap half full"
+	},
+	"macchina_cisterna_viva": {
+		"en": "living cistern",
+		"desc": "a large barrel-shaped CISTERN [GREY] wrapped in living roots, with a lid and a tap, glowing turquoise sap brimming at the top"
+	},
+	"macchina_lampada_baccello": {
+		"en": "pod lamp",
+		"desc": "a small hanging lamp shaped like a seed POD [GREY] with a warm glowing amber bulb inside"
+	},
+	"macchina_faro_linfa": {
+		"en": "sap beacon",
+		"desc": "a short LIGHTHOUSE-like beacon tower [GREY] with a big glowing turquoise lens at the top sending out rays"
+	},
+	"macchina_cupola_quiete": {
+		"en": "dome of quiet",
+		"desc": "a small glass DOME [GREY] on a base, with a calm glowing turquoise orb inside and soft rings of light around it"
+	},
+	"macchina_insegna_linfa": {
+		"en": "sap sign light",
+		"desc": "a small wall SIGN plate [GREY] with a glowing turquoise rune-arrow on it, mounted on a bracket"
+	},
+	"macchina_pompa_radice": {
+		"en": "root pump",
+		"desc": "a hand-PUMP [GREY] with a curved spout and a lever handle, a few light blue water drops (#8ad8ff) at the spout"
+	},
+	"macchina_sbocco_radice": {
+		"en": "root outlet",
+		"desc": "a short downward-pointing PIPE SPOUT [GREY] mounted on a block, water pouring out of it (light blue #8ad8ff)"
+	},
+	"macchina_chiusa_radice": {
+		"en": "root sluice gate",
+		"desc": "a small sluice GATE [GREY] with a wheel handle on top and a sliding panel, water (light blue) held back on one side"
+	},
+	"macchina_irrigatore": {
+		"en": "sprinkler",
+		"desc": "a garden SPRINKLER [GREY] on a stake spraying fine arcs of water drops (light blue #8ad8ff)"
+	},
+	"macchina_distillatore": {
+		"en": "distiller",
+		"desc": "an alchemical DISTILLER [GREY]: a round flask over a little flame with a coiled tube dripping glowing turquoise drops into a small bottle"
+	},
+	"macchina_serra_linfa": {
+		"en": "sap greenhouse",
+		"desc": "a tiny GREENHOUSE [GREY] with glass panes and a little sprout inside (leaf green), turquoise glow inside"
+	},
+	"macchina_falciatrice_radice": {
+		"en": "root harvester",
+		"desc": "a small HARVESTER cart [GREY] with a spinning reel of curved blades at the front and a basket of grain (amber) at the back"
+	},
+	"macchina_mungitrice": {
+		"en": "herd collector",
+		"desc": "a small collecting MACHINE [GREY] with a funnel and a pail catching a drop of milk-white liquid and a little egg"
+	},
+	"macchina_culla_calda": {
+		"en": "warm cradle",
+		"desc": "a small CRADLE / nest box [GREY] holding one egg, warm amber glow and heat wavy lines above it"
+	},
+	"macchina_forno_linfa": {
+		"en": "sap smelter",
+		"desc": "a squat SMELTING FURNACE [GREY] with a glowing amber mouth and a fresh ingot (amber) sliding out of a chute Glowing turquoise sap (#5ff0e0) flows in thin veins on it."
+	},
+	"macchina_frantoio": {
+		"en": "ore crusher",
+		"desc": "an ore CRUSHER [GREY] with two big toothed rollers on top crushing a rock, dust falling into a tray below"
+	},
+	"macchina_telaio_linfa": {
+		"en": "sap loom",
+		"desc": "a small mechanical LOOM [GREY] with threads and a shuttle moving by itself, a strip of woven cloth coming out Glowing turquoise sap (#5ff0e0) flows in thin veins on it."
+	},
+	"macchina_braccio_radice": {
+		"en": "root arm",
+		"desc": "a jointed mechanical ARM [GREY] made of root segments holding a small box in its claw, on a round base"
+	},
+	"macchina_smistatore": {
+		"en": "sorter",
+		"desc": "a SORTER box [GREY] with a wide funnel on top and three small chutes underneath, little items (a leaf, a pebble, a coin) falling in"
+	},
+	"macchina_nodo_casse": {
+		"en": "chest hub",
+		"desc": "a small HUB block [GREY] with a turquoise glowing rune in the middle and three short sap veins branching out to tiny chest symbols"
+	},
+	"macchina_magazzino_vivo": {
+		"en": "living storehouse",
+		"desc": "a big CABINET of drawers [GREY] wrapped in living roots, the drawers neatly labelled with small symbols, one drawer open"
+	},
+	"macchina_torretta_spine": {
+		"en": "thorn turret",
+		"desc": "a small TURRET [GREY] on a base with a rotating head and a crossbow-like barrel firing a thorn dart"
+	},
+	"macchina_siepe_spine": {
+		"en": "living thorn hedge",
+		"desc": "a dense HEDGE of thorny brambles [GREY] with sharp spikes sticking out, a few small leaves (leaf green)"
+	},
+	"macchina_campana_allarme": {
+		"en": "alarm bell",
+		"desc": "a big BELL [GREY] hanging from a small wooden frame (plum wood), ringing, with sound lines around it"
+	},
+	"macchina_scudo_corteccia": {
+		"en": "bark shield",
+		"desc": "a round BARK SHIELD emblem [GREY] mounted on a post, a glowing turquoise protective ring around it"
+	},
+	"macchina_valvola_sfogo": {
+		"en": "release valve",
+		"desc": "a pipe VALVE [GREY] with a round wheel handle, a puff of glowing turquoise steam escaping from it"
+	},
+	"macchina_nodo_e": {
+		"en": "AND node",
+		"desc": "a small square LOGIC NODE block [GREY] with two input pegs on the left joining into one output on the right, an '&'-like knot symbol glowing turquoise on its face (a symbol, no letters)"
+	},
+	"macchina_nodo_o": {
+		"en": "OR node",
+		"desc": "a small square LOGIC NODE block [GREY] with a forked branching symbol (one line splitting into two) glowing turquoise on its face"
+	},
+	"macchina_nodo_non": {
+		"en": "NOT node",
+		"desc": "a small square LOGIC NODE block [GREY] with a circular arrow / reversal symbol glowing turquoise on its face"
+	},
+	"macchina_nodo_ritardo": {
+		"en": "delay node",
+		"desc": "a small square LOGIC NODE block [GREY] with a little hourglass symbol glowing turquoise on its face"
+	},
+	"macchina_nodo_contatore": {
+		"en": "counter node",
+		"desc": "a small square LOGIC NODE block [GREY] with three tally dots / a small dial glowing turquoise on its face"
+	},
+	"macchina_nodo_memoria": {
+		"en": "memory node",
+		"desc": "a small square LOGIC NODE block [GREY] with a little seed-in-a-shell (memory) symbol glowing turquoise on its face"
+	},
+	"macchina_occhio_luce": {
+		"en": "light sensor",
+		"desc": "a small SENSOR block [GREY] with a big round EYE lens on its front that catches a ray of sunlight (pale yellow)"
+	},
+	"macchina_orecchio_muschio": {
+		"en": "moss ear sensor",
+		"desc": "a small SENSOR block [GREY] with a big mossy EAR (leaf green moss) on its side and sound lines coming in"
+	},
+	"macchina_sensore_acqua": {
+		"en": "water sensor",
+		"desc": "a small SENSOR block [GREY] half dipped in water (light blue #8ad8ff) with a floating bobber gauge on top"
+	},
+	"macchina_sensore_cassa": {
+		"en": "chest sensor",
+		"desc": "a small SENSOR block [GREY] with a tiny chest symbol and an arrow pointing into it, glowing turquoise"
+	},
+	"macchina_sensore_riserva": {
+		"en": "reserve gauge",
+		"desc": "a small SENSOR block [GREY] with a round GAUGE dial whose needle points to a level, glowing turquoise sap level bar"
+	},
+	"macchina_orologio_linfa": {
+		"en": "sap clock",
+		"desc": "a small round CLOCK [GREY] with root-shaped hands and a glowing turquoise sap pendulum"
+	},
+	"macchina_barometro": {
+		"en": "barometer",
+		"desc": "a round BAROMETER dial [GREY] with a needle and little weather symbols (a sun and a raindrop) around the face"
+	},
+	"macchina_leva_radice": {
+		"en": "root lever",
+		"desc": "a wall LEVER [GREY] on a base plate with a round knob at the end of the handle, tilted up"
+	},
+	"macchina_pulsante_radice": {
+		"en": "root button",
+		"desc": "a big round push BUTTON [GREY] on a square base, the button glowing turquoise"
+	},
+	"macchina_piastra_radice": {
+		"en": "pressure plate",
+		"desc": "a flat square PRESSURE PLATE [GREY] lying on the floor seen at a 3/4 angle, slightly pressed in the middle"
+	},
+	"macchina_carillon_radice": {
+		"en": "root chime",
+		"desc": "a little music CHIME / music box [GREY] with a small comb and drum, a couple of music notes floating out (amber)"
+	},
+	"macchina_fontana_linfa": {
+		"en": "sap fountain",
+		"desc": "a small decorative FOUNTAIN [GREY] with a basin and a jet of glowing turquoise sap arching up and falling back"
+	},
+	"macchina_esposizione": {
+		"en": "display case",
+		"desc": "a tall glass DISPLAY CASE [GREY] on a pedestal with a small trophy (amber) inside, lit from within"
+	},
+	"macchina_trivella_radice": {
+		"en": "root drill rig",
+		"desc": "a DRILLING RIG [GREY] with a big spiral drill bit pointing straight down into the ground, a frame and a small engine Glowing turquoise sap (#5ff0e0) flows in thin veins on it."
+	},
+	"macchina_ascensore_bolla": {
+		"en": "bubble lift",
+		"desc": "a round PLATFORM pad [GREY] with a column of rising turquoise bubbles above it"
+	},
+	"macchina_nastro_vivo": {
+		"en": "living conveyor",
+		"desc": "a short CONVEYOR belt of green leaves (leaf green) over two rollers [GREY], with motion arrows to the right"
+	},
+	"macchina_catapulta_spore": {
+		"en": "spore launch pad",
+		"desc": "a small springy LAUNCH PAD [GREY] shaped like a mushroom cap with a coiled spring under it and a puff of spores shooting up"
+	},
+	"macchina_porta_seme": {
+		"en": "seed portal",
+		"desc": "a tall arched PORTAL frame [GREY] made of carved root, with a swirling glowing turquoise vortex inside"
+	},
+	"macchina_porta_viva": {
+		"en": "living root door",
+		"desc": "a tall narrow DOOR [GREY] made of interwoven living roots, with a round handle and a turquoise glowing lock rune"
 	}
 }

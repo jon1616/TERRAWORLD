@@ -1,0 +1,18 @@
+{
+ "lotto": "lotto_19",
+ "grid": "4x3",
+ "shapes": [
+  "macchina_baccello_serbatoio",
+  "macchina_cisterna_viva",
+  "macchina_lampada_baccello",
+  "macchina_faro_linfa",
+  "macchina_cupola_quiete",
+  "macchina_insegna_linfa",
+  "macchina_pompa_radice",
+  "macchina_sbocco_radice",
+  "macchina_chiusa_radice",
+  "macchina_irrigatore",
+  "macchina_distillatore",
+  "macchina_serra_linfa"
+ ]
+}

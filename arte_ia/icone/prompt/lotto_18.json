@@ -1,0 +1,18 @@
+{
+ "lotto": "lotto_18",
+ "grid": "4x3",
+ "shapes": [
+  "macchina_tamburo_radice",
+  "macchina_foglia_lanterna",
+  "macchina_mulino_semi",
+  "macchina_ruota_acqua",
+  "macchina_baccello_brace",
+  "macchina_pozzo_linfa",
+  "macchina_nucleo_cristallo",
+  "macchina_ruota_mandria",
+  "macchina_parafulmine",
+  "macchina_radice_madre",
+  "macchina_radice_giardino",
+  "macchina_otre_linfa"
+ ]
+}

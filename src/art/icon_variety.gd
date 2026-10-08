@@ -62,7 +62,8 @@ static func of_ui(id: String, it: Dictionary) -> Image:
 		# trappole, totem e macchine hanno nei dati forme segnaposto (una gemma, un mantello, un'incudine): tengono il
 		# disegno del mondo finché non hanno la forma loro (che comincia con il nome della categoria)
 		var holder := String(CraftCatsData.place_of(id, "")[0]) in ["trappole", "totem", "rete"] \
-				and not (String(ss[0]).begins_with("trappola_") or String(ss[0]).begins_with("totem_"))
+				and not (String(ss[0]).begins_with("trappola_") or String(ss[0]).begins_with("totem_") \
+				or String(ss[0]).begins_with("macchina_"))
 		if ArtLib.has("icone48", ss[0]) and not holder:
 			var si := ItemIcons.make_ui(ss[0], ss[1])
 			var sk := _station_dup(id, ss[0] + "|" + ss[1])

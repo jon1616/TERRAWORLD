@@ -283,6 +283,15 @@ const MACHINES := {
 
 
 ## I dati di una macchina ({} se l'id non è una macchina).
+
+## La forma d'icona di una macchina: quella dipinta «macchina_<id>» (8 ott 2026, con il materiale dei dati) se c'è;
+## altrimenti quella dei dati (spesso un segnaposto: l'icona dell'interfaccia allora resta il disegno del mondo, vedi
+## `IconVariety.of_ui`). Si guarda il file: questo file di dati non nomina altre classi.
+static func icon_of(id: String, icon: Array) -> Array:
+	if ResourceLoader.exists("res://arte/icone48/macchina_%s.png" % id):
+		return ["macchina_" + id, icon[1] if icon.size() > 1 else "linfa"]
+	return icon
+
 static func get_machine(id: String) -> Dictionary:
 	return MACHINES.get(id, {})
 
@@ -323,7 +332,7 @@ static func items() -> Dictionary:
 		var d: Dictionary = MACHINES[id]
 		if d.get("gen", false):
 			continue                                     # solo del generatore
-		out[id] = {"name": d["name"], "kind": "stazione", "cat": "rete", "place": id, "icon": d.get("icon", ["banco", "linfa"]),
+		out[id] = {"name": d["name"], "kind": "stazione", "cat": "rete", "place": id, "icon": icon_of(id, d.get("icon", ["banco", "linfa"])),
 			"stack": 99, "desc": d["desc"]}
 	return out
 
