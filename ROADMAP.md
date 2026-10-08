@@ -6429,7 +6429,13 @@ L'ultima del piano «Il generatore eccellente» (`GENERATORE.md`).
   minimo con una finestra scorrevole. Un mondo nasce in **5,6-5,9 s** (seme 7, senza finestra; prima 6,1-6,4). Le passate
   lente restano Grotte e Minerali (~1 s l'una, già a fasce su tutti i processori), Strati e Cielo (~0,5). `WorldPregen`
   prepara il mondo in sottofondo piantando il Seme, come prima.
-- [ ] **473. Le prove riallineate.**
+- [x] **473. Le prove riallineate.**
+  Fatto il 9 ott 2026: i gruppi delle prove con i mondi di misura fissa (ripeti, seme_nero, catene, ritrovamenti, liquidi,
+  luoghi_scritti, primo, acqua, geni, segreti, enigmi, gravita) senza avvisi, dopo una correzione: `PassGiacimenti` posava
+  i giacimenti fossili senza prendere il posto, e nel mondo del Seme Primo (1600×900) un «fungo re» degli incontri gli
+  nasceva sopra (il collaudatore lo segnalava). Lungo le Roadmap 56-61 le prove che cercavano un posto fisso sono state
+  rese capaci di cercarselo o di farselo (pesca, pavimenti, corrente del cielo, pioggia, baccelli, raccolta, sobbalzo
+  delle creature). L'impronta di base rifatta con `tools/impronta.gd` (prove/impronta.txt).
 - [ ] **474. La connettività come prova.**
 - [ ] **475. L'Atlante e le schede.**
 - [ ] **476. I mondi vecchi.**

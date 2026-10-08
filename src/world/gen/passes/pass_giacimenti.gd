@@ -41,5 +41,6 @@ func run(w: World, c: GenContext) -> void:
 		if not far:
 			continue
 		w.stations[Vector2i(x, y)] = "giacimento"
+		c.claim(Rect2i(x - 1, y - 1, 3, 3), "giacimento")     # (voce 473) un incontro ci nasceva sopra
 		made.append(Vector2i(x, y))
 	c.notes["giacimenti"] = made.size()
