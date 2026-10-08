@@ -149,5 +149,19 @@
 			"#8ff5d6",
 			"#3da38f"
 		]
+	},
+	"volpe_ambra": {
+		"name_en": "Amber Fox",
+		"noun": "fox",
+		"plan": "quadrupede",
+		"look": "a lean clever fox of the amber woods, a predator: a slim body on long thin legs, a narrow pointed muzzle, big pointed ears, and a huge fluffy tail whose TIP is a translucent glowing drop of AMBER resin, like a little lantern. Warm amber-orange fur, darker along the back, a cream chest and muzzle tip, dark 'stockings' on the legs. Sly, fast, it pounces on its prey.",
+		"colors": "amber-orange fur (#eb993d, darker #ad5c1f on the back), cream chest and muzzle (#ffcc8f), dark brown legs and ear tips (#663314), glowing amber tail tip (#ffb040 with a pale #ffe6a0 centre), black nose (#141414)",
+		"eye": "one narrow sly golden eye (#ffd060) with a dark slit pupil",
+		"accents": [
+			"#ffb040",
+			"#ffe6a0",
+			"#ffd060"
+		],
+		"polvere": false
 	}
 }

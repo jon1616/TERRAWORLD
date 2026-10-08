@@ -88,6 +88,10 @@ const POSES := {
 	"cornoradice": {"n": 12, "anchor": [22, 42],
 		"poses": {"cammina": [0, 1, 2, 3], "fermo": [4, 10, 11], "carica": [5], "scatto": [6], "bruca": [7], "colpita": [8], "allerta": [9]},
 		"fps": {"cammina": 6.0, "fermo": 1.6}},
+	# Volpe d'ambra (tavola di Nano Banana, tools/installa_creatura.py)
+	"volpe_ambra": {"n": 8, "anchor": [18, 27],
+		"poses": {"cammina": [0, 1, 2, 3], "fermo": [4], "carica": [5], "scatto": [6], "colpita": [7]},
+		"fps": {"cammina": 6.0}},
 }
 
 
