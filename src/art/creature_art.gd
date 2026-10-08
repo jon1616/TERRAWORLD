@@ -119,6 +119,20 @@ static func frames(shape: String, variant: int) -> Dictionary:
 	return {"frames": [Px.img(8, 8)], "glow": [Px.img(8, 8)]}
 
 
+## I fotogrammi di una creatura com'è nel gioco (le icone dell'Erbario): il disegno suo se ne ha uno
+## (`CreaturePosesData` per id, i capi), altrimenti la forma con i colori e la misura della variante («art_mods»).
+static func of_creature(cid: String) -> Dictionary:
+	var own := _posed(cid, 0)
+	if not own.is_empty():
+		return own
+	var cd: Dictionary = CreaturesData.get_data(cid)
+	var art: Array = cd["art"]
+	var fr := frames(String(art[0]), int(art[1]))
+	if cd.has("art_mods"):
+		fr = VariantArt.apply(fr, cd["art_mods"])
+	return fr
+
+
 ## Le pose di Nano Banana (`CreaturePosesData`), se la forma ne ha e i file ci sono tutti: i fotogrammi, le maschere
 ## di luce (vuote se la forma non brilla) e le pose ("poses"), che `Creature` legge per scegliere il fotogramma.
 static func _posed(shape: String, variant: int) -> Dictionary:

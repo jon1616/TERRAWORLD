@@ -363,6 +363,8 @@ func _report_times() -> void:
 
 func _group(kit: TestKit, g: String) -> void:
 	match g:
+		"sprite":
+			await TestsSprite.new(kit).run()       # la prova veloce delle pose di una creatura (tools/sprite.sh)
 		"doni":
 			await TestsGifts.new(kit).run()
 		"bestiario":

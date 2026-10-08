@@ -96,6 +96,7 @@ var _regen := 0.0                      # voce 79: le rigeneranti
 var _base_y := 0.0
 var _poses := {}                       # 7 ott 2026: le pose di Nano Banana (`CreaturePosesData`), vuoto = due fotogrammi
 var _pose := ""
+var force_pose := ""                   # la prova delle pose (`TestsSprite`) le mostra una alla volta
 var _pose_t := 0.0
 var _hurt_t := 0.0
 
@@ -446,7 +447,7 @@ var _lean := 0.0
 
 ## Le pose disegnate (`CreaturePosesData`): sceglie la posa dallo stato della creatura e il fotogramma del suo ciclo.
 func _pose_frame(dt: float) -> int:
-	var name := _pose_name()
+	var name := force_pose if force_pose != "" and (_poses["poses"] as Dictionary).has(force_pose) else _pose_name()
 	if name != _pose:
 		_pose = name
 		_pose_t = 0.0

@@ -294,8 +294,12 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   per chi cammina o salta; `--schiarisci` per le creature quasi nere; `--luce` per le maschere di luce) in
   `arte/creature/<forma>_<n>.png`. La riga in `CreaturePosesData` (punto d'appoggio stampato dallo script, nomi delle
   pose) e `CreatureArt._posed` le caricano; `Creature._pose_name` sceglie la posa dallo stato (salto, carica, scatto,
-  pascolo, colpita…) e il codice smette di schiacciare il disegno. Fatte: grumo, corvo, pecora di muschio, lepre di
-  Linfa (prova nel gruppo «grafica», foto 163_pose_creature).
+  pascolo, colpita…) e il codice smette di schiacciare il disegno. Una chiave che è l'id di una creatura (i capi) vale
+  solo per lei, senza i colori della variante; le pose «furia_…» le usa il boss infuriato. Icone dell'Erbario con
+  `CreatureArt.of_creature`. **Per guardare una creatura: `sh tools/sprite.sh <id>`** (~25 s, gruppo «sprite»,
+  `TestsSprite`: il mondo di prova salvato, la creatura subito, il foglio di tutte le pose con il nome in
+  prove/sprite/<id>.png, gli stati che non scelgono mai una posa, la foto dal vivo). Il gruppo «grafica» resta la prova
+  di tutte insieme (foto 163_pose_creature).
 - `musica/` — le musiche fatte dall'utente con Gemini («crea musica»): `esplorazione` (sottofondo) e `guardiano`
   (scontri con i boss), .mp3/.ogg/.wav; per cambiarne una si sostituisce il file con lo stesso nome (poi `--import`).
   Le suona l'autoload `Musica` (`src/audio/music.gd`): già nel menu e senza interruzioni nel mondo; brano del boss

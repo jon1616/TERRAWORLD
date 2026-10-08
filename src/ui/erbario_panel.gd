@@ -111,14 +111,12 @@ func _icon(id: String) -> Texture2D:
 	match section:
 		"famiglie":
 			if not _creature_tex.has(id):
-				var art0: Array = CreaturesData.CREATURES[id]["art"]
-				_creature_tex[id] = ImageTexture.create_from_image(CreatureArt.frames(String(art0[0]), int(art0[1]))["frames"][0])
+				_creature_tex[id] = ImageTexture.create_from_image(CreatureArt.of_creature(id)["frames"][0])
 			return _creature_tex[id]
 		"creature":
 			if not _creature_tex.has(id):
-				var art: Array = CreaturesData.CREATURES[id]["art"]
-				var fr: Array = CreatureArt.frames(String(art[0]), int(art[1]))["frames"]
-				_creature_tex[id] = ImageTexture.create_from_image(fr[0])
+				# com'è nel gioco: il disegno suo (i capi) o i colori e la misura della variante
+				_creature_tex[id] = ImageTexture.create_from_image(CreatureArt.of_creature(id)["frames"][0])
 			return _creature_tex[id]
 		"oggetti", "pesci":
 			return SlotView.icon(id)
