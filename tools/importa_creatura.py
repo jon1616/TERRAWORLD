@@ -68,6 +68,8 @@ def main() -> None:
     ap.add_argument("--misura-da", type=int, default=0)
     ap.add_argument("--colori", type=int, default=10)
     ap.add_argument("--accenti", default="", help="colori fissi in più (occhio, vene), es. #E8902C,#2FA08C")
+    ap.add_argument("--vola", action="store_true",
+                    help="chi vola: il punto d'appoggio è il centro anche con --ancora cella (l'occhio non si trova)")
     ap.add_argument("--luce", default="", help="colori che brillano al buio (maschera <nome>_<n>_luce.png)")
     ap.add_argument("--ancora", default="occhio", choices=["occhio", "cella"],
                     help="allinea le pose sull'occhio (chi vola) o sulla cella (chi salta: il fondo è il suolo)")
@@ -163,8 +165,8 @@ def main() -> None:
     # chi vola (--ancora occhio) = il centro della posa
     ys, xs = np.where(crop[args.misura_da][:, :, 3] > 0)
     ax = int(round((xs.min() + xs.max() + 1) / 2))
-    ay = int(round((ys.min() + ys.max() + 1) / 2)) if args.ancora == "occhio" else int(ys.max() + 1)
-    print("punto d'appoggio: [%d, %d] (%s)" % (ax, ay, "centro" if args.ancora == "occhio" else "piedi"))
+    ay = int(round((ys.min() + ys.max() + 1) / 2)) if args.ancora == "occhio" or args.vola else int(ys.max() + 1)
+    print("punto d'appoggio: [%d, %d] (%s)" % (ax, ay, "centro" if args.ancora == "occhio" or args.vola else "piedi"))
     k = 8
     strip = Image.new("RGBA", ((w * k + 16) * len(imgs) + 16, h * k + 32), (24, 22, 32, 255))
     for i, im in enumerate(imgs):

@@ -101,7 +101,7 @@ func _ground_row() -> void:
 ## le quattro creature in fila sul terreno. Foto 163_pose_creature.
 func _posed_creatures() -> void:
 	var w: World = kit.world
-	var ids := ["grumo_muschio", "pecora_muschio", "lepre_linfa", "corvo_corteccia"]
+	var ids := ["grumo_muschio", "pecora_muschio", "lepre_linfa", "corvo_corteccia", "falena_brace"]
 	var c := kit.flat_spot(w.spawn + Vector2i(60, 0), 12)
 	if c.x < 0:
 		c = Vector2i(w.spawn.x + 60, w.surface[w.spawn.x + 60] - 1)
