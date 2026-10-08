@@ -7,7 +7,10 @@ extends GenPass
 
 const POOLS := 40                      # conche cercate in un mondo normale
 const POOL_MAX := 600                  # celle al più: più grande è una grotta aperta, non una conca
-const ISLAND := 26                     # metà larghezza dell'isola della partenza, nei mondi sommersi
+const ISLAND := 26
+## Voce 452 (Roadmap 57): le falde, laghi sotterranei grandi nelle Caverne e nelle Profondità: quante, quanto profonde,
+## quante celle al più.
+const FALDE := {"n": 10, "depth": [4, 9], "max": 3000}                     # metà larghezza dell'isola della partenza, nei mondi sommersi
 
 
 func title() -> String:
@@ -47,13 +50,28 @@ func run(w: World, c: GenContext) -> void:
 				y += 1
 			if _fill_basin(w, Vector2i(x, y), rng.randi_range(1, 3), int(spec[0])):
 				got += 1
+	# voce 452: le falde
+	var falde := 0
+	for k in int(FALDE["n"]) * 8:
+		if falde >= int(FALDE["n"]):
+			break
+		var x := rng.randi_range(20, w.w - 21)
+		var y := w.surface[x] + rng.randi_range(StrataData.top(2) + 10, mini(StrataData.top(4) - 10, w.h - w.surface[x] - 10))
+		if y >= w.h - 4 or w.solid(x, y):
+			continue
+		while y < w.h - 2 and not w.solid(x, y + 1):
+			y += 1
+		if _fill_basin(w, Vector2i(x, y), rng.randi_range(int(FALDE["depth"][0]), int(FALDE["depth"][1])), LiquidsData.ACQUA,
+				int(FALDE["max"])):
+			falde += 1
+	c.notes["falde"] = falde
 	if bool(g.get("sea", false)):
 		_sea(w)
 	c.notes["laghi"] = made
 
 
 ## Riempie la conca che ha il fondo in `floor`, fino a `depth` righe sopra: solo se è chiusa (sotto `POOL_MAX` celle).
-static func _fill_basin(w: World, floor: Vector2i, depth: int, type: int) -> bool:
+static func _fill_basin(w: World, floor: Vector2i, depth: int, type: int, cap := POOL_MAX) -> bool:
 	var top := floor.y - depth + 1
 	var seen := {}
 	var todo: Array[Vector2i] = [floor]
@@ -64,7 +82,7 @@ static func _fill_basin(w: World, floor: Vector2i, depth: int, type: int) -> boo
 			continue
 		seen[p] = true
 		cells.append(p)
-		if cells.size() > POOL_MAX:
+		if cells.size() > cap:
 			return false
 		todo.append(p + Vector2i(1, 0))
 		todo.append(p + Vector2i(-1, 0))

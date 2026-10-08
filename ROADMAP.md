@@ -6201,6 +6201,10 @@ Fondo, strati a fasce, biomi del sottosuolo solo con un gene.
   confini non sono più linee ondulate. Cambia la roccia (e quindi dove stanno i minerali), non lo strato del gioco: il
   pericolo e la scritta degli strati restano quelli di prima, senza sfarfallio. Strati 0,5 s (prima 0,26). Gruppi «base»,
   «grotte», «terre» senza avvisi.
-- [ ] **452. Le acque profonde.** Laghi sotterranei grandi, falde.
+- [x] **452. Le acque profonde.** Laghi sotterranei grandi, falde.
+  Fatto l'8 ott 2026: le **falde** (`PassAcqua.FALDE`): ~10 conche nelle Caverne e nelle Profondità profonde 4-9 righe e
+  grandi fino a 3000 celle (le conche normali al più 600), pescabili come gli altri specchi; con i laghi delle grandi
+  caverne (voce 449) e delle regioni (450) l'acqua sotto terra cresce del ~40% (seme 7: da 6.684 a 9.567 celle).
+  Tutto fermo alla nascita (`Liquids`). Gruppi «base», «pesca», «acqua», «liquidi» senza avvisi.
 - [ ] **453. Le strade del sottosuolo.** Una via garantita fino al Fondo.
 - [ ] **454. La misura del sottosuolo.** Mappe prima e dopo, resoconto.
