@@ -341,7 +341,7 @@ func _show_benches(near: Dictionary) -> void:
 	if near.is_empty():
 		var l := Label.new()
 		l.text = "nessuno — solo ciò che si fa a mano"
-		l.add_theme_font_size_override("font_size", 13)
+		l.add_theme_font_size_override("font_size", 15)
 		l.add_theme_color_override("font_color", MUTED)
 		_benches.add_child(l)
 		return
@@ -367,7 +367,7 @@ func _show_benches(near: Dictionary) -> void:
 		more.text = "+%d" % (ids.size() - shown)
 		more.custom_minimum_size = Vector2(BENCH_ICON, BENCH_ICON)
 		more.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		more.add_theme_font_size_override("font_size", 13)
+		more.add_theme_font_size_override("font_size", 15)
 		more.add_theme_color_override("font_color", TEXT)
 		more.mouse_filter = Control.MOUSE_FILTER_STOP
 		var rest := PackedStringArray()

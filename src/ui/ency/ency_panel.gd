@@ -61,7 +61,7 @@ func _init() -> void:
 	var head := Label.new()
 	head.text = "Enciclopedia"
 	head.position = Vector2(40, 24)
-	PixelFont.apply(head, 3)                   # (voce 282) il titolo nel carattere di pixel
+	UiFonts.apply(head, 3)                   # (voce 282) il titolo nel carattere di pixel
 	head.add_theme_color_override("font_color", GOLD)
 	add_child(head)
 	_search = LineEdit.new()
@@ -81,7 +81,7 @@ func _init() -> void:
 	_index_scroll.add_child(_index)
 	_crumb = Label.new()
 	_crumb.position = Vector2(444, 18)
-	_crumb.add_theme_font_size_override("font_size", 14)
+	_crumb.add_theme_font_size_override("font_size", 16)
 	add_child(_crumb)
 	_icon = TextureRect.new()
 	_icon.position = Vector2(444, 38)
@@ -91,7 +91,7 @@ func _init() -> void:
 	add_child(_icon)
 	_title = Label.new()
 	_title.position = Vector2(444, 38)
-	PixelFont.apply(_title, 3)                  # (voce 272) il titolo nel carattere di pixel
+	UiFonts.apply(_title, 3)                  # (Roadmap 55) il titolo in Alegreya
 	_title.add_theme_color_override("font_outline_color", Color(0, 0, 0))
 	_title.add_theme_constant_override("outline_size", 4)
 	add_child(_title)
@@ -104,8 +104,8 @@ func _init() -> void:
 	_text.bbcode_enabled = true
 	_text.position = Vector2(444, 100)
 	_text.size = Vector2(1116, 720)
-	_text.add_theme_font_size_override("normal_font_size", 17)
-	_text.add_theme_font_size_override("bold_font_size", 17)
+	_text.add_theme_font_size_override("normal_font_size", 19)
+	_text.add_theme_font_size_override("bold_font_size", 19)
 	_text.add_theme_color_override("default_color", Color("#e8f4f0"))
 	_text.meta_underlined = true
 	_text.meta_clicked.connect(func(meta: Variant) -> void: go(String(meta)))
@@ -277,7 +277,7 @@ func _head(t: String, col: Color) -> void:
 	box.add_child(dot)
 	var l := Label.new()
 	l.text = t.to_upper()
-	l.add_theme_font_size_override("font_size", 14)
+	l.add_theme_font_size_override("font_size", 16)
 	l.add_theme_color_override("font_color", col)
 	box.add_child(l)
 	if _index.get_child_count() > 0:
@@ -293,7 +293,7 @@ func _entry(addr: String, t: String) -> void:
 	b.text = "   " + t
 	b.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	b.focus_mode = Control.FOCUS_NONE
-	b.add_theme_font_size_override("font_size", 15)
+	b.add_theme_font_size_override("font_size", 17)
 	b.pressed.connect(func() -> void: go(addr))
 	_index.add_child(b)
 	_entries[addr] = b

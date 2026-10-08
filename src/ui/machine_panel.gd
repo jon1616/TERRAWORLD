@@ -33,7 +33,7 @@ func setup(energy: Energy) -> void:
 	v.add_theme_constant_override("separation", 12)
 	_box.add_child(v)
 	_title = Label.new()
-	PixelFont.apply(_title, 2)                  # (voce 272) il titolo nel carattere di pixel
+	UiFonts.apply(_title, 2)                  # (Roadmap 55) il titolo in Alegreya
 	_title.add_theme_color_override("font_color", Color("#8ef0e8"))
 	v.add_child(_title)
 	_text = RichTextLabel.new()
@@ -41,14 +41,14 @@ func setup(energy: Energy) -> void:
 	_text.fit_content = true
 	_text.scroll_active = false
 	_text.custom_minimum_size = Vector2(620, 0)
-	_text.add_theme_font_size_override("normal_font_size", 16)
+	_text.add_theme_font_size_override("normal_font_size", 18)
 	v.add_child(_text)
 	_rows = VBoxContainer.new()
 	_rows.add_theme_constant_override("separation", 8)
 	v.add_child(_rows)
 	var hint := Label.new()
 	hint.text = "Esc per chiudere"
-	hint.add_theme_font_size_override("font_size", 13)
+	hint.add_theme_font_size_override("font_size", 15)
 	hint.add_theme_color_override("font_color", Color("#6a8a84"))
 	v.add_child(hint)
 	e.ticked.connect(func() -> void:
@@ -114,7 +114,7 @@ func _button(parent: Control, txt: String, on: bool, cb: Callable) -> Button:
 	b.button_pressed = on
 	b.text = txt
 	b.custom_minimum_size = Vector2(110, 32)
-	b.add_theme_font_size_override("font_size", 15)
+	b.add_theme_font_size_override("font_size", 17)
 	b.pressed.connect(func() -> void:
 		cb.call()
 		_fill_rows()
@@ -130,7 +130,7 @@ func _row(label: String) -> HBoxContainer:
 	var l := Label.new()
 	l.text = label
 	l.custom_minimum_size = Vector2(150, 0)
-	l.add_theme_font_size_override("font_size", 15)
+	l.add_theme_font_size_override("font_size", 17)
 	l.add_theme_color_override("font_color", Color("#cfe6e0"))
 	h.add_child(l)
 	_rows.add_child(h)
@@ -171,7 +171,7 @@ func _fill_rows() -> void:
 		b6.focus_mode = Control.FOCUS_NONE
 		b6.text = "Apri la cassetta"
 		b6.custom_minimum_size = Vector2(160, 32)
-		b6.add_theme_font_size_override("font_size", 15)
+		b6.add_theme_font_size_override("font_size", 17)
 		var o := mc.o
 		b6.pressed.connect(func() -> void:
 			close()

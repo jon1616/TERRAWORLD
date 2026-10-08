@@ -37,7 +37,7 @@ func setup(main: Node2D) -> void:
 	day = int(m.world_meta.get("giorno", 1))
 	_label = Label.new()
 	_label.position = Vector2(16, 70)
-	_label.add_theme_font_size_override("font_size", 14)
+	_label.add_theme_font_size_override("font_size", 16)
 	_label.add_theme_color_override("font_color", Color("#cfeee4"))
 	_label.add_theme_color_override("font_outline_color", Color(0.02, 0.05, 0.07))
 	_label.add_theme_constant_override("outline_size", 5)

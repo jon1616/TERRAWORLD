@@ -17,9 +17,9 @@ func _ready() -> void:
 	visible = false
 	_name = Label.new()
 	_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_name.size = Vector2(W, PixelFont.size(2))
-	_name.position = Vector2(0, -PixelFont.size(2) - 6)
-	PixelFont.apply(_name, 2, Color("#f0dcb0"), true)          # (voce 291) il nome nel carattere di pixel
+	_name.size = Vector2(W, UiFonts.size(2))
+	_name.position = Vector2(0, -UiFonts.size(2) - 6)
+	UiFonts.apply(_name, 2, Color("#f0dcb0"), true)          # (voce 291) il nome nel carattere di pixel
 	add_child(_name)
 
 

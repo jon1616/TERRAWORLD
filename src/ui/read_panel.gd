@@ -26,7 +26,7 @@ func _init() -> void:
 	v.add_theme_constant_override("separation", 12)
 	_box.add_child(v)
 	_title = Label.new()
-	PixelFont.apply(_title, 3)                  # (voce 272) il titolo nel carattere di pixel
+	UiFonts.apply(_title, 3)                  # (Roadmap 55) il titolo in Alegreya
 	_title.add_theme_color_override("font_color", Color("#ffd08a"))
 	v.add_child(_title)
 	_text = RichTextLabel.new()
@@ -34,13 +34,13 @@ func _init() -> void:
 	_text.fit_content = true
 	_text.scroll_active = false
 	_text.custom_minimum_size = Vector2(760, 0)
-	_text.add_theme_font_size_override("normal_font_size", 18)
+	_text.add_theme_font_size_override("normal_font_size", 20)
 	_text.add_theme_color_override("default_color", Color("#dcefe8"))
 	_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	v.add_child(_text)
 	var hint := Label.new()
 	hint.text = "(clic per chiudere)"
-	hint.add_theme_font_size_override("font_size", 13)
+	hint.add_theme_font_size_override("font_size", 15)
 	hint.add_theme_color_override("font_color", Color("#6a8a84"))
 	v.add_child(hint)
 

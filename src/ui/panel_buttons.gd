@@ -49,6 +49,7 @@ func setup(main: Node2D) -> void:
 		btn.focus_mode = Control.FOCUS_NONE
 		btn.add_theme_constant_override("icon_max_width", 32)
 		RecipeRow.style(btn, true, Color("#2f7a70"))
+		UiFrames.button(btn, Color("#2f7a70"), false, "icona")      # (Roadmap 55) i margini stretti: l'icona intera
 		var key := Keys.label(String(b[2])) if String(b[2]) != "" else "Esc"
 		var tip := "%s (%s)" % [b[1], key]
 		Tips.attach(btn, func() -> Variant: return TipCard.simple(tip))

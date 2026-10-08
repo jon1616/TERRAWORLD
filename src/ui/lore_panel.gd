@@ -27,7 +27,7 @@ func _ready() -> void:
 	_box.add_child(v)
 	_title = Label.new()
 	_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	PixelFont.apply(_title, 3)                  # (voce 272) il titolo nel carattere di pixel
+	UiFonts.apply(_title, 3)                  # (Roadmap 55) il titolo in Alegreya
 	_title.add_theme_color_override("font_color", Color("#8ef0d8"))
 	v.add_child(_title)
 	_pic = TextureRect.new()
@@ -38,13 +38,13 @@ func _ready() -> void:
 	_text = Label.new()
 	_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_text.custom_minimum_size = Vector2(W, 0)
-	_text.add_theme_font_size_override("font_size", 16)
+	_text.add_theme_font_size_override("font_size", 18)
 	_text.add_theme_color_override("font_color", Color("#dce8e4"))
 	v.add_child(_text)
 	var hint := Label.new()
 	hint.text = "clic per chiudere"
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	hint.add_theme_font_size_override("font_size", 12)
+	hint.add_theme_font_size_override("font_size", 14)
 	hint.add_theme_color_override("font_color", Color("#6a8a84"))
 	v.add_child(hint)
 

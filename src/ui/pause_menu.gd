@@ -25,9 +25,9 @@ func setup(main: Node2D, opts: OptionsPanel) -> void:
 	UiScreen.box(self, Rect2(610, 176, 380, 474), true)
 	var t := Label.new()
 	t.text = "Pausa"
-	PixelFont.apply(t, 4, UiPalette.AMBRA_CHIARA, true)
+	UiFonts.apply(t, 4, UiPalette.AMBRA_CHIARA, true)
 	t.position = Vector2(0, 196)
-	t.size = Vector2(1600, PixelFont.size(4))
+	t.size = Vector2(1600, UiFonts.size(4))
 	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	add_child(t)
 	_box = VBoxContainer.new()
@@ -63,7 +63,7 @@ func _add(text: String, f: Callable) -> void:
 	b.text = text
 	b.custom_minimum_size = Vector2(300, 50)
 	b.focus_mode = Control.FOCUS_NONE
-	b.add_theme_font_size_override("font_size", 19)
+	b.add_theme_font_size_override("font_size", 21)
 	RecipeRow.style(b, true, Color("#2f7a70"))
 	b.pressed.connect(f)
 	_box.add_child(b)

@@ -29,7 +29,7 @@ func setup(main: Node2D, mastery: Mastery) -> void:
 	var title := Label.new()
 	title.text = "Il Libro dei pilastri"
 	title.position = Vector2(90, 34)
-	PixelFont.apply(title, 3)                  # (voce 272) il titolo nel carattere di pixel
+	UiFonts.apply(title, 3)                  # (Roadmap 55) il titolo in Alegreya
 	title.add_theme_color_override("font_color", Color("#ffd24a"))
 	add_child(title)
 	_rows = Control.new()
@@ -43,8 +43,8 @@ func setup(main: Node2D, mastery: Mastery) -> void:
 	_body.bbcode_enabled = true
 	_body.position = Vector2(580, 96)
 	_body.size = Vector2(930, 720)
-	_body.add_theme_font_size_override("normal_font_size", 17)
-	_body.add_theme_font_size_override("bold_font_size", 17)
+	_body.add_theme_font_size_override("normal_font_size", 19)
+	_body.add_theme_font_size_override("bold_font_size", 19)
 	add_child(_body)
 	var hint := Label.new()
 	hint.text = "Esc o %s per chiudere · ogni pilastro sale di grado con ciò che fai nel suo campo, e ogni grado dà un premio" % Keys.label("pilastri")

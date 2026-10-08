@@ -49,9 +49,9 @@ static func float_text(parent: Node, pos: Vector2, text: String, col: Color) -> 
 	var l := Label.new()
 	l.text = text
 	l.position = pos - Vector2(30, 10)
-	l.size = Vector2(60, PixelFont.size(1))
+	l.size = Vector2(60, UiFonts.size(1))
 	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	PixelFont.apply(l, 1, col, true)
+	UiFonts.apply(l, 1, col, true)
 	l.z_as_relative = false
 	l.z_index = 30
 	l.pivot_offset = l.size * 0.5

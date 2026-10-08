@@ -13,7 +13,7 @@ static func build(p: CraftingPanel) -> void:
 	p.add_child(frame)
 	var title := _label(p, Vector2(20, 10), 24, CraftingPanel.AMBER)
 	title.text = "Creare"
-	PixelFont.apply(title, 3)
+	UiFonts.apply(title, 3)
 	title.position.y = 12
 	p._count = _label(p, Vector2(p.size.x - 330, 18), 14, CraftingPanel.TEXT)
 	p._count.size = Vector2(310, 20)
@@ -43,7 +43,7 @@ static func build(p: CraftingPanel) -> void:
 		cb.position = Vector2(10, y)
 		cb.size = Vector2(CraftingPanel.SIDE_W - 14, 23)
 		cb.clip_text = true
-		cb.add_theme_font_size_override("font_size", 13)
+		cb.add_theme_font_size_override("font_size", 15)
 		_side_style(p, cb, CraftingPanel.CATS[k][1])
 		var badge := Label.new()
 		badge.name = "n"
@@ -52,7 +52,7 @@ static func build(p: CraftingPanel) -> void:
 		badge.offset_right = -10
 		badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		badge.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		badge.add_theme_font_size_override("font_size", 13)
+		badge.add_theme_font_size_override("font_size", 15)
 		badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		cb.add_child(badge)
 		cb.pressed.connect(func() -> void:
@@ -74,7 +74,7 @@ static func build(p: CraftingPanel) -> void:
 	p._search.placeholder_text = "Cerca per nome o ingrediente…"
 	p._search.position = Vector2(CraftingPanel.SIDE_W + 16, 52)
 	p._search.size = Vector2(380, 34)
-	p._search.add_theme_font_size_override("font_size", 15)
+	p._search.add_theme_font_size_override("font_size", 17)
 	p._search.clear_button_enabled = true
 	p._search.text_changed.connect(func(_t2: String) -> void: p.refresh())
 	p.add_child(p._search)
@@ -118,7 +118,7 @@ static func build(p: CraftingPanel) -> void:
 		p._sections.append([h, g, int(s[0]), String(s[1])])
 	p._empty = Label.new()
 	p._empty.add_theme_color_override("font_color", CraftingPanel.MUTED)
-	p._empty.add_theme_font_size_override("font_size", 15)
+	p._empty.add_theme_font_size_override("font_size", 17)
 	p._empty.visible = false
 	p._content.add_child(p._empty)
 	var hint := _label(p, Vector2(CraftingPanel.SIDE_W + 18, p.size.y - 28), 13, CraftingPanel.MUTED)
@@ -141,7 +141,7 @@ static func _check(p: CraftingPanel, t: String, pos: Vector2, f: Callable) -> Ch
 	c.text = t
 	c.focus_mode = Control.FOCUS_NONE
 	c.position = pos
-	c.add_theme_font_size_override("font_size", 14)
+	c.add_theme_font_size_override("font_size", 16)
 	c.toggled.connect(f)
 	p.add_child(c)
 	return c
@@ -152,7 +152,7 @@ static func _head(p: CraftingPanel, col: Color) -> Label:
 	var h := Label.new()
 	h.custom_minimum_size = Vector2(0, 28)
 	h.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
-	h.add_theme_font_size_override("font_size", 15)
+	h.add_theme_font_size_override("font_size", 17)
 	h.add_theme_color_override("font_color", col)
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = Color(0, 0, 0, 0)
@@ -183,7 +183,7 @@ static func chips(p: CraftingPanel, list: Array, col: Color) -> float:
 		b.toggle_mode = true
 		b.focus_mode = Control.FOCUS_NONE
 		b.text = ("Tutte" if name == "" else name) + ("" if int(e[1]) <= 0 else "  %d" % int(e[1]))   # quante se ne possono fare
-		b.add_theme_font_size_override("font_size", 13)
+		b.add_theme_font_size_override("font_size", 15)
 		_compact(b, col)
 		b.button_pressed = name == p.sub
 		b.pressed.connect(func() -> void:

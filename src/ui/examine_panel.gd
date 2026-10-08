@@ -54,7 +54,7 @@ func setup(p: BisacciaPanel, c: CraftingPanel) -> void:
 	add_child(frame)
 	var title := _label(self, Vector2(18, 10), 22, AMBER)
 	title.text = "Esamina"
-	PixelFont.apply(title, 3)
+	UiFonts.apply(title, 3)
 	title.position.y = 12
 	_slot = SlotView.new()
 	_slot.position = Vector2(size.x - 18 - SlotView.SIZE, 10)
@@ -90,15 +90,15 @@ func setup(p: BisacciaPanel, c: CraftingPanel) -> void:
 	head.add_child(names)
 	_name = Label.new()
 	_name.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_name.add_theme_font_size_override("font_size", 20)
+	_name.add_theme_font_size_override("font_size", 22)
 	names.add_child(_name)
 	_where = Label.new()
 	_where.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_where.add_theme_font_size_override("font_size", 13)
+	_where.add_theme_font_size_override("font_size", 15)
 	names.add_child(_where)
 	var need := Label.new()
 	need.text = "Serve"
-	need.add_theme_font_size_override("font_size", 14)
+	need.add_theme_font_size_override("font_size", 16)
 	need.add_theme_color_override("font_color", GOLD)
 	_card.add_child(need)
 	_ings = VBoxContainer.new()
@@ -111,7 +111,7 @@ func setup(p: BisacciaPanel, c: CraftingPanel) -> void:
 	_qty_label = Label.new()
 	_qty_label.custom_minimum_size = Vector2(46, 0)
 	_qty_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_qty_label.add_theme_font_size_override("font_size", 18)
+	_qty_label.add_theme_font_size_override("font_size", 20)
 	row.add_child(_qty_label)
 	row.add_child(_small("+", func() -> void: _set_qty(qty + 1)))
 	row.add_child(_small("Max", func() -> void: _set_qty(maxi(crafting.times_possible(recipe), 1))))
@@ -126,7 +126,7 @@ func setup(p: BisacciaPanel, c: CraftingPanel) -> void:
 	_make.focus_mode = Control.FOCUS_NONE
 	_make.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_make.custom_minimum_size = Vector2(0, 40)
-	_make.add_theme_font_size_override("font_size", 18)
+	_make.add_theme_font_size_override("font_size", 20)
 	_make_style(_make)
 	_make.pressed.connect(func() -> void:
 		if not recipe.is_empty():
@@ -134,7 +134,7 @@ func setup(p: BisacciaPanel, c: CraftingPanel) -> void:
 			_set_qty(qty))
 	row.add_child(_make)
 	_max_label = Label.new()
-	_max_label.add_theme_font_size_override("font_size", 13)
+	_max_label.add_theme_font_size_override("font_size", 15)
 	_card.add_child(_max_label)
 	var line := ColorRect.new()
 	line.color = Color("#2f7a70", 0.6)
@@ -155,7 +155,7 @@ func setup(p: BisacciaPanel, c: CraftingPanel) -> void:
 	_pick.focus_mode = Control.FOCUS_NONE
 	_pick.position = Vector2(204, 76)
 	_pick.size = Vector2(size.x - 220, 32)
-	_pick.add_theme_font_size_override("font_size", 14)
+	_pick.add_theme_font_size_override("font_size", 16)
 	_pick.tooltip_text = "Che cosa fare di questo oggetto quando lo trovi a terra: raccoglierlo, lasciarlo dov'è o buttarlo subito nel Cestino. Un clic cambia."
 	_pick.pressed.connect(func() -> void:
 		if panel.pick_rule_next.is_valid() and not held.is_empty():
@@ -165,7 +165,7 @@ func setup(p: BisacciaPanel, c: CraftingPanel) -> void:
 	_text = RichTextLabel.new()
 	_text.bbcode_enabled = true
 	_text.scroll_active = true
-	_text.add_theme_font_size_override("normal_font_size", 15)
+	_text.add_theme_font_size_override("normal_font_size", 17)
 	_text.add_theme_color_override("default_color", TEXT)
 	_text.mouse_filter = Control.MOUSE_FILTER_PASS
 	add_child(_text)
@@ -196,7 +196,7 @@ func _small(t: String, f: Callable) -> Button:
 	b.text = t
 	b.focus_mode = Control.FOCUS_NONE
 	b.custom_minimum_size = Vector2(40 if t.length() < 3 else 52, 40)
-	b.add_theme_font_size_override("font_size", 16)
+	b.add_theme_font_size_override("font_size", 18)
 	RecipeRow.style(b, true, Color("#2f7a70"))
 	b.pressed.connect(f)
 	return b
@@ -322,12 +322,12 @@ func _fill_recipe() -> void:
 		nm.text = String(ItemsData.get_item(String(k)).get("name", k)) + ("  (%d nelle casse)" % there if there > 0 else "")
 		nm.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		nm.clip_text = true
-		nm.add_theme_font_size_override("font_size", 15)
+		nm.add_theme_font_size_override("font_size", 17)
 		nm.add_theme_color_override("font_color", TEXT)
 		line.add_child(nm)
 		var cnt := Label.new()
 		cnt.text = "%s / %d" % [SlotView.short_count(have), need]
-		cnt.add_theme_font_size_override("font_size", 15)
+		cnt.add_theme_font_size_override("font_size", 17)
 		cnt.add_theme_color_override("font_color", OK if have >= need else BAD)
 		line.add_child(cnt)
 		_ings.add_child(line)

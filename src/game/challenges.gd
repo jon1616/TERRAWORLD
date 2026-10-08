@@ -20,7 +20,7 @@ func setup(main: Node2D) -> void:
 	_label.position = Vector2(400, 44)             # in alto al centro: a sinistra ci sono orologio e obiettivi
 	_label.size = Vector2(800, 20)
 	_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_label.add_theme_font_size_override("font_size", 14)
+	_label.add_theme_font_size_override("font_size", 16)
 	_label.add_theme_color_override("font_color", Color("#ffb070"))
 	_label.add_theme_color_override("font_outline_color", Color(0.02, 0.05, 0.07))
 	_label.add_theme_constant_override("outline_size", 5)

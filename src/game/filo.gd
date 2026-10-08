@@ -35,8 +35,8 @@ func setup(main: Node2D) -> void:
 	_label.position = Vector2(420, 44)
 	_label.size = Vector2(760, 10)
 	_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_label.add_theme_font_size_override("normal_font_size", 16)
-	_label.add_theme_font_size_override("bold_font_size", 17)
+	_label.add_theme_font_size_override("normal_font_size", 18)
+	_label.add_theme_font_size_override("bold_font_size", 19)
 	_label.add_theme_color_override("font_outline_color", Color(0.02, 0.05, 0.07))
 	_label.add_theme_constant_override("outline_size", 4)
 	m.hud.add_child(_label)

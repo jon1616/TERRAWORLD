@@ -42,7 +42,7 @@ func setup(main: Node2D) -> void:
 	_label.position = Vector2(1600 - 660, 150)      # sotto la minimappa e il filo (voce 353: il filo ora ha una riga in più)
 	_label.size = Vector2(400, 40)
 	_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	_label.add_theme_font_size_override("font_size", 13)
+	_label.add_theme_font_size_override("font_size", 15)
 	_label.add_theme_color_override("font_color", Color("#b8f4f0"))
 	_label.add_theme_color_override("font_outline_color", Color(0.02, 0.05, 0.07))
 	_label.add_theme_constant_override("outline_size", 5)

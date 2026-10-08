@@ -37,7 +37,7 @@ func setup(main: Node2D) -> void:
 	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_card.add_child(box)
 	_title = Label.new()
-	_title.add_theme_font_size_override("font_size", 17)
+	_title.add_theme_font_size_override("font_size", 19)
 	_title.add_theme_color_override("font_color", Color("#ffd08a"))
 	box.add_child(_title)
 	_text = RichTextLabel.new()
@@ -45,12 +45,12 @@ func setup(main: Node2D) -> void:
 	_text.fit_content = true
 	_text.custom_minimum_size = Vector2(380, 0)
 	_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_text.add_theme_font_size_override("normal_font_size", 14)
-	_text.add_theme_font_size_override("bold_font_size", 14)
+	_text.add_theme_font_size_override("normal_font_size", 16)
+	_text.add_theme_font_size_override("bold_font_size", 16)
 	_text.add_theme_color_override("default_color", Color("#dff5ee"))
 	box.add_child(_text)
 	_foot = Label.new()
-	_foot.add_theme_font_size_override("font_size", 12)
+	_foot.add_theme_font_size_override("font_size", 14)
 	_foot.add_theme_color_override("font_color", Color("#6a8a84"))
 	box.add_child(_foot)
 	m.hud.add_child(_card)

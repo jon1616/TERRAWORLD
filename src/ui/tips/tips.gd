@@ -40,6 +40,7 @@ func _ready() -> void:
 	inst = self
 	process_mode = Node.PROCESS_MODE_ALWAYS    # anche a gioco in pausa (Bisaccia, pannelli)
 	layer = 100
+	UiTheme.smooth_layer(self)               # (Roadmap 55)
 	view = TipView.new()
 	view.visible = false
 	add_child(view)

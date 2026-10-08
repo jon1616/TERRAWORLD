@@ -9,6 +9,15 @@ extends RefCounted
 static func apply() -> void:
 	var t := ThemeDB.get_default_theme()
 	var P := UiPalette
+	# (Roadmap 55) i caratteri: Alegreya Sans per tutto il testo, il grassetto e il corsivo della stessa famiglia
+	t.default_font = UiFonts.get_font("testo")
+	t.default_font_size = P.TESTO_PX
+	t.set_font("bold_font", "RichTextLabel", UiFonts.get_font("forte"))
+	t.set_font("italics_font", "RichTextLabel", UiFonts.get_font("corsivo"))
+	t.set_font("bold_italics_font", "RichTextLabel", UiFonts.get_font("forte"))
+	t.set_font("mono_font", "RichTextLabel", UiFonts.get_font("numeri"))
+	t.set_constant("line_separation", "RichTextLabel", 2)
+	t.set_constant("line_spacing", "Label", 1)
 	# riquadri
 	t.set_stylebox("panel", "Panel", UiFrames.box("riquadro"))
 	t.set_stylebox("panel", "PanelContainer", UiFrames.box("riquadro"))
@@ -97,7 +106,23 @@ static func apply() -> void:
 	t.set_color("font_color", "TooltipLabel", P.TESTO)
 	t.set_color("font_outline_color", "TooltipLabel", Color(0.01, 0.03, 0.04))
 	t.set_constant("outline_size", "TooltipLabel", 0)
-	t.set_font_size("font_size", "TooltipLabel", 15)
+	t.set_font_size("font_size", "TooltipLabel", P.TESTO_PX)
+
+
+## (Roadmap 55) Uno strato dell'interfaccia (l'HUD, i suggerimenti) disegna i suoi controlli con il filtro morbido:
+## testo, cornici e icone dipinte restano lisci quando la finestra ingrandisce i 1600×900 del gioco (il progetto usa il
+## filtro a pixel netti, giusto per il mondo). Vale per i figli di adesso e per quelli che arrivano dopo; chi vuole i
+## pixel netti (un disegno a pixel ingrandito di numeri interi) lo chiede da sé.
+static func smooth_layer(layer: CanvasLayer) -> void:
+	for ch in layer.get_children():
+		_smooth(ch)
+	layer.child_entered_tree.connect(_smooth)
+
+
+static func _smooth(n: Node) -> void:
+	var ci := n as CanvasItem
+	if ci != null and ci.texture_filter == CanvasItem.TEXTURE_FILTER_PARENT_NODE:
+		ci.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 
 
 ## Un riquadro piatto semplice (barre sottili, evidenziazioni): angoli `r`, larghezza minima `w`, altezza minima `h`.
@@ -117,71 +142,79 @@ static func _flat(c: Color, r := 4, w := 0, h := 0, border := Color(0, 0, 0, 0))
 	return sb
 
 
-## La casella di spunta: un quadratino di radice, con la foglia di Linfa quando è scelta (pixel doppi).
-static func _check(on: bool) -> Texture2D:
-	var n := 9
-	var img := Image.create(n, n, false, Image.FORMAT_RGBA8)
-	for y in n:
-		for x in n:
-			var edge := x == 0 or y == 0 or x == n - 1 or y == n - 1
-			var corner := (x == 0 or x == n - 1) and (y == 0 or y == n - 1)
-			if corner:
-				continue
-			img.set_pixel(x, y, UiPalette.BORDO_CHIARO if edge else Color("#081211"))
-	if on:
-		for p in [Vector2i(2, 4), Vector2i(3, 5), Vector2i(4, 6), Vector2i(5, 5), Vector2i(6, 4), Vector2i(6, 3), Vector2i(7, 2)]:
-			img.set_pixel(p.x, p.y, UiPalette.LINFA)
-		for p in [Vector2i(2, 5), Vector2i(3, 6), Vector2i(5, 4), Vector2i(6, 2)]:
-			img.set_pixel(p.x, p.y, UiPalette.FOGLIA)
-	img.resize(n * 2, n * 2, Image.INTERPOLATE_NEAREST)
-	return ImageTexture.create_from_image(img)
-
-
-## L'interruttore (CheckButton): una scanalatura di radice, il seme scivola a destra e la Linfa si accende.
-static func _switch(on: bool) -> Texture2D:
-	var w := 16
-	var h := 9
+## (Roadmap 55) Le piccole icone dei controlli, disegnate morbide: ogni pixel prende la parte di forma che copre
+## (distanza dal bordo), così restano lisce anche ingrandite. Misure in pixel dello schermo.
+static func _shape(w: int, h: int, paint: Callable) -> Texture2D:
 	var img := Image.create(w, h, false, Image.FORMAT_RGBA8)
-	var groove := Color("#1a3a36") if on else Color("#081211")
-	for y in range(1, h - 1):
-		for x in range(1, w - 1):
-			var edge := y == 1 or y == h - 2 or x == 1 or x == w - 2
-			var corner := (x == 1 or x == w - 2) and (y == 1 or y == h - 2)
-			if not corner:
-				img.set_pixel(x, y, UiPalette.BORDO if edge else groove)
-	if on:
-		for x in range(3, w - 7):
-			img.set_pixel(x, 4, Color(UiPalette.LINFA, 0.7))
-	var cx := w - 5 if on else 4
-	var knob := UiPalette.AMBRA if on else UiPalette.TESTO_MUTO
 	for y in h:
-		for x in range(cx - 4, cx + 5):
-			var d := Vector2(x - cx, y - 4).length()
-			if d <= 4.1:
-				img.set_pixel(x, y, Color("#2a1428") if d > 3.2 else (knob.lightened(0.35) if x < cx and y < 4 else knob))
-	img.resize(w * 2, h * 2, Image.INTERPOLATE_NEAREST)
+		for x in w:
+			var c: Color = paint.call(Vector2(x + 0.5, y + 0.5))
+			if c.a > 0.0:
+				img.set_pixel(x, y, c)
 	return ImageTexture.create_from_image(img)
+
+
+## Quanto un punto è dentro una forma che ha distanza `d` dal bordo (negativa dentro): un pixel di sfumatura.
+static func _cov(d: float) -> float:
+	return clampf(0.5 - d, 0.0, 1.0)
+
+
+static func _rbox(p: Vector2, c: Vector2, half: Vector2, r: float) -> float:
+	var q := (p - c).abs() - half + Vector2(r, r)
+	return Vector2(maxf(q.x, 0.0), maxf(q.y, 0.0)).length() + minf(maxf(q.x, q.y), 0.0) - r
+
+
+static func _over(base: Color, top: Color) -> Color:
+	var a := top.a + base.a * (1.0 - top.a)
+	if a <= 0.0:
+		return Color(0, 0, 0, 0)
+	return Color((top.r * top.a + base.r * base.a * (1.0 - top.a)) / a, (top.g * top.a + base.g * base.a * (1.0 - top.a)) / a,
+		(top.b * top.a + base.b * base.a * (1.0 - top.a)) / a, a)
+
+
+## La casella di spunta: un quadratino dagli angoli morbidi, con il segno di Linfa quando è scelta.
+static func _check(on: bool) -> Texture2D:
+	return _shape(20, 20, func(p: Vector2) -> Color:
+		var d := _rbox(p, Vector2(10, 10), Vector2(8.5, 8.5), 4.0)
+		var c := Color(UiPalette.BORDO_CHIARO, 0.85 * _cov(d))
+		c = _over(c, Color("#0a1314", _cov(d + 1.4)))
+		if on:
+			c = _over(c, Color(Color("#173a35"), _cov(d + 1.4)))
+			var a := Vector2(5.5, 10.5)
+			var b := Vector2(8.6, 13.6)
+			var e := Vector2(14.8, 6.4)
+			var dist := minf(Geometry2D.get_closest_point_to_segment(p, a, b).distance_to(p),
+				Geometry2D.get_closest_point_to_segment(p, b, e).distance_to(p))
+			c = _over(c, Color(UiPalette.LINFA, _cov(dist - 1.3)))
+		return c)
+
+
+## L'interruttore (CheckButton): una scanalatura tonda, il seme d'ambra scivola a destra e la Linfa si accende.
+static func _switch(on: bool) -> Texture2D:
+	return _shape(36, 20, func(p: Vector2) -> Color:
+		var d := _rbox(p, Vector2(18, 10), Vector2(16.5, 8.5), 8.5)
+		var c := Color(UiPalette.BORDO_CHIARO if on else UiPalette.BORDO, _cov(d))
+		c = _over(c, Color(Color("#1d4a43") if on else Color("#0a1314"), _cov(d + 1.2)))
+		var kc := Vector2(26.5 if on else 9.5, 10)
+		var kd := p.distance_to(kc) - 6.0
+		c = _over(c, Color(UiPalette.AMBRA if on else UiPalette.TESTO_MUTO, _cov(kd)))
+		c = _over(c, Color(1, 1, 1, 0.25 * _cov(p.distance_to(kc + Vector2(-2, -2)) - 2.2)))
+		return c)
 
 
 ## La freccia dei menu a tendina.
 static func _arrow() -> Texture2D:
-	var img := Image.create(7, 4, false, Image.FORMAT_RGBA8)
-	for y in 4:
-		for x in range(y, 7 - y):
-			img.set_pixel(x, y, UiPalette.LINFA)
-	img.resize(14, 8, Image.INTERPOLATE_NEAREST)
-	return ImageTexture.create_from_image(img)
+	return _shape(14, 9, func(p: Vector2) -> Color:
+		var d := minf(Geometry2D.get_closest_point_to_segment(p, Vector2(2.5, 2.5), Vector2(7, 6.5)).distance_to(p),
+			Geometry2D.get_closest_point_to_segment(p, Vector2(7, 6.5), Vector2(11.5, 2.5)).distance_to(p))
+		return Color(UiPalette.LINFA, _cov(d - 1.1)))
 
 
-## Il pomello dei cursori: un seme d'ambra.
+## Il pomello dei cursori: un seme d'ambra con la sua luce.
 static func _knob(hot: bool) -> Texture2D:
-	var n := 7
-	var img := Image.create(n, n, false, Image.FORMAT_RGBA8)
-	var c := UiPalette.AMBRA_CHIARA if hot else UiPalette.AMBRA
-	for y in n:
-		for x in n:
-			var d := Vector2(x - 3, y - 3).length()
-			if d <= 3.2:
-				img.set_pixel(x, y, Color("#2a1428") if d > 2.4 else (c.lightened(0.35) if x < 3 and y < 3 else c))
-	img.resize(n * 2, n * 2, Image.INTERPOLATE_NEAREST)
-	return ImageTexture.create_from_image(img)
+	return _shape(18, 18, func(p: Vector2) -> Color:
+		var d := p.distance_to(Vector2(9, 9)) - 7.0
+		var c := Color(Color("#1a0f08"), _cov(d))
+		c = _over(c, Color(UiPalette.AMBRA_CHIARA if hot else UiPalette.AMBRA, _cov(d + 1.3)))
+		c = _over(c, Color(1, 1, 1, 0.3 * _cov(p.distance_to(Vector2(7, 7)) - 2.5)))
+		return c)

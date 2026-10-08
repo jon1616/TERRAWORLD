@@ -32,7 +32,7 @@ func setup(main: Node2D, e: Erbario) -> void:
 	add_child(bg)
 	_title = Label.new()
 	_title.position = Vector2(48, 22)
-	PixelFont.apply(_title, 3)                  # (voce 272) il titolo nel carattere di pixel
+	UiFonts.apply(_title, 3)                  # (Roadmap 55) il titolo in Alegreya
 	_title.add_theme_color_override("font_color", UiPalette.AMBRA)
 	add_child(_title)
 	_sub = Label.new()
@@ -185,7 +185,7 @@ func _refresh() -> void:
 		else:
 			cell.text = "?"
 		_frame(cell, Color("#ffb84a") if id == selected else Color("#2f7a70"))
-		cell.add_theme_font_size_override("font_size", 22)
+		cell.add_theme_font_size_override("font_size", 24)
 		cell.modulate = Color.WHITE if known else Color(0.45, 0.5, 0.5)
 		cell.pressed.connect(func() -> void:
 			selected = id

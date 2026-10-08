@@ -279,8 +279,8 @@ func _big_drop(p: Vector2, full: bool) -> void:
 
 ## Un testo centrato su `c` nel carattere di pixel a 2× (voce 275), con un'ombra di 2 px che lo stacca dal liquido.
 func _text(c: Vector2, t: String, _fs: int, a := 1.0) -> void:
-	var pf := PixelFont.font()
-	var fs := PixelFont.size(2)
+	var pf := UiFonts.font()
+	var fs := UiFonts.size(2)
 	var tw := pf.get_string_size(t, HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x
 	var pos := Vector2(roundf(c.x - tw * 0.5), roundf(c.y + 7.0))     # le maiuscole (14 px) centrate sul ramo
 	for d in [Vector2(2, 2), Vector2(0, 2), Vector2(2, 0), Vector2(-2, 0), Vector2(0, -2)]:

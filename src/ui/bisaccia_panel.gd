@@ -78,7 +78,7 @@ func _ready() -> void:
 	var title := Label.new()
 	title.text = "Bisaccia"
 	title.position = Vector2(x0, y0 - 38)
-	PixelFont.apply(title, 3)                  # (voce 272) il titolo nel carattere di pixel
+	UiFonts.apply(title, 3)                  # (Roadmap 55) il titolo in Alegreya
 	title.add_theme_color_override("font_color", Color("#ffb84a"))
 	title.add_theme_color_override("font_outline_color", Color(0.02, 0.05, 0.07))
 	title.add_theme_constant_override("outline_size", 6)
@@ -96,7 +96,7 @@ func _ready() -> void:
 	# lo scomparto aperto, il suo riempimento e la pagina, accanto al titolo
 	_where = Label.new()
 	_where.position = Vector2(x0 + 128, y0 - 34)
-	_where.add_theme_font_size_override("font_size", 14)
+	_where.add_theme_font_size_override("font_size", 16)
 	_where.add_theme_color_override("font_color", Color("#e8d8b0"))
 	_where.add_theme_color_override("font_outline_color", Color(0.02, 0.05, 0.07))
 	_where.add_theme_constant_override("outline_size", 4)
@@ -142,7 +142,7 @@ func _ready() -> void:
 	_scorza.position = Vector2(ex - 6, frame.position.y + 10)
 	_scorza.size = Vector2(ew - 12, 24)
 	_scorza.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_scorza.add_theme_font_size_override("font_size", 16)
+	_scorza.add_theme_font_size_override("font_size", 18)
 	_scorza.add_theme_color_override("font_color", Color("#ffb84a"))
 	_scorza.add_theme_color_override("font_outline_color", Color(0.02, 0.05, 0.07))
 	_scorza.add_theme_constant_override("outline_size", 5)
@@ -161,7 +161,7 @@ func _ready() -> void:
 		_scorza.position.x = ex + 22
 		_scorza.size.x = ew - 40
 		_scorza.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-		_scorza.add_theme_font_size_override("font_size", 14)
+		_scorza.add_theme_font_size_override("font_size", 16)
 	# i set (voce 26): sotto gli accessori, quanti pezzi si indossano e, completo, il bonus
 	_sets = Label.new()
 	# (voce 296: sotto le quattro righe, dove prima stavano le tasche c'era questa scritta)
@@ -169,7 +169,7 @@ func _ready() -> void:
 	_sets.size = Vector2(ew - 12, 20)
 	_sets.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_sets.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_sets.add_theme_font_size_override("font_size", 12)
+	_sets.add_theme_font_size_override("font_size", 14)
 	_sets.add_theme_color_override("font_outline_color", Color(0.02, 0.05, 0.07))
 	_sets.add_theme_constant_override("outline_size", 4)
 	_sets.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -180,7 +180,7 @@ func _ready() -> void:
 	sort.focus_mode = Control.FOCUS_NONE
 	sort.position = Vector2(frame.position.x + frame.size.x - 90, frame.position.y + 8)
 	sort.size = Vector2(76, 28)
-	sort.add_theme_font_size_override("font_size", 12)
+	sort.add_theme_font_size_override("font_size", 14)
 	sort.tooltip_text = "Mette in ordine lo scomparto aperto: per tipo e per nome, unendo le pile"
 	sort.pressed.connect(sort_view)
 	sort.tooltip_text += " (le caselle bloccate con Alt+clic restano dove sono)"
@@ -190,7 +190,7 @@ func _ready() -> void:
 	qs.focus_mode = Control.FOCUS_NONE
 	qs.position = sort.position - Vector2(106, 0)
 	qs.size = Vector2(100, 28)
-	qs.add_theme_font_size_override("font_size", 12)
+	qs.add_theme_font_size_override("font_size", 14)
 	qs.tooltip_text = "Ogni oggetto della Bisaccia (non la barra rapida) va nella cassa vicina che lo contiene già o che raccoglie il suo tipo"
 	qs.pressed.connect(func() -> void:
 		if quick_stack.is_valid():
@@ -378,7 +378,7 @@ func _build_tabs() -> void:
 			b.icon = ImageTexture.create_from_image(img)
 			b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			b.custom_minimum_size = Vector2(44, 28)
-		b.add_theme_font_size_override("font_size", 13)
+		b.add_theme_font_size_override("font_size", 15)
 		UiFrames.button(b, UiPalette.AMBRA, k == view)
 		if not bisaccia.sections.is_empty():
 			# Roadmap 53: le schede in colonna, piccole, tra la Bisaccia ed Esamina

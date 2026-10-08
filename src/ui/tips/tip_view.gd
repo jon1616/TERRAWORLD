@@ -98,11 +98,11 @@ func _title(s: String, col: Color, icon: Variant) -> Control:
 	var l := Label.new()
 	l.text = s
 	l.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	PixelFont.apply(l, 2, col, true)
+	UiFonts.apply(l, 2, col, true)
 	l.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	# un nome lunghissimo va a capo invece di allargare la scheda oltre `MAX_W`
 	var room := MAX_W - (ICON + 18.0 if tex != null else 0.0)
-	if PixelFont.font().get_string_size(s, HORIZONTAL_ALIGNMENT_LEFT, -1, PixelFont.size(2)).x > room:
+	if UiFonts.font().get_string_size(s, HORIZONTAL_ALIGNMENT_LEFT, -1, UiFonts.size(2)).x > room:
 		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		l.custom_minimum_size = Vector2(room, 0)
 	row.add_child(l)
@@ -187,7 +187,7 @@ func _stats(rows: Array) -> GridContainer:
 		v.scroll_active = false
 		v.autowrap_mode = TextServer.AUTOWRAP_OFF
 		v.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		v.add_theme_font_size_override("normal_font_size", 14)
+		v.add_theme_font_size_override("normal_font_size", 16)
 		var col: Color = r[2] if r.size() > 2 else TipCard.TEXT
 		v.text = "[color=#%s]%s[/color]" % [col.to_html(false), r[1]]
 		v.custom_minimum_size = Vector2(measure(String(r[1]), 14) + 6.0, 0)

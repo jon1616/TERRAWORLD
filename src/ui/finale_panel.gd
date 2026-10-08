@@ -23,15 +23,15 @@ func _ready() -> void:
 	_title.position = Vector2(200, 150)
 	_title.size = Vector2(1200, 60)
 	_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	PixelFont.apply(_title, 4)                  # (voce 272) il titolo nel carattere di pixel
+	UiFonts.apply(_title, 4)                  # (Roadmap 55) il titolo in Alegreya
 	_title.add_theme_color_override("font_color", Color("#ffd870"))
 	add_child(_title)
 	_text = RichTextLabel.new()
 	_text.bbcode_enabled = true
 	_text.position = Vector2(300, 250)
 	_text.size = Vector2(1000, 500)
-	_text.add_theme_font_size_override("normal_font_size", 22)
-	_text.add_theme_font_size_override("bold_font_size", 22)
+	_text.add_theme_font_size_override("normal_font_size", 24)
+	_text.add_theme_font_size_override("bold_font_size", 24)
 	add_child(_text)
 	_foot = Label.new()
 	_foot.position = Vector2(200, 820)

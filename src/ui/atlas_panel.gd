@@ -35,7 +35,7 @@ func setup(main: Node2D, atlas: Atlas) -> void:
 	var title := Label.new()
 	title.text = "L'Atlante"
 	title.position = Vector2(90, 30)
-	PixelFont.apply(title, 3)                  # (voce 272) il titolo nel carattere di pixel
+	UiFonts.apply(title, 3)                  # (Roadmap 55) il titolo in Alegreya
 	title.add_theme_color_override("font_color", Color("#5cf0e0"))
 	add_child(title)
 	for i in TABS.size():
@@ -58,8 +58,8 @@ func setup(main: Node2D, atlas: Atlas) -> void:
 	_body.bbcode_enabled = true
 	_body.position = Vector2(580, 130)
 	_body.size = Vector2(930, 690)
-	_body.add_theme_font_size_override("normal_font_size", 17)
-	_body.add_theme_font_size_override("bold_font_size", 17)
+	_body.add_theme_font_size_override("normal_font_size", 19)
+	_body.add_theme_font_size_override("bold_font_size", 19)
 	add_child(_body)
 	var hint := Label.new()
 	hint.text = "Esc o %s per chiudere · rotella per scorrere l'elenco" % Keys.label("atlante")

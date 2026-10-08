@@ -61,7 +61,7 @@ func _init() -> void:
 	_count.size = Vector2(SIZE - 6, SIZE)
 	_count.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_count.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
-	PixelFont.apply(_count, 2, Color("#eafff6"), true)
+	UiFonts.apply(_count, 2, Color("#eafff6"), true)
 	_count.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_count)
 	_restyle()

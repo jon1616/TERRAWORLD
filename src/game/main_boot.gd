@@ -67,6 +67,7 @@ static func loading_screen(m: Node2D, text: String) -> CanvasLayer:
 	var layer := CanvasLayer.new()
 	layer.layer = 50
 	m.add_child(layer)
+	UiTheme.smooth_layer(layer)
 	var bg := ColorRect.new()
 	bg.color = Color("#0f0d18")
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -74,7 +75,7 @@ static func loading_screen(m: Node2D, text: String) -> CanvasLayer:
 	var l := Label.new()
 	l.text = text
 	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	PixelFont.apply(l, 3)                  # (voce 272) il titolo nel carattere di pixel
+	UiFonts.apply(l, 3)                  # (Roadmap 55) il titolo in Alegreya
 	l.add_theme_color_override("font_color", Color("#cfe8a0"))
 	l.set_anchors_preset(Control.PRESET_CENTER)
 	l.position = Vector2(-600, -40)

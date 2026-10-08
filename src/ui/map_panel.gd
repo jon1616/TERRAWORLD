@@ -39,7 +39,7 @@ func setup(main: Node2D, r: MapReveal) -> void:
 	_legend.position = Vector2(20, 860)
 	_legend.size = Vector2(1560, 30)
 	_legend.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_legend.add_theme_font_size_override("normal_font_size", 14)
+	_legend.add_theme_font_size_override("normal_font_size", 16)
 	var t := "[color=#cfeee4]Rotella: zoom · trascina: spostati · clic destro: segnale · M/Esc: chiudi[/color]    "
 	for k in [["player", "tu"], ["spawn", "partenza"], ["cuore", "Cuore"], ["portale", "portale"], ["scrigno", "scrigni e ceste"], ["fagotto", "il tuo fagotto"], ["reliquiario", "reliquiari"], ["tana", "tane dei Custodi"], ["altare", "altari"], ["radice", "radici"], ["firma", "firma del mondo"]]:
 		t += "[color=#%s]●[/color] [color=#cfeee4]%s[/color]   " % [(MARK[k[0]] as Color).to_html(false), k[1]]
@@ -47,7 +47,7 @@ func setup(main: Node2D, r: MapReveal) -> void:
 	add_child(_legend)
 	_hint = Label.new()
 	_hint.position = Vector2(20, 20)
-	_hint.add_theme_font_size_override("font_size", 20)
+	_hint.add_theme_font_size_override("font_size", 22)
 	_hint.add_theme_color_override("font_color", Color("#8ef0d8"))
 	_hint.add_theme_color_override("font_outline_color", Color("#050c10"))
 	_hint.add_theme_constant_override("outline_size", 6)

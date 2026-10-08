@@ -30,7 +30,7 @@ func setup(w: WordChests) -> void:
 	_box.add_child(v)
 	var title := Label.new()
 	title.text = "Scrigno a parola"
-	PixelFont.apply(title, 3)                  # (voce 272) il titolo nel carattere di pixel
+	UiFonts.apply(title, 3)                  # (Roadmap 55) il titolo in Alegreya
 	title.add_theme_color_override("font_color", Color("#ffd08a"))
 	v.add_child(title)
 	_text = RichTextLabel.new()
@@ -38,7 +38,7 @@ func setup(w: WordChests) -> void:
 	_text.fit_content = true
 	_text.scroll_active = false
 	_text.custom_minimum_size = Vector2(780, 0)
-	_text.add_theme_font_size_override("normal_font_size", 18)
+	_text.add_theme_font_size_override("normal_font_size", 20)
 	v.add_child(_text)
 	_grid = GridContainer.new()
 	_grid.columns = 6
@@ -47,7 +47,7 @@ func setup(w: WordChests) -> void:
 	v.add_child(_grid)
 	var hint := Label.new()
 	hint.text = "Esc per chiudere"
-	hint.add_theme_font_size_override("font_size", 13)
+	hint.add_theme_font_size_override("font_size", 15)
 	hint.add_theme_color_override("font_color", Color("#6a8a84"))
 	v.add_child(hint)
 
@@ -79,7 +79,7 @@ func open(o: Vector2i, e: Dictionary) -> void:
 		b.focus_mode = Control.FOCUS_NONE
 		b.text = "%s%s" % [LanguageData.sem(w), (" · " + LanguageData.it(w)) if lg.known(w) else ""]
 		b.custom_minimum_size = Vector2(122, 36)
-		b.add_theme_font_size_override("font_size", 15)
+		b.add_theme_font_size_override("font_size", 17)
 		var word := String(w)
 		b.pressed.connect(func() -> void:
 			visible = false

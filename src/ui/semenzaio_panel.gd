@@ -38,7 +38,7 @@ func setup(main: Node2D) -> void:
 	UiScreen.box(self, Rect2(764, 138, 732, 706))
 	_title = Label.new()
 	_title.position = Vector2(120, 40)
-	PixelFont.apply(_title, 3)                  # (voce 272) il titolo nel carattere di pixel
+	UiFonts.apply(_title, 3)                  # (Roadmap 55) il titolo in Alegreya
 	_title.add_theme_color_override("font_color", UiPalette.AMBRA)
 	add_child(_title)
 	var x := 120.0
@@ -67,7 +67,7 @@ func setup(main: Node2D) -> void:
 	_detail.bbcode_enabled = true
 	_detail.position = Vector2(780, 150)
 	_detail.size = Vector2(700, 620)
-	_detail.add_theme_font_size_override("normal_font_size", 16)
+	_detail.add_theme_font_size_override("normal_font_size", 18)
 	add_child(_detail)
 	_close = Button.new()
 	_close.text = "Chiudi questo mondo (torna Aiuola, ti resta il Seme dormiente)"
@@ -154,7 +154,7 @@ func _row(id: String, text: String, col: Color) -> void:
 	b.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	b.custom_minimum_size = Vector2(600, ROW_H)
 	b.add_theme_color_override("font_color", col)
-	b.add_theme_font_size_override("font_size", 16)
+	b.add_theme_font_size_override("font_size", 18)
 	ErbarioPanel._frame(b, Color("#ffb84a") if id == selected else Color("#2f7a70"))
 	b.pressed.connect(func() -> void:
 		selected = id

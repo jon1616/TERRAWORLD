@@ -130,7 +130,7 @@ func setup(p: BisacciaPanel) -> void:
 		pl.position = Vector2(s.position.x - 4, y0 + SlotView.SIZE + 2)
 		pl.size = Vector2(SlotView.SIZE + 8, 16)
 		pl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		pl.add_theme_font_size_override("font_size", 12)
+		pl.add_theme_font_size_override("font_size", 14)
 		add_child(pl)
 		_prices.append(pl)
 
@@ -275,7 +275,7 @@ func _fill_services() -> void:
 	_svc_box.add_child(t)
 	var sub := Label.new()
 	sub.text = "Cose che sa fare solo lui, pagate in Lumini."
-	sub.add_theme_font_size_override("font_size", 13)
+	sub.add_theme_font_size_override("font_size", 15)
 	sub.add_theme_color_override("font_color", Color("#9fc8c0"))
 	_svc_box.add_child(sub)
 	for r in rows:
@@ -299,7 +299,7 @@ func _fill_services() -> void:
 		d.text = String(r[3]) if String(r[4]) == "" else "%s  [%s]" % [r[3], r[4]]
 		d.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		d.custom_minimum_size = Vector2(_svc_box.size.x, 0)
-		d.add_theme_font_size_override("font_size", 13)
+		d.add_theme_font_size_override("font_size", 15)
 		d.add_theme_color_override("font_color", Color("#cfeee4") if String(r[4]) == "" else Color("#8a9a94"))
 		_svc_box.add_child(d)
 

@@ -39,14 +39,14 @@ func setup(main: Node2D) -> void:
 	var title := Label.new()
 	title.text = "Il Quaderno delle parole"
 	title.position = Vector2(80, 26)
-	PixelFont.apply(title, 3)                  # (voce 272) il titolo nel carattere di pixel
+	UiFonts.apply(title, 3)                  # (Roadmap 55) il titolo in Alegreya
 	title.add_theme_color_override("font_color", UiPalette.AMBRA)
 	add_child(title)
 	_head = RichTextLabel.new()
 	_head.bbcode_enabled = true
 	_head.position = Vector2(80, 72)
 	_head.size = Vector2(1440, 110)
-	_head.add_theme_font_size_override("normal_font_size", 15)
+	_head.add_theme_font_size_override("normal_font_size", 17)
 	_head.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_head)
 	var x := 80.0
@@ -70,7 +70,7 @@ func setup(main: Node2D) -> void:
 	_detail.bbcode_enabled = true
 	_detail.position = Vector2(760, 236)
 	_detail.size = Vector2(760, 470)
-	_detail.add_theme_font_size_override("normal_font_size", 16)
+	_detail.add_theme_font_size_override("normal_font_size", 18)
 	add_child(_detail)
 	_opts = HBoxContainer.new()
 	_opts.position = Vector2(760, 716)
@@ -132,7 +132,7 @@ func refresh() -> void:
 		b.focus_mode = Control.FOCUS_NONE
 		b.position = Vector2((i % COLS) * (CELL.x + GAP), (i / COLS) * (CELL.y + GAP))
 		b.size = CELL
-		b.add_theme_font_size_override("font_size", 14)
+		b.add_theme_font_size_override("font_size", 16)
 		var st := lg.state(w)
 		match st:
 			Language.CERTA:
@@ -195,7 +195,7 @@ func _show_word() -> void:
 					var b := Button.new()
 					b.focus_mode = Control.FOCUS_NONE
 					b.text = "«%s»?" % LanguageData.it(String(o))
-					b.add_theme_font_size_override("font_size", 16)
+					b.add_theme_font_size_override("font_size", 18)
 					b.custom_minimum_size = Vector2(150, 40)
 					UiFrames.button(b, Color(0, 0, 0, 0), false, "principale")
 					var meaning := String(o)

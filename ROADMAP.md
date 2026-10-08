@@ -5984,3 +5984,32 @@ all'altro: le creature scelgono a caso), incastrate dallo 0,36% a 0. Già bene p
 nessun tremolio, il teletrasporto non entrava nella roccia, il Mangiastelle non cadeva dalle isole (l'analisi del codice
 lo temeva: la misura ha detto di no). Restano possibili: una creatura che insegue non trova una strada attorno a un muro
 (aspetta, poi lascia perdere: niente ricerca del percorso, che costerebbe molto con centinaia di creature).
+
+# Roadmap 55 «Il volto chiaro» (dall'8 ott 2026)
+
+L'utente: le schede delle meccaniche (i pannelli a schermo intero) e i suggerimenti sono «poco eleganti, alcune confuse
+ed in generale molto pixellose»; «rifai tutti i pannelli… togli tutti i caratteri a pixel. Voglio tutto confezionato a
+regola d'arte e con lo stesso stile… hai carta bianca». Le cause (8 ott 2026): il carattere predefinito del motore a
+12-13 px e i titoli nel carattere di pixel, ingranditi con il filtro a pixel netti del mondo; cornici fatte di immagini a
+pixel doppi; sfondi un po' trasparenti; pannelli che sono testo colorato e basta, ognuno fatto a modo suo, con i numeri
+nel titolo e i comandi in una riga grigia minuscola.
+
+- [x] **428. Le fondamenta.** I caratteri Alegreya (titoli, nomi) e Alegreya Sans (testo), una scala del testo, la
+  tavolozza rivista, cornici disegnate a vettori, le icone dei controlli morbide, il filtro morbido per l'interfaccia;
+  via il carattere a pixel.
+- [ ] **429. Il kit.** I pezzi comuni (`UiKit`: titoletti, etichette tonde, tasti disegnati, riquadri evidenziati,
+  valori in colonna, barre, medaglioni, il vuoto spiegato) e lo scheletro dei pannelli (`UiPage`: intestazione con
+  medaglione e numeri chiave, schede, corpo, piede con i tasti), le righe d'elenco (`UiRow`), le tappe (`UiTimeline`).
+- [ ] **430. I suggerimenti.** La scheda rifatta: intestazione con l'icona e le etichette, sezioni, valori allineati,
+  tasti disegnati; tutte le schede di sole parole (portali, Vita, orologio…) diventano schede vere.
+- [ ] **431. Le strade.** Libro dei pilastri, Arti, Atlante.
+- [ ] **432. Il Giardino.** Albero-Madre, Bacheca, Semenzaio (mondi, Genario, catene, storia), Innesto.
+- [ ] **433. Le creature.** Erbario, Mandria, Compagni.
+- [ ] **434. Le parole.** Quaderno, letture (pagine, racconti, scrigni a parola), Finale, Enciclopedia.
+- [ ] **435. Il lavoro.** Bisaccia, Creare, Esamina, casse, commercio, macchine, la scheda del Germogliato.
+- [ ] **436. Le porte.** Pausa, Opzioni, Mappa, il menu principale e la creazione.
+- [ ] **437. Sopra il mondo.** Vita e Linfa, barra rapida, filo, obiettivi, avvisi, consigli, insegne degli strati,
+  barra dei Guardiani, i numeri nel mondo; gli avvisi non coprono più i pannelli aperti.
+- [ ] **438. La misura.** La galleria completa prima e dopo, il foglio di confronto, 0 problemi d'impaginazione,
+  `ARTE.md`.
+

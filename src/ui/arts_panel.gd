@@ -30,7 +30,7 @@ func setup(main: Node2D) -> void:
 	var title := Label.new()
 	title.text = "Le arti del combattimento"
 	title.position = Vector2(90, 34)
-	PixelFont.apply(title, 3)                  # (voce 272) il titolo nel carattere di pixel
+	UiFonts.apply(title, 3)                  # (Roadmap 55) il titolo in Alegreya
 	title.add_theme_color_override("font_color", Color("#ff9a6a"))
 	add_child(title)
 	_rows = Control.new()
@@ -44,8 +44,8 @@ func setup(main: Node2D) -> void:
 	_body.bbcode_enabled = true
 	_body.position = Vector2(580, 100)
 	_body.size = Vector2(930, 720)
-	_body.add_theme_font_size_override("normal_font_size", 17)
-	_body.add_theme_font_size_override("bold_font_size", 17)
+	_body.add_theme_font_size_override("normal_font_size", 19)
+	_body.add_theme_font_size_override("bold_font_size", 19)
 	add_child(_body)
 	var hint := Label.new()
 	hint.text = "Esc o %s per chiudere · %s: la tecnica dell'arma in mano" % [Keys.label("arti"), Keys.label("tecnica")]

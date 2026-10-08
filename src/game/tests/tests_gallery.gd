@@ -156,9 +156,9 @@ func _font_sheet() -> void:
 		var l := Label.new()
 		l.text = String(ln[1])
 		l.position = Vector2(72, y)
-		PixelFont.apply(l, int(ln[0]), ln[2], true)
+		UiFonts.apply(l, int(ln[0]), ln[2], true)
 		sheet.add_child(l)
-		y += PixelFont.size(int(ln[0])) + 22.0
+		y += UiFonts.size(int(ln[0])) + 22.0
 	var soft := Label.new()
 	soft.text = "(a confronto, il carattere morbido: Il Giardino dei Semi — Bisaccia 0123456789)"
 	soft.position = Vector2(72, y + 10)

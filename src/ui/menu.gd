@@ -17,6 +17,7 @@ var _title: Label
 
 func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
+	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR    # (Roadmap 55) l'interfaccia morbida
 	if "--prove" in OS.get_cmdline_user_args():
 		# 8 ott 2026 (l'utente): le prove in silenzio. Il bus principale è muto: musica e suoni suonano lo stesso (le
 		# prove che li contano o li misurano vanno come prima), ma non si sentono. `--con-suoni` li riaccende.
@@ -38,7 +39,7 @@ func _ready() -> void:
 		_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		add_child(_title)
 	var sub := _label("Il Giardino dei Semi", 24, Color("#8ef0d0"))
-	PixelFont.apply(sub, 2, Color("#8ef0d0"), true)
+	UiFonts.apply(sub, 2, Color("#8ef0d0"), true)
 	sub.position = Vector2(cx - 400, 222 if art else 180)
 	sub.size = Vector2(800, 40)
 	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -259,7 +260,7 @@ func _with_delete(b: Button, on_delete: Callable) -> void:
 	d.text = "Elimina"
 	d.tooltip_text = "Elimina per sempre (chiede conferma)"
 	d.custom_minimum_size = Vector2(110, 46)
-	d.add_theme_font_size_override("font_size", 16)
+	d.add_theme_font_size_override("font_size", 18)
 	d.add_theme_color_override("font_color", DANGER)
 	d.add_theme_color_override("font_hover_color", Color("#ffb0a0"))
 	UiFrames.button(d, DANGER)
@@ -354,7 +355,7 @@ func _label(text: String, size: int, col: Color) -> Label:
 
 func _heading(text: String) -> void:
 	var l := _label(text, 26, GOLD)
-	PixelFont.apply(l, 3, GOLD, true)          # (voce 283) le intestazioni nel carattere di pixel
+	UiFonts.apply(l, 3, GOLD, true)          # (voce 283) le intestazioni nel carattere di pixel
 	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_box.add_child(l)
 
@@ -369,7 +370,7 @@ func _button(text: String, action: Callable, col := TEXT) -> Button:
 	var b := Button.new()
 	b.text = text
 	b.custom_minimum_size = Vector2(0, 46)
-	b.add_theme_font_size_override("font_size", 20)
+	b.add_theme_font_size_override("font_size", 22)
 	b.add_theme_color_override("font_color", col)
 	b.add_theme_color_override("font_hover_color", GOLD)
 	UiFrames.button(b)
@@ -384,7 +385,7 @@ func _field(placeholder: String, text: String) -> LineEdit:
 	e.placeholder_text = placeholder
 	e.text = text
 	e.custom_minimum_size = Vector2(0, 44)
-	e.add_theme_font_size_override("font_size", 20)
+	e.add_theme_font_size_override("font_size", 22)
 	_box.add_child(e)
 	return e
 

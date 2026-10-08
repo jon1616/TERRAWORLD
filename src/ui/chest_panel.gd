@@ -49,12 +49,12 @@ func setup(p: BisacciaPanel) -> void:
 	_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_frame)
 	_title = Label.new()
-	PixelFont.apply(_title, 2)
+	UiFonts.apply(_title, 2)
 	_title.add_theme_color_override("font_color", Color("#8ef0d8"))
 	add_child(_title)
 	_info = Label.new()
 	_info.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	_info.add_theme_font_size_override("font_size", 13)
+	_info.add_theme_font_size_override("font_size", 15)
 	_info.add_theme_color_override("font_color", Color("#9fc8c0"))
 	_info.clip_text = true                          # (voce 351) non deve passare sotto la ricerca
 	_info.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
@@ -68,7 +68,7 @@ func setup(p: BisacciaPanel) -> void:
 	_search.placeholder_text = "Cerca nella cassa…"
 	_search.size = Vector2(190, 28)
 	_search.clear_button_enabled = true
-	_search.add_theme_font_size_override("font_size", 14)
+	_search.add_theme_font_size_override("font_size", 16)
 	_search.text_changed.connect(func(_t: String) -> void: _refresh())
 	_search.text_submitted.connect(func(_t: String) -> void: _search.release_focus())
 	add_child(_search)
@@ -90,7 +90,7 @@ func setup(p: BisacciaPanel) -> void:
 		btn.tooltip_text = b[1]
 		btn.focus_mode = Control.FOCUS_NONE
 		btn.size = Vector2(150, 30)
-		btn.add_theme_font_size_override("font_size", 14)
+		btn.add_theme_font_size_override("font_size", 16)
 		btn.pressed.connect(b[2])
 		add_child(btn)
 		_buttons.append(btn)
@@ -123,7 +123,7 @@ func setup(p: BisacciaPanel) -> void:
 	var lab := Label.new()
 	lab.text = "Raccoglie:"
 	lab.position = Vector2(372, 11)
-	lab.add_theme_font_size_override("font_size", 14)
+	lab.add_theme_font_size_override("font_size", 16)
 	_settings.add_child(lab)
 	_kind = OptionButton.new()
 	_kind.position = Vector2(452, 7)
@@ -211,7 +211,7 @@ func _fill_cats(counts: Dictionary) -> void:
 		var b := Button.new()
 		b.text = "%s  %d" % [r[1], int(r[2])]
 		b.custom_minimum_size = Vector2(150, 22)
-		b.add_theme_font_size_override("font_size", 12)
+		b.add_theme_font_size_override("font_size", 14)
 		b.focus_mode = Control.FOCUS_NONE
 		b.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		b.toggle_mode = true
@@ -421,7 +421,7 @@ func _show_pages(pages: int) -> void:
 		b.toggle_mode = true
 		b.focus_mode = Control.FOCUS_NONE
 		b.custom_minimum_size = Vector2(30, 26)
-		b.add_theme_font_size_override("font_size", 13)
+		b.add_theme_font_size_override("font_size", 15)
 		UiFrames.button(b, UiPalette.LINFA, k == page)
 		b.button_pressed = k == page
 		b.pressed.connect(func() -> void:

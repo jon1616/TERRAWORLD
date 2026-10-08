@@ -61,9 +61,9 @@ func _draw() -> void:
 	if not visible:
 		return
 	draw_style_box(UiFrames.box("riquadro"), Rect2(Vector2.ZERO, size))
-	var f: Font = PixelFont.font()
-	var fs := PixelFont.size(2)
-	var fs1 := PixelFont.size(1)
+	var f: Font = UiFonts.font()
+	var fs := UiFonts.size(2)
+	var fs1 := UiFonts.size(1)
 	var cur: Dictionary = m.bonds.field()
 	var big := Rect2(Vector2(10, 10), Vector2(BIG, BIG))
 	draw_style_box(UiFrames.box("casella"), big)

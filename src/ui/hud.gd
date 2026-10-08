@@ -31,6 +31,7 @@ var _fx_seen := {}                     # pannello -> si vedeva al fotogramma pri
 
 func _ready() -> void:
 	layer = 10
+	UiTheme.smooth_layer(self)               # (Roadmap 55) l'interfaccia morbida, il mondo resta a pixel
 	# la Bisaccia per prima: la sua cornice sta sotto la barra rapida, che resta in primo piano
 	panel = BisacciaPanel.new()
 	panel.bisaccia = bisaccia
@@ -61,16 +62,16 @@ func _ready() -> void:
 		num.text = str((k + 1) % 10)
 		num.position = Vector2(6, 2)
 		num.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		PixelFont.apply(num, 1, Color("#9fd8c8"), true)
+		UiFonts.apply(num, 1, Color("#9fd8c8"), true)
 		s.add_child(num)
 		s.pivot_offset = Vector2(SlotView.SIZE, SlotView.SIZE) * 0.5
 		_slots.append(s)
 	_name = Label.new()
-	_name.position = Vector2(0, HOTBAR_Y - 12 - PixelFont.size(2))
-	_name.size = Vector2(1600, PixelFont.size(2))
+	_name.position = Vector2(0, HOTBAR_Y - 12 - UiFonts.size(2))
+	_name.size = Vector2(1600, UiFonts.size(2))
 	_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_name.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	PixelFont.apply(_name, 2, AMBER, true)
+	UiFonts.apply(_name, 2, AMBER, true)
 	add_child(_name)
 	_info = _label(self, Vector2(16, 6), 13)
 	_info.add_theme_constant_override("line_spacing", -2)

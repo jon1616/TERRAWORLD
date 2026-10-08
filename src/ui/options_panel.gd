@@ -34,7 +34,7 @@ func _init() -> void:
 	var title := Label.new()
 	title.text = "Opzioni"
 	title.position = Vector2(120, 36)
-	PixelFont.apply(title, 3)                  # (voce 272) il titolo nel carattere di pixel
+	UiFonts.apply(title, 3)                  # (Roadmap 55) il titolo in Alegreya
 	title.add_theme_color_override("font_color", GOLD)
 	add_child(title)
 	var y := 110.0
@@ -44,7 +44,7 @@ func _init() -> void:
 		b.position = Vector2(120, y)
 		b.size = Vector2(220, 46)
 		b.focus_mode = Control.FOCUS_NONE
-		b.add_theme_font_size_override("font_size", 18)
+		b.add_theme_font_size_override("font_size", 20)
 		var sid := String(s[0])
 		b.pressed.connect(func() -> void: show_section(sid))
 		add_child(b)
@@ -121,14 +121,14 @@ func _row(o: Dictionary) -> Control:
 	left.add_theme_constant_override("separation", 2)
 	var n := Label.new()
 	n.text = String(o["name"])
-	n.add_theme_font_size_override("font_size", 19)
+	n.add_theme_font_size_override("font_size", 21)
 	n.add_theme_color_override("font_color", TEXT)
 	left.add_child(n)
 	var d := Label.new()
 	d.text = String(o.get("desc", ""))
 	d.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	d.custom_minimum_size = Vector2(600, 0)
-	d.add_theme_font_size_override("font_size", 14)
+	d.add_theme_font_size_override("font_size", 16)
 	d.add_theme_color_override("font_color", DIM)
 	left.add_child(d)
 	row.add_child(left)
@@ -146,7 +146,7 @@ func _control(o: Dictionary) -> Control:
 			cb.button_pressed = bool(cur)
 			cb.text = "Sì" if bool(cur) else "No"
 			cb.focus_mode = Control.FOCUS_NONE
-			cb.add_theme_font_size_override("font_size", 17)
+			cb.add_theme_font_size_override("font_size", 19)
 			cb.toggled.connect(func(on: bool) -> void:
 				cb.text = "Sì" if on else "No"
 				Settings.set_v(id, on))
@@ -156,7 +156,7 @@ func _control(o: Dictionary) -> Control:
 			ob.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 			ob.custom_minimum_size = Vector2(380, 40)
 			ob.focus_mode = Control.FOCUS_NONE
-			ob.add_theme_font_size_override("font_size", 16)
+			ob.add_theme_font_size_override("font_size", 18)
 			var ch: Array = o["choices"]
 			for i in ch.size():
 				ob.add_item(String(ch[i][1]), i)
@@ -179,7 +179,7 @@ func _control(o: Dictionary) -> Control:
 			lab.custom_minimum_size = Vector2(80, 0)
 			lab.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 			lab.size_flags_vertical = Control.SIZE_FILL
-			lab.add_theme_font_size_override("font_size", 17)
+			lab.add_theme_font_size_override("font_size", 19)
 			lab.add_theme_color_override("font_color", GOLD)
 			lab.text = _fmt(o, float(cur))
 			sl.value_changed.connect(func(val: float) -> void:
@@ -215,7 +215,7 @@ func _keys_rows() -> void:
 			group = String(a[3])
 			var h := Label.new()
 			h.text = group
-			h.add_theme_font_size_override("font_size", 20)
+			h.add_theme_font_size_override("font_size", 22)
 			h.add_theme_color_override("font_color", GOLD)
 			_rows.add_child(h)
 		var row := HBoxContainer.new()
@@ -223,7 +223,7 @@ func _keys_rows() -> void:
 		var n := Label.new()
 		n.text = String(a[1])
 		n.custom_minimum_size = Vector2(560, 0)
-		n.add_theme_font_size_override("font_size", 17)
+		n.add_theme_font_size_override("font_size", 19)
 		n.add_theme_color_override("font_color", TEXT)
 		row.add_child(n)
 		var ks: Array = Settings.keys_of(String(a[0]))

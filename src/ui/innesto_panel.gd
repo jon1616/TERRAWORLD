@@ -35,7 +35,7 @@ func setup(main: Node2D) -> void:
 	_title = Label.new()
 	_title.position = Vector2(120, 40)
 	_title.text = "Banco dell'Innestatrice — due Semi di mondo, una Linfa antica, e nasce un Seme nuovo"
-	PixelFont.apply(_title, 3)                  # (voce 272) il titolo nel carattere di pixel
+	UiFonts.apply(_title, 3)                  # (Roadmap 55) il titolo in Alegreya
 	_title.add_theme_color_override("font_color", UiPalette.AMBRA)
 	add_child(_title)
 	var scroll := ScrollContainer.new()
@@ -50,7 +50,7 @@ func setup(main: Node2D) -> void:
 	_detail.bbcode_enabled = true
 	_detail.position = Vector2(780, 110)
 	_detail.size = Vector2(720, 660)
-	_detail.add_theme_font_size_override("normal_font_size", 16)
+	_detail.add_theme_font_size_override("normal_font_size", 18)
 	add_child(_detail)
 	_go = Button.new()
 	_go.text = "Innesta (una Linfa antica)"
@@ -116,7 +116,7 @@ func _row(text: String, on: bool, action: Callable) -> void:
 	btn.text = text
 	btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	btn.custom_minimum_size = Vector2(600, 40)
-	btn.add_theme_font_size_override("font_size", 15)
+	btn.add_theme_font_size_override("font_size", 17)
 	btn.add_theme_color_override("font_color", Color("#ffd08a") if on else Color("#cfeee4"))
 	ErbarioPanel._frame(btn, Color("#ffb84a") if on else Color("#2f7a70"))
 	btn.pressed.connect(action)

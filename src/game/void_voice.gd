@@ -21,7 +21,7 @@ func setup(main: Node2D) -> void:
 	_label = Label.new()
 	_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_label.size = Vector2(900, 40)
-	_label.add_theme_font_size_override("font_size", 22)
+	_label.add_theme_font_size_override("font_size", 24)
 	_label.add_theme_color_override("font_outline_color", Color(0.02, 0.0, 0.04))
 	_label.add_theme_constant_override("outline_size", 6)
 	_label.mouse_filter = Control.MOUSE_FILTER_IGNORE

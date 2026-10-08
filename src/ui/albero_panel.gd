@@ -30,7 +30,7 @@ func setup(main: Node2D, a: AlberoMadre) -> void:
 	UiScreen.box(self, Rect2(544, 90, 952, 710))
 	_title = Label.new()
 	_title.position = Vector2(120, 40)
-	PixelFont.apply(_title, 3)                  # (voce 272) il titolo nel carattere di pixel
+	UiFonts.apply(_title, 3)                  # (Roadmap 55) il titolo in Alegreya
 	_title.add_theme_color_override("font_color", UiPalette.AMBRA)
 	add_child(_title)
 	_stages = VBoxContainer.new()
@@ -41,7 +41,7 @@ func setup(main: Node2D, a: AlberoMadre) -> void:
 	_body.bbcode_enabled = true
 	_body.position = Vector2(560, 100)
 	_body.size = Vector2(920, 620)
-	_body.add_theme_font_size_override("normal_font_size", 17)
+	_body.add_theme_font_size_override("normal_font_size", 19)
 	_body.meta_clicked.connect(func(meta: Variant) -> void:
 		visible = false                           # (voce 351) l'Enciclopedia si apre sopra il Giardino
 		HowTo.open_link(m, meta))
@@ -105,7 +105,7 @@ func _refresh() -> void:
 		var l := Label.new()
 		var st: Dictionary = MotherTreeData.STAGES[i]
 		l.text = ("✓ " if i < s else ("▶ " if i == s else "   ")) + String(st["name"])
-		l.add_theme_font_size_override("font_size", 18 if i == s else 16)
+		l.add_theme_font_size_override("font_size", 20 if i == s else 16)
 		l.add_theme_color_override("font_color", Color("#8ef0d8") if i < s else (Color("#ffb84a") if i == s else Color("#4a6a64")))
 		_stages.add_child(l)
 	if am.done():

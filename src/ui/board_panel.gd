@@ -40,7 +40,7 @@ func setup(main: Node2D, b: Board) -> void:
 	add_child(bg)
 	_title = Label.new()
 	_title.position = Vector2(120, 40)
-	PixelFont.apply(_title, 3)                  # (voce 272) il titolo nel carattere di pixel
+	UiFonts.apply(_title, 3)                  # (Roadmap 55) il titolo in Alegreya
 	_title.add_theme_color_override("font_color", UiPalette.AMBRA)
 	add_child(_title)
 	_cards = Control.new()
@@ -123,7 +123,7 @@ func _card(i: int, r: Dictionary) -> void:
 	body.position = Vector2(110, 40)
 	body.size = Vector2(520, 50)
 	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	body.add_theme_font_size_override("font_size", 18)
+	body.add_theme_font_size_override("font_size", 20)
 	body.add_theme_color_override("font_color", Color("#ffe8c0"))
 	card.add_child(body)
 	# (voce 351) dove si trova o come si fa: il giocatore deve sapere sempre come compiere una richiesta
@@ -136,7 +136,7 @@ func _card(i: int, r: Dictionary) -> void:
 		hl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		hl.max_lines_visible = 2
 		hl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		hl.add_theme_font_size_override("font_size", 13)
+		hl.add_theme_font_size_override("font_size", 15)
 		hl.add_theme_color_override("font_color", Color("#9fc8c0"))
 		hl.mouse_filter = Control.MOUSE_FILTER_PASS
 		hl.tooltip_text = how

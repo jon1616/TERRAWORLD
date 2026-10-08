@@ -174,6 +174,6 @@ static func _row(icon_id: String, can: bool, text: String, cost: String) -> Butt
 	b.clip_text = true
 	b.text = "%s   —   %s" % [text, cost]
 	b.custom_minimum_size = Vector2(0, 46)
-	b.add_theme_font_size_override("font_size", 15)
+	b.add_theme_font_size_override("font_size", 17)
 	RecipeRow.style(b, can, CraftCatsData.WORK)
 	return b

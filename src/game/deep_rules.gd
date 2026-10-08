@@ -23,7 +23,7 @@ func setup(main: Node2D) -> void:
 	m.fauna.killed.connect(_on_killed)
 	_label = Label.new()
 	_label.position = Vector2(16, 47)              # sopra l'orologio (y 70), sotto le righe dei comandi
-	_label.add_theme_font_size_override("font_size", 13)
+	_label.add_theme_font_size_override("font_size", 15)
 	_label.add_theme_color_override("font_outline_color", Color(0.02, 0.05, 0.07))
 	_label.add_theme_constant_override("outline_size", 5)
 	_label.mouse_filter = Control.MOUSE_FILTER_PASS

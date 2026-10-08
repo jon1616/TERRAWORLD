@@ -32,7 +32,7 @@ func setup(main: Node2D) -> void:
 	bar.position = Vector2(1600 - 660, 124)      # sotto gli effetti delle pozioni, a sinistra della minimappa
 	bar.size = Vector2(400, 20)
 	bar.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	bar.add_theme_font_size_override("font_size", 14)
+	bar.add_theme_font_size_override("font_size", 16)
 	bar.add_theme_color_override("font_color", Color("#8ec8ff"))
 	bar.add_theme_color_override("font_outline_color", Color(0.02, 0.05, 0.07))
 	bar.add_theme_constant_override("outline_size", 5)

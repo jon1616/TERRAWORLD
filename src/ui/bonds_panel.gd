@@ -179,9 +179,9 @@ func _on_rows(e: InputEvent) -> void:
 
 
 func _draw_rows() -> void:
-	var f: Font = PixelFont.font()
-	var fs := PixelFont.size(2)
-	var fs1 := PixelFont.size(1)
+	var f: Font = UiFonts.font()
+	var fs := UiFonts.size(2)
+	var fs1 := UiFonts.size(1)
 	var bag: Array = m.bonds.bag()
 	for i in HerdData.FOLLOW_MAX:
 		var r := Rect2(0, i * ROW, _rows.size.x, ROW - 8)
@@ -462,7 +462,7 @@ func _draw_book() -> void:
 	var all := BondsData.all_species()
 	var cols := floori(_grid.size.x / CELL)
 	var seen: Dictionary = m.character.erbario.get("creature", {})
-	var f: Font = PixelFont.font()
+	var f: Font = UiFonts.font()
 	for i in all.size():
 		var sp := String(all[i])
 		var r := Rect2(Vector2((i % cols) * CELL, (i / cols) * CELL), Vector2(CELL - 6, CELL - 6))
@@ -479,7 +479,7 @@ func _draw_book() -> void:
 				Color(1, 1, 1, 1) if got else Color(0.05, 0.08, 0.08, 0.85))
 		else:
 			_grid.draw_string(f, r.position + Vector2(r.size.x * 0.5 - 4, r.size.y * 0.5 + 6), "?", HORIZONTAL_ALIGNMENT_LEFT, -1,
-				PixelFont.size(2), UiPalette.TESTO_MUTO)
+				UiFonts.size(2), UiPalette.TESTO_MUTO)
 
 
 func _book_tip() -> Variant:

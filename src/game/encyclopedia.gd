@@ -20,7 +20,7 @@ func setup(main: Node2D) -> void:
 	_btn.position = Vector2(16, 840)
 	_btn.size = Vector2(40, 40)
 	_btn.focus_mode = Control.FOCUS_NONE
-	_btn.add_theme_font_size_override("font_size", 20)
+	_btn.add_theme_font_size_override("font_size", 22)
 	# voce 101: l'icona dell'Enciclopedia al posto del «?», se c'è
 	if ArtLib.has("interfaccia", "pannello_enciclopedia"):
 		_btn.text = ""
@@ -30,6 +30,7 @@ func setup(main: Node2D) -> void:
 		_btn.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		_btn.add_theme_constant_override("icon_max_width", 32)
 	RecipeRow.style(_btn, true, Color("#2f7a70"))
+	UiFrames.button(_btn, Color("#2f7a70"), false, "icona")         # (Roadmap 55)
 	Tips.attach(_btn, func() -> Variant: return TipCard.simple("Enciclopedia (%s): tutto sul gioco, con la ricerca" % Keys.label("enciclopedia")))
 	_btn.pressed.connect(func() -> void: open())
 	m.hud.add_child(_btn)

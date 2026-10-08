@@ -14,10 +14,10 @@ func _ready() -> void:
 	# (voce 276) il nome nel carattere di pixel a 4×, con un'ombra netta: un'insegna, non una scritta
 	_title.remove_theme_font_size_override("font_size")
 	_title.remove_theme_constant_override("outline_size")
-	PixelFont.apply(_title, 4, Color(0, 0, 0, 0), true)
+	UiFonts.apply(_title, 4, Color(0, 0, 0, 0), true)
 	_title.add_theme_constant_override("shadow_offset_x", 4)
 	_title.add_theme_constant_override("shadow_offset_y", 4)
-	_title.offset_bottom = 146 + PixelFont.size(4)
+	_title.offset_bottom = 146 + UiFonts.size(4)
 	_sub = _label(16, 196)
 	modulate.a = 0.0
 
@@ -64,7 +64,7 @@ func _place() -> void:
 		if bb != null and bb.visible:
 			dy = maxf(dy, bb.global_position.y - global_position.y + 34.0 - 146.0)
 	_title.offset_top = 146.0 + dy
-	_title.offset_bottom = _title.offset_top + PixelFont.size(4)
+	_title.offset_bottom = _title.offset_top + UiFonts.size(4)
 	_sub.offset_top = 196.0 + dy
 	_sub.offset_bottom = _sub.offset_top + 24.0
 

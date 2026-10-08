@@ -42,7 +42,7 @@ func setup(main: Node2D) -> void:
 	m.hud.add_child(_why)
 	_fps = Label.new()
 	_fps.position = Vector2(16, 876)
-	_fps.add_theme_font_size_override("font_size", 12)
+	_fps.add_theme_font_size_override("font_size", 14)
 	_fps.add_theme_color_override("font_color", Color("#8aa8a2"))
 	_fps.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	m.hud.add_child(_fps)
