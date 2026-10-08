@@ -233,5 +233,19 @@
 			"#e0e8ff"
 		],
 		"polvere": false
+	},
+	"rana_torba": {
+		"name_en": "Peat Frog",
+		"noun": "frog",
+		"plan": "anfibio",
+		"look": "a plump squat frog of the peat bogs, seen from the side: a wide flat head with a big mouth and one bulging round eye on top, a round body, strong folded back legs and short front legs, smooth damp dark-green skin with a few round GLOWING turquoise SPOTS on its back, a pale green belly. It jumps toward you in big leaps.",
+		"colors": "dark bog-green skin (#2a5a40, darker #1a3a2a, darkest #0e2018), lighter green on the head (#4a8a60), pale green belly (#90d0a0), glowing turquoise spots (#5cf0d8)",
+		"eye": "one big bulging glowing turquoise eye (#5cf0d8) with a dark pupil",
+		"glow": "the turquoise spots and the eye (#5cf0d8)",
+		"accents": [
+			"#5cf0d8",
+			"#90d0a0"
+		],
+		"scale": 1.4
 	}
 }
