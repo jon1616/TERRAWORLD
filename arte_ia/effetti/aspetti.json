@@ -1,0 +1,15 @@
+{
+	"_nota": "Gli effetti per tools/prompt_effetto.py: what = che cos'è, desc = come è fatto (la parte vuota al centro dove sta la creatura), loop = come si muove nel ciclo di 8 fotogrammi.",
+	"alone_antica": {"what": "MAGIC AURA effect: the glowing aura that surrounds a rare, ANCIENT creature",
+		"desc": "A flat glowing ELLIPSE ring lying on the ground at the bottom (a wide thin oval), and from it soft tongues of spectral flame and wisps of light rise on the LEFT and RIGHT sides, curling and flickering, forming a tall arch-shaped halo around an EMPTY space in the middle (where the creature stands: the middle stays BLACK and empty). A few small sparks drift upward. Wider than tall.",
+		"loop": "the flame tongues rise, curl and flicker; the base ring stays in place."},
+	"alone_ancestrale": {"what": "MAGIC AURA effect: the solemn, mystical aura of an ANCESTRAL creature, older than the world",
+		"desc": "A flat glowing ELLIPSE ring on the ground at the bottom (a wide thin oval) engraved with a band of small angular RUNES (simple carved glyphs like ancient seed-script, no real letters), and around the EMPTY middle a tall arch made of floating rune glyphs and thin concentric arcs of light that orbit around the creature's space, like a slow magic circle seen from the side, with a soft veil of light rising behind. The middle stays BLACK and empty (the creature stands there). Wider than tall, elegant and solemn, not fiery.",
+		"loop": "the runes and arcs slowly ORBIT around the empty middle (the glyphs on the front pass in front, then go around behind and come back), the ground ring slowly turns, the light breathes softly; all at the same size in every frame."},
+	"alone_capobranco": {"what": "MAGIC AURA effect: the fierce aura of a PACK LEADER beast",
+		"desc": "A flat glowing ELLIPSE ring on the ground at the bottom (a wide thin oval), and rising from it on the LEFT and RIGHT sides sharp jagged shapes of light like huge spectral CLAW SLASHES and FANGS curving inward over the EMPTY middle, forming a wild, aggressive arch; a faint ghostly wolf-like snarl shape at the top made of wisps (only suggested, not a full animal). The middle stays BLACK and empty (the creature stands there). Wider than tall.",
+		"loop": "the claw and fang shapes pulse outward and snap back like a heartbeat or a growl, flaring brighter in the middle of the loop; the base ring stays in place."},
+	"alone_iridata": {"what": "MAGIC AURA effect: the dreamy, shimmering aura of a rare IRIDESCENT creature that may vanish at any moment",
+		"desc": "A flat glowing ELLIPSE ring on the ground at the bottom (a wide thin oval), and around the EMPTY middle a delicate arch of floating PRISM SHARDS, tiny crystal facets, soap-bubble rings and twinkling star sparkles, like light refracted through glass; light and airy, very different from fire. The middle stays BLACK and empty (the creature stands there). Wider than tall.",
+		"loop": "the shards and bubbles float upward and twinkle on and off one after another, new sparkles appear at the bottom as old ones fade at the top; the base ring shimmers."}
+}

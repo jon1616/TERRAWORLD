@@ -14,6 +14,7 @@ var gone := false                      # svanita: la fauna la toglie senza botti
 var _hue := 0.0
 var _label: Label
 var _aura: Sprite2D
+var _halo: Halo                        # 8 ott 2026: l'alone animato del grado (se ha il disegno), al posto del contorno
 
 
 ## Rende rara una creatura appena nata. `mult` = forza della zona (pericolo × vigore) già applicata a Vita e danno.
@@ -42,6 +43,14 @@ func apply(c: Creature, r: String, tr: Array) -> void:
 	# l'aura: un contorno acceso attorno alla figura, sopra il buio (si vede anche nelle grotte senza coprire la
 	# creatura: la prima versione era una copia colorata sopra e la nascondeva)
 	_aura = Sprite2D.new()
+	_halo = Halo.make("alone_" + r)
+	if _halo != null:
+		# l'alone dipinto, sommato come luce sopra il buio (z 25 come il contorno) e colorato con la rarità
+		_halo.modulate = Color(rd["aura"]) * 0.75
+		_halo.z_as_relative = false
+		_halo.z_index = 25
+		c.add_child(_halo)
+		_halo.step(c._spr, 0.0)
 	_aura.texture = ring(c._spr.texture)
 	_aura.offset = c._spr.offset
 	_aura.position = c._spr.position
@@ -118,9 +127,13 @@ func tick(c: Creature, dt: float) -> void:
 	c._spr.scale *= scale
 	if c._glow:
 		c._glow.scale = c._spr.scale
-	_aura.texture = ring(c._spr.texture)
-	_aura.scale = c._spr.scale
-	_aura.position = c._spr.position
+	if _halo != null:
+		_aura.visible = false
+		_halo.step(c._spr, dt)
+	else:
+		_aura.texture = ring(c._spr.texture)
+		_aura.scale = c._spr.scale
+		_aura.position = c._spr.position
 	# iridata: i colori cambiano di continuo; se non la si prende in tempo svanisce
 	if life > 0.0:
 		life -= dt
@@ -128,6 +141,8 @@ func tick(c: Creature, dt: float) -> void:
 		var col := Color.from_hsv(_hue, 0.5, 1.0)
 		c._spr.self_modulate = col * 1.35
 		_aura.modulate = Color.from_hsv(fmod(_hue + 0.5, 1.0), 0.6, 1.0) * 1.8
+		if _halo != null:
+			_halo.modulate = Color.from_hsv(fmod(_hue + 0.5, 1.0), 0.6, 1.0) * 1.2
 		if life <= 0.0:
 			gone = true
 	# rigenerante: la Vita ricresce se non la si finisce

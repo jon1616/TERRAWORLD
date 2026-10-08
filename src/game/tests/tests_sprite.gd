@@ -32,10 +32,56 @@ func run() -> void:
 	if c.x < 0:
 		c = Vector2i(w.spawn.x + 20, w.surface[w.spawn.x + 20] - 1)
 	kit.flatten(c, 10)
+	var rara := _arg("--rara=")
 	for id in ids:
-		await _one(id, c)
+		if rara != "":
+			await _halo(id, c, rara)
+		else:
+			await _one(id, c)
 	m.combat.god = false
 	m.hud.visible = hud_was
+
+
+func _arg(k: String) -> String:
+	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with(k):
+			return arg.trim_prefix(k)
+	return ""
+
+
+## Con `--rara=<grado>` (8 ott 2026): la creatura rara di quel grado (senza tratti, che la cambierebbero), l'alone in
+## quattro momenti del ciclo di giorno e altri quattro di notte → prove/sprite/<id>_<grado>.png.
+func _halo(id: String, c: Vector2i, rara: String) -> void:
+	m.fauna.clear()
+	m.snap_to(c + Vector2i(-6, 0))
+	await kit.seconds(0.3)
+	var cd: Dictionary = CreaturesData.get_data(id)
+	var lift := 3 * 16 if cd.get("fly", false) else 0
+	var cr: Creature = m.fauna.add(id, Vector2((c.x + 2) * 16 + 8, (c.y - 2) * 16 - lift))
+	if cr == null:
+		print("ATTENZIONE: %s non compare" % id)
+		return
+	cr.ancient = Ancient.new()
+	cr.ancient.apply(cr, rara, [])
+	await kit.seconds(1.0)
+	var t0: float = m.day.time
+	var shots: Array[Image] = []
+	for night in [false, true]:
+		m.day.time = 0.95 if night else 0.5
+		m.day.apply(true)
+		for k in 4:
+			await kit.seconds(0.27)
+			if not is_instance_valid(cr):
+				break
+			cr.set_process(false)
+			shots.append(await _crop(cr, 1.5))
+			cr.set_process(true)
+	m.day.time = t0
+	m.day.apply(true)
+	_sheet(shots, "res://prove/sprite/%s_%s.png" % [id, rara])
+	print("%s %s: alone %s → prove/sprite/%s_%s.png" % [id, rara,
+		"dipinto" if cr.ancient._halo != null else "di prima (contorno)", id, rara])
+	m.fauna.clear()
 
 
 ## Le creature da guardare: quelle di `--creatura=`, altrimenti una per ogni riga di `CreaturePosesData`.
@@ -178,7 +224,7 @@ func _check_states(cr: Creature, id: String) -> void:
 
 
 ## Un ritaglio della finestra attorno alla creatura (con il nome della posa sopra).
-func _crop(cr: Creature) -> Image:
+func _crop(cr: Creature, wide := 1.0) -> Image:
 	await kit.frames(3)
 	RenderingServer.force_draw(false)
 	var img: Image = await Photo.take(m.get_viewport())
@@ -186,8 +232,9 @@ func _crop(cr: Creature) -> Image:
 	var z: float = (m.cam as Camera2D).zoom.x
 	var fw: float = (cr._frames[0] as Texture2D).get_width() * z
 	var fh: float = (cr._frames[0] as Texture2D).get_height() * z
-	var half_w := int(maxf(fw * 0.75, 70.0))
-	var r := Rect2i(int(p.x) - half_w, int(p.y - fh - 40.0 * z), half_w * 2, int(fh * 1.6 + 50.0 * z))
+	var half_w := int(maxf(fw * 0.75 * wide, 70.0 * wide))
+	var top := fh * wide + 40.0 * z
+	var r := Rect2i(int(p.x) - half_w, int(p.y - top), half_w * 2, int(top + fh * 0.6 + 10.0 * z))
 	r = r.intersection(Rect2i(Vector2i.ZERO, img.get_size()))
 	return img.get_region(r)
 
