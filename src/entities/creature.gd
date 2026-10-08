@@ -191,9 +191,10 @@ func setup(cid: String, w: World, tgt: Node2D, sd: int, more_mods := {}) -> void
 func _load_art(shape: String, variant: int) -> void:
 	var mods: Dictionary = data.get("art_mods", {}).duplicate()
 	mods.merge(_more, true)
-	if variant == 0 and CreaturePosesData.POSES.has(id) and not CreatureArt._posed(id, 0).is_empty():
+	if variant == int((data["art"] as Array)[1]) and CreaturePosesData.POSES.has(id) 			and not CreatureArt._posed(id, 0).is_empty():
 		# una creatura con un disegno tutto suo (i capi: lo Zannarossa non è più il cinghiale ingrandito)
 		shape = id
+		variant = 0                              # il disegno suo è uno solo (la variante di colore è già lì)
 		mods = {}
 	var key := "%s_%d_%s" % [shape, variant, str(mods)]
 	if not _art_cache.has(key):

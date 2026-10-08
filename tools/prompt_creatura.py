@@ -155,8 +155,11 @@ def build_poses(s: dict, look: dict) -> tuple[list, dict, dict, bool]:
             cells.append(("fermo", "idle variant: a little wider and lower (breathing out), eyes half closed"))
             cells.append(("carica", "crouching before the jump: squashed low and wide, eyes on the target"))
             cells.append(("stacco", "take-off: stretched tall and narrow, leaving the ground, leaning forward"))
-            cells.append(("aria", "in the air at the top of the jump: compact and round, legs tucked, lifted HIGH in the cell"))
-            cells.append(("discesa", "falling: stretched slightly downward, legs reaching for the ground, lifted a little"))
+            legless = plan in ("grumo", "lumaca", "serpe", "fluttuante")
+            cells.append(("aria", "in the air at the top of the jump: compact and round, %s, lifted HIGH in the cell"
+                          % ("NO legs (it has none)" if legless else "legs tucked")))
+            cells.append(("discesa", "falling: stretched slightly downward, %s, lifted a little"
+                          % ("NO legs (it has none), its bottom reaching for the ground" if legless else "legs reaching for the ground")))
             cells.append(("atterra", "landing: squashed very flat and wide on the ground, wobbling"))
         else:
             cells += [("cammina", t) for t in WALK.get(plan, WALK["quadrupede"])]
@@ -304,7 +307,9 @@ def build(s: dict, look: dict) -> tuple[str, dict]:
         lines.append("Row %d: %s." % (r + 1, "; ".join(row)))
     prompt = "\n".join(lines)
     # la ricetta per l'installatore
-    key = s["id"] if (s.get("art_mods") or s["boss"] or s["chief"]) else s["shape"]
+    # la chiave è la forma solo per la variante 0 senza ritocchi; le altre varianti di colore, i capi e chi ha
+    # «art_mods» hanno un disegno tutto loro (altrimenti sovrascriverebbero quello della forma)
+    key = s["id"] if (s.get("art_mods") or s["boss"] or s["chief"] or int(s.get("variant", 0)) != 0) else s["shape"]
     pal = s["palette"]
     dark = sum(lum(c) for c in pal) / max(len(pal), 1) < 70
     # chiari e poco saturi come la polvere (lo stesso controllo di `importa_creatura.py --togli-polvere`): niente filtro

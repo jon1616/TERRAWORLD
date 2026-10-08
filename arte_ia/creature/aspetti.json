@@ -26,5 +26,19 @@
 			"#ccf5ff"
 		],
 		"polvere": false
+	},
+	"grumo_spore": {
+		"name_en": "Spore Blob",
+		"noun": "blob",
+		"plan": "grumo",
+		"look": "a small hopping blob of living swamp jelly, cousin of the Moss Blob: a soft round dome of translucent jelly, one big white shine spot on the upper left, two big dark oval eyes on the right side; on top of its head grow three small round MUSHROOM CAPS with pale spots, and inside the jelly float a few big glowing SPORE DOTS. It is heavier and grumpier than the Moss Blob and jumps higher.",
+		"colors": "deep indigo-blue jelly (#2a2f7a dark bottom, #4a56c8 body, #9aa8ff light top), pale lavender-white mushroom caps with indigo spots (#e8ecff, #4a56c8), glowing spore dots of pale turquoise (#8ff0e0)",
+		"eye": "two big dark oval eyes (#14141f) with a tiny white shine",
+		"glow": "the spore dots inside the jelly (#8ff0e0)",
+		"accents": [
+			"#8ff0e0",
+			"#ffffff"
+		],
+		"polvere": false
 	}
 }

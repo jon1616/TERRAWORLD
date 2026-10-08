@@ -52,6 +52,10 @@ const POSES := {
 	"cervo_brina": {"n": 12, "anchor": [23, 40],
 		"poses": {"cammina": [0, 1, 2, 3], "fermo": [4, 4, 4, 4, 11], "carica": [5], "scatto": [6], "bruca": [7], "colpita": [8], "allerta": [9]},
 		"fps": {"cammina": 6.0, "fermo": 2.0}},
+	# Grumo di spore (tavola di Nano Banana, tools/installa_creatura.py)
+	"grumo_spore": {"n": 8, "anchor": [12, 23],
+		"poses": {"fermo": [0, 1], "carica": [2], "stacco": [3], "aria": [4], "discesa": [5], "atterra": [6], "colpita": [7]},
+		"fps": {"fermo": 1.6}},
 }
 
 
