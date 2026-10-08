@@ -97,6 +97,21 @@ def main() -> None:
         # più di metà cella e alti pochi pixel (i contorni delle figure sono curvi, i loro tratti dritti sono corti)
         lum = a[:, :, :3] @ np.array([0.3, 0.59, 0.11])
         dark = (lum < 70) & (a[:, :, 3] > 0.5)
+        # solo i tratti SOTTILI: un corpo scuro e largo (lo Spinoriccio) ha tratti lunghi ma spessi, e spariva
+        thick = np.zeros(dark.shape, dtype=np.int32)
+        for x in range(dark.shape[1]):
+            col_d = dark[:, x]
+            y = 0
+            while y < len(col_d):
+                if col_d[y]:
+                    y1 = y
+                    while y1 < len(col_d) and col_d[y1]:
+                        y1 += 1
+                    thick[y:y1, x] = y1 - y
+                    y = y1
+                else:
+                    y += 1
+        dark &= thick <= max(4, a.shape[0] // 100)
         cw0 = a.shape[1] / col
         for y in range(a.shape[0]):
             row = dark[y]

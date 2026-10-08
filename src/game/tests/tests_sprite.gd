@@ -171,6 +171,12 @@ func _sheet(shots: Array[Image], path: String) -> void:
 	for s in shots:
 		cw = maxi(cw, s.get_width())
 		ch = maxi(ch, s.get_height())
+	# le creature piccole: il foglio raddoppiato, a pixel pieni (si vede ogni pixel del disegno)
+	if cw < 220:
+		for s in shots:
+			s.resize(s.get_width() * 2, s.get_height() * 2, Image.INTERPOLATE_NEAREST)
+		cw *= 2
+		ch *= 2
 	var cols := mini(shots.size(), 6)
 	var rows := ceili(shots.size() / float(cols))
 	var out := Image.create_empty(cols * (cw + 6) + 6, rows * (ch + 6) + 6, false, Image.FORMAT_RGBA8)

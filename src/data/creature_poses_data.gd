@@ -44,6 +44,10 @@ const POSES := {
 		"poses": {"fermo": [0, 0, 0, 0, 1, 0], "allerta": [2], "cammina": [3, 4, 5, 6], "corsa": [3, 4, 5, 6],
 			"aria": [5], "stacco": [4], "discesa": [6], "colpita": [7]},
 		"fps": {"fermo": 2.0, "cammina": 9.0, "corsa": 12.0}},
+	# Spinoriccio (tavola di Nano Banana, tools/installa_creatura.py)
+	"spinoriccio": {"n": 8, "anchor": [10, 12], "lift": 8,
+		"poses": {"cammina": [0, 1, 2, 3], "fermo": [4], "carica": [5], "scatto": [6], "colpita": [7]},
+		"fps": {"cammina": 6.0}},
 }
 
 
