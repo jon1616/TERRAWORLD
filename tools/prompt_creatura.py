@@ -307,13 +307,17 @@ def build(s: dict, look: dict) -> tuple[str, dict]:
     key = s["id"] if (s.get("art_mods") or s["boss"] or s["chief"]) else s["shape"]
     pal = s["palette"]
     dark = sum(lum(c) for c in pal) / max(len(pal), 1) < 70
-    pale = any(lum(c) > 170 and colorsys.rgb_to_hls(*(int(c[i:i + 2], 16) / 255 for i in (1, 3, 5)))[2] < 0.25 for c in pal)
+    # chiari e poco saturi come la polvere (lo stesso controllo di `importa_creatura.py --togli-polvere`): niente filtro
+    def _dusty(c: str) -> bool:
+        v = [int(c[i:i + 2], 16) for i in (1, 3, 5)]
+        return lum(c) > 120 and max(v) - min(v) < 70
+    pale = any(_dusty(c) for c in pal + [x for x in (look.get("accents") or [])])
     accents = [c for c in (look.get("accents") or [])] or [c for c in glow[:3]]
     misura = poses.get("fermo", poses.get("sospeso", poses.get("vola", [0])))[0]
     recipe = {"id": s["id"], "key": key, "name": s["name"], "grid": "4x%d" % rows, "n": len(cells),
               "cells": [c[0] for c in cells], "poses": poses, "fps": fps, "center": center and bool(s["fly"]),
               "roll_center": bool(s["roll"]), "fly": bool(s["fly"]), "lungo": px - 2, "misura_da": misura,
-              "accenti": accents, "luce": glow[:3] if s["glow"] else [], "togli_polvere": not pale,
+              "accenti": accents, "luce": glow[:3] if s["glow"] else [], "togli_polvere": bool(look.get("polvere", not pale)),
               "schiarisci": 1.35 if dark else 1.0, "glow": bool(s["glow"])}
     return prompt, recipe
 

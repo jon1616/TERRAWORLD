@@ -48,6 +48,10 @@ const POSES := {
 	"spinoriccio": {"n": 8, "anchor": [10, 12], "lift": 8,
 		"poses": {"cammina": [0, 1, 2, 3], "fermo": [4], "carica": [5], "scatto": [6], "colpita": [7]},
 		"fps": {"cammina": 6.0}},
+	# Cervo di brina (tavola di Nano Banana, tools/installa_creatura.py)
+	"cervo_brina": {"n": 12, "anchor": [23, 40],
+		"poses": {"cammina": [0, 1, 2, 3], "fermo": [4, 4, 4, 4, 11], "carica": [5], "scatto": [6], "bruca": [7], "colpita": [8], "allerta": [9]},
+		"fps": {"cammina": 6.0, "fermo": 2.0}},
 }
 
 

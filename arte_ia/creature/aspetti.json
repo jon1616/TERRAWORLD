@@ -8,6 +8,23 @@
 		"look": "a small round hedgehog-like creature of the amber woods: a plump dark-brown body with a pale pointed snout and a small pink nose, short stubby legs, and on its back a big crown of long GOLDEN AMBER THORNS (thick, few and clearly separated, like dried resin spikes, lighter at the tips). The thorns cover the back from the head to the tail and stick out in a wide fan, so the silhouette is spiky and unmistakable.",
 		"colors": "dark brown body (#3d2914, #5c3d29, lighter #7a5233 on the face), golden amber thorns (#cc993d with pale yellow tips #f5d67a), a pale cream snout (#e8c8a0), a small pink nose (#eba3a3)",
 		"eye": "one small round bright amber-orange eye (#ffb040) with a dark pupil",
-		"accents": ["#ffb040", "#f5d67a", "#eba3a3"]
+		"accents": [
+			"#ffb040",
+			"#f5d67a",
+			"#eba3a3"
+		]
+	},
+	"cervo_brina": {
+		"name_en": "Frost Stag",
+		"noun": "deer",
+		"plan": "quadrupede",
+		"look": "a slender elegant deer of the frozen lands: a lean body with long thin legs, a proud neck and a narrow head; its coat is frost-blue, darker on the back and lighter on the belly, sprinkled with a few big pale frost spots along the back; a short white tail; on its head a pair of ANTLERS made of clear pale ICE CRYSTALS, branching into 3-4 sharp points, big and clearly readable. Graceful but ready to fight: it lowers its icy antlers to charge.",
+		"colors": "dark frost blue (#294766), frost blue (#477099), light blue-grey belly (#7aadcc), pale ice-white antlers and spots (#ccf5ff), dark hooves (#1a2a3a)",
+		"eye": "one round glowing mint-green eye (#8ff5d6)",
+		"accents": [
+			"#8ff5d6",
+			"#ccf5ff"
+		],
+		"polvere": false
 	}
 }

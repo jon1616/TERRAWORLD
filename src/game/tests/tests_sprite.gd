@@ -21,6 +21,10 @@ func run() -> void:
 	var ids := _ids()
 	print("pose da guardare: %s" % ", ".join(ids))
 	m.combat.god = true
+	var mk: Node = m.filo.get("_marker") if m.get("filo") != null else null
+	if mk is CanvasItem:
+		(mk as CanvasItem).visible = false        # il rombo del filo copriva le creature nelle foto
+		(mk as Node).set_process(false)
 	var w: World = kit.world
 	var c := kit.flat_spot(w.spawn + Vector2i(20, 0), 10)
 	if c.x < 0:
@@ -66,6 +70,9 @@ func _one(id: String, c: Vector2i) -> void:
 	# ogni posa, ferma, con il suo nome sopra
 	cr.set_process(false)
 	cr.facing = 1
+	for ch in cr.get_children():
+		if ch is TeleMark:
+			(ch as CanvasItem).visible = false   # il «!» acceso dalla prova degli stati copriva la creatura
 	var label := Label.new()
 	label.add_theme_font_size_override("font_size", 8)
 	label.add_theme_color_override("font_color", Color("#ffe8a0"))
@@ -78,14 +85,21 @@ func _one(id: String, c: Vector2i) -> void:
 	for nm in names:
 		var list: Array = cr._poses["poses"][nm] if not cr._poses.is_empty() else [0]
 		var fps: float = float((cr._poses.get("fps", {}) as Dictionary).get(nm, 8.0))
+		var seen_f := {}
+		var uniq := {}
+		for f in list:
+			uniq[f] = true
 		for k in list.size():
+			if seen_f.has(list[k]):
+				continue                              # un fotogramma ripetuto nel ciclo si fotografa una volta
+			seen_f[list[k]] = true
 			if not cr._poses.is_empty():
 				cr.force_pose = String(nm)
 				cr._pose = String(nm)
 				cr._pose_t = (k + 0.5) / fps
 				cr._hurt_t = 0.0
 				cr._animate(0.0)
-			label.text = "%s %d/%d" % [nm, k + 1, list.size()] if list.size() > 1 else String(nm)
+			label.text = "%s %d/%d" % [nm, seen_f.size(), uniq.size()] if uniq.size() > 1 else String(nm)
 			label.position = Vector2(-label.get_minimum_size().x / 2.0, -cr.half.y - 34.0)
 			shots.append(await _crop(cr))
 	label.queue_free()
