@@ -94,6 +94,12 @@ def figures(path: str, cols: int, rows: int) -> list[np.ndarray]:
         & (np.abs(r - b) < 70)
     rgb[fam] = (255, 0, 255)
     togli_scritte(rgb, cols, rows)
+    # le linee nere della griglia (lotto 12: celle disuguali, linee unite fra loro): righe e colonne scure per lunghi tratti
+    dark = (rgb @ np.array([0.3, 0.59, 0.11])) < 70
+    for y in np.where(dark.mean(axis=1) > 0.6)[0]:
+        rgb[y, dark[y]] = (255, 0, 255)
+    for x in np.where(dark.mean(axis=0) > 0.4)[0]:
+        rgb[dark[:, x], x] = (255, 0, 255)
     a = tavola.togli_magenta(Image.fromarray(rgb.astype(np.uint8), "RGB"))
     out = []
     for sy, sx, m in tavola.pezzi_griglia(a, cols, rows):

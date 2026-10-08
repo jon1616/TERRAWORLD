@@ -147,13 +147,16 @@ def pezzi_griglia(a: np.ndarray, col: int, righe: int) -> list[tuple[slice, slic
         alto, largo = sl[0].stop - sl[0].start, sl[1].stop - sl[1].start
         if max(alto, largo) < min(ch, cw) * 0.12:
             continue
+        # le linee della griglia che Nano Banana disegna tra le celle: lunghe più di una cella e sottili
+        if (largo > cw * 1.2 and alto < ch * 0.1) or (alto > ch * 1.2 and largo < cw * 0.1):
+            continue
         # una parola intera (lettere bianche unite dal loro contorno scuro): bassa e larga
         if alto < ch * 0.14 and largo > alto * 2.5:
             continue
         scuri = (lum[sl] < 70)[m].mean()
         bianchi = ((lum[sl] > 190) & (sat[sl] < 50))[m].mean()
-        # le lettere scure sono basse: una cassa quasi nera (l'Arca del Vuoto) è alta e resta
-        if (scuri > 0.8 and alto < ch * 0.2) or (bianchi > 0.45 and scuri < 0.08):
+        # le lettere sono basse: una cassa quasi nera (l'Arca del Vuoto) o un uovo chiaro (icone, lotto 12) sono alti e restano
+        if (scuri > 0.8 and alto < ch * 0.2) or (bianchi > 0.45 and scuri < 0.08 and alto < ch * 0.25):
             continue
         cy, cx = (sl[0].start + sl[0].stop) / 2, (sl[1].start + sl[1].stop) / 2
         k = min(int(cy // ch), righe - 1) * col + min(int(cx // cw), col - 1)
