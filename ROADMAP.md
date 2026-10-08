@@ -6369,6 +6369,11 @@ prove/volto_r60_prima.
   sua). Appunti «riferimenti» → `world_meta["riferimenti"]` (li copia `MapReveal` la prima volta) → la mappa li segna
   con il loro nome una volta visti (`MARK["riferimento"]`). Semi 7 e 13: 12 e 10 biomi con il loro riferimento (gli
   altri sono la foresta della partenza o tratti più corti).
-- [ ] **467. Gli ingressi.**
+- [x] **467. Gli ingressi.** Ingressi leggibili ogni ~200 colonne, scritti come dati.
+  Fatto il 9 ott 2026: `EntrancesData` (forme e pesi) e `PassIngressi` riscritta: una galleria accanto alla partenza, poi
+  uno ogni 170-250 colonne fuori dai mari, a caso tra **galleria**, **caverna sul fianco** (una sala nel pendio con la
+  bocca a valle), **dolina** (un imbuto che si stringe in un pozzo) e **pozzo** (dritto, con l'orlo di pietra); se il
+  posto è preso diventa una galleria. Le liane di doline e pozzi le mette `PassRocce` (appunti «liane_ingressi»).
+  Semi 7, 13, 42: 11-12 ingressi per mondo; il Fondo si raggiunge senza scavare.
 - [ ] **468. Le acque di superficie.**
 - [ ] **469. La misura della superficie.**

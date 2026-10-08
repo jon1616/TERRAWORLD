@@ -27,6 +27,10 @@ func run(w: World, c: GenContext) -> void:
 	_overhangs(w, c)
 	_wall_vines(w)
 	_pillar_vines(w, c)
+	for v in c.notes.get("liane_ingressi", []):          # voce 467: le doline e i pozzi
+		for y in range(int(v[1]), int(v[2])):
+			if not w.solid(int(v[0]), y) and w.decor_at(int(v[0]), y) == 0 and w.liq(int(v[0]), y) == 0:
+				w.set_decor(int(v[0]), y, LIANA)
 
 
 func _arches(w: World, c: GenContext) -> void:
