@@ -122,5 +122,20 @@
 			"#ffad70",
 			"#d67a3d"
 		]
+	},
+	"sputaspore": {
+		"name_en": "Spore Spitter",
+		"noun": "mushroom",
+		"plan": "fluttuante",
+		"look": "a living MUSHROOM rooted in the swamp ground: a thick short dark-brown stalk with little roots spreading at the base, and a big round bulbous cap like a puffball, with one big pale round PORE on its front side that opens to shoot spores. The cap is covered in a few big pale spots. It does not walk: it stays rooted and pulses, then spits a lob of glowing spores.",
+		"colors": "deep indigo-blue cap (#2a2f7a dark, #4a56c8 body, #9aa8ff light top), pale lavender-white spots and pore (#e8ecff), dark brown stalk and roots (#47291f, #29140f)",
+		"eye": "no eyes: its big pale pore on the front of the cap is its 'face'",
+		"glow": "the pore and the spots (#e8ecff, #9aa8ff)",
+		"shot": "a lob of glowing pale-blue spores out of its pore",
+		"accents": [
+			"#e8ecff",
+			"#9aa8ff"
+		],
+		"polvere": false
 	}
 }

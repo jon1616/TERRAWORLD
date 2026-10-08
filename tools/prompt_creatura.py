@@ -151,6 +151,15 @@ def build_poses(s: dict, look: dict) -> tuple[list, dict, dict, bool]:
         if beh & DASHERS:
             cells.append(("carica", "about to dive: wings pulled back tight, body crouched, head low, staring at the prey"))
             cells.append(("scatto", "diving / dashing forward: body stretched long and straight, wings swept back"))
+    elif "fermo" in beh or "agguato" in beh and "cammina" not in beh:
+        # chi non si muove (funghi, piante, torrette): il respiro, il gonfiarsi prima del colpo, il colpo
+        cells.append(("fermo", "resting, relaxed, breathing"))
+        cells.append(("fermo", "breathing in: slightly swollen and taller"))
+        cells.append(("fermo", "breathing out: slightly smaller and lower"))
+        if beh & SHOOTERS:
+            cells.append(("sputa", "about to shoot: swollen, glowing parts brighter, bracing"))
+            cells.append(("sputa", "shooting: bursting open, firing %s upward and forward" % shot))
+        cells.append(("fermo", "idle variant: swaying slightly to one side"))
     else:
         jumper = bool(beh & JUMPERS) and plan in ("grumo", "anfibio") or "salta_verso" in beh
         if jumper:
@@ -183,12 +192,14 @@ def build_poses(s: dict, look: dict) -> tuple[list, dict, dict, bool]:
                 cells.append(("bruca", "eating: head lowered to the ground, nibbling a small green leaf"))
         if "guscio" in beh:
             cells.append(("guscio", "withdrawn into its shell/armour, only the shell visible, still"))
-    if beh & SHOOTERS:
+    if beh & SHOOTERS and "sputa" not in [c[0] for c in cells]:
         cells.append(("sputa", "attacking: head raised, mouth (or its glowing organ) wide open, firing %s" % shot))
-    cells.append(("colpita", "hurt: flinching back, eyes squeezed shut"))
+    cells.append(("colpita", look.get("hurt") or "hurt: flinching back, squeezed, eyes shut (if it has eyes)"))
     # le pose che mancano per riempire la griglia: altre del respiro e dell'attenzione
     fillers = [("allerta", "alert: standing taller, looking right, ears/antennae up"),
                ("fermo", "idle variant: blinking, head slightly turned")]
+    if "fermo" in beh:
+        fillers = [("fermo", "idle variant: tilted slightly to the other side")]
     if s["fly"]:
         # chi vola non sta mai fermo: le celle in più sono un secondo tempo della posa sospesa (il ciclo del volo sul posto)
         fillers = [("sospeso", "hovering variant: wings (or fins) slightly LOWER than in the other hovering pose")]
