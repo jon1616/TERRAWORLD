@@ -299,15 +299,15 @@
 	},
 	"pappo": {
 		"en": "seed fluff",
-		"desc": "a dandelion-like seed with a fluffy parachute tuft [GREY] of fine radiating filaments on a thin stalk, a tiny dark seed at the bottom"
+		"desc": "a dandelion seed parachute: a THICK fluffy round tuft of soft filaments [GREY], drawn boldly with a dark outline around the whole tuft (not thin hairlines), on a short stalk with a small dark seed at the bottom; NO pink, NO glow"
 	},
 	"bomba": {
 		"en": "bomb pod",
-		"desc": "a round bulbous explosive pod [GREY] with metal bands around it, a short root fuse (plum wood) on top with a crackling amber spark"
+		"desc": "a round explosive pod with metal bands around it and a short root fuse (plum wood) with an amber spark on top. The WHOLE object is [GREY] (neutral grey only: NOT brown, NOT turquoise, NOT coloured), no face."
 	},
 	"tubero": {
 		"en": "tuber",
-		"desc": "a plump knobbly root tuber [GREY] like a potato or ginger root, with a couple of small eyes and two little sprouting leaves (leaf green)"
+		"desc": "a plump knobbly root tuber like a potato, with a couple of small eyes (bumps, NOT a face) and two little sprouting leaves (leaf green) on top. The WHOLE object is [GREY] (neutral grey only: NOT brown, NOT turquoise, NOT coloured), no face."
 	},
 	"stella": {
 		"en": "fallen star",
@@ -319,7 +319,7 @@
 	},
 	"cristallo": {
 		"en": "crystal cluster",
-		"desc": "a cluster of three sharp hexagonal crystals [GREY] growing from a small rock base, the tallest in the middle, with bright facets"
+		"desc": "a cluster of three sharp hexagonal crystals growing from a small base, the tallest in the middle, with bright facets. The crystals AND the base are [GREY] (neutral grey only: NOT turquoise, NOT blue, NOT green)"
 	},
 	"torcia": {
 		"en": "torch",
@@ -327,14 +327,38 @@
 	},
 	"fungo": {
 		"en": "mushroom",
-		"desc": "a plump mushroom with a big round cap [GREY] covered in a few spots, gills underneath and a thick short stem (pale cream)"
+		"desc": "a plump mushroom with a big round cap and a few spots, gills underneath and a thick short stem. The WHOLE object is [GREY] (neutral grey only: NOT brown, NOT turquoise, NOT coloured), no face."
 	},
 	"minerale": {
 		"en": "raw ore chunk",
-		"desc": "a rough chunk of raw ore [GREY]: an irregular rock with several shiny embedded nuggets and crystal faces catching the light"
+		"desc": "a rough irregular rock chunk with several shiny embedded nuggets and crystal faces catching the light. The WHOLE object is [GREY] (neutral grey only: NOT brown, NOT turquoise, NOT coloured), no face."
 	},
 	"collana": {
 		"en": "necklace",
 		"desc": "a necklace laid in a loop: a chain of small beads and links [GREY] with a teardrop pendant [GREY] holding a small amber gem"
+	},
+	"scudo": {
+		"en": "kite shield",
+		"desc": "a tall kite-shaped shield seen from the front [GREY], pointed at the bottom, with a raised rim and a leaf emblem embossed in the centre"
+	},
+	"letto": {
+		"en": "bed",
+		"desc": "a small cosy bed seen from the side at a 3/4 angle: a frame of root wood (plum wood), a mattress and blanket [GREY] folded back, a round pillow [GREY]"
+	},
+	"radice_viaggio": {
+		"en": "travelling root",
+		"desc": "a thick living root [GREY] curling into a loop like a portal knot, with small rootlets and a glowing turquoise sap vein running along it"
+	},
+	"tavolo": {
+		"en": "table",
+		"desc": "a sturdy small table seen at a 3/4 angle, its tabletop [GREY] with a wood grain, four short legs shaped like roots (plum wood)"
+	},
+	"sedia": {
+		"en": "chair",
+		"desc": "a simple chair seen at a 3/4 angle, seat and backrest [GREY], legs shaped like roots (plum wood), the backrest curling at the top"
+	},
+	"lama": {
+		"en": "curved blade",
+		"desc": "a single long curved sabre-like blade drawn DIAGONALLY [GREY] with no handle, only a short tang wrapped in leather (warm leather), sharp and gleaming"
 	}
 }
