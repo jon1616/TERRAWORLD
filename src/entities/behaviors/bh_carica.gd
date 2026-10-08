@@ -13,7 +13,7 @@ func tick(c: Creature, dt: float) -> void:
 	cool = maxf(cool - dt, 0.0)
 	match phase:
 		0:
-			if cool > 0.0 or not c.on_floor or c.target == null:
+			if cool > 0.0 or not c.on_floor or c.target == null or not Behavior.may_attack(c):
 				return
 			var d := c.target.position - c.position
 			if absf(d.y) < 20.0 and absf(d.x) < float(c.p.get("charge_range", 10)) * 16.0:

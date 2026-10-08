@@ -11,6 +11,13 @@ func tick(_c: Creature, _dt: float) -> void:
 	pass
 
 
+## Roadmap 54, voce 427: può cominciare un attacco (una carica, uno scatto, una picchiata, un balzo verso di te)?
+## Non chi fugge o si nasconde: prima una creatura in fuga si girava a caricarti. (I compagni sì: il loro cervello è
+## la mandria.)
+static func may_attack(c: Creature) -> bool:
+	return c.tame != null or c.mind == null or not (c.mind.state == Mind.FLEE or c.mind.state == Mind.REST)
+
+
 static func make(id: String) -> Behavior:
 	match id:
 		"salta_verso":

@@ -15,7 +15,7 @@ func tick(c: Creature, dt: float) -> void:
 	match phase:
 		0:
 			cool -= dt * (1.4 if c.enraged else 1.0)
-			if cool <= 0.0 and Behavior.sees(c, float(c.p.get("sight", 26))):
+			if cool <= 0.0 and Behavior.may_attack(c) and Behavior.sees(c, float(c.p.get("sight", 26))):
 				phase = 1
 				timer = 2.5
 				c.busy = true

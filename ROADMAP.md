@@ -1,6 +1,10 @@
 # TERRAWORLD — Roadmap
 
-## Dove siamo (aggiornato il 6 ott 2026)
+## Dove siamo (aggiornato l'8 ott 2026)
+- **Fatta la Roadmap 54 «Il passo delle creature»** (voci 423-427, 8 ott 2026): le creature della terra non affondano
+  più di colpo, la fuga finisce (si nascondono e si curano; all'angolo si difendono), nessuno salta contro muri che non
+  può superare, l'agguato non entra nel soffitto, chi resta nella roccia ne esce, chi fugge non carica. Misurato dal
+  gruppo «moto». Resoconto in fondo.
 - **Fatta la Roadmap 53 «La Bisaccia a scomparti»** (voci 419-422, 7 ott 2026): la barra rapida più nove scomparti
   per tipo da 30 caselle (fino a 90 con le Bisacce a gradi), la Raccolta senza limite per ciò che si legge e si
   colleziona, gli scomparti fissi di munizioni, torce e Lumini. Resoconto in fondo.
@@ -5964,5 +5968,19 @@ dentro il soffitto; più comportamenti di movimento litigano per la stessa creat
   resta nella roccia per mezzo secondo esce nel punto libero più vicino (entro tre tessere). Misura: davanti al muro 1
   salto a vuoto (prima 13), agguato nel soffitto 0 su 8 (prima 8), dal centro di un masso 7×5 esce; nella folla 1,3
   salti a vuoto e 1 tremolio al minuto per creatura (prima 6,7 e 6,5), 0% del tempo incastrate.
-- [ ] **427. Un'intenzione alla volta.** I comportamenti di movimento non litigano: chi carica o scatta guida il corpo
+- [x] **427. Un'intenzione alla volta.** I comportamenti di movimento non litigano: chi carica o scatta guida il corpo
   finché ha finito; la misura finale.
+  Fatto l'8 ott 2026: `Behavior.may_attack` (chi fugge o si nasconde non comincia cariche, scatti, picchiate,
+  teletrasporti verso di te; i balzi dei grumi in fuga vanno via da te, e contro un muro troppo alto saltano sul posto);
+  `Mind.after` non gira più una creatura a metà di un'azione cominciata (`busy`): prima una carica partita poco prima
+  della fuga continuava con la creatura girata all'indietro. Misura: cariche cominciate in fuga 0 (prima 1 in 5 s).
+
+**Resoconto della Roadmap 54.** Le misure del gruppo «moto», prima → dopo: salti a vuoto davanti a un muro di 7 tessere
+13 → 1 in 6 s; la creatura ferita fugge per sempre → si nasconde a 42 tessere e si cura, 9 → 0 salti a vuoto; all'angolo
+11 → 0 salti a vuoto, e si difende; creature della terra che spariscono nel pavimento senza segnale 3 su 9 → 0 su 5
+(e nascono già nella terra); agguato nel soffitto 8 su 8 → 0; cariche cominciate in fuga 1 → 0; nella folla di 24
+specie salti a vuoto da 6,7 a 0,2-1,3 al minuto per creatura e tremolii da 6,5 a 1-4 (il numero cambia da un giro
+all'altro: le creature scelgono a caso), incastrate dallo 0,36% a 0. Già bene prima, e verificato: sotto una sporgenza
+nessun tremolio, il teletrasporto non entrava nella roccia, il Mangiastelle non cadeva dalle isole (l'analisi del codice
+lo temeva: la misura ha detto di no). Restano possibili: una creatura che insegue non trova una strada attorno a un muro
+(aspetta, poi lascia perdere: niente ricerca del percorso, che costerebbe molto con centinaia di creature).

@@ -16,9 +16,14 @@ func tick(c: Creature, dt: float) -> void:
 	var dir := 1.0 if c.rng.randf() < 0.5 else -1.0
 	if Behavior.sees(c, float(c.p.get("sight", 20))):
 		dir = signf(c.target.position.x - c.position.x)
+		if not Behavior.may_attack(c):
+			dir = -dir if dir != 0.0 else dir          # (voce 427) in fuga salta via, non verso di te
+		if c.wall_ahead(int(dir)) and not c.can_hop(int(dir), float(c.p.get("jump", 260.0))):
+			dir = 0.0                                  # (voce 426) contro un muro troppo alto salta sul posto
 	var jump: float = c.p.get("jump", 260.0)
 	c.vel = Vector2(dir * c.speed * c.rng.randf_range(0.8, 1.15), -jump * c.rng.randf_range(0.85, 1.1))
-	c.facing = int(dir)
+	if dir != 0.0:
+		c.facing = int(dir)
 	c.on_floor = false
 	wait = c.rng.randf_range(0.8, 2.0)
 	c.crouch = 0.0

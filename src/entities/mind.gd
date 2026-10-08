@@ -201,6 +201,8 @@ func after(c: Creature) -> void:
 		return
 	if state != FLEE or c.target == null:
 		return
+	if c.busy:
+		return                                   # (voce 427) un'azione cominciata (una carica, uno scatto) finisce prima
 	var away := signf(c.position.x - c.target.position.x)
 	if away == 0.0:
 		away = float(c.facing)

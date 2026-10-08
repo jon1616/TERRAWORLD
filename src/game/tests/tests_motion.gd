@@ -42,6 +42,7 @@ func run() -> void:
 	await ledge()
 	await flee()
 	await cornered()
+	await intent()
 	await burrow()
 	await sky_burrow()
 	await stuck()
@@ -266,6 +267,38 @@ func cornered() -> void:
 	nums["angolo"] = {"salti_a_vuoto": hops, "si_difende": fought[0]}
 	res["angolo"] = hops <= 3 and fought[0]
 	print("all'angolo: salti a vuoto %d, si difende %s" % [hops, fought[0]])
+
+
+## Voce 427: una creatura che carica, ferita e paurosa, a quattro tessere: fugge e non si gira a caricarti.
+func intent() -> void:
+	var cid := ""
+	for id in CreaturesData.CREATURES:
+		var d: Dictionary = CreaturesData.CREATURES[id]
+		var bh: Array = d.get("behaviors", [])
+		if "cammina" in bh and "carica" in bh and not d.get("fly", false) and not d.get("boss", false) 				and float(d["half"][1]) <= 12.0 and not d.has("water"):
+			cid = String(id)
+			break
+	if cid == "":
+		print("ATTENZIONE: nessuna creatura che carica per la prova delle intenzioni")
+		return
+	var o := _box(60, 8)
+	var fy := o.y + 7
+	await _stand(Vector2i(o.x + 20, fy))
+	var cr := _spawn(cid, Vector2i(o.x + 24, fy))
+	cr.mind.brave = false
+	cr.hp = maxi(1, cr.hp_max / 10)
+	var starts := [0]
+	var was := [0.0]
+	await _watch([cr], 5.0, func(_t: float) -> void:
+		if not is_instance_valid(cr):
+			return
+		if cr.tele > 0.0 and was[0] <= 0.0 and cr.mind.state in [Mind.FLEE, Mind.REST]:
+			starts[0] += 1
+		was[0] = cr.tele)
+	m.fauna.clear()
+	nums["cariche_in_fuga"] = starts[0]
+	res["intenzione"] = starts[0] == 0
+	print("intenzione (%s): cariche cominciate mentre fugge %d" % [cid, starts[0]])
 
 
 ## Le creature della terra («sbuca»): ogni volta che una sparisce nel pavimento, prima trema e solleva polvere.

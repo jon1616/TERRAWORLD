@@ -18,7 +18,7 @@ func tick(c: Creature, dt: float) -> void:
 			c.modulate.a = 1.0
 			c.busy = false
 		return
-	if cool > 0.0 or not Behavior.sees(c, float(c.p.get("sight", 26))):
+	if cool > 0.0 or not Behavior.may_attack(c) or not Behavior.sees(c, float(c.p.get("sight", 26))):
 		return
 	if c.position.distance_to(c.target.position) < 4.0 * 16.0:
 		return

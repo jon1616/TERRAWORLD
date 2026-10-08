@@ -1136,6 +1136,14 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   colleziona va nella Raccolta (`BagData.RACCOLTA_KINDS`). Le prove che vogliono un oggetto in mano usano `kit.hold`
   (prende anche dagli scomparti e dalla Raccolta). Pannello: schede in colonna (`BisacciaPanel._section_views`, `page`).
   Prove: gruppo «zaino» (`sections`, `stash`, foto 300, 301, 308).
+- **Roadmap 54 «Il passo delle creature»** (voci 423-427, 8 ott 2026; l'utente: «a volte di punto in bianco scappano
+  passando attraverso il terreno»): la misura è il gruppo «moto» (`TestsMotion`: recinti scavati sotto terra che rifanno
+  ogni difetto, con salti a vuoto, tremolii, fotogrammi incastrate; foto 330). `Creature.can_hop(dir, v)` dice se un muro
+  si supera con un salto vero (altezza e spazio): **chi salta contro un muro lo chiede prima**, altrimenti salta
+  all'infinito; `Creature._unstick` toglie dalla roccia chi ci resta mezzo secondo; `Creature._ready` chiama `enter` dei
+  comportamenti che lo hanno (`BhSbuca`: nasce nella terra). In `Mind` la fuga delle ferite dura finché la creatura ti
+  vede, poi lo stato `REST` (si nasconde e si cura); all'angolo si difende (`_cornered`). `Behavior.may_attack`: **un
+  comportamento d'attacco nuovo non comincia se la creatura fugge**; `Mind.after` non tocca chi è `busy`.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni
