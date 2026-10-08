@@ -29,20 +29,28 @@ func run(w: World, c: GenContext) -> void:
 	var currents: Array = c.notes.get("correnti", [])
 	for z in zones:
 		var lows := _band(w, c, z, "basso", isles)
+		var mids := _band(w, c, z, "medio", isles)          # voce 442: tre fasce
 		var highs := _band(w, c, z, "alto", isles)
 		_roots(w, c, lows)
 		_bridges(w, c, lows)
-		_currents(w, c, z, lows, highs, currents)
+		_bridges(w, c, mids)
+		_currents(w, c, z, lows, currents)
+		_link(w, c, lows, mids, int(z["split"]) + 8, currents)
+		_link(w, c, mids if not mids.is_empty() else lows, highs,
+			(int(z["split_mh"]) + 8) if not mids.is_empty() else int(z["split"]) + 8, currents)
 	c.notes["isole_cielo"] = isles
 	c.notes["correnti"] = currents
 
 
 ## Le isole di una fascia di una zona: restituisce le isole messe ({rect, biome, band, top, x}).
 func _band(w: World, c: GenContext, z: Dictionary, band: String, all: Array) -> Array:
-	var id := String(z["low"] if band == "basso" else z["high"])
+	var id := SkyData.band_biome(z, band)
+	var rows := SkyData.band_rows(z, band)
+	if id == "" or rows.is_empty():
+		return []
 	var b := SkyData.get_biome(id)
-	var y_lo := int(z["split"]) + 6 if band == "basso" else SkyData.TOP + 8     # la riga più alta per la cima
-	var y_hi := int(z["base"]) - 4 if band == "basso" else int(z["split"]) - 6   # la più bassa
+	var y_lo := int(rows[0]) + (5 if band == "basso" else 7)     # la riga più alta per la cima
+	var y_hi := int(rows[1]) - (4 if band == "basso" else 6)     # la più bassa
 	if y_hi - y_lo < 6:
 		return []
 	var x0 := int(z["x0"])
@@ -52,10 +60,17 @@ func _band(w: World, c: GenContext, z: Dictionary, band: String, all: Array) -> 
 	for tries in n * 8:
 		if out.size() >= n:
 			break
-		var half := c.rng.randi_range(7, 16) if band == "basso" else c.rng.randi_range(6, 14)
+		var half := c.rng.randi_range(7, 16)
+		match band:
+			"medio":
+				half = c.rng.randi_range(8, 20)
+			"alto":
+				half = c.rng.randi_range(6, 14)
 		var x := c.rng.randi_range(x0 + half + 4, maxi(x1 - half - 4, x0 + half + 5))
 		if absi(x - w.spawn.x) < SkyData.SPAWN_FREE + half:
 			continue
+		if band == "basso" and absi(x - w.spawn.x) < SkyData.SPAWN_NEAR:
+			half = mini(half, 9)                  # voce 442: sopra la partenza isole piccole, le prime da raggiungere
 		var top := c.rng.randi_range(y_lo, y_hi)
 		var r := Rect2i(x - half - ISLE_GAP, top - 10, 2 * half + 2 * ISLE_GAP, 22)
 		if r.position.x < 2 or r.end.x > w.w - 2 or not c.is_free(r) or not _above_ground(w, r):
@@ -264,9 +279,9 @@ func _bridges(w: World, c: GenContext, lows: Array) -> void:
 				w.set_plat(x, y, true)
 
 
-## Le correnti: una dalla superficie a un'isola bassa, una da un'isola bassa (o da un'isoletta di nuvola messa
-## apposta) a un'isola alta, più quelle dei Giardini del vento.
-func _currents(w: World, c: GenContext, z: Dictionary, lows: Array, highs: Array, currents: Array) -> void:
+## Le correnti dalla superficie alle isole basse: una, più quelle dei Giardini del vento. Fra una fascia e l'altra le
+## mette `_link`.
+func _currents(w: World, c: GenContext, z: Dictionary, lows: Array, currents: Array) -> void:
 	var extra := int(SkyData.get_biome(String(z["low"])).get("currents", 0))
 	var ups := 1 + extra
 	var shuffled := lows.duplicate()
@@ -287,7 +302,11 @@ func _currents(w: World, c: GenContext, z: Dictionary, lows: Array, highs: Array
 		if _column_clear(w, x, y0 + 1, y1):
 			currents.append({"x": x, "w": 1, "y0": y0, "y1": y1, "cielo": true})
 			ups -= 1
-	# verso il cielo alto
+
+
+## Voce 442: una corrente da una fascia alla fascia sopra: parte da un'isola sotto (o da un'isoletta di nuvola messa
+## apposta a `pad_y`, nella fascia sotto) e arriva accanto a un'isola sopra.
+func _link(w: World, c: GenContext, lows: Array, highs: Array, pad_y: int, currents: Array) -> void:
 	if highs.is_empty():
 		return
 	var h: Dictionary = highs[c.rng.randi_range(0, highs.size() - 1)]
@@ -296,8 +315,6 @@ func _currents(w: World, c: GenContext, z: Dictionary, lows: Array, highs: Array
 	if hx < 4 or hx >= w.w - 4:
 		return
 	var y0 := int(h["top"]) - 2
-	# un'isola bassa sotto? altrimenti un'isoletta di nuvola apposta, nel cielo basso
-	var pad_y := int(z["split"]) + 8
 	for e in lows:
 		if absi(int(e["x"]) - hx) <= int(e["half"]) - 1:
 			pad_y = int(e["top"])

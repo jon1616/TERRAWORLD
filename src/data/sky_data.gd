@@ -25,13 +25,19 @@ extends RefCounted
 ##   elem                    l'elemento più probabile delle varianti che nascono qui
 ##   adj                     gli aggettivi dei nomi dei mondi per il gene del bioma: [maschile, femminile] (`NamesData`)
 
-const LOW_GAP := 28                    # tessere tra la superficie più alta della zona e il fondo del cielo basso
-const LOW_H := 62                      # altezza della fascia bassa
+const LOW_GAP := 25                    # tessere tra la superficie più alta della zona e il fondo del cielo basso
 const TOP := 10                        # righe libere in cima al mondo
-const HIGH_MIN := 36                   # la fascia alta ha almeno queste righe (altrimenti niente cielo alto)
+## Voce 442 (8 ott 2026, «Il cielo grande»): tre fasce, in frazione del cielo di una zona (da `TOP` al fondo del cielo
+## basso): il **basso** (raggiungibile dal primo giorno), il **medio** (il cuore del cielo: i continenti), l'**alto** (il
+## resto fino al bordo: l'aria sottile, le creature forti). In un mondo da 1200 righe sono ~90, ~165 e ~120 righe; nei
+## mondi più bassi delle prove si accorciano insieme.
+const BANDS := ["basso", "medio", "alto"]
+const BAND_FRAC := {"basso": 0.24, "medio": 0.44}
+const SKY_MIN := 60                    # righe di cielo che servono a una zona (altrimenti niente cielo lì)
 const ZONE_MIN := 300                  # lunghezza di una zona, in colonne
 const ZONE_MAX := 520
-const SPAWN_FREE := 60                 # colonne attorno alla partenza senza isole
+const SPAWN_FREE := 24                 # colonne sopra la partenza senza isole (voce 442: prima 60, un buco nel cielo)
+const SPAWN_NEAR := 140                # entro tante colonne dalla partenza le isole basse sono piccole e facili
 const SKY_SHARE := 0.85                # voce 160: quante nascite in cielo sono creature del cielo
 
 const CLOUDS := [52, 53]               # le tessere di nuvola: attutiscono le cadute (`Life._on_landed`)
@@ -62,8 +68,9 @@ static func of_band(band: String) -> Array:
 	return out
 
 
-## La zona del cielo di una colonna ({x0, x1, low, high, base, split} oppure vuoto). `base` = la riga sotto cui finisce
-## il cielo basso; `split` = il confine tra basso e alto.
+## La zona del cielo di una colonna ({x0, x1, low, mid, high, base, split, split_mh} oppure vuoto). `base` = la riga
+## sotto cui finisce il cielo basso; `split` = il confine tra basso e medio; `split_mh` tra medio e alto. Le zone salvate
+## prima della voce 442 non hanno `mid` né `split_mh`: lì `split` divide il basso dall'alto, come allora.
 static func zone_of(w: Object, x: int) -> Dictionary:
 	for z in w.sky:
 		if x >= int(z["x0"]) and x < int(z["x1"]):
@@ -78,7 +85,34 @@ static func zone_at(w: Object, x: int, y: int) -> String:
 		return ""
 	if y > int(z["split"]):
 		return String(z["low"])
+	if z.has("mid") and y > int(z["split_mh"]):
+		return String(z["mid"])
 	return String(z["high"])
+
+
+## Voce 442: il bioma di una fascia in una zona ("" se la zona non ha quella fascia: le zone di prima non hanno il medio).
+static func band_biome(z: Dictionary, band: String) -> String:
+	match band:
+		"basso":
+			return String(z.get("low", ""))
+		"medio":
+			return String(z.get("mid", ""))
+	return String(z.get("high", ""))
+
+
+## Voce 442: le righe di una fascia in una zona, [la più alta, la più bassa] (vuoto se la zona non l'ha).
+static func band_rows(z: Dictionary, band: String) -> Array:
+	match band:
+		"basso":
+			return [int(z["split"]) + 1, int(z["base"])]
+		"medio":
+			return [int(z["split_mh"]) + 1, int(z["split"])] if z.has("mid") else []
+	return [TOP, int(z["split_mh"]) if z.has("mid") else int(z["split"])]
+
+
+## Voce 442: quanto è in alto una fascia (1 basso, 2 medio, 3 alto; 0 = non è cielo).
+static func band_level(band: String) -> int:
+	return BANDS.find(band) + 1
 
 
 ## La fascia di una cella: "basso", "alto" o "".
@@ -101,13 +135,14 @@ static func roll(band: String, rng: RandomNumberGenerator, mult: Dictionary = {}
 	return String(list[list.size() - 1]["id"]) if not list.is_empty() else ""
 
 
-## Le zone di un mondo: tratti di ZONE_MIN-ZONE_MAX colonne con un bioma basso e uno alto; `base` dalla superficie più
-## alta del tratto. Nessuna zona se il cielo non ci sta (mondi a Guscio, montagne fino al cielo). `scale` (gene «Cieli
-## alti») allunga la fascia bassa; `mult` i pesi dei biomi.
+## Le zone di un mondo: tratti di ZONE_MIN-ZONE_MAX colonne con un bioma per fascia; `base` dalla superficie più alta
+## del tratto, le fasce in frazione del cielo che resta (`BAND_FRAC`). Nessuna zona se il cielo non ci sta (montagne fino
+## al cielo). `scale` (gene «Cieli alti») allunga la fascia bassa; `mult` i pesi dei biomi.
 static func make_zones(w: Object, rng: RandomNumberGenerator, scale: float = 1.0, mult: Dictionary = {}) -> Array:
 	var out := []
 	var x := 0
 	var last_low := ""
+	var last_mid := ""
 	var last_high := ""
 	while x < w.w:
 		var len := rng.randi_range(ZONE_MIN, ZONE_MAX)
@@ -118,23 +153,29 @@ static func make_zones(w: Object, rng: RandomNumberGenerator, scale: float = 1.0
 		for xx in range(x, x1):
 			top_ground = mini(top_ground, int(w.surface[xx]))
 		var base := top_ground - LOW_GAP
-		var split := base - int(LOW_H * scale)
-		if split - TOP >= HIGH_MIN * 0.5 and base > TOP + 20:
-			var low := roll("basso", rng, mult)
-			var high := roll("alto", rng, mult)
-			for tries in 4:                           # due zone vicine con lo stesso bioma: si ritira
-				if low != last_low:
-					break
-				low = roll("basso", rng, mult)
-			for tries in 4:
-				if high != last_high:
-					break
-				high = roll("alto", rng, mult)
-			out.append({"x0": x, "x1": x1, "low": low, "high": high, "base": base, "split": maxi(split, TOP + 18)})
+		var sky := base - TOP
+		if sky >= SKY_MIN:
+			var split := base - int(sky * minf(float(BAND_FRAC["basso"]) * scale, 0.4))
+			var split_mh := split - int(sky * float(BAND_FRAC["medio"]))
+			var low := _roll_not("basso", rng, mult, last_low)        # due zone vicine con lo stesso bioma: si ritira
+			var mid := _roll_not("medio", rng, mult, last_mid)
+			var high := _roll_not("alto", rng, mult, last_high)
+			out.append({"x0": x, "x1": x1, "low": low, "mid": mid, "high": high, "base": base, "split": split,
+				"split_mh": split_mh})
 			last_low = low
+			last_mid = mid
 			last_high = high
 		x = x1
 	return out
+
+
+static func _roll_not(band: String, rng: RandomNumberGenerator, mult: Dictionary, last: String) -> String:
+	var id := roll(band, rng, mult)
+	for tries in 4:
+		if id != last:
+			break
+		id = roll(band, rng, mult)
+	return id
 
 
 ## Voce 157: sotto i piedi (posizione del corpo di chi atterra) c'è una nuvola?

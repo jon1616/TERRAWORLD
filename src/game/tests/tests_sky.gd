@@ -41,11 +41,17 @@ func zones() -> void:
 	var bad := []
 	for e in z:
 		var x := (int(e["x0"]) + int(e["x1"])) / 2
-		var low := SkyData.zone_at(world, x, int(e["base"]) - 3)
-		var hi := SkyData.zone_at(world, x, int(e["split"]) - 3)
-		var ground := SkyData.zone_at(world, x, int(world.surface[x]) - 1)
-		if low != String(e["low"]) or hi != String(e["high"]) or ground != "" \
-				or SkyData.band_at(world, x, int(e["base"]) - 3) != "basso" or SkyData.band_at(world, x, int(e["split"]) - 3) != "alto":
+		var wrong := SkyData.zone_at(world, x, int(world.surface[x]) - 1) != ""
+		# voce 442: tre fasce, ognuna con il suo bioma e la sua fascia
+		for band in SkyData.BANDS:
+			var rows := SkyData.band_rows(e, band)
+			if rows.is_empty():
+				wrong = true
+				continue
+			var y := int(rows[1]) - 3
+			if SkyData.zone_at(world, x, y) != SkyData.band_biome(e, band) or SkyData.band_at(world, x, y) != band:
+				wrong = true
+		if wrong:
 			bad.append(e)
 	var plats := 0
 	var sky_tiles := 0
@@ -61,7 +67,7 @@ func zones() -> void:
 		if (cu as Dictionary).get("cielo", false):
 			sky_cur += 1
 	print("cielo: %d zone (%s), fasce sbagliate %d; tessere del cielo (una colonna su 3) %d, passerelle delle radici %d, correnti del cielo %d; in world_meta %s" % [
-		z.size(), ", ".join(z.map(func(e: Dictionary) -> String: return "%s/%s" % [e["low"], e["high"]])), bad.size(),
+		z.size(), ", ".join(z.map(func(e: Dictionary) -> String: return "%s/%s/%s" % [e["low"], e.get("mid", "-"), e["high"]])), bad.size(),
 		sky_tiles, plats, sky_cur, m.world_meta.has("cielo")])
 	if not ok or not bad.is_empty() or sky_tiles < 200 or sky_cur < z.size() or not m.world_meta.has("cielo"):
 		print("ATTENZIONE: il cielo non è come dovrebbe")
@@ -128,8 +134,9 @@ func high() -> void:
 	for e in world.sky:
 		var x0 := int(e["x0"]) + 20
 		var x1 := int(e["x1"]) - 20
+		var rows := SkyData.band_rows(e, "alto")
 		for x in range(x0, x1, 2):
-			for y in range(SkyData.TOP + 2, int(e["split"])):
+			for y in range(int(rows[0]) + 2, int(rows[1])):
 				if world.solid(x, y + 1) and not world.solid(x, y) and not world.solid(x, y - 1) and world.tile(x, y + 1) >= 50:
 					m.snap_to(Vector2i(x, y))
 					m.boons.add("bagliore", 5.0)
@@ -144,14 +151,15 @@ func high() -> void:
 func biomes() -> void:
 	var seen := {}
 	for e in world.sky:
-		for band in ["low", "high"]:
-			var id := String(e[band])
-			if seen.has(id):
+		for band in SkyData.BANDS:
+			var id := SkyData.band_biome(e, band)
+			var rows := SkyData.band_rows(e, band)
+			if id == "" or rows.is_empty() or seen.has(id):
 				continue
 			var b := SkyData.get_biome(id)
 			var fl := int(b["floor"])
-			var y_top := SkyData.TOP if band == "high" else int(e["split"])
-			var y_bot := int(e["split"]) if band == "high" else int(e["base"])
+			var y_top := int(rows[0])
+			var y_bot := int(rows[1])
 			var found := Vector2i(-1, -1)
 			for x in range(int(e["x0"]) + 10, int(e["x1"]) - 10):
 				for y in range(y_top, y_bot):
@@ -252,7 +260,8 @@ func thin() -> void:
 		for x in range(int(e["x0"]) + 10, int(e["x1"]) - 10, 2):
 			if spot.x >= 0:
 				break
-			for y in range(SkyData.TOP + 2, int(e["split"]) - 2):
+			var rows := SkyData.band_rows(e, "alto")
+			for y in range(int(rows[0]) + 2, int(rows[1]) - 2):
 				if world.solid(x, y + 1) and not world.solid(x, y) and not world.solid(x, y - 1):
 					spot = Vector2i(x, y)
 					break
@@ -291,7 +300,7 @@ func mats() -> void:
 	var fol := 0
 	for e in world.sky:
 		for x in range(int(e["x0"]), int(e["x1"])):
-			for y in range(SkyData.TOP, int(e["split"])):
+			for y in range(SkyData.TOP, int(e["base"])):            # voce 442: le scogliere di cristallo sono nel medio
 				var t := world.tile(x, y)
 				if t == 57:
 					nim += 1
@@ -310,11 +319,14 @@ func mats() -> void:
 		print("ATTENZIONE: i materiali del cielo non ci sono tutti")
 
 
-## Una cella d'aria sopra un'isola della fascia data ("basso"/"alto"), con due celle libere sopra.
+## Una cella d'aria sopra un'isola della fascia data ("basso"/"medio"/"alto"), con due celle libere sopra.
 func island_spot(band: String) -> Vector2i:
 	for e in world.sky:
-		var y0 := SkyData.TOP + 2 if band == "alto" else int(e["split"]) + 1
-		var y1 := int(e["split"]) - 1 if band == "alto" else int(e["base"])
+		var rows := SkyData.band_rows(e, band)
+		if rows.is_empty():
+			continue
+		var y0 := int(rows[0]) + (2 if band == "alto" else 0)
+		var y1 := int(rows[1]) - (1 if band != "basso" else 0)
 		for x in range(int(e["x0"]) + 20, int(e["x1"]) - 20, 3):
 			for y in range(y0, y1):
 				if world.solid(x, y + 1) and not world.solid(x, y) and not world.solid(x, y - 1) and not world.solid(x + 1, y) \
@@ -521,7 +533,7 @@ func observatory() -> void:
 func biome_spot(id: String) -> Vector2i:
 	var fl := int(SkyData.get_biome(id)["floor"])
 	for e in world.sky:
-		if String(e["low"]) != id and String(e["high"]) != id:
+		if String(e["low"]) != id and String(e.get("mid", "")) != id and String(e["high"]) != id:
 			continue
 		for x in range(int(e["x0"]) + 10, int(e["x1"]) - 10, 2):
 			for y in range(SkyData.TOP, int(e["base"])):

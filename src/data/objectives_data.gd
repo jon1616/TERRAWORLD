@@ -251,7 +251,8 @@ const LIST := [
 	{"id": "lingua_nera", "text": "Decifra tutta la lingua del Seme Nero", "check": {"stat": "parole_nere", "n": 24}, "reward": {"linfa_antica": 5}},
 	# Roadmap 16 «Le Chiome del cielo»
 	{"id": "cielo_basso", "text": "Sali alle isole del cielo", "check": {"stat": "cielo_max", "n": 1}, "reward": {"fagiolo_nuvola": 3, "piuma_lenta": 1}},
-	{"id": "cielo_alto", "text": "Raggiungi il cielo alto", "check": {"stat": "cielo_max", "n": 2}, "reward": {"elisir_respiro": 3}},
+	{"id": "cielo_medio", "text": "Raggiungi il cielo di mezzo", "check": {"stat": "cielo_max", "n": 2}, "reward": {"fagiolo_nuvola": 4}},
+	{"id": "cielo_alto", "text": "Raggiungi il cielo alto", "check": {"stat": "cielo_max", "n": 3}, "reward": {"elisir_respiro": 3}},
 	{"id": "nimbite", "text": "Fondi un lingotto di nimbite", "check": {"item": "lingotto_nimbite", "n": 1}, "reward": {"nimbite_grezza": 6}},
 	{"id": "ali_nuvola", "text": "Fatti le Ali di nuvola", "check": {"item": "ali_nuvola", "n": 1}, "reward": {"cristallo_celeste": 10}},
 	{"id": "occhio_tempesta", "text": "Sconfiggi l'Occhio della Tempesta", "check": {"stat": "occhio_tempesta", "n": 1},
