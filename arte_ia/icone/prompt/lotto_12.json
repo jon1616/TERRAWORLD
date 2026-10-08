@@ -1,0 +1,13 @@
+{
+ "lotto": "lotto_12",
+ "grid": "4x2",
+ "shapes": [
+  "porta",
+  "focolare",
+  "uovo",
+  "radice",
+  "corno",
+  "paiolo",
+  "lampada"
+ ]
+}
