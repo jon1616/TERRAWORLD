@@ -54,9 +54,9 @@ static func items() -> Dictionary:
 		var h: Dictionary = HOPPERS[id]
 		out[id] = {"name": h["name"], "kind": "stazione", "icon": ["trappola_tramoggia", String(h["mat"])], "place": id, "stack": 20,
 			"desc": "Una cassa da %d caselle che aspira gli oggetti caduti entro %d tessere." % [int(h["slots"]), int(h["r"])]}
-	out["radice_ancora"] = {"name": "Radice-ancora", "kind": "stazione", "icon": ["torcia", "legnoferro"], "place": "radice_ancora",
+	out["radice_ancora"] = {"name": "Radice-ancora", "kind": "stazione", "icon": ["trappola_ancora", "legnoferro"], "place": "radice_ancora",
 		"stack": 10, "desc": "Tiene viva la farm entro %d tessere anche quando sei lontano: creature, trappole ed esche." % ANCHOR_R}
-	out["nastro"] = {"name": "Nastro di radici", "kind": "stazione", "icon": ["piattaforma", "radicite"], "place": "nastro_dx",
+	out["nastro"] = {"name": "Nastro di radici", "kind": "stazione", "icon": ["trappola_nastro", "radicite"], "place": "nastro_dx",
 		"stack": 99, "desc": "Spinge gli oggetti caduti. Clic destro: cambia verso."}
 	return out
 
