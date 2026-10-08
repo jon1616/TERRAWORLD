@@ -6113,7 +6113,15 @@ solide (isole di 15-30 colonne), la varietà fra due Semi è sotto il rumore (0,
   rari delle specie nuove (`tools/specie.gd`). Enciclopedia: tre fasce, otto biomi. Gruppi «base», «cielo» (8 biomi su
   8), «enciclopedia», «guida» (0 oggetti senza uso su 8095), «ritrovamenti», «bestie», «galleria» senza avvisi. I Signori
   dei due biomi nuovi con la voce 445.
-- [ ] **443. I continenti sospesi.** 1-2 per zona, con grotte (e pareti), vene, cascate.
+- [x] **443. I continenti sospesi.** 1-2 per zona, con grotte (e pareti), vene, cascate.
+  Fatto l'8 ott 2026: `SkyContinents` (`src/world/gen/passes/`, chiamato da `PassCielo` prima delle isole, che si
+  sistemano attorno): nel cielo di mezzo di ogni zona 1-2 masse di 100-280 colonne, spesse 30-62 righe al centro (una
+  montagna capovolta: `SkyData.CONTINENT`), con pavimento del bioma, corpo di terra, cuore di roccia, grotte e gallerie
+  con le pareti di fondo (buie: senza parete sarebbero illuminate come il cielo), vene del bioma, uno scrigno del cielo
+  (tabella «rovina_cielo») in una grotta, alberi e pozze lungo la cima, stalattiti e radichette sotto; `claim` e appunto
+  "isole_cielo" con "continente". Il cielo dal 2% al ~7% di celle solide; mondo in ~5 s (Cielo 0,38 s). Le cascate vere
+  restano da fare: i liquidi si muovono solo vicino al Germogliato e un getto nel vuoto si svuoterebbe (voce 444).
+  Gruppi «base», «cielo», «ecologia», «galleria» senza avvisi.
 - [ ] **444. Le strade verso l'alto.** Mari di nuvole, correnti per fascia, liane, il Fagiolo fino a un'isola.
 - [ ] **445. I luoghi del cielo.** Templi, osservatori, nidi dei Signori, la firma del mondo.
 - [ ] **446. La vita e la luce del cielo.** Creature e pericolo per fascia, sfondo che cambia salendo.

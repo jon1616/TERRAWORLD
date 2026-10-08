@@ -38,6 +38,11 @@ const ZONE_MIN := 300                  # lunghezza di una zona, in colonne
 const ZONE_MAX := 520
 const SPAWN_FREE := 24                 # colonne sopra la partenza senza isole (voce 442: prima 60, un buco nel cielo)
 const SPAWN_NEAR := 140                # entro tante colonne dalla partenza le isole basse sono piccole e facili
+## Voce 443: i continenti sospesi del cielo di mezzo (`SkyContinents`): quanti per zona, mezza larghezza, spessore della
+## chiglia, soglie delle grotte (sale e gallerie), ogni quante colonne della cima alberi e pozze; sotto `min_zone`
+## colonne di zona uno solo.
+const CONTINENT := {"per_zone": [1, 2], "min_zone": 380, "half": [50, 140], "thick": [30, 62], "cave": 0.4,
+	"worm": 0.03, "extras_every": 26}
 const SKY_SHARE := 0.85                # voce 160: quante nascite in cielo sono creature del cielo
 
 const CLOUDS := [52, 53]               # le tessere di nuvola: attutiscono le cadute (`Life._on_landed`)

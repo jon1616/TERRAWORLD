@@ -28,6 +28,7 @@ func run(w: World, c: GenContext) -> void:
 	var isles := []
 	var currents: Array = c.notes.get("correnti", [])
 	for z in zones:
+		SkyContinents.build(self, w, c, z, isles)             # voce 443: prima i continenti, poi le isole attorno
 		var lows := _band(w, c, z, "basso", isles)
 		var mids := _band(w, c, z, "medio", isles)          # voce 442: tre fasce
 		var highs := _band(w, c, z, "alto", isles)
