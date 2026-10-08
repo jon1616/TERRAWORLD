@@ -5,8 +5,9 @@
   (`GENERATORE.md`, Roadmap 56-61, voci 439-478; scelte dell'utente: mondo alto 1200, minerali in giacimenti, mari ai
   bordi in quasi tutte le sagome). Mondo alto 1200, cielo in tre fasce largo tutta la mappa, continenti sospesi con i
   luoghi dei Seminatori, due biomi del cielo di mezzo. Resoconto in fondo.
-- **In corso le Roadmap 57-61** (l'utente, 8 ott 2026: «completa tutte le roadmap consecutivamente»): la 57 «Le profondità
-  vere», poi 58 tesori, 59 varietà, 60 superficie, 61 collaudo.
+- **Fatta la Roadmap 57 «Le profondità vere»** (voci 448-454, 8 ott 2026): stili di grotta per strato, grandi caverne e
+  voragini, regioni sotterranee, confini vivi, falde, la strada fino al Fondo. In corso le Roadmap 58-61 (l'utente:
+  «completa tutte le roadmap consecutivamente»).
 - **Fatta la Roadmap 55 «Il volto chiaro»** (voci 428-438, 8 ott 2026): tutta l'interfaccia rifatta in uno stile solo.
   Via i caratteri a pixel: Alegreya e Alegreya Sans; cornici a vettori; lo scheletro comune dei pannelli (`UiPage`) con
   medaglione, numeri chiave, schede, elenco e dettaglio, tasti disegnati; suggerimenti, letture, HUD e scritte nel mondo
@@ -6211,4 +6212,23 @@ Fondo, strati a fasce, biomi del sottosuolo solo con un gene.
   larga 3 scende a zig-zag (un tornante ogni 60-160 passi, mai più di una riga giù per colonna: si cammina e si salta)
   fino al Fondo, incrociando le grotte; appunti "strada". Le scorciatoie restano le voragini (449) e le radici
   viandanti. La misura della raggiungibilità sotto terra è nella voce 454. Gruppi «base», «grotte» senza avvisi.
-- [ ] **454. La misura del sottosuolo.** Mappe prima e dopo, resoconto.
+  Poi, con la misura della 454: la strada passava sopra le caverne senza pavimento (chi la seguiva ci cadeva): ora dove
+  sotto c'è il vuoto posa una passerella; e la riscava `PassStradeRiapri` (prima della partenza) dove le strutture
+  costruite dopo l'avevano chiusa, senza toccare stazioni, sigilli, nodi e porte. Corre dopo le radici giganti.
+- [x] **454. La misura del sottosuolo.** Mappe prima e dopo, resoconto.
+  Fatto l'8 ott 2026: `tools/sottosuolo.gd` (prove/sottosuolo.txt): per strato aria, posti dove stare e quanti se ne
+  raggiungono dalla superficie **senza scavare** (camminare, saltare su, di lato e in discesa, cadere, nuotare,
+  passerelle), più caverne, voragini, regioni, falde, strada. Su 4 semi il Fondo si raggiunge senza scavare in 4 su 4
+  (prima della passerella sulle caverne: 0 su 4). Anche `tools/cielo.gd` salta di lato (continenti raggiunti senza ali
+  6-8 su 9-11). Mappe dopo in `prove/generatore_57/`: collaudo pulito sui cinque semi. Il mondo nasce in ~5,7 s (sotto i 6
+  del piano, ma vicino: le prestazioni sono la voce 472). Gruppi «base», «grotte», «terre», «acqua», «ecologia»,
+  «galleria», «cielo» senza avvisi.
+
+**Resoconto della Roadmap 57.** Prima: le stesse macchie tonde dalla superficie al Fondo, confini degli strati come
+linee ondulate, i biomi del sottosuolo solo con un gene e sparsi, conche d'acqua piccole, nessuna via sicura verso il
+basso. Ora: ogni strato ha il suo stile di grotta (gallerie orizzontali nel Sottobosco, sale nelle Caverne, pozzi con le
+cenge nelle Profondità, sale ampie nel Fondo), 4-8 grandi caverne con un contenuto e 2-4 voragini, almeno tre regioni
+sotterranee in ogni mondo, confini vivi con lingue e colonne di roccia, falde grandi fino a 3000 celle, una strada a
+zig-zag con i ponti che porta al Fondo senza scavare. Riparati: lo scrigno delle catacombe nel pavimento, una caverna
+dove nasce il Cuore, due prove che non si adattavano al mondo nuovo. La varietà fra due Semi è ancora vicina al rumore
+(0,91): la Roadmap 59.

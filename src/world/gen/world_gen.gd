@@ -20,12 +20,12 @@ static func passes() -> Array[GenPass]:
 		PassGrotte.new(),
 		PassVuoti.new(),
 		PassCaverne.new(),                  # voce 449: le grandi caverne e le voragini
-		PassStrade.new(),                   # voce 453: la strada garantita dalla superficie al Fondo
 		PassRadici.new(),
 		PassIngressi.new(),
 		PassMinerali.new(),
 		PassCristalli.new(),
 		PassSottosuolo.new(),
+		PassStrade.new(),                   # voce 453: la strada garantita (dopo le radici, che chiudevano le gallerie)
 		PassErba.new(),
 		PassStagni.new(),                   # voce 118: laghi e stagni di superficie (la pesca)
 		PassTerre.new(),                    # Roadmap 52, voce 412: la terra e la roccia di ogni bioma
@@ -67,6 +67,7 @@ static func passes() -> Array[GenPass]:
 		PassSegreti.new(),                  # voce 95: l'elenco dei segreti (non usa il caso, non sposta nulla)
 		PassIncontri.new(),                 # Roadmap 30, voce 303: i piccoli incontri (tane, vene madri, zaini, funghi)
 		PassBaccelli.new(),                 # Roadmap 30, voce 301: i baccelli dormienti (dopo le stanze: niente nei muri)
+		PassStradeRiapri.new(),             # voce 453
 		PassPartenza.new(),
 		PassCollaudo.new(),                 # l'ultima: controlla le promesse del mondo e ripara ciò che può
 	]

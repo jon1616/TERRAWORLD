@@ -146,6 +146,11 @@ func _reach(w: World) -> Dictionary:
 			for dx in range(-JUMP_SIDE, JUMP_SIDE + 1):
 				if _stand(w, p.x + dx, p.y - dy):
 					next.append(Vector2i(p.x + dx, p.y - dy))
+		# i salti di lato e in discesa (un buco nel pavimento si salta: senza, ci si cadeva dentro)
+		for dy in range(0, 4):
+			for dx in [-5, -4, -3, -2, 2, 3, 4, 5]:
+				if _stand(w, p.x + dx, p.y + dy) and not w.solid(p.x + signi(dx), p.y - 1):
+					next.append(Vector2i(p.x + dx, p.y + dy))
 		# le correnti: dentro la colonna si sale fino in cima
 		for cu in currents:
 			if absi(p.x - int(cu["x"])) <= int(cu.get("w", 1)) + 1 and p.y >= int(cu["y0"]) - 2 and p.y <= int(cu["y1"]) + 2:

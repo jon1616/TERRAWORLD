@@ -1114,6 +1114,11 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   `numeri.txt`; riferimento in prove/generatore_prima/) e `tools/cielo.gd` (terra per fascia, raggiungibilità senza ali).
   **Un bioma del cielo nuovo** va anche in `tools/vastita_gen/ritrovamenti.py` (OF, PAL), `strutture.py` e `bestiario.py`,
   poi `tools/specie.gd` e `python tools/gen_vastita.py` finché i pacchetti non cambiano più.
+- **Roadmap 57 «Le profondità vere»** (voci 448-454, 8 ott 2026): `CaveStylesData` (lo stile di grotta di ogni strato,
+  letto da `PassGrotte` a fasce), `PassCaverne` (grandi caverne con un contenuto e voragini con le cenge; appunti
+  "caverne", "voragini"), le regioni sotterranee (`PassSottosuolo._regions`, appunti "regioni"), i confini vivi
+  (`PassStrati.LOBE`: cambia la roccia, non lo strato del gioco), le falde (`PassAcqua.FALDE`), la strada al Fondo
+  (`PassStrade` con i ponti di passerelle, riaperta da `PassStradeRiapri`). Misura: `tools/sottosuolo.gd`.
 - **Roadmap 52 «La terra dei mondi»** (voci 412-418, 7 ott 2026; richiesta dell'utente: i blocchi a confronto con
   Terraria). Tutto nel pacchetto generato `src/data/vastita/terre.gd` (`tools/vastita_gen/terre.py`; tessere 59-119):
   - Campi nuovi delle tessere dei pacchetti: «kind» (suolo, roccia, comune, minerale, gemma, blocco), «look» (il disegno
