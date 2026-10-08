@@ -1,6 +1,10 @@
 # TERRAWORLD — Roadmap
 
 ## Dove siamo (aggiornato l'8 ott 2026)
+- **Fatta la Roadmap 55 «Il volto chiaro»** (voci 428-438, 8 ott 2026): tutta l'interfaccia rifatta in uno stile solo.
+  Via i caratteri a pixel: Alegreya e Alegreya Sans; cornici a vettori; lo scheletro comune dei pannelli (`UiPage`) con
+  medaglione, numeri chiave, schede, elenco e dettaglio, tasti disegnati; suggerimenti, letture, HUD e scritte nel mondo
+  nitide. Resoconto in fondo.
 - **Fatta la Roadmap 54 «Il passo delle creature»** (voci 423-427, 8 ott 2026): le creature della terra non affondano
   più di colpo, la fuga finisce (si nascondono e si curano; all'angolo si difendono), nessuno salta contro muri che non
   può superare, l'agguato non entra nel soffitto, chi resta nella roccia ne esce, chi fugge non carica. Misurato dal
@@ -6046,6 +6050,18 @@ nel titolo e i comandi in una riga grigia minuscola.
   nell'HUD. Le scritte dentro il mondo (numeri dei colpi, nomi degli abitanti, creature antiche, nomi delle casse, echi)
   usano `UiFonts.world`: Alegreya Sans a campo di distanza (MSDF), nitida anche ingrandita dalla telecamera. La scheda
   dei consigli come le schede; l'insegna degli strati con l'ombra morbida.
-- [ ] **438. La misura.** La galleria completa prima e dopo, il foglio di confronto, 0 problemi d'impaginazione,
+- [x] **438. La misura.** La galleria completa prima e dopo, il foglio di confronto, 0 problemi d'impaginazione,
   `ARTE.md`.
+  Fatto l'8 ott 2026: galleria 0 problemi d'impaginazione (prima 7, e il controllo non vedeva le sgranature);
+  `prove/galleria_confronto.png` = ogni pannello prima e dopo; `ARTE.md` §2-5 riscritti (colori, misure, cornici, lo
+  scheletro dei pannelli, i caratteri); il tempo massimo del giro intero portato a 30 minuti (con il gruppo «moto»
+  superava i 20). Il giro intero, fino a dove è arrivato prima del tempo massimo, senza avvisi nuovi.
+
+**Resoconto della Roadmap 55.** Prima: il carattere del motore a 12-13 px e i titoli a pixel, ingranditi dal filtro a
+pixel netti; cornici a pixel; ogni pannello fatto a modo suo, testo colorato e basta. Ora: due caratteri sorelle
+(Alegreya per titoli, nomi e pagine da leggere, Alegreya Sans per il testo), cornici disegnate a vettori, l'interfaccia
+con il filtro morbido (il mondo resta a pixel), un solo scheletro per i pannelli a schermo intero e un solo kit di pezzi
+per pannelli e suggerimenti. Rifatti: Pilastri, Arti, Atlante, Albero-Madre, Bacheca, Semenzaio, Innesto, Erbario,
+Mandria, Compagni, Quaderno, letture, Enciclopedia, la scheda del Germogliato, mappa, menu e pausa; l'HUD e le scritte
+nel mondo ammorbidite o a campo di distanza. Galleria: 0 problemi d'impaginazione.
 

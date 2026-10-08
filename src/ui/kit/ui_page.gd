@@ -278,3 +278,14 @@ func select_tab(i: int) -> void:
 	if i != tab_i and i >= 0 and i < _tab_names.size():
 		tab_i = i
 		_draw_tabs()
+
+
+## Senza voci nell'elenco il dettaglio prende tutto il corpo (il vuoto spiegato al centro, non mezzo schermo nero).
+func list_shown(on: bool) -> void:
+	if list == null or list.visible == on:
+		return
+	list.visible = on
+	var r := body_rect()
+	var lw := list.size.x + 40.0 if on else 0.0
+	_detail_scroll.position.x = lw
+	_detail_scroll.size.x = r.size.x - lw

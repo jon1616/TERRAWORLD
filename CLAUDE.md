@@ -849,7 +849,7 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     codice: riquadro, forte, suggerimento, casella, pulsante, principale, campo; `box`, `padded`, `button`), `UiTheme`
     (le scrive nel tema predefinito del motore), `UiScreen` (lo scheletro dei pannelli a schermo intero), `UiFx`
     (`appear`, `count`, `flash`; l'HUD fa comparire da solo ogni pannello). **Un pannello nuovo non crea StyleBoxFlat.**
-  - `PixelFont` + `PixelGlyphs` (`src/art/`): il carattere di pixel dei titoli e dei numeri, `PixelFont.apply(l, k)`.
+  - (`PixelFont` e `PixelGlyphs`, il carattere di pixel, tolti nella Roadmap 55: ora `UiFonts`.)
   - Il mondo: `WindFx` (vento nelle piante e nelle chiome), lo shader di `LiquidView`, `AmbientFx` (`src/game/`: aria
     di ogni strato, polvere dei passi, vignettatura), `Juice` (scosse, pause d'impatto), l'alone degli oggetti a terra.
   - Le creature: `CreatureFx` (`src/art/`: `shade` = contorno colorato e luce, anche per le icone in `ItemIcons.of`;
@@ -1144,6 +1144,22 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   comportamenti che lo hanno (`BhSbuca`: nasce nella terra). In `Mind` la fuga delle ferite dura finché la creatura ti
   vede, poi lo stato `REST` (si nasconde e si cura); all'angolo si difende (`_cornered`). `Behavior.may_attack`: **un
   comportamento d'attacco nuovo non comincia se la creatura fugge**; `Mind.after` non tocca chi è `busy`.
+- **Roadmap 55 «Il volto chiaro»** (voci 428-438, 8 ott 2026; l'utente: pannelli e schede «poco eleganti, alcune confuse
+  ed in generale molto pixellose… togli tutti i caratteri a pixel… hai carta bianca»). La guida è `ARTE.md` §2-5.
+  - I caratteri: `UiFonts` (`src/ui/theme/`): Alegreya (titoli, nomi, pagine da leggere) e Alegreya Sans (il testo), in
+    `arte/caratteri/` (OFL); ruoli `testo`, `chiaro`, `forte`, `corsivo`, `numeri`, `titolo`, `nome`, `libro`,
+    `racconto`; `apply(l, k)` per i titoli (al posto di `PixelFont.apply`), `on_world` per l'HUD, `world` (MSDF) per le
+    scritte dentro il mondo. La scala del testo in `UiPalette` (16 il testo).
+  - Le cornici: `UiStyle` (uno StyleBox scritto in GDScript: base StyleBoxFlat, filo che sfuma, luce dall'alto, alone,
+    gemma), fatte da `UiFrames.box` con la stessa chiamata di prima (tipi nuovi `sezione`, `chip`, `icona`).
+    `UiTheme.smooth_layer`: filtro morbido per l'interfaccia (il mondo resta a pixel netti) e contorni ammorbiditi.
+  - Il kit: `UiKit` (pezzi), e in `src/ui/kit/` `UiPage` (lo scheletro dei pannelli: `build_page`, `set_chips`,
+    `set_tabs`/`select_tab`, `split`, `detail_w`, `set_hints`, `key_action` + `open/close/toggle/refresh/mark_dirty`,
+    `shown_text` per le prove), `UiList`, `UiDetail` (anche `bbcode`: impagina i testi dei moduli), `UiTimeline`,
+    `UiMedal`, `UiBar`, `UiRule`, `UiBackdrop`. **Un pannello nuovo a schermo intero estende `UiPage`.**
+  - Rifatti sullo scheletro: Pilastri, Arti, Atlante, Albero-Madre, Bacheca, Semenzaio, Innesto, Erbario, Mandria,
+    Compagni, Quaderno; letture «da libro»; la scheda del Germogliato a pezzi (`CharacterSheet.parts`); i suggerimenti
+    (`TipView`) con gli stessi pezzi. Prove: la galleria (0 problemi), `prove/galleria_confronto.png` (prima e dopo).
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni
@@ -1501,6 +1517,13 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
 - Una patch che si ferma a metà (un'`assert` fallita) lascia i file già cambiati: si rimettono com'erano con
   `git checkout` prima di rilanciarla corretta.
 
+- **Roadmap 55** (8 ott 2026): `ImageTexture.create_from_image` dentro un `_draw` sparisce prima di essere mostrata (la
+  texture è liberata a fine funzione: quadrati bianchi): le texture si fanno prima e si tengono. L'ombra di uno
+  StyleBoxFlat si vede anche **dentro** il riquadro se il fondo è trasparente: l'alone si disegna prima del riquadro.
+  Svuotare un contenitore con `queue_free` libera anche i nodi riusati che ci stanno dentro (i comandi della Mandria):
+  si staccano prima. Un campo nuovo in una classe base (`UiPage._close`, `tab`) si scontra con quelli delle classi
+  figlie («already exists in parent class»): nomi lunghi e propri nella base. E ancora: **mai patch Python dentro un
+  heredoc del Bash tool** con barre rovesciate (le espressioni regolari e i «\n» arrivavano rotti): sempre con Write.
 - **Roadmap 52** (7 ott 2026): un campo nuovo dei pacchetti deve avere un nome che nessun tipo di pacchetto usa già: i
   biomi del cielo hanno «ores» (un elenco di elenchi), e le vene nuove con lo stesso nome rompevano `PassMinerali` in
   silenzio (la passata si fermava e il mondo nasceva senza minerali). Prima di scegliere il nome: `grep '"nome":' src/data`.

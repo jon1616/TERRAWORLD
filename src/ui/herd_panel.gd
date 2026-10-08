@@ -108,6 +108,7 @@ func refresh() -> void:
 			"badge": String(HerdInfo.STATES.get(st, "")), "badge_col": UiPalette.LINFA if st == "segue" else HERD,
 			"color": HERD, "icon": _icon(r), "on": _pairing and int(r["uid"]) == selected})
 	list.set_items(items, str(selected))
+	list_shown(not recs.is_empty())
 	# i comandi e il nome si staccano prima di svuotare il dettaglio (svuotandolo verrebbero liberati con lui)
 	if _name.get_parent() != null:
 		_name.get_parent().remove_child(_name)

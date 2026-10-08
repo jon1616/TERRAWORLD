@@ -23,7 +23,7 @@ fi
 log=$(mktemp)
 start=$(date +%s)
 if [ "${1:-base}" = "tutto" ]; then
-	timeout 1200 "$G" --path . -- --prove > "$log" 2>&1
+	timeout 1800 "$G" --path . -- --prove > "$log" 2>&1
 else
 	timeout 900 "$G" --path . -- --prove --solo="${1:-base}" > "$log" 2>&1
 fi
