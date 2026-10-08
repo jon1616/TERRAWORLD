@@ -86,6 +86,14 @@ static func value(type: String, key: String, k: float) -> float:
 	return float(f[0]) + float(f[1]) * (k - 1.0) * 2.0
 
 
+## La forma d'icona di un tipo di totem: quella dipinta «totem_<tipo>» (8 ott 2026) se c'è, altrimenti quella dei
+## dati (torcia, velo, altare… le icone di prima). Questo file non nomina altre classi: si guarda il file.
+static func icon_of(type: String) -> String:
+	if FileAccess.file_exists("res://arte/icone48/totem_%s.png" % type) or ResourceLoader.exists("res://arte/icone48/totem_%s.png" % type):
+		return "totem_" + type
+	return String(TYPES[type]["icon"])
+
+
 static func items() -> Dictionary:
 	var out := {}
 	for type in TYPES:
@@ -93,11 +101,11 @@ static func items() -> Dictionary:
 		for i in TIERS.size():
 			var t: Dictionary = TIERS[i]
 			out[id_of(type, i)] = {"name": String(td["name"]) + String(t["name"]), "kind": "stazione",
-				"icon": [String(td["icon"]), String(t["mat"])], "place": id_of(type, i), "stack": 20,
+				"icon": [icon_of(type), String(t["mat"])], "place": id_of(type, i), "stack": 20,
 				"desc": "%s (raggio %d tessere)." % [String(td["desc"]).capitalize(), int(t["r"])]}
 	for id in FOUND:
 		var fd: Dictionary = FOUND[id]
-		out[id] = {"name": fd["name"], "kind": "stazione", "icon": [String(TYPES[fd["type"]]["icon"]), "brillaluce"],
+		out[id] = {"name": fd["name"], "kind": "stazione", "icon": [icon_of(String(fd["type"])), "brillaluce"],
 			"place": id, "stack": 5, "source": "le rovine dei Seminatori nel profondo",
 			"desc": "%s (raggio %d tessere). Più forte di qualunque totem che si fabbrica." % [
 				String(TYPES[fd["type"]]["desc"]).capitalize(), int(fd["r"])]}

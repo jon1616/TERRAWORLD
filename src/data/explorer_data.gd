@@ -13,7 +13,7 @@ const SCOPE_LINFA := 3
 const SCOPE_WAIT := 1.5
 
 const ITEMS := {
-	"tenda_campo": {"name": "Tenda da campo", "kind": "stazione", "icon": ["letto", "seta"], "place": "tenda_campo", "stack": 5,
+	"tenda_campo": {"name": "Tenda da campo", "kind": "stazione", "icon": ["tenda", "seta"], "place": "tenda_campo", "stack": 5,
 		"desc": "Piantala dove esplori; clic destro: rinasci qui e le creature non nascono attorno al campo."},
 	"cannocchiale": {"name": "Cannocchiale di ambra", "kind": "cannocchiale", "icon": ["occhio", "ambra"], "stack": 1,
 		"desc": "Guarda lontano: il clic scopre la mappa attorno al punto che guardi (3 Linfa)."},
