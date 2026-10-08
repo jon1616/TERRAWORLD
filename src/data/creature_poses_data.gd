@@ -72,6 +72,10 @@ const POSES := {
 	"libellula_brina": {"n": 8, "anchor": [18, 12], "center": true, "glow": true,
 		"poses": {"vola": [0, 1, 2, 3], "sospeso": [0, 1], "planata": [5], "colpita": [6]},
 		"fps": {"vola": 11.0, "sospeso": 12.0}},
+	# Ape di lume (tavola di Nano Banana, tools/installa_creatura.py)
+	"ape_lume": {"n": 8, "anchor": [10, 10], "center": true, "glow": true,
+		"poses": {"vola": [0, 1, 2, 3], "sospeso": [4, 3], "planata": [5], "colpita": [6]},
+		"fps": {"vola": 11.0, "sospeso": 8.0}},
 }
 
 

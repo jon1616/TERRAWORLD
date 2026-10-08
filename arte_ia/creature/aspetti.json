@@ -94,5 +94,20 @@
 			"#ccf5ff"
 		],
 		"polvere": false
+	},
+	"ape_lume": {
+		"name_en": "Glow Bee",
+		"noun": "bee",
+		"plan": "insetto",
+		"look": "a plump round fuzzy bee of the lantern forest, seen from the side: a big round striped body (golden yellow with two or three thick dark brown bands), a small round dark head with two short curled antennae, one round dark eye, a short stinger whose TIP GLOWS like a tiny lantern, and two small round translucent pale wings on top. Cute but quick, it buzzes around flowers.",
+		"colors": "golden yellow body (#ebc247, darker #ad851f), dark brown bands and head (#291f14), pale bluish-white wings (#d6f5ff), glowing pale yellow stinger tip (#fff5a3)",
+		"eye": "one round dark eye (#141414) with a tiny white glint",
+		"glow": "the glowing stinger tip (#fff5a3)",
+		"accents": [
+			"#fff5a3",
+			"#d6f5ff"
+		],
+		"scale": 1.4,
+		"polvere": false
 	}
 }

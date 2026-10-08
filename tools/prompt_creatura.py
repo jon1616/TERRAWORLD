@@ -43,6 +43,8 @@ GRID = ("Solid flat magenta #FF00FF background everywhere. EXACTLY {rows} rows a
 ANCHOR_GROUND = "In every cell the feet (or belly) touch the same ground line near the bottom of the cell, except the poses that are explicitly in the air."
 ANCHOR_AIR = "The body is always centred in its cell, at the same height; only wings, limbs and tail move."
 OUTLINE = "A thick very dark outline (almost black) all around the creature, one clean line."
+PROFILE = ("EVERY cell shows the creature strictly in PROFILE (side view, as in a side-scrolling game), head on the "
+           "RIGHT: never seen from above, never from below, never from the front, never facing the viewer.")
 
 # ---------------------------------------------------------------------------------------------------------- i colori
 
@@ -301,6 +303,7 @@ def build(s: dict, look: dict) -> tuple[str, dict]:
              'This is the "%s" (%s). %s %s' % (name_en, s["name"], temper(s), where(s)),
              RULES.format(px=px),
              GRID.format(rows=rows, n=len(cells), noun=noun, anchor=ANCHOR_AIR if center and s["fly"] else ANCHOR_GROUND),
+             PROFILE,
              "The creature: " + body,
              OUTLINE]
     if look.get("extra"):
