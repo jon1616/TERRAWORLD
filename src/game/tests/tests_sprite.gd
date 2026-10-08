@@ -147,6 +147,14 @@ func _check_states(cr: Creature, id: String) -> void:
 		seen[cr._pose] = true
 		if f < 0 or f >= n:
 			bad.append("fotogramma %d su %d" % [f, n])
+	# l'allerta: ferma, che ha sentito qualcosa
+	cr.on_floor = true
+	cr.vel = Vector2.ZERO
+	var was_state: String = cr.mind.state
+	cr.mind.state = Mind.ALERT
+	cr._pose_frame(0.05)
+	seen[cr._pose] = true
+	cr.mind.state = was_state
 	cr.vel = Vector2.ZERO
 	cr.crouch = 0.0
 	cr._hurt_t = 0.0

@@ -174,6 +174,8 @@ def build_poses(s: dict, look: dict) -> tuple[list, dict, dict, bool]:
                     cells.append(("scatto", "charging: body stretched long and low, legs spread in a gallop, head forward"))
             if "fugge" in beh:
                 cells.append(("corsa", "running away fast: body stretched, legs spread front and back in a leap"))
+            elif "ladro" in beh:
+                cells.append(("corsa", "running away fast with a small stolen shiny trinket in its mouth: body stretched low, legs spread in a leap"))
             if s["docile"] or s.get("role") == "erbivoro":
                 cells.append(("bruca", "eating: head lowered to the ground, nibbling a small green leaf"))
         if "guscio" in beh:

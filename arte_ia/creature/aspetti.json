@@ -40,5 +40,18 @@
 			"#ffffff"
 		],
 		"polvere": false
+	},
+	"ermellino": {
+		"name_en": "Frost Stoat",
+		"noun": "stoat",
+		"plan": "quadrupede",
+		"look": "a small, long and slim stoat of the frozen lands, a cheeky little THIEF that steals shiny things and runs away: a long low body, short legs, a small triangular head with round ears and a pointed snout, a long bushy tail with a BLACK TIP. Its winter fur is snow-white with soft pale blue-grey shading on the back and legs. Quick, curious, mischievous expression.",
+		"colors": "snow-white fur (#eef8ff), pale blue-grey shading (#c8dce8, #9ab0c0), darker blue-grey paws (#6a7a88), black tail tip and nose (#14141f)",
+		"eye": "one round shiny black eye (#101820) with a tiny white glint",
+		"accents": [
+			"#14141f",
+			"#ffffff"
+		],
+		"polvere": false
 	}
 }

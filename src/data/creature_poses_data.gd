@@ -56,6 +56,10 @@ const POSES := {
 	"grumo_spore": {"n": 8, "anchor": [12, 23],
 		"poses": {"fermo": [0, 1], "carica": [2], "stacco": [3], "aria": [4], "discesa": [5], "atterra": [6], "colpita": [7]},
 		"fps": {"fermo": 1.6}},
+	# Ermellino di brina (tavola di Nano Banana, tools/installa_creatura.py)
+	"ermellino": {"n": 8, "anchor": [12, 22],
+		"poses": {"cammina": [0, 1, 2, 3], "fermo": [4], "corsa": [5], "colpita": [6], "allerta": [7]},
+		"fps": {"cammina": 6.0}},
 }
 
 
