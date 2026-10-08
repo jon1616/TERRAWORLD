@@ -1,0 +1,10 @@
+{
+ "lotto": "lotto_14",
+ "grid": "4x1",
+ "shapes": [
+  "trappola_runa_brace",
+  "trappola_runa_gelo",
+  "trappola_runa_spora",
+  "trappola_runa_vuoto"
+ ]
+}

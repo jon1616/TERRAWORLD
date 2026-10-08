@@ -68,7 +68,7 @@ static func items() -> Dictionary:
 		for i in TIERS.size():
 			var t: Dictionary = TIERS[i]
 			out[id_of(type, i)] = {"name": String(td["name"]) + String(t["name"]), "kind": "stazione",
-				"icon": ["bomba" if type == "pressa" else "aculeo" if type in ["spuntoni", "lama"] else "gemma", String(t["mat"])],
+				"icon": ["trappola_" + type, String(t["mat"])],     # 8 ott 2026: la forma dipinta di ogni trappola
 				"place": id_of(type, i), "stack": 50,
 				"desc": "%s. Danno ×%.1f. Clic destro: disarma e riarma." % [String(td["desc"]).capitalize(), float(t["k"])]}
 	return out

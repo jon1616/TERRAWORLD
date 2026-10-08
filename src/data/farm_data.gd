@@ -47,12 +47,12 @@ static func items() -> Dictionary:
 	var out := {}
 	for id in BAITS:
 		var b: Dictionary = BAITS[id]
-		out[id] = {"name": b["name"], "kind": "stazione", "icon": ["gemma", String(b["mat"])], "place": id, "stack": 20,
+		out[id] = {"name": b["name"], "kind": "stazione", "icon": ["trappola_esca", String(b["mat"])], "place": id, "stack": 20,
 			"desc": "Posaci un pezzo di bottino: chiama le creature che lo lasciano entro %d tessere (una ogni %d s, al più %d insieme)." % [
 				int(b["r"]), int(b["every"]), int(b["cap"])]}
 	for id in HOPPERS:
 		var h: Dictionary = HOPPERS[id]
-		out[id] = {"name": h["name"], "kind": "stazione", "icon": ["cesta", String(h["mat"])], "place": id, "stack": 20,
+		out[id] = {"name": h["name"], "kind": "stazione", "icon": ["trappola_tramoggia", String(h["mat"])], "place": id, "stack": 20,
 			"desc": "Una cassa da %d caselle che aspira gli oggetti caduti entro %d tessere." % [int(h["slots"]), int(h["r"])]}
 	out["radice_ancora"] = {"name": "Radice-ancora", "kind": "stazione", "icon": ["torcia", "legnoferro"], "place": "radice_ancora",
 		"stack": 10, "desc": "Tiene viva la farm entro %d tessere anche quando sei lontano: creature, trappole ed esche." % ANCHOR_R}

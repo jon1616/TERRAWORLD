@@ -479,19 +479,19 @@
 	},
 	"trappola_runa_brace": {
 		"en": "fire rune trap",
-		"desc": "a small square floor PLATE [GREY] carved with one big glowing rune symbol shaped like a FLAME, the rune glowing warm orange (#ff7a3a), a few embers above it"
+		"desc": "a small square floor PLATE seen at a 3/4 angle, the WHOLE plate [GREY] (neutral grey stone: NOT brown, NOT purple), with one big rune symbol carved into it and glowing bright ORANGE (#ff7a3a): the rune is a FLAME shape, two small embers float above it"
 	},
 	"trappola_runa_gelo": {
 		"en": "frost rune trap",
-		"desc": "a small square floor PLATE [GREY] carved with one big glowing rune symbol shaped like a SNOWFLAKE, the rune glowing ice blue (#8ad8ff), a little cold mist above it"
+		"desc": "a small square floor PLATE seen at a 3/4 angle, the WHOLE plate [GREY] (neutral grey stone: NOT brown, NOT purple), with one big rune symbol carved into it and glowing ICE BLUE (#8ad8ff): the rune is a SNOWFLAKE shape, a little white frost mist above it (no pink, no purple)"
 	},
 	"trappola_runa_spora": {
 		"en": "spore rune trap",
-		"desc": "a small square floor PLATE [GREY] carved with one big glowing rune symbol shaped like a MUSHROOM, the rune glowing violet (#b070f0), a few spores floating above it"
+		"desc": "a small square floor PLATE seen at a 3/4 angle, the WHOLE plate [GREY] (neutral grey stone: NOT brown, NOT purple), with one big rune symbol carved into it and glowing LIME GREEN (#9ad860): the rune is a MUSHROOM shape, a few small green spores floating above it (NO purple, NO pink)"
 	},
 	"trappola_runa_vuoto": {
 		"en": "void rune trap",
-		"desc": "a small square floor PLATE [GREY] carved with one big glowing rune symbol shaped like a SPIRAL EYE, the rune glowing deep purple (#8a50e0), a dark swirl above it"
+		"desc": "a small square floor PLATE seen at a 3/4 angle, the WHOLE plate [GREY] (neutral grey stone: NOT brown, NOT purple), with one big rune symbol carved into it and glowing DEEP INDIGO BLUE (#4a58e0): the rune is a SPIRAL EYE shape, a small dark blue swirl above it (NO purple, NO pink)"
 	},
 	"trappola_pressa": {
 		"en": "stone crusher trap",
