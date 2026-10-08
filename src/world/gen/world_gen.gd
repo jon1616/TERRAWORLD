@@ -14,9 +14,11 @@ static func passes() -> Array[GenPass]:
 	return [
 		PassTerreno.new(),
 		PassBiomi.new(),
+		PassSagoma.new(),                   # voce 459: la sagoma del mondo (canyon, terrazze, sprofondato)
 		PassArcipelago.new(),          # voce 440: dopo i Biomi, che rimodellando il terreno schiacciavano le voragini
 		PassStrati.new(),
 		PassGuscio.new(),
+		PassPilastri.new(),                 # voce 459: i pilastri fino al cielo, le liane del canyon
 		PassGrotte.new(),
 		PassVuoti.new(),
 		PassCaverne.new(),                  # voce 449: le grandi caverne e le voragini

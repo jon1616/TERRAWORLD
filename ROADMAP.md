@@ -6282,3 +6282,22 @@ Profondità, le gemme a caso. Ora: i metalli stanno in giacimenti a filoni (un q
 resa per chi scava a caso e di più per chi li cerca), annunciati in superficie dagli affioramenti e nelle grotte dai
 sassi luccicanti; i cristalli in grotte di cristallo; le gemme per tre quarti nelle zone delle grotte di cristallo o
 nelle grandi caverne. Strumenti nuovi: `tools/giacimenti.gd`, `tools/tesori.gd`, `tools/minatore.gd`.
+
+# Roadmap 59 «Mondi che non si somigliano» (dall'8 ott 2026)
+
+La quarta del piano «Il generatore eccellente» (`GENERATORE.md`). Scelta dell'utente: «mari ai bordi in quasi tutte».
+
+- [x] **459. Le sagome dei mondi.** Sette sagome riconoscibili a colpo d'occhio.
+  Fatto l'8 ott 2026: `WorldShapesData` (continente, arcipelago, guscio, canyon, terrazze, sprofondato, pilastri: nome,
+  descrizione, mare sì o no, i numeri della ricetta), scelta dal genoma (`of`: il gene con "shape", o i vecchi «roof» e
+  «archi»). Quattro geni di forma nuovi (canyon, terrazze, sprofondato, pilastri), con l'aggettivo dei nomi dei mondi.
+  `PassSagoma` (dopo i Biomi, solo la superficie): il canyon largo 230-330 a gradoni di 9 righe, le terrazze a ripiani
+  con scale da 3, lo sprofondato con la terra in mezzo più bassa e due creste di 110-160 righe. `PassPilastri` (dopo gli
+  Strati): 6-9 colonne di roccia larghe 14-22 fino al cielo di mezzo, con cenge e una tenda di liane; le liane su ogni
+  alzata del canyon. Gli strati si misurano dalla superficie: nessuna sagoma la abbassa più di 110 righe (sotto resta
+  il Fondo). `Genome.effects` ora tiene i valori di testo. Foglio `tools/foglio_sagome.py` → prove/sagome.png.
+- [ ] **460. I geni che cambiano la forma.**
+- [ ] **461. I mari ai bordi.**
+- [ ] **462. Il carattere dei biomi di superficie.**
+- [ ] **463. Le tracce del passato.**
+- [ ] **464. La misura della varietà.**

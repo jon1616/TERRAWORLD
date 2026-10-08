@@ -259,6 +259,8 @@ static func effects(gs: Array, section: String) -> Dictionary:
 				e[k] = float(e.get(k, 1.0)) * float(v)
 			elif v is bool:
 				e[k] = bool(e.get(k, false)) or v
+			elif v is String:
+				e[k] = v                             # voce 459: la sagoma (l'ultimo gene vince)
 			elif v is Array:
 				e[k] = (e.get(k, []) as Array) + v
 			elif v is Dictionary:
