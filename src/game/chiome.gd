@@ -35,6 +35,7 @@ func _process(dt: float) -> void:
 	# il Firmamento: la notte anche di giorno (si sfuma entrando e uscendo)
 	var dark := float(SkyData.get_biome(here).get("dark", 0.0)) if here != "" else 0.0
 	dark = maxf(dark, extra_dark)
+	dark = maxf(dark, _altitude_dark())                 # voce 446: salendo nel cielo alto il cielo si fa più profondo
 	if absf(m.day.high_dark - dark) > 0.001:
 		m.day.high_dark = move_toward(m.day.high_dark, dark, dt * 0.6)
 		m.day.apply()
@@ -59,6 +60,19 @@ func _process(dt: float) -> void:
 			var st: Dictionary = m.character.stats
 			st["cielo_max"] = maxi(int(st.get("cielo_max", 0)), SkyData.band_level(band))
 			st["cielo_" + id] = 1                   # le statistiche sono solo numeri (il salvataggio le rilegge con int)
+
+
+## Voce 446: nel cielo alto il cielo si fa più profondo man mano che si sale (fino a `SkyData.ALT_DARK` al bordo).
+func _altitude_dark() -> float:
+	if here == "":
+		return 0.0
+	var c: Vector2i = m.player_cell()
+	var z := SkyData.zone_of(m.world, c.x)
+	if z.is_empty() or SkyData.band_at(m.world, c.x, c.y) != "alto":
+		return 0.0
+	var rows := SkyData.band_rows(z, "alto")
+	var span := maxf(float(int(rows[1]) - int(rows[0])), 1.0)
+	return clampf(float(int(rows[1]) - c.y) / span, 0.0, 1.0) * SkyData.ALT_DARK
 
 
 ## Pianta un Fagiolo di nuvola sopra la cella c (d'aria, con la terra sotto e un po' di cielo libero sopra).

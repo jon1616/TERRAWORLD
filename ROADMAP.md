@@ -6140,5 +6140,10 @@ solide (isole di 15-30 colonne), la varietà fra due Semi è sotto il rumore (0,
   anche la fascia di mezzo (prima le strutture dei biomi medi non nascevano mai). Le meraviglie del cielo nell'Atlante
   restano da fare (`WondersData`, `WonderShapes`). Gruppi «base», «cielo», «lingua», «ritrovamenti», «vivo» senza
   avvisi.
-- [ ] **446. La vita e la luce del cielo.** Creature e pericolo per fascia, sfondo che cambia salendo.
+- [x] **446. La vita e la luce del cielo.** Creature e pericolo per fascia, sfondo che cambia salendo.
+  Fatto l'8 ott 2026: il pericolo è già per fascia (i biomi: basso 1,15-1,2, medio 1,4-1,55, alto 1,65-1,75) e le
+  creature nascono dal bioma della cella, quindi anche sui continenti e nella fascia di mezzo. Salendo nel cielo alto il
+  cielo si fa più profondo (`Chiome._altitude_dark`, fino a `SkyData.ALT_DARK` 0,15 al bordo, con il meccanismo del
+  Firmamento). L'aria sottile è del cielo alto: le Scogliere di cristallo, passate al medio, da 1,0 a 0,4. Gruppi «base»,
+  «cielo» senza avvisi.
 - [ ] **447. La misura del cielo.** Terra per fascia, raggiungibilità, mappe prima e dopo, resoconto.

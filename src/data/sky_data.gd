@@ -32,6 +32,7 @@ const TOP := 10                        # righe libere in cima al mondo
 ## resto fino al bordo: l'aria sottile, le creature forti). In un mondo da 1200 righe sono ~90, ~165 e ~120 righe; nei
 ## mondi più bassi delle prove si accorciano insieme.
 const BANDS := ["basso", "medio", "alto"]
+const ALT_DARK := 0.15                 # voce 446: quanto si fa profondo il cielo in cima al cielo alto (come il Firmamento, piano)
 const BAND_FRAC := {"basso": 0.24, "medio": 0.44}
 const SKY_MIN := 60                    # righe di cielo che servono a una zona (altrimenti niente cielo lì)
 const ZONE_MIN := 300                  # lunghezza di una zona, in colonne
