@@ -1,7 +1,8 @@
 class_name PassGrotte
 extends GenPass
 ## Gallerie a verme (dove il rumore è vicino a zero) e caverne (dove è alto). Tre cose le rendono varie:
-## - la profondità: vicino alla superficie solo gallerie strette, più giù caverne sempre più ampie;
+## - lo strato (voce 448): ogni strato ha il suo stile (`CaveStylesData`: gallerie orizzontali nel Sottobosco, sale nelle
+##   Caverne, pozzi con le cenge nelle Profondità, vuoti nel Fondo), sfumato sui confini;
 ## - le regioni: un rumore molto lento alterna zone compatte e zone traforate;
 ## - le grandi caverne, rare, solo nel profondo.
 ## Geni delle grotte (voce 43): gallerie più o meno larghe, caverne più o meno frequenti, grandi caverne ovunque nel
@@ -28,9 +29,24 @@ func run(w: World, c: GenContext) -> void:
 	n_cell.noise_type = FastNoiseLite.TYPE_CELLULAR
 	n_cell.fractal_type = FastNoiseLite.FRACTAL_NONE
 	n_cell.cellular_return_type = FastNoiseLite.RETURN_DISTANCE2_SUB
+	var n_shaft := c.noise("pozzi", 0.03, 2)
 	var tiles := w.tiles
 	var surf := w.surface
 	var ww := w.w
+	var off := c.strata_off(w)
+	var tops := c.strata_tops()
+	# voce 448: gli stili per strato, come tabelle di numeri per profondità (una riga ogni 2 di profondità) già sfumati
+	var deep := w.h
+	var table := []
+	for d in range(0, deep, 2):
+		var k := 0
+		for i in tops.size():
+			if d >= tops[i]:
+				k = i
+		var t := 0.0
+		if k + 1 < tops.size():
+			t = clampf(float(d - (tops[k + 1] - CaveStylesData.BLEND)) / CaveStylesData.BLEND, 0.0, 1.0)
+		table.append(CaveStylesData.mix(k, t))
 	# a fasce di righe su più processori (`GenBands`): ogni cella dipende solo da sé
 	var parts := GenBands.run(c, w.h, func(_b: int, y0: int, y1: int) -> Array:
 		var t: PackedByteArray = tiles.slice(y0 * ww, y1 * ww)
@@ -40,13 +56,18 @@ func run(w: World, c: GenContext) -> void:
 				var dep := y - surf[x]
 				if dep <= 6:
 					continue
-				var f := minf(dep / 300.0, 1.0)
+				var st: Dictionary = table[clampi((dep - off[x]) / 2, 0, table.size() - 1)]
 				var reg := n_reg.get_noise_2d(x, y) * 1.6
-				var worm := (0.035 + 0.025 * f + 0.02 * reg) * worm_k
-				var room := 0.47 - 0.16 * f - 0.1 * reg + room_d
-				var carve := absf(n_worm.get_noise_2d(x, y * 1.4)) < worm or n_room.get_noise_2d(x, y * 1.2) > room
+				var worm := (float(st["worm"]) + 0.02 * reg) * worm_k
+				var room := float(st["room"]) - 0.1 * reg + room_d
+				var carve := absf(n_worm.get_noise_2d(x, y * float(st["worm_sy"]))) < worm \
+					or n_room.get_noise_2d(x, y * float(st["room_sy"])) > room
+				var sh := float(st["shaft"])
+				if not carve and sh > 0.0 and reg > 0.15 and absf(n_shaft.get_noise_2d(x * 0.9, y * 0.12)) < sh:
+					var ledge := int(st["ledge"])
+					carve = ledge <= 0 or (y + x / 7) % ledge != 0           # le cenge: una riga di roccia ogni tanto
 				if not carve and dep > DEEP:
-					carve = n_big.get_noise_2d(x, y * 1.5) > 0.5 - 0.08 * minf((dep - DEEP) / 200.0, 1.0) + big_d
+					carve = n_big.get_noise_2d(x, y * 1.5) > float(st["big"]) - 0.08 * minf((dep - DEEP) / 200.0, 1.0) + big_d
 				if not carve and comb and dep > 30:
 					carve = n_cell.get_noise_2d(x, y * 1.15) > -0.62     # l'interno di una cella; i bordi restano muri
 				if carve:

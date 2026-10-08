@@ -4,7 +4,9 @@
 - **Fatta la Roadmap 56 «Il cielo grande»** (voci 439-447, 8 ott 2026), la prima del piano «Il generatore eccellente»
   (`GENERATORE.md`, Roadmap 56-61, voci 439-478; scelte dell'utente: mondo alto 1200, minerali in giacimenti, mari ai
   bordi in quasi tutte le sagome). Mondo alto 1200, cielo in tre fasce largo tutta la mappa, continenti sospesi con i
-  luoghi dei Seminatori, due biomi del cielo di mezzo. Resoconto in fondo. Prossima: la 57 «Le profondità vere».
+  luoghi dei Seminatori, due biomi del cielo di mezzo. Resoconto in fondo.
+- **In corso le Roadmap 57-61** (l'utente, 8 ott 2026: «completa tutte le roadmap consecutivamente»): la 57 «Le profondità
+  vere», poi 58 tesori, 59 varietà, 60 superficie, 61 collaudo.
 - **Fatta la Roadmap 55 «Il volto chiaro»** (voci 428-438, 8 ott 2026): tutta l'interfaccia rifatta in uno stile solo.
   Via i caratteri a pixel: Alegreya e Alegreya Sans; cornici a vettori; lo scheletro comune dei pannelli (`UiPage`) con
   medaglione, numeri chiave, schede, elenco e dettaglio, tasti disegnati; suggerimenti, letture, HUD e scritte nel mondo
@@ -6168,3 +6170,21 @@ che collegano superficie, basso, medio e alto, il Fagiolo che attraversa le isol
 cielo di mezzo (Selve pensili, Fonti sospese) con dieci creature, due Signori, oggetti, pesci e geni. Riparati strada
 facendo cinque guasti del generatore (mondo cavo, Arcipelago, sottosuolo, Guscio, casse dei biomi) e tre sovrapposizioni.
 Il mondo nasce in ~5,2 s (prima 4,4). La varietà fra due Semi resta sotto il rumore (0,85): è la Roadmap 59.
+
+
+# Roadmap 57 «Le profondità vere» (dall'8 ott 2026)
+
+La seconda del piano «Il generatore eccellente» (`GENERATORE.md`). Prima: le stesse macchie tonde dalla superficie al
+Fondo, strati a fasce, biomi del sottosuolo solo con un gene.
+
+- [x] **448. Uno stile di grotta per strato.** `CaveStylesData`: gallerie, sale, pozzi, cenge e grandi caverne come dati.
+  Fatto l'8 ott 2026: cinque stili (cunicoli stretti in Superficie; gallerie lunghe e orizzontali nel Sottobosco; sale e
+  cunicoli nelle Caverne d'ardesia; pozzi verticali con le cenge nelle Profondità; sale ampie nel Fondo), letti da
+  `PassGrotte` da una tabella per profondità già sfumata sui confini (24 righe). Aria per strato 14/17/28/31/50%.
+  Gruppi «base», «grotte», «terre», «geni» senza avvisi.
+- [ ] **449. Le grandi caverne e le voragini.** 4-8 caverne enormi con un contenuto, 2-4 voragini su più strati.
+- [ ] **450. Le regioni sotterranee.** I biomi del sottosuolo come regioni grandi in ogni mondo.
+- [ ] **451. Confini vivi.** Lingue e sacche fra gli strati.
+- [ ] **452. Le acque profonde.** Laghi sotterranei grandi, falde.
+- [ ] **453. Le strade del sottosuolo.** Una via garantita fino al Fondo.
+- [ ] **454. La misura del sottosuolo.** Mappe prima e dopo, resoconto.
