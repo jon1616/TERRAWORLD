@@ -2,7 +2,7 @@ class_name PassAcqueSuperficie
 extends GenPass
 ## Le acque di superficie (voce 468, Roadmap 60): dopo l'Acqua.
 ## - **laghi nelle valli**: dove la superficie fa una conca tra due rive (la riva più bassa entro `RIM` colonne a destra e
-##   a sinistra), l'acqua sale fino a due righe sotto quella riva; si tengono i 3-6 laghi più grandi profondi almeno
+##   a sinistra), l'acqua sale fino a una riga sotto quella riva (con due righe se ne usciva solo scavando); si tengono i 3-6 laghi più grandi profondi almeno
 ##   `MIN_DEPTH` e larghi al più `MAX_W`;
 ## - **fiumi brevi**: su un tratto quasi piano (dislivello al più 5) di 30-90 colonne si scava un letto piatto tre righe
 ##   sotto la colonna più bassa e lo si riempie fin lì; le rive restano più alte, l'acqua non scappa.
@@ -41,6 +41,9 @@ func run(w: World, c: GenContext) -> void:
 			keep[x] = 1
 	c.notes["laghi_valle"] = _lakes(w, c, keep)
 	c.notes["fiumi"] = _rivers(w, c, keep)
+	# (voce 471) le rive dei fiumi e dei laghi possono essere più alte del salto, e dall'acqua si esce con un balzo di mezza
+	# tessera: le liane sulle pareti, sopra il pelo dell'acqua (la ricerca di percorso trovava i fiumi come trappole)
+	PassRocce._wall_vines(w)
 
 
 func _lakes(w: World, c: GenContext, keep: PackedByteArray) -> Array:
@@ -54,7 +57,7 @@ func _lakes(w: World, c: GenContext, keep: PackedByteArray) -> Array:
 		var right := int(w.surface[x])
 		for k in range(x + 1, mini(x + RIM + 1, w.w)):
 			right = mini(right, int(w.surface[k]))
-		level[x] = maxi(left, right) + 2                    # due righe sotto la riva più bassa
+		level[x] = maxi(left, right) + 1                    # una riga sotto la riva più bassa (si esce con un salto)
 	# i tratti allagabili
 	var spans := []
 	var x := 0

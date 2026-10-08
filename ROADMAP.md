@@ -6410,7 +6410,18 @@ L'ultima del piano «Il generatore eccellente» (`GENERATORE.md`).
   prove/generatore_61 (semi 1, 7, 13, 42, 20260924), da confrontare con prove/generatore_prima: cielo solido 2,1-2,6% →
   6,5-6,9% (medio 13-15%), liquidi sotto terra 3.500-4.600 → 8.700-8.800 celle, l'aria del Fondo 46-47% → 49-53%.
   Il mondo ora nasce in 6,1-6,4 s (voce 472).
-- [ ] **471. La connettività.**
+- [x] **471. La connettività.** Quanto si raggiunge senza scavare, e i passaggi che mancavano.
+  Fatto il 9 ott 2026: `ReachMap` (`src/world/gen/reach_map.gd`): una ricerca in ampiezza sui posti dove si sta in piedi,
+  dalla partenza, con camminare, salti (3 su e 5 di lato, 6 in piano), cadute anche di corsa oltre il bordo, passerelle,
+  nuoto, liane e corde, correnti; `dist` = i passi. Misura `tools/connettivita.gd` (prove/connettivita.txt). La prima
+  misura ha trovato **metà del mondo irraggiungibile a piedi**, per tre difetti veri: gli imbocchi e le bocche delle
+  caverne sul fianco scavano la cima del terreno senza cambiare `surface`, e le liane guardavano quel valore (ora la terra
+  vera di ogni colonna); le liane non prendevano il posto delle piante (ora sì, della vegetazione morbida); i fiumi della
+  voce 468 hanno rive più alte del salto e dall'acqua si esce con un balzo di mezza tessera (le liane sulle pareti alla
+  fine di `PassAcqueSuperficie`, e i laghi una riga sotto la riva). Ora, semi 1-3: la superficie si percorre quasi tutta
+  (2.941 colonne su 3.000 nel seme 2), tutti i punti di riferimento, il cielo basso 22-48% e il medio 15-23% delle isole
+  e dei continenti, il sottosuolo 5-20% senza scavare (il resto si scava, com'è giusto), un quinto degli scrigni (molti
+  stanno apposta in stanze murate) a 136-268 passi alla mediana.
 - [ ] **472. Le prestazioni.**
 - [ ] **473. Le prove riallineate.**
 - [ ] **474. La connettività come prova.**

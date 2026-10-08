@@ -95,15 +95,25 @@ func _overhangs(w: World, c: GenContext) -> void:
 
 
 ## Una liana su ogni parete più alta del salto, dalla cima al piede, nella colonna d'aria accanto alla parete.
+## (voce 471) La terra vera di ogni colonna, non `World.surface`: gli imbocchi delle gallerie e le bocche delle caverne sul
+## fianco scavano la cima del terreno senza cambiarla, e una buca di 5 righe restava senza liana (la ricerca di percorso
+## lo ha trovato: metà del mondo non si raggiungeva a piedi).
 static func _wall_vines(w: World) -> void:
+	var g := PackedInt32Array()
+	g.resize(w.w)
+	for x in w.w:
+		var y := maxi(int(w.surface[x]) - 6, 0)
+		while y < mini(int(w.surface[x]) + 60, w.h - 1) and not w.solid(x, y):
+			y += 1
+		g[x] = y
 	for x in range(1, w.w - 1):
 		for dx in [-1, 1]:
-			var hi := int(w.surface[x + dx])
-			var lo := int(w.surface[x])
+			var hi := g[x + dx]
+			var lo := g[x]
 			if lo - hi < 4:
 				continue
 			for y in range(hi, lo):
-				if not w.solid(x, y) and w.decor_at(x, y) == 0 and w.liq(x, y) == 0:
+				if not w.solid(x, y) and (w.decor_at(x, y) == 0 or TileDefs.is_soft_decor(w.decor_at(x, y))) and w.liq(x, y) == 0:
 					w.set_decor(x, y, LIANA)
 
 
