@@ -1,0 +1,10 @@
+{
+ "lotto": "lotto_23",
+ "grid": "4x1",
+ "shapes": [
+  "macchina_nastro_vivo",
+  "macchina_catapulta_spore",
+  "macchina_porta_seme",
+  "macchina_porta_viva"
+ ]
+}
