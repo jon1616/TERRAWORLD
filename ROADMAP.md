@@ -6206,5 +6206,9 @@ Fondo, strati a fasce, biomi del sottosuolo solo con un gene.
   grandi fino a 3000 celle (le conche normali al più 600), pescabili come gli altri specchi; con i laghi delle grandi
   caverne (voce 449) e delle regioni (450) l'acqua sotto terra cresce del ~40% (seme 7: da 6.684 a 9.567 celle).
   Tutto fermo alla nascita (`Liquids`). Gruppi «base», «pesca», «acqua», «liquidi» senza avvisi.
-- [ ] **453. Le strade del sottosuolo.** Una via garantita fino al Fondo.
+- [x] **453. Le strade del sottosuolo.** Una via garantita fino al Fondo.
+  Fatto l'8 ott 2026: `PassStrade` (dopo le grandi caverne): da un ingresso a 250-450 colonne dalla partenza una galleria
+  larga 3 scende a zig-zag (un tornante ogni 60-160 passi, mai più di una riga giù per colonna: si cammina e si salta)
+  fino al Fondo, incrociando le grotte; appunti "strada". Le scorciatoie restano le voragini (449) e le radici
+  viandanti. La misura della raggiungibilità sotto terra è nella voce 454. Gruppi «base», «grotte» senza avvisi.
 - [ ] **454. La misura del sottosuolo.** Mappe prima e dopo, resoconto.
