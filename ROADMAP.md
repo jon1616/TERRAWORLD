@@ -5939,8 +5939,13 @@ dentro il soffitto; più comportamenti di movimento litigano per la stessa creat
   pavimento senza segnale; l'agguato appende il corpo nel soffitto 8 volte su 8; nella folla 6,7 salti a vuoto e 6,5
   tremolii al minuto per creatura, incastrate lo 0,36% del tempo. Bene già prima: sotto una sporgenza nessun tremolio,
   il teletrasporto non mette il corpo nella roccia, chi finisce in un masso ne esce, il Mangiastelle non cade dall'isola.
-- [ ] **424. Le creature della terra.** «Sbuca»: nasce già sotto terra; prima di immergersi trema e scava (polvere,
+- [x] **424. Le creature della terra.** «Sbuca»: nasce già sotto terra; prima di immergersi trema e scava (polvere,
   segnale); ferita si immerge per fuggire, con il segnale; nella terra la paura conta.
+  Fatto l'8 ott 2026: `BhSbuca` ha una fase in più (3: si ferma, trema e solleva polvere per 0,7 s, poi affonda nel buco
+  che ha scavato); `enter` (chiamato da `Creature._ready` per i comportamenti che lo hanno) la mette nella terra appena
+  nata, se sotto ci sono due tessere di terra; in fuga scava appena può (dopo 1,2 s fuori) e sotto terra nuota lontano;
+  nuotando non esce mai da un lato che dà sull'aria (`_stay_in`). Misura: nate nella terra 3 su 3, 0 immersioni senza
+  segnale su 5 (prima 3 su 9).
 - [ ] **425. La fuga vera.** Fugge finché ti perde di vista, poi si nasconde e si cura piano; all'angolo si difende;
   non salta contro i muri.
 - [ ] **426. I passi.** Chi insegue misura il muro: salta solo se ce la fa, altrimenti aspetta o cerca un'altra strada;

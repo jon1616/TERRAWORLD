@@ -187,6 +187,15 @@ func setup(cid: String, w: World, tgt: Node2D, sd: int, more_mods := {}) -> void
 	add_child(marks)
 
 
+## Roadmap 54: entrando nel mondo ogni comportamento che lo chiede si sistema (chi vive nella terra ci nasce dentro).
+func _ready() -> void:
+	for b in behaviors:
+		if b.has_method("enter"):
+			b.enter(self)
+	if buried and _spr:
+		_animate(0.0)                       # già nascosta dal primo fotogramma
+
+
 ## Fotogrammi di una forma e variante (messi da parte la prima volta: tutte le creature uguali li condividono).
 func _load_art(shape: String, variant: int) -> void:
 	var mods: Dictionary = data.get("art_mods", {}).duplicate()

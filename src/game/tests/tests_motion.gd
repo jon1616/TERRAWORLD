@@ -290,9 +290,11 @@ func burrow() -> void:
 	var shown := {}
 	var silent := [0]
 	var sinks := [0]
+	var born_in := 0
 	for c in list:
 		warn[c] = -9.0
-		shown[c] = true
+		shown[c] = not c.buried                  # (voce 424) nasce già nella terra: non la si vede affondare
+		born_in += 1 if c.buried else 0
 	var t_all := [0.0]
 	await _watch(list, 14.0, func(t: float) -> void:
 		t_all[0] = t
@@ -308,9 +310,9 @@ func burrow() -> void:
 					silent[0] += 1
 			shown[c] = vis)
 	m.fauna.clear()
-	nums["sbuca"] = {"sparite_nella_terra": sinks[0], "senza_segnale": silent[0]}
+	nums["sbuca"] = {"sparite_nella_terra": sinks[0], "senza_segnale": silent[0], "nate_nella_terra": born_in}
 	res["sbuca"] = silent[0] == 0 and sinks[0] >= 1
-	print("sbuca: %d volte nella terra, %d senza segnale" % [sinks[0], silent[0]])
+	print("sbuca: nate nella terra %d su %d, %d volte nella terra, %d senza segnale" % [born_in, list.size(), sinks[0], silent[0]])
 
 
 ## Il Mangiastelle del cielo su un'isola sottile sopra il vuoto: non attraversa l'isola e non cade.
