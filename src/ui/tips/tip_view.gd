@@ -1,24 +1,29 @@
 class_name TipView
 extends PanelContainer
-## Il disegno di una `TipCard` (voce 277): la cornice «suggerimento» del tema tinta del colore della scheda, il nome nel
-## carattere di pixel con l'icona in una casella, una fascia del colore (tipo o rarità) che sfuma sotto il nome, valori
-## in colonna, righe sottili tra le parti, comandi in fondo. Nessun testo più largo di `MAX_W`: va a capo.
-## Si rifà da capo a ogni scheda nuova (poche decine di nodi, meno di un millisecondo).
+## Il disegno di una `TipCard` (voce 277; rifatto nella Roadmap 55 «Il volto chiaro»). Gli stessi pezzi dei pannelli:
+##   intestazione  l'icona in una casella, il nome in Alegreya del colore della scheda, e sotto la riga «che cos'è»
+##                 divisa in etichette tonde (il tipo nel colore della scheda, il resto neutro)
+##   valori        in colonna, il nome spento e il valore chiaro (due coppie per riga se sono tante)
+##   testo         Alegreya Sans, con i colori della scheda
+##   barra         morbida, con la sua etichetta sopra
+##   righe         sottili, che sfumano ai lati
+##   comandi       in fondo, come tasti disegnati («Clic destro» → il tasto e cosa fa)
+## Nessun testo più largo di `MAX_W`: va a capo. Si rifà da capo a ogni scheda nuova (poche decine di nodi).
 
-const ICON := 36.0
+const ICON := 40.0
 const MIN_W := 120.0
-const MAX_W := 440.0
+const MAX_W := 430.0
+const FS := 15
 
 static var _icons := {}
 
 var _box: VBoxContainer
-static var _bands := {}
 
 
 func _init() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_box = VBoxContainer.new()
-	_box.add_theme_constant_override("separation", 4)
+	_box.add_theme_constant_override("separation", 6)
 	_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_box)
 
@@ -37,182 +42,212 @@ static func icon_of(v: Variant) -> Texture2D:
 
 
 func show_card(c: TipCard) -> void:
-	for ch in _box.get_children():
-		_box.remove_child(ch)
-		ch.queue_free()
-	add_theme_stylebox_override("panel", UiFrames.padded("suggerimento", "normale", Color(c.accent, 0.7), Vector2(14, 10)))
+	UiKit.clear(_box)
+	add_theme_stylebox_override("panel", UiFrames.padded("suggerimento", "normale", Color(c.accent, 0.75), Vector2(15, 12)))
 	var w := c.width
-	for b in c.blocks:
+	var i := 0
+	while i < c.blocks.size():
+		var b: Dictionary = c.blocks[i]
 		match String(b["t"]):
 			"title":
-				_box.add_child(_title(String(b["text"]), c.accent, b.get("icon")))
-				_box.add_child(_band(c.accent))
+				var sub := ""
+				if i + 1 < c.blocks.size() and String(c.blocks[i + 1]["t"]) == "sub":
+					sub = String(c.blocks[i + 1]["text"])
+					i += 1
+				_box.add_child(_title(String(b["text"]), c.accent, b.get("icon"), sub))
+				var band := UiRule.new()
+				band.color = Color(c.accent, 0.55)
+				_box.add_child(band)
 			"sub":
-				_box.add_child(_label(String(b["text"]), 13, b["color"]))
+				_box.add_child(_chips(String(b["text"]), c.accent))
 			"stats":
 				_box.add_child(_stats(b["rows"]))
 			"text":
-				_box.add_child(_rich(String(b["text"]), w))
+				var tx := String(b["text"])
+				var hd := _heading(tx)
+				if not hd.is_empty():
+					# un testo dei moduli che comincia con il suo titolo («[font_size=N][color=#c]Nome…»): il titolo come
+					# quello delle schede, il resto sotto
+					var hc: Color = hd[1] if hd[1] is Color else c.accent
+					_box.add_child(_title(String(hd[0]), hc, null, ""))
+					var band := UiRule.new()
+					band.color = Color(hc, 0.55)
+					_box.add_child(band)
+					tx = String(hd[2])
+				if tx.strip_edges() != "":
+					_box.add_child(_rich(tx.strip_edges(), w))
 			"bar":
 				_box.add_child(_bar(String(b["text"]), float(b["frac"]), b["color"], w))
 			"sep":
-				var r := ColorRect.new()
-				r.color = Color(c.accent, 0.22)
-				r.custom_minimum_size = Vector2(0, 1)
-				r.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				var r := UiRule.new()
+				r.fade_both = true
+				r.color = Color(c.accent, 0.3)
 				_box.add_child(r)
 			"hint":
-				var h := _rich("[color=#%s]%s[/color]" % [TipCard.DIM.to_html(false), b["text"]], w, 12)
-				_box.add_child(h)
+				_box.add_child(_hint(String(b["text"])))
+		i += 1
 	custom_minimum_size = Vector2(0, 0)
 	reset_size()
 
 
-func _label(s: String, fs: int, col: Color) -> Label:
-	var l := Label.new()
-	l.text = s
-	l.add_theme_font_size_override("font_size", fs)
-	l.add_theme_color_override("font_color", col)
-	l.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	return l
+func _label(s: String, fs: int, col: Color, role := "chiaro") -> Label:
+	return UiKit.label(s, fs, col, role)
 
 
-func _title(s: String, col: Color, icon: Variant) -> Control:
+## Il nome con l'icona; sotto, la riga «che cos'è» in etichette.
+func _title(s: String, col: Color, icon: Variant, sub: String) -> Control:
 	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 10)
+	row.add_theme_constant_override("separation", 12)
 	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var tex := icon_of(icon)
 	if tex != null:
 		var frame := PanelContainer.new()
-		frame.add_theme_stylebox_override("panel", UiFrames.padded("casella", "normale", col, Vector2(4, 4)))
+		frame.add_theme_stylebox_override("panel", UiFrames.padded("casella", "normale", Color(col, 0.6), Vector2(4, 4)))
 		frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		var t := TextureRect.new()
-		t.texture = tex
-		t.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR     # le icone dipinte (8 ott 2026)
-		t.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		t.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		t.custom_minimum_size = Vector2(ICON, ICON)
-		t.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		frame.add_child(t)
+		frame.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		frame.add_child(UiKit.icon_rect(tex, ICON))
 		row.add_child(frame)
-	var l := Label.new()
-	l.text = s
-	l.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	UiFonts.apply(l, 2, col, true)
-	l.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	var vb := VBoxContainer.new()
+	vb.add_theme_constant_override("separation", 4)
+	vb.alignment = BoxContainer.ALIGNMENT_CENTER
+	vb.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var room := MAX_W - (ICON + 22.0 if tex != null else 0.0)
+	var l := UiKit.label(s, 20, col.lerp(UiPalette.TESTO, 0.2), "nome")
 	# un nome lunghissimo va a capo invece di allargare la scheda oltre `MAX_W`
-	var room := MAX_W - (ICON + 18.0 if tex != null else 0.0)
-	if UiFonts.font().get_string_size(s, HORIZONTAL_ALIGNMENT_LEFT, -1, UiFonts.size(2)).x > room:
+	if UiFonts.get_font("nome").get_string_size(s, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x > room:
 		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		l.custom_minimum_size = Vector2(room, 0)
-	row.add_child(l)
+	vb.add_child(l)
+	if sub != "":
+		vb.add_child(_chips(sub, col, room))
+	row.add_child(vb)
 	return row
 
 
-## La fascia del colore della scheda sotto il nome: piena a sinistra, sfuma verso destra.
-func _band(col: Color) -> Control:
-	var key := col.to_html()
-	if not _bands.has(key):
-		var g := Gradient.new()
-		g.set_color(0, Color(col, 0.75))
-		g.set_color(1, Color(col, 0.0))
-		var gt := GradientTexture2D.new()
-		gt.gradient = g
-		gt.width = 128
-		gt.height = 1
-		_bands[key] = gt
-	var t := TextureRect.new()
-	t.texture = _bands[key]
-	t.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	t.stretch_mode = TextureRect.STRETCH_SCALE
-	t.custom_minimum_size = Vector2(0, 2)
-	t.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	return t
+## «Spada · rarità Rara · grado 2» → tre etichette: la prima del colore della scheda.
+func _chips(s: String, col: Color, room := MAX_W) -> Control:
+	var parts := s.split(" · ", false)
+	if parts.size() <= 1 and s.length() > 34:
+		return _rich("[color=#%s]%s[/color]" % [UiPalette.TESTO_SPENTO.to_html(false), s], room, 14)
+	var fl := HFlowContainer.new()
+	fl.add_theme_constant_override("h_separation", 6)
+	fl.add_theme_constant_override("v_separation", 4)
+	fl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	fl.custom_minimum_size = Vector2(minf(room, _chips_w(parts)), 0)
+	for k in parts.size():
+		fl.add_child(UiKit.chip(_plain(String(parts[k])), Color(col, 0.9) if k == 0 else Color(0, 0, 0, 0), null, 13))
+	return fl
 
 
-func _rich(bb: String, w: float, fs := 14) -> RichTextLabel:
-	var r := RichTextLabel.new()
-	r.bbcode_enabled = true
-	r.fit_content = true
-	r.scroll_active = false
-	r.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	r.add_theme_font_size_override("normal_font_size", fs)
-	r.add_theme_color_override("default_color", TipCard.TEXT)
+func _chips_w(parts: Array) -> float:
+	var f := UiFonts.get_font("forte")
+	var w := 0.0
+	for p in parts:
+		w += f.get_string_size(_plain(String(p)), HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x + 24.0
+	return w
+
+
+func _rich(bb: String, w: float, fs := FS) -> RichTextLabel:
+	var r := UiKit.rich(bb, 0.0, fs)
+	r.add_theme_color_override("default_color", UiPalette.TESTO)
 	if w > 0.0:
-		r.custom_minimum_size = Vector2(w, 0)
+		r.custom_minimum_size = Vector2(minf(w, MAX_W), 0)
 		r.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	else:
-		r.autowrap_mode = TextServer.AUTOWRAP_OFF
-	r.text = bb
-	if w <= 0.0:
-		var mw := measure(bb, fs) + 6.0
+		var mw := measure(bb, fs) + 8.0
 		if mw > MAX_W:
 			mw = MAX_W
 			r.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		else:
+			r.autowrap_mode = TextServer.AUTOWRAP_OFF
 		r.custom_minimum_size = Vector2(mw, 0)
 	return r
 
 
 static var _strip: RegEx
 static var _img: RegEx
+static var _head: RegEx
+
+
+## [nome, colore o null, il resto] se il testo comincia con un titolo a misura grande; altrimenti [].
+static func _heading(tx: String) -> Array:
+	if _head == null:
+		_head = RegEx.create_from_string("^\\[font_size=\\d+\\](?:\\[color=#?([0-9a-fA-F]{6,8})\\])?(.*?)(?:\\[/color\\])?\\[/font_size\\]\\s*\\n?")
+	var mh := _head.search(tx)
+	if mh == null:
+		return []
+	return [_plain(mh.get_string(2)), Color("#" + mh.get_string(1)) if mh.get_string(1) != "" else null, tx.substr(mh.get_end())]
+
+
+static func _plain(s: String) -> String:
+	if _strip == null:
+		_strip = RegEx.create_from_string("\\[[^\\]]*\\]")
+		_img = RegEx.create_from_string("\\[img[^\\]]*\\][^\\[]*\\[/img\\]")
+	return _strip.sub(s, "", true)
 
 
 ## Quanto è largo un testo con i colori (BBCode), con il carattere del gioco: la misura del nodo arriva solo dopo che
 ## è stato disegnato, troppo tardi per stringere il riquadro.
 static func measure(bb: String, fs: int) -> float:
-	if _strip == null:
-		_strip = RegEx.create_from_string("\\[[^\\]]*\\]")
-		_img = RegEx.create_from_string("\\[img[^\\]]*\\][^\\[]*\\[/img\\]")
+	_plain("")
 	# voce 101: un'icona ([img]...[/img]) vale circa due lettere larghe
 	var plain := _strip.sub(_img.sub(bb, "WW", true), "", true)
-	var font := ThemeDB.fallback_font
+	var font := UiFonts.get_font("chiaro")
+	var bold := UiFonts.get_font("forte")
 	var w := 0.0
 	for ln in plain.split("\n"):
-		w = maxf(w, font.get_string_size(ln, HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x)
+		w = maxf(w, maxf(font.get_string_size(ln, HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x,
+			bold.get_string_size(ln, HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x * 0.97))
 	return w
 
 
-## Valori in due colonne per riga: nome spento a sinistra, valore chiaro a destra (due coppie per riga se sono tante).
+## Valori in colonna: nome spento a sinistra, valore chiaro a destra (due coppie per riga se sono tante).
 func _stats(rows: Array) -> GridContainer:
 	var g := GridContainer.new()
 	g.columns = 4 if rows.size() > 3 else 2
-	g.add_theme_constant_override("h_separation", 12)
-	g.add_theme_constant_override("v_separation", 1)
+	g.add_theme_constant_override("h_separation", 14)
+	g.add_theme_constant_override("v_separation", 2)
 	g.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	for r in rows:
-		g.add_child(_label(String(r[0]), 13, TipCard.SOFT))
-		var v := RichTextLabel.new()
-		v.bbcode_enabled = true
-		v.fit_content = true
-		v.scroll_active = false
+		g.add_child(_label(String(r[0]), 14, UiPalette.TESTO_MUTO))
+		var v := UiKit.rich("", 0.0, 16)
+		v.add_theme_font_override("normal_font", UiFonts.get_font("forte"))
 		v.autowrap_mode = TextServer.AUTOWRAP_OFF
-		v.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		v.add_theme_font_size_override("normal_font_size", 16)
-		var col: Color = r[2] if r.size() > 2 else TipCard.TEXT
+		var col: Color = r[2] if r.size() > 2 else UiPalette.TESTO
 		v.text = "[color=#%s]%s[/color]" % [col.to_html(false), r[1]]
-		v.custom_minimum_size = Vector2(measure(String(r[1]), 14) + 6.0, 0)
+		v.custom_minimum_size = Vector2(measure(String(r[1]), 16) + 8.0, 0)
 		g.add_child(v)
 	return g
 
 
+## Una barra morbida con la sua etichetta sopra.
 func _bar(label: String, frac: float, col: Color, w: float) -> Control:
-	var c := Control.new()
-	c.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var bw := maxf(w, 220.0)
-	c.custom_minimum_size = Vector2(bw, 18)
-	var bg := ColorRect.new()
-	bg.color = Color(col.darkened(0.7), 0.9)
-	bg.size = Vector2(bw, 16)
-	bg.position = Vector2(0, 1)
-	c.add_child(bg)
-	var fg := ColorRect.new()
-	fg.color = col
-	fg.size = Vector2(bw * frac, 16)
-	fg.position = Vector2(0, 1)
-	c.add_child(fg)
-	var l := _label(label, 12, Color("#f4fffa"))
-	l.add_theme_color_override("font_outline_color", Color(0.01, 0.02, 0.03))
-	l.add_theme_constant_override("outline_size", 4)
-	l.position = Vector2(6, -1)
-	c.add_child(l)
-	return c
+	var vb := VBoxContainer.new()
+	vb.add_theme_constant_override("separation", 3)
+	vb.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	vb.add_child(_label(label, 14, UiPalette.TESTO, "forte"))
+	vb.add_child(UiKit.bar(frac, col, maxf(w, 240.0), 8.0))
+	return vb
+
+
+## I comandi: «Clic destro: apri · Maiusc: confronta» → un tasto disegnato e che cosa fa, per ognuno.
+func _hint(s: String) -> Control:
+	var fl := HFlowContainer.new()
+	fl.add_theme_constant_override("h_separation", 14)
+	fl.add_theme_constant_override("v_separation", 5)
+	fl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var parts := _plain(s).split(" · ", false)
+	var total := 0.0
+	for p in parts:
+		var t := String(p).strip_edges()
+		var k := t.find(": ")
+		if k > 0 and k <= 24:
+			var key := t.substr(0, k)
+			var what := t.substr(k + 2)
+			fl.add_child(UiKit.hint(key.substr(0, 1).to_upper() + key.substr(1), what))
+			total += measure(t, 14) + 40.0
+		else:
+			fl.add_child(_label(t, 14, UiPalette.TESTO_MUTO, "corsivo"))
+			total += measure(t, 14) + 14.0
+	fl.custom_minimum_size = Vector2(minf(total, MAX_W), 0)
+	return fl

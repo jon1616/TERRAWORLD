@@ -188,13 +188,22 @@ static func _effects(c: TipCard, it: Dictionary) -> void:
 
 static func _sets(c: TipCard, id: String, ctx: Dictionary) -> void:
 	var bag: Bisaccia = ctx.get("bag")
+	# (Roadmap 55) al più due set, prima quelli di cui indossi più pezzi: un pezzo d'ambra è in dieci set, e la scheda
+	# usciva dallo schermo; gli altri si leggono in Esamina
+	var list := []
 	for sid in SetsData.of_item(id):
+		list.append([sid, SetsData.worn(sid, bag.equip) if bag != null else 0])
+	list.sort_custom(func(a: Array, b: Array) -> bool: return int(a[1]) > int(b[1]))
+	for k in mini(2, list.size()):
+		var sid: String = list[k][0]
 		var sd: Dictionary = SetsData.all()[sid]
 		var total: int = (sd["pieces"] as Array).size()
-		var worn := SetsData.worn(sid, bag.equip) if bag != null else 0
+		var worn := int(list[k][1])
 		var done := worn >= total
 		c.sep()
 		c.pair("Set «%s» %d/%d" % [sd["name"], worn, total], String(sd["desc"]), TipCard.GOOD if done else TipCard.GOLD)
+	if list.size() > 2:
+		c.line("e in altri %d set: tutti in Esamina" % (list.size() - 2), TipCard.DIM)
 
 
 ## Il valore: al mercante il prezzo vero, altrove quanto vale.

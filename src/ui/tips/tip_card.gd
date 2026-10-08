@@ -13,12 +13,13 @@ extends RefCounted
 ## `accent` colora il bordo e il nome; `width` la larghezza (in pixel del testo).
 ## Una scheda è solo dati: si può costruire anche negli script senza finestra (prove, strumenti).
 
-const DIM := Color("#6a8a84")
-const SOFT := Color("#9fc8c0")
-const TEXT := Color("#e4f6ee")
-const GOOD := Color("#8ff0a0")
-const BAD := Color("#ff8a7a")
-const GOLD := Color("#ffd08a")
+## (Roadmap 55) gli stessi colori di `UiPalette`: spento, chiaro, testo, buono, pericolo, ambra
+const DIM := Color("#71877f")
+const SOFT := Color("#a9bdb6")
+const TEXT := Color("#e8efe9")
+const GOOD := Color("#8fe0a4")
+const BAD := Color("#ff7a66")
+const GOLD := Color("#ffd59a")
 
 var accent := Color("#8ef0d8")
 var width := 340.0

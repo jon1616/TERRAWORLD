@@ -6004,8 +6004,12 @@ nel titolo e i comandi in una riga grigia minuscola.
   apertura, chiusura e tasto comuni, `shown_text` per le prove), `UiList` (le schedine disegnate da sé), `UiDetail` (la
   colonna del dettaglio, con `bbcode` che impagina i testi dei moduli: titolo, sezioni, elenchi con lo stato),
   `UiTimeline`, `UiMedal`, `UiBar`, `UiRule`, `UiBackdrop`.
-- [ ] **430. I suggerimenti.** La scheda rifatta: intestazione con l'icona e le etichette, sezioni, valori allineati,
+- [x] **430. I suggerimenti.** La scheda rifatta: intestazione con l'icona e le etichette, sezioni, valori allineati,
   tasti disegnati; tutte le schede di sole parole (portali, Vita, orologio…) diventano schede vere.
+  Fatto l'8 ott 2026: `TipView` rifatta con i pezzi del kit (il nome in Alegreya, la riga «che cos'è» in etichette, valori
+  allineati, barre morbide, righe che sfumano, i comandi come tasti disegnati); i testi dei moduli che cominciano con il
+  loro titolo (portali e simili) lo mostrano come intestazione; fondo pieno; al più due set per pezzo (un pezzo d'ambra
+  era in dieci set e la scheda usciva dallo schermo).
 - [x] **431. Le strade.** Libro dei pilastri, Arti, Atlante.
   Fatto l'8 ott 2026: i tre pannelli sullo scheletro nuovo; i gradi dei pilastri e i gradi delle tecniche come tappe,
   il prossimo passo in evidenza, i numeri chiave nell'intestazione.

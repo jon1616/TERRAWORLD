@@ -74,7 +74,7 @@ static func _make(kind: String, state: String, accent: Color) -> StyleBox:
 			st.sheen = 0.035
 			pad = Vector2(20, 18)
 		"suggerimento":
-			st.setup(_tint(Color("#0e1819", 0.98), accent, 0.07), _tint(Color(P.BORDO_CHIARO, 0.5), accent, 0.6), 10, 16)
+			st.setup(_tint(Color("#0e1819"), accent, 0.07), _tint(Color(P.BORDO_CHIARO, 0.5), accent, 0.6), 10, 16)
 			st.thread = Color(P.LINFA, 0.5) if accent.a <= 0.0 else Color(accent, 0.9)
 			st.sheen = 0.03
 			pad = Vector2(14, 11)
