@@ -6182,7 +6182,12 @@ Fondo, strati a fasce, biomi del sottosuolo solo con un gene.
   cunicoli nelle Caverne d'ardesia; pozzi verticali con le cenge nelle Profondità; sale ampie nel Fondo), letti da
   `PassGrotte` da una tabella per profondità già sfumata sui confini (24 righe). Aria per strato 14/17/28/31/50%.
   Gruppi «base», «grotte», «terre», «geni» senza avvisi.
-- [ ] **449. Le grandi caverne e le voragini.** 4-8 caverne enormi con un contenuto, 2-4 voragini su più strati.
+- [x] **449. Le grandi caverne e le voragini.** 4-8 caverne enormi con un contenuto, 2-4 voragini su più strati.
+  Fatto l'8 ott 2026: `PassCaverne` (dopo i Vuoti): 4-8 caverne di 60-130 × 30-55 (almeno una per strato dal
+  Sottobosco), volta tonda e pavimento quasi piano, con un contenuto (lago, funghi luminosi, pilastri, pareti di
+  cristallo); 2-4 voragini larghe 8-16 dal Sottobosco giù per 240-420 righe, con le cenge alterne ogni 14 righe. Lontane
+  dalla partenza, `claim`, appunti "caverne" e "voragini". Gruppi «base», «grotte», «ecologia», «acqua», «liquidi»
+  senza avvisi.
 - [ ] **450. Le regioni sotterranee.** I biomi del sottosuolo come regioni grandi in ogni mondo.
 - [ ] **451. Confini vivi.** Lingue e sacche fra gli strati.
 - [ ] **452. Le acque profonde.** Laghi sotterranei grandi, falde.

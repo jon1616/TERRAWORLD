@@ -19,6 +19,7 @@ static func passes() -> Array[GenPass]:
 		PassGuscio.new(),
 		PassGrotte.new(),
 		PassVuoti.new(),
+		PassCaverne.new(),                  # voce 449: le grandi caverne e le voragini
 		PassRadici.new(),
 		PassIngressi.new(),
 		PassMinerali.new(),
