@@ -159,7 +159,7 @@ func setup(cid: String, w: World, tgt: Node2D, sd: int, more_mods := {}) -> void
 		var fw: int = (_frames[0] as Texture2D).get_width()
 		var anc: Vector2 = _poses["anchor_px"]
 		_spr.offset = Vector2(fw / 2.0 - anc.x, h / 2.0 - anc.y)
-		_spr.position = Vector2(0, 0.0 if _poses.get("center", false) else half.y)
+		_spr.position = Vector2(0, 0.0 if _poses.get("center", false) else half.y - float(_poses.get("lift", 0)))
 	_base_y = _spr.position.y
 	add_child(_spr)
 	if not fly:

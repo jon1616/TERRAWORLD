@@ -121,6 +121,9 @@ static func frames(shape: String, variant: int) -> Dictionary:
 
 ## I fotogrammi di una creatura com'è nel gioco (le icone dell'Erbario): il disegno suo se ne ha uno
 ## (`CreaturePosesData` per id, i capi), altrimenti la forma con i colori e la misura della variante («art_mods»).
+static var code_only := false           # gli strumenti che vogliono il disegno del codice (`tools/scheda_creatura.gd`)
+
+
 static func of_creature(cid: String) -> Dictionary:
 	var own := _posed(cid, 0)
 	if not own.is_empty():
@@ -137,7 +140,7 @@ static func of_creature(cid: String) -> Dictionary:
 ## di luce (vuote se la forma non brilla) e le pose ("poses"), che `Creature` legge per scegliere il fotogramma.
 static func _posed(shape: String, variant: int) -> Dictionary:
 	var d := CreaturePosesData.of(shape, variant)
-	if d.is_empty():
+	if d.is_empty() or code_only:
 		return {}
 	var fr: Array = []
 	var gl: Array = []

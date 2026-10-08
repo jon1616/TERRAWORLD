@@ -1,0 +1,13 @@
+{
+	"_nota": "L'aspetto di ogni creatura per tools/prompt_creatura.py, in inglese. Campi: name_en (il nome per Nano Banana), look (come è fatta: corpo, testa, segni, carattere; la parte più importante), colors (i colori con i codici, al posto di quelli presi dal disegno di oggi), eye, glow (che cosa brilla), noun (animal, bird, insect…), plan (quadrupede, uccello, insetto, lumaca, anfibio, serpe, fluttuante, grumo), shot (che cosa spara), extra (una frase in più), scale (quanto più grande del disegno di oggi, 1.1 di solito), accents (colori fissi della riduzione: occhio, segni). «_salta»: le creature da non disegnare.",
+	"_salta": [],
+	"spinoriccio": {
+		"name_en": "Thornhog",
+		"noun": "hedgehog",
+		"plan": "quadrupede",
+		"look": "a small round hedgehog-like creature of the amber woods: a plump dark-brown body with a pale pointed snout and a small pink nose, short stubby legs, and on its back a big crown of long GOLDEN AMBER THORNS (thick, few and clearly separated, like dried resin spikes, lighter at the tips). The thorns cover the back from the head to the tail and stick out in a wide fan, so the silhouette is spiky and unmistakable.",
+		"colors": "dark brown body (#3d2914, #5c3d29, lighter #7a5233 on the face), golden amber thorns (#cc993d with pale yellow tips #f5d67a), a pale cream snout (#e8c8a0), a small pink nose (#eba3a3)",
+		"eye": "one small round bright amber-orange eye (#ffb040) with a dark pupil",
+		"accents": ["#ffb040", "#f5d67a", "#eba3a3"]
+	}
+}

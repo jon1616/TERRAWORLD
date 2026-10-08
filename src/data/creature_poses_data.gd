@@ -5,7 +5,8 @@ extends RefCounted
 ## `tools/importa_creatura.py`) usa le sue pose al posto dei due fotogrammi del codice; se i file mancano resta il
 ## disegno di prima. Solo la variante 0 (le altre hanno i colori della variante).
 ##   n        quanti fotogrammi (1..n nei file)
-##   anchor   il punto d'appoggio nel fotogramma: i piedi (chi cammina) o il centro del corpo (chi vola, "center")
+##   anchor   il punto d'appoggio nel fotogramma: i piedi (chi cammina) o il centro del corpo (chi vola, "center");
+##            chi rotola ha il centro della palla e "lift" = di quanto sta sopra i piedi (la palla gira attorno al centro)
 ##   poses    nome della posa → fotogrammi (indici da 0); più d'uno = un ciclo. I nomi che `Creature._pose_name`
 ##            sceglie: fermo, cammina, corsa, bruca, carica, stacco, aria, discesa, atterra, colpita (a terra);
 ##            vola, planata, sospeso, carica, scatto, colpita (in volo). Una posa che manca prende «fermo» o «vola».
