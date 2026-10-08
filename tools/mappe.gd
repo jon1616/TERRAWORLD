@@ -11,7 +11,7 @@ extends SceneTree
 ## scelti, e `--prima <cartella>` salva in prove/<cartella>/ la mappa intera di ogni seme, i ritagli (cielo, superficie,
 ## sottosuolo) e `numeri.txt` con le misure: il riferimento con cui si confronta ogni voce del piano.
 
-const NAMES := ["biomi", "superficie", "grotte", "minerali", "sottosuolo", "vita"]
+const NAMES := ["biomi", "superficie", "grotte", "minerali", "sottosuolo", "vita", "sagoma"]
 
 
 func _init() -> void:
@@ -146,6 +146,8 @@ func _fingerprint(w: World) -> Array:
 		TileDefs.TIZZONITE: 0.0, TileDefs.CRYSTAL: 0.0}
 	var feat := {TileDefs.GRASS_SPORE: 0.0, TileDefs.GRASS_BRINA: 0.0, TileDefs.GRASS_CENERE: 0.0, TileDefs.RADICE: 0.0,
 		40: 0.0, 41: 0.0, 42: 0.0, 43: 0.0}                # voce 450: i pavimenti dei biomi del sottosuolo scritti come file
+	for u in BiomesData.UNDER:
+		feat[int(u["floor"])] = 0.0                     # voce 464: tutti i pavimenti dei biomi del sottosuolo
 	for y in range(0, w.h, 2):
 		for x in range(0, w.w, 2):
 			var dep := y - w.surface[x]
@@ -176,7 +178,33 @@ func _fingerprint(w: World) -> Array:
 	for k in w.trees:
 		trees += (w.trees[k] as Array).size()
 	var life := [trees / 300.0, w.stations.values().count("scrigno") / 60.0]
-	return [bio, shape, caves, ore_v, feat_v, life]
+	# voce 464: la grande scala, con misure che non dipendono dal caso del seme: colonne di mare, colonne nei ripiani lunghi
+	# (terrazze), colonne molto sotto la mediana (canyon), colonne con roccia subito sopra la terra (pilastri) e con un
+	# tetto spesso (guscio)
+	var hs := Array(w.surface)
+	hs.sort()
+	var med := int(hs[hs.size() / 2])
+	var sea := 0.0
+	var flat := 0.0
+	var deep := 0.0
+	var tall := 0.0
+	var roof := 0.0
+	var run := 0
+	for x in w.w:
+		var s := int(w.surface[x])
+		if w.liq(x, s - 1) > 0:
+			sea += 1.0
+		run = run + 1 if x > 0 and s == int(w.surface[x - 1]) else 0
+		if run >= 8:
+			flat += 1.0
+		if s > med + 70:
+			deep += 1.0
+		if w.solid(x, s - 12) and w.solid(x, s - 20):
+			tall += 1.0
+		if w.solid(x, s - 50) and w.solid(x, s - 70):
+			roof += 1.0
+	var big := [sea / w.w * 4.0, flat / w.w * 2.0, deep / w.w * 6.0, tall / w.w * 20.0, roof / w.w * 2.0]
+	return [bio, shape, caves, ore_v, feat_v, life, big]
 
 
 static func _dist(a: Array, b: Array) -> Array:
@@ -207,7 +235,7 @@ func _variety(prints: Array, genomes: Array, seeds: Array, vigor: int, noise_n: 
 	mean /= ds.size()
 	# il rumore: lo stesso genoma di un mondo con un seme diverso, in media su più coppie (voce 439: uno solo era un
 	# campione troppo piccolo per dire se due Semi si somigliano)
-	var noise := [0.0, [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]
+	var noise := [0.0, [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]
 	var k_n := mini(noise_n, prints.size())
 	for i in k_n:
 		var w := World.new()
@@ -220,6 +248,11 @@ func _variety(prints: Array, genomes: Array, seeds: Array, vigor: int, noise_n: 
 		mean, closest[0], int(seeds[closest[1]]), int(seeds[closest[2]]), ds[ds.size() / 2], noise[0], k_n,
 		", ".join(range(NAMES.size()).map(func(k: int) -> String: return "%s %.2f" % [NAMES[k], noise[1][k]])),
 		closest[0] / maxf(noise[0], 0.001)]
+	# voce 464: quante coppie stanno sopra il doppio del rumore (la coppia più vicina, con 30 genomi a caso, spesso ha
+	# quasi lo stesso genoma: superficie e forma uguali)
+	var over := ds.filter(func(d: float) -> bool: return d >= 2.0 * float(noise[0])).size()
+	line += "; coppie oltre il doppio del rumore %d su %d (%.0f%%); media/rumore %.2f" % [over, ds.size(), 100.0 * over / ds.size(),
+		mean / maxf(noise[0], 0.001)]
 	print(line)
 	var worst: Array = _dist(prints[closest[1]], prints[closest[2]])[1]
 	var line2 := "   i due mondi più simili differiscono per: %s" % ", ".join(range(NAMES.size()).map(func(k: int) -> String:

@@ -107,9 +107,12 @@ func climb() -> void:
 	var min_y := p.position.y
 	var t := 0.0
 	var limit := 4.0 + (int(best["y1"]) - int(best["y0"])) / 12.0     # la corrente sale 15 tessere al secondo
-	while t < limit:
+	var wm: float = m.weather.wind_mult
+	m.weather.wind_mult = 0.0                # (9 ott 2026) nel giro lungo il vento di un tempo lasciato dalle prove di prima
+	while t < limit:                         # spingeva il Germogliato fuori dalla corrente
 		await kit.frames(1)
 		t += m.get_process_delta_time()
+		p.wind = 0.0
 		min_y = minf(min_y, p.position.y)
 		if p.position.y < (top - 1) * S:
 			p.auto_dir = float(side)
@@ -118,6 +121,7 @@ func climb() -> void:
 	p.auto_dir = 0.0
 	p.auto_jump = false
 	p.control = had_control
+	m.weather.wind_mult = wm
 	var c: Vector2i = m.player_cell()
 	var zone := SkyData.zone_at(world, c.x, c.y)
 	await kit.seconds(0.6)

@@ -8,8 +8,10 @@
 - **Fatta la Roadmap 57 «Le profondità vere»** (voci 448-454, 8 ott 2026): stili di grotta per strato, grandi caverne e
   voragini, regioni sotterranee, confini vivi, falde, la strada fino al Fondo.
 - **Fatta la Roadmap 58 «I tesori della roccia»** (voci 455-458, 8 ott 2026): metalli in giacimenti con i loro segni,
-  cristalli in grotte di cristallo, gemme al posto giusto; il minatore simulato. In corso le Roadmap 59-61 (l'utente:
-  «completa tutte le roadmap consecutivamente»).
+  cristalli in grotte di cristallo, gemme al posto giusto; il minatore simulato.
+- **Fatta la Roadmap 59 «Mondi che non si somigliano»** (voci 459-464, 8-9 ott 2026): sette sagome, i mari ai bordi, il
+  carattere dei biomi, le tracce del passato; il 97% delle coppie di Semi oltre il doppio del rumore. In corso le
+  Roadmap 60-61 (l'utente: «completa tutte le roadmap consecutivamente»).
 - **Fatta la Roadmap 55 «Il volto chiaro»** (voci 428-438, 8 ott 2026): tutta l'interfaccia rifatta in uno stile solo.
   Via i caratteri a pixel: Alegreya e Alegreya Sans; cornici a vettori; lo scheletro comune dei pannelli (`UiPage`) con
   medaglione, numeri chiave, schede, elenco e dettaglio, tasti disegnati; suggerimenti, letture, HUD e scritte nel mondo
@@ -6327,4 +6329,20 @@ La quarta del piano «Il generatore eccellente» (`GENERATORE.md`). Scelta dell'
   l'arco dei Seminatori sopra l'imbocco), il **cratere** (conca di 60-90 colonne con la stella caduta: un nocciolo di
   cristallo e uno scrigno con stelline, Schegge e Polvere iridata). Il gene «Città sepolta» sceglie la città; il
   parametro «traccia» la sceglie per le misure. Appunti "traccia".
-- [ ] **464. La misura della varietà.**
+- [x] **464. La misura della varietà.**
+  Fatto il 9 ott 2026: `tools/mappe.gd` ha un gruppo nuovo dell'impronta, «sagoma» (colonne di mare, ripiani lunghi,
+  colonne molto sotto la mediana, roccia subito sopra la terra, tetto spesso: misure che non dipendono dal caso), i
+  pavimenti di tutti i biomi del sottosuolo, la quota di coppie oltre il doppio del rumore e la media sul rumore; la
+  mappa disegna i liquidi. `Genome.roll` dà a ogni Seme un gene di forma **e** uno di grotte o sottosuolo (con uno solo
+  dei tre, due Semi con la stessa superficie si somigliavano quanto due mondi dello stesso Seme). Misura su 30 Semi a
+  vigore 7 (`-- --semi 30 --caso --vigore 7`): distanza media 5,96, rumore 1,59, **media/rumore 3,76**, **420 coppie su
+  435 (97%) oltre il doppio del rumore**; la coppia più vicina (1,13 volte il rumore, prima 0,91) ha quasi lo stesso
+  genoma (Resina e Conca tutti e due): che si somiglino è giusto. La salita della prova del cielo azzera il vento (nel
+  giro lungo un tempo lasciato dalle prove di prima spingeva il Germogliato fuori dalla corrente).
+
+**Resoconto della Roadmap 59.** Prima: tutti i mondi erano un continente di colline con gli stessi biomi in fila, e due
+Semi diversi spesso si distinguevano meno di due mondi dello stesso Seme. Ora: sette sagome che si riconoscono sulla
+mappa (continente, arcipelago, guscio, canyon, terrazze, sprofondato, pilastri), un mare a ogni bordo con spiaggia,
+isolotti, un relitto e i suoi pesci; biomi di larghezze diverse, vicini sensati, passaggi sfumati, radure e boschetti;
+una traccia del passato per mondo (radice cosmica, città sepolta, cratere). La varietà misurata: il 97% delle coppie di
+Semi oltre il doppio del rumore.

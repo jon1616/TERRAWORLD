@@ -36,12 +36,13 @@ static func roll(rng: RandomNumberGenerator, vigor: int, surface := "") -> Dicti
 	var out := [surface]
 	var cats := GenesData.CATEGORIES.duplicate()
 	cats.erase("superficie")
-	# voce 460: una volta su due la forma (la sagoma si vede subito sulla mappa), se no grotte o sottosuolo
-	var shape := "forma" if rng.randf() < 0.5 else String(SHAPE_CATS[rng.randi_range(1, SHAPE_CATS.size() - 1)])
-	var sg := _pick(rng, GenesData.of_cat(shape), vigor)
-	if sg != "":
-		out.append(sg)
-		cats.erase(shape)
+	# voce 464: sempre un gene di forma (la sagoma si vede subito sulla mappa) e uno di grotte o di sottosuolo: con uno solo
+	# dei tre, due Semi con lo stesso gene di superficie si somigliavano quanto due mondi dello stesso Seme
+	for shape in ["forma", String(SHAPE_CATS[rng.randi_range(1, SHAPE_CATS.size() - 1)])]:
+		var sg := _pick(rng, GenesData.of_cat(shape), vigor)
+		if sg != "":
+			out.append(sg)
+			cats.erase(shape)
 	var n := mini(1 + maxi(vigor - 1, 0) / 2, GenesData.MAX_EXTRA) + out.size() - 1
 	while out.size() < n + 1 and not cats.is_empty():
 		var cat := String(cats[rng.randi_range(0, cats.size() - 1)])

@@ -1124,6 +1124,14 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   cristallo (`PassCristalli.MASK`, la stessa maschera sceglie i posti delle gemme in `PassGemme`). Il parametro
   «senza_giacimenti» rifà la regola di prima per le misure: `tools/giacimenti.gd`, `tools/tesori.gd`,
   `tools/minatore.gd` (il minatore simulato: **dopo ogni cambio ai minerali** il cieco deve rendere come prima, ±15%).
+- **Roadmap 59 «Mondi che non si somigliano»** (voci 459-464, 8-9 ott 2026): `WorldShapesData` (le sette sagome, scelte
+  dal gene con "shape"; `has_sea`, `SEA_EDGE`), `PassSagoma` (canyon, terrazze, sprofondato: solo la superficie, mai più
+  di 110 righe in giù perché gli strati la seguono), `PassPilastri` (pilastri e liane del canyon), `PassMari` (i mari ai
+  bordi; l'acqua e il relitto in `PassAcqua._seas`; pesci con «sea», `Fishing.is_sea`), il carattere dei biomi
+  (`BiomesData.WIDTHS`, `CLIMATE`, `mix_at` letto da `PassErba` e `PassAlberi`), `PassTracce` (radice cosmica, città,
+  cratere; parametro «traccia»). Varietà: `tools/mappe.gd -- --semi 30 --caso --vigore 7` (gruppo «sagoma»); foglio
+  delle sagome `tools/foglio_sagome.py`. **Un gene nuovo con un valore di testo** passa da `Genome.effects` (il caso
+  String).
 - **Roadmap 52 «La terra dei mondi»** (voci 412-418, 7 ott 2026; richiesta dell'utente: i blocchi a confronto con
   Terraria). Tutto nel pacchetto generato `src/data/vastita/terre.gd` (`tools/vastita_gen/terre.py`; tessere 59-119):
   - Campi nuovi delle tessere dei pacchetti: «kind» (suolo, roccia, comune, minerale, gemma, blocco), «look» (il disegno
