@@ -11,12 +11,12 @@ func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_title = _label(34, 146)
-	# (voce 276) il nome nel carattere di pixel a 4×, con un'ombra netta: un'insegna, non una scritta
+	# (voce 276; Roadmap 55) il nome in Alegreya grande, con un'ombra morbida: un'insegna, non una scritta
 	_title.remove_theme_font_size_override("font_size")
 	_title.remove_theme_constant_override("outline_size")
 	UiFonts.apply(_title, 4, Color(0, 0, 0, 0), true)
-	_title.add_theme_constant_override("shadow_offset_x", 4)
-	_title.add_theme_constant_override("shadow_offset_y", 4)
+	_title.add_theme_constant_override("shadow_offset_x", 0)
+	_title.add_theme_constant_override("shadow_offset_y", 3)
 	_title.offset_bottom = 146 + UiFonts.size(4)
 	_sub = _label(16, 196)
 	modulate.a = 0.0
@@ -30,7 +30,7 @@ func _label(size: int, y: float) -> Label:
 	l.offset_bottom = y + size * 1.5
 	l.add_theme_font_size_override("font_size", size)
 	l.add_theme_color_override("font_outline_color", Color(0.02, 0.03, 0.05, 0.9))
-	l.add_theme_constant_override("outline_size", 8)
+	l.add_theme_constant_override("outline_size", 4)
 	l.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(l)
 	return l

@@ -35,7 +35,7 @@ func _process(dt: float) -> void:
 	if _t >= 1.0 and i < lines.size():
 		var who := String(lines[i][0])
 		var sp := EchoesData.speaker(who)
-		UiFonts.apply(_label, 1, Color(String(sp["color"])).lightened(0.3), true)
+		UiFonts.world(_label, 9, Color(String(sp["color"])).lightened(0.3))      # (Roadmap 55)
 		_label.text = String(lines[i][1])
 		_label.position = Vector2(_x_of(who) - 110.0, -64.0)
 		var k := (_t - 1.0) - i * EchoesData.LINE_TIME

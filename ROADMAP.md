@@ -6039,8 +6039,13 @@ nel titolo e i comandi in una riga grigia minuscola.
   Fatto l'8 ott 2026: il pulsante che porta avanti (Gioca, Crea, Pianta il seme, Riprendi) in ambra; le Opzioni con la
   luce morbida dei pannelli; la mappa con il titolo, il contatore dei segreti in un'etichetta, la legenda come
   etichette del colore di ogni segno e i comandi come tasti su una fascia scura in basso.
-- [ ] **437. Sopra il mondo.** Vita e Linfa, barra rapida, filo, obiettivi, avvisi, consigli, insegne degli strati,
+- [x] **437. Sopra il mondo.** Vita e Linfa, barra rapida, filo, obiettivi, avvisi, consigli, insegne degli strati,
   barra dei Guardiani, i numeri nel mondo; gli avvisi non coprono più i pannelli aperti.
+  Fatto l'8 ott 2026: le scritte dell'HUD avevano un contorno scuro di 5-8 px pensato per il carattere a pixel (con
+  Alegreya sembravano macchiate): `UiTheme._soft_outline` lo rende sottile con un'ombra morbida, per ogni scritta che entra
+  nell'HUD. Le scritte dentro il mondo (numeri dei colpi, nomi degli abitanti, creature antiche, nomi delle casse, echi)
+  usano `UiFonts.world`: Alegreya Sans a campo di distanza (MSDF), nitida anche ingrandita dalla telecamera. La scheda
+  dei consigli come le schede; l'insegna degli strati con l'ombra morbida.
 - [ ] **438. La misura.** La galleria completa prima e dopo, il foglio di confronto, 0 problemi d'impaginazione,
   `ARTE.md`.
 

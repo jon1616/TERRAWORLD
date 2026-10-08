@@ -68,10 +68,7 @@ func apply(c: Creature, r: String, tr: Array) -> void:
 	_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_label.size = Vector2(160, 12)
 	_label.position = Vector2(-80, -c.half.y - 24)
-	_label.add_theme_font_size_override("font_size", 7)
-	_label.add_theme_color_override("font_color", Color(rd["aura"]).lightened(0.2))
-	_label.add_theme_color_override("font_outline_color", Color(0.02, 0.03, 0.05))
-	_label.add_theme_constant_override("outline_size", 4)
+	UiFonts.world(_label, 7, Color(rd["aura"]).lightened(0.2))      # (Roadmap 55) nitido anche ingrandito
 	_label.z_as_relative = false
 	_label.z_index = 28
 	c.add_child(_label)

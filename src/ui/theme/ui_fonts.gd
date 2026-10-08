@@ -110,6 +110,35 @@ static func on_world(l: Control, small := false) -> void:
 	l.add_theme_constant_override("shadow_outline_size", 6)
 
 
+static var _world: FontFile
+
+
+## (Roadmap 55) Il carattere delle scritte dentro il mondo (numeri dei colpi, nomi degli abitanti, scritte delle creature
+## antiche, nomi delle casse): la telecamera le ingrandisce due volte, e un carattere normale tornava sgranato. Questo è
+## a campo di distanza (MSDF): resta nitido a ogni ingrandimento, con il contorno disegnato dallo stesso campo.
+static func world_font() -> Font:
+	if _world == null:
+		var ff: FontFile = (load(DIR + "AlegreyaSans-Bold.ttf") as FontFile).duplicate()
+		ff.multichannel_signed_distance_field = true
+		ff.msdf_pixel_range = 10
+		ff.msdf_size = 48
+		ff.generate_mipmaps = false
+		ff.fallbacks = [ThemeDB.fallback_font] if ThemeDB.fallback_font != null else []
+		_world = ff
+	return _world
+
+
+## Una scritta dentro il mondo: `px` in pixel del mondo (la telecamera ne mostra il doppio), colore, contorno scuro.
+static func world(l: Control, px: int, col := Color(0, 0, 0, 0)) -> void:
+	l.add_theme_font_override("font", world_font())
+	l.add_theme_font_size_override("font_size", px)
+	if col.a > 0.0:
+		l.add_theme_color_override("font_color", col)
+	l.add_theme_color_override("font_outline_color", Color(0.02, 0.03, 0.05, 0.9))
+	l.add_theme_constant_override("outline_size", maxi(2, px / 3))
+	l.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+
+
 ## Il testo di un ruolo a una misura (per chi disegna da sé con `draw_string`).
 static func set_role(l: Control, role: String, px: int, col := Color(0, 0, 0, 0)) -> void:
 	l.add_theme_font_override("font", get_font(role))

@@ -310,10 +310,7 @@ func _update_labels() -> void:
 		var l: Label = _labels.get(o)
 		if l == null:
 			l = Label.new()
-			l.add_theme_font_size_override("font_size", 9)
-			l.add_theme_color_override("font_color", Color("#cfeee4"))
-			l.add_theme_color_override("font_outline_color", Color(0.02, 0.04, 0.05))
-			l.add_theme_constant_override("outline_size", 3)
+			UiFonts.world(l, 9, Color("#cfeee4"))      # (Roadmap 55) nitido anche ingrandito
 			l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			l.z_index = 27
 			m.fx.add_child(l)

@@ -37,21 +37,25 @@ func setup(main: Node2D) -> void:
 	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_card.add_child(box)
 	_title = Label.new()
-	_title.add_theme_font_size_override("font_size", 19)
-	_title.add_theme_color_override("font_color", Color("#ffd08a"))
+	UiFonts.set_role(_title, "nome", 21, Color("#ffd08a"))      # (Roadmap 55) come il nome di una scheda
 	box.add_child(_title)
+	var rule := UiRule.new()
+	rule.color = Color(UiPalette.AMBRA, 0.5)
+	box.add_child(rule)
 	_text = RichTextLabel.new()
 	_text.bbcode_enabled = true
 	_text.fit_content = true
 	_text.custom_minimum_size = Vector2(380, 0)
 	_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_text.add_theme_font_size_override("normal_font_size", 16)
-	_text.add_theme_font_size_override("bold_font_size", 16)
+	_text.add_theme_font_override("normal_font", UiFonts.get_font("chiaro"))
+	_text.add_theme_font_size_override("normal_font_size", 17)
+	_text.add_theme_font_size_override("bold_font_size", 17)
 	_text.add_theme_color_override("default_color", Color("#dff5ee"))
 	box.add_child(_text)
 	_foot = Label.new()
+	_foot.add_theme_font_override("font", UiFonts.get_font("corsivo"))
 	_foot.add_theme_font_size_override("font_size", 14)
-	_foot.add_theme_color_override("font_color", Color("#6a8a84"))
+	_foot.add_theme_color_override("font_color", UiPalette.TESTO_MUTO)
 	box.add_child(_foot)
 	m.hud.add_child(_card)
 	m.actions.too_hard.connect(func() -> void: _flags["piccone"] = true)

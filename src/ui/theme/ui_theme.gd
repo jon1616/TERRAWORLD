@@ -123,6 +123,29 @@ static func _smooth(n: Node) -> void:
 	var ci := n as CanvasItem
 	if ci != null and ci.texture_filter == CanvasItem.TEXTURE_FILTER_PARENT_NODE:
 		ci.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+	_soft_outline(n)
+	for ch in n.get_children():
+		_soft_outline(ch)
+
+
+## (Roadmap 55) Le scritte sopra il mondo avevano un contorno scuro spesso (5-8 px), pensato per il carattere a pixel:
+## con Alegreya le lettere sembravano macchiate. Diventa sottile e semitrasparente, con un'ombra morbida sotto.
+static func _soft_outline(n: Node) -> void:
+	if not (n is Label or n is RichTextLabel):
+		return
+	var c := n as Control
+	if not c.has_theme_constant_override("outline_size"):
+		return
+	var o := c.get_theme_constant("outline_size")
+	if o <= 0:
+		return
+	c.add_theme_constant_override("outline_size", mini(o, 4))
+	var oc := c.get_theme_color("font_outline_color") if n is Label else c.get_theme_color("font_outline_color", "RichTextLabel")
+	c.add_theme_color_override("font_outline_color", Color(oc, minf(oc.a, 0.8)))
+	c.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.5))
+	c.add_theme_constant_override("shadow_offset_x", 0)
+	c.add_theme_constant_override("shadow_offset_y", 2)
+	c.add_theme_constant_override("shadow_outline_size", 5)
 
 
 ## Un riquadro piatto semplice (barre sottili, evidenziazioni): angoli `r`, larghezza minima `w`, altezza minima `h`.

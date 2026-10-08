@@ -38,10 +38,7 @@ func setup(nid: String, w: World, h: Vector2i, p: Node2D) -> void:
 	_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_label.size = Vector2(120, 12)
 	_label.position = Vector2(-60, -HALF.y - 16)
-	_label.add_theme_font_size_override("font_size", 8)
-	_label.add_theme_color_override("font_color", Color("#ffe8b0"))
-	_label.add_theme_color_override("font_outline_color", Color(0.02, 0.03, 0.05))
-	_label.add_theme_constant_override("outline_size", 4)
+	UiFonts.world(_label, 8, Color("#ffe8b0"))      # (Roadmap 55) nitido anche ingrandito
 	_label.z_as_relative = false
 	_label.z_index = 28
 	add_child(_label)

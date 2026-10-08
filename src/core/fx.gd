@@ -45,13 +45,13 @@ static func dust(parent: Node, pos: Vector2, cols: Array[Color]) -> void:
 static func float_text(parent: Node, pos: Vector2, text: String, col: Color) -> void:
 	if parent == null:
 		return
-	# (voce 293) nel carattere di pixel: nel mondo ingrandito 2× ogni pixel della cifra è un pixel del mondo
+	# (Roadmap 55) nel carattere del mondo (MSDF): nitido anche ingrandito dalla telecamera
 	var l := Label.new()
 	l.text = text
 	l.position = pos - Vector2(30, 10)
-	l.size = Vector2(60, UiFonts.size(1))
+	l.size = Vector2(60, 12)
 	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	UiFonts.apply(l, 1, col, true)
+	UiFonts.world(l, 10, col)
 	l.z_as_relative = false
 	l.z_index = 30
 	l.pivot_offset = l.size * 0.5
