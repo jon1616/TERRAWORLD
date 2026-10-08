@@ -13,8 +13,8 @@ const GARDEN_H := 240
 static func passes() -> Array[GenPass]:
 	return [
 		PassTerreno.new(),
-		PassArcipelago.new(),
 		PassBiomi.new(),
+		PassArcipelago.new(),          # voce 440: dopo i Biomi, che rimodellando il terreno schiacciavano le voragini
 		PassStrati.new(),
 		PassGuscio.new(),
 		PassGrotte.new(),

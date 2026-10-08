@@ -7,6 +7,9 @@ extends GenPass
 ## Negli appunti: "tetto" (la riga più bassa del tetto per ogni colonna) e "pozzi" [[x, mezza larghezza]].
 
 
+const THICK := 60
+
+
 func title() -> String:
 	return "Guscio"
 
@@ -32,7 +35,9 @@ func run(w: World, c: GenContext) -> void:
 		for h in holes:
 			if absi(x - int(h[0])) <= int(h[1]):
 				hole = true
-		for y in range(0, roof[x] + 1):
+		# voce 440: un tetto spesso ~60 righe, non tutto il cielo sopra pieno di pietra (con il mondo alto 1200 sarebbe
+		# stato il 20% di roccia in più)
+		for y in range(maxi(roof[x] - THICK - int(nz.get_noise_1d(x + 977) * 10.0), 0), roof[x] + 1):
 			if hole:
 				continue
 			w.set_tile(x, y, TileDefs.RADICE if ridge.get_noise_2d(x, y * 2.0) > 0.25 else TileDefs.STONE)

@@ -6081,7 +6081,12 @@ solide (isole di 15-30 colonne), la varietà fra due Semi è sotto il rumore (0,
   ~35.000 ambra, ~36.000 cristalli (gli 80.000 di prima erano a vigore 5); aria per strato 15/16/28/35/47%; cielo 2-2,5%
   di celle solide, ~110 isole in 7-8 zone; varietà: coppia più simile 0,70 contro un rumore di 0,79 (rapporto 0,89).
   Rifatta due volte: numeri e mappe identici.
-- [ ] **440. I guasti trovati.** «Mondo cavo», Arcipelago dopo i Biomi, `claim` del sottosuolo, il Guscio sopra il tetto.
+- [x] **440. I guasti trovati.** «Mondo cavo», Arcipelago dopo i Biomi, `claim` del sottosuolo, il Guscio sopra il tetto.
+  Fatto l'8 ott 2026: «Il mondo cavo» aveva `room` +2 e `big` +3, soglie che chiudevano caverne e grandi caverne: ora
+  -0,15 e -0,35 (e 10 voragini), aria sotto terra dal 32% al 63% (`tools/vastita_gen/segreti.py`). L'Arcipelago corre
+  dopo i Biomi (il rimodellamento schiacciava le voragini e lasciava le correnti sulla superficie di prima). I luoghi del
+  sottosuolo si prenotano (`PassSottosuolo._rect` + `claim`). Il Guscio è un tetto di ~60 righe (`THICK`), non tutto il
+  cielo pieno di pietra. Gruppi «base», «geni», «gravita», «mobilita» senza avvisi.
 - [ ] **441. Il mondo più alto.** 1200 righe, la superficie come distanza dal fondo.
 - [ ] **442. Tre fasce di cielo.** Basso, medio, alto, larghe tutta la mappa; due biomi nuovi per la fascia media.
 - [ ] **443. I continenti sospesi.** 1-2 per zona, con grotte (e pareti), vene, cascate.

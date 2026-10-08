@@ -22,7 +22,7 @@ SECRETS = [
              ('lancia', 'Lancia della prima Aiuola', 10)]),
     ('mondo_cavo', 'sottosuolo', 'Il mondo cavo', ['cuore_cavo', 'voragini'],
      'il mondo è vuoto dentro: caverne immense, pozzi senza fondo e il cuore di cristallo',
-     {'big': 3.0, 'room': 2.0, 'worm': 2.0, 'shafts': 2.0, 'under': ['cuore_cavo']}, {'danger': 0.3},
+     {'big': -0.35, 'room': -0.15, 'worm': 2.0, 'shafts': 10.0, 'under': ['cuore_cavo']}, {'danger': 0.3},
      'cristallo', [('girandola', 'Girandola dell\'eco', 12), ('accessorio', ['jump', 'dig'], 'Corda del mondo cavo', 6),
                    ('martello', 'Maglio delle voragini', 13)]),
     ('mondo_acqua', 'forma', 'Il mondo d\'acqua', ['sommerso', 'abissale'],

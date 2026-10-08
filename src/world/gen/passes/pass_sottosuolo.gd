@@ -13,6 +13,8 @@ extends GenPass
 const SPAWN_FREE := 80                 # colonne libere attorno alla partenza
 const NONE := Vector2i(-1, -1)
 
+var _rect := Rect2i()                  # voce 440: lo spazio scavato dall'ultimo luogo (per il `claim`)
+
 
 func title() -> String:
 	return "Sottosuolo"
@@ -38,9 +40,13 @@ func _many(w: World, c: GenContext, n: int, build: Callable, what: String) -> in
 	for k in n * 20:
 		if got.size() >= n:
 			break
+		_rect = Rect2i()
 		var p: Vector2i = build.call(w, c)
 		if p.x >= 0:
 			got.append(p)
+			# voce 440 (8 ott 2026): il luogo si prenota, così le strutture costruite dopo non lo coprono (prima no)
+			if _rect.has_area() and c.is_free(_rect):
+				c.claim(_rect, "sottosuolo_" + what)
 	c.notes["sottosuolo_pos"][what] = got
 	return got.size()
 
@@ -64,6 +70,8 @@ func _depth_in(c: GenContext, st: int, pad: int) -> int:
 ## Scava un'ellisse dal bordo irregolare; restituisce le celle d'aria nuove.
 func _carve(w: World, ctr: Vector2i, rx: int, ry: int, n: FastNoiseLite) -> Array[Vector2i]:
 	var out: Array[Vector2i] = []
+	var r := Rect2i(ctr.x - rx - 2, ctr.y - ry - 2, rx * 2 + 5, ry * 2 + 5)
+	_rect = r if not _rect.has_area() else _rect.merge(r)
 	for y in range(ctr.y - ry - 2, ctr.y + ry + 3):
 		for x in range(ctr.x - rx - 2, ctr.x + rx + 3):
 			if not w.inside(x, y) or y - w.surface[x] < 8:
