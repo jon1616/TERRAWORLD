@@ -28,17 +28,23 @@ func run(w: World, c: GenContext) -> void:
 	var isles := []
 	var currents: Array = c.notes.get("correnti", [])
 	for z in zones:
-		SkyContinents.build(self, w, c, z, isles)             # voce 443: prima i continenti, poi le isole attorno
+		var conts := SkyContinents.build(self, w, c, z, isles)     # voce 443: prima i continenti, poi le isole attorno
 		var lows := _band(w, c, z, "basso", isles)
 		var mids := _band(w, c, z, "medio", isles)          # voce 442: tre fasce
 		var highs := _band(w, c, z, "alto", isles)
+		for band in ["basso", "medio"]:
+			_cloud_sea(w, c, z, band)                       # voce 444
 		_roots(w, c, lows)
+		_roots(w, c, conts)                                 # voce 444: anche dai continenti, se la colonna è libera
 		_bridges(w, c, lows)
 		_bridges(w, c, mids)
 		_currents(w, c, z, lows, currents)
+		for e in conts:                                     # voce 444: ogni continente ha la sua corrente dal basso
+			_link(w, c, lows, [e], int(z["split"]) + 8, currents)
 		_link(w, c, lows, mids, int(z["split"]) + 8, currents)
-		_link(w, c, mids if not mids.is_empty() else lows, highs,
-			(int(z["split_mh"]) + 8) if not mids.is_empty() else int(z["split"]) + 8, currents)
+		var upper := conts + mids
+		_link(w, c, upper if not upper.is_empty() else lows, highs,
+			(int(z["split_mh"]) + 8) if not upper.is_empty() else int(z["split"]) + 8, currents)
 	c.notes["isole_cielo"] = isles
 	c.notes["correnti"] = currents
 
@@ -223,6 +229,36 @@ func _extras(w: World, c: GenContext, b: Dictionary, o: Vector2i, half: int) -> 
 			if w.solid(base.x, base.y + 1) and not w.solid(base.x, base.y) and w.tree_fits(base):
 				w.add_tree(base, TreesData.roll(c.rng, w.biomes[clampi(base.x, 0, w.w - 1)],
 					w.free_above(base, FloraData.HEIGHT)))
+
+
+## Voce 444: un mare di nuvole in una fascia di una zona: una striscia di Nuvola (si cammina, si cade morbidi) lunga
+## decine di colonne, con la cima mossa; nel Mare di nuvole sempre, altrove secondo `SkyData.CLOUD_SEA`.
+func _cloud_sea(w: World, c: GenContext, z: Dictionary, band: String) -> void:
+	var rows := SkyData.band_rows(z, band)
+	if rows.is_empty():
+		return
+	var cs: Dictionary = SkyData.CLOUD_SEA
+	var chance := float(cs.get(band, 0.0))
+	if SkyData.band_biome(z, band) == "mare_nubi":
+		chance = 1.0
+	if c.rng.randf() >= chance:
+		return
+	var nz := c.noise("mare_nuvole", 0.08, 2)
+	for tries in 12:
+		var l := c.rng.randi_range(int(cs["len"][0]), int(cs["len"][1]))
+		var x0 := c.rng.randi_range(int(z["x0"]) + 8, maxi(int(z["x1"]) - l - 8, int(z["x0"]) + 9))
+		var y := c.rng.randi_range(int(rows[0]) + 8, maxi(int(rows[1]) - 10, int(rows[0]) + 9))
+		var r := Rect2i(x0 - 4, y - 8, l + 8, 16)
+		if r.end.x > w.w - 4 or not c.is_free(r) or not _above_ground(w, r):
+			continue
+		for x in range(x0, x0 + l):
+			var edge := mini(x - x0, x0 + l - 1 - x)
+			var th := c.rng.randi_range(int(cs["thick"][0]), int(cs["thick"][1])) if edge > 3 else 1
+			var top := y + int(nz.get_noise_1d(x) * 2.0)
+			for dy in th:
+				w.set_tile(x, top + dy, 52)                      # Nuvola
+		c.claim(Rect2i(x0 - 2, y - 4, l + 4, 10), "mare_nuvole")
+		return
 
 
 ## Le radici pendenti: da metà delle isole basse una colonna di passerelle scende fin quasi a terra.

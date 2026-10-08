@@ -92,14 +92,31 @@ func grow_beans() -> void:
 		var x := int(b[0])
 		var y := int(b[1]) - SkyData.BEAN_STEP
 		var left := int(b[2]) - 1
-		if y < 3 or w.solid(x, y) or w.solid(x, y - 1):
+		var bored: bool = (b as Array).size() > 3 and bool(b[3])
+		if y < 3:
+			continue
+		# voce 444: contro un'isola del cielo la liana passa attraverso (scava una galleria larga uno) e si ferma appena
+		# sbuca in cima: così porta davvero sopra le isole e i continenti. Contro la roccia o una stazione si ferma.
+		var hit := false
+		for yy in range(y - 1, y + SkyData.BEAN_STEP):
+			if w.solid(x, yy):
+				if not SkyData.is_sky_tile(w.tile(x, yy)) or not w.station_at(Vector2i(x, yy)).is_empty():
+					hit = true
+					left = -1
+					break
+				w.set_tile(x, yy, TileDefs.AIR)
+				hit = true
+				bored = true
+		if left < 0:
 			continue
 		w.set_plat(x, y, true)
 		if w.decor_at(x - 1, y) == 0 and not w.solid(x - 1, y):
 			w.set_decor(x - 1, y, 80 if (y / 3) % 2 == 0 else 0)
 		m.view.refresh_around(Vector2i(x, y))
+		if bored and not hit:
+			continue                                # uscita dall'isola: è arrivata in cima
 		if left > 0:
-			keep.append([x, y, left])
+			keep.append([x, y, left, bored])
 	m.world_meta["fagioli"] = keep
 
 

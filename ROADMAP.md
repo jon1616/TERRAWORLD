@@ -6122,7 +6122,15 @@ solide (isole di 15-30 colonne), la varietà fra due Semi è sotto il rumore (0,
   "isole_cielo" con "continente". Il cielo dal 2% al ~7% di celle solide; mondo in ~5 s (Cielo 0,38 s). Le cascate vere
   restano da fare: i liquidi si muovono solo vicino al Germogliato e un getto nel vuoto si svuoterebbe (voce 444).
   Gruppi «base», «cielo», «ecologia», «galleria» senza avvisi.
-- [ ] **444. Le strade verso l'alto.** Mari di nuvole, correnti per fascia, liane, il Fagiolo fino a un'isola.
+- [x] **444. Le strade verso l'alto.** Mari di nuvole, correnti per fascia, liane, il Fagiolo fino a un'isola.
+  Fatto l'8 ott 2026: i **mari di nuvole** (`PassCielo._cloud_sea`, `SkyData.CLOUD_SEA`): strisce di Nuvola lunghe 50-140
+  colonne nel cielo basso (sempre nel Mare di nuvole) e a volte nel medio, ci si cammina e si cade morbidi. Ogni
+  **continente** ha la sua corrente dal basso e, se la colonna è libera, le radici-passerelle fino a terra; le correnti
+  verso l'alto partono anche dai continenti. Il **Fagiolo di nuvola** sale fino a 120 tessere (`BEAN_H`): contro un'isola
+  o un continente del cielo (`SkyData.is_sky_tile`) ci scava una galleria e si ferma appena sbuca in cima; contro la
+  roccia o una stazione si ferma. Enciclopedia aggiornata. Gruppi «base», «cielo» (Fagiolo 20 passerelle), «gravita»
+  senza avvisi. Le cascate vere non ci sono ancora: i liquidi si muovono solo vicino al Germogliato e un getto nel vuoto si
+  svuoterebbe (da pensare con `LiquidView`, che le cascate le riconosce già).
 - [ ] **445. I luoghi del cielo.** Templi, osservatori, nidi dei Signori, la firma del mondo.
 - [ ] **446. La vita e la luce del cielo.** Creature e pericolo per fascia, sfondo che cambia salendo.
 - [ ] **447. La misura del cielo.** Terra per fascia, raggiungibilità, mappe prima e dopo, resoconto.

@@ -41,13 +41,16 @@ const SPAWN_NEAR := 140                # entro tante colonne dalla partenza le i
 ## Voce 443: i continenti sospesi del cielo di mezzo (`SkyContinents`): quanti per zona, mezza larghezza, spessore della
 ## chiglia, soglie delle grotte (sale e gallerie), ogni quante colonne della cima alberi e pozze; sotto `min_zone`
 ## colonne di zona uno solo.
+## Voce 444: i mari di nuvole (strisce di tessera 52 su cui si cammina e si cade morbidi): probabilità per fascia
+## (nel Mare di nuvole sempre), lunghezza, spessore.
+const CLOUD_SEA := {"basso": 0.65, "medio": 0.35, "len": [50, 140], "thick": [2, 4]}
 const CONTINENT := {"per_zone": [1, 2], "min_zone": 380, "half": [50, 140], "thick": [30, 62], "cave": 0.4,
 	"worm": 0.03, "extras_every": 26}
 const SKY_SHARE := 0.85                # voce 160: quante nascite in cielo sono creature del cielo
 
 const CLOUDS := [52, 53]               # le tessere di nuvola: attutiscono le cadute (`Life._on_landed`)
 const BEAN_STEP := 3                   # voce 157: righe tra due passerelle della liana del Fagiolo
-const BEAN_H := 40                     # quanto sale una liana, in tessere
+const BEAN_H := 120                    # quanto sale al più una liana, in tessere (voce 444: prima 40; attraversa le isole)
 const BEAN_EVERY := 4.0                # secondi tra una passerella e l'altra (una liana intera in ~52 s)
 
 static var BIOMES: Array = BiomesData.SKY
@@ -181,6 +184,23 @@ static func _roll_not(band: String, rng: RandomNumberGenerator, mult: Dictionary
 			break
 		id = roll(band, rng, mult)
 	return id
+
+
+static var _sky_tiles := {}
+
+
+## Voce 444: una tessera del cielo (le isole, le nuvole, i continenti): il Fagiolo di nuvola ci passa attraverso.
+static func is_sky_tile(t: int) -> bool:
+	if _sky_tiles.is_empty():
+		for b in BIOMES:
+			for k in ["floor", "body", "rock"]:
+				if b.has(k):
+					_sky_tiles[int(b[k])] = true
+			for t2 in (b.get("tiles", {}) as Dictionary):
+				_sky_tiles[int(t2)] = true
+		for o in [57, 58]:                        # nimbite e folgorite, le vene delle isole
+			_sky_tiles[o] = true
+	return _sky_tiles.has(t)
 
 
 ## Voce 157: sotto i piedi (posizione del corpo di chi atterra) c'è una nuvola?

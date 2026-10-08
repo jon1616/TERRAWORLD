@@ -11,8 +11,9 @@ const CHAPTERS := [
 • il [b]cielo alto[/b], sopra, fino al bordo del mondo: l'[url=cap:aria_sottile]aria sottile[/url] e le creature più forti chiedono di prepararsi.
 [b]Come si sale[/b]:
 • le [b]correnti[/b]: colonne d'aria (foglie e scintille che salgono) che partono dalla terra e portano su fino a un'isola bassa, finché tieni premuto {k_salto} (lasciandolo ci passi attraverso); altre portano da una fascia a quella sopra;
-• le [b]radici pendenti[/b]: file di passerelle che scendono da molte isole basse fin quasi a terra (ci si sale saltando);
-• il [b]Fagiolo di nuvola[/b] (al Ceppo: legno, gelatina, humus): piantato all'aperto, in un minuto sale una liana di passerelle, 40 tessere;
+• le [b]radici pendenti[/b]: file di passerelle che scendono da molte isole basse e da alcuni continenti fin quasi a terra (ci si sale saltando);
+• i [b]mari di nuvole[/b]: lunghe strisce di nuvola su cui si cammina, nel cielo basso e di mezzo;
+• il [b]Fagiolo di nuvola[/b] (al Ceppo: legno, gelatina, humus): piantato all'aperto, sale una liana di passerelle fino a 120 tessere: se incontra un'isola o un continente del cielo ci passa attraverso e si ferma in cima;
 • le ali, la planata e il rampino.
 [b]Si cade[/b]: la [b]Piuma lenta[/b] (al Ceppo, con le penne di corteccia) toglie il danno delle cadute, e le [b]nuvole[/b] accolgono chi ci cade sopra. Tra isole vicine a volte c'è un [b]ponte di liane[/b]."""},
 	{"id": "biomi_cielo", "group": "Le Chiome del cielo", "name": "Gli otto biomi del cielo", "text":
