@@ -6346,3 +6346,22 @@ mappa (continente, arcipelago, guscio, canyon, terrazze, sprofondato, pilastri),
 isolotti, un relitto e i suoi pesci; biomi di larghezze diverse, vicini sensati, passaggi sfumati, radure e boschetti;
 una traccia del passato per mondo (radice cosmica, città sepolta, cratere). La varietà misurata: il 97% delle coppie di
 Semi oltre il doppio del rumore.
+
+# Roadmap 60 «La superficie da cartolina» (dal 9 ott 2026)
+
+La quinta del piano «Il generatore eccellente» (`GENERATORE.md`). Foto di partenza in prove/sfondi_r60_prima e
+prove/volto_r60_prima.
+
+- [x] **465. Il rilievo.** Montagne con pareti e cenge, archi, sporgenze; sempre percorribile.
+  Fatto il 9 ott 2026: `PassRilievo` (dopo i Mari, solo la superficie): 1-3 **massicci** per mondo alti 60-110 righe e
+  larghi 120-220, lontani dalla partenza e dai mari, la parte alta a **pareti e cenge** (gradini di 7-10 righe, ripiani
+  di almeno 5 colonne), più un'erosione che spiana gli spuntoni di una colonna (non su guscio, arcipelago e terrazze).
+  `PassRocce` (dopo le Decorazioni e le Liane, che riscrivono ogni cella d'aria: le liane dei pilastri e del canyon della
+  voce 459 sparivano lì): una **liana su ogni parete** più alta del salto (si sale sempre senza scavare; nei semi 7, 13,
+  42 restano 0-2 pareti senza, sul bordo dei mari), gli **archi** sotto le creste (uno quasi in ogni mondo, in cima ai
+  massicci), le **sporgenze** in cima alle pareti di 7+ righe (5-14 per mondo). La prova dei pavimenti cerca più lontano e,
+  se non trova un tratto piano, lo spiana senza allarme.
+- [ ] **466. I punti di riferimento.**
+- [ ] **467. Gli ingressi.**
+- [ ] **468. Le acque di superficie.**
+- [ ] **469. La misura della superficie.**

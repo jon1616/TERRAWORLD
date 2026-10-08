@@ -2,12 +2,10 @@ class_name PassPilastri
 extends GenPass
 ## Le cose delle sagome che vogliono le tessere (voce 459): dopo gli Strati e il Guscio.
 ## - **pilastri** (sagoma «pilastri»): 6-9 colonne di roccia larghe 14-22 che salgono dalla terra dentro il cielo di
-##   mezzo (dove `PassCielo` mette i continenti; la cima è un piano su cui stare), lontane dalla partenza; su una faccia una tenda di liane per salire, e ogni
-##   tanto una cengia. La superficie non cambia (le zone del cielo si misurano dalla terra). Appunti "pilastri".
-## - le **liane del canyon**: su ogni alzata dei gradini della gola, per risalire.
-
-const LIANA := 99                      # la decorazione della liana (`PassLiane`)
-
+##   mezzo (dove `PassCielo` mette i continenti; la cima è un piano su cui stare), lontane dalla partenza, con una cengia
+##   ogni tanto. La superficie non cambia (le zone del cielo si misurano dalla terra). Appunti "pilastri" [[x0, w, cima]].
+## Le liane (sul fianco dei pilastri e sulle alzate del canyon) le mette `PassRocce`, dopo le Decorazioni (che riscrivono
+## ogni cella d'aria).
 
 func title() -> String:
 	return "Pilastri"
@@ -15,8 +13,6 @@ func title() -> String:
 
 func run(w: World, c: GenContext) -> void:
 	c.notes["pilastri"] = []
-	if c.notes.has("canyon"):
-		_canyon_vines(w, c.notes["canyon"])
 	if str(c.notes.get("sagoma", "")) != "pilastri":
 		return
 	var d: Dictionary = WorldShapesData.SHAPES["pilastri"]
@@ -66,24 +62,6 @@ func run(w: World, c: GenContext) -> void:
 					w.set_tile(x, y, TileDefs.STONE)
 			right = not right
 			y -= c.rng.randi_range(18, 26)
-		# la tenda di liane sul fianco sinistro, dalla cima a terra
-		var vx := x0 - 1
-		for yy in range(top + 1, int(w.surface[vx])):
-			if w.inside(vx, yy) and not w.solid(vx, yy) and w.decor_at(vx, yy) == 0:
-				w.set_decor(vx, yy, LIANA)
 		c.claim(rect, "pilastro")
 		made.append([x0, pw, top])
 	c.notes["pilastri"] = made
-
-
-## Una liana su ogni alzata dei gradini del canyon (dove la terra sale di colpo da una colonna all'altra).
-func _canyon_vines(w: World, cn: Array) -> void:
-	for x in range(int(cn[0]) - 1, int(cn[1]) + 1):
-		for dx in [-1, 1]:
-			var hi := int(w.surface[x + dx])
-			var lo := int(w.surface[x])
-			if lo - hi < 4:
-				continue
-			for y in range(hi, lo):
-				if not w.solid(x, y) and w.decor_at(x, y) == 0:
-					w.set_decor(x, y, LIANA)

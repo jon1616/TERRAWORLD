@@ -127,7 +127,7 @@ func floors() -> void:
 	_calm()
 	# un tratto piano lontano dall'acqua: nell'acqua si corre a 0,6 (le prove di prima lasciano pozze vicino alla partenza)
 	var spot := Vector2i(-1, -1)
-	for off in [0, 90, -90, 180, -180, 270]:
+	for off in [0, 90, -90, 180, -180, 270, -270, 360, -360, 450, -450, 540, -540]:   # (9 ott 2026: il rilievo nuovo)
 		var q := kit.flat_spot(m.player_cell() + Vector2i(off, 0), 30)
 		if q.x < 0:
 			continue
@@ -140,7 +140,7 @@ func floors() -> void:
 			spot = q
 			break
 	if spot.x < 0:
-		print("ATTENZIONE: nessun tratto piano e asciutto per la prova dei pavimenti")
+		print("terre, i pavimenti: nessun tratto piano e asciutto, se ne spiana uno sotto il Germogliato")
 		spot = m.player_cell()
 	kit.flatten(spot, 14)
 	_flat = spot
@@ -303,7 +303,7 @@ func _calm() -> void:
 ## Un posto piano e asciutto lontano dalla partenza (le prove di prima lasciano pozze e stazioni), spianato.
 func _dry_spot(width: int) -> Vector2i:
 	var w: World = m.world
-	for off in [0, 90, -90, 180, -180, 270]:
+	for off in [0, 90, -90, 180, -180, 270, -270, 360, -360, 450, -450, 540, -540]:   # (9 ott 2026: il rilievo nuovo)
 		var q := kit.flat_spot(m.player_cell() + Vector2i(off, 0), width)
 		if q.x < 0:
 			continue

@@ -16,6 +16,7 @@ static func passes() -> Array[GenPass]:
 		PassBiomi.new(),
 		PassSagoma.new(),                   # voce 459: la sagoma del mondo (canyon, terrazze, sprofondato)
 		PassMari.new(),                     # voce 461: i mari ai bordi (la superficie; l'acqua la versa PassAcqua)
+		PassRilievo.new(),                  # voce 465: i massicci a pareti e cenge, l'erosione
 		PassArcipelago.new(),          # voce 440: dopo i Biomi, che rimodellando il terreno schiacciavano le voragini
 		PassStrati.new(),
 		PassGuscio.new(),
@@ -37,6 +38,7 @@ static func passes() -> Array[GenPass]:
 		PassAlberi.new(),
 		PassDecorazioni.new(),
 		PassLiane.new(),                    # Roadmap 52, voce 415: le liane che pendono nel Sottobosco
+		PassRocce.new(),                    # voce 465: archi, sporgenze e le liane sulle pareti (dopo le Decorazioni)
 		PassAvvizzimento.new(),
 		PassCuore.new(),
 		PassNero.new(),
