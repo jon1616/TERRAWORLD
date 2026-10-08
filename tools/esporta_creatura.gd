@@ -12,6 +12,8 @@ func _init() -> void:
 	var cr: Dictionary = CreaturesData.get_data(id)
 	var art: Array = cr["art"]
 	var fr: Dictionary = CreatureArt.frames(String(art[0]), int(art[1]))
+	if cr.has("art_mods"):
+		fr = VariantArt.apply(fr, cr["art_mods"])      # i capi e le varianti: colori e misura come nel gioco
 	var frames: Array = fr["frames"]
 	var glows: Array = fr.get("glow", [])
 	print("creatura: %s (%s), fotogrammi: %d" % [cr.get("name", id), id, frames.size()])

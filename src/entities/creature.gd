@@ -190,6 +190,10 @@ func setup(cid: String, w: World, tgt: Node2D, sd: int, more_mods := {}) -> void
 func _load_art(shape: String, variant: int) -> void:
 	var mods: Dictionary = data.get("art_mods", {}).duplicate()
 	mods.merge(_more, true)
+	if variant == 0 and CreaturePosesData.POSES.has(id) and not CreatureArt._posed(id, 0).is_empty():
+		# una creatura con un disegno tutto suo (i capi: lo Zannarossa non è più il cinghiale ingrandito)
+		shape = id
+		mods = {}
 	var key := "%s_%d_%s" % [shape, variant, str(mods)]
 	if not _art_cache.has(key):
 		var fr := CreatureArt.frames(shape, variant)
@@ -460,8 +464,9 @@ func _pose_name() -> String:
 	var want := ""
 	if _hurt_t > 0.0 and ps.has("colpita"):
 		want = "colpita"
-	elif tele > 0.0 and ps.has("carica"):
-		want = "carica"
+	elif tele > 0.0:
+		# il «!»: la rincorsa di chi carica (ferma, `busy`) o il colpo che si annuncia (sputa, spara)
+		want = "carica" if busy or not ps.has("sputa") else "sputa"
 	elif fly:
 		var sp := vel.length()
 		if busy and sp > speed * 1.4:
@@ -480,6 +485,8 @@ func _pose_name() -> String:
 		want = "atterra"
 	elif _grazing():
 		want = "bruca"
+	elif busy and absf(vel.x) > speed * 1.4:
+		want = "scatto"                    # la carica a testa bassa
 	elif absf(vel.x) > speed * 1.1:
 		want = "corsa"
 	elif absf(vel.x) > 5.0:
@@ -488,13 +495,19 @@ func _pose_name() -> String:
 		want = "allerta"
 	else:
 		want = "fermo"
-	if ps.has(want):
-		return want
-	if want == "corsa" and ps.has("cammina"):
-		return "cammina"
-	if want in ["stacco", "discesa"] and ps.has("aria"):
-		return "aria"
+	for nm in [want] + (POSE_FALLBACK.get(want, []) as Array):
+		# un boss infuriato usa le pose della furia («furia_…») dove le ha
+		if enraged and ps.has("furia_" + String(nm)):
+			return "furia_" + String(nm)
+		if ps.has(nm):
+			return String(nm)
 	return "vola" if ps.has("vola") else "fermo"
+
+
+## Le pose che sostituiscono quelle che una creatura non ha (in ordine).
+const POSE_FALLBACK := {"scatto": ["corsa", "cammina"], "corsa": ["cammina"], "stacco": ["aria"], "discesa": ["aria"],
+	"sputa": ["carica"], "allerta": ["fermo"], "bruca": ["fermo"], "atterra": ["fermo"], "carica": ["fermo"],
+	"colpita": ["fermo"], "sospeso": ["vola"], "planata": ["vola"]}
 
 
 func _grazing() -> bool:

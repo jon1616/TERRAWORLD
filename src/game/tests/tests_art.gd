@@ -101,7 +101,7 @@ func _ground_row() -> void:
 ## le quattro creature in fila sul terreno. Foto 163_pose_creature.
 func _posed_creatures() -> void:
 	var w: World = kit.world
-	var ids := ["grumo_muschio", "pecora_muschio", "lepre_linfa", "corvo_corteccia", "falena_brace", "bruco_lanterna"]
+	var ids := ["grumo_muschio", "pecora_muschio", "lepre_linfa", "corvo_corteccia", "falena_brace", "bruco_lanterna", "capo_cinghiale"]
 	var c := kit.flat_spot(w.spawn + Vector2i(60, 0), 12)
 	if c.x < 0:
 		c = Vector2i(w.spawn.x + 60, w.surface[w.spawn.x + 60] - 1)
@@ -131,6 +131,19 @@ func _posed_creatures() -> void:
 		cr.vel = Vector2.ZERO
 		cr.crouch = 0.0
 		cr._hurt_t = 0.0
+		if ids[i] == "capo_cinghiale":
+			# 8 ott 2026: il capo con il disegno suo; la rincorsa, lo sputo e la furia scelgono le loro pose
+			var got := []
+			for st in [[0.3, true, false], [0.3, false, true], [0.0, false, true]]:
+				cr.tele = st[0]
+				cr.busy = st[1]
+				cr.enraged = st[2]
+				got.append(cr._pose_name())
+			cr.tele = 0.0
+			cr.busy = false
+			cr.enraged = false
+			if got != ["carica", "furia_sputa", "furia_fermo"]:
+				bad.append("Zannarossa: pose %s" % [got])
 	print("creature con le pose: %s" % ("tutte (%d)" % ids.size() if bad.is_empty() else "ATTENZIONE: %s" % [bad]))
 	await kit.seconds(1.2)
 	await kit.save("163_pose_creature")

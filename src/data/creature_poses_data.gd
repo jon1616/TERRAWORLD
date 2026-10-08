@@ -10,6 +10,9 @@ extends RefCounted
 ##            sceglie: fermo, cammina, corsa, bruca, carica, stacco, aria, discesa, atterra, colpita (a terra);
 ##            vola, planata, sospeso, carica, scatto, colpita (in volo). Una posa che manca prende «fermo» o «vola».
 ##   fps      fotogrammi al secondo dei cicli (cammina e corsa vanno più svelti se la creatura corre)
+##   Le chiavi sono le forme di `CreatureArt`, oppure l'id di una creatura che ha un disegno tutto suo (i capi): allora
+##   vale solo per lei e i colori della variante («art_mods») non si applicano.
+##   «furia_<posa>»: la posa di un boss infuriato (a metà Vita), al posto di quella normale.
 ##   glow     colori che brillano al buio: la maschera è nei file <forma>_<n>_luce.png
 
 const POSES := {
@@ -31,6 +34,11 @@ const POSES := {
 		"poses": {"cammina": [0, 1, 2, 3], "corsa": [0, 1, 2, 3], "fermo": [4, 4, 4, 5, 5, 4], "bruca": [6],
 			"colpita": [7]},
 		"fps": {"cammina": 5.0, "corsa": 8.0, "fermo": 1.2}},
+	# il Vecchio Zannarossa, il primo capo errante (8 ott 2026: prima era il cinghiale di rovo ingrandito)
+	"capo_cinghiale": {"n": 12, "anchor": [32, 48], "glow": true,
+		"poses": {"cammina": [0, 1, 2, 3], "fermo": [4], "carica": [5], "scatto": [6], "colpita": [7],
+			"furia_fermo": [8], "sputa": [9], "furia_sputa": [9], "furia_carica": [10], "furia_scatto": [11]},
+		"fps": {"cammina": 6.0}},
 	"lepre_linfa": {"n": 8, "anchor": [12, 21], "glow": true,
 		"poses": {"fermo": [0, 0, 0, 0, 1, 0], "allerta": [2], "cammina": [3, 4, 5, 6], "corsa": [3, 4, 5, 6],
 			"aria": [5], "stacco": [4], "discesa": [6], "colpita": [7]},

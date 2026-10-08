@@ -68,6 +68,7 @@ def main() -> None:
     ap.add_argument("--misura-da", type=int, default=0)
     ap.add_argument("--colori", type=int, default=10)
     ap.add_argument("--accenti", default="", help="colori fissi in più (occhio, vene), es. #E8902C,#2FA08C")
+    ap.add_argument("--togli-polvere", action="store_true", help="toglie le nuvole di polvere e vapore staccate")
     ap.add_argument("--togli-linee", action="store_true", help="toglie la linea del suolo disegnata sotto i piedi")
     ap.add_argument("--vola", action="store_true",
                     help="chi vola: il punto d'appoggio è il centro anche con --ancora cella (l'occhio non si trova)")
@@ -110,6 +111,14 @@ def main() -> None:
                     x = x1
                 else:
                     x += 1
+    if args.togli_polvere:
+        # nuvole di polvere e di vapore: macchie staccate chiare e poco sature (il gioco fa già la sua polvere)
+        rgb3 = a[:, :, :3]
+        lumv = rgb3 @ np.array([0.3, 0.59, 0.11])
+        satv = rgb3.max(axis=2) - rgb3.min(axis=2)
+        pale = (a[:, :, 3] > 0.5) & (lumv > 120) & (satv < 70)
+        # (anche quando toccano le zampe: si tolgono i pixel, non le macchie; va bene per le creature scure)
+        a[pale, 3] = 0.0
     pezzi = tavola.pezzi_griglia(a, col, righe)
     print("pose trovate: %d" % len(pezzi))
     pose = []
