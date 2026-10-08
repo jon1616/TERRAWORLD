@@ -135,7 +135,7 @@ func toast(text: String) -> void:
 
 ## Dove sta l'avviso: 0 = al centro, sotto la scritta degli strati; 1 = con la Bisaccia aperta lo schermo è tutto
 ## occupato, in fondo alla colonna di Esamina, dove di solito non c'è nulla (voce 276: al centro copriva le impostazioni
-## della cassa); 2 = con un pannello a schermo intero (Semenzaio, Erbario…), in alto a destra accanto al titolo.
+## della cassa); 2 = con un pannello a schermo intero (Semenzaio, Erbario…), in basso al centro sopra il piede.
 ## Si ricontrolla a ogni fotogramma: un pannello aperto mentre l'avviso è in vista lo sposta.
 func _place_toast() -> void:
 	var mode := 0
@@ -149,7 +149,7 @@ func _place_toast() -> void:
 			mode = 2
 	if mode != _toast_mode:
 		_toast_mode = mode
-		var max_w := 900.0 if mode == 0 else 360.0
+		var max_w := 900.0 if mode == 0 else (360.0 if mode == 1 else 560.0)
 		var f := _toast.get_theme_font("font")
 		var wide := f.get_string_size(_toast.text, HORIZONTAL_ALIGNMENT_LEFT, -1, UiPalette.GRANDE).x > max_w
 		_toast.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART if wide else TextServer.AUTOWRAP_OFF
@@ -161,7 +161,9 @@ func _place_toast() -> void:
 			var col := panel.examine.get_global_rect()
 			_toast_at = Vector2(roundf(col.position.x + (col.size.x - _toast_box.size.x) * 0.5), col.end.y - 20.0 - _toast_box.size.y)
 		elif mode == 2:
-			_toast_at = Vector2(1600.0 - 36.0 - _toast_box.size.x, 20.0)
+			# (Roadmap 55) sulla fascia del piede, al centro: in alto a destra copriva i numeri chiave, sopra il piede i
+			# bottoni del pannello; qui copre al più i promemoria dei tasti, per pochi secondi
+			_toast_at = Vector2(roundf((1600.0 - _toast_box.size.x) * 0.5), 896.0 - _toast_box.size.y)
 	if mode == 1:
 		# il testo che va a capo cresce un fotogramma dopo la misura: l'avviso resta appoggiato al fondo della colonna
 		var bottom := panel.examine.get_global_rect().end.y - 20.0

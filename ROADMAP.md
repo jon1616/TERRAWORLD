@@ -6024,7 +6024,12 @@ nel titolo e i comandi in una riga grigia minuscola.
   il punto di domanda) e le percentuali nell'intestazione; la Mandria a schedine con i comandi e il nome dentro la scheda,
   il vuoto spiegato con i tre modi di addomesticare; i Compagni sullo scheletro (sacca e riserva a sinistra, la scheda
   impaginata, atteggiamento e mosse in basso).
-- [ ] **434. Le parole.** Quaderno, letture (pagine, racconti, scrigni a parola), Finale, Enciclopedia.
+- [x] **434. Le parole.** Quaderno, letture (pagine, racconti, scrigni a parola), Finale, Enciclopedia.
+  Fatto l'8 ott 2026: il Quaderno con gli strati di lingua come schede, le parole come tessere colorate per stato, la
+  scheda della parola e i significati da provare in fondo; le letture (stele, pagine di storia, scrigni a parola, finale)
+  in Alegreya «da libro» (`UiFonts` ruolo «libro», `UiKit.book`), con la riga sotto il titolo e il tasto disegnato;
+  l'Enciclopedia con il gruppo in maiuscoletto, il grassetto vero e il testo arioso. Gli avvisi, a pannello aperto,
+  stanno sulla fascia del piede (in alto a destra coprivano i numeri chiave).
 - [ ] **435. Il lavoro.** Bisaccia, Creare, Esamina, casse, commercio, macchine, la scheda del Germogliato.
 - [ ] **436. Le porte.** Pausa, Opzioni, Mappa, il menu principale e la creazione.
 - [ ] **437. Sopra il mondo.** Vita e Linfa, barra rapida, filo, obiettivi, avvisi, consigli, insegne degli strati,

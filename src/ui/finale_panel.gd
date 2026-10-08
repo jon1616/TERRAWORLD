@@ -14,10 +14,9 @@ var _foot: Label
 func _ready() -> void:
 	visible = false
 	mouse_filter = Control.MOUSE_FILTER_STOP
-	var bg := ColorRect.new()
-	bg.color = Color(0.02, 0.03, 0.02)
+	var bg := UiBackdrop.new()                # (Roadmap 55) lo sfondo dei pannelli, con la luce d'ambra
+	bg.tint = Color("#ffd870")
 	bg.size = Vector2(1600, 900)
-	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(bg)
 	_title = Label.new()
 	_title.position = Vector2(200, 150)
@@ -30,14 +29,14 @@ func _ready() -> void:
 	_text.bbcode_enabled = true
 	_text.position = Vector2(300, 250)
 	_text.size = Vector2(1000, 500)
-	_text.add_theme_font_size_override("normal_font_size", 24)
-	_text.add_theme_font_size_override("bold_font_size", 24)
+	UiKit.book(_text, 25)                     # (Roadmap 55) il racconto si legge come una pagina
 	add_child(_text)
 	_foot = Label.new()
 	_foot.position = Vector2(200, 820)
 	_foot.size = Vector2(1200, 30)
 	_foot.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_foot.add_theme_color_override("font_color", Color("#8a9a84"))
+	_foot.add_theme_font_override("font", UiFonts.get_font("chiaro"))
 	add_child(_foot)
 
 

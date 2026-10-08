@@ -45,6 +45,9 @@ func _init() -> void:
 	bg.size = Vector2(6000, 5000)
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(bg)
+	var glow := UiBackdrop.new()                 # (Roadmap 55) la luce morbida dei pannelli
+	glow.size = Vector2(1600, 900)
+	add_child(glow)
 	# la colonna dell'indice, appena più chiara, con un filo di colore
 	var side := Panel.new()
 	side.position = Vector2(24, 12)
@@ -56,12 +59,12 @@ func _init() -> void:
 	page.position = Vector2(420, 12)
 	page.size = Vector2(1160, 820)
 	page.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	page.add_theme_stylebox_override("panel", UiFrames.box("campo"))
+	page.add_theme_stylebox_override("panel", UiFrames.box("riquadro"))
 	add_child(page)
 	var head := Label.new()
 	head.text = "Enciclopedia"
 	head.position = Vector2(40, 24)
-	UiFonts.apply(head, 3)                   # (voce 282) il titolo nel carattere di pixel
+	UiFonts.apply(head, 3)                   # (Roadmap 55) il titolo in Alegreya
 	head.add_theme_color_override("font_color", GOLD)
 	add_child(head)
 	_search = LineEdit.new()
@@ -79,34 +82,35 @@ func _init() -> void:
 	_index.custom_minimum_size = Vector2(334, 0)
 	_index.add_theme_constant_override("separation", 1)
 	_index_scroll.add_child(_index)
-	_crumb = Label.new()
-	_crumb.position = Vector2(444, 18)
-	_crumb.add_theme_font_size_override("font_size", 16)
+	_crumb = UiKit.caps("")                   # (Roadmap 55) il gruppo in maiuscoletto, sopra il titolo
+	_crumb.position = Vector2(446, 26)
 	add_child(_crumb)
 	_icon = TextureRect.new()
-	_icon.position = Vector2(444, 38)
+	_icon.position = Vector2(444, 46)
 	_icon.size = Vector2(44, 44)
-	_icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_icon.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	add_child(_icon)
 	_title = Label.new()
-	_title.position = Vector2(444, 38)
+	_title.position = Vector2(444, 44)
 	UiFonts.apply(_title, 3)                  # (Roadmap 55) il titolo in Alegreya
-	_title.add_theme_color_override("font_outline_color", Color(0, 0, 0))
-	_title.add_theme_constant_override("outline_size", 4)
 	add_child(_title)
 	_bar = ColorRect.new()
-	_bar.position = Vector2(444, 84)
-	_bar.size = Vector2(1112, 3)
+	_bar.position = Vector2(444, 96)
+	_bar.size = Vector2(1112, 2)
 	_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_bar)
 	_text = RichTextLabel.new()
 	_text.bbcode_enabled = true
-	_text.position = Vector2(444, 100)
-	_text.size = Vector2(1116, 720)
+	_text.position = Vector2(444, 112)
+	_text.size = Vector2(1116, 708)
+	_text.add_theme_font_override("normal_font", UiFonts.get_font("chiaro"))
 	_text.add_theme_font_size_override("normal_font_size", 19)
 	_text.add_theme_font_size_override("bold_font_size", 19)
-	_text.add_theme_color_override("default_color", Color("#e8f4f0"))
+	_text.add_theme_font_size_override("italics_font_size", 19)
+	_text.add_theme_constant_override("line_separation", 4)
+	_text.add_theme_color_override("default_color", Color("#e8f0ec"))
 	_text.meta_underlined = true
 	_text.meta_clicked.connect(func(meta: Variant) -> void: go(String(meta)))
 	add_child(_text)
@@ -199,8 +203,8 @@ func _show(addr: String) -> void:
 	_icon.texture = tex
 	_icon.visible = tex != null
 	_title.position.x = 500.0 if tex != null else 444.0
-	# il grassetto del carattere del gioco deforma le lettere: le parole importanti sono chiare e calde invece
-	_text.text = String(p[1]).replace("[b]", "[color=#ffe8b0]").replace("[/b]", "[/color]")
+	# (Roadmap 55) le parole importanti in grassetto e calde: il grassetto di Alegreya Sans non deforma le lettere
+	_text.text = String(p[1]).replace("[b]", "[b][color=#ffe8b0]").replace("[/b]", "[/color][/b]")
 	_text.scroll_to_line(0)
 	_highlight()
 

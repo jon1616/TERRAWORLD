@@ -14,7 +14,7 @@ func _init() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	size = Vector2(1600, 900)
 	var dim := ColorRect.new()
-	dim.color = Color(0, 0.01, 0.02, 0.55)
+	dim.color = Color(0.0, 0.01, 0.02, 0.72)
 	dim.size = size
 	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(dim)
@@ -29,19 +29,20 @@ func _init() -> void:
 	UiFonts.apply(_title, 3)                  # (Roadmap 55) il titolo in Alegreya
 	_title.add_theme_color_override("font_color", Color("#ffd08a"))
 	v.add_child(_title)
+	var rule := UiRule.new()
+	rule.color = Color("#6ff0b8", 0.5)
+	v.add_child(rule)
 	_text = RichTextLabel.new()
 	_text.bbcode_enabled = true
 	_text.fit_content = true
 	_text.scroll_active = false
 	_text.custom_minimum_size = Vector2(760, 0)
-	_text.add_theme_font_size_override("normal_font_size", 20)
+	UiKit.book(_text, 21)                     # (Roadmap 55) si legge come una pagina
 	_text.add_theme_color_override("default_color", Color("#dcefe8"))
 	_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	v.add_child(_text)
-	var hint := Label.new()
-	hint.text = "(clic per chiudere)"
-	hint.add_theme_font_size_override("font_size", 15)
-	hint.add_theme_color_override("font_color", Color("#6a8a84"))
+	var hint := UiKit.hint("Clic", "chiudi")
+	hint.alignment = BoxContainer.ALIGNMENT_END
 	v.add_child(hint)
 
 

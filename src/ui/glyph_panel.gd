@@ -18,7 +18,7 @@ func setup(w: WordChests) -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	size = Vector2(1600, 900)
 	var dim := ColorRect.new()
-	dim.color = Color(0, 0.01, 0.02, 0.6)
+	dim.color = Color(0.0, 0.01, 0.02, 0.72)
 	dim.size = size
 	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(dim)
@@ -33,22 +33,23 @@ func setup(w: WordChests) -> void:
 	UiFonts.apply(title, 3)                  # (Roadmap 55) il titolo in Alegreya
 	title.add_theme_color_override("font_color", Color("#ffd08a"))
 	v.add_child(title)
+	var rule := UiRule.new()
+	rule.color = Color("#e0b060", 0.5)
+	v.add_child(rule)
 	_text = RichTextLabel.new()
 	_text.bbcode_enabled = true
 	_text.fit_content = true
 	_text.scroll_active = false
 	_text.custom_minimum_size = Vector2(780, 0)
-	_text.add_theme_font_size_override("normal_font_size", 20)
+	UiKit.book(_text, 20)                     # (Roadmap 55)
 	v.add_child(_text)
 	_grid = GridContainer.new()
 	_grid.columns = 6
 	_grid.add_theme_constant_override("h_separation", 8)
 	_grid.add_theme_constant_override("v_separation", 8)
 	v.add_child(_grid)
-	var hint := Label.new()
-	hint.text = "Esc per chiudere"
-	hint.add_theme_font_size_override("font_size", 15)
-	hint.add_theme_color_override("font_color", Color("#6a8a84"))
+	var hint := UiKit.hint("Esc", "chiudi")
+	hint.alignment = BoxContainer.ALIGNMENT_END
 	v.add_child(hint)
 
 

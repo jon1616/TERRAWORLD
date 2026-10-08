@@ -70,6 +70,21 @@ static func rich(bb: String, w := 0.0, px := UiPalette.TESTO_PX) -> RichTextLabe
 	return r
 
 
+## (Roadmap 55) Un testo da leggere come una pagina (stele, storia, finale): Alegreya a peso di libro, righe ariose.
+static func book(rt: Control, px := 20) -> void:
+	if rt is RichTextLabel:
+		rt.add_theme_font_override("normal_font", UiFonts.get_font("libro"))
+		rt.add_theme_font_override("italics_font", UiFonts.get_font("racconto"))
+		rt.add_theme_font_override("bold_font", UiFonts.get_font("nome"))
+		for k in ["normal_font_size", "bold_font_size", "italics_font_size"]:
+			rt.add_theme_font_size_override(k, px)
+		rt.add_theme_constant_override("line_separation", 5)
+	else:
+		rt.add_theme_font_override("font", UiFonts.get_font("libro"))
+		rt.add_theme_font_size_override("font_size", px)
+		rt.add_theme_constant_override("line_spacing", 5)
+
+
 ## Un'etichetta tonda: un numero chiave, un tipo, una rarità. Con `icon` (Texture2D) l'icona a sinistra.
 static func chip(text: String, accent := Color(0, 0, 0, 0), icon: Texture2D = null, px := UiPalette.NOTA) -> PanelContainer:
 	var pc := PanelContainer.new()

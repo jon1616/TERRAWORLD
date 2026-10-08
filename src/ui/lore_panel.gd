@@ -30,22 +30,23 @@ func _ready() -> void:
 	UiFonts.apply(_title, 3)                  # (Roadmap 55) il titolo in Alegreya
 	_title.add_theme_color_override("font_color", Color("#8ef0d8"))
 	v.add_child(_title)
+	var rule := UiRule.new()
+	rule.fade_both = true
+	rule.color = Color("#8ef0d8", 0.5)
+	v.add_child(rule)
 	_pic = TextureRect.new()
 	_pic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_pic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	_pic.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_pic.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR    # (Roadmap 55) le vignette dipinte, morbide
 	v.add_child(_pic)
 	_text = Label.new()
 	_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_text.custom_minimum_size = Vector2(W, 0)
-	_text.add_theme_font_size_override("font_size", 18)
+	UiKit.book(_text, 20)                     # (Roadmap 55) si legge come una pagina
 	_text.add_theme_color_override("font_color", Color("#dce8e4"))
 	v.add_child(_text)
-	var hint := Label.new()
-	hint.text = "clic per chiudere"
-	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	hint.add_theme_font_size_override("font_size", 14)
-	hint.add_theme_color_override("font_color", Color("#6a8a84"))
+	var hint := UiKit.hint("Clic", "chiudi")
+	hint.alignment = BoxContainer.ALIGNMENT_CENTER
 	v.add_child(hint)
 
 

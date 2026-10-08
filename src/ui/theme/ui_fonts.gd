@@ -4,7 +4,7 @@ extends RefCounted
 ## togli tutti i caratteri a pixel»). Due famiglie sorelle, disegnate insieme da Huerta Tipográfica (licenza OFL, i file
 ## in `arte/caratteri/`):
 ##   Alegreya       calligrafica, con le grazie e il tratto della penna: titoli, nomi, intestazioni («titolo», «nome»),
-##                  e il corsivo dei racconti («racconto»)
+##                  e le pagine da leggere: stele, storia, finale («libro», e il corsivo «racconto»)
 ##   Alegreya Sans  la sua compagna senza grazie, calda e chiara: tutto il testo («testo», «chiaro», «forte», «corsivo»)
 ## Le cifre sono sempre allineate («lnum»: niente numeri che scendono sotto la riga) e, nei numeri che cambiano
 ## (Vita, quantità), della stessa larghezza («tnum»: non ballano).
@@ -40,6 +40,8 @@ static func get_font(role := "testo") -> Font:
 			f = _serif("Alegreya.ttf", 600)
 		"racconto":
 			f = _serif("Alegreya-Italic.ttf", 450)
+		"libro":
+			f = _serif("Alegreya.ttf", 430)
 		_:
 			f = _sans("AlegreyaSans-Medium.ttf")
 	_f[role] = f
