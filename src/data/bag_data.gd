@@ -8,7 +8,6 @@ extends RefCounted
 ##             Bisaccia di prima sopra la barra rapida) e cresce con le Bisacce a gradi (`GRADES`).
 ##   la Raccolta: ciò che si legge o si colleziona (tavolette, pagine, cronache, ricordi, curiosità, fossili, reliquie)
 ##             sta in una borsa a parte (`Bisaccia.raccolta`) senza limite, che resta addosso come gli scomparti fissi.
-##   POUCH_SECTION  le tasche alla cintura ingrandiscono lo scomparto del loro tipo di tante caselle quante ne hanno.
 
 const BASE := 30
 const PAGE := 30                       # caselle per pagina nel pannello
@@ -32,8 +31,6 @@ const RACCOLTA := ["raccolta", "Raccolta", ["tavoletta", "sem"], "tavoletta"]
 
 ## I tipi d'oggetto della Raccolta (più i fossili, gli scheletri e i frammenti delle cronache, riconosciuti dai loro dati).
 const RACCOLTA_KINDS := ["tavoletta", "pagina", "ricordo", "reliquia", "curiosita"]
-const POUCH_SECTION := {"minatore": "minerali", "erbario": "semi", "faretra": "equipaggiamento", "pescatore": "pesca",
-	"cercatore": "tesori"}
 
 
 static func ids() -> Array:

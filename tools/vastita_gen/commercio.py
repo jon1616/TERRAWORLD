@@ -39,7 +39,7 @@ TRADES = {
                                                                                       'randello_', 'scettro_', 'tomo_', 'sfera_', 'verga_', 'fiala_arma']},
     'tessitrice': {'kinds': ['stazione', 'blocco'], 'max_value': 3000},
     'innestatrice': {'kinds': ['fiala', 'essenza']},
-    'cartografo': {'kinds': ['mappa', 'tasca', 'bisaccia', 'accessorio', 'chiave']},
+    'cartografo': {'kinds': ['mappa', 'bisaccia', 'accessorio', 'chiave']},
     'mercante_mondi': {'kinds': []},
 }
 BANDS = [(1, 5), (6, 11), (12, 17), (18, 23)]
@@ -114,7 +114,7 @@ def build():
 
 def _merchant(cat):
     pool = [i for i, d in cat.items() if not d['special'] and d['value'] >= 300 and d['kind'] in
-            ('accessorio', 'amuleto', 'anello', 'consumabile', 'essenza', 'fiala', 'seme_mondo', 'stazione', 'tasca', 'rampino', 'canna')
+            ('accessorio', 'amuleto', 'anello', 'consumabile', 'essenza', 'fiala', 'seme_mondo', 'stazione', 'rampino', 'canna')
             and not d['gen']]
     pool.sort(key=lambda i: _h('mercante' + i))
     pool = pool[:80]

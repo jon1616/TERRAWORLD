@@ -242,7 +242,7 @@ func _variety() -> void:
 			["accessori dei ricordi", WondersData.GEAR.size(), 30.0], ["attrezzi", ExplorerData.ITEMS.size(), 10.0],
 			["firme dei mondi", SignaturesData.SIGNATURES.size(), 20.0],
 			["piccoli incontri (i primi di ogni tipo)", EncountersData.KINDS.size(), 25.0], ["tipi di baccelli", PodsData.KINDS.size(), 5.0],
-			["Bisacce, tasche, basti e Dispensa", BackpackData.items().size(), 4.0]],
+			["Bisacce, basti e Dispensa", BackpackData.items().size(), 4.0]],
 		"mandria": [["famiglie da addomesticare", HerdData.TAME.size(), 25.0], ["stirpi pure (una per famiglia)", HerdData.TAME.size(), 60.0],
 			["manti della collezione", rare_coats * HerdData.TAME.size(), 8.0], ["medaglie delle fiere (4 categorie × 3)", 12, 20.0],
 			["lavori (aratura, cerca, canto)", 3, 15.0]],

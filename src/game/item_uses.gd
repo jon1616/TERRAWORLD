@@ -82,7 +82,6 @@ const KIND_USE := {
 	"vena": "Con la Pinza: una vena della rete di Linfa, porta il Flusso dalle sorgenti alle macchine.",
 	"filo": "Con la Pinza: un filo dell'Impulso, porta i comandi (leve, piastre, sensori) alle macchine.",
 	"occhio": "In mano: mostra i fili e le vene della rete, senza la Pinza.",
-	"tasca": "Si allaccia alla cintura (posto «tasca» della Bisaccia): caselle in più nello scomparto del suo tipo.",
 	"tintura": "Con il clic su un costrutto: ne cambia il colore.",
 	"progetto": "La Tavola del progetto: copia una tua costruzione e, con il clic, la ricostruisce altrove con i materiali che porti (clic destro la svuota).",
 	"progetto_sem": "Un progetto dei Seminatori: in mano, clic dove vuoi e la costruzione si alza con i materiali che porti.",

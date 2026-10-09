@@ -1,12 +1,11 @@
 class_name EncyCavesData
-## Enciclopedia, lo zaino e le grotte piene (Roadmap 30): Bisacce, tasche, Dispensa, basto, «Non raccogliere»; i raccolti
+## Enciclopedia, lo zaino e le grotte piene (Roadmap 30): Bisacce, Dispensa, basto, «Non raccogliere»; i raccolti
 ## delle piante, i baccelli dormienti, i piccoli incontri, il diario di Tessa, le curiosità degli strati.
 ## Stesso formato di `EncyGuideData`.
 
 const CHAPTERS := [
 	{"id": "zaino", "group": "La guida", "name": "Lo zaino", "text":
 """La **Bisaccia** è la barra rapida più nove **scomparti**, uno per tipo, da 30 caselle ciascuno (più la Raccolta, senza limite). Al Telaio si cuciono **Bisacce** più grandi, con i materiali di strati sempre più profondi, e ognuna ingrandisce **tutti** gli scomparti: di seta (40), cucita di radicite (50), di legnoferro (60), d'ambra (75), della Linfa (90). Ciò che contengono resta; uno scomparto più grande di una pagina si sfoglia cliccando di nuovo la sua scheda.
-Le **tasche** vanno alla cintura (due posti nell'equipaggiamento, sotto gli accessori) e ingrandiscono lo scomparto del loro tipo: la Sacca del minatore i Minerali, l'Erbario da cintura i Semi e geni, la Faretra l'Equipaggiamento, il Cesto del pescatore la Pesca, la Borsa del cercatore i Tesori. Tre gradi, da 10, 20 e 30 caselle: il grado prima si cuce dentro quello nuovo. Togliendo una tasca, ciò che non ci sta più resta dentro di lei e torna fuori quando la rimetti.
 
 Gli **scomparti fissi** (la scheda con la freccia) sono otto caselle: quattro per le munizioni (dardi, esplosivi, giavellotti), due per le torce, due per i Lumini. Ciò che è del loro tipo ci va da solo, dopo aver completato la pila che hai già nella barra rapida; quando quella pila finisce, si riempie da lì. **Appassendo restano addosso**, come la Raccolta: nel fagotto finiscono solo gli scomparti per tipo. Il tasto Q e le casse non li toccano.
 

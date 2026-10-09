@@ -35,7 +35,7 @@ const SUB_ORDER := ["Spade", "Pugnali", "Spadoni", "Lance", "Martelli", "Falci",
 	"Evocatori", "Scettri", "Da lancio", "Dischi", "Girandole", "Strumenti", "Virgulti", "Semi da combattimento",
 	"Elmi", "Corazze", "Gambali", "Guanti", "Stivali", "Mantelli", "Ali",
 	"Accessori", "Anelli", "Amuleti", "Compagni",
-	"Picconi", "Trivelle", "Asce", "Bisacce e tasche", "Esplorazione", "Attrezzi da lavoro",
+	"Picconi", "Trivelle", "Asce", "Bisacce", "Esplorazione", "Attrezzi da lavoro",
 	"Pozioni", "Cibo", "Cure e rimedi",
 	"Canne", "Esche",
 	"Banchi da lavoro", "Casse e vetrine", "Altari e luoghi",
@@ -124,8 +124,8 @@ static func place_of(id: String, station: String) -> Array:
 			return [KIND_CAT[kind], String(FORM_PLURAL.get(form, KIND_SUB[kind]))]
 		"mantello":
 			return ["armature", "Ali" if it.has("wings") else "Mantelli"]
-		"bisaccia", "tasca", "basto", "dispensa":
-			return ["attrezzi", "Bisacce e tasche"]         # Roadmap 30: lo zaino
+		"bisaccia", "basto", "dispensa":
+			return ["attrezzi", "Bisacce"]         # Roadmap 30: lo zaino
 		"martello", "annaffiatoio", "concime", "corda":
 			return ["attrezzi", "Attrezzi da lavoro"]
 		"canna":

@@ -13,7 +13,7 @@ const GAP := 6
 ## Voce 86: dove sta ogni posto dell'equipaggiamento [colonna, riga].
 const EQUIP_POS := {"elmo": [0, 0], "corazza": [0, 1], "gambali": [0, 2], "stivali": [0, 3], "guanti": [1, 0],
 	"mantello": [1, 1], "amuleto": [1, 2], "anello": [1, 3], "accessorio_1": [2, 0], "accessorio_2": [2, 1],
-	"tasca_1": [2, 2], "tasca_2": [2, 3]}                                 # voce 296: le tasche alla cintura
+	"accessorio_3": [2, 2], "accessorio_4": [2, 3]}                     # 9 ott 2026: quattro accessori
 
 var bisaccia: Bisaccia
 var stations_near: Callable            # () -> stazioni a portata del giocatore, per la colonna «Creare»
@@ -126,13 +126,11 @@ func _ready() -> void:
 		s.clicked.connect(func(_i: int, button: int) -> void:
 			if button == MOUSE_BUTTON_LEFT:
 				held = bisaccia.wear(slot, held)
-				if Bisaccia.kind_of_slot(slot) == "tasca":
-					view = 0                           # la scheda della tasca cambia: si torna alla Bisaccia
 				_refresh())
 		add_child(s)
 		# vuota, la casella mostra la sagoma di ciò che ci va (voce 278: le scritte sotto uscivano dalla cornice)
 		var kind := Bisaccia.kind_of_slot(slot)
-		var ghost := {"accessorio": ["foglia", "Accessorio"], "tasca": ["sacca", "Tasca"]}.get(kind, [kind, slot.capitalize()]) as Array
+		var ghost := {"accessorio": ["foglia", "Accessorio"]}.get(kind, [kind, slot.capitalize()]) as Array
 		s.set_ghost(String(ghost[0]), String(ghost[1]))
 		_equip[slot] = s
 	_scorza = Label.new()
@@ -252,7 +250,7 @@ func toggle() -> void:
 		_refresh()
 
 
-## La Bisaccia (o la tasca) che la griglia mostra adesso.
+## La Bisaccia (o lo scomparto, la Raccolta, il basto) che la griglia mostra adesso.
 func bag() -> Bisaccia:
 	if view < _views.size():
 		return _views[view]["bag"]
@@ -288,7 +286,7 @@ func click_slot(i: int, button: int) -> void:
 	elif button == MOUSE_BUTTON_LEFT:
 		if not held.is_empty() and ((b.has_meta("accept") and not (b.get_meta("accept") as Callable).call(String(held["id"]))) \
 				or (b.has_meta("accept_at") and not (b.get_meta("accept_at") as Callable).call(i, String(held["id"])))):
-			_toast.call("Qui va solo ciò che è del suo tipo")   # voce 296: una tasca prende solo il suo tipo
+			_toast.call("Qui va solo ciò che è del suo tipo")   # (gli scomparti prendono solo il loro tipo)
 		else:
 			held = b.swap_with(i, held)
 	_refresh()

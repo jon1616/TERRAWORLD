@@ -17,7 +17,7 @@ const STARTER := [["piccone_radicite", 1], ["ascia_radicite", 1], ["spada_radice
 ## Voce 86: dieci posti (guanti, stivali, mantello, amuleto e anello oltre a quelli di prima). Il posto ha il nome del
 ## tipo di oggetto che prende, tranne «accessorio_N».
 const EQUIP_SLOTS := ["elmo", "corazza", "gambali", "guanti", "stivali", "mantello", "amuleto", "anello", "accessorio_1",
-	"accessorio_2", "tasca_1", "tasca_2"]                              # voce 296: le tasche alla cintura
+	"accessorio_2", "accessorio_3", "accessorio_4"]        # 9 ott 2026: le tasche tolte, al loro posto due accessori
 
 var slots: Array[Dictionary] = []
 ## Il caso per i tratti e i genomi degli oggetti che entrano (null = il caso di sempre). Il generatore del mondo ci
@@ -26,15 +26,13 @@ var rng: RandomNumberGenerator = null
 var equip := {}                        # "elmo"/"corazza"/"gambali"/"accessorio_N" -> id dell'oggetto indossato
 var equip_traits := {}                 # posto -> tratto del pezzo indossato ("" o assente = nessuno)
 var equip_data := {}                   # posto -> "dati" del pezzo indossato (voce 50)
-## Voce 296: le tasche indossate come Bisacce vere (posto -> Bisaccia), fatte dai "dati" della tasca (`c`) e riscritte lì a
-## ogni cambio. Le altre borse che ti seguono (il basto, voce 299): [{"t", "bag", "icon", "tip", "accept"}].
-var _pouches := {}
+## Le borse che ti seguono (il basto, voce 299): [{"t", "bag", "icon", "tip", "accept"}].
 var carriers: Array = []
 ## Gli scomparti (munizioni, torce, Lumini: `Compartments`), solo nella Bisaccia del personaggio; null altrove.
 var comps: Bisaccia = null
 ## Roadmap 53 «La Bisaccia a scomparti» (dati in `BagData`), solo nella Bisaccia del personaggio: dopo la barra rapida le
 ## caselle sono nove scomparti contigui, uno per tipo ([id, prima casella, dopo l'ultima]); ciò che entra va da solo
-## nel suo. `section_size` = le caselle di ognuno (le tasche indossate ne aggiungono al loro). Vuoto = una Bisaccia
+## nel suo. `section_size` = le caselle di ognuno. Vuoto = una Bisaccia
 ## semplice (ceste, scrigni, la Dispensa). La Raccolta è una borsa a parte, senza limite, che resta addosso.
 var sections: Array = []
 var section_size := 0
@@ -48,66 +46,26 @@ func _init(size := SIZE) -> void:
 		slots[i] = {}
 
 
-## Che tipo di oggetto va in un posto dell'equipaggiamento («accessorio_1» e «accessorio_2» prendono gli accessori).
+## Che tipo di oggetto va in un posto dell'equipaggiamento (i posti «accessorio_N» prendono gli accessori).
 static func kind_of_slot(slot: String) -> String:
-	if slot.begins_with("tasca"):
-		return "tasca"
 	return "accessorio" if slot.begins_with("accessorio") else slot
 
 
-## Voce 296: la tasca indossata in un posto, come Bisaccia (null se il posto è vuoto o non è una tasca).
-func pouch(slot: String) -> Bisaccia:
-	if not equip.has(slot) or not sections.is_empty():
-		return null                                # (Roadmap 53: con gli scomparti una tasca allarga il suo, non è una borsa)
-	var pd := BackpackData.pouch_of(String(equip[slot]))
-	if pd.is_empty():
-		return null
-	if _pouches.has(slot):
-		return _pouches[slot]
-	var data: Dictionary = equip_data.get(slot, {})
-	var pb := Bisaccia.from_array(data.get("c", []), int(pd["slots"]))
-	var type := String(pd["type"])
-	pb.set_meta("accept", func(id: String) -> bool: return BackpackData.accepts(type, id))
-	pb.set_meta("type", type)
-	pb.changed.connect(func() -> void:
-		if equip.has(slot) and _pouches.get(slot) == pb:
-			if not equip_data.has(slot):
-				equip_data[slot] = {}
-			equip_data[slot]["c"] = pb.to_array()
-			changed.emit())
-	_pouches[slot] = pb
-	return pb
-
-
-## Le tasche che accettano un oggetto (voce 296).
-func _pouches_for(id: String) -> Array[Bisaccia]:
+## Tutte le borse in più per un oggetto: chi ti segue (il basto, voce 299).
+func _extra_for(_id: String) -> Array[Bisaccia]:
 	var out: Array[Bisaccia] = []
-	for slot in BackpackData.POUCH_SLOTS:
-		var pb := pouch(slot)
-		if pb != null and BackpackData.accepts(String(pb.get_meta("type")), id):
-			out.append(pb)
-	return out
-
-
-## Tutte le borse in più per un oggetto: prima le tasche, poi chi ti segue (il basto, voce 299).
-func _extra_for(id: String) -> Array[Bisaccia]:
-	var out := _pouches_for(id)
 	for c in carriers:
 		out.append(c["bag"] as Bisaccia)
 	return out
 
 
-## La Bisaccia e tutte le borse in più (tasche, basto): per contare ciò che si ha.
+## La Bisaccia e tutte le borse in più (scomparti, Raccolta, basto): per contare ciò che si ha.
 func all_bags() -> Array[Bisaccia]:
 	var out: Array[Bisaccia] = [self]
 	if comps != null:
 		out.append(comps)
 	if raccolta != null:
 		out.append(raccolta)
-	for slot in BackpackData.POUCH_SLOTS:
-		var pb := pouch(slot)
-		if pb != null:
-			out.append(pb)
 	for c in carriers:
 		out.append(c["bag"] as Bisaccia)
 	return out
@@ -178,22 +136,15 @@ func section_at(i: int) -> String:
 	return ""
 
 
-## Le caselle di ogni scomparto: `size` più quelle delle tasche indossate (`BagData.POUCH_SECTION`).
+## Le caselle di ogni scomparto (tutti grandi uguali).
 func _section_sizes(size: int) -> Dictionary:
 	var out := {}
 	for id in BagData.ids():
 		out[id] = size
-	for slot in BackpackData.POUCH_SLOTS:
-		if equip.has(slot):
-			var pd := BackpackData.pouch_of(String(equip[slot]))
-			if not pd.is_empty():
-				var sec := String(BagData.POUCH_SECTION.get(String(pd["type"]), ""))
-				if out.has(sec):
-					out[sec] = int(out[sec]) + int(pd["slots"])
 	return out
 
 
-## Rifà gli scomparti grandi `size` caselle (più le tasche). `keep`: ognuno tiene ciò che ha, al suo posto (ciò che non ci
+## Rifà gli scomparti grandi `size` caselle. `keep`: ognuno tiene ciò che ha, al suo posto (ciò che non ci
 ## sta più va dove può); senza (la prima volta, o una Bisaccia di prima) tutto ciò che sta oltre la barra rapida si
 ## ridistribuisce nel suo scomparto. Restituisce le pile che non sono entrate da nessuna parte.
 func setup_sections(size: int, keep: bool) -> Array:
@@ -237,20 +188,20 @@ func setup_sections(size: int, keep: bool) -> Array:
 
 
 ## Gli scomparti di una Bisaccia salvata con loro: le caselle sono già al loro posto, si rifà solo la mappa.
-func restore_sections(size: int) -> void:
+func restore_sections(size: int) -> Array:
 	var sizes := _section_sizes(size)
 	var total := HOTBAR
 	for sec in BagData.ids():
 		total += int(sizes[sec])
 	if total != slots.size():
-		setup_sections(size, false)                # (le misure non tornano: si ridistribuisce)
-		return
+		return setup_sections(size, false)         # (le misure non tornano: si ridistribuisce; il resto lo dà a chi chiama)
 	section_size = size
 	sections = []
 	var a := HOTBAR
 	for sec in BagData.ids():
 		sections.append([sec, a, a + int(sizes[sec])])
 		a += int(sizes[sec])
+	return []
 
 
 ## Riempie le pile uguali e poi le caselle vuote tra `a` e `b`; restituisce ciò che non entra.
@@ -330,16 +281,6 @@ func extra_views() -> Array:
 				ghosts.append([String(c["ghost"]), String(c["name"])])
 		out.append({"t": "Scomparti", "icon": "", "bag": comps, "from": 0, "ghosts": ghosts,
 			"tip": "Scomparti: %s caselle. Ciò che è del loro tipo ci va da solo, e appassendo resta addosso." % ", ".join(tip)})
-	for slot in BackpackData.POUCH_SLOTS:
-		var pb := pouch(slot)
-		if pb != null:
-			var used := 0
-			for s in pb.slots:
-				if not s.is_empty():
-					used += 1
-			var name := String(ItemsData.get_item(String(equip[slot]))["name"])
-			out.append({"t": "", "icon": String(equip[slot]), "bag": pb, "from": 0,
-				"tip": "%s · %d caselle su %d" % [name, used, pb.slots.size()]})
 	for c in carriers:
 		out.append({"t": "", "icon": String(c.get("icon", "")), "bag": c["bag"], "from": 0, "tip": String(c.get("tip", ""))})
 	return out
@@ -376,15 +317,6 @@ func add(id: String, n: int) -> int:
 			return 0
 	if not sections.is_empty():
 		return _add_sections(id, n)               # Roadmap 53
-	if equip.has("tasca_1") or equip.has("tasca_2"):
-		for pb in _pouches_for(id):
-			if n <= 0:
-				break
-			if pb.room_for(id) > 0:
-				n = pb.add(id, n)             # voce 296: ciò che è del tipo di una tasca ci va da solo
-		if n <= 0:
-			changed.emit()
-			return 0
 	var cap := ItemsData.stack_of(id)
 	for i in slots.size():
 		if n <= 0:
@@ -473,7 +405,7 @@ func room_for(id: String) -> int:
 		for c in carriers:
 			r += (c["bag"] as Bisaccia).room_for(id)
 		return r
-	if (equip.has("tasca_1") or equip.has("tasca_2") or not carriers.is_empty()):
+	if not carriers.is_empty():
 		for pb in _extra_for(id):
 			r += pb.room_for(id)
 	for i in slots.size():
@@ -489,10 +421,10 @@ func count(id: String) -> int:
 	for i in slots.size():
 		if id_at(i) == id:
 			c += count_at(i)
-	if equip.has("tasca_1") or equip.has("tasca_2") or not carriers.is_empty() or comps != null or raccolta != null:
+	if not carriers.is_empty() or comps != null or raccolta != null:
 		for b in all_bags():
 			if b != self:
-				c += b.count(id)              # voce 296: anche ciò che sta nelle tasche (e negli scomparti)
+				c += b.count(id)              # anche ciò che sta negli scomparti, nella Raccolta e sul basto
 	return c
 
 
@@ -635,9 +567,6 @@ func scorza() -> int:
 ## Indossa ciò che si tiene in mano nel posto giusto; restituisce ciò che torna in mano (il pezzo tolto, o la pila se
 ## non va lì).
 func wear(slot: String, held: Dictionary) -> Dictionary:
-	if not sections.is_empty() and kind_of_slot(slot) == "tasca":
-		return _wear_pouch(slot, held)             # Roadmap 53
-	_pouches.erase(slot)                       # voce 296: la tasca si rifà dai dati del pezzo che c'è adesso
 	if held.is_empty():
 		if equip.has(slot):
 			var off := _worn(slot)
@@ -663,40 +592,6 @@ func wear(slot: String, held: Dictionary) -> Dictionary:
 		equip_data[slot] = held["dati"]
 	else:
 		equip_data.erase(slot)
-	changed.emit()
-	return back
-
-
-## Roadmap 53: una tasca indossata allarga lo scomparto del suo tipo (`BagData.POUCH_SECTION`). Togliendola, ciò che non
-## ci sta più resta dentro la tasca (nei suoi dati, «c») e torna fuori quando la si rimette.
-func _wear_pouch(slot: String, held: Dictionary) -> Dictionary:
-	if not held.is_empty() and (String(ItemsData.get_item(String(held["id"])).get("kind", "")) != "tasca" or int(held["n"]) != 1):
-		return held
-	var back := _worn(slot) if equip.has(slot) else {}
-	if held.is_empty():
-		equip.erase(slot)
-	else:
-		equip[slot] = String(held["id"])
-	equip_traits.erase(slot)
-	equip_data.erase(slot)
-	var over := setup_sections(section_size, true)
-	if not back.is_empty():
-		var c := []
-		for st in over:
-			c.append([st["id"], st["n"], String(st.get("tratto", ""))] + ([st["dati"]] if st.has("dati") else []))
-		var d: Dictionary = (back.get("dati", {}) as Dictionary).duplicate()
-		d["c"] = c
-		back["dati"] = d
-	if not held.is_empty():
-		for e in (held.get("dati", {}) as Dictionary).get("c", []):
-			var arr: Array = e
-			if arr.size() >= 2 and ItemsData.has(String(arr[0])):
-				var st2 := {"id": String(arr[0]), "n": int(arr[1])}
-				if arr.size() >= 3 and String(arr[2]) != "":
-					st2["tratto"] = String(arr[2])
-				if arr.size() >= 4 and arr[3] is Dictionary:
-					st2["dati"] = arr[3]
-				add_stack(st2)
 	changed.emit()
 	return back
 

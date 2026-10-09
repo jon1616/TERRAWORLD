@@ -92,25 +92,31 @@ static func from_dict(cid: String, d: Dictionary) -> Character:
 			c.bisaccia.equip_data[k] = SaveMigrations.ints(ed[k])
 	# Roadmap 53: gli scomparti e la Raccolta. Un personaggio di prima: la Bisaccia si ridistribuisce nei suoi scomparti
 	# (grandi secondo la Bisaccia a gradi che aveva), e ciò che stava nelle tasche esce e va al suo posto.
+	# 9 ott 2026: le tasche non ci sono più. Ciò che conteneva una tasca indossata, e ciò che gli scomparti (più piccoli
+	# senza la tasca) non tengono più, va nella Dispensa (o nella Raccolta, se il personaggio non ne ha una).
+	var loose: Array = []
+	for k in ["tasca_1", "tasca_2"]:
+		var pdat: Variant = ed.get(k, {})
+		if pdat is Dictionary and (pdat as Dictionary).has("c"):
+			loose.append_array(Bisaccia.from_array(pdat["c"], (pdat["c"] as Array).size()).slots)
 	var rac: Array = d.get("raccolta", [])
 	cb.raccolta = Bisaccia.from_array(rac, maxi(BagData.RACCOLTA_BASE, rac.size()))
 	cb.raccolta.changed.connect(func() -> void: cb.changed.emit())
 	if int(d.get("sezioni", 0)) > 0:
-		cb.restore_sections(int(d["sezioni"]))
+		loose.append_array(cb.restore_sections(int(d["sezioni"])))
 	else:
-		var loose: Array = []
-		for k in BackpackData.POUCH_SLOTS:
-			var pdat: Dictionary = cb.equip_data.get(k, {})
-			if pdat.has("c"):
-				loose.append_array(Bisaccia.from_array(pdat["c"], (pdat["c"] as Array).size()).slots)
-				pdat.erase("c")
-		cb.setup_sections(BagData.size_for_old(cb.slots.size()), false)
-		for st in loose:
-			if not (st as Dictionary).is_empty():
-				cb.add_stack(st)
+		loose.append_array(cb.setup_sections(BagData.size_for_old(cb.slots.size()), false))
 	var dsp: Array = d.get("dispensa", [])
 	if not dsp.is_empty():
 		c.dispensa = Bisaccia.from_array(dsp, dsp.size())
+	for ls in loose:
+		if not (ls as Dictionary).is_empty():
+			var rest: Dictionary = (ls as Dictionary).duplicate(true)
+			rest["n"] = cb.add_stack(ls)
+			if int(rest["n"]) > 0 and c.dispensa != null:
+				rest["n"] = c.dispensa.add_stack(rest.duplicate(true))
+			if int(rest["n"]) > 0 and cb.raccolta != null:
+				cb.raccolta.slots.append(rest)
 	c.vita_extra = int(d.get("vita_extra", 0))
 	c.linfa_extra = int(d.get("linfa_extra", 0))
 	c.guardiani_curati = d.get("guardiani_curati", [])

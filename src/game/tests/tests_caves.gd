@@ -276,8 +276,8 @@ func curiosities() -> void:
 	if not had:
 		er.erase(ids[5])
 	st["curiosita"] = n0
-	var ok: bool = all.size() == 30 and halls_ok and fresh > 400 * 0.35 and bumped == 1 and BackpackData.accepts("cercatore", ids[0])
-	print("curiosità: %d in %d serie, sale del Museo %s, la mancante esce %d volte su 400 (le altre cinque già trovate), annunciata e contata %s, nella Borsa del cercatore %s" % [
-		all.size(), CuriositiesData.SERIES.size(), halls_ok, fresh, bumped == 1, BackpackData.accepts("cercatore", ids[0])])
+	var ok: bool = all.size() == 30 and halls_ok and fresh > 400 * 0.35 and bumped == 1
+	print("curiosità: %d in %d serie, sale del Museo %s, la mancante esce %d volte su 400 (le altre cinque già trovate), annunciata e contata %s" % [
+		all.size(), CuriositiesData.SERIES.size(), halls_ok, fresh, bumped == 1])
 	if not ok:
 		print("ATTENZIONE: le curiosità degli strati non vanno")

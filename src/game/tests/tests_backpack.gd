@@ -1,6 +1,6 @@
 class_name TestsBackpack
 extends RefCounted
-## Roadmap 30 «Lo zaino»: Bisacce a gradi, tasche, «non raccogliere», Dispensa, basto (gruppo `zaino`). Ogni prova
+## Roadmap 30 «Lo zaino»: Bisacce a gradi, «non raccogliere», Dispensa, basto (gruppo `zaino`). Ogni prova
 ## rimette la Bisaccia com'era (caselle, contenuto, equipaggiamento) e i conteggi del personaggio.
 
 var kit: TestKit
@@ -16,7 +16,7 @@ func run() -> void:
 	await sections()
 	stash()
 	await bags()
-	await pouches()
+	four_accessories()
 	await pick_rules()
 	await larder()
 	await pack_beast()
@@ -317,46 +317,30 @@ func compartments() -> void:
 	b.comps.changed.emit()
 
 
-## Voce 296: una tasca alla cintura prende da sola il suo tipo; ciò che contiene si conta per creare, si toglie, resta nella
-## tasca quando la si leva e torna quando la si rimette; il salvataggio la tiene.
-func pouches() -> void:
-	var saved := _save_bag()
+## 9 ott 2026: le tasche alla cintura non ci sono più; al loro posto quattro accessori, tutti indossabili insieme (e
+## nessun oggetto «tasca» resta nei dati).
+func four_accessories() -> void:
 	var b: Bisaccia = m.character.bisaccia
-	b.equip.erase("tasca_1")
-	b.equip.erase("tasca_2")
-	b.setup_sections(b.section_size, true)
-	var n0 := b.section_range("minerali")
-	var back0 := b.wear("tasca_1", {"id": "tasca_minatore_1", "n": 1})
-	var n1 := b.section_range("minerali")
-	var bigger := (n1.y - n1.x) == (n0.y - n0.x) + 10
-	# lo scomparto pieno, e la barra rapida pure: togliendo la tasca, dieci minerali non stanno più da nessuna parte
-	var hot := b.slots.slice(0, Bisaccia.HOTBAR).duplicate(true)
-	for i in range(n1.x, n1.y):
-		b.slots[i] = {"id": "minerale_radicite", "n": ItemsData.stack_of("minerale_radicite")}   # (piene: non si uniscono)
-	for i in Bisaccia.HOTBAR:
-		if b.slots[i].is_empty():
-			b.slots[i] = {"id": "legno", "n": 1}
-	var off := b.wear("tasca_1", {})
-	var c: Array = (off.get("dati", {}) as Dictionary).get("c", [])
-	var kept_in := c.size() == 10 and (b.section_range("minerali").y - b.section_range("minerali").x) == (n0.y - n0.x)
-	b.wear("tasca_1", off)
-	var again := b.count("minerale_radicite") == (n1.y - n1.x) * ItemsData.stack_of("minerale_radicite")
-	for i in Bisaccia.HOTBAR:
-		b.slots[i] = hot[i]
-	var d: Dictionary = m.character.to_dict()
-	var ch := Character.from_dict("prova_tasche", JSON.parse_string(JSON.stringify(d)))
-	var saved_ok: bool = ch != null and ch.bisaccia.section_range("minerali") == b.section_range("minerali") and ch.bisaccia.count("minerale_radicite") == (n1.y - n1.x) * ItemsData.stack_of("minerale_radicite")
-	var bp: BisacciaPanel = m.hud.panel
-	bp.toggle()
-	await kit.frames(3)
-	await kit.save("301_zaino_tasca")
-	bp.toggle()
-	var ok: bool = back0.is_empty() and bigger and kept_in and again and saved_ok
-	print("tasche: la Sacca del minatore allarga i Minerali di 10 %s, tolta tiene ciò che non ci sta %s, rimessa %s, salvataggio %s" % [
-		bigger, kept_in, again, saved_ok])
-	if not ok:
-		print("ATTENZIONE: le tasche non vanno")
-	_restore_bag(saved)
+	var keep := _save_bag()
+	var ids := []
+	for id in ItemsData.all():
+		if String(ItemsData.get_item(String(id)).get("kind", "")) == "accessorio" and ids.size() < 4:
+			ids.append(String(id))
+	var worn := 0
+	for k in 4:
+		var slot := "accessorio_%d" % (k + 1)
+		b.wear(slot, {})
+		if b.wear(slot, {"id": ids[k], "n": 1}).is_empty() and String(b.equip.get(slot, "")) == ids[k]:
+			worn += 1
+	var no_pouch := true
+	for id in ItemsData.all():
+		if String(ItemsData.get_item(String(id)).get("kind", "")) == "tasca":
+			no_pouch = false
+	_restore_bag(keep)
+	print("quattro accessori: indossati %d su 4, posti %s, nessuna tasca nei dati %s" % [worn, str(Bisaccia.EQUIP_SLOTS.slice(8)),
+		"sì" if no_pouch else "NO"])
+	if worn != 4 or not no_pouch or "tasca_1" in Bisaccia.EQUIP_SLOTS:
+		print("ATTENZIONE: i quattro posti degli accessori non vanno")
 
 
 ## Voce 297: un oggetto segnato «Non raccogliere» resta a terra; «Dritto nel Cestino» sparisce senza entrare nella Bisaccia.

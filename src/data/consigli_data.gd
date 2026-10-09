@@ -133,7 +133,7 @@ const LIST := [
 		"text": "L'Albero-Madre d'oro ti ha donato un [b]Seme d'oro[/b]: ne arriverà uno ogni sette giorni del Giardino, sempre più vigoroso."},
 	# Roadmap 30: lo zaino e le grotte piene
 	{"id": "zaino_pieno", "title": "La Bisaccia si riempie", "cap": "zaino",
-		"text": "Al [b]Telaio[/b] si cuciono Bisacce più grandi (ingrandiscono tutti gli scomparti) e le [b]tasche[/b] per la cintura, che ingrandiscono lo scomparto del loro tipo. In Esamina puoi dire di un oggetto: [b]Non raccogliere[/b]."},
+		"text": "Al [b]Telaio[/b] si cuciono Bisacce più grandi (ingrandiscono tutti gli scomparti). In Esamina puoi dire di un oggetto: [b]Non raccogliere[/b]."},
 	{"id": "primo_compagno", "title": "Il primo compagno", "cap": "compagni_battaglia",
 		"text": "La creatura legata è nella [b]Sacca dei legami[/b]: in campo ti segue e combatte con il suo stile. {compagno} la evoca o la richiama, {cambia_compagno} manda in campo un'altra, {compagni} apre il pannello."},
 	{"id": "compagno_ko", "title": "Un compagno KO", "cap": "compagni_battaglia",

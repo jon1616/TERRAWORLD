@@ -860,13 +860,12 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
 - **Roadmap 30 «Lo zaino e le grotte piene»** (voci 295-305, 30 set - 1 ott 2026, in autonomia; l'utente dopo un'ora di
   gioco: «poco da trovare, pochi mostri», e lo zaino troppo piccolo):
   - Lo zaino (`BackpackData` + `Backpack`): Bisacce a gradi (`Bisaccia.grow`, 40 → 100, `Character` salva quante
-    caselle), tasche alla cintura (posti «tasca_1/2»; `Bisaccia.pouch(posto)` è una Bisaccia vera fatta dai dati `c`
-    della tasca; `add` prova prima le tasche che accettano l'oggetto, poi la Bisaccia, poi i `carriers`; `count`,
-    `remove`, `room_for` e `Crafting.counts` contano tutto con `all_bags()`), basto della mandria (`carriers`, aggiornati
+    caselle; `count`, `remove`, `room_for` e `Crafting.counts` contano tutto con `all_bags()`; le tasche alla cintura
+    sono state tolte il 9 ott 2026, richiesta dell'utente: al loro posto «accessorio_3/4», quattro accessori), basto della mandria (`carriers`, aggiornati
     ogni secondo da `Backpack.update_carriers`), Dispensa del personaggio (`Character.dispensa`, `ChestPanel.personal`,
     pagine oltre 105 caselle), «Non raccogliere» (`Character.guida["scarta"]` → `Drops.rules`, pulsante in Esamina).
-    Il pannello: `BisacciaPanel._views` (pagine, tasche, basto) e le schede accanto al titolo.
-    **Chi scorre `bisaccia.slots` per contare ciò che si ha deve usare `all_bags()`**, o le tasche restano fuori.
+    Il pannello: `BisacciaPanel._views` (pagine, scomparti, basto) e le schede accanto al titolo.
+    **Chi scorre `bisaccia.slots` per contare ciò che si ha deve usare `all_bags()`**, o scomparti e basto restano fuori.
     Gli **scomparti** (3 ott 2026, richiesta dell'utente): `Bisaccia.comps` (solo nella Bisaccia del personaggio, otto
     caselle per tipo: `BackpackData.COMPARTMENTS`, regole in `Compartments`): `add` completa la pila della barra rapida,
     poi lo scomparto; `take_one` riempie dallo scomparto la pila finita della barra rapida; `all_bags` li include;
@@ -1169,7 +1168,7 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
     foto 260-263). Enciclopedia: capitolo «terre»; consigli «terra_viva» e «corde».
 - **Roadmap 53 «La Bisaccia a scomparti»** (voci 419-422, 7 ott 2026; l'utente: «la bisaccia si riempie troppo spesso
   all'inizio»): `BagData` (i nove scomparti = i tipi di `StorageData.category_of`, `section_of`, `is_collection`, le
-  grandezze `GRADES`, `POUCH_SECTION`). Nella Bisaccia del personaggio gli scomparti sono **tratti contigui di `slots`**
+  grandezze `GRADES`). Nella Bisaccia del personaggio gli scomparti sono **tratti contigui di `slots`**
   dopo la barra rapida (`sections` = [[id, da, a]], `section_size`, `section_range`, `setup_sections(size, keep)`,
   `restore_sections`): chi scorre le caselle da `HOTBAR` in poi lavora già sugli scomparti. `add` con gli scomparti
   (`_add_sections`): la pila uguale della barra rapida, gli scomparti fissi (`comps`), la Raccolta o lo scomparto del tipo,
