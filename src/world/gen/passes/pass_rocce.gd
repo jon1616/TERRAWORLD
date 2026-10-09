@@ -98,6 +98,8 @@ func _overhangs(w: World, c: GenContext) -> void:
 ## (voce 471) La terra vera di ogni colonna, non `World.surface`: gli imbocchi delle gallerie e le bocche delle caverne sul
 ## fianco scavano la cima del terreno senza cambiarla, e una buca di 5 righe restava senza liana (la ricerca di percorso
 ## lo ha trovato: metà del mondo non si raggiungeva a piedi).
+## (Una liana nella colonna di una corrente non ferma più la salita: dentro una corrente, tenendo il salto, vince la
+## corrente, `Player._step`.)
 static func _wall_vines(w: World) -> void:
 	var g := PackedInt32Array()
 	g.resize(w.w)

@@ -31,6 +31,8 @@ const MYTHS := {
 	"scogliere_cristallo": "Le scogliere sono fatte di Linfa caduta dall'alto. Qualcuno, lassù, ha sanguinato a lungo.",
 	"nidi_tempesta": "I fulmini cercano sempre la stessa cosa e non la trovano.",
 	"firmamento": "Lassù il buio è più vicino. Se tendi l'orecchio, senti l'aria che va dentro e non torna.",
+	"selve_pensili": "Le radici di queste selve non cercano terra. Cercano qualcuno che stava sotto, e non c'è più.",
+	"fonti_sospese": "L'acqua di queste fonti sale invece di scendere. Torna dove l'hanno presa.",
 }
 
 

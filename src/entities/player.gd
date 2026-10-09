@@ -211,8 +211,12 @@ func _step(dt: float, dir: float, held: bool) -> void:
 	if hook != Vector2.INF:
 		_hook_step(dt)
 		return
-	if _climb_step(dt, dir, held):
+	# (9 ott 2026) dentro una corrente che solleva, tenendo il salto vince la corrente: una liana sulla stessa colonna
+	# faceva arrampicare piano invece di portare in cielo
+	if not (lift > 0.0 and held) and _climb_step(dt, dir, held):
 		return
+	if lift > 0.0 and held:
+		climbing = false
 	if on_floor:
 		_air_left = air_jumps
 	var target := dir * RUN * run_mult * boon_run * (0.45 if slow_t > 0.0 else 1.0)

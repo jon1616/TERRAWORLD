@@ -363,6 +363,14 @@ func drill() -> void:
 		for yy in range(y + 1, y + 4):
 			w.set_tile(x, yy, TileDefs.DIRT)
 		w.set_tile(x, y + 4, TileDefs.VUOTITE)
+	# (9 ott 2026) i lati di pietra e niente liquidi attorno: dove accanto c'è un fiume o un lago di valle l'acqua entrava
+	# appena la Trivella scavava, e si fermava per «un liquido sotto»
+	for yy in range(y + 1, y + 5):
+		w.set_tile(p.x - 1, yy, TileDefs.STONE)
+		w.set_tile(p.x + 3, yy, TileDefs.STONE)
+	for x in range(p.x - 3, p.x + 6):
+		for yy in range(y - 2, y + 8):
+			w.set_liq(x, yy, 0, 0)
 	w.chest_at(dr).add("piccone_radicite", 1)
 	await kit.seconds(6.0)
 	var dug := int(dm.st.get("scavati", 0))

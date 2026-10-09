@@ -82,6 +82,10 @@ func climb() -> void:
 		if d.get("cielo", false) and SkyData.band_at(world, int(d["x"]), int(d["y0"]) + 2) == "basso" \
 				and int(d["y1"]) >= int(world.surface[int(d["x"])]) - 2:
 			var dd := absf(float(d["x"]) - world.spawn.x)
+			# (9 ott 2026) non accanto alla partenza: lì le prove di prima costruiscono casse e banchi, e nel giro intero
+			# la corrente vicina era chiusa sopra
+			if dd < 120.0:
+				continue
 			if dd < dist:
 				dist = dd
 				best = d
@@ -213,6 +217,11 @@ func reach() -> void:
 	# la caduta sulla nuvola
 	for dx in range(-3, 4):
 		world.set_tile(spot.x + 6 + dx, spot.y + 1, 52)
+	# (9 ott 2026) la colonna della caduta sgombra: una sporgenza o una liana nel mezzo cambiavano l'atterraggio
+	for y in range(spot.y - 32, spot.y + 1):
+		for dx in range(-1, 2):
+			world.set_tile(spot.x + 6 + dx, y, TileDefs.AIR)
+			world.set_decor(spot.x + 6 + dx, y, 0)
 	m.view.refresh_around(spot + Vector2i(6, 0))
 	var v: Vitals = m.vitals
 	v.hp = v.hp_max

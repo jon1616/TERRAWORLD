@@ -406,6 +406,10 @@ func sources() -> void:
 	var wheel := place("ruota_acqua", Vector2i(p.x + 5, y))
 	await ticks(2)
 	var rm: Machine = e.machines[wheel]
+	# (9 ott 2026) asciutta davvero: niente liquidi attorno (le prove di prima o il mondo ne lasciavano)
+	for dy in range(-3, 5):
+		for dx in range(-4, 6):
+			w.set_liq(wheel.x + dx, wheel.y + dy, 0, 0)
 	var dry := rm.bh.produce(rm, e)
 	for dy in 2:
 		w.set_liq(wheel.x - 1, wheel.y + dy, 8, LiquidsData.ACQUA)
@@ -444,6 +448,12 @@ func sources() -> void:
 	var well := place("pozzo_linfa", Vector2i(lx, y))
 	await ticks(2)
 	var wm: Machine = e.machines[well]
+	# (9 ott 2026) il lago si riempie di nuovo prima di misurare: mentre la rete si avvia la Linfa può colare in un vuoto
+	# accanto (nel mondo nuovo da un lato c'era una buca e il pozzo dava 72 invece di 80)
+	for x in range(lx - 3, lx + 5):
+		for yy in range(y + 1, y + 5):
+			if not w.solid(x, yy):
+				w.set_liq(x, yy, 8, LiquidsData.LINFA)
 	var well_p := wm.bh.produce(wm, e)
 	print("pozzo di Linfa: si posa sopra il lago %s, dà %.1f pulsi" % [fits, well_p])
 	# il cuore di cristallo: consuma un cristallo

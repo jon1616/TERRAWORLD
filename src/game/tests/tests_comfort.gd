@@ -47,7 +47,9 @@ func _stash(spot: Vector2i) -> void:
 	ev.keycode = int(Settings.keys_of("riponi")[0])
 	ev.pressed = true
 	m.storage._unhandled_input(ev)
-	var ok := ch.count("legno") == 41 and b.count("legno") == bag0 - 40 and b.count("gelatina") == gel0
+	# (9 ott 2026) le prove di prima lasciano altro legno nella Bisaccia, e Q ripone anche quello: conta ciò che è passato
+	var ok := ch.count("legno") == 1 + bag0 - b.count("legno") and b.count("legno") <= bag0 - 40 \
+		and b.count("gelatina") == gel0
 	print("riponi (tasto %s): legno nella cassa %d, nella Bisaccia %d; gelatina (nessuna cassa la vuole) %d%s" % [
 		Keys.label("riponi"), ch.count("legno"), b.count("legno"), b.count("gelatina"), "" if ok else " — ATTENZIONE: riponi non va"])
 	world.chests.erase(o)
@@ -57,10 +59,18 @@ func _stash(spot: Vector2i) -> void:
 
 func _smart(spot: Vector2i) -> void:
 	var pa: PlayerActions = m.actions
+	# (9 ott 2026) il Germogliato al suo posto: lo scavo intelligente guarda la portata dalla sua posizione vera
+	m.snap_to(spot)
+	await kit.frames(3)
 	kit.hold("piccone_radicite")
 	var item: Dictionary = m.hud.current()
 	# un muro di humus a destra (3 × 4), un blocco di mattoni sopra, un'acqua che bagna la colonna più lontana
 	var x0 := spot.x + 2
+	# (9 ott 2026) a sinistra del muro aria vera, come la prova si aspetta (nel mondo nuovo lì c'era terra)
+	for x in range(spot.x, x0):
+		for y in range(spot.y - 4, spot.y + 1):
+			world.set_tile(x, y, TileDefs.AIR)
+			world.set_decor(x, y, 0)
 	for x in range(x0, x0 + 3):
 		for y in range(spot.y - 3, spot.y + 1):
 			world.set_tile(x, y, TileDefs.DIRT)

@@ -97,6 +97,9 @@ func garden_links() -> void:
 	var e: Energy = m.energy
 	var p: Vector2i = await t.clean_spot(-420, 20)
 	var y := p.y
+	# (9 ott 2026) sereno: un tempo lasciato dalle prove di prima (pioggia, nebbia) dimezza il sole delle foglie
+	if m.get("weather") != null:
+		m.weather.set_weather("sereno")
 	var src := t.place("foglia_lanterna", Vector2i(p.x, y))
 	var src2 := t.place("foglia_lanterna", Vector2i(p.x + 2, y))
 	var box := t.place("cesta", Vector2i(p.x + 5, y))

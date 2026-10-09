@@ -75,12 +75,15 @@ func run() -> void:
 	m.snap_to(w.spawn)
 	await kit.seconds(0.3)
 	var rng := RandomNumberGenerator.new()
+	# (9 ott 2026) sereno davvero: nel giro intero un tempo lasciato dalle prove di prima apriva una condizione
+	if m.get("weather") != null:
+		m.weather.set_weather("sereno")
 	var none := HiddenCreatures.try_spawn(m, rng, true)          # mezzogiorno, sereno, in superficie: nessuna condizione
 	var t0: float = m.day.time
 	m.day.time = 0.95                                            # notte fonda
 	await kit.seconds(0.2)
 	var one: Creature = null
-	for k in 40:                                                 # (il posto è a caso: con 10 tentativi a volte non lo trovava)
+	for k in 80:                                                 # (il posto è a caso: con 10 tentativi a volte non lo trovava)
 		one = HiddenCreatures.try_spawn(m, rng, true)
 		if one != null:
 			break

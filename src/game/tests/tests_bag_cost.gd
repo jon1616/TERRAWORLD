@@ -79,7 +79,10 @@ func _pile(at: Vector2i, n: int) -> Array:
 		var split := probe.split(40)
 		var own := dt
 		for e in split:
-			if String(e[0]).begins_with("disegno"):
+			# (9 ott 2026) fuori anche il lavoro del mondo che non dipende dalla raccolta (i liquidi vicini, la mappa, la
+			# neve sulle cime): nel giro intero cadeva nel fotogramma misurato e la prova sbagliava colpevole
+			var nm := String(e[0])
+			if nm.begins_with("disegno") or nm.contains("Liquids") or nm.contains("MapReveal") or nm.contains("WeatherCover"):
 				own -= float(e[1])
 		if own > scripts:
 			scripts = own

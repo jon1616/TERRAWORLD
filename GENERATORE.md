@@ -93,17 +93,17 @@ Ogni voce: **cosa**, **dove** (file), **chi tocca**, **fatta quando**.
 
 ### Roadmap 56 «Il cielo grande» (voci 439-447) — per prima, la chiede l'utente
 
-- [ ] **439. La misura di partenza.** `tools/mappe.gd`: misura a **vigore 1** di base (`--vigore` resta), rumore medio su
+- [x] **439. La misura di partenza.** `tools/mappe.gd`: misura a **vigore 1** di base (`--vigore` resta), rumore medio su
   10 coppie dello stesso genoma invece di una, opzione `--prima <cartella>` che salva mappe e numeri. Cinque Semi fissi
   (1, 7, 13, 42, 20260924 = il mondo di prova) → `prove/generatore_prima/`: mappa intera, ritagli di cielo, sottosuolo e
   superficie, i numeri di §1. Foto «sfondi» e «volto» di partenza. **Fatta quando** le mappe e il file dei numeri ci sono
   e si rifanno identici due volte di fila.
-- [ ] **440. I guasti trovati.** Riparati i cinque di §1: «Mondo cavo» con `room`/`big` negativi (caverne più facili);
+- [x] **440. I guasti trovati.** Riparati i cinque di §1: «Mondo cavo» con `room`/`big` negativi (caverne più facili);
   Arcipelago dopo i Biomi (o voragini ed `correnti` ricalcolate dopo il rimodellamento); `claim` in `PassSottosuolo`;
   il Guscio che lascia vuoto sopra il tetto (o roccia solo per ~60 righe). **Fatta quando** `tools/mappe.gd --geni
   mondo_cavo` mostra caverne grandi, le voragini dell'Arcipelago restano profonde 34-48 in ogni bioma, gruppi «geni»,
   «gravita», «base» verdi.
-- [ ] **441. Il mondo più alto.** `WorldGen.HEIGHT` 1200. La superficie diventa **una distanza dal fondo**
+- [x] **441. Il mondo più alto.** `WorldGen.HEIGHT` 1200. La superficie diventa **una distanza dal fondo**
   (`surface_base` → `ground_depth` 730 righe dal fondo, i geni «surface» in righe: altopiano −50, conca +35, cieli_alti
   +45), così le 200 righe vanno tutte al cielo, il sottosuolo resta identico e i mondi di prova 1600×900 tengono la
   profondità di oggi. Da adattare: `pass_terreno.gd:17-19`, `pass_biomi.gd:46`, `pass_giardino` (resta 480×240),
@@ -112,7 +112,7 @@ Ogni voce: **cosa**, **dove** (file), **chi tocca**, **fatta quando**.
   `LightMap`, `Background`, camera, `WorldSave` (salva `w`,`h`: i mondi vecchi si caricano a 1000). **Fatta quando** il
   mondo di prova nasce a 1200 in ≤ 6 s, si salva e ricarica identico (`tools/prova_salvataggi.gd`), il gruppo «base» e
   la galleria sono verdi.
-- [ ] **442. Tre fasce di cielo.** `SkyData`: le altezze delle fasce come dati (`BANDS`: basso 25-110 sopra la superficie
+- [x] **442. Tre fasce di cielo.** `SkyData`: le altezze delle fasce come dati (`BANDS`: basso 25-110 sopra la superficie
   più alta della zona, medio fino a ~310, alto fino a `TOP`), zone `{x0, x1, low, mid, high, base, split_lm, split_mh}`,
   `zone_at`/`band_at` a tre rami, **compatibilità** con le zone salvate `{low, high, split}` (letto come basso e alto,
   senza medio). Le zone coprono **tutta la larghezza** (`SPAWN_FREE` diventa «isole piccole e basse sopra la partenza»).
@@ -122,7 +122,7 @@ Ogni voce: **cosa**, **dove** (file), **chi tocca**, **fatta quando**.
   sull'alto), `GreatGuardians` (l'Occhio resta in alto), `Lords`, `Fauna` (`SKY_SHARE`, pericolo per fascia),
   `EncySkyData`. **Fatta quando** ogni colonna ha un cielo basso, medio e alto e il gruppo «cielo» (riscritto per tre fasce:
   zones, high, biomes, thin, mats, island_spot, life) è verde.
-- [ ] **443. I continenti sospesi.** Passata nuova `PassContinenti` (prima di `PassCielo`, con `claim` grande): 1-2 masse
+- [x] **443. I continenti sospesi.** Passata nuova `PassContinenti` (prima di `PassCielo`, con `claim` grande): 1-2 masse
   per zona nella fascia media, 100-300 colonne × 20-60 righe, fatte come la superficie (rumore della cima sopra, rumore
   della «chiglia» sotto). Dentro: terra e vegetazione del bioma, cuore di roccia, **grotte con le pareti di fondo** (stile
   della voce 448), vene di nimbite e folgorite, uno scrigno del cielo; sotto: radici pendenti e stalattiti; ai bordi
@@ -130,134 +130,134 @@ Ogni voce: **cosa**, **dove** (file), **chi tocca**, **fatta quando**.
   medie (`half` fino a 30) e piccole fra i continenti, nelle tre fasce; la quota delle isole non più uniforme (più fitte
   vicino ai continenti). Forme come dati (`SkyContinentsData`). **Fatta quando** ogni zona ha il suo continente,
   `tools/cielo.gd` conta la terra calpestabile ≥ 15% per fascia e lo spazio sotto i continenti è buio di notte.
-- [ ] **444. Le strade verso l'alto.** Mari di nuvole lunghi decine di colonne (tessera 52, che attutisce le cadute; dove
+- [x] **444. Le strade verso l'alto.** Mari di nuvole lunghi decine di colonne (tessera 52, che attutisce le cadute; dove
   serve attraversarli da sotto, passerelle), correnti ascensionali per ogni fascia (`notes["correnti"]` con `cielo:true`,
   lette da `Gravity`), ponti di liane fra le isole vicine nelle tre fasce, radici-passerelle anche dai continenti. Il
   **Fagiolo** cresce finché trova un'isola o un continente sopra (al più 120 tessere, `BEAN_H` e la prova del gruppo
   «cielo» aggiornati). **Fatta quando** (voce 447) ogni continente si raggiunge dalla superficie senza ali.
-- [ ] **445. I luoghi del cielo.** Un luogo grande per zona sui continenti: templi dei Seminatori (griglie in
+- [x] **445. I luoghi del cielo.** Un luogo grande per zona sui continenti: templi dei Seminatori (griglie in
   `PlacesData`/`ProjectsData`, messe da `PassStrutture` con `zone_of`), osservatori più grandi, nidi giganti dei Signori
   del cielo (`signori.gd`, «where» sulla fascia), un giardino pensile o un relitto per la firma del mondo (`PassFirma`).
   Meraviglie del cielo nell'Atlante (`WondersData`). **Fatta quando** ogni zona ha un luogo e la prova dei luoghi lo
   trova.
-- [ ] **446. La vita e la luce del cielo.** Creature per fascia (le forti in alto), nascite sui continenti come in
+- [x] **446. La vita e la luce del cielo.** Creature per fascia (le forti in alto), nascite sui continenti come in
   superficie (`Fauna._room_below`, `SkyData.pool_of` per fascia), nidi delle famiglie del cielo sui continenti
   (`PassOsservatori._nests` o `PassNidi`), pericolo per fascia (`DangerData`), aria sottile da una certa quota
   (`HarshData` «quota»). Lo sfondo che cambia salendo (`Background`: i piani della superficie scendono, nuvole sotto di
   te con `SkyClouds`), la luce aperta sui continenti. **Fatta quando** le foto del cielo (gruppo «cielo») mostrano
   creature in tutte e tre le fasce e `tools/percorso.gd` non cambia gli appassimenti all'ora oltre la soglia.
-- [ ] **447. La misura del cielo.** `tools/cielo.gd` esteso: terra calpestabile per fascia, grandezza delle isole,
+- [x] **447. La misura del cielo.** `tools/cielo.gd` esteso: terra calpestabile per fascia, grandezza delle isole,
   continenti, **raggiungibilità** (ricerca di percorso con salto, correnti, liane, passerelle, senza ali né scavo), tempo
   per arrivare in alto con il corredo del primo giorno; mappe prima e dopo dei cinque Semi; resoconto in `ROADMAP.md`.
 
 ### Roadmap 57 «Le profondità vere» (voci 448-454)
 
-- [ ] **448. Uno stile di grotta per strato.** `CaveStylesData` (dati): per ogni strato i parametri di `PassGrotte`
+- [x] **448. Uno stile di grotta per strato.** `CaveStylesData` (dati): per ogni strato i parametri di `PassGrotte`
   (frequenze, soglie, stiramento in x/y, larghezza delle gallerie, peso di caverne e gallerie): **gallerie lunghe e
   intrecciate** nel Sottobosco (con le radici giganti), **sale e cunicoli** nelle Caverne d'ardesia, **pozzi verticali e
   cenge** nelle Profondità della Linfa, **vuoti e pilastri** nel Fondo. Passaggio sfumato di ~20 righe fra due stili.
   `PassGrotte` resta a fasce; i geni «grotte» moltiplicano lo stile. **Fatta quando** sulla mappa si riconosce lo strato
   dalla forma delle grotte e l'aria per strato resta fra il 25% e il 40%.
-- [ ] **449. Le grandi caverne e le voragini.** Passata `PassCaverne` (dopo le grotte, `claim`): 4-8 caverne enormi per
+- [x] **449. Le grandi caverne e le voragini.** Passata `PassCaverne` (dopo le grotte, `claim`): 4-8 caverne enormi per
   mondo (≥ 60 × 30, almeno una per strato dal Sottobosco), ognuna con un contenuto (un lago, un bosco di funghi, una
   rovina, un nido); 2-4 voragini che tagliano due o tre strati, con cenge per scendere e risalire. Mai sotto la partenza.
   **Fatta quando** le conta `tools/mappe.gd` e il collaudatore controlla che nessuna buchi la superficie della partenza.
-- [ ] **450. Le regioni sotterranee.** I biomi del sottosuolo diventano **regioni** di 200-500 colonne in ogni mondo
+- [x] **450. Le regioni sotterranee.** I biomi del sottosuolo diventano **regioni** di 200-500 colonne in ogni mondo
   (almeno tre, scelte dal genoma e dai biomi di superficie sopra; i geni del sottosuolo ne aggiungono o ne ingrandiscono),
   con pareti, roccia, vegetazione e creature proprie, `claim` e un confine sfumato. `UnderBiomesData` ha i campi della
   regione (larghezza, strati, roccia); `PassSottosuolo` e `UnderBuilders` costruiscono dentro la regione. La misura di
   `tools/mappe.gd` conta anche i pavimenti 40-43. **Fatta quando** ogni mondo mostra tre regioni sulla mappa e il gruppo
   «biomi» (sottosuolo) è verde.
-- [ ] **451. Confini vivi.** `StrataData.offset` diventa un campo 2D (lingue e sacche di uno strato nell'altro, colonne di
+- [x] **451. Confini vivi.** `StrataData.offset` diventa un campo 2D (lingue e sacche di uno strato nell'altro, colonne di
   roccia profonda che salgono), una fascia di passaggio dove le due rocce si mescolano. `index`/`at` e `GenContext
   .strata_off` restano le uniche porte d'accesso. **Fatta quando** nessun confine è più una linea ondulata sulla mappa e
   `DepthWatch` (la scritta dello strato) non sfarfalla.
-- [ ] **452. Le acque profonde.** Laghi sotterranei grandi nelle caverne e nelle regioni (oltre il limite di 600 celle di
+- [x] **452. Le acque profonde.** Laghi sotterranei grandi nelle caverne e nelle regioni (oltre il limite di 600 celle di
   `_fill_basin`), falde che riempiono le grotte basse, cascate sotterranee, sacche di Linfa e di brace al loro strato;
   pescabili (`WaterBody`). **Fatta quando** `tools/specchi.gd` conta laghi grandi in ogni strato e i gruppi «liquidi»,
   «acqua», «pesca» sono verdi.
-- [ ] **453. Le strade del sottosuolo.** Una via garantita dalla superficie al Fondo (gallerie e cenge, anche lunga), e
+- [x] **453. Le strade del sottosuolo.** Una via garantita dalla superficie al Fondo (gallerie e cenge, anche lunga), e
   scorciatoie da trovare (voragini, radici viandanti). **Fatta quando** la connettività (voce 474) trova la via in ogni
   Seme.
-- [ ] **454. La misura del sottosuolo.** Mappe prima e dopo, aria per strato, caverne, voragini, regioni, laghi; gruppi
+- [x] **454. La misura del sottosuolo.** Mappe prima e dopo, aria per strato, caverne, voragini, regioni, laghi; gruppi
   «grotte», «terre», «liquidi», «acqua», «ecologia» (i nidi trovano posto); resoconto.
 
 ### Roadmap 58 «I tesori della roccia» (voci 455-458)
 
-- [ ] **455. Giacimenti invece di puntini.** `PassMinerali`: le vene diventano **giacimenti** (campi nuovi dei dati:
+- [x] **455. Giacimenti invece di puntini.** `PassMinerali`: le vene diventano **giacimenti** (campi nuovi dei dati:
   «deposit» = quanti per 1000 colonne di strato, grandezza, «filone» = lunghezza e direzione), filoni che si seguono,
   legati a strato, roccia e regione; circa metà delle tessere di oggi. Le vene dei pacchetti (`terre.gd`, generato da
   `tools/vastita_gen/terre.py`: si cambia il generatore, non il file) e i metalli della spina seguono la stessa regola.
   Rendimento misurato con un minatore simulato (tessere di metallo per minuto di scavo per chi segue i filoni).
   **Fatta quando** il rendimento è uguale a oggi (±15%) e la mappa non è più puntinata.
-- [ ] **456. I segni dei giacimenti.** Affioramenti in superficie sopra i giacimenti grandi, cristalli e piante che
+- [x] **456. I segni dei giacimenti.** Affioramenti in superficie sopra i giacimenti grandi, cristalli e piante che
   crescono solo lì (`PassDecorazioni`), una sfumatura nelle pareti di fondo vicino a una vena madre (`WallFx`); una riga
   in `ConsigliData` e il capitolo nell'Enciclopedia. **Fatta quando** una prova trova un giacimento partendo da un segno.
-- [ ] **457. Gemme e rarità al posto giusto.** Gemme nei geodi e nelle caverne di cristallo, i metalli rari (spina e
+- [x] **457. Gemme e rarità al posto giusto.** Gemme nei geodi e nelle caverne di cristallo, i metalli rari (spina e
   dopo) solo nelle loro regioni e strati; i cristalli di `PassCristalli` raccolti in grotte di cristallo invece che su ogni
   parete. **Fatta quando** `tools/densita.gd` mostra le gemme concentrate.
-- [ ] **458. Il bilancio dei tesori.** `tools/densita.gd`, `tools/percorso.gd`, `tools/durata.gd`: il tempo per ogni
+- [x] **458. Il bilancio dei tesori.** `tools/densita.gd`, `tools/percorso.gd`, `tools/durata.gd`: il tempo per ogni
   grado di metallo non si allunga (o di poco, per scelta); scrigni e casse dei biomi raggiungibili; gruppi «grotte»,
   «terre», «spina»; resoconto.
 
 ### Roadmap 59 «Mondi che non si somigliano» (voci 459-464)
 
-- [ ] **459. Le sagome dei mondi.** `WorldShapesData` (dati): almeno sei sagome scelte dal genoma, ognuna una ricetta per
+- [x] **459. Le sagome dei mondi.** `WorldShapesData` (dati): almeno sei sagome scelte dal genoma, ognuna una ricetta per
   la grande scala, applicata da `PassTerreno` e da una passata nuova subito dopo: *continente* (oggi), *arcipelago* (isole
   di terra su un mare: l'Arcipelago di oggi migliorato), *canyon* (una gola enorme che taglia il mondo), *guscio*
   (superficie sottile su un vuoto immenso: il Guscio di oggi), *terrazze* (gradoni), *sprofondato* (superficie bassa e
   cielo altissimo), *pilastri* (colonne dalla terra al cielo, che toccano i continenti). **Fatta quando** il foglio delle
   sagome affiancate mostra mondi riconoscibili a colpo d'occhio.
-- [ ] **460. I geni che cambiano la forma.** I geni di forma, grotte e sottosuolo (`GenesData`) rivisti perché cambino la
+- [x] **460. I geni che cambiano la forma.** I geni di forma, grotte e sottosuolo (`GenesData`) rivisti perché cambino la
   grande scala (sagoma, stile di grotta, regioni), non solo il dettaglio; combinazioni con un nome (`combo`); `Genome.roll`
   sceglie sempre un gene di grande scala.
-- [ ] **461. I mari ai bordi.** In quasi tutte le sagome (scelta dell'utente; non nel guscio e nei pilastri) un mare a ogni
+- [x] **461. I mari ai bordi.** In quasi tutte le sagome (scelta dell'utente; non nel guscio e nei pilastri) un mare a ogni
   bordo, 150-250 colonne: spiaggia che scende, fondale, isolotti, un relitto con uno scrigno, creature e pesci di mare
   (`FishData`, il bestiario), la pesca in mare. Il mare del gene Sommerso diventa il caso estremo. **Fatta quando** il
   gruppo «pesca» pesca in mare e la prova della partenza resta sicura.
-- [ ] **462. Il carattere dei biomi di superficie.** `PassBiomi`: larghezze variabili (un bioma enorme, uno minuscolo),
+- [x] **462. Il carattere dei biomi di superficie.** `PassBiomi`: larghezze variabili (un bioma enorme, uno minuscolo),
   vicinanze sensate (il freddo vicino al freddo), **passaggi sfumati** di 20-40 colonne in cui terra, erba e vegetazione
   si mescolano, micro-biomi (radure, boschetti, pozze) dentro i grandi; la partenza nel suo bioma senza schiacciare i
   vicini.
-- [ ] **463. Le tracce del passato.** Grandi strutture che legano superficie, sottosuolo e cielo nello stesso punto: una
+- [x] **463. Le tracce del passato.** Grandi strutture che legano superficie, sottosuolo e cielo nello stesso punto: una
   radice cosmica che scende dal cielo nel Fondo, una città sepolta dei Seminatori con l'ingresso in superficie, un
   cratere con la sua stella caduta. Una per mondo, scelta dal genoma.
-- [ ] **464. La misura della varietà.** `tools/mappe.gd -- --caso` su 30 Semi, rumore su 10 coppie: la coppia più simile ad
+- [x] **464. La misura della varietà.** `tools/mappe.gd -- --caso` su 30 Semi, rumore su 10 coppie: la coppia più simile ad
   almeno il doppio del rumore; il foglio delle sagome; resoconto.
 
 ### Roadmap 60 «La superficie da cartolina» (voci 465-469)
 
-- [ ] **465. Il rilievo.** Montagne con pareti e cenge, valli, sporgenze e archi di roccia, una semplice erosione che
+- [x] **465. Il rilievo.** Montagne con pareti e cenge, valli, sporgenze e archi di roccia, una semplice erosione che
   addolcisce i pendii (sempre percorribili: niente pareti più alte del salto senza un passaggio); la partenza su un tratto
   sicuro (collaudatore).
-- [ ] **466. I punti di riferimento.** Cose che si vedono da lontano: alberi giganti, guglie, crateri, rovine in cima a un
+- [x] **466. I punti di riferimento.** Cose che si vedono da lontano: alberi giganti, guglie, crateri, rovine in cima a un
   colle; almeno uno per bioma; segni sulla mappa (`MapReveal`).
-- [ ] **467. Gli ingressi.** Ingressi leggibili (caverne aperte sul fianco, doline, pozzi con le corde di `Grounds`) ogni
+- [x] **467. Gli ingressi.** Ingressi leggibili (caverne aperte sul fianco, doline, pozzi con le corde di `Grounds`) ogni
   ~200 colonne: si scende senza scavare per forza (`PassIngressi` riscritta come dati).
-- [ ] **468. Le acque di superficie.** Laghi nelle valli, fiumi brevi, cascate dalle montagne (`PassAcqua`, `PassStagni`).
-- [ ] **469. La misura della superficie.** Foto «sfondi» e «volto» prima e dopo (`tools/confronto_volto.py`), mappe,
+- [x] **468. Le acque di superficie.** Laghi nelle valli, fiumi brevi, cascate dalle montagne (`PassAcqua`, `PassStagni`).
+- [x] **469. La misura della superficie.** Foto «sfondi» e «volto» prima e dopo (`tools/confronto_volto.py`), mappe,
   gruppo «biomi»; resoconto.
 
 ### Roadmap 61 «Il collaudo del generatore» (voci 470-478; le misure servono già dalla 56)
 
-- [ ] **470. Le misure nuove.** In `tools/mappe.gd`: aria e terra per strato e per fascia di cielo, caverne grandi,
+- [x] **470. Le misure nuove.** In `tools/mappe.gd`: aria e terra per strato e per fascia di cielo, caverne grandi,
   voragini, regioni, giacimenti, laghi, luoghi per 1000 colonne.
-- [ ] **471. La connettività.** Una ricerca di percorso sul mondo generato (salto, corde, correnti, passerelle, nuoto,
+- [x] **471. La connettività.** Una ricerca di percorso sul mondo generato (salto, corde, correnti, passerelle, nuoto,
   senza scavare): quanta parte del sottosuolo e del cielo si raggiunge, e quanta strada serve per ogni risorsa e luogo.
-- [ ] **472. Le prestazioni.** ≤ 6 s a 3000 × 1200; le passate lente (Grotte, Minerali) misurate e a fasce; `WorldPregen`
+- [x] **472. Le prestazioni.** ≤ 6 s a 3000 × 1200; le passate lente (Grotte, Minerali) misurate e a fasce; `WorldPregen`
   sempre pronto prima del viaggio.
-- [ ] **473. Le prove riallineate.** Le prove cercano i loro posti (`TestKit`), nessuna conta su coordinate o forme fisse;
+- [x] **473. Le prove riallineate.** Le prove cercano i loro posti (`TestKit`), nessuna conta su coordinate o forme fisse;
   i dieci mondi di misura fissa (1600×900: `tests_gen_repeat`, `tests_nero`, `tests_chains`, `tests_finds`,
   `tests_liquids`, `tests_places`, `tests_primo`, `tests_water`, e `tests_genes` 900×1000, `tests_anomalies` 1600×1000)
   controllati uno per uno; `TestsGenRepeat` e `tools/impronta.gd` con la base nuova.
-- [ ] **474. La connettività come prova.** La ricerca di percorso della voce 471 entra nel collaudatore (`PassCollaudo`
+- [x] **474. La connettività come prova.** La ricerca di percorso della voce 471 entra nel collaudatore (`PassCollaudo`
   scrive quanto è raggiungibile) e in una prova del gruppo «base».
-- [ ] **475. L'Atlante e le schede.** Sagoma, continenti, regioni e mari nella scheda del portale (`PortalInfo`),
+- [x] **475. L'Atlante e le schede.** Sagoma, continenti, regioni e mari nella scheda del portale (`PortalInfo`),
   nell'Atlante e nell'Enciclopedia (capitolo «I mondi»): il giocatore sa che mondo sta per visitare.
-- [ ] **476. I mondi vecchi.** I mondi salvati prima restano giocabili a 1000 righe con il cielo vecchio (le zone
+- [x] **476. I mondi vecchi.** I mondi salvati prima restano giocabili a 1000 righe con il cielo vecchio (le zone
   `{low, high, split}` lette dalla compatibilità della voce 442); una prova li carica.
-- [ ] **477. Il giro completo.** `tools/prove.sh tutto`, giocatori simulati (`tools/percorso.gd`), densità, durata.
-- [ ] **478. Il resoconto del piano** in `ROADMAP.md`, con le mappe prima e dopo.
+- [x] **477. Il giro completo.** `tools/prove.sh tutto`, giocatori simulati (`tools/percorso.gd`), densità, durata.
+- [x] **478. Il resoconto del piano** in `ROADMAP.md`, con le mappe prima e dopo.
 
 ---
 

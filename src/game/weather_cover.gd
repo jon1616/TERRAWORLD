@@ -85,11 +85,18 @@ func _scan() -> void:
 	var x0 := maxi(floori((ctr.x - view.x * 0.5) / S) - 2, 0)
 	var x1 := mini(floori((ctr.x + view.x * 0.5) / S) + 2, w.w - 1)
 	var ybot := mini(floori((ctr.y + view.y * 0.5) / S) + 2, w.h - 1)
+	# (9 ott 2026) gli array letti direttamente: con il cielo alto 1200 righe le chiamate per cella costavano ~9 ms
+	var tiles := w.tiles
+	var liq := w.liquid
+	var ww := w.w
+	var ytop := floori((ctr.y - view.y * 0.5) / S) - 2
 	for x in range(x0, x1 + 1):
 		var y := 0
-		while y <= ybot and not w.solid(x, y) and w.liq(x, y) == 0:
+		var i := x
+		while y <= ybot and tiles[i] == TileDefs.AIR and (liq[i] & 15) == 0:
 			y += 1
-		if y <= ybot and w.solid(x, y) and y >= floori((ctr.y - view.y * 0.5) / S) - 2:
+			i += ww
+		if y <= ybot and tiles[i] != TileDefs.AIR and y >= ytop:
 			_tops[x] = y
 
 
