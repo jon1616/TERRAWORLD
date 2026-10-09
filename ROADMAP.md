@@ -1,6 +1,10 @@
 # TERRAWORLD — Roadmap
 
-## Dove siamo (aggiornato l'8 ott 2026)
+## Dove siamo (aggiornato il 9 ott 2026)
+- **Fatta la Roadmap 62 «Le migliorie»** (voci 479-489, 9 ott 2026, in autonomia dall'analisi in fondo a `MIGLIORIE.md`):
+  prove in due metà, Menu del Giardiniere, salvataggi campione, cascate, liquidi lontani, annuncio degli attacchi,
+  giornata degli abitanti, misura dei gemelli. Da discutere con l'utente: la potatura dei gemelli e il resto
+  dell'analisi. Resoconto in fondo.
 - **Fatta la Roadmap 56 «Il cielo grande»** (voci 439-447, 8 ott 2026), la prima del piano «Il generatore eccellente»
   (`GENERATORE.md`, Roadmap 56-61, voci 439-478; scelte dell'utente: mondo alto 1200, minerali in giacimenti, mari ai
   bordi in quasi tutte le sagome). Mondo alto 1200, cielo in tre fasce largo tutta la mappa, continenti sospesi con i
@@ -6501,21 +6505,70 @@ Creare nei primi secondi di gioco (una casella da 10-25 ms).
 Dall'analisi del 9 ott 2026 (`MIGLIORIE.md`, in fondo): l'utente chiede tutte le migliorie che non hanno bisogno di lui
 (niente disegni di Nano Banana, niente musica, niente partite sue), in autonomia e a cicli.
 
-- [ ] **479. Il giro delle prove in due metà.** `tools/prove.sh meta1` e `meta2`: ognuna circa la metà del giro intero,
+- [x] **479. Il giro delle prove in due metà.** `tools/prove.sh meta1` e `meta2`: ognuna circa la metà del giro intero,
   da lanciare a turno; `tutto` resta.
-- [ ] **480. Il menu del Giardiniere.** Un tasto solo che apre una ruota/griglia di tutti i pannelli (con il loro tasto),
+  Fatto il 9 ott 2026: `--meta=1|2` in `AutoTests` (`_half`); la seconda metà comincia da `TestsAlive` (le prove pesanti:
+  rete, accessori, compagni, cielo) su un mondo appena nato: ~11 minuti l'una invece di ~25 di fila. La seconda metà da
+  sola ha trovato due prove dei compagni che contavano sull'armatura lasciata dalle prove di prima (ora aspettano il
+  compagno con la Vita piena).
+- [x] **480. Il menu del Giardiniere.** Un tasto solo che apre una ruota/griglia di tutti i pannelli (con il loro tasto),
   e i pannelli non ancora scoperti nascosti finché il gioco non li presenta: meno tasti da ricordare nella prima ora.
-- [ ] **481. Le migrazioni dei salvataggi.** La versione stabile: i salvataggi tengono la loro versione e ogni cambio di
+  Fatto il 9 ott 2026: `GardenerMenu` (tasto `\`, cambiabile; e il pulsante «☰» accanto agli altri): dodici schede, ognuna
+  con l'icona, il tasto, a che cosa serve e a che punto sei (caselle libere, Erbario in percentuale, creature, parole
+  certe, gradi); sotto i comandi utili (filo, Osserva, minimappa, aiuto, riponi). Un clic apre il pannello con il suo
+  stesso tasto. I pannelli **non** si nascondono: con le prove non si vede quando il giocatore «li ha scoperti», e
+  nasconderli toglierebbe al giocatore le sue strade (regola dei pilastri); da decidere con l'utente dopo una prima ora
+  vera. Prova nel gruppo «opzioni» (foto 125).
+- [x] **481. Le migrazioni dei salvataggi.** La versione stabile: i salvataggi tengono la loro versione e ogni cambio di
   formato ha un passo; prova che carica un personaggio e un mondo «vecchi».
-- [ ] **482. Le cascate.** Sorgenti sui fianchi dei massicci e delle caverne che cadono senza allagare la valle.
-- [ ] **483. I liquidi lontani.** Una simulazione lenta anche fuori dalla visuale, a turni, perché laghi e fiumi lontani
+  Fatto il 9 ott 2026: la catena dei passi c'era (`SaveMigrations`); mancava chi si accorgesse di un cambio. In
+  `campioni/2026-10-09_ale/` la copia della partita vera dell'utente (ALE, il Giardino RIKO e un mondo nato da un Seme)
+  con la sua impronta (oggetti in ogni borsa e nella Dispensa, equipaggiamento, conteggi, Albero, lingua, mandria,
+  maestria; misura, tessere, pareti, stazioni, casse e contenuto dei mondi). `tools/campioni.gd` la ricarica e confronta:
+  0 differenze. La regola in CLAUDE.md: dopo ogni cambio di formato si lancia.
+- [x] **482. Le cascate.** Sorgenti sui fianchi dei massicci e delle caverne che cadono senza allagare la valle.
+  Fatto il 9 ott 2026: `PassCascate` cerca le pareti di roccia sopra uno specchio d'acqua (caduta 8-48 righe, almeno 5
+  celle d'acqua, 140 colonne fra due): 8-10 cascate per mondo, quasi tutte nelle caverne, qualcuna sulle isole del cielo.
+  `Cascades` fa uscire l'acqua dalla parete e lo «scarico» toglie quella che arriva sopra il pelo fuori dalla colonna
+  della caduta: la caduta arriva fino all'acqua, il livello non sale. Prova «cascate»: dopo mezzo minuto 0 livelli
+  sopra il pelo, 1.077 tolti dallo scarico (foto 340_cascata).
+- [x] **483. I liquidi lontani.** Una simulazione lenta anche fuori dalla visuale, a turni, perché laghi e fiumi lontani
   non restino fermi a metà.
-- [ ] **484. Gli sfondi sotto terra.** Un fondale per ogni strato (solo vista).
-- [ ] **485. L'annuncio degli attacchi.** Più leggibile: la creatura si carica (lampo, postura, segno a terra per salti e
+  Fatto il 9 ott 2026: fuori dalla finestra le celle attive si muovono un passo ogni quattro (`Liquids.FAR_EVERY`), al più
+  500 per passo (`FAR_MAX`): l'acqua versata a 220 colonne cade e si posa (prova «cascate»).
+- [-] **484. Gli sfondi sotto terra.** Un fondale per ogni strato (solo vista).
+  Non serve (9 ott 2026): misurato su due mondi, sotto terra il 100% delle celle d'aria ha una parete dietro, quindi uno
+  sfondo non si vedrebbe mai (solo dove il giocatore toglie le pareti con il Martello).
+- [x] **485. L'annuncio degli attacchi.** Più leggibile: la creatura si carica (lampo, postura, segno a terra per salti e
   cariche) prima di colpire.
-- [ ] **486. Gli abitanti vivi.** Giornata degli abitanti: lavoro di giorno, casa di notte, riparo con la pioggia,
+  Fatto il 9 ott 2026: `TeleMark` disegna oltre al «!» un anello che si stringe e tocca la creatura nell'istante del
+  colpo (il «quando»), le frecce a terra delle cariche e dei rotolamenti, il segno di dove piombano picchiate, tuffi,
+  salti e chi sbuca dalla terra (il «dove»): `Creature.telegraph(t, dir, at)`.
+- [x] **486. Gli abitanti vivi.** Giornata degli abitanti: lavoro di giorno, casa di notte, riparo con la pioggia,
   fuga durante gli assedi.
-- [ ] **487. I gemelli.** La misura degli oggetti che si distinguono solo per i numeri, e la potatura di quelli identici.
-- [ ] **488. I momenti della storia.** Poche righe scritte nei punti di svolta (primo Guardiano, primo Seme, Risveglio),
+  Fatto il 9 ott 2026: `Villagers.indoor_reason` (assedio, pioggia/neve/cenere senza tetto, notte) e `Npc.indoors`: tornano
+  a casa e ci restano, la scritta dice «dorme», «al riparo», «si nasconde». Prova nel gruppo «abitanti».
+- [~] **487. I gemelli.** La misura degli oggetti che si distinguono solo per i numeri, e la potatura di quelli identici.
+  La misura fatta il 9 ott 2026: `tools/gemelli.gd` → prove/gemelli.txt. 1.158 oggetti hanno un gemello (stesso tipo,
+  forma, fase e chiavi): le Fiale (118, una per gene: è voluto), 85 piatti con lo stesso effetto «sazio», 57 cimeli, i
+  basti e gli animaletti, le spoglie dei boss con gli stessi numeri, gli accessori di luce. Gli «identici nei dati»
+  (408) spesso non lo sono in gioco (richiami, Semi, mappe fanno cose diverse secondo l'id). **La potatura è una scelta
+  di design: da fare con l'utente.**
+- [-] **488. I momenti della storia.** Poche righe scritte nei punti di svolta (primo Guardiano, primo Seme, Risveglio),
   secondo il canone.
-- [ ] **489. Il giro intero e il resoconto.**
+  Già coperta (9 ott 2026): ogni punto di svolta ha la sua pagina in `LoreData` (Cuore trovato, ogni Guardiano curato o
+  sconfitto, il Risveglio del Cuore, il portale, gli atti dell'Albero, il Seme Nero, il finale), più sogni, echi e il
+  Taccuino della verità. Scrivere altro senza l'utente rischierebbe di uscire dal canone: da rivedere insieme.
+- [x] **489. Il giro intero e il resoconto.** Le due metà del giro, 9 ott 2026: **0 avvisi** in tutte e due (la
+  seconda, la prima volta, ha trovato le due prove dei compagni che dipendevano dalla prima metà; corrette). Gruppo
+  «base» a 60 fps, fotogramma peggiore 19-21 ms. Il fotogramma lento in fondo alla seconda metà (~66 ms, uno solo)
+  c'era già nei giri lunghi.
+
+**Resoconto della Roadmap 62.** Fatte le migliorie dell'analisi che non chiedevano l'utente: le prove in due metà da ~11
+minuti, il Menu del Giardiniere, i salvataggi campione (la partita vera dell'utente si ricarica uguale), le cascate (8-10
+per mondo, con lo scarico che non allaga), i liquidi che si muovono anche lontano, l'annuncio degli attacchi con il
+«quando» e il «dove», la giornata degli abitanti, la misura dei gemelli. Due voci si sono rivelate inutili o già fatte
+(gli sfondi sotto terra non si vedrebbero mai; la storia ha già le sue pagine nei punti di svolta).
+**Restano per la discussione con l'utente**: la potatura dei gemelli (prove/gemelli.txt), se nascondere i pannelli non
+ancora scoperti nella prima ora, i momenti di storia in più, e tutto ciò che vuole lui (le creature e le icone dipinte,
+la musica, le partite vere per il bilancio).

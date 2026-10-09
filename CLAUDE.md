@@ -19,7 +19,8 @@ dati reali e i numeri da raggiungere).
   compila le prove non partono), `--import`, le prove con un tempo massimo e il riassunto. Il gruppo **«base»**
   (~1 minuto: mondo, alberi, creazione, Vita, movimento a 60 e 144 fps, combattimento, corsa, salvataggio) va
   sempre; foto controllate a occhio; commit in italiano con la riga Co-Authored-By.
-  **Il giro intero** (`tools/prove.sh tutto`, ~8 minuti) solo quando è indispensabile (scelta dell'utente, 28 set
+  **Il giro intero** (`tools/prove.sh tutto`, ~25 minuti; o le sue due metà `meta1` e `meta2`, ~11 minuti l'una, da
+  lanciare a turno: voce 479) solo quando è indispensabile (scelta dell'utente, 28 set
   2026: «stava diventando troppo lungo»): alla fine di un lavoro grande (più voci) o dopo cambi profondi ai sistemi
   condivisi (generatore, salvataggi, movimento, luce). Alla fine stampa «tempi del giro» con i gruppi più lenti.
   Le prove che generano mondi li fanno insieme, in parallelo (`TestKit.gen_many`).
@@ -56,6 +57,9 @@ in `ROADMAP.md` (Roadmap 5-11). Queste regole valgono per **ogni** voce, anche f
 - **I salvataggi di oggi restano giocabili**: il piano cambia la forma di molte cose, quindi ogni cambio di formato
   passa da una migrazione (voce 41).
   **Sospesa per ora** (26 set 2026, l'utente): in pieno sviluppo le partite sono solo prove, non serve preservarle.
+  **Riattivata a metà il 9 ott 2026** (voce 481): in `campioni/` c'è la copia di una partita vera con la sua impronta;
+  `tools/campioni.gd` la ricarica con il gioco di oggi. **Dopo ogni cambio di formato** (personaggio, Bisaccia, mondo) si
+  lancia: se un campione non torna, serve un passo in `SaveMigrations` (o una lettura che sposta il vecchio al suo posto).
 
 ## I pilastri: un gioco enorme che rispetta il giocatore (29 set 2026, approvata dall'utente)
 
@@ -180,6 +184,10 @@ Godot_console.exe --path . -- --prove --solo=arena
 Godot_console.exe --headless --path . --script res://tools/durata.gd
 # Roadmap 19: il bilancio della rete (sorgenti, macchine all'ora in Lumini, confronto con scavo e pesca) → prove/rete.txt
 Godot_console.exe --headless --path . --script res://tools/rete.gd
+# voce 481: i salvataggi campione si aprono ancora? (ESITO in fondo; `-- --scrivi` per l'impronta di un campione nuovo)
+Godot_console.exe --headless --path . --script res://tools/campioni.gd
+# voce 487: gli oggetti gemelli (stesse chiavi, solo i numeri diversi) e gli identici nei dati → prove/gemelli.txt
+Godot_console.exe --headless --path . --script res://tools/gemelli.gd
 # Roadmap 17: quanto dura imparare la lingua (un giocatore simulato in otto mondi) → prove/lingua.txt
 Godot_console.exe --headless --path . --script res://tools/lingua.gd
 # Roadmap 16: la misura del cielo (zone, tessere, isole, osservatori) con e senza i geni del cielo → prove/cielo.txt
@@ -1204,6 +1212,21 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   - Le scritte dell'HUD sul mondo (9 ott 2026, l'utente: «fatico a leggerle» sul cielo chiaro): `HudScrim` disegna un
     fondo scuro sfumato sotto il testo vero di ogni scritta del gruppo `HudScrim.GROUP`; colori caldi (bianco caldo,
     ambra), mai turchese, che è il colore del cielo. **Una scritta nuova dell'HUD sul mondo entra nel gruppo.**
+- **Roadmap 62 «Le migliorie»** (voci 479-489, 9 ott 2026, in autonomia; dall'analisi in fondo a `MIGLIORIE.md`):
+  - Il giro delle prove in due metà (`--meta=1|2`, `AutoTests._half`): la seconda parte da `TestsAlive` su un mondo appena
+    nato, quindi ogni prova lì dentro si prepara da sola (Vita, posto, armatura).
+  - `GardenerMenu` (`src/ui/gardener_menu.gd`, tasto «menu» `\`, e il «☰» di `PanelButtons`): tutti i pannelli con il loro
+    tasto, a che cosa servono e a che punto sei; un clic manda il tasto del pannello (`choose`). **Un pannello nuovo a
+    schermo intero aggiunge la sua riga in `GardenerMenu.ENTRIES`.**
+  - I salvataggi campione: `campioni/` (con `.gdignore`) e `tools/campioni.gd`.
+  - Le cascate: `PassCascate` (sorgenti nelle pareti sopra uno specchio d'acqua, appunti "cascate") e `Cascades`
+    (`src/game/cascades.gd`: la sorgente versa, lo «scarico» toglie l'acqua sopra il pelo fuori dalla colonna della
+    caduta). I liquidi lontani: `Liquids.FAR_EVERY`/`FAR_MAX` (fuori dalla finestra un passo ogni quattro, a turno).
+  - L'annuncio degli attacchi: `Creature.telegraph(t, dir, at)` → `TeleMark` (l'anello che si stringe fino al colpo, le
+    frecce della carica, il segno di dove piomba). **Un comportamento d'attacco nuovo passa la direzione o il punto.**
+  - La giornata degli abitanti: `Npc.indoors` ("notte", "pioggia", "assedio"), deciso ogni secondo da
+    `Villagers.indoor_reason`.
+  - `tools/gemelli.gd` (prove/gemelli.txt): la misura dei gemelli; la potatura si decide con l'utente.
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni
