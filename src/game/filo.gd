@@ -40,6 +40,7 @@ func setup(main: Node2D) -> void:
 	_label.add_theme_color_override("font_outline_color", Color(0.02, 0.05, 0.07))
 	_label.add_theme_constant_override("outline_size", 4)
 	m.hud.add_child(_label)
+	_label.add_to_group(HudScrim.GROUP)          # (9 ott 2026) il fondo scuro dietro la scritta
 	_label.add_to_group("hud_alto")
 	_marker = FiloMarker.new()
 	_marker.filo = self
@@ -114,10 +115,10 @@ func text() -> String:
 		return ""
 	var t := "[center][color=#ffd08a]➤[/color] [b]%s[/b]" % current["text"]
 	if String(current.get("hint", "")) != "":
-		t += "\n[font_size=14][color=#cfe8e2]%s[/color][/font_size]" % current["hint"]
+		t += "\n[font_size=14][color=#f0e4cc]%s[/color][/font_size]" % current["hint"]
 	if String(current.get("what", "")) != "":
-		t += "\n[font_size=13][color=#9fbfb8]%s[/color][/font_size]" % current["what"]
-	t += "\n[font_size=12][color=#9fbfb8]%s%s[/color][/font_size][/center]" % [SOURCE_NAME.get(current["src"], ""),
+		t += "\n[font_size=13][color=#cdbfa6]%s[/color][/font_size]" % current["what"]
+	t += "\n[font_size=12][color=#cdbfa6]%s%s[/color][/font_size][/center]" % [SOURCE_NAME.get(current["src"], ""),
 		(" · %s: un altro filo (%d)" % [Keys.label("filo"), _count]) if _count > 1 else ""]
 	return t
 

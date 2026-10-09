@@ -32,6 +32,7 @@ var _fx_seen := {}                     # pannello -> si vedeva al fotogramma pri
 func _ready() -> void:
 	layer = 10
 	UiTheme.smooth_layer(self)               # (Roadmap 55) l'interfaccia morbida, il mondo resta a pixel
+	add_child(HudScrim.new())               # (9 ott 2026) per primo: il fondo scuro sta sotto tutte le scritte
 	# la Bisaccia per prima: la sua cornice sta sotto la barra rapida, che resta in primo piano
 	panel = BisacciaPanel.new()
 	panel.bisaccia = bisaccia
@@ -75,12 +76,14 @@ func _ready() -> void:
 	add_child(_name)
 	_info = _label(self, Vector2(16, 6), 13)
 	_info.add_theme_constant_override("line_spacing", -2)
-	_info.add_theme_color_override("font_color", Color("#9fc8c0"))
+	_info.add_theme_color_override("font_color", Color("#e8dcc4"))
 	_info.visible = help
 	_help_hint = _label(self, Vector2(16, 6), 12)
 	_help_hint.text = "%s aiuto" % Keys.label("aiuto")
-	_help_hint.add_theme_color_override("font_color", Color("#6a8a84"))
+	_help_hint.add_theme_color_override("font_color", Color("#c8b89c"))
 	_help_hint.visible = not help
+	_info.add_to_group(HudScrim.GROUP)
+	_help_hint.add_to_group(HudScrim.GROUP)
 	_info.text = Keys.help_text()           # con i tasti scelti nelle Opzioni
 	# gli avvisi al centro, sotto la scritta degli strati: possono essere lunghi (obiettivi, Erbario)
 	# (voce 276) una cartolina con il suo fondo: sopra i pannelli resta leggibile e non si mescola con le loro scritte

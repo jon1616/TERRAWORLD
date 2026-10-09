@@ -28,11 +28,12 @@ func setup(main: Node2D) -> void:
 	_label.size = Vector2(520, 60)
 	_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_label.add_theme_font_size_override("font_size", 16)
-	_label.add_theme_color_override("font_color", Color("#8ef0d8"))
+	_label.add_theme_color_override("font_color", Color("#ffe2a8"))
 	_label.add_theme_color_override("font_outline_color", Color(0.02, 0.05, 0.07))
 	_label.add_theme_constant_override("outline_size", 5)
 	_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	m.hud.add_child(_label)
+	_label.add_to_group(HudScrim.GROUP)          # (9 ott 2026) il fondo scuro dietro la scritta
 	panel = AlberoPanel.new()
 	m.hud.add_child(panel)
 	panel.setup(m, self)

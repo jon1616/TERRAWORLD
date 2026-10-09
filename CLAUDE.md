@@ -1202,6 +1202,9 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   - Rifatti sullo scheletro: Pilastri, Arti, Atlante, Albero-Madre, Bacheca, Semenzaio, Innesto, Erbario, Mandria,
     Compagni, Quaderno; letture «da libro»; la scheda del Germogliato a pezzi (`CharacterSheet.parts`); i suggerimenti
     (`TipView`) con gli stessi pezzi. Prove: la galleria (0 problemi), `prove/galleria_confronto.png` (prima e dopo).
+  - Le scritte dell'HUD sul mondo (9 ott 2026, l'utente: «fatico a leggerle» sul cielo chiaro): `HudScrim` disegna un
+    fondo scuro sfumato sotto il testo vero di ogni scritta del gruppo `HudScrim.GROUP`; colori caldi (bianco caldo,
+    ambra), mai turchese, che è il colore del cielo. **Una scritta nuova dell'HUD sul mondo entra nel gruppo.**
 - `src/game/boons.gd` (`Boons`) — effetti a tempo delle pozioni (bagliore, scorza) e luce del giocatore
   (`LightMap.player_light`, più forte con la Lanterna di Linfa in mano). Non si salvano.
 - `src/game/building.gd` (`Building`) — piazzare e riprendere stazioni e passerelle (`actions.build`); le stazioni

@@ -28,6 +28,7 @@ func setup(main: Node2D) -> void:
 	_label.add_theme_color_override("font_outline_color", Color(0.02, 0.05, 0.07))
 	_label.add_theme_constant_override("outline_size", 5)
 	m.hud.add_child(_label)
+	_label.add_to_group(HudScrim.GROUP)          # (9 ott 2026) il fondo scuro dietro la scritta
 	_last_day = m.day.day
 	refresh_label()
 
@@ -129,16 +130,16 @@ func _met(c: Dictionary) -> bool:
 
 
 func refresh_label() -> void:
-	var t := "[color=#ffd08a]Obiettivi[/color]   [color=#6a8a84]%d su %d[/color]\n" % [m.character.obiettivi.size(),
+	var t := "[color=#ffd08a]Obiettivi[/color]   [color=#b8a88c]%d su %d[/color]\n" % [m.character.obiettivi.size(),
 		ObjectivesData.LIST.size()]
 	var shown := 0
 	for o in ObjectivesData.LIST:
 		if done(String(o["id"])):
 			continue
-		t += "[color=#cfeee4]• %s[/color]\n" % o["text"]
+		t += "[color=#f6ecd8]• %s[/color]\n" % o["text"]
 		shown += 1
 		if shown >= ObjectivesData.SHOWN:
 			break
 	if shown == 0:
-		t += "[color=#8ef0d8]Tutti raggiunti: il Giardino ti aspetta oltre i portali.[/color]"
+		t += "[color=#ffe2a8]Tutti raggiunti: il Giardino ti aspetta oltre i portali.[/color]"
 	_label.text = t

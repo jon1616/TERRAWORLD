@@ -38,10 +38,11 @@ func setup(main: Node2D) -> void:
 	_label = Label.new()
 	_label.position = Vector2(16, 70)
 	_label.add_theme_font_size_override("font_size", 16)
-	_label.add_theme_color_override("font_color", Color("#cfeee4"))
+	_label.add_theme_color_override("font_color", Color("#f6ecd8"))
 	_label.add_theme_color_override("font_outline_color", Color(0.02, 0.05, 0.07))
 	_label.add_theme_constant_override("outline_size", 5)
 	m.hud.add_child(_label)
+	_label.add_to_group(HudScrim.GROUP)          # (9 ott 2026) il fondo scuro dietro la scritta
 	m.fauna.killed.connect(func(c: Creature) -> void: eclipse_drop(c.position))
 	apply(true)
 

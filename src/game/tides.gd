@@ -42,6 +42,7 @@ func setup(main: Node2D) -> void:
 	_label.add_theme_color_override("font_outline_color", Color(0.02, 0.05, 0.07))
 	_label.add_theme_constant_override("outline_size", 5)
 	m.hud.add_child(_label)
+	_label.add_to_group(HudScrim.GROUP)          # (9 ott 2026) il fondo scuro dietro la scritta
 	m.fauna.killed.connect(_on_killed)
 
 

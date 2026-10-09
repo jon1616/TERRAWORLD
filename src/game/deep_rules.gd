@@ -29,6 +29,7 @@ func setup(main: Node2D) -> void:
 	_label.mouse_filter = Control.MOUSE_FILTER_PASS
 	_label.visible = false
 	m.hud.add_child(_label)
+	_label.add_to_group(HudScrim.GROUP)          # (9 ott 2026) il fondo scuro dietro la scritta
 	Tips.attach(_label, func() -> Variant:
 		var r := DeepRulesData.of(_stratum())
 		return TipCard.new().title(String(r.get("name", "")), Color(String(r.get("color", "#ffffff")))).text(String(r.get("desc", ""))) \

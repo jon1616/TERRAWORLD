@@ -40,6 +40,7 @@ func setup(main: Node2D) -> void:
 	_why.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_why.visible = false
 	m.hud.add_child(_why)
+	_why.add_to_group(HudScrim.GROUP)
 	_fps = Label.new()
 	_fps.position = Vector2(16, 876)
 	_fps.add_theme_font_size_override("font_size", 14)
