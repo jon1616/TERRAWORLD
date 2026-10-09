@@ -10,6 +10,9 @@ var m: Node2D
 var menu: PauseMenu
 var options: OptionsPanel
 var menu_wanted := false               # il menu di pausa (o le Opzioni aperte da lì)
+## 9 ott 2026 (l'utente: «le creature si muovono e fanno sparire la scheda prima che riesca a leggerla»): il tasto
+## «osserva» ferma il mondo senza aprire nulla; le schede del mondo restano vive e si interroga tutto con il mouse.
+var observing := false
 var _focus := true
 var _fps: Label
 var _why: Label                        # 2 ott 2026: perché il gioco è fermo, quando nessun pannello lo dice
@@ -94,7 +97,9 @@ func _changed(id: String, f: Callable) -> void:
 ## se il gioco è fermo e nulla lo mostra, cioè proprio quando sembrerebbe bloccato.
 func _show_why() -> void:
 	var t := ""
-	if get_tree().paused and not menu.visible and not options.visible:      # (il menu di pausa si spiega da sé)
+	if observing and not m.hud.is_open() and not menu.visible and not options.visible:
+		t = "In osservazione: passa il mouse sulle cose · %s o Esc per riprendere" % Keys.label("osserva")
+	elif get_tree().paused and not menu.visible and not options.visible:      # (il menu di pausa si spiega da sé)
 		t = "In pausa: %s · Esc per riprendere" % ", ".join(pause_reasons())
 	if t != _why.text:
 		_why.text = t
@@ -106,6 +111,8 @@ func _show_why() -> void:
 ## I motivi della pausa di adesso, in parole.
 func pause_reasons() -> Array:
 	var out := []
+	if observing:
+		out.append("osservazione")
 	if menu_wanted:
 		out.append("menu di pausa")
 	if options.visible:
@@ -139,6 +146,17 @@ func _input(e: InputEvent) -> void:
 ## Esc senza nulla di aperto: se il gioco è fermo senza un motivo che si veda, riparte (qui e non in `main`, che in
 ## pausa non riceve i tasti).
 func _unhandled_input(e: InputEvent) -> void:
+	if m == null or not m.built:
+		return
+	if Keys.pressed(e, "osserva") and (observing or not m.hud.is_open() and not menu.visible):
+		observing = not observing
+		get_viewport().set_input_as_handled()
+		return
+	if observing and e is InputEventKey and e.pressed and not e.echo and e.keycode == KEY_ESCAPE \
+			and not m.hud.is_open() and not menu.visible and not options.visible:
+		observing = false
+		get_viewport().set_input_as_handled()
+		return
 	if e is InputEventKey and e.pressed and not e.echo and e.keycode == KEY_ESCAPE and m != null and m.built and unstick():
 		get_viewport().set_input_as_handled()
 
@@ -149,6 +167,7 @@ func unstick() -> bool:
 		return false
 	_focus = true
 	menu_wanted = false
+	observing = false
 	if m.get("encyclopedia") != null and m.encyclopedia.panel.visible:
 		return false
 	get_tree().paused = want_pause()
@@ -156,6 +175,8 @@ func unstick() -> bool:
 
 
 func want_pause() -> bool:
+	if observing:
+		return true
 	if menu_wanted or options.visible or m.get("encyclopedia") != null and m.encyclopedia.panel.visible:
 		return true
 	if bool(Settings.v("pausa_fuoco")) and not _focus:

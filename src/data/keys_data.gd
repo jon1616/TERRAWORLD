@@ -33,6 +33,7 @@ const ACTIONS := [
 	["confronta", "Confronta nei suggerimenti", [KEY_SHIFT], "Altro"],
 	["area", "Posa ad area (trascinando un blocco)", [KEY_CTRL], "Altro"],
 	["riponi", "Riponi nelle casse vicine (quelle che hanno già l'oggetto o lo raccolgono)", [KEY_Q], "Altro"],
+	["osserva", "Osserva: ferma il mondo per leggere le schede con il mouse (di nuovo o Esc per riprendere)", [KEY_Z], "Altro"],
 	["vena", "Scavo intelligente: solo lo stesso blocco (tienilo premuto all'inizio)", [KEY_SHIFT], "Altro"],
 ]
 
