@@ -153,6 +153,15 @@ func services() -> void:
 	m.services.use("mappa_mondo")
 	m.services.use("serata_musica")
 	res["musica"] = m.boons.active.has("sazio")
+	# (9 ott 2026) la voce della firma dove non c'è una firma (il Giardino, dove abita la Vecchia Radice): una Mappa della firma
+	var firma0: Variant = m.world_meta.get("firma", {})
+	m.world_meta["firma"] = {}
+	var maps0 := b.count("mappa_firma")
+	l0 = b.count("lumino")
+	m.services.use("voce_firma")
+	res["firma_mappa"] = b.count("mappa_firma") == maps0 + 1 and b.count("lumino") < l0
+	b.remove("mappa_firma", b.count("mappa_firma") - maps0)
+	m.world_meta["firma"] = firma0
 	# il pannello
 	var tp: TradePanel = m.villagers.panel
 	tp.m = m

@@ -14,7 +14,7 @@ const SERVICES := {
 	"strade_nascoste": {"npc": "viandante", "name": "Strade nascoste", "kind": "segreti", "cost": 120, "day": 2,
 		"desc": "Racconta dei sentieri che ha visto: segna sulla mappa i tre segreti più vicini di questo mondo."},
 	"voce_firma": {"npc": "vecchia_radice", "name": "La voce della firma", "kind": "firma", "cost": 150, "day": 1,
-		"desc": "Ascolta il mondo in cui sei e ti dice dov'è la sua firma, il luogo che non esiste altrove."},
+		"desc": "Ti dà una Mappa della firma da usare in un mondo nato da un Seme: indica dov'è il luogo che c'è solo lì. In un mondo con una firma da trovare, la segna subito."},
 	"tisana": {"npc": "erborista", "name": "Tisana su misura", "kind": "boon", "cost": 80, "day": 3,
 		"p": {"boons": [["rigoglio", 600], ["scorza", 600]]},
 		"desc": "Dieci minuti di Rigoglio (la Vita ricresce tre volte più in fretta) e di Scorza di corteccia."},

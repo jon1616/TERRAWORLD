@@ -125,10 +125,15 @@ func _segreti(_p: Dictionary) -> String:
 	return "Sulla mappa (M) ci sono %d segni: i segreti più vicini di questo mondo." % mini(3, open.size())
 
 
+## (9 ott 2026, l'utente: «lei sta sempre nel Giardino, che non ha una firma») Dove il mondo ha una firma ancora da
+## trovare la segna subito; nel Giardino, dove abita, dà una Mappa della firma da usare nel prossimo mondo.
 func _firma(_p: Dictionary) -> String:
 	var f: Dictionary = m.signature.info()
 	if f.is_empty():
-		return "!Questo mondo non ha una firma."
+		var rest: int = m.character.bisaccia.add("mappa_firma", 1)
+		if rest > 0:
+			m.drops.spawn("mappa_firma", rest, m.player.position)
+		return "Il Giardino non ha una firma, ma ascolto i mondi che ci nascono: ecco una Mappa della firma. Usala nel mondo in cui la cerchi."
 	if f.get("trovata", false):
 		return "!La firma di questo mondo l'hai già trovata."
 	var c := Vector2i(int(f["x"]), int(f["y"]))
