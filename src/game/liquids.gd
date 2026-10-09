@@ -18,6 +18,8 @@ var _step_n := 0
 var _hurt := 0.0
 var _evap_t := 0.0
 const RUN_MAX := 48                     # celle al più di un tratto che si livella
+const FAR_EVERY := 4                     # voce 483: i liquidi lontani si muovono un passo ogni quattro…
+const FAR_MAX := 500                     # …e al più tante celle per passo
 var bar: Label
 var reactions := 0                      # quante reazioni tra liquidi (per le prove)
 
@@ -168,6 +170,10 @@ func step() -> int:
 	var win := Rect2i(pc - LiquidsData.WINDOW, LiquidsData.WINDOW * 2)
 	var keys := active.keys()
 	var done := 0
+	# voce 483: fuori dalla finestra i liquidi non restano fermi a metà (un lago scavato e lasciato, la pioggia lontana):
+	# un passo ogni FAR_EVERY e al più FAR_MAX celle, a turno, così tutto si assesta anche lontano, piano.
+	var far_ok := _step_n % FAR_EVERY == 0
+	var far_done := 0
 	var moved := 0
 	var wake_list: Array[int] = []
 	var leveled := {}
@@ -180,8 +186,11 @@ func step() -> int:
 		var x := i % W
 		var y := i / W
 		if not win.has_point(Vector2i(x, y)):
-			continue
-		done += 1
+			if not far_ok or far_done >= FAR_MAX:
+				continue
+			far_done += 1
+		else:
+			done += 1
 		var v := liq[i]
 		var lv := v & 15
 		if lv == 0:

@@ -2,7 +2,8 @@
 # Le prove, nel modo sicuro (28 set 2026): prima il controllo di sintassi dei .gd cambiati (se uno non compila, niente
 # prove: il giro resterebbe fermo), poi le prove con un tempo massimo e il riassunto (avvisi, errori, corsa, tempi).
 #   tools/prove.sh base,casse        il gruppo «base» (~1 minuto) più quelli della parte toccata
-#   tools/prove.sh tutto             il giro intero (~8 minuti): solo quando serve davvero (vedi CLAUDE.md)
+#   tools/prove.sh tutto             il giro intero (~25 minuti): solo quando serve davvero (vedi CLAUDE.md)
+#   tools/prove.sh meta1 / meta2     le due metà del giro intero (~10-12 minuti l'una), da lanciare a turno
 set -u
 cd "$(dirname "$0")/.."
 G=/c/Users/Principale/Desktop/GODOT/Godot_v4.6.1-stable_win64_console.exe
@@ -24,6 +25,8 @@ log=$(mktemp)
 start=$(date +%s)
 if [ "${1:-base}" = "tutto" ]; then
 	timeout 1800 "$G" --path . -- --prove > "$log" 2>&1
+elif [ "${1:-base}" = "meta1" ] || [ "${1:-base}" = "meta2" ]; then
+	timeout 1200 "$G" --path . -- --prove --meta="${1#meta}" > "$log" 2>&1
 else
 	timeout 900 "$G" --path . -- --prove --solo="${1:-base}" > "$log" 2>&1
 fi

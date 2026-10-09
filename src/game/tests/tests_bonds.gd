@@ -64,6 +64,21 @@ func _companion(h: Herd, sp: String, lvl: int) -> Dictionary:
 	return rec
 
 
+## Aspetta che il compagno compaia (fino a 4 s, con la Vita piena: appassito non lo si evoca; voce 479: nella seconda
+## metà del giro il Germogliato arriva qui senza l'armatura delle prove di prima). Falso, e lo dice, se non arriva.
+func _in_scene(h: Herd, rec: Dictionary) -> bool:
+	var t := 0.0
+	while t < 4.0:
+		m.vitals.refill()
+		await kit.seconds(0.25)
+		t += 0.25
+		if h.beasts.has(int(rec["uid"])) and t >= 0.5:
+			return true
+	print("ATTENZIONE: il compagno %s non compare (appassito %s, stato %s, KO %s)" % [String(rec["specie"]),
+		"sì" if m.life.dead else "no", String(rec["stato"]), str(rec.get("ko", false))])
+	return false
+
+
 ## Voce 310: cinque specie, cinque stili, ognuna contro un nemico vero.
 func styles(spot: Vector2i, h: Herd) -> void:
 	var out := []
@@ -314,7 +329,8 @@ func growth(spot: Vector2i, h: Herd) -> void:
 	m.fauna.clear()
 	m.snap_to(spot)
 	var rec := _companion(h, "grumo_muschio", 1)
-	await kit.seconds(0.5)
+	if not await _in_scene(h, rec):
+		return
 	var weak := BondsData.xp_from(1.0, 10)
 	var strong := BondsData.xp_from(20.0, 10)
 	# una creatura sconfitta dal Germogliato: metà dell'esperienza al compagno in campo
@@ -351,7 +367,8 @@ func gifts(spot: Vector2i, h: Herd) -> void:
 	m.fauna.clear()
 	m.snap_to(spot)
 	var rec := _companion(h, "volpe_ambra", 5)
-	await kit.seconds(0.5)
+	if not await _in_scene(h, rec):
+		return
 	var bb: BondBag = m.bonds
 	var b := kit.bisaccia()
 	var hp0 := int(Herd.stats_of(rec)["hp"])
