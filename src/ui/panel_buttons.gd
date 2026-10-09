@@ -57,6 +57,20 @@ func setup(main: Node2D) -> void:
 		btn.pressed.connect(func() -> void: press(what))
 		m.hud.add_child(btn)
 		buttons.append(btn)
+	# voce 480: il Menu del Giardiniere, in fondo alla fila di sopra (un segno disegnato: non ha un'icona dipinta)
+	var mb := Button.new()
+	mb.text = "☰"
+	mb.position = ROWS[1] + Vector2(PER_ROW * (SIZE + GAP), 0)
+	mb.size = Vector2(SIZE, SIZE)
+	mb.focus_mode = Control.FOCUS_NONE
+	UiFrames.button(mb, UiPalette.AMBRA, false, "icona")
+	mb.add_theme_font_size_override("font_size", 22)
+	mb.add_theme_color_override("font_color", UiPalette.AMBRA_CHIARA)
+	var mtip := "Il Menu del Giardiniere: tutti i pannelli (%s)" % Keys.label("menu")
+	Tips.attach(mb, func() -> Variant: return TipCard.simple(mtip))
+	mb.pressed.connect(func() -> void: press("menu"))
+	m.hud.add_child(mb)
+	buttons.append(mb)
 
 
 ## Apre (o chiude) il pannello del pulsante: come il suo tasto.
@@ -82,6 +96,8 @@ func press(what: String) -> void:
 			_overlay(AtlasPanel)
 		"pausa":
 			m.game_options.open_menu()
+		"menu":
+			_overlay(GardenerMenu)
 
 
 func _overlay(kind: Variant) -> void:

@@ -88,6 +88,7 @@ func run() -> void:
 	if not (menu_on and paused and resumed and absf(zoom3 - 3.0) < 0.01 and fl > 0.07 and craft_pause and rebound and old_gone):
 		print("ATTENZIONE: le Opzioni non funzionano come dovrebbero")
 	await _observe()
+	await _menu()
 	if m.get_tree().paused:
 		print("ATTENZIONE: il mondo è rimasto in pausa")
 
@@ -124,3 +125,35 @@ func _observe() -> void:
 		"sì" if on else "NO", "sì" if still else "NO", "sì" if card else "NO", "sì" if off else "NO", "sì" if esc_off else "NO"])
 	if not (on and still and card and off and esc_off):
 		print("ATTENZIONE: il tasto «osserva» non funziona come dovrebbe")
+
+
+## Voce 480: il Menu del Giardiniere si apre con il suo tasto, mostra tutti i pannelli con il loro tasto e lo stato; un
+## clic su una scheda chiude il menu e apre il pannello (qui la mappa).
+func _menu() -> void:
+	var gm: GardenerMenu = null
+	for o in m.hud.overlays:
+		if o is GardenerMenu:
+			gm = o
+	if gm == null:
+		print("ATTENZIONE: il Menu del Giardiniere non c'è")
+		return
+	_key(int(Settings.keys_of("menu")[0]))
+	await kit.frames(4)
+	var shown := gm.visible
+	var txt := gm.shown_text()
+	var all_keys := true
+	for e in GardenerMenu.ENTRIES:
+		if not txt.contains(String(e[2])):
+			all_keys = false
+	await kit.save("125_menu_giardiniere")
+	gm.choose("mappa")
+	await kit.frames(5)
+	var map_on: bool = m.hud.map.visible and not gm.visible
+	if m.hud.map.visible:
+		m.hud.map.toggle()
+	await kit.frames(2)
+	print("menu del Giardiniere: si apre %s, %d pannelli tutti scritti %s, stato dell'Erbario «%s», il clic apre la mappa %s" % [
+		"sì" if shown else "NO", GardenerMenu.ENTRIES.size(), "sì" if all_keys else "NO", gm._status_of("erbario"),
+		"sì" if map_on else "NO"])
+	if not (shown and all_keys and map_on):
+		print("ATTENZIONE: il Menu del Giardiniere non funziona come dovrebbe")

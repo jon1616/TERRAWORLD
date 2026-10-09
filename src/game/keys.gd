@@ -34,7 +34,7 @@ static func labels(action: String) -> String:
 
 const NAMES := {KEY_SPACE: "Spazio", KEY_SHIFT: "Maiusc", KEY_TAB: "Tab", KEY_LEFT: "Freccia sinistra",
 	KEY_RIGHT: "Freccia destra", KEY_UP: "Freccia su", KEY_DOWN: "Freccia giù", KEY_CTRL: "Ctrl", KEY_ALT: "Alt",
-	KEY_ENTER: "Invio", KEY_BACKSPACE: "Cancella", KEY_CAPSLOCK: "Bloc Maiusc"}
+	KEY_ENTER: "Invio", KEY_BACKSPACE: "Cancella", KEY_CAPSLOCK: "Bloc Maiusc", KEY_BACKSLASH: "\\"}
 
 
 static func key_name(k: int) -> String:
@@ -45,6 +45,6 @@ static func key_name(k: int) -> String:
 
 ## Le due righe dell'aiuto in alto, con i tasti di adesso.
 static func help_text() -> String:
-	return "%s/%s muovi · %s salta · %s scendi dalle passerelle · clic sinistro usa · clic destro torcia o tocca (ceste, Cuore, portali)\n1-0 / rotella oggetti · %s Bisaccia · %s mappa · %s minimappa · %s Erbario · %s Enciclopedia · Esc pausa" % [
+	return "%s/%s muovi · %s salta · %s scendi dalle passerelle · clic sinistro usa · clic destro torcia o tocca (ceste, Cuore, portali)\n1-0 / rotella oggetti · %s Bisaccia · %s mappa · %s minimappa · %s Erbario · %s Enciclopedia · %s tutti i pannelli · Esc pausa" % [
 		label("sinistra"), label("destra"), label("salto"), label("giu"), label("bisaccia"), label("mappa"),
-		label("minimappa"), label("erbario"), label("enciclopedia")]
+		label("minimappa"), label("erbario"), label("enciclopedia"), label("menu")]

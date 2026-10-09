@@ -11,6 +11,7 @@ const ACTIONS := [
 	["giu", "Scendi dalle passerelle, sgancia il rampino", [KEY_S, KEY_DOWN], "Muoversi"],
 	["schiva", "Schivata (serve un oggetto che la sblocca)", [KEY_C], "Muoversi"],
 	["cavalca", "Sali o scendi dalla cavalcatura", [KEY_R], "Muoversi"],
+	["menu", "Il Menu del Giardiniere: tutti i pannelli con i loro tasti", [KEY_BACKSLASH], "Pannelli"],
 	["bisaccia", "Apri la Bisaccia (e Creare)", [KEY_E, KEY_TAB], "Pannelli"],
 	["mappa", "Mappa", [KEY_M], "Pannelli"],
 	["minimappa", "Mostra o nascondi la minimappa", [KEY_N], "Pannelli"],

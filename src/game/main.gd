@@ -148,6 +148,7 @@ var secrets: Secrets
 var board: Board
 var storage: Storage
 var herd: Herd
+var cascades: Cascades                  # voce 482
 var bonds: BondBag                     # Roadmap 32: la Sacca dei legami
 var zone_grade: ZoneGrade              # Roadmap 33: la tinta delle zone
 var taming: Taming
@@ -303,6 +304,7 @@ func _build() -> void:
 	places = _mount(Places.new())          # voce 70: i luoghi scritti a mano
 	mechanisms = _mount(Mechanisms.new())  # voce 71: enigmi e meccanismi dei luoghi (porte dei Seminatori)
 	liquids = _mount(Liquids.new())        # voce 73: acqua, Linfa e brace che scorrono; nuoto e respiro
+	cascades = _mount(Cascades.new())      # voce 482: le cascate (sorgenti del generatore, scarico nello specchio)
 	weather = _mount(Weather.new())        # voce 75: vento, pioggia, nebbia, temporali, cenere, bufere
 	gravity = _mount(Gravity.new())        # voce 76: il peso del mondo e le correnti ascensionali
 	chiome = _mount(Chiome.new())              # Roadmap 16: le Chiome del cielo (zone, scritte)
@@ -412,6 +414,10 @@ func _build() -> void:
 	finds = _mount(Finds.new())                  # Roadmap 45: casse dei biomi, mimi, chiavi, la Pozza
 	modes = _mount(Modes.new())                  # Roadmap 49: le modalità
 	grounds = _mount(Grounds.new())              # Roadmap 52: i blocchi con una fisica e le corde
+	var gm := GardenerMenu.new()               # voce 480: il Menu del Giardiniere (tutti i pannelli, un tasto)
+	hud.add_child(gm)
+	gm.setup(self)
+	hud.overlays.append(gm)
 	_mount(PanelButtons.new())                 # voce 101: i pulsanti dei pannelli in basso a sinistra
 	hud.select(character.hotbar)
 	var start := world.spawn
