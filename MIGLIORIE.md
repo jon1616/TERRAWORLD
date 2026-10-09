@@ -188,3 +188,33 @@ che cambia con lo strato, e un suono per ogni gene raro in arrivo.
 4. Poi, a scelta tua, **mondi che si parlano** (5) o **la casa che cresce** (6); i contenuti scritti a mano (7) si
    aggiungono a pezzi lungo la strada.
 5. Le voci 8-11 si fanno quando capita, tra una grande e l'altra.
+
+---
+
+## Analisi del 9 ott 2026 (dopo le Roadmap 52-61), da discutere in dettaglio
+
+**Grafica**
+- Creature: molte ancora disegnate dal codice; pose di Nano Banana prima alle più incontrate e ai boss.
+- Sfondi sotto terra (rimandati nella Roadmap 34: ora il generatore è finito).
+- Acqua: mancano le cascate; i liquidi si muovono solo vicino al Germogliato.
+- Animazioni povere di abitanti e attacchi (poco annuncio oltre al «!»).
+- Icone dipinte solo per parte delle forme: stili mescolati.
+
+**Meccaniche**
+- Troppi tasti e pannelli: un solo «menu del Giardiniere» da cui si apre tutto, sbloccato poco a poco.
+- La prima ora: provarla con un giocatore nuovo e togliere ciò che arriva troppo presto.
+- Il bilancio è tarato su simulati e un solo diario vero: servono altre partite vere (morti_causa).
+- Liquidi lontani fermi: simulazione lenta anche fuori dalla visuale (pesca, rete, costruzioni).
+- Migrazioni dei salvataggi da riattivare prima di dare il gioco agli amici.
+
+**Contenuti**
+- Potatura: unire o togliere i «gemelli» generati dalle tabelle e scrivere a mano il sapore di ciò che resta.
+- Musica: solo due brani; uno per strato o bioma, Giardino, notte. Suoni sintetizzati.
+- Storia forte ma poco visibile: più momenti scritti nei punti di svolta (poco testo).
+- Abitanti con routine (giorno e notte, lavoro, reazioni agli eventi).
+
+**Strumenti**
+- Il giro intero supera i 20-30 minuti: dividerlo in due metà da lanciare a turno.
+
+**Ordine proposto**: partita vera con i dati delle morti → menu unico e prima ora → potatura → creature dipinte e
+musica.
