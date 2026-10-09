@@ -6451,6 +6451,11 @@ L'ultima del piano «Il generatore eccellente» (`GENERATORE.md`).
   e descrizione, da `WorldShapesData` sugli effetti dei geni) e se ci sono i mari ai bordi; per il mondo in cui si è,
   l'Atlante conta anche i punti di riferimento e la traccia del passato. Nell'Enciclopedia il capitolo «La forma dei
   mondi» (sagome, mari e relitti, tracce, punti di riferimento, liane, ingressi). Foto 109_scheda_portale.
-- [ ] **476. I mondi vecchi.**
+- [x] **476. I mondi vecchi.**
+  Fatto il 9 ott 2026, nei limiti della scelta dell'utente (26 set 2026: in sviluppo le partite sono prove, niente
+  migrazioni): un mondo alto 1000 righe nasce con il generatore nuovo senza problemi del collaudatore (superficie a ~285,
+  8 zone del cielo); le zone del cielo alla vecchia maniera ({low, high, split}, senza il cielo di mezzo) si leggono con
+  `SkyData.band_rows` (il cielo medio vuoto); `tools/prova_salvataggi.gd`: salvataggio 35 ms, caricamento 49 ms, file
+  0,66 MB, «tutto a posto».
 - [ ] **477. Il giro completo.**
 - [ ] **478. Il resoconto del piano.**
