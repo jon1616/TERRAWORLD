@@ -1138,6 +1138,13 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
   di pietre; appunti «riferimenti» → `world_meta` da `MapReveal` → la mappa), `EntrancesData` + `PassIngressi` (quattro
   forme d'ingresso), `PassAcqueSuperficie` (laghi nelle valli, fiumi; mai entro 150 colonne dalla partenza, dove le
   prove costruiscono). Foto prima e dopo: gruppi «sfondi» e «volto» con `tools/confronto_volto.py`.
+- **Roadmap 61 «Il collaudo del generatore»** (voci 470-478, 9 ott 2026): `ReachMap` (`src/world/gen/reach_map.gd`: dove
+  si arriva a piedi dalla partenza senza scavare; salti, cadute di corsa, passerelle, nuoto, liane, correnti),
+  `tools/connettivita.gd`, `PassCollaudo.reach_of` (parametro «raggiungibile») e la prova `TestsWorld.reach` nel gruppo
+  «base» (superficie ≥ 85%, oggi 97-99%). **Una struttura nuova costruita sopra la terra vuole le sue liane** (o la
+  rimette il collaudatore con `PassRocce._wall_vines`, che parte dalla superficie e sale finché la roccia continua);
+  dentro una corrente, tenendo il salto, vince la corrente sulla liana (`Player._step`). Misure nuove in
+  `tools/mappe.gd` (con `--prima`), il riferimento finale in prove/generatore_61.
 - **Roadmap 52 «La terra dei mondi»** (voci 412-418, 7 ott 2026; richiesta dell'utente: i blocchi a confronto con
   Terraria). Tutto nel pacchetto generato `src/data/vastita/terre.gd` (`tools/vastita_gen/terre.py`; tessere 59-119):
   - Campi nuovi delle tessere dei pacchetti: «kind» (suolo, roccia, comune, minerale, gemma, blocco), «look» (il disegno
@@ -1572,6 +1579,11 @@ Godot_console.exe --headless --path . --script res://tools/mappe.gd -- --semi 12
 - **Roadmap 37** (4 ott 2026): una `static var` che tiene una funzione anonima con dentro un nodo (`Crafting.awakened_hook`)
   fa andare in crash il gioco **alla chiusura** (signal 11 dopo l'ultima prova): la si svuota in `_exit_tree` del nodo.
   Il crash si vede solo in fondo al registro: dopo un giro si cerca «signal 11», non solo «ATTENZIONE».
+- **Il piano del generatore** (8-9 ott 2026): una ricerca di percorso sul mondo generato vale più di molte prove: ha
+  trovato metà del mondo irraggiungibile a piedi per passaggi chiusi che nessuna prova vedeva. Le passate che scavano
+  la cima del terreno (imbocchi, bocche, crateri, fiumi) lasciano `World.surface` vecchia: chi cerca la terra vera la
+  cerca nelle tessere. E le prove che si costruiscono un posto devono chiuderlo (lati, liquidi, tempo, posizione del
+  Germogliato): con il mondo nuovo una dozzina contava su com'era il mondo di prova prima.
 - Una regola del mondo che dipende dalla luce va **misurata nel posto vero**: nelle Profondità e nel Fondo la luce di funghi
   e cristalli impediva quasi tutte le nascite (3 punti buoni su 300), e nessuna prova se n'era accorta per settimane.
 

@@ -12,8 +12,10 @@
 - **Fatta la Roadmap 59 «Mondi che non si somigliano»** (voci 459-464, 8-9 ott 2026): sette sagome, i mari ai bordi, il
   carattere dei biomi, le tracce del passato; il 97% delle coppie di Semi oltre il doppio del rumore.
 - **Fatta la Roadmap 60 «La superficie da cartolina»** (voci 465-469, 9 ott 2026): massicci a pareti e cenge con archi,
-  sporgenze e liane; punti di riferimento sulla mappa; ingressi come dati; laghi e fiumi. In corso la Roadmap 61
-  (l'utente: «completa tutte le roadmap consecutivamente»).
+  sporgenze e liane; punti di riferimento sulla mappa; ingressi come dati; laghi e fiumi.
+- **Fatto il piano «Il generatore eccellente»** (`GENERATORE.md`, Roadmap 56-61, voci 439-478, 8-9 ott 2026) con la
+  Roadmap 61 «Il collaudo del generatore»: misure nuove, ricerca di percorso (la superficie si percorre a piedi al
+  98-99%), un mondo in 5,6-5,9 s, giro completo pulito. Resoconto del piano in fondo; non ancora su GitHub.
 - **Fatta la Roadmap 55 «Il volto chiaro»** (voci 428-438, 8 ott 2026): tutta l'interfaccia rifatta in uno stile solo.
   Via i caratteri a pixel: Alegreya e Alegreya Sans; cornici a vettori; lo scheletro comune dei pannelli (`UiPage`) con
   medaglione, numeri chiave, schede, elenco e dettaglio, tasti disegnati; suggerimenti, letture, HUD e scritte nel mondo
@@ -6457,5 +6459,39 @@ L'ultima del piano «Il generatore eccellente» (`GENERATORE.md`).
   8 zone del cielo); le zone del cielo alla vecchia maniera ({low, high, split}, senza il cielo di mezzo) si leggono con
   `SkyData.band_rows` (il cielo medio vuoto); `tools/prova_salvataggi.gd`: salvataggio 35 ms, caricamento 49 ms, file
   0,66 MB, «tutto a posto».
-- [ ] **477. Il giro completo.**
-- [ ] **478. Il resoconto del piano.**
+- [x] **477. Il giro completo.**
+  Fatto il 9 ott 2026: `tools/prove.sh tutto` (~21 minuti) tre volte. Il primo giro ha trovato sei avvisi, tutti
+  corretti: le leggende dei due biomi del cielo della Roadmap 56 (`MythsData`), `WeatherCover` che cercava le cime
+  dalla cima del mondo con due chiamate per cella (9 ms in un fotogramma; ora legge gli array), e una regola del
+  movimento: **dentro una corrente, tenendo il salto, vince la corrente sulla liana** (`Player._step`: le liane del
+  collaudatore sulla colonna di una corrente facevano arrampicare piano invece di portare in cielo). Le altre erano
+  prove che contavano su com'era il mondo di prova prima (riponi, fagiolo di nuvola, scavo intelligente, pozzo di Linfa,
+  ruota d'acqua, Trivella, foglie con il sole, corrente vicino alla partenza, mucchio di oggetti, creature nascoste):
+  ora si preparano il posto da sole. `tools/percorso.gd`: «attento» 1,2 appassimenti all'ora, «medio» 6,5 (come prima);
+  `tools/durata.gd`: 532 ore per il giocatore medio (invariata: conta dai dati); `tools/densita.gd` letta.
+  Il terzo giro: **0 avvisi**, nessun crash. Da tenere d'occhio: nel giro intero la corsa ha un fotogramma peggiore di
+  ~68 ms (uno solo, dopo 20 minuti di prove accumulate; nel gruppo «base» da solo resta sotto i 25 ms).
+- [x] **478. Il resoconto del piano.** Qui sotto, con le mappe prima e dopo in prove/generatore_prima_dopo.png.
+
+**Resoconto della Roadmap 61.** Il generatore ora si misura da sé: le misure nuove di `tools/mappe.gd`, la ricerca di
+percorso (`ReachMap`, `tools/connettivita.gd`, nel collaudatore su richiesta e nel gruppo «base»), un mondo in 5,6-5,9 s,
+le prove indipendenti dal mondo, la sagoma nelle schede. La ricerca di percorso è stata la cosa più utile: ha trovato
+**metà del mondo irraggiungibile a piedi** per difetti veri (sporgenze, imbocchi, fiumi, guglie, il cratere della firma,
+la radice del cosmo) che nessuna prova vedeva.
+
+**Resoconto del piano «Il generatore eccellente»** (`GENERATORE.md`, Roadmap 56-61, voci 439-478, 8-9 ott 2026;
+scelte dell'utente: mondo alto 1200, minerali in giacimenti, mari ai bordi in quasi tutte le sagome). Prima: un
+continente di colline lisce, un cielo quasi vuoto (2% di terra), le stesse grotte tonde dalla superficie al Fondo,
+metalli a puntini, e due Semi diversi che si distinguevano meno di due mondi dello stesso Seme. Ora:
+- **il cielo** alto quanto la mappa, in tre fasce, con continenti sospesi, i luoghi dei Seminatori, mari di nuvole e
+  correnti fra le fasce (terra del cielo 6,5-6,9%, il medio 13-15%);
+- **il sottosuolo** con uno stile di grotta per strato, grandi caverne, voragini, regioni, confini vivi, falde e una
+  strada fino al Fondo;
+- **i tesori** in giacimenti con i loro segni (stessa resa per chi scava a caso, di più per chi li cerca), cristalli in
+  grotte di cristallo, gemme al posto giusto;
+- **sette sagome**, mari ai bordi con relitto e pesci propri, biomi con larghezze e vicini sensati e passaggi sfumati,
+  una traccia del passato per mondo: il 97% delle coppie di Semi oltre il doppio del rumore;
+- **una superficie da cartolina**: massicci a pareti e cenge, archi, sporgenze, punti di riferimento sulla mappa,
+  ingressi di quattro forme, laghi e fiumi; percorribile a piedi per il 98-99% delle colonne.
+Rimaste per dopo: le **cascate** (vogliono una sorgente che non allaghi la valle) e lo scatto delle prime icone di
+Creare nei primi secondi di gioco (una casella da 10-25 ms).
