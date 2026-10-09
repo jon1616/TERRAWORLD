@@ -137,6 +137,36 @@ func run() -> void:
 	cp.cat = ""
 	cp._refresh()
 	var cat_ok: bool = by_cat == ["humus"] and tabs >= 3 and cp._cats.visible
+	# 9 ott 2026 (l'utente): con tutti i tipi nella cassa le schede scendevano dentro la Bisaccia e le coprivano
+	var keep: Array = c2.slots.duplicate(true)
+	var seen := {}
+	for id in ItemsData.all():
+		var k := StorageData.category_of(String(id))
+		if not seen.has(k):
+			seen[k] = true
+			c2.add(String(id), 1)
+	cp._refresh()
+	await kit.frames(3)
+	var cr := Rect2(cp._cats.position, cp._cats.get_combined_minimum_size())
+	var fr := Rect2(cp._frame.position, cp._frame.size)
+	var fits := cr.end.y <= fr.end.y + 4.0       # sotto i pulsanti o a lato: mai più in basso del fondo della cassa
+	await kit.save("352_cassa_tutte_schede")
+	print("schede con tutti i tipi: %d, dentro l'altezza della cassa o a lato %s (fondo %.0f, cassa %.0f)" % [
+		cp._cats.get_child_count(), "sì" if fits else "NO", cr.end.y, fr.end.y])
+	# la stessa cosa con la misura della Dispensa da 60 caselle (la foto dell'utente): schede sotto i pulsanti
+	for size in [60, 100]:
+		cp._layout(size)
+		cp._place_cats(cp._cats.get_child_count())
+		var cr2 := Rect2(cp._cats.position, cp._cats.get_combined_minimum_size())
+		if cr2.end.y > cp._frame.position.y + cp._frame.size.y + 4.0:
+			fits = false
+			print("  con %d caselle le schede finiscono a %.0f, la cassa a %.0f" % [size, cr2.end.y, cp._frame.position.y + cp._frame.size.y])
+	cp._layout(c2.slots.size())
+	if not fits:
+		print("ATTENZIONE: le schede della cassa escono sulla Bisaccia")
+	c2.slots = keep
+	c2.changed.emit()
+	cp._refresh()
 	var where: String = m.storage.where_text("legno")
 	var where_ok := where.contains("Dove ce l'hai") and where.contains("tessere")
 	var g0 := int(m.character.stats.get("dispensa_grado", 1))

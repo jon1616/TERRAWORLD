@@ -96,6 +96,7 @@ func setup(p: BisacciaPanel) -> void:
 		_buttons.append(btn)
 	_cats = VBoxContainer.new()
 	_cats.add_theme_constant_override("separation", 2)
+	_cats.mouse_filter = Control.MOUSE_FILTER_IGNORE   # (il riquadro non prende i clic: solo le schede)
 	add_child(_cats)
 	# le impostazioni, in una fascia sopra la cassa
 	_settings = Panel.new()
@@ -212,6 +213,7 @@ func _fill_cats(counts: Dictionary) -> void:
 		b.text = "%s  %d" % [r[1], int(r[2])]
 		b.custom_minimum_size = Vector2(150, 22)
 		b.add_theme_font_size_override("font_size", 14)
+		_compact(b)
 		b.focus_mode = Control.FOCUS_NONE
 		b.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		b.toggle_mode = true
@@ -225,15 +227,31 @@ func _fill_cats(counts: Dictionary) -> void:
 	_place_cats(rows.size())
 
 
-## Sotto i pulsanti se ci stanno dentro l'altezza della cassa; altrimenti a sinistra della cassa (le casse piccole):
-## mai sopra i pulsanti della Bisaccia.
+## Le schede basse: le cornici della Roadmap 55 hanno un margine interno alto, e dieci schede piene arrivavano fin
+## dentro la Bisaccia (9 ott 2026, l'utente: sopra le caselle e prendevano il mouse delle caselle sotto).
+static func _compact(b: Button) -> void:
+	var pad := Vector2(10, 1)
+	var none := Color(0, 0, 0, 0)
+	for pr in [["normal", "normale"], ["hover", "sopra"], ["pressed", "scelto"], ["hover_pressed", "scelto"],
+			["disabled", "spento"]]:
+		b.add_theme_stylebox_override(String(pr[0]), UiFrames.padded("pulsante", String(pr[1]), none, pad))
+
+
+## Sotto i pulsanti se ci stanno dentro l'altezza della cassa; altrimenti a sinistra della cassa, col fondo allineato
+## al fondo della cassa (le casse piccole stanno in basso: scendendo dall'alto coprivano la scheda del Germogliato):
+## mai sopra la Bisaccia. L'altezza è quella vera delle schede, non una stima.
 func _place_cats(n: int) -> void:
-	var need := n * 24.0
+	var row := 24.0
+	for b in _cats.get_children():
+		if not b.is_queued_for_deletion():
+			row = maxf(22.0, (b as Control).get_combined_minimum_size().y + 2.0)
+			break
+	var need := n * row
 	var bottom := _frame.position.y + _frame.size.y
 	if _cats_below.y + need <= bottom + 4.0 or _frame.position.x < 170.0:
 		_cats.position = _cats_below
 	else:
-		_cats.position = Vector2(_frame.position.x - 160.0, _frame.position.y)
+		_cats.position = Vector2(_frame.position.x - 160.0, maxf(bottom - need, 60.0))
 
 
 ## Scrivere nel nome non deve muovere il Germogliato né aprire pannelli (come la ricerca di Creare).
