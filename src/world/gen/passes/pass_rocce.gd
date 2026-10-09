@@ -102,9 +102,15 @@ static func _wall_vines(w: World) -> void:
 	var g := PackedInt32Array()
 	g.resize(w.w)
 	for x in w.w:
-		var y := maxi(int(w.surface[x]) - 6, 0)
-		while y < mini(int(w.surface[x]) + 60, w.h - 1) and not w.solid(x, y):
-			y += 1
+		# dalla superficie: se lì c'è aria si scende fino alla terra (buche, imbocchi); se c'è roccia si sale finché
+		# continua (meraviglie, guglie, colonne costruite sopra la terra: le isole del cielo, staccate, restano fuori)
+		var y := int(w.surface[x])
+		if not w.solid(x, y):
+			while y < mini(int(w.surface[x]) + 60, w.h - 1) and not w.solid(x, y):
+				y += 1
+		else:
+			while y > maxi(int(w.surface[x]) - 160, 1) and w.solid(x, y - 1):
+				y -= 1
 		g[x] = y
 	for x in range(1, w.w - 1):
 		for dx in [-1, 1]:
@@ -112,9 +118,31 @@ static func _wall_vines(w: World) -> void:
 			var lo := g[x]
 			if lo - hi < 4:
 				continue
-			for y in range(hi, lo):
-				if not w.solid(x, y) and (w.decor_at(x, y) == 0 or TileDefs.is_soft_decor(w.decor_at(x, y))) and w.liq(x, y) == 0:
+			var y := hi
+			while y < lo:
+				if w.solid(x, y):
+					# (voce 474) una sporgenza corta che taglia la liana si apre: chi sale non le gira intorno (nel mondo di
+					# prova una mensola di 3 tessere a metà di una parete di 36 righe chiudeva un terzo del mondo)
+					var run := 0
+					while y + run < lo and w.solid(x, y + run):
+						run += 1
+					if run > 4 or y + run >= lo or not _can_open(w, x, y, run):
+						y += maxi(run, 1)
+						continue
+					for k in run:
+						w.set_tile(x, y + k, TileDefs.AIR)
+				if (w.decor_at(x, y) == 0 or TileDefs.is_soft_decor(w.decor_at(x, y))) and w.liq(x, y) == 0:
 					w.set_decor(x, y, LIANA)
+				y += 1
+
+
+static func _can_open(w: World, x: int, y: int, run: int) -> bool:
+	for k in run:
+		var t := w.tile(x, y + k)
+		if t == TileDefs.NODO or t == TileDefs.PORTA or t == TileDefs.PORTA_SEM or t == TileDefs.PIETRA_SEM \
+				or t in TileDefs.SEALS.values() or not w.station_at(Vector2i(x, y + k)).is_empty():
+			return false
+	return true
 
 
 ## La tenda di liane sul fianco sinistro di ogni pilastro, dalla cima a terra.

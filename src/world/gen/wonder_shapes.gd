@@ -191,6 +191,15 @@ static func _b_radice_cosmo(w: World, ctr: Vector2i, rng: RandomNumberGenerator)
 					_put(w, q.x, q.y, TileDefs.RADICE)
 				elif under and d <= th + 2.5 and w.inside(q.x, q.y) and w.tile(q.x, q.y) != TileDefs.RADICE:
 					_air(w, q.x, q.y, _wall(w, q))          # sotto terra la radice corre in una galleria
+	# (voce 474) dove la radice entra nella terra chiudeva la strada a chi cammina (la ricerca di percorso la trovava
+	# come un muro): un passaggio alto 3 righe alla sua base, un arco sotto la radice
+	for x in range(mini(int(a.x), int(b.x)) - 8, maxi(int(a.x), int(b.x)) + 9):
+		if x < 1 or x >= w.w - 1:
+			continue
+		var s := int(w.surface[x])
+		for y in range(s - 3, s):
+			if w.tile(x, y) == TileDefs.RADICE:
+				_air(w, x, y, 0)
 	var tip := Vector2i(b) + Vector2i(0, 4)
 	var wall := _wall(w, tip)
 	for y in range(tip.y, tip.y + 6):

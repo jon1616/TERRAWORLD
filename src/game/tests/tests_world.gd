@@ -15,6 +15,17 @@ func _init(tk: TestKit) -> void:
 
 
 ## Foto della superficie, della grotta con torcia, dello scavo e dei cristalli.
+## Voce 474: dalla partenza, senza scavare, si percorre quasi tutta la superficie del mondo di prova (`ReachMap`, la stessa
+## regola del collaudatore: `PassCollaudo.MIN_SURFACE`).
+func reach() -> void:
+	var t0 := Time.get_ticks_msec()
+	var r := PassCollaudo.reach_of(world, world.gen_notes.get("correnti", []))
+	print("raggiungibile a piedi: superficie %d%%, %d posti in tutto (%d ms)" % [roundi(100.0 * float(r["superficie"])),
+		int(r["posti"]), Time.get_ticks_msec() - t0])
+	if float(r["superficie"]) < PassCollaudo.MIN_SURFACE:
+		print("ATTENZIONE: la superficie del mondo di prova non si percorre a piedi")
+
+
 func places() -> void:
 	await kit.frames(30)
 	await kit.save("01_superficie")

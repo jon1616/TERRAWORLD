@@ -34,7 +34,35 @@ func run(w: World, c: GenContext) -> void:
 	_start(w, fixed)
 	# 4. le stazioni
 	_stations(w, c, problems, fixed)
+	# 5. (voce 474) le liane su ogni parete più alta del salto, ancora una volta: le passate dopo `PassRocce` (la firma, le
+	# tracce, i riferimenti, i laghi) fanno pareti nuove
+	if not garden:
+		PassRocce._wall_vines(w)
+	# 6. quanto si raggiunge a piedi dalla partenza (`ReachMap`): solo su richiesta, costa ~1,5 s
+	if bool(c.params.get("raggiungibile", false)) and not garden:
+		var reach := reach_of(w, c.notes.get("correnti", []))
+		c.notes["raggiungibile"] = reach
+		if float(reach["superficie"]) < MIN_SURFACE:
+			problems.append("la superficie si percorre a piedi solo per il %d%%" % roundi(100.0 * float(reach["superficie"])))
 	c.notes["collaudo"] = {"problemi": problems, "riparati": fixed}
+
+
+## La quota delle colonne di superficie che si raggiungono dalla partenza senza scavare (`ReachMap`): sotto, un problema.
+const MIN_SURFACE := 0.85
+
+
+## Quanto si raggiunge dalla partenza senza scavare: la quota delle colonne di superficie (un posto raggiunto entro 8 righe
+## sopra o 8 sotto la terra: le bocche delle caverne scavano la cima del terreno senza cambiare `surface`) e i posti raggiunti in tutto. Lo usa anche la prova del gruppo «base».
+static func reach_of(w: World, currents: Array) -> Dictionary:
+	var r := ReachMap.of(w, currents)
+	var cols := 0
+	for x in w.w:
+		var s := int(w.surface[x])
+		for y in range(s - 8, s + 9):
+			if r.at(x, y) >= 0:
+				cols += 1
+				break
+	return {"superficie": float(cols) / w.w, "posti": r.reached}
 
 
 ## La partenza: il corpo (due tessere) nell'aria, un pavimento sotto, niente liquidi né pericoli vicino.

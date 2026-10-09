@@ -139,6 +139,17 @@ func _cratere_stelle(w: World, c: GenContext, ctr: Vector2i) -> Vector2i:
 			for y in range(mini(old, base) - 20, ny):
 				w.set_tile(x, y, TileDefs.AIR)
 				w.set_decor(x, y, 0)
+			# (voce 474) sul fianco di un monte la terra sopra il cratere restava sospesa, un muro senza passaggi: si svuota
+			# la colonna fino all'aria aperta (6 celle d'aria di fila)
+			var yy := mini(old, base) - 21
+			var air := 0
+			while yy > 0 and air < 6:
+				if w.solid(x, yy):
+					w.set_tile(x, yy, TileDefs.AIR)
+					air = 0
+				else:
+					air += 1
+				yy -= 1
 			w.surface[x] = ny
 			var lining := TileDefs.CRYSTAL if absi(dx) < r / 2 else TileDefs.VUOTITE
 			for k in 2:

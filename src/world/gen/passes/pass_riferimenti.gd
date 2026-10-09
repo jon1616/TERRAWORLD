@@ -74,9 +74,8 @@ func _build(w: World, c: GenContext, kind: String, x: int, b: int) -> String:
 					w.set_tile(x + dx, s - dy, rock)
 			for dy in range(1, h - 2):
 				var half := int(round(3.0 * (1.0 - float(dy) / h) + 0.4))
-				var vx := x + half + 1
-				if not w.solid(vx, s - dy) and w.decor_at(vx, s - dy) == 0:
-					w.set_decor(vx, s - dy, LIANA)
+				for vx in [x - half - 1, x + half + 1]:              # (voce 474) su tutti e due i fianchi
+					_vine(w, vx, s - dy)
 			name = "La guglia (%s)" % bname
 		"rovina":
 			var h := c.rng.randi_range(8, 12)
@@ -86,6 +85,11 @@ func _build(w: World, c: GenContext, kind: String, x: int, b: int) -> String:
 					w.set_tile(x + side + 1, s - dy, TileDefs.PIETRA_SEM)
 			for dx in range(-5, 3):
 				w.set_tile(x + dx, s - h - 1, TileDefs.PIETRA_SEM)                # l'architrave, spezzato a destra
+			# (voce 474) le liane fuori e dentro le colonne: senza, la rovina era un muro per chi passava
+			for side in [-5, 5]:
+				for vx in [x + side - 1, x + side + 2]:
+					for dy in range(1, h + 1):
+						_vine(w, vx, s - dy)
 			var o := Vector2i(x - 1, s - 2)
 			if w.station_fits("scrigno", o):
 				w.stations[o] = "scrigno"
@@ -102,6 +106,14 @@ func _build(w: World, c: GenContext, kind: String, x: int, b: int) -> String:
 				for dy in range(1, ph + 1):
 					w.set_tile(px, py - dy, rock)
 					w.set_tile(px + 1, py - dy, rock)
+				for dy in range(1, ph + 1):
+					_vine(w, px - 1, py - dy)                             # (voce 474) si sale da tutti e due i lati
+					_vine(w, px + 2, py - dy)
 			name = "Il cerchio di pietre (%s)" % bname
 	c.claim(rect, "riferimento")
 	return name
+
+
+static func _vine(w: World, x: int, y: int) -> void:
+	if w.inside(x, y) and not w.solid(x, y) and (w.decor_at(x, y) == 0 or TileDefs.is_soft_decor(w.decor_at(x, y))):
+		w.set_decor(x, y, LIANA)

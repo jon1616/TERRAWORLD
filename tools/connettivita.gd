@@ -64,7 +64,15 @@ func _measure(w: World, sd: int, r: ReachMap, ms: int) -> void:
 	for rf in w.gen_notes.get("riferimenti", []):
 		if r.near(Vector2i(int(rf[0]), int(rf[1])), 6) >= 0:
 			refs += 1
-	_p("seme %d (ricerca %d ms, %d posti raggiunti):" % [sd, ms, r.reached])
+	var cols := 0
+	for x in w.w:
+		var s := int(w.surface[x])
+		for y in range(s - 8, s + 9):
+			if r.at(x, y) >= 0:
+				cols += 1
+				break
+	_p("seme %d (ricerca %d ms, %d posti raggiunti): la superficie si percorre a piedi per il %.0f%% delle colonne" % [sd, ms,
+		r.reached, 100.0 * cols / w.w])
 	for k in 5:
 		_p("   %-11s %5.1f%% dei posti dove stare (%d su %d)" % [NAMES[k], 100.0 * int(st_got[k]) / maxi(int(st_all[k]), 1),
 			int(st_got[k]), int(st_all[k])])

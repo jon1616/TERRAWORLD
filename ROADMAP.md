@@ -6436,7 +6436,16 @@ L'ultima del piano «Il generatore eccellente» (`GENERATORE.md`).
   nasceva sopra (il collaudatore lo segnalava). Lungo le Roadmap 56-61 le prove che cercavano un posto fisso sono state
   rese capaci di cercarselo o di farselo (pesca, pavimenti, corrente del cielo, pioggia, baccelli, raccolta, sobbalzo
   delle creature). L'impronta di base rifatta con `tools/impronta.gd` (prove/impronta.txt).
-- [ ] **474. La connettività come prova.**
+- [x] **474. La connettività come prova.** Nel collaudatore e nel gruppo «base».
+  Fatto il 9 ott 2026: `PassCollaudo` rimette le liane su ogni parete più alta del salto alla fine (le passate dopo
+  `PassRocce` fanno pareti nuove) e, su richiesta (parametro «raggiungibile», ~1,5 s), misura con `ReachMap` la quota
+  delle colonne di superficie raggiunte a piedi dalla partenza (`reach_of`; sotto `MIN_SURFACE` 85% è un problema). La
+  prova `TestsWorld.reach` nel gruppo «base» lo controlla sul mondo di prova. Altri passaggi chiusi trovati così: le
+  sporgenze corte che tagliavano una liana (si aprono, se non sono tessere speciali), la terra vera delle liane che non
+  vedeva ciò che sta sopra `surface` (ora sale finché la roccia continua), le guglie, le rovine e i cerchi di pietre
+  della voce 466 senza liane (ora su ogni lato), il cratere della firma sul fianco di un monte (lasciava la terra sospesa:
+  ora svuota la colonna), la meraviglia «radice del cosmo» che sbarrava la strada dove entra nella terra (ora un arco
+  alla base). Semi 1-5: la superficie si percorre a piedi per il **98-99%** delle colonne, il mondo di prova per il 97%.
 - [ ] **475. L'Atlante e le schede.**
 - [ ] **476. I mondi vecchi.**
 - [ ] **477. Il giro completo.**
