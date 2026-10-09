@@ -1,0 +1,3305 @@
+{
+	"capi": {
+		"cinghiale": 1.0,
+		"ragno": 1
+	},
+	"casa": "riko_20261009_071356",
+	"case": {
+
+	},
+	"casse": {
+
+	},
+	"cielo": [
+		{
+			"base": 452.0,
+			"high": "nidi_tempesta",
+			"low": "giardini_vento",
+			"mid": "fonti_sospese",
+			"split": 346.0,
+			"split_mh": 152.0,
+			"x0": 0.0,
+			"x1": 492.0
+		},
+		{
+			"base": 467.0,
+			"high": "nidi_tempesta",
+			"low": "radici_sospese",
+			"mid": "selve_pensili",
+			"split": 358.0,
+			"split_mh": 157.0,
+			"x0": 492.0,
+			"x1": 916.0
+		},
+		{
+			"base": 462.0,
+			"high": "firmamento",
+			"low": "mare_nubi",
+			"mid": "scogliere_cristallo",
+			"split": 354.0,
+			"split_mh": 156.0,
+			"x0": 916.0,
+			"x1": 1280.0
+		},
+		{
+			"base": 492.0,
+			"high": "nidi_tempesta",
+			"low": "giardini_vento",
+			"mid": "fonti_sospese",
+			"split": 377.0,
+			"split_mh": 165.0,
+			"x0": 1280.0,
+			"x1": 1728.0
+		},
+		{
+			"base": 405.0,
+			"high": "firmamento",
+			"low": "mare_nubi",
+			"mid": "scogliere_cristallo",
+			"split": 311.0,
+			"split_mh": 138.0,
+			"x0": 1728.0,
+			"x1": 2171.0
+		},
+		{
+			"base": 416.0,
+			"high": "nidi_tempesta",
+			"low": "radici_sospese",
+			"mid": "selve_pensili",
+			"split": 319.0,
+			"split_mh": 141.0,
+			"x0": 2171.0,
+			"x1": 2624.0
+		},
+		{
+			"base": 407.0,
+			"high": "firmamento",
+			"low": "giardini_vento",
+			"mid": "fonti_sospese",
+			"split": 312.0,
+			"split_mh": 138.0,
+			"x0": 2624.0,
+			"x1": 3000.0
+		}
+	],
+	"correnti": [
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 435.0,
+			"y0": 406.0,
+			"y1": 523.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 473.0,
+			"y0": 351.0,
+			"y1": 524.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 30.0,
+			"y0": 286.0,
+			"y1": 554.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 30.0,
+			"y0": 286.0,
+			"y1": 554.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 265.0,
+			"y0": 167.0,
+			"y1": 282.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 390.0,
+			"y0": 22.0,
+			"y1": 272.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 509.0,
+			"y0": 422.0,
+			"y1": 520.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 800.0,
+			"y0": 271.0,
+			"y1": 414.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 800.0,
+			"y0": 271.0,
+			"y1": 414.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 716.0,
+			"y0": 188.0,
+			"y1": 209.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 652.0,
+			"y0": 79.0,
+			"y1": 265.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 934.0,
+			"y0": 456.0,
+			"y1": 491.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 969.0,
+			"y0": 285.0,
+			"y1": 392.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 1247.0,
+			"y0": 287.0,
+			"y1": 520.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 1073.0,
+			"y0": 219.0,
+			"y1": 260.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 1026.0,
+			"y0": 90.0,
+			"y1": 163.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 1377.0,
+			"y0": 479.0,
+			"y1": 526.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 1710.0,
+			"y0": 472.0,
+			"y1": 520.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 1636.0,
+			"y0": 436.0,
+			"y1": 520.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 1511.0,
+			"y0": 278.0,
+			"y1": 521.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 1511.0,
+			"y0": 278.0,
+			"y1": 521.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 1640.0,
+			"y0": 354.0,
+			"y1": 519.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 1666.0,
+			"y0": 55.0,
+			"y1": 355.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 2110.0,
+			"y0": 370.0,
+			"y1": 429.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 2017.0,
+			"y0": 238.0,
+			"y1": 319.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 2017.0,
+			"y0": 238.0,
+			"y1": 319.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 2102.0,
+			"y0": 299.0,
+			"y1": 438.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 2150.0,
+			"y0": 25.0,
+			"y1": 64.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 2576.0,
+			"y0": 400.0,
+			"y1": 507.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 2210.0,
+			"y0": 168.0,
+			"y1": 349.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 2394.0,
+			"y0": 168.0,
+			"y1": 509.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 2518.0,
+			"y0": 164.0,
+			"y1": 224.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 2480.0,
+			"y0": 96.0,
+			"y1": 148.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 2779.0,
+			"y0": 346.0,
+			"y1": 535.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 2784.0,
+			"y0": 316.0,
+			"y1": 536.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 2633.0,
+			"y0": 334.0,
+			"y1": 431.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 2898.0,
+			"y0": 187.0,
+			"y1": 300.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 2686.0,
+			"y0": 187.0,
+			"y1": 262.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 2679.0,
+			"y0": 261.0,
+			"y1": 467.0
+		},
+		{
+			"cielo": true,
+			"w": 1.0,
+			"x": 2845.0,
+			"y0": 105.0,
+			"y1": 180.0
+		}
+	],
+	"creato": "2026-10-09 07:24:12",
+	"cripte": [],
+	"dimensioni": [
+		3000,
+		1200
+	],
+	"esplorato": 1,
+	"felicita": {
+
+	},
+	"firma": {
+		"id": "alveare_cristallo",
+		"trovata": false,
+		"x": 706.0,
+		"y": 891.0
+	},
+	"formato": 2,
+	"geni": [
+		"sporangio",
+		"conca",
+		"radici_giganti",
+		"rovine_fitte"
+	],
+	"giocatori": {
+		"ale_20261009_071336": [
+			1352,
+			721
+		]
+	},
+	"giorno": 3,
+	"luoghi": [
+		{
+			"enigma": {
+				"parole": [
+					"madre",
+					"dorme",
+					"giardiniere",
+					"cura",
+					"albero"
+				],
+				"risolto": false,
+				"tipo": "glifi"
+			},
+			"h": 11.0,
+			"id": "biblioteca",
+			"leggio": [
+				190.0,
+				680.0
+			],
+			"mecc": {
+
+			},
+			"porta": [
+				[
+					192.0,
+					679.0
+				],
+				[
+					192.0,
+					680.0
+				],
+				[
+					192.0,
+					681.0
+				]
+			],
+			"trovato": false,
+			"w": 24.0,
+			"x": 179.0,
+			"y": 673.0
+		},
+		{
+			"enigma": {
+				"risolto": false,
+				"tipo": "bracieri"
+			},
+			"h": 6.0,
+			"id": "camera_bracieri",
+			"leggio": [
+				211.0,
+				681.0
+			],
+			"mecc": {
+				"1": [
+					213.0,
+					682.0
+				],
+				"2": [
+					215.0,
+					682.0
+				],
+				"3": [
+					217.0,
+					682.0
+				]
+			},
+			"porta": [
+				[
+					219.0,
+					681.0
+				],
+				[
+					219.0,
+					682.0
+				]
+			],
+			"trovato": false,
+			"w": 16.0,
+			"x": 210.0,
+			"y": 678.0
+		},
+		{
+			"enigma": {
+				"codice": {
+					"1": true,
+					"2": false,
+					"3": false
+				},
+				"risolto": false,
+				"tipo": "leve"
+			},
+			"h": 6.0,
+			"id": "camera_leve",
+			"leggio": [
+				983.0,
+				846.0
+			],
+			"mecc": {
+				"1": [
+					985.0,
+					847.0
+				],
+				"2": [
+					987.0,
+					847.0
+				],
+				"3": [
+					989.0,
+					847.0
+				]
+			},
+			"porta": [
+				[
+					991.0,
+					846.0
+				],
+				[
+					991.0,
+					847.0
+				]
+			],
+			"trovato": false,
+			"w": 16.0,
+			"x": 982.0,
+			"y": 843.0
+		},
+		{
+			"enigma": {
+				"risolto": false,
+				"tipo": "piastre"
+			},
+			"h": 6.0,
+			"id": "camera_piastre",
+			"leggio": [
+				1968.0,
+				674.0
+			],
+			"mecc": {
+				"1": [
+					1970.0,
+					675.0
+				],
+				"2": [
+					1972.0,
+					675.0
+				],
+				"3": [
+					1974.0,
+					675.0
+				]
+			},
+			"porta": [
+				[
+					1976.0,
+					674.0
+				],
+				[
+					1976.0,
+					675.0
+				]
+			],
+			"trovato": false,
+			"w": 16.0,
+			"x": 1967.0,
+			"y": 671.0
+		},
+		{
+			"enigma": {
+				"elementi": {
+					"1": "vuoto",
+					"2": "spora",
+					"3": "linfa"
+				},
+				"risolto": false,
+				"tipo": "cristalli"
+			},
+			"h": 6.0,
+			"id": "camera_cristalli",
+			"leggio": [
+				600.0,
+				792.0
+			],
+			"mecc": {
+				"1": [
+					602.0,
+					793.0
+				],
+				"2": [
+					604.0,
+					793.0
+				],
+				"3": [
+					606.0,
+					793.0
+				]
+			},
+			"porta": [
+				[
+					608.0,
+					792.0
+				],
+				[
+					608.0,
+					793.0
+				]
+			],
+			"trovato": false,
+			"w": 16.0,
+			"x": 599.0,
+			"y": 789.0
+		},
+		{
+			"enigma": {
+				"risolto": false,
+				"tipo": "piastre"
+			},
+			"h": 14.0,
+			"id": "str_selve_pensili_0",
+			"leggio": [
+				2543.0,
+				238.0
+			],
+			"mecc": {
+				"1": [
+					2546.0,
+					239.0
+				],
+				"2": [
+					2548.0,
+					239.0
+				],
+				"3": [
+					2550.0,
+					239.0
+				]
+			},
+			"porta": [
+				[
+					2554.0,
+					238.0
+				],
+				[
+					2554.0,
+					239.0
+				]
+			],
+			"trovato": false,
+			"w": 23.0,
+			"x": 2541.0,
+			"y": 230.0
+		},
+		{
+			"enigma": {
+				"risolto": false,
+				"tipo": "piastre"
+			},
+			"h": 14.0,
+			"id": "str_giardini_vento_0",
+			"leggio": [
+				236.0,
+				378.0
+			],
+			"mecc": {
+				"1": [
+					239.0,
+					379.0
+				],
+				"2": [
+					241.0,
+					379.0
+				],
+				"3": [
+					243.0,
+					379.0
+				]
+			},
+			"porta": [
+				[
+					247.0,
+					378.0
+				],
+				[
+					247.0,
+					379.0
+				]
+			],
+			"trovato": false,
+			"w": 23.0,
+			"x": 234.0,
+			"y": 370.0
+		},
+		{
+			"enigma": {
+				"codice": {
+					"1": true,
+					"2": false,
+					"3": false
+				},
+				"risolto": false,
+				"tipo": "leve"
+			},
+			"h": 10.0,
+			"id": "str_palude_0",
+			"leggio": [
+				2124.0,
+				437.0
+			],
+			"mecc": {
+				"1": [
+					2127.0,
+					438.0
+				],
+				"2": [
+					2129.0,
+					438.0
+				],
+				"3": [
+					2131.0,
+					438.0
+				]
+			},
+			"porta": [
+				[
+					2135.0,
+					437.0
+				],
+				[
+					2135.0,
+					438.0
+				]
+			],
+			"trovato": false,
+			"w": 23.0,
+			"x": 2122.0,
+			"y": 430.0
+		},
+		{
+			"enigma": {
+				"risolto": false,
+				"tipo": "piastre"
+			},
+			"h": 14.0,
+			"id": "str_firmamento_0",
+			"leggio": [
+				995.0,
+				61.0
+			],
+			"mecc": {
+				"1": [
+					998.0,
+					62.0
+				],
+				"2": [
+					1000.0,
+					62.0
+				],
+				"3": [
+					1002.0,
+					62.0
+				]
+			},
+			"porta": [
+				[
+					1006.0,
+					61.0
+				],
+				[
+					1006.0,
+					62.0
+				]
+			],
+			"trovato": false,
+			"w": 23.0,
+			"x": 993.0,
+			"y": 53.0
+		}
+	],
+	"meraviglie": [
+		{
+			"c": [
+				697.0,
+				1050.0
+			],
+			"k": "geode_gigante",
+			"o": [
+				696.0,
+				1060.0
+			],
+			"preso": false,
+			"vista": false
+		},
+		{
+			"c": [
+				1808.0,
+				630.0
+			],
+			"k": "albero_fossile",
+			"o": [
+				1813.0,
+				642.0
+			],
+			"preso": false,
+			"vista": false
+		}
+	],
+	"meteo": {
+		"id": "sereno",
+		"t": 240.0
+	},
+	"nidi": {
+		"1039,382": {
+			"eggs": 3.0,
+			"fam": "greggi_nuvola",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1067,1185": {
+			"eggs": 3.0,
+			"fam": "pascolanti",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1087,511": {
+			"eggs": 3.0,
+			"fam": "api",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1090,607": {
+			"eggs": 3.0,
+			"fam": "scimmie",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1118,716": {
+			"eggs": 3.0,
+			"fam": "linci",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"118,280": {
+			"eggs": 3.0,
+			"fam": "salamandre_fonti",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1187,515": {
+			"eggs": 3.0,
+			"fam": "api",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"120,758": {
+			"eggs": 3.0,
+			"fam": "brucacristalli",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1234,759": {
+			"eggs": 3.0,
+			"fam": "talponi",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1272,603": {
+			"eggs": 3.0,
+			"fam": "bufali_radice",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"128,647": {
+			"eggs": 3.0,
+			"fam": "tessiradici",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1298,516": {
+			"eggs": 3.0,
+			"fam": "grumi",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1331,775": {
+			"eggs": 3.0,
+			"fam": "brucacristalli",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1350,576": {
+			"eggs": 3.0,
+			"fam": "grumi",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1360,863": {
+			"eggs": 3.0,
+			"fam": "formiche",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1441,729": {
+			"eggs": 3.0,
+			"fam": "formiche",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1445,523": {
+			"eggs": 3.0,
+			"fam": "grumi",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"147,279": {
+			"eggs": 3.0,
+			"fam": "lontre_fonti",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1563,632": {
+			"eggs": 3.0,
+			"fam": "saltafunghi",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1592,1097": {
+			"eggs": 3.0,
+			"fam": "pascolanti",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1594,522": {
+			"eggs": 3.0,
+			"fam": "bruchi_germoglio",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1599,773": {
+			"eggs": 3.0,
+			"fam": "tessiradici",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1649,698": {
+			"eggs": 3.0,
+			"fam": "linci",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1671,852": {
+			"eggs": 3.0,
+			"fam": "saltafunghi",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1692,519": {
+			"eggs": 3.0,
+			"fam": "pecore",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1697,594": {
+			"eggs": 3.0,
+			"fam": "spinoricci",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1720,790": {
+			"eggs": 3.0,
+			"fam": "talponi",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1762,516": {
+			"eggs": 3.0,
+			"fam": "pecore",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1829,567": {
+			"eggs": 3.0,
+			"fam": "bruchi",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1878,730": {
+			"eggs": 3.0,
+			"fam": "brucacristalli",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1896,523": {
+			"eggs": 3.0,
+			"fam": "pecore",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1945,590": {
+			"eggs": 3.0,
+			"fam": "bufali_radice",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1988,1094": {
+			"eggs": 3.0,
+			"fam": "pascolanti",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"1992,517": {
+			"eggs": 3.0,
+			"fam": "grumi",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"200,609": {
+			"eggs": 3.0,
+			"fam": "tessiradici",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"2010,840": {
+			"eggs": 3.0,
+			"fam": "talponi",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"2060,699": {
+			"eggs": 3.0,
+			"fam": "tartarughe",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"2077,456": {
+			"eggs": 3.0,
+			"fam": "bruchi_germoglio",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"212,509": {
+			"eggs": 3.0,
+			"fam": "grumi",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"2177,483": {
+			"eggs": 3.0,
+			"fam": "bruchi_germoglio",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"2177,590": {
+			"eggs": 3.0,
+			"fam": "spinoricci",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"2196,747": {
+			"eggs": 3.0,
+			"fam": "formiche",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"2262,513": {
+			"eggs": 3.0,
+			"fam": "grumi",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"2336,1041": {
+			"eggs": 3.0,
+			"fam": "brucatori",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"2338,798": {
+			"eggs": 3.0,
+			"fam": "linci",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"2362,510": {
+			"eggs": 3.0,
+			"fam": "pecore",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"2366,863": {
+			"eggs": 3.0,
+			"fam": "talponi",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"2406,599": {
+			"eggs": 3.0,
+			"fam": "bufali_radice",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"2432,506": {
+			"eggs": 3.0,
+			"fam": "pecore",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"2506,509": {
+			"eggs": 3.0,
+			"fam": "api",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"2506,640": {
+			"eggs": 3.0,
+			"fam": "bruchi",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"2552,732": {
+			"eggs": 3.0,
+			"fam": "tartarughe",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"2628,431": {
+			"eggs": 3.0,
+			"fam": "cornoradici",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"2688,688": {
+			"eggs": 3.0,
+			"fam": "linci",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"2689,794": {
+			"eggs": 3.0,
+			"fam": "tartarughe",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"2708,505": {
+			"eggs": 3.0,
+			"fam": "formiche_ladre",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"2745,871": {
+			"eggs": 3.0,
+			"fam": "brucacristalli",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"2793,533": {
+			"eggs": 3.0,
+			"fam": "bruchi_germoglio",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"2821,606": {
+			"eggs": 3.0,
+			"fam": "spinoricci",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"2867,806": {
+			"eggs": 3.0,
+			"fam": "talponi",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"2936,654": {
+			"eggs": 3.0,
+			"fam": "saltafunghi",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"320,201": {
+			"eggs": 3.0,
+			"fam": "salamandre_fonti",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"331,582": {
+			"eggs": 3.0,
+			"fam": "formiche",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"354,370": {
+			"eggs": 3.0,
+			"fam": "lepri_vento",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"367,509": {
+			"eggs": 3.0,
+			"fam": "bruchi_germoglio",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"386,272": {
+			"eggs": 3.0,
+			"fam": "lontre_fonti",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"401,1193": {
+			"eggs": 3.0,
+			"fam": "pascolanti",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"410,650": {
+			"eggs": 3.0,
+			"fam": "scimmie",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"413,313": {
+			"eggs": 3.0,
+			"fam": "lontre_fonti",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"439,525": {
+			"eggs": 3.0,
+			"fam": "lepri",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"443,797": {
+			"eggs": 3.0,
+			"fam": "formiche",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"445,407": {
+			"eggs": 3.0,
+			"fam": "lepri_vento",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"450,332": {
+			"eggs": 3.0,
+			"fam": "salamandre_fonti",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"468,262": {
+			"eggs": 3.0,
+			"fam": "salamandre_fonti",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"486,966": {
+			"eggs": 3.0,
+			"fam": "brucatori",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"50,1025": {
+			"eggs": 3.0,
+			"fam": "brucatori",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"51,439": {
+			"eggs": 3.0,
+			"fam": "lepri_vento",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"515,293": {
+			"eggs": 3.0,
+			"fam": "bradipi_muschio",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"525,516": {
+			"eggs": 3.0,
+			"fam": "cornoradici",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"55,644": {
+			"eggs": 3.0,
+			"fam": "scimmie",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"628,648": {
+			"eggs": 3.0,
+			"fam": "bufali_radice",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"640,885": {
+			"eggs": 3.0,
+			"fam": "brucatori",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"651,519": {
+			"eggs": 3.0,
+			"fam": "api",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"657,264": {
+			"eggs": 3.0,
+			"fam": "lucciole_selve",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"704,208": {
+			"eggs": 3.0,
+			"fam": "bradipi_muschio",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"721,265": {
+			"eggs": 3.0,
+			"fam": "bradipi_muschio",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"730,637": {
+			"eggs": 3.0,
+			"fam": "bruchi",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"737,504": {
+			"eggs": 3.0,
+			"fam": "api",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"787,596": {
+			"eggs": 3.0,
+			"fam": "tessiradici",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"792,816": {
+			"eggs": 3.0,
+			"fam": "tessiradici",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"799,413": {
+			"eggs": 3.0,
+			"fam": "api_cielo",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"813,498": {
+			"eggs": 3.0,
+			"fam": "cornoradici",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"847,459": {
+			"eggs": 3.0,
+			"fam": "api_cielo",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"888,162": {
+			"eggs": 3.0,
+			"fam": "lucciole_selve",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"891,588": {
+			"eggs": 3.0,
+			"fam": "spinoricci",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"892,492": {
+			"eggs": 3.0,
+			"fam": "cornoradici",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"946,755": {
+			"eggs": 3.0,
+			"fam": "saltafunghi",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"947,455": {
+			"eggs": 3.0,
+			"fam": "garzette",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"959,625": {
+			"eggs": 3.0,
+			"fam": "bruchi",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"968,392": {
+			"eggs": 3.0,
+			"fam": "greggi_nuvola",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"975,391": {
+			"eggs": 3.0,
+			"fam": "garzette",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"995,488": {
+			"eggs": 3.0,
+			"fam": "bruchi",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"998,428": {
+			"eggs": 3.0,
+			"fam": "greggi_nuvola",
+			"fed": 0.0,
+			"t": 0.0
+		}
+	},
+	"nome": "Acquitrini bassi di Ulavennor",
+	"ora": 0.33354720467253,
+	"partenza": [
+		1500,
+		523
+	],
+	"popolazioni": {
+		"6": {
+			"grumi": 0.98,
+			"pecore": 0.92,
+			"sputaspore": 0.98,
+			"volpi_gelo": 0.98
+		},
+		"7": {
+			"cervi_rovo": 0.909,
+			"cinghiali_rovo": 1.027,
+			"grumi": 0.98,
+			"liane": 1.081,
+			"sputaspore": 0.98
+		}
+	},
+	"portali": {
+		"1509,518": {
+			"mondo": "riko_20261009_071356",
+			"ritorno": true,
+			"seme": 0.0
+		}
+	},
+	"regali_case": {
+
+	},
+	"reliquiari_aperti": [
+		"1435,584"
+	],
+	"rete": {
+		"m": {
+			"102,1180": {
+				"id": "leva_centrale"
+			},
+			"104,1180": {
+				"id": "lampada_baccello",
+				"on": true
+			},
+			"106,1175": {
+				"id": "nodo_centrale"
+			},
+			"108,1179": {
+				"id": "porta_centrale",
+				"on": false,
+				"open": false
+			},
+			"2018,970": {
+				"id": "cuore_centrale",
+				"on": true
+			},
+			"2024,971": {
+				"id": "lampada_baccello",
+				"on": true
+			},
+			"2025,971": {
+				"id": "leva_centrale"
+			},
+			"2028,971": {
+				"id": "leva_centrale"
+			},
+			"2031,971": {
+				"id": "leva_centrale"
+			},
+			"2033,971": {
+				"id": "lampada_baccello",
+				"on": true
+			},
+			"2035,966": {
+				"id": "nodo_centrale"
+			},
+			"2037,970": {
+				"id": "porta_centrale",
+				"on": false,
+				"open": false
+			},
+			"2352,1013": {
+				"id": "cuore_centrale",
+				"on": true
+			},
+			"2358,1014": {
+				"id": "lampada_baccello",
+				"on": true
+			},
+			"2359,1014": {
+				"id": "leva_centrale"
+			},
+			"2362,1014": {
+				"id": "leva_centrale"
+			},
+			"2365,1014": {
+				"id": "leva_centrale"
+			},
+			"2367,1014": {
+				"id": "lampada_baccello",
+				"on": true
+			},
+			"2369,1009": {
+				"id": "nodo_centrale"
+			},
+			"2371,1013": {
+				"id": "porta_centrale",
+				"on": false,
+				"open": false
+			},
+			"89,1179": {
+				"id": "cuore_centrale",
+				"on": true
+			},
+			"95,1180": {
+				"id": "lampada_baccello",
+				"on": true
+			},
+			"96,1180": {
+				"id": "leva_centrale"
+			},
+			"99,1180": {
+				"id": "leva_centrale"
+			}
+		},
+		"visto": 1791538814.605
+	},
+	"riferimenti": [
+		[
+			237.0,
+			500.0,
+			"Il cerchio di pietre (Paludi di spore)"
+		],
+		[
+			314.0,
+			479.0,
+			"La rovina sul colle (Foresta-lanterna)"
+		],
+		[
+			2107.0,
+			428.0,
+			"La guglia (Paludi di spore)"
+		],
+		[
+			2658.0,
+			430.0,
+			"Il cerchio di pietre (Distese d'ambra)"
+		],
+		[
+			2120.0,
+			437.0,
+			"Il massiccio"
+		],
+		[
+			2641.0,
+			439.0,
+			"Il massiccio"
+		],
+		[
+			2107.0,
+			440.0,
+			"L'arco di roccia"
+		],
+		[
+			1961.0,
+			519.0,
+			"La radice cosmica"
+		]
+	],
+	"scrigni_aperti": [
+		"1269,529",
+		"1233,525"
+	],
+	"scrigni_parola": {
+		"1366,1121": {
+			"gap": 1.0,
+			"words": [
+				"chiave",
+				"apre",
+				"porta",
+				"seminatori"
+			]
+		},
+		"177,701": {
+			"gap": 0.0,
+			"words": [
+				"reliquia",
+				"seminatori",
+				"dorme",
+				"sotto",
+				"vicino"
+			]
+		},
+		"196,680": {
+			"gap": 1.0,
+			"words": [
+				"radice",
+				"sigillo",
+				"dorme",
+				"sopra",
+				"alba",
+				"molto",
+				"lontano"
+			]
+		},
+		"2305,734": {
+			"gap": 5.0,
+			"words": [
+				"brace",
+				"sigillo",
+				"dorme",
+				"sotto",
+				"alba",
+				"lontano"
+			]
+		},
+		"2309,1187": {
+			"gap": 2.0,
+			"words": [
+				"reliquia",
+				"seminatori",
+				"dorme",
+				"sotto",
+				"vicino"
+			]
+		},
+		"2340,1082": {
+			"gap": 0.0,
+			"words": [
+				"tutti",
+				"mondo",
+				"nasce",
+				"seme"
+			]
+		},
+		"2355,1013": {
+			"gap": 3.0,
+			"words": [
+				"primo",
+				"seme",
+				"dorme",
+				"fondo",
+				"cielo"
+			]
+		},
+		"2385,561": {
+			"gap": 2.0,
+			"words": [
+				"radice",
+				"sigillo",
+				"dorme",
+				"sopra",
+				"alba",
+				"lontano"
+			]
+		},
+		"2556,1088": {
+			"gap": 1.0,
+			"words": [
+				"malattia",
+				"nasce",
+				"seme",
+				"nero"
+			]
+		},
+		"263,950": {
+			"gap": 1.0,
+			"words": [
+				"guardiano",
+				"veglia",
+				"cuore",
+				"malattia",
+				"cerca",
+				"cuore"
+			]
+		},
+		"472,756": {
+			"gap": 3.0,
+			"words": [
+				"vuoto",
+				"sigillo",
+				"dorme",
+				"sotto",
+				"alba",
+				"lontano"
+			]
+		},
+		"825,738": {
+			"gap": 0.0,
+			"words": [
+				"radice",
+				"sigillo",
+				"dorme",
+				"sopra",
+				"alba",
+				"molto",
+				"lontano"
+			]
+		}
+	},
+	"segnali": [],
+	"segni": [],
+	"segreti": [
+		{
+			"f": false,
+			"g": 1.0,
+			"k": "reliquiario",
+			"r": [
+				2375.0,
+				610.0,
+				9.0,
+				7.0
+			]
+		},
+		{
+			"f": false,
+			"g": 1.0,
+			"k": "reliquiario",
+			"r": [
+				2733.0,
+				746.0,
+				9.0,
+				7.0
+			]
+		},
+		{
+			"f": false,
+			"g": 1.0,
+			"k": "reliquiario",
+			"r": [
+				1821.0,
+				552.0,
+				9.0,
+				7.0
+			]
+		},
+		{
+			"f": true,
+			"g": 1.0,
+			"k": "reliquiario",
+			"r": [
+				1431.0,
+				581.0,
+				9.0,
+				7.0
+			]
+		},
+		{
+			"f": false,
+			"g": 1.0,
+			"k": "reliquiario",
+			"r": [
+				1665.0,
+				1041.0,
+				9.0,
+				7.0
+			]
+		},
+		{
+			"f": false,
+			"g": 1.0,
+			"k": "reliquiario",
+			"r": [
+				2747.0,
+				686.0,
+				9.0,
+				7.0
+			]
+		},
+		{
+			"f": false,
+			"g": 1.0,
+			"k": "reliquiario",
+			"r": [
+				381.0,
+				906.0,
+				9.0,
+				7.0
+			]
+		},
+		{
+			"f": false,
+			"g": 1.0,
+			"k": "reliquiario",
+			"r": [
+				670.0,
+				977.0,
+				9.0,
+				7.0
+			]
+		},
+		{
+			"f": false,
+			"g": 1.0,
+			"k": "reliquiario",
+			"r": [
+				1904.0,
+				1114.0,
+				9.0,
+				7.0
+			]
+		},
+		{
+			"f": false,
+			"g": 1.0,
+			"k": "reliquiario",
+			"r": [
+				507.0,
+				1131.0,
+				9.0,
+				7.0
+			]
+		},
+		{
+			"f": false,
+			"g": 1.0,
+			"k": "reliquiario",
+			"r": [
+				574.0,
+				1131.0,
+				9.0,
+				7.0
+			]
+		},
+		{
+			"f": false,
+			"g": 1.0,
+			"k": "reliquiario",
+			"r": [
+				2532.0,
+				971.0,
+				9.0,
+				7.0
+			]
+		},
+		{
+			"f": false,
+			"g": 2.0,
+			"k": "stanza_sigillata",
+			"r": [
+				2726.0,
+				831.0,
+				11.0,
+				9.0
+			]
+		},
+		{
+			"f": false,
+			"g": 2.0,
+			"k": "stanza_sigillata",
+			"r": [
+				310.0,
+				697.0,
+				11.0,
+				9.0
+			]
+		},
+		{
+			"f": false,
+			"g": 2.0,
+			"k": "stanza_sigillata",
+			"r": [
+				1825.0,
+				845.0,
+				11.0,
+				9.0
+			]
+		},
+		{
+			"f": false,
+			"g": 2.0,
+			"k": "stanza_sigillata",
+			"r": [
+				2345.0,
+				607.0,
+				11.0,
+				9.0
+			]
+		},
+		{
+			"f": false,
+			"g": 2.0,
+			"k": "stanza_sigillata",
+			"r": [
+				2381.0,
+				557.0,
+				11.0,
+				9.0
+			]
+		},
+		{
+			"f": false,
+			"g": 2.0,
+			"k": "stanza_sigillata",
+			"r": [
+				63.0,
+				580.0,
+				11.0,
+				9.0
+			]
+		},
+		{
+			"f": false,
+			"g": 2.0,
+			"k": "stanza_sigillata",
+			"r": [
+				2102.0,
+				1135.0,
+				11.0,
+				9.0
+			]
+		},
+		{
+			"f": false,
+			"g": 2.0,
+			"k": "stanza_sigillata",
+			"r": [
+				868.0,
+				1115.0,
+				11.0,
+				9.0
+			]
+		},
+		{
+			"f": false,
+			"g": 2.0,
+			"k": "stanza_sigillata",
+			"r": [
+				2305.0,
+				1183.0,
+				11.0,
+				9.0
+			]
+		},
+		{
+			"f": false,
+			"g": 2.0,
+			"k": "stanza_sigillata",
+			"r": [
+				2107.0,
+				923.0,
+				11.0,
+				9.0
+			]
+		},
+		{
+			"f": false,
+			"g": 2.0,
+			"k": "stanza_sigillata",
+			"r": [
+				1755.0,
+				965.0,
+				11.0,
+				9.0
+			]
+		},
+		{
+			"f": false,
+			"g": 2.0,
+			"k": "stanza_sigillata",
+			"r": [
+				727.0,
+				933.0,
+				11.0,
+				9.0
+			]
+		},
+		{
+			"f": false,
+			"g": 2.0,
+			"k": "stanza_sigillata",
+			"r": [
+				1841.0,
+				481.0,
+				11.0,
+				9.0
+			]
+		},
+		{
+			"f": false,
+			"g": 2.0,
+			"k": "stanza_sigillata",
+			"r": [
+				385.0,
+				476.0,
+				11.0,
+				9.0
+			]
+		},
+		{
+			"f": false,
+			"g": 2.0,
+			"k": "luogo",
+			"r": [
+				179.0,
+				673.0,
+				24.0,
+				11.0
+			]
+		},
+		{
+			"f": false,
+			"g": 1.0,
+			"k": "camera_enigma",
+			"r": [
+				210.0,
+				678.0,
+				16.0,
+				6.0
+			]
+		},
+		{
+			"f": false,
+			"g": 1.0,
+			"k": "camera_enigma",
+			"r": [
+				982.0,
+				843.0,
+				16.0,
+				6.0
+			]
+		},
+		{
+			"f": false,
+			"g": 1.0,
+			"k": "camera_enigma",
+			"r": [
+				1967.0,
+				671.0,
+				16.0,
+				6.0
+			]
+		},
+		{
+			"f": false,
+			"g": 1.0,
+			"k": "camera_enigma",
+			"r": [
+				599.0,
+				789.0,
+				16.0,
+				6.0
+			]
+		},
+		{
+			"f": false,
+			"g": 1.0,
+			"k": "visione",
+			"r": [
+				2647.0,
+				655.0,
+				5.0,
+				3.0
+			]
+		},
+		{
+			"f": false,
+			"g": 1.0,
+			"k": "visione",
+			"r": [
+				247.0,
+				602.0,
+				5.0,
+				3.0
+			]
+		},
+		{
+			"f": false,
+			"g": 1.0,
+			"k": "visione",
+			"r": [
+				592.0,
+				577.0,
+				5.0,
+				3.0
+			]
+		},
+		{
+			"f": false,
+			"g": 3.0,
+			"k": "anomalia",
+			"n": "Stella che non si spegne",
+			"r": [
+				2008.0,
+				516.0,
+				9.0,
+				6.0
+			]
+		},
+		{
+			"f": false,
+			"g": 0.0,
+			"k": "passaggio",
+			"r": [
+				2522.0,
+				618.0,
+				22.0,
+				2.0
+			]
+		},
+		{
+			"f": false,
+			"g": 0.0,
+			"k": "passaggio",
+			"r": [
+				1622.0,
+				795.0,
+				14.0,
+				2.0
+			]
+		},
+		{
+			"f": false,
+			"g": 0.0,
+			"k": "passaggio",
+			"r": [
+				2934.0,
+				836.0,
+				24.0,
+				2.0
+			]
+		},
+		{
+			"f": false,
+			"g": 0.0,
+			"k": "passaggio",
+			"r": [
+				2799.0,
+				660.0,
+				18.0,
+				2.0
+			]
+		},
+		{
+			"f": false,
+			"g": 0.0,
+			"k": "passaggio",
+			"r": [
+				188.0,
+				818.0,
+				10.0,
+				2.0
+			]
+		},
+		{
+			"f": false,
+			"g": 0.0,
+			"k": "passaggio",
+			"r": [
+				122.0,
+				595.0,
+				8.0,
+				2.0
+			]
+		},
+		{
+			"f": false,
+			"g": 1.0,
+			"k": "stanza_murata",
+			"r": [
+				1171.0,
+				569.0,
+				6.0,
+				4.0
+			]
+		},
+		{
+			"f": false,
+			"g": 1.0,
+			"k": "stanza_murata",
+			"r": [
+				337.0,
+				680.0,
+				6.0,
+				4.0
+			]
+		},
+		{
+			"f": false,
+			"g": 2.0,
+			"k": "tesoro_sepolto",
+			"r": [
+				279.0,
+				483.0,
+				4.0,
+				4.0
+			]
+		},
+		{
+			"f": false,
+			"g": 2.0,
+			"k": "tesoro_sepolto",
+			"r": [
+				1268.0,
+				528.0,
+				4.0,
+				4.0
+			]
+		},
+		{
+			"f": false,
+			"g": 2.0,
+			"k": "tesoro_sepolto",
+			"r": [
+				227.0,
+				514.0,
+				4.0,
+				4.0
+			]
+		},
+		{
+			"f": false,
+			"g": 2.0,
+			"k": "tesoro_sepolto",
+			"r": [
+				1232.0,
+				524.0,
+				4.0,
+				4.0
+			]
+		},
+		{
+			"f": false,
+			"g": 2.0,
+			"k": "nido_nascosto",
+			"r": [
+				1391.0,
+				902.0,
+				7.0,
+				5.0
+			]
+		},
+		{
+			"f": false,
+			"g": 2.0,
+			"k": "nido_nascosto",
+			"r": [
+				1919.0,
+				575.0,
+				7.0,
+				5.0
+			]
+		},
+		{
+			"f": false,
+			"g": 2.0,
+			"k": "nido_nascosto",
+			"r": [
+				1881.0,
+				813.0,
+				7.0,
+				5.0
+			]
+		},
+		{
+			"f": false,
+			"g": 2.0,
+			"k": "nido_nascosto",
+			"r": [
+				315.0,
+				637.0,
+				7.0,
+				5.0
+			]
+		},
+		{
+			"f": false,
+			"g": 3.0,
+			"k": "firma",
+			"r": [
+				698.0,
+				886.0,
+				16.0,
+				10.0
+			]
+		}
+	],
+	"seme": 1355720073,
+	"sigilli": [
+		[
+			"velato",
+			2731.0,
+			835.0
+		],
+		[
+			"velato",
+			315.0,
+			701.0
+		],
+		[
+			"velato",
+			1830.0,
+			849.0
+		],
+		[
+			"radice",
+			2350.0,
+			611.0
+		],
+		[
+			"radice",
+			2386.0,
+			561.0
+		],
+		[
+			"radice",
+			68.0,
+			584.0
+		],
+		[
+			"vuoto",
+			2107.0,
+			1139.0
+		],
+		[
+			"vuoto",
+			873.0,
+			1119.0
+		],
+		[
+			"vuoto",
+			2310.0,
+			1187.0
+		],
+		[
+			"brace",
+			2112.0,
+			927.0
+		],
+		[
+			"brace",
+			1760.0,
+			969.0
+		],
+		[
+			"brace",
+			732.0,
+			937.0
+		],
+		[
+			"alto",
+			1846.0,
+			485.0
+		],
+		[
+			"alto",
+			390.0,
+			480.0
+		]
+	],
+	"stanze": [],
+	"stanze_visite": {
+
+	},
+	"stele": {
+		"1072,1014": {
+			"hint": [
+				578.0,
+				1134.0,
+				"Reliquiario"
+			],
+			"words": [
+				"reliquia",
+				"seminatori",
+				"dorme",
+				"sotto",
+				"tramonto",
+				"molto",
+				"lontano"
+			]
+		},
+		"1112,570": {
+			"hint": [
+				966.0,
+				694.0,
+				"Tana di un Custode"
+			],
+			"words": [
+				"custode",
+				"dorme",
+				"sotto",
+				"tramonto",
+				"lontano"
+			]
+		},
+		"1234,125": {
+			"hint": [],
+			"words": [
+				"memoria",
+				"scrive",
+				"pietra",
+				"tempo",
+				"mai",
+				"dorme"
+			]
+		},
+		"1262,593": {
+			"hint": [],
+			"words": [
+				"seminatori",
+				"piantano",
+				"mondo"
+			]
+		},
+		"1278,769": {
+			"hint": [],
+			"words": [
+				"primo",
+				"seme",
+				"dorme",
+				"fondo",
+				"cielo"
+			]
+		},
+		"1299,1103": {
+			"hint": [],
+			"words": [
+				"seminatori",
+				"chiude",
+				"scrigno",
+				"chiave",
+				"apre"
+			]
+		},
+		"1345,1035": {
+			"hint": [
+				2107.0,
+				1139.0,
+				"Sigillo"
+			],
+			"words": [
+				"vuoto",
+				"sigillo",
+				"dorme",
+				"sotto",
+				"alba",
+				"molto",
+				"lontano"
+			]
+		},
+		"1349,844": {
+			"hint": [
+				1669.0,
+				1044.0,
+				"Reliquiario"
+			],
+			"words": [
+				"reliquia",
+				"seminatori",
+				"dorme",
+				"sotto",
+				"alba",
+				"lontano"
+			]
+		},
+		"1359,1120": {
+			"hint": [],
+			"words": [
+				"chiave",
+				"apre",
+				"porta",
+				"seminatori"
+			]
+		},
+		"1363,141": {
+			"hint": [],
+			"words": [
+				"giardiniere",
+				"sogna",
+				"intorno",
+				"albero",
+				"madre"
+			]
+		},
+		"1384,725": {
+			"hint": [
+				1760.0,
+				969.0,
+				"Sigillo"
+			],
+			"words": [
+				"brace",
+				"sigillo",
+				"dorme",
+				"sotto",
+				"alba",
+				"lontano"
+			]
+		},
+		"1434,639": {
+			"hint": [
+				1435.0,
+				584.0,
+				"Reliquiario"
+			],
+			"words": [
+				"reliquia",
+				"seminatori",
+				"dorme",
+				"sopra",
+				"vicino"
+			]
+		},
+		"1452,522": {
+			"hint": [],
+			"letta": true,
+			"words": [
+				"seme",
+				"nero",
+				"cade",
+				"cielo"
+			]
+		},
+		"1470,974": {
+			"hint": [],
+			"words": [
+				"madre",
+				"dorme",
+				"giardiniere",
+				"cura",
+				"albero"
+			]
+		},
+		"1474,1101": {
+			"hint": [],
+			"words": [
+				"strada",
+				"stella",
+				"gelo",
+				"giardiniere",
+				"ritorna"
+			]
+		},
+		"1510,602": {
+			"hint": [
+				1825.0,
+				555.0,
+				"Reliquiario"
+			],
+			"words": [
+				"reliquia",
+				"seminatori",
+				"dorme",
+				"sopra",
+				"alba",
+				"lontano"
+			]
+		},
+		"1523,1166": {
+			"hint": [],
+			"words": [
+				"tutti",
+				"mondo",
+				"nasce",
+				"seme"
+			]
+		},
+		"1589,520": {
+			"hint": [],
+			"words": [
+				"guardiano",
+				"veglia",
+				"cuore",
+				"malattia",
+				"cerca",
+				"cuore"
+			]
+		},
+		"1592,605": {
+			"hint": [],
+			"words": [
+				"seminatori",
+				"piantano",
+				"mondo"
+			]
+		},
+		"1595,945": {
+			"hint": [],
+			"words": [
+				"seminatori",
+				"piantano",
+				"mondo"
+			]
+		},
+		"1613,880": {
+			"hint": [
+				2310.0,
+				1187.0,
+				"Sigillo"
+			],
+			"words": [
+				"vuoto",
+				"sigillo",
+				"dorme",
+				"sotto",
+				"alba",
+				"molto",
+				"lontano"
+			]
+		},
+		"1669,751": {
+			"hint": [
+				1830.0,
+				849.0,
+				"Sigillo"
+			],
+			"words": [
+				"buio",
+				"sigillo",
+				"dorme",
+				"sotto",
+				"alba",
+				"lontano"
+			]
+		},
+		"1670,1151": {
+			"hint": [],
+			"words": [
+				"tutti",
+				"mondo",
+				"nasce",
+				"seme"
+			]
+		},
+		"170,140": {
+			"hint": [],
+			"words": [
+				"occhio",
+				"tempesta",
+				"veglia",
+				"dentro",
+				"tuono",
+				"fulmine"
+			]
+		},
+		"172,700": {
+			"hint": [
+				385.0,
+				909.0,
+				"Reliquiario"
+			],
+			"words": [
+				"reliquia",
+				"seminatori",
+				"dorme",
+				"sotto",
+				"alba",
+				"lontano"
+			]
+		},
+		"1748,786": {
+			"hint": [
+				1908.0,
+				1117.0,
+				"Reliquiario"
+			],
+			"words": [
+				"reliquia",
+				"seminatori",
+				"dorme",
+				"sotto",
+				"alba",
+				"lontano"
+			]
+		},
+		"1751,995": {
+			"hint": [
+				2386.0,
+				561.0,
+				"Sigillo"
+			],
+			"words": [
+				"radice",
+				"sigillo",
+				"dorme",
+				"sopra",
+				"alba",
+				"molto",
+				"lontano"
+			]
+		},
+		"182,679": {
+			"hint": [],
+			"words": [
+				"malattia",
+				"nasce",
+				"seme",
+				"nero"
+			]
+		},
+		"1834,1028": {
+			"hint": [],
+			"words": [
+				"primo",
+				"seme",
+				"dorme",
+				"fondo",
+				"cielo"
+			]
+		},
+		"185,679": {
+			"hint": [],
+			"words": [
+				"madre",
+				"dorme",
+				"giardiniere",
+				"cura",
+				"albero"
+			]
+		},
+		"1851,875": {
+			"hint": [],
+			"words": [
+				"seme",
+				"nero",
+				"cade",
+				"cielo"
+			]
+		},
+		"188,679": {
+			"hint": [],
+			"words": [
+				"primo",
+				"seme",
+				"dorme",
+				"fondo",
+				"cielo"
+			]
+		},
+		"1914,1054": {
+			"hint": [],
+			"words": [
+				"seminatori",
+				"chiude",
+				"scrigno",
+				"chiave",
+				"apre"
+			]
+		},
+		"1975,599": {
+			"hint": [],
+			"words": [
+				"tutti",
+				"mondo",
+				"nasce",
+				"seme"
+			]
+		},
+		"2007,1054": {
+			"hint": [],
+			"words": [
+				"malattia",
+				"nasce",
+				"seme",
+				"nero"
+			]
+		},
+		"2015,798": {
+			"hint": [
+				2112.0,
+				927.0,
+				"Sigillo"
+			],
+			"words": [
+				"brace",
+				"sigillo",
+				"dorme",
+				"sotto",
+				"alba",
+				"lontano"
+			]
+		},
+		"2079,733": {
+			"hint": [
+				2350.0,
+				611.0,
+				"Sigillo"
+			],
+			"words": [
+				"radice",
+				"sigillo",
+				"dorme",
+				"sopra",
+				"alba",
+				"lontano"
+			]
+		},
+		"2105,1062": {
+			"hint": [],
+			"words": [
+				"malattia",
+				"nasce",
+				"seme",
+				"nero"
+			]
+		},
+		"2200,622": {
+			"hint": [],
+			"words": [
+				"primo",
+				"seme",
+				"dorme",
+				"fondo",
+				"cielo"
+			]
+		},
+		"2301,733": {
+			"hint": [],
+			"words": [
+				"malattia",
+				"nasce",
+				"seme",
+				"nero"
+			]
+		},
+		"2325,559": {
+			"hint": [],
+			"words": [
+				"luce",
+				"linfa",
+				"cura",
+				"malattia"
+			]
+		},
+		"2333,1081": {
+			"hint": [],
+			"words": [
+				"chiave",
+				"apre",
+				"porta",
+				"seminatori"
+			]
+		},
+		"2347,669": {
+			"hint": [],
+			"words": [
+				"strada",
+				"stella",
+				"gelo",
+				"giardiniere",
+				"ritorna"
+			]
+		},
+		"2393,911": {
+			"hint": [
+				2721.0,
+				1167.0,
+				"Tana di un Custode"
+			],
+			"words": [
+				"custode",
+				"dorme",
+				"sotto",
+				"alba",
+				"lontano"
+			]
+		},
+		"2406,815": {
+			"hint": [
+				2536.0,
+				974.0,
+				"Reliquiario"
+			],
+			"words": [
+				"reliquia",
+				"seminatori",
+				"dorme",
+				"sotto",
+				"alba",
+				"lontano"
+			]
+		},
+		"2506,609": {
+			"hint": [
+				2379.0,
+				613.0,
+				"Reliquiario"
+			],
+			"words": [
+				"reliquia",
+				"seminatori",
+				"dorme",
+				"qui",
+				"tramonto",
+				"lontano"
+			]
+		},
+		"2552,1087": {
+			"hint": [],
+			"words": [
+				"guardiano",
+				"veglia",
+				"cuore",
+				"malattia",
+				"cerca",
+				"cuore"
+			]
+		},
+		"257,949": {
+			"hint": [],
+			"words": [
+				"malattia",
+				"nasce",
+				"seme",
+				"nero"
+			]
+		},
+		"2606,1138": {
+			"hint": [],
+			"words": [
+				"seme",
+				"nero",
+				"cade",
+				"cielo"
+			]
+		},
+		"2610,480": {
+			"hint": [],
+			"words": [
+				"chiave",
+				"apre",
+				"porta",
+				"seminatori"
+			]
+		},
+		"2671,1046": {
+			"hint": [],
+			"words": [
+				"primo",
+				"seme",
+				"dorme",
+				"fondo",
+				"cielo"
+			]
+		},
+		"2742,577": {
+			"hint": [
+				2751.0,
+				689.0,
+				"Reliquiario"
+			],
+			"words": [
+				"reliquia",
+				"seminatori",
+				"dorme",
+				"sotto",
+				"vicino"
+			]
+		},
+		"2818,682": {
+			"hint": [
+				2737.0,
+				749.0,
+				"Reliquiario"
+			],
+			"words": [
+				"reliquia",
+				"seminatori",
+				"dorme",
+				"sotto",
+				"tramonto",
+				"vicino"
+			]
+		},
+		"2879,810": {
+			"hint": [
+				2731.0,
+				835.0,
+				"Sigillo"
+			],
+			"words": [
+				"buio",
+				"sigillo",
+				"dorme",
+				"sotto",
+				"tramonto",
+				"lontano"
+			]
+		},
+		"316,514": {
+			"hint": [],
+			"words": [
+				"primo",
+				"seme",
+				"dorme",
+				"fondo",
+				"cielo"
+			]
+		},
+		"364,983": {
+			"hint": [],
+			"words": [
+				"seminatori",
+				"chiude",
+				"scrigno",
+				"chiave",
+				"apre"
+			]
+		},
+		"381,1084": {
+			"hint": [],
+			"words": [
+				"strada",
+				"stella",
+				"gelo",
+				"giardiniere",
+				"ritorna"
+			]
+		},
+		"422,549": {
+			"hint": [
+				191.0,
+				678.0,
+				"Un luogo dei Seminatori"
+			],
+			"words": [
+				"pietra",
+				"seminatori",
+				"veglia",
+				"sotto",
+				"tramonto",
+				"lontano"
+			]
+		},
+		"455,1129": {
+			"hint": [],
+			"words": [
+				"guardiano",
+				"veglia",
+				"cuore",
+				"malattia",
+				"cerca",
+				"cuore"
+			]
+		},
+		"459,1055": {
+			"hint": [],
+			"words": [
+				"seme",
+				"nero",
+				"cade",
+				"cielo"
+			]
+		},
+		"468,755": {
+			"hint": [
+				511.0,
+				1134.0,
+				"Reliquiario"
+			],
+			"words": [
+				"reliquia",
+				"seminatori",
+				"dorme",
+				"sotto",
+				"alba",
+				"lontano"
+			]
+		},
+		"473,598": {
+			"hint": [
+				315.0,
+				701.0,
+				"Sigillo"
+			],
+			"words": [
+				"buio",
+				"sigillo",
+				"dorme",
+				"sotto",
+				"tramonto",
+				"lontano"
+			]
+		},
+		"531,950": {
+			"hint": [
+				143.0,
+				1001.0,
+				"Tana di un Custode"
+			],
+			"words": [
+				"custode",
+				"dorme",
+				"sotto",
+				"tramonto",
+				"lontano"
+			]
+		},
+		"549,638": {
+			"hint": [],
+			"words": [
+				"guardiano",
+				"veglia",
+				"cuore",
+				"malattia",
+				"cerca",
+				"cuore"
+			]
+		},
+		"577,857": {
+			"hint": [],
+			"words": [
+				"madre",
+				"dorme",
+				"giardiniere",
+				"cura",
+				"albero"
+			]
+		},
+		"586,81": {
+			"hint": [],
+			"words": [
+				"guardiano",
+				"ricorda",
+				"primo",
+				"seme",
+				"canto"
+			]
+		},
+		"637,680": {
+			"hint": [
+				732.0,
+				937.0,
+				"Sigillo"
+			],
+			"words": [
+				"brace",
+				"sigillo",
+				"dorme",
+				"sotto",
+				"alba",
+				"lontano"
+			]
+		},
+		"656,575": {
+			"hint": [],
+			"words": [
+				"guardiano",
+				"veglia",
+				"cuore",
+				"malattia",
+				"cerca",
+				"cuore"
+			]
+		},
+		"673,1137": {
+			"hint": [],
+			"words": [
+				"strada",
+				"stella",
+				"gelo",
+				"giardiniere",
+				"ritorna"
+			]
+		},
+		"675,788": {
+			"hint": [
+				674.0,
+				980.0,
+				"Reliquiario"
+			],
+			"words": [
+				"reliquia",
+				"seminatori",
+				"dorme",
+				"sotto",
+				"lontano"
+			]
+		},
+		"68,1162": {
+			"hint": [],
+			"words": [
+				"strada",
+				"stella",
+				"gelo",
+				"giardiniere",
+				"ritorna"
+			]
+		},
+		"756,743": {
+			"hint": [
+				706.0,
+				891.0,
+				"La firma del mondo"
+			],
+			"words": [
+				"segno",
+				"mondo",
+				"veglia",
+				"sotto",
+				"tramonto",
+				"lontano"
+			]
+		},
+		"760,586": {
+			"hint": [
+				990.0,
+				591.0,
+				"Tana di un Custode"
+			],
+			"words": [
+				"custode",
+				"dorme",
+				"qui",
+				"alba",
+				"lontano"
+			]
+		},
+		"820,737": {
+			"hint": [
+				873.0,
+				1119.0,
+				"Sigillo"
+			],
+			"words": [
+				"vuoto",
+				"sigillo",
+				"dorme",
+				"sotto",
+				"alba",
+				"lontano"
+			]
+		},
+		"826,1040": {
+			"hint": [],
+			"words": [
+				"malattia",
+				"nasce",
+				"seme",
+				"nero"
+			]
+		},
+		"863,593": {
+			"hint": [],
+			"words": [
+				"primo",
+				"seme",
+				"dorme",
+				"fondo",
+				"cielo"
+			]
+		},
+		"863,931": {
+			"hint": [
+				1014.0,
+				1110.0,
+				"Il Cuore del mondo"
+			],
+			"words": [
+				"cuore",
+				"mondo",
+				"dorme",
+				"fondo",
+				"guardiano",
+				"veglia"
+			]
+		},
+		"99,607": {
+			"hint": [
+				68.0,
+				584.0,
+				"Sigillo"
+			],
+			"words": [
+				"radice",
+				"sigillo",
+				"dorme",
+				"sopra",
+				"tramonto",
+				"vicino"
+			]
+		}
+	},
+	"tempo_di_gioco": 2440.25664560844,
+	"tempo_gioco": 2440.19055094343,
+	"terra_t": 14374.6216453486,
+	"tratti_visti": true,
+	"ultimo_salvataggio": "2026-10-09 11:40:14",
+	"vigore": 1.0,
+	"visto": 1791538814.584
+}

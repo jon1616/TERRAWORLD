@@ -1,0 +1,1427 @@
+{
+	"albero": {
+		"offerte": {
+			"0": 5,
+			"1": 1
+		},
+		"stadio": 1
+	},
+	"atlante": {
+		"acquitrini_bassi_di__20261009_072411": {
+			"firma": "alveare_cristallo",
+			"geni": [
+				"sporangio",
+				"conca",
+				"radici_giganti",
+				"rovine_fitte"
+			],
+			"meraviglie": {
+
+			},
+			"nome": "Acquitrini bassi di Ulavennor",
+			"stelle": {
+
+			},
+			"vigore": 1
+		}
+	},
+	"bacheca": {
+		"aperte": [
+			{
+				"cosa": "gelatina",
+				"n": 9,
+				"premio": {
+					"lumino": 104,
+					"vasetto": 1
+				},
+				"testo": "Portami 9 Gelatina di muschio (lo danno i grumi del recinto)",
+				"tipo": "prodotto"
+			},
+			{
+				"base": 0,
+				"cosa": "laboratorio",
+				"n": 1,
+				"premio": {
+					"arredo_vaso_lanterna": 1,
+					"lumino": 80
+				},
+				"testo": "Costruisci una stanza: laboratorio (almeno due banchi da lavoro)",
+				"tipo": "stanza"
+			},
+			{
+				"cosa": "polvere_legnoferro",
+				"n": 12,
+				"premio": {
+					"isolante_resina": 3,
+					"lumino": 74
+				},
+				"testo": "Portami 12 Polvere di legnoferro per la rete del Giardino",
+				"tipo": "rete"
+			},
+			{
+				"base": 0,
+				"cosa": "trofei",
+				"n": 1,
+				"premio": {
+					"arredo_vaso_lanterna": 1,
+					"lumino": 80
+				},
+				"testo": "Costruisci una stanza: sala dei trofei (almeno tre trofei diversi nei contenitori)",
+				"tipo": "stanza"
+			}
+		],
+		"fatte": 0
+	},
+	"barra": 5,
+	"bisaccia": [
+		[
+			"piccone_radicite",
+			1
+		],
+		[
+			"ascia_radicite",
+			1
+		],
+		[
+			"spada_radice",
+			1
+		],
+		[
+			"arma_capo_ragno",
+			1
+		],
+		[
+			"seme_ricurvo",
+			1
+		],
+		[
+			"humus",
+			88
+		],
+		[
+			"radice_ritorno",
+			2
+		],
+		[
+			"canna_radice",
+			1
+		],
+		[
+			"martello_radice",
+			1
+		],
+		[],
+		[
+			"brillaluce",
+			3
+		],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[
+			"polvere_iridata",
+			1
+		],
+		[
+			"reliquia_capo_ragno",
+			3
+		],
+		[
+			"frutto_vento",
+			1
+		],
+		[
+			"frutto_zanna",
+			1
+		],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[
+			"pietra_nera",
+			5
+		],
+		[
+			"salgemma",
+			17
+		],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[
+			"spore_luminose",
+			1
+		],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[
+			"mappa_seminatori",
+			1
+		],
+		[
+			"essenza_guscio",
+			1
+		],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[]
+	],
+	"catene": {
+		"brevi": [
+			{
+				"id": "b1",
+				"name": "La soglia di pietra",
+				"need": {
+					"geni": [
+						"conca",
+						"radici_giganti"
+					]
+				},
+				"reward": {
+					"linfa_antica": 2,
+					"pozione_rugiada": 3
+				},
+				"text": "Il Cartografo ha sentito dire: «sotto un mondo con Conca e Radici giganti c'è una piccola cripta dei Seminatori». Pianta un Seme con questi due geni."
+			},
+			{
+				"id": "b2",
+				"name": "Il segreto dei Seminatori",
+				"need": {
+					"geni": [
+						"rovine_fitte",
+						"conca"
+					]
+				},
+				"reward": {
+					"linfa_antica": 2,
+					"lumino": 250
+				},
+				"text": "Una mappa strappata in uno scrigno dice: «sotto un mondo con Rovine fitte e Conca c'è una piccola cripta dei Seminatori». Pianta un Seme con questi due geni."
+			}
+		],
+		"fatte": 0,
+		"lunga": {
+			"fatta": false,
+			"tappa": 0
+		},
+		"n": 2
+	},
+	"creato": "2026-10-09 07:13:36",
+	"dati_equip": {
+
+	},
+	"diario": {
+		"conti": {
+			"fatti": {
+				"baccello_ardente": 1.0,
+				"canna_radice": 1.0,
+				"ceppo": 1.0,
+				"cesta": 1.0,
+				"dispensa": 1,
+				"lingotto_legnoferro": 1,
+				"lingotto_pallidite": 10,
+				"lingotto_radicite": 31,
+				"martello_radice": 1.0,
+				"passerella": 4.0,
+				"radice_ritorno": 3.0,
+				"seme_ricurvo": 1
+			},
+			"morti": 1.0,
+			"morti_causa": {
+				"Cinghiale di rovo (sporigeno)": 1.0
+			},
+			"morti_strato": {
+				"Superficie": 1.0
+			},
+			"tempo_strato": {
+				"Caverne d'ardesia": 269,
+				"Sottobosco di radici": 1331,
+				"Superficie": 1864
+			},
+			"vigore_max": 1.0
+		},
+		"tappe": [
+			[
+				55.0,
+				"Prima stele dei Seminatori letta",
+				"stele"
+			],
+			[
+				156.0,
+				"L'esplorazione: grado 1",
+				"maestria"
+			],
+			[
+				212.0,
+				"Primo viaggio attraverso un portale",
+				"viaggi"
+			],
+			[
+				212.0,
+				"Primo mondo di vigore 1: «Acquitrini bassi di Ulavennor»",
+				"vigore"
+			],
+			[
+				212.0,
+				"La rete di Linfa: grado 1",
+				"maestria"
+			],
+			[
+				497.0,
+				"L'esplorazione: grado 2",
+				"maestria"
+			],
+			[
+				628.0,
+				"La storia: grado 1",
+				"maestria"
+			],
+			[
+				628.0,
+				"L'Albero-Madre cresce: stadio 2",
+				"albero"
+			],
+			[
+				629.0,
+				"Primo abitante arrivato",
+				"abitanti"
+			],
+			[
+				629.0,
+				"Gli abitanti: grado 1",
+				"maestria"
+			],
+			[
+				971.0,
+				"Primo lingotto di radicite",
+				"metallo"
+			],
+			[
+				1114.0,
+				"Prima creatura nascosta incontrata",
+				"nascoste"
+			],
+			[
+				1208.0,
+				"Primo Scrigno dei Seminatori aperto",
+				"scrigni"
+			],
+			[
+				1208.0,
+				"I misteri e le collezioni: grado 1",
+				"maestria"
+			],
+			[
+				1208.0,
+				"Un eco nelle rovine: «Uno, due… ne manca uno.»",
+				"storia"
+			],
+			[
+				1265.0,
+				"Primo gene imparato",
+				"geni_imparati"
+			],
+			[
+				1359.0,
+				"Primo evento del mondo",
+				"eventi"
+			],
+			[
+				1394.0,
+				"Primo appassimento (Superficie)",
+				"morte"
+			],
+			[
+				1402.0,
+				"Maestria della spada: rango 1 (+2% di danno)",
+				"arti"
+			],
+			[
+				1494.0,
+				"Prima stagione vista cambiare",
+				"stagioni"
+			],
+			[
+				1829.0,
+				"Primo segreto trovato",
+				"segreti"
+			],
+			[
+				1835.0,
+				"Primo reliquiario trovato",
+				"reliquiari"
+			],
+			[
+				2335.0,
+				"Prima creatura addomesticata",
+				"addomesticate"
+			],
+			[
+				2335.0,
+				"La mandria: grado 1",
+				"maestria"
+			],
+			[
+				2367,
+				"Primo lingotto di legnoferro",
+				"metallo"
+			],
+			[
+				2367,
+				"Primo lingotto di pallidite",
+				"metallo"
+			],
+			[
+				2806,
+				"L'esplorazione: grado 3",
+				"maestria"
+			],
+			[
+				3155,
+				"Il combattimento: grado 1",
+				"maestria"
+			]
+		]
+	},
+	"dispensa": [
+		[
+			"liana",
+			5
+		],
+		[
+			"seme_campanula",
+			1
+		],
+		[
+			"spore_brace",
+			2
+		],
+		[
+			"pappo_seme",
+			1
+		],
+		[
+			"bacche_lanterna",
+			2
+		],
+		[
+			"funghetti_palude",
+			4
+		],
+		[
+			"pozione_bagliore",
+			1
+		],
+		[
+			"pozione_rugiada",
+			24
+		],
+		[
+			"pozione_scorza",
+			1
+		],
+		[
+			"pozione_vigore",
+			1
+		],
+		[
+			"vena_legnoferro",
+			20
+		],
+		[
+			"vena_radice",
+			20
+		],
+		[
+			"seme_lanterna",
+			16
+		],
+		[
+			"ardesia",
+			303
+		],
+		[
+			"fango_spore",
+			22
+		],
+		[
+			"ghiaia",
+			20
+		],
+		[
+			"limo",
+			9
+		],
+		[
+			"pietra_seminatori",
+			6
+		],
+		[
+			"radice_antica",
+			98
+		],
+		[
+			"bacca_rovo",
+			2
+		],
+		[
+			"boccone",
+			1
+		],
+		[
+			"candorina",
+			12
+		],
+		[
+			"canna_palude",
+			6
+		],
+		[
+			"ciottolo",
+			15
+		],
+		[
+			"cristallo_linfa",
+			3
+		],
+		[
+			"fibra_liana",
+			1
+		],
+		[
+			"fibra_radice",
+			14
+		],
+		[
+			"fili_spora",
+			2
+		],
+		[
+			"fronda_felce",
+			4
+		],
+		[
+			"fronda_muschio",
+			4
+		],
+		[
+			"fungo_brace",
+			8
+		],
+		[
+			"fungo_luminoso",
+			8
+		],
+		[
+			"gelatina",
+			34
+		],
+		[
+			"lana_muschio",
+			3
+		],
+		[
+			"legno",
+			34
+		],
+		[
+			"minerale_legnoferro",
+			24
+		],
+		[
+			"linfa_antica",
+			2
+		],
+		[
+			"lingotto_ambra",
+			15
+		],
+		[
+			"lingotto_legnoferro",
+			4
+		],
+		[
+			"lingotto_pallidite",
+			10
+		],
+		[
+			"lingotto_radicite",
+			20
+		],
+		[
+			"muschiata",
+			12
+		],
+		[
+			"minerale_pallidite",
+			25
+		],
+		[
+			"coda_gelo",
+			1
+		],
+		[
+			"petali_campanula",
+			2
+		],
+		[
+			"petali_campanula_ambra",
+			4
+		],
+		[
+			"petali_campanula_viola",
+			7
+		],
+		[
+			"polvere_brace",
+			3
+		],
+		[
+			"minerale_radicite",
+			79
+		],
+		[
+			"sacca_spore",
+			6
+		],
+		[
+			"sanguinella",
+			18
+		],
+		[
+			"seta_radice",
+			8
+		],
+		[
+			"setola_rovo",
+			2
+		],
+		[
+			"provetta",
+			7
+		],
+		[
+			"fiala_gelo_perenne",
+			1
+		],
+		[
+			"vasetto",
+			2
+		],
+		[
+			"ciondolo_guscio",
+			1
+		],
+		[
+			"ciondolo_vento",
+			1
+		],
+		[
+			"istinto_salta_verso",
+			5
+		],
+		[
+			"seme_ricordo",
+			2
+		]
+	],
+	"equipaggiamento": {
+		"accessorio_1": "pappo_seme",
+		"accessorio_2": "acc_f2_3",
+		"elmo": "spoglie_capo_ragno_elmo"
+	},
+	"erbario": {
+		"addomesticate": {
+			"pipistrelli": 1,
+			"radicelli": 1
+		},
+		"antiche": {
+			"cinghiale_rovo": 1,
+			"grumo_muschio": 2
+		},
+		"creature": {
+			"capo_ragno": 1,
+			"cinghiale_rovo": 1,
+			"grumo_muschio": 15,
+			"grumo_resina": 3,
+			"grumo_spore": 2,
+			"liana_predatrice": 1,
+			"pecora_muschio": 1,
+			"sputaspore": 2,
+			"volpe_gelo": 1
+		},
+		"diete": {
+			"radicelli": 1
+		},
+		"famiglie": {
+			"cinghiali_rovo": 1,
+			"grumi": 1,
+			"liane": 1,
+			"pecore": 1,
+			"pipistrelli": 1,
+			"radicelli": 1,
+			"sputaspore": 1,
+			"volpi_gelo": 1
+		},
+		"oggetti": {
+			"acc_f2_3": 1,
+			"ardesia": 1,
+			"arma_capo_ragno": 1,
+			"ascia_radicite": 1,
+			"bacca_rovo": 1,
+			"baccello_ardente": 1,
+			"bacche_lanterna": 1,
+			"bacheca": 1,
+			"boccone": 1,
+			"brillaluce": 1,
+			"candorina": 1,
+			"canna_palude": 1,
+			"canna_radice": 1,
+			"ceppo": 1,
+			"cesta": 1,
+			"ciondolo_guscio": 1,
+			"ciondolo_vento": 1,
+			"ciottolo": 1,
+			"coda_gelo": 1,
+			"cristallo_linfa": 1,
+			"dispensa": 1,
+			"essenza_guscio": 1,
+			"essenza_luce": 1,
+			"essenza_richiamo": 1,
+			"fango_spore": 1,
+			"fiala_gelo_perenne": 1,
+			"fibra_liana": 1,
+			"fibra_radice": 1,
+			"fili_spora": 1,
+			"fronda_felce": 1,
+			"fronda_muschio": 1,
+			"frutto_vento": 1,
+			"frutto_zanna": 1,
+			"funghetti_palude": 1,
+			"fungo_brace": 1,
+			"fungo_luminoso": 1,
+			"gelatina": 1,
+			"ghiaia": 1,
+			"humus": 1,
+			"istinto_salta_verso": 1,
+			"laccio": 1,
+			"lana_muschio": 1,
+			"legno": 1,
+			"liana": 1,
+			"limo": 1,
+			"linfa_antica": 1,
+			"lingotto_ambra": 1,
+			"lingotto_legnoferro": 1,
+			"lingotto_pallidite": 1,
+			"lingotto_radicite": 1,
+			"mappa_firma": 1,
+			"mappa_seminatori": 1,
+			"martello_radice": 1,
+			"minerale_legnoferro": 1,
+			"minerale_pallidite": 1,
+			"minerale_radicite": 1,
+			"muschiata": 1,
+			"nucleo_muschio": 1,
+			"pappo_seme": 1,
+			"passerella": 1,
+			"petali_campanula": 1,
+			"petali_campanula_ambra": 1,
+			"petali_campanula_viola": 1,
+			"piccone_radicite": 1,
+			"pietra_nera": 1,
+			"pietra_seminatori": 1,
+			"polvere_brace": 1,
+			"polvere_iridata": 1,
+			"pozione_bagliore": 1,
+			"pozione_rugiada": 1,
+			"pozione_scorza": 1,
+			"pozione_vigore": 1,
+			"provetta": 1,
+			"radice_antica": 1,
+			"radice_ritorno": 1,
+			"reliquia_capo_ragno": 1,
+			"sacca_spore": 1,
+			"salgemma": 1,
+			"sanguinella": 1,
+			"seme_campanula": 1,
+			"seme_lanterna": 1,
+			"seme_mondo_sporangio": 1,
+			"seme_ricordo": 1,
+			"seme_ricurvo": 1,
+			"seta_radice": 1,
+			"setola_rovo": 1,
+			"spada_radice": 1,
+			"spoglie_capo_ragno_elmo": 1,
+			"spore_brace": 1,
+			"spore_luminose": 1,
+			"torcia": 1,
+			"vasetto": 1,
+			"vena_legnoferro": 1,
+			"vena_radice": 1
+		},
+		"pagine": {
+			"albero_addormentato": 1,
+			"albero_primo_respiro": 1,
+			"portale": 1
+		},
+		"studiate": {
+			"grumo_muschio": 1
+		},
+		"studio": {
+
+		},
+		"varianti": {
+			"cinghiale_rovo~~spora~": 1,
+			"grumo_muschio~grande~~feroce": 1,
+			"grumo_muschio~piccolo~~": 1,
+			"grumo_muschio~~spora~feroce": 1,
+			"grumo_muschio~~~docile": 2,
+			"grumo_spore~~spora~": 1,
+			"grumo_spore~~spora~timida": 1,
+			"pecora_muschio~~gelo~timida": 1,
+			"sputaspore~piccolo~~": 1
+		},
+		"viste": {
+			"bruco_lanterna": 1,
+			"capo_cinghiale": 1,
+			"capo_ragno": 1,
+			"cervo_rovo": 1,
+			"cinghiale_rovo": 1,
+			"falena_brace": 1,
+			"grumo_muschio": 1,
+			"grumo_resina": 1,
+			"grumo_spore": 1,
+			"liana_predatrice": 1,
+			"pecora_muschio": 1,
+			"pipistrello_corteccia": 1,
+			"radicello_ladro": 1,
+			"saltafungo": 1,
+			"sputaspore": 1,
+			"volpe_gelo": 1
+		}
+	},
+	"formato": 1,
+	"genario": {
+		"conca": 1,
+		"gelo_perenne": 2,
+		"radici_giganti": 1,
+		"rovine_fitte": 1,
+		"sporangio": 1
+	},
+	"guardiani": {
+
+	},
+	"guardiani_curati": [],
+	"guida": {
+		"consigli": {
+			"allerta": 1.0,
+			"appassito": 1.0,
+			"armatura": 1.0,
+			"baccello": 1.0,
+			"benvenuto": 1.0,
+			"canna": 1.0,
+			"corde": 1.0,
+			"gene": 1.0,
+			"maestria": 1.0,
+			"notte": 1.0,
+			"oggetto_compagno": 1.0,
+			"piccone": 1,
+			"prima_certa": 1.0,
+			"prima_ipotesi": 1.0,
+			"prima_stele": 1.0,
+			"primo_compagno": 1.0,
+			"profondo": 1,
+			"raccolta": 1.0,
+			"rara": 1.0,
+			"seme": 1.0,
+			"sottoterra": 1.0,
+			"stazione": 1.0,
+			"storia": 1.0,
+			"studiata": 1.0,
+			"terra_viva": 1.0,
+			"zaino_pieno": 1
+		},
+		"scarta": {
+
+		},
+		"segnate": []
+	},
+	"leggende": {
+
+	},
+	"linfa": 20,
+	"linfa_extra": 0,
+	"lingua": {
+		"cade": {
+			"f": [
+				"326418515:258,107",
+				"1355720073:1452,522"
+			],
+			"s": 2,
+			"x": []
+		},
+		"cielo": {
+			"f": [
+				"326418515:258,107",
+				"1355720073:1452,522"
+			],
+			"s": 2,
+			"x": []
+		},
+		"nero": {
+			"f": [
+				"326418515:258,107",
+				"1355720073:1452,522"
+			],
+			"s": 2,
+			"x": []
+		},
+		"seme": {
+			"f": [
+				"326418515:258,107",
+				"1355720073:1452,522"
+			],
+			"s": 2,
+			"x": []
+		}
+	},
+	"maestria": {
+		"abitanti": {
+			"p": 65.0,
+			"t": 1613.00375905847
+		},
+		"combattimento": {
+			"p": 51.6833333333333,
+			"t": 3084.98769157513
+		},
+		"esplorazione": {
+			"p": 514.996000000002,
+			"t": 3444.99349560846
+		},
+		"giardino": {
+			"p": 6.4,
+			"t": 3264.99033094183
+		},
+		"mandria": {
+			"p": 100.0,
+			"t": 3264.99033094183
+		},
+		"misteri": {
+			"p": 95.0,
+			"t": 2354.15482205852
+		},
+		"orto": {
+			"p": 4.7,
+			"t": 3264.99033094183
+		},
+		"pesca": {
+			"p": 1.0,
+			"t": 659.720490222308
+		},
+		"rete": {
+			"p": 48.0,
+			"t": 212.285891222248
+		},
+		"storia": {
+			"p": 150.0,
+			"t": 623.805315555642
+		}
+	},
+	"mandria": [
+		{
+			"campo": false,
+			"doti": {
+				"danno": 1.02,
+				"gen": 0.0,
+				"manto": "",
+				"resa": 1.09,
+				"vita": 1.09
+			},
+			"fame": 0.0,
+			"felice": 1.0,
+			"forza": 1.14285714285714,
+			"ko": false,
+			"legame": 22.1833333333334,
+			"lvl": 4,
+			"mondo": "",
+			"nato": "nutrita",
+			"nome": "Zuvo",
+			"prod": 0.0,
+			"recinto": "",
+			"specie": "radicello_ladro",
+			"stato": "segue",
+			"t": 1791535717.019,
+			"uid": 1,
+			"vita": 1.0,
+			"xp": 42
+		},
+		{
+			"campo": false,
+			"doti": {
+				"danno": 1.1,
+				"gen": 0,
+				"manto": "",
+				"resa": 1.08,
+				"vita": 1.07
+			},
+			"fame": 0.0,
+			"felice": 0.680000000000003,
+			"forza": 1.13636363636364,
+			"legame": 0.35,
+			"lvl": 1,
+			"mondo": "",
+			"nato": "laccio",
+			"nome": "Notta",
+			"prod": 0.0,
+			"recinto": "",
+			"specie": "pipistrello_corteccia~grande~~",
+			"stato": "segue",
+			"t": 1791538621.698,
+			"uid": 2,
+			"vita": 1.0,
+			"xp": 0
+		}
+	],
+	"nome": "ALE",
+	"obiettivi": [
+		"stele",
+		"torce",
+		"legno",
+		"portale",
+		"rete_1",
+		"albero_1",
+		"abitante",
+		"radicite",
+		"ceppo",
+		"baccello",
+		"lingotto",
+		"antica",
+		"scrigno",
+		"gene",
+		"studio_1",
+		"notte",
+		"stagione",
+		"sottobosco",
+		"accessorio",
+		"reliquiario",
+		"addomestica",
+		"pallidite",
+		"caverne"
+	],
+	"raccolta": [
+		[
+			"tavoletta_seminatori",
+			4
+		],
+		[
+			"sementiera_seminatori",
+			1
+		],
+		[
+			"cronaca_custode_sveglio_2",
+			1
+		],
+		[
+			"cronaca_primo_seme_1",
+			1
+		],
+		[
+			"cronaca_ultima_semina_1",
+			1
+		],
+		[
+			"cronaca_ultima_semina_2",
+			1
+		],
+		[
+			"cronaca_ultima_semina_3",
+			1
+		],
+		[
+			"cronaca_ultima_semina_4",
+			1
+		],
+		[
+			"cronaca_lingua_radici_1",
+			1
+		],
+		[
+			"cronaca_lite_4",
+			1
+		],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[]
+	],
+	"scomparti": [
+		[
+			"dardo",
+			87
+		],
+		[],
+		[],
+		[],
+		[
+			"torcia",
+			83
+		],
+		[],
+		[
+			"lumino",
+			669
+		],
+		[]
+	],
+	"seme_nero": "",
+	"sezioni": 30,
+	"sfide": {
+
+	},
+	"spedizioni": {
+		"fatte": 0,
+		"open": [
+			{
+				"base": 0,
+				"k": "segreti"
+			},
+			{
+				"gene": "altopiano",
+				"k": "meraviglia",
+				"t": "arco_pietra"
+			},
+			{
+				"base": 0,
+				"k": "firme"
+			}
+		]
+	},
+	"stats": {
+		"abitanti": 1,
+		"addomesticate": 2,
+		"affetto_vecchia_radice": 1,
+		"albero": 1,
+		"antiche": 3,
+		"arte_spada": 37,
+		"baccelli_aperti": 11,
+		"compagno_lvl_max": 4,
+		"echi": 1,
+		"eco_conta": 1,
+		"eventi": 1,
+		"gara_serie": 0,
+		"geni_imparati": 1,
+		"giardino": 1,
+		"legata_pipistrello_corteccia": 1,
+		"legata_radicello_ladro": 1,
+		"livelli_compagni": 3,
+		"macchine": 6,
+		"mandria_prede": 2,
+		"mandria_uid": 2,
+		"nascosta_cervo_gelo_bianco": 1,
+		"nascosta_lucciola_mezzanotte": 1,
+		"nascoste": 2,
+		"notti": 3,
+		"parole": 4,
+		"parole_antiche": 0,
+		"parole_nere": 0,
+		"piante_raccolte": 47,
+		"ranghi_arma": 1,
+		"reliquiari": 1,
+		"rete_viva_acquitrini_bassi_di__20261009_072411": 0,
+		"scrigni": 2,
+		"segreti": 1,
+		"servizi": 1,
+		"specie_legate": 2,
+		"stagioni": 1,
+		"stele": 2,
+		"strato_max": 2,
+		"studiate": 1,
+		"uccisi_fam_cinghiali_rovo": 1,
+		"uccisi_fam_grumi": 20,
+		"uccisi_fam_liane": 1,
+		"uccisi_fam_pecore": 1,
+		"uccisi_fam_sputaspore": 2,
+		"uccisi_fam_volpi_gelo": 1,
+		"verita_vista_germogliato_0": 1,
+		"verita_vista_seme_0": 1,
+		"viaggi": 8,
+		"visto_foresta": 1,
+		"visto_palude": 1
+	},
+	"taglie": {
+		"fatte": 0,
+		"open": []
+	},
+	"tempo_di_gioco": 3486.18509094179,
+	"tratti_equip": {
+		"accessorio_1": "fiore",
+		"accessorio_2": "brezza",
+		"elmo": "corteccia"
+	},
+	"ultimo_mondo": "riko_20261009_071356",
+	"ultimo_salvataggio": "2026-10-09 11:42:27",
+	"vita": 100,
+	"vita_extra": 0
+}

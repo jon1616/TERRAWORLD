@@ -1,0 +1,160 @@
+{
+	"abitanti": {
+		"vecchia_radice": [
+			233.0,
+			109.0
+		]
+	},
+	"aiuole": 1,
+	"bellezza": 0,
+	"botteghe": {
+
+	},
+	"case": {
+
+	},
+	"casse": {
+		"224,111": {
+			"nome": ""
+		}
+	},
+	"creato": "2026-10-09 07:14:03",
+	"cripte": [],
+	"dimensioni": [
+		480,
+		240
+	],
+	"esplorato": 24,
+	"felicita": {
+
+	},
+	"firma": {
+
+	},
+	"formato": 2,
+	"geni": [],
+	"giardino": true,
+	"giocatori": {
+		"ale_20261009_071336": [
+			225,
+			109
+		]
+	},
+	"giorno": 2,
+	"isola_fondo": 150.0,
+	"isole": {
+
+	},
+	"luoghi": [],
+	"meraviglie": [],
+	"meteo": {
+		"id": "sereno",
+		"t": 240.0
+	},
+	"nidi": {
+		"172,113": {
+			"eggs": 3.0,
+			"fam": "api",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"178,239": {
+			"eggs": 3.0,
+			"fam": "bruchi",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"289,110": {
+			"eggs": 3.0,
+			"fam": "api",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"345,239": {
+			"eggs": 3.0,
+			"fam": "bruchi",
+			"fed": 0.0,
+			"t": 0.0
+		},
+		"361,110": {
+			"eggs": 3.0,
+			"fam": "api",
+			"fed": 0.0,
+			"t": 0.0
+		}
+	},
+	"nome": "RIKO",
+	"ora": 0.171607037777423,
+	"partenza": [
+		228,
+		109
+	],
+	"popolazioni": {
+
+	},
+	"portali": {
+		"251,106": {
+			"aiuola": true,
+			"geni": [
+				"sporangio",
+				"conca",
+				"radici_giganti",
+				"rovine_fitte"
+			],
+			"mondo": "acquitrini_bassi_di__20261009_072411",
+			"nero": false,
+			"perduto": "",
+			"primo": false,
+			"ritorno": false,
+			"seme": 1355720073.0,
+			"vigore": 1.0
+		}
+	},
+	"primo_geni": [],
+	"primo_seme": true,
+	"regali_case": {
+
+	},
+	"rete": {
+		"m": {
+
+		},
+		"visto": 1791538945.455
+	},
+	"scrigni_parola": {
+
+	},
+	"segnali": [],
+	"segni": [],
+	"segreti": [],
+	"seme": 326418515,
+	"semi_piantati": 1.0,
+	"servizi": {
+		"giorno": 2.0,
+		"usi": {
+			"voce_firma": 1.0
+		}
+	},
+	"stanze": [],
+	"stanze_visite": {
+
+	},
+	"stele": {
+		"258,107": {
+			"hint": [],
+			"letta": true,
+			"words": [
+				"seme",
+				"nero",
+				"cade",
+				"cielo"
+			]
+		}
+	},
+	"tempo_di_gioco": 1045.92844533335,
+	"tempo_gioco": 1045.42954066598,
+	"terra_t": 4514.49344539065,
+	"ultimo_salvataggio": "2026-10-09 11:42:27",
+	"vigore": 0.0,
+	"visto": 1791538945.403
+}
