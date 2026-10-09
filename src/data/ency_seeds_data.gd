@@ -34,6 +34,12 @@ Così si [b]progettano[/b] i mondi: il gene giusto per la richiesta giusta."""},
 	{"id": "firme", "group": "Semi e mondi", "name": "Le firme dei mondi", "text":
 """Ogni mondo ha una [b]firma[/b]: un luogo unico che si trova solo lì (un albero colossale, il cratere di una stella…), scelto dai suoi geni. Avvicinandoti la [b]trovi[/b]: una scritta la presenta e la mappa la segna con una stella. Lì c'è il suo [b]ricordo[/b] (oggetto da collezione, uno per mondo) e [b]Linfa antica[/b], e vicino si trovano i suoi geni.
 {cat_firme}"""},
+	{"id": "forma_mondi", "group": "Semi e mondi", "name": "La forma dei mondi", "text":
+"""Ogni mondo ha una [b]sagoma[/b], la sua forma in grande, scelta dai geni di forma del Seme: [b]continente[/b] (una terra sola tra due mari), [b]arcipelago[/b] (pilastri di terra tra voragini allagate), [b]guscio[/b] (la superficie sotto un tetto di roccia), [b]canyon[/b] (una gola immensa a gradoni), [b]terrazze[/b] (ripiani e scale), [b]sprofondato[/b] (una conca tra due creste, sotto un cielo altissimo), [b]pilastri[/b] (colonne di roccia fino al cielo). La scheda del portale dice la sagoma prima di partire.
+• Quasi tutti i mondi hanno un [b]mare[/b] a ogni bordo: spiaggia, isolotti, un [b]relitto[/b] con il suo scrigno e pesci che vivono solo lì.
+• In ogni mondo c'è una [b]traccia del passato[/b]: una radice cosmica che scende dal cielo al Fondo, una città sepolta con il pozzo d'ingresso, o il cratere di una stella caduta.
+• Sulla terra si vedono da lontano i [b]punti di riferimento[/b] (guglie, rovine sul colle, cerchi di pietre, massicci, archi): la mappa li segna una volta visti.
+• Le pareti più alte di un salto hanno sempre una [b]liana[/b]: la superficie si percorre senza scavare. Sotto terra si scende dagli [b]ingressi[/b] (gallerie, caverne sul fianco, doline, pozzi) e dalla strada del sottosuolo."""},
 	{"id": "semenzaio", "group": "Semi e mondi", "name": "Il Semenzaio", "text":
 """Il [b]Semenzaio[/b] ({k_semenzaio}) ha due parti:
 • [b]Mondi[/b]: tutti i mondi del tuo Giardino con vigore, geni, quanto li hai esplorati, se hai trovato la firma; da qui si chiude un mondo (Seme dormiente).

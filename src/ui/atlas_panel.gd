@@ -95,6 +95,15 @@ func _text_mondi(wid: String) -> String:
 		for g in genes:
 			names.append(String(GenesData.GENES.get(String(g), {}).get("name", g)))
 		t += "Geni: %s\n" % ", ".join(names)
+	# voce 475: la sagoma e i mari, dai geni
+	var ge := Genome.effects(genes, "gen")
+	var sh: Dictionary = WorldShapesData.SHAPES[WorldShapesData.of(ge)]
+	t += "Sagoma: %s — %s%s\n" % [sh["name"], sh["desc"], " · mari ai bordi" if WorldShapesData.has_sea(ge) else ""]
+	if wid == m.world_id:
+		var tr: Dictionary = m.world.gen_notes.get("traccia", {})
+		var refs: Array = m.world_meta.get("riferimenti", [])
+		if not tr.is_empty() or not refs.is_empty():
+			t += "Punti di riferimento: %d%s\n" % [refs.size(), "" if tr.is_empty() else " · una traccia del passato"]
 	t += "\n[b]Le stelle[/b] (%d in tutto l'Atlante; ogni %d un premio)\n" % [at.total(), AtlasData.EVERY]
 	var st: Dictionary = e.get("stelle", {})
 	for s in AtlasData.STARS:

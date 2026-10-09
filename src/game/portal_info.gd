@@ -21,6 +21,10 @@ static func text(portal: Portal, o: Vector2i) -> String:
 	var pct := roundi((Portal.vigor_mult(vigor) - 1.0) * 100.0)
 	t += "[color=#8ef0d8]Vigore %d[/color] · %s\n" % [vigor, ("creature con il %d%% di Vita e danno in più, vene più ricche" % pct)
 		if pct > 0 else "il vigore più basso: creature come quelle del Giardino"]
+	# voce 475: la sagoma del mondo e i mari, dai geni
+	var ge := Genome.effects(genes, "gen")
+	var sh: Dictionary = WorldShapesData.SHAPES[WorldShapesData.of(ge)]
+	t += "[color=#a8c8e8]Sagoma[/color]: %s — %s%s\n" % [sh["name"], sh["desc"], " · mari ai bordi" if WorldShapesData.has_sea(ge) else ""]
 	# voce 82: la sfida che il portale porta
 	if String(e.get("sfida", "")) != "" and not back:
 		var sd0: Dictionary = ChallengesData.LIST.get(String(e["sfida"]), {})

@@ -6446,7 +6446,11 @@ L'ultima del piano «Il generatore eccellente» (`GENERATORE.md`).
   della voce 466 senza liane (ora su ogni lato), il cratere della firma sul fianco di un monte (lasciava la terra sospesa:
   ora svuota la colonna), la meraviglia «radice del cosmo» che sbarrava la strada dove entra nella terra (ora un arco
   alla base). Semi 1-5: la superficie si percorre a piedi per il **98-99%** delle colonne, il mondo di prova per il 97%.
-- [ ] **475. L'Atlante e le schede.**
+- [x] **475. L'Atlante e le schede.**
+  Fatto il 9 ott 2026: la scheda del portale (`PortalInfo`) e la scheda dei mondi dell'Atlante dicono la **sagoma** (nome
+  e descrizione, da `WorldShapesData` sugli effetti dei geni) e se ci sono i mari ai bordi; per il mondo in cui si è,
+  l'Atlante conta anche i punti di riferimento e la traccia del passato. Nell'Enciclopedia il capitolo «La forma dei
+  mondi» (sagome, mari e relitti, tracce, punti di riferimento, liane, ingressi). Foto 109_scheda_portale.
 - [ ] **476. I mondi vecchi.**
 - [ ] **477. Il giro completo.**
 - [ ] **478. Il resoconto del piano.**

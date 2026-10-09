@@ -9,7 +9,7 @@ extends RefCounted
 ## Questo file non nomina altre classi (lo legge anche il generatore nei thread).
 
 const SHAPES := {
-	"continente": {"name": "Continente", "desc": "una terra sola tra due mari", "sea": true},
+	"continente": {"name": "Continente", "desc": "una terra sola di colline e valli", "sea": true},
 	"arcipelago": {"name": "Arcipelago", "desc": "pilastri di terra tra voragini allagate", "sea": true},
 	"guscio": {"name": "Guscio", "desc": "la superficie chiusa sotto un tetto di roccia", "sea": false},
 	"canyon": {"name": "Canyon", "desc": "una gola immensa taglia il mondo, a gradoni coperti di liane", "sea": true,
