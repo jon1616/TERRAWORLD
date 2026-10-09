@@ -6495,3 +6495,27 @@ metalli a puntini, e due Semi diversi che si distinguevano meno di due mondi del
   ingressi di quattro forme, laghi e fiumi; percorribile a piedi per il 98-99% delle colonne.
 Rimaste per dopo: le **cascate** (vogliono una sorgente che non allaghi la valle) e lo scatto delle prime icone di
 Creare nei primi secondi di gioco (una casella da 10-25 ms).
+
+# Roadmap 62 «Le migliorie» (dal 9 ott 2026)
+
+Dall'analisi del 9 ott 2026 (`MIGLIORIE.md`, in fondo): l'utente chiede tutte le migliorie che non hanno bisogno di lui
+(niente disegni di Nano Banana, niente musica, niente partite sue), in autonomia e a cicli.
+
+- [ ] **479. Il giro delle prove in due metà.** `tools/prove.sh meta1` e `meta2`: ognuna circa la metà del giro intero,
+  da lanciare a turno; `tutto` resta.
+- [ ] **480. Il menu del Giardiniere.** Un tasto solo che apre una ruota/griglia di tutti i pannelli (con il loro tasto),
+  e i pannelli non ancora scoperti nascosti finché il gioco non li presenta: meno tasti da ricordare nella prima ora.
+- [ ] **481. Le migrazioni dei salvataggi.** La versione stabile: i salvataggi tengono la loro versione e ogni cambio di
+  formato ha un passo; prova che carica un personaggio e un mondo «vecchi».
+- [ ] **482. Le cascate.** Sorgenti sui fianchi dei massicci e delle caverne che cadono senza allagare la valle.
+- [ ] **483. I liquidi lontani.** Una simulazione lenta anche fuori dalla visuale, a turni, perché laghi e fiumi lontani
+  non restino fermi a metà.
+- [ ] **484. Gli sfondi sotto terra.** Un fondale per ogni strato (solo vista).
+- [ ] **485. L'annuncio degli attacchi.** Più leggibile: la creatura si carica (lampo, postura, segno a terra per salti e
+  cariche) prima di colpire.
+- [ ] **486. Gli abitanti vivi.** Giornata degli abitanti: lavoro di giorno, casa di notte, riparo con la pioggia,
+  fuga durante gli assedi.
+- [ ] **487. I gemelli.** La misura degli oggetti che si distinguono solo per i numeri, e la potatura di quelli identici.
+- [ ] **488. I momenti della storia.** Poche righe scritte nei punti di svolta (primo Guardiano, primo Seme, Risveglio),
+  secondo il canone.
+- [ ] **489. Il giro intero e il resoconto.**
