@@ -2,6 +2,8 @@ class_name Npc
 extends Node2D
 ## Un abitante (voce 36): passeggia piano attorno al suo Focolare, si ferma e si gira verso il Germogliato quando gli
 ## è vicino. Le creature non lo attaccano e non si fa male. Con il clic destro si apre il commercio (`Villagers`).
+## Voce 486, la giornata: di notte, con la pioggia (o neve, cenere, brace) e durante un assedio torna a casa e ci resta
+## (`indoors`, lo decide `Villagers`); la scritta sopra la testa dice perché («dorme», «al riparo», «si nasconde»).
 
 const S := 16
 const HALF := Vector2(6, 14)
@@ -11,6 +13,8 @@ var id := ""
 var world: World
 var home := Vector2i.ZERO
 var shelter_t := 0.0                     # Roadmap 19: la Campana d'allarme: per un po' si corre a casa
+var indoors := ""                        # voce 486: "" · "notte" · "pioggia" · "assedio" (a casa finché dura)
+var _shown := ""
 var player: Node2D
 var vel := Vector2.ZERO
 var on_floor := false
@@ -53,7 +57,11 @@ func _process(dt: float) -> void:
 	_t -= dt
 	var near := player.position.distance_to(position) < 3.5 * S
 	shelter_t = maxf(shelter_t - dt, 0.0)
-	if shelter_t > 0.0:
+	if indoors != _shown:
+		_shown = indoors
+		var why := {"notte": "dorme", "pioggia": "al riparo", "assedio": "si nasconde"}
+		_label.text = String(NpcData.NPCS[id]["name"]) + ("" if indoors == "" else "  ·  " + String(why.get(indoors, "a casa")))
+	if shelter_t > 0.0 or indoors != "":
 		var gx := home.x * S + 8.0
 		_dir = 0.0 if absf(gx - position.x) < 6.0 else signf(gx - position.x)
 		_t = 0.5

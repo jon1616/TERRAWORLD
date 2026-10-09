@@ -21,7 +21,7 @@ func tick(c: Creature, dt: float) -> void:
 					and c.target.position.y < c.position.y:
 				phase = 1
 				timer = 0.5 * float(c.p.get("windup", 1.0))
-				c.telegraph(timer)
+				c.telegraph(timer, 0.0, c.target.position)      # voce 485
 		1:
 			c.want_fly = Vector2(0, -20)
 			timer -= dt

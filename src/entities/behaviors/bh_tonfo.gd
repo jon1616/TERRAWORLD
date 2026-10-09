@@ -22,8 +22,8 @@ func tick(c: Creature, dt: float) -> void:
 	if t > 0.0 or not c.on_floor or not Behavior.sees(c, float(c.p.get("sight", 20))):
 		return
 	t = float(c.p.get("slam_every", 6.0))
-	c.telegraph(0.4)
 	var dx := clampf(c.target.position.x - c.position.x, -200.0, 200.0)
+	c.telegraph(0.4, 0.0, Vector2(c.position.x + dx, c.target.position.y))   # voce 485: dove ricade
 	c.vel = Vector2(dx * 1.1, -float(c.p.get("slam_jump", 420.0)))
 	c.on_floor = false
 	c.busy = true

@@ -66,6 +66,9 @@ var ghost := false                     # attraversa la terra (chi scava)
 var buried := false                    # non si vede (dentro la terra)
 var shell := 0.0                       # chiusa nel guscio: ferma, un quarto del danno
 var tele := 0.0                        # voce 127: un attacco si annuncia (il «!» di `TeleMark`), secondi che restano
+var tele_len := 0.0                    # voce 485: quanto durava l'annuncio (l'anello si stringe fino al colpo)
+var tele_dir := 0.0                    # voce 485: una carica in questa direzione (-1, 1; 0 = nessuna)
+var tele_at := Vector2.INF             # voce 485: dove piomberà (picchiata, tuffo, salto), nel mondo
 var just_hit := false                  # appena colpita (lo legge il guscio)
 var chill_t := 0.0                     # rallentata dal freddo (Bastone di lagunite): metà velocità
 var burn_t := 0.0                      # voce 51: brucia (elemento brace), perde `burn_dps` al secondo
@@ -714,9 +717,14 @@ func take_hit(dmg: int, from_x: float, force: float) -> bool:
 	return hp <= 0
 
 
-## Voce 127: un attacco sta per partire. Il «!» resta acceso almeno `t` secondi (`TeleMark`).
-func telegraph(t: float) -> void:
+## Voce 127: un attacco sta per partire. Il «!» resta acceso almeno `t` secondi (`TeleMark`). Voce 485: `dir` = la
+## direzione di una carica (frecce a terra), `at` = il punto dove piomberà (un segno a terra).
+func telegraph(t: float, dir := 0.0, at := Vector2.INF) -> void:
+	if tele <= 0.0 or t > tele:
+		tele_len = t
 	tele = maxf(tele, t)
+	tele_dir = dir
+	tele_at = at
 
 
 ## Voce 403: sopra un costrutto appiccicoso (cera, seta, argilla, muschio) si cammina più lenti.

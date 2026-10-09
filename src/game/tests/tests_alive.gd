@@ -77,10 +77,12 @@ func telegraphs() -> void:
 	var cr: Creature = m.fauna.add(cid, m.player.position + Vector2(90, 0))
 	var seen := 0.0
 	var shot := false
+	var arrows := false                        # voce 485: la carica dice anche dove va (frecce a terra)
 	var t0 := Time.get_ticks_msec()
 	while Time.get_ticks_msec() - t0 < 5000 and is_instance_valid(cr):
 		await kit.frames(1)
 		seen = maxf(seen, cr.tele)
+		arrows = arrows or (cr.tele > 0.0 and cr.tele_dir != 0.0 and cr.tele_len > 0.0)
 		if cr.tele > 0.15 and not shot:
 			shot = true
 			await kit.save("190_telegrafo")
@@ -88,9 +90,9 @@ func telegraphs() -> void:
 	if is_instance_valid(cr):
 		m.fauna.clear()
 	m.vitals.refill()
-	print("segnale degli attacchi: %s, prima della carica il «!» acceso %s (%.2f s), il segno c'è %s" % [cid,
-		"sì" if seen > 0.1 else "NO", seen, "sì" if has_mark else "NO"])
-	if seen <= 0.1 or not has_mark:
+	print("segnale degli attacchi: %s, prima della carica il «!» acceso %s (%.2f s), il segno c'è %s, le frecce della carica %s" % [cid,
+		"sì" if seen > 0.1 else "NO", seen, "sì" if has_mark else "NO", "sì" if arrows else "NO"])
+	if seen <= 0.1 or not has_mark or not arrows:
 		print("ATTENZIONE: gli attacchi non si annunciano")
 
 

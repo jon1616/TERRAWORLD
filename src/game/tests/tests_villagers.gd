@@ -91,6 +91,7 @@ func run() -> void:
 	m.hud.panel.toggle()
 	await kit.frames(2)
 	await services()
+	await day_routine()
 
 
 ## Voce 353: i servizi degli abitanti, pagati in Lumini. Ognuno fa il suo lavoro e paga solo se va; il limite del giorno
@@ -200,3 +201,32 @@ func _seeds_with(gene: String) -> int:
 				n += 1
 	return n
 
+
+## Voce 486: la giornata degli abitanti. Di notte tornano verso casa e la scritta dice «dorme»; con la pioggia «al
+## riparo»; di giorno escono di nuovo.
+func day_routine() -> void:
+	var v: Villagers = m.villagers
+	if v.list.is_empty():
+		print("ATTENZIONE: nessun abitante per la prova della giornata")
+		return
+	var t0: float = m.day.time
+	var w0: String = m.weather.id
+	m.day.time = 0.0                              # mezzanotte
+	await kit.seconds(1.3)
+	var night := v.list.all(func(n: Npc) -> bool: return n.indoors == "notte" and n._label.text.contains("dorme"))
+	var npc: Npc = v.list[0]
+	npc.position.x = (npc.home.x + 5) * 16.0      # lontano da casa: deve tornarci
+	await kit.seconds(4.5)
+	var home := absf(npc.position.x - (npc.home.x * 16.0 + 8.0)) < 40.0
+	m.day.time = 0.5
+	m.weather.set_weather("pioggia")
+	await kit.seconds(1.3)
+	var rain := v.list.all(func(n: Npc) -> bool: return n.indoors == "pioggia")
+	m.weather.set_weather(w0)
+	m.day.time = t0
+	await kit.seconds(1.3)
+	var out := v.list.all(func(n: Npc) -> bool: return n.indoors == "")
+	print("giornata degli abitanti: di notte a casa e «dorme» %s (torna a casa %s), con la pioggia al riparo %s, di giorno fuori %s" % [
+		"sì" if night else "NO", "sì" if home else "NO", "sì" if rain else "NO", "sì" if out else "NO"])
+	if not (night and home and rain and out):
+		print("ATTENZIONE: la giornata degli abitanti non va")

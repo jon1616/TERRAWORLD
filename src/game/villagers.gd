@@ -13,6 +13,7 @@ var list: Array[Npc] = []
 var panel: TradePanel
 var paused := false                    # le prove li fanno arrivare a comando (`check`)
 var _t := CHECK
+var _day_t := 0.0                      # voce 486: ogni secondo si guarda se è ora di stare in casa
 
 
 func setup(main: Node2D) -> void:
@@ -29,12 +30,34 @@ func setup(main: Node2D) -> void:
 
 
 func _process(dt: float) -> void:
-	if not m.built or paused:
+	if not m.built:
+		return
+	_day_t -= dt
+	if _day_t <= 0.0:
+		_day_t = 1.0
+		var why := indoor_reason()
+		for n in list:
+			n.indoors = why
+	if paused:
 		return
 	_t -= dt
 	if _t <= 0.0:
 		_t = CHECK
 		check()
+
+
+## Voce 486: perché adesso gli abitanti stanno in casa ("" = escono). L'assedio prima di tutto, poi il tempo che ferisce o
+## bagna, poi la notte.
+func indoor_reason() -> String:
+	if m.get("tides") != null and String(m.tides.active) == "assedio":
+		return "assedio"
+	if m.get("weather") != null and not m.weather.roofed:
+		var st: Dictionary = m.weather.state()
+		if st.has("rain") or st.has("snow") or st.has("ash"):
+			return "pioggia"
+	if m.get("day") != null and m.day.is_night():
+		return "notte"
+	return ""
 
 
 ## Chi c'è già (per id).

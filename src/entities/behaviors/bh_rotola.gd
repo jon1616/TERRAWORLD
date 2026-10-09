@@ -17,8 +17,8 @@ func tick(c: Creature, dt: float) -> void:
 				phase = 1
 				timer = 0.5
 				c.busy = true
-				c.telegraph(timer)
 				dir = signf(c.target.position.x - c.position.x)
+				c.telegraph(timer, dir)
 		1:
 			c.crouch = 1.0
 			c.want_x = 0.0

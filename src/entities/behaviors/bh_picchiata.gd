@@ -31,7 +31,7 @@ func tick(c: Creature, dt: float) -> void:
 			if to.length() < 28.0 or timer <= 0.0:
 				phase = 2
 				timer = 0.5 * float(c.p.get("windup", 1.0))
-				c.telegraph(timer)
+				c.telegraph(timer, 0.0, c.target.position)      # voce 485: dove piomba
 		2:
 			c.shake = 1.0
 			c.want_fly = Vector2.ZERO

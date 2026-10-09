@@ -65,7 +65,7 @@ func tick(c: Creature, dt: float) -> void:
 			if not fleeing and absf(to.x) < 10.0:
 				phase = 1
 				timer = 0.7 * float(c.p.get("windup", 1.0))
-				c.telegraph(timer)
+				c.telegraph(timer, 0.0, c.position + Vector2(0, -c.half.y))   # voce 485: da dove sbuca
 				c.want_fly = Vector2.ZERO
 				c.vel = Vector2.ZERO
 		1:
